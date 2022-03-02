@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:mud_bricks_wall",
+    "aerialhell:cracked_mud_bricks_wall",
+    "aerialhell:volucite_stone_wall",
+    "aerialhell:cracked_volucite_stone_wall",
+    "aerialhell:lunatic_stone_wall",
+    "aerialhell:cracked_lunatic_stone_wall",
+    "aerialhell:golden_nether_bricks_wall",
+    "aerialhell:cracked_golden_nether_bricks_wall",
+    "aerialhell:stellar_stone_wall",
+    "aerialhell:mossy_stellar_stone_wall",
+    "aerialhell:stellar_stone_bricks_wall",
+    "aerialhell:slippery_sand_stone_wall",
+    "aerialhell:slippery_sand_stone_bricks_wall",
+    "aerialhell:glaucophanite_wall",
+    "aerialhell:polished_glaucophanite_wall",
+    "aerialhell:magmatic_gel_wall"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "aerialhell:block/sky_cactus_fiber_crafting_table_front",
+    "north": "aerialhell:block/sky_cactus_fiber_crafting_table_side",
+    "south": "aerialhell:block/sky_cactus_fiber_crafting_table_front",
+    "east": "aerialhell:block/sky_cactus_fiber_crafting_table_side",
+    "west": "aerialhell:block/sky_cactus_fiber_crafting_table_side",
+    "up": "aerialhell:block/sky_cactus_fiber_crafting_table_top",
+    "down": "aerialhell:block/sky_cactus_fiber_crafting_table_bottom"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "HH",
+    "HH"
+  ],
+  "key": {
+    "H": {
+      "item": "aerialhell:stellar_stone"
+    }
+  },
+  "result": {
+    "item": "aerialhell:stellar_stone_bricks",
+    "count": 4
+  }
+}

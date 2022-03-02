@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "S",
+    "G"
+  ],
+  "key": {
+    "S": {
+      "item": "aerialhell:sky_stick"
+    },
+    "G": {
+      "item": "aerialhell:volucite_vibrant"
+    }
+  },
+  "result": {
+    "item": "aerialhell:volucite_blowpipe"
+  }
+}

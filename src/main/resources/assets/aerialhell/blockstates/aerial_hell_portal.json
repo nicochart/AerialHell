@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"axis=x": {
+			"model": "aerialhell:block/aerial_hell_portal_x"
+		},
+		"axis=z": {
+			"model": "aerialhell:block/aerial_hell_portal_z"
+		}
+	}
+}

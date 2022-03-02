@@ -1,0 +1,16 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "aerialhell:block/aerial_tree_chest_mimic"
+		},
+		"facing=west": {
+			"model": "aerialhell:block/aerial_tree_chest_mimic"
+		},
+		"facing=east": {
+			"model": "aerialhell:block/aerial_tree_chest_mimic"
+		},
+		"facing=south": {
+			"model": "aerialhell:block/aerial_tree_chest_mimic"
+		}
+	}
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "aerialhell:block/lunatic_pillar_side",
+    "end": "aerialhell:block/lunatic_pillar_top"
+  }
+}

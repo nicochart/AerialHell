@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "aerialhell:block/copper_pine_log_top",
+    "side": "aerialhell:block/stripped_copper_pine_log"
+  }
+}

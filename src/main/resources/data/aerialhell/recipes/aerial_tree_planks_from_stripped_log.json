@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "item": "aerialhell:stripped_aerial_tree_log"
+    }
+  ],
+  "result": {
+    "item": "aerialhell:aerial_tree_planks",
+    "count": 4
+  }
+}

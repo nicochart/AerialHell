@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button_inventory",
+  "textures": {
+    "texture": "aerialhell:block/slippery_sand_stone_bricks"
+  }
+}

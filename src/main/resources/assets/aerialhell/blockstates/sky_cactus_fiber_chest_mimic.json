@@ -1,0 +1,16 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "aerialhell:block/sky_cactus_fiber_chest_mimic"
+		},
+		"facing=west": {
+			"model": "aerialhell:block/sky_cactus_fiber_chest_mimic"
+		},
+		"facing=east": {
+			"model": "aerialhell:block/sky_cactus_fiber_chest_mimic"
+		},
+		"facing=south": {
+			"model": "aerialhell:block/sky_cactus_fiber_chest_mimic"
+		}
+	}
+}

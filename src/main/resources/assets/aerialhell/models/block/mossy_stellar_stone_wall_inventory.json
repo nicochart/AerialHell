@@ -1,0 +1,6 @@
+{
+    "parent": "block/wall_inventory",
+    "textures": {
+        "wall": "aerialhell:block/mossy_stellar_stone"
+    }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FFF"
+  ],
+  "key": {
+    "F": {
+      "item": "aerialhell:sky_cactus_fiber"
+    }
+  },
+  "result": {
+    "item": "minecraft:paper",
+    "count": 3
+  }
+}

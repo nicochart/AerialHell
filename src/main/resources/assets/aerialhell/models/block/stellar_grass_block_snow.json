@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "aerialhell:block/stellar_grass_block_top",
+    "bottom": "aerialhell:block/stellar_dirt",
+    "side": "aerialhell:block/stellar_grass_block_snow",
+    "particle": "aerialhell:block/stellar_dirt"
+  }
+}

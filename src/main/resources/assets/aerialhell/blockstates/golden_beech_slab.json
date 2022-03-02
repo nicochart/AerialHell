@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "aerialhell:block/golden_beech_slab" },
+        "type=top": { "model": "aerialhell:block/golden_beech_slab_top" },
+        "type=double": { "model": "aerialhell:block/golden_beech_planks" }
+    }
+}

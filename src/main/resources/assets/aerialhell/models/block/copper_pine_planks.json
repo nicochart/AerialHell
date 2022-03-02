@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "aerialhell:block/copper_pine_planks"
+  }
+}

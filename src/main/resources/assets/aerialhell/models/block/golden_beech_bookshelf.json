@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aerialhell:block/golden_beech_planks",
+    "side": "aerialhell:block/golden_beech_bookshelf"
+  }
+}

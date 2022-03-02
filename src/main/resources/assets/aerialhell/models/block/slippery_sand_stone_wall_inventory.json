@@ -1,0 +1,6 @@
+{
+    "parent": "block/wall_inventory",
+    "textures": {
+        "wall": "aerialhell:block/slippery_sand_stone_bottom"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "parent": "block/stairs",
+    "textures": {
+        "bottom": "aerialhell:block/cracked_lunatic_stone",
+        "top": "aerialhell:block/cracked_lunatic_stone",
+        "side": "aerialhell:block/cracked_lunatic_stone"
+    }
+}

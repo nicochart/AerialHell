@@ -1,0 +1,9 @@
+{
+    "type": "minecraft:smelting",
+    "ingredient": {
+        "item": "aerialhell:volucite_ore"
+    },
+    "result": "aerialhell:volucite_vibrant",
+    "experience": 0.9,
+    "cookingtime": 200
+}

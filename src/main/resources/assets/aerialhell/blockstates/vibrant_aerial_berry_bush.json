@@ -1,0 +1,21 @@
+{
+    "variants":
+    {
+        "age=0": { "model": "aerialhell:block/vibrant_aerial_berry_bush_0" },
+        "age=1": { "model": "aerialhell:block/vibrant_aerial_berry_bush_1" },
+        "age=2": { "model": "aerialhell:block/vibrant_aerial_berry_bush_2" },
+        "age=3": { "model": "aerialhell:block/vibrant_aerial_berry_bush_3" },
+        "age=4": { "model": "aerialhell:block/vibrant_aerial_berry_bush_4" },
+        "age=5": { "model": "aerialhell:block/vibrant_aerial_berry_bush_5" },
+        "age=6": { "model": "aerialhell:block/vibrant_aerial_berry_bush_6" },
+        "age=7": { "model": "aerialhell:block/vibrant_aerial_berry_bush_7" },
+        "age=8": { "model": "aerialhell:block/vibrant_aerial_berry_bush_8" },
+        "age=9": { "model": "aerialhell:block/vibrant_aerial_berry_bush_9" },
+        "age=10": { "model": "aerialhell:block/vibrant_aerial_berry_bush_10" },
+        "age=11": { "model": "aerialhell:block/vibrant_aerial_berry_bush_11" },
+        "age=12": { "model": "aerialhell:block/vibrant_aerial_berry_bush_12" },
+        "age=13": { "model": "aerialhell:block/vibrant_aerial_berry_bush_13" },
+        "age=14": { "model": "aerialhell:block/vibrant_aerial_berry_bush_14" },
+        "age=15": { "model": "aerialhell:block/vibrant_aerial_berry_bush_15" }
+    }
+}

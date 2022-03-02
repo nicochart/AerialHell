@@ -1,0 +1,123 @@
+{
+  "music_disc.sweden_andreas_zoeller": {
+    "sounds": [
+      {
+        "name": "aerialhell:record/sweden_andreas_zoeller",
+        "stream": true
+      }
+    ]
+  },
+  "entity.evil_cow.ambient": {
+    "subtitle": "subtitles.entity.evil_cow.ambient",
+    "sounds": [
+      "aerialhell:mob/evil_cow/say1",
+      "aerialhell:mob/evil_cow/say2",
+      "aerialhell:mob/evil_cow/say3",
+      "aerialhell:mob/evil_cow/say4"
+    ]
+  },
+  "entity.evil_cow.hurt": {
+    "subtitle": "subtitles.entity.evil_cow.hurt",
+    "sounds": [
+      "aerialhell:mob/evil_cow/hurt1",
+      "aerialhell:mob/evil_cow/hurt2",
+      "aerialhell:mob/evil_cow/hurt3"
+    ]
+  },
+  "entity.evil_cow.death": {
+    "subtitle": "subtitles.entity.evil_cow.death",
+    "sounds": [
+      "aerialhell:mob/evil_cow/hurt1",
+      "aerialhell:mob/evil_cow/hurt2",
+      "aerialhell:mob/evil_cow/hurt3"
+    ]
+  },
+  "entity.sandy_sheep.ambient": {
+    "subtitle": "subtitles.entity.sandy_sheep.ambient",
+    "sounds": [
+      "aerialhell:mob/sandy_sheep/say1",
+      "aerialhell:mob/sandy_sheep/say2",
+      "aerialhell:mob/sandy_sheep/say3"
+    ]
+  },
+  "entity.sandy_sheep.hurt": {
+    "subtitle": "subtitles.entity.sandy_sheep.hurt",
+    "sounds": [
+      "aerialhell:mob/sandy_sheep/say1",
+      "aerialhell:mob/sandy_sheep/say2",
+      "aerialhell:mob/sandy_sheep/say3"
+    ]
+  },
+  "entity.sandy_sheep.death": {
+    "subtitle": "subtitles.entity.sandy_sheep.death",
+    "sounds": [
+      "aerialhell:mob/sandy_sheep/say1",
+      "aerialhell:mob/sandy_sheep/say2",
+      "aerialhell:mob/sandy_sheep/say3"
+    ]
+  },
+  "entity.sandy_sheep.shear": {
+    "subtitle": "subtitles.item.shears.shear",
+    "sounds": ["minecraft:mob/sheep/shear"]
+  },
+  "entity.torn_spirit.ambient": {
+    "subtitle": "subtitles.entity.torn_spirit.ambient",
+    "sounds": ["aerialhell:boss/torn_spirit/ambient"]
+  },
+  "entity.torn_spirit.hurt": {
+    "subtitle": "subtitles.entity.torn_spirit.hurt",
+    "sounds":
+    [
+      "aerialhell:boss/torn_spirit/hurt1",
+      "aerialhell:boss/torn_spirit/hurt2",
+      "aerialhell:boss/torn_spirit/hurt3"
+    ]
+  },
+  "entity.torn_spirit.death": {
+    "subtitle": "subtitles.entity.torn_spirit.death",
+    "sounds": ["aerialhell:boss/torn_spirit/death"]
+  },
+  "entity.shadow_troll.ambient": {
+    "subtitle": "subtitles.entity.shadow_troll.ambient",
+    "sounds":
+    [
+      "aerialhell:mob/shadow_troll/ambient",
+      "aerialhell:mob/shadow_troll/ambient1"
+    ]
+  },
+  "entity.shadow_troll.hurt": {
+    "subtitle": "subtitles.entity.shadow_troll.hurt",
+    "sounds":
+    [
+      "aerialhell:mob/shadow_troll/hurt",
+      "aerialhell:mob/shadow_troll/hurt1"
+    ]
+  },
+  "entity.shadow_troll.death": {
+    "subtitle": "subtitles.entity.shadow_troll.death",
+    "sounds": ["aerialhell:mob/shadow_troll/death"]
+  },
+  "entity.volucite_blowpipe.shoot": {
+    "subtitle": "subtitles.entity.volucite_blowpipe.shoot",
+    "sounds": ["aerialhell:projectile/volucite_blowpipe/shoot"]
+  },
+  "entity.throwing_knife.throw": {
+    "subtitle": "subtitles.entity.throwing_knife.throw",
+    "sounds": ["aerialhell:projectile/throwing_knife/shoot"]
+  },
+  "block.trapped_block.step": {
+    "subtitle": "subtitles.block.trapped_block.step",
+    "sounds": [
+      "aerialhell:block/trapped_block/step"
+    ]
+  },
+  "block.aerial_hell_portal.ambient": {
+    "subtitle": "subtitles.block.aerial_hell_portal.ambient",
+    "sounds": [
+      {
+        "attenuation_distance": 10,
+        "name": "aerialhell:portal/portal"
+      }
+    ]
+  }
+}

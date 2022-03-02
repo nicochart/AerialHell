@@ -1,0 +1,8 @@
+{
+    "parent": "block/slab",
+    "textures": {
+        "bottom": "aerialhell:block/magmatic_gel_block",
+        "top": "aerialhell:block/magmatic_gel_block",
+        "side": "aerialhell:block/magmatic_gel_block"
+    }
+}

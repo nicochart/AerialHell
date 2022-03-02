@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "aerialhell:block/aerial_tree_slab" },
+        "type=top": { "model": "aerialhell:block/aerial_tree_slab_top" },
+        "type=double": { "model": "aerialhell:block/aerial_tree_planks" }
+    }
+}

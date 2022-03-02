@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PSP",
+    "P P",
+    "PSP"
+  ],
+  "key": {
+    "P": {
+      "item": "aerialhell:aerial_tree_planks"
+    },
+    "S": {
+      "item": "aerialhell:aerial_tree_slab"
+    }
+  },
+  "result": {
+    "item": "aerialhell:aerial_tree_barrel"
+  }
+}

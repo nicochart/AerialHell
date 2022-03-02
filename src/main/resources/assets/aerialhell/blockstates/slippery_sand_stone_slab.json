@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "aerialhell:block/slippery_sand_stone_slab" },
+        "type=top": { "model": "aerialhell:block/slippery_sand_stone_slab_top" },
+        "type=double": { "model": "aerialhell:block/slippery_sand_stone_slab_double" }
+    }
+}

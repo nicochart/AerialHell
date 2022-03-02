@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "aerialhell:block/glaucophanite_pressure_plate"
+    },
+    "powered=true": {
+      "model": "aerialhell:block/glaucophanite_pressure_plate_down"
+    }
+  }
+}

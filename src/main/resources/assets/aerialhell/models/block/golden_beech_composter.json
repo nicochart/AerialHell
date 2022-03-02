@@ -1,0 +1,11 @@
+{
+    "parent": "minecraft:block/composter",
+    "textures":
+    {
+        "particle": "aerialhell:block/golden_beech_composter_side",
+        "top": "aerialhell:block/golden_beech_composter_top",
+        "bottom": "aerialhell:block/golden_beech_composter_bottom",
+        "side": "aerialhell:block/golden_beech_composter_side",
+        "inside": "aerialhell:block/golden_beech_composter_bottom"
+    }
+}

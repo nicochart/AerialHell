@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:vibration",
+  "ingredient": {
+    "item": "aerialhell:sky_cactus_fiber"
+  },
+  "result": "aerialhell:vibrant_sky_cactus_fiber",
+  "experience": 0.0,
+  "cookingtime": 300
+}

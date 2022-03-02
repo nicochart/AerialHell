@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values":
+  [
+    "aerialhell:stellar_grass_block",
+    "aerialhell:stellar_dirt",
+    "aerialhell:chiseled_stellar_dirt",
+    "aerialhell:chiseled_stellar_grass_block"
+  ]
+}

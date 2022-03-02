@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aerialhell:mud_bricks"
+  },
+  "result": "aerialhell:chiseled_mud_bricks",
+  "count": 1
+}

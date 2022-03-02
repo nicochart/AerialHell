@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:volucite_stone"
+    }
+  },
+  "result": {
+    "item": "aerialhell:volucite_stone_wall",
+    "count": 6
+  }
+}

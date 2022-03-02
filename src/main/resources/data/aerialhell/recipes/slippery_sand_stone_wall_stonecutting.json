@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aerialhell:slippery_sand_stone"
+  },
+  "result": "aerialhell:slippery_sand_stone_wall",
+  "count": 1
+}

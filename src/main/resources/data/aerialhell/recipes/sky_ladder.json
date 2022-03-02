@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    "###",
+    "# #"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:sky_stick"
+    }
+  },
+  "result": {
+    "item": "aerialhell:sky_ladder",
+    "count": 3
+  }
+}

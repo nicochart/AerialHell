@@ -1,0 +1,8 @@
+{
+    "parent": "block/slab",
+    "textures": {
+        "bottom": "aerialhell:block/stellar_stone",
+        "top": "aerialhell:block/stellar_stone",
+        "side": "aerialhell:block/stellar_stone"
+    }
+}

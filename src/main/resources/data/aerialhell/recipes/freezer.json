@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SGS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "aerialhell:stellar_stone"
+    },
+    "G": {
+      "item": "aerialhell:magmatic_gel"
+    }
+  },
+  "result": {
+    "item": "aerialhell:freezer"
+  }
+}

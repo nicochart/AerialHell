@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:polished_glaucophanite"
+    }
+  },
+  "result": {
+    "item": "aerialhell:polished_glaucophanite_stairs",
+    "count": 4
+  }
+}

@@ -1,0 +1,41 @@
+modLoader="javafml"
+loaderVersion="[36,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+
+license="All rights reserved"
+
+#issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/"
+
+### Modlist
+[[mods]]
+modId="aerialhell"
+version="${file.jarVersion}"
+displayName="Aerial Hell"
+
+# Lien de requete de maj
+#updateJSONURL="https://change.me.example.invalid/updates.json" 
+
+
+# "homepage" du mod
+#displayURL="https://change.me.to.your.mods.homepage.example.invalid/"
+
+logoFile="new_dimension.png"
+
+credits="Bedrock Team"
+authors="nicochart"
+description='''
+nicochart's Aerial Hell
+'''
+
+### Dependances
+[[dependencies.aerialhell]] #optionnel
+    modId="forge"
+    mandatory=true
+    versionRange="[36,)"
+    ordering="NONE" #BEFORE, AFTER, NONE
+    side="BOTH" #BOTH, CLIENT or SERVER
+[[dependencies.aerialhell]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.4,1.17)" #1.17 non inclu
+    ordering="NONE"
+    side="BOTH"

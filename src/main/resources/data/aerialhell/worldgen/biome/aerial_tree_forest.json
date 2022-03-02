@@ -1,0 +1,88 @@
+{
+  "precipitation": "none",
+  "category": "none",
+  "depth": 0.125,
+  "scale": 0.05,
+  "temperature": 0.8,
+  "temperature_modifier": "none",
+  "downfall": 0.0,
+  "effects": {
+    "fog_color": 9671612,
+    "sky_color": 12369146,
+    "water_color": 4159204,
+    "water_fog_color": 329011,
+    "grass_color": 11665355,
+    "foliage_color": 11665355,
+    "grass_color_modifier": "none"
+  },
+  "surface_builder": "aerialhell:stellar_grass_block",
+  "carvers": {
+    "air": [
+
+    ]
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      //ores
+    ],
+    [],
+    [
+      "aerialhell:aerial_tree_forest",
+      "aerialhell:golden_beech_basic"
+    ],
+    []
+  ],
+  "starts": [
+
+  ],
+  "spawners": {
+    "monster": [
+      {
+        "type": "aerialhell:evil_cow",
+        "weight": 100,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "aerialhell:flying_jellyfish",
+        "weight": 60,
+        "minCount": 2,
+        "maxCount": 2
+      },
+      {
+        "type": "aerialhell:forest_caterpillar",
+        "weight": 40,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "aerialhell:fat_phantom",
+        "weight": 30,
+        "minCount": 1,
+        "maxCount": 3
+      }
+    ],
+    "creature": [
+      {
+        "type": "aerialhell:sandy_sheep",
+        "weight": 30,
+        "minCount": 3,
+        "maxCount": 10
+      }
+    ],
+    "ambient": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "player_spawn_friendly": false,
+  "spawn_costs": {
+
+  }
+}

@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "aerialhell:vibrant_aerial_berry"
+        }
+    ],
+    "result": {
+        "item": "aerialhell:vibrant_aerial_berry_seeds",
+        "count": 1
+    }
+}

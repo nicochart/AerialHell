@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:block",
+  "pools":
+  [
+    {
+      "rolls": 1,
+      "entries":
+      [
+        {
+          "type": "minecraft:item",
+          "name": "aerialhell:sky_cactus_fiber_fence"
+        }
+      ],
+      "conditions":
+      [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}

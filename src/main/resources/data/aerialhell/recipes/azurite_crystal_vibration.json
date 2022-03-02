@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:vibration",
+  "ingredient": {
+    "item": "aerialhell:azurite_ore"
+  },
+  "result": "aerialhell:azurite_crystal",
+  "experience": 0.9,
+  "cookingtime": 500
+}

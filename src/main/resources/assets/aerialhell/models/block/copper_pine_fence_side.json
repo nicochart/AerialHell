@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_side",
+  "textures": {
+    "texture": "aerialhell:block/copper_pine_planks"
+  }
+}

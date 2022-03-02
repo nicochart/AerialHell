@@ -1,0 +1,16 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "aerialhell:block/golden_beech_chest_mimic"
+		},
+		"facing=west": {
+			"model": "aerialhell:block/golden_beech_chest_mimic"
+		},
+		"facing=east": {
+			"model": "aerialhell:block/golden_beech_chest_mimic"
+		},
+		"facing=south": {
+			"model": "aerialhell:block/golden_beech_chest_mimic"
+		}
+	}
+}

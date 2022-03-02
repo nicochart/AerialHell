@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:freezing",
+  "ingredient": {
+    "item": "aerialhell:aerial_berry"
+  },
+  "result": "aerialhell:frozen_aerial_berry",
+  "experience": 0.0,
+  "cookingtime": 400
+}

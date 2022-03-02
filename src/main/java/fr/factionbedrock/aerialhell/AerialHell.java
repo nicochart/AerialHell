@@ -1,0 +1,164 @@
+package fr.factionbedrock.aerialhell;
+
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.mojang.serialization.Codec;
+
+import fr.factionbedrock.aerialhell.Registry.AerialHellBiomes;
+import fr.factionbedrock.aerialhell.Registry.AerialHellFeatures;
+import fr.factionbedrock.aerialhell.Registry.AerialHellStructures;
+import fr.factionbedrock.aerialhell.Setup.*;
+import fr.factionbedrock.aerialhell.World.GenAerialHellOres;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.FlatChunkGenerator;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.settings.DimensionStructuresSettings;
+import net.minecraft.world.gen.settings.StructureSeparationSettings;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+
+@Mod(AerialHell.MODID) 
+public class AerialHell
+{
+	public static final String MODID = "aerialhell";
+	public static final String NAME = "Aerial Hell";
+	public static final String VERSION = "1.0";
+	
+	public static Logger LOGGER = LogManager.getLogger();
+
+    public AerialHell()
+    {
+    	AerialHellSetup.registration();
+    	
+    	
+    	IEventBus forgeBus = MinecraftForge.EVENT_BUS;
+        forgeBus.addListener(EventPriority.NORMAL, this::addDimensionalSpacing);
+
+        forgeBus.addListener(EventPriority.HIGH, this::biomeModification);
+		
+    	
+        // Register the setup method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(AerialHellSetup::init);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(AerialHellClientSetup::init);
+    } 
+    
+    
+    public void biomeModification(final BiomeLoadingEvent event)
+    {	
+    	/* Adding Bedrock Ore generation to Overworld Biomes */
+    	if(event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER && !event.getName().equals(AerialHellBiomes.AERIAL_HELL_PLAINS.getLocation()) && !event.getName().equals(AerialHellBiomes.AERIAL_TREE_FOREST.getLocation()) && !event.getName().equals(AerialHellBiomes.COPPER_PINE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.SLIPPERY_SAND_OCEAN.getLocation()))
+    	{
+    		for (int i = 0; i < 8; i++)
+    		{
+    			event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.BEDROCK_ORE);
+    		}
+    	}
+    		
+    	/* Adding common features and structure in all aerial hell biomes */
+    	if (event.getName().equals(AerialHellBiomes.AERIAL_HELL_PLAINS.getLocation()) || event.getName().equals(AerialHellBiomes.AERIAL_TREE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.COPPER_PINE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.SLIPPERY_SAND_OCEAN.getLocation()))
+    	{
+    		/* structure */
+    		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_BIG_SOLID_ETHER_CLOUD_STRUCTURE);
+    		
+    		/* features */
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.SLIPPERY_SAND);
+    		event.getGeneration().withFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, AerialHellFeatures.AERIAL_HELL_WATER_LAKE);
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.WHITE_SOLID_ETHER); 
+   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.BLUE_SOLID_ETHER);
+   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.GOLDEN_SOLID_ETHER);
+   		    
+   		    //rare sky cactus
+   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.SKY_CACTUS_PLAIN);
+   		    
+   		    //plants
+   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_GRASS);
+   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.AERIAL_HELL_FLOWERS);
+   		 
+   		    /* ores */
+   		    for (int i = 0; i < 100; i++)
+   		    {
+   		    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.FLUORITE_ORE);
+   		    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.MAGMATIC_GEL_ORE);
+   		    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.RUBY_ORE);
+   		    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.AZURITE_ORE);
+   		    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.VOLUCITE_ORE);
+   		    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.GLAUCOPHANITE_ORE);
+   		    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.STELLAR_DIRT_ORE);
+   		    }
+        }
+    	
+    	/* Adding features exclusive to the SlipperySandOcean biome */
+    	if (event.getName().equals(AerialHellBiomes.SLIPPERY_SAND_OCEAN.getLocation()))
+    	{
+    		//slippery sand solid ether
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.SLIPPERY_SAND_SOLID_ETHER);
+    		
+    		for (int i = 0; i < 50; i++)
+   		    {
+    			//a lot of sky cactus
+    			event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.SKY_CACTUS_OCEAN);
+   		    }
+    		//dead bushes
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_DEAD_BUSH);
+    	}
+    	
+    	/* Adding features exclusive to the Aerial Tree Forest and Aerial Copper Pine Forest biomes */
+    	if (event.getName().equals(AerialHellBiomes.AERIAL_TREE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.COPPER_PINE_FOREST.getLocation()))
+    	{
+    		//green solid ether
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.GREEN_SOLID_ETHER);
+    		
+    		//more plants
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_GRASS);
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_TALL_GRASS);
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_FERN);
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_TALL_FERN);
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.AERIAL_BERRY_BUSH_PATCH);
+    	}
+    }
+    
+    private static Method GETCODEC_METHOD;
+    public void addDimensionalSpacing(final WorldEvent.Load event)
+    {
+        if(event.getWorld() instanceof ServerWorld){
+            ServerWorld serverWorld = (ServerWorld)event.getWorld();
+
+            try
+            {
+                if(GETCODEC_METHOD == null) GETCODEC_METHOD = ObfuscationReflectionHelper.findMethod(ChunkGenerator.class, "func_230347_a_");
+                ResourceLocation cgRL = Registry.CHUNK_GENERATOR_CODEC.getKey((Codec<? extends ChunkGenerator>) GETCODEC_METHOD.invoke(serverWorld.getChunkProvider().generator));
+                if(cgRL != null && cgRL.getNamespace().equals("terraforged")) return;
+            }
+            catch(Exception e)
+            {
+                AerialHell.LOGGER.error("Was unable to check if " + serverWorld.getDimensionKey().getLocation() + " is using Terraforged's ChunkGenerator.");
+            }
+
+            if(serverWorld.getChunkProvider().getChunkGenerator() instanceof FlatChunkGenerator && serverWorld.getDimensionKey().equals(World.OVERWORLD))
+            {
+                return;
+            }
+
+            Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld.getChunkProvider().generator.func_235957_b_().func_236195_a_());
+            tempMap.putIfAbsent(AerialHellStructures.BIG_SOLID_ETHER_CLOUD_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.BIG_SOLID_ETHER_CLOUD_STRUCTURE.get()));
+            serverWorld.getChunkProvider().generator.func_235957_b_().field_236193_d_ = tempMap;
+        }
+   }
+}

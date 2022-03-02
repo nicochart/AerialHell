@@ -1,0 +1,8 @@
+{
+    "parent": "block/stairs",
+    "textures": {
+        "bottom": "aerialhell:block/golden_beech_planks",
+        "top": "aerialhell:block/golden_beech_planks",
+        "side": "aerialhell:block/golden_beech_planks"
+    }
+}

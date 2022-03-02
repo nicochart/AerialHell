@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "#aerialhell:aerialhell_wooden_pressure_plates",
+    "aerialhell:stellar_stone_pressure_plate",
+    "aerialhell:slippery_sand_stone_pressure_plate",
+    "aerialhell:slippery_sand_stone_bricks_pressure_plate",
+    "aerialhell:stellar_stone_bricks_pressure_plate",
+    "aerialhell:glaucophanite_pressure_plate"
+  ]
+}

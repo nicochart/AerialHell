@@ -1,0 +1,11 @@
+{
+    "parent": "minecraft:block/composter",
+    "textures":
+    {
+        "particle": "aerialhell:block/sky_cactus_fiber_composter_side",
+        "top": "aerialhell:block/sky_cactus_fiber_composter_top",
+        "bottom": "aerialhell:block/sky_cactus_fiber_composter_bottom",
+        "side": "aerialhell:block/sky_cactus_fiber_composter_side",
+        "inside": "aerialhell:block/sky_cactus_fiber_composter_bottom"
+    }
+}

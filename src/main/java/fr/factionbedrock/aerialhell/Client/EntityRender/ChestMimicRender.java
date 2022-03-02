@@ -1,0 +1,52 @@
+package fr.factionbedrock.aerialhell.Client.EntityRender;
+
+import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.EntityModels.ChestMimicModel;
+import fr.factionbedrock.aerialhell.Entity.AbstractChestMimicEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
+public class ChestMimicRender<T extends AbstractChestMimicEntity> extends MobRenderer<T, ChestMimicModel<T>>
+{	
+	private static final ResourceLocation OVERWORLD_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/chest_mimic/overworld.png");
+	private static final ResourceLocation AERIAL_TREE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/chest_mimic/aerial_tree.png");
+	private static final ResourceLocation SKY_CACTUS_FIBER_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/chest_mimic/sky_cactus_fiber.png");
+	private static final ResourceLocation GOLDEN_BEECH_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/chest_mimic/golden_beech.png");
+	private static final ResourceLocation COPPER_PINE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/chest_mimic/copper_pine.png");
+	
+	public ChestMimicRender(EntityRendererManager rendererManager)
+	{
+		
+		super(rendererManager, new ChestMimicModel(), 1.0F);
+	}
+
+	@Override
+	public ResourceLocation getEntityTexture(T mimic)
+	{
+		if (mimic instanceof AerialTreeChestMimicEntity)
+		{
+			return AERIAL_TREE_TEXTURE;
+		}
+		else if (mimic instanceof GoldenBeechChestMimicEntity)
+		{
+			return GOLDEN_BEECH_TEXTURE;
+		}
+		else if (mimic instanceof SkyCactusFiberChestMimicEntity)
+		{
+			return SKY_CACTUS_FIBER_TEXTURE;
+		}
+		else if (mimic instanceof CopperPineChestMimicEntity)
+		{
+			return COPPER_PINE_TEXTURE;
+		}
+		else
+		{
+			return OVERWORLD_TEXTURE;
+		}
+	}
+}

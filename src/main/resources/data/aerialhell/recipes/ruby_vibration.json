@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:vibration",
+  "ingredient": {
+    "item": "aerialhell:ruby_ore"
+  },
+  "result": "aerialhell:ruby",
+  "experience": 0.9,
+  "cookingtime": 500
+}

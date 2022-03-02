@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PSP",
+    "P P",
+    "PSP"
+  ],
+  "key": {
+    "P": {
+      "item": "aerialhell:golden_beech_planks"
+    },
+    "S": {
+      "item": "aerialhell:golden_beech_slab"
+    }
+  },
+  "result": {
+    "item": "aerialhell:golden_beech_barrel"
+  }
+}

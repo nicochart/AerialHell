@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:cracked_mud_bricks"
+    }
+  },
+  "result": {
+    "item": "aerialhell:cracked_mud_bricks_stairs",
+    "count": 4
+  }
+}

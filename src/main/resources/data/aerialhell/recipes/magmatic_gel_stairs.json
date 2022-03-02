@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:magmatic_gel_block"
+    }
+  },
+  "result": {
+    "item": "aerialhell:magmatic_gel_stairs",
+    "count": 4
+  }
+}

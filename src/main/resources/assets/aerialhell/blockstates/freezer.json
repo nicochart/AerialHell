@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "aerialhell:block/freezer"
+    },
+    "lit=true": {
+      "model": "aerialhell:block/freezer_on"
+    }
+  }
+}

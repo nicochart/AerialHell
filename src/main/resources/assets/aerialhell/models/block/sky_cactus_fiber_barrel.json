@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "aerialhell:block/sky_cactus_fiber_barrel_top",
+    "bottom": "aerialhell:block/sky_cactus_fiber_barrel_bottom",
+    "side": "aerialhell:block/sky_cactus_fiber_barrel_side"
+  }
+}

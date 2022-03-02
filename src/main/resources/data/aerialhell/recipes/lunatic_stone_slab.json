@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:lunatic_stone"
+    }
+  },
+  "result": {
+    "item": "aerialhell:lunatic_stone_slab",
+    "count": 6
+  }
+}

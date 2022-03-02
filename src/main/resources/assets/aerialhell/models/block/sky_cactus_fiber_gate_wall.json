@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_fence_gate_wall",
+  "textures": {
+    "texture": "aerialhell:block/sky_cactus_fiber_planks"
+  }
+}

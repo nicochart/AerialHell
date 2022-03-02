@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "aerialhell:block/copper_pine_crafting_table_front",
+    "north": "aerialhell:block/copper_pine_crafting_table_front",
+    "south": "aerialhell:block/copper_pine_crafting_table_side",
+    "east": "aerialhell:block/copper_pine_crafting_table_front",
+    "west": "aerialhell:block/copper_pine_crafting_table_side",
+    "up": "aerialhell:block/copper_pine_crafting_table_top",
+    "down": "aerialhell:block/copper_pine_crafting_table_bottom"
+  }
+}

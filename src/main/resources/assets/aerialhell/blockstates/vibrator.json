@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "aerialhell:block/vibrator"
+    },
+    "lit=true": {
+      "model": "aerialhell:block/vibrator_on"
+    }
+  }
+}

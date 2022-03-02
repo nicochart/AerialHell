@@ -1,0 +1,81 @@
+{
+  "precipitation": "none",
+  "category": "none",
+  "depth": 0.125,
+  "scale": 0.05,
+  "temperature": 0.8,
+  "temperature_modifier": "none",
+  "downfall": 0.0,
+  "effects": {
+    "fog_color": 15983981,
+    "sky_color": 14807197,
+    "water_color": 4159204,
+    "water_fog_color": 329011,
+    "grass_color": 11665355,
+    "foliage_color": 11665355,
+    "grass_color_modifier": "none"
+  },
+  "surface_builder": "aerialhell:slippery_sand_block",
+  "carvers": {
+    "air": [
+
+    ]
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      //ores
+    ],
+    [],
+    [
+       //aerialhell:feature
+    ],
+    []
+  ],
+  "starts": [
+
+  ],
+  "spawners": {
+    "monster": [
+      {
+        "type": "aerialhell:evil_cow",
+        "weight": 100,
+        "minCount": 2,
+        "maxCount": 6
+      },
+      {
+        "type": "aerialhell:mud_soldier",
+        "weight": 100,
+        "minCount": 1,
+        "maxCount": 2
+      },
+      {
+        "type": "aerialhell:hell_spider",
+        "weight": 100,
+        "minCount": 4,
+        "maxCount": 10
+      }
+    ],
+    "creature": [
+      {
+        "type": "aerialhell:sandy_sheep",
+        "weight": 30,
+        "minCount": 3,
+        "maxCount": 10
+      }
+    ],
+    "ambient": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "player_spawn_friendly": false,
+  "spawn_costs": {
+
+  }
+}

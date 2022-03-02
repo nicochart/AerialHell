@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    "# #",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:sky_cactus_fiber_slab"
+    }
+  },
+  "result": {
+    "item": "aerialhell:sky_cactus_fiber_composter"
+  }
+}

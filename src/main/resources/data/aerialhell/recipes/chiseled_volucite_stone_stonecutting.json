@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aerialhell:volucite_stone"
+  },
+  "result": "aerialhell:chiseled_volucite_stone",
+  "count": 1
+}

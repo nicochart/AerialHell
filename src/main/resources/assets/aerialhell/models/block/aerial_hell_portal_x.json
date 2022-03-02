@@ -1,0 +1,15 @@
+{
+    "textures": {
+        "particle": "aerialhell:block/aerial_hell_portal",
+        "portal": "aerialhell:block/aerial_hell_portal"
+    },
+    "elements": [
+        {   "from": [ 0, 0, 6 ],
+            "to": [ 16, 16, 10 ],
+            "faces": {
+                "north": { "uv": [ 16, 16, 0, 0 ], "texture": "#portal" },
+                "south": { "uv": [ 16, 16, 0, 0 ], "texture": "#portal" }
+            }
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "#aerialhell:aerialhell_wooden_stairs",
+    "aerialhell:stellar_stone_stairs",
+    "aerialhell:stellar_stone_bricks_stairs",
+    "aerialhell:mud_bricks_stairs",
+    "aerialhell:cracked_mud_bricks_stairs",
+    "aerialhell:volucite_stone_stairs",
+    "aerialhell:cracked_volucite_stone_stairs",
+    "aerialhell:lunatic_stone_stairs",
+    "aerialhell:cracked_lunatic_stone_stairs",
+    "aerialhell:mossy_stellar_stone_stairs",
+    "aerialhell:slippery_sand_stone_stairs",
+    "aerialhell:slippery_sand_stone_bricks_stairs",
+    "aerialhell:polished_glaucophanite_stairs",
+    "aerialhell:magmatic_gel_stairs"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:vibration",
+  "ingredient": {
+    "item": "aerialhell:white_solid_ether_fragment"
+  },
+  "result": "aerialhell:golden_solid_ether_fragment",
+  "experience": 0.0,
+  "cookingtime": 70
+}

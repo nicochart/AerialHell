@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:vibration",
+  "ingredient": {
+    "item": "aerialhell:aerial_berry_seeds"
+  },
+  "result": "aerialhell:vibrant_aerial_berry_seeds",
+  "experience": 0.0,
+  "cookingtime": 200
+}

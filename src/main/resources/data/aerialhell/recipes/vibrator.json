@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SFS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "aerialhell:stellar_stone"
+    },
+    "F": {
+      "item": "aerialhell:fluorite"
+    }
+  },
+  "result": {
+    "item": "aerialhell:vibrator"
+  }
+}

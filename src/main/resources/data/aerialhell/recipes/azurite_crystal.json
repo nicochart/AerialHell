@@ -1,0 +1,9 @@
+{
+    "type": "minecraft:smelting",
+    "ingredient": {
+        "item": "aerialhell:azurite_ore"
+    },
+    "result": "aerialhell:azurite_crystal",
+    "experience": 0.8,
+    "cookingtime": 200
+}

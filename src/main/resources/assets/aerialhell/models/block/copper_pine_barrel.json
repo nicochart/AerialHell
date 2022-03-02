@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "aerialhell:block/copper_pine_barrel_top",
+    "bottom": "aerialhell:block/copper_pine_barrel_bottom",
+    "side": "aerialhell:block/copper_pine_barrel_side"
+  }
+}

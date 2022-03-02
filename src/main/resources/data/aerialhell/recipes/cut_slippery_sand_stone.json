@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BB",
+    "BB"
+  ],
+  "key": {
+    "B": {
+      "item": "aerialhell:slippery_sand_stone_bricks"
+    }
+  },
+  "result": {
+    "item": "aerialhell:cut_slippery_sand_stone",
+    "count": 4
+  }
+}

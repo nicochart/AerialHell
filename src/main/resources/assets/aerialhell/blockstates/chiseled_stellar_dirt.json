@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "aerialhell:block/chiseled_stellar_dirt"
+      },
+      {
+        "model": "aerialhell:block/chiseled_stellar_dirt",
+        "y": 90
+      },
+      {
+        "model": "aerialhell:block/chiseled_stellar_dirt",
+        "y": 180
+      },
+      {
+        "model": "aerialhell:block/chiseled_stellar_dirt",
+        "y": 270
+      }
+    ]
+  }
+}

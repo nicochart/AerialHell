@@ -1,0 +1,15 @@
+{
+  "name": "aerialhell:big_white_solid_ether/solid_ether_core",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 100,
+      "element": {
+        "location": "aerialhell:big_white_solid_ether/cloud_core1",
+        "processors": "minecraft:empty",
+		"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

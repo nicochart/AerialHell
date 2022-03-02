@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "BBB",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "item": "aerialhell:aerial_tree_planks"
+    },
+    "B": {
+      "item": "minecraft:book"
+    }
+  },
+  "result": {
+    "item": "aerialhell:aerial_tree_bookshelf"
+  }
+}

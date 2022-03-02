@@ -1,0 +1,6 @@
+{
+    "parent": "block/template_wall_side",
+    "textures": {
+        "wall": "aerialhell:block/mossy_stellar_stone"
+    }
+}

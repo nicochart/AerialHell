@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aerialhell:block/lunatic_stone",
+    "side": "aerialhell:block/lunatic_bookshelf"
+  }
+}

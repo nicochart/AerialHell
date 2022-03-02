@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "aerialhell:block/aerial_tree_leaves"
+  }
+}

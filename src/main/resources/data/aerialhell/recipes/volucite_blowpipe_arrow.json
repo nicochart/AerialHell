@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "F",
+    "S",
+    "V"
+  ],
+  "key": {
+    "F": {
+      "tag": "forge:feathers"
+    },
+    "S": {
+      "item": "aerialhell:sky_stick"
+    },
+    "V": {
+      "item": "aerialhell:volucite_vibrant"
+    }
+  },
+  "result": {
+    "item": "aerialhell:volucite_blowpipe_arrow",
+    "count": 4
+  }
+}

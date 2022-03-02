@@ -1,0 +1,11 @@
+{
+    "parent": "minecraft:block/composter",
+    "textures":
+    {
+        "particle": "aerialhell:block/copper_pine_composter_side",
+        "top": "aerialhell:block/copper_pine_composter_top",
+        "bottom": "aerialhell:block/copper_pine_composter_bottom",
+        "side": "aerialhell:block/copper_pine_composter_side",
+        "inside": "aerialhell:block/copper_pine_composter_bottom"
+    }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:golden_solid_ether_fragment"
+    }
+  },
+  "result": {
+    "item": "aerialhell:golden_solid_ether"
+  }
+}

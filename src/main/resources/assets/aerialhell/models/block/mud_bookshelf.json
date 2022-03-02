@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aerialhell:block/mud_bricks",
+    "side": "aerialhell:block/mud_bookshelf"
+  }
+}

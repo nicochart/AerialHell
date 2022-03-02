@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/pressure_plate_up",
+  "textures": {
+    "texture": "aerialhell:block/sky_cactus_fiber_planks"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:golden_beech_planks"
+    }
+  },
+  "result": {
+    "item": "aerialhell:golden_beech_stairs",
+    "count": 4
+  }
+}

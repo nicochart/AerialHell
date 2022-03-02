@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:vibration",
+  "ingredient": {
+    "item": "aerialhell:fluorite_ore"
+  },
+  "result": "aerialhell:fluorite",
+  "experience": 0.4,
+  "cookingtime": 200
+}

@@ -1,0 +1,8 @@
+{
+    "parent": "block/slab_top",
+    "textures": {
+        "bottom": "aerialhell:block/golden_nether_bricks",
+        "top": "aerialhell:block/golden_nether_bricks",
+        "side": "aerialhell:block/golden_nether_bricks"
+    }
+}

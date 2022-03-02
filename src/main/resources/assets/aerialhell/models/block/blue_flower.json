@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures":
+  {
+    "cross": "aerialhell:block/blue_flower"
+  }
+}

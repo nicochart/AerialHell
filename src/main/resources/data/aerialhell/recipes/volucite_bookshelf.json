@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "BBB",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "aerialhell:volucite_stone"
+    },
+    "B": {
+      "item": "minecraft:book"
+    }
+  },
+  "result": {
+    "item": "aerialhell:volucite_bookshelf"
+  }
+}

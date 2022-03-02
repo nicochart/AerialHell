@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S S",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "aerialhell:aerial_tree_planks"
+    }
+  },
+  "result": {
+    "item": "aerialhell:ruby_bucket"
+  }
+}

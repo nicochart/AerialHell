@@ -1,0 +1,9 @@
+{
+    "type": "minecraft:blasting",
+    "ingredient": {
+        "item": "aerialhell:bedrock_ore"
+    },
+    "result": "aerialhell:bedrock_scrap",
+    "experience": 2.5,
+    "cookingtime": 200
+}

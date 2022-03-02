@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aerialhell:golden_nether_bricks"
+  },
+  "result": "aerialhell:chiseled_golden_nether_bricks",
+  "count": 1
+}

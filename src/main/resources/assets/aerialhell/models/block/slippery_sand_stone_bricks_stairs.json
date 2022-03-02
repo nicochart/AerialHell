@@ -1,0 +1,8 @@
+{
+    "parent": "block/stairs",
+    "textures": {
+        "bottom": "aerialhell:block/slippery_sand_stone_bricks",
+        "top": "aerialhell:block/slippery_sand_stone_bricks",
+        "side": "aerialhell:block/slippery_sand_stone_bricks"
+    }
+}

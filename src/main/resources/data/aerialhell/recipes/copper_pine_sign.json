@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "sign",
+  "pattern": [
+    "###",
+    "###",
+    " X "
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:copper_pine_planks"
+    },
+    "X": {
+      "item": "aerialhell:sky_stick"
+    }
+  },
+  "result": {
+    "item": "aerialhell:copper_pine_sign",
+    "count": 3
+  }
+}

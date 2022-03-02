@@ -1,0 +1,6 @@
+{
+  "parent" : "item/generated",
+  "textures" : {
+      "layer0" : "aerialhell:item/white_solid_ether_fragment"
+  }
+}

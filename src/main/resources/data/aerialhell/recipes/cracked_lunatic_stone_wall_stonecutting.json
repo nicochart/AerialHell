@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aerialhell:cracked_lunatic_stone"
+  },
+  "result": "aerialhell:cracked_lunatic_stone_wall",
+  "count": 1
+}

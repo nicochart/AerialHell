@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "aerialhell:block/slippery_sand_stone_top",
+    "bottom": "aerialhell:block/slippery_sand_stone_bottom",
+    "side": "aerialhell:block/slippery_sand_stone"
+  }
+}

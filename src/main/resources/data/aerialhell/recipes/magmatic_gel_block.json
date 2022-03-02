@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GG",
+    "GG"
+  ],
+  "key": {
+    "G": {
+      "item": "aerialhell:magmatic_gel"
+    }
+  },
+  "result": {
+    "item": "aerialhell:magmatic_gel_block"
+  }
+}

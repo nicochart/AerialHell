@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "A",
+    "S"
+  ],
+  "key": {
+    "A": {
+      "item": "aerialhell:fluorite"
+    },
+    "S": {
+      "item": "aerialhell:sky_stick"
+    }
+  },
+  "result": {
+    "item": "aerialhell:fluorite_torch",
+    "count": 4
+  }
+}

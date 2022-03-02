@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values":
+  [
+    "aerialhell:aerial_tree_bookshelf",
+    "aerialhell:golden_beech_bookshelf",
+    "aerialhell:copper_pine_bookshelf",
+    "aerialhell:mud_bookshelf",
+    "aerialhell:lunatic_bookshelf",
+    "aerialhell:golden_nether_bookshelf",
+    "aerialhell:volucite_bookshelf",
+    "minecraft:bookshelf"
+  ]
+}

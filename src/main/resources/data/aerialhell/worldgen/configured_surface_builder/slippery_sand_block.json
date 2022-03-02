@@ -1,0 +1,22 @@
+{
+  "type": "default",
+  "config":
+  {
+    "top_material":
+    {
+      "Name": "aerialhell:slippery_sand",
+      "Properties":
+      {
+        "snowy": "false"
+      }
+    },
+    "under_material":
+    {
+      "Name": "aerialhell:slippery_sand_stone"
+    },
+    "underwater_material":
+    {
+      "Name": "aerialhell:slippery_sand_stone"
+    }
+  }
+}

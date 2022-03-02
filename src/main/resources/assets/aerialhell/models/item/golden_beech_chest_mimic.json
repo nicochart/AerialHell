@@ -1,0 +1,6 @@
+{
+  "parent" : "item/generated",
+  "textures" : {
+      "layer0" : "aerialhell:item/golden_beech_chest_mimic"
+  }
+}

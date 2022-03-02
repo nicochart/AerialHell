@@ -1,0 +1,8 @@
+{
+    "parent": "block/slab",
+    "textures": {
+        "bottom": "aerialhell:block/slippery_sand_stone_bottom",
+        "top": "aerialhell:block/slippery_sand_stone_bottom",
+        "side": "aerialhell:block/slippery_sand_stone_bottom"
+    }
+}

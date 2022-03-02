@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "aerialhell:block/magmatic_gel_slab" },
+        "type=top": { "model": "aerialhell:block/magmatic_gel_slab_top" },
+        "type=double": { "model": "aerialhell:block/magmatic_gel_block" }
+    }
+}

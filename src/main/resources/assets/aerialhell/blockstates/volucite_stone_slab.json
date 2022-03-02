@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "aerialhell:block/volucite_stone_slab" },
+        "type=top": { "model": "aerialhell:block/volucite_stone_slab_top" },
+        "type=double": { "model": "aerialhell:block/volucite_stone" }
+    }
+}

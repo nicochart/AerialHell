@@ -1,0 +1,15 @@
+{
+	"required": true,
+	"package": "fr.factionbedrock.aerialhell.Mixin",
+	"compatibilityLevel": "JAVA_8",
+	"refmap": "aerialhell.refmap.json",
+	"mixins":
+        [
+	      "ServerPlayNetHandlerMixin"
+	],
+  "client":
+        [
+	      "ClientPlayNetHandlerMixin"
+	], 
+  "minVersion": "0.8"
+}

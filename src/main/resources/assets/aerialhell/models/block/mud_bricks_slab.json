@@ -1,0 +1,8 @@
+{
+    "parent": "block/slab",
+    "textures": {
+        "bottom": "aerialhell:block/mud_bricks",
+        "top": "aerialhell:block/mud_bricks",
+        "side": "aerialhell:block/mud_bricks"
+    }
+}

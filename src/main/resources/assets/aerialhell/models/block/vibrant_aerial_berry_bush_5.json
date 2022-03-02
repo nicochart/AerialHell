@@ -1,0 +1,7 @@
+{
+    "parent": "block/cross",
+    "textures":
+    {
+        "cross": "aerialhell:block/vibrant_aerial_berry_bush_5"
+    }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "aerialhell:block/golden_beech_barrel_top_open",
+    "bottom": "aerialhell:block/golden_beech_barrel_bottom",
+    "side": "aerialhell:block/golden_beech_barrel_side"
+  }
+}

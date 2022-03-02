@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:freezing",
+  "ingredient": {
+    "item": "minecraft:water_bucket"
+  },
+  "result": "minecraft:ice",
+  "experience": 0.0,
+  "cookingtime": 500
+}

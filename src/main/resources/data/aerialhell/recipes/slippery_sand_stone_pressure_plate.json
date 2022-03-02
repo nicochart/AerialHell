@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:slippery_sand_stone"
+    }
+  },
+  "result": {
+    "item": "aerialhell:slippery_sand_stone_pressure_plate"
+  }
+}

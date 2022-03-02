@@ -1,0 +1,8 @@
+{
+    "parent": "block/outer_stairs",
+    "textures": {
+        "bottom": "aerialhell:block/cracked_golden_nether_bricks",
+        "top": "aerialhell:block/cracked_golden_nether_bricks",
+        "side": "aerialhell:block/cracked_golden_nether_bricks"
+    }
+}

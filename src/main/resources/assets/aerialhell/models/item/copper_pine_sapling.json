@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures":
+  {
+    "layer0": "aerialhell:block/copper_pine_sapling"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "aerialhell:block/vibrator_side",
+    "bottom": "aerialhell:block/vibrator_bottom",
+    "top": "aerialhell:block/vibrator_top"
+  }
+}
