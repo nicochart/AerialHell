@@ -257,5 +257,21 @@
   "item.aerialhell.music_disc_sweden_andreas_zoeller": "Sweden - Andreas Zoeller",
   "item.aerialhell.music_disc_sweden_andreas_zoeller.desc": "Sweden - Andreas Zoeller",
 
+  "item.aerialhell.ruby_sword" : "Épée en Rubis",
+  "item.aerialhell.ruby_hoe" : "Houe en Rubis",
+  "item.aerialhell.ruby_axe" : "Hache en Rubis",
+  "item.aerialhell.ruby_pickaxe" : "Pioche en Rubis",
+  "item.aerialhell.ruby_shovel" : "Pelle en Rubis",
+  "item.aerialhell.azurite_sword" : "Épée en Crystal d'Azurite",
+  "item.aerialhell.azurite_hoe" : "Houe en Crystal d'Azurite",
+  "item.aerialhell.azurite_axe" : "Hache en Crystal d'Azurite",
+  "item.aerialhell.azurite_pickaxe" : "Pioche en Crystal d'Azurite",
+  "item.aerialhell.azurite_shovel" : "Pelle en Crystal d'Azurite",
+  "item.aerialhell.volucite_sword" : "Épée en Volucite",
+  "item.aerialhell.volucite_hoe" : "Houe en Volucite",
+  "item.aerialhell.volucite_axe" : "Hache en Volucite",
+  "item.aerialhell.volucite_pickaxe" : "Pioche en Volucite",
+  "item.aerialhell.volucite_shovel" : "Pelle en Volucite",
+
   "entity.aerialhell.volucite_blowpipe_arrow": "Flèche de Sarbacane en Volucite"
 }

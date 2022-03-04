@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XX",
+    "X#",
+    " #"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:sky_stick"
+    },
+    "X": {
+      "item": "aerialhell:volucite_vibrant"
+    }
+  },
+  "result": {
+    "item": "aerialhell:volucite_axe"
+  }
+}

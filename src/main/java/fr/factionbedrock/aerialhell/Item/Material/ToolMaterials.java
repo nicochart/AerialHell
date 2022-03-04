@@ -1,0 +1,81 @@
+package fr.factionbedrock.aerialhell.Item.Material;
+
+
+import java.util.function.Supplier;
+
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.item.IItemTier;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.LazyValue;
+
+public class ToolMaterials
+{
+	public static final IItemTier ruby = new ToolMaterial
+	(
+		2, //Niveau de minage
+		250, //durabilité
+		6.0F, //efficacité
+		2.0F, //Dégats d'attaque
+		14, //Enchantabilité
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.RUBY.get()) //Ingrédient de réparation (Enclume)
+	);
+	
+	public static final IItemTier azurite = new ToolMaterial
+	(
+		0, //Niveau de minage
+		32, //durabilité
+		12.0F, //efficacité
+		0.0F, //Dégats d'attaque
+		22, //Enchantabilité
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.RUBY.get()) //Ingrédient de réparation (Enclume)
+	);
+	
+	public static final IItemTier volucite = new ToolMaterial
+	(
+		3, //Niveau de minage
+		1561, //durabilité
+		8.0F, //efficacité
+		3.0F, //Dégats d'attaque
+		10, //Enchantabilité
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.RUBY.get()) //Ingrédient de réparation (Enclume)
+	);
+	
+	private static class ToolMaterial implements IItemTier
+	{
+
+        private final int harvestLevel;
+        private final int maxUses;
+        private final float efficiency;
+        private final float attackDamage;
+        private final int enchantability;
+        private final LazyValue<Ingredient> repair;
+
+        public ToolMaterial(int harvestLevel, int maxUses, float efficiency, double attackDamage, int enchantability, Supplier<Ingredient> supplier)
+        {
+            this.harvestLevel = harvestLevel;
+            this.maxUses = maxUses;
+            this.efficiency = efficiency;
+            this.attackDamage = (float)attackDamage;
+            this.enchantability = enchantability;
+            this.repair = new LazyValue<Ingredient>(supplier);
+        }
+
+        @Override
+        public int getMaxUses() {return maxUses;}
+
+        @Override
+        public float getEfficiency() {return efficiency;}
+
+        @Override
+        public float getAttackDamage() {return attackDamage;}
+
+        @Override
+        public int getHarvestLevel() {return harvestLevel;}
+
+        @Override
+        public int getEnchantability() {return enchantability;}
+
+        @Override
+        public Ingredient getRepairMaterial() {return repair.getValue();}
+	}
+}

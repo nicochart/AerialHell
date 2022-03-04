@@ -257,5 +257,22 @@
   "item.aerialhell.music_disc_sweden_andreas_zoeller": "Sweden - Andreas Zoeller",
   "item.aerialhell.music_disc_sweden_andreas_zoeller.desc": "Sweden - Andreas Zoeller",
 
+
+  "item.aerialhell.ruby_sword" : "Ruby Sword",
+  "item.aerialhell.ruby_hoe" : "Ruby Hoe",
+  "item.aerialhell.ruby_axe" : "Ruby Axe",
+  "item.aerialhell.ruby_pickaxe" : "Ruby Pickaxe",
+  "item.aerialhell.ruby_shovel" : "Ruby Shovel",
+  "item.aerialhell.azurite_sword" : "Azurite Crystal Sword",
+  "item.aerialhell.azurite_hoe" : "Azurite Crystal Hoe",
+  "item.aerialhell.azurite_axe" : "Azurite Crystal Axe",
+  "item.aerialhell.azurite_pickaxe" : "Azurite Crystal Pickaxe",
+  "item.aerialhell.azurite_shovel" : "Azurite Crystal Shovel",
+  "item.aerialhell.volucite_sword" : "Volucite Sword",
+  "item.aerialhell.volucite_hoe" : "Volucite Hoe",
+  "item.aerialhell.volucite_axe" : "Volucite Axe",
+  "item.aerialhell.volucite_pickaxe" : "Volucite Pickaxe",
+  "item.aerialhell.volucite_shovel" : "Volucite Shovel",
+
   "entity.aerialhell.volucite_blowpipe_arrow": "Volucite Blowpipe Arrow"
 }
