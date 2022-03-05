@@ -72,7 +72,8 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
    
    public static boolean canSpawn(EntityType<FatPhantomEntity> type, IServerWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn)
    {
-	   return randomIn.nextInt(10) == 0 && worldIn.getWorld().isDaytime();
+	   //return randomIn.nextInt(10) == 0 && worldIn.getWorld().isDaytime(); //probleme : spawn en masse
+	   return false;
    }
    
    @Override

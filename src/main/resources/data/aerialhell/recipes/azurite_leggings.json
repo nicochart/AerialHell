@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "X X",
+    "X X"
+  ],
+  "key": {
+    "X": {
+      "item": "aerialhell:azurite_crystal"
+    }
+  },
+  "result": {
+    "item": "aerialhell:azurite_leggings"
+  }
+}

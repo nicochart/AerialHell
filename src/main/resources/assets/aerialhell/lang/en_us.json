@@ -274,5 +274,18 @@
   "item.aerialhell.volucite_pickaxe" : "Volucite Pickaxe",
   "item.aerialhell.volucite_shovel" : "Volucite Shovel",
 
+  "item.aerialhell.ruby_helmet" : "Ruby Helmet",
+  "item.aerialhell.ruby_chestplate" : "Ruby Chestplate",
+  "item.aerialhell.ruby_leggings" : "Ruby Leggings",
+  "item.aerialhell.ruby_boots" : "Ruby Boots",
+  "item.aerialhell.azurite_helmet" : "Azurite Crystal Helmet",
+  "item.aerialhell.azurite_chestplate" : "Azurite Crystal Chestplate",
+  "item.aerialhell.azurite_leggings" : "Azurite Crystal Leggings",
+  "item.aerialhell.azurite_boots" : "Azurite Crystal Boots",
+  "item.aerialhell.volucite_helmet" : "Volucite Helmet",
+  "item.aerialhell.volucite_chestplate" : "Volucite Chestplate",
+  "item.aerialhell.volucite_leggings" : "Volucite Leggings",
+  "item.aerialhell.volucite_boots" : "Volucite Boots",
+
   "entity.aerialhell.volucite_blowpipe_arrow": "Volucite Blowpipe Arrow"
 }

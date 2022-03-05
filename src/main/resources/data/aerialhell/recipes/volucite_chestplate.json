@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X X",
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "aerialhell:volucite_vibrant"
+    }
+  },
+  "result": {
+    "item": "aerialhell:volucite_chestplate"
+  }
+}

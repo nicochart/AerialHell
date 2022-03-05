@@ -273,5 +273,18 @@
   "item.aerialhell.volucite_pickaxe" : "Pioche en Volucite",
   "item.aerialhell.volucite_shovel" : "Pelle en Volucite",
 
+  "item.aerialhell.ruby_helmet" : "Casque en Rubis",
+  "item.aerialhell.ruby_chestplate" : "Plastron en Rubis",
+  "item.aerialhell.ruby_leggings" : "Jambières en Rubis",
+  "item.aerialhell.ruby_boots" : "Bottes en Rubis",
+  "item.aerialhell.azurite_helmet" : "Casque en Crystal d'Azurite",
+  "item.aerialhell.azurite_chestplate" : "Plastron en Crystal d'Azurite",
+  "item.aerialhell.azurite_leggings" : "Jambières en Crystal d'Azurite",
+  "item.aerialhell.azurite_boots" : "Bottes en Crystal d'Azurite",
+  "item.aerialhell.volucite_helmet" : "Casque en Volucite",
+  "item.aerialhell.volucite_chestplate" : "Plastron en Volucite",
+  "item.aerialhell.volucite_leggings" : "Jambières en Volucite",
+  "item.aerialhell.volucite_boots" : "Bottes",
+
   "entity.aerialhell.volucite_blowpipe_arrow": "Flèche de Sarbacane en Volucite"
 }

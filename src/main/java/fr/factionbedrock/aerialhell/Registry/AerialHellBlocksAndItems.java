@@ -32,6 +32,7 @@ import fr.factionbedrock.aerialhell.Item.FrozenAerialBerryItem;
 import fr.factionbedrock.aerialhell.Item.GoldenAercloudFragmentItem;
 import fr.factionbedrock.aerialhell.Item.GreenAercloudFragmentItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.*;
+import fr.factionbedrock.aerialhell.Item.Material.ArmorMaterials;
 import fr.factionbedrock.aerialhell.Item.Material.ToolMaterials;
 import fr.factionbedrock.aerialhell.Item.ThrowingKnife.DiamondThrowingKnifeItem;
 import fr.factionbedrock.aerialhell.Item.ThrowingKnife.LightningThrowingKnifeItem;
@@ -71,6 +72,7 @@ import net.minecraft.block.WallTorchBlock;
 import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -85,6 +87,7 @@ import net.minecraft.potion.Effects;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BlockNamedItem;
@@ -750,4 +753,20 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<SwordItem> RUBY_SWORD = ITEMS.register("ruby_sword", () -> new SwordItem(ToolMaterials.ruby, 3, -2.4F, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<SwordItem> AZURITE_SWORD = ITEMS.register("azurite_sword", () -> new SwordItem(ToolMaterials.azurite, 3, -2.4F, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<SwordItem> VOLUCITE_SWORD = ITEMS.register("volucite_sword", () -> new SwordItem(ToolMaterials.volucite, 3, -2.4F, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+
+    //armor
+    public static final RegistryObject<ArmorItem> RUBY_HELMET = ITEMS.register("ruby_helmet", () -> new ArmorItem(ArmorMaterials.ruby, EquipmentSlotType.HEAD, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<ArmorItem> RUBY_CHESTPLATE = ITEMS.register("ruby_chestplate", () -> new ArmorItem(ArmorMaterials.ruby, EquipmentSlotType.CHEST, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<ArmorItem> RUBY_LEGGINGS = ITEMS.register("ruby_leggings", () -> new ArmorItem(ArmorMaterials.ruby, EquipmentSlotType.LEGS, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<ArmorItem> RUBY_BOOTS = ITEMS.register("ruby_boots", () -> new ArmorItem(ArmorMaterials.ruby, EquipmentSlotType.FEET, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    
+    public static final RegistryObject<ArmorItem> AZURITE_HELMET = ITEMS.register("azurite_helmet", () -> new ArmorItem(ArmorMaterials.azurite, EquipmentSlotType.HEAD, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<ArmorItem> AZURITE_CHESTPLATE = ITEMS.register("azurite_chestplate", () -> new ArmorItem(ArmorMaterials.azurite, EquipmentSlotType.CHEST, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<ArmorItem> AZURITE_LEGGINGS = ITEMS.register("azurite_leggings", () -> new ArmorItem(ArmorMaterials.azurite, EquipmentSlotType.LEGS, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<ArmorItem> AZURITE_BOOTS = ITEMS.register("azurite_boots", () -> new ArmorItem(ArmorMaterials.azurite, EquipmentSlotType.FEET, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    
+    public static final RegistryObject<ArmorItem> VOLUCITE_HELMET = ITEMS.register("volucite_helmet", () -> new ArmorItem(ArmorMaterials.volucite, EquipmentSlotType.HEAD, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<ArmorItem> VOLUCITE_CHESTPLATE = ITEMS.register("volucite_chestplate", () -> new ArmorItem(ArmorMaterials.volucite, EquipmentSlotType.CHEST, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<ArmorItem> VOLUCITE_LEGGINGS = ITEMS.register("volucite_leggings", () -> new ArmorItem(ArmorMaterials.volucite, EquipmentSlotType.LEGS, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<ArmorItem> VOLUCITE_BOOTS = ITEMS.register("volucite_boots", () -> new ArmorItem(ArmorMaterials.volucite, EquipmentSlotType.FEET, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 }
