@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:magmatic_gel",
+    "aerialhell:magmatic_gel_block",
+    "aerialhell:magmatic_gel_wall",
+    "aerialhell:magmatic_gel_slab",
+    "aerialhell:magmatic_gel_stairs",
+    "aerialhell:magmatic_gel_sword",
+    "aerialhell:magmatic_gel_pickaxe",
+    "aerialhell:magmatic_gel_axe",
+    "aerialhell:magmatic_gel_shovel",
+    "aerialhell:magmatic_gel_hoe",
+    "aerialhell:magmatic_gel_helmet",
+    "aerialhell:magmatic_gel_chestplate",
+    "aerialhell:magmatic_gel_leggings",
+    "aerialhell:magmatic_gel_boots"
+  ]
+}

@@ -64,6 +64,8 @@ public class AerialHellTags
 		
 		public static final ITag.INamedTag<Item> AERIALHELL_PLANKS = tag("aerialhell_planks");
 		
+		public static final ITag.INamedTag<Item> MAGMATIC_GEL = tag("magmatic_gel");
+		
 		private static ITag.INamedTag<Item> tag(String name)
 		{
 			return ItemTags.makeWrapperTag(new ResourceLocation(AerialHell.MODID, name).toString());

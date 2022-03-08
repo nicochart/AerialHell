@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X X",
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "aerialhell:magmatic_gel"
+    }
+  },
+  "result": {
+    "item": "aerialhell:magmatic_gel_chestplate"
+  }
+}

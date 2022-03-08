@@ -267,6 +267,11 @@
   "item.aerialhell.azurite_axe" : "Hache en Crystal d'Azurite",
   "item.aerialhell.azurite_pickaxe" : "Pioche en Crystal d'Azurite",
   "item.aerialhell.azurite_shovel" : "Pelle en Crystal d'Azurite",
+  "item.aerialhell.magmatic_gel_sword" : "Épée en Gel Magmatique",
+  "item.aerialhell.magmatic_gel_hoe" : "Houe en Gel Magmatique",
+  "item.aerialhell.magmatic_gel_axe" : "Hache en Gel Magmatique",
+  "item.aerialhell.magmatic_gel_pickaxe" : "Pioche en Gel Magmatique",
+  "item.aerialhell.magmatic_gel_shovel" : "Pelle en Gel Magmatique",
   "item.aerialhell.volucite_sword" : "Épée en Volucite",
   "item.aerialhell.volucite_hoe" : "Houe en Volucite",
   "item.aerialhell.volucite_axe" : "Hache en Volucite",
@@ -281,10 +286,14 @@
   "item.aerialhell.azurite_chestplate" : "Plastron en Crystal d'Azurite",
   "item.aerialhell.azurite_leggings" : "Jambières en Crystal d'Azurite",
   "item.aerialhell.azurite_boots" : "Bottes en Crystal d'Azurite",
+  "item.aerialhell.magmatic_gel_helmet" : "Casque en Gel Magmatique",
+  "item.aerialhell.magmatic_gel_chestplate" : "Plastron en Gel Magmatique",
+  "item.aerialhell.magmatic_gel_leggings" : "Jambières en Gel Magmatique",
+  "item.aerialhell.magmatic_gel_boots" : "Bottes en Gel Magmatique",
   "item.aerialhell.volucite_helmet" : "Casque en Volucite",
   "item.aerialhell.volucite_chestplate" : "Plastron en Volucite",
   "item.aerialhell.volucite_leggings" : "Jambières en Volucite",
-  "item.aerialhell.volucite_boots" : "Bottes",
+  "item.aerialhell.volucite_boots" : "Bottes en Volucite",
 
   "entity.aerialhell.volucite_blowpipe_arrow": "Flèche de Sarbacane en Volucite"
 }

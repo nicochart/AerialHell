@@ -30,6 +30,16 @@ public class ToolMaterials
 		() -> Ingredient.fromItems(AerialHellBlocksAndItems.RUBY.get()) //Ingrédient de réparation (Enclume)
 	);
 	
+	public static final IItemTier magmatic_gel = new ToolMaterial
+	(
+		0, //Niveau de minage
+		32, //durabilité
+		12.0F, //efficacité
+		0.0F, //Dégats d'attaque
+		22, //Enchantabilité
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.MAGMATIC_GEL.get()) //Ingrédient de réparation (Enclume)
+	);
+	
 	public static final IItemTier volucite = new ToolMaterial
 	(
 		3, //Niveau de minage

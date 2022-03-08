@@ -39,6 +39,18 @@ public class ArmorMaterials
 		() -> Ingredient.fromItems(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //Matériaux de réparation
 	);
 	
+	public final static IArmorMaterial magmatic_gel = new ArmorMaterial
+	(
+		AerialHell.MODID + ":magmatic_gel", //Nom du matériau 
+		7, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
+		new int[] {1, 3, 5, 2}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
+		25, //Enchantabilité
+		SoundEvents.ITEM_ARMOR_EQUIP_GOLD, //Son lorsqu'on équipe
+		0.0F, //Robustesse
+		0.0F, //Resistance au recul
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.MAGMATIC_GEL.get()) //Matériaux de réparation
+	);
+	
 	public final static IArmorMaterial volucite = new ArmorMaterial
 	(
 		AerialHell.MODID + ":volucite", //Nom du matériau 
