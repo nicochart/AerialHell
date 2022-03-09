@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.item.IItemTier;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.LazyValue;
 
@@ -48,6 +49,16 @@ public class ToolMaterials
 		3.0F, //Dégats d'attaque
 		10, //Enchantabilité
 		() -> Ingredient.fromItems(AerialHellBlocksAndItems.RUBY.get()) //Ingrédient de réparation (Enclume)
+	);
+
+	public static final IItemTier arsonist = new ToolMaterial
+	(
+		4, //Niveau de minage
+		2031, //durabilité
+		9.0F, //efficacité
+		4.0F, //Dégats d'attaque
+		15, //Enchantabilité
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.ARSONIST_INGOT.get()) //Ingrédient de réparation (Enclume)
 	);
 	
 	private static class ToolMaterial implements IItemTier

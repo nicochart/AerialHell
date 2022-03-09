@@ -234,6 +234,8 @@
   "block.aerialhell.volucite_ore" : "Minerai de Volucite",
   "item.aerialhell.volucite_vibrant" : "Volucite Vibrante",
   "block.aerialhell.volucite_block" : "Bloc de Volucite",
+  "item.aerialhell.arsonist_ingot" : "Lingot Incendière",
+  "block.aerialhell.arsonist_block" : "Bloc Incendière",
   "item.aerialhell.aerial_berry" : "Baie Aérienne",
   "item.aerialhell.aerial_berry_seeds" : "Graines d'arbuste à Baies Aériennes",
   "item.aerialhell.vibrant_aerial_berry" : "Baie Aérienne Vibrante",
@@ -277,6 +279,11 @@
   "item.aerialhell.volucite_axe" : "Hache en Volucite",
   "item.aerialhell.volucite_pickaxe" : "Pioche en Volucite",
   "item.aerialhell.volucite_shovel" : "Pelle en Volucite",
+  "item.aerialhell.arsonist_sword" : "Épée Incendière",
+  "item.aerialhell.arsonist_hoe" : "Houe Incendière",
+  "item.aerialhell.arsonist_axe" : "Hache Incendière",
+  "item.aerialhell.arsonist_pickaxe" : "Pioche Incendière",
+  "item.aerialhell.arsonist_shovel" : "Pelle Incendière",
 
   "item.aerialhell.ruby_helmet" : "Casque en Rubis",
   "item.aerialhell.ruby_chestplate" : "Plastron en Rubis",
@@ -294,6 +301,10 @@
   "item.aerialhell.volucite_chestplate" : "Plastron en Volucite",
   "item.aerialhell.volucite_leggings" : "Jambières en Volucite",
   "item.aerialhell.volucite_boots" : "Bottes en Volucite",
+  "item.aerialhell.arsonist_helmet" : "Casque Incendière",
+  "item.aerialhell.arsonist_chestplate" : "Plastron Incendière",
+  "item.aerialhell.arsonist_leggings" : "Jambières Incendière",
+  "item.aerialhell.arsonist_boots" : "Bottes Incendière",
 
   "entity.aerialhell.volucite_blowpipe_arrow": "Flèche de Sarbacane en Volucite"
 }

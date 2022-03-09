@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "minecraft:netherite_boots"
+  },
+  "addition": {
+    "item": "aerialhell:arsonist_ingot"
+  },
+  "result": {
+    "item": "aerialhell:arsonist_boots"
+  }
+}

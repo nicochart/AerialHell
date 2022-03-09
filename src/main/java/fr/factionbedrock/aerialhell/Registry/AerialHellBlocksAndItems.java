@@ -16,6 +16,7 @@ import fr.factionbedrock.aerialhell.Block.AerialHellOreBlock;
 import fr.factionbedrock.aerialhell.Block.AerialHellSignBlock;
 import fr.factionbedrock.aerialhell.Block.AerialHellTallGrassBlock;
 import fr.factionbedrock.aerialhell.Block.AerialHellTrappedBlock;
+import fr.factionbedrock.aerialhell.Block.ArsonistBlock;
 import fr.factionbedrock.aerialhell.Block.VibratorBlock;
 import fr.factionbedrock.aerialhell.Block.ChestMimicBlock;
 import fr.factionbedrock.aerialhell.Block.CopperPineLeavesBlock;
@@ -420,6 +421,12 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> AZURITE_CRYSTAL = ITEMS.register("azurite_crystal", () -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> VOLUCITE_VIBRANT = ITEMS.register("volucite_vibrant", () -> new Item(new Item.Properties().rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
+	//legendary ores
+	public static final RegistryObject<Item> ARSONIST_INGOT = ITEMS.register("arsonist_ingot", () -> new Item(new Item.Properties().rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	
+	public static final RegistryObject<Block> ARSONIST_BLOCK = BLOCKS.register("arsonist_block", () -> new ArsonistBlock(AbstractBlock.Properties.from(Blocks.NETHERITE_BLOCK).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool().setLightLevel((state) -> 9)));
+	public static final RegistryObject<Item> ARSONIST_BLOCK_ITEM = ITEMS.register("arsonist_block", () -> new BlockItem(ARSONIST_BLOCK.get(), new Item.Properties().rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	
 	//cactus
 	public static final RegistryObject<SkyCactusBlock> SKY_CACTUS = BLOCKS.register("sky_cactus", () -> new SkyCactusBlock(AbstractBlock.Properties.create(Material.CACTUS, MaterialColor.CYAN).hardnessAndResistance(0.4F).sound(SoundType.CLOTH).harvestTool(ToolType.AXE).tickRandomly()));
 	public static final RegistryObject<Item> SKY_CACTUS_ITEM = ITEMS.register("sky_cactus", () -> new BlockItem(SKY_CACTUS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
@@ -737,27 +744,32 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<PickaxeItem> AZURITE_PICKAXE = ITEMS.register("azurite_pickaxe", () -> new PickaxeItem(ToolMaterials.azurite, 1, -2.8F, (new Item.Properties()).addToolType(ToolType.PICKAXE, ToolMaterials.azurite.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<PickaxeItem> MAGMATIC_GEL_PICKAXE = ITEMS.register("magmatic_gel_pickaxe", () -> new PickaxeItem(ToolMaterials.magmatic_gel, 1, -2.8F, (new Item.Properties()).addToolType(ToolType.PICKAXE, ToolMaterials.magmatic_gel.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<PickaxeItem> VOLUCITE_PICKAXE = ITEMS.register("volucite_pickaxe", () -> new PickaxeItem(ToolMaterials.volucite, 1, -2.8F, (new Item.Properties()).addToolType(ToolType.PICKAXE, ToolMaterials.volucite.getHarvestLevel()).rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<PickaxeItem> ARSONIST_PICKAXE = ITEMS.register("arsonist_pickaxe", () -> new PickaxeItem(ToolMaterials.arsonist, 1, -2.8F, (new Item.Properties()).addToolType(ToolType.PICKAXE, ToolMaterials.arsonist.getHarvestLevel()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     
     public static final RegistryObject<ShovelItem> RUBY_SHOVEL = ITEMS.register("ruby_shovel", () -> new ShovelItem(ToolMaterials.ruby, 1.5F, -3F, (new Item.Properties()).addToolType(ToolType.SHOVEL, ToolMaterials.ruby.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<ShovelItem> AZURITE_SHOVEL = ITEMS.register("azurite_shovel", () -> new ShovelItem(ToolMaterials.azurite, 1.5F, -3F, (new Item.Properties()).addToolType(ToolType.SHOVEL, ToolMaterials.azurite.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<ShovelItem> MAGMATIC_GEL_SHOVEL = ITEMS.register("magmatic_gel_shovel", () -> new ShovelItem(ToolMaterials.magmatic_gel, 1.5F, -3F, (new Item.Properties()).addToolType(ToolType.SHOVEL, ToolMaterials.magmatic_gel.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<ShovelItem> VOLUCITE_SHOVEL = ITEMS.register("volucite_shovel", () -> new ShovelItem(ToolMaterials.volucite, 1.5F, -3F, (new Item.Properties()).addToolType(ToolType.SHOVEL, ToolMaterials.volucite.getHarvestLevel()).rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<ShovelItem> ARSONIST_SHOVEL = ITEMS.register("arsonist_shovel", () -> new ShovelItem(ToolMaterials.arsonist, 1.5F, -3F, (new Item.Properties()).addToolType(ToolType.SHOVEL, ToolMaterials.arsonist.getHarvestLevel()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     
     public static final RegistryObject<AxeItem> RUBY_AXE = ITEMS.register("ruby_axe", () -> new AxeItem(ToolMaterials.ruby, 6, -3.1F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.ruby.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<AxeItem> AZURITE_AXE = ITEMS.register("azurite_axe", () -> new AxeItem(ToolMaterials.azurite, 6, -3.1F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.azurite.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<AxeItem> MAGMATIC_GEL_AXE = ITEMS.register("magmatic_gel_axe", () -> new AxeItem(ToolMaterials.magmatic_gel, 6, -3.1F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.magmatic_gel.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<AxeItem> VOLUCITE_AXE = ITEMS.register("volucite_axe", () -> new AxeItem(ToolMaterials.volucite, 6, -3.1F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.volucite.getHarvestLevel()).rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<AxeItem> ARSONIST_AXE = ITEMS.register("arsonist_axe", () -> new AxeItem(ToolMaterials.arsonist, 6, -3.1F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.arsonist.getHarvestLevel()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     
     public static final RegistryObject<HoeItem> RUBY_HOE = ITEMS.register("ruby_hoe", () -> new HoeItem(ToolMaterials.ruby, -3, 0.0F, (new Item.Properties()).addToolType(ToolType.HOE, ToolMaterials.ruby.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<HoeItem> AZURITE_HOE = ITEMS.register("azurite_hoe", () -> new HoeItem(ToolMaterials.azurite, -3, 0.0F, (new Item.Properties()).addToolType(ToolType.HOE, ToolMaterials.azurite.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<HoeItem> MAGMATIC_GEL_HOE = ITEMS.register("magmatic_gel_hoe", () -> new HoeItem(ToolMaterials.magmatic_gel, 0, 0.0F, (new Item.Properties()).addToolType(ToolType.HOE, ToolMaterials.magmatic_gel.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<HoeItem> VOLUCITE_HOE = ITEMS.register("volucite_hoe", () -> new HoeItem(ToolMaterials.volucite, -3, 0.0F, (new Item.Properties()).addToolType(ToolType.HOE, ToolMaterials.volucite.getHarvestLevel()).rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<HoeItem> ARSONIST_HOE = ITEMS.register("arsonist_hoe", () -> new HoeItem(ToolMaterials.arsonist, -1, 0.0F, (new Item.Properties()).addToolType(ToolType.HOE, ToolMaterials.arsonist.getHarvestLevel()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     
     //weapons
     public static final RegistryObject<SwordItem> RUBY_SWORD = ITEMS.register("ruby_sword", () -> new SwordItem(ToolMaterials.ruby, 3, -2.4F, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<SwordItem> AZURITE_SWORD = ITEMS.register("azurite_sword", () -> new SwordItem(ToolMaterials.azurite, 3, -2.4F, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<SwordItem> MAGMATIC_GEL_SWORD = ITEMS.register("magmatic_gel_sword", () -> new SwordItem(ToolMaterials.magmatic_gel, 3, -2.4F, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<SwordItem> VOLUCITE_SWORD = ITEMS.register("volucite_sword", () -> new SwordItem(ToolMaterials.volucite, 3, -2.4F, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<SwordItem> ARSONIST_SWORD = ITEMS.register("arsonist_sword", () -> new SwordItem(ToolMaterials.arsonist, 3, -2.4F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 
     //armor
     public static final RegistryObject<ArmorItem> RUBY_HELMET = ITEMS.register("ruby_helmet", () -> new ArmorItem(ArmorMaterials.ruby, EquipmentSlotType.HEAD, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
@@ -779,4 +791,9 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<ArmorItem> MAGMATIC_GEL_CHESTPLATE = ITEMS.register("magmatic_gel_chestplate", () -> new ArmorItem(ArmorMaterials.magmatic_gel, EquipmentSlotType.CHEST, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<ArmorItem> MAGMATIC_GEL_LEGGINGS = ITEMS.register("magmatic_gel_leggings", () -> new ArmorItem(ArmorMaterials.magmatic_gel, EquipmentSlotType.LEGS, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<ArmorItem> MAGMATIC_GEL_BOOTS = ITEMS.register("magmatic_gel_boots", () -> new ArmorItem(ArmorMaterials.magmatic_gel, EquipmentSlotType.FEET, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    
+    public static final RegistryObject<ArmorItem> ARSONIST_HELMET = ITEMS.register("arsonist_helmet", () -> new ArmorItem(ArmorMaterials.arsonist, EquipmentSlotType.HEAD, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<ArmorItem> ARSONIST_CHESTPLATE = ITEMS.register("arsonist_chestplate", () -> new ArmorItem(ArmorMaterials.arsonist, EquipmentSlotType.CHEST, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<ArmorItem> ARSONIST_LEGGINGS = ITEMS.register("arsonist_leggings", () -> new ArmorItem(ArmorMaterials.arsonist, EquipmentSlotType.LEGS, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<ArmorItem> ARSONIST_BOOTS = ITEMS.register("arsonist_boots", () -> new ArmorItem(ArmorMaterials.arsonist, EquipmentSlotType.FEET, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 }

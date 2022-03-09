@@ -234,6 +234,8 @@
   "block.aerialhell.volucite_ore" : "Volucite Ore",
   "item.aerialhell.volucite_vibrant" : "Vibrant Volucite",
   "block.aerialhell.volucite_block" : "Volucite Block",
+  "item.aerialhell.arsonist_ingot" : "Arsonist Ingot",
+  "block.aerialhell.arsonist_block" : "Arsonist Block",
   "item.aerialhell.aerial_berry" : "Aerial Berry",
   "item.aerialhell.aerial_berry_seeds" : "Aerial Berry Bush Seeds",
   "item.aerialhell.vibrant_aerial_berry" : "Vibrant Aerial Berry",
@@ -278,6 +280,11 @@
   "item.aerialhell.volucite_axe" : "Volucite Axe",
   "item.aerialhell.volucite_pickaxe" : "Volucite Pickaxe",
   "item.aerialhell.volucite_shovel" : "Volucite Shovel",
+  "item.aerialhell.arsonist_sword" : "Arsonist Sword",
+  "item.aerialhell.arsonist_hoe" : "Arsonist Hoe",
+  "item.aerialhell.arsonist_axe" : "Arsonist Axe",
+  "item.aerialhell.arsonist_pickaxe" : "Arsonist Pickaxe",
+  "item.aerialhell.arsonist_shovel" : "Arsonist Shovel",
 
   "item.aerialhell.ruby_helmet" : "Ruby Helmet",
   "item.aerialhell.ruby_chestplate" : "Ruby Chestplate",
@@ -295,6 +302,10 @@
   "item.aerialhell.volucite_chestplate" : "Volucite Chestplate",
   "item.aerialhell.volucite_leggings" : "Volucite Leggings",
   "item.aerialhell.volucite_boots" : "Volucite Boots",
+  "item.aerialhell.arsonist_helmet" : "Arsonist Helmet",
+  "item.aerialhell.arsonist_chestplate" : "Arsonist Chestplate",
+  "item.aerialhell.arsonist_leggings" : "Arsonist Leggings",
+  "item.aerialhell.arsonist_boots" : "Arsonist Boots",
 
   "entity.aerialhell.volucite_blowpipe_arrow": "Volucite Blowpipe Arrow"
 }

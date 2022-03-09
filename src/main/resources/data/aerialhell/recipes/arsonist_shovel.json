@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "#",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:sky_stick"
+    },
+    "X": {
+      "item": "aerialhell:arsonist_ingot"
+    }
+  },
+  "result": {
+    "item": "aerialhell:arsonist_shovel"
+  }
+}
