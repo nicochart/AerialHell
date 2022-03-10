@@ -11,6 +11,8 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
+
 public abstract class AerialHellHostileEntity extends MonsterEntity {
 
     protected AerialHellHostileEntity(EntityType<? extends MonsterEntity> type, World worldIn) {super(type, worldIn);}
@@ -29,6 +31,13 @@ public abstract class AerialHellHostileEntity extends MonsterEntity {
 
     public static boolean canHostileEntitySpawn(EntityType<? extends MonsterEntity> type, IServerWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn)
     {
-        return randomIn.nextInt(10) == 0 && canMonsterSpawnInLight(type, worldIn, reason, pos, randomIn);
+        if (type == AerialHellEntities.CRYSTAL_SPIDER_TYPE)
+        {
+        	return randomIn.nextInt(10) == 0 && canMonsterSpawnInLight(type, worldIn, reason, pos, randomIn);
+        }
+        else
+        {
+        	return randomIn.nextInt(40) == 0 && canMonsterSpawnInLight(type, worldIn, reason, pos, randomIn);
+        }
     }
 }

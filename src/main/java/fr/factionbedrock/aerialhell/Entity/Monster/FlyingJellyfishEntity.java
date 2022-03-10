@@ -110,12 +110,7 @@ public class FlyingJellyfishEntity extends FlyingEntity implements IMob
 
 	public static boolean canJellyfishSpawn(EntityType<? extends FlyingJellyfishEntity> jellyfish, IWorld worldIn, SpawnReason reason,	BlockPos pos, Random random)
 	{
-		AxisAlignedBB boundingBox = new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 4, pos.getY() + 4, pos.getZ() + 4);
-		return worldIn.getDifficulty() != Difficulty.PEACEFUL && random.nextInt(65) == 0 &&
-			   worldIn.getEntitiesWithinAABB(FlyingJellyfishEntity.class, boundingBox).size() == 0 &&
-			   worldIn.getBiome(pos).equals(AerialHellBiomes.AERIAL_TREE_FOREST) &&
-			   !worldIn.containsAnyLiquid(boundingBox) && worldIn.getLight(pos) > 8 &&
-			   canSpawnOn(jellyfish, worldIn, reason, pos, random);
+		return worldIn.getDifficulty() != Difficulty.PEACEFUL && random.nextInt(15) == 0 && canSpawnOn(jellyfish, worldIn, reason, pos, random);
 	}
 
 	/* Same as net.minecraft.entity.monster.GhastEntity.FireballAttackGoal but changed GhastEntity to FlyingJellyfishEntity */

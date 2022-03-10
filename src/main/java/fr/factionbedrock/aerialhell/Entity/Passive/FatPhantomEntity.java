@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityPredicate;
@@ -45,6 +46,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
@@ -72,8 +74,7 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
    
    public static boolean canSpawn(EntityType<FatPhantomEntity> type, IServerWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn)
    {
-	   //return randomIn.nextInt(10) == 0 && worldIn.getWorld().isDaytime(); //probleme : spawn en masse
-	   return false;
+	   return worldIn.getDifficulty() != Difficulty.PEACEFUL && worldIn.getWorld().isDaytime() && randomIn.nextInt(120) == 0 && canSpawnOn(type, worldIn, reason, pos, randomIn);
    }
    
    @Override
@@ -267,6 +268,10 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
    {
       this.orbitPosition = this.getPosition().up(6);
       this.setPhantomSize(12);
+      if (worldIn.getBlockState(this.getPosition().up()).getBlock() == Blocks.AIR)
+      {
+    	  this.moveToBlockPosAndAngles(this.getPosition().up(), this.rotationYaw, this.rotationPitch);
+      }
       this.timeDisappearing = 0; this.setDisappearing(false);
       return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
    }
