@@ -22,7 +22,7 @@ public class EffectTotemItem extends Item
 	
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
-		if (timer <= 0)
+		if (!worldIn.isRemote && timer <= 0)
 		{
 			if (entityIn instanceof LivingEntity)
 			{
@@ -64,6 +64,9 @@ public class EffectTotemItem extends Item
 			}
 			timer = 300;
 		}
-		timer--;
+		else if (timer > -10)
+		{
+			timer--;
+		}
 	}
 }
