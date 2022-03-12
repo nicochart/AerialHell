@@ -256,6 +256,7 @@
   "item.aerialhell.ruby_water_bucket" : "Aerial Tree water Bucket",
   "item.aerialhell.ruby_milk_bucket" : "Aerial Tree milk Bucket",
   "effect.aerialhell.head_in_the_clouds" : "Head in the Clouds",
+  "effect.aerialhell.god" : "God Effect",
   "item.aerialhell.music_disc_sweden_andreas_zoeller": "Sweden - Andreas Zoeller",
   "item.aerialhell.music_disc_sweden_andreas_zoeller.desc": "Sweden - Andreas Zoeller",
 
@@ -306,6 +307,14 @@
   "item.aerialhell.arsonist_chestplate" : "Arsonist Chestplate",
   "item.aerialhell.arsonist_leggings" : "Arsonist Leggings",
   "item.aerialhell.arsonist_boots" : "Arsonist Boots",
+
+  "item.aerialhell.regeneration_totem" : "Regeneration Totem",
+  "item.aerialhell.speed_totem" : "Speed Totem",
+  "item.aerialhell.night_vision_totem" : "Night Vision Totem",
+  "item.aerialhell.agility_totem" : "Agility Totem",
+  "item.aerialhell.hero_totem" : "Hero Totem",
+  "item.aerialhell.god_totem" : "Gods Totem",
+  "item.aerialhell.cursed_totem" : "Cursed Totem",
 
   "entity.aerialhell.volucite_blowpipe_arrow": "Volucite Blowpipe Arrow"
 }

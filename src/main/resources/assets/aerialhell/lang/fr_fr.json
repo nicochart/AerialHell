@@ -256,6 +256,7 @@
   "item.aerialhell.ruby_water_bucket" : "Seau d'eau",
   "item.aerialhell.ruby_milk_bucket" : "Seau de lait",
   "effect.aerialhell.head_in_the_clouds" : "Tête dans les Nuages",
+  "effect.aerialhell.god" : "Effet des Dieux",
   "item.aerialhell.music_disc_sweden_andreas_zoeller": "Sweden - Andreas Zoeller",
   "item.aerialhell.music_disc_sweden_andreas_zoeller.desc": "Sweden - Andreas Zoeller",
 
@@ -305,6 +306,14 @@
   "item.aerialhell.arsonist_chestplate" : "Plastron Incendière",
   "item.aerialhell.arsonist_leggings" : "Jambières Incendière",
   "item.aerialhell.arsonist_boots" : "Bottes Incendière",
+
+  "item.aerialhell.regeneration_totem" : "Totem de Régénération",
+  "item.aerialhell.speed_totem" : "Totem de Rapidité",
+  "item.aerialhell.night_vision_totem" : "Totem de Vision Nocturne",
+  "item.aerialhell.agility_totem" : "Totem d'Agilité",
+  "item.aerialhell.hero_totem" : "Totem du Hero",
+  "item.aerialhell.god_totem" : "Totem des Dieux",
+  "item.aerialhell.cursed_totem" : "Totem Maudit",
 
   "entity.aerialhell.volucite_blowpipe_arrow": "Flèche de Sarbacane en Volucite"
 }

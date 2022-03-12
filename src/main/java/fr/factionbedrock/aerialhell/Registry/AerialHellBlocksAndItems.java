@@ -32,6 +32,7 @@ import fr.factionbedrock.aerialhell.Item.GoldenNetherMeatItem;
 import fr.factionbedrock.aerialhell.Item.FrozenAerialBerryItem;
 import fr.factionbedrock.aerialhell.Item.GoldenAercloudFragmentItem;
 import fr.factionbedrock.aerialhell.Item.GreenAercloudFragmentItem;
+import fr.factionbedrock.aerialhell.Item.EffectTotemItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.*;
 import fr.factionbedrock.aerialhell.Item.Material.ArmorMaterials;
 import fr.factionbedrock.aerialhell.Item.Material.ToolMaterials;
@@ -796,4 +797,13 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<ArmorItem> ARSONIST_CHESTPLATE = ITEMS.register("arsonist_chestplate", () -> new ArmorItem(ArmorMaterials.arsonist, EquipmentSlotType.CHEST, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<ArmorItem> ARSONIST_LEGGINGS = ITEMS.register("arsonist_leggings", () -> new ArmorItem(ArmorMaterials.arsonist, EquipmentSlotType.LEGS, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<ArmorItem> ARSONIST_BOOTS = ITEMS.register("arsonist_boots", () -> new ArmorItem(ArmorMaterials.arsonist, EquipmentSlotType.FEET, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+
+    //effect totems
+    public static final RegistryObject<Item> REGENERATION_TOTEM = ITEMS.register("regeneration_totem", () -> new EffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<Item> SPEED_TOTEM = ITEMS.register("speed_totem", () -> new EffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<Item> NIGHT_VISION_TOTEM = ITEMS.register("night_vision_totem", () -> new EffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<Item> AGILITY_TOTEM = ITEMS.register("agility_totem", () -> new EffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<Item> HERO_TOTEM = ITEMS.register("hero_totem", () -> new EffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<Item> GOD_TOTEM = ITEMS.register("god_totem", () -> new EffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<Item> CURSED_TOTEM = ITEMS.register("cursed_totem", () -> new EffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION))); 
 }
