@@ -5,7 +5,6 @@ import java.util.function.Supplier;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.item.IItemTier;
-import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.LazyValue;
 
@@ -28,7 +27,7 @@ public class ToolMaterials
 		12.0F, //efficacité
 		0.0F, //Dégats d'attaque
 		22, //Enchantabilité
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.RUBY.get()) //Ingrédient de réparation (Enclume)
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //Ingrédient de réparation (Enclume)
 	);
 	
 	public static final IItemTier magmatic_gel = new ToolMaterial
@@ -48,7 +47,17 @@ public class ToolMaterials
 		8.0F, //efficacité
 		3.0F, //Dégats d'attaque
 		10, //Enchantabilité
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.RUBY.get()) //Ingrédient de réparation (Enclume)
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.VOLUCITE_VIBRANT.get()) //Ingrédient de réparation (Enclume)
+	);
+	
+	public static final IItemTier heavy = new ToolMaterial
+	(
+		3, //Niveau de minage
+		1561, //durabilité
+		8.0F, //efficacité
+		6.0F, //Dégats d'attaque
+		10, //Enchantabilité
+		null //Ingrédient de réparation (Enclume)
 	);
 
 	public static final IItemTier arsonist = new ToolMaterial

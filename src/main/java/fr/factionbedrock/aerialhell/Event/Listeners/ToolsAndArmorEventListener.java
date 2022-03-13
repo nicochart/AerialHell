@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Event.Listeners;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -68,6 +69,10 @@ public class ToolsAndArmorEventListener
 					{
 						event.setAmount(amount * 1.5F); //damage bonus when on fire
 					}
+				}
+				else if (mainHandItem == AerialHellBlocksAndItems.GOD_SWORD.get()) //source (player) attacking LivingEntity with god sword
+				{
+					target.setFire(5);
 				}
 			}
 			else

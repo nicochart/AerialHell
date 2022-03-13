@@ -287,6 +287,11 @@
   "item.aerialhell.arsonist_pickaxe" : "Arsonist Pickaxe",
   "item.aerialhell.arsonist_shovel" : "Arsonist Shovel",
 
+  "item.aerialhell.heavy_sword" : "Heavy Sword",
+  "item.aerialhell.health_boost_sword" : "Health Boost Sword",
+  "item.aerialhell.ninja_sword" : "Ninja Sword",
+  "item.aerialhell.god_sword" : "Gods Sword",
+
   "item.aerialhell.ruby_helmet" : "Ruby Helmet",
   "item.aerialhell.ruby_chestplate" : "Ruby Chestplate",
   "item.aerialhell.ruby_leggings" : "Ruby Leggings",
