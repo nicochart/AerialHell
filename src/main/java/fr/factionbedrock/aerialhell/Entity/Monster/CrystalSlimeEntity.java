@@ -15,11 +15,13 @@ import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.loot.LootTables;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityPredicates;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
@@ -121,5 +123,11 @@ public class CrystalSlimeEntity extends SlimeEntity
 	{
 		this.removed = true;
 		super.remove(keepData);
+	}
+	
+	@Override
+	protected ResourceLocation getLootTable()
+	{
+		return this.getType().getLootTable();
 	}
 }

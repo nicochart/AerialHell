@@ -9,6 +9,7 @@ import fr.factionbedrock.aerialhell.World.GenAerialHellOres;
 import fr.factionbedrock.aerialhell.World.Features.AerialHellLakeFeature;
 import fr.factionbedrock.aerialhell.World.Features.BlueSolidEtherCloudFeature;
 import fr.factionbedrock.aerialhell.World.Features.BushPotFeature;
+import fr.factionbedrock.aerialhell.World.Features.CrystalBlobFeature;
 import fr.factionbedrock.aerialhell.World.Features.GoldenSolidEtherCloudFeature;
 import fr.factionbedrock.aerialhell.World.Features.GreenSolidEtherCloudFeature;
 import fr.factionbedrock.aerialhell.World.Features.SkyCactusFeature;
@@ -126,6 +127,7 @@ public class AerialHellFeatures
     public static ConfiguredFeature<?, ?> SLIPPERY_SAND_SOLID_ETHER = new SlipperySandSolidEtherFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(20);
     
     public static ConfiguredFeature<?, ?> SLIPPERY_SAND = new SlipperySandFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(20);
+    public static ConfiguredFeature<?, ?> CRYSTAL_BLOB = new CrystalBlobFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(10);
     
     /*
     .withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT) = placement basique
@@ -174,6 +176,7 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "slippery_sand_solid_ether"), SLIPPERY_SAND_SOLID_ETHER);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "slippery_sand"), SLIPPERY_SAND);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "crystal_blob"), CRYSTAL_BLOB);
         
         FlatGenerationSettings.STRUCTURES.put(AerialHellStructures.BIG_SOLID_ETHER_CLOUD_STRUCTURE.get(), CONFIGURED_BIG_SOLID_ETHER_CLOUD_STRUCTURE);
     }

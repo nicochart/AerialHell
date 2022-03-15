@@ -95,6 +95,8 @@
   "block.aerialhell.mossy_stellar_stone_slab" : "Mossy Stellar Stone Slab",
   "block.aerialhell.mossy_stellar_stone_stairs" : "Mossy Stellar Stone Stairs",
   "block.aerialhell.mossy_stellar_stone_wall" : "Mossy Stellar Stone Wall",
+  "block.aerialhell.crystal_block" : "Crystal Block",
+  "item.aerialhell.crystal" : "Crystal",
   "block.aerialhell.stellar_dirt" : "Stellar Dirt",
   "block.aerialhell.chiseled_stellar_dirt" : "Chiseled Stellar Dirt",
   "block.aerialhell.stellar_grass_block" : "Stellar Grass Block",

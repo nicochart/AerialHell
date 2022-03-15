@@ -62,6 +62,8 @@ public class AerialHellSetup
     {
 		VibratorTileEntity.addItemVibrationTime(AerialHellBlocksAndItems.FLUORITE.get(), 600);
 		VibratorTileEntity.addItemVibrationTime(AerialHellBlocksAndItems.FLUORITE_BLOCK_ITEM.get(), 5400);
+		VibratorTileEntity.addItemVibrationTime(AerialHellBlocksAndItems.CRYSTAL.get(), 150);
+		VibratorTileEntity.addItemVibrationTime(AerialHellBlocksAndItems.CRYSTAL_BLOCK_ITEM.get(), 600);
 		FreezerTileEntity.addItemFreezingTime(AerialHellBlocksAndItems.MAGMATIC_GEL.get(), 600);
 		FreezerTileEntity.addItemFreezingTime(AerialHellBlocksAndItems.MAGMATIC_GEL_BLOCK_ITEM.get(), 5400);
 	}
