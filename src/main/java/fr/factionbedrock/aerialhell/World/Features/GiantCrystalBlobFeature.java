@@ -7,6 +7,7 @@ import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
@@ -14,9 +15,9 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 
-public class CrystalBlobFeature extends Feature<NoFeatureConfig>
+public class GiantCrystalBlobFeature extends Feature<NoFeatureConfig>
 {
-	public CrystalBlobFeature(Codec<NoFeatureConfig> p_i231956_1_)
+	public GiantCrystalBlobFeature(Codec<NoFeatureConfig> p_i231956_1_)
 	{
 		super(p_i231956_1_);
 	}
@@ -34,19 +35,24 @@ public class CrystalBlobFeature extends Feature<NoFeatureConfig>
 		    else
 		    {
 		    	reader.setBlockState(pos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().getDefaultState(), 2);
-
-		        for(int i = 0; i < 1700; ++i)
+		    	
+		    	BlockPos blockpos;
+		        for(int i = 0; i < 3000; ++i)
 		        {
-		        	BlockPos blockpos;
-		        	if (i < 1400)
+		        	
+		        	if (i < 1000)
 		        	{
-		        		blockpos = pos.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(12), rand.nextInt(8) - rand.nextInt(8));
+		        		blockpos = pos.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(6), rand.nextInt(8) - rand.nextInt(8));
+		        	}
+		        	else if (i < 1500)
+		        	{
+		        		blockpos = pos.add(rand.nextInt(7) - rand.nextInt(7), 6 + rand.nextInt(6), rand.nextInt(7) - rand.nextInt(7));
 		        	}
 		        	else
 		        	{
-		        		blockpos = pos.add(rand.nextInt(9) - rand.nextInt(9), - rand.nextInt(3), rand.nextInt(9) - rand.nextInt(9));
+		        		blockpos = pos.add(rand.nextInt(9) - rand.nextInt(9), rand.nextInt(4) - rand.nextInt(8), rand.nextInt(9) - rand.nextInt(9));
 		        	}
-		            if (reader.getBlockState(blockpos).isAir(reader, blockpos))
+		            if (reader.getBlockState(blockpos).isIn(Blocks.AIR) || reader.getBlockState(blockpos).isIn(AerialHellTags.Blocks.STELLAR_DIRT) || reader.getBlockState(blockpos).isIn(AerialHellTags.Blocks.STELLAR_STONE))
 		            {
 			            int j = 0;
 	
@@ -60,11 +66,19 @@ public class CrystalBlobFeature extends Feature<NoFeatureConfig>
 				            if (j > 1) {break;}
 			            }
 	
-			            if (j == 1)
+			            if (j == 1 || j == 2 && rand.nextInt(25) == 0)
 			            {
 			            	reader.setBlockState(blockpos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().getDefaultState(), 2);
 			            }
 		            }
+		        }
+		        for(int i = 0; i < 100; ++i)
+		        {
+		        	blockpos = pos.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(12), rand.nextInt(8) - rand.nextInt(8));
+		        	if (reader.getBlockState(blockpos).isIn(Blocks.AIR) && (reader.getBlockState(blockpos.down()).isIn(AerialHellBlocksAndItems.CRYSTAL_BLOCK.get())))
+		        	{
+		        		reader.setBlockState(blockpos, AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get().getDefaultState(), 2);
+		        	}
 		        }
 
 		    return true;

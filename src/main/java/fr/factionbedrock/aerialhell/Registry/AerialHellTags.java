@@ -76,7 +76,7 @@ public class AerialHellTags
 	
 	public static class Fluids
 	{
-		public static final ITag.INamedTag<Fluid> FREEZABLE_TO_MAGMATIC_GEL = tag("freezable_to_magmatic_gel");
+		public static final ITag.INamedTag<Fluid> CRYSTALLIZABLE = tag("crystallizable");
 
 		private static ITag.INamedTag<Fluid> tag(String name)
 		{

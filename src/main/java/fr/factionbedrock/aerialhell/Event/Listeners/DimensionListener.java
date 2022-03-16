@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.Mod;
 public class DimensionListener
 {
     @SubscribeEvent
-    public static void onNeighborNotified(BlockEvent.NeighborNotifyEvent event)
+    public static void onBlockEvent(BlockEvent.NeighborNotifyEvent event)
     {
         if (event.getWorld() instanceof World)
         {
@@ -26,29 +26,36 @@ public class DimensionListener
             BlockPos pos = event.getPos();
             FluidState fluidstate = world.getFluidState(pos);
             BlockState blockstate = world.getBlockState(pos);
-            if (world.getDimensionKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION && fluidstate.getFluid().isIn(AerialHellTags.Fluids.FREEZABLE_TO_MAGMATIC_GEL))
+            if (world.getDimensionKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION)
             {
-                world.setBlockState(pos, AerialHellBlocksAndItems.MAGMATIC_GEL_BLOCK.get().getDefaultState());
-                world.playSound(null, event.getPos(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                event.setCanceled(true);
-            }
-            else if (world.getDimensionKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION && (blockstate.getBlock().equals(Blocks.MAGMA_BLOCK)))
-            {
-            	world.setBlockState(pos, AerialHellBlocksAndItems.MAGMATIC_GEL_ORE.get().getDefaultState());
-            	world.playSound(null, event.getPos(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
-            	event.setCanceled(true);
-            }
-            else if (world.getDimensionKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION && (blockstate.getBlock().equals(Blocks.FIRE) || blockstate.getBlock().equals(Blocks.SOUL_FIRE)))
-            {
-            	world.setBlockState(pos, Blocks.AIR.getDefaultState());
-            	world.playSound(null, event.getPos(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
-            	event.setCanceled(true);
-            }
-            else if (world.getDimensionKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION && (blockstate.getBlock().equals(Blocks.TORCH) || blockstate.getBlock().equals(Blocks.WALL_TORCH)))
-            {
-            	world.destroyBlock(pos, true);
-            	world.playSound(null, event.getPos(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
-            	event.setCanceled(true);
+	            if (fluidstate.getFluid().isIn(AerialHellTags.Fluids.CRYSTALLIZABLE))
+	            {
+	                world.setBlockState(pos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().getDefaultState());
+	                world.playSound(null, event.getPos(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+	                event.setCanceled(true);
+	            }
+	            else if (blockstate.getBlock().equals(Blocks.MAGMA_BLOCK))
+	            {
+	            	world.setBlockState(pos, AerialHellBlocksAndItems.MAGMATIC_GEL_ORE.get().getDefaultState());
+	            	world.playSound(null, event.getPos(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+	            	event.setCanceled(true);
+	            }
+	            else if (blockstate.getBlock().equals(Blocks.FIRE) || blockstate.getBlock().equals(Blocks.SOUL_FIRE))
+	            {
+	            	world.setBlockState(pos, AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get().getDefaultState());
+	            	world.playSound(null, event.getPos(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+	            	if (world.getBlockState(pos.down()).getBlock() == Blocks.AIR)
+	            	{
+	            		world.destroyBlock(pos, true);
+	            	}
+	            	event.setCanceled(true);
+	            }
+	            else if (blockstate.getBlock().equals(Blocks.TORCH) || blockstate.getBlock().equals(Blocks.WALL_TORCH))
+	            {
+	            	world.destroyBlock(pos, true);
+	            	world.playSound(null, event.getPos(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+	            	event.setCanceled(true);
+	            }
             }
         }
     }

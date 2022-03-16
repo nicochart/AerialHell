@@ -27,6 +27,8 @@ public class AerialHellBiomes
     public static final RegistryKey<Biome> COPPER_PINE_FOREST = register("copper_pine_forest");
     //Plaine de Crystal
   	public static final RegistryKey<Biome> CRYSTAL_PLAINS = register("crystal_plains");
+    //Plaine de Crystal
+  	public static final RegistryKey<Biome> CRYSTAL_FOREST = register("crystal_forest");
     
     public static void toDictionary()
     {
@@ -35,6 +37,7 @@ public class AerialHellBiomes
         BiomeDictionary.addTypes(AERIAL_TREE_FOREST, BiomeDictionary.Type.HOT, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.WET, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.FOREST);
         BiomeDictionary.addTypes(COPPER_PINE_FOREST, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.WET, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.FOREST);
         BiomeDictionary.addTypes(CRYSTAL_PLAINS, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.PLAINS);
+        BiomeDictionary.addTypes(CRYSTAL_FOREST, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.DENSE);
     }    
 	
 	private static ResourceLocation name(String name)

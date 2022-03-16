@@ -1,0 +1,14 @@
+{
+  "multipart": [
+    {
+      "apply": [
+        {
+          "model": "aerialhell:block/crystallized_fire_floor0"
+        },
+        {
+          "model": "aerialhell:block/crystallized_fire_floor1"
+        }
+      ]
+    }
+  ]
+}

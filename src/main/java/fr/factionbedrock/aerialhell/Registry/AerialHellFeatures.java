@@ -10,6 +10,8 @@ import fr.factionbedrock.aerialhell.World.Features.AerialHellLakeFeature;
 import fr.factionbedrock.aerialhell.World.Features.BlueSolidEtherCloudFeature;
 import fr.factionbedrock.aerialhell.World.Features.BushPotFeature;
 import fr.factionbedrock.aerialhell.World.Features.CrystalBlobFeature;
+import fr.factionbedrock.aerialhell.World.Features.CrystallizedFireFeature;
+import fr.factionbedrock.aerialhell.World.Features.GiantCrystalBlobFeature;
 import fr.factionbedrock.aerialhell.World.Features.GoldenSolidEtherCloudFeature;
 import fr.factionbedrock.aerialhell.World.Features.GreenSolidEtherCloudFeature;
 import fr.factionbedrock.aerialhell.World.Features.SkyCactusFeature;
@@ -94,6 +96,14 @@ public class AerialHellFeatures
 			    new FancyTrunkPlacer(3, 11, 0),
 			    new TwoLayerFeature(0, 0, 0, OptionalInt.of(4))
 			    	)).setIgnoreVines().func_236702_a_(Heightmap.Type.MOTION_BLOCKING).build();
+		
+		public static final BaseTreeFeatureConfig CRYSTALLIZED_TREE_BASIC_CONFIG = (new BaseTreeFeatureConfig.Builder(
+			    new SimpleBlockStateProvider(AerialHellBlocksAndItems.AERIAL_TREE_LOG.get().getDefaultState()),
+			    new SimpleBlockStateProvider(AerialHellBlocksAndItems.CRYSTALLIZED_LEAVES.get().getDefaultState()),
+			    new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3), //rayon,décalage,hauteur		func_242252_a()=fixed()
+			    new StraightTrunkPlacer(4, 2, 0), //hauteur de base, randomizer1, randomizer2
+			    new TwoLayerFeature(1, 0, 1)
+			    	)).setIgnoreVines().build();
 			    
 	}
 	
@@ -116,6 +126,7 @@ public class AerialHellFeatures
     public static ConfiguredFeature<?, ?> COPPER_PINE_FOREST = Feature.TREE.withConfiguration(Configs.COPPER_PINE_CONFIG).range(256).square().func_242731_b(8);
     public static ConfiguredFeature<?, ?> GOLDEN_BEECH_RARE = Feature.TREE.withConfiguration(Configs.GOLDEN_BEECH_CONFIG).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(0, 0.01F, 1)));
     public static ConfiguredFeature<?, ?> GOLDEN_BEECH_BASIC = Feature.TREE.withConfiguration(Configs.GOLDEN_BEECH_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
+    public static ConfiguredFeature<?, ?> CRYSTALLIZED_TREE_BASIC = Feature.TREE.withConfiguration(Configs.CRYSTALLIZED_TREE_BASIC_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     
     public static ConfiguredFeature<?, ?> SKY_CACTUS_PLAIN = new SkyCactusFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(50);
     public static ConfiguredFeature<?, ?> SKY_CACTUS_OCEAN = new SkyCactusFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(25);
@@ -128,6 +139,8 @@ public class AerialHellFeatures
     
     public static ConfiguredFeature<?, ?> SLIPPERY_SAND = new SlipperySandFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(20);
     public static ConfiguredFeature<?, ?> CRYSTAL_BLOB = new CrystalBlobFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(10);
+    public static ConfiguredFeature<?, ?> CRYSTALLIZED_FIRE = new CrystallizedFireFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
+    public static ConfiguredFeature<?, ?> GIANT_CRYSTAL_BLOB = new GiantCrystalBlobFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     
     /*
     .withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT) = placement basique
@@ -165,6 +178,7 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "copper_pine_forest"), COPPER_PINE_FOREST);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "golden_beech_rare"), GOLDEN_BEECH_RARE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "golden_beech_basic"), GOLDEN_BEECH_BASIC);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "crystallized_tree_basic"), CRYSTALLIZED_TREE_BASIC);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "sky_cactus_plain"), SKY_CACTUS_PLAIN);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "sky_cactus_ocean"), SKY_CACTUS_OCEAN);
@@ -177,6 +191,8 @@ public class AerialHellFeatures
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "slippery_sand"), SLIPPERY_SAND);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "crystal_blob"), CRYSTAL_BLOB);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "cristallized_fire"), CRYSTALLIZED_FIRE);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_crystal_blob"), GIANT_CRYSTAL_BLOB);
         
         FlatGenerationSettings.STRUCTURES.put(AerialHellStructures.BIG_SOLID_ETHER_CLOUD_STRUCTURE.get(), CONFIGURED_BIG_SOLID_ETHER_CLOUD_STRUCTURE);
     }

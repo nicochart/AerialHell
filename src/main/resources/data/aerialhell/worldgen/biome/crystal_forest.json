@@ -7,19 +7,13 @@
   "temperature_modifier": "none",
   "downfall": 0.0,
   "effects": {
-    "fog_color": 9214845,
-    "sky_color": 11190677,
-    "water_color": 6925200,
-    "water_fog_color": 7253909,
+    "fog_color": 14864608,
+    "sky_color": 14197459,
+    "water_color": 7091883,
+    "water_fog_color": 4992114,
     "grass_color": 11665355,
     "foliage_color": 11665355,
-    "grass_color_modifier": "none",
-    "particle": {
-      "options": {
-        "type": "aerialhell:copper_pine_leaves"
-      },
-      "probability" : 0.02
-    }
+    "grass_color_modifier": "none"
   },
   "surface_builder": "aerialhell:stellar_grass_block",
   "carvers": {
@@ -29,17 +23,20 @@
   },
   "features": [
     [],
-    [],
-    [],
-    [],
+    [
+      //"minecraft:water_lake"
+    ],
     [],
     [],
     [],
     [],
     [
-      "aerialhell:aerial_tree_basic",
-      "aerialhell:golden_beech_rare",
-      "aerialhell:copper_pine_forest"
+      //ores
+    ],
+    [],
+    [
+      //"aerialhell:floating_bush",
+      "aerialhell:crystallized_tree_basic"
     ],
     []
   ],
@@ -55,16 +52,16 @@
         "maxCount": 10
       },
       {
-        "type": "aerialhell:forest_caterpillar",
-        "weight": 40,
+        "type": "aerialhell:crystal_slime",
+        "weight": 50,
         "minCount": 2,
-        "maxCount": 4
+        "maxCount": 6
       },
       {
-        "type": "aerialhell:fat_phantom",
-        "weight": 30,
+        "type": "aerialhell:crystal_spider",
+        "weight": 60,
         "minCount": 1,
-        "maxCount": 3
+        "maxCount": 6
       }
     ],
     "creature": [
