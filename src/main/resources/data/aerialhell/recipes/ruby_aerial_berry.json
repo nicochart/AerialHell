@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#B#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:ruby"
+    },
+    "B": {
+      "item": "aerialhell:aerial_berry"
+    }
+  },
+  "result": {
+    "item": "aerialhell:ruby_aerial_berry"
+  }
+}

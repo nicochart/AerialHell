@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#B#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:volucite_vibrant"
+    },
+    "B": {
+      "item": "aerialhell:aerial_berry"
+    }
+  },
+  "result": {
+    "item": "aerialhell:volucite_aerial_berry"
+  }
+}
