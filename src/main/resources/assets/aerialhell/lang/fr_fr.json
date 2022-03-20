@@ -292,10 +292,19 @@
   "item.aerialhell.arsonist_pickaxe" : "Pioche Incendière",
   "item.aerialhell.arsonist_shovel" : "Pelle Incendière",
 
+  "item.aerialhell.heavy_axe" : "Hache Lourde",
+  "item.aerialhell.berserk_axe" : "Hache du Berserk",
+
   "item.aerialhell.heavy_sword" : "Épée Lourde",
   "item.aerialhell.health_boost_sword" : "Épée de Vie",
   "item.aerialhell.ninja_sword" : "Épée de Ninja",
+  "item.aerialhell.glouton_sword" : "Épée du Glouton",
+  "item.aerialhell.random_sword" : "Épée Aléatoire",
+  "item.aerialhell.antidote_sword" : "Épée Antidote",
+  "item.aerialhell.glass_canon_sword" : "Épée du Canon en Verre",
   "item.aerialhell.god_sword" : "Épée des Dieux",
+
+  "item.aerialhell.forgotten_battle_trident" : "Trident de Guerre Oublié",
 
   "item.aerialhell.ruby_helmet" : "Casque en Rubis",
   "item.aerialhell.ruby_chestplate" : "Plastron en Rubis",

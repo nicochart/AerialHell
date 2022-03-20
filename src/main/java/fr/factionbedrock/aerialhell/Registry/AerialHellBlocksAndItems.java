@@ -39,8 +39,12 @@ import fr.factionbedrock.aerialhell.Item.Material.ToolMaterials;
 import fr.factionbedrock.aerialhell.Item.ThrowingKnife.DiamondThrowingKnifeItem;
 import fr.factionbedrock.aerialhell.Item.ThrowingKnife.LightningThrowingKnifeItem;
 import fr.factionbedrock.aerialhell.Item.ThrowingKnife.VoluciteThrowingKnifeItem;
+import fr.factionbedrock.aerialhell.Item.Tools.AerialHellAxeItem;
 import fr.factionbedrock.aerialhell.Item.Tools.AerialHellSwordItem;
+import fr.factionbedrock.aerialhell.Item.Tools.BerserkAxeItem;
+import fr.factionbedrock.aerialhell.Item.Tools.EffectAxeItem;
 import fr.factionbedrock.aerialhell.Item.Tools.EffectSwordItem;
+import fr.factionbedrock.aerialhell.Item.Tools.ForgottenBattleTridentItem;
 import fr.factionbedrock.aerialhell.World.Tree.CopperPine;
 import fr.factionbedrock.aerialhell.World.Tree.GoldenBeechTree;
 import fr.factionbedrock.aerialhell.World.Tree.AerialTree;
@@ -771,6 +775,9 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<AxeItem> VOLUCITE_AXE = ITEMS.register("volucite_axe", () -> new AxeItem(ToolMaterials.volucite, 6, -3.1F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.volucite.getHarvestLevel()).rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<AxeItem> ARSONIST_AXE = ITEMS.register("arsonist_axe", () -> new AxeItem(ToolMaterials.arsonist, 6, -3.1F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.arsonist.getHarvestLevel()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     
+    public static final RegistryObject<AxeItem> HEAVY_AXE = ITEMS.register("heavy_axe", () -> new AerialHellAxeItem(ToolMaterials.heavy, 6, -3.5F, -0.30F, 0.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<AxeItem> BERSERK_AXE = ITEMS.register("berserk_axe", () -> new BerserkAxeItem(ToolMaterials.volucite, 6, -2.9F, 0.05F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    
     public static final RegistryObject<HoeItem> RUBY_HOE = ITEMS.register("ruby_hoe", () -> new HoeItem(ToolMaterials.ruby, -3, 0.0F, (new Item.Properties()).addToolType(ToolType.HOE, ToolMaterials.ruby.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<HoeItem> AZURITE_HOE = ITEMS.register("azurite_hoe", () -> new HoeItem(ToolMaterials.azurite, -3, 0.0F, (new Item.Properties()).addToolType(ToolType.HOE, ToolMaterials.azurite.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<HoeItem> MAGMATIC_GEL_HOE = ITEMS.register("magmatic_gel_hoe", () -> new HoeItem(ToolMaterials.magmatic_gel, 0, 0.0F, (new Item.Properties()).addToolType(ToolType.HOE, ToolMaterials.magmatic_gel.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
@@ -787,8 +794,14 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<SwordItem> HEAVY_SWORD = ITEMS.register("heavy_sword", () -> new AerialHellSwordItem(ToolMaterials.heavy, 3, -2.7F, -0.30F, 0.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<SwordItem> HEALTH_BOOST_SWORD = ITEMS.register("health_boost_sword", () -> new AerialHellSwordItem(ToolMaterials.volucite, 3, -2.4F, 0.0F, 4.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<SwordItem> NINJA_SWORD = ITEMS.register("ninja_sword", () -> new EffectSwordItem(ToolMaterials.volucite, 3, -1.6F, 0.15F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<SwordItem> GLOUTON_SWORD = ITEMS.register("glouton_sword", () -> new EffectSwordItem(ToolMaterials.ruby, 3, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<SwordItem> RANDOM_SWORD = ITEMS.register("random_sword", () -> new EffectSwordItem(ToolMaterials.ruby, 3, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<SwordItem> ANTIDOTE_SWORD = ITEMS.register("antidote_sword", () -> new EffectSwordItem(ToolMaterials.ruby, 3, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<SwordItem> GLASS_CANON_SWORD = ITEMS.register("glass_canon_sword", () -> new EffectSwordItem(ToolMaterials.volucite, 7, -2.4F, 0.0F, -10.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<SwordItem> GOD_SWORD = ITEMS.register("god_sword", () -> new EffectSwordItem(ToolMaterials.arsonist, 3, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-
+    
+    public static final RegistryObject<SwordItem> FORGOTTEN_BATTLE_TRIDENT = ITEMS.register("forgotten_battle_trident", () -> new ForgottenBattleTridentItem(ToolMaterials.volucite, 4, -2.9F, 0.2F, (new Item.Properties()).maxDamage(1000).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    
     //armor
     public static final RegistryObject<ArmorItem> RUBY_HELMET = ITEMS.register("ruby_helmet", () -> new ArmorItem(ArmorMaterials.ruby, EquipmentSlotType.HEAD, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<ArmorItem> RUBY_CHESTPLATE = ITEMS.register("ruby_chestplate", () -> new ArmorItem(ArmorMaterials.ruby, EquipmentSlotType.CHEST, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
