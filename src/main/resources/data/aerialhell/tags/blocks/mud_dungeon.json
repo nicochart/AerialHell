@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values":
+  [
+    "aerialhell:mud_bricks",
+    "aerialhell:trapped_mud_bricks",
+    "aerialhell:cracked_mud_bricks",
+    "aerialhell:chiseled_mud_bricks",
+    "aerialhell:light_mud_bricks",
+    "aerialhell:trapped_light_mud_bricks",
+    "aerialhell:cracked_light_mud_bricks",
+    "aerialhell:mud_bricks_slab",
+    "aerialhell:mud_bricks_stairs",
+    "aerialhell:mud_bricks_wall",
+    "aerialhell:cracked_mud_bricks_slab",
+    "aerialhell:cracked_mud_bricks_stairs",
+    "aerialhell:cracked_mud_bricks_wall",
+    "aerialhell:mud_bookshelf",
+    "aerialhell:mud_chest"
+  ]
+}

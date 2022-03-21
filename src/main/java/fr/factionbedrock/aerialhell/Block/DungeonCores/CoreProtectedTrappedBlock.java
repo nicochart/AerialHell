@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Block;
+package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
 import java.util.Random;
 
@@ -13,13 +13,14 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class AerialHellTrappedBlock extends Block
+public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 {
 	private static final Random rand = new Random();
 	
-	public AerialHellTrappedBlock(Properties properties)
+	public CoreProtectedTrappedBlock(Properties properties)
 	{
 		super(properties);
+		this.setDefaultState(this.getDefaultState().with(CORE_PROTECTED, false));
 	}
 
 	@Override
@@ -27,7 +28,8 @@ public class AerialHellTrappedBlock extends Block
 	{
 		if (entityIn instanceof PlayerEntity)
 		{
-			world.setBlockState(pos, this.getUntrappedBlock(this).getDefaultState());
+			boolean protect = this.isProtected(world.getBlockState(pos));
+			world.setBlockState(pos, this.getUntrappedBlock(this).getDefaultState().with(CoreProtectedBlock.CORE_PROTECTED, protect));
 			if (!world.isRemote)
 			{
 				EntityType<?> entityType = getEntity(this);

@@ -50,6 +50,18 @@ public class AerialHellTags
 		
 		public static final ITag.INamedTag<Block> BOOKSHELVES = tag("bookshelves");
 		
+		public static final ITag.INamedTag<Block> DUNGEON = tag("dungeon");
+		
+		public static final ITag.INamedTag<Block> DUNGEON_CORES = tag("dungeon_cores");
+		
+		public static final ITag.INamedTag<Block> MUD_DUNGEON = tag("mud_dungeon");
+		
+		public static final ITag.INamedTag<Block> LUNATIC_DUNGEON = tag("lunatic_dungeon");
+		
+		public static final ITag.INamedTag<Block> GOLDEN_NETHER_DUNGEON = tag("golden_nether_dungeon");
+		
+		public static final ITag.INamedTag<Block> VOLUCITE_DUNGEON = tag("volucite_dungeon");
+		
 		public static final ITag.INamedTag<Block> SAPLINGS = tag("aerialhell_saplings");
 
 		private static ITag.INamedTag<Block> tag(String name)

@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values":
+  [
+    "aerialhell:lunatic_stone",
+    "aerialhell:trapped_lunatic_stone",
+    "aerialhell:cracked_lunatic_stone",
+    "aerialhell:chiseled_lunatic_stone",
+    "aerialhell:light_lunatic_stone",
+    "aerialhell:trapped_light_lunatic_stone",
+    "aerialhell:cracked_light_lunatic_stone",
+    "aerialhell:lunatic_stone_slab",
+    "aerialhell:lunatic_stone_stairs",
+    "aerialhell:lunatic_stone_wall",
+    "aerialhell:cracked_lunatic_stone_slab",
+    "aerialhell:cracked_lunatic_stone_stairs",
+    "aerialhell:cracked_lunatic_stone_wall",
+    "aerialhell:lunatic_pillar",
+    "aerialhell:lunatic_pillar_top",
+    "aerialhell:lunatic_bookshelf",
+    "aerialhell:lunatic_chest"
+  ]
+}

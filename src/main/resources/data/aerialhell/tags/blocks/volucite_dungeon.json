@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values":
+  [
+    "aerialhell:volucite_stone",
+    "aerialhell:cracked_volucite_stone",
+    "aerialhell:chiseled_volucite_stone",
+    "aerialhell:light_volucite_stone",
+    "aerialhell:cracked_light_volucite_stone",
+    "aerialhell:volucite_stone_slab",
+    "aerialhell:volucite_stone_stairs",
+    "aerialhell:volucite_stone_wall",
+    "aerialhell:cracked_volucite_stone_slab",
+    "aerialhell:cracked_volucite_stone_stairs",
+    "aerialhell:cracked_volucite_stone_wall",
+    "aerialhell:volucite_bookshelf",
+    "aerialhell:volucite_chest"
+  ]
+}

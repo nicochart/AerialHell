@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values":
+  [
+    "aerialhell:golden_nether_bricks",
+    "aerialhell:trapped_golden_nether_bricks",
+    "aerialhell:cracked_golden_nether_bricks",
+    "aerialhell:chiseled_golden_nether_bricks",
+    "aerialhell:light_golden_nether_bricks",
+    "aerialhell:trapped_light_golden_nether_bricks",
+    "aerialhell:cracked_light_golden_nether_bricks",
+    "aerialhell:golden_nether_bricks_slab",
+    "aerialhell:golden_nether_bricks_stairs",
+    "aerialhell:golden_nether_bricks_wall",
+    "aerialhell:cracked_golden_nether_bricks_slab",
+    "aerialhell:cracked_golden_nether_bricks_stairs",
+    "aerialhell:cracked_golden_nether_bricks_wall",
+    "aerialhell:golden_nether_bookshelf",
+    "aerialhell:golden_nether_chest"
+  ]
+}

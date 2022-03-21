@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Event.Listeners;
 
+import fr.factionbedrock.aerialhell.Block.DungeonCores.DungeonCoreBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
@@ -15,7 +16,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
-public class DimensionListener
+public class BlockEventListener
 {
     @SubscribeEvent
     public static void onBlockEvent(BlockEvent.NeighborNotifyEvent event)
@@ -55,6 +56,25 @@ public class DimensionListener
 	            	world.destroyBlock(pos, true);
 	            	world.playSound(null, event.getPos(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
 	            	event.setCanceled(true);
+	            }
+            }
+        }
+    }
+    
+    @SubscribeEvent
+    public static void onBlockEvent(BlockEvent.EntityPlaceEvent event)
+    {
+    	if (event.getWorld() instanceof World)
+        {
+    		World world = (World) event.getWorld();
+    		BlockPos pos = event.getPos();
+            BlockState blockstate = world.getBlockState(pos);
+            if (world.getDimensionKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION)
+            {
+            	if (blockstate.getBlock().isIn(AerialHellTags.Blocks.DUNGEON_CORES))
+	            {
+	            	((DungeonCoreBlock) blockstate.getBlock()).setAreaProtected(world, pos, true);
+	            	world.playSound(null, event.getPos(), SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.PLAYERS, 1.0F, 1.0F);
 	            }
             }
         }

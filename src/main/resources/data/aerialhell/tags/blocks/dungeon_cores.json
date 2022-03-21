@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values":
+  [
+    "aerialhell:mud_dungeon_core",
+    "aerialhell:lunatic_dungeon_core",
+    "aerialhell:golden_nether_dungeon_core",
+    "aerialhell:volucite_dungeon_core"
+  ]
+}
