@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "V",
+    "S"
+  ],
+  "key": {
+    "V": {
+      "item": "aerialhell:volucite_vibrant"
+    },
+    "S": {
+      "item": "aerialhell:sky_stick"
+    }
+  },
+  "result": {
+    "item": "aerialhell:volucite_torch",
+    "count": 4
+  }
+}

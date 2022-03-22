@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "aerialhell:block/ruby_lantern"
+    },
+    "hanging=true": {
+      "model": "aerialhell:block/ruby_lantern_hanging"
+    }
+  }
+}

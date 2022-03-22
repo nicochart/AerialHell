@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "X#X",
+    "XXX"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:fluorite_torch"
+    },
+    "X": {
+      "item": "aerialhell:ruby"
+    }
+  },
+  "result": {
+    "item": "aerialhell:ruby_fluorite_lantern",
+    "count" : 9
+  }
+}

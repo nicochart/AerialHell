@@ -99,6 +99,13 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.FLUORITE_TORCH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.FLUORITE_WALL_TORCH.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.RUBY_LANTERN.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.RUBY_FLUORITE_LANTERN.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.VOLUCITE_LANTERN.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.VOLUCITE_FLUORITE_LANTERN.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.FLUORITE_LANTERN.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.VOLUCITE_TORCH.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.VOLUCITE_WALL_TORCH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.SKY_LADDER.get(), cutout);
 	}
 	

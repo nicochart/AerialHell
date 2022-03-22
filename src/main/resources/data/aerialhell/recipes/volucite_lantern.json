@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "X#X",
+    "XXX"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:torch"
+    },
+    "X": {
+      "item": "aerialhell:volucite_vibrant"
+    }
+  },
+  "result": {
+    "item": "aerialhell:volucite_lantern",
+    "count" : 9
+  }
+}

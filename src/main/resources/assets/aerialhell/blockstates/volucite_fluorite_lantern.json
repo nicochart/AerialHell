@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "aerialhell:block/volucite_fluorite_lantern"
+    },
+    "hanging=true": {
+      "model": "aerialhell:block/volucite_fluorite_lantern_hanging"
+    }
+  }
+}

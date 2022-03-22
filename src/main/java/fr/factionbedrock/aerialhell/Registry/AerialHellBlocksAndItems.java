@@ -19,6 +19,8 @@ import fr.factionbedrock.aerialhell.Block.ArsonistBlock;
 import fr.factionbedrock.aerialhell.Block.VibratorBlock;
 import fr.factionbedrock.aerialhell.Block.ChestMimicBlock;
 import fr.factionbedrock.aerialhell.Block.CopperPineLeavesBlock;
+import fr.factionbedrock.aerialhell.Block.FluoriteTorchBlock;
+import fr.factionbedrock.aerialhell.Block.FluoriteWallTorchBlock;
 import fr.factionbedrock.aerialhell.Block.FreezerBlock;
 import fr.factionbedrock.aerialhell.Block.Bushes.AerialBerryBushBlock;
 import fr.factionbedrock.aerialhell.Block.Bushes.VibrantAerialBerryBushBlock;
@@ -32,6 +34,7 @@ import fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedWallBlock;
 import fr.factionbedrock.aerialhell.Block.DungeonCores.DungeonCoreBlock;
 import fr.factionbedrock.aerialhell.Block.SolidEther.*;
 import fr.factionbedrock.aerialhell.Client.TileEntityRenderer.AerialHellChestItemTileEntityRenderer;
+import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Item.AerialArrowItem;
 import fr.factionbedrock.aerialhell.Item.BlowpipeItem;
 import fr.factionbedrock.aerialhell.Item.GoldenNetherMeatItem;
@@ -71,6 +74,7 @@ import net.minecraft.block.FlowerPotBlock;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.GlassBlock;
 import net.minecraft.block.LadderBlock;
+import net.minecraft.block.LanternBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.PaneBlock;
 import net.minecraft.block.PressurePlateBlock;
@@ -80,10 +84,8 @@ import net.minecraft.block.SaplingBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.StairsBlock;
-import net.minecraft.block.TorchBlock;
 import net.minecraft.block.TrapDoorBlock;
 import net.minecraft.block.WallBlock;
-import net.minecraft.block.WallTorchBlock;
 import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
@@ -183,9 +185,24 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> GLOWING_BEDROCK_INGOT = ITEMS.register("glowing_bedrock_ingot", () -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_OVERWORLD)));
 	
 	//torch
-	public static final RegistryObject<Block> FLUORITE_WALL_TORCH = BLOCKS.register("fluorite_wall_torch", () -> new WallTorchBlock(AbstractBlock.Properties.from(Blocks.WALL_TORCH), ParticleTypes.SMOKE)); //AerialHellParticleTypes.GOLDEN_BEECH_LEAVES.get()
-	public static final RegistryObject<Block> FLUORITE_TORCH = BLOCKS.register("fluorite_torch", () -> new TorchBlock(AbstractBlock.Properties.from(Blocks.TORCH), ParticleTypes.SMOKE)); //AerialHellParticleTypes.GOLDEN_BEECH_LEAVES.get()
+	public static final RegistryObject<Block> FLUORITE_WALL_TORCH = BLOCKS.register("fluorite_wall_torch", () -> new FluoriteWallTorchBlock(AbstractBlock.Properties.from(Blocks.WALL_TORCH)));
+	public static final RegistryObject<Block> FLUORITE_TORCH = BLOCKS.register("fluorite_torch", () -> new FluoriteTorchBlock(AbstractBlock.Properties.from(Blocks.TORCH)));
 	public static final RegistryObject<Item> FLUORITE_TORCH_ITEM = ITEMS.register("fluorite_torch", () -> new WallOrFloorItem(FLUORITE_TORCH.get(), FLUORITE_WALL_TORCH.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Block> VOLUCITE_WALL_TORCH = BLOCKS.register("volucite_wall_torch", () -> new FluoriteWallTorchBlock(AbstractBlock.Properties.from(Blocks.WALL_TORCH).setLightLevel((state) -> {return 9;})));
+	public static final RegistryObject<Block> VOLUCITE_TORCH = BLOCKS.register("volucite_torch", () -> new FluoriteTorchBlock(AbstractBlock.Properties.from(Blocks.TORCH).setLightLevel((state) -> {return 9;})));
+	public static final RegistryObject<Item> VOLUCITE_TORCH_ITEM = ITEMS.register("volucite_torch", () -> new WallOrFloorItem(VOLUCITE_TORCH.get(), VOLUCITE_WALL_TORCH.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	
+	//lanterns
+	public static final RegistryObject<Block> FLUORITE_LANTERN = BLOCKS.register("fluorite_lantern", () -> new LanternBlock(AbstractBlock.Properties.from(Blocks.LANTERN)));
+	public static final RegistryObject<Block> RUBY_LANTERN = BLOCKS.register("ruby_lantern", () -> new LanternBlock(AbstractBlock.Properties.from(Blocks.LANTERN)));
+	public static final RegistryObject<Block> RUBY_FLUORITE_LANTERN = BLOCKS.register("ruby_fluorite_lantern", () -> new LanternBlock(AbstractBlock.Properties.from(Blocks.LANTERN)));
+	public static final RegistryObject<Block> VOLUCITE_LANTERN = BLOCKS.register("volucite_lantern", () -> new LanternBlock(AbstractBlock.Properties.from(Blocks.LANTERN)));
+	public static final RegistryObject<Block> VOLUCITE_FLUORITE_LANTERN = BLOCKS.register("volucite_fluorite_lantern", () -> new LanternBlock(AbstractBlock.Properties.from(Blocks.LANTERN)));
+	public static final RegistryObject<Item> FLUORITE_LANTERN_ITEM = ITEMS.register("fluorite_lantern", () -> new BlockItem(FLUORITE_LANTERN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> RUBY_LANTERN_ITEM = ITEMS.register("ruby_lantern", () -> new BlockItem(RUBY_LANTERN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> RUBY_FLUORITE_LANTERN_ITEM = ITEMS.register("ruby_fluorite_lantern", () -> new BlockItem(RUBY_FLUORITE_LANTERN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> VOLUCITE_LANTERN_ITEM = ITEMS.register("volucite_lantern", () -> new BlockItem(VOLUCITE_LANTERN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> VOLUCITE_FLUORITE_LANTERN_ITEM = ITEMS.register("volucite_fluorite_lantern", () -> new BlockItem(VOLUCITE_FLUORITE_LANTERN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//ladder
 	public static final RegistryObject<LadderBlock> SKY_LADDER = BLOCKS.register("sky_ladder", () -> new LadderBlock(AERIAL_TREE_MATERIAL));
