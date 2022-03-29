@@ -107,7 +107,8 @@ public class AerialHellFeatures
 			    
 	}
 	
-    public static StructureFeature<?, ?> CONFIGURED_BIG_SOLID_ETHER_CLOUD_STRUCTURE = AerialHellStructures.BIG_SOLID_ETHER_CLOUD_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
+	public static StructureFeature<?, ?> CONFIGURED_BIG_SOLID_ETHER_CLOUD_STRUCTURE = AerialHellStructures.BIG_SOLID_ETHER_CLOUD_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
+	public static StructureFeature<?, ?> CONFIGURED_MUD_DUNGEON_STRUCTURE = AerialHellStructures.MUD_DUNGEON_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
     
     public static ConfiguredFeature<?, ?> AERIAL_HELL_WATER_LAKE = new AerialHellLakeFeature(BlockStateFeatureConfig.field_236455_a_).withConfiguration(new BlockStateFeatureConfig(Blocks.WATER.getDefaultState())).withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig(4)));
     public static ConfiguredFeature<?, ?> FLOATING_BUSH = new BushPotFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).chance(20);
@@ -153,6 +154,7 @@ public class AerialHellFeatures
         Registry<StructureFeature<?, ?>> STregistry = WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE;
         Registry<ConfiguredFeature<?, ?>> CFregistry = WorldGenRegistries.CONFIGURED_FEATURE;
         Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_big_solid_ether_cloud_structure"), CONFIGURED_BIG_SOLID_ETHER_CLOUD_STRUCTURE);
+        Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_big_solid_ether_cloud_structure"), CONFIGURED_MUD_DUNGEON_STRUCTURE);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "fluorite_ore"), GenAerialHellOres.FLUORITE_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "ruby_ore"), GenAerialHellOres.RUBY_ORE);
@@ -195,5 +197,6 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_crystal_blob"), GIANT_CRYSTAL_BLOB);
         
         FlatGenerationSettings.STRUCTURES.put(AerialHellStructures.BIG_SOLID_ETHER_CLOUD_STRUCTURE.get(), CONFIGURED_BIG_SOLID_ETHER_CLOUD_STRUCTURE);
+        FlatGenerationSettings.STRUCTURES.put(AerialHellStructures.MUD_DUNGEON_STRUCTURE.get(), CONFIGURED_MUD_DUNGEON_STRUCTURE);
     }
 }

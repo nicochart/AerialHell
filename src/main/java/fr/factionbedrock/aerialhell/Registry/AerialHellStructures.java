@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import fr.factionbedrock.aerialhell.World.Structure.BigSolidEtherCloudStructure;
+import fr.factionbedrock.aerialhell.World.Structure.MudDungeonStructure;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
@@ -23,6 +24,7 @@ public class AerialHellStructures
 	public static final DeferredRegister<Structure<?>> STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, MODID);
 	
 	public static final RegistryObject<Structure<NoFeatureConfig>> BIG_SOLID_ETHER_CLOUD_STRUCTURE = STRUCTURES.register("big_solid_ether_cloud", () -> new BigSolidEtherCloudStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoFeatureConfig>> MUD_DUNGEON_STRUCTURE = STRUCTURES.register("mud_dungeon", () -> new MudDungeonStructure(NoFeatureConfig.field_236558_a_));
 	 
 	 public static void setupStructures()
 	 {	        
@@ -31,6 +33,12 @@ public class AerialHellStructures
 	                new StructureSeparationSettings(10 /* maximum distance apart in chunks between spawn attempts */,
 	                        2 /* minimum distance apart in chunks between spawn attempts */,
 	                        1234567890 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+	                false); //TransformSurroundingLand
+	        setupMapSpacingAndLand(
+	        		MUD_DUNGEON_STRUCTURE.get(), /* The instance of the structure */
+	                new StructureSeparationSettings(25 /* maximum distance apart in chunks between spawn attempts */,
+	                        12 /* minimum distance apart in chunks between spawn attempts */,
+	                        1236548790 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
 	                false); //TransformSurroundingLand
 	 }
 	 
