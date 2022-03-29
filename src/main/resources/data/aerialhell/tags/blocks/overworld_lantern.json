@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values":
+  [
+    "minecraft:lantern",
+    "aerialhell:ruby_lantern",
+    "aerialhell:volucite_lantern"
+  ]
+}

@@ -24,12 +24,12 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BronzeGolemEntity extends AerialHellHostileEntity
+public class MudGolemEntity extends AerialHellHostileEntity
 {
-	public static final DataParameter<Boolean> BRONZE_GOLEM_ACTIVE = EntityDataManager.createKey(CrystalSlimeEntity.class, DataSerializers.BOOLEAN);
+	public static final DataParameter<Boolean> MUD_GOLEM_ACTIVE = EntityDataManager.createKey(CrystalSlimeEntity.class, DataSerializers.BOOLEAN);
 	private float timeClosePlayer = 0.0F;
 	
-    public BronzeGolemEntity(EntityType<? extends MonsterEntity> type, World world)
+    public MudGolemEntity(EntityType<? extends MonsterEntity> type, World world)
     {
         super(type, world);
     }
@@ -64,17 +64,17 @@ public class BronzeGolemEntity extends AerialHellHostileEntity
 	protected void registerData()
 	{
 		super.registerData();
-		this.dataManager.register(BRONZE_GOLEM_ACTIVE, false);
+		this.dataManager.register(MUD_GOLEM_ACTIVE, false);
 	}
     
     public void setActive(boolean isAwake)
 	{
-		this.dataManager.set(BRONZE_GOLEM_ACTIVE, isAwake);
+		this.dataManager.set(MUD_GOLEM_ACTIVE, isAwake);
 	}
 	
 	public boolean isActive()
 	{
-		return this.dataManager.get(BRONZE_GOLEM_ACTIVE);
+		return this.dataManager.get(MUD_GOLEM_ACTIVE);
 	}
 	
 	@Override
@@ -144,9 +144,9 @@ public class BronzeGolemEntity extends AerialHellHostileEntity
     
     public static class GolemMeleeAttackGoal extends MeleeAttackGoal
 	{
-		private final BronzeGolemEntity golem;
+		private final MudGolemEntity golem;
 		
-		public GolemMeleeAttackGoal(BronzeGolemEntity golemIn, double speedIn, boolean useLongMemory)
+		public GolemMeleeAttackGoal(MudGolemEntity golemIn, double speedIn, boolean useLongMemory)
 		{
 			super(golemIn, speedIn, useLongMemory);
 			this.golem = golemIn;
@@ -170,9 +170,9 @@ public class BronzeGolemEntity extends AerialHellHostileEntity
 	
 	public static class GolemLookRandomlyGoal extends LookRandomlyGoal
 	{
-		private final BronzeGolemEntity golem;
+		private final MudGolemEntity golem;
 		
-		public GolemLookRandomlyGoal(BronzeGolemEntity golemIn)
+		public GolemLookRandomlyGoal(MudGolemEntity golemIn)
 		{
 			super(golemIn);
 			this.golem = golemIn;
@@ -195,9 +195,9 @@ public class BronzeGolemEntity extends AerialHellHostileEntity
 	
 	public static class GolemLookAtPlayerGoal extends LookAtGoal
 	{
-		private final BronzeGolemEntity golem;
+		private final MudGolemEntity golem;
 		
-		public GolemLookAtPlayerGoal(BronzeGolemEntity golemIn, Class<? extends LivingEntity> watchTargetClass, float maxDistance)
+		public GolemLookAtPlayerGoal(MudGolemEntity golemIn, Class<? extends LivingEntity> watchTargetClass, float maxDistance)
 		{
 			super(golemIn, watchTargetClass, maxDistance);
 			this.golem = golemIn;
@@ -220,9 +220,9 @@ public class BronzeGolemEntity extends AerialHellHostileEntity
 	
 	public static class GolemWaterAvoidingRandomWalkingGoal extends WaterAvoidingRandomWalkingGoal
 	{
-		private final BronzeGolemEntity golem;
+		private final MudGolemEntity golem;
 		
-		public GolemWaterAvoidingRandomWalkingGoal(BronzeGolemEntity golemIn, double speedIn)
+		public GolemWaterAvoidingRandomWalkingGoal(MudGolemEntity golemIn, double speedIn)
 		{
 			super(golemIn, speedIn);
 			this.golem = golemIn;

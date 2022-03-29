@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.BronzeGolemEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.MudGolemEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class BronzeGolemModel<T extends BronzeGolemEntity> extends EntityModel<T>
+public class MudGolemModel<T extends MudGolemEntity> extends EntityModel<T>
 {
 	/*Made with Blockbench 3.8.3
  	  Exported for Minecraft version 1.15 - 1.16*/
@@ -23,7 +23,7 @@ public class BronzeGolemModel<T extends BronzeGolemEntity> extends EntityModel<T
 	private final ModelRenderer leftLeg;
  	private final ModelRenderer rightLeg;
 
-	public BronzeGolemModel()
+	public MudGolemModel()
 	{
 		textureWidth = 128;
 		textureHeight = 128;

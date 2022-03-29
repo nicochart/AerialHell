@@ -8,7 +8,7 @@ import java.util.Map;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import fr.factionbedrock.aerialhell.World.Structure.BigWhiteAercloudStructure;
+import fr.factionbedrock.aerialhell.World.Structure.BigSolidEtherCloudStructure;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
@@ -22,7 +22,7 @@ public class AerialHellStructures
 {
 	public static final DeferredRegister<Structure<?>> STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, MODID);
 	
-	public static final RegistryObject<Structure<NoFeatureConfig>> BIG_SOLID_ETHER_CLOUD_STRUCTURE = STRUCTURES.register("big_solid_ether_cloud", () -> new BigWhiteAercloudStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoFeatureConfig>> BIG_SOLID_ETHER_CLOUD_STRUCTURE = STRUCTURES.register("big_solid_ether_cloud", () -> new BigSolidEtherCloudStructure(NoFeatureConfig.field_236558_a_));
 	 
 	 public static void setupStructures()
 	 {	        

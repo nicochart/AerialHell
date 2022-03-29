@@ -63,6 +63,8 @@ public class AerialHellTags
 		public static final ITag.INamedTag<Block> VOLUCITE_DUNGEON = tag("volucite_dungeon");
 		
 		public static final ITag.INamedTag<Block> SAPLINGS = tag("aerialhell_saplings");
+		
+		public static final ITag.INamedTag<Block> OVERWORLD_LANTERN = tag("overworld_lantern");
 
 		private static ITag.INamedTag<Block> tag(String name)
 		{

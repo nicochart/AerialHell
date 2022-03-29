@@ -4,27 +4,19 @@ import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.loot.LootTables;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 
@@ -72,42 +64,9 @@ public class CrystalSlimeEntity extends SlimeEntity
     }
 	
 	@Override
-	public void onCollideWithPlayer(PlayerEntity entityIn)
-	{
-		if (EntityPredicates.CAN_AI_TARGET.test(entityIn))
-		{
-			this.explodeAt(entityIn);
-		}
-	}
-	
-	@Override
 	protected IParticleData getSquishParticle()
 	{
 		return new BlockParticleData(ParticleTypes.BLOCK, AerialHellBlocksAndItems.MUD_BRICKS.get().getDefaultState());
-	}
-	
-	@Override
-	public void applyEntityCollision(Entity entityIn)
-	{
-		super.applyEntityCollision(entityIn);
-		
-		if (!(entityIn instanceof CrystalSlimeEntity) && entityIn instanceof LivingEntity)
-		{
-			this.explodeAt((LivingEntity)entityIn);
-		}
-	}
-
-	protected void explodeAt(LivingEntity entityIn)
-	{
-		if (this.canEntityBeSeen(entityIn) && entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 1.0F) && this.ticksExisted > 20)
-		{
-			entityIn.addVelocity(0.5, 0.5, 0.5);
-			
-			this.world.createExplosion(this, this.getPosX(), this.getPosY(), this.getPosZ(), 0.1F, Explosion.Mode.DESTROY);
-			this.setHealth(0.0F);
-			this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 0.2F*(this.rand.nextFloat() - this.rand.nextFloat()) + 1);
-			this.applyEnchantments(this, entityIn);
-		}
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -17,9 +17,9 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 
-public class BigWhiteAercloudStructure extends AbstractAerialHellStructure
+public class BigSolidEtherCloudStructure extends AbstractAerialHellStructure
 {
-    public BigWhiteAercloudStructure(Codec<NoFeatureConfig> codec)
+    public BigSolidEtherCloudStructure(Codec<NoFeatureConfig> codec)
     {
         super(codec);
     }
@@ -27,7 +27,7 @@ public class BigWhiteAercloudStructure extends AbstractAerialHellStructure
     @Override
     public IStartFactory<NoFeatureConfig> getStartFactory()
     {
-        return BigWhiteAercloudStructure.Start::new;
+        return BigSolidEtherCloudStructure.Start::new;
     }
 
     public static class Start extends AbstractAerialHellStructure.Start

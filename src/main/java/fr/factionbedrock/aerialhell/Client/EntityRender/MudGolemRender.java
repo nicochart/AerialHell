@@ -3,8 +3,8 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Client.EntityModels.BronzeGolemModel;
-import fr.factionbedrock.aerialhell.Entity.Monster.BronzeGolemEntity;
+import fr.factionbedrock.aerialhell.Client.EntityModels.MudGolemModel;
+import fr.factionbedrock.aerialhell.Entity.Monster.MudGolemEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -13,22 +13,22 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class BronzeGolemRender extends MobRenderer<BronzeGolemEntity, BronzeGolemModel<BronzeGolemEntity>>
+public class MudGolemRender extends MobRenderer<MudGolemEntity, MudGolemModel<MudGolemEntity>>
 {
-	private static String name = "bronze_golem";
+	private static String name = "mud_golem";
     private static final ResourceLocation texture = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
 
-    public BronzeGolemRender(EntityRendererManager manager)
+    public MudGolemRender(EntityRendererManager manager)
     {
-        super(manager, new BronzeGolemModel(), 0.6f);
+        super(manager, new MudGolemModel(), 0.6f);
     }
 
     @Override
-    public ResourceLocation getEntityTexture(BronzeGolemEntity entity)
+    public ResourceLocation getEntityTexture(MudGolemEntity entity)
     {return texture;}
 
     @Override
-    public void applyRotations(BronzeGolemEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks)
+    public void applyRotations(MudGolemEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks)
     {
         super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
         if (!((double)entityLiving.limbSwingAmount < 0.01D))

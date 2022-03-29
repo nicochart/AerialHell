@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Client;
 import com.google.common.base.Supplier;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Client.EntityRender.BronzeGolemRender;
+import fr.factionbedrock.aerialhell.Client.EntityRender.MudGolemRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.ChainedGodRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.CrystalSlimeRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.AerialArrowRenderer;
@@ -49,6 +49,7 @@ public class AerialHellRendering
 	{
 		RenderType translucent = RenderType.getTranslucent();
 		RenderType cutout = RenderType.getCutout();
+		RenderType cutout_mipped = RenderType.getCutoutMipped();
 		
 		render(() -> AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.SLIPPERY_SAND_SOLID_ETHER.get(), translucent);
@@ -62,6 +63,7 @@ public class AerialHellRendering
 		render(() -> AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY_BUSH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BLUE_FLOWER.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BLACK_ROSE.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), cutout_mipped);
         render(() -> AerialHellBlocksAndItems.STELLAR_GRASS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_FERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.AERIAL_TREE_SAPLING.get(), cutout);
@@ -124,7 +126,7 @@ public class AerialHellRendering
 	public static void registerEntityRenderers(FMLClientSetupEvent event)
 	{
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.GOLDEN_WALKER.get(), GoldenWalkerRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.BRONZE_GOLEM.get(), BronzeGolemRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.MUD_GOLEM.get(), MudGolemRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.EVIL_COW.get(), EvilCowRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SANDY_SHEEP.get(), SandySheepRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.FAT_PHANTOM.get(), FatPhantomRender::new);

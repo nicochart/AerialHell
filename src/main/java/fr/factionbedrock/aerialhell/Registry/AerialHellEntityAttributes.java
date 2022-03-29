@@ -4,7 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.BronzeGolemEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.MudGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ForestCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.GoldenWalkerEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.HellSpiderEntity;
@@ -38,7 +38,7 @@ public class AerialHellEntityAttributes
 		Entity with no attributes registered and be summoned 
 		*/
 		event.put(AerialHellEntities.GOLDEN_WALKER.get(), GoldenWalkerEntity.registerAttributes().create());
-		event.put(AerialHellEntities.BRONZE_GOLEM.get(), BronzeGolemEntity.registerAttributes().create());
+		event.put(AerialHellEntities.MUD_GOLEM.get(), MudGolemEntity.registerAttributes().create());
 		event.put(AerialHellEntities.EVIL_COW.get(), EvilCowEntity.registerAttributes().create());
 		event.put(AerialHellEntities.SANDY_SHEEP.get(), SandySheepEntity.registerAttributes().create());
 		event.put(AerialHellEntities.FAT_PHANTOM.get(), FatPhantomEntity.registerAttributes().create());

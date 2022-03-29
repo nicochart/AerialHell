@@ -51,7 +51,7 @@ public class BlockEventListener
 	            	}
 	            	event.setCanceled(true);
 	            }
-	            else if (blockstate.getBlock().equals(Blocks.TORCH) || blockstate.getBlock().equals(Blocks.WALL_TORCH) || blockstate.getBlock().equals(Blocks.LANTERN) || blockstate.getBlock().equals(Blocks.SOUL_LANTERN))
+	            else if (blockstate.getBlock().equals(Blocks.TORCH) || blockstate.getBlock().equals(Blocks.WALL_TORCH) || blockstate.isIn(AerialHellTags.Blocks.OVERWORLD_LANTERN))
 	            {
 	            	world.destroyBlock(pos, true);
 	            	world.playSound(null, event.getPos(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
