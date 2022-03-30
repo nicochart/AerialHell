@@ -29,7 +29,6 @@ import java.util.EnumSet;
 import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.PoisonballEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBiomes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 
 public class FlyingJellyfishEntity extends FlyingEntity implements IMob

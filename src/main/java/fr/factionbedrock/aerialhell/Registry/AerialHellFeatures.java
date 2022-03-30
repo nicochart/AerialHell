@@ -8,7 +8,6 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.World.GenAerialHellOres;
 import fr.factionbedrock.aerialhell.World.Features.AerialHellLakeFeature;
 import fr.factionbedrock.aerialhell.World.Features.BlueSolidEtherCloudFeature;
-import fr.factionbedrock.aerialhell.World.Features.BushPotFeature;
 import fr.factionbedrock.aerialhell.World.Features.CrystalBlobFeature;
 import fr.factionbedrock.aerialhell.World.Features.CrystallizedFireFeature;
 import fr.factionbedrock.aerialhell.World.Features.GiantCrystalBlobFeature;
@@ -107,11 +106,9 @@ public class AerialHellFeatures
 			    
 	}
 	
-	public static StructureFeature<?, ?> CONFIGURED_BIG_SOLID_ETHER_CLOUD_STRUCTURE = AerialHellStructures.BIG_SOLID_ETHER_CLOUD_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
 	public static StructureFeature<?, ?> CONFIGURED_MUD_DUNGEON_STRUCTURE = AerialHellStructures.MUD_DUNGEON_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
     
     public static ConfiguredFeature<?, ?> AERIAL_HELL_WATER_LAKE = new AerialHellLakeFeature(BlockStateFeatureConfig.field_236455_a_).withConfiguration(new BlockStateFeatureConfig(Blocks.WATER.getDefaultState())).withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig(4)));
-    public static ConfiguredFeature<?, ?> FLOATING_BUSH = new BushPotFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).chance(20);
     
     public static ConfiguredFeature<?, ?> STELLAR_GRASS = Feature.RANDOM_PATCH.withConfiguration(Configs.STELLAR_GRASS_PATCH_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(2);
     public static ConfiguredFeature<?, ?> STELLAR_FERN = Feature.RANDOM_PATCH.withConfiguration(Configs.STELLAR_FERN_PATCH_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(2);
@@ -153,7 +150,6 @@ public class AerialHellFeatures
     {
         Registry<StructureFeature<?, ?>> STregistry = WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE;
         Registry<ConfiguredFeature<?, ?>> CFregistry = WorldGenRegistries.CONFIGURED_FEATURE;
-        Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_big_solid_ether_cloud_structure"), CONFIGURED_BIG_SOLID_ETHER_CLOUD_STRUCTURE);
         Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_big_solid_ether_cloud_structure"), CONFIGURED_MUD_DUNGEON_STRUCTURE);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "fluorite_ore"), GenAerialHellOres.FLUORITE_ORE);
@@ -164,7 +160,6 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_dirt_ore"), GenAerialHellOres.STELLAR_DIRT_ORE);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "aerial_hell_water_lake"), AERIAL_HELL_WATER_LAKE);
-        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "floating_bush"), FLOATING_BUSH);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_grass"), STELLAR_GRASS);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_tall_grass"), STELLAR_TALL_GRASS);
@@ -196,7 +191,6 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "cristallized_fire"), CRYSTALLIZED_FIRE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_crystal_blob"), GIANT_CRYSTAL_BLOB);
         
-        FlatGenerationSettings.STRUCTURES.put(AerialHellStructures.BIG_SOLID_ETHER_CLOUD_STRUCTURE.get(), CONFIGURED_BIG_SOLID_ETHER_CLOUD_STRUCTURE);
         FlatGenerationSettings.STRUCTURES.put(AerialHellStructures.MUD_DUNGEON_STRUCTURE.get(), CONFIGURED_MUD_DUNGEON_STRUCTURE);
     }
 }

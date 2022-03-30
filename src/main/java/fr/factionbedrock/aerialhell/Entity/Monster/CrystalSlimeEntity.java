@@ -53,6 +53,7 @@ public class CrystalSlimeEntity extends SlimeEntity
 	public static AttributeModifierMap.MutableAttribute registerAttributes()
     {
         return SlimeEntity.func_233666_p_()
+        		.createMutableAttribute(Attributes.ATTACK_DAMAGE, 4D)
         		.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D)
         		.createMutableAttribute(Attributes.MAX_HEALTH, 50.0D)
         		.createMutableAttribute(Attributes.FOLLOW_RANGE, 16.0D);

@@ -4,7 +4,6 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBiomes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellCommands;
 import fr.factionbedrock.aerialhell.Registry.AerialHellContainerTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellFeatures;
@@ -71,6 +70,6 @@ public class AerialHellSetup
     @SubscribeEvent
     public static void serverLoad(RegisterCommandsEvent event)
     {
-        AerialHellCommands.register(event.getDispatcher());
+        
     }
 }

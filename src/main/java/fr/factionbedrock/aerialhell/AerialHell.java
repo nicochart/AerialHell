@@ -75,7 +75,6 @@ public class AerialHell
     	if (event.getName().equals(AerialHellBiomes.AERIAL_HELL_PLAINS.getLocation()) || event.getName().equals(AerialHellBiomes.AERIAL_TREE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.COPPER_PINE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.SLIPPERY_SAND_OCEAN.getLocation()) || event.getName().equals(AerialHellBiomes.CRYSTAL_PLAINS.getLocation()))
     	{
     		/* structure */
-    		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_BIG_SOLID_ETHER_CLOUD_STRUCTURE);
     		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_MUD_DUNGEON_STRUCTURE);
     		
     		/* features */
@@ -176,7 +175,6 @@ public class AerialHell
             }
 
             Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld.getChunkProvider().generator.func_235957_b_().func_236195_a_());
-            tempMap.putIfAbsent(AerialHellStructures.BIG_SOLID_ETHER_CLOUD_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.BIG_SOLID_ETHER_CLOUD_STRUCTURE.get()));
             tempMap.putIfAbsent(AerialHellStructures.MUD_DUNGEON_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.MUD_DUNGEON_STRUCTURE.get()));
             serverWorld.getChunkProvider().generator.func_235957_b_().field_236193_d_ = tempMap;
         }
