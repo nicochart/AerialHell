@@ -30,7 +30,7 @@ public class WhiteSolidEtherCloudFeature extends Feature<NoFeatureConfig>
     public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)
     {
     	BlockPos generatePos = pos;
-    	if (pos.getY() >  60) {generatePos = new BlockPos(pos.getX(), 30 + rand.nextInt(30), pos.getZ());}
+    	if (pos.getY() <  40 || pos.getY() >  80 ) {generatePos = new BlockPos(pos.getX(), 30 + rand.nextInt(50), pos.getZ());}
     	int sizeX = basicMinSize + (int)(rand.nextDouble() * ((basicMaxSize - basicMinSize) + 1));
         int sizeZ = basicMinSize + (int)(rand.nextDouble() * ((basicMaxSize - basicMinSize) + 1));
     	generateFirstEllipsis(sizeX, sizeZ, reader, rand, generatePos);

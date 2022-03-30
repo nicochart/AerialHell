@@ -34,7 +34,7 @@ public class GenAerialHellOres
 			AerialHellBlocksAndItems.RUBY_ORE.get().getDefaultState(), //Block enregistré à configurer
 			7, //Taille de Filon
 			0, //Hauteur minimum
-			256, //Hauteur maximum
+			160, //Hauteur maximum
 			6 //Chance d'apparition
 	);
 	
@@ -51,7 +51,7 @@ public class GenAerialHellOres
 	(
 			AerialHellBlocksAndItems.VOLUCITE_ORE.get().getDefaultState(), //Block enregistré à configurer
 			7, //Taille de Filon
-			0, //Hauteur minimum
+			156, //Hauteur minimum
 			256, //Hauteur maximum
 			16 //Chance d'apparition
 	);
@@ -70,7 +70,7 @@ public class GenAerialHellOres
 			AerialHellBlocksAndItems.MAGMATIC_GEL_ORE.get().getDefaultState(), //Block enregistré à configurer
 			12, //Taille de Filon
 			0, //Hauteur minimum
-			56, //Hauteur maximum
+			128, //Hauteur maximum
 			12 //Chance d'apparition
 	);
 	

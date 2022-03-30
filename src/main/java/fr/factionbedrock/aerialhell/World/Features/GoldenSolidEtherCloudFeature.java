@@ -33,7 +33,7 @@ public class GoldenSolidEtherCloudFeature extends Feature<NoFeatureConfig>
 		int xOffset = rand.nextInt(33) - 16;
         int zOffset = rand.nextInt(33) - 16;
         generatePos.add(xOffset, 0, zOffset);
-    	if (pos.getY() <  95 || pos.getY() >  180) {generatePos = new BlockPos(generatePos.getX(), 95 + rand.nextInt(80), generatePos.getZ());}
+    	if (pos.getY() <  175 || pos.getY() >  220) {generatePos = new BlockPos(generatePos.getX(), 175 + rand.nextInt(50), generatePos.getZ());}
     	int sizeX = basicMinSize + (int)(rand.nextDouble() * ((basicMaxSize - basicMinSize) + 1));
         int sizeZ = basicMinSize + (int)(rand.nextDouble() * ((basicMaxSize - basicMinSize) + 1));
     	generateFirstEllipsis(sizeX, sizeZ, reader, rand, generatePos);

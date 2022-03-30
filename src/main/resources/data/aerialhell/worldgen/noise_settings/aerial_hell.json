@@ -1,0 +1,59 @@
+{
+  "bedrock_roof_position": -10,
+  "bedrock_floor_position": -10,
+  "sea_level": 0,
+  "disable_mob_generation": false,
+  "default_block":
+  {
+    "Name": "aerialhell:stellar_stone"
+  },
+  "default_fluid":
+  {
+    "Properties":
+    {
+      "level": "0"
+    },
+    "Name": "minecraft:water"
+  },
+  "structures":
+  {
+    "stronghold":
+    {
+      "distance": 0,
+      "spread": 0,
+      "count": 0
+    },
+    "structures": {}
+  },
+  "noise":
+  {
+    "random_density_offset": false,
+    "simplex_surface_noise": true,
+    "island_noise_override": false,
+	"amplified": false,
+    "density_factor": 0.0,
+    "density_offset": 0.0,
+    "size_vertical": 3.8,
+    "size_horizontal": 1,
+    "height": 256,
+    "top_slide":
+    {
+      "target": -12,
+      "size": 16, //15 not bad (more massive)
+      "offset": 3
+    },
+	"bottom_slide":
+	{
+      "target": -9,
+      "size": 12,
+      "offset": 2
+    },
+    "sampling":
+    {
+      "xz_scale": 2.5,
+      "xz_factor": 320.0,
+      "y_scale": 6,
+      "y_factor": 75.0
+    }
+  }
+}

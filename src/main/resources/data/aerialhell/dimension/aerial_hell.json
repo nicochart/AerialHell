@@ -1,93 +1,41 @@
-{ 
+{
   "type": "aerialhell:aerial_hell",
-  "generator": {
+  "generator":
+  {
     "type": "minecraft:noise",
-    "seed": 0,
-    "settings": {
-      "bedrock_roof_position": -10,
-      "bedrock_floor_position": -10,
-      "sea_level": 0,
-      "disable_mob_generation": false,
-      "default_block": {
-        "Name": "aerialhell:stellar_stone"
-      },
-      "default_fluid": {
-        "Name": "minecraft:water",
-        "Properties": {
-          "level": "0"
-        }
-      },
-      "structures": {
-        "stronghold": {
-          "distance": 0,
-          "count": 0,
-          "spread": 0
-        },
-        "structures": {}
-      },
-      "noise": {
-        "top_slide": {
-          "target": -30,
-          "size": 7,
-          "offset": 1
-        },
-        "bottom_slide": {
-          "target": -20,
-          "size": 7,
-          "offset": 1
-        },
-        "sampling": {
-          "xz_scale": 2,
-          "xz_factor": 100,
-          "y_scale": 2,
-          "y_factor": 200
-        },
-        "size_vertical": 2,
-        "size_horizontal": 2,
-        "height": 128,
-        "density_factor": 0,
-        "density_offset": 0,
-        "random_density_offset": false,
-        "simplex_surface_noise": false,
-        "island_noise_override": false,
-        "amplified": false
-      }
-    },
-    "biome_source": {
-      "seed": 0,
-      "type": "minecraft:multi_noise",
-      "temperature_noise": {
-        "firstOctave": -7,
-        "amplitudes": [
-          1,
-          1
-        ]
-      },
-      "humidity_noise": {
-        "firstOctave": -7,
-        "amplitudes": [
-          1,
-          1
-        ]
-      },
-      "altitude_noise": {
-        "firstOctave": -4,
-        "amplitudes": [
-          1,
-          1
-        ]
-      },
-      "weirdness_noise": {
-        "firstOctave": -7,
-        "amplitudes": [
-          1,
-          1
-        ]
-      },
-      "biomes": [
+    "seed": 42,
+	"settings": "aerialhell:aerial_hell",
+    "biome_source":
+    {
+	  "seed": 12,
+	  "type": "minecraft:multi_noise",
+      "large_biomes": false,
+	  "humidity_noise":
+	  {
+		"firstOctave": -6,
+		"amplitudes": [1.0,1.0]
+	  },
+	  "altitude_noise":
+	  {
+		"firstOctave": -7,
+		"amplitudes": [1.0,1.0]
+	  },
+	  "weirdness_noise":
+	  {
+		"firstOctave": -5,
+		"amplitudes": [1.0,1.0]
+	  },
+	  "temperature_noise":
+	  {
+		"firstOctave": -9,
+		"amplitudes": [1.0,1.0]
+	  },
+	  "biomes":
+	  [
         {
           "biome": "aerialhell:aerial_hell_plains",
-          "parameters": {
+          "parameters":
+          {
             "altitude": 0,
             "weirdness": 0,
             "offset": 0,
@@ -97,7 +45,8 @@
         },
         {
           "biome": "aerialhell:aerial_tree_forest",
-          "parameters": {
+          "parameters":
+          {
             "altitude": -0.2,
             "weirdness": 0.1,
             "offset": 0,
@@ -107,7 +56,8 @@
         },
         {
           "biome": "aerialhell:slippery_sand_ocean",
-          "parameters": {
+          "parameters":
+          {
             "altitude": -0.2,
             "weirdness": 0.3,
             "offset": 0.3,
@@ -117,7 +67,8 @@
         },
         {
           "biome": "aerialhell:crystal_plains",
-          "parameters": {
+          "parameters":
+          {
             "altitude": 0,
             "weirdness": 0.6,
             "offset": 0.1,
@@ -127,7 +78,8 @@
         },
         {
           "biome": "aerialhell:crystal_forest",
-          "parameters": {
+          "parameters":
+          {
             "altitude": -0.1,
             "weirdness": 0.7,
             "offset": 0.8,
@@ -135,9 +87,10 @@
             "humidity": 0.3
           }
         },
-	{
+		{
           "biome": "aerialhell:copper_pine_forest",
-          "parameters": {
+          "parameters":
+          {
             "altitude": -0.4,
             "weirdness": 0.4,
             "offset": 0.7,

@@ -140,7 +140,7 @@ public class AerialHellFeatures
     
     public static ConfiguredFeature<?, ?> SLIPPERY_SAND = new SlipperySandFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(20);
     public static ConfiguredFeature<?, ?> CRYSTAL_BLOB = new CrystalBlobFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(10);
-    public static ConfiguredFeature<?, ?> CRYSTALLIZED_FIRE = new CrystallizedFireFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
+    public static ConfiguredFeature<?, ?> CRYSTALLIZED_FIRE = new CrystallizedFireFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(30);
     public static ConfiguredFeature<?, ?> GIANT_CRYSTAL_BLOB = new GiantCrystalBlobFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     
     /*
