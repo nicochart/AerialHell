@@ -1,6 +1,6 @@
 {
   "name": "aerialhell:mud_dungeon/normal_room_pool",
-  "fallback": "minecraft:empty",
+  "fallback": "aerialhell:mud_dungeon/normal_room_barrier_pool",
   "elements": [
     {
       "weight": 1,

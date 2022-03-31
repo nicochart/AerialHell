@@ -1,6 +1,6 @@
 {
   "name": "aerialhell:mud_dungeon/normal_corridor_end_destroyed_pool",
-  "fallback": "minecraft:empty",
+  "fallback": "aerialhell:mud_dungeon/normal_corridor_barrier_pool",
   "elements": [
     {
       "weight": 1,

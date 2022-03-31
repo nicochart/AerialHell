@@ -1,9 +1,9 @@
 {
   "name": "aerialhell:mud_dungeon/normal_corridor_ruined_pool",
-  "fallback": "minecraft:empty",
+  "fallback": "aerialhell:mud_dungeon/normal_corridor_barrier_pool",
   "elements": [
     {
-      "weight": 2,
+      "weight": 1,
       "element": {
         "location": "aerialhell:mud_dungeon/normal_corridor_ruined_1",
         "processors": "minecraft:empty",
@@ -12,7 +12,7 @@
       }
     },
     {
-      "weight": 2,
+      "weight": 1,
       "element": {
         "location": "aerialhell:mud_dungeon/normal_corridor_ruined_2",
         "processors": "minecraft:empty",
@@ -21,7 +21,7 @@
       }
     },
     {
-      "weight": 2,
+      "weight": 1,
       "element": {
         "location": "aerialhell:mud_dungeon/normal_corridor_ruined_3",
         "processors": "minecraft:empty",
@@ -30,7 +30,7 @@
       }
     },
     {
-      "weight": 2,
+      "weight": 1,
       "element": {
         "location": "aerialhell:mud_dungeon/normal_corridor_ruined_4",
         "processors": "minecraft:empty",
@@ -39,9 +39,27 @@
       }
     },
     {
-      "weight": 2,
+      "weight": 1,
       "element": {
         "location": "aerialhell:mud_dungeon/normal_corridor_ruined_5",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:mud_dungeon/normal_corridor_end_ruined_1",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:mud_dungeon/normal_corridor_end_ruined_2",
         "processors": "minecraft:empty",
 	"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
