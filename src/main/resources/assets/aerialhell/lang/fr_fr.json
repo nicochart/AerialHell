@@ -97,6 +97,8 @@
   "block.aerialhell.mossy_stellar_stone_wall" : "Muret de Roche Stellaire Moussue",
   "block.aerialhell.crystal_block" : "Bloc de Crystal",
   "item.aerialhell.crystal" : "Crystal",
+  "block.aerialhell.stellar_stone_crystal_block" : "Bloc de Crystal de Roche Stellaire",
+  "item.aerialhell.stellar_stone_crystal" : "Crystal de Roche Stellaire",
   "block.aerialhell.crystallized_leaves" : "Feuilles Crystalisées",
   "block.aerialhell.stellar_dirt" : "Terre Stellaire",
   "block.aerialhell.chiseled_stellar_dirt" : "Terre Stellaire Sculptée",

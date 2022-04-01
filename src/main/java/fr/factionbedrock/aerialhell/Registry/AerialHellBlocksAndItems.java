@@ -258,16 +258,19 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> MOSSY_STELLAR_STONE = BLOCKS.register("mossy_stellar_stone", () -> new Block(AbstractBlock.Properties.from(STELLAR_STONE.get())));
 	public static final RegistryObject<Block> GLAUCOPHANITE = BLOCKS.register("glaucophanite",() -> new Block(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
 	public static final RegistryObject<Block> POLISHED_GLAUCOPHANITE = BLOCKS.register("polished_glaucophanite",() -> new Block(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
-	public static final RegistryObject<Block> CRYSTAL_BLOCK = BLOCKS.register("crystal_block", () -> new Block(AbstractBlock.Properties.from(Blocks.GLASS)));
-	public static final RegistryObject<Block> CRYSTALLIZED_LEAVES = BLOCKS.register("crystallized_leaves", () -> new LeavesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES)));
-	public static final RegistryObject<Block> CRYSTALLIZED_FIRE = BLOCKS.register("crystallized_fire", () -> new GlassBlock(AbstractBlock.Properties.from(Blocks.GLASS).zeroHardnessAndResistance()));
+	public static final RegistryObject<Block> CRYSTAL_BLOCK = BLOCKS.register("crystal_block", () -> new Block(AbstractBlock.Properties.from(Blocks.GLASS).setLightLevel((state) -> 14)));
+	public static final RegistryObject<Block> STELLAR_STONE_CRYSTAL_BLOCK = BLOCKS.register("stellar_stone_crystal_block", () -> new Block(AbstractBlock.Properties.from(CRYSTAL_BLOCK.get()).setLightLevel((state) -> 13)));
+	public static final RegistryObject<Block> CRYSTALLIZED_LEAVES = BLOCKS.register("crystallized_leaves", () -> new LeavesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES).setLightLevel((state) -> 12)));
+	public static final RegistryObject<Block> CRYSTALLIZED_FIRE = BLOCKS.register("crystallized_fire", () -> new GlassBlock(AbstractBlock.Properties.from(Blocks.GLASS).setLightLevel((state) -> 12).zeroHardnessAndResistance()));
 	public static final RegistryObject<Item> STELLAR_STONE_ITEM = ITEMS.register("stellar_stone", () -> new BlockItem(STELLAR_STONE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> MOSSY_STELLAR_STONE_ITEM = ITEMS.register("mossy_stellar_stone", () -> new BlockItem(MOSSY_STELLAR_STONE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> STELLAR_STONE_BRICKS_ITEM = ITEMS.register("stellar_stone_bricks", () -> new BlockItem(STELLAR_STONE_BRICKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> GLAUCOPHANITE_ITEM = ITEMS.register("glaucophanite", () -> new BlockItem(GLAUCOPHANITE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> POLISHED_GLAUCOPHANITE_ITEM = ITEMS.register("polished_glaucophanite", () -> new BlockItem(POLISHED_GLAUCOPHANITE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> CRYSTAL_BLOCK_ITEM = ITEMS.register("crystal_block", () -> new BlockItem(CRYSTAL_BLOCK.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> STELLAR_STONE_CRYSTAL_BLOCK_ITEM = ITEMS.register("stellar_stone_crystal_block", () -> new BlockItem(STELLAR_STONE_CRYSTAL_BLOCK.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> CRYSTAL = ITEMS.register("crystal", () -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> STELLAR_STONE_CRYSTAL = ITEMS.register("stellar_stone_crystal", () -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> CRYSTALLIZED_LEAVES_ITEM = ITEMS.register("crystallized_leaves", () -> new BlockItem(CRYSTALLIZED_LEAVES.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//grass & dirt

@@ -15,6 +15,7 @@ import fr.factionbedrock.aerialhell.World.Features.GoldenSolidEtherCloudFeature;
 import fr.factionbedrock.aerialhell.World.Features.GreenSolidEtherCloudFeature;
 import fr.factionbedrock.aerialhell.World.Features.SkyCactusFeature;
 import fr.factionbedrock.aerialhell.World.Features.SlipperySandSolidEtherFeature;
+import fr.factionbedrock.aerialhell.World.Features.StellarStoneCrystalBlobFeature;
 import fr.factionbedrock.aerialhell.World.Features.SlipperySandFeature;
 import fr.factionbedrock.aerialhell.World.Features.WhiteSolidEtherCloudFeature;
 import net.minecraft.block.Blocks;
@@ -137,6 +138,7 @@ public class AerialHellFeatures
     
     public static ConfiguredFeature<?, ?> SLIPPERY_SAND = new SlipperySandFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(20);
     public static ConfiguredFeature<?, ?> CRYSTAL_BLOB = new CrystalBlobFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(10);
+    public static ConfiguredFeature<?, ?> STELLAR_STONE_CRYSTAL_BLOB = new StellarStoneCrystalBlobFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(100);
     public static ConfiguredFeature<?, ?> CRYSTALLIZED_FIRE = new CrystallizedFireFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(30);
     public static ConfiguredFeature<?, ?> GIANT_CRYSTAL_BLOB = new GiantCrystalBlobFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     
@@ -188,6 +190,7 @@ public class AerialHellFeatures
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "slippery_sand"), SLIPPERY_SAND);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "crystal_blob"), CRYSTAL_BLOB);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_stone_crystal_blob"), STELLAR_STONE_CRYSTAL_BLOB);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "cristallized_fire"), CRYSTALLIZED_FIRE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_crystal_blob"), GIANT_CRYSTAL_BLOB);
         
