@@ -18,7 +18,7 @@
   "surface_builder": "aerialhell:slippery_sand_block",
   "carvers": {
     "air": [
-
+	"aerialhell:aerialhell_cave"
     ]
   },
   "features": [

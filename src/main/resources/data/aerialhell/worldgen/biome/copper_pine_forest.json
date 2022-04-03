@@ -24,7 +24,7 @@
   "surface_builder": "aerialhell:stellar_grass_block",
   "carvers": {
     "air": [
-
+	"aerialhell:aerialhell_cave"
     ]
   },
   "features": [
