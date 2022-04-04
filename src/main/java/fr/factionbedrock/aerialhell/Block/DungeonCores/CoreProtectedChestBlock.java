@@ -10,9 +10,13 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 
 public class CoreProtectedChestBlock extends ChestBlock
 {
@@ -32,6 +36,12 @@ public class CoreProtectedChestBlock extends ChestBlock
 	public boolean isProtected(BlockState state)
 	{
 		return state.get(CORE_PROTECTED);
+	}
+	
+	@Override
+	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
+	{
+		return (isProtected(state) && !player.isCreative()) ? ActionResultType.SUCCESS : super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
 	}
 	
 	@SuppressWarnings("deprecation")

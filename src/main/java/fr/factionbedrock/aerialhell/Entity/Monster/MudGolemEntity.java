@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 
 public class MudGolemEntity extends AerialHellHostileEntity
 {
-	public static final DataParameter<Boolean> MUD_GOLEM_ACTIVE = EntityDataManager.createKey(CrystalSlimeEntity.class, DataSerializers.BOOLEAN);
+	public static final DataParameter<Boolean> MUD_GOLEM_ACTIVE = EntityDataManager.createKey(MudGolemEntity.class, DataSerializers.BOOLEAN);
 	private float timeClosePlayer = 0.0F;
 	
     public MudGolemEntity(EntityType<? extends MonsterEntity> type, World world)
@@ -37,7 +37,7 @@ public class MudGolemEntity extends AerialHellHostileEntity
     public static AttributeModifierMap.MutableAttribute registerAttributes()
     {
         return MonsterEntity.func_233666_p_()
-                .createMutableAttribute(Attributes.MAX_HEALTH, 40.0D)
+                .createMutableAttribute(Attributes.MAX_HEALTH, 50.0D)
                 .createMutableAttribute(Attributes.ARMOR, 3.0D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 5.0D)
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.23D);
@@ -117,6 +117,12 @@ public class MudGolemEntity extends AerialHellHostileEntity
         this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);
         return flag;
     }
+    
+    @Override
+	public boolean canDespawn(double distanceToClosestPlayer)
+	{
+	      return false;
+	}
     
     @Override
     protected SoundEvent getAmbientSound()

@@ -13,6 +13,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.ForestCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.GoldenWalkerEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.HellSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSoldierEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSlimeEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.EvilCowEntity;
@@ -46,6 +47,9 @@ public class AerialHellEntities
 	  
 	public static final EntityType<MudGolemEntity> MUD_GOLEM_TYPE = EntityType.Builder.create(MudGolemEntity::new, EntityClassification.MONSTER)
 	            .size(0.8F,2.5F).build("mud_golem"); /*I don't know what to put in "size" yet*/
+	
+	public static final EntityType<MudSpectralGolemEntity> MUD_SPECTRAL_GOLEM_TYPE = EntityType.Builder.create(MudSpectralGolemEntity::new, EntityClassification.MONSTER)
+            	.size(0.8F,2.5F).build("mud_spectral_golem");
 	
 	public static final EntityType<EvilCowEntity> EVIL_COW_TYPE = EntityType.Builder.<EvilCowEntity>create(EvilCowEntity::new, EntityClassification.CREATURE)
 			    .size(0.9F, 1.4F).build("evil_cow");
@@ -118,6 +122,7 @@ public class AerialHellEntities
 	
 	public static final RegistryObject<EntityType<GoldenWalkerEntity>> GOLDEN_WALKER = ENTITIES.register("golden_walker", () -> GOLDEN_WALKER_TYPE);
 	public static final RegistryObject<EntityType<MudGolemEntity>> MUD_GOLEM = ENTITIES.register("mud_golem", () -> MUD_GOLEM_TYPE);
+	public static final RegistryObject<EntityType<MudSpectralGolemEntity>> MUD_SPECTRAL_GOLEM = ENTITIES.register("mud_spectral_golem", () -> MUD_SPECTRAL_GOLEM_TYPE);
 	public static final RegistryObject<EntityType<EvilCowEntity>> EVIL_COW = ENTITIES.register("evil_cow", () -> EVIL_COW_TYPE);
 	public static final RegistryObject<EntityType<SandySheepEntity>> SANDY_SHEEP = ENTITIES.register("sandy_sheep", () -> SANDY_SHEEP_TYPE);
 	public static final RegistryObject<EntityType<FatPhantomEntity>> FAT_PHANTOM = ENTITIES.register("fat_phantom", () -> FAT_PHANTOM_TYPE);

@@ -9,6 +9,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.ForestCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.GoldenWalkerEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.HellSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSoldierEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSlimeEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSpiderEntity;
@@ -39,6 +40,7 @@ public class AerialHellEntityAttributes
 		*/
 		event.put(AerialHellEntities.GOLDEN_WALKER.get(), GoldenWalkerEntity.registerAttributes().create());
 		event.put(AerialHellEntities.MUD_GOLEM.get(), MudGolemEntity.registerAttributes().create());
+		event.put(AerialHellEntities.MUD_SPECTRAL_GOLEM.get(), MudSpectralGolemEntity.registerAttributes().create());
 		event.put(AerialHellEntities.EVIL_COW.get(), EvilCowEntity.registerAttributes().create());
 		event.put(AerialHellEntities.SANDY_SHEEP.get(), SandySheepEntity.registerAttributes().create());
 		event.put(AerialHellEntities.FAT_PHANTOM.get(), FatPhantomEntity.registerAttributes().create());
