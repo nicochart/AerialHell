@@ -18,12 +18,12 @@ public class LightningThrowingKnifeItem extends AbstractThrowingKnifeItem
 {
 	public LightningThrowingKnifeItem(ItemGroup group)
 	{
-		super(new Item.Properties().rarity(Rarity.RARE), group);
+		super(new Item.Properties().rarity(Rarity.UNCOMMON), group);
 	}
 	
 	public LightningThrowingKnifeItem() //default group
 	{
-		super(new Item.Properties().rarity(Rarity.RARE));
+		super(new Item.Properties().rarity(Rarity.UNCOMMON));
 	}
 	
 	@Override

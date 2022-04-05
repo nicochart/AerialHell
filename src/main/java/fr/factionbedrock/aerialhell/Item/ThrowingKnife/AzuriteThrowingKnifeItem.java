@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.ThrowingKnife;
 
-import fr.factionbedrock.aerialhell.Entity.Projectile.ThrowingKnife.DiamondThrowingKnifeEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.ThrowingKnife.AzuriteThrowingKnifeEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -14,14 +14,14 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
-public class DiamondThrowingKnifeItem extends AbstractThrowingKnifeItem
+public class AzuriteThrowingKnifeItem extends AbstractThrowingKnifeItem
 {
-	public DiamondThrowingKnifeItem(ItemGroup group)
+	public AzuriteThrowingKnifeItem(ItemGroup group)
 	{
 		super(new Item.Properties().rarity(Rarity.COMMON), group);
 	}
 	
-	public DiamondThrowingKnifeItem() //default group
+	public AzuriteThrowingKnifeItem() //default group
 	{
 		super(new Item.Properties().rarity(Rarity.COMMON));
 	}
@@ -40,9 +40,9 @@ public class DiamondThrowingKnifeItem extends AbstractThrowingKnifeItem
 		
 		if (!worldIn.isRemote)
 		{
-			DiamondThrowingKnifeEntity diamondThrowingKnife = new DiamondThrowingKnifeEntity(playerIn, worldIn);
-			diamondThrowingKnife.func_234612_a_(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 0.8F, 1.0F);
-			worldIn.addEntity(diamondThrowingKnife);
+			AzuriteThrowingKnifeEntity azuriteThrowingKnife = new AzuriteThrowingKnifeEntity(playerIn, worldIn);
+			azuriteThrowingKnife.func_234612_a_(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 0.8F, 1.0F);
+			worldIn.addEntity(azuriteThrowingKnife);
 		}
 		playerIn.getCooldownTracker().setCooldown(this, 8);
 		return ActionResult.resultSuccess(heldItem);

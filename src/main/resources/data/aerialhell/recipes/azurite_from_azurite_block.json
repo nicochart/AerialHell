@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "aerialhell:azurite_block"
+    }
+  ],
+  "result": {
+    "item": "aerialhell:azurite_crystal",
+    "count": 9
+  }
+}

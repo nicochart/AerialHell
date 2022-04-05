@@ -45,8 +45,14 @@ import fr.factionbedrock.aerialhell.Item.EffectTotemItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.*;
 import fr.factionbedrock.aerialhell.Item.Material.ArmorMaterials;
 import fr.factionbedrock.aerialhell.Item.Material.ToolMaterials;
+import fr.factionbedrock.aerialhell.Item.ThrowingKnife.AzuriteThrowingKnifeItem;
 import fr.factionbedrock.aerialhell.Item.ThrowingKnife.DiamondThrowingKnifeItem;
+import fr.factionbedrock.aerialhell.Item.ThrowingKnife.GoldThrowingKnifeItem;
+import fr.factionbedrock.aerialhell.Item.ThrowingKnife.IronThrowingKnifeItem;
 import fr.factionbedrock.aerialhell.Item.ThrowingKnife.LightningThrowingKnifeItem;
+import fr.factionbedrock.aerialhell.Item.ThrowingKnife.MagmaticGelThrowingKnifeItem;
+import fr.factionbedrock.aerialhell.Item.ThrowingKnife.NetheriteThrowingKnifeItem;
+import fr.factionbedrock.aerialhell.Item.ThrowingKnife.RubyThrowingKnifeItem;
 import fr.factionbedrock.aerialhell.Item.ThrowingKnife.VoluciteThrowingKnifeItem;
 import fr.factionbedrock.aerialhell.Item.Tools.AerialHellAxeItem;
 import fr.factionbedrock.aerialhell.Item.Tools.AerialHellSwordItem;
@@ -752,8 +758,14 @@ public class AerialHellBlocksAndItems
 	//item for crafts
 	public static final RegistryObject<Item> SKY_STICK = ITEMS.register("sky_stick",() -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
-	//dungeon items
+	//throwing knifes
+	public static final RegistryObject<Item> IRON_THROWING_KNIFE = ITEMS.register("iron_throwing_knife", () -> new IronThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
+	public static final RegistryObject<Item> GOLD_THROWING_KNIFE = ITEMS.register("gold_throwing_knife", () -> new GoldThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
 	public static final RegistryObject<Item> DIAMOND_THROWING_KNIFE = ITEMS.register("diamond_throwing_knife", () -> new DiamondThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
+	public static final RegistryObject<Item> NETHERITE_THROWING_KNIFE = ITEMS.register("netherite_throwing_knife", () -> new NetheriteThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
+	public static final RegistryObject<Item> RUBY_THROWING_KNIFE = ITEMS.register("ruby_throwing_knife", () -> new RubyThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
+	public static final RegistryObject<Item> AZURITE_THROWING_KNIFE = ITEMS.register("azurite_throwing_knife", () -> new AzuriteThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
+	public static final RegistryObject<Item> MAGMATIC_GEL_THROWING_KNIFE = ITEMS.register("magmatic_gel_throwing_knife", () -> new MagmaticGelThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
 	public static final RegistryObject<Item> VOLUCITE_THROWING_KNIFE = ITEMS.register("volucite_throwing_knife", () -> new VoluciteThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
 	public static final RegistryObject<Item> LIGHTNING_THROWING_KNIFE = ITEMS.register("lightning_throwing_knife", () -> new LightningThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
 	

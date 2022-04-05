@@ -19,7 +19,13 @@ import java.util.Objects;
 
 public class ThrowingKnifeRender<T extends AbtractThrowingKnifeEntity> extends EntityRenderer<T>
 {
+	private static final ResourceLocation IRON_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/iron_throwing_knife.png");
+	private static final ResourceLocation GOLD_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/gold_throwing_knife.png");
 	private static final ResourceLocation DIAMOND_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/diamond_throwing_knife.png");
+	private static final ResourceLocation NETHERITE_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/netherite_throwing_knife.png");
+	private static final ResourceLocation RUBY_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/ruby_throwing_knife.png");
+	private static final ResourceLocation AZURITE_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/azurite_throwing_knife.png");
+	private static final ResourceLocation MAGMATIC_GEL_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/magmatic_gel_throwing_knife.png");
 	private static final ResourceLocation VOLUCITE_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/volucite_throwing_knife.png");
 	private static final ResourceLocation LIGHTNING_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/lightning_throwing_knife.png");
 	
@@ -46,13 +52,37 @@ public class ThrowingKnifeRender<T extends AbtractThrowingKnifeEntity> extends E
 	@Override
 	public ResourceLocation getEntityTexture(T entity)
 	{
-		if (entity instanceof DiamondThrowingKnifeEntity)
+		if (entity instanceof IronThrowingKnifeEntity)
 		{
-			return DIAMOND_THROWING_KNIFE_TEXTURE;
+			return IRON_THROWING_KNIFE_TEXTURE;
+		}
+		else if (entity instanceof GoldThrowingKnifeEntity)
+		{
+			return GOLD_THROWING_KNIFE_TEXTURE;
 		}
 		else if (entity instanceof VoluciteThrowingKnifeEntity)
 		{
 			return VOLUCITE_THROWING_KNIFE_TEXTURE;
+		}
+		else if (entity instanceof DiamondThrowingKnifeEntity)
+		{
+			return DIAMOND_THROWING_KNIFE_TEXTURE;
+		}
+		else if (entity instanceof NetheriteThrowingKnifeEntity)
+		{
+			return NETHERITE_THROWING_KNIFE_TEXTURE;
+		}
+		else if (entity instanceof RubyThrowingKnifeEntity)
+		{
+			return RUBY_THROWING_KNIFE_TEXTURE;
+		}
+		else if (entity instanceof AzuriteThrowingKnifeEntity)
+		{
+			return AZURITE_THROWING_KNIFE_TEXTURE;
+		}
+		else if (entity instanceof MagmaticGelThrowingKnifeEntity)
+		{
+			return MAGMATIC_GEL_THROWING_KNIFE_TEXTURE;
 		}
 		else
 		{

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "aerialhell:item/netherite_throwing_knife"
+  }
+}

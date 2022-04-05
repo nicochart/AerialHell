@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Item.ThrowingKnife;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.ThrowingKnife.VoluciteThrowingKnifeEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellRarities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -8,7 +9,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
@@ -18,12 +18,12 @@ public class VoluciteThrowingKnifeItem extends AbstractThrowingKnifeItem
 {
 	public VoluciteThrowingKnifeItem(ItemGroup group)
 	{
-		super(new Item.Properties().rarity(Rarity.UNCOMMON), group);
+		super(new Item.Properties().rarity(AerialHellRarities.VIBRANT), group);
 	}
 	
 	public VoluciteThrowingKnifeItem() //default group
 	{
-		super(new Item.Properties().rarity(Rarity.UNCOMMON));
+		super(new Item.Properties().rarity(AerialHellRarities.VIBRANT));
 	}
 	
 	@Override

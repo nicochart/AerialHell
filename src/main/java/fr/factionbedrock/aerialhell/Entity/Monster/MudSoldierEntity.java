@@ -69,6 +69,7 @@ public class MudSoldierEntity extends AbstractSkeletonEntity
 	@Nullable
 	public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag)
 	{
+		this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.STONE_SWORD));
 		this.setEquipmentBasedOnDifficulty(difficultyIn);
 		this.setCombatTask();
 		return spawnDataIn;
