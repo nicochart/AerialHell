@@ -25,6 +25,16 @@ public class AerialHellSoundEvents
 	public static final RegistryObject<SoundEvent> ENTITY_TORN_SPIRIT_HURT = register("entity.torn_spirit.hurt");
 	public static final RegistryObject<SoundEvent> ENTITY_TORN_SPIRIT_DEATH = register("entity.torn_spirit.death");
 	
+	public static final RegistryObject<SoundEvent> ENTITY_ICE_SPIRIT_AMBIENT = register("entity.ice_spirit.ambient");
+	public static final RegistryObject<SoundEvent> ENTITY_ICE_SPIRIT_HURT = register("entity.ice_spirit.hurt");
+	public static final RegistryObject<SoundEvent> ENTITY_ICE_SPIRIT_DEATH = register("entity.ice_spirit.death");
+	
+	public static final RegistryObject<SoundEvent> ENTITY_FIRE_SPIRIT_HURT = register("entity.fire_spirit.hurt");
+	
+	public static final RegistryObject<SoundEvent> ENTITY_ELECTRO_SPIRIT_AMBIENT = register("entity.electro_spirit.ambient");
+	public static final RegistryObject<SoundEvent> ENTITY_ELECTRO_SPIRIT_HURT = register("entity.electro_spirit.hurt");
+	public static final RegistryObject<SoundEvent> ENTITY_ELECTRO_SPIRIT_DEATH = register("entity.electro_spirit.death");
+	
 	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_TROLL_AMBIENT = register("entity.shadow_troll.ambient");
 	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_TROLL_HURT = register("entity.shadow_troll.hurt");
 	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_TROLL_DEATH = register("entity.shadow_troll.death");

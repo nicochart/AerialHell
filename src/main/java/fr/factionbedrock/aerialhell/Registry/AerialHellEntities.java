@@ -23,6 +23,9 @@ import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AerialTreeChestMim
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.CopperPineChestMimicEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.GoldenBeechChestMimicEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.SkyCactusFiberChestMimicEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.ElectroSpiritEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.FireSpiritEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.IceSpiritEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.FatPhantomEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.SandySheepEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.VoluciteArrowEntity;
@@ -80,6 +83,15 @@ public class AerialHellEntities
 	
 	public static final EntityType<TornSpiritEntity> TORN_SPIRIT_TYPE = EntityType.Builder.<TornSpiritEntity>create(TornSpiritEntity::new, EntityClassification.MONSTER)
 			    .size(0.8F,1.95F).build("torn_spirit");
+	
+	public static final EntityType<IceSpiritEntity> ICE_SPIRIT_TYPE = EntityType.Builder.<IceSpiritEntity>create(IceSpiritEntity::new, EntityClassification.MONSTER)
+		    	.size(0.7F, 1.0F).build("ice_spirit");
+	
+	public static final EntityType<FireSpiritEntity> FIRE_SPIRIT_TYPE = EntityType.Builder.<FireSpiritEntity>create(FireSpiritEntity::new, EntityClassification.MONSTER)
+	    		.size(0.7F, 1.0F).build("fire_spirit");
+	
+	public static final EntityType<ElectroSpiritEntity> ELECTRO_SPIRIT_TYPE = EntityType.Builder.<ElectroSpiritEntity>create(ElectroSpiritEntity::new, EntityClassification.MONSTER)
+    			.size(0.7F, 1.0F).build("electro_spirit");
 	
 	public static final EntityType<ChainedGodEntity> CHAINED_GOD_TYPE = EntityType.Builder.<ChainedGodEntity>create(ChainedGodEntity::new, EntityClassification.MONSTER)
 		        .size(2.8F,5F).build("chained_god");
@@ -155,6 +167,9 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<MudSpectralSoldierEntity>> MUD_SPECTRAL_SOLDIER = ENTITIES.register("mud_spectral_soldier", () -> MUD_SPECTRAL_SOLDIER_TYPE);
 	public static final RegistryObject<EntityType<MudCycleMageEntity>> MUD_CYCLE_MAGE = ENTITIES.register("mud_cycle_mage", () -> MUD_CYCLE_MAGE_TYPE);
 	public static final RegistryObject<EntityType<TornSpiritEntity>> TORN_SPIRIT = ENTITIES.register("torn_spirit", () -> TORN_SPIRIT_TYPE);
+	public static final RegistryObject<EntityType<IceSpiritEntity>> ICE_SPIRIT = ENTITIES.register("ice_spirit", () -> ICE_SPIRIT_TYPE);
+	public static final RegistryObject<EntityType<FireSpiritEntity>> FIRE_SPIRIT = ENTITIES.register("fire_spirit", () -> FIRE_SPIRIT_TYPE);
+	public static final RegistryObject<EntityType<ElectroSpiritEntity>> ELECTRO_SPIRIT = ENTITIES.register("electro_spirit", () -> ELECTRO_SPIRIT_TYPE);
 	public static final RegistryObject<EntityType<ChainedGodEntity>> CHAINED_GOD = ENTITIES.register("chained_god", () -> CHAINED_GOD_TYPE);
 	public static final RegistryObject<EntityType<PoisonballEntity>> POISONBALL = ENTITIES.register("poisonball", () -> POISONBALL_TYPE);
 	public static final RegistryObject<EntityType<FlyingJellyfishEntity>> FLYING_JELLYFISH = ENTITIES.register("flying_jellyfish", () -> FLYING_JELLYFISH_TYPE);

@@ -13,6 +13,7 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.FlyingJellyfishRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.ForestCaterpillarRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.GoldenWalkerRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.HellSpiderRender;
+import fr.factionbedrock.aerialhell.Client.EntityRender.ElementSpiritRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.MudCycleMageRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.MudSoldierRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.PoisonballProjectileRender;
@@ -137,6 +138,9 @@ public class AerialHellRendering
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.MUD_SPECTRAL_SOLDIER.get(), MudSoldierRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.MUD_CYCLE_MAGE.get(), MudCycleMageRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.TORN_SPIRIT.get(), TornSpiritRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.ICE_SPIRIT.get(), ElementSpiritRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.FIRE_SPIRIT.get(), ElementSpiritRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.ELECTRO_SPIRIT.get(), ElementSpiritRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CHAINED_GOD.get(), ChainedGodRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.FLYING_JELLYFISH.get(), FlyingJellyfishRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHADOW_TROLL.get(), ShadowTrollRender::new);

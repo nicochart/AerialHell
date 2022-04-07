@@ -77,6 +77,50 @@
     "subtitle": "subtitles.entity.torn_spirit.death",
     "sounds": ["aerialhell:boss/torn_spirit/death"]
   },
+  "entity.ice_spirit.ambient": {
+    "subtitle": "subtitles.entity.ice_spirit.ambient",
+    "sounds": [
+      "aerialhell:mob/ice_spirit/say1",
+      "aerialhell:mob/ice_spirit/say2"
+    ]
+  },
+  "entity.ice_spirit.hurt": {
+    "subtitle": "subtitles.entity.ice_spirit.hurt",
+    "sounds": [
+      "aerialhell:mob/ice_spirit/hurt1",
+      "aerialhell:mob/ice_spirit/hurt2"
+    ]
+  },
+  "entity.ice_spirit.death": {
+    "subtitle": "subtitles.entity.ice_spirit.death",
+    "sounds": [
+      "aerialhell:mob/ice_spirit/death"
+    ]
+  },
+  "entity.fire_spirit.hurt": {
+    "subtitle": "subtitles.entity.fire_spirit.hurt",
+    "sounds": [
+      "aerialhell:mob/fire_spirit/hurt"
+    ]
+  },
+  "entity.electro_spirit.ambient": {
+    "subtitle": "subtitles.entity.electro_spirit.ambient",
+    "sounds": [
+      "aerialhell:mob/electro_spirit/say"
+    ]
+  },
+  "entity.electro_spirit.hurt": {
+    "subtitle": "subtitles.entity.electro_spirit.hurt",
+    "sounds": [
+      "aerialhell:mob/electro_spirit/hurt"
+    ]
+  },
+  "entity.electro_spirit.death": {
+    "subtitle": "subtitles.entity.electro_spirit.death",
+    "sounds": [
+      "aerialhell:mob/electro_spirit/death"
+    ]
+  },
   "entity.shadow_troll.ambient": {
     "subtitle": "subtitles.entity.shadow_troll.ambient",
     "sounds":
