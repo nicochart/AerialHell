@@ -28,7 +28,7 @@ public class MudSpectralGolemEntity extends MudGolemEntity
 	public void tick()
 	{
 		super.tick();
-		if (this.ticksExisted > getMaxTicksExisting() - 2)
+		if (this.ticksExisted > getMaxTicksExisting() - 2 && this.world.isRemote)
 		{
 			for (int i=0; i<10; i++) this.world.addParticle(ParticleTypes.LARGE_SMOKE, this.getPosX() + rand.nextFloat() - 0.5, this.getPosY() + 2 * rand.nextFloat(), this.getPosZ() + rand.nextFloat(), 0.5 * (rand.nextFloat()) - 0.5, 0.3D, 0.5 * (rand.nextFloat() - 0.5));
 		}

@@ -62,20 +62,54 @@
   },
   "entity.torn_spirit.ambient": {
     "subtitle": "subtitles.entity.torn_spirit.ambient",
-    "sounds": ["aerialhell:boss/torn_spirit/ambient"]
+    "sounds": ["aerialhell:mob/torn_spirit/ambient"]
   },
   "entity.torn_spirit.hurt": {
     "subtitle": "subtitles.entity.torn_spirit.hurt",
     "sounds":
     [
-      "aerialhell:boss/torn_spirit/hurt1",
-      "aerialhell:boss/torn_spirit/hurt2",
-      "aerialhell:boss/torn_spirit/hurt3"
+      "aerialhell:mob/torn_spirit/hurt1",
+      "aerialhell:mob/torn_spirit/hurt2",
+      "aerialhell:mob/torn_spirit/hurt3"
     ]
   },
   "entity.torn_spirit.death": {
     "subtitle": "subtitles.entity.torn_spirit.death",
-    "sounds": ["aerialhell:boss/torn_spirit/death"]
+    "sounds": ["aerialhell:mob/torn_spirit/death"]
+  },
+  "entity.chained_god.ambient": {
+    "subtitle": "subtitles.entity.chained_god.ambient",
+    "sounds": ["aerialhell:boss/chained_god/ambient"]
+  },
+  "entity.chained_god.hurt": {
+    "subtitle": "subtitles.entity.chained_god.hurt",
+    "sounds":
+    [
+      "aerialhell:boss/chained_god/hurt1",
+      "aerialhell:boss/chained_god/hurt2",
+      "aerialhell:boss/chained_god/hurt3",
+      "aerialhell:boss/chained_god/hurt4"
+    ]
+  },
+  "entity.chained_god.death": {
+    "subtitle": "subtitles.entity.chained_god.death",
+    "sounds": ["aerialhell:boss/chained_god/death"]
+  },
+  "entity.chained_god.step": {
+    "subtitle": "subtitles.entity.chained_god.step",
+    "sounds":
+    [
+      "aerialhell:boss/chained_god/step1",
+      "aerialhell:boss/chained_god/step2",
+      "aerialhell:boss/chained_god/step3",
+      "aerialhell:boss/chained_god/step4",
+      "aerialhell:boss/chained_god/step5",
+      "aerialhell:boss/chained_god/step6"
+    ]
+  },
+  "entity.chained_god.roar": {
+    "subtitle": "subtitles.entity.chained_god.roar",
+    "sounds": ["aerialhell:boss/chained_god/roar"]
   },
   "entity.ice_spirit.ambient": {
     "subtitle": "subtitles.entity.ice_spirit.ambient",

@@ -21,6 +21,12 @@ public class AerialHellSoundEvents
 	public static final RegistryObject<SoundEvent> ENTITY_SANDY_SHEEP_DEATH = register("entity.sandy_sheep.death");
 	public static final RegistryObject<SoundEvent> ENTITY_SANDY_SHEEP_SHEAR = register("entity.sandy_sheep.shear");
 	
+	public static final RegistryObject<SoundEvent> ENTITY_CHAINED_GOD_AMBIENT = register("entity.chained_god.ambient");
+	public static final RegistryObject<SoundEvent> ENTITY_CHAINED_GOD_HURT = register("entity.chained_god.hurt");
+	public static final RegistryObject<SoundEvent> ENTITY_CHAINED_GOD_DEATH = register("entity.chained_god.death");
+	public static final RegistryObject<SoundEvent> ENTITY_CHAINED_GOD_STEP = register("entity.chained_god.step");
+	public static final RegistryObject<SoundEvent> ENTITY_CHAINED_GOD_ROAR = register("entity.chained_god.roar");
+	
 	public static final RegistryObject<SoundEvent> ENTITY_TORN_SPIRIT_AMBIENT = register("entity.torn_spirit.ambient");
 	public static final RegistryObject<SoundEvent> ENTITY_TORN_SPIRIT_HURT = register("entity.torn_spirit.hurt");
 	public static final RegistryObject<SoundEvent> ENTITY_TORN_SPIRIT_DEATH = register("entity.torn_spirit.death");

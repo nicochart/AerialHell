@@ -193,16 +193,24 @@ public class ChainedGodModel extends EntityModel<ChainedGodEntity>
 		this.head.rotateAngleY = netHeadYaw / 57.29578F;
         this.head.rotateAngleX = headPitch / 57.29578F;
         
-        int i = entity.attackTimer;
-        if (i > 0)
+        if (!entity.isImploding())
         {
-            this.rightArm.rotateAngleX = -2.0F + 1.5F * MathHelper.func_233021_e_((float)i, 10.0F) * 0.5f;
-            this.leftArm.rotateAngleX = -2.0F + 1.5F * MathHelper.func_233021_e_((float)i, 10.0F) * 0.5f;
+        	int i = entity.attackTimer;
+            if (i > 0)
+            {
+                this.rightArm.rotateAngleX = -2.0F + 1.5F * MathHelper.func_233021_e_((float)i, 10.0F) * 0.5f;
+                this.leftArm.rotateAngleX = -2.0F + 1.5F * MathHelper.func_233021_e_((float)i, 10.0F) * 0.5f;
+            }
+            else
+            {
+            	this.rightArm.rotateAngleX = (-0.2F + 1.5F * MathHelper.func_233021_e_(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+            	this.leftArm.rotateAngleX = (-0.2F - 1.5F * MathHelper.func_233021_e_(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+            }
         }
         else
         {
-        	this.rightArm.rotateAngleX = (-0.2F + 1.5F * MathHelper.func_233021_e_(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
-        	this.leftArm.rotateAngleX = (-0.2F - 1.5F * MathHelper.func_233021_e_(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+        	this.rightArm.rotateAngleX = - 2.2F;
+        	this.leftArm.rotateAngleX = - 2.2F;
         }
         
 		this.leftLeg.rotateAngleX = -1.0F * MathHelper.func_233021_e_(limbSwing, 13.0F) * limbSwingAmount;

@@ -25,6 +25,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
@@ -85,6 +86,18 @@ public class MudCycleMageEntity extends MudSoldierEntity
 	}
 	
 	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount)
+	{
+		boolean flag = super.attackEntityFrom(source, amount);
+		if (flag)
+		{
+			this.setActive(true);
+			this.recentlyHit = 100;
+		}
+		return flag;
+	}
+	
+	@Override
 	public void tick()
 	{		
 		super.tick();
@@ -94,7 +107,10 @@ public class MudCycleMageEntity extends MudSoldierEntity
 		}
 		else if (this.world.getClosestPlayer(this.getPosX(), this.getPosY(), this.getPosZ(), 32.0, EntityPredicates.CAN_AI_TARGET) == null)
 		{
-			this.setActive(false);
+			if (this.recentlyHit <= 0)
+			{
+				this.setActive(false);
+			}
 		}
 		
 		if (isActive() && (this.ticksExisted % 600 == 0 || (this.ticksExisted % 300 == 0 && rand.nextInt(2) == 0)))
@@ -107,6 +123,11 @@ public class MudCycleMageEntity extends MudSoldierEntity
 			{
 				this.summonSpectralSoldiers();
 			}
+			if (this.world.isRemote)
+			{
+				this.spawnSmokeParticle();
+			}
+			this.playSound(SoundEvents.ENTITY_EVOKER_PREPARE_SUMMON, 1.5F, 0.95F + rand.nextFloat() * 0.1F);
 		}
 	}
 	
@@ -131,8 +152,6 @@ public class MudCycleMageEntity extends MudSoldierEntity
 		spectralSoldier2.setCombatTask();
 		spectralSoldier3.setCombatTask();
 		
-		for (int i=0; i<30; i++) this.world.addParticle(ParticleTypes.LARGE_SMOKE, x + rand.nextFloat() - 0.5, y + 2 * rand.nextFloat(), z + rand.nextFloat(), 0.25 * (rand.nextFloat()) - 0.5, 0.3D, 0.25 * (rand.nextFloat() - 0.5));
-		this.playSound(SoundEvents.ENTITY_EVOKER_PREPARE_SUMMON, 1.5F, 0.95F + rand.nextFloat() * 0.1F);
 		this.world.addEntity(spectralSoldier1);
 		this.world.addEntity(spectralSoldier2);
 		this.world.addEntity(spectralSoldier3);
@@ -166,11 +185,20 @@ public class MudCycleMageEntity extends MudSoldierEntity
 		spectralEntity2.setMotion(-0.250000112583355, 0, 0.4333882291756956);//(-0.50000022516671, 0, 0.8667764583513912);
 		spectralEntity3.setMotion(-0.250000112583355, 0, -0.4333882291756956);//(-0.50000022516671, 0, -0.8667764583513912);
 		
-		for (int i=0; i<30; i++) this.world.addParticle(ParticleTypes.LARGE_SMOKE, x + rand.nextFloat() - 0.5, y + 2 * rand.nextFloat(), z + rand.nextFloat(), 0.25 * (rand.nextFloat()) - 0.5, 0.3D, 0.25 * (rand.nextFloat() - 0.5));
-		this.playSound(SoundEvents.ENTITY_EVOKER_PREPARE_SUMMON, 1.5F, 0.95F + rand.nextFloat() * 0.1F);
 		this.world.addEntity(spectralEntity1);
 		this.world.addEntity(spectralEntity2);
 		this.world.addEntity(spectralEntity3);
+	}
+	
+	public void spawnSmokeParticle()
+	{
+		for(int i = 0; i < 30; ++i)
+        {
+        	double d0 = this.rand.nextGaussian() * 0.02D;
+        	double d1 = this.rand.nextGaussian() * 0.02D;
+        	double d2 = this.rand.nextGaussian() * 0.02D;
+        	this.world.addParticle(ParticleTypes.LARGE_SMOKE, this.getPosXWidth(1.0D) - d0 * 10.0D, this.getPosYRandom() - d1 * 10.0D, this.getPosZRandom(1.0D) - d2 * 10.0D, 0.25 * (rand.nextFloat() - 0.5), 0.3D, 0.25 * (rand.nextFloat() - 0.5));
+        }
 	}
 	
 	public static class MageNearestAttackableTargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T>
