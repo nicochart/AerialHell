@@ -3,6 +3,7 @@
   "values":
   [
     "aerialhell:lunatic_stone",
+    "aerialhell:dark_lunatic_stone",
     "aerialhell:trapped_lunatic_stone",
     "aerialhell:cracked_lunatic_stone",
     "aerialhell:chiseled_lunatic_stone",
@@ -12,6 +13,9 @@
     "aerialhell:lunatic_stone_slab",
     "aerialhell:lunatic_stone_stairs",
     "aerialhell:lunatic_stone_wall",
+    "aerialhell:dark_lunatic_stone_slab",
+    "aerialhell:dark_lunatic_stone_stairs",
+    "aerialhell:dark_lunatic_stone_wall",
     "aerialhell:cracked_lunatic_stone_slab",
     "aerialhell:cracked_lunatic_stone_stairs",
     "aerialhell:cracked_lunatic_stone_wall",

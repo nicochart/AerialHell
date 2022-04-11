@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aerialhell:mossy_stellar_cobblestone"
+  },
+  "result": "aerialhell:mossy_stellar_cobblestone_stairs",
+  "count": 1
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "#",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:sky_stick"
+    },
+    "X": {
+      "item": "aerialhell:stellar_cobblestone"
+    }
+  },
+  "result": {
+    "item": "aerialhell:stellar_stone_shovel"
+  }
+}

@@ -15,6 +15,7 @@ import fr.factionbedrock.aerialhell.World.Features.GoldenSolidEtherCloudFeature;
 import fr.factionbedrock.aerialhell.World.Features.GreenSolidEtherCloudFeature;
 import fr.factionbedrock.aerialhell.World.Features.SkyCactusFeature;
 import fr.factionbedrock.aerialhell.World.Features.SlipperySandSolidEtherFeature;
+import fr.factionbedrock.aerialhell.World.Features.StellarCoarseFloorEllipsoidFeature;
 import fr.factionbedrock.aerialhell.World.Features.StellarStoneCrystalBlobFeature;
 import fr.factionbedrock.aerialhell.World.Features.SlipperySandFeature;
 import fr.factionbedrock.aerialhell.World.Features.WhiteSolidEtherCloudFeature;
@@ -136,6 +137,7 @@ public class AerialHellFeatures
     public static ConfiguredFeature<?, ?> GREEN_SOLID_ETHER = new GreenSolidEtherCloudFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(160).square().chance(5);
     public static ConfiguredFeature<?, ?> SLIPPERY_SAND_SOLID_ETHER = new SlipperySandSolidEtherFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(20);
     
+    public static ConfiguredFeature<?, ?> STELLAR_COARSE_FLOOR_ELLIPSOID = new StellarCoarseFloorEllipsoidFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(100);
     public static ConfiguredFeature<?, ?> SLIPPERY_SAND = new SlipperySandFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(20);
     public static ConfiguredFeature<?, ?> CRYSTAL_BLOB = new CrystalBlobFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(10);
     public static ConfiguredFeature<?, ?> STELLAR_STONE_CRYSTAL_BLOB = new StellarStoneCrystalBlobFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(100);
@@ -160,6 +162,7 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "volucite_ore"), GenAerialHellOres.VOLUCITE_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "glaucophanite_ore"), GenAerialHellOres.GLAUCOPHANITE_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_dirt_ore"), GenAerialHellOres.STELLAR_DIRT_ORE);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_coarse_dirt_ore"), GenAerialHellOres.STELLAR_COARSE_DIRT_ORE);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "aerial_hell_water_lake"), AERIAL_HELL_WATER_LAKE);
         
@@ -188,6 +191,7 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "green_solid_ether"), GOLDEN_SOLID_ETHER);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "slippery_sand_solid_ether"), SLIPPERY_SAND_SOLID_ETHER);
         
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_coarse_floor_ellipsoid"), STELLAR_COARSE_FLOOR_ELLIPSOID);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "slippery_sand"), SLIPPERY_SAND);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "crystal_blob"), CRYSTAL_BLOB);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_stone_crystal_blob"), STELLAR_STONE_CRYSTAL_BLOB);

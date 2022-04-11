@@ -1,0 +1,8 @@
+{
+    "parent": "block/slab_top",
+    "textures": {
+        "bottom": "aerialhell:block/dark_lunatic_stone",
+        "top": "aerialhell:block/dark_lunatic_stone",
+        "side": "aerialhell:block/dark_lunatic_stone"
+    }
+}

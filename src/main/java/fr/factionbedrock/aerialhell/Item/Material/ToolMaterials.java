@@ -10,6 +10,26 @@ import net.minecraft.util.LazyValue;
 
 public class ToolMaterials
 {
+	public static final IItemTier sky_wood = new ToolMaterial
+	(
+		0, //Niveau de minage
+		59, //durabilité
+		2.0F, //efficacité
+		0.0F, //Dégats d'attaque
+		15, //Enchantabilité
+		null //Ingrédient de réparation (Enclume)
+	);
+	
+	public static final IItemTier stellar_stone = new ToolMaterial
+	(
+		1, //Niveau de minage
+		131, //durabilité
+		4.0F, //efficacité
+		1.0F, //Dégats d'attaque
+		5, //Enchantabilité
+		null //Ingrédient de réparation (Enclume)
+	);
+	
 	public static final IItemTier ruby = new ToolMaterial
 	(
 		2, //Niveau de minage

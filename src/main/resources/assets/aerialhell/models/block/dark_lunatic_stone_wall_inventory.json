@@ -1,0 +1,6 @@
+{
+    "parent": "block/wall_inventory",
+    "textures": {
+        "wall": "aerialhell:block/dark_lunatic_stone"
+    }
+}

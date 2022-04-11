@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:block",
+  "pools":
+  [
+    {
+      "rolls": 1,
+      "entries":
+      [
+        {
+          "type": "minecraft:item",
+          "name": "aerialhell:stellar_cobblestone_pressure_plate"
+        }
+      ],
+      "conditions":
+      [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}

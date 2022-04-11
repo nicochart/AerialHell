@@ -23,6 +23,20 @@
         },
         {
           "type": "item",
+          "name": "aerialhell:mud_bone",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 3,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
           "name": "aerialhell:aerial_berry",
           "weight": 2,
           "functions": [

@@ -83,6 +83,15 @@ public class GenAerialHellOres
 			10 //Chance d'apparition
 	);
 	
+	public static ConfiguredFeature<?,?> STELLAR_COARSE_DIRT_ORE = AerialHellOres
+	(
+			AerialHellBlocksAndItems.STELLAR_COARSE_DIRT.get().getDefaultState(), //Block enregistré à configurer
+			22, //Taille de Filon
+			0, //Hauteur minimum
+			256, //Hauteur maximum
+			16 //Chance d'apparition
+	);
+	
 	public static final class FillerBlockType
 	{
 		public static final RuleTest BASE_STELLAR_STONE_AERIALHELL = new TagMatchRuleTest(AerialHellTags.Blocks.STELLAR_STONE);

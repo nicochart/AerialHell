@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "aerialhell:block/mud_bone_block",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "aerialhell:block/mud_bone_block"
+    },
+    "axis=z": {
+      "model": "aerialhell:block/mud_bone_block",
+      "x": 90
+    }
+  }
+}

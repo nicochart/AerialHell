@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    " # ",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:sky_stick"
+    },
+    "X": {
+      "tag": "aerialhell:aerialhell_planks"
+    }
+  },
+  "result": {
+    "item": "aerialhell:sky_wood_pickaxe"
+  }
+}

@@ -1,0 +1,8 @@
+{
+    "parent": "block/inner_stairs",
+    "textures": {
+        "bottom": "aerialhell:block/stellar_cobblestone",
+        "top": "aerialhell:block/stellar_cobblestone",
+        "side": "aerialhell:block/stellar_cobblestone"
+    }
+}
