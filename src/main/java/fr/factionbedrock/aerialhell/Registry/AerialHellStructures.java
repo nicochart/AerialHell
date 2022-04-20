@@ -19,6 +19,12 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+/*
+ * I followed TelepathicGrunt's tutorial for structures : https://github.com/TelepathicGrunt/StructureTutorialMod/
+ * (for 1.16.5 : https://github.com/TelepathicGrunt/StructureTutorialMod/tree/1.16.3-Forge-jigsaw)
+ * Thank you TelepathicGrunt !
+ */
+
 public class AerialHellStructures
 {
 	public static final DeferredRegister<Structure<?>> STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, MODID);
@@ -39,7 +45,7 @@ public class AerialHellStructures
 	        		LUNATIC_TEMPLE_STRUCTURE.get(), /* The instance of the structure */
 	                new StructureSeparationSettings(30 /* maximum distance apart in chunks between spawn attempts */,
 	                        15 /* minimum distance apart in chunks between spawn attempts */,
-	                        123456789 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+	                        993252541 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
 	                true); //TransformSurroundingLand
 	 }
 	 

@@ -54,11 +54,7 @@ public class GreenSolidEtherBlock extends SolidEtherBlock
 		}
 		else
 		{
-			if (motion.x == 0 && motion.z == 0)
-			{
-				entity.setMotion(entity.getForward());
-			}
-			else if (motion.x > 0.3 || motion.z > 0.3)
+			if (motion.x > 0.3 || motion.z > 0.3)
 			{
 				entity.setMotion(-1*motion.x, 1.3, -1*motion.z);
 				entity.attackEntityFrom(DamageSource.FLY_INTO_WALL.setDamageBypassesArmor(), 2.0F);
