@@ -8,6 +8,7 @@ import java.util.Map;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
+import fr.factionbedrock.aerialhell.World.Structure.LunaticTempleStructure;
 import fr.factionbedrock.aerialhell.World.Structure.MudDungeonStructure;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
@@ -23,6 +24,7 @@ public class AerialHellStructures
 	public static final DeferredRegister<Structure<?>> STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, MODID);
 	
 	public static final RegistryObject<Structure<NoFeatureConfig>> MUD_DUNGEON_STRUCTURE = STRUCTURES.register("mud_dungeon", () -> new MudDungeonStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoFeatureConfig>> LUNATIC_TEMPLE_STRUCTURE = STRUCTURES.register("lunatic_temple", () -> new LunaticTempleStructure(NoFeatureConfig.field_236558_a_));
 	 
 	 public static void setupStructures()
 	 {
@@ -32,6 +34,13 @@ public class AerialHellStructures
 	                        12 /* minimum distance apart in chunks between spawn attempts */,
 	                        1236548790 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
 	                false); //TransformSurroundingLand
+	        
+	        setupMapSpacingAndLand(
+	        		LUNATIC_TEMPLE_STRUCTURE.get(), /* The instance of the structure */
+	                new StructureSeparationSettings(30 /* maximum distance apart in chunks between spawn attempts */,
+	                        15 /* minimum distance apart in chunks between spawn attempts */,
+	                        123456789 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+	                true); //TransformSurroundingLand
 	 }
 	 
 	 

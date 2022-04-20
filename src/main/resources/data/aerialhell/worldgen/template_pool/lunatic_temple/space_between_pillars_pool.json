@@ -1,0 +1,15 @@
+{
+  "name": "aerialhell:lunatic_temple/space_between_pillars_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:lunatic_temple/space_between_pillars",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

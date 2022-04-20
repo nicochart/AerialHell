@@ -1,0 +1,15 @@
+{
+  "name": "aerialhell:lunatic_temple/temple_second_half_frieze_triangle",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:lunatic_temple/temple_roof_frieze_left_triangle",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}
