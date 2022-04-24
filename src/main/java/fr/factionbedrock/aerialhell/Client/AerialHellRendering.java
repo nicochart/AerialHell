@@ -13,6 +13,7 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.FlyingJellyfishRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.ForestCaterpillarRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.GoldenWalkerRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.HellSpiderRender;
+import fr.factionbedrock.aerialhell.Client.EntityRender.LunaticPriestRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.ElementSpiritRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.MudCycleMageRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.MudSoldierRender;
@@ -20,6 +21,7 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.PoisonballProjectileRend
 import fr.factionbedrock.aerialhell.Client.EntityRender.ThrowingKnifeRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.TornSpiritRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.ChestMimicRender;
+import fr.factionbedrock.aerialhell.Client.EntityRender.CrystalGolemRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.SandySheepRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.ShadowTrollRender;
 import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.VibratorScreen;
@@ -130,6 +132,8 @@ public class AerialHellRendering
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.GOLDEN_WALKER.get(), GoldenWalkerRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.MUD_GOLEM.get(), MudGolemRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.MUD_SPECTRAL_GOLEM.get(), MudGolemRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CRYSTAL_GOLEM.get(), CrystalGolemRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.LUNATIC_PRIEST.get(), LunaticPriestRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.EVIL_COW.get(), EvilCowRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SANDY_SHEEP.get(), SandySheepRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.FAT_PHANTOM.get(), FatPhantomRender::new);

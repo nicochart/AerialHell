@@ -269,7 +269,7 @@ public class ChainedGodEntity extends MonsterEntity
 	      boolean flag = attackedEntity.attackEntityFrom(DamageSource.causeMobDamage(this), f1);
 	      if (flag)
 	      {
-	         attackedEntity.setMotion(0.0D, (double)0.8F, 0.0D);
+	         attackedEntity.setMotion(attackedEntity.getMotion().getX(), (double)0.8F, attackedEntity.getMotion().getZ());
 	         this.applyEnchantments(this, attackedEntity);
 	      }
 

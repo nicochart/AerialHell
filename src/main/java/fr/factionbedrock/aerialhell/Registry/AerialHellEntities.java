@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
 import fr.factionbedrock.aerialhell.Entity.AerialHellHostileEntity;
 import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
+import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudGolemEntity;
@@ -14,6 +15,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.GoldenWalkerEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.HellSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralGolemEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.CrystalGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSlimeEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.EvilCowEntity;
@@ -55,10 +57,16 @@ public class AerialHellEntities
 	            .size(0.8F,2.5F).build("golden_walker");
 	  
 	public static final EntityType<MudGolemEntity> MUD_GOLEM_TYPE = EntityType.Builder.create(MudGolemEntity::new, EntityClassification.MONSTER)
-	            .size(0.8F,2.5F).build("mud_golem"); /*I don't know what to put in "size" yet*/
+	            .size(1.2F,2.8F).build("mud_golem");
 	
 	public static final EntityType<MudSpectralGolemEntity> MUD_SPECTRAL_GOLEM_TYPE = EntityType.Builder.create(MudSpectralGolemEntity::new, EntityClassification.MONSTER)
-            	.size(0.8F,2.5F).build("mud_spectral_golem");
+            	.size(1.2F,2.8F).build("mud_spectral_golem");
+	
+	public static final EntityType<CrystalGolemEntity> CRYSTAL_GOLEM_TYPE = EntityType.Builder.create(CrystalGolemEntity::new, EntityClassification.MONSTER)
+            	.size(0.9F,1.95F).build("crystal_golem");
+	
+	public static final EntityType<LunaticPriestEntity> LUNATIC_PRIEST_TYPE = EntityType.Builder.create(LunaticPriestEntity::new, EntityClassification.MONSTER)
+        		.size(0.8F,2.5F).build("lunatic_priest");
 	
 	public static final EntityType<EvilCowEntity> EVIL_COW_TYPE = EntityType.Builder.<EvilCowEntity>create(EvilCowEntity::new, EntityClassification.CREATURE)
 			    .size(0.9F, 1.4F).build("evil_cow");
@@ -159,6 +167,8 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<GoldenWalkerEntity>> GOLDEN_WALKER = ENTITIES.register("golden_walker", () -> GOLDEN_WALKER_TYPE);
 	public static final RegistryObject<EntityType<MudGolemEntity>> MUD_GOLEM = ENTITIES.register("mud_golem", () -> MUD_GOLEM_TYPE);
 	public static final RegistryObject<EntityType<MudSpectralGolemEntity>> MUD_SPECTRAL_GOLEM = ENTITIES.register("mud_spectral_golem", () -> MUD_SPECTRAL_GOLEM_TYPE);
+	public static final RegistryObject<EntityType<CrystalGolemEntity>> CRYSTAL_GOLEM = ENTITIES.register("crystal_golem", () -> CRYSTAL_GOLEM_TYPE);
+	public static final RegistryObject<EntityType<LunaticPriestEntity>> LUNATIC_PRIEST = ENTITIES.register("lunatic_priest", () -> LUNATIC_PRIEST_TYPE);
 	public static final RegistryObject<EntityType<EvilCowEntity>> EVIL_COW = ENTITIES.register("evil_cow", () -> EVIL_COW_TYPE);
 	public static final RegistryObject<EntityType<SandySheepEntity>> SANDY_SHEEP = ENTITIES.register("sandy_sheep", () -> SANDY_SHEEP_TYPE);
 	public static final RegistryObject<EntityType<FatPhantomEntity>> FAT_PHANTOM = ENTITIES.register("fat_phantom", () -> FAT_PHANTOM_TYPE);

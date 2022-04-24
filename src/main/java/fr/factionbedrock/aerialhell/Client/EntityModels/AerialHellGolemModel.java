@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.MudGolemEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.AerialHellGolemEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class MudGolemModel<T extends MudGolemEntity> extends EntityModel<T>
+public class AerialHellGolemModel<T extends AerialHellGolemEntity> extends EntityModel<T>
 {
 	/*Made with Blockbench 3.8.3
  	  Exported for Minecraft version 1.15 - 1.16*/
@@ -23,7 +23,7 @@ public class MudGolemModel<T extends MudGolemEntity> extends EntityModel<T>
 	private final ModelRenderer leftLeg;
  	private final ModelRenderer rightLeg;
 
-	public MudGolemModel()
+	public AerialHellGolemModel()
 	{
 		textureWidth = 128;
 		textureHeight = 128;
@@ -58,9 +58,23 @@ public class MudGolemModel<T extends MudGolemEntity> extends EntityModel<T>
 	}
 	
 	@Override
-	public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	{
 		this.head.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.rotateAngleX = headPitch * ((float)Math.PI / 180F);
+		
+		int i = entityIn.attackTimer;
+        if (i > 0)
+        {
+            this.leftArm.rotateAngleX = -2.0F + 0.6F * MathHelper.func_233021_e_((float)i, 10.0F);
+            this.rightArm.rotateAngleX = -2.0F + 0.6F * MathHelper.func_233021_e_((float)i, 10.0F);
+        }
+        else
+        {
+        	this.leftArm.rotateAngleX = (-0.2F + 0.8F * MathHelper.func_233021_e_(limbSwing, 13.0F)) * limbSwingAmount;
+        	this.rightArm.rotateAngleX = (-0.2F - 0.8F * MathHelper.func_233021_e_(limbSwing, 13.0F)) * limbSwingAmount;
+        }
+        
 		this.leftLeg.rotateAngleX = -1.5F * MathHelper.func_233021_e_(limbSwing, 13.0F) * limbSwingAmount;
 		this.rightLeg.rotateAngleX = 1.5F * MathHelper.func_233021_e_(limbSwing, 13.0F) * limbSwingAmount;
 		this.leftLeg.rotateAngleY = 0.0F;
