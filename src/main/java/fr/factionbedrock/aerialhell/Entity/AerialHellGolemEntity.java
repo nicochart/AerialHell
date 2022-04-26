@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Entity.Monster;
+package fr.factionbedrock.aerialhell.Entity;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;

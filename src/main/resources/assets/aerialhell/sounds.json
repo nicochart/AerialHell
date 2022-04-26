@@ -7,6 +7,25 @@
       }
     ]
   },
+  "entity.lunatic_priest.ambient": {
+    "subtitle": "subtitles.entity.lunatic_priest.ambient",
+    "sounds": [
+      "aerialhell:mob/lunatic_priest/ambient"
+    ]
+  },
+  "entity.lunatic_priest.hurt": {
+    "subtitle": "subtitles.entity.lunatic_priest.hurt",
+    "sounds": [
+      "aerialhell:mob/lunatic_priest/hurt"
+    ]
+  },
+  "entity.lunatic_priest.death": {
+    "subtitle": "subtitles.entity.lunatic_priest.death",
+    "sounds": [
+      "aerialhell:mob/lunatic_priest/death1",
+      "aerialhell:mob/lunatic_priest/death2"
+    ]
+  },
   "entity.evil_cow.ambient": {
     "subtitle": "subtitles.entity.evil_cow.ambient",
     "sounds": [
@@ -182,6 +201,14 @@
   "entity.throwing_knife.throw": {
     "subtitle": "subtitles.entity.throwing_knife.throw",
     "sounds": ["aerialhell:projectile/throwing_knife/shoot"]
+  },
+  "entity.lunatic_projectile.shoot": {
+    "subtitle": "subtitles.entity.lunatic_projectile.shoot",
+    "sounds": ["aerialhell:projectile/lunatic_projectile/shoot"]
+  },
+  "entity.lunatic_projectile.disappear": {
+    "subtitle": "subtitles.entity.lunatic_projectile.disappear",
+    "sounds": ["aerialhell:projectile/lunatic_projectile/disappear"]
   },
   "block.trapped_block.step": {
     "subtitle": "subtitles.block.trapped_block.step",

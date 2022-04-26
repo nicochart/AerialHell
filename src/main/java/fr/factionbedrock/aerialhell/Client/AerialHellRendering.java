@@ -14,6 +14,7 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.ForestCaterpillarRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.GoldenWalkerRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.HellSpiderRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.LunaticPriestRender;
+import fr.factionbedrock.aerialhell.Client.EntityRender.LunaticProjectileRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.ElementSpiritRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.MudCycleMageRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.MudSoldierRender;
@@ -167,6 +168,7 @@ public class AerialHellRendering
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.LIGHTNING_THROWING_KNIFE.get(), ThrowingKnifeRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.POISONBALL.get(), PoisonballProjectileRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.VOLUCITE_BLOWPIPE_ARROW.get(), AerialArrowRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.LUNATIC_PROJECTILE.get(), LunaticProjectileRender::new);
 	}
 	
 	public static void registerGuiFactories()

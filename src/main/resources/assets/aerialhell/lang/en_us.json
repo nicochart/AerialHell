@@ -394,6 +394,8 @@
   "entity.aerialhell.mud_spectral_soldier": "Spectral Mud Soldier",
   "entity.aerialhell.mud_golem": "Mud Golem",
   "entity.aerialhell.mud_spectral_golem": "Spectral Mud Golem",
+  "entity.aerialhell.crystal_golem": "Crystal Golem",
+  "entity.aerialhell.lunatic_priest": "Lunatic Priest",
   "entity.aerialhell.torn_spirit": "Torn Spirit",
   "entity.aerialhell.ice_spirit": "Ice Spirit",
   "entity.aerialhell.fire_spirit": "Fire Spirit",
@@ -415,6 +417,7 @@
   "entity.aerialhell.volucite_throwing_knife": "Volucite Throwing Knife",
   "entity.aerialhell.lightning_throwing_knife": "Lightning Throwing Knife",
   "entity.aerialhell.poisonball": "Poisonball",
+  "entity.aerialhell.lunatic_projectile": "Lunatic Projectile",
   "entity.aerialhell.volucite_blowpipe_arrow": "Volucite Blowpipe Arrow",
 
   "death.attack.throwing_knife_hit": "%1$s was killed by a throwing knife",

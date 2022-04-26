@@ -394,6 +394,8 @@
   "entity.aerialhell.mud_spectral_soldier": "Soldat de Boue Spectral",
   "entity.aerialhell.mud_golem": "Golem de Boue",
   "entity.aerialhell.mud_spectral_golem": "Golem de Boue Spectral",
+  "entity.aerialhell.crystal_golem": "Golem de Crystal",
+  "entity.aerialhell.lunatic_priest": "Prêtre Lunatique",
   "entity.aerialhell.torn_spirit": "Esprit Torturé",
   "entity.aerialhell.ice_spirit": "Esprit de Glace",
   "entity.aerialhell.fire_spirit": "Esprit de Feu",
@@ -415,6 +417,7 @@
   "entity.aerialhell.volucite_throwing_knife": "Couteau de Lancer en Volucite",
   "entity.aerialhell.lightning_throwing_knife": "Couteau de Lancer Foudroyant",
   "entity.aerialhell.poisonball": "Boule de Poison",
+  "entity.aerialhell.lunatic_projectile": "Projectile Lunatique",
   "entity.aerialhell.volucite_blowpipe_arrow": "Flèche de Sarbacane en Volucite",
 
   "death.attack.throwing_knife_hit": "%1$s s'est fait zigouiller par un couteau de lancer",

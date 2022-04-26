@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.AerialHellGolemEntity;
+import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;

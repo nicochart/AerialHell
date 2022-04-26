@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
+import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -55,6 +56,9 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D);
     }
     
+    @Override public boolean isImmuneToFire() {return true;}
+	@Override public boolean canRenderOnFire() {return false;}
+	
     @Override
     protected void registerGoals()
     {

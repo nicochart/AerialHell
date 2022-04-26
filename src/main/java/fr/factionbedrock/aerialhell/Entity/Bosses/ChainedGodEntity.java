@@ -45,7 +45,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class ChainedGodEntity extends MonsterEntity
 {
 	public int attackTimer;
-	private static int fireballTimer;
+	private int fireballTimer;
 	
 	public static final DataParameter<Boolean> GOD_ACTIVE = EntityDataManager.createKey(ChainedGodEntity.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Boolean> IMPLODING = EntityDataManager.createKey(CreeperEntity.class, DataSerializers.BOOLEAN);
@@ -376,7 +376,7 @@ public class ChainedGodEntity extends MonsterEntity
 	    	LivingEntity target = this.chainedGod.getAttackTarget();
 	    	double DistanceToTarget = 0;
 	    	if (target != null)	{DistanceToTarget = this.chainedGod.getDistance(target);}
-	        return chainedGod.getHealth() < chainedGod.getMaxHealth() / 2 && fireballTimer < 50 && target != null && target.isAlive() && this.chainedGod.canAttack(target) && DistanceToTarget < 16;
+	        return chainedGod.getHealth() < chainedGod.getMaxHealth() / 2 && chainedGod.fireballTimer < 50 && target != null && target.isAlive() && this.chainedGod.canAttack(target) && DistanceToTarget < 16;
 	    }
 	    
 	    public void startExecuting() {this.fireballCount = 0;}
