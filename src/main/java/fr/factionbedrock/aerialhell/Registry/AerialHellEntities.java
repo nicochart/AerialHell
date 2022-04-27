@@ -142,7 +142,7 @@ public class AerialHellEntities
 			    .size(0.5F, 0.5F).build("volucite_blowpipe_arrow");
 	
 	public static final EntityType<LunaticProjectileEntity> LUNATIC_PROJECTILE_TYPE = EntityType.Builder.<LunaticProjectileEntity>create(LunaticProjectileEntity::new, EntityClassification.MISC)
-		    	.size(0.5F, 0.5F).build("lunatic_projectile");
+		    	.size(1.0F, 1.0F).build("lunatic_projectile");
 	
 	public static final EntityType<ShadowTrollEntity> SHADOW_TROLL_TYPE = EntityType.Builder.create(ShadowTrollEntity::new, EntityClassification.MONSTER)
 			    .size(1.2F, 2.5F).build("shadow_troll");

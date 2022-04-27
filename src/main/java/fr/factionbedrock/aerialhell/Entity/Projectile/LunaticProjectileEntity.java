@@ -30,10 +30,10 @@ public class LunaticProjectileEntity extends ThrowableEntity
         this.setShooter(shooter);
     }
     
-    public LunaticProjectileEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity)
+    public LunaticProjectileEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
     {
     	this(world, shooter);
-    	this.shoot(accelX, accelY, accelZ, velocity, 0.0f);
+    	this.shoot(accelX, accelY, accelZ, velocity, inaccuracy);
     }
     
     @Override
