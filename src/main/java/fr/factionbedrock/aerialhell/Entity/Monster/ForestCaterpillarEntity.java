@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -16,6 +17,7 @@ import net.minecraft.entity.monster.SilverfishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
@@ -72,5 +74,11 @@ public class ForestCaterpillarEntity extends SilverfishEntity
 		{
 	         return false;
 	    }
+	}
+	
+	@Override
+	protected SoundEvent getAmbientSound()
+	{
+		return AerialHellSoundEvents.ENTITY_FOREST_CATERPILLAR_AMBIENT.get();
 	}
 }

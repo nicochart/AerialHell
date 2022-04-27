@@ -30,6 +30,7 @@ import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.PoisonballEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 
 public class FlyingJellyfishEntity extends FlyingEntity implements IMob
 {
@@ -316,18 +317,18 @@ public class FlyingJellyfishEntity extends FlyingEntity implements IMob
 	@Override
 	protected SoundEvent getAmbientSound()
 	{
-		return SoundEvents.ENTITY_SILVERFISH_AMBIENT;
+		return AerialHellSoundEvents.ENTITY_FLYING_JELLYFISH_AMBIENT.get();
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source)
 	{
-		return SoundEvents.ENTITY_SILVERFISH_HURT;
+		return AerialHellSoundEvents.ENTITY_FLYING_JELLYFISH_HURT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound()
 	{
-		return SoundEvents.ENTITY_SILVERFISH_DEATH;
+		return AerialHellSoundEvents.ENTITY_FLYING_JELLYFISH_HURT.get();
 	}
 }

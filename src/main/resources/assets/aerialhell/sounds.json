@@ -98,37 +98,37 @@
   },
   "entity.chained_god.ambient": {
     "subtitle": "subtitles.entity.chained_god.ambient",
-    "sounds": ["aerialhell:boss/chained_god/ambient"]
+    "sounds": ["aerialhell:mob/chained_god/ambient"]
   },
   "entity.chained_god.hurt": {
     "subtitle": "subtitles.entity.chained_god.hurt",
     "sounds":
     [
-      "aerialhell:boss/chained_god/hurt1",
-      "aerialhell:boss/chained_god/hurt2",
-      "aerialhell:boss/chained_god/hurt3",
-      "aerialhell:boss/chained_god/hurt4"
+      "aerialhell:mob/chained_god/hurt1",
+      "aerialhell:mob/chained_god/hurt2",
+      "aerialhell:mob/chained_god/hurt3",
+      "aerialhell:mob/chained_god/hurt4"
     ]
   },
   "entity.chained_god.death": {
     "subtitle": "subtitles.entity.chained_god.death",
-    "sounds": ["aerialhell:boss/chained_god/death"]
+    "sounds": ["aerialhell:mob/chained_god/death"]
   },
   "entity.chained_god.step": {
     "subtitle": "subtitles.entity.chained_god.step",
     "sounds":
     [
-      "aerialhell:boss/chained_god/step1",
-      "aerialhell:boss/chained_god/step2",
-      "aerialhell:boss/chained_god/step3",
-      "aerialhell:boss/chained_god/step4",
-      "aerialhell:boss/chained_god/step5",
-      "aerialhell:boss/chained_god/step6"
+      "aerialhell:mob/chained_god/step1",
+      "aerialhell:mob/chained_god/step2",
+      "aerialhell:mob/chained_god/step3",
+      "aerialhell:mob/chained_god/step4",
+      "aerialhell:mob/chained_god/step5",
+      "aerialhell:mob/chained_god/step6"
     ]
   },
   "entity.chained_god.roar": {
     "subtitle": "subtitles.entity.chained_god.roar",
-    "sounds": ["aerialhell:boss/chained_god/roar"]
+    "sounds": ["aerialhell:mob/chained_god/roar"]
   },
   "entity.ice_spirit.ambient": {
     "subtitle": "subtitles.entity.ice_spirit.ambient",
@@ -190,6 +190,28 @@
       "aerialhell:mob/shadow_troll/hurt1"
     ]
   },
+  "entity.forest_caterpillar.ambient": {
+    "subtitle": "subtitles.entity.forest_caterpillar.ambient",
+    "sounds":
+    [
+      "aerialhell:mob/forest_caterpillar/ambient"
+    ]
+  },
+  "entity.flying_jellyfish.ambient": {
+    "subtitle": "subtitles.entity.flying_jellyfish.ambient",
+    "sounds":
+    [
+      "aerialhell:mob/flying_jellyfish/ambient"
+    ]
+  },
+  "entity.flying_jellyfish.hurt": {
+    "subtitle": "subtitles.entity.flying_jellyfish.hurt",
+    "sounds":
+    [
+      "aerialhell:mob/flying_jellyfish/hurt1",
+      "aerialhell:mob/flying_jellyfish/hurt2"
+    ]
+  },
   "entity.shadow_troll.death": {
     "subtitle": "subtitles.entity.shadow_troll.death",
     "sounds": ["aerialhell:mob/shadow_troll/death"]
@@ -216,13 +238,20 @@
       "aerialhell:block/trapped_block/step"
     ]
   },
+  "item.forgotten_battle_trident.use": {
+    "subtitle": "subtitles.item.forgotten_battle_trident.use",
+    "sounds": [
+      "aerialhell:item/forgotten_battle_trident"
+    ]
+  },
   "block.aerial_hell_portal.ambient": {
     "subtitle": "subtitles.block.aerial_hell_portal.ambient",
     "sounds": [
-      {
-        "attenuation_distance": 10,
-        "name": "aerialhell:portal/portal"
-      }
+       "aerialhell:portal/portal1",
+       "aerialhell:portal/portal2",
+       "aerialhell:portal/portal3",
+       "aerialhell:portal/portal4",
+       "aerialhell:portal/portal5"
     ]
   }
 }

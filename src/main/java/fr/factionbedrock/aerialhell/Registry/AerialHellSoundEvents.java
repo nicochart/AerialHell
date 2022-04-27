@@ -52,8 +52,15 @@ public class AerialHellSoundEvents
 	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_TROLL_HURT = register("entity.shadow_troll.hurt");
 	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_TROLL_DEATH = register("entity.shadow_troll.death");
 	
+	public static final RegistryObject<SoundEvent> ENTITY_FOREST_CATERPILLAR_AMBIENT = register("entity.forest_caterpillar.ambient");
+	
+	public static final RegistryObject<SoundEvent> ENTITY_FLYING_JELLYFISH_AMBIENT = register("entity.flying_jellyfish.ambient");
+	public static final RegistryObject<SoundEvent> ENTITY_FLYING_JELLYFISH_HURT = register("entity.flying_jellyfish.hurt");
+	
 	public static final RegistryObject<SoundEvent> ENTITY_THROWING_KNIFE_SHOOT = register("entity.throwing_knife.throw");
 	public static final RegistryObject<SoundEvent> ENTITY_VOLUCITE_BLOWPIPE_SHOOT = register("entity.volucite_blowpipe.shoot");
+	
+	public static final RegistryObject<SoundEvent> ITEM_FORGOTTEN_BATTLE_TRIDENT_USE = register("item.forgotten_battle_trident.use");
 	
 	public static final RegistryObject<SoundEvent> TRAPPED_BLOCK_STEP = register("block.trapped_block.step");
 	public static final RegistryObject<SoundEvent> BLOCK_AERIAL_HELL_PORTAL_AMBIENT = register("block.aerial_hell_portal.ambient");

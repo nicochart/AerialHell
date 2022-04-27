@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 
 import java.util.Random;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
@@ -10,7 +11,6 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
 public class ForgottenBattleTridentItem extends AerialHellSwordItem
@@ -30,7 +30,7 @@ public class ForgottenBattleTridentItem extends AerialHellSwordItem
 		{
 			worldIn.addParticle(ParticleTypes.DRIPPING_WATER, playerIn.getPosX() + 4*(rand.nextFloat() - 0.5F), playerIn.getPosY() + 4*rand.nextFloat(), playerIn.getPosZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
 		}
-		playerIn.playSound(SoundEvents.ENTITY_ILLUSIONER_CAST_SPELL, 1.0F, 1.5F);
+		playerIn.playSound(AerialHellSoundEvents.ITEM_FORGOTTEN_BATTLE_TRIDENT_USE.get(), 1.0F, 1.5F);
 		
 		if (!worldIn.isRemote)
 		{
