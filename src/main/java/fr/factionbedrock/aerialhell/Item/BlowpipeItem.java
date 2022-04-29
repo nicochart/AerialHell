@@ -13,24 +13,24 @@ import net.minecraft.world.World;
 import java.util.function.Supplier;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractAerialArrowEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 
 public class BlowpipeItem extends Item
 {
-    protected final Supplier<Item> ammoType;
     public BlowpipeItem(Supplier<Item> ammo, Properties builder)
     {
         super(builder);
-        this.ammoType = ammo;
     }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        boolean flag = playerIn.abilities.isCreativeMode;
+        boolean isCreative = playerIn.abilities.isCreativeMode;
         ItemStack heldItem = playerIn.getHeldItem(handIn);
         ItemStack ammo = this.findAmmo(playerIn);
-        if(ammo.isEmpty() && !flag)
+        if(ammo.isEmpty() && !isCreative)
         {
         	return ActionResult.resultFail(heldItem);
         }
@@ -38,18 +38,19 @@ public class BlowpipeItem extends Item
         if (!worldIn.isRemote)
         {
             AerialArrowItem arrowItem;
-            if(flag && ammo.isEmpty())
+            if(isCreative && ammo.isEmpty())
             {
-                arrowItem = (AerialArrowItem) ammoType.get();
+                arrowItem = (AerialArrowItem) AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get();
             }
             else
             {
                 arrowItem = (AerialArrowItem) ammo.getItem();
             }
             AbstractAerialArrowEntity arrow = arrowItem.createArrow(worldIn, ammo, playerIn);
-            arrow.setNoGravity(true);
-            arrow.func_234612_a_(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.0F, 1.0F);
-            if (flag)
+            if (arrowItem == AerialHellBlocksAndItems.VOLUCITE_BLOWPIPE_ARROW.get()) {arrow.setNoGravity(true);}
+            
+            arrow.func_234612_a_(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.7F, 1.0F);
+            if (isCreative)
             {
                 arrow.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
             }
@@ -60,7 +61,7 @@ public class BlowpipeItem extends Item
             worldIn.addEntity(arrow);
         }
         worldIn.playSound(playerIn, playerIn.getPosition(), AerialHellSoundEvents.ENTITY_VOLUCITE_BLOWPIPE_SHOOT.get(), SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 0.8F));
-        if (!flag)
+        if (!isCreative)
         {
             ammo.shrink(1);
             if (ammo.isEmpty())
@@ -84,7 +85,7 @@ public class BlowpipeItem extends Item
             }
             else
             {
-                if(stack.getItem() == this.ammoType.get())
+                if(stack.getItem().isIn(AerialHellTags.Items.BLOWPIPE_ARROWS))
                 {
                     return stack;
                 }

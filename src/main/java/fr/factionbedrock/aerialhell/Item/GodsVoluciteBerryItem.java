@@ -15,7 +15,7 @@ public class GodsVoluciteBerryItem extends Item
     public GodsVoluciteBerryItem(ItemGroup group)
     {
         super(new Item.Properties().rarity(AerialHellRarities.MYTHICAL)
-                .food(new Food.Builder().setAlwaysEdible().hunger(6)
+                .food(new Food.Builder().setAlwaysEdible().hunger(6).saturation(0.8F)
                 		.effect(() -> new EffectInstance(Effects.SLOW_FALLING, 2400, 2), 1.0F)
                 		.effect(() -> new EffectInstance(Effects.LEVITATION, 100, 4), 1.0F)
                 		.effect(() -> new EffectInstance(AerialHellPotionEffects.GOD.get(), 6000, 0), 1.0F)
@@ -30,7 +30,7 @@ public class GodsVoluciteBerryItem extends Item
     public GodsVoluciteBerryItem() //default group and rarity
     {
         super(new Item.Properties().rarity(AerialHellRarities.MYTHICAL)
-                .food(new Food.Builder().setAlwaysEdible().hunger(6)
+                .food(new Food.Builder().setAlwaysEdible().hunger(6).saturation(0.8F)
                 		.effect(() -> new EffectInstance(Effects.SLOW_FALLING, 2400, 2), 1.0F)
                 		.effect(() -> new EffectInstance(Effects.LEVITATION, 100, 4), 1.0F)
                 		.effect(() -> new EffectInstance(AerialHellPotionEffects.GOD.get(), 6000, 0), 1.0F)

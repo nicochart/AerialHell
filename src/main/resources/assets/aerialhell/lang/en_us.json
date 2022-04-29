@@ -115,10 +115,12 @@
   "block.aerialhell.chiseled_stellar_dirt" : "Chiseled Stellar Dirt",
   "block.aerialhell.stellar_grass_block" : "Stellar Grass Block",
   "block.aerialhell.stellar_grass" : "Stellar Grass",
+  "block.aerialhell.stellar_grass_ball" : "Stellar Grass Ball",
   "block.aerialhell.stellar_tall_grass" : "Stellar Tall Grass",
   "block.aerialhell.stellar_fern" : "Stellar Fern",
   "block.aerialhell.stellar_tall_fern" : "Stellar Tall Fern",
   "block.aerialhell.stellar_dead_bush" : "Stellar Dead Bush",
+  "block.aerialhell.brambles" : "Brambles",
   "block.aerialhell.chiseled_stellar_grass_block" : "Chiseled Stellar Grass Block",
   "block.aerialhell.slippery_sand" : "Slippery Sand",
   "block.aerialhell.slippery_sand_stone" : "Slippery Sand Stone",
@@ -254,6 +256,7 @@
   "block.aerialhell.volucite_lantern" : "Volucite Lantern",
   "block.aerialhell.volucite_fluorite_lantern" : "Volucite Fluorite Lantern",
   "block.aerialhell.volucite_torch" : "Volucite Torch",
+  "block.aerialhell.lunatic_lantern" : "Lunatic Lantern",
   "block.aerialhell.ruby_ore" : "Ruby Ore",
   "item.aerialhell.ruby" : "Ruby",
   "block.aerialhell.ruby_door" : "Ruby Door",
@@ -286,6 +289,7 @@
   "item.aerialhell.azurite_throwing_knife" : "Azurite Throwing Knife",
   "item.aerialhell.magmatic_gel_throwing_knife" : "Magmatic Gel Throwing Knife",
   "item.aerialhell.volucite_throwing_knife" : "Volucite Throwing Knife",
+  "item.aerialhell.ruby_blowpipe_arrow" : "Ruby Blowpipe Arrow",
   "item.aerialhell.volucite_blowpipe_arrow" : "Volucite Blowpipe Arrow",
   "item.aerialhell.volucite_blowpipe": "Volucite Blowpipe",
   "item.aerialhell.golden_nether_meat_piece" : "Golden Nether Meat Piece",
@@ -418,8 +422,10 @@
   "entity.aerialhell.lightning_throwing_knife": "Lightning Throwing Knife",
   "entity.aerialhell.poisonball": "Poisonball",
   "entity.aerialhell.lunatic_projectile": "Lunatic Projectile",
+  "entity.aerialhell.ruby_blowpipe_arrow": "Ruby Blowpipe Arrow",
   "entity.aerialhell.volucite_blowpipe_arrow": "Volucite Blowpipe Arrow",
 
   "death.attack.throwing_knife_hit": "%1$s was killed by a throwing knife",
-  "death.attack.throwing_knife_hit.player": "%1$s was killed by %2$s's throwing knife"
+  "death.attack.throwing_knife_hit.player": "%1$s was killed by %2$s's throwing knife",
+  "death.attack.brambles_thorns": "%1$s got stuck in the brambles"
 }

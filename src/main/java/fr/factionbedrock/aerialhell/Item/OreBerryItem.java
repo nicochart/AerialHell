@@ -13,14 +13,14 @@ public class OreBerryItem extends Item
     public OreBerryItem(ItemGroup group, Rarity rarity, EffectInstance effect)
     {
         super(new Item.Properties().rarity(rarity)
-                .food(new Food.Builder().setAlwaysEdible().hunger(6).effect(() -> effect, 1.0F).build())
+                .food(new Food.Builder().setAlwaysEdible().hunger(6).saturation(0.8F).effect(() -> effect, 1.0F).build())
                 .group(group));
     }
     
     public OreBerryItem(EffectInstance effect) //default group and rarity
     {
         super(new Item.Properties().rarity(AerialHellRarities.VIBRANT)
-                .food(new Food.Builder().setAlwaysEdible().hunger(6).effect(() -> effect, 1.0F).build())
+                .food(new Food.Builder().setAlwaysEdible().hunger(6).saturation(0.8F).effect(() -> effect, 1.0F).build())
                 .group(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
     }
 }

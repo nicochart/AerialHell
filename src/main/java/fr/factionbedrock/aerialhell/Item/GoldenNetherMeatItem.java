@@ -10,10 +10,10 @@ import net.minecraft.potion.Effects;
 
 public class GoldenNetherMeatItem extends Item
 {
-    public GoldenNetherMeatItem(int hunger, int duration_in_tinks, ItemGroup group, Rarity rarity)
+    public GoldenNetherMeatItem(int hunger, float saturation, int duration_in_tinks, ItemGroup group, Rarity rarity)
     {
     	super(new Item.Properties().rarity(Rarity.UNCOMMON)
-                .food(new Food.Builder().setAlwaysEdible().hunger(hunger).effect(() -> new EffectInstance(Effects.FIRE_RESISTANCE, duration_in_tinks, 0), 1.0F).build())
+                .food(new Food.Builder().setAlwaysEdible().hunger(hunger).saturation(saturation).effect(() -> new EffectInstance(Effects.FIRE_RESISTANCE, duration_in_tinks, 0), 1.0F).build())
                 .group(group));
     }
     

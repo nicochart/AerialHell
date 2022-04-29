@@ -12,7 +12,7 @@ public class FrozenAerialBerryItem extends Item
     public FrozenAerialBerryItem(ItemGroup group)
     {
         super(new Item.Properties().rarity(AerialHellRarities.FROZEN)
-                .food(new Food.Builder().setAlwaysEdible().hunger(8).effect(() -> new EffectInstance(Effects.SLOWNESS, 310, 0), 1.0F).effect(() -> new EffectInstance(Effects.RESISTANCE, 210, 0), 1.0F).build())
+                .food(new Food.Builder().setAlwaysEdible().hunger(8).saturation(0.6F).effect(() -> new EffectInstance(Effects.SLOWNESS, 310, 0), 1.0F).effect(() -> new EffectInstance(Effects.RESISTANCE, 210, 0), 1.0F).build())
                 .group(group));
     }
 }

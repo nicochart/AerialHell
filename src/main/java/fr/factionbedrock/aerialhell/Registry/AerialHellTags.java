@@ -76,6 +76,8 @@ public class AerialHellTags
 	{
 		public static final ITag.INamedTag<Item> STICKS = tag("sticks");
 		
+		public static final ITag.INamedTag<Item> BLOWPIPE_ARROWS = tag("blowpipe_arrows");
+		
 		public static final ITag.INamedTag<Item> AERIALHELL_PLANKS = tag("aerialhell_planks");
 		
 		public static final ITag.INamedTag<Item> MAGMATIC_GEL = tag("magmatic_gel");

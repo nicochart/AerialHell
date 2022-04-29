@@ -70,7 +70,9 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.BLACK_ROSE.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), cutout_mipped);
         render(() -> AerialHellBlocksAndItems.STELLAR_GRASS.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_FERN.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.BRAMBLES.get(), cutout);
         render(() -> AerialHellBlocksAndItems.AERIAL_TREE_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.GOLDEN_BEECH_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.COPPER_PINE_SAPLING.get(), cutout);
@@ -111,6 +113,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.VOLUCITE_LANTERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.VOLUCITE_FLUORITE_LANTERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.FLUORITE_LANTERN.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.LUNATIC_LANTERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.VOLUCITE_TORCH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.VOLUCITE_WALL_TORCH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.SKY_LADDER.get(), cutout);
@@ -168,6 +171,7 @@ public class AerialHellRendering
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.LIGHTNING_THROWING_KNIFE.get(), ThrowingKnifeRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.POISONBALL.get(), PoisonballProjectileRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.VOLUCITE_BLOWPIPE_ARROW.get(), AerialArrowRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), AerialArrowRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.LUNATIC_PROJECTILE.get(), LunaticProjectileRender::new);
 	}
 	

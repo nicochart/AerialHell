@@ -14,14 +14,14 @@ public class AercloudFragmentItem extends Item
 	public AercloudFragmentItem(ItemGroup group, Supplier<EffectInstance> effectIn)
 	{
 		super(new Item.Properties().rarity(Rarity.UNCOMMON)
-                .food(new Food.Builder().setAlwaysEdible().hunger(1).effect(effectIn, 1.0F).build())
+                .food(new Food.Builder().setAlwaysEdible().hunger(1).saturation(0.1F).effect(effectIn, 1.0F).build())
                 .group(group));
 	}
     
     public AercloudFragmentItem(Supplier<EffectInstance> effectIn) //default group
     {
         super(new Item.Properties().rarity(Rarity.UNCOMMON)
-                .food(new Food.Builder().setAlwaysEdible().hunger(1).effect(effectIn, 1.0F).build())
+                .food(new Food.Builder().setAlwaysEdible().hunger(1).saturation(0.1F).effect(effectIn, 1.0F).build())
                 .group(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
     }
 }

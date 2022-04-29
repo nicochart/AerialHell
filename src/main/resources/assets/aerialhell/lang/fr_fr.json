@@ -115,10 +115,12 @@
   "block.aerialhell.chiseled_stellar_dirt" : "Terre Stellaire Sculptée",
   "block.aerialhell.stellar_grass_block" : "Bloc d'Herbe Stellaire",
   "block.aerialhell.stellar_grass" : "Herbe Stellaire",
+  "block.aerialhell.stellar_grass_ball" : "Motte d'Herbe Stellaire",
   "block.aerialhell.stellar_tall_grass" : "Haute herbe Stellaire",
   "block.aerialhell.stellar_fern" : "Fougère Stellaire",
   "block.aerialhell.stellar_tall_fern" : "Grande fougère Stellaire",
   "block.aerialhell.stellar_dead_bush" : "Arbuste Stellaire Mort",
+  "block.aerialhell.brambles" : "Ronces",
   "block.aerialhell.chiseled_stellar_grass_block" : "Terre Stellaire Sculptée Herbeuse",
   "block.aerialhell.slippery_sand" : "Sable Glissant",
   "block.aerialhell.slippery_sand_stone" : "Pierre de Sable Glissant",
@@ -254,6 +256,7 @@
   "block.aerialhell.volucite_lantern" : "Lanterne en Volucite",
   "block.aerialhell.volucite_fluorite_lantern" : "Lanterne de Fluorine en Volucite",
   "block.aerialhell.volucite_torch" : "Torche de Volucite",
+  "block.aerialhell.lunatic_lantern" : "Lanterne Lunatique",
   "block.aerialhell.ruby_ore" : "Minerai de Rubis",
   "item.aerialhell.ruby" : "Rubis",
   "block.aerialhell.ruby_door" : "Porte en Rubis",
@@ -286,6 +289,7 @@
   "item.aerialhell.magmatic_gel_throwing_knife" : "Couteau de Lancer en Gel Magmatique",
   "item.aerialhell.volucite_throwing_knife" : "Couteau de Lancer en Volucite",
   "item.aerialhell.lightning_throwing_knife" : "Couteau de Lancer Foudroyant",
+  "item.aerialhell.ruby_blowpipe_arrow" : "Flèche de Sarbacane en Rubis",
   "item.aerialhell.volucite_blowpipe_arrow" : "Flèche de Sarbacane en Volucite",
   "item.aerialhell.volucite_blowpipe": "Sarbacane en Volucite",
   "item.aerialhell.golden_nether_meat_piece" : "Morceau de Viande Dorée du Nether",
@@ -418,8 +422,10 @@
   "entity.aerialhell.lightning_throwing_knife": "Couteau de Lancer Foudroyant",
   "entity.aerialhell.poisonball": "Boule de Poison",
   "entity.aerialhell.lunatic_projectile": "Projectile Lunatique",
+  "entity.aerialhell.ruby_blowpipe_arrow": "Flèche de Sarbacane en Rubis",
   "entity.aerialhell.volucite_blowpipe_arrow": "Flèche de Sarbacane en Volucite",
 
   "death.attack.throwing_knife_hit": "%1$s s'est fait zigouiller par un couteau de lancer",
-  "death.attack.throwing_knife_hit.player": "%1$s s'est fait zigouiller par le couteau de lancer de %2$s"
+  "death.attack.throwing_knife_hit.player": "%1$s s'est fait zigouiller par le couteau de lancer de %2$s",
+  "death.attack.brambles_thorns": "%1$s est resté coincé dans les ronces"
 }

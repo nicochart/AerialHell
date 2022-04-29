@@ -30,7 +30,8 @@ import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.FireSpiritEntit
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.IceSpiritEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.FatPhantomEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.SandySheepEntity;
-import fr.factionbedrock.aerialhell.Entity.Projectile.VoluciteArrowEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.RubyArrowEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.VoluciteArrowEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.PoisonballEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ThrowingKnife.AzuriteThrowingKnifeEntity;
@@ -141,6 +142,9 @@ public class AerialHellEntities
 	public static final EntityType<VoluciteArrowEntity> VOLUCITE_BLOWPIPE_ARROW_TYPE = EntityType.Builder.<VoluciteArrowEntity>create(VoluciteArrowEntity::new, EntityClassification.MISC)
 			    .size(0.5F, 0.5F).build("volucite_blowpipe_arrow");
 	
+	public static final EntityType<RubyArrowEntity> RUBY_BLOWPIPE_ARROW_TYPE = EntityType.Builder.<RubyArrowEntity>create(RubyArrowEntity::new, EntityClassification.MISC)
+		    	.size(0.5F, 0.5F).build("ruby_blowpipe_arrow");
+	
 	public static final EntityType<LunaticProjectileEntity> LUNATIC_PROJECTILE_TYPE = EntityType.Builder.<LunaticProjectileEntity>create(LunaticProjectileEntity::new, EntityClassification.MISC)
 		    	.size(1.0F, 1.0F).build("lunatic_projectile");
 	
@@ -197,6 +201,7 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<VoluciteThrowingKnifeEntity>> VOLUCITE_THROWING_KNIFE = ENTITIES.register("volucite_throwing_knife", () -> VOLUCITE_THROWING_KNIFE_TYPE);
 	public static final RegistryObject<EntityType<LightningThrowingKnifeEntity>> LIGHTNING_THROWING_KNIFE = ENTITIES.register("lightning_throwing_knife", () -> LIGHTNING_THROWING_KNIFE_TYPE);
 	public static final RegistryObject<EntityType<VoluciteArrowEntity>> VOLUCITE_BLOWPIPE_ARROW = ENTITIES.register("volucite_blowpipe_arrow", () -> VOLUCITE_BLOWPIPE_ARROW_TYPE);
+	public static final RegistryObject<EntityType<RubyArrowEntity>> RUBY_BLOWPIPE_ARROW = ENTITIES.register("ruby_blowpipe_arrow", () -> RUBY_BLOWPIPE_ARROW_TYPE);
 	public static final RegistryObject<EntityType<LunaticProjectileEntity>> LUNATIC_PROJECTILE = ENTITIES.register("lunatic_projectile", () -> LUNATIC_PROJECTILE_TYPE);
 	public static final RegistryObject<EntityType<ShadowTrollEntity>> SHADOW_TROLL = ENTITIES.register("shadow_troll", () -> SHADOW_TROLL_TYPE);
 	public static final RegistryObject<EntityType<AerialTreeChestMimicEntity>> AERIAL_TREE_MIMIC = ENTITIES.register("aerial_tree_mimic", () -> AERIAL_TREE_MIMIC_TYPE);

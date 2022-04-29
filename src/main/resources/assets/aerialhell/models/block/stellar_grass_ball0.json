@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_fire_floor",
+  "textures": {
+    "fire": "aerialhell:block/stellar_grass_ball_0"
+  }
+}

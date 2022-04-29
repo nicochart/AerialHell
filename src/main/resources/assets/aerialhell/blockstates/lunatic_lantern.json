@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "aerialhell:block/lunatic_lantern"
+    },
+    "hanging=true": {
+      "model": "aerialhell:block/lunatic_lantern_hanging"
+    }
+  }
+}

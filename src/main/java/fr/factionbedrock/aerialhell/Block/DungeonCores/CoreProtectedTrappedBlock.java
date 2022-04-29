@@ -88,7 +88,7 @@ public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 		}
 		else if (trappedBlock == AerialHellBlocksAndItems.TRAPPED_LUNATIC_STONE.get() || trappedBlock == AerialHellBlocksAndItems.TRAPPED_LIGHT_LUNATIC_STONE.get())
 		{
-			return AerialHellEntities.CRYSTAL_SLIME.get();
+			return AerialHellEntities.CRYSTAL_GOLEM.get();
 		}
 		else if (trappedBlock == AerialHellBlocksAndItems.TRAPPED_GOLDEN_NETHER_BRICKS.get() || trappedBlock == AerialHellBlocksAndItems.TRAPPED_LIGHT_GOLDEN_NETHER_BRICKS.get())
 		{

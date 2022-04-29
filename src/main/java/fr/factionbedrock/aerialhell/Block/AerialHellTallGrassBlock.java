@@ -20,12 +20,24 @@ public class AerialHellTallGrassBlock extends TallGrassBlock
 	public void grow(ServerWorld worldIn, Random rand, BlockPos pos, BlockState state)
 	{
 	    DoublePlantBlock tall_plant;
-	    if (this == AerialHellBlocksAndItems.STELLAR_FERN.get()) {tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.STELLAR_TALL_FERN.get();}
-	    else {tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get();}
-	    
-	    if (tall_plant.getDefaultState().isValidPosition(worldIn, pos) && worldIn.isAirBlock(pos.up()))
+	    if (this == AerialHellBlocksAndItems.STELLAR_FERN.get())
 	    {
-	         tall_plant.placeAt(worldIn, pos, 2);
+	    	tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.STELLAR_TALL_FERN.get();
+	    	placePlant(worldIn, pos, tall_plant);
+	    }
+	    else if (this == AerialHellBlocksAndItems.BRAMBLES.get()) {}
+	    else
+	    {
+	    	tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get();
+	    	placePlant(worldIn, pos, tall_plant);
+	    }
+	}
+	
+	protected void placePlant(ServerWorld worldIn, BlockPos pos, DoublePlantBlock plantIn)
+	{
+		if (plantIn.getDefaultState().isValidPosition(worldIn, pos) && worldIn.isAirBlock(pos.up()))
+	    {
+	         plantIn.placeAt(worldIn, pos, 2);
 	    }
 	}
 }

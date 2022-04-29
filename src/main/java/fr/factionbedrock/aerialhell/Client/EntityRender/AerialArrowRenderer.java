@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractAerialArrowEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.RubyArrowEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -18,7 +19,8 @@ import net.minecraft.util.math.vector.Vector3f;
 
 public class AerialArrowRenderer<T extends AbstractAerialArrowEntity> extends EntityRenderer<T>
 {
-    public static final ResourceLocation VOLUCITE_ARROW_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/projectile/arrow/volucite_blowpipe_arrow.png");
+	public static final ResourceLocation VOLUCITE_ARROW_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/projectile/arrow/volucite_blowpipe_arrow.png");
+	public static final ResourceLocation RUBY_ARROW_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/projectile/arrow/ruby_blowpipe_arrow.png");
     
     public AerialArrowRenderer(EntityRendererManager renderManager)
     {
@@ -86,7 +88,14 @@ public class AerialArrowRenderer<T extends AbstractAerialArrowEntity> extends En
     @Override
     public ResourceLocation getEntityTexture(T entity)
     {
-        return VOLUCITE_ARROW_TEXTURE;
+        if (entity instanceof RubyArrowEntity)
+        {
+        	return RUBY_ARROW_TEXTURE;
+        }
+        else //if (entity instanceof VoluciteArrowEntity)
+        {
+        	return VOLUCITE_ARROW_TEXTURE;
+        }
     }
 
     public void drawVertex(Matrix4f matrix, Matrix3f normals, IVertexBuilder vertexBuilder, int offsetX, int offsetY, int offsetZ, float textureX, float textureY, int normalX, int normalY, int normalZ, int packedLightIn)

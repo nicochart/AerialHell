@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "aerialhell:block/stellar_grass_ball_0"
+  }
+}
