@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.MudSoldierEntity;
+import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
@@ -11,30 +11,22 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.FleeSunGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RestrictSunGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityPredicates;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
-public class MudCycleMageEntity extends MudSoldierEntity
+public class MudCycleMageEntity extends AbstractBossEntity
 {
-	public static final DataParameter<Boolean> MUD_CYCLE_MAGE_ACTIVE = EntityDataManager.createKey(MudCycleMageEntity.class, DataSerializers.BOOLEAN);
-	
-	public MudCycleMageEntity(EntityType<? extends MudSoldierEntity> type, World world)
+	public MudCycleMageEntity(EntityType<? extends MudCycleMageEntity> type, World world)
 	{
 		super(type, world);
 	}
@@ -44,31 +36,15 @@ public class MudCycleMageEntity extends MudSoldierEntity
     {
 		this.goalSelector.addGoal(2, new RestrictSunGoal(this));
 	    this.goalSelector.addGoal(3, new FleeSunGoal(this, 1.0D));
-	    this.goalSelector.addGoal(5, new MageWaterAvoidingRandomWalkingGoal(this, 1.0D));
-	    this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-	    this.goalSelector.addGoal(6, new MageLookRandomlyGoal(this));
+	    this.goalSelector.addGoal(3, new BossMeleeAttackGoal(this, 1.25D, false));
+	    this.goalSelector.addGoal(5, new BossWaterAvoidingRandomWalkingGoal(this, 1.0D));
+	    this.goalSelector.addGoal(6, new BossLookAtPlayerGoal(this, PlayerEntity.class, 8.0F));
+	    this.goalSelector.addGoal(6, new BossLookRandomlyGoal(this));
 	    this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-	    this.targetSelector.addGoal(2, new MageNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+	    this.targetSelector.addGoal(2, new BossNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
 	    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, TornSpiritEntity.class, true));
 	    this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
     }
-	
-	@Override
-	protected void registerData()
-	{
-		super.registerData();
-		this.dataManager.register(MUD_CYCLE_MAGE_ACTIVE, false);
-	}
-    
-    public void setActive(boolean isActive)
-	{
-		this.dataManager.set(MUD_CYCLE_MAGE_ACTIVE, isActive);
-	}
-	
-	public boolean isActive()
-	{
-		return this.dataManager.get(MUD_CYCLE_MAGE_ACTIVE);
-	}
 	
 	public static AttributeModifierMap.MutableAttribute registerAttributes()
     {
@@ -80,40 +56,10 @@ public class MudCycleMageEntity extends MudSoldierEntity
     }
 	
 	@Override
-	public boolean canDespawn(double distanceToClosestPlayer)
-	{
-	      return false;
-	}
-	
-	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount)
-	{
-		boolean flag = super.attackEntityFrom(source, amount);
-		if (flag)
-		{
-			this.setActive(true);
-			this.recentlyHit = 100;
-		}
-		return flag;
-	}
-	
-	@Override
 	public void tick()
 	{		
 		super.tick();
-		if (this.world.getClosestPlayer(this.getPosX(), this.getPosY(), this.getPosZ(), 8.0, EntityPredicates.CAN_AI_TARGET) != null)
-		{
-			this.setActive(true);
-		}
-		else if (this.world.getClosestPlayer(this.getPosX(), this.getPosY(), this.getPosZ(), 32.0, EntityPredicates.CAN_AI_TARGET) == null)
-		{
-			if (this.recentlyHit <= 0)
-			{
-				this.setActive(false);
-			}
-		}
-		
-		if (isActive() && (this.ticksExisted % 600 == 0 || (this.ticksExisted % 300 == 0 && rand.nextInt(2) == 0)))
+		if (this.isActive() && (this.ticksExisted % 600 == 0 || (this.ticksExisted % 300 == 0 && rand.nextInt(2) == 0)))
 		{
 			if (this.getHealth() < this.getMaxHealth() / 2)
 			{
@@ -201,104 +147,7 @@ public class MudCycleMageEntity extends MudSoldierEntity
         }
 	}
 	
-	public static class MageNearestAttackableTargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T>
-	{
-		private final MudCycleMageEntity mage;
-		
-		public MageNearestAttackableTargetGoal(MudCycleMageEntity mageIn, Class<T> targetClassIn, boolean checkSight)
-		{
-			super(mageIn, targetClassIn, checkSight);
-			this.mage = mageIn;
-		}
-		
-		//Returns whether the EntityAIBase should begin execution.
-		@Override
-		public boolean shouldExecute()
-		{
-			return this.mage.isActive() && super.shouldExecute();
-		}
-		
-		//Returns whether an in-progress EntityAIBase should continue executing
-		@Override
-		public boolean shouldContinueExecuting()
-		{
-			return this.mage.isActive() && super.shouldContinueExecuting();
-		}
-		
-	}
-	
-	public static class MageLookRandomlyGoal extends LookRandomlyGoal
-	{
-		private final MudCycleMageEntity mage;
-		
-		public MageLookRandomlyGoal(MudCycleMageEntity mage)
-		{
-			super(mage);
-			this.mage = mage;
-		}
-		
-		//Returns whether the EntityAIBase should begin execution.
-		@Override
-		public boolean shouldExecute()
-		{
-			return this.mage.isActive() && super.shouldExecute();
-		}
-		
-		//Returns whether an in-progress EntityAIBase should continue executing
-		@Override
-		public boolean shouldContinueExecuting()
-		{
-			return this.mage.isActive() && super.shouldContinueExecuting();
-		}
-	}
-	
-	public static class MageLookAtPlayerGoal extends LookAtGoal
-	{
-		private final MudCycleMageEntity mage;
-		
-		public MageLookAtPlayerGoal(MudCycleMageEntity mageIn, Class<? extends LivingEntity> watchTargetClass, float maxDistance)
-		{
-			super(mageIn, watchTargetClass, maxDistance);
-			this.mage = mageIn;
-		}
-		
-		//Returns whether the EntityAIBase should begin execution.
-		@Override
-		public boolean shouldExecute()
-		{
-			return this.mage.isActive() && super.shouldExecute();
-		}
-		
-		//Returns whether an in-progress EntityAIBase should continue executing
-		@Override
-		public boolean shouldContinueExecuting()
-		{
-			return this.mage.isActive() && super.shouldContinueExecuting();
-		}
-	}
-	
-	public static class MageWaterAvoidingRandomWalkingGoal extends WaterAvoidingRandomWalkingGoal
-	{
-		private final MudCycleMageEntity mage;
-		
-		public MageWaterAvoidingRandomWalkingGoal(MudCycleMageEntity mageIn, double speedIn)
-		{
-			super(mageIn, speedIn);
-			this.mage = mageIn;
-		}
-		
-		//Returns whether the EntityAIBase should begin execution.
-		@Override
-		public boolean shouldExecute()
-		{
-			return this.mage.isActive() && super.shouldExecute();
-		}
-		
-		//Returns whether an in-progress EntityAIBase should continue executing
-		@Override
-		public boolean shouldContinueExecuting()
-		{
-			return this.mage.isActive() && super.shouldContinueExecuting();
-		}
-	}
+	@Override protected SoundEvent getAmbientSound() {return SoundEvents.ENTITY_WITHER_SKELETON_AMBIENT;}
+	@Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return SoundEvents.ENTITY_WITHER_SKELETON_HURT;}
+	@Override protected SoundEvent getDeathSound() {return SoundEvents.ENTITY_WITHER_SKELETON_DEATH;}
 }

@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.Bosses;
 import java.util.EnumSet;
 import java.util.Random;
 
+import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.block.BlockState;
@@ -16,11 +17,6 @@ import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.datasync.DataParameter;
@@ -29,7 +25,6 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -40,14 +35,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class LunaticPriestEntity extends MonsterEntity
+public class LunaticPriestEntity extends AbstractBossEntity
 {
 	public int attackTimer;
 	private int lunaticProjectileTimer;
-	private int timeWithoutAnyTarget;
 	
 	public static final DataParameter<Boolean> SECOND_PHASE = EntityDataManager.createKey(LunaticPriestEntity.class, DataSerializers.BOOLEAN);
-	public static final DataParameter<Boolean> LUNATIC_PRIEST_ACTIVE = EntityDataManager.createKey(LunaticPriestEntity.class, DataSerializers.BOOLEAN);
 	
 	public LunaticPriestEntity(EntityType<? extends MonsterEntity> type, World world)
 	{
@@ -56,7 +49,6 @@ public class LunaticPriestEntity extends MonsterEntity
 		else {this.updateToPhase2();}
 		this.attackTimer = 0;
 		this.lunaticProjectileTimer = 80;
-		this.timeWithoutAnyTarget = 0;
 	}
 	
 	@Override
@@ -68,12 +60,12 @@ public class LunaticPriestEntity extends MonsterEntity
 		this.goalSelector.addGoal(6, new PriestLookRandomlyGoal(this));
 		/*Phase 2 only*/
 	    this.goalSelector.addGoal(4, new PriestWaterAvoidingRandomWalkingGoal(this, 1.0D));
-	    this.goalSelector.addGoal(5, new PriestLookAtPlayerGoal(this, PlayerEntity.class, 8.0F));
+	    this.goalSelector.addGoal(5, new BossLookAtPlayerGoal(this, PlayerEntity.class, 8.0F));
 	    /*Both phases*/
 	    this.goalSelector.addGoal(2, new LunaticPriestEntity.LunaticProjectileAttackGoal(this));
-	    this.goalSelector.addGoal(3, new PriestMeleeAttackGoal(this, 1.25D, false));
+	    this.goalSelector.addGoal(3, new BossMeleeAttackGoal(this, 1.25D, false));
 	    this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-	    this.targetSelector.addGoal(2, new PriestNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+	    this.targetSelector.addGoal(2, new BossNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
 	    this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
     }
 	
@@ -83,18 +75,17 @@ public class LunaticPriestEntity extends MonsterEntity
 	protected void registerData()
 	{
 		super.registerData();
-		this.dataManager.register(LUNATIC_PRIEST_ACTIVE, false);
 		this.dataManager.register(SECOND_PHASE, false);
 	}
-    
-    public void setActive(boolean isActive)
-	{
-		this.dataManager.set(LUNATIC_PRIEST_ACTIVE, isActive);
-	}
 	
-	public boolean isActive()
+	@Override
+	public void setActive(boolean isActive)
 	{
-		return this.dataManager.get(LUNATIC_PRIEST_ACTIVE);
+		super.setActive(isActive);
+		if (!isActive)
+		{
+			this.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOW_FALLING, 120, 2, true, false)));
+		}
 	}
 	
 	public boolean isInPhase1() {return !this.dataManager.get(SECOND_PHASE);}
@@ -127,21 +118,8 @@ public class LunaticPriestEntity extends MonsterEntity
 				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 7.0D);
     }
 	
-	@Override public boolean canDespawn(double distanceToClosestPlayer) {return false;}
 	@Override public boolean isImmuneToFire() {return true;}
 	@Override public boolean canRenderOnFire() {return false;}
-	
-	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount)
-	{
-		boolean flag = super.attackEntityFrom(source, amount);
-		if (flag)
-		{
-			this.setActive(true);
-			this.recentlyHit = 100;
-		}
-		return flag;
-	}
 	
 	@Override
 	public boolean attackEntityAsMob(Entity attackedEntity)
@@ -179,36 +157,18 @@ public class LunaticPriestEntity extends MonsterEntity
 	public void tick()
 	{		
 		super.tick();
-		if (this.shouldUpdateToPhase1() && isActive() && timeWithoutAnyTarget == 0)
+		if (this.shouldUpdateToPhase1() && this.isActive() && this.timeWithoutAnyTarget == 0)
 		{
 			this.updateToPhase1();
 		}
-		if (this.shouldUpdateToPhase2() && isActive() && timeWithoutAnyTarget == 0)
+		if (this.shouldUpdateToPhase2() && this.isActive() && this.timeWithoutAnyTarget == 0)
 		{
 			this.updateToPhase2();
 		}
 		
-		if (this.world.getClosestPlayer(this.getPosX(), this.getPosY(), this.getPosZ(), 8.0, EntityPredicates.CAN_AI_TARGET) != null)
+		if (this.timeWithoutAnyTarget > 0 && this.isInPhase1())
 		{
-			this.setActive(true);
-			this.timeWithoutAnyTarget = 0;
-		}
-		else if (this.world.getClosestPlayer(this.getPosX(), this.getPosY(), this.getPosZ(), 48.0, EntityPredicates.CAN_AI_TARGET) == null)
-		{
-			if (this.isInPhase1())
-			{
-				this.updateToPhase2();
-			}
-			
-			if (timeWithoutAnyTarget < 120)
-			{
-				timeWithoutAnyTarget++;
-			}
-			else if (this.recentlyHit <= 0 && timeWithoutAnyTarget == 120)
-			{
-				this.setActive(false);
-				this.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOW_FALLING, 120, 2, true, false)));
-			}
+			this.updateToPhase2();
 		}
 	}
 	
@@ -495,129 +455,18 @@ public class LunaticPriestEntity extends MonsterEntity
 	    }
 	}
 	
-	public static class PriestNearestAttackableTargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T>
-	{
-		private final LunaticPriestEntity priest;
-		
-		public PriestNearestAttackableTargetGoal(LunaticPriestEntity priestIn, Class<T> targetClassIn, boolean checkSight)
-		{
-			super(priestIn, targetClassIn, checkSight);
-			this.priest = priestIn;
-		}
-		
-		//Returns whether the EntityAIBase should begin execution.
-		@Override
-		public boolean shouldExecute()
-		{
-			return this.priest.isActive() && super.shouldExecute();
-		}
-		
-		//Returns whether an in-progress EntityAIBase should continue executing
-		@Override
-		public boolean shouldContinueExecuting()
-		{
-			return this.priest.isActive() && super.shouldContinueExecuting();
-		}
+	public static class PriestLookRandomlyGoal extends BossLookRandomlyGoal
+	{		
+		public PriestLookRandomlyGoal(LunaticPriestEntity priestIn) {super(priestIn);}
+		@Override public boolean shouldExecute() {return ((LunaticPriestEntity) this.boss).isInPhase2() && super.shouldExecute();}
+		@Override public boolean shouldContinueExecuting() {return ((LunaticPriestEntity) this.boss).isInPhase2() && super.shouldContinueExecuting();}
 	}
 	
-	public static class PriestLookRandomlyGoal extends LookRandomlyGoal
+	public static class PriestWaterAvoidingRandomWalkingGoal extends BossWaterAvoidingRandomWalkingGoal
 	{
-		private final LunaticPriestEntity priest;
-		
-		public PriestLookRandomlyGoal(LunaticPriestEntity priestIn)
-		{
-			super(priestIn);
-			this.priest = priestIn;
-		}
-		
-		//Returns whether the EntityAIBase should begin execution.
-		@Override
-		public boolean shouldExecute()
-		{
-			return this.priest.isActive() && priest.isInPhase2() && super.shouldExecute();
-		}
-		
-		//Returns whether an in-progress EntityAIBase should continue executing
-		@Override
-		public boolean shouldContinueExecuting()
-		{
-			return this.priest.isActive() && priest.isInPhase2() && super.shouldContinueExecuting();
-		}
-	}
-	
-	public static class PriestLookAtPlayerGoal extends LookAtGoal
-	{
-		private final LunaticPriestEntity priest;
-		
-		public PriestLookAtPlayerGoal(LunaticPriestEntity priestIn, Class<? extends LivingEntity> watchTargetClass, float maxDistance)
-		{
-			super(priestIn, watchTargetClass, maxDistance);
-			this.priest = priestIn;
-		}
-		
-		//Returns whether the EntityAIBase should begin execution.
-		@Override
-		public boolean shouldExecute()
-		{
-			return this.priest.isActive() && super.shouldExecute();
-		}
-		
-		//Returns whether an in-progress EntityAIBase should continue executing
-		@Override
-		public boolean shouldContinueExecuting()
-		{
-			return this.priest.isActive() && super.shouldContinueExecuting();
-		}
-	}
-	
-	public static class PriestWaterAvoidingRandomWalkingGoal extends WaterAvoidingRandomWalkingGoal
-	{
-		private final LunaticPriestEntity priest;
-		
-		public PriestWaterAvoidingRandomWalkingGoal(LunaticPriestEntity priestIn, double speedIn)
-		{
-			super(priestIn, speedIn);
-			this.priest = priestIn;
-		}
-		
-		//Returns whether the EntityAIBase should begin execution.
-		@Override
-		public boolean shouldExecute()
-		{
-			return this.priest.isActive() && priest.isInPhase2() && super.shouldExecute();
-		}
-		
-		//Returns whether an in-progress EntityAIBase should continue executing
-		@Override
-		public boolean shouldContinueExecuting()
-		{
-			return this.priest.isActive() && priest.isInPhase2() && super.shouldContinueExecuting();
-		}
-	}
-	
-	public static class PriestMeleeAttackGoal extends MeleeAttackGoal
-	{
-		private final LunaticPriestEntity priest;
-		
-		public PriestMeleeAttackGoal(LunaticPriestEntity priestIn, double speedIn, boolean useLongMemory)
-		{
-			super(priestIn, speedIn, useLongMemory);
-			this.priest = priestIn;
-		}
-		
-		//Returns whether the EntityAIBase should begin execution.
-		@Override
-		public boolean shouldExecute()
-		{
-			return this.priest.isActive() && super.shouldExecute();
-		}
-		
-		//Returns whether an in-progress EntityAIBase should continue executing
-		@Override
-		public boolean shouldContinueExecuting()
-		{
-			return this.priest.isActive() && super.shouldContinueExecuting();
-		}
+		public PriestWaterAvoidingRandomWalkingGoal(LunaticPriestEntity priestIn, double speedIn) {super(priestIn, speedIn);}
+		@Override public boolean shouldExecute() {return ((LunaticPriestEntity) this.boss).isInPhase2() && super.shouldExecute();}
+		@Override public boolean shouldContinueExecuting() {return ((LunaticPriestEntity) this.boss).isInPhase2() && super.shouldContinueExecuting();}
 	}
 	
 	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_LUNATIC_PRIEST_AMBIENT.get();}

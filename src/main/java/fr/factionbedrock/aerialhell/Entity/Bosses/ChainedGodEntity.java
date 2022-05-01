@@ -4,11 +4,10 @@ import java.util.EnumSet;
 import java.util.List;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ChainedGodFireballEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SoundType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -16,11 +15,8 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -42,12 +38,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class ChainedGodEntity extends MonsterEntity
+public class ChainedGodEntity extends AbstractBossEntity
 {
 	public int attackTimer;
 	private int fireballTimer;
 	
-	public static final DataParameter<Boolean> GOD_ACTIVE = EntityDataManager.createKey(ChainedGodEntity.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Boolean> IMPLODING = EntityDataManager.createKey(CreeperEntity.class, DataSerializers.BOOLEAN);
 	private int timeSinceImploding;
 	   
@@ -62,9 +57,9 @@ public class ChainedGodEntity extends MonsterEntity
 	@Override
     protected void registerGoals()
     {
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+		this.targetSelector.addGoal(2, new BossNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		this.goalSelector.addGoal(2, new ChainedGodEntity.FireballAttackGoal(this));
+		this.goalSelector.addGoal(2, new ChainedGodEntity.ChainedGodFireballAttackGoal(this));
 		this.goalSelector.addGoal(3, new ChainedGodMeleeAttackGoal(this, 1.25D, false));
 		this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(5, new ChainedGodWaterAvoidingRandomWalkingGoal(this, 0.6D));
@@ -88,17 +83,6 @@ public class ChainedGodEntity extends MonsterEntity
 	{
 	    super.registerData();
 	    this.dataManager.register(IMPLODING, false);
-	    this.dataManager.register(GOD_ACTIVE, false);
-	}
-    
-    public void setActive(boolean isActive)
-	{
-		this.dataManager.set(GOD_ACTIVE, isActive);
-	}
-	
-	public boolean isActive()
-	{
-		return this.dataManager.get(GOD_ACTIVE);
 	}
 	
 	@Override
@@ -131,23 +115,8 @@ public class ChainedGodEntity extends MonsterEntity
 	    this.dataManager.set(IMPLODING, isImploding);
 	}
 	
-	@Override
-	public boolean canDespawn(double distanceToClosestPlayer)
-	{
-	      return false;
-	}
-	
-	@Override
-	public boolean isImmuneToFire()
-	{
-		return true;
-	}
-	
-	@Override
-	public boolean canRenderOnFire()
-	{
-		return false;
-	}
+	@Override public boolean isImmuneToFire() {return true;}
+	@Override public boolean canRenderOnFire() {return false;}
 	
 	@Override
 	public boolean onLivingFall(float distance, float damageMultiplier)
@@ -157,19 +126,7 @@ public class ChainedGodEntity extends MonsterEntity
 	
 	@Override
     public void tick()
-    {
-		if (this.world.getClosestPlayer(this.getPosX(), this.getPosY(), this.getPosZ(), 12.0, EntityPredicates.CAN_AI_TARGET) != null)
-		{
-			this.setActive(true);
-		}
-		else if (this.world.getClosestPlayer(this.getPosX(), this.getPosY(), this.getPosZ(), 32.0, EntityPredicates.CAN_AI_TARGET) == null)
-		{
-			if (this.recentlyHit <= 0)
-			{
-				this.setActive(false);
-			}
-		}
-		
+    {		
 		fireballTimer -= (int)(Math.random() * 41) + 1; //+random int between 1 and 42
 		if (fireballTimer <= 0) {fireballTimer = 2000;}
 		
@@ -236,18 +193,6 @@ public class ChainedGodEntity extends MonsterEntity
     }
 	
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount)
-	{
-		boolean flag = super.attackEntityFrom(source, amount);
-		if (flag)
-		{
-			this.setActive(true);
-			this.recentlyHit = 100;
-		}
-		return flag;
-	}
-	
-	@Override
     public void livingTick()
     {
 		if (this.attackTimer > 0) {this.attackTimer--;}
@@ -291,23 +236,9 @@ public class ChainedGodEntity extends MonsterEntity
 	    }
 	}
 	
-	@Override
-    protected SoundEvent getAmbientSound()
-    {
-        return AerialHellSoundEvents.ENTITY_CHAINED_GOD_AMBIENT.get();
-    }
-
-    @Override
-    protected SoundEvent getHurtSound(DamageSource damageSource)
-    {
-    	return AerialHellSoundEvents.ENTITY_CHAINED_GOD_HURT.get();
-    }
-
-    @Override
-    protected SoundEvent getDeathSound()
-    {
-    	return AerialHellSoundEvents.ENTITY_CHAINED_GOD_DEATH.get();
-    }
+	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_CHAINED_GOD_AMBIENT.get();}
+    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_CHAINED_GOD_HURT.get();}
+    @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_CHAINED_GOD_DEATH.get();}
     
     @Override
     protected void playStepSound(BlockPos pos, BlockState blockIn)
@@ -356,12 +287,12 @@ public class ChainedGodEntity extends MonsterEntity
 	
 	/* Chained God Goals */
 	
-	static class FireballAttackGoal extends Goal
+	static class ChainedGodFireballAttackGoal extends Goal
 	{
 		private final ChainedGodEntity chainedGod;
 	    private int fireballCount;
 
-	    public FireballAttackGoal(ChainedGodEntity chainedGodIn)
+	    public ChainedGodFireballAttackGoal(ChainedGodEntity chainedGodIn)
 	    {
 	    	this.chainedGod = chainedGodIn;
 	        this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
@@ -402,78 +333,24 @@ public class ChainedGodEntity extends MonsterEntity
 	     }
 	}
 	
-	public static class ChainedGodLeapAtTargetGoal extends LeapAtTargetGoal
-	{
-		private final ChainedGodEntity god;
-		
-		public ChainedGodLeapAtTargetGoal(ChainedGodEntity godIn, float leapMotionYIn)
-		{
-			super(godIn, leapMotionYIn);
-			this.god = godIn;
-		}
-		
-		//Returns whether the EntityAIBase should begin execution.
-		@Override
-		public boolean shouldExecute()
-		{
-			return this.god.isActive() && !this.god.isImploding() && super.shouldExecute();
-		}
-		
-		//Returns whether an in-progress EntityAIBase should continue executing
-		@Override
-		public boolean shouldContinueExecuting()
-		{
-			return this.god.isActive() && !this.god.isImploding() && super.shouldContinueExecuting();
-		}
+	public static class ChainedGodLeapAtTargetGoal extends BossLeapAtTargetGoal
+	{		
+		public ChainedGodLeapAtTargetGoal(ChainedGodEntity godIn, float leapMotionYIn) {super(godIn, leapMotionYIn);}
+		@Override public boolean shouldExecute() {return !((ChainedGodEntity) this.boss).isImploding() && super.shouldExecute();}
+		@Override public boolean shouldContinueExecuting() {return !((ChainedGodEntity) this.boss).isImploding() && super.shouldContinueExecuting();}
 	}
 	
-	public static class ChainedGodMeleeAttackGoal extends MeleeAttackGoal
+	public static class ChainedGodMeleeAttackGoal extends BossMeleeAttackGoal
 	{
-		private final ChainedGodEntity god;
-		
-		public ChainedGodMeleeAttackGoal(ChainedGodEntity godIn, double speedIn, boolean useLongMemory)
-		{
-			super(godIn, speedIn, useLongMemory);
-			this.god = godIn;
-		}
-		
-		//Returns whether the EntityAIBase should begin execution.
-		@Override
-		public boolean shouldExecute()
-		{
-			return this.god.isActive() && !this.god.isImploding() && super.shouldExecute();
-		}
-		
-		//Returns whether an in-progress EntityAIBase should continue executing
-		@Override
-		public boolean shouldContinueExecuting()
-		{
-			return this.god.isActive() && !this.god.isImploding() && super.shouldContinueExecuting();
-		}
+		public ChainedGodMeleeAttackGoal(ChainedGodEntity godIn, double speedIn, boolean useLongMemory) {super(godIn, speedIn, useLongMemory);}
+		@Override public boolean shouldExecute() {return !((ChainedGodEntity) this.boss).isImploding() && super.shouldExecute();}
+		@Override public boolean shouldContinueExecuting() {return !((ChainedGodEntity) this.boss).isImploding() && super.shouldContinueExecuting();}
 	}
 	
-	public static class ChainedGodWaterAvoidingRandomWalkingGoal extends WaterAvoidingRandomWalkingGoal
+	public static class ChainedGodWaterAvoidingRandomWalkingGoal extends BossWaterAvoidingRandomWalkingGoal
 	{
-		private final ChainedGodEntity god;
-		
-		public ChainedGodWaterAvoidingRandomWalkingGoal(ChainedGodEntity god, double speedIn)
-		{
-			super(god, speedIn);
-			this.god = god;
-		}
-		
-		//Returns whether the EntityAIBase should begin execution.
-		@Override
-		public boolean shouldExecute()
-		{
-			return this.god.isActive() && !this.god.isImploding() && super.shouldExecute();
-		}
-		
-		//Returns whether an in-progress EntityAIBase should continue executing
-		@Override
-		public boolean shouldContinueExecuting()
-		{
-			return this.god.isActive() && !this.god.isImploding() && super.shouldContinueExecuting();
-		}
+		public ChainedGodWaterAvoidingRandomWalkingGoal(ChainedGodEntity god, double speedIn) {super(god, speedIn);}
+		@Override public boolean shouldExecute() {return !((ChainedGodEntity) this.boss).isImploding() && super.shouldExecute();}
+		@Override public boolean shouldContinueExecuting() {return !((ChainedGodEntity) this.boss).isImploding() && super.shouldContinueExecuting();}
 	}
 }
