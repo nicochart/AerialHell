@@ -3,6 +3,8 @@ package fr.factionbedrock.aerialhell.World.Features;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
@@ -13,39 +15,109 @@ import java.util.Random;
 
 public class GreenSolidEtherCloudFeature extends Feature<NoFeatureConfig>
 {
+	private int bonus = -1;
+	private int basicMinSize = 4+bonus;
+	private int basicMaxSize = 7+bonus;
+	private int littleMinSize = 3+bonus;
+	private int littleMaxSize = 5+bonus;
+	
 	public GreenSolidEtherCloudFeature(Codec<NoFeatureConfig> codec)
 	{
         super(codec);
     }
-
-    @Override
+	
+	@Override
     public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)
     {
-        BlockPos origin = new BlockPos(pos.getX(), pos.getY(), pos.getZ());
-        int MinH=80,MaxH=110; int yh = MinH + (int)(Math.random() * ((MaxH - MinH) + 1));
-        BlockPos position = new BlockPos(origin.getX() + 8, yh, origin.getZ() + 8);
+		BlockPos generatePos = pos;
+    	if (pos.getY() <  115 || pos.getY() >  210) {generatePos = new BlockPos(pos.getX(), 115 + rand.nextInt(90), pos.getZ());}
+    	int sizeX = basicMinSize + (int)(rand.nextDouble() * ((basicMaxSize - basicMinSize) + 1));
+        int sizeZ = basicMinSize + (int)(rand.nextDouble() * ((basicMaxSize - basicMinSize) + 1));
+    	generateFirstEllipsis(sizeX, sizeZ, reader, rand, generatePos);
+    	return false;
+    }
+	
+	private void generateFirstEllipsis(int sizeX, int sizeZ, ISeedReader reader, Random rand, BlockPos pos)
+    {
+    	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
+        {
+            for(int z = pos.getZ() - sizeZ; z < pos.getZ() + sizeZ+1; z++)
+            {
+                BlockPos newPos = new BlockPos(x, pos.getY(), z);
 
-        for (int amount = 0; amount < 8; ++amount) {
-            int xOffset = rand.nextInt(2);
-            int zOffset = rand.nextInt(2);
-
-            position = position.add(xOffset, 0, zOffset);
-            
-            for (int x = position.getX(); x < position.getX() + rand.nextInt(2) + 2; ++x) {
-                for (int y = position.getY(); y < position.getY() + rand.nextInt(1) + 1; ++y) {
-                    for (int z = position.getZ(); z < position.getZ() + rand.nextInt(2) + 2; ++z) {
-                        BlockPos newPosition = new BlockPos(x, y, z);
-
-                        if (reader.isAirBlock(newPosition)) {
-                            if (Math.abs(x - position.getX()) + Math.abs(y - position.getY()) + Math.abs(z - position.getZ()) < 4 + rand.nextInt(2)) {
-                                this.setBlockState(reader, newPosition, AerialHellBlocksAndItems.GREEN_SOLID_ETHER.get().getDefaultState());
-                            }
-                        }
-                    }
+                if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+rand.nextInt(5))
+                {
+                	// ~y=0
+                	Block previousBlock = reader.getBlockState(newPos).getBlock();
+                	if (previousBlock == Blocks.AIR)
+                		reader.setBlockState(newPos, AerialHellBlocksAndItems.GREEN_SOLID_ETHER.get().getDefaultState(), 0);
+                }
+                else
+                {
+                	// ~y=0
+                	if (reader.getBlockState(newPos).getBlock() != AerialHellBlocksAndItems.GREEN_SOLID_ETHER.get() && rand.nextDouble() > 0.8)
+                	{
+                    	int newSizeX = basicMinSize + (int)(rand.nextDouble() * ((basicMaxSize - basicMinSize) + 1));
+                        int newSizeZ = basicMinSize + (int)(rand.nextDouble() * ((basicMaxSize - basicMinSize) + 1));
+                        generateLastEllipsis(newSizeX,newSizeZ, reader, rand, newPos);
+                	}
                 }
             }
         }
+    	sizeX--;sizeZ--;
+    	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
+        {
+            for(int z = pos.getZ() - sizeZ; z < pos.getZ() + sizeZ+1; z++)
+            {
+                BlockPos newPos = new BlockPos(x, pos.getY(), z);
+                
+                if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+rand.nextInt(5))
+                {
+                	// ~y=+1
+                	Block previousTop1Block = reader.getBlockState(newPos.up()).getBlock();
+                	if (previousTop1Block == Blocks.AIR)
+                		reader.setBlockState(newPos.up(), AerialHellBlocksAndItems.GREEN_SOLID_ETHER.get().getDefaultState(), 0);
+                	// ~y=-1
+                	Block previousBottomBlock = reader.getBlockState(newPos.down()).getBlock();
+                	if (previousBottomBlock == Blocks.AIR)
+                		reader.setBlockState(newPos.down(), AerialHellBlocksAndItems.GREEN_SOLID_ETHER.get().getDefaultState(), 0);
+                }
+            	else
+            	{
+                	// ~y=+1
+                	if (reader.getBlockState(newPos.up()).getBlock() != AerialHellBlocksAndItems.GREEN_SOLID_ETHER.get() && rand.nextDouble() > 0.95)
+                	{
+                		int newSizeX = littleMinSize + (int)(rand.nextDouble() * ((littleMaxSize - littleMinSize) + 1));
+                        int newSizeZ = littleMinSize + (int)(rand.nextDouble() * ((littleMaxSize - littleMinSize) + 1));
+                        generateLastEllipsis(newSizeX,newSizeZ, reader, rand, newPos.up());
+                	}
+                	// ~y=-1
+                	if (reader.getBlockState(newPos.down()).getBlock() != AerialHellBlocksAndItems.GREEN_SOLID_ETHER.get() && rand.nextDouble() > 0.95)
+                	{
+                    	int newSizeX = littleMinSize + (int)(rand.nextDouble() * ((littleMaxSize - littleMinSize) + 1));
+                        int newSizeZ = littleMinSize + (int)(rand.nextDouble() * ((littleMaxSize - littleMinSize) + 1));
+                		generateLastEllipsis(newSizeX,newSizeZ, reader, rand, newPos.down());
+                	}
+                }
+            }
+        }
+    }
+	
+	private void generateLastEllipsis(int sizeX, int sizeZ, ISeedReader reader, Random rand, BlockPos pos)
+    {
+    	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
+        {
+            for(int z = pos.getZ() - sizeZ; z < pos.getZ() + sizeZ+1; z++)
+            {
+                BlockPos newPos = new BlockPos(x, pos.getY(), z);
 
-        return false;
+                if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+rand.nextInt(3))
+                {
+                	Block previousBlock = reader.getBlockState(newPos).getBlock();
+                	if (previousBlock == Blocks.AIR)
+                		reader.setBlockState(newPos, AerialHellBlocksAndItems.GREEN_SOLID_ETHER.get().getDefaultState(), 0);
+                }
+            }
+        }
     }
 }
