@@ -1,29 +1,21 @@
-package fr.factionbedrock.aerialhell.Entity.Monster;
+package fr.factionbedrock.aerialhell.Entity.Neutral;
 
+import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.monster.SilverfishEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
-public class ForestCaterpillarEntity extends SilverfishEntity
+public class ForestCaterpillarEntity extends AbstractCaterpillarEntity
 {
-	public ForestCaterpillarEntity(EntityType<? extends SilverfishEntity> type, World worldIn)
+	public ForestCaterpillarEntity(EntityType<? extends AbstractCaterpillarEntity> type, World worldIn)
     {
         super(type, worldIn);
     }
@@ -32,16 +24,6 @@ public class ForestCaterpillarEntity extends SilverfishEntity
     {
         this(AerialHellEntities.FOREST_CATERPILLAR.get(), worldIn);
     }
-	
-	@Override
-	protected void registerGoals()
-	{
-	      this.goalSelector.addGoal(1, new SwimGoal(this));
-	      this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
-	      this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.2F));
-	      this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setCallsForHelp());
-	      this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
-	}
 	
 	public static AttributeModifierMap.MutableAttribute registerAttributes()
     {
@@ -74,11 +56,5 @@ public class ForestCaterpillarEntity extends SilverfishEntity
 		{
 	         return false;
 	    }
-	}
-	
-	@Override
-	protected SoundEvent getAmbientSound()
-	{
-		return AerialHellSoundEvents.ENTITY_FOREST_CATERPILLAR_AMBIENT.get();
 	}
 }

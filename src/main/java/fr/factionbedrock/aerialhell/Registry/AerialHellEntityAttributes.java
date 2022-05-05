@@ -7,12 +7,12 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudGolemEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ForestCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.GoldenWalkerEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.HellSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralSoldierEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.CrystalCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSlimeEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSpiderEntity;
@@ -23,6 +23,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AerialTreeChestMim
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.CopperPineChestMimicEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.GoldenBeechChestMimicEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.SkyCactusFiberChestMimicEntity;
+import fr.factionbedrock.aerialhell.Entity.Neutral.ForestCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.FatPhantomEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.SandySheepEntity;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -67,5 +68,6 @@ public class AerialHellEntityAttributes
 		event.put(AerialHellEntities.HELL_SPIDER.get(), HellSpiderEntity.registerAttributes().create());
 		event.put(AerialHellEntities.CRYSTAL_SPIDER.get(), CrystalSpiderEntity.registerAttributes().create());
 		event.put(AerialHellEntities.FOREST_CATERPILLAR.get(), ForestCaterpillarEntity.registerAttributes().create());
+		event.put(AerialHellEntities.CRYSTAL_CATERPILLAR.get(), CrystalCaterpillarEntity.registerAttributes().create());
 	}
 }

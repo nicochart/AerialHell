@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.ForestCaterpillarEntity;
+import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
@@ -12,7 +12,7 @@ import net.minecraft.util.math.MathHelper;
    Exported for Minecraft version 1.15 - 1.16 */
 
 
-public class ForestCaterpillarModel<T extends ForestCaterpillarEntity> extends EntityModel<T>
+public class ForestCaterpillarModel<T extends AbstractCaterpillarEntity> extends EntityModel<T>
 {
 	private final ModelRenderer bodyPart_0;
 	private final ModelRenderer bodyPart_1;

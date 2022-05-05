@@ -65,6 +65,12 @@
         "maxCount": 6
       },
       {
+        "type": "aerialhell:crystal_caterpillar",
+        "weight": 60,
+        "minCount": 1,
+        "maxCount": 6
+      },
+      {
         "type": "aerialhell:fat_phantom",
         "weight": 30,
         "minCount": 1,

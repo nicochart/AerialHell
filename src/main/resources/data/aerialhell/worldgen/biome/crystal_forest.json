@@ -61,6 +61,12 @@
         "weight": 60,
         "minCount": 1,
         "maxCount": 6
+      },
+      {
+        "type": "aerialhell:crystal_caterpillar",
+        "weight": 60,
+        "minCount": 1,
+        "maxCount": 6
       }
     ],
     "creature": [

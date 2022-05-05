@@ -10,7 +10,7 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.AerialArrowRenderer;
 import fr.factionbedrock.aerialhell.Client.EntityRender.EvilCowRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.FatPhantomRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.FlyingJellyfishRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.ForestCaterpillarRender;
+import fr.factionbedrock.aerialhell.Client.EntityRender.CaterpillarRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.GoldenWalkerRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.HellSpiderRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.LunaticPriestRender;
@@ -158,7 +158,8 @@ public class AerialHellRendering
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.COPPER_PINE_MIMIC.get(), ChestMimicRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.HELL_SPIDER.get(), HellSpiderRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CRYSTAL_SPIDER.get(), HellSpiderRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.FOREST_CATERPILLAR.get(), ForestCaterpillarRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.FOREST_CATERPILLAR.get(), CaterpillarRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CRYSTAL_CATERPILLAR.get(), CaterpillarRender::new);
 		
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.IRON_THROWING_KNIFE.get(), ThrowingKnifeRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.GOLD_THROWING_KNIFE.get(), ThrowingKnifeRender::new);
