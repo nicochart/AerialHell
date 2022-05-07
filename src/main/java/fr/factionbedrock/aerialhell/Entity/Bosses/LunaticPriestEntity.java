@@ -31,6 +31,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.BossInfo;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -49,6 +50,8 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		else {this.updateToPhase2();}
 		this.attackTimer = 0;
 		this.lunaticProjectileTimer = 80;
+		bossInfo.setColor(BossInfo.Color.YELLOW);
+		bossInfo.setOverlay(BossInfo.Overlay.NOTCHED_6);
 	}
 	
 	@Override

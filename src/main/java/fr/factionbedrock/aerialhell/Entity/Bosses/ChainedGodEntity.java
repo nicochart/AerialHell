@@ -33,6 +33,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.BossInfo;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -52,6 +53,8 @@ public class ChainedGodEntity extends AbstractBossEntity
 		fireballTimer = 5000;
 		attackTimer = 0;
 		timeSinceImploding = 0; this.hurtTime = 0;
+		bossInfo.setColor(BossInfo.Color.RED);
+		bossInfo.setOverlay(BossInfo.Overlay.NOTCHED_6);
 	}
 
 	@Override
