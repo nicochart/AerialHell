@@ -46,15 +46,6 @@
 	"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
-    },
-    {
-      "weight": 1,
-      "element": {
-        "location": "aerialhell:lunatic_temple/temple_corner_decoration_6",
-        "processors": "minecraft:empty",
-	"projection": "rigid",
-        "element_type": "minecraft:single_pool_element"
-      }
     }
   ]
 }

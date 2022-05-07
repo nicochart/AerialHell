@@ -647,13 +647,13 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> RUBY_DOOR_ITEM = ITEMS.register("ruby_door", () -> new BlockItem(RUBY_DOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//trapdoors
-	public static final RegistryObject<TrapDoorBlock> AERIAL_TREE_TRAPDOOR = BLOCKS.register("aerial_tree_trapdoor", () -> new TrapDoorBlock(AERIAL_TREE_MATERIAL));
+	public static final RegistryObject<TrapDoorBlock> AERIAL_TREE_TRAPDOOR = BLOCKS.register("aerial_tree_trapdoor", () -> new TrapDoorBlock(AbstractBlock.Properties.from(AERIAL_TREE_PLANKS.get()).notSolid()));
 	public static final RegistryObject<Item> AERIAL_TREE_TRAPDOOR_ITEM = ITEMS.register("aerial_tree_trapdoor", () -> new BlockItem(AERIAL_TREE_TRAPDOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-	public static final RegistryObject<TrapDoorBlock> GOLDEN_BEECH_TRAPDOOR = BLOCKS.register("golden_beech_trapdoor", () -> new TrapDoorBlock(AERIAL_TREE_MATERIAL));
+	public static final RegistryObject<TrapDoorBlock> GOLDEN_BEECH_TRAPDOOR = BLOCKS.register("golden_beech_trapdoor", () -> new TrapDoorBlock(AbstractBlock.Properties.from(GOLDEN_BEECH_PLANKS.get()).notSolid()));
 	public static final RegistryObject<Item> GOLDEN_BEECH_TRAPDOOR_ITEM = ITEMS.register("golden_beech_trapdoor", () -> new BlockItem(GOLDEN_BEECH_TRAPDOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-	public static final RegistryObject<TrapDoorBlock> COPPER_PINE_TRAPDOOR = BLOCKS.register("copper_pine_trapdoor", () -> new TrapDoorBlock(AERIAL_TREE_MATERIAL));
+	public static final RegistryObject<TrapDoorBlock> COPPER_PINE_TRAPDOOR = BLOCKS.register("copper_pine_trapdoor", () -> new TrapDoorBlock(AbstractBlock.Properties.from(COPPER_PINE_PLANKS.get()).notSolid()));
 	public static final RegistryObject<Item> COPPER_PINE_TRAPDOOR_ITEM = ITEMS.register("copper_pine_trapdoor", () -> new BlockItem(COPPER_PINE_TRAPDOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-	public static final RegistryObject<TrapDoorBlock> SKY_CACTUS_FIBER_TRAPDOOR = BLOCKS.register("sky_cactus_fiber_trapdoor", () -> new TrapDoorBlock(SKY_CACTUS_FIBER_MATERIAL));
+	public static final RegistryObject<TrapDoorBlock> SKY_CACTUS_FIBER_TRAPDOOR = BLOCKS.register("sky_cactus_fiber_trapdoor", () -> new TrapDoorBlock(AbstractBlock.Properties.from(SKY_CACTUS_FIBER_PLANKS.get()).notSolid()));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_TRAPDOOR_ITEM = ITEMS.register("sky_cactus_fiber_trapdoor", () -> new BlockItem( SKY_CACTUS_FIBER_TRAPDOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<TrapDoorBlock> RUBY_TRAPDOOR = BLOCKS.register("ruby_trapdoor", () -> new TrapDoorBlock(RUBY_MATERIAL));
 	public static final RegistryObject<Item> RUBY_TRAPDOOR_ITEM = ITEMS.register("ruby_trapdoor", () -> new BlockItem(RUBY_TRAPDOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
