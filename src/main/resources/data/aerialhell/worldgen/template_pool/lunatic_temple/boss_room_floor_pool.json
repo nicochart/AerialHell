@@ -5,7 +5,25 @@
     {
       "weight": 1,
       "element": {
-        "location": "aerialhell:lunatic_temple/boss_room_floor",
+        "location": "aerialhell:lunatic_temple/boss_room_floor_1",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:lunatic_temple/boss_room_floor_2",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:lunatic_temple/boss_room_floor_3",
         "processors": "minecraft:empty",
 	"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
