@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "X",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:sky_stick"
+    },
+    "X": {
+      "item": "aerialhell:lunatic_crystal"
+    }
+  },
+  "result": {
+    "item": "aerialhell:lunatic_sword"
+  }
+}

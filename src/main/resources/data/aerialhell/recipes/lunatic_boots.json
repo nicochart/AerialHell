@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X X",
+    "X X"
+  ],
+  "key": {
+    "X": {
+      "item": "aerialhell:lunatic_crystal"
+    }
+  },
+  "result": {
+    "item": "aerialhell:lunatic_boots"
+  }
+}

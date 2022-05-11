@@ -51,6 +51,18 @@ public class ArmorMaterials
 		() -> Ingredient.fromItems(AerialHellBlocksAndItems.MAGMATIC_GEL.get()) //Matériaux de réparation
 	);
 	
+	public final static IArmorMaterial obsidian = new ArmorMaterial
+	(
+		AerialHell.MODID + ":obsidian", //Nom du matériau 
+		37, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
+		new int[] {3, 6, 8, 3}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
+		10, //Enchantabilité
+		SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, //Son lorsqu'on équipe
+		2.0F, //Robustesse
+		0.1F, //Resistance au recul
+		null //Matériaux de réparation
+	);
+	
 	public final static IArmorMaterial volucite = new ArmorMaterial
 	(
 		AerialHell.MODID + ":volucite", //Nom du matériau 
@@ -61,6 +73,18 @@ public class ArmorMaterials
 		2.0F, //Robustesse
 		0.0F, //Resistance au recul
 		() -> Ingredient.fromItems(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //Matériaux de réparation
+	);
+	
+	public final static IArmorMaterial lunatic = new ArmorMaterial
+	(
+		AerialHell.MODID + ":lunatic", //Nom du matériau 
+		35, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
+		new int[] {3, 6, 8, 3}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
+		15, //Enchantabilité
+		SoundEvents.ITEM_ARMOR_EQUIP_GOLD, //Son lorsqu'on équipe
+		2.5F, //Robustesse
+		0.05F, //Resistance au recul
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //Matériaux de réparation
 	);
 	
 	public final static IArmorMaterial arsonist = new ArmorMaterial

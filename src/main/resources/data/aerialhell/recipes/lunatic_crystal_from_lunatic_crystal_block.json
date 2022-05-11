@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "aerialhell:lunatic_crystal_block"
+    }
+  ],
+  "result": {
+    "item": "aerialhell:lunatic_crystal",
+    "count": 9
+  }
+}

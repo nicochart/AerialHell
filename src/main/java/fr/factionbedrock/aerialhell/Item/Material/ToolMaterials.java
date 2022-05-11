@@ -60,6 +60,16 @@ public class ToolMaterials
 		() -> Ingredient.fromItems(AerialHellBlocksAndItems.MAGMATIC_GEL.get()) //Ingrédient de réparation (Enclume)
 	);
 	
+	public static final IItemTier obsidian = new ToolMaterial
+	(
+		3, //Niveau de minage
+		2031, //durabilité
+		8.0F, //efficacité
+		3.0F, //Dégats d'attaque
+		10, //Enchantabilité
+		null //Ingrédient de réparation (Enclume)
+	);
+	
 	public static final IItemTier volucite = new ToolMaterial
 	(
 		3, //Niveau de minage
@@ -78,6 +88,16 @@ public class ToolMaterials
 		6.0F, //Dégats d'attaque
 		10, //Enchantabilité
 		null //Ingrédient de réparation (Enclume)
+	);
+	
+	public static final IItemTier lunatic = new ToolMaterial
+	(
+		4, //Niveau de minage
+		1712, //durabilité
+		8.5F, //efficacité
+		3.5F, //Dégats d'attaque
+		15, //Enchantabilité
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //Ingrédient de réparation (Enclume)
 	);
 
 	public static final IItemTier arsonist = new ToolMaterial
