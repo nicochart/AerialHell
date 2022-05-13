@@ -1,0 +1,142 @@
+{
+  "pools": [
+    {
+      "rolls": {
+        "min": 1,
+        "max": 2
+      },
+      "bonus_rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "aerialhell:volucite_vibrant",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 3,
+                "max": 7
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:ruby_aerial_berry",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 5,
+                "max": 10
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:regeneration_totem",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:night_vision_totem",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:music_disc_sweden_andreas_zoeller",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "rolls": {
+        "min": 2,
+        "max": 4
+      },
+      "bonus_rolls": {
+        "min": 1,
+        "max": 2
+      },
+      "entries": [
+        {
+          "type": "item",
+          "name": "aerialhell:lunatic_crystal",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 3,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:lunatic_shovel",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:lunatic_sword",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:lunatic_axe",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:lunatic_pickaxe",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:lunatic_hoe",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:lunatic_helmet",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:lunatic_chestplate",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:lunatic_leggings",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:lunatic_boots",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:health_boost_sword",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:glouton_sword",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:antidote_sword",
+          "weight": 2
+        }
+      ]
+    }
+  ]
+}

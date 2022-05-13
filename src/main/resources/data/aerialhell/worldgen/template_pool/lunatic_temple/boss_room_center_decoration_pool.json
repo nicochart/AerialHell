@@ -5,7 +5,16 @@
     {
       "weight": 1,
       "element": {
-        "location": "aerialhell:lunatic_temple/boss_room_center_decoration",
+        "location": "aerialhell:lunatic_temple/boss_room_center_decoration_1",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:lunatic_temple/boss_room_center_decoration_2",
         "processors": "minecraft:empty",
 	"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
