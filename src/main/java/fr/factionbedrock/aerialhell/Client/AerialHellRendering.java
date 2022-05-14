@@ -73,6 +73,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_FERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BRAMBLES.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.THORNY_COBWEB.get(), cutout);
         render(() -> AerialHellBlocksAndItems.AERIAL_TREE_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.GOLDEN_BEECH_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.COPPER_PINE_SAPLING.get(), cutout);

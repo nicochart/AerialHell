@@ -184,6 +184,7 @@
   "block.aerialhell.mud_chest" : "Mud Chest",
   "block.aerialhell.mud_bone_block" : "Mud Bone Block",
   "item.aerialhell.mud_bone" : "Mud Bone",
+  "block.aerialhell.thorny_cobweb" : "Thorny Cobweb",
   "block.aerialhell.lunatic_dungeon_core" : "Lunatic Dungeon Core",
   "block.aerialhell.lunatic_stone" : "Lunatic Stone",
   "block.aerialhell.dark_lunatic_stone" : "Dark Lunatic Stone",
@@ -448,5 +449,6 @@
 
   "death.attack.throwing_knife_hit": "%1$s was killed by a throwing knife",
   "death.attack.throwing_knife_hit.player": "%1$s was killed by %2$s's throwing knife",
+  "death.attack.web_thorns": "%1$s got stuck in a thorny spider cobweb",
   "death.attack.brambles_thorns": "%1$s got stuck in the brambles"
 }

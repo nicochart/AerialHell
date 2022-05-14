@@ -184,6 +184,7 @@
   "block.aerialhell.mud_chest" : "Coffre de Boue",
   "block.aerialhell.mud_bone_block" : "Bloc d'Os de Boue",
   "item.aerialhell.mud_bone" : "Os de Boue",
+  "block.aerialhell.thorny_cobweb" : "Toile d'araignée Épineuse",
   "block.aerialhell.lunatic_dungeon_core" : "Coeur de Donjon Lunatique",
   "block.aerialhell.lunatic_stone" : "Pierre Lunatique",
   "block.aerialhell.dark_lunatic_stone" : "Pierre Lunatique Sombre",
@@ -448,5 +449,6 @@
 
   "death.attack.throwing_knife_hit": "%1$s s'est fait zigouiller par un couteau de lancer",
   "death.attack.throwing_knife_hit.player": "%1$s s'est fait zigouiller par le couteau de lancer de %2$s",
+  "death.attack.web_thorns": "%1$s est resté coincé dans une toile d'araignée épineuse",
   "death.attack.brambles_thorns": "%1$s est resté coincé dans les ronces"
 }
