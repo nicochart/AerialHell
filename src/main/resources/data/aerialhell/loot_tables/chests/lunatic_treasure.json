@@ -37,41 +37,37 @@
         },
         {
           "type": "item",
-          "name": "aerialhell:regeneration_totem",
-          "weight": 1
-        },
-        {
-          "type": "item",
-          "name": "aerialhell:night_vision_totem",
-          "weight": 1
-        },
-        {
-          "type": "item",
-          "name": "aerialhell:music_disc_sweden_andreas_zoeller",
-          "weight": 1
+          "name": "minecraft:golden_apple",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
         }
       ]
     },
     {
       "rolls": {
         "min": 2,
-        "max": 4
+        "max": 3
       },
-      "bonus_rolls": {
-        "min": 1,
-        "max": 2
-      },
+      "bonus_rolls": 1,
       "entries": [
         {
           "type": "item",
           "name": "aerialhell:lunatic_crystal",
-          "weight": 2,
+          "weight": 1,
           "functions": [
             {
               "function": "set_count",
               "count": {
-                "min": 3,
-                "max": 6
+                "min": 2,
+                "max": 5
               }
             }
           ]
@@ -84,17 +80,17 @@
         {
           "type": "item",
           "name": "aerialhell:lunatic_sword",
-          "weight": 2
+          "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_axe",
-          "weight": 2
+          "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_pickaxe",
-          "weight": 2
+          "weight": 1
         },
         {
           "type": "item",
@@ -104,7 +100,7 @@
         {
           "type": "item",
           "name": "aerialhell:lunatic_helmet",
-          "weight": 2
+          "weight": 1
         },
         {
           "type": "item",
@@ -119,22 +115,52 @@
         {
           "type": "item",
           "name": "aerialhell:lunatic_boots",
-          "weight": 2
+          "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:health_boost_sword",
-          "weight": 2
+          "weight": 3
         },
         {
           "type": "item",
           "name": "aerialhell:glouton_sword",
-          "weight": 2
+          "weight": 3
         },
         {
           "type": "item",
           "name": "aerialhell:antidote_sword",
+          "weight": 3
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:regeneration_totem",
+          "weight": 3
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:hero_totem",
           "weight": 2
+        },
+        {
+          "type": "item",
+	      "name": "minecraft:book",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "minecraft:enchant_randomly"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:night_vision_totem",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:music_disc_sweden_andreas_zoeller",
+          "weight": 1
         }
       ]
     }
