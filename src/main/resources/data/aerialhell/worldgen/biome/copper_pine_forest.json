@@ -19,6 +19,12 @@
         "type": "aerialhell:copper_pine_leaves"
       },
       "probability" : 0.02
+    },
+    "music": {
+      "sound": "aerialhell:aerialhell.dimension_music",
+      "min_delay": 1200,
+      "max_delay": 12000,
+      "replace_current_music": true
     }
   },
   "surface_builder": "aerialhell:stellar_grass_block",

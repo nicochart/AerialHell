@@ -67,6 +67,8 @@ public class AerialHellSoundEvents
 	
 	public static final RegistryObject<SoundEvent> MUSIC_DISC_SWEDEN_ANDREAS_ZOELLER = register("music_disc.sweden_andreas_zoeller");
 	
+	public static final RegistryObject<SoundEvent> AERIALHELL_DIMENSION_MUSIC = register("aerialhell.dimension_music");
+	
 	private static RegistryObject<SoundEvent> register(String name)
 	{
 		return SOUNDS.register(name, () -> new SoundEvent(new ResourceLocation(AerialHell.MODID, name)));

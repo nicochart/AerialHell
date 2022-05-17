@@ -1,11 +1,15 @@
 package fr.factionbedrock.aerialhell.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import net.minecraft.client.audio.BackgroundMusicTracks;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeMaker;
+import net.minecraft.world.biome.BiomeAmbience;
+import net.minecraft.world.biome.BiomeGenerationSettings;
+import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilders;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -45,9 +49,25 @@ public class AerialHellBiomes
         return new ResourceLocation(AerialHell.MODID, name);
     }
 
-    private static RegistryKey<Biome> register(String name)
+	private static RegistryKey<Biome> register(String name)
     {
-        BIOMES.register(name, BiomeMaker::makeVoidBiome);
+    	BIOMES.register(name, AerialHellBiomes::makeAerialHellBiome);
         return RegistryKey.getOrCreateKey(Registry.BIOME_KEY, name(name));
+    }
+    
+    public static Biome makeAerialHellBiome()
+    {
+    	return new Biome.Builder()
+				.precipitation(Biome.RainType.NONE)
+				.category(Biome.Category.NONE)
+				.depth(0)
+				.downfall(0)
+				.scale(0)
+				.temperature(0)
+				.setEffects(new BiomeAmbience.Builder().setFogColor(0).setWaterColor(0).setWaterFogColor(0).withSkyColor(0).setMusic(BackgroundMusicTracks.getDefaultBackgroundMusicSelector(AerialHellSoundEvents.AERIALHELL_DIMENSION_MUSIC.get())).build())
+				.withGenerationSettings(new BiomeGenerationSettings.Builder().withSurfaceBuilder(ConfiguredSurfaceBuilders.field_244184_p).build())
+				.withMobSpawnSettings(MobSpawnInfo.EMPTY)
+				.withTemperatureModifier(Biome.TemperatureModifier.NONE)
+				.build();
     }
 }

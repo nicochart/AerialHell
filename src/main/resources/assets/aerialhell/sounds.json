@@ -1,4 +1,11 @@
 {
+  "aerialhell.dimension_music": {
+    "sounds": [
+      {"name": "aerialhell:music/sunshine_indie_tommaup", "stream": true},
+      {"name": "aerialhell:music/synth_vibe_tommaup", "stream": true},
+      {"name": "aerialhell:music/hacking_tommaup", "stream": true}
+    ]
+  },
   "music_disc.sweden_andreas_zoeller": {
     "sounds": [
       {
