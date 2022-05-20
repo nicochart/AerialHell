@@ -14,6 +14,22 @@
       }
     ]
   },
+  "advancement.classic": {
+    "subtitle": "subtitles.advancement.classic",
+    "sounds": ["aerialhell:advancement/classic"]
+  },
+  "advancement.story": {
+    "subtitle": "subtitles.advancement.story",
+    "sounds": ["aerialhell:advancement/story"]
+  },
+  "advancement.secret": {
+    "subtitle": "subtitles.advancement.secret",
+    "sounds": ["aerialhell:advancement/secret"]
+  },
+  "advancement.lunatic": {
+    "subtitle": "subtitles.advancement.lunatic",
+    "sounds": ["aerialhell:advancement/lunatic"]
+  },
   "entity.lunatic_priest.ambient": {
     "subtitle": "subtitles.entity.lunatic_priest.ambient",
     "sounds": [

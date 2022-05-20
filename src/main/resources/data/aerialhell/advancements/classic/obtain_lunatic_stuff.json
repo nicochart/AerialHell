@@ -1,0 +1,20 @@
+{
+  "parent": "aerialhell:story/enter_lunatic_dungeon",
+  "display": {
+    "icon": {"item": "aerialhell:lunatic_chestplate", "nbt": "{Damage:0}"},
+    "title": {"translate": "advancements.classic.obtain_lunatic_stuff.title"},
+    "description": {"translate": "advancements.classic.obtain_lunatic_stuff.desc"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "lunatic_stuff": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"tag": "aerialhell:lunatic_stuff"}]}
+    }
+  },
+  "requirements": [["lunatic_stuff"]],
+  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+}

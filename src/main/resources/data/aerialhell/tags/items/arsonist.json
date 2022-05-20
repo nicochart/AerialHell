@@ -3,14 +3,6 @@
   "values": [
     "aerialhell:arsonist_ingot",
     "aerialhell:arsonist_block",
-    "aerialhell:arsonist_sword",
-    "aerialhell:arsonist_pickaxe",
-    "aerialhell:arsonist_axe",
-    "aerialhell:arsonist_shovel",
-    "aerialhell:arsonist_hoe",
-    "aerialhell:arsonist_helmet",
-    "aerialhell:arsonist_chestplate",
-    "aerialhell:arsonist_leggings",
-    "aerialhell:arsonist_boots"
+    "#aerialhell:arsonist_stuff"
   ]
 }

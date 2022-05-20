@@ -1,0 +1,24 @@
+{
+  "parent": "aerialhell:classic/collect_ruby",
+  "display": {
+    "icon": {"item": "aerialhell:ruby_liquid_of_gods_bucket"},
+    "title": {"translate": "advancements.classic.gods_bucket.title"},
+    "description": {"translate": "advancements.classic.gods_bucket.desc"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "gods_bucket": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"item": "aerialhell:iron_liquid_of_gods_bucket"}]}
+    },
+    "ruby_gods_bucket": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"item": "aerialhell:ruby_liquid_of_gods_bucket"}]}
+    }
+  },
+  "requirements": [["gods_bucket","ruby_gods_bucket"]],
+  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+}

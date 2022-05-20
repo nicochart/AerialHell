@@ -1,0 +1,20 @@
+{
+  "parent": "aerialhell:story/enter_mud_dungeon",
+  "display": {
+    "icon": {"item": "aerialhell:obsidian_chestplate", "nbt": "{Damage:0}"},
+    "title": {"translate": "advancements.classic.obtain_obsidian_stuff.title"},
+    "description": {"translate": "advancements.classic.obtain_obsidian_stuff.desc"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "obsidian_stuff": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"tag": "aerialhell:obsidian_stuff"}]}
+    }
+  },
+  "requirements": [["obsidian_stuff"]],
+  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+}

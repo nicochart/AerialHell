@@ -1,0 +1,32 @@
+{
+  "parent": "aerialhell:story/vibrate_volucite",
+  "display": {
+    "icon": {"item": "aerialhell:volucite_chestplate", "nbt": "{Damage:0}"},
+    "title": {"translate": "advancements.classic.obtain_volucite_armor.title"},
+    "description": {"translate": "advancements.classic.obtain_volucite_armor.desc"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "volucite_helmet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"item": "aerialhell:volucite_helmet"}]}
+    },
+    "volucite_chestplate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"item": "aerialhell:volucite_chestplate"}]}
+    },
+    "volucite_leggings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"item": "aerialhell:volucite_leggings"}]}
+    },
+    "volucite_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"item": "aerialhell:volucite_boots"}]}
+    }
+  },
+  "requirements": [["volucite_helmet","volucite_chestplate","volucite_leggings","volucite_boots"]],
+  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+}

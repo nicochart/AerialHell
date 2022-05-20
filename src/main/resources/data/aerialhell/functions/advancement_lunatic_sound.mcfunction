@@ -1,0 +1,1 @@
+playsound aerialhell:advancement.lunatic player @s

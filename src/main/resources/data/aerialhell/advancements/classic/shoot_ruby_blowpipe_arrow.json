@@ -1,0 +1,19 @@
+{
+  "parent": "aerialhell:classic/collect_ruby",
+  "display": {
+    "icon": {"item": "aerialhell:ruby_blowpipe_arrow"},
+    "title": {"translate": "advancements.classic.shoot_ruby_blowpipe_arrow.title"},
+    "description": {"translate": "advancements.classic.shoot_ruby_blowpipe_arrow.desc"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "shot_arrow": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {"damage": {"type": {"is_projectile": true, "direct_entity": {"type": "aerialhell:ruby_blowpipe_arrow"}}}}}
+  },
+  "requirements": [["shot_arrow"]],
+  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+}

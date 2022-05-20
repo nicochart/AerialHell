@@ -1,0 +1,20 @@
+{
+  "parent": "aerialhell:classic/harder_stone",
+  "display": {
+    "icon": {"item": "aerialhell:ruby"},
+    "title": {"translate": "advancements.classic.collect_ruby.title"},
+    "description": {"translate": "advancements.classic.collect_ruby.desc"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "ruby": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"item": "aerialhell:ruby"}]}
+    }
+  },
+  "requirements": [["ruby"]],
+  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+}

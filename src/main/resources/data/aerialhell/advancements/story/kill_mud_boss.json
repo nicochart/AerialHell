@@ -1,0 +1,20 @@
+{
+  "parent": "aerialhell:story/enter_mud_dungeon",
+  "display": {
+    "icon": {"item": "aerialhell:mud_dungeon_core"},
+    "title": {"translate": "advancements.story.kill_mud_boss.title"},
+    "description": {"translate": "advancements.story.kill_mud_boss.desc"},
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "kill_mud_boss": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions":{"entity": [{"condition": "minecraft:entity_properties","predicate": {"type": "aerialhell:mud_cycle_mage"}, "entity": "this"}]}
+    }
+  },
+  "requirements": [["kill_mud_boss"]],
+  "rewards": {"function": "aerialhell:advancement_story_sound"}
+}

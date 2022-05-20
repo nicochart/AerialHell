@@ -1,0 +1,20 @@
+{
+  "parent": "aerialhell:classic/ruby_tools",
+  "display": {
+    "icon": {"item": "aerialhell:volucite_vibrant"},
+    "title": {"translate": "advancements.story.vibrate_volucite.title"},
+    "description": {"translate": "advancements.story.vibrate_volucite.desc"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "volucite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"item": "aerialhell:volucite_vibrant"}]}
+    }
+  },
+  "requirements": [["volucite"]],
+  "rewards": {"function": "aerialhell:advancement_story_sound"}
+}

@@ -1,0 +1,19 @@
+{
+  "parent": "aerialhell:classic/collect_ruby",
+  "display": {
+    "icon": {"item": "aerialhell:ruby_throwing_knife"},
+    "title": {"translate": "advancements.classic.throw_throwing_knife.title"},
+    "description": {"translate": "advancements.classic.throw_throwing_knife.desc"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "threw_knife": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {"damage": {"type": {"is_projectile": true, "direct_entity": {"type": "#aerialhell:throwing_knife"}}}}}
+  },
+  "requirements": [["threw_knife"]],
+  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+}

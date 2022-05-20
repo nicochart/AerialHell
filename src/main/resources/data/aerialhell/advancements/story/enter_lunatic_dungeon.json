@@ -1,0 +1,18 @@
+{
+  "parent": "aerialhell:story/kill_mud_boss",
+  "display": {
+    "icon": {"item": "aerialhell:light_lunatic_stone"},
+    "title": {"translate": "advancements.story.enter_lunatic_dungeon.title"},
+    "description": {"translate": "advancements.story.enter_lunatic_dungeon.desc"},
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:location",
+      "conditions": {"location": {"feature": "aerialhell:lunatic_temple"}}
+    }
+  },
+  "rewards": {"function": "aerialhell:advancement_story_sound"}
+}

@@ -1,0 +1,18 @@
+{
+  "parent": "aerialhell:classic/ruby_tools",
+  "display": {
+    "icon": {"item": "aerialhell:light_mud_bricks"},
+    "title": {"translate": "advancements.story.enter_mud_dungeon.title"},
+    "description": {"translate": "advancements.story.enter_mud_dungeon.desc"},
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:location",
+      "conditions": {"location": {"feature": "aerialhell:mud_dungeon"}}
+    }
+  },
+  "rewards": {"function": "aerialhell:advancement_story_sound"}
+}

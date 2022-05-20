@@ -1,0 +1,18 @@
+{
+  "parent": "aerialhell:story/enter_aerial_hell",
+  "display": {
+    "icon": {"item": "aerialhell:stellar_stone"},
+    "title": {"translate": "advancements.classic.harder_stone.title"},
+    "description": {"translate": "advancements.classic.harder_stone.desc"},
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"item": "aerialhell:stellar_stone"}]}
+    }
+  },
+  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+}

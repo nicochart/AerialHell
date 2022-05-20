@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:obsidian_sword",
+    "aerialhell:obsidian_pickaxe",
+    "aerialhell:obsidian_axe",
+    "aerialhell:obsidian_shovel",
+    "aerialhell:obsidian_hoe",
+    "aerialhell:obsidian_helmet",
+    "aerialhell:obsidian_chestplate",
+    "aerialhell:obsidian_leggings",
+    "aerialhell:obsidian_boots"
+  ]
+}

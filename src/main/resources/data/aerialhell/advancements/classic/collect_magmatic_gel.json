@@ -1,0 +1,24 @@
+{
+  "parent": "aerialhell:classic/harder_stone",
+  "display": {
+    "icon": {
+      "item": "aerialhell:magmatic_gel"
+    },
+    "title": {"translate": "advancements.classic.collect_magmatic_gel.title"},
+    "description": {"translate": "advancements.classic.collect_magmatic_gel.desc"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "magmatic_gel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"item": "aerialhell:magmatic_gel"}]
+      }
+    }
+  },
+  "requirements": [["magmatic_gel"]],
+  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+}

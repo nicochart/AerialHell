@@ -69,6 +69,11 @@ public class AerialHellSoundEvents
 	
 	public static final RegistryObject<SoundEvent> AERIALHELL_DIMENSION_MUSIC = register("aerialhell.dimension_music");
 	
+	public static final RegistryObject<SoundEvent> ADVANCEMENT_CLASSIC = register("advancement.classic");
+	public static final RegistryObject<SoundEvent> ADVANCEMENT_STORY = register("advancement.story");
+	public static final RegistryObject<SoundEvent> ADVANCEMENT_SECRET = register("advancement.secret");
+	public static final RegistryObject<SoundEvent> ADVANCEMENT_LUNATIC = register("advancement.lunatic");
+	
 	private static RegistryObject<SoundEvent> register(String name)
 	{
 		return SOUNDS.register(name, () -> new SoundEvent(new ResourceLocation(AerialHell.MODID, name)));
