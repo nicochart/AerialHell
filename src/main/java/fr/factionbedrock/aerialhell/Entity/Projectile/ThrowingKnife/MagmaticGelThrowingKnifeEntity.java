@@ -9,11 +9,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 
 public class MagmaticGelThrowingKnifeEntity extends AbtractThrowingKnifeEntity
@@ -44,26 +40,20 @@ public class MagmaticGelThrowingKnifeEntity extends AbtractThrowingKnifeEntity
 	}
 
 	@Override
-	protected void onImpact(RayTraceResult result)
+	protected float getKnifeDamage()
 	{
-		if (this.world.isRemote)
-		{
-			return;
-		}
-		if (result != null && result.getType() != RayTraceResult.Type.MISS && this.world instanceof ServerWorld && result.getType() == RayTraceResult.Type.ENTITY)
-		{
-            Entity entity = ((EntityRayTraceResult)result).getEntity();
-            entity.attackEntityFrom(new DamageSource("throwing_knife_hit"), 8.0F);
-            if (entity instanceof LivingEntity)
-            {
-            	((LivingEntity) entity).addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 80, 1, true, false)));
-            }
-            entity.setMotion(entity.getMotion().add(this.getMotion().x / 2, 0.3F, this.getMotion().z / 2));
-		}
-		
-		this.remove();
+		return 8.0F;
 	}
-
+	
+	@Override
+	protected void applyEntityImpactEffet(Entity entity)
+	{
+		if (entity instanceof LivingEntity)
+        {
+        	((LivingEntity) entity).addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 80, 1, true, false)));
+        }
+	}
+	
 	@Override
 	protected Item getDefaultItem()
 	{

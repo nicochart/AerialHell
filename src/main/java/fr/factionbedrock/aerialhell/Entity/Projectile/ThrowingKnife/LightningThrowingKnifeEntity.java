@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.Projectile.ThrowingKnife;
 import fr.factionbedrock.aerialhell.Entity.AbtractThrowingKnifeEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
@@ -38,14 +39,20 @@ public class LightningThrowingKnifeEntity extends AbtractThrowingKnifeEntity
 	{
 		super(AerialHellEntities.LIGHTNING_THROWING_KNIFE.get(), worldIn);
 	}
-
+	
+	@Override
+	protected float getKnifeDamage()
+	{
+		return 2.0F;
+	}
+	
+	@Override
+	protected void applyEntityImpactEffet(Entity entity) {}
+	
 	@Override
 	protected void onImpact(RayTraceResult result)
 	{
-		if (this.world.isRemote)
-		{
-			return;
-		}
+		if (this.world.isRemote) {return;}
 		
 		if (result.getType() != RayTraceResult.Type.MISS && this.world instanceof ServerWorld)
 		{
@@ -53,8 +60,7 @@ public class LightningThrowingKnifeEntity extends AbtractThrowingKnifeEntity
 			lightningBolt.setPosition(this.getPosX(), this.getPosY(), this.getPosZ());
 			this.world.addEntity(lightningBolt);
 		}
-		
-		this.remove();
+		super.onImpact(result);
 	}
 
 	@Override
