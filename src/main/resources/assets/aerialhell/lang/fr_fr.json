@@ -310,8 +310,12 @@
   "item.aerialhell.ruby_milk_bucket" : "Seau de lait",
   "effect.aerialhell.head_in_the_clouds" : "Tête dans les Nuages",
   "effect.aerialhell.god" : "Effet des Dieux",
+  "item.aerialhell.music_disc_aerial_hell_theme_tommaup": "Aerial Hell Theme - TomMaup",
+  "item.aerialhell.music_disc_aerial_hell_theme_tommaup.desc": "Aerial Hell Theme - TomMaup",
   "item.aerialhell.music_disc_sweden_andreas_zoeller": "Sweden - Andreas Zoeller",
   "item.aerialhell.music_disc_sweden_andreas_zoeller.desc": "Sweden - Andreas Zoeller",
+  "item.aerialhell.music_disc_enthusiast_tours": "Enthusiast - Tours",
+  "item.aerialhell.music_disc_enthusiast_tours.desc": "Enthusiast - Tours",
 
   "item.aerialhell.sky_wood_sword" : "Épée en Bois du Ciel",
   "item.aerialhell.sky_wood_hoe" : "Houe en Bois du Ciel",

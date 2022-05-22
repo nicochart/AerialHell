@@ -3,13 +3,33 @@
     "sounds": [
       {"name": "aerialhell:music/sunshine_indie_tommaup", "stream": true},
       {"name": "aerialhell:music/synth_vibe_tommaup", "stream": true},
-      {"name": "aerialhell:music/hacking_tommaup", "stream": true}
+      {"name": "aerialhell:music/hacking_tommaup", "stream": true},
+      {"name": "aerialhell:music/shadow_crawler_tommaup", "stream": true},
+      {"name": "aerialhell:music/skylands_mystery_mixkit", "stream": true},
+      {"name": "aerialhell:music/synth_mystery_mixkit", "stream": true},
+      {"name": "aerialhell:music/calm_trip_zapsplat", "stream": true}
+    ]
+  },
+  "music_disc.aerial_hell_theme_tommaup": {
+    "sounds": [
+      {
+        "name": "aerialhell:record/aerial_hell_theme_tommaup",
+        "stream": true
+      }
     ]
   },
   "music_disc.sweden_andreas_zoeller": {
     "sounds": [
       {
         "name": "aerialhell:record/sweden_andreas_zoeller",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.enthusiast_tours": {
+    "sounds": [
+      {
+        "name": "aerialhell:record/enthusiast_tours",
         "stream": true
       }
     ]

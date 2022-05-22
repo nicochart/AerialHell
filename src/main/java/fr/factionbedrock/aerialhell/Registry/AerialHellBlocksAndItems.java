@@ -858,7 +858,10 @@ public class AerialHellBlocksAndItems
 	
 	public static final RegistryObject<Item> VOLUCITE_BLOWPIPE = ITEMS.register("volucite_blowpipe", () -> new BlowpipeItem(VOLUCITE_BLOWPIPE_ARROW, new Item.Properties().maxStackSize(1).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
+	//music discs
+	public static final RegistryObject<Item> MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP = ITEMS.register("music_disc_aerial_hell_theme_tommaup", () -> new MusicDiscItem(1, AerialHellSoundEvents.MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP, new Item.Properties().maxStackSize(1).rarity(Rarity.RARE).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> MUSIC_DISC_SWEDEN_ANDREAS_ZOELLER = ITEMS.register("music_disc_sweden_andreas_zoeller", () -> new MusicDiscItem(1, AerialHellSoundEvents.MUSIC_DISC_SWEDEN_ANDREAS_ZOELLER, new Item.Properties().maxStackSize(1).rarity(Rarity.RARE).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> MUSIC_DISC_ENTHUSIAST_TOURS = ITEMS.register("music_disc_enthusiast_tours", () -> new MusicDiscItem(1, AerialHellSoundEvents.MUSIC_DISC_ENTHUSIAST_TOURS, new Item.Properties().maxStackSize(1).rarity(Rarity.RARE).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//fluids
     public static final RegistryObject<FlowingFluidBlock> LIQUID_OF_THE_GODS = BLOCKS.register("liquid_of_the_gods", () -> new AerialHellFluidBlock(AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE, AbstractBlock.Properties.create(Material.LAVA).setLightLevel((state) -> 8)));
