@@ -60,7 +60,7 @@ public class ArmorMaterials
 		SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, //Son lorsqu'on équipe
 		2.0F, //Robustesse
 		0.1F, //Resistance au recul
-		null //Matériaux de réparation
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //Matériaux de réparation
 	);
 	
 	public final static IArmorMaterial volucite = new ArmorMaterial

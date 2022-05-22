@@ -162,10 +162,14 @@ public class AerialHellFeatures
         Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_mud_dungeon_structure"), CONFIGURED_MUD_DUNGEON_STRUCTURE);
         Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_lunatic_temple_structure"), CONFIGURED_LUNATIC_TEMPLE_STRUCTURE);
         
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "iron_stellar_ore"), GenAerialHellOres.IRON_STELLAR_ORE);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "gold_stellar_ore"), GenAerialHellOres.GOLD_STELLAR_ORE);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "diamond_stellar_ore"), GenAerialHellOres.DIAMOND_STELLAR_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "fluorite_ore"), GenAerialHellOres.FLUORITE_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "ruby_ore"), GenAerialHellOres.RUBY_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "azurite_ore"), GenAerialHellOres.AZURITE_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "volucite_ore"), GenAerialHellOres.VOLUCITE_ORE);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "obsidian_ore"), GenAerialHellOres.OBSIDIAN_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "glaucophanite_ore"), GenAerialHellOres.GLAUCOPHANITE_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_dirt_ore"), GenAerialHellOres.STELLAR_DIRT_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_coarse_dirt_ore"), GenAerialHellOres.STELLAR_COARSE_DIRT_ORE);

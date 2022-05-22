@@ -67,7 +67,7 @@ public class ToolMaterials
 		8.0F, //efficacité
 		3.0F, //Dégats d'attaque
 		10, //Enchantabilité
-		null //Ingrédient de réparation (Enclume)
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //Ingrédient de réparation (Enclume)
 	);
 	
 	public static final IItemTier volucite = new ToolMaterial

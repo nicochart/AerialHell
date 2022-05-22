@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:freezing",
+  "ingredient": {
+    "item": "aerialhell:volucite_vibrant"
+  },
+  "result": "minecraft:diamond",
+  "experience": 4.0,
+  "cookingtime": 800
+}

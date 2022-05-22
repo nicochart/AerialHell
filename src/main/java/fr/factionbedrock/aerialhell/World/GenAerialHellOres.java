@@ -20,6 +20,24 @@ public class GenAerialHellOres
 			2 //Chance d'apparition (Nombre de fillons par chunks)
 	);
 	
+	public static ConfiguredFeature<?,?> IRON_STELLAR_ORE = AerialHellOres
+	(
+			AerialHellBlocksAndItems.IRON_STELLAR_ORE.get().getDefaultState(), //Block enregistré à configurer
+			7, //Taille de Filon
+			0, //Hauteur minimum
+			160, //Hauteur maximum
+			6 //Chance d'apparition
+	);
+	
+	public static ConfiguredFeature<?,?> GOLD_STELLAR_ORE = AerialHellOres
+	(
+			AerialHellBlocksAndItems.GOLD_STELLAR_ORE.get().getDefaultState(), //Block enregistré à configurer
+			7, //Taille de Filon
+			0, //Hauteur minimum
+			160, //Hauteur maximum
+			8 //Chance d'apparition
+	);
+	
 	public static ConfiguredFeature<?,?> FLUORITE_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.FLUORITE_ORE.get().getDefaultState(), //Block enregistré à configurer
@@ -46,7 +64,16 @@ public class GenAerialHellOres
 			128, //Hauteur maximum
 			9 //Chance d'apparition
 	);
-
+	
+	public static ConfiguredFeature<?,?> DIAMOND_STELLAR_ORE = AerialHellOres
+	(
+			AerialHellBlocksAndItems.DIAMOND_STELLAR_ORE.get().getDefaultState(), //Block enregistré à configurer
+			7, //Taille de Filon
+			0, //Hauteur minimum
+			160, //Hauteur maximum
+			20 //Chance d'apparition
+	);
+	
 	public static ConfiguredFeature<?,?> VOLUCITE_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.VOLUCITE_ORE.get().getDefaultState(), //Block enregistré à configurer
@@ -54,6 +81,15 @@ public class GenAerialHellOres
 			156, //Hauteur minimum
 			256, //Hauteur maximum
 			16 //Chance d'apparition
+	);
+	
+	public static ConfiguredFeature<?,?> OBSIDIAN_ORE = AerialHellOres
+	(
+			AerialHellBlocksAndItems.OBSIDIAN_ORE.get().getDefaultState(), //Block enregistré à configurer
+			7, //Taille de Filon
+			0, //Hauteur minimum
+			150, //Hauteur maximum
+			20 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> GLAUCOPHANITE_ORE = AerialHellOres

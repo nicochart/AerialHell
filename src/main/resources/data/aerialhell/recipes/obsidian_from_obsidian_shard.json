@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:obsidian_shard"
+    }
+  },
+  "result": {
+    "item": "minecraft:obsidian"
+  }
+}
