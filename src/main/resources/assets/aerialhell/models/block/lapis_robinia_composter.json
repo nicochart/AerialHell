@@ -1,0 +1,11 @@
+{
+    "parent": "minecraft:block/composter",
+    "textures":
+    {
+        "particle": "aerialhell:block/lapis_robinia_composter_side",
+        "top": "aerialhell:block/lapis_robinia_composter_top",
+        "bottom": "aerialhell:block/lapis_robinia_composter_bottom",
+        "side": "aerialhell:block/lapis_robinia_composter_side",
+        "inside": "aerialhell:block/lapis_robinia_composter_bottom"
+    }
+}

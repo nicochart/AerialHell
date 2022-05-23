@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:lapis_robinia_planks"
+    }
+  },
+  "result": {
+    "item": "aerialhell:chiseled_lapis_robinia_planks",
+    "count": 9
+  }
+}

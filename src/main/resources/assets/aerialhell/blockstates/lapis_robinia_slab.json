@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "aerialhell:block/lapis_robinia_slab" },
+        "type=top": { "model": "aerialhell:block/lapis_robinia_slab_top" },
+        "type=double": { "model": "aerialhell:block/lapis_robinia_planks" }
+    }
+}

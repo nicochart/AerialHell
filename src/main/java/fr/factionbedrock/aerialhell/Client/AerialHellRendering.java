@@ -77,6 +77,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.AERIAL_TREE_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.GOLDEN_BEECH_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.COPPER_PINE_SAPLING.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.LAPIS_ROBINIA_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_TALL_FERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_DEAD_BUSH.get(), cutout);
@@ -89,6 +90,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.POTTED_AERIAL_TREE_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_GOLDEN_BEECH_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_COPPER_PINE_SAPLING.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.POTTED_LAPIS_ROBINIA_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get(), translucent);
         render(() -> AerialHellBlocksAndItems.SLIPPERY_SAND_GLASS.get(), translucent);
         render(() -> AerialHellBlocksAndItems.MAGMATIC_GEL_BLOCK.get(), translucent);
@@ -98,9 +100,11 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.AERIAL_TREE_DOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.GOLDEN_BEECH_DOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.COPPER_PINE_DOOR.get(), translucent);
+        render(() -> AerialHellBlocksAndItems.LAPIS_ROBINIA_DOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.SKY_CACTUS_FIBER_DOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.RUBY_DOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.AERIAL_TREE_TRAPDOOR.get(), translucent);
+        render(() -> AerialHellBlocksAndItems.LAPIS_ROBINIA_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.GOLDEN_BEECH_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.SKY_CACTUS_FIBER_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.RUBY_TRAPDOOR.get(), translucent);

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "aerialhell:block/lapis_robinia_crafting_table_front",
+    "north": "aerialhell:block/lapis_robinia_crafting_table_otherside",
+    "south": "aerialhell:block/lapis_robinia_crafting_table_front",
+    "east": "aerialhell:block/lapis_robinia_crafting_table_side",
+    "west": "aerialhell:block/lapis_robinia_crafting_table_side",
+    "up": "aerialhell:block/lapis_robinia_crafting_table_top",
+    "down": "aerialhell:block/lapis_robinia_barrel_bottom"
+  }
+}

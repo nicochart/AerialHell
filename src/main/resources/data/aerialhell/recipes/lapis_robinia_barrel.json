@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PSP",
+    "P P",
+    "PSP"
+  ],
+  "key": {
+    "P": {
+      "item": "aerialhell:lapis_robinia_planks"
+    },
+    "S": {
+      "item": "aerialhell:lapis_robinia_slab"
+    }
+  },
+  "result": {
+    "item": "aerialhell:lapis_robinia_barrel"
+  }
+}

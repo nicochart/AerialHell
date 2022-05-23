@@ -1,0 +1,8 @@
+{
+    "parent": "block/stairs",
+    "textures": {
+        "bottom": "aerialhell:block/lapis_robinia_planks",
+        "top": "aerialhell:block/lapis_robinia_planks",
+        "side": "aerialhell:block/lapis_robinia_planks"
+    }
+}

@@ -40,6 +40,7 @@ import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.gen.feature.TwoLayerFeature;
+import net.minecraft.world.gen.foliageplacer.AcaciaFoliagePlacer;
 import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import net.minecraft.world.gen.foliageplacer.FancyFoliagePlacer;
 import net.minecraft.world.gen.foliageplacer.SpruceFoliagePlacer;
@@ -47,6 +48,7 @@ import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.trunkplacer.FancyTrunkPlacer;
+import net.minecraft.world.gen.trunkplacer.ForkyTrunkPlacer;
 import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
 
 public class AerialHellFeatures
@@ -92,6 +94,14 @@ public class AerialHellFeatures
                 new TwoLayerFeature(3, 0, 2)
                 	)).setIgnoreVines().build();
 		
+		public static final BaseTreeFeatureConfig LAPIS_ROBINIA_CONFIG = (new BaseTreeFeatureConfig.Builder(
+				new SimpleBlockStateProvider(AerialHellBlocksAndItems.LAPIS_ROBINIA_LOG.get().getDefaultState()),
+				new SimpleBlockStateProvider(AerialHellBlocksAndItems.LAPIS_ROBINIA_LEAVES.get().getDefaultState()),
+				new AcaciaFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0)),
+				new ForkyTrunkPlacer(5, 2, 2),
+				new TwoLayerFeature(1, 0, 2)
+					)).setIgnoreVines().build();
+		
 		public static final BaseTreeFeatureConfig GOLDEN_BEECH_CONFIG = (new BaseTreeFeatureConfig.Builder(
 			    new SimpleBlockStateProvider(AerialHellBlocksAndItems.GOLDEN_BEECH_LOG.get().getDefaultState()),
 			    new SimpleBlockStateProvider(AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES.get().getDefaultState()),
@@ -129,6 +139,8 @@ public class AerialHellFeatures
     public static ConfiguredFeature<?, ?> AERIAL_TREE_FOREST = Feature.TREE.withConfiguration(Configs.AERIAL_TREE_FOREST_CONFIG).range(256).square().func_242731_b(10);
     public static ConfiguredFeature<?, ?> COPPER_PINE_BASIC = Feature.TREE.withConfiguration(Configs.COPPER_PINE_CONFIG).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(0, 0.01F, 1)));
     public static ConfiguredFeature<?, ?> COPPER_PINE_FOREST = Feature.TREE.withConfiguration(Configs.COPPER_PINE_CONFIG).range(256).square().func_242731_b(8);
+    public static ConfiguredFeature<?, ?> LAPIS_ROBINIA_RARE = Feature.TREE.withConfiguration(Configs.LAPIS_ROBINIA_CONFIG).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(0, 0.01F, 1)));
+    public static ConfiguredFeature<?, ?> LAPIS_ROBINIA_BASIC = Feature.TREE.withConfiguration(Configs.LAPIS_ROBINIA_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     public static ConfiguredFeature<?, ?> GOLDEN_BEECH_RARE = Feature.TREE.withConfiguration(Configs.GOLDEN_BEECH_CONFIG).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(0, 0.01F, 1)));
     public static ConfiguredFeature<?, ?> GOLDEN_BEECH_BASIC = Feature.TREE.withConfiguration(Configs.GOLDEN_BEECH_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     public static ConfiguredFeature<?, ?> CRYSTALLIZED_TREE_BASIC = Feature.TREE.withConfiguration(Configs.CRYSTALLIZED_TREE_BASIC_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
@@ -190,6 +202,8 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "aerial_tree_forest"), AERIAL_TREE_FOREST);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "copper_pine_basic"), COPPER_PINE_BASIC);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "copper_pine_forest"), COPPER_PINE_FOREST);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "lapis_robinia_rare"), LAPIS_ROBINIA_RARE);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "lapis_robinia_basic"), LAPIS_ROBINIA_BASIC);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "golden_beech_rare"), GOLDEN_BEECH_RARE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "golden_beech_basic"), GOLDEN_BEECH_BASIC);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "crystallized_tree_basic"), CRYSTALLIZED_TREE_BASIC);

@@ -31,6 +31,7 @@ public class AerialHellTileEntityTypes
 							AerialHellBlocksAndItems.AERIAL_TREE_SIGN.get(),
 							AerialHellBlocksAndItems.GOLDEN_BEECH_SIGN.get(),
 							AerialHellBlocksAndItems.COPPER_PINE_SIGN.get(),
+							AerialHellBlocksAndItems.LAPIS_ROBINIA_SIGN.get(),
 							AerialHellBlocksAndItems.SKY_CACTUS_FIBER_SIGN.get()
 					), null));
 	
@@ -40,6 +41,7 @@ public class AerialHellTileEntityTypes
 					AerialHellBlocksAndItems.AERIAL_TREE_BARREL.get(),
 					AerialHellBlocksAndItems.GOLDEN_BEECH_BARREL.get(),
 					AerialHellBlocksAndItems.COPPER_PINE_BARREL.get(),
+					AerialHellBlocksAndItems.LAPIS_ROBINIA_BARREL.get(),
 					AerialHellBlocksAndItems.SKY_CACTUS_FIBER_BARREL.get()
 			), null));
 	
@@ -49,6 +51,7 @@ public class AerialHellTileEntityTypes
 	        				AerialHellBlocksAndItems.AERIAL_TREE_CHEST.get(),
 	        				AerialHellBlocksAndItems.GOLDEN_BEECH_CHEST.get(),
 	        				AerialHellBlocksAndItems.COPPER_PINE_CHEST.get(),
+	        				AerialHellBlocksAndItems.LAPIS_ROBINIA_CHEST.get(),
 	        				AerialHellBlocksAndItems.SKY_CACTUS_FIBER_CHEST.get(),
 	        				AerialHellBlocksAndItems.MUD_CHEST.get(),
 	        				AerialHellBlocksAndItems.LUNATIC_CHEST.get(),

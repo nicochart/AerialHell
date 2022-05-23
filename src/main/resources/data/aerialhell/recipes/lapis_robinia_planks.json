@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "item": "aerialhell:lapis_robinia_log"
+    }
+  ],
+  "result": {
+    "item": "aerialhell:lapis_robinia_planks",
+    "count": 4
+  }
+}

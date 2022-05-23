@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "aerialhell:block/lapis_robinia_leaves"
+  }
+}

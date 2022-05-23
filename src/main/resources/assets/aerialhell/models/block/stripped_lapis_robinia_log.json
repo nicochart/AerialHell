@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aerialhell:block/lapis_robinia_log_top",
+    "side": "aerialhell:block/stripped_lapis_robinia_log"
+  }
+}
