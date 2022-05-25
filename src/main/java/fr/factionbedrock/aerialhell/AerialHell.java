@@ -72,7 +72,7 @@ public class AerialHell
     	}
     		
     	/* Adding common features and structure in all aerial hell biomes */
-    	if (event.getName().equals(AerialHellBiomes.AERIAL_HELL_PLAINS.getLocation()) || event.getName().equals(AerialHellBiomes.AERIAL_TREE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.COPPER_PINE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.SLIPPERY_SAND_OCEAN.getLocation()) || event.getName().equals(AerialHellBiomes.CRYSTAL_PLAINS.getLocation()))
+    	if (event.getName().equals(AerialHellBiomes.AERIAL_HELL_PLAINS.getLocation()) || event.getName().equals(AerialHellBiomes.AERIAL_TREE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.COPPER_PINE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.SLIPPERY_SAND_OCEAN.getLocation()) || event.getName().equals(AerialHellBiomes.CRYSTAL_PLAINS.getLocation()) || event.getName().equals(AerialHellBiomes.LAPIS_ROBINIA_SAVANA.getLocation()))
     	{
     		/* structure */
     		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_MUD_DUNGEON_STRUCTURE);
@@ -145,6 +145,17 @@ public class AerialHell
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_FERN);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_TALL_FERN);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.AERIAL_BERRY_BUSH_PATCH);
+    	}
+    	
+    	/* Adding features exclusive to the Lapis Robania Savana biome */
+    	if (event.getName().equals(AerialHellBiomes.LAPIS_ROBINIA_SAVANA.getLocation()))
+    	{   		
+    		//more plants
+   		 	event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.BRAMBLES);
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_GRASS);
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_TALL_GRASS);
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_FERN);
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_TALL_FERN);
     	}
     	
     	/* Adding features exclusive to the Crystal Plain biome */

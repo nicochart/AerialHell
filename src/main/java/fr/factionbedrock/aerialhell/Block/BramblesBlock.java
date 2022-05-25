@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -23,8 +24,11 @@ public class BramblesBlock extends AerialHellTallGrassBlock
 		entityIn.setMotionMultiplier(state, new Vector3d((double)0.8F, 0.75D, (double)0.8F));
 		if (!worldIn.isRemote && entityIn instanceof LivingEntity)
     	{
-			((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.POISON, 40, 0));
-			((LivingEntity) entityIn).attackEntityFrom(new DamageSource("brambles_thorns"), 2.0F);
+			if (entityIn.getType() != AerialHellEntities.SANDY_SHEEP_TYPE && entityIn.getType() != AerialHellEntities.FOREST_CATERPILLAR_TYPE)
+			{
+				((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.POISON, 40, 0));
+				((LivingEntity) entityIn).attackEntityFrom(new DamageSource("brambles_thorns"), 2.0F);
+			}
     	}
 	}
 }

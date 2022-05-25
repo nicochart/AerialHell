@@ -7,10 +7,10 @@
   "temperature_modifier": "none",
   "downfall": 0.0,
   "effects": {
-    "fog_color": 7771012,
-    "sky_color": 7583106,
-    "water_color": 3704182,
-    "water_fog_color": 3504470,
+    "fog_color": 7583112,
+    "sky_color": 6388392,
+    "water_color": 4090254,
+    "water_fog_color": 4019819,
     "grass_color": 11665355,
     "foliage_color": 11665355,
     "grass_color_modifier": "none",
@@ -34,14 +34,11 @@
     [],
     [],
     [],
-    [
-      //ores
-    ],
+    [],
     [],
     [
-      "aerialhell:aerial_tree_forest",
       "aerialhell:lapis_robinia_basic",
-      "aerialhell:golden_beech_basic"
+      "aerialhell:golden_beech_rare"
     ],
     []
   ],
@@ -54,19 +51,7 @@
         "type": "aerialhell:evil_cow",
         "weight": 100,
         "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "aerialhell:flying_jellyfish",
-        "weight": 60,
-        "minCount": 2,
-        "maxCount": 2
-      },
-      {
-        "type": "aerialhell:forest_caterpillar",
-        "weight": 40,
-        "minCount": 4,
-        "maxCount": 4
+        "maxCount": 10
       },
       {
         "type": "aerialhell:fat_phantom",

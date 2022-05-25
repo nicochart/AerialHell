@@ -106,6 +106,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.AERIAL_TREE_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.LAPIS_ROBINIA_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.GOLDEN_BEECH_TRAPDOOR.get(), translucent);
+        render(() -> AerialHellBlocksAndItems.COPPER_PINE_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.SKY_CACTUS_FIBER_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.RUBY_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.RUBY_BARS.get(), translucent);

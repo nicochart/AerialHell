@@ -129,9 +129,17 @@ public class AerialHellBlocksAndItems
 	
 	public static void registerCompostableItems()
 	{
+		ComposterBlock.registerCompostable(0.1F, STELLAR_GRASS_ITEM.get());
+		ComposterBlock.registerCompostable(0.2F, STELLAR_TALL_GRASS_ITEM.get());
+		ComposterBlock.registerCompostable(0.2F, STELLAR_GRASS_BALL_ITEM.get());
+		ComposterBlock.registerCompostable(0.1F, STELLAR_DEAD_BUSH_ITEM.get());
+		ComposterBlock.registerCompostable(0.2F, BLUE_FLOWER_ITEM.get());
+		ComposterBlock.registerCompostable(0.2F, BLACK_ROSE_ITEM.get());
 		ComposterBlock.registerCompostable(0.5F, AERIAL_BERRY.get());
 		ComposterBlock.registerCompostable(0.85F, VIBRANT_AERIAL_BERRY.get());
 		ComposterBlock.registerCompostable(0.85F, FROZEN_AERIAL_BERRY.get());
+		ComposterBlock.registerCompostable(0.1F, AERIAL_BERRY_SEEDS.get());
+		ComposterBlock.registerCompostable(0.2F, VIBRANT_AERIAL_BERRY_SEEDS.get());
 		ComposterBlock.registerCompostable(0.5F, COPPER_PINE_CONE.get());
 		ComposterBlock.registerCompostable(0.3F, AERIAL_TREE_LEAVES_ITEM.get());
 		ComposterBlock.registerCompostable(0.3F, AERIAL_TREE_SAPLING_ITEM.get());
@@ -176,6 +184,7 @@ public class AerialHellBlocksAndItems
 	
 	//materials
 	public static AbstractBlock.Properties AERIAL_TREE_MATERIAL = AbstractBlock.Properties.create(Material.WOOD, MaterialColor.BROWN).hardnessAndResistance(2.5F, 2.5F).sound(SoundType.WOOD).harvestTool(ToolType.AXE);
+	public static AbstractBlock.Properties COPPER_PINE_MATERIAL = AbstractBlock.Properties.create(Material.WOOD, MaterialColor.BROWN).hardnessAndResistance(4.5F, 4.5F).sound(SoundType.WOOD).harvestTool(ToolType.AXE);
 	public static AbstractBlock.Properties AERIAL_TREE_SIGN_MATERIAL = AbstractBlock.Properties.create(Material.WOOD, MaterialColor.BROWN).hardnessAndResistance(2.5F, 2.5F).sound(SoundType.WOOD).harvestTool(ToolType.AXE).notSolid().doesNotBlockMovement();
 	public static AbstractBlock.Properties SKY_CACTUS_FIBER_MATERIAL = AbstractBlock.Properties.create(Material.CACTUS, MaterialColor.CYAN).hardnessAndResistance(2.5F, 2.5F).sound(SoundType.WOOD).harvestTool(ToolType.AXE);
 	public static AbstractBlock.Properties SKY_CACTUS_FIBER_SIGN_MATERIAL = AbstractBlock.Properties.create(Material.CACTUS, MaterialColor.CYAN).hardnessAndResistance(2.5F, 2.5F).sound(SoundType.WOOD).harvestTool(ToolType.AXE).notSolid().doesNotBlockMovement();
@@ -251,7 +260,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> GOLDEN_BEECH_SAPLING_ITEM = ITEMS.register("golden_beech_sapling", () -> new BlockItem(GOLDEN_BEECH_SAPLING.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//cropper pine
-	public static final RegistryObject<RotatedPillarBlock> COPPER_PINE_LOG = BLOCKS.register("copper_pine_log", () -> new RotatedPillarBlock(AbstractBlock.Properties.from(AERIAL_TREE_LOG.get())));
+	public static final RegistryObject<RotatedPillarBlock> COPPER_PINE_LOG = BLOCKS.register("copper_pine_log", () -> new RotatedPillarBlock(COPPER_PINE_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_COPPER_PINE_LOG = BLOCKS.register("stripped_copper_pine_log", () -> new RotatedPillarBlock(AbstractBlock.Properties.from(COPPER_PINE_LOG.get()).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> COPPER_PINE_PLANKS = BLOCKS.register("copper_pine_planks", () -> new Block(AbstractBlock.Properties.from(COPPER_PINE_LOG.get())));
 	public static final RegistryObject<Block> COPPER_PINE_LEAVES = BLOCKS.register("copper_pine_leaves", () -> new CopperPineLeavesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES).harvestTool(ToolType.HOE)));
@@ -265,7 +274,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> COPPER_PINE_SAPLING_ITEM = ITEMS.register("copper_pine_sapling", () -> new BlockItem(COPPER_PINE_SAPLING.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//lapis robinia
-	public static final RegistryObject<RotatedPillarBlock> LAPIS_ROBINIA_LOG = BLOCKS.register("lapis_robinia_log", () -> new RotatedPillarBlock(AERIAL_TREE_MATERIAL));
+	public static final RegistryObject<RotatedPillarBlock> LAPIS_ROBINIA_LOG = BLOCKS.register("lapis_robinia_log", () -> new RotatedPillarBlock(COPPER_PINE_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_LAPIS_ROBINIA_LOG = BLOCKS.register("stripped_lapis_robinia_log", () -> new RotatedPillarBlock(AbstractBlock.Properties.from(LAPIS_ROBINIA_LOG.get()).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> LAPIS_ROBINIA_LEAVES = BLOCKS.register("lapis_robinia_leaves", () -> new LeavesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES)));
 	public static final RegistryObject<Block> LAPIS_ROBINIA_PLANKS = BLOCKS.register("lapis_robinia_planks", () -> new Block(AbstractBlock.Properties.from(LAPIS_ROBINIA_LOG.get())));
@@ -482,6 +491,14 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> MUD_BONE = ITEMS.register("mud_bone",() -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Block> THORNY_COBWEB = BLOCKS.register("thorny_cobweb", () -> new ThornyWebBlock(AbstractBlock.Properties.create(Material.WEB).doesNotBlockMovement().harvestTool(ToolType.AXE).setRequiresTool().hardnessAndResistance(8.0F)));
 	public static final RegistryObject<Item> THORNY_COBWEB_ITEM = ITEMS.register("thorny_cobweb", () -> new BlockItem(THORNY_COBWEB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Block> AERIAL_NETHERRACK = BLOCKS.register("aerial_netherrack", () -> new Block(AbstractBlock.Properties.create(Material.ROCK, MaterialColor.NETHERRACK).setRequiresTool().hardnessAndResistance(6.0F, 8.0F)));
+	public static final RegistryObject<Item> AERIAL_NETHERRACK_ITEM = ITEMS.register("aerial_netherrack", () -> new BlockItem(AERIAL_NETHERRACK.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<SlabBlock> AERIAL_NETHERRACK_SLAB = BLOCKS.register("aerial_netherrack_slab", () -> new SlabBlock(AbstractBlock.Properties.from(AERIAL_NETHERRACK.get())));
+	public static final RegistryObject<Item> AERIAL_NETHERRACK_SLAB_ITEM = ITEMS.register("aerial_netherrack_slab", () -> new BlockItem(AERIAL_NETHERRACK_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<StairsBlock> AERIAL_NETHERRACK_STAIRS = BLOCKS.register("aerial_netherrack_stairs", () -> new StairsBlock(() -> AERIAL_NETHERRACK.get().getDefaultState(), AbstractBlock.Properties.from(AERIAL_NETHERRACK.get())));
+	public static final RegistryObject<Item> AERIAL_NETHERRACK_STAIRS_ITEM = ITEMS.register("aerial_netherrack_stairs", () -> new BlockItem(AERIAL_NETHERRACK_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<WallBlock> AERIAL_NETHERRACK_WALL = BLOCKS.register("aerial_netherrack_wall", () -> new WallBlock(AbstractBlock.Properties.from(AERIAL_NETHERRACK.get())));
+	public static final RegistryObject<Item> AERIAL_NETHERRACK_WALL_ITEM = ITEMS.register("aerial_netherrack_wall", () -> new BlockItem(AERIAL_NETHERRACK_WALL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//Bookshelf
 	public static final RegistryObject<Block> MUD_BOOKSHELF = BLOCKS.register("mud_bookshelf", () -> new CoreProtectedBlock(AbstractBlock.Properties.from(MUD_BRICKS.get())));

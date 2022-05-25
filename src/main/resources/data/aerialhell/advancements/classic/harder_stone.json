@@ -11,7 +11,7 @@
   "criteria": {
     "requirement": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:stellar_stone"}]}
+      "conditions": {"items": [{"item": "aerialhell:stellar_cobblestone"}]}
     }
   },
   "rewards": {"function": "aerialhell:advancement_classic_sound"}

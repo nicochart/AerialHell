@@ -23,7 +23,7 @@
     "music": {
       "sound": "aerialhell:aerialhell.dimension_music",
       "min_delay": 1200,
-      "max_delay": 12000,
+      "max_delay": 3600,
       "replace_current_music": true
     }
   },

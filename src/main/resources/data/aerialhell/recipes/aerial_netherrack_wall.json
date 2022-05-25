@@ -2,16 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "###",
-    "###",
     "###"
   ],
   "key": {
     "#": {
-      "item": "aerialhell:lapis_robinia_planks"
+      "item": "aerialhell:aerial_netherrack"
     }
   },
   "result": {
-    "item": "aerialhell:chiseled_lapis_robinia_planks",
-    "count": 9
+    "item": "aerialhell:aerial_netherrack_wall",
+    "count": 6
   }
 }
