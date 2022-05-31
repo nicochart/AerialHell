@@ -1,0 +1,15 @@
+{
+  "name": "aerialhell:golden_nether_prison/boss_room_side_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:golden_nether_prison/boss_room_side",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}
