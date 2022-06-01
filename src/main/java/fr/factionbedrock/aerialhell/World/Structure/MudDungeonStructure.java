@@ -74,7 +74,7 @@ public class MudDungeonStructure extends AbstractAerialHellStructure
 
             this.recalculateStructureSize();
 
-            if (yPos.getY() >= 85 || yPos.getY() <= 65)
+            if (yPos.getY() <= 65 || yPos.getY() >= 85)
             {	//moveInsideHeights
                 this.func_214626_a(this.rand, 65, 85);
             }

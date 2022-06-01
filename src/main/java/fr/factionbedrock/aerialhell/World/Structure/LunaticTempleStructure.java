@@ -74,7 +74,7 @@ public class LunaticTempleStructure extends AbstractAerialHellStructure
 
             this.recalculateStructureSize();
 
-            if (yPos.getY() >= 135 || yPos.getY() <= 190)
+            if (yPos.getY() <= 135 || yPos.getY() >= 190)
             {	//moveInsideHeights
                 this.func_214626_a(this.rand, 135, 190);
             }

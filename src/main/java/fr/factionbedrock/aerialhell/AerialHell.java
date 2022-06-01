@@ -81,7 +81,7 @@ public class AerialHell
     		
     		/* features */
     		event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.SLIPPERY_SAND);
-    		event.getGeneration().withFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, AerialHellFeatures.AERIAL_HELL_WATER_LAKE);
+    		event.getGeneration().withFeature(GenerationStage.Decoration.LAKES, AerialHellFeatures.AERIAL_HELL_WATER_LAKE);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.WHITE_SOLID_ETHER); 
    		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.BLUE_SOLID_ETHER);
    		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.GOLDEN_SOLID_ETHER);
