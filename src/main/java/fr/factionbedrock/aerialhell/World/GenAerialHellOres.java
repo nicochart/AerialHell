@@ -17,7 +17,8 @@ public class GenAerialHellOres
 			5, //Taille de Filon
 			0, //Hauteur minimum
 			8, //Hauteur maximum
-			2 //Chance d'apparition (Nombre de fillons par chunks)
+			64, //range
+			2 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> IRON_STELLAR_ORE = AerialHellOres
@@ -26,7 +27,8 @@ public class GenAerialHellOres
 			7, //Taille de Filon
 			0, //Hauteur minimum
 			160, //Hauteur maximum
-			6 //Chance d'apparition
+			64, //range
+			20 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> GOLD_STELLAR_ORE = AerialHellOres
@@ -35,7 +37,8 @@ public class GenAerialHellOres
 			7, //Taille de Filon
 			0, //Hauteur minimum
 			160, //Hauteur maximum
-			8 //Chance d'apparition
+			32, //range
+			2 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> FLUORITE_ORE = AerialHellOres
@@ -44,7 +47,8 @@ public class GenAerialHellOres
 			9, //Taille de Filon
 			0, //Hauteur minimum
 			256, //Hauteur maximum
-			2 //Chance d'apparition
+			128, //range
+			20 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> RUBY_ORE = AerialHellOres
@@ -53,7 +57,8 @@ public class GenAerialHellOres
 			7, //Taille de Filon
 			0, //Hauteur minimum
 			160, //Hauteur maximum
-			6 //Chance d'apparition
+			64, //range
+			20 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> AZURITE_ORE = AerialHellOres
@@ -62,7 +67,8 @@ public class GenAerialHellOres
 			5, //Taille de Filon
 			0, //Hauteur minimum
 			128, //Hauteur maximum
-			9 //Chance d'apparition
+			64, //range
+			20 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> DIAMOND_STELLAR_ORE = AerialHellOres
@@ -71,16 +77,18 @@ public class GenAerialHellOres
 			7, //Taille de Filon
 			0, //Hauteur minimum
 			160, //Hauteur maximum
-			20 //Chance d'apparition
+			32, //range
+			2 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> VOLUCITE_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.VOLUCITE_ORE.get().getDefaultState(), //Block enregistré à configurer
 			7, //Taille de Filon
-			156, //Hauteur minimum
+			145, //Hauteur minimum
 			256, //Hauteur maximum
-			16 //Chance d'apparition
+			32, //range
+			2 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> OBSIDIAN_ORE = AerialHellOres
@@ -89,15 +97,17 @@ public class GenAerialHellOres
 			7, //Taille de Filon
 			0, //Hauteur minimum
 			150, //Hauteur maximum
-			20 //Chance d'apparition
+			32, //range
+			2 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> GLAUCOPHANITE_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.GLAUCOPHANITE.get().getDefaultState(), //Block enregistré à configurer
-			16, //Taille de Filon
+			32, //Taille de Filon
 			0, //Hauteur minimum
 			256, //Hauteur maximum
+			256, //range
 			10 //Chance d'apparition
 	);
 	
@@ -107,6 +117,7 @@ public class GenAerialHellOres
 			12, //Taille de Filon
 			0, //Hauteur minimum
 			128, //Hauteur maximum
+			256, //range
 			12 //Chance d'apparition
 	);
 	
@@ -116,6 +127,7 @@ public class GenAerialHellOres
 			33, //Taille de Filon
 			0, //Hauteur minimum
 			256, //Hauteur maximum
+			256, //range
 			10 //Chance d'apparition
 	);
 	
@@ -125,7 +137,8 @@ public class GenAerialHellOres
 			22, //Taille de Filon
 			0, //Hauteur minimum
 			256, //Hauteur maximum
-			16 //Chance d'apparition
+			256, //range
+			12 //Chance d'apparition
 	);
 	
 	public static final class FillerBlockType
@@ -133,13 +146,13 @@ public class GenAerialHellOres
 		public static final RuleTest BASE_STELLAR_STONE_AERIALHELL = new TagMatchRuleTest(AerialHellTags.Blocks.STELLAR_STONE);
 	}
 	
-	public static ConfiguredFeature<?,?> AerialHellOres(BlockState blockState, int oreVeinSize, int minHeight, int maxHeight, int chance)
+	public static ConfiguredFeature<?,?> AerialHellOres(BlockState blockState, int oreVeinSize, int minHeight, int maxHeight, int range, int chance)
 	{
-        return Feature.ORE.withConfiguration(new OreFeatureConfig(FillerBlockType.BASE_STELLAR_STONE_AERIALHELL, blockState, oreVeinSize)).withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(minHeight,0,maxHeight))).square().chance(chance);
+        return Feature.ORE.withConfiguration(new OreFeatureConfig(FillerBlockType.BASE_STELLAR_STONE_AERIALHELL, blockState, oreVeinSize)).withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(minHeight,0,maxHeight))).range(range).square().func_242731_b(chance);
     }
 	
-	public static ConfiguredFeature<?,?> OverworldOres(BlockState blockState, int oreVeinSize, int minHeight, int maxHeight, int chance)
+	public static ConfiguredFeature<?,?> OverworldOres(BlockState blockState, int oreVeinSize, int minHeight, int maxHeight, int range, int chance)
 	{
-        return Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, blockState, oreVeinSize)).withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(minHeight,0,maxHeight))).square().chance(chance);
+        return Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, blockState, oreVeinSize)).withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(minHeight,0,maxHeight))).range(range).square().func_242731_b(chance);
     }
 }
