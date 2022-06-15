@@ -37,6 +37,15 @@
 	"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:golden_nether_prison/corridor_entrance_5",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
     }
   ]
 }

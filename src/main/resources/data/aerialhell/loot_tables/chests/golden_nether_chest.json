@@ -1,0 +1,186 @@
+{
+  "pools": [
+    {
+      "rolls": {
+        "min": 2,
+        "max": 3
+      },
+      "bonus_rolls": 1,
+      "entries": [
+	{
+          "type": "item",
+          "name": "aerialhell:ruby_fluorite_lantern",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 5
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:ruby",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:copper_pine_cone",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 3,
+                "max": 5
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:ruby_aerial_berry",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 3,
+                "max": 4
+              }
+            }
+          ]
+        },
+	{
+          "type": "item",
+          "name": "aerialhell:ruby_blowpipe_arrow",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 5
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:volucite_blowpipe_arrow",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": {
+        "min": 1,
+        "max": 2
+      },
+      "entries": [
+        {
+          "type": "item",
+          "name": "aerialhell:obsidian_shard",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 3
+              }
+            }
+          ]
+        },
+	{
+          "type": "item",
+          "name": "aerialhell:volucite_aerial_berry",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:volucite_chestplate",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:volucite_sword",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:volucite_pickaxe",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:volucite_axe",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:volucite_blowpipe",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:ruby_throwing_knife",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 3,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:volucite_throwing_knife",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

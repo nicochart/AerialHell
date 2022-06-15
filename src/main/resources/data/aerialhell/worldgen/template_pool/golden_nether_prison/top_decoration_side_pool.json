@@ -37,6 +37,24 @@
 	"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:golden_nether_prison/top_decoration_side_5",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:golden_nether_prison/top_decoration_side_6",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
     }
   ]
 }
