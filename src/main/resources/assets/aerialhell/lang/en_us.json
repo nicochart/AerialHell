@@ -530,5 +530,12 @@
   "advancements.classic.obtain_lunatic_stuff.title": "Crystalized material !",
   "advancements.classic.obtain_lunatic_stuff.desc": "Get an Lunatic Crystal tool or piece of armor",
   "advancements.story.kill_lunatic_boss.title": "Anti-Lunatic Crusade",
-  "advancements.story.kill_lunatic_boss.desc": "Kill the Lunatic Priest"
+  "advancements.story.kill_lunatic_boss.desc": "Kill the Lunatic Priest",
+
+  "advancements.story.enter_golden_nether_dungeon.title": "Should I Leave ?",
+  "advancements.story.enter_golden_nether_dungeon.desc": "Enter in a Golden Nether Prison",
+  "advancements.classic.obtain_arsonist_stuff.title": "Fiery !",
+  "advancements.classic.obtain_arsonist_stuff.desc": "Get an Arsonist tool or piece of armor",
+  "advancements.story.kill_golden_nether_boss.title": "Freed and Buried",
+  "advancements.story.kill_golden_nether_boss.desc": "Kill the Chained God"
 }

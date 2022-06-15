@@ -529,5 +529,12 @@
   "advancements.classic.obtain_lunatic_stuff.title": "Du Matériel Crystalisé",
   "advancements.classic.obtain_lunatic_stuff.desc": "Obtenez une pièce d'armure ou un outils en Crystal Lunatique",
   "advancements.story.kill_lunatic_boss.title": "Croisade Anti-Lunatique",
-  "advancements.story.kill_lunatic_boss.desc": "Tuez le Prêtre Lunatique"
+  "advancements.story.kill_lunatic_boss.desc": "Tuez le Prêtre Lunatique",
+
+  "advancements.story.enter_golden_nether_dungeon.title": "Devrais-je partir ?",
+  "advancements.story.enter_golden_nether_dungeon.desc": "Entrez dans une Prison Dorée du Nether",
+  "advancements.classic.obtain_arsonist_stuff.title": "Pyromane !",
+  "advancements.classic.obtain_arsonist_stuff.desc": "Obtenez une pièce d'armure ou un outils Incendière",
+  "advancements.story.kill_golden_nether_boss.title": "Déchaîné",
+  "advancements.story.kill_golden_nether_boss.desc": "Tuez le Dieu Enchaîné"
 }
