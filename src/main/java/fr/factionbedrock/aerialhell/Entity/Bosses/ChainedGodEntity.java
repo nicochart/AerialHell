@@ -32,6 +32,7 @@ import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.Explosion;
@@ -78,7 +79,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 				.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3D)
 				.createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.2D)
 				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 6.0D)
-				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 14.0D);
+				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 17.0D);
     }
 	
 	@Override
@@ -213,10 +214,12 @@ public class ChainedGodEntity extends AbstractBossEntity
 	{
 	      this.world.setEntityState(this, (byte)4);
 	      float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
-	      float f1 = (int)f > 0 ? f / 2.0F + (float)this.rand.nextInt((int)f) : f;
-	      boolean flag = attackedEntity.attackEntityFrom(DamageSource.causeMobDamage(this), f1);
+	      float amount = (int)f > 0 ? f / 2.0F + (float)this.rand.nextInt((int)f) : f;
+	      float kb = (float)this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
+	      boolean flag = attackedEntity.attackEntityFrom(DamageSource.causeMobDamage(this), amount);
 	      if (flag)
 	      {
+	    	 ((LivingEntity)attackedEntity).applyKnockback(kb * 0.5F, (double)MathHelper.sin(this.rotationYaw * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(this.rotationYaw * ((float)Math.PI / 180F))));
 	         attackedEntity.setMotion(attackedEntity.getMotion().getX(), (double)0.8F, attackedEntity.getMotion().getZ());
 	         this.applyEnchantments(this, attackedEntity);
 	      }

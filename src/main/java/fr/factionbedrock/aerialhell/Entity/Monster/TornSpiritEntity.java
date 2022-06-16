@@ -3,12 +3,14 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 import java.util.EnumSet;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
@@ -38,10 +40,11 @@ public class TornSpiritEntity extends MonsterEntity
 		this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.25D, false));
 		this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 0.6D));
-        this.goalSelector.addGoal(6, new LeapAtTargetGoal(this, 0.7F));
+        this.goalSelector.addGoal(6, new LeapAtTargetGoal(this, 0.55F));
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, MudSoldierEntity.class, true));
         this.targetSelector.addGoal(8, new NearestAttackableTargetGoal<>(this, MudSpectralSoldierEntity.class, true));
         this.targetSelector.addGoal(9, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
+        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
     }
 	
 	public static AttributeModifierMap.MutableAttribute registerAttributes()
@@ -49,21 +52,12 @@ public class TornSpiritEntity extends MonsterEntity
 		return MonsterEntity.func_233666_p_()
 				.createMutableAttribute(Attributes.MAX_HEALTH, 50.0D)
 				.createMutableAttribute(Attributes.FOLLOW_RANGE, 24.0D)
-				.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.35D)
-				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 12.0D);
+				.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.33D)
+				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 14.0D);
     }
 	
-	@Override
-	public boolean isImmuneToFire()
-	{
-		return true;
-	}
-	
-	@Override
-	public boolean canRenderOnFire()
-	{
-		return false;
-	}
+	@Override public boolean isImmuneToFire() {return true;}
+	@Override public boolean canRenderOnFire() {return false;}
 	
 	@Override
     public void tick()

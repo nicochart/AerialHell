@@ -37,6 +37,9 @@ public class FireSpiritEntity extends AbstractElementSpiritEntity
     	return ParticleTypes.FLAME;
     }
     
+    @Override public boolean isImmuneToFire() {return true;}
+	@Override public boolean canRenderOnFire() {return false;}
+	
     @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn)
