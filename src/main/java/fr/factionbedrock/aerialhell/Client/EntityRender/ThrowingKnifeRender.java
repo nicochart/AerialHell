@@ -39,7 +39,11 @@ public class ThrowingKnifeRender<T extends AbtractThrowingKnifeEntity> extends E
 	{
 		matrix.push();
 		
-		entityIn.throwingKnifeZRot -= 25;
+		entityIn.throwingKnifeZRot -= 4;
+		if (entityIn.throwingKnifeZRot <= -360)
+		{
+			entityIn.throwingKnifeZRot = 360;
+		}
 		matrix.rotate(Vector3f.YP.rotationDegrees(entityIn.rotationYaw)); /*Vertical plane rotation*/
 		matrix.rotate(Vector3f.XP.rotationDegrees(- 90.0f - entityIn.prevRotationPitch)); /*Pointing to forward*/
 		matrix.rotate(Vector3f.ZP.rotationDegrees(entityIn.throwingKnifeZRot)); /*Horizontal plane rotation*/

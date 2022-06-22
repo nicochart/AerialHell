@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileItemEntity;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.util.IndirectEntityDamageSource;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -40,6 +41,24 @@ public abstract class AbtractThrowingKnifeEntity extends ProjectileItemEntity
 	{
 		super(type, worldIn);
 		this.throwingKnifeZRot = -135;
+	}
+	
+	@Override
+	public void writeAdditional(CompoundNBT compound)
+	{
+		super.writeAdditional(compound);
+		
+		compound.putShort("knifeZRot", (short)this.throwingKnifeZRot);
+	}
+	
+	@Override
+	public void readAdditional(CompoundNBT compound)
+	{
+	    super.readAdditional(compound);
+	    if (compound.contains("knifeZRot", 99))
+	    {
+	    	this.throwingKnifeZRot = compound.getShort("knifeZRot");
+	    }
 	}
 	
 	@Override
