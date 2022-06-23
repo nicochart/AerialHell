@@ -7,7 +7,6 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
@@ -25,18 +24,16 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 
 public class LunaticTempleStructure extends AbstractAerialHellStructure
 {
-	private static final List<MobSpawnInfo.Spawners> spawnList = ImmutableList.of(new MobSpawnInfo.Spawners(AerialHellEntities.CRYSTAL_SLIME.get(), 1, 3, 15), new MobSpawnInfo.Spawners(AerialHellEntities.CRYSTAL_SPIDER.get(), 2, 5, 5));
+	private static final List<MobSpawnInfo.Spawners> monstersSpawnList = ImmutableList.of(new MobSpawnInfo.Spawners(AerialHellEntities.CRYSTAL_SLIME.get(), 1, 3, 15), new MobSpawnInfo.Spawners(AerialHellEntities.CRYSTAL_SPIDER.get(), 2, 5, 5));
+	private static final List<MobSpawnInfo.Spawners> creaturesSpawnList = ImmutableList.of();
 	
     public LunaticTempleStructure(Codec<NoFeatureConfig> codec)
     {
         super(codec);
     }
     
-    @Override
-    public List<MobSpawnInfo.Spawners> getSpawnList()
-    {
-        return spawnList;
-    }
+    @Override public List<MobSpawnInfo.Spawners> getDefaultSpawnList() {return monstersSpawnList;}
+    @Override public List<MobSpawnInfo.Spawners> getDefaultCreatureSpawnList() {return creaturesSpawnList;}
 
     @Override
     public IStartFactory<NoFeatureConfig> getStartFactory()

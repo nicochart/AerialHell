@@ -28,18 +28,16 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 
 public class GoldenNetherPrisonStructure extends AbstractAerialHellStructure
 {
-	private static final List<MobSpawnInfo.Spawners> spawnList = ImmutableList.of(new MobSpawnInfo.Spawners(AerialHellEntities.TORN_SPIRIT.get(), 1, 3, 15), new MobSpawnInfo.Spawners(AerialHellEntities.FIRE_SPIRIT.get(), 2, 5, 5));
+	private static final List<MobSpawnInfo.Spawners> monstersSpawnList = ImmutableList.of(new MobSpawnInfo.Spawners(AerialHellEntities.TORN_SPIRIT.get(), 2, 3, 15));
+	private static final List<MobSpawnInfo.Spawners> creaturesSpawnList = ImmutableList.of();
 	
     public GoldenNetherPrisonStructure(Codec<NoFeatureConfig> codec)
     {
         super(codec);
     }
     
-    @Override
-    public List<MobSpawnInfo.Spawners> getSpawnList()
-    {
-        return spawnList;
-    }
+    @Override public List<MobSpawnInfo.Spawners> getDefaultSpawnList() {return monstersSpawnList;}
+    @Override public List<MobSpawnInfo.Spawners> getDefaultCreatureSpawnList() {return creaturesSpawnList;}
 
     @Override
     public IStartFactory<NoFeatureConfig> getStartFactory()

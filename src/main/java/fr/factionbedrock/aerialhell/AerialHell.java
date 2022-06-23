@@ -77,7 +77,7 @@ public class AerialHell
     		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_GOLDEN_NETHER_PRISON_STRUCTURE);
     		
     		/* features */
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.SLIPPERY_SAND);
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.TOP_LAYER_MODIFICATION).add(() -> AerialHellFeatures.SLIPPERY_SAND);
     		event.getGeneration().withFeature(GenerationStage.Decoration.LAKES, AerialHellFeatures.AERIAL_HELL_WATER_LAKE);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.WHITE_SOLID_ETHER); 
    		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.BLUE_SOLID_ETHER);

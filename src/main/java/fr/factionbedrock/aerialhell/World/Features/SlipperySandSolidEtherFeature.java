@@ -5,8 +5,10 @@ import java.util.Random;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellStructures;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.SectionPos;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
@@ -29,7 +31,13 @@ public class SlipperySandSolidEtherFeature extends Feature<NoFeatureConfig>
                  reader.getBlockState(pos.east(3)).getBlock().equals(Blocks.AIR)) &&
                 (reader.getBlockState(pos).getBlock() == AerialHellBlocksAndItems.STELLAR_STONE.get()) ||
                  reader.getBlockState(pos).getBlock() == AerialHellBlocksAndItems.SLIPPERY_SAND.get());
-        if (canGenerate)
+		
+		boolean generatesInDungeon = (
+    			reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get()).findAny().isPresent() ||
+    			reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.MUD_DUNGEON_STRUCTURE.get()).findAny().isPresent() ||
+    			reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get()).findAny().isPresent());
+    	
+        if (canGenerate && !generatesInDungeon)
         {
         	/*Size decision*/
         	int minSize,maxSize;

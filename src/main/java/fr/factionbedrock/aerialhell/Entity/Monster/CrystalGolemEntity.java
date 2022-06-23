@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
-import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;

@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
+
+import fr.factionbedrock.aerialhell.Registry.AerialHellStructures;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
@@ -28,6 +30,13 @@ public class AerialHellLakeFeature extends Feature<BlockStateFeatureConfig>
 
     public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, BlockStateFeatureConfig config)
     {
+    	boolean generatesInDungeon = (
+    			reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get()).findAny().isPresent() ||
+    			reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.MUD_DUNGEON_STRUCTURE.get()).findAny().isPresent() ||
+    			reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get()).findAny().isPresent());
+    	
+    	if (generatesInDungeon) {return false;}
+    	
         while (pos.getY() > 5 && reader.isAirBlock(pos))
         {
             pos = pos.down();
@@ -36,7 +45,9 @@ public class AerialHellLakeFeature extends Feature<BlockStateFeatureConfig>
         if (pos.getY() <= 4)
         {
             return false;
-        } else {
+        }
+        else
+        {
             pos = pos.down(4);
             if (reader.func_241827_a(SectionPos.from(pos), Structure.VILLAGE).findAny().isPresent())
             {

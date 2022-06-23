@@ -14,13 +14,13 @@ public class GoldenNetherMeatItem extends Item
     {
     	super(new Item.Properties().rarity(Rarity.UNCOMMON)
                 .food(new Food.Builder().setAlwaysEdible().hunger(hunger).saturation(saturation).effect(() -> new EffectInstance(Effects.FIRE_RESISTANCE, duration_in_tinks, 0), 1.0F).build())
-                .group(group));
+                .group(group).isImmuneToFire());
     }
     
     public GoldenNetherMeatItem(int hunger, int duration_in_tinks) //default group
     {
     	super(new Item.Properties().rarity(Rarity.UNCOMMON)
                 .food(new Food.Builder().setAlwaysEdible().hunger(hunger).effect(() -> new EffectInstance(Effects.FIRE_RESISTANCE, duration_in_tinks, 0), 1.0F).build())
-                .group(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
+                .group(AerialHellItemGroups.AERIAL_HELL_DIMENSION).isImmuneToFire());
     }
 }

@@ -3,10 +3,12 @@ package fr.factionbedrock.aerialhell.World.Features;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellStructures;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.SectionPos;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
@@ -32,7 +34,13 @@ public class SlipperySandFeature extends Feature<NoFeatureConfig>
                  reader.getBlockState(pos.east(3)).getBlock().equals(Blocks.AIR)) &&
                 	(reader.getBlockState(pos).isIn(AerialHellTags.Blocks.STELLAR_STONE) ||
                      reader.getBlockState(pos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
-        if (canGenerate)
+		
+		boolean generatesInDungeon = (
+			reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get()).findAny().isPresent() ||
+			reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.MUD_DUNGEON_STRUCTURE.get()).findAny().isPresent() ||
+			reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get()).findAny().isPresent());
+		
+        if (canGenerate && !generatesInDungeon)
         {
         	boolean isBig;
         	int Min,Max;
