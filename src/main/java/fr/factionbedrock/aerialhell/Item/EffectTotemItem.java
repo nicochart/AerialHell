@@ -30,7 +30,7 @@ public class EffectTotemItem extends Item
 				{
 					if (this == AerialHellBlocksAndItems.REGENERATION_TOTEM.get())
 					{
-						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.REGENERATION, 1200, 1));
+						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.REGENERATION, 1200, 0));
 					}
 					else if (this == AerialHellBlocksAndItems.SPEED_TOTEM.get())
 					{

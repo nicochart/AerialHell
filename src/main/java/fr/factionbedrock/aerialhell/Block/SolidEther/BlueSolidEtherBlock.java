@@ -24,12 +24,15 @@ public class BlueSolidEtherBlock extends SolidEtherBlock
 		entity.fallDistance = 0.0F;
 		if (entity.getMotion().y < 0.0)
 		{
-			entity.setMotion(entity.getMotion().mul(1.0, 0.005, 1.0)); //mul=multiply
+			entity.setMotion(entity.getMotion().mul(1.0, 0.005, 1.0));
 		}
-		if (entity instanceof LivingEntity)
-    	{
-			((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 10, 5));
-    	}
+		if (world.isRemote())
+		{
+			if (entity instanceof LivingEntity)
+	    	{
+				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 10, 5));
+	    	}
+		}
 	}
 
 	@Override

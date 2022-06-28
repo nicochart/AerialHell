@@ -9,16 +9,16 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Rarity;
 import net.minecraft.potion.EffectInstance;
 
-public class AercloudFragmentItem extends Item
+public class SolidEtherFragmentItem extends Item
 {
-	public AercloudFragmentItem(ItemGroup group, Supplier<EffectInstance> effectIn)
+	public SolidEtherFragmentItem(ItemGroup group, Supplier<EffectInstance> effectIn)
 	{
 		super(new Item.Properties().rarity(Rarity.UNCOMMON)
                 .food(new Food.Builder().setAlwaysEdible().hunger(1).saturation(0.1F).effect(effectIn, 1.0F).build())
                 .group(group));
 	}
     
-    public AercloudFragmentItem(Supplier<EffectInstance> effectIn) //default group
+    public SolidEtherFragmentItem(Supplier<EffectInstance> effectIn) //default group
     {
         super(new Item.Properties().rarity(Rarity.UNCOMMON)
                 .food(new Food.Builder().setAlwaysEdible().hunger(1).saturation(0.1F).effect(effectIn, 1.0F).build())

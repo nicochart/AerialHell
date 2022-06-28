@@ -21,7 +21,7 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
     protected void registerGoals()
     {
     	super.registerGoals();
-    	this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
+    	this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.3F));
     }
 	
     public static AttributeModifierMap.MutableAttribute registerAttributes()

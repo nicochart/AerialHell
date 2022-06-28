@@ -1,22 +1,18 @@
 package fr.factionbedrock.aerialhell.Block.SolidEther;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class GreenSolidEtherBlock extends SolidEtherBlock
 {
-	protected static VoxelShape SHAPE = VoxelShapes.empty();
-
 	public GreenSolidEtherBlock(AbstractBlock.Properties properties)
 	{
 		super(properties);
@@ -26,63 +22,25 @@ public class GreenSolidEtherBlock extends SolidEtherBlock
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
 	{
 		entity.fallDistance = 0.0F;
-		Vector3d motion = entity.getMotion();
-
-		if (entity.isSneaking())
+		if (entity.getMotion().y < 0.0)
 		{
-			if (motion.y < 0)
-			{
-				entity.setMotion(motion.mul(0.9, 0.005, 0.9));
-			}
-			else if (motion.y > 0)
-			{
-				if (motion.x > 0.3 || motion.z > 0.3)
-				{
-					entity.setMotion(motion.mul(0.9, 0.99, 0.9));
-					entity.attackEntityFrom(DamageSource.FLY_INTO_WALL.setDamageBypassesArmor(), 1.0F);
-				}
-				else
-				{
-					entity.setMotion(motion.mul(1.1, 0.99, 1.1));
-				}
-			}
-			else //motion.y == 0
-			{
-				entity.setMotion(motion.mul(0.9, 1.0, 0.9));
-			}
-			return;
+			entity.setMotion(entity.getMotion().mul(1.0, 0.01, 1.0));
 		}
-		else
+		if (world.isRemote())
 		{
-			if (motion.x > 0.3 || motion.z > 0.3)
-			{
-				entity.setMotion(-1*motion.x, 1.3, -1*motion.z);
-				entity.attackEntityFrom(DamageSource.FLY_INTO_WALL.setDamageBypassesArmor(), 2.0F);
-			}
-			else
-			{
-				entity.setMotion(-1.3*motion.x, 1.3, -1.3*motion.z);
-			}
-		}
-		
-		
-		
-		if (world.isRemote)
-		{
-			for (int count = 0; count < 5; count++)
-			{
-				double xOffset = pos.getX() + world.rand.nextDouble();
-				double yOffset = pos.getY() + world.rand.nextDouble();
-				double zOffset = pos.getZ() + world.rand.nextDouble();
-				
-				world.addParticle(ParticleTypes.COMPOSTER, xOffset, yOffset, zOffset, 0.0, 0.0, 0.0);
-			}
+			if (entity instanceof LivingEntity)
+	    	{
+				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, 15, 2));
+				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.SLOWNESS, 15, 1));
+				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.WEAKNESS, 15, 1));
+	    	}
 		}
 	}
 	
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state)
 	{
-		return SHAPE;
+		super.onPlayerDestroy(worldIn, pos, state);
+		worldIn.setBlockState(pos, AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get().getDefaultState(), 3);
 	}
 }
