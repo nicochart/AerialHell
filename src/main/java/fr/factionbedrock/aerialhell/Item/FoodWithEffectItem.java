@@ -10,17 +10,17 @@ import net.minecraft.potion.EffectInstance;
 
 public class FoodWithEffectItem extends Item
 {
-    public FoodWithEffectItem(ItemGroup group, Rarity rarity, EffectInstance effect)
+    public FoodWithEffectItem(int hungerIn, float saturationIn, ItemGroup group, Rarity rarity, EffectInstance effect)
     {
         super(new Item.Properties().rarity(rarity)
-                .food(new Food.Builder().setAlwaysEdible().hunger(6).saturation(0.8F).effect(() -> effect, 1.0F).build())
+                .food(new Food.Builder().setAlwaysEdible().hunger(hungerIn).saturation(saturationIn).effect(() -> effect, 1.0F).build())
                 .group(group));
     }
     
-    public FoodWithEffectItem(EffectInstance effect) //default group and rarity
+    public FoodWithEffectItem(int hungerIn, float saturationIn, EffectInstance effect) //default group and rarity
     {
         super(new Item.Properties().rarity(AerialHellRarities.VIBRANT)
-                .food(new Food.Builder().setAlwaysEdible().hunger(6).saturation(0.8F).effect(() -> effect, 1.0F).build())
+                .food(new Food.Builder().setAlwaysEdible().hunger(hungerIn).saturation(saturationIn).effect(() -> effect, 1.0F).build())
                 .group(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
     }
 }

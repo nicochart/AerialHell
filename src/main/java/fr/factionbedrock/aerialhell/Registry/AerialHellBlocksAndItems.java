@@ -2,6 +2,8 @@ package fr.factionbedrock.aerialhell.Registry;
 
 import static fr.factionbedrock.aerialhell.AerialHell.MODID;
 
+import java.util.function.ToIntFunction;
+
 import com.google.common.collect.ImmutableMap;
 
 import fr.factionbedrock.aerialhell.Block.MagmaticGelBlock;
@@ -13,6 +15,7 @@ import fr.factionbedrock.aerialhell.Block.StellarGrassBlock;
 import fr.factionbedrock.aerialhell.Block.ThornyWebBlock;
 import fr.factionbedrock.aerialhell.Block.AerialHellPortalBlock;
 import fr.factionbedrock.aerialhell.Block.AerialHellFluidBlock;
+import fr.factionbedrock.aerialhell.Block.StellarFurnaceBlock;
 import fr.factionbedrock.aerialhell.Block.AerialHellOreBlock;
 import fr.factionbedrock.aerialhell.Block.AerialHellSignBlock;
 import fr.factionbedrock.aerialhell.Block.AerialHellTallGrassBlock;
@@ -109,6 +112,7 @@ import net.minecraft.item.SwordItem;
 import net.minecraft.item.WallOrFloorItem;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -614,6 +618,11 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> FREEZER = BLOCKS.register("freezer",() -> new FreezerBlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(2.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE)));
 	public static final RegistryObject<Item> FREEZER_ITEM = ITEMS.register("freezer", () -> new BlockItem(FREEZER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
+	public static final RegistryObject<Block> STELLAR_FURNACE = BLOCKS.register("stellar_furnace", () -> new StellarFurnaceBlock(AbstractBlock.Properties.create(Material.ROCK).setRequiresTool().hardnessAndResistance(3.5F).setLightLevel(getLightValueLit(13))));
+	public static final RegistryObject<Item> STELLAR_FURNACE_ITEM = ITEMS.register("stellar_furnace", () -> new BlockItem(STELLAR_FURNACE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	
+	private static ToIntFunction<BlockState> getLightValueLit(int lightValue) {return (state) -> {return state.get(BlockStateProperties.LIT) ? lightValue : 0;};}
+	
 	//chests
 	public static final RegistryObject<ChestBlock> AERIAL_TREE_CHEST = BLOCKS.register("aerial_tree_chest", () -> new ChestBlock(AERIAL_TREE_MATERIAL,() -> AerialHellTileEntityTypes.CHEST.get()){public TileEntity createTileEntity(BlockState state,net.minecraft.world.IBlockReader world) {return AerialHellTileEntityTypes.CHEST.get().create();};});
 	public static final RegistryObject<Item> AERIAL_TREE_CHEST_ITEM = ITEMS.register("aerial_tree_chest", () -> new BlockItem(AERIAL_TREE_CHEST.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION).setISTER(() -> AerialHellChestItemTileEntityRenderer::new)));
@@ -893,8 +902,11 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> AERIAL_BERRY = ITEMS.register("aerial_berry",() -> new Item(new Item.Properties().food(new Food.Builder().hunger(2).saturation(0.2F).build()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> VIBRANT_AERIAL_BERRY = ITEMS.register("vibrant_aerial_berry",() -> new Item(new Item.Properties().rarity(AerialHellRarities.VIBRANT).food(new Food.Builder().hunger(6).saturation(0.6F).build()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> FROZEN_AERIAL_BERRY = ITEMS.register("frozen_aerial_berry", () -> new FrozenAerialBerryItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
-	public static final RegistryObject<Item> RUBY_AERIAL_BERRY = ITEMS.register("ruby_aerial_berry", () -> new FoodWithEffectItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION, Rarity.RARE, new EffectInstance(Effects.HEALTH_BOOST, 2400, 0)));
-	public static final RegistryObject<Item> VOLUCITE_AERIAL_BERRY = ITEMS.register("volucite_aerial_berry", () -> new FoodWithEffectItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION, AerialHellRarities.VIBRANT, new EffectInstance(Effects.SLOW_FALLING, 2400, 2)));
+	public static final RegistryObject<Item> RUBY_AERIAL_BERRY = ITEMS.register("ruby_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, AerialHellItemGroups.AERIAL_HELL_DIMENSION, Rarity.RARE, new EffectInstance(Effects.HEALTH_BOOST, 2400, 0)));
+    public static final RegistryObject<Item> VOLUCITE_AERIAL_BERRY = ITEMS.register("volucite_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, AerialHellItemGroups.AERIAL_HELL_DIMENSION, AerialHellRarities.VIBRANT, new EffectInstance(Effects.SLOW_FALLING, 2400, 2)));
+    public static final RegistryObject<Item> PHANTOM_MEAT = ITEMS.register("phantom_meat", () -> new FoodWithEffectItem(5, 0.8F, AerialHellItemGroups.AERIAL_HELL_DIMENSION, Rarity.UNCOMMON, new EffectInstance(Effects.RESISTANCE, 120, 0)));
+    public static final RegistryObject<Item> VIBRANT_PHANTOM_MEAT = ITEMS.register("vibrant_phantom_meat", () -> new FoodWithEffectItem(8, 0.8F, AerialHellItemGroups.AERIAL_HELL_DIMENSION, AerialHellRarities.VIBRANT, new EffectInstance(Effects.RESISTANCE, 600, 0)));
+    public static final RegistryObject<Item> COOKED_PHANTOM_MEAT = ITEMS.register("cooked_phantom_meat",() -> new Item(new Item.Properties().food(new Food.Builder().hunger(10).saturation(0.9F).meat().build()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> GODS_VOLUCITE_AERIAL_BERRY = ITEMS.register("gods_volucite_aerial_berry", () -> new GodsVoluciteBerryItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
 	public static final RegistryObject<Item> COPPER_PINE_CONE = ITEMS.register("copper_pine_cone",() -> new Item(new Item.Properties().food(new Food.Builder().fastToEat().hunger(0).build()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER = ITEMS.register("sky_cactus_fiber",() -> new Item(new Item.Properties().food(new Food.Builder().fastToEat().hunger(1).saturation(0.1F).build()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "aerialhell:block/stellar_furnace_top",
+    "front": "aerialhell:block/stellar_furnace_front",
+    "side": "aerialhell:block/stellar_furnace_side"
+  }
+}

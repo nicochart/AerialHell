@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "aerialhell:phantom_meat"
+  },
+  "result": "aerialhell:cooked_phantom_meat",
+  "experience": 0.8,
+  "cookingtime": 400
+}

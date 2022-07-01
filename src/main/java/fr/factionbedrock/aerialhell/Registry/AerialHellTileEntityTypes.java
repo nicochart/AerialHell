@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.TileEntity.VibratorTileEntity;
 import fr.factionbedrock.aerialhell.TileEntity.ChestMimicTileEntity;
 import fr.factionbedrock.aerialhell.TileEntity.FreezerTileEntity;
+import fr.factionbedrock.aerialhell.TileEntity.StellarFurnaceTileEntity;
 import fr.factionbedrock.aerialhell.TileEntity.AerialHellBarrelTileEntity;
 import fr.factionbedrock.aerialhell.TileEntity.AerialHellChestTileEntity;
 import fr.factionbedrock.aerialhell.TileEntity.AerialHellSignTileEntity;
@@ -24,6 +25,9 @@ public class AerialHellTileEntityTypes
 	
 	public static final RegistryObject<TileEntityType<FreezerTileEntity>> FREEZER = TILE_ENTITIES.register("freezer", () ->
 			new TileEntityType<>(FreezerTileEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.FREEZER.get()), null));
+	
+	public static final RegistryObject<TileEntityType<StellarFurnaceTileEntity>> STELLAR_FURNACE = TILE_ENTITIES.register("stellar_furnace", () ->
+			new TileEntityType<>(StellarFurnaceTileEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.STELLAR_FURNACE.get()), null));
 	
 	public static final RegistryObject<TileEntityType<AerialHellSignTileEntity>> SIGN = TILE_ENTITIES.register("sign", () ->
 			new TileEntityType<>(AerialHellSignTileEntity::new, Sets.newHashSet

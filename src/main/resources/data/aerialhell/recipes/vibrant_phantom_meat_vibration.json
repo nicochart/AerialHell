@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:vibration",
+  "ingredient": {
+    "item": "aerialhell:phantom_meat"
+  },
+  "result": "aerialhell:vibrant_phantom_meat",
+  "experience": 0.8,
+  "cookingtime": 400
+}
