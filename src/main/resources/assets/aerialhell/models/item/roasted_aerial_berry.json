@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "aerialhell:item/roasted_aerial_berry"
+  }
+}

@@ -146,7 +146,6 @@ public class AerialHell
     	if (event.getName().equals(AerialHellBiomes.LAPIS_ROBINIA_SAVANA.getLocation()))
     	{   		
     		//more plants
-   		 	event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.BRAMBLES);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_GRASS);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_TALL_GRASS);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_FERN);

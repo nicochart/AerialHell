@@ -3,7 +3,7 @@
     "ingredient": {
         "item": "aerialhell:volucite_ore"
     },
-    "result": "aerialhell:volucite_vibrant",
-    "experience": 0.9,
+    "result": "aerialhell:overheated_volucite",
+    "experience": 0.5,
     "cookingtime": 200
 }

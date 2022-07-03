@@ -3,7 +3,7 @@
   "ingredient": {
     "item": "aerialhell:ruby_ore"
   },
-  "result": "aerialhell:ruby",
-  "experience": 0.6,
-  "cookingtime": 200
+  "result": "aerialhell:overheated_ruby",
+  "experience": 0.4,
+  "cookingtime": 300
 }

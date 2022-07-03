@@ -27,7 +27,7 @@ public class BramblesBlock extends AerialHellTallGrassBlock
 			if (entityIn.getType() != AerialHellEntities.SANDY_SHEEP_TYPE && entityIn.getType() != AerialHellEntities.FOREST_CATERPILLAR_TYPE)
 			{
 				((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.POISON, 40, 0));
-				((LivingEntity) entityIn).attackEntityFrom(new DamageSource("brambles_thorns"), 2.0F);
+				((LivingEntity) entityIn).attackEntityFrom(new DamageSource("brambles_thorns"), 1.0F);
 			}
     	}
 	}

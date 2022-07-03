@@ -40,12 +40,12 @@ import fr.factionbedrock.aerialhell.Block.DungeonCores.DungeonCoreBlock;
 import fr.factionbedrock.aerialhell.Block.SolidEther.*;
 import fr.factionbedrock.aerialhell.Client.TileEntityRenderer.AerialHellChestItemTileEntityRenderer;
 import fr.factionbedrock.aerialhell.Item.AerialArrowItem;
+import fr.factionbedrock.aerialhell.Item.BurnableBlockItem;
 import fr.factionbedrock.aerialhell.Item.BlowpipeItem;
-import fr.factionbedrock.aerialhell.Item.GoldenNetherMeatItem;
-import fr.factionbedrock.aerialhell.Item.FoodWithEffectItem;
-import fr.factionbedrock.aerialhell.Item.FrozenAerialBerryItem;
+import fr.factionbedrock.aerialhell.Item.BurnableItem;
 import fr.factionbedrock.aerialhell.Item.GodsVoluciteBerryItem;
-import fr.factionbedrock.aerialhell.Item.SolidEtherFragmentItem;
+import fr.factionbedrock.aerialhell.Item.FoodWithEffectItem;
+import fr.factionbedrock.aerialhell.Item.WithInformationItem;
 import fr.factionbedrock.aerialhell.Item.EffectTotemItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.*;
 import fr.factionbedrock.aerialhell.Item.Material.ArmorMaterials;
@@ -238,11 +238,11 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> CHISELED_AERIAL_TREE_PLANKS = BLOCKS.register("chiseled_aerial_tree_planks", () -> new Block(AbstractBlock.Properties.from(AERIAL_TREE_PLANKS.get())));
 	public static final RegistryObject<Block> AERIAL_TREE_BOOKSHELF = BLOCKS.register("aerial_tree_bookshelf", () -> new Block(AbstractBlock.Properties.from(AERIAL_TREE_PLANKS.get())));
 	public static final RegistryObject<SaplingBlock> AERIAL_TREE_SAPLING = BLOCKS.register("aerial_tree_sapling", () -> new SaplingBlock(new AerialTree(), AbstractBlock.Properties.from(Blocks.OAK_SAPLING)));
-	public static final RegistryObject<Item> AERIAL_TREE_LOG_ITEM = ITEMS.register("aerial_tree_log", () -> new BlockItem(AERIAL_TREE_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-	public static final RegistryObject<Item> STRIPPED_AERIAL_TREE_LOG_ITEM = ITEMS.register("stripped_aerial_tree_log", () -> new BlockItem(STRIPPED_AERIAL_TREE_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> AERIAL_TREE_LOG_ITEM = ITEMS.register("aerial_tree_log", () -> new BurnableBlockItem(AERIAL_TREE_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
+	public static final RegistryObject<Item> STRIPPED_AERIAL_TREE_LOG_ITEM = ITEMS.register("stripped_aerial_tree_log", () -> new BurnableBlockItem(STRIPPED_AERIAL_TREE_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<Item> AERIAL_TREE_LEAVES_ITEM = ITEMS.register("aerial_tree_leaves", () -> new BlockItem(AERIAL_TREE_LEAVES.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-	public static final RegistryObject<Item> AERIAL_TREE_PLANKS_ITEM = ITEMS.register("aerial_tree_planks", () -> new BlockItem(AERIAL_TREE_PLANKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-	public static final RegistryObject<Item> CHISELED_AERIAL_TREE_PLANKS_ITEM = ITEMS.register("chiseled_aerial_tree_planks", () -> new BlockItem(CHISELED_AERIAL_TREE_PLANKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> AERIAL_TREE_PLANKS_ITEM = ITEMS.register("aerial_tree_planks", () -> new BurnableBlockItem(AERIAL_TREE_PLANKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
+	public static final RegistryObject<Item> CHISELED_AERIAL_TREE_PLANKS_ITEM = ITEMS.register("chiseled_aerial_tree_planks", () -> new BurnableBlockItem(CHISELED_AERIAL_TREE_PLANKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<Item> AERIAL_TREE_BOOKSHELF_ITEM = ITEMS.register("aerial_tree_bookshelf", () -> new BlockItem(AERIAL_TREE_BOOKSHELF.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> AERIAL_TREE_SAPLING_ITEM = ITEMS.register("aerial_tree_sapling", () -> new BlockItem(AERIAL_TREE_SAPLING.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
@@ -254,10 +254,10 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> GOLDEN_BEECH_LEAVES = BLOCKS.register("golden_beech_leaves", () -> new LeavesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES)));
 	public static final RegistryObject<Block> GOLDEN_BEECH_BOOKSHELF = BLOCKS.register("golden_beech_bookshelf", () -> new Block(AbstractBlock.Properties.from(GOLDEN_BEECH_PLANKS.get())));
 	public static final RegistryObject<SaplingBlock> GOLDEN_BEECH_SAPLING = BLOCKS.register("golden_beech_sapling", () -> new SaplingBlock(new GoldenBeechTree(), AbstractBlock.Properties.from(Blocks.OAK_SAPLING)));
-	public static final RegistryObject<Item> GOLDEN_BEECH_LOG_ITEM = ITEMS.register("golden_beech_log", () -> new BlockItem(GOLDEN_BEECH_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-	public static final RegistryObject<Item> STRIPPED_GOLDEN_BEECH_LOG_ITEM = ITEMS.register("stripped_golden_beech_log", () -> new BlockItem(STRIPPED_GOLDEN_BEECH_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-	public static final RegistryObject<Item> GOLDEN_BEECH_PLANKS_ITEM = ITEMS.register("golden_beech_planks", () -> new BlockItem(GOLDEN_BEECH_PLANKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-	public static final RegistryObject<Item> CHISELED_GOLDEN_BEECH_PLANKS_ITEM = ITEMS.register("chiseled_golden_beech_planks", () -> new BlockItem(CHISELED_GOLDEN_BEECH_PLANKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> GOLDEN_BEECH_LOG_ITEM = ITEMS.register("golden_beech_log", () -> new BurnableBlockItem(GOLDEN_BEECH_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
+	public static final RegistryObject<Item> STRIPPED_GOLDEN_BEECH_LOG_ITEM = ITEMS.register("stripped_golden_beech_log", () -> new BurnableBlockItem(STRIPPED_GOLDEN_BEECH_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
+	public static final RegistryObject<Item> GOLDEN_BEECH_PLANKS_ITEM = ITEMS.register("golden_beech_planks", () -> new BurnableBlockItem(GOLDEN_BEECH_PLANKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
+	public static final RegistryObject<Item> CHISELED_GOLDEN_BEECH_PLANKS_ITEM = ITEMS.register("chiseled_golden_beech_planks", () -> new BurnableBlockItem(CHISELED_GOLDEN_BEECH_PLANKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<Item> GOLDEN_BEECH_LEAVES_ITEM = ITEMS.register("golden_beech_leaves", () -> new BlockItem(GOLDEN_BEECH_LEAVES.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> GOLDEN_BEECH_BOOKSHELF_ITEM = ITEMS.register("golden_beech_bookshelf", () -> new BlockItem(GOLDEN_BEECH_BOOKSHELF.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> GOLDEN_BEECH_SAPLING_ITEM = ITEMS.register("golden_beech_sapling", () -> new BlockItem(GOLDEN_BEECH_SAPLING.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
@@ -269,9 +269,9 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> COPPER_PINE_LEAVES = BLOCKS.register("copper_pine_leaves", () -> new CopperPineLeavesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES).harvestTool(ToolType.HOE)));
 	public static final RegistryObject<Block> COPPER_PINE_BOOKSHELF = BLOCKS.register("copper_pine_bookshelf", () -> new Block(AbstractBlock.Properties.from(COPPER_PINE_PLANKS.get())));
 	public static final RegistryObject<SaplingBlock> COPPER_PINE_SAPLING = BLOCKS.register("copper_pine_sapling", () -> new SaplingBlock(new CopperPine(), AbstractBlock.Properties.from(Blocks.OAK_SAPLING)));
-	public static final RegistryObject<Item> COPPER_PINE_LOG_ITEM = ITEMS.register("copper_pine_log", () -> new BlockItem(COPPER_PINE_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-	public static final RegistryObject<Item> STRIPPED_COPPER_PINE_LOG_ITEM = ITEMS.register("stripped_copper_pine_log", () -> new BlockItem(STRIPPED_COPPER_PINE_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-	public static final RegistryObject<Item> COPPER_PINE_PLANKS_ITEM = ITEMS.register("copper_pine_planks", () -> new BlockItem(COPPER_PINE_PLANKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> COPPER_PINE_LOG_ITEM = ITEMS.register("copper_pine_log", () -> new BurnableBlockItem(COPPER_PINE_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
+	public static final RegistryObject<Item> STRIPPED_COPPER_PINE_LOG_ITEM = ITEMS.register("stripped_copper_pine_log", () -> new BurnableBlockItem(STRIPPED_COPPER_PINE_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
+	public static final RegistryObject<Item> COPPER_PINE_PLANKS_ITEM = ITEMS.register("copper_pine_planks", () -> new BurnableBlockItem(COPPER_PINE_PLANKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<Item> COPPER_PINE_LEAVES_ITEM = ITEMS.register("copper_pine_leaves", () -> new BlockItem(COPPER_PINE_LEAVES.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> COPPER_PINE_BOOKSHELF_ITEM = ITEMS.register("copper_pine_bookshelf", () -> new BlockItem(COPPER_PINE_BOOKSHELF.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> COPPER_PINE_SAPLING_ITEM = ITEMS.register("copper_pine_sapling", () -> new BlockItem(COPPER_PINE_SAPLING.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
@@ -283,10 +283,10 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> LAPIS_ROBINIA_PLANKS = BLOCKS.register("lapis_robinia_planks", () -> new Block(AbstractBlock.Properties.from(LAPIS_ROBINIA_LOG.get())));
 	public static final RegistryObject<Block> LAPIS_ROBINIA_BOOKSHELF = BLOCKS.register("lapis_robinia_bookshelf", () -> new Block(AbstractBlock.Properties.from(LAPIS_ROBINIA_PLANKS.get())));
 	public static final RegistryObject<SaplingBlock> LAPIS_ROBINIA_SAPLING = BLOCKS.register("lapis_robinia_sapling", () -> new SaplingBlock(new LapisRobinia(), AbstractBlock.Properties.from(Blocks.OAK_SAPLING)));
-	public static final RegistryObject<Item> LAPIS_ROBINIA_LOG_ITEM = ITEMS.register("lapis_robinia_log", () -> new BlockItem(LAPIS_ROBINIA_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-	public static final RegistryObject<Item> STRIPPED_LAPIS_ROBINIA_LOG_ITEM = ITEMS.register("stripped_lapis_robinia_log", () -> new BlockItem(STRIPPED_LAPIS_ROBINIA_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> LAPIS_ROBINIA_LOG_ITEM = ITEMS.register("lapis_robinia_log", () -> new BurnableBlockItem(LAPIS_ROBINIA_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 400));
+	public static final RegistryObject<Item> STRIPPED_LAPIS_ROBINIA_LOG_ITEM = ITEMS.register("stripped_lapis_robinia_log", () -> new BurnableBlockItem(STRIPPED_LAPIS_ROBINIA_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 400));
 	public static final RegistryObject<Item> LAPIS_ROBINIA_LEAVES_ITEM = ITEMS.register("lapis_robinia_leaves", () -> new BlockItem(LAPIS_ROBINIA_LEAVES.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-	public static final RegistryObject<Item> LAPIS_ROBINIA_PLANKS_ITEM = ITEMS.register("lapis_robinia_planks", () -> new BlockItem(LAPIS_ROBINIA_PLANKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> LAPIS_ROBINIA_PLANKS_ITEM = ITEMS.register("lapis_robinia_planks", () -> new BurnableBlockItem(LAPIS_ROBINIA_PLANKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<Item> LAPIS_ROBINIA_BOOKSHELF_ITEM = ITEMS.register("lapis_robinia_bookshelf", () -> new BlockItem(LAPIS_ROBINIA_BOOKSHELF.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> LAPIS_ROBINIA_SAPLING_ITEM = ITEMS.register("lapis_robinia_sapling", () -> new BlockItem(LAPIS_ROBINIA_SAPLING.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
@@ -519,7 +519,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> DIAMOND_STELLAR_ORE = BLOCKS.register("diamond_stellar_ore",() -> new AerialHellOreBlock(3, 5, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(5.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(2).setRequiresTool()));
 	public static final RegistryObject<Block> FLUORITE_ORE = BLOCKS.register("fluorite_ore",() -> new AerialHellOreBlock(0, 2, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0).setRequiresTool()));
 	public static final RegistryObject<Block> MAGMATIC_GEL_ORE = BLOCKS.register("magmatic_gel_ore",() -> new AerialHellOreBlock(0, 2, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).setLightLevel(s -> 4).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
-	public static final RegistryObject<Block> RUBY_ORE = BLOCKS.register("ruby_ore",() -> new AerialHellOreBlock(3, 5, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
+	public static final RegistryObject<Block> RUBY_ORE = BLOCKS.register("ruby_ore",() -> new AerialHellOreBlock(0, 0, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
 	public static final RegistryObject<Block> AZURITE_ORE = BLOCKS.register("azurite_ore",() -> new AerialHellOreBlock(0, 0, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
 	public static final RegistryObject<Block> VOLUCITE_ORE = BLOCKS.register("volucite_ore",() -> new AerialHellOreBlock(0, 0, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(5.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(2).setRequiresTool()));
 	public static final RegistryObject<Block> OBSIDIAN_ORE = BLOCKS.register("obsidian_ore",() -> new AerialHellOreBlock(0, 0, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(5.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(3).setRequiresTool()));
@@ -549,6 +549,9 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> RUBY = ITEMS.register("ruby", () -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> AZURITE_CRYSTAL = ITEMS.register("azurite_crystal", () -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> VOLUCITE_VIBRANT = ITEMS.register("volucite_vibrant", () -> new Item(new Item.Properties().rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	
+	public static final RegistryObject<Item> OVERHEATED_RUBY = ITEMS.register("overheated_ruby", () -> new WithInformationItem(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> OVERHEATED_VOLUCITE = ITEMS.register("overheated_volucite", () -> new WithInformationItem(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//legendary ores
 	public static final RegistryObject<Item> ARSONIST_INGOT = ITEMS.register("arsonist_ingot", () -> new Item(new Item.Properties().rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION).isImmuneToFire()));
@@ -656,13 +659,13 @@ public class AerialHellBlocksAndItems
 	
 	//fences, bars or walls
 	public static final RegistryObject<FenceBlock> AERIAL_TREE_FENCE = BLOCKS.register("aerial_tree_fence", () -> new FenceBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> AERIAL_TREE_FENCE_ITEM = ITEMS.register("aerial_tree_fence", () -> new BlockItem(AERIAL_TREE_FENCE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> AERIAL_TREE_FENCE_ITEM = ITEMS.register("aerial_tree_fence", () -> new BurnableBlockItem(AERIAL_TREE_FENCE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<FenceBlock> GOLDEN_BEECH_FENCE = BLOCKS.register("golden_beech_fence", () -> new FenceBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> GOLDEN_BEECH_FENCE_ITEM = ITEMS.register("golden_beech_fence", () -> new BlockItem(GOLDEN_BEECH_FENCE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> GOLDEN_BEECH_FENCE_ITEM = ITEMS.register("golden_beech_fence", () -> new BurnableBlockItem(GOLDEN_BEECH_FENCE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<FenceBlock> COPPER_PINE_FENCE = BLOCKS.register("copper_pine_fence", () -> new FenceBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> COPPER_PINE_FENCE_ITEM = ITEMS.register("copper_pine_fence", () -> new BlockItem(COPPER_PINE_FENCE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> COPPER_PINE_FENCE_ITEM = ITEMS.register("copper_pine_fence", () -> new BurnableBlockItem(COPPER_PINE_FENCE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<FenceBlock> LAPIS_ROBINIA_FENCE = BLOCKS.register("lapis_robinia_fence", () -> new FenceBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> LAPIS_ROBINIA_FENCE_ITEM = ITEMS.register("lapis_robinia_fence", () -> new BlockItem(LAPIS_ROBINIA_FENCE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> LAPIS_ROBINIA_FENCE_ITEM = ITEMS.register("lapis_robinia_fence", () -> new BurnableBlockItem(LAPIS_ROBINIA_FENCE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<FenceBlock> SKY_CACTUS_FIBER_FENCE = BLOCKS.register("sky_cactus_fiber_fence", () -> new FenceBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_FENCE_ITEM = ITEMS.register("sky_cactus_fiber_fence", () -> new BlockItem(SKY_CACTUS_FIBER_FENCE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<PaneBlock> RUBY_BARS = BLOCKS.register("ruby_bars", () -> new PaneBlock(RUBY_MATERIAL));
@@ -690,13 +693,13 @@ public class AerialHellBlocksAndItems
 	
 	//gates
 	public static final RegistryObject<FenceGateBlock> AERIAL_TREE_GATE = BLOCKS.register("aerial_tree_gate", () -> new FenceGateBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> AERIAL_TREE_GATE_ITEM = ITEMS.register("aerial_tree_gate", () -> new BlockItem(AERIAL_TREE_GATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> AERIAL_TREE_GATE_ITEM = ITEMS.register("aerial_tree_gate", () -> new BurnableBlockItem(AERIAL_TREE_GATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<FenceGateBlock> GOLDEN_BEECH_GATE = BLOCKS.register("golden_beech_gate", () -> new FenceGateBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> GOLDEN_BEECH_GATE_ITEM = ITEMS.register("golden_beech_gate", () -> new BlockItem(GOLDEN_BEECH_GATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> GOLDEN_BEECH_GATE_ITEM = ITEMS.register("golden_beech_gate", () -> new BurnableBlockItem(GOLDEN_BEECH_GATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<FenceGateBlock> COPPER_PINE_GATE = BLOCKS.register("copper_pine_gate", () -> new FenceGateBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> COPPER_PINE_GATE_ITEM = ITEMS.register("copper_pine_gate", () -> new BlockItem(COPPER_PINE_GATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> COPPER_PINE_GATE_ITEM = ITEMS.register("copper_pine_gate", () -> new BurnableBlockItem(COPPER_PINE_GATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<FenceGateBlock> LAPIS_ROBINIA_GATE = BLOCKS.register("lapis_robinia_gate", () -> new FenceGateBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> LAPIS_ROBINIA_GATE_ITEM = ITEMS.register("lapis_robinia_gate", () -> new BlockItem(LAPIS_ROBINIA_GATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> LAPIS_ROBINIA_GATE_ITEM = ITEMS.register("lapis_robinia_gate", () -> new BurnableBlockItem(LAPIS_ROBINIA_GATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<FenceGateBlock> SKY_CACTUS_FIBER_GATE = BLOCKS.register("sky_cactus_fiber_gate", () -> new FenceGateBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_GATE_ITEM = ITEMS.register("sky_cactus_fiber_gate", () -> new BlockItem(SKY_CACTUS_FIBER_GATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
@@ -740,13 +743,13 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<WoodButtonBlock> SLIPPERY_SAND_STONE_BRICKS_BUTTON = BLOCKS.register("slippery_sand_stone_bricks_button", () -> new WoodButtonBlock(AbstractBlock.Properties.from(SLIPPERY_SAND_STONE_BRICKS.get())));
 	public static final RegistryObject<Item> SLIPPERY_SAND_STONE_BRICKS_BUTTON_ITEM = ITEMS.register("slippery_sand_stone_bricks_button", () -> new BlockItem(SLIPPERY_SAND_STONE_BRICKS_BUTTON.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<WoodButtonBlock> AERIAL_TREE_BUTTON = BLOCKS.register("aerial_tree_button", () -> new WoodButtonBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> AERIAL_TREE_BUTTON_ITEM = ITEMS.register("aerial_tree_button", () -> new BlockItem(AERIAL_TREE_BUTTON.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> AERIAL_TREE_BUTTON_ITEM = ITEMS.register("aerial_tree_button", () -> new BurnableBlockItem(AERIAL_TREE_BUTTON.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 100));
 	public static final RegistryObject<WoodButtonBlock> GOLDEN_BEECH_BUTTON = BLOCKS.register("golden_beech_button", () -> new WoodButtonBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> GOLDEN_BEECH_BUTTON_ITEM = ITEMS.register("golden_beech_button", () -> new BlockItem(GOLDEN_BEECH_BUTTON.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> GOLDEN_BEECH_BUTTON_ITEM = ITEMS.register("golden_beech_button", () -> new BurnableBlockItem(GOLDEN_BEECH_BUTTON.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 100));
 	public static final RegistryObject<WoodButtonBlock> COPPER_PINE_BUTTON = BLOCKS.register("copper_pine_button", () -> new WoodButtonBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> COPPER_PINE_BUTTON_ITEM = ITEMS.register("copper_pine_button", () -> new BlockItem(COPPER_PINE_BUTTON.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> COPPER_PINE_BUTTON_ITEM = ITEMS.register("copper_pine_button", () -> new BurnableBlockItem(COPPER_PINE_BUTTON.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 100));
 	public static final RegistryObject<WoodButtonBlock> LAPIS_ROBINIA_BUTTON = BLOCKS.register("lapis_robinia_button", () -> new WoodButtonBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> LAPIS_ROBINIA_BUTTON_ITEM = ITEMS.register("lapis_robinia_button", () -> new BlockItem(LAPIS_ROBINIA_BUTTON.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> LAPIS_ROBINIA_BUTTON_ITEM = ITEMS.register("lapis_robinia_button", () -> new BurnableBlockItem(LAPIS_ROBINIA_BUTTON.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 100));
 	public static final RegistryObject<WoodButtonBlock> SKY_CACTUS_FIBER_BUTTON = BLOCKS.register("sky_cactus_fiber_button", () -> new WoodButtonBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_BUTTON_ITEM = ITEMS.register("sky_cactus_fiber_button", () -> new BlockItem(SKY_CACTUS_FIBER_BUTTON.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<WoodButtonBlock> GLAUCOPHANITE_BUTTON = BLOCKS.register("glaucophanite_button", () -> new WoodButtonBlock(AbstractBlock.Properties.from(GLAUCOPHANITE.get())));
@@ -764,13 +767,13 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<PressurePlateBlock> SLIPPERY_SAND_STONE_BRICKS_PRESSURE_PLATE = BLOCKS.register("slippery_sand_stone_bricks_pressure_plate", () -> new PressurePlateBlock(Sensitivity.MOBS, AbstractBlock.Properties.from(SLIPPERY_SAND_STONE_BRICKS.get())));
 	public static final RegistryObject<Item> SLIPPERY_SAND_STONE_BRICKS_PRESSURE_PLATE_ITEM = ITEMS.register("slippery_sand_stone_bricks_pressure_plate", () -> new BlockItem(SLIPPERY_SAND_STONE_BRICKS_PRESSURE_PLATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<PressurePlateBlock> AERIAL_TREE_PRESSURE_PLATE = BLOCKS.register("aerial_tree_pressure_plate", () -> new PressurePlateBlock(Sensitivity.EVERYTHING, AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> AERIAL_TREE_PRESSURE_PLATE_ITEM = ITEMS.register("aerial_tree_pressure_plate", () -> new BlockItem(AERIAL_TREE_PRESSURE_PLATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> AERIAL_TREE_PRESSURE_PLATE_ITEM = ITEMS.register("aerial_tree_pressure_plate", () -> new BurnableBlockItem(AERIAL_TREE_PRESSURE_PLATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<PressurePlateBlock> GOLDEN_BEECH_PRESSURE_PLATE = BLOCKS.register("golden_beech_pressure_plate", () -> new PressurePlateBlock(Sensitivity.EVERYTHING, AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> GOLDEN_BEECH_PRESSURE_PLATE_ITEM = ITEMS.register("golden_beech_pressure_plate", () -> new BlockItem(GOLDEN_BEECH_PRESSURE_PLATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> GOLDEN_BEECH_PRESSURE_PLATE_ITEM = ITEMS.register("golden_beech_pressure_plate", () -> new BurnableBlockItem(GOLDEN_BEECH_PRESSURE_PLATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<PressurePlateBlock> COPPER_PINE_PRESSURE_PLATE = BLOCKS.register("copper_pine_pressure_plate", () -> new PressurePlateBlock(Sensitivity.EVERYTHING, AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> COPPER_PINE_PRESSURE_PLATE_ITEM = ITEMS.register("copper_pine_pressure_plate", () -> new BlockItem(COPPER_PINE_PRESSURE_PLATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> COPPER_PINE_PRESSURE_PLATE_ITEM = ITEMS.register("copper_pine_pressure_plate", () -> new BurnableBlockItem(COPPER_PINE_PRESSURE_PLATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<PressurePlateBlock> LAPIS_ROBINIA_PRESSURE_PLATE = BLOCKS.register("lapis_robinia_pressure_plate", () -> new PressurePlateBlock(Sensitivity.EVERYTHING, AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> LAPIS_ROBINIA_PRESSURE_PLATE_ITEM = ITEMS.register("lapis_robinia_pressure_plate", () -> new BlockItem(LAPIS_ROBINIA_PRESSURE_PLATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> LAPIS_ROBINIA_PRESSURE_PLATE_ITEM = ITEMS.register("lapis_robinia_pressure_plate", () -> new BurnableBlockItem(LAPIS_ROBINIA_PRESSURE_PLATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<PressurePlateBlock> SKY_CACTUS_FIBER_PRESSURE_PLATE = BLOCKS.register("sky_cactus_fiber_pressure_plate", () -> new PressurePlateBlock(Sensitivity.EVERYTHING, SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_PRESSURE_PLATE_ITEM = ITEMS.register("sky_cactus_fiber_pressure_plate", () -> new BlockItem(SKY_CACTUS_FIBER_PRESSURE_PLATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<PressurePlateBlock> GLAUCOPHANITE_PRESSURE_PLATE = BLOCKS.register("glaucophanite_pressure_plate", () -> new PressurePlateBlock(Sensitivity.MOBS, AbstractBlock.Properties.from(GLAUCOPHANITE.get())));
@@ -778,13 +781,13 @@ public class AerialHellBlocksAndItems
 	
 	//slabs
 	public static final RegistryObject<SlabBlock> AERIAL_TREE_SLAB = BLOCKS.register("aerial_tree_slab", () -> new SlabBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> AERIAL_TREE_SLAB_ITEM = ITEMS.register("aerial_tree_slab", () -> new BlockItem(AERIAL_TREE_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> AERIAL_TREE_SLAB_ITEM = ITEMS.register("aerial_tree_slab", () -> new BurnableBlockItem(AERIAL_TREE_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 150));
 	public static final RegistryObject<SlabBlock> GOLDEN_BEECH_SLAB = BLOCKS.register("golden_beech_slab", () -> new SlabBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> GOLDEN_BEECH_SLAB_ITEM = ITEMS.register("golden_beech_slab", () -> new BlockItem(GOLDEN_BEECH_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> GOLDEN_BEECH_SLAB_ITEM = ITEMS.register("golden_beech_slab", () -> new BurnableBlockItem(GOLDEN_BEECH_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 150));
 	public static final RegistryObject<SlabBlock> COPPER_PINE_SLAB = BLOCKS.register("copper_pine_slab", () -> new SlabBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> COPPER_PINE_SLAB_ITEM = ITEMS.register("copper_pine_slab", () -> new BlockItem(COPPER_PINE_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> COPPER_PINE_SLAB_ITEM = ITEMS.register("copper_pine_slab", () -> new BurnableBlockItem(COPPER_PINE_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 150));
 	public static final RegistryObject<SlabBlock> LAPIS_ROBINIA_SLAB = BLOCKS.register("lapis_robinia_slab", () -> new SlabBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> LAPIS_ROBINIA_SLAB_ITEM = ITEMS.register("lapis_robinia_slab", () -> new BlockItem(LAPIS_ROBINIA_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> LAPIS_ROBINIA_SLAB_ITEM = ITEMS.register("lapis_robinia_slab", () -> new BurnableBlockItem(LAPIS_ROBINIA_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 150));
 	public static final RegistryObject<SlabBlock> SKY_CACTUS_FIBER_SLAB = BLOCKS.register("sky_cactus_fiber_slab", () -> new SlabBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_SLAB_ITEM = ITEMS.register("sky_cactus_fiber_slab", () -> new BlockItem(SKY_CACTUS_FIBER_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<SlabBlock> STELLAR_STONE_SLAB = BLOCKS.register("stellar_stone_slab", () -> new SlabBlock(AbstractBlock.Properties.from(STELLAR_STONE.get())));
@@ -808,13 +811,13 @@ public class AerialHellBlocksAndItems
 	
 	//stairs
 	public static final RegistryObject<StairsBlock> AERIAL_TREE_STAIRS = BLOCKS.register("aerial_tree_stairs", () -> new StairsBlock(() -> AERIAL_TREE_PLANKS.get().getDefaultState(), AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> AERIAL_TREE_STAIRS_ITEM = ITEMS.register("aerial_tree_stairs", () -> new BlockItem(AERIAL_TREE_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> AERIAL_TREE_STAIRS_ITEM = ITEMS.register("aerial_tree_stairs", () -> new BurnableBlockItem(AERIAL_TREE_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<StairsBlock> GOLDEN_BEECH_STAIRS = BLOCKS.register("golden_beech_stairs", () -> new StairsBlock(() -> GOLDEN_BEECH_PLANKS.get().getDefaultState(), AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> GOLDEN_BEECH_STAIRS_ITEM = ITEMS.register("golden_beech_stairs", () -> new BlockItem(GOLDEN_BEECH_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> GOLDEN_BEECH_STAIRS_ITEM = ITEMS.register("golden_beech_stairs", () -> new BurnableBlockItem(GOLDEN_BEECH_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<StairsBlock> COPPER_PINE_STAIRS = BLOCKS.register("copper_pine_stairs", () -> new StairsBlock(() -> COPPER_PINE_PLANKS.get().getDefaultState(), AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> COPPER_PINE_STAIRS_ITEM = ITEMS.register("copper_pine_stairs", () -> new BlockItem(COPPER_PINE_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> COPPER_PINE_STAIRS_ITEM = ITEMS.register("copper_pine_stairs", () -> new BurnableBlockItem(COPPER_PINE_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<StairsBlock> LAPIS_ROBINIA_STAIRS = BLOCKS.register("lapis_robinia_stairs", () -> new StairsBlock(() -> LAPIS_ROBINIA_PLANKS.get().getDefaultState(), AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> LAPIS_ROBINIA_STAIRS_ITEM = ITEMS.register("lapis_robinia_stairs", () -> new BlockItem(LAPIS_ROBINIA_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> LAPIS_ROBINIA_STAIRS_ITEM = ITEMS.register("lapis_robinia_stairs", () -> new BurnableBlockItem(LAPIS_ROBINIA_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<StairsBlock> SKY_CACTUS_FIBER_STAIRS = BLOCKS.register("sky_cactus_fiber_stairs", () -> new StairsBlock(() -> SKY_CACTUS_FIBER_PLANKS.get().getDefaultState(), SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_STAIRS_ITEM = ITEMS.register("sky_cactus_fiber_stairs", () -> new BlockItem(SKY_CACTUS_FIBER_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<StairsBlock> STELLAR_STONE_STAIRS = BLOCKS.register("stellar_stone_stairs", () -> new StairsBlock(() -> STELLAR_STONE.get().getDefaultState(), AbstractBlock.Properties.from(STELLAR_STONE.get())));
@@ -838,54 +841,54 @@ public class AerialHellBlocksAndItems
 	
 	//signs
 	public static final RegistryObject<AerialHellSignBlock> AERIAL_TREE_SIGN = BLOCKS.register("aerial_tree_sign", () -> new AerialHellSignBlock(AERIAL_TREE_SIGN_MATERIAL));
-	public static final RegistryObject<Item> AERIAL_TREE_SIGN_ITEM = ITEMS.register("aerial_tree_sign", () -> new BlockItem(AERIAL_TREE_SIGN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> AERIAL_TREE_SIGN_ITEM = ITEMS.register("aerial_tree_sign", () -> new BurnableBlockItem(AERIAL_TREE_SIGN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 200));
 	public static final RegistryObject<AerialHellSignBlock> GOLDEN_BEECH_SIGN = BLOCKS.register("golden_beech_sign", () -> new AerialHellSignBlock(AERIAL_TREE_SIGN_MATERIAL));
-	public static final RegistryObject<Item> GOLDEN_BEECH_SIGN_ITEM = ITEMS.register("golden_beech_sign", () -> new BlockItem(GOLDEN_BEECH_SIGN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> GOLDEN_BEECH_SIGN_ITEM = ITEMS.register("golden_beech_sign", () -> new BurnableBlockItem(GOLDEN_BEECH_SIGN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 200));
 	public static final RegistryObject<AerialHellSignBlock> COPPER_PINE_SIGN = BLOCKS.register("copper_pine_sign", () -> new AerialHellSignBlock(AERIAL_TREE_SIGN_MATERIAL));
-	public static final RegistryObject<Item> COPPER_PINE_SIGN_ITEM = ITEMS.register("copper_pine_sign", () -> new BlockItem(COPPER_PINE_SIGN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> COPPER_PINE_SIGN_ITEM = ITEMS.register("copper_pine_sign", () -> new BurnableBlockItem(COPPER_PINE_SIGN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 200));
 	public static final RegistryObject<AerialHellSignBlock> LAPIS_ROBINIA_SIGN = BLOCKS.register("lapis_robinia_sign", () -> new AerialHellSignBlock(AERIAL_TREE_SIGN_MATERIAL));
-	public static final RegistryObject<Item> LAPIS_ROBINIA_SIGN_ITEM = ITEMS.register("lapis_robinia_sign", () -> new BlockItem(LAPIS_ROBINIA_SIGN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> LAPIS_ROBINIA_SIGN_ITEM = ITEMS.register("lapis_robinia_sign", () -> new BurnableBlockItem(LAPIS_ROBINIA_SIGN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 200));
 	public static final RegistryObject<AerialHellSignBlock> SKY_CACTUS_FIBER_SIGN = BLOCKS.register("sky_cactus_fiber_sign", () -> new AerialHellSignBlock(SKY_CACTUS_FIBER_SIGN_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_SIGN_ITEM = ITEMS.register("sky_cactus_fiber_sign", () -> new BlockItem(SKY_CACTUS_FIBER_SIGN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//crafting tables
 	public static final RegistryObject<CraftingTableBlock> AERIAL_TREE_CRAFTING_TABLE = BLOCKS.register("aerial_tree_crafting_table", () -> new AerialHellCraftingTableBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> AERIAL_TREE_CRAFTING_TABLE_ITEM = ITEMS.register("aerial_tree_crafting_table", () -> new BlockItem(AERIAL_TREE_CRAFTING_TABLE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> AERIAL_TREE_CRAFTING_TABLE_ITEM = ITEMS.register("aerial_tree_crafting_table", () -> new BurnableBlockItem(AERIAL_TREE_CRAFTING_TABLE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<CraftingTableBlock> GOLDEN_BEECH_CRAFTING_TABLE = BLOCKS.register("golden_beech_crafting_table", () -> new AerialHellCraftingTableBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> GOLDEN_BEECH_CRAFTING_TABLE_ITEM = ITEMS.register("golden_beech_crafting_table", () -> new BlockItem(GOLDEN_BEECH_CRAFTING_TABLE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> GOLDEN_BEECH_CRAFTING_TABLE_ITEM = ITEMS.register("golden_beech_crafting_table", () -> new BurnableBlockItem(GOLDEN_BEECH_CRAFTING_TABLE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<CraftingTableBlock> COPPER_PINE_CRAFTING_TABLE = BLOCKS.register("copper_pine_crafting_table", () -> new AerialHellCraftingTableBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> COPPER_PINE_CRAFTING_TABLE_ITEM = ITEMS.register("copper_pine_crafting_table", () -> new BlockItem(COPPER_PINE_CRAFTING_TABLE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> COPPER_PINE_CRAFTING_TABLE_ITEM = ITEMS.register("copper_pine_crafting_table", () -> new BurnableBlockItem(COPPER_PINE_CRAFTING_TABLE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<CraftingTableBlock> LAPIS_ROBINIA_CRAFTING_TABLE = BLOCKS.register("lapis_robinia_crafting_table", () -> new AerialHellCraftingTableBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> LAPIS_ROBINIA_CRAFTING_TABLE_ITEM = ITEMS.register("lapis_robinia_crafting_table", () -> new BlockItem(LAPIS_ROBINIA_CRAFTING_TABLE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> LAPIS_ROBINIA_CRAFTING_TABLE_ITEM = ITEMS.register("lapis_robinia_crafting_table", () -> new BurnableBlockItem(LAPIS_ROBINIA_CRAFTING_TABLE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<CraftingTableBlock> SKY_CACTUS_FIBER_CRAFTING_TABLE = BLOCKS.register("sky_cactus_fiber_crafting_table", () -> new AerialHellCraftingTableBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_CRAFTING_TABLE_ITEM = ITEMS.register("sky_cactus_fiber_crafting_table", () -> new BlockItem(SKY_CACTUS_FIBER_CRAFTING_TABLE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//barrels
 	public static final RegistryObject<AerialHellBarrelBlock> AERIAL_TREE_BARREL = BLOCKS.register("aerial_tree_barrel", () -> new AerialHellBarrelBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> AERIAL_TREE_BARREL_ITEM = ITEMS.register("aerial_tree_barrel", () -> new BlockItem(AERIAL_TREE_BARREL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> AERIAL_TREE_BARREL_ITEM = ITEMS.register("aerial_tree_barrel", () -> new BurnableBlockItem(AERIAL_TREE_BARREL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<AerialHellBarrelBlock> GOLDEN_BEECH_BARREL = BLOCKS.register("golden_beech_barrel", () -> new AerialHellBarrelBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> GOLDEN_BEECH_BARREL_ITEM = ITEMS.register("golden_beech_barrel", () -> new BlockItem(GOLDEN_BEECH_BARREL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> GOLDEN_BEECH_BARREL_ITEM = ITEMS.register("golden_beech_barrel", () -> new BurnableBlockItem(GOLDEN_BEECH_BARREL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<AerialHellBarrelBlock> COPPER_PINE_BARREL = BLOCKS.register("copper_pine_barrel", () -> new AerialHellBarrelBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> COPPER_PINE_BARREL_ITEM = ITEMS.register("copper_pine_barrel", () -> new BlockItem(COPPER_PINE_BARREL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> COPPER_PINE_BARREL_ITEM = ITEMS.register("copper_pine_barrel", () -> new BurnableBlockItem(COPPER_PINE_BARREL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<AerialHellBarrelBlock> LAPIS_ROBINIA_BARREL = BLOCKS.register("lapis_robinia_barrel", () -> new AerialHellBarrelBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> LAPIS_ROBINIA_BARREL_ITEM = ITEMS.register("lapis_robinia_barrel", () -> new BlockItem(LAPIS_ROBINIA_BARREL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> LAPIS_ROBINIA_BARREL_ITEM = ITEMS.register("lapis_robinia_barrel", () -> new BurnableBlockItem(LAPIS_ROBINIA_BARREL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<AerialHellBarrelBlock> SKY_CACTUS_FIBER_BARREL = BLOCKS.register("sky_cactus_fiber_barrel", () -> new AerialHellBarrelBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_BARREL_ITEM = ITEMS.register("sky_cactus_fiber_barrel", () -> new BlockItem(SKY_CACTUS_FIBER_BARREL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//composters
 	public static final RegistryObject<ComposterBlock> AERIAL_TREE_COMPOSTER = BLOCKS.register("aerial_tree_composter", () -> new ComposterBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> AERIAL_TREE_COMPOSTER_ITEM = ITEMS.register("aerial_tree_composter", () -> new BlockItem(AERIAL_TREE_COMPOSTER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> AERIAL_TREE_COMPOSTER_ITEM = ITEMS.register("aerial_tree_composter", () -> new BurnableBlockItem(AERIAL_TREE_COMPOSTER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<ComposterBlock> GOLDEN_BEECH_COMPOSTER = BLOCKS.register("golden_beech_composter", () -> new ComposterBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> GOLDEN_BEECH_COMPOSTER_ITEM = ITEMS.register("golden_beech_composter", () -> new BlockItem(GOLDEN_BEECH_COMPOSTER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> GOLDEN_BEECH_COMPOSTER_ITEM = ITEMS.register("golden_beech_composter", () -> new BurnableBlockItem(GOLDEN_BEECH_COMPOSTER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<ComposterBlock> COPPER_PINE_COMPOSTER = BLOCKS.register("copper_pine_composter", () -> new ComposterBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> COPPER_PINE_COMPOSTER_ITEM = ITEMS.register("copper_pine_composter", () -> new BlockItem(COPPER_PINE_COMPOSTER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> COPPER_PINE_COMPOSTER_ITEM = ITEMS.register("copper_pine_composter", () -> new BurnableBlockItem(COPPER_PINE_COMPOSTER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<ComposterBlock> LAPIS_ROBINIA_COMPOSTER = BLOCKS.register("lapis_robinia_composter", () -> new ComposterBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> LAPIS_ROBINIA_COMPOSTER_ITEM = ITEMS.register("lapis_robinia_composter", () -> new BlockItem(LAPIS_ROBINIA_COMPOSTER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> LAPIS_ROBINIA_COMPOSTER_ITEM = ITEMS.register("lapis_robinia_composter", () -> new BurnableBlockItem(LAPIS_ROBINIA_COMPOSTER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<ComposterBlock> SKY_CACTUS_FIBER_COMPOSTER = BLOCKS.register("sky_cactus_fiber_composter", () -> new ComposterBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_COMPOSTER_ITEM = ITEMS.register("sky_cactus_fiber_composter", () -> new BlockItem(SKY_CACTUS_FIBER_COMPOSTER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//item for crafts
-	public static final RegistryObject<Item> SKY_STICK = ITEMS.register("sky_stick",() -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> SKY_STICK = ITEMS.register("sky_stick",() -> new BurnableItem(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 100));
 	
 	//throwing knifes
 	public static final RegistryObject<Item> IRON_THROWING_KNIFE = ITEMS.register("iron_throwing_knife", () -> new IronThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
@@ -900,24 +903,25 @@ public class AerialHellBlocksAndItems
 	
 	//food
 	public static final RegistryObject<Item> AERIAL_BERRY = ITEMS.register("aerial_berry",() -> new Item(new Item.Properties().food(new Food.Builder().hunger(2).saturation(0.2F).build()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> ROASTED_AERIAL_BERRY = ITEMS.register("roasted_aerial_berry",() -> new Item(new Item.Properties().food(new Food.Builder().hunger(4).saturation(0.4F).build()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> VIBRANT_AERIAL_BERRY = ITEMS.register("vibrant_aerial_berry",() -> new Item(new Item.Properties().rarity(AerialHellRarities.VIBRANT).food(new Food.Builder().hunger(6).saturation(0.6F).build()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-	public static final RegistryObject<Item> FROZEN_AERIAL_BERRY = ITEMS.register("frozen_aerial_berry", () -> new FrozenAerialBerryItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
-	public static final RegistryObject<Item> RUBY_AERIAL_BERRY = ITEMS.register("ruby_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, AerialHellItemGroups.AERIAL_HELL_DIMENSION, Rarity.RARE, new EffectInstance(Effects.HEALTH_BOOST, 2400, 0)));
-    public static final RegistryObject<Item> VOLUCITE_AERIAL_BERRY = ITEMS.register("volucite_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, AerialHellItemGroups.AERIAL_HELL_DIMENSION, AerialHellRarities.VIBRANT, new EffectInstance(Effects.SLOW_FALLING, 2400, 2)));
-    public static final RegistryObject<Item> PHANTOM_MEAT = ITEMS.register("phantom_meat", () -> new FoodWithEffectItem(5, 0.8F, AerialHellItemGroups.AERIAL_HELL_DIMENSION, Rarity.UNCOMMON, new EffectInstance(Effects.RESISTANCE, 120, 0)));
-    public static final RegistryObject<Item> VIBRANT_PHANTOM_MEAT = ITEMS.register("vibrant_phantom_meat", () -> new FoodWithEffectItem(8, 0.8F, AerialHellItemGroups.AERIAL_HELL_DIMENSION, AerialHellRarities.VIBRANT, new EffectInstance(Effects.RESISTANCE, 600, 0)));
+	public static final RegistryObject<Item> FROZEN_AERIAL_BERRY = ITEMS.register("frozen_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN, AerialHellItemGroups.AERIAL_HELL_DIMENSION, () -> new EffectInstance(Effects.SLOWNESS, 310, 0), () -> new EffectInstance(Effects.RESISTANCE, 210, 0)));
+	public static final RegistryObject<Item> RUBY_AERIAL_BERRY = ITEMS.register("ruby_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, Rarity.RARE, AerialHellItemGroups.AERIAL_HELL_DIMENSION, () -> new EffectInstance(Effects.HEALTH_BOOST, 2400, 0)));
+	public static final RegistryObject<Item> VOLUCITE_AERIAL_BERRY = ITEMS.register("volucite_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT, AerialHellItemGroups.AERIAL_HELL_DIMENSION, () -> new EffectInstance(Effects.SLOW_FALLING, 2400, 2)));
+	public static final RegistryObject<Item> PHANTOM_MEAT = ITEMS.register("phantom_meat", () -> new FoodWithEffectItem(5, 0.8F, Rarity.UNCOMMON, AerialHellItemGroups.AERIAL_HELL_DIMENSION, () -> new EffectInstance(Effects.RESISTANCE, 120, 0)));
+	public static final RegistryObject<Item> VIBRANT_PHANTOM_MEAT = ITEMS.register("vibrant_phantom_meat", () -> new FoodWithEffectItem(8, 0.8F, AerialHellRarities.VIBRANT, AerialHellItemGroups.AERIAL_HELL_DIMENSION, () -> new EffectInstance(Effects.RESISTANCE, 600, 1)));
     public static final RegistryObject<Item> COOKED_PHANTOM_MEAT = ITEMS.register("cooked_phantom_meat",() -> new Item(new Item.Properties().food(new Food.Builder().hunger(10).saturation(0.9F).meat().build()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> GODS_VOLUCITE_AERIAL_BERRY = ITEMS.register("gods_volucite_aerial_berry", () -> new GodsVoluciteBerryItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
 	public static final RegistryObject<Item> COPPER_PINE_CONE = ITEMS.register("copper_pine_cone",() -> new Item(new Item.Properties().food(new Food.Builder().fastToEat().hunger(0).build()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER = ITEMS.register("sky_cactus_fiber",() -> new Item(new Item.Properties().food(new Food.Builder().fastToEat().hunger(1).saturation(0.1F).build()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> VIBRANT_SKY_CACTUS_FIBER = ITEMS.register("vibrant_sky_cactus_fiber",() -> new Item(new Item.Properties().rarity(AerialHellRarities.VIBRANT).food(new Food.Builder().fastToEat().hunger(4).saturation(0.3F).build()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> WHITE_SOLID_ETHER_FRAGMENT = ITEMS.register("white_solid_ether_fragment",() -> new Item(new Item.Properties().food(new Food.Builder().hunger(1).saturation(0.1F).build()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-	public static final RegistryObject<Item> BLUE_SOLID_ETHER_FRAGMENT = ITEMS.register("blue_solid_ether_fragment", () -> new SolidEtherFragmentItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION, () -> new EffectInstance(AerialHellPotionEffects.HEAD_IN_THE_CLOUDS.get(), 90, 0)));
-	public static final RegistryObject<Item> GOLDEN_SOLID_ETHER_FRAGMENT = ITEMS.register("golden_solid_ether_fragment", () -> new SolidEtherFragmentItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION, () -> new EffectInstance(Effects.SLOW_FALLING, 110, 0)));
-	public static final RegistryObject<Item> GREEN_SOLID_ETHER_FRAGMENT = ITEMS.register("green_solid_ether_fragment", () -> new SolidEtherFragmentItem(AerialHellItemGroups.AERIAL_HELL_DIMENSION, () -> new EffectInstance(AerialHellPotionEffects.HEAD_IN_THE_CLOUDS.get(), 90, 0)));
-	public static final RegistryObject<Item> GOLDEN_NETHER_MEAT_PIECE = ITEMS.register("golden_nether_meat_piece", () -> new GoldenNetherMeatItem(1,0.1F,110,AerialHellItemGroups.AERIAL_HELL_DIMENSION, AerialHellRarities.VIBRANT));
-	public static final RegistryObject<Item> GOLDEN_NETHER_STEAK = ITEMS.register("golden_nether_steak", () -> new GoldenNetherMeatItem(4,0.4F,500,AerialHellItemGroups.AERIAL_HELL_DIMENSION, AerialHellRarities.VIBRANT));
-	public static final RegistryObject<Item> VIBRANT_GOLDEN_NETHER_STEAK = ITEMS.register("vibrant_golden_nether_steak", () -> new GoldenNetherMeatItem(6,0.8F,1000,AerialHellItemGroups.AERIAL_HELL_DIMENSION, AerialHellRarities.VIBRANT));
+	public static final RegistryObject<Item> BLUE_SOLID_ETHER_FRAGMENT = ITEMS.register("blue_solid_ether_fragment", () -> new FoodWithEffectItem(1, 0.1F, Rarity.UNCOMMON, AerialHellItemGroups.AERIAL_HELL_DIMENSION, () -> new EffectInstance(AerialHellPotionEffects.HEAD_IN_THE_CLOUDS.get(), 90, 0)));
+	public static final RegistryObject<Item> GOLDEN_SOLID_ETHER_FRAGMENT = ITEMS.register("golden_solid_ether_fragment", () -> new FoodWithEffectItem(1, 0.1F, Rarity.UNCOMMON, AerialHellItemGroups.AERIAL_HELL_DIMENSION, () -> new EffectInstance(Effects.SLOW_FALLING, 110, 0)));
+	public static final RegistryObject<Item> GREEN_SOLID_ETHER_FRAGMENT = ITEMS.register("green_solid_ether_fragment", () -> new FoodWithEffectItem(1, 0.1F, Rarity.UNCOMMON, AerialHellItemGroups.AERIAL_HELL_DIMENSION, () -> new EffectInstance(Effects.JUMP_BOOST, 90, 1)));
+	public static final RegistryObject<Item> GOLDEN_NETHER_MEAT_PIECE = ITEMS.register("golden_nether_meat_piece", () -> new FoodWithEffectItem(1, 0.1F, Rarity.UNCOMMON, AerialHellItemGroups.AERIAL_HELL_DIMENSION, () -> new EffectInstance(Effects.FIRE_RESISTANCE, 110, 0)));
+	public static final RegistryObject<Item> GOLDEN_NETHER_STEAK = ITEMS.register("golden_nether_steak", () -> new FoodWithEffectItem(4, 0.4F, Rarity.UNCOMMON, AerialHellItemGroups.AERIAL_HELL_DIMENSION, () -> new EffectInstance(Effects.FIRE_RESISTANCE, 500, 0)));
+	public static final RegistryObject<Item> VIBRANT_GOLDEN_NETHER_STEAK = ITEMS.register("vibrant_golden_nether_steak", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT, AerialHellItemGroups.AERIAL_HELL_DIMENSION, () -> new EffectInstance(Effects.FIRE_RESISTANCE, 1000, 0)));
 	
 	//buckets
 	public static final RegistryObject<Item> IRON_LIQUID_OF_GODS_BUCKET = ITEMS.register("iron_liquid_of_gods_bucket", () -> new BucketItem(AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION).maxStackSize(1)));

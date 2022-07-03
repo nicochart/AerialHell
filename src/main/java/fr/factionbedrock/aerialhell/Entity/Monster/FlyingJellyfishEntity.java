@@ -52,7 +52,7 @@ public class FlyingJellyfishEntity extends FlyingEntity implements IMob
 	{
 		this.goalSelector.addGoal(5, new FlyingJellyfishEntity.RandomFlyGoal(this));
 		this.goalSelector.addGoal(7, new FlyingJellyfishEntity.LookAroundGoal(this));
-		this.goalSelector.addGoal(7, new FlyingJellyfishEntity.SnowballAttackGoal(this));
+		this.goalSelector.addGoal(7, new FlyingJellyfishEntity.PoisonballAttackGoal(this));
 		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true, false));
 	}
 
@@ -114,12 +114,12 @@ public class FlyingJellyfishEntity extends FlyingEntity implements IMob
 	}
 
 	/* Same as net.minecraft.entity.monster.GhastEntity.FireballAttackGoal but changed GhastEntity to FlyingJellyfishEntity */
-	static class SnowballAttackGoal extends Goal
+	static class PoisonballAttackGoal extends Goal
 	{
 		private final FlyingJellyfishEntity parentEntity;
 		public int attackTimer;
 
-		public SnowballAttackGoal(FlyingJellyfishEntity jellyfish)
+		public PoisonballAttackGoal(FlyingJellyfishEntity jellyfish)
 		{
 			this.parentEntity = jellyfish;
 		}
@@ -156,13 +156,12 @@ public class FlyingJellyfishEntity extends FlyingEntity implements IMob
 				}
 				else if (this.attackTimer == 20)
 				{
-					Vector3d look = this.parentEntity.getLook(1.0F);
-					double accelX = target.getPosX() - (this.parentEntity.getPosX() + look.x * 4.0);
-					double accelY = target.getPosYHeight(0.5)  - (0.5 + this.parentEntity.getPosYHeight(0.5));
-					double accelZ = target.getPosZ() - (this.parentEntity.getPosZ() + look.z * 4.0);
+					double Xdistance = target.getPosX() - (this.parentEntity.getPosX());
+					double Ydistance = target.getPosYHeight(0.5)  -  this.parentEntity.getPosYHeight(0.5);
+					double Zdistance = target.getPosZ() - (this.parentEntity.getPosZ());
 					this.parentEntity.playSound(SoundEvents.ENTITY_SHULKER_SHOOT, 1.2F, (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F + 2.0F);
-					PoisonballEntity snowballentity = new PoisonballEntity(world, this.parentEntity, accelX, accelY, accelZ);
-					snowballentity.setPosition(this.parentEntity.getPosX() + look.x * 1.5, this.parentEntity.getPosYHeight(0.5) + 0.1, this.parentEntity.getPosZ() + look.z * 1.5);
+					PoisonballEntity snowballentity = new PoisonballEntity(world, this.parentEntity, Xdistance, Ydistance, Zdistance);
+					snowballentity.setPosition(this.parentEntity.getPosX(), this.parentEntity.getPosYHeight(0.5), this.parentEntity.getPosZ());
 					world.addEntity(snowballentity);
 					this.attackTimer = -40;
 				}

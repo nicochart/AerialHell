@@ -10,11 +10,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class AHFurnaceScreen extends AerialHellFurnaceScreen<StellarFurnaceContainer>
+public class StellarFurnaceScreen extends AerialHellFurnaceScreen<StellarFurnaceContainer>
 {
 	private static final ResourceLocation STELLAR_FURNACE_GUI_TEXTURES = new ResourceLocation(AerialHell.MODID, "textures/gui/container/stellar_furnace.png");
 	
-	public AHFurnaceScreen(StellarFurnaceContainer container, PlayerInventory inventory, ITextComponent name)
+	public StellarFurnaceScreen(StellarFurnaceContainer container, PlayerInventory inventory, ITextComponent name)
 	{
 		super(container, inventory, name, STELLAR_FURNACE_GUI_TEXTURES);
 	}

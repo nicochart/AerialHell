@@ -26,13 +26,11 @@ public class GreenSolidEtherBlock extends SolidEtherBlock
 		{
 			entity.setMotion(entity.getMotion().mul(1.0, 0.01, 1.0));
 		}
-		if (world.isRemote())
+		if (!world.isRemote())
 		{
 			if (entity instanceof LivingEntity)
 	    	{
-				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, 15, 2));
-				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.SLOWNESS, 15, 1));
-				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.WEAKNESS, 15, 1));
+				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 10, 5));
 	    	}
 		}
 	}

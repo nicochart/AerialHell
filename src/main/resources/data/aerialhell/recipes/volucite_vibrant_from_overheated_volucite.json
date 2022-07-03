@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:vibration",
+  "ingredient": {
+    "item": "aerialhell:overheated_volucite"
+  },
+  "result": "aerialhell:volucite_vibrant",
+  "experience": 1.4,
+  "cookingtime": 600
+}

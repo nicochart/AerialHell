@@ -1,12 +1,12 @@
 package fr.factionbedrock.aerialhell.Block.SolidEther;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -26,11 +26,11 @@ public class BlueSolidEtherBlock extends SolidEtherBlock
 		{
 			entity.setMotion(entity.getMotion().mul(1.0, 0.005, 1.0));
 		}
-		if (world.isRemote())
+		if (!world.isRemote())
 		{
 			if (entity instanceof LivingEntity)
 	    	{
-				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 10, 5));
+				((LivingEntity) entity).addPotionEffect(new EffectInstance(AerialHellPotionEffects.HEAD_IN_THE_CLOUDS.get(), 10, 0));
 	    	}
 		}
 	}

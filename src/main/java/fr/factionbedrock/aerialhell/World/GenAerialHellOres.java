@@ -44,11 +44,11 @@ public class GenAerialHellOres
 	public static ConfiguredFeature<?,?> FLUORITE_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.FLUORITE_ORE.get().getDefaultState(), //Block enregistré à configurer
-			9, //Taille de Filon
+			12, //Taille de Filon
 			0, //Hauteur minimum
 			256, //Hauteur maximum
 			128, //range
-			20 //Chance d'apparition
+			30 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> RUBY_ORE = AerialHellOres

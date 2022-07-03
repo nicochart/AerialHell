@@ -26,8 +26,7 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.CrystalGolemRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.SandySheepRender;
 import fr.factionbedrock.aerialhell.Client.EntityRender.ShadowTrollRender;
 import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.VibratorScreen;
-import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.AHFurnaceScreen;
-import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.AerialHellFurnaceScreen;
+import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.StellarFurnaceScreen;
 import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.FreezerScreen;
 import fr.factionbedrock.aerialhell.Client.TileEntityRenderer.AerialHellChestMimicTileEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.TileEntityRenderer.AerialHellChestTileEntityRenderer;
@@ -188,6 +187,6 @@ public class AerialHellRendering
 	{
         ScreenManager.registerFactory(AerialHellContainerTypes.VIBRATOR.get(), VibratorScreen::new);
         ScreenManager.registerFactory(AerialHellContainerTypes.FREEZER.get(), FreezerScreen::new);
-        ScreenManager.registerFactory(AerialHellContainerTypes.STELLAR_FURNACE.get(), AHFurnaceScreen::new);
+        ScreenManager.registerFactory(AerialHellContainerTypes.STELLAR_FURNACE.get(), StellarFurnaceScreen::new);
     }
 }

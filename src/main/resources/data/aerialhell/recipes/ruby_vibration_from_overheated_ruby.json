@@ -1,9 +1,9 @@
 {
   "type": "aerialhell:vibration",
   "ingredient": {
-    "item": "aerialhell:ruby_ore"
+    "item": "aerialhell:overheated_ruby"
   },
   "result": "aerialhell:ruby",
-  "experience": 0.9,
-  "cookingtime": 200
+  "experience": 0.6,
+  "cookingtime": 150
 }

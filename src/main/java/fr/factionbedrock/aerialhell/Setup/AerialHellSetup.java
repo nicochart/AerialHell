@@ -17,6 +17,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellStructures;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTileEntityTypes;
 import fr.factionbedrock.aerialhell.TileEntity.VibratorTileEntity;
 import fr.factionbedrock.aerialhell.TileEntity.FreezerTileEntity;
+import fr.factionbedrock.aerialhell.TileEntity.StellarFurnaceTileEntity;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -62,10 +63,10 @@ public class AerialHellSetup
 	
     private static void registerFuels() //enregistrement des carburants
     {
-		VibratorTileEntity.addItemVibrationTime(AerialHellBlocksAndItems.FLUORITE.get(), 600);
-		VibratorTileEntity.addItemVibrationTime(AerialHellBlocksAndItems.FLUORITE_BLOCK_ITEM.get(), 5400);
-		VibratorTileEntity.addItemVibrationTime(AerialHellBlocksAndItems.CRYSTAL.get(), 150);
-		VibratorTileEntity.addItemVibrationTime(AerialHellBlocksAndItems.CRYSTAL_BLOCK_ITEM.get(), 600);
+		VibratorTileEntity.addItemVibrationTime(AerialHellBlocksAndItems.FLUORITE.get(), 1200);
+		VibratorTileEntity.addItemVibrationTime(AerialHellBlocksAndItems.FLUORITE_BLOCK_ITEM.get(), 10800);
+		VibratorTileEntity.addItemVibrationTime(AerialHellBlocksAndItems.CRYSTAL.get(), 300);
+		VibratorTileEntity.addItemVibrationTime(AerialHellBlocksAndItems.CRYSTAL_BLOCK_ITEM.get(), 1200);
 		FreezerTileEntity.addItemFreezingTime(AerialHellBlocksAndItems.MAGMATIC_GEL.get(), 600);
 		FreezerTileEntity.addItemFreezingTime(AerialHellBlocksAndItems.MAGMATIC_GEL_BLOCK_ITEM.get(), 5400);
 	}
