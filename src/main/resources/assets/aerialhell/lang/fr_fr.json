@@ -128,6 +128,10 @@
   "block.aerialhell.mossy_stellar_cobblestone_wall" : "Muret de Pierres Stellaires Moussues",
   "block.aerialhell.stellar_clay" : "Argile Stellaire",
   "block.aerialhell.crystal_block" : "Bloc de Crystal",
+  "block.aerialhell.crystal_bricks" : "Briques de Crystal",
+  "block.aerialhell.crystal_bricks_slab" : "Dalle de Briques de Crystal",
+  "block.aerialhell.crystal_bricks_stairs" : "Escalier de Briques de Crystal",
+  "block.aerialhell.crystal_bricks_wall" : "Muret de Briques de Crystal",
   "item.aerialhell.crystal" : "Crystal",
   "block.aerialhell.stellar_stone_crystal_block" : "Bloc de Crystal de Roche Stellaire",
   "item.aerialhell.stellar_stone_crystal" : "Crystal de Roche Stellaire",
@@ -443,6 +447,7 @@
 
   "item.aerialhell.regeneration_totem" : "Totem de Régénération",
   "item.aerialhell.speed_totem" : "Totem de Rapidité",
+  "item.aerialhell.speed_ii_totem" : "Totem de Rapidité II",
   "item.aerialhell.night_vision_totem" : "Totem de Vision Nocturne",
   "item.aerialhell.agility_totem" : "Totem d'Agilité",
   "item.aerialhell.hero_totem" : "Totem du Hero",

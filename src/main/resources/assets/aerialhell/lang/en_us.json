@@ -128,6 +128,10 @@
   "block.aerialhell.mossy_stellar_cobblestone_wall" : "Mossy Stellar Cobblestone Wall",
   "block.aerialhell.stellar_clay" : "Stellar Clay",
   "block.aerialhell.crystal_block" : "Crystal Block",
+  "block.aerialhell.crystal_bricks" : "Crystal Bricks",
+  "block.aerialhell.crystal_bricks_slab" : "Crystal Bricks Slab",
+  "block.aerialhell.crystal_bricks_stairs" : "Crystal Bricks Stairs",
+  "block.aerialhell.crystal_bricks_wall" : "Crystal Bricks Wall",
   "item.aerialhell.crystal" : "Crystal",
   "block.aerialhell.stellar_stone_crystal_block" : "Stellar Stone Crystal Block",
   "item.aerialhell.stellar_stone_crystal" : "Stellar Stone Crystal",
@@ -443,6 +447,7 @@
 
   "item.aerialhell.regeneration_totem" : "Regeneration Totem",
   "item.aerialhell.speed_totem" : "Speed Totem",
+  "item.aerialhell.speed_ii_totem" : "Speed II Totem",
   "item.aerialhell.night_vision_totem" : "Night Vision Totem",
   "item.aerialhell.agility_totem" : "Agility Totem",
   "item.aerialhell.hero_totem" : "Hero Totem",

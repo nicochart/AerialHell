@@ -49,6 +49,20 @@
             }
           ]
         },
+        {
+          "type": "item",
+          "name": "aerialhell:vibrant_aerial_berry",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        },
 	{
           "type": "item",
           "name": "aerialhell:crystal",

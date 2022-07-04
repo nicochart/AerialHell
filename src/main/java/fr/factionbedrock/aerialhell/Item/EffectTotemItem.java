@@ -34,6 +34,10 @@ public class EffectTotemItem extends Item
 					}
 					else if (this == AerialHellBlocksAndItems.SPEED_TOTEM.get())
 					{
+						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.SPEED, 1200, 0));
+					}
+					else if (this == AerialHellBlocksAndItems.SPEED_II_TOTEM.get())
+					{
 						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.SPEED, 1200, 1));
 					}
 					else if (this == AerialHellBlocksAndItems.NIGHT_VISION_TOTEM.get())
@@ -42,8 +46,8 @@ public class EffectTotemItem extends Item
 					}
 					else if (this == AerialHellBlocksAndItems.AGILITY_TOTEM.get())
 					{
-						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.SPEED, 1200, 1));
-						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 1200, 1));
+						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.SPEED, 1200, 0));
+						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 1200, 0));
 					}
 					else if (this == AerialHellBlocksAndItems.HERO_TOTEM.get())
 					{
