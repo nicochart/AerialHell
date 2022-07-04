@@ -69,6 +69,7 @@ public class AerialHellRendering
 		render(() -> AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY_BUSH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BLUE_FLOWER.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BLACK_ROSE.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.BELLFLOWER.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), cutout_mipped);
         render(() -> AerialHellBlocksAndItems.STELLAR_GRASS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get(), cutout);
@@ -84,6 +85,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.STELLAR_DEAD_BUSH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_BLUE_FLOWER.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_BLACK_ROSE.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.POTTED_BELLFLOWER.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_STELLAR_FERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_STELLAR_DEAD_BUSH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_SKY_CACTUS.get(), cutout);

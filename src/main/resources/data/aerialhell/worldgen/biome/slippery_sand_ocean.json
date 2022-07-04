@@ -7,8 +7,8 @@
   "temperature_modifier": "none",
   "downfall": 0.0,
   "effects": {
-    "fog_color": 11186051,
-    "sky_color": 13950110,
+    "fog_color": 13950110,
+    "sky_color": 6388367,
     "water_color": 11384918,
     "water_fog_color": 9805383,
     "grass_color": 11665355,

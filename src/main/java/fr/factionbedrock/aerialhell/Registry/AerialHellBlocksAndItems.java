@@ -138,6 +138,7 @@ public class AerialHellBlocksAndItems
 		ComposterBlock.registerCompostable(0.1F, STELLAR_DEAD_BUSH_ITEM.get());
 		ComposterBlock.registerCompostable(0.2F, BLUE_FLOWER_ITEM.get());
 		ComposterBlock.registerCompostable(0.2F, BLACK_ROSE_ITEM.get());
+		ComposterBlock.registerCompostable(0.2F, BELLFLOWER_ITEM.get());
 		ComposterBlock.registerCompostable(0.5F, AERIAL_BERRY.get());
 		ComposterBlock.registerCompostable(0.85F, VIBRANT_AERIAL_BERRY.get());
 		ComposterBlock.registerCompostable(0.85F, FROZEN_AERIAL_BERRY.get());
@@ -164,6 +165,7 @@ public class AerialHellBlocksAndItems
 
 		pot.addPlant(BLUE_FLOWER.getId(), POTTED_BLUE_FLOWER);
 		pot.addPlant(BLACK_ROSE.getId(), POTTED_BLACK_ROSE);
+		pot.addPlant(BELLFLOWER.getId(), POTTED_BELLFLOWER);
 		pot.addPlant(STELLAR_FERN.getId(), POTTED_STELLAR_FERN);
 		pot.addPlant(STELLAR_DEAD_BUSH.getId(), POTTED_STELLAR_DEAD_BUSH);
 		pot.addPlant(SKY_CACTUS.getId(), POTTED_SKY_CACTUS);
@@ -300,6 +302,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> STELLAR_STONE_BRICKS = BLOCKS.register("stellar_stone_bricks", () -> new Block(AbstractBlock.Properties.from(Blocks.STONE_BRICKS).hardnessAndResistance(0.5F, 10.0F).harvestTool(ToolType.PICKAXE)));
 	public static final RegistryObject<Block> MOSSY_STELLAR_STONE = BLOCKS.register("mossy_stellar_stone", () -> new Block(AbstractBlock.Properties.from(STELLAR_STONE.get())));
 	public static final RegistryObject<Block> MOSSY_STELLAR_COBBLESTONE = BLOCKS.register("mossy_stellar_cobblestone", () -> new Block(AbstractBlock.Properties.from(STELLAR_STONE.get())));
+	public static final RegistryObject<Block> STELLAR_CLAY = BLOCKS.register("stellar_clay", () -> new Block(AbstractBlock.Properties.from(Blocks.CLAY)));
 	public static final RegistryObject<Block> GLAUCOPHANITE = BLOCKS.register("glaucophanite",() -> new Block(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
 	public static final RegistryObject<Block> POLISHED_GLAUCOPHANITE = BLOCKS.register("polished_glaucophanite",() -> new Block(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
 	public static final RegistryObject<Block> CRYSTAL_BLOCK = BLOCKS.register("crystal_block", () -> new Block(AbstractBlock.Properties.from(Blocks.GLASS).setLightLevel((state) -> 14)));
@@ -310,6 +313,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> STELLAR_COBBLESTONE_ITEM = ITEMS.register("stellar_cobblestone", () -> new BlockItem(STELLAR_COBBLESTONE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> MOSSY_STELLAR_STONE_ITEM = ITEMS.register("mossy_stellar_stone", () -> new BlockItem(MOSSY_STELLAR_STONE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> MOSSY_STELLAR_COBBLESTONE_ITEM = ITEMS.register("mossy_stellar_cobblestone", () -> new BlockItem(MOSSY_STELLAR_COBBLESTONE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> STELLAR_CLAY_ITEM = ITEMS.register("stellar_clay", () -> new BlockItem(STELLAR_CLAY.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> STELLAR_STONE_BRICKS_ITEM = ITEMS.register("stellar_stone_bricks", () -> new BlockItem(STELLAR_STONE_BRICKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> GLAUCOPHANITE_ITEM = ITEMS.register("glaucophanite", () -> new BlockItem(GLAUCOPHANITE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> POLISHED_GLAUCOPHANITE_ITEM = ITEMS.register("polished_glaucophanite", () -> new BlockItem(POLISHED_GLAUCOPHANITE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
@@ -602,9 +606,13 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> BLACK_ROSE = BLOCKS.register("black_rose", () -> new FlowerBlock(Effects.SLOW_FALLING, 12, AbstractBlock.Properties.from(Blocks.DANDELION)));
 	public static final RegistryObject<Item> BLACK_ROSE_ITEM = ITEMS.register("black_rose", () -> new BlockItem(BLACK_ROSE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
+	public static final RegistryObject<Block> BELLFLOWER = BLOCKS.register("bellflower", () -> new FlowerBlock(Effects.MINING_FATIGUE, 12, AbstractBlock.Properties.from(Blocks.DANDELION)));
+	public static final RegistryObject<Item> BELLFLOWER_ITEM = ITEMS.register("bellflower", () -> new BlockItem(BELLFLOWER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	
 	//potted things
 	public static final RegistryObject<FlowerPotBlock> POTTED_BLUE_FLOWER = BLOCKS.register("potted_blue_flower", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BLUE_FLOWER, AbstractBlock.Properties.from(Blocks.FLOWER_POT)));
 	public static final RegistryObject<FlowerPotBlock> POTTED_BLACK_ROSE = BLOCKS.register("potted_black_rose", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BLACK_ROSE, AbstractBlock.Properties.from(Blocks.FLOWER_POT)));
+	public static final RegistryObject<FlowerPotBlock> POTTED_BELLFLOWER = BLOCKS.register("potted_bellflower", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BELLFLOWER, AbstractBlock.Properties.from(Blocks.FLOWER_POT)));
 	public static final RegistryObject<FlowerPotBlock> POTTED_STELLAR_FERN = BLOCKS.register("potted_stellar_fern", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, STELLAR_FERN, AbstractBlock.Properties.from(Blocks.FLOWER_POT)));
 	public static final RegistryObject<FlowerPotBlock> POTTED_STELLAR_DEAD_BUSH = BLOCKS.register("potted_stellar_dead_bush", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, STELLAR_DEAD_BUSH, AbstractBlock.Properties.from(Blocks.FLOWER_POT)));
 	public static final RegistryObject<FlowerPotBlock> POTTED_SKY_CACTUS = BLOCKS.register("potted_sky_cactus", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, SKY_CACTUS, AbstractBlock.Properties.from(Blocks.FLOWER_POT)));

@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.World;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
@@ -28,7 +29,7 @@ public class GenAerialHellOres
 			0, //Hauteur minimum
 			160, //Hauteur maximum
 			64, //range
-			20 //Chance d'apparition
+			8 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> GOLD_STELLAR_ORE = AerialHellOres
@@ -58,7 +59,7 @@ public class GenAerialHellOres
 			0, //Hauteur minimum
 			160, //Hauteur maximum
 			64, //range
-			20 //Chance d'apparition
+			40 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> AZURITE_ORE = AerialHellOres
@@ -78,14 +79,14 @@ public class GenAerialHellOres
 			0, //Hauteur minimum
 			160, //Hauteur maximum
 			32, //range
-			2 //Chance d'apparition
+			1 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> VOLUCITE_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.VOLUCITE_ORE.get().getDefaultState(), //Block enregistré à configurer
 			7, //Taille de Filon
-			145, //Hauteur minimum
+			112, //Hauteur minimum
 			256, //Hauteur maximum
 			32, //range
 			2 //Chance d'apparition
@@ -139,6 +140,16 @@ public class GenAerialHellOres
 			256, //Hauteur maximum
 			256, //range
 			12 //Chance d'apparition
+	);
+	
+	public static ConfiguredFeature<?,?> STELLAR_CLAY_ORE = AerialHellOres
+	(
+			AerialHellBlocksAndItems.STELLAR_CLAY.get().getDefaultState(), //Block enregistré à configurer
+			28, //Taille de Filon
+			0, //Hauteur minimum
+			256, //Hauteur maximum
+			256, //range
+			4 //Chance d'apparition
 	);
 	
 	public static final class FillerBlockType
