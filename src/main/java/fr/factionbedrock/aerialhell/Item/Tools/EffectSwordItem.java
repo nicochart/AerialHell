@@ -134,6 +134,7 @@ public class EffectSwordItem extends AerialHellSwordItem
 				if (!worldIn.isRemote)
 				{
 					playerIn.addPotionEffect(new EffectInstance(Effects.SATURATION, 1, 0));
+					playerIn.addPotionEffect(new EffectInstance(Effects.REGENERATION, 40, 0));
 				}
 				playerIn.getCooldownTracker().setCooldown(this, 20);
 				heldItem.damageItem(1, playerIn, (player) -> {player.sendBreakAnimation(playerIn.getActiveHand());});

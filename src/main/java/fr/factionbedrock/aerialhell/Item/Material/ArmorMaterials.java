@@ -79,7 +79,7 @@ public class ArmorMaterials
 	(
 		AerialHell.MODID + ":lunatic", //Nom du matériau 
 		35, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
-		new int[] {3, 6, 8, 3}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
+		new int[] {4, 7, 9, 4}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
 		15, //Enchantabilité
 		SoundEvents.ITEM_ARMOR_EQUIP_GOLD, //Son lorsqu'on équipe
 		2.5F, //Robustesse
@@ -91,10 +91,10 @@ public class ArmorMaterials
 	(
 		AerialHell.MODID + ":arsonist", //Nom du matériau 
 		37, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
-		new int[] {3, 6, 8, 3}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
+		new int[] {4, 5, 9, 4}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
 		15, //Enchantabilité
 		SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, //Son lorsqu'on équipe
-		3.0F, //Robustesse
+		3.5F, //Robustesse
 		0.1F, //Resistance au recul
 		() -> Ingredient.fromItems(AerialHellBlocksAndItems.ARSONIST_INGOT.get()) //Matériaux de réparation
 	);

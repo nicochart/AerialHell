@@ -3,7 +3,7 @@
   "pattern": [
     "E",
     "S",
-    "V"
+    "R"
   ],
   "key": {
     "E": {
@@ -12,12 +12,12 @@
     "S": {
       "item": "aerialhell:sky_stick"
     },
-    "V": {
-      "item": "aerialhell:volucite_vibrant"
+    "R": {
+      "item": "aerialhell:ruby"
     }
   },
   "result": {
-    "item": "aerialhell:volucite_blowpipe_arrow",
+    "item": "aerialhell:ruby_blowpipe_arrow",
     "count": 4
   }
 }

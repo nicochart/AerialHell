@@ -65,12 +65,12 @@ public class VibrantAerialBerryBushBlock extends BushBlock implements IGrowable
         {
             return ActionResultType.PASS;
         }
-        else if (age > 1)
+        else if (age > 13)
         {
             int j = 1 + worldIn.rand.nextInt(2);
             spawnAsEntity(worldIn, pos, new ItemStack(AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY.get(), j + (age == 15 ? 1 : 0)));
             worldIn.playSound(null, pos, SoundEvents.ITEM_SWEET_BERRIES_PICK_FROM_BUSH, SoundCategory.BLOCKS, 1.0F, 1F + worldIn.rand.nextFloat() * 0.2F);
-            worldIn.setBlockState(pos, state.with(AGE, 1), 2);
+            worldIn.setBlockState(pos, state.with(AGE, 13), 2);
             return ActionResultType.SUCCESS;
         }
         else
@@ -94,7 +94,7 @@ public class VibrantAerialBerryBushBlock extends BushBlock implements IGrowable
     @Override
     public boolean canUseBonemeal(World world, Random random, BlockPos blockPos, BlockState blockState)
     {
-        return true;
+        return blockState.get(AGE) < 13;
     }
 
     @Override

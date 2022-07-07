@@ -71,6 +71,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.BLACK_ROSE.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BELLFLOWER.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), cutout_mipped);
+        render(() -> AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get(), cutout_mipped);
         render(() -> AerialHellBlocksAndItems.STELLAR_GRASS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_FERN.get(), cutout);
@@ -100,12 +101,12 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.MAGMATIC_GEL_SLAB.get(), translucent);
         render(() -> AerialHellBlocksAndItems.MAGMATIC_GEL_STAIRS.get(), translucent);
         render(() -> AerialHellBlocksAndItems.MAGMATIC_GEL_WALL.get(), translucent);
-        render(() -> AerialHellBlocksAndItems.AERIAL_TREE_DOOR.get(), translucent);
-        render(() -> AerialHellBlocksAndItems.GOLDEN_BEECH_DOOR.get(), translucent);
-        render(() -> AerialHellBlocksAndItems.COPPER_PINE_DOOR.get(), translucent);
-        render(() -> AerialHellBlocksAndItems.LAPIS_ROBINIA_DOOR.get(), translucent);
-        render(() -> AerialHellBlocksAndItems.SKY_CACTUS_FIBER_DOOR.get(), translucent);
-        render(() -> AerialHellBlocksAndItems.RUBY_DOOR.get(), translucent);
+        render(() -> AerialHellBlocksAndItems.AERIAL_TREE_DOOR.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.GOLDEN_BEECH_DOOR.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.COPPER_PINE_DOOR.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.LAPIS_ROBINIA_DOOR.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.SKY_CACTUS_FIBER_DOOR.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.RUBY_DOOR.get(), cutout);
         render(() -> AerialHellBlocksAndItems.AERIAL_TREE_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.LAPIS_ROBINIA_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.GOLDEN_BEECH_TRAPDOOR.get(), translucent);

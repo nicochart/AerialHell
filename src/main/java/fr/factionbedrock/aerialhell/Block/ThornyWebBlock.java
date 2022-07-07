@@ -21,21 +21,25 @@ public class ThornyWebBlock extends WebBlock
 		super(properties);
 	}
 	
-	private boolean isEntityImmune(Entity entityIn)
+	private boolean isEntityImmuneToDamage(Entity entityIn)
 	{
 		return ((entityIn instanceof SpiderEntity) || (entityIn instanceof HellSpiderEntity) || (entityIn instanceof MudSoldierEntity) || (entityIn instanceof MudGolemEntity) || (entityIn instanceof MudCycleMageEntity));
+	}
+	
+	private boolean isEntityImmuneToCollision(Entity entityIn)
+	{
+		return ((entityIn instanceof SpiderEntity) || (entityIn instanceof HellSpiderEntity));
 	}
 	
 	@Override
 	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn)
 	{
-		boolean isImmune = isEntityImmune(entityIn);
+		boolean isTotallyImmune = isEntityImmuneToCollision(entityIn);
 		
-		if (!isImmune) {entityIn.setMotionMultiplier(state, new Vector3d(0.45D, 0.25D, 0.45D));}
-		if (entityIn instanceof LivingEntity && !isImmune)
+		if (!isTotallyImmune) {entityIn.setMotionMultiplier(state, new Vector3d(0.45D, 0.25D, 0.45D));}
+		if (entityIn instanceof LivingEntity && !isTotallyImmune)
 		{
-			
-			((LivingEntity) entityIn).attackEntityFrom(new DamageSource("web_thorns"), 2.0F);
+			if (!isEntityImmuneToDamage(entityIn)) {((LivingEntity) entityIn).attackEntityFrom(new DamageSource("web_thorns"), 2.0F);}
 		}
 	}
 }

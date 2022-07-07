@@ -30,7 +30,7 @@ public class BlueSolidEtherBlock extends SolidEtherBlock
 		{
 			if (entity instanceof LivingEntity)
 	    	{
-				((LivingEntity) entity).addPotionEffect(new EffectInstance(AerialHellPotionEffects.HEAD_IN_THE_CLOUDS.get(), 10, 0));
+				((LivingEntity) entity).addPotionEffect(new EffectInstance(AerialHellPotionEffects.HEAD_IN_THE_CLOUDS.get(), 32, 0));
 	    	}
 		}
 	}

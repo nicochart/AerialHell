@@ -24,7 +24,7 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 
 public class LunaticTempleStructure extends AbstractAerialHellStructure
 {
-	private static final List<MobSpawnInfo.Spawners> monstersSpawnList = ImmutableList.of(new MobSpawnInfo.Spawners(AerialHellEntities.CRYSTAL_SLIME.get(), 1, 3, 15), new MobSpawnInfo.Spawners(AerialHellEntities.CRYSTAL_SPIDER.get(), 2, 5, 5));
+	private static final List<MobSpawnInfo.Spawners> monstersSpawnList = ImmutableList.of(/*new MobSpawnInfo.Spawners(AerialHellEntities.CRYSTAL_SLIME.get(), 1, 3, 15), */new MobSpawnInfo.Spawners(AerialHellEntities.CRYSTAL_SPIDER.get(), 2, 5, 5));
 	private static final List<MobSpawnInfo.Spawners> creaturesSpawnList = ImmutableList.of();
 	
     public LunaticTempleStructure(Codec<NoFeatureConfig> codec)

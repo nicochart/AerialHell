@@ -418,7 +418,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	    		return false;
 	    	}
 	    	LivingEntity target = this.priest.getAttackTarget();
-	        return target != null && priest.lunaticProjectileTimer == 0 && target.isAlive() && this.priest.canAttack(target);
+	        return target != null && priest.canEntityBeSeen(target) && priest.lunaticProjectileTimer == 0 && target.isAlive() && this.priest.canAttack(target);
 	    }
 	    
 	    public void startExecuting() {this.projectileCount = 0;}

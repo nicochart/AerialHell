@@ -19,6 +19,25 @@
           "name": "aerialhell:mud_bone"
         }
       ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 2,
+                "max": 4,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "aerialhell:obsidian_shard"
+        }
+      ]
     }
   ]
 }

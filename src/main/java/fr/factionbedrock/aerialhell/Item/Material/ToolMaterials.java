@@ -95,7 +95,7 @@ public class ToolMaterials
 		4, //Niveau de minage
 		1712, //durabilité
 		8.5F, //efficacité
-		3.5F, //Dégats d'attaque
+		4.5F, //Dégats d'attaque
 		15, //Enchantabilité
 		() -> Ingredient.fromItems(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //Ingrédient de réparation (Enclume)
 	);
@@ -105,7 +105,7 @@ public class ToolMaterials
 		4, //Niveau de minage
 		2031, //durabilité
 		9.0F, //efficacité
-		4.0F, //Dégats d'attaque
+		5.0F, //Dégats d'attaque
 		15, //Enchantabilité
 		() -> Ingredient.fromItems(AerialHellBlocksAndItems.ARSONIST_INGOT.get()) //Ingrédient de réparation (Enclume)
 	);

@@ -30,7 +30,7 @@ public class GreenSolidEtherBlock extends SolidEtherBlock
 		{
 			if (entity instanceof LivingEntity)
 	    	{
-				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 10, 5));
+				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 32, 5));
 	    	}
 		}
 	}
