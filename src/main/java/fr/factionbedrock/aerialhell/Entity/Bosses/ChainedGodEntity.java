@@ -83,6 +83,17 @@ public class ChainedGodEntity extends AbstractBossEntity
     }
 	
 	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount)
+	{
+		boolean flag = super.attackEntityFrom(source, amount);
+		if (flag)
+		{
+			if (source.getTrueSource() instanceof LivingEntity) {this.setAttackTarget((LivingEntity) source.getTrueSource());}
+		}
+		return flag;
+	}
+	
+	@Override
 	protected void registerData()
 	{
 	    super.registerData();

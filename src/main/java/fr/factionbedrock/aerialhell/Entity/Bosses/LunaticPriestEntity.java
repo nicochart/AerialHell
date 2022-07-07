@@ -110,6 +110,17 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		this.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOW_FALLING, 120, 2, true, false)));
 	}
 	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount)
+	{
+		boolean flag = super.attackEntityFrom(source, amount);
+		if (flag)
+		{
+			if (source.getTrueSource() instanceof LivingEntity) {this.setAttackTarget((LivingEntity) source.getTrueSource());}
+		}
+		return flag;
+	}
+	
 	public static AttributeModifierMap.MutableAttribute registerAttributes()
     {
 		return MonsterEntity.func_233666_p_()
