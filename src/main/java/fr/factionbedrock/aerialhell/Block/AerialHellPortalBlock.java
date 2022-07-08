@@ -5,10 +5,14 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer.Builder;
@@ -117,7 +121,12 @@ public class AerialHellPortalBlock extends Block
 		boolean flag = stateAxis != directionAxis && directionAxis.isHorizontal();
 		return (!flag && facingState.getBlock() != this && !(new AerialHellPortalBlock.Size(worldIn, currentPos, stateAxis)).canCreatePortal())? Blocks.AIR.getDefaultState() : super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos); 
 	}
-
+	
+	private static RegistryKey<World> getDestination(Entity entity)
+	{
+		return entity.world.getDimensionKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION ? World.OVERWORLD : AerialHellDimensions.AERIAL_HELL_DIMENSION;
+	}
+	
 	@Override
 	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entity)
 	{
@@ -137,20 +146,51 @@ public class AerialHellPortalBlock extends Block
 				if(serverworld != null)
 				{
 					MinecraftServer minecraftserver = serverworld.getServer();
-					RegistryKey<World> worldDestination = entity.world.getDimensionKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION ? World.OVERWORLD : AerialHellDimensions.AERIAL_HELL_DIMENSION;
+					RegistryKey<World> worldDestination = getDestination(entity);
 					if(minecraftserver != null)
 					{
 						ServerWorld destination = minecraftserver.getWorld(worldDestination);
 						if(destination != null && minecraftserver.getAllowNether() && !entity.isPassenger())
 						{
-							entity.world.getProfiler().startSection("NEWDIM_PORTAL");
-							entity.func_242279_ag();
-							entity.changeDimension(destination, new AerialHellTeleporter(destination));
-							entity.world.getProfiler().endSection();
+							if (entity instanceof PlayerEntity)
+							{
+								PlayerEntity player = ((PlayerEntity) entity);
+								applyPortalEffects(player);
+								int maxPortalTime = player.getMaxInPortalTime();
+								if (entity.portalCounter++ > maxPortalTime)
+								{
+									entity.portalCounter = 0;
+									teleportEntity(entity, destination);
+								}
+							}
+							else
+							{
+								teleportEntity(entity, destination);
+							}
 						}
 					}
 				}
 			}
+		}
+	}
+	
+	private void teleportEntity(Entity entity, ServerWorld destination)
+	{
+		entity.world.getProfiler().startSection("aerialhell_portal");
+		entity.func_242279_ag();
+		entity.changeDimension(destination, new AerialHellTeleporter(destination));
+		entity.world.getProfiler().endSection();
+	}
+	
+	private void applyPortalEffects(LivingEntity entity)
+	{
+		if (!entity.isPotionActive(Effects.NAUSEA) || entity.getActivePotionEffect(Effects.NAUSEA).getDuration() < 100)
+		{
+			entity.addPotionEffect(new EffectInstance(Effects.NAUSEA, 120, 0));
+		}
+		if (!entity.isPotionActive(Effects.BLINDNESS) || entity.getActivePotionEffect(Effects.BLINDNESS).getDuration() < 50)
+		{
+			entity.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 90, 0));
 		}
 	}
 	
