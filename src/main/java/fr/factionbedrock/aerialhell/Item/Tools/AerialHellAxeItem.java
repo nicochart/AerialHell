@@ -25,8 +25,8 @@ public class AerialHellAxeItem extends AxeItem
 		Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 	    builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", (double)getAttackDamage(), AttributeModifier.Operation.ADDITION));
 	    builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier", (double)attackSpeedIn, AttributeModifier.Operation.ADDITION));
-	    builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(MOVEMENT_SPEED_MODIFIER, "Weapon modifier", (double)movementSpeedIn, AttributeModifier.Operation.MULTIPLY_TOTAL));
-	    builder.put(Attributes.MAX_HEALTH, new AttributeModifier(MAX_HEALTH_MODIFIER, "Weapon modifier", (double)maxHealthIn, AttributeModifier.Operation.ADDITION));
+	    if (movementSpeedIn != 0) {builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(MOVEMENT_SPEED_MODIFIER, "Weapon modifier", (double)movementSpeedIn, AttributeModifier.Operation.MULTIPLY_TOTAL));}
+	    if (maxHealthIn != 0) {builder.put(Attributes.MAX_HEALTH, new AttributeModifier(MAX_HEALTH_MODIFIER, "Weapon modifier", (double)maxHealthIn, AttributeModifier.Operation.ADDITION));}
 	    this.axeAttributes = builder.build();
 	}
 	

@@ -40,7 +40,7 @@ public class DiamondThrowingKnifeEntity extends AbtractThrowingKnifeEntity
 	@Override
 	protected float getKnifeDamage()
 	{
-		return 9.0F;
+		return 11.0F;
 	}
 	
 	@Override

@@ -40,7 +40,7 @@ public class NetheriteThrowingKnifeEntity extends AbtractThrowingKnifeEntity
 	@Override
 	protected float getKnifeDamage()
 	{
-		return 10.0F;
+		return 12.0F;
 	}
 	
 	@Override

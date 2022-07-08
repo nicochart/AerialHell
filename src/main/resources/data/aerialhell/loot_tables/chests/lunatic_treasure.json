@@ -148,11 +148,6 @@
         },
         {
           "type": "item",
-          "name": "aerialhell:regeneration_totem",
-          "weight": 3
-        },
-        {
-          "type": "item",
           "name": "aerialhell:hero_totem",
           "weight": 2
         },
@@ -170,11 +165,6 @@
           "type": "item",
           "name": "aerialhell:night_vision_totem",
           "weight": 1
-        },
-        {
-          "type": "item",
-          "name": "aerialhell:music_disc_enthusiast_tours",
-          "weight": 1
         }
       ]
     },
@@ -185,7 +175,7 @@
 	{
           "type": "item",
           "name": "aerialhell:volucite_blowpipe_arrow",
-          "weight": 1,
+          "weight": 2,
           "functions": [
             {
               "function": "set_count",
@@ -195,6 +185,11 @@
               }
             }
           ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:music_disc_enthusiast_tours",
+          "weight": 1
         }
       ]
     }

@@ -89,7 +89,7 @@ public class GenAerialHellOres
 			112, //Hauteur minimum
 			256, //Hauteur maximum
 			32, //range
-			2 //Chance d'apparition
+			4 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> OBSIDIAN_ORE = AerialHellOres

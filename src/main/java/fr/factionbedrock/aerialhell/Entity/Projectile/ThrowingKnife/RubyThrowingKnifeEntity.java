@@ -40,7 +40,7 @@ public class RubyThrowingKnifeEntity extends AbtractThrowingKnifeEntity
 	@Override
 	protected float getKnifeDamage()
 	{
-		return 8.0F;
+		return 9.0F;
 	}
 	
 	@Override
