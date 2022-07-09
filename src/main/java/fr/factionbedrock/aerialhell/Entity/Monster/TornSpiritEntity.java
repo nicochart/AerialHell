@@ -19,6 +19,7 @@ import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.entity.projectile.SmallFireballEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
@@ -53,8 +54,19 @@ public class TornSpiritEntity extends MonsterEntity
 				.createMutableAttribute(Attributes.MAX_HEALTH, 50.0D)
 				.createMutableAttribute(Attributes.FOLLOW_RANGE, 24.0D)
 				.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.33D)
-				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 14.0D);
+				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 17.0D);
     }
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount)
+	{
+		boolean flag = super.attackEntityFrom(source, amount);
+		if (flag)
+		{
+			if (source.getTrueSource() instanceof LivingEntity && !(source.getImmediateSource() instanceof AbstractArrowEntity)) {this.setAttackTarget((LivingEntity) source.getTrueSource());}
+		}
+		return flag;
+	}
 	
 	@Override public boolean isImmuneToFire() {return true;}
 	@Override public boolean canRenderOnFire() {return false;}

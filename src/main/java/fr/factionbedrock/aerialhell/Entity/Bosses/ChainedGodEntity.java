@@ -20,6 +20,7 @@ import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -74,23 +75,32 @@ public class ChainedGodEntity extends AbstractBossEntity
 	public static AttributeModifierMap.MutableAttribute registerAttributes()
     {
 		return MonsterEntity.func_233666_p_()
-				.createMutableAttribute(Attributes.MAX_HEALTH, 700.0D)
+				.createMutableAttribute(Attributes.MAX_HEALTH, 1400.0D)
 				.createMutableAttribute(Attributes.FOLLOW_RANGE, 32.0D)
 				.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3D)
 				.createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.2D)
 				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 6.0D)
-				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 17.0D);
+				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 25.0D);
     }
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount)
 	{
-		boolean flag = super.attackEntityFrom(source, amount);
-		if (flag)
+		Entity immediateSourceEntity = source.getImmediateSource();
+		Entity trueSourceEntity = source.getTrueSource();
+		if (this.getHealth() < this.getMaxHealth() / 3 && immediateSourceEntity instanceof AbstractArrowEntity)
 		{
-			if (source.getTrueSource() instanceof LivingEntity) {this.setAttackTarget((LivingEntity) source.getTrueSource());}
+			return false;
 		}
-		return flag;
+		else
+		{
+			boolean flag = super.attackEntityFrom(source, amount);
+			if (flag)
+			{
+				if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrowEntity)) {this.setAttackTarget((LivingEntity) immediateSourceEntity);}
+			}
+			return flag;
+		}
 	}
 	
 	@Override
