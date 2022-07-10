@@ -2,8 +2,10 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 
 import java.util.Random;
 
+import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
+import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -103,9 +105,27 @@ public class EffectSwordItem extends AerialHellSwordItem
 			heldItem.damageItem(1, playerIn, (player) -> {player.sendBreakAnimation(playerIn.getActiveHand());});
 	        return ActionResult.resultConsume(heldItem);
 		}
+		else if (this == AerialHellBlocksAndItems.SWORD_OF_LIGHT.get())
+		{
+			if (!worldIn.isRemote)
+	        {
+				LunaticProjectileEntity lunaticProjectileEntity = new LunaticProjectileEntity(worldIn, playerIn, playerIn.getLookVec().x, playerIn.getLookVec().y, playerIn.getLookVec().z, 0.7f, 0);
+				lunaticProjectileEntity.setPosition(playerIn.getPosX(), playerIn.getPosYHeight(0.5D) + 0.5D, playerIn.getPosZ());
+                worldIn.addEntity(lunaticProjectileEntity);
+	        }
+			int count = 0;
+			for (ItemStack armorStack : playerIn.getArmorInventoryList()) {if (armorStack.getItem().isIn(AerialHellTags.Items.LUNATIC_STUFF)) {count++;}}
+			int cooldown = count == 4 ? 80 : 160;
+			playerIn.addPotionEffect(new EffectInstance(Effects.WEAKNESS, cooldown/2, 2));
+			playerIn.getCooldownTracker().setCooldown(this, cooldown);
+			heldItem.damageItem(1, playerIn, (player) -> {player.sendBreakAnimation(playerIn.getActiveHand());});
+		    return ActionResult.resultConsume(heldItem);
+		}
 		else if (this == AerialHellBlocksAndItems.ANTIDOTE_SWORD.get())
 		{
-			if (playerIn.getActivePotionEffect(Effects.POISON) == null && playerIn.getActivePotionEffect(Effects.WITHER) == null)
+			boolean playerHasPoison = (playerIn.getActivePotionEffect(Effects.POISON) != null);
+			boolean playerHasWither = (playerIn.getActivePotionEffect(Effects.WITHER) != null);
+			if (!playerHasPoison && !playerHasWither)
 			{
 				return ActionResult.resultPass(heldItem);
 			}
@@ -113,11 +133,11 @@ public class EffectSwordItem extends AerialHellSwordItem
 			{
 				playerIn.playSound(SoundEvents.ENTITY_GENERIC_DRINK, 1.0F, 1.5F + 0.4F * rand.nextFloat());
 				
-				if (playerIn.getActivePotionEffect(Effects.POISON) != null)
+				if (playerHasPoison)
 				{
 					playerIn.removePotionEffect(Effects.POISON);
 				}
-				if (playerIn.getActivePotionEffect(Effects.WITHER) != null)
+				if (playerHasWither)
 				{
 					playerIn.removePotionEffect(Effects.WITHER);
 				}

@@ -1,17 +1,30 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
+import java.util.List;
 import java.util.UUID;
+
+import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.ImmutableMultimap.Builder;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IItemTier;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class AerialHellSwordItem extends SwordItem
 {
@@ -34,5 +47,17 @@ public class AerialHellSwordItem extends SwordItem
 	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot)
 	{
 		return equipmentSlot == EquipmentSlotType.MAINHAND ? attributeModifiers : super.getAttributeModifiers(equipmentSlot);
+	}
+	
+	@Override @OnlyIn(Dist.CLIENT)
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
+	{
+		tooltip.add(this.getDescription().mergeStyle(TextFormatting.GRAY));
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public IFormattableTextComponent getDescription()
+	{
+		return new TranslationTextComponent(this.getTranslationKey() + ".desc");
 	}
 }

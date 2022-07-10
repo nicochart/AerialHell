@@ -62,13 +62,23 @@ public class ToolsAndArmorEventListener
 				{
 					target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 120, 1, true, false)));
 				}
-				if (mainHandItem.isIn(AerialHellTags.Items.ARSONIST)) //source (player) attacking LivingEntity with any arsonist tool
+				else if (mainHandItem == AerialHellBlocksAndItems.ABSOLUTE_ZERO_SWORD.get()) //source (player) attacking LivingEntity with absolute zero sword
+				{
+					target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 100, 2, true, false)));
+				}
+				else if (mainHandItem.isIn(AerialHellTags.Items.ARSONIST)) //source (player) attacking LivingEntity with any arsonist tool
 				{
 					target.setFire(5);
 					if (source.getFireTimer() > 0)
 					{
 						event.setAmount(amount * 1.5F); //damage bonus when on fire
 					}
+				}
+				else if (mainHandItem == AerialHellBlocksAndItems.DISLOYAL_SWORD.get()) //source (player) attacking LivingEntity with disloyal sword
+				{
+					target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 100, 0, true, false)));
+					target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.WEAKNESS, 100, 0, true, false)));
+					target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.MINING_FATIGUE, 100, 0, true, false)));
 				}
 				else if (mainHandItem == AerialHellBlocksAndItems.GOD_SWORD.get()) //source (player) attacking LivingEntity with god sword
 				{
@@ -84,7 +94,17 @@ public class ToolsAndArmorEventListener
 					{
 						target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 120, 1, true, false)));
 					}
-					if (handItemStack.getItem().isIn(AerialHellTags.Items.ARSONIST)) //source (any living entity) attacking LivingEntity with any arsonist tool
+					else if (handItemStack.getItem() == AerialHellBlocksAndItems.ABSOLUTE_ZERO_SWORD.get()) //source (any living entity) attacking LivingEntity with absolute zero sword
+					{
+						target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 100, 2, true, false)));
+					}
+					else if (handItemStack.getItem() == AerialHellBlocksAndItems.DISLOYAL_SWORD.get()) //source (any living entity) attacking LivingEntity with disloyal sword
+					{
+						target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 100, 0, true, false)));
+						target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.WEAKNESS, 100, 0, true, false)));
+						target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.MINING_FATIGUE, 100, 0, true, false)));
+					}
+					else if (handItemStack.getItem().isIn(AerialHellTags.Items.ARSONIST)) //source (any living entity) attacking LivingEntity with any arsonist tool
 					{
 						target.setFire(5);
 						if (source.getFireTimer() > 0)
