@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_glass_pane_noside_alt",
+  "textures": {
+    "pane": "aerialhell:block/blue_slippery_sand_glass"
+  }
+}

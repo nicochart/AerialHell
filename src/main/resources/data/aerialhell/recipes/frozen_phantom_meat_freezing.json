@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:freezing",
+  "ingredient": {
+    "item": "aerialhell:phantom_meat"
+  },
+  "result": "aerialhell:frozen_phantom_meat",
+  "experience": 0.2,
+  "cookingtime": 400
+}

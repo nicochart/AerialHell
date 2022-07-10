@@ -97,6 +97,15 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.POTTED_LAPIS_ROBINIA_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get(), translucent);
         render(() -> AerialHellBlocksAndItems.SLIPPERY_SAND_GLASS.get(), translucent);
+        render(() -> AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get(), translucent);
+        render(() -> AerialHellBlocksAndItems.BLACK_SLIPPERY_SAND_GLASS.get(), translucent);
+        render(() -> AerialHellBlocksAndItems.BLUE_SLIPPERY_SAND_GLASS.get(), translucent);
+        render(() -> AerialHellBlocksAndItems.GREEN_SLIPPERY_SAND_GLASS.get(), translucent);
+        render(() -> AerialHellBlocksAndItems.SLIPPERY_SAND_GLASS_PANE.get(), translucent);
+        render(() -> AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS_PANE.get(), translucent);
+        render(() -> AerialHellBlocksAndItems.BLACK_SLIPPERY_SAND_GLASS_PANE.get(), translucent);
+        render(() -> AerialHellBlocksAndItems.BLUE_SLIPPERY_SAND_GLASS_PANE.get(), translucent);
+        render(() -> AerialHellBlocksAndItems.GREEN_SLIPPERY_SAND_GLASS_PANE.get(), translucent);
         render(() -> AerialHellBlocksAndItems.MAGMATIC_GEL_BLOCK.get(), translucent);
         render(() -> AerialHellBlocksAndItems.MAGMATIC_GEL_SLAB.get(), translucent);
         render(() -> AerialHellBlocksAndItems.MAGMATIC_GEL_STAIRS.get(), translucent);

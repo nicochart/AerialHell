@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:azurite_crystal"
+    },
+    "X": {
+      "item": "aerialhell:copper_pine_cone"
+    }
+  },
+  "result": {
+    "item": "aerialhell:azurite_copper_pine_cone"
+  }
+}

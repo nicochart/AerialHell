@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_glass_pane_side_alt",
+  "textures": {
+    "pane": "aerialhell:block/black_slippery_sand_glass",
+    "edge": "aerialhell:block/black_slippery_sand_glass_pane_top"
+  }
+}
