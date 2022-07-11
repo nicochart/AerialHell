@@ -15,29 +15,29 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-public abstract class AbtractThrowingKnifeEntity extends ProjectileItemEntity
+public abstract class AbstractThrowingKnifeEntity extends ProjectileItemEntity
 {
 	public float throwingKnifeZRot; 
 	
-	public AbtractThrowingKnifeEntity(EntityType<? extends AbtractThrowingKnifeEntity> entityTypeIn, World worldIn)
+	public AbstractThrowingKnifeEntity(EntityType<? extends AbstractThrowingKnifeEntity> entityTypeIn, World worldIn)
 	{
 		super(entityTypeIn, worldIn);
 		this.throwingKnifeZRot = -135;
 	}
 
-	public AbtractThrowingKnifeEntity(EntityType<? extends AbtractThrowingKnifeEntity> type, double x, double y, double z, World worldIn)
+	public AbstractThrowingKnifeEntity(EntityType<? extends AbstractThrowingKnifeEntity> type, double x, double y, double z, World worldIn)
 	{
 		super(type, x, y, z, worldIn);
 		this.throwingKnifeZRot = -135;
 	}
 
-	public AbtractThrowingKnifeEntity(EntityType<? extends AbtractThrowingKnifeEntity> type, LivingEntity owner, World worldIn)
+	public AbstractThrowingKnifeEntity(EntityType<? extends AbstractThrowingKnifeEntity> type, LivingEntity shooter, World worldIn)
 	{
-		super(type, owner, worldIn);
+		super(type, shooter, worldIn);
 		this.throwingKnifeZRot = -135;
 	}
 
-	public AbtractThrowingKnifeEntity(EntityType<? extends AbtractThrowingKnifeEntity> type, FMLPlayMessages.SpawnEntity packet, World worldIn)
+	public AbstractThrowingKnifeEntity(EntityType<? extends AbstractThrowingKnifeEntity> type, FMLPlayMessages.SpawnEntity packet, World worldIn)
 	{
 		super(type, worldIn);
 		this.throwingKnifeZRot = -135;

@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Entity.AbtractThrowingKnifeEntity;
+import fr.factionbedrock.aerialhell.Entity.AbstractThrowingKnifeEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ThrowingKnife.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -17,7 +17,7 @@ import net.minecraft.util.math.vector.Vector3f;
 
 import java.util.Objects;
 
-public class ThrowingKnifeRender<T extends AbtractThrowingKnifeEntity> extends EntityRenderer<T>
+public class ThrowingKnifeRender<T extends AbstractThrowingKnifeEntity> extends EntityRenderer<T>
 {
 	private static final ResourceLocation IRON_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/iron_throwing_knife.png");
 	private static final ResourceLocation GOLD_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/gold_throwing_knife.png");

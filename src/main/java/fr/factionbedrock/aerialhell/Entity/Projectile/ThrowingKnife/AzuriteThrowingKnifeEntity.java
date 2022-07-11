@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile.ThrowingKnife;
 
-import fr.factionbedrock.aerialhell.Entity.AbtractThrowingKnifeEntity;
+import fr.factionbedrock.aerialhell.Entity.AbstractThrowingKnifeEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import net.minecraft.entity.Entity;
@@ -10,7 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 
-public class AzuriteThrowingKnifeEntity extends AbtractThrowingKnifeEntity
+public class AzuriteThrowingKnifeEntity extends AbstractThrowingKnifeEntity
 {
 	public AzuriteThrowingKnifeEntity(EntityType<? extends AzuriteThrowingKnifeEntity> entityTypeIn, World worldIn)
 	{
