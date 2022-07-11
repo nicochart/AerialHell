@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
+import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.entity.Entity;
@@ -62,7 +64,7 @@ public class LunaticProjectileEntity extends ThrowableEntity
         {
             ++this.ticksInAir;
         }
-        if (this.ticksInAir > 500)
+        if (this.ticksInAir > 300)
         {
             this.remove();
         }
@@ -86,14 +88,25 @@ public class LunaticProjectileEntity extends ThrowableEntity
         }
     }
     
+    private boolean targetIsImmuneToLunaticProjectileKb(Entity target) //target is not a ChainedGod or Lunatic Priest
+    {
+    	return (target instanceof ChainedGodEntity || target instanceof LunaticPriestEntity);
+    }
+    
     @Override
     protected void onEntityHit(EntityRayTraceResult result)
     {
     	this.playSound(AerialHellSoundEvents.ENTITY_LUNATIC_PROJECTILE_DISAPPEAR.get(), 1, 0.25F + 0.25F * rand.nextFloat());
         Entity target = result.getEntity();
-        target.attackEntityFrom(DamageSource.causeThrownDamage(this, func_234616_v_()), 5);
-        target.attackEntityFrom(new DamageSource("lunatic_projection"), 4.0F);
-        target.addVelocity(this.getMotion().x, 0.3D, this.getMotion().z);
+        if (target != this.func_234616_v_()) //target != projectile shooter (not working yet..)
+        {
+        	target.attackEntityFrom(DamageSource.causeThrownDamage(this, func_234616_v_()), 5);
+            target.attackEntityFrom(new DamageSource("lunatic_projection"), 4.0F);
+            if (!targetIsImmuneToLunaticProjectileKb(target))
+            {
+            	target.addVelocity(this.getMotion().x, 0.3D, this.getMotion().z);
+            }
+        }
     }
     
     @Override

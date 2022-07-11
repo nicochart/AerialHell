@@ -60,7 +60,10 @@ public class ToolsAndArmorEventListener
 				Item mainHandItem = ((PlayerEntity) source).getHeldItemMainhand().getItem();
 				if (mainHandItem.isIn(AerialHellTags.Items.MAGMATIC_GEL)) //source (player) attacking LivingEntity with any magmatic gel tool
 				{
-					target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 120, 1, true, false)));
+					int count = 0;
+					for (ItemStack armorStack : source.getArmorInventoryList()) {if (armorStack.getItem().isIn(AerialHellTags.Items.MAGMATIC_GEL)) {count++;}}
+					int amplifier = count == 4 ? 1 : 0;
+					target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 120, amplifier, true, false)));
 				}
 				else if (mainHandItem == AerialHellBlocksAndItems.ABSOLUTE_ZERO_SWORD.get()) //source (player) attacking LivingEntity with absolute zero sword
 				{
@@ -92,7 +95,10 @@ public class ToolsAndArmorEventListener
 				{
 					if (handItemStack.getItem().isIn(AerialHellTags.Items.MAGMATIC_GEL)) //source (any living entity) attacking LivingEntity with any magmatic gel tool
 					{
-						target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 120, 1, true, false)));
+						int count = 0;
+						for (ItemStack armorStack : source.getArmorInventoryList()) {if (armorStack.getItem().isIn(AerialHellTags.Items.MAGMATIC_GEL)) {count++;}}
+						int amplifier = count == 4 ? 1 : 0;
+						target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 120, amplifier, true, false)));
 					}
 					else if (handItemStack.getItem() == AerialHellBlocksAndItems.ABSOLUTE_ZERO_SWORD.get()) //source (any living entity) attacking LivingEntity with absolute zero sword
 					{

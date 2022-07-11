@@ -116,7 +116,13 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		boolean flag = super.attackEntityFrom(source, amount);
 		if (flag)
 		{
-			if (source.getTrueSource() instanceof LivingEntity) {this.setAttackTarget((LivingEntity) source.getTrueSource());}
+			if (source.getTrueSource() instanceof LivingEntity)
+			{
+				if (!(source.getTrueSource() instanceof PlayerEntity && ((PlayerEntity)source.getTrueSource()).isCreative()))
+				{
+					this.setAttackTarget((LivingEntity) source.getTrueSource());
+				}
+			}
 		}
 		return flag;
 	}

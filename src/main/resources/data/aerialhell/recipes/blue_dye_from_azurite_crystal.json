@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "black_dye",
+  "ingredients": [
+    {
+      "item": "aerialhell:azurite_crystal"
+    }
+  ],
+  "result": {
+    "item": "minecraft:blue_dye"
+  }
+}

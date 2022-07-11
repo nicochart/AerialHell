@@ -63,7 +63,13 @@ public class TornSpiritEntity extends MonsterEntity
 		boolean flag = super.attackEntityFrom(source, amount);
 		if (flag)
 		{
-			if (source.getTrueSource() instanceof LivingEntity && !(source.getImmediateSource() instanceof AbstractArrowEntity)) {this.setAttackTarget((LivingEntity) source.getTrueSource());}
+			if (source.getTrueSource() instanceof LivingEntity && !(source.getImmediateSource() instanceof AbstractArrowEntity))
+			{
+				if (!(source.getTrueSource() instanceof PlayerEntity && ((PlayerEntity)source.getTrueSource()).isCreative()))
+				{
+					this.setAttackTarget((LivingEntity) source.getTrueSource());
+				}
+			}
 		}
 		return flag;
 	}

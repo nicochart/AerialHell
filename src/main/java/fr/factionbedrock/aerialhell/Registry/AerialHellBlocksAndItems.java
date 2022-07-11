@@ -349,7 +349,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> CHISELED_STELLAR_DIRT_ITEM = ITEMS.register("chiseled_stellar_dirt", () -> new BlockItem(CHISELED_STELLAR_DIRT.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//slippery sand
-	public static final RegistryObject<Block> SLIPPERY_SAND = BLOCKS.register("slippery_sand", () -> new Block(AbstractBlock.Properties.from(Blocks.SAND).harvestTool(ToolType.SHOVEL).slipperiness(1.03F)));
+	public static final RegistryObject<Block> SLIPPERY_SAND = BLOCKS.register("slippery_sand", () -> new Block(AbstractBlock.Properties.from(Blocks.SAND).harvestTool(ToolType.SHOVEL).slipperiness(1.025F)));
 	public static final RegistryObject<Block> SLIPPERY_SAND_STONE = BLOCKS.register("slippery_sand_stone", () -> new Block(AbstractBlock.Properties.from(Blocks.SANDSTONE).harvestTool(ToolType.PICKAXE).slipperiness(1.01F)));
 	public static final RegistryObject<Block> SLIPPERY_SAND_STONE_BRICKS = BLOCKS.register("slippery_sand_stone_bricks", () -> new Block(AbstractBlock.Properties.from(SLIPPERY_SAND_STONE.get()).harvestTool(ToolType.PICKAXE).slipperiness(1.005F)));
 	public static final RegistryObject<Block> CUT_SLIPPERY_SAND_STONE = BLOCKS.register("cut_slippery_sand_stone", () -> new Block(AbstractBlock.Properties.from(SLIPPERY_SAND_STONE.get()).harvestTool(ToolType.PICKAXE).slipperiness(1.005F)));

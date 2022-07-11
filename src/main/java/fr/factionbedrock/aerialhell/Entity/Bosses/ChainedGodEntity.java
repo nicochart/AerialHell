@@ -97,7 +97,13 @@ public class ChainedGodEntity extends AbstractBossEntity
 			boolean flag = super.attackEntityFrom(source, amount);
 			if (flag)
 			{
-				if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrowEntity)) {this.setAttackTarget((LivingEntity) immediateSourceEntity);}
+				if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrowEntity))
+				{
+					if (!(trueSourceEntity instanceof PlayerEntity && ((PlayerEntity)trueSourceEntity).isCreative()))
+					{
+						this.setAttackTarget((LivingEntity) trueSourceEntity);
+					}
+				}
 			}
 			return flag;
 		}

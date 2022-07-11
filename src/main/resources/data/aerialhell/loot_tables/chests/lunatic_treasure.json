@@ -148,6 +148,16 @@
         },
         {
           "type": "item",
+          "name": "aerialhell:disloyal_sword",
+          "weight": 3
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:sword_of_light",
+          "weight": 2
+        },
+        {
+          "type": "item",
           "name": "aerialhell:hero_totem",
           "weight": 2
         },
