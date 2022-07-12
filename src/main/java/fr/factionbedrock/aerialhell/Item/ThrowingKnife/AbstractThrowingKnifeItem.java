@@ -42,6 +42,7 @@ public abstract class AbstractThrowingKnifeItem extends Item
 		{
 			AbstractThrowingKnifeEntity throwingKnife = this.getKnifeEntity(playerIn, worldIn);
 			throwingKnife.func_234612_a_(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 0.8F, 1.0F);
+			//throwingKnife.setShooter(playerIn); shooter is not detected
 			worldIn.addEntity(throwingKnife);
 		}
 		playerIn.getCooldownTracker().setCooldown(this, this.getCooldown());

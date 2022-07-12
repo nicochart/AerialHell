@@ -22,9 +22,9 @@ public class NetheriteThrowingKnifeEntity extends AbstractThrowingKnifeEntity
 		super(AerialHellEntities.NETHERITE_THROWING_KNIFE.get(), x, y, z, worldIn);
 	}
 
-	public NetheriteThrowingKnifeEntity(LivingEntity owner, World worldIn)
+	public NetheriteThrowingKnifeEntity(LivingEntity shooter, World worldIn)
 	{
-		super(AerialHellEntities.NETHERITE_THROWING_KNIFE.get(), owner, worldIn);
+		super(AerialHellEntities.NETHERITE_THROWING_KNIFE.get(), shooter, worldIn);
 	}
 
 	public NetheriteThrowingKnifeEntity(World worldIn)

@@ -22,9 +22,9 @@ public class GoldThrowingKnifeEntity extends AbstractThrowingKnifeEntity
 		super(AerialHellEntities.GOLD_THROWING_KNIFE.get(), x, y, z, worldIn);
 	}
 
-	public GoldThrowingKnifeEntity(LivingEntity owner, World worldIn)
+	public GoldThrowingKnifeEntity(LivingEntity shooter, World worldIn)
 	{
-		super(AerialHellEntities.GOLD_THROWING_KNIFE.get(), owner, worldIn);
+		super(AerialHellEntities.GOLD_THROWING_KNIFE.get(), shooter, worldIn);
 	}
 
 	public GoldThrowingKnifeEntity(World worldIn)

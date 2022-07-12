@@ -25,11 +25,11 @@ public class GenAerialHellOres
 	public static ConfiguredFeature<?,?> IRON_STELLAR_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.IRON_STELLAR_ORE.get().getDefaultState(), //Block enregistré à configurer
-			7, //Taille de Filon
+			12, //Taille de Filon
 			0, //Hauteur minimum
 			160, //Hauteur maximum
 			64, //range
-			8 //Chance d'apparition
+			12 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> GOLD_STELLAR_ORE = AerialHellOres

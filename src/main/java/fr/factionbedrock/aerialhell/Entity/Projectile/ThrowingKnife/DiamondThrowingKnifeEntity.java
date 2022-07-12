@@ -22,9 +22,9 @@ public class DiamondThrowingKnifeEntity extends AbstractThrowingKnifeEntity
 		super(AerialHellEntities.DIAMOND_THROWING_KNIFE.get(), x, y, z, worldIn);
 	}
 
-	public DiamondThrowingKnifeEntity(LivingEntity owner, World worldIn)
+	public DiamondThrowingKnifeEntity(LivingEntity shooter, World worldIn)
 	{
-		super(AerialHellEntities.DIAMOND_THROWING_KNIFE.get(), owner, worldIn);
+		super(AerialHellEntities.DIAMOND_THROWING_KNIFE.get(), shooter, worldIn);
 	}
 
 	public DiamondThrowingKnifeEntity(World worldIn)

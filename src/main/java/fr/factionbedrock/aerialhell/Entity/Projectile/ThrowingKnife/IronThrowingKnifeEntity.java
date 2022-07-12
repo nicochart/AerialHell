@@ -22,9 +22,9 @@ public class IronThrowingKnifeEntity extends AbstractThrowingKnifeEntity
 		super(AerialHellEntities.IRON_THROWING_KNIFE.get(), x, y, z, worldIn);
 	}
 
-	public IronThrowingKnifeEntity(LivingEntity owner, World worldIn)
+	public IronThrowingKnifeEntity(LivingEntity shooter, World worldIn)
 	{
-		super(AerialHellEntities.IRON_THROWING_KNIFE.get(), owner, worldIn);
+		super(AerialHellEntities.IRON_THROWING_KNIFE.get(), shooter, worldIn);
 	}
 
 	public IronThrowingKnifeEntity(World worldIn)

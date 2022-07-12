@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "aerialhell:frozen_mutton"
+  },
+  "result": "minecraft:mutton",
+  "experience": 0.1,
+  "cookingtime": 400
+}

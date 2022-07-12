@@ -24,9 +24,9 @@ public class MagmaticGelThrowingKnifeEntity extends AbstractThrowingKnifeEntity
 		super(AerialHellEntities.MAGMATIC_GEL_THROWING_KNIFE.get(), x, y, z, worldIn);
 	}
 
-	public MagmaticGelThrowingKnifeEntity(LivingEntity owner, World worldIn)
+	public MagmaticGelThrowingKnifeEntity(LivingEntity shooter, World worldIn)
 	{
-		super(AerialHellEntities.MAGMATIC_GEL_THROWING_KNIFE.get(), owner, worldIn);
+		super(AerialHellEntities.MAGMATIC_GEL_THROWING_KNIFE.get(), shooter, worldIn);
 	}
 
 	public MagmaticGelThrowingKnifeEntity(World worldIn)

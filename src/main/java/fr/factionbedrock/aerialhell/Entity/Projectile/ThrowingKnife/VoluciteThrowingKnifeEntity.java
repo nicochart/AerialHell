@@ -27,9 +27,9 @@ public class VoluciteThrowingKnifeEntity extends AbstractThrowingKnifeEntity
 		super(AerialHellEntities.VOLUCITE_THROWING_KNIFE.get(), x, y, z, worldIn);
 	}
 
-	public VoluciteThrowingKnifeEntity(LivingEntity owner, World worldIn)
+	public VoluciteThrowingKnifeEntity(LivingEntity shooter, World worldIn)
 	{
-		super(AerialHellEntities.VOLUCITE_THROWING_KNIFE.get(), owner, worldIn);
+		super(AerialHellEntities.VOLUCITE_THROWING_KNIFE.get(), shooter, worldIn);
 	}
 
 	public VoluciteThrowingKnifeEntity(World worldIn)

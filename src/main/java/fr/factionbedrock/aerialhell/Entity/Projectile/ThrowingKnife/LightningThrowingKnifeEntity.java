@@ -25,9 +25,9 @@ public class LightningThrowingKnifeEntity extends AbstractThrowingKnifeEntity
 		super(AerialHellEntities.LIGHTNING_THROWING_KNIFE.get(), x, y, z, worldIn);
 	}
 
-	public LightningThrowingKnifeEntity(LivingEntity owner, World worldIn)
+	public LightningThrowingKnifeEntity(LivingEntity shooter, World worldIn)
 	{
-		super(AerialHellEntities.LIGHTNING_THROWING_KNIFE.get(), owner, worldIn);
+		super(AerialHellEntities.LIGHTNING_THROWING_KNIFE.get(), shooter, worldIn);
 	}
 
 	public LightningThrowingKnifeEntity(World worldIn)

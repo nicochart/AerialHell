@@ -22,9 +22,9 @@ public class RubyThrowingKnifeEntity extends AbstractThrowingKnifeEntity
 		super(AerialHellEntities.RUBY_THROWING_KNIFE.get(), x, y, z, worldIn);
 	}
 
-	public RubyThrowingKnifeEntity(LivingEntity owner, World worldIn)
+	public RubyThrowingKnifeEntity(LivingEntity shooter, World worldIn)
 	{
-		super(AerialHellEntities.RUBY_THROWING_KNIFE.get(), owner, worldIn);
+		super(AerialHellEntities.RUBY_THROWING_KNIFE.get(), shooter, worldIn);
 	}
 
 	public RubyThrowingKnifeEntity(World worldIn)

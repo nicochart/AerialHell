@@ -22,9 +22,9 @@ public class AzuriteThrowingKnifeEntity extends AbstractThrowingKnifeEntity
 		super(AerialHellEntities.AZURITE_THROWING_KNIFE.get(), x, y, z, worldIn);
 	}
 
-	public AzuriteThrowingKnifeEntity(LivingEntity owner, World worldIn)
+	public AzuriteThrowingKnifeEntity(LivingEntity shooter, World worldIn)
 	{
-		super(AerialHellEntities.AZURITE_THROWING_KNIFE.get(), owner, worldIn);
+		super(AerialHellEntities.AZURITE_THROWING_KNIFE.get(), shooter, worldIn);
 	}
 
 	public AzuriteThrowingKnifeEntity(World worldIn)
