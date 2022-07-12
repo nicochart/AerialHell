@@ -1,0 +1,69 @@
+{
+  "name": "aerialhell:stellar_stone_bricks_tower/first_floor_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:stellar_stone_bricks_tower/first_floor_1",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:stellar_stone_bricks_tower/first_floor_2",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:stellar_stone_bricks_tower/first_floor_3",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:stellar_stone_bricks_tower/first_floor_ruined_1",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:stellar_stone_bricks_tower/first_floor_ruined_2",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:stellar_stone_bricks_tower/first_floor_ruined_3",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:stellar_stone_bricks_tower/first_floor_destroyed_half1_1",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

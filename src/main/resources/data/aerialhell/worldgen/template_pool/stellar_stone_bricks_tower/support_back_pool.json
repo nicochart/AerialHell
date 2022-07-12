@@ -1,0 +1,24 @@
+{
+  "name": "aerialhell:stellar_stone_bricks_tower/support_back_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:stellar_stone_bricks_tower/support_back_1",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:stellar_stone_bricks_tower/support_back_2",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

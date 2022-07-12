@@ -75,6 +75,7 @@ public class AerialHell
     		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_MUD_DUNGEON_STRUCTURE);
     		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_LUNATIC_TEMPLE_STRUCTURE);
     		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_GOLDEN_NETHER_PRISON_STRUCTURE);
+    		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
     		
     		/* features */
     		event.getGeneration().getFeatures(GenerationStage.Decoration.TOP_LAYER_MODIFICATION).add(() -> AerialHellFeatures.SLIPPERY_SAND);
@@ -199,6 +200,7 @@ public class AerialHell
             tempMap.putIfAbsent(AerialHellStructures.MUD_DUNGEON_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.MUD_DUNGEON_STRUCTURE.get()));
             tempMap.putIfAbsent(AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get()));
             tempMap.putIfAbsent(AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get()));
+            tempMap.putIfAbsent(AerialHellStructures.STELLAR_STONE_BRICKS_TOWER_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.STELLAR_STONE_BRICKS_TOWER_STRUCTURE.get()));
             serverWorld.getChunkProvider().generator.func_235957_b_().field_236193_d_ = tempMap;
         }
    }

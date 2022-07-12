@@ -1,0 +1,189 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+	{
+          "type": "item",
+          "name": "aerialhell:fluorite_torch",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 3,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:aerial_berry",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:aerial_berry_seeds",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:vibrant_aerial_berry_seeds",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:ruby",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:azurite_crystal",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+	{
+          "type": "item",
+          "name": "aerialhell:fluorite",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 5
+              }
+            }
+          ]
+        },
+	{
+          "type": "item",
+          "name": "aerialhell:sky_stick",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 5
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:redstone",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:iron_ingot",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "aerialhell:ruby_sword",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:ruby_pickaxe",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:azurite_sword",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:azurite_pickaxe",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:stellar_stone_shovel",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:stellar_stone_pickaxe",
+          "weight": 2
+        }
+      ]
+    }
+  ]
+}

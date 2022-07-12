@@ -127,6 +127,7 @@ public class AerialHellFeatures
 	public static StructureFeature<?, ?> CONFIGURED_MUD_DUNGEON_STRUCTURE = AerialHellStructures.MUD_DUNGEON_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
 	public static StructureFeature<?, ?> CONFIGURED_LUNATIC_TEMPLE_STRUCTURE = AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
 	public static StructureFeature<?, ?> CONFIGURED_GOLDEN_NETHER_PRISON_STRUCTURE = AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
+	public static StructureFeature<?, ?> CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE = AerialHellStructures.STELLAR_STONE_BRICKS_TOWER_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
     
     public static ConfiguredFeature<?, ?> AERIAL_HELL_WATER_LAKE = new AerialHellLakeFeature(BlockStateFeatureConfig.field_236455_a_).withConfiguration(new BlockStateFeatureConfig(Blocks.WATER.getDefaultState())).withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig(4)));
     
@@ -180,6 +181,7 @@ public class AerialHellFeatures
         Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_mud_dungeon_structure"), CONFIGURED_MUD_DUNGEON_STRUCTURE);
         Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_lunatic_temple_structure"), CONFIGURED_LUNATIC_TEMPLE_STRUCTURE);
         Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_golden_nether_prison_structure"), CONFIGURED_GOLDEN_NETHER_PRISON_STRUCTURE);
+        Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_stellar_stone_bricks_tower_structure"), CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "iron_stellar_ore"), GenAerialHellOres.IRON_STELLAR_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "gold_stellar_ore"), GenAerialHellOres.GOLD_STELLAR_ORE);

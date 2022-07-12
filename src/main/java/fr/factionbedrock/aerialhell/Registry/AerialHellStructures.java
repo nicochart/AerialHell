@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableMap;
 import fr.factionbedrock.aerialhell.World.Structure.GoldenNetherPrisonStructure;
 import fr.factionbedrock.aerialhell.World.Structure.LunaticTempleStructure;
 import fr.factionbedrock.aerialhell.World.Structure.MudDungeonStructure;
+import fr.factionbedrock.aerialhell.World.Structure.StellarStoneBricksTowerStructure;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
@@ -33,6 +34,7 @@ public class AerialHellStructures
 	public static final RegistryObject<Structure<NoFeatureConfig>> MUD_DUNGEON_STRUCTURE = STRUCTURES.register("mud_dungeon", () -> new MudDungeonStructure(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Structure<NoFeatureConfig>> LUNATIC_TEMPLE_STRUCTURE = STRUCTURES.register("lunatic_temple", () -> new LunaticTempleStructure(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Structure<NoFeatureConfig>> GOLDEN_NETHER_PRISON_STRUCTURE = STRUCTURES.register("golden_nether_prison", () -> new GoldenNetherPrisonStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoFeatureConfig>> STELLAR_STONE_BRICKS_TOWER_STRUCTURE = STRUCTURES.register("stellar_stone_bricks_tower", () -> new StellarStoneBricksTowerStructure(NoFeatureConfig.field_236558_a_));
 	
 	 public static void setupStructures()
 	 {
@@ -55,6 +57,13 @@ public class AerialHellStructures
 	                new StructureSeparationSettings(45 /* mean distance apart in chunks between spawn attempts */,
 	                        25 /* minimum distance apart in chunks between spawn attempts */,
 	                        123334456 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+	                false); //TransformSurroundingLand
+	        
+	        setupMapSpacingAndLand(
+	        		STELLAR_STONE_BRICKS_TOWER_STRUCTURE.get(), /* The instance of the structure */
+	                new StructureSeparationSettings(20 /* mean distance apart in chunks between spawn attempts */,
+	                        5 /* minimum distance apart in chunks between spawn attempts */,
+	                        223454456 /* seed */),
 	                false); //TransformSurroundingLand
 	 }
 	 

@@ -1,0 +1,15 @@
+{
+  "name": "aerialhell:stellar_stone_bricks_tower/first_floor_destroyed_half2_1_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:stellar_stone_bricks_tower/first_floor_destroyed_half2_1",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}
