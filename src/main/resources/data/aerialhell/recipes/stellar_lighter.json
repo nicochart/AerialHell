@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "aerialhell:fluorite"
+    },
+    {
+      "item": "aerialhell:ruby"
+    }
+  ],
+  "result": {
+    "item": "aerialhell:stellar_lighter"
+  }
+}

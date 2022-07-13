@@ -8,7 +8,7 @@
       [
         {
           "type": "minecraft:item",
-          "name": "aerialhell:glowing_bedrock_block"
+          "name": "aerialhell:stellar_portal_frame_block"
         }
       ],
       "conditions":

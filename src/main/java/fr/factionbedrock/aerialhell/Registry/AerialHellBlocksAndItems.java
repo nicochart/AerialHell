@@ -46,6 +46,7 @@ import fr.factionbedrock.aerialhell.Item.BurnableBlockItem;
 import fr.factionbedrock.aerialhell.Item.BlowpipeItem;
 import fr.factionbedrock.aerialhell.Item.BurnableItem;
 import fr.factionbedrock.aerialhell.Item.GodsVoluciteBerryItem;
+import fr.factionbedrock.aerialhell.Item.StellarLighterItem;
 import fr.factionbedrock.aerialhell.Item.FoodWithEffectItem;
 import fr.factionbedrock.aerialhell.Item.WithInformationItem;
 import fr.factionbedrock.aerialhell.Item.EffectTotemItem;
@@ -204,14 +205,12 @@ public class AerialHellBlocksAndItems
 	
 	//portal
 	public static final RegistryObject<AerialHellPortalBlock> AERIAL_HELL_PORTAL = BLOCKS.register("aerial_hell_portal", () -> new AerialHellPortalBlock(AbstractBlock.Properties.from(Blocks.NETHER_PORTAL)));
-    
-	//bedrock blocks
-	public static final RegistryObject<Block> GLOWING_BEDROCK_BLOCK = BLOCKS.register("glowing_bedrock_block", () -> new Block((AbstractBlock.Properties.create(Material.ROCK, MaterialColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(3).setRequiresTool().hardnessAndResistance(50.0F, 1200.0F).setLightLevel((state) -> 10))));
-	public static final RegistryObject<Block> BEDROCK_ORE = BLOCKS.register("bedrock_ore",() -> new AerialHellOreBlock(4, 6, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(25.0F, 600.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(3).setRequiresTool()));
-	public static final RegistryObject<Item> GLOWING_BEDROCK_BLOCK_ITEM = ITEMS.register("glowing_bedrock_block", () -> new BlockItem(GLOWING_BEDROCK_BLOCK.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_OVERWORLD)));
-	public static final RegistryObject<Item> BEDROCK_ORE_ITEM = ITEMS.register("bedrock_ore", () -> new BlockItem(BEDROCK_ORE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_OVERWORLD)));
-	public static final RegistryObject<Item> BEDROCK_SCRAP = ITEMS.register("bedrock_scrap", () -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_OVERWORLD)));
-	public static final RegistryObject<Item> GLOWING_BEDROCK_INGOT = ITEMS.register("glowing_bedrock_ingot", () -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_OVERWORLD)));
+	public static final RegistryObject<Block> STELLAR_PORTAL_FRAME_BLOCK = BLOCKS.register("stellar_portal_frame_block", () -> new Block((AbstractBlock.Properties.create(Material.ROCK, MaterialColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(3).setRequiresTool().hardnessAndResistance(25.0F, 600.0F))));
+	public static final RegistryObject<Block> STELLAR_PORTAL_FRAME_ORE = BLOCKS.register("stellar_portal_frame_ore",() -> new AerialHellOreBlock(0, 0, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(25.0F, 600.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
+	public static final RegistryObject<Item> STELLAR_PORTAL_FRAME_BLOCK_ITEM = ITEMS.register("stellar_portal_frame_block", () -> new BlockItem(STELLAR_PORTAL_FRAME_BLOCK.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_OVERWORLD)));
+	public static final RegistryObject<Item> STELLAR_PORTAL_FRAME_ORE_ITEM = ITEMS.register("stellar_portal_frame_ore", () -> new BlockItem(STELLAR_PORTAL_FRAME_ORE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_OVERWORLD)));
+	public static final RegistryObject<Item> STELLAR_PORTAL_FRAME_BRICK = ITEMS.register("stellar_portal_frame_brick", () -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_OVERWORLD)));
+	public static final RegistryObject<Item> STELLAR_LIGHTER = ITEMS.register("stellar_lighter", () -> new StellarLighterItem(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//torch
 	public static final RegistryObject<Block> FLUORITE_WALL_TORCH = BLOCKS.register("fluorite_wall_torch", () -> new FluoriteWallTorchBlock(AbstractBlock.Properties.from(Blocks.WALL_TORCH)));

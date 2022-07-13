@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "aerialhell:block/glowing_bedrock_block"
+    "all": "aerialhell:block/stellar_portal_frame_ore"
   }
 }

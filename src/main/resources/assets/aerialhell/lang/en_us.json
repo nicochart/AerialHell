@@ -1,10 +1,10 @@
 {
   "itemGroup.aerialhell_overworld_itemgroup" : "Aerial Hell : Overworld",
   "itemGroup.aerialhell_dimension_itemgroup" : "Aerial Hell : Dimension",
-  "block.aerialhell.bedrock_ore" : "Bedrock Ore",
-  "block.aerialhell.glowing_bedrock_block" : "Glowing Bedrock Block",
-  "item.aerialhell.bedrock_scrap" : "Bedrock Scrap",
-  "item.aerialhell.glowing_bedrock_ingot" : "Glowing Bedrock Ingot",
+  "block.aerialhell.stellar_portal_frame_ore" : "Stellar Portal Ore",
+  "block.aerialhell.stellar_portal_frame_block" : "Stellar Portal Frame",
+  "item.aerialhell.stellar_portal_frame_brick" : "Stellar Portal Bricks",
+  "item.aerialhell.stellar_lighter" : "Stellar Lighter",
   "block.aerialhell.vibrator" : "Vibrateur",
   "container.aerialhell.vibrator": "Vibration",
   "block.aerialhell.freezer" : "Freezer",
@@ -533,8 +533,8 @@
 
   "advancements.story.enter_aerial_hell.title": "Aerial Hell",
   "advancements.story.enter_aerial_hell.desc": "Another story begins..",
-  "advancements.secret.bedrock_ore.title": "Is that.. Bedrock ?",
-  "advancements.secret.bedrock_ore.desc": "Collect Bedrock Ore",
+  "advancements.secret.stellar_portal_frame_ore.title": "What is that ?",
+  "advancements.secret.stellar_portal_frame_ore.desc": "Collect Stellar Portal Ore",
   "advancements.classic.harder_stone.title": "Harder Stone",
   "advancements.classic.harder_stone.desc": "Yes, mining again !",
 

@@ -10,7 +10,7 @@ public class AerialHellItemGroups
         @Override
         public ItemStack createIcon()
         {
-            return new ItemStack(AerialHellBlocksAndItems.BEDROCK_ORE_ITEM.get());
+            return new ItemStack(AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_ORE_ITEM.get());
         }
     };
     

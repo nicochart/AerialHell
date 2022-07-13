@@ -76,7 +76,7 @@ public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 		}
 		else
 		{
-			return AerialHellBlocksAndItems.GLOWING_BEDROCK_BLOCK.get();
+			return AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get();
 		}
 	}
 	

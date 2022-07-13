@@ -1,5 +1,13 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellDimensions;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.World.AerialHellTeleporter;
+
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -7,9 +15,6 @@ import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -29,34 +34,19 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.world.BlockEvent.NeighborNotifyEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 import javax.annotation.Nullable;
 
 import com.google.common.cache.LoadingCache;
-
-import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellDimensions;
-import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import fr.factionbedrock.aerialhell.World.AerialHellTeleporter;
-
 import java.util.Random;
-
-import net.minecraft.block.AbstractBlock;
 
 @EventBusSubscriber(modid = AerialHell.MODID)
 public class AerialHellPortalBlock extends Block
-{
-	public static Fluid PortalFluid = Fluids.WATER; //Fluid to create the portal
-	public static Block PortalFluidBlock = Blocks.WATER; //Fluid Block to create the portal (must be the same as above)
-	
+{	
 	public static Block GetPortalBlock()
 	{
-		return AerialHellBlocksAndItems.GLOWING_BEDROCK_BLOCK.get(); //Block to create the portal (if edited: edit it in World.AerialHellTeleporter too)
+		return AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get(); //Block to create the portal (if edited: edit it in World.AerialHellTeleporter too)
 	}
 	
 	public static final EnumProperty<Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;
@@ -260,44 +250,6 @@ public class AerialHellPortalBlock extends Block
 	protected void fillStateContainer(Builder<Block, BlockState> builder) {builder.add(AXIS);}
 	
 	@SuppressWarnings("deprecation")
-	@SubscribeEvent
-	public static void onNeighborNotify(NeighborNotifyEvent event)
-	{
-		BlockPos pos = event.getPos();
-		IWorld world = event.getWorld();
-		
-		BlockState blockstate = world.getBlockState(pos);
-		FluidState fluidstate = world.getFluidState(pos);
-		if (fluidstate.getFluid() != PortalFluid || blockstate.isAir(world, pos))
-		{
-			return;
-		}
-		
-		boolean tryPortal = false;
-		for (Direction direction : Direction.values())
-		{
-			if (world.getBlockState(pos.offset(direction)).getBlock() == GetPortalBlock())
-			{
-				if (AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get().isPortal(world, pos) != null)
-				{
-					tryPortal = true;
-					break;
-				}
-			}
-		}
-		
-		if (!tryPortal)
-		{
-			return;
-		}
-		
-		if (AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get().trySpawnPortal(world, pos))
-		{
-			event.setCanceled(true);
-		}
-	}
-	
-	@SuppressWarnings("deprecation")
 	public static BlockPattern.PatternHelper createPatternHelper(IWorld worldIn, BlockPos pos)
 	{
 		Axis axis = Axis.Z;
@@ -489,7 +441,7 @@ public class AerialHellPortalBlock extends Block
 		protected boolean isEmptyBlock(BlockState pos)
 		{
 			Block block = pos.getBlock();
-			return pos.isAir() || block == PortalFluidBlock || block == AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get();
+			return pos.isAir() || block == AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get();
 		}
 
 		public boolean isValid()

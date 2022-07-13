@@ -12,9 +12,9 @@ import net.minecraft.world.gen.placement.TopSolidRangeConfig;
 
 public class GenAerialHellOres
 {
-	public static ConfiguredFeature<?,?> BEDROCK_ORE = OverworldOres
+	public static ConfiguredFeature<?,?> STELLAR_PORTAL_FRAME_ORE = OverworldOres
 	(
-			AerialHellBlocksAndItems.BEDROCK_ORE.get().getDefaultState(), //Block enregistré à configurer
+			AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_ORE.get().getDefaultState(), //Block enregistré à configurer
 			5, //Taille de Filon
 			0, //Hauteur minimum
 			8, //Hauteur maximum

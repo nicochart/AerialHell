@@ -59,7 +59,7 @@ public class AerialHellFluidBlock extends FlowingFluidBlock {
 					BlockPos blockpos = pos.offset(direction);
 	                if (worldIn.getFluidState(blockpos).isTagged(FluidTags.WATER) || worldIn.getFluidState(blockpos).isTagged(FluidTags.LAVA))
 	                {
-	                	Block block = worldIn.getFluidState(pos).isSource() ? AerialHellBlocksAndItems.GLOWING_BEDROCK_BLOCK.get() /*AerialHellBlocksAndItems.STELLAR_OBSIDIAN ??*/ : AerialHellBlocksAndItems.STELLAR_STONE.get();
+	                	Block block = worldIn.getFluidState(pos).isSource() ? AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get() /*AerialHellBlocksAndItems.STELLAR_OBSIDIAN ??*/ : AerialHellBlocksAndItems.STELLAR_STONE.get();
 	                    worldIn.setBlockState(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(worldIn, pos, pos, block.getDefaultState()));
 	                    this.triggerMixEffects(worldIn, pos);
 	                }

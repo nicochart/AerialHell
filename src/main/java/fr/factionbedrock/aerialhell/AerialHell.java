@@ -65,7 +65,7 @@ public class AerialHell
     	/* Adding Bedrock Ore generation to Overworld Biomes */
     	if(event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER && !event.getName().equals(AerialHellBiomes.AERIAL_HELL_PLAINS.getLocation()) && !event.getName().equals(AerialHellBiomes.AERIAL_TREE_FOREST.getLocation()) && !event.getName().equals(AerialHellBiomes.COPPER_PINE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.SLIPPERY_SAND_OCEAN.getLocation()))
     	{
-    		event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.BEDROCK_ORE);
+    		event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.STELLAR_PORTAL_FRAME_ORE);
     	}
     		
     	/* Adding common features and structure in all aerial hell biomes */

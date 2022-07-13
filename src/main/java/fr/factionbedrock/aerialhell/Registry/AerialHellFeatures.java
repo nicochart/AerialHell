@@ -183,6 +183,7 @@ public class AerialHellFeatures
         Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_golden_nether_prison_structure"), CONFIGURED_GOLDEN_NETHER_PRISON_STRUCTURE);
         Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_stellar_stone_bricks_tower_structure"), CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
         
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_portal_frame_ore"), GenAerialHellOres.STELLAR_PORTAL_FRAME_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "iron_stellar_ore"), GenAerialHellOres.IRON_STELLAR_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "gold_stellar_ore"), GenAerialHellOres.GOLD_STELLAR_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "diamond_stellar_ore"), GenAerialHellOres.DIAMOND_STELLAR_ORE);

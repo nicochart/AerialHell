@@ -33,7 +33,7 @@ public class AerialHellTeleporter implements ITeleporter
 {
 	public static Block GetPortalBlock()
 	{
-		return AerialHellBlocksAndItems.GLOWING_BEDROCK_BLOCK.get(); //Block to create the portal (if edited: edit it in World.AerialHellTeleporter too)
+		return AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get(); //Block to create the portal (if edited: edit it in World.AerialHellTeleporter too)
 	}
     protected final ServerWorld world;
 

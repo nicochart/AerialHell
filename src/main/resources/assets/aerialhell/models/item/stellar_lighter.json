@@ -1,6 +1,6 @@
 {
   "parent" : "item/generated",
   "textures" : {
-      "layer0" : "aerialhell:item/bedrock_scrap"
+      "layer0" : "aerialhell:item/stellar_lighter"
   }
 }

@@ -1,9 +1,9 @@
 {
     "type": "minecraft:blasting",
     "ingredient": {
-        "item": "aerialhell:bedrock_ore"
+        "item": "aerialhell:stellar_portal_frame_ore"
     },
-    "result": "aerialhell:bedrock_scrap",
+    "result": "aerialhell:stellar_portal_frame_brick",
     "experience": 2.5,
     "cookingtime": 200
 }
