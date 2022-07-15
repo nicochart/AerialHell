@@ -62,10 +62,11 @@ public class AerialHell
     
     public void biomeModification(final BiomeLoadingEvent event)
     {	
-    	/* Adding Bedrock Ore generation to Overworld Biomes */
-    	if(event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER && !event.getName().equals(AerialHellBiomes.AERIAL_HELL_PLAINS.getLocation()) && !event.getName().equals(AerialHellBiomes.AERIAL_TREE_FOREST.getLocation()) && !event.getName().equals(AerialHellBiomes.COPPER_PINE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.SLIPPERY_SAND_OCEAN.getLocation()))
+    	/* Adding Portal Ore & Abandonned Portal structure generation to Overworld Biomes */
+    	if (event.getCategory() == Biome.Category.TAIGA || event.getCategory() == Biome.Category.EXTREME_HILLS || event.getCategory() == Biome.Category.JUNGLE || event.getCategory() == Biome.Category.MESA || event.getCategory() == Biome.Category.PLAINS || event.getCategory() == Biome.Category.SAVANNA || event.getCategory() == Biome.Category.ICY || event.getCategory() == Biome.Category.BEACH || event.getCategory() == Biome.Category.FOREST || event.getCategory() == Biome.Category.OCEAN || event.getCategory() == Biome.Category.DESERT || event.getCategory() == Biome.Category.RIVER || event.getCategory() == Biome.Category.SWAMP || event.getCategory() == Biome.Category.MUSHROOM)
     	{
     		event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.STELLAR_PORTAL_FRAME_ORE);
+    		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_OVERWORLD_ABANDONNED_PORTAL_STRUCTURE);
     	}
     		
     	/* Adding common features and structure in all aerial hell biomes */
@@ -197,6 +198,7 @@ public class AerialHell
             }
 
             Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld.getChunkProvider().generator.func_235957_b_().func_236195_a_());
+            tempMap.putIfAbsent(AerialHellStructures.OVERWORLD_ABANDONNED_PORTAL_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.OVERWORLD_ABANDONNED_PORTAL_STRUCTURE.get()));
             tempMap.putIfAbsent(AerialHellStructures.MUD_DUNGEON_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.MUD_DUNGEON_STRUCTURE.get()));
             tempMap.putIfAbsent(AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get()));
             tempMap.putIfAbsent(AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get()));

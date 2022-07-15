@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableMap;
 import fr.factionbedrock.aerialhell.World.Structure.GoldenNetherPrisonStructure;
 import fr.factionbedrock.aerialhell.World.Structure.LunaticTempleStructure;
 import fr.factionbedrock.aerialhell.World.Structure.MudDungeonStructure;
+import fr.factionbedrock.aerialhell.World.Structure.OverworldAbandonnedPortalStructure;
 import fr.factionbedrock.aerialhell.World.Structure.StellarStoneBricksTowerStructure;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
@@ -31,6 +32,7 @@ public class AerialHellStructures
 {
 	public static final DeferredRegister<Structure<?>> STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, MODID);
 	
+	public static final RegistryObject<Structure<NoFeatureConfig>> OVERWORLD_ABANDONNED_PORTAL_STRUCTURE = STRUCTURES.register("overworld_abandonned_portal", () -> new OverworldAbandonnedPortalStructure(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Structure<NoFeatureConfig>> MUD_DUNGEON_STRUCTURE = STRUCTURES.register("mud_dungeon", () -> new MudDungeonStructure(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Structure<NoFeatureConfig>> LUNATIC_TEMPLE_STRUCTURE = STRUCTURES.register("lunatic_temple", () -> new LunaticTempleStructure(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Structure<NoFeatureConfig>> GOLDEN_NETHER_PRISON_STRUCTURE = STRUCTURES.register("golden_nether_prison", () -> new GoldenNetherPrisonStructure(NoFeatureConfig.field_236558_a_));
@@ -38,7 +40,14 @@ public class AerialHellStructures
 	
 	 public static void setupStructures()
 	 {
-	        setupMapSpacingAndLand(
+		 setupMapSpacingAndLand(
+				    OVERWORLD_ABANDONNED_PORTAL_STRUCTURE.get(), /* The instance of the structure */
+	                new StructureSeparationSettings(25 /* mean distance apart in chunks between spawn attempts */,
+	                        15 /* minimum distance apart in chunks between spawn attempts */,
+	                        166754456 /* seed */),
+	                false); //TransformSurroundingLand
+		 
+		 setupMapSpacingAndLand(
 	        		MUD_DUNGEON_STRUCTURE.get(), /* The instance of the structure */
 	                new StructureSeparationSettings(3 /* mean distance apart in chunks between spawn attempts */,
 	                        2 /* minimum distance apart in chunks between spawn attempts */,
