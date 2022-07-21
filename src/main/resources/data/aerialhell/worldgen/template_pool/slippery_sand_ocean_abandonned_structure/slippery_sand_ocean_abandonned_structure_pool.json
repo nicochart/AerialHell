@@ -1,0 +1,33 @@
+{
+  "name": "aerialhell:slippery_sand_ocean_abandonned_structure/slippery_sand_ocean_abandonned_structure_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:slippery_sand_ocean_abandonned_structure/destroyed_cactus_farm",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:slippery_sand_ocean_abandonned_structure/ruined_shelter",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:slippery_sand_ocean_abandonned_structure/destroyed_shelter",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

@@ -8,10 +8,12 @@ import java.util.Map;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
+import fr.factionbedrock.aerialhell.World.Structure.CopperPineCottageStructure;
 import fr.factionbedrock.aerialhell.World.Structure.GoldenNetherPrisonStructure;
 import fr.factionbedrock.aerialhell.World.Structure.LunaticTempleStructure;
 import fr.factionbedrock.aerialhell.World.Structure.MudDungeonStructure;
 import fr.factionbedrock.aerialhell.World.Structure.OverworldAbandonnedPortalStructure;
+import fr.factionbedrock.aerialhell.World.Structure.SlipperySandOceanAbandonnedStructure;
 import fr.factionbedrock.aerialhell.World.Structure.StellarStoneBricksTowerStructure;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
@@ -37,6 +39,8 @@ public class AerialHellStructures
 	public static final RegistryObject<Structure<NoFeatureConfig>> LUNATIC_TEMPLE_STRUCTURE = STRUCTURES.register("lunatic_temple", () -> new LunaticTempleStructure(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Structure<NoFeatureConfig>> GOLDEN_NETHER_PRISON_STRUCTURE = STRUCTURES.register("golden_nether_prison", () -> new GoldenNetherPrisonStructure(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Structure<NoFeatureConfig>> STELLAR_STONE_BRICKS_TOWER_STRUCTURE = STRUCTURES.register("stellar_stone_bricks_tower", () -> new StellarStoneBricksTowerStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoFeatureConfig>> COPPER_PINE_COTTAGE_STRUCTURE = STRUCTURES.register("copper_pine_cottage", () -> new CopperPineCottageStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoFeatureConfig>> SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE = STRUCTURES.register("slippery_sand_ocean_abandonned_structure", () -> new SlipperySandOceanAbandonnedStructure(NoFeatureConfig.field_236558_a_));
 	
 	 public static void setupStructures()
 	 {
@@ -72,6 +76,20 @@ public class AerialHellStructures
 	        		STELLAR_STONE_BRICKS_TOWER_STRUCTURE.get(), /* The instance of the structure */
 	                new StructureSeparationSettings(20 /* mean distance apart in chunks between spawn attempts */,
 	                        5 /* minimum distance apart in chunks between spawn attempts */,
+	                        223454456 /* seed */),
+	                false); //TransformSurroundingLand
+	        
+	        setupMapSpacingAndLand(
+	        		COPPER_PINE_COTTAGE_STRUCTURE.get(), /* The instance of the structure */
+	                new StructureSeparationSettings(6 /* mean distance apart in chunks between spawn attempts */,
+	                        3 /* minimum distance apart in chunks between spawn attempts */,
+	                        223454456 /* seed */),
+	                false); //TransformSurroundingLand - This structure uses Stellar Bricks Tower "ground" (support) as surrounding land
+	        
+	        setupMapSpacingAndLand(
+	        		SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE.get(), /* The instance of the structure */
+	                new StructureSeparationSettings(2 /* mean distance apart in chunks between spawn attempts */,
+	                        1 /* minimum distance apart in chunks between spawn attempts */,
 	                        223454456 /* seed */),
 	                false); //TransformSurroundingLand
 	 }
