@@ -69,13 +69,10 @@ public class BlockEventListener
     		World world = (World) event.getWorld();
     		BlockPos pos = event.getPos();
             BlockState blockstate = world.getBlockState(pos);
-            if (world.getDimensionKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION)
+        	if (blockstate.getBlock().isIn(AerialHellTags.Blocks.DUNGEON_CORES))
             {
-            	if (blockstate.getBlock().isIn(AerialHellTags.Blocks.DUNGEON_CORES))
-	            {
-	            	((DungeonCoreBlock) blockstate.getBlock()).setAreaProtected(world, pos, true);
-	            	world.playSound(null, event.getPos(), SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.PLAYERS, 1.0F, 1.0F);
-	            }
+            	((DungeonCoreBlock) blockstate.getBlock()).setAreaProtected(world, pos, true);
+            	world.playSound(null, event.getPos(), SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.PLAYERS, 1.0F, 1.0F);
             }
         }
     }

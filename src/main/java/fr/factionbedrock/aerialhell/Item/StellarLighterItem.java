@@ -2,13 +2,12 @@ package fr.factionbedrock.aerialhell.Item;
 
 import fr.factionbedrock.aerialhell.Block.AerialHellPortalBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 
-public class StellarLighterItem extends Item
+public class StellarLighterItem extends WithInformationItem
 {
 	public StellarLighterItem(Properties properties) {super(properties);}
 	

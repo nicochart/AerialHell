@@ -5,6 +5,7 @@
   "block.aerialhell.stellar_portal_frame_block" : "Cadre de Portail Stellaire",
   "item.aerialhell.stellar_portal_frame_brick" : "Brique de Portail Stellaire",
   "item.aerialhell.stellar_lighter" : "Briquet Stellaire",
+  "item.aerialhell.stellar_lighter.desc" : "Permet d'allumer un portail vers l'Enfer Aérien, avec un clic droit sur le bas d'un Portail Stellaire",
   "block.aerialhell.vibrator" : "Vibrateur",
   "container.aerialhell.vibrator": "Vibration",
   "block.aerialhell.freezer" : "Congélateur",

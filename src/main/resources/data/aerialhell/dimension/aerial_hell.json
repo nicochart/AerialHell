@@ -38,7 +38,7 @@
           {
             "altitude": 0,
             "weirdness": 0.1,
-            "offset": 0.1,
+            "offset": 0.2,
             "temperature": 0.5,
             "humidity": 0.2
           }
@@ -49,7 +49,7 @@
           {
             "altitude": -0.2,
             "weirdness": 0.1,
-            "offset": 0,
+            "offset": 0.1,
             "temperature": 0.5,
             "humidity": 0.6
           }

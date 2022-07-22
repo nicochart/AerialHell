@@ -71,9 +71,9 @@ public class OverworldAbandonnedPortalStructure extends AbstractAerialHellStruct
 
             this.recalculateStructureSize();
             
-            if (yPos.getY() <= 180 || yPos.getY() >= 240)
+            if (yPos.getY() <= 160 || yPos.getY() >= 200)
             {	//moveInsideHeights
-                this.func_214626_a(this.rand, 180, 240);
+                this.func_214626_a(this.rand, 160, 200);
             }
             else
             {

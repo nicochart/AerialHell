@@ -53,8 +53,8 @@ public class AerialHellStructures
 		 
 		 setupMapSpacingAndLand(
 	        		MUD_DUNGEON_STRUCTURE.get(), /* The instance of the structure */
-	                new StructureSeparationSettings(3 /* mean distance apart in chunks between spawn attempts */,
-	                        2 /* minimum distance apart in chunks between spawn attempts */,
+	                new StructureSeparationSettings(5 /* mean distance apart in chunks between spawn attempts */,
+	                        3 /* minimum distance apart in chunks between spawn attempts */,
 	                        1236548790 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
 	                false); //TransformSurroundingLand
 	        

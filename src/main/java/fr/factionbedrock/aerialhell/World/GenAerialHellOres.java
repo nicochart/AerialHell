@@ -3,7 +3,6 @@ package fr.factionbedrock.aerialhell.World;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
@@ -19,7 +18,7 @@ public class GenAerialHellOres
 			0, //Hauteur minimum
 			8, //Hauteur maximum
 			64, //range
-			2 //Chance d'apparition
+			12 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> IRON_STELLAR_ORE = AerialHellOres
@@ -49,7 +48,7 @@ public class GenAerialHellOres
 			0, //Hauteur minimum
 			256, //Hauteur maximum
 			128, //range
-			30 //Chance d'apparition
+			28 //Chance d'apparition
 	);
 	
 	public static ConfiguredFeature<?,?> RUBY_ORE = AerialHellOres
