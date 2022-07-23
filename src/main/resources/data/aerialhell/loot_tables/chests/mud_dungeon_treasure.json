@@ -94,46 +94,145 @@
         {
           "type": "item",
           "name": "aerialhell:obsidian_shovel",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 5.0,
+                "max": 10.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:obsidian_sword",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 5.0,
+                "max": 10.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:obsidian_axe",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 5.0,
+                "max": 10.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:obsidian_pickaxe",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 5.0,
+                "max": 10.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:obsidian_hoe",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 5.0,
+                "max": 10.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:obsidian_helmet",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 5.0,
+                "max": 10.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:obsidian_chestplate",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 5.0,
+                "max": 10.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:obsidian_leggings",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 5.0,
+                "max": 10.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:obsidian_boots",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 5.0,
+                "max": 10.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {

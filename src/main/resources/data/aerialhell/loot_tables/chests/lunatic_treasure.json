@@ -89,46 +89,145 @@
         {
           "type": "item",
           "name": "aerialhell:lunatic_shovel",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 8.0,
+                "max": 15.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_sword",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 8.0,
+                "max": 15.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_axe",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 8.0,
+                "max": 15.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_pickaxe",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 8.0,
+                "max": 15.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_hoe",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 8.0,
+                "max": 15.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_helmet",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 8.0,
+                "max": 15.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_chestplate",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 8.0,
+                "max": 15.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_leggings",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 8.0,
+                "max": 15.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_boots",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 8.0,
+                "max": 15.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ],
           "weight": 1
         },
         {
