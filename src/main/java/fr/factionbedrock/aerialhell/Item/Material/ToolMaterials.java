@@ -4,6 +4,7 @@ package fr.factionbedrock.aerialhell.Item.Material;
 import java.util.function.Supplier;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.LazyValue;
@@ -17,7 +18,7 @@ public class ToolMaterials
 		2.0F, //efficacité
 		0.0F, //Dégats d'attaque
 		15, //Enchantabilité
-		null //Ingrédient de réparation (Enclume)
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.STELLAR_COBBLESTONE_ITEM.get()) //Ingrédient de réparation (Enclume)
 	);
 	
 	public static final IItemTier stellar_stone = new ToolMaterial
@@ -27,7 +28,7 @@ public class ToolMaterials
 		4.0F, //efficacité
 		1.0F, //Dégats d'attaque
 		5, //Enchantabilité
-		null //Ingrédient de réparation (Enclume)
+		() -> {return Ingredient.fromTag(AerialHellTags.Items.AERIALHELL_PLANKS);} //Ingrédient de réparation (Enclume)
 	);
 	
 	public static final IItemTier ruby = new ToolMaterial
@@ -87,7 +88,7 @@ public class ToolMaterials
 		8.0F, //efficacité
 		6.0F, //Dégats d'attaque
 		10, //Enchantabilité
-		null //Ingrédient de réparation (Enclume)
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //Ingrédient de réparation (Enclume)
 	);
 	
 	public static final IItemTier lunatic = new ToolMaterial

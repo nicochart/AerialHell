@@ -74,7 +74,7 @@ public class AerialHellStructures
 	        
 	        setupMapSpacingAndLand(
 	        		STELLAR_STONE_BRICKS_TOWER_STRUCTURE.get(), /* The instance of the structure */
-	                new StructureSeparationSettings(20 /* mean distance apart in chunks between spawn attempts */,
+	                new StructureSeparationSettings(12 /* mean distance apart in chunks between spawn attempts */,
 	                        5 /* minimum distance apart in chunks between spawn attempts */,
 	                        223454456 /* seed */),
 	                false); //TransformSurroundingLand

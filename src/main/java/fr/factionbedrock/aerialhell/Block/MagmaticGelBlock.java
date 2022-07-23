@@ -7,7 +7,12 @@ import net.minecraft.block.FireBlock;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.MagmaBlock;
 import net.minecraft.block.SoulFireBlock;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -18,6 +23,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 
@@ -49,6 +55,11 @@ public class MagmaticGelBlock extends BreakableBlock
 						}
 						else if (fluidState.isTagged(FluidTags.LAVA))
 						{
+							worldIn.setBlockState(newPos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().getDefaultState());
+							worldIn.playSound(null, newPos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 1.0F);
+						}
+						else if (fluidState.isTagged(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
+						{
 							worldIn.setBlockState(newPos, Blocks.OBSIDIAN.getDefaultState());
 							worldIn.playSound(null, newPos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 1.0F);
 						}
@@ -72,20 +83,16 @@ public class MagmaticGelBlock extends BreakableBlock
 	}
 	
 	@Override
-	public boolean isTransparent(BlockState state)
+	public void onEntityWalk(World world, BlockPos pos, Entity entity)
 	{
-		return true;
+		boolean creaPlayer = (entity instanceof PlayerEntity && ((PlayerEntity) entity).isCreative());
+		if (!world.isRemote() && entity instanceof LivingEntity && !creaPlayer)
+		{
+			((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.SLOWNESS, 32, 1));
+		}
 	}
 	
-	@Override
-	public int getOpacity(BlockState state, IBlockReader worldIn, BlockPos pos)
-	{
-		return 3;
-	}
-	
-	@Override
-	public VoxelShape getRayTraceShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context)
-	{
-		return VoxelShapes.empty();
-	}
+	@Override public boolean isTransparent(BlockState state) {return true;}
+	@Override public int getOpacity(BlockState state, IBlockReader worldIn, BlockPos pos) {return 3;}
+	@Override public VoxelShape getRayTraceShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {return VoxelShapes.empty();}
 }

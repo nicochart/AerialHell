@@ -18,6 +18,7 @@ public class MudGolemEntity extends AerialHellGolemEntity
     public MudGolemEntity(EntityType<? extends MonsterEntity> type, World world)
     {
         super(type, world);
+        this.experienceValue = 12;
     }
     
     public static AttributeModifierMap.MutableAttribute registerAttributes()

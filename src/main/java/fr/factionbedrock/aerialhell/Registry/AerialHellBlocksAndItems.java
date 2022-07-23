@@ -7,6 +7,7 @@ import java.util.function.ToIntFunction;
 import com.google.common.collect.ImmutableMap;
 
 import fr.factionbedrock.aerialhell.Block.MagmaticGelBlock;
+import fr.factionbedrock.aerialhell.Block.MagmaticGelOreBlock;
 import fr.factionbedrock.aerialhell.Block.AerialHellBarrelBlock;
 import fr.factionbedrock.aerialhell.Block.AerialHellBookshelfBlock;
 import fr.factionbedrock.aerialhell.Block.SkyCactusBlock;
@@ -554,7 +555,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> GOLD_STELLAR_ORE = BLOCKS.register("gold_stellar_ore",() -> new AerialHellOreBlock(0, 2, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(2).setRequiresTool()));
 	public static final RegistryObject<Block> DIAMOND_STELLAR_ORE = BLOCKS.register("diamond_stellar_ore",() -> new AerialHellOreBlock(3, 5, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(5.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(2).setRequiresTool()));
 	public static final RegistryObject<Block> FLUORITE_ORE = BLOCKS.register("fluorite_ore",() -> new AerialHellOreBlock(0, 2, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0).setRequiresTool()));
-	public static final RegistryObject<Block> MAGMATIC_GEL_ORE = BLOCKS.register("magmatic_gel_ore",() -> new AerialHellOreBlock(0, 2, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).setLightLevel(s -> 4).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
+	public static final RegistryObject<Block> MAGMATIC_GEL_ORE = BLOCKS.register("magmatic_gel_ore",() -> new MagmaticGelOreBlock(0, 2, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).setLightLevel(s -> 4).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
 	public static final RegistryObject<Block> RUBY_ORE = BLOCKS.register("ruby_ore",() -> new AerialHellOreBlock(0, 0, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
 	public static final RegistryObject<Block> AZURITE_ORE = BLOCKS.register("azurite_ore",() -> new AerialHellOreBlock(0, 0, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
 	public static final RegistryObject<Block> VOLUCITE_ORE = BLOCKS.register("volucite_ore",() -> new AerialHellOreBlock(0, 0, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(5.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(2).setRequiresTool()));

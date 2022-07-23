@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "///",
+    " / ",
+    "/_/"
+  ],
+  "key": {
+    "/": {
+      "item": "aerialhell:sky_stick"
+    },
+    "_": {
+      "item": "aerialhell:stellar_stone_slab"
+    }
+  },
+  "result": {
+    "item": "minecraft:armor_stand"
+  }
+}

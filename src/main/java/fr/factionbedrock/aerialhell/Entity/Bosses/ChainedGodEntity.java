@@ -171,7 +171,11 @@ public class ChainedGodEntity extends AbstractBossEntity
 		if (this.isImploding())
 		{
 			//lève les bras, fait des particules bonus, ne bouge plus, créer une explosion si timeSince = fuzetime
-			this.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 20, 10, true, false)));
+			if (!world.isRemote)
+			{
+				this.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 20, 10, true, false)));
+				this.addPotionEffect(new EffectInstance(new EffectInstance(Effects.RESISTANCE, 1, 10, true, false)));
+			}
 			this.timeSinceImploding++;
 			
 	        if (this.timeSinceImploding >= 138)

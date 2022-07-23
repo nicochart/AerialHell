@@ -530,7 +530,9 @@
   "death.attack.throwing_knife_hit": "%1$s was killed by a throwing knife",
   "death.attack.throwing_knife_hit.player": "%1$s was killed by %2$s's throwing knife",
   "death.attack.web_thorns": "%1$s got stuck in a thorny spider cobweb",
+  "death.attack.web_thorns.player": "%1$s was pushed in a thorny spider cobweb by %2$s",
   "death.attack.brambles_thorns": "%1$s got stuck in the brambles",
+  "death.attack.brambles_thorns.player": "%1$s was pushed in the brambles by %2$s",
 
   "advancements.story.enter_aerial_hell.title": "Aerial Hell",
   "advancements.story.enter_aerial_hell.desc": "Another story begins..",

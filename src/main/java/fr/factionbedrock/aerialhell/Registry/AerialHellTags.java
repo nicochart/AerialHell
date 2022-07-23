@@ -99,6 +99,8 @@ public class AerialHellTags
 	public static class Fluids
 	{
 		public static final ITag.INamedTag<Fluid> CRYSTALLIZABLE = tag("crystallizable");
+		
+		public static final ITag.INamedTag<Fluid> LIQUID_OF_THE_GODS = tag("liquid_of_the_gods");
 
 		private static ITag.INamedTag<Fluid> tag(String name)
 		{

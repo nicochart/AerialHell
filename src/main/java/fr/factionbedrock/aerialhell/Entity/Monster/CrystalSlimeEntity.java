@@ -30,6 +30,7 @@ public class CrystalSlimeEntity extends SlimeEntity
 	public CrystalSlimeEntity(World worldIn)
 	{
 		super(AerialHellEntities.CRYSTAL_SLIME.get(), worldIn);
+		this.experienceValue = 10;
 		/*setSlimeSize(2, false); ?? When summoned with trapped blocks, it appears little ..*/
 	}
 

@@ -29,6 +29,7 @@ public abstract class AbstractChestMimicEntity extends CreatureEntity
 	{
 		super(type, worldIn);
 		this.SetRandomMouthOpeningAmplitudeAndFrequency();
+		this.experienceValue = 10;
 	}
 	
 	public void SetRandomMouthOpeningAmplitudeAndFrequency()

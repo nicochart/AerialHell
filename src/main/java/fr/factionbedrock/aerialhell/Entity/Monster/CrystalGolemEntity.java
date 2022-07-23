@@ -25,6 +25,7 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
     {
         super(type, world);
         this.timeUntilActivation = 0;
+        this.experienceValue = 6;
     }
     
     @Override

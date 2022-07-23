@@ -530,7 +530,9 @@
   "death.attack.throwing_knife_hit": "%1$s s'est fait zigouiller par un couteau de lancer",
   "death.attack.throwing_knife_hit.player": "%1$s s'est fait zigouiller par le couteau de lancer de %2$s",
   "death.attack.web_thorns": "%1$s est resté coincé dans une toile d'araignée épineuse",
+  "death.attack.web_thorns.player": "%1$s est resté coincé dans une toile d'araignée épineuse à cause de %2$s",
   "death.attack.brambles_thorns": "%1$s est resté coincé dans les ronces",
+  "death.attack.brambles_thorns.player": "%1$s est resté coincé dans les ronces à cause de %2$s",
 
   "advancements.story.enter_aerial_hell.title": "Aerial Hell - l'Enfer Aérien",
   "advancements.story.enter_aerial_hell.desc": "Une nouvelle Aventure commence..",

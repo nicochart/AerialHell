@@ -20,13 +20,13 @@ public class FlyingJellyfishRender<J extends FlyingJellyfishEntity> extends MobR
 	
 	public FlyingJellyfishRender(EntityRendererManager rendererManager)
 	{
-		super(rendererManager, new FlyingJellyfishModel(), 1.0F);
+		super(rendererManager, new FlyingJellyfishModel<J>(), 1.0F);
 	}
 	
 	@Override
 	protected void preRenderCallback(FlyingJellyfishEntity jellyfish, MatrixStack matrixStackIn, float partialTickTime)
 	{
-	      matrixStackIn.scale(2.5F, 2.5F, 2.5F);
+	      matrixStackIn.scale(5.0F, 5.0F, 5.0F);
 	}
 	
 	@Override

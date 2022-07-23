@@ -62,7 +62,7 @@ public class EffectTotemItem extends Item
 						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.NAUSEA, 300, 0));
 						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.BLINDNESS, 600, 0));
 						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.SLOWNESS, 900, 0));
-						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.RESISTANCE, 1200, 2));
+						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.RESISTANCE, 1500, 2));
 					}
 				}
 			}

@@ -112,7 +112,7 @@ public class AerialHellEntities
 			    .size(1.0F, 1.0F).build("poisonball");
 	
 	public static final EntityType<FlyingJellyfishEntity> FLYING_JELLYFISH_TYPE = EntityType.Builder.<FlyingJellyfishEntity>create(FlyingJellyfishEntity::new, EntityClassification.MONSTER)
-			    .size(1.5F, 1.5F).build("flying_jellyfish");
+			    .size(3.0F, 3.0F).build("flying_jellyfish");
 	
 	public static final EntityType<IronThrowingKnifeEntity> IRON_THROWING_KNIFE_TYPE = EntityType.Builder.<IronThrowingKnifeEntity>create(IronThrowingKnifeEntity::new, EntityClassification.MISC)
     			.size(0.25F, 0.25F).build("iron_throwing_knife");
@@ -148,22 +148,22 @@ public class AerialHellEntities
 		    	.size(0.5F, 0.5F).build("ruby_blowpipe_arrow");
 	
 	public static final EntityType<LunaticProjectileEntity> LUNATIC_PROJECTILE_TYPE = EntityType.Builder.<LunaticProjectileEntity>create(LunaticProjectileEntity::new, EntityClassification.MISC)
-		    	.size(1.0F, 1.0F).build("lunatic_projectile");
+		    	.size(1.1F, 1.1F).build("lunatic_projectile");
 	
 	public static final EntityType<ShadowTrollEntity> SHADOW_TROLL_TYPE = EntityType.Builder.create(ShadowTrollEntity::new, EntityClassification.MONSTER)
 			    .size(1.2F, 2.5F).build("shadow_troll");
 	
 	public static final EntityType<AerialTreeChestMimicEntity> AERIAL_TREE_MIMIC_TYPE = EntityType.Builder.<AerialTreeChestMimicEntity>create(AerialTreeChestMimicEntity::new, EntityClassification.MONSTER)
-			    .size(1.0F, 2.0F).build("aerial_tree_mimic");
+			    .size(1.2F, 2.0F).build("aerial_tree_mimic");
 	
 	public static final EntityType<GoldenBeechChestMimicEntity> GOLDEN_BEECH_MIMIC_TYPE = EntityType.Builder.<GoldenBeechChestMimicEntity>create(GoldenBeechChestMimicEntity::new, EntityClassification.MONSTER)
-		    	.size(1.0F, 2.0F).build("golden_beech_mimic");
+		    	.size(1.2F, 2.0F).build("golden_beech_mimic");
 	
 	public static final EntityType<SkyCactusFiberChestMimicEntity> SKY_CACTUS_FIBER_MIMIC_TYPE = EntityType.Builder.<SkyCactusFiberChestMimicEntity>create(SkyCactusFiberChestMimicEntity::new, EntityClassification.MONSTER)
-		    	.size(1.0F, 2.0F).build("sky_cactus_fiber_mimic");
+		    	.size(1.2F, 2.0F).build("sky_cactus_fiber_mimic");
 	
 	public static final EntityType<CopperPineChestMimicEntity> COPPER_PINE_MIMIC_TYPE = EntityType.Builder.<CopperPineChestMimicEntity>create(CopperPineChestMimicEntity::new, EntityClassification.MONSTER)
-		    	.size(1.0F, 2.0F).build("copper_pine_mimic");
+		    	.size(1.2F, 2.0F).build("copper_pine_mimic");
 	
 	public static final EntityType<HellSpiderEntity> HELL_SPIDER_TYPE = EntityType.Builder.create(HellSpiderEntity::new, EntityClassification.MONSTER)
 			    .size(0.85F, 0.8F).build("hell_spider");
