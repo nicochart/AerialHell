@@ -238,7 +238,7 @@ public class AerialHellBlocksAndItems
     //aerial_tree
 	public static final RegistryObject<RotatedPillarBlock> AERIAL_TREE_LOG = BLOCKS.register("aerial_tree_log", () -> new RotatedPillarBlock(AERIAL_TREE_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_AERIAL_TREE_LOG = BLOCKS.register("stripped_aerial_tree_log", () -> new RotatedPillarBlock(AbstractBlock.Properties.from(AERIAL_TREE_LOG.get()).harvestTool(ToolType.AXE)));
-	public static final RegistryObject<Block> AERIAL_TREE_LEAVES = BLOCKS.register("aerial_tree_leaves", () -> new LeavesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES)));
+	public static final RegistryObject<Block> AERIAL_TREE_LEAVES = BLOCKS.register("aerial_tree_leaves", () -> new LeavesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES).harvestTool(ToolType.HOE)));
 	public static final RegistryObject<Block> AERIAL_TREE_PLANKS = BLOCKS.register("aerial_tree_planks", () -> new Block(AbstractBlock.Properties.from(AERIAL_TREE_LOG.get())));
 	public static final RegistryObject<Block> CHISELED_AERIAL_TREE_PLANKS = BLOCKS.register("chiseled_aerial_tree_planks", () -> new Block(AbstractBlock.Properties.from(AERIAL_TREE_PLANKS.get())));
 	public static final RegistryObject<Block> AERIAL_TREE_BOOKSHELF = BLOCKS.register("aerial_tree_bookshelf", () -> new AerialHellBookshelfBlock(AbstractBlock.Properties.from(AERIAL_TREE_PLANKS.get())));
@@ -256,7 +256,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_GOLDEN_BEECH_LOG = BLOCKS.register("stripped_golden_beech_log", () -> new RotatedPillarBlock(AbstractBlock.Properties.from(GOLDEN_BEECH_LOG.get()).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> GOLDEN_BEECH_PLANKS = BLOCKS.register("golden_beech_planks", () -> new Block(AbstractBlock.Properties.from(GOLDEN_BEECH_LOG.get())));
 	public static final RegistryObject<Block> CHISELED_GOLDEN_BEECH_PLANKS = BLOCKS.register("chiseled_golden_beech_planks", () -> new Block(AbstractBlock.Properties.from(GOLDEN_BEECH_PLANKS.get())));
-	public static final RegistryObject<Block> GOLDEN_BEECH_LEAVES = BLOCKS.register("golden_beech_leaves", () -> new LeavesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES)));
+	public static final RegistryObject<Block> GOLDEN_BEECH_LEAVES = BLOCKS.register("golden_beech_leaves", () -> new LeavesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES).harvestTool(ToolType.HOE)));
 	public static final RegistryObject<Block> GOLDEN_BEECH_BOOKSHELF = BLOCKS.register("golden_beech_bookshelf", () -> new AerialHellBookshelfBlock(AbstractBlock.Properties.from(GOLDEN_BEECH_PLANKS.get())));
 	public static final RegistryObject<SaplingBlock> GOLDEN_BEECH_SAPLING = BLOCKS.register("golden_beech_sapling", () -> new SaplingBlock(new GoldenBeechTree(), AbstractBlock.Properties.from(Blocks.OAK_SAPLING)));
 	public static final RegistryObject<Item> GOLDEN_BEECH_LOG_ITEM = ITEMS.register("golden_beech_log", () -> new BurnableBlockItem(GOLDEN_BEECH_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
@@ -284,7 +284,7 @@ public class AerialHellBlocksAndItems
 	//lapis robinia
 	public static final RegistryObject<RotatedPillarBlock> LAPIS_ROBINIA_LOG = BLOCKS.register("lapis_robinia_log", () -> new RotatedPillarBlock(COPPER_PINE_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_LAPIS_ROBINIA_LOG = BLOCKS.register("stripped_lapis_robinia_log", () -> new RotatedPillarBlock(AbstractBlock.Properties.from(LAPIS_ROBINIA_LOG.get()).harvestTool(ToolType.AXE)));
-	public static final RegistryObject<Block> LAPIS_ROBINIA_LEAVES = BLOCKS.register("lapis_robinia_leaves", () -> new LeavesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES)));
+	public static final RegistryObject<Block> LAPIS_ROBINIA_LEAVES = BLOCKS.register("lapis_robinia_leaves", () -> new LeavesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES).harvestTool(ToolType.HOE)));
 	public static final RegistryObject<Block> LAPIS_ROBINIA_PLANKS = BLOCKS.register("lapis_robinia_planks", () -> new Block(AbstractBlock.Properties.from(LAPIS_ROBINIA_LOG.get())));
 	public static final RegistryObject<Block> LAPIS_ROBINIA_BOOKSHELF = BLOCKS.register("lapis_robinia_bookshelf", () -> new AerialHellBookshelfBlock(AbstractBlock.Properties.from(LAPIS_ROBINIA_PLANKS.get())));
 	public static final RegistryObject<SaplingBlock> LAPIS_ROBINIA_SAPLING = BLOCKS.register("lapis_robinia_sapling", () -> new SaplingBlock(new LapisRobinia(), AbstractBlock.Properties.from(Blocks.OAK_SAPLING)));
@@ -1021,7 +1021,7 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<AxeItem> ARSONIST_AXE = ITEMS.register("arsonist_axe", () -> new AxeItem(ToolMaterials.arsonist, 6, -3.1F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.arsonist.getHarvestLevel()).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION).isImmuneToFire()));
     
     public static final RegistryObject<AxeItem> HEAVY_AXE = ITEMS.register("heavy_axe", () -> new AerialHellAxeItem(ToolMaterials.heavy, 6, -3.5F, -0.30F, 0.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-    public static final RegistryObject<AxeItem> BERSERK_AXE = ITEMS.register("berserk_axe", () -> new BerserkAxeItem(ToolMaterials.volucite, 6, -2.9F, 0.05F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<AxeItem> BERSERK_AXE = ITEMS.register("berserk_axe", () -> new BerserkAxeItem(ToolMaterials.volucite, 6, -2.5F, 0.05F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     
     public static final RegistryObject<HoeItem> SKY_WOOD_HOE = ITEMS.register("sky_wood_hoe", () -> new HoeItem(ToolMaterials.sky_wood, -3, 0.0F, (new Item.Properties()).addToolType(ToolType.HOE, ToolMaterials.sky_wood.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<HoeItem> STELLAR_STONE_HOE = ITEMS.register("stellar_stone_hoe", () -> new HoeItem(ToolMaterials.stellar_stone, -3, 0.0F, (new Item.Properties()).addToolType(ToolType.HOE, ToolMaterials.stellar_stone.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
@@ -1053,7 +1053,7 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<SwordItem> ABSOLUTE_ZERO_SWORD = ITEMS.register("absolute_zero_sword", () -> new AerialHellSwordItem(ToolMaterials.volucite, 3, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<SwordItem> SWORD_OF_LIGHT = ITEMS.register("sword_of_light", () -> new EffectSwordItem(ToolMaterials.volucite, 4, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<SwordItem> ANTIDOTE_SWORD = ITEMS.register("antidote_sword", () -> new EffectSwordItem(ToolMaterials.ruby, 4, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
-    public static final RegistryObject<SwordItem> GLASS_CANON_SWORD = ITEMS.register("glass_canon_sword", () -> new EffectSwordItem(ToolMaterials.volucite, 8, -1.6F, 0.0F, -10.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+    public static final RegistryObject<SwordItem> GLASS_CANON_SWORD = ITEMS.register("glass_canon_sword", () -> new EffectSwordItem(ToolMaterials.volucite, 8, -1.6F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     public static final RegistryObject<SwordItem> GOD_SWORD = ITEMS.register("god_sword", () -> new EffectSwordItem(ToolMaterials.arsonist, 4, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
     
     public static final RegistryObject<SwordItem> FORGOTTEN_BATTLE_TRIDENT = ITEMS.register("forgotten_battle_trident", () -> new ForgottenBattleTridentItem(ToolMaterials.volucite, 4, -2.9F, 0.2F, (new Item.Properties()).maxDamage(1000).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));

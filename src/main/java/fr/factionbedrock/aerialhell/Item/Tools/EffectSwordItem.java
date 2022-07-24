@@ -123,8 +123,8 @@ public class EffectSwordItem extends AerialHellSwordItem
 		}
 		else if (this == AerialHellBlocksAndItems.ANTIDOTE_SWORD.get())
 		{
-			boolean playerHasPoison = (playerIn.getActivePotionEffect(Effects.POISON) != null);
-			boolean playerHasWither = (playerIn.getActivePotionEffect(Effects.WITHER) != null);
+			boolean playerHasPoison = (playerIn.isPotionActive(Effects.POISON));
+			boolean playerHasWither = (playerIn.isPotionActive(Effects.WITHER));
 			if (!playerHasPoison && !playerHasWither)
 			{
 				return ActionResult.resultPass(heldItem);
@@ -173,16 +173,29 @@ public class EffectSwordItem extends AerialHellSwordItem
 				worldIn.addParticle(ParticleTypes.EXPLOSION, playerIn.getPosX() + 4*(rand.nextFloat() - 0.5F), playerIn.getPosY() + 4*rand.nextFloat(), playerIn.getPosZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
 			}
 			playerIn.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 0.5F + rand.nextFloat());
-			
-			if (worldIn.isRemote)
+			int cooldown;
+			if (playerIn.isSneaking()) //armored glass
 			{
-				playerIn.setMotion(playerIn.getMotion().add(0, 2, 0));
+				if (!worldIn.isRemote)
+				{
+					playerIn.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 200, 1));
+					playerIn.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 100, 0));
+				}
+				cooldown = 400;
 			}
-			else //!worldIn.isRemote
+			else //lift-off
 			{
-				playerIn.addPotionEffect(new EffectInstance(Effects.SLOW_FALLING, 200, 2));
+				if (worldIn.isRemote)
+				{
+					playerIn.setMotion(playerIn.getMotion().add(0, 2, 0));
+				}
+				else //!worldIn.isRemote
+				{
+					playerIn.addPotionEffect(new EffectInstance(Effects.SLOW_FALLING, 200, 2));
+				}
+				cooldown = 600;
 			}
-			playerIn.getCooldownTracker().setCooldown(this, 600);
+			playerIn.getCooldownTracker().setCooldown(this, cooldown);
 			heldItem.damageItem(1, playerIn, (player) -> {player.sendBreakAnimation(playerIn.getActiveHand());});
 	        return ActionResult.resultConsume(heldItem);
 		}

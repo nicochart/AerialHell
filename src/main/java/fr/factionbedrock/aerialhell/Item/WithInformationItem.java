@@ -22,7 +22,7 @@ public class WithInformationItem extends Item
 		super(properties);
 	}
 	
-	@OnlyIn(Dist.CLIENT)
+	@Override @OnlyIn(Dist.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
 	{
 		tooltip.add(this.getDescription().mergeStyle(TextFormatting.GRAY));

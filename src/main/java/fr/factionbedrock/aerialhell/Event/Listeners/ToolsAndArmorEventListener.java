@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Event.Listeners;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -10,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -21,9 +23,26 @@ public class ToolsAndArmorEventListener
 	@SubscribeEvent
     public static void onLivingHurtEvent(LivingHurtEvent event)
     {
-		Entity sourceEntity = event.getSource().getTrueSource();
+		DamageSource damageSource = event.getSource();
+		Entity sourceEntity = damageSource.getTrueSource();
 		LivingEntity target = event.getEntityLiving();
 		float amount = event.getAmount(); //damage
+		
+		if (target instanceof PlayerEntity) //*2 damage if target has glass cannon sword
+		{
+			Item targetMainHandItem = ((PlayerEntity) target).getHeldItemMainhand().getItem();
+			if (targetMainHandItem == AerialHellBlocksAndItems.GLASS_CANON_SWORD.get()) {event.setAmount(amount * 2.0F);}
+		}
+		else
+		{
+			Iterable<ItemStack> handStuff = target.getHeldEquipment();
+			for (ItemStack handItemStack : handStuff)
+			{
+				if (handItemStack.getItem() == AerialHellBlocksAndItems.GLASS_CANON_SWORD.get()) {event.setAmount(amount * 2.0F);}
+			}
+		}
+		
+		if (damageSource.isFireDamage() && target.isPotionActive(AerialHellPotionEffects.GOD.get())) {event.setCanceled(true);} //LivingEntity with Gods Effect has Fire Resistance
 		
 		if (sourceEntity instanceof LivingEntity)
 		{

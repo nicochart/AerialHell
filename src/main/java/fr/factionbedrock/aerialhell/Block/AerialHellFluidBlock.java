@@ -22,6 +22,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellFluids;
+import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 
 public class AerialHellFluidBlock extends FlowingFluidBlock {
 
@@ -88,7 +89,7 @@ public class AerialHellFluidBlock extends FlowingFluidBlock {
     		
             if(entityIn.isAlive() && entityIn instanceof LivingEntity)
             {
-            	if (!(entityIn instanceof TornSpiritEntity || entityIn instanceof ChainedGodEntity))
+            	if (!(entityIn instanceof TornSpiritEntity || entityIn instanceof ChainedGodEntity || ((LivingEntity) entityIn).isPotionActive(AerialHellPotionEffects.GOD.get())))
             	{
             		entityIn.attackEntityFrom(new DamageSource("god_blessing").setDamageBypassesArmor(), 1.5F);//.setFire(10);
             	}

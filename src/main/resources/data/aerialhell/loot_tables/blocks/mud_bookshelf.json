@@ -31,7 +31,11 @@
               "functions": [
                 {
                   "function": "minecraft:set_count",
-                  "count": 9
+                  "count": {
+                    "min": 4,
+                    "max": 7,
+                    "type": "minecraft:uniform"
+                  }
                 },
                 {
                   "function": "minecraft:explosion_decay"
