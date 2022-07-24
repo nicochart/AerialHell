@@ -9,9 +9,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
-
-import java.util.function.Supplier;
-
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractAerialArrowEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
@@ -19,9 +16,12 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 
 public class BlowpipeItem extends Item
 {
-    public BlowpipeItem(Supplier<Item> ammo, Properties builder)
+	private float arrowVelocity;
+	
+    public BlowpipeItem(Properties builder, float arrowVelocity)
     {
         super(builder);
+        this.arrowVelocity = arrowVelocity;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class BlowpipeItem extends Item
             AbstractAerialArrowEntity arrow = arrowItem.createArrow(worldIn, ammo, playerIn);
             if (arrowItem == AerialHellBlocksAndItems.VOLUCITE_BLOWPIPE_ARROW.get()) {arrow.setNoGravity(true);}
             
-            arrow.func_234612_a_(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.7F, 1.0F);
+            arrow.func_234612_a_(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, arrowVelocity, 1.0F);
             if (isCreative)
             {
                 arrow.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
@@ -64,12 +64,10 @@ public class BlowpipeItem extends Item
         if (!isCreative)
         {
             ammo.shrink(1);
-            if (ammo.isEmpty())
-            {
-                playerIn.inventory.deleteStack(ammo);
-            }
+            if (ammo.isEmpty()) {playerIn.inventory.deleteStack(ammo);}
+            heldItem.damageItem(1, playerIn, (player) -> {player.sendBreakAnimation(playerIn.getActiveHand());});
         }
-        playerIn.getCooldownTracker().setCooldown(this, 10);
+        playerIn.getCooldownTracker().setCooldown(this, 12);
         return ActionResult.resultConsume(heldItem);
     }
 
@@ -79,17 +77,8 @@ public class BlowpipeItem extends Item
         for (int i = 0; i < inv.getSizeInventory(); i++)
         {
             ItemStack stack = inv.getStackInSlot(i);
-            if (stack == ItemStack.EMPTY)
-            {
-                continue;
-            }
-            else
-            {
-                if(stack.getItem().isIn(AerialHellTags.Items.BLOWPIPE_ARROWS))
-                {
-                    return stack;
-                }
-            }
+            if (stack == ItemStack.EMPTY) {continue;}
+            else {if(stack.getItem().isIn(AerialHellTags.Items.BLOWPIPE_ARROWS)) {return stack;}}
         }
         return ItemStack.EMPTY;
     }

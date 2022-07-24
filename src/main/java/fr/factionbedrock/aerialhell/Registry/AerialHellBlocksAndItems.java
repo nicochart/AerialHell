@@ -211,7 +211,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> STELLAR_PORTAL_FRAME_BLOCK_ITEM = ITEMS.register("stellar_portal_frame_block", () -> new BlockItem(STELLAR_PORTAL_FRAME_BLOCK.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_OVERWORLD)));
 	public static final RegistryObject<Item> STELLAR_PORTAL_FRAME_ORE_ITEM = ITEMS.register("stellar_portal_frame_ore", () -> new BlockItem(STELLAR_PORTAL_FRAME_ORE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_OVERWORLD)));
 	public static final RegistryObject<Item> STELLAR_PORTAL_FRAME_BRICK = ITEMS.register("stellar_portal_frame_brick", () -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_OVERWORLD)));
-	public static final RegistryObject<Item> STELLAR_LIGHTER = ITEMS.register("stellar_lighter", () -> new StellarLighterItem(new Item.Properties().maxStackSize(1).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> STELLAR_LIGHTER = ITEMS.register("stellar_lighter", () -> new StellarLighterItem(new Item.Properties().maxStackSize(1).maxDamage(4).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//torch
 	public static final RegistryObject<Block> FLUORITE_WALL_TORCH = BLOCKS.register("fluorite_wall_torch", () -> new FluoriteWallTorchBlock(AbstractBlock.Properties.from(Blocks.WALL_TORCH)));
@@ -975,10 +975,11 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> RUBY_MILK_BUCKET = ITEMS.register("ruby_milk_bucket", () -> new RubyMilkBucketItem(new Item.Properties().containerItem(RUBY_BUCKET.get()).maxStackSize(1).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//arrows & bows
-	public static final RegistryObject<Item> VOLUCITE_BLOWPIPE_ARROW = ITEMS.register("volucite_blowpipe_arrow", () -> new AerialArrowItem(new Item.Properties().rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> RUBY_BLOWPIPE_ARROW = ITEMS.register("ruby_blowpipe_arrow", () -> new AerialArrowItem(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> VOLUCITE_BLOWPIPE_ARROW = ITEMS.register("volucite_blowpipe_arrow", () -> new AerialArrowItem(new Item.Properties().rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
-	public static final RegistryObject<Item> VOLUCITE_BLOWPIPE = ITEMS.register("volucite_blowpipe", () -> new BlowpipeItem(VOLUCITE_BLOWPIPE_ARROW, new Item.Properties().maxStackSize(1).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> RUBY_BLOWPIPE = ITEMS.register("ruby_blowpipe", () -> new BlowpipeItem(new Item.Properties().maxStackSize(1).maxDamage(200).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 1.7F));
+	public static final RegistryObject<Item> VOLUCITE_BLOWPIPE = ITEMS.register("volucite_blowpipe", () -> new BlowpipeItem(new Item.Properties().rarity(AerialHellRarities.VIBRANT).maxStackSize(1).maxDamage(400).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 2.4F));
 	
 	//music discs
 	public static final RegistryObject<Item> MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP = ITEMS.register("music_disc_aerial_hell_theme_tommaup", () -> new MusicDiscItem(1, AerialHellSoundEvents.MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP, new Item.Properties().maxStackSize(1).rarity(Rarity.RARE).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
