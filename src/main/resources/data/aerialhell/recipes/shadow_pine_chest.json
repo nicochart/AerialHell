@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "# #",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:shadow_pine_planks"
+    }
+  },
+  "result": {
+    "item": "aerialhell:shadow_pine_chest"
+  }
+}

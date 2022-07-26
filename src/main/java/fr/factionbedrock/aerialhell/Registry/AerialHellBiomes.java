@@ -35,6 +35,10 @@ public class AerialHellBiomes
   	public static final RegistryKey<Biome> CRYSTAL_FOREST = register("crystal_forest");
     //Savane de Robinier de Lapis
   	public static final RegistryKey<Biome> LAPIS_ROBINIA_SAVANA = register("lapis_robinia_savana");
+  	//Plaine des Ombres
+  	public static final RegistryKey<Biome> SHADOW_PLAIN = register("shadow_plain");
+  	//Forêt des Ombres
+  	public static final RegistryKey<Biome> SHADOW_FOREST = register("shadow_forest");
     
     public static void toDictionary()
     {
@@ -45,6 +49,8 @@ public class AerialHellBiomes
         BiomeDictionary.addTypes(CRYSTAL_PLAINS, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.PLAINS);
         BiomeDictionary.addTypes(CRYSTAL_FOREST, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.DENSE);
         BiomeDictionary.addTypes(AERIAL_HELL_PLAINS, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SAVANNA);
+        BiomeDictionary.addTypes(SHADOW_PLAIN, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.SPOOKY);
+        BiomeDictionary.addTypes(SHADOW_FOREST, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.SPOOKY, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.FOREST);
     }    
 	
 	private static ResourceLocation name(String name)

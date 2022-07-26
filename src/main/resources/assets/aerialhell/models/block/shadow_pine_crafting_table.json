@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "aerialhell:block/shadow_pine_crafting_table_front",
+    "north": "aerialhell:block/shadow_pine_crafting_table_otherside",
+    "south": "aerialhell:block/shadow_pine_crafting_table_front",
+    "east": "aerialhell:block/shadow_pine_crafting_table_side",
+    "west": "aerialhell:block/shadow_pine_crafting_table_side",
+    "up": "aerialhell:block/shadow_pine_crafting_table_top",
+    "down": "aerialhell:block/shadow_pine_barrel_bottom"
+  }
+}

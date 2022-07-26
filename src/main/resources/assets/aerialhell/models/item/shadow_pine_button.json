@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button_inventory",
+  "textures": {
+    "texture": "aerialhell:block/shadow_pine_planks"
+  }
+}

@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Registry;
 
 import java.util.OptionalInt;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
 import fr.factionbedrock.aerialhell.AerialHell;
@@ -43,12 +44,15 @@ import net.minecraft.world.gen.feature.TwoLayerFeature;
 import net.minecraft.world.gen.foliageplacer.AcaciaFoliagePlacer;
 import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import net.minecraft.world.gen.foliageplacer.FancyFoliagePlacer;
+import net.minecraft.world.gen.foliageplacer.MegaPineFoliagePlacer;
 import net.minecraft.world.gen.foliageplacer.SpruceFoliagePlacer;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.Placement;
+import net.minecraft.world.gen.treedecorator.AlterGroundTreeDecorator;
 import net.minecraft.world.gen.trunkplacer.FancyTrunkPlacer;
 import net.minecraft.world.gen.trunkplacer.ForkyTrunkPlacer;
+import net.minecraft.world.gen.trunkplacer.GiantTrunkPlacer;
 import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
 
 public class AerialHellFeatures
@@ -63,6 +67,8 @@ public class AerialHellFeatures
 		public static final BlockClusterFeatureConfig STELLAR_TALL_FERN_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.STELLAR_TALL_FERN.get().getDefaultState()), new DoublePlantBlockPlacer())).tries(64).func_227317_b_().build();
 		public static final BlockClusterFeatureConfig STELLAR_DEAD_BUSH_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.STELLAR_DEAD_BUSH.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(4).build();
 		public static final BlockClusterFeatureConfig AERIAL_BERRY_BUSH_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.AERIAL_BERRY_BUSH.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(8).build();
+		public static final BlockClusterFeatureConfig SHADOW_GRASS_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_GRASS.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(32).build();
+		public static final BlockClusterFeatureConfig SHADOW_GRASS_BALL_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(32).build();
 		
 		public static final BlockClusterFeatureConfig AERIAL_HELL_BELLFLOWERS_CONFIG = (new BlockClusterFeatureConfig.Builder((new WeightedBlockStateProvider())
                 .addWeightedBlockstate(AerialHellBlocksAndItems.BELLFLOWER.get().getDefaultState(), 1), SimpleBlockPlacer.PLACER))
@@ -114,6 +120,22 @@ public class AerialHellFeatures
 			    new TwoLayerFeature(0, 0, 0, OptionalInt.of(4))
 			    	)).setIgnoreVines().func_236702_a_(Heightmap.Type.MOTION_BLOCKING).build();
 		
+		public static final BaseTreeFeatureConfig SHADOW_PINE_CONFIG = (new BaseTreeFeatureConfig.Builder(
+			    new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState()),
+                new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get().getDefaultState()),
+                new SpruceFoliagePlacer(FeatureSpread.func_242253_a(2, 1), FeatureSpread.func_242253_a(0, 2), FeatureSpread.func_242253_a(1, 1)),
+                new StraightTrunkPlacer(6, 2, 1),
+                new TwoLayerFeature(3, 0, 2)
+                	)).setIgnoreVines().build();
+		
+		public static final BaseTreeFeatureConfig MEGA_SHADOW_PINE_CONFIG = (new BaseTreeFeatureConfig.Builder(
+		    	new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState()),
+		    	new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get().getDefaultState()),
+		    	new MegaPineFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), FeatureSpread.func_242253_a(3, 4)),
+		    	new GiantTrunkPlacer(13, 2, 14),
+		    	new TwoLayerFeature(1, 1, 2)
+					)).setDecorators(ImmutableList.of(new AlterGroundTreeDecorator(new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().getDefaultState())))).build();
+		
 		public static final BaseTreeFeatureConfig CRYSTALLIZED_TREE_BASIC_CONFIG = (new BaseTreeFeatureConfig.Builder(
 			    new SimpleBlockStateProvider(AerialHellBlocksAndItems.AERIAL_TREE_LOG.get().getDefaultState()),
 			    new SimpleBlockStateProvider(AerialHellBlocksAndItems.CRYSTALLIZED_LEAVES.get().getDefaultState()),
@@ -142,6 +164,8 @@ public class AerialHellFeatures
     public static ConfiguredFeature<?, ?> STELLAR_TALL_FERN = Feature.RANDOM_PATCH.withConfiguration(Configs.STELLAR_TALL_FERN_PATCH_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(2);
     public static ConfiguredFeature<?, ?> STELLAR_DEAD_BUSH = Feature.RANDOM_PATCH.withConfiguration(Configs.STELLAR_DEAD_BUSH_PATCH_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT);
     public static ConfiguredFeature<?, ?> AERIAL_BERRY_BUSH_PATCH = Feature.RANDOM_PATCH.withConfiguration(Configs.AERIAL_BERRY_BUSH_PATCH_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(2);
+    public static ConfiguredFeature<?, ?> SHADOW_GRASS = Feature.RANDOM_PATCH.withConfiguration(Configs.SHADOW_GRASS_PATCH_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(2);
+    public static ConfiguredFeature<?, ?> SHADOW_GRASS_BALL = Feature.RANDOM_PATCH.withConfiguration(Configs.SHADOW_GRASS_BALL_PATCH_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(2);
     
     public static ConfiguredFeature<?, ?> AERIAL_HELL_FLOWERS = Feature.FLOWER.withConfiguration(Configs.AERIAL_HELL_FLOWERS_CONFIG).withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242731_b(2);
     public static ConfiguredFeature<?, ?> AERIAL_HELL_BELLFLOWERS = Feature.FLOWER.withConfiguration(Configs.AERIAL_HELL_BELLFLOWERS_CONFIG).withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242731_b(10);
@@ -151,6 +175,9 @@ public class AerialHellFeatures
     public static ConfiguredFeature<?, ?> COPPER_PINE_FOREST = Feature.TREE.withConfiguration(Configs.COPPER_PINE_CONFIG).range(256).square().func_242731_b(8);
     public static ConfiguredFeature<?, ?> LAPIS_ROBINIA_RARE = Feature.TREE.withConfiguration(Configs.LAPIS_ROBINIA_CONFIG).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(0, 0.01F, 1)));
     public static ConfiguredFeature<?, ?> LAPIS_ROBINIA_BASIC = Feature.TREE.withConfiguration(Configs.LAPIS_ROBINIA_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
+    public static ConfiguredFeature<?, ?> SHADOW_PINE_BASIC = Feature.TREE.withConfiguration(Configs.SHADOW_PINE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
+    public static ConfiguredFeature<?, ?> SHADOW_PINE_FOREST = Feature.TREE.withConfiguration(Configs.SHADOW_PINE_CONFIG).range(256).square().func_242731_b(10);
+    public static ConfiguredFeature<?, ?> MEGA_SHADOW_PINE_BASIC = Feature.TREE.withConfiguration(Configs.MEGA_SHADOW_PINE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     public static ConfiguredFeature<?, ?> GOLDEN_BEECH_RARE = Feature.TREE.withConfiguration(Configs.GOLDEN_BEECH_CONFIG).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(0, 0.01F, 1)));
     public static ConfiguredFeature<?, ?> GOLDEN_BEECH_BASIC = Feature.TREE.withConfiguration(Configs.GOLDEN_BEECH_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     public static ConfiguredFeature<?, ?> CRYSTALLIZED_TREE_BASIC = Feature.TREE.withConfiguration(Configs.CRYSTALLIZED_TREE_BASIC_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
@@ -213,6 +240,8 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_tall_fern"), STELLAR_TALL_FERN);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_dead_bush"), STELLAR_DEAD_BUSH);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "aerial_berry_bush_patch"), AERIAL_BERRY_BUSH_PATCH);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "shadow_grass"), SHADOW_GRASS);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "shadow_grass_ball"), SHADOW_GRASS_BALL);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "aerial_hell_flowers"), AERIAL_HELL_FLOWERS);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "aerial_hell_bellflowers"), AERIAL_HELL_BELLFLOWERS);
@@ -224,6 +253,9 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "lapis_robinia_basic"), LAPIS_ROBINIA_BASIC);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "golden_beech_rare"), GOLDEN_BEECH_RARE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "golden_beech_basic"), GOLDEN_BEECH_BASIC);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "shadow_pine_basic"), SHADOW_PINE_BASIC);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "shadow_pine_forest"), SHADOW_PINE_FOREST);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "mega_shadow_pine_basic"), MEGA_SHADOW_PINE_BASIC);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "crystallized_tree_basic"), CRYSTALLIZED_TREE_BASIC);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "sky_cactus_plain"), SKY_CACTUS_PLAIN);

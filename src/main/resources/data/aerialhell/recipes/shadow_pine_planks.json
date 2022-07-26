@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "item": "aerialhell:shadow_pine_log"
+    }
+  ],
+  "result": {
+    "item": "aerialhell:shadow_pine_planks",
+    "count": 4
+  }
+}

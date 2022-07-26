@@ -69,13 +69,11 @@ public class AerialHell
     		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_OVERWORLD_ABANDONNED_PORTAL_STRUCTURE);
     	}
     		
-    	/* Adding common features and structure in all aerial hell biomes */
+    	/* Adding common features and structure in all classic aerial hell biomes */
     	if (event.getName().equals(AerialHellBiomes.AERIAL_HELL_PLAINS.getLocation()) || event.getName().equals(AerialHellBiomes.AERIAL_TREE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.COPPER_PINE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.SLIPPERY_SAND_OCEAN.getLocation()) || event.getName().equals(AerialHellBiomes.CRYSTAL_PLAINS.getLocation()) || event.getName().equals(AerialHellBiomes.LAPIS_ROBINIA_SAVANA.getLocation()))
     	{
     		/* structure */
-    		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_MUD_DUNGEON_STRUCTURE);
-    		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_LUNATIC_TEMPLE_STRUCTURE);
-    		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_GOLDEN_NETHER_PRISON_STRUCTURE);
+    		this.addAllDungeons(event);
     		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
     		
     		/* features */
@@ -100,19 +98,7 @@ public class AerialHell
    		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.AERIAL_HELL_FLOWERS);
    		 
    		    /* ores */
-	    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.IRON_STELLAR_ORE);
-	    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.GOLD_STELLAR_ORE);
-	    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.DIAMOND_STELLAR_ORE);
-	    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.FLUORITE_ORE);
-	    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.MAGMATIC_GEL_ORE);
-	    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.RUBY_ORE);
-	    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.AZURITE_ORE);
-	    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.VOLUCITE_ORE);
-	    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.OBSIDIAN_ORE);
-	    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.GLAUCOPHANITE_ORE);
-	    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.STELLAR_DIRT_ORE);
-	    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.STELLAR_COARSE_DIRT_ORE);
-	    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.STELLAR_CLAY_ORE);
+   		    addOres(event);
         }
     	
     	/* Adding features exclusive to the SlipperySandOcean biome */
@@ -182,6 +168,67 @@ public class AerialHell
     		
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.AERIAL_BERRY_BUSH_PATCH);
     	}
+    	
+    	/* Adding features exclusive to all Shadow Biomes */
+    	if (event.getName().equals(AerialHellBiomes.SHADOW_PLAIN.getLocation()) || event.getName().equals(AerialHellBiomes.SHADOW_FOREST.getLocation()))
+    	{
+    		/* structure */
+    		this.addAllDungeons(event);
+    		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
+    		
+    		/* features */
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.TOP_LAYER_MODIFICATION).add(() -> AerialHellFeatures.SLIPPERY_SAND);
+    		event.getGeneration().withFeature(GenerationStage.Decoration.LAKES, AerialHellFeatures.AERIAL_HELL_WATER_LAKE);
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.WHITE_SOLID_ETHER); 
+   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.BLUE_SOLID_ETHER);
+   		    
+   		    for (int i = 0; i < 5; i++)
+   		    {
+   		    	event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.STELLAR_STONE_CRYSTAL_BLOB);
+   		    	event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.STELLAR_COARSE_FLOOR_ELLIPSOID);	
+   		    }
+   		 
+   		    //rare sky cactus
+   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.SKY_CACTUS_PLAIN);
+   		    
+   		    //plants
+   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.SHADOW_GRASS);
+   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.SHADOW_GRASS_BALL);
+   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.AERIAL_HELL_FLOWERS);
+   		 
+   		    /* ores */
+   		    this.addOres(event);
+	    	
+    		/* Adding features exclusive to Shadow Forest only*/
+    		if (event.getName().equals(AerialHellBiomes.SHADOW_FOREST.getLocation()))
+        	{
+        		//nothing yet
+        	}
+    	}
+    }
+    
+    private void addOres(BiomeLoadingEvent event)
+    {
+    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.IRON_STELLAR_ORE);
+    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.GOLD_STELLAR_ORE);
+    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.DIAMOND_STELLAR_ORE);
+    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.FLUORITE_ORE);
+    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.MAGMATIC_GEL_ORE);
+    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.RUBY_ORE);
+    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.AZURITE_ORE);
+    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.VOLUCITE_ORE);
+    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.OBSIDIAN_ORE);
+    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.GLAUCOPHANITE_ORE);
+    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.STELLAR_DIRT_ORE);
+    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.STELLAR_COARSE_DIRT_ORE);
+    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.STELLAR_CLAY_ORE);
+    }
+    
+    private void addAllDungeons(BiomeLoadingEvent event)
+    {
+    	event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_MUD_DUNGEON_STRUCTURE);
+		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_LUNATIC_TEMPLE_STRUCTURE);
+		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_GOLDEN_NETHER_PRISON_STRUCTURE);
     }
     
     private static Method GETCODEC_METHOD;

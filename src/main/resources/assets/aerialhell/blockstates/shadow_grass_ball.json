@@ -1,0 +1,14 @@
+{
+  "multipart": [
+    {
+      "apply": [
+        {
+          "model": "aerialhell:block/shadow_grass_ball0"
+        },
+        {
+          "model": "aerialhell:block/shadow_grass_ball1"
+        }
+      ]
+    }
+  ]
+}

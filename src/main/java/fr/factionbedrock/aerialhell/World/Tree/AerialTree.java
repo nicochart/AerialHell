@@ -24,7 +24,8 @@ public class AerialTree extends Tree
 	
 	@Nullable
 	@Override
-	protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(Random randomIn, boolean largeHive) {
+	protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(Random randomIn, boolean largeHive)
+	{
 		return Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder
 				(
 						new SimpleBlockStateProvider(AerialHellBlocksAndItems.AERIAL_TREE_LOG.get().getDefaultState()),

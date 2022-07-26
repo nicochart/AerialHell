@@ -18,6 +18,13 @@ public class GoldenBeechTree extends Tree
 	@Override
 	protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(Random randomIn, boolean largeHive)
 	{
-		return Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.GOLDEN_BEECH_LOG.get().getDefaultState()), new SimpleBlockStateProvider(AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES.get().getDefaultState()), new FancyFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(4), 4), new FancyTrunkPlacer(3, 11, 0), new TwoLayerFeature(0, 0, 0, OptionalInt.of(4)))).setIgnoreVines().func_236702_a_(Heightmap.Type.MOTION_BLOCKING).build());
+		return Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder
+		(
+				new SimpleBlockStateProvider(AerialHellBlocksAndItems.GOLDEN_BEECH_LOG.get().getDefaultState()),
+				new SimpleBlockStateProvider(AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES.get().getDefaultState()),
+				new FancyFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(4), 4),
+				new FancyTrunkPlacer(3, 11, 0),
+				new TwoLayerFeature(0, 0, 0, OptionalInt.of(4))
+		)).setIgnoreVines().func_236702_a_(Heightmap.Type.MOTION_BLOCKING).build());
 	}
 }

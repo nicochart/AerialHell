@@ -24,7 +24,8 @@ public class LapisRobinia extends Tree
 	
 	@Nullable
 	@Override
-	protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(Random randomIn, boolean largeHive) {
+	protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(Random randomIn, boolean largeHive)
+	{
 		return Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
 				new SimpleBlockStateProvider(AerialHellBlocksAndItems.LAPIS_ROBINIA_LOG.get().getDefaultState()),
 				new SimpleBlockStateProvider(AerialHellBlocksAndItems.LAPIS_ROBINIA_LEAVES.get().getDefaultState()),

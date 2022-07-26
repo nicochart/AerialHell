@@ -1,0 +1,75 @@
+{
+  "precipitation": "none",
+  "category": "none",
+  "depth": 0.125,
+  "scale": 0.05,
+  "temperature": 0.8,
+  "temperature_modifier": "none",
+  "downfall": 0.0,
+  "effects": {
+    "fog_color": 2377529,
+    "sky_color": 1914152,
+    "water_color": 4479566,
+    "water_fog_color": 2767922,
+    "grass_color": 1450524,
+    "foliage_color": 1450524,
+    "grass_color_modifier": "none",
+    "music": {
+      "sound": "aerialhell:aerialhell.dimension_music",
+      "min_delay": 1200,
+      "max_delay": 3600,
+      "replace_current_music": true
+    }
+  },
+  "surface_builder": "aerialhell:shadow_grass_block",
+  "carvers": {
+    "air": [
+	"aerialhell:aerialhell_cave"
+    ]
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      //ores
+    ],
+    [],
+    [
+      "aerialhell:shadow_pine_forest",
+      "aerialhell:mega_shadow_pine_basic"
+    ],
+    []
+  ],
+  "starts": [
+
+  ],
+  "spawners": {
+    "monster": [
+      {
+        "type": "aerialhell:shadow_troll",
+        "weight": 100,
+        "minCount": 2,
+        "maxCount": 6
+      },
+      {
+        "type": "aerialhell:mud_soldier",
+        "weight": 100,
+        "minCount": 1,
+        "maxCount": 2
+      }
+    ],
+    "creature": [],
+    "ambient": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "player_spawn_friendly": false,
+  "spawn_costs": {
+
+  }
+}
