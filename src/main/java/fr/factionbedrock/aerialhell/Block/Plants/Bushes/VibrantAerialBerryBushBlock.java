@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Block.Bushes;
+package fr.factionbedrock.aerialhell.Block.Plants.Bushes;
 
 import java.util.Random;
 
@@ -23,11 +23,11 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
-public class AerialBerryBushBlock extends BushBlock implements IGrowable
+public class VibrantAerialBerryBushBlock extends BushBlock implements IGrowable
 {
-	public static final IntegerProperty AGE = BlockStateProperties.AGE_0_3;
+	public static final IntegerProperty AGE = BlockStateProperties.AGE_0_15;
 	
-	public AerialBerryBushBlock(Properties properties)
+	public VibrantAerialBerryBushBlock(Properties properties)
 	{
         super(properties);
         this.setDefaultState(this.stateContainer.getBaseState().with(AGE, 0));
@@ -36,7 +36,7 @@ public class AerialBerryBushBlock extends BushBlock implements IGrowable
     @Override
     public ItemStack getItem(IBlockReader worldIn, BlockPos pos, BlockState state)
     {
-        return new ItemStack(AerialHellBlocksAndItems.AERIAL_BERRY.get());
+        return new ItemStack(AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY.get());
     }
 
     @Override
@@ -44,7 +44,7 @@ public class AerialBerryBushBlock extends BushBlock implements IGrowable
     {
         super.tick(state, worldIn, pos, rand);
         int age = state.get(AGE);
-        if (age < 3 && net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt(5) == 0))
+        if (age < 15 && net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt(5) == 0))
         {
             worldIn.setBlockState(pos, state.with(AGE, age + 1), 2);
             net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state);
@@ -61,16 +61,16 @@ public class AerialBerryBushBlock extends BushBlock implements IGrowable
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
     {
         int age = state.get(AGE);
-        if (age != 3 && player.getHeldItem(handIn).getItem() == Items.BONE_MEAL)
+        if (age != 15 && player.getHeldItem(handIn).getItem() == Items.BONE_MEAL)
         {
             return ActionResultType.PASS;
         }
-        else if (age > 1)
+        else if (age > 13)
         {
             int j = 1 + worldIn.rand.nextInt(2);
-            spawnAsEntity(worldIn, pos, new ItemStack(AerialHellBlocksAndItems.AERIAL_BERRY.get(), j + (age == 3 ? 1 : 0)));
-            worldIn.playSound(null, pos, SoundEvents.ITEM_SWEET_BERRIES_PICK_FROM_BUSH, SoundCategory.BLOCKS, 1.0F, 0.9F + worldIn.rand.nextFloat() * 0.3F);
-            worldIn.setBlockState(pos, state.with(AGE, 1), 2);
+            spawnAsEntity(worldIn, pos, new ItemStack(AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY.get(), j + (age == 15 ? 1 : 0)));
+            worldIn.playSound(null, pos, SoundEvents.ITEM_SWEET_BERRIES_PICK_FROM_BUSH, SoundCategory.BLOCKS, 1.0F, 1F + worldIn.rand.nextFloat() * 0.2F);
+            worldIn.setBlockState(pos, state.with(AGE, 13), 2);
             return ActionResultType.SUCCESS;
         }
         else
@@ -88,19 +88,19 @@ public class AerialBerryBushBlock extends BushBlock implements IGrowable
     @Override
     public boolean canGrow(IBlockReader iBlockReader, BlockPos blockPos, BlockState blockState, boolean b)
     {
-        return blockState.get(AGE) < 3;
+        return blockState.get(AGE) < 15;
     }
 
     @Override
     public boolean canUseBonemeal(World world, Random random, BlockPos blockPos, BlockState blockState)
     {
-        return true;
+        return blockState.get(AGE) < 13;
     }
 
     @Override
     public void grow(ServerWorld worldIn, Random rand, BlockPos pos, BlockState state)
     {
-        int new_age = Math.min(3, state.get(AGE) + 1);
+        int new_age = Math.min(15, state.get(AGE) + 1);
         worldIn.setBlockState(pos, state.with(AGE, new_age), 2);
     }
 }

@@ -66,7 +66,7 @@ public class SlipperySandFeature extends Feature<NoFeatureConfig>
                     if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ+rand.nextInt(3))
                     {
                     	Block previousBlock = reader.getBlockState(newPos).getBlock();
-                    	if ( previousBlock == Blocks.AIR || previousBlock == AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get() || previousBlock == AerialHellBlocksAndItems.STELLAR_DIRT.get() || previousBlock == AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get() || previousBlock == AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get() || previousBlock == AerialHellBlocksAndItems.GOLDEN_SOLID_ETHER.get())
+                    	if ( previousBlock == Blocks.AIR || previousBlock.isIn(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock == AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get() || previousBlock == AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get() || previousBlock == AerialHellBlocksAndItems.GOLDEN_SOLID_ETHER.get())
                     		reader.setBlockState(newPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().getDefaultState(), 0);
                     }
                 }

@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Block;
+package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.block.BlockState;

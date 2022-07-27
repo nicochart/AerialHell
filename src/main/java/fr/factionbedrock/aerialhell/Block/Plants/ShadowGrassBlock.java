@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Block;
+package fr.factionbedrock.aerialhell.Block.Plants;
 
 import net.minecraft.block.*;
 import net.minecraft.state.StateContainer;

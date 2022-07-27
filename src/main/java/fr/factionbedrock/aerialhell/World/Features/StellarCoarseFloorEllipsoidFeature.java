@@ -40,7 +40,7 @@ public class StellarCoarseFloorEllipsoidFeature extends Feature<NoFeatureConfig>
 	            	for (y = pos.getY() - 3; y < pos.getY() + 4; y++) //searching the surface
 	            	{
 	            		newPos = new BlockPos(x, y, z);
-	            		if (reader.getBlockState(newPos).isIn(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get())) //checking for surface
+	            		if (reader.getBlockState(newPos).isIn(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) || reader.getBlockState(newPos).isIn(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get())) //checking for surface
 	            		{
 	            			double rdm = rand.nextDouble();
 	            			if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-4 && rdm > 0.2)

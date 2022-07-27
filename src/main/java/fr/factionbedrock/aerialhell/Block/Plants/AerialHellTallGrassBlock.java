@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Block;
+package fr.factionbedrock.aerialhell.Block.Plants;
 
 import java.util.Random;
 

@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Block;
+package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.block.Block;
@@ -7,9 +7,9 @@ import net.minecraft.block.DeadBushBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 
-public class AerialHellDeadBushBlock extends DeadBushBlock
+public class ShadowPlantBlock extends DeadBushBlock
 {
-	public AerialHellDeadBushBlock(Properties builder)
+	public ShadowPlantBlock(Properties builder)
 	{
 		super(builder);
 	}
@@ -18,6 +18,6 @@ public class AerialHellDeadBushBlock extends DeadBushBlock
 	protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos)
 	{
 		Block block = state.getBlock();
-	 	return block == AerialHellBlocksAndItems.SLIPPERY_SAND.get();
+	 	return block == AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get();
 	}
 }
