@@ -128,12 +128,28 @@ public class AerialHellFeatures
                 new TwoLayerFeature(3, 0, 2)
                 	)).setIgnoreVines().build();
 		
+		public static final BaseTreeFeatureConfig PURPLE_SHADOW_PINE_CONFIG = (new BaseTreeFeatureConfig.Builder(
+			    new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState()),
+                new SimpleBlockStateProvider(AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_LEAVES.get().getDefaultState()),
+                new SpruceFoliagePlacer(FeatureSpread.func_242253_a(2, 1), FeatureSpread.func_242253_a(0, 2), FeatureSpread.func_242253_a(1, 1)),
+                new StraightTrunkPlacer(6, 2, 1),
+                new TwoLayerFeature(3, 0, 2)
+                	)).setIgnoreVines().build();
+		
 		public static final BaseTreeFeatureConfig MEGA_SHADOW_PINE_CONFIG = (new BaseTreeFeatureConfig.Builder(
 		    	new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState()),
 		    	new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get().getDefaultState()),
 		    	new MegaPineFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), FeatureSpread.func_242253_a(3, 4)),
 		    	new GiantTrunkPlacer(13, 2, 14),
 		    	new TwoLayerFeature(1, 1, 2)
+					)).setDecorators(ImmutableList.of(new AlterGroundTreeDecorator(new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().getDefaultState())))).build();
+		
+		public static final BaseTreeFeatureConfig MEGA_PURPLE_SHADOW_PINE_CONFIG = (new BaseTreeFeatureConfig.Builder(
+				new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState()),
+				new SimpleBlockStateProvider(AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_LEAVES.get().getDefaultState()),
+				new MegaPineFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), FeatureSpread.func_242253_a(13, 4)),
+				new GiantTrunkPlacer(13, 2, 14),
+				new TwoLayerFeature(1, 1, 2)
 					)).setDecorators(ImmutableList.of(new AlterGroundTreeDecorator(new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().getDefaultState())))).build();
 		
 		public static final BaseTreeFeatureConfig CRYSTALLIZED_TREE_BASIC_CONFIG = (new BaseTreeFeatureConfig.Builder(
@@ -176,8 +192,11 @@ public class AerialHellFeatures
     public static ConfiguredFeature<?, ?> LAPIS_ROBINIA_RARE = Feature.TREE.withConfiguration(Configs.LAPIS_ROBINIA_CONFIG).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(0, 0.01F, 1)));
     public static ConfiguredFeature<?, ?> LAPIS_ROBINIA_BASIC = Feature.TREE.withConfiguration(Configs.LAPIS_ROBINIA_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     public static ConfiguredFeature<?, ?> SHADOW_PINE_BASIC = Feature.TREE.withConfiguration(Configs.SHADOW_PINE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
-    public static ConfiguredFeature<?, ?> SHADOW_PINE_FOREST = Feature.TREE.withConfiguration(Configs.SHADOW_PINE_CONFIG).range(256).square().func_242731_b(10);
+    public static ConfiguredFeature<?, ?> PURPLE_SHADOW_PINE_BASIC = Feature.TREE.withConfiguration(Configs.PURPLE_SHADOW_PINE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
+    public static ConfiguredFeature<?, ?> SHADOW_PINE_FOREST = Feature.TREE.withConfiguration(Configs.SHADOW_PINE_CONFIG).range(256).square().func_242731_b(5);
+    public static ConfiguredFeature<?, ?> PURPLE_SHADOW_PINE_FOREST = Feature.TREE.withConfiguration(Configs.PURPLE_SHADOW_PINE_CONFIG).range(256).square().func_242731_b(5);
     public static ConfiguredFeature<?, ?> MEGA_SHADOW_PINE_BASIC = Feature.TREE.withConfiguration(Configs.MEGA_SHADOW_PINE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
+    public static ConfiguredFeature<?, ?> MEGA_PURPLE_SHADOW_PINE_BASIC = Feature.TREE.withConfiguration(Configs.MEGA_PURPLE_SHADOW_PINE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     public static ConfiguredFeature<?, ?> GOLDEN_BEECH_RARE = Feature.TREE.withConfiguration(Configs.GOLDEN_BEECH_CONFIG).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(0, 0.01F, 1)));
     public static ConfiguredFeature<?, ?> GOLDEN_BEECH_BASIC = Feature.TREE.withConfiguration(Configs.GOLDEN_BEECH_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     public static ConfiguredFeature<?, ?> CRYSTALLIZED_TREE_BASIC = Feature.TREE.withConfiguration(Configs.CRYSTALLIZED_TREE_BASIC_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
@@ -254,8 +273,11 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "golden_beech_rare"), GOLDEN_BEECH_RARE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "golden_beech_basic"), GOLDEN_BEECH_BASIC);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "shadow_pine_basic"), SHADOW_PINE_BASIC);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "purple_shadow_pine_basic"), PURPLE_SHADOW_PINE_BASIC);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "shadow_pine_forest"), SHADOW_PINE_FOREST);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "purple_shadow_pine_forest"), PURPLE_SHADOW_PINE_FOREST);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "mega_shadow_pine_basic"), MEGA_SHADOW_PINE_BASIC);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "mega_purple_shadow_pine_basic"), MEGA_PURPLE_SHADOW_PINE_BASIC);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "crystallized_tree_basic"), CRYSTALLIZED_TREE_BASIC);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "sky_cactus_plain"), SKY_CACTUS_PLAIN);

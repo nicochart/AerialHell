@@ -75,6 +75,7 @@ import fr.factionbedrock.aerialhell.Item.Tools.ForgottenBattleTridentItem;
 import fr.factionbedrock.aerialhell.World.Tree.CopperPine;
 import fr.factionbedrock.aerialhell.World.Tree.GoldenBeechTree;
 import fr.factionbedrock.aerialhell.World.Tree.LapisRobinia;
+import fr.factionbedrock.aerialhell.World.Tree.PurpleShadowPine;
 import fr.factionbedrock.aerialhell.World.Tree.ShadowPine;
 import fr.factionbedrock.aerialhell.World.Tree.AerialTree;
 import net.minecraft.block.AbstractBlock;
@@ -310,15 +311,19 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<RotatedPillarBlock> SHADOW_PINE_LOG = BLOCKS.register("shadow_pine_log", () -> new RotatedPillarBlock(SHADOW_PINE_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_SHADOW_PINE_LOG = BLOCKS.register("stripped_shadow_pine_log", () -> new RotatedPillarBlock(AbstractBlock.Properties.from(SHADOW_PINE_LOG.get()).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> SHADOW_PINE_LEAVES = BLOCKS.register("shadow_pine_leaves", () -> new LeavesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES).harvestTool(ToolType.HOE)));
+	public static final RegistryObject<Block> PURPLE_SHADOW_PINE_LEAVES = BLOCKS.register("purple_shadow_pine_leaves", () -> new LeavesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES).harvestTool(ToolType.HOE)));
 	public static final RegistryObject<Block> SHADOW_PINE_PLANKS = BLOCKS.register("shadow_pine_planks", () -> new Block(AbstractBlock.Properties.from(SHADOW_PINE_LOG.get())));
 	public static final RegistryObject<Block> SHADOW_PINE_BOOKSHELF = BLOCKS.register("shadow_pine_bookshelf", () -> new AerialHellBookshelfBlock(AbstractBlock.Properties.from(SHADOW_PINE_PLANKS.get())));
 	public static final RegistryObject<SaplingBlock> SHADOW_PINE_SAPLING = BLOCKS.register("shadow_pine_sapling", () -> new ShadowPineSaplingBlock(new ShadowPine(), AbstractBlock.Properties.from(Blocks.OAK_SAPLING)));
+	public static final RegistryObject<SaplingBlock> PURPLE_SHADOW_PINE_SAPLING = BLOCKS.register("purple_shadow_pine_sapling", () -> new ShadowPineSaplingBlock(new PurpleShadowPine(), AbstractBlock.Properties.from(Blocks.OAK_SAPLING)));
 	public static final RegistryObject<Item> SHADOW_PINE_LOG_ITEM = ITEMS.register("shadow_pine_log", () -> new BurnableBlockItem(SHADOW_PINE_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<Item> STRIPPED_SHADOW_PINE_LOG_ITEM = ITEMS.register("stripped_shadow_pine_log", () -> new BurnableBlockItem(STRIPPED_SHADOW_PINE_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<Item> SHADOW_PINE_LEAVES_ITEM = ITEMS.register("shadow_pine_leaves", () -> new BlockItem(SHADOW_PINE_LEAVES.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> PURPLE_SHADOW_PINE_LEAVES_ITEM = ITEMS.register("purple_shadow_pine_leaves", () -> new BlockItem(PURPLE_SHADOW_PINE_LEAVES.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> SHADOW_PINE_PLANKS_ITEM = ITEMS.register("shadow_pine_planks", () -> new BurnableBlockItem(SHADOW_PINE_PLANKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION), 300));
 	public static final RegistryObject<Item> SHADOW_PINE_BOOKSHELF_ITEM = ITEMS.register("shadow_pine_bookshelf", () -> new BlockItem(SHADOW_PINE_BOOKSHELF.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	public static final RegistryObject<Item> SHADOW_PINE_SAPLING_ITEM = ITEMS.register("shadow_pine_sapling", () -> new BlockItem(SHADOW_PINE_SAPLING.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
+	public static final RegistryObject<Item> PURPLE_SHADOW_PINE_SAPLING_ITEM = ITEMS.register("purple_shadow_pine_sapling", () -> new BlockItem(PURPLE_SHADOW_PINE_SAPLING.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION)));
 	
 	//ladder
 	public static final RegistryObject<LadderBlock> SKY_LADDER = BLOCKS.register("sky_ladder", () -> new LadderBlock(AbstractBlock.Properties.from(AERIAL_TREE_PLANKS.get()).notSolid()));
