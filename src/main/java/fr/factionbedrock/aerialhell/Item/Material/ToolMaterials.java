@@ -73,10 +73,10 @@ public class ToolMaterials
 	
 	public static final IItemTier volucite = new ToolMaterial
 	(
-		3, //Niveau de minage
-		1561, //durabilité
-		8.0F, //efficacité
-		3.0F, //Dégats d'attaque
+		4, //Niveau de minage
+		1620, //durabilité
+		8.5F, //efficacité
+		4.5F, //Dégats d'attaque
 		10, //Enchantabilité
 		() -> Ingredient.fromItems(AerialHellBlocksAndItems.VOLUCITE_VIBRANT.get()) //Ingrédient de réparation (Enclume)
 	);
@@ -95,8 +95,8 @@ public class ToolMaterials
 	(
 		4, //Niveau de minage
 		1712, //durabilité
-		8.5F, //efficacité
-		4.5F, //Dégats d'attaque
+		8.0F, //efficacité
+		4.0F, //Dégats d'attaque
 		15, //Enchantabilité
 		() -> Ingredient.fromItems(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //Ingrédient de réparation (Enclume)
 	);
@@ -106,7 +106,7 @@ public class ToolMaterials
 		4, //Niveau de minage
 		2031, //durabilité
 		9.0F, //efficacité
-		5.0F, //Dégats d'attaque
+		5.5F, //Dégats d'attaque
 		15, //Enchantabilité
 		() -> Ingredient.fromItems(AerialHellBlocksAndItems.ARSONIST_INGOT.get()) //Ingrédient de réparation (Enclume)
 	);
