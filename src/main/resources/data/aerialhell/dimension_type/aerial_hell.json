@@ -13,5 +13,5 @@
   "has_raids": false,
   "logical_height": 256,
   "infiniburn": "minecraft:infiniburn_overworld",
-  "effects": "minecraft:overworld"
+  "effects": "aerialhell:aerial_hell"
 } 
