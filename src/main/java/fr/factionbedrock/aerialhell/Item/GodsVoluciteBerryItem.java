@@ -39,7 +39,7 @@ public class GodsVoluciteBerryItem extends Item
                 		.effect(() -> new EffectInstance(Effects.STRENGTH, 2400, 1), 1.0F)
                 		.effect(() -> new EffectInstance(Effects.HASTE, 2400, 1), 1.0F)
                 		.effect(() -> new EffectInstance(Effects.ABSORPTION, 2400, 3), 1.0F)
-                .build()).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
+                .build()).group(AerialHellItemGroups.AERIAL_HELL_BLOCKS));
     }
     
     @Override

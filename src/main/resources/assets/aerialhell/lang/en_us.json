@@ -1,6 +1,9 @@
 {
-  "itemGroup.aerialhell_overworld_itemgroup" : "Aerial Hell : Overworld",
-  "itemGroup.aerialhell_dimension_itemgroup" : "Aerial Hell : Dimension",
+  "itemGroup.aerialhell_blocks" : "Aerial Hell : Blocks",
+  "itemGroup.aerialhell_tools" : "Aerial Hell : Tools",
+  "itemGroup.aerialhell_combat" : "Aerial Hell : Combat",
+  "itemGroup.aerialhell_foodstuffs" : "Aerial Hell : Foodstuffs",
+  "itemGroup.aerialhell_miscellaneous" : "Aerial Hell : Miscellaneous",
   "block.aerialhell.stellar_portal_frame_ore" : "Stellar Portal Ore",
   "block.aerialhell.stellar_portal_frame_block" : "Stellar Portal Frame",
   "item.aerialhell.stellar_portal_frame_brick" : "Stellar Portal Bricks",

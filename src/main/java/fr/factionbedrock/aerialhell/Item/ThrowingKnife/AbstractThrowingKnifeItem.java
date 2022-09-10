@@ -23,7 +23,7 @@ public abstract class AbstractThrowingKnifeItem extends Item
 	
 	public AbstractThrowingKnifeItem(Properties properties) //default group
 	{
-		super(properties.maxStackSize(16).group(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
+		super(properties.maxStackSize(16).group(AerialHellItemGroups.AERIAL_HELL_BLOCKS));
 	}
 	
 	@Override

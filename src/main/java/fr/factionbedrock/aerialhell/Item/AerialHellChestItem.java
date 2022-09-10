@@ -9,7 +9,7 @@ public class AerialHellChestItem extends Item
 {
 	public AerialHellChestItem()
 	{
-		super(new Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
+		super(new Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS));
 	}
 	
 	public AerialHellChestItem(ItemGroup group)
@@ -19,6 +19,6 @@ public class AerialHellChestItem extends Item
 
     public AerialHellChestItem(Rarity rarity)
     {
-        super(new Properties().group(AerialHellItemGroups.AERIAL_HELL_DIMENSION).rarity(rarity));
+        super(new Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS).rarity(rarity));
     }
 }

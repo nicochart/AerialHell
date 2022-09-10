@@ -1,6 +1,9 @@
 {
-  "itemGroup.aerialhell_overworld_itemgroup" : "Aerial Hell : Overworld",
-  "itemGroup.aerialhell_dimension_itemgroup" : "Aerial Hell : Dimension",
+  "itemGroup.aerialhell_blocks" : "Aerial Hell : Blocs",
+  "itemGroup.aerialhell_tools" : "Aerial Hell : Outils",
+  "itemGroup.aerialhell_combat" : "Aerial Hell : Combat",
+  "itemGroup.aerialhell_foodstuffs" : "Aerial Hell : Nourriture",
+  "itemGroup.aerialhell_miscellaneous" : "Aerial Hell : Divers",
   "block.aerialhell.stellar_portal_frame_ore" : "Minerai de Portail Stellaire",
   "block.aerialhell.stellar_portal_frame_block" : "Cadre de Portail Stellaire",
   "item.aerialhell.stellar_portal_frame_brick" : "Brique de Portail Stellaire",

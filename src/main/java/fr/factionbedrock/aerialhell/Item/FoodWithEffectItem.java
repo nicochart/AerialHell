@@ -29,13 +29,13 @@ public class FoodWithEffectItem extends Item
     {
         super(new Item.Properties().rarity(rarity)
                 .food(new Food.Builder().setAlwaysEdible().hunger(hungerIn).saturation(saturationIn).effect(effectIn, 1.0F).build())
-                .group(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
+                .group(AerialHellItemGroups.AERIAL_HELL_BLOCKS));
     }
     
     public FoodWithEffectItem(int hungerIn, float saturationIn, Supplier<EffectInstance> effectIn) //default rarity & group
     {
         super(new Item.Properties().rarity(Rarity.COMMON)
                 .food(new Food.Builder().setAlwaysEdible().hunger(hungerIn).saturation(saturationIn).effect(effectIn, 1.0F).build())
-                .group(AerialHellItemGroups.AERIAL_HELL_DIMENSION));
+                .group(AerialHellItemGroups.AERIAL_HELL_BLOCKS));
     }
 }
