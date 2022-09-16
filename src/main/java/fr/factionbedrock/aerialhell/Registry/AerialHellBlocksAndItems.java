@@ -50,6 +50,7 @@ import fr.factionbedrock.aerialhell.Item.BurnableBlockItem;
 import fr.factionbedrock.aerialhell.Item.BlowpipeItem;
 import fr.factionbedrock.aerialhell.Item.BurnableItem;
 import fr.factionbedrock.aerialhell.Item.GodsVoluciteBerryItem;
+import fr.factionbedrock.aerialhell.Item.SkySoupItem;
 import fr.factionbedrock.aerialhell.Item.StellarLighterItem;
 import fr.factionbedrock.aerialhell.Item.FoodWithEffectItem;
 import fr.factionbedrock.aerialhell.Item.WithInformationItem;
@@ -1019,7 +1020,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> VOLUCITE_AERIAL_BERRY = ITEMS.register("volucite_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.SLOW_FALLING, 2400, 2)));
 	public static final RegistryObject<Item> DARK_SHADOW_FRUIT = ITEMS.register("dark_shadow_fruit", () -> new FoodWithEffectItem(2, 0.2F, Rarity.COMMON, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.BLINDNESS, 20, 0), () -> new EffectInstance(Effects.NIGHT_VISION, 120, 0)));
 	public static final RegistryObject<Item> PURPLE_SHADOW_FRUIT = ITEMS.register("purple_shadow_fruit", () -> new FoodWithEffectItem(2, 0.2F, Rarity.COMMON, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.BLINDNESS, 20, 0), () -> new EffectInstance(AerialHellPotionEffects.SHADOW_IMMUNITY.get(), 80, 0)));
-	public static final RegistryObject<Item> SHADOW_FRUIT_STEW = ITEMS.register("shadow_fruit_stew", () -> new FoodWithEffectItem(2, 0.2F, AerialHellRarities.CORRUPTED, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.BLINDNESS, 20, 0), () -> new EffectInstance(AerialHellPotionEffects.SHADOW_IMMUNITY.get(), 1200, 0), 16));
+	public static final RegistryObject<Item> SHADOW_FRUIT_STEW = ITEMS.register("shadow_fruit_stew", () -> new SkySoupItem(2, 0.2F, AerialHellRarities.CORRUPTED, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.BLINDNESS, 20, 0), () -> new EffectInstance(AerialHellPotionEffects.SHADOW_IMMUNITY.get(), 1200, 0)));
+	public static final RegistryObject<Item> SOLID_ETHER_SOUP = ITEMS.register("solid_ether_soup", () -> new SkySoupItem(2, 0.2F, Rarity.COMMON, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.SLOW_FALLING, 160, 0), () -> new EffectInstance(AerialHellPotionEffects.HEAD_IN_THE_CLOUDS.get(), 160, 1)));
 	public static final RegistryObject<Item> SHADOW_SPIDER_EYE = ITEMS.register("shadow_spider_eye", () -> new FoodWithEffectItem(2, 0.2F, AerialHellRarities.CORRUPTED, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.BLINDNESS, 20, 0), () -> new EffectInstance(Effects.SLOWNESS, 120, 0)));
 	public static final RegistryObject<Item> PHANTOM_MEAT = ITEMS.register("phantom_meat", () -> new FoodWithEffectItem(5, 0.8F, Rarity.UNCOMMON, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.RESISTANCE, 120, 0)));
 	public static final RegistryObject<Item> VIBRANT_PHANTOM_MEAT = ITEMS.register("vibrant_phantom_meat", () -> new FoodWithEffectItem(8, 0.8F, AerialHellRarities.VIBRANT, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.RESISTANCE, 400, 1)));

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "aerialhell:white_solid_ether_fragment"
+    },
+    {
+      "item": "aerialhell:blue_solid_ether_fragment"
+    },
+    {
+      "item": "aerialhell:golden_solid_ether_fragment"
+    },
+    {
+      "item": "aerialhell:green_solid_ether_fragment"
+    },
+    {
+      "item": "aerialhell:sky_bowl"
+    }
+  ],
+  "result": {
+    "item": "aerialhell:solid_ether_soup"
+  }
+}
