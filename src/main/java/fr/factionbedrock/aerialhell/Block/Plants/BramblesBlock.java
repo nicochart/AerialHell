@@ -1,6 +1,11 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Entity.AbstractAerialHellSpiderEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.EvilCowEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
+import fr.factionbedrock.aerialhell.Entity.Passive.SandySheepEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -18,16 +23,34 @@ public class BramblesBlock extends AerialHellTallGrassBlock
 		super(properties);
 	}
 	
+	protected boolean isImmuneToDamage(Entity entityIn)
+	{
+		return (entityIn instanceof SandySheepEntity || entityIn instanceof EvilCowEntity || entityIn instanceof ShadowTrollEntity || entityIn instanceof AbstractAerialHellSpiderEntity);
+	}
+	
+	protected boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.getActivePotionEffect(AerialHellPotionEffects.SHADOW_IMMUNITY.get()) != null;} //return true if the entity has the SHADOW_IMMUNITY effect
+	
 	@Override
 	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn)
 	{
 		entityIn.setMotionMultiplier(state, new Vector3d((double)0.8F, 0.75D, (double)0.8F));
 		if (!worldIn.isRemote && entityIn instanceof LivingEntity)
     	{
-			if (entityIn.getType() != AerialHellEntities.SANDY_SHEEP_TYPE && entityIn.getType() != AerialHellEntities.FOREST_CATERPILLAR_TYPE)
+			if (!isImmuneToDamage(entityIn))
 			{
-				((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.POISON, 40, 0));
-				((LivingEntity) entityIn).attackEntityFrom(new DamageSource("brambles_thorns"), 1.0F);
+				if (this == AerialHellBlocksAndItems.SHADOW_BRAMBLES.get())
+				{
+					if (!isLivingEntityShadowImmune((LivingEntity) entityIn))
+					{
+						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.POISON, 60, 0));
+						((LivingEntity) entityIn).attackEntityFrom(new DamageSource("brambles_thorns"), 1.0F);
+					}
+				}
+				else
+				{
+					((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.POISON, 40, 0));
+					((LivingEntity) entityIn).attackEntityFrom(new DamageSource("brambles_thorns"), 1.0F);
+				}
 			}
     	}
 	}

@@ -5,6 +5,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.HellSpiderSpikesLayer;
 import fr.factionbedrock.aerialhell.Entity.Monster.HellSpiderEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ShadowSpiderEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.model.SpiderModel;
@@ -17,6 +18,8 @@ public class HellSpiderRender<T extends SpiderEntity> extends MobRenderer<T, Spi
 	private static final ResourceLocation HELL_SPIDER_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/" + hsName + "/" + hsName + ".png");
 	private static String csName = "crystal_spider";
 	private static final ResourceLocation CRYSTAL_SPIDER_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/" + csName + "/" + csName + ".png");
+	private static String ssName = "shadow_spider";
+	private static final ResourceLocation SHADOW_SPIDER_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/" + ssName + "/" + ssName + ".png");
 	
 	public HellSpiderRender(EntityRendererManager renderManager)
 	{
@@ -27,7 +30,7 @@ public class HellSpiderRender<T extends SpiderEntity> extends MobRenderer<T, Spi
 	@Override
 	protected void preRenderCallback(T entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime)
 	{
-		if (entitylivingbaseIn instanceof HellSpiderEntity)
+		if (entitylivingbaseIn instanceof HellSpiderEntity || entitylivingbaseIn instanceof ShadowSpiderEntity)
 		{
 			float f = 0.8F;
 			matrixStackIn.scale(f, f, f);
@@ -40,6 +43,10 @@ public class HellSpiderRender<T extends SpiderEntity> extends MobRenderer<T, Spi
 		if (entity instanceof HellSpiderEntity)
 		{
 			return HELL_SPIDER_TEXTURE;
+		}
+		else if (entity instanceof ShadowSpiderEntity)
+		{
+			return SHADOW_SPIDER_TEXTURE;
 		}
 		else
 		{

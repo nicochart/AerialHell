@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.HellSpiderSpikeModel;
 import fr.factionbedrock.aerialhell.Entity.Monster.HellSpiderEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ShadowSpiderEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
@@ -23,6 +24,7 @@ public class HellSpiderSpikesLayer<T extends SpiderEntity, M extends SpiderModel
    private final HellSpiderSpikeModel<T> SpiderSpikeModel = new HellSpiderSpikeModel<T>();
    private static final ResourceLocation HELL_SPIDER_SPIKES = new ResourceLocation(AerialHell.MODID, "textures/entity/hell_spider/spikes.png");
    private static final ResourceLocation CRYSTAL_SPIDER_SPIKES = new ResourceLocation(AerialHell.MODID, "textures/entity/crystal_spider/crystals.png");
+   private static final ResourceLocation SHADOW_SPIDER_SPIKES = new ResourceLocation(AerialHell.MODID, "textures/entity/shadow_spider/spikes.png");
    
    public HellSpiderSpikesLayer(IEntityRenderer<T,M> p_i50923_1_)
    {
@@ -34,6 +36,10 @@ public class HellSpiderSpikesLayer<T extends SpiderEntity, M extends SpiderModel
 	   if (entity instanceof HellSpiderEntity)
 	   {
 		   return bufferIn.getBuffer(RenderType.getEntityCutout(HELL_SPIDER_SPIKES));
+	   }
+	   else if (entity instanceof ShadowSpiderEntity)
+	   {
+		   return bufferIn.getBuffer(RenderType.getEntityCutout(SHADOW_SPIDER_SPIKES));
 	   }
 	   else
 	   {

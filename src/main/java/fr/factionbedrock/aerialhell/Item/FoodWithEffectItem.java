@@ -11,6 +11,13 @@ import net.minecraft.potion.EffectInstance;
 
 public class FoodWithEffectItem extends Item
 {
+	public FoodWithEffectItem(int hungerIn, float saturationIn, Rarity rarity, ItemGroup group, Supplier<EffectInstance> effectIn1, Supplier<EffectInstance> effectIn2, int maxStackSize)
+	{
+		super(new Item.Properties().rarity(rarity).maxStackSize(maxStackSize)
+                .food(new Food.Builder().setAlwaysEdible().hunger(hungerIn).saturation(saturationIn).effect(effectIn1, 1.0F).effect(effectIn2, 1.0F).build())
+                .group(group));
+	}
+	
 	public FoodWithEffectItem(int hungerIn, float saturationIn, Rarity rarity, ItemGroup group, Supplier<EffectInstance> effectIn1, Supplier<EffectInstance> effectIn2)
 	{
 		super(new Item.Properties().rarity(rarity)

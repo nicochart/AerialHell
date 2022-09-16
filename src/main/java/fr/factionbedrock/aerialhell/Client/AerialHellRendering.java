@@ -77,6 +77,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_FERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BRAMBLES.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.SHADOW_BRAMBLES.get(), cutout);
         render(() -> AerialHellBlocksAndItems.SHADOW_GRASS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get(), cutout);
         render(() -> AerialHellBlocksAndItems.THORNY_COBWEB.get(), cutout);
@@ -185,6 +186,7 @@ public class AerialHellRendering
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.COPPER_PINE_MIMIC.get(), ChestMimicRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.HELL_SPIDER.get(), HellSpiderRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CRYSTAL_SPIDER.get(), HellSpiderRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHADOW_SPIDER.get(), HellSpiderRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.FOREST_CATERPILLAR.get(), CaterpillarRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CRYSTAL_CATERPILLAR.get(), CaterpillarRender::new);
 		

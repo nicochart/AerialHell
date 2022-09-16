@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "aerialhell:dark_shadow_fruit"
+    },
+    {
+      "item": "aerialhell:purple_shadow_fruit"
+    },
+    {
+      "item": "aerialhell:shadow_spider_eye"
+    },
+    {
+      "item": "aerialhell:sky_bowl"
+    }
+  ],
+  "result": {
+    "item": "aerialhell:shadow_fruit_stew"
+  }
+}

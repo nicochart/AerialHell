@@ -11,9 +11,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ShadowTrollParticle extends SpriteTexturedParticle
+public class ShadowParticle extends SpriteTexturedParticle
 {
-	protected ShadowTrollParticle(ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
+	protected ShadowParticle(ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
 	{
 		super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
 		
@@ -36,7 +36,7 @@ public class ShadowTrollParticle extends SpriteTexturedParticle
 		@Override
 		public Particle makeParticle(BasicParticleType typeIn, ClientWorld worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed)
 		{
-			 ShadowTrollParticle shadowTrollParticle = new ShadowTrollParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
+			 ShadowParticle shadowTrollParticle = new ShadowParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
 	         shadowTrollParticle.selectSpriteRandomly(this.spriteSet);
 	         return shadowTrollParticle;
 		}

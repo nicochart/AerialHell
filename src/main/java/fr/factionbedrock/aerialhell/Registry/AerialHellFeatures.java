@@ -69,6 +69,7 @@ public class AerialHellFeatures
 		public static final BlockClusterFeatureConfig AERIAL_BERRY_BUSH_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.AERIAL_BERRY_BUSH.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(8).build();
 		public static final BlockClusterFeatureConfig SHADOW_GRASS_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_GRASS.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(32).build();
 		public static final BlockClusterFeatureConfig SHADOW_GRASS_BALL_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(32).build();
+		public static final BlockClusterFeatureConfig SHADOW_BRAMBLES_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_BRAMBLES.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(32).build();
 		
 		public static final BlockClusterFeatureConfig AERIAL_HELL_BELLFLOWERS_CONFIG = (new BlockClusterFeatureConfig.Builder((new WeightedBlockStateProvider())
                 .addWeightedBlockstate(AerialHellBlocksAndItems.BELLFLOWER.get().getDefaultState(), 1), SimpleBlockPlacer.PLACER))
@@ -182,6 +183,7 @@ public class AerialHellFeatures
     public static ConfiguredFeature<?, ?> AERIAL_BERRY_BUSH_PATCH = Feature.RANDOM_PATCH.withConfiguration(Configs.AERIAL_BERRY_BUSH_PATCH_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(2);
     public static ConfiguredFeature<?, ?> SHADOW_GRASS = Feature.RANDOM_PATCH.withConfiguration(Configs.SHADOW_GRASS_PATCH_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(2);
     public static ConfiguredFeature<?, ?> SHADOW_GRASS_BALL = Feature.RANDOM_PATCH.withConfiguration(Configs.SHADOW_GRASS_BALL_PATCH_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(2);
+    public static ConfiguredFeature<?, ?> SHADOW_BRAMBLES = Feature.RANDOM_PATCH.withConfiguration(Configs.SHADOW_BRAMBLES_PATCH_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(2);
     
     public static ConfiguredFeature<?, ?> AERIAL_HELL_FLOWERS = Feature.FLOWER.withConfiguration(Configs.AERIAL_HELL_FLOWERS_CONFIG).withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242731_b(2);
     public static ConfiguredFeature<?, ?> AERIAL_HELL_BELLFLOWERS = Feature.FLOWER.withConfiguration(Configs.AERIAL_HELL_BELLFLOWERS_CONFIG).withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242731_b(10);
@@ -261,6 +263,7 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "aerial_berry_bush_patch"), AERIAL_BERRY_BUSH_PATCH);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "shadow_grass"), SHADOW_GRASS);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "shadow_grass_ball"), SHADOW_GRASS_BALL);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "shadow_brambles"), SHADOW_BRAMBLES);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "aerial_hell_flowers"), AERIAL_HELL_FLOWERS);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "aerial_hell_bellflowers"), AERIAL_HELL_BELLFLOWERS);

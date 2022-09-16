@@ -1,0 +1,14 @@
+{
+  "multipart": [
+    {
+      "apply": [
+        {
+          "model": "aerialhell:block/shadow_brambles0"
+        },
+        {
+          "model": "aerialhell:block/shadow_brambles1"
+        }
+      ]
+    }
+  ]
+}

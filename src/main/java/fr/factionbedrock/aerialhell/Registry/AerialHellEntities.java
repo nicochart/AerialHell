@@ -10,6 +10,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralSoldierEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ShadowSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.GoldenWalkerEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.HellSpiderEntity;
@@ -171,6 +172,9 @@ public class AerialHellEntities
 	public static final EntityType<CrystalSpiderEntity> CRYSTAL_SPIDER_TYPE = EntityType.Builder.create(CrystalSpiderEntity::new, EntityClassification.MONSTER)
 		    	.size(1.1F, 0.9F).build("crystal_spider");
 	
+	public static final EntityType<ShadowSpiderEntity> SHADOW_SPIDER_TYPE = EntityType.Builder.create(ShadowSpiderEntity::new, EntityClassification.MONSTER)
+	    		.size(0.85F, 0.8F).build("shadow_spider");
+	
 	public static final EntityType<ForestCaterpillarEntity> FOREST_CATERPILLAR_TYPE = EntityType.Builder.<ForestCaterpillarEntity>create(ForestCaterpillarEntity::new, EntityClassification.CREATURE)
 		    	.size(0.4F, 0.4F).build("forest_caterpillar");
 	
@@ -215,6 +219,7 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<CopperPineChestMimicEntity>> COPPER_PINE_MIMIC = ENTITIES.register("copper_pine_mimic", () -> COPPER_PINE_MIMIC_TYPE);
 	public static final RegistryObject<EntityType<HellSpiderEntity>> HELL_SPIDER = ENTITIES.register("hell_spider", () -> HELL_SPIDER_TYPE);
 	public static final RegistryObject<EntityType<CrystalSpiderEntity>> CRYSTAL_SPIDER = ENTITIES.register("crystal_spider", () -> CRYSTAL_SPIDER_TYPE);
+	public static final RegistryObject<EntityType<ShadowSpiderEntity>> SHADOW_SPIDER = ENTITIES.register("shadow_spider", () -> SHADOW_SPIDER_TYPE);
 	public static final RegistryObject<EntityType<ForestCaterpillarEntity>> FOREST_CATERPILLAR = ENTITIES.register("forest_caterpillar", () -> FOREST_CATERPILLAR_TYPE);
 	public static final RegistryObject<EntityType<CrystalCaterpillarEntity>> CRYSTAL_CATERPILLAR = ENTITIES.register("crystal_caterpillar", () -> CRYSTAL_CATERPILLAR_TYPE);
 	
@@ -226,6 +231,7 @@ public class AerialHellEntities
 		//EntitySpawnPlacementRegistry.register(MUD_SOLDIER.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn); //pb : makes hostile entities that can spawn in daylight spawn without any requirement (1 entity / tick / chunk, game crash)
 		EntitySpawnPlacementRegistry.register(HELL_SPIDER.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
 		EntitySpawnPlacementRegistry.register(CRYSTAL_SPIDER.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		EntitySpawnPlacementRegistry.register(SHADOW_SPIDER.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
 		EntitySpawnPlacementRegistry.register(CRYSTAL_SLIME.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, CrystalSlimeEntity::canSpawn);
 		EntitySpawnPlacementRegistry.register(FOREST_CATERPILLAR.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AbstractCaterpillarEntity::canCaterpillarSpawn);
 		EntitySpawnPlacementRegistry.register(CRYSTAL_CATERPILLAR.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AbstractCaterpillarEntity::canCaterpillarSpawn);

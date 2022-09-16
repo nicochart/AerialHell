@@ -14,6 +14,12 @@
     "grass_color": 1450524,
     "foliage_color": 1450524,
     "grass_color_modifier": "none",
+    "particle": {
+      "options": {
+        "type": "aerialhell:shadow_particle"
+      },
+      "probability" : 0.004
+    },
     "music": {
       "sound": "aerialhell:aerialhell.dimension_music",
       "min_delay": 1200,
@@ -51,6 +57,12 @@
   ],
   "spawners": {
     "monster": [
+      {
+        "type": "aerialhell:shadow_spider",
+        "weight": 100,
+        "minCount": 3,
+        "maxCount": 6
+      },
       {
         "type": "aerialhell:shadow_troll",
         "weight": 100,

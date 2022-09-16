@@ -4,7 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Particle.AerialHellPortalParticle;
 import fr.factionbedrock.aerialhell.Client.Particle.CopperPineLeavesParticle;
 import fr.factionbedrock.aerialhell.Client.Particle.LunaticParticle;
-import fr.factionbedrock.aerialhell.Client.Particle.ShadowTrollParticle;
+import fr.factionbedrock.aerialhell.Client.Particle.ShadowParticle;
 import fr.factionbedrock.aerialhell.Client.Particle.SnowFlakeParticle;
 import fr.factionbedrock.aerialhell.Client.Particle.VibratorParticle;
 import net.minecraft.client.Minecraft;
@@ -34,6 +34,7 @@ public class AerialHellParticleTypes
 	public static final RegistryObject<BasicParticleType> SNOWFLAKE = PARTICLES.register("snowflake", () -> new BasicParticleType(false));
 	public static final RegistryObject<BasicParticleType> GOD_FLAME = PARTICLES.register("god_flame", () -> new BasicParticleType(false));
 	public static final RegistryObject<BasicParticleType> SHADOW_TROLL_BAT = PARTICLES.register("shadow_troll_bat", () -> new BasicParticleType(false));
+	public static final RegistryObject<BasicParticleType> SHADOW_PARTICLE = PARTICLES.register("shadow_particle", () -> new BasicParticleType(false));
 	public static final RegistryObject<BasicParticleType> FAT_PHANTOM_SMOKE = PARTICLES.register("fat_phantom_smoke", () -> new BasicParticleType(false));
 	
 	@SubscribeEvent
@@ -48,7 +49,8 @@ public class AerialHellParticleTypes
 		particleManager.registerFactory(VIBRATOR.get(), VibratorParticle.Factory::new);
 		particleManager.registerFactory(SNOWFLAKE.get(), SnowFlakeParticle.Factory::new);
 		particleManager.registerFactory(GOD_FLAME.get(), FlameParticle.Factory::new);
-		particleManager.registerFactory(SHADOW_TROLL_BAT.get(), ShadowTrollParticle.Factory::new);
+		particleManager.registerFactory(SHADOW_TROLL_BAT.get(), ShadowParticle.Factory::new);
+		particleManager.registerFactory(SHADOW_PARTICLE.get(), ShadowParticle.Factory::new);
 		particleManager.registerFactory(FAT_PHANTOM_SMOKE.get(), CampfireParticle.CozySmokeFactory::new);
 	}
 }
