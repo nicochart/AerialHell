@@ -71,6 +71,7 @@ import fr.factionbedrock.aerialhell.Item.ThrowingKnife.VoluciteThrowingKnifeItem
 import fr.factionbedrock.aerialhell.Item.Tools.AerialHellAxeItem;
 import fr.factionbedrock.aerialhell.Item.Tools.AerialHellSwordItem;
 import fr.factionbedrock.aerialhell.Item.Tools.BerserkAxeItem;
+import fr.factionbedrock.aerialhell.Item.Tools.EffectAxeItem;
 import fr.factionbedrock.aerialhell.Item.Tools.EffectSwordItem;
 import fr.factionbedrock.aerialhell.Item.Tools.ForgottenBattleTridentItem;
 import fr.factionbedrock.aerialhell.World.Tree.CopperPine;
@@ -1089,7 +1090,7 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<AxeItem> AZURITE_AXE = ITEMS.register("azurite_axe", () -> new AxeItem(ToolMaterials.azurite, 6, -3.1F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.azurite.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_TOOLS)));
     public static final RegistryObject<AxeItem> MAGMATIC_GEL_AXE = ITEMS.register("magmatic_gel_axe", () -> new AxeItem(ToolMaterials.magmatic_gel, 6, -3.1F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.magmatic_gel.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_TOOLS)));
     public static final RegistryObject<AxeItem> OBSIDIAN_AXE = ITEMS.register("obsidian_axe", () -> new AxeItem(ToolMaterials.obsidian, 6, -3.1F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.obsidian.getHarvestLevel()).rarity(Rarity.EPIC).group(AerialHellItemGroups.AERIAL_HELL_TOOLS)));
-    public static final RegistryObject<AxeItem> VOLUCITE_AXE = ITEMS.register("volucite_axe", () -> new AxeItem(ToolMaterials.volucite, 6, -3.1F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.volucite.getHarvestLevel()).rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_TOOLS)));
+    public static final RegistryObject<AxeItem> VOLUCITE_AXE = ITEMS.register("volucite_axe", () -> new EffectAxeItem(ToolMaterials.volucite, 6, -3.1F, 0.0F, 0.0F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.volucite.getHarvestLevel()).rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_TOOLS)));
     public static final RegistryObject<AxeItem> LUNATIC_AXE = ITEMS.register("lunatic_axe", () -> new AxeItem(ToolMaterials.lunatic, 6, -3.1F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.lunatic.getHarvestLevel()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_TOOLS)));
     public static final RegistryObject<AxeItem> ARSONIST_AXE = ITEMS.register("arsonist_axe", () -> new AxeItem(ToolMaterials.arsonist, 6, -3.1F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.arsonist.getHarvestLevel()).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_TOOLS).isImmuneToFire()));
     
@@ -1113,7 +1114,7 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<SwordItem> AZURITE_SWORD = ITEMS.register("azurite_sword", () -> new SwordItem(ToolMaterials.azurite, 3, -2.4F, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
     public static final RegistryObject<SwordItem> MAGMATIC_GEL_SWORD = ITEMS.register("magmatic_gel_sword", () -> new SwordItem(ToolMaterials.magmatic_gel, 3, -2.4F, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
     public static final RegistryObject<SwordItem> OBSIDIAN_SWORD = ITEMS.register("obsidian_sword", () -> new SwordItem(ToolMaterials.obsidian, 3, -2.4F, (new Item.Properties()).rarity(Rarity.EPIC).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
-    public static final RegistryObject<SwordItem> VOLUCITE_SWORD = ITEMS.register("volucite_sword", () -> new SwordItem(ToolMaterials.volucite, 3, -2.4F, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
+    public static final RegistryObject<SwordItem> VOLUCITE_SWORD = ITEMS.register("volucite_sword", () -> new EffectSwordItem(ToolMaterials.volucite, 3, -2.4F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
     public static final RegistryObject<SwordItem> LUNATIC_SWORD = ITEMS.register("lunatic_sword", () -> new SwordItem(ToolMaterials.lunatic, 3, -2.4F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
     public static final RegistryObject<SwordItem> ARSONIST_SWORD = ITEMS.register("arsonist_sword", () -> new AerialHellSwordItem(ToolMaterials.arsonist, 3, -2.4F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_COMBAT).isImmuneToFire()));
     

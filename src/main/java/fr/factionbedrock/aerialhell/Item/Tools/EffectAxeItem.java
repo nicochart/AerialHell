@@ -6,13 +6,8 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 public class EffectAxeItem extends AerialHellAxeItem
@@ -28,6 +23,14 @@ public class EffectAxeItem extends AerialHellAxeItem
 		ItemStack heldItem = playerIn.getHeldItem(handIn);
 		Random rand = new Random();
 		
-		return super.onItemRightClick(worldIn, playerIn, handIn);
+		if (this == AerialHellBlocksAndItems.VOLUCITE_AXE.get())
+		{
+			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, rand)) {return ActionResult.resultConsume(heldItem);}
+			else {return ActionResult.resultPass(heldItem);}
+		}
+		else
+		{
+			return super.onItemRightClick(worldIn, playerIn, handIn);
+		}
     }
 }

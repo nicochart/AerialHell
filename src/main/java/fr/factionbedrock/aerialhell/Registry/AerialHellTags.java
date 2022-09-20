@@ -90,6 +90,8 @@ public class AerialHellTags
 		
 		public static final ITag.INamedTag<Item> LUNATIC_STUFF = tag("lunatic_stuff");
 		
+		public static final ITag.INamedTag<Item> VOLUCITE_STUFF = tag("volucite_stuff");
+		
 		private static ITag.INamedTag<Item> tag(String name)
 		{
 			return ItemTags.makeWrapperTag(new ResourceLocation(AerialHell.MODID, name).toString());
