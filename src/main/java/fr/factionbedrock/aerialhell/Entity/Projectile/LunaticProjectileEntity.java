@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.network.IPacket;
 import net.minecraft.particles.ParticleTypes;
@@ -90,7 +91,7 @@ public class LunaticProjectileEntity extends ThrowableEntity
     
     private boolean targetIsImmuneToLunaticProjectileKb(Entity target) //target is not a ChainedGod or Lunatic Priest
     {
-    	return (target instanceof ChainedGodEntity || target instanceof LunaticPriestEntity);
+    	return (target instanceof ChainedGodEntity || target instanceof LunaticPriestEntity || (target instanceof PlayerEntity && ((PlayerEntity)target).isCreative()));
     }
     
     @Override
