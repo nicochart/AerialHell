@@ -238,17 +238,27 @@
         {
           "type": "item",
           "name": "aerialhell:heavy_sword",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:magma_cube_shovel",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:magma_cube_pickaxe",
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:ninja_sword",
-          "weight": 1
+          "weight": 2
         },
         {
           "type": "item",
           "name": "aerialhell:heavy_axe",
-          "weight": 1
+          "weight": 2
         },
         {
           "type": "item",

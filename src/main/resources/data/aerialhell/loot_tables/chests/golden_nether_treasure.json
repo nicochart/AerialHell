@@ -249,12 +249,22 @@
         {
           "type": "item",
           "name": "aerialhell:glass_canon_sword",
-          "weight": 5
+          "weight": 4
         },
         {
           "type": "item",
           "name": "aerialhell:god_sword",
-          "weight": 4
+          "weight": 3
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:netherian_king_sword",
+          "weight": 3
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:ninja_master_sword",
+          "weight": 3
         },
         {
           "type": "item",

@@ -71,6 +71,16 @@ public class ToolMaterials
 		() -> Ingredient.fromItems(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //Ingrédient de réparation (Enclume)
 	);
 	
+	public static final IItemTier cursed = new ToolMaterial
+	(
+		3, //Niveau de minage
+		112, //durabilité
+		8.0F, //efficacité
+		3.0F, //Dégats d'attaque
+		15, //Enchantabilité
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //Ingrédient de réparation (Enclume)
+	);
+	
 	public static final IItemTier volucite = new ToolMaterial
 	(
 		4, //Niveau de minage
@@ -98,6 +108,16 @@ public class ToolMaterials
 		8.0F, //efficacité
 		4.0F, //Dégats d'attaque
 		15, //Enchantabilité
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //Ingrédient de réparation (Enclume)
+	);
+	
+	public static final IItemTier breaker = new ToolMaterial
+	(
+		3, //Niveau de minage
+		742, //durabilité
+		7.5F, //efficacité
+		5.0F, //Dégats d'attaque
+		10, //Enchantabilité
 		() -> Ingredient.fromItems(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //Ingrédient de réparation (Enclume)
 	);
 

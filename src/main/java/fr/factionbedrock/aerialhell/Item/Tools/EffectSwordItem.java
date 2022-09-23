@@ -53,12 +53,17 @@ public class EffectSwordItem extends AerialHellSwordItem
 		Random rand = new Random();
 		if (this == AerialHellBlocksAndItems.VOLUCITE_SWORD.get())
 		{
-			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, rand)) {return ActionResult.resultConsume(heldItem);}
+			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, rand, true)) {return ActionResult.resultConsume(heldItem);}
 			else {return ActionResult.resultPass(heldItem);}
 		}
 		else if (this == AerialHellBlocksAndItems.NINJA_SWORD.get())
 		{
-			EffectToolHelper.applyNinjaEffect(this, heldItem, worldIn, playerIn, rand);
+			EffectToolHelper.applyNinjaEffect(this, heldItem, worldIn, playerIn, rand, 400);
+	        return ActionResult.resultConsume(heldItem);
+		}
+		else if (this == AerialHellBlocksAndItems.NINJA_MASTER_SWORD.get())
+		{
+			EffectToolHelper.applyNinjaEffect(this, heldItem, worldIn, playerIn, rand, 340);
 	        return ActionResult.resultConsume(heldItem);
 		}
 		else if (this == AerialHellBlocksAndItems.RANDOM_SWORD.get())
@@ -68,7 +73,7 @@ public class EffectSwordItem extends AerialHellSwordItem
 		}
 		else if (this == AerialHellBlocksAndItems.SWORD_OF_LIGHT.get())
 		{
-			EffectToolHelper.applyLunaticLight(this, heldItem, worldIn, playerIn, rand);
+			EffectToolHelper.applyLunaticLight(this, heldItem, worldIn, playerIn, rand, 160);
 		    return ActionResult.resultConsume(heldItem);
 		}
 		else if (this == AerialHellBlocksAndItems.ANTIDOTE_SWORD.get())
@@ -80,6 +85,11 @@ public class EffectSwordItem extends AerialHellSwordItem
 		{
 			if (EffectToolHelper.tryEatingTool(this, heldItem, worldIn, playerIn, rand)) {return ActionResult.resultConsume(heldItem);}
 			else {return ActionResult.resultPass(heldItem);}
+		}
+		else if (this == AerialHellBlocksAndItems.NETHERIAN_KING_SWORD.get())
+		{
+			EffectToolHelper.applyFireResistanceEffect(this, heldItem, worldIn, playerIn, rand, 200, 600);
+		    return ActionResult.resultConsume(heldItem);
 		}
 		else if (this == AerialHellBlocksAndItems.GLASS_CANON_SWORD.get())
 		{

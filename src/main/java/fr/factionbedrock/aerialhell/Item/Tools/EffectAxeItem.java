@@ -25,8 +25,13 @@ public class EffectAxeItem extends AerialHellAxeItem
 		
 		if (this == AerialHellBlocksAndItems.VOLUCITE_AXE.get())
 		{
-			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, rand)) {return ActionResult.resultConsume(heldItem);}
+			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, rand, true)) {return ActionResult.resultConsume(heldItem);}
 			else {return ActionResult.resultPass(heldItem);}
+		}
+		else if (this == AerialHellBlocksAndItems.AXE_OF_LIGHT.get())
+		{
+			EffectToolHelper.applyLunaticLight(this, heldItem, worldIn, playerIn, rand, 320);
+		    return ActionResult.resultConsume(heldItem);
 		}
 		else
 		{

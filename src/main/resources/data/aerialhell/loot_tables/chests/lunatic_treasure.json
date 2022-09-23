@@ -257,7 +257,17 @@
         },
         {
           "type": "item",
+          "name": "aerialhell:axe_of_light",
+          "weight": 2
+        },
+        {
+          "type": "item",
           "name": "aerialhell:hero_totem",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:stellar_stone_breaker",
           "weight": 2
         },
         {

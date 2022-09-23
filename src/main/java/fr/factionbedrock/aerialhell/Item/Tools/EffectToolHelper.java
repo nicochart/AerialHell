@@ -52,7 +52,7 @@ public class EffectToolHelper
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, 250);
 	}
 	
-	public static boolean tryToApplyVolucitePower(Item ItemIn, ItemStack heldItem, World worldIn, PlayerEntity playerIn, Random rand)
+	public static boolean tryToApplyVolucitePower(Item ItemIn, ItemStack heldItem, World worldIn, PlayerEntity playerIn, Random rand, boolean canApplyFullPower)
 	{
 		int count_volucite = 0, count_heavy = 0;
 		for (ItemStack armorStack : playerIn.getArmorInventoryList())
@@ -60,12 +60,12 @@ public class EffectToolHelper
 			if (armorStack.getItem().isIn(AerialHellTags.Items.VOLUCITE_STUFF)) {count_volucite++;}
 			if (armorStack.getItem().isIn(AerialHellTags.Items.OBSIDIAN_STUFF) || armorStack.getItem().isIn(AerialHellTags.Items.ARSONIST_STUFF)) {count_heavy++;}
 		}
-		if (count_volucite >= 4) {applyFullVolucitePower(ItemIn, heldItem, worldIn, playerIn, rand); return true;} //full volucite armor : full volucite power
+		if (canApplyFullPower && count_volucite >= 4) {applyFullVolucitePower(ItemIn, heldItem, worldIn, playerIn, rand); return true;} //full volucite armor : full volucite power
 		else if (count_heavy == 0 || count_volucite > 0) {applyHalfVolucitePower(ItemIn, heldItem, worldIn, playerIn, rand); return true;} //not too heavy : half volucite power
 		else {return false;} //any heavy armor piece equiped and no volucite armor piece equiped : no effect
 	}
 	
-	public static void applyNinjaEffect(Item ItemIn, ItemStack heldItem, World worldIn, PlayerEntity playerIn, Random rand)
+	public static void applyNinjaEffect(Item ItemIn, ItemStack heldItem, World worldIn, PlayerEntity playerIn, Random rand, int cooldown)
 	{
 		addParticleOnPlayer(20, ParticleTypes.CLOUD, playerIn, worldIn, rand);
 		playerIn.playSound(SoundEvents.ENTITY_ILLUSIONER_CAST_SPELL, 1.0F, 1.6F);
@@ -74,7 +74,7 @@ public class EffectToolHelper
 			playerIn.addPotionEffect(new EffectInstance(Effects.INVISIBILITY, 200, 0));
 			playerIn.addPotionEffect(new EffectInstance(Effects.SPEED, 120, 0));
 		}
-		setDamageAndCooldown(ItemIn, heldItem, playerIn, 400);
+		setDamageAndCooldown(ItemIn, heldItem, playerIn, cooldown);
 	}
 	
 	public static void applyRandomEffect(Item ItemIn, ItemStack heldItem, World worldIn, PlayerEntity playerIn, Random rand)
@@ -105,11 +105,11 @@ public class EffectToolHelper
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, 900);
 	}
 	
-	public static void applyLunaticLight(Item ItemIn, ItemStack heldItem, World worldIn, PlayerEntity playerIn, Random rand)
+	public static void applyLunaticLight(Item ItemIn, ItemStack heldItem, World worldIn, PlayerEntity playerIn, Random rand, int baseCooldown)
 	{
 		int count = 0;
 		for (ItemStack armorStack : playerIn.getArmorInventoryList()) {if (armorStack.getItem().isIn(AerialHellTags.Items.LUNATIC_STUFF)) {count++;}}
-		int cooldown = count == 4 ? 80 : 160;
+		int cooldown = count == 4 ? baseCooldown/2 : baseCooldown;
 		if (!worldIn.isRemote)
         {
 			LunaticProjectileEntity lunaticProjectileEntity = new LunaticProjectileEntity(worldIn, playerIn, playerIn.getLookVec().x, playerIn.getLookVec().y, playerIn.getLookVec().z, 0.7f, 0);
@@ -173,5 +173,30 @@ public class EffectToolHelper
 			cooldown = 600;
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, cooldown);
+	}
+	
+	public static void applyFireResistanceEffect(Item ItemIn, ItemStack heldItem, World worldIn, PlayerEntity playerIn, Random rand, int duration, int base_cooldown)
+	{
+		addParticleOnPlayer(20, ParticleTypes.FLAME, playerIn, worldIn, rand);
+		playerIn.playSound(SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, 1.0F, 0.5F + rand.nextFloat());
+		int cooldown = base_cooldown,count = 0;
+		for (ItemStack armorStack : playerIn.getArmorInventoryList()) {if (armorStack.getItem().isIn(AerialHellTags.Items.ARSONIST_STUFF)) {count++;}}
+		if (count >= 4) {cooldown/=2;}
+		if (!worldIn.isRemote)
+		{
+			playerIn.addPotionEffect(new EffectInstance(Effects.RESISTANCE, duration, 0));
+		}
+		setDamageAndCooldown(ItemIn, heldItem, playerIn, cooldown);
+	}
+	
+	public static void applyJumpBoostEffect(Item ItemIn, ItemStack heldItem, World worldIn, PlayerEntity playerIn, Random rand, int duration, int amplifier)
+	{
+		addParticleOnPlayer(20, ParticleTypes.CRIMSON_SPORE, playerIn, worldIn, rand);
+		playerIn.playSound(SoundEvents.ENTITY_PARROT_IMITATE_MAGMA_CUBE, 1.0F, 0.5F + rand.nextFloat());
+		if (!worldIn.isRemote)
+		{
+			playerIn.addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, duration, amplifier));
+		}
+		setDamageAndCooldown(ItemIn, heldItem, playerIn, 400);
 	}
 }
