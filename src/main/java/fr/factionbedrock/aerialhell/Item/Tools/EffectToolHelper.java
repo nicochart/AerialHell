@@ -5,6 +5,7 @@ import java.util.Random;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -184,7 +185,7 @@ public class EffectToolHelper
 		if (count >= 4) {cooldown/=2;}
 		if (!worldIn.isRemote)
 		{
-			playerIn.addPotionEffect(new EffectInstance(Effects.RESISTANCE, duration, 0));
+			playerIn.addPotionEffect(new EffectInstance(Effects.FIRE_RESISTANCE, duration, 0));
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, cooldown);
 	}
@@ -198,5 +199,11 @@ public class EffectToolHelper
 			playerIn.addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, duration, amplifier));
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, 400);
+	}
+	
+	public static class PassiveEffects
+	{
+		public static void applyMagmaCubeEffect(LivingEntity entityIn) {((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 400, 0));}
+		public static void applyGodEffect(LivingEntity entityIn) {((LivingEntity) entityIn).addPotionEffect(new EffectInstance(AerialHellPotionEffects.GOD.get(), 400, 0));}
 	}
 }

@@ -3,13 +3,11 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -32,10 +30,7 @@ public class EffectSwordItem extends AerialHellSwordItem
 			{
 				if (((LivingEntity) entityIn).getHeldItemOffhand().getItem() == this || ((LivingEntity) entityIn).getHeldItemMainhand().getItem() == this)
 				{
-					if (this == AerialHellBlocksAndItems.GOD_SWORD.get())
-					{
-						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(AerialHellPotionEffects.GOD.get(), 400, 0));
-					}
+					if (this == AerialHellBlocksAndItems.GOD_SWORD.get()) {EffectToolHelper.PassiveEffects.applyGodEffect((LivingEntity)entityIn);}
 				}
 			}
 			timer = 200;
