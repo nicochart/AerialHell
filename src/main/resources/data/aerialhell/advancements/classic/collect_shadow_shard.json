@@ -1,0 +1,20 @@
+{
+  "parent": "aerialhell:classic/shadow_hunter",
+  "display": {
+    "icon": {"item": "aerialhell:shadow_shard"},
+    "title": {"translate": "advancements.classic.collect_shadow_shard.title"},
+    "description": {"translate": "advancements.classic.collect_shadow_shard.desc"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "shadow_shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"item": "aerialhell:shadow_shard"}]}
+    }
+  },
+  "requirements": [["shadow_shard"]],
+  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+}

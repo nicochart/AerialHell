@@ -1,0 +1,20 @@
+{
+  "parent": "aerialhell:story/kill_mud_boss",
+  "display": {
+    "icon": {"item": "aerialhell:ninja_sword", "nbt": "{Damage:0}"},
+    "title": {"translate": "advancements.classic.obtain_ninja_sword.title"},
+    "description": {"translate": "advancements.classic.obtain_ninja_sword.desc"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "ninja": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"item": "aerialhell:ninja_sword"}]}
+    }
+  },
+  "requirements": [["ninja"]],
+  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+}

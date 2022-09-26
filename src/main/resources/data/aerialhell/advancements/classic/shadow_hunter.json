@@ -1,0 +1,24 @@
+{
+  "parent": "aerialhell:classic/ruby_tools",
+  "display": {
+    "icon": {"item": "aerialhell:shadow_spider_eye"},
+    "title": {"translate": "advancements.classic.shadow_hunter.title"},
+    "description": {"translate": "advancements.classic.shadow_hunter.desc"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "shadow_spider": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {"entity": [{"condition": "minecraft:entity_properties","predicate": {"type": "aerialhell:shadow_spider"}, "entity": "this"}]}
+    },
+    "shadow_troll": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {"entity": [{"condition": "minecraft:entity_properties","predicate": {"type": "aerialhell:shadow_troll"}, "entity": "this"}]}
+    }
+  },
+  "requirements": [["shadow_spider", "shadow_troll"]],
+  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+}

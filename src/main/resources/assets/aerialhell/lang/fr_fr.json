@@ -609,6 +609,14 @@
   "advancements.classic.collect_ruby.desc": "Obtenez du Rubis",
   "advancements.classic.ruby_tools.title": "Toujours plus solide !",
   "advancements.classic.ruby_tools.desc": "Fabriquez un outils en Rubis",
+  "advancements.classic.shadow_hunter.title": "Chasseur des Ombres",
+  "advancements.classic.shadow_hunter.desc": "Tuez un Monstre des Ombres",
+  "advancements.classic.collect_shadow_shard.title": "Matière Sombre",
+  "advancements.classic.collect_shadow_shard.desc": "Collectez un Morceau d'Ombre",
+  "advancements.classic.cursed_tools.title": "Arme Maudite",
+  "advancements.classic.cursed_tools.desc": "Récupérez une Arme Maudite",
+  "advancements.secret.torn_soul.title": "Votre Âme est mienne",
+  "advancements.secret.torn_soul.desc": "Arrachez l'Âme d'un ennemi",
   "advancements.classic.gods_bucket.title": "Seau des Dieux",
   "advancements.classic.gods_bucket.desc": "Remplissez un seau de Liquide des Dieux",
   "advancements.classic.obtain_ruby_armor.title": "Rubifié comme jamais",
@@ -617,6 +625,8 @@
   "advancements.classic.shoot_ruby_blowpipe_arrow.desc": "Tirez sur un ennemi avec une Flèche de Sarbacane en Rubis",
   "advancements.classic.throw_throwing_knife.title": "Fendez l'air !",
   "advancements.classic.throw_throwing_knife.desc": "Lancez un couteau de lancer sur un ennemi",
+  "advancements.secret.kill_fat_phantom.title": "Grossophobe",
+  "advancements.secret.kill_fat_phantom.desc": "Tuez un Gros Phantom",
 
   "advancements.classic.collect_magmatic_gel.title": "Où sont mes gants ?",
   "advancements.classic.collect_magmatic_gel.desc": "Récupérez du Gel Magmatique",
@@ -636,6 +646,8 @@
   "advancements.story.enter_mud_dungeon.desc": "Entrez dans un Donjon de Boue",
   "advancements.classic.obtain_obsidian_stuff.title": "Plus solide ? Impossible !",
   "advancements.classic.obtain_obsidian_stuff.desc": "Obtenez une pièce d'armure ou un outils en Obsidienne",
+  "advancements.classic.obtain_ninja_sword.title": "Ninjaaaaaa",
+  "advancements.classic.obtain_ninja_sword.desc": "Obtenez une Épée de Ninja",
   "advancements.story.kill_mud_boss.title": "La fin du Mage Boueux",
   "advancements.story.kill_mud_boss.desc": "Tuez le Mage des Cycles",
 
@@ -643,6 +655,8 @@
   "advancements.story.enter_lunatic_dungeon.desc": "Entrez dans un Temple Lunatique",
   "advancements.classic.obtain_lunatic_stuff.title": "Du Matériel Crystalisé",
   "advancements.classic.obtain_lunatic_stuff.desc": "Obtenez une pièce d'armure ou un outils en Crystal Lunatique",
+  "advancements.secret.light_tools.title": "Arme de Lumière",
+  "advancements.secret.light_tools.desc": "Obtenez une Arme de Lumière",
   "advancements.story.kill_lunatic_boss.title": "Croisade Anti-Lunatique",
   "advancements.story.kill_lunatic_boss.desc": "Tuez le Prêtre Lunatique",
 
@@ -650,6 +664,8 @@
   "advancements.story.enter_golden_nether_dungeon.desc": "Entrez dans une Prison Dorée du Nether",
   "advancements.classic.obtain_arsonist_stuff.title": "Pyromane !",
   "advancements.classic.obtain_arsonist_stuff.desc": "Obtenez une pièce d'armure ou un outils Incendière",
+  "advancements.secret.glass_cannon.title": "Canon en Verre",
+  "advancements.secret.glass_cannon.desc": "Fragile mais Puissant",
   "advancements.story.kill_golden_nether_boss.title": "Déchaîné",
   "advancements.story.kill_golden_nether_boss.desc": "Tuez le Dieu Enchaîné"
 }
