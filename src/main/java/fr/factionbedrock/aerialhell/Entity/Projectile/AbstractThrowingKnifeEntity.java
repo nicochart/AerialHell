@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Entity;
+package fr.factionbedrock.aerialhell.Entity.Projectile;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

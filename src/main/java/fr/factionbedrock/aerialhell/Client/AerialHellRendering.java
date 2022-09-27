@@ -198,6 +198,9 @@ public class AerialHellRendering
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.AZURITE_THROWING_KNIFE.get(), ThrowingKnifeRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.MAGMATIC_GEL_THROWING_KNIFE.get(), ThrowingKnifeRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.VOLUCITE_THROWING_KNIFE.get(), ThrowingKnifeRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.OBSIDIAN_THROWING_KNIFE.get(), ThrowingKnifeRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.LUNATIC_CRYSTAL_THROWING_KNIFE.get(), ThrowingKnifeRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.ARSONIST_THROWING_KNIFE.get(), ThrowingKnifeRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.LIGHTNING_THROWING_KNIFE.get(), ThrowingKnifeRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.POISONBALL.get(), PoisonballProjectileRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.VOLUCITE_BLOWPIPE_ARROW.get(), AerialArrowRenderer::new);

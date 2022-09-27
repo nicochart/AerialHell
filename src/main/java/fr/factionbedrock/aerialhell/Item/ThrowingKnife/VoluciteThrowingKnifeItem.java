@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.ThrowingKnife;
 
-import fr.factionbedrock.aerialhell.Entity.AbstractThrowingKnifeEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractThrowingKnifeEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ThrowingKnife.VoluciteThrowingKnifeEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRarities;
 import net.minecraft.entity.player.PlayerEntity;

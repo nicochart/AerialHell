@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.ThrowingKnife;
 
-import fr.factionbedrock.aerialhell.Entity.AbstractThrowingKnifeEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractThrowingKnifeEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItemGroups;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -23,7 +23,7 @@ public abstract class AbstractThrowingKnifeItem extends Item
 	
 	public AbstractThrowingKnifeItem(Properties properties) //default group
 	{
-		super(properties.maxStackSize(16).group(AerialHellItemGroups.AERIAL_HELL_BLOCKS));
+		super(properties.maxStackSize(16).group(AerialHellItemGroups.AERIAL_HELL_COMBAT));
 	}
 	
 	@Override

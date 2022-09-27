@@ -59,15 +59,7 @@ import fr.factionbedrock.aerialhell.Item.EnchantedEffectTotemItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.*;
 import fr.factionbedrock.aerialhell.Item.Material.ArmorMaterials;
 import fr.factionbedrock.aerialhell.Item.Material.ToolMaterials;
-import fr.factionbedrock.aerialhell.Item.ThrowingKnife.AzuriteThrowingKnifeItem;
-import fr.factionbedrock.aerialhell.Item.ThrowingKnife.DiamondThrowingKnifeItem;
-import fr.factionbedrock.aerialhell.Item.ThrowingKnife.GoldThrowingKnifeItem;
-import fr.factionbedrock.aerialhell.Item.ThrowingKnife.IronThrowingKnifeItem;
-import fr.factionbedrock.aerialhell.Item.ThrowingKnife.LightningThrowingKnifeItem;
-import fr.factionbedrock.aerialhell.Item.ThrowingKnife.MagmaticGelThrowingKnifeItem;
-import fr.factionbedrock.aerialhell.Item.ThrowingKnife.NetheriteThrowingKnifeItem;
-import fr.factionbedrock.aerialhell.Item.ThrowingKnife.RubyThrowingKnifeItem;
-import fr.factionbedrock.aerialhell.Item.ThrowingKnife.VoluciteThrowingKnifeItem;
+import fr.factionbedrock.aerialhell.Item.ThrowingKnife.*;
 import fr.factionbedrock.aerialhell.Item.Tools.AerialHellAxeItem;
 import fr.factionbedrock.aerialhell.Item.Tools.AerialHellPickaxeItem;
 import fr.factionbedrock.aerialhell.Item.Tools.AerialHellSwordItem;
@@ -1013,6 +1005,9 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> AZURITE_THROWING_KNIFE = ITEMS.register("azurite_throwing_knife", () -> new AzuriteThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
 	public static final RegistryObject<Item> MAGMATIC_GEL_THROWING_KNIFE = ITEMS.register("magmatic_gel_throwing_knife", () -> new MagmaticGelThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
 	public static final RegistryObject<Item> VOLUCITE_THROWING_KNIFE = ITEMS.register("volucite_throwing_knife", () -> new VoluciteThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
+	public static final RegistryObject<Item> OBSIDIAN_THROWING_KNIFE = ITEMS.register("obsidian_throwing_knife", () -> new ObsidianThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
+	public static final RegistryObject<Item> LUNATIC_CRYSTAL_THROWING_KNIFE = ITEMS.register("lunatic_crystal_throwing_knife", () -> new LunaticCrystalThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
+	public static final RegistryObject<Item> ARSONIST_THROWING_KNIFE = ITEMS.register("arsonist_throwing_knife", () -> new ArsonistThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
 	public static final RegistryObject<Item> LIGHTNING_THROWING_KNIFE = ITEMS.register("lightning_throwing_knife", () -> new LightningThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
 	
 	//food

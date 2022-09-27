@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile.ThrowingKnife;
 
-import fr.factionbedrock.aerialhell.Entity.AbstractThrowingKnifeEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractThrowingKnifeEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import net.minecraft.entity.Entity;
@@ -64,7 +64,7 @@ public class VoluciteThrowingKnifeEntity extends AbstractThrowingKnifeEntity
 	@Override
 	protected float getKnifeDamage()
 	{
-		return 11.0F;
+		return 13.0F;
 	}
 	
 	@Override

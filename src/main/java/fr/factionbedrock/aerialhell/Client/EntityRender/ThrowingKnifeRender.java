@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Entity.AbstractThrowingKnifeEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractThrowingKnifeEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ThrowingKnife.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -27,6 +27,9 @@ public class ThrowingKnifeRender<T extends AbstractThrowingKnifeEntity> extends 
 	private static final ResourceLocation AZURITE_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/azurite_throwing_knife.png");
 	private static final ResourceLocation MAGMATIC_GEL_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/magmatic_gel_throwing_knife.png");
 	private static final ResourceLocation VOLUCITE_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/volucite_throwing_knife.png");
+	private static final ResourceLocation OBSIDIAN_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/obsidian_throwing_knife.png");
+	private static final ResourceLocation LUNATIC_CRYSTAL_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/lunatic_crystal_throwing_knife.png");
+	private static final ResourceLocation ARSONIST_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/arsonist_throwing_knife.png");
 	private static final ResourceLocation LIGHTNING_THROWING_KNIFE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/lightning_throwing_knife.png");
 	
 	public ThrowingKnifeRender(EntityRendererManager renderManager)
@@ -67,6 +70,18 @@ public class ThrowingKnifeRender<T extends AbstractThrowingKnifeEntity> extends 
 		else if (entity instanceof VoluciteThrowingKnifeEntity)
 		{
 			return VOLUCITE_THROWING_KNIFE_TEXTURE;
+		}
+		else if (entity instanceof ObsidianThrowingKnifeEntity)
+		{
+			return OBSIDIAN_THROWING_KNIFE_TEXTURE;
+		}
+		else if (entity instanceof LunaticCrystalThrowingKnifeEntity)
+		{
+			return LUNATIC_CRYSTAL_THROWING_KNIFE_TEXTURE;
+		}
+		else if (entity instanceof ArsonistThrowingKnifeEntity)
+		{
+			return ARSONIST_THROWING_KNIFE_TEXTURE;
 		}
 		else if (entity instanceof DiamondThrowingKnifeEntity)
 		{
