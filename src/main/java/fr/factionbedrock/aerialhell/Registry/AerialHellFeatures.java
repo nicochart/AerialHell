@@ -36,6 +36,7 @@ import net.minecraft.world.gen.feature.BlockStateFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.FeatureSpread;
+import net.minecraft.world.gen.feature.FeatureSpreadConfig;
 import net.minecraft.world.gen.feature.Features;
 import net.minecraft.world.gen.feature.HugeFungusConfig;
 import net.minecraft.world.gen.feature.IFeatureConfig;
@@ -71,6 +72,7 @@ public class AerialHellFeatures
 		public static final BlockClusterFeatureConfig SHADOW_GRASS_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_GRASS.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(32).build();
 		public static final BlockClusterFeatureConfig SHADOW_GRASS_BALL_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(32).build();
 		public static final BlockClusterFeatureConfig SHADOW_BRAMBLES_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_BRAMBLES.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(32).build();
+		public static final BlockClusterFeatureConfig PURPLISH_STELLAR_GRASS_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.PURPLISH_STELLAR_GRASS.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(32).build();
 		
 		public static final BlockClusterFeatureConfig AERIAL_HELL_BELLFLOWERS_CONFIG = (new BlockClusterFeatureConfig.Builder((new WeightedBlockStateProvider())
                 .addWeightedBlockstate(AerialHellBlocksAndItems.BELLFLOWER.get().getDefaultState(), 1), SimpleBlockPlacer.PLACER))
@@ -162,12 +164,19 @@ public class AerialHellFeatures
 			    new TwoLayerFeature(1, 0, 1)
 			    	)).setIgnoreVines().build();
 		
-		public static final HugeFungusConfig GIANT_CORTINARIUS_VIOLACEUS_CONFIG = new HugeFungusConfig(
+		public static final HugeFungusConfig GIANT_CORTINARIUS_VIOLACEUS_PLANTED_CONFIG = new HugeFungusConfig(
 				AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().getDefaultState(),
 				AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_STEM.get().getDefaultState(),
 				AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK.get().getDefaultState(),
 				AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_LIGHT.get().getDefaultState(),
 				true);
+		
+		public static final HugeFungusConfig GIANT_CORTINARIUS_VIOLACEUS_CONFIG = new HugeFungusConfig(
+				AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().getDefaultState(),
+				AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_STEM.get().getDefaultState(),
+				AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK.get().getDefaultState(),
+				AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_LIGHT.get().getDefaultState(),
+				false);
 	}
 	
 	public static StructureFeature<?, ?> CONFIGURED_OVERWORLD_ABANDONNED_PORTAL_STRUCTURE = AerialHellStructures.OVERWORLD_ABANDONNED_PORTAL_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
@@ -191,6 +200,7 @@ public class AerialHellFeatures
     public static ConfiguredFeature<?, ?> SHADOW_GRASS = Feature.RANDOM_PATCH.withConfiguration(Configs.SHADOW_GRASS_PATCH_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(2);
     public static ConfiguredFeature<?, ?> SHADOW_GRASS_BALL = Feature.RANDOM_PATCH.withConfiguration(Configs.SHADOW_GRASS_BALL_PATCH_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(2);
     public static ConfiguredFeature<?, ?> SHADOW_BRAMBLES = Feature.RANDOM_PATCH.withConfiguration(Configs.SHADOW_BRAMBLES_PATCH_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(2);
+    public static ConfiguredFeature<?, ?> PURPLISH_STELLAR_GRASS = Feature.RANDOM_PATCH.withConfiguration(Configs.PURPLISH_STELLAR_GRASS_PATCH_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(2);
     
     public static ConfiguredFeature<?, ?> AERIAL_HELL_FLOWERS = Feature.FLOWER.withConfiguration(Configs.AERIAL_HELL_FLOWERS_CONFIG).withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242731_b(2);
     public static ConfiguredFeature<?, ?> AERIAL_HELL_BELLFLOWERS = Feature.FLOWER.withConfiguration(Configs.AERIAL_HELL_BELLFLOWERS_CONFIG).withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242731_b(10);
@@ -210,7 +220,8 @@ public class AerialHellFeatures
     public static ConfiguredFeature<?, ?> GOLDEN_BEECH_BASIC = Feature.TREE.withConfiguration(Configs.GOLDEN_BEECH_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     public static ConfiguredFeature<?, ?> CRYSTALLIZED_TREE_BASIC = Feature.TREE.withConfiguration(Configs.CRYSTALLIZED_TREE_BASIC_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     
-    public static ConfiguredFeature<HugeFungusConfig, ?> GIANT_CORTINARIUS_VIOLACEUS = Feature.HUGE_FUNGUS.withConfiguration(Configs.GIANT_CORTINARIUS_VIOLACEUS_CONFIG);
+    public static ConfiguredFeature<HugeFungusConfig, ?> GIANT_CORTINARIUS_VIOLACEUS_PLANTED = Feature.HUGE_FUNGUS.withConfiguration(Configs.GIANT_CORTINARIUS_VIOLACEUS_PLANTED_CONFIG);
+    public static ConfiguredFeature<?, ?> GIANT_CORTINARIUS_VIOLACEUS = Feature.HUGE_FUNGUS.withConfiguration(Configs.GIANT_CORTINARIUS_VIOLACEUS_CONFIG).withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(8)));
     
     public static ConfiguredFeature<?, ?> SKY_CACTUS_PLAIN = new SkyCactusFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(50);
     public static ConfiguredFeature<?, ?> SKY_CACTUS_OCEAN = new SkyCactusFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(25);
@@ -273,6 +284,7 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "shadow_grass"), SHADOW_GRASS);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "shadow_grass_ball"), SHADOW_GRASS_BALL);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "shadow_brambles"), SHADOW_BRAMBLES);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "purplish_stellar_grass"), PURPLISH_STELLAR_GRASS);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "aerial_hell_flowers"), AERIAL_HELL_FLOWERS);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "aerial_hell_bellflowers"), AERIAL_HELL_BELLFLOWERS);
@@ -291,6 +303,7 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "mega_shadow_pine_basic"), MEGA_SHADOW_PINE_BASIC);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "mega_purple_shadow_pine_basic"), MEGA_PURPLE_SHADOW_PINE_BASIC);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "crystallized_tree_basic"), CRYSTALLIZED_TREE_BASIC);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_cortinarius_violaceus_planted"), GIANT_CORTINARIUS_VIOLACEUS_PLANTED);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_cortinarius_violaceus"), GIANT_CORTINARIUS_VIOLACEUS);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "sky_cactus_plain"), SKY_CACTUS_PLAIN);
