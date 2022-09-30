@@ -1,0 +1,11 @@
+{
+    "parent": "minecraft:block/composter",
+    "textures":
+    {
+        "particle": "aerialhell:block/gray_shroom_composter_side",
+        "top": "aerialhell:block/gray_shroom_composter_top",
+        "bottom": "aerialhell:block/gray_shroom_composter_bottom",
+        "side": "aerialhell:block/gray_shroom_composter_side",
+        "inside": "aerialhell:block/gray_shroom_composter_bottom"
+    }
+}

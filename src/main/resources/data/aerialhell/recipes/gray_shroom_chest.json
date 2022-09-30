@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "# #",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:gray_shroom_planks"
+    }
+  },
+  "result": {
+    "item": "aerialhell:gray_shroom_chest"
+  }
+}

@@ -1,0 +1,8 @@
+{
+    "parent": "block/slab_top",
+    "textures": {
+        "bottom": "aerialhell:block/gray_shroom_planks",
+        "top": "aerialhell:block/gray_shroom_planks",
+        "side": "aerialhell:block/gray_shroom_planks"
+    }
+}

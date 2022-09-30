@@ -34,6 +34,7 @@ import fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedStairsBlock;
 import fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedWallBlock;
 import fr.factionbedrock.aerialhell.Block.DungeonCores.DungeonCoreBlock;
 import fr.factionbedrock.aerialhell.Block.Plants.AerialHellDeadBushBlock;
+import fr.factionbedrock.aerialhell.Block.Plants.AerialHellFungusBlock;
 import fr.factionbedrock.aerialhell.Block.Plants.AerialHellTallGrassBlock;
 import fr.factionbedrock.aerialhell.Block.Plants.BramblesBlock;
 import fr.factionbedrock.aerialhell.Block.Plants.LeavesWithAmbientParticlesBlock;
@@ -90,7 +91,9 @@ import net.minecraft.block.FenceGateBlock;
 import net.minecraft.block.FlowerBlock;
 import net.minecraft.block.FlowerPotBlock;
 import net.minecraft.block.FlowingFluidBlock;
+import net.minecraft.block.FungusBlock;
 import net.minecraft.block.GlassBlock;
+import net.minecraft.block.HugeMushroomBlock;
 import net.minecraft.block.LadderBlock;
 import net.minecraft.block.LanternBlock;
 import net.minecraft.block.LeavesBlock;
@@ -163,6 +166,8 @@ public class AerialHellBlocksAndItems
 		ComposterBlock.registerCompostable(0.3F, LAPIS_ROBINIA_LEAVES_ITEM.get());
 		ComposterBlock.registerCompostable(0.3F, SHADOW_PINE_SAPLING_ITEM.get());
 		ComposterBlock.registerCompostable(0.3F, SHADOW_PINE_LEAVES_ITEM.get());
+		ComposterBlock.registerCompostable(0.3F, CORTINARIUS_VIOLACEUS.get());
+		ComposterBlock.registerCompostable(0.2F, GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK.get());
 		ComposterBlock.registerCompostable(0.1F, SKY_CACTUS_FIBER.get());
 		ComposterBlock.registerCompostable(0.4F, SKY_CACTUS_ITEM.get());
 		ComposterBlock.registerCompostable(0.2F, VIBRANT_SKY_CACTUS_FIBER.get());
@@ -185,6 +190,7 @@ public class AerialHellBlocksAndItems
 		pot.addPlant(COPPER_PINE_SAPLING.getId(), POTTED_COPPER_PINE_SAPLING);
 		pot.addPlant(LAPIS_ROBINIA_SAPLING.getId(), POTTED_LAPIS_ROBINIA_SAPLING);
 		pot.addPlant(SHADOW_PINE_SAPLING.getId(), POTTED_SHADOW_PINE_SAPLING);
+		pot.addPlant(CORTINARIUS_VIOLACEUS.getId(), POTTED_CORTINARIUS_VIOLACEUS);
 	}
 	
 	public static void registerAxeStrippingBlocks()
@@ -196,6 +202,7 @@ public class AerialHellBlocksAndItems
 				.put(COPPER_PINE_LOG.get(), STRIPPED_COPPER_PINE_LOG.get())
 				.put(LAPIS_ROBINIA_LOG.get(), STRIPPED_LAPIS_ROBINIA_LOG.get())
 				.put(SHADOW_PINE_LOG.get(), STRIPPED_SHADOW_PINE_LOG.get())
+				.put(GIANT_CORTINARIUS_VIOLACEUS_STEM.get(), STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM.get())
 				.build();
 	}
 	
@@ -203,11 +210,13 @@ public class AerialHellBlocksAndItems
 	public static AbstractBlock.Properties AERIAL_TREE_MATERIAL = AbstractBlock.Properties.create(Material.WOOD, MaterialColor.BROWN).hardnessAndResistance(2.5F, 2.5F).sound(SoundType.WOOD).harvestTool(ToolType.AXE);
 	public static AbstractBlock.Properties COPPER_PINE_MATERIAL = AbstractBlock.Properties.create(Material.WOOD, MaterialColor.BROWN).hardnessAndResistance(4.5F, 4.5F).sound(SoundType.WOOD).harvestTool(ToolType.AXE);
 	public static AbstractBlock.Properties SHADOW_PINE_MATERIAL = AbstractBlock.Properties.create(Material.WOOD, MaterialColor.BLACK).hardnessAndResistance(4.0F, 4.0F).sound(SoundType.WOOD).harvestTool(ToolType.AXE);
+	public static AbstractBlock.Properties SHROOM_MATERIAL = AbstractBlock.Properties.create(Material.WOOD, MaterialColor.GRAY).hardnessAndResistance(3.5F, 3.5F).sound(SoundType.HYPHAE).harvestTool(ToolType.AXE);
 	public static AbstractBlock.Properties AERIAL_TREE_SIGN_MATERIAL = AbstractBlock.Properties.create(Material.WOOD, MaterialColor.BROWN).hardnessAndResistance(2.5F, 2.5F).sound(SoundType.WOOD).harvestTool(ToolType.AXE).notSolid().doesNotBlockMovement();
 	public static AbstractBlock.Properties COPPER_PINE_SIGN_MATERIAL = AbstractBlock.Properties.create(Material.WOOD, MaterialColor.BROWN).hardnessAndResistance(4.5F, 4.5F).sound(SoundType.WOOD).harvestTool(ToolType.AXE).notSolid().doesNotBlockMovement();
 	public static AbstractBlock.Properties SHADOW_PINE_SIGN_MATERIAL = AbstractBlock.Properties.create(Material.WOOD, MaterialColor.BLACK).hardnessAndResistance(4.0F, 4.0F).sound(SoundType.WOOD).harvestTool(ToolType.AXE).notSolid().doesNotBlockMovement();
 	public static AbstractBlock.Properties SKY_CACTUS_FIBER_MATERIAL = AbstractBlock.Properties.create(Material.CACTUS, MaterialColor.CYAN).hardnessAndResistance(2.5F, 2.5F).sound(SoundType.WOOD).harvestTool(ToolType.AXE);
 	public static AbstractBlock.Properties SKY_CACTUS_FIBER_SIGN_MATERIAL = AbstractBlock.Properties.create(Material.CACTUS, MaterialColor.CYAN).hardnessAndResistance(2.5F, 2.5F).sound(SoundType.WOOD).harvestTool(ToolType.AXE).notSolid().doesNotBlockMovement();
+	public static AbstractBlock.Properties SHROOM_SIGN_MATERIAL = AbstractBlock.Properties.create(Material.WOOD, MaterialColor.GRAY).hardnessAndResistance(3.5F, 3.5F).sound(SoundType.WOOD).harvestTool(ToolType.AXE).notSolid().doesNotBlockMovement();
 	public static AbstractBlock.Properties MUD_CHEST_MATERIAL = AbstractBlock.Properties.create(Material.ROCK, MaterialColor.GRAY).hardnessAndResistance(20.0F, 1000.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).setRequiresTool().notSolid();
 	public static AbstractBlock.Properties LUNATIC_CHEST_MATERIAL = AbstractBlock.Properties.create(Material.ROCK, MaterialColor.ORANGE_TERRACOTTA).hardnessAndResistance(30.0F, 1000.0F).sound(SoundType.NETHERITE).harvestTool(ToolType.PICKAXE).setRequiresTool().notSolid();
 	public static AbstractBlock.Properties VOLUCITE_CHEST_MATERIAL = AbstractBlock.Properties.create(Material.IRON, MaterialColor.CLAY).hardnessAndResistance(50.0F, 1200.0F).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).setRequiresTool().notSolid();
@@ -323,10 +332,26 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_PINE_SAPLING_ITEM = ITEMS.register("shadow_pine_sapling", () -> new BlockItem(SHADOW_PINE_SAPLING.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> PURPLE_SHADOW_PINE_SAPLING_ITEM = ITEMS.register("purple_shadow_pine_sapling", () -> new BlockItem(PURPLE_SHADOW_PINE_SAPLING.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	
+	//shroom
+	public static final RegistryObject<RotatedPillarBlock> GIANT_CORTINARIUS_VIOLACEUS_STEM = BLOCKS.register("giant_cortinarius_violaceus_stem", () -> new RotatedPillarBlock(SHROOM_MATERIAL));
+	public static final RegistryObject<RotatedPillarBlock> STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM = BLOCKS.register("stripped_giant_cortinarius_violaceus_stem", () -> new RotatedPillarBlock(AbstractBlock.Properties.from(GIANT_CORTINARIUS_VIOLACEUS_STEM.get()).harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK = BLOCKS.register("giant_cortinarius_violaceus_cap_block", () -> new HugeMushroomBlock(AbstractBlock.Properties.create(Material.ORGANIC, MaterialColor.BLUE_TERRACOTTA).harvestTool(ToolType.HOE).hardnessAndResistance(0.5F).sound(SoundType.HYPHAE)));
+	public static final RegistryObject<Block> GIANT_CORTINARIUS_VIOLACEUS_LIGHT = BLOCKS.register("giant_cortinarius_violaceus_light", () -> new Block(AbstractBlock.Properties.create(Material.ORGANIC, MaterialColor.PURPLE).hardnessAndResistance(1.0F).sound(SoundType.SHROOMLIGHT).setLightLevel((state) -> {return 15;})));
+	public static final RegistryObject<Block> GRAY_SHROOM_PLANKS = BLOCKS.register("gray_shroom_planks", () -> new Block(AbstractBlock.Properties.from(GIANT_CORTINARIUS_VIOLACEUS_STEM.get())));
+	public static final RegistryObject<Block> GRAY_SHROOM_BOOKSHELF = BLOCKS.register("gray_shroom_bookshelf", () -> new AerialHellBookshelfBlock(AbstractBlock.Properties.from(GRAY_SHROOM_PLANKS.get())));
+	public static final RegistryObject<FungusBlock> CORTINARIUS_VIOLACEUS = BLOCKS.register("cortinarius_violaceus", () -> new AerialHellFungusBlock(AbstractBlock.Properties.from(Blocks.WARPED_FUNGUS), () -> {return AerialHellFeatures.GIANT_CORTINARIUS_VIOLACEUS;}));
+	public static final RegistryObject<Item> GIANT_CORTINARIUS_VIOLACEUS_STEM_ITEM = ITEMS.register("giant_cortinarius_violaceus_stem", () -> new BurnableBlockItem(GIANT_CORTINARIUS_VIOLACEUS_STEM.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 100));
+	public static final RegistryObject<Item> STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM_ITEM = ITEMS.register("stripped_giant_cortinarius_violaceus_stem", () -> new BurnableBlockItem(STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 100));
+	public static final RegistryObject<Item> GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK_ITEM = ITEMS.register("giant_cortinarius_violaceus_cap_block", () -> new BlockItem(GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> GIANT_CORTINARIUS_VIOLACEUS_LIGHT_ITEM = ITEMS.register("giant_cortinarius_violaceus_light", () -> new BlockItem(GIANT_CORTINARIUS_VIOLACEUS_LIGHT.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> GRAY_SHROOM_PLANKS_ITEM = ITEMS.register("gray_shroom_planks", () -> new BurnableBlockItem(GRAY_SHROOM_PLANKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 100));
+	public static final RegistryObject<Item> GRAY_SHROOM_BOOKSHELF_ITEM = ITEMS.register("gray_shroom_bookshelf", () -> new BlockItem(GRAY_SHROOM_BOOKSHELF.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> CORTINARIUS_VIOLACEUS_ITEM = ITEMS.register("cortinarius_violaceus", () -> new BlockItem(CORTINARIUS_VIOLACEUS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	
 	//ladder
 	public static final RegistryObject<LadderBlock> SKY_LADDER = BLOCKS.register("sky_ladder", () -> new LadderBlock(AbstractBlock.Properties.from(AERIAL_TREE_PLANKS.get()).notSolid()));
 	public static final RegistryObject<Item> SKY_LADDER_ITEM = ITEMS.register("sky_ladder", () -> new BlockItem(SKY_LADDER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
-		
+	
 	//natural blocks and items
 	public static final RegistryObject<Block> STELLAR_STONE = BLOCKS.register("stellar_stone", () -> new Block(AbstractBlock.Properties.from(Blocks.STONE)));
 	public static final RegistryObject<Block> STELLAR_COBBLESTONE = BLOCKS.register("stellar_cobblestone", () -> new Block(AbstractBlock.Properties.from(Blocks.COBBLESTONE)));
@@ -691,6 +716,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<FlowerPotBlock> POTTED_COPPER_PINE_SAPLING = BLOCKS.register("potted_copper_pine_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, COPPER_PINE_SAPLING, AbstractBlock.Properties.from(Blocks.FLOWER_POT)));
 	public static final RegistryObject<FlowerPotBlock> POTTED_LAPIS_ROBINIA_SAPLING = BLOCKS.register("potted_lapis_robinia_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, LAPIS_ROBINIA_SAPLING, AbstractBlock.Properties.from(Blocks.FLOWER_POT)));
 	public static final RegistryObject<FlowerPotBlock> POTTED_SHADOW_PINE_SAPLING = BLOCKS.register("potted_shadow_pine_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, SHADOW_PINE_SAPLING, AbstractBlock.Properties.from(Blocks.FLOWER_POT)));
+	public static final RegistryObject<FlowerPotBlock> POTTED_CORTINARIUS_VIOLACEUS = BLOCKS.register("potted_cortinarius_violaceus", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, CORTINARIUS_VIOLACEUS, AbstractBlock.Properties.from(Blocks.FLOWER_POT)));
 	
 	//with gui
 	public static final RegistryObject<Block> VIBRATOR = BLOCKS.register("vibrator", () -> new VibratorBlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(2.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE)));
@@ -717,6 +743,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_PINE_CHEST_ITEM = ITEMS.register("shadow_pine_chest", () -> new BlockItem(SHADOW_PINE_CHEST.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS).setISTER(() -> AerialHellChestItemTileEntityRenderer::new)));
 	public static final RegistryObject<ChestBlock> SKY_CACTUS_FIBER_CHEST = BLOCKS.register("sky_cactus_fiber_chest", () -> new ChestBlock(SKY_CACTUS_FIBER_MATERIAL,() -> AerialHellTileEntityTypes.CHEST.get()){public TileEntity createTileEntity(BlockState state,net.minecraft.world.IBlockReader world) {return AerialHellTileEntityTypes.CHEST.get().create();};});
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_CHEST_ITEM = ITEMS.register("sky_cactus_fiber_chest", () -> new BlockItem(SKY_CACTUS_FIBER_CHEST.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS).setISTER(() -> AerialHellChestItemTileEntityRenderer::new)));
+	public static final RegistryObject<ChestBlock> GRAY_SHROOM_CHEST = BLOCKS.register("gray_shroom_chest", () -> new ChestBlock(SHROOM_MATERIAL,() -> AerialHellTileEntityTypes.CHEST.get()){public TileEntity createTileEntity(BlockState state,net.minecraft.world.IBlockReader world) {return AerialHellTileEntityTypes.CHEST.get().create();};});
+	public static final RegistryObject<Item> GRAY_SHROOM_CHEST_ITEM = ITEMS.register("gray_shroom_chest", () -> new BlockItem(GRAY_SHROOM_CHEST.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS).setISTER(() -> AerialHellChestItemTileEntityRenderer::new)));
 	public static final RegistryObject<ChestBlock> MUD_CHEST = BLOCKS.register("mud_chest", () -> new CoreProtectedChestBlock(MUD_CHEST_MATERIAL,() -> AerialHellTileEntityTypes.CHEST.get()){public TileEntity createTileEntity(BlockState state,net.minecraft.world.IBlockReader world) {return AerialHellTileEntityTypes.CHEST.get().create();};});
 	public static final RegistryObject<Item> MUD_CHEST_ITEM = ITEMS.register("mud_chest", () -> new BlockItem(MUD_CHEST.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS).setISTER(() -> AerialHellChestItemTileEntityRenderer::new)));
 	public static final RegistryObject<ChestBlock> LUNATIC_CHEST = BLOCKS.register("lunatic_chest", () -> new CoreProtectedChestBlock(LUNATIC_CHEST_MATERIAL,() -> AerialHellTileEntityTypes.CHEST.get()){public TileEntity createTileEntity(BlockState state,net.minecraft.world.IBlockReader world) {return AerialHellTileEntityTypes.CHEST.get().create();};});
@@ -750,6 +778,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_PINE_FENCE_ITEM = ITEMS.register("shadow_pine_fence", () -> new BurnableBlockItem(SHADOW_PINE_FENCE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 300));
 	public static final RegistryObject<FenceBlock> SKY_CACTUS_FIBER_FENCE = BLOCKS.register("sky_cactus_fiber_fence", () -> new FenceBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_FENCE_ITEM = ITEMS.register("sky_cactus_fiber_fence", () -> new BlockItem(SKY_CACTUS_FIBER_FENCE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<FenceBlock> GRAY_SHROOM_FENCE = BLOCKS.register("gray_shroom_fence", () -> new FenceBlock(SHROOM_MATERIAL));
+	public static final RegistryObject<Item> GRAY_SHROOM_FENCE_ITEM = ITEMS.register("gray_shroom_fence", () -> new BurnableBlockItem(GRAY_SHROOM_FENCE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 100));
 	public static final RegistryObject<PaneBlock> RUBY_BARS = BLOCKS.register("ruby_bars", () -> new PaneBlock(RUBY_MATERIAL));
 	public static final RegistryObject<Item> RUBY_BARS_ITEM = ITEMS.register("ruby_bars", () -> new BlockItem(RUBY_BARS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<WallBlock> STELLAR_STONE_WALL = BLOCKS.register("stellar_stone_wall", () -> new WallBlock(AbstractBlock.Properties.from(STELLAR_STONE.get())));
@@ -786,6 +816,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_PINE_GATE_ITEM = ITEMS.register("shadow_pine_gate", () -> new BurnableBlockItem(SHADOW_PINE_GATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 300));
 	public static final RegistryObject<FenceGateBlock> SKY_CACTUS_FIBER_GATE = BLOCKS.register("sky_cactus_fiber_gate", () -> new FenceGateBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_GATE_ITEM = ITEMS.register("sky_cactus_fiber_gate", () -> new BlockItem(SKY_CACTUS_FIBER_GATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<FenceGateBlock> GRAY_SHROOM_GATE = BLOCKS.register("gray_shroom_gate", () -> new FenceGateBlock(SHROOM_MATERIAL));
+	public static final RegistryObject<Item> GRAY_SHROOM_GATE_ITEM = ITEMS.register("gray_shroom_gate", () -> new BurnableBlockItem(GRAY_SHROOM_GATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 100));
 	
 	//doors
 	public static final RegistryObject<DoorBlock> AERIAL_TREE_DOOR = BLOCKS.register("aerial_tree_door", () -> new DoorBlock(AbstractBlock.Properties.from(AERIAL_TREE_PLANKS.get()).notSolid()));
@@ -800,6 +832,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_PINE_DOOR_ITEM = ITEMS.register("shadow_pine_door", () -> new BlockItem(SHADOW_PINE_DOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<DoorBlock> SKY_CACTUS_FIBER_DOOR = BLOCKS.register("sky_cactus_fiber_door", () -> new DoorBlock(AbstractBlock.Properties.from(SKY_CACTUS_FIBER_PLANKS.get()).notSolid()));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_DOOR_ITEM = ITEMS.register("sky_cactus_fiber_door", () -> new BlockItem(SKY_CACTUS_FIBER_DOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<DoorBlock> GRAY_SHROOM_DOOR = BLOCKS.register("gray_shroom_door", () -> new DoorBlock(AbstractBlock.Properties.from(GRAY_SHROOM_PLANKS.get()).notSolid()));
+	public static final RegistryObject<Item> GRAY_SHROOM_DOOR_ITEM = ITEMS.register("gray_shroom_door", () -> new BlockItem(GRAY_SHROOM_DOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<DoorBlock> RUBY_DOOR = BLOCKS.register("ruby_door", () -> new DoorBlock(RUBY_MATERIAL));
 	public static final RegistryObject<Item> RUBY_DOOR_ITEM = ITEMS.register("ruby_door", () -> new BlockItem(RUBY_DOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	
@@ -816,6 +850,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_PINE_TRAPDOOR_ITEM = ITEMS.register("shadow_pine_trapdoor", () -> new BlockItem(SHADOW_PINE_TRAPDOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<TrapDoorBlock> SKY_CACTUS_FIBER_TRAPDOOR = BLOCKS.register("sky_cactus_fiber_trapdoor", () -> new TrapDoorBlock(AbstractBlock.Properties.from(SKY_CACTUS_FIBER_PLANKS.get()).notSolid()));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_TRAPDOOR_ITEM = ITEMS.register("sky_cactus_fiber_trapdoor", () -> new BlockItem( SKY_CACTUS_FIBER_TRAPDOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<TrapDoorBlock> GRAY_SHROOM_TRAPDOOR = BLOCKS.register("gray_shroom_trapdoor", () -> new TrapDoorBlock(AbstractBlock.Properties.from(GRAY_SHROOM_PLANKS.get()).notSolid()));
+	public static final RegistryObject<Item> GRAY_SHROOM_TRAPDOOR_ITEM = ITEMS.register("gray_shroom_trapdoor", () -> new BlockItem(GRAY_SHROOM_TRAPDOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<TrapDoorBlock> RUBY_TRAPDOOR = BLOCKS.register("ruby_trapdoor", () -> new TrapDoorBlock(RUBY_MATERIAL));
 	public static final RegistryObject<Item> RUBY_TRAPDOOR_ITEM = ITEMS.register("ruby_trapdoor", () -> new BlockItem(RUBY_TRAPDOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	
@@ -842,6 +878,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_PINE_BUTTON_ITEM = ITEMS.register("shadow_pine_button", () -> new BurnableBlockItem(SHADOW_PINE_BUTTON.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 100));
 	public static final RegistryObject<WoodButtonBlock> SKY_CACTUS_FIBER_BUTTON = BLOCKS.register("sky_cactus_fiber_button", () -> new WoodButtonBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_BUTTON_ITEM = ITEMS.register("sky_cactus_fiber_button", () -> new BlockItem(SKY_CACTUS_FIBER_BUTTON.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<WoodButtonBlock> GRAY_SHROOM_BUTTON = BLOCKS.register("gray_shroom_button", () -> new WoodButtonBlock(SHROOM_MATERIAL));
+	public static final RegistryObject<Item> GRAY_SHROOM_BUTTON_ITEM = ITEMS.register("gray_shroom_button", () -> new BurnableBlockItem(GRAY_SHROOM_BUTTON.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 30));
 	public static final RegistryObject<WoodButtonBlock> GLAUCOPHANITE_BUTTON = BLOCKS.register("glaucophanite_button", () -> new WoodButtonBlock(AbstractBlock.Properties.from(GLAUCOPHANITE.get())));
 	public static final RegistryObject<Item> GLAUCOPHANITE_BUTTON_ITEM = ITEMS.register("glaucophanite_button", () -> new BlockItem(GLAUCOPHANITE_BUTTON.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	
@@ -868,6 +906,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_PINE_PRESSURE_PLATE_ITEM = ITEMS.register("shadow_pine_pressure_plate", () -> new BurnableBlockItem(SHADOW_PINE_PRESSURE_PLATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 300));
 	public static final RegistryObject<PressurePlateBlock> SKY_CACTUS_FIBER_PRESSURE_PLATE = BLOCKS.register("sky_cactus_fiber_pressure_plate", () -> new PressurePlateBlock(Sensitivity.EVERYTHING, SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_PRESSURE_PLATE_ITEM = ITEMS.register("sky_cactus_fiber_pressure_plate", () -> new BlockItem(SKY_CACTUS_FIBER_PRESSURE_PLATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<PressurePlateBlock> GRAY_SHROOM_PRESSURE_PLATE = BLOCKS.register("gray_shroom_pressure_plate", () -> new PressurePlateBlock(Sensitivity.EVERYTHING, SHROOM_MATERIAL));
+	public static final RegistryObject<Item> GRAY_SHROOM_PRESSURE_PLATE_ITEM = ITEMS.register("gray_shroom_pressure_plate", () -> new BurnableBlockItem(GRAY_SHROOM_PRESSURE_PLATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 100));
 	public static final RegistryObject<PressurePlateBlock> GLAUCOPHANITE_PRESSURE_PLATE = BLOCKS.register("glaucophanite_pressure_plate", () -> new PressurePlateBlock(Sensitivity.MOBS, AbstractBlock.Properties.from(GLAUCOPHANITE.get())));
 	public static final RegistryObject<Item> GLAUCOPHANITE_PRESSURE_PLATE_ITEM = ITEMS.register("glaucophanite_pressure_plate", () -> new BlockItem(GLAUCOPHANITE_PRESSURE_PLATE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	
@@ -884,6 +924,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_PINE_SLAB_ITEM = ITEMS.register("shadow_pine_slab", () -> new BurnableBlockItem(SHADOW_PINE_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 150));
 	public static final RegistryObject<SlabBlock> SKY_CACTUS_FIBER_SLAB = BLOCKS.register("sky_cactus_fiber_slab", () -> new SlabBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_SLAB_ITEM = ITEMS.register("sky_cactus_fiber_slab", () -> new BlockItem(SKY_CACTUS_FIBER_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<SlabBlock> GRAY_SHROOM_SLAB = BLOCKS.register("gray_shroom_slab", () -> new SlabBlock(SHROOM_MATERIAL));
+	public static final RegistryObject<Item> GRAY_SHROOM_SLAB_ITEM = ITEMS.register("gray_shroom_slab", () -> new BurnableBlockItem(GRAY_SHROOM_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 50));
 	public static final RegistryObject<SlabBlock> STELLAR_STONE_SLAB = BLOCKS.register("stellar_stone_slab", () -> new SlabBlock(AbstractBlock.Properties.from(STELLAR_STONE.get())));
 	public static final RegistryObject<Item> STELLAR_STONE_SLAB_ITEM = ITEMS.register("stellar_stone_slab", () -> new BlockItem(STELLAR_STONE_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<SlabBlock> STELLAR_COBBLESTONE_SLAB = BLOCKS.register("stellar_cobblestone_slab", () -> new SlabBlock(AbstractBlock.Properties.from(STELLAR_COBBLESTONE.get())));
@@ -916,6 +958,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_PINE_STAIRS_ITEM = ITEMS.register("shadow_pine_stairs", () -> new BurnableBlockItem(SHADOW_PINE_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 300));
 	public static final RegistryObject<StairsBlock> SKY_CACTUS_FIBER_STAIRS = BLOCKS.register("sky_cactus_fiber_stairs", () -> new StairsBlock(() -> SKY_CACTUS_FIBER_PLANKS.get().getDefaultState(), SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_STAIRS_ITEM = ITEMS.register("sky_cactus_fiber_stairs", () -> new BlockItem(SKY_CACTUS_FIBER_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<StairsBlock> GRAY_SHROOM_STAIRS = BLOCKS.register("gray_shroom_stairs", () -> new StairsBlock(() -> GRAY_SHROOM_PLANKS.get().getDefaultState(), SHROOM_MATERIAL));
+	public static final RegistryObject<Item> GRAY_SHROOM_STAIRS_ITEM = ITEMS.register("gray_shroom_stairs", () -> new BurnableBlockItem(GRAY_SHROOM_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 100));
 	public static final RegistryObject<StairsBlock> STELLAR_STONE_STAIRS = BLOCKS.register("stellar_stone_stairs", () -> new StairsBlock(() -> STELLAR_STONE.get().getDefaultState(), AbstractBlock.Properties.from(STELLAR_STONE.get())));
 	public static final RegistryObject<Item> STELLAR_STONE_STAIRS_ITEM = ITEMS.register("stellar_stone_stairs", () -> new BlockItem(STELLAR_STONE_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<StairsBlock> STELLAR_COBBLESTONE_STAIRS = BLOCKS.register("stellar_cobblestone_stairs", () -> new StairsBlock(() -> STELLAR_COBBLESTONE.get().getDefaultState(), AbstractBlock.Properties.from(STELLAR_COBBLESTONE.get())));
@@ -948,6 +992,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_PINE_SIGN_ITEM = ITEMS.register("shadow_pine_sign", () -> new BurnableBlockItem(SHADOW_PINE_SIGN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 200));
 	public static final RegistryObject<AerialHellSignBlock> SKY_CACTUS_FIBER_SIGN = BLOCKS.register("sky_cactus_fiber_sign", () -> new AerialHellSignBlock(SKY_CACTUS_FIBER_SIGN_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_SIGN_ITEM = ITEMS.register("sky_cactus_fiber_sign", () -> new BlockItem(SKY_CACTUS_FIBER_SIGN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<AerialHellSignBlock> GRAY_SHROOM_SIGN = BLOCKS.register("gray_shroom_sign", () -> new AerialHellSignBlock(SHROOM_SIGN_MATERIAL));
+	public static final RegistryObject<Item> GRAY_SHROOM_SIGN_ITEM = ITEMS.register("gray_shroom_sign", () -> new BurnableBlockItem(GRAY_SHROOM_SIGN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 60));
 	
 	//crafting tables
 	public static final RegistryObject<CraftingTableBlock> AERIAL_TREE_CRAFTING_TABLE = BLOCKS.register("aerial_tree_crafting_table", () -> new AerialHellCraftingTableBlock(AERIAL_TREE_MATERIAL));
@@ -962,6 +1008,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_PINE_CRAFTING_TABLE_ITEM = ITEMS.register("shadow_pine_crafting_table", () -> new BurnableBlockItem(SHADOW_PINE_CRAFTING_TABLE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 300));
 	public static final RegistryObject<CraftingTableBlock> SKY_CACTUS_FIBER_CRAFTING_TABLE = BLOCKS.register("sky_cactus_fiber_crafting_table", () -> new AerialHellCraftingTableBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_CRAFTING_TABLE_ITEM = ITEMS.register("sky_cactus_fiber_crafting_table", () -> new BlockItem(SKY_CACTUS_FIBER_CRAFTING_TABLE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<CraftingTableBlock> GRAY_SHROOM_CRAFTING_TABLE = BLOCKS.register("gray_shroom_crafting_table", () -> new AerialHellCraftingTableBlock(SHROOM_MATERIAL));
+	public static final RegistryObject<Item> GRAY_SHROOM_CRAFTING_TABLE_ITEM = ITEMS.register("gray_shroom_crafting_table", () -> new BurnableBlockItem(GRAY_SHROOM_CRAFTING_TABLE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 100));
 	
 	//barrels
 	public static final RegistryObject<AerialHellBarrelBlock> AERIAL_TREE_BARREL = BLOCKS.register("aerial_tree_barrel", () -> new AerialHellBarrelBlock(AERIAL_TREE_MATERIAL));
@@ -976,6 +1024,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_PINE_BARREL_ITEM = ITEMS.register("shadow_pine_barrel", () -> new BurnableBlockItem(SHADOW_PINE_BARREL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 300));
 	public static final RegistryObject<AerialHellBarrelBlock> SKY_CACTUS_FIBER_BARREL = BLOCKS.register("sky_cactus_fiber_barrel", () -> new AerialHellBarrelBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_BARREL_ITEM = ITEMS.register("sky_cactus_fiber_barrel", () -> new BlockItem(SKY_CACTUS_FIBER_BARREL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<AerialHellBarrelBlock> GRAY_SHROOM_BARREL = BLOCKS.register("gray_shroom_barrel", () -> new AerialHellBarrelBlock(SHROOM_MATERIAL));
+	public static final RegistryObject<Item> GRAY_SHROOM_BARREL_ITEM = ITEMS.register("gray_shroom_barrel", () -> new BurnableBlockItem(GRAY_SHROOM_BARREL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 100));
 	
 	//composters
 	public static final RegistryObject<ComposterBlock> AERIAL_TREE_COMPOSTER = BLOCKS.register("aerial_tree_composter", () -> new ComposterBlock(AERIAL_TREE_MATERIAL));
@@ -1018,6 +1068,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> FROZEN_MUTTON = ITEMS.register("frozen_mutton", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.SLOWNESS, 310, 0), () -> new EffectInstance(Effects.RESISTANCE, 210, 0)));
 	public static final RegistryObject<Item> RUBY_AERIAL_BERRY = ITEMS.register("ruby_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, Rarity.RARE, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.HEALTH_BOOST, 2400, 0)));
 	public static final RegistryObject<Item> VOLUCITE_AERIAL_BERRY = ITEMS.register("volucite_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.SLOW_FALLING, 2400, 2)));
+	public static final RegistryObject<Item> CORTINARIUS_VIOLACEUS_PIECE = ITEMS.register("cortinarius_violaceus_piece", () -> new FoodWithEffectItem(1, 0.1F, Rarity.COMMON, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.NAUSEA, 100, 0)));
 	public static final RegistryObject<Item> DARK_SHADOW_FRUIT = ITEMS.register("dark_shadow_fruit", () -> new FoodWithEffectItem(2, 0.2F, Rarity.COMMON, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.BLINDNESS, 20, 0), () -> new EffectInstance(Effects.NIGHT_VISION, 120, 0)));
 	public static final RegistryObject<Item> PURPLE_SHADOW_FRUIT = ITEMS.register("purple_shadow_fruit", () -> new FoodWithEffectItem(2, 0.2F, Rarity.COMMON, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.BLINDNESS, 20, 0), () -> new EffectInstance(AerialHellPotionEffects.SHADOW_IMMUNITY.get(), 80, 0)));
 	public static final RegistryObject<Item> SHADOW_FRUIT_STEW = ITEMS.register("shadow_fruit_stew", () -> new SkySoupItem(2, 0.2F, AerialHellRarities.CORRUPTED, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.BLINDNESS, 20, 0), () -> new EffectInstance(AerialHellPotionEffects.SHADOW_IMMUNITY.get(), 1200, 0)));

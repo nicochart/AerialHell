@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_door",
+  "pattern": [
+    "##",
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:gray_shroom_planks"
+    }
+  },
+  "result": {
+    "item": "aerialhell:gray_shroom_door",
+    "count": 3
+  }
+}

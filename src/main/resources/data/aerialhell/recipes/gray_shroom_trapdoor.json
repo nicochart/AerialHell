@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_trapdoor",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:gray_shroom_planks"
+    }
+  },
+  "result": {
+    "item": "aerialhell:gray_shroom_trapdoor",
+    "count": 2
+  }
+}

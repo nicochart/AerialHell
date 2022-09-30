@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PSP",
+    "P P",
+    "PSP"
+  ],
+  "key": {
+    "P": {
+      "item": "aerialhell:gray_shroom_planks"
+    },
+    "S": {
+      "item": "aerialhell:gray_shroom_slab"
+    }
+  },
+  "result": {
+    "item": "aerialhell:gray_shroom_barrel"
+  }
+}

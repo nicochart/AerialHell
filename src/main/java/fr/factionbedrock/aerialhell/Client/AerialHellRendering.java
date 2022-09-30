@@ -87,6 +87,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.LAPIS_ROBINIA_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.SHADOW_PINE_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_SAPLING.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.CORTINARIUS_VIOLACEUS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_TALL_FERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_DEAD_BUSH.get(), cutout);
@@ -102,6 +103,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.POTTED_COPPER_PINE_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_LAPIS_ROBINIA_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_SHADOW_PINE_SAPLING.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.POTTED_CORTINARIUS_VIOLACEUS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get(), translucent);
         render(() -> AerialHellBlocksAndItems.SLIPPERY_SAND_GLASS.get(), translucent);
         render(() -> AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get(), translucent);
@@ -123,6 +125,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.LAPIS_ROBINIA_DOOR.get(), cutout);
         render(() -> AerialHellBlocksAndItems.SHADOW_PINE_DOOR.get(), cutout);
         render(() -> AerialHellBlocksAndItems.SKY_CACTUS_FIBER_DOOR.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.GRAY_SHROOM_DOOR.get(), cutout);
         render(() -> AerialHellBlocksAndItems.RUBY_DOOR.get(), cutout);
         render(() -> AerialHellBlocksAndItems.AERIAL_TREE_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.LAPIS_ROBINIA_TRAPDOOR.get(), translucent);
@@ -130,6 +133,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.COPPER_PINE_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.SHADOW_PINE_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.SKY_CACTUS_FIBER_TRAPDOOR.get(), translucent);
+        render(() -> AerialHellBlocksAndItems.GRAY_SHROOM_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.RUBY_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.RUBY_BARS.get(), translucent);
         render(() -> AerialHellBlocksAndItems.SKY_CACTUS.get(), cutout);

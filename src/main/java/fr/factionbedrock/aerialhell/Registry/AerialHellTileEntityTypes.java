@@ -37,7 +37,8 @@ public class AerialHellTileEntityTypes
 							AerialHellBlocksAndItems.COPPER_PINE_SIGN.get(),
 							AerialHellBlocksAndItems.LAPIS_ROBINIA_SIGN.get(),
 							AerialHellBlocksAndItems.SHADOW_PINE_SIGN.get(),
-							AerialHellBlocksAndItems.SKY_CACTUS_FIBER_SIGN.get()
+							AerialHellBlocksAndItems.SKY_CACTUS_FIBER_SIGN.get(),
+							AerialHellBlocksAndItems.GRAY_SHROOM_SIGN.get()
 					), null));
 	
 	public static final RegistryObject<TileEntityType<AerialHellBarrelTileEntity>> BARREL = TILE_ENTITIES.register("barrel", () ->
@@ -48,7 +49,8 @@ public class AerialHellTileEntityTypes
 					AerialHellBlocksAndItems.COPPER_PINE_BARREL.get(),
 					AerialHellBlocksAndItems.LAPIS_ROBINIA_BARREL.get(),
 					AerialHellBlocksAndItems.SHADOW_PINE_BARREL.get(),
-					AerialHellBlocksAndItems.SKY_CACTUS_FIBER_BARREL.get()
+					AerialHellBlocksAndItems.SKY_CACTUS_FIBER_BARREL.get(),
+					AerialHellBlocksAndItems.GRAY_SHROOM_BARREL.get()
 			), null));
 	
 	public static final RegistryObject<TileEntityType<AerialHellChestTileEntity>> CHEST = TILE_ENTITIES.register("chest", () ->
@@ -60,6 +62,7 @@ public class AerialHellTileEntityTypes
 	        				AerialHellBlocksAndItems.LAPIS_ROBINIA_CHEST.get(),
 	        				AerialHellBlocksAndItems.SHADOW_PINE_CHEST.get(),
 	        				AerialHellBlocksAndItems.SKY_CACTUS_FIBER_CHEST.get(),
+	        				AerialHellBlocksAndItems.GRAY_SHROOM_CHEST.get(),
 	        				AerialHellBlocksAndItems.MUD_CHEST.get(),
 	        				AerialHellBlocksAndItems.LUNATIC_CHEST.get(),
 	        				AerialHellBlocksAndItems.VOLUCITE_CHEST.get(),

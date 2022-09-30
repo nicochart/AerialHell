@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_fence_gate",
+  "pattern": [
+    "#W#",
+    "#W#"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:sky_stick"
+    },
+    "W": {
+      "item": "aerialhell:gray_shroom_planks"
+    }
+  },
+  "result": {
+    "item": "aerialhell:gray_shroom_gate"
+  }
+}

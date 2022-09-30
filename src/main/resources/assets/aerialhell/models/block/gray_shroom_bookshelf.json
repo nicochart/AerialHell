@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aerialhell:block/gray_shroom_planks",
+    "side": "aerialhell:block/gray_shroom_bookshelf"
+  }
+}

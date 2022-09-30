@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button_inventory",
+  "textures": {
+    "texture": "aerialhell:block/gray_shroom_planks"
+  }
+}

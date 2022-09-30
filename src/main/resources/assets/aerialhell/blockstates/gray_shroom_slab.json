@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "aerialhell:block/gray_shroom_slab" },
+        "type=top": { "model": "aerialhell:block/gray_shroom_slab_top" },
+        "type=double": { "model": "aerialhell:block/gray_shroom_planks" }
+    }
+}
