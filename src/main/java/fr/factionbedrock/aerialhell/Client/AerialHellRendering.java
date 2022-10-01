@@ -89,6 +89,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.SHADOW_PINE_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.CORTINARIUS_VIOLACEUS.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.VERDIGRIS_AGARIC.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_TALL_FERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_DEAD_BUSH.get(), cutout);
@@ -105,6 +106,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.POTTED_LAPIS_ROBINIA_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_SHADOW_PINE_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_CORTINARIUS_VIOLACEUS.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.POTTED_VERDIGRIS_AGARIC.get(), cutout);
         render(() -> AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get(), translucent);
         render(() -> AerialHellBlocksAndItems.SLIPPERY_SAND_GLASS.get(), translucent);
         render(() -> AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get(), translucent);

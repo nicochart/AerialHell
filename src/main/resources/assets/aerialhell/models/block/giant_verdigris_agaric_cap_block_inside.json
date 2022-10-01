@@ -1,0 +1,7 @@
+{
+    "parent": "block/template_single_face",
+    "ambientocclusion": false,
+    "textures": {
+        "texture": "aerialhell:block/giant_verdigris_agaric_cap_block_inside"
+    }
+}
