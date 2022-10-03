@@ -4,12 +4,12 @@ import net.minecraft.client.renderer.entity.model.BipedModel;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.GoldenWalkerEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.StellarStoneAutomatonEntity;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 
 
-public class GoldenWalkerModel<T extends GoldenWalkerEntity> extends BipedModel<T>
+public class StellarStoneAutomatonModel<T extends StellarStoneAutomatonEntity> extends BipedModel<T>
 {
 	private final ModelRenderer body;
 	private final ModelRenderer body_r1;
@@ -23,7 +23,7 @@ public class GoldenWalkerModel<T extends GoldenWalkerEntity> extends BipedModel<
 	private final ModelRenderer leftLeg;
 	private final ModelRenderer leftLeg_r1;
 
-	public GoldenWalkerModel()
+	public StellarStoneAutomatonModel()
 	{
 		super(0F, -14F, 64, 32);
 		textureWidth = 64;

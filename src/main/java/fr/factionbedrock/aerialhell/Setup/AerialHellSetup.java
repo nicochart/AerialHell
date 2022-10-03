@@ -17,7 +17,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellStructures;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTileEntityTypes;
 import fr.factionbedrock.aerialhell.TileEntity.VibratorTileEntity;
 import fr.factionbedrock.aerialhell.TileEntity.FreezerTileEntity;
-import fr.factionbedrock.aerialhell.TileEntity.StellarFurnaceTileEntity;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

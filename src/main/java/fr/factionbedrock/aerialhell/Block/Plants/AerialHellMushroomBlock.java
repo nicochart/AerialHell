@@ -23,7 +23,7 @@ public class AerialHellMushroomBlock extends MushroomBlock
 	
 	@Override protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos)
 	{
-		return state.isIn(AerialHellTags.Blocks.STELLAR_DIRT);
+		return state.isIn(AerialHellTags.Blocks.STELLAR_DIRT) || state.isIn(BlockTags.MUSHROOM_GROW_BLOCK);
 	}
 
 	@Override public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos)

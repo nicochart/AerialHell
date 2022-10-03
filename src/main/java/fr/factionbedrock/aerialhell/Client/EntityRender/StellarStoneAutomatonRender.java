@@ -3,9 +3,9 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Client.EntityModels.GoldenWalkerModel;
-import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.GoldenWalkerEyesLayer;
-import fr.factionbedrock.aerialhell.Entity.Monster.GoldenWalkerEntity;
+import fr.factionbedrock.aerialhell.Client.EntityModels.StellarStoneAutomatonModel;
+import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.StellarStoneAutomatonEyesLayer;
+import fr.factionbedrock.aerialhell.Entity.Monster.StellarStoneAutomatonEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -14,23 +14,23 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class GoldenWalkerRender extends MobRenderer<GoldenWalkerEntity, GoldenWalkerModel<GoldenWalkerEntity>>
+public class StellarStoneAutomatonRender extends MobRenderer<StellarStoneAutomatonEntity, StellarStoneAutomatonModel<StellarStoneAutomatonEntity>>
 {
-	private static String name = "golden_walker";
+	private static String name = "stellar_stone_automaton";
     private static final ResourceLocation texture = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
 
-    public GoldenWalkerRender(EntityRendererManager manager)
+    public StellarStoneAutomatonRender(EntityRendererManager manager)
     {
-        super(manager, new GoldenWalkerModel(), 0.3f);
-        this.addLayer(new GoldenWalkerEyesLayer<>(this));
+        super(manager, new StellarStoneAutomatonModel<StellarStoneAutomatonEntity>(), 0.3f);
+        this.addLayer(new StellarStoneAutomatonEyesLayer<>(this));
     }
 
     @Override
-    public ResourceLocation getEntityTexture(GoldenWalkerEntity entity)
+    public ResourceLocation getEntityTexture(StellarStoneAutomatonEntity entity)
     {return texture;}
 
     @Override
-    public void applyRotations(GoldenWalkerEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks)
+    public void applyRotations(StellarStoneAutomatonEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks)
     {
         super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
         if (!((double)entityLiving.limbSwingAmount < 0.01D))

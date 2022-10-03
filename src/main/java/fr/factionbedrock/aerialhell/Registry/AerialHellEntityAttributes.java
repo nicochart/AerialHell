@@ -1,32 +1,12 @@
 package fr.factionbedrock.aerialhell.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
 import fr.factionbedrock.aerialhell.Entity.AbstractElementSpiritEntity;
-import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
-import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudGolemEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.GoldenWalkerEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.HellSpiderEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudSoldierEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralGolemEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralSoldierEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ShadowSpiderEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.CrystalCaterpillarEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.CrystalGolemEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSlimeEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSpiderEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.EvilCowEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.FlyingJellyfishEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AerialTreeChestMimicEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.CopperPineChestMimicEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.GoldenBeechChestMimicEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.SkyCactusFiberChestMimicEntity;
+import fr.factionbedrock.aerialhell.Entity.Bosses.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
 import fr.factionbedrock.aerialhell.Entity.Neutral.ForestCaterpillarEntity;
-import fr.factionbedrock.aerialhell.Entity.Passive.FatPhantomEntity;
-import fr.factionbedrock.aerialhell.Entity.Passive.SandySheepEntity;
+import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -43,7 +23,7 @@ public class AerialHellEntityAttributes
 		java.lang.NullPointerException: Cannot invoke "net.minecraft.entity.ai.attributes.AttributeModifierMap.getAttributeValue(net.minecraft.entity.ai.attributes.Attribute)" because "this.attributeMap" is null
 		Entity with no attributes registered and be summoned 
 		*/
-		event.put(AerialHellEntities.GOLDEN_WALKER.get(), GoldenWalkerEntity.registerAttributes().create());
+		event.put(AerialHellEntities.STELLAR_STONE_AUTOMATON.get(), StellarStoneAutomatonEntity.registerAttributes().create());
 		event.put(AerialHellEntities.MUD_GOLEM.get(), MudGolemEntity.registerAttributes().create());
 		event.put(AerialHellEntities.MUD_SPECTRAL_GOLEM.get(), MudSpectralGolemEntity.registerAttributes().create());
 		event.put(AerialHellEntities.CRYSTAL_GOLEM.get(), CrystalGolemEntity.registerAttributes().create());

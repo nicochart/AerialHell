@@ -1,7 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit;
 
-import java.util.List;
-
 import javax.annotation.Nullable;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractElementSpiritEntity;
@@ -16,7 +14,6 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;

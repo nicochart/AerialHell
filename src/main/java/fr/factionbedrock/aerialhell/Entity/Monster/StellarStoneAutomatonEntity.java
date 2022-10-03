@@ -12,9 +12,9 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class GoldenWalkerEntity extends AerialHellHostileEntity {
+public class StellarStoneAutomatonEntity extends AerialHellHostileEntity {
 
-    public GoldenWalkerEntity(EntityType<? extends MonsterEntity> type, World world)
+    public StellarStoneAutomatonEntity(EntityType<? extends MonsterEntity> type, World world)
     {
         super(type, world);
     }

@@ -5,7 +5,6 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;

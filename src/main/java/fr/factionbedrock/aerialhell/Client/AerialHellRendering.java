@@ -3,34 +3,9 @@ package fr.factionbedrock.aerialhell.Client;
 import com.google.common.base.Supplier;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Client.EntityRender.MudGolemRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.ChainedGodRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.CrystalSlimeRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.AerialArrowRenderer;
-import fr.factionbedrock.aerialhell.Client.EntityRender.EvilCowRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.FatPhantomRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.FlyingJellyfishRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.CaterpillarRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.GoldenWalkerRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.HellSpiderRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.LunaticPriestRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.LunaticProjectileRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.ElementSpiritRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.MudCycleMageRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.MudSoldierRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.PoisonballProjectileRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.ThrowingKnifeRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.TornSpiritRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.ChestMimicRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.CrystalGolemRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.SandySheepRender;
-import fr.factionbedrock.aerialhell.Client.EntityRender.ShadowTrollRender;
-import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.VibratorScreen;
-import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.StellarFurnaceScreen;
-import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.FreezerScreen;
-import fr.factionbedrock.aerialhell.Client.TileEntityRenderer.AerialHellChestMimicTileEntityRenderer;
-import fr.factionbedrock.aerialhell.Client.TileEntityRenderer.AerialHellChestTileEntityRenderer;
-import fr.factionbedrock.aerialhell.Client.TileEntityRenderer.AerialHellSignTileEntityRenderer;
+import fr.factionbedrock.aerialhell.Client.EntityRender.*;
+import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.*;
+import fr.factionbedrock.aerialhell.Client.TileEntityRenderer.*;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellContainerTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
@@ -168,7 +143,7 @@ public class AerialHellRendering
 	
 	public static void registerEntityRenderers(FMLClientSetupEvent event)
 	{
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.GOLDEN_WALKER.get(), GoldenWalkerRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.STELLAR_STONE_AUTOMATON.get(), StellarStoneAutomatonRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.MUD_GOLEM.get(), MudGolemRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.MUD_SPECTRAL_GOLEM.get(), MudGolemRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CRYSTAL_GOLEM.get(), CrystalGolemRender::new);

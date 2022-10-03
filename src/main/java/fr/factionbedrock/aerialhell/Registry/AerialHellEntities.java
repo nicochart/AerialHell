@@ -2,41 +2,15 @@ package fr.factionbedrock.aerialhell.Registry;
 
 import static fr.factionbedrock.aerialhell.AerialHell.MODID;
 
-import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
-import fr.factionbedrock.aerialhell.Entity.AerialHellHostileEntity;
-import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
-import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
-import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
-import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralSoldierEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ShadowSpiderEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudGolemEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.GoldenWalkerEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.HellSpiderEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudSoldierEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralGolemEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.CrystalCaterpillarEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.CrystalGolemEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSlimeEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSpiderEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.EvilCowEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.FlyingJellyfishEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AerialTreeChestMimicEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.CopperPineChestMimicEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.GoldenBeechChestMimicEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.SkyCactusFiberChestMimicEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.ElectroSpiritEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.FireSpiritEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.IceSpiritEntity;
+import fr.factionbedrock.aerialhell.Entity.*;
+import fr.factionbedrock.aerialhell.Entity.Bosses.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.*;
 import fr.factionbedrock.aerialhell.Entity.Neutral.ForestCaterpillarEntity;
-import fr.factionbedrock.aerialhell.Entity.Passive.FatPhantomEntity;
-import fr.factionbedrock.aerialhell.Entity.Passive.SandySheepEntity;
-import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.RubyArrowEntity;
-import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.VoluciteArrowEntity;
-import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
-import fr.factionbedrock.aerialhell.Entity.Projectile.PoisonballEntity;
+import fr.factionbedrock.aerialhell.Entity.Passive.*;
+import fr.factionbedrock.aerialhell.Entity.Projectile.*;
+import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ThrowingKnife.*;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
@@ -50,8 +24,8 @@ public class AerialHellEntities
 {
 	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, MODID);
 	
-	public static final EntityType<GoldenWalkerEntity> GOLDEN_WALKER_TYPE = EntityType.Builder.create(GoldenWalkerEntity::new, EntityClassification.MONSTER)
-	            .size(0.8F,2.5F).build("golden_walker");
+	public static final EntityType<StellarStoneAutomatonEntity> STELLAR_STONE_AUTOMATON_TYPE = EntityType.Builder.create(StellarStoneAutomatonEntity::new, EntityClassification.MONSTER)
+	            .size(0.8F,2.5F).build("stellar_stone_automaton");
 	  
 	public static final EntityType<MudGolemEntity> MUD_GOLEM_TYPE = EntityType.Builder.create(MudGolemEntity::new, EntityClassification.MONSTER)
 	            .size(1.2F,2.8F).build("mud_golem");
@@ -182,7 +156,7 @@ public class AerialHellEntities
 	public static final EntityType<CrystalCaterpillarEntity> CRYSTAL_CATERPILLAR_TYPE = EntityType.Builder.<CrystalCaterpillarEntity>create(CrystalCaterpillarEntity::new, EntityClassification.CREATURE)
 	    		.size(0.4F, 0.4F).build("crystal_caterpillar");
 	
-	public static final RegistryObject<EntityType<GoldenWalkerEntity>> GOLDEN_WALKER = ENTITIES.register("golden_walker", () -> GOLDEN_WALKER_TYPE);
+	public static final RegistryObject<EntityType<StellarStoneAutomatonEntity>> STELLAR_STONE_AUTOMATON = ENTITIES.register("stellar_stone_automaton", () -> STELLAR_STONE_AUTOMATON_TYPE);
 	public static final RegistryObject<EntityType<MudGolemEntity>> MUD_GOLEM = ENTITIES.register("mud_golem", () -> MUD_GOLEM_TYPE);
 	public static final RegistryObject<EntityType<MudSpectralGolemEntity>> MUD_SPECTRAL_GOLEM = ENTITIES.register("mud_spectral_golem", () -> MUD_SPECTRAL_GOLEM_TYPE);
 	public static final RegistryObject<EntityType<CrystalGolemEntity>> CRYSTAL_GOLEM = ENTITIES.register("crystal_golem", () -> CRYSTAL_GOLEM_TYPE);
