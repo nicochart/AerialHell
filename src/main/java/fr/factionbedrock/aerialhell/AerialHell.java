@@ -173,6 +173,8 @@ public class AerialHell
     	if (event.getName().equals(AerialHellBiomes.CORTINARIUS_VIOLACEUS_FOREST.getLocation()))
     	{
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.PURPLISH_STELLAR_GRASS);
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.VERDIGRIS_AGARIC_FOREST);
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.CORTINARIUS_VIOLACEUS_FOREST);
     	}
     	
     	/* Adding features exclusive to all Shadow Biomes */

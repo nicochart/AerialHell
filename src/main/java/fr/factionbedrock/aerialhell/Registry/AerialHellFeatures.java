@@ -63,6 +63,8 @@ public class AerialHellFeatures
 		public static final BlockClusterFeatureConfig SHADOW_GRASS_BALL_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(32).build();
 		public static final BlockClusterFeatureConfig SHADOW_BRAMBLES_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_BRAMBLES.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(32).build();
 		public static final BlockClusterFeatureConfig PURPLISH_STELLAR_GRASS_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.PURPLISH_STELLAR_GRASS.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(32).build();
+		public static final BlockClusterFeatureConfig VERDIGRIS_AGARIC_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.VERDIGRIS_AGARIC.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(64).func_227317_b_().build();
+		public static final BlockClusterFeatureConfig CORTINARIUS_VIOLACEUS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AerialHellBlocksAndItems.CORTINARIUS_VIOLACEUS.get().getDefaultState()), SimpleBlockPlacer.PLACER)).tries(64).func_227317_b_().build();
 		
 		public static final BlockClusterFeatureConfig AERIAL_HELL_BELLFLOWERS_CONFIG = (new BlockClusterFeatureConfig.Builder((new WeightedBlockStateProvider())
                 .addWeightedBlockstate(AerialHellBlocksAndItems.BELLFLOWER.get().getDefaultState(), 1), SimpleBlockPlacer.PLACER))
@@ -168,11 +170,11 @@ public class AerialHellFeatures
 				AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_LIGHT.get().getDefaultState(),
 				false);
 		
-		public static final BigMushroomFeatureConfig GIANT_VERDIGRIS_AGARIC_MUSHROOM = new BigMushroomFeatureConfig(
+		public static final BigMushroomFeatureConfig GIANT_VERDIGRIS_AGARIC_MUSHROOM_CONFIG = new BigMushroomFeatureConfig(
 				new SimpleBlockStateProvider(AerialHellBlocksAndItems.GIANT_VERDIGRIS_AGARIC_CAP_BLOCK.get().getDefaultState().with(HugeMushroomBlock.DOWN, Boolean.valueOf(false))),
 				new SimpleBlockStateProvider(AerialHellBlocksAndItems.GIANT_VERDIGRIS_AGARIC_STEM.get().getDefaultState()),
 				2); //Foliage Radius
-	}
+	}	
 	
 	public static StructureFeature<?, ?> CONFIGURED_OVERWORLD_ABANDONNED_PORTAL_STRUCTURE = AerialHellStructures.OVERWORLD_ABANDONNED_PORTAL_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
 	public static StructureFeature<?, ?> CONFIGURED_MUD_DUNGEON_STRUCTURE = AerialHellStructures.MUD_DUNGEON_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
@@ -217,8 +219,10 @@ public class AerialHellFeatures
     
     public static ConfiguredFeature<HugeFungusConfig, ?> GIANT_CORTINARIUS_VIOLACEUS_PLANTED = Feature.HUGE_FUNGUS.withConfiguration(Configs.GIANT_CORTINARIUS_VIOLACEUS_PLANTED_CONFIG);
     public static ConfiguredFeature<?, ?> GIANT_CORTINARIUS_VIOLACEUS = Feature.HUGE_FUNGUS.withConfiguration(Configs.GIANT_CORTINARIUS_VIOLACEUS_CONFIG).withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(8)));
-    public static ConfiguredFeature<BigMushroomFeatureConfig, ?> GIANT_VERDIGRIS_AGARIC_PLANTED = Feature.HUGE_RED_MUSHROOM.withConfiguration(Configs.GIANT_VERDIGRIS_AGARIC_MUSHROOM);
-    public static ConfiguredFeature<?, ?> GIANT_VERDIGRIS_AGARIC = Feature.HUGE_RED_MUSHROOM.withConfiguration(Configs.GIANT_VERDIGRIS_AGARIC_MUSHROOM).withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(1)));
+    public static ConfiguredFeature<BigMushroomFeatureConfig, ?> GIANT_VERDIGRIS_AGARIC_PLANTED = Feature.HUGE_RED_MUSHROOM.withConfiguration(Configs.GIANT_VERDIGRIS_AGARIC_MUSHROOM_CONFIG);
+    public static ConfiguredFeature<?, ?> GIANT_VERDIGRIS_AGARIC = Feature.HUGE_RED_MUSHROOM.withConfiguration(Configs.GIANT_VERDIGRIS_AGARIC_MUSHROOM_CONFIG).withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(1)));
+    public static ConfiguredFeature<?, ?> CORTINARIUS_VIOLACEUS_FOREST = Feature.RANDOM_PATCH.withConfiguration(Configs.CORTINARIUS_VIOLACEUS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(12);
+    public static ConfiguredFeature<?, ?> VERDIGRIS_AGARIC_FOREST = Feature.RANDOM_PATCH.withConfiguration(Configs.VERDIGRIS_AGARIC_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(12);
     
     public static ConfiguredFeature<?, ?> SKY_CACTUS_PLAIN = new SkyCactusFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(50);
     public static ConfiguredFeature<?, ?> SKY_CACTUS_OCEAN = new SkyCactusFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(25);
@@ -300,10 +304,13 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "mega_shadow_pine_basic"), MEGA_SHADOW_PINE_BASIC);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "mega_purple_shadow_pine_basic"), MEGA_PURPLE_SHADOW_PINE_BASIC);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "crystallized_tree_basic"), CRYSTALLIZED_TREE_BASIC);
+        
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_cortinarius_violaceus_planted"), GIANT_CORTINARIUS_VIOLACEUS_PLANTED);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_cortinarius_violaceus"), GIANT_CORTINARIUS_VIOLACEUS);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_verdigris_agaric_planted"), GIANT_VERDIGRIS_AGARIC_PLANTED);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_verdigris_agaric"), GIANT_VERDIGRIS_AGARIC);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "cortinarius_violaceus_forest"), CORTINARIUS_VIOLACEUS_FOREST);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "verdigris_agaric_forest"), VERDIGRIS_AGARIC_FOREST);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "sky_cactus_plain"), SKY_CACTUS_PLAIN);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "sky_cactus_ocean"), SKY_CACTUS_OCEAN);
