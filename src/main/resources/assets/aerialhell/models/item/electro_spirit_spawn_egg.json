@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "aerialhell:item/electro_spirit_spawn_egg"
+  }
+}

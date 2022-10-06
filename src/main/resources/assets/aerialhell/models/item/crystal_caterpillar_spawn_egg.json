@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "aerialhell:item/crystal_caterpillar_spawn_egg"
+  }
+}

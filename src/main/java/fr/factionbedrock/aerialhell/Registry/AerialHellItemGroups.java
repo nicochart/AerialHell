@@ -50,4 +50,13 @@ public class AerialHellItemGroups
             return new ItemStack(AerialHellBlocksAndItems.RUBY_LIQUID_OF_GODS_BUCKET.get());
         }
     };
+    
+    public static final ItemGroup AERIAL_HELL_SPAWN_EGGS = new ItemGroup("aerialhell_spawn_eggs")
+	{
+        @Override
+        public ItemStack createIcon()
+        {
+            return new ItemStack(AerialHellBlocksAndItems.EVIL_COW_SPAWN_EGG.get());
+        }
+    };
 }
