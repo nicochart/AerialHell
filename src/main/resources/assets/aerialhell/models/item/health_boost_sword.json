@@ -2,6 +2,6 @@
   "parent": "item/handheld",
   "textures":
   {
-    "layer0": "aerialhell:tools/health_boost_sword"
+    "layer0": "aerialhell:item/health_boost_sword"
   }
 }

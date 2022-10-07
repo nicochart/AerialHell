@@ -2,6 +2,6 @@
    "parent": "item/generated",
    "textures":
    {
-        "layer0": "aerialhell:armor/ruby_leggings"
+        "layer0": "aerialhell:item/ruby_leggings"
    }
 }

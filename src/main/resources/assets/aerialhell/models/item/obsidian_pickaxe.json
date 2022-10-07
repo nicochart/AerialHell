@@ -2,6 +2,6 @@
   "parent": "item/handheld",
   "textures":
   {
-    "layer0": "aerialhell:tools/obsidian_pickaxe"
+    "layer0": "aerialhell:item/obsidian_pickaxe"
   }
 }

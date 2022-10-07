@@ -2,6 +2,6 @@
    "parent": "item/generated",
    "textures":
    {
-        "layer0": "aerialhell:armor/arsonist_helmet"
+        "layer0": "aerialhell:item/arsonist_helmet"
    }
 }

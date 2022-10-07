@@ -2,6 +2,6 @@
   "parent": "item/handheld",
   "textures":
   {
-    "layer0": "aerialhell:tools/stellar_stone_sword"
+    "layer0": "aerialhell:item/stellar_stone_sword"
   }
 }

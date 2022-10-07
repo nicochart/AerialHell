@@ -2,6 +2,6 @@
   "parent": "item/handheld",
   "textures":
   {
-    "layer0": "aerialhell:tools/glass_canon_sword"
+    "layer0": "aerialhell:item/glass_canon_sword"
   }
 }

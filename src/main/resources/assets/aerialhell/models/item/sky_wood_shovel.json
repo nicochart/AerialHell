@@ -2,6 +2,6 @@
   "parent": "item/handheld",
   "textures":
   {
-    "layer0": "aerialhell:tools/sky_wood_shovel"
+    "layer0": "aerialhell:item/sky_wood_shovel"
   }
 }

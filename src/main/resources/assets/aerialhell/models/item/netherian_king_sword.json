@@ -2,6 +2,6 @@
   "parent": "item/handheld",
   "textures":
   {
-    "layer0": "aerialhell:tools/netherian_king_sword"
+    "layer0": "aerialhell:item/netherian_king_sword"
   }
 }

@@ -2,6 +2,6 @@
   "parent": "item/handheld",
   "textures":
   {
-    "layer0": "aerialhell:tools/glouton_sword"
+    "layer0": "aerialhell:item/glouton_sword"
   }
 }

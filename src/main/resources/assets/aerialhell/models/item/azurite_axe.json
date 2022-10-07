@@ -2,6 +2,6 @@
   "parent": "item/handheld",
   "textures":
   {
-    "layer0": "aerialhell:tools/azurite_axe"
+    "layer0": "aerialhell:item/azurite_axe"
   }
 }

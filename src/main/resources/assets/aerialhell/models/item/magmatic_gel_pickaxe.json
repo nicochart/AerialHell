@@ -2,6 +2,6 @@
   "parent": "item/handheld",
   "textures":
   {
-    "layer0": "aerialhell:tools/magmatic_gel_pickaxe"
+    "layer0": "aerialhell:item/magmatic_gel_pickaxe"
   }
 }

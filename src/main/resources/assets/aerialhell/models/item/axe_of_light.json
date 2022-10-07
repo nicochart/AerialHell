@@ -2,6 +2,6 @@
   "parent": "item/handheld",
   "textures":
   {
-    "layer0": "aerialhell:tools/axe_of_light"
+    "layer0": "aerialhell:item/axe_of_light"
   }
 }

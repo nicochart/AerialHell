@@ -2,6 +2,6 @@
   "parent": "item/handheld",
   "textures":
   {
-    "layer0": "aerialhell:tools/azurite_hoe"
+    "layer0": "aerialhell:item/azurite_hoe"
   }
 }

@@ -2,6 +2,6 @@
   "parent": "item/handheld",
   "textures":
   {
-    "layer0": "aerialhell:tools/lunatic_sword"
+    "layer0": "aerialhell:item/lunatic_sword"
   }
 }

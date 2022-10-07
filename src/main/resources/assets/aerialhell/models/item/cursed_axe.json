@@ -2,6 +2,6 @@
   "parent": "item/handheld",
   "textures":
   {
-    "layer0": "aerialhell:tools/cursed_axe"
+    "layer0": "aerialhell:item/cursed_axe"
   }
 }
