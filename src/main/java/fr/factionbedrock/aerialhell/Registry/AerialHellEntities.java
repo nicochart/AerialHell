@@ -42,6 +42,9 @@ public class AerialHellEntities
 	public static final EntityType<EvilCowEntity> EVIL_COW_TYPE = EntityType.Builder.<EvilCowEntity>create(EvilCowEntity::new, EntityClassification.CREATURE)
 			    .size(0.9F, 1.4F).build("evil_cow");
 	
+	public static final EntityType<EvilCowEntity> CORTINARIUS_COW_TYPE = EntityType.Builder.<EvilCowEntity>create(EvilCowEntity::new, EntityClassification.CREATURE)
+		    	.size(0.9F, 1.4F).build("cortinarius_cow");
+	
 	public static final EntityType<VerdigrisZombieEntity> VERDIGRIS_ZOMBIE_TYPE = EntityType.Builder.create(VerdigrisZombieEntity::new, EntityClassification.MONSTER)
             	.size(0.7F,2.0F).build("verdigris_zombie");
 	
@@ -165,6 +168,7 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<CrystalGolemEntity>> CRYSTAL_GOLEM = ENTITIES.register("crystal_golem", () -> CRYSTAL_GOLEM_TYPE);
 	public static final RegistryObject<EntityType<LunaticPriestEntity>> LUNATIC_PRIEST = ENTITIES.register("lunatic_priest", () -> LUNATIC_PRIEST_TYPE);
 	public static final RegistryObject<EntityType<EvilCowEntity>> EVIL_COW = ENTITIES.register("evil_cow", () -> EVIL_COW_TYPE);
+	public static final RegistryObject<EntityType<EvilCowEntity>> CORTINARIUS_COW = ENTITIES.register("cortinarius_cow", () -> CORTINARIUS_COW_TYPE);
 	public static final RegistryObject<EntityType<VerdigrisZombieEntity>> VERDIGRIS_ZOMBIE = ENTITIES.register("verdigris_zombie", () -> VERDIGRIS_ZOMBIE_TYPE);
 	public static final RegistryObject<EntityType<SandySheepEntity>> SANDY_SHEEP = ENTITIES.register("sandy_sheep", () -> SANDY_SHEEP_TYPE);
 	public static final RegistryObject<EntityType<FatPhantomEntity>> FAT_PHANTOM = ENTITIES.register("fat_phantom", () -> FAT_PHANTOM_TYPE);
@@ -210,6 +214,7 @@ public class AerialHellEntities
 		EntitySpawnPlacementRegistry.register(SANDY_SHEEP.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellAnimalEntity::canAerialHellAnimalSpawn);
 		
 		EntitySpawnPlacementRegistry.register(EVIL_COW.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		EntitySpawnPlacementRegistry.register(CORTINARIUS_COW.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
 		//EntitySpawnPlacementRegistry.register(MUD_SOLDIER.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn); //pb : makes hostile entities that can spawn in daylight spawn without any requirement (1 entity / tick / chunk, game crash)
 		EntitySpawnPlacementRegistry.register(HELL_SPIDER.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
 		EntitySpawnPlacementRegistry.register(CRYSTAL_SPIDER.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);

@@ -53,14 +53,14 @@
   "spawners": {
     "monster": [
       {
-        "type": "aerialhell:evil_cow",
-        "weight": 60,
+        "type": "aerialhell:cortinarius_cow",
+        "weight": 90,
         "minCount": 4,
         "maxCount": 10
       },
       {
         "type": "aerialhell:verdigris_zombie",
-        "weight": 100,
+        "weight": 90,
         "minCount": 4,
         "maxCount": 10
       },
