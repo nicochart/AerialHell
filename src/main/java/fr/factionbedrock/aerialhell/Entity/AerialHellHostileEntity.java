@@ -35,7 +35,7 @@ public abstract class AerialHellHostileEntity extends MonsterEntity {
         {
         	return randomIn.nextInt(10) == 0 && canMonsterSpawnInLight(type, worldIn, reason, pos, randomIn);
         }
-        else if (type == AerialHellEntities.EVIL_COW_TYPE)
+        else if (type == AerialHellEntities.EVIL_COW_TYPE || type == AerialHellEntities.CORTINARIUS_COW_TYPE)
         {
         	return randomIn.nextInt(50) == 0 && canMonsterSpawnInLight(type, worldIn, reason, pos, randomIn);
         }
