@@ -70,7 +70,7 @@ public class AerialHell
     	}
     		
     	/* Adding common features and structure in all classic aerial hell biomes */
-    	if (event.getName().equals(AerialHellBiomes.AERIAL_HELL_PLAINS.getLocation()) || event.getName().equals(AerialHellBiomes.AERIAL_TREE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.COPPER_PINE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.SLIPPERY_SAND_OCEAN.getLocation()) || event.getName().equals(AerialHellBiomes.CRYSTAL_PLAINS.getLocation()) || event.getName().equals(AerialHellBiomes.LAPIS_ROBINIA_SAVANA.getLocation()) || event.getName().equals(AerialHellBiomes.CORTINARIUS_VIOLACEUS_FOREST.getLocation()))
+    	if (event.getName().equals(AerialHellBiomes.AERIAL_HELL_PLAINS.getLocation()) || event.getName().equals(AerialHellBiomes.AERIAL_TREE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.COPPER_PINE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.SLIPPERY_SAND_OCEAN.getLocation()) || event.getName().equals(AerialHellBiomes.CRYSTAL_PLAINS.getLocation()) || event.getName().equals(AerialHellBiomes.LAPIS_ROBINIA_SAVANA.getLocation()) || event.getName().equals(AerialHellBiomes.CORTINARIUS_VIOLACEUS_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.VERDIGRIS_AGARIC_FOREST.getLocation()))
     	{
     		/* structure */
     		this.addAllDungeons(event);
@@ -175,6 +175,13 @@ public class AerialHell
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.PURPLISH_STELLAR_GRASS);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.VERDIGRIS_AGARIC_FOREST);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.CORTINARIUS_VIOLACEUS_FOREST);
+    	}
+    	
+    	/* Adding features exclusive to the Verdigris Agaric Forest biome */
+    	if (event.getName().equals(AerialHellBiomes.VERDIGRIS_AGARIC_FOREST.getLocation()))
+    	{
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.VERDIGRIS_AGARIC_FOREST);
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.HUGE_VERDIGRIS_AGARIC);
     	}
     	
     	/* Adding features exclusive to all Shadow Biomes */
