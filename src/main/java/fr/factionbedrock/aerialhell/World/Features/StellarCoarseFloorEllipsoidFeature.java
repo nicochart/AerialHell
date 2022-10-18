@@ -15,10 +15,7 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 public class StellarCoarseFloorEllipsoidFeature extends Feature<NoFeatureConfig>
 {
-	public StellarCoarseFloorEllipsoidFeature(Codec<NoFeatureConfig> p_i231956_1_)
-	{
-		super(p_i231956_1_);
-	}
+	public StellarCoarseFloorEllipsoidFeature(Codec<NoFeatureConfig> codec) {super(codec);}
 
 	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)
 	{

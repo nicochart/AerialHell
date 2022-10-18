@@ -19,10 +19,7 @@ import java.util.Random;
 public class SlipperySandFeature extends Feature<NoFeatureConfig>
 {
 
-    public SlipperySandFeature(Codec<NoFeatureConfig> codec)
-    {
-        super(codec);
-    }
+    public SlipperySandFeature(Codec<NoFeatureConfig> codec) {super(codec);}
 
     @Override
     public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)

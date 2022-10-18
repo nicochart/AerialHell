@@ -17,11 +17,9 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 public class GiantCrystalBlobFeature extends Feature<NoFeatureConfig>
 {
-	public GiantCrystalBlobFeature(Codec<NoFeatureConfig> p_i231956_1_)
-	{
-		super(p_i231956_1_);
-	}
-
+	public GiantCrystalBlobFeature(Codec<NoFeatureConfig> codec) {super(codec);}
+	
+	@Override
 	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)
 	{
 		if (!reader.isAirBlock(pos)) {return false;}

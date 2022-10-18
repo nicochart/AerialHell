@@ -16,10 +16,7 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 public class SlipperySandSolidEtherFeature extends Feature<NoFeatureConfig>
 {
-    public SlipperySandSolidEtherFeature(Codec<NoFeatureConfig> codec)
-    {
-        super(codec);
-    }
+    public SlipperySandSolidEtherFeature(Codec<NoFeatureConfig> codec) {super(codec);}
 
     @Override
     public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)

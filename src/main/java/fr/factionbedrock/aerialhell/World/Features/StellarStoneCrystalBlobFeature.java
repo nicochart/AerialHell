@@ -16,10 +16,7 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 public class StellarStoneCrystalBlobFeature extends Feature<NoFeatureConfig>
 {
-	public StellarStoneCrystalBlobFeature(Codec<NoFeatureConfig> p_i231956_1_)
-	{
-		super(p_i231956_1_);
-	}
+	public StellarStoneCrystalBlobFeature(Codec<NoFeatureConfig> codec) {super(codec);}
 
 	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)
 	{
@@ -51,10 +48,7 @@ public class StellarStoneCrystalBlobFeature extends Feature<NoFeatureConfig>
 
 		            for(Direction direction : Direction.values())
 		            {
-			            if (reader.getBlockState(blockpos.offset(direction)).isIn(AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get()))
-			            {
-			            	++j;
-			            }
+			            if (reader.getBlockState(blockpos.offset(direction)).isIn(AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get())) {++j;}
 	
 			            if (j > 1) {break;}
 		            }

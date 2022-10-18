@@ -23,11 +23,9 @@ import java.util.Random;
 
 public class AerialHellLakeFeature extends Feature<BlockStateFeatureConfig>
 {
-    public AerialHellLakeFeature(Codec<BlockStateFeatureConfig> codec)
-    {
-        super(codec);
-    }
-
+    public AerialHellLakeFeature(Codec<BlockStateFeatureConfig> codec) {super(codec);}
+    
+    @Override
     public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, BlockStateFeatureConfig config)
     {
     	boolean generatesInDungeon = (

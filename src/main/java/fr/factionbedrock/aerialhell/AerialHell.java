@@ -2,11 +2,13 @@ package fr.factionbedrock.aerialhell;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBiomes;
@@ -14,10 +16,12 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellFeatures;
 import fr.factionbedrock.aerialhell.Registry.AerialHellStructures;
 import fr.factionbedrock.aerialhell.Setup.*;
 import fr.factionbedrock.aerialhell.World.GenAerialHellOres;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.GenerationStage;
@@ -61,16 +65,36 @@ public class AerialHell
     
     
     public void biomeModification(final BiomeLoadingEvent event)
-    {	
+    {
+    	//biomelist copied from OverworldBiomeProvider.biomes
+    	List<Comparable<?>> overworldBiomes = ImmutableList.of(Biomes.OCEAN.getLocation(), Biomes.PLAINS.getLocation(), Biomes.DESERT.getLocation(), Biomes.MOUNTAINS.getLocation(), Biomes.FOREST.getLocation(), Biomes.TAIGA.getLocation(), Biomes.SWAMP.getLocation(), Biomes.RIVER.getLocation(), Biomes.FROZEN_OCEAN.getLocation(), Biomes.FROZEN_RIVER.getLocation(), Biomes.SNOWY_TUNDRA.getLocation(), Biomes.SNOWY_MOUNTAINS.getLocation(), Biomes.MUSHROOM_FIELDS.getLocation(), Biomes.MUSHROOM_FIELD_SHORE.getLocation(), Biomes.BEACH.getLocation(), Biomes.DESERT_HILLS.getLocation(), Biomes.WOODED_HILLS.getLocation(), Biomes.TAIGA_HILLS.getLocation(), Biomes.MOUNTAIN_EDGE.getLocation(), Biomes.JUNGLE.getLocation(), Biomes.JUNGLE_HILLS.getLocation(), Biomes.JUNGLE_EDGE.getLocation(), Biomes.DEEP_OCEAN.getLocation(), Biomes.STONE_SHORE.getLocation(), Biomes.SNOWY_BEACH.getLocation(), Biomes.BIRCH_FOREST.getLocation(), Biomes.BIRCH_FOREST_HILLS.getLocation(), Biomes.DARK_FOREST.getLocation(), Biomes.SNOWY_TAIGA.getLocation(), Biomes.SNOWY_TAIGA_HILLS.getLocation(), Biomes.GIANT_TREE_TAIGA.getLocation(), Biomes.GIANT_TREE_TAIGA_HILLS.getLocation(), Biomes.WOODED_MOUNTAINS.getLocation(), Biomes.SAVANNA.getLocation(), Biomes.SAVANNA_PLATEAU.getLocation(), Biomes.BADLANDS.getLocation(), Biomes.WOODED_BADLANDS_PLATEAU, Biomes.BADLANDS_PLATEAU.getLocation(), Biomes.WARM_OCEAN.getLocation(), Biomes.LUKEWARM_OCEAN.getLocation(), Biomes.COLD_OCEAN.getLocation(), Biomes.DEEP_WARM_OCEAN.getLocation(), Biomes.DEEP_LUKEWARM_OCEAN.getLocation(), Biomes.DEEP_COLD_OCEAN.getLocation(), Biomes.DEEP_FROZEN_OCEAN.getLocation(), Biomes.SUNFLOWER_PLAINS.getLocation(), Biomes.DESERT_LAKES.getLocation(), Biomes.GRAVELLY_MOUNTAINS.getLocation(), Biomes.FLOWER_FOREST.getLocation(), Biomes.TAIGA_MOUNTAINS.getLocation(), Biomes.SWAMP_HILLS.getLocation(), Biomes.ICE_SPIKES.getLocation(), Biomes.MODIFIED_JUNGLE.getLocation(), Biomes.MODIFIED_JUNGLE_EDGE.getLocation(), Biomes.TALL_BIRCH_FOREST.getLocation(), Biomes.TALL_BIRCH_HILLS.getLocation(), Biomes.DARK_FOREST_HILLS.getLocation(), Biomes.SNOWY_TAIGA_MOUNTAINS.getLocation(), Biomes.GIANT_SPRUCE_TAIGA.getLocation(), Biomes.GIANT_SPRUCE_TAIGA_HILLS.getLocation(), Biomes.MODIFIED_GRAVELLY_MOUNTAINS.getLocation(), Biomes.SHATTERED_SAVANNA.getLocation(), Biomes.SHATTERED_SAVANNA_PLATEAU.getLocation(), Biomes.ERODED_BADLANDS.getLocation(), Biomes.MODIFIED_WOODED_BADLANDS_PLATEAU.getLocation(), Biomes.MODIFIED_BADLANDS_PLATEAU.getLocation());
+    	boolean isOverworldBiome = false; if (overworldBiomes.contains(event.getName())) {isOverworldBiome = true;}
+    	event.getName().equals(Biomes.BADLANDS.getLocation());
+    	
     	/* Adding Portal Ore & Abandonned Portal structure generation to Overworld Biomes */
-    	if (event.getCategory() == Biome.Category.TAIGA || event.getCategory() == Biome.Category.EXTREME_HILLS || event.getCategory() == Biome.Category.JUNGLE || event.getCategory() == Biome.Category.MESA || event.getCategory() == Biome.Category.PLAINS || event.getCategory() == Biome.Category.SAVANNA || event.getCategory() == Biome.Category.ICY || event.getCategory() == Biome.Category.BEACH || event.getCategory() == Biome.Category.FOREST || event.getCategory() == Biome.Category.OCEAN || event.getCategory() == Biome.Category.DESERT || event.getCategory() == Biome.Category.RIVER || event.getCategory() == Biome.Category.SWAMP || event.getCategory() == Biome.Category.MUSHROOM)
+    	if (isOverworldBiome)
     	{
     		event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.STELLAR_PORTAL_FRAME_ORE);
     		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_OVERWORLD_ABANDONNED_PORTAL_STRUCTURE);
     	}
-    		
+    	
+    	boolean isAerialHellPlains = event.getName().equals(AerialHellBiomes.AERIAL_HELL_PLAINS.getLocation());
+    	boolean isAerialTreeForest = event.getName().equals(AerialHellBiomes.AERIAL_TREE_FOREST.getLocation());
+    	boolean isCopperPineForest = event.getName().equals(AerialHellBiomes.COPPER_PINE_FOREST.getLocation());
+    	boolean isSlipperySandOcean = event.getName().equals(AerialHellBiomes.SLIPPERY_SAND_OCEAN.getLocation());
+    	boolean isCrystalPlains = event.getName().equals(AerialHellBiomes.CRYSTAL_PLAINS.getLocation());
+    	boolean isCrystalForest = event.getName().equals(AerialHellBiomes.CRYSTAL_FOREST.getLocation());
+    	boolean isLapisRobaniaSavana = event.getName().equals(AerialHellBiomes.LAPIS_ROBINIA_SAVANA.getLocation());
+    	boolean isCortinariusViolaceusForest = event.getName().equals(AerialHellBiomes.CORTINARIUS_VIOLACEUS_FOREST.getLocation());
+    	boolean isVerdigrisAgaricForest = event.getName().equals(AerialHellBiomes.VERDIGRIS_AGARIC_FOREST.getLocation());
+    	boolean isShadowPlain = event.getName().equals(AerialHellBiomes.SHADOW_PLAIN.getLocation());
+    	boolean isShadowForest = event.getName().equals(AerialHellBiomes.SHADOW_FOREST.getLocation());
+    	
+    	boolean isAerialHellClassicBiome = isAerialHellPlains || isAerialTreeForest || isCopperPineForest || isSlipperySandOcean || isCrystalPlains || isCrystalForest || isLapisRobaniaSavana || isCortinariusViolaceusForest || isVerdigrisAgaricForest;
+    	boolean isAerialHellShadowBiome = isShadowPlain || isShadowForest;
+    			
     	/* Adding common features and structure in all classic aerial hell biomes */
-    	if (event.getName().equals(AerialHellBiomes.AERIAL_HELL_PLAINS.getLocation()) || event.getName().equals(AerialHellBiomes.AERIAL_TREE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.COPPER_PINE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.SLIPPERY_SAND_OCEAN.getLocation()) || event.getName().equals(AerialHellBiomes.CRYSTAL_PLAINS.getLocation()) || event.getName().equals(AerialHellBiomes.LAPIS_ROBINIA_SAVANA.getLocation()) || event.getName().equals(AerialHellBiomes.CORTINARIUS_VIOLACEUS_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.VERDIGRIS_AGARIC_FOREST.getLocation()))
+    	if (isAerialHellClassicBiome)
     	{
     		/* structure */
     		this.addAllDungeons(event);
@@ -102,7 +126,7 @@ public class AerialHell
         }
     	
     	/* Adding features exclusive to the SlipperySandOcean biome */
-    	if (event.getName().equals(AerialHellBiomes.SLIPPERY_SAND_OCEAN.getLocation()))
+    	if (isSlipperySandOcean)
     	{
     		//abandonned structure
     		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE);
@@ -120,7 +144,7 @@ public class AerialHell
     	}
     	
     	/* Adding features exclusive to the Aerial Tree Forest and Aerial Copper Pine Forest biomes */
-    	if (event.getName().equals(AerialHellBiomes.AERIAL_TREE_FOREST.getLocation()) || event.getName().equals(AerialHellBiomes.COPPER_PINE_FOREST.getLocation()))
+    	if (isAerialTreeForest || isCopperPineForest)
     	{
     		//green solid ether
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.GREEN_SOLID_ETHER);
@@ -135,13 +159,13 @@ public class AerialHell
     	}
     	
     	/* Adding features exclusive to Copper Pine Forest biomes*/
-    	if (event.getName().equals(AerialHellBiomes.COPPER_PINE_FOREST.getLocation()))
+    	if (isCopperPineForest)
     	{
     		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_COPPER_PINE_COTTAGE_STRUCTURE);
     	}
     	
     	/* Adding features exclusive to the Lapis Robania Savana biome */
-    	if (event.getName().equals(AerialHellBiomes.LAPIS_ROBINIA_SAVANA.getLocation()))
+    	if (isLapisRobaniaSavana)
     	{   		
     		//more plants
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.AERIAL_HELL_BELLFLOWERS);
@@ -151,8 +175,8 @@ public class AerialHell
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_TALL_FERN);
     	}
     	
-    	/* Adding features exclusive to the Crystal Plain biome */
-    	if (event.getName().equals(AerialHellBiomes.CRYSTAL_PLAINS.getLocation()))
+    	/* Adding features exclusive to the Crystal Plains biome */
+    	if (isCrystalPlains)
     	{
     		event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.CRYSTALLIZED_FIRE);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.CRYSTAL_BLOB);
@@ -160,7 +184,7 @@ public class AerialHell
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.AERIAL_BERRY_BUSH_PATCH);
     	}
     	/* Adding features exclusive to the Crystal Forest biome */
-    	else if (event.getName().equals(AerialHellBiomes.CRYSTAL_FOREST.getLocation()))
+    	else if (isCrystalForest)
     	{
     		event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.CRYSTALLIZED_FIRE);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.CRYSTAL_BLOB);
@@ -170,7 +194,7 @@ public class AerialHell
     	}
     	
     	/* Adding features exclusive to the Cortinarius Violaceus Forest biome */
-    	if (event.getName().equals(AerialHellBiomes.CORTINARIUS_VIOLACEUS_FOREST.getLocation()))
+    	if (isCortinariusViolaceusForest)
     	{
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.PURPLISH_STELLAR_GRASS);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.VERDIGRIS_AGARIC_FOREST);
@@ -178,14 +202,14 @@ public class AerialHell
     	}
     	
     	/* Adding features exclusive to the Verdigris Agaric Forest biome */
-    	if (event.getName().equals(AerialHellBiomes.VERDIGRIS_AGARIC_FOREST.getLocation()))
+    	if (isVerdigrisAgaricForest)
     	{
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.VERDIGRIS_AGARIC_FOREST);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.HUGE_VERDIGRIS_AGARIC);
     	}
     	
     	/* Adding features exclusive to all Shadow Biomes */
-    	if (event.getName().equals(AerialHellBiomes.SHADOW_PLAIN.getLocation()) || event.getName().equals(AerialHellBiomes.SHADOW_FOREST.getLocation()))
+    	if (isAerialHellShadowBiome)
     	{
     		/* structure */
     		this.addAllDungeons(event);

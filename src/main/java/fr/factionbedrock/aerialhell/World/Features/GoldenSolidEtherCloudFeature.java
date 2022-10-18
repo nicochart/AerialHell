@@ -17,10 +17,7 @@ public class GoldenSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 	protected int getSmallMinSize() {return 3;} protected int getSmallMaxSize() {return 5;}
 	protected Block getEtherBlock() {return AerialHellBlocksAndItems.GOLDEN_SOLID_ETHER.get();}
 	
-    public GoldenSolidEtherCloudFeature(Codec<NoFeatureConfig> codec)
-    {
-        super(codec);
-    }
+    public GoldenSolidEtherCloudFeature(Codec<NoFeatureConfig> codec) {super(codec);}
 
 	@Override
     public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)

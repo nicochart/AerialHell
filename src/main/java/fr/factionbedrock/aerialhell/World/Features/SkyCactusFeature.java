@@ -16,10 +16,7 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 public class SkyCactusFeature extends Feature<NoFeatureConfig>
 {
-	public SkyCactusFeature(Codec<NoFeatureConfig> codec)
-	{
-		super(codec);
-	}
+	public SkyCactusFeature(Codec<NoFeatureConfig> codec) {super(codec);}
 
 	@Override
 	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config) 
@@ -33,10 +30,7 @@ public class SkyCactusFeature extends Feature<NoFeatureConfig>
 	    {
 			BlockState blockstate = reader.getBlockState(pos.offset(direction));
 	        Material material = blockstate.getMaterial();
-	        if (material.isSolid())
-	        {
-	        	return false;
-	        }
+	        if (material.isSolid()) {return false;}
 	    }
 		reader.setBlockState(pos, AerialHellBlocksAndItems.SKY_CACTUS.get().getDefaultState(), 1);
 		if (Math.random() > 0.5 && top.isAir())

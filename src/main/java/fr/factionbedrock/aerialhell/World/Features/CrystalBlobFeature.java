@@ -16,21 +16,16 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 public class CrystalBlobFeature extends Feature<NoFeatureConfig>
 {
-	public CrystalBlobFeature(Codec<NoFeatureConfig> p_i231956_1_)
-	{
-		super(p_i231956_1_);
-	}
-
+	public CrystalBlobFeature(Codec<NoFeatureConfig> codec) {super(codec);}
+	
+	@Override
 	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)
 	{
 		if (!reader.isAirBlock(pos)) {return false;}
 		else
 		{
 			BlockState blockstate = reader.getBlockState(pos.down());
-		    if (!blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT))
-		    {
-		    	return false;
-		    }
+		    if (!blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT)) {return false;}
 		    else
 		    {
 		    	reader.setBlockState(pos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().getDefaultState(), 2);

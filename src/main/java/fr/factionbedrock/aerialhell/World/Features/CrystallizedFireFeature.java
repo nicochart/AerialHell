@@ -16,21 +16,16 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 public class CrystallizedFireFeature extends Feature<NoFeatureConfig>
 {
-	public CrystallizedFireFeature(Codec<NoFeatureConfig> codec)
-	{
-		super(codec);
-	}
+	public CrystallizedFireFeature(Codec<NoFeatureConfig> codec) {super(codec);}
 	
+	@Override
 	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)
 	{
 		if (!reader.isAirBlock(pos)) {return false;}
 		else
 		{
 			BlockState blockstate = reader.getBlockState(pos.down());
-		    if (!blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT))
-		    {
-		    	return false;
-		    }
+		    if (!blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT)) {return false;}
 		    else
 		    {
 		    	reader.setBlockState(pos, AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get().getDefaultState(), 2);

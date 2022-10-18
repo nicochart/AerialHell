@@ -17,10 +17,7 @@ public class WhiteSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 	protected int getSmallMinSize() {return 4;} protected int getSmallMaxSize() {return 7;}
 	protected Block getEtherBlock() {return AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get();}
     
-	public WhiteSolidEtherCloudFeature(Codec<NoFeatureConfig> codec)
-    {
-        super(codec);
-    }
+	public WhiteSolidEtherCloudFeature(Codec<NoFeatureConfig> codec) {super(codec);}
     
     @Override
     public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)
