@@ -229,6 +229,7 @@ public class AerialHellFeatures
     public static ConfiguredFeature<?, ?> CORTINARIUS_VIOLACEUS_FOREST = Feature.RANDOM_PATCH.withConfiguration(Configs.CORTINARIUS_VIOLACEUS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(12);
     public static ConfiguredFeature<?, ?> VERDIGRIS_AGARIC_FOREST = Feature.RANDOM_PATCH.withConfiguration(Configs.VERDIGRIS_AGARIC_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(12);
     public static ConfiguredFeature<?, ?> HUGE_VERDIGRIS_AGARIC = new HugeMushroomFeature(BigMushroomFeatureConfig.CODEC).withConfiguration(Configs.GIANT_VERDIGRIS_AGARIC_MUSHROOM_CONFIG).withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(2)));
+    public static ConfiguredFeature<?, ?> GIANT_GANODERMA_APPLANATUM = new GiantGanodermaApplanatumFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(20);
     
     public static ConfiguredFeature<?, ?> SKY_CACTUS_PLAIN = new SkyCactusFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(50);
     public static ConfiguredFeature<?, ?> SKY_CACTUS_OCEAN = new SkyCactusFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(25);
@@ -318,6 +319,7 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "cortinarius_violaceus_forest"), CORTINARIUS_VIOLACEUS_FOREST);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "verdigris_agaric_forest"), VERDIGRIS_AGARIC_FOREST);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "huge_verdigris_agaric"), HUGE_VERDIGRIS_AGARIC);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_ganoderma_applanatum"), GIANT_GANODERMA_APPLANATUM);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "sky_cactus_plain"), SKY_CACTUS_PLAIN);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "sky_cactus_ocean"), SKY_CACTUS_OCEAN);

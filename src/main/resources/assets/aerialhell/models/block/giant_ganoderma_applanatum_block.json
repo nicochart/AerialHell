@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_single_face",
+  "textures": {
+    "texture": "aerialhell:block/giant_ganoderma_applanatum_block"
+  }
+}

@@ -298,6 +298,9 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> GIANT_VERDIGRIS_AGARIC_CAP_BLOCK_ITEM = ITEMS.register("giant_verdigris_agaric_cap_block", () -> new BlockItem(GIANT_VERDIGRIS_AGARIC_CAP_BLOCK.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> VERDIGRIS_AGARIC_ITEM = ITEMS.register("verdigris_agaric", () -> new BlockItem(VERDIGRIS_AGARIC.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	
+	public static final RegistryObject<Block> GIANT_GANODERMA_APPLANATUM_BLOCK = BLOCKS.register("giant_ganoderma_applanatum_block", () -> new HugeMushroomBlock(AbstractBlock.Properties.create(Material.ORGANIC, MaterialColor.BROWN).harvestTool(ToolType.HOE).hardnessAndResistance(0.4F).sound(SoundType.HYPHAE)));
+	public static final RegistryObject<Item> GIANT_GANODERMA_APPLANATUM_BLOCK_ITEM = ITEMS.register("giant_ganoderma_applanatum_block", () -> new BlockItem(GIANT_GANODERMA_APPLANATUM_BLOCK.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	
 	public static final RegistryObject<Block> GRAY_SHROOM_PLANKS = BLOCKS.register("gray_shroom_planks", () -> new Block(AbstractBlock.Properties.from(GIANT_CORTINARIUS_VIOLACEUS_STEM.get())));
 	public static final RegistryObject<Block> GRAY_SHROOM_BOOKSHELF = BLOCKS.register("gray_shroom_bookshelf", () -> new AerialHellBookshelfBlock(AbstractBlock.Properties.from(GRAY_SHROOM_PLANKS.get())));
 	public static final RegistryObject<Item> GRAY_SHROOM_PLANKS_ITEM = ITEMS.register("gray_shroom_planks", () -> new BurnableBlockItem(GRAY_SHROOM_PLANKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 100));
