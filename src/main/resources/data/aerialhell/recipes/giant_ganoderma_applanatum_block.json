@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:ganoderma_applanatum_piece"
+    }
+  },
+  "result": {
+    "item": "aerialhell:giant_ganoderma_applanatum_block"
+  }
+}

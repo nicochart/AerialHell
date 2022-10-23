@@ -24,15 +24,9 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoFeatureConfig>
     public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)
     {
 		boolean canGenerate = (
-                (!reader.getBlockState(pos.up(3)).getBlock().equals(Blocks.AIR))
-                &&
-                (reader.getBlockState(pos.north(3)).getBlock().equals(Blocks.AIR) ||
-                 reader.getBlockState(pos.south(3)).getBlock().equals(Blocks.AIR) ||
-                 reader.getBlockState(pos.west(3)).getBlock().equals(Blocks.AIR) ||
-                 reader.getBlockState(pos.east(3)).getBlock().equals(Blocks.AIR))
-                &&
-                (reader.getBlockState(pos).isIn(AerialHellTags.Blocks.STELLAR_STONE) ||
-                 reader.getBlockState(pos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
+            (!reader.getBlockState(pos.up(3)).getBlock().equals(Blocks.AIR)) &&
+            ((reader.getBlockState(pos.north(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.south(2)).getBlock().equals(Blocks.AIR)) || (reader.getBlockState(pos.west(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.east(2)).getBlock().equals(Blocks.AIR))) &&
+            (reader.getBlockState(pos).isIn(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(pos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
 		
 		boolean generatesInDungeon = (
 			reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get()).findAny().isPresent() ||
@@ -82,7 +76,7 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoFeatureConfig>
                                 		.with(HugeMushroomBlock.SOUTH, !southInEll)
                                 		.with(HugeMushroomBlock.WEST, !westInEll)
                                 		.with(HugeMushroomBlock.EAST, !eastInEll)
-                                		.with(HugeMushroomBlock.DOWN, !downInEll)
+                                		.with(HugeMushroomBlock.DOWN, !(downInEll || y==0))
                                 		.with(HugeMushroomBlock.UP, !isUpCap), 0);
                             }
                         }
@@ -94,12 +88,12 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoFeatureConfig>
     
     private int getRandomRadius(Random rand, boolean isHuge)
     {
-    	return isHuge ? (int) (5 + rand.nextFloat() * 5) : (int) (3 + rand.nextFloat() * 2);
+    	return isHuge ? (int) (5 + rand.nextFloat() * 5) : (int) (2 + rand.nextFloat() * 4);
     }
     
     private int getRandomHeight(Random rand, boolean isHuge)
     {
-    	int bonus = rand.nextInt(4) == 0 ? 1 : 0;
+    	int bonus = rand.nextInt(8) == 0 ? 1 : 0;
     	return 2 + (isHuge ? bonus+1 : bonus);
     }
     
