@@ -32,7 +32,6 @@ public class AerialHellRendering
 		RenderType cutout_mipped = RenderType.getCutoutMipped();
 		
 		render(() -> AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get(), translucent);
-		render(() -> AerialHellBlocksAndItems.SLIPPERY_SAND_SOLID_ETHER.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.CRYSTAL_BLOCK.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get(), translucent);

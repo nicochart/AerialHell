@@ -88,8 +88,12 @@ public class AerialHell
     	boolean isShadowPlain = event.getName().equals(AerialHellBiomes.SHADOW_PLAIN.getLocation());
     	boolean isShadowForest = event.getName().equals(AerialHellBiomes.SHADOW_FOREST.getLocation());
     	
-    	boolean isAerialHellClassicBiome = isAerialHellPlains || isAerialTreeForest || isCopperPineForest || isSlipperySandOcean || isCrystalPlains || isCrystalForest || isLapisRobaniaSavana || isCortinariusViolaceusForest || isVerdigrisAgaricForest;
+    	boolean isAerialHellCrystalBiome = isCrystalPlains || isCrystalForest;
     	boolean isAerialHellShadowBiome = isShadowPlain || isShadowForest;
+    	boolean isAerialHellForestBiome = isAerialTreeForest || isCopperPineForest || isLapisRobaniaSavana;
+    	boolean isAerialHellPlainsBiome = isAerialHellPlains || isLapisRobaniaSavana;
+    	boolean isAerialHellShroomyBiome = isCortinariusViolaceusForest || isVerdigrisAgaricForest;
+    	boolean isAerialHellClassicBiome = isAerialHellCrystalBiome || isAerialHellShroomyBiome || isAerialHellForestBiome || isSlipperySandOcean || isAerialHellPlainsBiome;
     			
     	/* Adding common features and structure in all classic aerial hell biomes */
     	if (isAerialHellClassicBiome)
@@ -99,13 +103,10 @@ public class AerialHell
     		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
     		
     		/* features */
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.TOP_LAYER_MODIFICATION).add(() -> AerialHellFeatures.SLIPPERY_SAND);
     		event.getGeneration().withFeature(GenerationStage.Decoration.LAKES, AerialHellFeatures.AERIAL_HELL_WATER_LAKE);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.WHITE_SOLID_ETHER); 
    		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.BLUE_SOLID_ETHER);
    		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.GOLDEN_SOLID_ETHER);
-   		    
-   		    event.getGeneration().getFeatures(GenerationStage.Decoration.TOP_LAYER_MODIFICATION).add(() -> AerialHellFeatures.GIANT_GANODERMA_APPLANATUM);
    		    
    		    for (int i = 0; i < 5; i++)
    		    {
@@ -125,14 +126,20 @@ public class AerialHell
    		    addOres(event);
         }
     	
+    	if (isAerialHellPlainsBiome || isAerialHellForestBiome || isAerialHellShadowBiome || isAerialHellShroomyBiome) //Bear Bread Shroom everywhere except in Slippery Sand Ocean and Crystal Biomes
+    	{
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.TOP_LAYER_MODIFICATION).add(() -> AerialHellFeatures.GIANT_GANODERMA_APPLANATUM);
+    	}
+    	if (isAerialHellPlainsBiome || isSlipperySandOcean || isAerialHellCrystalBiome) //Slippery sand everywhere except Shroomy and Forest Biomes
+    	{
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.TOP_LAYER_MODIFICATION).add(() -> AerialHellFeatures.SLIPPERY_SAND);
+    	}
+    	
     	/* Adding features exclusive to the SlipperySandOcean biome */
     	if (isSlipperySandOcean)
     	{
     		//abandonned structure
     		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE);
-    		
-    		//slippery sand solid ether
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.SLIPPERY_SAND_SOLID_ETHER);
     		
     		for (int i = 0; i < 50; i++)
    		    {
@@ -144,7 +151,7 @@ public class AerialHell
     	}
     	
     	/* Adding features exclusive to the Aerial Tree Forest and Aerial Copper Pine Forest biomes */
-    	if (isAerialTreeForest || isCopperPineForest)
+    	if (isAerialHellForestBiome)
     	{
     		//green solid ether
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.GREEN_SOLID_ETHER);
@@ -175,48 +182,41 @@ public class AerialHell
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_TALL_FERN);
     	}
     	
-    	/* Adding features exclusive to the Crystal Plains biome */
-    	if (isCrystalPlains)
+    	/* Adding features exclusive to the Crystal biomes */
+    	if (isAerialHellCrystalBiome)
     	{
     		event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.CRYSTALLIZED_FIRE);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.CRYSTAL_BLOB);
     		
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.AERIAL_BERRY_BUSH_PATCH);
-    	}
-    	/* Adding features exclusive to the Crystal Forest biome */
-    	else if (isCrystalForest)
-    	{
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.CRYSTALLIZED_FIRE);
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.CRYSTAL_BLOB);
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.GIANT_CRYSTAL_BLOB);
-    		
+    		if (isCrystalForest) {event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.GIANT_CRYSTAL_BLOB);}
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.AERIAL_BERRY_BUSH_PATCH);
     	}
     	
-    	/* Adding features exclusive to the Cortinarius Violaceus Forest biome */
-    	if (isCortinariusViolaceusForest)
+    	else if (isAerialHellShroomyBiome)
     	{
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.PURPLISH_STELLAR_GRASS);
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.VERDIGRIS_AGARIC_FOREST);
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.CORTINARIUS_VIOLACEUS_FOREST);
-    	}
-    	
-    	/* Adding features exclusive to the Verdigris Agaric Forest biome */
-    	if (isVerdigrisAgaricForest)
-    	{
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.VERDIGRIS_AGARIC_FOREST);
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.HUGE_VERDIGRIS_AGARIC);
+    		/* Adding features exclusive to the Cortinarius Violaceus Forest biome */
+        	if (isCortinariusViolaceusForest)
+        	{
+        		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.PURPLISH_STELLAR_GRASS);
+        		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.VERDIGRIS_AGARIC_FOREST);
+        		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.CORTINARIUS_VIOLACEUS_FOREST);
+        	}
+        	/* Adding features exclusive to the Verdigris Agaric Forest biome */
+        	if (isVerdigrisAgaricForest)
+        	{
+        		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.VERDIGRIS_AGARIC_FOREST);
+        		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.HUGE_VERDIGRIS_AGARIC);
+        	}
     	}
     	
     	/* Adding features exclusive to all Shadow Biomes */
-    	if (isAerialHellShadowBiome)
+    	else if (isAerialHellShadowBiome)
     	{
     		/* structure */
     		this.addAllDungeons(event);
     		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
     		
     		/* features */
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.TOP_LAYER_MODIFICATION).add(() -> AerialHellFeatures.SLIPPERY_SAND);
     		event.getGeneration().withFeature(GenerationStage.Decoration.LAKES, AerialHellFeatures.AERIAL_HELL_WATER_LAKE);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.WHITE_SOLID_ETHER); 
    		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.BLUE_SOLID_ETHER);

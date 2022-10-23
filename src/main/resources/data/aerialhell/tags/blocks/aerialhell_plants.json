@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "#aerialhell:aerialhell_flowers",
+    "aerialhell:stellar_grass",
+    "aerialhell:stellar_grass_ball",
+    "aerialhell:stellar_fern",
+    "aerialhell:stellar_tall_grass",
+    "aerialhell:stellar_tall_fern",
+    "aerialhell:stellar_dead_bush",
+    "aerialhell:brambles",
+    "aerialhell:shadow_grass",
+    "aerialhell:shadow_grass_ball",
+    "aerialhell:shadow_brambles",
+    "aerialhell:purplish_stellar_grass"
+  ]
+}

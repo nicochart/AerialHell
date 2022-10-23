@@ -22,73 +22,74 @@ public class SlipperySandFeature extends Feature<NoFeatureConfig>
     public SlipperySandFeature(Codec<NoFeatureConfig> codec) {super(codec);}
 
     @Override
-    public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)
+    public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos blockPos, NoFeatureConfig config)
     {
 		boolean canGenerate = (
-                (reader.getBlockState(pos.north(3)).getBlock().equals(Blocks.AIR) ||
-                 reader.getBlockState(pos.south(3)).getBlock().equals(Blocks.AIR) ||
-                 reader.getBlockState(pos.west(3)).getBlock().equals(Blocks.AIR) ||
-                 reader.getBlockState(pos.east(3)).getBlock().equals(Blocks.AIR)) &&
-                	(reader.getBlockState(pos).isIn(AerialHellTags.Blocks.STELLAR_STONE) ||
-                     reader.getBlockState(pos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
+                (reader.getBlockState(blockPos.north(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.south(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.west(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.east(3)).getBlock().equals(Blocks.AIR)) &&
+                (reader.getBlockState(blockPos).isIn(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(blockPos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
 		
 		boolean generatesInDungeon = (
-			reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get()).findAny().isPresent() ||
-			reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.MUD_DUNGEON_STRUCTURE.get()).findAny().isPresent() ||
-			reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get()).findAny().isPresent());
+			reader.func_241827_a(SectionPos.from(blockPos), AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get()).findAny().isPresent() ||
+			reader.func_241827_a(SectionPos.from(blockPos), AerialHellStructures.MUD_DUNGEON_STRUCTURE.get()).findAny().isPresent() ||
+			reader.func_241827_a(SectionPos.from(blockPos), AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get()).findAny().isPresent());
 		
         if (canGenerate && !generatesInDungeon)
         {
-        	boolean isBig;
-        	int Min,Max;
-        	if (rand.nextDouble() > 0.8) //grand (20% des cas)
-            {
-                Min=4;Max=7;
-                isBig=true;
-            }
-            else //petit (80% des cas)
-            {
-                Min=3;Max=5;
-                isBig=false;
-            }
-            int sizeX = Min + (int)(rand.nextDouble() * ((Max - Min) + 1));
-            int sizeZ = Min + (int)(rand.nextDouble() * ((Max - Min) + 1));
-            /*Placement du slippery_sand*/
-            for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
-            {
-                for(int z = pos.getZ() - sizeZ; z < pos.getZ() + sizeZ+1; z++)
-                {
-                    BlockPos newPos = new BlockPos(x, pos.getY(), z);
-
-                    if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ+rand.nextInt(3))
-                    {
-                    	Block previousBlock = reader.getBlockState(newPos).getBlock();
-                    	if ( previousBlock == Blocks.AIR || previousBlock.isIn(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock == AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get() || previousBlock == AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get() || previousBlock == AerialHellBlocksAndItems.GOLDEN_SOLID_ETHER.get())
-                    		reader.setBlockState(newPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().getDefaultState(), 0);
-                    }
-                }
-            }
-            if (isBig && rand.nextDouble() > 0.3) //deuxième couche
-            {
-            	if (rand.nextDouble() > 0.5) {sizeX--; sizeZ--;}
-            	else {sizeX -= 2; sizeZ -= 2;}
-            	
-            	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
-                {
-                    for(int z = pos.getZ() - sizeZ; z < pos.getZ() + sizeZ+1; z++)
-                    {
-                        BlockPos newPos = new BlockPos(x, pos.getY()+1, z);
-
-                        if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ+rand.nextInt(3))
-                        {
-                        	Block previousBlock = reader.getBlockState(newPos).getBlock();
-                        	if (previousBlock == Blocks.AIR || previousBlock == AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get() || previousBlock == AerialHellBlocksAndItems.STELLAR_DIRT.get() || previousBlock == AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get() || previousBlock == AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get() || previousBlock == AerialHellBlocksAndItems.GOLDEN_SOLID_ETHER.get())
-                        		reader.setBlockState(newPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().getDefaultState(), 0);
-                        }
-                    }
-                }
-            }
+        	generateSlipperySand(reader, rand, blockPos);
+        	return true;
         }
         return false;
+    }
+    
+    protected void generateSlipperySand(ISeedReader reader, Random rand, BlockPos blockPos)
+    {
+    	BlockPos.Mutable placementPos = new BlockPos.Mutable();
+    	boolean isBig = rand.nextDouble() > 0.8;
+        int radiusX = getRandomRadius(rand, isBig);
+        int radiusY = 2;
+        int radiusZ = getRandomRadius(rand, isBig);
+        int offsetY = rand.nextInt(6) == 0 ? 1 : 0;
+        
+        /*Slippery Sand placement*/
+        for(int x = -radiusX; x <= radiusX; x++)
+        {
+        	for (int y = 0; y <= radiusY; y++)
+        	{
+        		for(int z = -radiusZ; z <= radiusZ; z++)
+                {
+                    BlockPos pos = new BlockPos(x, y, z);
+                    if (isPosInsideEllipsis(pos, radiusX, radiusY, radiusZ))
+                    {
+                    	placementPos.setPos(blockPos.add(pos));
+                    	if (isReplaceable(reader, placementPos))
+                    	{
+                    		boolean isInsideInnerEllipsis = isPosInsideEllipsis(pos, radiusX-1, radiusY, radiusZ-1);
+                    		if (isInsideInnerEllipsis) {reader.setBlockState(placementPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().getDefaultState(), 0);}
+                    		else if (!(rand.nextInt(3) == 0)) {reader.setBlockState(placementPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().getDefaultState(), 0);}
+                    	}
+                    }
+                }
+        	}
+        }
+    }
+    
+    private boolean isReplaceable(ISeedReader reader, BlockPos blockPos)
+    {
+    	Block previousBlock = reader.getBlockState(blockPos).getBlock();
+    	if (previousBlock == Blocks.AIR || previousBlock.isIn(AerialHellTags.Blocks.FEATURE_CAN_REPLACE)) {return true;}
+    	else {return false;}
+    }
+    
+    private int getRandomRadius(Random rand, boolean isBig)
+    {
+    	return isBig ? (int) (5 + rand.nextFloat() * 5) : (int) (3 + rand.nextFloat() * 4);
+    }
+    
+    private boolean isPosInsideEllipsis(BlockPos pos, float a, float b, float c)
+    {
+        float x = pos.getX() - 0.5F;
+        float y = pos.getY();
+        float z = pos.getZ() - 0.5F;
+        return x*x/(a*a) + y*y/(b*b) + z*z/(c*c) < 1.0F;
     }
 }

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "aerialhell:block/slippery_sand_solid_ether"
-  }
-}

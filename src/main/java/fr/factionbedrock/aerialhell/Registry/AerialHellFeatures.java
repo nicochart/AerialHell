@@ -238,7 +238,6 @@ public class AerialHellFeatures
     public static ConfiguredFeature<?, ?> BLUE_SOLID_ETHER = new BlueSolidEtherCloudFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(140).square().chance(28);
     public static ConfiguredFeature<?, ?> GOLDEN_SOLID_ETHER = new GoldenSolidEtherCloudFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(190).square().chance(32);
     public static ConfiguredFeature<?, ?> GREEN_SOLID_ETHER = new GreenSolidEtherCloudFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(160).square().chance(5);
-    public static ConfiguredFeature<?, ?> SLIPPERY_SAND_SOLID_ETHER = new SlipperySandSolidEtherFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(20);
     
     public static ConfiguredFeature<?, ?> STELLAR_COARSE_FLOOR_ELLIPSOID = new StellarCoarseFloorEllipsoidFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(100);
     public static ConfiguredFeature<?, ?> SLIPPERY_SAND = new SlipperySandFeature(NoFeatureConfig.field_236558_a_).withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(20);
@@ -328,7 +327,6 @@ public class AerialHellFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "blue_solid_ether"), BLUE_SOLID_ETHER);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "golden_solid_ether"), GOLDEN_SOLID_ETHER);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "green_solid_ether"), GOLDEN_SOLID_ETHER);
-        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "slippery_sand_solid_ether"), SLIPPERY_SAND_SOLID_ETHER);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_coarse_floor_ellipsoid"), STELLAR_COARSE_FLOOR_ELLIPSOID);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "slippery_sand"), SLIPPERY_SAND);

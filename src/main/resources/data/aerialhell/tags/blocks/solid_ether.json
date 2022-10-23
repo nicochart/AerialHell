@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:white_solid_ether",
+    "aerialhell:blue_solid_ether",
+    "aerialhell:green_solid_ether",
+    "aerialhell:golden_solid_ether"
+  ]
+}

@@ -395,13 +395,11 @@ public class AerialHellBlocksAndItems
 	
 	//solid_ethers
 	public static final RegistryObject<Block> WHITE_SOLID_ETHER = BLOCKS.register("white_solid_ether",	() -> new SolidEtherBlock(AbstractBlock.Properties.create(Material.ICE).hardnessAndResistance(0.2F).sound(SoundType.CLOTH).harvestTool(ToolType.HOE).notSolid()));
-	public static final RegistryObject<Block> SLIPPERY_SAND_SOLID_ETHER = BLOCKS.register("slippery_sand_solid_ether",	() -> new SlipperySandSolidEtherBlock(AbstractBlock.Properties.create(Material.ICE).hardnessAndResistance(0.4F).sound(SoundType.SAND).harvestTool(ToolType.SHOVEL).slipperiness(1.03F).notSolid()));
 	public static final RegistryObject<Block> BLUE_SOLID_ETHER = BLOCKS.register("blue_solid_ether",	() -> new BlueSolidEtherBlock(AbstractBlock.Properties.from(WHITE_SOLID_ETHER.get())));
 	public static final RegistryObject<Block> GOLDEN_SOLID_ETHER = BLOCKS.register("golden_solid_ether",	() -> new GoldenSolidEtherBlock(AbstractBlock.Properties.from(WHITE_SOLID_ETHER.get())));
 	public static final RegistryObject<Block> GREEN_SOLID_ETHER = BLOCKS.register("green_solid_ether",	() -> new GreenSolidEtherBlock(AbstractBlock.Properties.from(WHITE_SOLID_ETHER.get())));
 	
 	public static final RegistryObject<Item> WHITE_SOLID_ETHER_ITEM = ITEMS.register("white_solid_ether", () -> new BlockItem(WHITE_SOLID_ETHER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
-	public static final RegistryObject<Item> SLIPPERY_SAND_SOLID_ETHER_ITEM = ITEMS.register("slippery_sand_solid_ether", () -> new BlockItem(SLIPPERY_SAND_SOLID_ETHER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> BLUE_SOLID_ETHER_ITEM = ITEMS.register("blue_solid_ether", () -> new BlockItem(BLUE_SOLID_ETHER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> GOLDEN_SOLID_ETHER_ITEM = ITEMS.register("golden_solid_ether", () -> new BlockItem(GOLDEN_SOLID_ETHER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> GREEN_SOLID_ETHER_ITEM = ITEMS.register("green_solid_ether", () -> new BlockItem(GREEN_SOLID_ETHER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));

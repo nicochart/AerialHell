@@ -18,6 +18,8 @@ public class AerialHellTags
 		
 		public static final ITag.INamedTag<Block> STELLAR_DIRT = tag("stellar_dirt");
 		
+		public static final ITag.INamedTag<Block> SOLID_ETHER = tag("solid_ether");
+		
 		public static final ITag.INamedTag<Block> AERIALHELL_WOODEN_DOORS = tag("aerialhell_wooden_doors");
 		
 		public static final ITag.INamedTag<Block> AERIALHELL_WOODEN_TRAPDOORS = tag("aerialhell_wooden_trapdoors");
@@ -64,7 +66,15 @@ public class AerialHellTags
 		
 		public static final ITag.INamedTag<Block> SAPLINGS = tag("aerialhell_saplings");
 		
+		public static final ITag.INamedTag<Block> AERIALHELL_SMALL_FLOWERS = tag("aerialhell_small_flowers");
+		
+		public static final ITag.INamedTag<Block> AERIALHELL_FLOWERS = tag("aerialhell_flowers");
+		
+		public static final ITag.INamedTag<Block> AERIALHELL_PLANTS = tag("aerialhell_plants");
+		
 		public static final ITag.INamedTag<Block> OVERWORLD_LANTERN = tag("overworld_lantern");
+		
+		public static final ITag.INamedTag<Block> FEATURE_CAN_REPLACE = tag("feature_can_replace");
 
 		private static ITag.INamedTag<Block> tag(String name)
 		{

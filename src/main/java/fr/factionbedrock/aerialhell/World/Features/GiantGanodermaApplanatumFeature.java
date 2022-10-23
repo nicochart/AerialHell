@@ -51,9 +51,9 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoFeatureConfig>
     	b = getRandomHeight(rand, isHuge);//capHeight
     	c = getRandomRadius(rand, isHuge); //radius 2
     	int bonus = 1;
-        for (int y = 0; y <= b + bonus; y++)
+        for (int x = - a - bonus; x <= a + bonus; x++)
         {
-            for (int x = - a - bonus; x <= a + bonus; x++)
+        	for (int y = 0; y <= b + bonus; y++)
             {
                 for (int z = - c - bonus; z <= c + bonus; z++)
                 {
