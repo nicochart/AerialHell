@@ -38,18 +38,19 @@ public class BramblesBlock extends AerialHellTallGrassBlock
     	{
 			if (!isImmuneToDamage(entityIn))
 			{
-				if (this == AerialHellBlocksAndItems.SHADOW_BRAMBLES.get())
+				if (!isLivingEntityShadowImmune((LivingEntity) entityIn))
 				{
-					if (!isLivingEntityShadowImmune((LivingEntity) entityIn))
+					if (this == AerialHellBlocksAndItems.SHADOW_BRAMBLES.get())
 					{
-						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.POISON, 60, 0));
+						
+							((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.POISON, 60, 0));
+							((LivingEntity) entityIn).attackEntityFrom(new DamageSource("brambles_thorns"), 1.0F);
+					}
+					else
+					{
+						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.POISON, 40, 0));
 						((LivingEntity) entityIn).attackEntityFrom(new DamageSource("brambles_thorns"), 1.0F);
 					}
-				}
-				else
-				{
-					((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.POISON, 40, 0));
-					((LivingEntity) entityIn).attackEntityFrom(new DamageSource("brambles_thorns"), 1.0F);
 				}
 			}
     	}

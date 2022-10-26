@@ -40,10 +40,10 @@ public class AerialHellEntities
         		.size(0.8F,2.5F).build("lunatic_priest");
 	
 	public static final EntityType<EvilCowEntity> EVIL_COW_TYPE = EntityType.Builder.<EvilCowEntity>create(EvilCowEntity::new, EntityClassification.CREATURE)
-			    .size(0.9F, 1.4F).build("evil_cow");
+			    .size(0.95F, 1.4F).build("evil_cow");
 	
 	public static final EntityType<EvilCowEntity> CORTINARIUS_COW_TYPE = EntityType.Builder.<EvilCowEntity>create(EvilCowEntity::new, EntityClassification.CREATURE)
-		    	.size(0.9F, 1.4F).build("cortinarius_cow");
+		    	.size(0.95F, 1.4F).build("cortinarius_cow");
 	
 	public static final EntityType<VerdigrisZombieEntity> VERDIGRIS_ZOMBIE_TYPE = EntityType.Builder.create(VerdigrisZombieEntity::new, EntityClassification.MONSTER)
             	.size(0.7F,2.0F).build("verdigris_zombie");

@@ -90,7 +90,8 @@ public class AerialHell
     	
     	boolean isAerialHellCrystalBiome = isCrystalPlains || isCrystalForest;
     	boolean isAerialHellShadowBiome = isShadowPlain || isShadowForest;
-    	boolean isAerialHellForestBiome = isAerialTreeForest || isCopperPineForest || isLapisRobaniaSavana;
+    	boolean isAerialHellDenseForestBiome = isAerialTreeForest || isCopperPineForest;
+    	boolean isAerialHellForestBiome = isAerialHellDenseForestBiome || isLapisRobaniaSavana;
     	boolean isAerialHellPlainsBiome = isAerialHellPlains || isLapisRobaniaSavana;
     	boolean isAerialHellShroomyBiome = isCortinariusViolaceusForest || isVerdigrisAgaricForest;
     	boolean isAerialHellClassicBiome = isAerialHellCrystalBiome || isAerialHellShroomyBiome || isAerialHellForestBiome || isSlipperySandOcean || isAerialHellPlainsBiome;
@@ -150,19 +151,25 @@ public class AerialHell
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_DEAD_BUSH);
     	}
     	
-    	/* Adding features exclusive to the Aerial Tree Forest and Aerial Copper Pine Forest biomes */
+    	/* Adding features exclusive to Forest biomes */
     	if (isAerialHellForestBiome)
-    	{
-    		//green solid ether
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.GREEN_SOLID_ETHER);
-    		
+    	{    		
     		//more plants
-   		 	event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.BRAMBLES);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_GRASS);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_TALL_GRASS);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_FERN);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_TALL_FERN);
     		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.AERIAL_BERRY_BUSH_PATCH);
+    	}
+    	
+    	/* Adding features exclusive to Dense Forest biomes */
+    	if (isAerialHellDenseForestBiome)
+    	{
+    		//green solid ether
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.GREEN_SOLID_ETHER);
+    		
+    		//brambles
+    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.BRAMBLES);
     	}
     	
     	/* Adding features exclusive to Copper Pine Forest biomes*/

@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -45,12 +46,11 @@ public class PoisonballEntity extends AbstractFireballEntity
 		super(AerialHellEntities.POISONBALL.get(), shooter, accX, accY, accZ, worldIn);
 	}
 
-	@Override
-	protected boolean isFireballFiery()
-	{
-		return false;
-	}
+	@Override protected boolean isFireballFiery() {return false;}
+	@Override public float getBrightness() {return 0.0F;}
 
+	protected boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.getActivePotionEffect(AerialHellPotionEffects.SHADOW_IMMUNITY.get()) != null;} //return true if the entity has the SHADOW_IMMUNITY effect
+	
 	@Override
 	protected void onImpact(RayTraceResult result)
 	{
@@ -58,7 +58,7 @@ public class PoisonballEntity extends AbstractFireballEntity
 		if (result.getType() == RayTraceResult.Type.ENTITY)
 		{
 			Entity entity = ((EntityRayTraceResult)result).getEntity();
-			if (entity instanceof LivingEntity)
+			if (entity instanceof LivingEntity && !isLivingEntityShadowImmune((LivingEntity) entity))
 			{
 				LivingEntity livingEntity = (LivingEntity)entity;
 
@@ -80,7 +80,7 @@ public class PoisonballEntity extends AbstractFireballEntity
 						world.playSound((PlayerEntity)null, entity.getPosition(), SoundEvents.ITEM_SHIELD_BLOCK, SoundCategory.PLAYERS, 1.0F, 0.8F + this.world.rand.nextFloat() * 0.4F);
 					}
 				}
-				livingEntity.addPotionEffect(new EffectInstance(Effects.POISON, 200, 0));
+				livingEntity.addPotionEffect(new EffectInstance(Effects.POISON, 160, 0));
 			}
 		}
 		this.remove();

@@ -30,7 +30,7 @@ public class ArmorMaterials
 	public final static IArmorMaterial azurite = new ArmorMaterial
 	(
 		AerialHell.MODID + ":azurite", //Nom du matériau 
-		7, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
+		10, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
 		new int[] {1, 3, 5, 2}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
 		25, //Enchantabilité
 		SoundEvents.ITEM_ARMOR_EQUIP_GOLD, //Son lorsqu'on équipe

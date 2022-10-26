@@ -44,7 +44,7 @@ public class ToolMaterials
 	public static final IItemTier azurite = new ToolMaterial
 	(
 		0, //Niveau de minage
-		32, //durabilité
+		110, //durabilité
 		12.0F, //efficacité
 		0.0F, //Dégats d'attaque
 		22, //Enchantabilité
