@@ -30,6 +30,7 @@ public class AerialHellEntityAttributes
 		event.put(AerialHellEntities.LUNATIC_PRIEST.get(), LunaticPriestEntity.registerAttributes().create());
 		event.put(AerialHellEntities.EVIL_COW.get(), EvilCowEntity.registerAttributes().create());
 		event.put(AerialHellEntities.CORTINARIUS_COW.get(), EvilCowEntity.registerAttributes().create());
+		event.put(AerialHellEntities.SHROOMBOOM.get(), ShroomBoomEntity.registerAttributes().create());
 		event.put(AerialHellEntities.VERDIGRIS_ZOMBIE.get(), VerdigrisZombieEntity.registerAttributes().create());
 		event.put(AerialHellEntities.SANDY_SHEEP.get(), SandySheepEntity.registerAttributes().create());
 		event.put(AerialHellEntities.FAT_PHANTOM.get(), FatPhantomEntity.registerAttributes().create());
