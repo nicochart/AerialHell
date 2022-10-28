@@ -92,7 +92,7 @@ public class HugeMushroomFeature extends Feature<BigMushroomFeatureConfig>
                 for (int z = 0; z < 2; z++)
                 {
                     placementPos.setPos(blockPos).move(x, y, z);
-                    if (world.getBlockState(placementPos).canBeReplacedByLogs(world, placementPos))
+                    if (world.getBlockState(placementPos).canBeReplacedByLogs(world, placementPos) || world.getBlockState(placementPos).isIn(AerialHellBlocksAndItems.VERDIGRIS_AGARIC.get()))
                     {
                         this.setBlockState(world, placementPos, config.stemProvider.getBlockState(rand, blockPos));
                     }
@@ -153,7 +153,7 @@ public class HugeMushroomFeature extends Feature<BigMushroomFeatureConfig>
             for (int z = 0; z < 2; z++)
             {
             	blockState = world.getBlockState(pos.add(x, -1, z));
-                if (!(blockState.isIn(BlockTags.MUSHROOM_GROW_BLOCK) || blockState.isIn(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()))) {return false;}
+                if (!(blockState.isIn(BlockTags.MUSHROOM_GROW_BLOCK))) {return false;}
             }
         }
         return true;
