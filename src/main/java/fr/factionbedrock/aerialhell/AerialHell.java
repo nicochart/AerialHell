@@ -85,6 +85,7 @@ public class AerialHell
     	boolean isLapisRobaniaSavana = event.getName().equals(AerialHellBiomes.LAPIS_ROBINIA_SAVANA.getLocation());
     	boolean isCortinariusViolaceusForest = event.getName().equals(AerialHellBiomes.CORTINARIUS_VIOLACEUS_FOREST.getLocation());
     	boolean isVerdigrisAgaricForest = event.getName().equals(AerialHellBiomes.VERDIGRIS_AGARIC_FOREST.getLocation());
+    	boolean isGiantRedMushroomForest = event.getName().equals(AerialHellBiomes.GIANT_RED_MUSHROOM_FOREST.getLocation());
     	boolean isShadowPlain = event.getName().equals(AerialHellBiomes.SHADOW_PLAIN.getLocation());
     	boolean isShadowForest = event.getName().equals(AerialHellBiomes.SHADOW_FOREST.getLocation());
     	
@@ -93,7 +94,7 @@ public class AerialHell
     	boolean isAerialHellDenseForestBiome = isAerialTreeForest || isCopperPineForest;
     	boolean isAerialHellForestBiome = isAerialHellDenseForestBiome || isLapisRobaniaSavana;
     	boolean isAerialHellPlainsBiome = isAerialHellPlains || isLapisRobaniaSavana;
-    	boolean isAerialHellShroomyBiome = isCortinariusViolaceusForest || isVerdigrisAgaricForest;
+    	boolean isAerialHellShroomyBiome = isCortinariusViolaceusForest || isVerdigrisAgaricForest || isGiantRedMushroomForest;
     	boolean isAerialHellClassicBiome = isAerialHellCrystalBiome || isAerialHellShroomyBiome || isAerialHellForestBiome || isSlipperySandOcean || isAerialHellPlainsBiome;
     			
     	/* Adding common features and structure in all classic aerial hell biomes */

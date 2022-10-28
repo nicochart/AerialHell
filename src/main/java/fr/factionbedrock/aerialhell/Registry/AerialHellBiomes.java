@@ -43,6 +43,8 @@ public class AerialHellBiomes
   	public static final RegistryKey<Biome> CORTINARIUS_VIOLACEUS_FOREST = register("cortinarius_violaceus_forest");
   	//Forêt de Strophaire Vert-de-Gris
   	public static final RegistryKey<Biome> VERDIGRIS_AGARIC_FOREST = register("verdigris_agaric_forest");
+  	//Forêt de Champignon Rouge
+  	public static final RegistryKey<Biome> GIANT_RED_MUSHROOM_FOREST = register("giant_red_mushroom_forest");
     
     public static void toDictionary()
     {
@@ -55,8 +57,9 @@ public class AerialHellBiomes
         BiomeDictionary.addTypes(AERIAL_HELL_PLAINS, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SAVANNA);
         BiomeDictionary.addTypes(SHADOW_PLAIN, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.SPOOKY);
         BiomeDictionary.addTypes(SHADOW_FOREST, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.SPOOKY, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.FOREST);
-        BiomeDictionary.addTypes(CORTINARIUS_VIOLACEUS_FOREST, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.DENSE);
-        BiomeDictionary.addTypes(VERDIGRIS_AGARIC_FOREST, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.DENSE);
+        BiomeDictionary.addTypes(CORTINARIUS_VIOLACEUS_FOREST, BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.LUSH);
+        BiomeDictionary.addTypes(VERDIGRIS_AGARIC_FOREST, BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.LUSH);
+        BiomeDictionary.addTypes(GIANT_RED_MUSHROOM_FOREST, BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.LUSH);
     }    
 	
 	private static ResourceLocation name(String name)
