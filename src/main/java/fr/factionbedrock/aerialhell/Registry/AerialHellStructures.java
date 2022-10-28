@@ -60,14 +60,14 @@ public class AerialHellStructures
 	        
 	        setupMapSpacingAndLand(
 	        		LUNATIC_TEMPLE_STRUCTURE.get(), /* The instance of the structure */
-	                new StructureSeparationSettings(45 /* mean distance apart in chunks between spawn attempts */,
+	                new StructureSeparationSettings(30 /* mean distance apart in chunks between spawn attempts */,
 	                        25 /* minimum distance apart in chunks between spawn attempts */,
 	                        993252541 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
 	                true); //TransformSurroundingLand
 	        
 	        setupMapSpacingAndLand(
 	        		GOLDEN_NETHER_PRISON_STRUCTURE.get(), /* The instance of the structure */
-	                new StructureSeparationSettings(55 /* mean distance apart in chunks between spawn attempts */,
+	                new StructureSeparationSettings(35 /* mean distance apart in chunks between spawn attempts */,
 	                        25 /* minimum distance apart in chunks between spawn attempts */,
 	                        123334456 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
 	                false); //TransformSurroundingLand

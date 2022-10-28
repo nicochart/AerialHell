@@ -39,11 +39,11 @@ public class AerialHellEntities
 	public static final EntityType<LunaticPriestEntity> LUNATIC_PRIEST_TYPE = EntityType.Builder.create(LunaticPriestEntity::new, EntityClassification.MONSTER)
         		.size(0.8F,2.5F).build("lunatic_priest");
 	
-	public static final EntityType<EvilCowEntity> EVIL_COW_TYPE = EntityType.Builder.<EvilCowEntity>create(EvilCowEntity::new, EntityClassification.CREATURE)
-			    .size(0.95F, 1.4F).build("evil_cow");
+	public static final EntityType<EvilCowEntity> EVIL_COW_TYPE = EntityType.Builder.<EvilCowEntity>create(EvilCowEntity::new, EntityClassification.MONSTER)
+			    .size(0.99F, 1.4F).build("evil_cow");
 	
-	public static final EntityType<EvilCowEntity> CORTINARIUS_COW_TYPE = EntityType.Builder.<EvilCowEntity>create(EvilCowEntity::new, EntityClassification.CREATURE)
-		    	.size(0.95F, 1.4F).build("cortinarius_cow");
+	public static final EntityType<EvilCowEntity> CORTINARIUS_COW_TYPE = EntityType.Builder.<EvilCowEntity>create(EvilCowEntity::new, EntityClassification.MONSTER)
+		    	.size(0.99F, 1.4F).build("cortinarius_cow");
 	
 	public static final EntityType<ShroomBoomEntity> SHROOMBOOM_TYPE = EntityType.Builder.<ShroomBoomEntity>create(ShroomBoomEntity::new, EntityClassification.MONSTER)
 				.size(0.6F, 1.7F).build("shroomboom");
