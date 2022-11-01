@@ -144,7 +144,7 @@
 	{
           "type": "item",
           "name": "aerialhell:volucite_aerial_berry",
-          "weight": 1,
+          "weight": 2,
           "functions": [
             {
               "function": "set_count",
@@ -154,6 +154,11 @@
               }
             }
           ]
+        },
+	{
+          "type": "item",
+          "name": "aerialhell:phoenix_feather",
+          "weight": 2
         },
         {
           "type": "item",

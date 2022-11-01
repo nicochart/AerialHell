@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:vibration",
+  "ingredient": {
+    "item": "aerialhell:solid_ether_soup"
+  },
+  "result": "aerialhell:vibrant_solid_ether_soup",
+  "experience": 0.2,
+  "cookingtime": 600
+}

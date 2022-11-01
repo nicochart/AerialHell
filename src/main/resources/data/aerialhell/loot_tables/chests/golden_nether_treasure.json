@@ -63,6 +63,11 @@
             }
           ]
         },
+	{
+          "type": "item",
+          "name": "aerialhell:phoenix_feather",
+          "weight": 1
+        },
         {
           "type": "item",
           "name": "aerialhell:agility_totem",

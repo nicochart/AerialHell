@@ -17,6 +17,13 @@ public class SkySoupItem extends Item //copy of net.minecraft.item.SoupItem but 
 {
 	public SkySoupItem(Item.Properties builder) {super(builder);}
 	
+	public SkySoupItem(int hungerIn, float saturationIn, Rarity rarity, ItemGroup group, Supplier<EffectInstance> effectIn1, Supplier<EffectInstance> effectIn2, Supplier<EffectInstance> effectIn3)
+	{
+		super(new Item.Properties().rarity(rarity).maxStackSize(1)
+                .food(new Food.Builder().setAlwaysEdible().hunger(hungerIn).saturation(saturationIn).effect(effectIn1, 1.0F).effect(effectIn2, 1.0F).effect(effectIn3, 1.0F).build())
+                .group(group));
+	}
+	
 	public SkySoupItem(int hungerIn, float saturationIn, Rarity rarity, ItemGroup group, Supplier<EffectInstance> effectIn1, Supplier<EffectInstance> effectIn2)
 	{
 		super(new Item.Properties().rarity(rarity).maxStackSize(1)
