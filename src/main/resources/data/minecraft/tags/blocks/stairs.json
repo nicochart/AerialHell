@@ -1,6 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "#aerialhell:aerialhell_stairs"
-  ]
+  "values": ["#aerialhell:aerialhell_stairs"]
 }

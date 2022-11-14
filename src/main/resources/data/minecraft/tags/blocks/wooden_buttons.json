@@ -1,6 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "#aerialhell:aerialhell_wooden_buttons"
-  ]
+  "values": ["#aerialhell:aerialhell_wooden_buttons"]
 }

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values":
+  [
+    "aerialhell:aerial_tree_fence",
+    "aerialhell:golden_beech_fence",
+    "aerialhell:copper_pine_fence",
+    "aerialhell:lapis_robinia_fence",
+    "aerialhell:shadow_pine_fence",
+    "aerialhell:sky_cactus_fiber_fence",
+    "aerialhell:gray_shroom_fence"
+  ]
+}

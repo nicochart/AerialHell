@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:aerial_tree_chest",
+    "aerialhell:golden_beech_chest",
+    "aerialhell:copper_pine_chest",
+    "aerialhell:lapis_robinia_chest",
+    "aerialhell:shadow_pine_chest",
+    "aerialhell:sky_cactus_fiber_chest",
+    "aerialhell:gray_shroom_chest",
+    "#aerialhell:dungeon_chests"
+  ]
+}

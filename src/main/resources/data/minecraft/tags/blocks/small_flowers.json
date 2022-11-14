@@ -1,6 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "#aerialhell:aerialhell_small_flowers"
-  ]
+  "values": ["#aerialhell:aerialhell_small_flowers"]
 }

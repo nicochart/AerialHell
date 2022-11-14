@@ -1,6 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "#aerialhell:aerialhell_pressure_plates"
-  ]
+  "values": ["#aerialhell:aerialhell_pressure_plates"]
 }

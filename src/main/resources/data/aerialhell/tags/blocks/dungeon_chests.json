@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:mud_chest",
+    "aerialhell:lunatic_chest",
+    "aerialhell:volucite_chest",
+    "aerialhell:golden_nether_chest"
+  ]
+}

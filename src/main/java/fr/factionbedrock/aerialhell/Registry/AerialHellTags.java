@@ -52,6 +52,10 @@ public class AerialHellTags
 		
 		public static final ITag.INamedTag<Block> BOOKSHELVES = tag("bookshelves");
 		
+		public static final ITag.INamedTag<Block> DUNGEON_CHESTS = tag("dungeon_chests");
+		
+		public static final ITag.INamedTag<Block> CHESTS = tag("chests");
+		
 		public static final ITag.INamedTag<Block> DUNGEON = tag("dungeon");
 		
 		public static final ITag.INamedTag<Block> DUNGEON_CORES = tag("dungeon_cores");
@@ -64,7 +68,7 @@ public class AerialHellTags
 		
 		public static final ITag.INamedTag<Block> VOLUCITE_DUNGEON = tag("volucite_dungeon");
 		
-		public static final ITag.INamedTag<Block> SAPLINGS = tag("aerialhell_saplings");
+		public static final ITag.INamedTag<Block> AERIALHELL_SAPLINGS = tag("aerialhell_saplings");
 		
 		public static final ITag.INamedTag<Block> AERIALHELL_SMALL_FLOWERS = tag("aerialhell_small_flowers");
 		
@@ -75,6 +79,8 @@ public class AerialHellTags
 		public static final ITag.INamedTag<Block> OVERWORLD_LANTERN = tag("overworld_lantern");
 		
 		public static final ITag.INamedTag<Block> FEATURE_CAN_REPLACE = tag("feature_can_replace");
+		
+		public static final ITag.INamedTag<Block> SLIPPERY_SAND_GLASS = tag("slippery_sand_glass");
 
 		private static ITag.INamedTag<Block> tag(String name)
 		{
@@ -86,9 +92,21 @@ public class AerialHellTags
 	{
 		public static final ITag.INamedTag<Item> STICKS = tag("sticks");
 		
+		public static final ITag.INamedTag<Item> AERIALHELL_SIGNS = tag("aerialhell_signs");
+		
+		public static final ITag.INamedTag<Item> AERIALHELL_WOODEN_FENCES = tag("aerialhell_wooden_fences");
+		
+		public static final ITag.INamedTag<Item> AERIALHELL_WOODEN_GATES = tag("aerialhell_wooden_gates");
+		
+		public static final ITag.INamedTag<Item> BOOKSHELVES = tag("bookshelves");
+		
+		public static final ITag.INamedTag<Item> CHESTS = tag("chests");
+		
 		public static final ITag.INamedTag<Item> BLOWPIPE_ARROWS = tag("blowpipe_arrows");
 		
 		public static final ITag.INamedTag<Item> AERIALHELL_PLANKS = tag("aerialhell_planks");
+		
+		public static final ITag.INamedTag<Item> AERIALHELL_SAPLINGS = tag("aerialhell_saplings");
 		
 		public static final ITag.INamedTag<Item> MAGMATIC_GEL = tag("magmatic_gel");
 		
@@ -101,6 +119,8 @@ public class AerialHellTags
 		public static final ITag.INamedTag<Item> LUNATIC_STUFF = tag("lunatic_stuff");
 		
 		public static final ITag.INamedTag<Item> VOLUCITE_STUFF = tag("volucite_stuff");
+		
+		public static final ITag.INamedTag<Item> SLIPPERY_SAND_GLASS = tag("slippery_sand_glass");
 		
 		private static ITag.INamedTag<Item> tag(String name)
 		{

@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:potted_blue_flower",
+    "aerialhell:potted_black_rose",
+    "aerialhell:potted_bellflower",
+    "aerialhell:potted_stellar_fern",
+    "aerialhell:potted_stellar_dead_bush",
+    "aerialhell:potted_sky_cactus",
+    "aerialhell:potted_vibrant_sky_cactus",
+    "aerialhell:potted_aerial_tree_sapling",
+    "aerialhell:potted_golden_beech_sapling",
+    "aerialhell:potted_copper_pine_sapling",
+    "aerialhell:potted_lapis_robinia_sapling",
+    "aerialhell:potted_shadow_pine_sapling",
+    "aerialhell:potted_cortinarius_violaceus",
+    "aerialhell:potted_verdigris_agaric"
+  ]
+}
