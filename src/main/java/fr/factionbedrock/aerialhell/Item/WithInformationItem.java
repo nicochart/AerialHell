@@ -17,10 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class WithInformationItem extends Item
 {
-	public WithInformationItem(Properties properties)
-	{
-		super(properties);
-	}
+	public WithInformationItem(Properties properties) {super(properties);}
 	
 	@Override @OnlyIn(Dist.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)

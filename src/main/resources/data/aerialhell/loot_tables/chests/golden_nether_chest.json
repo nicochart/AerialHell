@@ -43,8 +43,8 @@
             {
               "function": "set_count",
               "count": {
-                "min": 2,
-                "max": 4
+                "min": 1,
+                "max": 2
               }
             }
           ]
@@ -162,22 +162,17 @@
         },
         {
           "type": "item",
-          "name": "aerialhell:volucite_chestplate",
-          "weight": 2
-        },
-        {
-          "type": "item",
-          "name": "aerialhell:volucite_sword",
-          "weight": 2
-        },
-        {
-          "type": "item",
-          "name": "aerialhell:volucite_pickaxe",
+          "name": "aerialhell:volucite_boots",
           "weight": 1
         },
         {
           "type": "item",
-          "name": "aerialhell:volucite_axe",
+          "name": "aerialhell:obsidian_pickaxe",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:obsidian_axe",
           "weight": 1
         },
         {

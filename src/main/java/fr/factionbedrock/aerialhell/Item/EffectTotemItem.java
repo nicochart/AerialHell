@@ -49,6 +49,10 @@ public class EffectTotemItem extends Item
 						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.SPEED, 1200, 0));
 						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 1200, 0));
 					}
+					else if (this == AerialHellBlocksAndItems.HEAD_IN_THE_CLOUDS_TOTEM.get())
+					{
+						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(AerialHellPotionEffects.HEAD_IN_THE_CLOUDS.get(), 1000, 0));
+					}
 					else if (this == AerialHellBlocksAndItems.HERO_TOTEM.get())
 					{
 						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.HERO_OF_THE_VILLAGE, 1200, 0));
@@ -63,6 +67,10 @@ public class EffectTotemItem extends Item
 						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.BLINDNESS, 600, 0));
 						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.SLOWNESS, 900, 0));
 						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.RESISTANCE, 1500, 2));
+					}
+					else if (this == AerialHellBlocksAndItems.SHADOW_TOTEM.get())
+					{
+						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(AerialHellPotionEffects.SHADOW_IMMUNITY.get(), 1000, 0));
 					}
 				}
 			}

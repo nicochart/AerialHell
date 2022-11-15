@@ -257,12 +257,12 @@
         {
           "type": "item",
           "name": "aerialhell:magma_cube_shovel",
-          "weight": 1
+          "weight": 2
         },
         {
           "type": "item",
           "name": "aerialhell:magma_cube_pickaxe",
-          "weight": 1
+          "weight": 2
         },
         {
           "type": "item",
@@ -291,7 +291,7 @@
         {
           "type": "item",
           "name": "aerialhell:random_sword",
-          "weight": 1
+          "weight": 2
         }
       ]
     }

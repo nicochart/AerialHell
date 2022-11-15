@@ -39,7 +39,7 @@ public class EffectToolHelper
 		playerIn.playSound(SoundEvents.ENTITY_ILLUSIONER_CAST_SPELL, 1.0F, 1.5F);
 		if (!worldIn.isRemote)
 		{
-			playerIn.addPotionEffect(new EffectInstance(AerialHellPotionEffects.HEAD_IN_THE_CLOUDS.get(), 100, 0));
+			playerIn.addPotionEffect(new EffectInstance(AerialHellPotionEffects.HEAD_IN_THE_CLOUDS.get(), 100, 1));
 			playerIn.addPotionEffect(new EffectInstance(Effects.SLOW_FALLING, 120, 0));
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, 250);

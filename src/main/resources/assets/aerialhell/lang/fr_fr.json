@@ -24,6 +24,7 @@
   "block.aerialhell.magmatic_gel_wall" : "Muret de Gel Magmatique",
   "item.aerialhell.sky_stick" : "Bâton du Ciel",
   "item.aerialhell.sky_bowl" : "Bol du Ciel",
+  "item.aerialhell.rotten_leather" : "Cuir en décomposition",
   "block.aerialhell.sky_ladder" : "Échelle du Ciel",
   "item.aerialhell.shadow_shard" : "Morceau d'Ombre",
   "block.aerialhell.aerial_tree_crafting_table" : "Établi en Arbre Aérien",
@@ -373,6 +374,7 @@
   "block.aerialhell.azurite_block" : "Bloc d'Azurite",
   "block.aerialhell.volucite_ore" : "Minerai de Volucite",
   "item.aerialhell.volucite_vibrant" : "Volucite Vibrante",
+  "item.aerialhell.volucite_vibrant.desc" : "En avoir une dans votre inventaire ralentira vos chutes",
   "item.aerialhell.overheated_volucite" : "Volucite Surchauffée",
   "item.aerialhell.overheated_volucite.desc" : "Inutilisable. Il faut la faire vibrer.",
   "block.aerialhell.volucite_block" : "Bloc de Volucite",
@@ -579,9 +581,10 @@
   "item.aerialhell.night_vision_totem" : "Totem de Vision Nocturne",
   "item.aerialhell.agility_totem" : "Totem d'Agilité",
   "item.aerialhell.hero_totem" : "Totem du Hero",
+  "item.aerialhell.head_in_the_clouds_totem" : "Totem dans les Nuages",
   "item.aerialhell.god_totem" : "Totem des Dieux",
   "item.aerialhell.cursed_totem" : "Totem Maudit",
-
+  "item.aerialhell.shadow_totem" : "Totem des Ombres",
 
   "item.aerialhell.stellar_stone_automaton_spawn_egg" : "Oeuf d'apparition d'Automate de Roche Stellaire",
   "item.aerialhell.evil_cow_spawn_egg" : "Oeuf d'apparition de Vache Agressive",

@@ -294,6 +294,11 @@
           "type": "item",
           "name": "aerialhell:regeneration_totem",
           "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:shadow_totem",
+          "weight": 1
         }
       ]
     }

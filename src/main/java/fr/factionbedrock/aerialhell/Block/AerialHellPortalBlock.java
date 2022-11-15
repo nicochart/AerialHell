@@ -147,7 +147,7 @@ public class AerialHellPortalBlock extends Block
 								PlayerEntity player = ((PlayerEntity) entity);
 								applyPortalEffects(player);
 								int maxPortalTime = player.getMaxInPortalTime();
-								if (entity.portalCounter++ > maxPortalTime)
+								if (entity.portalCounter++ > maxPortalTime || player.isSneaking())
 								{
 									entity.portalCounter = 0;
 									teleportEntity(entity, destination);

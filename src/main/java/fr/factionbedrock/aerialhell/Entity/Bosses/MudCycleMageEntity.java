@@ -26,9 +26,11 @@ import net.minecraft.world.World;
 
 public class MudCycleMageEntity extends AbstractBossEntity
 {
+	private float damageAmountSinceLastSummon;
 	public MudCycleMageEntity(EntityType<? extends MudCycleMageEntity> type, World world)
 	{
 		super(type, world);
+		this.damageAmountSinceLastSummon = 0;
 	}
 	
 	@Override
@@ -56,11 +58,20 @@ public class MudCycleMageEntity extends AbstractBossEntity
     }
 	
 	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount)
+	{
+		boolean flag = super.attackEntityFrom(source, amount);
+		if (flag) {this.damageAmountSinceLastSummon += amount;}
+		return flag;
+	}
+	
+	@Override
 	public void tick()
 	{		
 		super.tick();
-		if (this.isActive() && (this.ticksExisted % 600 == 0 || (this.ticksExisted % 300 == 0 && rand.nextInt(2) == 0)))
+		if (this.isActive() && (this.ticksExisted % 600 == 0 || this.damageAmountSinceLastSummon > 65))
 		{
+			this.damageAmountSinceLastSummon = 0;
 			if (this.getHealth() < this.getMaxHealth() / 2)
 			{
 				this.summonSpectralSoldiersAndGolems();

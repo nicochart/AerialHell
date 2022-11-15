@@ -596,7 +596,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> MAGMATIC_GEL = ITEMS.register("magmatic_gel",() -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
 	public static final RegistryObject<Item> RUBY = ITEMS.register("ruby", () -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
 	public static final RegistryObject<Item> AZURITE_CRYSTAL = ITEMS.register("azurite_crystal", () -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
-	public static final RegistryObject<Item> VOLUCITE_VIBRANT = ITEMS.register("volucite_vibrant", () -> new Item(new Item.Properties().rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
+	public static final RegistryObject<Item> VOLUCITE_VIBRANT = ITEMS.register("volucite_vibrant", () -> new VoluciteVibrantItem(new Item.Properties().rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
 	
 	public static final RegistryObject<Item> OVERHEATED_RUBY = ITEMS.register("overheated_ruby", () -> new WithInformationItem(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
 	public static final RegistryObject<Item> OVERHEATED_VOLUCITE = ITEMS.register("overheated_volucite", () -> new WithInformationItem(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
@@ -1006,6 +1006,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SKY_STICK = ITEMS.register("sky_stick",() -> new BurnableItem(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS), 100));
 	public static final RegistryObject<Item> SKY_BOWL = ITEMS.register("sky_bowl",() -> new BurnableItem(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS), 200));
 	public static final RegistryObject<Item> SHADOW_SHARD = ITEMS.register("shadow_shard",() -> new Item(new Item.Properties().rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
+	public static final RegistryObject<Item> ROTTEN_LEATHER = ITEMS.register("rotten_leather",() -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
 	
 	//throwing knifes
 	public static final RegistryObject<Item> IRON_THROWING_KNIFE = ITEMS.register("iron_throwing_knife", () -> new IronThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
@@ -1202,8 +1203,10 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<Item> NIGHT_VISION_TOTEM = ITEMS.register("night_vision_totem", () -> new EffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
     public static final RegistryObject<Item> AGILITY_TOTEM = ITEMS.register("agility_totem", () -> new EnchantedEffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
     public static final RegistryObject<Item> HERO_TOTEM = ITEMS.register("hero_totem", () -> new EffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
+    public static final RegistryObject<Item> HEAD_IN_THE_CLOUDS_TOTEM = ITEMS.register("head_in_the_clouds_totem", () -> new EffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
     public static final RegistryObject<Item> GOD_TOTEM = ITEMS.register("god_totem", () -> new EnchantedEffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS).isImmuneToFire()));
     public static final RegistryObject<Item> CURSED_TOTEM = ITEMS.register("cursed_totem", () -> new EffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
+    public static final RegistryObject<Item> SHADOW_TOTEM = ITEMS.register("shadow_totem", () -> new EffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
     
     //spawn eggs
     public static final RegistryObject<Item> STELLAR_STONE_AUTOMATON_SPAWN_EGG = ITEMS.register("stellar_stone_automaton_spawn_egg", () -> new ForgeSpawnEggItem(() -> AerialHellEntities.STELLAR_STONE_AUTOMATON.get(), 16382457, 16382457, new Item.Properties().rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_SPAWN_EGGS)));

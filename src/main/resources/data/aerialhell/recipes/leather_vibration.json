@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:vibration",
+  "ingredient": {
+    "item": "aerialhell:rotten_leather"
+  },
+  "result": "minecraft:leather",
+  "experience": 0.1,
+  "cookingtime": 300
+}
