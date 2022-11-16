@@ -47,7 +47,10 @@ public class SlipperySandOceanAbandonnedStructure extends AbstractAerialHellStru
     
     @Override
     protected boolean func_230363_a_(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) //isFeatureChunk (check if can spawn)
-    {    	
+    {
+    	//cannot spawn next to another structure
+    	if (StructureHelper.hasDungeonNearby(chunkGenerator, seed, chunkRandom, chunkX, chunkZ, 6)) {return false;}
+    	
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
         
         int landHeight = chunkGenerator.getHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Type.WORLD_SURFACE_WG);

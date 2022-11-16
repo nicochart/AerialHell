@@ -51,48 +51,12 @@ public class CopperPineCottageStructure extends AbstractAerialHellStructure
     protected boolean func_230363_a_(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) //isFeatureChunk (check if can spawn)
     {
     	//cannot spawn next to another structure
-    	
-    	if (hasDungeonNearby(chunkGenerator, seed, chunkRandom, chunkX, chunkZ, 6)) {return false;}
+    	if (StructureHelper.hasDungeonNearby(chunkGenerator, seed, chunkRandom, chunkX, chunkZ, 6)) {return false;}
     	
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
         
         int landHeight = chunkGenerator.getHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
         return landHeight > 50 && landHeight < 190;
-    }
-    
-    private boolean hasDungeonNearby(ChunkGenerator chunkGenerator, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, int checkRadius)
-    {
-    	//.func_235957_b_() = .getSettings() ; .func_236197_a_() = .getConfig()
-    	StructureSeparationSettings MudDungeonConfig = chunkGenerator.func_235957_b_().func_236197_a_(AerialHellStructures.MUD_DUNGEON_STRUCTURE.get());
-    	StructureSeparationSettings LunaticTempleConfig = chunkGenerator.func_235957_b_().func_236197_a_(AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get());
-    	StructureSeparationSettings GoldenNetherPrisonConfig = chunkGenerator.func_235957_b_().func_236197_a_(AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get());
-    	if (MudDungeonConfig == null && LunaticTempleConfig == null && GoldenNetherPrisonConfig == null) {return false;}
-    	else
-    	{
-    		for (int cx = chunkX - checkRadius; cx <= chunkZ + checkRadius; cx++)
-        	{
-                for (int cz = chunkZ - checkRadius; cz <= chunkZ + checkRadius; cz++)
-                {
-                	ChunkPos chunkPos;
-                	if (MudDungeonConfig != null)
-                	{
-                		chunkPos = AerialHellStructures.MUD_DUNGEON_STRUCTURE.get().getChunkPosForStructure(MudDungeonConfig, seed, chunkRandom, cx, cz);
-                        if (cx == chunkPos.x && cz == chunkPos.z) {return true;}
-                	}
-                	if (LunaticTempleConfig != null)
-                	{
-                		chunkPos = AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get().getChunkPosForStructure(LunaticTempleConfig, seed, chunkRandom, cx, cz);
-                        if (cx == chunkPos.x && cz == chunkPos.z) {return true;}
-                	}
-                	if (GoldenNetherPrisonConfig != null)
-                	{
-                		chunkPos = AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get().getChunkPosForStructure(GoldenNetherPrisonConfig, seed, chunkRandom, cx, cz);
-                        if (cx == chunkPos.x && cz == chunkPos.z) {return true;}
-                	}
-                }
-        	}
-    	}
-    	return false;
     }
     
     public static class Start extends AbstractAerialHellStructure.Start
