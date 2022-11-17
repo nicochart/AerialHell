@@ -115,6 +115,8 @@ public class AerialHell
    		    	event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.STELLAR_STONE_CRYSTAL_BLOB);
    		    	event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.STELLAR_COARSE_FLOOR_ELLIPSOID);	
    		    }
+   		    
+   		    event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.DANGLING_CHAIN_RARE);
    		 
    		    //rare sky cactus
    		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.SKY_CACTUS_PLAIN);
@@ -234,6 +236,8 @@ public class AerialHell
    		    	event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.STELLAR_STONE_CRYSTAL_BLOB);
    		    	event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.STELLAR_COARSE_FLOOR_ELLIPSOID);	
    		    }
+   		    
+   		    event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.DANGLING_CHAIN);
    		 
    		    //rare sky cactus
    		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.SKY_CACTUS_PLAIN);
