@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Tree;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellFeatures;
+import fr.factionbedrock.aerialhell.Registry.AerialHellConfiguredFeatures;
 import net.minecraft.block.trees.Tree;
 import net.minecraft.world.gen.feature.*;
 
@@ -13,6 +13,6 @@ public class GoldenBeechTree extends Tree
 	@Override
 	protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(Random randomIn, boolean largeHive)
 	{
-		return Feature.TREE.withConfiguration(AerialHellFeatures.Configs.GOLDEN_BEECH_CONFIG);
+		return Feature.TREE.withConfiguration(AerialHellConfiguredFeatures.Configs.GOLDEN_BEECH_CONFIG);
 	}
 }

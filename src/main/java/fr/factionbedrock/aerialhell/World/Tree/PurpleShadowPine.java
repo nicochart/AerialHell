@@ -4,7 +4,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellFeatures;
+import fr.factionbedrock.aerialhell.Registry.AerialHellConfiguredFeatures;
 import net.minecraft.block.trees.BigTree;
 import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
@@ -21,13 +21,13 @@ public class PurpleShadowPine extends BigTree
 	@Override	
 	protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(Random randomIn, boolean largeHive)
 	{
-		return Feature.TREE.withConfiguration(AerialHellFeatures.Configs.PURPLE_SHADOW_PINE_CONFIG);
+		return Feature.TREE.withConfiguration(AerialHellConfiguredFeatures.Configs.PURPLE_SHADOW_PINE_CONFIG);
 	}
 	
 	@Nullable
 	@Override
 	protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getHugeTreeFeature(Random rand)
 	{
-		return Feature.TREE.withConfiguration(AerialHellFeatures.Configs.MEGA_PURPLE_SHADOW_PINE_CONFIG);
+		return Feature.TREE.withConfiguration(AerialHellConfiguredFeatures.Configs.MEGA_PURPLE_SHADOW_PINE_CONFIG);
 	}
 }

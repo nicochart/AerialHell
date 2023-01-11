@@ -11,7 +11,7 @@ import net.minecraft.world.gen.placement.TopSolidRangeConfig;
 
 public class GenAerialHellOres
 {
-	public static ConfiguredFeature<?,?> STELLAR_PORTAL_FRAME_ORE = OverworldOres
+	public final static ConfiguredFeature<?,?> STELLAR_PORTAL_FRAME_ORE = OverworldOres
 	(
 			AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_ORE.get().getDefaultState(), //Block enregistré à configurer
 			5, //Taille de Filon
@@ -21,7 +21,7 @@ public class GenAerialHellOres
 			12 //Chance d'apparition
 	);
 	
-	public static ConfiguredFeature<?,?> IRON_STELLAR_ORE = AerialHellOres
+	public final static ConfiguredFeature<?,?> IRON_STELLAR_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.IRON_STELLAR_ORE.get().getDefaultState(), //Block enregistré à configurer
 			12, //Taille de Filon
@@ -31,7 +31,7 @@ public class GenAerialHellOres
 			12 //Chance d'apparition
 	);
 	
-	public static ConfiguredFeature<?,?> GOLD_STELLAR_ORE = AerialHellOres
+	public final static ConfiguredFeature<?,?> GOLD_STELLAR_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.GOLD_STELLAR_ORE.get().getDefaultState(), //Block enregistré à configurer
 			7, //Taille de Filon
@@ -41,7 +41,7 @@ public class GenAerialHellOres
 			2 //Chance d'apparition
 	);
 	
-	public static ConfiguredFeature<?,?> FLUORITE_ORE = AerialHellOres
+	public final static ConfiguredFeature<?,?> FLUORITE_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.FLUORITE_ORE.get().getDefaultState(), //Block enregistré à configurer
 			12, //Taille de Filon
@@ -51,7 +51,7 @@ public class GenAerialHellOres
 			28 //Chance d'apparition
 	);
 	
-	public static ConfiguredFeature<?,?> RUBY_ORE = AerialHellOres
+	public final static ConfiguredFeature<?,?> RUBY_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.RUBY_ORE.get().getDefaultState(), //Block enregistré à configurer
 			7, //Taille de Filon
@@ -61,7 +61,7 @@ public class GenAerialHellOres
 			40 //Chance d'apparition
 	);
 	
-	public static ConfiguredFeature<?,?> AZURITE_ORE = AerialHellOres
+	public final static ConfiguredFeature<?,?> AZURITE_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.AZURITE_ORE.get().getDefaultState(), //Block enregistré à configurer
 			5, //Taille de Filon
@@ -71,7 +71,7 @@ public class GenAerialHellOres
 			20 //Chance d'apparition
 	);
 	
-	public static ConfiguredFeature<?,?> DIAMOND_STELLAR_ORE = AerialHellOres
+	public final static ConfiguredFeature<?,?> DIAMOND_STELLAR_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.DIAMOND_STELLAR_ORE.get().getDefaultState(), //Block enregistré à configurer
 			7, //Taille de Filon
@@ -81,7 +81,7 @@ public class GenAerialHellOres
 			1 //Chance d'apparition
 	);
 	
-	public static ConfiguredFeature<?,?> VOLUCITE_ORE = AerialHellOres
+	public final static ConfiguredFeature<?,?> VOLUCITE_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.VOLUCITE_ORE.get().getDefaultState(), //Block enregistré à configurer
 			7, //Taille de Filon
@@ -91,7 +91,7 @@ public class GenAerialHellOres
 			4 //Chance d'apparition
 	);
 	
-	public static ConfiguredFeature<?,?> OBSIDIAN_ORE = AerialHellOres
+	public final static ConfiguredFeature<?,?> OBSIDIAN_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.OBSIDIAN_ORE.get().getDefaultState(), //Block enregistré à configurer
 			7, //Taille de Filon
@@ -101,7 +101,7 @@ public class GenAerialHellOres
 			2 //Chance d'apparition
 	);
 	
-	public static ConfiguredFeature<?,?> GLAUCOPHANITE_ORE = AerialHellOres
+	public final static ConfiguredFeature<?,?> GLAUCOPHANITE_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.GLAUCOPHANITE.get().getDefaultState(), //Block enregistré à configurer
 			32, //Taille de Filon
@@ -111,7 +111,7 @@ public class GenAerialHellOres
 			10 //Chance d'apparition
 	);
 	
-	public static ConfiguredFeature<?,?> MAGMATIC_GEL_ORE = AerialHellOres
+	public final static ConfiguredFeature<?,?> MAGMATIC_GEL_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.MAGMATIC_GEL_ORE.get().getDefaultState(), //Block enregistré à configurer
 			12, //Taille de Filon
@@ -121,7 +121,7 @@ public class GenAerialHellOres
 			12 //Chance d'apparition
 	);
 	
-	public static ConfiguredFeature<?,?> STELLAR_DIRT_ORE = AerialHellOres
+	public final static ConfiguredFeature<?,?> STELLAR_DIRT_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.STELLAR_DIRT.get().getDefaultState(), //Block enregistré à configurer
 			33, //Taille de Filon
@@ -131,7 +131,7 @@ public class GenAerialHellOres
 			10 //Chance d'apparition
 	);
 	
-	public static ConfiguredFeature<?,?> STELLAR_COARSE_DIRT_ORE = AerialHellOres
+	public final static ConfiguredFeature<?,?> STELLAR_COARSE_DIRT_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.STELLAR_COARSE_DIRT.get().getDefaultState(), //Block enregistré à configurer
 			22, //Taille de Filon
@@ -141,7 +141,7 @@ public class GenAerialHellOres
 			12 //Chance d'apparition
 	);
 	
-	public static ConfiguredFeature<?,?> STELLAR_CLAY_ORE = AerialHellOres
+	public final static ConfiguredFeature<?,?> STELLAR_CLAY_ORE = AerialHellOres
 	(
 			AerialHellBlocksAndItems.STELLAR_CLAY.get().getDefaultState(), //Block enregistré à configurer
 			28, //Taille de Filon

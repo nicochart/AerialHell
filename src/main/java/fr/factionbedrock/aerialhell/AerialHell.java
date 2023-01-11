@@ -12,7 +12,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBiomes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellFeatures;
+import fr.factionbedrock.aerialhell.Registry.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Registry.AerialHellStructures;
 import fr.factionbedrock.aerialhell.Setup.*;
 import fr.factionbedrock.aerialhell.World.GenAerialHellOres;
@@ -73,7 +73,7 @@ public class AerialHell
     	if (isOverworldBiome)
     	{
     		event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.STELLAR_PORTAL_FRAME_ORE);
-    		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_OVERWORLD_ABANDONNED_PORTAL_STRUCTURE);
+    		event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_OVERWORLD_ABANDONNED_PORTAL_STRUCTURE);
     	}
     	
     	boolean isAerialHellPlains = event.getName().equals(AerialHellBiomes.AERIAL_HELL_PLAINS.getLocation());
@@ -96,127 +96,26 @@ public class AerialHell
     	boolean isAerialHellPlainsBiome = isAerialHellPlains || isLapisRobaniaSavana;
     	boolean isAerialHellShroomyBiome = isCortinariusViolaceusForest || isVerdigrisAgaricForest || isGiantRedMushroomForest;
     	boolean isAerialHellClassicBiome = isAerialHellCrystalBiome || isAerialHellShroomyBiome || isAerialHellForestBiome || isSlipperySandOcean || isAerialHellPlainsBiome;
-    			
+    	
     	/* Adding common features and structure in all classic aerial hell biomes */
     	if (isAerialHellClassicBiome)
     	{
     		/* structure */
     		this.addAllDungeons(event);
-    		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
-    		
-    		/* features */
-    		event.getGeneration().withFeature(GenerationStage.Decoration.LAKES, AerialHellFeatures.AERIAL_HELL_WATER_LAKE);
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.WHITE_SOLID_ETHER); 
-   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.BLUE_SOLID_ETHER);
-   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.GOLDEN_SOLID_ETHER);
-   		    
-   		    for (int i = 0; i < 5; i++)
-   		    {
-   		    	event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.STELLAR_STONE_CRYSTAL_BLOB);
-   		    	event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.STELLAR_COARSE_FLOOR_ELLIPSOID);	
-   		    }
-   		    
-   		    event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.DANGLING_CHAIN_RARE);
-   		 
-   		    //rare sky cactus
-   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.SKY_CACTUS_PLAIN);
-   		    
-   		    //plants
-   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_GRASS);
-   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_GRASS_BALL);
-   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.AERIAL_HELL_FLOWERS);
-   		 
-   		    /* ores */
-   		    addOres(event);
+    		event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
         }
-    	
-    	if (isAerialHellPlainsBiome || isAerialHellForestBiome || isAerialHellShadowBiome || isAerialHellShroomyBiome) //Bear Bread Shroom everywhere except in Slippery Sand Ocean and Crystal Biomes
-    	{
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.TOP_LAYER_MODIFICATION).add(() -> AerialHellFeatures.GIANT_GANODERMA_APPLANATUM);
-    	}
-    	if (isAerialHellPlainsBiome || isSlipperySandOcean || isAerialHellCrystalBiome) //Slippery sand everywhere except Shroomy and Forest Biomes
-    	{
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.TOP_LAYER_MODIFICATION).add(() -> AerialHellFeatures.SLIPPERY_SAND);
-    	}
     	
     	/* Adding features exclusive to the SlipperySandOcean biome */
     	if (isSlipperySandOcean)
     	{
     		//abandonned structure
-    		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE);
-    		
-    		for (int i = 0; i < 50; i++)
-   		    {
-    			//a lot of sky cactus
-    			event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.SKY_CACTUS_OCEAN);
-   		    }
-    		//dead bushes
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_DEAD_BUSH);
-    	}
-    	
-    	/* Adding features exclusive to Forest biomes */
-    	if (isAerialHellForestBiome)
-    	{    		
-    		//more plants
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_GRASS);
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_TALL_GRASS);
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_FERN);
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_TALL_FERN);
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.AERIAL_BERRY_BUSH_PATCH);
-    	}
-    	
-    	/* Adding features exclusive to Dense Forest biomes */
-    	if (isAerialHellDenseForestBiome)
-    	{
-    		//green solid ether
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.GREEN_SOLID_ETHER);
-    		
-    		//brambles
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.BRAMBLES);
+    		event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE);
     	}
     	
     	/* Adding features exclusive to Copper Pine Forest biomes*/
     	if (isCopperPineForest)
     	{
-    		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_COPPER_PINE_COTTAGE_STRUCTURE);
-    	}
-    	
-    	/* Adding features exclusive to the Lapis Robania Savana biome */
-    	if (isLapisRobaniaSavana)
-    	{   		
-    		//more plants
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.AERIAL_HELL_BELLFLOWERS);
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_GRASS);
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_TALL_GRASS);
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_FERN);
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.STELLAR_TALL_FERN);
-    	}
-    	
-    	/* Adding features exclusive to the Crystal biomes */
-    	if (isAerialHellCrystalBiome)
-    	{
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.CRYSTALLIZED_FIRE);
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.CRYSTAL_BLOB);
-    		
-    		if (isCrystalForest) {event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.GIANT_CRYSTAL_BLOB);}
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.AERIAL_BERRY_BUSH_PATCH);
-    	}
-    	
-    	else if (isAerialHellShroomyBiome)
-    	{
-    		/* Adding features exclusive to the Cortinarius Violaceus Forest biome */
-        	if (isCortinariusViolaceusForest)
-        	{
-        		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.PURPLISH_STELLAR_GRASS);
-        		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.VERDIGRIS_AGARIC_FOREST);
-        		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.CORTINARIUS_VIOLACEUS_FOREST);
-        	}
-        	/* Adding features exclusive to the Verdigris Agaric Forest biome */
-        	if (isVerdigrisAgaricForest)
-        	{
-        		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.VERDIGRIS_AGARIC_FOREST);
-        		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.HUGE_VERDIGRIS_AGARIC);
-        	}
+    		event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_COPPER_PINE_COTTAGE_STRUCTURE);
     	}
     	
     	/* Adding features exclusive to all Shadow Biomes */
@@ -224,63 +123,15 @@ public class AerialHell
     	{
     		/* structure */
     		this.addAllDungeons(event);
-    		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
-    		
-    		/* features */
-    		event.getGeneration().withFeature(GenerationStage.Decoration.LAKES, AerialHellFeatures.AERIAL_HELL_WATER_LAKE);
-    		event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.WHITE_SOLID_ETHER); 
-   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.BLUE_SOLID_ETHER);
-   		    
-   		    for (int i = 0; i < 5; i++)
-   		    {
-   		    	event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.STELLAR_STONE_CRYSTAL_BLOB);
-   		    	event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.STELLAR_COARSE_FLOOR_ELLIPSOID);	
-   		    }
-   		    
-   		    event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> AerialHellFeatures.DANGLING_CHAIN);
-   		 
-   		    //rare sky cactus
-   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.SKY_CACTUS_PLAIN);
-   		    
-   		    //plants
-   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.SHADOW_GRASS);
-   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.SHADOW_GRASS_BALL);
-   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.AERIAL_HELL_FLOWERS);
-   		    event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> AerialHellFeatures.SHADOW_BRAMBLES);
-   		 
-   		    /* ores */
-   		    this.addOres(event);
-	    	
-    		/* Adding features exclusive to Shadow Forest only*/
-    		if (event.getName().equals(AerialHellBiomes.SHADOW_FOREST.getLocation()))
-        	{
-        		//nothing yet
-        	}
+    		event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
     	}
-    }
-    
-    private void addOres(BiomeLoadingEvent event)
-    {
-    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.IRON_STELLAR_ORE);
-    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.GOLD_STELLAR_ORE);
-    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.DIAMOND_STELLAR_ORE);
-    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.FLUORITE_ORE);
-    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.MAGMATIC_GEL_ORE);
-    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.RUBY_ORE);
-    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.AZURITE_ORE);
-    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.VOLUCITE_ORE);
-    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.OBSIDIAN_ORE);
-    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.GLAUCOPHANITE_ORE);
-    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.STELLAR_DIRT_ORE);
-    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.STELLAR_COARSE_DIRT_ORE);
-    	event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GenAerialHellOres.STELLAR_CLAY_ORE);
     }
     
     private void addAllDungeons(BiomeLoadingEvent event)
     {
-    	event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_MUD_DUNGEON_STRUCTURE);
-		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_LUNATIC_TEMPLE_STRUCTURE);
-		event.getGeneration().getStructures().add(() -> AerialHellFeatures.CONFIGURED_GOLDEN_NETHER_PRISON_STRUCTURE);
+    	event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_MUD_DUNGEON_STRUCTURE);
+		event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_LUNATIC_TEMPLE_STRUCTURE);
+		event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_GOLDEN_NETHER_PRISON_STRUCTURE);
     }
     
     private static Method GETCODEC_METHOD;

@@ -30,17 +30,43 @@
   "features": [
     [],
     [
-      //"minecraft:water_lake"
+      "aerialhell:aerial_hell_water_lake"
+    ],
+    [
+      "aerialhell:white_solid_ether",
+      "aerialhell:golden_solid_ether",
+      "aerialhell:cristallized_fire",
+      "aerialhell:crystal_blob",
+      "aerialhell:giant_crystal_blob",
+      "aerialhell:slippery_sand",
+      "aerialhell:dangling_chain_rare",
+      "aerialhell:stellar_stone_crystal_blob",
+      "aerialhell:stellar_coarse_floor_ellipsoid"
     ],
     [],
     [],
     [],
-    [],
     [
-      //ores
+      "aerialhell:iron_stellar_ore",
+      "aerialhell:gold_stellar_ore",
+      "aerialhell:diamond_stellar_ore",
+      "aerialhell:fluorite_ore",
+      "aerialhell:ruby_ore",
+      "aerialhell:azurite_ore",
+      "aerialhell:volucite_ore",
+      "aerialhell:obsidian_ore",
+      "aerialhell:glaucophanite_ore",
+      "aerialhell:stellar_dirt_ore",
+      "aerialhell:stellar_coarse_dirt_ore",
+      "aerialhell:stellar_clay_ore"
     ],
     [],
     [
+      "aerialhell:stellar_grass",
+      "aerialhell:stellar_grass_ball",
+      "aerialhell:aerial_hell_flowers",
+      "aerialhell:sky_cactus",
+      "aerialhell:aerial_berry_bush_patch",
       "aerialhell:crystallized_tree_basic"
     ],
     []

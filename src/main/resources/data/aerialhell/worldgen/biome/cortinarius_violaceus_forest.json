@@ -30,20 +30,45 @@
   "features": [
     [],
     [
-      //"minecraft:water_lake"
+      "aerialhell:aerial_hell_water_lake"
+    ],
+    [
+      "aerialhell:white_solid_ether",
+      "aerialhell:blue_solid_ether",
+      "aerialhell:golden_solid_ether",
+      "aerialhell:dangling_chain_rare",
+      "aerialhell:stellar_stone_crystal_blob",
+      "aerialhell:stellar_coarse_floor_ellipsoid"
     ],
     [],
     [],
     [],
-    [],
     [
-      //ores
+      "aerialhell:iron_stellar_ore",
+      "aerialhell:gold_stellar_ore",
+      "aerialhell:diamond_stellar_ore",
+      "aerialhell:fluorite_ore",
+      "aerialhell:ruby_ore",
+      "aerialhell:azurite_ore",
+      "aerialhell:volucite_ore",
+      "aerialhell:obsidian_ore",
+      "aerialhell:glaucophanite_ore",
+      "aerialhell:stellar_dirt_ore",
+      "aerialhell:stellar_coarse_dirt_ore",
+      "aerialhell:stellar_clay_ore"
     ],
     [],
     [
+      "aerialhell:stellar_grass",
+      "aerialhell:stellar_grass_ball",
+      "aerialhell:aerial_hell_flowers",
+      "aerialhell:purplish_stellar_grass",
+      "aerialhell:cortinarius_violaceus_forest",
+      "aerialhell:verdigris_agaric_forest",
       "aerialhell:giant_cortinarius_violaceus",
       "aerialhell:giant_verdigris_agaric",
-      "aerialhell:golden_beech_rare"
+      "aerialhell:golden_beech_rare",
+      "aerialhell:giant_ganoderma_applanatum"
     ],
     []
   ],

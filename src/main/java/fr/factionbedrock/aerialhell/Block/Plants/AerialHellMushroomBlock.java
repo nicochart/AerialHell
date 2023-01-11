@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellFeatures;
+import fr.factionbedrock.aerialhell.Registry.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MushroomBlock;
@@ -45,10 +45,10 @@ public class AerialHellMushroomBlock extends MushroomBlock
 	    	if (hugeShroomDirection != HugeGenerationDirections.NONE)
 	    	{
 	    		generationPos = this.getOffsetPosForHugeShroom(pos, hugeShroomDirection);
-	    		configuredfeature = AerialHellFeatures.HUGE_VERDIGRIS_AGARIC_PLANTED;
+	    		configuredfeature = AerialHellConfiguredFeatures.HUGE_VERDIGRIS_AGARIC_PLANTED;
 	    		
 	    	}
-	    	else {configuredfeature = AerialHellFeatures.GIANT_VERDIGRIS_AGARIC_PLANTED;}
+	    	else {configuredfeature = AerialHellConfiguredFeatures.GIANT_VERDIGRIS_AGARIC_PLANTED;}
 	    }
 	    else {return false;}
 	    

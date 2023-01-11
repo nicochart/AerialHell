@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellCarvers;
 import fr.factionbedrock.aerialhell.Registry.AerialHellContainerTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellFeatures;
+import fr.factionbedrock.aerialhell.Registry.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Registry.AerialHellFluids;
 import fr.factionbedrock.aerialhell.Registry.AerialHellPOI;
 import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
@@ -37,7 +38,7 @@ public class AerialHellSetup
         	AerialHellBlocksAndItems.registerPots();
         	AerialHellBlocksAndItems.registerAxeStrippingBlocks();
         	AerialHellStructures.setupStructures();
-        	AerialHellFeatures.registerConfiguredFeaturesAndStructures();
+        	AerialHellConfiguredFeatures.registerConfiguredFeaturesAndStructures();
         	AerialHellCarvers.registerConfiguredCarvers();
         });
     }
@@ -58,6 +59,7 @@ public class AerialHellSetup
         AerialHellTileEntityTypes.TILE_ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellSoundEvents.SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellCarvers.CARVERS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        AerialHellFeatures.FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 	
     private static void registerFuels() //enregistrement des carburants
