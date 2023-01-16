@@ -8,79 +8,83 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 
-// Made with Blockbench 4.0.1
-// Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
+// Made by Cixon
+// Made with Blockbench
 
 public class SandySheepModel extends EntityModel<SandySheepEntity>
-{	
-	private final ModelRenderer body;
-	private final ModelRenderer body_r1;
+{
 	private final ModelRenderer head;
-	private final ModelRenderer head_coat;
-	private final ModelRenderer leg0;
-	private final ModelRenderer leg1;
-	private final ModelRenderer leg2;
-	private final ModelRenderer leg3;
-	private final ModelRenderer coat;
-	private final ModelRenderer coat_r1;
-	private boolean hasWool;
+	private final ModelRenderer snout_r1;
+	private final ModelRenderer body;
+	private final ModelRenderer rightFrontLeg;
+	private final ModelRenderer rightFrontLegCoat;
+	private final ModelRenderer rightBackLeg;
+	private final ModelRenderer rightBackLegCoat;
+	private final ModelRenderer leftFrontLeg;
+	private final ModelRenderer leftFrontLegCoat;
+	private final ModelRenderer leftBackLeg;
+	private final ModelRenderer leftBackLegCoat;
+	private final ModelRenderer headCoat;
+	private final ModelRenderer bodyCoat;
+  private boolean hasWool;
 	
-	public SandySheepModel()
-	{
+	public SandySheepModel() {
 		textureWidth = 128;
 		textureHeight = 64;
 
-		body = new ModelRenderer(this);
-		body.setRotationPoint(0.0F, 5.0F, 2.0F);
-
-		body_r1 = new ModelRenderer(this);
-		body_r1.setRotationPoint(0.0F, -2.0F, -4.0F);
-		body.addChild(body_r1);
-		setRotationAngle(body_r1, -1.5708F, 0.0F, 0.0F);
-		body_r1.setTextureOffset(2, 16).addBox(0.0F, -16.0F, 2.0F, 0.0F, 5.0F, 6.0F, 0.0F, true);
-		body_r1.setTextureOffset(5, 24).addBox(0.0F, -14.0F, -1.0F, 0.0F, 19.0F, 3.0F, 0.0F, true);
-		body_r1.setTextureOffset(15, 25).addBox(-5.0F, -11.0F, 2.0F, 10.0F, 16.0F, 7.0F, 0.0F, true);
-
 		head = new ModelRenderer(this);
-		head.setRotationPoint(0.0F, 6.0F, -8.0F);
-		head.setTextureOffset(24, 11).addBox(-3.0F, -4.0F, -6.0F, 6.0F, 6.0F, 8.0F, 0.0F, true);
+		head.setRotationPoint(0.0F, 8.0F, -8.0F);
+		head.setTextureOffset(0, 0).addBox(-2.5F, -4.0F, -7.0F, 6.0F, 6.0F, 8.0F, 0.0F, false);
 
-		leg0 = new ModelRenderer(this);
-		leg0.setRotationPoint(3.0F, 12.0F, 7.0F);
-		leg0.setTextureOffset(48, 48).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, true);
+		snout_r1 = new ModelRenderer(this);
+		snout_r1.setRotationPoint(0.0F, 16.0F, 8.0F);
+		head.addChild(snout_r1);
+		setRotationAngle(snout_r1, 0.0698F, 0.0F, 0.0F);
+		snout_r1.setTextureOffset(28, 8).addBox(-1.0F, -18.01F, -16.0F, 3.0F, 3.0F, 3.0F, 0.0F, false);
 
-		leg1 = new ModelRenderer(this);
-		leg1.setRotationPoint(-3.0F, 12.0F, 7.0F);
-		leg1.setTextureOffset(32, 48).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, true);
+		body = new ModelRenderer(this);
+		body.setRotationPoint(0.0F, 24.0F, 0.0F);
+		body.setTextureOffset(80, 42).addBox(-3.5F, -17.0F, -9.0F, 8.0F, 6.0F, 16.0F, 0.0F, false);
 
-		leg2 = new ModelRenderer(this);
-		leg2.setRotationPoint(3.0F, 12.0F, -5.0F);
-		leg2.setTextureOffset(0, 48).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, true);
+		rightFrontLeg = new ModelRenderer(this);
+		rightFrontLeg.setRotationPoint(-3.0F, 16.0F, -6.0F);
+		rightFrontLeg.setTextureOffset(0, 49).addBox(-1.0F, -4.0F, -2.0F, 3.0F, 12.0F, 3.0F, 0.0F, false);
 
-		leg3 = new ModelRenderer(this);
-		leg3.setRotationPoint(-3.0F, 12.0F, -5.0F);
-		leg3.setTextureOffset(16, 48).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, true);
+		rightFrontLegCoat = new ModelRenderer(this);
+		rightFrontLegCoat.setRotationPoint(-3.0F, 16.0F, -6.0F);
+		rightFrontLegCoat.setTextureOffset(12, 46).addBox(-3.0F, -5.0F, -5.0F, 7.0F, 10.0F, 8.0F, -1.0F, true);
 
-		coat = new ModelRenderer(this);
-		coat.setRotationPoint(0.0F, 5.0F, 2.0F);
+		rightBackLeg = new ModelRenderer(this);
+		rightBackLeg.setRotationPoint(-3.0F, 16.0F, 7.0F);
+		rightBackLeg.setTextureOffset(0, 49).addBox(-1.0F, -4.0F, -2.0F, 3.0F, 12.0F, 3.0F, 0.0F, false);
 
-		coat_r1 = new ModelRenderer(this);
-		coat_r1.setRotationPoint(0.0F, -2.0F, -4.0F);
-		coat.addChild(coat_r1);
-		setRotationAngle(coat_r1, -1.5708F, 0.0F, 0.0F);
-		coat_r1.setTextureOffset(114, 43).addBox(-3.0F, -13.0F, 13.0F, 6.0F, 20.0F, 1.0F, 0.0F, true);
-		coat_r1.setTextureOffset(72, 54).addBox(-4.0F, -14.0F, 2.0F, 8.0F, 1.0F, 9.0F, 0.0F, true);
-		coat_r1.setTextureOffset(64, 21).addBox(-6.0F, -13.0F, 0.0F, 12.0F, 20.0F, 13.0F, 0.0F, true);
-		coat_r1.setTextureOffset(90, -5).addBox(-8.0F, -13.0F, 12.0F, 0.0F, 20.0F, 5.0F, 0.0F, true);
-		coat_r1.setTextureOffset(40, 0).addBox(-8.0F, 7.0F, 12.0F, 16.0F, 0.0F, 5.0F, 0.0F, true);
-		coat_r1.setTextureOffset(40, 0).addBox(-8.0F, -13.0F, 12.0F, 16.0F, 0.0F, 5.0F, 0.0F, true);
-		coat_r1.setTextureOffset(78, -5).addBox(8.0F, -13.0F, 12.0F, 0.0F, 20.0F, 5.0F, 0.0F, true);
-		coat_r1.setTextureOffset(101, 5).addBox(6.0F, -13.0F, 3.0F, 2.0F, 20.0F, 9.0F, 0.0F, true);
-		coat_r1.setTextureOffset(55, 5).addBox(-8.0F, -13.0F, 3.0F, 2.0F, 20.0F, 9.0F, 0.0F, true);
+		rightBackLegCoat = new ModelRenderer(this);
+		rightBackLegCoat.setRotationPoint(-3.0F, 16.0F, 7.0F);
+		rightBackLegCoat.setTextureOffset(12, 46).addBox(-3.0F, -5.0F, -4.0F, 7.0F, 10.0F, 8.0F, -1.0F, true);
 
-		head_coat = new ModelRenderer(this);
-		head_coat.setRotationPoint(0.0F, 6.0F, -8.0F);
-		head_coat.setTextureOffset(0, 0).addBox(-4.0F, -5.0F, -5.0F, 8.0F, 8.0F, 8.0F, 0.0F, true);
+		leftFrontLeg = new ModelRenderer(this);
+		leftFrontLeg.setRotationPoint(4.0F, 16.0F, -6.0F);
+		leftFrontLeg.setTextureOffset(0, 49).addBox(-2.0F, -4.0F, -2.0F, 3.0F, 12.0F, 3.0F, 0.0F, true);
+
+		leftFrontLegCoat = new ModelRenderer(this);
+		leftFrontLegCoat.setRotationPoint(4.0F, 16.0F, -6.0F);
+		leftFrontLegCoat.setTextureOffset(12, 46).addBox(-4.0F, -5.0F, -5.0F, 7.0F, 10.0F, 8.0F, -1.0F, false);
+
+		leftBackLeg = new ModelRenderer(this);
+		leftBackLeg.setRotationPoint(4.0F, 16.0F, 6.0F);
+		leftBackLeg.setTextureOffset(0, 49).addBox(-2.0F, -4.0F, -1.0F, 3.0F, 12.0F, 3.0F, 0.0F, true);
+
+		leftBackLegCoat = new ModelRenderer(this);
+		leftBackLegCoat.setRotationPoint(4.0F, 16.0F, 6.0F);
+		leftBackLegCoat.setTextureOffset(12, 46).addBox(-4.0F, -5.0F, -3.0F, 7.0F, 10.0F, 8.0F, -1.0F, false);
+
+		headCoat = new ModelRenderer(this);
+		headCoat.setRotationPoint(0.0F, 8.0F, -8.0F);
+		headCoat.setTextureOffset(40, 0).addBox(-3.0F, -5.0F, -8.0F, 7.0F, 5.0F, 9.0F, 0.0F, false);
+
+		bodyCoat = new ModelRenderer(this);
+		bodyCoat.setRotationPoint(0.0F, 24.0F, 0.0F);
+		bodyCoat.setTextureOffset(0, 14).addBox(-4.5F, -18.0F, -11.0F, 10.0F, 10.0F, 20.0F, 0.0F, false);
 	}
 	
 	@Override
@@ -88,15 +92,29 @@ public class SandySheepModel extends EntityModel<SandySheepEntity>
 	{
 		this.head.rotateAngleY = netHeadYaw / 57.29578F;
         this.head.rotateAngleX = headPitch / 57.29578F;
-        this.head_coat.rotateAngleY = netHeadYaw / 57.29578F;
-        this.head_coat.rotateAngleX = headPitch / 57.29578F;
+        this.headCoat.rotateAngleY = netHeadYaw / 57.29578F;
+        this.headCoat.rotateAngleX = headPitch / 57.29578F;
         
-        this.leg0.rotateAngleX = -1.0F * MathHelper.func_233021_e_(limbSwing, 13.0F) * limbSwingAmount;
-	    this.leg1.rotateAngleX = 1.0F * MathHelper.func_233021_e_(limbSwing, 13.0F) * limbSwingAmount;
-	    this.leg2.rotateAngleX = -1.0F * MathHelper.func_233021_e_(limbSwing, 13.0F) * limbSwingAmount;
-	    this.leg3.rotateAngleX = 1.0F * MathHelper.func_233021_e_(limbSwing, 13.0F) * limbSwingAmount;
-	    this.leg0.rotateAngleY = 0.0F; this.leg1.rotateAngleY = 0.0F; this.leg2.rotateAngleY = 0.0F; this.leg3.rotateAngleY = 0.0F;
-	    
+        this.animateRightLeg(this.rightFrontLeg, limbSwing, limbSwingAmount);
+        this.animateRightLeg(this.rightBackLeg, limbSwing, limbSwingAmount);
+        this.animateRightLeg(this.rightFrontLegCoat, limbSwing, limbSwingAmount);
+        this.animateRightLeg(this.rightBackLegCoat, limbSwing, limbSwingAmount);
+        this.animateLeftLeg(this.leftFrontLeg, limbSwing, limbSwingAmount);
+        this.animateLeftLeg(this.leftBackLeg, limbSwing, limbSwingAmount);
+        this.animateLeftLeg(this.leftFrontLegCoat, limbSwing, limbSwingAmount);
+        this.animateLeftLeg(this.leftBackLegCoat, limbSwing, limbSwingAmount);
+	}
+	
+	private void animateLeftLeg(ModelRenderer model, float limbSwing, float limbSwingAmount)
+	{
+		model.rotateAngleX = -1.0F * MathHelper.func_233021_e_(limbSwing, 13.0F) * limbSwingAmount;
+		model.rotateAngleY = 0.0F;
+	}
+	
+	private void animateRightLeg(ModelRenderer model, float limbSwing, float limbSwingAmount)
+	{
+		model.rotateAngleX = 1.0F * MathHelper.func_233021_e_(limbSwing, 13.0F) * limbSwingAmount;
+		model.rotateAngleY = 0.0F;
 	}
 	
 	@Override
@@ -105,7 +123,7 @@ public class SandySheepModel extends EntityModel<SandySheepEntity>
 		super.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTick);
 		this.hasWool = entity.hasWool();
 	}
-
+	
 	@Override
 	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{
@@ -116,24 +134,23 @@ public class SandySheepModel extends EntityModel<SandySheepEntity>
         }
 		matrixStack.push();
         
-		body.render(matrixStack, buffer, packedLight, packedOverlay);
 		head.render(matrixStack, buffer, packedLight, packedOverlay);
-		leg0.render(matrixStack, buffer, packedLight, packedOverlay);
-		leg1.render(matrixStack, buffer, packedLight, packedOverlay);
-		leg2.render(matrixStack, buffer, packedLight, packedOverlay);
-		leg3.render(matrixStack, buffer, packedLight, packedOverlay);
+		body.render(matrixStack, buffer, packedLight, packedOverlay);
+		rightFrontLeg.render(matrixStack, buffer, packedLight, packedOverlay);
+		rightBackLeg.render(matrixStack, buffer, packedLight, packedOverlay);
+		leftFrontLeg.render(matrixStack, buffer, packedLight, packedOverlay);
+		leftBackLeg.render(matrixStack, buffer, packedLight, packedOverlay);
 		if (this.hasWool)
 		{
-			coat.render(matrixStack, buffer, packedLight, packedOverlay);
-			head_coat.render(matrixStack, buffer, packedLight, packedOverlay);
+			bodyCoat.render(matrixStack, buffer, packedLight, packedOverlay);
+			rightFrontLegCoat.render(matrixStack, buffer, packedLight, packedOverlay);
+			rightBackLegCoat.render(matrixStack, buffer, packedLight, packedOverlay);
+			leftFrontLegCoat.render(matrixStack, buffer, packedLight, packedOverlay);
+			leftBackLegCoat.render(matrixStack, buffer, packedLight, packedOverlay);
+			headCoat.render(matrixStack, buffer, packedLight, packedOverlay);
 		}
 		matrixStack.pop();
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
-	{
-		modelRenderer.rotateAngleX = x;
-		modelRenderer.rotateAngleY = y;
-		modelRenderer.rotateAngleZ = z;
-	}
+	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {modelRenderer.rotateAngleX = x; modelRenderer.rotateAngleY = y; modelRenderer.rotateAngleZ = z;}
 }

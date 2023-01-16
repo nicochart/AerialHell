@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.MudCycleMageModel;
-import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.MudCycleMageClothingLayer;
 import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -16,12 +15,8 @@ public class MudCycleMageRender extends MobRenderer<MudCycleMageEntity, MudCycle
     public MudCycleMageRender(EntityRendererManager renderManagerIn)
 	{
     	super(renderManagerIn, new MudCycleMageModel(), 0.5F);
-		this.addLayer(new MudCycleMageClothingLayer(this));
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(MudCycleMageEntity entity)
-    {
-		return TEXTURE;
-    }
+	public ResourceLocation getEntityTexture(MudCycleMageEntity entity) {return TEXTURE;}
 }
