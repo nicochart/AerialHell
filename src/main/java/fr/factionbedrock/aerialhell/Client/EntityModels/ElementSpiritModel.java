@@ -14,41 +14,53 @@ import net.minecraft.util.math.MathHelper;
 
 public class ElementSpiritModel<T extends AbstractElementSpiritEntity> extends EntityModel<T>
 {
-	private final ModelRenderer body;
 	private final ModelRenderer head;
+	private final ModelRenderer headShard;
+	private final ModelRenderer headShard_r1;
+	private final ModelRenderer body;
 	private final ModelRenderer leftArm;
+	private final ModelRenderer rightArm;
 	private final ModelRenderer leftLeg;
 	private final ModelRenderer rightLeg;
-	private final ModelRenderer rightArm;
 
 	public ElementSpiritModel()
 	{
-		textureWidth = 32;
-		textureHeight = 32;
+		textureWidth = 64;
+		textureHeight = 64;
+
+		head = new ModelRenderer(this);
+		head.setRotationPoint(0.0F, 6.0F, 0.0F);
+		head.setTextureOffset(0, 0).addBox(-5.0F, -10.0F, -5.0F, 10.0F, 10.0F, 10.0F, 0.0F, false);
+
+		headShard = new ModelRenderer(this);
+		headShard.setRotationPoint(0.0F, 6.0F, 0.0F);
+		
+
+		headShard_r1 = new ModelRenderer(this);
+		headShard_r1.setRotationPoint(0.0F, 18.0F, 0.0F);
+		headShard.addChild(headShard_r1);
+		setRotationAngle(headShard_r1, 0.0F, 0.0F, 0.2182F);
+		headShard_r1.setTextureOffset(42, 10).addBox(-15.0F, -32.0F, -3.0F, 10.0F, 10.0F, 0.0F, 0.0F, false);
 
 		body = new ModelRenderer(this);
 		body.setRotationPoint(0.0F, 24.0F, 0.0F);
-		body.setTextureOffset(4, 8).addBox(-2.5F, -6.0F, -1.0F, 5.0F, 4.0F, 3.0F, 0.0F, true);
-
-		head = new ModelRenderer(this);
-		head.setRotationPoint(0.0F, 18.0F, 0.0F);
-		head.setTextureOffset(2, 0).addBox(-2.5F, -3.0F, -2.0F, 5.0F, 3.0F, 5.0F, 0.0F, false);
+		body.setTextureOffset(0, 20).addBox(-4.0F, -17.0F, -2.0F, 8.0F, 12.0F, 4.0F, 1.0F, false);
 
 		leftArm = new ModelRenderer(this);
-		leftArm.setRotationPoint(-3.0F, 19.0F, 0.5F);
-		leftArm.setTextureOffset(20, 11).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, 0.0F, false);
-
-		leftLeg = new ModelRenderer(this);
-		leftLeg.setRotationPoint(0.0F, 24.0F, 0.0F);
-		leftLeg.setTextureOffset(12, 15).addBox(-1.5F, -2.0F, 0.0F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-		rightLeg = new ModelRenderer(this);
-		rightLeg.setRotationPoint(-2.0F, 19.0F, 0.5F);
-		rightLeg.setTextureOffset(8, 15).addBox(2.5F, 3.0F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
+		leftArm.setRotationPoint(5.0F, 6.0F, 0.0F);
+		leftArm.setTextureOffset(24, 20).addBox(0.0F, 0.0F, -3.0F, 3.0F, 5.0F, 6.0F, 0.0F, false);
 
 		rightArm = new ModelRenderer(this);
-		rightArm.setRotationPoint(3.0F, 19.0F, 0.5F);
-		rightArm.setTextureOffset(0, 11).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, 0.0F, false);
+		rightArm.setRotationPoint(-5.0F, 6.0F, 0.0F);
+		rightArm.setTextureOffset(24, 20).addBox(-3.0F, 0.0F, -3.0F, 3.0F, 5.0F, 6.0F, 0.0F, true);
+
+		leftLeg = new ModelRenderer(this);
+		leftLeg.setRotationPoint(-2.0F, 17.0F, 0.0F);
+		leftLeg.setTextureOffset(0, 36).addBox(-2.0F, 1.0F, -2.0F, 4.0F, 6.0F, 4.0F, 0.0F, true);
+
+		rightLeg = new ModelRenderer(this);
+		rightLeg.setRotationPoint(2.0F, 17.0F, 0.0F);
+		rightLeg.setTextureOffset(0, 36).addBox(-2.0F, 1.0F, -2.0F, 4.0F, 6.0F, 4.0F, 0.0F, false);
 	}
 
 	@Override
@@ -56,6 +68,8 @@ public class ElementSpiritModel<T extends AbstractElementSpiritEntity> extends E
 	{
 		this.head.rotateAngleY = netHeadYaw / 57.0F;
         this.head.rotateAngleX = headPitch / 57.0F;
+        this.headShard.rotateAngleY = netHeadYaw / 57.0F;
+        this.headShard.rotateAngleX = headPitch / 57.0F;
         
         this.rightArm.rotateAngleX = (-0.2F + 1.5F * MathHelper.func_233021_e_(limbSwing, 13.0F)) * limbSwingAmount * 1.2F;
         this.leftArm.rotateAngleX = (-0.2F - 1.5F * MathHelper.func_233021_e_(limbSwing, 13.0F)) * limbSwingAmount * 1.2F;
@@ -71,16 +85,12 @@ public class ElementSpiritModel<T extends AbstractElementSpiritEntity> extends E
 	{
 		body.render(matrixStack, buffer, packedLight, packedOverlay);
 		head.render(matrixStack, buffer, packedLight, packedOverlay);
+		headShard.render(matrixStack, buffer, packedLight, packedOverlay);
 		leftArm.render(matrixStack, buffer, packedLight, packedOverlay);
 		leftLeg.render(matrixStack, buffer, packedLight, packedOverlay);
 		rightLeg.render(matrixStack, buffer, packedLight, packedOverlay);
 		rightArm.render(matrixStack, buffer, packedLight, packedOverlay);
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
-	{
-		modelRenderer.rotateAngleX = x;
-		modelRenderer.rotateAngleY = y;
-		modelRenderer.rotateAngleZ = z;
-	}
+	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {modelRenderer.rotateAngleX = x; modelRenderer.rotateAngleY = y; modelRenderer.rotateAngleZ = z;}
 }

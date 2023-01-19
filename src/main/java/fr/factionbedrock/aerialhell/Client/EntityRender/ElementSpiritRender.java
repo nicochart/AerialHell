@@ -25,7 +25,7 @@ public class ElementSpiritRender<T extends AbstractElementSpiritEntity> extends 
     @Override
     protected void preRenderCallback(T entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime)
     {
-        float f = 1.25F;
+        float f = 0.6F;
         matrixStackIn.scale(f, f, f);
         matrixStackIn.translate(0.0D, 0.0D, 0.0D);
     }
