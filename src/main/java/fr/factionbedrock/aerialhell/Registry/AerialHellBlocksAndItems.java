@@ -261,6 +261,7 @@ public class AerialHellBlocksAndItems
 	
 	//shadow_pine
 	public static final RegistryObject<RotatedPillarBlock> SHADOW_PINE_LOG = BLOCKS.register("shadow_pine_log", () -> new RotatedPillarBlock(SHADOW_PINE_MATERIAL));
+	public static final RegistryObject<RotatedPillarBlock> EYE_SHADOW_PINE_LOG = BLOCKS.register("eye_shadow_pine_log", () -> new EyeShadowPineLogBlock(SHADOW_PINE_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_SHADOW_PINE_LOG = BLOCKS.register("stripped_shadow_pine_log", () -> new RotatedPillarBlock(AbstractBlock.Properties.from(SHADOW_PINE_LOG.get()).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> SHADOW_PINE_LEAVES = BLOCKS.register("shadow_pine_leaves", () -> new LeavesWithAmbientParticlesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES).harvestTool(ToolType.HOE)));
 	public static final RegistryObject<Block> PURPLE_SHADOW_PINE_LEAVES = BLOCKS.register("purple_shadow_pine_leaves", () -> new LeavesWithAmbientParticlesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES).harvestTool(ToolType.HOE)));
@@ -269,6 +270,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<SaplingBlock> SHADOW_PINE_SAPLING = BLOCKS.register("shadow_pine_sapling", () -> new ShadowPineSaplingBlock(new ShadowPine(), AbstractBlock.Properties.from(Blocks.OAK_SAPLING)));
 	public static final RegistryObject<SaplingBlock> PURPLE_SHADOW_PINE_SAPLING = BLOCKS.register("purple_shadow_pine_sapling", () -> new ShadowPineSaplingBlock(new PurpleShadowPine(), AbstractBlock.Properties.from(Blocks.OAK_SAPLING)));
 	public static final RegistryObject<Item> SHADOW_PINE_LOG_ITEM = ITEMS.register("shadow_pine_log", () -> new BurnableBlockItem(SHADOW_PINE_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 300));
+	public static final RegistryObject<Item> EYE_SHADOW_PINE_LOG_ITEM = ITEMS.register("eye_shadow_pine_log", () -> new BurnableBlockItem(EYE_SHADOW_PINE_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 300));
 	public static final RegistryObject<Item> STRIPPED_SHADOW_PINE_LOG_ITEM = ITEMS.register("stripped_shadow_pine_log", () -> new BurnableBlockItem(STRIPPED_SHADOW_PINE_LOG.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 300));
 	public static final RegistryObject<Item> SHADOW_PINE_LEAVES_ITEM = ITEMS.register("shadow_pine_leaves", () -> new BlockItem(SHADOW_PINE_LEAVES.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> PURPLE_SHADOW_PINE_LEAVES_ITEM = ITEMS.register("purple_shadow_pine_leaves", () -> new BlockItem(PURPLE_SHADOW_PINE_LEAVES.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));

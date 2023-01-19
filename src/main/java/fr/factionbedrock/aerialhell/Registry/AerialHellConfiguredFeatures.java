@@ -117,7 +117,8 @@ public class AerialHellConfiguredFeatures
 			    	)).setIgnoreVines().func_236702_a_(Heightmap.Type.MOTION_BLOCKING).build();
 		
 		public static final BaseTreeFeatureConfig SHADOW_PINE_CONFIG = (new BaseTreeFeatureConfig.Builder(
-			    new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState()),
+			    new WeightedBlockStateProvider().addWeightedBlockstate(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState(), 2)
+			                                    .addWeightedBlockstate(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get().getDefaultState(), 1),
                 new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get().getDefaultState()),
                 new SpruceFoliagePlacer(FeatureSpread.func_242253_a(2, 1), FeatureSpread.func_242253_a(0, 2), FeatureSpread.func_242253_a(1, 1)),
                 new StraightTrunkPlacer(6, 2, 1),
@@ -125,7 +126,8 @@ public class AerialHellConfiguredFeatures
                 	)).setIgnoreVines().build();
 		
 		public static final BaseTreeFeatureConfig PURPLE_SHADOW_PINE_CONFIG = (new BaseTreeFeatureConfig.Builder(
-			    new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState()),
+				new WeightedBlockStateProvider().addWeightedBlockstate(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState(), 2)
+                                                .addWeightedBlockstate(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get().getDefaultState(), 1),
                 new SimpleBlockStateProvider(AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_LEAVES.get().getDefaultState()),
                 new SpruceFoliagePlacer(FeatureSpread.func_242253_a(2, 1), FeatureSpread.func_242253_a(0, 2), FeatureSpread.func_242253_a(1, 1)),
                 new StraightTrunkPlacer(6, 2, 1),
@@ -133,7 +135,8 @@ public class AerialHellConfiguredFeatures
                 	)).setIgnoreVines().build();
 		
 		public static final BaseTreeFeatureConfig MEGA_SHADOW_PINE_CONFIG = (new BaseTreeFeatureConfig.Builder(
-		    	new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState()),
+				new WeightedBlockStateProvider().addWeightedBlockstate(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState(), 6)
+                                                .addWeightedBlockstate(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get().getDefaultState(), 1),
 		    	new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get().getDefaultState()),
 		    	new MegaPineFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), FeatureSpread.func_242253_a(3, 4)),
 		    	new GiantTrunkPlacer(13, 2, 14),
@@ -141,7 +144,8 @@ public class AerialHellConfiguredFeatures
 					)).setDecorators(ImmutableList.of(new AlterGroundTreeDecorator(new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().getDefaultState())))).build();
 		
 		public static final BaseTreeFeatureConfig MEGA_PURPLE_SHADOW_PINE_CONFIG = (new BaseTreeFeatureConfig.Builder(
-				new SimpleBlockStateProvider(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState()),
+				new WeightedBlockStateProvider().addWeightedBlockstate(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState(), 4)
+                                                .addWeightedBlockstate(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get().getDefaultState(), 1),
 				new SimpleBlockStateProvider(AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_LEAVES.get().getDefaultState()),
 				new MegaPineFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), FeatureSpread.func_242253_a(13, 4)),
 				new GiantTrunkPlacer(13, 2, 14),
