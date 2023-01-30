@@ -101,7 +101,8 @@ public class AerialHellConfiguredFeatures
                 	)).setIgnoreVines().build();
 		
 		public static final BaseTreeFeatureConfig LAPIS_ROBINIA_CONFIG = (new BaseTreeFeatureConfig.Builder(
-				new SimpleBlockStateProvider(AerialHellBlocksAndItems.LAPIS_ROBINIA_LOG.get().getDefaultState()),
+				new WeightedBlockStateProvider().addWeightedBlockstate(AerialHellBlocksAndItems.LAPIS_ROBINIA_LOG.get().getDefaultState(), 1)
+                                                .addWeightedBlockstate(AerialHellBlocksAndItems.ENCHANTED_LAPIS_ROBINIA_LOG.get().getDefaultState(), 1),
 				new SimpleBlockStateProvider(AerialHellBlocksAndItems.LAPIS_ROBINIA_LEAVES.get().getDefaultState()),
 				new AcaciaFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0)),
 				new ForkyTrunkPlacer(5, 2, 2),
