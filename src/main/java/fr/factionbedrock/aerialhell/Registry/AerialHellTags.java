@@ -64,6 +64,8 @@ public class AerialHellTags
 		
 		public static final ITag.INamedTag<Block> LUNATIC_DUNGEON = tag("lunatic_dungeon");
 		
+		public static final ITag.INamedTag<Block> SHADOW_CATACOMBS_DUNGEON = tag("shadow_catacombs_dungeon");
+		
 		public static final ITag.INamedTag<Block> GOLDEN_NETHER_DUNGEON = tag("golden_nether_dungeon");
 		
 		public static final ITag.INamedTag<Block> VOLUCITE_DUNGEON = tag("volucite_dungeon");

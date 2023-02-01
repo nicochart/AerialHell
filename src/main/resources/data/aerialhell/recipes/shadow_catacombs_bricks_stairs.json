@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:shadow_catacombs_bricks"
+    }
+  },
+  "result": {
+    "item": "aerialhell:shadow_catacombs_bricks_stairs",
+    "count": 4
+  }
+}

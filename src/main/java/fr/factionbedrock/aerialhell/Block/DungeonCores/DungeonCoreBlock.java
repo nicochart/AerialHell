@@ -51,6 +51,10 @@ public class DungeonCoreBlock extends Block
 		{
 			setAreaProtected(worldIn, originPos, AerialHellTags.Blocks.LUNATIC_DUNGEON, protect);
 		}
+		else if (isShadowCatacombsCore(this))
+		{
+			setAreaProtected(worldIn, originPos, AerialHellTags.Blocks.SHADOW_CATACOMBS_DUNGEON, protect);
+		}
 		else if (isGoldenNetherCore(this))
 		{
 			setAreaProtected(worldIn, originPos, AerialHellTags.Blocks.GOLDEN_NETHER_DUNGEON, protect);
@@ -130,6 +134,10 @@ public class DungeonCoreBlock extends Block
 		{
 			particle = AerialHellParticleTypes.COPPER_PINE_LEAVES.get();
 		}
+		else if (isShadowCatacombsCore(this))
+		{
+			particle = AerialHellParticleTypes.SHADOW_PARTICLE.get();
+		}
 		else if (isGoldenNetherCore(this))
 		{
 			particle = AerialHellParticleTypes.GOD_FLAME.get();
@@ -144,6 +152,7 @@ public class DungeonCoreBlock extends Block
 	
 	private boolean isMudCore(DungeonCoreBlock core) {return (core == AerialHellBlocksAndItems.MUD_DUNGEON_CORE.get());}
 	private boolean isLunaticCore(DungeonCoreBlock core) {return (core == AerialHellBlocksAndItems.LUNATIC_DUNGEON_CORE.get());}
+	private boolean isShadowCatacombsCore(DungeonCoreBlock core) {return (core == AerialHellBlocksAndItems.SHADOW_CATACOMBS_DUNGEON_CORE.get());}
 	private boolean isGoldenNetherCore(DungeonCoreBlock core) {return (core == AerialHellBlocksAndItems.GOLDEN_NETHER_DUNGEON_CORE.get());}
 	private boolean isVoluciteCore(DungeonCoreBlock core) {return (core == AerialHellBlocksAndItems.VOLUCITE_DUNGEON_CORE.get());}
 }

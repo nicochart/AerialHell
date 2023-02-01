@@ -1,0 +1,8 @@
+{
+    "parent": "block/stairs",
+    "textures": {
+        "bottom": "aerialhell:block/cracked_shadow_catacombs_bricks",
+        "top": "aerialhell:block/cracked_shadow_catacombs_bricks",
+        "side": "aerialhell:block/cracked_shadow_catacombs_bricks"
+    }
+}

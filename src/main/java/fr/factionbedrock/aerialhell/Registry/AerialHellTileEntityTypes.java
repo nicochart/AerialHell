@@ -65,6 +65,7 @@ public class AerialHellTileEntityTypes
 	        				AerialHellBlocksAndItems.GRAY_SHROOM_CHEST.get(),
 	        				AerialHellBlocksAndItems.MUD_CHEST.get(),
 	        				AerialHellBlocksAndItems.LUNATIC_CHEST.get(),
+	        				AerialHellBlocksAndItems.SHADOW_CATACOMBS_CHEST.get(),
 	        				AerialHellBlocksAndItems.VOLUCITE_CHEST.get(),
 	        				AerialHellBlocksAndItems.GOLDEN_NETHER_CHEST.get()
 	        		), null));

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aerialhell:shadow_catacombs_bricks"
+  },
+  "result": "aerialhell:chiseled_shadow_catacombs_bricks",
+  "count": 1
+}

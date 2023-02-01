@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values":
+  [
+    "aerialhell:shadow_catacombs_bricks",
+    "aerialhell:cracked_shadow_catacombs_bricks",
+    "aerialhell:chiseled_shadow_catacombs_bricks",
+    "aerialhell:bone_shadow_catacombs_bricks",
+    "aerialhell:skull_shadow_catacombs_bricks",
+    "aerialhell:light_shadow_catacombs_bricks",
+    "aerialhell:cracked_light_shadow_catacombs_bricks",
+    "aerialhell:shadow_catacombs_bricks_slab",
+    "aerialhell:shadow_catacombs_bricks_stairs",
+    "aerialhell:shadow_catacombs_bricks_wall",
+    "aerialhell:cracked_shadow_catacombs_bricks_slab",
+    "aerialhell:cracked_shadow_catacombs_bricks_stairs",
+    "aerialhell:cracked_shadow_catacombs_bricks_wall",
+    "aerialhell:shadow_catacombs_bookshelf",
+    "aerialhell:shadow_catacombs_chest"
+  ]
+}

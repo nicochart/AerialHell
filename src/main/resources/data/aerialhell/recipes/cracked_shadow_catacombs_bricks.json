@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "aerialhell:shadow_catacombs_bricks"
+  },
+  "result": "aerialhell:cracked_shadow_catacombs_bricks",
+  "experience": 0.1,
+  "cookingtime": 200
+}
