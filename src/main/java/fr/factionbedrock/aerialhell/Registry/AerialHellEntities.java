@@ -28,10 +28,10 @@ public class AerialHellEntities
 	            .size(0.8F,2.5F).build("stellar_stone_automaton");
 	  
 	public static final EntityType<MudGolemEntity> MUD_GOLEM_TYPE = EntityType.Builder.create(MudGolemEntity::new, EntityClassification.MONSTER)
-	            .size(1.2F,2.8F).build("mud_golem");
+	            .size(1.4F,2.3F).build("mud_golem");
 	
 	public static final EntityType<MudSpectralGolemEntity> MUD_SPECTRAL_GOLEM_TYPE = EntityType.Builder.create(MudSpectralGolemEntity::new, EntityClassification.MONSTER)
-            	.size(1.2F,2.8F).build("mud_spectral_golem");
+            	.size(1.4F,2.3F).build("mud_spectral_golem");
 	
 	public static final EntityType<CrystalGolemEntity> CRYSTAL_GOLEM_TYPE = EntityType.Builder.create(CrystalGolemEntity::new, EntityClassification.MONSTER)
             	.size(0.9F,1.95F).build("crystal_golem");

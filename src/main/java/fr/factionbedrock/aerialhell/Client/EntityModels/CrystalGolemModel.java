@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class AerialHellGolemModel<T extends AerialHellGolemEntity> extends EntityModel<T>
+public class CrystalGolemModel<T extends AerialHellGolemEntity> extends EntityModel<T>
 {
 	/*Made with Blockbench 3.8.3
  	  Exported for Minecraft version 1.15 - 1.16*/
@@ -23,7 +23,7 @@ public class AerialHellGolemModel<T extends AerialHellGolemEntity> extends Entit
 	private final ModelRenderer leftLeg;
  	private final ModelRenderer rightLeg;
 
-	public AerialHellGolemModel()
+	public CrystalGolemModel()
 	{
 		textureWidth = 128;
 		textureHeight = 128;

@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.CrystalGolemCrystalModel;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
-import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellGolemModel;
+import fr.factionbedrock.aerialhell.Client.EntityModels.CrystalGolemModel;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class CrystalGolemCrystalLayer<T extends AerialHellGolemEntity, M extends AerialHellGolemModel<T>> extends LayerRenderer<T,M>
+public class CrystalGolemCrystalLayer<T extends AerialHellGolemEntity, M extends CrystalGolemModel<T>> extends LayerRenderer<T,M>
 {
    private final CrystalGolemCrystalModel<T> golemModel = new CrystalGolemCrystalModel<T>();
    private static final ResourceLocation CRYSTAL_GOLEM_CRYSTALS = new ResourceLocation(AerialHell.MODID, "textures/entity/crystal_golem/crystal_golem.png");
