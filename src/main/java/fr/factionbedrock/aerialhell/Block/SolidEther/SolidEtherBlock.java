@@ -27,7 +27,7 @@ public class SolidEtherBlock extends BreakableBlock
 	
 	public SolidEtherBlock(AbstractBlock.Properties properties)
 	{
-		super(properties.setOpaque((state, reader, pos) -> false).setSuffocates((state, reader, pos) -> false).setBlocksVision((state, reader, pos) -> false));
+		super(properties.setOpaque((state, reader, pos) -> false).setSuffocates((state, reader, pos) -> false).setBlocksVision((state, reader, pos) -> true));
 		this.setDefaultState(this.getDefaultState());
 	}
 

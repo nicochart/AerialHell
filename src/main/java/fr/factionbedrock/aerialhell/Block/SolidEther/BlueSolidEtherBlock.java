@@ -26,7 +26,7 @@ public class BlueSolidEtherBlock extends SolidEtherBlock
 			}
 			else
 			{
-				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.SLOW_FALLING, 10, 0, false, false));
+				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 10, 3, false, false));
 			}
 		}
 	}
