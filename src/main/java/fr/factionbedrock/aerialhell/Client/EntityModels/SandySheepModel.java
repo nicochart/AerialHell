@@ -26,12 +26,13 @@ public class SandySheepModel extends EntityModel<SandySheepEntity>
 	private final ModelRenderer leftBackLegCoat;
 	private final ModelRenderer headCoat;
 	private final ModelRenderer bodyCoat;
-  private boolean hasWool;
+	private boolean hasWool;
 	
-	public SandySheepModel() {
+	public SandySheepModel()
+	{
 		textureWidth = 128;
 		textureHeight = 64;
-
+		
 		head = new ModelRenderer(this);
 		head.setRotationPoint(0.0F, 8.0F, -8.0F);
 		head.setTextureOffset(0, 0).addBox(-2.5F, -4.0F, -7.0F, 6.0F, 6.0F, 8.0F, 0.0F, false);
@@ -44,7 +45,7 @@ public class SandySheepModel extends EntityModel<SandySheepEntity>
 
 		body = new ModelRenderer(this);
 		body.setRotationPoint(0.0F, 24.0F, 0.0F);
-		body.setTextureOffset(80, 42).addBox(-3.5F, -17.0F, -9.0F, 8.0F, 6.0F, 16.0F, 0.0F, false);
+		body.setTextureOffset(80, 42).addBox(-3.5F, -17.0F, -8.5F, 8.0F, 6.0F, 16.0F, 0.0F, false);
 
 		rightFrontLeg = new ModelRenderer(this);
 		rightFrontLeg.setRotationPoint(-3.0F, 16.0F, -6.0F);
@@ -55,12 +56,12 @@ public class SandySheepModel extends EntityModel<SandySheepEntity>
 		rightFrontLegCoat.setTextureOffset(12, 46).addBox(-3.0F, -5.0F, -5.0F, 7.0F, 10.0F, 8.0F, -1.0F, true);
 
 		rightBackLeg = new ModelRenderer(this);
-		rightBackLeg.setRotationPoint(-3.0F, 16.0F, 7.0F);
-		rightBackLeg.setTextureOffset(0, 49).addBox(-1.0F, -4.0F, -2.0F, 3.0F, 12.0F, 3.0F, 0.0F, false);
+		rightBackLeg.setRotationPoint(-3.0F, 16.0F, 5.0F);
+		rightBackLeg.setTextureOffset(0, 49).addBox(-1.0F, -4.0F, -1.0F, 3.0F, 12.0F, 3.0F, 0.0F, false);
 
 		rightBackLegCoat = new ModelRenderer(this);
-		rightBackLegCoat.setRotationPoint(-3.0F, 16.0F, 7.0F);
-		rightBackLegCoat.setTextureOffset(12, 46).addBox(-3.0F, -5.0F, -4.0F, 7.0F, 10.0F, 8.0F, -1.0F, true);
+		rightBackLegCoat.setRotationPoint(-3.0F, 16.0F, 5.0F);
+		rightBackLegCoat.setTextureOffset(12, 46).addBox(-3.0F, -5.0F, -3.5F, 7.0F, 10.0F, 8.0F, -1.0F, true);
 
 		leftFrontLeg = new ModelRenderer(this);
 		leftFrontLeg.setRotationPoint(4.0F, 16.0F, -6.0F);
@@ -71,12 +72,12 @@ public class SandySheepModel extends EntityModel<SandySheepEntity>
 		leftFrontLegCoat.setTextureOffset(12, 46).addBox(-4.0F, -5.0F, -5.0F, 7.0F, 10.0F, 8.0F, -1.0F, false);
 
 		leftBackLeg = new ModelRenderer(this);
-		leftBackLeg.setRotationPoint(4.0F, 16.0F, 6.0F);
+		leftBackLeg.setRotationPoint(4.0F, 16.0F, 5.0F);
 		leftBackLeg.setTextureOffset(0, 49).addBox(-2.0F, -4.0F, -1.0F, 3.0F, 12.0F, 3.0F, 0.0F, true);
 
 		leftBackLegCoat = new ModelRenderer(this);
-		leftBackLegCoat.setRotationPoint(4.0F, 16.0F, 6.0F);
-		leftBackLegCoat.setTextureOffset(12, 46).addBox(-4.0F, -5.0F, -3.0F, 7.0F, 10.0F, 8.0F, -1.0F, false);
+		leftBackLegCoat.setRotationPoint(4.0F, 16.0F, 5.0F);
+		leftBackLegCoat.setTextureOffset(12, 46).addBox(-4.0F, -5.0F, -3.5F, 7.0F, 10.0F, 8.0F, -1.0F, false);
 
 		headCoat = new ModelRenderer(this);
 		headCoat.setRotationPoint(0.0F, 8.0F, -8.0F);
