@@ -171,6 +171,7 @@ public class AerialHellRendering
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.HELL_SPIDER.get(), HellSpiderRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CRYSTAL_SPIDER.get(), HellSpiderRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHADOW_SPIDER.get(), HellSpiderRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.LILITH.get(), LilithRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.FOREST_CATERPILLAR.get(), CaterpillarRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CRYSTAL_CATERPILLAR.get(), CaterpillarRender::new);
 		

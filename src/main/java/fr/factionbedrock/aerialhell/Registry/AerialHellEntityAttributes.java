@@ -51,6 +51,7 @@ public class AerialHellEntityAttributes
 		event.put(AerialHellEntities.COPPER_PINE_MIMIC.get(), CopperPineChestMimicEntity.registerAttributes().create());
 		event.put(AerialHellEntities.HELL_SPIDER.get(), HellSpiderEntity.registerAttributes().create());
 		event.put(AerialHellEntities.CRYSTAL_SPIDER.get(), CrystalSpiderEntity.registerAttributes().create());
+		event.put(AerialHellEntities.LILITH.get(), LilithEntity.registerAttributes().create());
 		event.put(AerialHellEntities.SHADOW_SPIDER.get(), ShadowSpiderEntity.registerAttributes().create());
 		event.put(AerialHellEntities.FOREST_CATERPILLAR.get(), ForestCaterpillarEntity.registerAttributes().create());
 		event.put(AerialHellEntities.CRYSTAL_CATERPILLAR.get(), CrystalCaterpillarEntity.registerAttributes().create());
