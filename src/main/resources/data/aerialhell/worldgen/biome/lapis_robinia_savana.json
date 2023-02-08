@@ -39,7 +39,7 @@
       "aerialhell:slippery_sand",
       "aerialhell:dangling_chain_rare",
       "aerialhell:stellar_stone_crystal_blob",
-      "aerialhell:stellar_coarse_floor_ellipsoid"
+      "aerialhell:stellar_coarse_floor_in_dark_areas"
     ],
     [],
     [],
@@ -68,6 +68,7 @@
       "aerialhell:stellar_grass_ball",
       "aerialhell:aerial_berry_bush_patch",
       "aerialhell:aerial_hell_flowers",
+      "aerialhell:aerial_hell_bellflowers",
       "aerialhell:sky_cactus",
       "aerialhell:lapis_robinia_basic",
       "aerialhell:golden_beech_rare",

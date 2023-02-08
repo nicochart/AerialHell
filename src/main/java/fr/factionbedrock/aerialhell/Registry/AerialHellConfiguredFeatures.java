@@ -232,8 +232,10 @@ public class AerialHellConfiguredFeatures
     public final static ConfiguredFeature<?, ?> GIANT_CORTINARIUS_VIOLACEUS = Feature.HUGE_FUNGUS.withConfiguration(Configs.GIANT_CORTINARIUS_VIOLACEUS_CONFIG).withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(8)));
     public final static ConfiguredFeature<BigMushroomFeatureConfig, ?> GIANT_VERDIGRIS_AGARIC_PLANTED = Feature.HUGE_RED_MUSHROOM.withConfiguration(Configs.GIANT_VERDIGRIS_AGARIC_MUSHROOM_CONFIG);
     public final static ConfiguredFeature<?, ?> GIANT_VERDIGRIS_AGARIC = Feature.HUGE_RED_MUSHROOM.withConfiguration(Configs.GIANT_VERDIGRIS_AGARIC_MUSHROOM_CONFIG).withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(1)));
+    public final static ConfiguredFeature<?, ?> CORTINARIUS_VIOLACEUS_RARE = Feature.RANDOM_PATCH.withConfiguration(Configs.CORTINARIUS_VIOLACEUS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(6);
     public final static ConfiguredFeature<?, ?> CORTINARIUS_VIOLACEUS_FOREST = Feature.RANDOM_PATCH.withConfiguration(Configs.CORTINARIUS_VIOLACEUS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(12);
-    public final static ConfiguredFeature<?, ?> VERDIGRIS_AGARIC_FOREST = Feature.RANDOM_PATCH.withConfiguration(Configs.VERDIGRIS_AGARIC_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(12);
+    public final static ConfiguredFeature<?, ?> VERDIGRIS_AGARIC_RARE = Feature.RANDOM_PATCH.withConfiguration(Configs.VERDIGRIS_AGARIC_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(10);
+    public final static ConfiguredFeature<?, ?> VERDIGRIS_AGARIC_FOREST = Feature.RANDOM_PATCH.withConfiguration(Configs.VERDIGRIS_AGARIC_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(20);
     public final static ConfiguredFeature<BigMushroomFeatureConfig, ?> HUGE_VERDIGRIS_AGARIC_PLANTED = AerialHellFeatures.HUGE_MUSHROOM.get().withConfiguration(Configs.GIANT_VERDIGRIS_AGARIC_MUSHROOM_CONFIG);
     public final static ConfiguredFeature<?, ?> HUGE_VERDIGRIS_AGARIC = AerialHellFeatures.HUGE_MUSHROOM.get().withConfiguration(Configs.GIANT_VERDIGRIS_AGARIC_MUSHROOM_CONFIG).withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(2)));
     public final static ConfiguredFeature<?, ?> GIANT_GANODERMA_APPLANATUM = AerialHellFeatures.GIANT_GANODERMA_APPLANATUM.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(20);
@@ -244,7 +246,8 @@ public class AerialHellConfiguredFeatures
     public final static ConfiguredFeature<?, ?> GOLDEN_SOLID_ETHER = AerialHellFeatures.GOLDEN_SOLID_ETHER.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(190).square().chance(32);
     public final static ConfiguredFeature<?, ?> GREEN_SOLID_ETHER = AerialHellFeatures.GREEN_SOLID_ETHER.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(160).square().chance(5);
     
-    public final static ConfiguredFeature<?, ?> STELLAR_COARSE_FLOOR_ELLIPSOID = AerialHellFeatures.STELLAR_COARSE_FLOOR_ELLIPSOID.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(160).square().func_242731_b(100);
+    public final static ConfiguredFeature<?, ?> STELLAR_COARSE_FLOOR_IN_DARK_AREAS = AerialHellFeatures.STELLAR_COARSE_FLOOR_IN_DARK_AREAS.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(160).square().func_242731_b(100);
+    public final static ConfiguredFeature<?, ?> STELLAR_GRASS_IN_SHADOW_GRASS = AerialHellFeatures.STELLAR_GRASS_IN_SHADOW_GRASS.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(160).square().func_242731_b(100);
     public final static ConfiguredFeature<?, ?> DANGLING_CHAIN_RARE = AerialHellFeatures.DANGLING_CHAIN.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(10);
     public final static ConfiguredFeature<?, ?> DANGLING_CHAIN = AerialHellFeatures.DANGLING_CHAIN.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(120);
     public final static ConfiguredFeature<?, ?> SLIPPERY_SAND = AerialHellFeatures.SLIPPERY_SAND.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(20);
@@ -327,13 +330,16 @@ public class AerialHellConfiguredFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_cortinarius_violaceus"), GIANT_CORTINARIUS_VIOLACEUS);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_verdigris_agaric_planted"), GIANT_VERDIGRIS_AGARIC_PLANTED);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_verdigris_agaric"), GIANT_VERDIGRIS_AGARIC);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "cortinarius_violaceus_rare"), CORTINARIUS_VIOLACEUS_RARE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "cortinarius_violaceus_forest"), CORTINARIUS_VIOLACEUS_FOREST);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "verdigris_agaric_rare"), VERDIGRIS_AGARIC_RARE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "verdigris_agaric_forest"), VERDIGRIS_AGARIC_FOREST);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "huge_verdigris_agaric"), HUGE_VERDIGRIS_AGARIC);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_ganoderma_applanatum"), GIANT_GANODERMA_APPLANATUM);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_red_mushroom"), GIANT_RED_MUSHROOM);
         
-        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_coarse_floor_ellipsoid"), STELLAR_COARSE_FLOOR_ELLIPSOID);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_coarse_floor_in_dark_areas"), STELLAR_COARSE_FLOOR_IN_DARK_AREAS);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_grass_in_shadow_grass"), STELLAR_GRASS_IN_SHADOW_GRASS);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "slippery_sand"), SLIPPERY_SAND);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "dangling_chain_rare"), DANGLING_CHAIN_RARE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "dangling_chain"), DANGLING_CHAIN);

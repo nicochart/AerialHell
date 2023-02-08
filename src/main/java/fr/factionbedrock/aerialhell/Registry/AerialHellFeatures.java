@@ -22,7 +22,8 @@ public class AerialHellFeatures
 	public static final RegistryObject<Feature<NoFeatureConfig>> GOLDEN_SOLID_ETHER = FEATURES.register("golden_solid_ether", () -> new GoldenSolidEtherCloudFeature(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Feature<NoFeatureConfig>> GREEN_SOLID_ETHER = FEATURES.register("green_solid_ether", () -> new GreenSolidEtherCloudFeature(NoFeatureConfig.field_236558_a_));
 	
-	public static final RegistryObject<Feature<NoFeatureConfig>> STELLAR_COARSE_FLOOR_ELLIPSOID = FEATURES.register("stellar_coarse_floor_ellipsoid", () -> new StellarCoarseFloorEllipsoidFeature(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Feature<NoFeatureConfig>> STELLAR_COARSE_FLOOR_IN_DARK_AREAS = FEATURES.register("stellar_coarse_floor_in_dark_areas", () -> new StellarCoarseFloorInDarkAreasFeature(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Feature<NoFeatureConfig>> STELLAR_GRASS_IN_SHADOW_GRASS = FEATURES.register("stellar_grass_in_shadow_grass", () -> new StellarGrassInShadowGrassFeature(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Feature<NoFeatureConfig>> DANGLING_CHAIN = FEATURES.register("dangling_chain", () -> new DanglingChainFeature(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Feature<NoFeatureConfig>> SLIPPERY_SAND = FEATURES.register("slippery_sand", () -> new SlipperySandFeature(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Feature<BlockStateFeatureConfig>> AERIAL_HELL_WATER_LAKE = FEATURES.register("aerial_hell_water_lake", () -> new AerialHellLakeFeature(BlockStateFeatureConfig.field_236455_a_));

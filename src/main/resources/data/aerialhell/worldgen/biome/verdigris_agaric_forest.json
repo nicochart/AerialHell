@@ -38,7 +38,7 @@
       "aerialhell:golden_solid_ether",
       "aerialhell:dangling_chain_rare",
       "aerialhell:stellar_stone_crystal_blob",
-      "aerialhell:stellar_coarse_floor_ellipsoid"
+      "aerialhell:stellar_coarse_floor_in_dark_areas"
     ],
     [],
     [],
@@ -66,6 +66,7 @@
       "aerialhell:giant_verdigris_agaric",
       "aerialhell:huge_verdigris_agaric",
       "aerialhell:verdigris_agaric_forest",
+      "aerialhell:cortinarius_violaceus_rare",
       "aerialhell:golden_beech_rare",
       "aerialhell:giant_ganoderma_applanatum"
     ],
