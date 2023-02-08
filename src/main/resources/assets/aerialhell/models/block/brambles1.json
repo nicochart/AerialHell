@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/template_fire_floor",
+  "parent": "aerialhell:block/tinted_template_doublecross_with_layer",
   "textures": {
-    "fire": "aerialhell:block/brambles_1"
+    "texture": "aerialhell:block/brambles_1",
+    "layer": "aerialhell:block/brambles_1_thorns"
   }
 }

@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cross",
+  "parent": "aerialhell:block/tinted_cross_with_layer",
   "textures": {
-    "cross": "aerialhell:block/black_rose"
+    "cross": "aerialhell:block/black_rose_stem",
+    "layer": "aerialhell:block/black_rose_flower"
   }
 }

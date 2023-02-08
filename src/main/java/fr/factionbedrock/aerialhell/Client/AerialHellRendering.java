@@ -211,7 +211,12 @@ public class AerialHellRendering
         		AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get(),
         		AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get(),
         		AerialHellBlocksAndItems.STELLAR_FERN.get(),
-        		AerialHellBlocksAndItems.STELLAR_TALL_FERN.get()
+        		AerialHellBlocksAndItems.STELLAR_TALL_FERN.get(),
+        		AerialHellBlocksAndItems.BRAMBLES.get(),
+        		AerialHellBlocksAndItems.PURPLISH_STELLAR_GRASS.get(),
+        		AerialHellBlocksAndItems.BLACK_ROSE.get(),
+        		AerialHellBlocksAndItems.BLUE_FLOWER.get(),
+        		AerialHellBlocksAndItems.BELLFLOWER.get()
         );
     }
 	

@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:block/template_fire_floor",
+  "parent": "aerialhell:block/tinted_template_doublecross",
   "textures": {
-    "fire": "aerialhell:block/shadow_grass_ball_1"
+    "texture": "aerialhell:block/shadow_grass_ball_1"
   }
 }

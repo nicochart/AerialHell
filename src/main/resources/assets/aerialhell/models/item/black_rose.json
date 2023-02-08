@@ -2,6 +2,6 @@
   "parent": "minecraft:item/generated",
   "textures":
   {
-    "layer0": "aerialhell:block/black_rose"
+    "layer0": "aerialhell:item/black_rose"
   }
 }

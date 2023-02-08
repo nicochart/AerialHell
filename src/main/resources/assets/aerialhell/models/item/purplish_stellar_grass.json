@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "aerialhell:block/purplish_stellar_grass"
+    "layer0": "aerialhell:item/purplish_stellar_grass"
   }
 }

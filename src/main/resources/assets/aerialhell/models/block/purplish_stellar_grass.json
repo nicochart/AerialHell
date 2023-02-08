@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/tinted_cross",
+  "parent": "aerialhell:block/tinted_cross_with_layer",
   "textures": {
-    "cross": "aerialhell:block/purplish_stellar_grass"
+    "cross": "aerialhell:block/purplish_stellar_grass",
+    "layer": "aerialhell:block/purplish_stellar_grass_purplish_layer"
   }
 }
