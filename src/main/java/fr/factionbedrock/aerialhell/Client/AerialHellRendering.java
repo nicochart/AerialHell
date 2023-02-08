@@ -1,5 +1,7 @@
 package fr.factionbedrock.aerialhell.Client;
 
+import java.awt.Color;
+
 import com.google.common.base.Supplier;
 
 import fr.factionbedrock.aerialhell.AerialHell;
@@ -11,9 +13,16 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellContainerTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTileEntityTypes;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.item.BlockItem;
+import net.minecraft.world.GrassColors;
+import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -192,6 +201,32 @@ public class AerialHellRendering
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), AerialArrowRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.LUNATIC_PROJECTILE.get(), LunaticProjectileRender::new);
 	}
+	
+	public static void registerBlockColors()
+	{
+        Minecraft.getInstance().getBlockColors().register((state, world, pos, tint) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : new Color(12, 35, 26).getRGB(),
+        		AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get(),
+        		AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(),
+        		AerialHellBlocksAndItems.STELLAR_GRASS.get(),
+        		AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get(),
+        		AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get(),
+        		AerialHellBlocksAndItems.STELLAR_FERN.get(),
+        		AerialHellBlocksAndItems.STELLAR_TALL_FERN.get()
+        );
+    }
+	
+	public static void registerItemColors()
+	{
+        Minecraft.getInstance().getItemColors().register((stack, color) -> new Color(50, 140, 102).getRGB(),
+        		AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK_ITEM.get(),
+        		AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK_ITEM.get(),
+        		AerialHellBlocksAndItems.STELLAR_GRASS_ITEM.get(),
+        		AerialHellBlocksAndItems.STELLAR_TALL_GRASS_ITEM.get(),
+        		AerialHellBlocksAndItems.STELLAR_GRASS_BALL_ITEM.get(),
+        		AerialHellBlocksAndItems.STELLAR_FERN_ITEM.get(),
+        		AerialHellBlocksAndItems.STELLAR_TALL_FERN_ITEM.get()
+        );
+    }
 	
 	public static void registerGuiFactories()
 	{

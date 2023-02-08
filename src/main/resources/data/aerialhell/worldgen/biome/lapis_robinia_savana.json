@@ -9,10 +9,10 @@
   "effects": {
     "fog_color": 7583112,
     "sky_color": 6388392,
-    "water_color": 4090254,
+    "water_color": 4084366,
     "water_fog_color": 4019819,
-    "grass_color": 11665355,
-    "foliage_color": 11665355,
+    "grass_color": 3172687,
+    "foliage_color": 3172687,
     "grass_color_modifier": "none",
     "music": {
       "sound": "aerialhell:aerialhell.dimension_music",

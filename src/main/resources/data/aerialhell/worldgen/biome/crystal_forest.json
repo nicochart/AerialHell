@@ -7,12 +7,12 @@
   "temperature_modifier": "none",
   "downfall": 0.0,
   "effects": {
-    "fog_color": 14864608,
-    "sky_color": 14197459,
+    "fog_color": 12295379,
+    "sky_color": 6388370,
     "water_color": 7091883,
     "water_fog_color": 4992114,
-    "grass_color": 11665355,
-    "foliage_color": 11665355,
+    "grass_color": 3247237,
+    "foliage_color": 6828428,
     "grass_color_modifier": "none",
     "music": {
       "sound": "aerialhell:aerialhell.dimension_music",

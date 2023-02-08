@@ -18,6 +18,8 @@ public class AerialHellClientSetup
     	AerialHellRendering.registerBlockRenderLayers();
     	AerialHellRendering.registerTileEntityRenderLayers();
     	AerialHellRendering.registerEntityRenderers(event);
+    	AerialHellRendering.registerBlockColors();
+    	AerialHellRendering.registerItemColors();
     	AerialHellRendering.registerGuiFactories();
     }
     
