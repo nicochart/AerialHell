@@ -13,15 +13,10 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellContainerTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTileEntityTypes;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.renderer.color.BlockColors;
-import net.minecraft.client.renderer.color.ItemColors;
-import net.minecraft.item.BlockItem;
-import net.minecraft.world.GrassColors;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -53,6 +48,14 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.BLUE_FLOWER.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BLACK_ROSE.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BELLFLOWER.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.MOSSY_STELLAR_STONE.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_SLAB.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_SLAB.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_STAIRS.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_STAIRS.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_WALL.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_WALL.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), cutout_mipped);
         render(() -> AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get(), cutout_mipped);
         render(() -> AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(), cutout_mipped);
@@ -216,7 +219,15 @@ public class AerialHellRendering
         		AerialHellBlocksAndItems.PURPLISH_STELLAR_GRASS.get(),
         		AerialHellBlocksAndItems.BLACK_ROSE.get(),
         		AerialHellBlocksAndItems.BLUE_FLOWER.get(),
-        		AerialHellBlocksAndItems.BELLFLOWER.get()
+        		AerialHellBlocksAndItems.BELLFLOWER.get(),
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_STONE.get(),
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE.get(),
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_WALL.get(),
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_WALL.get(),
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_SLAB.get(),
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_SLAB.get(),
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_STAIRS.get(),
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_STAIRS.get()
         );
     }
 	
@@ -229,13 +240,21 @@ public class AerialHellRendering
         		AerialHellBlocksAndItems.STELLAR_TALL_GRASS_ITEM.get(),
         		AerialHellBlocksAndItems.STELLAR_GRASS_BALL_ITEM.get(),
         		AerialHellBlocksAndItems.STELLAR_FERN_ITEM.get(),
-        		AerialHellBlocksAndItems.STELLAR_TALL_FERN_ITEM.get()
+        		AerialHellBlocksAndItems.STELLAR_TALL_FERN_ITEM.get(),
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_ITEM.get(),
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_ITEM.get(),
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_WALL_ITEM.get(),
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_WALL_ITEM.get(),
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_SLAB_ITEM.get(),
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_SLAB_ITEM.get(),
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_STAIRS_ITEM.get(),
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_STAIRS_ITEM.get()
         );
     }
 	
 	public static void registerGuiFactories()
 	{
-        ScreenManager.registerFactory(AerialHellContainerTypes.VIBRATOR.get(), VibratorScreen::new);
+        ScreenManager.registerFactory(AerialHellContainerTypes.OSCILLATOR.get(), OscillatorScreen::new);
         ScreenManager.registerFactory(AerialHellContainerTypes.FREEZER.get(), FreezerScreen::new);
         ScreenManager.registerFactory(AerialHellContainerTypes.STELLAR_FURNACE.get(), StellarFurnaceScreen::new);
     }

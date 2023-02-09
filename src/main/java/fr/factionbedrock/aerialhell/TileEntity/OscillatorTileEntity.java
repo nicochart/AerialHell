@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.TileEntity;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
-import fr.factionbedrock.aerialhell.Inventory.Container.VibratorContainer;
+import fr.factionbedrock.aerialhell.Inventory.Container.OscillatorContainer;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellTileEntityTypes;
 import com.google.common.collect.Maps;
@@ -18,56 +18,50 @@ import net.minecraft.util.text.TranslationTextComponent;
 
 import java.util.Map;
 
-public class VibratorTileEntity extends AbstractFurnaceTileEntity
+public class OscillatorTileEntity extends AbstractFurnaceTileEntity
 {
-	private static final Map<Item, Integer> vibrationMap = Maps.newLinkedHashMap();
+	private static final Map<Item, Integer> oscillatingMap = Maps.newLinkedHashMap();
 
-	public VibratorTileEntity()
+	public OscillatorTileEntity()
 	{
-		super(AerialHellTileEntityTypes.VIBRATOR.get(), RecipeTypes.VIBRATION);
+		super(AerialHellTileEntityTypes.OSCILLATOR.get(), RecipeTypes.OSCILLATING);
 	}
 
 	@Override
 	protected ITextComponent getDefaultName()
 	{
-		return new TranslationTextComponent("container." + AerialHell.MODID + ".vibrator");
+		return new TranslationTextComponent("container." + AerialHell.MODID + ".oscillator");
 	}
 
 	@Override
 	protected Container createMenu(int id, PlayerInventory player)
 	{
-		return new VibratorContainer(id, player, this, this.furnaceData);
+		return new OscillatorContainer(id, player, this, this.furnaceData);
 	}
 
-	public static Map<Item, Integer> getVibrationMap()
+	public static Map<Item, Integer> getOscillatingMap()
 	{
-		return vibrationMap;
+		return oscillatingMap;
 	}
 
-	private static void addItemTagVibrationTime(ITag<Item> itemTag, int burnTimeIn)
+	private static void addItemTagOscillatingTime(ITag<Item> itemTag, int burnTimeIn)
 	{
 		for (Item item : itemTag.getAllElements())
 		{
-			vibrationMap.put(item, burnTimeIn);
+			oscillatingMap.put(item, burnTimeIn);
 		}
 	}
 
-	public static void addItemVibrationTime(IItemProvider itemProvider, int burnTimeIn)
+	public static void addItemOscillatingTime(IItemProvider itemProvider, int burnTimeIn)
 	{
 		Item item = itemProvider.asItem();
-		vibrationMap.put(item, burnTimeIn);
+		oscillatingMap.put(item, burnTimeIn);
 	}
 
 	@Override
 	protected int getBurnTime(ItemStack fuel)
 	{
-		if (fuel.isEmpty() || !getVibrationMap().containsKey(fuel.getItem()))
-		{
-			return 0;
-		}
-		else
-		{
-			return getVibrationMap().get(fuel.getItem());
-		}
+		if (fuel.isEmpty() || !getOscillatingMap().containsKey(fuel.getItem())) {return 0;}
+		else {return getOscillatingMap().get(fuel.getItem());}
 	}
 }

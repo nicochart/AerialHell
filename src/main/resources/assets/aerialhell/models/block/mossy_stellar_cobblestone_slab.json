@@ -1,8 +1,11 @@
 {
-    "parent": "block/slab",
+    "parent": "aerialhell:block/slab_with_tinted_layer",
     "textures": {
-        "bottom": "aerialhell:block/mossy_stellar_cobblestone",
-        "top": "aerialhell:block/mossy_stellar_cobblestone",
-        "side": "aerialhell:block/mossy_stellar_cobblestone"
+        "bottom": "aerialhell:block/stellar_cobblestone",
+        "top": "aerialhell:block/stellar_cobblestone",
+        "side": "aerialhell:block/stellar_cobblestone",
+        "bottom_layer": "aerialhell:block/stellar_moss",
+        "top_layer": "aerialhell:block/stellar_moss",
+        "side_layer": "aerialhell:block/stellar_moss"
     }
 }

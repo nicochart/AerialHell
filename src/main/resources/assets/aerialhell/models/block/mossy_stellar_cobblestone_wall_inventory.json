@@ -1,6 +1,7 @@
 {
-    "parent": "block/wall_inventory",
+    "parent": "aerialhell:block/wall_inventory_with_tinted_layer",
     "textures": {
-        "wall": "aerialhell:block/mossy_stellar_cobblestone"
+        "wall": "aerialhell:block/stellar_cobblestone",
+        "wall_layer": "aerialhell:block/stellar_moss"
     }
 }

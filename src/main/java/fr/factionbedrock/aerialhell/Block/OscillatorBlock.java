@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Block;
 import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.TileEntity.VibratorTileEntity;
+import fr.factionbedrock.aerialhell.TileEntity.OscillatorTileEntity;
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,9 +17,9 @@ import net.minecraft.world.World;
 
 import net.minecraft.block.AbstractBlock;
 
-public class VibratorBlock extends AbstractFurnaceBlock
+public class OscillatorBlock extends AbstractFurnaceBlock
 {
-	public VibratorBlock(AbstractBlock.Properties properties)
+	public OscillatorBlock(AbstractBlock.Properties properties)
 	{
 		super(properties);
 	}
@@ -27,7 +27,7 @@ public class VibratorBlock extends AbstractFurnaceBlock
 	@Override
 	public TileEntity createNewTileEntity(IBlockReader worldIn)
 	{
-		return new VibratorTileEntity();
+		return new OscillatorTileEntity();
 	}
 	
 	@Override
@@ -36,7 +36,7 @@ public class VibratorBlock extends AbstractFurnaceBlock
 		if (!worldIn.isRemote)
 		{ 
 			TileEntity tileentity = worldIn.getTileEntity(pos);
-			if (tileentity instanceof VibratorTileEntity)
+			if (tileentity instanceof OscillatorTileEntity)
 			{
 				player.openContainer((INamedContainerProvider) tileentity);
 			}
@@ -52,7 +52,7 @@ public class VibratorBlock extends AbstractFurnaceBlock
 			double y = pos.getY() + 1.01;
 			double z = pos.getZ() + 0.5;
 			
-			world.addParticle(AerialHellParticleTypes.VIBRATOR.get(), x + (rand.nextFloat() - 0.5F), y + (rand.nextFloat() * 6.0) / 16.0, z + (rand.nextFloat() - 0.5F), 0.0, 0.00, 0.0);
+			world.addParticle(AerialHellParticleTypes.OSCILLATOR.get(), x + (rand.nextFloat() - 0.5F), y + (rand.nextFloat() * 6.0) / 16.0, z + (rand.nextFloat() - 0.5F), 0.0, 0.00, 0.0);
 			
 			if (rand.nextDouble() < 0.1)
 			{

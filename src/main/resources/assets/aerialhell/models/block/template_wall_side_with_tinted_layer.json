@@ -1,0 +1,26 @@
+{
+    "textures": {"particle": "#wall"},
+    "elements": [
+        {   "from": [ 5, 0, 0 ],
+            "to": [ 11, 14, 8 ],
+            "faces": {
+                "down":  { "texture": "#wall", "cullface": "down"},
+                "up":    { "texture": "#wall"},
+                "north": { "texture": "#wall", "cullface": "north"},
+                "west":  { "texture": "#wall"},
+                "east":  { "texture": "#wall"}
+            },
+            "__comment": "wall"
+        },
+        {   "from": [ 5, 0, 0 ],
+            "to": [ 11, 14, 8 ],
+            "faces": {
+                "down":  { "texture": "#wall_layer", "cullface": "down", "tintindex": 0},
+                "up":    { "texture": "#wall_layer", "tintindex": 0},
+                "north": { "texture": "#wall_layer", "cullface": "north", "tintindex": 0},
+                "west":  { "texture": "#wall_layer", "tintindex": 0},
+                "east":  { "texture": "#wall_layer", "tintindex": 0}
+            }
+        }
+    ]
+}

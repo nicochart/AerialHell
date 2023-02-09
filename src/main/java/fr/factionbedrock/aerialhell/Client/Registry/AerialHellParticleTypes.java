@@ -6,7 +6,7 @@ import fr.factionbedrock.aerialhell.Client.Particle.CopperPineLeavesParticle;
 import fr.factionbedrock.aerialhell.Client.Particle.LunaticParticle;
 import fr.factionbedrock.aerialhell.Client.Particle.ShadowParticle;
 import fr.factionbedrock.aerialhell.Client.Particle.SnowFlakeParticle;
-import fr.factionbedrock.aerialhell.Client.Particle.VibratorParticle;
+import fr.factionbedrock.aerialhell.Client.Particle.OscillatorParticle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.CampfireParticle;
 import net.minecraft.client.particle.FlameParticle;
@@ -30,7 +30,7 @@ public class AerialHellParticleTypes
 	public static final RegistryObject<BasicParticleType> AERIAL_HELL_PORTAL = PARTICLES.register("aerial_hell_portal", () -> new BasicParticleType(false));
 	public static final RegistryObject<BasicParticleType> LUNATIC_PARTICLE = PARTICLES.register("lunatic_particle", () -> new BasicParticleType(false));
 	public static final RegistryObject<BasicParticleType> COPPER_PINE_LEAVES = PARTICLES.register("copper_pine_leaves", () -> new BasicParticleType(false));
-	public static final RegistryObject<BasicParticleType> VIBRATOR = PARTICLES.register("vibrator", () -> new BasicParticleType(false));
+	public static final RegistryObject<BasicParticleType> OSCILLATOR = PARTICLES.register("oscillator", () -> new BasicParticleType(false));
 	public static final RegistryObject<BasicParticleType> SNOWFLAKE = PARTICLES.register("snowflake", () -> new BasicParticleType(false));
 	public static final RegistryObject<BasicParticleType> GOD_FLAME = PARTICLES.register("god_flame", () -> new BasicParticleType(false));
 	public static final RegistryObject<BasicParticleType> SHADOW_TROLL_BAT = PARTICLES.register("shadow_troll_bat", () -> new BasicParticleType(false));
@@ -46,7 +46,7 @@ public class AerialHellParticleTypes
 		particleManager.registerFactory(AERIAL_HELL_PORTAL.get(), AerialHellPortalParticle.Factory::new);
 		particleManager.registerFactory(LUNATIC_PARTICLE.get(), LunaticParticle.Factory::new);
 		particleManager.registerFactory(COPPER_PINE_LEAVES.get(), CopperPineLeavesParticle.Factory::new);
-		particleManager.registerFactory(VIBRATOR.get(), VibratorParticle.Factory::new);
+		particleManager.registerFactory(OSCILLATOR.get(), OscillatorParticle.Factory::new);
 		particleManager.registerFactory(SNOWFLAKE.get(), SnowFlakeParticle.Factory::new);
 		particleManager.registerFactory(GOD_FLAME.get(), FlameParticle.Factory::new);
 		particleManager.registerFactory(SHADOW_TROLL_BAT.get(), ShadowParticle.Factory::new);

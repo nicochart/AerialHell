@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "aerialhell:block/oscillator"
+    },
+    "lit=true": {
+      "model": "aerialhell:block/oscillator_on"
+    }
+  }
+}

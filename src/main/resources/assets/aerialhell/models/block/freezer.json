@@ -2,7 +2,7 @@
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
     "side": "aerialhell:block/freezer_side",
-    "bottom": "aerialhell:block/vibrator_bottom",
+    "bottom": "aerialhell:block/oscillator_bottom",
     "top": "aerialhell:block/freezer_top"
   }
 }

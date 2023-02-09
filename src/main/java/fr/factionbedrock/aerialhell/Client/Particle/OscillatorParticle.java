@@ -10,9 +10,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class VibratorParticle extends PortalParticle
+public class OscillatorParticle extends PortalParticle
 {
-    protected VibratorParticle(ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
+    protected OscillatorParticle(ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
     {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
 
@@ -34,9 +34,9 @@ public class VibratorParticle extends PortalParticle
         @Override
         public Particle makeParticle(BasicParticleType typeIn, ClientWorld worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed)
         {
-            VibratorParticle vibratorParticle = new VibratorParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
-            vibratorParticle.selectSpriteRandomly(this.spriteSet);
-            return vibratorParticle;
+            OscillatorParticle oscillatorParticle = new OscillatorParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
+            oscillatorParticle.selectSpriteRandomly(this.spriteSet);
+            return oscillatorParticle;
         }
     }
 }

@@ -1,5 +1,5 @@
 {
-  "type": "aerialhell:vibration",
+  "type": "aerialhell:oscillating",
   "ingredient": {
     "item": "aerialhell:slippery_sand"
   },

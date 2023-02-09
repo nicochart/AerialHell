@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "aerialhell:block/oscillator_side",
+    "bottom": "aerialhell:block/oscillator_bottom",
+    "top": "aerialhell:block/oscillator_top"
+  }
+}

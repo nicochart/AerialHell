@@ -11,30 +11,30 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 
-public class VibrationRecipe extends AbstractCookingRecipe
+public class OscillatingRecipe extends AbstractCookingRecipe
 {
-	public VibrationRecipe(ResourceLocation idIn, String groupIn, Ingredient ingredientIn, ItemStack resultIn, float experienceIn, int cookTimeIn)
+	public OscillatingRecipe(ResourceLocation idIn, String groupIn, Ingredient ingredientIn, ItemStack resultIn, float experienceIn, int cookTimeIn)
 	{
-		super(RecipeTypes.VIBRATION, idIn, groupIn, ingredientIn, resultIn, experienceIn, cookTimeIn);
+		super(RecipeTypes.OSCILLATING, idIn, groupIn, ingredientIn, resultIn, experienceIn, cookTimeIn);
 	}
 
 	@Override
 	public ItemStack getIcon()
 	{
-		return new ItemStack(AerialHellBlocksAndItems.VIBRATOR.get());
+		return new ItemStack(AerialHellBlocksAndItems.OSCILLATOR.get());
 	}
 
 	@Override
 	public IRecipeSerializer<?> getSerializer()
 	{
-		return AerialHellRecipes.VIBRATION.get();
+		return AerialHellRecipes.OSCILLATING.get();
 	}
 
-	public static class Serializer extends CookingRecipeSerializer<VibrationRecipe>
+	public static class Serializer extends CookingRecipeSerializer<OscillatingRecipe>
 	{
 		public Serializer()
 		{
-			super(VibrationRecipe::new, 200); //AccessTransformer to access the CookingRecipeSerializer IFactory
+			super(OscillatingRecipe::new, 200); //AccessTransformer to access the CookingRecipeSerializer IFactory
 		}
 	}
 }

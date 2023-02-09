@@ -1,6 +1,7 @@
 {
-    "parent": "block/template_wall_side",
+    "parent": "aerialhell:block/template_wall_side_with_tinted_layer",
     "textures": {
-        "wall": "aerialhell:block/mossy_stellar_stone"
+        "wall": "aerialhell:block/stellar_stone",
+        "wall_layer": "aerialhell:block/stellar_moss"
     }
 }

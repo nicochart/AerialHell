@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.TileEntity.VibratorTileEntity;
+import fr.factionbedrock.aerialhell.TileEntity.OscillatorTileEntity;
 import fr.factionbedrock.aerialhell.TileEntity.ChestMimicTileEntity;
 import fr.factionbedrock.aerialhell.TileEntity.FreezerTileEntity;
 import fr.factionbedrock.aerialhell.TileEntity.StellarFurnaceTileEntity;
@@ -20,8 +20,8 @@ public class AerialHellTileEntityTypes
 {
 	public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, AerialHell.MODID);
 
-	public static final RegistryObject<TileEntityType<VibratorTileEntity>> VIBRATOR = TILE_ENTITIES.register("vibrator", () ->
-			new TileEntityType<>(VibratorTileEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.VIBRATOR.get()), null));
+	public static final RegistryObject<TileEntityType<OscillatorTileEntity>> OSCILLATOR = TILE_ENTITIES.register("oscillator", () ->
+			new TileEntityType<>(OscillatorTileEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.OSCILLATOR.get()), null));
 	
 	public static final RegistryObject<TileEntityType<FreezerTileEntity>> FREEZER = TILE_ENTITIES.register("freezer", () ->
 			new TileEntityType<>(FreezerTileEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.FREEZER.get()), null));

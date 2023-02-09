@@ -53,7 +53,7 @@ public class FluoriteTorchBlock extends Block
       	double d2 = (double)pos.getZ() + 0.5D;
       	if (this == AerialHellBlocksAndItems.FLUORITE_TORCH.get() && rand.nextInt(5) == 0)
       	{
-      		worldIn.addParticle(AerialHellParticleTypes.VIBRATOR.get(), d0 + 0.5 * (rand.nextFloat() - 0.5), d1 - 0.2 * rand.nextFloat(), d2 + 0.5 * (rand.nextFloat() - 0.5), rand.nextFloat() - 0.5, rand.nextFloat() - 0.5, rand.nextFloat() - 0.5);
+      		worldIn.addParticle(AerialHellParticleTypes.OSCILLATOR.get(), d0 + 0.5 * (rand.nextFloat() - 0.5), d1 - 0.2 * rand.nextFloat(), d2 + 0.5 * (rand.nextFloat() - 0.5), rand.nextFloat() - 0.5, rand.nextFloat() - 0.5, rand.nextFloat() - 0.5);
       	}
 	}
 }

@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "aerialhell:block/cube_all_with_tinted_layer",
   "textures": {
-    "all": "aerialhell:block/mossy_stellar_cobblestone"
+    "all": "aerialhell:block/stellar_cobblestone",
+    "layer": "aerialhell:block/stellar_moss"
   }
 }
