@@ -248,6 +248,7 @@ public class AerialHellConfiguredFeatures
     
     public final static ConfiguredFeature<?, ?> STELLAR_COARSE_FLOOR_IN_DARK_AREAS = AerialHellFeatures.STELLAR_COARSE_FLOOR_IN_DARK_AREAS.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(160).square().func_242731_b(100);
     public final static ConfiguredFeature<?, ?> STELLAR_GRASS_IN_SHADOW_GRASS = AerialHellFeatures.STELLAR_GRASS_IN_SHADOW_GRASS.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(160).square().func_242731_b(100);
+    public final static ConfiguredFeature<?, ?> MOSSY_STELLAR_COBBLESTONE_ROCK = AerialHellFeatures.MOSSY_STELLAR_COBBLESTONE_ROCK.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(160).square().func_242731_b(1);
     public final static ConfiguredFeature<?, ?> DANGLING_CHAIN_RARE = AerialHellFeatures.DANGLING_CHAIN.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(10);
     public final static ConfiguredFeature<?, ?> DANGLING_CHAIN = AerialHellFeatures.DANGLING_CHAIN.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(120);
     public final static ConfiguredFeature<?, ?> SLIPPERY_SAND = AerialHellFeatures.SLIPPERY_SAND.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(20);
@@ -340,6 +341,7 @@ public class AerialHellConfiguredFeatures
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_coarse_floor_in_dark_areas"), STELLAR_COARSE_FLOOR_IN_DARK_AREAS);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_grass_in_shadow_grass"), STELLAR_GRASS_IN_SHADOW_GRASS);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "mossy_stellar_cobblestone_rock"), MOSSY_STELLAR_COBBLESTONE_ROCK);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "slippery_sand"), SLIPPERY_SAND);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "dangling_chain_rare"), DANGLING_CHAIN_RARE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "dangling_chain"), DANGLING_CHAIN);
