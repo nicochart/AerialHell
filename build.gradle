@@ -19,6 +19,8 @@ apply plugin: 'maven-publish'
 mixin
 {
     add sourceSets.main, "aerialhell.refmap.json"
+    // Sets up the mixin config; this gets added to run configurations and the manifest in the final jar
+    config "aerialhell.mixins.json"
 }
 
 version = '1.0'
@@ -137,7 +139,10 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.39'
-	
+
+    // Mixin annotation processor - generates the refmap
+    annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
+
 	// compile against the JEI API but do not include it at runtime
   	compileOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.152:api")
   	// at runtime, use the full JEI jar
