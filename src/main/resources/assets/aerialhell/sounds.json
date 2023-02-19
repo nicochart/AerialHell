@@ -1,39 +1,44 @@
 {
   "aerialhell.dimension_music": {
     "sounds": [
-      {"name": "aerialhell:music/sunshine_indie_tommaup", "stream": true},
-      {"name": "aerialhell:music/synth_vibe_tommaup", "stream": true},
-      {"name": "aerialhell:music/hacking_tommaup", "stream": true},
-      {"name": "aerialhell:music/shadow_crawler_tommaup", "stream": true},
-      {"name": "aerialhell:music/aerial_hell_ballad_tommaup", "stream": true},
-      {"name": "aerialhell:music/crystal_harvest_tommaup", "stream": true},
-      {"name": "aerialhell:music/skylands_mystery_mixkit", "stream": true},
-      {"name": "aerialhell:music/synth_mystery_mixkit", "stream": true},
-      {"name": "aerialhell:music/calm_trip_zapsplat", "stream": true}
+      {"name": "aerialhell:music/normal/sunshine_indie_tommaup", "stream": true},
+      {"name": "aerialhell:music/normal/synth_vibe_tommaup", "stream": true},
+      {"name": "aerialhell:music/normal/hacking_tommaup", "stream": true},
+      {"name": "aerialhell:music/normal/shadow_crawler_tommaup", "stream": true},
+      {"name": "aerialhell:music/normal/aerial_hell_ballad_tommaup", "stream": true},
+      {"name": "aerialhell:music/normal/skylands_mystery_mixkit", "stream": true},
+      {"name": "aerialhell:music/normal/synth_mystery_mixkit", "stream": true},
+      {"name": "aerialhell:music/normal/calm_trip_zapsplat", "stream": true},
+      {"name": "aerialhell:music/normal/1980_arulo", "stream": true},
+      {"name": "aerialhell:music/normal/rebel_wayz_arulo", "stream": true},
+      {"name": "aerialhell:music/normal/relax_beat_arulo", "stream": true}
+    ]
+  },
+  "aerialhell.crystal_music": {
+    "sounds": [
+      {"name": "aerialhell:music/crystal/crystal_harvest_tommaup", "stream": true},
+      {"name": "aerialhell:music/crystal/random_francisco_alvear", "stream": true},
+      {"name": "aerialhell:music/crystal/pilates_and_yoga_arulo", "stream": true}
     ]
   },
   "music_disc.aerial_hell_theme_tommaup": {
     "sounds": [
-      {
-        "name": "aerialhell:record/aerial_hell_theme_tommaup",
-        "stream": true
-      }
+      {"name": "aerialhell:record/aerial_hell_theme_tommaup", "stream": true}
     ]
   },
   "music_disc.sweden_andreas_zoeller": {
     "sounds": [
-      {
-        "name": "aerialhell:record/sweden_andreas_zoeller",
-        "stream": true
-      }
+      {"name": "aerialhell:record/sweden_andreas_zoeller", "stream": true}
+    ]
+  },
+  "music_disc.bminor247_arulo": {
+    "sounds": [
+      {"name": "aerialhell:record/bminor247_arulo", "stream": true}
     ]
   },
   "music_disc.enthusiast_tours": {
     "sounds": [
-      {
-        "name": "aerialhell:record/enthusiast_tours",
-        "stream": true
-      }
+      {"name": "aerialhell:record/enthusiast_tours", "stream": true}
     ]
   },
   "advancement.classic": {
@@ -95,6 +100,82 @@
       "aerialhell:mob/evil_cow/hurt2",
       "aerialhell:mob/evil_cow/hurt3"
     ]
+  },
+  "entity.stellar_stone_automaton.activation": {
+    "subtitle": "subtitles.entity.stellar_stone_automaton.activation",
+    "sounds": ["aerialhell:mob/stellar_stone_automaton/activation"]
+  },
+  "entity.stellar_stone_automaton.hurt": {
+    "subtitle": "subtitles.entity.stellar_stone_automaton.hurt",
+    "sounds": [
+      "aerialhell:mob/stellar_stone_automaton/hurt",
+      "aerialhell:mob/stellar_stone_automaton/hurt_scream"
+    ]
+  },
+  "entity.stellar_stone_automaton.death": {
+    "subtitle": "subtitles.entity.stellar_stone_automaton.death",
+    "sounds": ["aerialhell:mob/stellar_stone_automaton/death"]
+  },
+  "entity.warden_volucite_golem.death": {
+    "subtitle": "subtitles.entity.warden_volucite_golem.death",
+    "sounds": ["aerialhell:mob/warden_volucite_golem/death"]
+  },
+  "entity.warden_volucite_golem.activation": {
+    "subtitle": "subtitles.entity.warden_volucite_golem.activation",
+    "sounds": ["aerialhell:mob/warden_volucite_golem/activation"]
+  },
+  "entity.warden_volucite_golem.hurt": {
+    "subtitle": "subtitles.entity.warden_volucite_golem.hurt",
+    "sounds": ["aerialhell:mob/warden_volucite_golem/hurt"]
+  },
+  "entity.warden_volucite_golem.ambient": {
+    "subtitle": "subtitles.entity.warden_volucite_golem.ambient",
+    "sounds": [
+      "aerialhell:mob/warden_volucite_golem/ambient",
+      "aerialhell:mob/warden_volucite_golem/ambient_2",
+      "aerialhell:mob/warden_volucite_golem/ambient_loud"
+    ]
+  },
+  "entity.volucite_golem.ambient_alert": {
+    "subtitle": "subtitles.entity.volucite_golem.ambient_alert",
+    "sounds": ["aerialhell:mob/volucite_golem/ambient_alert"]
+  },
+  "entity.volucite_golem.hurt": {
+    "subtitle": "subtitles.entity.volucite_golem.hurt",
+    "sounds": ["aerialhell:mob/volucite_golem/hurt"]
+  },
+  "entity.volucite_golem.ambient": {
+    "subtitle": "subtitles.entity.volucite_golem.ambient",
+    "sounds": [
+      "aerialhell:mob/volucite_golem/ambient_normal",
+      "aerialhell:mob/volucite_golem/ambient_speak"
+    ]
+  },
+  "entity.volucite_golem.ambient_angry": {
+    "subtitle": "subtitles.entity.volucite_golem.ambient_angry",
+    "sounds": [
+      "aerialhell:mob/volucite_golem/ambient_angry",
+      "aerialhell:mob/volucite_golem/ambient_mad"
+    ]
+  },
+  "entity.volucite_golem.shoot": {
+    "subtitle": "subtitles.entity.volucite_golem.shoot",
+    "sounds": ["aerialhell:mob/volucite_golem/shoot"]
+  },
+  "entity.keeper_of_volucite_keys.ambient": {
+    "subtitle": "subtitles.entity.keeper_of_volucite_keys.ambient",
+    "sounds": [
+      "aerialhell:mob/keeper_of_volucite_keys/speak",
+      "aerialhell:mob/keeper_of_volucite_keys/speak_loud"
+    ]
+  },
+  "entity.keeper_of_volucite_keys.hurt": {
+    "subtitle": "subtitles.entity.keeper_of_volucite_keys.hurt",
+    "sounds": ["aerialhell:mob/keeper_of_volucite_keys/hurt"]
+  },
+  "entity.keeper_of_volucite_keys.death": {
+    "subtitle": "subtitles.entity.keeper_of_volucite_keys.death",
+    "sounds": ["aerialhell:mob/keeper_of_volucite_keys/death"]
   },
   "entity.sandy_sheep.ambient": {
     "subtitle": "subtitles.entity.sandy_sheep.ambient",
@@ -218,6 +299,34 @@
     "sounds": [
       "aerialhell:mob/electro_spirit/death"
     ]
+  },
+  "entity.lilith.hurt": {
+    "subtitle": "subtitles.entity.lilith.hurt",
+    "sounds":
+    [
+      "aerialhell:mob/lilith/hurt",
+      "aerialhell:mob/lilith/hurt_loud"
+    ]
+  },
+  "entity.lilith.death": {
+    "subtitle": "subtitles.entity.lilith.death",
+    "sounds": ["aerialhell:mob/lilith/death"]
+  },
+  "entity.lilith.transformation": {
+    "subtitle": "subtitles.entity.lilith.transformation",
+    "sounds": ["aerialhell:mob/lilith/transformation"]
+  },
+  "entity.shadow_crawler.hurt": {
+    "subtitle": "subtitles.entity.shadow_crawler.hurt",
+    "sounds": ["aerialhell:mob/shadow_crawler/hurt"]
+  },
+  "entity.shadow_crawler.death": {
+    "subtitle": "subtitles.entity.shadow_crawler.death",
+    "sounds": ["aerialhell:mob/shadow_crawler/death"]
+  },
+  "entity.shadow_crawler.ambient": {
+    "subtitle": "subtitles.entity.shadow_crawler.ambient",
+    "sounds": ["aerialhell:mob/shadow_crawler/ambient"]
   },
   "entity.shadow_troll.ambient": {
     "subtitle": "subtitles.entity.shadow_troll.ambient",

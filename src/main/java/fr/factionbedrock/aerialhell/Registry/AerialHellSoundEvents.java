@@ -20,7 +20,26 @@ public class AerialHellSoundEvents
 	public static final RegistryObject<SoundEvent> ENTITY_SANDY_SHEEP_HURT = register("entity.sandy_sheep.hurt");
 	public static final RegistryObject<SoundEvent> ENTITY_SANDY_SHEEP_DEATH = register("entity.sandy_sheep.death");
 	public static final RegistryObject<SoundEvent> ENTITY_SANDY_SHEEP_SHEAR = register("entity.sandy_sheep.shear");
-	
+
+	public static final RegistryObject<SoundEvent> ENTITY_STELLAR_STONE_AUTOMATON_ACTIVATION = register("entity.stellar_stone_automaton.activation");
+	public static final RegistryObject<SoundEvent> ENTITY_STELLAR_STONE_AUTOMATON_HURT = register("entity.stellar_stone_automaton.hurt");
+	public static final RegistryObject<SoundEvent> ENTITY_STELLAR_STONE_AUTOMATON_DEATH = register("entity.stellar_stone_automaton.death");
+
+	public static final RegistryObject<SoundEvent> ENTITY_VOLUCITE_GOLEM_AMBIENT = register("entity.volucite_golem.ambient");
+	public static final RegistryObject<SoundEvent> ENTITY_VOLUCITE_GOLEM_AMBIENT_ANGRY = register("entity.volucite_golem.ambient_angry");
+	public static final RegistryObject<SoundEvent> ENTITY_VOLUCITE_GOLEM_AMBIENT_ALERT = register("entity.volucite_golem.ambient_alert");
+	public static final RegistryObject<SoundEvent> ENTITY_VOLUCITE_GOLEM_HURT = register("entity.volucite_golem.hurt");
+	public static final RegistryObject<SoundEvent> ENTITY_VOLUCITE_GOLEM_SHOOT = register("entity.volucite_golem.shoot");
+
+	public static final RegistryObject<SoundEvent> ENTITY_WARDEN_VOLUCITE_GOLEM_AMBIENT = register("entity.warden_volucite_golem.ambient");
+	public static final RegistryObject<SoundEvent> ENTITY_WARDEN_VOLUCITE_GOLEM_ACTIVATION = register("entity.warden_volucite_golem.activation");
+	public static final RegistryObject<SoundEvent> ENTITY_WARDEN_VOLUCITE_GOLEM_HURT = register("entity.warden_volucite_golem.hurt");
+	public static final RegistryObject<SoundEvent> ENTITY_WARDEN_VOLUCITE_GOLEM_DEATH = register("entity.warden_volucite_golem.death");
+
+	public static final RegistryObject<SoundEvent> ENTITY_KEEPER_OF_KEYS_AMBIENT = register("entity.keeper_of_volucite_keys.ambient");
+	public static final RegistryObject<SoundEvent> ENTITY_KEEPER_OF_KEYS_HURT = register("entity.keeper_of_volucite_keys.hurt");
+	public static final RegistryObject<SoundEvent> ENTITY_KEEPER_OF_KEYS_DEATH = register("entity.keeper_of_volucite_keys.death");
+
 	public static final RegistryObject<SoundEvent> ENTITY_CHAINED_GOD_AMBIENT = register("entity.chained_god.ambient");
 	public static final RegistryObject<SoundEvent> ENTITY_CHAINED_GOD_HURT = register("entity.chained_god.hurt");
 	public static final RegistryObject<SoundEvent> ENTITY_CHAINED_GOD_DEATH = register("entity.chained_god.death");
@@ -51,6 +70,14 @@ public class AerialHellSoundEvents
 	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_TROLL_AMBIENT = register("entity.shadow_troll.ambient");
 	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_TROLL_HURT = register("entity.shadow_troll.hurt");
 	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_TROLL_DEATH = register("entity.shadow_troll.death");
+
+	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_CRAWLER_AMBIENT = register("entity.shadow_crawler.ambient");
+	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_CRAWLER_HURT = register("entity.shadow_crawler.hurt");
+	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_CRAWLER_DEATH = register("entity.shadow_crawler.death");
+
+	public static final RegistryObject<SoundEvent> ENTITY_LILITH_TRANSFORMATION = register("entity.lilith.transformation");
+	public static final RegistryObject<SoundEvent> ENTITY_LILITH_HURT = register("entity.lilith.hurt");
+	public static final RegistryObject<SoundEvent> ENTITY_LILITH_DEATH = register("entity.lilith.death");
 	
 	public static final RegistryObject<SoundEvent> ENTITY_FOREST_CATERPILLAR_AMBIENT = register("entity.forest_caterpillar.ambient");
 	
@@ -68,9 +95,11 @@ public class AerialHellSoundEvents
 	public static final RegistryObject<SoundEvent> MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP = register("music_disc.aerial_hell_theme_tommaup");
 	public static final RegistryObject<SoundEvent> MUSIC_DISC_SWEDEN_ANDREAS_ZOELLER = register("music_disc.sweden_andreas_zoeller");
 	public static final RegistryObject<SoundEvent> MUSIC_DISC_ENTHUSIAST_TOURS = register("music_disc.enthusiast_tours");
-	
+	public static final RegistryObject<SoundEvent> MUSIC_DISC_BMINOR247_ARULO = register("music_disc.bminor247_arulo");
+
 	public static final RegistryObject<SoundEvent> AERIALHELL_DIMENSION_MUSIC = register("aerialhell.dimension_music");
-	
+	public static final RegistryObject<SoundEvent> CRYSTAL_MUSIC = register("aerialhell.crystal_music");
+
 	public static final RegistryObject<SoundEvent> ADVANCEMENT_CLASSIC = register("advancement.classic");
 	public static final RegistryObject<SoundEvent> ADVANCEMENT_STORY = register("advancement.story");
 	public static final RegistryObject<SoundEvent> ADVANCEMENT_SECRET = register("advancement.secret");
