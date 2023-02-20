@@ -95,7 +95,7 @@ public class AerialHellSoundEvents
 	public static final RegistryObject<SoundEvent> MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP = register("music_disc.aerial_hell_theme_tommaup");
 	public static final RegistryObject<SoundEvent> MUSIC_DISC_SWEDEN_ANDREAS_ZOELLER = register("music_disc.sweden_andreas_zoeller");
 	public static final RegistryObject<SoundEvent> MUSIC_DISC_ENTHUSIAST_TOURS = register("music_disc.enthusiast_tours");
-	public static final RegistryObject<SoundEvent> MUSIC_DISC_BMINOR247_ARULO = register("music_disc.bminor247_arulo");
+	public static final RegistryObject<SoundEvent> MUSIC_DISC_BMINOR_ARULO = register("music_disc.bminor_arulo");
 
 	public static final RegistryObject<SoundEvent> AERIALHELL_DIMENSION_MUSIC = register("aerialhell.dimension_music");
 	public static final RegistryObject<SoundEvent> CRYSTAL_MUSIC = register("aerialhell.crystal_music");

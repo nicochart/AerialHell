@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.AerialHellHostileEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -29,27 +30,7 @@ public class StellarStoneAutomatonEntity extends AerialHellHostileEntity {
     }
     /*Do not forget to register those attributes by calling the method !! See Registry/AerialHellEntityAttributes for more details*/
 
-    @Override
-    protected SoundEvent getAmbientSound()
-    {
-        return SoundEvents.ENTITY_DROWNED_AMBIENT;
-    }
-
-    @Override
-    protected SoundEvent getHurtSound(DamageSource damageSource)
-    {
-        return SoundEvents.ENTITY_DROWNED_HURT;
-    }
-
-    @Override
-    protected SoundEvent getDeathSound()
-    {
-        return SoundEvents.ENTITY_DROWNED_DEATH;
-    }
-
-    @Override
-    protected void playStepSound(BlockPos pos, BlockState blockIn)
-    {
-        this.playSound(SoundEvents.ENTITY_ZOMBIE_STEP, 0.15F, 0.5F);
-    }
+    @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_STELLAR_STONE_AUTOMATON_ACTIVATION.get();}
+    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_STELLAR_STONE_AUTOMATON_HURT.get();}
+    @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_STELLAR_STONE_AUTOMATON_DEATH.get();}
 }

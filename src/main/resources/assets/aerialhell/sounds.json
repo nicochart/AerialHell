@@ -31,9 +31,9 @@
       {"name": "aerialhell:record/sweden_andreas_zoeller", "stream": true}
     ]
   },
-  "music_disc.bminor247_arulo": {
+  "music_disc.bminor_arulo": {
     "sounds": [
-      {"name": "aerialhell:record/bminor247_arulo", "stream": true}
+      {"name": "aerialhell:record/bminor_arulo", "stream": true}
     ]
   },
   "music_disc.enthusiast_tours": {

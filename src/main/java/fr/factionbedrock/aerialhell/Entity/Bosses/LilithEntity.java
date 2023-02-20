@@ -41,6 +41,7 @@ public class LilithEntity extends AbstractBossEntity
 	private static final DataParameter<Boolean> IS_TRANSFORMING = EntityDataManager.createKey(CreeperEntity.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Boolean> IS_TRANSFORMED = EntityDataManager.createKey(CreeperEntity.class, DataSerializers.BOOLEAN);
 	private int timeSinceTransforming;
+	private int transformationTime = 160; //8 seconds
 	   
 	public LilithEntity(EntityType<? extends MonsterEntity> type, World world)
 	{
@@ -142,7 +143,7 @@ public class LilithEntity extends AbstractBossEntity
 		{
 			this.timeSinceTransforming = 0;
 			this.setTransforming(true);
-			//this.playSound(AerialHellSoundEvents.ENTITY_LILITH_TRANSFORMING.get(), 5.0F, 1.0F);
+			this.playSound(AerialHellSoundEvents.ENTITY_LILITH_TRANSFORMATION.get(), 5.0F, 1.0F);
 		}
 		
 		if (this.isTransforming())
@@ -154,7 +155,7 @@ public class LilithEntity extends AbstractBossEntity
 			}
 			this.timeSinceTransforming++;
 			
-	        if (this.timeSinceTransforming >= 138)
+	        if (this.timeSinceTransforming >= transformationTime)
 	        {
 	        	this.transform();
 		        this.timeSinceTransforming = 0;
@@ -229,10 +230,11 @@ public class LilithEntity extends AbstractBossEntity
 	    }
 	}
 	
-	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_CHAINED_GOD_AMBIENT.get();}
-    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_CHAINED_GOD_HURT.get();}
-    @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_CHAINED_GOD_DEATH.get();}
-	
+	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_LILITH_HURT.get();}
+    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_LILITH_HURT.get();}
+    @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_LILITH_DEATH.get();}
+	@Override public void playAmbientSound() {if (this.isTransforming()) {} else {super.playAmbientSound();}}
+
 	private void dragEntity(Entity entityIn)
 	{
 		double factor = 0.2 / Math.max(5, this.getDistance(entityIn)); //0.04 / Math.max(1, this.getDistance(entityIn)); and multiply only one time, to get uniform dragging
