@@ -18,7 +18,7 @@
       "sound": "aerialhell:aerialhell.dimension_music",
       "min_delay": 1200,
       "max_delay": 3600,
-      "replace_current_music": true
+      "replace_current_music": false
     }
   },
   "surface_builder": "aerialhell:stellar_grass_block",

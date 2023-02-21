@@ -99,6 +99,7 @@ public class AerialHellSoundEvents
 
 	public static final RegistryObject<SoundEvent> AERIALHELL_DIMENSION_MUSIC = register("aerialhell.dimension_music");
 	public static final RegistryObject<SoundEvent> CRYSTAL_MUSIC = register("aerialhell.crystal_music");
+	public static final RegistryObject<SoundEvent> SHADOW_MUSIC = register("aerialhell.shadow_music");
 
 	public static final RegistryObject<SoundEvent> ADVANCEMENT_CLASSIC = register("advancement.classic");
 	public static final RegistryObject<SoundEvent> ADVANCEMENT_STORY = register("advancement.story");

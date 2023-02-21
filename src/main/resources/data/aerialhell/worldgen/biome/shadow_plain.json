@@ -21,10 +21,10 @@
       "probability" : 0.001
     },
     "music": {
-      "sound": "aerialhell:aerialhell.dimension_music",
+      "sound": "aerialhell:aerialhell.shadow_music",
       "min_delay": 1200,
       "max_delay": 3600,
-      "replace_current_music": true
+      "replace_current_music": false
     }
   },
   "surface_builder": "aerialhell:shadow_grass_block",

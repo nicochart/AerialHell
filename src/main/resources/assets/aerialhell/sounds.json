@@ -1,7 +1,6 @@
 {
   "aerialhell.dimension_music": {
     "sounds": [
-      {"name": "aerialhell:music/normal/sunshine_indie_tommaup", "stream": true},
       {"name": "aerialhell:music/normal/synth_vibe_tommaup", "stream": true},
       {"name": "aerialhell:music/normal/hacking_tommaup", "stream": true},
       {"name": "aerialhell:music/normal/shadow_crawler_tommaup", "stream": true},
@@ -14,8 +13,21 @@
       {"name": "aerialhell:music/normal/relax_beat_arulo", "stream": true}
     ]
   },
+  "aerialhell.shadow_music": {
+    "sounds": [
+      {"name": "aerialhell:music/normal/1980_arulo", "stream": true},
+      {"name": "aerialhell:music/normal/rebel_wayz_arulo", "stream": true},
+      {"name": "aerialhell:music/normal/shadow_crawler_tommaup", "stream": true},
+      {"name": "aerialhell:music/normal/skylands_mystery_mixkit", "stream": true},
+      {"name": "aerialhell:music/normal/synth_mystery_mixkit", "stream": true},
+      {"name": "aerialhell:music/normal/synth_vibe_tommaup", "stream": true}
+    ]
+  },
   "aerialhell.crystal_music": {
     "sounds": [
+      {"name": "aerialhell:music/normal/aerial_hell_ballad_tommaup", "stream": true},
+      {"name": "aerialhell:music/normal/calm_trip_zapsplat", "stream": true},
+      {"name": "aerialhell:music/crystal/sunshine_indie_tommaup", "stream": true},
       {"name": "aerialhell:music/crystal/crystal_harvest_tommaup", "stream": true},
       {"name": "aerialhell:music/crystal/random_francisco_alvear", "stream": true},
       {"name": "aerialhell:music/crystal/pilates_and_yoga_arulo", "stream": true}
