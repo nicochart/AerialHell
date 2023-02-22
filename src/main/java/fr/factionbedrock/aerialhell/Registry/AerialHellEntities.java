@@ -53,6 +53,9 @@ public class AerialHellEntities
 	
 	public static final EntityType<SandySheepEntity> SANDY_SHEEP_TYPE = EntityType.Builder.<SandySheepEntity>create(SandySheepEntity::new, EntityClassification.CREATURE)
 			    .size(0.9F, 1.4F).build("sandy_sheep");
+
+	public static final EntityType<GlidingTurtleEntity> GLIDING_TURTLE_TYPE = EntityType.Builder.<GlidingTurtleEntity>create(GlidingTurtleEntity::new, EntityClassification.CREATURE)
+			.size(0.9F, 1.4F).build("gliding_turtle");
 	
 	public static final EntityType<FatPhantomEntity> FAT_PHANTOM_TYPE = EntityType.Builder.<FatPhantomEntity>create(FatPhantomEntity::new, EntityClassification.CREATURE)
 			    .size(1.3F, 1.0F).immuneToFire().build("fat_phantom");
@@ -178,6 +181,7 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<ShroomBoomEntity>> SHROOMBOOM = ENTITIES.register("shroomboom", () -> SHROOMBOOM_TYPE);
 	public static final RegistryObject<EntityType<VerdigrisZombieEntity>> VERDIGRIS_ZOMBIE = ENTITIES.register("verdigris_zombie", () -> VERDIGRIS_ZOMBIE_TYPE);
 	public static final RegistryObject<EntityType<SandySheepEntity>> SANDY_SHEEP = ENTITIES.register("sandy_sheep", () -> SANDY_SHEEP_TYPE);
+	public static final RegistryObject<EntityType<GlidingTurtleEntity>> GLIDING_TURTLE = ENTITIES.register("gliding_turtle", () -> GLIDING_TURTLE_TYPE);
 	public static final RegistryObject<EntityType<FatPhantomEntity>> FAT_PHANTOM = ENTITIES.register("fat_phantom", () -> FAT_PHANTOM_TYPE);
 	public static final RegistryObject<EntityType<CrystalSlimeEntity>> CRYSTAL_SLIME = ENTITIES.register("crystal_slime", () -> CRYSTAL_SLIME_TYPE);
 	public static final RegistryObject<EntityType<MudSoldierEntity>> MUD_SOLDIER = ENTITIES.register("mud_soldier", () -> MUD_SOLDIER_TYPE);
@@ -220,6 +224,7 @@ public class AerialHellEntities
 	public static void entitySpawnPlacements()
 	{
 		EntitySpawnPlacementRegistry.register(SANDY_SHEEP.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellAnimalEntity::canAerialHellAnimalSpawn);
+		EntitySpawnPlacementRegistry.register(GLIDING_TURTLE.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellAnimalEntity::canAerialHellAnimalSpawn);
 		
 		EntitySpawnPlacementRegistry.register(EVIL_COW.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
 		EntitySpawnPlacementRegistry.register(CORTINARIUS_COW.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);

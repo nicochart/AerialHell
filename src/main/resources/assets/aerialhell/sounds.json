@@ -217,6 +217,25 @@
     "subtitle": "subtitles.item.shears.shear",
     "sounds": ["minecraft:mob/sheep/shear"]
   },
+  "entity.gliding_turtle.ambient": {
+    "subtitle": "subtitles.entity.gliding_turtle.ambient",
+    "sounds": [
+      "aerialhell:mob/gliding_turtle/say_1",
+      "aerialhell:mob/gliding_turtle/say_2",
+      "aerialhell:mob/gliding_turtle/say_3"
+    ]
+  },
+  "entity.gliding_turtle.hurt": {
+    "subtitle": "subtitles.entity.gliding_turtle.hurt",
+    "sounds": [
+      "aerialhell:mob/gliding_turtle/hurt_1",
+      "aerialhell:mob/gliding_turtle/hurt_2"
+    ]
+  },
+  "entity.gliding_turtle.death": {
+    "subtitle": "subtitles.entity.gliding_turtle.death",
+    "sounds": ["aerialhell:mob/gliding_turtle/death"]
+  },
   "entity.torn_spirit.ambient": {
     "subtitle": "subtitles.entity.torn_spirit.ambient",
     "sounds": ["aerialhell:mob/torn_spirit/ambient"]

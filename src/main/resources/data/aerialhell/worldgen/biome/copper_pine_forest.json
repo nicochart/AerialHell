@@ -117,6 +117,12 @@
     "creature": [
       {
         "type": "aerialhell:sandy_sheep",
+        "weight": 20,
+        "minCount": 3,
+        "maxCount": 7
+      },
+      {
+        "type": "aerialhell:gliding_turtle",
         "weight": 30,
         "minCount": 3,
         "maxCount": 10

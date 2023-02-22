@@ -616,6 +616,7 @@
   "item.aerialhell.shroomboom_spawn_egg": "Shroomboom Spawn Egg",
   "item.aerialhell.verdigris_zombie_spawn_egg" : "Verdigris Zombie Spawn Egg",
   "item.aerialhell.sandy_sheep_spawn_egg" : "Sandy Sheep Spawn Egg",
+  "item.aerialhell.gliding_turtle_spawn_egg" : "Gliding Turtle Spawn Egg",
   "item.aerialhell.fat_phantom_spawn_egg" : "Fat Phantom Spawn Egg",
   "item.aerialhell.mud_golem_spawn_egg" : "Mud Golem Spawn Egg",
   "item.aerialhell.mud_soldier_spawn_egg" : "Mud Soldier Spawn Egg",
@@ -639,6 +640,7 @@
   "item.aerialhell.boss_spawn_egg.desc" : "Warning : this is a boss !",
 
   "entity.aerialhell.sandy_sheep": "Sandy Sheep",
+  "entity.aerialhell.gliding_turtle": "Gliding Turtle",
   "entity.aerialhell.evil_cow": "Evil Cow",
   "entity.aerialhell.cortinarius_cow": "Cortinarius Cow",
   "entity.aerialhell.shroomboom": "Shroomboom",

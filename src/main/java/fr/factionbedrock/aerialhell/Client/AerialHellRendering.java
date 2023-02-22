@@ -164,6 +164,7 @@ public class AerialHellRendering
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHROOMBOOM.get(), ShroomBoomRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.VERDIGRIS_ZOMBIE.get(), VerdigrisZombieRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SANDY_SHEEP.get(), SandySheepRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.GLIDING_TURTLE.get(), GlidingTurtleRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.FAT_PHANTOM.get(), FatPhantomRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CRYSTAL_SLIME.get(), CrystalSlimeRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.MUD_SOLDIER.get(), MudSoldierRender::new);

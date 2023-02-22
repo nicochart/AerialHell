@@ -33,6 +33,7 @@ public class AerialHellEntityAttributes
 		event.put(AerialHellEntities.SHROOMBOOM.get(), ShroomBoomEntity.registerAttributes().create());
 		event.put(AerialHellEntities.VERDIGRIS_ZOMBIE.get(), VerdigrisZombieEntity.registerAttributes().create());
 		event.put(AerialHellEntities.SANDY_SHEEP.get(), SandySheepEntity.registerAttributes().create());
+		event.put(AerialHellEntities.GLIDING_TURTLE.get(), GlidingTurtleEntity.registerAttributes().create());
 		event.put(AerialHellEntities.FAT_PHANTOM.get(), FatPhantomEntity.registerAttributes().create());
 		event.put(AerialHellEntities.CRYSTAL_SLIME.get(), CrystalSlimeEntity.registerAttributes().create());
 		event.put(AerialHellEntities.MUD_SOLDIER.get(), MudSoldierEntity.registerAttributes().create());

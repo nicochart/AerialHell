@@ -615,6 +615,7 @@
   "item.aerialhell.shroomboom_spawn_egg": "Oeuf d'apparition de Champiboom",
   "item.aerialhell.verdigris_zombie_spawn_egg" : "Oeuf d'apparition de Zombie Vert-De-Gris",
   "item.aerialhell.sandy_sheep_spawn_egg" : "Oeuf d'apparition de Mouton des Sables",
+  "item.aerialhell.gliding_turtle_spawn_egg" : "Oeuf d'apparition de Tortue Planeuse",
   "item.aerialhell.fat_phantom_spawn_egg" : "Oeuf d'apparition de Gros Phantom",
   "item.aerialhell.mud_golem_spawn_egg" : "Oeuf d'apparition de Golem de Boue",
   "item.aerialhell.mud_soldier_spawn_egg" : "Oeuf d'apparition de Soldat de Boue",
@@ -638,6 +639,7 @@
   "item.aerialhell.boss_spawn_egg.desc" : "Attention : ceci est un boss !",
 
   "entity.aerialhell.sandy_sheep": "Mouton des Sables",
+  "entity.aerialhell.gliding_turtle": "Tortue Planeuse",
   "entity.aerialhell.evil_cow": "Vache Agressive",
   "entity.aerialhell.cortinarius_cow": "Vache Cortinaire",
   "entity.aerialhell.shroomboom": "Champiboom",
