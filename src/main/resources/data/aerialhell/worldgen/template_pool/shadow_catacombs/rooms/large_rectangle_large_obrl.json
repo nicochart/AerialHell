@@ -1,0 +1,13 @@
+{
+  "name": "aerialhell:shadow_catacombs/rooms/large_rectangle_large_obrl",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/rooms/large_rectangle_large_obrl",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

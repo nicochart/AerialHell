@@ -8,13 +8,7 @@ import java.util.Map;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import fr.factionbedrock.aerialhell.World.Structure.CopperPineCottageStructure;
-import fr.factionbedrock.aerialhell.World.Structure.GoldenNetherPrisonStructure;
-import fr.factionbedrock.aerialhell.World.Structure.LunaticTempleStructure;
-import fr.factionbedrock.aerialhell.World.Structure.MudDungeonStructure;
-import fr.factionbedrock.aerialhell.World.Structure.OverworldAbandonnedPortalStructure;
-import fr.factionbedrock.aerialhell.World.Structure.SlipperySandOceanAbandonnedStructure;
-import fr.factionbedrock.aerialhell.World.Structure.StellarStoneBricksTowerStructure;
+import fr.factionbedrock.aerialhell.World.Structure.*;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
@@ -37,6 +31,7 @@ public class AerialHellStructures
 	public static final RegistryObject<Structure<NoFeatureConfig>> OVERWORLD_ABANDONNED_PORTAL_STRUCTURE = STRUCTURES.register("overworld_abandonned_portal", () -> new OverworldAbandonnedPortalStructure(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Structure<NoFeatureConfig>> MUD_DUNGEON_STRUCTURE = STRUCTURES.register("mud_dungeon", () -> new MudDungeonStructure(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Structure<NoFeatureConfig>> LUNATIC_TEMPLE_STRUCTURE = STRUCTURES.register("lunatic_temple", () -> new LunaticTempleStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoFeatureConfig>> SHADOW_CATACOMBS_STRUCTURE = STRUCTURES.register("shadow_catacombs", () -> new ShadowCatacombsStructure(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Structure<NoFeatureConfig>> GOLDEN_NETHER_PRISON_STRUCTURE = STRUCTURES.register("golden_nether_prison", () -> new GoldenNetherPrisonStructure(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Structure<NoFeatureConfig>> STELLAR_STONE_BRICKS_TOWER_STRUCTURE = STRUCTURES.register("stellar_stone_bricks_tower", () -> new StellarStoneBricksTowerStructure(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Structure<NoFeatureConfig>> COPPER_PINE_COTTAGE_STRUCTURE = STRUCTURES.register("copper_pine_cottage", () -> new CopperPineCottageStructure(NoFeatureConfig.field_236558_a_));
@@ -71,6 +66,13 @@ public class AerialHellStructures
 	                        25 /* minimum distance apart in chunks between spawn attempts */,
 	                        123334456 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
 	                false); //TransformSurroundingLand
+
+		    setupMapSpacingAndLand(
+					SHADOW_CATACOMBS_STRUCTURE.get(), /* The instance of the structure */
+				    new StructureSeparationSettings(4 /* mean distance apart in chunks between spawn attempts */,
+						    3 /* minimum distance apart in chunks between spawn attempts */,
+						    134354456 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+				    false); //TransformSurroundingLand
 	        
 	        setupMapSpacingAndLand(
 	        		STELLAR_STONE_BRICKS_TOWER_STRUCTURE.get(), /* The instance of the structure */

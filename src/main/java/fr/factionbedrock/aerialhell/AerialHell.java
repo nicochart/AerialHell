@@ -123,6 +123,7 @@ public class AerialHell
     	{
     		/* structure */
     		this.addAllDungeons(event);
+			event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_SHADOW_CATACOMBS_STRUCTURE);
     		event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
     	}
     }
@@ -160,7 +161,8 @@ public class AerialHell
             tempMap.putIfAbsent(AerialHellStructures.OVERWORLD_ABANDONNED_PORTAL_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.OVERWORLD_ABANDONNED_PORTAL_STRUCTURE.get()));
             tempMap.putIfAbsent(AerialHellStructures.MUD_DUNGEON_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.MUD_DUNGEON_STRUCTURE.get()));
             tempMap.putIfAbsent(AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get()));
-            tempMap.putIfAbsent(AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get()));
+			tempMap.putIfAbsent(AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get()));
+			tempMap.putIfAbsent(AerialHellStructures.SHADOW_CATACOMBS_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.SHADOW_CATACOMBS_STRUCTURE.get()));
             tempMap.putIfAbsent(AerialHellStructures.STELLAR_STONE_BRICKS_TOWER_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.STELLAR_STONE_BRICKS_TOWER_STRUCTURE.get()));
             tempMap.putIfAbsent(AerialHellStructures.COPPER_PINE_COTTAGE_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.COPPER_PINE_COTTAGE_STRUCTURE.get()));
             tempMap.putIfAbsent(AerialHellStructures.SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE.get()));

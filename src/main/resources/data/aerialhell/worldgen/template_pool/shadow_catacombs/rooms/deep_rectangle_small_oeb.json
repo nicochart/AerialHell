@@ -1,0 +1,13 @@
+{
+  "name": "aerialhell:shadow_catacombs/rooms/deep_rectangle_small_oeb",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/rooms/deep_rectangle_small_oeb",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

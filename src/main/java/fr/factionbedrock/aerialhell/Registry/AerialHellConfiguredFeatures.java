@@ -79,7 +79,7 @@ public class AerialHellConfiguredFeatures
 		public static final BaseTreeFeatureConfig AERIAL_TREE_BASIC_CONFIG = (new BaseTreeFeatureConfig.Builder(
 			    new SimpleBlockStateProvider(AerialHellBlocksAndItems.AERIAL_TREE_LOG.get().getDefaultState()),
 			    new SimpleBlockStateProvider(AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get().getDefaultState()),
-			    new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3), //rayon,décalage,hauteur		func_242252_a()=fixed()
+			    new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3), //rayon,dï¿½calage,hauteur		func_242252_a()=fixed()
 			    new StraightTrunkPlacer(4, 2, 0), //hauteur de base, randomizer1, randomizer2
 			    new TwoLayerFeature(1, 0, 1)
 			    	)).setIgnoreVines().build();
@@ -95,7 +95,7 @@ public class AerialHellConfiguredFeatures
 		public static final BaseTreeFeatureConfig COPPER_PINE_CONFIG = (new BaseTreeFeatureConfig.Builder(
 			    new SimpleBlockStateProvider(AerialHellBlocksAndItems.COPPER_PINE_LOG.get().getDefaultState()),
                 new SimpleBlockStateProvider(AerialHellBlocksAndItems.COPPER_PINE_LEAVES.get().getDefaultState()),
-                new SpruceFoliagePlacer(FeatureSpread.func_242253_a(3, 1), FeatureSpread.func_242253_a(0, 2), FeatureSpread.func_242253_a(1, 1)), //rayon,décalage,hauteur		func_242252_a()=fixed()   2,1 0,2 1,1 sapin basique
+                new SpruceFoliagePlacer(FeatureSpread.func_242253_a(3, 1), FeatureSpread.func_242253_a(0, 2), FeatureSpread.func_242253_a(1, 1)), //rayon,dï¿½calage,hauteur		func_242252_a()=fixed()   2,1 0,2 1,1 sapin basique
                 new StraightTrunkPlacer(5, 2, 1),
                 new TwoLayerFeature(3, 0, 2)
                 	)).setIgnoreVines().build();
@@ -156,7 +156,7 @@ public class AerialHellConfiguredFeatures
 		public static final BaseTreeFeatureConfig CRYSTALLIZED_TREE_BASIC_CONFIG = (new BaseTreeFeatureConfig.Builder(
 			    new SimpleBlockStateProvider(AerialHellBlocksAndItems.AERIAL_TREE_LOG.get().getDefaultState()),
 			    new SimpleBlockStateProvider(AerialHellBlocksAndItems.CRYSTALLIZED_LEAVES.get().getDefaultState()),
-			    new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3), //rayon,décalage,hauteur		func_242252_a()=fixed()
+			    new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3), //rayon,dï¿½calage,hauteur		func_242252_a()=fixed()
 			    new StraightTrunkPlacer(4, 2, 0), //hauteur de base, randomizer1, randomizer2
 			    new TwoLayerFeature(1, 0, 1)
 			    	)).setIgnoreVines().build();
@@ -189,7 +189,8 @@ public class AerialHellConfiguredFeatures
 	public final static StructureFeature<?, ?> CONFIGURED_OVERWORLD_ABANDONNED_PORTAL_STRUCTURE = AerialHellStructures.OVERWORLD_ABANDONNED_PORTAL_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
 	public final static StructureFeature<?, ?> CONFIGURED_MUD_DUNGEON_STRUCTURE = AerialHellStructures.MUD_DUNGEON_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
 	public final static StructureFeature<?, ?> CONFIGURED_LUNATIC_TEMPLE_STRUCTURE = AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
-	public final static StructureFeature<?, ?> CONFIGURED_GOLDEN_NETHER_PRISON_STRUCTURE = AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
+    public final static StructureFeature<?, ?> CONFIGURED_GOLDEN_NETHER_PRISON_STRUCTURE = AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
+    public final static StructureFeature<?, ?> CONFIGURED_SHADOW_CATACOMBS_STRUCTURE = AerialHellStructures.SHADOW_CATACOMBS_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
 	public final static StructureFeature<?, ?> CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE = AerialHellStructures.STELLAR_STONE_BRICKS_TOWER_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
 	public final static StructureFeature<?, ?> CONFIGURED_COPPER_PINE_COTTAGE_STRUCTURE = AerialHellStructures.COPPER_PINE_COTTAGE_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
 	public final static StructureFeature<?, ?> CONFIGURED_SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE = AerialHellStructures.SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
@@ -258,8 +259,8 @@ public class AerialHellConfiguredFeatures
     public final static ConfiguredFeature<?, ?> GIANT_CRYSTAL_BLOB = AerialHellFeatures.GIANT_CRYSTAL_BLOB.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     
     /*
-    .range(n) : la feature peut apparaître de y=0 à n
-    .square() : met de l'aléatoire dans le positionnement de la feature, sinon elles sont placés sur une grille (tous allignés)
+    .range(n) : la feature peut apparaï¿½tre de y=0 ï¿½ n
+    .square() : met de l'alï¿½atoire dans le positionnement de la feature, sinon elles sont placï¿½s sur une grille (tous allignï¿½s)
     
     .withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT) = placement basique
     .range(256).square().func_242731_b(1) = semble similaire au placement basique
@@ -274,6 +275,7 @@ public class AerialHellConfiguredFeatures
         Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_mud_dungeon_structure"), CONFIGURED_MUD_DUNGEON_STRUCTURE);
         Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_lunatic_temple_structure"), CONFIGURED_LUNATIC_TEMPLE_STRUCTURE);
         Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_golden_nether_prison_structure"), CONFIGURED_GOLDEN_NETHER_PRISON_STRUCTURE);
+        Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_shadow_catacombs_structure"), CONFIGURED_SHADOW_CATACOMBS_STRUCTURE);
         Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_stellar_stone_bricks_tower_structure"), CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
         Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_copper_pine_cottage_structure"), CONFIGURED_COPPER_PINE_COTTAGE_STRUCTURE);
         Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_slippery_sand_ocean_abandonned_structure"), CONFIGURED_SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE);
