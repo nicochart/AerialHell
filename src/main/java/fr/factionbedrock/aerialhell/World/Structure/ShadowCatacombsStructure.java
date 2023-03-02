@@ -57,7 +57,7 @@ public class ShadowCatacombsStructure extends AbstractAerialHellStructure
             JigsawManager.func_242837_a //addPieces
             (
                     dynamicRegistryManager,
-                    new VillageConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY).getOrDefault(new ResourceLocation(AerialHell.MODID, "shadow_catacombs/floors/first_basement_pattern1_5")), 50),
+                    new VillageConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY).getOrDefault(new ResourceLocation(AerialHell.MODID, "shadow_catacombs/floors/first_basement_start_pattern")), 50),
                     AbstractVillagePiece::new,
                     chunkGenerator,
                     structureManager,
