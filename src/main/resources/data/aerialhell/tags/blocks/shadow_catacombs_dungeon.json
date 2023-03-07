@@ -16,6 +16,10 @@
     "aerialhell:cracked_shadow_catacombs_bricks_stairs",
     "aerialhell:cracked_shadow_catacombs_bricks_wall",
     "aerialhell:shadow_catacombs_bookshelf",
+    "aerialhell:shadow_lantern",
+    "aerialhell:shadow_torch",
+    "aerialhell:shadow_wall_torch",
+    "aerialhell:shadow_bars",
     "aerialhell:shadow_catacombs_chest"
   ]
 }

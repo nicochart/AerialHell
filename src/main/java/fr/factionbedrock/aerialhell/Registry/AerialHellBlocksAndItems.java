@@ -166,7 +166,7 @@ public class AerialHellBlocksAndItems
 	public static AbstractBlock.Properties LUNATIC_CHEST_MATERIAL = AbstractBlock.Properties.create(Material.ROCK, MaterialColor.ORANGE_TERRACOTTA).hardnessAndResistance(30.0F, 1000.0F).sound(SoundType.NETHERITE).harvestTool(ToolType.PICKAXE).setRequiresTool().notSolid();
 	public static AbstractBlock.Properties VOLUCITE_CHEST_MATERIAL = AbstractBlock.Properties.create(Material.IRON, MaterialColor.CLAY).hardnessAndResistance(50.0F, 1200.0F).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).setRequiresTool().notSolid();
 	public static AbstractBlock.Properties GOLDEN_NETHER_CHEST_MATERIAL = AbstractBlock.Properties.create(Material.IRON, MaterialColor.NETHERRACK).hardnessAndResistance(50.0F, 1200.0F).sound(SoundType.BASALT).harvestTool(ToolType.PICKAXE).setRequiresTool().notSolid();
-	public static AbstractBlock.Properties RUBY_MATERIAL = AbstractBlock.Properties.create(Material.IRON, MaterialColor.PURPLE).hardnessAndResistance(10.0F, 2.0F).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).setRequiresTool().notSolid();
+	public static AbstractBlock.Properties METAL_NOTSOLID_MATERIAL = AbstractBlock.Properties.create(Material.IRON, MaterialColor.PURPLE).hardnessAndResistance(10.0F, 2.0F).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).setRequiresTool().notSolid();
 	
 	//portal
 	public static final RegistryObject<AerialHellPortalBlock> AERIAL_HELL_PORTAL = BLOCKS.register("aerial_hell_portal", () -> new AerialHellPortalBlock(AbstractBlock.Properties.from(Blocks.NETHER_PORTAL)));
@@ -178,13 +178,16 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> STELLAR_LIGHTER = ITEMS.register("stellar_lighter", () -> new StellarLighterItem(new Item.Properties().maxStackSize(1).maxDamage(4).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
 	
 	//torch
-	public static final RegistryObject<Block> FLUORITE_WALL_TORCH = BLOCKS.register("fluorite_wall_torch", () -> new FluoriteWallTorchBlock(AbstractBlock.Properties.from(Blocks.WALL_TORCH)));
-	public static final RegistryObject<Block> FLUORITE_TORCH = BLOCKS.register("fluorite_torch", () -> new FluoriteTorchBlock(AbstractBlock.Properties.from(Blocks.TORCH)));
+	public static final RegistryObject<Block> FLUORITE_WALL_TORCH = BLOCKS.register("fluorite_wall_torch", () -> new AerialHellWallTorchBlock(AbstractBlock.Properties.from(Blocks.WALL_TORCH)));
+	public static final RegistryObject<Block> FLUORITE_TORCH = BLOCKS.register("fluorite_torch", () -> new AerialHellTorchBlock(AbstractBlock.Properties.from(Blocks.TORCH)));
 	public static final RegistryObject<Item> FLUORITE_TORCH_ITEM = ITEMS.register("fluorite_torch", () -> new WallOrFloorItem(FLUORITE_TORCH.get(), FLUORITE_WALL_TORCH.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
-	public static final RegistryObject<Block> VOLUCITE_WALL_TORCH = BLOCKS.register("volucite_wall_torch", () -> new FluoriteWallTorchBlock(AbstractBlock.Properties.from(Blocks.WALL_TORCH).setLightLevel((state) -> {return 9;})));
-	public static final RegistryObject<Block> VOLUCITE_TORCH = BLOCKS.register("volucite_torch", () -> new FluoriteTorchBlock(AbstractBlock.Properties.from(Blocks.TORCH).setLightLevel((state) -> {return 9;})));
+	public static final RegistryObject<Block> VOLUCITE_WALL_TORCH = BLOCKS.register("volucite_wall_torch", () -> new AerialHellWallTorchBlock(AbstractBlock.Properties.from(Blocks.WALL_TORCH).setLightLevel((state) -> {return 9;})));
+	public static final RegistryObject<Block> VOLUCITE_TORCH = BLOCKS.register("volucite_torch", () -> new AerialHellTorchBlock(AbstractBlock.Properties.from(Blocks.TORCH).setLightLevel((state) -> {return 9;})));
 	public static final RegistryObject<Item> VOLUCITE_TORCH_ITEM = ITEMS.register("volucite_torch", () -> new WallOrFloorItem(VOLUCITE_TORCH.get(), VOLUCITE_WALL_TORCH.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
-	
+	public static final RegistryObject<Block> SHADOW_WALL_TORCH = BLOCKS.register("shadow_wall_torch", () -> new AerialHellWallTorchBlock(AbstractBlock.Properties.from(Blocks.WALL_TORCH).setLightLevel((state) -> {return 9;})));
+	public static final RegistryObject<Block> SHADOW_TORCH = BLOCKS.register("shadow_torch", () -> new AerialHellTorchBlock(AbstractBlock.Properties.from(Blocks.TORCH).setLightLevel((state) -> {return 9;})));
+	public static final RegistryObject<Item> SHADOW_TORCH_ITEM = ITEMS.register("shadow_torch", () -> new WallOrFloorItem(SHADOW_TORCH.get(), SHADOW_WALL_TORCH.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+
 	//lanterns
 	public static final RegistryObject<Block> FLUORITE_LANTERN = BLOCKS.register("fluorite_lantern", () -> new LanternBlock(AbstractBlock.Properties.from(Blocks.LANTERN)));
 	public static final RegistryObject<Block> RUBY_LANTERN = BLOCKS.register("ruby_lantern", () -> new LanternBlock(AbstractBlock.Properties.from(Blocks.LANTERN)));
@@ -192,12 +195,14 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> VOLUCITE_LANTERN = BLOCKS.register("volucite_lantern", () -> new LanternBlock(AbstractBlock.Properties.from(Blocks.LANTERN)));
 	public static final RegistryObject<Block> VOLUCITE_FLUORITE_LANTERN = BLOCKS.register("volucite_fluorite_lantern", () -> new LanternBlock(AbstractBlock.Properties.from(Blocks.LANTERN)));
 	public static final RegistryObject<Block> LUNATIC_LANTERN = BLOCKS.register("lunatic_lantern", () -> new LanternBlock(AbstractBlock.Properties.from(Blocks.LANTERN)));
+	public static final RegistryObject<Block> SHADOW_LANTERN = BLOCKS.register("shadow_lantern", () -> new LanternBlock(AbstractBlock.Properties.from(Blocks.SOUL_LANTERN)));
 	public static final RegistryObject<Item> FLUORITE_LANTERN_ITEM = ITEMS.register("fluorite_lantern", () -> new BlockItem(FLUORITE_LANTERN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> RUBY_LANTERN_ITEM = ITEMS.register("ruby_lantern", () -> new BlockItem(RUBY_LANTERN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> RUBY_FLUORITE_LANTERN_ITEM = ITEMS.register("ruby_fluorite_lantern", () -> new BlockItem(RUBY_FLUORITE_LANTERN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> VOLUCITE_LANTERN_ITEM = ITEMS.register("volucite_lantern", () -> new BlockItem(VOLUCITE_LANTERN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> VOLUCITE_FLUORITE_LANTERN_ITEM = ITEMS.register("volucite_fluorite_lantern", () -> new BlockItem(VOLUCITE_FLUORITE_LANTERN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> LUNATIC_LANTERN_ITEM = ITEMS.register("lunatic_lantern", () -> new BlockItem(LUNATIC_LANTERN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> SHADOW_LANTERN_ITEM = ITEMS.register("shadow_lantern", () -> new BlockItem(SHADOW_LANTERN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	
     //aerial_tree
 	public static final RegistryObject<RotatedPillarBlock> AERIAL_TREE_LOG = BLOCKS.register("aerial_tree_log", () -> new RotatedPillarBlock(AERIAL_TREE_MATERIAL));
@@ -516,6 +521,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<SlabBlock> CRACKED_SHADOW_CATACOMBS_BRICKS_SLAB = BLOCKS.register("cracked_shadow_catacombs_bricks_slab", () -> new CoreProtectedSlabBlock(AbstractBlock.Properties.from(CRACKED_SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<StairsBlock> CRACKED_SHADOW_CATACOMBS_BRICKS_STAIRS = BLOCKS.register("cracked_shadow_catacombs_bricks_stairs", () -> new CoreProtectedStairsBlock(() -> CRACKED_SHADOW_CATACOMBS_BRICKS.get().getDefaultState(), AbstractBlock.Properties.from(VOLUCITE_STONE.get())));
 	public static final RegistryObject<WallBlock> CRACKED_SHADOW_CATACOMBS_BRICKS_WALL = BLOCKS.register("cracked_shadow_catacombs_bricks_wall", () -> new CoreProtectedWallBlock(AbstractBlock.Properties.from(CRACKED_SHADOW_CATACOMBS_BRICKS.get())));
+	public static final RegistryObject<PaneBlock> SHADOW_BARS = BLOCKS.register("shadow_bars", () -> new PaneBlock(METAL_NOTSOLID_MATERIAL));
 	public static final RegistryObject<SlabBlock> GOLDEN_NETHER_BRICKS_SLAB = BLOCKS.register("golden_nether_bricks_slab", () -> new CoreProtectedSlabBlock(AbstractBlock.Properties.from(GOLDEN_NETHER_BRICKS.get())));
 	public static final RegistryObject<StairsBlock> GOLDEN_NETHER_BRICKS_STAIRS = BLOCKS.register("golden_nether_bricks_stairs", () -> new CoreProtectedStairsBlock(() -> GOLDEN_NETHER_BRICKS.get().getDefaultState(), AbstractBlock.Properties.from(VOLUCITE_STONE.get())));
 	public static final RegistryObject<WallBlock> GOLDEN_NETHER_BRICKS_WALL = BLOCKS.register("golden_nether_bricks_wall", () -> new CoreProtectedWallBlock(AbstractBlock.Properties.from(GOLDEN_NETHER_BRICKS.get())));
@@ -550,6 +556,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> CRACKED_SHADOW_CATACOMBS_BRICKS_SLAB_ITEM = ITEMS.register("cracked_shadow_catacombs_bricks_slab", () -> new BlockItem(CRACKED_SHADOW_CATACOMBS_BRICKS_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> CRACKED_SHADOW_CATACOMBS_BRICKS_STAIRS_ITEM = ITEMS.register("cracked_shadow_catacombs_bricks_stairs", () -> new BlockItem(CRACKED_SHADOW_CATACOMBS_BRICKS_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> CRACKED_SHADOW_CATACOMBS_BRICKS_WALL_ITEM = ITEMS.register("cracked_shadow_catacombs_bricks_wall", () -> new BlockItem(CRACKED_SHADOW_CATACOMBS_BRICKS_WALL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> SHADOW_BARS_ITEM = ITEMS.register("shadow_bars", () -> new BlockItem(SHADOW_BARS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> GOLDEN_NETHER_BRICKS_SLAB_ITEM = ITEMS.register("golden_nether_bricks_slab", () -> new BlockItem(GOLDEN_NETHER_BRICKS_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> GOLDEN_NETHER_BRICKS_STAIRS_ITEM = ITEMS.register("golden_nether_bricks_stairs", () -> new BlockItem(GOLDEN_NETHER_BRICKS_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> GOLDEN_NETHER_BRICKS_WALL_ITEM = ITEMS.register("golden_nether_bricks_wall", () -> new BlockItem(GOLDEN_NETHER_BRICKS_WALL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
@@ -779,7 +786,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_FENCE_ITEM = ITEMS.register("sky_cactus_fiber_fence", () -> new BlockItem(SKY_CACTUS_FIBER_FENCE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<FenceBlock> GRAY_SHROOM_FENCE = BLOCKS.register("gray_shroom_fence", () -> new FenceBlock(SHROOM_MATERIAL));
 	public static final RegistryObject<Item> GRAY_SHROOM_FENCE_ITEM = ITEMS.register("gray_shroom_fence", () -> new BurnableBlockItem(GRAY_SHROOM_FENCE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 100));
-	public static final RegistryObject<PaneBlock> RUBY_BARS = BLOCKS.register("ruby_bars", () -> new PaneBlock(RUBY_MATERIAL));
+	public static final RegistryObject<PaneBlock> RUBY_BARS = BLOCKS.register("ruby_bars", () -> new PaneBlock(METAL_NOTSOLID_MATERIAL));
 	public static final RegistryObject<Item> RUBY_BARS_ITEM = ITEMS.register("ruby_bars", () -> new BlockItem(RUBY_BARS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<WallBlock> STELLAR_STONE_WALL = BLOCKS.register("stellar_stone_wall", () -> new WallBlock(AbstractBlock.Properties.from(STELLAR_STONE.get())));
 	public static final RegistryObject<Item> STELLAR_STONE_WALL_ITEM = ITEMS.register("stellar_stone_wall", () -> new BlockItem(STELLAR_STONE_WALL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
@@ -833,7 +840,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_DOOR_ITEM = ITEMS.register("sky_cactus_fiber_door", () -> new BlockItem(SKY_CACTUS_FIBER_DOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<DoorBlock> GRAY_SHROOM_DOOR = BLOCKS.register("gray_shroom_door", () -> new DoorBlock(AbstractBlock.Properties.from(GRAY_SHROOM_PLANKS.get()).notSolid()));
 	public static final RegistryObject<Item> GRAY_SHROOM_DOOR_ITEM = ITEMS.register("gray_shroom_door", () -> new BlockItem(GRAY_SHROOM_DOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
-	public static final RegistryObject<DoorBlock> RUBY_DOOR = BLOCKS.register("ruby_door", () -> new DoorBlock(RUBY_MATERIAL));
+	public static final RegistryObject<DoorBlock> RUBY_DOOR = BLOCKS.register("ruby_door", () -> new DoorBlock(METAL_NOTSOLID_MATERIAL));
 	public static final RegistryObject<Item> RUBY_DOOR_ITEM = ITEMS.register("ruby_door", () -> new BlockItem(RUBY_DOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	
 	//trapdoors
@@ -851,7 +858,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_TRAPDOOR_ITEM = ITEMS.register("sky_cactus_fiber_trapdoor", () -> new BlockItem( SKY_CACTUS_FIBER_TRAPDOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<TrapDoorBlock> GRAY_SHROOM_TRAPDOOR = BLOCKS.register("gray_shroom_trapdoor", () -> new TrapDoorBlock(AbstractBlock.Properties.from(GRAY_SHROOM_PLANKS.get()).notSolid()));
 	public static final RegistryObject<Item> GRAY_SHROOM_TRAPDOOR_ITEM = ITEMS.register("gray_shroom_trapdoor", () -> new BlockItem(GRAY_SHROOM_TRAPDOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
-	public static final RegistryObject<TrapDoorBlock> RUBY_TRAPDOOR = BLOCKS.register("ruby_trapdoor", () -> new TrapDoorBlock(RUBY_MATERIAL));
+	public static final RegistryObject<TrapDoorBlock> RUBY_TRAPDOOR = BLOCKS.register("ruby_trapdoor", () -> new TrapDoorBlock(METAL_NOTSOLID_MATERIAL));
 	public static final RegistryObject<Item> RUBY_TRAPDOOR_ITEM = ITEMS.register("ruby_trapdoor", () -> new BlockItem(RUBY_TRAPDOOR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	
 	//buttons

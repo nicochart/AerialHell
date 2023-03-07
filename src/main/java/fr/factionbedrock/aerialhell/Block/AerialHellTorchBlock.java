@@ -21,11 +21,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 /*Copy of net.minecraft.block.TorchBlock, removing smoke particles, and editing the way particles are added*/
 
-public class FluoriteTorchBlock extends Block
+public class AerialHellTorchBlock extends Block
 {
 	protected static final VoxelShape SHAPE = Block.makeCuboidShape(6.0D, 0.0D, 6.0D, 10.0D, 10.0D, 10.0D);
 
-	public FluoriteTorchBlock(AbstractBlock.Properties properties)
+	public AerialHellTorchBlock(AbstractBlock.Properties properties)
 	{
     	super(properties);
 	}
@@ -55,5 +55,9 @@ public class FluoriteTorchBlock extends Block
       	{
       		worldIn.addParticle(AerialHellParticleTypes.OSCILLATOR.get(), d0 + 0.5 * (rand.nextFloat() - 0.5), d1 - 0.2 * rand.nextFloat(), d2 + 0.5 * (rand.nextFloat() - 0.5), rand.nextFloat() - 0.5, rand.nextFloat() - 0.5, rand.nextFloat() - 0.5);
       	}
+		else if (this == AerialHellBlocksAndItems.SHADOW_TORCH.get() && rand.nextInt(5) == 0)
+		{
+			worldIn.addParticle(AerialHellParticleTypes.SHADOW_PARTICLE.get(), d0 + 0.5 * (rand.nextFloat() - 0.5), d1 - 0.2 * rand.nextFloat(), d2 + 0.5 * (rand.nextFloat() - 0.5), rand.nextFloat() - 0.5, -0.1, rand.nextFloat() - 0.5);
+		}
 	}
 }

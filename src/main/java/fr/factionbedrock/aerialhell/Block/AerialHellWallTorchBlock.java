@@ -33,12 +33,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 /*Copy of net.minecraft.block.WallTorchBlock, removing smoke particles, and editing the way particles are added*/
 
-public class FluoriteWallTorchBlock extends FluoriteTorchBlock
+public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 {
 	public static final DirectionProperty HORIZONTAL_FACING = HorizontalBlock.HORIZONTAL_FACING;
 	private static final Map<Direction, VoxelShape> SHAPES = Maps.newEnumMap(ImmutableMap.of(Direction.NORTH, Block.makeCuboidShape(5.5D, 3.0D, 11.0D, 10.5D, 13.0D, 16.0D), Direction.SOUTH, Block.makeCuboidShape(5.5D, 3.0D, 0.0D, 10.5D, 13.0D, 5.0D), Direction.WEST, Block.makeCuboidShape(11.0D, 3.0D, 5.5D, 16.0D, 13.0D, 10.5D), Direction.EAST, Block.makeCuboidShape(0.0D, 3.0D, 5.5D, 5.0D, 13.0D, 10.5D)));
 
-	public FluoriteWallTorchBlock(AbstractBlock.Properties properties)
+	public AerialHellWallTorchBlock(AbstractBlock.Properties properties)
 	{
 		super(properties);
 		this.setDefaultState(this.stateContainer.getBaseState().with(HORIZONTAL_FACING, Direction.NORTH));
@@ -104,6 +104,10 @@ public class FluoriteWallTorchBlock extends FluoriteTorchBlock
       	{
 			worldIn.addParticle(AerialHellParticleTypes.OSCILLATOR.get(), d0 + 0.5 * (rand.nextFloat() - 0.5), d1 - 0.2 * rand.nextFloat(), d2 + 0.5 * (rand.nextFloat() - 0.5), rand.nextFloat() - 0.5, rand.nextFloat() - 0.5, rand.nextFloat() - 0.5);
       	}
+		else if (this == AerialHellBlocksAndItems.SHADOW_WALL_TORCH.get() && rand.nextInt(5) == 0)
+		{
+			worldIn.addParticle(AerialHellParticleTypes.OSCILLATOR.get(), d0 + 0.5 * (rand.nextFloat() - 0.5), d1 - 0.2 * rand.nextFloat(), d2 + 0.5 * (rand.nextFloat() - 0.5), rand.nextFloat() - 0.5, -0.1, rand.nextFloat() - 0.5);
+		}
 	}
 
 	public BlockState rotate(BlockState state, Rotation rot)

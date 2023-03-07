@@ -125,6 +125,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.GRAY_SHROOM_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.RUBY_TRAPDOOR.get(), translucent);
         render(() -> AerialHellBlocksAndItems.RUBY_BARS.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.SHADOW_BARS.get(), translucent);
         render(() -> AerialHellBlocksAndItems.SKY_CACTUS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.FLUORITE_TORCH.get(), cutout);
@@ -135,6 +136,9 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.VOLUCITE_FLUORITE_LANTERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.FLUORITE_LANTERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.LUNATIC_LANTERN.get(), cutout);
+		render(() -> AerialHellBlocksAndItems.SHADOW_LANTERN.get(), cutout);
+		render(() -> AerialHellBlocksAndItems.SHADOW_TORCH.get(), cutout);
+		render(() -> AerialHellBlocksAndItems.SHADOW_WALL_TORCH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.VOLUCITE_TORCH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.VOLUCITE_WALL_TORCH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.SKY_LADDER.get(), cutout);
