@@ -5,7 +5,7 @@
     {
       "weight": 1,
       "element": {
-        "location": "aerialhell:shadow_catacombs/rooms/square_small_oel",
+        "location": "aerialhell:shadow_catacombs/rooms/square_small_oel_1",
         "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
       }
     }

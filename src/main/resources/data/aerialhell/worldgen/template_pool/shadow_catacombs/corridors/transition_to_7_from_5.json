@@ -5,7 +5,14 @@
     {
       "weight": 1,
       "element": {
-        "location": "aerialhell:shadow_catacombs/corridors/transition_to_7_from_5",
+        "location": "aerialhell:shadow_catacombs/corridors/transition_to_7_from_5_1",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/corridors/transition_to_7_from_5_2",
         "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
       }
     }
