@@ -5,6 +5,7 @@
     "aerialhell:mud_bricks",
     "aerialhell:trapped_mud_bricks",
     "aerialhell:cracked_mud_bricks",
+    "aerialhell:mossy_mud_bricks",
     "aerialhell:chiseled_mud_bricks",
     "aerialhell:light_mud_bricks",
     "aerialhell:trapped_light_mud_bricks",
@@ -15,6 +16,9 @@
     "aerialhell:cracked_mud_bricks_slab",
     "aerialhell:cracked_mud_bricks_stairs",
     "aerialhell:cracked_mud_bricks_wall",
+    "aerialhell:mossy_mud_bricks_slab",
+    "aerialhell:mossy_mud_bricks_stairs",
+    "aerialhell:mossy_mud_bricks_wall",
     "aerialhell:mud_bookshelf",
     "aerialhell:mud_chest"
   ]

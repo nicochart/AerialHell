@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "R",
+    "S",
+    "R"
+  ],
+  "key": {
+    "S": {"item": "aerialhell:shadow_shard"},
+    "R": {"item": "aerialhell:ruby"}
+  },
+  "result": {
+    "item": "aerialhell:shadow_chain",
+    "count": 3
+  }
+}

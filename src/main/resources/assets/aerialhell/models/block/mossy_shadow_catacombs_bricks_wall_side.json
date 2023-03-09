@@ -1,0 +1,7 @@
+{
+    "parent": "aerialhell:block/template_wall_side_with_tinted_layer",
+    "textures": {
+        "wall": "aerialhell:block/shadow_catacombs_bricks",
+        "wall_layer": "aerialhell:block/stellar_moss"
+    }
+}

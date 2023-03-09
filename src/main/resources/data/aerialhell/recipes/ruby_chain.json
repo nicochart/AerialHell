@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "R",
+    "R",
+    "R"
+  ],
+  "key": {
+    "R": {"item": "aerialhell:ruby"}
+  },
+  "result": {
+    "item": "aerialhell:ruby_chain",
+    "count": 3
+  }
+}

@@ -56,6 +56,14 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_STAIRS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_WALL.get(), cutout);
         render(() -> AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_WALL.get(), cutout);
+		render(() -> AerialHellBlocksAndItems.MOSSY_MUD_BRICKS.get(), cutout);
+		render(() -> AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS.get(), cutout);
+		render(() -> AerialHellBlocksAndItems.MOSSY_MUD_BRICKS_SLAB.get(), cutout);
+		render(() -> AerialHellBlocksAndItems.MOSSY_MUD_BRICKS_STAIRS.get(), cutout);
+		render(() -> AerialHellBlocksAndItems.MOSSY_MUD_BRICKS_WALL.get(), cutout);
+		render(() -> AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB.get(), cutout);
+		render(() -> AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS.get(), cutout);
+		render(() -> AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_WALL.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), cutout_mipped);
         render(() -> AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get(), cutout_mipped);
         render(() -> AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(), cutout_mipped);
@@ -137,6 +145,10 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.FLUORITE_LANTERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.LUNATIC_LANTERN.get(), cutout);
 		render(() -> AerialHellBlocksAndItems.SHADOW_LANTERN.get(), cutout);
+		render(() -> AerialHellBlocksAndItems.RUBY_CHAIN.get(), cutout_mipped);
+		render(() -> AerialHellBlocksAndItems.VOLUCITE_CHAIN.get(), cutout_mipped);
+		render(() -> AerialHellBlocksAndItems.LUNATIC_CHAIN.get(), cutout_mipped);
+		render(() -> AerialHellBlocksAndItems.SHADOW_CHAIN.get(), cutout_mipped);
 		render(() -> AerialHellBlocksAndItems.SHADOW_TORCH.get(), cutout);
 		render(() -> AerialHellBlocksAndItems.SHADOW_WALL_TORCH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.VOLUCITE_TORCH.get(), cutout);
@@ -232,7 +244,15 @@ public class AerialHellRendering
         		AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_SLAB.get(),
         		AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_SLAB.get(),
         		AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_STAIRS.get(),
-        		AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_STAIRS.get()
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_STAIRS.get(),
+				AerialHellBlocksAndItems.MOSSY_MUD_BRICKS.get(),
+				AerialHellBlocksAndItems.MOSSY_MUD_BRICKS_WALL.get(),
+				AerialHellBlocksAndItems.MOSSY_MUD_BRICKS_SLAB.get(),
+				AerialHellBlocksAndItems.MOSSY_MUD_BRICKS_STAIRS.get(),
+				AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS.get(),
+				AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_WALL.get(),
+				AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB.get(),
+				AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS.get()
         );
     }
 	
@@ -253,7 +273,15 @@ public class AerialHellRendering
         		AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_SLAB_ITEM.get(),
         		AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_SLAB_ITEM.get(),
         		AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_STAIRS_ITEM.get(),
-        		AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_STAIRS_ITEM.get()
+        		AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_STAIRS_ITEM.get(),
+				AerialHellBlocksAndItems.MOSSY_MUD_BRICKS_ITEM.get(),
+				AerialHellBlocksAndItems.MOSSY_MUD_BRICKS_WALL_ITEM.get(),
+				AerialHellBlocksAndItems.MOSSY_MUD_BRICKS_SLAB_ITEM.get(),
+				AerialHellBlocksAndItems.MOSSY_MUD_BRICKS_STAIRS_ITEM.get(),
+				AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_ITEM.get(),
+				AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_WALL_ITEM.get(),
+				AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB_ITEM.get(),
+				AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS_ITEM.get()
         );
     }
 	

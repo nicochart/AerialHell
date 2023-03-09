@@ -1,0 +1,11 @@
+{
+    "parent": "aerialhell:block/stairs_with_tinted_layer",
+    "textures": {
+        "bottom": "aerialhell:block/mud_bricks",
+        "top": "aerialhell:block/mud_bricks",
+        "side": "aerialhell:block/mud_bricks",
+        "bottom_layer": "aerialhell:block/stellar_moss",
+        "top_layer": "aerialhell:block/stellar_moss",
+        "side_layer": "aerialhell:block/stellar_moss"
+    }
+}

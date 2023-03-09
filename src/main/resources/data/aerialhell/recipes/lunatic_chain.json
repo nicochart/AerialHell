@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "B",
+    "C",
+    "B"
+  ],
+  "key": {
+    "C": {"item": "aerialhell:lunatic_crystal"},
+    "B": {"item": "aerialhell:lunatic_stone"}
+  },
+  "result": {
+    "item": "aerialhell:lunatic_chain",
+    "count": 8
+  }
+}

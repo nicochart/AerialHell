@@ -1,0 +1,7 @@
+{
+    "parent": "aerialhell:block/wall_inventory_with_tinted_layer",
+    "textures": {
+        "wall": "aerialhell:block/mud_bricks",
+        "wall_layer": "aerialhell:block/stellar_moss"
+    }
+}

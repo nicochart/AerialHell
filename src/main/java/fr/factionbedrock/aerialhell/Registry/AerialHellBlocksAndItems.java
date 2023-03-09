@@ -18,39 +18,8 @@ import fr.factionbedrock.aerialhell.Item.Material.*;
 import fr.factionbedrock.aerialhell.Item.ThrowingKnife.*;
 import fr.factionbedrock.aerialhell.Item.Tools.*;
 import fr.factionbedrock.aerialhell.World.Tree.*;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.block.ComposterBlock;
-import net.minecraft.block.CraftingTableBlock;
-import net.minecraft.block.DoorBlock;
-import net.minecraft.block.DoublePlantBlock;
-import net.minecraft.block.FenceBlock;
-import net.minecraft.block.FenceGateBlock;
-import net.minecraft.block.FlowerBlock;
-import net.minecraft.block.FlowerPotBlock;
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.block.FungusBlock;
-import net.minecraft.block.GlassBlock;
-import net.minecraft.block.HugeMushroomBlock;
-import net.minecraft.block.LadderBlock;
-import net.minecraft.block.LanternBlock;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.MushroomBlock;
-import net.minecraft.block.PaneBlock;
-import net.minecraft.block.PressurePlateBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.PressurePlateBlock.Sensitivity;
-import net.minecraft.block.RotatedPillarBlock;
-import net.minecraft.block.SaplingBlock;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.StoneButtonBlock;
-import net.minecraft.block.TrapDoorBlock;
-import net.minecraft.block.WallBlock;
-import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -203,7 +172,17 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> VOLUCITE_FLUORITE_LANTERN_ITEM = ITEMS.register("volucite_fluorite_lantern", () -> new BlockItem(VOLUCITE_FLUORITE_LANTERN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> LUNATIC_LANTERN_ITEM = ITEMS.register("lunatic_lantern", () -> new BlockItem(LUNATIC_LANTERN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> SHADOW_LANTERN_ITEM = ITEMS.register("shadow_lantern", () -> new BlockItem(SHADOW_LANTERN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
-	
+
+	//chains
+	public static final RegistryObject<ChainBlock> RUBY_CHAIN = BLOCKS.register("ruby_chain", () -> new ChainBlock(AbstractBlock.Properties.from(Blocks.CHAIN)));
+	public static final RegistryObject<ChainBlock> VOLUCITE_CHAIN = BLOCKS.register("volucite_chain", () -> new ChainBlock(AbstractBlock.Properties.from(Blocks.CHAIN)));
+	public static final RegistryObject<ChainBlock> LUNATIC_CHAIN = BLOCKS.register("lunatic_chain", () -> new ChainBlock(AbstractBlock.Properties.from(Blocks.CHAIN)));
+	public static final RegistryObject<ChainBlock> SHADOW_CHAIN = BLOCKS.register("shadow_chain", () -> new ChainBlock(AbstractBlock.Properties.from(Blocks.CHAIN)));
+	public static final RegistryObject<Item> RUBY_CHAIN_ITEM = ITEMS.register("ruby_chain", () -> new BlockItem(RUBY_CHAIN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> VOLUCITE_CHAIN_ITEM = ITEMS.register("volucite_chain", () -> new BlockItem(VOLUCITE_CHAIN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> LUNATIC_CHAIN_ITEM = ITEMS.register("lunatic_chain", () -> new BlockItem(LUNATIC_CHAIN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> SHADOW_CHAIN_ITEM = ITEMS.register("shadow_chain", () -> new BlockItem(SHADOW_CHAIN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+
     //aerial_tree
 	public static final RegistryObject<RotatedPillarBlock> AERIAL_TREE_LOG = BLOCKS.register("aerial_tree_log", () -> new RotatedPillarBlock(AERIAL_TREE_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_AERIAL_TREE_LOG = BLOCKS.register("stripped_aerial_tree_log", () -> new RotatedPillarBlock(AbstractBlock.Properties.from(AERIAL_TREE_LOG.get()).harvestTool(ToolType.AXE)));
@@ -415,8 +394,9 @@ public class AerialHellBlocksAndItems
 
 	//dungeons blocks
 	public static final RegistryObject<Block> MUD_BRICKS = BLOCKS.register("mud_bricks", () -> new CoreProtectedBlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
-	public static final RegistryObject<Block> CRACKED_MUD_BRICKS = BLOCKS.register("cracked_mud_bricks", () -> new CoreProtectedBlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
-	public static final RegistryObject<Block> CHISELED_MUD_BRICKS = BLOCKS.register("chiseled_mud_bricks", () -> new CoreProtectedBlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
+	public static final RegistryObject<Block> CRACKED_MUD_BRICKS = BLOCKS.register("cracked_mud_bricks", () -> new CoreProtectedBlock(AbstractBlock.Properties.from(MUD_BRICKS.get())));
+	public static final RegistryObject<Block> MOSSY_MUD_BRICKS = BLOCKS.register("mossy_mud_bricks", () -> new CoreProtectedBlock(AbstractBlock.Properties.from(MUD_BRICKS.get())));
+	public static final RegistryObject<Block> CHISELED_MUD_BRICKS = BLOCKS.register("chiseled_mud_bricks", () -> new CoreProtectedBlock(AbstractBlock.Properties.from(MUD_BRICKS.get())));
 	public static final RegistryObject<Block> LIGHT_MUD_BRICKS = BLOCKS.register("light_mud_bricks", () -> new CoreProtectedBlock(AbstractBlock.Properties.from(MUD_BRICKS.get()).setLightLevel((state) -> 11)));
 	public static final RegistryObject<Block> CRACKED_LIGHT_MUD_BRICKS = BLOCKS.register("cracked_light_mud_bricks", () -> new CoreProtectedBlock(AbstractBlock.Properties.from(MUD_BRICKS.get())));
 	public static final RegistryObject<Block> LUNATIC_STONE = BLOCKS.register("lunatic_stone", () -> new CoreProtectedBlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
@@ -428,7 +408,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> ROOF_LIGHT_LUNATIC_STONE = BLOCKS.register("roof_light_lunatic_stone", () -> new CoreProtectedBlock(AbstractBlock.Properties.from(LUNATIC_STONE.get()).setLightLevel((state) -> 11)));
 	public static final RegistryObject<Block> CRACKED_LIGHT_LUNATIC_STONE = BLOCKS.register("cracked_light_lunatic_stone", () -> new CoreProtectedBlock(AbstractBlock.Properties.from(LUNATIC_STONE.get())));
 	public static final RegistryObject<Block> SHADOW_CATACOMBS_BRICKS = BLOCKS.register("shadow_catacombs_bricks", () -> new CoreProtectedBlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
-	public static final RegistryObject<Block> CRACKED_SHADOW_CATACOMBS_BRICKS = BLOCKS.register("cracked_shadow_catacombs_bricks", () -> new CoreProtectedBlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
+	public static final RegistryObject<Block> CRACKED_SHADOW_CATACOMBS_BRICKS = BLOCKS.register("cracked_shadow_catacombs_bricks", () -> new CoreProtectedBlock(AbstractBlock.Properties.from(SHADOW_CATACOMBS_BRICKS.get())));
+	public static final RegistryObject<Block> MOSSY_SHADOW_CATACOMBS_BRICKS = BLOCKS.register("mossy_shadow_catacombs_bricks", () -> new CoreProtectedBlock(AbstractBlock.Properties.from(SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<Block> CHISELED_SHADOW_CATACOMBS_BRICKS = BLOCKS.register("chiseled_shadow_catacombs_bricks", () -> new CoreProtectedBlock(AbstractBlock.Properties.from(SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<Block> BONE_SHADOW_CATACOMBS_BRICKS = BLOCKS.register("bone_shadow_catacombs_bricks", () -> new CoreProtectedBlock(AbstractBlock.Properties.from(SHADOW_CATACOMBS_BRICKS.get()).sound(SoundType.BONE)));
 	public static final RegistryObject<Block> SKULL_SHADOW_CATACOMBS_BRICKS = BLOCKS.register("skull_shadow_catacombs_bricks", () -> new CoreProtectedBlock(AbstractBlock.Properties.from(SHADOW_CATACOMBS_BRICKS.get()).sound(SoundType.BONE)));
@@ -449,6 +430,7 @@ public class AerialHellBlocksAndItems
 
 	public static final RegistryObject<Item> MUD_BRICKS_ITEM = ITEMS.register("mud_bricks", () -> new BlockItem(MUD_BRICKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> CRACKED_MUD_BRICKS_ITEM = ITEMS.register("cracked_mud_bricks", () -> new BlockItem(CRACKED_MUD_BRICKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> MOSSY_MUD_BRICKS_ITEM = ITEMS.register("mossy_mud_bricks", () -> new BlockItem(MOSSY_MUD_BRICKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> CHISELED_MUD_BRICKS_ITEM = ITEMS.register("chiseled_mud_bricks", () -> new BlockItem(CHISELED_MUD_BRICKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> LIGHT_MUD_BRICKS_ITEM = ITEMS.register("light_mud_bricks", () -> new BlockItem(LIGHT_MUD_BRICKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> CRACKED_LIGHT_MUD_BRICKS_ITEM = ITEMS.register("cracked_light_mud_bricks", () -> new BlockItem(CRACKED_LIGHT_MUD_BRICKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
@@ -462,6 +444,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> CRACKED_LIGHT_LUNATIC_STONE_ITEM = ITEMS.register("cracked_light_lunatic_stone", () -> new BlockItem(CRACKED_LIGHT_LUNATIC_STONE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> SHADOW_CATACOMBS_BRICKS_ITEM = ITEMS.register("shadow_catacombs_bricks", () -> new BlockItem(SHADOW_CATACOMBS_BRICKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> CRACKED_SHADOW_CATACOMBS_BRICKS_ITEM = ITEMS.register("cracked_shadow_catacombs_bricks", () -> new BlockItem(CRACKED_SHADOW_CATACOMBS_BRICKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> MOSSY_SHADOW_CATACOMBS_BRICKS_ITEM = ITEMS.register("mossy_shadow_catacombs_bricks", () -> new BlockItem(MOSSY_SHADOW_CATACOMBS_BRICKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> CHISELED_SHADOW_CATACOMBS_BRICKS_ITEM = ITEMS.register("chiseled_shadow_catacombs_bricks", () -> new BlockItem(CHISELED_SHADOW_CATACOMBS_BRICKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> BONE_SHADOW_CATACOMBS_BRICKS_ITEM = ITEMS.register("bone_shadow_catacombs_bricks", () -> new BlockItem(BONE_SHADOW_CATACOMBS_BRICKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> SKULL_SHADOW_CATACOMBS_BRICKS_ITEM = ITEMS.register("skull_shadow_catacombs_bricks", () -> new BlockItem(SKULL_SHADOW_CATACOMBS_BRICKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
@@ -495,11 +478,14 @@ public class AerialHellBlocksAndItems
 	
 	//dungeons slabs, stairs & walls
 	public static final RegistryObject<SlabBlock> MUD_BRICKS_SLAB = BLOCKS.register("mud_bricks_slab", () -> new CoreProtectedSlabBlock(AbstractBlock.Properties.from(MUD_BRICKS.get())));
-	public static final RegistryObject<StairsBlock> MUD_BRICKS_STAIRS = BLOCKS.register("mud_bricks_stairs", () -> new CoreProtectedStairsBlock(() -> MUD_BRICKS.get().getDefaultState(), AbstractBlock.Properties.from(VOLUCITE_STONE.get())));
+	public static final RegistryObject<StairsBlock> MUD_BRICKS_STAIRS = BLOCKS.register("mud_bricks_stairs", () -> new CoreProtectedStairsBlock(() -> MUD_BRICKS.get().getDefaultState(), AbstractBlock.Properties.from(MUD_BRICKS.get())));
 	public static final RegistryObject<WallBlock> MUD_BRICKS_WALL = BLOCKS.register("mud_bricks_wall", () -> new CoreProtectedWallBlock(AbstractBlock.Properties.from(MUD_BRICKS.get())));
 	public static final RegistryObject<SlabBlock> CRACKED_MUD_BRICKS_SLAB = BLOCKS.register("cracked_mud_bricks_slab", () -> new CoreProtectedSlabBlock(AbstractBlock.Properties.from(CRACKED_MUD_BRICKS.get())));
-	public static final RegistryObject<StairsBlock> CRACKED_MUD_BRICKS_STAIRS = BLOCKS.register("cracked_mud_bricks_stairs", () -> new CoreProtectedStairsBlock(() -> CRACKED_MUD_BRICKS.get().getDefaultState(), AbstractBlock.Properties.from(VOLUCITE_STONE.get())));
+	public static final RegistryObject<StairsBlock> CRACKED_MUD_BRICKS_STAIRS = BLOCKS.register("cracked_mud_bricks_stairs", () -> new CoreProtectedStairsBlock(() -> CRACKED_MUD_BRICKS.get().getDefaultState(), AbstractBlock.Properties.from(MUD_BRICKS.get())));
 	public static final RegistryObject<WallBlock> CRACKED_MUD_BRICKS_WALL = BLOCKS.register("cracked_mud_bricks_wall", () -> new CoreProtectedWallBlock(AbstractBlock.Properties.from(CRACKED_MUD_BRICKS.get())));
+	public static final RegistryObject<SlabBlock> MOSSY_MUD_BRICKS_SLAB = BLOCKS.register("mossy_mud_bricks_slab", () -> new CoreProtectedSlabBlock(AbstractBlock.Properties.from(MOSSY_MUD_BRICKS.get())));
+	public static final RegistryObject<StairsBlock> MOSSY_MUD_BRICKS_STAIRS = BLOCKS.register("mossy_mud_bricks_stairs", () -> new CoreProtectedStairsBlock(() -> MOSSY_MUD_BRICKS.get().getDefaultState(), AbstractBlock.Properties.from(MOSSY_MUD_BRICKS.get())));
+	public static final RegistryObject<WallBlock> MOSSY_MUD_BRICKS_WALL = BLOCKS.register("mossy_mud_bricks_wall", () -> new CoreProtectedWallBlock(AbstractBlock.Properties.from(MOSSY_MUD_BRICKS.get())));
 	public static final RegistryObject<SlabBlock> VOLUCITE_STONE_SLAB = BLOCKS.register("volucite_stone_slab", () -> new CoreProtectedSlabBlock(AbstractBlock.Properties.from(VOLUCITE_STONE.get())));
 	public static final RegistryObject<StairsBlock> VOLUCITE_STONE_STAIRS = BLOCKS.register("volucite_stone_stairs", () -> new CoreProtectedStairsBlock(() -> VOLUCITE_STONE.get().getDefaultState(), AbstractBlock.Properties.from(VOLUCITE_STONE.get())));
 	public static final RegistryObject<WallBlock> VOLUCITE_STONE_WALL = BLOCKS.register("volucite_stone_wall", () -> new CoreProtectedWallBlock(AbstractBlock.Properties.from(VOLUCITE_STONE.get())));
@@ -516,11 +502,14 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<StairsBlock> CRACKED_LUNATIC_STONE_STAIRS = BLOCKS.register("cracked_lunatic_stone_stairs", () -> new CoreProtectedStairsBlock(() -> CRACKED_LUNATIC_STONE.get().getDefaultState(), AbstractBlock.Properties.from(VOLUCITE_STONE.get())));
 	public static final RegistryObject<WallBlock> CRACKED_LUNATIC_STONE_WALL = BLOCKS.register("cracked_lunatic_stone_wall", () -> new CoreProtectedWallBlock(AbstractBlock.Properties.from(CRACKED_LUNATIC_STONE.get())));
 	public static final RegistryObject<SlabBlock> SHADOW_CATACOMBS_BRICKS_SLAB = BLOCKS.register("shadow_catacombs_bricks_slab", () -> new CoreProtectedSlabBlock(AbstractBlock.Properties.from(SHADOW_CATACOMBS_BRICKS.get())));
-	public static final RegistryObject<StairsBlock> SHADOW_CATACOMBS_BRICKS_STAIRS = BLOCKS.register("shadow_catacombs_bricks_stairs", () -> new CoreProtectedStairsBlock(() -> SHADOW_CATACOMBS_BRICKS.get().getDefaultState(), AbstractBlock.Properties.from(VOLUCITE_STONE.get())));
+	public static final RegistryObject<StairsBlock> SHADOW_CATACOMBS_BRICKS_STAIRS = BLOCKS.register("shadow_catacombs_bricks_stairs", () -> new CoreProtectedStairsBlock(() -> SHADOW_CATACOMBS_BRICKS.get().getDefaultState(), AbstractBlock.Properties.from(SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<WallBlock> SHADOW_CATACOMBS_BRICKS_WALL = BLOCKS.register("shadow_catacombs_bricks_wall", () -> new CoreProtectedWallBlock(AbstractBlock.Properties.from(SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<SlabBlock> CRACKED_SHADOW_CATACOMBS_BRICKS_SLAB = BLOCKS.register("cracked_shadow_catacombs_bricks_slab", () -> new CoreProtectedSlabBlock(AbstractBlock.Properties.from(CRACKED_SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<StairsBlock> CRACKED_SHADOW_CATACOMBS_BRICKS_STAIRS = BLOCKS.register("cracked_shadow_catacombs_bricks_stairs", () -> new CoreProtectedStairsBlock(() -> CRACKED_SHADOW_CATACOMBS_BRICKS.get().getDefaultState(), AbstractBlock.Properties.from(VOLUCITE_STONE.get())));
 	public static final RegistryObject<WallBlock> CRACKED_SHADOW_CATACOMBS_BRICKS_WALL = BLOCKS.register("cracked_shadow_catacombs_bricks_wall", () -> new CoreProtectedWallBlock(AbstractBlock.Properties.from(CRACKED_SHADOW_CATACOMBS_BRICKS.get())));
+	public static final RegistryObject<SlabBlock> MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB = BLOCKS.register("mossy_shadow_catacombs_bricks_slab", () -> new CoreProtectedSlabBlock(AbstractBlock.Properties.from(MOSSY_SHADOW_CATACOMBS_BRICKS.get())));
+	public static final RegistryObject<StairsBlock> MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS = BLOCKS.register("mossy_shadow_catacombs_bricks_stairs", () -> new CoreProtectedStairsBlock(() -> MOSSY_SHADOW_CATACOMBS_BRICKS.get().getDefaultState(), AbstractBlock.Properties.from(MOSSY_SHADOW_CATACOMBS_BRICKS.get())));
+	public static final RegistryObject<WallBlock> MOSSY_SHADOW_CATACOMBS_BRICKS_WALL = BLOCKS.register("mossy_shadow_catacombs_bricks_wall", () -> new CoreProtectedWallBlock(AbstractBlock.Properties.from(MOSSY_SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<PaneBlock> SHADOW_BARS = BLOCKS.register("shadow_bars", () -> new PaneBlock(METAL_NOTSOLID_MATERIAL));
 	public static final RegistryObject<SlabBlock> GOLDEN_NETHER_BRICKS_SLAB = BLOCKS.register("golden_nether_bricks_slab", () -> new CoreProtectedSlabBlock(AbstractBlock.Properties.from(GOLDEN_NETHER_BRICKS.get())));
 	public static final RegistryObject<StairsBlock> GOLDEN_NETHER_BRICKS_STAIRS = BLOCKS.register("golden_nether_bricks_stairs", () -> new CoreProtectedStairsBlock(() -> GOLDEN_NETHER_BRICKS.get().getDefaultState(), AbstractBlock.Properties.from(VOLUCITE_STONE.get())));
@@ -535,6 +524,9 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> CRACKED_MUD_BRICKS_SLAB_ITEM = ITEMS.register("cracked_mud_bricks_slab", () -> new BlockItem(CRACKED_MUD_BRICKS_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> CRACKED_MUD_BRICKS_STAIRS_ITEM = ITEMS.register("cracked_mud_bricks_stairs", () -> new BlockItem(CRACKED_MUD_BRICKS_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> CRACKED_MUD_BRICKS_WALL_ITEM = ITEMS.register("cracked_mud_bricks_wall", () -> new BlockItem(CRACKED_MUD_BRICKS_WALL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> MOSSY_MUD_BRICKS_SLAB_ITEM = ITEMS.register("mossy_mud_bricks_slab", () -> new BlockItem(MOSSY_MUD_BRICKS_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> MOSSY_MUD_BRICKS_STAIRS_ITEM = ITEMS.register("mossy_mud_bricks_stairs", () -> new BlockItem(MOSSY_MUD_BRICKS_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> MOSSY_MUD_BRICKS_WALL_ITEM = ITEMS.register("mossy_mud_bricks_wall", () -> new BlockItem(MOSSY_MUD_BRICKS_WALL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> VOLUCITE_STONE_SLAB_ITEM = ITEMS.register("volucite_stone_slab", () -> new BlockItem(VOLUCITE_STONE_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> VOLUCITE_STONE_STAIRS_ITEM = ITEMS.register("volucite_stone_stairs", () -> new BlockItem(VOLUCITE_STONE_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> VOLUCITE_STONE_WALL_ITEM = ITEMS.register("volucite_stone_wall", () -> new BlockItem(VOLUCITE_STONE_WALL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
@@ -556,6 +548,9 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> CRACKED_SHADOW_CATACOMBS_BRICKS_SLAB_ITEM = ITEMS.register("cracked_shadow_catacombs_bricks_slab", () -> new BlockItem(CRACKED_SHADOW_CATACOMBS_BRICKS_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> CRACKED_SHADOW_CATACOMBS_BRICKS_STAIRS_ITEM = ITEMS.register("cracked_shadow_catacombs_bricks_stairs", () -> new BlockItem(CRACKED_SHADOW_CATACOMBS_BRICKS_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> CRACKED_SHADOW_CATACOMBS_BRICKS_WALL_ITEM = ITEMS.register("cracked_shadow_catacombs_bricks_wall", () -> new BlockItem(CRACKED_SHADOW_CATACOMBS_BRICKS_WALL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB_ITEM = ITEMS.register("mossy_shadow_catacombs_bricks_slab", () -> new BlockItem(MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS_ITEM = ITEMS.register("mossy_shadow_catacombs_bricks_stairs", () -> new BlockItem(MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> MOSSY_SHADOW_CATACOMBS_BRICKS_WALL_ITEM = ITEMS.register("mossy_shadow_catacombs_bricks_wall", () -> new BlockItem(MOSSY_SHADOW_CATACOMBS_BRICKS_WALL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> SHADOW_BARS_ITEM = ITEMS.register("shadow_bars", () -> new BlockItem(SHADOW_BARS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> GOLDEN_NETHER_BRICKS_SLAB_ITEM = ITEMS.register("golden_nether_bricks_slab", () -> new BlockItem(GOLDEN_NETHER_BRICKS_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> GOLDEN_NETHER_BRICKS_STAIRS_ITEM = ITEMS.register("golden_nether_bricks_stairs", () -> new BlockItem(GOLDEN_NETHER_BRICKS_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
