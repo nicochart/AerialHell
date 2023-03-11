@@ -11,7 +11,7 @@ import fr.factionbedrock.aerialhell.Entity.Neutral.ForestCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.*;
-import fr.factionbedrock.aerialhell.Entity.Projectile.ThrowingKnife.*;
+import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.*;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
@@ -93,41 +93,41 @@ public class AerialHellEntities
 	public static final EntityType<FlyingJellyfishEntity> FLYING_JELLYFISH_TYPE = EntityType.Builder.<FlyingJellyfishEntity>create(FlyingJellyfishEntity::new, EntityClassification.MONSTER)
 			    .size(3.0F, 3.0F).build("flying_jellyfish");
 	
-	public static final EntityType<IronThrowingKnifeEntity> IRON_THROWING_KNIFE_TYPE = EntityType.Builder.<IronThrowingKnifeEntity>create(IronThrowingKnifeEntity::new, EntityClassification.MISC)
-    			.size(0.25F, 0.25F).build("iron_throwing_knife");
+	public static final EntityType<IronShurikenEntity> IRON_SHURIKEN_TYPE = EntityType.Builder.<IronShurikenEntity>create(IronShurikenEntity::new, EntityClassification.MISC)
+    			.size(0.25F, 0.25F).build("iron_shuriken");
 	
-	public static final EntityType<GoldThrowingKnifeEntity> GOLD_THROWING_KNIFE_TYPE = EntityType.Builder.<GoldThrowingKnifeEntity>create(GoldThrowingKnifeEntity::new, EntityClassification.MISC)
-	    		.size(0.25F, 0.25F).build("gold_throwing_knife");
+	public static final EntityType<GoldShurikenEntity> GOLD_SHURIKEN_TYPE = EntityType.Builder.<GoldShurikenEntity>create(GoldShurikenEntity::new, EntityClassification.MISC)
+	    		.size(0.25F, 0.25F).build("gold_shuriken");
 	
-	public static final EntityType<DiamondThrowingKnifeEntity> DIAMOND_THROWING_KNIFE_TYPE = EntityType.Builder.<DiamondThrowingKnifeEntity>create(DiamondThrowingKnifeEntity::new, EntityClassification.MISC)
-	    		.size(0.25F, 0.25F).build("diamond_throwing_knife");
+	public static final EntityType<DiamondShurikenEntity> DIAMOND_SHURIKEN_TYPE = EntityType.Builder.<DiamondShurikenEntity>create(DiamondShurikenEntity::new, EntityClassification.MISC)
+	    		.size(0.25F, 0.25F).build("diamond_shuriken");
 	
-	public static final EntityType<NetheriteThrowingKnifeEntity> NETHERITE_THROWING_KNIFE_TYPE = EntityType.Builder.<NetheriteThrowingKnifeEntity>create(NetheriteThrowingKnifeEntity::new, EntityClassification.MISC)
-	    		.size(0.25F, 0.25F).build("netherite_throwing_knife");
+	public static final EntityType<NetheriteShurikenEntity> NETHERITE_SHURIKEN_TYPE = EntityType.Builder.<NetheriteShurikenEntity>create(NetheriteShurikenEntity::new, EntityClassification.MISC)
+	    		.size(0.25F, 0.25F).build("netherite_shuriken");
 	
-	public static final EntityType<RubyThrowingKnifeEntity> RUBY_THROWING_KNIFE_TYPE = EntityType.Builder.<RubyThrowingKnifeEntity>create(RubyThrowingKnifeEntity::new, EntityClassification.MISC)
-    			.size(0.25F, 0.25F).build("ruby_throwing_knife");
+	public static final EntityType<RubyShurikenEntity> RUBY_SHURIKEN_TYPE = EntityType.Builder.<RubyShurikenEntity>create(RubyShurikenEntity::new, EntityClassification.MISC)
+    			.size(0.25F, 0.25F).build("ruby_shuriken");
 	
-	public static final EntityType<AzuriteThrowingKnifeEntity> AZURITE_THROWING_KNIFE_TYPE = EntityType.Builder.<AzuriteThrowingKnifeEntity>create(AzuriteThrowingKnifeEntity::new, EntityClassification.MISC)
-    			.size(0.25F, 0.25F).build("azurite_throwing_knife");
+	public static final EntityType<AzuriteShurikenEntity> AZURITE_SHURIKEN_TYPE = EntityType.Builder.<AzuriteShurikenEntity>create(AzuriteShurikenEntity::new, EntityClassification.MISC)
+    			.size(0.25F, 0.25F).build("azurite_shuriken");
 	
-	public static final EntityType<MagmaticGelThrowingKnifeEntity> MAGMATIC_GEL_THROWING_KNIFE_TYPE = EntityType.Builder.<MagmaticGelThrowingKnifeEntity>create(MagmaticGelThrowingKnifeEntity::new, EntityClassification.MISC)
-    			.size(0.25F, 0.25F).build("magmatic_gel_throwing_knife");
+	public static final EntityType<MagmaticGelShurikenEntity> MAGMATIC_GEL_SHURIKEN_TYPE = EntityType.Builder.<MagmaticGelShurikenEntity>create(MagmaticGelShurikenEntity::new, EntityClassification.MISC)
+    			.size(0.25F, 0.25F).build("magmatic_gel_shuriken");
 	
-	public static final EntityType<VoluciteThrowingKnifeEntity> VOLUCITE_THROWING_KNIFE_TYPE = EntityType.Builder.<VoluciteThrowingKnifeEntity>create(VoluciteThrowingKnifeEntity::new, EntityClassification.MISC)
-		    	.size(0.25F, 0.25F).build("volucite_throwing_knife");
+	public static final EntityType<VoluciteShurikenEntity> VOLUCITE_SHURIKEN_TYPE = EntityType.Builder.<VoluciteShurikenEntity>create(VoluciteShurikenEntity::new, EntityClassification.MISC)
+		    	.size(0.25F, 0.25F).build("volucite_shuriken");
 	
-	public static final EntityType<ObsidianThrowingKnifeEntity> OBSIDIAN_THROWING_KNIFE_TYPE = EntityType.Builder.<ObsidianThrowingKnifeEntity>create(ObsidianThrowingKnifeEntity::new, EntityClassification.MISC)
-    			.size(0.25F, 0.25F).build("obsidian_throwing_knife");
+	public static final EntityType<ObsidianShurikenEntity> OBSIDIAN_SHURIKEN_TYPE = EntityType.Builder.<ObsidianShurikenEntity>create(ObsidianShurikenEntity::new, EntityClassification.MISC)
+    			.size(0.25F, 0.25F).build("obsidian_shuriken");
 	
-	public static final EntityType<LunaticCrystalThrowingKnifeEntity> LUNATIC_CRYSTAL_THROWING_KNIFE_TYPE = EntityType.Builder.<LunaticCrystalThrowingKnifeEntity>create(LunaticCrystalThrowingKnifeEntity::new, EntityClassification.MISC)
-	    		.size(0.25F, 0.25F).build("lunatic_crystal_throwing_knife");
+	public static final EntityType<LunaticCrystalShurikenEntity> LUNATIC_CRYSTAL_SHURIKEN_TYPE = EntityType.Builder.<LunaticCrystalShurikenEntity>create(LunaticCrystalShurikenEntity::new, EntityClassification.MISC)
+	    		.size(0.25F, 0.25F).build("lunatic_crystal_shuriken");
 	
-	public static final EntityType<ArsonistThrowingKnifeEntity> ARSONIST_THROWING_KNIFE_TYPE = EntityType.Builder.<ArsonistThrowingKnifeEntity>create(ArsonistThrowingKnifeEntity::new, EntityClassification.MISC)
-    			.size(0.25F, 0.25F).build("arsonist_throwing_knife");
+	public static final EntityType<ArsonistShurikenEntity> ARSONIST_SHURIKEN_TYPE = EntityType.Builder.<ArsonistShurikenEntity>create(ArsonistShurikenEntity::new, EntityClassification.MISC)
+    			.size(0.25F, 0.25F).build("arsonist_shuriken");
 	
-	public static final EntityType<LightningThrowingKnifeEntity> LIGHTNING_THROWING_KNIFE_TYPE = EntityType.Builder.<LightningThrowingKnifeEntity>create(LightningThrowingKnifeEntity::new, EntityClassification.MISC)
-			    .size(0.25F, 0.25F).build("lightning_throwing_knife");
+	public static final EntityType<LightningShurikenEntity> LIGHTNING_SHURIKEN_TYPE = EntityType.Builder.<LightningShurikenEntity>create(LightningShurikenEntity::new, EntityClassification.MISC)
+			    .size(0.25F, 0.25F).build("lightning_shuriken");
 	
 	public static final EntityType<VoluciteArrowEntity> VOLUCITE_BLOWPIPE_ARROW_TYPE = EntityType.Builder.<VoluciteArrowEntity>create(VoluciteArrowEntity::new, EntityClassification.MISC)
 			    .size(0.5F, 0.5F).build("volucite_blowpipe_arrow");
@@ -194,18 +194,18 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<ChainedGodEntity>> CHAINED_GOD = ENTITIES.register("chained_god", () -> CHAINED_GOD_TYPE);
 	public static final RegistryObject<EntityType<PoisonballEntity>> POISONBALL = ENTITIES.register("poisonball", () -> POISONBALL_TYPE);
 	public static final RegistryObject<EntityType<FlyingJellyfishEntity>> FLYING_JELLYFISH = ENTITIES.register("flying_jellyfish", () -> FLYING_JELLYFISH_TYPE);
-	public static final RegistryObject<EntityType<IronThrowingKnifeEntity>> IRON_THROWING_KNIFE = ENTITIES.register("iron_throwing_knife", () -> IRON_THROWING_KNIFE_TYPE);
-	public static final RegistryObject<EntityType<GoldThrowingKnifeEntity>> GOLD_THROWING_KNIFE = ENTITIES.register("gold_throwing_knife", () -> GOLD_THROWING_KNIFE_TYPE);
-	public static final RegistryObject<EntityType<DiamondThrowingKnifeEntity>> DIAMOND_THROWING_KNIFE = ENTITIES.register("diamond_throwing_knife", () -> DIAMOND_THROWING_KNIFE_TYPE);
-	public static final RegistryObject<EntityType<NetheriteThrowingKnifeEntity>> NETHERITE_THROWING_KNIFE = ENTITIES.register("netherite_throwing_knife", () -> NETHERITE_THROWING_KNIFE_TYPE);
-	public static final RegistryObject<EntityType<RubyThrowingKnifeEntity>> RUBY_THROWING_KNIFE = ENTITIES.register("ruby_throwing_knife", () -> RUBY_THROWING_KNIFE_TYPE);
-	public static final RegistryObject<EntityType<AzuriteThrowingKnifeEntity>> AZURITE_THROWING_KNIFE = ENTITIES.register("azurite_throwing_knife", () -> AZURITE_THROWING_KNIFE_TYPE);
-	public static final RegistryObject<EntityType<MagmaticGelThrowingKnifeEntity>> MAGMATIC_GEL_THROWING_KNIFE = ENTITIES.register("magmatic_gel_throwing_knife", () -> MAGMATIC_GEL_THROWING_KNIFE_TYPE);
-	public static final RegistryObject<EntityType<VoluciteThrowingKnifeEntity>> VOLUCITE_THROWING_KNIFE = ENTITIES.register("volucite_throwing_knife", () -> VOLUCITE_THROWING_KNIFE_TYPE);
-	public static final RegistryObject<EntityType<ObsidianThrowingKnifeEntity>> OBSIDIAN_THROWING_KNIFE = ENTITIES.register("obsidian_throwing_knife", () -> OBSIDIAN_THROWING_KNIFE_TYPE);
-	public static final RegistryObject<EntityType<LunaticCrystalThrowingKnifeEntity>> LUNATIC_CRYSTAL_THROWING_KNIFE = ENTITIES.register("lunatic_crystal_throwing_knife", () -> LUNATIC_CRYSTAL_THROWING_KNIFE_TYPE);
-	public static final RegistryObject<EntityType<ArsonistThrowingKnifeEntity>> ARSONIST_THROWING_KNIFE = ENTITIES.register("arsonist_throwing_knife", () -> ARSONIST_THROWING_KNIFE_TYPE);
-	public static final RegistryObject<EntityType<LightningThrowingKnifeEntity>> LIGHTNING_THROWING_KNIFE = ENTITIES.register("lightning_throwing_knife", () -> LIGHTNING_THROWING_KNIFE_TYPE);
+	public static final RegistryObject<EntityType<IronShurikenEntity>> IRON_SHURIKEN = ENTITIES.register("iron_shuriken", () -> IRON_SHURIKEN_TYPE);
+	public static final RegistryObject<EntityType<GoldShurikenEntity>> GOLD_SHURIKEN = ENTITIES.register("gold_shuriken", () -> GOLD_SHURIKEN_TYPE);
+	public static final RegistryObject<EntityType<DiamondShurikenEntity>> DIAMOND_SHURIKEN = ENTITIES.register("diamond_shuriken", () -> DIAMOND_SHURIKEN_TYPE);
+	public static final RegistryObject<EntityType<NetheriteShurikenEntity>> NETHERITE_SHURIKEN = ENTITIES.register("netherite_shuriken", () -> NETHERITE_SHURIKEN_TYPE);
+	public static final RegistryObject<EntityType<RubyShurikenEntity>> RUBY_SHURIKEN = ENTITIES.register("ruby_shuriken", () -> RUBY_SHURIKEN_TYPE);
+	public static final RegistryObject<EntityType<AzuriteShurikenEntity>> AZURITE_SHURIKEN = ENTITIES.register("azurite_shuriken", () -> AZURITE_SHURIKEN_TYPE);
+	public static final RegistryObject<EntityType<MagmaticGelShurikenEntity>> MAGMATIC_GEL_SHURIKEN = ENTITIES.register("magmatic_gel_shuriken", () -> MAGMATIC_GEL_SHURIKEN_TYPE);
+	public static final RegistryObject<EntityType<VoluciteShurikenEntity>> VOLUCITE_SHURIKEN = ENTITIES.register("volucite_shuriken", () -> VOLUCITE_SHURIKEN_TYPE);
+	public static final RegistryObject<EntityType<ObsidianShurikenEntity>> OBSIDIAN_SHURIKEN = ENTITIES.register("obsidian_shuriken", () -> OBSIDIAN_SHURIKEN_TYPE);
+	public static final RegistryObject<EntityType<LunaticCrystalShurikenEntity>> LUNATIC_CRYSTAL_SHURIKEN = ENTITIES.register("lunatic_crystal_shuriken", () -> LUNATIC_CRYSTAL_SHURIKEN_TYPE);
+	public static final RegistryObject<EntityType<ArsonistShurikenEntity>> ARSONIST_SHURIKEN = ENTITIES.register("arsonist_shuriken", () -> ARSONIST_SHURIKEN_TYPE);
+	public static final RegistryObject<EntityType<LightningShurikenEntity>> LIGHTNING_SHURIKEN = ENTITIES.register("lightning_shuriken", () -> LIGHTNING_SHURIKEN_TYPE);
 	public static final RegistryObject<EntityType<VoluciteArrowEntity>> VOLUCITE_BLOWPIPE_ARROW = ENTITIES.register("volucite_blowpipe_arrow", () -> VOLUCITE_BLOWPIPE_ARROW_TYPE);
 	public static final RegistryObject<EntityType<RubyArrowEntity>> RUBY_BLOWPIPE_ARROW = ENTITIES.register("ruby_blowpipe_arrow", () -> RUBY_BLOWPIPE_ARROW_TYPE);
 	public static final RegistryObject<EntityType<LunaticProjectileEntity>> LUNATIC_PROJECTILE = ENTITIES.register("lunatic_projectile", () -> LUNATIC_PROJECTILE_TYPE);

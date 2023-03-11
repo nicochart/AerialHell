@@ -15,7 +15,7 @@ import fr.factionbedrock.aerialhell.Client.TileEntityRenderer.AerialHellChestIte
 import fr.factionbedrock.aerialhell.Item.*;
 import fr.factionbedrock.aerialhell.Item.Bucket.*;
 import fr.factionbedrock.aerialhell.Item.Material.*;
-import fr.factionbedrock.aerialhell.Item.ThrowingKnife.*;
+import fr.factionbedrock.aerialhell.Item.Shuriken.*;
 import fr.factionbedrock.aerialhell.Item.Tools.*;
 import fr.factionbedrock.aerialhell.World.Tree.*;
 import net.minecraft.block.*;
@@ -1050,19 +1050,19 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_SHARD = ITEMS.register("shadow_shard",() -> new Item(new Item.Properties().rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
 	public static final RegistryObject<Item> ROTTEN_LEATHER = ITEMS.register("rotten_leather",() -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
 	
-	//throwing knifes
-	public static final RegistryObject<Item> IRON_THROWING_KNIFE = ITEMS.register("iron_throwing_knife", () -> new IronThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
-	public static final RegistryObject<Item> GOLD_THROWING_KNIFE = ITEMS.register("gold_throwing_knife", () -> new GoldThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
-	public static final RegistryObject<Item> DIAMOND_THROWING_KNIFE = ITEMS.register("diamond_throwing_knife", () -> new DiamondThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
-	public static final RegistryObject<Item> NETHERITE_THROWING_KNIFE = ITEMS.register("netherite_throwing_knife", () -> new NetheriteThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
-	public static final RegistryObject<Item> RUBY_THROWING_KNIFE = ITEMS.register("ruby_throwing_knife", () -> new RubyThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
-	public static final RegistryObject<Item> AZURITE_THROWING_KNIFE = ITEMS.register("azurite_throwing_knife", () -> new AzuriteThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
-	public static final RegistryObject<Item> MAGMATIC_GEL_THROWING_KNIFE = ITEMS.register("magmatic_gel_throwing_knife", () -> new MagmaticGelThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
-	public static final RegistryObject<Item> VOLUCITE_THROWING_KNIFE = ITEMS.register("volucite_throwing_knife", () -> new VoluciteThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
-	public static final RegistryObject<Item> OBSIDIAN_THROWING_KNIFE = ITEMS.register("obsidian_throwing_knife", () -> new ObsidianThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
-	public static final RegistryObject<Item> LUNATIC_CRYSTAL_THROWING_KNIFE = ITEMS.register("lunatic_crystal_throwing_knife", () -> new LunaticCrystalThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
-	public static final RegistryObject<Item> ARSONIST_THROWING_KNIFE = ITEMS.register("arsonist_throwing_knife", () -> new ArsonistThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
-	public static final RegistryObject<Item> LIGHTNING_THROWING_KNIFE = ITEMS.register("lightning_throwing_knife", () -> new LightningThrowingKnifeItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
+	//shurikens
+	public static final RegistryObject<Item> IRON_SHURIKEN = ITEMS.register("iron_shuriken", () -> new IronShurikenItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
+	public static final RegistryObject<Item> GOLD_SHURIKEN = ITEMS.register("gold_shuriken", () -> new GoldShurikenItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
+	public static final RegistryObject<Item> DIAMOND_SHURIKEN = ITEMS.register("diamond_shuriken", () -> new DiamondShurikenItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
+	public static final RegistryObject<Item> NETHERITE_SHURIKEN = ITEMS.register("netherite_shuriken", () -> new NetheriteShurikenItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
+	public static final RegistryObject<Item> RUBY_SHURIKEN = ITEMS.register("ruby_shuriken", () -> new RubyShurikenItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
+	public static final RegistryObject<Item> AZURITE_SHURIKEN = ITEMS.register("azurite_shuriken", () -> new AzuriteShurikenItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
+	public static final RegistryObject<Item> MAGMATIC_GEL_SHURIKEN = ITEMS.register("magmatic_gel_shuriken", () -> new MagmaticGelShurikenItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
+	public static final RegistryObject<Item> VOLUCITE_SHURIKEN = ITEMS.register("volucite_shuriken", () -> new VoluciteShurikenItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
+	public static final RegistryObject<Item> OBSIDIAN_SHURIKEN = ITEMS.register("obsidian_shuriken", () -> new ObsidianShurikenItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
+	public static final RegistryObject<Item> LUNATIC_CRYSTAL_SHURIKEN = ITEMS.register("lunatic_crystal_shuriken", () -> new LunaticCrystalShurikenItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
+	public static final RegistryObject<Item> ARSONIST_SHURIKEN = ITEMS.register("arsonist_shuriken", () -> new ArsonistShurikenItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
+	public static final RegistryObject<Item> LIGHTNING_SHURIKEN = ITEMS.register("lightning_shuriken", () -> new LightningShurikenItem(AerialHellItemGroups.AERIAL_HELL_COMBAT));
 	
 	//food
 	public static final RegistryObject<Item> AERIAL_BERRY = ITEMS.register("aerial_berry",() -> new Item(new Item.Properties().food(new Food.Builder().hunger(2).saturation(0.2F).build()).group(AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS)));

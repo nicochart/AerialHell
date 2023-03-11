@@ -88,7 +88,7 @@ public class AerialHellSoundEvents
 	public static final RegistryObject<SoundEvent> ENTITY_FLYING_JELLYFISH_AMBIENT = register("entity.flying_jellyfish.ambient");
 	public static final RegistryObject<SoundEvent> ENTITY_FLYING_JELLYFISH_HURT = register("entity.flying_jellyfish.hurt");
 	
-	public static final RegistryObject<SoundEvent> ENTITY_THROWING_KNIFE_SHOOT = register("entity.throwing_knife.throw");
+	public static final RegistryObject<SoundEvent> ENTITY_SHURIKEN_SHOOT = register("entity.shuriken.throw");
 	public static final RegistryObject<SoundEvent> ENTITY_VOLUCITE_BLOWPIPE_SHOOT = register("entity.volucite_blowpipe.shoot");
 	
 	public static final RegistryObject<SoundEvent> ITEM_FORGOTTEN_BATTLE_TRIDENT_USE = register("item.forgotten_battle_trident.use");

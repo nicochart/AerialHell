@@ -1,0 +1,19 @@
+{
+  "parent": "aerialhell:classic/collect_ruby",
+  "display": {
+    "icon": {"item": "aerialhell:ruby_shuriken"},
+    "title": {"translate": "advancements.classic.throw_shuriken.title"},
+    "description": {"translate": "advancements.classic.throw_shuriken.desc"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "threw_shuriken": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {"damage": {"type": {"is_projectile": true, "direct_entity": {"type": "#aerialhell:shuriken"}}}}}
+  },
+  "requirements": [["threw_shuriken"]],
+  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+}

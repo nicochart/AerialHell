@@ -182,7 +182,7 @@
         },
         {
           "type": "item",
-          "name": "aerialhell:ruby_throwing_knife",
+          "name": "aerialhell:ruby_shuriken",
           "weight": 2,
           "functions": [
             {
@@ -196,7 +196,7 @@
         },
         {
           "type": "item",
-          "name": "aerialhell:volucite_throwing_knife",
+          "name": "aerialhell:volucite_shuriken",
           "weight": 1,
           "functions": [
             {

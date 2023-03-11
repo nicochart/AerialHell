@@ -405,9 +405,9 @@
     "subtitle": "subtitles.entity.volucite_blowpipe.shoot",
     "sounds": ["aerialhell:projectile/volucite_blowpipe/shoot"]
   },
-  "entity.throwing_knife.throw": {
-    "subtitle": "subtitles.entity.throwing_knife.throw",
-    "sounds": ["aerialhell:projectile/throwing_knife/shoot"]
+  "entity.shuriken.throw": {
+    "subtitle": "subtitles.entity.shuriken.throw",
+    "sounds": ["aerialhell:projectile/shuriken/shoot"]
   },
   "entity.lunatic_projectile.shoot": {
     "subtitle": "subtitles.entity.lunatic_projectile.shoot",

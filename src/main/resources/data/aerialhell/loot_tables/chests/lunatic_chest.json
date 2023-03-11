@@ -163,7 +163,7 @@
         },
         {
           "type": "item",
-          "name": "aerialhell:gold_throwing_knife",
+          "name": "aerialhell:gold_shuriken",
           "weight": 2,
           "functions": [
             {
@@ -177,7 +177,7 @@
         },
         {
           "type": "item",
-          "name": "aerialhell:volucite_throwing_knife",
+          "name": "aerialhell:volucite_shuriken",
           "weight": 1,
           "functions": [
             {

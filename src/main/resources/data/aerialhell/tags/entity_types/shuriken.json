@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:iron_shuriken",
+    "aerialhell:gold_shuriken",
+    "aerialhell:diamond_shuriken",
+    "aerialhell:netherite_shuriken",
+    "aerialhell:ruby_shuriken",
+    "aerialhell:azurite_shuriken",
+    "aerialhell:magmatic_gel_shuriken",
+    "aerialhell:volucite_shuriken",
+    "aerialhell:obsidian_shuriken",
+    "aerialhell:lunatic_crystal_shuriken",
+    "aerialhell:arsonist_shuriken",
+    "aerialhell:lightning_shuriken"
+  ]
+}

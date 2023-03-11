@@ -37,7 +37,7 @@
         },
         {
           "type": "item",
-          "name": "aerialhell:netherite_throwing_knife",
+          "name": "aerialhell:netherite_shuriken",
           "weight": 1,
           "functions": [
             {
@@ -51,7 +51,7 @@
         },
         {
           "type": "item",
-          "name": "aerialhell:arsonist_throwing_knife",
+          "name": "aerialhell:arsonist_shuriken",
           "weight": 1,
           "functions": [
             {

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " #",
+    "S "
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:obsidian_shard"
+    },
+    "S": {
+      "item": "aerialhell:sky_stick"
+    }
+  },
+  "result": {
+    "item": "aerialhell:obsidian_shuriken",
+    "count": 8
+  }
+}
