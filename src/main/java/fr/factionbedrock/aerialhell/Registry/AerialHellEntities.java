@@ -55,7 +55,7 @@ public class AerialHellEntities
 			    .size(0.9F, 1.4F).build("sandy_sheep");
 
 	public static final EntityType<GlidingTurtleEntity> GLIDING_TURTLE_TYPE = EntityType.Builder.<GlidingTurtleEntity>create(GlidingTurtleEntity::new, EntityClassification.CREATURE)
-			.size(0.9F, 1.4F).build("gliding_turtle");
+				.size(1.4F, 1.9F).build("gliding_turtle");
 	
 	public static final EntityType<FatPhantomEntity> FAT_PHANTOM_TYPE = EntityType.Builder.<FatPhantomEntity>create(FatPhantomEntity::new, EntityClassification.CREATURE)
 			    .size(1.3F, 1.0F).immuneToFire().build("fat_phantom");

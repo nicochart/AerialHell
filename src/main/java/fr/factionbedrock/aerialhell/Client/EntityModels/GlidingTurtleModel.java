@@ -125,6 +125,13 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleEntity>
 	@Override
 	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{
+		if(isChild)
+		{
+			matrixStack.scale(0.5F, 0.5F, 0.5F);
+			matrixStack.translate(0.0F, 1.5F, 0.0F);
+		}
+		matrixStack.push();
+
 		Head.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 		Body.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 		WingRight.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
@@ -133,6 +140,7 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleEntity>
 		LegFrontLeft.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 		LegBackRight.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 		LegBackLeft.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		matrixStack.pop();
 	}
 
 	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {modelRenderer.rotateAngleX = x; modelRenderer.rotateAngleY = y; modelRenderer.rotateAngleZ = z;}

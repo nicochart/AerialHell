@@ -17,6 +17,8 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
@@ -116,13 +118,41 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
     {
         if (this.getMotion().y < 0.0D)
         {
-            this.setMotion(this.getMotion().mul(1.0D, 0.6D, 1.0D).add(this.getForward().x/100, 0, this.getForward().z/100));
+            Vector3d forward = Vector3d.fromPitchYaw(this.getPitchYaw());
+            if (this.hasBlockUnder(this.getPosition().add(2.5*forward.x, forward.y, 2.5*forward.z), 20))
+            {
+                this.setMotion(this.getMotion().mul(1.0D, 0.6D, 1.0D).add(forward.x/100, 0, forward.z/100));
+            }
+            else
+            {
+                if (this.hasBlockUnder(this.getPosition(), 25))
+                {
+                    this.setMotion(this.getMotion().mul(0.9D, 0.6D, 0.9D));
+                }
+                else
+                {
+                    this.setMotion(this.getMotion().mul(1.0D, 0.5D, 1.0D).add(forward.x/70, 0, forward.z/70));
+                }
+            }
         }
+    }
+
+    protected boolean hasBlockUnder(BlockPos pos, int yBlocksDistance)
+    {
+        for (int dy=0; dy<yBlocksDistance; dy++) {if (!world.isAirBlock(pos.down(dy))) {return true;}}
+        return false;
     }
 
     public void glideJump()
     {
-        this.setMotion(this.getMotion().add(0.0D, 1.5D, 0.0D));
+        if (this.isChild())
+        {
+            this.setMotion(this.getMotion().add(0.0D, 1.1D, 0.0D));
+        }
+        else
+        {
+            this.setMotion(this.getMotion().add(0.0D, 1.5D, 0.0D));
+        }
         this.jumpTimer = 0;
     }
 

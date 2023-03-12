@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:oscillating",
+  "ingredient": {
+    "item": "aerialhell:turtle_meat"
+  },
+  "result": "aerialhell:vibrant_turtle_meat",
+  "experience": 0.8,
+  "cookingtime": 400
+}
