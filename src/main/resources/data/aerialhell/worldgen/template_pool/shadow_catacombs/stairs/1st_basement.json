@@ -1,0 +1,20 @@
+{
+  "name": "aerialhell:shadow_catacombs/stairs/1st_basement",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/stairs/1st_basement_stop",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/stairs/1st_basement_continue",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

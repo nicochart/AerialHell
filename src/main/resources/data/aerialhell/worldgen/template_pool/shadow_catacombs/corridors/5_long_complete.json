@@ -1,0 +1,20 @@
+{
+  "name": "aerialhell:shadow_catacombs/corridors/5_long_complete",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 2,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/corridors/5_8_complete",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/corridors/5_10_complete",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}
