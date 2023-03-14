@@ -102,6 +102,7 @@
   "block.aerialhell.shadow_pine_stairs" : "Shadow Pine Stairs",
   "block.aerialhell.shadow_pine_chest" : "Shadow Pine Chest",
   "block.aerialhell.shadow_pine_barrel" : "Shadow Pine Barrel",
+  "block.aerialhell.shadow_pine_barrel_mimic" : "Shadow Pine Barrel Mimic",
   "block.aerialhell.shadow_pine_sign" : "Shadow Pine Sign",
   "block.aerialhell.shadow_pine_button" : "Shadow Pine Button",
   "block.aerialhell.shadow_pine_pressure_plate" : "Shadow Pine pressure plate",
@@ -690,6 +691,7 @@
   "entity.aerialhell.copper_pine_mimic": "Copper Pine Chest Mimic",
   "entity.aerialhell.golden_beech_mimic": "Golden Beech Chest Mimic",
   "entity.aerialhell.sky_cactus_fiber_mimic": "Sky Cactus Fiber Chest Mimic",
+  "entity.aerialhell.shadow_pine_mimic": "Shadow Pine Mimic",
 
   "entity.aerialhell.iron_shuriken": "Iron Shuriken",
   "entity.aerialhell.gold_shuriken": "Gold Shuriken",

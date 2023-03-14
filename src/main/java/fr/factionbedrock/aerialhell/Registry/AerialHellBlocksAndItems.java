@@ -746,12 +746,17 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> GOLDEN_BEECH_CHEST_MIMIC = BLOCKS.register("golden_beech_chest_mimic", () -> new ChestMimicBlock(AbstractBlock.Properties.from(Blocks.CHEST).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> COPPER_PINE_CHEST_MIMIC = BLOCKS.register("copper_pine_chest_mimic", () -> new ChestMimicBlock(AbstractBlock.Properties.from(Blocks.CHEST).harvestTool(ToolType.AXE)));
 	public static final RegistryObject<Block> SKY_CACTUS_FIBER_CHEST_MIMIC = BLOCKS.register("sky_cactus_fiber_chest_mimic", () -> new ChestMimicBlock(AbstractBlock.Properties.from(Blocks.CHEST).harvestTool(ToolType.AXE)));
-	
+
 	public static final RegistryObject<Item> AERIAL_TREE_CHEST_MIMIC_ITEM = ITEMS.register("aerial_tree_chest_mimic", () -> new BlockItem(AERIAL_TREE_CHEST_MIMIC.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_SPAWN_EGGS)));
 	public static final RegistryObject<Item> GOLDEN_BEECH_CHEST_MIMIC_ITEM = ITEMS.register("golden_beech_chest_mimic", () -> new BlockItem(GOLDEN_BEECH_CHEST_MIMIC.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_SPAWN_EGGS)));
 	public static final RegistryObject<Item> COPPER_PINE_CHEST_MIMIC_ITEM = ITEMS.register("copper_pine_chest_mimic", () -> new BlockItem(COPPER_PINE_CHEST_MIMIC.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_SPAWN_EGGS)));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_CHEST_MIMIC_ITEM = ITEMS.register("sky_cactus_fiber_chest_mimic", () -> new BlockItem(SKY_CACTUS_FIBER_CHEST_MIMIC.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_SPAWN_EGGS)));
-	
+
+	//barrel mimics
+	public static final RegistryObject<Block> SHADOW_PINE_BARREL_MIMIC = BLOCKS.register("shadow_pine_barrel_mimic", () -> new BarrelMimicBlock(AbstractBlock.Properties.from(Blocks.BARREL).harvestTool(ToolType.AXE)));
+
+	public static final RegistryObject<Item> SHADOW_PINE_BARREL_MIMIC_ITEM = ITEMS.register("shadow_pine_barrel_mimic", () -> new BlockItem(SHADOW_PINE_BARREL_MIMIC.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_SPAWN_EGGS)));
+
 	//fences, bars or walls
 	public static final RegistryObject<FenceBlock> AERIAL_TREE_FENCE = BLOCKS.register("aerial_tree_fence", () -> new FenceBlock(AERIAL_TREE_MATERIAL));
 	public static final RegistryObject<Item> AERIAL_TREE_FENCE_ITEM = ITEMS.register("aerial_tree_fence", () -> new BurnableBlockItem(AERIAL_TREE_FENCE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS), 300));

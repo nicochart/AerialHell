@@ -5,6 +5,7 @@ import static fr.factionbedrock.aerialhell.AerialHell.MODID;
 import fr.factionbedrock.aerialhell.Entity.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.*;
 import fr.factionbedrock.aerialhell.Entity.Neutral.ForestCaterpillarEntity;
@@ -155,7 +156,10 @@ public class AerialHellEntities
 	
 	public static final EntityType<CopperPineChestMimicEntity> COPPER_PINE_MIMIC_TYPE = EntityType.Builder.<CopperPineChestMimicEntity>create(CopperPineChestMimicEntity::new, EntityClassification.MONSTER)
 		    	.size(0.95F, 2.0F).build("copper_pine_mimic");
-	
+
+	public static final EntityType<ShadowPineBarrelMimicEntity> SHADOW_PINE_MIMIC_TYPE = EntityType.Builder.<ShadowPineBarrelMimicEntity>create(ShadowPineBarrelMimicEntity::new, EntityClassification.MONSTER)
+				.size(1.1F, 0.9F).build("shadow_pine_mimic");
+
 	public static final EntityType<HellSpiderEntity> HELL_SPIDER_TYPE = EntityType.Builder.create(HellSpiderEntity::new, EntityClassification.MONSTER)
 			    .size(0.85F, 0.8F).build("hell_spider");
 	
@@ -215,6 +219,7 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<GoldenBeechChestMimicEntity>> GOLDEN_BEECH_MIMIC = ENTITIES.register("golden_beech_mimic", () -> GOLDEN_BEECH_MIMIC_TYPE);
 	public static final RegistryObject<EntityType<SkyCactusFiberChestMimicEntity>> SKY_CACTUS_FIBER_MIMIC = ENTITIES.register("sky_cactus_fiber_mimic", () -> SKY_CACTUS_FIBER_MIMIC_TYPE);
 	public static final RegistryObject<EntityType<CopperPineChestMimicEntity>> COPPER_PINE_MIMIC = ENTITIES.register("copper_pine_mimic", () -> COPPER_PINE_MIMIC_TYPE);
+	public static final RegistryObject<EntityType<ShadowPineBarrelMimicEntity>> SHADOW_PINE_MIMIC = ENTITIES.register("shadow_pine_mimic", () -> SHADOW_PINE_MIMIC_TYPE);
 	public static final RegistryObject<EntityType<HellSpiderEntity>> HELL_SPIDER = ENTITIES.register("hell_spider", () -> HELL_SPIDER_TYPE);
 	public static final RegistryObject<EntityType<CrystalSpiderEntity>> CRYSTAL_SPIDER = ENTITIES.register("crystal_spider", () -> CRYSTAL_SPIDER_TYPE);
 	public static final RegistryObject<EntityType<ShadowSpiderEntity>> SHADOW_SPIDER = ENTITIES.register("shadow_spider", () -> SHADOW_SPIDER_TYPE);

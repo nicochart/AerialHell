@@ -102,6 +102,7 @@
   "block.aerialhell.shadow_pine_stairs" : "Escalier en Sapin des Ombres",
   "block.aerialhell.shadow_pine_chest" : "Coffre en Sapin des Ombres",
   "block.aerialhell.shadow_pine_barrel" : "Tonneau en Sapin des Ombres",
+  "block.aerialhell.shadow_pine_barrel_mimic" : "Immitateur de Tonneau en Sapin des Ombres",
   "block.aerialhell.shadow_pine_sign" : "Pancarte en Sapin des Ombres",
   "block.aerialhell.shadow_pine_button" : "Bouton en Sapin des Ombres",
   "block.aerialhell.shadow_pine_pressure_plate" : "Plaque de pression en Sapin des Ombres",
@@ -689,6 +690,7 @@
   "entity.aerialhell.copper_pine_mimic": "Immitateur de Coffre en Sapin Cuivré",
   "entity.aerialhell.golden_beech_mimic": "Immitateur de Coffre en Hêtre Doré",
   "entity.aerialhell.sky_cactus_fiber_mimic": "Immitateur de Coffre en Fibres de Cactus des Cieux",
+  "entity.aerialhell.shadow_pine_mimic": "Immitateur de Tonneau en Sapin des Ombres",
 
   "entity.aerialhell.iron_shuriken": "Shuriken en Fer",
   "entity.aerialhell.gold_shuriken": "Shuriken en Or",

@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.AbstractElementSpiritEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
 import fr.factionbedrock.aerialhell.Entity.Neutral.ForestCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
@@ -50,6 +51,7 @@ public class AerialHellEntityAttributes
 		event.put(AerialHellEntities.GOLDEN_BEECH_MIMIC.get(), GoldenBeechChestMimicEntity.registerAttributes().create());
 		event.put(AerialHellEntities.SKY_CACTUS_FIBER_MIMIC.get(), SkyCactusFiberChestMimicEntity.registerAttributes().create());
 		event.put(AerialHellEntities.COPPER_PINE_MIMIC.get(), CopperPineChestMimicEntity.registerAttributes().create());
+		event.put(AerialHellEntities.SHADOW_PINE_MIMIC.get(), ShadowPineBarrelMimicEntity.registerAttributes().create());
 		event.put(AerialHellEntities.HELL_SPIDER.get(), HellSpiderEntity.registerAttributes().create());
 		event.put(AerialHellEntities.CRYSTAL_SPIDER.get(), CrystalSpiderEntity.registerAttributes().create());
 		event.put(AerialHellEntities.LILITH.get(), LilithEntity.registerAttributes().create());

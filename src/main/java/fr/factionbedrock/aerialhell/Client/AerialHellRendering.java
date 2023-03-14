@@ -197,6 +197,7 @@ public class AerialHellRendering
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.GOLDEN_BEECH_MIMIC.get(), ChestMimicRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SKY_CACTUS_FIBER_MIMIC.get(), ChestMimicRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.COPPER_PINE_MIMIC.get(), ChestMimicRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHADOW_PINE_MIMIC.get(), SpiderBarrelMimicRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.HELL_SPIDER.get(), HellSpiderRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CRYSTAL_SPIDER.get(), HellSpiderRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHADOW_SPIDER.get(), HellSpiderRender::new);

@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "aerialhell:block/shadow_pine_barrel_mimic_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "aerialhell:block/shadow_pine_barrel_mimic"
+    },
+    "axis=z": {
+      "model": "aerialhell:block/shadow_pine_barrel_mimic_horizontal",
+      "x": 90
+    }
+  }
+}
