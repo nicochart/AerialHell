@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractBarrelMimicEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.block.Block;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -22,4 +24,7 @@ public class ShadowPineBarrelMimicEntity extends AbstractBarrelMimicEntity
 				.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3D)
 				.createMutableAttribute(Attributes.FOLLOW_RANGE, 16.0D);
 	}
+
+	@Override
+	protected Block getMimicBlock() {return AerialHellBlocksAndItems.SHADOW_PINE_BARREL_MIMIC.get();}
 }

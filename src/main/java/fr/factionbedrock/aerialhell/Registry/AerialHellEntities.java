@@ -158,7 +158,7 @@ public class AerialHellEntities
 		    	.size(0.95F, 2.0F).build("copper_pine_mimic");
 
 	public static final EntityType<ShadowPineBarrelMimicEntity> SHADOW_PINE_MIMIC_TYPE = EntityType.Builder.<ShadowPineBarrelMimicEntity>create(ShadowPineBarrelMimicEntity::new, EntityClassification.MONSTER)
-				.size(1.1F, 0.9F).build("shadow_pine_mimic");
+				.size(0.95F, 0.9F).build("shadow_pine_mimic");
 
 	public static final EntityType<HellSpiderEntity> HELL_SPIDER_TYPE = EntityType.Builder.create(HellSpiderEntity::new, EntityClassification.MONSTER)
 			    .size(0.85F, 0.8F).build("hell_spider");

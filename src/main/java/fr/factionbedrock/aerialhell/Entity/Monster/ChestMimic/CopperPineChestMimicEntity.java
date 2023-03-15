@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractChestMimicEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.block.Block;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -22,4 +24,7 @@ public class CopperPineChestMimicEntity extends AbstractChestMimicEntity
 				.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3D)
 				.createMutableAttribute(Attributes.FOLLOW_RANGE, 8.0D);
 	}
+
+	@Override
+	protected Block getMimicBlock() {return AerialHellBlocksAndItems.COPPER_PINE_CHEST_MIMIC.get();}
 }

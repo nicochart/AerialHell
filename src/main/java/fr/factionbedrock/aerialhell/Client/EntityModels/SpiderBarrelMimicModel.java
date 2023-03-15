@@ -54,49 +54,49 @@ public class SpiderBarrelMimicModel<T extends AbstractBarrelMimicEntity> extends
 		main_r1.setTextureOffset(0, 32).addBox(-8.0F, -9.0F, 2.0F, 16.0F, 16.0F, 16.0F, 0.0F, false);
 
 		leg0 = new ModelRenderer(this, 13, 17);
-		leg0.setRotationPoint(-4.0F, 15.0F, 2.0F);
 		leg0.addBox(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, 0.0F);
+		leg0.setRotationPoint(-4.0F, 15.0F, 2.0F);
 
 		leg1 = new ModelRenderer(this, 13, 17);
 		leg1.addBox(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, 0.0F);
 		leg1.setRotationPoint(4.0F, 15.0F, 2.0F);
 
 		leg2 = new ModelRenderer(this, 13, 17);
-		leg2.setRotationPoint(-4.0F, 15.0F, 1.0F);
 		leg2.addBox(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, 0.0F);
+		leg2.setRotationPoint(-4.0F, 15.0F, 1.0F);
 
 		leg3 = new ModelRenderer(this, 13, 17);
-		leg3.setRotationPoint(4.0F, 15.0F, 1.0F);
 		leg3.addBox(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, 0.0F);
+		leg3.setRotationPoint(4.0F, 15.0F, 1.0F);
 
 		leg4 = new ModelRenderer(this, 13, 17);
-		leg4.setRotationPoint(4.0F, 15.0F, 0.0F);
 		leg4.addBox(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, 0.0F);
+		leg4.setRotationPoint(-4.0F, 15.0F, 0.0F);
 
 		leg5 = new ModelRenderer(this, 13, 17);
-		leg5.setRotationPoint(4.0F, 15.0F, 0.0F);
 		leg5.addBox(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, 0.0F);
+		leg5.setRotationPoint(4.0F, 15.0F, 0.0F);
 
 		leg6 = new ModelRenderer(this, 13, 17);
-		leg6.setRotationPoint(-4.0F, 15.0F, -1.0F);
 		leg6.addBox(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, 0.0F);
+		leg6.setRotationPoint(-4.0F, 15.0F, -1.0F);
 
 		leg7 = new ModelRenderer(this, 13, 17);
-		leg7.setRotationPoint(4.0F, 15.0F, -1.0F);
 		leg7.addBox(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, 0.0F);
+		leg7.setRotationPoint(4.0F, 15.0F, -1.0F);
 	}
 
 	@Override
 	public void setRotationAngles(AbstractBarrelMimicEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		this.leg0.rotateAngleZ = (-(float)Math.PI / 4F); this.leg0.rotateAngleY = ((float)Math.PI / 4F);
-		this.leg1.rotateAngleZ = ((float)Math.PI / 4F); this.leg1.rotateAngleY = (-(float)Math.PI / 4F);
-		this.leg2.rotateAngleZ = -0.58119464F; this.leg2.rotateAngleY = ((float)Math.PI / 8F);
-		this.leg3.rotateAngleZ = 0.58119464F; this.leg3.rotateAngleY = (-(float)Math.PI / 8F);
-		this.leg4.rotateAngleZ = -0.58119464F; this.leg4.rotateAngleY = (-(float)Math.PI / 8F);
-		this.leg5.rotateAngleZ = 0.58119464F; this.leg5.rotateAngleY = ((float)Math.PI / 8F);
-		this.leg6.rotateAngleZ = (-(float)Math.PI / 4F); this.leg6.rotateAngleY = (-(float)Math.PI / 4F);
-		this.leg7.rotateAngleZ = ((float)Math.PI / 4F); this.leg7.rotateAngleY = ((float)Math.PI / 4F);
+		leg0.rotateAngleZ = (-(float)Math.PI / 4F); leg0.rotateAngleY = ((float)Math.PI / 4F);
+		leg1.rotateAngleZ = ((float)Math.PI / 4F); leg1.rotateAngleY = (-(float)Math.PI / 4F);
+		leg2.rotateAngleZ = -0.58119464F; leg2.rotateAngleY = ((float)Math.PI / 8F);
+		leg3.rotateAngleZ = 0.58119464F; leg3.rotateAngleY = (-(float)Math.PI / 8F);
+		leg4.rotateAngleZ = -0.58119464F; leg4.rotateAngleY = (-(float)Math.PI / 8F);
+		leg5.rotateAngleZ = 0.58119464F; leg5.rotateAngleY = ((float)Math.PI / 8F);
+		leg6.rotateAngleZ = (-(float)Math.PI / 4F); leg6.rotateAngleY = (-(float)Math.PI / 4F);
+		leg7.rotateAngleZ = ((float)Math.PI / 4F); leg7.rotateAngleY = ((float)Math.PI / 4F);
 		float f3 = -(MathHelper.cos(limbSwing * 0.6662F * 2.0F + 0.0F) * 0.4F) * limbSwingAmount;
 		float f4 = -(MathHelper.cos(limbSwing * 0.6662F * 2.0F + (float)Math.PI) * 0.4F) * limbSwingAmount;
 		float f5 = -(MathHelper.cos(limbSwing * 0.6662F * 2.0F + ((float)Math.PI / 2F)) * 0.4F) * limbSwingAmount;
@@ -105,22 +105,22 @@ public class SpiderBarrelMimicModel<T extends AbstractBarrelMimicEntity> extends
 		float f8 = Math.abs(MathHelper.sin(limbSwing * 0.6662F + (float)Math.PI) * 0.4F) * limbSwingAmount;
 		float f9 = Math.abs(MathHelper.sin(limbSwing * 0.6662F + ((float)Math.PI / 2F)) * 0.4F) * limbSwingAmount;
 		float f10 = Math.abs(MathHelper.sin(limbSwing * 0.6662F + ((float)Math.PI * 1.5F)) * 0.4F) * limbSwingAmount;
-		this.leg0.rotateAngleY += f3;
-		this.leg1.rotateAngleY += -f3;
-		this.leg2.rotateAngleY += f4;
-		this.leg3.rotateAngleY += -f4;
-		this.leg4.rotateAngleY += f5;
-		this.leg5.rotateAngleY += -f5;
-		this.leg6.rotateAngleY += f6;
-		this.leg7.rotateAngleY += -f6;
-		this.leg0.rotateAngleZ += f7;
-		this.leg1.rotateAngleZ += -f7;
-		this.leg2.rotateAngleZ += f8;
-		this.leg3.rotateAngleZ += -f8;
-		this.leg4.rotateAngleZ += f9;
-		this.leg5.rotateAngleZ += -f9;
-		this.leg6.rotateAngleZ += f10;
-		this.leg7.rotateAngleZ += -f10;
+		leg0.rotateAngleY += f3;
+		leg1.rotateAngleY += -f3;
+		leg2.rotateAngleY += f4;
+		leg3.rotateAngleY += -f4;
+		leg4.rotateAngleY += f5;
+		leg5.rotateAngleY += -f5;
+		leg6.rotateAngleY += f6;
+		leg7.rotateAngleY += -f6;
+		leg0.rotateAngleZ += f7;
+		leg1.rotateAngleZ += -f7;
+		leg2.rotateAngleZ += f8;
+		leg3.rotateAngleZ += -f8;
+		leg4.rotateAngleZ += f9;
+		leg5.rotateAngleZ += -f9;
+		leg6.rotateAngleZ += f10;
+		leg7.rotateAngleZ += -f10;
 	}
 
 	@Override
