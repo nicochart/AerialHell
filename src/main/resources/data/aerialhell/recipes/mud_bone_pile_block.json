@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["###"],
+  "key": {"#": {"item": "aerialhell:mud_bone"}},
+  "result": {"item": "aerialhell:mud_bone_pile_block"}
+}

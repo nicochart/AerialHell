@@ -563,6 +563,8 @@ public class AerialHellBlocksAndItems
 	//dungeon other blocks, loots
 	public static final RegistryObject<RotatedPillarBlock> MUD_BONE_BLOCK = BLOCKS.register("mud_bone_block", () -> new RotatedPillarBlock(AbstractBlock.Properties.create(Material.ROCK, MaterialColor.DIRT).setRequiresTool().hardnessAndResistance(2.5F).sound(SoundType.BONE)));
 	public static final RegistryObject<Item> MUD_BONE_BLOCK_ITEM = ITEMS.register("mud_bone_block", () -> new BlockItem(MUD_BONE_BLOCK.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Block> MUD_BONE_PILE_BLOCK = BLOCKS.register("mud_bone_pile_block", () -> new BonePileBlock(AbstractBlock.Properties.create(Material.ROCK, MaterialColor.DIRT).tickRandomly().hardnessAndResistance(2.5F).sound(SoundType.BONE)));
+	public static final RegistryObject<Item> MUD_BONE_PILE_BLOCK_ITEM = ITEMS.register("mud_bone_pile_block", () -> new BlockItem(MUD_BONE_PILE_BLOCK.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> MUD_BONE = ITEMS.register("mud_bone",() -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
 	public static final RegistryObject<Block> THORNY_COBWEB = BLOCKS.register("thorny_cobweb", () -> new ThornyWebBlock(AbstractBlock.Properties.create(Material.WEB).doesNotBlockMovement().harvestTool(ToolType.AXE).setRequiresTool().hardnessAndResistance(8.0F)));
 	public static final RegistryObject<Item> THORNY_COBWEB_ITEM = ITEMS.register("thorny_cobweb", () -> new BlockItem(THORNY_COBWEB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));

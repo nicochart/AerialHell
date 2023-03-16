@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "layers=1": {
+      "model": "aerialhell:block/mud_bone_pile_block_height2"
+    },
+    "layers=2": {
+      "model": "aerialhell:block/mud_bone_pile_block_height4"
+    },
+    "layers=3": {
+      "model": "aerialhell:block/mud_bone_pile_block_height6"
+    },
+    "layers=4": {
+      "model": "aerialhell:block/mud_bone_pile_block_height8"
+    },
+    "layers=5": {
+      "model": "aerialhell:block/mud_bone_pile_block_height10"
+    },
+    "layers=6": {
+      "model": "aerialhell:block/mud_bone_pile_block_height12"
+    },
+    "layers=7": {
+      "model": "aerialhell:block/mud_bone_pile_block_height14"
+    },
+    "layers=8": {
+      "model": "aerialhell:block/mud_bone_pile_block"
+    }
+  }
+}
