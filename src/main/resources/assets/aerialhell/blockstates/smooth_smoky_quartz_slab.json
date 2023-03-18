@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "aerialhell:block/smooth_smoky_quartz_slab"
+    },
+    "type=double": {
+      "model": "aerialhell:block/smooth_smoky_quartz"
+    },
+    "type=top": {
+      "model": "aerialhell:block/smooth_smoky_quartz_slab_top"
+    }
+  }
+}

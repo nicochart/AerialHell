@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values":
+  [
+    "aerialhell:smoky_quartz_block",
+    "aerialhell:smooth_smoky_quartz",
+    "aerialhell:chiseled_smoky_quartz_block",
+    "aerialhell:smoky_quartz_bricks",
+    "aerialhell:smoky_quartz_pillar",
+    "aerialhell:smoky_quartz_slab",
+    "aerialhell:smooth_smoky_quartz_slab",
+    "aerialhell:smoky_quartz_stairs",
+    "aerialhell:smooth_smoky_quartz_stairs"
+  ]
+}

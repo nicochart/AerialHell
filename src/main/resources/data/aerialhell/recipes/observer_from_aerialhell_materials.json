@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "RRQ",
+    "###"
+  ],
+  "key": {
+    "Q": {
+      "item": "aerialhell:smoky_quartz"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "#": {
+      "item": "aerialhell:stellar_cobblestone"
+    }
+  },
+  "result": {
+    "item": "minecraft:observer"
+  }
+}

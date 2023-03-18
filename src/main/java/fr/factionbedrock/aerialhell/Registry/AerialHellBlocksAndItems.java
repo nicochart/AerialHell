@@ -544,7 +544,29 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> CRACKED_GOLDEN_NETHER_BRICKS_SLAB_ITEM = ITEMS.register("cracked_golden_nether_bricks_slab", () -> new BlockItem(CRACKED_GOLDEN_NETHER_BRICKS_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> CRACKED_GOLDEN_NETHER_BRICKS_STAIRS_ITEM = ITEMS.register("cracked_golden_nether_bricks_stairs", () -> new BlockItem(CRACKED_GOLDEN_NETHER_BRICKS_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> CRACKED_GOLDEN_NETHER_BRICKS_WALL_ITEM = ITEMS.register("cracked_golden_nether_bricks_wall", () -> new BlockItem(CRACKED_GOLDEN_NETHER_BRICKS_WALL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
-	
+
+	//smoky quartz
+	public static final RegistryObject<Item> SMOKY_QUARTZ = ITEMS.register("smoky_quartz",() -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
+	public static final RegistryObject<Block> SMOKY_QUARTZ_BLOCK = BLOCKS.register("smoky_quartz_block", () -> new Block(AbstractBlock.Properties.from(Blocks.QUARTZ_BLOCK)));
+	public static final RegistryObject<Block> SMOOTH_SMOKY_QUARTZ = BLOCKS.register("smooth_smoky_quartz", () -> new Block(AbstractBlock.Properties.from(SMOKY_QUARTZ_BLOCK.get())));
+	public static final RegistryObject<Block> CHISELED_SMOKY_QUARTZ_BLOCK = BLOCKS.register("chiseled_smoky_quartz_block", () -> new Block(AbstractBlock.Properties.from(SMOKY_QUARTZ_BLOCK.get())));
+	public static final RegistryObject<Block> SMOKY_QUARTZ_BRICKS = BLOCKS.register("smoky_quartz_bricks", () -> new Block(AbstractBlock.Properties.from(SMOKY_QUARTZ_BLOCK.get())));
+	public static final RegistryObject<RotatedPillarBlock> SMOKY_QUARTZ_PILLAR = BLOCKS.register("smoky_quartz_pillar", () -> new RotatedPillarBlock(AbstractBlock.Properties.from(SMOKY_QUARTZ_BLOCK.get())));
+	public static final RegistryObject<SlabBlock> SMOKY_QUARTZ_SLAB = BLOCKS.register("smoky_quartz_slab", () -> new SlabBlock(AbstractBlock.Properties.from(SMOKY_QUARTZ_BLOCK.get())));
+	public static final RegistryObject<SlabBlock> SMOOTH_SMOKY_QUARTZ_SLAB = BLOCKS.register("smooth_smoky_quartz_slab", () -> new SlabBlock(AbstractBlock.Properties.from(SMOKY_QUARTZ_BLOCK.get())));
+	public static final RegistryObject<StairsBlock> SMOKY_QUARTZ_STAIRS = BLOCKS.register("smoky_quartz_stairs", () -> new StairsBlock(() -> SMOKY_QUARTZ_BLOCK.get().getDefaultState(), AbstractBlock.Properties.from(SMOKY_QUARTZ_BLOCK.get())));
+	public static final RegistryObject<StairsBlock> SMOOTH_SMOKY_QUARTZ_STAIRS = BLOCKS.register("smooth_smoky_quartz_stairs", () -> new StairsBlock(() -> SMOOTH_SMOKY_QUARTZ.get().getDefaultState(), AbstractBlock.Properties.from(SMOKY_QUARTZ_BLOCK.get())));
+
+	public static final RegistryObject<Item> SMOKY_QUARTZ_BLOCK_ITEM = ITEMS.register("smoky_quartz_block", () -> new BlockItem(SMOKY_QUARTZ_BLOCK.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> SMOOTH_SMOKY_QUARTZ_ITEM = ITEMS.register("smooth_smoky_quartz", () -> new BlockItem(SMOOTH_SMOKY_QUARTZ.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> CHISELED_SMOKY_QUARTZ_BLOCK_ITEM = ITEMS.register("chiseled_smoky_quartz_block", () -> new BlockItem(CHISELED_SMOKY_QUARTZ_BLOCK.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> SMOKY_QUARTZ_BRICKS_ITEM = ITEMS.register("smoky_quartz_bricks", () -> new BlockItem(SMOKY_QUARTZ_BRICKS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> SMOKY_QUARTZ_PILLAR_ITEM = ITEMS.register("smoky_quartz_pillar", () -> new BlockItem(SMOKY_QUARTZ_PILLAR.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> SMOKY_QUARTZ_SLAB_ITEM = ITEMS.register("smoky_quartz_slab", () -> new BlockItem(SMOKY_QUARTZ_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> SMOOTH_SMOKY_QUARTZ_SLAB_ITEM = ITEMS.register("smooth_smoky_quartz_slab", () -> new BlockItem(SMOOTH_SMOKY_QUARTZ_SLAB.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> SMOKY_QUARTZ_STAIRS_ITEM = ITEMS.register("smoky_quartz_stairs", () -> new BlockItem(SMOKY_QUARTZ_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> SMOOTH_SMOKY_QUARTZ_STAIRS_ITEM = ITEMS.register("smooth_smoky_quartz_stairs", () -> new BlockItem(SMOOTH_SMOKY_QUARTZ_STAIRS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+
 	//dungeon trapped blocks
 	public static final RegistryObject<Block> TRAPPED_MUD_BRICKS = BLOCKS.register("trapped_mud_bricks", () -> new CoreProtectedTrappedBlock(AbstractBlock.Properties.from(Blocks.OBSIDIAN)));
 	public static final RegistryObject<Block> TRAPPED_LIGHT_MUD_BRICKS = BLOCKS.register("trapped_light_mud_bricks", () -> new CoreProtectedTrappedBlock(AbstractBlock.Properties.from(Blocks.OBSIDIAN).setLightLevel((state) -> 11)));
@@ -599,6 +621,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> AZURITE_ORE = BLOCKS.register("azurite_ore",() -> new AerialHellOreBlock(0, 0, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
 	public static final RegistryObject<Block> VOLUCITE_ORE = BLOCKS.register("volucite_ore",() -> new AerialHellOreBlock(0, 0, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(5.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(4).setRequiresTool()));
 	public static final RegistryObject<Block> OBSIDIAN_ORE = BLOCKS.register("obsidian_ore",() -> new AerialHellOreBlock(0, 0, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(5.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(3).setRequiresTool()));
+	public static final RegistryObject<Block> SMOKY_QUARTZ_ORE = BLOCKS.register("smoky_quartz_ore",() -> new AerialHellOreBlock(1, 3, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
 	public static final RegistryObject<Item> IRON_STELLAR_ORE_ITEM = ITEMS.register("iron_stellar_ore", () -> new BlockItem(IRON_STELLAR_ORE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> GOLD_STELLAR_ORE_ITEM = ITEMS.register("gold_stellar_ore", () -> new BlockItem(GOLD_STELLAR_ORE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> DIAMOND_STELLAR_ORE_ITEM = ITEMS.register("diamond_stellar_ore", () -> new BlockItem(DIAMOND_STELLAR_ORE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
@@ -608,7 +631,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> AZURITE_ORE_ITEM = ITEMS.register("azurite_ore", () -> new BlockItem(AZURITE_ORE.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> VOLUCITE_ORE_ITEM = ITEMS.register("volucite_ore", () -> new BlockItem(VOLUCITE_ORE.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT).group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> OBSIDIAN_ORE_ITEM = ITEMS.register("obsidian_ore", () -> new BlockItem(OBSIDIAN_ORE.get(), new Item.Properties().rarity(Rarity.EPIC).group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
-	
+	public static final RegistryObject<Item> SMOKY_QUARTZ_ORE_ITEM = ITEMS.register("smoky_quartz_ore", () -> new BlockItem(SMOKY_QUARTZ_ORE.get(), new Item.Properties().rarity(Rarity.EPIC).group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+
 	public static final RegistryObject<Block> FLUORITE_BLOCK = BLOCKS.register("fluorite_block", () -> new Block(AbstractBlock.Properties.from(Blocks.IRON_BLOCK).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
 	public static final RegistryObject<Block> MAGMATIC_GEL_BLOCK = BLOCKS.register("magmatic_gel_block", () -> new MagmaticGelBlock(AbstractBlock.Properties.create(Material.ICE).hardnessAndResistance(1.0F, 1600.0F).tickRandomly().sound(SoundType.GLASS).notSolid().harvestTool(ToolType.PICKAXE).harvestLevel(3).setRequiresTool().setBlocksVision((state, reader, pos) -> false)));
 	public static final RegistryObject<Block> RUBY_BLOCK = BLOCKS.register("ruby_block", () -> new Block(AbstractBlock.Properties.from(Blocks.IRON_BLOCK).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));

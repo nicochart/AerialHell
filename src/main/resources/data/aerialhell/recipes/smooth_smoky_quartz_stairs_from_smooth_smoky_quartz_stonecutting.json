@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aerialhell:smooth_smoky_quartz"
+  },
+  "result": "aerialhell:smooth_smoky_quartz_stairs",
+  "count": 1
+}

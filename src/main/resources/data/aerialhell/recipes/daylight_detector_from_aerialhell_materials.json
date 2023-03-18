@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "QQQ",
+    "WWW"
+  ],
+  "key": {
+    "Q": {
+      "item": "aerialhell:smoky_quartz"
+    },
+    "G": {
+      "item": "aerialhell:slippery_sand_glass"
+    },
+    "W": {
+      "tag": "aerialhell:aerialhell_wooden_slabs"
+    }
+  },
+  "result": {
+    "item": "minecraft:daylight_detector"
+  }
+}

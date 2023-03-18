@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#X#",
+    "III"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:redstone_torch"
+    },
+    "X": {
+      "item": "aerialhell:smoky_quartz"
+    },
+    "I": {
+      "item": "aerialhell:stellar_stone"
+    }
+  },
+  "result": {
+    "item": "minecraft:comparator"
+  }
+}

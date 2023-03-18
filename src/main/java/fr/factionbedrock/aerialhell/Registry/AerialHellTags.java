@@ -81,8 +81,10 @@ public class AerialHellTags
 		public static final ITag.INamedTag<Block> OVERWORLD_LANTERN = tag("overworld_lantern");
 		
 		public static final ITag.INamedTag<Block> FEATURE_CAN_REPLACE = tag("feature_can_replace");
-		
+
 		public static final ITag.INamedTag<Block> SLIPPERY_SAND_GLASS = tag("slippery_sand_glass");
+
+		public static final ITag.INamedTag<Block> SMOKY_QUARTZ = tag("smoky_quartz");
 
 		private static ITag.INamedTag<Block> tag(String name)
 		{
@@ -95,8 +97,10 @@ public class AerialHellTags
 		public static final ITag.INamedTag<Item> STICKS = tag("sticks");
 		
 		public static final ITag.INamedTag<Item> AERIALHELL_SIGNS = tag("aerialhell_signs");
-		
+
 		public static final ITag.INamedTag<Item> AERIALHELL_WOODEN_FENCES = tag("aerialhell_wooden_fences");
+
+		public static final ITag.INamedTag<Item> AERIALHELL_WOODEN_SLABS = tag("aerialhell_wooden_slabs");
 		
 		public static final ITag.INamedTag<Item> AERIALHELL_WOODEN_GATES = tag("aerialhell_wooden_gates");
 		

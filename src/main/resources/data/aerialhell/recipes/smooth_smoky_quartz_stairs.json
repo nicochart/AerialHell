@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:smooth_smoky_quartz"
+    }
+  },
+  "result": {
+    "item": "aerialhell:smooth_smoky_quartz_stairs",
+    "count": 4
+  }
+}

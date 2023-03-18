@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aerialhell:smoky_quartz_block"
+  },
+  "result": "aerialhell:chiseled_smoky_quartz_block",
+  "count": 1
+}
