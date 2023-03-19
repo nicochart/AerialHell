@@ -39,10 +39,12 @@ public class AerialHellRendering
 		render(() -> AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.CRYSTAL_BLOCK.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.CRYSTALLIZED_LEAVES.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get(), cutout);
 		render(() -> AerialHellBlocksAndItems.GOLDEN_SOLID_ETHER.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GREEN_SOLID_ETHER.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.PURPLE_SOLID_ETHER.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.AERIAL_BERRY_BUSH.get(), cutout);
 		render(() -> AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY_BUSH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BLUE_FLOWER.get(), cutout);

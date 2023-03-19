@@ -315,11 +315,14 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> CRYSTAL_BRICKS_WALL_ITEM = ITEMS.register("crystal_bricks_wall", () -> new BlockItem(CRYSTAL_BRICKS_WALL.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Block> STELLAR_STONE_CRYSTAL_BLOCK = BLOCKS.register("stellar_stone_crystal_block", () -> new Block(AbstractBlock.Properties.from(CRYSTAL_BLOCK.get()).setLightLevel((state) -> 13)));
 	public static final RegistryObject<Item> STELLAR_STONE_CRYSTAL_BLOCK_ITEM = ITEMS.register("stellar_stone_crystal_block", () -> new BlockItem(STELLAR_STONE_CRYSTAL_BLOCK.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Block> SHADOW_CRYSTAL_BLOCK = BLOCKS.register("shadow_crystal_block", () -> new Block(AbstractBlock.Properties.from(CRYSTAL_BLOCK.get()).setLightLevel((state) -> 11)));
+	public static final RegistryObject<Item> SHADOW_CRYSTAL_BLOCK_ITEM = ITEMS.register("shadow_crystal_block", () -> new BlockItem(SHADOW_CRYSTAL_BLOCK.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Block> CRYSTALLIZED_LEAVES = BLOCKS.register("crystallized_leaves", () -> new LeavesBlock(AbstractBlock.Properties.from(Blocks.OAK_LEAVES).setLightLevel((state) -> 12)));
 	public static final RegistryObject<Block> CRYSTALLIZED_FIRE = BLOCKS.register("crystallized_fire", () -> new GlassBlock(AbstractBlock.Properties.from(Blocks.GLASS).setLightLevel((state) -> 12).zeroHardnessAndResistance()));
 	public static final RegistryObject<Item> CRYSTALLIZED_LEAVES_ITEM = ITEMS.register("crystallized_leaves", () -> new BlockItem(CRYSTALLIZED_LEAVES.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> CRYSTAL = ITEMS.register("crystal", () -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
 	public static final RegistryObject<Item> STELLAR_STONE_CRYSTAL = ITEMS.register("stellar_stone_crystal", () -> new Item(new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
+	public static final RegistryObject<Item> SHADOW_CRYSTAL = ITEMS.register("shadow_crystal", () -> new Item(new Item.Properties().rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
 	
 	//grass & dirt
 	public static final RegistryObject<Block> STELLAR_GRASS_BLOCK = BLOCKS.register("stellar_grass_block", () -> new StellarGrassBlock(AbstractBlock.Properties.from(Blocks.GRASS_BLOCK).harvestTool(ToolType.SHOVEL)));
@@ -372,11 +375,13 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> BLUE_SOLID_ETHER = BLOCKS.register("blue_solid_ether",	() -> new BlueSolidEtherBlock(AbstractBlock.Properties.from(WHITE_SOLID_ETHER.get())));
 	public static final RegistryObject<Block> GOLDEN_SOLID_ETHER = BLOCKS.register("golden_solid_ether",	() -> new GoldenSolidEtherBlock(AbstractBlock.Properties.from(WHITE_SOLID_ETHER.get())));
 	public static final RegistryObject<Block> GREEN_SOLID_ETHER = BLOCKS.register("green_solid_ether",	() -> new GreenSolidEtherBlock(AbstractBlock.Properties.from(WHITE_SOLID_ETHER.get())));
-	
+	public static final RegistryObject<Block> PURPLE_SOLID_ETHER = BLOCKS.register("purple_solid_ether",	() -> new PurpleSolidEtherBlock(AbstractBlock.Properties.from(WHITE_SOLID_ETHER.get())));
+
 	public static final RegistryObject<Item> WHITE_SOLID_ETHER_ITEM = ITEMS.register("white_solid_ether", () -> new BlockItem(WHITE_SOLID_ETHER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> BLUE_SOLID_ETHER_ITEM = ITEMS.register("blue_solid_ether", () -> new BlockItem(BLUE_SOLID_ETHER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> GOLDEN_SOLID_ETHER_ITEM = ITEMS.register("golden_solid_ether", () -> new BlockItem(GOLDEN_SOLID_ETHER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> GREEN_SOLID_ETHER_ITEM = ITEMS.register("green_solid_ether", () -> new BlockItem(GREEN_SOLID_ETHER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> PURPLE_SOLID_ETHER_ITEM = ITEMS.register("purple_solid_ether", () -> new BlockItem(PURPLE_SOLID_ETHER.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 
 	//dungeons blocks
 	public static final RegistryObject<Block> MUD_BRICKS = BLOCKS.register("mud_bricks", () -> new CoreProtectedBlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool()));
@@ -1116,6 +1121,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> BLUE_SOLID_ETHER_FRAGMENT = ITEMS.register("blue_solid_ether_fragment", () -> new FoodWithEffectItem(1, 0.1F, Rarity.UNCOMMON, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(AerialHellPotionEffects.HEAD_IN_THE_CLOUDS.get(), 90, 0)));
 	public static final RegistryObject<Item> GOLDEN_SOLID_ETHER_FRAGMENT = ITEMS.register("golden_solid_ether_fragment", () -> new FoodWithEffectItem(1, 0.1F, Rarity.UNCOMMON, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.SLOW_FALLING, 110, 0)));
 	public static final RegistryObject<Item> GREEN_SOLID_ETHER_FRAGMENT = ITEMS.register("green_solid_ether_fragment", () -> new FoodWithEffectItem(1, 0.1F, Rarity.UNCOMMON, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.JUMP_BOOST, 90, 1)));
+	public static final RegistryObject<Item> PURPLE_SOLID_ETHER_FRAGMENT = ITEMS.register("purple_solid_ether_fragment",() -> new FoodWithEffectItem(1, 0.1F, AerialHellRarities.CORRUPTED, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(AerialHellPotionEffects.SHADOW_IMMUNITY.get(), 90, 1)));
 	public static final RegistryObject<Item> GOLDEN_NETHER_MEAT_PIECE = ITEMS.register("golden_nether_meat_piece", () -> new FoodWithEffectItem(1, 0.1F, Rarity.UNCOMMON, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.FIRE_RESISTANCE, 110, 0)));
 	public static final RegistryObject<Item> GOLDEN_NETHER_STEAK = ITEMS.register("golden_nether_steak", () -> new FoodWithEffectItem(4, 0.4F, Rarity.UNCOMMON, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.FIRE_RESISTANCE, 500, 0)));
 	public static final RegistryObject<Item> VIBRANT_GOLDEN_NETHER_STEAK = ITEMS.register("vibrant_golden_nether_steak", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT, AerialHellItemGroups.AERIAL_HELL_FOODSTUFFS, () -> new EffectInstance(Effects.FIRE_RESISTANCE, 1000, 0)));

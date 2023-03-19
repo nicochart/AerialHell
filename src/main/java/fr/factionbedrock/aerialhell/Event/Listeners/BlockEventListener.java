@@ -96,6 +96,7 @@ public class BlockEventListener
     private static final ResourceLocation TEXTURE_BLUE_SOLID_ETHER = new ResourceLocation(AerialHell.MODID, "textures/block/blue_solid_ether.png");
     private static final ResourceLocation TEXTURE_GOLDEN_SOLID_ETHER = new ResourceLocation(AerialHell.MODID, "textures/block/golden_solid_ether.png");
     private static final ResourceLocation TEXTURE_GREEN_SOLID_ETHER = new ResourceLocation(AerialHell.MODID, "textures/block/green_solid_ether.png");
+    private static final ResourceLocation TEXTURE_PURPLE_SOLID_ETHER = new ResourceLocation(AerialHell.MODID, "textures/block/purple_solid_ether.png");
     
     @SubscribeEvent @OnlyIn(Dist.CLIENT)
     public static void onOverlay(RenderBlockOverlayEvent event)
@@ -110,7 +111,8 @@ public class BlockEventListener
     			if (event.getBlockForOverlay().getBlock() == AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get()) {renderEther(player, matrixStack, TEXTURE_WHITE_SOLID_ETHER);}
     			else if (event.getBlockForOverlay().getBlock() == AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get()) {renderEther(player, matrixStack, TEXTURE_BLUE_SOLID_ETHER);}
     			else if (event.getBlockForOverlay().getBlock() == AerialHellBlocksAndItems.GOLDEN_SOLID_ETHER.get()) {renderEther(player, matrixStack, TEXTURE_GOLDEN_SOLID_ETHER);}
-    			else if (event.getBlockForOverlay().getBlock() == AerialHellBlocksAndItems.GREEN_SOLID_ETHER.get()) {renderEther(player, matrixStack, TEXTURE_GREEN_SOLID_ETHER);}
+                else if (event.getBlockForOverlay().getBlock() == AerialHellBlocksAndItems.GREEN_SOLID_ETHER.get()) {renderEther(player, matrixStack, TEXTURE_GREEN_SOLID_ETHER);}
+                else if (event.getBlockForOverlay().getBlock() == AerialHellBlocksAndItems.PURPLE_SOLID_ETHER.get()) {renderEther(player, matrixStack, TEXTURE_PURPLE_SOLID_ETHER);}
     		}
     	}
     }

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CC",
+    "CC"
+  ],
+  "key": {
+    "C": {
+      "item": "aerialhell:shadow_crystal"
+    }
+  },
+  "result": {
+    "item": "aerialhell:shadow_crystal_block"
+  }
+}

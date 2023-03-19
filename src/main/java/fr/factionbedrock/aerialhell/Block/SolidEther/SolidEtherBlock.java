@@ -52,7 +52,7 @@ public class SolidEtherBlock extends BreakableBlock
 	public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state)
 	{
 		super.onPlayerDestroy(worldIn, pos, state);
-		if (this.getBlock() instanceof GreenSolidEtherBlock || this.getBlock() instanceof BlueSolidEtherBlock || this.getBlock() instanceof GoldenSolidEtherBlock)
+		if (!(this == AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get()))
 		{
 			worldIn.setBlockState(pos, AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get().getDefaultState(), 3);
 		}
