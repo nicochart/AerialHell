@@ -246,6 +246,7 @@ public class AerialHellConfiguredFeatures
     public final static ConfiguredFeature<?, ?> BLUE_SOLID_ETHER = AerialHellFeatures.BLUE_SOLID_ETHER.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(140).square().chance(28);
     public final static ConfiguredFeature<?, ?> GOLDEN_SOLID_ETHER = AerialHellFeatures.GOLDEN_SOLID_ETHER.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(190).square().chance(32);
     public final static ConfiguredFeature<?, ?> GREEN_SOLID_ETHER = AerialHellFeatures.GREEN_SOLID_ETHER.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(160).square().chance(5);
+    public final static ConfiguredFeature<?, ?> PURPLE_SOLID_ETHER = AerialHellFeatures.PURPLE_SOLID_ETHER.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(160).square().chance(5);
     
     public final static ConfiguredFeature<?, ?> STELLAR_COARSE_FLOOR_IN_DARK_AREAS = AerialHellFeatures.STELLAR_COARSE_FLOOR_IN_DARK_AREAS.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(160).square().func_242731_b(100);
     public final static ConfiguredFeature<?, ?> STELLAR_GRASS_IN_SHADOW_GRASS = AerialHellFeatures.STELLAR_GRASS_IN_SHADOW_GRASS.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(160).square().func_242731_b(100);
@@ -254,7 +255,9 @@ public class AerialHellConfiguredFeatures
     public final static ConfiguredFeature<?, ?> DANGLING_CHAIN = AerialHellFeatures.DANGLING_CHAIN.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(120);
     public final static ConfiguredFeature<?, ?> SLIPPERY_SAND = AerialHellFeatures.SLIPPERY_SAND.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(20);
     public final static ConfiguredFeature<?, ?> CRYSTAL_BLOB = AerialHellFeatures.CRYSTAL_BLOB.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(10);
-    public final static ConfiguredFeature<?, ?> STELLAR_STONE_CRYSTAL_BLOB = AerialHellFeatures.STELLAR_STONE_CRYSTAL_BLOB.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(10).square().func_242731_b(4);
+    public final static ConfiguredFeature<?, ?> SHADOW_CRYSTAL_BLOB = AerialHellFeatures.SHADOW_CRYSTAL_BLOB.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(5);
+    public final static ConfiguredFeature<?, ?> STELLAR_STONE_CRYSTAL_BLOB_IN_DARK_AREAS = AerialHellFeatures.STELLAR_STONE_CRYSTAL_BLOB_IN_DARK_AREAS.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(10).square().func_242731_b(4);
+    public final static ConfiguredFeature<?, ?> SHADOW_CRYSTAL_BLOB_IN_DARK_AREAS = AerialHellFeatures.SHADOW_CRYSTAL_BLOB_IN_DARK_AREAS.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(10).square().func_242731_b(4);
     public final static ConfiguredFeature<?, ?> CRYSTALLIZED_FIRE = AerialHellFeatures.CRYSTALLIZED_FIRE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).range(256).square().func_242731_b(30);
     public final static ConfiguredFeature<?, ?> GIANT_CRYSTAL_BLOB = AerialHellFeatures.GIANT_CRYSTAL_BLOB.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     
@@ -288,6 +291,7 @@ public class AerialHellConfiguredFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "ruby_ore"), GenAerialHellOres.RUBY_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "magmatic_gel_ore"), GenAerialHellOres.MAGMATIC_GEL_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "azurite_ore"), GenAerialHellOres.AZURITE_ORE);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "smoky_quartz_ore"), GenAerialHellOres.SMOKY_QUARTZ_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "volucite_ore"), GenAerialHellOres.VOLUCITE_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "obsidian_ore"), GenAerialHellOres.OBSIDIAN_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "glaucophanite_ore"), GenAerialHellOres.GLAUCOPHANITE_ORE);
@@ -348,7 +352,9 @@ public class AerialHellConfiguredFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "dangling_chain_rare"), DANGLING_CHAIN_RARE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "dangling_chain"), DANGLING_CHAIN);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "crystal_blob"), CRYSTAL_BLOB);
-        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_stone_crystal_blob"), STELLAR_STONE_CRYSTAL_BLOB);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "shadow_crystal_blob"), SHADOW_CRYSTAL_BLOB);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_stone_crystal_blob_in_dark_areas"), STELLAR_STONE_CRYSTAL_BLOB_IN_DARK_AREAS);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "shadow_crystal_blob_in_dark_areas"), SHADOW_CRYSTAL_BLOB_IN_DARK_AREAS);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "cristallized_fire"), CRYSTALLIZED_FIRE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "giant_crystal_blob"), GIANT_CRYSTAL_BLOB);
         
@@ -356,6 +362,7 @@ public class AerialHellConfiguredFeatures
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "blue_solid_ether"), BLUE_SOLID_ETHER);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "golden_solid_ether"), GOLDEN_SOLID_ETHER);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "green_solid_ether"), GREEN_SOLID_ETHER);
+        Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "purple_solid_ether"), PURPLE_SOLID_ETHER);
         
         FlatGenerationSettings.STRUCTURES.put(AerialHellStructures.OVERWORLD_ABANDONNED_PORTAL_STRUCTURE.get(), CONFIGURED_OVERWORLD_ABANDONNED_PORTAL_STRUCTURE);
         FlatGenerationSettings.STRUCTURES.put(AerialHellStructures.MUD_DUNGEON_STRUCTURE.get(), CONFIGURED_MUD_DUNGEON_STRUCTURE);

@@ -1,11 +1,13 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
 import java.util.Random;
+import java.util.function.Supplier;
 
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -16,7 +18,8 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 public class StellarStoneCrystalBlobFeature extends Feature<NoFeatureConfig>
 {
-	public StellarStoneCrystalBlobFeature(Codec<NoFeatureConfig> codec) {super(codec);}
+	public Supplier<Block> crystalBlock;
+	public StellarStoneCrystalBlobFeature(Supplier<Block> block, Codec<NoFeatureConfig> codec) {super(codec); crystalBlock=block;}
 	
 	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)
 	{
@@ -37,7 +40,7 @@ public class StellarStoneCrystalBlobFeature extends Feature<NoFeatureConfig>
 		
 		if (rand.nextInt(160) < y) {return false;}
 		
-    	reader.setBlockState(pos, AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get().getDefaultState(), 2);
+    	reader.setBlockState(pos, crystalBlock.get().getDefaultState(), 2);
         for(int i = 0; i < 300; ++i)
         {
         	blockpos = pos.add(rand.nextInt(2) - rand.nextInt(2), rand.nextInt(5), rand.nextInt(2) - rand.nextInt(2)); //55855
@@ -48,15 +51,12 @@ public class StellarStoneCrystalBlobFeature extends Feature<NoFeatureConfig>
 
 	            for(Direction direction : Direction.values())
 	            {
-		            if (reader.getBlockState(blockpos.offset(direction)).isIn(AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get())) {++j;}
+		            if (reader.getBlockState(blockpos.offset(direction)).isIn(crystalBlock.get())) {++j;}
 
 		            if (j > 1) {break;}
 	            }
 
-	            if (j == 1)
-	            {
-	            	reader.setBlockState(blockpos, AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get().getDefaultState(), 2);
-	            }
+	            if (j == 1) {reader.setBlockState(blockpos, crystalBlock.get().getDefaultState(), 2);}
             }
         }
 	    return true;

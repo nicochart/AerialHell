@@ -70,6 +70,16 @@ public class GenAerialHellOres
 			64, //range
 			20 //Chance d'apparition
 	);
+
+	public final static ConfiguredFeature<?,?> SMOKY_QUARTZ_ORE = AerialHellOres
+	(
+			AerialHellBlocksAndItems.SMOKY_QUARTZ_ORE.get().getDefaultState(), //Block enregistré à configurer
+			14, //Taille de Filon
+			0, //Hauteur minimum
+			256, //Hauteur maximum
+			256, //range
+			30 //Chance d'apparition
+	);
 	
 	public final static ConfiguredFeature<?,?> DIAMOND_STELLAR_ORE = AerialHellOres
 	(

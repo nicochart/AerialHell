@@ -1,11 +1,13 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
 import java.util.Random;
+import java.util.function.Supplier;
 
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -16,8 +18,9 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 public class CrystalBlobFeature extends Feature<NoFeatureConfig>
 {
-	public CrystalBlobFeature(Codec<NoFeatureConfig> codec) {super(codec);}
-	
+	public Supplier<Block> crystalBlock;
+	public CrystalBlobFeature(Supplier<Block> block, Codec<NoFeatureConfig> codec) {super(codec); this.crystalBlock=block;}
+
 	@Override
 	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)
 	{
@@ -28,7 +31,7 @@ public class CrystalBlobFeature extends Feature<NoFeatureConfig>
 		    if (!blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT)) {return false;}
 		    else
 		    {
-		    	reader.setBlockState(pos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().getDefaultState(), 2);
+		    	reader.setBlockState(pos, crystalBlock.get().getDefaultState(), 2);
 
 		        for(int i = 0; i < 1700; ++i)
 		        {
@@ -47,18 +50,12 @@ public class CrystalBlobFeature extends Feature<NoFeatureConfig>
 	
 			            for(Direction direction : Direction.values())
 			            {
-				            if (reader.getBlockState(blockpos.offset(direction)).isIn(AerialHellBlocksAndItems.CRYSTAL_BLOCK.get()))
-				            {
-				            	++j;
-				            }
+				            if (reader.getBlockState(blockpos.offset(direction)).isIn(crystalBlock.get())) {++j;}
 		
 				            if (j > 1) {break;}
 			            }
 	
-			            if (j == 1)
-			            {
-			            	reader.setBlockState(blockpos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().getDefaultState(), 2);
-			            }
+			            if (j == 1) {reader.setBlockState(blockpos, crystalBlock.get().getDefaultState(), 2);}
 		            }
 		        }
 

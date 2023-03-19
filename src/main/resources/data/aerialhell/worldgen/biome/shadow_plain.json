@@ -41,9 +41,10 @@
     [
       "aerialhell:mossy_stellar_cobblestone_rock",
       "aerialhell:white_solid_ether",
-      "aerialhell:blue_solid_ether",
+      "aerialhell:purple_solid_ether",
       "aerialhell:dangling_chain",
-      "aerialhell:stellar_stone_crystal_blob",
+      "aerialhell:shadow_crystal_blob",
+      "aerialhell:shadow_crystal_blob_in_dark_areas",
       "aerialhell:stellar_coarse_floor_in_dark_areas",
       "aerialhell:stellar_grass_in_shadow_grass"
     ],
@@ -57,7 +58,7 @@
       "aerialhell:fluorite_ore",
       "aerialhell:ruby_ore",
       "aerialhell:magmatic_gel_ore",
-      "aerialhell:azurite_ore",
+      "aerialhell:smoky_quartz_ore",
       "aerialhell:volucite_ore",
       "aerialhell:obsidian_ore",
       "aerialhell:glaucophanite_ore",
