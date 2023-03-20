@@ -86,6 +86,8 @@ public class AerialHellTags
 
 		public static final ITag.INamedTag<Block> SMOKY_QUARTZ = tag("smoky_quartz");
 
+		public static final ITag.INamedTag<Block> LILITH_TRANSFORMABLE = tag("lilith_transformable");
+
 		private static ITag.INamedTag<Block> tag(String name)
 		{
 			return BlockTags.makeWrapperTag(new ResourceLocation(AerialHell.MODID, name).toString());
