@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.ShadowSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -15,9 +16,9 @@ import net.minecraft.entity.FlyingEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.SilverfishEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -26,7 +27,17 @@ import java.util.Random;
 
 public class BonePileBlock extends SnowBlock
 {
-    public BonePileBlock(Properties properties) {super(properties);}
+    private static final int MAX_WAIT_TIMER = 10;
+    public static final IntegerProperty WALK_DESTROY_TIMER = IntegerProperty.create("walk_destroy_timer", 0, MAX_WAIT_TIMER);
+    public BonePileBlock(Properties properties)
+    {
+        super(properties);
+        this.setDefaultState(this.stateContainer.getBaseState().with(WALK_DESTROY_TIMER, Integer.valueOf(0)).with(LAYERS, Integer.valueOf(1)));
+    }
+
+    @Override protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {builder.add(WALK_DESTROY_TIMER, LAYERS);}
+
+    private int getRandomWalkDestroyTimer(Random rand) {return (int) (0.25 * MAX_WAIT_TIMER) + rand.nextInt((int) (0.75F * MAX_WAIT_TIMER));}
 
     @Override
     public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos)
@@ -40,7 +51,16 @@ public class BonePileBlock extends SnowBlock
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {}
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random)
+    {/* unused yet, decreasing the "timer" only when player walks is great
+        BlockState blockState = world.getBlockState(pos);
+        if (!world.isRemote() && blockState.get(WALK_DESTROY_TIMER) > 0 && world.rand.nextInt(10) == 0)
+        {
+            world.setBlockState(pos, world.getBlockState(pos).with(LAYERS, blockState.get(LAYERS)).with(WALK_DESTROY_TIMER, blockState.get(WALK_DESTROY_TIMER) - 1));
+        }
+    */}
+
+    @Override public boolean ticksRandomly(BlockState state) {/*return state.get(WALK_DESTROY_TIMER) > 0;*/return false;}
 
     @Override
     public void onEntityWalk(World world, BlockPos pos, Entity entityIn)
@@ -54,23 +74,33 @@ public class BonePileBlock extends SnowBlock
             int currentLayerNumber = world.getBlockState(posToUpdate).get(LAYERS);
             int newLayerNumber = getNewLayerNumber(currentLayerNumber, downBlockStateIsBonePile, world.rand);
             updateLayerNumber(world, posToUpdate, newLayerNumber, entityIn);
+
         }
     }
 
     private void updateLayerNumber(World world, BlockPos pos, int newLayerNumber, Entity entityIn)
     {
-        if (!world.isRemote())
+        if (newLayerNumber > 0)
         {
-            if (newLayerNumber > 0) {world.setBlockState(pos, world.getBlockState(pos).with(LAYERS, newLayerNumber));}
-            else {world.setBlockState(pos, Blocks.AIR.getDefaultState());}
+            if (!world.isRemote()) {world.setBlockState(pos, world.getBlockState(pos).with(LAYERS, newLayerNumber).with(WALK_DESTROY_TIMER, getRandomWalkDestroyTimer(world.rand)));}
         }
-        entityIn.playSound(SoundEvents.BLOCK_BONE_BLOCK_BREAK, 0.2F, 0.9F + world.rand.nextFloat() * 0.1F);
-        entityIn.entityDropItem(new ItemStack(AerialHellBlocksAndItems.MUD_BONE.get()));
+        else
+        {
+            if (!world.isRemote) {world.setBlockState(pos, Blocks.AIR.getDefaultState());}
+        }
+        if (!world.isRemote) {if (newLayerNumber < 3 || world.rand.nextInt(3) == 0) {entityIn.entityDropItem(new ItemStack(AerialHellBlocksAndItems.MUD_BONE.get()));}}
+        else {entityIn.playSound(AerialHellSoundEvents.BLOCK_BONE_PILE_STEP_BREAK.get(), 0.5F, 0.9F + world.rand.nextFloat() * 0.3F);}
     }
 
     private boolean canEntityWalkDestroy(World world, BlockPos pos, Entity walkingEntity)
     {
-        if (walkingEntity instanceof LivingEntity)
+        BlockState blockState = world.getBlockState(pos);
+        if (blockState.get(WALK_DESTROY_TIMER) > 0)
+        {
+            world.setBlockState(pos, world.getBlockState(pos).with(LAYERS, blockState.get(LAYERS)).with(WALK_DESTROY_TIMER, blockState.get(WALK_DESTROY_TIMER) - 1));
+            return false;
+        }
+        else if (walkingEntity instanceof LivingEntity)
         {
             LivingEntity walkingLEntity = (LivingEntity)walkingEntity;
             if (!isShadowEntity(walkingLEntity) && !isFeatheryEntity(walkingLEntity))
@@ -102,7 +132,7 @@ public class BonePileBlock extends SnowBlock
         }
         else
         {
-            if (currentLayerNumber > 3) {return currentLayerNumber - 1 + rand.nextInt(2);}
+            if (currentLayerNumber > 3) {return currentLayerNumber - (1 + rand.nextInt(2));}
             else {return 1;}
         }
     }

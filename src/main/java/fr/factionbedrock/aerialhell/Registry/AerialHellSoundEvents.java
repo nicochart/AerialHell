@@ -95,6 +95,7 @@ public class AerialHellSoundEvents
 	
 	public static final RegistryObject<SoundEvent> TRAPPED_BLOCK_STEP = register("block.trapped_block.step");
 	public static final RegistryObject<SoundEvent> BLOCK_AERIAL_HELL_PORTAL_AMBIENT = register("block.aerial_hell_portal.ambient");
+	public static final RegistryObject<SoundEvent> BLOCK_BONE_PILE_STEP_BREAK = register("block.bone_pile_block.step_break");
 	
 	public static final RegistryObject<SoundEvent> MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP = register("music_disc.aerial_hell_theme_tommaup");
 	public static final RegistryObject<SoundEvent> MUSIC_DISC_SWEDEN_ANDREAS_ZOELLER = register("music_disc.sweden_andreas_zoeller");

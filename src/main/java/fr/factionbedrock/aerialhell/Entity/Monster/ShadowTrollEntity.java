@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -53,14 +53,12 @@ public class ShadowTrollEntity extends MonsterEntity
                 .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.3F);
     }
     
-    protected boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.getActivePotionEffect(AerialHellPotionEffects.SHADOW_IMMUNITY.get()) != null;} //return true if the entity has the SHADOW_IMMUNITY effect
-    
     @Override
     public boolean attackEntityAsMob(Entity attackedEntity)
     {
     	if (super.attackEntityAsMob(attackedEntity))
     	{
-    		if (attackedEntity instanceof LivingEntity && !isLivingEntityShadowImmune(((LivingEntity) attackedEntity)))
+    		if (attackedEntity instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune(((LivingEntity) attackedEntity)))
         	{
     			((LivingEntity) attackedEntity).addPotionEffect(new EffectInstance(Effects.BLINDNESS, 40, 0));
         	}
@@ -125,7 +123,7 @@ public class ShadowTrollEntity extends MonsterEntity
     @Override
     protected void collideWithEntity(Entity entityIn)
     {
-    	if (entityIn instanceof LivingEntity && !isLivingEntityShadowImmune(((LivingEntity) entityIn)))
+    	if (entityIn instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune(((LivingEntity) entityIn)))
     	{
     		((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.BLINDNESS, 60, 0));
     	}

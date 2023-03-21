@@ -18,7 +18,6 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
@@ -114,7 +113,7 @@ public class LilithEntity extends AbstractBossEntity
 		
 		compound.putShort("timeTransforming", (short)this.timeSinceTransforming);
 		compound.putBoolean("isTransforming", this.isTransforming());
-		compound.putBoolean("isTransformed", this.isTransformed());
+		if (this.dataManager.get(IS_TRANSFORMED)) {compound.putBoolean("isTransformed", true);}
 	}
 	
 	@Override
@@ -126,15 +125,15 @@ public class LilithEntity extends AbstractBossEntity
 	    	this.timeSinceTransforming = compound.getShort("timeTransforming");
 	    }
 	    this.setTransforming(compound.getBoolean("isTransforming"));
-	    this.setTransforming(compound.getBoolean("isTransformed"));
+	    this.dataManager.set(IS_TRANSFORMED,compound.getBoolean("isTransformed"));
 	}
 	
 	public boolean isTransforming() {return this.dataManager.get(IS_TRANSFORMING);}
 	public void setTransforming(boolean isTransforming) {this.dataManager.set(IS_TRANSFORMING, isTransforming);}
 	
 	public boolean isTransformed() {return this.dataManager.get(IS_TRANSFORMED);}
-	public void setTransformed(boolean transformed) {this.dataManager.set(IS_TRANSFORMED, transformed);}
-	
+	public void setTransformed() {this.dataManager.set(IS_TRANSFORMED, true);}
+
 	@Override public boolean isImmuneToFire() {return true;}
 	@Override public boolean canRenderOnFire() {return false;}
 	
@@ -465,7 +464,7 @@ public class LilithEntity extends AbstractBossEntity
 	
 	private void transform()
 	{
-		this.setTransformed(true);
+		this.setTransformed();
 		spawnTransformationParticle();
 	}
 	

@@ -5,6 +5,7 @@ import java.util.UUID;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -27,8 +28,6 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class ToolsAndArmorEventListener
 {
-	protected static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.getActivePotionEffect(AerialHellPotionEffects.SHADOW_IMMUNITY.get()) != null;} //return true if the entity has the SHADOW_IMMUNITY effect
-	
 	@SubscribeEvent
     public static void onLivingHurtEvent(LivingHurtEvent event)
     {
@@ -181,7 +180,7 @@ public class ToolsAndArmorEventListener
 		}
 		else if (sourceEquippedItem == AerialHellBlocksAndItems.REAPER_SCYTHE.get()) //source attacking target with reaper scythe
 		{
-			if (!isLivingEntityShadowImmune(target))
+			if (!EntityHelper.isLivingEntityShadowImmune(target))
 			{
 				target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.BLINDNESS, 100, 0, true, false)));
 				target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.WEAKNESS, 100, 1, true, false)));
@@ -193,7 +192,7 @@ public class ToolsAndArmorEventListener
 		else if (sourceEquippedItem == AerialHellBlocksAndItems.CURSED_SWORD.get() || sourceEquippedItem == AerialHellBlocksAndItems.CURSED_AXE.get()) //source attacking target with cursed tool
 		{
 			float damage_return_amount;
-			if (isLivingEntityShadowImmune(source)) {damage_return_amount = amount / 4;}
+			if (EntityHelper.isLivingEntityShadowImmune(source)) {damage_return_amount = amount / 4;}
 			else {damage_return_amount = amount / 2;}
 			source.attackEntityFrom(new DamageSource("cursed_tool"), damage_return_amount);
 		}

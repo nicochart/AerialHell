@@ -7,7 +7,7 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Registry.AerialHellStructures;
+import fr.factionbedrock.aerialhell.Util.StructureHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
@@ -26,7 +26,6 @@ import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.feature.template.TemplateManager;
-import net.minecraft.world.gen.settings.StructureSeparationSettings;
 
 public class StellarStoneBricksTowerStructure extends AbstractAerialHellStructure
 {

@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.World.Structure;
+package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellStructures;
 import net.minecraft.util.SharedSeedRandom;
@@ -13,8 +13,9 @@ public class StructureHelper
     	//.func_235957_b_() = .getSettings() ; .func_236197_a_() = .getConfig()
     	StructureSeparationSettings MudDungeonConfig = chunkGenerator.func_235957_b_().func_236197_a_(AerialHellStructures.MUD_DUNGEON_STRUCTURE.get());
     	StructureSeparationSettings LunaticTempleConfig = chunkGenerator.func_235957_b_().func_236197_a_(AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get());
-    	StructureSeparationSettings GoldenNetherPrisonConfig = chunkGenerator.func_235957_b_().func_236197_a_(AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get());
-    	if (MudDungeonConfig == null && LunaticTempleConfig == null && GoldenNetherPrisonConfig == null) {return false;}
+		StructureSeparationSettings GoldenNetherPrisonConfig = chunkGenerator.func_235957_b_().func_236197_a_(AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get());
+		StructureSeparationSettings ShadowCatacombsConfig = chunkGenerator.func_235957_b_().func_236197_a_(AerialHellStructures.SHADOW_CATACOMBS_STRUCTURE.get());
+    	if (MudDungeonConfig == null && LunaticTempleConfig == null && GoldenNetherPrisonConfig == null && ShadowCatacombsConfig == null) {return false;}
     	else
     	{
     		for (int cx = chunkX - checkRadius; cx <= chunkZ + checkRadius; cx++)
@@ -37,6 +38,11 @@ public class StructureHelper
                 		chunkPos = AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get().getChunkPosForStructure(GoldenNetherPrisonConfig, seed, chunkRandom, cx, cz);
                         if (cx == chunkPos.x && cz == chunkPos.z) {return true;}
                 	}
+					if (ShadowCatacombsConfig != null)
+					{
+						chunkPos = AerialHellStructures.SHADOW_CATACOMBS_STRUCTURE.get().getChunkPosForStructure(ShadowCatacombsConfig, seed, chunkRandom, cx, cz);
+						if (cx == chunkPos.x && cz == chunkPos.z) {return true;}
+					}
                 }
         	}
     	}

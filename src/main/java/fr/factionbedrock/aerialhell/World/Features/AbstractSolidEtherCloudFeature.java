@@ -2,12 +2,11 @@ package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellStructures;
+import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.SectionPos;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
@@ -20,16 +19,6 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<NoFeatureCo
 	protected abstract int getSmallMinSize(); protected abstract int getSmallMaxSize();
 	protected abstract Block getEtherBlock();
 	protected BlockState getEtherBlockState() {return this.getEtherBlock().getDefaultState();}
-	
-	protected boolean generatesInAnyDungeon(ISeedReader reader, BlockPos pos)
-	{
-		return
-		(
-    			reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get()).findAny().isPresent() ||
-    			reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.MUD_DUNGEON_STRUCTURE.get()).findAny().isPresent() ||
-    			reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get()).findAny().isPresent()
-    	);
-	}
 
 	public int chooseRandomSize(int minSize, int maxSize, Random rand)
 	{

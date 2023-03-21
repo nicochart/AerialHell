@@ -1,11 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import fr.factionbedrock.aerialhell.Entity.AbstractAerialHellSpiderEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.EvilCowEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
-import fr.factionbedrock.aerialhell.Entity.Passive.SandySheepEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -18,17 +14,7 @@ import net.minecraft.world.World;
 
 public class BramblesBlock extends AerialHellTallGrassBlock
 {
-	public BramblesBlock(Properties properties)
-	{
-		super(properties);
-	}
-	
-	protected boolean isImmuneToDamage(Entity entityIn)
-	{
-		return (entityIn instanceof SandySheepEntity || entityIn instanceof EvilCowEntity || entityIn instanceof ShadowTrollEntity || entityIn instanceof AbstractAerialHellSpiderEntity);
-	}
-	
-	protected boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.getActivePotionEffect(AerialHellPotionEffects.SHADOW_IMMUNITY.get()) != null;} //return true if the entity has the SHADOW_IMMUNITY effect
+	public BramblesBlock(Properties properties) {super(properties);}
 	
 	@Override
 	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn)
@@ -36,21 +22,17 @@ public class BramblesBlock extends AerialHellTallGrassBlock
 		entityIn.setMotionMultiplier(state, new Vector3d((double)0.8F, 0.75D, (double)0.8F));
 		if (!worldIn.isRemote && entityIn instanceof LivingEntity)
     	{
-			if (!isImmuneToDamage(entityIn))
+			if (!EntityHelper.isImmuneToBramblesDamage(entityIn))
 			{
-				if (!isLivingEntityShadowImmune((LivingEntity) entityIn))
+				if (this == AerialHellBlocksAndItems.SHADOW_BRAMBLES.get())
 				{
-					if (this == AerialHellBlocksAndItems.SHADOW_BRAMBLES.get())
-					{
-						
-							((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.POISON, 60, 0));
-							((LivingEntity) entityIn).attackEntityFrom(new DamageSource("brambles_thorns"), 1.0F);
-					}
-					else
-					{
-						((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.POISON, 40, 0));
-						((LivingEntity) entityIn).attackEntityFrom(new DamageSource("brambles_thorns"), 1.0F);
-					}
+					((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.POISON, 60, 0));
+					((LivingEntity) entityIn).attackEntityFrom(new DamageSource("brambles_thorns"), 1.0F);
+				}
+				else
+				{
+					((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.POISON, 40, 0));
+					((LivingEntity) entityIn).attackEntityFrom(new DamageSource("brambles_thorns"), 1.0F);
 				}
 			}
     	}

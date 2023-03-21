@@ -7,6 +7,7 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Util.StructureHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;

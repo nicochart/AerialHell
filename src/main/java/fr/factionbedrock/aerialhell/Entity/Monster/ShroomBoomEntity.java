@@ -35,11 +35,12 @@ public class ShroomBoomEntity extends CreeperEntity
     protected void registerGoals()
     {
     	this.goalSelector.addGoal(1, new SwimGoal(this));
-    	this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
+    	this.goalSelector.addGoal(2, new ShroomBoomMeleeAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, OcelotEntity.class, 6.0F, 1.0D, 1.2D));
         this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, CatEntity.class, 6.0F, 1.0D, 1.2D));
         this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
         this.goalSelector.addGoal(4, new CreeperSwellGoal(this));
+        this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 0.8D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(6, new LookRandomlyGoal(this));
@@ -91,5 +92,19 @@ public class ShroomBoomEntity extends CreeperEntity
             return isAttackSuccess;
         }
         else {return super.attackEntityAsMob(entityIn);}        
+    }
+
+    public static class ShroomBoomMeleeAttackGoal extends MeleeAttackGoal
+    {
+        protected final ShroomBoomEntity entity;
+
+        public ShroomBoomMeleeAttackGoal(ShroomBoomEntity entityIn, double speedIn, boolean useLongMemory)
+        {
+            super(entityIn, speedIn, useLongMemory);
+            this.entity = entityIn;
+        }
+
+        @Override public boolean shouldExecute() {return !this.entity.canIgnite() && super.shouldExecute();}
+        @Override public boolean shouldContinueExecuting() {return !this.entity.canIgnite() && super.shouldContinueExecuting();}
     }
 }

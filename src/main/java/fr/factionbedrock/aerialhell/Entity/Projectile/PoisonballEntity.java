@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -48,8 +48,6 @@ public class PoisonballEntity extends AbstractFireballEntity
 
 	@Override protected boolean isFireballFiery() {return false;}
 	@Override public float getBrightness() {return 0.0F;}
-
-	protected boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.getActivePotionEffect(AerialHellPotionEffects.SHADOW_IMMUNITY.get()) != null;} //return true if the entity has the SHADOW_IMMUNITY effect
 	
 	@Override
 	protected void onImpact(RayTraceResult result)
@@ -58,7 +56,7 @@ public class PoisonballEntity extends AbstractFireballEntity
 		if (result.getType() == RayTraceResult.Type.ENTITY)
 		{
 			Entity entity = ((EntityRayTraceResult)result).getEntity();
-			if (entity instanceof LivingEntity && !isLivingEntityShadowImmune((LivingEntity) entity))
+			if (entity instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune((LivingEntity) entity))
 			{
 				LivingEntity livingEntity = (LivingEntity)entity;
 

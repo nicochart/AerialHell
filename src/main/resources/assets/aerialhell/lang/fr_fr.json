@@ -733,6 +733,7 @@
   "death.attack.brambles_thorns.player": "%1$s est resté coincé dans les ronces à cause de %2$s",
   "death.attack.cursed_tool": "%1$s s'est enlevé la vie avec un outils maudit",
   "death.attack.cursed_tool.player": "%1$s s'est enlevé la vie lui même, avec un outils maudit",
+  "death.attack.god_blessing": "%1$s a reçu la bénédiction des dieux",
 
   "advancements.story.enter_aerial_hell.title": "Aerial Hell - l'Enfer Aérien",
   "advancements.story.enter_aerial_hell.desc": "Une nouvelle Aventure commence..",

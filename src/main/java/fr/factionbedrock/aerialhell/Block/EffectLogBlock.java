@@ -1,10 +1,9 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.RotatedPillarBlock;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -15,13 +14,11 @@ public class EffectLogBlock extends RotatedPillarBlock
 {
 	public EffectLogBlock(Properties properties) {super(properties);}
 	
-	protected boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.getActivePotionEffect(AerialHellPotionEffects.SHADOW_IMMUNITY.get()) != null;} //return true if the entity has the SHADOW_IMMUNITY effect
-	
 	@Override
 	public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player)
 	{
 		super.onBlockHarvested(worldIn, pos, state, player);
-		if (this == AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get() && !isLivingEntityShadowImmune(player) && !player.isCreative())
+		if (this == AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get() && !EntityHelper.isLivingEntityShadowImmune(player) && !player.isCreative())
 		{
 			player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 60, 0));
 			player.addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, 60, 1));

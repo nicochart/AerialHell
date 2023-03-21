@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellStructures;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -23,7 +24,7 @@ public class RockFeature extends Feature<NoFeatureConfig>
 	
 	protected BlockState randomState(Random rand, BlockPos pos) {return blockStateProvider.getBlockState(rand, pos);}
 	protected void placeBlocks(ISeedReader reader, BlockPos pos, BlockState state, int number, Direction direction) {for (int d=0;d<number;d++) {reader.setBlockState(pos.offset(direction, d), state, 2);}}
-	protected boolean canGenerateAtPos(ISeedReader reader, BlockPos pos) {return hasSupportToGenerate(reader, pos) && !generatesInAnyDungeon(reader, pos);}
+	protected boolean canGenerateAtPos(ISeedReader reader, BlockPos pos) {return hasSupportToGenerate(reader, pos) && !(FeatureHelper.generatesInAnyDungeon(reader, pos));}
 	
 	@Override
 	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)
@@ -64,12 +65,5 @@ public class RockFeature extends Feature<NoFeatureConfig>
 	{
 		if (reader.isAirBlock(pos) && reader.getBlockState(pos.down()).isIn(AerialHellTags.Blocks.STELLAR_DIRT)) {return true;}
 		else {return false;}
-	}
-	
-	protected boolean generatesInAnyDungeon(ISeedReader reader, BlockPos pos)
-	{
-		return(reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get()).findAny().isPresent() ||
-    		   reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.MUD_DUNGEON_STRUCTURE.get()).findAny().isPresent() ||
-    		   reader.func_241827_a(SectionPos.from(pos), AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get()).findAny().isPresent());
 	}
 }

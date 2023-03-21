@@ -423,6 +423,14 @@
       "aerialhell:block/trapped_block/step"
     ]
   },
+  "block.bone_pile_block.step_break": {
+    "subtitle": "subtitles.block.bone_pile_block.step_break",
+    "sounds": [
+      "aerialhell:block/bone_pile_block/step_break_1",
+      "aerialhell:block/bone_pile_block/step_break_2",
+      "aerialhell:block/bone_pile_block/step_break_3"
+    ]
+  },
   "item.forgotten_battle_trident.use": {
     "subtitle": "subtitles.item.forgotten_battle_trident.use",
     "sounds": [

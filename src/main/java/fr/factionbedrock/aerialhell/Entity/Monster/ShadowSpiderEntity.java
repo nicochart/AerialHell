@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractAerialHellSpiderEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -42,8 +42,6 @@ public class ShadowSpiderEntity extends AbstractAerialHellSpiderEntity
                 .createMutableAttribute(Attributes.MAX_HEALTH, 12);
     }
     
-    protected boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.getActivePotionEffect(AerialHellPotionEffects.SHADOW_IMMUNITY.get()) != null;} //return true if the entity has the SHADOW_IMMUNITY effect
-    
     @Override
     public boolean attackEntityAsMob(Entity attackedEntity)
     {
@@ -52,7 +50,7 @@ public class ShadowSpiderEntity extends AbstractAerialHellSpiderEntity
     		if (attackedEntity instanceof LivingEntity)
         	{
     			LivingEntity livingEntity = (LivingEntity) attackedEntity;
-    			if (!this.isLivingEntityShadowImmune(livingEntity))
+    			if (!EntityHelper.isLivingEntityShadowImmune(livingEntity))
     			{
 	    			int amplifier = 0;
 	    			if (livingEntity.getActivePotionEffect(Effects.SLOWNESS) != null)
