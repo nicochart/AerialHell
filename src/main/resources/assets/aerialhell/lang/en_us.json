@@ -736,6 +736,8 @@
   "death.attack.cursed_tool.player": "%1$s commited suicide with a cursed tool",
   "death.attack.god_blessing": "%1$s received god's blessing",
 
+  "enchantment.aerialhell.solid_ether_walker": "Solid Ether Walker",
+
   "advancements.story.enter_aerial_hell.title": "Aerial Hell",
   "advancements.story.enter_aerial_hell.desc": "Another story begins..",
   "advancements.secret.stellar_portal_frame_ore.title": "What is that ?",

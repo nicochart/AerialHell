@@ -2,20 +2,7 @@ package fr.factionbedrock.aerialhell.Setup;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBiomes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellCarvers;
-import fr.factionbedrock.aerialhell.Registry.AerialHellContainerTypes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Registry.AerialHellFeatures;
-import fr.factionbedrock.aerialhell.Registry.AerialHellConfiguredFeatures;
-import fr.factionbedrock.aerialhell.Registry.AerialHellFluids;
-import fr.factionbedrock.aerialhell.Registry.AerialHellPOI;
-import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
-import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import fr.factionbedrock.aerialhell.Registry.AerialHellStructures;
-import fr.factionbedrock.aerialhell.Registry.AerialHellTileEntityTypes;
+import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.TileEntity.OscillatorTileEntity;
 import fr.factionbedrock.aerialhell.TileEntity.FreezerTileEntity;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -60,6 +47,7 @@ public class AerialHellSetup
         AerialHellSoundEvents.SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellCarvers.CARVERS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellFeatures.FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        AerialHellEnchantments.ENCHANTMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 	
     private static void registerFuels() //enregistrement des carburants

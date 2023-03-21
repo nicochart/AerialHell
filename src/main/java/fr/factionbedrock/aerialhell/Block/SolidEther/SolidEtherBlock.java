@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.SolidEther;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -78,6 +79,7 @@ public class SolidEtherBlock extends BreakableBlock
 		if (entity instanceof LivingEntity)
 		{
 			LivingEntity livingEntity = (LivingEntity) entity;
+			if (EntityHelper.hasSolidEtherWalkerEnchantment(livingEntity)) {return true;}
 			if (livingEntity.isPotionActive(AerialHellPotionEffects.HEAD_IN_THE_CLOUDS.get())) {return true;}
 			Iterable<ItemStack> stuff = livingEntity.getArmorInventoryList();
 			for (ItemStack armorStack : stuff)

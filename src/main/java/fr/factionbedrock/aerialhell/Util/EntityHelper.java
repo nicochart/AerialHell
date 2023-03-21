@@ -4,9 +4,12 @@ import fr.factionbedrock.aerialhell.Entity.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.ShadowPineBarrelMimicEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
+import fr.factionbedrock.aerialhell.Registry.AerialHellEnchantments;
 import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 
 public class EntityHelper
 {
@@ -27,5 +30,14 @@ public class EntityHelper
         boolean isImmuneToAllBrambles = entity instanceof SandySheepEntity || entity instanceof GlidingTurtleEntity || entity instanceof ShroomBoomEntity || entity instanceof EvilCowEntity || entity instanceof AbstractAerialHellSpiderEntity;
         if (isImmuneToAllBrambles) {return true;}
         else {return isImmuneToSomeShadowDamage(entity);}
+    }
+
+    public static boolean hasSolidEtherWalkerEnchantment(LivingEntity entity)
+    {
+        for (ItemStack equipmentItem : entity.getEquipmentAndArmor())
+        {
+            if (EnchantmentHelper.getEnchantmentLevel(AerialHellEnchantments.SOLID_ETHER_WALKER.get(), equipmentItem) > 0) {return true;}
+        }
+        return false;
     }
 }
