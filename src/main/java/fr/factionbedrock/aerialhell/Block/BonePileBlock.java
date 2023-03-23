@@ -88,7 +88,7 @@ public class BonePileBlock extends SnowBlock
         {
             if (!world.isRemote) {world.setBlockState(pos, Blocks.AIR.getDefaultState());}
         }
-        if (!world.isRemote) {if (newLayerNumber < 3 || world.rand.nextInt(3) == 0) {entityIn.entityDropItem(new ItemStack(AerialHellBlocksAndItems.MUD_BONE.get()));}}
+        if (!world.isRemote) {if (newLayerNumber < 2 || world.rand.nextInt(4) == 0) {entityIn.entityDropItem(new ItemStack(AerialHellBlocksAndItems.MUD_BONE.get()));}}
         else {entityIn.playSound(AerialHellSoundEvents.BLOCK_BONE_PILE_STEP_BREAK.get(), 0.5F, 0.9F + world.rand.nextFloat() * 0.3F);}
     }
 

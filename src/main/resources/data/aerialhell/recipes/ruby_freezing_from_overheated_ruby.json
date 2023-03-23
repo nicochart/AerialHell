@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:freezing",
+  "ingredient": {
+    "item": "aerialhell:overheated_ruby"
+  },
+  "result": "aerialhell:ruby",
+  "experience": 0.6,
+  "cookingtime": 100
+}
