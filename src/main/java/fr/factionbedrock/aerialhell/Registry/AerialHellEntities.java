@@ -16,6 +16,7 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.*;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.PaintingEntity;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -174,6 +175,9 @@ public class AerialHellEntities
 	
 	public static final EntityType<CrystalCaterpillarEntity> CRYSTAL_CATERPILLAR_TYPE = EntityType.Builder.<CrystalCaterpillarEntity>create(CrystalCaterpillarEntity::new, EntityClassification.CREATURE)
 	    		.size(0.4F, 0.4F).build("crystal_caterpillar");
+
+	public static final EntityType<AerialHellPaintingEntity> AERIAL_HELL_PAINTING_TYPE = EntityType.Builder.<AerialHellPaintingEntity>create(AerialHellPaintingEntity::new, EntityClassification.MISC)
+				.size(0.5F, 0.5F).trackingRange(10).func_233608_b_(Integer.MAX_VALUE).build("aerial_hell_painting");
 	
 	public static final RegistryObject<EntityType<StellarStoneAutomatonEntity>> STELLAR_STONE_AUTOMATON = ENTITIES.register("stellar_stone_automaton", () -> STELLAR_STONE_AUTOMATON_TYPE);
 	public static final RegistryObject<EntityType<MudGolemEntity>> MUD_GOLEM = ENTITIES.register("mud_golem", () -> MUD_GOLEM_TYPE);
@@ -225,7 +229,8 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<ShadowSpiderEntity>> SHADOW_SPIDER = ENTITIES.register("shadow_spider", () -> SHADOW_SPIDER_TYPE);
 	public static final RegistryObject<EntityType<ForestCaterpillarEntity>> FOREST_CATERPILLAR = ENTITIES.register("forest_caterpillar", () -> FOREST_CATERPILLAR_TYPE);
 	public static final RegistryObject<EntityType<CrystalCaterpillarEntity>> CRYSTAL_CATERPILLAR = ENTITIES.register("crystal_caterpillar", () -> CRYSTAL_CATERPILLAR_TYPE);
-	
+	public static final RegistryObject<EntityType<AerialHellPaintingEntity>> AERIAL_HELL_PAINTING = ENTITIES.register("aerial_hell_painting", () -> AERIAL_HELL_PAINTING_TYPE);
+
 	public static void entitySpawnPlacements()
 	{
 		EntitySpawnPlacementRegistry.register(SANDY_SHEEP.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellAnimalEntity::canAerialHellAnimalSpawn);

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:sky_stick"
+    },
+    "X": {
+      "tag": "minecraft:wool"
+    }
+  },
+  "result": {
+    "item": "aerialhell:aerial_hell_painting"
+  }
+}

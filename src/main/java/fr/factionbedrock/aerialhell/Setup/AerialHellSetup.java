@@ -48,6 +48,7 @@ public class AerialHellSetup
         AerialHellCarvers.CARVERS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellFeatures.FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellEnchantments.ENCHANTMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        AerialHellPaintingType.PAINTING_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 	
     private static void registerFuels() //enregistrement des carburants

@@ -1306,4 +1306,6 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<Item> SHADOW_TROLL_SPAWN_EGG = ITEMS.register("shadow_troll_spawn_egg", () -> new ForgeSpawnEggItem(() -> AerialHellEntities.SHADOW_TROLL.get(), 16382457, 16382457, new Item.Properties().rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_SPAWN_EGGS)));
     public static final RegistryObject<Item> SHADOW_SPIDER_SPAWN_EGG = ITEMS.register("shadow_spider_spawn_egg", () -> new ForgeSpawnEggItem(() -> AerialHellEntities.SHADOW_SPIDER.get(), 16382457, 16382457, new Item.Properties().rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_SPAWN_EGGS)));
     public static final RegistryObject<Item> LILITH_SPAWN_EGG = ITEMS.register("lilith_spawn_egg", () -> new BossSpawnEggItem(() -> AerialHellEntities.LILITH.get(), 16382457, 16382457, new Item.Properties().rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_SPAWN_EGGS)));
+
+	public static final RegistryObject<Item> AERIAL_HELL_PAINTING = ITEMS.register("aerial_hell_painting", () -> new AerialHellHangingEntityItem(AerialHellEntities.AERIAL_HELL_PAINTING_TYPE, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 }
