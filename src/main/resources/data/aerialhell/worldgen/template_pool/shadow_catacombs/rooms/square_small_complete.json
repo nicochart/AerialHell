@@ -5,7 +5,35 @@
     {
       "weight": 1,
       "element": {
-        "location": "aerialhell:shadow_catacombs/rooms/square_small_complete",
+        "location": "aerialhell:shadow_catacombs/rooms/square_small_complete_1",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/rooms/square_small_complete_2",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/rooms/square_small_complete_3",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/rooms/square_small_complete_4",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/rooms/square_small_complete_5",
         "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
       }
     }

@@ -5,14 +5,105 @@
     {
       "weight": 2,
       "element": {
-        "location": "aerialhell:shadow_catacombs/corridors/5_8_complete",
+        "location": "aerialhell:shadow_catacombs/corridors/5_8_complete_1",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/corridors/5_8_complete_2",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/corridors/5_8_complete_3",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/corridors/5_8_complete_4",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/corridors/5_8_complete_5",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/corridors/5_8_complete_6",
         "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
       }
     },
     {
       "weight": 1,
       "element": {
-        "location": "aerialhell:shadow_catacombs/corridors/5_10_complete",
+        "location": "aerialhell:shadow_catacombs/corridors/5_10_complete_1",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/corridors/5_10_complete_2",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/corridors/5_10_complete_3",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/corridors/5_10_complete_4",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/corridors/5_10_complete_5",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/corridors/5_10_complete_6",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/corridors/5_10_complete_7",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/corridors/5_10_complete_8",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/corridors/5_10_complete_9",
         "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
       }
     }

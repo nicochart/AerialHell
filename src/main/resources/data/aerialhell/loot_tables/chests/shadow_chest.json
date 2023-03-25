@@ -1,0 +1,156 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+	{
+          "type": "item",
+          "name": "aerialhell:shadow_torch",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        },
+	{
+          "type": "item",
+          "name": "aerialhell:mud_bone",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 5
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:flint",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 3,
+                "max": 5
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:aerial_berry",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:smoky_quartz",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        },
+	{
+          "type": "item",
+          "name": "aerialhell:sky_stick",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 5
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+	{
+          "type": "item",
+          "name": "aerialhell:smoky_quartz",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 5
+              }
+            }
+          ]
+        },
+	{
+          "type": "item",
+          "name": "aerialhell:purple_solid_ether_fragment",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 5
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:shadow_shard",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:ruby_pickaxe",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:azurite_sword",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:stellar_stone_sword",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:stellar_stone_shovel",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:stellar_stone_pickaxe",
+          "weight": 2
+        }
+      ]
+    }
+  ]
+}

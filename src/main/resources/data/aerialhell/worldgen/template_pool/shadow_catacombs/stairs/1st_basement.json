@@ -5,14 +5,56 @@
     {
       "weight": 1,
       "element": {
-        "location": "aerialhell:shadow_catacombs/stairs/1st_basement_stop",
+        "location": "aerialhell:shadow_catacombs/stairs/1st_basement_stop_1",
         "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
       }
     },
     {
       "weight": 1,
       "element": {
-        "location": "aerialhell:shadow_catacombs/stairs/1st_basement_continue",
+        "location": "aerialhell:shadow_catacombs/stairs/1st_basement_stop_2",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/stairs/1st_basement_stop_3",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/stairs/1st_basement_stop_4",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/stairs/1st_basement_continue_1",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/stairs/1st_basement_continue_2",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/stairs/1st_basement_continue_3",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/stairs/1st_basement_continue_4",
         "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
       }
     }
