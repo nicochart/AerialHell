@@ -8,6 +8,13 @@
         "location": "aerialhell:shadow_catacombs/rooms/square_medium_obrl_1",
         "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
       }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:shadow_catacombs/rooms/square_medium_obrl_2",
+        "processors": "minecraft:empty", "projection": "rigid", "element_type": "minecraft:single_pool_element"
+      }
     }
   ]
 }
