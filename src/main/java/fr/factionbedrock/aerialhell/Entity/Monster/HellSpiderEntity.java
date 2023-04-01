@@ -36,7 +36,7 @@ public class HellSpiderEntity extends AbstractAerialHellSpiderEntity
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 5)
                 .createMutableAttribute(Attributes.ARMOR, 0)
-                .createMutableAttribute(Attributes.MAX_HEALTH, 15);
+                .createMutableAttribute(Attributes.MAX_HEALTH, 32);
     }
     
     @Override

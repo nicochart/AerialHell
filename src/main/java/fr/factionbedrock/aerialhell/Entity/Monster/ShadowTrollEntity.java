@@ -49,7 +49,7 @@ public class ShadowTrollEntity extends MonsterEntity
                 .createMutableAttribute(Attributes.MAX_HEALTH, 60.0F)
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3F)
                 .createMutableAttribute(Attributes.FOLLOW_RANGE, 24.0D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 4.0D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 8.0D)
                 .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.3F);
     }
     

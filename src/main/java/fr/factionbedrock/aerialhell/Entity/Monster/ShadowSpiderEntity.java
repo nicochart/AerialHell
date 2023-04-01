@@ -37,9 +37,9 @@ public class ShadowSpiderEntity extends AbstractAerialHellSpiderEntity
     {
         return MonsterEntity.func_234295_eP_()
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 4)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 7)
                 .createMutableAttribute(Attributes.ARMOR, 4)
-                .createMutableAttribute(Attributes.MAX_HEALTH, 12);
+                .createMutableAttribute(Attributes.MAX_HEALTH, 32);
     }
     
     @Override

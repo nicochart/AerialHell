@@ -35,7 +35,7 @@ public class CrystalSpiderEntity extends AbstractAerialHellSpiderEntity
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 4)
                 .createMutableAttribute(Attributes.ARMOR, 0)
-                .createMutableAttribute(Attributes.MAX_HEALTH, 15);
+                .createMutableAttribute(Attributes.MAX_HEALTH, 24);
     }
     
     static class AttackGoal extends MeleeAttackGoal
