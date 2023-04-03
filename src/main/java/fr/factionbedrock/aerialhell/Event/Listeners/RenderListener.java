@@ -1,12 +1,19 @@
 package fr.factionbedrock.aerialhell.Event.Listeners;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -14,12 +21,29 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class RenderListener
 {
+    private static final ResourceLocation VULNERABLE_OVERLAY = new ResourceLocation(AerialHell.MODID, "textures/misc/vulnerability_blur.png");
     private static final ResourceLocation VULNERABLE_HEART = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_hearts.png");
     private static final ResourceLocation VULNERABLE_HALF_HEART = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_half_hearts.png");
     private static final ResourceLocation VULNERABLE_EMPTY_HEART = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts.png");
 
     private static final int HEART_ICON_WIDTH = 9;
     private static final int HEART_ICON_HEIGHT = 9;
+
+    @SubscribeEvent
+    public static void onRenderOverlayPost(RenderGameOverlayEvent.Post event)
+    {
+        Minecraft mc = Minecraft.getInstance();
+        PlayerEntity player = mc.player;
+
+        if (player != null && EntityHelper.isLivingEntityVulnerable(player))
+        {
+            if (event.getType() == RenderGameOverlayEvent.ElementType.VIGNETTE && mc.gameSettings.getPointOfView().func_243192_a())
+            {
+                float alpha = Math.min(10, player.getActivePotionEffect(AerialHellPotionEffects.VULNERABILITY.get()).getDuration()) / 10.0F;
+                renderVulnerabilityOverlay(mc, alpha);
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void onRenderOverlay(RenderGameOverlayEvent event)
@@ -38,6 +62,30 @@ public class RenderListener
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
+    protected static void renderVulnerabilityOverlay(Minecraft mc, float alpha)
+    {
+        RenderSystem.disableDepthTest();
+        RenderSystem.depthMask(false);
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
+        RenderSystem.disableAlphaTest();
+        mc.getTextureManager().bindTexture(VULNERABLE_OVERLAY);
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+        bufferbuilder.pos(0.0D, mc.getMainWindow().getScaledHeight(), -90.0D).tex(0.0F, 1.0F).endVertex();
+        bufferbuilder.pos(mc.getMainWindow().getScaledWidth(), mc.getMainWindow().getScaledHeight(), -90.0D).tex(1.0F, 1.0F).endVertex();
+        bufferbuilder.pos(mc.getMainWindow().getScaledWidth(), 0.0D, -90.0D).tex(1.0F, 0.0F).endVertex();
+        bufferbuilder.pos(0.0D, 0.0D, -90.0D).tex(0.0F, 0.0F).endVertex();
+        tessellator.draw();
+        RenderSystem.depthMask(true);
+        RenderSystem.enableDepthTest();
+        RenderSystem.enableAlphaTest();
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
+    }
+
+    @OnlyIn(Dist.CLIENT)
     private static void renderVulnerableHearts(MatrixStack matrixStack, PlayerEntity player, int x, int y)
     {
         int maxHalfHearts = (int)player.getMaxHealth(), maxHearts  = maxHalfHearts/2;
