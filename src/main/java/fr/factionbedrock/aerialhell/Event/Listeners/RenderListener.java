@@ -48,9 +48,6 @@ public class RenderListener
         Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_EMPTY_HEART);
         blitAllEntireHearts(matrixStack, x, y, maxHearts, yOffset);
 
-        Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HEART);
-        blitAllEntireHearts(matrixStack, x, y, playerActualHeartNumber, yOffset);
-
         Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HALF_HEART);
         if (halfHearts%2 != 0)
         {
@@ -59,17 +56,21 @@ public class RenderListener
             blitSingleHeartIcon(matrixStack, x + xTotalOffset, y + yTotalOffset);
         }
 
+        Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HEART);
+        blitAllEntireHearts(matrixStack, x, y, playerActualHeartNumber, yOffset);
+
         //Vanilla expected texture
         Minecraft.getInstance().getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
     }
 
-    protected static void blitAllEntireHearts(MatrixStack matrixStack, int x, int y, int number, int yOffset)
+    private static void blitAllEntireHearts(MatrixStack matrixStack, int x, int y, int number, int yOffset)
     {
-        int i, heartToBlit, yTotalOffset = -yOffset, remainingHearts = number;
+        int i, heartToBlit, yTotalOffset = number%10 != 0 ? (number/10 + 1) * yOffset : (number/10) * yOffset, remainingHearts = number;
         while (remainingHearts > 0)
         {
-            yTotalOffset += yOffset;
-            heartToBlit = Math.min(remainingHearts, 10);
+            yTotalOffset -= yOffset;
+            heartToBlit = 10;
+            if (remainingHearts % 10 != 0) {heartToBlit = remainingHearts % 10;}
 
             for (i = 0; i < heartToBlit; i++)
             {
