@@ -18,6 +18,11 @@ public class EntityHelper
         return entity.getActivePotionEffect(AerialHellPotionEffects.SHADOW_IMMUNITY.get()) != null;
     }
 
+    public static boolean isLivingEntityVulnerable(LivingEntity entity)
+    {
+        return entity.getActivePotionEffect(AerialHellPotionEffects.VULNERABILITY.get()) != null;
+    }
+
     public static boolean isImmuneToSomeShadowDamage(Entity entity)
     {
         boolean isShadowImmune = entity instanceof LivingEntity && isLivingEntityShadowImmune((LivingEntity)entity);

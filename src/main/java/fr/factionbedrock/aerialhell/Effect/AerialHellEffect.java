@@ -4,9 +4,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;
 
-public class ShadowImmunityEffect extends Effect
+public class AerialHellEffect extends Effect
 {
-    public ShadowImmunityEffect(EffectType typeIn, int liquidColorIn)
+    public AerialHellEffect(EffectType typeIn, int liquidColorIn)
     {
         super(typeIn, liquidColorIn);
     }
@@ -15,14 +15,8 @@ public class ShadowImmunityEffect extends Effect
     public void performEffect(LivingEntity entityLivingBaseIn, int amplifier) {}
     
     @Override
-    public boolean isReady(int duration, int amplifier)
-    {
-    	return true;
-    }
+    public boolean isReady(int duration, int amplifier) {return true;}
 
     @Override
-    public boolean isInstant()
-    {
-        return false;
-    }
+    public boolean isInstant() {return false;}
 }

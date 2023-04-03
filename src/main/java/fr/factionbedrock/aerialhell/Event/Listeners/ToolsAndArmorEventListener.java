@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Event.Listeners;
 
 import java.util.UUID;
 
+import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
@@ -114,6 +115,11 @@ public class ToolsAndArmorEventListener
 	{
 		float amount = event.getAmount();
 		if (targetEquippedItem == AerialHellBlocksAndItems.GLASS_CANON_SWORD.get()) {event.setAmount(amount * 2.0F);} //*2 damage if target has glass cannon sword
+		if (EntityHelper.isLivingEntityVulnerable(target))
+		{
+			event.setAmount(amount * 2.0F); //*2 damage if target is vulnerable
+			if (event.getSource().getTrueSource() instanceof LilithEntity) {event.setAmount(amount * 2.0F);} //total *4 if source is Lilith boss
+		}
 	}
 	
 	public static void applyEffectsBasedOnTargetEquippedArmor(LivingHurtEvent event, Iterable<ItemStack> armorStuff, LivingEntity source, LivingEntity target)
