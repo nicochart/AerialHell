@@ -40,55 +40,51 @@ public class RenderListener
 
     private static void renderVulnerableHearts(MatrixStack matrixStack, PlayerEntity player, int x, int y)
     {
-        int i; int Y_OFFSET = getHealthBarYOffset(player);
         int maxHalfHearts = (int)player.getMaxHealth(), maxHearts  = maxHalfHearts/2;
         int halfHearts = (int) player.getHealth(), hearts = halfHearts / 2;
         int playerActualHeartNumber = Math.min(hearts, maxHearts);
+        int yOffset = getHealthBarYOffset(player), xOffset = (halfHearts % 20)/2;
 
         Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_EMPTY_HEART);
-        int heartToBlit, remainingEmptyHearts = maxHearts, yOffset = -Y_OFFSET;
-        while (remainingEmptyHearts > 0)
-        {
-            yOffset += Y_OFFSET;
-            heartToBlit = Math.min(remainingEmptyHearts, 10);
-
-            for (i = 0; i < heartToBlit; i++)
-            {
-                AbstractGui.blit(matrixStack, x + i * (HEART_ICON_WIDTH - 1), y - yOffset, 0, 0, HEART_ICON_WIDTH, HEART_ICON_HEIGHT, 9, 9);
-            }
-            remainingEmptyHearts -= heartToBlit;
-        }
+        blitAllEntireHearts(matrixStack, x, y, maxHearts, yOffset);
 
         Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HEART);
-        yOffset = -Y_OFFSET;
-        int remainingHearts = playerActualHeartNumber;
-        while (remainingHearts > 0)
-        {
-            yOffset += Y_OFFSET;
-            heartToBlit = Math.min(remainingHearts, 10);
-
-            for (i = 0; i < heartToBlit; i++)
-            {
-                AbstractGui.blit(matrixStack, x + i * (HEART_ICON_WIDTH - 1), y - yOffset, 0, 0, HEART_ICON_WIDTH, HEART_ICON_HEIGHT, 9, 9);
-            }
-            remainingHearts -= heartToBlit;
-        }
-
+        blitAllEntireHearts(matrixStack, x, y, playerActualHeartNumber, yOffset);
 
         Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HALF_HEART);
         if (halfHearts%2 != 0)
         {
-            yOffset = 0;
-            yOffset+= halfHearts/20 * Y_OFFSET;
-            i = (halfHearts % 20)/2;
-            AbstractGui.blit(matrixStack, x + i * (HEART_ICON_WIDTH - 1), y - yOffset, 0, 0, HEART_ICON_WIDTH, HEART_ICON_HEIGHT, 9, 9);
+            int yTotalOffset = - yOffset * (halfHearts/20);
+            int xTotalOffset = xOffset * (HEART_ICON_WIDTH - 1);
+            blitSingleHeartIcon(matrixStack, x + xTotalOffset, y + yTotalOffset);
         }
 
         //Vanilla expected texture
         Minecraft.getInstance().getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
     }
 
-    protected static int getHealthBarYOffset(PlayerEntity player)
+    protected static void blitAllEntireHearts(MatrixStack matrixStack, int x, int y, int number, int yOffset)
+    {
+        int i, heartToBlit, yTotalOffset = -yOffset, remainingHearts = number;
+        while (remainingHearts > 0)
+        {
+            yTotalOffset += yOffset;
+            heartToBlit = Math.min(remainingHearts, 10);
+
+            for (i = 0; i < heartToBlit; i++)
+            {
+                blitSingleHeartIcon(matrixStack, x + i * (HEART_ICON_WIDTH - 1), y - yTotalOffset);
+            }
+            remainingHearts -= heartToBlit;
+        }
+    }
+
+    private static void blitSingleHeartIcon(MatrixStack matrixStack, int x, int y) //texture must be binded before calling
+    {
+        AbstractGui.blit(matrixStack, x, y, 0, 0, HEART_ICON_WIDTH, HEART_ICON_HEIGHT, 9, 9);
+    }
+
+    private static int getHealthBarYOffset(PlayerEntity player)
     {
         int maxHalfHearts = (int)player.getMaxHealth();
         if (maxHalfHearts <= 40) {return 10;}
