@@ -40,31 +40,64 @@ public class RenderListener
 
     private static void renderVulnerableHearts(MatrixStack matrixStack, PlayerEntity player, int x, int y)
     {
-        int maxHearts = 20, maxHalfHearts = 40;
-        int hearts = (int) player.getHealth() / 2;
-        int playerEntireHeart = Math.min(hearts, maxHearts);
-        int playerBonusHalfHeart = player.getHealth() % 2 == 0 ? 0 : 1;
-        int playerHalfHeart = Math.min(playerBonusHalfHeart, maxHalfHearts - playerEntireHeart * 2);
+        int i; int Y_OFFSET = getHealthBarYOffset(player);
+        int maxHalfHearts = (int)player.getMaxHealth(), maxHearts  = maxHalfHearts/2;
+        int halfHearts = (int) player.getHealth(), hearts = halfHearts / 2;
+        int playerActualHeartNumber = Math.min(hearts, maxHearts);
 
         Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_EMPTY_HEART);
-        for (int i = 0; i < maxHearts / 2; i++)
+        int heartToBlit, remainingEmptyHearts = maxHearts, yOffset = -Y_OFFSET;
+        while (remainingEmptyHearts > 0)
         {
-            AbstractGui.blit(matrixStack, x + i * (HEART_ICON_WIDTH - 1), y, 0, 0, HEART_ICON_WIDTH, HEART_ICON_HEIGHT, 9, 9);
+            yOffset += Y_OFFSET;
+            heartToBlit = Math.min(remainingEmptyHearts, 10);
+
+            for (i = 0; i < heartToBlit; i++)
+            {
+                AbstractGui.blit(matrixStack, x + i * (HEART_ICON_WIDTH - 1), y - yOffset, 0, 0, HEART_ICON_WIDTH, HEART_ICON_HEIGHT, 9, 9);
+            }
+            remainingEmptyHearts -= heartToBlit;
         }
 
         Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HEART);
-        for (int i = 0; i < playerEntireHeart; i++)
+        yOffset = -Y_OFFSET;
+        int remainingHearts = playerActualHeartNumber;
+        while (remainingHearts > 0)
         {
-            AbstractGui.blit(matrixStack, x + i * (HEART_ICON_WIDTH - 1), y, 0, 0, HEART_ICON_WIDTH, HEART_ICON_HEIGHT, 9, 9);
+            yOffset += Y_OFFSET;
+            heartToBlit = Math.min(remainingHearts, 10);
+
+            for (i = 0; i < heartToBlit; i++)
+            {
+                AbstractGui.blit(matrixStack, x + i * (HEART_ICON_WIDTH - 1), y - yOffset, 0, 0, HEART_ICON_WIDTH, HEART_ICON_HEIGHT, 9, 9);
+            }
+            remainingHearts -= heartToBlit;
         }
 
+
         Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HALF_HEART);
-        for (int i = 0; i < playerHalfHeart; i++)
+        if (halfHearts%2 != 0)
         {
-            AbstractGui.blit(matrixStack, x + playerEntireHeart * (HEART_ICON_WIDTH - 1), y, 0, 0, HEART_ICON_WIDTH, HEART_ICON_HEIGHT, 9, 9);
+            yOffset = 0;
+            yOffset+= halfHearts/20 * Y_OFFSET;
+            i = (halfHearts % 20)/2;
+            AbstractGui.blit(matrixStack, x + i * (HEART_ICON_WIDTH - 1), y - yOffset, 0, 0, HEART_ICON_WIDTH, HEART_ICON_HEIGHT, 9, 9);
         }
 
         //Vanilla expected texture
         Minecraft.getInstance().getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
+    }
+
+    protected static int getHealthBarYOffset(PlayerEntity player)
+    {
+        int maxHalfHearts = (int)player.getMaxHealth();
+        if (maxHalfHearts <= 40) {return 10;}
+        else if (maxHalfHearts <= 60) {return 9;}
+        else if (maxHalfHearts <= 80) {return 8;}
+        else if (maxHalfHearts <= 100) {return 7;}
+        else if (maxHalfHearts <= 120) {return 6;}
+        else if (maxHalfHearts <= 140) {return 5;}
+        else if (maxHalfHearts <= 160) {return 4;}
+        else {return 3;}
     }
 }

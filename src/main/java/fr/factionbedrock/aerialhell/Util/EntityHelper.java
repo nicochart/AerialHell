@@ -13,15 +13,9 @@ import net.minecraft.item.ItemStack;
 
 public class EntityHelper
 {
-    public static boolean isLivingEntityShadowImmune(LivingEntity entity)
-    {
-        return entity.getActivePotionEffect(AerialHellPotionEffects.SHADOW_IMMUNITY.get()) != null;
-    }
+    public static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.isPotionActive(AerialHellPotionEffects.SHADOW_IMMUNITY.get());}
 
-    public static boolean isLivingEntityVulnerable(LivingEntity entity)
-    {
-        return entity.getActivePotionEffect(AerialHellPotionEffects.VULNERABILITY.get()) != null;
-    }
+    public static boolean isLivingEntityVulnerable(LivingEntity entity) {return entity.isPotionActive(AerialHellPotionEffects.VULNERABILITY.get());}
 
     public static boolean isImmuneToSomeShadowDamage(Entity entity)
     {
