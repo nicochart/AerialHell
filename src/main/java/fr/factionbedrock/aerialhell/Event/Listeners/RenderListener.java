@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -25,6 +26,7 @@ public class RenderListener
     private static final ResourceLocation VULNERABLE_HEART = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_hearts.png");
     private static final ResourceLocation VULNERABLE_HALF_HEART = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_half_hearts.png");
     private static final ResourceLocation VULNERABLE_EMPTY_HEART = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts.png");
+    private static final ResourceLocation VULNERABLE_EMPTY_HEART_WITH_BORDER = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts_with_border.png");
 
     private static final int HEART_ICON_WIDTH = 9;
     private static final int HEART_ICON_HEIGHT = 9;
@@ -39,7 +41,7 @@ public class RenderListener
         {
             if (event.getType() == RenderGameOverlayEvent.ElementType.VIGNETTE && mc.gameSettings.getPointOfView().func_243192_a())
             {
-                float alpha = Math.min(10, player.getActivePotionEffect(AerialHellPotionEffects.VULNERABILITY.get()).getDuration()) / 10.0F;
+                float alpha = Math.min(20, player.getActivePotionEffect(AerialHellPotionEffects.VULNERABILITY.get()).getDuration()) / 20.0F;
                 renderVulnerabilityOverlay(mc, alpha);
             }
         }
@@ -93,7 +95,8 @@ public class RenderListener
         int playerActualHeartNumber = Math.min(hearts, maxHearts);
         int yOffset = getHealthBarYOffset(player), xOffset = (halfHearts % 20)/2;
 
-        Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_EMPTY_HEART);
+        if (yOffset < 8) {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_EMPTY_HEART_WITH_BORDER);}
+        else {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_EMPTY_HEART);}
         blitAllEntireHearts(matrixStack, x, y, maxHearts, yOffset);
 
         Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HALF_HEART);
@@ -136,6 +139,7 @@ public class RenderListener
     private static int getHealthBarYOffset(PlayerEntity player)
     {
         int maxHalfHearts = (int)player.getMaxHealth();
+        if (player.isPotionActive(Effects.ABSORPTION)) {maxHalfHearts += 4 * (player.getActivePotionEffect(Effects.ABSORPTION).getAmplifier() + 1);}
         if (maxHalfHearts <= 40) {return 10;}
         else if (maxHalfHearts <= 60) {return 9;}
         else if (maxHalfHearts <= 80) {return 8;}
