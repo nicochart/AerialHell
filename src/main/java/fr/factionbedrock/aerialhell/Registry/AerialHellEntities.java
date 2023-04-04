@@ -142,6 +142,9 @@ public class AerialHellEntities
 	
 	public static final EntityType<ShadowTrollEntity> SHADOW_TROLL_TYPE = EntityType.Builder.create(ShadowTrollEntity::new, EntityClassification.MONSTER)
 			    .size(1.2F, 2.5F).build("shadow_troll");
+
+	public static final EntityType<StellarStoneAutomatonEntity> SHADOW_AUTOMATON_TYPE = EntityType.Builder.create(StellarStoneAutomatonEntity::new, EntityClassification.MONSTER)
+				.size(0.8F,2.5F).build("shadow_automaton");
 	
 	public static final EntityType<LilithEntity> LILITH_TYPE = EntityType.Builder.<LilithEntity>create(LilithEntity::new, EntityClassification.MONSTER)
 	        	.size(0.8F,1.8F).build("lilith");
@@ -218,6 +221,7 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<RubyArrowEntity>> RUBY_BLOWPIPE_ARROW = ENTITIES.register("ruby_blowpipe_arrow", () -> RUBY_BLOWPIPE_ARROW_TYPE);
 	public static final RegistryObject<EntityType<LunaticProjectileEntity>> LUNATIC_PROJECTILE = ENTITIES.register("lunatic_projectile", () -> LUNATIC_PROJECTILE_TYPE);
 	public static final RegistryObject<EntityType<ShadowTrollEntity>> SHADOW_TROLL = ENTITIES.register("shadow_troll", () -> SHADOW_TROLL_TYPE);
+	public static final RegistryObject<EntityType<StellarStoneAutomatonEntity>> SHADOW_AUTOMATON = ENTITIES.register("shadow_automaton", () -> SHADOW_AUTOMATON_TYPE);
 	public static final RegistryObject<EntityType<LilithEntity>> LILITH = ENTITIES.register("lilith", () -> LILITH_TYPE);
 	public static final RegistryObject<EntityType<AerialTreeChestMimicEntity>> AERIAL_TREE_MIMIC = ENTITIES.register("aerial_tree_mimic", () -> AERIAL_TREE_MIMIC_TYPE);
 	public static final RegistryObject<EntityType<GoldenBeechChestMimicEntity>> GOLDEN_BEECH_MIMIC = ENTITIES.register("golden_beech_mimic", () -> GOLDEN_BEECH_MIMIC_TYPE);

@@ -9,8 +9,10 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 
 
-public class StellarStoneAutomatonModel<T extends StellarStoneAutomatonEntity> extends BipedModel<T>
+public class AutomatonModel<T extends StellarStoneAutomatonEntity> extends BipedModel<T>
 {
+	private boolean isInvisible;
+
 	private final ModelRenderer body;
 	private final ModelRenderer body_r1;
 	private final ModelRenderer head;
@@ -23,9 +25,10 @@ public class StellarStoneAutomatonModel<T extends StellarStoneAutomatonEntity> e
 	private final ModelRenderer leftLeg;
 	private final ModelRenderer leftLeg_r1;
 
-	public StellarStoneAutomatonModel()
+	public AutomatonModel(boolean isInvisible)
 	{
 		super(0F, -14F, 64, 32);
+		this.isInvisible = isInvisible;
 		textureWidth = 64;
 		textureHeight = 32;
 
@@ -101,18 +104,16 @@ public class StellarStoneAutomatonModel<T extends StellarStoneAutomatonEntity> e
 
 	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{
-		body.render(matrixStack, buffer, packedLight, packedOverlay);
-		head.render(matrixStack, buffer, packedLight, packedOverlay);
-		rightArm.render(matrixStack, buffer, packedLight, packedOverlay);
-		leftArm.render(matrixStack, buffer, packedLight, packedOverlay);
-		rightLeg.render(matrixStack, buffer, packedLight, packedOverlay);
-		leftLeg.render(matrixStack, buffer, packedLight, packedOverlay);
+		if (!this.isInvisible)
+		{
+			body.render(matrixStack, buffer, packedLight, packedOverlay);
+			head.render(matrixStack, buffer, packedLight, packedOverlay);
+			rightArm.render(matrixStack, buffer, packedLight, packedOverlay);
+			leftArm.render(matrixStack, buffer, packedLight, packedOverlay);
+			rightLeg.render(matrixStack, buffer, packedLight, packedOverlay);
+			leftLeg.render(matrixStack, buffer, packedLight, packedOverlay);
+		}
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
-	{
-		modelRenderer.rotateAngleX = x;
-		modelRenderer.rotateAngleY = y;
-		modelRenderer.rotateAngleZ = z;
-	}
+	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {modelRenderer.rotateAngleX = x; modelRenderer.rotateAngleY = y; modelRenderer.rotateAngleZ = z;}
 }

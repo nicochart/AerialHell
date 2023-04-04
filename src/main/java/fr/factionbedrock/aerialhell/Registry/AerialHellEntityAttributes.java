@@ -47,6 +47,7 @@ public class AerialHellEntityAttributes
 		event.put(AerialHellEntities.CHAINED_GOD.get(), ChainedGodEntity.registerAttributes().create());
 		event.put(AerialHellEntities.FLYING_JELLYFISH.get(), FlyingJellyfishEntity.registerAttributes().create());
 		event.put(AerialHellEntities.SHADOW_TROLL.get(), ShadowTrollEntity.registerAttributes().create());
+		event.put(AerialHellEntities.SHADOW_AUTOMATON.get(), StellarStoneAutomatonEntity.registerAttributes().create());
 		event.put(AerialHellEntities.AERIAL_TREE_MIMIC.get(), AerialTreeChestMimicEntity.registerAttributes().create());
 		event.put(AerialHellEntities.GOLDEN_BEECH_MIMIC.get(), GoldenBeechChestMimicEntity.registerAttributes().create());
 		event.put(AerialHellEntities.SKY_CACTUS_FIBER_MIMIC.get(), SkyCactusFiberChestMimicEntity.registerAttributes().create());
