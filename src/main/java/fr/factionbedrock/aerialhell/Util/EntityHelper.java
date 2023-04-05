@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.Entity.*;
+import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
+import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.ShadowPineBarrelMimicEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
@@ -9,6 +11,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.item.ItemStack;
 
 public class EntityHelper
@@ -20,8 +23,18 @@ public class EntityHelper
     public static boolean isImmuneToSomeShadowDamage(Entity entity)
     {
         boolean isShadowImmune = entity instanceof LivingEntity && isLivingEntityShadowImmune((LivingEntity)entity);
-        boolean isShadowEntity = entity instanceof EvilCowEntity || entity instanceof ShadowTrollEntity || entity instanceof ShadowSpiderEntity || entity instanceof ShadowPineBarrelMimicEntity;
+        boolean isShadowEntity = isShadowEntity(entity);
         return isShadowImmune || isShadowEntity;
+    }
+
+    public static boolean isShadowEntity(Entity entity)
+    {
+        return entity instanceof EvilCowEntity || entity instanceof ShadowTrollEntity || entity instanceof ShadowSpiderEntity || entity instanceof ShadowPineBarrelMimicEntity || entity instanceof LilithEntity || entity instanceof EndermanEntity;
+    }
+
+    public static boolean isLightEntity(Entity entity)
+    {
+        return entity instanceof CrystalGolemEntity || entity instanceof CrystalCaterpillarEntity || entity instanceof CrystalSlimeEntity || entity instanceof CrystalSpiderEntity || entity instanceof LunaticPriestEntity;
     }
 
     public static boolean isImmuneToBramblesDamage(Entity entity)

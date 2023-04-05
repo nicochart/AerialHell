@@ -24,7 +24,9 @@ public class RenderListener
 {
     private static final ResourceLocation VULNERABLE_OVERLAY = new ResourceLocation(AerialHell.MODID, "textures/misc/vulnerability_blur.png");
     private static final ResourceLocation VULNERABLE_HEART = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_hearts.png");
+    private static final ResourceLocation VULNERABLE_HEART_WITH_BORDER = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_hearts_with_border.png");
     private static final ResourceLocation VULNERABLE_HALF_HEART = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_half_hearts.png");
+    private static final ResourceLocation VULNERABLE_HALF_HEART_WITH_BORDER = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_half_hearts_with_border.png");
     private static final ResourceLocation VULNERABLE_EMPTY_HEART = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts.png");
     private static final ResourceLocation VULNERABLE_EMPTY_HEART_WITH_BORDER = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts_with_border.png");
 
@@ -99,7 +101,8 @@ public class RenderListener
         else {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_EMPTY_HEART);}
         blitAllEntireHearts(matrixStack, x, y, maxHearts, yOffset);
 
-        Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HALF_HEART);
+        if (yOffset < 8) {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HALF_HEART_WITH_BORDER);}
+        else {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HALF_HEART);}
         if (halfHearts%2 != 0)
         {
             int yTotalOffset = - yOffset * (halfHearts/20);
@@ -107,7 +110,8 @@ public class RenderListener
             blitSingleHeartIcon(matrixStack, x + xTotalOffset, y + yTotalOffset);
         }
 
-        Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HEART);
+        if (yOffset < 8) {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HEART_WITH_BORDER);}
+        else {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HEART);}
         blitAllEntireHearts(matrixStack, x, y, playerActualHeartNumber, yOffset);
 
         //Vanilla expected texture

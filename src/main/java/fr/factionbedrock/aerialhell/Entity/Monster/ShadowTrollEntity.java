@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.entity.Entity;
@@ -58,10 +59,28 @@ public class ShadowTrollEntity extends MonsterEntity
     {
     	if (super.attackEntityAsMob(attackedEntity))
     	{
-    		if (attackedEntity instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune(((LivingEntity) attackedEntity)))
-        	{
-    			((LivingEntity) attackedEntity).addPotionEffect(new EffectInstance(Effects.BLINDNESS, 40, 0));
-        	}
+    		if (attackedEntity instanceof LivingEntity)
+            {
+                if (!EntityHelper.isLivingEntityShadowImmune(((LivingEntity) attackedEntity)))
+                {
+                    if (!((LivingEntity) attackedEntity).isPotionActive(Effects.BLINDNESS))
+                    {
+                        ((LivingEntity) attackedEntity).addPotionEffect(new EffectInstance(Effects.BLINDNESS, 35, 0));
+                    }
+                    else if (!((LivingEntity) attackedEntity).isPotionActive(AerialHellPotionEffects.VULNERABILITY.get()))
+                    {
+                        ((LivingEntity) attackedEntity).addPotionEffect(new EffectInstance(AerialHellPotionEffects.VULNERABILITY.get(), 60, 0));
+                    }
+                    else
+                    {
+                        ((LivingEntity) attackedEntity).addPotionEffect(new EffectInstance(AerialHellPotionEffects.VULNERABILITY.get(), 120, 0));
+                    }
+                }
+                else //attacked entity is shadow immune
+                {
+                    ((LivingEntity) attackedEntity).addPotionEffect(new EffectInstance(AerialHellPotionEffects.VULNERABILITY.get(), 50, 0));
+                }
+            }
     		return true;
     	}
     	else

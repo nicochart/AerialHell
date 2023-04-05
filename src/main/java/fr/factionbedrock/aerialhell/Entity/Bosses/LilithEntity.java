@@ -5,10 +5,8 @@ import java.util.List;
 import fr.factionbedrock.aerialhell.Block.*;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellDimensions;
-import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.*;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -178,7 +176,11 @@ public class LilithEntity extends AbstractBossEntity
 				for (Entity entity : nearbyEntities)
 		    	{
 					boolean creaOrSpecPlayer = (entity instanceof PlayerEntity && (((PlayerEntity) entity).isSpectator() || ((PlayerEntity) entity).isCreative()));
-		    		if (entity instanceof LivingEntity && !creaOrSpecPlayer) {dragEntity(entity);}
+		    		if (entity instanceof LivingEntity && !creaOrSpecPlayer)
+					{
+						dragEntity(entity);
+						((LivingEntity) entity).addPotionEffect(new EffectInstance(AerialHellPotionEffects.VULNERABILITY.get(), 40, 0));
+					}
 		    	}
 				
 				if (this.world.isRemote)
@@ -282,6 +284,14 @@ public class LilithEntity extends AbstractBossEntity
 		else if (block instanceof StellarGrassBlock)
 		{
 			return AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().getDefaultState();
+		}
+		else if (block == AerialHellBlocksAndItems.STELLAR_GRASS.get())
+		{
+			return AerialHellBlocksAndItems.SHADOW_GRASS.get().getDefaultState();
+		}
+		else if (block == AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get())
+		{
+			return AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get().getDefaultState();
 		}
 		else if (block instanceof LanternBlock)
 		{
@@ -421,33 +431,21 @@ public class LilithEntity extends AbstractBossEntity
 	
 	@Override public boolean canBePushed() {return false;}
 	
-	@Override
-	public boolean attackEntityAsMob(Entity attackedEntity)
+	@Override public boolean attackEntityAsMob(Entity target)
 	{
-	      this.world.setEntityState(this, (byte)4);
-	      float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
-	      float amount = (int)f > 0 ? f / 2.0F + (float)this.rand.nextInt((int)f) : f;
-	      float kb = (float)this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
-	      boolean flag = attackedEntity.attackEntityFrom(DamageSource.causeMobDamage(this), amount);
-	      if (flag)
-	      {
-	    	 ((LivingEntity)attackedEntity).applyKnockback(kb * 0.5F, (double)MathHelper.sin(this.rotationYaw * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(this.rotationYaw * ((float)Math.PI / 180F))));
-	         attackedEntity.setMotion(attackedEntity.getMotion().getX(), (double)0.8F, attackedEntity.getMotion().getZ());
-	         this.applyEnchantments(this, attackedEntity);
-	      }
-
-	      this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);
-	      return flag;
+		this.world.setEntityState(this, (byte)4);
+		boolean flag = super.attackEntityAsMob(target);
+		if (flag && target instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune((LivingEntity) target))
+		{
+			((LivingEntity) target).addPotionEffect(new EffectInstance(AerialHellPotionEffects.VULNERABILITY.get(), 40, 0));
+		}
+		return flag;
 	}
 	
 	@OnlyIn(Dist.CLIENT)
 	public void handleStatusUpdate(byte id)
 	{
-		if (id == 4)
-		{
-	         this.attackTimer = 10;
-	         this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);
-	    }
+		if (id == 4) {this.attackTimer = 10;}
 		else {super.handleStatusUpdate(id);}
 	}
 	

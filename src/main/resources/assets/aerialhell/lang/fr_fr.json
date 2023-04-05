@@ -571,7 +571,7 @@
   "item.aerialhell.axe_of_light" : "Hache de Lumière",
   "item.aerialhell.axe_of_light.desc" : "Compétence : Tire un Projectile Lunatique",
   "item.aerialhell.cursed_axe" : "Hache Maudite",
-  "item.aerialhell.cursed_axe.desc" : "Vous mettez cher.. mais une partie des dégats infligés vous revient",
+  "item.aerialhell.cursed_axe.desc" : "Vous mettez cher en rendant vos ennemis vulnérables.. mais une partie des dégats infligés vous revient",
   "item.aerialhell.berserk_axe" : "Hache du Berserk",
   "item.aerialhell.berserk_axe.desc" : "Une hache digne des guerriers légendaires Viking. Compétence : Rage du Berserk\nPoids : ",
 
@@ -590,7 +590,7 @@
   "item.aerialhell.disloyal_sword" : "Épée Déloyale",
   "item.aerialhell.disloyal_sword.desc" : "Inflige des débuffs à votre cible",
   "item.aerialhell.cursed_sword" : "Épée Maudite",
-  "item.aerialhell.cursed_sword.desc" : "Vous mettez cher.. mais une partie des dégats infligés vous revient",
+  "item.aerialhell.cursed_sword.desc" : "Vous mettez cher en rendant vos ennemis vulnerables.. mais une partie des dégats infligés vous revient",
   "item.aerialhell.absolute_zero_sword" : "Épée du Zéro Absolu",
   "item.aerialhell.absolute_zero_sword.desc" : "Congèle votre cible sur place",
   "item.aerialhell.sword_of_light" : "Épée de Lumière",

@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Event.Listeners;
 import java.util.UUID;
 
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
+import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
@@ -117,8 +118,9 @@ public class ToolsAndArmorEventListener
 		if (targetEquippedItem == AerialHellBlocksAndItems.GLASS_CANON_SWORD.get()) {event.setAmount(amount * 2.0F);} //*2 damage if target has glass cannon sword
 		if (EntityHelper.isLivingEntityVulnerable(target))
 		{
-			event.setAmount(amount * 2.0F); //*2 damage if target is vulnerable
-			if (event.getSource().getTrueSource() instanceof LilithEntity) {event.setAmount(amount * 2.0F);} //total *4 if source is Lilith boss
+			int multiplier = target.getActivePotionEffect(AerialHellPotionEffects.VULNERABILITY.get()).getAmplifier() + 1;
+			event.setAmount(amount * 2.0F * multiplier); //*2 *multiplier damage if target is vulnerable
+			if (event.getSource().getTrueSource() instanceof LilithEntity) {event.setAmount(amount * 2.0F * multiplier);} //total *4 *multiplier if source is Lilith boss
 		}
 	}
 	
@@ -191,16 +193,32 @@ public class ToolsAndArmorEventListener
 				target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.BLINDNESS, 100, 0, true, false)));
 				target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.WEAKNESS, 100, 1, true, false)));
 				target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 100, 1, true, false)));
-				target.addPotionEffect(new EffectInstance(new EffectInstance(Effects.WITHER, 100, 0, true, false)));
+				target.addPotionEffect(new EffectInstance(new EffectInstance(AerialHellPotionEffects.VULNERABILITY.get(), 70, 0, true, false)));
 			}
-			source.addPotionEffect(new EffectInstance(new EffectInstance(Effects.WITHER, 80, 2, true, false)));
+			else
+			{
+				source.addPotionEffect(new EffectInstance(new EffectInstance(Effects.WITHER, 80, 2, true, false)));
+			}
+			source.addPotionEffect(new EffectInstance(new EffectInstance(AerialHellPotionEffects.VULNERABILITY.get(), 60, 0, true, false)));
 		}
 		else if (sourceEquippedItem == AerialHellBlocksAndItems.CURSED_SWORD.get() || sourceEquippedItem == AerialHellBlocksAndItems.CURSED_AXE.get()) //source attacking target with cursed tool
 		{
 			float damage_return_amount;
-			if (EntityHelper.isLivingEntityShadowImmune(source)) {damage_return_amount = amount / 4;}
+			if (EntityHelper.isLivingEntityShadowImmune(source) || EntityHelper.isLivingEntityVulnerable(target)) {damage_return_amount = amount / 4;}
 			else {damage_return_amount = amount / 2;}
 			source.attackEntityFrom(new DamageSource("cursed_tool"), damage_return_amount);
+			if (!EntityHelper.isLivingEntityShadowImmune(target))
+			{
+				if (EntityHelper.isLightEntity(target) && !(target instanceof LunaticPriestEntity))
+				{
+					target.addPotionEffect(new EffectInstance(AerialHellPotionEffects.VULNERABILITY.get(), 40, 1));
+				}
+				else
+				{
+					target.addPotionEffect(new EffectInstance(AerialHellPotionEffects.VULNERABILITY.get(), 40, 0));
+				}
+
+			}
 		}
 		else if (sourceEquippedItem == AerialHellBlocksAndItems.NETHERIAN_KING_SWORD.get() && source.getEntityWorld().getDimensionKey() == World.THE_NETHER)
 		{
