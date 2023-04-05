@@ -75,9 +75,9 @@ public class AerialHellSoundEvents
 	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_TROLL_HURT = register("entity.shadow_troll.hurt");
 	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_TROLL_DEATH = register("entity.shadow_troll.death");
 
-	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_CRAWLER_AMBIENT = register("entity.shadow_crawler.ambient");
-	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_CRAWLER_HURT = register("entity.shadow_crawler.hurt");
-	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_CRAWLER_DEATH = register("entity.shadow_crawler.death");
+	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_AUTOMATON_AMBIENT = register("entity.shadow_automaton.ambient");
+	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_AUTOMATON_HURT = register("entity.shadow_automaton.hurt");
+	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_AUTOMATON_DEATH = register("entity.shadow_automaton.death");
 
 	public static final RegistryObject<SoundEvent> ENTITY_LILITH_TRANSFORMATION = register("entity.lilith.transformation");
 	public static final RegistryObject<SoundEvent> ENTITY_LILITH_HURT = register("entity.lilith.hurt");

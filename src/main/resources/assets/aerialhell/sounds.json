@@ -347,17 +347,17 @@
     "subtitle": "subtitles.entity.lilith.transformation",
     "sounds": ["aerialhell:mob/lilith/transformation"]
   },
-  "entity.shadow_crawler.hurt": {
-    "subtitle": "subtitles.entity.shadow_crawler.hurt",
-    "sounds": ["aerialhell:mob/shadow_crawler/hurt"]
+  "entity.shadow_automaton.hurt": {
+    "subtitle": "subtitles.entity.shadow_automaton.hurt",
+    "sounds": ["aerialhell:mob/shadow_automaton/hurt"]
   },
-  "entity.shadow_crawler.death": {
-    "subtitle": "subtitles.entity.shadow_crawler.death",
-    "sounds": ["aerialhell:mob/shadow_crawler/death"]
+  "entity.shadow_automaton.death": {
+    "subtitle": "subtitles.entity.shadow_automaton.death",
+    "sounds": ["aerialhell:mob/shadow_automaton/death"]
   },
-  "entity.shadow_crawler.ambient": {
-    "subtitle": "subtitles.entity.shadow_crawler.ambient",
-    "sounds": ["aerialhell:mob/shadow_crawler/ambient"]
+  "entity.shadow_automaton.ambient": {
+    "subtitle": "subtitles.entity.shadow_automaton.ambient",
+    "sounds": ["aerialhell:mob/shadow_automaton/ambient"]
   },
   "entity.shadow_troll.ambient": {
     "subtitle": "subtitles.entity.shadow_troll.ambient",

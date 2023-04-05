@@ -1,18 +1,14 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import net.minecraft.client.renderer.entity.model.BipedModel;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.StellarStoneAutomatonEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.AutomatonEntity;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 
-
-public class AutomatonModel<T extends StellarStoneAutomatonEntity> extends BipedModel<T>
+public class AutomatonModel<T extends AutomatonEntity> extends EmptyModel<T>
 {
-	private boolean isInvisible;
-
 	private final ModelRenderer body;
 	private final ModelRenderer body_r1;
 	private final ModelRenderer head;
@@ -25,10 +21,8 @@ public class AutomatonModel<T extends StellarStoneAutomatonEntity> extends Biped
 	private final ModelRenderer leftLeg;
 	private final ModelRenderer leftLeg_r1;
 
-	public AutomatonModel(boolean isInvisible)
+	public AutomatonModel()
 	{
-		super(0F, -14F, 64, 32);
-		this.isInvisible = isInvisible;
 		textureWidth = 64;
 		textureHeight = 32;
 
@@ -95,8 +89,17 @@ public class AutomatonModel<T extends StellarStoneAutomatonEntity> extends Biped
 		this.head.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.rotateAngleX = 0.0873F + headPitch * ((float)Math.PI / 180F);
 
-		this.leftArm.rotateAngleX = MathHelper.cos(limbSwing * 0.7F + (float)Math.PI) * 1.4F * limbSwingAmount;
-		this.rightArm.rotateAngleX = MathHelper.cos(limbSwing * 0.7F) * 1.4F * limbSwingAmount;
+		int i = entity.attackTimer;
+		if (i > 0)
+		{
+			this.leftArm.rotateAngleX = -2.0F + 0.6F * MathHelper.func_233021_e_((float)i, 10.0F);
+			this.rightArm.rotateAngleX = -2.0F + 0.6F * MathHelper.func_233021_e_((float)i, 10.0F);
+		}
+		else
+		{
+			this.leftArm.rotateAngleX = (-0.2F + 0.8F * MathHelper.func_233021_e_(limbSwing, 13.0F)) * limbSwingAmount;
+			this.rightArm.rotateAngleX = (-0.2F - 0.8F * MathHelper.func_233021_e_(limbSwing, 13.0F)) * limbSwingAmount;
+		}
 
 		this.leftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.7F) * 1.4F * limbSwingAmount;
 		this.rightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.7F + (float)Math.PI) * 1.4F * limbSwingAmount;
@@ -104,15 +107,12 @@ public class AutomatonModel<T extends StellarStoneAutomatonEntity> extends Biped
 
 	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{
-		if (!this.isInvisible)
-		{
-			body.render(matrixStack, buffer, packedLight, packedOverlay);
-			head.render(matrixStack, buffer, packedLight, packedOverlay);
-			rightArm.render(matrixStack, buffer, packedLight, packedOverlay);
-			leftArm.render(matrixStack, buffer, packedLight, packedOverlay);
-			rightLeg.render(matrixStack, buffer, packedLight, packedOverlay);
-			leftLeg.render(matrixStack, buffer, packedLight, packedOverlay);
-		}
+		body.render(matrixStack, buffer, packedLight, packedOverlay);
+		head.render(matrixStack, buffer, packedLight, packedOverlay);
+		rightArm.render(matrixStack, buffer, packedLight, packedOverlay);
+		leftArm.render(matrixStack, buffer, packedLight, packedOverlay);
+		rightLeg.render(matrixStack, buffer, packedLight, packedOverlay);
+		leftLeg.render(matrixStack, buffer, packedLight, packedOverlay);
 	}
 
 	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {modelRenderer.rotateAngleX = x; modelRenderer.rotateAngleY = y; modelRenderer.rotateAngleZ = z;}

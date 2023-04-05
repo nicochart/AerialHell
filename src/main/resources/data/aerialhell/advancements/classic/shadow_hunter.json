@@ -17,8 +17,16 @@
     "shadow_troll": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {"entity": [{"condition": "minecraft:entity_properties","predicate": {"type": "aerialhell:shadow_troll"}, "entity": "this"}]}
+    },
+    "shadow_automaton": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {"entity": [{"condition": "minecraft:entity_properties","predicate": {"type": "aerialhell:shadow_automaton"}, "entity": "this"}]}
+    },
+    "shadow_pine_mimic": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {"entity": [{"condition": "minecraft:entity_properties","predicate": {"type": "aerialhell:shadow_pine_mimic"}, "entity": "this"}]}
     }
   },
-  "requirements": [["shadow_spider", "shadow_troll"]],
+  "requirements": [["shadow_spider", "shadow_troll", "shadow_automaton", "shadow_pine_mimic"]],
   "rewards": {"function": "aerialhell:advancement_classic_sound"}
 }

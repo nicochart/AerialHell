@@ -16,7 +16,6 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.*;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.PaintingEntity;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -27,7 +26,7 @@ public class AerialHellEntities
 	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, MODID);
 	
 	public static final EntityType<StellarStoneAutomatonEntity> STELLAR_STONE_AUTOMATON_TYPE = EntityType.Builder.create(StellarStoneAutomatonEntity::new, EntityClassification.MONSTER)
-	            .size(0.8F,2.5F).build("stellar_stone_automaton");
+	            .size(0.8F,2.1F).build("stellar_stone_automaton");
 	  
 	public static final EntityType<MudGolemEntity> MUD_GOLEM_TYPE = EntityType.Builder.create(MudGolemEntity::new, EntityClassification.MONSTER)
 	            .size(1.4F,2.3F).build("mud_golem");
@@ -143,8 +142,8 @@ public class AerialHellEntities
 	public static final EntityType<ShadowTrollEntity> SHADOW_TROLL_TYPE = EntityType.Builder.create(ShadowTrollEntity::new, EntityClassification.MONSTER)
 			    .size(1.2F, 2.5F).build("shadow_troll");
 
-	public static final EntityType<StellarStoneAutomatonEntity> SHADOW_AUTOMATON_TYPE = EntityType.Builder.create(StellarStoneAutomatonEntity::new, EntityClassification.MONSTER)
-				.size(0.8F,2.5F).build("shadow_automaton");
+	public static final EntityType<ShadowAutomatonEntity> SHADOW_AUTOMATON_TYPE = EntityType.Builder.create(ShadowAutomatonEntity::new, EntityClassification.MONSTER)
+				.size(0.7F,1.95F).build("shadow_automaton");
 	
 	public static final EntityType<LilithEntity> LILITH_TYPE = EntityType.Builder.<LilithEntity>create(LilithEntity::new, EntityClassification.MONSTER)
 	        	.size(0.8F,1.8F).build("lilith");
@@ -221,7 +220,7 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<RubyArrowEntity>> RUBY_BLOWPIPE_ARROW = ENTITIES.register("ruby_blowpipe_arrow", () -> RUBY_BLOWPIPE_ARROW_TYPE);
 	public static final RegistryObject<EntityType<LunaticProjectileEntity>> LUNATIC_PROJECTILE = ENTITIES.register("lunatic_projectile", () -> LUNATIC_PROJECTILE_TYPE);
 	public static final RegistryObject<EntityType<ShadowTrollEntity>> SHADOW_TROLL = ENTITIES.register("shadow_troll", () -> SHADOW_TROLL_TYPE);
-	public static final RegistryObject<EntityType<StellarStoneAutomatonEntity>> SHADOW_AUTOMATON = ENTITIES.register("shadow_automaton", () -> SHADOW_AUTOMATON_TYPE);
+	public static final RegistryObject<EntityType<ShadowAutomatonEntity>> SHADOW_AUTOMATON = ENTITIES.register("shadow_automaton", () -> SHADOW_AUTOMATON_TYPE);
 	public static final RegistryObject<EntityType<LilithEntity>> LILITH = ENTITIES.register("lilith", () -> LILITH_TYPE);
 	public static final RegistryObject<EntityType<AerialTreeChestMimicEntity>> AERIAL_TREE_MIMIC = ENTITIES.register("aerial_tree_mimic", () -> AERIAL_TREE_MIMIC_TYPE);
 	public static final RegistryObject<EntityType<GoldenBeechChestMimicEntity>> GOLDEN_BEECH_MIMIC = ENTITIES.register("golden_beech_mimic", () -> GOLDEN_BEECH_MIMIC_TYPE);
