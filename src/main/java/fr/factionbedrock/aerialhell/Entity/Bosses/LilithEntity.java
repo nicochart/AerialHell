@@ -1,10 +1,12 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
+import java.util.EnumSet;
 import java.util.List;
 
 import fr.factionbedrock.aerialhell.Block.*;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.ShadowProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.*;
@@ -13,6 +15,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
@@ -28,7 +31,6 @@ import net.minecraft.potion.Effects;
 import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.BossInfo;
@@ -38,6 +40,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class LilithEntity extends AbstractBossEntity
 {
+	private int shadowProjectileTimer;
 	public int attackTimer;
 	
 	private static final DataParameter<Boolean> IS_TRANSFORMING = EntityDataManager.createKey(LilithEntity.class, DataSerializers.BOOLEAN);
@@ -48,7 +51,7 @@ public class LilithEntity extends AbstractBossEntity
 	public LilithEntity(EntityType<? extends MonsterEntity> type, World world)
 	{
 		super(type, world);
-		attackTimer = 0;
+		attackTimer = 0; shadowProjectileTimer = 80;
 		timeSinceTransforming = 0; this.hurtTime = 0;
 		bossInfo.setColor(BossInfo.Color.PURPLE);
 		bossInfo.setOverlay(BossInfo.Overlay.NOTCHED_6);
@@ -63,6 +66,7 @@ public class LilithEntity extends AbstractBossEntity
 		this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(5, new LilithWaterAvoidingRandomWalkingGoal(this, 0.6D));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
+		this.goalSelector.addGoal(2, new ShadowProjectileAttackGoal(this));
     }
 	
 	public static AttributeModifierMap.MutableAttribute registerAttributes()
@@ -426,6 +430,7 @@ public class LilithEntity extends AbstractBossEntity
     public void livingTick()
     {
 		if (this.attackTimer > 0) {this.attackTimer--;}
+		if (this.shadowProjectileTimer > 0) {this.shadowProjectileTimer--;} else if (this.shadowProjectileTimer < 0) {this.shadowProjectileTimer++;}
 		super.livingTick();
     }
 	
@@ -486,7 +491,51 @@ public class LilithEntity extends AbstractBossEntity
 	}
 	
 	/* Lilith Goals */
-	
+
+	static class ShadowProjectileAttackGoal extends Goal
+	{
+		private final LilithEntity entity;
+		private int projectileCount;
+
+		public ShadowProjectileAttackGoal(LilithEntity entityIn)
+		{
+			this.entity = entityIn;
+			this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+		}
+
+		public boolean shouldExecute()
+		{
+			if (!this.entity.isActive()) {return false;}
+			LivingEntity target = this.entity.getAttackTarget();
+			return target != null && entity.getHealth() * 2 < entity.getMaxHealth() && entity.canEntityBeSeen(target) && entity.shadowProjectileTimer == 0 && target.isAlive() && this.entity.canAttack(target);
+		}
+
+		public void startExecuting() {this.projectileCount = 0;}
+
+		public void resetTask() {this.projectileCount = 0;}
+
+		public void tick()
+		{
+			LivingEntity target = this.entity.getAttackTarget();
+
+			double Xdistance = target.getPosX() - this.entity.getPosX();
+			double Ydistance = target.getPosYHeight(0.5D) - this.entity.getPosYHeight(0.5D);
+			double Zdistance = target.getPosZ() - this.entity.getPosZ();
+
+			float inaccuracy = 0.0f;
+
+			if (projectileCount < 1)
+			{
+				++this.projectileCount;
+				ShadowProjectileEntity projectile = new ShadowProjectileEntity(this.entity.world, this.entity, Xdistance, Ydistance, Zdistance, 0.25f + this.entity.rand.nextFloat(), inaccuracy);
+				projectile.setPosition(projectile.getPosX(), this.entity.getPosYHeight(0.5D) + 0.5D, projectile.getPosZ());
+				this.entity.world.addEntity(projectile);
+			}
+			entity.shadowProjectileTimer = 180 + (int) (entity.rand.nextFloat() * 80);
+			super.tick();
+		}
+	}
+
 	public static class LilithMeleeAttackGoal extends BossMeleeAttackGoal
 	{
 		public LilithMeleeAttackGoal(LilithEntity godIn, double speedIn, boolean useLongMemory) {super(godIn, speedIn, useLongMemory);}

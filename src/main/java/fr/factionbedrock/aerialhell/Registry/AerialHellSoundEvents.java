@@ -56,6 +56,8 @@ public class AerialHellSoundEvents
 	
 	public static final RegistryObject<SoundEvent> ENTITY_LUNATIC_PROJECTILE_SHOOT = register("entity.lunatic_projectile.shoot");
 	public static final RegistryObject<SoundEvent> ENTITY_LUNATIC_PROJECTILE_DISAPPEAR = register("entity.lunatic_projectile.disappear");
+
+	public static final RegistryObject<SoundEvent> ENTITY_SHADOW_PROJECTILE_SHOOT = register("entity.shadow_projectile.shoot");
 	
 	public static final RegistryObject<SoundEvent> ENTITY_TORN_SPIRIT_AMBIENT = register("entity.torn_spirit.ambient");
 	public static final RegistryObject<SoundEvent> ENTITY_TORN_SPIRIT_HURT = register("entity.torn_spirit.hurt");

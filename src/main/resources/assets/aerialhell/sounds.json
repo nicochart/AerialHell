@@ -417,6 +417,10 @@
     "subtitle": "subtitles.entity.lunatic_projectile.disappear",
     "sounds": ["aerialhell:projectile/lunatic_projectile/disappear"]
   },
+  "entity.shadow_projectile.shoot": {
+    "subtitle": "subtitles.entity.shadow_projectile.shoot",
+    "sounds": ["aerialhell:projectile/shadow_projectile/shoot"]
+  },
   "block.trapped_block.step": {
     "subtitle": "subtitles.block.trapped_block.step",
     "sounds": [

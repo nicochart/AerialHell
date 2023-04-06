@@ -138,6 +138,9 @@ public class AerialHellEntities
 	
 	public static final EntityType<LunaticProjectileEntity> LUNATIC_PROJECTILE_TYPE = EntityType.Builder.<LunaticProjectileEntity>create(LunaticProjectileEntity::new, EntityClassification.MISC)
 		    	.size(1.1F, 1.1F).build("lunatic_projectile");
+
+	public static final EntityType<ShadowProjectileEntity> SHADOW_PROJECTILE_TYPE = EntityType.Builder.<ShadowProjectileEntity>create(ShadowProjectileEntity::new, EntityClassification.MISC)
+				.size(1.1F, 1.1F).build("shadow_projectile");
 	
 	public static final EntityType<ShadowTrollEntity> SHADOW_TROLL_TYPE = EntityType.Builder.create(ShadowTrollEntity::new, EntityClassification.MONSTER)
 			    .size(1.2F, 2.5F).build("shadow_troll");
@@ -219,6 +222,7 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<VoluciteArrowEntity>> VOLUCITE_BLOWPIPE_ARROW = ENTITIES.register("volucite_blowpipe_arrow", () -> VOLUCITE_BLOWPIPE_ARROW_TYPE);
 	public static final RegistryObject<EntityType<RubyArrowEntity>> RUBY_BLOWPIPE_ARROW = ENTITIES.register("ruby_blowpipe_arrow", () -> RUBY_BLOWPIPE_ARROW_TYPE);
 	public static final RegistryObject<EntityType<LunaticProjectileEntity>> LUNATIC_PROJECTILE = ENTITIES.register("lunatic_projectile", () -> LUNATIC_PROJECTILE_TYPE);
+	public static final RegistryObject<EntityType<ShadowProjectileEntity>> SHADOW_PROJECTILE = ENTITIES.register("shadow_projectile", () -> SHADOW_PROJECTILE_TYPE);
 	public static final RegistryObject<EntityType<ShadowTrollEntity>> SHADOW_TROLL = ENTITIES.register("shadow_troll", () -> SHADOW_TROLL_TYPE);
 	public static final RegistryObject<EntityType<ShadowAutomatonEntity>> SHADOW_AUTOMATON = ENTITIES.register("shadow_automaton", () -> SHADOW_AUTOMATON_TYPE);
 	public static final RegistryObject<EntityType<LilithEntity>> LILITH = ENTITIES.register("lilith", () -> LILITH_TYPE);
