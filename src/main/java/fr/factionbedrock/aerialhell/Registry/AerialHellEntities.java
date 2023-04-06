@@ -26,7 +26,7 @@ public class AerialHellEntities
 	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, MODID);
 	
 	public static final EntityType<StellarStoneAutomatonEntity> STELLAR_STONE_AUTOMATON_TYPE = EntityType.Builder.create(StellarStoneAutomatonEntity::new, EntityClassification.MONSTER)
-	            .size(0.8F,2.1F).build("stellar_stone_automaton");
+	            .size(0.9F,2.1F).build("stellar_stone_automaton");
 	  
 	public static final EntityType<MudGolemEntity> MUD_GOLEM_TYPE = EntityType.Builder.create(MudGolemEntity::new, EntityClassification.MONSTER)
 	            .size(1.4F,2.3F).build("mud_golem");
@@ -143,7 +143,7 @@ public class AerialHellEntities
 			    .size(1.2F, 2.5F).build("shadow_troll");
 
 	public static final EntityType<ShadowAutomatonEntity> SHADOW_AUTOMATON_TYPE = EntityType.Builder.create(ShadowAutomatonEntity::new, EntityClassification.MONSTER)
-				.size(0.7F,1.95F).build("shadow_automaton");
+				.size(0.8F,1.95F).build("shadow_automaton");
 	
 	public static final EntityType<LilithEntity> LILITH_TYPE = EntityType.Builder.<LilithEntity>create(LilithEntity::new, EntityClassification.MONSTER)
 	        	.size(0.8F,1.8F).build("lilith");

@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.HellSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AerialTreeChestMimicEntity;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.WebBlock;
 import net.minecraft.entity.Entity;
@@ -24,13 +25,10 @@ public class ThornyWebBlock extends WebBlock
 	
 	private boolean isEntityImmuneToDamage(Entity entityIn)
 	{
-		return ((entityIn instanceof SpiderEntity) || (entityIn instanceof HellSpiderEntity) || (entityIn instanceof MudSoldierEntity) || (entityIn instanceof MudGolemEntity) || (entityIn instanceof MudCycleMageEntity) || (entityIn instanceof AerialTreeChestMimicEntity));
+		return ((entityIn instanceof SpiderEntity) || EntityHelper.isShadowEntity(entityIn) || EntityHelper.isMudEntity(entityIn));
 	}
 	
-	private boolean isEntityImmuneToCollision(Entity entityIn)
-	{
-		return ((entityIn instanceof SpiderEntity) || (entityIn instanceof HellSpiderEntity));
-	}
+	private boolean isEntityImmuneToCollision(Entity entityIn) {return entityIn instanceof SpiderEntity || EntityHelper.isShadowEntity(entityIn);}
 	
 	@Override
 	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn)

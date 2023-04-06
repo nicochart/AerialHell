@@ -738,6 +738,7 @@
   "death.attack.brambles_thorns.player": "%1$s was pushed in the brambles by %2$s",
   "death.attack.cursed_tool": "%1$s commited suicide with a cursed tool",
   "death.attack.cursed_tool.player": "%1$s commited suicide with a cursed tool",
+  "death.attack.light_projectile_hit": "%1$s entered the light",
   "death.attack.god_blessing": "%1$s received god's blessing",
 
   "enchantment.aerialhell.solid_ether_walker": "Solid Ether Walker",

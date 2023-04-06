@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ShadowAutomatonEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
@@ -19,9 +21,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.ItemAttributeModifierEvent;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -30,6 +35,20 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class ToolsAndArmorEventListener
 {
+	@SubscribeEvent
+	public static void onProjectileCollideWithEntity(ProjectileImpactEvent event)
+	{
+		Entity projectile = event.getEntity();
+		if (event.getRayTraceResult().getType() == RayTraceResult.Type.ENTITY)
+		{
+			Entity hitEntity = ((EntityRayTraceResult) event.getRayTraceResult()).getEntity();
+			if ((hitEntity instanceof ShadowTrollEntity || hitEntity instanceof ShadowAutomatonEntity) && !EntityHelper.isLightProjectile(projectile))
+			{
+				if (event.isCancelable()) {event.setCanceled(true);}
+			}
+		}
+	}
+
 	@SubscribeEvent
     public static void onLivingHurtEvent(LivingHurtEvent event)
     {
@@ -109,19 +128,20 @@ public class ToolsAndArmorEventListener
 	
 	public static void applyEffectsDueToPotionEffects(LivingHurtEvent event, DamageSource damageSource, LivingEntity target)
 	{
+		float amount = event.getAmount();
 		if (damageSource.isFireDamage() && target.isPotionActive(AerialHellPotionEffects.GOD.get())) {event.setCanceled(true);} //target with Gods Effect has Fire Resistance
+		if (EntityHelper.isLivingEntityVulnerable(target))
+		{
+			int multiplier = target.getActivePotionEffect(AerialHellPotionEffects.VULNERABILITY.get()).getAmplifier() + 1;
+			event.setAmount(amount * 2.0F * multiplier); //*2 *multiplier damage if target is vulnerable
+			if (event.getSource().getTrueSource() instanceof LilithEntity) {event.setAmount(amount * 1.5F * multiplier);} //total *3 *multiplier if source is Lilith boss
+		}
 	}
 	
 	public static void applyEffectsBasedOnTargetHandEquippedItem(LivingHurtEvent event, Item targetEquippedItem, LivingEntity target)
 	{
 		float amount = event.getAmount();
 		if (targetEquippedItem == AerialHellBlocksAndItems.GLASS_CANON_SWORD.get()) {event.setAmount(amount * 2.0F);} //*2 damage if target has glass cannon sword
-		if (EntityHelper.isLivingEntityVulnerable(target))
-		{
-			int multiplier = target.getActivePotionEffect(AerialHellPotionEffects.VULNERABILITY.get()).getAmplifier() + 1;
-			event.setAmount(amount * 2.0F * multiplier); //*2 *multiplier damage if target is vulnerable
-			if (event.getSource().getTrueSource() instanceof LilithEntity) {event.setAmount(amount * 2.0F * multiplier);} //total *4 *multiplier if source is Lilith boss
-		}
 	}
 	
 	public static void applyEffectsBasedOnTargetEquippedArmor(LivingHurtEvent event, Iterable<ItemStack> armorStuff, LivingEntity source, LivingEntity target)
@@ -204,8 +224,8 @@ public class ToolsAndArmorEventListener
 		else if (sourceEquippedItem == AerialHellBlocksAndItems.CURSED_SWORD.get() || sourceEquippedItem == AerialHellBlocksAndItems.CURSED_AXE.get()) //source attacking target with cursed tool
 		{
 			float damage_return_amount;
-			if (EntityHelper.isLivingEntityShadowImmune(source) || EntityHelper.isLivingEntityVulnerable(target)) {damage_return_amount = amount / 4;}
-			else {damage_return_amount = amount / 2;}
+			if (EntityHelper.isLivingEntityShadowImmune(source) || EntityHelper.isLivingEntityVulnerable(target)) {damage_return_amount = amount / 2;}
+			else {damage_return_amount = amount;}
 			source.attackEntityFrom(new DamageSource("cursed_tool"), damage_return_amount);
 			if (!EntityHelper.isLivingEntityShadowImmune(target))
 			{
@@ -217,7 +237,14 @@ public class ToolsAndArmorEventListener
 				{
 					target.addPotionEffect(new EffectInstance(AerialHellPotionEffects.VULNERABILITY.get(), 40, 0));
 				}
-
+			}
+		}
+		else if (sourceEquippedItem == AerialHellBlocksAndItems.SWORD_OF_LIGHT.get() || sourceEquippedItem == AerialHellBlocksAndItems.AXE_OF_LIGHT.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_SWORD.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_AXE.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_HOE.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_SHOVEL.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_PICKAXE.get() || sourceEquippedItem == AerialHellBlocksAndItems.STELLAR_STONE_BREAKER.get()) //source attacking target with light tool
+		{
+			if (EntityHelper.isShadowEntity(target))
+			{
+				if (sourceEquippedItem == AerialHellBlocksAndItems.SWORD_OF_LIGHT.get() || sourceEquippedItem == AerialHellBlocksAndItems.AXE_OF_LIGHT.get()) {event.setAmount(amount * 1.8F);}
+				else {event.setAmount(amount * 1.4F);}
 			}
 		}
 		else if (sourceEquippedItem == AerialHellBlocksAndItems.NETHERIAN_KING_SWORD.get() && source.getEntityWorld().getDimensionKey() == World.THE_NETHER)

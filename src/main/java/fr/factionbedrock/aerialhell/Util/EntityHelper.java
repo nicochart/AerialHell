@@ -3,9 +3,12 @@ package fr.factionbedrock.aerialhell.Util;
 import fr.factionbedrock.aerialhell.Entity.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
+import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.ShadowPineBarrelMimicEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AerialTreeChestMimicEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
+import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEnchantments;
 import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -37,6 +40,16 @@ public class EntityHelper
     public static boolean isLightEntity(Entity entity)
     {
         return entity instanceof CrystalGolemEntity || entity instanceof CrystalCaterpillarEntity || entity instanceof CrystalSlimeEntity || entity instanceof CrystalSpiderEntity || entity instanceof LunaticPriestEntity;
+    }
+
+    public static boolean isLightProjectile(Entity entity)
+    {
+        return entity instanceof LunaticProjectileEntity;
+    }
+
+    public static boolean isMudEntity(Entity entity)
+    {
+        return entity instanceof MudSoldierEntity || entity instanceof MudGolemEntity || entity instanceof MudCycleMageEntity || entity instanceof AerialTreeChestMimicEntity;
     }
 
     public static boolean isFeatheryEntity(Entity entity)

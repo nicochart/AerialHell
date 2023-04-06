@@ -3,8 +3,11 @@ package fr.factionbedrock.aerialhell.Entity.Projectile;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ShadowAutomatonEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -83,6 +86,14 @@ public class LunaticProjectileEntity extends ThrowableEntity
         this.world.addParticle(AerialHellParticleTypes.COPPER_PINE_LEAVES.get(), this.getPosX() + d4, this.getPosY() + d5, this.getPosZ() + d6, d4, d5, d6);
         this.playSound(AerialHellSoundEvents.ENTITY_LUNATIC_PROJECTILE_DISAPPEAR.get(), 1, 0.75F + 0.5F * rand.nextFloat());
         super.onImpact(result);
+        if (result.getType() == RayTraceResult.Type.ENTITY)
+        {
+            Entity hitEntity = ((EntityRayTraceResult) result).getEntity();
+            if (EntityHelper.isShadowEntity(hitEntity) || (hitEntity instanceof LivingEntity && EntityHelper.isLivingEntityVulnerable((LivingEntity) hitEntity)))
+            {
+                hitEntity.attackEntityFrom(new DamageSource("light_projectile_hit"), 4);
+            }
+        }
         if (result.getType() != RayTraceResult.Type.ENTITY && !this.world.isRemote)
         {
             this.remove();
