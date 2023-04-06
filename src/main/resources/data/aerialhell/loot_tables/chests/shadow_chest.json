@@ -120,9 +120,42 @@
             }
           ]
         },
+	{
+          "type": "item",
+          "name": "aerialhell:dark_shadow_fruit",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+	{
+          "type": "item",
+          "name": "aerialhell:purple_shadow_fruit",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
         {
           "type": "item",
           "name": "aerialhell:shadow_shard",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:shadow_fruit_stew",
           "weight": 1
         },
         {
@@ -138,17 +171,17 @@
         {
           "type": "item",
           "name": "aerialhell:stellar_stone_sword",
-          "weight": 2
+          "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:stellar_stone_shovel",
-          "weight": 2
+          "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:stellar_stone_pickaxe",
-          "weight": 2
+          "weight": 1
         }
       ]
     }
