@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractLightProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
@@ -16,18 +17,19 @@ import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 
-public class LunaticProjectileRender extends EntityRenderer<LunaticProjectileEntity>
+public class LightProjectileRender<T extends AbstractLightProjectileEntity> extends EntityRenderer<T>
 {
     public static final ResourceLocation LUNATIC_PROJECTILE = new ResourceLocation(AerialHell.MODID, "textures/entity/projectile/lunatic_projectile.png");
+    public static final ResourceLocation SHADOW_PROJECTILE = new ResourceLocation(AerialHell.MODID, "textures/entity/projectile/shadow_projectile.png");
 
-    public LunaticProjectileRender(EntityRendererManager renderManager)
+    public LightProjectileRender(EntityRendererManager renderManager)
     {
         super(renderManager);
         this.shadowSize = 0.0F;
     }
 
     @Override
-    public void render(LunaticProjectileEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn)
+    public void render(T entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn)
     {
         matrixStackIn.push();
         matrixStackIn.rotate(this.renderManager.getCameraOrientation());
@@ -46,15 +48,17 @@ public class LunaticProjectileRender extends EntityRenderer<LunaticProjectileEnt
     }
     
     @Override
-    protected int getBlockLight(LunaticProjectileEntity entityIn, BlockPos partialTicks)
+    protected int getBlockLight(T entity, BlockPos partialTicks)
     {
-    	return 15;
+        if (entity instanceof LunaticProjectileEntity) {return 15;}
+        else {return 13;}
     }
 
     @Override
-    public ResourceLocation getEntityTexture(LunaticProjectileEntity entity)
+    public ResourceLocation getEntityTexture(T entity)
     {
-        return LUNATIC_PROJECTILE;
+        if (entity instanceof LunaticProjectileEntity) {return LUNATIC_PROJECTILE;}
+        else {return SHADOW_PROJECTILE;}
     }
 
     public void drawVertex(Matrix4f matrix, Matrix3f normals, IVertexBuilder vertexBuilder, float offsetX, float offsetY, float offsetZ, float textureX, float textureY, int normalX, int normalY, int normalZ, int packedLightIn)

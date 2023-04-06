@@ -223,8 +223,8 @@ public class AerialHellRendering
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.POISONBALL.get(), PoisonballProjectileRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.VOLUCITE_BLOWPIPE_ARROW.get(), AerialArrowRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), AerialArrowRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.LUNATIC_PROJECTILE.get(), LunaticProjectileRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHADOW_PROJECTILE.get(), ShadowProjectileRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.LUNATIC_PROJECTILE.get(), LightProjectileRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHADOW_PROJECTILE.get(), LightProjectileRender::new);
 	}
 	
 	public static void registerBlockColors()
