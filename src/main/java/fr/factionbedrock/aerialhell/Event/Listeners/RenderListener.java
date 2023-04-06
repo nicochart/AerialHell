@@ -33,7 +33,7 @@ public class RenderListener
     private static final int HEART_ICON_WIDTH = 9;
     private static final int HEART_ICON_HEIGHT = 9;
 
-    @SubscribeEvent
+    @OnlyIn(Dist.CLIENT) @SubscribeEvent
     public static void onRenderOverlayPost(RenderGameOverlayEvent.Post event)
     {
         Minecraft mc = Minecraft.getInstance();
@@ -49,7 +49,7 @@ public class RenderListener
         }
     }
 
-    @SubscribeEvent
+    @OnlyIn(Dist.CLIENT) @SubscribeEvent
     public static void onRenderOverlay(RenderGameOverlayEvent event)
     {
         Minecraft mc = Minecraft.getInstance();

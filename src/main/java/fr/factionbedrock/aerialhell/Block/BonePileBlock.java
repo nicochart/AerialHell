@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -103,7 +104,7 @@ public class BonePileBlock extends SnowBlock
         else if (walkingEntity instanceof LivingEntity)
         {
             LivingEntity walkingLEntity = (LivingEntity)walkingEntity;
-            if (!isShadowEntity(walkingLEntity) && !isFeatheryEntity(walkingLEntity))
+            if (!EntityHelper.isShadowEntity(walkingLEntity) && !EntityHelper.isFeatheryEntity(walkingLEntity))
             {
                 boolean topBlockStateIsBonePile = isBonePileBlockState(world, pos.up());
                 boolean posBlockStateIsBonePile = isBonePileBlockState(world, pos);
@@ -135,26 +136,5 @@ public class BonePileBlock extends SnowBlock
             if (currentLayerNumber > 3) {return currentLayerNumber - (1 + rand.nextInt(2));}
             else {return 1;}
         }
-    }
-
-    private boolean isShadowEntity(LivingEntity livingEntityIn)
-    {
-        if (
-                livingEntityIn instanceof ShadowTrollEntity
-                || livingEntityIn instanceof ShadowSpiderEntity
-                || livingEntityIn instanceof ShadowPineBarrelMimicEntity
-                || livingEntityIn instanceof TornSpiritEntity
-                || livingEntityIn instanceof LilithEntity
-            ) {return true;}
-        return false;
-    }
-
-    private boolean isFeatheryEntity(LivingEntity livingEntityIn)
-    {
-        if (
-                livingEntityIn instanceof SilverfishEntity
-                || livingEntityIn instanceof FlyingEntity
-           ) {return true;}
-        return false;
     }
 }
