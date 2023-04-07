@@ -174,7 +174,6 @@ public class ChainedGodEntity extends AbstractBossEntity
 			if (!world.isRemote)
 			{
 				this.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 20, 10, true, false)));
-				this.addPotionEffect(new EffectInstance(new EffectInstance(Effects.RESISTANCE, 1, 10, true, false)));
 			}
 			this.timeSinceImploding++;
 			
@@ -267,10 +266,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	         this.attackTimer = 10;
 	         this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);
 	    }
-		else
-		{
-	         super.handleStatusUpdate(id);
-	    }
+		else {super.handleStatusUpdate(id);}
 	}
 	
 	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_CHAINED_GOD_AMBIENT.get();}
@@ -337,10 +333,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	    public boolean shouldExecute()
 	    {
-	    	if (!this.chainedGod.isActive() || this.chainedGod.isImploding())
-	    	{
-	    		return false;
-	    	}
+	    	if (!this.chainedGod.isActive() || this.chainedGod.isImploding()) {return false;}
 	    	LivingEntity target = this.chainedGod.getAttackTarget();
 	    	double DistanceToTarget = 0;
 	    	if (target != null)	{DistanceToTarget = this.chainedGod.getDistance(target);}

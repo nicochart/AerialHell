@@ -158,8 +158,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	      return flag;
 	}
 	
-	@Override
-	@OnlyIn(Dist.CLIENT)
+	@Override @OnlyIn(Dist.CLIENT)
 	public void handleStatusUpdate(byte id)
 	{
 		if (id == 4)
@@ -167,14 +166,10 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	         this.attackTimer = 10;
 	         this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);
 	    }
-		else
-		{
-	         super.handleStatusUpdate(id);
-	    }
+		else {super.handleStatusUpdate(id);}
 	}
 	
-	@Override
-	public void tick()
+	@Override public void tick()
 	{		
 		super.tick();
 		if (this.shouldUpdateToPhase1() && this.isActive() && this.timeWithoutAnyTarget == 0)
@@ -192,33 +187,23 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		}
 	}
 	
-	@Override
-    public void livingTick()
+	@Override public void livingTick()
     {
 		if (this.attackTimer > 0) {this.attackTimer--;}
 		if (this.lunaticProjectileTimer > 0) {this.lunaticProjectileTimer--;} else if (this.lunaticProjectileTimer < 0) {this.lunaticProjectileTimer++;}
 		super.livingTick();
     }
 	
-	@Override
-	public boolean onLivingFall(float distance, float damageMultiplier)
+	@Override public boolean onLivingFall(float distance, float damageMultiplier)
 	{
-		if (isInPhase1())
-		{
-			return false;
-		}
-		else
-		{
-			return super.onLivingFall(distance, damageMultiplier);
-		}
+		if (isInPhase1()) {return false;}
+		else {return super.onLivingFall(distance, damageMultiplier);}
 	}
 	
-	@Override
-	protected void updateFallState(double y, boolean onGroundIn, BlockState state, BlockPos pos) {}
+	@Override protected void updateFallState(double y, boolean onGroundIn, BlockState state, BlockPos pos) {}
 	
 	/*copied from net.minecraft.entity.FlyingEntity*/
-	@Override
-	public void travel(Vector3d travelVector)
+	@Override public void travel(Vector3d travelVector)
 	{
 		if (isInPhase1())
 		{
@@ -258,23 +243,13 @@ public class LunaticPriestEntity extends AbstractBossEntity
 				this.func_233629_a_(this, false);
 			}
 		}
-		else
-		{
-			super.travel(travelVector);
-		}
+		else {super.travel(travelVector);}
 	}
 	
-	@Override
-	public boolean isOnLadder()
+	@Override public boolean isOnLadder()
 	{
-		if (isInPhase1() && isActive())
-		{
-			return false;
-		}
-		else
-		{
-			return super.isOnLadder();
-		}
+		if (isInPhase1() && isActive()) {return false;}
+		else {return super.isOnLadder();}
 	}
 	
 	/*
@@ -430,10 +405,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 
 	    public boolean shouldExecute()
 	    {
-	    	if (!this.priest.isActive())
-	    	{
-	    		return false;
-	    	}
+	    	if (!this.priest.isActive()) {return false;}
 	    	LivingEntity target = this.priest.getAttackTarget();
 	        return target != null && priest.canEntityBeSeen(target) && priest.lunaticProjectileTimer == 0 && target.isAlive() && this.priest.canAttack(target);
 	    }
@@ -451,10 +423,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
             double Zdistance = target.getPosZ() - this.priest.getPosZ();
             
             float inaccuracy = 0.0f;
-            if (priest.isInPhase2())
-            {
-            	inaccuracy = 0.3f;
-            }
+            if (priest.isInPhase2()) {inaccuracy = 0.3f;}
             
 	        if (projectileCount < 1)
 	        {
@@ -465,11 +434,11 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	        }
 	        if (priest.isInPhase1())
 	        {
-	        	priest.lunaticProjectileTimer = 40 + (int) (priest.rand.nextFloat()) * 20;
+	        	priest.lunaticProjectileTimer = 35 + (int) (priest.rand.nextFloat() * 20);
 	        }
 	        else
 	        {
-	        	priest.lunaticProjectileTimer = 30 + (int) (priest.rand.nextFloat()) * 10;
+	        	priest.lunaticProjectileTimer = 30 + (int) (priest.rand.nextFloat() * 10);
 	        }
 	        super.tick();
 	    }

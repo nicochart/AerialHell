@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
@@ -11,17 +12,22 @@ import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerBossInfo;
+
+import java.util.List;
 
 public class AbstractBossEntity extends MonsterEntity
 {
@@ -79,16 +85,27 @@ public class AbstractBossEntity extends MonsterEntity
 		super.registerData();
 		this.dataManager.register(BOSS_ACTIVE, false);
 	}
+
+	public void adaptBossDifficulty()
+	{
+		List<Entity> nearbyEntities = this.world.getEntitiesInAABBexcluding(this, this.getBoundingBox().grow(30), EntityPredicates.withinRange(this.getPosX(), this.getPosY(), this.getPosZ(), 15));
+		int difficulty = -1;
+		for (Entity entity : nearbyEntities)
+		{
+			if (entity instanceof PlayerEntity) {difficulty += 1;}
+		}
+		if (this.isPotionActive(Effects.RESISTANCE)) {this.removePotionEffect(Effects.RESISTANCE);}
+		if (this.isPotionActive(Effects.STRENGTH)) {this.removePotionEffect(Effects.STRENGTH);}
+		if (difficulty > 0) //is 0 if there is only one player, +1 per additional player
+		{
+			this.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 54000, Math.min(4,difficulty * 2), false, false));
+			this.addPotionEffect(new EffectInstance(Effects.STRENGTH, 54000, Math.min(4, difficulty - 1), false, false));
+		}
+	}
     
-    public void setActive(boolean isActive)
-	{
-		this.dataManager.set(BOSS_ACTIVE, isActive);
-	}
+    public void setActive(boolean isActive) {this.dataManager.set(BOSS_ACTIVE, isActive);}
 	
-	public boolean isActive()
-	{
-		return this.dataManager.get(BOSS_ACTIVE);
-	}
+	public boolean isActive() {return this.dataManager.get(BOSS_ACTIVE);}
 	
 	@Override public boolean canDespawn(double distanceToClosestPlayer) {return false;}
 	@Override public boolean isNonBoss() {return false;}
@@ -100,6 +117,7 @@ public class AbstractBossEntity extends MonsterEntity
 		if (flag)
 		{
 			this.setActive(true);
+			this.adaptBossDifficulty();
 			this.recentlyHit = 100;
 		}
 		return flag;
@@ -112,19 +130,16 @@ public class AbstractBossEntity extends MonsterEntity
 		if (this.world.getClosestPlayer(this.getPosX(), this.getPosY(), this.getPosZ(), 8.0, EntityPredicates.CAN_AI_TARGET) != null)
 		{
 			this.setActive(true);
+			this.adaptBossDifficulty();
 			this.timeWithoutAnyTarget = 0;
 		}
 		else if (this.world.getClosestPlayer(this.getPosX(), this.getPosY(), this.getPosZ(), 48.0, EntityPredicates.CAN_AI_TARGET) == null)
 		{			
-			if (timeWithoutAnyTarget < 120)
-			{
-				timeWithoutAnyTarget++;
-			}
-			else if (this.recentlyHit <= 0 && timeWithoutAnyTarget == 120)
-			{
-				this.setActive(false);
-			}
+			if (timeWithoutAnyTarget < 120) {timeWithoutAnyTarget++;}
+			else if (this.recentlyHit <= 0 && timeWithoutAnyTarget == 120) {this.setActive(false);}
 		}
+
+		if (this.isActive() && this.ticksExisted % 900 == 0) {this.adaptBossDifficulty();}
 	}
 	
 	/*
