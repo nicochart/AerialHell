@@ -1,13 +1,17 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveAvoidEntityGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.ActiveMisleadableNearestAttackableTargetGoal;
+import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -97,7 +101,7 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
     protected void registerGoals()
     {
     	super.registerGoals();
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+        this.targetSelector.addGoal(1, new CrystalGolemNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
         this.goalSelector.addGoal(1, new CrystalGolemAvoidEntityGoal<>(this, PlayerEntity.class, 16.0F, 1.2D, 1.5D));
     }
     
@@ -106,6 +110,15 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
     	public CrystalGolemAvoidEntityGoal(CrystalGolemEntity golemIn, Class<T> avoidClassIn, float avoidDistanceIn, double farSpeedIn, double nearSpeedIn) {super(golemIn, avoidClassIn, avoidDistanceIn, farSpeedIn, nearSpeedIn);}
     	@Override public boolean shouldExecute() {return ((CrystalGolemEntity)this.activableEntity).isDisappearing() && super.shouldExecute();}
 		@Override public boolean shouldContinueExecuting() {return ((CrystalGolemEntity)this.activableEntity).isDisappearing() && super.shouldContinueExecuting();}
+    }
+
+    protected static class CrystalGolemNearestAttackableTargetGoal<T extends LivingEntity> extends ActiveMisleadableNearestAttackableTargetGoal<T>
+    {
+        public CrystalGolemNearestAttackableTargetGoal(AbstractActivableEntity entityIn, Class<T> targetClassIn, boolean checkSight) {super(entityIn, targetClassIn, checkSight);}
+        @Override public boolean isPlayerMisleadingGoalOwner(PlayerEntity player)
+        {
+            return ItemHelper.getItemInTagCount(player.getArmorInventoryList(), AerialHellTags.Items.LUNATIC_STUFF) >= 4;
+        }
     }
 
 	@Override public int getMinTimeToActivate() {return 10;}
