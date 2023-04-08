@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.Bosses;
 import java.util.EnumSet;
 import java.util.Random;
 
+import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
@@ -63,12 +64,12 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		this.goalSelector.addGoal(6, new PriestLookRandomlyGoal(this));
 		/*Phase 2 only*/
 	    this.goalSelector.addGoal(4, new PriestWaterAvoidingRandomWalkingGoal(this, 1.0D));
-	    this.goalSelector.addGoal(5, new BossLookAtPlayerGoal(this, PlayerEntity.class, 8.0F));
+	    this.goalSelector.addGoal(5, new ActiveLookAtPlayerGoal(this, PlayerEntity.class, 8.0F));
 	    /*Both phases*/
 	    this.goalSelector.addGoal(2, new LunaticPriestEntity.LunaticProjectileAttackGoal(this));
-	    this.goalSelector.addGoal(3, new BossMeleeAttackGoal(this, 1.25D, false));
+	    this.goalSelector.addGoal(3, new ActiveMeleeAttackGoal(this, 1.25D, false));
 	    this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-	    this.targetSelector.addGoal(2, new BossNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+	    this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
 	    this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
     }
 	
@@ -444,18 +445,18 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	    }
 	}
 	
-	public static class PriestLookRandomlyGoal extends BossLookRandomlyGoal
+	public static class PriestLookRandomlyGoal extends ActiveLookRandomlyGoal
 	{		
 		public PriestLookRandomlyGoal(LunaticPriestEntity priestIn) {super(priestIn);}
-		@Override public boolean shouldExecute() {return ((LunaticPriestEntity) this.boss).isInPhase2() && super.shouldExecute();}
-		@Override public boolean shouldContinueExecuting() {return ((LunaticPriestEntity) this.boss).isInPhase2() && super.shouldContinueExecuting();}
+		@Override public boolean shouldExecute() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.shouldExecute();}
+		@Override public boolean shouldContinueExecuting() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.shouldContinueExecuting();}
 	}
 	
-	public static class PriestWaterAvoidingRandomWalkingGoal extends BossWaterAvoidingRandomWalkingGoal
+	public static class PriestWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal
 	{
 		public PriestWaterAvoidingRandomWalkingGoal(LunaticPriestEntity priestIn, double speedIn) {super(priestIn, speedIn);}
-		@Override public boolean shouldExecute() {return ((LunaticPriestEntity) this.boss).isInPhase2() && super.shouldExecute();}
-		@Override public boolean shouldContinueExecuting() {return ((LunaticPriestEntity) this.boss).isInPhase2() && super.shouldContinueExecuting();}
+		@Override public boolean shouldExecute() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.shouldExecute();}
+		@Override public boolean shouldContinueExecuting() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.shouldContinueExecuting();}
 	}
 	
 	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_LUNATIC_PRIEST_AMBIENT.get();}

@@ -4,6 +4,10 @@ import java.util.EnumSet;
 import java.util.List;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Entity.AI.ActiveNearestAttackableTargetGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.ActiveLeapAtTargetGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.ActiveMeleeAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGoal;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ChainedGodFireballEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
@@ -62,7 +66,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	@Override
     protected void registerGoals()
     {
-		this.targetSelector.addGoal(2, new BossNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+		this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(2, new ChainedGodEntity.ChainedGodFireballAttackGoal(this));
 		this.goalSelector.addGoal(3, new ChainedGodMeleeAttackGoal(this, 1.25D, false));
@@ -363,24 +367,24 @@ public class ChainedGodEntity extends AbstractBossEntity
 	     }
 	}
 	
-	public static class ChainedGodLeapAtTargetGoal extends BossLeapAtTargetGoal
+	public static class ChainedGodLeapAtTargetGoal extends ActiveLeapAtTargetGoal
 	{		
 		public ChainedGodLeapAtTargetGoal(ChainedGodEntity godIn, float leapMotionYIn) {super(godIn, leapMotionYIn);}
-		@Override public boolean shouldExecute() {return !((ChainedGodEntity) this.boss).isImploding() && super.shouldExecute();}
-		@Override public boolean shouldContinueExecuting() {return !((ChainedGodEntity) this.boss).isImploding() && super.shouldContinueExecuting();}
+		@Override public boolean shouldExecute() {return !((ChainedGodEntity) this.activableGoalOwner).isImploding() && super.shouldExecute();}
+		@Override public boolean shouldContinueExecuting() {return !((ChainedGodEntity) this.activableGoalOwner).isImploding() && super.shouldContinueExecuting();}
 	}
 	
-	public static class ChainedGodMeleeAttackGoal extends BossMeleeAttackGoal
+	public static class ChainedGodMeleeAttackGoal extends ActiveMeleeAttackGoal
 	{
 		public ChainedGodMeleeAttackGoal(ChainedGodEntity godIn, double speedIn, boolean useLongMemory) {super(godIn, speedIn, useLongMemory);}
-		@Override public boolean shouldExecute() {return !((ChainedGodEntity) this.boss).isImploding() && super.shouldExecute();}
-		@Override public boolean shouldContinueExecuting() {return !((ChainedGodEntity) this.boss).isImploding() && super.shouldContinueExecuting();}
+		@Override public boolean shouldExecute() {return !((ChainedGodEntity) this.activableGoalOwner).isImploding() && super.shouldExecute();}
+		@Override public boolean shouldContinueExecuting() {return !((ChainedGodEntity) this.activableGoalOwner).isImploding() && super.shouldContinueExecuting();}
 	}
 	
-	public static class ChainedGodWaterAvoidingRandomWalkingGoal extends BossWaterAvoidingRandomWalkingGoal
+	public static class ChainedGodWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal
 	{
 		public ChainedGodWaterAvoidingRandomWalkingGoal(ChainedGodEntity god, double speedIn) {super(god, speedIn);}
-		@Override public boolean shouldExecute() {return !((ChainedGodEntity) this.boss).isImploding() && super.shouldExecute();}
-		@Override public boolean shouldContinueExecuting() {return !((ChainedGodEntity) this.boss).isImploding() && super.shouldContinueExecuting();}
+		@Override public boolean shouldExecute() {return !((ChainedGodEntity) this.activableGoalOwner).isImploding() && super.shouldExecute();}
+		@Override public boolean shouldContinueExecuting() {return !((ChainedGodEntity) this.activableGoalOwner).isImploding() && super.shouldContinueExecuting();}
 	}
 }

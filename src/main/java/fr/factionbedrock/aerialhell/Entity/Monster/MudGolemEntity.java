@@ -10,7 +10,6 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityPredicates;
 import net.minecraft.world.World;
 
 public class MudGolemEntity extends AerialHellGolemEntity
@@ -59,40 +58,6 @@ public class MudGolemEntity extends AerialHellGolemEntity
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AnimalEntity.class, true));
     }
 	
-	@Override
-	public void tick()
-	{
-		if (this.world.getClosestPlayer(this.getPosX(), this.getPosY(), this.getPosZ(), 16.0, EntityPredicates.CAN_AI_TARGET) != null)
-		{
-			if (!this.isActive() && this.timeClosePlayer >= 50)
-			{
-				this.setActive(true);
-			}
-			this.timeClosePlayer++;
-		}
-		else
-		{
-			if (timeClosePlayer == 0)
-			{
-				this.setActive(false);
-			}
-			else
-			{
-				this.timeClosePlayer--;
-			}
-		}
-		super.tick();
-	}
-	
-	@Override
-	public float getYMotionOnAttack()
-	{
-		return 0.4F;
-	}
-    
-    @Override
-	public boolean canDespawn(double distanceToClosestPlayer)
-	{
-	      return false;
-	}
+	@Override public float getYMotionOnAttack() {return 0.4F;}
+    @Override public boolean canDespawn(double distanceToClosestPlayer) {return false;}
 }

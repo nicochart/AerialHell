@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
+import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
@@ -38,12 +39,12 @@ public class MudCycleMageEntity extends AbstractBossEntity
     {
 		this.goalSelector.addGoal(2, new RestrictSunGoal(this));
 	    this.goalSelector.addGoal(3, new FleeSunGoal(this, 1.0D));
-	    this.goalSelector.addGoal(3, new BossMeleeAttackGoal(this, 1.25D, false));
-	    this.goalSelector.addGoal(5, new BossWaterAvoidingRandomWalkingGoal(this, 1.0D));
-	    this.goalSelector.addGoal(6, new BossLookAtPlayerGoal(this, PlayerEntity.class, 8.0F));
-	    this.goalSelector.addGoal(6, new BossLookRandomlyGoal(this));
+	    this.goalSelector.addGoal(3, new ActiveMeleeAttackGoal(this, 1.25D, false));
+	    this.goalSelector.addGoal(5, new ActiveWaterAvoidingRandomWalkingGoal(this, 1.0D));
+	    this.goalSelector.addGoal(6, new ActiveLookAtPlayerGoal(this, PlayerEntity.class, 8.0F));
+	    this.goalSelector.addGoal(6, new ActiveLookRandomlyGoal(this));
 	    this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-	    this.targetSelector.addGoal(2, new BossNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+	    this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
 	    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, TornSpiritEntity.class, true));
 	    this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
     }

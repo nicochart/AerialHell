@@ -5,6 +5,9 @@ import java.util.List;
 
 import fr.factionbedrock.aerialhell.Block.*;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Entity.AI.ActiveNearestAttackableTargetGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.ActiveMeleeAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGoal;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ShadowProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.*;
@@ -60,7 +63,7 @@ public class LilithEntity extends AbstractBossEntity
 	@Override
     protected void registerGoals()
     {
-		this.targetSelector.addGoal(2, new BossNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+		this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(3, new LilithMeleeAttackGoal(this, 1.25D, false));
 		this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 8.0F));
@@ -536,17 +539,17 @@ public class LilithEntity extends AbstractBossEntity
 		}
 	}
 
-	public static class LilithMeleeAttackGoal extends BossMeleeAttackGoal
+	public static class LilithMeleeAttackGoal extends ActiveMeleeAttackGoal
 	{
 		public LilithMeleeAttackGoal(LilithEntity godIn, double speedIn, boolean useLongMemory) {super(godIn, speedIn, useLongMemory);}
-		@Override public boolean shouldExecute() {return !((LilithEntity) this.boss).isTransforming() && super.shouldExecute();}
-		@Override public boolean shouldContinueExecuting() {return !((LilithEntity) this.boss).isTransforming() && super.shouldContinueExecuting();}
+		@Override public boolean shouldExecute() {return !((LilithEntity) this.activableGoalOwner).isTransforming() && super.shouldExecute();}
+		@Override public boolean shouldContinueExecuting() {return !((LilithEntity) this.activableGoalOwner).isTransforming() && super.shouldContinueExecuting();}
 	}
 	
-	public static class LilithWaterAvoidingRandomWalkingGoal extends BossWaterAvoidingRandomWalkingGoal
+	public static class LilithWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal
 	{
 		public LilithWaterAvoidingRandomWalkingGoal(LilithEntity god, double speedIn) {super(god, speedIn);}
-		@Override public boolean shouldExecute() {return !((LilithEntity) this.boss).isTransforming() && super.shouldExecute();}
-		@Override public boolean shouldContinueExecuting() {return !((LilithEntity) this.boss).isTransforming() && super.shouldContinueExecuting();}
+		@Override public boolean shouldExecute() {return !((LilithEntity) this.activableGoalOwner).isTransforming() && super.shouldExecute();}
+		@Override public boolean shouldContinueExecuting() {return !((LilithEntity) this.activableGoalOwner).isTransforming() && super.shouldContinueExecuting();}
 	}
 }

@@ -1,18 +1,15 @@
 package fr.factionbedrock.aerialhell.Entity;
 
+import fr.factionbedrock.aerialhell.Entity.AI.ActiveLookAtPlayerGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.ActiveLookRandomlyGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.ActiveMeleeAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGoal;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -21,11 +18,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public abstract class AerialHellGolemEntity extends MonsterEntity
+public abstract class AerialHellGolemEntity extends AbstractActivableEntity
 {
 	public int attackTimer;
-	
-	public static final DataParameter<Boolean> GOLEM_ACTIVE = EntityDataManager.createKey(AerialHellGolemEntity.class, DataSerializers.BOOLEAN);
 	
     public AerialHellGolemEntity(EntityType<? extends MonsterEntity> type, World world)
     {
@@ -36,10 +31,10 @@ public abstract class AerialHellGolemEntity extends MonsterEntity
     @Override
     protected void registerGoals()
     {
-    	this.goalSelector.addGoal(1, new GolemMeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.addGoal(2, new GolemWaterAvoidingRandomWalkingGoal(this, 0.6D));
-        this.goalSelector.addGoal(3, new GolemLookAtPlayerGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.addGoal(3, new GolemLookRandomlyGoal(this));
+    	this.goalSelector.addGoal(1, new ActiveMeleeAttackGoal(this, 1.25D, false));
+        this.goalSelector.addGoal(2, new ActiveWaterAvoidingRandomWalkingGoal(this, 0.6D));
+        this.goalSelector.addGoal(3, new ActiveLookAtPlayerGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(3, new ActiveLookRandomlyGoal(this));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
     }
 
@@ -47,23 +42,6 @@ public abstract class AerialHellGolemEntity extends MonsterEntity
     {
         return (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
     }
-    
-    @Override
-	protected void registerData()
-	{
-		super.registerData();
-		this.dataManager.register(GOLEM_ACTIVE, false);
-	}
-    
-    public void setActive(boolean isActive)
-	{
-		this.dataManager.set(GOLEM_ACTIVE, isActive);
-	}
-	
-	public boolean isActive()
-	{
-		return this.dataManager.get(GOLEM_ACTIVE);
-	}
 	
 	@Override
     public void livingTick()
@@ -91,8 +69,7 @@ public abstract class AerialHellGolemEntity extends MonsterEntity
     
     public abstract float getYMotionOnAttack();
 	
-    @Override
-	@OnlyIn(Dist.CLIENT)
+    @Override @OnlyIn(Dist.CLIENT)
 	public void handleStatusUpdate(byte id)
 	{
 		if (id == 4)
@@ -100,134 +77,14 @@ public abstract class AerialHellGolemEntity extends MonsterEntity
 	         this.attackTimer = 10;
 	         this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);
 	    }
-		else
-		{
-	         super.handleStatusUpdate(id);
-	    }
+		else {super.handleStatusUpdate(id);}
 	}
-    
-    @Override
-    protected SoundEvent getAmbientSound()
-    {
-        return SoundEvents.ENTITY_SNOW_GOLEM_AMBIENT;
-    }
 
-    @Override
-    protected SoundEvent getHurtSound(DamageSource damageSource)
-    {
-        return SoundEvents.ENTITY_IRON_GOLEM_HURT;
-    }
-
-    @Override
-    protected SoundEvent getDeathSound()
-    {
-        return SoundEvents.ENTITY_IRON_GOLEM_DEATH;
-    }
-
-    @Override
-    protected void playStepSound(BlockPos pos, BlockState blockIn)
-    {
-        this.playSound(SoundEvents.ENTITY_IRON_GOLEM_STEP, 0.15F, 0.5F);
-    }
-    
-    public static class GolemMeleeAttackGoal extends MeleeAttackGoal
-	{
-		private final AerialHellGolemEntity golem;
-		
-		public GolemMeleeAttackGoal(AerialHellGolemEntity golemIn, double speedIn, boolean useLongMemory)
-		{
-			super(golemIn, speedIn, useLongMemory);
-			this.golem = golemIn;
-		}
-		
-		//Returns whether the EntityAIBase should begin execution.
-		@Override
-		public boolean shouldExecute()
-		{
-			return this.golem.isActive() && super.shouldExecute();
-		}
-		
-		//Returns whether an in-progress EntityAIBase should continue executing
-		@Override
-		public boolean shouldContinueExecuting()
-		{
-			return this.golem.isActive() && super.shouldContinueExecuting();
-		}
-		
-	}
-	
-	public static class GolemLookRandomlyGoal extends LookRandomlyGoal
-	{
-		private final AerialHellGolemEntity golem;
-		
-		public GolemLookRandomlyGoal(AerialHellGolemEntity golemIn)
-		{
-			super(golemIn);
-			this.golem = golemIn;
-		}
-		
-		//Returns whether the EntityAIBase should begin execution.
-		@Override
-		public boolean shouldExecute()
-		{
-			return this.golem.isActive() && super.shouldExecute();
-		}
-		
-		//Returns whether an in-progress EntityAIBase should continue executing
-		@Override
-		public boolean shouldContinueExecuting()
-		{
-			return this.golem.isActive() && super.shouldContinueExecuting();
-		}
-	}
-	
-	public static class GolemLookAtPlayerGoal extends LookAtGoal
-	{
-		private final AerialHellGolemEntity golem;
-		
-		public GolemLookAtPlayerGoal(AerialHellGolemEntity golemIn, Class<? extends LivingEntity> watchTargetClass, float maxDistance)
-		{
-			super(golemIn, watchTargetClass, maxDistance);
-			this.golem = golemIn;
-		}
-		
-		//Returns whether the EntityAIBase should begin execution.
-		@Override
-		public boolean shouldExecute()
-		{
-			return this.golem.isActive() && super.shouldExecute();
-		}
-		
-		//Returns whether an in-progress EntityAIBase should continue executing
-		@Override
-		public boolean shouldContinueExecuting()
-		{
-			return this.golem.isActive() && super.shouldContinueExecuting();
-		}
-	}
-	
-	public static class GolemWaterAvoidingRandomWalkingGoal extends WaterAvoidingRandomWalkingGoal
-	{
-		private final AerialHellGolemEntity golem;
-		
-		public GolemWaterAvoidingRandomWalkingGoal(AerialHellGolemEntity golemIn, double speedIn)
-		{
-			super(golemIn, speedIn);
-			this.golem = golemIn;
-		}
-		
-		//Returns whether the EntityAIBase should begin execution.
-		@Override
-		public boolean shouldExecute()
-		{
-			return this.golem.isActive() && super.shouldExecute();
-		}
-		
-		//Returns whether an in-progress EntityAIBase should continue executing
-		@Override
-		public boolean shouldContinueExecuting()
-		{
-			return this.golem.isActive() && super.shouldContinueExecuting();
-		}
-	}
+    @Override public int getMinTimeToActivate() {return 60;}
+    @Override public double getMinDistanceToActivate() {return 16;}
+    @Override public double getMinDistanceToDeactivate() {return 32;}
+    @Override protected SoundEvent getAmbientSound() {return SoundEvents.ENTITY_SNOW_GOLEM_AMBIENT;}
+    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return SoundEvents.ENTITY_IRON_GOLEM_HURT;}
+    @Override protected SoundEvent getDeathSound() {return SoundEvents.ENTITY_IRON_GOLEM_DEATH;}
+    @Override protected void playStepSound(BlockPos pos, BlockState blockIn) {this.playSound(SoundEvents.ENTITY_IRON_GOLEM_STEP, 0.15F, 0.5F);}
 }
