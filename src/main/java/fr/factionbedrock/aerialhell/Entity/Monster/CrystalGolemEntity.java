@@ -1,11 +1,15 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
+import com.google.common.collect.ImmutableList;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveAvoidEntityGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveMisleadableNearestAttackableTargetGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.FleeBlockGoal;
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
+import net.minecraft.block.Block;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -18,6 +22,8 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class CrystalGolemEntity extends AerialHellGolemEntity
 {	
@@ -101,7 +107,9 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
     protected void registerGoals()
     {
     	super.registerGoals();
-        this.targetSelector.addGoal(1, new CrystalGolemNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+        List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocksAndItems.SHADOW_TORCH.get(), AerialHellBlocksAndItems.SHADOW_WALL_TORCH.get());
+        this.goalSelector.addGoal(1, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
+        this.targetSelector.addGoal(2, new CrystalGolemNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
         this.goalSelector.addGoal(1, new CrystalGolemAvoidEntityGoal<>(this, PlayerEntity.class, 16.0F, 1.2D, 1.5D));
     }
     

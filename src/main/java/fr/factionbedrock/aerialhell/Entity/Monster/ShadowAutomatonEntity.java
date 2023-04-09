@@ -1,7 +1,11 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
+import com.google.common.collect.ImmutableList;
+import fr.factionbedrock.aerialhell.Entity.AI.FleeBlockGoal;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -14,6 +18,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class ShadowAutomatonEntity extends AutomatonEntity
 {
     public ShadowAutomatonEntity(EntityType<? extends MonsterEntity> type, World world) {super(type, world);}
@@ -25,6 +31,14 @@ public class ShadowAutomatonEntity extends AutomatonEntity
                 .createMutableAttribute(Attributes.ARMOR, 3.0D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 7.0D)
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.23D);
+    }
+
+    @Override
+    protected void registerGoals()
+    {
+        List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocksAndItems.VOLUCITE_TORCH.get(), AerialHellBlocksAndItems.VOLUCITE_WALL_TORCH.get());
+        this.goalSelector.addGoal(0, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
+        super.registerGoals();
     }
 
     @Override
