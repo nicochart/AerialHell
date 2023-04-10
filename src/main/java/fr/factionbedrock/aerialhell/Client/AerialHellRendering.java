@@ -194,6 +194,7 @@ public class AerialHellRendering
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.ELECTRO_SPIRIT.get(), ElementSpiritRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CHAINED_GOD.get(), ChainedGodRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.FLYING_JELLYFISH.get(), FlyingJellyfishRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHADOW_FLYING_SKULL.get(), ShadowFlyingSkullRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHADOW_TROLL.get(), ShadowTrollRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHADOW_AUTOMATON.get(), ShadowAutomatonRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.AERIAL_TREE_MIMIC.get(), ChestMimicRender::new);
