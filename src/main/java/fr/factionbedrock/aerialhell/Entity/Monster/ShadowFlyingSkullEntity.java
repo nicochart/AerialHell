@@ -21,12 +21,12 @@ public class ShadowFlyingSkullEntity extends VexEntity
 {
     public float jawOpeningAmplitude = 0.2F;
     public float jawOpeningFrequencyMalus = 7.0F;
-    public ShadowFlyingSkullEntity(EntityType<? extends VexEntity> p_i50190_1_, World p_i50190_2_) {super(p_i50190_1_, p_i50190_2_); this.SetRandomJawOpeningAmplitudeAndFrequency();}
+    public ShadowFlyingSkullEntity(EntityType<? extends VexEntity> p_i50190_1_, World p_i50190_2_) {super(p_i50190_1_, p_i50190_2_); this.setLimitedLife(700); this.SetRandomJawOpeningAmplitudeAndFrequency();}
 
     public static AttributeModifierMap.MutableAttribute registerAttributes()
     {
         return MonsterEntity.func_233666_p_()
-                .createMutableAttribute(Attributes.MAX_HEALTH, 50.0D)
+                .createMutableAttribute(Attributes.MAX_HEALTH, 20.0D)
                 .createMutableAttribute(Attributes.FOLLOW_RANGE, 24.0D)
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.33D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 6.0D);

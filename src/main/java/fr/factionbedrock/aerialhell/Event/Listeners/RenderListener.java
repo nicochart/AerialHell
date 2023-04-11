@@ -10,9 +10,15 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Effects;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.FoodStats;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -57,12 +63,14 @@ public class RenderListener
 
         if (event.getType() == RenderGameOverlayEvent.ElementType.HEALTH && player != null && EntityHelper.isLivingEntityVulnerable(player))
         {
+            boolean lowHealth = player.getHealth() <= 4;
+            if (lowHealth) {event.setCanceled(true);}
             MatrixStack matrixStack = event.getMatrixStack();
 
             int x = event.getWindow().getScaledWidth() / 2 - 91;
             int y = event.getWindow().getScaledHeight() - 39;
 
-            renderVulnerableHearts(matrixStack, player, x, y);
+            renderVulnerableHearts(matrixStack, player, x, y, lowHealth);
         }
     }
 
@@ -90,18 +98,18 @@ public class RenderListener
     }
 
     @OnlyIn(Dist.CLIENT)
-    private static void renderVulnerableHearts(MatrixStack matrixStack, PlayerEntity player, int x, int y)
+    private static void renderVulnerableHearts(MatrixStack matrixStack, PlayerEntity player, int x, int y, boolean lowHealth)
     {
         int maxHalfHearts = (int)player.getMaxHealth(), maxHearts  = maxHalfHearts/2;
         int halfHearts = (int) player.getHealth(), hearts = halfHearts / 2;
         int playerActualHeartNumber = Math.min(hearts, maxHearts);
         int yOffset = getHealthBarYOffset(player), xOffset = (halfHearts % 20)/2;
 
-        if (yOffset < 8) {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_EMPTY_HEART_WITH_BORDER);}
+        if (yOffset < 8 || lowHealth) {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_EMPTY_HEART_WITH_BORDER);}
         else {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_EMPTY_HEART);}
         blitAllEntireHearts(matrixStack, x, y, maxHearts, yOffset);
 
-        if (yOffset < 8) {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HALF_HEART_WITH_BORDER);}
+        if (yOffset < 8 || lowHealth) {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HALF_HEART_WITH_BORDER);}
         else {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HALF_HEART);}
         if (halfHearts%2 != 0)
         {
@@ -110,7 +118,7 @@ public class RenderListener
             blitSingleHeartIcon(matrixStack, x + xTotalOffset, y + yTotalOffset);
         }
 
-        if (yOffset < 8) {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HEART_WITH_BORDER);}
+        if (yOffset < 8 || lowHealth) {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HEART_WITH_BORDER);}
         else {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HEART);}
         blitAllEntireHearts(matrixStack, x, y, playerActualHeartNumber, yOffset);
 

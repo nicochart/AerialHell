@@ -451,6 +451,7 @@ public class LilithEntity extends AbstractBossEntity
 		{
 			((LivingEntity) target).addPotionEffect(new EffectInstance(AerialHellPotionEffects.VULNERABILITY.get(), 40, 0));
 		}
+		this.playSound(SoundEvents.ENTITY_RAVAGER_STEP, 1.0F, 0.5F);
 		return flag;
 	}
 	
