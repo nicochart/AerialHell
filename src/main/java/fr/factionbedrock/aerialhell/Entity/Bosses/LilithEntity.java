@@ -3,12 +3,14 @@ package fr.factionbedrock.aerialhell.Entity.Bosses;
 import java.util.EnumSet;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import fr.factionbedrock.aerialhell.Block.*;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveNearestAttackableTargetGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveMeleeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGoal;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ShadowFlyingSkullEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ShadowProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
@@ -29,6 +31,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.state.properties.DoubleBlockHalf;
@@ -66,6 +69,7 @@ public class LilithEntity extends AbstractBossEntity
 		this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(3, new LilithMeleeAttackGoal(this, 1.25D, false));
+		this.goalSelector.addGoal(2, new LilithShadowFlyingSkullAttackGoal(this));
 		this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(5, new LilithWaterAvoidingRandomWalkingGoal(this, 0.6D));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
@@ -551,5 +555,42 @@ public class LilithEntity extends AbstractBossEntity
 		public LilithWaterAvoidingRandomWalkingGoal(LilithEntity god, double speedIn) {super(god, speedIn);}
 		@Override public boolean shouldExecute() {return !((LilithEntity) this.activableGoalOwner).isTransforming() && super.shouldExecute();}
 		@Override public boolean shouldContinueExecuting() {return !((LilithEntity) this.activableGoalOwner).isTransforming() && super.shouldContinueExecuting();}
+	}
+
+	public static class LilithShadowFlyingSkullAttackGoal extends Goal
+	{
+		private final AbstractBossEntity goalOwner;
+		public LilithShadowFlyingSkullAttackGoal(AbstractBossEntity entity) {this.goalOwner = entity;}
+		private static final List<Vector3d> spawnMotionVector3ds = ImmutableList.of(new Vector3d(0.5D, 0.2D, 0.0D), new Vector3d(-0.2500001125833550D, 0.2D, 0.4333882291756956D), new Vector3d(-0.250000112583355D, 0.2D, -0.4333882291756956D));
+
+		@Override public boolean shouldExecute()
+		{
+			return this.goalOwner.ticksExisted % 250 == 0 && this.goalOwner.getMaxHealth() > 2.5 * this.goalOwner.getHealth() && this.goalOwner.isActive() && this.goalOwner.getAttackTarget() != null;
+		}
+
+		@Override
+		public void tick()
+		{
+			for (Vector3d vector : spawnMotionVector3ds)
+			{
+				ShadowFlyingSkullEntity skull = AerialHellEntities.SHADOW_FLYING_SKULL.get().create(this.goalOwner.world);
+				skull.setPosition(this.goalOwner.getPosX(), this.goalOwner.getPosY(), this.goalOwner.getPosZ()); skull.setMotion(vector);
+				this.goalOwner.world.addEntity(skull);
+			}
+			this.playParticleAndSoundEffect();
+		}
+
+		private void playParticleAndSoundEffect()
+		{
+			if (this.goalOwner.world.isRemote)
+			{
+				for(int i = 0; i < 30; ++i)
+				{
+					double d0 = this.goalOwner.world.rand.nextGaussian() * 0.02D; double d1 = this.goalOwner.world.rand.nextGaussian() * 0.02D; double d2 = this.goalOwner.world.rand.nextGaussian() * 0.02D;
+					this.goalOwner.world.addParticle(ParticleTypes.LARGE_SMOKE, this.goalOwner.getPosXWidth(1.0D) - d0 * 10.0D, this.goalOwner.getPosYRandom() - d1 * 10.0D, this.goalOwner.getPosZRandom(1.0D) - d2 * 10.0D, 0.25 * (goalOwner.world.rand.nextFloat() - 0.5), 0.3D, 0.25 * (goalOwner.world.rand.nextFloat() - 0.5));
+				}
+			}
+			this.goalOwner.playSound(SoundEvents.ENTITY_EVOKER_PREPARE_SUMMON, 1.5F, 0.95F + goalOwner.world.rand.nextFloat() * 0.1F);
+		}
 	}
 }
