@@ -163,7 +163,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<ChainBlock> RUBY_CHAIN = BLOCKS.register("ruby_chain", () -> new ChainBlock(AbstractBlock.Properties.from(Blocks.CHAIN)));
 	public static final RegistryObject<ChainBlock> VOLUCITE_CHAIN = BLOCKS.register("volucite_chain", () -> new ChainBlock(AbstractBlock.Properties.from(Blocks.CHAIN)));
 	public static final RegistryObject<ChainBlock> LUNATIC_CHAIN = BLOCKS.register("lunatic_chain", () -> new ChainBlock(AbstractBlock.Properties.from(Blocks.CHAIN)));
-	public static final RegistryObject<ChainBlock> SHADOW_CHAIN = BLOCKS.register("shadow_chain", () -> new ChainBlock(AbstractBlock.Properties.from(Blocks.CHAIN)));
+	public static final RegistryObject<ChainBlock> SHADOW_CHAIN = BLOCKS.register("shadow_chain", () -> new ShadowChainBlock(AbstractBlock.Properties.from(Blocks.CHAIN)));
 	public static final RegistryObject<Item> RUBY_CHAIN_ITEM = ITEMS.register("ruby_chain", () -> new BlockItem(RUBY_CHAIN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> VOLUCITE_CHAIN_ITEM = ITEMS.register("volucite_chain", () -> new BlockItem(VOLUCITE_CHAIN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> LUNATIC_CHAIN_ITEM = ITEMS.register("lunatic_chain", () -> new BlockItem(LUNATIC_CHAIN.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
@@ -501,7 +501,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<SlabBlock> MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB = BLOCKS.register("mossy_shadow_catacombs_bricks_slab", () -> new CoreProtectedSlabBlock(AbstractBlock.Properties.from(MOSSY_SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<StairsBlock> MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS = BLOCKS.register("mossy_shadow_catacombs_bricks_stairs", () -> new CoreProtectedStairsBlock(() -> MOSSY_SHADOW_CATACOMBS_BRICKS.get().getDefaultState(), AbstractBlock.Properties.from(MOSSY_SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<WallBlock> MOSSY_SHADOW_CATACOMBS_BRICKS_WALL = BLOCKS.register("mossy_shadow_catacombs_bricks_wall", () -> new CoreProtectedWallBlock(AbstractBlock.Properties.from(MOSSY_SHADOW_CATACOMBS_BRICKS.get())));
-	public static final RegistryObject<PaneBlock> SHADOW_BARS = BLOCKS.register("shadow_bars", () -> new PaneBlock(METAL_NOTSOLID_MATERIAL));
+	public static final RegistryObject<PaneBlock> SHADOW_BARS = BLOCKS.register("shadow_bars", () -> new ShadowBarsBlock(METAL_NOTSOLID_MATERIAL));
 	public static final RegistryObject<SlabBlock> GOLDEN_NETHER_BRICKS_SLAB = BLOCKS.register("golden_nether_bricks_slab", () -> new CoreProtectedSlabBlock(AbstractBlock.Properties.from(GOLDEN_NETHER_BRICKS.get())));
 	public static final RegistryObject<StairsBlock> GOLDEN_NETHER_BRICKS_STAIRS = BLOCKS.register("golden_nether_bricks_stairs", () -> new CoreProtectedStairsBlock(() -> GOLDEN_NETHER_BRICKS.get().getDefaultState(), AbstractBlock.Properties.from(VOLUCITE_STONE.get())));
 	public static final RegistryObject<WallBlock> GOLDEN_NETHER_BRICKS_WALL = BLOCKS.register("golden_nether_bricks_wall", () -> new CoreProtectedWallBlock(AbstractBlock.Properties.from(GOLDEN_NETHER_BRICKS.get())));

@@ -23,6 +23,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
@@ -91,39 +92,24 @@ public class ShadowTrollEntity extends MonsterEntity
             }
     		return true;
     	}
-    	else
-    	{
-    		return false;
-    	}
+    	else {return false;}
     }
     
     @Override
     public void tick()
     {
     	super.tick();
-    	if (rand.nextFloat() > 0.95)
-    	{
-    		this.addBatParticle(1);
-    	}
+    	if (rand.nextFloat() > 0.95) {this.addBatParticle(1);}
     	
     	if (this.isDisappearing())
     	{    		
-    		if (this.timeDisappearing < 95)
-    		{
-    			this.addBatParticle(1);
-    		}
-    		else if (this.timeDisappearing < 100)
-    		{
-    			this.addBatParticle(10);
-    		}
-    		else
-    		{
-    			this.remove();
-    		}
+    		if (this.timeDisappearing < 95) {this.addBatParticle(1);}
+    		else if (this.timeDisappearing < 100) {this.addBatParticle(10);}
+    		else {this.remove();}
     		this.timeDisappearing++;
     	}
     }
-    
+
     private void addBatParticle(int number)
     {
     	for (int i=0; i<number; i++)
@@ -132,8 +118,7 @@ public class ShadowTrollEntity extends MonsterEntity
 		}
     }
     
-    @Override
-    public void livingTick()
+    @Override public void livingTick()
     {
     	super.livingTick();
     	if (this.isInDaylight() /*|| this.getBrightness() >= 2.5f*/ /*|| this.world.getLight(this.getPosition().down()) > 10*/)
@@ -147,8 +132,7 @@ public class ShadowTrollEntity extends MonsterEntity
     	}
     }
     
-    @Override
-    protected void collideWithEntity(Entity entityIn)
+    @Override protected void collideWithEntity(Entity entityIn)
     {
     	if (entityIn instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune(((LivingEntity) entityIn)))
     	{
@@ -157,57 +141,29 @@ public class ShadowTrollEntity extends MonsterEntity
         super.collideWithEntity(entityIn);
     }
     
-    @Override
-    protected void registerData()
+    @Override protected void registerData()
     {
         super.registerData();
         this.dataManager.register(DISAPPEARING, false);
     }
     
-    @Override
-    public void writeAdditional(CompoundNBT compound)
+    @Override public void writeAdditional(CompoundNBT compound)
     {
         super.writeAdditional(compound);
         compound.putBoolean("Disappearing", this.isDisappearing());
     }
 
-    @Override
-    public void readAdditional(CompoundNBT compound)
+    @Override public void readAdditional(CompoundNBT compound)
     {
         super.readAdditional(compound);
         this.setDisappearing(compound.getBoolean("Disappearing"));
     }
     
-    public boolean isDisappearing()
-    {
-    	return this.dataManager.get(DISAPPEARING);
-    }
+    public boolean isDisappearing() {return this.dataManager.get(DISAPPEARING);}
+    public void setDisappearing(boolean flag) {this.dataManager.set(DISAPPEARING, flag);}
+    public int getTimeDisappearing() {return this.timeDisappearing;}
     
-    public void setDisappearing(boolean flag)
-    {
-    	this.dataManager.set(DISAPPEARING, flag);
-    }
-    
-    public int getTimeDisappearing()
-    {
-    	return this.timeDisappearing;
-    }
-    
-    @Override
-    protected SoundEvent getAmbientSound()
-    {
-        return AerialHellSoundEvents.ENTITY_SHADOW_TROLL_AMBIENT.get();
-    }
-
-    @Override
-    protected SoundEvent getHurtSound(DamageSource damageSource)
-    {
-    	return AerialHellSoundEvents.ENTITY_SHADOW_TROLL_HURT.get();
-    }
-
-    @Override
-    protected SoundEvent getDeathSound()
-    {
-    	return AerialHellSoundEvents.ENTITY_SHADOW_TROLL_DEATH.get();
-    }
+    @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_SHADOW_TROLL_AMBIENT.get();}
+    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_SHADOW_TROLL_HURT.get();}
+    @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_SHADOW_TROLL_DEATH.get();}
 }
