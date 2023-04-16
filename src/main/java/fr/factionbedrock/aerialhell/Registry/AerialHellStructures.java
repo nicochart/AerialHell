@@ -69,8 +69,8 @@ public class AerialHellStructures
 
 		    setupMapSpacingAndLand(
 					SHADOW_CATACOMBS_STRUCTURE.get(), /* The instance of the structure */
-				    new StructureSeparationSettings(25 /* mean distance apart in chunks between spawn attempts */,
-						    15 /* minimum distance apart in chunks between spawn attempts */,
+				    new StructureSeparationSettings(5 /* mean distance apart in chunks between spawn attempts */,
+						    4 /* minimum distance apart in chunks between spawn attempts */,
 						    134354456 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
 				    false); //TransformSurroundingLand
 	        

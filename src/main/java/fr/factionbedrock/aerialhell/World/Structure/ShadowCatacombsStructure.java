@@ -3,15 +3,20 @@ package fr.factionbedrock.aerialhell.World.Structure;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBiomes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
@@ -35,14 +40,34 @@ public class ShadowCatacombsStructure extends AbstractAerialHellStructure
     @Override public List<MobSpawnInfo.Spawners> getDefaultCreatureSpawnList() {return creaturesSpawnList;}
 
     @Override
-    public IStartFactory<NoFeatureConfig> getStartFactory()
+    public IStartFactory<NoFeatureConfig> getStartFactory() {return ShadowCatacombsStructure.Start::new;}
+
+    @Override
+    protected boolean func_230363_a_(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) //isFeatureChunk (check if can spawn)
     {
-        return ShadowCatacombsStructure.Start::new;
+        BlockPos centerOfChunk = new BlockPos(chunkX * 16, 80, chunkZ * 16);
+
+        int landHeight = chunkGenerator.getHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
+        int notShadowBiomeCount = 0;
+        int highGroundCount = 0;
+
+        if (landHeight > 80) {highGroundCount++;}
+        List<BlockPos> checkShadowBiomePos = ImmutableList.of(centerOfChunk.north(20), centerOfChunk.south(20), centerOfChunk.east(20), centerOfChunk.west(20));
+        for (BlockPos pos : checkShadowBiomePos)
+        {
+            landHeight = chunkGenerator.getHeight(pos.getX(), pos.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
+            Biome posBiome = biomeSource.getNoiseBiome(pos.getX(), pos.getY(), pos.getZ());
+            if (landHeight > 80) {highGroundCount++;}
+            if (!(posBiome.getRegistryName().equals(AerialHellBiomes.SHADOW_PLAIN.getLocation()) || posBiome.getRegistryName().equals(AerialHellBiomes.SHADOW_FOREST.getLocation()))) {notShadowBiomeCount++;}
+        }
+
+        if (notShadowBiomeCount > 1 || highGroundCount == 0) {return false;}
+
+        return true;
     }
 
     public static class Start extends AbstractAerialHellStructure.Start
     {
-
         public Start(Structure<NoFeatureConfig> structureIn, int chunkX, int chunkZ, MutableBoundingBox mutableBoundingBox, int referenceIn, long seedIn)
         {
             super(structureIn, chunkX, chunkZ, mutableBoundingBox, referenceIn, seedIn);
