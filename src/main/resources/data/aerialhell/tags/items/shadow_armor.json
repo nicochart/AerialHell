@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:shadow_helmet",
+    "aerialhell:shadow_chestplate",
+    "aerialhell:shadow_leggings",
+    "aerialhell:shadow_boots"
+  ]
+}

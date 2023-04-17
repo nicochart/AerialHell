@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "#aerialhell:shadow_armor",
+    "aerialhell:shadow_totem",
+    "aerialhell:cursed_totem",
+    "aerialhell:cursed_sword",
+    "aerialhell:cursed_axe",
+    "aerialhell:reaper_scythe"
+  ]
+}

@@ -121,6 +121,10 @@ public class AerialHellTags
 		public static final ITag.INamedTag<Item> ARSONIST = tag("arsonist");
 		
 		public static final ITag.INamedTag<Item> ARSONIST_STUFF = tag("arsonist_stuff");
+
+		public static final ITag.INamedTag<Item> SHADOW_ARMOR = tag("shadow_armor");
+
+		public static final ITag.INamedTag<Item> SHADOW_STUFF = tag("shadow_stuff");
 		
 		public static final ITag.INamedTag<Item> OBSIDIAN_STUFF = tag("obsidian_stuff");
 		

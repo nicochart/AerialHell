@@ -17,86 +17,98 @@ public class ArmorMaterials
 {
 	public final static IArmorMaterial ruby = new ArmorMaterial
 	(
-		AerialHell.MODID + ":ruby", //Nom du matÈriau 
-		15, //Facteur de dÈgats, permet de calculer la durabilitÈ avec le Max_Damage_Array 
+		AerialHell.MODID + ":ruby", //Nom du mat√©riau 
+		15, //Facteur de d√©gats, permet de calculer la durabilit√© avec le Max_Damage_Array 
 		new int[] {2, 5, 6, 2}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
-		9, //EnchantabilitÈ
-		SoundEvents.ITEM_ARMOR_EQUIP_IRON, //Son lorsqu'on Èquipe
+		9, //Enchantabilit√©
+		SoundEvents.ITEM_ARMOR_EQUIP_IRON, //Son lorsqu'on √©quipe
 		0.0F, //Robustesse
 		0.0F, //Resistance au recul
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.RUBY.get()) //MatÈriaux de rÈparation
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.RUBY.get()) //Mat√©riaux de r√©paration
 	);
 	
 	public final static IArmorMaterial azurite = new ArmorMaterial
 	(
-		AerialHell.MODID + ":azurite", //Nom du matÈriau 
-		10, //Facteur de dÈgats, permet de calculer la durabilitÈ avec le Max_Damage_Array 
+		AerialHell.MODID + ":azurite", //Nom du mat√©riau 
+		10, //Facteur de d√©gats, permet de calculer la durabilit√© avec le Max_Damage_Array 
 		new int[] {1, 3, 5, 2}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
-		25, //EnchantabilitÈ
-		SoundEvents.ITEM_ARMOR_EQUIP_GOLD, //Son lorsqu'on Èquipe
+		25, //Enchantabilit√©
+		SoundEvents.ITEM_ARMOR_EQUIP_GOLD, //Son lorsqu'on √©quipe
 		0.0F, //Robustesse
 		0.0F, //Resistance au recul
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //MatÈriaux de rÈparation
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //Mat√©riaux de r√©paration
 	);
 	
 	public final static IArmorMaterial magmatic_gel = new ArmorMaterial
 	(
-		AerialHell.MODID + ":magmatic_gel", //Nom du matÈriau 
-		7, //Facteur de dÈgats, permet de calculer la durabilitÈ avec le Max_Damage_Array 
+		AerialHell.MODID + ":magmatic_gel", //Nom du mat√©riau 
+		7, //Facteur de d√©gats, permet de calculer la durabilit√© avec le Max_Damage_Array 
 		new int[] {1, 3, 5, 2}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
-		25, //EnchantabilitÈ
-		SoundEvents.ITEM_ARMOR_EQUIP_GOLD, //Son lorsqu'on Èquipe
+		25, //Enchantabilit√©
+		SoundEvents.ITEM_ARMOR_EQUIP_GOLD, //Son lorsqu'on √©quipe
 		0.0F, //Robustesse
 		0.0F, //Resistance au recul
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.MAGMATIC_GEL.get()) //MatÈriaux de rÈparation
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.MAGMATIC_GEL.get()) //Mat√©riaux de r√©paration
 	);
 	
 	public final static IArmorMaterial obsidian = new ArmorMaterial
 	(
-		AerialHell.MODID + ":obsidian", //Nom du matÈriau 
-		37, //Facteur de dÈgats, permet de calculer la durabilitÈ avec le Max_Damage_Array 
+		AerialHell.MODID + ":obsidian", //Nom du mat√©riau 
+		37, //Facteur de d√©gats, permet de calculer la durabilit√© avec le Max_Damage_Array 
 		new int[] {3, 6, 8, 3}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
-		10, //EnchantabilitÈ
-		SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, //Son lorsqu'on Èquipe
+		10, //Enchantabilit√©
+		SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, //Son lorsqu'on √©quipe
 		2.0F, //Robustesse
 		0.1F, //Resistance au recul
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //MatÈriaux de rÈparation
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //Mat√©riaux de r√©paration
 	);
 	
 	public final static IArmorMaterial volucite = new ArmorMaterial
 	(
-		AerialHell.MODID + ":volucite", //Nom du matÈriau 
-		35, //Facteur de dÈgats, permet de calculer la durabilitÈ avec le Max_Damage_Array 
+		AerialHell.MODID + ":volucite", //Nom du mat√©riau 
+		35, //Facteur de d√©gats, permet de calculer la durabilit√© avec le Max_Damage_Array 
 		new int[] {4, 7, 9, 4}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
-		10, //EnchantabilitÈ
-		SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, //Son lorsqu'on Èquipe
+		10, //Enchantabilit√©
+		SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, //Son lorsqu'on √©quipe
 		2.5F, //Robustesse
 		0.05F, //Resistance au recul
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //MatÈriaux de rÈparation
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //Mat√©riaux de r√©paration
 	);
 	
 	public final static IArmorMaterial lunatic = new ArmorMaterial
 	(
-		AerialHell.MODID + ":lunatic", //Nom du matÈriau 
-		33, //Facteur de dÈgats, permet de calculer la durabilitÈ avec le Max_Damage_Array 
+		AerialHell.MODID + ":lunatic", //Nom du mat√©riau
+		33, //Facteur de d√©gats, permet de calculer la durabilit√© avec le Max_Damage_Array
 		new int[] {4, 7, 8, 3}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
-		15, //EnchantabilitÈ
-		SoundEvents.ITEM_ARMOR_EQUIP_GOLD, //Son lorsqu'on Èquipe
+		15, //Enchantabilit√©
+		SoundEvents.ITEM_ARMOR_EQUIP_GOLD, //Son lorsqu'on √©quipe
 		1.5F, //Robustesse
 		0.0F, //Resistance au recul
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //MatÈriaux de rÈparation
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //Mat√©riaux de r√©paration
+	);
+
+	public final static IArmorMaterial shadow = new ArmorMaterial
+	(
+		AerialHell.MODID + ":shadow", //Nom du mat√©riau
+		25, //Facteur de d√©gats, permet de calculer la durabilit√© avec le Max_Damage_Array
+		new int[] {4, 7, 7, 3}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
+		15, //Enchantabilit√©
+		SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, //Son lorsqu'on √©quipe
+		1.0F, //Robustesse
+		0.0F, //Resistance au recul
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.CURSED_CRYSAL.get()) //Mat√©riaux de r√©paration
 	);
 	
 	public final static IArmorMaterial arsonist = new ArmorMaterial
 	(
-		AerialHell.MODID + ":arsonist", //Nom du matÈriau 
-		37, //Facteur de dÈgats, permet de calculer la durabilitÈ avec le Max_Damage_Array 
+		AerialHell.MODID + ":arsonist", //Nom du mat√©riau 
+		37, //Facteur de d√©gats, permet de calculer la durabilit√© avec le Max_Damage_Array 
 		new int[] {5, 8, 9, 4}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
-		15, //EnchantabilitÈ
-		SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, //Son lorsqu'on Èquipe
+		15, //Enchantabilit√©
+		SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, //Son lorsqu'on √©quipe
 		3.0F, //Robustesse
 		0.1F, //Resistance au recul
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.ARSONIST_INGOT.get()) //MatÈriaux de rÈparation
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.ARSONIST_INGOT.get()) //Mat√©riaux de r√©paration
 	);
 	
 	private static class ArmorMaterial implements IArmorMaterial

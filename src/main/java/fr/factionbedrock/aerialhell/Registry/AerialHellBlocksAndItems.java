@@ -662,12 +662,15 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> ARSONIST_INGOT = ITEMS.register("arsonist_ingot", () -> new Item(new Item.Properties().rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS).isImmuneToFire()));
 	public static final RegistryObject<Item> LUNATIC_CRYSTAL = ITEMS.register("lunatic_crystal", () -> new Item(new Item.Properties().rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
 	public static final RegistryObject<Item> OBSIDIAN_SHARD = ITEMS.register("obsidian_shard", () -> new Item(new Item.Properties().rarity(Rarity.EPIC).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
-	
+	public static final RegistryObject<Item> CURSED_CRYSAL = ITEMS.register("cursed_crystal", () -> new Item(new Item.Properties().rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
+
 	public static final RegistryObject<Block> ARSONIST_BLOCK = BLOCKS.register("arsonist_block", () -> new ArsonistBlock(AbstractBlock.Properties.from(Blocks.NETHERITE_BLOCK).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool().setLightLevel((state) -> 9)));
 	public static final RegistryObject<Item> ARSONIST_BLOCK_ITEM = ITEMS.register("arsonist_block", () -> new BlockItem(ARSONIST_BLOCK.get(), new Item.Properties().rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_BLOCKS).isImmuneToFire()));
 	public static final RegistryObject<Block> LUNATIC_CRYSTAL_BLOCK = BLOCKS.register("lunatic_crystal_block", () -> new Block(AbstractBlock.Properties.from(Blocks.NETHERITE_BLOCK).sound(SoundType.GLASS).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool().setLightLevel((state) -> 9)));
 	public static final RegistryObject<Item> LUNATIC_CRYSTAL_BLOCK_ITEM = ITEMS.register("lunatic_crystal_block", () -> new BlockItem(LUNATIC_CRYSTAL_BLOCK.get(), new Item.Properties().rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
-	
+	public static final RegistryObject<Block> CURSED_CRYSAL_BLOCK = BLOCKS.register("cursed_crystal_block", () -> new Block(AbstractBlock.Properties.from(Blocks.NETHERITE_BLOCK).sound(SoundType.GLASS).harvestTool(ToolType.PICKAXE).harvestLevel(1).setRequiresTool().setLightLevel((state) -> 9)));
+	public static final RegistryObject<Item> CURSED_CRYSAL_BLOCK_ITEM = ITEMS.register("cursed_crystal_block", () -> new BlockItem(CURSED_CRYSAL_BLOCK.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
+
 	//cactus
 	public static final RegistryObject<SkyCactusBlock> SKY_CACTUS = BLOCKS.register("sky_cactus", () -> new SkyCactusBlock(AbstractBlock.Properties.create(Material.CACTUS, MaterialColor.CYAN).hardnessAndResistance(0.4F).sound(SoundType.CLOTH).harvestTool(ToolType.AXE).tickRandomly()));
 	public static final RegistryObject<Item> SKY_CACTUS_ITEM = ITEMS.register("sky_cactus", () -> new BlockItem(SKY_CACTUS.get(), new Item.Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS)));
@@ -1187,7 +1190,7 @@ public class AerialHellBlocksAndItems
     
     public static final RegistryObject<AxeItem> HEAVY_AXE = ITEMS.register("heavy_axe", () -> new AerialHellAxeItem(ToolMaterials.heavy, 6, -3.5F, -0.30F, 0.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
     public static final RegistryObject<AxeItem> AXE_OF_LIGHT = ITEMS.register("axe_of_light", () -> new EffectAxeItem(ToolMaterials.lunatic, 5, -3.1F, 0.0F, 0.0F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.lunatic.getHarvestLevel()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
-    public static final RegistryObject<AxeItem> CURSED_AXE = ITEMS.register("cursed_axe", () -> new AerialHellAxeItem(ToolMaterials.cursed, 2, -3.2F, 0.0F, 0.0F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.cursed.getHarvestLevel()).rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
+    public static final RegistryObject<AxeItem> CURSED_AXE = ITEMS.register("cursed_axe", () -> new AerialHellAxeItem(ToolMaterials.shadow, 2, -3.2F, 0.0F, 0.0F, (new Item.Properties()).addToolType(ToolType.AXE, ToolMaterials.shadow.getHarvestLevel()).rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
     public static final RegistryObject<AxeItem> BERSERK_AXE = ITEMS.register("berserk_axe", () -> new BerserkAxeItem(ToolMaterials.arsonist, 4, -2.5F, 0.05F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
     
     public static final RegistryObject<HoeItem> SKY_WOOD_HOE = ITEMS.register("sky_wood_hoe", () -> new HoeItem(ToolMaterials.sky_wood, -3, 0.0F, (new Item.Properties()).addToolType(ToolType.HOE, ToolMaterials.sky_wood.getHarvestLevel()).group(AerialHellItemGroups.AERIAL_HELL_TOOLS)));
@@ -1200,7 +1203,7 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<HoeItem> LUNATIC_HOE = ITEMS.register("lunatic_hoe", () -> new HoeItem(ToolMaterials.lunatic, -1, 0.0F, (new Item.Properties()).addToolType(ToolType.HOE, ToolMaterials.lunatic.getHarvestLevel()).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_TOOLS)));
     public static final RegistryObject<HoeItem> ARSONIST_HOE = ITEMS.register("arsonist_hoe", () -> new HoeItem(ToolMaterials.arsonist, -1, 0.0F, (new Item.Properties()).addToolType(ToolType.HOE, ToolMaterials.arsonist.getHarvestLevel()).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_TOOLS).isImmuneToFire()));
     
-    public static final RegistryObject<HoeItem> REAPER_SCYTHE = ITEMS.register("reaper_scythe", () -> new EffectHoeItem(ToolMaterials.cursed, 4, -2.8F, 0.0F, 0.0F, (new Item.Properties()).addToolType(ToolType.HOE, ToolMaterials.cursed.getHarvestLevel()).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_COMBAT).isImmuneToFire()));
+    public static final RegistryObject<HoeItem> REAPER_SCYTHE = ITEMS.register("reaper_scythe", () -> new EffectHoeItem(ToolMaterials.shadow, 4, -2.8F, 0.0F, 0.0F, (new Item.Properties()).addToolType(ToolType.HOE, ToolMaterials.shadow.getHarvestLevel()).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_COMBAT).isImmuneToFire()));
     
     //weapons
     public static final RegistryObject<SwordItem> SKY_WOOD_SWORD = ITEMS.register("sky_wood_sword", () -> new SwordItem(ToolMaterials.sky_wood, 3, -2.4F, (new Item.Properties()).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
@@ -1220,7 +1223,7 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<SwordItem> GLOUTON_SWORD = ITEMS.register("glouton_sword", () -> new EffectSwordItem(ToolMaterials.ruby, 4, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
     public static final RegistryObject<SwordItem> RANDOM_SWORD = ITEMS.register("random_sword", () -> new EffectSwordItem(ToolMaterials.ruby, 3, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
     public static final RegistryObject<SwordItem> DISLOYAL_SWORD = ITEMS.register("disloyal_sword", () -> new AerialHellSwordItem(ToolMaterials.lunatic, 2, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
-    public static final RegistryObject<SwordItem> CURSED_SWORD = ITEMS.register("cursed_sword", () -> new AerialHellSwordItem(ToolMaterials.cursed, 1, -2.5F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
+    public static final RegistryObject<SwordItem> CURSED_SWORD = ITEMS.register("cursed_sword", () -> new AerialHellSwordItem(ToolMaterials.shadow, 1, -2.5F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
     public static final RegistryObject<SwordItem> ABSOLUTE_ZERO_SWORD = ITEMS.register("absolute_zero_sword", () -> new AerialHellSwordItem(ToolMaterials.lunatic, 2, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
     public static final RegistryObject<SwordItem> SWORD_OF_LIGHT = ITEMS.register("sword_of_light", () -> new EffectSwordItem(ToolMaterials.lunatic, 2, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
     public static final RegistryObject<SwordItem> ANTIDOTE_SWORD = ITEMS.register("antidote_sword", () -> new EffectSwordItem(ToolMaterials.ruby, 4, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
@@ -1266,7 +1269,12 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<ArmorItem> ARSONIST_LEGGINGS = ITEMS.register("arsonist_leggings", () -> new ArmorItem(ArmorMaterials.arsonist, EquipmentSlotType.LEGS, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_COMBAT).isImmuneToFire()));
     public static final RegistryObject<ArmorItem> ARSONIST_BOOTS = ITEMS.register("arsonist_boots", () -> new ArmorItem(ArmorMaterials.arsonist, EquipmentSlotType.FEET, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_COMBAT).isImmuneToFire()));
 
-    //effect totems
+	public static final RegistryObject<ArmorItem> SHADOW_HELMET = ITEMS.register("shadow_helmet", () -> new ArmorItem(ArmorMaterials.shadow, EquipmentSlotType.HEAD, (new Item.Properties()).rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
+	public static final RegistryObject<ArmorItem> SHADOW_CHESTPLATE = ITEMS.register("shadow_chestplate", () -> new AerialHellArmorItem(ArmorMaterials.shadow, EquipmentSlotType.CHEST, (new Item.Properties()).rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
+	public static final RegistryObject<ArmorItem> SHADOW_LEGGINGS = ITEMS.register("shadow_leggings", () -> new ArmorItem(ArmorMaterials.shadow, EquipmentSlotType.LEGS, (new Item.Properties()).rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
+	public static final RegistryObject<ArmorItem> SHADOW_BOOTS = ITEMS.register("shadow_boots", () -> new ArmorItem(ArmorMaterials.shadow, EquipmentSlotType.FEET, (new Item.Properties()).rarity(AerialHellRarities.CORRUPTED).group(AerialHellItemGroups.AERIAL_HELL_COMBAT)));
+
+	//effect totems
     public static final RegistryObject<Item> REGENERATION_TOTEM = ITEMS.register("regeneration_totem", () -> new EffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
     public static final RegistryObject<Item> SPEED_TOTEM = ITEMS.register("speed_totem", () -> new EffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.LEGENDARY).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));
     public static final RegistryObject<Item> SPEED_II_TOTEM = ITEMS.register("speed_ii_totem", () -> new EnchantedEffectTotemItem(new Item.Properties().maxStackSize(1).rarity(AerialHellRarities.MYTHICAL).group(AerialHellItemGroups.AERIAL_HELL_MISCELLANEOUS)));

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "aerialhell:cursed_crystal_block"
+    }
+  ],
+  "result": {
+    "item": "aerialhell:cursed_crystal",
+    "count": 9
+  }
+}

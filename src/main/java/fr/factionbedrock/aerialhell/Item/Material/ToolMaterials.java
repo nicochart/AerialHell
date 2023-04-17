@@ -14,121 +14,121 @@ public class ToolMaterials
 	public static final IItemTier sky_wood = new ToolMaterial
 	(
 		0, //Niveau de minage
-		59, //durabilitÈ
-		2.0F, //efficacitÈ
-		0.0F, //DÈgats d'attaque
-		15, //EnchantabilitÈ
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.STELLAR_COBBLESTONE_ITEM.get()) //IngrÈdient de rÈparation (Enclume)
+		59, //durabilit√©
+		2.0F, //efficacit√©
+		0.0F, //D√©gats d'attaque
+		15, //Enchantabilit√©
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.STELLAR_COBBLESTONE_ITEM.get()) //Ingr√©dient de r√©paration (Enclume)
 	);
 	
 	public static final IItemTier stellar_stone = new ToolMaterial
 	(
 		1, //Niveau de minage
-		131, //durabilitÈ
-		4.0F, //efficacitÈ
-		1.0F, //DÈgats d'attaque
-		5, //EnchantabilitÈ
-		() -> {return Ingredient.fromTag(AerialHellTags.Items.AERIALHELL_PLANKS);} //IngrÈdient de rÈparation (Enclume)
+		131, //durabilit√©
+		4.0F, //efficacit√©
+		1.0F, //D√©gats d'attaque
+		5, //Enchantabilit√©
+		() -> {return Ingredient.fromTag(AerialHellTags.Items.AERIALHELL_PLANKS);} //Ingr√©dient de r√©paration (Enclume)
 	);
 	
 	public static final IItemTier ruby = new ToolMaterial
 	(
 		2, //Niveau de minage
-		250, //durabilitÈ
-		6.0F, //efficacitÈ
-		2.0F, //DÈgats d'attaque
-		14, //EnchantabilitÈ
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.RUBY.get()) //IngrÈdient de rÈparation (Enclume)
+		250, //durabilit√©
+		6.0F, //efficacit√©
+		2.0F, //D√©gats d'attaque
+		14, //Enchantabilit√©
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.RUBY.get()) //Ingr√©dient de r√©paration (Enclume)
 	);
 	
 	public static final IItemTier azurite = new ToolMaterial
 	(
 		0, //Niveau de minage
-		110, //durabilitÈ
-		12.0F, //efficacitÈ
-		0.0F, //DÈgats d'attaque
-		22, //EnchantabilitÈ
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //IngrÈdient de rÈparation (Enclume)
+		110, //durabilit√©
+		12.0F, //efficacit√©
+		0.0F, //D√©gats d'attaque
+		22, //Enchantabilit√©
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //Ingr√©dient de r√©paration (Enclume)
 	);
 	
 	public static final IItemTier magmatic_gel = new ToolMaterial
 	(
 		0, //Niveau de minage
-		32, //durabilitÈ
-		12.0F, //efficacitÈ
-		0.0F, //DÈgats d'attaque
-		22, //EnchantabilitÈ
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.MAGMATIC_GEL.get()) //IngrÈdient de rÈparation (Enclume)
+		32, //durabilit√©
+		12.0F, //efficacit√©
+		0.0F, //D√©gats d'attaque
+		22, //Enchantabilit√©
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.MAGMATIC_GEL.get()) //Ingr√©dient de r√©paration (Enclume)
 	);
 	
 	public static final IItemTier obsidian = new ToolMaterial
 	(
 		3, //Niveau de minage
-		2031, //durabilitÈ
-		8.0F, //efficacitÈ
-		3.0F, //DÈgats d'attaque
-		10, //EnchantabilitÈ
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //IngrÈdient de rÈparation (Enclume)
+		2031, //durabilit√©
+		8.0F, //efficacit√©
+		3.0F, //D√©gats d'attaque
+		10, //Enchantabilit√©
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //Ingr√©dient de r√©paration (Enclume)
 	);
 	
-	public static final IItemTier cursed = new ToolMaterial
+	public static final IItemTier shadow = new ToolMaterial
 	(
 		3, //Niveau de minage
-		112, //durabilitÈ
-		8.0F, //efficacitÈ
-		3.0F, //DÈgats d'attaque
-		15, //EnchantabilitÈ
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //IngrÈdient de rÈparation (Enclume)
+		112, //durabilit√©
+		8.0F, //efficacit√©
+		3.0F, //D√©gats d'attaque
+		15, //Enchantabilit√©
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.CURSED_CRYSAL.get()) //Ingr√©dient de r√©paration (Enclume)
 	);
 	
 	public static final IItemTier volucite = new ToolMaterial
 	(
 		4, //Niveau de minage
-		1620, //durabilitÈ
-		8.5F, //efficacitÈ
-		4.5F, //DÈgats d'attaque
-		10, //EnchantabilitÈ
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.VOLUCITE_VIBRANT.get()) //IngrÈdient de rÈparation (Enclume)
+		1620, //durabilit√©
+		8.5F, //efficacit√©
+		4.5F, //D√©gats d'attaque
+		10, //Enchantabilit√©
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.VOLUCITE_VIBRANT.get()) //Ingr√©dient de r√©paration (Enclume)
 	);
 	
 	public static final IItemTier heavy = new ToolMaterial
 	(
 		3, //Niveau de minage
-		1561, //durabilitÈ
-		8.0F, //efficacitÈ
-		6.0F, //DÈgats d'attaque
-		10, //EnchantabilitÈ
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //IngrÈdient de rÈparation (Enclume)
+		1561, //durabilit√©
+		8.0F, //efficacit√©
+		6.0F, //D√©gats d'attaque
+		10, //Enchantabilit√©
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //Ingr√©dient de r√©paration (Enclume)
 	);
 	
 	public static final IItemTier lunatic = new ToolMaterial
 	(
 		4, //Niveau de minage
-		1712, //durabilitÈ
-		8.0F, //efficacitÈ
-		4.0F, //DÈgats d'attaque
-		15, //EnchantabilitÈ
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //IngrÈdient de rÈparation (Enclume)
+		1712, //durabilit√©
+		8.0F, //efficacit√©
+		4.0F, //D√©gats d'attaque
+		15, //Enchantabilit√©
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //Ingr√©dient de r√©paration (Enclume)
 	);
 	
 	public static final IItemTier breaker = new ToolMaterial
 	(
 		3, //Niveau de minage
-		742, //durabilitÈ
-		7.5F, //efficacitÈ
-		5.0F, //DÈgats d'attaque
-		10, //EnchantabilitÈ
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //IngrÈdient de rÈparation (Enclume)
+		742, //durabilit√©
+		7.5F, //efficacit√©
+		5.0F, //D√©gats d'attaque
+		10, //Enchantabilit√©
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //Ingr√©dient de r√©paration (Enclume)
 	);
 
 	public static final IItemTier arsonist = new ToolMaterial
 	(
 		4, //Niveau de minage
-		2031, //durabilitÈ
-		9.0F, //efficacitÈ
-		5.5F, //DÈgats d'attaque
-		15, //EnchantabilitÈ
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.ARSONIST_INGOT.get()) //IngrÈdient de rÈparation (Enclume)
+		2031, //durabilit√©
+		9.0F, //efficacit√©
+		5.5F, //D√©gats d'attaque
+		15, //Enchantabilit√©
+		() -> Ingredient.fromItems(AerialHellBlocksAndItems.ARSONIST_INGOT.get()) //Ingr√©dient de r√©paration (Enclume)
 	);
 	
 	private static class ToolMaterial implements IItemTier
