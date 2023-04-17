@@ -61,9 +61,7 @@ public class ShadowCatacombsStructure extends AbstractAerialHellStructure
             if (!(posBiome.getRegistryName().equals(AerialHellBiomes.SHADOW_PLAIN.getLocation()) || posBiome.getRegistryName().equals(AerialHellBiomes.SHADOW_FOREST.getLocation()))) {notShadowBiomeCount++;}
         }
 
-        if (notShadowBiomeCount > 1 || highGroundCount == 0) {return false;}
-
-        return true;
+        return notShadowBiomeCount <= 1 && highGroundCount != 0;
     }
 
     public static class Start extends AbstractAerialHellStructure.Start

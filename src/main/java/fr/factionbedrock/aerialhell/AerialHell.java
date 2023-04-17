@@ -101,7 +101,7 @@ public class AerialHell
     	if (isAerialHellClassicBiome)
     	{
     		/* structure */
-    		this.addAllDungeons(event);
+    		this.addClassicDungeons(event);
     		event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
         }
     	
@@ -122,15 +122,14 @@ public class AerialHell
     	else if (isAerialHellShadowBiome)
     	{
     		/* structure */
-    		this.addAllDungeons(event);
+			event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_MUD_DUNGEON_STRUCTURE);
 			event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_SHADOW_CATACOMBS_STRUCTURE);
     		event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
     	}
     }
     
-    private void addAllDungeons(BiomeLoadingEvent event)
+    private void addClassicDungeons(BiomeLoadingEvent event)
     {
-    	event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_MUD_DUNGEON_STRUCTURE);
 		event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_LUNATIC_TEMPLE_STRUCTURE);
 		event.getGeneration().getStructures().add(() -> AerialHellConfiguredFeatures.CONFIGURED_GOLDEN_NETHER_PRISON_STRUCTURE);
     }

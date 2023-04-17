@@ -7,6 +7,7 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Util.StructureHelper;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
@@ -54,6 +55,8 @@ public class MudDungeonStructure extends AbstractAerialHellStructure
         
         int landHeight = chunkGenerator.getHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
         if (landHeight < 85) {return false;}
+
+        if (StructureHelper.hasShadowCatacombsNearby(chunkGenerator, seed, chunkRandom, chunkX, chunkZ, 3, true)) {return false;}
         
         IBlockReader columnOfBlocks = chunkGenerator.func_230348_a_(centerOfChunk.getX(), centerOfChunk.getZ());
         return !columnOfBlocks.getBlockState(centerOfChunk.up(65)).equals(Blocks.AIR.getDefaultState()) && !columnOfBlocks.getBlockState(centerOfChunk.up(85)).equals(Blocks.AIR.getDefaultState());
