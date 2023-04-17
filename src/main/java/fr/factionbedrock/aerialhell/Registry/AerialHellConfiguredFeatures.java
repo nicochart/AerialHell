@@ -262,8 +262,8 @@ public class AerialHellConfiguredFeatures
     public final static ConfiguredFeature<?, ?> GIANT_CRYSTAL_BLOB = AerialHellFeatures.GIANT_CRYSTAL_BLOB.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     
     /*
-    .range(n) : la feature peut appara�tre de y=0 � n
-    .square() : met de l'al�atoire dans le positionnement de la feature, sinon elles sont plac�s sur une grille (tous allign�s)
+    .range(n) : la feature peut apparaître de y=0 à n
+    .square() : met de l'aléatoire dans le positionnement de la feature, sinon elles sont placés sur une grille (tous allignés)
     
     .withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT) = placement basique
     .range(256).square().func_242731_b(1) = semble similaire au placement basique
@@ -275,13 +275,6 @@ public class AerialHellConfiguredFeatures
         Registry<StructureFeature<?, ?>> STregistry = WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE;
         Registry<ConfiguredFeature<?, ?>> CFregistry = WorldGenRegistries.CONFIGURED_FEATURE;
         Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_overworld_abandonned_portal_structure"), CONFIGURED_OVERWORLD_ABANDONNED_PORTAL_STRUCTURE);
-        Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_mud_dungeon_structure"), CONFIGURED_MUD_DUNGEON_STRUCTURE);
-        Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_lunatic_temple_structure"), CONFIGURED_LUNATIC_TEMPLE_STRUCTURE);
-        Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_golden_nether_prison_structure"), CONFIGURED_GOLDEN_NETHER_PRISON_STRUCTURE);
-        Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_shadow_catacombs_structure"), CONFIGURED_SHADOW_CATACOMBS_STRUCTURE);
-        Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_stellar_stone_bricks_tower_structure"), CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
-        Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_copper_pine_cottage_structure"), CONFIGURED_COPPER_PINE_COTTAGE_STRUCTURE);
-        Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_slippery_sand_ocean_abandonned_structure"), CONFIGURED_SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE);
         
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "stellar_portal_frame_ore"), GenAerialHellOres.STELLAR_PORTAL_FRAME_ORE);
         Registry.register(CFregistry, new ResourceLocation(AerialHell.MODID, "iron_stellar_ore"), GenAerialHellOres.IRON_STELLAR_ORE);
