@@ -66,7 +66,10 @@
     []
   ],
   "starts": [
-
+      "aerialhell:mud_dungeon",
+      "aerialhell:lunatic_temple",
+      "aerialhell:golden_nether_prison",
+      "aerialhell:slippery_sand_ocean_abandonned_structure"
   ],
   "spawners": {
     "monster": [
