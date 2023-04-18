@@ -58,14 +58,8 @@ public class ShadowCatacombsStructure extends AbstractAerialHellStructure
             landHeight = chunkGenerator.getHeight(pos.getX(), pos.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
             Biome posBiome = biomeSource.getNoiseBiome(pos.getX(), pos.getY(), pos.getZ());
             if (landHeight > 80) {highGroundCount++;}
-            if (!FeatureHelper.isShadowBiome(posBiome))
-            {
-                notShadowBiomeCount++;
-                System.out.println("not shadow biome detected at pos "+pos.getX()+" "+pos.getY()+" "+pos.getZ());
-            }
+            if (!FeatureHelper.isShadowBiome(posBiome)) {notShadowBiomeCount++;}
         }
-
-        System.out.println("["+centerOfChunk.getX()+" "+centerOfChunk.getY()+" "+centerOfChunk.getZ()+"] notShadowBiomeCount = "+notShadowBiomeCount+", return = "+(notShadowBiomeCount <= 1));
         return notShadowBiomeCount <= 1 && highGroundCount != 0;
     }
 
