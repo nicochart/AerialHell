@@ -106,7 +106,7 @@ public class AerialHellWallTorchBlock extends AerialHellTorchBlock
       	}
 		else if (this == AerialHellBlocksAndItems.SHADOW_WALL_TORCH.get() && rand.nextInt(5) == 0)
 		{
-			worldIn.addParticle(AerialHellParticleTypes.SHADOW_PARTICLE.get(), d0 + 0.5 * (rand.nextFloat() - 0.5), d1 - 0.2 * rand.nextFloat(), d2 + 0.5 * (rand.nextFloat() - 0.5), rand.nextFloat() - 0.5, -0.1, rand.nextFloat() - 0.5);
+			worldIn.addParticle(AerialHellParticleTypes.SHADOW_LIGHT.get(), d0 + 0.5 * (rand.nextFloat() - 0.5), d1 - 0.2 * rand.nextFloat(), d2 + 0.5 * (rand.nextFloat() - 0.5), rand.nextFloat() - 0.5, 0.1, rand.nextFloat() - 0.5);
 		}
 	}
 

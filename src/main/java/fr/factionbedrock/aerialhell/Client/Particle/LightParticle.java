@@ -10,9 +10,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LunaticParticle extends PortalParticle
+public class LightParticle extends PortalParticle
 {
-	protected LunaticParticle(ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
+	protected LightParticle(ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
 	{
 		super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
 		this.particleRed = this.particleBlue = this.particleGreen = 1.0F;
@@ -20,11 +20,7 @@ public class LunaticParticle extends PortalParticle
 		this.particleScale *= 1.5F;
 	}
 	
-	@Override
-	public int getBrightnessForRender(float partialTick)
-	{
-		return 255;
-	}
+	@Override public int getBrightnessForRender(float partialTick) {return 255;}
 	
 	@OnlyIn(Dist.CLIENT)
 	public static class Factory implements IParticleFactory<BasicParticleType>
@@ -39,9 +35,9 @@ public class LunaticParticle extends PortalParticle
 		@Override
 		public Particle makeParticle(BasicParticleType typeIn, ClientWorld worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed)
 		{
-			 LunaticParticle aerialHellPortalparticle = new LunaticParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
-	         aerialHellPortalparticle.selectSpriteRandomly(this.spriteSet);
-	         return aerialHellPortalparticle;
+			 LightParticle particle = new LightParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
+	         particle.selectSpriteRandomly(this.spriteSet);
+	         return particle;
 		}
 	}
 }

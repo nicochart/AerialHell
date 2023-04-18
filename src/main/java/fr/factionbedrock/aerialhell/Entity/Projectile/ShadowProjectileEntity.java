@@ -35,8 +35,8 @@ public class ShadowProjectileEntity extends AbstractLightProjectileEntity
         }
     }
 
-    @Override protected BasicParticleType getImpactParticle() {return AerialHellParticleTypes.SHADOW_TROLL_BAT.get();}
-    @Override protected BasicParticleType getFlyParticle() {return AerialHellParticleTypes.SHADOW_PARTICLE.get();}
+    @Override protected BasicParticleType getImpactParticle() {return AerialHellParticleTypes.SHADOW_PARTICLE.get();}
+    @Override protected BasicParticleType getFlyParticle() {return AerialHellParticleTypes.SHADOW_LIGHT.get();}
     @Override protected SoundEvent getShootSound() {return AerialHellSoundEvents.ENTITY_SHADOW_PROJECTILE_SHOOT.get();}
     @Override protected void playDisappearSound(float volume, float pitch) {}
 }

@@ -39,8 +39,7 @@ public class ShadowAutomatonEntity extends AutomatonEntity
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.23D);
     }
 
-    @Override
-    protected void registerGoals()
+    @Override protected void registerGoals()
     {
         List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocksAndItems.VOLUCITE_TORCH.get(), AerialHellBlocksAndItems.VOLUCITE_WALL_TORCH.get());
         this.goalSelector.addGoal(0, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
@@ -52,8 +51,13 @@ public class ShadowAutomatonEntity extends AutomatonEntity
         this.targetSelector.addGoal(2, new ShadowAutomatonNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
     }
 
-    @Override
-    public boolean attackEntityAsMob(Entity attackedEntity)
+    @Override public void tick()
+    {
+        super.tick();
+        if (rand.nextFloat() > 0.95) {EntityHelper.addBatParticle(this, this.rand, 1);}
+    }
+
+    @Override public boolean attackEntityAsMob(Entity attackedEntity)
     {
         if (super.attackEntityAsMob(attackedEntity))
         {

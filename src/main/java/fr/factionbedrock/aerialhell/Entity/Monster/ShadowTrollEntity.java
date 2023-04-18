@@ -95,27 +95,18 @@ public class ShadowTrollEntity extends MonsterEntity
     	else {return false;}
     }
     
-    @Override
-    public void tick()
+    @Override public void tick()
     {
     	super.tick();
-    	if (rand.nextFloat() > 0.95) {this.addBatParticle(1);}
+    	if (rand.nextFloat() > 0.95) {EntityHelper.addBatParticle(this, this.rand, 1);}
     	
     	if (this.isDisappearing())
     	{    		
-    		if (this.timeDisappearing < 95) {this.addBatParticle(1);}
-    		else if (this.timeDisappearing < 100) {this.addBatParticle(10);}
+    		if (this.timeDisappearing < 95) {EntityHelper.addBatParticle(this, this.rand, 1);}
+    		else if (this.timeDisappearing < 100) {EntityHelper.addBatParticle(this, this.rand, 10);}
     		else {this.remove();}
     		this.timeDisappearing++;
     	}
-    }
-
-    private void addBatParticle(int number)
-    {
-    	for (int i=0; i<number; i++)
-		{
-			this.world.addParticle(AerialHellParticleTypes.SHADOW_TROLL_BAT.get(), this.getPosX() + rand.nextFloat() - 0.5, this.getPosY() + 2 * rand.nextFloat(), this.getPosZ() + rand.nextFloat() - 0.5, 2 * (rand.nextFloat()) - 0.5, -0.3D, 2 * (rand.nextFloat() - 0.5));
-		}
     }
     
     @Override public void livingTick()

@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Util;
 
+import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
@@ -18,6 +19,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.entity.monster.SilverfishEntity;
 import net.minecraft.item.ItemStack;
+
+import java.util.Random;
 
 public class EntityHelper
 {
@@ -71,5 +74,13 @@ public class EntityHelper
             if (EnchantmentHelper.getEnchantmentLevel(AerialHellEnchantments.SOLID_ETHER_WALKER.get(), equipmentItem) > 0) {return true;}
         }
         return false;
+    }
+
+    public static void addBatParticle(LivingEntity entity, Random rand, int number)
+    {
+        for (int i=0; i<number; i++)
+        {
+            entity.world.addParticle(AerialHellParticleTypes.SHADOW_TROLL_BAT.get(), entity.getPosX() + rand.nextFloat() - 0.5, entity.getPosY() + 2 * rand.nextFloat(), entity.getPosZ() + rand.nextFloat() - 0.5, 2 * (rand.nextFloat()) - 0.5, -0.3D, 2 * (rand.nextFloat() - 0.5));
+        }
     }
 }

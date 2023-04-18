@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Client.Registry;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Particle.AerialHellPortalParticle;
 import fr.factionbedrock.aerialhell.Client.Particle.CopperPineLeavesParticle;
-import fr.factionbedrock.aerialhell.Client.Particle.LunaticParticle;
+import fr.factionbedrock.aerialhell.Client.Particle.LightParticle;
 import fr.factionbedrock.aerialhell.Client.Particle.ShadowParticle;
 import fr.factionbedrock.aerialhell.Client.Particle.SnowFlakeParticle;
 import fr.factionbedrock.aerialhell.Client.Particle.OscillatorParticle;
@@ -35,6 +35,7 @@ public class AerialHellParticleTypes
 	public static final RegistryObject<BasicParticleType> GOD_FLAME = PARTICLES.register("god_flame", () -> new BasicParticleType(false));
 	public static final RegistryObject<BasicParticleType> SHADOW_TROLL_BAT = PARTICLES.register("shadow_troll_bat", () -> new BasicParticleType(false));
 	public static final RegistryObject<BasicParticleType> SHADOW_PARTICLE = PARTICLES.register("shadow_particle", () -> new BasicParticleType(false));
+	public static final RegistryObject<BasicParticleType> SHADOW_LIGHT = PARTICLES.register("shadow_light", () -> new BasicParticleType(false));
 	public static final RegistryObject<BasicParticleType> FAT_PHANTOM_SMOKE = PARTICLES.register("fat_phantom_smoke", () -> new BasicParticleType(false));
 	
 	@SubscribeEvent
@@ -44,13 +45,14 @@ public class AerialHellParticleTypes
 		ParticleManager particleManager = Minecraft.getInstance().particles;
 
 		particleManager.registerFactory(AERIAL_HELL_PORTAL.get(), AerialHellPortalParticle.Factory::new);
-		particleManager.registerFactory(LUNATIC_PARTICLE.get(), LunaticParticle.Factory::new);
+		particleManager.registerFactory(LUNATIC_PARTICLE.get(), LightParticle.Factory::new);
 		particleManager.registerFactory(COPPER_PINE_LEAVES.get(), CopperPineLeavesParticle.Factory::new);
 		particleManager.registerFactory(OSCILLATOR.get(), OscillatorParticle.Factory::new);
 		particleManager.registerFactory(SNOWFLAKE.get(), SnowFlakeParticle.Factory::new);
 		particleManager.registerFactory(GOD_FLAME.get(), FlameParticle.Factory::new);
 		particleManager.registerFactory(SHADOW_TROLL_BAT.get(), ShadowParticle.Factory::new);
 		particleManager.registerFactory(SHADOW_PARTICLE.get(), ShadowParticle.Factory::new);
+		particleManager.registerFactory(SHADOW_LIGHT.get(), LightParticle.Factory::new);
 		particleManager.registerFactory(FAT_PHANTOM_SMOKE.get(), CampfireParticle.CozySmokeFactory::new);
 	}
 }
