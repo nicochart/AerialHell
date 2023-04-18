@@ -11,6 +11,7 @@ import net.minecraft.world.biome.BiomeGenerationSettings;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilders;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -22,56 +23,50 @@ public class AerialHellBiomes
 	public static final DeferredRegister<Biome> BIOMES = DeferredRegister.create(ForgeRegistries.BIOMES, AerialHell.MODID);
 	
 	//Biome de base
-	public static final RegistryKey<Biome> AERIAL_HELL_PLAINS = register("aerial_hell_plains");
+	public static final RegistryObject<Biome> AERIAL_HELL_PLAINS = BIOMES.register("aerial_hell_plains", AerialHellBiomes::makeAerialHellBiome);
+	//Forêt d'arbres aériens
+	public static final RegistryObject<Biome> AERIAL_TREE_FOREST = BIOMES.register("aerial_tree_forest", AerialHellBiomes::makeAerialHellBiome);
 	//Océan de slippery sand
-    public static final RegistryKey<Biome> SLIPPERY_SAND_OCEAN = register("slippery_sand_ocean");
-    //Forêt d'arbres aériens
-    public static final RegistryKey<Biome> AERIAL_TREE_FOREST = register("aerial_tree_forest");
-    //Forêt de sapins cuivrés
-    public static final RegistryKey<Biome> COPPER_PINE_FOREST = register("copper_pine_forest");
-    //Plaine de Crystal
-  	public static final RegistryKey<Biome> CRYSTAL_PLAINS = register("crystal_plains");
-    //Plaine de Crystal
-  	public static final RegistryKey<Biome> CRYSTAL_FOREST = register("crystal_forest");
-    //Savane de Robinier de Lapis
-  	public static final RegistryKey<Biome> LAPIS_ROBINIA_SAVANA = register("lapis_robinia_savana");
-  	//Plaine des Ombres
-  	public static final RegistryKey<Biome> SHADOW_PLAIN = register("shadow_plain");
-  	//Forêt des Ombres
-  	public static final RegistryKey<Biome> SHADOW_FOREST = register("shadow_forest");
-  	//Forêt de Cortinaire Violet
-  	public static final RegistryKey<Biome> CORTINARIUS_VIOLACEUS_FOREST = register("cortinarius_violaceus_forest");
-  	//Forêt de Strophaire Vert-de-Gris
-  	public static final RegistryKey<Biome> VERDIGRIS_AGARIC_FOREST = register("verdigris_agaric_forest");
-  	//Forêt de Champignon Rouge
-  	public static final RegistryKey<Biome> GIANT_RED_MUSHROOM_FOREST = register("giant_red_mushroom_forest");
+	public static final RegistryObject<Biome> SLIPPERY_SAND_OCEAN = BIOMES.register("slippery_sand_ocean", AerialHellBiomes::makeAerialHellBiome);
+	//Forêt de sapins cuivrés
+	public static final RegistryObject<Biome> COPPER_PINE_FOREST = BIOMES.register("copper_pine_forest", AerialHellBiomes::makeAerialHellBiome);
+	//Plaine de Crystal
+	public static final RegistryObject<Biome> CRYSTAL_PLAINS = BIOMES.register("crystal_plains", AerialHellBiomes::makeAerialHellBiome);
+	//Forêt de Crystal
+	public static final RegistryObject<Biome> CRYSTAL_FOREST = BIOMES.register("crystal_forest", AerialHellBiomes::makeAerialHellBiome);
+	//Savane de Robinier de Lapis
+	public static final RegistryObject<Biome> LAPIS_ROBINIA_SAVANA = BIOMES.register("lapis_robinia_savana", AerialHellBiomes::makeAerialHellBiome);
+	//Plaine des Ombres
+	public static final RegistryObject<Biome> SHADOW_PLAIN = BIOMES.register("shadow_plain", AerialHellBiomes::makeAerialHellBiome);
+	//Forêt des Ombres
+	public static final RegistryObject<Biome> SHADOW_FOREST = BIOMES.register("shadow_forest", AerialHellBiomes::makeAerialHellBiome);
+	//Forêt de Cortinaire Violet
+	public static final RegistryObject<Biome> CORTINARIUS_VIOLACEUS_FOREST = BIOMES.register("cortinarius_violaceus_forest", AerialHellBiomes::makeAerialHellBiome);
+	//Forêt de Strophaire Vert-de-Gris
+	public static final RegistryObject<Biome> VERDIGRIS_AGARIC_FOREST = BIOMES.register("verdigris_agaric_forest", AerialHellBiomes::makeAerialHellBiome);
+	//Forêt de Champignon Rouge
+	public static final RegistryObject<Biome> GIANT_RED_MUSHROOM_FOREST = BIOMES.register("giant_red_mushroom_forest", AerialHellBiomes::makeAerialHellBiome);
     
     public static void toDictionary()
     {
-        BiomeDictionary.addTypes(AERIAL_HELL_PLAINS, BiomeDictionary.Type.HOT, BiomeDictionary.Type.PLAINS);
-        BiomeDictionary.addTypes(SLIPPERY_SAND_OCEAN, BiomeDictionary.Type.HOT, BiomeDictionary.Type.DRY);
-        BiomeDictionary.addTypes(AERIAL_TREE_FOREST, BiomeDictionary.Type.HOT, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.WET, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.FOREST);
-        BiomeDictionary.addTypes(COPPER_PINE_FOREST, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.WET, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.FOREST);
-        BiomeDictionary.addTypes(CRYSTAL_PLAINS, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.PLAINS);
-        BiomeDictionary.addTypes(CRYSTAL_FOREST, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.DENSE);
-        BiomeDictionary.addTypes(AERIAL_HELL_PLAINS, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SAVANNA);
-        BiomeDictionary.addTypes(SHADOW_PLAIN, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.SPOOKY);
-        BiomeDictionary.addTypes(SHADOW_FOREST, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.SPOOKY, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.FOREST);
-        BiomeDictionary.addTypes(CORTINARIUS_VIOLACEUS_FOREST, BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.LUSH);
-        BiomeDictionary.addTypes(VERDIGRIS_AGARIC_FOREST, BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.LUSH);
-        BiomeDictionary.addTypes(GIANT_RED_MUSHROOM_FOREST, BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.LUSH);
-    }    
-	
-	private static ResourceLocation name(String name)
-	{
-        return new ResourceLocation(AerialHell.MODID, name);
+        BiomeDictionary.addTypes(getBiomeKey(AERIAL_HELL_PLAINS.get()), BiomeDictionary.Type.HOT, BiomeDictionary.Type.PLAINS);
+        BiomeDictionary.addTypes(getBiomeKey(SLIPPERY_SAND_OCEAN.get()), BiomeDictionary.Type.HOT, BiomeDictionary.Type.DRY);
+        BiomeDictionary.addTypes(getBiomeKey(AERIAL_TREE_FOREST.get()), BiomeDictionary.Type.HOT, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.WET, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.FOREST);
+        BiomeDictionary.addTypes(getBiomeKey(COPPER_PINE_FOREST.get()), BiomeDictionary.Type.DENSE, BiomeDictionary.Type.WET, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.FOREST);
+        BiomeDictionary.addTypes(getBiomeKey(CRYSTAL_PLAINS.get()), BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.PLAINS);
+        BiomeDictionary.addTypes(getBiomeKey(CRYSTAL_FOREST.get()), BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.DENSE);
+        BiomeDictionary.addTypes(getBiomeKey(LAPIS_ROBINIA_SAVANA.get()), BiomeDictionary.Type.HOT, BiomeDictionary.Type.SAVANNA);
+        BiomeDictionary.addTypes(getBiomeKey(SHADOW_PLAIN.get()), BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.SPOOKY);
+        BiomeDictionary.addTypes(getBiomeKey(SHADOW_FOREST.get()), BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.SPOOKY, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.FOREST);
+        BiomeDictionary.addTypes(getBiomeKey(CORTINARIUS_VIOLACEUS_FOREST.get()), BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.LUSH);
+        BiomeDictionary.addTypes(getBiomeKey(VERDIGRIS_AGARIC_FOREST.get()), BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.LUSH);
+        BiomeDictionary.addTypes(getBiomeKey(GIANT_RED_MUSHROOM_FOREST.get()), BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.LUSH);
     }
 
-	private static RegistryKey<Biome> register(String name)
-    {
-    	BIOMES.register(name, AerialHellBiomes::makeAerialHellBiome);
-        return RegistryKey.getOrCreateKey(Registry.BIOME_KEY, name(name));
-    }
+	private static RegistryKey<Biome> getBiomeKey(Biome biome)
+	{
+		return RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biome.getRegistryName());
+	}
     
     public static Biome makeAerialHellBiome()
     {

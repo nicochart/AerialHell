@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBiomes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class ShadowCatacombsStructure extends AbstractAerialHellStructure
 {
-	private static final List<MobSpawnInfo.Spawners> monstersSpawnList = ImmutableList.of(new MobSpawnInfo.Spawners(AerialHellEntities.SHADOW_TROLL.get(), 2, 5, 5), new MobSpawnInfo.Spawners(AerialHellEntities.SHADOW_SPIDER.get(), 2, 5, 5));
+	private static final List<MobSpawnInfo.Spawners> monstersSpawnList = ImmutableList.of(new MobSpawnInfo.Spawners(AerialHellEntities.SHADOW_TROLL.get(), 2, 1, 3), new MobSpawnInfo.Spawners(AerialHellEntities.SHADOW_AUTOMATON.get(), 2, 5, 5), new MobSpawnInfo.Spawners(AerialHellEntities.SHADOW_SPIDER.get(), 2, 5, 5));
 	private static final List<MobSpawnInfo.Spawners> creaturesSpawnList = ImmutableList.of();
 
     public ShadowCatacombsStructure(Codec<NoFeatureConfig> codec)
@@ -47,20 +48,24 @@ public class ShadowCatacombsStructure extends AbstractAerialHellStructure
     {
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 80, chunkZ * 16);
 
-        int landHeight = chunkGenerator.getHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
+        int landHeight, checkDistance=40;
         int notShadowBiomeCount = 0;
         int highGroundCount = 0;
 
-        if (landHeight > 80) {highGroundCount++;}
-        List<BlockPos> checkShadowBiomePos = ImmutableList.of(centerOfChunk.north(20), centerOfChunk.south(20), centerOfChunk.east(20), centerOfChunk.west(20));
-        for (BlockPos pos : checkShadowBiomePos)
+        List<BlockPos> posToCheck = ImmutableList.of(centerOfChunk, centerOfChunk.north(checkDistance), centerOfChunk.south(checkDistance), centerOfChunk.east(checkDistance), centerOfChunk.west(checkDistance));
+        for (BlockPos pos : posToCheck)
         {
             landHeight = chunkGenerator.getHeight(pos.getX(), pos.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
             Biome posBiome = biomeSource.getNoiseBiome(pos.getX(), pos.getY(), pos.getZ());
             if (landHeight > 80) {highGroundCount++;}
-            if (!(posBiome.getRegistryName().equals(AerialHellBiomes.SHADOW_PLAIN.getLocation()) || posBiome.getRegistryName().equals(AerialHellBiomes.SHADOW_FOREST.getLocation()))) {notShadowBiomeCount++;}
+            if (!FeatureHelper.isShadowBiome(posBiome))
+            {
+                notShadowBiomeCount++;
+                System.out.println("not shadow biome detected at pos "+pos.getX()+" "+pos.getY()+" "+pos.getZ());
+            }
         }
 
+        System.out.println("["+centerOfChunk.getX()+" "+centerOfChunk.getY()+" "+centerOfChunk.getZ()+"] notShadowBiomeCount = "+notShadowBiomeCount+", return = "+(notShadowBiomeCount <= 1));
         return notShadowBiomeCount <= 1 && highGroundCount != 0;
     }
 
