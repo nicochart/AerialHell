@@ -24,6 +24,8 @@ public class FeatureHelper
     {
         ResourceLocation shadowPlain = AerialHellBiomes.SHADOW_PLAIN.get().getRegistryName();
         ResourceLocation shadowForest = AerialHellBiomes.SHADOW_FOREST.get().getRegistryName();
+        // Used to test getNoiseBiome() method in isFeatureChunk structure gen condition. This method doesn't return the right biome : do not use isShadowBiome(Biome biome) in isFeatureChunk context.
+        // if (!(biome.getRegistryName() != null && (biome.getRegistryName().equals(shadowPlain) || biome.getRegistryName().equals(shadowForest)))) {System.out.println("not shadow biome detected : registry name =  "+biome.getRegistryName());}
         return biome.getRegistryName() != null && (biome.getRegistryName().equals(shadowPlain) || biome.getRegistryName().equals(shadowForest));
     }
 }

@@ -46,10 +46,11 @@ public class LunaticTempleStructure extends AbstractAerialHellStructure
         return LunaticTempleStructure.Start::new;
     }
 
-    @Override protected boolean func_230363_a_(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) //isFeatureChunk (check if can spawn)
+    /*@Override protected boolean func_230363_a_(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) //isFeatureChunk (check if can spawn)
     {
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 140, chunkZ * 16);
 
+        // biomeSource.getNoiseBiome(x,y,z) doesn't return the right biome. Do not use this method for biome check.
         List<BlockPos> checkShadowBiomePos = ImmutableList.of(centerOfChunk.north(20), centerOfChunk.south(20), centerOfChunk.east(20), centerOfChunk.west(20));
         for (BlockPos pos : checkShadowBiomePos)
         {
@@ -57,7 +58,7 @@ public class LunaticTempleStructure extends AbstractAerialHellStructure
             if (FeatureHelper.isShadowBiome(posBiome)) {return false;}
         }
         return true;
-    }
+    }*/
 
     public static class Start extends AbstractAerialHellStructure.Start
     {

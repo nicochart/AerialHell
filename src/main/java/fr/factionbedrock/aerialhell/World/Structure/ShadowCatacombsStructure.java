@@ -48,19 +48,19 @@ public class ShadowCatacombsStructure extends AbstractAerialHellStructure
     {
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 80, chunkZ * 16);
 
-        int landHeight, checkDistance=40;
-        int notShadowBiomeCount = 0;
+        int landHeight, checkDistance=30;
+        //int notShadowBiomeCount = 0;
         int highGroundCount = 0;
 
         List<BlockPos> posToCheck = ImmutableList.of(centerOfChunk, centerOfChunk.north(checkDistance), centerOfChunk.south(checkDistance), centerOfChunk.east(checkDistance), centerOfChunk.west(checkDistance));
         for (BlockPos pos : posToCheck)
         {
             landHeight = chunkGenerator.getHeight(pos.getX(), pos.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
-            Biome posBiome = biomeSource.getNoiseBiome(pos.getX(), pos.getY(), pos.getZ());
+            /* biomeSource.getNoiseBiome(x,y,z) doesn't return the right biome. Do not use this method for biome check.Biome posBiome = biomeSource.getNoiseBiome(pos.getX(), pos.getY(), pos.getZ());
+            if (!FeatureHelper.isShadowBiome(posBiome)) {notShadowBiomeCount++;}*/
             if (landHeight > 80) {highGroundCount++;}
-            if (!FeatureHelper.isShadowBiome(posBiome)) {notShadowBiomeCount++;}
         }
-        return notShadowBiomeCount <= 1 && highGroundCount != 0;
+        return /*notShadowBiomeCount <= 1 &&*/ highGroundCount > 3;
     }
 
     public static class Start extends AbstractAerialHellStructure.Start
