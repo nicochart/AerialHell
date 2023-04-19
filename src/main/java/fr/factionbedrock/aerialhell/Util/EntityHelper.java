@@ -12,6 +12,7 @@ import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEnchantments;
 import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
+import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.FlyingEntity;
@@ -27,6 +28,8 @@ public class EntityHelper
     public static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.isPotionActive(AerialHellPotionEffects.SHADOW_IMMUNITY.get());}
 
     public static boolean isLivingEntityVulnerable(LivingEntity entity) {return entity.isPotionActive(AerialHellPotionEffects.VULNERABILITY.get());}
+
+    public static boolean isLivingEntityATraitor(LivingEntity entity) {return entity.isPotionActive(AerialHellPotionEffects.TRAITOR.get());}
 
     public static boolean isImmuneToSomeShadowDamage(Entity entity)
     {
@@ -82,5 +85,15 @@ public class EntityHelper
         {
             entity.world.addParticle(AerialHellParticleTypes.SHADOW_TROLL_BAT.get(), entity.getPosX() + rand.nextFloat() - 0.5, entity.getPosY() + 2 * rand.nextFloat(), entity.getPosZ() + rand.nextFloat() - 0.5, 2 * (rand.nextFloat()) - 0.5, -0.3D, 2 * (rand.nextFloat() - 0.5));
         }
+    }
+
+    public static boolean isLivingEntityMisleadingLunar(LivingEntity entity)
+    {
+        return ItemHelper.getItemInTagCount(entity.getArmorInventoryList(), AerialHellTags.Items.LUNATIC_STUFF) >= 4 && !isLivingEntityATraitor(entity);
+    }
+
+    public static boolean isLivingEntityMisleadingShadow(LivingEntity entity)
+    {
+        return ItemHelper.getItemInTagCount(entity.getArmorInventoryList(), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !isLivingEntityATraitor(entity);
     }
 }

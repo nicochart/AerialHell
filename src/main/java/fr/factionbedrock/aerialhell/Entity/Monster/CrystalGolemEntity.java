@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.*;
@@ -125,7 +126,7 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
         public CrystalGolemNearestAttackableTargetGoal(AbstractActivableEntity entityIn, Class<T> targetClassIn, boolean checkSight) {super(entityIn, targetClassIn, checkSight);}
         @Override public boolean isPlayerMisleadingGoalOwner(PlayerEntity player)
         {
-            return ItemHelper.getItemInTagCount(player.getArmorInventoryList(), AerialHellTags.Items.LUNATIC_STUFF) >= 4;
+            return EntityHelper.isLivingEntityMisleadingLunar(player);
         }
     }
 

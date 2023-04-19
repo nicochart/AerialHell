@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.CrystalGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowAutomatonEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
@@ -82,6 +83,7 @@ public class ToolsAndArmorEventListener
 			{
 				Item mainHandItem = ((PlayerEntity) source).getHeldItemMainhand().getItem();
 				applyEffectsBasedOnSourceHandEquippedItem(event, mainHandItem, source, target);
+				applyTraitorEffectIfNecessary((PlayerEntity)source, target);
 			}
 			else
 			{
@@ -250,6 +252,19 @@ public class ToolsAndArmorEventListener
 		else if (sourceEquippedItem == AerialHellBlocksAndItems.NETHERIAN_KING_SWORD.get() && source.getEntityWorld().getDimensionKey() == World.THE_NETHER)
 		{
 			event.setAmount(amount * 2.0F);
+		}
+	}
+
+	public static void applyTraitorEffectIfNecessary(PlayerEntity source, LivingEntity target)
+	{
+		if (source.isCreative()) {return;}
+		if ((target instanceof CrystalGolemEntity || target instanceof LunaticPriestEntity) && EntityHelper.isLivingEntityMisleadingLunar(source))
+		{
+			source.addPotionEffect(new EffectInstance(AerialHellPotionEffects.TRAITOR.get(), 12000, 0));
+		}
+		else if ((target instanceof ShadowAutomatonEntity || target instanceof LilithEntity) && EntityHelper.isLivingEntityMisleadingShadow(source))
+		{
+			source.addPotionEffect(new EffectInstance(AerialHellPotionEffects.TRAITOR.get(), 12000, 0));
 		}
 	}
 }

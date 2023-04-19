@@ -75,7 +75,7 @@ public class ShadowAutomatonEntity extends AutomatonEntity
         public ShadowAutomatonNearestAttackableTargetGoal(MobEntity entityIn, Class<T> targetClassIn, boolean checkSight) {super(entityIn, targetClassIn, checkSight);}
         @Override public boolean isPlayerMisleadingGoalOwner(PlayerEntity player)
         {
-            return ItemHelper.getItemInTagCount(player.getArmorInventoryList(), AerialHellTags.Items.SHADOW_ARMOR) >= 4;
+            return EntityHelper.isLivingEntityMisleadingShadow(player);
         }
     }
 

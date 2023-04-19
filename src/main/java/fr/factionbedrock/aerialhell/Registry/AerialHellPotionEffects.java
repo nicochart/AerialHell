@@ -21,4 +21,5 @@ public class AerialHellPotionEffects
     public static final RegistryObject<Effect> GOD = EFFECTS.register("god", () -> (new GodEffect(EffectType.BENEFICIAL, 9740385)).addAttributesModifier(Attributes.ATTACK_SPEED, "AF8B6E3F-3328-4C0A-AA36-5BA2BB9DBEF3", (double)0.1F, AttributeModifier.Operation.MULTIPLY_TOTAL).addAttributesModifier(Attributes.ATTACK_SPEED, "AF8B6E3F-3328-4C0A-AA36-5BA2BB9DBEF3", (double)0.1F, AttributeModifier.Operation.MULTIPLY_TOTAL));
     public static final RegistryObject<Effect> SHADOW_IMMUNITY = EFFECTS.register("shadow_immunity", () -> (new AerialHellEffect(EffectType.BENEFICIAL, 9740385)));
     public static final RegistryObject<Effect> VULNERABILITY = EFFECTS.register("vulnerability", () -> (new VulnerabilityEffect(EffectType.HARMFUL, 6501508)));
+    public static final RegistryObject<Effect> TRAITOR = EFFECTS.register("traitor", () -> (new AerialHellEffect(EffectType.HARMFUL, 6501508)));
 }
