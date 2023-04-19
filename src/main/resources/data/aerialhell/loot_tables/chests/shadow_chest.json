@@ -1,12 +1,17 @@
 {
   "pools": [
     {
-      "rolls": 1,
+      "rolls": 2,
       "entries": [
 	{
           "type": "item",
+          "name": "aerialhell:cursed_crystal",
+          "weight": 1
+        },
+        {
+          "type": "item",
           "name": "aerialhell:shadow_torch",
-          "weight": 1,
+          "weight": 3,
           "functions": [
             {
               "function": "set_count",
@@ -20,7 +25,7 @@
 	{
           "type": "item",
           "name": "aerialhell:mud_bone",
-          "weight": 1,
+          "weight": 3,
           "functions": [
             {
               "function": "set_count",
@@ -34,7 +39,7 @@
         {
           "type": "item",
           "name": "minecraft:flint",
-          "weight": 1,
+          "weight": 3,
           "functions": [
             {
               "function": "set_count",
@@ -48,7 +53,7 @@
         {
           "type": "item",
           "name": "aerialhell:aerial_berry",
-          "weight": 1,
+          "weight": 3,
           "functions": [
             {
               "function": "set_count",
@@ -62,7 +67,7 @@
         {
           "type": "item",
           "name": "aerialhell:smoky_quartz",
-          "weight": 1,
+          "weight": 3,
           "functions": [
             {
               "function": "set_count",
@@ -76,7 +81,7 @@
 	{
           "type": "item",
           "name": "aerialhell:sky_stick",
-          "weight": 1,
+          "weight": 3,
           "functions": [
             {
               "function": "set_count",
@@ -90,7 +95,7 @@
       ]
     },
     {
-      "rolls": 1,
+      "rolls": 2,
       "entries": [
 	{
           "type": "item",

@@ -55,8 +55,8 @@ public class AerialHellStructures
 	        
 	        setupMapSpacingAndLand(
 	        		LUNATIC_TEMPLE_STRUCTURE.get(), /* The instance of the structure */
-	                new StructureSeparationSettings(30 /* mean distance apart in chunks between spawn attempts */,
-	                        25 /* minimum distance apart in chunks between spawn attempts */,
+	                new StructureSeparationSettings(40 /* mean distance apart in chunks between spawn attempts */,
+	                        14 /* minimum distance apart in chunks between spawn attempts */,
 	                        993252541 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
 	                true); //TransformSurroundingLand
 	        
@@ -69,8 +69,8 @@ public class AerialHellStructures
 
 		    setupMapSpacingAndLand(
 					SHADOW_CATACOMBS_STRUCTURE.get(), /* The instance of the structure */
-				    new StructureSeparationSettings(5 /* mean distance apart in chunks between spawn attempts */,
-						    4 /* minimum distance apart in chunks between spawn attempts */,
+				    new StructureSeparationSettings(14 /* mean distance apart in chunks between spawn attempts */,
+						    6 /* minimum distance apart in chunks between spawn attempts */,
 						    134354456 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
 				    false); //TransformSurroundingLand
 	        

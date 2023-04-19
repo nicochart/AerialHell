@@ -92,7 +92,7 @@
         "maxCount": 6
       },
       {
-        "type": "aerialhell:shadow_troll",
+        "type": "aerialhell:shadow_automaton",
         "weight": 100,
         "minCount": 2,
         "maxCount": 6

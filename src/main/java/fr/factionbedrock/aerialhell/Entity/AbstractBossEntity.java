@@ -74,14 +74,18 @@ public class AbstractBossEntity extends AbstractActivableEntity
 		int difficulty = -1;
 		for (Entity entity : nearbyEntities)
 		{
-			if (entity instanceof PlayerEntity) {difficulty += 1;}
+			if (entity instanceof PlayerEntity)
+			{
+				PlayerEntity player = (PlayerEntity) entity;
+				if (!(player.isCreative() || player.isSpectator())) {difficulty += 1;}
+			}
 		}
 		if (this.isPotionActive(Effects.RESISTANCE)) {this.removePotionEffect(Effects.RESISTANCE);}
 		if (this.isPotionActive(Effects.STRENGTH)) {this.removePotionEffect(Effects.STRENGTH);}
 		if (difficulty > 0) //is 0 if there is only one player, +1 per additional player
 		{
-			this.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 54000, Math.min(4,difficulty * 2), false, false));
-			this.addPotionEffect(new EffectInstance(Effects.STRENGTH, 54000, Math.min(4, difficulty - 1), false, false));
+			this.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 54000, Math.min(6,difficulty * 2), false, false));
+			this.addPotionEffect(new EffectInstance(Effects.STRENGTH, 54000, Math.min(3, difficulty - 1), false, false));
 		}
 	}
 

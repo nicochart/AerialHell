@@ -35,7 +35,7 @@ public class ShadowAutomatonEntity extends AutomatonEntity
         return MonsterEntity.func_233666_p_()
                 .createMutableAttribute(Attributes.MAX_HEALTH, 50.0D)
                 .createMutableAttribute(Attributes.ARMOR, 3.0D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 7.0D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 9.0D)
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.23D);
     }
 

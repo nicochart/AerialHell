@@ -92,7 +92,8 @@ public class LilithEntity extends AbstractBossEntity
 	{
 		Entity immediateSourceEntity = source.getImmediateSource();
 		Entity trueSourceEntity = source.getTrueSource();
-		if (this.isTransforming() && !source.isCreativePlayer()) {return false;}
+		if (this.isTransforming() && !source.isCreativePlayer() && source != DamageSource.OUT_OF_WORLD) {return false;}
+		if (this.getMaxHealth() < 2.5 * this.getHealth() && immediateSourceEntity instanceof AbstractArrowEntity) {return false;}
 		boolean flag = super.attackEntityFrom(source, amount);
 		if (flag)
 		{
@@ -149,16 +150,15 @@ public class LilithEntity extends AbstractBossEntity
 	@Override
 	public boolean onLivingFall(float distance, float damageMultiplier) {return false;}
 	
-	@Override
-    public void tick()
-    {		
+	@Override public void tick()
+    {
 		if (this.isActive() && !this.isTransformed() && !this.isTransforming())
 		{
 			this.timeSinceTransforming = 0;
 			this.setTransforming(true);
 			this.playSound(AerialHellSoundEvents.ENTITY_LILITH_TRANSFORMATION.get(), 5.0F, 1.0F);
 		}
-		
+
 		if (this.isTransforming())
 		{
 			if (!world.isRemote)
@@ -433,8 +433,7 @@ public class LilithEntity extends AbstractBossEntity
 		return AerialHellBlocksAndItems.SHADOW_CATACOMBS_BRICKS.get().getDefaultState();
 	}
 	
-	@Override
-    public void livingTick()
+	@Override public void livingTick()
     {
 		if (this.attackTimer > 0) {this.attackTimer--;}
 		if (this.shadowProjectileTimer > 0) {this.shadowProjectileTimer--;} else if (this.shadowProjectileTimer < 0) {this.shadowProjectileTimer++;}

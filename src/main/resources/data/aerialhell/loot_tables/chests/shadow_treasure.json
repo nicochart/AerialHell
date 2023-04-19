@@ -48,6 +48,11 @@
         },
         {
           "type": "item",
+          "name": "aerialhell:shadow_totem",
+          "weight": 1
+        },
+        {
+          "type": "item",
           "name": "aerialhell:cursed_totem",
           "weight": 1
         }

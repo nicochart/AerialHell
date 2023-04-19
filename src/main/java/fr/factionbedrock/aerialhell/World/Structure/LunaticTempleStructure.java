@@ -9,6 +9,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBiomes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import fr.factionbedrock.aerialhell.Util.StructureHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
@@ -46,19 +47,20 @@ public class LunaticTempleStructure extends AbstractAerialHellStructure
         return LunaticTempleStructure.Start::new;
     }
 
-    /*@Override protected boolean func_230363_a_(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) //isFeatureChunk (check if can spawn)
+    @Override protected boolean func_230363_a_(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) //isFeatureChunk (check if can spawn)
     {
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 140, chunkZ * 16);
 
-        // biomeSource.getNoiseBiome(x,y,z) doesn't return the right biome. Do not use this method for biome check.
+        if (StructureHelper.hasGoldenNetherPrisonNearby(chunkGenerator, seed, chunkRandom, chunkX, chunkZ, 6, true)) {return false;}
+        /* biomeSource.getNoiseBiome(x,y,z) doesn't return the right biome. Do not use this method for biome check.
         List<BlockPos> checkShadowBiomePos = ImmutableList.of(centerOfChunk.north(20), centerOfChunk.south(20), centerOfChunk.east(20), centerOfChunk.west(20));
         for (BlockPos pos : checkShadowBiomePos)
         {
             Biome posBiome = biomeSource.getNoiseBiome(pos.getX(), pos.getY(), pos.getZ());
             if (FeatureHelper.isShadowBiome(posBiome)) {return false;}
-        }
+        }*/
         return true;
-    }*/
+    }
 
     public static class Start extends AbstractAerialHellStructure.Start
     {
