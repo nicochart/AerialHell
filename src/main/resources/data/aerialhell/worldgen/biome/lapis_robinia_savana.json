@@ -81,7 +81,8 @@
       "aerialhell:mud_dungeon",
       "aerialhell:lunatic_temple",
       "aerialhell:golden_nether_prison",
-      "aerialhell:stellar_stone_bricks_tower"
+      "aerialhell:stellar_stone_bricks_tower",
+      "aerialhell:lapis_robinia_hut"
   ],
   "spawners": {
     "monster": [

@@ -36,7 +36,9 @@ public class AerialHellStructures
 	public static final RegistryObject<Structure<NoFeatureConfig>> STELLAR_STONE_BRICKS_TOWER_STRUCTURE = STRUCTURES.register("stellar_stone_bricks_tower", () -> new StellarStoneBricksTowerStructure(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Structure<NoFeatureConfig>> COPPER_PINE_COTTAGE_STRUCTURE = STRUCTURES.register("copper_pine_cottage", () -> new CopperPineCottageStructure(NoFeatureConfig.field_236558_a_));
 	public static final RegistryObject<Structure<NoFeatureConfig>> SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE = STRUCTURES.register("slippery_sand_ocean_abandonned_structure", () -> new SlipperySandOceanAbandonnedStructure(NoFeatureConfig.field_236558_a_));
-	
+	public static final RegistryObject<Structure<NoFeatureConfig>> SHADOW_PINE_TOWER_STRUCTURE = STRUCTURES.register("shadow_pine_tower", () -> new ShadowPineTowerStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoFeatureConfig>> LAPIS_ROBINIA_HUT_STRUCTURE = STRUCTURES.register("lapis_robinia_hut", () -> new LapisRobiniaHutStructure(NoFeatureConfig.field_236558_a_));
+
 	 public static void setupStructures()
 	 {
 		 setupMapSpacingAndLand(
@@ -94,6 +96,20 @@ public class AerialHellStructures
 	                        1 /* minimum distance apart in chunks between spawn attempts */,
 	                        223454456 /* seed */),
 	                false); //TransformSurroundingLand
+
+		    setupMapSpacingAndLand(
+					SHADOW_PINE_TOWER_STRUCTURE.get(), /* The instance of the structure */
+					new StructureSeparationSettings(6 /* mean distance apart in chunks between spawn attempts */,
+							3 /* minimum distance apart in chunks between spawn attempts */,
+							213454433 /* seed */),
+					true); //TransformSurroundingLand
+
+		    setupMapSpacingAndLand(
+					LAPIS_ROBINIA_HUT_STRUCTURE.get(), /* The instance of the structure */
+				    new StructureSeparationSettings(10 /* mean distance apart in chunks between spawn attempts */,
+						    4 /* minimum distance apart in chunks between spawn attempts */,
+						    211112433 /* seed */),
+				    true); //TransformSurroundingLand
 	 }
 	 
 	 

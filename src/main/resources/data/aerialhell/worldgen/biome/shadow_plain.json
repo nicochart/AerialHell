@@ -81,7 +81,8 @@
   "starts": [
       "aerialhell:mud_dungeon",
       "aerialhell:shadow_catacombs",
-      "aerialhell:stellar_stone_bricks_tower"
+      "aerialhell:stellar_stone_bricks_tower",
+      "aerialhell:shadow_pine_tower"
   ],
   "spawners": {
     "monster": [

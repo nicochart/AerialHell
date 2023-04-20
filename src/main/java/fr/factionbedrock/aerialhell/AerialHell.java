@@ -106,6 +106,8 @@ public class AerialHell
             tempMap.putIfAbsent(AerialHellStructures.STELLAR_STONE_BRICKS_TOWER_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.STELLAR_STONE_BRICKS_TOWER_STRUCTURE.get()));
             tempMap.putIfAbsent(AerialHellStructures.COPPER_PINE_COTTAGE_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.COPPER_PINE_COTTAGE_STRUCTURE.get()));
             tempMap.putIfAbsent(AerialHellStructures.SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE.get()));
+            tempMap.putIfAbsent(AerialHellStructures.SHADOW_PINE_TOWER_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.SHADOW_PINE_TOWER_STRUCTURE.get()));
+            tempMap.putIfAbsent(AerialHellStructures.LAPIS_ROBINIA_HUT_STRUCTURE.get(), DimensionStructuresSettings.field_236191_b_.get(AerialHellStructures.LAPIS_ROBINIA_HUT_STRUCTURE.get()));
             serverWorld.getChunkProvider().generator.func_235957_b_().field_236193_d_ = tempMap;
         }
    }
