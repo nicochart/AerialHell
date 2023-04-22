@@ -1,0 +1,18 @@
+{
+  "parent": "aerialhell:story/kill_mud_boss",
+  "display": {
+    "icon": {"item": "aerialhell:light_shadow_catacombs_bricks"},
+    "title": {"translate": "advancements.story.enter_shadow_catacombs_dungeon.title"},
+    "description": {"translate": "advancements.story.enter_shadow_catacombs_dungeon.desc"},
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:location",
+      "conditions": {"location": {"feature": "aerialhell:shadow_catacombs"}}
+    }
+  },
+  "rewards": {"function": "aerialhell:advancement_story_sound"}
+}
