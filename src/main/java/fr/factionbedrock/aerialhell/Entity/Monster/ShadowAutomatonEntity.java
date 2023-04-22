@@ -4,10 +4,9 @@ import com.google.common.collect.ImmutableList;
 import fr.factionbedrock.aerialhell.Entity.AI.FleeBlockGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.MisleadableNearestAttackableTargetGoal;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -64,6 +63,7 @@ public class ShadowAutomatonEntity extends AutomatonEntity
             if (attackedEntity instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune(((LivingEntity) attackedEntity)))
             {
                 ((LivingEntity) attackedEntity).addPotionEffect(new EffectInstance(Effects.BLINDNESS, 40, 0));
+                ((LivingEntity) attackedEntity).addPotionEffect(new EffectInstance(AerialHellPotionEffects.VULNERABILITY.get(), 60, 0));
             }
             return true;
         }

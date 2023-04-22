@@ -60,6 +60,7 @@ public class AbstractBossEntity extends AbstractActivableEntity
 	{
 		super.tick();
 		if (this.isActive() && this.ticksExisted % 900 == 0) {this.adaptBossDifficulty();}
+		this.bossInfo.setVisible(this.isActive());
 	}
 
 	@Override public void setActive(boolean isActive)
@@ -84,7 +85,7 @@ public class AbstractBossEntity extends AbstractActivableEntity
 		if (this.isPotionActive(Effects.STRENGTH)) {this.removePotionEffect(Effects.STRENGTH);}
 		if (difficulty > 0) //is 0 if there is only one player, +1 per additional player
 		{
-			this.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 54000, Math.min(6,difficulty * 2), false, false));
+			this.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 54000, Math.min(3, (int) Math.ceil(difficulty / 2.0F)), false, false));
 			this.addPotionEffect(new EffectInstance(Effects.STRENGTH, 54000, Math.min(3, difficulty - 1), false, false));
 		}
 	}

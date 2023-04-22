@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.SolidEther;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -12,7 +13,7 @@ import net.minecraft.world.World;
 public class PurpleSolidEtherBlock extends SolidEtherBlock
 {
 	public PurpleSolidEtherBlock(Properties properties) {super(properties);}
-	
+
 	@Override
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
 	{
@@ -23,7 +24,7 @@ public class PurpleSolidEtherBlock extends SolidEtherBlock
 			{
 				((LivingEntity) entity).addPotionEffect(new EffectInstance(AerialHellPotionEffects.SHADOW_IMMUNITY.get(), 30, 0, true, true));
 			}
-			else
+			else if (!EntityHelper.isLivingEntityShadowImmune((LivingEntity)entity))
 			{
 				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.BLINDNESS, 40, 0, false, false));
 			}
