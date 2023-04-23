@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 
 import java.util.Random;
 
+import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
@@ -74,6 +75,19 @@ public class EffectToolHelper
 		{
 			playerIn.addPotionEffect(new EffectInstance(Effects.INVISIBILITY, 200, 0));
 			playerIn.addPotionEffect(new EffectInstance(Effects.SPEED, 120, 0));
+		}
+		setDamageAndCooldown(ItemIn, heldItem, playerIn, cooldown);
+	}
+
+	public static void applyReaperWalkEffect(Item ItemIn, ItemStack heldItem, World worldIn, PlayerEntity playerIn, Random rand, int cooldown)
+	{
+		addParticleOnPlayer(20, AerialHellParticleTypes.SHADOW_LIGHT.get(), playerIn, worldIn, rand);
+		playerIn.playSound(SoundEvents.ENTITY_ILLUSIONER_CAST_SPELL, 1.0F, 1.6F);
+		if (!worldIn.isRemote)
+		{
+			playerIn.addPotionEffect(new EffectInstance(Effects.INVISIBILITY, 200, 0));
+			playerIn.addPotionEffect(new EffectInstance(Effects.SPEED, 120, 0));
+			playerIn.addPotionEffect(new EffectInstance(AerialHellPotionEffects.SHADOW_IMMUNITY.get(), 120, 0));
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, cooldown);
 	}

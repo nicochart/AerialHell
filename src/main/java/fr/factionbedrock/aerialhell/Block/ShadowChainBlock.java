@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowAutomatonEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
 import net.minecraft.block.BlockState;
@@ -18,7 +19,7 @@ public class ShadowChainBlock extends ChainBlock
 
     @Override public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
     {
-        if (context.getEntity() instanceof ShadowTrollEntity || context.getEntity() instanceof ShadowAutomatonEntity) {return EMPTY_SHAPE;}
+        if (context.getEntity() instanceof ShadowTrollEntity || context.getEntity() instanceof ShadowAutomatonEntity || context.getEntity() instanceof LilithEntity) {return EMPTY_SHAPE;}
         else {return super.getCollisionShape(state, worldIn, pos, context);}
     }
 

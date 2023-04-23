@@ -33,7 +33,7 @@ public class EffectHoeItem extends AerialHellHoeItem
 		}
 		else if (this == AerialHellBlocksAndItems.REAPER_SCYTHE.get())
 		{
-			EffectToolHelper.applyNinjaEffect(this, heldItem, worldIn, playerIn, rand, 600);
+			EffectToolHelper.applyReaperWalkEffect(this, heldItem, worldIn, playerIn, rand, 600);
 	        return ActionResult.resultConsume(heldItem);
 		}
 		else {return super.onItemRightClick(worldIn, playerIn, handIn);}
