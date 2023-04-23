@@ -5,13 +5,21 @@ import net.minecraft.item.ItemStack;
 
 public class AerialHellItemGroups
 {
-    
     public static final ItemGroup AERIAL_HELL_BLOCKS = new ItemGroup("aerialhell_blocks")
 	{
         @Override
         public ItemStack createIcon()
         {
             return new ItemStack(AerialHellBlocksAndItems.STELLAR_STONE_BRICKS_ITEM.get());
+        }
+    };
+
+    public static final ItemGroup AERIAL_HELL_DUNGEON_BLOCKS = new ItemGroup("aerialhell_dungeon_blocks")
+    {
+        @Override
+        public ItemStack createIcon()
+        {
+            return new ItemStack(AerialHellBlocksAndItems.LIGHT_LUNATIC_STONE.get());
         }
     };
     
