@@ -1,60 +1,60 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ProjectileItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.util.IndirectEntityDamageSource;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.damagesource.IndirectEntityDamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.PlayMessages;
 
-public abstract class AbstractShurikenEntity extends ProjectileItemEntity
+public abstract class AbstractShurikenEntity extends ThrowableItemProjectile
 {
 	public float shurikenZRot; 
 	
-	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> entityTypeIn, World worldIn)
+	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> entityTypeIn, Level worldIn)
 	{
 		super(entityTypeIn, worldIn);
 		this.shurikenZRot = -135;
 	}
 
-	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, double x, double y, double z, World worldIn)
+	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, double x, double y, double z, Level worldIn)
 	{
 		super(type, x, y, z, worldIn);
 		this.shurikenZRot = -135;
 	}
 
-	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, LivingEntity shooter, World worldIn)
+	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, LivingEntity shooter, Level worldIn)
 	{
 		super(type, shooter, worldIn);
 		this.shurikenZRot = -135;
 	}
 
-	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, FMLPlayMessages.SpawnEntity packet, World worldIn)
+	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, PlayMessages.SpawnEntity packet, Level worldIn)
 	{
 		super(type, worldIn);
 		this.shurikenZRot = -135;
 	}
 	
 	@Override
-	public void writeAdditional(CompoundNBT compound)
+	public void addAdditionalSaveData(CompoundTag compound)
 	{
-		super.writeAdditional(compound);
+		super.addAdditionalSaveData(compound);
 		
 		compound.putShort("shurikenZRot", (short)this.shurikenZRot);
 	}
 	
 	@Override
-	public void readAdditional(CompoundNBT compound)
+	public void readAdditionalSaveData(CompoundTag compound)
 	{
-	    super.readAdditional(compound);
+	    super.readAdditionalSaveData(compound);
 	    if (compound.contains("shurikenZRot", 99))
 	    {
 	    	this.shurikenZRot = compound.getShort("shurikenZRot");
@@ -62,27 +62,26 @@ public abstract class AbstractShurikenEntity extends ProjectileItemEntity
 	}
 	
 	@Override
-	protected void onImpact(RayTraceResult result)
+	protected void onHit(HitResult result)
 	{
-		if (this.world.isRemote) {return;}
-		if (result != null && result.getType() != RayTraceResult.Type.MISS && this.world instanceof ServerWorld && result.getType() == RayTraceResult.Type.ENTITY)
+		if (this.level.isClientSide()) {return;}
+		if (result != null && result.getType() != HitResult.Type.MISS && this.level instanceof ServerLevel && result.getType() == HitResult.Type.ENTITY)
 		{
-            Entity entity = ((EntityRayTraceResult)result).getEntity();
-            entity.attackEntityFrom(new IndirectEntityDamageSource("shuriken_hit", this, this.func_234616_v_()).setProjectile(), this.getKnifeDamage());
-            entity.setMotion(entity.getMotion().add(this.getMotion().x / 2, 0.12F, this.getMotion().z / 2));
+            Entity entity = ((EntityHitResult)result).getEntity();
+            entity.hurt(new IndirectEntityDamageSource("shuriken_hit", this, this.getOwner()).setProjectile(), this.getKnifeDamage());
+            entity.setDeltaMovement(entity.getDeltaMovement().add(this.getDeltaMovement().x / 2, 0.12F, this.getDeltaMovement().z / 2));
             this.applyEntityImpactEffet(entity);
 		}
-		
-		this.remove();
+		this.discard();
 	}
 
-	@Override protected float getGravityVelocity() {return 0.04F;}
+	@Override protected float getGravity() {return 0.04F;}
 	
 	abstract protected float getKnifeDamage();
 	abstract protected void applyEntityImpactEffet(Entity entity);
 	
 	@Override
-	public IPacket<?> createSpawnPacket()
+	public Packet<?> getAddEntityPacket()
 	{
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}

@@ -1,16 +1,16 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.LeavesBlock;
+import net.minecraft.client.ParticleStatus;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.ParticleStatus;
-import net.minecraft.entity.EntityType;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -21,18 +21,18 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 
 public class LeavesWithAmbientParticlesBlock extends LeavesBlock
 {
-	public LeavesWithAmbientParticlesBlock(AbstractBlock.Properties properties)
+	public LeavesWithAmbientParticlesBlock(BlockBehaviour.Properties properties)
 	{
-		super(properties.setAllowsSpawn((state, reader, pos, entity) -> (entity == EntityType.OCELOT || entity == EntityType.PARROT)).setSuffocates((state, reader, pos) -> false).setBlocksVision((state, reader, pos) -> false));
+		super(properties.isValidSpawn((state, reader, pos, entity) -> (entity == EntityType.OCELOT || entity == EntityType.PARROT)).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> false));
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
-		super.fillStateContainer(builder);
+		super.createBlockStateDefinition(builder);
 	}
 	
-	protected BasicParticleType getParticle()
+	protected SimpleParticleType getParticle()
 	{
 		if (this == AerialHellBlocksAndItems.COPPER_PINE_LEAVES.get())
 		{
@@ -52,15 +52,15 @@ public class LeavesWithAmbientParticlesBlock extends LeavesBlock
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand)
+	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand)
 	{
 		super.animateTick(stateIn, worldIn, pos, rand);
+
+		SimpleParticleType particleType = this.getParticle();
 		
-		BasicParticleType particleType = this.getParticle();
-		
-		if (Minecraft.getInstance().gameSettings.particles != ParticleStatus.MINIMAL)
+		if (Minecraft.getInstance().options.particles != ParticleStatus.MINIMAL)
 		{
-			if (worldIn.isRemote)
+			if (worldIn.isClientSide())
 			{
 				if (rand.nextInt(10) == 0)
 				{

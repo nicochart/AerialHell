@@ -2,116 +2,109 @@ package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.AbstractChestMimicEntity;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.pathfinding.PathType;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.ChestType;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityMerger;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.properties.*;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Registry.AerialHellTileEntityTypes;
-import fr.factionbedrock.aerialhell.TileEntity.ChestMimicTileEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import fr.factionbedrock.aerialhell.BlockEntity.ChestMimicBlockEntity;
 
 import java.util.function.BiPredicate;
 
-public class ChestMimicBlock extends Block implements IWaterLoggable
+public class ChestMimicBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
 {
-	public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 	public static final EnumProperty<ChestType> TYPE = BlockStateProperties.CHEST_TYPE;
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-	protected static final VoxelShape SHAPE_NORTH = Block.makeCuboidShape(1.0D, 0.0D, 0.0D, 15.0D, 14.0D, 15.0D);
-	protected static final VoxelShape SHAPE_SOUTH = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 16.0D);
-	protected static final VoxelShape SHAPE_WEST = Block.makeCuboidShape(0.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
-	protected static final VoxelShape SHAPE_EAST = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 16.0D, 14.0D, 15.0D);
-	protected static final VoxelShape SHAPE_SINGLE = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
+	protected static final VoxelShape SHAPE_NORTH = Block.box(1.0D, 0.0D, 0.0D, 15.0D, 14.0D, 15.0D);
+	protected static final VoxelShape SHAPE_SOUTH = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 16.0D);
+	protected static final VoxelShape SHAPE_WEST = Block.box(0.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
+	protected static final VoxelShape SHAPE_EAST = Block.box(1.0D, 0.0D, 1.0D, 16.0D, 14.0D, 15.0D);
+	protected static final VoxelShape SHAPE_SINGLE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
 
-	public ChestMimicBlock(AbstractBlock.Properties builder)
+	public ChestMimicBlock(BlockBehaviour.Properties builder)
 	{
 		super(builder);
-		this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(TYPE, ChestType.SINGLE).with(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, ChestType.SINGLE).setValue(WATERLOGGED, Boolean.valueOf(false)));
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
+	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
 	{
-		if (!ChestBlock.isBlocked(worldIn, pos))
+		if (!ChestBlock.isChestBlockedAt(worldIn, pos))
 		{
-
-			if (worldIn.isRemote) {addSpawnParticle(worldIn, pos);}
+			if (worldIn.isClientSide()) {addSpawnParticle(worldIn, pos);}
 			else
 			{
-				worldIn.playSound(null, pos, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, 0.7F + 0.5F * worldIn.rand.nextFloat());
+				worldIn.playSound(null, pos, SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 0.5F, 0.7F + 0.5F * worldIn.random.nextFloat());
 				revealMimic(state, worldIn, pos);
-				worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
+				worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			}
 		}
-		return ActionResultType.SUCCESS;
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override
-	public void spawnAdditionalDrops(BlockState state, ServerWorld worldIn, BlockPos pos, ItemStack stack)
+	public void spawnAfterBreak(BlockState state, ServerLevel worldIn, BlockPos pos, ItemStack stack)
 	{
-		super.spawnAdditionalDrops(state, worldIn, pos, stack);
+		super.spawnAfterBreak(state, worldIn, pos, stack);
 		revealMimic(state, worldIn, pos);
 	}
 
-	private void revealMimic(BlockState state, World worldIn, BlockPos pos)
+	private void revealMimic(BlockState state, Level worldIn, BlockPos pos)
 	{
-		float angle = state.get(FACING).getHorizontalAngle();
+		float angle = state.getValue(FACING).toYRot();
 		AbstractChestMimicEntity chestMimic = getNewChestMimicEntity(worldIn);
-		chestMimic.setPositionAndRotation(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, angle, 0.0F);
-		chestMimic.setRotationYawHead(angle);
-		worldIn.addEntity(chestMimic);
+		chestMimic.absMoveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, angle, 0.0F);
+		chestMimic.setYHeadRot(angle);
+		worldIn.addFreshEntity(chestMimic);
 	}
 
-	public void addSpawnParticle(World worldIn, BlockPos pos)
+	public void addSpawnParticle(Level worldIn, BlockPos pos)
 	{
 		for(int i = 0; i < 20; ++i)
 		{
-			double dx = worldIn.rand.nextGaussian() * 0.04D, dy = worldIn.rand.nextGaussian() * 0.04D, dz = worldIn.rand.nextGaussian() * 0.04D;
+			double dx = worldIn.random.nextGaussian() * 0.04D, dy = worldIn.random.nextGaussian() * 0.04D, dz = worldIn.random.nextGaussian() * 0.04D;
 			double x = pos.getX() + 0.5F + dx * 10.0D, y = pos.getY() + 0.5F + dy * 10.0D, z = pos.getZ() + 0.5F + dz * 10.0D;
 			worldIn.addParticle(this.getMimicSpawnParticle(), x, y, z, dx * 10.0D, dy * 10.0D, dz * 10.0D);
 		}
 	}
 
-	private BasicParticleType getMimicSpawnParticle()
+	private SimpleParticleType getMimicSpawnParticle()
 	{
 		if (this == AerialHellBlocksAndItems.AERIAL_TREE_CHEST_MIMIC.get()) {return AerialHellParticleTypes.OSCILLATOR.get();}
 		else if (this == AerialHellBlocksAndItems.COPPER_PINE_CHEST_MIMIC.get()) {return AerialHellParticleTypes.COPPER_PINE_LEAVES.get();}
@@ -119,7 +112,7 @@ public class ChestMimicBlock extends Block implements IWaterLoggable
 		else /*if (this == AerialHellBlocksAndItems.SKY_CACTUS_FIBER_CHEST_MIMIC.get())*/ {return AerialHellParticleTypes.LUNATIC_PARTICLE.get();}
 	}
 
-	private AbstractChestMimicEntity getNewChestMimicEntity(World worldIn)
+	private AbstractChestMimicEntity getNewChestMimicEntity(Level worldIn)
 	{
 		if (this == AerialHellBlocksAndItems.AERIAL_TREE_CHEST_MIMIC.get()) {return new AerialTreeChestMimicEntity(AerialHellEntities.AERIAL_TREE_MIMIC.get(), worldIn);}
 		else if (this == AerialHellBlocksAndItems.COPPER_PINE_CHEST_MIMIC.get()) {return new CopperPineChestMimicEntity(AerialHellEntities.COPPER_PINE_MIMIC.get(), worldIn);}
@@ -127,44 +120,43 @@ public class ChestMimicBlock extends Block implements IWaterLoggable
 		else /*if (this == AerialHellBlocksAndItems.SKY_CACTUS_FIBER_CHEST_MIMIC.get())*/ {return new SkyCactusFiberChestMimicEntity(AerialHellEntities.SKY_CACTUS_FIBER_MIMIC.get(), worldIn);}
 	}
 
-	@Override public boolean hasTileEntity(BlockState state) {return true;}
-	@Override public TileEntity createTileEntity(BlockState state, IBlockReader world) {return new ChestMimicTileEntity();}
-	@Override public BlockState rotate(BlockState state, Rotation rot) {return state.with(FACING, rot.rotate(state.get(FACING)));}
-	@Override public BlockState mirror(BlockState state, Mirror mirrorIn) {return state.rotate(mirrorIn.toRotation(state.get(FACING)));}
+	@Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new ChestMimicBlockEntity(pos, state);}
+	@Override public BlockState rotate(BlockState state, Rotation rot) {return state.setValue(FACING, rot.rotate(state.getValue(FACING)));}
+	@Override public BlockState mirror(BlockState state, Mirror mirrorIn) {return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));}
 
 	/*Copied from vanilla ChestBlock class*/
 	@Override
-	public BlockRenderType getRenderType(BlockState state)
+	public RenderShape getRenderShape(BlockState state)
 	{
-		return BlockRenderType.ENTITYBLOCK_ANIMATED;
+		return RenderShape.ENTITYBLOCK_ANIMATED;
 	}
 
 	@Override
-	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		if (stateIn.get(WATERLOGGED))
+	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) //updatePostPlacement (snapshot mappings)
+	{
+		if (stateIn.getValue(WATERLOGGED))
 		{
-			worldIn.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
+			worldIn.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(worldIn));
 		}
 
-		if (facingState.isIn(this) && facing.getAxis().isHorizontal())
+		if (facingState.is(this) && facing.getAxis().isHorizontal())
 		{
-			ChestType chesttype = facingState.get(TYPE);
-			if (stateIn.get(TYPE) == ChestType.SINGLE && chesttype != ChestType.SINGLE && stateIn.get(FACING) == facingState.get(FACING) && getDirectionToAttached(facingState) == facing.getOpposite())
+			ChestType chesttype = facingState.getValue(TYPE);
+			if (stateIn.getValue(TYPE) == ChestType.SINGLE && chesttype != ChestType.SINGLE && stateIn.getValue(FACING) == facingState.getValue(FACING) && getDirectionToAttached(facingState) == facing.getOpposite())
 			{
-				return stateIn.with(TYPE, chesttype.opposite());
+				return stateIn.setValue(TYPE, chesttype.getOpposite());
 			}
 		} else if (getDirectionToAttached(stateIn) == facing)
 		{
-			return stateIn.with(TYPE, ChestType.SINGLE);
+			return stateIn.setValue(TYPE, ChestType.SINGLE);
 		}
-
-		return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
 	{
-		if (state.get(TYPE) == ChestType.SINGLE)
+		if (state.getValue(TYPE) == ChestType.SINGLE)
 		{
 			return SHAPE_SINGLE;
 		} else {
@@ -185,59 +177,61 @@ public class ChestMimicBlock extends Block implements IWaterLoggable
 
 	public static Direction getDirectionToAttached(BlockState state)
 	{
-		Direction direction = state.get(FACING);
-		return state.get(TYPE) == ChestType.LEFT ? direction.rotateY() : direction.rotateYCCW();
+		Direction direction = state.getValue(FACING);
+		return state.getValue(TYPE) == ChestType.LEFT ? direction.getClockWise() : direction.getCounterClockWise();
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context)
+	public BlockState getStateForPlacement(BlockPlaceContext context)
 	{
 		ChestType chesttype = ChestType.SINGLE;
-		Direction direction = context.getPlacementHorizontalFacing().getOpposite();
-		FluidState fluidstate = context.getWorld().getFluidState(context.getPos());
-		boolean flag = context.hasSecondaryUseForPlayer();
-		Direction direction1 = context.getFace();
+		Direction direction = context.getHorizontalDirection().getOpposite();
+		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
+		boolean flag = context.isSecondaryUseActive();
+		Direction direction1 = context.getClickedFace();
 		if (direction1.getAxis().isHorizontal() && flag)
 		{
 			Direction direction2 = this.getDirectionToAttach(context, direction1.getOpposite());
 			if (direction2 != null && direction2.getAxis() != direction1.getAxis())
 			{
 				direction = direction2;
-				chesttype = direction2.rotateYCCW() == direction1.getOpposite() ? ChestType.RIGHT : ChestType.LEFT;
+				chesttype = direction2.getCounterClockWise() == direction1.getOpposite() ? ChestType.RIGHT : ChestType.LEFT;
 			}
 		}
 
 		if (chesttype == ChestType.SINGLE && !flag)
 		{
-			if (direction == this.getDirectionToAttach(context, direction.rotateY())) {chesttype = ChestType.LEFT;}
-			else if (direction == this.getDirectionToAttach(context, direction.rotateYCCW())) {chesttype = ChestType.RIGHT;}
+			if (direction == this.getDirectionToAttach(context, direction.getClockWise())) {chesttype = ChestType.LEFT;}
+			else if (direction == this.getDirectionToAttach(context, direction.getCounterClockWise())) {chesttype = ChestType.RIGHT;}
 		}
 
-		return this.getDefaultState().with(FACING, direction).with(TYPE, chesttype).with(WATERLOGGED, Boolean.valueOf(fluidstate.getFluid() == Fluids.WATER));
+		return this.defaultBlockState().setValue(FACING, direction).setValue(TYPE, chesttype).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
 	}
 
 	@Override
 	public FluidState getFluidState(BlockState state)
 	{
-		return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
 	@Nullable
-	private Direction getDirectionToAttach(BlockItemUseContext context, Direction direction)
+	private Direction getDirectionToAttach(BlockPlaceContext context, Direction direction)
 	{
-		BlockState blockstate = context.getWorld().getBlockState(context.getPos().offset(direction));
-		return blockstate.isIn(this) && blockstate.get(TYPE) == ChestType.SINGLE ? blockstate.get(FACING) : null;
+		BlockState blockstate = context.getLevel().getBlockState(context.getClickedPos().relative(direction));
+		return blockstate.is(this) && blockstate.getValue(TYPE) == ChestType.SINGLE ? blockstate.getValue(FACING) : null;
 	}
 
-	public TileEntityMerger.ICallbackWrapper<? extends ChestMimicTileEntity> combine(BlockState state, World world, BlockPos pos, boolean override)
+	public DoubleBlockCombiner.NeighborCombineResult<? extends ChestMimicBlockEntity> combine(BlockState state, Level world, BlockPos pos, boolean override)
 	{
-		BiPredicate<IWorld, BlockPos> bipredicate;
+		BiPredicate<LevelAccessor, BlockPos> bipredicate;
 		if (override) {bipredicate = (worldIn, posIn) -> false;}
-		else {bipredicate = ChestBlock::isBlocked;}
+		else {bipredicate = ChestBlock::isChestBlockedAt;}
 
-		return TileEntityMerger.func_226924_a_(AerialHellTileEntityTypes.CHEST_MIMIC.get(), ChestBlock::getChestMergerType, ChestBlock::getDirectionToAttached, FACING, state, world, pos, bipredicate);
+		return DoubleBlockCombiner.combineWithNeigbour(AerialHellBlockEntities.CHEST_MIMIC.get(), ChestBlock::getBlockType, ChestBlock::getConnectedDirection, FACING, state, world, pos, bipredicate);
 	}
 
-	@Override protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {builder.add(FACING, TYPE, WATERLOGGED);}
-	@Override public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {return false;}
+	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(FACING, TYPE, WATERLOGGED);}
+	@Override public boolean isPathfindable(BlockState state, BlockGetter worldIn, BlockPos pos, PathComputationType type) {return false;}
+
+
 }

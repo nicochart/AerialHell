@@ -1,43 +1,41 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import com.google.common.collect.ImmutableList;
-import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.AI.FleeBlockGoal;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
+import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 
-public class ShadowTrollEntity extends MonsterEntity
+public class ShadowTrollEntity extends Monster
 {
-	public static final DataParameter<Boolean> DISAPPEARING = EntityDataManager.<Boolean>createKey(ShadowTrollEntity.class, DataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<Boolean> DISAPPEARING = SynchedEntityData.<Boolean>defineId(ShadowTrollEntity.class, EntityDataSerializers.BOOLEAN);
 	private int timeDisappearing;
 	
-    public ShadowTrollEntity(EntityType<? extends ShadowTrollEntity> type, World worldIn)
+    public ShadowTrollEntity(EntityType<? extends ShadowTrollEntity> type, Level worldIn)
     {
         super(type, worldIn);
     }
@@ -47,47 +45,47 @@ public class ShadowTrollEntity extends MonsterEntity
     {
         List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocksAndItems.VOLUCITE_TORCH.get(), AerialHellBlocksAndItems.VOLUCITE_WALL_TORCH.get());
         this.goalSelector.addGoal(1, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
 		this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.25D, false));
-		this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 0.6D));
+		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.6D));
     }
 
-    public static AttributeModifierMap.MutableAttribute registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
-        return MonsterEntity.func_233666_p_()
-                .createMutableAttribute(Attributes.MAX_HEALTH, 60.0F)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3F)
-                .createMutableAttribute(Attributes.FOLLOW_RANGE, 24.0D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 12.0D)
-                .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.3F);
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 60.0F)
+                .add(Attributes.MOVEMENT_SPEED, 0.3F)
+                .add(Attributes.FOLLOW_RANGE, 24.0D)
+                .add(Attributes.ATTACK_DAMAGE, 12.0D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.3F);
     }
     
     @Override
-    public boolean attackEntityAsMob(Entity attackedEntity)
+    public boolean doHurtTarget(Entity attackedEntity)
     {
-    	if (super.attackEntityAsMob(attackedEntity))
+    	if (super.doHurtTarget(attackedEntity))
     	{
     		if (attackedEntity instanceof LivingEntity)
             {
                 if (!EntityHelper.isLivingEntityShadowImmune(((LivingEntity) attackedEntity)))
                 {
-                    if (!((LivingEntity) attackedEntity).isPotionActive(Effects.BLINDNESS))
+                    if (!((LivingEntity) attackedEntity).hasEffect(MobEffects.BLINDNESS))
                     {
-                        ((LivingEntity) attackedEntity).addPotionEffect(new EffectInstance(Effects.BLINDNESS, 35, 0));
+                        ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 35, 0));
                     }
-                    else if (!((LivingEntity) attackedEntity).isPotionActive(AerialHellPotionEffects.VULNERABILITY.get()))
+                    else if (!((LivingEntity) attackedEntity).hasEffect(AerialHellMobEffects.VULNERABILITY.get()))
                     {
-                        ((LivingEntity) attackedEntity).addPotionEffect(new EffectInstance(AerialHellPotionEffects.VULNERABILITY.get(), 60, 0));
+                        ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.get(), 60, 0));
                     }
                     else
                     {
-                        ((LivingEntity) attackedEntity).addPotionEffect(new EffectInstance(AerialHellPotionEffects.VULNERABILITY.get(), 120, 0));
+                        ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.get(), 120, 0));
                     }
                 }
                 else //attacked entity is shadow immune
                 {
-                    ((LivingEntity) attackedEntity).addPotionEffect(new EffectInstance(AerialHellPotionEffects.VULNERABILITY.get(), 50, 0));
+                    ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.get(), 50, 0));
                 }
             }
     		return true;
@@ -98,60 +96,60 @@ public class ShadowTrollEntity extends MonsterEntity
     @Override public void tick()
     {
     	super.tick();
-    	if (rand.nextFloat() > 0.95) {EntityHelper.addBatParticle(this, this.rand, 1);}
+    	if (random.nextFloat() > 0.95) {EntityHelper.addBatParticle(this, this.random, 1);}
     	
     	if (this.isDisappearing())
     	{    		
-    		if (this.timeDisappearing < 95) {EntityHelper.addBatParticle(this, this.rand, 1);}
-    		else if (this.timeDisappearing < 100) {EntityHelper.addBatParticle(this, this.rand, 10);}
-    		else {this.remove();}
+    		if (this.timeDisappearing < 95) {EntityHelper.addBatParticle(this, this.random, 1);}
+    		else if (this.timeDisappearing < 100) {EntityHelper.addBatParticle(this, this.random, 10);}
+    		else {this.discard();}
     		this.timeDisappearing++;
     	}
     }
     
-    @Override public void livingTick()
+    @Override public void aiStep()
     {
-    	super.livingTick();
-    	if (this.isInDaylight() /*|| this.getBrightness() >= 2.5f*/ /*|| this.world.getLight(this.getPosition().down()) > 10*/)
+    	super.aiStep();
+    	if (this.isSunBurnTick() /*|| this.getBrightness() >= 2.5f*/ /*|| this.level.getLight(this.getPosition().below()) > 10*/)
     	{
     		if (!this.isDisappearing())
     		{
     			this.playSound(AerialHellSoundEvents.ENTITY_SHADOW_TROLL_DEATH.get(), 1.0F, 0.9F);
-    			this.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 100, 10, true, false)));
+    			this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 10, true, false)));
     			this.setDisappearing(true);
     		}
     	}
     }
     
-    @Override protected void collideWithEntity(Entity entityIn)
+    @Override protected void doPush(Entity entityIn)
     {
     	if (entityIn instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune(((LivingEntity) entityIn)))
     	{
-    		((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.BLINDNESS, 60, 0));
+    		((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 60, 0));
     	}
-        super.collideWithEntity(entityIn);
+        super.doPush(entityIn);
     }
     
-    @Override protected void registerData()
+    @Override protected void defineSynchedData()
     {
-        super.registerData();
-        this.dataManager.register(DISAPPEARING, false);
+        super.defineSynchedData();
+        this.entityData.define(DISAPPEARING, false);
     }
     
-    @Override public void writeAdditional(CompoundNBT compound)
+    @Override public void addAdditionalSaveData(CompoundTag compound)
     {
-        super.writeAdditional(compound);
+        super.addAdditionalSaveData(compound);
         compound.putBoolean("Disappearing", this.isDisappearing());
     }
 
-    @Override public void readAdditional(CompoundNBT compound)
+    @Override public void readAdditionalSaveData(CompoundTag compound)
     {
-        super.readAdditional(compound);
+        super.readAdditionalSaveData(compound);
         this.setDisappearing(compound.getBoolean("Disappearing"));
     }
     
-    public boolean isDisappearing() {return this.dataManager.get(DISAPPEARING);}
-    public void setDisappearing(boolean flag) {this.dataManager.set(DISAPPEARING, flag);}
+    public boolean isDisappearing() {return this.entityData.get(DISAPPEARING);}
+    public void setDisappearing(boolean flag) {this.entityData.set(DISAPPEARING, flag);}
     public int getTimeDisappearing() {return this.timeDisappearing;}
     
     @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_SHADOW_TROLL_AMBIENT.get();}

@@ -3,31 +3,41 @@ package fr.factionbedrock.aerialhell.Block;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowAutomatonEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.PaneBlock;
-import net.minecraft.pathfinding.PathType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.BlockGetter;
 
-public class ShadowBarsBlock extends PaneBlock
+public class ShadowBarsBlock extends IronBarsBlock
 {
-    protected final static VoxelShape EMPTY_SHAPE = VoxelShapes.empty();
-    public ShadowBarsBlock(Properties builder) {super(builder.setOpaque((state, reader, pos) -> false).setSuffocates((state, reader, pos) -> false));}
+    protected final static VoxelShape EMPTY_SHAPE = Shapes.empty();
+    public ShadowBarsBlock(Properties builder) {super(builder.isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false));}
 
-    @Override public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+    @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
     {
-        if (context.getEntity() instanceof ShadowTrollEntity || context.getEntity() instanceof ShadowAutomatonEntity || context.getEntity() instanceof LilithEntity) {return EMPTY_SHAPE;}
-        else {return super.getCollisionShape(state, worldIn, pos, context);}
+        if (context instanceof EntityCollisionContext)
+        {
+            Entity entity = ((EntityCollisionContext)context).getEntity();
+            if (entity instanceof ShadowTrollEntity || entity instanceof ShadowAutomatonEntity || entity instanceof LilithEntity) {return EMPTY_SHAPE;}
+        }
+        return super.getCollisionShape(state, worldIn, pos, context);
     }
 
-    @Override public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+    @Override public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
     {
-        if (context.getEntity() instanceof ShadowTrollEntity || context.getEntity() instanceof ShadowAutomatonEntity || context.getEntity() instanceof LilithEntity) {return EMPTY_SHAPE;}
-        else {return super.getShape(state, worldIn, pos, context);}
+        if (context instanceof EntityCollisionContext)
+        {
+            Entity entity = ((EntityCollisionContext)context).getEntity();
+            if (entity instanceof ShadowTrollEntity || entity instanceof ShadowAutomatonEntity || entity instanceof LilithEntity) {return EMPTY_SHAPE;}
+        }
+        return super.getShape(state, worldIn, pos, context);
     }
 
-    @Override public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {return true;}
+    @Override public boolean isPathfindable(BlockState state, BlockGetter worldIn, BlockPos pos, PathComputationType type) {return true;}
 }

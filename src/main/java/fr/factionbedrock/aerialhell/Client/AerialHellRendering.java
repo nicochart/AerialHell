@@ -7,12 +7,12 @@ import com.google.common.base.Supplier;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityRender.*;
 import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.*;
-import fr.factionbedrock.aerialhell.Client.TileEntityRenderer.*;
+import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.*;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellContainerTypes;
+import fr.factionbedrock.aerialhell.Registry.AerialHellMenuTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Registry.AerialHellTileEntityTypes;
-import net.minecraft.block.Block;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
@@ -158,11 +158,11 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.SKY_LADDER.get(), cutout);
 	}
 	
-	public static void registerTileEntityRenderLayers()
+	public static void registerBlockEntityRenderLayers()
 	{
-		ClientRegistry.bindTileEntityRenderer(AerialHellTileEntityTypes.CHEST_MIMIC.get(), AerialHellChestMimicTileEntityRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(AerialHellTileEntityTypes.CHEST.get(), AerialHellChestTileEntityRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(AerialHellTileEntityTypes.SIGN.get(), AerialHellSignTileEntityRenderer::new);
+		ClientRegistry.bindBlockEntityRenderer(AerialHellBlockEntities.CHEST_MIMIC.get(), AerialHellChestMimicBlockEntityRenderer::new);
+		ClientRegistry.bindBlockEntityRenderer(AerialHellBlockEntities.CHEST.get(), AerialHellChestBlockEntityRenderer::new);
+		ClientRegistry.bindBlockEntityRenderer(AerialHellBlockEntities.SIGN.get(), AerialHellSignBlockEntityRenderer::new);
 	}
 	
 	private static void render(Supplier<? extends Block> block, RenderType render)
@@ -293,8 +293,8 @@ public class AerialHellRendering
 	
 	public static void registerGuiFactories()
 	{
-        ScreenManager.registerFactory(AerialHellContainerTypes.OSCILLATOR.get(), OscillatorScreen::new);
-        ScreenManager.registerFactory(AerialHellContainerTypes.FREEZER.get(), FreezerScreen::new);
-        ScreenManager.registerFactory(AerialHellContainerTypes.STELLAR_FURNACE.get(), StellarFurnaceScreen::new);
+        ScreenManager.registerFactory(AerialHellMenuTypes.OSCILLATOR.get(), OscillatorScreen::new);
+        ScreenManager.registerFactory(AerialHellMenuTypes.FREEZER.get(), FreezerScreen::new);
+        ScreenManager.registerFactory(AerialHellMenuTypes.STELLAR_FURNACE.get(), StellarFurnaceScreen::new);
     }
 }

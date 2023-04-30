@@ -1,17 +1,15 @@
 package fr.factionbedrock.aerialhell.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import net.minecraft.client.audio.BackgroundMusicTracks;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeAmbience;
-import net.minecraft.world.biome.BiomeGenerationSettings;
-import net.minecraft.world.biome.MobSpawnInfo;
-import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilders;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.Music;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeGenerationSettings;
+import net.minecraft.world.level.biome.BiomeSpecialEffects;
+import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -24,27 +22,27 @@ public class AerialHellBiomes
 	
 	//Biome de base
 	public static final RegistryObject<Biome> AERIAL_HELL_PLAINS = BIOMES.register("aerial_hell_plains", AerialHellBiomes::makeAerialHellBiome);
-	//Forêt d'arbres aériens
+	//Forï¿½t d'arbres aï¿½riens
 	public static final RegistryObject<Biome> AERIAL_TREE_FOREST = BIOMES.register("aerial_tree_forest", AerialHellBiomes::makeAerialHellBiome);
-	//Océan de slippery sand
+	//Ocï¿½an de slippery sand
 	public static final RegistryObject<Biome> SLIPPERY_SAND_OCEAN = BIOMES.register("slippery_sand_ocean", AerialHellBiomes::makeAerialHellBiome);
-	//Forêt de sapins cuivrés
+	//Forï¿½t de sapins cuivrï¿½s
 	public static final RegistryObject<Biome> COPPER_PINE_FOREST = BIOMES.register("copper_pine_forest", AerialHellBiomes::makeAerialHellBiome);
 	//Plaine de Crystal
 	public static final RegistryObject<Biome> CRYSTAL_PLAINS = BIOMES.register("crystal_plains", AerialHellBiomes::makeAerialHellBiome);
-	//Forêt de Crystal
+	//Forï¿½t de Crystal
 	public static final RegistryObject<Biome> CRYSTAL_FOREST = BIOMES.register("crystal_forest", AerialHellBiomes::makeAerialHellBiome);
 	//Savane de Robinier de Lapis
 	public static final RegistryObject<Biome> LAPIS_ROBINIA_SAVANA = BIOMES.register("lapis_robinia_savana", AerialHellBiomes::makeAerialHellBiome);
 	//Plaine des Ombres
 	public static final RegistryObject<Biome> SHADOW_PLAIN = BIOMES.register("shadow_plain", AerialHellBiomes::makeAerialHellBiome);
-	//Forêt des Ombres
+	//Forï¿½t des Ombres
 	public static final RegistryObject<Biome> SHADOW_FOREST = BIOMES.register("shadow_forest", AerialHellBiomes::makeAerialHellBiome);
-	//Forêt de Cortinaire Violet
+	//Forï¿½t de Cortinaire Violet
 	public static final RegistryObject<Biome> CORTINARIUS_VIOLACEUS_FOREST = BIOMES.register("cortinarius_violaceus_forest", AerialHellBiomes::makeAerialHellBiome);
-	//Forêt de Strophaire Vert-de-Gris
+	//Forï¿½t de Strophaire Vert-de-Gris
 	public static final RegistryObject<Biome> VERDIGRIS_AGARIC_FOREST = BIOMES.register("verdigris_agaric_forest", AerialHellBiomes::makeAerialHellBiome);
-	//Forêt de Champignon Rouge
+	//Forï¿½t de Champignon Rouge
 	public static final RegistryObject<Biome> GIANT_RED_MUSHROOM_FOREST = BIOMES.register("giant_red_mushroom_forest", AerialHellBiomes::makeAerialHellBiome);
     
     public static void toDictionary()
@@ -63,24 +61,22 @@ public class AerialHellBiomes
         BiomeDictionary.addTypes(getBiomeKey(GIANT_RED_MUSHROOM_FOREST.get()), BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.LUSH);
     }
 
-	private static RegistryKey<Biome> getBiomeKey(Biome biome)
+	private static ResourceKey<Biome> getBiomeKey(Biome biome)
 	{
-		return RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biome.getRegistryName());
+		return ResourceKey.create(Registry.BIOME_REGISTRY, biome.getRegistryName());
 	}
     
     public static Biome makeAerialHellBiome()
     {
-    	return new Biome.Builder()
-				.precipitation(Biome.RainType.NONE)
-				.category(Biome.Category.NONE)
-				.depth(0)
+    	return new Biome.BiomeBuilder()
+				.precipitation(Biome.Precipitation.NONE)
+				.biomeCategory(Biome.BiomeCategory.NONE)
 				.downfall(0)
-				.scale(0)
 				.temperature(0)
-				.setEffects(new BiomeAmbience.Builder().setFogColor(0).setWaterColor(0).setWaterFogColor(0).withSkyColor(0).setMusic(BackgroundMusicTracks.getDefaultBackgroundMusicSelector(AerialHellSoundEvents.AERIALHELL_DIMENSION_MUSIC.get())).build())
-				.withGenerationSettings(new BiomeGenerationSettings.Builder().withSurfaceBuilder(ConfiguredSurfaceBuilders.field_244184_p).build())
-				.withMobSpawnSettings(MobSpawnInfo.EMPTY)
-				.withTemperatureModifier(Biome.TemperatureModifier.NONE)
+				.specialEffects(new BiomeSpecialEffects.Builder().fogColor(0).waterColor(0).waterFogColor(0).skyColor(0).backgroundMusic(new Music(AerialHellSoundEvents.AERIALHELL_DIMENSION_MUSIC.get(), 1200, 3600, false)).build())
+				.generationSettings(new BiomeGenerationSettings.Builder().build())
+				.mobSpawnSettings(MobSpawnSettings.EMPTY)
+				.temperatureAdjustment(Biome.TemperatureModifier.NONE)
 				.build();
     }
 }

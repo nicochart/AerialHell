@@ -1,93 +1,77 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowFlyingSkullEntity;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.util.math.MathHelper;
-
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 // Made by Cixon with Blockbench
-// Exported for Minecraft version 1.15 - 1.16 with MCP mappings
+// Exported for Minecraft version 1.17 or later with Mojang mappings
 
 public class ShadowFlyingSkullModel<T extends ShadowFlyingSkullEntity> extends EntityModel<T>
 {
-	private final ModelRenderer skull;
-	private final ModelRenderer leftWing;
-	private final ModelRenderer wing_r1;
-	private final ModelRenderer bone_r1;
-	private final ModelRenderer rightWing;
-	private final ModelRenderer wing_r2;
-	private final ModelRenderer bone_r2;
-	private final ModelRenderer jaw;
+	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(AerialHell.MODID, "shadow_flying_skull_model"), "main");
+	private final ModelPart skull;
+	private final ModelPart leftWing;
+	private final ModelPart rightWing;
+	private final ModelPart jaw;
 
-	public ShadowFlyingSkullModel()
+	public ShadowFlyingSkullModel(ModelPart root)
 	{
-		textureWidth = 64;
-		textureHeight = 64;
-		skull = new ModelRenderer(this);
-		skull.setRotationPoint(3.0F, 24.0F, -3.0F);
-		skull.setTextureOffset(0, 0).addBox(-7.0F, -9.0F, -1.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
-
-		leftWing = new ModelRenderer(this);
-		leftWing.setRotationPoint(4.0F, 19.0F, 0.0F);
-		
-
-		wing_r1 = new ModelRenderer(this);
-		wing_r1.setRotationPoint(2.0F, -4.0F, 0.0F);
-		leftWing.addChild(wing_r1);
-		setRotationAngle(wing_r1, 0.0F, 0.0F, -0.3054F);
-		wing_r1.setTextureOffset(48, 25).addBox(-0.3F, -3.0F, 0.0F, 6.0F, 8.0F, 0.0F, 0.0F, false);
-
-		bone_r1 = new ModelRenderer(this);
-		bone_r1.setRotationPoint(0.0F, 0.0F, 0.0F);
-		leftWing.addChild(bone_r1);
-		setRotationAngle(bone_r1, 0.0F, 0.0F, -0.9599F);
-		bone_r1.setTextureOffset(48, 15).addBox(-2.0F, -2.0F, 0.0F, 7.0F, 3.0F, 0.0F, 0.0F, false);
-
-		rightWing = new ModelRenderer(this);
-		rightWing.setRotationPoint(-4.0F, 19.0F, 0.0F);
-		
-
-		wing_r2 = new ModelRenderer(this);
-		wing_r2.setRotationPoint(-2.0F, -4.0F, 0.0F);
-		rightWing.addChild(wing_r2);
-		setRotationAngle(wing_r2, 0.0F, 0.0F, 0.3054F);
-		wing_r2.setTextureOffset(48, 25).addBox(-5.7F, -3.0F, 0.0F, 6.0F, 8.0F, 0.0F, 0.0F, true);
-
-		bone_r2 = new ModelRenderer(this);
-		bone_r2.setRotationPoint(0.0F, 0.0F, 0.0F);
-		rightWing.addChild(bone_r2);
-		setRotationAngle(bone_r2, 0.0F, 0.0F, 0.9599F);
-		bone_r2.setTextureOffset(48, 15).addBox(-5.0F, -2.0F, 0.0F, 7.0F, 3.0F, 0.0F, 0.0F, true);
-
-		jaw = new ModelRenderer(this);
-		jaw.setRotationPoint(0.0F, 20.0F, 1.0F);
-		jaw.setTextureOffset(0, 18).addBox(-4.0F, 0.0F, -5.0F, 8.0F, 4.0F, 8.0F, 0.0F, false);
+		this.skull = root.getChild("skull");
+		this.leftWing = root.getChild("leftWing");
+		this.rightWing = root.getChild("rightWing");
+		this.jaw = root.getChild("jaw");
 	}
 
-	@Override
-	public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	public static LayerDefinition createBodyLayer()
 	{
-		this.jaw.rotateAngleX = entity.jawOpeningAmplitude * MathHelper.sqrt(1.0F + MathHelper.cos(ageInTicks / entity.jawOpeningFrequencyMalus * 3.2F));
-		this.rightWing.rotateAngleY = 0.47123894F + MathHelper.cos(ageInTicks * 0.8F) * 0.3F;
-		this.leftWing.rotateAngleY = -this.rightWing.rotateAngleY;
-		this.leftWing.rotateAngleZ = -0.47123894F;
-		this.leftWing.rotateAngleX = 0.47123894F;
-		this.rightWing.rotateAngleX = 0.47123894F;
-		this.rightWing.rotateAngleZ = 0.47123894F;
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
+
+		PartDefinition skull = partdefinition.addOrReplaceChild("skull", CubeListBuilder.create().texOffs(0, 0).addBox(-7.0F, -9.0F, -1.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(3.0F, 24.0F, -3.0F));
+
+		PartDefinition leftWing = partdefinition.addOrReplaceChild("leftWing", CubeListBuilder.create(), PartPose.offset(4.0F, 19.0F, 0.0F));
+
+		PartDefinition wing_r1 = leftWing.addOrReplaceChild("wing_r1", CubeListBuilder.create().texOffs(48, 25).addBox(-0.3F, -3.0F, 0.0F, 6.0F, 8.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -4.0F, 0.0F, 0.0F, 0.0F, -0.3054F));
+
+		PartDefinition bone_r1 = leftWing.addOrReplaceChild("bone_r1", CubeListBuilder.create().texOffs(48, 15).addBox(-2.0F, -2.0F, 0.0F, 7.0F, 3.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.9599F));
+
+		PartDefinition rightWing = partdefinition.addOrReplaceChild("rightWing", CubeListBuilder.create(), PartPose.offset(-4.0F, 19.0F, 0.0F));
+
+		PartDefinition wing_r2 = rightWing.addOrReplaceChild("wing_r2", CubeListBuilder.create().texOffs(48, 25).mirror().addBox(-5.7F, -3.0F, 0.0F, 6.0F, 8.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, -4.0F, 0.0F, 0.0F, 0.0F, 0.3054F));
+
+		PartDefinition bone_r2 = rightWing.addOrReplaceChild("bone_r2", CubeListBuilder.create().texOffs(48, 15).mirror().addBox(-5.0F, -2.0F, 0.0F, 7.0F, 3.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.9599F));
+
+		PartDefinition jaw = partdefinition.addOrReplaceChild("jaw", CubeListBuilder.create().texOffs(0, 18).addBox(-4.0F, 0.0F, -5.0F, 8.0F, 4.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 20.0F, 1.0F));
+
+		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override
-	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		skull.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftWing.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightWing.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		jaw.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		this.jaw.xRot = entity.jawOpeningAmplitude * Mth.sqrt(1.0F + Mth.cos(ageInTicks / entity.jawOpeningFrequencyMalus * 3.2F));
+		this.rightWing.yRot = 0.47123894F + Mth.cos(ageInTicks * 0.8F) * 0.3F;
+		this.leftWing.yRot = -this.rightWing.yRot;
+		this.leftWing.zRot = -0.47123894F;
+		this.leftWing.xRot = 0.47123894F;
+		this.rightWing.xRot = 0.47123894F;
+		this.rightWing.zRot = 0.47123894F;
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {modelRenderer.rotateAngleX = x; modelRenderer.rotateAngleY = y; modelRenderer.rotateAngleZ = z;}
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	{
+		skull.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		leftWing.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		rightWing.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		jaw.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	}
 }

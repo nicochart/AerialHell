@@ -1,49 +1,51 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.level.Level;
 
 public class MudGolemEntity extends AerialHellGolemEntity
 {
 	private float timeClosePlayer = 0.0F;
 	
-    public MudGolemEntity(EntityType<? extends MonsterEntity> type, World world)
+    public MudGolemEntity(EntityType<? extends Monster> type, Level world)
     {
         super(type, world);
-        this.experienceValue = 12;
+        this.xpReward = 12;
     }
     
-    public static AttributeModifierMap.MutableAttribute registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
-        return MonsterEntity.func_233666_p_()
-                .createMutableAttribute(Attributes.MAX_HEALTH, 60.0D)
-                .createMutableAttribute(Attributes.ARMOR, 3.0D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 7.0D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.23D);
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 60.0D)
+                .add(Attributes.ARMOR, 3.0D)
+                .add(Attributes.ATTACK_DAMAGE, 7.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.23D);
     }
     
     @Override
-	public boolean attackEntityFrom(DamageSource source, float amount)
+	public boolean hurt(DamageSource source, float amount)
 	{
-		boolean flag = super.attackEntityFrom(source, amount);
+		boolean flag = super.hurt(source, amount);
 		if (flag)
 		{
-			Entity immediateSourceEntity = source.getImmediateSource();
-			Entity trueSourceEntity = source.getTrueSource();
-			if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrowEntity))
+			Entity immediateSourceEntity = source.getDirectEntity();
+			Entity trueSourceEntity = source.getEntity();
+			if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrow))
 			{
-				if (!(trueSourceEntity instanceof PlayerEntity && ((PlayerEntity)trueSourceEntity).isCreative()))
+				if (!(trueSourceEntity instanceof Player && ((Player)trueSourceEntity).isCreative()))
 				{
-					this.setAttackTarget((LivingEntity) trueSourceEntity);
+					this.setTarget((LivingEntity) trueSourceEntity);
 				}
 			}
 		}
@@ -54,10 +56,10 @@ public class MudGolemEntity extends AerialHellGolemEntity
     protected void registerGoals()
     {
     	super.registerGoals();
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AnimalEntity.class, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Animal.class, true));
     }
 	
 	@Override public float getYMotionOnAttack() {return 0.4F;}
-    @Override public boolean canDespawn(double distanceToClosestPlayer) {return false;}
+    @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
 }

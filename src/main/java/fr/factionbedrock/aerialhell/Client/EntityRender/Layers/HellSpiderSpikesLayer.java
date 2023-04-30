@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.Layers;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import fr.factionbedrock.aerialhell.AerialHell;
@@ -13,13 +13,13 @@ import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.SpiderModel;
-import net.minecraft.entity.monster.SpiderEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.monster.Spider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class HellSpiderSpikesLayer<T extends SpiderEntity, M extends SpiderModel<T>> extends LayerRenderer<T, M>
+public class HellSpiderSpikesLayer<T extends Spider, M extends SpiderModel<T>> extends LayerRenderer<T, M>
 {
    private final HellSpiderSpikeModel<T> SpiderSpikeModel = new HellSpiderSpikeModel<T>();
    private static final ResourceLocation HELL_SPIDER_SPIKES = new ResourceLocation(AerialHell.MODID, "textures/entity/hell_spider/spikes.png");
@@ -47,7 +47,7 @@ public class HellSpiderSpikesLayer<T extends SpiderEntity, M extends SpiderModel
 	   }
    }
    
-   public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
+   public void render(PoseStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
    {   
       if (!entitylivingbaseIn.isInvisible())
       {

@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public class EnchantedEffectTotemItem extends EffectTotemItem
 {
@@ -9,9 +9,5 @@ public class EnchantedEffectTotemItem extends EffectTotemItem
 		super(properties);
 	}
 	
-	@Override
-    public boolean hasEffect(ItemStack stack)
-    {
-        return true;
-    }
+	//@Override public boolean hasEffect(ItemStack stack) {return true;} TODO comment faire ?
 }

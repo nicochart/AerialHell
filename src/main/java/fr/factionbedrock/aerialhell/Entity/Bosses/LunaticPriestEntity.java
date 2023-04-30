@@ -7,33 +7,33 @@ import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.BossInfo;
-import net.minecraft.world.World;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.BossEvent;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -42,17 +42,17 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	public int attackTimer;
 	private int lunaticProjectileTimer;
 	
-	public static final DataParameter<Boolean> SECOND_PHASE = EntityDataManager.createKey(LunaticPriestEntity.class, DataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<Boolean> SECOND_PHASE = SynchedEntityData.defineId(LunaticPriestEntity.class, EntityDataSerializers.BOOLEAN);
 	
-	public LunaticPriestEntity(EntityType<? extends MonsterEntity> type, World world)
+	public LunaticPriestEntity(EntityType<? extends Monster> type, Level world)
 	{
 		super(type, world);
 		if (this.getHealth() >= getMaxHealthForPhase2()) {this.updateToPhase1();}
 		else {this.updateToPhase2();}
 		this.attackTimer = 0;
 		this.lunaticProjectileTimer = 80;
-		bossInfo.setColor(BossInfo.Color.YELLOW);
-		bossInfo.setOverlay(BossInfo.Overlay.NOTCHED_6);
+		bossInfo.setColor(BossEvent.BossBarColor.YELLOW);
+		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 	}
 	
 	@Override
@@ -64,22 +64,22 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		this.goalSelector.addGoal(6, new PriestLookRandomlyGoal(this));
 		/*Phase 2 only*/
 	    this.goalSelector.addGoal(4, new PriestWaterAvoidingRandomWalkingGoal(this, 1.0D));
-	    this.goalSelector.addGoal(5, new ActiveLookAtPlayerGoal(this, PlayerEntity.class, 8.0F));
+	    this.goalSelector.addGoal(5, new ActiveLookAtPlayerGoal(this, Player.class, 8.0F));
 	    /*Both phases*/
 	    this.goalSelector.addGoal(2, new LunaticPriestEntity.LunaticProjectileAttackGoal(this));
 	    this.goalSelector.addGoal(3, new ActiveMeleeAttackGoal(this, 1.25D, false));
 	    this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-	    this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+	    this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, Player.class, true));
 	    this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
     }
 	
 	public float getMaxHealthForPhase2() {return this.getMaxHealth() / 2;}
 	
 	@Override
-	protected void registerData()
+	protected void defineSynchedData()
 	{
-		super.registerData();
-		this.dataManager.register(SECOND_PHASE, false);
+		super.defineSynchedData();
+		this.entityData.define(SECOND_PHASE, false);
 	}
 	
 	@Override
@@ -88,86 +88,86 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		super.setActive(isActive);
 		if (!isActive)
 		{
-			this.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOW_FALLING, 120, 2, true, false)));
+			this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.SLOW_FALLING, 120, 2, true, false)));
 		}
 	}
 	
-	public boolean isInPhase1() {return !this.dataManager.get(SECOND_PHASE);}
-	public boolean isInPhase2() {return this.dataManager.get(SECOND_PHASE);}
+	public boolean isInPhase1() {return !this.entityData.get(SECOND_PHASE);}
+	public boolean isInPhase2() {return this.entityData.get(SECOND_PHASE);}
 	public boolean shouldUpdateToPhase1() {return this.getHealth() >= getMaxHealthForPhase2() && this.isInPhase2();}
 	public boolean shouldUpdateToPhase2() {return this.getHealth() < getMaxHealthForPhase2() && this.isInPhase1();}
 	
 	private void updateToPhase1()
 	{
-		this.dataManager.set(SECOND_PHASE, false);
-		this.moveController =  new LunaticPriestEntity.PriestMoveHelperController(this);
-		this.setMotion(this.getMotion().add(0,2,0));
+		this.entityData.set(SECOND_PHASE, false);
+		this.moveControl =  new LunaticPriestEntity.PriestMoveHelperController(this);
+		this.setDeltaMovement(this.getDeltaMovement().add(0,2,0));
 	}
 	
 	private void updateToPhase2()
 	{
-		this.dataManager.set(SECOND_PHASE, true);
-		this.moveController = new MovementController(this);
-		this.addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOW_FALLING, 120, 2, true, false)));
+		this.entityData.set(SECOND_PHASE, true);
+		this.moveControl = new MoveControl(this);
+		this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.SLOW_FALLING, 120, 2, true, false)));
 	}
 	
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount)
+	public boolean hurt(DamageSource source, float amount)
 	{
-		boolean flag = super.attackEntityFrom(source, amount);
+		boolean flag = super.hurt(source, amount);
 		if (flag)
 		{
-			if (source.getTrueSource() instanceof LivingEntity)
+			if (source.getEntity() instanceof LivingEntity)
 			{
-				if (!(source.getTrueSource() instanceof PlayerEntity && ((PlayerEntity)source.getTrueSource()).isCreative()))
+				if (!(source.getEntity() instanceof Player && ((Player)source.getEntity()).isCreative()))
 				{
-					this.setAttackTarget((LivingEntity) source.getTrueSource());
+					this.setTarget((LivingEntity) source.getEntity());
 				}
 			}
 		}
 		return flag;
 	}
 	
-	public static AttributeModifierMap.MutableAttribute registerAttributes()
+	public static AttributeSupplier.Builder registerAttributes()
     {
-		return MonsterEntity.func_233666_p_()
-				.createMutableAttribute(Attributes.MAX_HEALTH, 600.0D)
-				.createMutableAttribute(Attributes.FOLLOW_RANGE, 48.0D)
-				.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.27D)
-				.createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.05D)
-				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
-				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 7.0D);
+		return Monster.createMonsterAttributes()
+				.add(Attributes.MAX_HEALTH, 600.0D)
+				.add(Attributes.FOLLOW_RANGE, 48.0D)
+				.add(Attributes.MOVEMENT_SPEED, 0.27D)
+				.add(Attributes.KNOCKBACK_RESISTANCE, 0.05D)
+				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
+				.add(Attributes.ATTACK_DAMAGE, 7.0D);
     }
 	
-	@Override public boolean isImmuneToFire() {return true;}
-	@Override public boolean canRenderOnFire() {return false;}
+	@Override public boolean fireImmune() {return true;}
+	@Override public boolean displayFireAnimation() {return false;}
 	
 	@Override
-	public boolean attackEntityAsMob(Entity attackedEntity)
+	public boolean doHurtTarget(Entity attackedEntity)
 	{
-	      this.world.setEntityState(this, (byte)4);
+	      this.level.broadcastEntityEvent(this, (byte)4);
 	      float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
-	      float f1 = (int)f > 0 ? f / 2.0F + (float)this.rand.nextInt((int)f) : f;
-	      boolean flag = attackedEntity.attackEntityFrom(DamageSource.causeMobDamage(this), f1);
+	      float f1 = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
+	      boolean flag = attackedEntity.hurt(DamageSource.mobAttack(this), f1);
 	      if (flag)
 	      {
-	         attackedEntity.setMotion(attackedEntity.getMotion().getX(), (double)0.4F, attackedEntity.getMotion().getZ());
-	         this.applyEnchantments(this, attackedEntity);
+	         attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().x, (double)0.4F, attackedEntity.getDeltaMovement().z);
+	         this.doEnchantDamageEffects(this, attackedEntity);
 	      }
 
-	      this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);
+	      this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
 	      return flag;
 	}
 	
 	@Override @OnlyIn(Dist.CLIENT)
-	public void handleStatusUpdate(byte id)
+	public void handleEntityEvent(byte id)
 	{
 		if (id == 4)
 		{
 	         this.attackTimer = 10;
-	         this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);
+	         this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
 	    }
-		else {super.handleStatusUpdate(id);}
+		else {super.handleEntityEvent(id);}
 	}
 	
 	@Override public void tick()
@@ -188,23 +188,23 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		}
 	}
 	
-	@Override public void livingTick()
+	@Override public void aiStep()
     {
 		if (this.attackTimer > 0) {this.attackTimer--;}
 		if (this.lunaticProjectileTimer > 0) {this.lunaticProjectileTimer--;} else if (this.lunaticProjectileTimer < 0) {this.lunaticProjectileTimer++;}
-		super.livingTick();
+		super.aiStep();
     }
 	
-	@Override public boolean onLivingFall(float distance, float damageMultiplier)
+	@Override public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source)
 	{
 		if (isInPhase1()) {return false;}
-		else {return super.onLivingFall(distance, damageMultiplier);}
+		else {return super.causeFallDamage(distance, damageMultiplier, source);}
 	}
 	
-	@Override protected void updateFallState(double y, boolean onGroundIn, BlockState state, BlockPos pos) {}
+	@Override protected void checkFallDamage(double y, boolean onGroundIn, BlockState state, BlockPos pos) {}
 	
 	/*copied from net.minecraft.entity.FlyingEntity*/
-	@Override public void travel(Vector3d travelVector)
+	@Override public void travel(Vec3 travelVector)
 	{
 		if (isInPhase1())
 		{
@@ -213,44 +213,44 @@ public class LunaticPriestEntity extends AbstractBossEntity
 				if (this.isInWater())
 			    {
 			    	this.moveRelative(0.02F, travelVector);
-			        this.move(MoverType.SELF, this.getMotion());
-			        this.setMotion(this.getMotion().scale((double)0.8F));
+			        this.move(MoverType.SELF, this.getDeltaMovement());
+			        this.setDeltaMovement(this.getDeltaMovement().scale((double)0.8F));
 			    }
 				else if (this.isInLava())
 				{
 			        this.moveRelative(0.02F, travelVector);
-			        this.move(MoverType.SELF, this.getMotion());
-			        this.setMotion(this.getMotion().scale(0.5D));
+			        this.move(MoverType.SELF, this.getDeltaMovement());
+			        this.setDeltaMovement(this.getDeltaMovement().scale(0.5D));
 			    }
 				else
 				{
-			        BlockPos ground = new BlockPos(this.getPosX(), this.getPosY() - 1.0D, this.getPosZ());
+			        BlockPos ground = new BlockPos(this.getX(), this.getY() - 1.0D, this.getZ());
 			        float f = 0.91F;
 			        if (this.onGround)
 			        {
-			        	f = this.world.getBlockState(ground).getSlipperiness(this.world, ground, this) * 0.91F;
+			        	f = this.level.getBlockState(ground).getFriction(this.level, ground, this) * 0.91F;
 			        }
 			        float f1 = 0.16277137F / (f * f * f);
 			        f = 0.91F;
 			        if (this.onGround)
 			        {
-			            f = this.world.getBlockState(ground).getSlipperiness(this.world, ground, this) * 0.91F;
+			            f = this.level.getBlockState(ground).getFriction(this.level, ground, this) * 0.91F;
 			        }
 		
 			        this.moveRelative(this.onGround ? 0.1F * f1 : 0.02F, travelVector);
-			        this.move(MoverType.SELF, this.getMotion());
-			        this.setMotion(this.getMotion().scale((double)f));
+			        this.move(MoverType.SELF, this.getDeltaMovement());
+			        this.setDeltaMovement(this.getDeltaMovement().scale((double)f));
 				}
-				this.func_233629_a_(this, false);
+				this.calculateEntityAnimation(this, false);
 			}
 		}
 		else {super.travel(travelVector);}
 	}
 	
-	@Override public boolean isOnLadder()
+	@Override public boolean onClimbable()
 	{
 		if (isInPhase1() && isActive()) {return false;}
-		else {return super.isOnLadder();}
+		else {return super.onClimbable();}
 	}
 	
 	/*
@@ -265,50 +265,50 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		public PriestRandomFlyGoal(LunaticPriestEntity priestIn)
 		{
 			this.priest = priestIn;
-			this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE));
+			this.setFlags(EnumSet.of(Goal.Flag.MOVE));
 		}
 		
 		@Override
-		public boolean shouldExecute()
+		public boolean canUse()
 		{
 			if (!priest.isActive() || priest.isInPhase2())
 			{
 				return false;
 			}
-			MovementController movementcontroller = this.priest.getMoveHelper();
-			if (!movementcontroller.isUpdating())
+			MoveControl movementcontroller = this.priest.getMoveControl();
+			if (!movementcontroller.hasWanted())
 			{
 				return true;
 			}
 			else
 			{
-				double d0 = movementcontroller.getX() - this.priest.getPosX();
-				double d1 = movementcontroller.getY() - this.priest.getPosY();
-				double d2 = movementcontroller.getZ() - this.priest.getPosZ();
+				double d0 = movementcontroller.getWantedX() - this.priest.getX();
+				double d1 = movementcontroller.getWantedY() - this.priest.getY();
+				double d2 = movementcontroller.getWantedZ() - this.priest.getZ();
 				double d3 = d0 * d0 + d1 * d1 + d2 * d2;
 				return d3 < 1.0 || d3 > 3600.0;
 			}
 		}
 
 		@Override
-		public boolean shouldContinueExecuting()
+		public boolean canContinueToUse()
 		{
 			return false;
 		}
 
 		@Override
-		public void startExecuting()
+		public void start()
 		{
-			Random random = this.priest.getRNG();
-			double d0 = this.priest.getPosX() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
-			double d1 = this.priest.getPosY() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
-			double d2 = this.priest.getPosZ() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
-			this.priest.getMoveHelper().setMoveTo(d0, d1, d2, 1.0);
+			Random random = this.priest.getRandom();
+			double d0 = this.priest.getX() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
+			double d1 = this.priest.getY() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
+			double d2 = this.priest.getZ() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
+			this.priest.getMoveControl().setWantedPosition(d0, d1, d2, 1.0);
 		}
 	}
 
 	/* Same as net.minecraft.entity.monster.GhastEntity.MoveHelperController but changed GhastEntity to LunaticPriestEntity */
-	static class PriestMoveHelperController extends MovementController
+	static class PriestMoveHelperController extends MoveControl
 	{
 		private final LunaticPriestEntity priest;
 		private int courseChangeCooldown;
@@ -321,33 +321,33 @@ public class LunaticPriestEntity extends AbstractBossEntity
 
 		@Override
 		public void tick() {
-			if (this.action == MovementController.Action.MOVE_TO)
+			if (this.operation == MoveControl.Operation.MOVE_TO)
 			{
 				if (this.courseChangeCooldown-- <= 0)
 				{
-					this.courseChangeCooldown += this.priest.getRNG().nextInt(5) + 2;
-					Vector3d vec3d = new Vector3d(this.posX - this.priest.getPosX(), this.posY - this.priest.getPosY(), this.posZ - this.priest.getPosZ());
+					this.courseChangeCooldown += this.priest.getRandom().nextInt(5) + 2;
+					Vec3 vec3d = new Vec3(this.wantedX - this.priest.getX(), this.wantedY - this.priest.getY(), this.wantedZ - this.priest.getZ());
 					double d0 = vec3d.length();
 					vec3d = vec3d.normalize();
-					if (this.isNotColliding(vec3d, MathHelper.ceil(d0)))
+					if (this.canReach(vec3d, Mth.ceil(d0)))
 					{
-						this.priest.setMotion(this.priest.getMotion().add(vec3d.scale(0.1)));
+						this.priest.setDeltaMovement(this.priest.getDeltaMovement().add(vec3d.scale(0.1)));
 					}
 					else
 					{
-						this.action = MovementController.Action.WAIT;
+						this.operation = MoveControl.Operation.WAIT;
 					}
 				}
 			}
 		}
 
-		private boolean isNotColliding(Vector3d pos, int distance)
+		private boolean canReach(Vec3 pos, int distance) //isNotColliding
 		{
-			AxisAlignedBB axisalignedbb = this.priest.getBoundingBox();
+			AABB axisalignedbb = this.priest.getBoundingBox();
 			for (int i = 1; i < distance; ++i)
 			{
-				axisalignedbb = axisalignedbb.offset(pos);
-				if (!this.priest.world.hasNoCollisions(this.priest, axisalignedbb)) {return false;}
+				axisalignedbb = axisalignedbb.move(pos);
+				if (!this.priest.level.noCollision(this.priest, axisalignedbb)) {return false;}
 			}
 			return true;
 		}
@@ -361,11 +361,11 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		public PriestLookAroundGoal(LunaticPriestEntity priest)
 		{
 			this.priest = priest;
-			this.setMutexFlags(EnumSet.of(Goal.Flag.LOOK));
+			this.setFlags(EnumSet.of(Goal.Flag.LOOK));
 		}
 
 		@Override
-		public boolean shouldExecute()
+		public boolean canUse()
 		{
 			return priest.isActive() && priest.isInPhase1();
 		}
@@ -373,21 +373,21 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		@Override
 		public void tick()
 		{				
-			if (this.priest.getAttackTarget() == null)
+			if (this.priest.getTarget() == null)
 			{
-				Vector3d vec3d = this.priest.getMotion();
-				this.priest.rotationYaw = -((float)MathHelper.atan2(vec3d.x, vec3d.z)) * (180.0F / (float)Math.PI);
-				this.priest.renderYawOffset = this.priest.rotationYaw;
+				Vec3 vec = this.priest.getDeltaMovement();
+				this.priest.setYRot(-((float)Mth.atan2(vec.x, vec.z)) * (180F / (float)Math.PI));
+				this.priest.yBodyRot = this.priest.getYRot();
 			}
 			else
 			{
-				LivingEntity livingentity = this.priest.getAttackTarget();
-				if (livingentity.getDistanceSq(this.priest) < 64*64)
+				LivingEntity livingentity = this.priest.getTarget();
+				if (livingentity.distanceToSqr(this.priest) < 64*64)
 				{
-					double x = livingentity.getPosX() - this.priest.getPosX();
-					double z = livingentity.getPosZ() - this.priest.getPosZ();
-					this.priest.rotationYaw = -((float)MathHelper.atan2(x, z)) * (180.0F / (float)Math.PI);
-					this.priest.renderYawOffset = this.priest.rotationYaw;
+					double x = livingentity.getX() - this.priest.getX();
+					double z = livingentity.getZ() - this.priest.getZ();
+					this.priest.setYRot(-((float)Mth.atan2(x, z)) * (180F / (float)Math.PI));
+					this.priest.yBodyRot = this.priest.getYRot();
 				}
 			}
 		}
@@ -401,27 +401,27 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	    public LunaticProjectileAttackGoal(LunaticPriestEntity priestIn)
 	    {
 	    	this.priest = priestIn;
-	        this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+	        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
 	    }
 
-	    public boolean shouldExecute()
+	    public boolean canUse()
 	    {
 	    	if (!this.priest.isActive()) {return false;}
-	    	LivingEntity target = this.priest.getAttackTarget();
-	        return target != null && priest.canEntityBeSeen(target) && priest.lunaticProjectileTimer == 0 && target.isAlive() && this.priest.canAttack(target);
+	    	LivingEntity target = this.priest.getTarget();
+	        return target != null && priest.hasLineOfSight(target) && priest.lunaticProjectileTimer == 0 && target.isAlive() && this.priest.canAttack(target);
 	    }
 	    
-	    public void startExecuting() {this.projectileCount = 0;}
+	    public void start() {this.projectileCount = 0;}
 	    
-	    public void resetTask() {this.projectileCount = 0;}
+	    public void stop() {this.projectileCount = 0;}
 
 	    public void tick()
 	    {
-	    	LivingEntity target = this.priest.getAttackTarget();
+	    	LivingEntity target = this.priest.getTarget();
 	    	
-	    	double Xdistance = target.getPosX() - this.priest.getPosX();
-            double Ydistance = target.getPosYHeight(0.5D) - this.priest.getPosYHeight(0.5D);
-            double Zdistance = target.getPosZ() - this.priest.getPosZ();
+	    	double Xdistance = target.getX() - this.priest.getX();
+            double Ydistance = target.getY(0.5D) - this.priest.getY(0.5D);
+            double Zdistance = target.getZ() - this.priest.getZ();
             
             float inaccuracy = 0.0f;
             if (priest.isInPhase2()) {inaccuracy = 0.3f;}
@@ -429,34 +429,34 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	        if (projectileCount < 1)
 	        {
 	        	 ++this.projectileCount;
-	        	 LunaticProjectileEntity lunaticProjectileEntity = new LunaticProjectileEntity(this.priest.world, this.priest, Xdistance, Ydistance, Zdistance, 0.7f + this.priest.rand.nextFloat(), inaccuracy);
-                 lunaticProjectileEntity.setPosition(lunaticProjectileEntity.getPosX(), this.priest.getPosYHeight(0.5D) + 0.5D, lunaticProjectileEntity.getPosZ());
-                 this.priest.world.addEntity(lunaticProjectileEntity);
+	        	 LunaticProjectileEntity lunaticProjectileEntity = new LunaticProjectileEntity(this.priest.level, this.priest, Xdistance, Ydistance, Zdistance, 0.7f + this.priest.random.nextFloat(), inaccuracy);
+                 lunaticProjectileEntity.setPos(lunaticProjectileEntity.getX(), this.priest.getY(0.5D) + 0.5D, lunaticProjectileEntity.getZ());
+                 this.priest.level.addFreshEntity(lunaticProjectileEntity);
 	        }
 	        if (priest.isInPhase1())
 	        {
-	        	priest.lunaticProjectileTimer = 35 + (int) (priest.rand.nextFloat() * 20);
+	        	priest.lunaticProjectileTimer = 35 + (int) (priest.random.nextFloat() * 20);
 	        }
 	        else
 	        {
-	        	priest.lunaticProjectileTimer = 30 + (int) (priest.rand.nextFloat() * 10);
+	        	priest.lunaticProjectileTimer = 30 + (int) (priest.random.nextFloat() * 10);
 	        }
 	        super.tick();
 	    }
 	}
 	
-	public static class PriestLookRandomlyGoal extends ActiveLookRandomlyGoal
+	public static class PriestLookRandomlyGoal extends ActiveRandomLookAroundGoal
 	{		
 		public PriestLookRandomlyGoal(LunaticPriestEntity priestIn) {super(priestIn);}
-		@Override public boolean shouldExecute() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.shouldExecute();}
-		@Override public boolean shouldContinueExecuting() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.shouldContinueExecuting();}
+		@Override public boolean canUse() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.canUse();}
+		@Override public boolean canContinueToUse() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.canContinueToUse();}
 	}
 	
 	public static class PriestWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal
 	{
 		public PriestWaterAvoidingRandomWalkingGoal(LunaticPriestEntity priestIn, double speedIn) {super(priestIn, speedIn);}
-		@Override public boolean shouldExecute() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.shouldExecute();}
-		@Override public boolean shouldContinueExecuting() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.shouldContinueExecuting();}
+		@Override public boolean canUse() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.canUse();}
+		@Override public boolean canContinueToUse() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.canContinueToUse();}
 	}
 	
 	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_LUNATIC_PRIEST_AMBIENT.get();}

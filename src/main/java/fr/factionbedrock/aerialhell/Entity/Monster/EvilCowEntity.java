@@ -1,15 +1,20 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.*;
-import net.minecraft.world.World;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
@@ -19,22 +24,22 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 
 public class EvilCowEntity extends AerialHellHostileEntity
 {
-    public EvilCowEntity(EntityType<? extends EvilCowEntity> type, World worldIn)
+    public EvilCowEntity(EntityType<? extends EvilCowEntity> type, Level worldIn)
     {
         super(type, worldIn);
     }
 
-    public EvilCowEntity(World worldIn)
+    public EvilCowEntity(Level worldIn)
     {
         this(AerialHellEntities.EVIL_COW.get(), worldIn);
     }
 
-    public static AttributeModifierMap.MutableAttribute registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
-        return MonsterEntity.func_233666_p_()
-                .createMutableAttribute(Attributes.MAX_HEALTH, 20.0D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.20000000298023224D)
-        		.createMutableAttribute(Attributes.ATTACK_DAMAGE, 3.0D);
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 20.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.20000000298023224D)
+        		.add(Attributes.ATTACK_DAMAGE, 3.0D);
     }
     
     @Override
@@ -43,22 +48,19 @@ public class EvilCowEntity extends AerialHellHostileEntity
     	super.registerGoals();
     	this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
     }
-    
-    @Override
-    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand)
+
+    //TODO : remove this ?
+    @Override public InteractionResult mobInteract(Player player, InteractionHand hand)
     {
-        ItemStack itemstack = player.getHeldItem(hand);
-        if (itemstack.getItem() == Items.BUCKET)
+        ItemStack itemstack = player.getItemInHand(hand);
+        if (itemstack.is(Items.BUCKET) && !this.isBaby())
         {
-            player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
-            ItemStack itemstack1 = DrinkHelper.fill(itemstack, player, Items.MILK_BUCKET.getDefaultInstance());
-            player.setHeldItem(hand, itemstack1);
-            return ActionResultType.func_233537_a_(this.world.isRemote);
+            player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
+            ItemStack filledFucket = ItemUtils.createFilledResult(itemstack, player, Items.MILK_BUCKET.getDefaultInstance());
+            player.setItemInHand(hand, filledFucket);
+            return InteractionResult.sidedSuccess(this.level.isClientSide);
         }
-        else
-        {
-            return super.func_230254_b_(player, hand);
-        }
+        else {return super.mobInteract(player, hand);}
     }
 
     @Nullable

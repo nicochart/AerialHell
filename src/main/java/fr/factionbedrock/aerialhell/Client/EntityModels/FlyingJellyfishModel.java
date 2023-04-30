@@ -1,100 +1,94 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Monster.FlyingJellyfishEntity;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
-// Made with Blockbench 4.0.1
-// Exported for Minecraft version 1.15 - 1.16 with MCP mappings
-
+// Made with Blockbench 4.7.0
+// Exported for Minecraft version 1.17 or later with Mojang mappings
 
 public class FlyingJellyfishModel<J extends FlyingJellyfishEntity> extends EntityModel<J>
 {
-	private final ModelRenderer tentacle_0;
-	private final ModelRenderer tentacle_1;
-	private final ModelRenderer tentacle_2;
-	private final ModelRenderer tentacle_3;
-	private final ModelRenderer tentacle_4;
-	private final ModelRenderer tentacle_5;
-	private final ModelRenderer tentacle_6;
-	private final ModelRenderer body;
+	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(AerialHell.MODID, "flying_jellyfish_model"), "main");
+	private final ModelPart tentacles_0;
+	private final ModelPart tentacles_1;
+	private final ModelPart tentacles_2;
+	private final ModelPart tentacles_3;
+	private final ModelPart tentacles_4;
+	private final ModelPart tentacles_5;
+	private final ModelPart tentacles_6;
+	private final ModelPart body;
 
-	public FlyingJellyfishModel()
+	public FlyingJellyfishModel(ModelPart root)
 	{
-		textureWidth = 32;
-		textureHeight = 16;
-
-		tentacle_0 = new ModelRenderer(this);
-		tentacle_0.setRotationPoint(3.8F, 23.0F, -5.0F);
-		tentacle_0.setTextureOffset(4, 0).addBox(-3.0F, -1.0F, 3.0F, 1.0F, 4.0F, 1.0F, 0.0F, true);
-
-		tentacle_1 = new ModelRenderer(this);
-		tentacle_1.setRotationPoint(-1.3F, 23.0F, -5.0F);
-		tentacle_1.setTextureOffset(0, 0).addBox(-1.0F, -1.0F, 3.0F, 1.0F, 5.0F, 1.0F, 0.0F, true);
-
-		tentacle_2 = new ModelRenderer(this);
-		tentacle_2.setRotationPoint(-6.3F, 23.0F, -5.0F);
-		tentacle_2.setTextureOffset(8, 0).addBox(5.0F, -1.0F, 4.8F, 1.0F, 3.0F, 1.0F, 0.0F, true);
-
-		tentacle_3 = new ModelRenderer(this);
-		tentacle_3.setRotationPoint(6.3F, 23.0F, 0.0F);
-		tentacle_3.setTextureOffset(4, 8).addBox(-5.0F, -1.0F, 0.0F, 1.0F, 7.0F, 1.0F, 0.0F, true);
-
-		tentacle_4 = new ModelRenderer(this);
-		tentacle_4.setRotationPoint(1.3F, 23.0F, 0.0F);
-		tentacle_4.setTextureOffset(0, 9).addBox(-1.2F, -1.0F, 1.0F, 1.0F, 6.0F, 1.0F, 0.0F, true);
-
-		tentacle_5 = new ModelRenderer(this);
-		tentacle_5.setRotationPoint(-3.8F, 23.0F, 0.0F);
-		tentacle_5.setTextureOffset(0, 9).addBox(1.0F, -1.0F, 0.0F, 1.0F, 6.0F, 1.0F, 0.0F, true);
-
-		tentacle_6 = new ModelRenderer(this);
-		tentacle_6.setRotationPoint(-1.3F, 23.0F, 5.0F);
-		tentacle_6.setTextureOffset(0, 0).addBox(0.0F, -1.0F, -3.35F, 1.0F, 5.0F, 1.0F, 0.0F, true);
-
-		body = new ModelRenderer(this);
-		body.setRotationPoint(0.0F, 16.0F, 0.0F);
-		body.setTextureOffset(8, 0).addBox(-3.0F, 2.0F, -3.0F, 6.0F, 6.0F, 6.0F, 0.0F, true);
-		body.setTextureOffset(26, 1).addBox(3.0F, 4.0F, 2.2F, 2.0F, 4.0F, 0.0F, 0.0F, true);
-		body.setTextureOffset(24, 12).addBox(3.0F, 2.0F, 2.6F, 2.0F, 4.0F, 0.0F, 0.0F, true);
-		body.setTextureOffset(28, 2).addBox(-5.0F, 4.0F, 2.0F, 2.0F, 3.0F, 0.0F, 0.0F, true);
-		body.setTextureOffset(28, 12).addBox(-5.0F, 2.0F, 2.64F, 2.0F, 4.0F, 0.0F, 0.0F, true);
-		body.setTextureOffset(8, 14).addBox(-4.0F, 0.0F, 2.64F, 8.0F, 2.0F, 0.0F, 0.0F, true);
+		this.tentacles_0 = root.getChild("tentacles_0");
+		this.tentacles_1 = root.getChild("tentacles_1");
+		this.tentacles_2 = root.getChild("tentacles_2");
+		this.tentacles_3 = root.getChild("tentacles_3");
+		this.tentacles_4 = root.getChild("tentacles_4");
+		this.tentacles_5 = root.getChild("tentacles_5");
+		this.tentacles_6 = root.getChild("tentacles_6");
+		this.body = root.getChild("body");
 	}
 
-	@Override
-	public void setRotationAngles(J entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	public static LayerDefinition createBodyLayer()
 	{
-		this.tentacle_0.rotateAngleX = 0.1F * MathHelper.sin(ageInTicks * 0.3F + 0.0F) + 0.4F;
-		this.tentacle_1.rotateAngleX = 0.1F * MathHelper.sin(ageInTicks * 0.3F + 1.0F) + 0.4F;
-		this.tentacle_2.rotateAngleX = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 2.0F) + 0.4F;
-		this.tentacle_3.rotateAngleX = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 3.0F) + 0.4F;
-		this.tentacle_4.rotateAngleX = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 4.0F) + 0.4F;
-		this.tentacle_5.rotateAngleX = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 5.0F) + 0.4F;
-		this.tentacle_6.rotateAngleX = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 6.0F) + 0.4F;
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
+
+		PartDefinition tentacles_0 = partdefinition.addOrReplaceChild("tentacles_0", CubeListBuilder.create().texOffs(4, 0).mirror().addBox(-3.0F, -1.0F, 3.0F, 1.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(3.8F, 23.0F, -5.0F));
+
+		PartDefinition tentacles_1 = partdefinition.addOrReplaceChild("tentacles_1", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-1.0F, -1.0F, 3.0F, 1.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-1.3F, 23.0F, -5.0F));
+
+		PartDefinition tentacles_2 = partdefinition.addOrReplaceChild("tentacles_2", CubeListBuilder.create().texOffs(8, 0).mirror().addBox(5.0F, -1.0F, 4.8F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-6.3F, 23.0F, -5.0F));
+
+		PartDefinition tentacles_3 = partdefinition.addOrReplaceChild("tentacles_3", CubeListBuilder.create().texOffs(4, 8).mirror().addBox(-5.0F, -1.0F, 0.0F, 1.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(6.3F, 23.0F, 0.0F));
+
+		PartDefinition tentacles_4 = partdefinition.addOrReplaceChild("tentacles_4", CubeListBuilder.create().texOffs(0, 9).mirror().addBox(-1.2F, -1.0F, 1.0F, 1.0F, 6.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(1.3F, 23.0F, 0.0F));
+
+		PartDefinition tentacles_5 = partdefinition.addOrReplaceChild("tentacles_5", CubeListBuilder.create().texOffs(0, 9).mirror().addBox(1.0F, -1.0F, 0.0F, 1.0F, 6.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-3.8F, 23.0F, 0.0F));
+
+		PartDefinition tentacles_6 = partdefinition.addOrReplaceChild("tentacles_6", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(0.0F, -1.0F, -3.35F, 1.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-1.3F, 23.0F, 5.0F));
+
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(8, 0).mirror().addBox(-3.0F, 2.0F, -3.0F, 6.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(26, 1).mirror().addBox(3.0F, 4.0F, 2.2F, 2.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(24, 12).mirror().addBox(3.0F, 2.0F, 2.6F, 2.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(28, 2).mirror().addBox(-5.0F, 4.0F, 2.0F, 2.0F, 3.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(28, 12).mirror().addBox(-5.0F, 2.0F, 2.64F, 2.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(8, 14).mirror().addBox(-4.0F, 0.0F, 2.64F, 8.0F, 2.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 16.0F, 0.0F));
+
+		return LayerDefinition.create(meshdefinition, 32, 16);
 	}
 
-	@Override
-	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void setupAnim(J entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		tentacle_0.render(matrixStack, buffer, packedLight, packedOverlay);
-		tentacle_1.render(matrixStack, buffer, packedLight, packedOverlay);
-		tentacle_2.render(matrixStack, buffer, packedLight, packedOverlay);
-		tentacle_3.render(matrixStack, buffer, packedLight, packedOverlay);
-		tentacle_4.render(matrixStack, buffer, packedLight, packedOverlay);
-		tentacle_5.render(matrixStack, buffer, packedLight, packedOverlay);
-		tentacle_6.render(matrixStack, buffer, packedLight, packedOverlay);
-		body.render(matrixStack, buffer, packedLight, packedOverlay);
+		this.tentacles_0.xRot = 0.1F * Mth.sin(ageInTicks * 0.3F + 0.0F) + 0.4F;
+		this.tentacles_1.xRot = 0.1F * Mth.sin(ageInTicks * 0.3F + 1.0F) + 0.4F;
+		this.tentacles_2.xRot = 0.2F * Mth.sin(ageInTicks * 0.3F + 2.0F) + 0.4F;
+		this.tentacles_3.xRot = 0.2F * Mth.sin(ageInTicks * 0.3F + 3.0F) + 0.4F;
+		this.tentacles_4.xRot = 0.2F * Mth.sin(ageInTicks * 0.3F + 4.0F) + 0.4F;
+		this.tentacles_5.xRot = 0.2F * Mth.sin(ageInTicks * 0.3F + 5.0F) + 0.4F;
+		this.tentacles_6.xRot = 0.2F * Mth.sin(ageInTicks * 0.3F + 6.0F) + 0.4F;
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{
-		modelRenderer.rotateAngleX = x;
-		modelRenderer.rotateAngleY = y;
-		modelRenderer.rotateAngleZ = z;
+		tentacles_0.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		tentacles_1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		tentacles_2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		tentacles_3.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		tentacles_4.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		tentacles_5.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		tentacles_6.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }

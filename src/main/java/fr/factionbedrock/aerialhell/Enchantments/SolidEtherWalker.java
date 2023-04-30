@@ -1,27 +1,27 @@
 package fr.factionbedrock.aerialhell.Enchantments;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.entity.EquipmentSlot;
 
 public class SolidEtherWalker extends Enchantment
 {
-    public SolidEtherWalker(Enchantment.Rarity rarityIn, EquipmentSlotType... slots)
+    public SolidEtherWalker(Enchantment.Rarity rarityIn, EquipmentSlot... slots)
     {
-        super(rarityIn, EnchantmentType.ARMOR_FEET, slots);
+        super(rarityIn, EnchantmentCategory.ARMOR_FEET, slots);
     }
 
     @Override public int getMinLevel() {return 1;}
     @Override public int getMaxLevel() {return 1;}
 
-    @Override public boolean canGenerateInLoot() {return false;}
+    @Override public boolean isDiscoverable() {return false;}
 
-    @Override public int getMinEnchantability(int enchantmentLevel) {return enchantmentLevel * 25;}
-    @Override public int getMaxEnchantability(int enchantmentLevel) {return this.getMinEnchantability(enchantmentLevel) + 50;}
+    @Override public int getMinCost(int enchantmentLevel) {return enchantmentLevel * 25;}
+    @Override public int getMaxCost(int enchantmentLevel) {return this.getMinCost(enchantmentLevel) + 50;}
 
-    @Override public boolean isTreasureEnchantment() {return true;}
+    @Override public boolean isTreasureOnly() {return true;}
     @Override public boolean isCurse() {return false;}
 
-    @Override public boolean canApplyTogether(Enchantment other) {return super.canApplyTogether(other) && other != Enchantments.FROST_WALKER;}
+    //TODO : cannot Override final method. How to check compatibility ?
+    //@Override public final boolean isCompatibleWith(Enchantment other) {return super.isCompatibleWith(other) && other != Enchantments.FROST_WALKER;}
 }

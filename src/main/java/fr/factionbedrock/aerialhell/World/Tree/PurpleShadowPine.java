@@ -7,8 +7,8 @@ import javax.annotation.Nullable;
 import fr.factionbedrock.aerialhell.Registry.AerialHellConfiguredFeatures;
 import net.minecraft.block.trees.BigTree;
 import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 
 public class PurpleShadowPine extends BigTree
 {

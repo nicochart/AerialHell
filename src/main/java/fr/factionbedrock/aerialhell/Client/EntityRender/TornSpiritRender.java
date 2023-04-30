@@ -5,7 +5,7 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.TornSpiritModel;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class TornSpiritRender extends MobRenderer<TornSpiritEntity, TornSpiritModel>
 {

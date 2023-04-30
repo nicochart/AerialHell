@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.IRendersAsItem;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 
 import java.util.Objects;
@@ -38,7 +38,7 @@ public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRend
 	}
 	
 	@Override
-	public void render(T entityIn, float entityYaw, float partialTicks, MatrixStack matrix, IRenderTypeBuffer bufferIn, int packedLightIn)
+	public void render(T entityIn, float entityYaw, float partialTicks, PoseStack matrix, IRenderTypeBuffer bufferIn, int packedLightIn)
 	{
 		matrix.push();
 		

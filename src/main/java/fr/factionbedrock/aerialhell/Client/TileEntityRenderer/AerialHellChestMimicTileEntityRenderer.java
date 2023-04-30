@@ -1,30 +1,30 @@
-package fr.factionbedrock.aerialhell.Client.TileEntityRenderer;
+package fr.factionbedrock.aerialhell.Client.BlockEntityRenderer;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Block.ChestMimicBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.TileEntity.ChestMimicTileEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ChestBlock;
+import fr.factionbedrock.aerialhell.BlockEntity.ChestMimicBlockEntity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.tileentity.DualBrightnessCallback;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.item.BlockItem;
+import net.minecraft.client.renderer.tileentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.tileentity.BlockEntityRendererDispatcher;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.state.properties.ChestType;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityMerger;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.tileentity.BlockEntityMerger;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.logging.log4j.LogManager;
@@ -33,7 +33,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 @OnlyIn(Dist.CLIENT)
-public class AerialHellChestMimicTileEntityRenderer<T extends TileEntity> extends TileEntityRenderer<T>
+public class AerialHellChestMimicBlockEntityRenderer<T extends BlockEntity> extends BlockEntityRenderer<T>
 {
 	private static final HashMap<Block, RenderType[]> LAYERS = Maps.newHashMap();
 	private static RenderType[] defaultLayer;
@@ -42,18 +42,18 @@ public class AerialHellChestMimicTileEntityRenderer<T extends TileEntity> extend
 	private static final int LEFT = 1;
 	private static final int RIGHT = 2;
 	
-	private final ModelRenderer singleLid;
-	private final ModelRenderer singleBottom;
-	private final ModelRenderer singleLatch;
-	private final ModelRenderer rightLid;
-	private final ModelRenderer rightBottom;
-	private final ModelRenderer rightLatch;
-	private final ModelRenderer leftLid;
-	private final ModelRenderer leftBottom;
-	private final ModelRenderer leftLatch;
+	private final ModelPart singleLid;
+	private final ModelPart singleBottom;
+	private final ModelPart singleLatch;
+	private final ModelPart rightLid;
+	private final ModelPart rightBottom;
+	private final ModelPart rightLatch;
+	private final ModelPart leftLid;
+	private final ModelPart leftBottom;
+	private final ModelPart leftLatch;
 	private boolean isChristmas;
 
-	public AerialHellChestMimicTileEntityRenderer(TileEntityRendererDispatcher rendererDispatcherIn)
+	public AerialHellChestMimicBlockEntityRenderer(BlockEntityRendererDispatcher rendererDispatcherIn)
 	{
 		super(rendererDispatcherIn);
 		Calendar calendar = Calendar.getInstance();
@@ -62,59 +62,59 @@ public class AerialHellChestMimicTileEntityRenderer<T extends TileEntity> extend
 			this.isChristmas = true;
 		}
 
-		this.singleBottom = new ModelRenderer(64, 64, 0, 19);
+		this.singleBottom = new ModelPart(64, 64, 0, 19);
 		this.singleBottom.addBox(1.0F, 0.0F, 1.0F, 14.0F, 10.0F, 14.0F, 0.0F);
-		this.singleLid = new ModelRenderer(64, 64, 0, 0);
+		this.singleLid = new ModelPart(64, 64, 0, 0);
 		this.singleLid.addBox(1.0F, 0.0F, 0.0F, 14.0F, 5.0F, 14.0F, 0.0F);
 		this.singleLid.rotationPointY = 9.0F;
 		this.singleLid.rotationPointZ = 1.0F;
-		this.singleLatch = new ModelRenderer(64, 64, 0, 0);
+		this.singleLatch = new ModelPart(64, 64, 0, 0);
 		this.singleLatch.addBox(7.0F, -1.0F, 15.0F, 2.0F, 4.0F, 1.0F, 0.0F);
 		this.singleLatch.rotationPointY = 8.0F;
-		this.rightBottom = new ModelRenderer(64, 64, 0, 19);
+		this.rightBottom = new ModelPart(64, 64, 0, 19);
 		this.rightBottom.addBox(1.0F, 0.0F, 1.0F, 15.0F, 10.0F, 14.0F, 0.0F);
-		this.rightLid = new ModelRenderer(64, 64, 0, 0);
+		this.rightLid = new ModelPart(64, 64, 0, 0);
 		this.rightLid.addBox(1.0F, 0.0F, 0.0F, 15.0F, 5.0F, 14.0F, 0.0F);
 		this.rightLid.rotationPointY = 9.0F;
 		this.rightLid.rotationPointZ = 1.0F;
-		this.rightLatch = new ModelRenderer(64, 64, 0, 0);
+		this.rightLatch = new ModelPart(64, 64, 0, 0);
 		this.rightLatch.addBox(15.0F, -1.0F, 15.0F, 1.0F, 4.0F, 1.0F, 0.0F);
 		this.rightLatch.rotationPointY = 8.0F;
-		this.leftBottom = new ModelRenderer(64, 64, 0, 19);
+		this.leftBottom = new ModelPart(64, 64, 0, 19);
 		this.leftBottom.addBox(0.0F, 0.0F, 1.0F, 15.0F, 10.0F, 14.0F, 0.0F);
-		this.leftLid = new ModelRenderer(64, 64, 0, 0);
+		this.leftLid = new ModelPart(64, 64, 0, 0);
 		this.leftLid.addBox(0.0F, 0.0F, 0.0F, 15.0F, 5.0F, 14.0F, 0.0F);
 		this.leftLid.rotationPointY = 9.0F;
 		this.leftLid.rotationPointZ = 1.0F;
-		this.leftLatch = new ModelRenderer(64, 64, 0, 0);
+		this.leftLatch = new ModelPart(64, 64, 0, 0);
 		this.leftLatch.addBox(0.0F, -1.0F, 15.0F, 1.0F, 4.0F, 1.0F, 0.0F);
 		this.leftLatch.rotationPointY = 8.0F;
 	}
 
 	@Override
-	public void render(T tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn)
+	public void render(T tileEntityIn, float partialTicks, PoseStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn)
 	{
-		World world = tileEntityIn.getWorld();
+		Level world = tileEntityIn.getLevel();
 		boolean flag_world = world != null;
-		BlockState blockstate = flag_world ? tileEntityIn.getBlockState() : AerialHellBlocksAndItems.AERIAL_TREE_CHEST_MIMIC.get().getDefaultState().with(ChestMimicBlock.FACING, Direction.SOUTH);
-		ChestType chesttype = blockstate.hasProperty(ChestBlock.TYPE) ? blockstate.get(ChestBlock.TYPE) : ChestType.SINGLE;
+		BlockState blockstate = flag_world ? tileEntityIn.getBlockState() : AerialHellBlocksAndItems.AERIAL_TREE_CHEST_MIMIC.get().defaultBlockState().setValue(ChestMimicBlock.FACING, Direction.SOUTH);
+		ChestType chesttype = blockstate.hasProperty(ChestBlock.TYPE) ? blockstate.getValue(ChestBlock.TYPE) : ChestType.SINGLE;
 		Block block = blockstate.getBlock();
 		if (block instanceof ChestMimicBlock)
 		{
 			ChestMimicBlock chestMimicBlock = (ChestMimicBlock) block;
 			matrixStackIn.push();
-			float f = blockstate.get(ChestBlock.FACING).getHorizontalAngle();
+			float f = blockstate.getValue(ChestBlock.FACING).getHorizontalAngle();
 			matrixStackIn.translate(0.5D, 0.5D, 0.5D);
 			matrixStackIn.rotate(Vector3f.YP.rotationDegrees(-f));
 			matrixStackIn.translate(-0.5D, -0.5D, -0.5D);
-			TileEntityMerger.ICallbackWrapper<? extends ChestMimicTileEntity> icallbackwrapper;
+			BlockEntityMerger.ICallbackWrapper<? extends ChestMimicBlockEntity> icallbackwrapper;
 			if (world != null)
 			{
 				icallbackwrapper = chestMimicBlock.combine(blockstate, world, tileEntityIn.getPos(), true);
 			}
 			else
 			{
-				icallbackwrapper = TileEntityMerger.ICallback::func_225537_b_;
+				icallbackwrapper = BlockEntityMerger.ICallback::func_225537_b_;
 			}
 			combinedLightIn = icallbackwrapper.apply(new DualBrightnessCallback<>()).applyAsInt(combinedLightIn);			
 			IVertexBuilder vertexConsumer = getConsumer(bufferIn, block, chesttype);
@@ -137,11 +137,11 @@ public class AerialHellChestMimicTileEntityRenderer<T extends TileEntity> extend
 		}
 		else
 		{
-			LogManager.getLogger(AerialHellChestMimicTileEntityRenderer.class).warn("Invalid block used with ChestMimicTileEntityRenderer!");
+			LogManager.getLogger(AerialHellChestMimicBlockEntityRenderer.class).warn("Invalid block used with ChestMimicBlockEntityRenderer!");
 		}
 	}
 
-	private void renderModels(MatrixStack matrixStackIn, IVertexBuilder bufferIn, ModelRenderer chestLid, ModelRenderer chestLatch, ModelRenderer chestBottom, int combinedLightIn, int combinedOverlayIn)
+	private void renderModels(PoseStack matrixStackIn, IVertexBuilder bufferIn, ModelPart chestLid, ModelPart chestLatch, ModelPart chestBottom, int combinedLightIn, int combinedOverlayIn)
 	{
 		chestLid.render(matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
 		chestLatch.render(matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);

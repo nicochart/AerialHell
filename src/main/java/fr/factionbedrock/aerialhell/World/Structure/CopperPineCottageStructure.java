@@ -8,40 +8,42 @@ import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.StructureHelper;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.biome.provider.BiomeProvider;
-import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 
 public class CopperPineCottageStructure extends AbstractAerialHellStructure
 {
-	private static final List<MobSpawnInfo.Spawners> monstersSpawnList = ImmutableList.of(new MobSpawnInfo.Spawners(AerialHellEntities.EVIL_COW.get(), 2, 3, 5));
-	private static final List<MobSpawnInfo.Spawners> creaturesSpawnList = ImmutableList.of();
+	private static final List<MobSpawnSettings.SpawnerData> monstersSpawnList = ImmutableList.of(new MobSpawnInfo.Spawners(AerialHellEntities.EVIL_COW.get(), 2, 3, 5));
+	private static final List<MobSpawnSettings.SpawnerData> creaturesSpawnList = ImmutableList.of();
 	
-    public CopperPineCottageStructure(Codec<NoFeatureConfig> codec)
+    public CopperPineCottageStructure(Codec<NoneFeatureConfiguration> codec, PieceGeneratorSupplier<NoneFeatureConfiguration> pieceGeneratorSupplier)
     {
-        super(codec);
+        super(codec, pieceGeneratorSupplier);
     }
     
-    @Override public List<MobSpawnInfo.Spawners> getDefaultSpawnList() {return monstersSpawnList;}
-    @Override public List<MobSpawnInfo.Spawners> getDefaultCreatureSpawnList() {return creaturesSpawnList;}
+    @Override public List<MobSpawnSettings.SpawnerData> getDefaultSpawnList() {return monstersSpawnList;}
+    @Override public List<MobSpawnSettings.SpawnerData> getDefaultCreatureSpawnList() {return creaturesSpawnList;}
 
     @Override
-    public IStartFactory<NoFeatureConfig> getStartFactory()
+    public IStartFactory<NoneFeatureConfiguration> getStartFactory()
     {
         return CopperPineCottageStructure.Start::new;
     }
@@ -50,7 +52,7 @@ public class CopperPineCottageStructure extends AbstractAerialHellStructure
     protected boolean func_230363_a_(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) //isFeatureChunk (check if can spawn)
     {
     	//cannot spawn next to another structure
-    	if (StructureHelper.hasDungeonNearby(chunkGenerator, seed, chunkRandom, chunkX, chunkZ, 6)) {return false;}
+    	if (StructureHelper.hasDungeonNearby(chunkGenerator, seed, chunkX, chunkZ, 6)) {return false;}
     	
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
         
@@ -61,7 +63,7 @@ public class CopperPineCottageStructure extends AbstractAerialHellStructure
     public static class Start extends AbstractAerialHellStructure.Start
     {
     	//This structure uses Stellar Bricks Tower "ground" (support) as surrounding land
-        public Start(Structure<NoFeatureConfig> structureIn, int chunkX, int chunkZ, MutableBoundingBox mutableBoundingBox, int referenceIn, long seedIn)
+        public Start(Structure<NoneFeatureConfiguration> structureIn, int chunkX, int chunkZ, MutableBoundingBox mutableBoundingBox, int referenceIn, long seedIn)
         {
             super(structureIn, chunkX, chunkZ, mutableBoundingBox, referenceIn, seedIn);
         }

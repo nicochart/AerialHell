@@ -1,35 +1,35 @@
 package fr.factionbedrock.aerialhell.Effect;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
 
-public class HeadInTheCloudsEffect extends Effect
+public class HeadInTheCloudsEffect extends MobEffect
 {
-    public HeadInTheCloudsEffect(EffectType typeIn, int liquidColorIn)
+    public HeadInTheCloudsEffect(MobEffectCategory typeIn, int liquidColorIn)
     {
         super(typeIn, liquidColorIn);
     }
 
     @Override
-    public void performEffect(LivingEntity entityLivingBaseIn, int amplifier)
+    public void applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier)
     {
-    	entityLivingBaseIn.jumpMovementFactor = 0.03f * (1 + amplifier);
+    	entityLivingBaseIn.flyingSpeed = 0.03f * (1 + amplifier);
 		
-		if (entityLivingBaseIn.getMotion().y < -0.2 && !entityLivingBaseIn.isSneaking())
+		if (entityLivingBaseIn.getDeltaMovement().y < -0.2 && !entityLivingBaseIn.isShiftKeyDown())
 		{
-			entityLivingBaseIn.setMotion(entityLivingBaseIn.getMotion().x, -0.2, entityLivingBaseIn.getMotion().z);
+			entityLivingBaseIn.setDeltaMovement(entityLivingBaseIn.getDeltaMovement().x, -0.2, entityLivingBaseIn.getDeltaMovement().z);
 		}
     }
 
     @Override
-    public boolean isReady(int duration, int amplifier)
+    public boolean isDurationEffectTick(int duration, int amplifier)
     {
     	return true;
     }
 
     @Override
-    public boolean isInstant()
+    public boolean isInstantenous()
     {
         return false;
     }

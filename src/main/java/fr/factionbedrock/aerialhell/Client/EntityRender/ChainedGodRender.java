@@ -5,7 +5,7 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.ChainedGodModel;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class ChainedGodRender extends MobRenderer<ChainedGodEntity, ChainedGodModel>
 {

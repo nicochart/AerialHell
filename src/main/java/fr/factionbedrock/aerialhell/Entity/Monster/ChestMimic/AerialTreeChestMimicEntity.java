@@ -2,27 +2,26 @@ package fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractChestMimicEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.block.Block;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.level.Level;
 
 public class AerialTreeChestMimicEntity extends AbstractChestMimicEntity
 {
-	public AerialTreeChestMimicEntity(EntityType<? extends AerialTreeChestMimicEntity> type, World worldIn)
+	public AerialTreeChestMimicEntity(EntityType<? extends AerialTreeChestMimicEntity> type, Level worldIn)
 	{
 		super(type, worldIn);
 	}
 	
-	public static AttributeModifierMap.MutableAttribute registerAttributes()
+	public static AttributeSupplier.Builder registerAttributes()
 	{
-		return CreatureEntity.func_233666_p_()
-				.createMutableAttribute(Attributes.MAX_HEALTH, 50.0D)
-				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 3.0D)
-				.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.2D)
-				.createMutableAttribute(Attributes.FOLLOW_RANGE, 12.0D);
+		return createMobAttributes()
+				.add(Attributes.MAX_HEALTH, 50.0D)
+				.add(Attributes.ATTACK_DAMAGE, 3.0D)
+				.add(Attributes.MOVEMENT_SPEED, 0.2D)
+				.add(Attributes.FOLLOW_RANGE, 12.0D);
 	}
 
 	@Override

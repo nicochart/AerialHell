@@ -6,7 +6,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.EvilCowEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.model.CowModel;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class CortinariusCowRender<T extends EvilCowEntity> extends MobRenderer<T, CowModel<T>>
 {

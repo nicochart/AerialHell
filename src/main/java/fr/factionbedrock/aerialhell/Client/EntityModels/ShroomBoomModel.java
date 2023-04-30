@@ -1,101 +1,94 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-// Made with Blockbench 4.0.1
-// Exported for Minecraft version 1.15 - 1.16 with MCP mappings
-
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShroomBoomEntity;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelHelper;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.AnimationUtils;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+
+// Made with Blockbench 4.7.0
+// Exported for Minecraft version 1.17 or later with Mojang mappings
 
 public class ShroomBoomModel extends EntityModel<ShroomBoomEntity>
 {
-	private final ModelRenderer body;
-	private final ModelRenderer head;
-	private final ModelRenderer leg0;
-	private final ModelRenderer leg1;
-	private final ModelRenderer leg2;
-	private final ModelRenderer leg3;
-	private final ModelRenderer rightArm;
-	private final ModelRenderer leftArm;
+	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(AerialHell.MODID, "shroomboom_model"), "main");
+	private final ModelPart body;
+	private final ModelPart head;
+	private final ModelPart leg0;
+	private final ModelPart leg1;
+	private final ModelPart leg2;
+	private final ModelPart leg3;
+	private final ModelPart arm1;
+	private final ModelPart arm2;
 
-	public ShroomBoomModel()
+	public ShroomBoomModel(ModelPart root)
 	{
-		textureWidth = 64;
-		textureHeight = 64;
-
-		body = new ModelRenderer(this);
-		body.setRotationPoint(0.0F, 24.0F, 0.0F);
-		body.setTextureOffset(16, 49).addBox(-4.0F, -18.0F, -2.0F, 8.0F, 11.0F, 4.0F, 0.0F, true);
-
-		head = new ModelRenderer(this);
-		head.setRotationPoint(0.0F, 6.0F, 0.0F);
-		head.setTextureOffset(12, 33).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, true);
-		head.setTextureOffset(8, 17).addBox(-5.0F, -10.0F, -5.0F, 10.0F, 6.0F, 10.0F, 0.0F, true);
-		head.setTextureOffset(16, 9).addBox(-3.0F, -12.0F, -3.0F, 6.0F, 2.0F, 6.0F, 0.0F, true);
-
-		leg0 = new ModelRenderer(this);
-		leg0.setRotationPoint(2.0F, 18.0F, 4.0F);
-		leg0.setTextureOffset(0, 53).addBox(-2.0F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, 0.0F, true);
-
-		leg1 = new ModelRenderer(this);
-		leg1.setRotationPoint(-2.0F, 18.0F, 4.0F);
-		leg1.setTextureOffset(0, 53).addBox(-2.0F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, 0.0F, true);
-
-		leg2 = new ModelRenderer(this);
-		leg2.setRotationPoint(2.0F, 18.0F, -4.0F);
-		leg2.setTextureOffset(0, 53).addBox(-2.0F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, 0.0F, true);
-
-		leg3 = new ModelRenderer(this);
-		leg3.setRotationPoint(-2.0F, 18.0F, -4.0F);
-		leg3.setTextureOffset(0, 53).addBox(-2.0F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, 0.0F, true);
-		
-		rightArm = new ModelRenderer(this);
-		rightArm.setRotationPoint(-4.0F, 7.0F, 0.0F);
-		rightArm.setTextureOffset(50, 53).addBox(-3.0F, 1.0F, -2.0F, 3.0F, 7.0F, 4.0F, 0.0F, true);
-		rightArm.setTextureOffset(42, 17).addBox(-4.0F, -1.0F, -3.0F, 5.0F, 3.0F, 6.0F, 0.0F, true);
-
-		leftArm = new ModelRenderer(this);
-		leftArm.setRotationPoint(4.0F, 7.0F, 0.0F);
-		leftArm.setTextureOffset(50, 42).addBox(0.0F, 1.0F, -2.0F, 3.0F, 7.0F, 4.0F, 0.0F, true);
-		leftArm.setTextureOffset(42, 8).addBox(-1.0F, -1.0F, -3.0F, 5.0F, 3.0F, 6.0F, 0.0F, true);
+		this.body = root.getChild("body");
+		this.head = root.getChild("head");
+		this.leg0 = root.getChild("leg0");
+		this.leg1 = root.getChild("leg1");
+		this.leg2 = root.getChild("leg2");
+		this.leg3 = root.getChild("leg3");
+		this.arm1 = root.getChild("arm1");
+		this.arm2 = root.getChild("arm2");
 	}
 
-	@Override
-	public void setRotationAngles(ShroomBoomEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	public static LayerDefinition createBodyLayer()
 	{
-		ModelHelper.func_239105_a_(this.leftArm, this.rightArm, this.isAggressive(entity), this.swingProgress, ageInTicks);
-		this.head.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
-	    this.head.rotateAngleX = headPitch * ((float)Math.PI / 180F);
-	    this.leg0.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-	    this.leg1.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-	    this.leg2.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-	    this.leg3.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
+
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 49).mirror().addBox(-4.0F, -18.0F, -2.0F, 8.0F, 11.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 24.0F, 0.0F));
+
+		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(12, 33).mirror().addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(8, 17).mirror().addBox(-5.0F, -10.0F, -5.0F, 10.0F, 6.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(16, 9).mirror().addBox(-3.0F, -12.0F, -3.0F, 6.0F, 2.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 6.0F, 0.0F));
+
+		PartDefinition leg0 = partdefinition.addOrReplaceChild("leg0", CubeListBuilder.create().texOffs(0, 53).mirror().addBox(-2.0F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(2.0F, 18.0F, 4.0F));
+
+		PartDefinition leg1 = partdefinition.addOrReplaceChild("leg1", CubeListBuilder.create().texOffs(0, 53).mirror().addBox(-2.0F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-2.0F, 18.0F, 4.0F));
+
+		PartDefinition leg2 = partdefinition.addOrReplaceChild("leg2", CubeListBuilder.create().texOffs(0, 53).mirror().addBox(-2.0F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(2.0F, 18.0F, -4.0F));
+
+		PartDefinition leg3 = partdefinition.addOrReplaceChild("leg3", CubeListBuilder.create().texOffs(0, 53).mirror().addBox(-2.0F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-2.0F, 18.0F, -4.0F));
+
+		PartDefinition arm1 = partdefinition.addOrReplaceChild("arm1", CubeListBuilder.create().texOffs(50, 53).mirror().addBox(-3.0F, 1.0F, -2.0F, 3.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(42, 17).mirror().addBox(-4.0F, -1.0F, -3.0F, 5.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-4.0F, 7.0F, 0.0F));
+
+		PartDefinition arm2 = partdefinition.addOrReplaceChild("arm2", CubeListBuilder.create().texOffs(50, 42).mirror().addBox(0.0F, 1.0F, -2.0F, 3.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(42, 8).mirror().addBox(-1.0F, -1.0F, -3.0F, 5.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 7.0F, 0.0F));
+
+		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override
-	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void setupAnim(ShroomBoomEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		body.render(matrixStack, buffer, packedLight, packedOverlay);
-		head.render(matrixStack, buffer, packedLight, packedOverlay);
-		leg0.render(matrixStack, buffer, packedLight, packedOverlay);
-		leg1.render(matrixStack, buffer, packedLight, packedOverlay);
-		leg2.render(matrixStack, buffer, packedLight, packedOverlay);
-		leg3.render(matrixStack, buffer, packedLight, packedOverlay);
-		rightArm.render(matrixStack, buffer, packedLight, packedOverlay);
-		leftArm.render(matrixStack, buffer, packedLight, packedOverlay);
+		AnimationUtils.animateZombieArms(this.arm2, this.arm1, entity.isAggressive(), this.attackTime, ageInTicks);
+		this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
+		this.head.xRot = headPitch * ((float)Math.PI / 180F);
+		this.leg0.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+		this.leg1.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+		this.leg2.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+		this.leg3.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{
-		modelRenderer.rotateAngleX = x;
-		modelRenderer.rotateAngleY = y;
-		modelRenderer.rotateAngleZ = z;
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		leg0.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		leg1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		leg2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		leg3.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		arm1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		arm2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
-	
-	public boolean isAggressive(ShroomBoomEntity entityIn) {return entityIn.isAggressive();}
 }

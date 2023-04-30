@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import fr.factionbedrock.aerialhell.AerialHell;
@@ -11,10 +11,10 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.math.vector.Matrix3f;
-import net.minecraft.util.math.vector.Matrix4f;
+import com.mojang.math.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 
 public class LightProjectileRender<T extends AbstractLightProjectileEntity> extends EntityRenderer<T>
@@ -29,14 +29,14 @@ public class LightProjectileRender<T extends AbstractLightProjectileEntity> exte
     }
 
     @Override
-    public void render(T entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn)
+    public void render(T entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn)
     {
         matrixStackIn.push();
         matrixStackIn.rotate(this.renderManager.getCameraOrientation());
         matrixStackIn.rotate(Vector3f.YP.rotationDegrees(180.0F));
         matrixStackIn.scale(1.5f, 1.5f, 1.5f);
         IVertexBuilder vertex = bufferIn.getBuffer(RenderType.getEntityCutout(getEntityTexture(entityIn)));
-        MatrixStack.Entry matrixstack$entry = matrixStackIn.getLast();
+        PoseStack.Entry matrixstack$entry = matrixStackIn.getLast();
         Matrix4f matrix4f = matrixstack$entry.getMatrix();
         Matrix3f matrix3f = matrixstack$entry.getNormal();
         drawVertex(matrix4f, matrix3f, vertex, -0.5F, -0.25F, 0.0F, 0.0F, 0.0F, 0, 1, 0, packedLightIn);

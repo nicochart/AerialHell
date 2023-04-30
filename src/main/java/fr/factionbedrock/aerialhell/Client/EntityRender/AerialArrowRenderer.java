@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import fr.factionbedrock.aerialhell.AerialHell;
@@ -11,10 +11,10 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.math.Mth;
 import net.minecraft.util.math.vector.Matrix3f;
-import net.minecraft.util.math.vector.Matrix4f;
+import com.mojang.math.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 
 public class AerialArrowRenderer<T extends AbstractAerialArrowEntity> extends EntityRenderer<T>
@@ -29,7 +29,7 @@ public class AerialArrowRenderer<T extends AbstractAerialArrowEntity> extends En
     }
 
     @Override
-    public void render(T arrow, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn)
+    public void render(T arrow, float entityYaw, float partialTicks, PoseStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn)
     {
         if (arrow.isInvisible())
         {
@@ -50,7 +50,7 @@ public class AerialArrowRenderer<T extends AbstractAerialArrowEntity> extends En
         float shake = (float) arrow.arrowShake - partialTicks;
         if (shake > 0.0F)
         {
-        	float rot = -MathHelper.sin(shake * 3.0F) * shake;
+        	float rot = -Mth.sin(shake * 3.0F) * shake;
             matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(rot));
         }
 
@@ -59,7 +59,7 @@ public class AerialArrowRenderer<T extends AbstractAerialArrowEntity> extends En
         matrixStackIn.translate(-4.0D, 0.0D, 0.0D);
         
         IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEntityCutout(this.getEntityTexture(arrow)));
-        MatrixStack.Entry matrixstack$entry = matrixStackIn.getLast();
+        PoseStack.Entry matrixstack$entry = matrixStackIn.getLast();
         Matrix4f matrix4f = matrixstack$entry.getMatrix();
         Matrix3f matrix3f = matrixstack$entry.getNormal();
         

@@ -10,39 +10,40 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBiomes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.Util.StructureHelper;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.biome.provider.BiomeProvider;
-import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 
 public class LunaticTempleStructure extends AbstractAerialHellStructure
 {
-	private static final List<MobSpawnInfo.Spawners> monstersSpawnList = ImmutableList.of(/*new MobSpawnInfo.Spawners(AerialHellEntities.CRYSTAL_SLIME.get(), 1, 3, 15), */new MobSpawnInfo.Spawners(AerialHellEntities.CRYSTAL_SPIDER.get(), 2, 5, 5));
-	private static final List<MobSpawnInfo.Spawners> creaturesSpawnList = ImmutableList.of();
+	private static final List<MobSpawnSettings.SpawnerData> monstersSpawnList = ImmutableList.of(/*new MobSpawnInfo.Spawners(AerialHellEntities.CRYSTAL_SLIME.get(), 1, 3, 15), */new MobSpawnInfo.Spawners(AerialHellEntities.CRYSTAL_SPIDER.get(), 2, 5, 5));
+	private static final List<MobSpawnSettings.SpawnerData> creaturesSpawnList = ImmutableList.of();
 	
-    public LunaticTempleStructure(Codec<NoFeatureConfig> codec)
+    public LunaticTempleStructure(Codec<NoneFeatureConfiguration> codec, PieceGeneratorSupplier<NoneFeatureConfiguration> pieceGeneratorSupplier)
     {
-        super(codec);
+        super(codec, pieceGeneratorSupplier);
     }
     
-    @Override public List<MobSpawnInfo.Spawners> getDefaultSpawnList() {return monstersSpawnList;}
-    @Override public List<MobSpawnInfo.Spawners> getDefaultCreatureSpawnList() {return creaturesSpawnList;}
+    @Override public List<MobSpawnSettings.SpawnerData> getDefaultSpawnList() {return monstersSpawnList;}
+    @Override public List<MobSpawnSettings.SpawnerData> getDefaultCreatureSpawnList() {return creaturesSpawnList;}
 
-    @Override public IStartFactory<NoFeatureConfig> getStartFactory()
+    @Override public IStartFactory<NoneFeatureConfiguration> getStartFactory()
     {
         return LunaticTempleStructure.Start::new;
     }
@@ -51,7 +52,7 @@ public class LunaticTempleStructure extends AbstractAerialHellStructure
     {
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 140, chunkZ * 16);
 
-        if (StructureHelper.hasGoldenNetherPrisonNearby(chunkGenerator, seed, chunkRandom, chunkX, chunkZ, 6, true)) {return false;}
+        if (StructureHelper.hasGoldenNetherPrisonNearby(chunkGenerator, seed, chunkX, chunkZ, 6, true)) {return false;}
         /* biomeSource.getNoiseBiome(x,y,z) doesn't return the right biome. Do not use this method for biome check.
         List<BlockPos> checkShadowBiomePos = ImmutableList.of(centerOfChunk.north(20), centerOfChunk.south(20), centerOfChunk.east(20), centerOfChunk.west(20));
         for (BlockPos pos : checkShadowBiomePos)
@@ -65,7 +66,7 @@ public class LunaticTempleStructure extends AbstractAerialHellStructure
     public static class Start extends AbstractAerialHellStructure.Start
     {
 
-        public Start(Structure<NoFeatureConfig> structureIn, int chunkX, int chunkZ, MutableBoundingBox mutableBoundingBox, int referenceIn, long seedIn)
+        public Start(Structure<NoneFeatureConfiguration> structureIn, int chunkX, int chunkZ, MutableBoundingBox mutableBoundingBox, int referenceIn, long seedIn)
         {
             super(structureIn, chunkX, chunkZ, mutableBoundingBox, referenceIn, seedIn);
         }

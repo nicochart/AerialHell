@@ -1,32 +1,32 @@
 package fr.factionbedrock.aerialhell.Block.SolidEther;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
+import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 public class PurpleSolidEtherBlock extends SolidEtherBlock
 {
 	public PurpleSolidEtherBlock(Properties properties) {super(properties);}
 
 	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
+	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity)
 	{
-		super.onEntityCollision(state, world, pos, entity);
-		if (!world.isRemote() && entity instanceof LivingEntity)
+		super.entityInside(state, world, pos, entity);
+		if (!world.isClientSide() && entity instanceof LivingEntity)
 		{
 			if (canEntityCollide(entity))
 			{
-				((LivingEntity) entity).addPotionEffect(new EffectInstance(AerialHellPotionEffects.SHADOW_IMMUNITY.get(), 30, 0, true, true));
+				((LivingEntity) entity).addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.get(), 30, 0, true, true));
 			}
 			else if (!EntityHelper.isLivingEntityShadowImmune((LivingEntity)entity))
 			{
-				((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.BLINDNESS, 40, 0, false, false));
+				((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 40, 0, false, false));
 			}
 		}
 	}

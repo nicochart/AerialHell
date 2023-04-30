@@ -3,14 +3,14 @@ package fr.factionbedrock.aerialhell.Item.Shuriken;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.ArsonistShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRarities;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.Level;
 
 public class ArsonistShurikenItem extends AbstractShurikenItem
 {
-	public ArsonistShurikenItem(ItemGroup group)
+	public ArsonistShurikenItem(CreativeModeTab group)
 	{
 		super(new Item.Properties().rarity(AerialHellRarities.MYTHICAL), group);
 	}
@@ -23,5 +23,5 @@ public class ArsonistShurikenItem extends AbstractShurikenItem
 	@Override protected float getVelocity() {return 1.7F;}
 	@Override protected float getInaccuracy() {return 1.0F;}
 	@Override protected int getCooldown() {return 9;}
-	@Override protected AbstractShurikenEntity getKnifeEntity(PlayerEntity playerIn, World worldIn) {return new ArsonistShurikenEntity(playerIn, worldIn);}
+	@Override protected AbstractShurikenEntity getKnifeEntity(Player playerIn, Level worldIn) {return new ArsonistShurikenEntity(playerIn, worldIn);}
 }

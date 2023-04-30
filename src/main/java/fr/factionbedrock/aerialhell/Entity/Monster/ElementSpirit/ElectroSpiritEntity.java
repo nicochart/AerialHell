@@ -5,27 +5,27 @@ import javax.annotation.Nullable;
 import fr.factionbedrock.aerialhell.Entity.AbstractElementSpiritEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.LightningBoltEntity;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 
 public class ElectroSpiritEntity extends AbstractElementSpiritEntity
 {
-	public ElectroSpiritEntity(EntityType<? extends ElectroSpiritEntity> type, World worldIn)
+	public ElectroSpiritEntity(EntityType<? extends ElectroSpiritEntity> type, Level worldIn)
     {
         super(type, worldIn);
     }
 
-    public ElectroSpiritEntity(World worldIn)
+    public ElectroSpiritEntity(Level worldIn)
     {
         this(AerialHellEntities.ELECTRO_SPIRIT.get(), worldIn);
     }
@@ -33,21 +33,21 @@ public class ElectroSpiritEntity extends AbstractElementSpiritEntity
     @Override
     public void attackSuicide(Entity entityIn)
     {
-    	if (this.world instanceof ServerWorld)
+    	if (this.level instanceof ServerLevel)
     	{
-    		LightningBoltEntity lightningBolt = EntityType.LIGHTNING_BOLT.create(this.world);
-			lightningBolt.setPosition(this.getPosX(), this.getPosY(), this.getPosZ());
-			this.world.addEntity(lightningBolt);
+    		LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level);
+			lightningBolt.setPos(this.getX(), this.getY(), this.getZ());
+			this.level.addFreshEntity(lightningBolt);
     	}
     	super.attackSuicide(entityIn);
     }
     
     public void applyEffect(Entity entityIn)
     {
-    	((LivingEntity) entityIn).addPotionEffect(new EffectInstance(new EffectInstance(Effects.GLOWING, 70, 2, true, false)));
+    	((LivingEntity) entityIn).addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.GLOWING, 70, 2, true, false)));
     }
     
-    public BasicParticleType getParticleToSpawn()
+    public SimpleParticleType getParticleToSpawn()
     {
     	return ParticleTypes.WITCH;
     }

@@ -5,7 +5,7 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.MudCycleMageModel;
 import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class MudCycleMageRender extends MobRenderer<MudCycleMageEntity, MudCycleMageModel>
 {

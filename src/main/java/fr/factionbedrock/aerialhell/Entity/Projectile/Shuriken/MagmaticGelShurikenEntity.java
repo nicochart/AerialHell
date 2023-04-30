@@ -3,38 +3,38 @@ package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.PlayMessages;
 
 public class MagmaticGelShurikenEntity extends AbstractShurikenEntity
 {
-	public MagmaticGelShurikenEntity(EntityType<? extends MagmaticGelShurikenEntity> entityTypeIn, World worldIn)
+	public MagmaticGelShurikenEntity(EntityType<? extends MagmaticGelShurikenEntity> entityTypeIn, Level worldIn)
 	{
 		super(entityTypeIn, worldIn);
 	}
 
-	public MagmaticGelShurikenEntity(double x, double y, double z, World worldIn)
+	public MagmaticGelShurikenEntity(double x, double y, double z, Level worldIn)
 	{
 		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN.get(), x, y, z, worldIn);
 	}
 
-	public MagmaticGelShurikenEntity(LivingEntity shooter, World worldIn)
+	public MagmaticGelShurikenEntity(LivingEntity shooter, Level worldIn)
 	{
 		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN.get(), shooter, worldIn);
 	}
 
-	public MagmaticGelShurikenEntity(World worldIn)
+	public MagmaticGelShurikenEntity(Level worldIn)
 	{
 		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN.get(), worldIn);
 	}
 
-	public MagmaticGelShurikenEntity(FMLPlayMessages.SpawnEntity packet, World worldIn)
+	public MagmaticGelShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
 	{
 		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN.get(), worldIn);
 	}
@@ -50,7 +50,7 @@ public class MagmaticGelShurikenEntity extends AbstractShurikenEntity
 	{
 		if (entity instanceof LivingEntity)
         {
-        	((LivingEntity) entity).addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 80, 1, true, false)));
+        	((LivingEntity) entity).addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 1, true, false)));
         }
 	}
 	

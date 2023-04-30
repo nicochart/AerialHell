@@ -5,7 +5,7 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.SpiderBarrelMimicModel;
 import fr.factionbedrock.aerialhell.Entity.AbstractBarrelMimicEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

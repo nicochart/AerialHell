@@ -1,56 +1,56 @@
 package fr.factionbedrock.aerialhell.Item.Shuriken;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellItemGroups;
+import fr.factionbedrock.aerialhell.Registry.AerialHellCreativeModeTabs;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.world.World;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Level;
 
 public abstract class AbstractShurikenItem extends Item
 {
-	public AbstractShurikenItem(Properties properties, ItemGroup group)
+	public AbstractShurikenItem(Properties properties, CreativeModeTab group)
 	{
-		super(properties.maxStackSize(16).group(group));
+		super(properties.stacksTo(16).tab(group));
 	}
 	
 	public AbstractShurikenItem(Properties properties) //default group
 	{
-		super(properties.maxStackSize(16).group(AerialHellItemGroups.AERIAL_HELL_COMBAT));
+		super(properties.stacksTo(16).tab(AerialHellCreativeModeTabs.AERIAL_HELL_COMBAT));
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand hand)
+	public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand hand)
 	{
-		ItemStack heldItem = playerIn.getHeldItem(hand);
+		ItemStack heldItem = playerIn.getItemInHand(hand);
 		
-		if (!playerIn.isCreative() && EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, heldItem) == 0)
+		if (!playerIn.isCreative() && EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, heldItem) == 0)
 		{
 			heldItem.shrink(1);
 		}
 		
-		worldIn.playSound(null, playerIn.getPosition(), AerialHellSoundEvents.ENTITY_SHURIKEN_SHOOT.get(), SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 0.8F));
+		worldIn.playSound(null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), AerialHellSoundEvents.ENTITY_SHURIKEN_SHOOT.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (worldIn.getRandom().nextFloat() * 0.4F + 0.8F));
 		
-		if (!worldIn.isRemote)
+		if (!worldIn.isClientSide())
 		{
 			AbstractShurikenEntity shuriken = this.getKnifeEntity(playerIn, worldIn);
-			shuriken.func_234612_a_(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, this.getVelocity(), this.getInaccuracy());
+			shuriken.shootFromRotation(playerIn, playerIn.getXRot(), playerIn.getYRot(), 0.0F, this.getVelocity(), this.getInaccuracy());
 			//shuriken.setShooter(playerIn); shooter is not detected
-			worldIn.addEntity(shuriken);
+			worldIn.addFreshEntity(shuriken);
 		}
-		playerIn.getCooldownTracker().setCooldown(this, this.getCooldown());
-		return ActionResult.resultSuccess(heldItem);
+		playerIn.getCooldowns().addCooldown(this, this.getCooldown());
+		return InteractionResultHolder.success(heldItem);
 	}
 
 	abstract protected float getVelocity();
 	abstract protected float getInaccuracy();
 	abstract protected int getCooldown();
-	abstract protected AbstractShurikenEntity getKnifeEntity(PlayerEntity playerIn, World worldIn);
+	abstract protected AbstractShurikenEntity getKnifeEntity(Player playerIn, Level worldIn);
 }

@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.CrystalGolemModel;
@@ -8,7 +8,7 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.CrystalGolemCryst
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalGolemEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -25,7 +25,7 @@ public class CrystalGolemRender extends MobRenderer<CrystalGolemEntity, CrystalG
     }
     
     @Override
-	protected void preRenderCallback(CrystalGolemEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime)
+	protected void preRenderCallback(CrystalGolemEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
 	{
 		float f = 0.65F;
 		matrixStackIn.scale(f, f, f);

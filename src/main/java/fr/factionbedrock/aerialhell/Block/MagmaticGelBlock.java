@@ -1,41 +1,32 @@
 package fr.factionbedrock.aerialhell.Block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.BreakableBlock;
-import net.minecraft.block.FireBlock;
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.block.MagmaBlock;
-import net.minecraft.block.SoulFireBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
 
-public class MagmaticGelBlock extends BreakableBlock
+public class MagmaticGelBlock extends HalfTransparentBlock
 {
-	public MagmaticGelBlock(AbstractBlock.Properties properties)
+	public MagmaticGelBlock(BlockBehaviour.Properties properties)
 	{
 		super(properties);
 	}
 	
 	@Override
-	public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving)
+	public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean isMoving)
 	{
 		for (int x = -2; x < 3; x++)
 		{
@@ -43,38 +34,38 @@ public class MagmaticGelBlock extends BreakableBlock
 			{
 				for (int z = -2; z < 3; z++)
 				{
-					BlockPos newPos = pos.add(x, y, z);
+					BlockPos newPos = pos.offset(x, y, z);
 					BlockState newPosState = worldIn.getBlockState(newPos);
 					Block block = newPosState.getBlock();
-					if (block instanceof FlowingFluidBlock)
+					if (block instanceof LiquidBlock)
 					{
 						FluidState fluidState = newPosState.getFluidState();
-						if (fluidState.isTagged(FluidTags.WATER))
+						if (fluidState.is(FluidTags.WATER))
 						{
-							worldIn.setBlockState(newPos, Blocks.ICE.getDefaultState());
+							worldIn.setBlockAndUpdate(newPos, Blocks.ICE.defaultBlockState());
 						}
-						else if (fluidState.isTagged(FluidTags.LAVA))
+						else if (fluidState.is(FluidTags.LAVA))
 						{
-							worldIn.setBlockState(newPos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().getDefaultState());
-							worldIn.playSound(null, newPos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 1.0F);
+							worldIn.setBlockAndUpdate(newPos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().defaultBlockState());
+							worldIn.playSound(null, newPos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
 						}
-						else if (fluidState.isTagged(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
+						else if (fluidState.is(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
 						{
-							worldIn.setBlockState(newPos, Blocks.OBSIDIAN.getDefaultState());
-							worldIn.playSound(null, newPos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 1.0F);
+							worldIn.setBlockAndUpdate(newPos, Blocks.OBSIDIAN.defaultBlockState());
+							worldIn.playSound(null, newPos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
 						}
 					}
 					else
 					{
 						if (block instanceof FireBlock || block instanceof SoulFireBlock)
 						{
-							worldIn.setBlockState(newPos, Blocks.AIR.getDefaultState());
-							worldIn.playSound(null, newPos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 1.0F);
+							worldIn.setBlockAndUpdate(newPos, Blocks.AIR.defaultBlockState());
+							worldIn.playSound(null, newPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
 						}
 						if (block instanceof MagmaBlock)
 						{
-							worldIn.setBlockState(newPos, AerialHellBlocksAndItems.MAGMATIC_GEL_ORE.get().getDefaultState());
-							worldIn.playSound(null, newPos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 1.0F);
+							worldIn.setBlockAndUpdate(newPos, AerialHellBlocksAndItems.MAGMATIC_GEL_ORE.get().defaultBlockState());
+							worldIn.playSound(null, newPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
 						}
 					}
 				}
@@ -83,16 +74,12 @@ public class MagmaticGelBlock extends BreakableBlock
 	}
 	
 	@Override
-	public void onEntityWalk(World world, BlockPos pos, Entity entity)
+	public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity)
 	{
-		boolean creaPlayer = (entity instanceof PlayerEntity && ((PlayerEntity) entity).isCreative());
-		if (!world.isRemote() && entity instanceof LivingEntity && !creaPlayer)
+		boolean creaPlayer = (entity instanceof Player && ((Player) entity).isCreative());
+		if (!world.isClientSide() && entity instanceof LivingEntity && !creaPlayer)
 		{
-			((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.SLOWNESS, 32, 1));
+			((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 32, 1));
 		}
 	}
-	
-	@Override public boolean isTransparent(BlockState state) {return true;}
-	@Override public int getOpacity(BlockState state, IBlockReader worldIn, BlockPos pos) {return 3;}
-	@Override public VoxelShape getRayTraceShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {return VoxelShapes.empty();}
 }

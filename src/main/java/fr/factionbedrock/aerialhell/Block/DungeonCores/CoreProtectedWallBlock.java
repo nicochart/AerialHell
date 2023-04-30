@@ -1,10 +1,10 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.WallBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 
 public class CoreProtectedWallBlock extends WallBlock
 {
@@ -14,45 +14,45 @@ public class CoreProtectedWallBlock extends WallBlock
 	public CoreProtectedWallBlock(Properties properties)
 	{
 		super(properties);
-		//this.setDefaultState(this.getDefaultState().with(CORE_PROTECTED, false));
+		//this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
 	
 	/*public void setProtected(boolean protect)
 	{
-		this.setDefaultState(this.stateContainer.getBaseState().with(CORE_PROTECTED, protect));
+		this.registerDefaultState(this.stateDefinition.any().setValue(CORE_PROTECTED, protect));
 	}
 	
 	public boolean isProtected(BlockState state)
 	{
-		return state.get(CORE_PROTECTED);
+		return state.getValue(CORE_PROTECTED);
 	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public float getExplosionResistance(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion)
+	public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion)
     {
-        return isProtected(state) ? 1200.0F : this.getBlock().getExplosionResistance();
+        return isProtected(state) ? 1200.0F : this.asBlock().getExplosionResistance();
     }
 	
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(CORE_PROTECTED);
-		super.fillStateContainer(builder);
+		super.createBlockStateDefinition(builder);
 	}*/
-	
+
 	@Override
-	public float getPlayerRelativeBlockHardness(BlockState state, PlayerEntity player, IBlockReader worldIn, BlockPos pos)
+	public float getDestroyProgress(BlockState state, Player player, BlockGetter worldIn, BlockPos pos)
 	{
-		float f = state.getBlockHardness(worldIn, pos);
-	    if (f == -1.0F /*|| isProtected(state)*/)
-	    {
-	         return 0.0F;
-	    }
-	    else
-	    {
-	         int i = net.minecraftforge.common.ForgeHooks.canHarvestBlock(state, player, worldIn, pos) ? 30 : 100;
-	         return player.getDigSpeed(state, pos) / f / (float)i;
-	    }
+		float f = state.getDestroySpeed(worldIn, pos);
+		if (f == -1.0F /*|| isProtected(state)*/)
+		{
+			return 0.0F;
+		}
+		else
+		{
+			int i = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(state, player) ? 30 : 100;
+			return player.getDigSpeed(state, pos) / f / (float)i;
+		}
 	}
 }

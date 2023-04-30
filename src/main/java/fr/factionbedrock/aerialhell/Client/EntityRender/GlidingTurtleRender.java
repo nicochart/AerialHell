@@ -5,7 +5,7 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.GlidingTurtleModel;
 import fr.factionbedrock.aerialhell.Entity.Passive.GlidingTurtleEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class GlidingTurtleRender extends MobRenderer<GlidingTurtleEntity, GlidingTurtleModel>
 {

@@ -1,91 +1,84 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Monster.EvilCowEntity;
-import net.minecraft.client.renderer.entity.model.CowModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
-// Made with Blockbench 4.0.1
-// Exported for Minecraft version 1.15 - 1.16 with MCP mappings
+// Made with Blockbench 4.7.0
+// Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class CortinariusCowShroomModel<T extends EvilCowEntity> extends CowModel<T>
+public class CortinariusCowShroomModel<T extends EvilCowEntity> extends EntityModel<T>
 {
-	private final ModelRenderer body;
-	private final ModelRenderer shroom_r1;
-	private final ModelRenderer head;
-	private final ModelRenderer leg0;
-	private final ModelRenderer leg1;
-	private final ModelRenderer leg2;
-	private final ModelRenderer leg3;
+	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(AerialHell.MODID, "cortinarius_cow_shroom_model"), "main");
+	private final ModelPart body;
+	private final ModelPart head;
+	private final ModelPart leg0;
+	private final ModelPart leg1;
+	private final ModelPart leg2;
+	private final ModelPart leg3;
 
-	public CortinariusCowShroomModel()
+	public CortinariusCowShroomModel(ModelPart root)
 	{
-		textureWidth = 64;
-		textureHeight = 32;
-
-		body = new ModelRenderer(this);
-		body.setRotationPoint(0.0F, 5.0F, 2.0F);
-		
-		shroom_r1 = new ModelRenderer(this);
-		shroom_r1.setRotationPoint(0.0F, -1.0F, -2.0F);
-		body.addChild(shroom_r1);
-		setRotationAngle(shroom_r1, 1.5708F, 0.0F, 0.0F);
-		shroom_r1.setTextureOffset(28, 18).addBox(4.0F, 1.0F, -9.0F, 3.0F, 3.0F, 3.0F, 0.0F, true);
-		shroom_r1.setTextureOffset(28, 24).addBox(4.0F, -10.0F, -6.0F, 3.0F, 3.0F, 3.0F, 0.0F, true);
-		shroom_r1.setTextureOffset(26, 10).addBox(-7.0F, -10.0F, -6.0F, 4.0F, 4.0F, 4.0F, 0.0F, true);
-		shroom_r1.setTextureOffset(4, 24).addBox(-7.0F, 6.5F, -5.0F, 4.0F, 4.0F, 4.0F, 0.0F, true);
-		shroom_r1.setTextureOffset(24, 0).addBox(2.0F, 5.5F, -2.0F, 5.0F, 5.0F, 5.0F, 0.0F, true);
-		shroom_r1.setTextureOffset(0, 12).addBox(-7.0F, -1.0F, -3.0F, 6.0F, 6.0F, 6.0F, 0.0F, true);
-		shroom_r1.setTextureOffset(0, 0).addBox(2.0F, -6.0F, -2.0F, 6.0F, 6.0F, 6.0F, 0.0F, true);
-
-		head = new ModelRenderer(this);
-		head.setRotationPoint(0.0F, 4.0F, -8.0F);
-		
-
-		leg0 = new ModelRenderer(this);
-		leg0.setRotationPoint(4.0F, 12.0F, 7.0F);
-		leg0.setTextureOffset(45, 12).addBox(0.0F, 2.0F, 0.0F, 3.0F, 3.0F, 3.0F, 0.0F, true);
-
-		leg1 = new ModelRenderer(this);
-		leg1.setRotationPoint(-4.0F, 12.0F, 7.0F);
-		leg1.setTextureOffset(45, 18).addBox(-3.0F, 5.0F, 0.0F, 3.0F, 3.0F, 3.0F, 0.0F, true);
-
-		leg2 = new ModelRenderer(this);
-		leg2.setRotationPoint(4.0F, 12.0F, -6.0F);
-		leg2.setTextureOffset(45, 0).addBox(0.0F, 6.0F, -2.0F, 3.0F, 3.0F, 3.0F, 0.0F, true);
-
-		leg3 = new ModelRenderer(this);
-		leg3.setRotationPoint(-4.0F, 12.0F, -6.0F);
-		leg3.setTextureOffset(45, 6).addBox(-3.0F, 2.0F, -2.0F, 3.0F, 3.0F, 3.0F, 0.0F, true);
+		this.body = root.getChild("body");
+		this.head = root.getChild("head");
+		this.leg0 = root.getChild("leg0");
+		this.leg1 = root.getChild("leg1");
+		this.leg2 = root.getChild("leg2");
+		this.leg3 = root.getChild("leg3");
 	}
 
-	@Override
-	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	public static LayerDefinition createBodyLayer()
 	{
-		body.render(matrixStack, buffer, packedLight, packedOverlay);
-		head.render(matrixStack, buffer, packedLight, packedOverlay);
-		leg0.render(matrixStack, buffer, packedLight, packedOverlay);
-		leg1.render(matrixStack, buffer, packedLight, packedOverlay);
-		leg2.render(matrixStack, buffer, packedLight, packedOverlay);
-		leg3.render(matrixStack, buffer, packedLight, packedOverlay);
-	}
-	
-	@Override
-	public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
+
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.offset(0.0F, 5.0F, 2.0F));
+
+		PartDefinition shroom_r1 = body.addOrReplaceChild("shroom_r1", CubeListBuilder.create().texOffs(28, 18).mirror().addBox(4.0F, 1.0F, -9.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(28, 24).mirror().addBox(4.0F, -10.0F, -6.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(26, 10).mirror().addBox(-7.0F, -10.0F, -6.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(4, 24).mirror().addBox(-7.0F, 6.5F, -5.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(24, 0).mirror().addBox(2.0F, 5.5F, -2.0F, 5.0F, 5.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(0, 12).mirror().addBox(-7.0F, -1.0F, -3.0F, 6.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(0, 0).mirror().addBox(2.0F, -6.0F, -2.0F, 6.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -1.0F, -2.0F, 1.5708F, 0.0F, 0.0F));
+
+		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create(), PartPose.offset(0.0F, 4.0F, -8.0F));
+
+		PartDefinition leg0 = partdefinition.addOrReplaceChild("leg0", CubeListBuilder.create().texOffs(45, 12).mirror().addBox(0.0F, 2.0F, 0.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 12.0F, 7.0F));
+
+		PartDefinition leg1 = partdefinition.addOrReplaceChild("leg1", CubeListBuilder.create().texOffs(45, 18).mirror().addBox(-3.0F, 5.0F, 0.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-4.0F, 12.0F, 7.0F));
+
+		PartDefinition leg2 = partdefinition.addOrReplaceChild("leg2", CubeListBuilder.create().texOffs(45, 0).mirror().addBox(0.0F, 6.0F, -2.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 12.0F, -6.0F));
+
+		PartDefinition leg3 = partdefinition.addOrReplaceChild("leg3", CubeListBuilder.create().texOffs(45, 6).mirror().addBox(-3.0F, 2.0F, -2.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-4.0F, 12.0F, -6.0F));
+
+		return LayerDefinition.create(meshdefinition, 64, 32);
+		}
+
+	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-	    this.leg1.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-	    this.leg0.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-	    this.leg3.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-	    this.leg2.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+		this.leg1.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+		this.leg0.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+		this.leg3.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+		this.leg2.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{
-		modelRenderer.rotateAngleX = x;
-		modelRenderer.rotateAngleY = y;
-		modelRenderer.rotateAngleZ = z;
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		leg0.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		leg1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		leg2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		leg3.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }

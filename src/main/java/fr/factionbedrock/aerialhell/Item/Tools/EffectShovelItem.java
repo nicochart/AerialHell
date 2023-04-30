@@ -3,32 +3,32 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.Level;
 
 public class EffectShovelItem extends AerialHellShovelItem
 {	
 	private int timer;
 	
-	public EffectShovelItem(IItemTier tier, float attackDamageIn, float attackSpeedIn, float movementSpeedIn, float maxHealthIn, Properties builderIn)
+	public EffectShovelItem(Tier tier, float attackDamageIn, float attackSpeedIn, float movementSpeedIn, float maxHealthIn, Properties builderIn)
 	{
 		super(tier, attackDamageIn, attackSpeedIn, movementSpeedIn, maxHealthIn, builderIn);
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
-		if (!worldIn.isRemote && timer <= 0)
+		if (!worldIn.isClientSide() && timer <= 0)
 		{
 			if (entityIn instanceof LivingEntity)
 			{
-				if (((LivingEntity) entityIn).getHeldItemOffhand().getItem() == this || ((LivingEntity) entityIn).getHeldItemMainhand().getItem() == this)
+				if (((LivingEntity) entityIn).getOffhandItem().getItem() == this || ((LivingEntity) entityIn).getOffhandItem().getItem() == this)
 				{
 					if (this == AerialHellBlocksAndItems.MAGMA_CUBE_SHOVEL.get())
 					{
@@ -45,20 +45,20 @@ public class EffectShovelItem extends AerialHellShovelItem
 	}
 	
 	@Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
+    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
     {
-		ItemStack heldItem = playerIn.getHeldItem(handIn);
+		ItemStack heldItem = playerIn.getItemInHand(handIn);
 		Random rand = new Random();
 		if (this == AerialHellBlocksAndItems.VOLUCITE_SHOVEL.get())
 		{
-			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, rand, false)) {return ActionResult.resultConsume(heldItem);}
-			else {return ActionResult.resultPass(heldItem);}
+			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, rand, false)) {return InteractionResultHolder.consume(heldItem);}
+			else {return InteractionResultHolder.pass(heldItem);}
 		}
 		else if (this == AerialHellBlocksAndItems.MAGMA_CUBE_SHOVEL.get())
 		{
 			EffectToolHelper.applyJumpBoostEffect(this, heldItem, worldIn, playerIn, rand, 100, 2);
-			return ActionResult.resultConsume(heldItem);
+			return InteractionResultHolder.consume(heldItem);
 		}
-		else {return super.onItemRightClick(worldIn, playerIn, handIn);}
+		else {return super.use(worldIn, playerIn, handIn);}
     }
 }

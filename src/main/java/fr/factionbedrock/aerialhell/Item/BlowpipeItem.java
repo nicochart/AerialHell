@@ -1,14 +1,14 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.Level;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractAerialArrowEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
@@ -25,17 +25,17 @@ public class BlowpipeItem extends Item
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
+    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
     {
-        boolean isCreative = playerIn.abilities.isCreativeMode;
-        ItemStack heldItem = playerIn.getHeldItem(handIn);
+        boolean isCreative = playerIn.getAbilities().instabuild;
+        ItemStack heldItem = playerIn.getItemInHand(handIn);
         ItemStack ammo = this.findAmmo(playerIn);
         if(ammo.isEmpty() && !isCreative)
         {
-        	return ActionResult.resultFail(heldItem);
+        	return InteractionResultHolder.fail(heldItem);
         }
 
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide())
         {
             AerialArrowItem arrowItem;
             if(isCreative && ammo.isEmpty())
@@ -49,36 +49,36 @@ public class BlowpipeItem extends Item
             AbstractAerialArrowEntity arrow = arrowItem.createArrow(worldIn, ammo, playerIn);
             if (arrowItem == AerialHellBlocksAndItems.VOLUCITE_BLOWPIPE_ARROW.get()) {arrow.setNoGravity(true);}
             
-            arrow.func_234612_a_(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, arrowVelocity, 1.0F);
+            arrow.shootFromRotation(playerIn, playerIn.getXRot(), playerIn.getYRot(), 0.0F, arrowVelocity, 1.0F);
             if (isCreative)
             {
-                arrow.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
+                arrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
             }
             else
             {
-                arrow.pickupStatus = AbstractArrowEntity.PickupStatus.ALLOWED;
+                arrow.pickup = AbstractArrow.Pickup.ALLOWED;
             }
-            worldIn.addEntity(arrow);
+            worldIn.addFreshEntity(arrow);
         }
-        worldIn.playSound(playerIn, playerIn.getPosition(), AerialHellSoundEvents.ENTITY_VOLUCITE_BLOWPIPE_SHOOT.get(), SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 0.8F));
+        worldIn.playSound(playerIn, playerIn.getX(), playerIn.getY(), playerIn.getZ(), AerialHellSoundEvents.ENTITY_VOLUCITE_BLOWPIPE_SHOOT.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (playerIn.getRandom().nextFloat() * 0.4F + 0.8F));
         if (!isCreative)
         {
             ammo.shrink(1);
-            if (ammo.isEmpty()) {playerIn.inventory.deleteStack(ammo);}
-            heldItem.damageItem(1, playerIn, (player) -> {player.sendBreakAnimation(playerIn.getActiveHand());});
+            if (ammo.isEmpty()) {playerIn.getInventory().removeItem(ammo);}
+            heldItem.hurtAndBreak(1, playerIn, (player) -> {player.broadcastBreakEvent(playerIn.getUsedItemHand());});
         }
-        playerIn.getCooldownTracker().setCooldown(this, 12);
-        return ActionResult.resultConsume(heldItem);
+        playerIn.getCooldowns().addCooldown(this, 12);
+        return InteractionResultHolder.consume(heldItem);
     }
 
-    private ItemStack findAmmo(PlayerEntity player)
+    private ItemStack findAmmo(Player player) //copy of player.getProjectile but adapted to blowpipe use
     {
-        IInventory inv = player.inventory;
-        for (int i = 0; i < inv.getSizeInventory(); i++)
+        Inventory inv = player.getInventory();
+        for (int i = 0; i < inv.getContainerSize(); i++)
         {
-            ItemStack stack = inv.getStackInSlot(i);
+            ItemStack stack = inv.getItem(i);
             if (stack == ItemStack.EMPTY) {continue;}
-            else {if(stack.getItem().isIn(AerialHellTags.Items.BLOWPIPE_ARROWS)) {return stack;}}
+            else {if(stack.is(AerialHellTags.Items.BLOWPIPE_ARROWS)) {return stack;}}
         }
         return ItemStack.EMPTY;
     }

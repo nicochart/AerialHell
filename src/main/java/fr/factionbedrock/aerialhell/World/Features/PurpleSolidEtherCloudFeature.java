@@ -3,11 +3,12 @@ package fr.factionbedrock.aerialhell.World.Features;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import net.minecraft.block.Block;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import java.util.Random;
 
@@ -17,11 +18,11 @@ public class PurpleSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 	protected int getSmallMinSize() {return 2;} protected int getSmallMaxSize() {return 3;}
 	protected Block getEtherBlock() {return AerialHellBlocksAndItems.PURPLE_SOLID_ETHER.get();}
 
-	public PurpleSolidEtherCloudFeature(Codec<NoFeatureConfig> codec) {super(codec);}
-	
-	@Override
-    public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)
-    {
+	public PurpleSolidEtherCloudFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
+
+	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
+	{
+		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); Random rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
 		if (FeatureHelper.generatesInAnyDungeon(reader, pos)) {return false;}
     	
 		BlockPos generatePos = pos;

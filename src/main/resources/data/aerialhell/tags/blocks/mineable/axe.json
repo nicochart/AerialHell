@@ -1,0 +1,43 @@
+{
+  "replace": false,
+  "values": [
+    "#aerialhell:aerialhell_planks",
+    "#aerialhell:aerialhell_wooden_buttons",
+    "#aerialhell:aerialhell_wooden_doors",
+    "#aerialhell:aerialhell_wooden_fences",
+    "#aerialhell:aerialhell_wooden_gates",
+    "#aerialhell:aerialhell_wooden_pressure_plates",
+    "#aerialhell:aerialhell_wooden_slabs",
+    "#aerialhell:aerialhell_wooden_stairs",
+    "#aerialhell:aerialhell_wooden_trapdoors",
+
+    "aerialhell:aerial_tree_bookshelf",
+    "aerialhell:golden_beech_bookshelf",
+    "aerialhell:copper_pine_bookshelf",
+    "aerialhell:lapis_robinia_bookshelf",
+    "aerialhell:shadow_pine_bookshelf",
+    "aerialhell:gray_shroom_bookshelf",
+
+    "aerialhell:aerial_tree_chest",
+    "aerialhell:golden_beech_chest",
+    "aerialhell:copper_pine_chest",
+    "aerialhell:lapis_robinia_chest",
+    "aerialhell:shadow_pine_chest",
+    "aerialhell:sky_cactus_fiber_chest",
+    "aerialhell:gray_shroom_chest",
+
+    "aerialhell:aerial_tree_chest_mimic",
+    "aerialhell:golden_beech_chest_mimic",
+    "aerialhell:copper_pine_chest_mimic",
+    "aerialhell:sky_cactus_fiber_chest_mimic",
+    "aerialhell:shadow_pine_barrel_mimic",
+
+    "aerialhell:sky_ladder",
+    "aerialhell:thorny_cobweb",
+
+    "aerialhell:sky_cactus",
+    "aerialhell:vibrant_sky_cactus",
+    "aerialhell:sky_cactus_fiber_planks",
+    "aerialhell:vibrant_sky_cactus_fiber_lantern"
+  ]
+}

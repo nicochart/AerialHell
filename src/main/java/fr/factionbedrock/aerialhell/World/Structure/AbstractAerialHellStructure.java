@@ -1,36 +1,39 @@
 package fr.factionbedrock.aerialhell.World.Structure;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.gen.feature.structure.StructureStart;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 
-public abstract class AbstractAerialHellStructure extends Structure<NoFeatureConfig>
+public abstract class AbstractAerialHellStructure extends StructureFeature<NoneFeatureConfiguration>
 {
-    public AbstractAerialHellStructure(Codec<NoFeatureConfig> codec)
+    public AbstractAerialHellStructure(Codec<NoneFeatureConfiguration> codec, PieceGeneratorSupplier<NoneFeatureConfiguration> pieceGeneratorSupplier)
     {
-        super(codec);
+        super(codec, pieceGeneratorSupplier);
     }
 
     @Override
-    public GenerationStage.Decoration getDecorationStage() //What stage of generation your structure should be generated during
+    public GenerationStep.Decoration step() //What stage of generation your structure should be generated during
     {
-        return GenerationStage.Decoration.SURFACE_STRUCTURES;
+        return GenerationStep.Decoration.SURFACE_STRUCTURES;
     }
 
-    public static abstract class Start extends StructureStart<NoFeatureConfig>
+    public static abstract class Start extends StructureStart
     {
 
-        public Start(Structure<NoFeatureConfig> structureIn, int chunkX, int chunkZ, MutableBoundingBox mutableBoundingBox, int referenceIn, long seedIn)
+        public Start(Structure<NoneFeatureConfiguration> structureIn, int chunkX, int chunkZ, MutableBoundingBox mutableBoundingBox, int referenceIn, long seedIn)
         {
             super(structureIn, chunkX, chunkZ, mutableBoundingBox, referenceIn, seedIn);
         }
@@ -43,7 +46,7 @@ public abstract class AbstractAerialHellStructure extends Structure<NoFeatureCon
             while (mutable.getY() <= 250)
             {
 
-                if(blockView.getBlockState(mutable).getMaterial() != Material.AIR && blockView.getBlockState(mutable.up()).getMaterial() == Material.AIR && blockView.getBlockState(mutable.up(5)).getMaterial() == Material.AIR && isValidBlock(currentBlockstate))
+                if(blockView.getBlockState(mutable).getMaterial() != Material.AIR && blockView.getBlockState(mutable.above()).getMaterial() == Material.AIR && blockView.getBlockState(mutable.up(5)).getMaterial() == Material.AIR && isValidBlock(currentBlockstate))
                 {
                     mutable.move(Direction.UP);
                     break;

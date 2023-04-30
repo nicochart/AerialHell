@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.CrystalSlimeModel;
@@ -8,7 +8,7 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.CrystalSlimeGelAn
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSlimeEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -24,7 +24,7 @@ public class CrystalSlimeRender extends MobRenderer<CrystalSlimeEntity, CrystalS
 	}
 	
 	@Override
-	protected void preRenderCallback(CrystalSlimeEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime)
+	protected void preRenderCallback(CrystalSlimeEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
 	{
 		float f = 0.879F;
 		matrixStackIn.scale(f, f, f);

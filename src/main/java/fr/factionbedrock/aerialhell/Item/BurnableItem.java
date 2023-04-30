@@ -2,9 +2,9 @@ package fr.factionbedrock.aerialhell.Item;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
 
 public class BurnableItem extends Item
 {
@@ -17,8 +17,8 @@ public class BurnableItem extends Item
 	}
 	
 	@Override
-	public int getBurnTime(ItemStack itemStack, @Nullable IRecipeType<?> recipeType)
+	public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType)
     {
-        return recipeType == IRecipeType.SMELTING ? burnTime : 0;
+        return recipeType == RecipeType.SMELTING ? burnTime : 0;
     }
 }

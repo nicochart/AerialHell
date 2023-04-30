@@ -6,29 +6,29 @@ import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.entity.projectile.SmallFireballEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.projectile.SmallFireball;
+import net.minecraft.world.level.Level;
 
-public class TornSpiritEntity extends MonsterEntity
+public class TornSpiritEntity extends Monster
 {
-	public TornSpiritEntity(EntityType<? extends MonsterEntity> type, World world)
+	public TornSpiritEntity(EntityType<? extends Monster> type, Level world)
     {
         super(type, world);
     }
@@ -36,11 +36,11 @@ public class TornSpiritEntity extends MonsterEntity
 	@Override
     protected void registerGoals()
     {
-		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
 		this.goalSelector.addGoal(2, new TornSpiritEntity.FireballAttackGoal(this));
 		this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.25D, false));
-		this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 0.6D));
+		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.6D));
         this.goalSelector.addGoal(6, new LeapAtTargetGoal(this, 0.55F));
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, MudSoldierEntity.class, true));
         this.targetSelector.addGoal(8, new NearestAttackableTargetGoal<>(this, MudSpectralSoldierEntity.class, true));
@@ -48,43 +48,43 @@ public class TornSpiritEntity extends MonsterEntity
         this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
     }
 	
-	public static AttributeModifierMap.MutableAttribute registerAttributes()
+	public static AttributeSupplier.Builder registerAttributes()
     {
-		return MonsterEntity.func_233666_p_()
-				.createMutableAttribute(Attributes.MAX_HEALTH, 50.0D)
-				.createMutableAttribute(Attributes.FOLLOW_RANGE, 24.0D)
-				.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.33D)
-				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 17.0D);
+		return Monster.createMonsterAttributes()
+				.add(Attributes.MAX_HEALTH, 50.0D)
+				.add(Attributes.FOLLOW_RANGE, 24.0D)
+				.add(Attributes.MOVEMENT_SPEED, 0.33D)
+				.add(Attributes.ATTACK_DAMAGE, 17.0D);
     }
 	
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount)
+	public boolean hurt(DamageSource source, float amount)
 	{
-		boolean flag = super.attackEntityFrom(source, amount);
+		boolean flag = super.hurt(source, amount);
 		if (flag)
 		{
-			if (source.getTrueSource() instanceof LivingEntity && !(source.getImmediateSource() instanceof AbstractArrowEntity))
+			if (source.getEntity() instanceof LivingEntity && !(source.getDirectEntity() instanceof AbstractArrow))
 			{
-				if (!(source.getTrueSource() instanceof PlayerEntity && ((PlayerEntity)source.getTrueSource()).isCreative()))
+				if (!(source.getEntity() instanceof Player && ((Player)source.getEntity()).isCreative()))
 				{
-					this.setAttackTarget((LivingEntity) source.getTrueSource());
+					this.setTarget((LivingEntity) source.getEntity());
 				}
 			}
 		}
 		return flag;
 	}
 	
-	@Override public boolean isImmuneToFire() {return true;}
-	@Override public boolean canRenderOnFire() {return false;}
+	@Override public boolean fireImmune() {return true;}
+	@Override public boolean displayFireAnimation() {return false;}
 	
 	@Override
     public void tick()
     {
-        double random = rand.nextFloat();
-        double x = getPosX() + (rand.nextFloat() - 0.5F) * random;
-        double y = (this.getBoundingBox().minY + random) + 0.5D;
-        double z = getPosZ() + (rand.nextFloat() - 0.5F) * random;
-        this.world.addParticle(AerialHellParticleTypes.GOD_FLAME.get(), x, y, z, 0.0D, -0.06D, 0.0D);
+        double rand = random.nextFloat();
+        double x = getX() + (random.nextFloat() - 0.5F) * rand;
+        double y = (this.getBoundingBox().minY + rand) + 0.5D;
+        double z = getZ() + (random.nextFloat() - 0.5F) * rand;
+        this.level.addParticle(AerialHellParticleTypes.GOD_FLAME.get(), x, y, z, 0.0D, -0.06D, 0.0D);
         
         super.tick();
     }
@@ -117,28 +117,28 @@ public class TornSpiritEntity extends MonsterEntity
 	    public FireballAttackGoal(TornSpiritEntity fireminionIn)
 	    {
 	    	this.tornspirit = fireminionIn;
-	        this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+	        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
 	    }
 
-	    public boolean shouldExecute()
+	    public boolean canUse()
 	    {
-	    	LivingEntity target = this.tornspirit.getAttackTarget();
+	    	LivingEntity target = this.tornspirit.getTarget();
 	    	double DistanceToTarget = 0;
-	    	if (target != null)	{DistanceToTarget = this.tornspirit.getDistance(target);}
+	    	if (target != null)	{DistanceToTarget = this.tornspirit.distanceTo(target);}
 	        return target != null && target.isAlive() && this.tornspirit.canAttack(target) && DistanceToTarget > 10;
 	    }
 	    
-	    public void startExecuting() {this.attackStep = 0;}
+	    public void start() {this.attackStep = 0;}
 	    
-	    public void resetTask() {this.firedRecentlyTimer = 0;}
+	    public void stop() {this.firedRecentlyTimer = 0;}
 
 	    public void tick()
 	    {
 	        --this.attackTime;
-	        LivingEntity target = this.tornspirit.getAttackTarget();
+	        LivingEntity target = this.tornspirit.getTarget();
 	        if (target != null)
 	        {
-	        	boolean canSeeTarget = this.tornspirit.getEntitySenses().canSee(target);
+	        	boolean canSeeTarget = this.tornspirit.getSensing().hasLineOfSight(target);
 	            if (canSeeTarget)
 	            {
 	               this.firedRecentlyTimer = 0;
@@ -148,7 +148,7 @@ public class TornSpiritEntity extends MonsterEntity
 	               ++this.firedRecentlyTimer;
 	            }
 
-	            double squaredDistanceToTarget = this.tornspirit.getDistanceSq(target);
+	            double squaredDistanceToTarget = this.tornspirit.distanceToSqr(target);
 	            if (squaredDistanceToTarget < 4.0D)
 	            {
 	               if (!canSeeTarget)
@@ -159,16 +159,16 @@ public class TornSpiritEntity extends MonsterEntity
 	               if (this.attackTime <= 0)
 	               {
 	                  this.attackTime = 20;
-	                  this.tornspirit.attackEntityAsMob(target);
+	                  this.tornspirit.doHurtTarget(target);
 	               }
 
-	               this.tornspirit.getMoveHelper().setMoveTo(target.getPosX(), target.getPosY(), target.getPosZ(), 2.0D);
+	               this.tornspirit.getMoveControl().setWantedPosition(target.getX(), target.getY(), target.getZ(), 2.0D);
 	             }
 	             else if (squaredDistanceToTarget < this.getFollowDistance() * this.getFollowDistance() && canSeeTarget)
 	             {
-	               double Xdistance = target.getPosX() - this.tornspirit.getPosX();
-	               double Ydistance = target.getPosYHeight(0.5D) - this.tornspirit.getPosYHeight(0.5D);
-	               double Zdistance = target.getPosZ() - this.tornspirit.getPosZ();
+	               double Xdistance = target.getX() - this.tornspirit.getX();
+	               double Ydistance = target.getY(0.5D) - this.tornspirit.getY(0.5D);
+	               double Zdistance = target.getZ() - this.tornspirit.getZ();
 	               if (this.attackTime <= 0)
 	               {
 	                  this.attackStep += (int)(Math.random() * 3) + 1; //+random int between 1 and 4
@@ -188,27 +188,27 @@ public class TornSpiritEntity extends MonsterEntity
 
 	                  if (this.attackStep > 1)
 	                  {
-	                     float halfDistanceToTarget = MathHelper.sqrt(MathHelper.sqrt(squaredDistanceToTarget)) * 0.5F;
+	                     float halfDistanceToTarget = Mth.sqrt(Mth.sqrt((float) squaredDistanceToTarget)) * 0.5F;
 	                     if (!this.tornspirit.isSilent())
 	                     {
-	                        this.tornspirit.world.playEvent((PlayerEntity)null, 1018, this.tornspirit.getPosition(), 0);
+	                        this.tornspirit.level.levelEvent((Player)null, 1018, this.tornspirit.blockPosition(), 0);
 	                     }
 	                     
-	                     int n = (int)(Math.random() * 2) + 1; //nombre aléatoire entre 1 et 3
+	                     int n = (int)(Math.random() * 2) + 1; //nombre alï¿½atoire entre 1 et 3
 	                    		 
 	                     for(int i = 0; i < n; ++i)
 	                     {
-	                        SmallFireballEntity smallfireballentity = new SmallFireballEntity(this.tornspirit.world, this.tornspirit, Xdistance + 0.5 * this.tornspirit.getRNG().nextGaussian() * (double)halfDistanceToTarget, Ydistance, Zdistance + 0.5 * this.tornspirit.getRNG().nextGaussian() * (double)halfDistanceToTarget);
-	                        smallfireballentity.setPosition(smallfireballentity.getPosX(), this.tornspirit.getPosYHeight(0.5D) + 0.5D, smallfireballentity.getPosZ());
-	                        this.tornspirit.world.addEntity(smallfireballentity);
+	                        SmallFireball smallfireballentity = new SmallFireball(this.tornspirit.level, this.tornspirit, Xdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget, Ydistance, Zdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget);
+	                        smallfireballentity.setPos(smallfireballentity.getX(), this.tornspirit.getY(0.5D) + 0.5D, smallfireballentity.getZ());
+	                        this.tornspirit.level.addFreshEntity(smallfireballentity);
 	                     }
 	                  }
 	               }
-	               this.tornspirit.getLookController().setLookPositionWithEntity(target, 10.0F, 10.0F);
+	               this.tornspirit.getLookControl().setLookAt(target, 10.0F, 10.0F);
 	             }
 	             else if (this.firedRecentlyTimer < 5)
 	             {
-	               this.tornspirit.getMoveHelper().setMoveTo(target.getPosX(), target.getPosY(), target.getPosZ(), 1.0D);
+	               this.tornspirit.getMoveControl().setWantedPosition(target.getX(), target.getY(), target.getZ(), 1.0D);
 	             }
 
 	            super.tick();

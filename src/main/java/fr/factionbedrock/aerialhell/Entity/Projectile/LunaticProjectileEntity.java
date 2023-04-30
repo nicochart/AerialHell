@@ -6,60 +6,60 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
 
 public class LunaticProjectileEntity extends AbstractLightProjectileEntity
 {
-    public LunaticProjectileEntity(EntityType<? extends LunaticProjectileEntity> type, World worldIn) {super(type, worldIn);}
+    public LunaticProjectileEntity(EntityType<? extends LunaticProjectileEntity> type, Level worldIn) {super(type, worldIn);}
     
-    public LunaticProjectileEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+    public LunaticProjectileEntity(Level world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
     {
     	super(AerialHellEntities.LUNATIC_PROJECTILE.get(), shooter, world);
     	this.shoot(accelX, accelY, accelZ, velocity, inaccuracy);
     }
 
     @Override
-    protected void onImpact(RayTraceResult result)
+    protected void onHit(HitResult result)
     {
-        super.onImpact(result);
-    	this.world.addParticle(ParticleTypes.CLOUD, this.getPosX(), this.getPosY(), this.getPosZ(), 0.0D, 0.0D, 0.0D);
+        super.onHit(result);
+    	this.level.addParticle(ParticleTypes.CLOUD, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
     }
     
     private boolean targetIsImmuneToLunaticProjectileKb(Entity target) //target is not a ChainedGod or Lunatic Priest
     {
-    	return (target instanceof ChainedGodEntity || target instanceof LunaticPriestEntity || (target instanceof PlayerEntity && ((PlayerEntity)target).isCreative()));
+    	return (target instanceof ChainedGodEntity || target instanceof LunaticPriestEntity || (target instanceof Player && ((Player)target).isCreative()));
     }
     
     @Override
-    protected void onEntityHit(EntityRayTraceResult result)
+    protected void onHitEntity(EntityHitResult result)
     {
-    	super.onEntityHit(result);
+    	super.onHitEntity(result);
         Entity target = result.getEntity();
-        if (target != this.func_234616_v_()) //target != projectile shooter (not working yet..)
+        if (target != this.getOwner()) //target != projectile shooter (not working yet..)
         {
-        	target.attackEntityFrom(DamageSource.causeThrownDamage(this, func_234616_v_()), 5);
+        	target.hurt(DamageSource.thrown(this, getOwner()), 5);
             float amount = 4.0F;
             if (EntityHelper.isShadowEntity(target) || (target instanceof LivingEntity && EntityHelper.isLivingEntityVulnerable((LivingEntity) target))) {amount*=2;}
-            target.attackEntityFrom(new DamageSource("lunatic_projection"), amount);
+            target.hurt(new DamageSource("lunatic_projection"), amount);
             if (!targetIsImmuneToLunaticProjectileKb(target))
             {
-            	target.addVelocity(this.getMotion().x, 0.3D, this.getMotion().z);
+            	target.push(this.getDeltaMovement().x, 0.3D, this.getDeltaMovement().z);
             }
         }
     }
 
-    @Override protected BasicParticleType getImpactParticle() {return AerialHellParticleTypes.COPPER_PINE_LEAVES.get();}
-    @Override protected BasicParticleType getFlyParticle() {return AerialHellParticleTypes.LUNATIC_PARTICLE.get();}
+    @Override protected SimpleParticleType getImpactParticle() {return AerialHellParticleTypes.COPPER_PINE_LEAVES.get();}
+    @Override protected SimpleParticleType getFlyParticle() {return AerialHellParticleTypes.LUNATIC_PARTICLE.get();}
     @Override protected SoundEvent getShootSound() {return AerialHellSoundEvents.ENTITY_LUNATIC_PROJECTILE_SHOOT.get();}
     @Override protected void playDisappearSound(float volume, float pitch) {this.playSound(AerialHellSoundEvents.ENTITY_LUNATIC_PROJECTILE_DISAPPEAR.get(), volume, pitch);}
 }

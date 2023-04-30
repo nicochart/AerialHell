@@ -1,44 +1,48 @@
-package fr.factionbedrock.aerialhell.TileEntity;
+package fr.factionbedrock.aerialhell.BlockEntity;
 
-import fr.factionbedrock.aerialhell.Block.AerialHellBarrelBlock;
-import fr.factionbedrock.aerialhell.Registry.AerialHellTileEntityTypes;
-import net.minecraft.block.BarrelBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.inventory.container.ChestContainer;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ChestTileEntity;
-import net.minecraft.tileentity.LockableLootTileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.vector.Vector3i;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
-//see class net.minecraft.tileentity.BarrelTileEntity
+//see class net.minecraft.tileentity.BarrelBlockEntity
 
-public class AerialHellBarrelTileEntity extends LockableLootTileEntity
+public class AerialHellBarrelBlockEntity extends RandomizableContainerBlockEntity
 {
 	private NonNullList<ItemStack> inventory;
 	private int viewerCount;
 
-	private AerialHellBarrelTileEntity(TileEntityType<?> type)
+	protected AerialHellBarrelBlockEntity(BlockEntityType<?> blockEntity, BlockPos pos, BlockState state) {super(blockEntity, pos, state);}
+
+	public AerialHellBarrelBlockEntity(BlockPos pos, BlockState state) {this(AerialHellBlockEntities.BARREL.get(), pos, state);}
+
+	@Override protected Component getDefaultName() {return new TranslatableComponent("container.barrel");}
+
+	@Override
+	protected AbstractContainerMenu createMenu(int id, Inventory inv) {return ChestMenu.threeRows(id, inv, this);}
+
+	@Override protected NonNullList<ItemStack> getItems() {return this.inventory;}
+	@Override protected void setItems(NonNullList<ItemStack> itemList) {this.inventory = itemList;}
+	@Override public int getContainerSize() {return 27;}
+
+
+	/*private AerialHellBarrelBlockEntity(BlockEntityType<?> type)
 	{
 		super(type);
 		this.inventory = NonNullList.withSize(27, ItemStack.EMPTY);
 	}
 
-	public AerialHellBarrelTileEntity()
+	public AerialHellBarrelBlockEntity()
 	{
-		this(AerialHellTileEntityTypes.BARREL.get());
+		this();
 	}
 
 	@Override
@@ -83,9 +87,9 @@ public class AerialHellBarrelTileEntity extends LockableLootTileEntity
 	}
 
 	@Override
-	protected ITextComponent getDefaultName()
+	protected Component getDefaultName()
 	{
-		return new TranslationTextComponent("container.barrel");
+
 	}
 
 	@Override
@@ -95,7 +99,7 @@ public class AerialHellBarrelTileEntity extends LockableLootTileEntity
 	}
 
 	@Override
-	public void openInventory(PlayerEntity player)
+	public void openInventory(Player player)
 	{
 		if (!player.isSpectator())
 		{
@@ -125,7 +129,7 @@ public class AerialHellBarrelTileEntity extends LockableLootTileEntity
 		int i = this.pos.getX();
 		int j = this.pos.getY();
 		int k = this.pos.getZ();
-		this.viewerCount = ChestTileEntity.calculatePlayersUsing(this.world, this, i, j, k);
+		this.viewerCount = ChestBlockEntity.calculatePlayersUsing(this.world, this, i, j, k);
 		if (this.viewerCount > 0)
 		{
 			this.scheduleTick();
@@ -149,7 +153,7 @@ public class AerialHellBarrelTileEntity extends LockableLootTileEntity
 	}
 
 	@Override
-	public void closeInventory(PlayerEntity player)
+	public void closeInventory(Player player)
 	{
 		if (!player.isSpectator())
 		{
@@ -159,7 +163,7 @@ public class AerialHellBarrelTileEntity extends LockableLootTileEntity
 
 	private void setOpen(BlockState state, boolean open)
 	{
-		this.world.setBlockState(this.getPos(), (BlockState) state.with(BarrelBlock.PROPERTY_OPEN, open), 3);
+		this.world.setBlockState(this.getPos(), (BlockState) state.setValue(BarrelBlock.PROPERTY_OPEN, open), 3);
 	}
 
 	private void playSound(BlockState blockState, SoundEvent soundEvent)
@@ -168,6 +172,6 @@ public class AerialHellBarrelTileEntity extends LockableLootTileEntity
 		double d = (double) this.pos.getX() + 0.5D + (double) vec3i.getX() / 2.0D;
 		double e = (double) this.pos.getY() + 0.5D + (double) vec3i.getY() / 2.0D;
 		double f = (double) this.pos.getZ() + 0.5D + (double) vec3i.getZ() / 2.0D;
-		this.world.playSound((PlayerEntity) null, d, e, f, soundEvent, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
-	}
+		this.world.playSound((Player) null, d, e, f, soundEvent, SoundSource.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
+	}*/
 }

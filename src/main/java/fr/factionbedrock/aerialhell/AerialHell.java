@@ -16,17 +16,17 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Registry.AerialHellStructures;
 import fr.factionbedrock.aerialhell.Setup.*;
 import fr.factionbedrock.aerialhell.World.GenAerialHellOres;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.biome.Biomes;
-import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -78,8 +78,8 @@ public class AerialHell
     private static Method GETCODEC_METHOD;
     public void addDimensionalSpacing(final WorldEvent.Load event)
     {
-        if(event.getWorld() instanceof ServerWorld){
-            ServerWorld serverWorld = (ServerWorld)event.getWorld();
+        if(event.getLevel() instanceof ServerWorld){
+            ServerWorld serverWorld = (ServerWorld)event.getLevel();
 
             try
             {
@@ -92,7 +92,7 @@ public class AerialHell
                 AerialHell.LOGGER.error("Was unable to check if " + serverWorld.getDimensionKey().getLocation() + " is using Terraforged's ChunkGenerator.");
             }
 
-            if(serverWorld.getChunkProvider().getChunkGenerator() instanceof FlatChunkGenerator && serverWorld.getDimensionKey().equals(World.OVERWORLD))
+            if(serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator && serverWorld.getDimensionKey().equals(World.OVERWORLD))
             {
                 return;
             }

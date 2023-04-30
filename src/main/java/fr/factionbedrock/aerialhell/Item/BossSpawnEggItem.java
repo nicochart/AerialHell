@@ -5,33 +5,33 @@ import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 
 public class BossSpawnEggItem extends ForgeSpawnEggItem
 {
-	public BossSpawnEggItem(Supplier<? extends EntityType<?>> type, int backgroundColor, int highlightColor, Properties props) {super(type, backgroundColor, highlightColor, props);}
+	public BossSpawnEggItem(Supplier<? extends EntityType<? extends Mob>> type, int backgroundColor, int highlightColor, Properties props) {super(type, backgroundColor, highlightColor, props);}
 	
-	@Override public boolean hasEffect(ItemStack stack) {return true;}
+	@Override public boolean isFoil(ItemStack stack) {return true;}
 	
 	@Override @OnlyIn(Dist.CLIENT)
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn)
 	{
-		tooltip.add(this.getDescription().mergeStyle(TextFormatting.DARK_RED));
+		tooltip.add(this.getDescription().withStyle(ChatFormatting.DARK_RED));
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public IFormattableTextComponent getDescription()
+	public TextComponent getDescription()
 	{
-		return new TranslationTextComponent("item.aerialhell.boss_spawn_egg.desc");
+		return new TextComponent("item.aerialhell.boss_spawn_egg.desc");
 	}
 }

@@ -1,11 +1,11 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.DeadBushBlock;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.DeadBushBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 
 public class ShadowPlantBlock extends DeadBushBlock
 {
@@ -15,7 +15,7 @@ public class ShadowPlantBlock extends DeadBushBlock
 	}
 	
 	@Override
-	protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos)
+	protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos)
 	{
 		Block block = state.getBlock();
 	 	return block == AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get();

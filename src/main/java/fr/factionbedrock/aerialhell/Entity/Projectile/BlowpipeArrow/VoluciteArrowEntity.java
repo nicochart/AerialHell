@@ -3,29 +3,29 @@ package fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractAerialArrowEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class VoluciteArrowEntity extends AbstractAerialArrowEntity
 {
-    public VoluciteArrowEntity(EntityType<? extends VoluciteArrowEntity> type, World worldIn)
+    public VoluciteArrowEntity(EntityType<? extends VoluciteArrowEntity> type, Level worldIn)
     {
         super(type, worldIn);
-        this.setDamage(9.0D);
+        this.setBaseDamage(9.0D);
     }
 
-    public VoluciteArrowEntity(World worldIn, double x, double y, double z)
+    public VoluciteArrowEntity(Level worldIn, double x, double y, double z)
     {
         super(AerialHellEntities.VOLUCITE_BLOWPIPE_ARROW.get(), x, y, z, worldIn);
-        this.setDamage(9.0D);
+        this.setBaseDamage(9.0D);
     }
 
-    public VoluciteArrowEntity(World worldIn, LivingEntity shooter)
+    public VoluciteArrowEntity(Level worldIn, LivingEntity shooter)
     {
         super(AerialHellEntities.VOLUCITE_BLOWPIPE_ARROW.get(), shooter, worldIn);
-        this.setDamage(9.0D);
+        this.setBaseDamage(9.0D);
     }
     
     @Override
@@ -38,14 +38,10 @@ public class VoluciteArrowEntity extends AbstractAerialArrowEntity
         }
         if (this.ticksLiving > 50 && this.ticksLiving < 100)
         {
-        	this.setMotion(this.getMotion().getX(),this.getMotion().getY()-0.01,this.getMotion().getZ());
+        	this.setDeltaMovement(this.getDeltaMovement().x,this.getDeltaMovement().y-0.01,this.getDeltaMovement().z);
         }
         ++this.ticksLiving;
     }
     
-    @Override
-    protected ItemStack getArrowStack()
-    {
-        return new ItemStack(AerialHellBlocksAndItems.VOLUCITE_BLOWPIPE_ARROW.get());
-    }
+    @Override protected ItemStack getPickupItem() {return new ItemStack(AerialHellBlocksAndItems.VOLUCITE_BLOWPIPE_ARROW.get());}
 }

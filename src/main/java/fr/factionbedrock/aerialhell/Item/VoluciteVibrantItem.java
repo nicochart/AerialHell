@@ -1,21 +1,21 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class VoluciteVibrantItem extends WithInformationItem
 { 
 	public VoluciteVibrantItem(Properties properties) {super(properties);}
 	
-	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
 		LivingEntity livingEntityIn = (LivingEntity) entityIn;
-		if (livingEntityIn.getMotion().y < -0.2 && !livingEntityIn.isSneaking())
+		if (livingEntityIn.getDeltaMovement().y < -0.2 && !livingEntityIn.isShiftKeyDown())
 		{
 			livingEntityIn.fallDistance = 0;
-			livingEntityIn.setMotion(livingEntityIn.getMotion().x, -0.2, livingEntityIn.getMotion().z);
+			livingEntityIn.setDeltaMovement(livingEntityIn.getDeltaMovement().x, -0.2, livingEntityIn.getDeltaMovement().z);
 		}
 	}
 }

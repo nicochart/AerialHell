@@ -10,11 +10,11 @@ import com.google.common.collect.ImmutableMap;
 
 import fr.factionbedrock.aerialhell.World.Structure.*;
 import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -28,16 +28,16 @@ public class AerialHellStructures
 {
 	public static final DeferredRegister<Structure<?>> STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, MODID);
 	
-	public static final RegistryObject<Structure<NoFeatureConfig>> OVERWORLD_ABANDONNED_PORTAL_STRUCTURE = STRUCTURES.register("overworld_abandonned_portal", () -> new OverworldAbandonnedPortalStructure(NoFeatureConfig.field_236558_a_));
-	public static final RegistryObject<Structure<NoFeatureConfig>> MUD_DUNGEON_STRUCTURE = STRUCTURES.register("mud_dungeon", () -> new MudDungeonStructure(NoFeatureConfig.field_236558_a_));
-	public static final RegistryObject<Structure<NoFeatureConfig>> LUNATIC_TEMPLE_STRUCTURE = STRUCTURES.register("lunatic_temple", () -> new LunaticTempleStructure(NoFeatureConfig.field_236558_a_));
-	public static final RegistryObject<Structure<NoFeatureConfig>> SHADOW_CATACOMBS_STRUCTURE = STRUCTURES.register("shadow_catacombs", () -> new ShadowCatacombsStructure(NoFeatureConfig.field_236558_a_));
-	public static final RegistryObject<Structure<NoFeatureConfig>> GOLDEN_NETHER_PRISON_STRUCTURE = STRUCTURES.register("golden_nether_prison", () -> new GoldenNetherPrisonStructure(NoFeatureConfig.field_236558_a_));
-	public static final RegistryObject<Structure<NoFeatureConfig>> STELLAR_STONE_BRICKS_TOWER_STRUCTURE = STRUCTURES.register("stellar_stone_bricks_tower", () -> new StellarStoneBricksTowerStructure(NoFeatureConfig.field_236558_a_));
-	public static final RegistryObject<Structure<NoFeatureConfig>> COPPER_PINE_COTTAGE_STRUCTURE = STRUCTURES.register("copper_pine_cottage", () -> new CopperPineCottageStructure(NoFeatureConfig.field_236558_a_));
-	public static final RegistryObject<Structure<NoFeatureConfig>> SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE = STRUCTURES.register("slippery_sand_ocean_abandonned_structure", () -> new SlipperySandOceanAbandonnedStructure(NoFeatureConfig.field_236558_a_));
-	public static final RegistryObject<Structure<NoFeatureConfig>> SHADOW_PINE_TOWER_STRUCTURE = STRUCTURES.register("shadow_pine_tower", () -> new ShadowPineTowerStructure(NoFeatureConfig.field_236558_a_));
-	public static final RegistryObject<Structure<NoFeatureConfig>> LAPIS_ROBINIA_HUT_STRUCTURE = STRUCTURES.register("lapis_robinia_hut", () -> new LapisRobiniaHutStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoneFeatureConfiguration>> OVERWORLD_ABANDONNED_PORTAL_STRUCTURE = STRUCTURES.register("overworld_abandonned_portal", () -> new OverworldAbandonnedPortalStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoneFeatureConfiguration>> MUD_DUNGEON_STRUCTURE = STRUCTURES.register("mud_dungeon", () -> new MudDungeonStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoneFeatureConfiguration>> LUNATIC_TEMPLE_STRUCTURE = STRUCTURES.register("lunatic_temple", () -> new LunaticTempleStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoneFeatureConfiguration>> SHADOW_CATACOMBS_STRUCTURE = STRUCTURES.register("shadow_catacombs", () -> new ShadowCatacombsStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoneFeatureConfiguration>> GOLDEN_NETHER_PRISON_STRUCTURE = STRUCTURES.register("golden_nether_prison", () -> new GoldenNetherPrisonStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoneFeatureConfiguration>> STELLAR_STONE_BRICKS_TOWER_STRUCTURE = STRUCTURES.register("stellar_stone_bricks_tower", () -> new StellarStoneBricksTowerStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoneFeatureConfiguration>> COPPER_PINE_COTTAGE_STRUCTURE = STRUCTURES.register("copper_pine_cottage", () -> new CopperPineCottageStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoneFeatureConfiguration>> SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE = STRUCTURES.register("slippery_sand_ocean_abandonned_structure", () -> new SlipperySandOceanAbandonnedStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoneFeatureConfiguration>> SHADOW_PINE_TOWER_STRUCTURE = STRUCTURES.register("shadow_pine_tower", () -> new ShadowPineTowerStructure(NoFeatureConfig.field_236558_a_));
+	public static final RegistryObject<Structure<NoneFeatureConfiguration>> LAPIS_ROBINIA_HUT_STRUCTURE = STRUCTURES.register("lapis_robinia_hut", () -> new LapisRobiniaHutStructure(NoFeatureConfig.field_236558_a_));
 
 	 public static void setupStructures()
 	 {

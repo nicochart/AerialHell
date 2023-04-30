@@ -1,25 +1,25 @@
 package fr.factionbedrock.aerialhell.Block.SolidEther;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 public class GreenSolidEtherBlock extends SolidEtherBlock
 {
-	public GreenSolidEtherBlock(AbstractBlock.Properties properties) {super(properties);}
+	public GreenSolidEtherBlock(BlockBehaviour.Properties properties) {super(properties);}
 	
 	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
+	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity)
 	{
-		super.onEntityCollision(state, world, pos, entity);
-		if (!world.isRemote() && entity instanceof LivingEntity)
+		super.entityInside(state, world, pos, entity);
+		if (!world.isClientSide() && entity instanceof LivingEntity)
 		{
-			((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 10, 5, false, false));
+			((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.JUMP, 10, 5, false, false));
 		}
 	}
 }

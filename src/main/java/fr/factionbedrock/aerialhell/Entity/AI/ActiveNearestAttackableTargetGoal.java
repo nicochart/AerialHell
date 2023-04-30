@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 
 public class ActiveNearestAttackableTargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T>
 {
@@ -14,6 +14,6 @@ public class ActiveNearestAttackableTargetGoal<T extends LivingEntity> extends N
         this.activableGoalOwner = entityIn;
     }
 
-    @Override public boolean shouldExecute() {return this.activableGoalOwner.isActive() && super.shouldExecute();}
-    @Override public boolean shouldContinueExecuting() {return this.activableGoalOwner.isActive() && super.shouldContinueExecuting();}
+    @Override public boolean canUse() {return this.activableGoalOwner.isActive() && super.canUse();}
+    @Override public boolean canContinueToUse() {return this.activableGoalOwner.isActive() && super.canContinueToUse();}
 }

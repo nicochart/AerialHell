@@ -1,57 +1,57 @@
-package fr.factionbedrock.aerialhell.Client.TileEntityRenderer;
+package fr.factionbedrock.aerialhell.Client.BlockEntityRenderer;
 
 import java.util.HashMap;
 import java.util.List;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Block.AerialHellSignBlock;
+import fr.factionbedrock.aerialhell.Block.AerialHellStandingSignBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.TileEntity.AerialHellSignTileEntity;
+import fr.factionbedrock.aerialhell.BlockEntity.AerialHellSignBlockEntity;
 import net.minecraft.block.AbstractSignBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.block.StandingSignBlock;
-import net.minecraft.block.WoodType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.texture.NativeImage;
-import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer.SignModel;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.item.BlockItem;
+import net.minecraft.client.renderer.tileentity.SignBlockEntityRenderer;
+import net.minecraft.client.renderer.tileentity.SignBlockEntityRenderer.SignModel;
+import net.minecraft.client.renderer.tileentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.tileentity.BlockEntityRendererDispatcher;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.util.IReorderingProcessor;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 
-public class AerialHellSignTileEntityRenderer extends TileEntityRenderer<AerialHellSignTileEntity>
+public class AerialHellSignBlockEntityRenderer extends BlockEntityRenderer<AerialHellSignBlockEntity>
 {
 	private static final HashMap<Block, RenderType> LAYERS = Maps.newHashMap();
 	private static RenderType defaultLayer;
-	private final SignModel model = new SignTileEntityRenderer.SignModel();
+	private final SignModel model = new SignBlockEntityRenderer.SignModel();
 
-	public AerialHellSignTileEntityRenderer(TileEntityRendererDispatcher dispatcher)
+	public AerialHellSignBlockEntityRenderer(BlockEntityRendererDispatcher dispatcher)
 	{
 		super(dispatcher);
 	}
 
-	public void render(AerialHellSignTileEntity signBlockEntity, float tickDelta, MatrixStack matrixStack, IRenderTypeBuffer provider, int light, int overlay)
+	public void render(AerialHellSignBlockEntity signBlockEntity, float tickDelta, PoseStack matrixStack, IRenderTypeBuffer provider, int light, int overlay)
 	{
 		BlockState state = signBlockEntity.getBlockState();
 		matrixStack.push();
 
 		matrixStack.translate(0.5D, 0.5D, 0.5D);
-		float angle = -((float) ((Integer) state.get(StandingSignBlock.ROTATION) * 360) / 16.0F);
+		float angle = -((float) ((Integer) state.getValue(StandingSignBlock.ROTATION) * 360) / 16.0F);
 
 		BlockState blockState = signBlockEntity.getBlockState();
-		if (blockState.get(AerialHellSignBlock.FLOOR))
+		if (blockState.get(AerialHellStandingSignBlock.FLOOR))
 		{
 			matrixStack.rotate(Vector3f.YP.rotationDegrees(angle));
 			this.model.signStick.showModel = true;
@@ -89,7 +89,7 @@ public class AerialHellSignTileEntityRenderer extends TileEntityRenderer<AerialH
 			{
 				float t = (float) (-textRenderer.func_243245_a(orderedText) / 2);
 				textRenderer.func_238416_a_((IReorderingProcessor) orderedText, t, (float) (s * 10 - 20), q, false,
-						matrixStack.getLast().getMatrix(), provider, false, 0, light);
+						matrixStack.last().pose(), provider, false, 0, light);
 			}
 		}
 
@@ -124,7 +124,7 @@ public class AerialHellSignTileEntityRenderer extends TileEntityRenderer<AerialH
 			if (item.get() instanceof BlockItem)
 			{
 				Block block = ((BlockItem) item.get()).getBlock();
-				if (block instanceof AerialHellSignBlock)
+				if (block instanceof AerialHellStandingSignBlock)
 				{
 					String name = block.getRegistryName().getPath();
 					RenderType layer = RenderType.getEntitySolid

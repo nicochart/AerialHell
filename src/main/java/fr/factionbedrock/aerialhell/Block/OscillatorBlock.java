@@ -3,50 +3,47 @@ package fr.factionbedrock.aerialhell.Block;
 import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.TileEntity.OscillatorTileEntity;
-import net.minecraft.block.AbstractFurnaceBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-
-import net.minecraft.block.AbstractBlock;
+import fr.factionbedrock.aerialhell.BlockEntity.OscillatorBlockEntity;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.level.block.AbstractFurnaceBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public class OscillatorBlock extends AbstractFurnaceBlock
 {
-	public OscillatorBlock(AbstractBlock.Properties properties)
+	public OscillatorBlock(BlockBehaviour.Properties properties)
 	{
 		super(properties);
 	}
 	
 	@Override
-	public TileEntity createNewTileEntity(IBlockReader worldIn)
+	public BlockEntity newBlockEntity(BlockGetter worldIn)
 	{
-		return new OscillatorTileEntity();
+		return new OscillatorBlockEntity();
 	}
-	
-	@Override
-	protected void interactWith(World worldIn, BlockPos pos, PlayerEntity player)
+
+	protected void openContainer(Level worldIn, BlockPos pos, Player player)
 	{
-		if (!worldIn.isRemote)
-		{ 
-			TileEntity tileentity = worldIn.getTileEntity(pos);
-			if (tileentity instanceof OscillatorTileEntity)
-			{
-				player.openContainer((INamedContainerProvider) tileentity);
-			}
+		BlockEntity blockentity = worldIn.getBlockEntity(pos);
+		if (blockentity instanceof OscillatorBlockEntity)
+		{
+			player.openMenu((MenuProvider)blockentity);
 		}
 	}
 	
 	@Override
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand)
 	{
-		if (state.get(LIT))
+		if (state.getValue(LIT))
 		{
 			double x = pos.getX() + 0.5;
 			double y = pos.getY() + 1.01;
@@ -56,7 +53,7 @@ public class OscillatorBlock extends AbstractFurnaceBlock
 			
 			if (rand.nextDouble() < 0.1)
 			{
-				world.playSound(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+				world.playLocalSound(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0F, 1.0F, false);
 			}
 		}
 	}

@@ -1,0 +1,28 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:iron_stellar_ore",
+    "aerialhell:magmatic_gel_ore",
+    "aerialhell:ruby_ore",
+    "aerialhell:azurite_ore",
+
+    "aerialhell:aerial_netherrack",
+    "aerialhell:aerial_netherrack_slab",
+    "aerialhell:aerial_netherrack_stairs",
+    "aerialhell:aerial_netherrack_wall",
+
+    "#aerialhell:mud_dungeon",
+    "#aerialhell:lunatic_dungeon",
+    "#aerialhell:golden_nether_dungeon",
+    "#aerialhell:volucite_dungeon",
+    "#aerialhell:shadow_catacombs_dungeon",
+
+    "aerialhell:magmatic_gel_block",
+    "aerialhell:ruby_block",
+    "aerialhell:azurite_block",
+
+    "aerialhell:oscillator",
+    "aerialhell:freezer",
+    "aerialhell:stellar_furnace"
+  ]
+}

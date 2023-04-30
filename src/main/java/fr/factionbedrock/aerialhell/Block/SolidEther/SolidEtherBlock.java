@@ -1,77 +1,76 @@
 package fr.factionbedrock.aerialhell.Block.SolidEther;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
+import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BreakableBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.HalfTransparentBlock;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 
-public class SolidEtherBlock extends BreakableBlock
+public class SolidEtherBlock extends HalfTransparentBlock
 {
-	protected final static VoxelShape SOLID_ETHER_COLLISION_SHAPE = Block.makeCuboidShape(0.0, 0.0, 0.0, 16.0, 0.02, 16.0);
-	protected final static VoxelShape EMPTY_SHAPE = VoxelShapes.empty();
+	protected final static VoxelShape SOLID_ETHER_COLLISION_SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 0.02, 16.0);
+	protected final static VoxelShape EMPTY_SHAPE = Shapes.empty();
 	
-	public SolidEtherBlock(AbstractBlock.Properties properties)
+	public SolidEtherBlock(BlockBehaviour.Properties properties)
 	{
-		super(properties.setOpaque((state, reader, pos) -> false).setSuffocates((state, reader, pos) -> false).setBlocksVision((state, reader, pos) -> true));
-		this.setDefaultState(this.getDefaultState());
+		super(properties.isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> true));
+		this.registerDefaultState(this.defaultBlockState());
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
-		super.fillStateContainer(builder);
+		super.createBlockStateDefinition(builder);
 	}
 	
 	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
+	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity)
 	{
 		entity.fallDistance = 0.0F;
-		if (entity.getMotion().y < 0.0)
+		if (entity.getDeltaMovement().y < 0.0)
 		{
-			if (entity instanceof LivingEntity) {entity.setMotion(entity.getMotion().mul(0.96, 0.002, 0.96));}
-			else {entity.setMotion(entity.getMotion().mul(0.85, 0.002, 0.85));}
+			if (entity instanceof LivingEntity) {entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.96, 0.002, 0.96));}
+			else {entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.85, 0.002, 0.85));}
 		}
 	}
 	
 	@Override
-	public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state)
+	public boolean onDestroyedByPlayer(BlockState state, Level worldIn, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)
 	{
-		super.onPlayerDestroy(worldIn, pos, state);
-		if (!(this == AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get()))
+		boolean flag = super.onDestroyedByPlayer(state, worldIn, pos, player, willHarvest, fluid);
+		if (flag && !(this == AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get()))
 		{
-			worldIn.setBlockState(pos, AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get().getDefaultState(), 3);
+			worldIn.setBlockAndUpdate(pos, AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get().defaultBlockState());
 		}
+		return flag;
     }
 
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public float getAmbientOcclusionLightValue(BlockState state, IBlockReader worldIn, BlockPos pos) {return 1.0F;}
+	@Override public boolean useShapeForLightOcclusion(BlockState state) {return true;}
 
 	@Override
-	public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos) {return true;}
-
-	@Override
-	public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
 	{
-		Entity entity = context.getEntity();
-		if (canEntityCollide(entity)) {return SOLID_ETHER_COLLISION_SHAPE;}
-		else {return EMPTY_SHAPE;}
+		if (context instanceof EntityCollisionContext)
+		{
+			Entity entity = ((EntityCollisionContext)context).getEntity();
+			if (canEntityCollide(entity)) {return SOLID_ETHER_COLLISION_SHAPE;}
+		}
+		return EMPTY_SHAPE;
 	}
 	
 	protected boolean canEntityCollide(Entity entity)
@@ -80,8 +79,8 @@ public class SolidEtherBlock extends BreakableBlock
 		{
 			LivingEntity livingEntity = (LivingEntity) entity;
 			if (EntityHelper.hasSolidEtherWalkerEnchantment(livingEntity)) {return true;}
-			if (livingEntity.isPotionActive(AerialHellPotionEffects.HEAD_IN_THE_CLOUDS.get())) {return true;}
-			Iterable<ItemStack> stuff = livingEntity.getArmorInventoryList();
+			if (livingEntity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get())) {return true;}
+			Iterable<ItemStack> stuff = livingEntity.getArmorSlots();
 			for (ItemStack armorStack : stuff)
 			{
 				if (armorStack.getItem() == AerialHellBlocksAndItems.MAGMATIC_GEL_BOOTS.get()) {return true;}
@@ -91,6 +90,5 @@ public class SolidEtherBlock extends BreakableBlock
 		else {return true;}
 	}
 
-	@Override
-	public VoxelShape getRayTraceShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {return VoxelShapes.empty();} //getVisualShape
+	@Override public VoxelShape getVisualShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext context) {return Shapes.empty();}
 }

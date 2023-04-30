@@ -2,74 +2,74 @@ package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
 import java.util.function.Supplier;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.ChestTileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class CoreProtectedChestBlock extends ChestBlock
 {
 	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
 	
-	public CoreProtectedChestBlock(Properties builder, Supplier<TileEntityType<? extends ChestTileEntity>> tileEntityTypeIn)
+	public CoreProtectedChestBlock(Properties builder, Supplier<BlockEntityType<? extends ChestBlockEntity>> tileEntityTypeIn)
 	{
 		super(builder, tileEntityTypeIn);
-		this.setDefaultState(this.getDefaultState().with(CORE_PROTECTED, false));
+		this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
 	
 	public void setProtected(boolean protect)
 	{
-		this.setDefaultState(this.stateContainer.getBaseState().with(CORE_PROTECTED, protect));
+		this.registerDefaultState(this.stateDefinition.any().setValue(CORE_PROTECTED, protect));
 	}
 	
 	public boolean isProtected(BlockState state)
 	{
-		return state.get(CORE_PROTECTED);
+		return state.getValue(CORE_PROTECTED);
 	}
 	
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
+	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
 	{
-		return (isProtected(state) && !player.isCreative()) ? ActionResultType.SUCCESS : super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
+		return (isProtected(state) && !player.isCreative()) ? InteractionResult.SUCCESS : super.use(state, worldIn, pos, player, handIn, hit);
 	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public float getExplosionResistance(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion)
+	public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion)
     {
-        return isProtected(state) ? 1200.0F : this.getBlock().getExplosionResistance();
+        return isProtected(state) ? 1200.0F : this.asBlock().getExplosionResistance();
     }
 	
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
-		super.fillStateContainer(builder);
+		super.createBlockStateDefinition(builder);
 		builder.add(CORE_PROTECTED);
 	}
-	
+
 	@Override
-	public float getPlayerRelativeBlockHardness(BlockState state, PlayerEntity player, IBlockReader worldIn, BlockPos pos)
+	public float getDestroyProgress(BlockState state, Player player, BlockGetter worldIn, BlockPos pos)
 	{
-		float f = state.getBlockHardness(worldIn, pos);
-	    if (f == -1.0F || isProtected(state))
-	    {
-	         return 0.0F;
-	    }
-	    else
-	    {
-	         int i = net.minecraftforge.common.ForgeHooks.canHarvestBlock(state, player, worldIn, pos) ? 30 : 100;
-	         return player.getDigSpeed(state, pos) / f / (float)i;
-	    }
+		float f = state.getDestroySpeed(worldIn, pos);
+		if (f == -1.0F || isProtected(state))
+		{
+			return 0.0F;
+		}
+		else
+		{
+			int i = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(state, player) ? 30 : 100;
+			return player.getDigSpeed(state, pos) / f / (float)i;
+		}
 	}
 }

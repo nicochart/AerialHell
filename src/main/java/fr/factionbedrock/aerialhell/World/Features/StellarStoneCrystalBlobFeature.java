@@ -7,74 +7,75 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class StellarStoneCrystalBlobFeature extends Feature<NoFeatureConfig>
+public class StellarStoneCrystalBlobFeature extends Feature<NoneFeatureConfiguration>
 {
 	public Supplier<Block> crystalBlock;
-	public StellarStoneCrystalBlobFeature(Supplier<Block> block, Codec<NoFeatureConfig> codec) {super(codec); crystalBlock=block;}
-	
-	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)
+	public StellarStoneCrystalBlobFeature(Supplier<Block> block, Codec<NoneFeatureConfiguration> codec) {super(codec); crystalBlock=block;}
+
+	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
+		BlockPos pos = context.origin(); WorldGenLevel world = context.level(); Random rand = context.random();
 		int x = pos.getX(), y=10, z=pos.getZ();
 		int ymax = 160;
 		BlockPos blockpos;
-		BlockPos.Mutable mutablePos = new BlockPos.Mutable();
-		mutablePos.setPos(new BlockPos(x, y, z));
+		BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+		mutablePos.set(new BlockPos(x, y, z));
 		boolean hasSupport = false;
 		while (!hasSupport && y < ymax)
 		{
-			if (hasSupportToGenerate(mutablePos, reader)) {hasSupport = true;}
-			else {y++; mutablePos.setPos(new BlockPos(x, y, z));}
+			if (hasSupportToGenerate(mutablePos, world)) {hasSupport = true;}
+			else {y++; mutablePos.set(new BlockPos(x, y, z));}
 		}
 		if (y==ymax) {return false;}
-		if (!squareHasRoof(mutablePos, reader)) {return false;}
+		if (!squareHasRoof(mutablePos, world)) {return false;}
 		pos = mutablePos;
 		
 		if (rand.nextInt(160) < y) {return false;}
-		
-    	reader.setBlockState(pos, crystalBlock.get().getDefaultState(), 2);
+
+		world.setBlock(pos, crystalBlock.get().defaultBlockState(), 2);
         for(int i = 0; i < 300; ++i)
         {
-        	blockpos = pos.add(rand.nextInt(2) - rand.nextInt(2), rand.nextInt(5), rand.nextInt(2) - rand.nextInt(2)); //55855
+        	blockpos = pos.offset(rand.nextInt(2) - rand.nextInt(2), rand.nextInt(5), rand.nextInt(2) - rand.nextInt(2)); //55855
 
-            if (reader.isAirBlock(blockpos))
+            if (world.isEmptyBlock(blockpos))
             {
             	int j = 0;
 
 	            for(Direction direction : Direction.values())
 	            {
-		            if (reader.getBlockState(blockpos.offset(direction)).isIn(crystalBlock.get())) {++j;}
+		            if (world.getBlockState(blockpos.relative(direction)).is(crystalBlock.get())) {++j;}
 
 		            if (j > 1) {break;}
 	            }
 
-	            if (j == 1) {reader.setBlockState(blockpos, crystalBlock.get().getDefaultState(), 2);}
+	            if (j == 1) {world.setBlock(blockpos, crystalBlock.get().defaultBlockState(), 2);}
             }
         }
 	    return true;
 	}
 	
-	private boolean hasSupportToGenerate(BlockPos pos, ISeedReader reader)
+	private boolean hasSupportToGenerate(BlockPos pos, WorldGenLevel reader)
 	{
-		BlockState blockstateDown = reader.getBlockState(pos.down());
+		BlockState blockstateDown = reader.getBlockState(pos.below());
 		if (isValidFloorState(blockstateDown) && hasAirColumnAbove(pos, reader, 4)) {return true;}
 		else {return false;}
 	}
 		
 	private boolean isValidFloorState(BlockState state)
 	{
-		return state.isIn(AerialHellTags.Blocks.STELLAR_DIRT) || state.isIn(AerialHellBlocksAndItems.SLIPPERY_SAND.get());
+		return state.is(AerialHellTags.Blocks.STELLAR_DIRT) || state.is(AerialHellBlocksAndItems.SLIPPERY_SAND.get());
 	}
 	
-	private boolean squareHasRoof(BlockPos pos, ISeedReader reader)
+	private boolean squareHasRoof(BlockPos pos, WorldGenLevel reader)
 	{
 		int x,z;
 		BlockPos blockpos;
@@ -82,27 +83,27 @@ public class StellarStoneCrystalBlobFeature extends Feature<NoFeatureConfig>
 		{
 			for (z=-4;z<5;z++)
 			{
-				blockpos = pos.add(x, 0, z);
+				blockpos = pos.offset(x, 0, z);
 				if (!hasAnyBlockAbove(blockpos, reader)) {return false;}
 			}
 		}
 		return true;
 	}
 	
-	private boolean hasAnyBlockAbove(BlockPos pos, ISeedReader reader)
+	private boolean hasAnyBlockAbove(BlockPos pos, WorldGenLevel reader)
 	{
-		for (BlockPos blockpos = pos.up(); blockpos.getY() < 250; blockpos = blockpos.up())
+		for (BlockPos blockpos = pos.above(); blockpos.getY() < 250; blockpos = blockpos.above())
 		{
-			if (!reader.isAirBlock(blockpos)) {return true;}
+			if (!reader.isEmptyBlock(blockpos)) {return true;}
 		}
 		return false;
 	}
 	
-	private boolean hasAirColumnAbove(BlockPos pos, ISeedReader reader, int dy)
+	private boolean hasAirColumnAbove(BlockPos pos, WorldGenLevel reader, int dy)
 	{
-		for (BlockPos blockpos = pos.up(); blockpos.getY() < pos.getY()+dy; blockpos = blockpos.up())
+		for (BlockPos blockpos = pos.above(); blockpos.getY() < pos.getY()+dy; blockpos = blockpos.above())
 		{
-			if (!reader.isAirBlock(blockpos)) {return false;}
+			if (!reader.isEmptyBlock(blockpos)) {return false;}
 		}
 		return true;
 	}

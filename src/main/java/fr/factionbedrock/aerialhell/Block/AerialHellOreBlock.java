@@ -2,26 +2,14 @@ package fr.factionbedrock.aerialhell.Block;
 
 import java.util.Random;
 
-import net.minecraft.block.OreBlock;
-import net.minecraft.util.math.MathHelper;
-
-import net.minecraft.block.AbstractBlock;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public class AerialHellOreBlock extends OreBlock
 {
-	private final int minExpDropped;
-	private final int maxExpDropped;
-	
-	public AerialHellOreBlock(int minExpDropped, int maxExpDropped, AbstractBlock.Properties properties)
+	public AerialHellOreBlock(int minExpDropped, int maxExpDropped, BlockBehaviour.Properties properties)
 	{
-		super(properties);
-		this.minExpDropped = minExpDropped;
-		this.maxExpDropped = maxExpDropped;
-	}
-	
-	@Override
-	protected int getExperience(Random rand)
-	{
-		return MathHelper.nextInt(rand, minExpDropped, maxExpDropped);
+		super(properties, UniformInt.of(minExpDropped, maxExpDropped));
 	}
 }

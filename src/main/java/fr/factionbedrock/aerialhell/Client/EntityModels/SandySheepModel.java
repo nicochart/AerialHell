@@ -1,157 +1,147 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Passive.SandySheepEntity;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 // Made by Cixon
-// Made with Blockbench
+// Exported for Minecraft version 1.17 or later with Mojang mappings
 
 public class SandySheepModel extends EntityModel<SandySheepEntity>
 {
-	private final ModelRenderer head;
-	private final ModelRenderer snout_r1;
-	private final ModelRenderer body;
-	private final ModelRenderer rightFrontLeg;
-	private final ModelRenderer rightFrontLegCoat;
-	private final ModelRenderer rightBackLeg;
-	private final ModelRenderer rightBackLegCoat;
-	private final ModelRenderer leftFrontLeg;
-	private final ModelRenderer leftFrontLegCoat;
-	private final ModelRenderer leftBackLeg;
-	private final ModelRenderer leftBackLegCoat;
-	private final ModelRenderer headCoat;
-	private final ModelRenderer bodyCoat;
+	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(AerialHell.MODID, "sandy_sheep_model"), "main");
+	private final ModelPart head;
+	private final ModelPart body;
+	private final ModelPart rightFrontLeg;
+	private final ModelPart rightFrontLegCoat;
+	private final ModelPart rightBackLeg;
+	private final ModelPart rightBackLegCoat;
+	private final ModelPart leftFrontLeg;
+	private final ModelPart leftFrontLegCoat;
+	private final ModelPart leftBackLeg;
+	private final ModelPart leftBackLegCoat;
+	private final ModelPart headCoat;
+	private final ModelPart bodyCoat;
+
 	private boolean hasWool;
-	
-	public SandySheepModel()
+	private boolean isChild;
+
+	public SandySheepModel(ModelPart root)
 	{
-		textureWidth = 128;
-		textureHeight = 64;
-		
-		head = new ModelRenderer(this);
-		head.setRotationPoint(0.0F, 8.0F, -8.0F);
-		head.setTextureOffset(0, 0).addBox(-2.5F, -4.0F, -7.0F, 6.0F, 6.0F, 8.0F, 0.0F, false);
-
-		snout_r1 = new ModelRenderer(this);
-		snout_r1.setRotationPoint(0.0F, 16.0F, 8.0F);
-		head.addChild(snout_r1);
-		setRotationAngle(snout_r1, 0.0698F, 0.0F, 0.0F);
-		snout_r1.setTextureOffset(28, 8).addBox(-1.0F, -18.01F, -16.0F, 3.0F, 3.0F, 3.0F, 0.0F, false);
-
-		body = new ModelRenderer(this);
-		body.setRotationPoint(0.0F, 24.0F, 0.0F);
-		body.setTextureOffset(80, 42).addBox(-3.5F, -17.0F, -8.5F, 8.0F, 6.0F, 16.0F, 0.0F, false);
-
-		rightFrontLeg = new ModelRenderer(this);
-		rightFrontLeg.setRotationPoint(-3.0F, 16.0F, -6.0F);
-		rightFrontLeg.setTextureOffset(0, 49).addBox(-1.0F, -4.0F, -2.0F, 3.0F, 12.0F, 3.0F, 0.0F, false);
-
-		rightFrontLegCoat = new ModelRenderer(this);
-		rightFrontLegCoat.setRotationPoint(-3.0F, 16.0F, -6.0F);
-		rightFrontLegCoat.setTextureOffset(12, 46).addBox(-3.0F, -5.0F, -5.0F, 7.0F, 10.0F, 8.0F, -1.0F, true);
-
-		rightBackLeg = new ModelRenderer(this);
-		rightBackLeg.setRotationPoint(-3.0F, 16.0F, 5.0F);
-		rightBackLeg.setTextureOffset(0, 49).addBox(-1.0F, -4.0F, -1.0F, 3.0F, 12.0F, 3.0F, 0.0F, false);
-
-		rightBackLegCoat = new ModelRenderer(this);
-		rightBackLegCoat.setRotationPoint(-3.0F, 16.0F, 5.0F);
-		rightBackLegCoat.setTextureOffset(12, 46).addBox(-3.0F, -5.0F, -3.5F, 7.0F, 10.0F, 8.0F, -1.0F, true);
-
-		leftFrontLeg = new ModelRenderer(this);
-		leftFrontLeg.setRotationPoint(4.0F, 16.0F, -6.0F);
-		leftFrontLeg.setTextureOffset(0, 49).addBox(-2.0F, -4.0F, -2.0F, 3.0F, 12.0F, 3.0F, 0.0F, true);
-
-		leftFrontLegCoat = new ModelRenderer(this);
-		leftFrontLegCoat.setRotationPoint(4.0F, 16.0F, -6.0F);
-		leftFrontLegCoat.setTextureOffset(12, 46).addBox(-4.0F, -5.0F, -5.0F, 7.0F, 10.0F, 8.0F, -1.0F, false);
-
-		leftBackLeg = new ModelRenderer(this);
-		leftBackLeg.setRotationPoint(4.0F, 16.0F, 5.0F);
-		leftBackLeg.setTextureOffset(0, 49).addBox(-2.0F, -4.0F, -1.0F, 3.0F, 12.0F, 3.0F, 0.0F, true);
-
-		leftBackLegCoat = new ModelRenderer(this);
-		leftBackLegCoat.setRotationPoint(4.0F, 16.0F, 5.0F);
-		leftBackLegCoat.setTextureOffset(12, 46).addBox(-4.0F, -5.0F, -3.5F, 7.0F, 10.0F, 8.0F, -1.0F, false);
-
-		headCoat = new ModelRenderer(this);
-		headCoat.setRotationPoint(0.0F, 8.0F, -8.0F);
-		headCoat.setTextureOffset(40, 0).addBox(-3.0F, -5.0F, -8.0F, 7.0F, 5.0F, 9.0F, 0.0F, false);
-
-		bodyCoat = new ModelRenderer(this);
-		bodyCoat.setRotationPoint(0.0F, 24.0F, 0.0F);
-		bodyCoat.setTextureOffset(0, 14).addBox(-4.5F, -18.0F, -11.0F, 10.0F, 10.0F, 20.0F, 0.0F, false);
+		this.head = root.getChild("head");
+		this.body = root.getChild("body");
+		this.rightFrontLeg = root.getChild("rightFrontLeg");
+		this.rightFrontLegCoat = root.getChild("rightFrontLegCoat");
+		this.rightBackLeg = root.getChild("rightBackLeg");
+		this.rightBackLegCoat = root.getChild("rightBackLegCoat");
+		this.leftFrontLeg = root.getChild("leftFrontLeg");
+		this.leftFrontLegCoat = root.getChild("leftFrontLegCoat");
+		this.leftBackLeg = root.getChild("leftBackLeg");
+		this.leftBackLegCoat = root.getChild("leftBackLegCoat");
+		this.headCoat = root.getChild("headCoat");
+		this.bodyCoat = root.getChild("bodyCoat");
 	}
-	
+
+	public static LayerDefinition createBodyLayer()
+	{
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
+
+		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-2.5F, -4.0F, -7.0F, 6.0F, 6.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 8.0F, -8.0F));
+
+		PartDefinition snout_r1 = head.addOrReplaceChild("snout_r1", CubeListBuilder.create().texOffs(28, 8).addBox(-1.0F, -18.01F, -16.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 16.0F, 8.0F, 0.0698F, 0.0F, 0.0F));
+
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(80, 42).addBox(-3.5F, -17.0F, -8.5F, 8.0F, 6.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+
+		PartDefinition rightFrontLeg = partdefinition.addOrReplaceChild("rightFrontLeg", CubeListBuilder.create().texOffs(0, 49).addBox(-1.0F, -4.0F, -2.0F, 3.0F, 12.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.0F, 16.0F, -6.0F));
+
+		PartDefinition rightFrontLegCoat = partdefinition.addOrReplaceChild("rightFrontLegCoat", CubeListBuilder.create().texOffs(12, 46).mirror().addBox(-3.0F, -5.0F, -5.0F, 7.0F, 10.0F, 8.0F, new CubeDeformation(-1.0F)).mirror(false), PartPose.offset(-3.0F, 16.0F, -6.0F));
+
+		PartDefinition rightBackLeg = partdefinition.addOrReplaceChild("rightBackLeg", CubeListBuilder.create().texOffs(0, 49).addBox(-1.0F, -4.0F, -1.0F, 3.0F, 12.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.0F, 16.0F, 5.0F));
+
+		PartDefinition rightBackLegCoat = partdefinition.addOrReplaceChild("rightBackLegCoat", CubeListBuilder.create().texOffs(12, 46).mirror().addBox(-3.0F, -5.0F, -3.5F, 7.0F, 10.0F, 8.0F, new CubeDeformation(-1.0F)).mirror(false), PartPose.offset(-3.0F, 16.0F, 5.0F));
+
+		PartDefinition leftFrontLeg = partdefinition.addOrReplaceChild("leftFrontLeg", CubeListBuilder.create().texOffs(0, 49).mirror().addBox(-2.0F, -4.0F, -2.0F, 3.0F, 12.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 16.0F, -6.0F));
+
+		PartDefinition leftFrontLegCoat = partdefinition.addOrReplaceChild("leftFrontLegCoat", CubeListBuilder.create().texOffs(12, 46).addBox(-4.0F, -5.0F, -5.0F, 7.0F, 10.0F, 8.0F, new CubeDeformation(-1.0F)), PartPose.offset(4.0F, 16.0F, -6.0F));
+
+		PartDefinition leftBackLeg = partdefinition.addOrReplaceChild("leftBackLeg", CubeListBuilder.create().texOffs(0, 49).mirror().addBox(-2.0F, -4.0F, -1.0F, 3.0F, 12.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 16.0F, 5.0F));
+
+		PartDefinition leftBackLegCoat = partdefinition.addOrReplaceChild("leftBackLegCoat", CubeListBuilder.create().texOffs(12, 46).addBox(-4.0F, -5.0F, -3.5F, 7.0F, 10.0F, 8.0F, new CubeDeformation(-1.0F)), PartPose.offset(4.0F, 16.0F, 5.0F));
+
+		PartDefinition headCoat = partdefinition.addOrReplaceChild("headCoat", CubeListBuilder.create().texOffs(40, 0).addBox(-3.0F, -5.0F, -8.0F, 7.0F, 5.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 8.0F, -8.0F));
+
+		PartDefinition bodyCoat = partdefinition.addOrReplaceChild("bodyCoat", CubeListBuilder.create().texOffs(0, 14).addBox(-4.5F, -18.0F, -11.0F, 10.0F, 10.0F, 20.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+
+		return LayerDefinition.create(meshdefinition, 128, 64);
+	}
+
 	@Override
-	public void setRotationAngles(SandySheepEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	public void setupAnim(SandySheepEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		this.head.rotateAngleY = netHeadYaw / 57.29578F;
-        this.head.rotateAngleX = headPitch / 57.29578F;
-        this.headCoat.rotateAngleY = netHeadYaw / 57.29578F;
-        this.headCoat.rotateAngleX = headPitch / 57.29578F;
-        
-        this.animateRightLeg(this.rightFrontLeg, limbSwing, limbSwingAmount);
-        this.animateRightLeg(this.rightBackLeg, limbSwing, limbSwingAmount);
-        this.animateRightLeg(this.rightFrontLegCoat, limbSwing, limbSwingAmount);
-        this.animateRightLeg(this.rightBackLegCoat, limbSwing, limbSwingAmount);
-        this.animateLeftLeg(this.leftFrontLeg, limbSwing, limbSwingAmount);
-        this.animateLeftLeg(this.leftBackLeg, limbSwing, limbSwingAmount);
-        this.animateLeftLeg(this.leftFrontLegCoat, limbSwing, limbSwingAmount);
-        this.animateLeftLeg(this.leftBackLegCoat, limbSwing, limbSwingAmount);
+		this.hasWool = entity.hasWool(); this.isChild = entity.isBaby();
+
+		this.head.yRot = netHeadYaw / 57.29578F;
+		this.head.xRot = headPitch / 57.29578F;
+		this.headCoat.yRot = netHeadYaw / 57.29578F;
+		this.headCoat.xRot = headPitch / 57.29578F;
+
+		this.animateRightLeg(this.rightFrontLeg, limbSwing, limbSwingAmount);
+		this.animateRightLeg(this.rightBackLeg, limbSwing, limbSwingAmount);
+		this.animateRightLeg(this.rightFrontLegCoat, limbSwing, limbSwingAmount);
+		this.animateRightLeg(this.rightBackLegCoat, limbSwing, limbSwingAmount);
+		this.animateLeftLeg(this.leftFrontLeg, limbSwing, limbSwingAmount);
+		this.animateLeftLeg(this.leftBackLeg, limbSwing, limbSwingAmount);
+		this.animateLeftLeg(this.leftFrontLegCoat, limbSwing, limbSwingAmount);
+		this.animateLeftLeg(this.leftBackLegCoat, limbSwing, limbSwingAmount);
 	}
-	
-	private void animateLeftLeg(ModelRenderer model, float limbSwing, float limbSwingAmount)
+
+	private void animateLeftLeg(ModelPart model, float limbSwing, float limbSwingAmount)
 	{
-		model.rotateAngleX = -1.0F * MathHelper.func_233021_e_(limbSwing, 13.0F) * limbSwingAmount;
-		model.rotateAngleY = 0.0F;
+		model.xRot = -1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		model.yRot = 0.0F;
 	}
-	
-	private void animateRightLeg(ModelRenderer model, float limbSwing, float limbSwingAmount)
+
+	private void animateRightLeg(ModelPart model, float limbSwing, float limbSwingAmount)
 	{
-		model.rotateAngleX = 1.0F * MathHelper.func_233021_e_(limbSwing, 13.0F) * limbSwingAmount;
-		model.rotateAngleY = 0.0F;
+		model.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		model.yRot = 0.0F;
 	}
-	
+
 	@Override
-	public void setLivingAnimations(SandySheepEntity entity, float limbSwing, float limbSwingAmount, float partialTick)
-	{
-		super.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTick);
-		this.hasWool = entity.hasWool();
-	}
-	
-	@Override
-	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{
 		if(isChild)
-        {
-			matrixStack.scale(0.5F, 0.5F, 0.5F);
-			matrixStack.translate(0.0F, 1.5F, 0.0F);
-        }
-		matrixStack.push();
-        
-		head.render(matrixStack, buffer, packedLight, packedOverlay);
-		body.render(matrixStack, buffer, packedLight, packedOverlay);
-		rightFrontLeg.render(matrixStack, buffer, packedLight, packedOverlay);
-		rightBackLeg.render(matrixStack, buffer, packedLight, packedOverlay);
-		leftFrontLeg.render(matrixStack, buffer, packedLight, packedOverlay);
-		leftBackLeg.render(matrixStack, buffer, packedLight, packedOverlay);
+		{
+			poseStack.scale(0.5F, 0.5F, 0.5F);
+			poseStack.translate(0.0F, 1.5F, 0.0F);
+		}
+		poseStack.pushPose();
+
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		rightFrontLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		rightBackLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		leftFrontLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		leftBackLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		if (this.hasWool)
 		{
-			bodyCoat.render(matrixStack, buffer, packedLight, packedOverlay);
-			rightFrontLegCoat.render(matrixStack, buffer, packedLight, packedOverlay);
-			rightBackLegCoat.render(matrixStack, buffer, packedLight, packedOverlay);
-			leftFrontLegCoat.render(matrixStack, buffer, packedLight, packedOverlay);
-			leftBackLegCoat.render(matrixStack, buffer, packedLight, packedOverlay);
-			headCoat.render(matrixStack, buffer, packedLight, packedOverlay);
+			rightFrontLegCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+			rightBackLegCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+			leftFrontLegCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+			leftBackLegCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+			headCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+			bodyCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		}
-		matrixStack.pop();
+		poseStack.popPose();
 	}
-
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {modelRenderer.rotateAngleX = x; modelRenderer.rotateAngleY = y; modelRenderer.rotateAngleZ = z;}
 }

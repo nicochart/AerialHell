@@ -1,32 +1,32 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
+import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.IArmorMaterial;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.Level;
 
 public class AerialHellArmorItem extends ArmorItem
 {
-    public AerialHellArmorItem(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builderIn) {super(materialIn, slot, builderIn);}
+    public AerialHellArmorItem(ArmorMaterial materialIn, EquipmentSlot slot, Properties builderIn) {super(materialIn, slot, builderIn);}
 
-    @Override public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected)
+    @Override public void inventoryTick(ItemStack stack, Level world, Entity entity, int itemSlot, boolean isSelected)
     {
-        if (entity instanceof PlayerEntity)
+        if (entity instanceof Player)
         {
-            PlayerEntity playerEntity = (PlayerEntity) entity;
+            Player playerEntity = (Player) entity;
 
-            if (ItemHelper.getItemInTagCount(playerEntity.getArmorInventoryList(), AerialHellTags.Items.SHADOW_ARMOR) >= 4)
+            if (ItemHelper.getItemInTagCount(playerEntity.getArmorSlots(), AerialHellTags.Items.SHADOW_ARMOR) >= 4)
             {
-                playerEntity.addPotionEffect(new EffectInstance(Effects.NIGHT_VISION, 220, 0, false, false));
-                playerEntity.addPotionEffect(new EffectInstance(AerialHellPotionEffects.SHADOW_IMMUNITY.get(), 100, 0, false, false));
+                playerEntity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 220, 0, false, false));
+                playerEntity.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.get(), 100, 0, false, false));
             }
         }
     }

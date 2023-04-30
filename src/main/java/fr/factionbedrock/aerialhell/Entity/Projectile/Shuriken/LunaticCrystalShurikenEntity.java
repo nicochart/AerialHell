@@ -3,36 +3,36 @@ package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.PlayMessages;
 
 public class LunaticCrystalShurikenEntity extends AbstractShurikenEntity
 {
-	public LunaticCrystalShurikenEntity(EntityType<? extends LunaticCrystalShurikenEntity> entityTypeIn, World worldIn)
+	public LunaticCrystalShurikenEntity(EntityType<? extends LunaticCrystalShurikenEntity> entityTypeIn, Level worldIn)
 	{
 		super(entityTypeIn, worldIn);
 	}
 
-	public LunaticCrystalShurikenEntity(double x, double y, double z, World worldIn)
+	public LunaticCrystalShurikenEntity(double x, double y, double z, Level worldIn)
 	{
 		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), x, y, z, worldIn);
 	}
 
-	public LunaticCrystalShurikenEntity(LivingEntity shooter, World worldIn)
+	public LunaticCrystalShurikenEntity(LivingEntity shooter, Level worldIn)
 	{
 		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), shooter, worldIn);
 	}
 
-	public LunaticCrystalShurikenEntity(World worldIn)
+	public LunaticCrystalShurikenEntity(Level worldIn)
 	{
 		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), worldIn);
 	}
 
-	public LunaticCrystalShurikenEntity(FMLPlayMessages.SpawnEntity packet, World worldIn)
+	public LunaticCrystalShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
 	{
 		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), worldIn);
 	}

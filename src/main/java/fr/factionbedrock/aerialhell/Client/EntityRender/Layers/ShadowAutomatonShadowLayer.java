@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.Layers;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AutomatonModel;
 import fr.factionbedrock.aerialhell.Client.EntityModels.EmptyModel;
@@ -20,7 +20,7 @@ public class ShadowAutomatonShadowLayer<T extends AutomatonEntity, M extends Emp
 
    public ShadowAutomatonShadowLayer(IEntityRenderer<T,M> p_i50923_1_) {super(p_i50923_1_);}
    
-   public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
+   public void render(PoseStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
    {
       if (!entitylivingbaseIn.isInvisible())
       {

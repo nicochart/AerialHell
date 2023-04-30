@@ -2,51 +2,50 @@ package fr.factionbedrock.aerialhell.Entity;
 
 import com.google.common.collect.Lists;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellPaintingType;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.PaintingEntity;
-import net.minecraft.entity.item.PaintingType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.World;
+import fr.factionbedrock.aerialhell.Registry.AerialHellMotive;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.decoration.Motive;
+import net.minecraft.world.entity.decoration.Painting;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
 
-public class AerialHellPaintingEntity extends PaintingEntity
+public class AerialHellPaintingEntity extends Painting
 {
-    public AerialHellPaintingEntity(EntityType<? extends AerialHellPaintingEntity> type, World worldIn) {super(type, worldIn);}
+    public AerialHellPaintingEntity(EntityType<? extends AerialHellPaintingEntity> type, Level worldIn) {super(type, worldIn);}
 
-    public AerialHellPaintingEntity(World worldIn, BlockPos pos, Direction facing)
+    public AerialHellPaintingEntity(Level worldIn, BlockPos pos, Direction facing)
     {
         super(worldIn, pos, facing);
-        List<PaintingType> list = Lists.newArrayList();
-        list.add(AerialHellPaintingType.HOSTILE_PARADISE.get());
-        list.add(AerialHellPaintingType.SPOOKY_ISLANDS.get());
-        list.add(AerialHellPaintingType.BROWN_SHROOM_ISLAND.get());
-        list.add(AerialHellPaintingType.LIVING_ISLAND.get());
-        list.add(AerialHellPaintingType.FLOADING_ISLANDS_LANDSCAPE.get());
-        list.add(AerialHellPaintingType.CUTE_SHROOMS.get());
-        list.add(AerialHellPaintingType.MAGICAL_ISLAND.get());
-        list.add(AerialHellPaintingType.FOGGY_PEAKS.get());
-        list.add(AerialHellPaintingType.SHROOM_AND_VEGETATION_ISLANDS.get());
-        list.add(AerialHellPaintingType.SHROOM_ISLAND_PIXELART.get());
-        list.add(AerialHellPaintingType.MAGICAL_SHROOM_ISLAND.get());
-        list.add(AerialHellPaintingType.MYSTERY_ISLANDS.get());
-        list.add(AerialHellPaintingType.CYAN_SHROOM_ISLAND.get());
+        List<Motive> list = Lists.newArrayList();
+        list.add(AerialHellMotive.HOSTILE_PARADISE.get());
+        list.add(AerialHellMotive.SPOOKY_ISLANDS.get());
+        list.add(AerialHellMotive.BROWN_SHROOM_ISLAND.get());
+        list.add(AerialHellMotive.LIVING_ISLAND.get());
+        list.add(AerialHellMotive.FLOADING_ISLANDS_LANDSCAPE.get());
+        list.add(AerialHellMotive.CUTE_SHROOMS.get());
+        list.add(AerialHellMotive.MAGICAL_ISLAND.get());
+        list.add(AerialHellMotive.FOGGY_PEAKS.get());
+        list.add(AerialHellMotive.SHROOM_AND_VEGETATION_ISLANDS.get());
+        list.add(AerialHellMotive.SHROOM_ISLAND_PIXELART.get());
+        list.add(AerialHellMotive.MAGICAL_SHROOM_ISLAND.get());
+        list.add(AerialHellMotive.MYSTERY_ISLANDS.get());
+        list.add(AerialHellMotive.CYAN_SHROOM_ISLAND.get());
 
         int largestPaintingSurface = 0;
 
-        Iterator<PaintingType> invalidPaintingRemoverIterator = list.iterator();
+        Iterator<Motive> invalidPaintingRemoverIterator = list.iterator();
         while(invalidPaintingRemoverIterator.hasNext())
         {
-            PaintingType paintingType = invalidPaintingRemoverIterator.next();
+            Motive paintingType = invalidPaintingRemoverIterator.next();
 
             if (isPaintingValid(paintingType, facing))
             {
@@ -58,39 +57,39 @@ public class AerialHellPaintingEntity extends PaintingEntity
 
         if (!list.isEmpty()) /*if there are valid painting types*/
         {
-            Iterator<PaintingType> tooSmallPaintingsRemoverIterator = list.iterator();
+            Iterator<Motive> tooSmallPaintingsRemoverIterator = list.iterator();
             while(tooSmallPaintingsRemoverIterator.hasNext())
             {
-                PaintingType valid_painting_type = tooSmallPaintingsRemoverIterator.next();
+                Motive valid_painting_type = tooSmallPaintingsRemoverIterator.next();
                 if (isTooSmall(valid_painting_type, largestPaintingSurface)) {tooSmallPaintingsRemoverIterator.remove();}
             }
-            this.art = list.get(this.rand.nextInt(list.size()));
+            this.motive = list.get(this.random.nextInt(list.size()));
         }
-        this.updateFacingWithBoundingBox(facing);
+        this.setDirection(facing);
     }
 
-    public boolean isTooSmall(PaintingType painting, int paintingSurface) {return getPaintingSurface(painting) < paintingSurface;}
-    public int getPaintingSurface(PaintingType painting) {return painting.getWidth() * painting.getHeight();}
+    public boolean isTooSmall(Motive painting, int paintingSurface) {return getPaintingSurface(painting) < paintingSurface;}
+    public int getPaintingSurface(Motive painting) {return painting.getWidth() * painting.getHeight();}
 
-    public boolean isPaintingValid(PaintingType painting, Direction facing)
+    public boolean isPaintingValid(Motive painting, Direction facing)
     {
-        this.art = painting;
-        this.updateFacingWithBoundingBox(facing);
-        if (!this.onValidSurface()) {return false;}
+        this.motive = painting;
+        this.setDirection(facing);
+        if (!this.survives()) {return false;}
         else {return true;}
     }
 
     @Override
-    public void onBroken(@Nullable Entity brokenEntity)
+    public void dropItem(@Nullable Entity brokenEntity)
     {
-        if (this.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
-            this.playSound(SoundEvents.ENTITY_PAINTING_BREAK, 1.0F, 1.0F);
-            if (brokenEntity instanceof PlayerEntity)
+        if (this.level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
+            this.playSound(SoundEvents.PAINTING_BREAK, 1.0F, 1.0F);
+            if (brokenEntity instanceof Player)
             {
-                PlayerEntity playerentity = (PlayerEntity)brokenEntity;
-                if (playerentity.abilities.isCreativeMode) {return;}
+                Player playerentity = (Player)brokenEntity;
+                if (playerentity.getAbilities().instabuild) {return;}
             }
-            this.entityDropItem(AerialHellBlocksAndItems.AERIAL_HELL_PAINTING.get());
+            this.spawnAtLocation(AerialHellBlocksAndItems.AERIAL_HELL_PAINTING.get());
         }
     }
 }

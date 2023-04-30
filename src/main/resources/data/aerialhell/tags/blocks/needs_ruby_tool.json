@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:gold_stellar_ore",
+    "aerialhell:diamond_stellar_ore",
+
+    "aerialhell:mud_dungeon_core",
+
+    "aerialhell:volucite_block",
+    "aerialhell:lunatic_crystal_block",
+    "aerialhell:cursed_crystal_block"
+  ]
+}

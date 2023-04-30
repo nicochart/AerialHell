@@ -2,31 +2,33 @@ package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.RotatedPillarBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FluidState;
 
 public class EffectLogBlock extends RotatedPillarBlock
 {
 	public EffectLogBlock(Properties properties) {super(properties);}
 	
 	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player)
+	public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)
 	{
-		super.onBlockHarvested(worldIn, pos, state, player);
-		if (this == AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get() && !EntityHelper.isLivingEntityShadowImmune(player) && !player.isCreative())
+		boolean flag = super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
+		if (flag && this == AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get() && !EntityHelper.isLivingEntityShadowImmune(player) && !player.isCreative())
 		{
-			player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 60, 0));
-			player.addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, 60, 1));
+			player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 60, 0));
+			player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 60, 1));
 		}
 		
-		if (this == AerialHellBlocksAndItems.ENCHANTED_LAPIS_ROBINIA_LOG.get() && !player.isCreative())
+		if (flag && this == AerialHellBlocksAndItems.ENCHANTED_LAPIS_ROBINIA_LOG.get() && !player.isCreative())
 		{
-			player.addPotionEffect(new EffectInstance(Effects.HASTE, 30, 0));
+			player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 30, 0));
 		}
+		return flag;
 	}
 }

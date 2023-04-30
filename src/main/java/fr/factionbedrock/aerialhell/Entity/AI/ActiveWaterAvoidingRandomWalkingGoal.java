@@ -1,9 +1,9 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 
-public class ActiveWaterAvoidingRandomWalkingGoal extends WaterAvoidingRandomWalkingGoal
+public class ActiveWaterAvoidingRandomWalkingGoal extends WaterAvoidingRandomStrollGoal
 {
     protected final AbstractActivableEntity activableGoalOwner;
 
@@ -13,6 +13,6 @@ public class ActiveWaterAvoidingRandomWalkingGoal extends WaterAvoidingRandomWal
         this.activableGoalOwner = entityIn;
     }
 
-    @Override public boolean shouldExecute() {return this.activableGoalOwner.isActive() && super.shouldExecute();}
-    @Override public boolean shouldContinueExecuting() {return this.activableGoalOwner.isActive() && super.shouldContinueExecuting();}
+    @Override public boolean canUse() {return this.activableGoalOwner.isActive() && super.canUse();}
+    @Override public boolean canContinueToUse() {return this.activableGoalOwner.isActive() && super.canContinueToUse();}
 }

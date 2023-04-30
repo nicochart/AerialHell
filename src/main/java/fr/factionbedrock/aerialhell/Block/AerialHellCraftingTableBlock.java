@@ -1,25 +1,25 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.Inventory.Container.AerialHellCraftingContainer;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CraftingTableBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.inventory.CraftingMenu;
+import net.minecraft.world.level.block.CraftingTableBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class AerialHellCraftingTableBlock extends CraftingTableBlock
 {
-	private static final ITextComponent CONTAINER_NAME = new TranslationTextComponent("container.crafting");
+	private static final Component CONTAINER_NAME = new TranslatableComponent("container.crafting");
 
 	public AerialHellCraftingTableBlock(Properties properties)
 	{
@@ -27,18 +27,24 @@ public class AerialHellCraftingTableBlock extends CraftingTableBlock
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
+	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit)
 	{
-		if (worldIn.isRemote)
+		if (worldIn.isClientSide())
 		{
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 		else
 		{
-			SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((id, inventory,p) -> new AerialHellCraftingContainer(id, inventory, IWorldPosCallable.of(worldIn, pos)),CONTAINER_NAME);
-			NetworkHooks.openGui((ServerPlayerEntity) player, provider);
-			player.addStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
-			return ActionResultType.CONSUME;
+			player.openMenu(state.getMenuProvider(worldIn, pos));
+			player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
+			return InteractionResult.CONSUME;
 		}
+	}
+
+	public MenuProvider getMenuProvider(BlockState state, Level worldIn, BlockPos pos)
+	{
+		//TODO check if it works
+		return new SimpleMenuProvider((id, inventory, player) -> {return new CraftingMenu(id, inventory, ContainerLevelAccess.create(worldIn, pos));}, CONTAINER_NAME);
+																	   //new AerialHellCraftingContainer(id, inventory, ContainerLevelAccess.create(worldIn, pos)),CONTAINER_NAME
 	}
 }

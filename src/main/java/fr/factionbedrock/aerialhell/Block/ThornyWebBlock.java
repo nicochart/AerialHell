@@ -1,20 +1,15 @@
 package fr.factionbedrock.aerialhell.Block;
 
-import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.HellSpiderEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudGolemEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudSoldierEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AerialTreeChestMimicEntity;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.WebBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.SpiderEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.WebBlock;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Spider;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class ThornyWebBlock extends WebBlock
 {
@@ -25,20 +20,20 @@ public class ThornyWebBlock extends WebBlock
 	
 	private boolean isEntityImmuneToDamage(Entity entityIn)
 	{
-		return ((entityIn instanceof SpiderEntity) || EntityHelper.isShadowEntity(entityIn) || EntityHelper.isMudEntity(entityIn));
+		return ((entityIn instanceof Spider) || EntityHelper.isShadowEntity(entityIn) || EntityHelper.isMudEntity(entityIn));
 	}
 	
-	private boolean isEntityImmuneToCollision(Entity entityIn) {return entityIn instanceof SpiderEntity || EntityHelper.isShadowEntity(entityIn);}
+	private boolean isEntityImmuneToCollision(Entity entityIn) {return entityIn instanceof Spider || EntityHelper.isShadowEntity(entityIn);}
 	
 	@Override
-	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn)
+	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn)
 	{
 		boolean isTotallyImmune = isEntityImmuneToCollision(entityIn);
 		
-		if (!isTotallyImmune) {entityIn.setMotionMultiplier(state, new Vector3d(0.45D, 0.25D, 0.45D));}
+		if (!isTotallyImmune) {entityIn.makeStuckInBlock(state, new Vec3(0.45D, 0.25D, 0.45D));}
 		if (entityIn instanceof LivingEntity && !isTotallyImmune)
 		{
-			if (!isEntityImmuneToDamage(entityIn)) {((LivingEntity) entityIn).attackEntityFrom(new DamageSource("web_thorns"), 2.0F);}
+			if (!isEntityImmuneToDamage(entityIn)) {((LivingEntity) entityIn).hurt(new DamageSource("web_thorns"), 2.0F);}
 		}
 	}
 }

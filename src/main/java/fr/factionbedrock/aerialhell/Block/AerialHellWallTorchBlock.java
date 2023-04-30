@@ -10,24 +10,24 @@ import java.util.Map;
 import java.util.Random;
 import javax.annotation.Nullable;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -35,44 +35,38 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 {
-	public static final DirectionProperty HORIZONTAL_FACING = HorizontalBlock.HORIZONTAL_FACING;
-	private static final Map<Direction, VoxelShape> SHAPES = Maps.newEnumMap(ImmutableMap.of(Direction.NORTH, Block.makeCuboidShape(5.5D, 3.0D, 11.0D, 10.5D, 13.0D, 16.0D), Direction.SOUTH, Block.makeCuboidShape(5.5D, 3.0D, 0.0D, 10.5D, 13.0D, 5.0D), Direction.WEST, Block.makeCuboidShape(11.0D, 3.0D, 5.5D, 16.0D, 13.0D, 10.5D), Direction.EAST, Block.makeCuboidShape(0.0D, 3.0D, 5.5D, 5.0D, 13.0D, 10.5D)));
+	public static final DirectionProperty HORIZONTAL_FACING = HorizontalDirectionalBlock.FACING;
+	private static final Map<Direction, VoxelShape> SHAPES = Maps.newEnumMap(ImmutableMap.of(Direction.NORTH, Block.box(5.5D, 3.0D, 11.0D, 10.5D, 13.0D, 16.0D), Direction.SOUTH, Block.box(5.5D, 3.0D, 0.0D, 10.5D, 13.0D, 5.0D), Direction.WEST, Block.box(11.0D, 3.0D, 5.5D, 16.0D, 13.0D, 10.5D), Direction.EAST, Block.box(0.0D, 3.0D, 5.5D, 5.0D, 13.0D, 10.5D)));
 
-	public AerialHellWallTorchBlock(AbstractBlock.Properties properties)
+	public AerialHellWallTorchBlock(BlockBehaviour.Properties properties)
 	{
 		super(properties);
-		this.setDefaultState(this.stateContainer.getBaseState().with(HORIZONTAL_FACING, Direction.NORTH));
+		this.registerDefaultState(this.stateDefinition.any().setValue(HORIZONTAL_FACING, Direction.NORTH));
 	}
 
-	public String getTranslationKey()
-	{
-		return this.asItem().getTranslationKey();
-	}
+	@Override public String getDescriptionId() {return this.asItem().getDescriptionId();}
 
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
 	{
 		return getShapeForState(state);
 	}
 
-	public static VoxelShape getShapeForState(BlockState state)
-	{
-		return SHAPES.get(state.get(HORIZONTAL_FACING));
-	}
+	public static VoxelShape getShapeForState(BlockState state) {return SHAPES.get(state.getValue(HORIZONTAL_FACING));}
 
-	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos)
+	@Override public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos)
 	{
-		Direction direction = state.get(HORIZONTAL_FACING);
-		BlockPos blockpos = pos.offset(direction.getOpposite());
+		Direction direction = state.getValue(HORIZONTAL_FACING);
+		BlockPos blockpos = pos.relative(direction.getOpposite());
 		BlockState blockstate = worldIn.getBlockState(blockpos);
-		return blockstate.isSolidSide(worldIn, blockpos, direction);
+		return blockstate.isFaceSturdy(worldIn, blockpos, direction);
 	}
 
 	@Nullable
-	public BlockState getStateForPlacement(BlockItemUseContext context)
+	public BlockState getStateForPlacement(BlockPlaceContext context)
 	{
-		BlockState blockstate = this.getDefaultState();
-		IWorldReader iworldreader = context.getWorld();
-		BlockPos blockpos = context.getPos();
+		BlockState blockstate = this.defaultBlockState();
+		LevelReader iworldreader = context.getLevel();
+		BlockPos blockpos = context.getClickedPos();
 		Direction[] adirection = context.getNearestLookingDirections();
 
 		for(Direction direction : adirection)
@@ -80,26 +74,26 @@ public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 			if (direction.getAxis().isHorizontal())
 			{
 				Direction direction1 = direction.getOpposite();
-				blockstate = blockstate.with(HORIZONTAL_FACING, direction1);
-				if (blockstate.isValidPosition(iworldreader, blockpos)) {return blockstate;}
+				blockstate = blockstate.setValue(HORIZONTAL_FACING, direction1);
+				if (blockstate.canSurvive(iworldreader, blockpos)) {return blockstate;}
 			}
 		}
 		return null;
 	}
 
-	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos)
+	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos)
 	{
-		return facing.getOpposite() == stateIn.get(HORIZONTAL_FACING) && !stateIn.isValidPosition(worldIn, currentPos) ? Blocks.AIR.getDefaultState() : stateIn;
+		return facing.getOpposite() == stateIn.getValue(HORIZONTAL_FACING) && !stateIn.canSurvive(worldIn, currentPos) ? Blocks.AIR.defaultBlockState() : stateIn;
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand)
+	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand)
 	{
-		Direction direction = stateIn.get(HORIZONTAL_FACING);
+		Direction direction = stateIn.getValue(HORIZONTAL_FACING);
 		Direction direction1 = direction.getOpposite();
-		double d0 = (double)pos.getX() + 0.5D + 0.27D * (double)direction1.getXOffset();
+		double d0 = (double)pos.getX() + 0.5D + 0.27D * (double)direction1.getStepX();
 		double d1 = (double)pos.getY() + 0.7D + 0.22D;
-		double d2 = (double)pos.getZ() + 0.5D + 0.27D * (double)direction1.getZOffset();
+		double d2 = (double)pos.getZ() + 0.5D + 0.27D * (double)direction1.getStepZ();
 		if (this == AerialHellBlocksAndItems.FLUORITE_WALL_TORCH.get() && rand.nextInt(5) == 0)
       	{
 			worldIn.addParticle(AerialHellParticleTypes.OSCILLATOR.get(), d0 + 0.5 * (rand.nextFloat() - 0.5), d1 - 0.2 * rand.nextFloat(), d2 + 0.5 * (rand.nextFloat() - 0.5), rand.nextFloat() - 0.5, rand.nextFloat() - 0.5, rand.nextFloat() - 0.5);
@@ -112,15 +106,15 @@ public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 
 	public BlockState rotate(BlockState state, Rotation rot)
 	{
-		return state.with(HORIZONTAL_FACING, rot.rotate(state.get(HORIZONTAL_FACING)));
+		return state.setValue(HORIZONTAL_FACING, rot.rotate(state.getValue(HORIZONTAL_FACING)));
 	}
 
 	public BlockState mirror(BlockState state, Mirror mirrorIn)
 	{
-		return state.rotate(mirrorIn.toRotation(state.get(HORIZONTAL_FACING)));
+		return state.rotate(mirrorIn.getRotation(state.getValue(HORIZONTAL_FACING)));
 	}
 
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(HORIZONTAL_FACING);
 	}

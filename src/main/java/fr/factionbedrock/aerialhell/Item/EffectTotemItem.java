@@ -1,17 +1,16 @@
 package fr.factionbedrock.aerialhell.Item;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
+import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.Level;
 
 public class EffectTotemItem extends Item
 {
@@ -23,61 +22,61 @@ public class EffectTotemItem extends Item
 		this.timer = 0;
 	}
 	
-	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
-		if (!worldIn.isRemote && timer <= 0)
+		if (!worldIn.isClientSide() && timer <= 0)
 		{
 			if (entityIn instanceof LivingEntity)
 			{
 				LivingEntity livingEntityIn = (LivingEntity) entityIn;
-				if (livingEntityIn.getHeldItemOffhand().getItem() == this || livingEntityIn.getHeldItemMainhand().getItem() == this)
+				if (livingEntityIn.getOffhandItem().getItem() == this || livingEntityIn.getOffhandItem().getItem() == this)
 				{
 					if (this == AerialHellBlocksAndItems.REGENERATION_TOTEM.get())
 					{
-						livingEntityIn.addPotionEffect(new EffectInstance(Effects.REGENERATION, 1200, 0));
+						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 1200, 0));
 					}
 					else if (this == AerialHellBlocksAndItems.SPEED_TOTEM.get())
 					{
-						livingEntityIn.addPotionEffect(new EffectInstance(Effects.SPEED, 1200, 0));
+						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1200, 0));
 					}
 					else if (this == AerialHellBlocksAndItems.SPEED_II_TOTEM.get())
 					{
-						livingEntityIn.addPotionEffect(new EffectInstance(Effects.SPEED, 1200, 1));
+						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1200, 1));
 					}
 					else if (this == AerialHellBlocksAndItems.NIGHT_VISION_TOTEM.get())
 					{
-						livingEntityIn.addPotionEffect(new EffectInstance(Effects.NIGHT_VISION, 1200, 0));
+						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 1200, 0));
 					}
 					else if (this == AerialHellBlocksAndItems.AGILITY_TOTEM.get())
 					{
-						livingEntityIn.addPotionEffect(new EffectInstance(Effects.SPEED, 1200, 0));
-						livingEntityIn.addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 1200, 0));
+						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1200, 0));
+						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.JUMP, 1200, 0));
 					}
 					else if (this == AerialHellBlocksAndItems.HEAD_IN_THE_CLOUDS_TOTEM.get())
 					{
-						livingEntityIn.addPotionEffect(new EffectInstance(AerialHellPotionEffects.HEAD_IN_THE_CLOUDS.get(), 1000, 0));
+						livingEntityIn.addEffect(new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get(), 1000, 0));
 					}
 					else if (this == AerialHellBlocksAndItems.HERO_TOTEM.get())
 					{
-						livingEntityIn.addPotionEffect(new EffectInstance(Effects.HERO_OF_THE_VILLAGE, 1200, 0));
+						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.HERO_OF_THE_VILLAGE, 1200, 0));
 					}
 					else if (this == AerialHellBlocksAndItems.GOD_TOTEM.get())
 					{
-						livingEntityIn.addPotionEffect(new EffectInstance(AerialHellPotionEffects.GOD.get(), 1200, 0));
+						livingEntityIn.addEffect(new MobEffectInstance(AerialHellMobEffects.GOD.get(), 1200, 0));
 					}
 					else if (this == AerialHellBlocksAndItems.CURSED_TOTEM.get())
 					{
-						if (!(ItemHelper.getItemInTagCount(livingEntityIn.getArmorInventoryList(), AerialHellTags.Items.SHADOW_ARMOR) >= 4))
+						if (!(ItemHelper.getItemInTagCount(livingEntityIn.getArmorSlots(), AerialHellTags.Items.SHADOW_ARMOR) >= 4))
 						{
-							livingEntityIn.addPotionEffect(new EffectInstance(Effects.NAUSEA, 300, 0));
-							livingEntityIn.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 600, 0));
-							livingEntityIn.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 900, 0));
+							livingEntityIn.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 300, 0));
+							livingEntityIn.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 600, 0));
+							livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900, 0));
 						}
-						livingEntityIn.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 1500, 2));
+						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1500, 2));
 					}
 					else if (this == AerialHellBlocksAndItems.SHADOW_TOTEM.get())
 					{
-						livingEntityIn.addPotionEffect(new EffectInstance(AerialHellPotionEffects.SHADOW_IMMUNITY.get(), 1000, 0));
+						livingEntityIn.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.get(), 1000, 0));
 					}
 				}
 			}

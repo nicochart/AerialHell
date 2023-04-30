@@ -3,36 +3,36 @@ package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.PlayMessages;
 
 public class NetheriteShurikenEntity extends AbstractShurikenEntity
 {
-	public NetheriteShurikenEntity(EntityType<? extends NetheriteShurikenEntity> entityTypeIn, World worldIn)
+	public NetheriteShurikenEntity(EntityType<? extends NetheriteShurikenEntity> entityTypeIn, Level worldIn)
 	{
 		super(entityTypeIn, worldIn);
 	}
 
-	public NetheriteShurikenEntity(double x, double y, double z, World worldIn)
+	public NetheriteShurikenEntity(double x, double y, double z, Level worldIn)
 	{
 		super(AerialHellEntities.NETHERITE_SHURIKEN.get(), x, y, z, worldIn);
 	}
 
-	public NetheriteShurikenEntity(LivingEntity shooter, World worldIn)
+	public NetheriteShurikenEntity(LivingEntity shooter, Level worldIn)
 	{
 		super(AerialHellEntities.NETHERITE_SHURIKEN.get(), shooter, worldIn);
 	}
 
-	public NetheriteShurikenEntity(World worldIn)
+	public NetheriteShurikenEntity(Level worldIn)
 	{
 		super(AerialHellEntities.NETHERITE_SHURIKEN.get(), worldIn);
 	}
 
-	public NetheriteShurikenEntity(FMLPlayMessages.SpawnEntity packet, World worldIn)
+	public NetheriteShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
 	{
 		super(AerialHellEntities.NETHERITE_SHURIKEN.get(), worldIn);
 	}

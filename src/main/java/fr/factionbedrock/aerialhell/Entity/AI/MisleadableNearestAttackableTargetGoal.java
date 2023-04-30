@@ -1,36 +1,36 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.EntityPredicates;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MisleadableNearestAttackableTargetGoal<T extends LivingEntity>  extends NearestAttackableTargetGoal<T>
 {
-    public MisleadableNearestAttackableTargetGoal(MobEntity entityIn, Class<T> targetClassIn, boolean checkSight) {super(entityIn, targetClassIn, checkSight);}
+    public MisleadableNearestAttackableTargetGoal(Mob entityIn, Class<T> targetClassIn, boolean checkSight) {super(entityIn, targetClassIn, checkSight);}
 
-    @Override protected void findNearestTarget()
+    @Override protected void findTarget()
     {
-        if (this.targetClass != PlayerEntity.class && this.targetClass != ServerPlayerEntity.class) {super.findNearestTarget();}
+        if (this.targetType != Player.class && this.targetType != ServerPlayer.class) {super.findTarget();}
         else
         {
-            double x = this.goalOwner.getPosX(), y = this.goalOwner.getPosYEye(), z = this.goalOwner.getPosZ();
-            List<Entity> nearbyEntities = this.goalOwner.world.getEntitiesInAABBexcluding(this.goalOwner, this.goalOwner.getBoundingBox().grow(20), EntityPredicates.withinRange(x, y, z, 16));
+            double x = this.mob.getX(), y = this.mob.getEyeY(), z = this.mob.getZ();
+            List<Entity> nearbyEntities = this.mob.level.getEntities(this.mob, this.mob.getBoundingBox().inflate(20), EntitySelector.withinDistance(x, y, z, 16));
 
-            List<PlayerEntity> nearbyTargetablePlayers = nearbyEntities.stream()
-                                                                       .filter(entity -> entity instanceof PlayerEntity)
-                                                                       .filter(entity -> !isPlayerMisleadingGoalOwner((PlayerEntity) entity))
-                                                                       .map(entity -> (PlayerEntity) entity)
-                                                                       .collect(Collectors.toList());
-            this.nearestTarget = this.goalOwner.world.getClosestEntity(nearbyTargetablePlayers, this.targetEntitySelector, target, x, y, z);
+            List<Player> nearbyTargetablePlayers = nearbyEntities.stream()
+                    .filter(entity -> entity instanceof Player)
+                    .filter(entity -> !isPlayerMisleadingGoalOwner((Player) entity))
+                    .map(entity -> (Player) entity)
+                    .collect(Collectors.toList());
+            this.target = this.mob.level.getNearestEntity(nearbyTargetablePlayers, this.targetConditions, target, x, y, z);
         }
     }
 
-    public boolean isPlayerMisleadingGoalOwner(PlayerEntity player) {return false;}
+    public boolean isPlayerMisleadingGoalOwner(Player player) {return false;}
 }

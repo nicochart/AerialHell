@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Client.World;
 
 import net.minecraft.client.world.DimensionRenderInfo;
-import net.minecraft.util.math.vector.Vector3d;
+import com.mojang.math.Vector3d;
 import net.minecraftforge.client.ISkyRenderHandler;
 
 import javax.annotation.Nullable;

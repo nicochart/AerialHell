@@ -1,15 +1,15 @@
 package fr.factionbedrock.aerialhell.Item.Bucket;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.UseAction;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.DrinkHelper;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.level.Level;
 
 public class RubyMilkBucketItem extends Item
 {
@@ -19,10 +19,10 @@ public class RubyMilkBucketItem extends Item
     }
 
     @Override
-    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving)
+    public ItemStack finishUsingItem(ItemStack stack, Level worldIn, LivingEntity entityLiving)
     {
-        if (!worldIn.isRemote) entityLiving.curePotionEffects(stack);
-        if (entityLiving instanceof PlayerEntity && !((PlayerEntity)entityLiving).abilities.isCreativeMode)
+        if (!worldIn.isClientSide()) entityLiving.curePotionEffects(stack);
+        if (entityLiving instanceof Player && !((Player)entityLiving).getAbilities().instabuild)
         {
             stack.shrink(1);
         }
@@ -36,14 +36,11 @@ public class RubyMilkBucketItem extends Item
     }
 
     @Override
-    public UseAction getUseAction(ItemStack stack)
-    {
-        return UseAction.DRINK;
-    }
+    public UseAnim getUseAnimation(ItemStack stack) {return UseAnim.DRINK;}
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
+    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
     {
-        return DrinkHelper.startDrinking(worldIn, playerIn, handIn);
+        return ItemUtils.startUsingInstantly(worldIn, playerIn, handIn);
     }
 }

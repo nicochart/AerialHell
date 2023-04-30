@@ -1,13 +1,13 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.FlyingJellyfishModel;
 import fr.factionbedrock.aerialhell.Entity.Monster.FlyingJellyfishEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -24,7 +24,7 @@ public class FlyingJellyfishRender<J extends FlyingJellyfishEntity> extends MobR
 	}
 	
 	@Override
-	protected void preRenderCallback(FlyingJellyfishEntity jellyfish, MatrixStack matrixStackIn, float partialTickTime)
+	protected void preRenderCallback(FlyingJellyfishEntity jellyfish, PoseStack matrixStackIn, float partialTickTime)
 	{
 	      matrixStackIn.scale(5.0F, 5.0F, 5.0F);
 	}

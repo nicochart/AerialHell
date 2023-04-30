@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:lunatic_dungeon_core",
+    "aerialhell:shadow_catacombs_dungeon_core",
+    "aerialhell:golden_nether_dungeon_core",
+    "aerialhell:volucite_dungeon_core",
+    "aerialhell:obsidian_ore",
+
+    "aerialhell:arsonist_block"
+  ]
+}

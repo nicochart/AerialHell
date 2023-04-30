@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:aerial_tree_leaves",
+    "aerialhell:golden_beech_leaves",
+    "aerialhell:copper_pine_leaves",
+    "aerialhell:lapis_robinia_leaves",
+    "aerialhell:shadow_pine_leaves",
+    "aerialhell:purple_shadow_pine_leaves",
+
+    "aerialhell:giant_cortinarius_violaceus_cap_block",
+    "aerialhell:giant_verdigris_agaric_cap_block",
+    "aerialhell:giant_ganoderma_applanatum_block",
+
+    "#aerialhell:solid_ether"
+  ]
+}

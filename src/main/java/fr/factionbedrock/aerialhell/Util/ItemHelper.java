@@ -1,17 +1,17 @@
 package fr.factionbedrock.aerialhell.Util;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tags.ITag;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class ItemHelper
 {
-    public static int getItemInTagCount(Iterable<ItemStack> stuff, ITag.INamedTag<Item> tag)
+    public static int getItemInTagCount(Iterable<ItemStack> stuff, TagKey<Item> tag)
     {
         int count = 0;
         for (ItemStack item : stuff)
         {
-            if (item.getItem().isIn(tag)) {count++;}
+            if (item.is(tag)) {count++;}
         }
         return count;
     }

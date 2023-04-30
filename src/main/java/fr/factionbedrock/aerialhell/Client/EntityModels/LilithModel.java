@@ -1,117 +1,109 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 // Made by Cixon with Blockbench
+// Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class LilithModel extends EntityModel<LilithEntity> {
-	private final ModelRenderer head;
-	private final ModelRenderer body;
-	private final ModelRenderer wingRight;
-	private final ModelRenderer wingRight_r1;
-	private final ModelRenderer wingLeft;
-	private final ModelRenderer wingLeft_r1;
-	private final ModelRenderer legLeft;
-	private final ModelRenderer legRight;
-	private final ModelRenderer armLeft;
-	private final ModelRenderer armRight;
+public class LilithModel extends EntityModel<LilithEntity>
+{
+	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(AerialHell.MODID, "lilith_model"), "main");
+	private final ModelPart head;
+	private final ModelPart body;
+	private final ModelPart wingRight;
+	private final ModelPart wingLeft;
+	private final ModelPart legLeft;
+	private final ModelPart legRight;
+	private final ModelPart armLeft;
+	private final ModelPart armRight;
 
-	public LilithModel()
+	public LilithModel(ModelPart root)
 	{
-		textureWidth = 64;
-		textureHeight = 64;
-
-		head = new ModelRenderer(this);
-		head.setRotationPoint(0.0F, 0.0F, 0.0F);
-		head.setTextureOffset(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
-
-		body = new ModelRenderer(this);
-		body.setRotationPoint(0.0F, 24.0F, 0.0F);
-		body.setTextureOffset(17, 16).addBox(-4.0F, -24.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.0F, false);
-
-		wingRight = new ModelRenderer(this);
-		wingRight.setRotationPoint(-2.0F, 5.0F, 2.0F);
-		
-
-		wingRight_r1 = new ModelRenderer(this);
-		wingRight_r1.setRotationPoint(2.0F, 19.0F, -2.0F);
-		wingRight.addChild(wingRight_r1);
-		setRotationAngle(wingRight_r1, 0.2094F, -0.6981F, 0.0F);
-		wingRight_r1.setTextureOffset(0, 30).addBox(-0.5F, -25.0F, 4.0F, 0.0F, 13.0F, 21.0F, 0.0F, false);
-
-		wingLeft = new ModelRenderer(this);
-		wingLeft.setRotationPoint(2.0F, 5.0F, 2.0F);
-		
-
-		wingLeft_r1 = new ModelRenderer(this);
-		wingLeft_r1.setRotationPoint(-2.0F, 19.0F, -2.0F);
-		wingLeft.addChild(wingLeft_r1);
-		setRotationAngle(wingLeft_r1, 0.2094F, 0.6981F, 0.0F);
-		wingLeft_r1.setTextureOffset(0, 30).addBox(0.5F, -25.0F, 4.0F, 0.0F, 13.0F, 21.0F, 0.0F, false);
-
-		legLeft = new ModelRenderer(this);
-		legLeft.setRotationPoint(2.0F, 12.0F, 0.0F);
-		legLeft.setTextureOffset(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, true);
-
-		legRight = new ModelRenderer(this);
-		legRight.setRotationPoint(-2.0F, 12.0F, 0.0F);
-		legRight.setTextureOffset(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
-
-		armLeft = new ModelRenderer(this);
-		armLeft.setRotationPoint(4.0F, 0.0F, 0.0F);
-		armLeft.setTextureOffset(41, 16).addBox(0.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, true);
-
-		armRight = new ModelRenderer(this);
-		armRight.setRotationPoint(-4.0F, 0.0F, 0.0F);
-		armRight.setTextureOffset(41, 16).addBox(-4.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
+		this.head = root.getChild("head");
+		this.body = root.getChild("body");
+		this.wingRight = root.getChild("wingRight");
+		this.wingLeft = root.getChild("wingLeft");
+		this.legLeft = root.getChild("legLeft");
+		this.legRight = root.getChild("legRight");
+		this.armLeft = root.getChild("armLeft");
+		this.armRight = root.getChild("armRight");
 	}
 
-	@Override
-	public void setRotationAngles(LilithEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	public static LayerDefinition createBodyLayer()
+	{
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
+
+		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(17, 16).addBox(-4.0F, -24.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+
+		PartDefinition wingRight = partdefinition.addOrReplaceChild("wingRight", CubeListBuilder.create(), PartPose.offset(-2.0F, 5.0F, 2.0F));
+
+		PartDefinition wingRight_r1 = wingRight.addOrReplaceChild("wingRight_r1", CubeListBuilder.create().texOffs(0, 30).addBox(-0.5F, -25.0F, 4.0F, 0.0F, 13.0F, 21.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, 19.0F, -2.0F, 0.2094F, -0.6981F, 0.0F));
+
+		PartDefinition wingLeft = partdefinition.addOrReplaceChild("wingLeft", CubeListBuilder.create(), PartPose.offset(2.0F, 5.0F, 2.0F));
+
+		PartDefinition wingLeft_r1 = wingLeft.addOrReplaceChild("wingLeft_r1", CubeListBuilder.create().texOffs(0, 30).addBox(0.5F, -25.0F, 4.0F, 0.0F, 13.0F, 21.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, 19.0F, -2.0F, 0.2094F, 0.6981F, 0.0F));
+
+		PartDefinition legLeft = partdefinition.addOrReplaceChild("legLeft", CubeListBuilder.create().texOffs(0, 16).mirror().addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(2.0F, 12.0F, 0.0F));
+
+		PartDefinition legRight = partdefinition.addOrReplaceChild("legRight", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, 12.0F, 0.0F));
+
+		PartDefinition armLeft = partdefinition.addOrReplaceChild("armLeft", CubeListBuilder.create().texOffs(41, 16).mirror().addBox(0.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 0.0F, 0.0F));
+
+		PartDefinition armRight = partdefinition.addOrReplaceChild("armRight", CubeListBuilder.create().texOffs(41, 16).addBox(-4.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 0.0F, 0.0F));
+
+		return LayerDefinition.create(meshdefinition, 64, 64);
+	}
+
+	@Override public void setupAnim(LilithEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
 		if (!entity.isTransforming())
-        {
-        	int i = entity.attackTimer;
-            if (i > 0)
-            {
-                this.armRight.rotateAngleX = -2.0F + 1.5F * MathHelper.func_233021_e_((float)i, 10.0F) * 0.5f;
-                this.armLeft.rotateAngleX = -2.0F + 1.5F * MathHelper.func_233021_e_((float)i, 10.0F) * 0.5f;
-            }
-            else
-            {
-            	this.armRight.rotateAngleX = (-0.2F + 1.5F * MathHelper.func_233021_e_(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
-            	this.armLeft.rotateAngleX = (-0.2F - 1.5F * MathHelper.func_233021_e_(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
-            }
-        }
-        else
-        {
-        	this.armRight.rotateAngleX = - 2.2F;
-        	this.armLeft.rotateAngleX = - 2.2F;
-        }
-		this.head.rotateAngleY = netHeadYaw / 57.3F;
-        this.head.rotateAngleX = headPitch / 57.3F;
-        this.legLeft.rotateAngleX = -1.0F * MathHelper.func_233021_e_(limbSwing, 13.0F) * limbSwingAmount; this.legLeft.rotateAngleY = 0.0F;
-	    this.legRight.rotateAngleX = 1.0F * MathHelper.func_233021_e_(limbSwing, 13.0F) * limbSwingAmount; this.legRight.rotateAngleY = 0.0F;
+		{
+			int i = entity.attackTimer;
+			if (i > 0)
+			{
+				this.armRight.xRot = -2.0F + 1.5F * Mth.triangleWave((float)i, 10.0F) * 0.5f;
+				this.armLeft.xRot = -2.0F + 1.5F * Mth.triangleWave((float)i, 10.0F) * 0.5f;
+			}
+			else
+			{
+				this.armRight.xRot = (-0.2F + 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+				this.armLeft.xRot = (-0.2F - 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+			}
+		}
+		else
+		{
+			this.armRight.xRot = - 2.2F;
+			this.armLeft.xRot = - 2.2F;
+		}
+		this.head.yRot = netHeadYaw / 57.3F;
+		this.head.xRot = headPitch / 57.3F;
+		this.legLeft.xRot = -1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount; this.legLeft.yRot = 0.0F;
+		this.legRight.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount; this.legRight.yRot = 0.0F;
 	}
 
-	@Override
-	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{
-		head.render(matrixStack, buffer, packedLight, packedOverlay);
-		body.render(matrixStack, buffer, packedLight, packedOverlay);
-		wingRight.render(matrixStack, buffer, packedLight, packedOverlay);
-		wingLeft.render(matrixStack, buffer, packedLight, packedOverlay);
-		legLeft.render(matrixStack, buffer, packedLight, packedOverlay);
-		legRight.render(matrixStack, buffer, packedLight, packedOverlay);
-		armLeft.render(matrixStack, buffer, packedLight, packedOverlay);
-		armRight.render(matrixStack, buffer, packedLight, packedOverlay);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		wingRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		wingLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		legLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		legRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		armLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		armRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
-
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {modelRenderer.rotateAngleX = x; modelRenderer.rotateAngleY = y; modelRenderer.rotateAngleZ = z;}
 }

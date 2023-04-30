@@ -4,7 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.AerialHellRendering;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionRenderInfo;
 import net.minecraft.client.world.DimensionRenderInfo;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -16,7 +16,7 @@ public class AerialHellClientSetup
     public static void init(final FMLClientSetupEvent event)
     {
     	AerialHellRendering.registerBlockRenderLayers();
-    	AerialHellRendering.registerTileEntityRenderLayers();
+    	AerialHellRendering.registerBlockEntityRenderLayers();
     	AerialHellRendering.registerEntityRenderers(event);
     	AerialHellRendering.registerBlockColors();
     	AerialHellRendering.registerItemColors();

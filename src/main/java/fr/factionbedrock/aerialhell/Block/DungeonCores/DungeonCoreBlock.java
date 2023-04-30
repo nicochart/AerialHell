@@ -7,16 +7,17 @@ import javax.annotation.Nullable;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FluidState;
 
 public class DungeonCoreBlock extends Block
 {	
@@ -29,19 +30,20 @@ public class DungeonCoreBlock extends Block
 	}
 	
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack)
+	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack)
 	{
 		//setAreaProtected(worldIn, pos, true);
 	}
 	
 	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player)
+	public boolean onDestroyedByPlayer(BlockState state, Level worldIn, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)
 	{
-		super.onBlockHarvested(worldIn, pos, state, player);
-		setAreaProtected(worldIn, pos, false);
+		boolean flag = onDestroyedByPlayer(state, worldIn, pos, player, willHarvest, fluid);
+		if (flag) {setAreaProtected(worldIn, pos, false);}
+		return flag;
 	}
 	
-	public void setAreaProtected(World worldIn, BlockPos originPos, boolean protect)
+	public void setAreaProtected(Level worldIn, BlockPos originPos, boolean protect)
 	{		
 		if (isMudCore(this))
 		{
@@ -65,7 +67,7 @@ public class DungeonCoreBlock extends Block
 		}
 	}
 	
-	private void setAreaProtected(World worldIn, BlockPos originPos, ITag<Block> tag, boolean protect)
+	private void setAreaProtected(Level worldIn, BlockPos originPos, TagKey<Block> tag, boolean protect)
 	{
 		for(int x = originPos.getX() - (coreProtectRange - 1)/2; x <= originPos.getX() + (coreProtectRange - 1)/2; x++)
         {
@@ -74,8 +76,8 @@ public class DungeonCoreBlock extends Block
 				for(int z = originPos.getZ() - (coreProtectRange - 1)/2; z <= originPos.getZ() + (coreProtectRange - 1)/2; z++)
 		        {
 					BlockPos newPos = new BlockPos(x, y, z);
-					Block block = worldIn.getBlockState(newPos).getBlock();
-					if (block.isIn(tag))
+					BlockState blockstate = worldIn.getBlockState(newPos);
+					if (blockstate.is(tag))
 					{
 						setBlockProtected(worldIn, newPos, protect);
 					}
@@ -84,51 +86,51 @@ public class DungeonCoreBlock extends Block
         }
 	}
 	
-	private void setBlockProtected(World worldIn, BlockPos pos, boolean protect)
+	private void setBlockProtected(Level worldIn, BlockPos pos, boolean protect)
 	{
 		BlockState old_blockstate = worldIn.getBlockState(pos);
 		Block block = old_blockstate.getBlock();
 		if (block instanceof CoreProtectedBlock)
 		{
-			worldIn.setBlockState(pos, old_blockstate.with(CoreProtectedBlock.CORE_PROTECTED, protect));
+			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedRotatedPillarBlock)
 		{
-			worldIn.setBlockState(pos, old_blockstate.with(CoreProtectedRotatedPillarBlock.CORE_PROTECTED, protect));
+			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedRotatedPillarBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedSlabBlock)
 		{
-			worldIn.setBlockState(pos, old_blockstate.with(CoreProtectedSlabBlock.CORE_PROTECTED, protect));
+			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedSlabBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedStairsBlock)
 		{
-			worldIn.setBlockState(pos, old_blockstate.with(CoreProtectedStairsBlock.CORE_PROTECTED, protect));
+			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedStairsBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedChestBlock)
 		{
-			worldIn.setBlockState(pos, old_blockstate.with(CoreProtectedChestBlock.CORE_PROTECTED, protect));
+			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedChestBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedTrappedBlock)
 		{
-			worldIn.setBlockState(pos, old_blockstate.with(CoreProtectedTrappedBlock.CORE_PROTECTED, protect));
+			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedTrappedBlock.CORE_PROTECTED, protect));
 		}
 		//else if (block instanceof CoreProtectedWallBlock)
 		//{
-		//	worldIn.setBlockState(pos, old_blockstate.with(CoreProtectedWallBlock.CORE_PROTECTED, protect));
+		//	worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedWallBlock.CORE_PROTECTED, protect));
 		//}
 	}
 	
 	@Override
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand)
 	{
 		float x = pos.getX() + 0.5F;
 		float y = pos.getY() + 0.5F;
 		float z = pos.getZ() + 0.5F;
-		BasicParticleType particle = ParticleTypes.BARRIER;
+		SimpleParticleType particle = ParticleTypes.;
 		
 		if (isMudCore(this))
 		{
-			particle = ParticleTypes.SMOKE;
+			particle = ParticleTypes.CLOUD;
 		}
 		else if (isLunaticCore(this))
 		{

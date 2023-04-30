@@ -1,19 +1,19 @@
 package fr.factionbedrock.aerialhell.Effect;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectType;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectCategory;
 
-public class GodEffect extends Effect
+public class GodEffect extends MobEffect
 {
 	private int duration;
-    public GodEffect(EffectType typeIn, int liquidColorIn)
+    public GodEffect(MobEffectCategory typeIn, int liquidColorIn)
     {
         super(typeIn, liquidColorIn);
     }
 
     @Override
-    public void performEffect(LivingEntity entityLivingBaseIn, int amplifier)
+    public void applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier)
     {    	
 		if (entityLivingBaseIn.getHealth() < entityLivingBaseIn.getMaxHealth() && duration  % 20 == 0)
         {
@@ -22,14 +22,14 @@ public class GodEffect extends Effect
     }
     
     @Override
-    public boolean isReady(int duration, int amplifier)
+    public boolean isDurationEffectTick(int duration, int amplifier)
     {
     	this.duration = duration;
     	return true;
     }
 
     @Override
-    public boolean isInstant()
+    public boolean isInstantenous()
     {
         return false;
     }

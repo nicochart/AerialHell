@@ -3,41 +3,41 @@ package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.PlayMessages;
 
 public class VoluciteShurikenEntity extends AbstractShurikenEntity
 {
 	private int ticksLiving;
 	
-	public VoluciteShurikenEntity(EntityType<? extends VoluciteShurikenEntity> entityTypeIn, World worldIn)
+	public VoluciteShurikenEntity(EntityType<? extends VoluciteShurikenEntity> entityTypeIn, Level worldIn)
 	{
 		super(entityTypeIn, worldIn);
 		this.ticksLiving = 0;
 	}
 
-	public VoluciteShurikenEntity(double x, double y, double z, World worldIn)
+	public VoluciteShurikenEntity(double x, double y, double z, Level worldIn)
 	{
 		super(AerialHellEntities.VOLUCITE_SHURIKEN.get(), x, y, z, worldIn);
 	}
 
-	public VoluciteShurikenEntity(LivingEntity shooter, World worldIn)
+	public VoluciteShurikenEntity(LivingEntity shooter, Level worldIn)
 	{
 		super(AerialHellEntities.VOLUCITE_SHURIKEN.get(), shooter, worldIn);
 	}
 
-	public VoluciteShurikenEntity(World worldIn)
+	public VoluciteShurikenEntity(Level worldIn)
 	{
 		super(AerialHellEntities.VOLUCITE_SHURIKEN.get(), worldIn);
 	}
 
-	public VoluciteShurikenEntity(FMLPlayMessages.SpawnEntity packet, World worldIn)
+	public VoluciteShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
 	{
 		super(AerialHellEntities.VOLUCITE_SHURIKEN.get(), worldIn);
 	}
@@ -56,7 +56,7 @@ public class VoluciteShurikenEntity extends AbstractShurikenEntity
         }
         if (this.ticksLiving > 50 && this.ticksLiving < 100)
         {
-        	this.setMotion(this.getMotion().getX(),this.getMotion().getY()-0.01,this.getMotion().getZ());
+        	this.setDeltaMovement(this.getDeltaMovement().x,this.getDeltaMovement().y-0.01,this.getDeltaMovement().z);
         }
         ++this.ticksLiving;
     }
@@ -72,7 +72,7 @@ public class VoluciteShurikenEntity extends AbstractShurikenEntity
 	{
 		if (entity instanceof LivingEntity)
         {
-        	((LivingEntity) entity).addPotionEffect(new EffectInstance(new EffectInstance(Effects.LEVITATION, 20, 1, true, false)));
+        	((LivingEntity) entity).addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.LEVITATION, 20, 1, true, false)));
         }
 	}
 

@@ -2,24 +2,24 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractAerialHellSpiderEntity;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.monster.SpiderEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Spider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.Level;
 
 public class ShadowSpiderEntity extends AbstractAerialHellSpiderEntity
 {
-    public ShadowSpiderEntity(EntityType<? extends SpiderEntity> type, World worldIn)
+    public ShadowSpiderEntity(EntityType<? extends Spider> type, Level worldIn)
     {
         super(type, worldIn);
     }
@@ -28,24 +28,24 @@ public class ShadowSpiderEntity extends AbstractAerialHellSpiderEntity
     public void registerGoals()
     {
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, true));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setCallsForHelp(ShadowSpiderEntity.class));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers(ShadowSpiderEntity.class));
         super.registerGoals();
     }
     
-    public static AttributeModifierMap.MutableAttribute registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
-        return MonsterEntity.func_234295_eP_()
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 7)
-                .createMutableAttribute(Attributes.ARMOR, 4)
-                .createMutableAttribute(Attributes.MAX_HEALTH, 32);
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MOVEMENT_SPEED, 0.25)
+                .add(Attributes.ATTACK_DAMAGE, 7)
+                .add(Attributes.ARMOR, 4)
+                .add(Attributes.MAX_HEALTH, 32);
     }
     
     @Override
-    public boolean attackEntityAsMob(Entity attackedEntity)
+    public boolean doHurtTarget(Entity attackedEntity)
     {
-    	if (super.attackEntityAsMob(attackedEntity))
+    	if (super.doHurtTarget(attackedEntity))
     	{
     		if (attackedEntity instanceof LivingEntity)
         	{
@@ -53,23 +53,20 @@ public class ShadowSpiderEntity extends AbstractAerialHellSpiderEntity
     			if (!EntityHelper.isLivingEntityShadowImmune(livingEntity))
     			{
 	    			int amplifier = 0;
-	    			if (livingEntity.getActivePotionEffect(Effects.SLOWNESS) != null)
+	    			if (livingEntity.getEffect(MobEffects.MOVEMENT_SLOWDOWN) != null)
 	    			{
-	    				amplifier = livingEntity.getActivePotionEffect(Effects.SLOWNESS).getAmplifier();
+	    				amplifier = livingEntity.getEffect(MobEffects.MOVEMENT_SLOWDOWN).getAmplifier();
 	    				if (amplifier < 2) {amplifier++;}
 	    				else
 	    				{
-	    					livingEntity.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 20, 0));
+	    					livingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0));
 	    				}
 	    			}
-	    			livingEntity.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 90 + amplifier * 30, amplifier));
+	    			livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 90 + amplifier * 30, amplifier));
     			}
         	}
     		return true;
     	}
-    	else
-    	{
-    		return false;
-    	}
+    	else {return false;}
     }
 }

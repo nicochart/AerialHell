@@ -4,114 +4,114 @@ import java.util.function.Supplier;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.IArmorMaterial;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.LazyValue;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.LazyLoadedValue;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class ArmorMaterials
+public class AerialHellArmorMaterials
 {
-	public final static IArmorMaterial ruby = new ArmorMaterial
+	public final static ArmorMaterial ruby = new AerialHellArmorMaterial
 	(
 		AerialHell.MODID + ":ruby", //Nom du matériau 
 		15, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
 		new int[] {2, 5, 6, 2}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
 		9, //Enchantabilité
-		SoundEvents.ITEM_ARMOR_EQUIP_IRON, //Son lorsqu'on équipe
+		SoundEvents.ARMOR_EQUIP_IRON, //Son lorsqu'on équipe
 		0.0F, //Robustesse
 		0.0F, //Resistance au recul
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.RUBY.get()) //Matériaux de réparation
+		() -> Ingredient.of(AerialHellBlocksAndItems.RUBY.get()) //Matériaux de réparation
 	);
 	
-	public final static IArmorMaterial azurite = new ArmorMaterial
+	public final static ArmorMaterial azurite = new AerialHellArmorMaterial
 	(
 		AerialHell.MODID + ":azurite", //Nom du matériau 
 		10, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
 		new int[] {1, 3, 5, 2}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
 		25, //Enchantabilité
-		SoundEvents.ITEM_ARMOR_EQUIP_GOLD, //Son lorsqu'on équipe
+		SoundEvents.ARMOR_EQUIP_GOLD, //Son lorsqu'on équipe
 		0.0F, //Robustesse
 		0.0F, //Resistance au recul
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //Matériaux de réparation
+		() -> Ingredient.of(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //Matériaux de réparation
 	);
 	
-	public final static IArmorMaterial magmatic_gel = new ArmorMaterial
+	public final static ArmorMaterial magmatic_gel = new AerialHellArmorMaterial
 	(
 		AerialHell.MODID + ":magmatic_gel", //Nom du matériau 
 		7, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
 		new int[] {1, 3, 5, 2}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
 		25, //Enchantabilité
-		SoundEvents.ITEM_ARMOR_EQUIP_GOLD, //Son lorsqu'on équipe
+		SoundEvents.ARMOR_EQUIP_GOLD, //Son lorsqu'on équipe
 		0.0F, //Robustesse
 		0.0F, //Resistance au recul
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.MAGMATIC_GEL.get()) //Matériaux de réparation
+		() -> Ingredient.of(AerialHellBlocksAndItems.MAGMATIC_GEL.get()) //Matériaux de réparation
 	);
 	
-	public final static IArmorMaterial obsidian = new ArmorMaterial
+	public final static ArmorMaterial obsidian = new AerialHellArmorMaterial
 	(
 		AerialHell.MODID + ":obsidian", //Nom du matériau 
 		37, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
 		new int[] {3, 6, 8, 3}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
 		10, //Enchantabilité
-		SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, //Son lorsqu'on équipe
+		SoundEvents.ARMOR_EQUIP_DIAMOND, //Son lorsqu'on équipe
 		2.0F, //Robustesse
 		0.1F, //Resistance au recul
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //Matériaux de réparation
+		() -> Ingredient.of(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //Matériaux de réparation
 	);
 	
-	public final static IArmorMaterial volucite = new ArmorMaterial
+	public final static ArmorMaterial volucite = new AerialHellArmorMaterial
 	(
 		AerialHell.MODID + ":volucite", //Nom du matériau 
 		35, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
 		new int[] {4, 7, 9, 4}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
 		10, //Enchantabilité
-		SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, //Son lorsqu'on équipe
+		SoundEvents.ARMOR_EQUIP_DIAMOND, //Son lorsqu'on équipe
 		2.5F, //Robustesse
 		0.05F, //Resistance au recul
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //Matériaux de réparation
+		() -> Ingredient.of(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //Matériaux de réparation
 	);
 	
-	public final static IArmorMaterial lunatic = new ArmorMaterial
+	public final static ArmorMaterial lunatic = new AerialHellArmorMaterial
 	(
 		AerialHell.MODID + ":lunatic", //Nom du matériau
 		33, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array
 		new int[] {4, 7, 8, 3}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
 		15, //Enchantabilité
-		SoundEvents.ITEM_ARMOR_EQUIP_GOLD, //Son lorsqu'on équipe
+		SoundEvents.ARMOR_EQUIP_GOLD, //Son lorsqu'on équipe
 		1.5F, //Robustesse
 		0.0F, //Resistance au recul
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //Matériaux de réparation
+		() -> Ingredient.of(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //Matériaux de réparation
 	);
 
-	public final static IArmorMaterial shadow = new ArmorMaterial
+	public final static ArmorMaterial shadow = new AerialHellArmorMaterial
 	(
 		AerialHell.MODID + ":shadow", //Nom du matériau
 		25, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array
 		new int[] {4, 7, 7, 3}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
 		15, //Enchantabilité
-		SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, //Son lorsqu'on équipe
+		SoundEvents.ARMOR_EQUIP_LEATHER, //Son lorsqu'on équipe
 		1.0F, //Robustesse
 		0.0F, //Resistance au recul
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.CURSED_CRYSAL.get()) //Matériaux de réparation
+		() -> Ingredient.of(AerialHellBlocksAndItems.CURSED_CRYSAL.get()) //Matériaux de réparation
 	);
 	
-	public final static IArmorMaterial arsonist = new ArmorMaterial
+	public final static ArmorMaterial arsonist = new AerialHellArmorMaterial
 	(
 		AerialHell.MODID + ":arsonist", //Nom du matériau 
 		37, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
 		new int[] {5, 8, 9, 4}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
 		15, //Enchantabilité
-		SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, //Son lorsqu'on équipe
+		SoundEvents.ARMOR_EQUIP_NETHERITE, //Son lorsqu'on équipe
 		3.0F, //Robustesse
 		0.1F, //Resistance au recul
-		() -> Ingredient.fromItems(AerialHellBlocksAndItems.ARSONIST_INGOT.get()) //Matériaux de réparation
+		() -> Ingredient.of(AerialHellBlocksAndItems.ARSONIST_INGOT.get()) //Matériaux de réparation
 	);
 	
-	private static class ArmorMaterial implements IArmorMaterial
+	private static class AerialHellArmorMaterial implements ArmorMaterial
 	{
         private static final int[] Max_Damage_Array = new int[] {13,15,16,11};
         private final String name;
@@ -121,9 +121,9 @@ public class ArmorMaterials
         private final SoundEvent soundEvent;
         private final float toughness;
         private final float knockbackResistance;
-        private final LazyValue<Ingredient> repairMaterial;
+        private final LazyLoadedValue<Ingredient> repairMaterial;
 
-        public ArmorMaterial(String name, int maxDamageFactor, int[] damageReductionAmountArray, int enchantability, SoundEvent soundEvent, double toughness, float knockbackResistance, Supplier<Ingredient> supplier)
+        public AerialHellArmorMaterial(String name, int maxDamageFactor, int[] damageReductionAmountArray, int enchantability, SoundEvent soundEvent, double toughness, float knockbackResistance, Supplier<Ingredient> supplier)
         {
             this.name = name;
             this.maxDamageFactor = maxDamageFactor;
@@ -132,24 +132,24 @@ public class ArmorMaterials
             this.soundEvent = soundEvent;
             this.toughness = (float)toughness;
             this.knockbackResistance = knockbackResistance;
-            this.repairMaterial = new LazyValue<Ingredient>(supplier);
+            this.repairMaterial = new LazyLoadedValue<Ingredient>(supplier);
         }
 
         //getters
         @Override
-        public int getDurability(EquipmentSlotType slotIn) {return Max_Damage_Array[slotIn.getIndex()] * maxDamageFactor;}
+        public int getDurabilityForSlot(EquipmentSlot slotIn) {return Max_Damage_Array[slotIn.getIndex()] * maxDamageFactor;}
 
         @Override
-        public int getDamageReductionAmount(EquipmentSlotType slotIn) {return damageReductionAmountArray[slotIn.getIndex()];}
+        public int getDefenseForSlot(EquipmentSlot slotIn) {return damageReductionAmountArray[slotIn.getIndex()];}
 
         @Override
-        public int getEnchantability() {return enchantability;}
+        public int getEnchantmentValue() {return enchantability;}
 
         @Override
-        public SoundEvent getSoundEvent() {return soundEvent;}
+        public SoundEvent getEquipSound() {return soundEvent;}
 
         @Override
-        public Ingredient getRepairMaterial() {return repairMaterial.getValue();}
+        public Ingredient getRepairIngredient() {return repairMaterial.get();}
 
         @OnlyIn(Dist.CLIENT)
         @Override

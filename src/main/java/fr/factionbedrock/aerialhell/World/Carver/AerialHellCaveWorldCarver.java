@@ -11,11 +11,11 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellFluids;
-import net.minecraft.block.BlockState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.carver.CaveWorldCarver;
 import net.minecraft.world.gen.feature.ProbabilityConfig;
@@ -62,7 +62,7 @@ public class AerialHellCaveWorldCarver extends CaveWorldCarver
             {
                 chunk.setBlockState(pos5, CAVE_AIR, false);
                 pos7.setAndMove(pos5, Direction.DOWN);
-                if (chunk.getBlockState(pos7.down()).isIn(AerialHellBlocksAndItems.STELLAR_STONE.get()))
+                if (chunk.getBlockState(pos7.below()).isIn(AerialHellBlocksAndItems.STELLAR_STONE.get()))
                 {
                     chunk.setBlockState(pos7, p_230358_2_.apply(pos5).getGenerationSettings().getSurfaceBuilderConfig().getTop(), false);
                 }

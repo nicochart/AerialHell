@@ -4,24 +4,24 @@ import java.util.Random;
 
 import com.mojang.serialization.Codec;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public abstract class AbstractFloorEllipsisFeature extends Feature<NoFeatureConfig>
+public abstract class AbstractFloorEllipsisFeature extends Feature<NoneFeatureConfiguration>
 {
-	public AbstractFloorEllipsisFeature(Codec<NoFeatureConfig> codec) {super(codec);}
+	public AbstractFloorEllipsisFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 	
 	abstract protected int getEllipsisSizeX(Random rand);
 	abstract protected int getEllipsisSizeZ(Random rand);
-	abstract protected boolean canGenerate(ISeedReader reader, BlockPos pos);
+	abstract protected boolean canGenerate(WorldGenLevel reader, BlockPos pos);
 	abstract protected boolean isFloor(BlockState blockState);
 	abstract protected BlockState getBlockStateForPlacement(BlockState previousBlockState, BlockPos centerPos, BlockPos placementPos, int elipsisSizeX, int elipsisSizeZ, Random rand);
-	
-	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config)
+
+	@Override public boolean place(NoneFeatureConfiguration config, WorldGenLevel reader, ChunkGenerator generator, Random rand, BlockPos pos)
 	{
 		BlockPos placementPos;
 		
@@ -42,7 +42,7 @@ public abstract class AbstractFloorEllipsisFeature extends Feature<NoFeatureConf
 	            		if (isFloor(previousBlockState)) //checking for surface
 	            		{
 	            			BlockState placementBlockState = getBlockStateForPlacement(previousBlockState, pos, placementPos, sizeX, sizeZ, rand);
-	            			reader.setBlockState(placementPos, placementBlockState, 2);
+	            			reader.setBlock(placementPos, placementBlockState, 2);
 	            			y += 7; //if we found stellar grass block <=> we found surface, skip other y values
 	            		}
 	            	}
@@ -53,11 +53,11 @@ public abstract class AbstractFloorEllipsisFeature extends Feature<NoFeatureConf
 		else {return false;}
 	}
 	
-	protected boolean hasAnyBlockAbove(BlockPos pos, ISeedReader reader)
+	protected boolean hasAnyBlockAbove(BlockPos pos, WorldGenLevel reader)
 	{
-		for (BlockPos blockpos1 = pos.up(); blockpos1.getY() < 250; blockpos1 = blockpos1.up())
+		for (BlockPos blockpos1 = pos.above(); blockpos1.getY() < 250; blockpos1 = blockpos1.above())
 		{
-			if (!reader.isAirBlock(blockpos1)) {return true;}
+			if (!reader.isEmptyBlock(blockpos1)) {return true;}
 		}
 		return false;
 	}

@@ -1,98 +1,88 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
-// Made by Cixon
-// Made with Blockbench
+// Made by Cixon with Blockbench
+// Exported for Minecraft version 1.17 or later with Mojang mappings
 
 public class MudCycleMageModel extends EntityModel<MudCycleMageEntity>
 {
-	private final ModelRenderer head;
-	private final ModelRenderer body;
-	private final ModelRenderer leftArm;
-	private final ModelRenderer leftArm_r1;
-	private final ModelRenderer rightArm;
-	private final ModelRenderer rightArm_r1;
-	private final ModelRenderer rightLeg;
-	private final ModelRenderer leftLeg;
+	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(AerialHell.MODID, "mud_cycle_mage_model"), "main");
+	private final ModelPart head;
+	private final ModelPart body;
+	private final ModelPart leftArm;
+	private final ModelPart rightArm;
+	private final ModelPart rightLeg;
+	private final ModelPart leftLeg;
 
-	public MudCycleMageModel()
-	{
-		textureWidth = 64;
-		textureHeight = 64;
-
-		head = new ModelRenderer(this);
-		head.setRotationPoint(0.0F, 0.0F, 0.0F);
-		head.setTextureOffset(0, 0).addBox(-4.0F, -8.0F, -3.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
-		head.setTextureOffset(32, 53).addBox(-4.0F, -10.0F, -3.0F, 8.0F, 3.0F, 8.0F, 0.25F, true);
-
-		body = new ModelRenderer(this);
-		body.setRotationPoint(0.0F, 24.0F, 0.0F);
-		body.setTextureOffset(16, 32).addBox(-4.0F, -24.0F, -1.0F, 8.0F, 22.0F, 4.0F, 0.0F, false);
-		body.setTextureOffset(16, 16).addBox(-4.0F, -24.0F, -1.0F, 8.0F, 12.0F, 4.0F, 0.0F, false);
-
-		leftArm = new ModelRenderer(this);
-		leftArm.setRotationPoint(4.0F, 2.0F, 1.0F);
-		leftArm.setTextureOffset(48, 37).addBox(0.5F, 1.0F, -8.0F, 0.0F, 6.0F, 7.0F, 0.0F, false);
-		leftArm.setTextureOffset(40, 36).addBox(-0.5F, -2.0F, -9.0F, 3.0F, 8.0F, 1.0F, 0.0F, false);
-
-		leftArm_r1 = new ModelRenderer(this);
-		leftArm_r1.setRotationPoint(-4.0F, 22.0F, -1.0F);
-		leftArm.addChild(leftArm_r1);
-		setRotationAngle(leftArm_r1, -1.5708F, 0.0F, 0.0F);
-		leftArm_r1.setTextureOffset(40, 16).addBox(4.0F, -2.0F, -23.0F, 2.0F, 12.0F, 2.0F, 0.0F, true);
-
-		rightArm = new ModelRenderer(this);
-		rightArm.setRotationPoint(-4.0F, 2.0F, 0.0F);
-		rightArm.setTextureOffset(48, 37).addBox(-0.5F, 1.0F, -7.0F, 0.0F, 6.0F, 7.0F, 0.0F, true);
-		rightArm.setTextureOffset(40, 36).addBox(-2.5F, -2.0F, -8.0F, 3.0F, 8.0F, 1.0F, 0.0F, false);
-
-		rightArm_r1 = new ModelRenderer(this);
-		rightArm_r1.setRotationPoint(4.0F, 22.0F, 0.0F);
-		rightArm.addChild(rightArm_r1);
-		setRotationAngle(rightArm_r1, -1.5708F, 0.0F, 0.0F);
-		rightArm_r1.setTextureOffset(40, 16).addBox(-6.0F, -2.0F, -23.0F, 2.0F, 12.0F, 2.0F, 0.0F, false);
-
-		rightLeg = new ModelRenderer(this);
-		rightLeg.setRotationPoint(-2.0F, 13.0F, 1.0F);
-		rightLeg.setTextureOffset(0, 16).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 12.0F, 2.0F, 0.0F, false);
-
-		leftLeg = new ModelRenderer(this);
-		leftLeg.setRotationPoint(2.0F, 13.0F, 1.0F);
-		leftLeg.setTextureOffset(0, 16).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 12.0F, 2.0F, 0.0F, true);
+	public MudCycleMageModel(ModelPart root) {
+		this.head = root.getChild("head");
+		this.body = root.getChild("body");
+		this.leftArm = root.getChild("leftArm");
+		this.rightArm = root.getChild("rightArm");
+		this.rightLeg = root.getChild("rightLeg");
+		this.leftLeg = root.getChild("leftLeg");
 	}
-	
-	@Override
-	public void setRotationAngles(MudCycleMageEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
-	{
-		this.head.rotateAngleY = netHeadYaw / 57.0F;
-        this.head.rotateAngleX = headPitch / 57.0F;
-        
-        this.rightArm.rotateAngleX = (-0.2F + 0.5F * MathHelper.func_233021_e_(limbSwing, 13.0F)) * limbSwingAmount;
-        this.leftArm.rotateAngleX = (-0.2F - 0.5F * MathHelper.func_233021_e_(limbSwing, 13.0F)) * limbSwingAmount;
-        
-		this.leftLeg.rotateAngleX = -1.0F * MathHelper.func_233021_e_(limbSwing, 13.0F) * limbSwingAmount;
-	    this.rightLeg.rotateAngleX = 1.0F * MathHelper.func_233021_e_(limbSwing, 13.0F) * limbSwingAmount;
-	    this.leftLeg.rotateAngleY = 0.0F;
-	    this.rightLeg.rotateAngleY = 0.0F;
+
+	public static LayerDefinition createbodyLayer() {
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
+
+		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -3.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
+				.texOffs(32, 53).mirror().addBox(-4.0F, -10.0F, -3.0F, 8.0F, 3.0F, 8.0F, new CubeDeformation(0.25F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 32).addBox(-4.0F, -24.0F, -1.0F, 8.0F, 22.0F, 4.0F, new CubeDeformation(0.0F))
+				.texOffs(16, 16).addBox(-4.0F, -24.0F, -1.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+
+		PartDefinition leftArm = partdefinition.addOrReplaceChild("leftArm", CubeListBuilder.create().texOffs(48, 37).addBox(0.5F, 1.0F, -8.0F, 0.0F, 6.0F, 7.0F, new CubeDeformation(0.0F))
+				.texOffs(40, 36).addBox(-0.5F, -2.0F, -9.0F, 3.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, 2.0F, 1.0F));
+
+		PartDefinition Leftarm_r1 = leftArm.addOrReplaceChild("leftArm_r1", CubeListBuilder.create().texOffs(40, 16).mirror().addBox(4.0F, -2.0F, -23.0F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-4.0F, 22.0F, -1.0F, -1.5708F, 0.0F, 0.0F));
+
+		PartDefinition rightArm = partdefinition.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(48, 37).mirror().addBox(-0.5F, 1.0F, -7.0F, 0.0F, 6.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(40, 36).addBox(-2.5F, -2.0F, -8.0F, 3.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 2.0F, 0.0F));
+
+		PartDefinition Rightarm_r1 = rightArm.addOrReplaceChild("rightArm_r1", CubeListBuilder.create().texOffs(40, 16).addBox(-6.0F, -2.0F, -23.0F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.0F, 22.0F, 0.0F, -1.5708F, 0.0F, 0.0F));
+
+		PartDefinition rightLeg = partdefinition.addOrReplaceChild("rightLeg", CubeListBuilder.create().texOffs(0, 16).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, 13.0F, 1.0F));
+
+		PartDefinition leftLeg = partdefinition.addOrReplaceChild("leftLeg", CubeListBuilder.create().texOffs(0, 16).mirror().addBox(-1.0F, -1.0F, -1.0F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(2.0F, 13.0F, 1.0F));
+
+		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
-	{
-		head.render(matrixStack, buffer, packedLight, packedOverlay);
-		body.render(matrixStack, buffer, packedLight, packedOverlay);
-		leftArm.render(matrixStack, buffer, packedLight, packedOverlay);
-		rightArm.render(matrixStack, buffer, packedLight, packedOverlay);
-		rightLeg.render(matrixStack, buffer, packedLight, packedOverlay);
-		leftLeg.render(matrixStack, buffer, packedLight, packedOverlay);
+	public void setupAnim(MudCycleMageEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		this.head.yRot = netHeadYaw / 57.0F;
+		this.head.xRot = headPitch / 57.0F;
+
+		this.rightArm.xRot = (-0.2F + 0.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
+		this.leftArm.xRot = (-0.2F - 0.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
+
+		this.leftLeg.xRot = -1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.rightLeg.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.leftLeg.yRot = 0.0F;
+		this.rightLeg.yRot = 0.0F;
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {modelRenderer.rotateAngleX = x;	modelRenderer.rotateAngleY = y;	modelRenderer.rotateAngleZ = z;}
+	@Override
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	}
 }

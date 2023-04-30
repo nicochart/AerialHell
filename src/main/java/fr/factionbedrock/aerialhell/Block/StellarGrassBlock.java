@@ -1,132 +1,129 @@
 package fr.factionbedrock.aerialhell.Block;
 
-import net.minecraft.block.*;
-import net.minecraft.state.StateContainer;
+import net.minecraft.core.Holder;
+import net.minecraft.data.worldgen.placement.VegetationPlacements;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.FlowersFeature;
-import net.minecraft.world.lighting.LightEngine;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.lighting.LayerLightEngine;
+import net.minecraft.world.level.block.BonemealableBlock;
 
 import java.util.List;
 import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 
-public class StellarGrassBlock extends GrassBlock
+public class StellarGrassBlock extends GrassBlock implements BonemealableBlock
 {
-	public StellarGrassBlock(AbstractBlock.Properties properties)
+	public StellarGrassBlock(BlockBehaviour.Properties properties)
 	{
 		super(properties);
-		this.setDefaultState(this.getDefaultState());
+		this.registerDefaultState(this.defaultBlockState());
 	}
 	
+	/* TODO : cette fonction est encore nécéssaire ?
 	@Override
-	public void onPlantGrow(BlockState state, IWorld world, BlockPos pos, BlockPos source)
+	public void onPlantGrow(BlockState state, LevelAccessor world, BlockPos pos, BlockPos source)
 	{
 		if (state.getBlock().equals(AerialHellBlocksAndItems.STELLAR_DIRT.get()))
 		{
-			world.setBlockState(pos, AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().getDefaultState(), 2);
+			world.setBlock(pos, AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().defaultBlockState(), 2);
 		}
 		else if (state.getBlock().equals(AerialHellBlocksAndItems.CHISELED_STELLAR_DIRT.get()))
 		{
-			world.setBlockState(pos, AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get().getDefaultState(), 2);
+			world.setBlock(pos, AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get().defaultBlockState(), 2);
 		}
-	}
-	
-	@Override
-	public void grow(ServerWorld worldIn, Random rand, BlockPos pos, BlockState state)
-	{
-	      BlockPos blockpos = pos.up();
-	      BlockState blockstate = AerialHellBlocksAndItems.STELLAR_GRASS.get().getDefaultState();
+	}*/
 
-	      label48:
+	@Override
+	public void performBonemeal(ServerLevel worldIn, Random rand, BlockPos pos, BlockState state)
+	{
+	      BlockPos blockpos = pos.above();
+	      BlockState blockstate = AerialHellBlocksAndItems.STELLAR_GRASS.get().defaultBlockState();
+
+	      label46:
 	      for(int i = 0; i < 128; ++i)
 	      {
 	    	  BlockPos blockpos1 = blockpos;
 
 	    	  for(int j = 0; j < i / 16; ++j)
 	    	  {
-	    		  blockpos1 = blockpos1.add(rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1);
-	    		  if (!worldIn.getBlockState(blockpos1.down()).isIn(this) || worldIn.getBlockState(blockpos1).hasOpaqueCollisionShape(worldIn, blockpos1))
+	    		  blockpos1 = blockpos1.offset(rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1);
+	    		  if (!worldIn.getBlockState(blockpos1.below()).is(this) || worldIn.getBlockState(blockpos1).isCollisionShapeFullBlock(worldIn, blockpos1))
 	    		  {
-	    			  continue label48;
+	    			  continue label46;
 	    		  }
 	         }
 
 	         BlockState blockstate2 = worldIn.getBlockState(blockpos1);
-	         if (blockstate2.isIn(blockstate.getBlock()) && rand.nextInt(10) == 0)
+	         if (blockstate2.is(blockstate.getBlock()) && rand.nextInt(10) == 0)
 	         {
-	        	 ((IGrowable)blockstate.getBlock()).grow(worldIn, rand, blockpos1, blockstate2);
+	        	 ((BonemealableBlock)blockstate.getBlock()).performBonemeal(worldIn, rand, blockpos1, blockstate2);
 	         }
 
 	         if (blockstate2.isAir())
 	         {
 	        	 BlockState blockstate1;
+				 Holder<PlacedFeature> holder;
 	        	 if (rand.nextInt(8) == 0)
 	        	 {
-	        		 List<ConfiguredFeature<?, ?>> list = worldIn.getBiome(blockpos1).getGenerationSettings().getFlowerFeatures();
-	        		 if (list.isEmpty())
-	        		 {
-	        			 continue;
-	        		 }
-
-	              ConfiguredFeature<?, ?> configuredfeature = list.get(0);
-	              FlowersFeature flowersfeature = (FlowersFeature)configuredfeature.feature;
-	              blockstate1 = flowersfeature.getFlowerToPlace(rand, blockpos1, configuredfeature.getConfig());
-	              }
-	        	 else
-	        	 {
-	               blockstate1 = blockstate;
-	             }
-
-	             if (blockstate1.isValidPosition(worldIn, blockpos1))
-	             {
-	               worldIn.setBlockState(blockpos1, blockstate1, 3);
-	             }
+	        		 List<ConfiguredFeature<?, ?>> list = worldIn.getBiome(blockpos1).value().getGenerationSettings().getFlowerFeatures();
+	        		 if (list.isEmpty()) {continue;}
+					 holder = ((RandomPatchConfiguration)list.get(0).config()).feature();
+				 }
+				 else
+				 {
+					 holder = VegetationPlacements.GRASS_BONEMEAL;
+				 }
+				 holder.value().place(worldIn, worldIn.getChunkSource().getGenerator(), rand, blockpos1);
 	         }
 	      }
 	}
 	
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
-		super.fillStateContainer(builder);
+		super.createBlockStateDefinition(builder);
 	}
 	
 
 	@Override
-	public void randomTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random)
+	public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, Random random)
 	{
 		if (!isSnowyConditions(state, worldIn, pos))
 		{
 			if (!worldIn.isAreaLoaded(pos, 3)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light and spreading
-			worldIn.setBlockState(pos, AerialHellBlocksAndItems.STELLAR_DIRT.get().getDefaultState());
+			worldIn.setBlockAndUpdate(pos, AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState());
 		}
 		else
 		{
-			if (worldIn.getLight(pos.up()) >= 9)
+			if (worldIn.getMaxLocalRawBrightness(pos.above()) >= 9)
 			{
 				for(int i = 0; i < 4; ++i)
 				{
-					BlockPos blockpos = pos.add(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
+					BlockPos blockpos = pos.offset(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
 					BlockState blockstate;
 					if (worldIn.getBlockState(blockpos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get())
 					{
-						blockstate = AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().getDefaultState();
+						blockstate = AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().defaultBlockState();
 					}
 					else //CHISELED_STELLAR_DIRT
 					{
-						blockstate = AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get().getDefaultState();
+						blockstate = AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get().defaultBlockState();
 					}
 					
-					if ((worldIn.getBlockState(blockpos).isIn(AerialHellBlocksAndItems.STELLAR_DIRT.get()) || worldIn.getBlockState(blockpos).isIn(AerialHellBlocksAndItems.CHISELED_STELLAR_DIRT.get())) && isSnowyAndNotUnderwater(blockstate, worldIn, blockpos))
+					if ((worldIn.getBlockState(blockpos).is(AerialHellBlocksAndItems.STELLAR_DIRT.get()) || worldIn.getBlockState(blockpos).is(AerialHellBlocksAndItems.CHISELED_STELLAR_DIRT.get())) && isSnowyAndNotUnderwater(blockstate, worldIn, blockpos))
 					{
-						worldIn.setBlockState(blockpos, blockstate.with(SNOWY, worldIn.getBlockState(blockpos.up()).isIn(Blocks.SNOW)));
+						worldIn.setBlockAndUpdate(blockpos, blockstate.setValue(SNOWY, worldIn.getBlockState(blockpos.above()).is(Blocks.SNOW)));
 					}
 				}
 			}
@@ -136,22 +133,22 @@ public class StellarGrassBlock extends GrassBlock
 	
 	/* ---- Functions copied from SpreadableSnowyDirtBlock class ---- */
 	
-	private static boolean isSnowyConditions(BlockState state, IWorldReader worldReader, BlockPos pos) 
+	private static boolean isSnowyConditions(BlockState state, LevelReader worldReader, BlockPos pos) //canBeGrass in official mappings
 	{
-	     BlockPos blockpos = pos.up();
+	     BlockPos blockpos = pos.above();
 	     BlockState blockstate = worldReader.getBlockState(blockpos);
-	     if (blockstate.isIn(Blocks.SNOW) && blockstate.get(SnowBlock.LAYERS) == 1) {return true;}
-	     else if (blockstate.getFluidState().getLevel() == 8) {return false;}
+	     if (blockstate.is(Blocks.SNOW) && blockstate.getValue(SnowLayerBlock.LAYERS) == 1) {return true;}
+	     else if (blockstate.getFluidState().getAmount() == 8) {return false;}
 	     else
 	     {
-	        int i = LightEngine.func_215613_a(worldReader, state, pos, blockstate, blockpos, Direction.UP, blockstate.getOpacity(worldReader, blockpos));
+	        int i = LayerLightEngine.getLightBlockInto(worldReader, state, pos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(worldReader, blockpos));
 	        return i < worldReader.getMaxLightLevel();
 	     }
 	 }
 	
-	private static boolean isSnowyAndNotUnderwater(BlockState state, IWorldReader worldReader, BlockPos pos)
+	private static boolean isSnowyAndNotUnderwater(BlockState state, LevelReader worldReader, BlockPos pos)
 	{
-	    BlockPos blockpos = pos.up();
-	    return isSnowyConditions(state, worldReader, pos) && !worldReader.getFluidState(blockpos).isTagged(FluidTags.WATER);
+	    BlockPos blockpos = pos.above();
+	    return isSnowyConditions(state, worldReader, pos) && !worldReader.getFluidState(blockpos).is(FluidTags.WATER);
 	}
 }

@@ -1,24 +1,20 @@
 package fr.factionbedrock.aerialhell.Event.Listeners;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
+import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.Tesselator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.Effects;
-import net.minecraft.tags.FluidTags;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.util.FoodStats;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -28,6 +24,7 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class RenderListener
 {
+    //TODO work on that
     private static final ResourceLocation VULNERABLE_OVERLAY = new ResourceLocation(AerialHell.MODID, "textures/misc/vulnerability_blur.png");
     private static final ResourceLocation VULNERABLE_HEART = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_hearts.png");
     private static final ResourceLocation VULNERABLE_HEART_WITH_BORDER = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_hearts_with_border.png");
@@ -43,13 +40,13 @@ public class RenderListener
     public static void onRenderOverlayPost(RenderGameOverlayEvent.Post event)
     {
         Minecraft mc = Minecraft.getInstance();
-        PlayerEntity player = mc.player;
+        Player player = mc.player;
 
         if (player != null && EntityHelper.isLivingEntityVulnerable(player))
         {
             if (event.getType() == RenderGameOverlayEvent.ElementType.VIGNETTE && mc.gameSettings.getPointOfView().func_243192_a())
             {
-                float alpha = Math.min(20, player.getActivePotionEffect(AerialHellPotionEffects.VULNERABILITY.get()).getDuration()) / 20.0F;
+                float alpha = Math.min(20, player.getActivePotionEffect(AerialHellMobEffects.VULNERABILITY.get()).getDuration()) / 20.0F;
                 renderVulnerabilityOverlay(mc, alpha);
             }
         }
@@ -59,13 +56,13 @@ public class RenderListener
     public static void onRenderOverlay(RenderGameOverlayEvent event)
     {
         Minecraft mc = Minecraft.getInstance();
-        PlayerEntity player = mc.player;
+        Player player = mc.player;
 
         if (event.getType() == RenderGameOverlayEvent.ElementType.HEALTH && player != null && EntityHelper.isLivingEntityVulnerable(player))
         {
             boolean lowHealth = player.getHealth() <= 4;
             if (lowHealth) {event.setCanceled(true);}
-            MatrixStack matrixStack = event.getMatrixStack();
+            PoseStack matrixStack = event.getPoseStack();
 
             int x = event.getWindow().getScaledWidth() / 2 - 91;
             int y = event.getWindow().getScaledHeight() - 39;
@@ -98,7 +95,7 @@ public class RenderListener
     }
 
     @OnlyIn(Dist.CLIENT)
-    private static void renderVulnerableHearts(MatrixStack matrixStack, PlayerEntity player, int x, int y, boolean lowHealth)
+    private static void renderVulnerableHearts(PoseStack matrixStack, Player player, int x, int y, boolean lowHealth)
     {
         int maxHalfHearts = (int)player.getMaxHealth(), maxHearts  = maxHalfHearts/2;
         int halfHearts = (int) player.getHealth(), hearts = halfHearts / 2;
@@ -126,7 +123,7 @@ public class RenderListener
         Minecraft.getInstance().getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
     }
 
-    private static void blitAllEntireHearts(MatrixStack matrixStack, int x, int y, int number, int yOffset)
+    private static void blitAllEntireHearts(PoseStack matrixStack, int x, int y, int number, int yOffset)
     {
         int i, heartToBlit, yTotalOffset = number%10 != 0 ? (number/10 + 1) * yOffset : (number/10) * yOffset, remainingHearts = number;
         while (remainingHearts > 0)
@@ -143,15 +140,15 @@ public class RenderListener
         }
     }
 
-    private static void blitSingleHeartIcon(MatrixStack matrixStack, int x, int y) //texture must be binded before calling
+    private static void blitSingleHeartIcon(PoseStack matrixStack, int x, int y) //texture must be binded before calling
     {
         AbstractGui.blit(matrixStack, x, y, 0, 0, HEART_ICON_WIDTH, HEART_ICON_HEIGHT, 9, 9);
     }
 
-    private static int getHealthBarYOffset(PlayerEntity player)
+    private static int getHealthBarYOffset(Player player)
     {
         int maxHalfHearts = (int)player.getMaxHealth();
-        if (player.isPotionActive(Effects.ABSORPTION)) {maxHalfHearts += 4 * (player.getActivePotionEffect(Effects.ABSORPTION).getAmplifier() + 1);}
+        if (player.hasEffect(Effects.ABSORPTION)) {maxHalfHearts += 4 * (player.getActivePotionEffect(Effects.ABSORPTION).getAmplifier() + 1);}
         if (maxHalfHearts <= 40) {return 10;}
         else if (maxHalfHearts <= 60) {return 9;}
         else if (maxHalfHearts <= 80) {return 8;}

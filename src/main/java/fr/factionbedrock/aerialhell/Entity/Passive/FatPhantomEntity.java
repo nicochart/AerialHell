@@ -10,74 +10,65 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityPredicate;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.FlyingEntity;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.controller.BodyController;
-import net.minecraft.entity.ai.controller.LookController;
-import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.CatEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityPredicates;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.control.BodyRotationControl;
+import net.minecraft.world.entity.ai.control.LookControl;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class FatPhantomEntity extends FlyingEntity implements IMob
+public class FatPhantomEntity extends FlyingMob implements Enemy
 {
-   private static final DataParameter<Integer> SIZE = EntityDataManager.createKey(FatPhantomEntity.class, DataSerializers.VARINT);
-   public List<PlayerEntity> attackingPlayers = Lists.newArrayList();
-   private Vector3d orbitOffset = Vector3d.ZERO;
+   private static final EntityDataAccessor<Integer> SIZE = SynchedEntityData.defineId(FatPhantomEntity.class, EntityDataSerializers.INT);
+   public List<Player> attackingPlayers = Lists.newArrayList();
+   private Vec3 orbitOffset = Vec3.ZERO;
    private BlockPos orbitPosition = BlockPos.ZERO;
    private FatPhantomEntity.AttackPhase attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
-   public static final DataParameter<Boolean> DISAPPEARING = EntityDataManager.<Boolean>createKey(FatPhantomEntity.class, DataSerializers.BOOLEAN);
+   public static final EntityDataAccessor<Boolean> DISAPPEARING = SynchedEntityData.defineId(FatPhantomEntity.class, EntityDataSerializers.BOOLEAN);
    private int timeDisappearing;
 
-   public FatPhantomEntity(EntityType<? extends FatPhantomEntity> type, World worldIn)
+   public FatPhantomEntity(EntityType<? extends FatPhantomEntity> type, Level worldIn)
    {
       super(type, worldIn);
-      this.experienceValue = 5;
-      this.moveController = new FatPhantomEntity.MoveHelperController(this);
-      this.lookController = new FatPhantomEntity.LookHelperController(this);
+      this.xpReward = 5;
+      this.moveControl = new FatPhantomEntity.MoveHelperController(this);
+      this.lookControl = new FatPhantomEntity.LookHelperController(this);
    }
    
-   public static boolean canSpawn(EntityType<FatPhantomEntity> type, IServerWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn)
+   public static boolean canSpawn(EntityType<FatPhantomEntity> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, Random randomIn)
    {
-	   return worldIn.getDifficulty() != Difficulty.PEACEFUL && worldIn.getWorld().isDaytime() && randomIn.nextInt(120) == 0 && canSpawnOn(type, worldIn, reason, pos, randomIn);
+	   return worldIn.getDifficulty() != Difficulty.PEACEFUL && worldIn.getLevel().isDay() && randomIn.nextInt(120) == 0 && canSpawn(type, worldIn, reason, pos, randomIn);
    }
    
    @Override
-   protected BodyController createBodyController()
+   protected BodyRotationControl createBodyControl()
    {
       return new FatPhantomEntity.BodyHelperController(this);
    }
@@ -91,60 +82,59 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
       this.targetSelector.addGoal(1, new FatPhantomEntity.AttackAttackingPlayerGoal());
    }
    
-   public static AttributeModifierMap.MutableAttribute registerAttributes()
+   public static AttributeSupplier.Builder registerAttributes()
    {
-       return CreatureEntity.func_233666_p_()
-       		.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D)
-       		.createMutableAttribute(Attributes.MAX_HEALTH, 150.0D)
-       		.createMutableAttribute(Attributes.ATTACK_DAMAGE, 18.0D)
-       		.createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
-       		.createMutableAttribute(Attributes.FOLLOW_RANGE, 64.0D);
+       return FlyingMob.createMobAttributes()
+       		.add(Attributes.MOVEMENT_SPEED, 0.25D)
+       		.add(Attributes.MAX_HEALTH, 150.0D)
+       		.add(Attributes.ATTACK_DAMAGE, 18.0D)
+       		.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
+       		.add(Attributes.FOLLOW_RANGE, 64.0D);
    }
    
    @Override
-   public boolean attackEntityAsMob(Entity entityIn)
+   public boolean doHurtTarget(Entity entityIn)
    {
-	   if (entityIn instanceof PlayerEntity && !this.attackingPlayers.isEmpty())
+	   if (entityIn instanceof Player && !this.attackingPlayers.isEmpty())
 	   {
-		   PlayerEntity playerIn = (PlayerEntity) entityIn;
+		   Player playerIn = (Player) entityIn;
 		   if (this.attackingPlayers.contains(playerIn)) {this.attackingPlayers.remove(playerIn);}
 	   }
-	   return super.attackEntityAsMob(entityIn);
+	   return super.doHurtTarget(entityIn);
    }
    
    @Override
-   public boolean attackEntityFrom(DamageSource source, float amount)
+   public boolean hurt(DamageSource source, float amount)
    {
 	   
-	   if (!source.isMagicDamage())
+	   if (!source.isMagic())
 	   {
-		   
-		   if (source.getImmediateSource() instanceof PlayerEntity)
+		   if (source.getDirectEntity() instanceof Player)
 		   {
-			   PlayerEntity player = (PlayerEntity) source.getImmediateSource();
+			   Player player = (Player) source.getDirectEntity();
 			   attackingPlayers.add(player);
 		   }
-		   else if (source.getImmediateSource() instanceof ProjectileEntity)
+		   else if (source.getDirectEntity() instanceof Projectile)
 		   {
-			   List<PlayerEntity> targetable_players = FatPhantomEntity.this.world.getTargettablePlayersWithinAABB((new EntityPredicate()).setDistance(64.0D), FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().grow(16.0D, 64.0D, 16.0D));
+			   List<Player> targetable_players = FatPhantomEntity.this.level.getNearbyPlayers(TargetingConditions.forCombat().range(64.0D), FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().inflate(16.0D, 64.0D, 16.0D));
 			   if (!targetable_players.isEmpty())
 			   {
-				   for (PlayerEntity player : targetable_players)
+				   for (Player player : targetable_players)
 				   {
 					   attackingPlayers.add(player);
 				   }
 			   }
 		   }
 	   }
-	   return super.attackEntityFrom(source, amount);
+	   return super.hurt(source, amount);
    }
    
    @Override
-   protected void registerData()
+   protected void defineSynchedData()
    {
-      super.registerData();
-      this.dataManager.register(SIZE, 0);
-      this.dataManager.register(DISAPPEARING, false);
+      super.defineSynchedData();
+      this.entityData.define(SIZE, 0);
+      this.entityData.define(DISAPPEARING, false);
    }
    
    public int getDefaultFatPhantomSize()
@@ -154,94 +144,78 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
    
    public void setPhantomSize(int sizeIn)
    {
-      this.dataManager.set(SIZE, MathHelper.clamp(sizeIn, 0, 64));
+      this.entityData.set(SIZE, Mth.clamp(sizeIn, 0, 64));
    }
 
    private void updatePhantomSize()
    {
-      this.recalculateSize();
+      this.refreshDimensions();
       this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue((double)(Math.max(16 + this.getPhantomSize() - getDefaultFatPhantomSize(), 16)));
    }
 
    public int getPhantomSize()
    {
-      return this.dataManager.get(SIZE);
+      return this.entityData.get(SIZE);
    }
    
    @Override
-   protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn)
+   protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn)
    {
       return sizeIn.height * 0.35F;
    }
    
    @Override
-   public void notifyDataManagerChange(DataParameter<?> key)
+   public void onSyncedDataUpdated(EntityDataAccessor<?> key)
    {
-      if (SIZE.equals(key))
-      {
-         this.updatePhantomSize();
-      }
+      if (SIZE.equals(key)) {this.updatePhantomSize();}
 
-      super.notifyDataManagerChange(key);
+      super.onSyncedDataUpdated(key);
    }
 
    @Override
    public void tick()
    {
       super.tick();
-      if (this.world.isRemote)
+      if (this.level.isClientSide())
       {
-         float f = MathHelper.cos((float)(this.getEntityId() * 3 + this.ticksExisted) * 0.13F + (float)Math.PI);
-         float f1 = MathHelper.cos((float)(this.getEntityId() * 3 + this.ticksExisted + 1) * 0.13F + (float)Math.PI);
+         float f = Mth.cos((float)(this.getId() * 3 + this.tickCount) * 7.448451F * ((float)Math.PI / 180F) + (float)Math.PI);
+         float f1 = Mth.cos((float)(this.getId() * 3 + this.tickCount + 1) * 7.448451F * ((float)Math.PI / 180F) + (float)Math.PI);
          if (f > 0.0F && f1 <= 0.0F)
          {
-            this.world.playSound(this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_PHANTOM_FLAP, this.getSoundCategory(), 0.95F + this.rand.nextFloat() * 0.05F, 0.95F + this.rand.nextFloat() * 0.05F, false);
+            this.level.playLocalSound(this.getX(), this.getY(), this.getZ(), SoundEvents.PHANTOM_FLAP, this.getSoundSource(), 0.95F + this.random.nextFloat() * 0.05F, 0.95F + this.random.nextFloat() * 0.05F, false);
          }
 
          int i = this.getPhantomSize();
-         float f2 = MathHelper.cos(this.rotationYaw * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
-         float f3 = MathHelper.sin(this.rotationYaw * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
+         float f2 = Mth.cos(this.getYRot() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
+         float f3 = Mth.sin(this.getYRot() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
          float f4 = (0.3F + f * 0.45F) * ((float)i * 0.2F + 1.0F);
-         this.world.addParticle(ParticleTypes.MYCELIUM, this.getPosX() + (double)f2, this.getPosY() + (double)f4, this.getPosZ() + (double)f3, 0.0D, 0.0D, 0.0D);
-         this.world.addParticle(ParticleTypes.MYCELIUM, this.getPosX() - (double)f2, this.getPosY() + (double)f4, this.getPosZ() - (double)f3, 0.0D, 0.0D, 0.0D);
+         this.level.addParticle(ParticleTypes.MYCELIUM, this.getX() + (double)f2, this.getY() + (double)f4, this.getZ() + (double)f3, 0.0D, 0.0D, 0.0D);
+         this.level.addParticle(ParticleTypes.MYCELIUM, this.getX() - (double)f2, this.getY() + (double)f4, this.getZ() - (double)f3, 0.0D, 0.0D, 0.0D);
       }
       
       if (this.isDisappearing())
       {
-    	  if (this.timeDisappearing < 190)
-    	  {
-    		  this.addFatPhantomParticle(1);
-    	  }
-    	  else if (this.timeDisappearing < 200)
-    	  {
-    		  this.addFatPhantomParticle(10);
-    	  }
-    	  else
-    	  {
-    		  this.remove();
-    	  }
+    	  if (this.timeDisappearing < 190) {this.addFatPhantomParticle(1);}
+    	  else if (this.timeDisappearing < 200) {this.addFatPhantomParticle(10);}
+    	  else {this.discard();} //TODO : works ?
     	  this.timeDisappearing++;
       }
    }
-   
+
    private void addFatPhantomParticle(int number)
    {
    		for (int i=0; i<number; i++)
    		{
-   			this.world.addParticle(AerialHellParticleTypes.FAT_PHANTOM_SMOKE.get(), this.getPosX() + rand.nextFloat() - 0.5, this.getPosY() + 2 * rand.nextFloat(), this.getPosZ() + rand.nextFloat() - 0.5, rand.nextFloat() - 0.5, rand.nextFloat() -0.5, rand.nextFloat() - 0.5);
+   			this.level.addParticle(AerialHellParticleTypes.FAT_PHANTOM_SMOKE.get(), this.getX() + random.nextFloat() - 0.5, this.getY() + 2 * random.nextFloat(), this.getZ() + random.nextFloat() - 0.5, random.nextFloat() - 0.5, random.nextFloat() -0.5, random.nextFloat() - 0.5);
    		}
    }
    
-   @Override
-   public boolean isImmuneToFire()
-   {
-	   return false;
-   }
+   @Override public boolean fireImmune() {return false;}
    
    @Override
-   public void livingTick()
+   public void aiStep()
    {
-	   if (!this.world.isDaytime())
+	   if (!this.level.isDay())
 	   {
 		   if (!this.isDisappearing())
 		   {
@@ -249,36 +223,30 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
 			   this.setDisappearing(true);
 		   }
 	   }   
-	   super.livingTick();
+	   super.aiStep();
    }
 
-   public boolean isDisappearing()
-   {
-   	return this.dataManager.get(DISAPPEARING);
-   }
+   public boolean isDisappearing() {return this.entityData.get(DISAPPEARING);}
    
-   public void setDisappearing(boolean flag)
-   {
-   	this.dataManager.set(DISAPPEARING, flag);
-   }
+   public void setDisappearing(boolean flag) {this.entityData.set(DISAPPEARING, flag);}
    
    @Override
-   public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag)
+   public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag)
    {
-      this.orbitPosition = this.getPosition().up(6);
+      this.orbitPosition = this.blockPosition().above(6);
       this.setPhantomSize(12);
-      if (worldIn.getBlockState(this.getPosition().up()).getBlock() == Blocks.AIR)
+      if (worldIn.getBlockState(this.blockPosition().above()).getBlock() == Blocks.AIR)
       {
-    	  this.moveToBlockPosAndAngles(this.getPosition().up(), this.rotationYaw, this.rotationPitch);
+    	  this.moveTo(new Vec3(blockPosition().above().getX(), blockPosition().above().getY(), blockPosition().above().getZ()));
       }
       this.timeDisappearing = 0; this.setDisappearing(false);
-      return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+      return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
    }
 
    @Override
-   public void readAdditional(CompoundNBT compound)
+   public void readAdditionalSaveData(CompoundTag compound)
    {
-      super.readAdditional(compound);
+      super.readAdditionalSaveData(compound);
       if (compound.contains("AX"))
       {
          this.orbitPosition = new BlockPos(compound.getInt("AX"), compound.getInt("AY"), compound.getInt("AZ"));
@@ -289,9 +257,9 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
    }
 
    @Override
-   public void writeAdditional(CompoundNBT compound)
+   public void addAdditionalSaveData(CompoundTag compound)
    {
-      super.writeAdditional(compound);
+      super.addAdditionalSaveData(compound);
       compound.putInt("AX", this.orbitPosition.getX());
       compound.putInt("AY", this.orbitPosition.getY());
       compound.putInt("AZ", this.orbitPosition.getZ());
@@ -299,54 +267,21 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
       compound.putBoolean("Disappearing", this.isDisappearing());
    }
 
-   @Override
-   @OnlyIn(Dist.CLIENT)
-   public boolean isInRangeToRenderDist(double distance)
-   {
-      return true;
-   }
+   @Override @OnlyIn(Dist.CLIENT)
+   public boolean shouldRenderAtSqrDistance(double distance) {return true;}
+
+   @Override public SoundSource getSoundSource() {return SoundSource.HOSTILE;}
+   @Override protected SoundEvent getAmbientSound() {return SoundEvents.PHANTOM_AMBIENT;}
+   @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return SoundEvents.PHANTOM_HURT;}
+   @Override protected SoundEvent getDeathSound() {return SoundEvents.PHANTOM_DEATH;}
+   @Override protected float getSoundVolume() {return 1.0F;}
+   @Override public boolean canAttackType(EntityType<?> typeIn) {return true;}
 
    @Override
-   public SoundCategory getSoundCategory()
-   {
-      return SoundCategory.HOSTILE;
-   }
-
-   @Override
-   protected SoundEvent getAmbientSound()
-   {
-      return SoundEvents.ENTITY_PHANTOM_AMBIENT;
-   }
-
-   @Override
-   protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-   {
-      return SoundEvents.ENTITY_PHANTOM_HURT;
-   }
-
-   @Override
-   protected SoundEvent getDeathSound()
-   {
-      return SoundEvents.ENTITY_PHANTOM_DEATH;
-   }
-
-   @Override
-   protected float getSoundVolume()
-   {
-      return 1.0F;
-   }
-
-   @Override
-   public boolean canAttack(EntityType<?> typeIn)
-   {
-      return true;
-   }
-
-   @Override
-   public EntitySize getSize(Pose poseIn)
+   public EntityDimensions getDimensions(Pose poseIn)
    {
       int i = this.getPhantomSize();
-      EntitySize entitysize = super.getSize(poseIn);
+      EntityDimensions entitysize = super.getDimensions(poseIn);
       float f = (entitysize.width + 0.2F * (float)i) / entitysize.width;
       return entitysize.scale(f);
    }
@@ -359,12 +294,12 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
 
    class AttackAttackingPlayerGoal extends Goal
    {
-      private final EntityPredicate predicate = (new EntityPredicate()).setDistance(64.0D);
+      private final TargetingConditions attackTargeting = TargetingConditions.forCombat().range(64.0D);
       private int tickDelay = 20;
 
       private AttackAttackingPlayerGoal() {}
 
-      public boolean shouldExecute()
+      public boolean canUse()
       {
          if (this.tickDelay > 0)
          {
@@ -374,16 +309,16 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
          else
          {
             this.tickDelay = 60;
-            List<PlayerEntity> list = FatPhantomEntity.this.world.getTargettablePlayersWithinAABB(this.predicate, FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().grow(16.0D, 64.0D, 16.0D));
+            List<Player> list = FatPhantomEntity.this.level.getNearbyPlayers(this.attackTargeting, FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().inflate(16.0D, 64.0D, 16.0D));
             if (!attackingPlayers.isEmpty() && !list.isEmpty())
             {
-               list.sort(Comparator.<Entity, Double>comparing(Entity::getPosY).reversed());
+               list.sort(Comparator.<Entity, Double>comparing(Entity::getY).reversed());
 
-               for(PlayerEntity player : list)
+               for(Player player : list)
                {
-                  if (FatPhantomEntity.this.canAttack(player, EntityPredicate.DEFAULT) && attackingPlayers.contains(player))
+                  if (FatPhantomEntity.this.canAttack(player, TargetingConditions.DEFAULT) && attackingPlayers.contains(player))
                   {
-                     FatPhantomEntity.this.setAttackTarget(player);
+                     FatPhantomEntity.this.setTarget(player);
                      return true;
                   }
                }
@@ -392,33 +327,30 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
          }
       }
 
-      public boolean shouldContinueExecuting()
+      public boolean canContinueToUse()
       {
-         LivingEntity livingentity = FatPhantomEntity.this.getAttackTarget();
-         return livingentity != null ? FatPhantomEntity.this.canAttack(livingentity, EntityPredicate.DEFAULT) : false;
+         LivingEntity livingentity = FatPhantomEntity.this.getTarget();
+         return livingentity != null ? FatPhantomEntity.this.canAttack(livingentity, TargetingConditions.DEFAULT) : false;
       }
    }
 
-   class BodyHelperController extends BodyController
+   class BodyHelperController extends BodyRotationControl
    {
-      public BodyHelperController(MobEntity mob)
+      public BodyHelperController(Mob mob)
       {
          super(mob);
       }
 
-      public void updateRenderAngles()
+      @Override public void clientTick()
       {
-         FatPhantomEntity.this.rotationYawHead = FatPhantomEntity.this.renderYawOffset;
-         FatPhantomEntity.this.renderYawOffset = FatPhantomEntity.this.rotationYaw;
+         FatPhantomEntity.this.yHeadRot = FatPhantomEntity.this.yBodyRot;
+         FatPhantomEntity.this.yBodyRot = FatPhantomEntity.this.getYRot();
       }
    }
 
-   class LookHelperController extends LookController
+   class LookHelperController extends LookControl
    {
-      public LookHelperController(MobEntity entityIn)
-      {
-         super(entityIn);
-      }
+      public LookHelperController(Mob entityIn) {super(entityIn);}
 
       public void tick() {}
    }
@@ -427,187 +359,168 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
    {
       public MoveGoal()
       {
-         this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE));
+         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
       }
 
-      protected boolean func_203146_f()
+      protected boolean touchingTarget()
       {
-         return FatPhantomEntity.this.orbitOffset.squareDistanceTo(FatPhantomEntity.this.getPosX(), FatPhantomEntity.this.getPosY(), FatPhantomEntity.this.getPosZ()) < 4.0D;
+         return FatPhantomEntity.this.orbitOffset.distanceToSqr(FatPhantomEntity.this.getX(), FatPhantomEntity.this.getY(), FatPhantomEntity.this.getZ()) < 4.0D;
       }
    }
 
-   class MoveHelperController extends MovementController
+   class MoveHelperController extends MoveControl
    {
       private float speedFactor = 0.1F;
 
-      public MoveHelperController(MobEntity entityIn)
+      public MoveHelperController(Mob entityIn)
       {
          super(entityIn);
       }
 
       public void tick()
       {
-         if (FatPhantomEntity.this.collidedHorizontally)
+         if (FatPhantomEntity.this.horizontalCollision)
          {
-            FatPhantomEntity.this.rotationYaw += 180.0F;
+            FatPhantomEntity.this.setYRot(FatPhantomEntity.this.getYRot() + 180.0F);
             this.speedFactor = 0.1F;
          }
 
-         float f = (float)(FatPhantomEntity.this.orbitOffset.x - FatPhantomEntity.this.getPosX());
-         float f1 = (float)(FatPhantomEntity.this.orbitOffset.y - FatPhantomEntity.this.getPosY());
-         float f2 = (float)(FatPhantomEntity.this.orbitOffset.z - FatPhantomEntity.this.getPosZ());
-         double d0 = (double)MathHelper.sqrt(f * f + f2 * f2);
-         double d1 = 1.0D - (double)MathHelper.abs(f1 * 0.7F) / d0;
-         f = (float)((double)f * d1);
-         f2 = (float)((double)f2 * d1);
-         d0 = (double)MathHelper.sqrt(f * f + f2 * f2);
-         double d2 = (double)MathHelper.sqrt(f * f + f2 * f2 + f1 * f1);
-         float f3 = FatPhantomEntity.this.rotationYaw;
-         float f4 = (float)MathHelper.atan2((double)f2, (double)f);
-         float f5 = MathHelper.wrapDegrees(FatPhantomEntity.this.rotationYaw + 90.0F);
-         float f6 = MathHelper.wrapDegrees(f4 * (180F / (float)Math.PI));
-         FatPhantomEntity.this.rotationYaw = MathHelper.approachDegrees(f5, f6, 4.0F) - 90.0F;
-         FatPhantomEntity.this.renderYawOffset = FatPhantomEntity.this.rotationYaw;
-         if (MathHelper.degreesDifferenceAbs(f3, FatPhantomEntity.this.rotationYaw) < 3.0F)
-         {
-            this.speedFactor = MathHelper.approach(this.speedFactor, 1.8F, 0.005F * (1.8F / this.speedFactor));
-         }
-         else
-         {
-            this.speedFactor = MathHelper.approach(this.speedFactor, 0.2F, 0.025F);
-         }
+         double d0 = FatPhantomEntity.this.orbitOffset.x - FatPhantomEntity.this.getX();
+         double d1 = FatPhantomEntity.this.orbitOffset.y - FatPhantomEntity.this.getY();
+         double d2 = FatPhantomEntity.this.orbitOffset.z - FatPhantomEntity.this.getZ();
+         double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+         if (Math.abs(d3) > (double) 1.0E-5F) {
+            double d4 = 1.0D - Math.abs(d1 * (double) 0.7F) / d3;
+            d0 *= d4;
+            d2 *= d4;
+            d3 = Math.sqrt(d0 * d0 + d2 * d2);
+            double d5 = Math.sqrt(d0 * d0 + d2 * d2 + d1 * d1);
+            float f = FatPhantomEntity.this.getYRot();
+            float f1 = (float) Mth.atan2(d2, d0);
+            float f2 = Mth.wrapDegrees(FatPhantomEntity.this.getYRot() + 90.0F);
+            float f3 = Mth.wrapDegrees(f1 * (180F / (float) Math.PI));
+            FatPhantomEntity.this.setYRot(Mth.approachDegrees(f2, f3, 4.0F) - 90.0F);
+            FatPhantomEntity.this.yBodyRot = FatPhantomEntity.this.getYRot();
+            if (Mth.degreesDifferenceAbs(f, FatPhantomEntity.this.getYRot()) < 3.0F) {
+               this.speedFactor = Mth.approach(this.speedFactor, 1.8F, 0.005F * (1.8F / this.speedFactor));
+            } else {
+               this.speedFactor = Mth.approach(this.speedFactor, 0.2F, 0.025F);
+            }
 
-         float f7 = (float)(-(MathHelper.atan2((double)(-f1), d0) * (double)(180F / (float)Math.PI)));
-         FatPhantomEntity.this.rotationPitch = f7;
-         float f8 = FatPhantomEntity.this.rotationYaw + 90.0F;
-         double d3 = (double)(this.speedFactor * MathHelper.cos(f8 * ((float)Math.PI / 180F))) * Math.abs((double)f / d2);
-         double d4 = (double)(this.speedFactor * MathHelper.sin(f8 * ((float)Math.PI / 180F))) * Math.abs((double)f2 / d2);
-         double d5 = (double)(this.speedFactor * MathHelper.sin(f7 * ((float)Math.PI / 180F))) * Math.abs((double)f1 / d2);
-         Vector3d vector3d = FatPhantomEntity.this.getMotion();
-         FatPhantomEntity.this.setMotion(vector3d.add((new Vector3d(d3, d5, d4)).subtract(vector3d).scale(0.2D)));
+            float f4 = (float) (-(Mth.atan2(-d1, d3) * (double) (180F / (float) Math.PI)));
+            FatPhantomEntity.this.setXRot(f4);
+            float f5 = FatPhantomEntity.this.getYRot() + 90.0F;
+            double d6 = (double) (this.speedFactor * Mth.cos(f5 * ((float) Math.PI / 180F))) * Math.abs(d0 / d5);
+            double d7 = (double) (this.speedFactor * Mth.sin(f5 * ((float) Math.PI / 180F))) * Math.abs(d2 / d5);
+            double d8 = (double) (this.speedFactor * Mth.sin(f4 * ((float) Math.PI / 180F))) * Math.abs(d1 / d5);
+            Vec3 vec3 = FatPhantomEntity.this.getDeltaMovement();
+            FatPhantomEntity.this.setDeltaMovement(vec3.add((new Vec3(d6, d8, d7)).subtract(vec3).scale(0.2D)));
+         }
       }
    }
 
    class OrbitPointGoal extends FatPhantomEntity.MoveGoal
    {
-      private float field_203150_c;
-      private float field_203151_d;
-      private float field_203152_e;
-      private float field_203153_f;
+      private float angle;
+      private float distance;
+      private float height;
+      private float clockwise;
 
-      private OrbitPointGoal() {}
+      public boolean canUse() {return FatPhantomEntity.this.getTarget() == null || FatPhantomEntity.this.attackPhase == FatPhantomEntity.AttackPhase.CIRCLE;}
 
-      public boolean shouldExecute() 
+      public void start()
       {
-         return FatPhantomEntity.this.getAttackTarget() == null || FatPhantomEntity.this.attackPhase == FatPhantomEntity.AttackPhase.CIRCLE;
-      }
-
-      public void startExecuting()
-      {
-         this.field_203151_d = 5.0F + FatPhantomEntity.this.rand.nextFloat() * 10.0F;
-         this.field_203152_e = -4.0F + FatPhantomEntity.this.rand.nextFloat() * 9.0F;
-         this.field_203153_f = FatPhantomEntity.this.rand.nextBoolean() ? 1.0F : -1.0F;
-         this.func_203148_i();
+         this.distance = 5.0F + FatPhantomEntity.this.random.nextFloat() * 10.0F;
+         this.height = -4.0F + FatPhantomEntity.this.random.nextFloat() * 9.0F;
+         this.clockwise = FatPhantomEntity.this.random.nextBoolean() ? 1.0F : -1.0F;
+         this.selectNext();
       }
 
       public void tick()
       {
-         if (FatPhantomEntity.this.rand.nextInt(350) == 0)
-         {
-            this.field_203152_e = -4.0F + FatPhantomEntity.this.rand.nextFloat() * 9.0F;
-         }
+         if (FatPhantomEntity.this.random.nextInt(this.adjustedTickDelay(350)) == 0) {this.height = -4.0F + FatPhantomEntity.this.random.nextFloat() * 9.0F;}
 
-         if (FatPhantomEntity.this.rand.nextInt(250) == 0)
+         if (FatPhantomEntity.this.random.nextInt(this.adjustedTickDelay(250)) == 0)
          {
-            ++this.field_203151_d;
-            if (this.field_203151_d > 15.0F)
+            ++this.distance;
+            if (this.distance > 15.0F)
             {
-               this.field_203151_d = 5.0F;
-               this.field_203153_f = -this.field_203153_f;
+               this.distance = 5.0F;
+               this.clockwise = -this.clockwise;
             }
          }
 
-         if (FatPhantomEntity.this.rand.nextInt(450) == 0)
+         if (FatPhantomEntity.this.random.nextInt(this.adjustedTickDelay(450)) == 0)
          {
-            this.field_203150_c = FatPhantomEntity.this.rand.nextFloat() * 2.0F * (float)Math.PI;
-            this.func_203148_i();
+            this.angle = FatPhantomEntity.this.random.nextFloat() * 2.0F * (float)Math.PI;
+            this.selectNext();
          }
 
-         if (this.func_203146_f())
+         if (this.touchingTarget()) {this.selectNext();}
+
+         if (FatPhantomEntity.this.orbitOffset.y < FatPhantomEntity.this.getY() && !FatPhantomEntity.this.level.isEmptyBlock(FatPhantomEntity.this.blockPosition().below(1)))
          {
-            this.func_203148_i();
+            this.height = Math.max(1.0F, this.height);
+            this.selectNext();
          }
 
-         if (FatPhantomEntity.this.orbitOffset.y < FatPhantomEntity.this.getPosY() && !FatPhantomEntity.this.world.isAirBlock(FatPhantomEntity.this.getPosition().down(1)))
+         if (FatPhantomEntity.this.orbitOffset.y > FatPhantomEntity.this.getY() && !FatPhantomEntity.this.level.isEmptyBlock(FatPhantomEntity.this.blockPosition().above(1)))
          {
-            this.field_203152_e = Math.max(1.0F, this.field_203152_e);
-            this.func_203148_i();
+            this.height = Math.min(-1.0F, this.height);
+            this.selectNext();
          }
 
-         if (FatPhantomEntity.this.orbitOffset.y > FatPhantomEntity.this.getPosY() && !FatPhantomEntity.this.world.isAirBlock(FatPhantomEntity.this.getPosition().up(1)))
-         {
-            this.field_203152_e = Math.min(-1.0F, this.field_203152_e);
-            this.func_203148_i();
-         }
       }
 
-      private void func_203148_i()
+      private void selectNext()
       {
-         if (BlockPos.ZERO.equals(FatPhantomEntity.this.orbitPosition))
-         {
-            FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.getPosition();
-         }
+         if (BlockPos.ZERO.equals(FatPhantomEntity.this.orbitPosition)) {FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.blockPosition();}
 
-         this.field_203150_c += this.field_203153_f * 15.0F * ((float)Math.PI / 180F);
-         FatPhantomEntity.this.orbitOffset = Vector3d.copy(FatPhantomEntity.this.orbitPosition).add((double)(this.field_203151_d * MathHelper.cos(this.field_203150_c)), (double)(-4.0F + this.field_203152_e), (double)(this.field_203151_d * MathHelper.sin(this.field_203150_c)));
+         this.angle += this.clockwise * 15.0F * ((float)Math.PI / 180F);
+         FatPhantomEntity.this.orbitOffset = Vec3.atLowerCornerOf(FatPhantomEntity.this.orbitPosition).add((double)(this.distance * Mth.cos(this.angle)), (double)(-4.0F + this.height), (double)(this.distance * Mth.sin(this.angle)));
       }
    }
 
    class PickAttackGoal extends Goal
    {
-      private int tickDelay;
+      private int nextSweepTick;
 
-      private PickAttackGoal() {}
-
-      public boolean shouldExecute()
+      public boolean canUse()
       {
-         LivingEntity livingentity = FatPhantomEntity.this.getAttackTarget();
-         return livingentity != null ? FatPhantomEntity.this.canAttack(FatPhantomEntity.this.getAttackTarget(), EntityPredicate.DEFAULT) : false;
+         LivingEntity livingentity = FatPhantomEntity.this.getTarget();
+         return livingentity != null ? FatPhantomEntity.this.canAttack(livingentity, TargetingConditions.DEFAULT) : false;
       }
 
-      public void startExecuting()
+      public void start()
       {
-         this.tickDelay = 10;
+         this.nextSweepTick = this.adjustedTickDelay(10);
          FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
-         this.func_203143_f();
+         this.setAnchorAboveTarget();
       }
 
-      public void resetTask()
-      {
-         FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.world.getHeight(Heightmap.Type.MOTION_BLOCKING, FatPhantomEntity.this.orbitPosition).up(10 + FatPhantomEntity.this.rand.nextInt(20));
-      }
+      public void stop() {FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, FatPhantomEntity.this.orbitPosition).above(10 + FatPhantomEntity.this.random.nextInt(20));}
 
       public void tick()
       {
          if (FatPhantomEntity.this.attackPhase == FatPhantomEntity.AttackPhase.CIRCLE)
          {
-            --this.tickDelay;
-            if (this.tickDelay <= 0)
+            --this.nextSweepTick;
+            if (this.nextSweepTick <= 0)
             {
                FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.SWOOP;
-               this.func_203143_f();
-               this.tickDelay = (8 + FatPhantomEntity.this.rand.nextInt(4)) * 20;
-               FatPhantomEntity.this.playSound(SoundEvents.ENTITY_PHANTOM_SWOOP, 10.0F, 0.95F + FatPhantomEntity.this.rand.nextFloat() * 0.1F);
+               this.setAnchorAboveTarget();
+               this.nextSweepTick = this.adjustedTickDelay((8 + FatPhantomEntity.this.random.nextInt(4)) * 20);
+               FatPhantomEntity.this.playSound(SoundEvents.PHANTOM_SWOOP, 10.0F, 0.95F + FatPhantomEntity.this.random.nextFloat() * 0.1F);
             }
          }
       }
 
-      private void func_203143_f()
+      private void setAnchorAboveTarget()
       {
-         FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.getAttackTarget().getPosition().up(20 + FatPhantomEntity.this.rand.nextInt(20));
-         if (FatPhantomEntity.this.orbitPosition.getY() < FatPhantomEntity.this.world.getSeaLevel())
+         FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.getTarget().blockPosition().above(20 + FatPhantomEntity.this.random.nextInt(20));
+         if (FatPhantomEntity.this.orbitPosition.getY() < FatPhantomEntity.this.level.getSeaLevel())
          {
-            FatPhantomEntity.this.orbitPosition = new BlockPos(FatPhantomEntity.this.orbitPosition.getX(), FatPhantomEntity.this.world.getSeaLevel() + 1, FatPhantomEntity.this.orbitPosition.getZ());
+            FatPhantomEntity.this.orbitPosition = new BlockPos(FatPhantomEntity.this.orbitPosition.getX(), FatPhantomEntity.this.level.getSeaLevel() + 1, FatPhantomEntity.this.orbitPosition.getZ());
          }
       }
    }
@@ -616,73 +529,39 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
    {
       private SweepAttackGoal() {}
 
-      public boolean shouldExecute()
+      public boolean canUse() {return FatPhantomEntity.this.getTarget() != null && FatPhantomEntity.this.attackPhase == FatPhantomEntity.AttackPhase.SWOOP;}
+
+      public boolean canContinueToUse()
       {
-         return FatPhantomEntity.this.getAttackTarget() != null && FatPhantomEntity.this.attackPhase == FatPhantomEntity.AttackPhase.SWOOP;
+         LivingEntity livingentity = FatPhantomEntity.this.getTarget();
+         if (livingentity == null) {return false;}
+         else if (!livingentity.isAlive()) {return false;}
+         else if (!(livingentity instanceof Player) || !((Player)livingentity).isSpectator() && !((Player)livingentity).isCreative()) {return this.canUse();}
+         else {return false;}
       }
 
-      public boolean shouldContinueExecuting()
-      {
-         LivingEntity livingentity = FatPhantomEntity.this.getAttackTarget();
-         if (livingentity == null)
-         {
-            return false;
-         }
-         else if (!livingentity.isAlive())
-         {
-            return false;
-         }
-         else if (!(livingentity instanceof PlayerEntity) || !((PlayerEntity)livingentity).isSpectator() && !((PlayerEntity)livingentity).isCreative())
-         {
-            if (!this.shouldExecute())
-            {
-               return false;
-            }
-            else
-            {
-               if (FatPhantomEntity.this.ticksExisted % 20 == 0)
-               {
-                  List<CatEntity> list = FatPhantomEntity.this.world.getEntitiesWithinAABB(CatEntity.class, FatPhantomEntity.this.getBoundingBox().grow(16.0D), EntityPredicates.IS_ALIVE);
-                  if (!list.isEmpty())
-                  {
-                     for(CatEntity catentity : list)
-                     {
-                        catentity.func_213420_ej();
-                     }
-                     return false;
-                  }
-               }
-               return true;
-            }
-         }
-         else
-         {
-            return false;
-         }
-      }
+      public void start() {}
 
-      public void startExecuting() {}
-
-      public void resetTask()
+      public void stop()
       {
-         FatPhantomEntity.this.setAttackTarget((LivingEntity)null);
+         FatPhantomEntity.this.setTarget((LivingEntity)null);
          FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
       }
 
       public void tick()
       {
-         LivingEntity livingentity = FatPhantomEntity.this.getAttackTarget();
-         FatPhantomEntity.this.orbitOffset = new Vector3d(livingentity.getPosX(), livingentity.getPosYHeight(0.5D), livingentity.getPosZ());
-         if (FatPhantomEntity.this.getBoundingBox().grow((double)0.2F).intersects(livingentity.getBoundingBox()))
+         LivingEntity livingentity = FatPhantomEntity.this.getTarget();
+         FatPhantomEntity.this.orbitOffset = new Vec3(livingentity.getX(), livingentity.getY(0.5D), livingentity.getZ());
+         if (FatPhantomEntity.this.getBoundingBox().inflate(0.2F).intersects(livingentity.getBoundingBox()))
          {
-            FatPhantomEntity.this.attackEntityAsMob(livingentity);
+            FatPhantomEntity.this.doHurtTarget(livingentity);
             FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
             if (!FatPhantomEntity.this.isSilent())
             {
-               FatPhantomEntity.this.world.playEvent(1039, FatPhantomEntity.this.getPosition(), 0);
+               FatPhantomEntity.this.level.levelEvent(1039, FatPhantomEntity.this.blockPosition(), 0);
             }
          }
-         else if (FatPhantomEntity.this.collidedHorizontally || FatPhantomEntity.this.hurtTime > 0)
+         else if (FatPhantomEntity.this.horizontalCollision || FatPhantomEntity.this.hurtTime > 0)
          {
             FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
          }

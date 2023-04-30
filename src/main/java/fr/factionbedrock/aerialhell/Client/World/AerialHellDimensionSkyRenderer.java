@@ -1,24 +1,24 @@
 package fr.factionbedrock.aerialhell.Client.World;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.multiplayer.ClientLevel;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.renderer.FogRenderer;
-import net.minecraft.client.renderer.Tessellator;
+import com.mojang.blaze3d.vertex.Tesselator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.resources.ResourceLocation;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -59,11 +59,11 @@ public class AerialHellDimensionSkyRenderer implements ISkyRenderHandler
 		this.starVBO.upload(bufferbuilder);
 	}
 
-	// Copy from net.minecraft.client.renderer.WorldRenderer renderSky(MatrixStack matrixStackIn, float partialTicks) function, only overworld part
+	// Copy from net.minecraft.client.renderer.WorldRenderer renderSky(PoseStack matrixStackIn, float partialTicks) function, only overworld part
 	@SuppressWarnings("deprecation")
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void render(int ticks, float partialTicks, MatrixStack matrixStackIn, ClientWorld world, Minecraft mc)
+	public void render(int ticks, float partialTicks, PoseStack matrixStackIn, ClientLevel world, Minecraft mc)
 	{
 		WorldRenderer worldRenderer = mc.worldRenderer;
 		TextureManager textureManager = mc.getTextureManager();
@@ -79,7 +79,7 @@ public class AerialHellDimensionSkyRenderer implements ISkyRenderHandler
 	    
 	    worldRenderer.skyVBO.bindBuffer();
 		this.skyVertexFormat.setupBufferState(0L);
-		worldRenderer.skyVBO.draw(matrixStackIn.getLast().getMatrix(), 7);
+		worldRenderer.skyVBO.draw(matrixStackIn.last().pose(), 7);
 		VertexBuffer.unbindBuffer();
 		this.skyVertexFormat.clearBufferState();
 		
@@ -96,21 +96,21 @@ public class AerialHellDimensionSkyRenderer implements ISkyRenderHandler
 	        RenderSystem.shadeModel(7425); //overworld value : 7425 ; cool value : 3612
 	        matrixStackIn.push();
 	        matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0F));
-	        float f3 = MathHelper.sin(world.getCelestialAngleRadians(partialTicks)) < 0.0F ? 180.0F : 0.0F;
+	        float f3 = Mth.sin(world.getCelestialAngleRadians(partialTicks)) < 0.0F ? 180.0F : 0.0F;
 	        matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(f3));
 	        matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(90.0F));
 	        float f4 = afloat[0];
 	        float f5 = afloat[1];
 	        float f6 = afloat[2];
-	        Matrix4f matrix4f = matrixStackIn.getLast().getMatrix();
+	        Matrix4f matrix4f = matrixStackIn.last().pose();
 	        bufferbuilder.begin(6, DefaultVertexFormats.POSITION_COLOR);
 	        bufferbuilder.pos(matrix4f, 0.0F, 100.0F, 0.0F).color(f4, f5, f6, afloat[3]).endVertex();
 	
 	        for(int j = 0; j <= 16; ++j)
 	        {
 	        	float f7 = (float)j * ((float)Math.PI * 2F) / 16.0F;
-	        	float f8 = MathHelper.sin(f7);
-	        	float f9 = MathHelper.cos(f7);
+	        	float f8 = Mth.sin(f7);
+	        	float f9 = Mth.cos(f7);
 	        	bufferbuilder.pos(matrix4f, f8 * 120.0F, f9 * 120.0F, -f9 * 40.0F * afloat[3]).color(afloat[0], afloat[1], afloat[2], 0.0F).endVertex();
 	        }
 	
@@ -133,7 +133,7 @@ public class AerialHellDimensionSkyRenderer implements ISkyRenderHandler
 	    //sun and moon
 	    float moonBrightness = Math.min(world.getStarBrightness(partialTicks) * 2, 1.0F); //Moon brightness = 0.0F during the day, 1.0F during the night. Using / 0.5F and "min" because StarBrightness is never 1.0F (never above 0.6F) apparently
 	    float sunBrightness = 1.0F - moonBrightness; //Sun brightness = 1.0F during the day, 0.0F during the night
-	    Matrix4f matrix4f1 = matrixStackIn.getLast().getMatrix();
+	    Matrix4f matrix4f1 = matrixStackIn.last().pose();
 	    RenderSystem.color4f(1.0F, 1.0F, 1.0F, sunBrightness); //Sun is visible only during the day
 	    float f12 = 30.0F;
 	    textureManager.bindTexture(AERIAL_HELL_SUN_TEXTURES);
@@ -172,7 +172,7 @@ public class AerialHellDimensionSkyRenderer implements ISkyRenderHandler
 	       //RenderSystem.color4f(starBrightness, starBrightness, starBrightness, starBrightness); //vanilla
 	       this.starVBO.bindBuffer();
 	       this.skyVertexFormat.setupBufferState(0L);
-	       this.starVBO.draw(matrixStackIn.getLast().getMatrix(), 7);
+	       this.starVBO.draw(matrixStackIn.last().pose(), 7);
 	       VertexBuffer.unbindBuffer();
 	       this.skyVertexFormat.clearBufferState();
 	    }
@@ -192,7 +192,7 @@ public class AerialHellDimensionSkyRenderer implements ISkyRenderHandler
 	       matrixStackIn.translate(0.0D, 12.0D, 0.0D);
 	       worldRenderer.sky2VBO.bindBuffer();
 	       this.skyVertexFormat.setupBufferState(0L);
-	       worldRenderer.sky2VBO.draw(matrixStackIn.getLast().getMatrix(), 7);
+	       worldRenderer.sky2VBO.draw(matrixStackIn.last().pose(), 7);
 	       VertexBuffer.unbindBuffer();
 	       this.skyVertexFormat.clearBufferState();
 	       matrixStackIn.pop();

@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.ElementSpiritModel;
@@ -9,7 +9,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.ElectroSpiritEn
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.IceSpiritEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class ElementSpiritRender<T extends AbstractElementSpiritEntity> extends MobRenderer<T, ElementSpiritModel<T>>
 {
@@ -23,7 +23,7 @@ public class ElementSpiritRender<T extends AbstractElementSpiritEntity> extends 
 	}
     
     @Override
-    protected void preRenderCallback(T entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime)
+    protected void preRenderCallback(T entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
     {
         float f = 0.6F;
         matrixStackIn.scale(f, f, f);

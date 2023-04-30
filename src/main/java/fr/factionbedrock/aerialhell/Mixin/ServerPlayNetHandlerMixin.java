@@ -8,17 +8,17 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import fr.factionbedrock.aerialhell.TileEntity.AerialHellSignTileEntity;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import fr.factionbedrock.aerialhell.BlockEntity.AerialHellSignBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.network.play.ServerPlayNetHandler;
 import net.minecraft.network.play.client.CUpdateSignPacket;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
 
 @Mixin(ServerPlayNetHandler.class)
 public class ServerPlayNetHandlerMixin
@@ -27,7 +27,7 @@ public class ServerPlayNetHandlerMixin
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	@Shadow
-	public ServerPlayerEntity player;
+	public ServerPlayer player;
 
 	@Inject(method = "processUpdateSign", at = @At(value = "HEAD"), cancellable = true)
 	private void be_signUpdate(CUpdateSignPacket packet, CallbackInfo info)
@@ -39,10 +39,10 @@ public class ServerPlayNetHandlerMixin
 		if (serverWorld.isBlockLoaded(blockPos))
 		{
 			BlockState blockState = serverWorld.getBlockState(blockPos);
-			TileEntity blockEntity = serverWorld.getTileEntity(blockPos);
-			if (blockEntity instanceof AerialHellSignTileEntity)
+			BlockEntity blockEntity = serverWorld.getBlockEntity(blockPos);
+			if (blockEntity instanceof AerialHellSignBlockEntity)
 			{
-				AerialHellSignTileEntity signBlockEntity = (AerialHellSignTileEntity) blockEntity;
+				AerialHellSignBlockEntity signBlockEntity = (AerialHellSignBlockEntity) blockEntity;
 				if (!signBlockEntity.isEditable() || signBlockEntity.getEditor() != this.player)
 				{
 					LOGGER.warn("Player {} just tried to change non-editable sign", this.player.getName().getString());

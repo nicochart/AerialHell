@@ -2,52 +2,53 @@ package fr.factionbedrock.aerialhell.Block;
 
 import java.util.Random;
 
-import fr.factionbedrock.aerialhell.TileEntity.FreezerTileEntity;
+import fr.factionbedrock.aerialhell.BlockEntity.FreezerBlockEntity;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import net.minecraft.block.AbstractFurnaceBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
+import fr.factionbedrock.aerialhell.BlockEntity.OscillatorBlockEntity;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.level.block.AbstractFurnaceBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 
-import net.minecraft.block.AbstractBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public class FreezerBlock extends AbstractFurnaceBlock
 {
-	public FreezerBlock(AbstractBlock.Properties properties)
+	public FreezerBlock(BlockBehaviour.Properties properties)
 	{
 		super(properties);
 	}
 	
 	@Override
-	public TileEntity createNewTileEntity(IBlockReader worldIn)
+	public BlockEntity newBlockEntity(BlockGetter worldIn)
 	{
-		return new FreezerTileEntity();
+		return new FreezerBlockEntity();
 	}
 	
 	@Override
-	protected void interactWith(World worldIn, BlockPos pos, PlayerEntity player)
+	protected void openContainer(Level worldIn, BlockPos pos, Player player)
 	{
-		if (!worldIn.isRemote)
-		{ 
-			TileEntity tileentity = worldIn.getTileEntity(pos);
-			if (tileentity instanceof FreezerTileEntity)
-			{
-				player.openContainer((INamedContainerProvider) tileentity);
-			}
+		BlockEntity blockentity = worldIn.getBlockEntity(pos);
+		if (blockentity instanceof FreezerBlockEntity)
+		{
+			player.openMenu((MenuProvider)blockentity);
 		}
 	}
 	
 	@Override
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand)
 	{
-		if (state.get(LIT))
+		if (state.getValue(LIT))
 		{
 			float x = pos.getX() + 0.5F;
 			float y = pos.getY() + 0.7F + (rand.nextFloat() * 6.0F) / 16.0F;
@@ -60,7 +61,7 @@ public class FreezerBlock extends AbstractFurnaceBlock
 				world.addParticle(AerialHellParticleTypes.SNOWFLAKE.get(), x + 1.5F * (rand.nextFloat() - 0.5F), y, z + 1.5F * (rand.nextFloat() - 0.5F), 0.4 * (rand.nextFloat() - 0.5F), 0.0F, 0.4 * (rand.nextFloat() - 0.5F));
 			}
 
-			world.playSound(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+			world.playLocalSound(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0F, 1.0F, false);
 		}
 	}
 }

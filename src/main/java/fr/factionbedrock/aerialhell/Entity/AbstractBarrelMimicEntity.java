@@ -1,13 +1,13 @@
 package fr.factionbedrock.aerialhell.Entity;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 
 public abstract class AbstractBarrelMimicEntity extends AbstractMimicEntity
 {
-	public AbstractBarrelMimicEntity(EntityType<? extends AbstractBarrelMimicEntity> type, World worldIn) {super(type, worldIn);}
+	public AbstractBarrelMimicEntity(EntityType<? extends AbstractBarrelMimicEntity> type, Level worldIn) {super(type, worldIn);}
 
-	@Override protected SoundEvent getDeathSound() {return SoundEvents.BLOCK_BARREL_CLOSE;}
+	@Override protected SoundEvent getDeathSound() {return SoundEvents.BARREL_CLOSE;}
 }

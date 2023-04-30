@@ -2,34 +2,34 @@ package fr.factionbedrock.aerialhell.Item;
 
 import fr.factionbedrock.aerialhell.Block.AerialHellPortalBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.context.UseOnContext;
 
 public class StellarLighterItem extends WithInformationItem
 {
 	public StellarLighterItem(Properties properties) {super(properties);}
 	
 	@Override
-    public ActionResultType onItemUse(ItemUseContext context)
+    public InteractionResult useOn(UseOnContext context)
 	{
-		PlayerEntity player = context.getPlayer();
+		Player player = context.getPlayer();
         if(context.getPlayer() != null)
         {
             for(Direction direction : Direction.Plane.VERTICAL)
             {
-                BlockPos framePos = context.getPos().offset(direction);
-                if(((AerialHellPortalBlock) AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get()).trySpawnPortal(context.getWorld(), framePos))
+                BlockPos framePos = context.getClickedPos().relative(direction);
+                if(((AerialHellPortalBlock) AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get()).trySpawnPortal(context.getLevel(), framePos))
                 {
-                	context.getPlayer().getCooldownTracker().setCooldown(this, 50);
-                	context.getItem().damageItem(1, player, (p) -> {p.sendBreakAnimation(player.getActiveHand());});
-                	return ActionResultType.CONSUME;
+                	context.getPlayer().getCooldowns().addCooldown(this, 50);
+                	context.getItemInHand().hurtAndBreak(1, player, (p) -> {p.broadcastBreakEvent(player.getUsedItemHand());});
+                	return InteractionResult.CONSUME;
                 }
-                else {return ActionResultType.FAIL;}
+                else {return InteractionResult.FAIL;}
             }
         }
-        return ActionResultType.FAIL;
+        return InteractionResult.FAIL;
     }
 }

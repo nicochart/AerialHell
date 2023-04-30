@@ -3,36 +3,36 @@ package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.PlayMessages;
 
 public class GoldShurikenEntity extends AbstractShurikenEntity
 {
-	public GoldShurikenEntity(EntityType<? extends GoldShurikenEntity> entityTypeIn, World worldIn)
+	public GoldShurikenEntity(EntityType<? extends GoldShurikenEntity> entityTypeIn, Level worldIn)
 	{
 		super(entityTypeIn, worldIn);
 	}
 
-	public GoldShurikenEntity(double x, double y, double z, World worldIn)
+	public GoldShurikenEntity(double x, double y, double z, Level worldIn)
 	{
 		super(AerialHellEntities.GOLD_SHURIKEN.get(), x, y, z, worldIn);
 	}
 
-	public GoldShurikenEntity(LivingEntity shooter, World worldIn)
+	public GoldShurikenEntity(LivingEntity shooter, Level worldIn)
 	{
 		super(AerialHellEntities.GOLD_SHURIKEN.get(), shooter, worldIn);
 	}
 
-	public GoldShurikenEntity(World worldIn)
+	public GoldShurikenEntity(Level worldIn)
 	{
 		super(AerialHellEntities.GOLD_SHURIKEN.get(), worldIn);
 	}
 
-	public GoldShurikenEntity(FMLPlayMessages.SpawnEntity packet, World worldIn)
+	public GoldShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
 	{
 		super(AerialHellEntities.GOLD_SHURIKEN.get(), worldIn);
 	}

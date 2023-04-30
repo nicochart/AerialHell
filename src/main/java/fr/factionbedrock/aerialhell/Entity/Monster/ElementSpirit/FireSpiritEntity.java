@@ -5,40 +5,40 @@ import javax.annotation.Nullable;
 import fr.factionbedrock.aerialhell.Entity.AbstractElementSpiritEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 
 public class FireSpiritEntity extends AbstractElementSpiritEntity
 {
-	public FireSpiritEntity(EntityType<? extends FireSpiritEntity> type, World worldIn)
+	public FireSpiritEntity(EntityType<? extends FireSpiritEntity> type, Level worldIn)
     {
         super(type, worldIn);
     }
 
-    public FireSpiritEntity(World worldIn)
+    public FireSpiritEntity(Level worldIn)
     {
         this(AerialHellEntities.FIRE_SPIRIT.get(), worldIn);
     }
     
     public void applyEffect(Entity entityIn)
     {
-    	((LivingEntity) entityIn).setFire(6);
+    	((LivingEntity) entityIn).setSecondsOnFire(6);
     }
     
-    public BasicParticleType getParticleToSpawn()
+    public SimpleParticleType getParticleToSpawn()
     {
     	return ParticleTypes.FLAME;
     }
     
-    @Override public boolean isImmuneToFire() {return true;}
-	@Override public boolean canRenderOnFire() {return false;}
+    @Override public boolean fireImmune() {return true;}
+	@Override public boolean displayFireAnimation() {return false;}
 	
     @Nullable
     @Override
@@ -51,13 +51,13 @@ public class FireSpiritEntity extends AbstractElementSpiritEntity
     @Override
     protected SoundEvent getDeathSound()
     {
-        return SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE;
+        return SoundEvents.GENERIC_EXTINGUISH_FIRE;
     }
 
     @Nullable
     @Override
     protected SoundEvent getAmbientSound()
     {
-        return SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE;
+        return SoundEvents.FURNACE_FIRE_CRACKLE;
     }
 }

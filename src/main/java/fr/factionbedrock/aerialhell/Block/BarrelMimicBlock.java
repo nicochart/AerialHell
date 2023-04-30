@@ -4,63 +4,67 @@ import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.AbstractBarrelMimicEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.ShadowPineBarrelMimicEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import net.minecraft.block.*;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class BarrelMimicBlock extends RotatedPillarBlock
 {
 	public BarrelMimicBlock(Properties properties) {super(properties);}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
+	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
 	{
-		if (worldIn.isRemote) {addSpawnParticle(worldIn, pos);}
+		if (worldIn.isClientSide()) {addSpawnParticle(worldIn, pos);}
 		else
 		{
-			worldIn.playSound(null, pos, SoundEvents.BLOCK_BARREL_OPEN, SoundCategory.BLOCKS, 0.5F, 0.7F + 0.5F * worldIn.rand.nextFloat());
+			worldIn.playSound(null, pos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 0.5F, 0.7F + 0.5F * worldIn.random.nextFloat());
 			revealMimic(state, worldIn, pos);
-			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
+			worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 		}
-		return ActionResultType.SUCCESS;
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override
-	public void spawnAdditionalDrops(BlockState state, ServerWorld worldIn, BlockPos pos, ItemStack stack)
+	public void spawnAfterBreak(BlockState state, ServerLevel worldIn, BlockPos pos, ItemStack stack)
 	{
-		super.spawnAdditionalDrops(state, worldIn, pos, stack);
+		super.spawnAfterBreak(state, worldIn, pos, stack);
 		revealMimic(state, worldIn, pos);
 	}
 
-	private void revealMimic(BlockState state, World worldIn, BlockPos pos)
+	private void revealMimic(BlockState state, Level worldIn, BlockPos pos)
 	{
 		AbstractBarrelMimicEntity barrelMimic = getNewBarrelMimicEntity(worldIn);
-		barrelMimic.setPositionAndRotation(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0.0F, 0.0F);
-		worldIn.addEntity(barrelMimic);
+		barrelMimic.absMoveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0.0F, 0.0F);
+		worldIn.addFreshEntity(barrelMimic);
 	}
 
-	public void addSpawnParticle(World worldIn, BlockPos pos)
+	public void addSpawnParticle(Level worldIn, BlockPos pos)
 	{
 		for(int i = 0; i < 20; ++i)
 		{
-			double dx = worldIn.rand.nextGaussian() * 0.04D, dy = worldIn.rand.nextGaussian() * 0.04D, dz = worldIn.rand.nextGaussian() * 0.04D;
+			double dx = worldIn.random.nextGaussian() * 0.04D, dy = worldIn.random.nextGaussian() * 0.04D, dz = worldIn.random.nextGaussian() * 0.04D;
 			double x = pos.getX() + 0.5F + dx * 10.0D, y = pos.getY() + 0.5F + dy * 10.0D, z = pos.getZ() + 0.5F + dz * 10.0D;
 			worldIn.addParticle(this.getMimicSpawnParticle(), x, y, z, dx * 10.0D, dy * 10.0D, dz * 10.0D);
 		}
 	}
 
-	private BasicParticleType getMimicSpawnParticle()
+	private SimpleParticleType getMimicSpawnParticle()
 	{
 		/*if (this == AerialHellBlocksAndItems.SHADOW_PINE_BARREL_MIMIC.get())*/ {return AerialHellParticleTypes.SHADOW_PARTICLE.get();}
 	}
 
-	private AbstractBarrelMimicEntity getNewBarrelMimicEntity(World worldIn)
+	private AbstractBarrelMimicEntity getNewBarrelMimicEntity(Level worldIn)
 	{
 		/*if (this == AerialHellBlocksAndItems.SHADOW_PINE_BARREL_MIMIC.get())*/ {return new ShadowPineBarrelMimicEntity(AerialHellEntities.SHADOW_PINE_MIMIC.get(), worldIn);}
 	}

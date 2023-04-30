@@ -2,15 +2,15 @@ package fr.factionbedrock.aerialhell.Item.Shuriken;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.AzuriteShurikenEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Rarity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.Level;
 
 public class AzuriteShurikenItem extends AbstractShurikenItem
 {
-	public AzuriteShurikenItem(ItemGroup group)
+	public AzuriteShurikenItem(CreativeModeTab group)
 	{
 		super(new Item.Properties().rarity(Rarity.COMMON), group);
 	}
@@ -23,5 +23,5 @@ public class AzuriteShurikenItem extends AbstractShurikenItem
 	@Override protected float getVelocity() {return 2.0F;}
 	@Override protected float getInaccuracy() {return 1.0F;}
 	@Override protected int getCooldown() {return 8;}
-	@Override protected AbstractShurikenEntity getKnifeEntity(PlayerEntity playerIn, World worldIn) {return new AzuriteShurikenEntity(playerIn, worldIn);}
+	@Override protected AbstractShurikenEntity getKnifeEntity(Player playerIn, Level worldIn) {return new AzuriteShurikenEntity(playerIn, worldIn);}
 }

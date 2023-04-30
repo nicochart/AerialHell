@@ -1,12 +1,12 @@
 package fr.factionbedrock.aerialhell.Block;
 
-import net.minecraft.block.Block;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 public class ArsonistBlock extends Block
 {
@@ -15,15 +15,15 @@ public class ArsonistBlock extends Block
 		super(properties);
 	}
 	
-	public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn)
+	public void stepOn(Level worldIn, BlockPos pos, Entity entityIn)
 	{
 		if (entityIn instanceof LivingEntity)
 		{
-			if (!entityIn.isImmuneToFire() && !EnchantmentHelper.hasFrostWalker((LivingEntity)entityIn))
+			if (!entityIn.fireImmune() && !EnchantmentHelper.hasFrostWalker((LivingEntity)entityIn))
 			{
-		         entityIn.attackEntityFrom(DamageSource.HOT_FLOOR, 1.0F);
+		         entityIn.hurt(DamageSource.HOT_FLOOR, 1.0F);
 			}
-			entityIn.setFire(2);
+			entityIn.setSecondsOnFire(2);
 		}
 	}
 }

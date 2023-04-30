@@ -1,19 +1,16 @@
 package fr.factionbedrock.aerialhell.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.DimensionType;
-import net.minecraft.world.World;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.dimension.DimensionType;
 
 public class AerialHellDimensions
 {
-	public static final RegistryKey<DimensionType> AERIAL_HELL_DIMENSION_TYPE = RegistryKey.getOrCreateKey(Registry.DIMENSION_TYPE_KEY, name("aerial_hell"));
-    public static final RegistryKey<World> AERIAL_HELL_DIMENSION = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, name("aerial_hell"));
+	public static final ResourceKey<DimensionType> AERIAL_HELL_DIMENSION_TYPE = ResourceKey.create(Registry.DIMENSION_TYPE_REGISTRY, name("aerial_hell"));
+    public static final ResourceKey<Level> AERIAL_HELL_DIMENSION = ResourceKey.create(Registry.DIMENSION_REGISTRY, name("aerial_hell"));
     
-    private static ResourceLocation name(String name)
-    {
-        return new ResourceLocation(AerialHell.MODID, name);
-    }
+    private static ResourceLocation name(String name) {return new ResourceLocation(AerialHell.MODID, name);}
 }

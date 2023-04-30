@@ -1,43 +1,42 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.network.IPacket;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.network.NetworkHooks;
 
-public abstract class AbstractAerialArrowEntity extends AbstractArrowEntity
+public abstract class AbstractAerialArrowEntity extends AbstractArrow
 {
     public int ticksLiving;
-    protected AbstractAerialArrowEntity(EntityType<? extends AbstractArrowEntity> type, World worldIn)
+    protected AbstractAerialArrowEntity(EntityType<? extends AbstractArrow> type, Level worldIn)
     {
         super(type, worldIn);
         this.ticksLiving = 0;
     }
 
-    public AbstractAerialArrowEntity(EntityType<? extends AbstractArrowEntity> type, double x, double y, double z, World worldIn)
+    public AbstractAerialArrowEntity(EntityType<? extends AbstractArrow> type, double x, double y, double z, Level worldIn)
     {
         super(type, x, y, z, worldIn);
         this.ticksLiving = 0;
     }
 
-    public AbstractAerialArrowEntity(EntityType<? extends AbstractArrowEntity> type, LivingEntity shooter, World worldIn)
+    public AbstractAerialArrowEntity(EntityType<? extends AbstractArrow> type, LivingEntity shooter, Level worldIn)
     {
         super(type, shooter, worldIn);
         this.ticksLiving = 0;
     }
 
     @Override
-    protected void func_230299_a_(BlockRayTraceResult result)
+    protected void onHitBlock(BlockHitResult result)
     {
-        super.func_230299_a_(result);
+        super.onHitBlock(result);
         this.setNoGravity(false);
     }
 
-    @Override
-    public IPacket<?> createSpawnPacket()
+    public Packet<?> getAddEntityPacket()
     {
         return NetworkHooks.getEntitySpawningPacket(this);
     }

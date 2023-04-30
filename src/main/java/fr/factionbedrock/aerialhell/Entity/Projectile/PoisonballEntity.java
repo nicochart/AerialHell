@@ -2,156 +2,99 @@ package fr.factionbedrock.aerialhell.Entity.Projectile;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.AbstractFireballEntity;
-import net.minecraft.entity.projectile.ProjectileHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.IPacket;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Fireball;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
 
-public class PoisonballEntity extends AbstractFireballEntity
+public class PoisonballEntity extends Fireball
 {
-	private int ticksInAir;
-
-	public PoisonballEntity(EntityType<? extends PoisonballEntity> type, World worldIn)
+	public PoisonballEntity(EntityType<? extends PoisonballEntity> type, Level worldIn)
 	{
 		super(type, worldIn);
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public PoisonballEntity(World worldIn, double x, double y, double z, double accX, double accY, double accZ)
+	public PoisonballEntity(Level worldIn, double x, double y, double z, double accX, double accY, double accZ)
 	{
 		super(AerialHellEntities.POISONBALL.get(), x, y, z, accX, accY, accZ, worldIn);
 	}
 
-	public PoisonballEntity(World worldIn, LivingEntity shooter, double accX, double accY, double accZ)
+	public PoisonballEntity(Level worldIn, LivingEntity shooter, double accX, double accY, double accZ)
 	{
 		super(AerialHellEntities.POISONBALL.get(), shooter, accX, accY, accZ, worldIn);
 	}
 
-	@Override protected boolean isFireballFiery() {return false;}
+	@Override public boolean fireImmune() {return true;}
+	@Override protected boolean shouldBurn() {return false;}
 	@Override public float getBrightness() {return 0.0F;}
 	
 	@Override
-	protected void onImpact(RayTraceResult result)
+	protected void onHit(HitResult result)
 	{
-		super.onImpact(result);
-		if (result.getType() == RayTraceResult.Type.ENTITY)
+		super.onHit(result);
+		if (result.getType() == HitResult.Type.ENTITY)
 		{
-			Entity entity = ((EntityRayTraceResult)result).getEntity();
+			Entity entity = ((EntityHitResult)result).getEntity();
 			if (entity instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune((LivingEntity) entity))
 			{
 				LivingEntity livingEntity = (LivingEntity)entity;
 
-				if (!livingEntity.isActiveItemStackBlocking())
+				if (!livingEntity.isBlocking())
 				{
-					entity.setMotion(this.getMotion().x * 0.3, entity.getMotion().y + 0.1, this.getMotion().z * 0.3);
+					entity.setDeltaMovement(this.getDeltaMovement().x * 0.3, entity.getDeltaMovement().y + 0.1, this.getDeltaMovement().z * 0.3);
 				}
 				else
 				{
-					ItemStack activeItemStack = livingEntity.getActiveItemStack();
-					activeItemStack.damageItem(1, livingEntity, p -> p.sendBreakAnimation(activeItemStack.getEquipmentSlot()));
-
-					if (activeItemStack.getCount() <= 0)
-					{
-						world.playSound((PlayerEntity)null, entity.getPosition(), SoundEvents.ITEM_SHIELD_BREAK, SoundCategory.PLAYERS, 1.0F, 0.8F + this.world.rand.nextFloat() * 0.4F);
-					}
-					else
-					{
-						world.playSound((PlayerEntity)null, entity.getPosition(), SoundEvents.ITEM_SHIELD_BLOCK, SoundCategory.PLAYERS, 1.0F, 0.8F + this.world.rand.nextFloat() * 0.4F);
-					}
+					ItemStack activeItemStack = livingEntity.getUseItem();
+					activeItemStack.hurtAndBreak(1, livingEntity, p -> p.broadcastBreakEvent(activeItemStack.getEquipmentSlot()));
+					level.playSound((Player)null, entity.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1.0F, 0.8F + this.level.random.nextFloat() * 0.4F);
 				}
-				livingEntity.addPotionEffect(new EffectInstance(Effects.POISON, 160, 0));
+				livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 160, 0));
 			}
 		}
-		this.remove();
+		this.discard();
 	}
 
-	@Override
-	protected void registerData()
+	@Override protected void defineSynchedData() {super.defineSynchedData();}
+
+	@Override public void tick()
 	{
-		super.registerData();
-	}
-
-	@SuppressWarnings("deprecation")
-	@Override
-	public void tick()
-	{
-		if (this.world.isRemote || (this.func_234616_v_() == null || this.func_234616_v_().isAlive()) && this.world.isBlockLoaded(new BlockPos(this.getPosition())))
+		Entity entity = this.getOwner();
+		if (this.level.isClientSide || (entity == null || !entity.isRemoved()) && this.level.hasChunkAt(this.blockPosition()))
 		{
-			if (this.isFireballFiery())
+			HitResult raytraceresult = ProjectileUtil.getHitResult(this, this::canHitEntity);
+			if (raytraceresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult))
 			{
-				this.setFire(1);
+				this.onHit(raytraceresult);
 			}
 
-			++this.ticksInAir;
-			RayTraceResult raytraceresult = ProjectileHelper.func_234618_a_(this, this::func_230298_a_);
-			if (raytraceresult.getType() != RayTraceResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult))
-			{
-				this.onImpact(raytraceresult);
-			}
+			Vec3 movement = this.getDeltaMovement();
+			double d0 = this.getX() + movement.x; double d1 = this.getY() + movement.y; double d2 = this.getZ() + movement.z;
+			ProjectileUtil.rotateTowardsMovement(this, 0.2F);
 
-			Vector3d Vector3d = this.getMotion();
-			double d0 = this.getPosX() + Vector3d.x;
-			double d1 = this.getPosY() + Vector3d.y;
-			double d2 = this.getPosZ() + Vector3d.z;
-			ProjectileHelper.rotateTowardsMovement(this, 0.2F);
-			float f = this.getMotionFactor();
-			if (this.isInWater())
-			{
-				for (int i = 0; i < 4; ++i)
-				{
-					this.world.addParticle(ParticleTypes.BUBBLE, d0 - Vector3d.x * 0.25D, d1 - Vector3d.y * 0.25D, d2 - Vector3d.z * 0.25D, Vector3d.x, Vector3d.y, Vector3d.z);
-				}
-
-				f = 0.8F;
-			}
-
-			this.setMotion(Vector3d.add(this.accelerationX, this.accelerationY, this.accelerationZ).scale(f));
-			IParticleData particle = this.getParticle();
-			if (particle != null)
-			{
-				this.world.addParticle(this.getParticle(), d0, d1 + 0.5D, d2, 0.0D, 0.0D, 0.0D);
-			}
-			this.setPosition(d0, d1, d2);
+			this.setDeltaMovement(movement.add(this.xPower, this.yPower, this.zPower));
+			this.setPos(d0, d1, d2);
 		}
-		else
-		{
-			this.remove();
-			return;
-		}
+		else {this.discard(); return;}
 		
-		if (!this.onGround)
-		{
-			++this.ticksInAir;
-		}
-
-		if (this.ticksInAir > 500)
-		{
-			this.remove();
-		}
+		if (this.isInLava() || this.isInWater() || this.tickCount > 500) {this.discard();}
 	}
 
-	@Override
-	protected IParticleData getParticle() {return null;}
-
-	@Override
-	public IPacket<?> createSpawnPacket() {return NetworkHooks.getEntitySpawningPacket(this);}
+	@Override public Packet<?> getAddEntityPacket() {return NetworkHooks.getEntitySpawningPacket(this);}
 }

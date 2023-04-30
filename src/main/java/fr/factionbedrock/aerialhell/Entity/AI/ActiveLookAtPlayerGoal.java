@@ -1,10 +1,10 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 
-public class ActiveLookAtPlayerGoal extends LookAtGoal
+public class ActiveLookAtPlayerGoal extends LookAtPlayerGoal
 {
     protected final AbstractActivableEntity activableGoalOwner;
 
@@ -15,11 +15,11 @@ public class ActiveLookAtPlayerGoal extends LookAtGoal
     }
 
     //Returns whether the EntityAIBase should begin execution.
-    @Override public boolean shouldExecute()
+    @Override public boolean canUse()
     {
-        return this.activableGoalOwner.isActive() && super.shouldExecute();
+        return this.activableGoalOwner.isActive() && super.canUse();
     }
 
     //Returns whether an in-progress EntityAIBase should continue executing
-    @Override public boolean shouldContinueExecuting() {return this.activableGoalOwner.isActive() && super.shouldContinueExecuting();}
+    @Override public boolean canContinueToUse() {return this.activableGoalOwner.isActive() && super.canContinueToUse();}
 }

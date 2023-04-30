@@ -4,5 +4,5 @@
     {
         "particle": "aerialhell:block/shadow_pine_planks"
     },
-    "__comment": "Le modele et le chemin pour aller chercher la texture du bloc en lui même est définie dans le code Java, dans AerialHellChestTileEntityRenderer"
+    "__comment": "Le modele et le chemin pour aller chercher la texture du bloc en lui même est définie dans le code Java, dans AerialHellChestBlockEntityRenderer"
 }

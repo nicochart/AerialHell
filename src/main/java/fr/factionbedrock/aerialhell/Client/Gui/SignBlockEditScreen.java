@@ -2,42 +2,42 @@ package fr.factionbedrock.aerialhell.Client.Gui;
 
 import java.util.Arrays;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import fr.factionbedrock.aerialhell.Block.AerialHellSignBlock;
-import fr.factionbedrock.aerialhell.Client.TileEntityRenderer.AerialHellSignTileEntityRenderer;
-import fr.factionbedrock.aerialhell.TileEntity.AerialHellSignTileEntity;
-import net.minecraft.block.BlockState;
+import fr.factionbedrock.aerialhell.Block.AerialHellStandingSignBlock;
+import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellSignBlockEntityRenderer;
+import fr.factionbedrock.aerialhell.BlockEntity.AerialHellSignBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.DialogTexts;
 import net.minecraft.client.gui.fonts.TextInputUtil;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.network.play.ClientPlayNetHandler;
-import net.minecraft.client.renderer.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
+import com.mojang.blaze3d.vertex.Tesselator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.SignBlockEntityRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.network.play.client.CUpdateSignPacket;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.vector.Matrix4f;
+import com.mojang.math.Matrix4f;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class SignBlockEditScreen extends Screen
 {
-	private final SignTileEntityRenderer.SignModel model = new SignTileEntityRenderer.SignModel();
-	private final AerialHellSignTileEntity sign;
+	private final SignBlockEntityRenderer.SignModel model = new SignBlockEntityRenderer.SignModel();
+	private final AerialHellSignBlockEntity sign;
 	private int ticksSinceOpened;
 	private int currentRow;
 	private TextInputUtil selectionManager;
@@ -46,9 +46,9 @@ public class SignBlockEditScreen extends Screen
 		Arrays.fill(strings, "");
 	});
 
-	public SignBlockEditScreen(AerialHellSignTileEntity sign)
+	public SignBlockEditScreen(AerialHellSignBlockEntity sign)
 	{
-		super(new TranslationTextComponent("sign.edit"));
+		super(new TranslatableComponent("sign.edit"));
 		this.sign = sign;
 	}
 
@@ -140,7 +140,7 @@ public class SignBlockEditScreen extends Screen
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta)
+	public void render(PoseStack matrices, int mouseX, int mouseY, float delta)
 	{
 		RenderHelper.setupGuiFlatDiffuseLighting();
 		this.renderBackground(matrices);
@@ -151,7 +151,7 @@ public class SignBlockEditScreen extends Screen
 		matrices.scale(93.75F, -93.75F, 93.75F);
 		matrices.translate(0.0D, -1.3125D, 0.0D);
 		BlockState blockState = this.sign.getBlockState();
-		boolean bl = blockState.get(AerialHellSignBlock.FLOOR);
+		boolean bl = blockState.get(AerialHellStandingSignBlock.FLOOR);
 
 		if (!bl)
 		{
@@ -163,7 +163,7 @@ public class SignBlockEditScreen extends Screen
 		matrices.push();
 		matrices.scale(0.6666667F, -0.6666667F, -0.6666667F);
 		IRenderTypeBuffer.Impl immediate = this.minecraft.getRenderTypeBuffers().getBufferSource();
-		IVertexBuilder vertexConsumer = AerialHellSignTileEntityRenderer.getConsumer(immediate, blockState.getBlock());
+		IVertexBuilder vertexConsumer = AerialHellSignBlockEntityRenderer.getConsumer(immediate, blockState.getBlock());
 		this.model.signBoard.render(matrices, vertexConsumer, 15728880, OverlayTexture.NO_OVERLAY);
 
 		if (bl) 
@@ -179,7 +179,7 @@ public class SignBlockEditScreen extends Screen
 		int j = this.selectionManager.getEndIndex();
 		int k = this.selectionManager.getStartIndex();
 		int l = this.currentRow * 10 - this.text.length * 5;
-		Matrix4f matrix4f = matrices.getLast().getMatrix();
+		Matrix4f matrix4f = matrices.last().pose();
 
 		int m;
 		String string2;

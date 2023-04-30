@@ -1,31 +1,31 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SaplingBlock;
-import net.minecraft.block.trees.Tree;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.grower.AbstractTreeGrower;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 public class ShadowPineSaplingBlock extends SaplingBlock
 {
-	public ShadowPineSaplingBlock(Tree treeIn, AbstractBlock.Properties properties) {super(treeIn, properties);}
+	public ShadowPineSaplingBlock(AbstractTreeGrower treeIn, BlockBehaviour.Properties properties) {super(treeIn, properties);}
 	
 	@Override
-	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn)
+	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn)
 	{
-		if (!worldIn.isRemote && entityIn instanceof LivingEntity)
+		if (!worldIn.isClientSide() && entityIn instanceof LivingEntity)
     	{
 			LivingEntity livingEntity = (LivingEntity) entityIn;
 			if (!EntityHelper.isImmuneToSomeShadowDamage(livingEntity)) //Not Damage Immune && Not Shadow Immune
 			{
-				((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.WITHER, 40, 0));
-				((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.BLINDNESS, 40, 0));
+				((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.WITHER, 40, 0));
+				((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 40, 0));
 			}
     	}
 	}

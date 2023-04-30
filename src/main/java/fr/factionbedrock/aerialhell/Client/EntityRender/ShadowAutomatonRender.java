@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.EmptyModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.ShadowAutomatonShadowLayer;
@@ -8,8 +8,8 @@ import fr.factionbedrock.aerialhell.Entity.Monster.AutomatonEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -25,14 +25,14 @@ public class ShadowAutomatonRender<T extends AutomatonEntity, M extends EmptyMod
 		this.addLayer(new ShadowAutomatonShadowLayer<T,M>(this));
 	}
 
-	@Override protected void preRenderCallback(T entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime)
+	@Override protected void preRenderCallback(T entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
 	{
 		float f = 0.9F; matrixStackIn.scale(f, f, f);
 	}
 	
 	@Override public ResourceLocation getEntityTexture(AutomatonEntity entity)
 	{
-		if (Minecraft.getInstance().player.isPotionActive(Effects.NIGHT_VISION)) {return TEXTURE_INVERT;}
+		if (Minecraft.getInstance().player.hasEffect(Effects.NIGHT_VISION)) {return TEXTURE_INVERT;}
 		else {return TEXTURE_NORMAL;}
 	}
 }

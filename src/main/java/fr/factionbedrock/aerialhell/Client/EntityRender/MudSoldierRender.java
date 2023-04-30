@@ -5,7 +5,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralSoldierEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.SkeletonRenderer;
 import net.minecraft.entity.monster.AbstractSkeletonEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class MudSoldierRender extends SkeletonRenderer
 {

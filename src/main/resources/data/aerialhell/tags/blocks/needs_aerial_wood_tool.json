@@ -1,0 +1,69 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:fluorite_ore",
+    "aerialhell:fluorite_block",
+
+    "aerialhell:stellar_stone",
+    "aerialhell:mossy_stellar_stone",
+    "aerialhell:stellar_cobblestone",
+    "aerialhell:mossy_stellar_cobblestone",
+    "aerialhell:glaucophanite",
+    "aerialhell:polished_glaucophanite",
+    "aerialhell:stellar_stone_bricks",
+    "aerialhell:slippery_sand_stone",
+    "aerialhell:slippery_sand_stone_bricks",
+    "aerialhell:cut_slippery_sand_stone",
+
+    "aerialhell:stellar_portal_frame_ore",
+    "aerialhell:stellar_portal_frame_block",
+
+    "aerialhell:stellar_stone_button",
+    "aerialhell:stellar_cobblestone_button",
+    "aerialhell:slippery_sand_stone_button",
+    "aerialhell:slippery_sand_stone_bricks_button",
+    "aerialhell:stellar_stone_bricks_button",
+    "aerialhell:glaucophanite_button",
+
+    "aerialhell:stellar_stone_pressure_plate",
+    "aerialhell:slippery_sand_stone_pressure_plate",
+    "aerialhell:slippery_sand_stone_bricks_pressure_plate",
+    "aerialhell:stellar_stone_bricks_pressure_plate",
+    "aerialhell:glaucophanite_pressure_plate",
+
+    "aerialhell:stellar_stone_slab",
+    "aerialhell:stellar_stone_bricks_slab",
+    "aerialhell:mossy_stellar_stone_slab",
+    "aerialhell:mossy_stellar_cobblestone_slab",
+    "aerialhell:slippery_sand_stone_slab",
+    "aerialhell:slippery_sand_stone_bricks_slab",
+    "aerialhell:polished_glaucophanite_slab",
+    "aerialhell:crystal_bricks_slab",
+    "aerialhell:magmatic_gel_slab",
+
+    "aerialhell:stellar_stone_stairs",
+    "aerialhell:stellar_stone_bricks_stairs",
+    "aerialhell:mossy_stellar_stone_stairs",
+    "aerialhell:mossy_stellar_cobblestone_stairs",
+    "aerialhell:slippery_sand_stone_stairs",
+    "aerialhell:slippery_sand_stone_bricks_stairs",
+    "aerialhell:polished_glaucophanite_stairs",
+    "aerialhell:crystal_bricks_stairs",
+    "aerialhell:magmatic_gel_stairs",
+
+    "aerialhell:stellar_stone_wall",
+    "aerialhell:mossy_stellar_stone_wall",
+    "aerialhell:mossy_stellar_cobblestone_wall",
+    "aerialhell:stellar_cobblestone_wall",
+    "aerialhell:stellar_stone_bricks_wall",
+    "aerialhell:slippery_sand_stone_wall",
+    "aerialhell:slippery_sand_stone_bricks_wall",
+    "aerialhell:glaucophanite_wall",
+    "aerialhell:crystal_bricks_wall",
+    "aerialhell:polished_glaucophanite_wall",
+    "aerialhell:magmatic_gel_wall",
+
+    "#aerialhell:smoky_quartz",
+    "aerialhell:smoky_quartz_ore"
+  ]
+}

@@ -1,24 +1,25 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellItemGroups;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Rarity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellCreativeModeTabs;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 
 public class AerialHellChestItem extends Item
 {
+	//TODO : encore utile ?
 	public AerialHellChestItem()
 	{
-		super(new Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS));
+		super(new Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS));
 	}
 	
-	public AerialHellChestItem(ItemGroup group)
+	public AerialHellChestItem(CreativeModeTab group)
 	{
-		super(new Properties().group(group));
+		super(new Properties().tab(group));
 	}
 
     public AerialHellChestItem(Rarity rarity)
     {
-        super(new Properties().group(AerialHellItemGroups.AERIAL_HELL_BLOCKS).rarity(rarity));
+        super(new Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS).rarity(rarity));
     }
 }

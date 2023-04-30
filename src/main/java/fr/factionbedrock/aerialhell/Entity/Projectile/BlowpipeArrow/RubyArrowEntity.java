@@ -3,34 +3,30 @@ package fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractAerialArrowEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class RubyArrowEntity extends AbstractAerialArrowEntity
 {
-    public RubyArrowEntity(EntityType<? extends RubyArrowEntity> type, World worldIn)
+    public RubyArrowEntity(EntityType<? extends RubyArrowEntity> type, Level worldIn)
     {
         super(type, worldIn);
-        this.setDamage(6.0D);
+        this.setBaseDamage(6.0D);
     }
 
-    public RubyArrowEntity(World worldIn, double x, double y, double z)
+    public RubyArrowEntity(Level worldIn, double x, double y, double z)
     {
         super(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), x, y, z, worldIn);
-        this.setDamage(6.0D);
+        this.setBaseDamage(6.0D);
     }
 
-    public RubyArrowEntity(World worldIn, LivingEntity shooter)
+    public RubyArrowEntity(Level worldIn, LivingEntity shooter)
     {
         super(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), shooter, worldIn);
-        this.setDamage(6.0D);
+        this.setBaseDamage(6.0D);
     }
     
-    @Override
-    protected ItemStack getArrowStack()
-    {
-        return new ItemStack(AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get());
-    }
+    @Override protected ItemStack getPickupItem() {return new ItemStack(AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get());}
 }

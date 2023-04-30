@@ -1,22 +1,26 @@
 package fr.factionbedrock.aerialhell.Item.Bucket;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.world.phys.HitResult;
 
 public class RubyLiquidOfGodsBucketItem extends Item
 {
@@ -25,58 +29,57 @@ public class RubyLiquidOfGodsBucketItem extends Item
         super(properties);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
+    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
     {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
-        RayTraceResult raytraceresult = rayTrace(worldIn, playerIn, RayTraceContext.FluidMode.NONE);
-        if (raytraceresult.getType() == RayTraceResult.Type.MISS)
+        ItemStack itemstack = playerIn.getItemInHand(handIn);
+        BlockHitResult blockhitresult = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.NONE);
+        if (blockhitresult.getType() == HitResult.Type.MISS)
         {
-            return ActionResult.resultPass(itemstack);
+            return InteractionResultHolder.pass(itemstack);
         }
-        else if (raytraceresult.getType() != RayTraceResult.Type.BLOCK)
+        else if (blockhitresult.getType() != HitResult.Type.BLOCK)
         {
-            return ActionResult.resultPass(itemstack);
+            return InteractionResultHolder.pass(itemstack);
         }
         else
         {
-            BlockRayTraceResult blockraytraceresult = (BlockRayTraceResult)raytraceresult;
-            BlockPos blockpos = blockraytraceresult.getPos();
-            Direction direction = blockraytraceresult.getFace();
-            BlockPos blockpos1 = blockpos.offset(direction);
-            if (worldIn.isBlockModifiable(playerIn, blockpos) && playerIn.canPlayerEdit(blockpos1, direction, itemstack))
+            BlockPos blockpos = blockhitresult.getBlockPos();
+            Direction direction = blockhitresult.getDirection();
+            BlockPos blockpos1 = blockpos.relative(direction);
+            if (worldIn.mayInteract(playerIn, blockpos) && playerIn.mayUseItemAt(blockpos1, direction, itemstack))
             {
-                if (this.tryPlaceContainedLiquid(playerIn, worldIn, blockpos1, blockraytraceresult))
+                if (this.tryPlaceContainedLiquid(playerIn, worldIn, blockpos1, blockhitresult))
                 {
-                    return ActionResult.func_233538_a_(!playerIn.abilities.isCreativeMode ? new ItemStack(AerialHellBlocksAndItems.RUBY_BUCKET.get()) : itemstack, worldIn.isRemote());
+                    return InteractionResultHolder.sidedSuccess(!playerIn.getAbilities().instabuild ? new ItemStack(AerialHellBlocksAndItems.RUBY_BUCKET.get()) : itemstack, worldIn.isClientSide());
                 }
                 else
                 {
-                    return ActionResult.resultFail(itemstack);
+                    return InteractionResultHolder.fail(itemstack);
                 }
             }
             else
             {
-                return ActionResult.resultFail(itemstack);
+                return InteractionResultHolder.fail(itemstack);
             }
         }
     }
 
-    public boolean tryPlaceContainedLiquid(@Nullable PlayerEntity player, World worldIn, BlockPos posIn, @Nullable BlockRayTraceResult rayTrace)
+    public boolean tryPlaceContainedLiquid(@Nullable Player player, Level worldIn, BlockPos posIn, @Nullable BlockHitResult rayTrace)
     {
         BlockState blockstate = worldIn.getBlockState(posIn);
         Material material = blockstate.getMaterial();
-        if (!(blockstate.isAir() || blockstate.isReplaceable(Fluids.WATER)))
+        if (!(blockstate.isAir() || blockstate.canBeReplaced(Fluids.WATER)))
         {
-            return rayTrace != null && this.tryPlaceContainedLiquid(player, worldIn, rayTrace.getPos().offset(rayTrace.getFace()), (BlockRayTraceResult)null);
+            return rayTrace != null && this.tryPlaceContainedLiquid(player, worldIn, rayTrace.getBlockPos().relative(rayTrace.getDirection()), (BlockHitResult)null);
         }
         else
         {
-            if (!worldIn.isRemote && blockstate.isReplaceable(Fluids.WATER) && !material.isLiquid())
+            if (!worldIn.isClientSide() && blockstate.canBeReplaced(Fluids.WATER) && !material.isLiquid())
             {
                 worldIn.destroyBlock(posIn, true);
             }
-
-            if (!worldIn.setBlockState(posIn, AerialHellBlocksAndItems.LIQUID_OF_THE_GODS.get().getDefaultState().getBlockState(), 11) && !blockstate.getFluidState().isSource())
+            // TODO it works ?                                                            .defaultFluidState()?
+            if (!worldIn.setBlock(posIn, AerialHellBlocksAndItems.LIQUID_OF_THE_GODS.get().defaultBlockState(), 11) && !blockstate.getFluidState().isSource())
             {
                 return false;
             }
@@ -88,9 +91,9 @@ public class RubyLiquidOfGodsBucketItem extends Item
         }
     }
 
-    protected void playEmptySound(@Nullable PlayerEntity player, IWorld worldIn, BlockPos pos)
+    protected void playEmptySound(@Nullable Player player, LevelAccessor worldIn, BlockPos pos)
     {
         SoundEvent soundevent = Fluids.LAVA.getAttributes().getEmptySound();
-        worldIn.playSound(player, pos, soundevent, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        worldIn.playSound(player, pos, soundevent, SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 }

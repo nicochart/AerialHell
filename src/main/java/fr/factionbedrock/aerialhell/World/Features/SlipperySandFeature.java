@@ -5,27 +5,28 @@ import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import java.util.Random;
 
-public class SlipperySandFeature extends Feature<NoFeatureConfig>
+public class SlipperySandFeature extends Feature<NoneFeatureConfiguration>
 {
 
-    public SlipperySandFeature(Codec<NoFeatureConfig> codec) {super(codec);}
+    public SlipperySandFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
-    @Override
-    public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos blockPos, NoFeatureConfig config)
+    @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
+        BlockPos blockPos = context.origin(); WorldGenLevel reader = context.level(); Random rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
 		boolean canGenerate = (
                 (reader.getBlockState(blockPos.north(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.south(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.west(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.east(3)).getBlock().equals(Blocks.AIR)) &&
-                (reader.getBlockState(blockPos).isIn(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(blockPos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
+                (reader.getBlockState(blockPos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(blockPos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
 		
 		boolean generatesInDungeon = FeatureHelper.generatesInAnyDungeon(reader, blockPos);
 		
@@ -37,9 +38,9 @@ public class SlipperySandFeature extends Feature<NoFeatureConfig>
         return false;
     }
     
-    protected void generateSlipperySand(ISeedReader reader, Random rand, BlockPos blockPos)
+    protected void generateSlipperySand(WorldGenLevel reader, Random rand, BlockPos blockPos)
     {
-    	BlockPos.Mutable placementPos = new BlockPos.Mutable();
+    	BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
     	boolean isBig = rand.nextDouble() > 0.8;
         int radiusX = getRandomRadius(rand, isBig);
         int radiusY = 2;
@@ -56,12 +57,12 @@ public class SlipperySandFeature extends Feature<NoFeatureConfig>
                     BlockPos pos = new BlockPos(x, y, z);
                     if (isPosInsideEllipsis(pos, radiusX, radiusY, radiusZ))
                     {
-                    	placementPos.setPos(blockPos.add(pos));
+                    	placementPos.set(blockPos.offset(pos));
                     	if (isReplaceable(reader, placementPos))
                     	{
                     		boolean isInsideInnerEllipsis = isPosInsideEllipsis(pos, radiusX-1, radiusY, radiusZ-1);
-                    		if (isInsideInnerEllipsis) {reader.setBlockState(placementPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().getDefaultState(), 0);}
-                    		else if (!(rand.nextInt(3) == 0)) {reader.setBlockState(placementPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().getDefaultState(), 0);}
+                    		if (isInsideInnerEllipsis) {reader.setBlock(placementPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().defaultBlockState(), 0);}
+                    		else if (!(rand.nextInt(3) == 0)) {reader.setBlock(placementPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().defaultBlockState(), 0);}
                     	}
                     }
                 }
@@ -69,10 +70,10 @@ public class SlipperySandFeature extends Feature<NoFeatureConfig>
         }
     }
     
-    private boolean isReplaceable(ISeedReader reader, BlockPos blockPos)
+    private boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
     {
-    	Block previousBlock = reader.getBlockState(blockPos).getBlock();
-    	if (previousBlock == Blocks.AIR || previousBlock.isIn(AerialHellTags.Blocks.FEATURE_CAN_REPLACE)) {return true;}
+    	BlockState previousBlock = reader.getBlockState(blockPos);
+    	if (previousBlock.isAir() || previousBlock.is(AerialHellTags.Blocks.FEATURE_CAN_REPLACE)) {return true;}
     	else {return false;}
     }
     

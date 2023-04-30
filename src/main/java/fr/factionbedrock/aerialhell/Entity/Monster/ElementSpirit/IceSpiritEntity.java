@@ -5,35 +5,35 @@ import javax.annotation.Nullable;
 import fr.factionbedrock.aerialhell.Entity.AbstractElementSpiritEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.level.Level;
 
 public class IceSpiritEntity extends AbstractElementSpiritEntity
 {
-	public IceSpiritEntity(EntityType<? extends IceSpiritEntity> type, World worldIn)
+	public IceSpiritEntity(EntityType<? extends IceSpiritEntity> type, Level worldIn)
     {
         super(type, worldIn);
     }
 
-    public IceSpiritEntity(World worldIn)
+    public IceSpiritEntity(Level worldIn)
     {
         this(AerialHellEntities.ICE_SPIRIT.get(), worldIn);
     }
     
     public void applyEffect(Entity entityIn)
     {
-    	((LivingEntity) entityIn).addPotionEffect(new EffectInstance(new EffectInstance(Effects.SLOWNESS, 150, 2, true, false)));
+    	((LivingEntity) entityIn).addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 150, 2, true, false)));
     }
     
-    public BasicParticleType getParticleToSpawn()
+    public SimpleParticleType getParticleToSpawn()
     {
     	return ParticleTypes.CLOUD;
     }

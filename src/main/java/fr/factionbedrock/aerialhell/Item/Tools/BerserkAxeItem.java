@@ -5,26 +5,25 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -32,7 +31,7 @@ public class BerserkAxeItem extends EffectAxeItem
 {
 	private int weight_ticks;
 	
-	public BerserkAxeItem(IItemTier tier, float attackDamageIn, float attackSpeedIn, float movementSpeedIn,	float maxHealthIn, Properties builderIn)
+	public BerserkAxeItem(Tier tier, float attackDamageIn, float attackSpeedIn, float movementSpeedIn,	float maxHealthIn, Properties builderIn)
 	{
 		super(tier, attackDamageIn, attackSpeedIn, movementSpeedIn, maxHealthIn, builderIn);
 		this.weight_ticks = 0;
@@ -75,9 +74,9 @@ public class BerserkAxeItem extends EffectAxeItem
 	}
 	
 	@Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
+    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
     {
-		ItemStack heldItem = playerIn.getHeldItem(handIn);
+		ItemStack heldItem = playerIn.getItemInHand(handIn);
 		Random rand = new Random();
 		int cooldown = Math.min(getStatus() + 1, 3) * 200;
 		
@@ -86,37 +85,36 @@ public class BerserkAxeItem extends EffectAxeItem
 		
 		for (int i=0 ; i<20; i++)
 		{
-			worldIn.addParticle(ParticleTypes.SMOKE, playerIn.getPosX() + 4*(rand.nextFloat() - 0.5F), playerIn.getPosY() + 4*rand.nextFloat(), playerIn.getPosZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
+			worldIn.addParticle(ParticleTypes.SMOKE, playerIn.getX() + 4*(rand.nextFloat() - 0.5F), playerIn.getY() + 4*rand.nextFloat(), playerIn.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
 		}
-		playerIn.playSound(SoundEvents.ENTITY_RAVAGER_ROAR, 1.0F, 0.5F + rand.nextFloat());
-		if (worldIn.isRemote)
+		playerIn.playSound(SoundEvents.RAVAGER_ROAR, 1.0F, 0.5F + rand.nextFloat());
+		if (worldIn.isClientSide())
 		{
-			Vector3d forward = playerIn.getForward().mul(1.7,1.3,1.7);
-			if (forward.getY() < 1) {forward = new Vector3d(forward.getX(), 1, forward.getZ());}
-			playerIn.setMotion(playerIn.getMotion().add(forward));
+			Vec3 forward = playerIn.getForward().multiply(1.7,1.3,1.7);
+			if (forward.y < 1) {forward = new Vec3(forward.x, 1, forward.z);}
+			playerIn.setDeltaMovement(playerIn.getDeltaMovement().add(forward));
 		}
 		
-		playerIn.getCooldownTracker().setCooldown(this, cooldown);
-		heldItem.damageItem(1, playerIn, (player) -> {player.sendBreakAnimation(playerIn.getActiveHand());});
-        return ActionResult.resultConsume(heldItem);
+		playerIn.getCooldowns().addCooldown(this, cooldown);
+		heldItem.hurtAndBreak(1, playerIn, (player) -> {player.broadcastBreakEvent(playerIn.getUsedItemHand());});
+        return InteractionResultHolder.consume(heldItem);
 	}
 	
 	@Override
-	public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker)
+	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker)
 	{
-		
 		this.increaseWeight();
-		return super.hitEntity(stack, target, attacker);
+		return super.hurtEnemy(stack, target, attacker);
 	}
 	
 	@Override
-	public boolean canPlayerBreakBlockWhileHolding(BlockState state, World worldIn, BlockPos pos, PlayerEntity player)
+	public boolean canAttackBlock(BlockState state, Level worldIn, BlockPos pos, Player player)
 	{
 		return !player.isCreative();
 	}
 	
 	@Override
-	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
 		if (this.weight_ticks > 800)
 		{
@@ -129,50 +127,50 @@ public class BerserkAxeItem extends EffectAxeItem
 		if (isSelected) {giveEntityEffect(worldIn, entityIn);}
 	}
 	
-	private void giveEntityEffect(World worldIn, Entity entityIn)
+	private void giveEntityEffect(Level worldIn, Entity entityIn)
 	{
-		if (!worldIn.isRemote && entityIn instanceof LivingEntity)
+		if (!worldIn.isClientSide() && entityIn instanceof LivingEntity)
 		{
 			LivingEntity livingEntityIn = (LivingEntity) entityIn;
 			int weight = this.getStatus();
 			if (weight == 0)
 			{
-				livingEntityIn.addPotionEffect(new EffectInstance(Effects.STRENGTH, 22, 1, false, false));
-				livingEntityIn.addPotionEffect(new EffectInstance(Effects.SPEED, 22, 1, false, false));
-				livingEntityIn.addPotionEffect(new EffectInstance(Effects.HASTE, 22, 1, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 22, 1, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 22, 1, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 22, 1, false, false));
 			}
 			else if (weight == 1)
 			{
-				livingEntityIn.addPotionEffect(new EffectInstance(Effects.SPEED, 22, 0, false, false));
-				livingEntityIn.addPotionEffect(new EffectInstance(Effects.HASTE, 22, 0, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 22, 0, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 22, 0, false, false));
 			}
 			else if (weight == 2)
 			{
-				livingEntityIn.addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, 22, 0, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 22, 0, false, false));
 			}
 			else if (weight == 3)
 			{
-				livingEntityIn.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 22, 0, false, false));
-				livingEntityIn.addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, 22, 1, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 22, 0, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 22, 1, false, false));
 			}
 			else //(weight == 4)
 			{
-				livingEntityIn.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 22, 0, false, false));
-				livingEntityIn.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 22, 1, false, false));
-				livingEntityIn.addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, 22, 3, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 22, 0, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 22, 1, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 22, 3, false, false));
 			}
 		}
 	}
 	
 	@Override @OnlyIn(Dist.CLIENT)
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn)
 	{
-		tooltip.add(this.getDescription().appendString(Integer.toString(getStatus())).mergeStyle(TextFormatting.GRAY));
+		tooltip.add(this.getDescription().append(Integer.toString(getStatus())).withStyle(ChatFormatting.GRAY));
 	}
 
 	@Override @OnlyIn(Dist.CLIENT)
-	public IFormattableTextComponent getDescription()
+	public TextComponent getDescription()
 	{
-		return new TranslationTextComponent(this.getTranslationKey() + ".desc");
+		return new TextComponent(this.getDescriptionId() + ".desc");
 	}
 }

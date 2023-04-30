@@ -3,39 +3,39 @@ package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.LightningBoltEntity;
-import net.minecraft.item.Item;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.network.PlayMessages;
 
 public class LightningShurikenEntity extends AbstractShurikenEntity
 {
-	public LightningShurikenEntity(EntityType<? extends LightningShurikenEntity> entityTypeIn, World worldIn)
+	public LightningShurikenEntity(EntityType<? extends LightningShurikenEntity> entityTypeIn, Level worldIn)
 	{
 		super(entityTypeIn, worldIn);
 	}
 
-	public LightningShurikenEntity(double x, double y, double z, World worldIn)
+	public LightningShurikenEntity(double x, double y, double z, Level worldIn)
 	{
 		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), x, y, z, worldIn);
 	}
 
-	public LightningShurikenEntity(LivingEntity shooter, World worldIn)
+	public LightningShurikenEntity(LivingEntity shooter, Level worldIn)
 	{
 		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), shooter, worldIn);
 	}
 
-	public LightningShurikenEntity(World worldIn)
+	public LightningShurikenEntity(Level worldIn)
 	{
 		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), worldIn);
 	}
 
-	public LightningShurikenEntity(FMLPlayMessages.SpawnEntity packet, World worldIn)
+	public LightningShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
 	{
 		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), worldIn);
 	}
@@ -50,17 +50,17 @@ public class LightningShurikenEntity extends AbstractShurikenEntity
 	protected void applyEntityImpactEffet(Entity entity) {}
 	
 	@Override
-	protected void onImpact(RayTraceResult result)
+	protected void onHit(HitResult result)
 	{
-		if (this.world.isRemote) {return;}
+		if (this.level.isClientSide()) {return;}
 		
-		if (result.getType() != RayTraceResult.Type.MISS && this.world instanceof ServerWorld)
+		if (result.getType() != HitResult.Type.MISS && this.level instanceof ServerLevel)
 		{
-			LightningBoltEntity lightningBolt = EntityType.LIGHTNING_BOLT.create(this.world);
-			lightningBolt.setPosition(this.getPosX(), this.getPosY(), this.getPosZ());
-			this.world.addEntity(lightningBolt);
+			LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level);
+			lightningBolt.setPos(this.getX(), this.getY(), this.getZ());
+			this.level.addFreshEntity(lightningBolt);
 		}
-		super.onImpact(result);
+		super.onHit(result);
 	}
 
 	@Override

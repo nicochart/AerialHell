@@ -11,25 +11,25 @@ import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AerialTreeChestMim
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEnchantments;
-import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
+import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.FlyingEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.EndermanEntity;
-import net.minecraft.entity.monster.SilverfishEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.FlyingMob;
+import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Silverfish;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.Random;
 
 public class EntityHelper
 {
-    public static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.isPotionActive(AerialHellPotionEffects.SHADOW_IMMUNITY.get());}
+    public static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.SHADOW_IMMUNITY.get());}
 
-    public static boolean isLivingEntityVulnerable(LivingEntity entity) {return entity.isPotionActive(AerialHellPotionEffects.VULNERABILITY.get());}
+    public static boolean isLivingEntityVulnerable(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.VULNERABILITY.get());}
 
-    public static boolean isLivingEntityATraitor(LivingEntity entity) {return entity.isPotionActive(AerialHellPotionEffects.TRAITOR.get());}
+    public static boolean isLivingEntityATraitor(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.TRAITOR.get());}
 
     public static boolean isImmuneToSomeShadowDamage(Entity entity)
     {
@@ -40,7 +40,7 @@ public class EntityHelper
 
     public static boolean isShadowEntity(Entity entity)
     {
-        return entity instanceof EvilCowEntity || entity instanceof ShadowAutomatonEntity || entity instanceof ShadowTrollEntity || entity instanceof ShadowFlyingSkullEntity || entity instanceof ShadowSpiderEntity || entity instanceof ShadowPineBarrelMimicEntity || entity instanceof LilithEntity || entity instanceof EndermanEntity;
+        return entity instanceof EvilCowEntity || entity instanceof ShadowAutomatonEntity || entity instanceof ShadowTrollEntity || entity instanceof ShadowFlyingSkullEntity || entity instanceof ShadowSpiderEntity || entity instanceof ShadowPineBarrelMimicEntity || entity instanceof LilithEntity || entity instanceof EnderMan;
     }
 
     public static boolean isLightEntity(Entity entity)
@@ -60,7 +60,7 @@ public class EntityHelper
 
     public static boolean isFeatheryEntity(Entity entity)
     {
-        return entity instanceof SilverfishEntity || entity instanceof FlyingEntity;
+        return entity instanceof Silverfish || entity instanceof FlyingMob;
     }
 
     public static boolean isImmuneToBramblesDamage(Entity entity)
@@ -72,9 +72,9 @@ public class EntityHelper
 
     public static boolean hasSolidEtherWalkerEnchantment(LivingEntity entity)
     {
-        for (ItemStack equipmentItem : entity.getEquipmentAndArmor())
+        for (ItemStack equipmentItem : entity.getAllSlots())
         {
-            if (EnchantmentHelper.getEnchantmentLevel(AerialHellEnchantments.SOLID_ETHER_WALKER.get(), equipmentItem) > 0) {return true;}
+            if (EnchantmentHelper.getItemEnchantmentLevel(AerialHellEnchantments.SOLID_ETHER_WALKER.get(), equipmentItem) > 0) {return true;}
         }
         return false;
     }
@@ -83,17 +83,17 @@ public class EntityHelper
     {
         for (int i=0; i<number; i++)
         {
-            entity.world.addParticle(AerialHellParticleTypes.SHADOW_TROLL_BAT.get(), entity.getPosX() + rand.nextFloat() - 0.5, entity.getPosY() + 2 * rand.nextFloat(), entity.getPosZ() + rand.nextFloat() - 0.5, 2 * (rand.nextFloat()) - 0.5, -0.3D, 2 * (rand.nextFloat() - 0.5));
+            entity.level.addParticle(AerialHellParticleTypes.SHADOW_TROLL_BAT.get(), entity.getX() + rand.nextFloat() - 0.5, entity.getY() + 2 * rand.nextFloat(), entity.getZ() + rand.nextFloat() - 0.5, 2 * (rand.nextFloat()) - 0.5, -0.3D, 2 * (rand.nextFloat() - 0.5));
         }
     }
 
     public static boolean isLivingEntityMisleadingLunar(LivingEntity entity)
     {
-        return ItemHelper.getItemInTagCount(entity.getArmorInventoryList(), AerialHellTags.Items.LUNATIC_STUFF) >= 4 && !isLivingEntityATraitor(entity);
+        return ItemHelper.getItemInTagCount(entity.getArmorSlots(), AerialHellTags.Items.LUNATIC_STUFF) >= 4 && !isLivingEntityATraitor(entity);
     }
 
     public static boolean isLivingEntityMisleadingShadow(LivingEntity entity)
     {
-        return ItemHelper.getItemInTagCount(entity.getArmorInventoryList(), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !isLivingEntityATraitor(entity);
+        return ItemHelper.getItemInTagCount(entity.getArmorSlots(), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !isLivingEntityATraitor(entity);
     }
 }

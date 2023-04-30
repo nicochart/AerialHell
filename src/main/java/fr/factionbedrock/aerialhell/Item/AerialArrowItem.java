@@ -4,10 +4,10 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractAerialArrowEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.RubyArrowEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.VoluciteArrowEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class AerialArrowItem extends Item
 {
@@ -16,7 +16,7 @@ public class AerialArrowItem extends Item
         super(properties);
     }
 
-    public AbstractAerialArrowEntity createArrow(World world, ItemStack stack, LivingEntity shooter)
+    public AbstractAerialArrowEntity createArrow(Level world, ItemStack stack, LivingEntity shooter)
     {
     	if (this == AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get())
     	{

@@ -5,7 +5,7 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.LilithModel;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class LilithRender extends MobRenderer<LilithEntity, LilithModel>
 {

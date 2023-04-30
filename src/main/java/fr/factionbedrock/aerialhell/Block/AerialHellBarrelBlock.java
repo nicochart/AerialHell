@@ -1,24 +1,23 @@
 package fr.factionbedrock.aerialhell.Block;
 
-import fr.factionbedrock.aerialhell.TileEntity.AerialHellBarrelTileEntity;
+import fr.factionbedrock.aerialhell.BlockEntity.AerialHellBarrelBlockEntity;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BarrelBlock;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.piglin.PiglinTasks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
+import net.minecraft.world.level.block.BarrelBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.stats.Stats;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Random;
 import javax.annotation.Nullable;
@@ -26,67 +25,67 @@ import javax.annotation.Nullable;
 public class AerialHellBarrelBlock extends BarrelBlock
 {
 	/*
-	Same as BarrelBlock but with AerialHellBarrelTileEntity instead of BarrelTileEntity
-	Because in BarrelTileEntity, the barrel can close only if the barrel blockstate isIn(Blocks.BARREL).
+	Same as BarrelBlock but with AerialHellBarrelBlockEntity instead of BarrelBlockEntity
+	Because in BarrelBlockEntity, the barrel can close only if the barrel blockstate isIn(Blocks.BARREL).
 	*/
 	
-	public AerialHellBarrelBlock(AbstractBlock.Properties properties)
+	public AerialHellBarrelBlock(BlockBehaviour.Properties properties)
 	{
 		super(properties);
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(IBlockReader worldIn)
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
-		return new AerialHellBarrelTileEntity();
+		return new AerialHellBarrelBlockEntity(pos, state);
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
 	{
-		if (world.isRemote)
+		if (world.isClientSide())
 		{
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 		else
 		{
-			TileEntity blockEntity = world.getTileEntity(pos);
-			if (blockEntity instanceof AerialHellBarrelTileEntity)
+			BlockEntity blockEntity = world.getBlockEntity(pos);
+			if (blockEntity instanceof AerialHellBarrelBlockEntity)
 			{
-				player.openContainer((AerialHellBarrelTileEntity) blockEntity);
-				player.addStat(Stats.OPEN_BARREL);
-				PiglinTasks.func_234478_a_(player, true);
+				player.openMenu((AerialHellBarrelBlockEntity) blockEntity);
+				player.awardStat(Stats.OPEN_BARREL);
+				PiglinAi.angerNearbyPiglins(player, true);
 			}
 
-			return ActionResultType.CONSUME;
+			return InteractionResult.CONSUME;
 		}
 	}
 
 	@Override
-	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerLevel world, BlockPos pos, Random rand)
 	{
-		TileEntity blockEntity = world.getTileEntity(pos);
-		if (blockEntity instanceof AerialHellBarrelTileEntity)
+		BlockEntity blockEntity = world.getBlockEntity(pos);
+		if (blockEntity instanceof AerialHellBarrelBlockEntity)
 		{
-			((AerialHellBarrelTileEntity) blockEntity).tick();
+			((AerialHellBarrelBlockEntity) blockEntity).recheckOpen();//.tick();
 		}
 	}
 
 	@Override
-	public BlockRenderType getRenderType(BlockState state)
+	public RenderShape getRenderShape(BlockState state)
 	{
-		return BlockRenderType.MODEL;
+		return RenderShape.MODEL;
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer,	ItemStack stack)
+	public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer,	ItemStack stack)
 	{
-		if (stack.hasDisplayName())
+		if (stack.hasCustomHoverName())
 		{
-			TileEntity blockEntity = world.getTileEntity(pos);
-			if (blockEntity instanceof AerialHellBarrelTileEntity)
+			BlockEntity blockEntity = world.getBlockEntity(pos);
+			if (blockEntity instanceof AerialHellBarrelBlockEntity)
 			{
-				((AerialHellBarrelTileEntity) blockEntity).setCustomName(stack.getDisplayName());
+				((AerialHellBarrelBlockEntity) blockEntity).setCustomName(stack.getHoverName());
 			}
 		}
 	}

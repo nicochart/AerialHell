@@ -1,22 +1,22 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractAerialHellSpiderEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.monster.SpiderEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Spider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.level.Level;
 
 public class HellSpiderEntity extends AbstractAerialHellSpiderEntity
 {
-    public HellSpiderEntity(EntityType<? extends SpiderEntity> type, World worldIn)
+    public HellSpiderEntity(EntityType<? extends Spider> type, Level worldIn)
     {
         super(type, worldIn);
     }
@@ -25,32 +25,32 @@ public class HellSpiderEntity extends AbstractAerialHellSpiderEntity
     public void registerGoals()
     {
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, true));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setCallsForHelp(HellSpiderEntity.class));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers(HellSpiderEntity.class));
         super.registerGoals();
     }
     
-    public static AttributeModifierMap.MutableAttribute registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
-        return MonsterEntity.func_234295_eP_()
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 5)
-                .createMutableAttribute(Attributes.ARMOR, 0)
-                .createMutableAttribute(Attributes.MAX_HEALTH, 32);
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MOVEMENT_SPEED, 0.25)
+                .add(Attributes.ATTACK_DAMAGE, 5)
+                .add(Attributes.ARMOR, 0)
+                .add(Attributes.MAX_HEALTH, 32);
     }
     
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount)
+    public boolean hurt(DamageSource source, float amount)
     {
-        if (!source.isMagicDamage() && source.getImmediateSource() instanceof LivingEntity)
+        if (!source.isMagic() && source.getDirectEntity() instanceof LivingEntity)
         {
-        	LivingEntity livingentity = (LivingEntity)source.getImmediateSource();
+        	LivingEntity livingentity = (LivingEntity)source.getDirectEntity();
         	if (!source.isExplosion())
         	{
-        		livingentity.attackEntityFrom(DamageSource.causeThornsDamage(this), 2.0F);
+        		livingentity.hurt(DamageSource.thorns(this), 2.0F);
             }
         }
         
-        return super.attackEntityFrom(source, amount);
+        return super.hurt(source, amount);
     }
 }

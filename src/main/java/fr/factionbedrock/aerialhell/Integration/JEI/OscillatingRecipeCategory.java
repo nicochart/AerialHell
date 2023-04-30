@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Integration.JEI;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Recipe.OscillatingRecipe;
@@ -12,8 +12,8 @@ import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
 
 public class OscillatingRecipeCategory implements IRecipeCategory<OscillatingRecipe>
 {
@@ -55,7 +55,7 @@ public class OscillatingRecipeCategory implements IRecipeCategory<OscillatingRec
 	}
 	
 	@Override
-    public void draw(OscillatingRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY)
+    public void draw(OscillatingRecipe recipe, PoseStack matrixStack, double mouseX, double mouseY)
 	{
         this.oscillating.draw(matrixStack, 56, 36);
     }

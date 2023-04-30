@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Event.Listeners;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellPotionEffects;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.vector.Vector3d;
+import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -14,12 +14,12 @@ public class LivingEntityEventListener
     public static void onLivingJumpEvent(LivingEvent.LivingJumpEvent event)
     {
     	LivingEntity livingEntity = event.getEntityLiving();
-    	if (livingEntity.isPotionActive(AerialHellPotionEffects.HEAD_IN_THE_CLOUDS.get()))
+    	if (livingEntity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get()))
     	{
-    		int bonus = livingEntity.getActivePotionEffect(AerialHellPotionEffects.HEAD_IN_THE_CLOUDS.get()).getAmplifier() + 1;
+    		int bonus = livingEntity.getEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get()).getAmplifier() + 1;
     		livingEntity.heal(0.5F * bonus);
-    		Vector3d baseMotion = livingEntity.getMotion();
-    		livingEntity.setMotion(baseMotion.getX(), baseMotion.getY() + (0.4 * bonus), baseMotion.getZ());
+    		Vec3 baseMotion = livingEntity.getDeltaMovement();
+    		livingEntity.setDeltaMovement(baseMotion.x, baseMotion.y + (0.4 * bonus), baseMotion.z);
     	}
     }
 }

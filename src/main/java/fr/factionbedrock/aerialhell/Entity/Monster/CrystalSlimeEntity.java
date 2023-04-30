@@ -4,91 +4,88 @@ import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.monster.SlimeEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particles.BlockParticleData;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 
-public class CrystalSlimeEntity extends SlimeEntity
+import javax.annotation.Nonnull;
+
+public class CrystalSlimeEntity extends Slime
 {
-	public CrystalSlimeEntity(EntityType<? extends CrystalSlimeEntity> type, World worldIn)
+	public CrystalSlimeEntity(EntityType<? extends CrystalSlimeEntity> type, Level worldIn)
 	{
 		super(type, worldIn);
 	}
 
-	public CrystalSlimeEntity(World worldIn)
+	public CrystalSlimeEntity(Level worldIn)
 	{
 		super(AerialHellEntities.CRYSTAL_SLIME.get(), worldIn);
-		this.experienceValue = 10;
+		this.xpReward = 10;
 		/*setSlimeSize(2, false); ?? When summoned with trapped blocks, it appears little ..*/
 	}
 
 	@Override
 	protected void registerGoals()
 	{
-		this.goalSelector.addGoal(1, new SlimeEntity.FloatGoal(this));
-		this.goalSelector.addGoal(2, new SlimeEntity.AttackGoal(this));
-		this.goalSelector.addGoal(3, new SlimeEntity.FaceRandomGoal(this));
-		this.goalSelector.addGoal(5, new SlimeEntity.HopGoal(this));
-		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 10, true, false, (entity) -> Math.abs(entity.getPosY() - this.getPosY()) <= 4.0));
-		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolemEntity.class, true));
+		/*this.goalSelector.addGoal(1, new Slime.SlimeFloatGoal(this)); TODO : Update access transformer
+		this.goalSelector.addGoal(2, new Slime.SlimeAttackGoal(this));
+		this.goalSelector.addGoal(3, new Slime.SlimeRandomDirectionGoal(this));
+		this.goalSelector.addGoal(5, new Slime.SlimeKeepOnJumpingGoal(this));*/
+		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (entity) -> Math.abs(entity.getY() - this.getY()) <= 4.0));
+		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
 	}
 	
 	@Override
-	protected void setSlimeSize(int size, boolean resetHealth)
+	protected void setSize(int size, boolean resetHealth)
 	{
-	      this.dataManager.set(SLIME_SIZE, 2);
+		//this.entityData.set(ID_SIZE, 2); TODO : Update access transformer
+		super.setSize(size, resetHealth);
 	}
 	
-	public static AttributeModifierMap.MutableAttribute registerAttributes()
+	public static AttributeSupplier.Builder registerAttributes()
     {
-        return SlimeEntity.func_233666_p_()
-        		.createMutableAttribute(Attributes.ATTACK_DAMAGE, 4D)
-        		.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D)
-        		.createMutableAttribute(Attributes.MAX_HEALTH, 24.0D)
-        		.createMutableAttribute(Attributes.FOLLOW_RANGE, 16.0D);
+        return Slime.createMobAttributes()
+        		.add(Attributes.ATTACK_DAMAGE, 4D)
+        		.add(Attributes.MOVEMENT_SPEED, 0.25D)
+        		.add(Attributes.MAX_HEALTH, 24.0D)
+        		.add(Attributes.FOLLOW_RANGE, 16.0D);
     }
 	
-	public static boolean canSpawn(EntityType<CrystalSlimeEntity> type, IServerWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn)
+	public static boolean canSpawn(EntityType<CrystalSlimeEntity> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, Random randomIn)
     {
-        return randomIn.nextInt(10) == 0 && worldIn.getWorld().isDaytime();
+        return randomIn.nextInt(10) == 0 && worldIn.getLevel().isDay();
     }
 	
-	@Override
-	protected IParticleData getSquishParticle()
+	@Override protected ParticleOptions getParticleType()
 	{
-		return new BlockParticleData(ParticleTypes.BLOCK, AerialHellBlocksAndItems.MUD_BRICKS.get().getDefaultState());
+		return new BlockParticleOption(ParticleTypes.BLOCK, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().defaultBlockState());
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public EntityType<? extends CrystalSlimeEntity> getType()
+	public EntityType<? extends CrystalSlimeEntity> getType() {return (EntityType<? extends CrystalSlimeEntity>) super.getType();}
+
+	@Override public void remove(@Nonnull Entity.RemovalReason p_146834_) //copied from Entity class
 	{
-		return (EntityType<? extends CrystalSlimeEntity>) super.getType();
+		this.setRemoved(p_146834_);
+		if (p_146834_ == Entity.RemovalReason.KILLED) {this.gameEvent(GameEvent.ENTITY_KILLED);}
+		this.invalidateCaps();
 	}
-	
-	@SuppressWarnings("deprecation")
-	@Override
-	public void remove(boolean keepData)
-	{
-		this.removed = true;
-		super.remove(keepData);
-	}
-	
-	@Override
-	protected ResourceLocation getLootTable()
-	{
-		return this.getType().getLootTable();
-	}
+
+	@Override protected ResourceLocation getDefaultLootTable() {return this.getType().getDefaultLootTable();}
 }
