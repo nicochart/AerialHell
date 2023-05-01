@@ -41,7 +41,7 @@ public class LightningShurikenEntity extends AbstractShurikenEntity
 	}
 	
 	@Override
-	protected float getKnifeDamage()
+	protected float getShurikenDamage()
 	{
 		return 2.0F;
 	}

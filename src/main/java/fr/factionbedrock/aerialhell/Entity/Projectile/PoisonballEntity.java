@@ -28,8 +28,6 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 public class PoisonballEntity extends AbstractFireballEntity
 {
-	private int ticksInAir;
-
 	public PoisonballEntity(EntityType<? extends PoisonballEntity> type, World worldIn)
 	{
 		super(type, worldIn);
@@ -84,74 +82,33 @@ public class PoisonballEntity extends AbstractFireballEntity
 		this.remove();
 	}
 
-	@Override
-	protected void registerData()
-	{
-		super.registerData();
-	}
+	@Override protected void registerData() {super.registerData();}
 
-	@SuppressWarnings("deprecation")
-	@Override
-	public void tick()
+	@Override public void tick()
 	{
 		if (this.world.isRemote || (this.func_234616_v_() == null || this.func_234616_v_().isAlive()) && this.world.isBlockLoaded(new BlockPos(this.getPosition())))
 		{
-			if (this.isFireballFiery())
-			{
-				this.setFire(1);
-			}
-
-			++this.ticksInAir;
 			RayTraceResult raytraceresult = ProjectileHelper.func_234618_a_(this, this::func_230298_a_);
 			if (raytraceresult.getType() != RayTraceResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult))
 			{
 				this.onImpact(raytraceresult);
 			}
 
-			Vector3d Vector3d = this.getMotion();
-			double d0 = this.getPosX() + Vector3d.x;
-			double d1 = this.getPosY() + Vector3d.y;
-			double d2 = this.getPosZ() + Vector3d.z;
+			Vector3d motion = this.getMotion();
+			double d0 = this.getPosX() + motion.x;
+			double d1 = this.getPosY() + motion.y;
+			double d2 = this.getPosZ() + motion.z;
 			ProjectileHelper.rotateTowardsMovement(this, 0.2F);
-			float f = this.getMotionFactor();
-			if (this.isInWater())
-			{
-				for (int i = 0; i < 4; ++i)
-				{
-					this.world.addParticle(ParticleTypes.BUBBLE, d0 - Vector3d.x * 0.25D, d1 - Vector3d.y * 0.25D, d2 - Vector3d.z * 0.25D, Vector3d.x, Vector3d.y, Vector3d.z);
-				}
 
-				f = 0.8F;
-			}
-
-			this.setMotion(Vector3d.add(this.accelerationX, this.accelerationY, this.accelerationZ).scale(f));
-			IParticleData particle = this.getParticle();
-			if (particle != null)
-			{
-				this.world.addParticle(this.getParticle(), d0, d1 + 0.5D, d2, 0.0D, 0.0D, 0.0D);
-			}
+			this.setMotion(motion.add(this.accelerationX, this.accelerationY, this.accelerationZ));
 			this.setPosition(d0, d1, d2);
 		}
-		else
-		{
-			this.remove();
-			return;
-		}
+		else {this.remove(); return;}
 		
-		if (!this.onGround)
-		{
-			++this.ticksInAir;
-		}
-
-		if (this.ticksInAir > 500)
-		{
-			this.remove();
-		}
+		if (this.isInLava() || this.isInWater() || this.ticksExisted > 500) {this.remove();}
 	}
 
-	@Override
-	protected IParticleData getParticle() {return null;}
+	@Override protected IParticleData getParticle() {return null;}
 
-	@Override
-	public IPacket<?> createSpawnPacket() {return NetworkHooks.getEntitySpawningPacket(this);}
+	@Override public IPacket<?> createSpawnPacket() {return NetworkHooks.getEntitySpawningPacket(this);}
 }

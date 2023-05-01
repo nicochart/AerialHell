@@ -21,7 +21,6 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
@@ -50,7 +49,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	public int attackTimer;
 	private int fireballTimer;
 	
-	private static final DataParameter<Boolean> IMPLODING = EntityDataManager.createKey(CreeperEntity.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Boolean> IMPLODING = EntityDataManager.createKey(ChainedGodEntity.class, DataSerializers.BOOLEAN);
 	private int timeSinceImploding;
 	   
 	public ChainedGodEntity(EntityType<? extends MonsterEntity> type, World world)
@@ -153,11 +152,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	@Override public boolean isImmuneToFire() {return true;}
 	@Override public boolean canRenderOnFire() {return false;}
 	
-	@Override
-	public boolean onLivingFall(float distance, float damageMultiplier)
-	{
-		return false;
-	}
+	@Override public boolean onLivingFall(float distance, float damageMultiplier) {return false;}
 	
 	@Override
     public void tick()
@@ -262,7 +257,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	      return flag;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
+	@Override @OnlyIn(Dist.CLIENT)
 	public void handleStatusUpdate(byte id)
 	{
 		if (id == 4)

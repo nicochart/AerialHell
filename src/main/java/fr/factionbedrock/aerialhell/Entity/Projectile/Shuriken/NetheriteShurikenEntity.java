@@ -38,7 +38,7 @@ public class NetheriteShurikenEntity extends AbstractShurikenEntity
 	}
 
 	@Override
-	protected float getKnifeDamage()
+	protected float getShurikenDamage()
 	{
 		return 12.0F;
 	}

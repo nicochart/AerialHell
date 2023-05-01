@@ -24,14 +24,12 @@ public abstract class AerialHellAnimalEntity extends AnimalEntity
 	{
 		return worldIn.getBlockState(pos.down()).getBlock() == AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get() ? 10.0F : worldIn.getLight(pos) - 0.5F;
 	}
-	
-	@Override
-	public boolean isBreedingItem(ItemStack stack)
-	{
-		return stack.getItem() == AerialHellBlocksAndItems.AERIAL_BERRY.get();
-	}
 
-	public static boolean canAerialHellAnimalSpawn(EntityType<? extends AerialHellAnimalEntity> animal, IWorld worldIn, SpawnReason reason, BlockPos pos, Random random)
+	@Override public int getTalkInterval() {return 160;}
+
+	@Override public boolean isBreedingItem(ItemStack stack) {return stack.getItem() == AerialHellBlocksAndItems.AERIAL_BERRY.get();}
+
+	public static boolean canAerialHellAnimalSpawn(EntityType<? extends AerialHellAnimalEntity> entityType, IWorld worldIn, SpawnReason reason, BlockPos pos, Random random)
 	{
 		return worldIn.getBlockState(pos.down()).getBlock() == AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get() && worldIn.getLightSubtracted(pos, 0) > 8;
 	}

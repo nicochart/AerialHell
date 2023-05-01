@@ -62,7 +62,7 @@ public class VoluciteShurikenEntity extends AbstractShurikenEntity
     }
 	
 	@Override
-	protected float getKnifeDamage()
+	protected float getShurikenDamage()
 	{
 		return 13.0F;
 	}

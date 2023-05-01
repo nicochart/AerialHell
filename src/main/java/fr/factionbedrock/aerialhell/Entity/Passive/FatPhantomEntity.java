@@ -29,7 +29,6 @@ import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -38,7 +37,6 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -177,10 +175,7 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
    @Override
    public void notifyDataManagerChange(DataParameter<?> key)
    {
-      if (SIZE.equals(key))
-      {
-         this.updatePhantomSize();
-      }
+      if (SIZE.equals(key)) {this.updatePhantomSize();}
 
       super.notifyDataManagerChange(key);
    }
@@ -208,18 +203,9 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
       
       if (this.isDisappearing())
       {
-    	  if (this.timeDisappearing < 190)
-    	  {
-    		  this.addFatPhantomParticle(1);
-    	  }
-    	  else if (this.timeDisappearing < 200)
-    	  {
-    		  this.addFatPhantomParticle(10);
-    	  }
-    	  else
-    	  {
-    		  this.remove();
-    	  }
+    	  if (this.timeDisappearing < 190) {this.addFatPhantomParticle(1);}
+    	  else if (this.timeDisappearing < 200) {this.addFatPhantomParticle(10);}
+    	  else {this.remove();}
     	  this.timeDisappearing++;
       }
    }
@@ -299,48 +285,15 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
       compound.putBoolean("Disappearing", this.isDisappearing());
    }
 
-   @Override
-   @OnlyIn(Dist.CLIENT)
-   public boolean isInRangeToRenderDist(double distance)
-   {
-      return true;
-   }
+   @Override @OnlyIn(Dist.CLIENT)
+   public boolean isInRangeToRenderDist(double distance) {return true;}
 
-   @Override
-   public SoundCategory getSoundCategory()
-   {
-      return SoundCategory.HOSTILE;
-   }
-
-   @Override
-   protected SoundEvent getAmbientSound()
-   {
-      return SoundEvents.ENTITY_PHANTOM_AMBIENT;
-   }
-
-   @Override
-   protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-   {
-      return SoundEvents.ENTITY_PHANTOM_HURT;
-   }
-
-   @Override
-   protected SoundEvent getDeathSound()
-   {
-      return SoundEvents.ENTITY_PHANTOM_DEATH;
-   }
-
-   @Override
-   protected float getSoundVolume()
-   {
-      return 1.0F;
-   }
-
-   @Override
-   public boolean canAttack(EntityType<?> typeIn)
-   {
-      return true;
-   }
+   @Override public SoundCategory getSoundCategory() {return SoundCategory.HOSTILE;}
+   @Override protected SoundEvent getAmbientSound() {return SoundEvents.ENTITY_PHANTOM_AMBIENT;}
+   @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return SoundEvents.ENTITY_PHANTOM_HURT;}
+   @Override protected SoundEvent getDeathSound() {return SoundEvents.ENTITY_PHANTOM_DEATH;}
+   @Override protected float getSoundVolume() {return 1.0F;}
+   @Override public boolean canAttack(EntityType<?> typeIn) {return true;}
 
    @Override
    public EntitySize getSize(Pose poseIn)
@@ -359,7 +312,7 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
 
    class AttackAttackingPlayerGoal extends Goal
    {
-      private final EntityPredicate predicate = (new EntityPredicate()).setDistance(64.0D);
+      private final EntityPredicate attackTargeting = (new EntityPredicate()).setDistance(64.0D);
       private int tickDelay = 20;
 
       private AttackAttackingPlayerGoal() {}
@@ -374,7 +327,7 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
          else
          {
             this.tickDelay = 60;
-            List<PlayerEntity> list = FatPhantomEntity.this.world.getTargettablePlayersWithinAABB(this.predicate, FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().grow(16.0D, 64.0D, 16.0D));
+            List<PlayerEntity> list = FatPhantomEntity.this.world.getTargettablePlayersWithinAABB(this.attackTargeting, FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().grow(16.0D, 64.0D, 16.0D));
             if (!attackingPlayers.isEmpty() && !list.isEmpty())
             {
                list.sort(Comparator.<Entity, Double>comparing(Entity::getPosY).reversed());
@@ -406,8 +359,9 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
          super(mob);
       }
 
-      public void updateRenderAngles()
+      @Override public void updateRenderAngles()
       {
+         super.updateRenderAngles();
          FatPhantomEntity.this.rotationYawHead = FatPhantomEntity.this.renderYawOffset;
          FatPhantomEntity.this.renderYawOffset = FatPhantomEntity.this.rotationYaw;
       }
@@ -430,7 +384,7 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
          this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE));
       }
 
-      protected boolean func_203146_f()
+      protected boolean touchingTarget()
       {
          return FatPhantomEntity.this.orbitOffset.squareDistanceTo(FatPhantomEntity.this.getPosX(), FatPhantomEntity.this.getPosY(), FatPhantomEntity.this.getPosZ()) < 4.0D;
       }
@@ -490,10 +444,10 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
 
    class OrbitPointGoal extends FatPhantomEntity.MoveGoal
    {
-      private float field_203150_c;
-      private float field_203151_d;
-      private float field_203152_e;
-      private float field_203153_f;
+      private float angle;
+      private float distance;
+      private float height;
+      private float clockwise;
 
       private OrbitPointGoal() {}
 
@@ -504,62 +458,62 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
 
       public void startExecuting()
       {
-         this.field_203151_d = 5.0F + FatPhantomEntity.this.rand.nextFloat() * 10.0F;
-         this.field_203152_e = -4.0F + FatPhantomEntity.this.rand.nextFloat() * 9.0F;
-         this.field_203153_f = FatPhantomEntity.this.rand.nextBoolean() ? 1.0F : -1.0F;
-         this.func_203148_i();
+         this.distance = 5.0F + FatPhantomEntity.this.rand.nextFloat() * 10.0F;
+         this.height = -4.0F + FatPhantomEntity.this.rand.nextFloat() * 9.0F;
+         this.clockwise = FatPhantomEntity.this.rand.nextBoolean() ? 1.0F : -1.0F;
+         this.selectNext();
       }
 
       public void tick()
       {
          if (FatPhantomEntity.this.rand.nextInt(350) == 0)
          {
-            this.field_203152_e = -4.0F + FatPhantomEntity.this.rand.nextFloat() * 9.0F;
+            this.height = -4.0F + FatPhantomEntity.this.rand.nextFloat() * 9.0F;
          }
 
          if (FatPhantomEntity.this.rand.nextInt(250) == 0)
          {
-            ++this.field_203151_d;
-            if (this.field_203151_d > 15.0F)
+            ++this.distance;
+            if (this.distance > 15.0F)
             {
-               this.field_203151_d = 5.0F;
-               this.field_203153_f = -this.field_203153_f;
+               this.distance = 5.0F;
+               this.clockwise = -this.clockwise;
             }
          }
 
          if (FatPhantomEntity.this.rand.nextInt(450) == 0)
          {
-            this.field_203150_c = FatPhantomEntity.this.rand.nextFloat() * 2.0F * (float)Math.PI;
-            this.func_203148_i();
+            this.angle = FatPhantomEntity.this.rand.nextFloat() * 2.0F * (float)Math.PI;
+            this.selectNext();
          }
 
-         if (this.func_203146_f())
+         if (this.touchingTarget())
          {
-            this.func_203148_i();
+            this.selectNext();
          }
 
          if (FatPhantomEntity.this.orbitOffset.y < FatPhantomEntity.this.getPosY() && !FatPhantomEntity.this.world.isAirBlock(FatPhantomEntity.this.getPosition().down(1)))
          {
-            this.field_203152_e = Math.max(1.0F, this.field_203152_e);
-            this.func_203148_i();
+            this.height = Math.max(1.0F, this.height);
+            this.selectNext();
          }
 
          if (FatPhantomEntity.this.orbitOffset.y > FatPhantomEntity.this.getPosY() && !FatPhantomEntity.this.world.isAirBlock(FatPhantomEntity.this.getPosition().up(1)))
          {
-            this.field_203152_e = Math.min(-1.0F, this.field_203152_e);
-            this.func_203148_i();
+            this.height = Math.min(-1.0F, this.height);
+            this.selectNext();
          }
       }
 
-      private void func_203148_i()
+      private void selectNext()
       {
          if (BlockPos.ZERO.equals(FatPhantomEntity.this.orbitPosition))
          {
             FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.getPosition();
          }
 
-         this.field_203150_c += this.field_203153_f * 15.0F * ((float)Math.PI / 180F);
-         FatPhantomEntity.this.orbitOffset = Vector3d.copy(FatPhantomEntity.this.orbitPosition).add((double)(this.field_203151_d * MathHelper.cos(this.field_203150_c)), (double)(-4.0F + this.field_203152_e), (double)(this.field_203151_d * MathHelper.sin(this.field_203150_c)));
+         this.angle += this.clockwise * 15.0F * ((float)Math.PI / 180F);
+         FatPhantomEntity.this.orbitOffset = Vector3d.copy(FatPhantomEntity.this.orbitPosition).add((double)(this.distance * MathHelper.cos(this.angle)), (double)(-4.0F + this.height), (double)(this.distance * MathHelper.sin(this.angle)));
       }
    }
 
@@ -579,7 +533,7 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
       {
          this.tickDelay = 10;
          FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
-         this.func_203143_f();
+         this.setAnchorAboveTarget();
       }
 
       public void resetTask()
@@ -595,14 +549,14 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
             if (this.tickDelay <= 0)
             {
                FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.SWOOP;
-               this.func_203143_f();
+               this.setAnchorAboveTarget();
                this.tickDelay = (8 + FatPhantomEntity.this.rand.nextInt(4)) * 20;
                FatPhantomEntity.this.playSound(SoundEvents.ENTITY_PHANTOM_SWOOP, 10.0F, 0.95F + FatPhantomEntity.this.rand.nextFloat() * 0.1F);
             }
          }
       }
 
-      private void func_203143_f()
+      private void setAnchorAboveTarget()
       {
          FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.getAttackTarget().getPosition().up(20 + FatPhantomEntity.this.rand.nextInt(20));
          if (FatPhantomEntity.this.orbitPosition.getY() < FatPhantomEntity.this.world.getSeaLevel())
@@ -624,41 +578,14 @@ public class FatPhantomEntity extends FlyingEntity implements IMob
       public boolean shouldContinueExecuting()
       {
          LivingEntity livingentity = FatPhantomEntity.this.getAttackTarget();
-         if (livingentity == null)
-         {
-            return false;
-         }
-         else if (!livingentity.isAlive())
-         {
-            return false;
-         }
+         if (livingentity == null) {return false;}
+         else if (!livingentity.isAlive()) {return false;}
          else if (!(livingentity instanceof PlayerEntity) || !((PlayerEntity)livingentity).isSpectator() && !((PlayerEntity)livingentity).isCreative())
          {
-            if (!this.shouldExecute())
-            {
-               return false;
-            }
-            else
-            {
-               if (FatPhantomEntity.this.ticksExisted % 20 == 0)
-               {
-                  List<CatEntity> list = FatPhantomEntity.this.world.getEntitiesWithinAABB(CatEntity.class, FatPhantomEntity.this.getBoundingBox().grow(16.0D), EntityPredicates.IS_ALIVE);
-                  if (!list.isEmpty())
-                  {
-                     for(CatEntity catentity : list)
-                     {
-                        catentity.func_213420_ej();
-                     }
-                     return false;
-                  }
-               }
-               return true;
-            }
+            if (!this.shouldExecute()) {return false;}
+            else {return true;}
          }
-         else
-         {
-            return false;
-         }
+         else {return false;}
       }
 
       public void startExecuting() {}

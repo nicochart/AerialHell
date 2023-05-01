@@ -65,10 +65,9 @@ public class CrystalSlimeEntity extends SlimeEntity
         return randomIn.nextInt(10) == 0 && worldIn.getWorld().isDaytime();
     }
 	
-	@Override
-	protected IParticleData getSquishParticle()
+	@Override protected IParticleData getSquishParticle()
 	{
-		return new BlockParticleData(ParticleTypes.BLOCK, AerialHellBlocksAndItems.MUD_BRICKS.get().getDefaultState());
+		return new BlockParticleData(ParticleTypes.BLOCK, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().getDefaultState());
 	}
 	
 	@SuppressWarnings("unchecked")

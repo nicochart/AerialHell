@@ -38,7 +38,7 @@ public class ObsidianShurikenEntity extends AbstractShurikenEntity
 	}
 
 	@Override
-	protected float getKnifeDamage()
+	protected float getShurikenDamage()
 	{
 		return 11.0F;
 	}

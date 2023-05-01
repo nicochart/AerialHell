@@ -68,25 +68,19 @@ public abstract class AbstractShurikenEntity extends ProjectileItemEntity
 		if (result != null && result.getType() != RayTraceResult.Type.MISS && this.world instanceof ServerWorld && result.getType() == RayTraceResult.Type.ENTITY)
 		{
             Entity entity = ((EntityRayTraceResult)result).getEntity();
-            entity.attackEntityFrom(new IndirectEntityDamageSource("shuriken_hit", this, this.func_234616_v_()).setProjectile(), this.getKnifeDamage());
+            entity.attackEntityFrom(new IndirectEntityDamageSource("shuriken_hit", this, this.func_234616_v_()).setProjectile(), this.getShurikenDamage());
             entity.setMotion(entity.getMotion().add(this.getMotion().x / 2, 0.12F, this.getMotion().z / 2));
             this.applyEntityImpactEffet(entity);
 		}
-		
 		this.remove();
 	}
 
 	@Override protected float getGravityVelocity() {return 0.04F;}
 	
-	abstract protected float getKnifeDamage();
+	abstract protected float getShurikenDamage();
 	abstract protected void applyEntityImpactEffet(Entity entity);
 	
-	@Override
-	public IPacket<?> createSpawnPacket()
-	{
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
+	@Override public IPacket<?> createSpawnPacket() {return NetworkHooks.getEntitySpawningPacket(this);}
 
-	@Override
-	abstract protected Item getDefaultItem();
+	@Override abstract protected Item getDefaultItem();
 }

@@ -454,7 +454,7 @@ public class LilithEntity extends AbstractBossEntity
 		return flag;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
+	@Override @OnlyIn(Dist.CLIENT)
 	public void handleStatusUpdate(byte id)
 	{
 		if (id == 4) {this.attackTimer = 10;}

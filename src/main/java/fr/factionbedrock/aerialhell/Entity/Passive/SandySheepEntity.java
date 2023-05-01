@@ -74,7 +74,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
 
     @Nullable
     @Override
-    public AgeableEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_)
+    public AgeableEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) //getBreedOffspring
     {
         return AerialHellEntities.SANDY_SHEEP.get().create(this.world);
     }

@@ -38,7 +38,7 @@ public class ArsonistShurikenEntity extends AbstractShurikenEntity
 	}
 
 	@Override
-	protected float getKnifeDamage()
+	protected float getShurikenDamage()
 	{
 		return 14.0F;
 	}

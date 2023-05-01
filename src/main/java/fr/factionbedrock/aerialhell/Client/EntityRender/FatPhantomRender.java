@@ -19,7 +19,7 @@ public class FatPhantomRender extends MobRenderer<FatPhantomEntity, PhantomModel
 
 	public FatPhantomRender(EntityRendererManager renderManagerIn)
 	{
-		super(renderManagerIn, new PhantomModel<>(), 0.75F);
+		super(renderManagerIn, new PhantomModel<>(), 1.1F);
     }
 
     public ResourceLocation getEntityTexture(FatPhantomEntity entity)
