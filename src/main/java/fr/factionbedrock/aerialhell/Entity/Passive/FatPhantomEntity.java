@@ -17,6 +17,7 @@ import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
@@ -44,7 +45,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class FatPhantomEntity extends FlyingMob implements Enemy
+public class FatPhantomEntity extends Phantom implements Enemy
 {
    private static final EntityDataAccessor<Integer> SIZE = SynchedEntityData.defineId(FatPhantomEntity.class, EntityDataSerializers.INT);
    public List<Player> attackingPlayers = Lists.newArrayList();
@@ -81,6 +82,8 @@ public class FatPhantomEntity extends FlyingMob implements Enemy
       this.goalSelector.addGoal(3, new FatPhantomEntity.OrbitPointGoal());
       this.targetSelector.addGoal(1, new FatPhantomEntity.AttackAttackingPlayerGoal());
    }
+
+   @Override protected boolean shouldDespawnInPeaceful() {return false;}
    
    public static AttributeSupplier.Builder registerAttributes()
    {
@@ -211,7 +214,8 @@ public class FatPhantomEntity extends FlyingMob implements Enemy
    }
    
    @Override public boolean fireImmune() {return false;}
-   
+   @Override protected boolean isSunBurnTick() {return false;}
+
    @Override
    public void aiStep()
    {

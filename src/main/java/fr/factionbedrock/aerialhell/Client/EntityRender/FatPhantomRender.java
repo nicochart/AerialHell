@@ -4,30 +4,31 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import com.mojang.math.Vector3f;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Passive.FatPhantomEntity;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.model.PhantomModel;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.model.PhantomModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
 
-public class FatPhantomRender extends MobRenderer<FatPhantomEntity, PhantomModel<FatPhantomEntity>>
+public class FatPhantomRender extends MobRenderer<FatPhantomEntity, PhantomModel<FatPhantomEntity>> //TODO : make FatPhantom extends Phantom ?
 {
 	private static String name = "fat_phantom";
 	private static final ResourceLocation FAT_PHANTOM_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
 
-	public FatPhantomRender(EntityRendererManager renderManagerIn)
+	public FatPhantomRender(EntityRendererProvider.Context context)
 	{
-		super(renderManagerIn, new PhantomModel<>(), 0.75F);
+		super(context, new PhantomModel<>(context.bakeLayer(ModelLayers.PHANTOM)), 1.1F);
     }
 
-    public ResourceLocation getEntityTexture(FatPhantomEntity entity)
+    public ResourceLocation getTextureLocation(FatPhantomEntity entity)
     {
     	return FAT_PHANTOM_TEXTURE;
     }
 
-    protected void preRenderCallback(FatPhantomEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
+    protected void scale(FatPhantomEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
     {
         int i = entitylivingbaseIn.getPhantomSize();
         float f = 1.0F + 0.15F * (float)i;
@@ -35,9 +36,9 @@ public class FatPhantomRender extends MobRenderer<FatPhantomEntity, PhantomModel
         matrixStackIn.translate(0.0D, 1.3125D, 0.1875D);
     }
 
-    protected void applyRotations(FatPhantomEntity entityLiving, PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks)
+    protected void setupRotations(FatPhantomEntity entityLiving, PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks)
     {
-    	super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
-        matrixStackIn.rotate(Vector3f.XP.rotationDegrees(entityLiving.rotationPitch));
+    	super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
+        matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(entityLiving.getXRot()));
     }
 }

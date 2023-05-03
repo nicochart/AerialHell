@@ -2,9 +2,10 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.ForestCaterpillarModel;
+import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Entity.Neutral.ForestCaterpillarEntity;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -18,21 +19,14 @@ public class CaterpillarRender<T extends AbstractCaterpillarEntity> extends MobR
 	private static final ResourceLocation FOREST = new ResourceLocation(AerialHell.MODID, "textures/entity/caterpillar/" + name_forest + ".png");
 	private static final ResourceLocation CRYSTAL = new ResourceLocation(AerialHell.MODID, "textures/entity/caterpillar/" + name_crystal + ".png");
 
-    public CaterpillarRender(EntityRendererManager manager)
-    {
-        super(manager, new ForestCaterpillarModel<T>(), 0.2f);
-    }
+    public CaterpillarRender(EntityRendererProvider.Context context)
+	{
+		super(context, new ForestCaterpillarModel<T>(context.bakeLayer(AerialHellModelLayers.CATERPILLAR)), 0.2f);
+	}
 
-    @Override
-    public ResourceLocation getEntityTexture(T entity)
+    @Override public ResourceLocation getTextureLocation(T entity)
     {
-    	if (entity instanceof ForestCaterpillarEntity)
-    	{
-    		return FOREST;
-    	}
-    	else
-    	{
-    		return CRYSTAL;
-    	}
+    	if (entity instanceof ForestCaterpillarEntity) {return FOREST;}
+    	else {return CRYSTAL;}
     }
 }

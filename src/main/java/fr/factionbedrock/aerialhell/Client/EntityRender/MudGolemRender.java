@@ -1,9 +1,10 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.MudGolemModel;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudGolemEntity;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,11 +16,11 @@ public class MudGolemRender extends MobRenderer<MudGolemEntity, MudGolemModel<Mu
 	private static String name = "mud_golem";
     private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
 
-    public MudGolemRender(EntityRendererManager manager)
+    public MudGolemRender(EntityRendererProvider.Context context)
     {
-        super(manager, new MudGolemModel<MudGolemEntity>(), 0.6f);
+        super(context, new MudGolemModel<MudGolemEntity>(context.bakeLayer(AerialHellModelLayers.MUD_GOLEM)), 0.6f);
     }
 
     @Override
-    public ResourceLocation getEntityTexture(MudGolemEntity entity) {return TEXTURE;}
+    public ResourceLocation getTextureLocation(MudGolemEntity entity) {return TEXTURE;}
 }

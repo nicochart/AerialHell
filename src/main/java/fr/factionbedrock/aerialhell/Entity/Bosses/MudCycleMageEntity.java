@@ -94,9 +94,9 @@ public class MudCycleMageEntity extends AbstractBossEntity
 		double x,y,z;
 		x = this.getX(); y = this.getY(); z = this.getZ();
 		
-		MudSpectralSoldierEntity spectralSoldier1 = AerialHellEntities.MUD_SPECTRAL_SOLDIER_TYPE.create(this.level);
-		MudSpectralSoldierEntity spectralSoldier2 = AerialHellEntities.MUD_SPECTRAL_SOLDIER_TYPE.create(this.level);
-		MudSpectralSoldierEntity spectralSoldier3 = AerialHellEntities.MUD_SPECTRAL_SOLDIER_TYPE.create(this.level);
+		MudSpectralSoldierEntity spectralSoldier1 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level);
+		MudSpectralSoldierEntity spectralSoldier2 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level);
+		MudSpectralSoldierEntity spectralSoldier3 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level);
 		spectralSoldier1.setPos(x, y, z);
 		spectralSoldier2.setPos(x, y, z);
 		spectralSoldier3.setPos(x, y, z);
@@ -126,15 +126,15 @@ public class MudCycleMageEntity extends AbstractBossEntity
 		
 		if (random.nextInt(2) == 0)
 		{
-			spectralEntity1 = AerialHellEntities.MUD_SPECTRAL_GOLEM_TYPE.create(this.level);
-			spectralEntity2 = AerialHellEntities.MUD_SPECTRAL_SOLDIER_TYPE.create(this.level);
-			spectralEntity3 = AerialHellEntities.MUD_SPECTRAL_SOLDIER_TYPE.create(this.level);
+			spectralEntity1 = AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.level);
+			spectralEntity2 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level);
+			spectralEntity3 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level);
 		}
 		else
 		{
-			spectralEntity1 = AerialHellEntities.MUD_SPECTRAL_GOLEM_TYPE.create(this.level);
-			spectralEntity2 = AerialHellEntities.MUD_SPECTRAL_GOLEM_TYPE.create(this.level);
-			spectralEntity3 = AerialHellEntities.MUD_SPECTRAL_SOLDIER_TYPE.create(this.level);
+			spectralEntity1 = AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.level);
+			spectralEntity2 = AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.level);
+			spectralEntity3 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level);
 		}
 		spectralEntity1.setPos(x, y, z);
 		spectralEntity2.setPos(x, y, z);

@@ -2,14 +2,11 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowFlyingSkullEntity;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 // Made by Cixon with Blockbench
@@ -17,8 +14,6 @@ import net.minecraft.util.Mth;
 
 public class ShadowFlyingSkullModel<T extends ShadowFlyingSkullEntity> extends EntityModel<T>
 {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(AerialHell.MODID, "shadow_flying_skull_model"), "main");
 	private final ModelPart skull;
 	private final ModelPart leftWing;
 	private final ModelPart rightWing;

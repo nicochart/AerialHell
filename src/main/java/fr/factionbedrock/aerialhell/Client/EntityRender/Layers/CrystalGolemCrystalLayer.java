@@ -1,45 +1,40 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.Layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.CrystalGolemCrystalModel;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
 import fr.factionbedrock.aerialhell.Client.EntityModels.CrystalGolemModel;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class CrystalGolemCrystalLayer<T extends AerialHellGolemEntity, M extends CrystalGolemModel<T>> extends LayerRenderer<T,M>
+public class CrystalGolemCrystalLayer<T extends AerialHellGolemEntity, M extends CrystalGolemModel<T>> extends RenderLayer<T,M>
 {
-   private final CrystalGolemCrystalModel<T> golemModel = new CrystalGolemCrystalModel<T>();
+   private final CrystalGolemCrystalModel<T> golemModel;
    private static final ResourceLocation CRYSTAL_GOLEM_CRYSTALS = new ResourceLocation(AerialHell.MODID, "textures/entity/crystal_golem/crystal_golem.png");
    
-   public CrystalGolemCrystalLayer(IEntityRenderer<T,M> p_i50923_1_)
+   public CrystalGolemCrystalLayer(RenderLayerParent<T,M> layerParent, CrystalGolemCrystalModel<T> crystalModel)
    {
-      super(p_i50923_1_);
-   }
-
-   private IVertexBuilder getVertex(IRenderTypeBuffer bufferIn, T entity)
-   {
-	   return bufferIn.getBuffer(RenderType.getEntityTranslucent(CRYSTAL_GOLEM_CRYSTALS));
+      super(layerParent);
+      golemModel = crystalModel;
    }
    
-   public void render(PoseStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
+   public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
    {
       if (!entitylivingbaseIn.isInvisible())
       {
-         this.getEntityModel().copyModelAttributesTo(this.golemModel);
-         this.golemModel.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-         IVertexBuilder ivertexbuilder = getVertex(bufferIn, entitylivingbaseIn);
-         this.golemModel.render(matrixStackIn, ivertexbuilder, packedLightIn, LivingRenderer.getPackedOverlay(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+         this.getParentModel().copyPropertiesTo(this.golemModel);
+         this.golemModel.setupAnim(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+         VertexConsumer consumer = bufferIn.getBuffer(RenderType.entityCutout(CRYSTAL_GOLEM_CRYSTALS));
+         this.golemModel.renderToBuffer(matrixStackIn, consumer, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
       }
    }
 }

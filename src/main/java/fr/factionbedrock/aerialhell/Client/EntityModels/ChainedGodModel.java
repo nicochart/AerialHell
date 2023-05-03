@@ -17,8 +17,6 @@ import net.minecraft.util.Mth;
 
 public class ChainedGodModel extends EntityModel<ChainedGodEntity>
 {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(AerialHell.MODID, "chained_god_model"), "main");
 	private final ModelPart body;
 	private final ModelPart chains;
 	private final ModelPart head;

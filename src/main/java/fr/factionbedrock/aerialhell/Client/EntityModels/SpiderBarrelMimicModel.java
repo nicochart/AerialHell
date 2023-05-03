@@ -2,14 +2,11 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.AbstractBarrelMimicEntity;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 // Base model made by Cixon with Blockbench
@@ -18,8 +15,6 @@ import net.minecraft.util.Mth;
 
 public class SpiderBarrelMimicModel<T extends AbstractBarrelMimicEntity> extends EntityModel<T>
 {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(AerialHell.MODID, "spider_barrel_mimic_model"), "main");
 	private final ModelPart body0;
 	private final ModelPart leg0;
 	private final ModelPart leg1;

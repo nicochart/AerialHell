@@ -1,11 +1,12 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.ShadowTrollModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.ShadowTrollShadowLayer;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.resources.ResourceLocation;
@@ -18,15 +19,15 @@ public class ShadowTrollRender extends MobRenderer<ShadowTrollEntity, ShadowTrol
 	private static final ResourceLocation TEXTURE_NORMAL = new ResourceLocation(AerialHell.MODID, "textures/entity/shadow_troll/shadow_troll.png");
 	private static final ResourceLocation TEXTURE_INVERT = new ResourceLocation(AerialHell.MODID, "textures/entity/shadow_troll/shadow_troll_invert.png");
 
-	public ShadowTrollRender(EntityRendererManager rendererManager)
+	public ShadowTrollRender(EntityRendererProvider.Context context)
 	{
-		super(rendererManager, new ShadowTrollModel(true), 0.3F);
-		this.addLayer(new ShadowTrollShadowLayer(this));
+		super(context, new ShadowTrollModel(context.bakeLayer(AerialHellModelLayers.SHADOW_TROLL),true), 0.3F);
+		this.addLayer(new ShadowTrollShadowLayer(this, new ShadowTrollModel(context.bakeLayer(AerialHellModelLayers.SHADOW_TROLL),false)));
 	}
 	
-	@Override public ResourceLocation getEntityTexture(ShadowTrollEntity entity)
+	@Override public ResourceLocation getTextureLocation(ShadowTrollEntity entity)
 	{
-		if (Minecraft.getInstance().player.hasEffect(Effects.NIGHT_VISION)) {return TEXTURE_INVERT;}
+		if (Minecraft.getInstance().player.hasEffect(MobEffects.NIGHT_VISION)) {return TEXTURE_INVERT;}
 		else {return TEXTURE_NORMAL;}
 	}
 }

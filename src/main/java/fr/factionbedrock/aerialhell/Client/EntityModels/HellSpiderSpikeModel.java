@@ -2,28 +2,23 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.AerialHell;
-import net.minecraft.client.model.SpiderModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.monster.Spider;
 
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class HellSpiderSpikeModel<T extends Spider> extends SpiderModel<T>
+public class HellSpiderSpikeModel<T extends Spider> extends EntityModel<T>//SpiderModel<T>
 {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(AerialHell.MODID, "hell_spider_spike_model"), "main");
 	private final ModelPart bodySpikes;
 	private final ModelPart headSpikes;
 
 	public HellSpiderSpikeModel(ModelPart root)
 	{
-		super(root); //TODO : will it work ??
+		//super(root); //when extends HumanoidModel - it doesn't work : the game crashes when starting : "can't find this body part / element"
 		this.bodySpikes = root.getChild("bodySpikes");
 		this.headSpikes = root.getChild("headSpikes");
 	}

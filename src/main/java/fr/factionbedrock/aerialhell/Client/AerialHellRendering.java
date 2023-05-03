@@ -5,25 +5,20 @@ import java.awt.Color;
 import com.google.common.base.Supplier;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Client.EntityRender.*;
 import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.*;
-import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.*;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMenuTypes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @Mod.EventBusSubscriber(modid = AerialHell.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
 @OnlyIn(Dist.CLIENT)
@@ -31,9 +26,9 @@ public class AerialHellRendering
 {
 	public static void registerBlockRenderLayers()
 	{
-		RenderType translucent = RenderType.getTranslucent();
-		RenderType cutout = RenderType.getCutout();
-		RenderType cutout_mipped = RenderType.getCutoutMipped();
+		RenderType translucent = RenderType.translucent();
+		RenderType cutout = RenderType.cutout();
+		RenderType cutout_mipped = RenderType.cutoutMipped();
 		
 		render(() -> AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get(), translucent);
@@ -167,70 +162,12 @@ public class AerialHellRendering
 	
 	private static void render(Supplier<? extends Block> block, RenderType render)
 	{
-        RenderTypeLookup.setRenderLayer(block.get(), render);
+        ItemBlockRenderTypes.setRenderLayer(block.get(), render);
     }
-	
-	public static void registerEntityRenderers(FMLClientSetupEvent event)
-	{
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.STELLAR_STONE_AUTOMATON.get(), StellarStoneAutomatonRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.MUD_GOLEM.get(), MudGolemRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.MUD_SPECTRAL_GOLEM.get(), MudGolemRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CRYSTAL_GOLEM.get(), CrystalGolemRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.LUNATIC_PRIEST.get(), LunaticPriestRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.EVIL_COW.get(), EvilCowRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CORTINARIUS_COW.get(), CortinariusCowRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHROOMBOOM.get(), ShroomBoomRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.VERDIGRIS_ZOMBIE.get(), VerdigrisZombieRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SANDY_SHEEP.get(), SandySheepRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.GLIDING_TURTLE.get(), GlidingTurtleRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.FAT_PHANTOM.get(), FatPhantomRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CRYSTAL_SLIME.get(), CrystalSlimeRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.MUD_SOLDIER.get(), MudSoldierRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.MUD_SPECTRAL_SOLDIER.get(), MudSoldierRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.MUD_CYCLE_MAGE.get(), MudCycleMageRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.TORN_SPIRIT.get(), TornSpiritRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.ICE_SPIRIT.get(), ElementSpiritRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.FIRE_SPIRIT.get(), ElementSpiritRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.ELECTRO_SPIRIT.get(), ElementSpiritRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CHAINED_GOD.get(), ChainedGodRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.FLYING_JELLYFISH.get(), FlyingJellyfishRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHADOW_FLYING_SKULL.get(), ShadowFlyingSkullRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHADOW_TROLL.get(), ShadowTrollRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHADOW_AUTOMATON.get(), ShadowAutomatonRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.AERIAL_TREE_MIMIC.get(), ChestMimicRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.GOLDEN_BEECH_MIMIC.get(), ChestMimicRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SKY_CACTUS_FIBER_MIMIC.get(), ChestMimicRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.COPPER_PINE_MIMIC.get(), ChestMimicRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHADOW_PINE_MIMIC.get(), SpiderBarrelMimicRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.HELL_SPIDER.get(), HellSpiderRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CRYSTAL_SPIDER.get(), HellSpiderRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHADOW_SPIDER.get(), HellSpiderRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.LILITH.get(), LilithRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.FOREST_CATERPILLAR.get(), CaterpillarRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.CRYSTAL_CATERPILLAR.get(), CaterpillarRender::new);
-		
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.IRON_SHURIKEN.get(), ShurikenRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.GOLD_SHURIKEN.get(), ShurikenRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.DIAMOND_SHURIKEN.get(), ShurikenRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.NETHERITE_SHURIKEN.get(), ShurikenRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.RUBY_SHURIKEN.get(), ShurikenRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.AZURITE_SHURIKEN.get(), ShurikenRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.MAGMATIC_GEL_SHURIKEN.get(), ShurikenRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.VOLUCITE_SHURIKEN.get(), ShurikenRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.OBSIDIAN_SHURIKEN.get(), ShurikenRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), ShurikenRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.ARSONIST_SHURIKEN.get(), ShurikenRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.LIGHTNING_SHURIKEN.get(), ShurikenRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.POISONBALL.get(), PoisonballProjectileRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.VOLUCITE_BLOWPIPE_ARROW.get(), AerialArrowRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), AerialArrowRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.LUNATIC_PROJECTILE.get(), LightProjectileRender::new);
-		RenderingRegistry.registerEntityRenderingHandler(AerialHellEntities.SHADOW_PROJECTILE.get(), LightProjectileRender::new);
-	}
-	
+
 	public static void registerBlockColors()
 	{
-        Minecraft.getInstance().getBlockColors().register((state, world, pos, tint) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : new Color(12, 35, 26).getRGB(),
+        Minecraft.getInstance().getBlockColors().register((state, world, pos, tint) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos) : new Color(12, 35, 26).getRGB(),
         		AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get(),
         		AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(),
         		AerialHellBlocksAndItems.STELLAR_GRASS.get(),

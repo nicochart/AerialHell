@@ -3,10 +3,11 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.CrystalSlimeModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.CrystalSlimeGelAndCrystalLayer;
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSlimeEntity;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,14 +18,14 @@ public class CrystalSlimeRender extends MobRenderer<CrystalSlimeEntity, CrystalS
 {	
 	private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/crystal_slime/crystal_slime.png");
 	
-	public CrystalSlimeRender(EntityRendererManager rendererManager)
+	public CrystalSlimeRender(EntityRendererProvider.Context context)
 	{
-		super(rendererManager, new CrystalSlimeModel(false), 0.3F);
-		this.addLayer(new CrystalSlimeGelAndCrystalLayer(this));
+		super(context, new CrystalSlimeModel(context.bakeLayer(AerialHellModelLayers.CRYSTAL_SLIME),false), 0.3F);
+		this.addLayer(new CrystalSlimeGelAndCrystalLayer(this, new CrystalSlimeModel(context.bakeLayer(AerialHellModelLayers.CRYSTAL_SLIME),true)));
 	}
 	
 	@Override
-	protected void preRenderCallback(CrystalSlimeEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
+	protected void scale(CrystalSlimeEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
 	{
 		float f = 0.879F;
 		matrixStackIn.scale(f, f, f);
@@ -35,7 +36,7 @@ public class CrystalSlimeRender extends MobRenderer<CrystalSlimeEntity, CrystalS
 	}
 	
 	@Override
-	public ResourceLocation getEntityTexture(CrystalSlimeEntity entity)
+	public ResourceLocation getTextureLocation(CrystalSlimeEntity entity)
 	{
 		return TEXTURE;
 	}

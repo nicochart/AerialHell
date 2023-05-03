@@ -3,11 +3,12 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.ElementSpiritModel;
 import fr.factionbedrock.aerialhell.Entity.AbstractElementSpiritEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.ElectroSpiritEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.IceSpiritEntity;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
@@ -17,13 +18,13 @@ public class ElementSpiritRender<T extends AbstractElementSpiritEntity> extends 
 	private static final ResourceLocation FIRE_SPIRIT_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/element_spirit/fire_spirit.png");
 	private static final ResourceLocation ELECTRO_SPIRIT_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/element_spirit/electro_spirit.png");
 	
-    public ElementSpiritRender(EntityRendererManager renderManagerIn)
+    public ElementSpiritRender(EntityRendererProvider.Context context)
 	{
-    	super(renderManagerIn, new ElementSpiritModel<T>(), 0.3F);
+    	super(context, new ElementSpiritModel<T>(context.bakeLayer(AerialHellModelLayers.ELEMENT_SPIRIT)), 0.3F);
 	}
     
     @Override
-    protected void preRenderCallback(T entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
+    protected void scale(T entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
     {
         float f = 0.6F;
         matrixStackIn.scale(f, f, f);
@@ -31,19 +32,10 @@ public class ElementSpiritRender<T extends AbstractElementSpiritEntity> extends 
     }
     
 	@Override
-	public ResourceLocation getEntityTexture(AbstractElementSpiritEntity entity)
+	public ResourceLocation getTextureLocation(AbstractElementSpiritEntity entity)
     {
-		if (entity instanceof IceSpiritEntity)
-		{
-			return ICE_SPIRIT_TEXTURE;
-		}
-		else if (entity instanceof ElectroSpiritEntity)
-		{
-			return ELECTRO_SPIRIT_TEXTURE;
-		}
-		else
-		{
-			return FIRE_SPIRIT_TEXTURE;
-		}
+		if (entity instanceof IceSpiritEntity) {return ICE_SPIRIT_TEXTURE;}
+		else if (entity instanceof ElectroSpiritEntity) {return ELECTRO_SPIRIT_TEXTURE;}
+		else {return FIRE_SPIRIT_TEXTURE;}
     }
 }

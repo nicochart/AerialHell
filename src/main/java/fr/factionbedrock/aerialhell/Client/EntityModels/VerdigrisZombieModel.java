@@ -2,24 +2,19 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Monster.VerdigrisZombieEntity;
 import net.minecraft.client.model.AnimationUtils;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class VerdigrisZombieModel extends HumanoidModel<VerdigrisZombieEntity>
+public class VerdigrisZombieModel extends EntityModel<VerdigrisZombieEntity>//HumanoidModel<VerdigrisZombieEntity>
 {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(AerialHell.MODID, "verdigris_zombie_model"), "main");
 	private final ModelPart head;
 	private final ModelPart body;
 	private final ModelPart leftArm;
@@ -29,7 +24,7 @@ public class VerdigrisZombieModel extends HumanoidModel<VerdigrisZombieEntity>
 
 	public VerdigrisZombieModel(ModelPart root)
 	{
-		super(root); //TODO : will it work ?
+		//super(root); //when extends HumanoidModel - it doesn't work : the game crashes when starting : "can't find this body part / element"
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
 		this.leftArm = root.getChild("leftArm");

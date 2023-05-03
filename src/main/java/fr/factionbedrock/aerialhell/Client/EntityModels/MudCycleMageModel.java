@@ -2,14 +2,11 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 // Made by Cixon with Blockbench
@@ -17,8 +14,6 @@ import net.minecraft.util.Mth;
 
 public class MudCycleMageModel extends EntityModel<MudCycleMageEntity>
 {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(AerialHell.MODID, "mud_cycle_mage_model"), "main");
 	private final ModelPart head;
 	private final ModelPart body;
 	private final ModelPart leftArm;
@@ -35,7 +30,8 @@ public class MudCycleMageModel extends EntityModel<MudCycleMageEntity>
 		this.leftLeg = root.getChild("leftLeg");
 	}
 
-	public static LayerDefinition createbodyLayer() {
+	public static LayerDefinition createBodyLayer()
+	{
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 

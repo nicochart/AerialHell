@@ -1,10 +1,11 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.ChestMimicModel;
 import fr.factionbedrock.aerialhell.Entity.AbstractChestMimicEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,14 +20,13 @@ public class ChestMimicRender<T extends AbstractChestMimicEntity> extends MobRen
 	private static final ResourceLocation GOLDEN_BEECH_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/chest_mimic/golden_beech.png");
 	private static final ResourceLocation COPPER_PINE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/chest_mimic/copper_pine.png");
 	
-	public ChestMimicRender(EntityRendererManager rendererManager)
+	public ChestMimicRender(EntityRendererProvider.Context context)
 	{
-		
-		super(rendererManager, new ChestMimicModel(), 1.0F);
+		super(context, new ChestMimicModel(context.bakeLayer(AerialHellModelLayers.CHEST_MIMIC)), 1.0F);
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(T mimic)
+	public ResourceLocation getTextureLocation(T mimic)
 	{
 		if (mimic instanceof AerialTreeChestMimicEntity)
 		{

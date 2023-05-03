@@ -32,11 +32,11 @@ public abstract class AerialHellHostileEntity extends Monster
 
     public static boolean canHostileEntitySpawn(EntityType<? extends Monster> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, Random randomIn)
     {
-        if (type == AerialHellEntities.CRYSTAL_SPIDER_TYPE)
+        if (type == AerialHellEntities.CRYSTAL_SPIDER.get())
         {
         	return randomIn.nextInt(10) == 0 && checkMonsterSpawnRules(type, worldIn, reason, pos, randomIn);
         }
-        else if (type == AerialHellEntities.EVIL_COW_TYPE || type == AerialHellEntities.CORTINARIUS_COW_TYPE)
+        else if (type == AerialHellEntities.EVIL_COW.get() || type == AerialHellEntities.CORTINARIUS_COW.get())
         {
         	return randomIn.nextInt(50) == 0 && checkMonsterSpawnRules(type, worldIn, reason, pos, randomIn);
         }

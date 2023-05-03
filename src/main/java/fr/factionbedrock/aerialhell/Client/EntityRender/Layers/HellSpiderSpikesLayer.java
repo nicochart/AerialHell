@@ -1,60 +1,60 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.Layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.HellSpiderSpikeModel;
 import fr.factionbedrock.aerialhell.Entity.Monster.HellSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowSpiderEntity;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.model.SpiderModel;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.client.renderer.entity.model.SpiderModel;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class HellSpiderSpikesLayer<T extends Spider, M extends SpiderModel<T>> extends LayerRenderer<T, M>
+public class HellSpiderSpikesLayer<T extends Spider, M extends SpiderModel<T>> extends RenderLayer<T, M>
 {
-   private final HellSpiderSpikeModel<T> SpiderSpikeModel = new HellSpiderSpikeModel<T>();
+   private final HellSpiderSpikeModel<T> spiderSpikeModel;
    private static final ResourceLocation HELL_SPIDER_SPIKES = new ResourceLocation(AerialHell.MODID, "textures/entity/hell_spider/spikes.png");
    private static final ResourceLocation CRYSTAL_SPIDER_SPIKES = new ResourceLocation(AerialHell.MODID, "textures/entity/crystal_spider/crystals.png");
    private static final ResourceLocation SHADOW_SPIDER_SPIKES = new ResourceLocation(AerialHell.MODID, "textures/entity/shadow_spider/spikes.png");
    
-   public HellSpiderSpikesLayer(IEntityRenderer<T,M> p_i50923_1_)
+   public HellSpiderSpikesLayer(RenderLayerParent<T,M> layerParent, HellSpiderSpikeModel<T> spikeModel)
    {
-      super(p_i50923_1_);
+      super(layerParent);
+      this.spiderSpikeModel = spikeModel;
    }
    
-   private IVertexBuilder getVertex(IRenderTypeBuffer bufferIn, T entity)
+   private VertexConsumer getBuffer(MultiBufferSource bufferIn, T entity)
    {
 	   if (entity instanceof HellSpiderEntity)
 	   {
-		   return bufferIn.getBuffer(RenderType.getEntityCutout(HELL_SPIDER_SPIKES));
+		   return bufferIn.getBuffer(RenderType.entityCutout(HELL_SPIDER_SPIKES));
 	   }
 	   else if (entity instanceof ShadowSpiderEntity)
 	   {
-		   return bufferIn.getBuffer(RenderType.getEntityCutout(SHADOW_SPIDER_SPIKES));
+		   return bufferIn.getBuffer(RenderType.entityCutout(SHADOW_SPIDER_SPIKES));
 	   }
 	   else
 	   {
-		   return bufferIn.getBuffer(RenderType.getEntityTranslucent(CRYSTAL_SPIDER_SPIKES));
+		   return bufferIn.getBuffer(RenderType.entityTranslucent(CRYSTAL_SPIDER_SPIKES));
 	   }
    }
    
-   public void render(PoseStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
+   public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
    {   
       if (!entitylivingbaseIn.isInvisible())
       {
-         this.getEntityModel().copyModelAttributesTo(this.SpiderSpikeModel);
-         this.SpiderSpikeModel.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-         IVertexBuilder ivertexbuilder = getVertex(bufferIn, entitylivingbaseIn);
-         this.SpiderSpikeModel.render(matrixStackIn, ivertexbuilder, packedLightIn, LivingRenderer.getPackedOverlay(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+          this.getParentModel().copyPropertiesTo(this.spiderSpikeModel);
+          this.spiderSpikeModel.setupAnim(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+          VertexConsumer consumer = getBuffer(bufferIn, entitylivingbaseIn);
+          this.spiderSpikeModel.renderToBuffer(matrixStackIn, consumer, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
       }
    }
 }

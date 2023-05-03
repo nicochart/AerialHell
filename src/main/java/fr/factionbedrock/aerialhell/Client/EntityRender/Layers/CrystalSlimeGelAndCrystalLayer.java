@@ -1,37 +1,36 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.Layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Client.EntityModels.CrystalSlimeModel;
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSlimeEntity;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class CrystalSlimeGelAndCrystalLayer extends LayerRenderer<CrystalSlimeEntity, CrystalSlimeModel>
+public class CrystalSlimeGelAndCrystalLayer extends RenderLayer<CrystalSlimeEntity, CrystalSlimeModel>
 {
-   private final CrystalSlimeModel crystalSlimeModel = new CrystalSlimeModel(true);
+   private final CrystalSlimeModel crystalSlimeModel;
 
-   public CrystalSlimeGelAndCrystalLayer(IEntityRenderer<CrystalSlimeEntity, CrystalSlimeModel> entityRenderer)
+   public CrystalSlimeGelAndCrystalLayer(RenderLayerParent<CrystalSlimeEntity, CrystalSlimeModel> layerParent, CrystalSlimeModel model)
    {
-      super(entityRenderer);
+      super(layerParent);
+      this.crystalSlimeModel = model;
    }
    
-   public void render(PoseStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, CrystalSlimeEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
+   public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, CrystalSlimeEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
    {
       if (!entitylivingbaseIn.isInvisible())
       {
-         this.getEntityModel().copyModelAttributesTo(this.crystalSlimeModel);
-         this.crystalSlimeModel.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks);
-         this.crystalSlimeModel.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-         IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEntityTranslucent(this.getEntityTexture(entitylivingbaseIn)));
-         this.crystalSlimeModel.render(matrixStackIn, ivertexbuilder, packedLightIn, LivingRenderer.getPackedOverlay(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+         this.getParentModel().copyPropertiesTo(this.crystalSlimeModel);
+         this.crystalSlimeModel.setupAnim(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+         VertexConsumer consumer = bufferIn.getBuffer(RenderType.entityTranslucent(this.getTextureLocation(entitylivingbaseIn)));
+         this.crystalSlimeModel.renderToBuffer(matrixStackIn, consumer, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
       }
    }
 }
