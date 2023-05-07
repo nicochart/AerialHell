@@ -1,27 +1,25 @@
 package fr.factionbedrock.aerialhell.World.Structure;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.block.material.Material;
-import net.minecraft.core.Direction;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
+import net.minecraft.world.level.levelgen.structure.PostPlacementProcessor;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
-public abstract class AbstractAerialHellStructure extends StructureFeature<NoneFeatureConfiguration>
+import java.util.Random;
+
+public abstract class AbstractAerialHellStructure extends StructureFeature<JigsawConfiguration>
 {
-    public AbstractAerialHellStructure(Codec<NoneFeatureConfiguration> codec, PieceGeneratorSupplier<NoneFeatureConfiguration> pieceGeneratorSupplier)
+    private static final int MIN_STRUCTURE_SIZE = 0, MAX_STRUCTURE_SIZE = 50;
+    public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> {return codec.group(StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool), Codec.intRange(MIN_STRUCTURE_SIZE, MAX_STRUCTURE_SIZE).fieldOf("size").forGetter(JigsawConfiguration::maxDepth)).apply(codec, JigsawConfiguration::new);});
+
+    public AbstractAerialHellStructure(PieceGeneratorSupplier<JigsawConfiguration> pieceGeneratorSupplier)
     {
-        super(codec, pieceGeneratorSupplier);
+        super(CODEC, pieceGeneratorSupplier, PostPlacementProcessor.NONE);
     }
 
     @Override
@@ -30,59 +28,8 @@ public abstract class AbstractAerialHellStructure extends StructureFeature<NoneF
         return GenerationStep.Decoration.SURFACE_STRUCTURES;
     }
 
-    public static abstract class Start extends StructureStart
+    protected static BlockPos moveInsideHeights(BlockPos pos, int minY, int maxY, Random rand)
     {
-
-        public Start(Structure<NoneFeatureConfiguration> structureIn, int chunkX, int chunkZ, MutableBoundingBox mutableBoundingBox, int referenceIn, long seedIn)
-        {
-            super(structureIn, chunkX, chunkZ, mutableBoundingBox, referenceIn, seedIn);
-        }
-
-        public BlockPos getLowestLand(ChunkGenerator chunkGenerator)
-        {
-            BlockPos.Mutable mutable = new BlockPos.Mutable().setPos(this.bounds.func_215126_f().getX(), 32, this.bounds.func_215126_f().getZ());
-            IBlockReader blockView = chunkGenerator.func_230348_a_(mutable.getX(), mutable.getZ());
-            BlockState currentBlockstate = blockView.getBlockState(mutable);
-            while (mutable.getY() <= 250)
-            {
-
-                if(blockView.getBlockState(mutable).getMaterial() != Material.AIR && blockView.getBlockState(mutable.above()).getMaterial() == Material.AIR && blockView.getBlockState(mutable.up(5)).getMaterial() == Material.AIR && isValidBlock(currentBlockstate))
-                {
-                    mutable.move(Direction.UP);
-                    break;
-                }
-
-                mutable.move(Direction.UP);
-                currentBlockstate = blockView.getBlockState(mutable);
-            }
-
-            return mutable;
-        }
-
-        public BlockPos getHighestLand(ChunkGenerator chunkGenerator)
-        {
-            BlockPos.Mutable mutable = new BlockPos.Mutable().setPos(this.bounds.func_215126_f().getX(), 250, this.bounds.func_215126_f().getZ());
-            IBlockReader blockView = chunkGenerator.func_230348_a_(mutable.getX(), mutable.getZ());
-            BlockState currentBlockstate;
-            while (mutable.getY() > 32)
-            {
-                currentBlockstate = blockView.getBlockState(mutable);
-                if (!currentBlockstate.isNormalCube(blockView, mutable))
-                {
-                    mutable.move(Direction.DOWN);
-                    continue;
-                }
-                else if (blockView.getBlockState(mutable.add(0, 3, 0)).getMaterial() == Material.AIR && isValidBlock(currentBlockstate))
-                {break;}
-                mutable.move(Direction.DOWN);
-            }
-
-            return mutable;
-        }
-
-        private boolean isValidBlock(BlockState currentBlockstate)
-        {
-            return currentBlockstate.isIn(Blocks.AIR.getBlock());
-        }
+        return new BlockPos(pos.getX(), minY + rand.nextInt(maxY - minY + 1), pos.getZ());
     }
 }

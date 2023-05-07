@@ -1,0 +1,16 @@
+{
+  "structures": [
+    {
+      "structure": "aerialhell:shadow_catacombs",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 13435445,
+
+    "spacing": 14, //average distance (chunks)
+    "separation": 6, //minimum distance (chunks)
+
+    "type": "minecraft:random_spread"
+  }
+}

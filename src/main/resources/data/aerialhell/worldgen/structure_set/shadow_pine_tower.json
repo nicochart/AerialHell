@@ -1,0 +1,16 @@
+{
+  "structures": [
+    {
+      "structure": "aerialhell:shadow_pine_tower",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 213454433,
+
+    "spacing": 6, //average distance (chunks)
+    "separation": 3, //minimum distance (chunks)
+
+    "type": "minecraft:random_spread"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "structures": [
+    {
+      "structure": "aerialhell:overworld_abandonned_portal",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 166754456,
+
+    "spacing": 25, //average distance (chunks)
+    "separation": 15, //minimum distance (chunks)
+
+    "type": "minecraft:random_spread"
+  }
+}

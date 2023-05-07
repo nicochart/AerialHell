@@ -1,4 +1,12 @@
 {
-  "config": {},
-  "type": "aerialhell:slippery_sand_ocean_abandonned_structure"
+  "type": "aerialhell:slippery_sand_ocean_abandonned_structure",
+
+  "config": {
+    "start_pool": "aerialhell:slippery_sand_ocean_abandonned_structure/slippery_sand_ocean_abandonned_structure_pool",
+    "size": 20 //jigsaw level
+  },
+  "biomes": "#aerialhell:has_structure/slippery_sand_ocean_abandonned_structure",
+  "adapt_noise": false, //transformSurroundingLand
+
+  "spawn_overrides": {}
 }

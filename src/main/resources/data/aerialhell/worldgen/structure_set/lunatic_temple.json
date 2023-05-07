@@ -1,0 +1,16 @@
+{
+  "structures": [
+    {
+      "structure": "aerialhell:lunatic_temple",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 993252541,
+
+    "spacing": 40, //average distance (chunks)
+    "separation": 14, //minimum distance (chunks)
+
+    "type": "minecraft:random_spread"
+  }
+}

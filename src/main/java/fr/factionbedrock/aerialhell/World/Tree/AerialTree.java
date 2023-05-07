@@ -5,22 +5,15 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellConfiguredFeatures;
-import net.minecraft.block.trees.Tree;
-import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
+import net.minecraft.core.Holder;
+import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.Feature;
 
-public class AerialTree extends Tree
+public class AerialTree extends AbstractTreeGrower
 {
-	/* 
-	This class is useful only to generate a tree from a sapling.
-	The tree generated when a new chunk is loaded is in the class aerialhell/Setup/Registration
-	*/
-	
-	@Nullable
-	@Override
-	protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(Random randomIn, boolean largeHive)
+	@Nullable @Override
+	protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(Random randomIn, boolean largeHive)
 	{
-		return Feature.TREE.withConfiguration(AerialHellConfiguredFeatures.Configs.AERIAL_TREE_BASIC_CONFIG);
+		return AerialHellConfiguredFeatures.AERIAL_TREE.getHolder().get();
 	}
 }

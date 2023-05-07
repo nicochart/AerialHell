@@ -1,0 +1,16 @@
+{
+  "structures": [
+    {
+      "structure": "aerialhell:slippery_sand_ocean_abandonned_structure",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 223454456,
+
+    "spacing": 2, //average distance (chunks)
+    "separation": 1, //minimum distance (chunks)
+
+    "type": "minecraft:random_spread"
+  }
+}

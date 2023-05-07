@@ -1,0 +1,16 @@
+{
+  "structures": [
+    {
+      "structure": "aerialhell:golden_nether_prison",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 123334456,
+
+    "spacing": 35, //average distance (chunks)
+    "separation": 25, //minimum distance (chunks)
+
+    "type": "minecraft:random_spread"
+  }
+}

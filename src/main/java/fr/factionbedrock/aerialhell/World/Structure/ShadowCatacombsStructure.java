@@ -1,53 +1,42 @@
 package fr.factionbedrock.aerialhell.World.Structure;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.serialization.Codec;
-import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBiomes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.SharedSeedRandom;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.util.registry.DynamicRegistries;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.MobSpawnSettings;
-import net.minecraft.world.biome.provider.BiomeProvider;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
-import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.gen.feature.structure.VillageConfig;
-import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.LegacyRandomSource;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
+import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
+import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ShadowCatacombsStructure extends AbstractAerialHellStructure
 {
-	private static final List<MobSpawnSettings.SpawnerData> monstersSpawnList = ImmutableList.of(new MobSpawnInfo.Spawners(AerialHellEntities.SHADOW_TROLL.get(), 2, 1, 3), new MobSpawnInfo.Spawners(AerialHellEntities.SHADOW_AUTOMATON.get(), 2, 5, 5), new MobSpawnInfo.Spawners(AerialHellEntities.SHADOW_SPIDER.get(), 2, 5, 5));
-	private static final List<MobSpawnSettings.SpawnerData> creaturesSpawnList = ImmutableList.of();
+    private final static int MIN_GEN_HEIGHT = 75, MAX_GEN_HEIGHT = 95;
 
-    public ShadowCatacombsStructure(Codec<NoneFeatureConfiguration> codec, PieceGeneratorSupplier<NoneFeatureConfiguration> pieceGeneratorSupplier)
+    public ShadowCatacombsStructure() {super(ShadowCatacombsStructure::getPiecesGenerator);}
+
+    private static Optional<PieceGenerator<JigsawConfiguration>> getPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context)
     {
-        super(codec, pieceGeneratorSupplier);
+        if (!isFeatureChunk(context)) {return Optional.empty();}
+        else {return createPiecesGenerator(context);}
     }
-    
-    @Override public List<MobSpawnSettings.SpawnerData> getDefaultSpawnList() {return monstersSpawnList;}
-    @Override public List<MobSpawnSettings.SpawnerData> getDefaultCreatureSpawnList() {return creaturesSpawnList;}
 
-    @Override
-    public IStartFactory<NoneFeatureConfiguration> getStartFactory() {return ShadowCatacombsStructure.Start::new;}
-
-    @Override
-    protected boolean func_230363_a_(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) //isFeatureChunk (check if can spawn)
+    private static boolean isFeatureChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context)
     {
-        BlockPos centerOfChunk = new BlockPos(chunkX * 16, 80, chunkZ * 16);
+        ChunkGenerator chunkGenerator = context.chunkGenerator();
+        ChunkPos chunkpos = context.chunkPos();
+        LevelHeightAccessor level = context.heightAccessor();
+        long seed = context.seed();
+        BlockPos centerOfChunk = chunkpos.getMiddleBlockPosition(0);
 
         int landHeight, checkDistance=30;
         //int notShadowBiomeCount = 0;
@@ -56,7 +45,7 @@ public class ShadowCatacombsStructure extends AbstractAerialHellStructure
         List<BlockPos> posToCheck = ImmutableList.of(centerOfChunk, centerOfChunk.north(checkDistance), centerOfChunk.south(checkDistance), centerOfChunk.east(checkDistance), centerOfChunk.west(checkDistance));
         for (BlockPos pos : posToCheck)
         {
-            landHeight = chunkGenerator.getHeight(pos.getX(), pos.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
+            landHeight = chunkGenerator.getBaseHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, level);
             /* biomeSource.getNoiseBiome(x,y,z) doesn't return the right biome. Do not use this method for biome check.Biome posBiome = biomeSource.getNoiseBiome(pos.getX(), pos.getY(), pos.getZ());
             if (!FeatureHelper.isShadowBiome(posBiome)) {notShadowBiomeCount++;}*/
             if (landHeight > 80) {highGroundCount++;}
@@ -64,42 +53,21 @@ public class ShadowCatacombsStructure extends AbstractAerialHellStructure
         return /*notShadowBiomeCount <= 1 &&*/ highGroundCount > 3;
     }
 
-    public static class Start extends AbstractAerialHellStructure.Start
+    private static Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context)
     {
-        public Start(Structure<NoneFeatureConfiguration> structureIn, int chunkX, int chunkZ, MutableBoundingBox mutableBoundingBox, int referenceIn, long seedIn)
-        {
-            super(structureIn, chunkX, chunkZ, mutableBoundingBox, referenceIn, seedIn);
-        }
+        WorldgenRandom random = new WorldgenRandom(new LegacyRandomSource(context.seed()));
+        BlockPos blockpos = context.chunkPos().getMiddleBlockPosition(0);
+        blockpos = moveInsideHeights(blockpos, MIN_GEN_HEIGHT, MAX_GEN_HEIGHT, random);
 
-        @Override //generatePieces
-        public void func_230364_a_(DynamicRegistries dynamicRegistryManager, ChunkGenerator chunkGenerator, TemplateManager structureManager, int x, int z, Biome biome, NoFeatureConfig NoFeatureConfig)
-        {
-            BlockPos yPos = getHighestLand(chunkGenerator);
-            BlockPos blockPos = new BlockPos(x * 16, 0, z * 16);
+        Optional<PieceGenerator<JigsawConfiguration>> structurePiecesGenerator =
+                JigsawPlacement.addPieces(
+                        context,
+                        PoolElementStructurePiece::new,
+                        blockpos, // structure pos
+                        false,
+                        false //true = use terrain height as base, and adds blockpos y to it
+                );
 
-            JigsawManager.func_242837_a //addPieces
-            (
-                    dynamicRegistryManager,
-                    new VillageConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY).getOrDefault(new ResourceLocation(AerialHell.MODID, "shadow_catacombs/floors/first_basement_start_pattern")), 50),
-                    AbstractVillagePiece::new,
-                    chunkGenerator,
-                    structureManager,
-                    blockPos,
-                    this.components,
-                    this.rand,
-                    true,
-                    false
-            );
-
-            this.recalculateStructureSize();
-
-            if (yPos.getY() <= 75 || yPos.getY() >= 95)
-            {	//moveInsideHeights
-                this.func_214626_a(this.rand, 75, 95);
-            }
-            else {
-                this.func_214626_a(this.rand, yPos.getY(), yPos.getY());
-            }
-        }
+        return structurePiecesGenerator;
     }
 }

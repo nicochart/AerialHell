@@ -1,0 +1,16 @@
+{
+  "structures": [
+    {
+      "structure": "aerialhell:copper_pine_cottage",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 223454456,
+
+    "spacing": 6, //average distance (chunks)
+    "separation": 3, //minimum distance (chunks)
+
+    "type": "minecraft:random_spread"
+  }
+}

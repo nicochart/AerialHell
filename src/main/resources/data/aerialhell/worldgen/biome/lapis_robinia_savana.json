@@ -1,14 +1,12 @@
 {
-  "precipitation": "none",
-  "category": "none",
-  "depth": 0.125,
-  "scale": 0.05,
   "temperature": 0.8,
+  "downfall": 0,
+  "precipitation": "none",
   "temperature_modifier": "none",
-  "downfall": 0.0,
+  "category": "savanna",
   "effects": {
-    "fog_color": 7583112,
     "sky_color": 6388392,
+    "fog_color": 7583112,
     "water_color": 4084366,
     "water_fog_color": 4019819,
     "grass_color": 3172687,
@@ -21,10 +19,44 @@
       "replace_current_music": false
     }
   },
-  "surface_builder": "aerialhell:stellar_grass_block",
+  "spawners": {
+    "monster": [
+      {
+        "type": "aerialhell:evil_cow",
+        "weight": 100,
+        "minCount": 4,
+        "maxCount": 10
+      },
+      {
+        "type": "aerialhell:fat_phantom",
+        "weight": 30,
+        "minCount": 1,
+        "maxCount": 3
+      }
+    ],
+    "creature": [
+      {
+        "type": "aerialhell:sandy_sheep",
+        "weight": 10,
+        "minCount": 2,
+        "maxCount": 7
+      },
+      {
+        "type": "aerialhell:gliding_turtle",
+        "weight": 30,
+        "minCount": 3,
+        "maxCount": 10
+      }
+    ],
+    "ambient": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
   "carvers": {
     "air": [
-	"aerialhell:aerialhell_cave"
+      "minecraft:cave"
     ]
   },
   "features": [
@@ -71,55 +103,10 @@
       "aerialhell:aerial_hell_flowers",
       "aerialhell:aerial_hell_bellflowers",
       "aerialhell:sky_cactus",
-      "aerialhell:lapis_robinia_basic",
+      "aerialhell:lapis_robinia",
       "aerialhell:golden_beech_rare",
       "aerialhell:giant_ganoderma_applanatum"
     ],
     []
-  ],
-  "starts": [
-      "aerialhell:mud_dungeon",
-      "aerialhell:lunatic_temple",
-      "aerialhell:golden_nether_prison",
-      "aerialhell:stellar_stone_bricks_tower",
-      "aerialhell:lapis_robinia_hut"
-  ],
-  "spawners": {
-    "monster": [
-      {
-        "type": "aerialhell:evil_cow",
-        "weight": 100,
-        "minCount": 4,
-        "maxCount": 10
-      },
-      {
-        "type": "aerialhell:fat_phantom",
-        "weight": 30,
-        "minCount": 1,
-        "maxCount": 3
-      }
-    ],
-    "creature": [
-      {
-        "type": "aerialhell:sandy_sheep",
-        "weight": 10,
-        "minCount": 2,
-        "maxCount": 7
-      },
-      {
-        "type": "aerialhell:gliding_turtle",
-        "weight": 30,
-        "minCount": 3,
-        "maxCount": 10
-      }
-    ],
-    "ambient": [],
-    "water_creature": [],
-    "water_ambient": [],
-    "misc": []
-  },
-  "player_spawn_friendly": false,
-  "spawn_costs": {
-
-  }
+  ]
 }

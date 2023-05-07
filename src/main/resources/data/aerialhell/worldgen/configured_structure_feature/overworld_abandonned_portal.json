@@ -1,0 +1,12 @@
+{
+  "type": "aerialhell:overworld_abandonned_portal",
+
+  "config": {
+    "start_pool": "aerialhell:overworld_abandonned_portal/cloud_pool",
+    "size": 20 //jigsaw level
+  },
+  "biomes": "#aerialhell:has_structure/overworld_abandonned_portal",
+  "adapt_noise": false, //transformSurroundingLand
+
+  "spawn_overrides": {}
+}

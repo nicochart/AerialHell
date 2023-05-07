@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "#aerialhell:is_crystal",
+    "#aerialhell:is_desert",
+    "#aerialhell:is_forest",
+    "#aerialhell:is_savana",
+    "#aerialhell:is_shroom"
+  ]
+}

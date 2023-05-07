@@ -1,14 +1,12 @@
 {
-  "precipitation": "none",
-  "category": "none",
-  "depth": 0.125,
-  "scale": 0.05,
   "temperature": 0.8,
+  "downfall": 0,
+  "precipitation": "none",
   "temperature_modifier": "none",
-  "downfall": 0.0,
+  "category": "desert",
   "effects": {
-    "fog_color": 13950110,
     "sky_color": 6388367,
+    "fog_color": 13950110,
     "water_color": 11384918,
     "water_fog_color": 9805383,
     "grass_color": 8945970,
@@ -21,10 +19,44 @@
       "replace_current_music": false
     }
   },
-  "surface_builder": "aerialhell:slippery_sand_block",
+  "spawners": {
+    "monster": [
+      {
+        "type": "aerialhell:evil_cow",
+        "weight": 100,
+        "minCount": 2,
+        "maxCount": 6
+      },
+      {
+        "type": "aerialhell:mud_soldier",
+        "weight": 100,
+        "minCount": 1,
+        "maxCount": 2
+      },
+      {
+        "type": "aerialhell:hell_spider",
+        "weight": 100,
+        "minCount": 4,
+        "maxCount": 10
+      }
+    ],
+    "creature": [
+      {
+        "type": "aerialhell:sandy_sheep",
+        "weight": 30,
+        "minCount": 3,
+        "maxCount": 10
+      }
+    ],
+    "ambient": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
   "carvers": {
     "air": [
-	"aerialhell:aerialhell_cave"
+      "minecraft:cave"
     ]
   },
   "features": [
@@ -60,53 +92,9 @@
     ],
     [],
     [
-       "aerialhell:stellar_dead_bush",
-       "aerialhell:sky_cactus"
+      "aerialhell:stellar_dead_bush",
+      "aerialhell:sky_cactus"
     ],
     []
-  ],
-  "starts": [
-      "aerialhell:mud_dungeon",
-      "aerialhell:lunatic_temple",
-      "aerialhell:golden_nether_prison",
-      "aerialhell:slippery_sand_ocean_abandonned_structure"
-  ],
-  "spawners": {
-    "monster": [
-      {
-        "type": "aerialhell:evil_cow",
-        "weight": 100,
-        "minCount": 2,
-        "maxCount": 6
-      },
-      {
-        "type": "aerialhell:mud_soldier",
-        "weight": 100,
-        "minCount": 1,
-        "maxCount": 2
-      },
-      {
-        "type": "aerialhell:hell_spider",
-        "weight": 100,
-        "minCount": 4,
-        "maxCount": 10
-      }
-    ],
-    "creature": [
-      {
-        "type": "aerialhell:sandy_sheep",
-        "weight": 30,
-        "minCount": 3,
-        "maxCount": 10
-      }
-    ],
-    "ambient": [],
-    "water_creature": [],
-    "water_ambient": [],
-    "misc": []
-  },
-  "player_spawn_friendly": false,
-  "spawn_costs": {
-
-  }
+  ]
 }

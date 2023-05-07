@@ -19,70 +19,53 @@ import net.minecraft.server.level.ServerLevel;
 public class AerialHellMushroomBlock extends MushroomBlock
 {
 	public AerialHellMushroomBlock(Properties properties, Supplier<Holder<? extends ConfiguredFeature<?, ?>>> featureSupplier) {super(properties, featureSupplier);}
-	//public AerialHellMushroomBlock(Properties properties) {super(properties);}
-	
+
 	@Override
 	public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, Random random) {}
-	
-	@Override protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos)
-	{
+
+	@Override protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos) {
 		return state.is(AerialHellTags.Blocks.STELLAR_DIRT) || state.is(BlockTags.MUSHROOM_GROW_BLOCK);
 	}
 
-	@Override public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos)
-	{
-	    BlockState blockstate = worldIn.getBlockState(pos.below());
-	    if (blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) || blockstate.is(BlockTags.MUSHROOM_GROW_BLOCK)) {return true;}
-	    else {return false;}
+	@Override public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
+		BlockState blockstate = worldIn.getBlockState(pos.below());
+		if (blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) || blockstate.is(BlockTags.MUSHROOM_GROW_BLOCK)) {return true;} else {return false;}
 	}
-	
+
 	private static enum HugeGenerationDirections{NONE, NORTH_WEST, NORTH_EAST, SOUTH_WEST, SOUTH_EAST}
-	
-	/* TODO : methode à refaire ; il n'y aura sûrement pas besoin de détécter le type de champignon, puisqu'on passe en paramètre un feature supplier
-	@Override public boolean grow(ServerLevel world, BlockPos pos, BlockState state, Random rand)
-	{
+
+	// TODO : it works ?
+	@Override public boolean growMushroom(ServerLevel world, BlockPos pos, BlockState state, Random rand) {
 		BlockPos generationPos = pos;
-	    ConfiguredFeature<?, ?> configuredfeature;
-	    HugeGenerationDirections hugeShroomDirection = this.getHugeShroomDirection(world, pos, state);
-	    if (this == AerialHellBlocksAndItems.VERDIGRIS_AGARIC.get())
-	    {
-	    	if (hugeShroomDirection != HugeGenerationDirections.NONE)
-	    	{
-	    		generationPos = this.getOffsetPosForHugeShroom(pos, hugeShroomDirection);
-	    		configuredfeature = AerialHellConfiguredFeatures.HUGE_VERDIGRIS_AGARIC_PLANTED;
-	    		
-	    	}
-	    	else {configuredfeature = AerialHellConfiguredFeatures.GIANT_VERDIGRIS_AGARIC_PLANTED;}
-	    }
-	    else {return false;}
-	    
-	    world.removeBlock(generationPos, false);	    
-	    if (configuredfeature.place(world, world.getChunkSource().getGenerator(), rand, generationPos)) {return true;}
-	    else {world.setBlockAndUpdate(pos, state); return false;}
-	}*/
-	
+		ConfiguredFeature<?, ?> configuredfeature;
+		HugeGenerationDirections hugeShroomDirection = this.getHugeShroomDirection(world, pos, state);
+		if (this == AerialHellBlocksAndItems.VERDIGRIS_AGARIC.get()) {
+			if (hugeShroomDirection != HugeGenerationDirections.NONE) {
+				generationPos = this.getOffsetPosForHugeShroom(pos, hugeShroomDirection);
+				configuredfeature = AerialHellConfiguredFeatures.HUGE_VERDIGRIS_AGARIC.get();
+
+			} else {configuredfeature = AerialHellConfiguredFeatures.GIANT_VERDIGRIS_AGARIC.get();}
+		} else {return false;}
+
+		world.removeBlock(generationPos, false);
+		if (configuredfeature.place(world, world.getChunkSource().getGenerator(), rand, generationPos)) {return true;} else {world.setBlockAndUpdate(pos, state); return false;}
+	}
+
 	//Returns the direction of the generation of the huge shroom (NONE if there is no direction)
-	public HugeGenerationDirections getHugeShroomDirection(ServerLevel world, BlockPos pos, BlockState state)
-	{
+	public HugeGenerationDirections getHugeShroomDirection(ServerLevel world, BlockPos pos, BlockState state) {
 		AerialHellMushroomBlock mushroomBlock = (AerialHellMushroomBlock) this.asBlock();
-		if (world.getBlockState(pos.north()).getBlock() == mushroomBlock)
-		{
+		if (world.getBlockState(pos.north()).getBlock() == mushroomBlock) {
 			if (world.getBlockState(pos.west()).getBlock() == mushroomBlock && world.getBlockState(pos.north().west()).getBlock() == mushroomBlock) {return HugeGenerationDirections.NORTH_WEST;}
 			if (world.getBlockState(pos.east()).getBlock() == mushroomBlock && world.getBlockState(pos.north().east()).getBlock() == mushroomBlock) {return HugeGenerationDirections.NORTH_EAST;}
 		}
-		if (world.getBlockState(pos.south()).getBlock() == mushroomBlock)
-		{
+		if (world.getBlockState(pos.south()).getBlock() == mushroomBlock) {
 			if (world.getBlockState(pos.west()).getBlock() == mushroomBlock && world.getBlockState(pos.south().west()).getBlock() == mushroomBlock) {return HugeGenerationDirections.SOUTH_WEST;}
 			if (world.getBlockState(pos.east()).getBlock() == mushroomBlock && world.getBlockState(pos.south().east()).getBlock() == mushroomBlock) {return HugeGenerationDirections.SOUTH_EAST;}
 		}
 		return HugeGenerationDirections.NONE;
 	}
-	
-	public BlockPos getOffsetPosForHugeShroom(BlockPos basePos, HugeGenerationDirections generationDirection)
-	{
-		if (generationDirection == HugeGenerationDirections.NORTH_WEST) {return basePos.north().west();}
-		else if (generationDirection == HugeGenerationDirections.NORTH_EAST) {return basePos.north();}
-		else if (generationDirection == HugeGenerationDirections.SOUTH_WEST) {return basePos.west();}
-		else /*(generationDirection == HugeGenerationDirections.SOUTH_EAST)*/ {return basePos;}
+
+	public BlockPos getOffsetPosForHugeShroom(BlockPos basePos, HugeGenerationDirections generationDirection) {
+		if (generationDirection == HugeGenerationDirections.NORTH_WEST) {return basePos.north().west();} else if (generationDirection == HugeGenerationDirections.NORTH_EAST) {return basePos.north();} else if (generationDirection == HugeGenerationDirections.SOUTH_WEST) {return basePos.west();} else /*(generationDirection == HugeGenerationDirections.SOUTH_EAST)*/ {return basePos;}
 	}
 }

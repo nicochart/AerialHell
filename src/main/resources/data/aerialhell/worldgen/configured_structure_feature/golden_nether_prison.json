@@ -1,4 +1,24 @@
 {
-  "config": {},
-  "type": "aerialhell:golden_nether_prison"
+  "type": "aerialhell:golden_nether_prison",
+
+  "config": {
+    "start_pool": "aerialhell:golden_nether_prison/boss_room_center_center_pool",
+    "size": 20 //jigsaw level
+  },
+  "biomes": "#aerialhell:has_structure/golden_nether_prison",
+  "adapt_noise": false, //transformSurroundingLand
+
+  "spawn_overrides": {
+    "monster": {
+      "bounding_box": "piece",
+      "spawns": [
+        {
+          "type": "aerialhell:torn_spirit",
+          "weight": 2,
+          "minCount": 3,
+          "maxCount": 5
+        }
+      ]
+    }
+  }
 }

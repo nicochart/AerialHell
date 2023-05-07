@@ -1,0 +1,16 @@
+{
+  "structures": [
+    {
+      "structure": "aerialhell:lapis_robinia_hut",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 211112433,
+
+    "spacing": 10, //average distance (chunks)
+    "separation": 4, //minimum distance (chunks)
+
+    "type": "minecraft:random_spread"
+  }
+}

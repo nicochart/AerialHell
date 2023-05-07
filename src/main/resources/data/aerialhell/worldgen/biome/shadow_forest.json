@@ -1,36 +1,67 @@
 {
-  "precipitation": "none",
-  "category": "none",
-  "depth": 0.125,
-  "scale": 0.05,
   "temperature": 0.8,
+  "downfall": 0,
+  "precipitation": "none",
   "temperature_modifier": "none",
-  "downfall": 0.0,
+  "category": "forest",
   "effects": {
-    "fog_color": 2377529,
     "sky_color": 1914152,
+    "fog_color": 2377529,
     "water_color": 921102,
     "water_fog_color": 6959500,
     "grass_color": 6959500,
     "foliage_color": 6959500,
     "grass_color_modifier": "none",
-    "particle": {
-      "options": {
-        "type": "aerialhell:shadow_particle"
-      },
-      "probability" : 0.004
-    },
     "music": {
       "sound": "aerialhell:aerialhell.shadow_music",
       "min_delay": 1200,
       "max_delay": 3600,
       "replace_current_music": false
+    },
+    "particle": {
+      "options": {
+        "type": "aerialhell:shadow_particle"
+      },
+      "probability": 0.004
     }
   },
-  "surface_builder": "aerialhell:shadow_grass_block",
+  "spawners": {
+    "monster": [
+      {
+        "type": "aerialhell:shadow_spider",
+        "weight": 100,
+        "minCount": 3,
+        "maxCount": 6
+      },
+      {
+        "type": "aerialhell:shadow_automaton",
+        "weight": 100,
+        "minCount": 2,
+        "maxCount": 6
+      },
+      {
+        "type": "aerialhell:shadow_troll",
+        "weight": 90,
+        "minCount": 2,
+        "maxCount": 6
+      },
+      {
+        "type": "aerialhell:mud_soldier",
+        "weight": 60,
+        "minCount": 1,
+        "maxCount": 2
+      }
+    ],
+    "creature": [],
+    "ambient": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
   "carvers": {
     "air": [
-	"aerialhell:aerialhell_cave"
+      "minecraft:cave"
     ]
   },
   "features": [
@@ -74,53 +105,10 @@
       "aerialhell:shadow_brambles",
       "aerialhell:shadow_pine_forest",
       "aerialhell:purple_shadow_pine_forest",
-      "aerialhell:mega_shadow_pine_basic",
-      "aerialhell:mega_purple_shadow_pine_basic",
+      "aerialhell:mega_shadow_pine",
+      "aerialhell:mega_purple_shadow_pine",
       "aerialhell:giant_ganoderma_applanatum"
     ],
     []
-  ],
-  "starts": [
-      "aerialhell:mud_dungeon",
-      "aerialhell:shadow_catacombs",
-      "aerialhell:stellar_stone_bricks_tower",
-      "aerialhell:shadow_pine_tower"
-  ],
-  "spawners": {
-    "monster": [
-      {
-        "type": "aerialhell:shadow_spider",
-        "weight": 100,
-        "minCount": 3,
-        "maxCount": 6
-      },
-      {
-        "type": "aerialhell:shadow_automaton",
-        "weight": 100,
-        "minCount": 2,
-        "maxCount": 6
-      },
-      {
-        "type": "aerialhell:shadow_troll",
-        "weight": 90,
-        "minCount": 2,
-        "maxCount": 6
-      },
-      {
-        "type": "aerialhell:mud_soldier",
-        "weight": 60,
-        "minCount": 1,
-        "maxCount": 2
-      }
-    ],
-    "creature": [],
-    "ambient": [],
-    "water_creature": [],
-    "water_ambient": [],
-    "misc": []
-  },
-  "player_spawn_friendly": false,
-  "spawn_costs": {
-
-  }
+  ]
 }

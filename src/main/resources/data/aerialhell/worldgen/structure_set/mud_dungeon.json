@@ -1,0 +1,16 @@
+{
+  "structures": [
+    {
+      "structure": "aerialhell:mud_dungeon",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 1236548790,
+
+    "spacing": 4, //average distance (chunks)
+    "separation": 3, //minimum distance (chunks)
+
+    "type": "minecraft:random_spread"
+  }
+}

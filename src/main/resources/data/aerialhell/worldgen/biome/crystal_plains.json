@@ -1,14 +1,12 @@
 {
-  "precipitation": "none",
-  "category": "none",
-  "depth": 0.125,
-  "scale": 0.05,
   "temperature": 0.8,
+  "downfall": 0,
+  "precipitation": "none",
   "temperature_modifier": "none",
-  "downfall": 0.0,
+  "category": "plains",
   "effects": {
-    "fog_color": 7909282,
     "sky_color": 6388370,
+    "fog_color": 7909282,
     "water_color": 7091883,
     "water_fog_color": 4992114,
     "grass_color": 2457445,
@@ -21,64 +19,6 @@
       "replace_current_music": false
     }
   },
-  "surface_builder": "aerialhell:stellar_grass_block",
-  "carvers": {
-    "air": [
-	"aerialhell:aerialhell_cave"
-    ]
-  },
-  "features": [
-    [],
-    [
-      "aerialhell:aerial_hell_water_lake"
-    ],
-    [
-      "aerialhell:white_solid_ether",
-      "aerialhell:golden_solid_ether",
-      "aerialhell:cristallized_fire",
-      "aerialhell:crystal_blob",
-      "aerialhell:slippery_sand",
-      "aerialhell:dangling_chain_rare",
-      "aerialhell:stellar_stone_crystal_blob_in_dark_areas",
-      "aerialhell:stellar_coarse_floor_in_dark_areas"
-    ],
-    [],
-    [],
-    [],
-    [
-      "aerialhell:iron_stellar_ore",
-      "aerialhell:gold_stellar_ore",
-      "aerialhell:diamond_stellar_ore",
-      "aerialhell:fluorite_ore",
-      "aerialhell:ruby_ore",
-      "aerialhell:magmatic_gel_ore",
-      "aerialhell:azurite_ore",
-      "aerialhell:volucite_ore",
-      "aerialhell:obsidian_ore",
-      "aerialhell:glaucophanite_ore",
-      "aerialhell:stellar_dirt_ore",
-      "aerialhell:stellar_coarse_dirt_ore",
-      "aerialhell:stellar_clay_ore"
-    ],
-    [],
-    [
-      "aerialhell:stellar_grass",
-      "aerialhell:stellar_grass_ball",
-      "aerialhell:aerial_hell_flowers",
-      "aerialhell:sky_cactus",
-      "aerialhell:aerial_berry_bush_patch",
-      "aerialhell:aerial_tree_basic",
-      "aerialhell:copper_pine_basic",
-      "aerialhell:golden_beech_rare"
-    ],
-    []
-  ],
-  "starts": [
-      "aerialhell:mud_dungeon",
-      "aerialhell:lunatic_temple",
-      "aerialhell:golden_nether_prison",
-      "aerialhell:stellar_stone_bricks_tower"
-  ],
   "spawners": {
     "monster": [
       {
@@ -125,8 +65,56 @@
     "water_ambient": [],
     "misc": []
   },
-  "player_spawn_friendly": false,
-  "spawn_costs": {
-
-  }
+  "spawn_costs": {},
+  "carvers": {
+    "air": [
+      "minecraft:cave"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "aerialhell:aerial_hell_water_lake"
+    ],
+    [
+      "aerialhell:white_solid_ether",
+      "aerialhell:golden_solid_ether",
+      "aerialhell:cristallized_fire",
+      "aerialhell:crystal_blob",
+      "aerialhell:slippery_sand",
+      "aerialhell:dangling_chain_rare",
+      "aerialhell:stellar_stone_crystal_blob_in_dark_areas",
+      "aerialhell:stellar_coarse_floor_in_dark_areas"
+    ],
+    [],
+    [],
+    [],
+    [
+      "aerialhell:iron_stellar_ore",
+      "aerialhell:gold_stellar_ore",
+      "aerialhell:diamond_stellar_ore",
+      "aerialhell:fluorite_ore",
+      "aerialhell:ruby_ore",
+      "aerialhell:magmatic_gel_ore",
+      "aerialhell:azurite_ore",
+      "aerialhell:volucite_ore",
+      "aerialhell:obsidian_ore",
+      "aerialhell:glaucophanite_ore",
+      "aerialhell:stellar_dirt_ore",
+      "aerialhell:stellar_coarse_dirt_ore",
+      "aerialhell:stellar_clay_ore"
+    ],
+    [],
+    [
+      "aerialhell:stellar_grass",
+      "aerialhell:stellar_grass_ball",
+      "aerialhell:aerial_hell_flowers",
+      "aerialhell:sky_cactus",
+      "aerialhell:aerial_berry_bush_patch",
+      "aerialhell:aerial_tree",
+      "aerialhell:copper_pine",
+      "aerialhell:golden_beech_rare"
+    ],
+    []
+  ]
 }

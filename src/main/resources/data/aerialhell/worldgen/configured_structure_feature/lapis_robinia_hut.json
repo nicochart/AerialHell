@@ -1,4 +1,12 @@
 {
-  "config": {},
-  "type": "aerialhell:lapis_robinia_hut"
+  "type": "aerialhell:lapis_robinia_hut",
+
+  "config": {
+    "start_pool": "aerialhell:lapis_robinia_hut/lapis_robinia_hut",
+    "size": 20 //jigsaw level
+  },
+  "biomes": "#aerialhell:has_structure/lapis_robinia_hut",
+  "adapt_noise": true, //transformSurroundingLand
+
+  "spawn_overrides": {}
 }

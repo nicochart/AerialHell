@@ -1,85 +1,49 @@
 package fr.factionbedrock.aerialhell.World.Structure;
 
 import java.util.List;
+import java.util.Optional;
 
-import com.google.common.collect.ImmutableList;
-import com.mojang.serialization.Codec;
-
-import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.util.registry.DynamicRegistries;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.MobSpawnSettings;
-import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
-import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.gen.feature.structure.VillageConfig;
-import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraft.world.level.levelgen.LegacyRandomSource;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
+import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
+import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 
 public class OverworldAbandonnedPortalStructure extends AbstractAerialHellStructure
 {
-	private static final List<MobSpawnSettings.SpawnerData> monstersSpawnList = ImmutableList.of(new MobSpawnInfo.Spawners(AerialHellEntities.EVIL_COW.get(), 2, 3, 5));
-	private static final List<MobSpawnSettings.SpawnerData> creaturesSpawnList = ImmutableList.of();
-	
-    public OverworldAbandonnedPortalStructure(Codec<NoneFeatureConfiguration> codec, PieceGeneratorSupplier<NoneFeatureConfiguration> pieceGeneratorSupplier)
+    private final static int MIN_GEN_HEIGHT = 160, MAX_GEN_HEIGHT = 250;
+
+    public OverworldAbandonnedPortalStructure() {super(OverworldAbandonnedPortalStructure::getPiecesGenerator);}
+
+    private static Optional<PieceGenerator<JigsawConfiguration>> getPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context)
     {
-        super(codec, pieceGeneratorSupplier);
+        if (!isFeatureChunk(context)) {return Optional.empty();}
+        else {return createPiecesGenerator(context);}
     }
-    
-    @Override public List<MobSpawnSettings.SpawnerData> getDefaultSpawnList() {return monstersSpawnList;}
-    @Override public List<MobSpawnSettings.SpawnerData> getDefaultCreatureSpawnList() {return creaturesSpawnList;}
 
-    @Override
-    public IStartFactory<NoneFeatureConfiguration> getStartFactory()
+    private static boolean isFeatureChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context)
     {
-        return OverworldAbandonnedPortalStructure.Start::new;
+        return true;
     }
-    
-    public static class Start extends AbstractAerialHellStructure.Start
+
+    private static Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context)
     {
+        WorldgenRandom random = new WorldgenRandom(new LegacyRandomSource(context.seed()));
+        BlockPos blockpos = context.chunkPos().getMiddleBlockPosition(0);
+        blockpos = moveInsideHeights(blockpos, MIN_GEN_HEIGHT, MAX_GEN_HEIGHT, random);
 
-        public Start(Structure<NoneFeatureConfiguration> structureIn, int chunkX, int chunkZ, MutableBoundingBox mutableBoundingBox, int referenceIn, long seedIn)
-        {
-            super(structureIn, chunkX, chunkZ, mutableBoundingBox, referenceIn, seedIn);
-        }
+        Optional<PieceGenerator<JigsawConfiguration>> structurePiecesGenerator =
+                JigsawPlacement.addPieces(
+                        context,
+                        PoolElementStructurePiece::new,
+                        blockpos, // structure pos
+                        false,
+                        false //true = use terrain height as base, and adds blockpos y to it
+                );
 
-        @Override //generatePieces
-        public void func_230364_a_(DynamicRegistries dynamicRegistryManager, ChunkGenerator chunkGenerator, TemplateManager structureManager, int x, int z, Biome biome, NoFeatureConfig NoFeatureConfig)
-        {
-        	BlockPos yPos = getHighestLand(chunkGenerator);
-            BlockPos blockPos = new BlockPos(x * 16, 0, z * 16);
-
-            JigsawManager.func_242837_a //addPieces
-            (
-                    dynamicRegistryManager,
-                    new VillageConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY).getOrDefault(new ResourceLocation(AerialHell.MODID, "overworld_abandonned_portal/cloud_pool")), 50),
-                    AbstractVillagePiece::new,
-                    chunkGenerator,
-                    structureManager,
-                    blockPos,
-                    this.components,
-                    this.rand,
-                    true,
-                    false
-            );
-
-            this.recalculateStructureSize();
-            
-            if (yPos.getY() <= 160 || yPos.getY() >= 200)
-            {	//moveInsideHeights
-                this.func_214626_a(this.rand, 160, 200);
-            }
-            else
-            {
-                this.func_214626_a(this.rand, yPos.getY(), yPos.getY());
-            }
-        }
+        return structurePiecesGenerator;
     }
 }

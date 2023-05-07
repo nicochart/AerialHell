@@ -1,4 +1,12 @@
 {
-  "config": {},
-  "type": "aerialhell:copper_pine_cottage"
+  "type": "aerialhell:copper_pine_cottage",
+
+  "config": {
+    "start_pool": "aerialhell:copper_pine_cottage/copper_pine_cottage_pool",
+    "size": 20 //jigsaw level
+  },
+  "biomes": "#aerialhell:has_structure/copper_pine_cottage",
+  "adapt_noise": false, //transformSurroundingLand
+
+  "spawn_overrides": {}
 }

@@ -24,9 +24,6 @@ public class AerialHellSetup
         	AerialHellEntities.entitySpawnPlacements();
         	AerialHellBlocksAndItems.registerPots();
         	AerialHellBlocksAndItems.registerAxeStrippingBlocks();
-        	AerialHellStructures.setupStructures();
-        	AerialHellConfiguredFeatures.registerConfiguredFeaturesAndStructures();
-        	AerialHellCarvers.registerConfiguredCarvers();
         });
     }
 	
@@ -45,7 +42,9 @@ public class AerialHellSetup
         AerialHellRecipes.RECIPE_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellBlockEntities.BLOCK_ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellSoundEvents.SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        AerialHellCarvers.CARVERS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        AerialHellFeatures.FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        AerialHellConfiguredFeatures.CONFIGURED_FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        AerialHellPlacedFeatures.PLACED_FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellFeatures.FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellEnchantments.ENCHANTMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellMotive.PAINTING_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());

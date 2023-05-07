@@ -1,4 +1,24 @@
 {
-  "config": {},
-  "type": "aerialhell:shadow_pine_tower"
+  "type": "aerialhell:shadow_pine_tower",
+
+  "config": {
+    "start_pool": "aerialhell:shadow_pine_tower/shadow_pine_tower",
+    "size": 20 //jigsaw level
+  },
+  "biomes": "#aerialhell:has_structure/shadow_pine_tower",
+  "adapt_noise": true, //transformSurroundingLand
+
+  "spawn_overrides": {
+    "monster": {
+      "bounding_box": "piece",
+      "spawns": [
+        {
+          "type": "aerialhell:shadow_automaton",
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 2
+        }
+      ]
+    }
+  }
 }
