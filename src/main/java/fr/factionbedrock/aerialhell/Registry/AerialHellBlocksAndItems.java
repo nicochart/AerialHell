@@ -94,8 +94,8 @@ public class AerialHellBlocksAndItems
 	}
 
 	public static void registerAxeStrippingBlocks() {
-		AxeItem.BLOCK_STRIPPING_MAP = ImmutableMap.<Block, Block>builder() //TODO : update access transformer
-				.putAll(AxeItem.BLOCK_STRIPPING_MAP)
+		AxeItem.STRIPPABLES = ImmutableMap.<Block, Block>builder()
+				.putAll(AxeItem.STRIPPABLES)
 				.put(AERIAL_TREE_LOG.get(), STRIPPED_AERIAL_TREE_LOG.get())
 				.put(GOLDEN_BEECH_LOG.get(), STRIPPED_GOLDEN_BEECH_LOG.get())
 				.put(COPPER_PINE_LOG.get(), STRIPPED_COPPER_PINE_LOG.get())
@@ -124,7 +124,7 @@ public class AerialHellBlocksAndItems
 	public static BlockBehaviour.Properties METAL_NOTSOLID_MATERIAL = BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_PURPLE).strength(10.0F, 2.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion();
 
 	//portal
-	public static final RegistryObject<AerialHellPortalBlock> AERIAL_HELL_PORTAL = BLOCKS.register("aerial_hell_portal", () -> new AerialHellPortalBlock(BlockBehaviour.Properties.copy(Blocks.NETHER_PORTAL)));
+	public static final RegistryObject<AerialHellPortalBlock> AERIAL_HELL_PORTAL = BLOCKS.register("aerial_hell_portal", () -> new AerialHellPortalBlock(BlockBehaviour.Properties.of(Material.PORTAL).strength(-1F).noCollission().lightLevel((state) -> 10).noDrops()));
 	public static final RegistryObject<Block> STELLAR_PORTAL_FRAME_BLOCK = BLOCKS.register("stellar_portal_frame_block", () -> new Block((BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(25.0F, 600.0F))));
 	public static final RegistryObject<Block> STELLAR_PORTAL_FRAME_ORE = BLOCKS.register("stellar_portal_frame_ore",() -> new AerialHellOreBlock(0, 0, BlockBehaviour.Properties.of(Material.STONE).strength(25.0F, 600.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
 	public static final RegistryObject<Item> STELLAR_PORTAL_FRAME_BLOCK_ITEM = ITEMS.register("stellar_portal_frame_block", () -> new BlockItem(STELLAR_PORTAL_FRAME_BLOCK.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
@@ -750,30 +750,30 @@ public class AerialHellBlocksAndItems
 	private static ToIntFunction<BlockState> getLightValueLit(int lightValue) {return (state) -> {return state.getValue(BlockStateProperties.LIT) ? lightValue : 0;};}
 
 	//chests
-	public static final RegistryObject<ChestBlock> AERIAL_TREE_CHEST = BLOCKS.register("aerial_tree_chest", () -> new ChestBlock(AERIAL_TREE_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()){public BlockEntity createBlockEntity(BlockState state, net.minecraft.world.BlockGetter world) {return AerialHellBlockEntities.CHEST.get().create();};});
-	public static final RegistryObject<Item> AERIAL_TREE_CHEST_ITEM = ITEMS.register("aerial_tree_chest", () -> new BlockItem(AERIAL_TREE_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS).setISTER(() -> AerialHellChestItemBlockEntityRenderer::new)));
-	public static final RegistryObject<ChestBlock> GOLDEN_BEECH_CHEST = BLOCKS.register("golden_beech_chest", () -> new ChestBlock(AERIAL_TREE_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()){public BlockEntity createBlockEntity(BlockState state, net.minecraft.world.BlockGetter world) {return AerialHellBlockEntities.CHEST.get().create();};});
-	public static final RegistryObject<Item> GOLDEN_BEECH_ITEM = ITEMS.register("golden_beech_chest", () -> new BlockItem(GOLDEN_BEECH_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS).setISTER(() -> AerialHellChestItemBlockEntityRenderer::new)));
-	public static final RegistryObject<ChestBlock> COPPER_PINE_CHEST = BLOCKS.register("copper_pine_chest", () -> new ChestBlock(COPPER_PINE_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()){public BlockEntity createBlockEntity(BlockState state, net.minecraft.world.BlockGetter world) {return AerialHellBlockEntities.CHEST.get().create();};});
-	public static final RegistryObject<Item> COPPER_PINE_ITEM = ITEMS.register("copper_pine_chest", () -> new BlockItem(COPPER_PINE_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS).setISTER(() -> AerialHellChestItemBlockEntityRenderer::new)));
-	public static final RegistryObject<ChestBlock> LAPIS_ROBINIA_CHEST = BLOCKS.register("lapis_robinia_chest", () -> new ChestBlock(COPPER_PINE_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()){public BlockEntity createBlockEntity(BlockState state, net.minecraft.world.BlockGetter world) {return AerialHellBlockEntities.CHEST.get().create();};});
-	public static final RegistryObject<Item> LAPIS_ROBINIA_CHEST_ITEM = ITEMS.register("lapis_robinia_chest", () -> new BlockItem(LAPIS_ROBINIA_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS).setISTER(() -> AerialHellChestItemBlockEntityRenderer::new)));
-	public static final RegistryObject<ChestBlock> SHADOW_PINE_CHEST = BLOCKS.register("shadow_pine_chest", () -> new ChestBlock(SHADOW_PINE_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()){public BlockEntity createBlockEntity(BlockState state, net.minecraft.world.BlockGetter world) {return AerialHellBlockEntities.CHEST.get().create();};});
-	public static final RegistryObject<Item> SHADOW_PINE_CHEST_ITEM = ITEMS.register("shadow_pine_chest", () -> new BlockItem(SHADOW_PINE_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS).setISTER(() -> AerialHellChestItemBlockEntityRenderer::new)));
-	public static final RegistryObject<ChestBlock> SKY_CACTUS_FIBER_CHEST = BLOCKS.register("sky_cactus_fiber_chest", () -> new ChestBlock(SKY_CACTUS_FIBER_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()){public BlockEntity createBlockEntity(BlockState state, net.minecraft.world.BlockGetter world) {return AerialHellBlockEntities.CHEST.get().create();};});
-	public static final RegistryObject<Item> SKY_CACTUS_FIBER_CHEST_ITEM = ITEMS.register("sky_cactus_fiber_chest", () -> new BlockItem(SKY_CACTUS_FIBER_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS).setISTER(() -> AerialHellChestItemBlockEntityRenderer::new)));
-	public static final RegistryObject<ChestBlock> GRAY_SHROOM_CHEST = BLOCKS.register("gray_shroom_chest", () -> new ChestBlock(SHROOM_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()){public BlockEntity createBlockEntity(BlockState state, net.minecraft.world.BlockGetter world) {return AerialHellBlockEntities.CHEST.get().create();};});
-	public static final RegistryObject<Item> GRAY_SHROOM_CHEST_ITEM = ITEMS.register("gray_shroom_chest", () -> new BlockItem(GRAY_SHROOM_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS).setISTER(() -> AerialHellChestItemBlockEntityRenderer::new)));
-	public static final RegistryObject<ChestBlock> MUD_CHEST = BLOCKS.register("mud_chest", () -> new CoreProtectedChestBlock(MUD_CHEST_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()){public BlockEntity createBlockEntity(BlockState state, net.minecraft.world.BlockGetter world) {return AerialHellBlockEntities.CHEST.get().create();};});
-	public static final RegistryObject<Item> MUD_CHEST_ITEM = ITEMS.register("mud_chest", () -> new BlockItem(MUD_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS).setISTER(() -> AerialHellChestItemBlockEntityRenderer::new)));
-	public static final RegistryObject<ChestBlock> LUNATIC_CHEST = BLOCKS.register("lunatic_chest", () -> new CoreProtectedChestBlock(LUNATIC_CHEST_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()){public BlockEntity createBlockEntity(BlockState state, net.minecraft.world.BlockGetter world) {return AerialHellBlockEntities.CHEST.get().create();};});
-	public static final RegistryObject<Item> LUNATIC_CHEST_ITEM = ITEMS.register("lunatic_chest", () -> new BlockItem(LUNATIC_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS).setISTER(() -> AerialHellChestItemBlockEntityRenderer::new)));
-	public static final RegistryObject<ChestBlock> VOLUCITE_CHEST = BLOCKS.register("volucite_chest", () -> new CoreProtectedChestBlock(VOLUCITE_CHEST_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()){public BlockEntity createBlockEntity(BlockState state, net.minecraft.world.BlockGetter world) {return AerialHellBlockEntities.CHEST.get().create();};});
-	public static final RegistryObject<Item> VOLUCITE_CHEST_ITEM = ITEMS.register("volucite_chest", () -> new BlockItem(VOLUCITE_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS).setISTER(() -> AerialHellChestItemBlockEntityRenderer::new)));
-	public static final RegistryObject<ChestBlock> SHADOW_CATACOMBS_CHEST = BLOCKS.register("shadow_catacombs_chest", () -> new CoreProtectedChestBlock(MUD_CHEST_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()){public BlockEntity createBlockEntity(BlockState state, net.minecraft.world.BlockGetter world) {return AerialHellBlockEntities.CHEST.get().create();};});
-	public static final RegistryObject<Item> SHADOW_CATACOMBS_CHEST_ITEM = ITEMS.register("shadow_catacombs_chest", () -> new BlockItem(SHADOW_CATACOMBS_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS).setISTER(() -> AerialHellChestItemBlockEntityRenderer::new)));
-	public static final RegistryObject<ChestBlock> GOLDEN_NETHER_CHEST = BLOCKS.register("golden_nether_chest", () -> new CoreProtectedChestBlock(GOLDEN_NETHER_CHEST_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()){public BlockEntity createBlockEntity(BlockState state, net.minecraft.world.BlockGetter world) {return AerialHellBlockEntities.CHEST.get().create();};});
-	public static final RegistryObject<Item> GOLDEN_NETHER_CHEST_ITEM = ITEMS.register("golden_nether_chest", () -> new BlockItem(GOLDEN_NETHER_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS).setISTER(() -> AerialHellChestItemBlockEntityRenderer::new)));
+	public static final RegistryObject<ChestBlock> AERIAL_TREE_CHEST = BLOCKS.register("aerial_tree_chest", () -> new ChestBlock(AERIAL_TREE_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
+	public static final RegistryObject<Item> AERIAL_TREE_CHEST_ITEM = ITEMS.register("aerial_tree_chest", () -> new BlockItem(AERIAL_TREE_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<ChestBlock> GOLDEN_BEECH_CHEST = BLOCKS.register("golden_beech_chest", () -> new ChestBlock(AERIAL_TREE_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
+	public static final RegistryObject<Item> GOLDEN_BEECH_ITEM = ITEMS.register("golden_beech_chest", () -> new BlockItem(GOLDEN_BEECH_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<ChestBlock> COPPER_PINE_CHEST = BLOCKS.register("copper_pine_chest", () -> new ChestBlock(COPPER_PINE_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
+	public static final RegistryObject<Item> COPPER_PINE_ITEM = ITEMS.register("copper_pine_chest", () -> new BlockItem(COPPER_PINE_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<ChestBlock> LAPIS_ROBINIA_CHEST = BLOCKS.register("lapis_robinia_chest", () -> new ChestBlock(COPPER_PINE_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
+	public static final RegistryObject<Item> LAPIS_ROBINIA_CHEST_ITEM = ITEMS.register("lapis_robinia_chest", () -> new BlockItem(LAPIS_ROBINIA_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<ChestBlock> SHADOW_PINE_CHEST = BLOCKS.register("shadow_pine_chest", () -> new ChestBlock(SHADOW_PINE_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
+	public static final RegistryObject<Item> SHADOW_PINE_CHEST_ITEM = ITEMS.register("shadow_pine_chest", () -> new BlockItem(SHADOW_PINE_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<ChestBlock> SKY_CACTUS_FIBER_CHEST = BLOCKS.register("sky_cactus_fiber_chest", () -> new ChestBlock(SKY_CACTUS_FIBER_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
+	public static final RegistryObject<Item> SKY_CACTUS_FIBER_CHEST_ITEM = ITEMS.register("sky_cactus_fiber_chest", () -> new BlockItem(SKY_CACTUS_FIBER_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<ChestBlock> GRAY_SHROOM_CHEST = BLOCKS.register("gray_shroom_chest", () -> new ChestBlock(SHROOM_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
+	public static final RegistryObject<Item> GRAY_SHROOM_CHEST_ITEM = ITEMS.register("gray_shroom_chest", () -> new BlockItem(GRAY_SHROOM_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<ChestBlock> MUD_CHEST = BLOCKS.register("mud_chest", () -> new CoreProtectedChestBlock(MUD_CHEST_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
+	public static final RegistryObject<Item> MUD_CHEST_ITEM = ITEMS.register("mud_chest", () -> new BlockItem(MUD_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)));
+	public static final RegistryObject<ChestBlock> LUNATIC_CHEST = BLOCKS.register("lunatic_chest", () -> new CoreProtectedChestBlock(LUNATIC_CHEST_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
+	public static final RegistryObject<Item> LUNATIC_CHEST_ITEM = ITEMS.register("lunatic_chest", () -> new BlockItem(LUNATIC_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)));
+	public static final RegistryObject<ChestBlock> VOLUCITE_CHEST = BLOCKS.register("volucite_chest", () -> new CoreProtectedChestBlock(VOLUCITE_CHEST_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
+	public static final RegistryObject<Item> VOLUCITE_CHEST_ITEM = ITEMS.register("volucite_chest", () -> new BlockItem(VOLUCITE_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)));
+	public static final RegistryObject<ChestBlock> SHADOW_CATACOMBS_CHEST = BLOCKS.register("shadow_catacombs_chest", () -> new CoreProtectedChestBlock(MUD_CHEST_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
+	public static final RegistryObject<Item> SHADOW_CATACOMBS_CHEST_ITEM = ITEMS.register("shadow_catacombs_chest", () -> new BlockItem(SHADOW_CATACOMBS_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)));
+	public static final RegistryObject<ChestBlock> GOLDEN_NETHER_CHEST = BLOCKS.register("golden_nether_chest", () -> new CoreProtectedChestBlock(GOLDEN_NETHER_CHEST_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
+	public static final RegistryObject<Item> GOLDEN_NETHER_CHEST_ITEM = ITEMS.register("golden_nether_chest", () -> new BlockItem(GOLDEN_NETHER_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)));
 
 	//chest mimics
 	public static final RegistryObject<Block> AERIAL_TREE_CHEST_MIMIC = BLOCKS.register("aerial_tree_chest_mimic", () -> new ChestMimicBlock(BlockBehaviour.Properties.copy(Blocks.CHEST)));
@@ -1138,10 +1138,10 @@ public class AerialHellBlocksAndItems
 
 	//buckets
 	public static final RegistryObject<Item> IRON_LIQUID_OF_GODS_BUCKET = ITEMS.register("iron_liquid_of_gods_bucket", () -> new BucketItem(AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE, (new Item.Properties()).tab(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS).stacksTo(1)));
-    public static final RegistryObject<Item> RUBY_LIQUID_OF_GODS_BUCKET = ITEMS.register("ruby_liquid_of_gods_bucket", () -> new RubyLiquidOfGodsBucketItem(new Item.Properties().containerItem(Items.BUCKET).stacksTo(1).tab(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)));
+    public static final RegistryObject<Item> RUBY_LIQUID_OF_GODS_BUCKET = ITEMS.register("ruby_liquid_of_gods_bucket", () -> new RubyLiquidOfGodsBucketItem(new Item.Properties().stacksTo(1).tab(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)));
 	public static final RegistryObject<Item> RUBY_BUCKET = ITEMS.register("ruby_bucket", () -> new RubyBucketItem(new Item.Properties().stacksTo(16).tab(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)));
-	public static final RegistryObject<Item> RUBY_WATER_BUCKET = ITEMS.register("ruby_water_bucket", () -> new RubyWaterBucketItem(new Item.Properties().containerItem(RUBY_BUCKET.get()).stacksTo(1).tab(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)));
-	public static final RegistryObject<Item> RUBY_MILK_BUCKET = ITEMS.register("ruby_milk_bucket", () -> new RubyMilkBucketItem(new Item.Properties().containerItem(RUBY_BUCKET.get()).stacksTo(1).tab(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)));
+	public static final RegistryObject<Item> RUBY_WATER_BUCKET = ITEMS.register("ruby_water_bucket", () -> new RubyWaterBucketItem(new Item.Properties().stacksTo(1).tab(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)));
+	public static final RegistryObject<Item> RUBY_MILK_BUCKET = ITEMS.register("ruby_milk_bucket", () -> new RubyMilkBucketItem(new Item.Properties().stacksTo(1).tab(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)));
 
 	//arrows & bows
 	public static final RegistryObject<Item> RUBY_BLOWPIPE_ARROW = ITEMS.register("ruby_blowpipe_arrow", () -> new AerialArrowItem(new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_COMBAT)));

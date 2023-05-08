@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[36,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+loaderVersion="[40,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 
 license="Creative Commons : Attribution-NonCommercial-ShareAlike 4.0"
 
@@ -30,7 +30,7 @@ nicochart's Aerial Hell
 [[dependencies.aerialhell]] #optionnel
     modId="forge"
     mandatory=true
-    versionRange="[36,)"
+    versionRange="[40,)"
     ordering="NONE" #BEFORE, AFTER, NONE
     side="BOTH" #BOTH, CLIENT or SERVER
 [[dependencies.aerialhell]]

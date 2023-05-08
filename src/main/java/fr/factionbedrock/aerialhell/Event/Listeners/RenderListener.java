@@ -1,20 +1,16 @@
 package fr.factionbedrock.aerialhell.Event.Listeners;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.*;
 import com.mojang.blaze3d.systems.RenderSystem;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.Tesselator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.util.FoodStats;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -44,10 +40,10 @@ public class RenderListener
 
         if (player != null && EntityHelper.isLivingEntityVulnerable(player))
         {
-            if (event.getType() == RenderGameOverlayEvent.ElementType.VIGNETTE && mc.gameSettings.getPointOfView().func_243192_a())
+            if (event.getType() == RenderGameOverlayEvent.ElementType.ALL && mc.options.getCameraType().isFirstPerson()) //TODO : ElementType.ALL is ok ? before is was ElementType.VIGNETTE
             {
-                float alpha = Math.min(20, player.getActivePotionEffect(AerialHellMobEffects.VULNERABILITY.get()).getDuration()) / 20.0F;
-                renderVulnerabilityOverlay(mc, alpha);
+                float alpha = Math.min(20, player.getEffect(AerialHellMobEffects.VULNERABILITY.get()).getDuration()) / 20.0F;
+                renderTextureOverlay(mc, VULNERABLE_OVERLAY, alpha);
             }
         }
     }
@@ -58,40 +54,40 @@ public class RenderListener
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
-        if (event.getType() == RenderGameOverlayEvent.ElementType.HEALTH && player != null && EntityHelper.isLivingEntityVulnerable(player))
+        if (event.getType() == RenderGameOverlayEvent.ElementType.ALL && player != null && EntityHelper.isLivingEntityVulnerable(player)) //TODO : ElementType.ALL is ok ? before is was ElementType.HEALTH
         {
             boolean lowHealth = player.getHealth() <= 4;
             if (lowHealth) {event.setCanceled(true);}
-            PoseStack matrixStack = event.getPoseStack();
+            PoseStack matrixStack = event.getMatrixStack();
 
-            int x = event.getWindow().getScaledWidth() / 2 - 91;
-            int y = event.getWindow().getScaledHeight() - 39;
+            int x = event.getWindow().getScreenWidth() / 2 - 91;
+            int y = event.getWindow().getScreenHeight() - 39;
 
             renderVulnerableHearts(matrixStack, player, x, y, lowHealth);
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
-    protected static void renderVulnerabilityOverlay(Minecraft mc, float alpha)
+    //Copy of Gui.renderTextureOverlay
+    @OnlyIn(Dist.CLIENT) public static void renderTextureOverlay(Minecraft mc, ResourceLocation textureLocation, float alpha)
     {
+        int screenHeight = mc.getWindow().getScreenHeight(), screenWidth = mc.getWindow().getScreenWidth();
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
         RenderSystem.defaultBlendFunc();
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
-        RenderSystem.disableAlphaTest();
-        mc.getTextureManager().bindTexture(VULNERABLE_OVERLAY);
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferbuilder = tessellator.getBuffer();
-        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-        bufferbuilder.pos(0.0D, mc.getMainWindow().getScaledHeight(), -90.0D).tex(0.0F, 1.0F).endVertex();
-        bufferbuilder.pos(mc.getMainWindow().getScaledWidth(), mc.getMainWindow().getScaledHeight(), -90.0D).tex(1.0F, 1.0F).endVertex();
-        bufferbuilder.pos(mc.getMainWindow().getScaledWidth(), 0.0D, -90.0D).tex(1.0F, 0.0F).endVertex();
-        bufferbuilder.pos(0.0D, 0.0D, -90.0D).tex(0.0F, 0.0F).endVertex();
-        tessellator.draw();
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
+        RenderSystem.setShaderTexture(0, textureLocation);
+        Tesselator tesselator = Tesselator.getInstance();
+        BufferBuilder bufferbuilder = tesselator.getBuilder();
+        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        bufferbuilder.vertex(0.0D, screenHeight, -90.0D).uv(0.0F, 1.0F).endVertex();
+        bufferbuilder.vertex(screenWidth, screenHeight, -90.0D).uv(1.0F, 1.0F).endVertex();
+        bufferbuilder.vertex(screenWidth, 0.0D, -90.0D).uv(1.0F, 0.0F).endVertex();
+        bufferbuilder.vertex(0.0D, 0.0D, -90.0D).uv(0.0F, 0.0F).endVertex();
+        tesselator.end();
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();
-        RenderSystem.enableAlphaTest();
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -102,12 +98,12 @@ public class RenderListener
         int playerActualHeartNumber = Math.min(hearts, maxHearts);
         int yOffset = getHealthBarYOffset(player), xOffset = (halfHearts % 20)/2;
 
-        if (yOffset < 8 || lowHealth) {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_EMPTY_HEART_WITH_BORDER);}
-        else {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_EMPTY_HEART);}
+        if (yOffset < 8 || lowHealth) {RenderSystem.setShaderTexture(0, VULNERABLE_EMPTY_HEART_WITH_BORDER);}
+        else {RenderSystem.setShaderTexture(0, VULNERABLE_EMPTY_HEART);}
         blitAllEntireHearts(matrixStack, x, y, maxHearts, yOffset);
 
-        if (yOffset < 8 || lowHealth) {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HALF_HEART_WITH_BORDER);}
-        else {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HALF_HEART);}
+        if (yOffset < 8 || lowHealth) {RenderSystem.setShaderTexture(0, VULNERABLE_HALF_HEART_WITH_BORDER);}
+        else {RenderSystem.setShaderTexture(0, VULNERABLE_HALF_HEART);}
         if (halfHearts%2 != 0)
         {
             int yTotalOffset = - yOffset * (halfHearts/20);
@@ -115,12 +111,12 @@ public class RenderListener
             blitSingleHeartIcon(matrixStack, x + xTotalOffset, y + yTotalOffset);
         }
 
-        if (yOffset < 8 || lowHealth) {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HEART_WITH_BORDER);}
-        else {Minecraft.getInstance().getTextureManager().bindTexture(VULNERABLE_HEART);}
+        if (yOffset < 8 || lowHealth) {RenderSystem.setShaderTexture(0, VULNERABLE_HEART_WITH_BORDER);}
+        else {RenderSystem.setShaderTexture(0, VULNERABLE_HEART);}
         blitAllEntireHearts(matrixStack, x, y, playerActualHeartNumber, yOffset);
 
         //Vanilla expected texture
-        Minecraft.getInstance().getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
+        RenderSystem.setShaderTexture(0, Gui.GUI_ICONS_LOCATION);
     }
 
     private static void blitAllEntireHearts(PoseStack matrixStack, int x, int y, int number, int yOffset)
@@ -142,13 +138,13 @@ public class RenderListener
 
     private static void blitSingleHeartIcon(PoseStack matrixStack, int x, int y) //texture must be binded before calling
     {
-        AbstractGui.blit(matrixStack, x, y, 0, 0, HEART_ICON_WIDTH, HEART_ICON_HEIGHT, 9, 9);
+        Gui.blit(matrixStack, x, y, 0, 0, HEART_ICON_WIDTH, HEART_ICON_HEIGHT, 9, 9);
     }
 
     private static int getHealthBarYOffset(Player player)
     {
         int maxHalfHearts = (int)player.getMaxHealth();
-        if (player.hasEffect(Effects.ABSORPTION)) {maxHalfHearts += 4 * (player.getActivePotionEffect(Effects.ABSORPTION).getAmplifier() + 1);}
+        if (player.hasEffect(MobEffects.ABSORPTION)) {maxHalfHearts += 4 * (player.getEffect(MobEffects.ABSORPTION).getAmplifier() + 1);}
         if (maxHalfHearts <= 40) {return 10;}
         else if (maxHalfHearts <= 60) {return 9;}
         else if (maxHalfHearts <= 80) {return 8;}

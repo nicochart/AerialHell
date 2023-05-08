@@ -8,18 +8,15 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.*;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMenuTypes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = AerialHell.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -155,13 +152,6 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.SKY_LADDER.get(), cutout);
 	}
 	
-	public static void registerBlockEntityRenderLayers()
-	{
-		ClientRegistry.bindBlockEntityRenderer(AerialHellBlockEntities.CHEST_MIMIC.get(), AerialHellChestMimicBlockEntityRenderer::new);
-		ClientRegistry.bindBlockEntityRenderer(AerialHellBlockEntities.CHEST.get(), AerialHellChestBlockEntityRenderer::new);
-		ClientRegistry.bindBlockEntityRenderer(AerialHellBlockEntities.SIGN.get(), AerialHellSignBlockEntityRenderer::new);
-	}
-	
 	private static void render(Supplier<? extends Block> block, RenderType render)
 	{
         ItemBlockRenderTypes.setRenderLayer(block.get(), render);
@@ -232,10 +222,10 @@ public class AerialHellRendering
         );
     }
 	
-	public static void registerGuiFactories()
+	public static void registerScreensMenus()
 	{
-        ScreenManager.registerFactory(AerialHellMenuTypes.OSCILLATOR.get(), OscillatorScreen::new);
-        ScreenManager.registerFactory(AerialHellMenuTypes.FREEZER.get(), FreezerScreen::new);
-        ScreenManager.registerFactory(AerialHellMenuTypes.STELLAR_FURNACE.get(), StellarFurnaceScreen::new);
+        MenuScreens.register(AerialHellMenuTypes.OSCILLATOR.get(), OscillatorScreen::new);
+        MenuScreens.register(AerialHellMenuTypes.FREEZER.get(), FreezerScreen::new);
+        MenuScreens.register(AerialHellMenuTypes.STELLAR_FURNACE.get(), StellarFurnaceScreen::new);
     }
 }

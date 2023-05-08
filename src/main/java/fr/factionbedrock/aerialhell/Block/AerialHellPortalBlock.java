@@ -5,26 +5,23 @@ import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import fr.factionbedrock.aerialhell.World.AerialHellTeleporter;
 
-import net.minecraft.world.level.block.state.BlockBehaviour;
+import fr.factionbedrock.aerialhell.Util.BlockHelper;
+import fr.factionbedrock.aerialhell.World.AerialHellTeleporter;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.util.*;
-import net.minecraft.util.Direction.Axis;
-import net.minecraft.util.Direction.AxisDirection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -34,297 +31,211 @@ import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 import javax.annotation.Nullable;
 
-import com.google.common.cache.LoadingCache;
 import java.util.Random;
 
 @EventBusSubscriber(modid = AerialHell.MODID)
 public class AerialHellPortalBlock extends Block
-{	
-	public static Block GetPortalBlock()
-	{
-		return AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get(); //Block to create the portal (if edited: edit it in World.AerialHellTeleporter too)
-	}
-	
-	public static final EnumProperty<Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;
-	protected static final VoxelShape X_AABB = Block.box(0.0, 0.0, 6.0, 16.0, 16.0, 10.0);
-	protected static final VoxelShape Z_AABB = Block.box(6.0, 0.0, 0.0, 10.0, 16.0, 16.0);
+{
+	public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;
+	protected static final VoxelShape X_AABB = Block.box(0.0D, 0.0D, 6.0D, 16.0D, 16.0D, 10.0D);
+	protected static final VoxelShape Z_AABB = Block.box(6.0D, 0.0D, 0.0D, 10.0D, 16.0D, 16.0D);
 
 	public AerialHellPortalBlock(BlockBehaviour.Properties properties)
 	{
 		super(properties);
-		this.registerDefaultState(this.stateDefinition.any().setValue(AXIS, Axis.X));
+		registerDefaultState(stateDefinition.any().setValue(AXIS, Direction.Axis.X));
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
+	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
 	{
-		switch (state.getValue(AXIS))
+		switch(state.getValue(AXIS))
 		{
 			case Z:
 				return Z_AABB;
 			case X:
-				return X_AABB;
 			default:
-				throw new AssertionError("Invalid value found for 'axis'");
+				return X_AABB;
 		}
 	}
 
-	public boolean trySpawnPortal(LevelAccessor worldIn, BlockPos pos)
+	public boolean trySpawnPortal(LevelAccessor level, BlockPos pos)
 	{
-		AerialHellPortalBlock.Size aerialhellPortalSize = this.isPortal(worldIn, pos);
-		if (aerialhellPortalSize != null)
+		AerialHellPortalBlock.Size AerialHellPortalBlock$size = this.isPortal(level, pos);
+		if (AerialHellPortalBlock$size != null && !onTrySpawnPortal(level, pos, AerialHellPortalBlock$size))
 		{
-			aerialhellPortalSize.placeAerialHellPortalBlocks();
+			AerialHellPortalBlock$size.placePortalBlocks();
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
-	
-	@Nullable
-	public AerialHellPortalBlock.Size isPortal(LevelAccessor world, BlockPos pos)
+
+	public static boolean onTrySpawnPortal(LevelAccessor world, BlockPos pos, AerialHellPortalBlock.Size size)
 	{
-		AerialHellPortalBlock.Size aerialhellPortalSizeX = new AerialHellPortalBlock.Size(world, pos, Axis.X);
-		if (aerialhellPortalSizeX.isValid() && aerialhellPortalSizeX.portalBlockCount == 0)
+		return MinecraftForge.EVENT_BUS.post(new PortalSpawnEvent(world, pos, world.getBlockState(pos), size));
+	}
+
+	@Cancelable
+	public static class PortalSpawnEvent extends BlockEvent
+	{
+		private final AerialHellPortalBlock.Size size;
+
+		public PortalSpawnEvent(LevelAccessor world, BlockPos pos, BlockState state, AerialHellPortalBlock.Size size)
 		{
-			return aerialhellPortalSizeX;
+			super(world, pos, state);
+			this.size = size;
 		}
+
+		public AerialHellPortalBlock.Size getPortalSize() {return size;}
+	}
+
+	@Nullable
+	public AerialHellPortalBlock.Size isPortal(LevelAccessor level, BlockPos pos)
+	{
+		AerialHellPortalBlock.Size size = new Size(level, pos, Direction.Axis.X);
+		if (size.isValid() && size.portalBlockCount == 0) {return size;}
 		else
 		{
-			AerialHellPortalBlock.Size aerialhellPortalSizeZ = new AerialHellPortalBlock.Size(world, pos, Axis.Z);
-			return aerialhellPortalSizeZ.isValid() && aerialhellPortalSizeZ.portalBlockCount == 0? aerialhellPortalSizeZ : null;
+			AerialHellPortalBlock.Size AerialHellPortalBlock$size1 = new Size(level, pos, Direction.Axis.Z);
+			return AerialHellPortalBlock$size1.isValid() && AerialHellPortalBlock$size1.portalBlockCount == 0 ? AerialHellPortalBlock$size1 : null;
 		}
 	}
-	
+
 	@Override
-	@Deprecated
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos)
+	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos)
 	{
-		Axis directionAxis = facing.getAxis();
-		Axis stateAxis = stateIn.getValue(AXIS);
-		boolean flag = stateAxis != directionAxis && directionAxis.isHorizontal();
-		return (!flag && facingState.getBlock() != this && !(new AerialHellPortalBlock.Size(worldIn, currentPos, stateAxis)).canCreatePortal())? Blocks.AIR.defaultBlockState() : super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos); 
+		Direction.Axis direction$axis = facing.getAxis();
+		Direction.Axis direction$axis1 = stateIn.getValue(AXIS);
+		boolean flag = direction$axis1 != direction$axis && direction$axis.isHorizontal();
+		return !flag && facingState.getBlock() != this && !(new Size(level, currentPos, direction$axis1)).validatePortal() ? Blocks.AIR.defaultBlockState() : super.updateShape(stateIn, facing, facingState, level, currentPos, facingPos);
 	}
-	
-	private static RegistryKey<World> getDestination(Entity entity)
-	{
-		return entity.world.getDimensionKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION ? World.OVERWORLD : AerialHellDimensions.AERIAL_HELL_DIMENSION;
-	}
-	
+
 	@Override
-	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entity)
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
 	{
-		if(!entity.isPassenger() && !entity.isBeingRidden() && entity.canChangeDimensions())
+		if(!entity.isPassenger() && !entity.isVehicle() && entity.canChangeDimensions())
 		{
-			if(entity.func_242280_ah())
-			{
-				entity.func_242279_ag();
-			}
+			if(entity.isOnPortalCooldown()) {entity.setPortalCooldown();}
 			else
 			{
-				if(!entity.world.isClientSide() && !pos.equals(entity.field_242271_ac))
+				if(!entity.level.isClientSide && !pos.equals(entity.portalEntrancePos)) {entity.portalEntrancePos = pos.immutable();}
+				Level entityWorld = entity.level;
+				if(entityWorld != null)
 				{
-					entity.field_242271_ac = pos.toImmutable();
-				}
-				World serverworld = entity.world;
-				if(serverworld != null)
-				{
-					MinecraftServer minecraftserver = serverworld.getServer();
-					RegistryKey<World> worldDestination = getDestination(entity);
-					if(minecraftserver != null)
-					{
-						ServerWorld destination = minecraftserver.getWorld(worldDestination);
-						if(destination != null && minecraftserver.getAllowNether() && !entity.isPassenger())
-						{
-							if (entity instanceof Player)
-							{
-								Player player = ((Player) entity);
-								applyPortalEffects(player);
-								int maxPortalTime = player.getMaxInPortalTime();
-								if (entity.portalCounter++ > maxPortalTime || player.isSneaking())
-								{
-									entity.portalCounter = 0;
-									teleportEntity(entity, destination);
-								}
-							}
-							else
-							{
-								teleportEntity(entity, destination);
-							}
+					MinecraftServer minecraftserver = entityWorld.getServer();
+					ResourceKey<Level> destination = entity.level.dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION ? Level.OVERWORLD : AerialHellDimensions.AERIAL_HELL_DIMENSION;
+					if(minecraftserver != null) {
+						ServerLevel destinationWorld = minecraftserver.getLevel(destination);
+						if(destinationWorld != null && minecraftserver.isNetherEnabled() && !entity.isPassenger()) {
+							entity.level.getProfiler().push("aerialhell_portal");
+							entity.setPortalCooldown();
+							entity.changeDimension(destinationWorld, new AerialHellTeleporter(destinationWorld));
+							entity.level.getProfiler().pop();
 						}
 					}
 				}
 			}
 		}
 	}
-	
-	private void teleportEntity(Entity entity, ServerWorld destination)
-	{
-		entity.world.getProfiler().startSection("aerialhell_portal");
-		entity.func_242279_ag();
-		entity.changeDimension(destination, new AerialHellTeleporter(destination));
-		entity.world.getProfiler().endSection();
-	}
-	
-	private void applyPortalEffects(LivingEntity entity)
-	{
-		if (!entity.hasEffect(Effects.NAUSEA) || entity.getActivePotionEffect(Effects.NAUSEA).getDuration() < 100)
-		{
-			entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 120, 0));
-		}
-		if (!entity.hasEffect(Effects.BLINDNESS) || entity.getActivePotionEffect(Effects.BLINDNESS).getDuration() < 50)
-		{
-			entity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 90, 0));
-		}
-	}
-	
-	@Override
+
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand)
+	@Override public void animateTick(BlockState state, Level level, BlockPos pos, Random random)
 	{
-		if (rand.nextInt(100) == 0)
+		if (random.nextInt(100) == 0)
 		{
-			worldIn.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, AerialHellSoundEvents.BLOCK_AERIAL_HELL_PORTAL_AMBIENT.get(), SoundSource.BLOCKS, 0.5F, rand.nextFloat() * 0.4F + 0.8F, false);
+			level.playLocalSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, AerialHellSoundEvents.BLOCK_AERIAL_HELL_PORTAL_AMBIENT.get(), SoundSource.BLOCKS, 0.6F, 0.9F + random.nextFloat() * 0.2F, false);
 		}
 
-		for (int i = 0; i < 4; ++i)
+		for(int i = 0; i < 4; ++i)
 		{
-			double x = pos.getX() + rand.nextDouble();
-			double y = pos.getY() + rand.nextDouble();
-			double z = pos.getZ() + rand.nextDouble();
-			double sX = (rand.nextFloat() - 0.5) * 0.5;
-			double sY = (rand.nextFloat() - 0.5) * 0.5;
-			double sZ = (rand.nextFloat() - 0.5) * 0.5;
-			int mul = rand.nextInt(2) * 2 - 1;
-
-			if (worldIn.getBlockState(pos.west()).getBlock() != this && worldIn.getBlockState(pos.east()).getBlock() != this)
+			double x = (double)pos.getX() + random.nextDouble();
+			double y = (double)pos.getY() + random.nextDouble();
+			double z = (double)pos.getZ() + random.nextDouble();
+			double xSpeed = ((double)random.nextFloat() - 0.5D) * 0.5D;
+			double ySpeed = ((double)random.nextFloat() - 0.5D) * 0.5D;
+			double zSpeed = ((double)random.nextFloat() - 0.5D) * 0.5D;
+			int j = random.nextInt(2) * 2 - 1;
+			if (!level.getBlockState(pos.west()).is(this) && !level.getBlockState(pos.east()).is(this))
 			{
-				x = pos.getX() + 0.5 + 0.25 * mul;
-				sX = rand.nextFloat() * 2.0 * mul;
+				x = (double)pos.getX() + 0.5D + 0.25D * (double)j;
+				xSpeed = random.nextFloat() * 2.0F * (float)j;
 			}
 			else
 			{
-				z = pos.getZ() + 0.5 + 0.25 * mul;
-				sZ = rand.nextFloat() * 2.0 * mul;
+				z = (double)pos.getZ() + 0.5D + 0.25D * (double)j;
+				zSpeed = random.nextFloat() * 2.0F * (float)j;
 			}
 
-			worldIn.addParticle(AerialHellParticleTypes.AERIAL_HELL_PORTAL.get(), x, y, z, sX, sY, sZ);
+			level.addParticle(AerialHellParticleTypes.AERIAL_HELL_PORTAL.get(), x, y, z, xSpeed, ySpeed, zSpeed);
 		}
 	}
-	
+
+	@Override public ItemStack getCloneItemStack(BlockGetter level, BlockPos pos, BlockState state) {return ItemStack.EMPTY;}
+
 	@Override
-	public ItemStack getItem(BlockGetter worldIn, BlockPos pos, BlockState state)
-	{
-		return ItemStack.EMPTY;
-	}
-	
-	@Override
-	@Deprecated
 	public BlockState rotate(BlockState state, Rotation rot)
 	{
-		switch (rot)
+		switch(rot)
 		{
 			case COUNTERCLOCKWISE_90:
 			case CLOCKWISE_90:
-				switch (state.getValue(AXIS))
+				switch(state.getValue(AXIS))
 				{
 					case Z:
-						return state.setValue(AXIS, Axis.X);
+						return state.setValue(AXIS, Direction.Axis.X);
 					case X:
-						return state.setValue(AXIS, Axis.Z);
+						return state.setValue(AXIS, Direction.Axis.Z);
 					default:
-						throw new AssertionError("Invalid value for 'axis'");
+						return state;
 				}
 			default:
 				return state;
 		}
 	}
-	
-	@Override
-	protected void fillStateContainer(Builder<Block, BlockState> builder) {builder.add(AXIS);}
-	
-	@SuppressWarnings("deprecation")
-	public static BlockPattern.PatternHelper createPatternHelper(LevelAccessor worldIn, BlockPos pos)
-	{
-		Axis axis = Axis.Z;
-		AerialHellPortalBlock.Size size = new AerialHellPortalBlock.Size(worldIn, pos, Axis.X);
-		LoadingCache<BlockPos, CachedBlockInfo> cache = BlockPattern.createLoadingCache(worldIn, true);
-		if (!size.isValid())
-		{
-			axis = Axis.X;
-			size = new AerialHellPortalBlock.Size(worldIn, pos, Axis.Z);
-		}
 
-		if (!size.isValid())
-		{
-			return new BlockPattern.PatternHelper(pos, Direction.NORTH, Direction.UP, cache, 1, 1, 1);
-		}
-		else {
-			int[] axes = new int[AxisDirection.values().length];
-			Direction direction = size.rightDir.rotateYCCW();
-			BlockPos blockpos = size.bottomLeft.up(size.getHeight() - 1);
-
-			for (AxisDirection axisDir : AxisDirection.values())
-			{
-				BlockPattern.PatternHelper helper = new BlockPattern.PatternHelper((direction.getAxisDirection() == axisDir)? blockpos : blockpos.offset(size.rightDir, size.getWidth() - 1), Direction.getFacingFromAxis(axisDir, axis), Direction.UP, cache, size.getWidth(), size.getHeight(), 1);
-
-				for (int i = 0; i < size.getWidth(); ++i)
-				{
-					for (int j = 0; j < size.getHeight(); ++j)
-					{
-						CachedBlockInfo cachedInfo = helper.translateOffset(i, j, 1);
-						if (!cachedInfo.getBlockState().isAir())
-						{
-							++axes[axisDir.ordinal()];
-						}
-					}
-				}
-			}
-
-			AxisDirection axisDirPos = AxisDirection.POSITIVE;
-
-			for (AxisDirection axisDir : AxisDirection.values())
-			{
-				if (axes[axisDir.ordinal()] < axes[axisDirPos.ordinal()])
-				{
-					axisDirPos = axisDir;
-				}
-			}
-			return new BlockPattern.PatternHelper((direction.getAxisDirection() == axisDirPos)? blockpos : blockpos.offset(size.rightDir, size.getWidth() - 1), Direction.getFacingFromAxis(axisDirPos, axis), Direction.UP, cache, size.getWidth(), size.getHeight(), 1);
-		}
-	}
+	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(AXIS);}
 
 	public static class Size
 	{
-		protected final LevelAccessor world;
-		public final Direction.Axis axis;
-		public final Direction rightDir;
-		public int portalBlockCount;
+		private final LevelAccessor level;
+		private final Direction.Axis axis;
+		private final Direction rightDir;
+		private final Direction leftDir;
+		private int portalBlockCount;
 		@Nullable
-		public BlockPos bottomLeft;
-		public int height;
-		public int width;
+		private BlockPos bottomLeft;
+		private int height;
+		private int width;
 
-		public Size(LevelAccessor worldIn, BlockPos pos, Direction.Axis axisIn)
+		public Size(LevelAccessor level, BlockPos pos, Direction.Axis axis)
 		{
-			this.world = worldIn;
-			this.axis = axisIn;
-			this.rightDir = axisIn == Direction.Axis.X ? Direction.WEST : Direction.SOUTH;
+			this.level = level;
+			this.axis = axis;
+			if (axis == Direction.Axis.X)
+			{
+				this.leftDir = Direction.EAST;
+				this.rightDir = Direction.WEST;
+			}
+			else
+			{
+				this.leftDir = Direction.NORTH;
+				this.rightDir = Direction.SOUTH;
+			}
 
-			//searching the bottom
-			for (BlockPos blockpos = pos; pos.getY() > blockpos.getY() - 21 && pos.getY() > 0 && this.isEmptyBlock(worldIn.getBlockState(pos.below())); pos = pos.below()) {}
-			
-			//searching bottom left and width
-			int i = this.getDistanceUntilEdge(pos, this.rightDir.getOpposite()) - 1;
+			for (BlockPos blockpos = pos; pos.getY() > blockpos.getY() - 21 && pos.getY() > 0 && this.canConnect(level.getBlockState(pos.below())); pos = pos.below()) {}
+
+			int i = this.getDistanceUntilEdge(pos, this.leftDir) - 1;
 			if (i >= 0)
 			{
-				this.bottomLeft = pos.offset(this.rightDir.getOpposite(), i);
+				this.bottomLeft = pos.relative(this.leftDir, i);
 				this.width = this.getDistanceUntilEdge(this.bottomLeft, this.rightDir);
 				if (this.width < 2 || this.width > 21)
 				{
@@ -332,102 +243,62 @@ public class AerialHellPortalBlock extends Block
 					this.width = 0;
 				}
 			}
-			
-			//searching height
-			if (this.bottomLeft != null)
-			{
-				this.height = this.calculatePortalHeight();
-			}
-
+			if (this.bottomLeft != null) {this.height = this.calculatePortalHeight();}
 		}
 
 		protected int getDistanceUntilEdge(BlockPos pos, Direction directionIn)
 		{
-			int i;
-			for (i = 0; i < 22; ++i)
+			int distance; BlockState state;
+			for(distance = 0; distance < 22; ++distance)
 			{
-				BlockPos blockpos = pos.offset(directionIn, i);
-				if (!this.isEmptyBlock(this.world.getBlockState(blockpos)) || this.world.getBlockState(blockpos.below()).getBlock() != GetPortalBlock())
-				{
-					break;
-				}
+				BlockPos blockpos = pos.relative(directionIn, distance);
+				state = this.level.getBlockState(blockpos.below());
+				if(!this.canConnect(this.level.getBlockState(blockpos)) || !BlockHelper.isAerialHellPortalFrameBlock(state)) {break;}
 			}
 
-			BlockPos framePos = pos.offset(directionIn, i);
-			
-			if (this.world.getBlockState(framePos).getBlock() == GetPortalBlock())
-			{
-				return i;
-			}
-			else
-			{
-				return 0;
-			}
+			BlockPos framePos = pos.relative(directionIn, distance);
+			state = this.level.getBlockState(framePos);
+			return BlockHelper.isAerialHellPortalFrameBlock(state) ? distance : 0;
 		}
 
-		public int getHeight()
-		{
-			return this.height;
-		}
+		public int getHeight() {return this.height;}
 
-		public int getWidth()
-		{
-			return this.width;
-		}
+		public int getWidth() {return this.width;}
 
 		protected int calculatePortalHeight()
 		{
-			outerloop:
-			for (this.height = 0; this.height < 21; ++this.height)
+			label:
+			for(this.height = 0; this.height < 21; ++this.height)
 			{
-				for (int i = 0; i < this.width; ++i)
+				for(int i = 0; i < this.width; ++i)
 				{
-					BlockPos blockpos = this.bottomLeft.offset(this.rightDir, i).up(this.height);
-					BlockState blockstate = this.world.getBlockState(blockpos);
-					if (!this.isEmptyBlock(blockstate))
-					{
-						break outerloop;
-					}
+					BlockPos blockpos = this.bottomLeft.relative(this.rightDir, i).above(this.height);
+					BlockState blockstate = this.level.getBlockState(blockpos);
+					if (!this.canConnect(blockstate)) {break label;}
 
 					Block block = blockstate.getBlock();
-					if (block == AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get())
-					{
-						++this.portalBlockCount;
-					}
+					if (block == AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get()) {++this.portalBlockCount;}
 
 					if (i == 0)
 					{
-						BlockPos framePos = blockpos.offset(this.rightDir.getOpposite());
-						if (this.world.getBlockState(framePos).getBlock() != GetPortalBlock())
-						{
-							break outerloop;
-						}
+						BlockState state = level.getBlockState(blockpos.relative(this.leftDir));
+						if (!BlockHelper.isAerialHellPortalFrameBlock(state)) {break label;}
 					}
 					else if (i == this.width - 1)
 					{
-						BlockPos framePos = blockpos.offset(this.rightDir);
-						if (this.world.getBlockState(framePos).getBlock() != GetPortalBlock())
-						{
-							break outerloop;
-						}
+						BlockState state = level.getBlockState(blockpos.relative(this.rightDir));
+						if (!BlockHelper.isAerialHellPortalFrameBlock(state)) {break label;}
 					}
 				}
 			}
 
-			for (int j = 0; j < this.width; ++j)
+			for(int j = 0; j < this.width; ++j)
 			{
-				BlockPos framePos = this.bottomLeft.offset(this.rightDir, j).up(this.height);
-				if (this.world.getBlockState(framePos).getBlock() != GetPortalBlock())
-				{
-					this.height = 0;
-					break;
-				}
+				BlockState state = level.getBlockState(this.bottomLeft.relative(this.rightDir, j).above(this.height));
+				if (!BlockHelper.isAerialHellPortalFrameBlock(state)) {this.height = 0; break;}
 			}
 
-			if (this.height <= 21 && this.height >= 3)
-			{
-				return this.height;
-			}
+			if (this.height <= 21 && this.height >= 3) {return this.height;}
 			else
 			{
 				this.bottomLeft = null;
@@ -437,8 +308,7 @@ public class AerialHellPortalBlock extends Block
 			}
 		}
 
-		@SuppressWarnings("deprecation")
-		protected boolean isEmptyBlock(BlockState pos)
+		protected boolean canConnect(BlockState pos)
 		{
 			Block block = pos.getBlock();
 			return pos.isAir() || block == AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get();
@@ -449,23 +319,21 @@ public class AerialHellPortalBlock extends Block
 			return this.bottomLeft != null && this.width >= 2 && this.width <= 21 && this.height >= 3 && this.height <= 21;
 		}
 
-		public void placeAerialHellPortalBlocks()
+		public void placePortalBlocks()
 		{
-			for (int i = 0; i < this.width; ++i)
+			for(int i = 0; i < this.width; ++i)
 			{
-				BlockPos blockpos = this.bottomLeft.offset(this.rightDir, i);
+				BlockPos blockpos = this.bottomLeft.relative(this.rightDir, i);
 
-				for (int j = 0; j < this.height; ++j)
+				for(int j = 0; j < this.height; ++j)
 				{
-					this.world.setBlockState(blockpos.up(j), AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get().defaultBlockState().setValue(AerialHellPortalBlock.AXIS, this.axis), 18);
+					this.level.setBlock(blockpos.above(j), AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get().defaultBlockState().setValue(AerialHellPortalBlock.AXIS, this.axis), 18);
 				}
 			}
-
 		}
 
-		public boolean canCreatePortal()
-		{
-			return this.isValid() && this.portalBlockCount >= this.width * this.height;
-		}
+		private boolean isPortalCountValidForSize() {return this.portalBlockCount >= this.width * this.height;}
+
+		public boolean validatePortal() {return this.isValid() && this.isPortalCountValidForSize();}
 	}
 }

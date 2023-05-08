@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block;
 
 import java.util.Random;
 
+import fr.factionbedrock.aerialhell.BlockEntity.FreezerBlockEntity;
 import fr.factionbedrock.aerialhell.BlockEntity.StellarFurnaceBlockEntity;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
@@ -26,12 +27,8 @@ public class StellarFurnaceBlock extends AbstractFurnaceBlock
 	{
 		super(properties);
 	}
-	
-	@Override
-	public BlockEntity newBlockEntity(BlockGetter worldIn)
-	{
-		return new StellarFurnaceBlockEntity();
-	}
+
+	@Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new StellarFurnaceBlockEntity(pos, state);}
 
 	protected void openContainer(Level worldIn, BlockPos pos, Player player)
 	{

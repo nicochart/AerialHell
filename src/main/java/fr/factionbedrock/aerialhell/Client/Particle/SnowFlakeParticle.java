@@ -19,7 +19,7 @@ public class SnowFlakeParticle extends PortalParticle
 		this.rCol = this.bCol = this.gCol = 1.0F;
 		this.gravity = 0.2F;
 		this.quadSize *= (0.8F + 0.5*Math.random());
-		this.setMaxAge((int)(16.0F / (this.rand.nextFloat() * 0.9F + 0.1F)));
+		this.lifetime = ((int)(16.0F / (Math.random() * 0.9F + 0.1F)));
 	}
 	
 	@OnlyIn(Dist.CLIENT)

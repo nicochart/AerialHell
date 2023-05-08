@@ -4,20 +4,15 @@ import java.util.Random;
 
 import fr.factionbedrock.aerialhell.BlockEntity.FreezerBlockEntity;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.BlockEntity.OscillatorBlockEntity;
-import net.minecraft.stats.Stats;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -28,12 +23,8 @@ public class FreezerBlock extends AbstractFurnaceBlock
 	{
 		super(properties);
 	}
-	
-	@Override
-	public BlockEntity newBlockEntity(BlockGetter worldIn)
-	{
-		return new FreezerBlockEntity();
-	}
+
+	@Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new FreezerBlockEntity(pos, state);}
 	
 	@Override
 	protected void openContainer(Level worldIn, BlockPos pos, Player player)

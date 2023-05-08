@@ -1,17 +1,13 @@
 package fr.factionbedrock.aerialhell.Client.Particle;
 
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.IParticleRenderType;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.SpriteTexturedParticle;
+import net.minecraft.client.particle.*;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ShadowParticle extends SpriteTexturedParticle
+public class ShadowParticle extends TextureSheetParticle
 {
 	protected ShadowParticle(ClientLevel worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
 	{
@@ -20,7 +16,7 @@ public class ShadowParticle extends SpriteTexturedParticle
 		this.rCol = this.bCol = this.gCol = 1.0F;
 		this.gravity = -0.2F;
 		this.quadSize *= 1.5F;
-		this.setMaxAge((int) (32.0F + 4.0F * this.rand.nextFloat()));
+		this.lifetime =(int) (32.0F + 4.0F * Math.random());
 	}
 	
 	@OnlyIn(Dist.CLIENT)
@@ -43,8 +39,8 @@ public class ShadowParticle extends SpriteTexturedParticle
 	}
 
 	@Override
-	public IParticleRenderType getRenderType()
+	public ParticleRenderType getRenderType()
 	{
-		return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+		return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
 	}
 }

@@ -1,94 +1,86 @@
 package fr.factionbedrock.aerialhell.World;
 
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.core.Direction;
-import net.minecraft.util.TeleportationRepositioner;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.Mth;
-import com.mojang.math.Vector3d;
-import net.minecraft.village.PointOfInterest;
-import net.minecraft.village.PointOfInterestManager;
-import net.minecraft.world.DimensionType;
-import net.minecraft.world.border.WorldBorder;
-import net.minecraft.world.gen.Heightmap;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.server.TicketType;
-import net.minecraftforge.common.util.ITeleporter;
-
-import javax.annotation.Nullable;
-
 import fr.factionbedrock.aerialhell.Block.AerialHellPortalBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.AerialHellPOI;
+import fr.factionbedrock.aerialhell.Util.BlockHelper;
+import net.minecraft.BlockUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.TicketType;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.entity.ai.village.poi.PoiRecord;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.border.WorldBorder;
+import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.portal.PortalInfo;
+import net.minecraft.world.level.portal.PortalShape;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.util.ITeleporter;
 
+import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
 
 public class AerialHellTeleporter implements ITeleporter
 {
-	public static Block GetPortalBlock()
-	{
-		return AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get(); //Block to create the portal (if edited: edit it in World.AerialHellTeleporter too)
-	}
-    protected final ServerLevel world;
 
-    public AerialHellTeleporter(ServerLevel worldIn)
-    {
-        this.world = worldIn;
-    }
+    protected final ServerLevel level;
 
-    public Optional<TeleportationRepositioner.Result> getExistingPortal(BlockPos pos)
-    {
-        PointOfInterestManager poiManager = this.world.getPointOfInterestManager();
-        poiManager.ensureLoadedAndValid(this.world, pos, 128);
-        Optional<PointOfInterest> optional = poiManager.getInSquare((poiType) ->
-                poiType == AerialHellPOI.AERIAL_HELL_PORTAL_POI.get(), pos, 128, PointOfInterestManager.Status.ANY).sorted(Comparator.<PointOfInterest>comparingDouble((poi) ->
+    public AerialHellTeleporter(ServerLevel level) {this.level = level;}
+
+    public Optional<BlockUtil.FoundRectangle> getExistingPortal(BlockPos pos) {
+        PoiManager poiManager = this.level.getPoiManager();
+        poiManager.ensureLoadedAndValid(this.level, pos, 64);
+        Optional<PoiRecord> optional = poiManager.getInSquare((poiType) ->
+                poiType == AerialHellPOI.AERIAL_HELL_PORTAL_POI.get(), pos, 64, PoiManager.Occupancy.ANY).sorted(Comparator.<PoiRecord>comparingDouble((poi) ->
                 poi.getPos().distSqr(pos)).thenComparingInt((poi) ->
                 poi.getPos().getY())).filter((poi) ->
-                this.world.getBlockState(poi.getPos()).hasProperty(BlockStateProperties.HORIZONTAL_AXIS)).findFirst();
+                this.level.getBlockState(poi.getPos()).hasProperty(BlockStateProperties.HORIZONTAL_AXIS)).findFirst();
         return optional.map((poi) ->
         {
             BlockPos blockpos = poi.getPos();
-            this.world.getChunkProvider().registerTicket(TicketType.PORTAL, new ChunkPos(blockpos), 3, blockpos);
-            BlockState blockstate = this.world.getBlockState(blockpos);
-            return TeleportationRepositioner.findLargestRectangle(blockpos, blockstate.getValue(BlockStateProperties.HORIZONTAL_AXIS), 21, Direction.Axis.Y, 21, (posIn) ->
-                    this.world.getBlockState(posIn) == blockstate);
+            this.level.getChunkSource().addRegionTicket(TicketType.PORTAL, new ChunkPos(blockpos), 3, blockpos);
+            BlockState blockstate = this.level.getBlockState(blockpos);
+            return BlockUtil.getLargestRectangleAround(blockpos, blockstate.getValue(BlockStateProperties.HORIZONTAL_AXIS), 21, Direction.Axis.Y, 21, (posIn) ->
+                    this.level.getBlockState(posIn) == blockstate);
         });
     }
 
-    public Optional<TeleportationRepositioner.Result> makePortal(BlockPos pos, Direction.Axis axis)
+    public Optional<BlockUtil.FoundRectangle> makePortal(BlockPos pos, Direction.Axis axis)
     {
-        Direction direction = Direction.getFacingFromAxis(Direction.AxisDirection.POSITIVE, axis);
+        Direction direction = Direction.get(Direction.AxisDirection.POSITIVE, axis);
         double d0 = -1.0D;
         BlockPos blockpos = null;
         double d1 = -1.0D;
         BlockPos blockpos1 = null;
-        WorldBorder worldborder = this.world.getWorldBorder();
-        int dimensionLogicalHeight = this.world.func_234938_ad_() - 1;
-        BlockPos.Mutable mutablePos = pos.toMutable();
+        WorldBorder worldborder = this.level.getWorldBorder();
+        int dimensionLogicalHeight = this.level.getHeight() - 1;
+        BlockPos.MutableBlockPos mutablePos = pos.mutable();
 
-        for(BlockPos.Mutable blockpos$mutable1 : BlockPos.func_243514_a(pos, 16, Direction.EAST, Direction.SOUTH))
+        for(BlockPos.MutableBlockPos blockpos$mutable1 : BlockPos.spiralAround(pos, 16, Direction.EAST, Direction.SOUTH))
         {
-            int j = Math.min(dimensionLogicalHeight, this.world.getHeight(Heightmap.Type.MOTION_BLOCKING, blockpos$mutable1.getX(), blockpos$mutable1.getZ()));
-            if (worldborder.contains(blockpos$mutable1) && worldborder.contains(blockpos$mutable1.move(direction, 1)))
+            int j = Math.min(dimensionLogicalHeight, this.level.getHeight(Heightmap.Types.MOTION_BLOCKING, blockpos$mutable1.getX(), blockpos$mutable1.getZ()));
+            if (worldborder.isWithinBounds(blockpos$mutable1) && worldborder.isWithinBounds(blockpos$mutable1.move(direction, 1)))
             {
                 blockpos$mutable1.move(direction.getOpposite(), 1);
 
-                for(int l = j; l >= 0; --l)
-                {
+                for(int l = j; l >= 0; --l) {
                     blockpos$mutable1.setY(l);
-                    if (this.world.isAirBlock(blockpos$mutable1))
+                    if (this.level.isEmptyBlock(blockpos$mutable1))
                     {
                         int i1;
-                        for(i1 = l; l > 0 && this.world.isAirBlock(blockpos$mutable1.move(Direction.DOWN)); --l)
-                        {
-                        	
-                        }
+                        for(i1 = l; l > 0 && this.level.isEmptyBlock(blockpos$mutable1.move(Direction.DOWN)); --l) {}
 
                         if (l + 4 <= dimensionLogicalHeight)
                         {
@@ -99,15 +91,16 @@ public class AerialHellTeleporter implements ITeleporter
                                 if (this.checkRegionForPlacement(blockpos$mutable1, mutablePos, direction, 0))
                                 {
                                     double d2 = pos.distSqr(blockpos$mutable1);
-                                    if (this.checkRegionForPlacement(blockpos$mutable1, mutablePos, direction, -1) && this.checkRegionForPlacement(blockpos$mutable1, mutablePos, direction, 1) && (d0 == -1.0D || d0 > d2)) {
+                                    if (this.checkRegionForPlacement(blockpos$mutable1, mutablePos, direction, -1) && this.checkRegionForPlacement(blockpos$mutable1, mutablePos, direction, 1) && (d0 == -1.0D || d0 > d2))
+                                    {
                                         d0 = d2;
-                                        blockpos = blockpos$mutable1.toImmutable();
+                                        blockpos = blockpos$mutable1.immutable();
                                     }
 
                                     if (d0 == -1.0D && (d1 == -1.0D || d1 > d2))
                                     {
                                         d1 = d2;
-                                        blockpos1 = blockpos$mutable1.toImmutable();
+                                        blockpos1 = blockpos$mutable1.immutable();
                                     }
                                 }
                             }
@@ -123,14 +116,10 @@ public class AerialHellTeleporter implements ITeleporter
             d0 = d1;
         }
 
-        if (d0 == -1.0D)
-        {
-            blockpos = (new BlockPos(pos.getX(), Mth.clamp(pos.getY(), 70, this.world.func_234938_ad_() - 10), pos.getZ())).toImmutable();
-            Direction direction1 = direction.rotateY();
-            if (!worldborder.contains(blockpos))
-            {
-                return Optional.empty();
-            }
+        if (d0 == -1.0D) {
+            blockpos = (new BlockPos(pos.getX(), Mth.clamp(pos.getY(), 70, this.level.getHeight() - 10), pos.getZ())).immutable();
+            Direction direction1 = direction.getClockWise();
+            if (!worldborder.isWithinBounds(blockpos)) {return Optional.empty();}
 
             for(int l1 = -1; l1 < 2; ++l1)
             {
@@ -138,9 +127,9 @@ public class AerialHellTeleporter implements ITeleporter
                 {
                     for(int i3 = -1; i3 < 3; ++i3)
                     {
-                        BlockState blockstate1 = i3 < 0 ? GetPortalBlock().defaultBlockState() : Blocks.AIR.defaultBlockState();
-                        mutablePos.setAndOffset(blockpos, k2 * direction.getXOffset() + l1 * direction1.getXOffset(), i3, k2 * direction.getZOffset() + l1 * direction1.getZOffset());
-                        this.world.setBlockState(mutablePos, blockstate1);
+                        BlockState blockstate1 = i3 < 0 ? BlockHelper.getAerialHellPortalFrameBlock().defaultBlockState() : Blocks.AIR.defaultBlockState();
+                        mutablePos.setWithOffset(blockpos, k2 * direction.getStepX() + l1 * direction1.getStepX(), i3, k2 * direction.getStepZ() + l1 * direction1.getStepZ());
+                        this.level.setBlockAndUpdate(mutablePos, blockstate1);
                     }
                 }
             }
@@ -152,107 +141,93 @@ public class AerialHellTeleporter implements ITeleporter
             {
                 if (k1 == -1 || k1 == 2 || i2 == -1 || i2 == 3)
                 {
-                    mutablePos.setAndOffset(blockpos, k1 * direction.getXOffset(), i2, k1 * direction.getZOffset());
-                    this.world.setBlockState(mutablePos, GetPortalBlock().defaultBlockState(), 3);
+                    mutablePos.setWithOffset(blockpos, k1 * direction.getStepX(), i2, k1 * direction.getStepZ());
+                    this.level.setBlock(mutablePos, BlockHelper.getAerialHellPortalFrameBlock().defaultBlockState(), 3);
                 }
             }
         }
 
-        BlockState aerialhellPortal = AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get().defaultBlockState().setValue(AerialHellPortalBlock.AXIS, axis);
+        BlockState aerial_hell_portal = AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get().defaultBlockState().setValue(AerialHellPortalBlock.AXIS, axis);
 
         for(int j2 = 0; j2 < 2; ++j2)
         {
             for(int l2 = 0; l2 < 3; ++l2)
             {
-                mutablePos.setAndOffset(blockpos, j2 * direction.getXOffset(), l2, j2 * direction.getZOffset());
-                this.world.setBlockState(mutablePos, aerialhellPortal, 18);
+                mutablePos.setWithOffset(blockpos, j2 * direction.getStepX(), l2, j2 * direction.getStepZ());
+                this.level.setBlock(mutablePos, aerial_hell_portal, 18);
             }
         }
 
-        return Optional.of(new TeleportationRepositioner.Result(blockpos.toImmutable(), 2, 3));
+        return Optional.of(new BlockUtil.FoundRectangle(blockpos.immutable(), 2, 3));
     }
 
-    private boolean checkRegionForPlacement(BlockPos originalPos, BlockPos.Mutable offsetPos, Direction directionIn, int offsetScale)
+    private boolean checkRegionForPlacement(BlockPos originalPos, BlockPos.MutableBlockPos offsetPos, Direction directionIn, int offsetScale)
     {
-        Direction direction = directionIn.rotateY();
+        Direction direction = directionIn.getClockWise();
 
         for(int i = -1; i < 3; ++i)
         {
             for(int j = -1; j < 4; ++j)
             {
-                offsetPos.setAndOffset(originalPos, directionIn.getXOffset() * i + direction.getXOffset() * offsetScale, j, directionIn.getZOffset() * i + direction.getZOffset() * offsetScale);
-                if (j < 0 && !this.world.getBlockState(offsetPos).getMaterial().isSolid())
-                {
-                    return false;
-                }
+                offsetPos.setWithOffset(originalPos, directionIn.getStepX() * i + direction.getStepX() * offsetScale, j, directionIn.getStepZ() * i + direction.getStepZ() * offsetScale);
+                if (j < 0 && !this.level.getBlockState(offsetPos).getMaterial().isSolid()) {return false;}
 
-                if (j >= 0 && !this.world.isAirBlock(offsetPos))
-                {
-                    return false;
-                }
+                if (j >= 0 && !this.level.isEmptyBlock(offsetPos)) {return false;}
             }
         }
-
         return true;
     }
 
     @Nullable
     @Override
-    public PortalInfo getPortalInfo(Entity entity, ServerWorld destWorld, Function<ServerWorld, PortalInfo> defaultPortalInfo)
+    public PortalInfo getPortalInfo(Entity entity, ServerLevel level, Function<ServerLevel, PortalInfo> defaultPortalInfo)
     {
-        boolean isAerialHell = destWorld.getDimensionKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION;
-        if (entity.world.getDimensionKey() != AerialHellDimensions.AERIAL_HELL_DIMENSION && !isAerialHell)
-        {
-            return null;
-        }
+        boolean destinationIsAerialHell = level.dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION;
+        if (entity.level.dimension() != AerialHellDimensions.AERIAL_HELL_DIMENSION && !destinationIsAerialHell) {return null;}
         else
         {
-            WorldBorder border = destWorld.getWorldBorder();
-            double minX = Math.max(-2.9999872E7D, border.minX() + 16.0D);
-            double minZ = Math.max(-2.9999872E7D, border.minZ() + 16.0D);
-            double maxX = Math.min(2.9999872E7D, border.maxX() - 16.0D);
-            double maxZ = Math.min(2.9999872E7D, border.maxZ() - 16.0D);
-            double coordinateDifference = DimensionType.getCoordinateDifference(entity.world.getDimensionType(), destWorld.getDimensionType());
-            BlockPos blockpos = new BlockPos(Mth.clamp(entity.getPosX() * coordinateDifference, minX, maxX), entity.getPosY(), Mth.clamp(entity.getPosZ() * coordinateDifference, minZ, maxZ));
-            return this.getOrMakePortal(entity, blockpos).map((result) ->
-            {
-                BlockState blockstate = entity.world.getBlockState(entity.field_242271_ac);
+            WorldBorder border = level.getWorldBorder();
+            double minX = Math.max(-2.9999872E7D, border.getMinX() + 16.0D);
+            double minZ = Math.max(-2.9999872E7D, border.getMinZ() + 16.0D);
+            double maxX = Math.min(2.9999872E7D, border.getMaxX() - 16.0D);
+            double maxZ = Math.min(2.9999872E7D, border.getMaxZ() - 16.0D);
+            double coordinateDifference = DimensionType.getTeleportationScale(entity.level.dimensionType(), level.dimensionType());
+            BlockPos blockpos = new BlockPos(Mth.clamp(entity.getX() * coordinateDifference, minX, maxX), entity.getY(), Mth.clamp(entity.getZ() * coordinateDifference, minZ, maxZ));
+            return this.getOrMakePortal(entity, blockpos).map((result) -> {
+                BlockState blockstate = entity.level.getBlockState(entity.portalEntrancePos);
                 Direction.Axis axis;
-                Vector3d vector3d;
+                Vec3 vector3d;
                 if (blockstate.hasProperty(BlockStateProperties.HORIZONTAL_AXIS))
                 {
                     axis = blockstate.getValue(BlockStateProperties.HORIZONTAL_AXIS);
-                    TeleportationRepositioner.Result rectangle = TeleportationRepositioner.findLargestRectangle(entity.field_242271_ac, axis, 21, Direction.Axis.Y, 21, (pos) -> entity.world.getBlockState(pos) == blockstate);
-                    vector3d = entity.func_241839_a(axis, rectangle);
+                    BlockUtil.FoundRectangle rectangle = BlockUtil.getLargestRectangleAround(entity.portalEntrancePos, axis, 21, Direction.Axis.Y, 21, (pos) -> entity.level.getBlockState(pos) == blockstate);
+                    //vector3d = entity.getRelativePortalPosition(axis, rectangle);
+                    vector3d = PortalShape.getRelativePosition(rectangle, axis, entity.position(), entity.getDimensions(entity.getPose()));
                 }
                 else
                 {
                     axis = Direction.Axis.X;
-                    vector3d = new Vector3d(0.5D, 0.0D, 0.0D);
+                    vector3d = new Vec3(0.5D, 0.0D, 0.0D);
                 }
 
-                return PortalSize.func_242963_a(destWorld, result, axis, vector3d, entity.getSize(entity.getPose()), entity.getDeltaMovement(), entity.rotationYaw, entity.rotationPitch);
+                return PortalShape.createPortalInfo(level, result, axis, vector3d, entity.getDimensions(entity.getPose()), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot());
             }).orElse(null);
         }
     }
 
-    protected Optional<TeleportationRepositioner.Result> getOrMakePortal(Entity entity, BlockPos pos)
+    protected Optional<BlockUtil.FoundRectangle> getOrMakePortal(Entity entity, BlockPos pos)
     {
-        Optional<TeleportationRepositioner.Result> existingPortal = this.getExistingPortal(pos);
-        if(existingPortal.isPresent())
-        {
-            return existingPortal;
-        }
+        Optional<BlockUtil.FoundRectangle> existingPortal = this.getExistingPortal(pos);
+        if(existingPortal.isPresent()) {return existingPortal;}
         else
         {
-            Direction.Axis portalAxis = this.world.getBlockState(entity.field_242271_ac).func_235903_d_(AerialHellPortalBlock.AXIS).orElse(Direction.Axis.X);
-            Optional<TeleportationRepositioner.Result> makePortal = this.makePortal(pos, portalAxis);
-            if (!makePortal.isPresent())
-            {
-                
-            }
-
-            return makePortal;
+            Direction.Axis portalAxis = this.level.getBlockState(entity.portalEntrancePos).getOptionalValue(AerialHellPortalBlock.AXIS).orElse(Direction.Axis.X);
+            return this.makePortal(pos, portalAxis);
         }
+    }
+
+    @Override
+    public boolean playTeleportSound(ServerPlayer player, ServerLevel sourceWorld, ServerLevel destWorld) {
+        return false;
     }
 }

@@ -39,7 +39,7 @@ public class ForgottenBattleTridentItem extends AerialHellSwordItem
 		{
 			worldIn.addParticle(ParticleTypes.DRIPPING_WATER, playerIn.getX() + 4*(rand.nextFloat() - 0.5F), playerIn.getY() + 4*rand.nextFloat(), playerIn.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
 		}
-		playerIn.playSound(AerialHellSoundEvents.FORGOTTEN_BATTLE_TRIDENT_USE.get(), 1.0F, 1.5F);
+		playerIn.playSound(AerialHellSoundEvents.ITEM_FORGOTTEN_BATTLE_TRIDENT_USE.get(), 1.0F, 1.5F);
 		
 		if (!worldIn.isClientSide())
 		{

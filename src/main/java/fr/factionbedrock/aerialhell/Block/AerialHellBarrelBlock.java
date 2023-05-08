@@ -67,7 +67,7 @@ public class AerialHellBarrelBlock extends BarrelBlock
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof AerialHellBarrelBlockEntity)
 		{
-			((AerialHellBarrelBlockEntity) blockEntity).recheckOpen();//.tick();
+			((AerialHellBarrelBlockEntity) blockEntity).recheckOpen();
 		}
 	}
 
