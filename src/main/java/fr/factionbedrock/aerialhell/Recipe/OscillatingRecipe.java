@@ -24,6 +24,6 @@ public class OscillatingRecipe extends AbstractCookingRecipe
 
 	public static class Serializer extends SimpleCookingSerializer<OscillatingRecipe>
 	{
-		public Serializer() {super(OscillatingRecipe::new, 200);} //TODO : update AccessTransformer for SimpleCookingSerializer.CookieBaker
+		public Serializer() {super(OscillatingRecipe::new, 200);}
 	}
 }

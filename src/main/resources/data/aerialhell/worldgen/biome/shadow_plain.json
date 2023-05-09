@@ -60,47 +60,14 @@
   },
   "features": [
     [],
-    [
-      "aerialhell:aerial_hell_water_lake"
-    ],
-    [
-      "aerialhell:mossy_stellar_cobblestone_rock",
-      "aerialhell:white_solid_ether",
-      "aerialhell:purple_solid_ether",
-      "aerialhell:dangling_chain",
-      "aerialhell:shadow_crystal_blob",
-      "aerialhell:shadow_crystal_blob_in_dark_areas",
-      "aerialhell:stellar_coarse_floor_in_dark_areas",
-      "aerialhell:stellar_grass_in_shadow_grass"
-    ],
     [],
     [],
     [],
-    [
-      "aerialhell:iron_stellar_ore",
-      "aerialhell:gold_stellar_ore",
-      "aerialhell:diamond_stellar_ore",
-      "aerialhell:fluorite_ore",
-      "aerialhell:ruby_ore",
-      "aerialhell:magmatic_gel_ore",
-      "aerialhell:smoky_quartz_ore",
-      "aerialhell:volucite_ore",
-      "aerialhell:obsidian_ore",
-      "aerialhell:glaucophanite_ore",
-      "aerialhell:stellar_dirt_ore",
-      "aerialhell:stellar_coarse_dirt_ore",
-      "aerialhell:stellar_clay_ore"
-    ],
     [],
-    [
-      "aerialhell:aerial_hell_flowers",
-      "aerialhell:shadow_grass",
-      "aerialhell:shadow_grass_ball",
-      "aerialhell:shadow_brambles",
-      "aerialhell:shadow_pine",
-      "aerialhell:purple_shadow_pine",
-      "aerialhell:giant_ganoderma_applanatum"
-    ],
+    [],
+    [],
+    [],
+    [],
     []
   ]
 }

@@ -89,7 +89,7 @@ public class AerialHellPaintingEntity extends Painting
                 Player playerentity = (Player)brokenEntity;
                 if (playerentity.getAbilities().instabuild) {return;}
             }
-            this.spawnAtLocation(AerialHellBlocksAndItems.AERIAL_HELL_PAINTING.get());
+            //this.spawnAtLocation(AerialHellBlocksAndItems.AERIAL_HELL_PAINTING.get()); TODO : register the item
         }
     }
 }

@@ -170,15 +170,6 @@ public class AerialHellConfiguredFeatures
 
     public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, AerialHell.MODID);
 
-	//public final static StructureFeature<?, ?> CONFIGURED_OVERWORLD_ABANDONNED_PORTAL_STRUCTURE = AerialHellStructures.OVERWORLD_ABANDONNED_PORTAL_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
-	//public final static StructureFeature<?, ?> CONFIGURED_MUD_DUNGEON_STRUCTURE = AerialHellStructures.MUD_DUNGEON_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
-	//public final static StructureFeature<?, ?> CONFIGURED_LUNATIC_TEMPLE_STRUCTURE = AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
-    //public final static StructureFeature<?, ?> CONFIGURED_GOLDEN_NETHER_PRISON_STRUCTURE = AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
-    //public final static StructureFeature<?, ?> CONFIGURED_SHADOW_CATACOMBS_STRUCTURE = AerialHellStructures.SHADOW_CATACOMBS_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
-	//public final static StructureFeature<?, ?> CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE = AerialHellStructures.STELLAR_STONE_BRICKS_TOWER_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
-	//public final static StructureFeature<?, ?> CONFIGURED_COPPER_PINE_COTTAGE_STRUCTURE = AerialHellStructures.COPPER_PINE_COTTAGE_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
-	//public final static StructureFeature<?, ?> CONFIGURED_SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE = AerialHellStructures.SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
-
     public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_HELL_WATER_LAKE = CONFIGURED_FEATURES.register("aerial_hell_water_lake", () -> new ConfiguredFeature<>(AerialHellFeatures.AERIAL_HELL_WATER_LAKE.get(), Configs.AERIAL_HELL_WATER_LAKE_CONFIG));
 
     public static final RegistryObject<ConfiguredFeature<?, ?>> PATCH_STELLAR_GRASS = CONFIGURED_FEATURES.register("patch_stellar_grass", () -> new ConfiguredFeature<>(Feature.RANDOM_PATCH, Configs.STELLAR_GRASS_PATCH_CONFIG));
@@ -198,16 +189,16 @@ public class AerialHellConfiguredFeatures
     public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_HELL_FLOWERS = CONFIGURED_FEATURES.register("aerial_hell_flowers", () -> new ConfiguredFeature<>(Feature.RANDOM_PATCH, Configs.AERIAL_HELL_FLOWERS_CONFIG));
     public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_HELL_BELLFLOWERS = CONFIGURED_FEATURES.register("aerial_hell_bellflowers", () -> new ConfiguredFeature<>(Feature.RANDOM_PATCH, Configs.AERIAL_HELL_BELLFLOWERS_CONFIG));
 
-    public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_TREE = CONFIGURED_FEATURES.register("aerial_tree", () -> new ConfiguredFeature<>(Feature.TREE, Configs.AERIAL_TREE_BASE_CONFIG));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_TREE_FOREST = CONFIGURED_FEATURES.register("aerial_tree_forest", () -> new ConfiguredFeature<>(Feature.TREE, Configs.AERIAL_TREE_FOREST_CONFIG));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> COPPER_PINE = CONFIGURED_FEATURES.register("copper_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.COPPER_PINE_CONFIG));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> LAPIS_ROBINIA = CONFIGURED_FEATURES.register("lapis_robinia", () -> new ConfiguredFeature<>(Feature.TREE, Configs.LAPIS_ROBINIA_CONFIG));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> SHADOW_PINE = CONFIGURED_FEATURES.register("shadow_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.SHADOW_PINE_CONFIG));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> PURPLE_SHADOW_PINE = CONFIGURED_FEATURES.register("purple_shadow_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.PURPLE_SHADOW_PINE_CONFIG));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> MEGA_SHADOW_PINE = CONFIGURED_FEATURES.register("mega_shadow_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.MEGA_SHADOW_PINE_CONFIG));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> MEGA_PURPLE_SHADOW_PINE = CONFIGURED_FEATURES.register("mega_purple_shadow_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.MEGA_PURPLE_SHADOW_PINE_CONFIG));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> GOLDEN_BEECH = CONFIGURED_FEATURES.register("golden_beech", () -> new ConfiguredFeature<>(Feature.TREE, Configs.GOLDEN_BEECH_CONFIG));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> CRYSTALLIZED_TREE = CONFIGURED_FEATURES.register("crystallized_tree", () -> new ConfiguredFeature<>(Feature.TREE, Configs.CRYSTALLIZED_TREE_CONFIG));
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_TREE = CONFIGURED_FEATURES.register("aerial_tree", () -> new ConfiguredFeature<>(Feature.TREE, Configs.AERIAL_TREE_BASE_CONFIG));
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_TREE_FOREST = CONFIGURED_FEATURES.register("aerial_tree_forest", () -> new ConfiguredFeature<>(Feature.TREE, Configs.AERIAL_TREE_FOREST_CONFIG));
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> COPPER_PINE = CONFIGURED_FEATURES.register("copper_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.COPPER_PINE_CONFIG));
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> LAPIS_ROBINIA = CONFIGURED_FEATURES.register("lapis_robinia", () -> new ConfiguredFeature<>(Feature.TREE, Configs.LAPIS_ROBINIA_CONFIG));
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> SHADOW_PINE = CONFIGURED_FEATURES.register("shadow_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.SHADOW_PINE_CONFIG));
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> PURPLE_SHADOW_PINE = CONFIGURED_FEATURES.register("purple_shadow_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.PURPLE_SHADOW_PINE_CONFIG));
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> MEGA_SHADOW_PINE = CONFIGURED_FEATURES.register("mega_shadow_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.MEGA_SHADOW_PINE_CONFIG));
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> MEGA_PURPLE_SHADOW_PINE = CONFIGURED_FEATURES.register("mega_purple_shadow_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.MEGA_PURPLE_SHADOW_PINE_CONFIG));
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> GOLDEN_BEECH = CONFIGURED_FEATURES.register("golden_beech", () -> new ConfiguredFeature<>(Feature.TREE, Configs.GOLDEN_BEECH_CONFIG));
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> CRYSTALLIZED_TREE = CONFIGURED_FEATURES.register("crystallized_tree", () -> new ConfiguredFeature<>(Feature.TREE, Configs.CRYSTALLIZED_TREE_CONFIG));
 
     public static final RegistryObject<ConfiguredFeature<?, ?>> GIANT_CORTINARIUS_VIOLACEUS = CONFIGURED_FEATURES.register("giant_cortinarius_violaceus", () -> new ConfiguredFeature<>(Feature.HUGE_FUNGUS, Configs.GIANT_CORTINARIUS_VIOLACEUS_CONFIG));
     public static final RegistryObject<ConfiguredFeature<?, ?>> GIANT_VERDIGRIS_AGARIC = CONFIGURED_FEATURES.register("giant_verdigris_agaric", () -> new ConfiguredFeature<>(Feature.HUGE_RED_MUSHROOM, Configs.GIANT_VERDIGRIS_AGARIC_MUSHROOM_CONFIG));
@@ -235,38 +226,23 @@ public class AerialHellConfiguredFeatures
     public static final RegistryObject<ConfiguredFeature<?, ?>> CRYSTALLIZED_FIRE = CONFIGURED_FEATURES.register("cristallized_fire", () -> new ConfiguredFeature<>(AerialHellFeatures.CRYSTALLIZED_FIRE.get(), new NoneFeatureConfiguration()));
     public static final RegistryObject<ConfiguredFeature<?, ?>> GIANT_CRYSTAL_BLOB = CONFIGURED_FEATURES.register("giant_crystal_blob", () -> new ConfiguredFeature<>(AerialHellFeatures.GIANT_CRYSTAL_BLOB.get(), new NoneFeatureConfiguration()));
 
-    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_PORTAL_FRAME_ORE = CONFIGURED_FEATURES.register("stellar_portal_frame_ore", () -> GenAerialHellOres.STELLAR_PORTAL_FRAME_ORE);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> IRON_STELLAR_ORE = CONFIGURED_FEATURES.register("iron_stellar_ore", () -> GenAerialHellOres.IRON_STELLAR_ORE);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> GOLD_STELLAR_ORE = CONFIGURED_FEATURES.register("gold_stellar_ore", () -> GenAerialHellOres.GOLD_STELLAR_ORE);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> DIAMOND_STELLAR_ORE = CONFIGURED_FEATURES.register("diamond_stellar_ore", () -> GenAerialHellOres.DIAMOND_STELLAR_ORE);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> FLUORITE_ORE = CONFIGURED_FEATURES.register("fluorite_ore", () -> GenAerialHellOres.FLUORITE_ORE);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> RUBY_ORE = CONFIGURED_FEATURES.register("ruby_ore", () -> GenAerialHellOres.RUBY_ORE);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> MAGMATIC_GEL_ORE = CONFIGURED_FEATURES.register("magmatic_gel_ore", () -> GenAerialHellOres.MAGMATIC_GEL_ORE);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> AZURITE_ORE = CONFIGURED_FEATURES.register("azurite_ore", () -> GenAerialHellOres.AZURITE_ORE);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> SMOKY_QUARTZ_ORE = CONFIGURED_FEATURES.register("smoky_quartz_ore", () -> GenAerialHellOres.SMOKY_QUARTZ_ORE);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> VOLUCITE_ORE = CONFIGURED_FEATURES.register("volucite_ore", () -> GenAerialHellOres.VOLUCITE_ORE);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> OBSIDIAN_ORE = CONFIGURED_FEATURES.register("obsidian_ore", () -> GenAerialHellOres.OBSIDIAN_ORE);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> GLAUCOPHANITE_ORE = CONFIGURED_FEATURES.register("glaucophanite_ore", () -> GenAerialHellOres.GLAUCOPHANITE_ORE);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_DIRT_ORE = CONFIGURED_FEATURES.register("stellar_dirt_ore", () -> GenAerialHellOres.STELLAR_DIRT_ORE);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_COARSE_DIRT_ORE = CONFIGURED_FEATURES.register("stellar_coarse_dirt_ore", () -> GenAerialHellOres.STELLAR_COARSE_DIRT_ORE);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_CLAY_ORE = CONFIGURED_FEATURES.register("stellar_clay_ore", () -> GenAerialHellOres.STELLAR_CLAY_ORE);
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_PORTAL_FRAME_ORE = CONFIGURED_FEATURES.register("stellar_portal_frame_ore", () -> GenAerialHellOres.STELLAR_PORTAL_FRAME_ORE);
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> IRON_STELLAR_ORE = CONFIGURED_FEATURES.register("iron_stellar_ore", () -> GenAerialHellOres.IRON_STELLAR_ORE);
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> GOLD_STELLAR_ORE = CONFIGURED_FEATURES.register("gold_stellar_ore", () -> GenAerialHellOres.GOLD_STELLAR_ORE);
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> DIAMOND_STELLAR_ORE = CONFIGURED_FEATURES.register("diamond_stellar_ore", () -> GenAerialHellOres.DIAMOND_STELLAR_ORE);
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> FLUORITE_ORE = CONFIGURED_FEATURES.register("fluorite_ore", () -> GenAerialHellOres.FLUORITE_ORE);
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> RUBY_ORE = CONFIGURED_FEATURES.register("ruby_ore", () -> GenAerialHellOres.RUBY_ORE);
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> MAGMATIC_GEL_ORE = CONFIGURED_FEATURES.register("magmatic_gel_ore", () -> GenAerialHellOres.MAGMATIC_GEL_ORE);
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> AZURITE_ORE = CONFIGURED_FEATURES.register("azurite_ore", () -> GenAerialHellOres.AZURITE_ORE);
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> SMOKY_QUARTZ_ORE = CONFIGURED_FEATURES.register("smoky_quartz_ore", () -> GenAerialHellOres.SMOKY_QUARTZ_ORE);
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> VOLUCITE_ORE = CONFIGURED_FEATURES.register("volucite_ore", () -> GenAerialHellOres.VOLUCITE_ORE);
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> OBSIDIAN_ORE = CONFIGURED_FEATURES.register("obsidian_ore", () -> GenAerialHellOres.OBSIDIAN_ORE);
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> GLAUCOPHANITE_ORE = CONFIGURED_FEATURES.register("glaucophanite_ore", () -> GenAerialHellOres.GLAUCOPHANITE_ORE);
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_DIRT_ORE = CONFIGURED_FEATURES.register("stellar_dirt_ore", () -> GenAerialHellOres.STELLAR_DIRT_ORE);
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_COARSE_DIRT_ORE = CONFIGURED_FEATURES.register("stellar_coarse_dirt_ore", () -> GenAerialHellOres.STELLAR_COARSE_DIRT_ORE);
+//    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_CLAY_ORE = CONFIGURED_FEATURES.register("stellar_clay_ore", () -> GenAerialHellOres.STELLAR_CLAY_ORE);
 
 
     //TODO : is there another way ?
     public static final RegistryObject<ConfiguredFeature<HugeFungusConfiguration, ?>> GIANT_CORTINARIUS_VIOLACEUS_PLANTED = CONFIGURED_FEATURES.register("giant_cortinarius_violaceus_planted", () -> new ConfiguredFeature<>(Feature.HUGE_FUNGUS, Configs.GIANT_CORTINARIUS_VIOLACEUS_CONFIG));
-
-    /*public static void registerConfiguredFeaturesAndStructures()
-    {
-        Registry<StructureFeature<?, ?>> STregistry = WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE;
-        Registry.register(STregistry, new ResourceLocation(AerialHell.MODID, "configured_overworld_abandonned_portal_structure"), CONFIGURED_OVERWORLD_ABANDONNED_PORTAL_STRUCTURE);
-
-        
-        FlatGenerationSettings.STRUCTURES.put(AerialHellStructures.OVERWORLD_ABANDONNED_PORTAL_STRUCTURE.get(), CONFIGURED_OVERWORLD_ABANDONNED_PORTAL_STRUCTURE);
-        FlatGenerationSettings.STRUCTURES.put(AerialHellStructures.MUD_DUNGEON_STRUCTURE.get(), CONFIGURED_MUD_DUNGEON_STRUCTURE);
-        FlatGenerationSettings.STRUCTURES.put(AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get(), CONFIGURED_LUNATIC_TEMPLE_STRUCTURE);
-        FlatGenerationSettings.STRUCTURES.put(AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get(), CONFIGURED_GOLDEN_NETHER_PRISON_STRUCTURE);
-        FlatGenerationSettings.STRUCTURES.put(AerialHellStructures.STELLAR_STONE_BRICKS_TOWER_STRUCTURE.get(), CONFIGURED_STELLAR_STONE_BRICKS_TOWER_STRUCTURE);
-        FlatGenerationSettings.STRUCTURES.put(AerialHellStructures.SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE.get(), CONFIGURED_SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE);
-        FlatGenerationSettings.STRUCTURES.put(AerialHellStructures.COPPER_PINE_COTTAGE_STRUCTURE.get(), CONFIGURED_COPPER_PINE_COTTAGE_STRUCTURE);
-    }*/
 }

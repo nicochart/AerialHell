@@ -1,167 +1,154 @@
 {
   "type": "aerialhell:aerial_hell",
-  "generator":
-  {
+  "generator": {
     "type": "minecraft:noise",
     "seed": 42,
-	"settings": "aerialhell:aerial_hell",
-    "biome_source":
-    {
-	  "seed": 12,
-	  "type": "minecraft:multi_noise",
-          "large_biomes": false,
-	  "humidity_noise":
-	  {
-		"firstOctave": -6,
-		"amplitudes": [1.0,1.0]
-	  },
-	  "altitude_noise":
-	  {
-		"firstOctave": -7,
-		"amplitudes": [1.0,1.0]
-	  },
-	  "weirdness_noise":
-	  {
-		"firstOctave": -5,
-		"amplitudes": [1.0,1.0]
-	  },
-	  "temperature_noise":
-	  {
-		"firstOctave": -9,
-		"amplitudes": [1.0,1.0]
-	  },
-	  "biomes":
-	  [
+    "settings": "aerialhell:aerial_hell",
+    "biome_source": {
+      "type": "minecraft:multi_noise",
+      "biomes": [
         {
           "biome": "aerialhell:aerial_hell_plains",
-          "parameters":
-          {
-            "altitude": 0,
-            "weirdness": 0.1,
-            "offset": 0.3,
+          "parameters": {
             "temperature": 0.5,
-            "humidity": 0.2
+            "humidity": 0.2,
+            "continentalness": 0,
+            "erosion": 0,
+            "weirdness": 0.1,
+            "depth": 0,
+            "offset": 0.3
           }
         },
         {
           "biome": "aerialhell:aerial_tree_forest",
-          "parameters":
-          {
-            "altitude": -0.2,
-            "weirdness": 0.1,
-            "offset": 0.1,
+          "parameters": {
             "temperature": 0.5,
-            "humidity": 0.6
+            "humidity": 0.6,
+            "continentalness": 0,
+            "erosion": 0,
+            "weirdness": 0.1,
+            "depth": 0.1,
+            "offset": 0.1
           }
         },
         {
           "biome": "aerialhell:slippery_sand_ocean",
-          "parameters":
-          {
-            "altitude": -0.2,
-            "weirdness": 0.3,
-            "offset": 0.3,
+          "parameters": {
             "temperature": 0.6,
-            "humidity": -0.1
+            "humidity": -0.1,
+            "continentalness": 0,
+            "erosion": 0,
+            "weirdness": 0.3,
+            "depth": 0.2,
+            "offset": 0.3
           }
         },
         {
           "biome": "aerialhell:crystal_plains",
-          "parameters":
-          {
-            "altitude": 0,
-            "weirdness": 0.5,
-            "offset": 0.2,
+          "parameters": {
             "temperature": 0.5,
-            "humidity": -0.1
+            "humidity": -0.1,
+            "continentalness": 0,
+            "erosion": 0,
+            "weirdness": 0.5,
+            "depth": 0,
+            "offset": 0.2
           }
         },
         {
           "biome": "aerialhell:crystal_forest",
-          "parameters":
-          {
-            "altitude": -0.1,
-            "weirdness": 0.7,
-            "offset": 0.7,
+          "parameters": {
             "temperature": 0.3,
-            "humidity": -0.2
+            "humidity": -0.2,
+            "continentalness": 0,
+            "erosion": 0,
+            "weirdness": 0.7,
+            "depth": 0.3,
+            "offset": 0.7
           }
         },
-	    {
+        {
           "biome": "aerialhell:copper_pine_forest",
-          "parameters":
-          {
-            "altitude": -0.4,
-            "weirdness": 0.4,
-            "offset": 0.4,
+          "parameters": {
             "temperature": 0.4,
-            "humidity": 0.5
+            "humidity": 0.5,
+            "continentalness": 0,
+            "erosion": 0,
+            "weirdness": 0.4,
+            "depth": 0,
+            "offset": 0.4
           }
         },
-	{
+        {
           "biome": "aerialhell:lapis_robinia_savana",
-          "parameters":
-          {
-            "altitude": 0.1,
-            "weirdness": 0.2,
-            "offset": 0.1,
+          "parameters": {
             "temperature": 0.5,
-            "humidity": 0.2
+            "humidity": 0.2,
+            "continentalness": 0,
+            "erosion": 0,
+            "weirdness": 0.2,
+            "depth": 0,
+            "offset": 0.1
           }
         },
         {
           "biome": "aerialhell:shadow_plain",
-          "parameters":
-          {
-            "altitude": 0.3,
-            "weirdness": 0.5,
-            "offset": 0.6,
+          "parameters": {
             "temperature": 0.1,
-            "humidity": 0.2
+            "humidity": 0.2,
+            "continentalness": 0,
+            "erosion": 0.5,
+            "weirdness": 0.5,
+            "depth": 0.5,
+            "offset": 0.7
           }
         },
         {
           "biome": "aerialhell:shadow_forest",
-          "parameters":
-          {
-            "altitude": 0.3,
+          "parameters": {
+            "temperature": 0,
+            "humidity": 0.1,
+            "continentalness": 0,
+            "erosion": 0.6,
             "weirdness": 0.5,
-            "offset": 0.7,
-            "temperature": 0.0,
-            "humidity": 0.1
+            "depth": 0.6,
+            "offset": 0.8
           }
         },
         {
           "biome": "aerialhell:cortinarius_violaceus_forest",
-          "parameters":
-          {
-            "altitude": 0.1,
-            "weirdness": 0.0,
-            "offset": 0.1,
+          "parameters": {
             "temperature": 0.6,
-            "humidity": 0.2
+            "humidity": 0.2,
+            "continentalness": 0,
+            "erosion": 0,
+            "weirdness": 0,
+            "depth": 0,
+            "offset": 0.1
           }
         },
         {
           "biome": "aerialhell:verdigris_agaric_forest",
-          "parameters":
-          {
-            "altitude": 0.1,
-            "weirdness": 0.0,
-            "offset": 0.1,
+          "parameters": {
             "temperature": 0.6,
-            "humidity": 0.3
+            "humidity": 0.3,
+            "continentalness": 0,
+            "erosion": 0,
+            "weirdness": 0,
+            "depth": 0,
+            "offset": 0.1
           }
         },
         {
           "biome": "aerialhell:giant_red_mushroom_forest",
-          "parameters":
-          {
-            "altitude": 0.0,
-            "weirdness": 0.05,
-            "offset": 0.4,
+          "parameters": {
             "temperature": 0.5,
-            "humidity": 0.2
+            "humidity": 0.2,
+            "continentalness": 0.1,
+            "erosion": 0,
+            "weirdness": 0.05,
+            "depth": 0.3,
+            "offset": 0.5
           }
         }
       ]

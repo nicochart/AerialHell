@@ -1,17 +1,17 @@
 {
-  "name": "Aerial Hell",
   "ultrawarm": false,
   "natural": true,
-  "coordinate_scale": 0.125,
-  "shrunk": false,
+  "piglin_safe": false,
+  "respawn_anchor_works": true,
+  "bed_works": true,
+  "has_raids": false,
   "has_skylight": true,
   "has_ceiling": false,
+  "coordinate_scale": 0.125,
   "ambient_light": 0,
-  "piglin_safe": false,
-  "bed_works": true,
-  "respawn_anchor_works": true,
-  "has_raids": false,
   "logical_height": 256,
-  "infiniburn": "minecraft:infiniburn_overworld",
-  "effects": "aerialhell:aerial_hell"
-} 
+  "effects": "aerialhell:aerial_hell",
+  "infiniburn": "#minecraft:infiniburn_overworld",
+  "min_y": 0,
+  "height": 256
+}

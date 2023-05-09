@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Entity.AerialHellPaintingEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.decoration.HangingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -14,16 +15,18 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
+import java.util.function.Supplier;
+
 /* Copy of net.minecraft.item.HangingEntityItem but for Aerial Hell paintings */
 
 public class AerialHellHangingEntityItem extends Item
 {
     private final EntityType<? extends HangingEntity> hangingEntity;
 
-    public AerialHellHangingEntityItem(EntityType<? extends HangingEntity> entityTypeIn, Item.Properties properties)
+    public AerialHellHangingEntityItem(Supplier<? extends EntityType<? extends HangingEntity>> entityTypeIn, Item.Properties properties)
     {
         super(properties);
-        this.hangingEntity = entityTypeIn;
+        this.hangingEntity = entityTypeIn.get();
     }
 
     public InteractionResult useOn(UseOnContext context)
