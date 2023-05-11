@@ -61,14 +61,81 @@
   },
   "features": [
     [],
+    [
+      "aerialhell:aerial_hell_water_lake"
+    ],
+    [
+      "aerialhell:mossy_stellar_cobblestone_rock",
+      "aerialhell:white_solid_ether",
+      "aerialhell:blue_solid_ether",
+      "aerialhell:golden_solid_ether",
+      "aerialhell:slippery_sand",
+      "aerialhell:dangling_chain_rare",
+      "aerialhell:stellar_stone_crystal_blob_in_dark_areas",
+      "aerialhell:stellar_coarse_floor_in_dark_areas"
+    ],
     [],
     [],
     [],
+    [
+      //"aerialhell:iron_stellar_ore", TODO : fix ores features
+      //"aerialhell:gold_stellar_ore",
+      //"aerialhell:diamond_stellar_ore",
+      //"aerialhell:fluorite_ore",
+      //"aerialhell:ruby_ore",
+      //"aerialhell:magmatic_gel_ore",
+      //"aerialhell:azurite_ore",
+      //"aerialhell:volucite_ore",
+      //"aerialhell:obsidian_ore",
+      //"aerialhell:glaucophanite_ore",
+      //"aerialhell:stellar_dirt_ore",
+      //"aerialhell:stellar_coarse_dirt_ore",
+      //"aerialhell:stellar_clay_ore"
+    ],
     [],
-    [],
-    [],
-    [],
-    [],
+    [
+      //"aerialhell:aerial_tree_forest
+      //"aerialhell:copper_pine_forest
+      //"aerialhell:shadow_pine_forest
+      //"aerialhell:purple_shadow_pine_forest",
+      //"aerialhell:mega_shadow_pine",
+      //"aerialhell:mega_purple_shadow_pine",
+      //"aerialhell:golden_beech",
+      //"aerialhell:aerial_tree",
+      //"aerialhell:copper_pine",
+      "aerialhell:lapis_robinia",
+      //"aerialhell:shadow_pine",
+      //"aerialhell:purple_shadow_pine",
+      //"aerialhell:crystallized_tree",
+      "aerialhell:golden_beech_rare",
+      //"aerialhell:lapis_robinia_rare",
+
+      //"aerialhell:huge_verdigris_agaric",
+      //"aerialhell:giant_cortinarius_violaceus",
+      //"aerialhell:giant_verdigris_agaric",
+      //"aerialhell:giant_red_mushroom",
+      //"aerialhell:cortinarius_violaceus_forest",
+      //"aerialhell:verdigris_agaric_forest",
+      //"aerialhell:cortinarius_violaceus_rare",
+      //"aerialhell:verdigris_agaric_rare",
+      "aerialhell:giant_ganoderma_applanatum",
+
+      "aerialhell:aerial_hell_flowers",
+      "aerialhell:aerial_hell_bellflowers",
+      "aerialhell:patch_stellar_grass",
+      //"aerialhell:patch_purplish_stellar_grass",
+      "aerialhell:patch_stellar_grass_ball",
+      "aerialhell:patch_stellar_tall_grass",
+      "aerialhell:patch_stellar_fern",
+      "aerialhell:patch_stellar_tall_fern",
+      "aerialhell:patch_aerial_berry_bush",
+      //"aerialhell:patch_brambles",
+      "aerialhell:patch_sky_cactus"
+      //"aerialhell:patch_stellar_dead_bush",
+      //"aerialhell:patch_shadow_grass",
+      //"aerialhell:patch_shadow_grass_ball",
+      //"aerialhell:patch_shadow_brambles"
+    ],
     []
   ]
 }

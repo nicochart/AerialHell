@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableList;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.World.Features.AerialHellLakeFeature;
-import fr.factionbedrock.aerialhell.World.GenAerialHellOres;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.util.random.SimpleWeightedRandomList;
@@ -16,6 +16,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HugeMushroomBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.HugeFungusConfiguration;
@@ -26,6 +27,7 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.feature.treedecorators.AlterGroundDecorator;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.*;
+import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -47,7 +49,7 @@ public class AerialHellConfiguredFeatures
         public static final RandomPatchConfiguration PURPLISH_STELLAR_GRASS_PATCH_CONFIG = new RandomPatchConfiguration(16, 8, 4, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(AerialHellBlocksAndItems.PURPLISH_STELLAR_GRASS.get()))));
         public static final RandomPatchConfiguration VERDIGRIS_AGARIC_PATCH_CONFIG = new RandomPatchConfiguration(32, 8, 4, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(AerialHellBlocksAndItems.VERDIGRIS_AGARIC.get()))));
         public static final RandomPatchConfiguration CORTINARIUS_VIOLACEUS_PATCH_CONFIG = new RandomPatchConfiguration(32, 8, 4, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(AerialHellBlocksAndItems.CORTINARIUS_VIOLACEUS.get()))));
-        public static final RandomPatchConfiguration SKY_CACTUS_PATCH_CONFIG = new RandomPatchConfiguration(8, 8, 4, PlacementUtils.onlyWhenEmpty(Feature.BLOCK_COLUMN, BlockColumnConfiguration.simple(BiasedToBottomInt.of(1, 3), BlockStateProvider.simple(AerialHellBlocksAndItems.SKY_CACTUS.get()))));
+        public static final RandomPatchConfiguration SKY_CACTUS_PATCH_CONFIG = new RandomPatchConfiguration(8, 8, 4, PlacementUtils.inlinePlaced(Feature.BLOCK_COLUMN, BlockColumnConfiguration.simple(BiasedToBottomInt.of(1, 3), BlockStateProvider.simple(AerialHellBlocksAndItems.SKY_CACTUS.get())), BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.wouldSurvive(AerialHellBlocksAndItems.SKY_CACTUS.get().defaultBlockState(), BlockPos.ZERO)))));
 
         public static final RandomPatchConfiguration AERIAL_HELL_BELLFLOWERS_CONFIG = new RandomPatchConfiguration(8, 8, 4, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(AerialHellBlocksAndItems.BELLFLOWER.get()))));
 
@@ -62,7 +64,7 @@ public class AerialHellConfiguredFeatures
                 BlockStateProvider.simple(AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get().defaultBlockState()),
 			    new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3), //rayon,décalage,hauteur
 			    new TwoLayersFeatureSize(1, 0, 1)
-        )).ignoreVines().build();
+        )).dirt(BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_DIRT.get())).ignoreVines().build();
 
         public static final TreeConfiguration AERIAL_TREE_FOREST_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
                 BlockStateProvider.simple(AerialHellBlocksAndItems.AERIAL_TREE_LOG.get().defaultBlockState()),
@@ -70,25 +72,25 @@ public class AerialHellConfiguredFeatures
                 BlockStateProvider.simple(AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get().defaultBlockState()),
                 new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3), //rayon,décalage,hauteur
                 new TwoLayersFeatureSize(1, 0, 1)
-        )).ignoreVines().build();
+        )).dirt(BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_DIRT.get())).ignoreVines().build();
 
         public static final TreeConfiguration COPPER_PINE_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
                 BlockStateProvider.simple(AerialHellBlocksAndItems.COPPER_PINE_LOG.get().defaultBlockState()),
                 new StraightTrunkPlacer(5, 2, 1),
                 BlockStateProvider.simple(AerialHellBlocksAndItems.COPPER_PINE_LEAVES.get().defaultBlockState()),
-                new SpruceFoliagePlacer(UniformInt.of(3, 1), UniformInt.of(0, 2), UniformInt.of(1, 2)), //rayon,décalage,hauteur
+                new SpruceFoliagePlacer(UniformInt.of(1, 3), UniformInt.of(0, 2), UniformInt.of(1, 2)), //rayon,décalage,hauteur
                 new TwoLayersFeatureSize(3, 0, 2)
-        )).ignoreVines().build();
+        )).dirt(BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_DIRT.get())).ignoreVines().build();
 
         public static final TreeConfiguration LAPIS_ROBINIA_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
                 new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
                         .add(AerialHellBlocksAndItems.LAPIS_ROBINIA_LOG.get().defaultBlockState(), 1)
                         .add(AerialHellBlocksAndItems.ENCHANTED_LAPIS_ROBINIA_LOG.get().defaultBlockState(), 1)),
                 new ForkingTrunkPlacer(5, 2, 2),
-                BlockStateProvider.simple(AerialHellBlocksAndItems.COPPER_PINE_LEAVES.get().defaultBlockState()),
+                BlockStateProvider.simple(AerialHellBlocksAndItems.LAPIS_ROBINIA_LEAVES.get().defaultBlockState()),
                 new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0)), //rayon,décalage,hauteur
                 new TwoLayersFeatureSize(1, 0, 2)
-        )).ignoreVines().build();
+        )).dirt(BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_DIRT.get())).ignoreVines().build();
 
         public static final TreeConfiguration GOLDEN_BEECH_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
                 BlockStateProvider.simple(AerialHellBlocksAndItems.GOLDEN_BEECH_LOG.get().defaultBlockState()),
@@ -96,7 +98,7 @@ public class AerialHellConfiguredFeatures
                 BlockStateProvider.simple(AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES.get().defaultBlockState()),
                 new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4),4), //rayon,décalage,hauteur
                 new TwoLayersFeatureSize(0, 0, 0, OptionalInt.of(4))
-        )).ignoreVines().build();
+        )).dirt(BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_DIRT.get())).ignoreVines().build();
 
         public static final TreeConfiguration SHADOW_PINE_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
                 new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
@@ -104,9 +106,9 @@ public class AerialHellConfiguredFeatures
                         .add(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get().defaultBlockState(), 1)),
                 new StraightTrunkPlacer(6, 2, 1),
                 BlockStateProvider.simple(AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get().defaultBlockState()),
-                new SpruceFoliagePlacer(UniformInt.of(2, 1), UniformInt.of(0, 2), UniformInt.of(1, 1)), //rayon,décalage,hauteur
+                new SpruceFoliagePlacer(UniformInt.of(1, 2), UniformInt.of(0, 2), UniformInt.of(1, 1)), //rayon,décalage,hauteur
                 new TwoLayersFeatureSize(3, 0, 2)
-        )).ignoreVines().build();
+        )).dirt(BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_DIRT.get())).ignoreVines().build();
 
         public static final TreeConfiguration PURPLE_SHADOW_PINE_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
                 new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
@@ -114,9 +116,9 @@ public class AerialHellConfiguredFeatures
                         .add(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get().defaultBlockState(), 1)),
                 new StraightTrunkPlacer(6, 2, 1),
                 BlockStateProvider.simple(AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_LEAVES.get().defaultBlockState()),
-                new SpruceFoliagePlacer(UniformInt.of(2, 1), UniformInt.of(0, 2), UniformInt.of(1, 1)), //rayon,décalage,hauteur
+                new SpruceFoliagePlacer(UniformInt.of(1, 2), UniformInt.of(0, 2), UniformInt.of(1, 1)), //rayon,décalage,hauteur
                 new TwoLayersFeatureSize(3, 0, 2)
-        )).ignoreVines().build();
+        )).dirt(BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_DIRT.get())).ignoreVines().build();
 
         public static final TreeConfiguration MEGA_SHADOW_PINE_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
                 new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
@@ -126,7 +128,7 @@ public class AerialHellConfiguredFeatures
                 BlockStateProvider.simple(AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get().defaultBlockState()),
                 new MegaPineFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0), UniformInt.of(3, 4)), //rayon,décalage,hauteur
                 new TwoLayersFeatureSize(1, 1, 2)
-        )).decorators(ImmutableList.of(new AlterGroundDecorator(BlockStateProvider.simple(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().defaultBlockState())))).ignoreVines().build();
+        )).dirt(BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_DIRT.get())).decorators(ImmutableList.of(new AlterGroundDecorator(BlockStateProvider.simple(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().defaultBlockState())))).ignoreVines().build();
 
         public static final TreeConfiguration MEGA_PURPLE_SHADOW_PINE_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
                 new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
@@ -134,9 +136,9 @@ public class AerialHellConfiguredFeatures
                         .add(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get().defaultBlockState(), 1)),
                 new GiantTrunkPlacer(13, 2, 14),
                 BlockStateProvider.simple(AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get().defaultBlockState()),
-                new MegaPineFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0), UniformInt.of(13, 4)), //rayon,décalage,hauteur
+                new MegaPineFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0), UniformInt.of(4, 13)), //rayon,décalage,hauteur
                 new TwoLayersFeatureSize(1, 1, 2)
-        )).decorators(ImmutableList.of(new AlterGroundDecorator(BlockStateProvider.simple(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().defaultBlockState())))).ignoreVines().build();
+        )).decorators(ImmutableList.of(new AlterGroundDecorator(BlockStateProvider.simple(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().defaultBlockState())))).dirt(BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_DIRT.get())).ignoreVines().build();
 
         public static final TreeConfiguration CRYSTALLIZED_TREE_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
                 BlockStateProvider.simple(AerialHellBlocksAndItems.AERIAL_TREE_LOG.get().defaultBlockState()),
@@ -144,7 +146,7 @@ public class AerialHellConfiguredFeatures
                 BlockStateProvider.simple(AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get().defaultBlockState()),
                 new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3), //rayon,décalage,hauteur
                 new TwoLayersFeatureSize(1, 0, 1)
-        )).ignoreVines().build();
+        )).dirt(BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_DIRT.get())).ignoreVines().build();
 
 		public static final HugeFungusConfiguration GIANT_CORTINARIUS_VIOLACEUS_CONFIG = new HugeFungusConfiguration(
 				AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().defaultBlockState(),
@@ -189,16 +191,16 @@ public class AerialHellConfiguredFeatures
     public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_HELL_FLOWERS = CONFIGURED_FEATURES.register("aerial_hell_flowers", () -> new ConfiguredFeature<>(Feature.RANDOM_PATCH, Configs.AERIAL_HELL_FLOWERS_CONFIG));
     public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_HELL_BELLFLOWERS = CONFIGURED_FEATURES.register("aerial_hell_bellflowers", () -> new ConfiguredFeature<>(Feature.RANDOM_PATCH, Configs.AERIAL_HELL_BELLFLOWERS_CONFIG));
 
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_TREE = CONFIGURED_FEATURES.register("aerial_tree", () -> new ConfiguredFeature<>(Feature.TREE, Configs.AERIAL_TREE_BASE_CONFIG));
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_TREE_FOREST = CONFIGURED_FEATURES.register("aerial_tree_forest", () -> new ConfiguredFeature<>(Feature.TREE, Configs.AERIAL_TREE_FOREST_CONFIG));
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> COPPER_PINE = CONFIGURED_FEATURES.register("copper_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.COPPER_PINE_CONFIG));
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> LAPIS_ROBINIA = CONFIGURED_FEATURES.register("lapis_robinia", () -> new ConfiguredFeature<>(Feature.TREE, Configs.LAPIS_ROBINIA_CONFIG));
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> SHADOW_PINE = CONFIGURED_FEATURES.register("shadow_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.SHADOW_PINE_CONFIG));
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> PURPLE_SHADOW_PINE = CONFIGURED_FEATURES.register("purple_shadow_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.PURPLE_SHADOW_PINE_CONFIG));
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> MEGA_SHADOW_PINE = CONFIGURED_FEATURES.register("mega_shadow_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.MEGA_SHADOW_PINE_CONFIG));
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> MEGA_PURPLE_SHADOW_PINE = CONFIGURED_FEATURES.register("mega_purple_shadow_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.MEGA_PURPLE_SHADOW_PINE_CONFIG));
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> GOLDEN_BEECH = CONFIGURED_FEATURES.register("golden_beech", () -> new ConfiguredFeature<>(Feature.TREE, Configs.GOLDEN_BEECH_CONFIG));
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> CRYSTALLIZED_TREE = CONFIGURED_FEATURES.register("crystallized_tree", () -> new ConfiguredFeature<>(Feature.TREE, Configs.CRYSTALLIZED_TREE_CONFIG));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_TREE = CONFIGURED_FEATURES.register("aerial_tree", () -> new ConfiguredFeature<>(Feature.TREE, Configs.AERIAL_TREE_BASE_CONFIG));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_TREE_FOREST = CONFIGURED_FEATURES.register("aerial_tree_forest", () -> new ConfiguredFeature<>(Feature.TREE, Configs.AERIAL_TREE_FOREST_CONFIG));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> COPPER_PINE = CONFIGURED_FEATURES.register("copper_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.COPPER_PINE_CONFIG));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> LAPIS_ROBINIA = CONFIGURED_FEATURES.register("lapis_robinia", () -> new ConfiguredFeature<>(Feature.TREE, Configs.LAPIS_ROBINIA_CONFIG));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> SHADOW_PINE = CONFIGURED_FEATURES.register("shadow_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.SHADOW_PINE_CONFIG));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> PURPLE_SHADOW_PINE = CONFIGURED_FEATURES.register("purple_shadow_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.PURPLE_SHADOW_PINE_CONFIG));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> MEGA_SHADOW_PINE = CONFIGURED_FEATURES.register("mega_shadow_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.MEGA_SHADOW_PINE_CONFIG));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> MEGA_PURPLE_SHADOW_PINE = CONFIGURED_FEATURES.register("mega_purple_shadow_pine", () -> new ConfiguredFeature<>(Feature.TREE, Configs.MEGA_PURPLE_SHADOW_PINE_CONFIG));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> GOLDEN_BEECH = CONFIGURED_FEATURES.register("golden_beech", () -> new ConfiguredFeature<>(Feature.TREE, Configs.GOLDEN_BEECH_CONFIG));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> CRYSTALLIZED_TREE = CONFIGURED_FEATURES.register("crystallized_tree", () -> new ConfiguredFeature<>(Feature.TREE, Configs.CRYSTALLIZED_TREE_CONFIG));
 
     public static final RegistryObject<ConfiguredFeature<?, ?>> GIANT_CORTINARIUS_VIOLACEUS = CONFIGURED_FEATURES.register("giant_cortinarius_violaceus", () -> new ConfiguredFeature<>(Feature.HUGE_FUNGUS, Configs.GIANT_CORTINARIUS_VIOLACEUS_CONFIG));
     public static final RegistryObject<ConfiguredFeature<?, ?>> GIANT_VERDIGRIS_AGARIC = CONFIGURED_FEATURES.register("giant_verdigris_agaric", () -> new ConfiguredFeature<>(Feature.HUGE_RED_MUSHROOM, Configs.GIANT_VERDIGRIS_AGARIC_MUSHROOM_CONFIG));
