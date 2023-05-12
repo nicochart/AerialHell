@@ -100,12 +100,13 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleEntity>
 
 	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{
+		poseStack.pushPose();
 		if(isChild)
 		{
 			poseStack.scale(0.5F, 0.5F, 0.5F);
 			poseStack.translate(0.0F, 1.5F, 0.0F);
 		}
-		poseStack.pushPose();
+		poseStack.popPose();
 
 		Head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		Body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
