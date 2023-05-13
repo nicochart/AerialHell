@@ -5,6 +5,7 @@ import java.util.List;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.World.Features.AerialHellLakeFeature;
+import fr.factionbedrock.aerialhell.World.GenAerialHellOres;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
@@ -158,21 +159,21 @@ public class AerialHellConfiguredFeatures
     public static final RegistryObject<ConfiguredFeature<?, ?>> CRYSTALLIZED_FIRE = CONFIGURED_FEATURES.register("cristallized_fire", () -> new ConfiguredFeature<>(AerialHellFeatures.CRYSTALLIZED_FIRE.get(), new NoneFeatureConfiguration()));
     public static final RegistryObject<ConfiguredFeature<?, ?>> GIANT_CRYSTAL_BLOB = CONFIGURED_FEATURES.register("giant_crystal_blob", () -> new ConfiguredFeature<>(AerialHellFeatures.GIANT_CRYSTAL_BLOB.get(), new NoneFeatureConfiguration()));
 
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_PORTAL_FRAME_ORE = CONFIGURED_FEATURES.register("stellar_portal_frame_ore", () -> GenAerialHellOres.STELLAR_PORTAL_FRAME_ORE);
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> IRON_STELLAR_ORE = CONFIGURED_FEATURES.register("iron_stellar_ore", () -> GenAerialHellOres.IRON_STELLAR_ORE);
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> GOLD_STELLAR_ORE = CONFIGURED_FEATURES.register("gold_stellar_ore", () -> GenAerialHellOres.GOLD_STELLAR_ORE);
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> DIAMOND_STELLAR_ORE = CONFIGURED_FEATURES.register("diamond_stellar_ore", () -> GenAerialHellOres.DIAMOND_STELLAR_ORE);
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> FLUORITE_ORE = CONFIGURED_FEATURES.register("fluorite_ore", () -> GenAerialHellOres.FLUORITE_ORE);
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> RUBY_ORE = CONFIGURED_FEATURES.register("ruby_ore", () -> GenAerialHellOres.RUBY_ORE);
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> MAGMATIC_GEL_ORE = CONFIGURED_FEATURES.register("magmatic_gel_ore", () -> GenAerialHellOres.MAGMATIC_GEL_ORE);
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> AZURITE_ORE = CONFIGURED_FEATURES.register("azurite_ore", () -> GenAerialHellOres.AZURITE_ORE);
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> SMOKY_QUARTZ_ORE = CONFIGURED_FEATURES.register("smoky_quartz_ore", () -> GenAerialHellOres.SMOKY_QUARTZ_ORE);
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> VOLUCITE_ORE = CONFIGURED_FEATURES.register("volucite_ore", () -> GenAerialHellOres.VOLUCITE_ORE);
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> OBSIDIAN_ORE = CONFIGURED_FEATURES.register("obsidian_ore", () -> GenAerialHellOres.OBSIDIAN_ORE);
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> GLAUCOPHANITE_ORE = CONFIGURED_FEATURES.register("glaucophanite_ore", () -> GenAerialHellOres.GLAUCOPHANITE_ORE);
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_DIRT_ORE = CONFIGURED_FEATURES.register("stellar_dirt_ore", () -> GenAerialHellOres.STELLAR_DIRT_ORE);
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_COARSE_DIRT_ORE = CONFIGURED_FEATURES.register("stellar_coarse_dirt_ore", () -> GenAerialHellOres.STELLAR_COARSE_DIRT_ORE);
-//    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_CLAY_ORE = CONFIGURED_FEATURES.register("stellar_clay_ore", () -> GenAerialHellOres.STELLAR_CLAY_ORE);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_PORTAL_FRAME_ORE = CONFIGURED_FEATURES.register("stellar_portal_frame_ore", () -> GenAerialHellOres.createOverworldOreConfiguredFeature(AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_ORE.get().defaultBlockState(), AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_ORE.get().defaultBlockState(), 5));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> IRON_STELLAR_ORE = CONFIGURED_FEATURES.register("iron_stellar_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.IRON_STELLAR_ORE.get().defaultBlockState(), 12));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> GOLD_STELLAR_ORE = CONFIGURED_FEATURES.register("gold_stellar_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.GOLD_STELLAR_ORE.get().defaultBlockState(), 7));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> DIAMOND_STELLAR_ORE = CONFIGURED_FEATURES.register("diamond_stellar_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.DIAMOND_STELLAR_ORE.get().defaultBlockState(), 7));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> FLUORITE_ORE = CONFIGURED_FEATURES.register("fluorite_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.FLUORITE_ORE.get().defaultBlockState(), 12));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> RUBY_ORE = CONFIGURED_FEATURES.register("ruby_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.RUBY_ORE.get().defaultBlockState(), 7));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> MAGMATIC_GEL_ORE = CONFIGURED_FEATURES.register("magmatic_gel_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.MAGMATIC_GEL_ORE.get().defaultBlockState(), 12));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> AZURITE_ORE = CONFIGURED_FEATURES.register("azurite_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.AZURITE_ORE.get().defaultBlockState(), 5));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> SMOKY_QUARTZ_ORE = CONFIGURED_FEATURES.register("smoky_quartz_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.SMOKY_QUARTZ_ORE.get().defaultBlockState(), 14));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> VOLUCITE_ORE = CONFIGURED_FEATURES.register("volucite_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.VOLUCITE_ORE.get().defaultBlockState(), 7));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> OBSIDIAN_ORE = CONFIGURED_FEATURES.register("obsidian_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.OBSIDIAN_ORE.get().defaultBlockState(), 7));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> GLAUCOPHANITE_ORE = CONFIGURED_FEATURES.register("glaucophanite_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.GLAUCOPHANITE.get().defaultBlockState(), 32));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_DIRT_ORE = CONFIGURED_FEATURES.register("stellar_dirt_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState(), 33));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_COARSE_DIRT_ORE = CONFIGURED_FEATURES.register("stellar_coarse_dirt_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.STELLAR_COARSE_DIRT.get().defaultBlockState(), 22));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_CLAY_ORE = CONFIGURED_FEATURES.register("stellar_clay_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.STELLAR_CLAY.get().defaultBlockState(), 28));
 
 
     //TODO : is there another way ?

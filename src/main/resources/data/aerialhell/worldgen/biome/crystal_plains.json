@@ -90,19 +90,19 @@
     [],
     [],
     [
-      //"aerialhell:iron_stellar_ore", TODO : fix ores features
-      //"aerialhell:gold_stellar_ore",
-      //"aerialhell:diamond_stellar_ore",
-      //"aerialhell:fluorite_ore",
-      //"aerialhell:ruby_ore",
-      //"aerialhell:magmatic_gel_ore",
-      //"aerialhell:azurite_ore",
-      //"aerialhell:volucite_ore",
-      //"aerialhell:obsidian_ore",
-      //"aerialhell:glaucophanite_ore",
-      //"aerialhell:stellar_dirt_ore",
-      //"aerialhell:stellar_coarse_dirt_ore",
-      //"aerialhell:stellar_clay_ore"
+      "aerialhell:iron_stellar_ore",
+      "aerialhell:gold_stellar_ore",
+      "aerialhell:diamond_stellar_ore",
+      "aerialhell:fluorite_ore",
+      "aerialhell:ruby_ore",
+      "aerialhell:magmatic_gel_ore",
+      "aerialhell:azurite_ore",
+      "aerialhell:volucite_ore",
+      "aerialhell:obsidian_ore",
+      "aerialhell:glaucophanite_ore",
+      "aerialhell:stellar_dirt_ore",
+      "aerialhell:stellar_coarse_dirt_ore",
+      "aerialhell:stellar_clay_ore"
     ],
     [],
     [
