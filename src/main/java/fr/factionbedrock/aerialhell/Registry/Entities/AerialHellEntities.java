@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Registry;
+package fr.factionbedrock.aerialhell.Registry.Entities;
 
 import static fr.factionbedrock.aerialhell.AerialHell.MODID;
 

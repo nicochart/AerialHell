@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Item.Shuriken;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellCreativeModeTabs;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellCreativeModeTabs;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.player.Player;

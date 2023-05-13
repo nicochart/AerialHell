@@ -9,7 +9,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.ShadowAutomatonEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
-import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;

@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Block;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellDimensions;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 
 import fr.factionbedrock.aerialhell.Util.BlockHelper;

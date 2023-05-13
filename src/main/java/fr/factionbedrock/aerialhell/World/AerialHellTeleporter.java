@@ -2,8 +2,8 @@ package fr.factionbedrock.aerialhell.World;
 
 import fr.factionbedrock.aerialhell.Block.AerialHellPortalBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellDimensions;
-import fr.factionbedrock.aerialhell.Registry.AerialHellPOI;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellPOI;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;

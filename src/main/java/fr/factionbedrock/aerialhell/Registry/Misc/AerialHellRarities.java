@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Registry;
+package fr.factionbedrock.aerialhell.Registry.Misc;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.item.Rarity;

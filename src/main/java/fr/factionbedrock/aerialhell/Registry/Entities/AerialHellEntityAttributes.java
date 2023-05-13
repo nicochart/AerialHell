@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Registry;
+package fr.factionbedrock.aerialhell.Registry.Entities;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.AbstractElementSpiritEntity;
@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
 import fr.factionbedrock.aerialhell.Entity.Neutral.ForestCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;

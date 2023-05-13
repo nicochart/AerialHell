@@ -4,9 +4,8 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellConfiguredFeatures;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import net.minecraft.core.Holder;
-import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
@@ -15,6 +14,6 @@ public class CopperPine extends AbstractTreeGrower
 	@Nullable @Override
 	protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(Random randomIn, boolean largeHive)
 	{
-		return TreeFeatures.ACACIA;//AerialHellConfiguredFeatures.COPPER_PINE.getHolder().get(); TODO
+		return AerialHellConfiguredFeatures.COPPER_PINE.getHolder().get();
 	}
 }

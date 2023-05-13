@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractAerialArrowEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;

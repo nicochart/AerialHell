@@ -1,6 +1,7 @@
-package fr.factionbedrock.aerialhell.Registry;
+package fr.factionbedrock.aerialhell.Registry.Worldgen;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;

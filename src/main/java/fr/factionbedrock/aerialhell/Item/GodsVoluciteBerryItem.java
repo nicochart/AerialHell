@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellCreativeModeTabs;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellCreativeModeTabs;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
-import fr.factionbedrock.aerialhell.Registry.AerialHellRarities;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;

@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractAerialArrowEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 
 public class BlowpipeItem extends Item
 {

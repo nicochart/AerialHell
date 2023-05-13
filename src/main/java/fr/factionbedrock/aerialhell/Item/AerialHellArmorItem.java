@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Item;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
-import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;

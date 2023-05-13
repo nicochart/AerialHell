@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Registry;
+package fr.factionbedrock.aerialhell.Registry.Worldgen;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.core.Registry;

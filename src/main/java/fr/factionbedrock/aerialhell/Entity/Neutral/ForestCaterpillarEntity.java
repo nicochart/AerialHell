@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Neutral;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;

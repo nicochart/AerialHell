@@ -1,8 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity;
 
 import com.google.common.collect.Lists;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellMotive;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellMotive;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.Motive;

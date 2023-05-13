@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Item.Shuriken;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.MagmaticGelShurikenEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellRarities;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;

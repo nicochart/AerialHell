@@ -3,15 +3,11 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellTags;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.TallGrassBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.common.Tags;
 
 public class AerialHellTallGrassBlock extends TallGrassBlock
 {

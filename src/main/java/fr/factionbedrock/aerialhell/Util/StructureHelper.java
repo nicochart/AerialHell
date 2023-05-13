@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Util;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellStructures;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructures;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 
 public class StructureHelper

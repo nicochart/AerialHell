@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Registry;
+package fr.factionbedrock.aerialhell.Registry.Misc;
 
 import net.minecraft.world.entity.decoration.Motive;
 import net.minecraftforge.registries.RegistryObject;

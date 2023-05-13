@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellCreativeModeTabs;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellCreativeModeTabs;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;

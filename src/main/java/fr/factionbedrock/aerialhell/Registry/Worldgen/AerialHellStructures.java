@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Registry;
+package fr.factionbedrock.aerialhell.Registry.Worldgen;
 
 import static fr.factionbedrock.aerialhell.AerialHell.MODID;
 import fr.factionbedrock.aerialhell.World.Structure.*;

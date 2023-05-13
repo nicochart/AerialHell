@@ -27,7 +27,7 @@ import java.util.EnumSet;
 import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.PoisonballEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;

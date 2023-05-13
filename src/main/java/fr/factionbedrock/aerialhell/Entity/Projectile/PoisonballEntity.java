@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.world.entity.Entity;

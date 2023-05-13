@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.Random;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.world.level.ServerLevelAccessor;
 
 public abstract class AerialHellHostileEntity extends Monster

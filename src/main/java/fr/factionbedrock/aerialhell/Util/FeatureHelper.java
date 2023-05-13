@@ -1,14 +1,10 @@
 package fr.factionbedrock.aerialhell.Util;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBiomes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellStructures;
-import net.minecraft.core.SectionPos;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellBiomes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.levelgen.structure.BuiltinStructureSets;
 
 public class FeatureHelper
 {
