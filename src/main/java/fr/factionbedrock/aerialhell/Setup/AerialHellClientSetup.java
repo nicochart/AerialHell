@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Setup;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.AerialHellRendering;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSpecialEffects;
+import fr.factionbedrock.aerialhell.Registry.AerialHellWoodTypes;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,6 +18,8 @@ public class AerialHellClientSetup
     {
     	AerialHellRendering.registerBlockRenderLayers();
     	AerialHellRendering.registerScreensMenus();
+
+        AerialHellWoodTypes.registerWoodTypes(event);
     }
     
     @SubscribeEvent

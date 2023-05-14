@@ -7,11 +7,13 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.*;
 import fr.factionbedrock.aerialhell.Client.EntityRender.*;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = AerialHell.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = AerialHell.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RenderRegistrationListener
 {
     @SubscribeEvent
@@ -74,6 +76,7 @@ public class RenderRegistrationListener
 
         event.registerBlockEntityRenderer(AerialHellBlockEntities.CHEST.get(), AerialHellChestBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(AerialHellBlockEntities.CHEST_MIMIC.get(), AerialHellChestMimicBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(AerialHellBlockEntities.SIGN.get(), SignRenderer::new);
     }
 
     @SubscribeEvent

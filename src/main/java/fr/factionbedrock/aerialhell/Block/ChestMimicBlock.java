@@ -43,20 +43,11 @@ import fr.factionbedrock.aerialhell.BlockEntity.ChestMimicBlockEntity;
 
 import java.util.function.BiPredicate;
 
-public class ChestMimicBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
+public class ChestMimicBlock extends ChestBlock
 {
-	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
-	public static final EnumProperty<ChestType> TYPE = BlockStateProperties.CHEST_TYPE;
-	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-	protected static final VoxelShape SHAPE_NORTH = Block.box(1.0D, 0.0D, 0.0D, 15.0D, 14.0D, 15.0D);
-	protected static final VoxelShape SHAPE_SOUTH = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 16.0D);
-	protected static final VoxelShape SHAPE_WEST = Block.box(0.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
-	protected static final VoxelShape SHAPE_EAST = Block.box(1.0D, 0.0D, 1.0D, 16.0D, 14.0D, 15.0D);
-	protected static final VoxelShape SHAPE_SINGLE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
-
 	public ChestMimicBlock(BlockBehaviour.Properties builder)
 	{
-		super(builder);
+		super(builder, AerialHellBlockEntities.CHEST_MIMIC::get);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, ChestType.SINGLE).setValue(WATERLOGGED, Boolean.valueOf(false)));
 	}
 
@@ -121,115 +112,4 @@ public class ChestMimicBlock extends BaseEntityBlock implements SimpleWaterlogge
 	@Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new ChestMimicBlockEntity(pos, state);}
 	@Override public BlockState rotate(BlockState state, Rotation rot) {return state.setValue(FACING, rot.rotate(state.getValue(FACING)));}
 	@Override public BlockState mirror(BlockState state, Mirror mirrorIn) {return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));}
-
-	/*Copied from vanilla ChestBlock class*/
-	@Override
-	public RenderShape getRenderShape(BlockState state)
-	{
-		return RenderShape.ENTITYBLOCK_ANIMATED;
-	}
-
-	@Override
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) //updatePostPlacement (snapshot mappings)
-	{
-		if (stateIn.getValue(WATERLOGGED))
-		{
-			worldIn.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(worldIn));
-		}
-
-		if (facingState.is(this) && facing.getAxis().isHorizontal())
-		{
-			ChestType chesttype = facingState.getValue(TYPE);
-			if (stateIn.getValue(TYPE) == ChestType.SINGLE && chesttype != ChestType.SINGLE && stateIn.getValue(FACING) == facingState.getValue(FACING) && getDirectionToAttached(facingState) == facing.getOpposite())
-			{
-				return stateIn.setValue(TYPE, chesttype.getOpposite());
-			}
-		} else if (getDirectionToAttached(stateIn) == facing)
-		{
-			return stateIn.setValue(TYPE, ChestType.SINGLE);
-		}
-		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
-	}
-
-	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
-	{
-		if (state.getValue(TYPE) == ChestType.SINGLE)
-		{
-			return SHAPE_SINGLE;
-		} else {
-			switch(getDirectionToAttached(state))
-			{
-				case NORTH:
-				default:
-					return SHAPE_NORTH;
-				case SOUTH:
-					return SHAPE_SOUTH;
-				case WEST:
-					return SHAPE_WEST;
-				case EAST:
-					return SHAPE_EAST;
-			}
-		}
-	}
-
-	public static Direction getDirectionToAttached(BlockState state)
-	{
-		Direction direction = state.getValue(FACING);
-		return state.getValue(TYPE) == ChestType.LEFT ? direction.getClockWise() : direction.getCounterClockWise();
-	}
-
-	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context)
-	{
-		ChestType chesttype = ChestType.SINGLE;
-		Direction direction = context.getHorizontalDirection().getOpposite();
-		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		boolean flag = context.isSecondaryUseActive();
-		Direction direction1 = context.getClickedFace();
-		if (direction1.getAxis().isHorizontal() && flag)
-		{
-			Direction direction2 = this.getDirectionToAttach(context, direction1.getOpposite());
-			if (direction2 != null && direction2.getAxis() != direction1.getAxis())
-			{
-				direction = direction2;
-				chesttype = direction2.getCounterClockWise() == direction1.getOpposite() ? ChestType.RIGHT : ChestType.LEFT;
-			}
-		}
-
-		if (chesttype == ChestType.SINGLE && !flag)
-		{
-			if (direction == this.getDirectionToAttach(context, direction.getClockWise())) {chesttype = ChestType.LEFT;}
-			else if (direction == this.getDirectionToAttach(context, direction.getCounterClockWise())) {chesttype = ChestType.RIGHT;}
-		}
-
-		return this.defaultBlockState().setValue(FACING, direction).setValue(TYPE, chesttype).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
-	}
-
-	@Override
-	public FluidState getFluidState(BlockState state)
-	{
-		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-	}
-
-	@Nullable
-	private Direction getDirectionToAttach(BlockPlaceContext context, Direction direction)
-	{
-		BlockState blockstate = context.getLevel().getBlockState(context.getClickedPos().relative(direction));
-		return blockstate.is(this) && blockstate.getValue(TYPE) == ChestType.SINGLE ? blockstate.getValue(FACING) : null;
-	}
-
-	public DoubleBlockCombiner.NeighborCombineResult<? extends ChestMimicBlockEntity> combine(BlockState state, Level world, BlockPos pos, boolean override)
-	{
-		BiPredicate<LevelAccessor, BlockPos> bipredicate;
-		if (override) {bipredicate = (worldIn, posIn) -> false;}
-		else {bipredicate = ChestBlock::isChestBlockedAt;}
-
-		return DoubleBlockCombiner.combineWithNeigbour(AerialHellBlockEntities.CHEST_MIMIC.get(), ChestBlock::getBlockType, ChestBlock::getConnectedDirection, FACING, state, world, pos, bipredicate);
-	}
-
-	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(FACING, TYPE, WATERLOGGED);}
-	@Override public boolean isPathfindable(BlockState state, BlockGetter worldIn, BlockPos pos, PathComputationType type) {return false;}
-
-
 }

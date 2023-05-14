@@ -1,13 +1,9 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
-import java.util.function.Supplier;
-
+import fr.factionbedrock.aerialhell.Block.AerialHellChestBlock;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -18,13 +14,13 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class CoreProtectedChestBlock extends ChestBlock
+public class CoreProtectedChestBlock extends AerialHellChestBlock
 {
 	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
 	
-	public CoreProtectedChestBlock(Properties builder, Supplier<BlockEntityType<? extends ChestBlockEntity>> tileEntityTypeIn)
+	public CoreProtectedChestBlock(Properties builder)
 	{
-		super(builder, tileEntityTypeIn);
+		super(builder);
 		this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
 	

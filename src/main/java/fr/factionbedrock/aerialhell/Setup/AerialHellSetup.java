@@ -28,6 +28,7 @@ public class AerialHellSetup
         	AerialHellEntities.entitySpawnPlacements();
         	AerialHellBlocksAndItems.registerPots();
         	AerialHellBlocksAndItems.registerAxeStrippingBlocks();
+            AerialHellWoodTypes.addWoodTypesToSheets();
         });
     }
 	

@@ -751,30 +751,30 @@ public class AerialHellBlocksAndItems
 	private static ToIntFunction<BlockState> getLightValueLit(int lightValue) {return (state) -> {return state.getValue(BlockStateProperties.LIT) ? lightValue : 0;};}
 
 	//chests
-	public static final RegistryObject<ChestBlock> AERIAL_TREE_CHEST = BLOCKS.register("aerial_tree_chest", () -> new ChestBlock(AERIAL_TREE_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
-	public static final RegistryObject<Item> AERIAL_TREE_CHEST_ITEM = ITEMS.register("aerial_tree_chest", () -> new BlockItem(AERIAL_TREE_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
-	public static final RegistryObject<ChestBlock> GOLDEN_BEECH_CHEST = BLOCKS.register("golden_beech_chest", () -> new ChestBlock(AERIAL_TREE_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
-	public static final RegistryObject<Item> GOLDEN_BEECH_ITEM = ITEMS.register("golden_beech_chest", () -> new BlockItem(GOLDEN_BEECH_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
-	public static final RegistryObject<ChestBlock> COPPER_PINE_CHEST = BLOCKS.register("copper_pine_chest", () -> new ChestBlock(COPPER_PINE_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
-	public static final RegistryObject<Item> COPPER_PINE_ITEM = ITEMS.register("copper_pine_chest", () -> new BlockItem(COPPER_PINE_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
-	public static final RegistryObject<ChestBlock> LAPIS_ROBINIA_CHEST = BLOCKS.register("lapis_robinia_chest", () -> new ChestBlock(COPPER_PINE_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
-	public static final RegistryObject<Item> LAPIS_ROBINIA_CHEST_ITEM = ITEMS.register("lapis_robinia_chest", () -> new BlockItem(LAPIS_ROBINIA_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
-	public static final RegistryObject<ChestBlock> SHADOW_PINE_CHEST = BLOCKS.register("shadow_pine_chest", () -> new ChestBlock(SHADOW_PINE_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
-	public static final RegistryObject<Item> SHADOW_PINE_CHEST_ITEM = ITEMS.register("shadow_pine_chest", () -> new BlockItem(SHADOW_PINE_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
-	public static final RegistryObject<ChestBlock> SKY_CACTUS_FIBER_CHEST = BLOCKS.register("sky_cactus_fiber_chest", () -> new ChestBlock(SKY_CACTUS_FIBER_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
-	public static final RegistryObject<Item> SKY_CACTUS_FIBER_CHEST_ITEM = ITEMS.register("sky_cactus_fiber_chest", () -> new BlockItem(SKY_CACTUS_FIBER_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
-	public static final RegistryObject<ChestBlock> GRAY_SHROOM_CHEST = BLOCKS.register("gray_shroom_chest", () -> new ChestBlock(SHROOM_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
-	public static final RegistryObject<Item> GRAY_SHROOM_CHEST_ITEM = ITEMS.register("gray_shroom_chest", () -> new BlockItem(GRAY_SHROOM_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
-	public static final RegistryObject<ChestBlock> MUD_CHEST = BLOCKS.register("mud_chest", () -> new CoreProtectedChestBlock(MUD_CHEST_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
-	public static final RegistryObject<Item> MUD_CHEST_ITEM = ITEMS.register("mud_chest", () -> new BlockItem(MUD_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)));
-	public static final RegistryObject<ChestBlock> LUNATIC_CHEST = BLOCKS.register("lunatic_chest", () -> new CoreProtectedChestBlock(LUNATIC_CHEST_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
-	public static final RegistryObject<Item> LUNATIC_CHEST_ITEM = ITEMS.register("lunatic_chest", () -> new BlockItem(LUNATIC_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)));
-	public static final RegistryObject<ChestBlock> VOLUCITE_CHEST = BLOCKS.register("volucite_chest", () -> new CoreProtectedChestBlock(VOLUCITE_CHEST_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
-	public static final RegistryObject<Item> VOLUCITE_CHEST_ITEM = ITEMS.register("volucite_chest", () -> new BlockItem(VOLUCITE_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)));
-	public static final RegistryObject<ChestBlock> SHADOW_CATACOMBS_CHEST = BLOCKS.register("shadow_catacombs_chest", () -> new CoreProtectedChestBlock(MUD_CHEST_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
-	public static final RegistryObject<Item> SHADOW_CATACOMBS_CHEST_ITEM = ITEMS.register("shadow_catacombs_chest", () -> new BlockItem(SHADOW_CATACOMBS_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)));
-	public static final RegistryObject<ChestBlock> GOLDEN_NETHER_CHEST = BLOCKS.register("golden_nether_chest", () -> new CoreProtectedChestBlock(GOLDEN_NETHER_CHEST_MATERIAL,() -> AerialHellBlockEntities.CHEST.get()));
-	public static final RegistryObject<Item> GOLDEN_NETHER_CHEST_ITEM = ITEMS.register("golden_nether_chest", () -> new BlockItem(GOLDEN_NETHER_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)));
+	public static final RegistryObject<ChestBlock> AERIAL_TREE_CHEST = BLOCKS.register("aerial_tree_chest", () -> new AerialHellChestBlock(AERIAL_TREE_MATERIAL));
+	public static final RegistryObject<Item> AERIAL_TREE_CHEST_ITEM = ITEMS.register("aerial_tree_chest", () -> new ChestBlockItem(AERIAL_TREE_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<ChestBlock> GOLDEN_BEECH_CHEST = BLOCKS.register("golden_beech_chest", () -> new AerialHellChestBlock(AERIAL_TREE_MATERIAL));
+	public static final RegistryObject<Item> GOLDEN_BEECH_ITEM = ITEMS.register("golden_beech_chest", () -> new ChestBlockItem(GOLDEN_BEECH_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<ChestBlock> COPPER_PINE_CHEST = BLOCKS.register("copper_pine_chest", () -> new AerialHellChestBlock(COPPER_PINE_MATERIAL));
+	public static final RegistryObject<Item> COPPER_PINE_ITEM = ITEMS.register("copper_pine_chest", () -> new ChestBlockItem(COPPER_PINE_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<ChestBlock> LAPIS_ROBINIA_CHEST = BLOCKS.register("lapis_robinia_chest", () -> new AerialHellChestBlock(COPPER_PINE_MATERIAL));
+	public static final RegistryObject<Item> LAPIS_ROBINIA_CHEST_ITEM = ITEMS.register("lapis_robinia_chest", () -> new ChestBlockItem(LAPIS_ROBINIA_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<ChestBlock> SHADOW_PINE_CHEST = BLOCKS.register("shadow_pine_chest", () -> new AerialHellChestBlock(SHADOW_PINE_MATERIAL));
+	public static final RegistryObject<Item> SHADOW_PINE_CHEST_ITEM = ITEMS.register("shadow_pine_chest", () -> new ChestBlockItem(SHADOW_PINE_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<ChestBlock> SKY_CACTUS_FIBER_CHEST = BLOCKS.register("sky_cactus_fiber_chest", () -> new AerialHellChestBlock(SKY_CACTUS_FIBER_MATERIAL));
+	public static final RegistryObject<Item> SKY_CACTUS_FIBER_CHEST_ITEM = ITEMS.register("sky_cactus_fiber_chest", () -> new ChestBlockItem(SKY_CACTUS_FIBER_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<ChestBlock> GRAY_SHROOM_CHEST = BLOCKS.register("gray_shroom_chest", () -> new AerialHellChestBlock(SHROOM_MATERIAL));
+	public static final RegistryObject<Item> GRAY_SHROOM_CHEST_ITEM = ITEMS.register("gray_shroom_chest", () -> new ChestBlockItem(GRAY_SHROOM_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<ChestBlock> MUD_CHEST = BLOCKS.register("mud_chest", () -> new CoreProtectedChestBlock(MUD_CHEST_MATERIAL));
+	public static final RegistryObject<Item> MUD_CHEST_ITEM = ITEMS.register("mud_chest", () -> new ChestBlockItem(MUD_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)));
+	public static final RegistryObject<ChestBlock> LUNATIC_CHEST = BLOCKS.register("lunatic_chest", () -> new CoreProtectedChestBlock(LUNATIC_CHEST_MATERIAL));
+	public static final RegistryObject<Item> LUNATIC_CHEST_ITEM = ITEMS.register("lunatic_chest", () -> new ChestBlockItem(LUNATIC_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)));
+	public static final RegistryObject<ChestBlock> VOLUCITE_CHEST = BLOCKS.register("volucite_chest", () -> new CoreProtectedChestBlock(VOLUCITE_CHEST_MATERIAL));
+	public static final RegistryObject<Item> VOLUCITE_CHEST_ITEM = ITEMS.register("volucite_chest", () -> new ChestBlockItem(VOLUCITE_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)));
+	public static final RegistryObject<ChestBlock> SHADOW_CATACOMBS_CHEST = BLOCKS.register("shadow_catacombs_chest", () -> new CoreProtectedChestBlock(MUD_CHEST_MATERIAL));
+	public static final RegistryObject<Item> SHADOW_CATACOMBS_CHEST_ITEM = ITEMS.register("shadow_catacombs_chest", () -> new ChestBlockItem(SHADOW_CATACOMBS_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)));
+	public static final RegistryObject<ChestBlock> GOLDEN_NETHER_CHEST = BLOCKS.register("golden_nether_chest", () -> new CoreProtectedChestBlock(GOLDEN_NETHER_CHEST_MATERIAL));
+	public static final RegistryObject<Item> GOLDEN_NETHER_CHEST_ITEM = ITEMS.register("golden_nether_chest", () -> new ChestBlockItem(GOLDEN_NETHER_CHEST.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)));
 
 	//chest mimics
 	public static final RegistryObject<Block> AERIAL_TREE_CHEST_MIMIC = BLOCKS.register("aerial_tree_chest_mimic", () -> new ChestMimicBlock(BlockBehaviour.Properties.copy(Blocks.CHEST)));
@@ -1007,26 +1007,26 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> MAGMATIC_GEL_STAIRS_ITEM = ITEMS.register("magmatic_gel_stairs", () -> new BlockItem(MAGMATIC_GEL_STAIRS.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
 
 	//signs
-	public static final RegistryObject<AerialHellStandingSignBlock> AERIAL_TREE_STANDING_SIGN = BLOCKS.register("aerial_tree_standing_sign", () -> new AerialHellStandingSignBlock(AERIAL_TREE_SIGN_MATERIAL));
-	public static final RegistryObject<AerialHellWallSignBlock> AERIAL_TREE_WALL_SIGN = BLOCKS.register("aerial_tree_wall_sign", () -> new AerialHellWallSignBlock(AERIAL_TREE_SIGN_MATERIAL));
+	public static final RegistryObject<AerialHellStandingSignBlock> AERIAL_TREE_STANDING_SIGN = BLOCKS.register("aerial_tree_sign", () -> new AerialHellStandingSignBlock(AERIAL_TREE_SIGN_MATERIAL, AerialHellWoodTypes.AERIAL_TREE));
+	public static final RegistryObject<AerialHellWallSignBlock> AERIAL_TREE_WALL_SIGN = BLOCKS.register("aerial_tree_wall_sign", () -> new AerialHellWallSignBlock(AERIAL_TREE_SIGN_MATERIAL, AerialHellWoodTypes.AERIAL_TREE));
 	public static final RegistryObject<Item> AERIAL_TREE_SIGN_ITEM = ITEMS.register("aerial_tree_sign", () -> new SignItem(new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS), AERIAL_TREE_STANDING_SIGN.get(), AERIAL_TREE_WALL_SIGN.get()));
-	public static final RegistryObject<AerialHellStandingSignBlock> GOLDEN_BEECH_STANDING_SIGN = BLOCKS.register("golden_beech_standing_sign", () -> new AerialHellStandingSignBlock(AERIAL_TREE_SIGN_MATERIAL));
-	public static final RegistryObject<AerialHellStandingSignBlock> GOLDEN_BEECH_WALL_SIGN = BLOCKS.register("golden_beech_wall_sign", () -> new AerialHellStandingSignBlock(AERIAL_TREE_SIGN_MATERIAL));
+	public static final RegistryObject<AerialHellStandingSignBlock> GOLDEN_BEECH_STANDING_SIGN = BLOCKS.register("golden_beech_sign", () -> new AerialHellStandingSignBlock(AERIAL_TREE_SIGN_MATERIAL, AerialHellWoodTypes.GOLDEN_BEECH));
+	public static final RegistryObject<AerialHellWallSignBlock> GOLDEN_BEECH_WALL_SIGN = BLOCKS.register("golden_beech_wall_sign", () -> new AerialHellWallSignBlock(AERIAL_TREE_SIGN_MATERIAL, AerialHellWoodTypes.GOLDEN_BEECH));
 	public static final RegistryObject<Item> GOLDEN_BEECH_SIGN_ITEM = ITEMS.register("golden_beech_sign", () -> new SignItem(new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS), GOLDEN_BEECH_STANDING_SIGN.get(), GOLDEN_BEECH_WALL_SIGN.get()));
-	public static final RegistryObject<AerialHellStandingSignBlock> COPPER_PINE_STANDING_SIGN = BLOCKS.register("copper_pine_standing_sign", () -> new AerialHellStandingSignBlock(COPPER_PINE_SIGN_MATERIAL));
-	public static final RegistryObject<AerialHellStandingSignBlock> COPPER_PINE_WALL_SIGN = BLOCKS.register("copper_pine_wall_sign", () -> new AerialHellStandingSignBlock(COPPER_PINE_SIGN_MATERIAL));
+	public static final RegistryObject<AerialHellStandingSignBlock> COPPER_PINE_STANDING_SIGN = BLOCKS.register("copper_pine_sign", () -> new AerialHellStandingSignBlock(COPPER_PINE_SIGN_MATERIAL, AerialHellWoodTypes.COPPER_PINE));
+	public static final RegistryObject<AerialHellWallSignBlock> COPPER_PINE_WALL_SIGN = BLOCKS.register("copper_pine_wall_sign", () -> new AerialHellWallSignBlock(COPPER_PINE_SIGN_MATERIAL, AerialHellWoodTypes.COPPER_PINE));
 	public static final RegistryObject<Item> COPPER_PINE_SIGN_ITEM = ITEMS.register("copper_pine_sign", () -> new SignItem(new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS), COPPER_PINE_STANDING_SIGN.get(), COPPER_PINE_WALL_SIGN.get()));
-	public static final RegistryObject<AerialHellStandingSignBlock> LAPIS_ROBINIA_STANDING_SIGN = BLOCKS.register("lapis_robinia_standing_sign", () -> new AerialHellStandingSignBlock(COPPER_PINE_SIGN_MATERIAL));
-	public static final RegistryObject<AerialHellStandingSignBlock> LAPIS_ROBINIA_WALL_SIGN = BLOCKS.register("lapis_robinia_wall_sign", () -> new AerialHellStandingSignBlock(COPPER_PINE_SIGN_MATERIAL));
+	public static final RegistryObject<AerialHellStandingSignBlock> LAPIS_ROBINIA_STANDING_SIGN = BLOCKS.register("lapis_robinia_sign", () -> new AerialHellStandingSignBlock(COPPER_PINE_SIGN_MATERIAL, AerialHellWoodTypes.LAPIS_ROBINIA));
+	public static final RegistryObject<AerialHellWallSignBlock> LAPIS_ROBINIA_WALL_SIGN = BLOCKS.register("lapis_robinia_wall_sign", () -> new AerialHellWallSignBlock(COPPER_PINE_SIGN_MATERIAL, AerialHellWoodTypes.LAPIS_ROBINIA));
 	public static final RegistryObject<Item> LAPIS_ROBINIA_SIGN_ITEM = ITEMS.register("lapis_robinia_sign", () -> new SignItem(new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS), LAPIS_ROBINIA_STANDING_SIGN.get(), LAPIS_ROBINIA_WALL_SIGN.get()));
-	public static final RegistryObject<AerialHellStandingSignBlock> SHADOW_PINE_STANDING_SIGN = BLOCKS.register("shadow_pine_standing_sign", () -> new AerialHellStandingSignBlock(SHADOW_PINE_SIGN_MATERIAL));
-	public static final RegistryObject<AerialHellStandingSignBlock> SHADOW_PINE_WALL_SIGN = BLOCKS.register("shadow_pine_wall_sign", () -> new AerialHellStandingSignBlock(SHADOW_PINE_SIGN_MATERIAL));
+	public static final RegistryObject<AerialHellStandingSignBlock> SHADOW_PINE_STANDING_SIGN = BLOCKS.register("shadow_pine_sign", () -> new AerialHellStandingSignBlock(SHADOW_PINE_SIGN_MATERIAL, AerialHellWoodTypes.SHADOW_PINE));
+	public static final RegistryObject<AerialHellWallSignBlock> SHADOW_PINE_WALL_SIGN = BLOCKS.register("shadow_pine_wall_sign", () -> new AerialHellWallSignBlock(SHADOW_PINE_SIGN_MATERIAL, AerialHellWoodTypes.SHADOW_PINE));
 	public static final RegistryObject<Item> SHADOW_PINE_SIGN_ITEM = ITEMS.register("shadow_pine_sign", () -> new SignItem(new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS), SHADOW_PINE_STANDING_SIGN.get(), SHADOW_PINE_WALL_SIGN.get()));
-	public static final RegistryObject<AerialHellStandingSignBlock> SKY_CACTUS_FIBER_STANDING_SIGN = BLOCKS.register("sky_cactus_fiber_standing_sign", () -> new AerialHellStandingSignBlock(SKY_CACTUS_FIBER_SIGN_MATERIAL));
-	public static final RegistryObject<AerialHellStandingSignBlock> SKY_CACTUS_FIBER_WALL_SIGN = BLOCKS.register("sky_cactus_fiber_wall_sign", () -> new AerialHellStandingSignBlock(SKY_CACTUS_FIBER_SIGN_MATERIAL));
+	public static final RegistryObject<AerialHellStandingSignBlock> SKY_CACTUS_FIBER_STANDING_SIGN = BLOCKS.register("sky_cactus_fiber_sign", () -> new AerialHellStandingSignBlock(SKY_CACTUS_FIBER_SIGN_MATERIAL, AerialHellWoodTypes.SKY_CACTUS_FIBER));
+	public static final RegistryObject<AerialHellWallSignBlock> SKY_CACTUS_FIBER_WALL_SIGN = BLOCKS.register("sky_cactus_fiber_wall_sign", () -> new AerialHellWallSignBlock(SKY_CACTUS_FIBER_SIGN_MATERIAL, AerialHellWoodTypes.SKY_CACTUS_FIBER));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_SIGN_ITEM = ITEMS.register("sky_cactus_fiber_sign", () -> new SignItem(new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS), SKY_CACTUS_FIBER_STANDING_SIGN.get(), SKY_CACTUS_FIBER_WALL_SIGN.get()));
-	public static final RegistryObject<AerialHellStandingSignBlock> GRAY_SHROOM_STANDING_SIGN = BLOCKS.register("gray_shroom_standing_sign", () -> new AerialHellStandingSignBlock(SHROOM_SIGN_MATERIAL));
-	public static final RegistryObject<AerialHellStandingSignBlock> GRAY_SHROOM_WALL_SIGN = BLOCKS.register("gray_shroom_wall_sign", () -> new AerialHellStandingSignBlock(SHROOM_SIGN_MATERIAL));
+	public static final RegistryObject<AerialHellStandingSignBlock> GRAY_SHROOM_STANDING_SIGN = BLOCKS.register("gray_shroom_sign", () -> new AerialHellStandingSignBlock(SHROOM_SIGN_MATERIAL, AerialHellWoodTypes.GRAY_SHROOM));
+	public static final RegistryObject<AerialHellWallSignBlock> GRAY_SHROOM_WALL_SIGN = BLOCKS.register("gray_shroom_wall_sign", () -> new AerialHellWallSignBlock(SHROOM_SIGN_MATERIAL, AerialHellWoodTypes.GRAY_SHROOM));
 	public static final RegistryObject<Item> GRAY_SHROOM_SIGN_ITEM = ITEMS.register("gray_shroom_sign", () -> new SignItem(new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS), GRAY_SHROOM_STANDING_SIGN.get(), GRAY_SHROOM_WALL_SIGN.get()));
 
 	//crafting tables

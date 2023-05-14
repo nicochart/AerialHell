@@ -1,6 +1,8 @@
 {
     "parent": "builtin/entity",
-    "__comment": "Inutile de preciser les particules ici. Il s'agit du model de l'item coffre dans les mains",
+    "textures": {
+        "particle": "aerialhell:block/aerial_tree_planks"
+    },
     "display": {
         "gui": {
             "rotation": [ 30, 45, 0 ],
