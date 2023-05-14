@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Inventory.Container.StellarFurnaceMenu;
+import fr.factionbedrock.aerialhell.Inventory.Menu.StellarFurnaceMenu;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;

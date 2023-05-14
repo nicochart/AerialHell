@@ -75,7 +75,7 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleEntity>
 
 	@Override public void setupAnim(GlidingTurtleEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		this.isGliding = entity.isGliding(); this.isChild = entity.isBaby(); //TODO : find another way ?
+		this.isGliding = entity.isGliding(); this.isChild = entity.isBaby();
 		this.Head.yRot = netHeadYaw / 57.29578F;
 		this.Head.xRot = headPitch / 57.29578F;
 
@@ -100,13 +100,13 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleEntity>
 
 	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{
-		poseStack.pushPose();
+
 		if(isChild)
 		{
 			poseStack.scale(0.5F, 0.5F, 0.5F);
 			poseStack.translate(0.0F, 1.5F, 0.0F);
 		}
-		poseStack.popPose();
+		poseStack.pushPose();
 
 		Head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		Body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
@@ -116,5 +116,6 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleEntity>
 		LegFrontLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		LegBackRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		LegBackLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		poseStack.popPose();
 	}
 }

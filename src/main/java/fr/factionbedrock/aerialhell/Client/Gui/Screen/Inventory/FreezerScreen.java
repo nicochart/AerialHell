@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Inventory.Container.FreezerMenu;
+import fr.factionbedrock.aerialhell.Inventory.Menu.FreezerMenu;
 
 import net.minecraft.client.gui.screens.inventory.AbstractFurnaceScreen;
 import net.minecraft.client.gui.screens.recipebook.SmeltingRecipeBookComponent;

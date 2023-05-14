@@ -1,17 +1,17 @@
 {
   "replace": false,
   "values": [
-    "aerialhell:aerial_tree_standing_sign",
+    "aerialhell:aerial_tree_sign",
     "aerialhell:aerial_tree_wall_sign",
-    "aerialhell:golden_beech_standing_sign",
+    "aerialhell:golden_beech_sign",
     "aerialhell:golden_beech_wall_sign",
-    "aerialhell:copper_pine_standing_sign",
+    "aerialhell:copper_pine_sign",
     "aerialhell:copper_pine_wall_sign",
-    "aerialhell:lapis_robinia_standing_sign",
+    "aerialhell:lapis_robinia_sign",
     "aerialhell:lapis_robinia_wall_sign",
-    "aerialhell:sky_cactus_fiber_standing_sign",
+    "aerialhell:sky_cactus_fiber_sign",
     "aerialhell:sky_cactus_fiber_wall_sign",
-    "aerialhell:gray_shroom_standing_sign",
+    "aerialhell:gray_shroom_sign",
     "aerialhell:gray_shroom_wall_sign"
   ]
 }

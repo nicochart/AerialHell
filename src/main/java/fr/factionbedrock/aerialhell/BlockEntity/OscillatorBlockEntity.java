@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
-import fr.factionbedrock.aerialhell.Inventory.Container.OscillatorMenu;
+import fr.factionbedrock.aerialhell.Inventory.Menu.OscillatorMenu;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import com.google.common.collect.Maps;

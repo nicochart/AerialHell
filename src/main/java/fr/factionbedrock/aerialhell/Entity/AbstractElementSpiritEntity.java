@@ -2,6 +2,10 @@ package fr.factionbedrock.aerialhell.Entity;
 
 import java.util.List;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
@@ -15,6 +19,9 @@ import net.minecraft.world.level.Level;
 
 public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntity
 {
+    private static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.<Boolean>defineId(AbstractElementSpiritEntity.class, EntityDataSerializers.BOOLEAN);
+    private int tickStartAttacking;
+
 	public AbstractElementSpiritEntity(EntityType<? extends AbstractElementSpiritEntity> type, Level worldIn) {super(type, worldIn);}
 	
 	@Override
@@ -36,11 +43,18 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
     public boolean doHurtTarget(Entity entityIn)
     {
     	boolean flag = super.doHurtTarget(entityIn);
-    	if (flag) {this.attackSuicide(entityIn);}
+    	if (flag) {this.setAttacking(); this.tickStartAttacking = this.tickCount;}
     	return flag;
     }
-    
-    public void attackSuicide(Entity entityIn)
+
+    @Override
+    public void tick()
+    {
+        if (this.isAttacking() && this.tickCount > this.tickStartAttacking + 3) {this.attackSuicide();}
+        super.tick();
+    }
+
+    public void attackSuicide()
     {
     	this.playSound(this.getDeathSound(), 1.5F, 0.95F + random.nextFloat() * 0.1F);
     	this.spawnParticle();
@@ -52,24 +66,41 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
     			applyEffect(entity);
     		}
     	}
-    	this.removeAfterChangingDimensions();
+    	this.discard();
     }
     
     public void spawnParticle()
     {
-        if (this.level.isClientSide())
+        for (int i=0; i<30; i++)
         {
-            double d0 = this.random.nextGaussian() * 0.02D;
-            double d1 = this.random.nextGaussian() * 0.02D;
-            double d2 = this.random.nextGaussian() * 0.02D;
-            /*for (int i=0; i<30; i++) TODO testing
-            {
-                this.level.addParticle(this.getParticleToSpawn(), this.getX(1.0D) - d0 * 10.0D, this.getRandomY() - d1 * 10.0D, this.getRandomZ(1.0D) - d2 * 10.0D, d0, d1, d2);
-            }*/
-            this.getServer().getLevel(this.getLevel().dimension()).sendParticles(this.getParticleToSpawn(), this.getRandomX(1.0D) - d0 * 10.0D, this.getRandomY() - d1 * 10.0D, this.getRandomZ(1.0D) - d2 * 10.0D, 30, 2 * d0, d1, 2 * d2, 0.5);
+            double d0 = (this.random.nextGaussian() - 0.5D) * 0.02D;
+            double d1 = (this.random.nextGaussian() - 0.5D) * 0.02D;
+            double d2 = (this.random.nextGaussian() - 0.5D) * 0.02D;
+            this.level.addParticle(this.getParticleToSpawn(), this.getX(1.0D) + d0 * 10.0D, this.getRandomY() + d1 * 10.0D, this.getRandomZ(1.0D) + d2 * 10.0D, d0, d1, d2);
         }
     }
-    
+
     public abstract void applyEffect(Entity entity);
     public abstract SimpleParticleType getParticleToSpawn();
+
+    @Override protected void defineSynchedData()
+    {
+        super.defineSynchedData();
+        this.entityData.define(ATTACKING, false);
+    }
+
+    @Override public void addAdditionalSaveData(CompoundTag compound)
+    {
+        super.addAdditionalSaveData(compound);
+        compound.putBoolean("Disappearing", this.isAttacking());
+    }
+
+    @Override public void readAdditionalSaveData(CompoundTag compound)
+    {
+        super.readAdditionalSaveData(compound);
+        if (compound.getBoolean("Disappearing")) {this.setAttacking();}
+    }
+
+    public boolean isAttacking() {return this.entityData.get(ATTACKING);}
+    public void setAttacking() {this.entityData.set(ATTACKING, true);}
 }

@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Inventory.Container.OscillatorMenu;
+import fr.factionbedrock.aerialhell.Inventory.Menu.OscillatorMenu;
 
 import net.minecraft.client.gui.screens.inventory.AbstractFurnaceScreen;
 import net.minecraft.client.gui.screens.recipebook.SmeltingRecipeBookComponent;

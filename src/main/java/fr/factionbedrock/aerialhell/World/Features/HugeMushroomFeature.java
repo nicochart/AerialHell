@@ -3,6 +3,8 @@ package fr.factionbedrock.aerialhell.World.Features;
 import java.util.Random;
 import com.mojang.serialization.Codec;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.world.level.block.HugeMushroomBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.tags.BlockTags;
@@ -61,7 +63,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
                         {
                         	isUpCap = isCapBlockPos(pos.above(), a, b, c);
                         	placementPos.set(centerPos.offset(pos));
-                            //if (world.getBlockState(placementPos).canBeReplacedByLeaves(world, placementPos)) TODO : verify before placement
+                            if (FeatureHelper.isReplaceableByLogOrLeavesFeature(world, placementPos, true))
                             {
                                 this.setBlock(world, placementPos, config.capProvider.getState(rand, placementPos)
                                 		.setValue(HugeMushroomBlock.NORTH, !northInEll)
@@ -87,8 +89,8 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
                 for (int z = 0; z < 2; z++)
                 {
                     placementPos.set(blockPos).move(x, y, z);
-                    if (true)//(world.getBlockState(placementPos).canBeReplacedByLogs(world, placementPos) || world.getBlockState(placementPos).is(AerialHellBlocksAndItems.VERDIGRIS_AGARIC.get()))
-                    { //TODO verify
+                    if (FeatureHelper.isReplaceableByLogOrLeavesFeature(world, placementPos, true) || world.getBlockState(placementPos).is(AerialHellBlocksAndItems.VERDIGRIS_AGARIC.get()))
+                    {
                         this.setBlock(world, placementPos, config.stemProvider.getState(rand, blockPos));
                     }
                 }
@@ -133,7 +135,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
             	for(int y = 0; y <= stemSize; y++)
             	{
                     placementBlockPos.set(blockPos).move(Direction.UP, y);
-                    //if (!world.getBlockState(placementBlockPos).canBeReplacedByLogs(world, placementBlockPos)) {return false;} TODO : verify
+                    if (!FeatureHelper.isReplaceableByLogOrLeavesFeature(world, placementBlockPos, true)) {return false;}
                 }
             }
         }

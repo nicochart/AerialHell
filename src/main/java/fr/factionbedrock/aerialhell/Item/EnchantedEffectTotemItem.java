@@ -9,5 +9,5 @@ public class EnchantedEffectTotemItem extends EffectTotemItem
 		super(properties);
 	}
 	
-	//@Override public boolean hasEffect(ItemStack stack) {return true;} TODO comment faire ?
+	@Override public boolean isFoil(ItemStack stack) {return true;}
 }

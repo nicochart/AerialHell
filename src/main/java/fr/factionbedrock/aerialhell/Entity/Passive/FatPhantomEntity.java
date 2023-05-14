@@ -47,7 +47,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class FatPhantomEntity extends Phantom implements Enemy
 {
-   private static final EntityDataAccessor<Integer> SIZE = SynchedEntityData.defineId(FatPhantomEntity.class, EntityDataSerializers.INT);
    public List<Player> attackingPlayers = Lists.newArrayList();
    private Vec3 orbitOffset = Vec3.ZERO;
    private BlockPos orbitPosition = BlockPos.ZERO;
@@ -136,18 +135,12 @@ public class FatPhantomEntity extends Phantom implements Enemy
    protected void defineSynchedData()
    {
       super.defineSynchedData();
-      this.entityData.define(SIZE, 0);
       this.entityData.define(DISAPPEARING, false);
    }
    
    public int getDefaultFatPhantomSize()
    {
 	   return 12;
-   }
-   
-   public void setPhantomSize(int sizeIn)
-   {
-      this.entityData.set(SIZE, Mth.clamp(sizeIn, 0, 64));
    }
 
    private void updatePhantomSize()
@@ -156,11 +149,6 @@ public class FatPhantomEntity extends Phantom implements Enemy
       this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue((double)(Math.max(16 + this.getPhantomSize() - getDefaultFatPhantomSize(), 16)));
    }
 
-   public int getPhantomSize()
-   {
-      return this.entityData.get(SIZE);
-   }
-   
    @Override
    protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn)
    {
@@ -170,9 +158,8 @@ public class FatPhantomEntity extends Phantom implements Enemy
    @Override
    public void onSyncedDataUpdated(EntityDataAccessor<?> key)
    {
-      if (SIZE.equals(key)) {this.updatePhantomSize();}
-
-      super.onSyncedDataUpdated(key);
+      if (ID_SIZE.equals(key)) {this.updatePhantomSize();}
+      //super.onSyncedDataUpdated(key); not needed
    }
 
    @Override
@@ -200,7 +187,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
       {
     	  if (this.timeDisappearing < 190) {this.addFatPhantomParticle(1);}
     	  else if (this.timeDisappearing < 200) {this.addFatPhantomParticle(10);}
-    	  else {this.discard();} //TODO : works ?
+    	  else {this.discard();}
     	  this.timeDisappearing++;
       }
    }
@@ -237,14 +224,15 @@ public class FatPhantomEntity extends Phantom implements Enemy
    @Override
    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag)
    {
+      SpawnGroupData data = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
       this.orbitPosition = this.blockPosition().above(6);
-      this.setPhantomSize(12);
+      this.setPhantomSize(10 + random.nextInt(6));
       if (worldIn.getBlockState(this.blockPosition().above()).getBlock() == Blocks.AIR)
       {
     	  this.moveTo(new Vec3(blockPosition().above().getX(), blockPosition().above().getY(), blockPosition().above().getZ()));
       }
       this.timeDisappearing = 0; this.setDisappearing(false);
-      return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+      return data;
    }
 
    @Override
@@ -256,7 +244,6 @@ public class FatPhantomEntity extends Phantom implements Enemy
          this.orbitPosition = new BlockPos(compound.getInt("AX"), compound.getInt("AY"), compound.getInt("AZ"));
       }
 
-      this.setPhantomSize(compound.getInt("Size"));
       this.setDisappearing(compound.getBoolean("Disappearing"));
    }
 
@@ -267,19 +254,8 @@ public class FatPhantomEntity extends Phantom implements Enemy
       compound.putInt("AX", this.orbitPosition.getX());
       compound.putInt("AY", this.orbitPosition.getY());
       compound.putInt("AZ", this.orbitPosition.getZ());
-      compound.putInt("Size", this.getPhantomSize());
       compound.putBoolean("Disappearing", this.isDisappearing());
    }
-
-   @Override @OnlyIn(Dist.CLIENT)
-   public boolean shouldRenderAtSqrDistance(double distance) {return true;}
-
-   @Override public SoundSource getSoundSource() {return SoundSource.HOSTILE;}
-   @Override protected SoundEvent getAmbientSound() {return SoundEvents.PHANTOM_AMBIENT;}
-   @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return SoundEvents.PHANTOM_HURT;}
-   @Override protected SoundEvent getDeathSound() {return SoundEvents.PHANTOM_DEATH;}
-   @Override protected float getSoundVolume() {return 1.0F;}
-   @Override public boolean canAttackType(EntityType<?> typeIn) {return true;}
 
    @Override
    public EntityDimensions getDimensions(Pose poseIn)

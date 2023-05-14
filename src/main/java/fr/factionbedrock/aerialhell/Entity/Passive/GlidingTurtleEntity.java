@@ -119,7 +119,7 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
     {
         if (this.getDeltaMovement().y < 0.0D)
         {
-            Vec3 forward = Vec3.directionFromRotation(this.getRotationVector()); //TODO : right direction ?
+            Vec3 forward = Vec3.directionFromRotation(this.getRotationVector());
             if (this.hasBlockUnder(this.blockPosition().offset(2.5*forward.x, forward.y, 2.5*forward.z), 20))
             {
                 this.setDeltaMovement(this.getDeltaMovement().multiply(1.0D, 0.6D, 1.0D).add(forward.x/100, 0, forward.z/100));

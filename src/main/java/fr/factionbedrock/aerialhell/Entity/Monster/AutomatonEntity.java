@@ -22,7 +22,7 @@ public class AutomatonEntity extends AerialHellHostileEntity
         super.aiStep();
     }
 
-    @Override @OnlyIn(Dist.CLIENT) //TODO : it works ?
+    @Override @OnlyIn(Dist.CLIENT)
     public void handleEntityEvent(byte id)
     {
         if (id == 4) {this.attackTimer = 10;}

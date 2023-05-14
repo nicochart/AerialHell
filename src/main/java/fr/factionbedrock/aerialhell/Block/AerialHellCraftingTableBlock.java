@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import fr.factionbedrock.aerialhell.Inventory.Menu.AerialHellCraftingMenu;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
@@ -42,8 +43,6 @@ public class AerialHellCraftingTableBlock extends CraftingTableBlock
 
 	public MenuProvider getMenuProvider(BlockState state, Level worldIn, BlockPos pos)
 	{
-		//TODO check if it works
-		return new SimpleMenuProvider((id, inventory, player) -> {return new CraftingMenu(id, inventory, ContainerLevelAccess.create(worldIn, pos));}, CONTAINER_NAME);
-																	   //new AerialHellCraftingContainer(id, inventory, ContainerLevelAccess.create(worldIn, pos)),CONTAINER_NAME
+		return new SimpleMenuProvider((id, inventory, player) -> {return new AerialHellCraftingMenu(id, inventory, ContainerLevelAccess.create(worldIn, pos), this);}, CONTAINER_NAME);
 	}
 }

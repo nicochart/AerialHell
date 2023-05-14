@@ -2,9 +2,9 @@ package fr.factionbedrock.aerialhell.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 
-import fr.factionbedrock.aerialhell.Inventory.Container.OscillatorMenu;
-import fr.factionbedrock.aerialhell.Inventory.Container.StellarFurnaceMenu;
-import fr.factionbedrock.aerialhell.Inventory.Container.FreezerMenu;
+import fr.factionbedrock.aerialhell.Inventory.Menu.OscillatorMenu;
+import fr.factionbedrock.aerialhell.Inventory.Menu.StellarFurnaceMenu;
+import fr.factionbedrock.aerialhell.Inventory.Menu.FreezerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;

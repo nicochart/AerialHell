@@ -12,6 +12,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.LivingEntity;
@@ -31,7 +32,6 @@ public class RubyBucketItem extends Item
         super(properties);
     }
 
-    /*TODO : vérifier bon fonctionnement*/
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
     {
@@ -39,7 +39,7 @@ public class RubyBucketItem extends Item
         BlockHitResult blockhitresult = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.SOURCE_ONLY);
         if (blockhitresult.getType() != HitResult.Type.BLOCK)
         {
-        	return InteractionResultHolder.pass(itemstack);
+            return InteractionResultHolder.pass(itemstack);
         }
         else
         {
@@ -56,12 +56,14 @@ public class RubyBucketItem extends Item
                     if (fluid == Fluids.WATER)
                     {
                         playPickupSound(fluid, playerIn);
+                        worldIn.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
                         ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, playerIn, new ItemStack(AerialHellBlocksAndItems.RUBY_WATER_BUCKET.get()));
                         return InteractionResultHolder.sidedSuccess(afterPickupHandItemStack, worldIn.isClientSide());
                     }
                     else if (fluid == AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE.get())
                     {
                         playPickupSound(fluid, playerIn);
+                        worldIn.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
                         ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, playerIn, new ItemStack(AerialHellBlocksAndItems.RUBY_LIQUID_OF_GODS_BUCKET.get()));
                         return InteractionResultHolder.sidedSuccess(afterPickupHandItemStack, worldIn.isClientSide());
                     }
@@ -99,19 +101,4 @@ public class RubyBucketItem extends Item
         SoundEvent soundevent = SoundEvents.BUCKET_FILL;
         player.playSound(soundevent, 1.0F, 1.0F);
     }
-
-    /* TODO : how to milk a cow ?
-    @Override
-    public InteractionResult itemInteractionForEntity(ItemStack stack, Player playerIn, LivingEntity target, InteractionHand hand)
-    {
-        if((target instanceof EvilCowEntity || target instanceof Cow) && !target.isBaby())
-        {
-            playerIn.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
-            ItemStack MilkBucket = new ItemStack(AerialHellBlocksAndItems.RUBY_MILK_BUCKET.get());
-            if (!playerIn.isCreative()) stack.shrink(1);
-            if (!playerIn.addItem(MilkBucket)) {playerIn.drop(MilkBucket, true);}
-            return InteractionResult.sidedSuccess(target.level.isClientSide());
-        }
-        return InteractionResult.PASS;
-    }*/
 }

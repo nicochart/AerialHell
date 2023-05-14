@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Inventory.Container;
+package fr.factionbedrock.aerialhell.Inventory.Menu;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellMenuTypes;
 

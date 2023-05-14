@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Inventory.Container.FreezerMenu;
+import fr.factionbedrock.aerialhell.Inventory.Menu.FreezerMenu;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 

@@ -31,7 +31,7 @@ public class ElectroSpiritEntity extends AbstractElementSpiritEntity
     }
     
     @Override
-    public void attackSuicide(Entity entityIn)
+    public void attackSuicide()
     {
     	if (this.level instanceof ServerLevel)
     	{
@@ -39,7 +39,7 @@ public class ElectroSpiritEntity extends AbstractElementSpiritEntity
 			lightningBolt.setPos(this.getX(), this.getY(), this.getZ());
 			this.level.addFreshEntity(lightningBolt);
     	}
-    	super.attackSuicide(entityIn);
+    	super.attackSuicide();
     }
     
     public void applyEffect(Entity entityIn)

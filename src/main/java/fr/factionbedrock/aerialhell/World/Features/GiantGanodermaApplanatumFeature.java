@@ -65,7 +65,7 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfigur
                         {
                         	isUpCap = isCapBlockPos(pos.above(), a, b, c);
                         	placementPos.set(blockPos.offset(pos));
-                            /*if (reader.getBlockState(placementPos).canBeReplacedByLeaves(reader, placementPos))TODO : verify before placement*/
+                            if (FeatureHelper.isReplaceableByLogOrLeavesFeature(reader, placementPos, true))
                             {
                             	reader.setBlock(placementPos, AerialHellBlocksAndItems.GIANT_GANODERMA_APPLANATUM_BLOCK.get().defaultBlockState()
                                 		.setValue(HugeMushroomBlock.NORTH, !northInEll)

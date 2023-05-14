@@ -34,7 +34,6 @@ public class AerialHellMushroomBlock extends MushroomBlock
 
 	private static enum HugeGenerationDirections{NONE, NORTH_WEST, NORTH_EAST, SOUTH_WEST, SOUTH_EAST}
 
-	// TODO : it works ?
 	@Override public boolean growMushroom(ServerLevel world, BlockPos pos, BlockState state, Random rand) {
 		BlockPos generationPos = pos;
 		ConfiguredFeature<?, ?> configuredfeature;

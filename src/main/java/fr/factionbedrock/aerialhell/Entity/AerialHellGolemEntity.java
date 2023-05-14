@@ -70,7 +70,7 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
     
     public abstract float getYMotionOnAttack();
 
-    @Override @OnlyIn(Dist.CLIENT) //TODO : it works ?
+    @Override @OnlyIn(Dist.CLIENT)
 	public void handleEntityEvent(byte id) //broadcastEntityEvent
 	{
 		if (id == 4)

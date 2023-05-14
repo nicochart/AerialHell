@@ -37,7 +37,7 @@ public class AerialHellTallGrassBlock extends TallGrassBlock
 	{
 		if (plantIn.defaultBlockState().canSurvive(worldIn, pos) && worldIn.isEmptyBlock(pos.above()))
 	    {
-	         plantIn.placeAt(worldIn, plantIn.defaultBlockState(), pos, 2); //TODO : sûrement pas defaultBlockState(), avant il n'y avait pas ce 2ème paramètre
+	         plantIn.placeAt(worldIn, plantIn.defaultBlockState(), pos, 2);
 	    }
 	}
 }

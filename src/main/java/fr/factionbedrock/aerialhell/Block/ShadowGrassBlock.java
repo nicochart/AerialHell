@@ -29,16 +29,6 @@ public class ShadowGrassBlock extends GrassBlock
 		super(properties);
 		this.registerDefaultState(this.defaultBlockState());
 	}
-
-	/* TODO : cette fonction est encore nécéssaire ?
-	@Override
-	public void onPlantGrow(BlockState state, LevelAccessor world, BlockPos pos, BlockPos source)
-	{
-		if (state.getBlock().equals(AerialHellBlocksAndItems.STELLAR_DIRT.get()))
-		{
-			world.setBlock(pos, AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().defaultBlockState(), 2);
-		}
-	}*/
 	
 	@Override
 	public void performBonemeal(ServerLevel worldIn, Random rand, BlockPos pos, BlockState state)

@@ -35,16 +35,15 @@ public class CrystalSlimeEntity extends Slime
 	{
 		super(AerialHellEntities.CRYSTAL_SLIME.get(), worldIn);
 		this.xpReward = 10;
-		/*setSlimeSize(2, false); ?? When summoned with trapped blocks, it appears little ..*/
 	}
 
 	@Override
 	protected void registerGoals()
 	{
-		/*this.goalSelector.addGoal(1, new Slime.SlimeFloatGoal(this)); TODO : Update access transformer
+		this.goalSelector.addGoal(1, new Slime.SlimeFloatGoal(this));
 		this.goalSelector.addGoal(2, new Slime.SlimeAttackGoal(this));
 		this.goalSelector.addGoal(3, new Slime.SlimeRandomDirectionGoal(this));
-		this.goalSelector.addGoal(5, new Slime.SlimeKeepOnJumpingGoal(this));*/
+		this.goalSelector.addGoal(5, new Slime.SlimeKeepOnJumpingGoal(this));
 		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (entity) -> Math.abs(entity.getY() - this.getY()) <= 4.0));
 		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
 	}
@@ -52,15 +51,18 @@ public class CrystalSlimeEntity extends Slime
 	@Override
 	protected void setSize(int size, boolean resetHealth)
 	{
-		//this.entityData.set(ID_SIZE, 2); TODO : Update access transformer
-		super.setSize(size, resetHealth);
+		super.setSize(2, resetHealth);
+		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(24.0D);
+		this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.4D);
+		this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(4.0D);
+		if (resetHealth) {this.setHealth(this.getMaxHealth());}
 	}
 	
 	public static AttributeSupplier.Builder registerAttributes()
     {
         return Slime.createMobAttributes()
         		.add(Attributes.ATTACK_DAMAGE, 4D)
-        		.add(Attributes.MOVEMENT_SPEED, 0.25D)
+        		.add(Attributes.MOVEMENT_SPEED, 0.4D)
         		.add(Attributes.MAX_HEALTH, 24.0D)
         		.add(Attributes.FOLLOW_RANGE, 16.0D);
     }
@@ -79,10 +81,10 @@ public class CrystalSlimeEntity extends Slime
 	@Override
 	public EntityType<? extends CrystalSlimeEntity> getType() {return (EntityType<? extends CrystalSlimeEntity>) super.getType();}
 
-	@Override public void remove(@Nonnull Entity.RemovalReason p_146834_) //copied from Entity class
+	@Override public void remove(@Nonnull Entity.RemovalReason reason) //copied from Entity class
 	{
-		this.setRemoved(p_146834_);
-		if (p_146834_ == Entity.RemovalReason.KILLED) {this.gameEvent(GameEvent.ENTITY_KILLED);}
+		this.setRemoved(reason);
+		if (reason == Entity.RemovalReason.KILLED) {this.gameEvent(GameEvent.ENTITY_KILLED);}
 		this.invalidateCaps();
 	}
 

@@ -29,20 +29,6 @@ public class StellarGrassBlock extends GrassBlock implements BonemealableBlock
 		super(properties);
 		this.registerDefaultState(this.defaultBlockState());
 	}
-	
-	/* TODO : cette fonction est encore nécéssaire ?
-	@Override
-	public void onPlantGrow(BlockState state, LevelAccessor world, BlockPos pos, BlockPos source)
-	{
-		if (state.getBlock().equals(AerialHellBlocksAndItems.STELLAR_DIRT.get()))
-		{
-			world.setBlock(pos, AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().defaultBlockState(), 2);
-		}
-		else if (state.getBlock().equals(AerialHellBlocksAndItems.CHISELED_STELLAR_DIRT.get()))
-		{
-			world.setBlock(pos, AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get().defaultBlockState(), 2);
-		}
-	}*/
 
 	@Override
 	public void performBonemeal(ServerLevel worldIn, Random rand, BlockPos pos, BlockState state)

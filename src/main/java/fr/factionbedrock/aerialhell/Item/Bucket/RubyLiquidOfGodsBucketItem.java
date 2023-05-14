@@ -78,7 +78,6 @@ public class RubyLiquidOfGodsBucketItem extends Item
             {
                 worldIn.destroyBlock(posIn, true);
             }
-            // TODO it works ?                                                            .defaultFluidState()?
             if (!worldIn.setBlock(posIn, AerialHellBlocksAndItems.LIQUID_OF_THE_GODS.get().defaultBlockState(), 11) && !blockstate.getFluidState().isSource())
             {
                 return false;
