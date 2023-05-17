@@ -8,6 +8,9 @@ import com.google.common.collect.ImmutableMap;
 
 import fr.factionbedrock.aerialhell.Block.*;
 import fr.factionbedrock.aerialhell.Block.DungeonCores.*;
+import fr.factionbedrock.aerialhell.Block.Furnaces.FreezerBlock;
+import fr.factionbedrock.aerialhell.Block.Furnaces.OscillatorBlock;
+import fr.factionbedrock.aerialhell.Block.Furnaces.StellarFurnaceBlock;
 import fr.factionbedrock.aerialhell.Block.Plants.*;
 import fr.factionbedrock.aerialhell.Block.Plants.Bushes.*;
 import fr.factionbedrock.aerialhell.Block.SolidEther.*;

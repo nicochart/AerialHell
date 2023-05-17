@@ -22,8 +22,6 @@ public class AerialHellSetup
     {
         event.enqueueWork(() ->
         {
-        	registerFuels();
-        	
         	AerialHellBlocksAndItems.registerCompostableItems();
         	AerialHellEntities.entitySpawnPlacements();
         	AerialHellBlocksAndItems.registerPots();
@@ -55,16 +53,6 @@ public class AerialHellSetup
         AerialHellEnchantments.ENCHANTMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellMotive.PAINTING_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
-	
-    private static void registerFuels() //enregistrement des carburants
-    {
-		OscillatorBlockEntity.addItemOscillatingTime(AerialHellBlocksAndItems.FLUORITE.get(), 1200);
-		OscillatorBlockEntity.addItemOscillatingTime(AerialHellBlocksAndItems.FLUORITE_BLOCK_ITEM.get(), 10800);
-		OscillatorBlockEntity.addItemOscillatingTime(AerialHellBlocksAndItems.CRYSTAL.get(), 300);
-		OscillatorBlockEntity.addItemOscillatingTime(AerialHellBlocksAndItems.CRYSTAL_BLOCK_ITEM.get(), 1200);
-		FreezerBlockEntity.addItemFreezingTime(AerialHellBlocksAndItems.MAGMATIC_GEL.get(), 600);
-		FreezerBlockEntity.addItemFreezingTime(AerialHellBlocksAndItems.MAGMATIC_GEL_BLOCK_ITEM.get(), 5400);
-	}
 
     @SubscribeEvent
     public static void serverLoad(RegisterCommandsEvent event)

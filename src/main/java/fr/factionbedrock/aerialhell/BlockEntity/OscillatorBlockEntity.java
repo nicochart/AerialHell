@@ -1,13 +1,13 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
 import fr.factionbedrock.aerialhell.Inventory.Menu.OscillatorMenu;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
-import net.minecraft.tags.Tag;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
@@ -24,8 +24,6 @@ import java.util.Map;
 
 public class OscillatorBlockEntity extends AbstractFurnaceBlockEntity
 {
-	private static final Map<Item, Integer> oscillatingMap = Maps.newLinkedHashMap();
-
 	protected OscillatorBlockEntity(BlockEntityType<?> blockEntity, BlockPos pos, BlockState state, RecipeType<? extends AbstractCookingRecipe> recipeType) {super(blockEntity, pos, state, recipeType);}
 
 	public OscillatorBlockEntity(BlockPos pos, BlockState state) {this(AerialHellBlockEntities.OSCILLATOR.get(), pos, state, RecipeTypes.OSCILLATING);}
@@ -40,20 +38,12 @@ public class OscillatorBlockEntity extends AbstractFurnaceBlockEntity
 
 	public static Map<Item, Integer> getOscillatingMap()
 	{
-		return oscillatingMap;
-	}
-
-	private static void addItemTagOscillatingTime(Tag<Item> itemTag, int burnTimeIn)
-	{
-		for (Item item : itemTag.getValues())
-		{
-			oscillatingMap.put(item, burnTimeIn);
-		}
-	}
-
-	public static void addItemOscillatingTime(Item item, int burnTimeIn)
-	{
-		oscillatingMap.put(item, burnTimeIn);
+		Map<Item, Integer> map = Maps.newLinkedHashMap();
+		map.put(AerialHellBlocksAndItems.FLUORITE.get(), 1200);
+		map.put(AerialHellBlocksAndItems.FLUORITE_BLOCK_ITEM.get(), 10800);
+		map.put(AerialHellBlocksAndItems.CRYSTAL.get(), 300);
+		map.put(AerialHellBlocksAndItems.CRYSTAL_BLOCK_ITEM.get(), 1200);
+		return map;
 	}
 
 	@Override
