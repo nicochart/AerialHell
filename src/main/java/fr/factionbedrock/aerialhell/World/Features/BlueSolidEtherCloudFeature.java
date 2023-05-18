@@ -15,24 +15,25 @@ import java.util.Random;
 public class BlueSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 {
 	protected int getBasicMinSize() {return 5;} protected int getBasicMaxSize() {return 8;}
+
 	protected int getSmallMinSize() {return 3;} protected int getSmallMaxSize() {return 5;}
+
 	protected Block getEtherBlock() {return AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get();}
-	
-	public BlueSolidEtherCloudFeature(Codec<NoneFeatureConfiguration> codec)
-	{
+
+	public BlueSolidEtherCloudFeature(Codec<NoneFeatureConfiguration> codec) {
         super(codec);
     }
-	
+
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
 		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); Random rand = context.random();
-		if (FeatureHelper.generatesInAnyDungeon(reader, pos)) {return false;}
-    	
+		if (FeatureHelper.generatesInAnyDungeon(context.chunkGenerator(), reader, pos)) {return false;}
+
 		BlockPos generatePos = pos;
-    	if (pos.getY() <  115 || pos.getY() >  155) {generatePos = new BlockPos(pos.getX(), 115 + rand.nextInt(50), pos.getZ());}
-    	int sizeX = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
+		if (pos.getY() <  115 || pos.getY() >  155) {generatePos = new BlockPos(pos.getX(), 115 + rand.nextInt(50), pos.getZ());}
+		int sizeX = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
         int sizeZ = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
-    	generateFirstEllipsis(sizeX, sizeZ, reader, rand, generatePos);
-    	return false;
+		generateFirstEllipsis(sizeX, sizeZ, reader, rand, generatePos);
+		return false;
     }
 }

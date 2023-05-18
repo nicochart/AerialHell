@@ -23,8 +23,9 @@ import javax.annotation.Nonnull;
 
 public class FreezingRecipeCategory implements IRecipeCategory<FreezingRecipe>
 {
-	private static final int OUTPUT_SLOT = 0;
-	private static final int INPUT_SLOT = 1;
+	private static final int INPUT_SLOT = 0;
+	private static final int FUEL_SLOT = 1;
+	private static final int OUTPUT_SLOT = 2;
 
 	public final static ResourceLocation UID = new ResourceLocation(AerialHell.MODID, "freezing");
 	public final static ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/gui/container/freezer.png");
@@ -58,8 +59,10 @@ public class FreezingRecipeCategory implements IRecipeCategory<FreezingRecipe>
 	{
 		IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
 
-		guiItemStacks.init(OUTPUT_SLOT, true, 115, 34);
 		guiItemStacks.init(INPUT_SLOT, true, 55, 16);
+		guiItemStacks.init(FUEL_SLOT, true, 55, 52);
+
+		guiItemStacks.init(OUTPUT_SLOT, false, 115, 34);
 
 		guiItemStacks.set(ingredients);
 	}

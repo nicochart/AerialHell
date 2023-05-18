@@ -15,7 +15,7 @@
     "magmatic_gel": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": [{"item": "aerialhell:magmatic_gel"}]
+        "items": [{"items": ["aerialhell:magmatic_gel"]}]
       }
     }
   },

@@ -3,28 +3,22 @@ package fr.factionbedrock.aerialhell.Util;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellBiomes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.material.Material;
 
 public class FeatureHelper
 {
-    public static boolean generatesInAnyDungeon(WorldGenLevel reader, BlockPos pos)
+    public static boolean generatesInAnyDungeon(ChunkGenerator chunkGenerator, WorldGenLevel reader, BlockPos pos)
     {
-        /* TODO : find a new way
-        return (
-            reader.func_241827_a(SectionPos.of(pos), AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get()).findAny().isPresent() ||
-                    reader.func_241827_a(SectionPos.of(pos), AerialHellStructures.MUD_DUNGEON_STRUCTURE.get()).findAny().isPresent() ||
-                    reader.func_241827_a(SectionPos.of(pos), AerialHellStructures.LUNATIC_TEMPLE_STRUCTURE.get()).findAny().isPresent() ||
-                    reader.func_241827_a(SectionPos.of(pos), AerialHellStructures.SHADOW_CATACOMBS_STRUCTURE.get()).findAny().isPresent()
-        );*/
 
-        /* TODO : new way : (just needs the chunk generator, from feature generation context) - this is the same way as StructureHelper. Just use StructureHelper.
+        /* TODO : new way : (just needs the chunk generator, from feature generation context) - this is the same way as StructureHelper. Just use StructureHelper.*/
         long seed = reader.getSeed();
         ChunkPos chunkPos = new ChunkPos(pos.getX() / 16, pos.getZ() / 16);
-        return chunkGenerator.hasFeatureChunkInRange([Structure], seed, chunkPos.x, chunkPos.z, 10) || .. ;*/
-        return false;
+        return StructureHelper.hasDungeonNearby(chunkGenerator, seed, chunkPos.x, chunkPos.z, 2,true);
     }
 
     public static boolean isShadowBiome(Biome biome)

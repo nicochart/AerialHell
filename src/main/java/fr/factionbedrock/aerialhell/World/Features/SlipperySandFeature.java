@@ -28,7 +28,7 @@ public class SlipperySandFeature extends Feature<NoneFeatureConfiguration>
                 (reader.getBlockState(blockPos.north(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.south(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.west(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.east(3)).getBlock().equals(Blocks.AIR)) &&
                 (reader.getBlockState(blockPos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(blockPos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
 		
-		boolean generatesInDungeon = FeatureHelper.generatesInAnyDungeon(reader, blockPos);
+		boolean generatesInDungeon = FeatureHelper.generatesInAnyDungeon(generator, reader, blockPos);
 		
         if (canGenerate && !generatesInDungeon)
         {

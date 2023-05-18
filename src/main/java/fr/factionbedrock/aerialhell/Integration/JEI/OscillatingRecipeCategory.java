@@ -22,8 +22,9 @@ import javax.annotation.Nonnull;
 
 public class OscillatingRecipeCategory implements IRecipeCategory<OscillatingRecipe>
 {
-	private static final int OUTPUT_SLOT = 0;
-	private static final int INPUT_SLOT = 1;
+	private static final int INPUT_SLOT = 0;
+	private static final int FUEL_SLOT = 1;
+	private static final int OUTPUT_SLOT = 1;
 
 	public final static ResourceLocation UID = new ResourceLocation(AerialHell.MODID, "oscillating");
 	public final static ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/gui/container/oscillator.png");
@@ -57,8 +58,10 @@ public class OscillatingRecipeCategory implements IRecipeCategory<OscillatingRec
 	{
 		IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
 
-		guiItemStacks.init(OUTPUT_SLOT, true, 115, 34);
 		guiItemStacks.init(INPUT_SLOT, true, 55, 16);
+		guiItemStacks.init(FUEL_SLOT, true, 55, 52);
+
+		guiItemStacks.init(OUTPUT_SLOT, false, 115, 34);
 
 		guiItemStacks.set(ingredients);
 	}

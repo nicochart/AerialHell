@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
@@ -22,8 +23,8 @@ public class WhiteSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		BlockPos pos = context.origin(); WorldGenLevel world = context.level(); Random rand = context.random();
-		if (FeatureHelper.generatesInAnyDungeon(world, pos)) {return false;}
+		BlockPos pos = context.origin(); WorldGenLevel world = context.level(); Random rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
+		if (FeatureHelper.generatesInAnyDungeon(generator, world, pos)) {return false;}
     	
     	BlockPos generatePos = pos;
     	if (pos.getY() <  40 || pos.getY() >  80 ) {generatePos = new BlockPos(pos.getX(), 30 + rand.nextInt(50), pos.getZ());}

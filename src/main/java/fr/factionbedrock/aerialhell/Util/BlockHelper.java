@@ -8,7 +8,7 @@ public class BlockHelper
 {
     public static boolean isAerialHellPortalFrameBlock(BlockState blockstate)
     {
-        return blockstate.is(AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get());
+        return blockstate.is(AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get());
     }
 
     public static Block getAerialHellPortalFrameBlock()

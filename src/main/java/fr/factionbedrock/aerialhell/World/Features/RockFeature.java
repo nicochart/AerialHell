@@ -23,13 +23,13 @@ public class RockFeature extends Feature<NoneFeatureConfiguration>
 	
 	protected BlockState randomState(Random rand, BlockPos pos) {return blockStateProvider.getState(rand, pos);}
 	protected void placeBlocks(WorldGenLevel reader, BlockPos pos, BlockState state, int number, Direction direction) {for (int d=0;d<number;d++) {reader.setBlock(pos.relative(direction, d), state, 2);}}
-	protected boolean canGenerateAtPos(WorldGenLevel reader, BlockPos pos) {return hasSupportToGenerate(reader, pos) && !(FeatureHelper.generatesInAnyDungeon(reader, pos));}
+	protected boolean canGenerateAtPos(ChunkGenerator chunkGenerator, WorldGenLevel reader, BlockPos pos) {return hasSupportToGenerate(reader, pos) && !(FeatureHelper.generatesInAnyDungeon(chunkGenerator, reader, pos));}
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
 		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); Random rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
 		BlockPos placementPos = findPosForPlacement(reader, pos);
-		if (!canGenerateAtPos(reader, placementPos)) {return false;}
+		if (!canGenerateAtPos(generator, reader, placementPos)) {return false;}
 		
 		placeBlocks(reader, placementPos, randomState(rand, placementPos), 3, Direction.UP); placeBlocks(reader, placementPos.relative(Direction.DOWN), randomState(rand, placementPos), 1 + rand.nextInt(2), Direction.DOWN);
 		

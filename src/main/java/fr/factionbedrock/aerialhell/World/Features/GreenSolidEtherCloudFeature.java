@@ -24,7 +24,7 @@ public class GreenSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
 		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); Random rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
-		if (FeatureHelper.generatesInAnyDungeon(reader, pos)) {return false;}
+		if (FeatureHelper.generatesInAnyDungeon(generator, reader, pos)) {return false;}
     	
 		BlockPos generatePos = pos;
     	if (pos.getY() <  115 || pos.getY() >  210) {generatePos = new BlockPos(pos.getX(), 115 + rand.nextInt(90), pos.getZ());}

@@ -12,7 +12,7 @@
   "criteria": {
     "ninja": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:ninja_sword"}]}
+      "conditions": {"items": [{"items": ["aerialhell:ninja_sword"]}]}
     }
   },
   "requirements": [["ninja"]],

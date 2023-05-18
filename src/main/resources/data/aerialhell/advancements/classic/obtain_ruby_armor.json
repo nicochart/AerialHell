@@ -12,19 +12,19 @@
   "criteria": {
     "ruby_helmet": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:ruby_helmet"}]}
+      "conditions": {"items": [{"items": ["aerialhell:ruby_helmet"]}]}
     },
     "ruby_chestplate": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:ruby_chestplate"}]}
+      "conditions": {"items": [{"items": ["aerialhell:ruby_chestplate"]}]}
     },
     "ruby_leggings": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:ruby_leggings"}]}
+      "conditions": {"items": [{"items": ["aerialhell:ruby_leggings"]}]}
     },
     "ruby_boots": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:ruby_boots"}]}
+      "conditions": {"items": [{"items": ["aerialhell:ruby_boots"]}]}
     }
   },
   "requirements": [["ruby_helmet","ruby_chestplate","ruby_leggings","ruby_boots"]],

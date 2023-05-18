@@ -12,11 +12,11 @@
   "criteria": {
     "cursed_sword": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:cursed_sword"}]}
+      "conditions": {"items": [{"items": ["aerialhell:cursed_sword"]}]}
     },
     "cursed_axe": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:cursed_axe"}]}
+      "conditions": {"items": [{"items": ["aerialhell:cursed_axe"]}]}
     }
   },
   "requirements": [["cursed_sword","cursed_axe"]],

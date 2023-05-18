@@ -38,7 +38,7 @@ public class DungeonCoreBlock extends Block
 	@Override
 	public boolean onDestroyedByPlayer(BlockState state, Level worldIn, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)
 	{
-		boolean flag = onDestroyedByPlayer(state, worldIn, pos, player, willHarvest, fluid);
+		boolean flag = super.onDestroyedByPlayer(state, worldIn, pos, player, willHarvest, fluid);
 		if (flag) {setAreaProtected(worldIn, pos, false);}
 		return flag;
 	}

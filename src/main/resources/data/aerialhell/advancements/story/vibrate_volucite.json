@@ -12,7 +12,7 @@
   "criteria": {
     "volucite": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:volucite_vibrant"}]}
+      "conditions": {"items": [{"items": ["aerialhell:volucite_vibrant"]}]}
     }
   },
   "requirements": [["volucite"]],

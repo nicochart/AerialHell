@@ -12,19 +12,19 @@
   "criteria": {
     "magmatic_gel_helmet": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:magmatic_gel_helmet"}]}
+      "conditions": {"items": [{"items": ["aerialhell:magmatic_gel_helmet"]}]}
     },
     "magmatic_gel_chestplate": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:magmatic_gel_chestplate"}]}
+      "conditions": {"items": [{"items": ["aerialhell:magmatic_gel_chestplate"]}]}
     },
     "magmatic_gel_leggings": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:magmatic_gel_leggings"}]}
+      "conditions": {"items": [{"items": ["aerialhell:magmatic_gel_leggings"]}]}
     },
     "magmatic_gel_boots": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:magmatic_gel_boots"}]}
+      "conditions": {"items": [{"items": ["aerialhell:magmatic_gel_boots"]}]}
     }
   },
   "requirements": [["magmatic_gel_helmet","magmatic_gel_chestplate","magmatic_gel_leggings","magmatic_gel_boots"]],

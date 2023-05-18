@@ -68,14 +68,13 @@ public class AerialHellPortalBlock extends Block
 
 	public boolean trySpawnPortal(LevelAccessor level, BlockPos pos)
 	{
-		AerialHellPortalBlock.Size AerialHellPortalBlock$size = this.isPortal(level, pos);
-		if (AerialHellPortalBlock$size != null && !onTrySpawnPortal(level, pos, AerialHellPortalBlock$size))
+		AerialHellPortalBlock.Size portalSize = this.isPortal(level, pos);
+		if (portalSize != null && !onTrySpawnPortal(level, pos, portalSize))
 		{
-			AerialHellPortalBlock$size.placePortalBlocks();
+			portalSize.placePortalBlocks();
 			return true;
-		} else {
-			return false;
 		}
+		else {return false;}
 	}
 
 	public static boolean onTrySpawnPortal(LevelAccessor world, BlockPos pos, AerialHellPortalBlock.Size size)
@@ -100,12 +99,12 @@ public class AerialHellPortalBlock extends Block
 	@Nullable
 	public AerialHellPortalBlock.Size isPortal(LevelAccessor level, BlockPos pos)
 	{
-		AerialHellPortalBlock.Size size = new Size(level, pos, Direction.Axis.X);
-		if (size.isValid() && size.portalBlockCount == 0) {return size;}
+		AerialHellPortalBlock.Size sizeX = new Size(level, pos, Direction.Axis.X);
+		if (sizeX.isValid() && sizeX.portalBlockCount == 0) {return sizeX;}
 		else
 		{
-			AerialHellPortalBlock.Size AerialHellPortalBlock$size1 = new Size(level, pos, Direction.Axis.Z);
-			return AerialHellPortalBlock$size1.isValid() && AerialHellPortalBlock$size1.portalBlockCount == 0 ? AerialHellPortalBlock$size1 : null;
+			AerialHellPortalBlock.Size sizeZ = new Size(level, pos, Direction.Axis.Z);
+			return sizeZ.isValid() && sizeZ.portalBlockCount == 0 ? sizeZ : null;
 		}
 	}
 

@@ -27,7 +27,7 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfigur
             ((reader.getBlockState(pos.north(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.south(2)).getBlock().equals(Blocks.AIR)) || (reader.getBlockState(pos.west(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.east(2)).getBlock().equals(Blocks.AIR))) &&
             (reader.getBlockState(pos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(pos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
 		
-		boolean generatesInDungeon = FeatureHelper.generatesInAnyDungeon(reader, pos);
+		boolean generatesInDungeon = FeatureHelper.generatesInAnyDungeon(context.chunkGenerator(), reader, pos);
 		
         if (canGenerate && !generatesInDungeon)
         {

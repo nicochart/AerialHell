@@ -12,19 +12,19 @@
   "criteria": {
     "volucite_helmet": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:volucite_helmet"}]}
+      "conditions": {"items": [{"items": ["aerialhell:volucite_helmet"]}]}
     },
     "volucite_chestplate": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:volucite_chestplate"}]}
+      "conditions": {"items": [{"items": ["aerialhell:volucite_chestplate"]}]}
     },
     "volucite_leggings": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:volucite_leggings"}]}
+      "conditions": {"items": [{"items": ["aerialhell:volucite_leggings"]}]}
     },
     "volucite_boots": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:volucite_boots"}]}
+      "conditions": {"items": [{"items": ["aerialhell:volucite_boots"]}]}
     }
   },
   "requirements": [["volucite_helmet","volucite_chestplate","volucite_leggings","volucite_boots"]],

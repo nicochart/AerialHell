@@ -12,23 +12,23 @@
   "criteria": {
     "ruby_pickaxe": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:ruby_pickaxe"}]}
+      "conditions": {"items": [{"items": ["aerialhell:ruby_pickaxe"]}]}
     },
     "ruby_axe": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:ruby_axe"}]}
+      "conditions": {"items": [{"items": ["aerialhell:ruby_axe"]}]}
     },
     "ruby_sword": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:ruby_sword"}]}
+      "conditions": {"items": [{"items": ["aerialhell:ruby_sword"]}]}
     },
     "ruby_hoe": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:ruby_hoe"}]}
+      "conditions": {"items": [{"items": ["aerialhell:ruby_hoe"]}]}
     },
     "ruby_shovel": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:ruby_shovel"}]}
+      "conditions": {"items": [{"items": ["aerialhell:ruby_shovel"]}]}
     }
   },
   "requirements": [["ruby_pickaxe","ruby_axe","ruby_sword","ruby_hoe","ruby_shovel"]],

@@ -12,7 +12,7 @@
   "criteria": {
     "ruby": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:ruby"}]}
+      "conditions": {"items": [{"items": ["aerialhell:ruby"]}]}
     }
   },
   "requirements": [["ruby"]],

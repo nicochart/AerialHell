@@ -12,7 +12,7 @@
   "criteria": {
     "shadow_shard": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"item": "aerialhell:shadow_shard"}]}
+      "conditions": {"items": [{"items": ["aerialhell:shadow_shard"]}]}
     }
   },
   "requirements": [["shadow_shard"]],

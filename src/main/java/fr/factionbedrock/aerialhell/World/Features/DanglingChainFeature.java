@@ -32,7 +32,7 @@ public class DanglingChainFeature extends Feature<NoneFeatureConfiguration>
     		&& hasAnyStoneBlockAbove(blockPos.south(4).west(4), reader, 10)
     		&& hasAnyStoneBlockAbove(blockPos.south(4).east(4), reader, 10);
     	
-		boolean generatesInDungeon = FeatureHelper.generatesInAnyDungeon(reader, blockPos);
+		boolean generatesInDungeon = FeatureHelper.generatesInAnyDungeon(generator, reader, blockPos);
 		
         if (canGenerate && !generatesInDungeon)
         {
@@ -44,11 +44,11 @@ public class DanglingChainFeature extends Feature<NoneFeatureConfiguration>
         	while (rand.nextInt(10) > (0 + chance_malus) && placementPos.getY() > 20)
         	{
         		chance_malus+=1;
-				placementPos = blockPos.below(5);
+				placementPos = placementPos.below(5);
         		linkDirection = (linkDirection == LinkDirection.NORTH_SOUTH) ? LinkDirection.WEST_EAST : LinkDirection.NORTH_SOUTH;
         		generateChainLink(reader, rand, placementPos, linkDirection);
         	}
-			placementPos = blockPos.below(5);
+			placementPos = placementPos.below(5);
     		linkDirection = (linkDirection == LinkDirection.NORTH_SOUTH) ? LinkDirection.WEST_EAST : LinkDirection.NORTH_SOUTH;
     		generateLastLink(reader, rand, placementPos, linkDirection);
         	return true;

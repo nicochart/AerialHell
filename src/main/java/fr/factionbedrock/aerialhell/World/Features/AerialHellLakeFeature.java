@@ -31,7 +31,7 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configu
     @Override public boolean place(FeaturePlaceContext<AerialHellLakeFeature.Configuration> context)
     {
         BlockPos blockpos = context.origin(); WorldGenLevel worldgenlevel = context.level(); Random random = context.random();
-        boolean generatesInDungeon = FeatureHelper.generatesInAnyDungeon(worldgenlevel, blockpos);
+        boolean generatesInDungeon = FeatureHelper.generatesInAnyDungeon(context.chunkGenerator(), worldgenlevel, blockpos);
         if (generatesInDungeon) {return false;}
         AerialHellLakeFeature.Configuration configuration = context.config();
         if (blockpos.getY() <= worldgenlevel.getMinBuildHeight() + 4) {return false;}
