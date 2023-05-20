@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "aerialhell:block/deepslate_stellar_portal_frame_ore"
+  }
+}

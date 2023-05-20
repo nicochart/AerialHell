@@ -63,7 +63,7 @@ public class AerialHellTreeConfig
                     .add(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get().defaultBlockState(), 1)),
             new StraightTrunkPlacer(6, 2, 1),
             BlockStateProvider.simple(AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get().defaultBlockState()),
-            new SpruceFoliagePlacer(UniformInt.of(1, 2), UniformInt.of(0, 2), UniformInt.of(1, 1)), //rayon,décalage,hauteur
+            new SpruceFoliagePlacer(UniformInt.of(2, 3), UniformInt.of(0, 2), UniformInt.of(1, 2)), //rayon,décalage,hauteur
             new TwoLayersFeatureSize(3, 0, 2)
     )).dirt(BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_DIRT.get())).ignoreVines().build();
 
@@ -73,7 +73,7 @@ public class AerialHellTreeConfig
                     .add(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get().defaultBlockState(), 1)),
             new StraightTrunkPlacer(6, 2, 1),
             BlockStateProvider.simple(AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_LEAVES.get().defaultBlockState()),
-            new SpruceFoliagePlacer(UniformInt.of(1, 2), UniformInt.of(0, 2), UniformInt.of(1, 1)), //rayon,décalage,hauteur
+            new SpruceFoliagePlacer(UniformInt.of(2, 3), UniformInt.of(0, 2), UniformInt.of(1, 2)), //rayon,décalage,hauteur
             new TwoLayersFeatureSize(3, 0, 2)
     )).dirt(BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_DIRT.get())).ignoreVines().build();
 

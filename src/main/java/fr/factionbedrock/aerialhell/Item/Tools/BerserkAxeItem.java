@@ -6,6 +6,7 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,7 +21,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -169,8 +169,8 @@ public class BerserkAxeItem extends EffectAxeItem
 	}
 
 	@Override @OnlyIn(Dist.CLIENT)
-	public TextComponent getDescription()
+	public TranslatableComponent getDescription()
 	{
-		return new TextComponent(this.getDescriptionId() + ".desc");
+		return new TranslatableComponent(this.getDescriptionId() + ".desc");
 	}
 }

@@ -1,7 +1,7 @@
 {
     "type": "minecraft:smelting",
     "ingredient": {
-        "item": "aerialhell:stellar_portal_frame_ore"
+        "tag": "aerialhell:stellar_portal_frame_ore"
     },
     "result": "aerialhell:stellar_portal_frame_brick",
     "experience": 2.5,

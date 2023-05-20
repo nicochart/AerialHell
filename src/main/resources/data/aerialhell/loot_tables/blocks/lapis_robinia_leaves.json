@@ -3,6 +3,7 @@
   "pools": [
     {
       "rolls": 1,
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:alternatives",
@@ -16,7 +17,7 @@
                     {
                       "condition": "minecraft:match_tool",
                       "predicate": {
-                        "item": "minecraft:shears"
+                        "items": ["minecraft:shears"]
                       }
                     },
                     {
@@ -24,10 +25,7 @@
                       "predicate": {
                         "enchantments": [
                           {
-                            "enchantment": "minecraft:silk_touch",
-                            "levels": {
-                              "min": 1
-                            }
+                            "enchantment": "minecraft:silk_touch", "levels": {"min": 1}
                           }
                         ]
                       }
@@ -103,7 +101,7 @@
               {
                 "condition": "minecraft:match_tool",
                 "predicate": {
-                  "item": "minecraft:shears"
+                  "items": ["minecraft:shears"]
                 }
               },
               {
@@ -163,7 +161,7 @@
               {
                 "condition": "minecraft:match_tool",
                 "predicate": {
-                  "item": "minecraft:shears"
+                  "items": ["minecraft:shears"]
                 }
               },
               {

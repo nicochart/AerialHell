@@ -131,8 +131,10 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<AerialHellPortalBlock> AERIAL_HELL_PORTAL = BLOCKS.register("aerial_hell_portal", () -> new AerialHellPortalBlock(BlockBehaviour.Properties.of(Material.PORTAL).strength(-1F).noCollission().lightLevel((state) -> 10).noDrops()));
 	public static final RegistryObject<Block> STELLAR_PORTAL_FRAME_BLOCK = BLOCKS.register("stellar_portal_frame_block", () -> new Block((BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(25.0F, 600.0F))));
 	public static final RegistryObject<Block> STELLAR_PORTAL_FRAME_ORE = BLOCKS.register("stellar_portal_frame_ore",() -> new AerialHellOreBlock(0, 0, BlockBehaviour.Properties.of(Material.STONE).strength(25.0F, 600.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+	public static final RegistryObject<Block> DEEPSLATE_STELLAR_PORTAL_FRAME_ORE = BLOCKS.register("deepslate_stellar_portal_frame_ore",() -> new AerialHellOreBlock(0, 0, BlockBehaviour.Properties.of(Material.STONE).strength(30.0F, 600.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
 	public static final RegistryObject<Item> STELLAR_PORTAL_FRAME_BLOCK_ITEM = ITEMS.register("stellar_portal_frame_block", () -> new BlockItem(STELLAR_PORTAL_FRAME_BLOCK.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> STELLAR_PORTAL_FRAME_ORE_ITEM = ITEMS.register("stellar_portal_frame_ore", () -> new BlockItem(STELLAR_PORTAL_FRAME_ORE.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> DEEPSLATE_STELLAR_PORTAL_FRAME_ORE_ITEM = ITEMS.register("deepslate_stellar_portal_frame_ore", () -> new BlockItem(DEEPSLATE_STELLAR_PORTAL_FRAME_ORE.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
 	public static final RegistryObject<Item> STELLAR_PORTAL_FRAME_BRICK = ITEMS.register("stellar_portal_frame_brick", () -> new Item(new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)));
 	public static final RegistryObject<Item> STELLAR_LIGHTER = ITEMS.register("stellar_lighter", () -> new StellarLighterItem(new Item.Properties().stacksTo(1).durability(4).tab(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)));
 
@@ -1328,6 +1330,5 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<Item> SHADOW_SPIDER_SPAWN_EGG = ITEMS.register("shadow_spider_spawn_egg", () -> new ForgeSpawnEggItem(() -> AerialHellEntities.SHADOW_SPIDER.get(), 16382457, 16382457, new Item.Properties().rarity(AerialHellRarities.CORRUPTED).tab(AerialHellCreativeModeTabs.AERIAL_HELL_SPAWN_EGGS)));
     public static final RegistryObject<Item> LILITH_SPAWN_EGG = ITEMS.register("lilith_spawn_egg", () -> new BossSpawnEggItem(() -> AerialHellEntities.LILITH.get(), 16382457, 16382457, new Item.Properties().rarity(AerialHellRarities.CORRUPTED).tab(AerialHellCreativeModeTabs.AERIAL_HELL_SPAWN_EGGS)));
 
-	//TODO : register the ah painting correctly
-	//public static final RegistryObject<Item> AERIAL_HELL_PAINTING = ITEMS.register("aerial_hell_painting", () -> new AerialHellHangingEntityItem(() -> AerialHellEntities.AERIAL_HELL_PAINTING.get(), (new Item.Properties()).tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<Item> AERIAL_HELL_PAINTING = ITEMS.register("aerial_hell_painting", () -> new AerialHellHangingEntityItem(new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
 }

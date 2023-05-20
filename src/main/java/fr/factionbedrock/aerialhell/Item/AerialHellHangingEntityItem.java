@@ -20,12 +20,9 @@ import java.util.function.Supplier;
 
 public class AerialHellHangingEntityItem extends Item
 {
-    private final EntityType<? extends HangingEntity> hangingEntity;
-
-    public AerialHellHangingEntityItem(Supplier<? extends EntityType<? extends HangingEntity>> entityTypeIn, Item.Properties properties)
+    public AerialHellHangingEntityItem(Item.Properties properties)
     {
         super(properties);
-        this.hangingEntity = entityTypeIn.get();
     }
 
     public InteractionResult useOn(UseOnContext context)
@@ -39,25 +36,21 @@ public class AerialHellHangingEntityItem extends Item
         else
         {
             Level world = context.getLevel();
-            HangingEntity hangingentity;
-            if (this.hangingEntity == AerialHellEntities.AERIAL_HELL_PAINTING.get())
+            HangingEntity painting = new AerialHellPaintingEntity(world, blockpos1, direction);
+            CompoundTag compoundnbt = itemstack.getTag();
+            if (compoundnbt != null)
             {
-                hangingentity = new AerialHellPaintingEntity(world, blockpos1, direction);
-                CompoundTag compoundnbt = itemstack.getTag();
-                if (compoundnbt != null)
+                EntityType.updateCustomEntityTag(world, playerentity, painting, compoundnbt);
+            }
+            if (painting.survives())
+            {
+                if (!world.isClientSide())
                 {
-                    EntityType.updateCustomEntityTag(world, playerentity, hangingentity, compoundnbt);
+                    painting.playPlacementSound();
+                    world.addFreshEntity(painting);
                 }
-                if (hangingentity.survives())
-                {
-                    if (!world.isClientSide())
-                    {
-                        hangingentity.playPlacementSound();
-                        world.addFreshEntity(hangingentity);
-                    }
-                    itemstack.shrink(1);
-                    return InteractionResult.sidedSuccess(world.isClientSide());
-                }
+                itemstack.shrink(1);
+                return InteractionResult.sidedSuccess(world.isClientSide());
             }
             return InteractionResult.CONSUME;
         }

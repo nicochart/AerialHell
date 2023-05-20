@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
@@ -30,8 +30,8 @@ public class BossSpawnEggItem extends ForgeSpawnEggItem
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public TextComponent getDescription()
+	public TranslatableComponent getDescription()
 	{
-		return new TextComponent("item.aerialhell.boss_spawn_egg.desc");
+		return new TranslatableComponent("item.aerialhell.boss_spawn_egg.desc");
 	}
 }
