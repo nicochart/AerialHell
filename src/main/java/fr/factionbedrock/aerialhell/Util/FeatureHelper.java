@@ -14,8 +14,6 @@ public class FeatureHelper
 {
     public static boolean generatesInAnyDungeon(ChunkGenerator chunkGenerator, WorldGenLevel reader, BlockPos pos)
     {
-
-        /* TODO : new way : (just needs the chunk generator, from feature generation context) - this is the same way as StructureHelper. Just use StructureHelper.*/
         long seed = reader.getSeed();
         ChunkPos chunkPos = new ChunkPos(pos.getX() / 16, pos.getZ() / 16);
         return StructureHelper.hasDungeonNearby(chunkGenerator, seed, chunkPos.x, chunkPos.z, 2,true);

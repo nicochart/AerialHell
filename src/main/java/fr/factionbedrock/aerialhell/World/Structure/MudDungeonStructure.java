@@ -36,10 +36,24 @@ public class MudDungeonStructure extends AbstractAerialHellStructure
 
         int landHeight = chunkGenerator.getBaseHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Types.WORLD_SURFACE_WG, level);
         if (landHeight < MAX_GEN_HEIGHT) {return false;}
-        if (StructureHelper.hasShadowCatacombsNearby(chunkGenerator, seed, chunkpos.x, chunkpos.z, 3, true)) {return false;}
+        if (StructureHelper.hasShadowCatacombsNearby(chunkGenerator, seed, chunkpos.x, chunkpos.z, 2, true)) {return false;}
 
         NoiseColumn columnOfBlocks = chunkGenerator.getBaseColumn(centerOfChunk.getX(), centerOfChunk.getZ(), level);
-        return !columnOfBlocks.getBlock(MIN_GEN_HEIGHT).isAir() && !columnOfBlocks.getBlock(MAX_GEN_HEIGHT).isAir();
+        return columnHasPercentOfNonAirBlocks(columnOfBlocks, 0.25F);
+    }
+
+    private static boolean columnHasPercentOfNonAirBlocks(NoiseColumn column, float part)
+    {
+        int count = 0;
+        for (int y=MIN_GEN_HEIGHT; y<MAX_GEN_HEIGHT; y++)
+        {
+            if (!column.getBlock(y).isAir())
+            {
+                count++;
+                if (count > (MAX_GEN_HEIGHT - MIN_GEN_HEIGHT) * part) {return true;}
+            }
+        }
+        return false;
     }
 
     private static Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context)

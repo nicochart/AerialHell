@@ -85,6 +85,14 @@ public class AerialHellTags
 
 		public static final TagKey<Block> LILITH_TRANSFORMABLE = tag("lilith_transformable");
 
+		public static final TagKey<Block> NEEDS_STELLAR_STONE_TOOL = tag("needs_stellar_stone_tool");
+
+		public static final TagKey<Block> NEEDS_RUBY_TOOL = tag("needs_ruby_tool");
+
+		public static final TagKey<Block> NEEDS_OBSIDIAN_TOOL = tag("needs_obsidian_tool");
+
+		public static final TagKey<Block> NEEDS_LUNAR_TOOL = tag("needs_lunar_tool");
+
 		private static TagKey<Block> tag(String name)
 		{
 			return TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(AerialHell.MODID, name));

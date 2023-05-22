@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Util;
 
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -14,5 +15,10 @@ public class ItemHelper
             if (item.is(tag)) {count++;}
         }
         return count;
+    }
+
+    public static int getItemMiningLevel(Item item)
+    {
+        return item instanceof DiggerItem ? ((DiggerItem)item).getTier().getLevel() : 0;
     }
 }

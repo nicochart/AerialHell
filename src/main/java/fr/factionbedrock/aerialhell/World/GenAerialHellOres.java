@@ -23,7 +23,7 @@ public class GenAerialHellOres
 		private static List<PlacementModifier> commonOrePlacement(int count, PlacementModifier placementModifier) {return orePlacement(CountPlacement.of(count), placementModifier);}
 
 		public final static List<PlacementModifier> STELLAR_PORTAL_FRAME_ORE = commonOrePlacement(4, HeightRangePlacement.triangle(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(-55)));
-		public final static List<PlacementModifier> IRON_STELLAR_ORE = commonOrePlacement(12, HeightRangePlacement.triangle(VerticalAnchor.absolute(20), VerticalAnchor.absolute(160)));
+		public final static List<PlacementModifier> IRON_STELLAR_ORE = commonOrePlacement(7, HeightRangePlacement.triangle(VerticalAnchor.absolute(20), VerticalAnchor.absolute(160)));
 		public final static List<PlacementModifier> GOLD_STELLAR_ORE = commonOrePlacement(10, HeightRangePlacement.triangle(VerticalAnchor.absolute(20), VerticalAnchor.absolute(160)));
 		public final static List<PlacementModifier> DIAMOND_STELLAR_ORE = commonOrePlacement(6, HeightRangePlacement.triangle(VerticalAnchor.absolute(10), VerticalAnchor.absolute(100)));
 		public final static List<PlacementModifier> FLUORITE_ORE = commonOrePlacement(40, HeightRangePlacement.triangle(VerticalAnchor.absolute(40), VerticalAnchor.absolute(200)));

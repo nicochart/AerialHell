@@ -22,8 +22,8 @@ public class StructureHelper
 
 	public static boolean hasMudDungeonNearby(ChunkGenerator chunkGenerator, long seed, int chunkX, int chunkZ, int checkRadius, boolean checkBaseChunk)
 	{
-		//return chunkGenerator.hasFeatureChunkInRange(AerialHellStructures.Keys.MUD_DUNGEON_STRUCTURE, seed, chunkX, chunkZ, checkRadius);
-		return false; //TEMPORARY solution to separation settings making this method always return true
+		int temporaryCheckRadius = Math.min(3, checkRadius); //TEMPORARY SOLUTION to too common potential structures chunk
+		return chunkGenerator.hasFeatureChunkInRange(AerialHellStructures.Keys.MUD_DUNGEON_STRUCTURE, seed, chunkX, chunkZ, temporaryCheckRadius);
 	}
 
 	public static boolean hasLunaticTempleNearby(ChunkGenerator chunkGenerator, long seed, int chunkX, int chunkZ, int checkRadius, boolean checkBaseChunk)
