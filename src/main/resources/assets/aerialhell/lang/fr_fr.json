@@ -499,6 +499,8 @@
   "effect.aerialhell.shadow_immunity" : "Immunité des Ombres",
   "effect.aerialhell.vulnerability" : "Vulnérabilité",
   "effect.aerialhell.traitor" : "Traitre",
+  "effect.aerialhell.aerial_hell_portal" : "Portail",
+  "effect.aerialhell.aerial_hell_portal_cooldown" : "Désactivation du Portail",
   "item.aerialhell.music_disc_aerial_hell_theme_tommaup": "Disque",
   "item.aerialhell.music_disc_aerial_hell_theme_tommaup.desc": "Aerial Hell Theme - TomMaup",
   "item.aerialhell.music_disc_sweden_andreas_zoeller": "Disque",

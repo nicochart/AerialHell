@@ -3,14 +3,13 @@ package fr.factionbedrock.aerialhell.Block;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
-import fr.factionbedrock.aerialhell.World.AerialHellTeleporter;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -18,7 +17,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -28,7 +26,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -122,24 +119,31 @@ public class AerialHellPortalBlock extends Block
 	{
 		if(!entity.isPassenger() && !entity.isVehicle() && entity.canChangeDimensions())
 		{
-			if(entity.isOnPortalCooldown()) {entity.setPortalCooldown();}
+			if (entity instanceof LivingEntity livingEntity && EntityHelper.isLivingEntityOnPortalCooldown(livingEntity) && !EntityHelper.isCreativePlayer(entity))
+			{
+				EntityHelper.setAfterTeleportationEffect((LivingEntity)entity);
+			}
+			else if(entity.isOnPortalCooldown()) {entity.setPortalCooldown();}
 			else
 			{
-				if(!entity.level.isClientSide && !pos.equals(entity.portalEntrancePos)) {entity.portalEntrancePos = pos.immutable();}
-				Level entityWorld = entity.level;
-				if(entityWorld != null)
+				if (entity instanceof LivingEntity livingEntity && !EntityHelper.isCreativePlayer(entity))
 				{
-					MinecraftServer minecraftserver = entityWorld.getServer();
-					ResourceKey<Level> destination = entity.level.dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION ? Level.OVERWORLD : AerialHellDimensions.AERIAL_HELL_DIMENSION;
-					if(minecraftserver != null) {
-						ServerLevel destinationWorld = minecraftserver.getLevel(destination);
-						if(destinationWorld != null && minecraftserver.isNetherEnabled() && !entity.isPassenger()) {
-							entity.level.getProfiler().push("aerialhell_portal");
-							entity.setPortalCooldown();
-							entity.changeDimension(destinationWorld, new AerialHellTeleporter(destinationWorld));
-							entity.level.getProfiler().pop();
+					if (EntityHelper.isLivingEntityUnderAerialHellPortalEffect(livingEntity))
+					{
+						if (EntityHelper.isLivingEntityReadyToTeleport(livingEntity))
+						{
+							EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, pos);
+							EntityHelper.setAfterTeleportationEffect(livingEntity);
 						}
 					}
+					else if (EntityHelper.shouldLivingEntityHavePortalEffect(livingEntity))
+					{
+						EntityHelper.setAerialHellPortalEffect(livingEntity);
+					}
+				}
+				else
+				{
+					EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, pos);
 				}
 			}
 		}
