@@ -72,14 +72,14 @@ public class SpiderBarrelMimicModel<T extends AbstractBarrelMimicEntity> extends
 
 	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		leg0.zRot = (-(float)Math.PI / 4F); leg0.yRot = ((float)Math.PI / 4F);
-		leg1.zRot = ((float)Math.PI / 4F); leg1.yRot = (-(float)Math.PI / 4F);
-		leg2.zRot = -0.58119464F; leg2.yRot = ((float)Math.PI / 8F);
-		leg3.zRot = 0.58119464F; leg3.yRot = (-(float)Math.PI / 8F);
-		leg4.zRot = -0.58119464F; leg4.yRot = (-(float)Math.PI / 8F);
-		leg5.zRot = 0.58119464F; leg5.yRot = ((float)Math.PI / 8F);
-		leg6.zRot = (-(float)Math.PI / 4F); leg6.yRot = (-(float)Math.PI / 4F);
-		leg7.zRot = ((float)Math.PI / 4F); leg7.yRot = ((float)Math.PI / 4F);
+		leg0.zRot = ((float)Math.PI / 4F); leg0.yRot = ((float)Math.PI / 4F);
+		leg1.zRot = (-(float)Math.PI / 4F); leg1.yRot = (-(float)Math.PI / 4F);
+		leg2.zRot = 0.58119464F; leg2.yRot = ((float)Math.PI / 8F);
+		leg3.zRot = -0.58119464F; leg3.yRot = (-(float)Math.PI / 8F);
+		leg4.zRot = 0.58119464F; leg4.yRot = (-(float)Math.PI / 8F);
+		leg5.zRot = -0.58119464F; leg5.yRot = ((float)Math.PI / 8F);
+		leg6.zRot = ((float)Math.PI / 4F); leg6.yRot = (-(float)Math.PI / 4F);
+		leg7.zRot = -((float)Math.PI / 4F); leg7.yRot = ((float)Math.PI / 4F);
 		float f3 = -(Mth.cos(limbSwing * 0.6662F * 2.0F + 0.0F) * 0.4F) * limbSwingAmount;
 		float f4 = -(Mth.cos(limbSwing * 0.6662F * 2.0F + (float)Math.PI) * 0.4F) * limbSwingAmount;
 		float f5 = -(Mth.cos(limbSwing * 0.6662F * 2.0F + ((float)Math.PI / 2F)) * 0.4F) * limbSwingAmount;

@@ -12,7 +12,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
-import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
@@ -28,7 +27,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.ItemAttributeModifierEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -111,7 +109,8 @@ public class ToolsAndArmorEventListener
 		{
 			if (ItemHelper.getItemMiningLevel(selectedItemStack.getItem()) < 4)
 			{
-				event.setNewSpeed(Math.min(speed, 6.0F));
+				event.setNewSpeed(Math.min(speed, 4.0F));
+				player.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 40, 0));
 			}
 		}
     }
