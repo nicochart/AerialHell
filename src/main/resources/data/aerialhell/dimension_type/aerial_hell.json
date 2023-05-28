@@ -9,9 +9,9 @@
   "has_ceiling": false,
   "coordinate_scale": 0.125,
   "ambient_light": 0,
-  "logical_height": 256,
+  "logical_height": 384,
   "effects": "aerialhell:aerial_hell",
   "infiniburn": "#minecraft:infiniburn_overworld",
   "min_y": 0,
-  "height": 256
+  "height": 384
 }

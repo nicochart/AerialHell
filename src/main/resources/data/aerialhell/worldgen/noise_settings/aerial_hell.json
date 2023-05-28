@@ -123,9 +123,16 @@
                       "type": "minecraft:interpolated",
                       "argument": "minecraft:overworld/caves/noodle"
                     },
-                    "min_inclusive": 64, //noodle caves values are 0 ore 64
+                    "min_inclusive": 64, //noodle caves values are 0 or 64
                     "max_exclusive": 65,
-                    "when_in_range": 50, //affects terrain "inside the noodles" : higher value = less land
+                    "when_in_range": {
+                      "type": "minecraft:range_choice",
+                      "input": "minecraft:overworld/continents",
+                      "min_inclusive": -100,
+                      "max_exclusive": 0,
+                      "when_in_range": -56, //affects moutains : higher negatives values = larger moutains ; positive values = no moutains
+                      "when_out_of_range": 40 //affects terrain "inside the noodles" : higher value = less land
+                    },
                     "when_out_of_range": 10 //affects terrain "outside the noodles" : higher value = less land
                   },
                   "argument2": -0.008
@@ -280,10 +287,10 @@
             "type": "minecraft:vertical_gradient",
             "random_name": "stellar_dirt_top",
             "true_at_and_below": {
-              "absolute": 130
+              "absolute": 180
             },
             "false_at_and_above": {
-              "absolute": 170
+              "absolute": 230
             }
           }
         },
