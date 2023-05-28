@@ -19,8 +19,8 @@
     "size_horizontal": 2,
     "size_vertical": 1,
     "sampling": {
-      "xz_scale": 2.5,
-      "y_scale": 1.5,
+      "xz_scale": 2.6,
+      "y_scale": 1.3,
       "xz_factor": 80,
       "y_factor": 160
     },
@@ -113,11 +113,21 @@
                 "type": "minecraft:add",
                 "argument1": {
                   "type": "minecraft:slide",
-                  "argument": "minecraft:overworld/sloped_cheese"
+                  "argument": "minecraft:end/sloped_cheese"
                 },
                 "argument2": {
                   "type": "minecraft:mul",
-                  "argument1": "minecraft:overworld/caves/noodle",
+                  "argument1": {
+                    "type": "minecraft:range_choice",
+                    "input": {
+                      "type": "minecraft:interpolated",
+                      "argument": "minecraft:overworld/caves/noodle"
+                    },
+                    "min_inclusive": 64, //noodle caves values are 0 ore 64
+                    "max_exclusive": 65,
+                    "when_in_range": 50, //affects terrain "inside the noodles" : higher value = less land
+                    "when_out_of_range": 10 //affects terrain "outside the noodles" : higher value = less land
+                  },
                   "argument2": -0.008
                 }
               }
@@ -129,8 +139,12 @@
         "type": "minecraft:interpolated",
         "argument": {
           "type": "minecraft:mul",
-          "argument1": "minecraft:overworld/caves/spaghetti_2d",
-          "argument2": -0.06
+          "argument1": {
+            "type": "minecraft:add",
+            "argument1": "minecraft:overworld/caves/spaghetti_roughness_function",
+            "argument2": "minecraft:overworld/caves/spaghetti_2d"
+          },
+          "argument2": -0.065
         }
       }
     },
