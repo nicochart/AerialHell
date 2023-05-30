@@ -129,18 +129,18 @@
                       "type": "minecraft:y_clamped_gradient",
                       "from_y": 0,
                       "to_y": 320,
-                      "from_value": 100, //less land at low altitude
-                      "to_value": -80 //more land at high altitude
+                      "from_value": 130, //less land at low altitude
+                      "to_value": -90 //more land at high altitude
                     },
                     "when_out_of_range": { //affects terrain "outside the noodles" : higher value = less land
                       "type": "minecraft:y_clamped_gradient",
                       "from_y": 0,
                       "to_y": 320,
-                      "from_value": -20, //more land at low altitude
-                      "to_value": 100 //less land at high altitude
+                      "from_value": -30, //more land at low altitude
+                      "to_value": 110 //less land at high altitude
                     }
                   },
-                  "argument2": -0.008
+                  "argument2": -0.009 //higher (absolute) value = amplify the altitude diversity effect
                 }
               }
             }
