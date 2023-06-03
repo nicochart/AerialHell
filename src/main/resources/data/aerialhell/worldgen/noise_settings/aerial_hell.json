@@ -121,10 +121,20 @@
                     "type": "minecraft:range_choice",
                     "input": {
                       "type": "minecraft:interpolated",
-                      "argument": "minecraft:overworld/caves/noodle"
+                      "argument": {
+                        "type": "minecraft:mul",
+                        "argument1": "minecraft:overworld/caves/noodle",
+                        "argument2": {
+                          "type": "minecraft:y_clamped_gradient",
+                          "from_y": 0,
+                          "to_y": 320,
+                          "from_value": -1,
+                          "to_value": 4
+                        }
+                      }
                     },
-                    "min_inclusive": 64, //noodle caves values are 0 or 64
-                    "max_exclusive": 65,
+                    "min_inclusive": 1, //noodle caves values are 0 or 64
+                    "max_exclusive": 300,
                     "when_in_range": { //affects terrain "inside the noodles" : higher value = less land
                       "type": "minecraft:y_clamped_gradient",
                       "from_y": 0,
@@ -133,11 +143,21 @@
                       "to_value": -90 //more land at high altitude
                     },
                     "when_out_of_range": { //affects terrain "outside the noodles" : higher value = less land
-                      "type": "minecraft:y_clamped_gradient",
-                      "from_y": 0,
-                      "to_y": 320,
-                      "from_value": -30, //more land at low altitude
-                      "to_value": 110 //less land at high altitude
+                      "type": "minecraft:mul",
+                      "argument1": {
+                        "type": "minecraft:y_clamped_gradient",
+                        "from_y": 0,
+                        "to_y": 320,
+                        "from_value": -60, //more land at low altitude
+                        "to_value": 230 //less land at high altitude
+                      },
+                      "argument2": {
+                        "type": "minecraft:y_clamped_gradient",
+                        "from_y": 0,
+                        "to_y": 20,
+                        "from_value": 0,
+                        "to_value": 1
+                      }
                     }
                   },
                   "argument2": -0.009 //higher (absolute) value = amplify the altitude diversity effect
