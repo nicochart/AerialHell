@@ -106,62 +106,76 @@
           "type": "minecraft:mul",
           "argument1": 0.9,
           "argument2": {
-            "type": "minecraft:interpolated",
+            "type": "minecraft:blend_density",
             "argument": {
-              "type": "minecraft:blend_density",
-              "argument": {
-                "type": "minecraft:add",
-                "argument1": {
+              "type": "minecraft:add",
+              "argument1": {
+                "type": "minecraft:interpolated",
+                "argument": {
                   "type": "minecraft:slide",
-                  "argument": "minecraft:end/sloped_cheese"
-                },
-                "argument2": {
-                  "type": "minecraft:mul",
-                  "argument1": {
-                    "type": "minecraft:range_choice",
-                    "input": {
-                      "type": "minecraft:interpolated",
-                      "argument": {
-                        "type": "minecraft:mul",
-                        "argument1": "minecraft:overworld/caves/noodle",
-                        "argument2": {
+                  "argument": "minecraft:overworld/sloped_cheese"
+                }
+              },
+              "argument2": {
+                "type": "minecraft:mul",
+                "argument1": {
+                  "type": "minecraft:range_choice",
+                  "input": {
+                    "type": "minecraft:blend_density",
+                    "argument": {
+                      "type": "minecraft:mul",
+                      "argument1": { //noodle detection
+                        "type": "minecraft:range_choice",
+                        "input": "minecraft:overworld/caves/noodle",
+                        "min_inclusive": 64, //noodle caves values are 0 or 64
+                        "max_exclusive": 65,
+                        "when_in_range": 1,
+                        "when_out_of_range": 0
+                      },
+                      "argument2": { //y>64 detection
+                        "type": "minecraft:range_choice",
+                        "input": {
                           "type": "minecraft:y_clamped_gradient",
                           "from_y": 0,
                           "to_y": 320,
-                          "from_value": -1,
-                          "to_value": 4
-                        }
-                      }
-                    },
-                    "min_inclusive": 1, //noodle caves values are 0 or 64
-                    "max_exclusive": 300,
-                    "when_in_range": { //affects terrain "inside the noodles" : higher value = less land
-                      "type": "minecraft:y_clamped_gradient",
-                      "from_y": 0,
-                      "to_y": 320,
-                      "from_value": 130, //less land at low altitude
-                      "to_value": -90 //more land at high altitude
-                    },
-                    "when_out_of_range": { //affects terrain "outside the noodles" : higher value = less land
-                      "type": "minecraft:mul",
-                      "argument1": {
-                        "type": "minecraft:y_clamped_gradient",
-                        "from_y": 0,
-                        "to_y": 320,
-                        "from_value": -60, //more land at low altitude
-                        "to_value": 230 //less land at high altitude
-                      },
-                      "argument2": {
-                        "type": "minecraft:y_clamped_gradient",
-                        "from_y": 0,
-                        "to_y": 20,
-                        "from_value": 0,
-                        "to_value": 1
+                          "from_value": 0,
+                          "to_value": 320
+                        },
+                        "min_inclusive": 65,
+                        "max_exclusive": 400,
+                        "when_in_range": 1,
+                        "when_out_of_range": 0
                       }
                     }
                   },
-                  "argument2": -0.009 //higher (absolute) value = amplify the altitude diversity effect
-                }
+                  "min_inclusive": 1,
+                  "max_exclusive": 2,
+                  "when_in_range": { //affects terrain "inside the noodles" & y>64 : higher value = less land
+                    "type": "minecraft:y_clamped_gradient",
+                    "from_y": 0,
+                    "to_y": 320,
+                    "from_value": 130, //less land at low altitude
+                    "to_value": -120 //more land at high altitude
+                  },
+                  "when_out_of_range": { //affects terrain at y<65 & "ouside the noodles" : higher value = less land
+                    "type": "minecraft:mul",
+                    "argument1": {
+                      "type": "minecraft:y_clamped_gradient",
+                      "from_y": 0,
+                      "to_y": 320,
+                      "from_value": -60, //more land at low altitude
+                      "to_value": 230 //less land at high altitude
+                    },
+                    "argument2": { //blocks suppression at low heigh level
+                      "type": "minecraft:y_clamped_gradient",
+                      "from_y": 0,
+                      "to_y": 20,
+                      "from_value": 0,
+                      "to_value": 1
+                    }
+                  }
+                },
+                "argument2": -0.009
               }
             }
           }
