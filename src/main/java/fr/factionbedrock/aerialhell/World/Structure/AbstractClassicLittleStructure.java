@@ -33,13 +33,16 @@ public abstract class AbstractClassicLittleStructure extends AbstractAerialHellS
     protected static Optional<PieceGenerator<JigsawConfiguration>> createClassicLittleStructurePiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context, BlockPos blockpos)
     {
         //blockpos must be set with y = Y_OFFSET from ground
+        //TEMPORARY fix (?) to a bug which makes some structure generate at y=0
+        boolean useGroundHeight = context.chunkGenerator().getBaseHeight(blockpos.getX(), blockpos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor()) > 20;
+
         Optional<PieceGenerator<JigsawConfiguration>> structurePiecesGenerator =
                 JigsawPlacement.addPieces(
                         context,
                         PoolElementStructurePiece::new,
-                        blockpos, // structure pos
+                        useGroundHeight ? blockpos : blockpos.above(120), // structure pos
                         false,
-                        true //true = use terrain height as base, and adds blockpos y to it
+                        useGroundHeight //true = use terrain height as base, and adds blockpos y to it
                 );
 
         return structurePiecesGenerator;

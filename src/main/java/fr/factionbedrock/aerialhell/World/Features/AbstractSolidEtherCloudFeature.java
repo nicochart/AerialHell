@@ -15,6 +15,7 @@ import java.util.Random;
 
 public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeatureConfiguration>
 {
+    public BlockPos getRandomHeighGenerationPos(int x, int minY, int maxY, int z, Random rand) {return new BlockPos(x, minY + rand.nextInt(maxY- minY), z);}
 	protected abstract int getBasicMinSize(); protected abstract int getBasicMaxSize();
 	protected abstract int getSmallMinSize(); protected abstract int getSmallMaxSize();
 	protected abstract Block getEtherBlock();

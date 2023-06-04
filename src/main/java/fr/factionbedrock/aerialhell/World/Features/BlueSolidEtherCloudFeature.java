@@ -14,8 +14,8 @@ import java.util.Random;
 
 public class BlueSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 {
+	public static int getMinGenHeigh() {return 80;} public static int getMaxGenHeigh() {return 180;}
 	protected int getBasicMinSize() {return 5;} protected int getBasicMaxSize() {return 8;}
-
 	protected int getSmallMinSize() {return 3;} protected int getSmallMaxSize() {return 5;}
 
 	protected Block getEtherBlock() {return AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get();}
@@ -30,7 +30,7 @@ public class BlueSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 		if (FeatureHelper.generatesInAnyDungeon(context.chunkGenerator(), reader, pos)) {return false;}
 
 		BlockPos generatePos = pos;
-		if (pos.getY() <  115 || pos.getY() >  155) {generatePos = new BlockPos(pos.getX(), 115 + rand.nextInt(50), pos.getZ());}
+		if (pos.getY() < getMinGenHeigh() || pos.getY() > getMaxGenHeigh()) {generatePos = getRandomHeighGenerationPos(pos.getX(), getMinGenHeigh(), getMaxGenHeigh(), pos.getZ(), rand);}
 		int sizeX = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
         int sizeZ = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
 		generateFirstEllipsis(sizeX, sizeZ, reader, rand, generatePos);

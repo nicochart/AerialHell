@@ -15,6 +15,7 @@ import java.util.Random;
 
 public class WhiteSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 {
+	public static int getMinGenHeigh() {return 5;} public static int getMaxGenHeigh() {return 60;}
 	protected int getBasicMinSize() {return 5;} protected int getBasicMaxSize() {return 8;}
 	protected int getSmallMinSize() {return 4;} protected int getSmallMaxSize() {return 7;}
 	protected Block getEtherBlock() {return AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get();}
@@ -27,7 +28,7 @@ public class WhiteSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 		if (FeatureHelper.generatesInAnyDungeon(generator, world, pos)) {return false;}
     	
     	BlockPos generatePos = pos;
-    	if (pos.getY() <  40 || pos.getY() >  80 ) {generatePos = new BlockPos(pos.getX(), 30 + rand.nextInt(50), pos.getZ());}
+    	if (pos.getY() < getMinGenHeigh() || pos.getY() >  getMaxGenHeigh()) {generatePos = getRandomHeighGenerationPos(pos.getX(), getMinGenHeigh(), getMaxGenHeigh(), pos.getZ(), rand);}
     	int sizeX = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
         int sizeZ = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
         this.generateFourLayersFirstEllipsis(sizeX, sizeZ, world, rand, generatePos);
