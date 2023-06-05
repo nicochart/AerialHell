@@ -104,8 +104,7 @@
         "type": "minecraft:squeeze",
         "argument": {
           "type": "minecraft:mul",
-          "argument1": 0.9,
-          "argument2": {
+          "argument1": {
             "type": "minecraft:blend_density",
             "argument": {
               "type": "minecraft:add",
@@ -177,6 +176,92 @@
                 },
                 "argument2": -0.009
               }
+            }
+          },
+          "argument2": {
+            "type": "minecraft:mul",
+            "argument1": { //smoothing the y=64 layer when in noodle
+              "type": "minecraft:range_choice",
+              "input": "minecraft:overworld/caves/noodle",
+              "min_inclusive": 64, //noodle selection
+              "max_exclusive": 65,
+              "when_in_range": {
+                "type": "minecraft:range_choice",
+                "input": {
+                  "type": "minecraft:y_clamped_gradient",
+                  "from_y": 0,
+                  "to_y": 256,
+                  "from_value": 0,
+                  "to_value": 256
+                },
+                "min_inclusive": 55, //y selection
+                "max_exclusive": 71,
+                "when_in_range": {
+                  "type": "minecraft:mul",
+                  "argument1": { //from 55 to 64 smoothing
+                    "type": "minecraft:range_choice",
+                    "input": {
+                      "type": "minecraft:y_clamped_gradient",
+                      "from_y": 55,
+                      "to_y": 71,
+                      "from_value": 55,
+                      "to_value": 71
+                    },
+                    "min_inclusive": 55,
+                    "max_exclusive": 64,
+                    "when_in_range": {
+                      "type": "minecraft:y_clamped_gradient",
+                      "from_y": 55,
+                      "to_y": 64,
+                      "from_value": 1,
+                      "to_value": 0
+                    },
+                    "when_out_of_range": 1
+                  },
+                  "argument2": { //from 64 to 71 smoothing
+                    "type": "minecraft:range_choice",
+                    "input": {
+                      "type": "minecraft:y_clamped_gradient",
+                      "from_y": 55,
+                      "to_y": 71,
+                      "from_value": 55,
+                      "to_value": 71
+                    },
+                    "min_inclusive": 64,
+                    "max_exclusive": 71,
+                    "when_in_range": {
+                      "type": "minecraft:y_clamped_gradient",
+                      "from_y": 64,
+                      "to_y": 71,
+                      "from_value": 0,
+                      "to_value": 1
+                    },
+                    "when_out_of_range": 1
+                  }
+                },
+                "when_out_of_range": 1
+              },
+              "when_out_of_range": 1
+            },
+            "argument2": {
+              "type": "minecraft:range_choice",
+              "input": {
+                "type": "minecraft:y_clamped_gradient",
+                "from_y": 0,
+                "to_y": 256,
+                "from_value": 0,
+                "to_value": 256
+              },
+              "min_inclusive": 240,
+              "max_exclusive": 257,
+              "when_in_range": {
+                "type": "minecraft:y_clamped_gradient",
+                "from_y": 240,
+                "to_y": 258,
+                "from_value": 1,
+                "to_value": 0
+              },
+              "when_out_of_range": 1
             }
           }
         }
