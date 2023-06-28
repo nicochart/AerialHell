@@ -19,7 +19,7 @@ import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 
 public class MudDungeonStructure extends AbstractAerialHellStructure
 {
-    private final static int MIN_GEN_HEIGHT = 65, MAX_GEN_HEIGHT = 85;
+    private final static int MIN_GEN_HEIGHT = 20, MAX_GEN_HEIGHT = 50;
 
     public MudDungeonStructure() {super(MudDungeonStructure::getPiecesGenerator);}
 

@@ -20,7 +20,7 @@ import java.util.Optional;
 
 public class ShadowCatacombsStructure extends AbstractAerialHellStructure
 {
-    private final static int MIN_GEN_HEIGHT = 75, MAX_GEN_HEIGHT = 95;
+    private final static int MIN_GEN_HEIGHT = 35, MAX_GEN_HEIGHT = 55;
 
     public ShadowCatacombsStructure() {super(ShadowCatacombsStructure::getPiecesGenerator);}
 
@@ -48,7 +48,7 @@ public class ShadowCatacombsStructure extends AbstractAerialHellStructure
             landHeight = chunkGenerator.getBaseHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, level);
             /* biomeSource.getNoiseBiome(x,y,z) doesn't return the right biome. Do not use this method for biome check.Biome posBiome = biomeSource.getNoiseBiome(pos.getX(), pos.getY(), pos.getZ());
             if (!FeatureHelper.isShadowBiome(posBiome)) {notShadowBiomeCount++;}*/
-            if (landHeight > 80) {highGroundCount++;}
+            if (landHeight > 50) {highGroundCount++;}
         }
         return /*notShadowBiomeCount <= 1 &&*/ highGroundCount > 3;
     }

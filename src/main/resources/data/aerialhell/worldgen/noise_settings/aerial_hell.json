@@ -420,26 +420,59 @@
         }
       },
       {
-        "type": "minecraft:condition",
-        "if_true": {
-          "type": "minecraft:not",
-          "invert": {
-            "type": "minecraft:vertical_gradient",
-            "random_name": "stellar_dirt_top",
-            "true_at_and_below": {
-              "absolute": 210
+        "type": "minecraft:sequence",
+        "sequence": [
+          {
+            "type": "minecraft:condition",
+            "if_true": {
+              "type": "minecraft:not",
+              "invert": {
+                "type": "minecraft:vertical_gradient",
+                "random_name": "stellar_dirt_top",
+                "true_at_and_below": {
+                  "absolute": 210
+                },
+                "false_at_and_above": {
+                  "absolute": 250
+                }
+              }
             },
-            "false_at_and_above": {
-              "absolute": 250
+            "then_run": {
+              "type": "minecraft:block",
+              "result_state": {
+                "Name": "aerialhell:stellar_dirt"
+              }
+            }
+          },
+          {
+            "type": "minecraft:condition",
+            "if_true": {
+              "type": "minecraft:biome",
+              "biome_is": [
+                "aerialhell:slippery_sand_ocean"
+              ]
+            },
+            "then_run": {
+              "type": "minecraft:condition",
+              "if_true": {
+                "type": "minecraft:vertical_gradient",
+                "random_name": "slippery_sand_stone_depth",
+                "true_at_and_below": {
+                  "absolute": 0
+                },
+                "false_at_and_above": {
+                  "absolute": 35
+                }
+              },
+              "then_run": {
+                "type": "minecraft:block",
+                "result_state": {
+                  "Name": "aerialhell:slippery_sand_stone"
+                }
+              }
             }
           }
-        },
-        "then_run": {
-          "type": "minecraft:block",
-          "result_state": {
-            "Name": "aerialhell:stellar_dirt"
-          }
-        }
+        ]
       }
     ]
   }

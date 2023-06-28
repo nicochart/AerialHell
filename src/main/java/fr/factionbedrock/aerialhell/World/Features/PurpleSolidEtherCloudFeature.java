@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class PurpleSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 {
-	public static int getMinGenHeigh() {return 120;} public static int getMaxGenHeigh() {return 160;}
+	public static int getMinGenHeigh() {return 60;} public static int getMaxGenHeigh() {return 200;}
 	protected int getBasicMinSize() {return 4;} protected int getBasicMaxSize() {return 6;}
 	protected int getSmallMinSize() {return 2;} protected int getSmallMaxSize() {return 3;}
 	protected Block getEtherBlock() {return AerialHellBlocksAndItems.PURPLE_SOLID_ETHER.get();}
