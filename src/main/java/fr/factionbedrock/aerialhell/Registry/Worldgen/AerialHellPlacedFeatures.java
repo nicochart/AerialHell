@@ -9,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
+import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.heightproviders.UniformHeight;
@@ -56,6 +57,11 @@ public class AerialHellPlacedFeatures
 
     public static final RegistryObject<PlacedFeature> AERIAL_HELL_FLOWERS = PLACED_FEATURES.register("aerial_hell_flowers", () -> new PlacedFeature(AerialHellConfiguredFeatures.AERIAL_HELL_FLOWERS.getHolder().get(), List.of(CountPlacement.of(8), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome())));
     public static final RegistryObject<PlacedFeature> AERIAL_HELL_BELLFLOWERS = PLACED_FEATURES.register("aerial_hell_bellflowers", () -> new PlacedFeature(AerialHellConfiguredFeatures.AERIAL_HELL_BELLFLOWERS.getHolder().get(), List.of(CountPlacement.of(10), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome())));
+
+    public static final RegistryObject<PlacedFeature> GLOWING_STICK_FRUIT_VINES_RARE = PLACED_FEATURES.register("glowing_stick_fruit_vines_rare", () -> new PlacedFeature(AerialHellConfiguredFeatures.GLOWING_STICK_FRUIT_VINES.getHolder().get(), createVinesPlacementModifiers(10)));
+    public static final RegistryObject<PlacedFeature> GLOWING_STICK_FRUIT_VINES = PLACED_FEATURES.register("glowing_stick_fruit_vines", () -> new PlacedFeature(AerialHellConfiguredFeatures.GLOWING_STICK_FRUIT_VINES.getHolder().get(), createVinesPlacementModifiers(60)));
+    public static final RegistryObject<PlacedFeature> BLOSSOMING_VINES_RARE = PLACED_FEATURES.register("blossoming_vines_rare", () -> new PlacedFeature(AerialHellConfiguredFeatures.BLOSSOMING_VINES.getHolder().get(), createVinesPlacementModifiers(40)));
+    public static final RegistryObject<PlacedFeature> BLOSSOMING_VINES = PLACED_FEATURES.register("blossoming_vines", () -> new PlacedFeature(AerialHellConfiguredFeatures.BLOSSOMING_VINES.getHolder().get(), createVinesPlacementModifiers(100)));
 
     public static final RegistryObject<PlacedFeature> AERIAL_TREE_CHECKED = PLACED_FEATURES.register("aerial_tree", () -> new PlacedFeature(AerialHellConfiguredFeatures.AERIAL_TREE.getHolder().get(), List.of(PlacementUtils.filteredByBlockSurvival(AerialHellBlocksAndItems.AERIAL_TREE_SAPLING.get()))));
     public static final RegistryObject<PlacedFeature> FOREST_AERIAL_TREE_CHECKED = PLACED_FEATURES.register("forest_aerial_tree", () -> new PlacedFeature(AerialHellConfiguredFeatures.FOREST_AERIAL_TREE.getHolder().get(), List.of(PlacementUtils.filteredByBlockSurvival(AerialHellBlocksAndItems.AERIAL_TREE_SAPLING.get()))));
@@ -110,4 +116,9 @@ public class AerialHellPlacedFeatures
     public static final RegistryObject<PlacedFeature> SHADOW_CRYSTAL_BLOB_IN_DARK_AREAS = PLACED_FEATURES.register("shadow_crystal_blob_in_dark_areas", () -> new PlacedFeature(AerialHellConfiguredFeatures.SHADOW_CRYSTAL_BLOB_IN_DARK_AREAS.getHolder().get(), List.of(CountPlacement.of(8), InSquarePlacement.spread(), HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.absolute(10), VerticalAnchor.absolute(180))), BiomeFilter.biome())));
     public static final RegistryObject<PlacedFeature> CRYSTALLIZED_FIRE = PLACED_FEATURES.register("cristallized_fire", () -> new PlacedFeature(AerialHellConfiguredFeatures.CRYSTALLIZED_FIRE.getHolder().get(), List.of(RarityFilter.onAverageOnceEvery(6), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome())));
     public static final RegistryObject<PlacedFeature> GIANT_CRYSTAL_BLOB = PLACED_FEATURES.register("giant_crystal_blob", () -> new PlacedFeature(AerialHellConfiguredFeatures.GIANT_CRYSTAL_BLOB.getHolder().get(), List.of(RarityFilter.onAverageOnceEvery(8), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome())));
+
+    private static List<PlacementModifier> createVinesPlacementModifiers(int countPlacement)
+    {
+        return List.of(CountPlacement.of(countPlacement), InSquarePlacement.spread(), PlacementUtils.RANGE_BOTTOM_TO_MAX_TERRAIN_HEIGHT, EnvironmentScanPlacement.scanningFor(Direction.UP, BlockPredicate.hasSturdyFace(Direction.DOWN), BlockPredicate.ONLY_IN_AIR_PREDICATE, 12), BlockPredicateFilter.forPredicate(BlockPredicate.wouldSurvive(AerialHellBlocksAndItems.BLOSSOMING_VINES.get().defaultBlockState(), BlockPos.ZERO)), RandomOffsetPlacement.vertical(ConstantInt.of(-1)), BiomeFilter.biome());
+    }
 }

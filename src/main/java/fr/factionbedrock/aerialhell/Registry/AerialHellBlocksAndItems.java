@@ -695,10 +695,10 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> VIBRANT_AERIAL_BERRY_SEEDS = ITEMS.register("vibrant_aerial_berry_seeds",() -> new ItemNameBlockItem(VIBRANT_AERIAL_BERRY_BUSH.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT).tab(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)));
 
 	//vines
-	public static final RegistryObject<Block> GLOWING_STICK_FRUIT_VINES = BLOCKS.register("glowing_stick_fruit_vines", () -> new AerialHellCaveVinesBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES)));
-	public static final RegistryObject<Block> GLOWING_STICK_FRUIT_VINES_PLANT = BLOCKS.register("glowing_stick_fruit_vines_plant", () -> new AerialHellCaveVinesPlantBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES_PLANT)));
-	public static final RegistryObject<Block> BLOSSOMING_VINES = BLOCKS.register("blossoming_vines", () -> new AerialHellCaveVinesBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES)));
-	public static final RegistryObject<Block> BLOSSOMING_VINES_PLANT = BLOCKS.register("blossoming_vines_plant", () -> new AerialHellCaveVinesPlantBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES_PLANT)));
+	public static final RegistryObject<CaveVinesBlock> GLOWING_STICK_FRUIT_VINES = BLOCKS.register("glowing_stick_fruit_vines", () -> new AerialHellCaveVinesBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES)));
+	public static final RegistryObject<CaveVinesPlantBlock> GLOWING_STICK_FRUIT_VINES_PLANT = BLOCKS.register("glowing_stick_fruit_vines_plant", () -> new AerialHellCaveVinesPlantBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES_PLANT)));
+	public static final RegistryObject<CaveVinesBlock> BLOSSOMING_VINES = BLOCKS.register("blossoming_vines", () -> new AerialHellCaveVinesBlock(BlockBehaviour.Properties.of(Material.PLANT).randomTicks().noCollission().instabreak().sound(SoundType.CAVE_VINES)));
+	public static final RegistryObject<CaveVinesPlantBlock> BLOSSOMING_VINES_PLANT = BLOCKS.register("blossoming_vines_plant", () -> new AerialHellCaveVinesPlantBlock(BlockBehaviour.Properties.copy(BLOSSOMING_VINES.get())));
 	public static final RegistryObject<Item> VINE_BLOSSOM = ITEMS.register("vine_blossom",() -> new ItemNameBlockItem(BLOSSOMING_VINES.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)));
 
 	//grass

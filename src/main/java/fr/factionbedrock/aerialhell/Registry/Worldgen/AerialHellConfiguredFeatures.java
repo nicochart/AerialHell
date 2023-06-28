@@ -7,12 +7,12 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.World.Features.AerialHellLakeFeature;
 import fr.factionbedrock.aerialhell.World.GenAerialHellOres;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.util.random.SimpleWeightedRandomList;
-import net.minecraft.util.valueproviders.BiasedToBottomInt;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.HugeMushroomBlock;
+import net.minecraft.util.valueproviders.*;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -21,6 +21,7 @@ import net.minecraft.world.level.levelgen.feature.HugeFungusConfiguration;
 import net.minecraft.world.level.levelgen.feature.WeightedPlacedFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.levelgen.feature.stateproviders.RandomizedIntStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
@@ -88,6 +89,19 @@ public class AerialHellConfiguredFeatures
         public static final RandomFeatureConfiguration CRYSTALLIZED_TREE_VEGETATION_CONFIG = randomFeatureConfigFromSingleFeature(AerialHellPlacedFeatures.CRYSTALLIZED_TREE_CHECKED);
 
         private static RandomFeatureConfiguration randomFeatureConfigFromSingleFeature(RegistryObject<PlacedFeature> feature) {return new RandomFeatureConfiguration(List.of(new WeightedPlacedFeature(feature.getHolder().get(), 1.0F)), feature.getHolder().get());}
+
+        // Vine placement configs
+        private static final WeightedStateProvider GLOWING_STICK_FRUIT_VINES_BODY_PROVIDER = createVinesBodyProvider(AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES_PLANT.get());
+        private static final RandomizedIntStateProvider GLOWING_STICK_FRUIT_VINES_HEAD_PROVIDER = createVinesHeadProvider(AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES.get());
+        private static final WeightedStateProvider BLOSSOMING_VINES_BODY_PROVIDER = createVinesBodyProvider(AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT.get());
+        private static final RandomizedIntStateProvider BLOSSOMING_VINES_HEAD_PROVIDER = createVinesHeadProvider(AerialHellBlocksAndItems.BLOSSOMING_VINES.get());
+
+        public static final BlockColumnConfiguration GLOWING_STICK_FRUIT_VINES_CONFIG = createVinesBlockColumnConfig(GLOWING_STICK_FRUIT_VINES_BODY_PROVIDER, GLOWING_STICK_FRUIT_VINES_HEAD_PROVIDER);
+        public static final BlockColumnConfiguration BLOSSOMING_VINES_CONFIG = createVinesBlockColumnConfig(BLOSSOMING_VINES_BODY_PROVIDER, BLOSSOMING_VINES_HEAD_PROVIDER);
+
+        private static BlockColumnConfiguration createVinesBlockColumnConfig(WeightedStateProvider bodyProvider, RandomizedIntStateProvider headProvider) {return new BlockColumnConfiguration(List.of(BlockColumnConfiguration.layer(new WeightedListInt(SimpleWeightedRandomList.<IntProvider>builder().add(UniformInt.of(0, 19), 2).add(UniformInt.of(0, 2), 3).add(UniformInt.of(0, 6), 10).build()), bodyProvider), BlockColumnConfiguration.layer(ConstantInt.of(1), headProvider)), Direction.DOWN, BlockPredicate.ONLY_IN_AIR_PREDICATE, true);}
+        private static WeightedStateProvider createVinesBodyProvider(CaveVinesPlantBlock bodyBlock) {return new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder().add(bodyBlock.defaultBlockState(), 4).add(bodyBlock.defaultBlockState().setValue(CaveVines.BERRIES, Boolean.valueOf(true)), 1));}
+        private static RandomizedIntStateProvider createVinesHeadProvider(CaveVinesBlock headBlock) {return new RandomizedIntStateProvider(new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder().add(headBlock.defaultBlockState(), 4).add(headBlock.defaultBlockState().setValue(CaveVines.BERRIES, Boolean.valueOf(true)), 1)), CaveVinesBlock.AGE, UniformInt.of(23, 25));}
     }
 
     public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, AerialHell.MODID);
@@ -110,6 +124,9 @@ public class AerialHellConfiguredFeatures
 
     public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_HELL_FLOWERS = CONFIGURED_FEATURES.register("aerial_hell_flowers", () -> new ConfiguredFeature<>(Feature.RANDOM_PATCH, Configs.AERIAL_HELL_FLOWERS_CONFIG));
     public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_HELL_BELLFLOWERS = CONFIGURED_FEATURES.register("aerial_hell_bellflowers", () -> new ConfiguredFeature<>(Feature.RANDOM_PATCH, Configs.AERIAL_HELL_BELLFLOWERS_CONFIG));
+
+    public static final RegistryObject<ConfiguredFeature<?, ?>> GLOWING_STICK_FRUIT_VINES = CONFIGURED_FEATURES.register("glowing_stick_fruit_vines", () -> new ConfiguredFeature<>(Feature.BLOCK_COLUMN, Configs.GLOWING_STICK_FRUIT_VINES_CONFIG));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> BLOSSOMING_VINES = CONFIGURED_FEATURES.register("blossoming_vines", () -> new ConfiguredFeature<>(Feature.BLOCK_COLUMN, Configs.BLOSSOMING_VINES_CONFIG));
 
     public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_TREE = CONFIGURED_FEATURES.register("aerial_tree", () -> new ConfiguredFeature<>(Feature.TREE, AerialHellTreeConfig.AERIAL_TREE_BASE_CONFIG));
     public static final RegistryObject<ConfiguredFeature<?, ?>> FOREST_AERIAL_TREE = CONFIGURED_FEATURES.register("forest_aerial_tree", () -> new ConfiguredFeature<>(Feature.TREE, AerialHellTreeConfig.FOREST_AERIAL_TREE_CONFIG));

@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.Plants.Bushes;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -12,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CaveVinesPlantBlock;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
@@ -47,5 +49,10 @@ public class AerialHellCaveVinesPlantBlock extends CaveVinesPlantBlock
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
         else {return InteractionResult.PASS;}
+    }
+
+    @Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
+    {
+        return super.canSurvive(state, level, pos) && !level.getBlockState(pos.relative(this.growthDirection.getOpposite())).is(AerialHellTags.Blocks.SOLID_ETHER);
     }
 }

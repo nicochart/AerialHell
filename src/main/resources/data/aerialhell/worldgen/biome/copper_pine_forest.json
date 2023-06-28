@@ -145,12 +145,17 @@
       "aerialhell:patch_stellar_fern",
       "aerialhell:patch_stellar_tall_fern",
       "aerialhell:patch_aerial_berry_bush",
-      "aerialhell:patch_brambles"
+      "aerialhell:patch_brambles",
       //"aerialhell:patch_sky_cactus",
       //"aerialhell:patch_stellar_dead_bush",
       //"aerialhell:patch_shadow_grass",
       //"aerialhell:patch_shadow_grass_ball",
-      //"aerialhell:patch_shadow_brambles"
+      //"aerialhell:patch_shadow_brambles",
+
+      //"aerialhell:glowing_stick_fruit_vines",
+      //"aerialhell:glowing_stick_fruit_vines_rare",
+      "aerialhell:blossoming_vines"
+      //"aerialhell:blossoming_vines_rare"
     ],
     []
   ]
