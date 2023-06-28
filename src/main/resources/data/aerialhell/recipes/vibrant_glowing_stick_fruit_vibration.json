@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:oscillating",
+  "ingredient": {
+    "item": "aerialhell:glowing_stick_fruit"
+  },
+  "result": "aerialhell:vibrant_glowing_stick_fruit",
+  "experience": 0.0,
+  "cookingtime": 300
+}

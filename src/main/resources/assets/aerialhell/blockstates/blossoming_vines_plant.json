@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "berries=false": {
+      "model": "aerialhell:block/blossoming_vines_plant"
+    },
+    "berries=true": {
+      "model": "aerialhell:block/blossoming_vines_plant_blossomed"
+    }
+  }
+}

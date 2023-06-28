@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "aerialhell:block/glowing_stick_fruit_vines_lit"
+  }
+}

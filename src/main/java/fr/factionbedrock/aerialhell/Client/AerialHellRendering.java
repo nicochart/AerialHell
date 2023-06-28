@@ -28,6 +28,10 @@ public class AerialHellRendering
 		render(() -> AerialHellBlocksAndItems.GOLDEN_SOLID_ETHER.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GREEN_SOLID_ETHER.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.PURPLE_SOLID_ETHER.get(), translucent);
+        render(() -> AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES_PLANT.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.BLOSSOMING_VINES.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT.get(), cutout);
 		render(() -> AerialHellBlocksAndItems.AERIAL_BERRY_BUSH.get(), cutout);
 		render(() -> AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY_BUSH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BLUE_FLOWER.get(), cutout);
@@ -86,6 +90,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.POTTED_SHADOW_PINE_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_CORTINARIUS_VIOLACEUS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_VERDIGRIS_AGARIC.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.POTTED_VINE_BLOSSOM.get(), cutout);
         render(() -> AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get(), translucent);
         render(() -> AerialHellBlocksAndItems.SLIPPERY_SAND_GLASS.get(), translucent);
         render(() -> AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get(), translucent);

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "berries=false": {
+      "model": "aerialhell:block/glowing_stick_fruit_vines_plant"
+    },
+    "berries=true": {
+      "model": "aerialhell:block/glowing_stick_fruit_vines_plant_lit"
+    }
+  }
+}

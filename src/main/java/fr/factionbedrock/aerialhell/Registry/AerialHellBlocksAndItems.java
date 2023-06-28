@@ -95,6 +95,7 @@ public class AerialHellBlocksAndItems
 		pot.addPlant(SHADOW_PINE_SAPLING.getId(), POTTED_SHADOW_PINE_SAPLING);
 		pot.addPlant(CORTINARIUS_VIOLACEUS.getId(), POTTED_CORTINARIUS_VIOLACEUS);
 		pot.addPlant(VERDIGRIS_AGARIC.getId(), POTTED_VERDIGRIS_AGARIC);
+		pot.addPlant(BLOSSOMING_VINES.getId(), POTTED_VINE_BLOSSOM);
 	}
 
 	public static void registerAxeStrippingBlocks() {
@@ -693,6 +694,13 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> VIBRANT_AERIAL_BERRY_BUSH = BLOCKS.register("vibrant_aerial_berry_bush", () -> new VibrantAerialBerryBushBlock(BlockBehaviour.Properties.copy(Blocks.SWEET_BERRY_BUSH)));
 	public static final RegistryObject<Item> VIBRANT_AERIAL_BERRY_SEEDS = ITEMS.register("vibrant_aerial_berry_seeds",() -> new ItemNameBlockItem(VIBRANT_AERIAL_BERRY_BUSH.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT).tab(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)));
 
+	//vines
+	public static final RegistryObject<Block> GLOWING_STICK_FRUIT_VINES = BLOCKS.register("glowing_stick_fruit_vines", () -> new AerialHellCaveVinesBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES)));
+	public static final RegistryObject<Block> GLOWING_STICK_FRUIT_VINES_PLANT = BLOCKS.register("glowing_stick_fruit_vines_plant", () -> new AerialHellCaveVinesPlantBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES_PLANT)));
+	public static final RegistryObject<Block> BLOSSOMING_VINES = BLOCKS.register("blossoming_vines", () -> new AerialHellCaveVinesBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES)));
+	public static final RegistryObject<Block> BLOSSOMING_VINES_PLANT = BLOCKS.register("blossoming_vines_plant", () -> new AerialHellCaveVinesPlantBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES_PLANT)));
+	public static final RegistryObject<Item> VINE_BLOSSOM = ITEMS.register("vine_blossom",() -> new ItemNameBlockItem(BLOSSOMING_VINES.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)));
+
 	//grass
 	public static final RegistryObject<Block> STELLAR_GRASS = BLOCKS.register("stellar_grass", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
 	public static final RegistryObject<Block> STELLAR_GRASS_BALL = BLOCKS.register("stellar_grass_ball", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
@@ -742,6 +750,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<FlowerPotBlock> POTTED_SHADOW_PINE_SAPLING = BLOCKS.register("potted_shadow_pine_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, SHADOW_PINE_SAPLING, BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
 	public static final RegistryObject<FlowerPotBlock> POTTED_CORTINARIUS_VIOLACEUS = BLOCKS.register("potted_cortinarius_violaceus", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, CORTINARIUS_VIOLACEUS, BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
 	public static final RegistryObject<FlowerPotBlock> POTTED_VERDIGRIS_AGARIC = BLOCKS.register("potted_verdigris_agaric", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, VERDIGRIS_AGARIC, BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
+	public static final RegistryObject<FlowerPotBlock> POTTED_VINE_BLOSSOM = BLOCKS.register("potted_vine_blossom", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BLOSSOMING_VINES, BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
 
 	//with gui
 	public static final RegistryObject<Block> OSCILLATOR = BLOCKS.register("oscillator", () -> new OscillatorBlock(BlockBehaviour.Properties.of(Material.STONE).strength(2.0F).sound(SoundType.STONE)));
@@ -1110,6 +1119,9 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> FROZEN_MUTTON = ITEMS.register("frozen_mutton", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN, AerialHellCreativeModeTabs.AERIAL_HELL_FOODSTUFFS, () -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 310, 0), () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 210, 0)));
 	public static final RegistryObject<Item> RUBY_AERIAL_BERRY = ITEMS.register("ruby_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, Rarity.RARE, AerialHellCreativeModeTabs.AERIAL_HELL_FOODSTUFFS, () -> new MobEffectInstance(MobEffects.HEALTH_BOOST, 2400, 0)));
 	public static final RegistryObject<Item> VOLUCITE_AERIAL_BERRY = ITEMS.register("volucite_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT, AerialHellCreativeModeTabs.AERIAL_HELL_FOODSTUFFS, () -> new MobEffectInstance(MobEffects.SLOW_FALLING, 2400, 2)));
+	public static final RegistryObject<Item> GLOWING_STICK_FRUIT = ITEMS.register("glowing_stick_fruit",() -> new ItemNameBlockItem(GLOWING_STICK_FRUIT_VINES.get(), new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.2F).build()).tab(AerialHellCreativeModeTabs.AERIAL_HELL_FOODSTUFFS)));
+	public static final RegistryObject<Item> VIBRANT_GLOWING_STICK_FRUIT = ITEMS.register("vibrant_glowing_stick_fruit", () -> new Item(new Item.Properties().rarity(AerialHellRarities.VIBRANT).food(new FoodProperties.Builder().nutrition(4).saturationMod(0.4F).build()).tab(AerialHellCreativeModeTabs.AERIAL_HELL_FOODSTUFFS)));
+	public static final RegistryObject<Item> FROZEN_GLOWING_STICK_FRUIT = ITEMS.register("frozen_glowing_stick_fruit", () -> new FoodWithEffectItem(4, 0.4F, AerialHellRarities.FROZEN, AerialHellCreativeModeTabs.AERIAL_HELL_FOODSTUFFS, () -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 0), () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 180, 0)));
 	public static final RegistryObject<Item> CORTINARIUS_VIOLACEUS_PIECE = ITEMS.register("cortinarius_violaceus_piece", () -> new FoodWithEffectItem(1, 0.1F, Rarity.COMMON, AerialHellCreativeModeTabs.AERIAL_HELL_FOODSTUFFS, () -> new MobEffectInstance(MobEffects.CONFUSION, 100, 0)));
 	public static final RegistryObject<Item> GANODERMA_APPLANATUM_PIECE = ITEMS.register("ganoderma_applanatum_piece", () -> new FoodWithEffectItem(1, 0.1F, Rarity.COMMON, AerialHellCreativeModeTabs.AERIAL_HELL_FOODSTUFFS, () -> new MobEffectInstance(MobEffects.HUNGER, 100, 0)));
 	public static final RegistryObject<Item> DARK_SHADOW_FRUIT = ITEMS.register("dark_shadow_fruit", () -> new FoodWithEffectItem(2, 0.2F, Rarity.COMMON, AerialHellCreativeModeTabs.AERIAL_HELL_FOODSTUFFS, () -> new MobEffectInstance(MobEffects.BLINDNESS, 20, 0), () -> new MobEffectInstance(MobEffects.NIGHT_VISION, 120, 0)));
