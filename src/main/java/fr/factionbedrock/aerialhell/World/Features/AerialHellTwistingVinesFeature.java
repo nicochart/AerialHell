@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -16,11 +17,14 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.TwistingVinesConfig;
 
 import java.util.Random;
+import java.util.function.Supplier;
 
 //copy of TwistingVinesFeature class ; editing placeWeepingVinesColumn and isInvalidPlacementLocation to adapt to Aerial Hell
-public class LazuliRootsFeature extends Feature<TwistingVinesConfig>
+public class AerialHellTwistingVinesFeature extends Feature<TwistingVinesConfig>
 {
-    public LazuliRootsFeature(Codec<TwistingVinesConfig> codec) {super(codec);}
+    private Supplier<Block> headBlock, bodyBlock;
+
+    public AerialHellTwistingVinesFeature(Codec<TwistingVinesConfig> codec, Supplier<Block> headBlock, Supplier<Block> bodyBlock) {super(codec); this.headBlock = headBlock; this.bodyBlock = bodyBlock;}
 
     public boolean place(FeaturePlaceContext<TwistingVinesConfig> context)
     {
@@ -43,7 +47,7 @@ public class LazuliRootsFeature extends Feature<TwistingVinesConfig>
                     int i1 = Mth.nextInt(random, 1, k);
                     if (random.nextInt(6) == 0) {i1 *= 2;}
                     if (random.nextInt(5) == 0) {i1 = 1;}
-                    placeWeepingVinesColumn(worldgenlevel, random, blockpos$mutableblockpos, i1, 17, 25);
+                    placeWeepingVinesColumn(worldgenlevel, random, blockpos$mutableblockpos, i1, 17, 25, this.headBlock.get(), this.bodyBlock.get());
                 }
             }
             return true;
@@ -57,14 +61,14 @@ public class LazuliRootsFeature extends Feature<TwistingVinesConfig>
         return true;
     }
 
-    public static void placeWeepingVinesColumn(LevelAccessor level, Random rand, BlockPos.MutableBlockPos mutablePos, int height, int minAge, int maxAge)
+    public static void placeWeepingVinesColumn(LevelAccessor level, Random rand, BlockPos.MutableBlockPos mutablePos, int height, int minAge, int maxAge, Block headBlock, Block bodyBlock)
     {
         for(int i = 1; i <= height; ++i)
         {
             if (level.isEmptyBlock(mutablePos))
             {
-                if (i == height || !level.isEmptyBlock(mutablePos.above())) {level.setBlock(mutablePos, AerialHellBlocksAndItems.LAZULI_ROOTS.get().defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, Integer.valueOf(Mth.nextInt(rand, minAge, maxAge))), 2); break;}
-                level.setBlock(mutablePos, AerialHellBlocksAndItems.LAZULI_ROOTS_PLANT.get().defaultBlockState(), 2);
+                if (i == height || !level.isEmptyBlock(mutablePos.above())) {level.setBlock(mutablePos, headBlock.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, Integer.valueOf(Mth.nextInt(rand, minAge, maxAge))), 2); break;}
+                level.setBlock(mutablePos, bodyBlock.defaultBlockState(), 2);
             }
             mutablePos.move(Direction.UP);
         }
@@ -77,7 +81,7 @@ public class LazuliRootsFeature extends Feature<TwistingVinesConfig>
         else
         {
             BlockState blockstate = level.getBlockState(pos.below());
-            return !blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) && !blockstate.is(Blocks.NETHERRACK) && !blockstate.is(Blocks.WARPED_NYLIUM) && !blockstate.is(Blocks.WARPED_WART_BLOCK);
+            return !blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) && !blockstate.is(AerialHellBlocksAndItems.SLIPPERY_SAND.get()) && !blockstate.is(Blocks.NETHERRACK) && !blockstate.is(Blocks.WARPED_NYLIUM) && !blockstate.is(Blocks.WARPED_WART_BLOCK);
         }
     }
 }

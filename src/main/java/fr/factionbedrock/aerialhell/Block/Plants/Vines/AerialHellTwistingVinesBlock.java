@@ -8,5 +8,10 @@ public class AerialHellTwistingVinesBlock extends TwistingVinesBlock
 {
     public AerialHellTwistingVinesBlock(Properties properties) {super(properties);}
 
-    protected Block getBodyBlock() {return AerialHellBlocksAndItems.LAZULI_ROOTS_PLANT.get();}
+    @Override protected Block getBodyBlock()
+    {
+        if (this == AerialHellBlocksAndItems.LAZULI_ROOTS.get()) {return AerialHellBlocksAndItems.LAZULI_ROOTS_PLANT.get();}
+        else if (this == AerialHellBlocksAndItems.STELLAR_ROOTS.get()) {return AerialHellBlocksAndItems.STELLAR_ROOTS_PLANT.get();}
+        else /*if (this == AerialHellBlocksAndItems.DEAD_ROOTS.get())*/ {return AerialHellBlocksAndItems.DEAD_ROOTS_PLANT.get();}
+    }
 }

@@ -212,6 +212,8 @@
   "block.aerialhell.stellar_dead_bush" : "Stellar Dead Bush",
   "item.aerialhell.vine_blossom" : "Vine Blossom",
   "block.aerialhell.lazuli_roots" : "Lazuli Roots",
+  "block.aerialhell.stellar_roots" : "Stellar Roots",
+  "block.aerialhell.dead_roots" : "Dead Roots",
   "block.aerialhell.brambles" : "Brambles",
   "block.aerialhell.shadow_brambles" : "Shadow Brambles",
   "block.aerialhell.shadow_grass" : "Shadow Grass",

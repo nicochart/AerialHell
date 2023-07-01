@@ -20,7 +20,9 @@ public class AerialHellFeatures
 
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> GIANT_GANODERMA_APPLANATUM = FEATURES.register("giant_ganoderma_applanatum", () -> new GiantGanodermaApplanatumFeature(NoneFeatureConfiguration.CODEC));
 	public static final RegistryObject<HugeMushroomFeature> HUGE_MUSHROOM = FEATURES.register("huge_mushroom", () -> new HugeMushroomFeature(HugeMushroomFeatureConfiguration.CODEC));
-	public static final RegistryObject<LazuliRootsFeature> LAZULI_ROOTS = FEATURES.register("lazuli_roots", () -> new LazuliRootsFeature(TwistingVinesConfig.CODEC));
+	public static final RegistryObject<AerialHellTwistingVinesFeature> LAZULI_ROOTS = FEATURES.register("lazuli_roots", () -> new AerialHellTwistingVinesFeature(TwistingVinesConfig.CODEC, () -> AerialHellBlocksAndItems.LAZULI_ROOTS.get(), () -> AerialHellBlocksAndItems.LAZULI_ROOTS_PLANT.get()));
+	public static final RegistryObject<AerialHellTwistingVinesFeature> STELLAR_ROOTS = FEATURES.register("stellar_roots", () -> new AerialHellTwistingVinesFeature(TwistingVinesConfig.CODEC, () -> AerialHellBlocksAndItems.STELLAR_ROOTS.get(), () -> AerialHellBlocksAndItems.STELLAR_ROOTS_PLANT.get()));
+	public static final RegistryObject<AerialHellTwistingVinesFeature> DEAD_ROOTS = FEATURES.register("dead_roots", () -> new AerialHellTwistingVinesFeature(TwistingVinesConfig.CODEC, () -> AerialHellBlocksAndItems.DEAD_ROOTS.get(), () -> AerialHellBlocksAndItems.DEAD_ROOTS_PLANT.get()));
 
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> WHITE_SOLID_ETHER = FEATURES.register("white_solid_ether", () -> new WhiteSolidEtherCloudFeature(NoneFeatureConfiguration.CODEC));
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> BLUE_SOLID_ETHER = FEATURES.register("blue_solid_ether", () -> new BlueSolidEtherCloudFeature(NoneFeatureConfiguration.CODEC));

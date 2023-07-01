@@ -704,6 +704,12 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<AerialHellTwistingVinesBlock> LAZULI_ROOTS = BLOCKS.register("lazuli_roots", () -> new AerialHellTwistingVinesBlock(BlockBehaviour.Properties.copy(Blocks.TWISTING_VINES)));
 	public static final RegistryObject<AerialHellTwistingVinesPlantBlock> LAZULI_ROOTS_PLANT = BLOCKS.register("lazuli_roots_plant", () -> new AerialHellTwistingVinesPlantBlock(BlockBehaviour.Properties.copy(Blocks.TWISTING_VINES_PLANT)));
 	public static final RegistryObject<Item> LAZULI_ROOTS_ITEM = ITEMS.register("lazuli_roots", () -> new BlockItem(LAZULI_ROOTS.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<AerialHellTwistingVinesBlock> STELLAR_ROOTS = BLOCKS.register("stellar_roots", () -> new AerialHellTwistingVinesBlock(BlockBehaviour.Properties.copy(Blocks.TWISTING_VINES)));
+	public static final RegistryObject<AerialHellTwistingVinesPlantBlock> STELLAR_ROOTS_PLANT = BLOCKS.register("stellar_roots_plant", () -> new AerialHellTwistingVinesPlantBlock(BlockBehaviour.Properties.copy(Blocks.TWISTING_VINES_PLANT)));
+	public static final RegistryObject<Item> STELLAR_ROOTS_ITEM = ITEMS.register("stellar_roots", () -> new BlockItem(STELLAR_ROOTS.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<AerialHellTwistingVinesBlock> DEAD_ROOTS = BLOCKS.register("dead_roots", () -> new AerialHellTwistingVinesBlock(BlockBehaviour.Properties.copy(Blocks.TWISTING_VINES)));
+	public static final RegistryObject<AerialHellTwistingVinesPlantBlock> DEAD_ROOTS_PLANT = BLOCKS.register("dead_roots_plant", () -> new AerialHellTwistingVinesPlantBlock(BlockBehaviour.Properties.copy(Blocks.TWISTING_VINES_PLANT)));
+	public static final RegistryObject<Item> DEAD_ROOTS_ITEM = ITEMS.register("dead_roots", () -> new BlockItem(DEAD_ROOTS.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
 
 	//grass
 	public static final RegistryObject<Block> STELLAR_GRASS = BLOCKS.register("stellar_grass", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
