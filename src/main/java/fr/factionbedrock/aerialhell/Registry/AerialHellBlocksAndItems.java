@@ -13,6 +13,7 @@ import fr.factionbedrock.aerialhell.Block.Furnaces.OscillatorBlock;
 import fr.factionbedrock.aerialhell.Block.Furnaces.StellarFurnaceBlock;
 import fr.factionbedrock.aerialhell.Block.Plants.*;
 import fr.factionbedrock.aerialhell.Block.Plants.Bushes.*;
+import fr.factionbedrock.aerialhell.Block.Plants.Vines.*;
 import fr.factionbedrock.aerialhell.Block.SolidEther.*;
 import fr.factionbedrock.aerialhell.Item.*;
 import fr.factionbedrock.aerialhell.Item.Bucket.*;
@@ -699,7 +700,10 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<CaveVinesPlantBlock> GLOWING_STICK_FRUIT_VINES_PLANT = BLOCKS.register("glowing_stick_fruit_vines_plant", () -> new AerialHellCaveVinesPlantBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES_PLANT)));
 	public static final RegistryObject<CaveVinesBlock> BLOSSOMING_VINES = BLOCKS.register("blossoming_vines", () -> new AerialHellCaveVinesBlock(BlockBehaviour.Properties.of(Material.PLANT).randomTicks().noCollission().instabreak().sound(SoundType.CAVE_VINES)));
 	public static final RegistryObject<CaveVinesPlantBlock> BLOSSOMING_VINES_PLANT = BLOCKS.register("blossoming_vines_plant", () -> new AerialHellCaveVinesPlantBlock(BlockBehaviour.Properties.copy(BLOSSOMING_VINES.get())));
-	public static final RegistryObject<Item> VINE_BLOSSOM = ITEMS.register("vine_blossom",() -> new ItemNameBlockItem(BLOSSOMING_VINES.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)));
+	public static final RegistryObject<Item> VINE_BLOSSOM = ITEMS.register("vine_blossom",() -> new ItemNameBlockItem(BLOSSOMING_VINES.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
+	public static final RegistryObject<AerialHellTwistingVinesBlock> LAZULI_ROOTS = BLOCKS.register("lazuli_roots", () -> new AerialHellTwistingVinesBlock(BlockBehaviour.Properties.copy(Blocks.TWISTING_VINES)));
+	public static final RegistryObject<AerialHellTwistingVinesPlantBlock> LAZULI_ROOTS_PLANT = BLOCKS.register("lazuli_roots_plant", () -> new AerialHellTwistingVinesPlantBlock(BlockBehaviour.Properties.copy(Blocks.TWISTING_VINES_PLANT)));
+	public static final RegistryObject<Item> LAZULI_ROOTS_ITEM = ITEMS.register("lazuli_roots", () -> new BlockItem(LAZULI_ROOTS.get(), new Item.Properties().tab(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)));
 
 	//grass
 	public static final RegistryObject<Block> STELLAR_GRASS = BLOCKS.register("stellar_grass", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission().instabreak().sound(SoundType.GRASS)));

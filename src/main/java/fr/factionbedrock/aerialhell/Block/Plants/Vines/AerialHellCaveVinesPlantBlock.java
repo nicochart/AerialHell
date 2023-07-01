@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Block.Plants.Bushes;
+package fr.factionbedrock.aerialhell.Block.Plants.Vines;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -11,27 +11,32 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CaveVinesBlock;
+import net.minecraft.world.level.block.CaveVinesPlantBlock;
+import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class AerialHellCaveVinesBlock extends CaveVinesBlock
+public class AerialHellCaveVinesPlantBlock extends CaveVinesPlantBlock
 {
-    public AerialHellCaveVinesBlock(Properties properties) {super(properties);}
+    public AerialHellCaveVinesPlantBlock(Properties properties) {super(properties);}
 
-    @Override protected Block getBodyBlock()
+    @Override protected GrowingPlantHeadBlock getHeadBlock()
     {
-        if (this == AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES.get()) {return AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES_PLANT.get();}
-        else /*if (this == AerialHellBlocksAndItems.BLOSSOMING_VINES.get())*/{return AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT.get();}
+        if (this == AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES_PLANT.get()) {return (GrowingPlantHeadBlock) AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES.get();}
+        else /*if (this == AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT.get())*/{return (GrowingPlantHeadBlock) AerialHellBlocksAndItems.BLOSSOMING_VINES.get();}
     }
 
-    protected Item getBerryItem() {
-        if (this == AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES.get()) {return AerialHellBlocksAndItems.GLOWING_STICK_FRUIT.get();}
-        else /*if (this == AerialHellBlocksAndItems.BLOSSOMING_VINES.get())*/{return AerialHellBlocksAndItems.VINE_BLOSSOM.get();}
+    protected Item getBerryItem()
+    {
+        if (this == AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES_PLANT.get()) {return AerialHellBlocksAndItems.GLOWING_STICK_FRUIT.get();}
+        else /*if (this == AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT.get())*/{return AerialHellBlocksAndItems.VINE_BLOSSOM.get();}
     }
+
+    @Override public ItemStack getCloneItemStack(BlockGetter block, BlockPos pos, BlockState state) {return new ItemStack(this.getBerryItem());}
 
     @Override public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult)
     {

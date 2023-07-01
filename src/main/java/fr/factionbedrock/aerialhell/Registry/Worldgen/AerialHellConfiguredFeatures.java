@@ -127,6 +127,7 @@ public class AerialHellConfiguredFeatures
 
     public static final RegistryObject<ConfiguredFeature<?, ?>> GLOWING_STICK_FRUIT_VINES = CONFIGURED_FEATURES.register("glowing_stick_fruit_vines", () -> new ConfiguredFeature<>(Feature.BLOCK_COLUMN, Configs.GLOWING_STICK_FRUIT_VINES_CONFIG));
     public static final RegistryObject<ConfiguredFeature<?, ?>> BLOSSOMING_VINES = CONFIGURED_FEATURES.register("blossoming_vines", () -> new ConfiguredFeature<>(Feature.BLOCK_COLUMN, Configs.BLOSSOMING_VINES_CONFIG));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> LAZULI_ROOTS = CONFIGURED_FEATURES.register("lazuli_roots", () -> new ConfiguredFeature<>(AerialHellFeatures.LAZULI_ROOTS.get(), new TwistingVinesConfig(8, 4, 8)));
 
     public static final RegistryObject<ConfiguredFeature<?, ?>> AERIAL_TREE = CONFIGURED_FEATURES.register("aerial_tree", () -> new ConfiguredFeature<>(Feature.TREE, AerialHellTreeConfig.AERIAL_TREE_BASE_CONFIG));
     public static final RegistryObject<ConfiguredFeature<?, ?>> FOREST_AERIAL_TREE = CONFIGURED_FEATURES.register("forest_aerial_tree", () -> new ConfiguredFeature<>(Feature.TREE, AerialHellTreeConfig.FOREST_AERIAL_TREE_CONFIG));

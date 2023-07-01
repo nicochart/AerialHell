@@ -32,6 +32,8 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES_PLANT.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BLOSSOMING_VINES.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.LAZULI_ROOTS.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.LAZULI_ROOTS_PLANT.get(), cutout);
 		render(() -> AerialHellBlocksAndItems.AERIAL_BERRY_BUSH.get(), cutout);
 		render(() -> AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY_BUSH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BLUE_FLOWER.get(), cutout);
