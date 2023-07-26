@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -27,7 +28,7 @@ public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
     	this.playSound(this.getShootSound(), 3, 0.875F + 0.25F * random.nextFloat());
     }
 
-    @Override public Packet<?> getAddEntityPacket()
+    @Override public Packet<ClientGamePacketListener> getAddEntityPacket()
     {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
@@ -37,9 +38,9 @@ public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
     @Override public void tick()
     {
     	double d1,d2,d3; d1 = 0.5D - random.nextFloat(); d2 = 0.5D - random.nextFloat(); d3 = 0.5D - random.nextFloat();
-        this.level.addParticle(this.getFlyParticle(), this.getX() + d1, this.getY() + 0.3D + d2, this.getZ() + d3, d1, d2, d3);
+        this.level().addParticle(this.getFlyParticle(), this.getX() + d1, this.getY() + 0.3D + d2, this.getZ() + d3, d1, d2, d3);
         super.tick();
-        if (!this.onGround) {++this.ticksInAir;}
+        if (!this.onGround()) {++this.ticksInAir;}
         if (this.ticksInAir > 300) {this.discard();}
     }
 
@@ -47,13 +48,13 @@ public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
     {
     	double d1,d2,d3,d4,d5,d6; 
     	d1 = 0.5D - random.nextFloat(); d2 = 0.5D - random.nextFloat(); d3 = 0.5D - random.nextFloat(); d4 = 0.5D - random.nextFloat(); d5 = 0.5D - random.nextFloat(); d6 = 0.5D - random.nextFloat();
-        this.level.addParticle(this.getImpactParticle(), this.getX() - d1, this.getY() - d2, this.getZ() - d3, -d1, -d2, -d3);
-        this.level.addParticle(this.getImpactParticle(), this.getX() - d4, this.getY() - d5, this.getZ() - d6, -d4, -d5, -d6);
-        this.level.addParticle(this.getFlyParticle(), this.getX() + d1, this.getY() + d2, this.getZ() + d3, d1, d2, d3);
-        this.level.addParticle(this.getFlyParticle(), this.getX() + d4, this.getY() + d5, this.getZ() + d6, d4, d5, d6);
+        this.level().addParticle(this.getImpactParticle(), this.getX() - d1, this.getY() - d2, this.getZ() - d3, -d1, -d2, -d3);
+        this.level().addParticle(this.getImpactParticle(), this.getX() - d4, this.getY() - d5, this.getZ() - d6, -d4, -d5, -d6);
+        this.level().addParticle(this.getFlyParticle(), this.getX() + d1, this.getY() + d2, this.getZ() + d3, d1, d2, d3);
+        this.level().addParticle(this.getFlyParticle(), this.getX() + d4, this.getY() + d5, this.getZ() + d6, d4, d5, d6);
         this.playDisappearSound(1, 0.75F + 0.5F * random.nextFloat());
         super.onHit(result);
-        if (result.getType() != HitResult.Type.ENTITY && !this.level.isClientSide()) {this.discard();}
+        if (result.getType() != HitResult.Type.ENTITY && !this.level().isClientSide()) {this.discard();}
     }
 
     @Override protected void onHitEntity(EntityHitResult result)

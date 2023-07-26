@@ -16,7 +16,6 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -26,12 +25,12 @@ public class OscillatorBlockEntity extends AbstractFurnaceBlockEntity
 {
 	protected OscillatorBlockEntity(BlockEntityType<?> blockEntity, BlockPos pos, BlockState state, RecipeType<? extends AbstractCookingRecipe> recipeType) {super(blockEntity, pos, state, recipeType);}
 
-	public OscillatorBlockEntity(BlockPos pos, BlockState state) {this(AerialHellBlockEntities.OSCILLATOR.get(), pos, state, RecipeTypes.OSCILLATING);}
+	public OscillatorBlockEntity(BlockPos pos, BlockState state) {this(AerialHellBlockEntities.OSCILLATOR.get(), pos, state, RecipeTypes.OSCILLATING.get());}
 
 	@Override
 	protected Component getDefaultName()
 	{
-		return new TranslatableComponent("container." + AerialHell.MODID + ".oscillator");
+		return Component.translatable("container." + AerialHell.MODID + ".oscillator");
 	}
 
 	@Override protected AbstractContainerMenu createMenu(int id, Inventory inv) {return new OscillatorMenu(id, inv, this, this.dataAccess);}

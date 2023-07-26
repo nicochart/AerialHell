@@ -4,7 +4,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ArmorItem;
@@ -15,7 +14,7 @@ import net.minecraft.world.level.Level;
 
 public class AerialHellArmorItem extends ArmorItem
 {
-    public AerialHellArmorItem(ArmorMaterial materialIn, EquipmentSlot slot, Properties builderIn) {super(materialIn, slot, builderIn);}
+    public AerialHellArmorItem(ArmorMaterial materialIn, ArmorItem.Type armorType, Properties builderIn) {super(materialIn, armorType, builderIn);}
 
     @Override public void inventoryTick(ItemStack stack, Level world, Entity entity, int itemSlot, boolean isSelected)
     {

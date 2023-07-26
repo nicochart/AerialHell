@@ -1,8 +1,10 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.tags.FluidTags;
@@ -14,13 +16,13 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.lighting.LayerLightEngine;
 import net.minecraft.world.level.block.BonemealableBlock;
 
 import java.util.List;
-import java.util.Random;
+import java.util.Optional;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.world.level.lighting.LightEngine;
 
 public class StellarGrassBlock extends GrassBlock implements BonemealableBlock
 {
@@ -31,10 +33,11 @@ public class StellarGrassBlock extends GrassBlock implements BonemealableBlock
 	}
 
 	@Override
-	public void performBonemeal(ServerLevel worldIn, Random rand, BlockPos pos, BlockState state)
+	public void performBonemeal(ServerLevel worldIn, RandomSource rand, BlockPos pos, BlockState state)
 	{
 	      BlockPos blockpos = pos.above();
 	      BlockState blockstate = AerialHellBlocksAndItems.STELLAR_GRASS.get().defaultBlockState();
+		  Optional<Holder.Reference<PlacedFeature>> optional = worldIn.registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getHolder(VegetationPlacements.GRASS_BONEMEAL);
 
 	      label46:
 	      for(int i = 0; i < 128; ++i)
@@ -68,7 +71,8 @@ public class StellarGrassBlock extends GrassBlock implements BonemealableBlock
 				 }
 				 else
 				 {
-					 holder = VegetationPlacements.GRASS_BONEMEAL;
+					 if (!optional.isPresent()) {continue;}
+					 holder = optional.get();
 				 }
 				 holder.value().place(worldIn, worldIn.getChunkSource().getGenerator(), rand, blockpos1);
 	         }
@@ -83,9 +87,9 @@ public class StellarGrassBlock extends GrassBlock implements BonemealableBlock
 	
 
 	@Override
-	public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, Random random)
+	public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random)
 	{
-		if (!isSnowyConditions(state, worldIn, pos))
+		if (!canBeGrass(state, worldIn, pos))
 		{
 			if (!worldIn.isAreaLoaded(pos, 3)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light and spreading
 			worldIn.setBlockAndUpdate(pos, AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState());
@@ -107,7 +111,7 @@ public class StellarGrassBlock extends GrassBlock implements BonemealableBlock
 						blockstate = AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get().defaultBlockState();
 					}
 					
-					if ((worldIn.getBlockState(blockpos).is(AerialHellBlocksAndItems.STELLAR_DIRT.get()) || worldIn.getBlockState(blockpos).is(AerialHellBlocksAndItems.CHISELED_STELLAR_DIRT.get())) && isSnowyAndNotUnderwater(blockstate, worldIn, blockpos))
+					if ((worldIn.getBlockState(blockpos).is(AerialHellBlocksAndItems.STELLAR_DIRT.get()) || worldIn.getBlockState(blockpos).is(AerialHellBlocksAndItems.CHISELED_STELLAR_DIRT.get())) && canPropagate(blockstate, worldIn, blockpos))
 					{
 						worldIn.setBlockAndUpdate(blockpos, blockstate.setValue(SNOWY, worldIn.getBlockState(blockpos.above()).is(Blocks.SNOW)));
 					}
@@ -117,9 +121,9 @@ public class StellarGrassBlock extends GrassBlock implements BonemealableBlock
 	}
 	
 	
-	/* ---- Functions copied from SpreadableSnowyDirtBlock class ---- */
+	/* ---- Functions copied from SpreadingSnowyDirtBlock class ---- */
 	
-	private static boolean isSnowyConditions(BlockState state, LevelReader worldReader, BlockPos pos) //canBeGrass in official mappings
+	private static boolean canBeGrass(BlockState state, LevelReader worldReader, BlockPos pos) //canBeGrass in official mappings
 	{
 	     BlockPos blockpos = pos.above();
 	     BlockState blockstate = worldReader.getBlockState(blockpos);
@@ -127,14 +131,14 @@ public class StellarGrassBlock extends GrassBlock implements BonemealableBlock
 	     else if (blockstate.getFluidState().getAmount() == 8) {return false;}
 	     else
 	     {
-	        int i = LayerLightEngine.getLightBlockInto(worldReader, state, pos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(worldReader, blockpos));
+	        int i = LightEngine.getLightBlockInto(worldReader, state, pos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(worldReader, blockpos));
 	        return i < worldReader.getMaxLightLevel();
 	     }
 	 }
 	
-	private static boolean isSnowyAndNotUnderwater(BlockState state, LevelReader worldReader, BlockPos pos)
+	private static boolean canPropagate(BlockState state, LevelReader worldReader, BlockPos pos)
 	{
 	    BlockPos blockpos = pos.above();
-	    return isSnowyConditions(state, worldReader, pos) && !worldReader.getFluidState(blockpos).is(FluidTags.WATER);
+	    return canBeGrass(state, worldReader, pos) && !worldReader.getFluidState(blockpos).is(FluidTags.WATER);
 	}
 }

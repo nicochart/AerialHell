@@ -1,5 +1,5 @@
 package fr.factionbedrock.aerialhell.World.Structure;
-
+/*
 import java.util.Optional;
 
 import net.minecraft.core.BlockPos;
@@ -30,4 +30,4 @@ public class SlipperySandOceanAbandonnedStructure extends AbstractClassicLittleS
 
         return AbstractClassicLittleStructure.createClassicLittleStructurePiecesGenerator(context, blockpos);
     }
-}
+}*/

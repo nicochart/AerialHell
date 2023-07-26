@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Item.Bucket;
 
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -12,7 +13,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
@@ -67,14 +67,13 @@ public class RubyLiquidOfGodsBucketItem extends Item
     public boolean tryPlaceContainedLiquid(@Nullable Player player, Level worldIn, BlockPos posIn, @Nullable BlockHitResult rayTrace)
     {
         BlockState blockstate = worldIn.getBlockState(posIn);
-        Material material = blockstate.getMaterial();
         if (!(blockstate.isAir() || blockstate.canBeReplaced(Fluids.WATER)))
         {
             return rayTrace != null && this.tryPlaceContainedLiquid(player, worldIn, rayTrace.getBlockPos().relative(rayTrace.getDirection()), (BlockHitResult)null);
         }
         else
         {
-            if (!worldIn.isClientSide() && blockstate.canBeReplaced(Fluids.WATER) && !material.isLiquid())
+            if (!worldIn.isClientSide() && blockstate.canBeReplaced(Fluids.WATER) && !blockstate.liquid())
             {
                 worldIn.destroyBlock(posIn, true);
             }
@@ -92,7 +91,7 @@ public class RubyLiquidOfGodsBucketItem extends Item
 
     protected void playEmptySound(@Nullable Player player, LevelAccessor worldIn, BlockPos pos)
     {
-        SoundEvent soundevent = Fluids.LAVA.getAttributes().getEmptySound();
+        SoundEvent soundevent = SoundEvents.BUCKET_EMPTY_LAVA;
         worldIn.playSound(player, pos, soundevent, SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 }

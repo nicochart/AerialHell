@@ -41,7 +41,7 @@ public abstract class AbstractMimicEntity extends PathfinderMob
 		{
 			double x = this.getX(),y = this.getY() + this.getEyeHeight() / 1.5,z = this.getZ();
 			double dx = random.nextFloat() - 0.5F, dy = random.nextFloat() - 0.5F, dz = random.nextFloat() - 0.5F;
-			level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, getMimicBlock().defaultBlockState()), x, y, z, dx, dy, dz);
+			this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, getMimicBlock().defaultBlockState()), x, y, z, dx, dy, dz);
 		}
 		boolean flag = super.hurt(source, amount);
 		if (flag)

@@ -71,7 +71,7 @@ public class AbstractBossEntity extends AbstractActivableEntity
 
 	public void adaptBossDifficulty()
 	{
-		List<Entity> nearbyEntities = this.level.getEntities(this, this.getBoundingBox().inflate(30), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
+		List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(30), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
 		int difficulty = -1;
 		for (Entity entity : nearbyEntities)
 		{

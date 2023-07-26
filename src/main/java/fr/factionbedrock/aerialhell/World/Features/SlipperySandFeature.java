@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
@@ -23,7 +24,7 @@ public class SlipperySandFeature extends Feature<NoneFeatureConfiguration>
 
     @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
-        BlockPos blockPos = context.origin(); WorldGenLevel reader = context.level(); Random rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
+        BlockPos blockPos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
 		boolean canGenerate = (
                 (reader.getBlockState(blockPos.north(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.south(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.west(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.east(3)).getBlock().equals(Blocks.AIR)) &&
                 (reader.getBlockState(blockPos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(blockPos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
@@ -38,7 +39,7 @@ public class SlipperySandFeature extends Feature<NoneFeatureConfiguration>
         return false;
     }
     
-    protected void generateSlipperySand(WorldGenLevel reader, Random rand, BlockPos blockPos)
+    protected void generateSlipperySand(WorldGenLevel reader, RandomSource rand, BlockPos blockPos)
     {
     	BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
     	boolean isBig = rand.nextDouble() > 0.8;
@@ -77,7 +78,7 @@ public class SlipperySandFeature extends Feature<NoneFeatureConfiguration>
     	else {return false;}
     }
     
-    private int getRandomRadius(Random rand, boolean isBig)
+    private int getRandomRadius(RandomSource rand, boolean isBig)
     {
     	return isBig ? (int) (5 + rand.nextFloat() * 5) : (int) (3 + rand.nextFloat() * 4);
     }

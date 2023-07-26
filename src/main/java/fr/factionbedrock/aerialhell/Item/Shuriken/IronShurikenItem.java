@@ -4,18 +4,12 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.IronShurikenEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 
 public class IronShurikenItem extends AbstractShurikenItem
 {
-	public IronShurikenItem(CreativeModeTab group)
-	{
-		super(new Item.Properties().rarity(Rarity.COMMON), group);
-	}
-	
-	public IronShurikenItem() //default group
+	public IronShurikenItem()
 	{
 		super(new Item.Properties().rarity(Rarity.COMMON));
 	}

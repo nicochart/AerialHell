@@ -4,7 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -14,7 +14,7 @@ import java.awt.*;
 public class BlocksAndItemsColorHandler
 {
     @SubscribeEvent
-    public static void handleBlockColors(ColorHandlerEvent.Block event)
+    public static void handleBlockColors(RegisterColorHandlersEvent.Block event)
     {
         event.getBlockColors().register((state, world, pos, tint) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos) : new Color(12, 35, 26).getRGB(),
                 AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get(),
@@ -53,7 +53,7 @@ public class BlocksAndItemsColorHandler
     }
 
     @SubscribeEvent
-    public static void handleItemColors(ColorHandlerEvent.Item event)
+    public static void handleItemColors(RegisterColorHandlersEvent.Item event)
     {
         event.getItemColors().register((stack, color) -> new Color(50, 140, 102).getRGB(),
                 AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK_ITEM.get(),

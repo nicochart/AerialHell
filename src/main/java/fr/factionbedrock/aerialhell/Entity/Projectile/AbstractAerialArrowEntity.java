@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -36,7 +37,7 @@ public abstract class AbstractAerialArrowEntity extends AbstractArrow
         this.setNoGravity(false);
     }
 
-    public Packet<?> getAddEntityPacket()
+    public Packet<ClientGamePacketListener> getAddEntityPacket()
     {
         return NetworkHooks.getEntitySpawningPacket(this);
     }

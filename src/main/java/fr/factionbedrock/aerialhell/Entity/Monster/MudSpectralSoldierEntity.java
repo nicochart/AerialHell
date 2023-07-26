@@ -27,9 +27,9 @@ public class MudSpectralSoldierEntity extends MudSoldierEntity
 	public void tick()
 	{
 		super.tick();
-		if (this.tickCount > getMaxTicksExisting() - 2 && this.level.isClientSide())
+		if (this.tickCount > getMaxTicksExisting() - 2 && this.level().isClientSide())
 		{
-			for (int i=0; i<10; i++) this.level.addParticle(ParticleTypes.LARGE_SMOKE, this.getX() + random.nextFloat() - 0.5, this.getY() + 2 * random.nextFloat(), this.getZ() + random.nextFloat(), 0.5 * (random.nextFloat()) - 0.5, 0.3D, 0.5 * (random.nextFloat() - 0.5));
+			for (int i=0; i<10; i++) this.level().addParticle(ParticleTypes.LARGE_SMOKE, this.getX() + random.nextFloat() - 0.5, this.getY() + 2 * random.nextFloat(), this.getZ() + random.nextFloat(), 0.5 * (random.nextFloat()) - 0.5, 0.3D, 0.5 * (random.nextFloat() - 0.5));
 		}
 		if (this.tickCount > getMaxTicksExisting())
 		{

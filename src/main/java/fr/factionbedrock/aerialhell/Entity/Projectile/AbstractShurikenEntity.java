@@ -1,7 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.world.damagesource.IndirectEntityDamageSource;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -64,11 +65,11 @@ public abstract class AbstractShurikenEntity extends ThrowableItemProjectile
 	@Override
 	protected void onHit(HitResult result)
 	{
-		if (this.level.isClientSide()) {return;}
-		if (result != null && result.getType() != HitResult.Type.MISS && this.level instanceof ServerLevel && result.getType() == HitResult.Type.ENTITY)
+		if (this.level().isClientSide()) {return;}
+		if (result != null && result.getType() != HitResult.Type.MISS && this.level() instanceof ServerLevel && result.getType() == HitResult.Type.ENTITY)
 		{
             Entity entity = ((EntityHitResult)result).getEntity();
-            entity.hurt(new IndirectEntityDamageSource("shuriken_hit", this, this.getOwner()).setProjectile(), this.getKnifeDamage());
+            entity.hurt(AerialHellDamageTypes.getDamageSource(this.level(), AerialHellDamageTypes.SHURIKEN_HIT), this.getKnifeDamage()); //TODO : Put Shuriken owner in DamageSource (see AbstractArrow onHitEntity method)
             entity.setDeltaMovement(entity.getDeltaMovement().add(this.getDeltaMovement().x / 2, 0.12F, this.getDeltaMovement().z / 2));
             this.applyEntityImpactEffet(entity);
 		}
@@ -80,12 +81,7 @@ public abstract class AbstractShurikenEntity extends ThrowableItemProjectile
 	abstract protected float getKnifeDamage();
 	abstract protected void applyEntityImpactEffet(Entity entity);
 	
-	@Override
-	public Packet<?> getAddEntityPacket()
-	{
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
+	@Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return NetworkHooks.getEntitySpawningPacket(this);}
 
-	@Override
-	abstract protected Item getDefaultItem();
+	@Override abstract protected Item getDefaultItem();
 }

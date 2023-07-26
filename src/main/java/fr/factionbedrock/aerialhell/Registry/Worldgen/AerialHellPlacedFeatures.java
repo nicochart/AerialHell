@@ -21,7 +21,7 @@ import java.util.List;
 
 public class AerialHellPlacedFeatures
 {
-    public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, AerialHell.MODID);
+    /*public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, AerialHell.MODID);
 
     public static final RegistryObject<PlacedFeature> STELLAR_PORTAL_FRAME_ORE = PLACED_FEATURES.register("stellar_portal_frame_ore", () -> new PlacedFeature(AerialHellConfiguredFeatures.STELLAR_PORTAL_FRAME_ORE.getHolder().get(), GenAerialHellOres.OrePlacements.STELLAR_PORTAL_FRAME_ORE));
     public static final RegistryObject<PlacedFeature> IRON_STELLAR_ORE = PLACED_FEATURES.register("iron_stellar_ore", () -> new PlacedFeature(AerialHellConfiguredFeatures.IRON_STELLAR_ORE.getHolder().get(), GenAerialHellOres.OrePlacements.IRON_STELLAR_ORE));
@@ -123,5 +123,5 @@ public class AerialHellPlacedFeatures
     private static List<PlacementModifier> createVinesPlacementModifiers(int countPlacement)
     {
         return List.of(CountPlacement.of(countPlacement), InSquarePlacement.spread(), PlacementUtils.RANGE_BOTTOM_TO_MAX_TERRAIN_HEIGHT, EnvironmentScanPlacement.scanningFor(Direction.UP, BlockPredicate.hasSturdyFace(Direction.DOWN), BlockPredicate.ONLY_IN_AIR_PREDICATE, 12), BlockPredicateFilter.forPredicate(BlockPredicate.wouldSurvive(AerialHellBlocksAndItems.BLOSSOMING_VINES.get().defaultBlockState(), BlockPos.ZERO)), RandomOffsetPlacement.vertical(ConstantInt.of(-1)), BiomeFilter.biome());
-    }
+    }*/
 }

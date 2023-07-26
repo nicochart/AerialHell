@@ -4,18 +4,12 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.NetheriteShurikenEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 
 public class NetheriteShurikenItem extends AbstractShurikenItem
 {
-	public NetheriteShurikenItem(CreativeModeTab group)
-	{
-		super(new Item.Properties().rarity(Rarity.UNCOMMON), group);
-	}
-	
-	public NetheriteShurikenItem() //default group
+	public NetheriteShurikenItem()
 	{
 		super(new Item.Properties().rarity(Rarity.UNCOMMON));
 	}

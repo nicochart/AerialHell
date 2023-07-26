@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
@@ -14,7 +15,6 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
-import net.minecraft.world.level.material.Material;
 
 import java.util.Random;
 
@@ -30,7 +30,7 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configu
 
     @Override public boolean place(FeaturePlaceContext<AerialHellLakeFeature.Configuration> context)
     {
-        BlockPos blockpos = context.origin(); WorldGenLevel worldgenlevel = context.level(); Random random = context.random();
+        BlockPos blockpos = context.origin(); WorldGenLevel worldgenlevel = context.level(); RandomSource random = context.random();
         boolean generatesInDungeon = FeatureHelper.generatesInAnyDungeon(context.chunkGenerator(), worldgenlevel, blockpos);
         if (generatesInDungeon) {return false;}
         AerialHellLakeFeature.Configuration configuration = context.config();
@@ -70,10 +70,10 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configu
                     for(int l2 = 0; l2 < 8; ++l2) {
                         boolean flag = !aboolean[(k1 * 16 + k) * 8 + l2] && (k1 < 15 && aboolean[((k1 + 1) * 16 + k) * 8 + l2] || k1 > 0 && aboolean[((k1 - 1) * 16 + k) * 8 + l2] || k < 15 && aboolean[(k1 * 16 + k + 1) * 8 + l2] || k > 0 && aboolean[(k1 * 16 + (k - 1)) * 8 + l2] || l2 < 7 && aboolean[(k1 * 16 + k) * 8 + l2 + 1] || l2 > 0 && aboolean[(k1 * 16 + k) * 8 + (l2 - 1)]);
                         if (flag) {
-                            Material material = worldgenlevel.getBlockState(blockpos.offset(k1, l2, k)).getMaterial();
-                            if (l2 >= 4 && material.isLiquid()) {return false;}
+                            BlockState bstate = worldgenlevel.getBlockState(blockpos.offset(k1, l2, k));
+                            if (l2 >= 4 && bstate.liquid()) {return false;}
 
-                            if (l2 < 4 && !material.isSolid() && worldgenlevel.getBlockState(blockpos.offset(k1, l2, k)) != blockstate1) {return false;}
+                            if (l2 < 4 && !bstate.isSolid() && worldgenlevel.getBlockState(blockpos.offset(k1, l2, k)) != blockstate1) {return false;}
                         }
                     }
                 }
@@ -105,7 +105,7 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configu
                             boolean flag2 = !aboolean[(j2 * 16 + j3) * 8 + l3] && (j2 < 15 && aboolean[((j2 + 1) * 16 + j3) * 8 + l3] || j2 > 0 && aboolean[((j2 - 1) * 16 + j3) * 8 + l3] || j3 < 15 && aboolean[(j2 * 16 + j3 + 1) * 8 + l3] || j3 > 0 && aboolean[(j2 * 16 + (j3 - 1)) * 8 + l3] || l3 < 7 && aboolean[(j2 * 16 + j3) * 8 + l3 + 1] || l3 > 0 && aboolean[(j2 * 16 + j3) * 8 + (l3 - 1)]);
                             if (flag2 && (l3 < 4 || random.nextInt(2) != 0)) {
                                 BlockState blockstate = worldgenlevel.getBlockState(blockpos.offset(j2, l3, j3));
-                                if (blockstate.getMaterial().isSolid() && !blockstate.is(BlockTags.LAVA_POOL_STONE_CANNOT_REPLACE)) {
+                                if (blockstate.isSolid() && !blockstate.is(BlockTags.LAVA_POOL_STONE_CANNOT_REPLACE)) {
                                     BlockPos blockpos3 = blockpos.offset(j2, l3, j3);
                                     worldgenlevel.setBlock(blockpos3, blockstate2, 2);
                                     this.markAboveForPostProcessing(worldgenlevel, blockpos3);

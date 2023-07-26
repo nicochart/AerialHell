@@ -47,7 +47,7 @@ public class CrystalSpiderEntity extends AbstractAerialHellSpiderEntity
         
         public boolean canContinueToUse()
         {
-            float f = this.mob.getBrightness(); //goalOwner (=attacker) .getBrightness()
+            float f = this.mob.getLightLevelDependentMagicValue(); //goalOwner (=attacker) .getBrightness()
             if (f >= 0.5F && this.mob.getRandom().nextInt(100) == 0)
             {
             	this.mob.setTarget((LivingEntity)null);
@@ -74,7 +74,7 @@ public class CrystalSpiderEntity extends AbstractAerialHellSpiderEntity
 
         public boolean canUse()
         {
-        	float f = this.mob.getBrightness(); //goalOwner.getBrightness()
+        	float f = this.mob.getLightLevelDependentMagicValue(); //goalOwner.getBrightness()
             return f >= 0.5F ? false : super.canUse();
         }
     }

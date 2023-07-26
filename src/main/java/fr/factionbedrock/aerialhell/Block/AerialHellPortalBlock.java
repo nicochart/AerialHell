@@ -9,6 +9,7 @@ import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.Block;
@@ -29,13 +30,11 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 import javax.annotation.Nullable;
-
-import java.util.Random;
 
 @EventBusSubscriber(modid = AerialHell.MODID)
 public class AerialHellPortalBlock extends Block
@@ -150,7 +149,7 @@ public class AerialHellPortalBlock extends Block
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	@Override public void animateTick(BlockState state, Level level, BlockPos pos, Random random)
+	@Override public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random)
 	{
 		if (random.nextInt(100) == 0)
 		{

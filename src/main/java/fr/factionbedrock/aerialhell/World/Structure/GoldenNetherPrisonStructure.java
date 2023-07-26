@@ -1,5 +1,5 @@
 package fr.factionbedrock.aerialhell.World.Structure;
-
+/*
 import java.util.Optional;
 
 import net.minecraft.core.BlockPos;
@@ -56,4 +56,4 @@ public class GoldenNetherPrisonStructure extends AbstractAerialHellStructure
 
         return structurePiecesGenerator;
     }
-}
+}*/

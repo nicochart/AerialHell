@@ -1,7 +1,5 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
-import java.util.Random;
-
 import javax.annotation.Nullable;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
@@ -9,6 +7,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.LivingEntity;
@@ -121,7 +120,7 @@ public class DungeonCoreBlock extends Block
 	}
 	
 	@Override
-	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource rand)
 	{
 		float x = pos.getX() + 0.5F;
 		float y = pos.getY() + 0.5F;

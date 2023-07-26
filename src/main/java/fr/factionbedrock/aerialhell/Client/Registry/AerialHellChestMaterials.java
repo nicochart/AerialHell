@@ -62,7 +62,7 @@ public class AerialHellChestMaterials
         };
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent TODO : Use atlas info JSON files instead
     public static void addMaterialSprites(TextureStitchEvent.Pre event)
     {
         if (event.getAtlas().location().equals(Sheets.CHEST_SHEET))
@@ -104,5 +104,5 @@ public class AerialHellChestMaterials
             event.addSprite(VOLUCITE_LEFT.texture());
             event.addSprite(VOLUCITE_RIGHT.texture());
         }
-    }
+    }*/
 }

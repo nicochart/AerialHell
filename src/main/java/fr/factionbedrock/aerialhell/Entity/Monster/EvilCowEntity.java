@@ -66,7 +66,7 @@ public class EvilCowEntity extends AerialHellHostileEntity
                 filledBucket = ItemUtils.createFilledResult(itemstack, player, AerialHellBlocksAndItems.RUBY_BUCKET.get().getDefaultInstance());
             }
             player.setItemInHand(hand, filledBucket);
-            return InteractionResult.sidedSuccess(this.level.isClientSide);
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
         else {return super.mobInteract(player, hand);}
     }

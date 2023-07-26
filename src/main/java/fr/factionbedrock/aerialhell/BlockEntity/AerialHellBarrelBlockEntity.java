@@ -14,16 +14,12 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BarrelBlock;
-import net.minecraft.world.level.block.entity.BarrelBlockEntity;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-
-//see class net.minecraft.tileentity.BarrelBlockEntity
 
 public class AerialHellBarrelBlockEntity extends RandomizableContainerBlockEntity
 {
@@ -59,7 +55,7 @@ public class AerialHellBarrelBlockEntity extends RandomizableContainerBlockEntit
 
 	public AerialHellBarrelBlockEntity(BlockPos pos, BlockState state) {this(AerialHellBlockEntities.BARREL.get(), pos, state);}
 
-	@Override protected Component getDefaultName() {return new TranslatableComponent("container.barrel");}
+	@Override protected Component getDefaultName() {return Component.translatable("container.barrel");}
 
 	@Override
 	protected AbstractContainerMenu createMenu(int id, Inventory inv) {return ChestMenu.threeRows(id, inv, this);}

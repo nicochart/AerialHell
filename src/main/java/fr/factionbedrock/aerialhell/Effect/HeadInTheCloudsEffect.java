@@ -14,7 +14,7 @@ public class HeadInTheCloudsEffect extends MobEffect
     @Override
     public void applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier)
     {
-    	entityLivingBaseIn.flyingSpeed = 0.03f * (1 + amplifier);
+    	//entityLivingBaseIn.flyingSpeed = 0.03f * (1 + amplifier); //TODO : flyingSpeed do not exist anymore. Find another solution
 		
 		if (entityLivingBaseIn.getDeltaMovement().y < -0.2 && !entityLivingBaseIn.isShiftKeyDown())
 		{

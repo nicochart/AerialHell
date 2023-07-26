@@ -3,9 +3,11 @@ package fr.factionbedrock.aerialhell.Entity.Projectile;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -32,7 +34,7 @@ public class LunaticProjectileEntity extends AbstractLightProjectileEntity
     protected void onHit(HitResult result)
     {
         super.onHit(result);
-    	this.level.addParticle(ParticleTypes.CLOUD, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+    	this.level().addParticle(ParticleTypes.CLOUD, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
     }
     
     private boolean targetIsImmuneToLunaticProjectileKb(Entity target) //target is not a ChainedGod or Lunatic Priest
@@ -47,10 +49,10 @@ public class LunaticProjectileEntity extends AbstractLightProjectileEntity
         Entity target = result.getEntity();
         if (target != this.getOwner()) //target != projectile shooter (not working yet..)
         {
-        	target.hurt(DamageSource.thrown(this, getOwner()), 5);
+        	target.hurt(this.damageSources().thrown(this, getOwner()), 5);
             float amount = 4.0F;
             if (EntityHelper.isShadowEntity(target) || (target instanceof LivingEntity && EntityHelper.isLivingEntityVulnerable((LivingEntity) target))) {amount*=2;}
-            target.hurt(new DamageSource("lunatic_projection"), amount);
+            target.hurt(AerialHellDamageTypes.getDamageSource(this.level(), AerialHellDamageTypes.LUNATIC_PROJECTION), amount);
             if (!targetIsImmuneToLunaticProjectileKb(target))
             {
             	target.push(this.getDeltaMovement().x, 0.3D, this.getDeltaMovement().z);

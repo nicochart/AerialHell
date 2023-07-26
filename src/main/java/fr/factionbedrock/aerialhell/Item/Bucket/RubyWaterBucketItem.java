@@ -17,7 +17,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
@@ -75,7 +74,6 @@ public class RubyWaterBucketItem extends Item
     {
         BlockState blockstate = worldIn.getBlockState(posIn);
         Block block = blockstate.getBlock();
-        Material material = blockstate.getMaterial();
         boolean flag = blockstate.canBeReplaced(Fluids.WATER);
         boolean flag1 = blockstate.isAir() || flag || block instanceof LiquidBlockContainer && ((LiquidBlockContainer)block).canPlaceLiquid(worldIn, posIn, blockstate, Fluids.WATER);
         if (!flag1)
@@ -104,7 +102,7 @@ public class RubyWaterBucketItem extends Item
         }
         else
         {
-            if (!worldIn.isClientSide() && flag && !material.isLiquid())
+            if (!worldIn.isClientSide() && flag && !blockstate.liquid())
             {
                 worldIn.destroyBlock(posIn, true);
             }
@@ -128,7 +126,7 @@ public class RubyWaterBucketItem extends Item
 
     protected void playEmptySound(@Nullable Player player, LevelAccessor worldIn, BlockPos pos)
     {
-        SoundEvent soundevent = Fluids.WATER.getAttributes().getEmptySound();
+        SoundEvent soundevent = SoundEvents.BUCKET_EMPTY;
         worldIn.playSound(player, pos, soundevent, SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 }

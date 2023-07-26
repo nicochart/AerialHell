@@ -43,7 +43,7 @@ public class AerialHellTeleporter implements ITeleporter
         PoiManager poiManager = this.level.getPoiManager();
         poiManager.ensureLoadedAndValid(this.level, pos, 64);
         Optional<PoiRecord> optional = poiManager.getInSquare((poiType) ->
-                poiType == AerialHellPOI.AERIAL_HELL_PORTAL_POI.get(), pos, 64, PoiManager.Occupancy.ANY).sorted(Comparator.<PoiRecord>comparingDouble((poi) ->
+                poiType.is(AerialHellPOI.AERIAL_HELL_PORTAL_POI.getKey()), pos, 64, PoiManager.Occupancy.ANY).sorted(Comparator.<PoiRecord>comparingDouble((poi) ->
                 poi.getPos().distSqr(pos)).thenComparingInt((poi) ->
                 poi.getPos().getY())).filter((poi) ->
                 this.level.getBlockState(poi.getPos()).hasProperty(BlockStateProperties.HORIZONTAL_AXIS)).findFirst();
@@ -170,7 +170,7 @@ public class AerialHellTeleporter implements ITeleporter
             for(int j = -1; j < 4; ++j)
             {
                 offsetPos.setWithOffset(originalPos, directionIn.getStepX() * i + direction.getStepX() * offsetScale, j, directionIn.getStepZ() * i + direction.getStepZ() * offsetScale);
-                if (j < 0 && !this.level.getBlockState(offsetPos).getMaterial().isSolid()) {return false;}
+                if (j < 0 && !this.level.getBlockState(offsetPos).isSolid()) {return false;}
 
                 if (j >= 0 && !this.level.isEmptyBlock(offsetPos)) {return false;}
             }
@@ -183,7 +183,7 @@ public class AerialHellTeleporter implements ITeleporter
     public PortalInfo getPortalInfo(Entity entity, ServerLevel level, Function<ServerLevel, PortalInfo> defaultPortalInfo)
     {
         boolean destinationIsAerialHell = level.dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION;
-        if (entity.level.dimension() != AerialHellDimensions.AERIAL_HELL_DIMENSION && !destinationIsAerialHell) {return null;}
+        if (entity.level().dimension() != AerialHellDimensions.AERIAL_HELL_DIMENSION && !destinationIsAerialHell) {return null;}
         else
         {
             WorldBorder border = level.getWorldBorder();
@@ -191,16 +191,16 @@ public class AerialHellTeleporter implements ITeleporter
             double minZ = Math.max(-2.9999872E7D, border.getMinZ() + 16.0D);
             double maxX = Math.min(2.9999872E7D, border.getMaxX() - 16.0D);
             double maxZ = Math.min(2.9999872E7D, border.getMaxZ() - 16.0D);
-            double coordinateDifference = DimensionType.getTeleportationScale(entity.level.dimensionType(), level.dimensionType());
-            BlockPos blockpos = new BlockPos(Mth.clamp(entity.getX() * coordinateDifference, minX, maxX), entity.getY(), Mth.clamp(entity.getZ() * coordinateDifference, minZ, maxZ));
+            double coordinateDifference = DimensionType.getTeleportationScale(entity.level().dimensionType(), level.dimensionType());
+            BlockPos blockpos = border.clampToBounds(entity.getX() * coordinateDifference, entity.getY(), entity.getZ() * coordinateDifference);
             return this.getOrMakePortal(entity, blockpos).map((result) -> {
-                BlockState blockstate = entity.level.getBlockState(entity.portalEntrancePos);
+                BlockState blockstate = entity.level().getBlockState(entity.portalEntrancePos);
                 Direction.Axis axis;
                 Vec3 vector3d;
                 if (blockstate.hasProperty(BlockStateProperties.HORIZONTAL_AXIS))
                 {
                     axis = blockstate.getValue(BlockStateProperties.HORIZONTAL_AXIS);
-                    BlockUtil.FoundRectangle rectangle = BlockUtil.getLargestRectangleAround(entity.portalEntrancePos, axis, 21, Direction.Axis.Y, 21, (pos) -> entity.level.getBlockState(pos) == blockstate);
+                    BlockUtil.FoundRectangle rectangle = BlockUtil.getLargestRectangleAround(entity.portalEntrancePos, axis, 21, Direction.Axis.Y, 21, (pos) -> entity.level().getBlockState(pos) == blockstate);
                     //vector3d = entity.getRelativePortalPosition(axis, rectangle);
                     vector3d = PortalShape.getRelativePosition(rectangle, axis, entity.position(), entity.getDimensions(entity.getPose()));
                 }
@@ -210,7 +210,7 @@ public class AerialHellTeleporter implements ITeleporter
                     vector3d = new Vec3(0.5D, 0.0D, 0.0D);
                 }
 
-                return PortalShape.createPortalInfo(level, result, axis, vector3d, entity.getDimensions(entity.getPose()), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot());
+                return PortalShape.createPortalInfo(level, result, axis, vector3d, entity, entity.getDeltaMovement(), entity.getYRot(), entity.getXRot());
             }).orElse(null);
         }
     }

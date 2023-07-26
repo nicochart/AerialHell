@@ -68,9 +68,9 @@ public class ChestMimicBlock extends ChestBlock
 	}
 
 	@Override
-	public void spawnAfterBreak(BlockState state, ServerLevel worldIn, BlockPos pos, ItemStack stack)
+	public void spawnAfterBreak(BlockState state, ServerLevel worldIn, BlockPos pos, ItemStack stack, boolean bool)
 	{
-		super.spawnAfterBreak(state, worldIn, pos, stack);
+		super.spawnAfterBreak(state, worldIn, pos, stack, bool);
 		revealMimic(state, worldIn, pos);
 	}
 

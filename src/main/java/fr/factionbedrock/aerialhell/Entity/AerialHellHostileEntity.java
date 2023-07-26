@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity;
 
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.goal.*;
@@ -30,7 +31,7 @@ public abstract class AerialHellHostileEntity extends Monster
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
-    public static boolean canHostileEntitySpawn(EntityType<? extends Monster> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, Random randomIn)
+    public static boolean canHostileEntitySpawn(EntityType<? extends Monster> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource randomIn)
     {
         if (type == AerialHellEntities.CRYSTAL_SPIDER.get())
         {

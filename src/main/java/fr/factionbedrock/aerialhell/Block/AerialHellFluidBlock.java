@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -7,10 +8,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
-import com.mojang.math.Vector3d;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
@@ -29,7 +28,7 @@ public class AerialHellFluidBlock extends LiquidBlock {
 
 	public AerialHellFluidBlock(Supplier<? extends FlowingFluid> supplier, Properties properties)
 	{
-        super(supplier, properties.noCollission().strength(100F).noDrops());
+        super(supplier, properties.noCollission().strength(100F).noLootTable());
     }
 	
 	private void triggerMixEffects(LevelAccessor worldIn, BlockPos pos) {worldIn.levelEvent(1501, pos, 0);} //fizz in FluidBlock
@@ -89,7 +88,7 @@ public class AerialHellFluidBlock extends LiquidBlock {
             {
             	if (!(entityIn instanceof TornSpiritEntity || entityIn instanceof ChainedGodEntity || ((LivingEntity) entityIn).hasEffect(AerialHellMobEffects.GOD.get())))
             	{
-            		entityIn.hurt(new DamageSource("god_blessing").bypassArmor(), 1.5F);//.setFire(10);
+            		entityIn.hurt(AerialHellDamageTypes.getDamageSource(worldIn, AerialHellDamageTypes.GOD_BLESS), 1.5F);//.setFire(10);
             	}
                 LivingEntity livingEntity = (LivingEntity) entityIn;
                 if (livingEntity.isCrouching())

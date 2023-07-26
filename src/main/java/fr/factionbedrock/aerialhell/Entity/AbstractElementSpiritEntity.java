@@ -58,7 +58,7 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
     {
     	this.playSound(this.getDeathSound(), 1.5F, 0.95F + random.nextFloat() * 0.1F);
     	this.spawnParticle();
-    	List<Entity> nearbyEntities = this.level.getEntities(this, this.getBoundingBox().inflate(4), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 4));
+    	List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(4), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 4));
     	for (Entity entity : nearbyEntities)
     	{
     		if (entity instanceof LivingEntity)
@@ -76,7 +76,7 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
             double d0 = (this.random.nextGaussian() - 0.5D) * 0.02D;
             double d1 = (this.random.nextGaussian() - 0.5D) * 0.02D;
             double d2 = (this.random.nextGaussian() - 0.5D) * 0.02D;
-            this.level.addParticle(this.getParticleToSpawn(), this.getX(1.0D) + d0 * 10.0D, this.getRandomY() + d1 * 10.0D, this.getRandomZ(1.0D) + d2 * 10.0D, d0, d1, d2);
+            this.level().addParticle(this.getParticleToSpawn(), this.getX(1.0D) + d0 * 10.0D, this.getRandomY() + d1 * 10.0D, this.getRandomZ(1.0D) + d2 * 10.0D, d0, d1, d2);
         }
     }
 

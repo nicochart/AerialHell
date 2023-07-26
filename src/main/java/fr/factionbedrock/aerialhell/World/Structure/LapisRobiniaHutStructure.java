@@ -1,5 +1,5 @@
 package fr.factionbedrock.aerialhell.World.Structure;
-
+/*
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
@@ -30,4 +30,4 @@ public class LapisRobiniaHutStructure extends AbstractClassicLittleStructure
 
         return AbstractClassicLittleStructure.createClassicLittleStructurePiecesGenerator(context, blockpos);
     }
-}
+}*/

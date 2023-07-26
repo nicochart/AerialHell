@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.HugeMushroomBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.tags.BlockTags;
@@ -22,7 +23,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
 
     @Override public boolean place(FeaturePlaceContext<HugeMushroomFeatureConfiguration> context)
     {
-        BlockPos pos = context.origin(); WorldGenLevel world = context.level(); Random rand = context.random(); HugeMushroomFeatureConfiguration config = context.config();
+        BlockPos pos = context.origin(); WorldGenLevel world = context.level(); RandomSource rand = context.random(); HugeMushroomFeatureConfiguration config = context.config();
         int stemSize = (rand.nextInt(6) == 0) ? rand.nextInt(8) + 5 : rand.nextInt(5) + 8; //shroom y size
         int capRadius = 3 + rand.nextInt(2); //horizontal width
         float yCapFactor = (rand.nextInt(2) == 0) ? 0.5F : 0.6F; //cap vertical size (0.0F : 0 block, no cap ; 1.0F : full size cap, the cap touches the floor)
@@ -35,7 +36,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
         }
     }
     
-    protected void generateCap(HugeMushroomFeatureConfiguration config, LevelAccessor world, Random rand, BlockPos blockPos, int stemSize, float yCapFactor, int capRadius)
+    protected void generateCap(HugeMushroomFeatureConfiguration config, LevelAccessor world, RandomSource rand, BlockPos blockPos, int stemSize, float yCapFactor, int capRadius)
     {
     	BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
     	boolean downInEll,isUpCap,northInEll,southInEll,westInEll,eastInEll;
@@ -79,7 +80,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
         }
     }
     
-    protected void generateStem(HugeMushroomFeatureConfiguration config, LevelAccessor world, Random rand, BlockPos blockPos, int stemSize)
+    protected void generateStem(HugeMushroomFeatureConfiguration config, LevelAccessor world, RandomSource rand, BlockPos blockPos, int stemSize)
     {
     	BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
         for(int y = 0; y < stemSize; ++y)

@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 import javax.annotation.Nullable;
 
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -54,9 +55,9 @@ public class MudSoldierEntity extends AbstractSkeleton
 				.add(Attributes.MOVEMENT_SPEED, 0.20D)
 				.add(Attributes.ATTACK_DAMAGE, 3.0D);
     }
-	
+
 	@Override
-	protected void populateDefaultEquipmentSlots(DifficultyInstance difficulty)
+	protected void populateDefaultEquipmentSlots(RandomSource rand, DifficultyInstance difficulty)
 	{
 		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
 	}
@@ -66,7 +67,7 @@ public class MudSoldierEntity extends AbstractSkeleton
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag)
 	{
 		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
-		this.populateDefaultEquipmentSlots(difficultyIn);
+		this.populateDefaultEquipmentSlots(this.random, difficultyIn);
 		this.reassessWeaponGoal();
 		return spawnDataIn;
 	}

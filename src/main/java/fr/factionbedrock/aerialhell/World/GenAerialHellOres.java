@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.data.worldgen.features.OreFeatures;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.*;
@@ -39,6 +40,9 @@ public class GenAerialHellOres
 		public final static List<PlacementModifier> STELLAR_CLAY_ORE = commonOrePlacement(6, HeightRangePlacement.triangle(VerticalAnchor.absolute(40), VerticalAnchor.absolute(160)));
 	}
 
+	private static final RuleTest STONE_ORE_REPLACEABLES = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
+	private static final RuleTest DEEPSLATE_ORE_REPLACEABLES = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
+
 	public static final RuleTest STELLAR_STONE_ORE_REPLACEABLES = new TagMatchTest(AerialHellTags.Blocks.STELLAR_STONE);
 
 	public static ConfiguredFeature<?,?> createAerialHellOreConfiguredFeature(BlockState stellarStoneOreState, int oreVeinSize)
@@ -53,7 +57,7 @@ public class GenAerialHellOres
 
 	public static List<OreConfiguration.TargetBlockState> getOverworldTargetList(BlockState stoneOreState, BlockState deepslateOreState)
 	{
-		return ImmutableList.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, stoneOreState), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, deepslateOreState));
+		return ImmutableList.of(OreConfiguration.target(STONE_ORE_REPLACEABLES, stoneOreState), OreConfiguration.target(DEEPSLATE_ORE_REPLACEABLES, deepslateOreState));
 	}
 
 	public static List<OreConfiguration.TargetBlockState> getAerialHellTargetList(BlockState stellarStoneOreState)

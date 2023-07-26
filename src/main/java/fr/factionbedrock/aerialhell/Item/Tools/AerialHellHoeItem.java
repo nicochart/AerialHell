@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableMultimap;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.TooltipFlag;
@@ -42,8 +42,8 @@ public class AerialHellHoeItem extends HoeItem
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public TranslatableComponent getDescription()
+	public MutableComponent getDescription()
 	{
-		return new TranslatableComponent(this.getDescriptionId() + ".desc");
+		return Component.translatable(this.getDescriptionId() + ".desc");
 	}
 }

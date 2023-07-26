@@ -13,7 +13,7 @@ public class LivingEntityEventListener
     @SubscribeEvent
     public static void onLivingJumpEvent(LivingEvent.LivingJumpEvent event)
     {
-    	LivingEntity livingEntity = event.getEntityLiving();
+    	LivingEntity livingEntity = event.getEntity();
     	if (livingEntity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get()))
     	{
     		int bonus = livingEntity.getEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get()).getAmplifier() + 1;

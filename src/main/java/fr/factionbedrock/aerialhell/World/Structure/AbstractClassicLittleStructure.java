@@ -1,5 +1,5 @@
 package fr.factionbedrock.aerialhell.World.Structure;
-
+/*
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Util.StructureHelper;
 import net.minecraft.core.BlockPos;
@@ -47,4 +47,4 @@ public abstract class AbstractClassicLittleStructure extends AbstractAerialHellS
 
         return structurePiecesGenerator;
     }
-}
+}*/

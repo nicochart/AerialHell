@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Block;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -31,7 +32,7 @@ public class BonePileBlock extends SnowLayerBlock
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(WALK_DESTROY_TIMER, LAYERS);}
 
-    private int getRandomWalkDestroyTimer(Random rand) {return (int) (0.25 * MAX_WAIT_TIMER) + rand.nextInt((int) (0.75F * MAX_WAIT_TIMER));}
+    private int getRandomWalkDestroyTimer(RandomSource rand) {return (int) (0.25 * MAX_WAIT_TIMER) + rand.nextInt((int) (0.75F * MAX_WAIT_TIMER));}
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos)
@@ -45,7 +46,7 @@ public class BonePileBlock extends SnowLayerBlock
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random)
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random)
     {/* unused yet, decreasing the "timer" only when player walks is great
         BlockState blockState = world.getBlockState(pos);
         if (!world.isClientSide() && blockState.get(WALK_DESTROY_TIMER) > 0 && world.random.nextInt(10) == 0)
@@ -112,7 +113,7 @@ public class BonePileBlock extends SnowLayerBlock
 
     private boolean isBonePileBlockState(Level world, BlockPos pos) {return world.getBlockState(pos).is(this);}
 
-    private int getNewLayerNumber(int currentLayerNumber, boolean downBlockStateIsBonePile, Random rand)
+    private int getNewLayerNumber(int currentLayerNumber, boolean downBlockStateIsBonePile, RandomSource rand)
     {
         if (downBlockStateIsBonePile)
         {

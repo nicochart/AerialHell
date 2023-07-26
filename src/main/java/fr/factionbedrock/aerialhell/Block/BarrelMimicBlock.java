@@ -36,10 +36,10 @@ public class BarrelMimicBlock extends RotatedPillarBlock
 	}
 
 	@Override
-	public void spawnAfterBreak(BlockState state, ServerLevel worldIn, BlockPos pos, ItemStack stack)
+	public void spawnAfterBreak(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack, boolean bool)
 	{
-		super.spawnAfterBreak(state, worldIn, pos, stack);
-		revealMimic(state, worldIn, pos);
+		super.spawnAfterBreak(state, level, pos, stack, bool);
+		revealMimic(state, level, pos);
 	}
 
 	private void revealMimic(BlockState state, Level worldIn, BlockPos pos)

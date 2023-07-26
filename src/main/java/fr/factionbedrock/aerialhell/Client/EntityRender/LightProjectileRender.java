@@ -2,8 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractLightProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
@@ -14,7 +13,8 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
-import com.mojang.math.Matrix4f;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
 
 //see net.minecraft.client.renderer.entity.DragonFireballRenderer
 public class LightProjectileRender<T extends AbstractLightProjectileEntity> extends EntityRenderer<T>
@@ -33,7 +33,7 @@ public class LightProjectileRender<T extends AbstractLightProjectileEntity> exte
     {
         poseStackIn.pushPose();
         poseStackIn.mulPose(this.entityRenderDispatcher.cameraOrientation());
-        poseStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0F));
+        poseStackIn.mulPose(Axis.YP.rotationDegrees(180.0F));
         poseStackIn.scale(1.5f, 1.5f, 1.5f);
         VertexConsumer vertex = bufferIn.getBuffer(RenderType.entityCutout(getTextureLocation(entityIn)));
         PoseStack.Pose posestack$pose = poseStackIn.last();

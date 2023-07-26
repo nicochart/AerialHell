@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 
 import net.minecraft.client.ParticleStatus;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -13,8 +14,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
@@ -52,13 +51,13 @@ public class LeavesWithAmbientParticlesBlock extends LeavesBlock
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand)
+	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand)
 	{
 		super.animateTick(stateIn, worldIn, pos, rand);
 
 		SimpleParticleType particleType = this.getParticle();
 		
-		if (Minecraft.getInstance().options.particles != ParticleStatus.MINIMAL)
+		if (Minecraft.getInstance().options.particles().get() != ParticleStatus.MINIMAL)
 		{
 			if (worldIn.isClientSide())
 			{

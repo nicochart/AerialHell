@@ -5,17 +5,11 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.MagmaticGelShurik
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.Level;
 
 public class MagmaticGelShurikenItem extends AbstractShurikenItem
 {
-	public MagmaticGelShurikenItem(CreativeModeTab group)
-	{
-		super(new Item.Properties().rarity(AerialHellRarities.FROZEN), group);
-	}
-	
-	public MagmaticGelShurikenItem() //default group
+	public MagmaticGelShurikenItem()
 	{
 		super(new Item.Properties().rarity(AerialHellRarities.FROZEN));
 	}

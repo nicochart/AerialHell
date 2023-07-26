@@ -15,7 +15,7 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
@@ -40,7 +40,7 @@ public class AerialHellParticleTypes
 	
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public static void registerParticleFactories(ParticleFactoryRegisterEvent event)
+	public static void registerParticleFactories(RegisterParticleProvidersEvent event)
 	{
 		ParticleEngine particleManager = Minecraft.getInstance().particleEngine;
 

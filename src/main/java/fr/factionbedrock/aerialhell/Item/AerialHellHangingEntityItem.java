@@ -27,7 +27,7 @@ public class AerialHellHangingEntityItem extends Item
 
     public InteractionResult useOn(UseOnContext context)
     {
-        BlockPos blockpos = context.getClickedPos();
+        /*BlockPos blockpos = context.getClickedPos(); TODO
         Direction direction = context.getClickedFace();
         BlockPos blockpos1 = blockpos.relative(direction);
         Player playerentity = context.getPlayer();
@@ -53,7 +53,7 @@ public class AerialHellHangingEntityItem extends Item
                 return InteractionResult.sidedSuccess(world.isClientSide());
             }
             return InteractionResult.CONSUME;
-        }
+        }*/ return InteractionResult.FAIL;
     }
 
     protected boolean canPlace(Player playerIn, Direction directionIn, ItemStack itemStackIn, BlockPos posIn)

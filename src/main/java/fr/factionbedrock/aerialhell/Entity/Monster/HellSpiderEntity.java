@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractAerialHellSpiderEntity;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -42,12 +43,12 @@ public class HellSpiderEntity extends AbstractAerialHellSpiderEntity
     @Override
     public boolean hurt(DamageSource source, float amount)
     {
-        if (!source.isMagic() && source.getDirectEntity() instanceof LivingEntity)
+        if (!source.is(DamageTypes.MAGIC) && source.getDirectEntity() instanceof LivingEntity)
         {
         	LivingEntity livingentity = (LivingEntity)source.getDirectEntity();
-        	if (!source.isExplosion())
+        	if (!source.is(DamageTypes.EXPLOSION))
         	{
-        		livingentity.hurt(DamageSource.thorns(this), 2.0F);
+        		livingentity.hurt(this.damageSources().thorns(this), 2.0F);
             }
         }
         

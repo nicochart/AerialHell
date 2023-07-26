@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity;
 import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.animal.Animal;
@@ -22,7 +23,7 @@ public abstract class AerialHellAnimalEntity extends Animal
 	@Override
 	public float getWalkTargetValue(BlockPos pos, LevelReader worldIn)
 	{
-		return worldIn.getBlockState(pos.below()).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) ? 10.0F : worldIn.getBrightness(pos) - 0.5F;
+		return worldIn.getBlockState(pos.below()).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) ? 10.0F : worldIn.getPathfindingCostFromLightLevels(pos) - 0.5F;
 	}
 
 	@Override public int getAmbientSoundInterval() {return 160;}
@@ -33,7 +34,7 @@ public abstract class AerialHellAnimalEntity extends Animal
 		return stack.getItem() == AerialHellBlocksAndItems.AERIAL_BERRY.get();
 	}
 
-	public static boolean canAerialHellAnimalSpawn(EntityType<? extends AerialHellAnimalEntity> entityType, LevelAccessor worldIn, MobSpawnType spawnType, BlockPos pos, Random random)
+	public static boolean canAerialHellAnimalSpawn(EntityType<? extends AerialHellAnimalEntity> entityType, LevelAccessor worldIn, MobSpawnType spawnType, BlockPos pos, RandomSource random)
 	{
 		return worldIn.getBlockState(pos.below()).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && isBrightEnoughToSpawn(worldIn, pos);
 	}

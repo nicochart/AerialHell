@@ -4,7 +4,6 @@ import fr.factionbedrock.aerialhell.Inventory.Menu.AerialHellCraftingMenu;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
-import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.level.block.CraftingTableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
@@ -13,13 +12,12 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class AerialHellCraftingTableBlock extends CraftingTableBlock
 {
-	private static final Component CONTAINER_NAME = new TranslatableComponent("container.crafting");
+	private static final Component CONTAINER_NAME = Component.translatable("container.crafting");
 
 	public AerialHellCraftingTableBlock(Properties properties)
 	{

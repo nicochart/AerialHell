@@ -6,7 +6,7 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.level.block.state.BlockState;
@@ -168,9 +168,9 @@ public class BerserkAxeItem extends EffectAxeItem
 		tooltip.add(this.getDescription().append(Integer.toString(getStatus())).withStyle(ChatFormatting.GRAY));
 	}
 
-	@Override @OnlyIn(Dist.CLIENT)
-	public TranslatableComponent getDescription()
+	@OnlyIn(Dist.CLIENT)
+	public MutableComponent getDescription()
 	{
-		return new TranslatableComponent(this.getDescriptionId() + ".desc");
+		return Component.translatable(this.getDescriptionId() + ".desc");
 	}
 }

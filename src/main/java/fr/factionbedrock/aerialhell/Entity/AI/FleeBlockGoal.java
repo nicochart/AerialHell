@@ -41,7 +41,7 @@ public class FleeBlockGoal<T extends Block> extends Goal
     @Override
     public boolean canUse()
     {
-        Vec3i goalOwnerPos = new Vec3i(this.goalOwner.getX(), this.goalOwner.getY(), this.goalOwner.getZ());
+        Vec3i goalOwnerPos = new Vec3i((int)this.goalOwner.getX(), (int)this.goalOwner.getY(), (int)this.goalOwner.getZ());
         this.posToAvoid = this.getPosToAvoid();
         if (this.posToAvoid == null) {return false;}
         else
@@ -51,7 +51,7 @@ public class FleeBlockGoal<T extends Block> extends Goal
             if (this.fleePos == null) {return false;}
             else
             {
-                if (this.posToAvoid.distSqr(new Vec3i(fleePos.x, fleePos.y, fleePos.z)) < this.posToAvoid.distSqr(goalOwnerPos)) {return false;}
+                if (this.posToAvoid.distSqr(new Vec3i((int)fleePos.x, (int)fleePos.y, (int)fleePos.z)) < this.posToAvoid.distSqr(goalOwnerPos)) {return false;}
                 this.path = this.navigator.createPath(fleePos.x, fleePos.y, fleePos.z, 0);
                 return this.path != null;
             }
@@ -80,7 +80,7 @@ public class FleeBlockGoal<T extends Block> extends Goal
                 for (int dz = -BOX_TO_CHECK_SIZE_XZ; dz <= BOX_TO_CHECK_SIZE_XZ; dz++)
                 {
                     BlockPos currentPos = new BlockPos(x+dx, y+dy, z+dz);
-                    Block currentBlock = this.goalOwner.level.getBlockState(currentPos).getBlock();
+                    Block currentBlock = this.goalOwner.level().getBlockState(currentPos).getBlock();
                     for (Block block : blocksToAvoid)
                     {
                         if (currentBlock == block) {return currentPos;}

@@ -1,12 +1,12 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.WebBlock;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Spider;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -33,7 +33,7 @@ public class ThornyWebBlock extends WebBlock
 		if (!isTotallyImmune) {entityIn.makeStuckInBlock(state, new Vec3(0.45D, 0.25D, 0.45D));}
 		if (entityIn instanceof LivingEntity && !isTotallyImmune)
 		{
-			if (!isEntityImmuneToDamage(entityIn)) {((LivingEntity) entityIn).hurt(new DamageSource("web_thorns"), 2.0F);}
+			if (!isEntityImmuneToDamage(entityIn)) {entityIn.hurt(AerialHellDamageTypes.getDamageSource(worldIn, AerialHellDamageTypes.WEB_THORNS), 2.0F);}
 		}
 	}
 }

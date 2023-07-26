@@ -17,18 +17,16 @@ public class SkySoupItem extends Item //copy of net.minecraft.item.SoupItem but 
 {
 	public SkySoupItem(Item.Properties builder) {super(builder);}
 	
-	public SkySoupItem(int hungerIn, float saturationIn, Rarity rarity, CreativeModeTab group, Supplier<MobEffectInstance> effectIn1, Supplier<MobEffectInstance> effectIn2, Supplier<MobEffectInstance> effectIn3)
+	public SkySoupItem(int hungerIn, float saturationIn, Rarity rarity, Supplier<MobEffectInstance> effectIn1, Supplier<MobEffectInstance> effectIn2, Supplier<MobEffectInstance> effectIn3)
 	{
 		super(new Item.Properties().rarity(rarity).stacksTo(1)
-                .food(new FoodProperties.Builder().alwaysEat().nutrition(hungerIn).saturationMod(saturationIn).effect(effectIn1, 1.0F).effect(effectIn2, 1.0F).effect(effectIn3, 1.0F).build())
-                .tab(group));
+                .food(new FoodProperties.Builder().alwaysEat().nutrition(hungerIn).saturationMod(saturationIn).effect(effectIn1, 1.0F).effect(effectIn2, 1.0F).effect(effectIn3, 1.0F).build()));
 	}
 	
-	public SkySoupItem(int hungerIn, float saturationIn, Rarity rarity, CreativeModeTab group, Supplier<MobEffectInstance> effectIn1, Supplier<MobEffectInstance> effectIn2)
+	public SkySoupItem(int hungerIn, float saturationIn, Rarity rarity, Supplier<MobEffectInstance> effectIn1, Supplier<MobEffectInstance> effectIn2)
 	{
 		super(new Item.Properties().rarity(rarity).stacksTo(1)
-                .food(new FoodProperties.Builder().alwaysEat().nutrition(hungerIn).saturationMod(saturationIn).effect(effectIn1, 1.0F).effect(effectIn2, 1.0F).build())
-                .tab(group));
+                .food(new FoodProperties.Builder().alwaysEat().nutrition(hungerIn).saturationMod(saturationIn).effect(effectIn1, 1.0F).effect(effectIn2, 1.0F).build()));
 	}
 	
 	public ItemStack finishUsingItem(ItemStack stack, Level worldIn, LivingEntity entityLiving)

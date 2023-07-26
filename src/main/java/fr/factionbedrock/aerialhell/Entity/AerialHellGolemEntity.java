@@ -55,9 +55,9 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
     public boolean doHurtTarget(Entity entityIn)
     {
     	float attackDamage = this.getAttackDamage();
-    	this.level.broadcastEntityEvent(this, (byte)4);
+    	this.level().broadcastEntityEvent(this, (byte)4);
         float f1 = (int)attackDamage > 0 ? attackDamage / 2.0F + (float)this.random.nextInt((int)attackDamage) : attackDamage;
-        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), f1);
+        boolean flag = entityIn.hurt(this.damageSources().mobAttack(this), f1);
         if (flag)
         {
            entityIn.setDeltaMovement(entityIn.getDeltaMovement().add(0.0D, (double)this.getYMotionOnAttack(), 0.0D)); //projection en hauteur

@@ -24,10 +24,10 @@ public abstract class AbstractAerialHellSpiderEntity extends Spider
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
     }
-    
+
     @Override
-    public int getExperienceReward(Player player)
+    public int getExperienceReward()
     {
-        return player.getLevel().getRandom().nextInt(10);
+        return this.level().getRandom().nextInt(10);
     }
 }

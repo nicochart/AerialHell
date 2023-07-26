@@ -73,7 +73,7 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
     @Override
     public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob mob)
     {
-        return AerialHellEntities.GLIDING_TURTLE.get().create(this.level);
+        return AerialHellEntities.GLIDING_TURTLE.get().create(this.level());
     }
     
     public boolean isGliding() {return !this.entityData.get(GLIDING);}
@@ -100,19 +100,19 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
     @Override public void aiStep()
     {
         super.aiStep();
-        if (!this.onGround)
+        if (!this.onGround())
         {
             if (this.isGliding()) {this.setGlidingMotion();}
             else if (this.getDeltaMovement().y < -0.3D) {this.setGliding(true);}
         }
 
-        if (this.jumpTimer > 600 && !this.isGliding() && this.isOnGround())
+        if (this.jumpTimer > 600 && !this.isGliding() && this.onGround())
         {
             this.glideJump();
         }
         if (!this.isGliding()) {this.jumpTimer += 1 + (int) Math.random()*10;}
 
-        if (this.isGliding() && this.isOnGround() && this.getDeltaMovement().y>=-0.1F) {this.setGliding(false);}
+        if (this.isGliding() && this.onGround() && this.getDeltaMovement().y>=-0.1F) {this.setGliding(false);}
     }
 
     private void setGlidingMotion()
@@ -120,7 +120,7 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
         if (this.getDeltaMovement().y < 0.0D)
         {
             Vec3 forward = Vec3.directionFromRotation(this.getRotationVector());
-            if (this.hasBlockUnder(this.blockPosition().offset(2.5*forward.x, forward.y, 2.5*forward.z), 20))
+            if (this.hasBlockUnder(this.blockPosition().offset((int)(2.5*forward.x), (int)forward.y, (int)(2.5*forward.z)), 20))
             {
                 this.setDeltaMovement(this.getDeltaMovement().multiply(1.0D, 0.6D, 1.0D).add(forward.x/100, 0, forward.z/100));
             }
@@ -140,7 +140,7 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
 
     protected boolean hasBlockUnder(BlockPos pos, int yBlocksDistance)
     {
-        for (int dy=0; dy<yBlocksDistance; dy++) {if (!level.isEmptyBlock(pos.below(dy))) {return true;}}
+        for (int dy=0; dy<yBlocksDistance; dy++) {if (!level().isEmptyBlock(pos.below(dy))) {return true;}}
         return false;
     }
 

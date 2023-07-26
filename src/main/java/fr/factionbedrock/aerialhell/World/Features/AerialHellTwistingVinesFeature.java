@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -32,7 +33,7 @@ public class AerialHellTwistingVinesFeature extends Feature<TwistingVinesConfig>
         if (isInvalidPlacementLocation(worldgenlevel, blockpos)) {return false;}
         else
         {
-            Random random = context.random();
+            RandomSource random = context.random();
             TwistingVinesConfig twistingvinesconfig = context.config();
             int i = twistingvinesconfig.spreadWidth();
             int j = twistingvinesconfig.spreadHeight();
@@ -61,7 +62,7 @@ public class AerialHellTwistingVinesFeature extends Feature<TwistingVinesConfig>
         return true;
     }
 
-    public static void placeWeepingVinesColumn(LevelAccessor level, Random rand, BlockPos.MutableBlockPos mutablePos, int height, int minAge, int maxAge, Block headBlock, Block bodyBlock)
+    public static void placeWeepingVinesColumn(LevelAccessor level, RandomSource rand, BlockPos.MutableBlockPos mutablePos, int height, int minAge, int maxAge, Block headBlock, Block bodyBlock)
     {
         for(int i = 1; i <= height; ++i)
         {

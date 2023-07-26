@@ -4,7 +4,7 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Passive.FatPhantomEntity;
 import net.minecraft.client.model.PhantomModel;
@@ -39,6 +39,6 @@ public class FatPhantomRender extends MobRenderer<FatPhantomEntity, PhantomModel
     protected void setupRotations(FatPhantomEntity entityLiving, PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks)
     {
     	super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
-        matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(entityLiving.getXRot()));
+        matrixStackIn.mulPose(Axis.XP.rotationDegrees(entityLiving.getXRot()));
     }
 }

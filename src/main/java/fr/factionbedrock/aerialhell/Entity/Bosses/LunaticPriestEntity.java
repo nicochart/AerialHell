@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.level.block.state.BlockState;
@@ -145,10 +146,10 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	@Override
 	public boolean doHurtTarget(Entity attackedEntity)
 	{
-	      this.level.broadcastEntityEvent(this, (byte)4);
+	      this.level().broadcastEntityEvent(this, (byte)4);
 	      float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 	      float f1 = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
-	      boolean flag = attackedEntity.hurt(DamageSource.mobAttack(this), f1);
+	      boolean flag = attackedEntity.hurt(this.damageSources().mobAttack(this), f1);
 	      if (flag)
 	      {
 	         attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().x, (double)0.4F, attackedEntity.getDeltaMovement().z);
@@ -224,24 +225,24 @@ public class LunaticPriestEntity extends AbstractBossEntity
 			    }
 				else
 				{
-			        BlockPos ground = new BlockPos(this.getX(), this.getY() - 1.0D, this.getZ());
+			        BlockPos ground = new BlockPos(this.getBlockX(), this.getBlockY() - 1, this.getBlockZ());
 			        float f = 0.91F;
-			        if (this.onGround)
+			        if (this.onGround())
 			        {
-			        	f = this.level.getBlockState(ground).getFriction(this.level, ground, this) * 0.91F;
+			        	f = this.level().getBlockState(ground).getFriction(this.level(), ground, this) * 0.91F;
 			        }
 			        float f1 = 0.16277137F / (f * f * f);
 			        f = 0.91F;
-			        if (this.onGround)
+			        if (this.onGround())
 			        {
-			            f = this.level.getBlockState(ground).getFriction(this.level, ground, this) * 0.91F;
+			            f = this.level().getBlockState(ground).getFriction(this.level(), ground, this) * 0.91F;
 			        }
 		
-			        this.moveRelative(this.onGround ? 0.1F * f1 : 0.02F, travelVector);
+			        this.moveRelative(this.onGround() ? 0.1F * f1 : 0.02F, travelVector);
 			        this.move(MoverType.SELF, this.getDeltaMovement());
 			        this.setDeltaMovement(this.getDeltaMovement().scale((double)f));
 				}
-				this.calculateEntityAnimation(this, false);
+				this.calculateEntityAnimation(false);
 			}
 		}
 		else {super.travel(travelVector);}
@@ -299,7 +300,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		@Override
 		public void start()
 		{
-			Random random = this.priest.getRandom();
+			RandomSource random = this.priest.getRandom();
 			double d0 = this.priest.getX() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
 			double d1 = this.priest.getY() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
 			double d2 = this.priest.getZ() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
@@ -347,7 +348,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 			for (int i = 1; i < distance; ++i)
 			{
 				axisalignedbb = axisalignedbb.move(pos);
-				if (!this.priest.level.noCollision(this.priest, axisalignedbb)) {return false;}
+				if (!this.priest.level().noCollision(this.priest, axisalignedbb)) {return false;}
 			}
 			return true;
 		}
@@ -429,9 +430,9 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	        if (projectileCount < 1)
 	        {
 	        	 ++this.projectileCount;
-	        	 LunaticProjectileEntity lunaticProjectileEntity = new LunaticProjectileEntity(this.priest.level, this.priest, Xdistance, Ydistance, Zdistance, 0.7f + this.priest.random.nextFloat(), inaccuracy);
+	        	 LunaticProjectileEntity lunaticProjectileEntity = new LunaticProjectileEntity(this.priest.level(), this.priest, Xdistance, Ydistance, Zdistance, 0.7f + this.priest.random.nextFloat(), inaccuracy);
                  lunaticProjectileEntity.setPos(lunaticProjectileEntity.getX(), this.priest.getY(0.5D) + 0.5D, lunaticProjectileEntity.getZ());
-                 this.priest.level.addFreshEntity(lunaticProjectileEntity);
+                 this.priest.level().addFreshEntity(lunaticProjectileEntity);
 	        }
 	        if (priest.isInPhase1())
 	        {

@@ -5,6 +5,7 @@ import java.util.Random;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -49,7 +50,7 @@ public class CrystalSlimeEntity extends Slime
 	}
 	
 	@Override
-	protected void setSize(int size, boolean resetHealth)
+	public void setSize(int size, boolean resetHealth)
 	{
 		super.setSize(2, resetHealth);
 		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(24.0D);
@@ -67,7 +68,7 @@ public class CrystalSlimeEntity extends Slime
         		.add(Attributes.FOLLOW_RANGE, 16.0D);
     }
 	
-	public static boolean canSpawn(EntityType<CrystalSlimeEntity> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, Random randomIn)
+	public static boolean canSpawn(EntityType<CrystalSlimeEntity> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource randomIn)
     {
         return randomIn.nextInt(10) == 0 && worldIn.getLevel().isDay();
     }
@@ -84,7 +85,7 @@ public class CrystalSlimeEntity extends Slime
 	@Override public void remove(@Nonnull Entity.RemovalReason reason) //copied from Entity class
 	{
 		this.setRemoved(reason);
-		if (reason == Entity.RemovalReason.KILLED) {this.gameEvent(GameEvent.ENTITY_KILLED);}
+		if (reason == Entity.RemovalReason.KILLED) {this.gameEvent(GameEvent.ENTITY_DIE);}
 		this.invalidateCaps();
 	}
 

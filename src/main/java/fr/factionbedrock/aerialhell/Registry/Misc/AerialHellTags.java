@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Registry.Misc;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.*;
 import net.minecraft.world.level.block.Block;
@@ -95,7 +96,7 @@ public class AerialHellTags
 
 		private static TagKey<Block> tag(String name)
 		{
-			return TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(AerialHell.MODID, name));
+			return BlockTags.create(new ResourceLocation(AerialHell.MODID, name));
 		}
 	}
 
@@ -140,7 +141,7 @@ public class AerialHellTags
 
 		private static TagKey<Item> tag(String name)
 		{
-			return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(AerialHell.MODID, name));
+			return ItemTags.create(new ResourceLocation(AerialHell.MODID, name));
 		}
 	}
 
@@ -151,7 +152,7 @@ public class AerialHellTags
 
 		private static TagKey<Fluid> tag(String name)
 		{
-			return TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(AerialHell.MODID, name));
+			return FluidTags.create(new ResourceLocation(AerialHell.MODID, name));
 		}
 	}
 }

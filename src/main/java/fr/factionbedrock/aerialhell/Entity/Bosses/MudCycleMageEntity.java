@@ -81,7 +81,7 @@ public class MudCycleMageEntity extends AbstractBossEntity
 			{
 				this.summonSpectralSoldiers();
 			}
-			if (this.level.isClientSide())
+			if (this.level().isClientSide())
 			{
 				this.spawnSmokeParticle();
 			}
@@ -94,9 +94,9 @@ public class MudCycleMageEntity extends AbstractBossEntity
 		double x,y,z;
 		x = this.getX(); y = this.getY(); z = this.getZ();
 		
-		MudSpectralSoldierEntity spectralSoldier1 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level);
-		MudSpectralSoldierEntity spectralSoldier2 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level);
-		MudSpectralSoldierEntity spectralSoldier3 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level);
+		MudSpectralSoldierEntity spectralSoldier1 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level());
+		MudSpectralSoldierEntity spectralSoldier2 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level());
+		MudSpectralSoldierEntity spectralSoldier3 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level());
 		spectralSoldier1.setPos(x, y, z);
 		spectralSoldier2.setPos(x, y, z);
 		spectralSoldier3.setPos(x, y, z);
@@ -110,9 +110,9 @@ public class MudCycleMageEntity extends AbstractBossEntity
 		spectralSoldier2.reassessWeaponGoal();
 		spectralSoldier3.reassessWeaponGoal();
 		
-		this.level.addFreshEntity(spectralSoldier1);
-		this.level.addFreshEntity(spectralSoldier2);
-		this.level.addFreshEntity(spectralSoldier3);
+		this.level().addFreshEntity(spectralSoldier1);
+		this.level().addFreshEntity(spectralSoldier2);
+		this.level().addFreshEntity(spectralSoldier3);
 	}
 	
 	private void summonSpectralSoldiersAndGolems()
@@ -126,15 +126,15 @@ public class MudCycleMageEntity extends AbstractBossEntity
 		
 		if (random.nextInt(2) == 0)
 		{
-			spectralEntity1 = AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.level);
-			spectralEntity2 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level);
-			spectralEntity3 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level);
+			spectralEntity1 = AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.level());
+			spectralEntity2 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level());
+			spectralEntity3 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level());
 		}
 		else
 		{
-			spectralEntity1 = AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.level);
-			spectralEntity2 = AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.level);
-			spectralEntity3 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level);
+			spectralEntity1 = AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.level());
+			spectralEntity2 = AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.level());
+			spectralEntity3 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level());
 		}
 		spectralEntity1.setPos(x, y, z);
 		spectralEntity2.setPos(x, y, z);
@@ -143,9 +143,9 @@ public class MudCycleMageEntity extends AbstractBossEntity
 		spectralEntity2.setDeltaMovement(-0.250000112583355, 0, 0.4333882291756956);//(-0.50000022516671, 0, 0.8667764583513912);
 		spectralEntity3.setDeltaMovement(-0.250000112583355, 0, -0.4333882291756956);//(-0.50000022516671, 0, -0.8667764583513912);
 		
-		this.level.addFreshEntity(spectralEntity1);
-		this.level.addFreshEntity(spectralEntity2);
-		this.level.addFreshEntity(spectralEntity3);
+		this.level().addFreshEntity(spectralEntity1);
+		this.level().addFreshEntity(spectralEntity2);
+		this.level().addFreshEntity(spectralEntity3);
 	}
 	
 	public void spawnSmokeParticle()
@@ -155,7 +155,7 @@ public class MudCycleMageEntity extends AbstractBossEntity
         	double d0 = this.random.nextGaussian() * 0.02D;
         	double d1 = this.random.nextGaussian() * 0.02D;
         	double d2 = this.random.nextGaussian() * 0.02D;
-        	this.level.addParticle(ParticleTypes.LARGE_SMOKE, this.getRandomX(1.0D) - d0 * 10.0D, this.getRandomY() - d1 * 10.0D, this.getRandomZ(1.0D) - d2 * 10.0D, 0.25 * (random.nextFloat() - 0.5), 0.3D, 0.25 * (random.nextFloat() - 0.5));
+        	this.level().addParticle(ParticleTypes.LARGE_SMOKE, this.getRandomX(1.0D) - d0 * 10.0D, this.getRandomY() - d1 * 10.0D, this.getRandomZ(1.0D) - d2 * 10.0D, 0.25 * (random.nextFloat() - 0.5), 0.3D, 0.25 * (random.nextFloat() - 0.5));
         }
 	}
 	

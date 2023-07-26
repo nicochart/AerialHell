@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.Plants.Vines;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.damagesource.DamageSource;
@@ -19,11 +20,11 @@ public class DeadRootsPlantBlock extends AerialHellTwistingVinesPlantBlock
     }
 
     @Override
-    public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn)
+    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn)
     {
         if (entityIn instanceof LivingEntity && !isEntityImmuneToDamage(entityIn))
         {
-            entityIn.hurt(new DamageSource("root_thorns"), 2.0F);
+            entityIn.hurt(AerialHellDamageTypes.getDamageSource(level, AerialHellDamageTypes.ROOT_THORNS), 2.0F);
         }
     }
 }

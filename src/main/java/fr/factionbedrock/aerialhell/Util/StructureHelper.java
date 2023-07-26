@@ -20,25 +20,26 @@ public class StructureHelper
 		return mudDungeonNearby || lunaticTempleNearby || goldenNetherPrisonNearby || shadowCatacombsNearby;
     }
 
+	//TODO : update those methods
 	public static boolean hasMudDungeonNearby(ChunkGenerator chunkGenerator, long seed, int chunkX, int chunkZ, int checkRadius, boolean checkBaseChunk)
 	{
 		int temporaryCheckRadius = Math.min(3, checkRadius); //TEMPORARY SOLUTION to too common potential structures chunk
-		return chunkGenerator.hasFeatureChunkInRange(AerialHellStructures.Keys.MUD_DUNGEON_STRUCTURE, seed, chunkX, chunkZ, temporaryCheckRadius);
+		return false;//chunkGenerator.hasFeatureChunkInRange(AerialHellStructures.Keys.MUD_DUNGEON_STRUCTURE, seed, chunkX, chunkZ, temporaryCheckRadius);
 	}
 
 	public static boolean hasLunaticTempleNearby(ChunkGenerator chunkGenerator, long seed, int chunkX, int chunkZ, int checkRadius, boolean checkBaseChunk)
 	{
-		return chunkGenerator.hasFeatureChunkInRange(AerialHellStructures.Keys.LUNATIC_TEMPLE_STRUCTURE, seed, chunkX, chunkZ, checkRadius);
+		return false;//chunkGenerator.hasFeatureChunkInRange(AerialHellStructures.Keys.LUNATIC_TEMPLE_STRUCTURE, seed, chunkX, chunkZ, checkRadius);
 	}
 
 	public static boolean hasGoldenNetherPrisonNearby(ChunkGenerator chunkGenerator, long seed, int chunkX, int chunkZ, int checkRadius, boolean checkBaseChunk)
 	{
-		return chunkGenerator.hasFeatureChunkInRange(AerialHellStructures.Keys.GOLDEN_NETHER_PRISON_STRUCTURE, seed, chunkX, chunkZ, checkRadius);
+		return false;//chunkGenerator.hasFeatureChunkInRange(AerialHellStructures.Keys.GOLDEN_NETHER_PRISON_STRUCTURE, seed, chunkX, chunkZ, checkRadius);
 	}
 
 	public static boolean hasShadowCatacombsNearby(ChunkGenerator chunkGenerator, long seed, int chunkX, int chunkZ, int checkRadius, boolean checkBaseChunk)
 	{
-		return chunkGenerator.hasFeatureChunkInRange(AerialHellStructures.Keys.SHADOW_CATACOMBS_STRUCTURE, seed, chunkX, chunkZ, checkRadius);
+		return false;//chunkGenerator.hasFeatureChunkInRange(AerialHellStructures.Keys.SHADOW_CATACOMBS_STRUCTURE, seed, chunkX, chunkZ, checkRadius);
 	}
 
 	/* TODO find something to replace

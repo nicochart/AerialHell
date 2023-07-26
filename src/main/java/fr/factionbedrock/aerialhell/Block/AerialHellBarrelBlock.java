@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.BlockEntity.AerialHellBarrelBlockEntity;
 
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.level.block.BarrelBlock;
@@ -19,7 +20,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.BlockHitResult;
 
-import java.util.Random;
 import javax.annotation.Nullable;
 
 public class AerialHellBarrelBlock extends BarrelBlock
@@ -62,7 +62,7 @@ public class AerialHellBarrelBlock extends BarrelBlock
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel world, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand)
 	{
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof AerialHellBarrelBlockEntity)

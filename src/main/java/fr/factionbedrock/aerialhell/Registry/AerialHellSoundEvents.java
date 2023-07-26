@@ -115,6 +115,6 @@ public class AerialHellSoundEvents
 	
 	private static RegistryObject<SoundEvent> register(String name)
 	{
-		return SOUNDS.register(name, () -> new SoundEvent(new ResourceLocation(AerialHell.MODID, name)));
+		return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(AerialHell.MODID, name)));
 	}
 }

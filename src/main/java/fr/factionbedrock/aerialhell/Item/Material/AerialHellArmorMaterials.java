@@ -1,12 +1,14 @@
 package fr.factionbedrock.aerialhell.Item.Material;
 
+import java.util.EnumMap;
 import java.util.function.Supplier;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.Util;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.LazyLoadedValue;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -113,10 +115,10 @@ public class AerialHellArmorMaterials
 	
 	private static class AerialHellArmorMaterial implements ArmorMaterial
 	{
-        private static final int[] Max_Damage_Array = new int[] {13,15,16,11};
+		private static final EnumMap<ArmorItem.Type, Integer> HEALTH_FUNCTION_FOR_TYPE = makeDamageReductionForArmorTypeEnumMap(new int[] {13,15,16,11});
         private final String name;
         private final int maxDamageFactor;
-        private final int[] damageReductionAmountArray;
+		private final EnumMap<ArmorItem.Type, Integer> protectionFunctionForType;
         private final int enchantability;
         private final SoundEvent soundEvent;
         private final float toughness;
@@ -127,7 +129,7 @@ public class AerialHellArmorMaterials
         {
             this.name = name;
             this.maxDamageFactor = maxDamageFactor;
-            this.damageReductionAmountArray = damageReductionAmountArray;
+            this.protectionFunctionForType = makeDamageReductionForArmorTypeEnumMap(damageReductionAmountArray);
             this.enchantability = enchantability;
             this.soundEvent = soundEvent;
             this.toughness = (float)toughness;
@@ -136,11 +138,11 @@ public class AerialHellArmorMaterials
         }
 
         //getters
-        @Override
-        public int getDurabilityForSlot(EquipmentSlot slotIn) {return Max_Damage_Array[slotIn.getIndex()] * maxDamageFactor;}
+		@Override
+		public int getDurabilityForType(ArmorItem.Type type) {return HEALTH_FUNCTION_FOR_TYPE.get(type) * this.maxDamageFactor;}
 
-        @Override
-        public int getDefenseForSlot(EquipmentSlot slotIn) {return damageReductionAmountArray[slotIn.getIndex()];}
+		@Override
+		public int getDefenseForType(ArmorItem.Type type) {return this.protectionFunctionForType.get(type);}
 
         @Override
         public int getEnchantmentValue() {return enchantability;}
@@ -160,5 +162,15 @@ public class AerialHellArmorMaterials
 
         @Override
         public float getKnockbackResistance() {return this.knockbackResistance;}
+
+		private static EnumMap<ArmorItem.Type, Integer> makeDamageReductionForArmorTypeEnumMap(int[] damageReductionArray)
+		{
+			return Util.make(new EnumMap<>(ArmorItem.Type.class), (map) -> {
+				map.put(ArmorItem.Type.BOOTS, damageReductionArray[0]);
+				map.put(ArmorItem.Type.LEGGINGS, damageReductionArray[1]);
+				map.put(ArmorItem.Type.CHESTPLATE, damageReductionArray[2]);
+				map.put(ArmorItem.Type.HELMET, damageReductionArray[3]);
+			});
+		}
     }
 }

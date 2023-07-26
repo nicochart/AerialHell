@@ -5,17 +5,11 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.ArsonistShurikenE
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.Level;
 
 public class ArsonistShurikenItem extends AbstractShurikenItem
 {
-	public ArsonistShurikenItem(CreativeModeTab group)
-	{
-		super(new Item.Properties().rarity(AerialHellRarities.MYTHICAL), group);
-	}
-	
-	public ArsonistShurikenItem() //default group
+	public ArsonistShurikenItem()
 	{
 		super(new Item.Properties().rarity(AerialHellRarities.MYTHICAL));
 	}

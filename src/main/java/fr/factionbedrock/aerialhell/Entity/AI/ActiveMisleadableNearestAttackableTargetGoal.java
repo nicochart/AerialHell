@@ -20,14 +20,14 @@ public class ActiveMisleadableNearestAttackableTargetGoal<T extends LivingEntity
         else
         {
             double x = this.activableGoalOwner.getX(), y = this.activableGoalOwner.getEyeY(), z = this.activableGoalOwner.getZ();
-            List<Entity> nearbyEntities = this.activableGoalOwner.level.getEntities(this.activableGoalOwner, this.activableGoalOwner.getBoundingBox().inflate(20), EntitySelector.withinDistance(x, y, z, 16));
+            List<Entity> nearbyEntities = this.activableGoalOwner.level().getEntities(this.activableGoalOwner, this.activableGoalOwner.getBoundingBox().inflate(20), EntitySelector.withinDistance(x, y, z, 16));
 
             List<Player> nearbyTargetablePlayers = nearbyEntities.stream()
                                                                        .filter(entity -> entity instanceof Player)
                                                                        .filter(entity -> !isPlayerMisleadingGoalOwner((Player) entity))
                                                                        .map(entity -> (Player) entity)
                                                                        .collect(Collectors.toList());
-            this.target = this.activableGoalOwner.level.getNearestEntity(nearbyTargetablePlayers, this.targetConditions, target, x, y, z);
+            this.target = this.activableGoalOwner.level().getNearestEntity(nearbyTargetablePlayers, this.targetConditions, target, x, y, z);
         }
     }
 

@@ -1,5 +1,5 @@
 package fr.factionbedrock.aerialhell.World.Structure;
-
+/*
 import java.util.List;
 import java.util.Optional;
 
@@ -46,4 +46,4 @@ public class OverworldAbandonnedPortalStructure extends AbstractAerialHellStruct
 
         return structurePiecesGenerator;
     }
-}
+}*/

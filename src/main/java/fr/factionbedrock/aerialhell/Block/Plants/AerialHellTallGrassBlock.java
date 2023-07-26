@@ -1,8 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import java.util.Random;
-
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.TallGrassBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,7 +16,7 @@ public class AerialHellTallGrassBlock extends TallGrassBlock
 	}
 	
 	@Override
-	public void performBonemeal(ServerLevel worldIn, Random rand, BlockPos pos, BlockState state)
+	public void performBonemeal(ServerLevel worldIn, RandomSource rand, BlockPos pos, BlockState state)
 	{
 	    DoublePlantBlock tall_plant;
 	    if (this == AerialHellBlocksAndItems.STELLAR_FERN.get())

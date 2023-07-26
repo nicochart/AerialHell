@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.Projectile;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -42,8 +43,8 @@ public class PoisonballEntity extends Fireball
 
 	@Override public boolean fireImmune() {return true;}
 	@Override protected boolean shouldBurn() {return false;}
-	@Override public float getBrightness() {return 0.0F;}
-	
+	@Override public float getLightLevelDependentMagicValue() {return 0.0F;}
+
 	@Override
 	protected void onHit(HitResult result)
 	{
@@ -63,7 +64,7 @@ public class PoisonballEntity extends Fireball
 				{
 					ItemStack activeItemStack = livingEntity.getUseItem();
 					activeItemStack.hurtAndBreak(1, livingEntity, p -> p.broadcastBreakEvent(activeItemStack.getEquipmentSlot()));
-					level.playSound((Player)null, entity.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1.0F, 0.8F + this.level.random.nextFloat() * 0.4F);
+					level().playSound((Player)null, entity.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
 				}
 				livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 160, 0));
 			}
@@ -76,9 +77,9 @@ public class PoisonballEntity extends Fireball
 	@Override public void tick()
 	{
 		Entity entity = this.getOwner();
-		if (this.level.isClientSide || (entity == null || !entity.isRemoved()) && this.level.hasChunkAt(this.blockPosition()))
+		if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition()))
 		{
-			HitResult raytraceresult = ProjectileUtil.getHitResult(this, this::canHitEntity);
+			HitResult raytraceresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
 			if (raytraceresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult))
 			{
 				this.onHit(raytraceresult);
@@ -96,5 +97,5 @@ public class PoisonballEntity extends Fireball
 		if (this.isInLava() || this.isInWater() || this.tickCount > 500) {this.discard();}
 	}
 
-	@Override public Packet<?> getAddEntityPacket() {return NetworkHooks.getEntitySpawningPacket(this);}
+	@Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return NetworkHooks.getEntitySpawningPacket(this);}
 }

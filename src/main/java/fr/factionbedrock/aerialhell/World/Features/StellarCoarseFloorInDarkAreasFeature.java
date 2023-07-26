@@ -6,6 +6,7 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
@@ -19,12 +20,12 @@ public class StellarCoarseFloorInDarkAreasFeature extends AbstractFloorEllipsisF
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); Random rand = context.random(); ChunkGenerator generator = context.chunkGenerator(); NoneFeatureConfiguration config = context.config();
+		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator(); NoneFeatureConfiguration config = context.config();
 		return super.place(config, reader, generator, rand, pos);
 	}
 
-	@Override protected int getEllipsisSizeX(Random rand) {return 6 + (int)rand.nextDouble() * 6;}
-	@Override protected int getEllipsisSizeZ(Random rand) {return 6 + (int)rand.nextDouble() * 6;}
+	@Override protected int getEllipsisSizeX(RandomSource rand) {return 6 + (int)rand.nextDouble() * 6;}
+	@Override protected int getEllipsisSizeZ(RandomSource rand) {return 6 + (int)rand.nextDouble() * 6;}
 	
 	@Override
 	protected boolean canGenerate(WorldGenLevel reader, BlockPos pos)
@@ -42,7 +43,7 @@ public class StellarCoarseFloorInDarkAreasFeature extends AbstractFloorEllipsisF
 	}
 	
 	@Override
-	protected BlockState getBlockStateForPlacement(BlockState previousBlockState, BlockPos centerPos, BlockPos placementPos, int elipsisSizeX, int elipsisSizeZ, Random rand)
+	protected BlockState getBlockStateForPlacement(BlockState previousBlockState, BlockPos centerPos, BlockPos placementPos, int elipsisSizeX, int elipsisSizeZ, RandomSource rand)
 	{
 		int x = placementPos.getX(), z = placementPos.getZ();
 		int xc = centerPos.getX(), zc = centerPos.getZ();

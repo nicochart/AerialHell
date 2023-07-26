@@ -4,18 +4,12 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.ObsidianShurikenEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 
 public class ObsidianShurikenItem extends AbstractShurikenItem
 {
-	public ObsidianShurikenItem(CreativeModeTab group)
-	{
-		super(new Item.Properties().rarity(Rarity.EPIC), group);
-	}
-	
-	public ObsidianShurikenItem() //default group
+	public ObsidianShurikenItem()
 	{
 		super(new Item.Properties().rarity(Rarity.EPIC));
 	}

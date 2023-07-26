@@ -47,7 +47,7 @@ public abstract class AbstractActivableEntity extends Monster
 	public void tick()
 	{
 		super.tick();
-		if (this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToActivate(), EntitySelector.NO_CREATIVE_OR_SPECTATOR) != null)
+		if (this.level().getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToActivate(), EntitySelector.NO_CREATIVE_OR_SPECTATOR) != null)
 		{
 			if (!this.isActive() && this.timeClosePlayer >= this.getMinTimeToActivate())
 			{
@@ -56,7 +56,7 @@ public abstract class AbstractActivableEntity extends Monster
 			}
 			else {this.timeClosePlayer++;}
 		}
-		else if (this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToDeactivate(), EntitySelector.NO_CREATIVE_OR_SPECTATOR) == null)
+		else if (this.level().getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToDeactivate(), EntitySelector.NO_CREATIVE_OR_SPECTATOR) == null)
 		{			
 			if (timeWithoutAnyTarget < 120) {timeWithoutAnyTarget++;}
 			else if (this.lastHurtByPlayerTime <= 0 && timeWithoutAnyTarget == 120)

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.mojang.serialization.Codec;
 
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
@@ -15,13 +16,13 @@ public abstract class AbstractFloorEllipsisFeature extends Feature<NoneFeatureCo
 {
 	public AbstractFloorEllipsisFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 	
-	abstract protected int getEllipsisSizeX(Random rand);
-	abstract protected int getEllipsisSizeZ(Random rand);
+	abstract protected int getEllipsisSizeX(RandomSource rand);
+	abstract protected int getEllipsisSizeZ(RandomSource rand);
 	abstract protected boolean canGenerate(WorldGenLevel reader, BlockPos pos);
 	abstract protected boolean isFloor(BlockState blockState);
-	abstract protected BlockState getBlockStateForPlacement(BlockState previousBlockState, BlockPos centerPos, BlockPos placementPos, int elipsisSizeX, int elipsisSizeZ, Random rand);
+	abstract protected BlockState getBlockStateForPlacement(BlockState previousBlockState, BlockPos centerPos, BlockPos placementPos, int elipsisSizeX, int elipsisSizeZ, RandomSource rand);
 
-	@Override public boolean place(NoneFeatureConfiguration config, WorldGenLevel reader, ChunkGenerator generator, Random rand, BlockPos pos)
+	@Override public boolean place(NoneFeatureConfiguration config, WorldGenLevel reader, ChunkGenerator generator, RandomSource rand, BlockPos pos)
 	{
 		BlockPos placementPos;
 		

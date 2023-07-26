@@ -3,13 +3,13 @@ package fr.factionbedrock.aerialhell.Event.Listeners;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.Matrix4f;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Block.DungeonCores.DungeonCoreBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
@@ -21,10 +21,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderBlockOverlayEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.client.event.RenderBlockScreenEffectEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.joml.Matrix4f;
 
 @Mod.EventBusSubscriber
 public class BlockEventListener
@@ -32,9 +33,8 @@ public class BlockEventListener
     @SubscribeEvent
     public static void onBlockEvent(BlockEvent.NeighborNotifyEvent event)
     {
-        if (event.getWorld() instanceof Level)
+        if (event.getLevel() instanceof Level world)
         {
-            Level world = (Level) event.getWorld();
             BlockPos pos = event.getPos();
             FluidState fluidstate = world.getFluidState(pos);
             BlockState blockstate = world.getBlockState(pos);
@@ -75,9 +75,8 @@ public class BlockEventListener
     @SubscribeEvent
     public static void onBlockEvent(BlockEvent.EntityPlaceEvent event)
     {
-    	if (event.getWorld() instanceof Level)
+    	if (event.getLevel() instanceof Level world)
         {
-    		Level world = (Level) event.getWorld();
     		BlockPos pos = event.getPos();
             BlockState blockstate = world.getBlockState(pos);
         	if (blockstate.is(AerialHellTags.Blocks.DUNGEON_CORES))
@@ -95,9 +94,9 @@ public class BlockEventListener
     private static final ResourceLocation TEXTURE_PURPLE_SOLID_ETHER = new ResourceLocation(AerialHell.MODID, "textures/block/purple_solid_ether.png");
     
     @SubscribeEvent @OnlyIn(Dist.CLIENT)
-    public static void onOverlay(RenderBlockOverlayEvent event)
+    public static void onOverlay(RenderBlockScreenEffectEvent event)
     {
-    	if (event.getOverlayType() == RenderBlockOverlayEvent.OverlayType.BLOCK)
+    	if (event.getOverlayType() == RenderBlockScreenEffectEvent.OverlayType.BLOCK)
     	{
     		Player player = event.getPlayer();
 	    	PoseStack matrixStack = event.getPoseStack();
@@ -118,12 +117,12 @@ public class BlockEventListener
     private static void renderEther(Player player, PoseStack matrixStackIn, ResourceLocation texture)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.enableTexture();
         RenderSystem.setShaderTexture(0, texture); //Minecraft.getInstance() client side only !
         BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
-        float brightness = player.getBrightness();
+        BlockPos blockpos = BlockPos.containing(player.getX(), player.getEyeY(), player.getZ());
+        float brightness = LightTexture.getBrightness(player.level().dimensionType(), player.level().getMaxLocalRawBrightness(blockpos));
         RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShaderColor(brightness, brightness, brightness, 0.1F);
         float yaw = -player.getYRot() / 64.0F;
         float pitch = player.getXRot() / 64.0F;
         Matrix4f matrix4f = matrixStackIn.last().pose();
@@ -132,8 +131,8 @@ public class BlockEventListener
         bufferbuilder.vertex(matrix4f, 1.0F, -1.0F, -0.5F).color(brightness, brightness, brightness, 1.0F).uv(0.0F + yaw, 4.0F + pitch).endVertex();
         bufferbuilder.vertex(matrix4f, 1.0F, 1.0F, -0.5F).color(brightness, brightness, brightness, 1.0F).uv(0.0F + yaw, 0.0F + pitch).endVertex();
         bufferbuilder.vertex(matrix4f, -1.0F, 1.0F, -0.5F).color(brightness, brightness, brightness, 1.0F).uv(4.0F + yaw, 0.0F + pitch).endVertex();
-        bufferbuilder.end();
-        BufferUploader.end(bufferbuilder);
+        BufferUploader.drawWithShader(bufferbuilder.end());
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.disableBlend();
      }
 }

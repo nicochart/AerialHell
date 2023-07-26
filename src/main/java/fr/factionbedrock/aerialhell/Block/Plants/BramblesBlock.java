@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
@@ -17,22 +18,22 @@ public class BramblesBlock extends AerialHellTallGrassBlock
 	public BramblesBlock(Properties properties) {super(properties);}
 	
 	@Override
-	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn)
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn)
 	{
 		entityIn.makeStuckInBlock(state, new Vec3((double)0.8F, 0.75D, (double)0.8F));
-		if (!worldIn.isClientSide() && entityIn instanceof LivingEntity)
+		if (!level.isClientSide() && entityIn instanceof LivingEntity)
     	{
 			if (!EntityHelper.isImmuneToBramblesDamage(entityIn))
 			{
 				if (this == AerialHellBlocksAndItems.SHADOW_BRAMBLES.get())
 				{
 					((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.POISON, 60, 0));
-					((LivingEntity) entityIn).hurt(new DamageSource("brambles_thorns"), 1.0F);
+					((LivingEntity) entityIn).hurt(AerialHellDamageTypes.getDamageSource(level, AerialHellDamageTypes.BRAMBLES_THORNS), 1.0F);
 				}
 				else
 				{
 					((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.POISON, 40, 0));
-					((LivingEntity) entityIn).hurt(new DamageSource("brambles_thorns"), 1.0F);
+					((LivingEntity) entityIn).hurt(AerialHellDamageTypes.getDamageSource(level, AerialHellDamageTypes.BRAMBLES_THORNS), 1.0F);
 				}
 			}
     	}

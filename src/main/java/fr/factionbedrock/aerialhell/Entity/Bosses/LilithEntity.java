@@ -21,6 +21,7 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -99,7 +100,7 @@ public class LilithEntity extends AbstractBossEntity
 	{
 		Entity immediateSourceEntity = source.getDirectEntity();
 		Entity trueSourceEntity = source.getEntity();
-		if (this.isTransforming() && !source.isCreativePlayer() && source != DamageSource.OUT_OF_WORLD) {return false;}
+		if (this.isTransforming() && !source.isCreativePlayer() && source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return false;}
 		if (this.getMaxHealth() < 2.5 * this.getHealth() && immediateSourceEntity instanceof AbstractArrow) {return false;}
 		boolean flag = super.hurt(source, amount);
 		if (flag)
@@ -168,7 +169,7 @@ public class LilithEntity extends AbstractBossEntity
 
 		if (this.isTransforming())
 		{
-			if (!level.isClientSide())
+			if (!level().isClientSide())
 			{
 				this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 10, true, false)));
 				this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1, 10, true, false)));
@@ -177,20 +178,20 @@ public class LilithEntity extends AbstractBossEntity
 
 			for (int i=0; i<10 + timeSinceTransforming/1.5; i++)
 			{
-				if (this.level.dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformRandomBlock();}
+				if (this.level().dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformRandomBlock();}
 			}
 
 	        if (this.timeSinceTransforming >= transformationTime)
 	        {
 	        	this.transform();
 				this.setTransforming(false);
-				if (this.level.dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformAllBlocks();}
+				if (this.level().dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformAllBlocks();}
 		        this.timeSinceTransforming = 0;
 	        }
 	        
 	        if (this.timeSinceTransforming > 12)
 	        {
-	        	List<Entity> nearbyEntities = this.level.getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
+	        	List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
 				for (Entity entity : nearbyEntities)
 		    	{
 					boolean creaOrSpecPlayer = (entity instanceof Player && (((Player) entity).isSpectator() || ((Player) entity).isCreative()));
@@ -201,7 +202,7 @@ public class LilithEntity extends AbstractBossEntity
 					}
 		    	}
 				
-				if (this.level.isClientSide())
+				if (this.level().isClientSide())
 		        {
 		        	for (int i=0; i<5; i++)
 		        	{
@@ -211,7 +212,7 @@ public class LilithEntity extends AbstractBossEntity
 						double z = getZ() + (random.nextFloat() - 0.5F) * rand;
 						double dx = (random.nextFloat() - 0.5F)/10;
 						double dz = (random.nextFloat() - 0.5F)/10;
-						this.level.addParticle(AerialHellParticleTypes.SHADOW_PARTICLE.get(), x, y, z, dx, 0.0D, dz);
+						this.level().addParticle(AerialHellParticleTypes.SHADOW_PARTICLE.get(), x, y, z, dx, 0.0D, dz);
 		        	}
 		        }
 	        }
@@ -227,7 +228,7 @@ public class LilithEntity extends AbstractBossEntity
 		int y = random.nextInt(2*maxVerticalDistance) - maxVerticalDistance;
 		int z = random.nextInt(2*maxHorizontalDistance) - maxHorizontalDistance;
 		BlockPos transformationPos = new BlockPos(this.blockPosition().offset(new Vec3i(x, y, z)));
-		if (level.getBlockState(transformationPos).is(AerialHellTags.Blocks.LILITH_TRANSFORMABLE))
+		if (level().getBlockState(transformationPos).is(AerialHellTags.Blocks.LILITH_TRANSFORMABLE))
 		{
 			transformBlock(transformationPos);
 		}
@@ -245,7 +246,7 @@ public class LilithEntity extends AbstractBossEntity
 				for (z=-maxHorizontalDistance; z<maxHorizontalDistance; z++)
 				{
 					BlockPos transformationPos = new BlockPos(this.blockPosition().offset(new Vec3i(x, y, z)));
-					if (level.getBlockState(transformationPos).is(AerialHellTags.Blocks.LILITH_TRANSFORMABLE))
+					if (level().getBlockState(transformationPos).is(AerialHellTags.Blocks.LILITH_TRANSFORMABLE))
 					{
 						transformBlock(transformationPos);
 					}
@@ -256,21 +257,21 @@ public class LilithEntity extends AbstractBossEntity
 
 	private void transformBlock(BlockPos pos)
 	{
-		if (level.getBlockState(pos).getBlock() instanceof DoorBlock)
+		if (level().getBlockState(pos).getBlock() instanceof DoorBlock)
 		{
-			DoubleBlockHalf half = level.getBlockState(pos).getValue(DoorBlock.HALF);
+			DoubleBlockHalf half = level().getBlockState(pos).getValue(DoorBlock.HALF);
 			if (half == DoubleBlockHalf.LOWER)
 			{
-				level.destroyBlock(pos, false);
-				level.destroyBlock(pos.above(), false);
+				level().destroyBlock(pos, false);
+				level().destroyBlock(pos.above(), false);
 			}
 			else
 			{
-				level.destroyBlock(pos.below(), false);
-				level.destroyBlock(pos, false);
+				level().destroyBlock(pos.below(), false);
+				level().destroyBlock(pos, false);
 			}
 		}
-		else {level.setBlockAndUpdate(pos, getEquivalentShadowBlockstate(level.getBlockState(pos)));}
+		else {level().setBlockAndUpdate(pos, getEquivalentShadowBlockstate(level().getBlockState(pos)));}
 	}
 
 	private BlockState getEquivalentShadowBlockstate(BlockState blockState)
@@ -405,11 +406,11 @@ public class LilithEntity extends AbstractBossEntity
 			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_DOOR.get();}
 			return newBlock.defaultBlockState().setValue(DoorBlock.FACING, blockState.getValue(DoorBlock.FACING)).setValue(DoorBlock.OPEN, blockState.getValue(DoorBlock.OPEN)).setValue(DoorBlock.HINGE, blockState.getValue(DoorBlock.HINGE)).setValue(DoorBlock.POWERED, blockState.getValue(DoorBlock.POWERED)).setValue(DoorBlock.HALF, blockState.getValue(DoorBlock.HALF));
 		}
-		else if (block instanceof WoodButtonBlock)
+		else if (block instanceof ButtonBlock)
 		{
 			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_BUTTON.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_BUTTON.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_BUTTON.get();}
 			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_BUTTON.get();}
-			return newBlock.defaultBlockState().setValue(WoodButtonBlock.POWERED, blockState.getValue(WoodButtonBlock.POWERED)).setValue(WoodButtonBlock.FACE, blockState.getValue(WoodButtonBlock.FACE)).setValue(WoodButtonBlock.FACING, blockState.getValue(WoodButtonBlock.FACING));
+			return newBlock.defaultBlockState().setValue(ButtonBlock.POWERED, blockState.getValue(ButtonBlock.POWERED)).setValue(ButtonBlock.FACE, blockState.getValue(ButtonBlock.FACE)).setValue(ButtonBlock.FACING, blockState.getValue(ButtonBlock.FACING));
 		}
 		else if (block instanceof PressurePlateBlock)
 		{
@@ -451,7 +452,7 @@ public class LilithEntity extends AbstractBossEntity
 	
 	@Override public boolean doHurtTarget(Entity target)
 	{
-		this.level.broadcastEntityEvent(this, (byte)4);
+		this.level().broadcastEntityEvent(this, (byte)4);
 		boolean flag = super.doHurtTarget(target);
 		if (flag && target instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune((LivingEntity) target))
 		{
@@ -488,19 +489,19 @@ public class LilithEntity extends AbstractBossEntity
 	
 	public void spawnTransformationParticle()
 	{
-		if (this.level.isClientSide())
+		if (this.level().isClientSide())
         {
         	for(int i = 0; i < 30; ++i)
             {
             	double d0 = this.random.nextGaussian() * 0.02D;
             	double d1 = this.random.nextGaussian() * 0.02D;
             	double d2 = this.random.nextGaussian() * 0.02D;
-            	this.level.addParticle(AerialHellParticleTypes.SHADOW_PARTICLE.get(), this.getRandomX(1.0D) - d0 * 10.0D, this.getRandomY() - d1 * 10.0D, this.getRandomZ(1.0D) - d2 * 10.0D, 2 * d0, d1, 2 * d2);
+            	this.level().addParticle(AerialHellParticleTypes.SHADOW_PARTICLE.get(), this.getRandomX(1.0D) - d0 * 10.0D, this.getRandomY() - d1 * 10.0D, this.getRandomZ(1.0D) - d2 * 10.0D, 2 * d0, d1, 2 * d2);
             }
         }
         else
         {
-           this.level.broadcastEntityEvent(this, (byte)20);
+           this.level().broadcastEntityEvent(this, (byte)20);
         }
 	}
 	
@@ -541,9 +542,9 @@ public class LilithEntity extends AbstractBossEntity
 			if (projectileCount < 1)
 			{
 				++this.projectileCount;
-				ShadowProjectileEntity projectile = new ShadowProjectileEntity(this.entity.level, this.entity, Xdistance, Ydistance, Zdistance, 0.25f + this.entity.random.nextFloat(), inaccuracy);
+				ShadowProjectileEntity projectile = new ShadowProjectileEntity(this.entity.level(), this.entity, Xdistance, Ydistance, Zdistance, 0.25f + this.entity.random.nextFloat(), inaccuracy);
 				projectile.setPos(projectile.getX(), this.entity.getY(0.5D) + 0.5D, projectile.getZ());
-				this.entity.level.addFreshEntity(projectile);
+				this.entity.level().addFreshEntity(projectile);
 			}
 			entity.shadowProjectileTimer = 180 + (int) (entity.random.nextFloat() * 80);
 			super.tick();
@@ -580,24 +581,24 @@ public class LilithEntity extends AbstractBossEntity
 		{
 			for (Vec3 vector : spawnMotionVec3s)
 			{
-				ShadowFlyingSkullEntity skull = AerialHellEntities.SHADOW_FLYING_SKULL.get().create(this.goalOwner.level);
+				ShadowFlyingSkullEntity skull = AerialHellEntities.SHADOW_FLYING_SKULL.get().create(this.goalOwner.level());
 				skull.setPos(this.goalOwner.getX(), this.goalOwner.getY(), this.goalOwner.getZ()); skull.setDeltaMovement(vector);
-				this.goalOwner.level.addFreshEntity(skull);
+				this.goalOwner.level().addFreshEntity(skull);
 			}
 			this.playParticleAndSoundEffect();
 		}
 
 		private void playParticleAndSoundEffect()
 		{
-			if (this.goalOwner.level.isClientSide())
+			if (this.goalOwner.level().isClientSide())
 			{
 				for(int i = 0; i < 30; ++i)
 				{
-					double d0 = this.goalOwner.level.random.nextGaussian() * 0.02D; double d1 = this.goalOwner.level.random.nextGaussian() * 0.02D; double d2 = this.goalOwner.level.random.nextGaussian() * 0.02D;
-					this.goalOwner.level.addParticle(ParticleTypes.LARGE_SMOKE, this.goalOwner.getRandomX(1.0D) - d0 * 10.0D, this.goalOwner.getRandomY() - d1 * 10.0D, this.goalOwner.getRandomZ(1.0D) - d2 * 10.0D, 0.25 * (goalOwner.level.random.nextFloat() - 0.5), 0.3D, 0.25 * (goalOwner.level.random.nextFloat() - 0.5));
+					double d0 = this.goalOwner.level().random.nextGaussian() * 0.02D; double d1 = this.goalOwner.level().random.nextGaussian() * 0.02D; double d2 = this.goalOwner.level().random.nextGaussian() * 0.02D;
+					this.goalOwner.level().addParticle(ParticleTypes.LARGE_SMOKE, this.goalOwner.getRandomX(1.0D) - d0 * 10.0D, this.goalOwner.getRandomY() - d1 * 10.0D, this.goalOwner.getRandomZ(1.0D) - d2 * 10.0D, 0.25 * (goalOwner.level().random.nextFloat() - 0.5), 0.3D, 0.25 * (goalOwner.level().random.nextFloat() - 0.5));
 				}
 			}
-			this.goalOwner.playSound(SoundEvents.EVOKER_PREPARE_SUMMON, 1.5F, 0.95F + goalOwner.level.random.nextFloat() * 0.1F);
+			this.goalOwner.playSound(SoundEvents.EVOKER_PREPARE_SUMMON, 1.5F, 0.95F + goalOwner.level().random.nextFloat() * 0.1F);
 		}
 	}
 }

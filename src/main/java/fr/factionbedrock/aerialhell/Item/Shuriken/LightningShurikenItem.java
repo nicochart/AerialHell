@@ -4,18 +4,12 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.LightningShurikenEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 
 public class LightningShurikenItem extends AbstractShurikenItem
 {
-	public LightningShurikenItem(CreativeModeTab group)
-	{
-		super(new Item.Properties().rarity(Rarity.UNCOMMON), group);
-	}
-	
-	public LightningShurikenItem() //default group
+	public LightningShurikenItem()
 	{
 		super(new Item.Properties().rarity(Rarity.UNCOMMON));
 	}

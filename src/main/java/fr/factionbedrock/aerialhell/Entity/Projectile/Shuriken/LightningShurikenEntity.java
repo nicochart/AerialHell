@@ -52,13 +52,13 @@ public class LightningShurikenEntity extends AbstractShurikenEntity
 	@Override
 	protected void onHit(HitResult result)
 	{
-		if (this.level.isClientSide()) {return;}
+		if (this.level().isClientSide()) {return;}
 		
-		if (result.getType() != HitResult.Type.MISS && this.level instanceof ServerLevel)
+		if (result.getType() != HitResult.Type.MISS && this.level() instanceof ServerLevel)
 		{
-			LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level);
+			LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level());
 			lightningBolt.setPos(this.getX(), this.getY(), this.getZ());
-			this.level.addFreshEntity(lightningBolt);
+			this.level().addFreshEntity(lightningBolt);
 		}
 		super.onHit(result);
 	}

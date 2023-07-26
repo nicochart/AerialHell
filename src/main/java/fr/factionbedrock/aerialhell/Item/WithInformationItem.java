@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -25,8 +25,8 @@ public class WithInformationItem extends Item
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public TranslatableComponent getDescription()
+	public MutableComponent getDescription()
 	{
-		return new TranslatableComponent(this.getDescriptionId() + ".desc");
+		return Component.translatable(this.getDescriptionId() + ".desc");
 	}
 }

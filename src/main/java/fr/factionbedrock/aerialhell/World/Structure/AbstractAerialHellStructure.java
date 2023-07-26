@@ -1,5 +1,5 @@
 package fr.factionbedrock.aerialhell.World.Structure;
-
+/*
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
@@ -32,4 +32,4 @@ public abstract class AbstractAerialHellStructure extends StructureFeature<Jigsa
     {
         return new BlockPos(pos.getX(), minY + rand.nextInt(maxY - minY + 1), pos.getZ());
     }
-}
+}*/

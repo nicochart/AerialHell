@@ -1,5 +1,5 @@
 package fr.factionbedrock.aerialhell.World.Structure;
-
+/*
 import java.util.Optional;
 
 import fr.factionbedrock.aerialhell.Util.StructureHelper;
@@ -73,4 +73,4 @@ public class MudDungeonStructure extends AbstractAerialHellStructure
 
         return structurePiecesGenerator;
     }
-}
+}*/

@@ -1,31 +1,27 @@
 package fr.factionbedrock.aerialhell.Integration.JEI;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Recipe.FreezingRecipe;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
 
-import javax.annotation.Nonnull;
-
 public class FreezingRecipeCategory implements IRecipeCategory<FreezingRecipe>
 {
-	private static final int INPUT_SLOT = 0;
-	private static final int FUEL_SLOT = 1;
-	private static final int OUTPUT_SLOT = 2;
+	public static final RecipeType<FreezingRecipe> FREEZING = RecipeType.create(AerialHell.MODID, "freezing", FreezingRecipe.class);
 
 	public final static ResourceLocation UID = new ResourceLocation(AerialHell.MODID, "freezing");
 	public final static ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/gui/container/freezer.png");
@@ -43,33 +39,24 @@ public class FreezingRecipeCategory implements IRecipeCategory<FreezingRecipe>
 
 	@Override public IDrawable getBackground() {return this.background;}
 	@Override public IDrawable getIcon() {return this.icon;}
-	@Override public ResourceLocation getUid() {return UID;}
-	@Override public Class<? extends FreezingRecipe> getRecipeClass() {return FreezingRecipe.class;}
-	@Override public Component getTitle() {return new TranslatableComponent("block.aerialhell.oscillator");}
+	@Override public RecipeType<FreezingRecipe> getRecipeType() {return FREEZING;}
+
+	@Override public Component getTitle() {return Component.translatable("block.aerialhell.oscillator");}
 
 	@Override
-	public void setIngredients(FreezingRecipe recipe, IIngredients ingredients)
+	public void setRecipe(IRecipeLayoutBuilder builder, FreezingRecipe recipe, IFocusGroup focuses)
 	{
-		ingredients.setInputIngredients(recipe.getIngredients());
-		ingredients.setOutput(VanillaTypes.ITEM, recipe.getResultItem());
+		builder.addSlot(RecipeIngredientRole.INPUT, 55, 16).addItemStack(recipe.getIngredients().get(0).getItems()[0]);
+		builder.addSlot(RecipeIngredientRole.CATALYST, 55, 52).addItemStack(new ItemStack(AerialHellBlocksAndItems.FLUORITE.get()));
+		if (Minecraft.getInstance().level != null)
+		{
+			builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 34).addItemStack(recipe.getResultItem(Minecraft.getInstance().level.registryAccess()));
+		}
 	}
 
 	@Override
-	public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull FreezingRecipe recipe, @Nonnull IIngredients ingredients)
+	public void draw(FreezingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY)
 	{
-		IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
-
-		guiItemStacks.init(INPUT_SLOT, true, 55, 16);
-		guiItemStacks.init(FUEL_SLOT, true, 55, 52);
-
-		guiItemStacks.init(OUTPUT_SLOT, false, 115, 34);
-
-		guiItemStacks.set(ingredients);
-	}
-
-	@Override
-	public void draw(FreezingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double mouseX, double mouseY)
-	{
-		this.freezing.draw(poseStack, 56, 36);
+		this.freezing.draw(guiGraphics, 56, 36);
 	}
 }

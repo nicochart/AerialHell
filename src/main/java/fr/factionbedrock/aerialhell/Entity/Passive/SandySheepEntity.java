@@ -79,7 +79,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
     @Override
     public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob mob)
     {
-        return AerialHellEntities.SANDY_SHEEP.get().create(this.level);
+        return AerialHellEntities.SANDY_SHEEP.get().create(this.level());
     }
     
     public boolean hasWool()
@@ -113,7 +113,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
     @Override
     protected void playStepSound(BlockPos pos, BlockState par4)
     {
-        this.level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.SHEEP_STEP, SoundSource.NEUTRAL, 0.15F, 1.0F);
+        this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.SHEEP_STEP, SoundSource.NEUTRAL, 0.15F, 1.0F);
     }
 
     @Override
@@ -145,7 +145,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
     			double z = getZ() + (random.nextFloat() - 0.5F) * rand;
     			double dx = (random.nextFloat() - 0.5F)/10;
     			double dz = (random.nextFloat() - 0.5F)/10;
-    			this.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, AerialHellBlocksAndItems.SLIPPERY_SAND.get().defaultBlockState()), x, y, z, dx, -0.06D, dz);
+    			this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, AerialHellBlocksAndItems.SLIPPERY_SAND.get().defaultBlockState()), x, y, z, dx, -0.06D, dz);
             }
     	}
         return false;

@@ -5,17 +5,11 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.LunaticCrystalShu
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.Level;
 
 public class LunaticCrystalShurikenItem extends AbstractShurikenItem
 {
-	public LunaticCrystalShurikenItem(CreativeModeTab group)
-	{
-		super(new Item.Properties().rarity(AerialHellRarities.LEGENDARY), group);
-	}
-	
-	public LunaticCrystalShurikenItem() //default group
+	public LunaticCrystalShurikenItem()
 	{
 		super(new Item.Properties().rarity(AerialHellRarities.LEGENDARY));
 	}

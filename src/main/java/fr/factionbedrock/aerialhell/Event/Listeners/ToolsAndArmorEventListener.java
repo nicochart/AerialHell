@@ -8,10 +8,12 @@ import fr.factionbedrock.aerialhell.Entity.Monster.CrystalGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowAutomatonEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
@@ -53,7 +55,7 @@ public class ToolsAndArmorEventListener
     {
 		DamageSource damageSource = event.getSource();
 		Entity sourceEntity = damageSource.getEntity();
-		LivingEntity target = event.getEntityLiving();
+		LivingEntity target = event.getEntity();
 
 		applyEffectsDueToPotionEffects(event, damageSource, target);
 
@@ -89,7 +91,7 @@ public class ToolsAndArmorEventListener
 	@SubscribeEvent
     public static void onPlayerHarvest(PlayerEvent.BreakSpeed event)
     {
-		Player player = event.getPlayer();
+		Player player = event.getEntity();
 		ItemStack selectedItemStack = player.getInventory().getSelected();
 		BlockState state = event.getState();
 		float speed = event.getOriginalSpeed();
@@ -105,10 +107,8 @@ public class ToolsAndArmorEventListener
 		}
 
 		//player mining a block that needs lunar tool
-		if (state != null && state.is(AerialHellTags.Blocks.NEEDS_LUNAR_TOOL))
-		{
-			if (ItemHelper.getItemMiningLevel(selectedItemStack.getItem()) < 4)
-			{
+		if (state != null && state.is(AerialHellTags.Blocks.NEEDS_LUNAR_TOOL)) {
+			if (ItemHelper.getItemMiningLevel(selectedItemStack.getItem()) < 4) {
 				event.setNewSpeed(Math.min(speed, 4.0F));
 				player.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 40, 0));
 			}
@@ -119,14 +119,14 @@ public class ToolsAndArmorEventListener
 	public static void addReach(ItemAttributeModifierEvent event) {
 		Item item = event.getItemStack().getItem();
 		if ((item == AerialHellBlocksAndItems.REAPER_SCYTHE.get() || item == AerialHellBlocksAndItems.FORGOTTEN_BATTLE_TRIDENT.get()) && event.getSlotType() == EquipmentSlot.MAINHAND) {
-			event.addModifier(ForgeMod.REACH_DISTANCE.get(), new AttributeModifier(UUID.fromString("6127DB5B-1AE8-4030-940E-512C1F160890"), "Tool modifier", 2.0, AttributeModifier.Operation.ADDITION));
+			event.addModifier(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(UUID.fromString("6127DB5B-1AE8-4030-940E-512C1F160890"), "Tool modifier", 2.0, AttributeModifier.Operation.ADDITION));
 		}
 	}
 
 
 	public static void applyEffectsDueToPotionEffects(LivingHurtEvent event, DamageSource damageSource, LivingEntity target) {
 		float amount = event.getAmount();
-		if (damageSource.isFire() && target.hasEffect(AerialHellMobEffects.GOD.get())) {event.setCanceled(true);} //target with Gods Effect has Fire Resistance
+		if ((damageSource.is(DamageTypes.ON_FIRE) || damageSource.is(DamageTypes.ON_FIRE) || damageSource.is(DamageTypes.LAVA)) && target.hasEffect(AerialHellMobEffects.GOD.get())) {event.setCanceled(true);} //target with Gods Effect has Fire Resistance
 		if (EntityHelper.isLivingEntityVulnerable(target)) {
 			int multiplier = target.getEffect(AerialHellMobEffects.VULNERABILITY.get()).getAmplifier() + 1;
 			event.setAmount(amount * 2.0F * multiplier); //*2 *multiplier damage if target is vulnerable
@@ -204,7 +204,7 @@ public class ToolsAndArmorEventListener
 		{
 			float damage_return_amount;
 			if (EntityHelper.isLivingEntityShadowImmune(source) || EntityHelper.isLivingEntityVulnerable(target)) {damage_return_amount = amount / 2;} else {damage_return_amount = amount;}
-			source.hurt(new DamageSource("cursed_tool"), damage_return_amount);
+			source.hurt(AerialHellDamageTypes.getDamageSource(event.getEntity().level(), AerialHellDamageTypes.CURSED_TOOL), damage_return_amount);
 			if (!EntityHelper.isLivingEntityShadowImmune(target)) {
 				if (EntityHelper.isLightEntity(target) && !(target instanceof LunaticPriestEntity)) {
 					target.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.get(), 40, 1));
@@ -217,7 +217,7 @@ public class ToolsAndArmorEventListener
 			if (EntityHelper.isShadowEntity(target)) {
 				if (sourceEquippedItem == AerialHellBlocksAndItems.SWORD_OF_LIGHT.get() || sourceEquippedItem == AerialHellBlocksAndItems.AXE_OF_LIGHT.get()) {event.setAmount(amount * 1.8F);} else {event.setAmount(amount * 1.4F);}
 			}
-		} else if (sourceEquippedItem == AerialHellBlocksAndItems.NETHERIAN_KING_SWORD.get() && source.getLevel().dimension() == Level.NETHER) {
+		} else if (sourceEquippedItem == AerialHellBlocksAndItems.NETHERIAN_KING_SWORD.get() && source.level().dimension() == Level.NETHER) {
 			event.setAmount(amount * 2.0F);
 		}
 	}

@@ -6,10 +6,10 @@ import fr.factionbedrock.aerialhell.BlockEntity.AerialHellChestBlockEntity;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.ItemStack;
 
@@ -23,7 +23,7 @@ public class AerialHellChestItemRenderer extends BlockEntityWithoutLevelRenderer
 	public AerialHellChestItemRenderer(BlockEntityRenderDispatcher renderDispatcher, EntityModelSet modelSet) {super(renderDispatcher, modelSet); this.renderDispatcher = renderDispatcher;}
 
 	@Override
-	public void renderByItem(ItemStack stack, ItemTransforms.TransformType transformType, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay)
+	public void renderByItem(ItemStack stack, ItemDisplayContext context, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay)
 	{
 		if (stack.getItem() instanceof BlockItem)
 		{

@@ -1,5 +1,5 @@
 package fr.factionbedrock.aerialhell.World.Structure;
-
+/*
 import com.google.common.collect.ImmutableList;
 
 import net.minecraft.core.BlockPos;
@@ -46,11 +46,11 @@ public class ShadowCatacombsStructure extends AbstractAerialHellStructure
         for (BlockPos pos : posToCheck)
         {
             landHeight = chunkGenerator.getBaseHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, level);
-            /* biomeSource.getNoiseBiome(x,y,z) doesn't return the right biome. Do not use this method for biome check.Biome posBiome = biomeSource.getNoiseBiome(pos.getX(), pos.getY(), pos.getZ());
-            if (!FeatureHelper.isShadowBiome(posBiome)) {notShadowBiomeCount++;}*/
+            *//* biomeSource.getNoiseBiome(x,y,z) doesn't return the right biome. Do not use this method for biome check.Biome posBiome = biomeSource.getNoiseBiome(pos.getX(), pos.getY(), pos.getZ());
+            if (!FeatureHelper.isShadowBiome(posBiome)) {notShadowBiomeCount++;}*//*
             if (landHeight > 50) {highGroundCount++;}
         }
-        return /*notShadowBiomeCount <= 1 &&*/ highGroundCount > 3;
+        return highGroundCount > 3; //&& notShadowBiomeCount <= 1;
     }
 
     private static Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context)
@@ -70,4 +70,4 @@ public class ShadowCatacombsStructure extends AbstractAerialHellStructure
 
         return structurePiecesGenerator;
     }
-}
+}*/

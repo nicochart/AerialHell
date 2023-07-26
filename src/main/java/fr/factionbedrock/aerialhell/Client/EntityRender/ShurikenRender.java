@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.*;
@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemDisplayContext;
 
 //see net.minecraft.client.renderer.entity ThrownItemRenderer
 public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRenderer<T>
@@ -45,11 +46,11 @@ public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRend
 		{
 			entityIn.shurikenZRot = 360;
 		}
-		matrix.mulPose(Vector3f.YP.rotationDegrees(entityIn.getYRot())); /*Vertical plane rotation*/
-		matrix.mulPose(Vector3f.XP.rotationDegrees(- 90.0f - entityIn.xRotO)); /*Pointing to forward*/
-		matrix.mulPose(Vector3f.ZP.rotationDegrees(entityIn.shurikenZRot)); /*Horizontal plane rotation*/
-		
-		Minecraft.getInstance().getItemRenderer().renderStatic(entityIn.getItem(), ItemTransforms.TransformType.GUI, packedLightIn, OverlayTexture.NO_OVERLAY, matrix, bufferIn, entityIn.getId());
+		matrix.mulPose(Axis.YP.rotationDegrees(entityIn.getYRot())); /*Vertical plane rotation*/
+		matrix.mulPose(Axis.XP.rotationDegrees(- 90.0f - entityIn.xRotO)); /*Pointing to forward*/
+		matrix.mulPose(Axis.ZP.rotationDegrees(entityIn.shurikenZRot)); /*Horizontal plane rotation*/
+
+		Minecraft.getInstance().getItemRenderer().renderStatic(entityIn.getItem(), ItemDisplayContext.GROUND, packedLightIn, OverlayTexture.NO_OVERLAY, matrix, bufferIn, entityIn.level(), entityIn.getId());
 		matrix.popPose();
 		super.render(entityIn, entityYaw, partialTicks, matrix, bufferIn, packedLightIn);
 	}

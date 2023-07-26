@@ -7,6 +7,9 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.MushroomBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.tags.BlockTags;
@@ -18,10 +21,10 @@ import net.minecraft.server.level.ServerLevel;
 
 public class AerialHellMushroomBlock extends MushroomBlock
 {
-	public AerialHellMushroomBlock(Properties properties, Supplier<Holder<? extends ConfiguredFeature<?, ?>>> featureSupplier) {super(properties, featureSupplier);}
+	public AerialHellMushroomBlock(Properties properties, ResourceKey<ConfiguredFeature<?, ?>> featureKey) {super(properties, featureKey);}
 
 	@Override
-	public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, Random random) {}
+	public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {}
 
 	@Override protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos) {
 		return state.is(AerialHellTags.Blocks.STELLAR_DIRT) || state.is(BlockTags.MUSHROOM_GROW_BLOCK);
@@ -34,16 +37,16 @@ public class AerialHellMushroomBlock extends MushroomBlock
 
 	private static enum HugeGenerationDirections{NONE, NORTH_WEST, NORTH_EAST, SOUTH_WEST, SOUTH_EAST}
 
-	@Override public boolean growMushroom(ServerLevel world, BlockPos pos, BlockState state, Random rand) {
+	@Override public boolean growMushroom(ServerLevel world, BlockPos pos, BlockState state, RandomSource rand) {
 		BlockPos generationPos = pos;
 		ConfiguredFeature<?, ?> configuredfeature;
 		HugeGenerationDirections hugeShroomDirection = this.getHugeShroomDirection(world, pos, state);
 		if (this == AerialHellBlocksAndItems.VERDIGRIS_AGARIC.get()) {
 			if (hugeShroomDirection != HugeGenerationDirections.NONE) {
-				generationPos = this.getOffsetPosForHugeShroom(pos, hugeShroomDirection);
-				configuredfeature = AerialHellConfiguredFeatures.HUGE_VERDIGRIS_AGARIC.get();
+				generationPos = this.getOffsetPosForHugeShroom(pos, hugeShroomDirection); //TODO : will it work ?
+				configuredfeature = world.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getHolder(AerialHellConfiguredFeatures.HUGE_VERDIGRIS_AGARIC).orElse(null).get();
 
-			} else {configuredfeature = AerialHellConfiguredFeatures.GIANT_VERDIGRIS_AGARIC.get();}
+			} else {configuredfeature = world.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getHolder(AerialHellConfiguredFeatures.GIANT_VERDIGRIS_AGARIC).orElse(null).get();;}
 		} else {return false;}
 
 		world.removeBlock(generationPos, false);

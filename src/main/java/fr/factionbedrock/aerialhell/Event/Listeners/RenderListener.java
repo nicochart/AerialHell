@@ -13,7 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
+//import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -32,7 +32,7 @@ public class RenderListener
     private static final int HEART_ICON_WIDTH = 9;
     private static final int HEART_ICON_HEIGHT = 9;
 
-    @OnlyIn(Dist.CLIENT) @SubscribeEvent
+    /*@OnlyIn(Dist.CLIENT) @SubscribeEvent
     public static void onRenderOverlayPost(RenderGameOverlayEvent.Post event)
     {
         Minecraft mc = Minecraft.getInstance();
@@ -153,5 +153,5 @@ public class RenderListener
         else if (maxHalfHearts <= 140) {return 5;}
         else if (maxHalfHearts <= 160) {return 4;}
         else {return 3;}
-    }
+    }*/
 }

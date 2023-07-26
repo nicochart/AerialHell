@@ -43,6 +43,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.ForgeEventFactory;
 
 public class ChainedGodEntity extends AbstractBossEntity
 {
@@ -170,7 +171,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		if (this.isImploding())
 		{
 			//lève les bras, fait des particules bonus, ne bouge plus, cr�er une explosion si timeSince = fuzetime
-			if (!level.isClientSide())
+			if (!level().isClientSide())
 			{
 				this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 10, true, false)));
 			}
@@ -185,7 +186,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	        
 	        if (this.timeSinceImploding > 12)
 	        {
-	        	List<Entity> nearbyEntities = this.level.getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
+	        	List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
 				for (Entity entity : nearbyEntities)
 		    	{
 					boolean creaOrSpecPlayer = (entity instanceof Player && (((Player) entity).isSpectator() || ((Player) entity).isCreative()));
@@ -195,7 +196,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		    		}
 		    	}
 				
-				if (this.level.isClientSide())
+				if (this.level().isClientSide())
 		        {
 		        	for (int i=0; i<5; i++)
 		        	{
@@ -205,7 +206,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 						double z = getZ() + (random.nextFloat() - 0.5F) * rand;
 						double dx = (random.nextFloat() - 0.5F)/10;
 						double dz = (random.nextFloat() - 0.5F)/10;
-						this.level.addParticle(ParticleTypes.LAVA, x, y, z, dx, 0.5D, dz);
+						this.level().addParticle(ParticleTypes.LAVA, x, y, z, dx, 0.5D, dz);
 		        	}
 		        }
 	        }
@@ -219,7 +220,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 			double z = getZ() + (random.nextFloat() - 0.5F) * rand;
 			double dx = (random.nextFloat() - 0.5F)/10;
 			double dz = (random.nextFloat() - 0.5F)/10;
-			this.level.addParticle(AerialHellParticleTypes.GOD_FLAME.get(), x, y, z, dx, -0.06D, dz);
+			this.level().addParticle(AerialHellParticleTypes.GOD_FLAME.get(), x, y, z, dx, -0.06D, dz);
         }
 		
 		super.tick();
@@ -237,11 +238,11 @@ public class ChainedGodEntity extends AbstractBossEntity
 	@Override
 	public boolean doHurtTarget(Entity attackedEntity)
 	{
-	      this.level.broadcastEntityEvent(this, (byte)4);
+	      this.level().broadcastEntityEvent(this, (byte)4);
 	      float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 	      float amount = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
 	      float kb = (float)this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
-	      boolean flag = attackedEntity.hurt(DamageSource.mobAttack(this), amount);
+	      boolean flag = attackedEntity.hurt(this.damageSources().mobAttack(this), amount);
 	      if (flag)
 	      {
 	    	 ((LivingEntity)attackedEntity).knockback(kb * 0.5F, (double) Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))));
@@ -271,7 +272,7 @@ public class ChainedGodEntity extends AbstractBossEntity
     @Override
     protected void playStepSound(BlockPos pos, BlockState blockIn)
     {
-    	if (!blockIn.getMaterial().isLiquid())
+    	if (!blockIn.liquid())
     	{
         	this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_STEP.get(), 0.5F, 0.8F + 0.5F*random.nextFloat());
         }
@@ -287,29 +288,30 @@ public class ChainedGodEntity extends AbstractBossEntity
 	
 	private void implode()
 	{
-		if (!this.level.isClientSide())
+		if (!this.level().isClientSide())
 	    {
-	    	Explosion.BlockInteraction explosion$mode = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level, this) ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.NONE;
-	        this.level.explode(this, this.getX(), this.getY(), this.getZ(), (float)5, explosion$mode);
+
+	    	Level.ExplosionInteraction explosionInteraction = ForgeEventFactory.getMobGriefingEvent(this.level(), this) ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
+	        this.level().explode(this, this.getX(), this.getY(), this.getZ(), (float)5, explosionInteraction);
 	    }
 		spawnImplosionParticle();
 	}
 	
 	public void spawnImplosionParticle()
 	{
-		if (this.level.isClientSide())
+		if (this.level().isClientSide())
         {
         	for(int i = 0; i < 30; ++i)
             {
             	double d0 = this.random.nextGaussian() * 0.02D;
             	double d1 = this.random.nextGaussian() * 0.02D;
             	double d2 = this.random.nextGaussian() * 0.02D;
-            	this.level.addParticle(ParticleTypes.LARGE_SMOKE, this.getRandomX(1.0D) - d0 * 10.0D, this.getRandomY() - d1 * 10.0D, this.getRandomZ(1.0D) - d2 * 10.0D, 2 * d0, d1, 2 * d2);
+            	this.level().addParticle(ParticleTypes.LARGE_SMOKE, this.getRandomX(1.0D) - d0 * 10.0D, this.getRandomY() - d1 * 10.0D, this.getRandomZ(1.0D) - d2 * 10.0D, 2 * d0, d1, 2 * d2);
             }
         }
         else
         {
-           this.level.broadcastEntityEvent(this, (byte)20);
+           this.level().broadcastEntityEvent(this, (byte)20);
         }
 	}
 	
@@ -350,9 +352,9 @@ public class ChainedGodEntity extends AbstractBossEntity
 	        if (fireballCount < 3)
 	        {
 	        	 ++this.fireballCount;
-	        	 ChainedGodFireballEntity fireballentity = new ChainedGodFireballEntity(this.chainedGod.level, this.chainedGod, Xdistance + 0.5 * this.chainedGod.random.nextGaussian() * (double)halfDistanceToTarget, Ydistance, Zdistance + 0.5 * this.chainedGod.random.nextGaussian() * (double)halfDistanceToTarget);
+	        	 ChainedGodFireballEntity fireballentity = new ChainedGodFireballEntity(this.chainedGod.level(), this.chainedGod, Xdistance + 0.5 * this.chainedGod.random.nextGaussian() * (double)halfDistanceToTarget, Ydistance, Zdistance + 0.5 * this.chainedGod.random.nextGaussian() * (double)halfDistanceToTarget);
                  fireballentity.setPos(fireballentity.getX(), this.chainedGod.getY(0.5D) + 0.5D, fireballentity.getZ());
-                 this.chainedGod.level.addFreshEntity(fireballentity);
+                 this.chainedGod.level().addFreshEntity(fireballentity);
 	        }
 	        super.tick();
 	     }

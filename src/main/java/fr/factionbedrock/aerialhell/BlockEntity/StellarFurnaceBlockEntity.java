@@ -10,7 +10,6 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -23,7 +22,7 @@ public class StellarFurnaceBlockEntity extends AbstractFurnaceBlockEntity
 	@Override
 	protected Component getDefaultName()
 	{
-		return new TranslatableComponent("container." + AerialHell.MODID + ".stellar_furnace");
+		return Component.translatable("container." + AerialHell.MODID + ".stellar_furnace");
 	}
 
 	@Override protected AbstractContainerMenu createMenu(int id, Inventory inv) {return new StellarFurnaceMenu(id, inv, this, this.dataAccess);}

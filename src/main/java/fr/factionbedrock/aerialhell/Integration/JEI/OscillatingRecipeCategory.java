@@ -1,30 +1,27 @@
 package fr.factionbedrock.aerialhell.Integration.JEI;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Recipe.OscillatingRecipe;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
 
-import javax.annotation.Nonnull;
-
 public class OscillatingRecipeCategory implements IRecipeCategory<OscillatingRecipe>
 {
-	private static final int INPUT_SLOT = 0;
-	private static final int FUEL_SLOT = 1;
-	private static final int OUTPUT_SLOT = 1;
+	public static final RecipeType<OscillatingRecipe> OSCILLATING = RecipeType.create(AerialHell.MODID, "oscillating", OscillatingRecipe.class);
 
 	public final static ResourceLocation UID = new ResourceLocation(AerialHell.MODID, "oscillating");
 	public final static ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/gui/container/oscillator.png");
@@ -42,33 +39,23 @@ public class OscillatingRecipeCategory implements IRecipeCategory<OscillatingRec
 
 	@Override public IDrawable getBackground() {return this.background;}
 	@Override public IDrawable getIcon() {return this.icon;}
-	@Override public ResourceLocation getUid() {return UID;}
-	@Override public Class<? extends OscillatingRecipe> getRecipeClass() {return OscillatingRecipe.class;}
-	@Override public Component getTitle() {return new TranslatableComponent("block.aerialhell.oscillator");}
+	@Override public Component getTitle() {return Component.translatable("block.aerialhell.oscillator");}
+	@Override public RecipeType<OscillatingRecipe> getRecipeType() {return OSCILLATING;}
 
 	@Override
-	public void setIngredients(OscillatingRecipe recipe, IIngredients ingredients)
+	public void setRecipe(IRecipeLayoutBuilder builder, OscillatingRecipe recipe, IFocusGroup focuses)
 	{
-		ingredients.setInputIngredients(recipe.getIngredients());
-		ingredients.setOutput(VanillaTypes.ITEM, recipe.getResultItem());
+		builder.addSlot(RecipeIngredientRole.INPUT, 55, 16).addItemStack(recipe.getIngredients().get(0).getItems()[0]);
+		builder.addSlot(RecipeIngredientRole.CATALYST, 55, 52).addItemStack(new ItemStack(AerialHellBlocksAndItems.MAGMATIC_GEL.get()));
+		if (Minecraft.getInstance().level != null)
+		{
+			builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 34).addItemStack(recipe.getResultItem(Minecraft.getInstance().level.registryAccess()));
+		}
 	}
 
 	@Override
-	public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull OscillatingRecipe recipe, @Nonnull IIngredients ingredients)
+	public void draw(OscillatingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY)
 	{
-		IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
-
-		guiItemStacks.init(INPUT_SLOT, true, 55, 16);
-		guiItemStacks.init(FUEL_SLOT, true, 55, 52);
-
-		guiItemStacks.init(OUTPUT_SLOT, false, 115, 34);
-
-		guiItemStacks.set(ingredients);
-	}
-
-	@Override
-	public void draw(OscillatingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double mouseX, double mouseY)
-	{
-		this.oscillating.draw(poseStack, 56, 36);
+		this.oscillating.draw(guiGraphics, 56, 36);
 	}
 }

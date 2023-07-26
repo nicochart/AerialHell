@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.World.Features;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
@@ -15,13 +16,13 @@ import java.util.Random;
 
 public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeatureConfiguration>
 {
-    public BlockPos getRandomHeighGenerationPos(int x, int minY, int maxY, int z, Random rand) {return new BlockPos(x, minY + rand.nextInt(maxY- minY), z);}
+    public BlockPos getRandomHeighGenerationPos(int x, int minY, int maxY, int z, RandomSource rand) {return new BlockPos(x, minY + rand.nextInt(maxY- minY), z);}
 	protected abstract int getBasicMinSize(); protected abstract int getBasicMaxSize();
 	protected abstract int getSmallMinSize(); protected abstract int getSmallMaxSize();
 	protected abstract Block getEtherBlock();
 	protected BlockState getEtherBlockState() {return this.getEtherBlock().defaultBlockState();}
 
-	public int chooseRandomSize(int minSize, int maxSize, Random rand)
+	public int chooseRandomSize(int minSize, int maxSize, RandomSource rand)
 	{
 		return minSize + (int)(rand.nextDouble() * ((minSize - maxSize) + 1));
 	}
@@ -31,7 +32,7 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeature
         super(codec);
     }
     
-    protected void generateFourLayersFirstEllipsis(int sizeX, int sizeZ, WorldGenLevel reader, Random rand, BlockPos pos)
+    protected void generateFourLayersFirstEllipsis(int sizeX, int sizeZ, WorldGenLevel reader, RandomSource rand, BlockPos pos)
     {
     	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
         {
@@ -93,7 +94,7 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeature
         }
     }
     
-    protected void generateFirstEllipsis(int sizeX, int sizeZ, WorldGenLevel reader, Random rand, BlockPos pos)
+    protected void generateFirstEllipsis(int sizeX, int sizeZ, WorldGenLevel reader, RandomSource rand, BlockPos pos)
     {
     	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
         {
@@ -159,7 +160,7 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeature
         }
     }
     
-    protected void generateSecondEllipsis(int sizeX, int sizeZ, WorldGenLevel reader, Random rand, BlockPos pos)
+    protected void generateSecondEllipsis(int sizeX, int sizeZ, WorldGenLevel reader, RandomSource rand, BlockPos pos)
     {
     	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
         {
@@ -186,7 +187,7 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeature
         }
     }
     
-    protected void generateThirdEllipsis(int sizeX, int sizeZ, WorldGenLevel reader, Random rand, BlockPos pos)
+    protected void generateThirdEllipsis(int sizeX, int sizeZ, WorldGenLevel reader, RandomSource rand, BlockPos pos)
     {
     	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
         {
@@ -213,7 +214,7 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeature
         }
     }
     
-    protected void generateLastEllipsis(int sizeX, int sizeZ, WorldGenLevel reader, Random rand, BlockPos pos)
+    protected void generateLastEllipsis(int sizeX, int sizeZ, WorldGenLevel reader, RandomSource rand, BlockPos pos)
     {
     	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
         {

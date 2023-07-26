@@ -72,7 +72,7 @@ public class ShroomBoomEntity extends Creeper
         {
         	float damage = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
         	float kb = (float)this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
-            boolean isAttackSuccess = entityIn.hurt(DamageSource.mobAttack(this), damage);
+            boolean isAttackSuccess = entityIn.hurt(this.damageSources().mobAttack(this), damage);
             if (isAttackSuccess)
             {
             	if (kb > 0.0F && entityIn instanceof LivingEntity)

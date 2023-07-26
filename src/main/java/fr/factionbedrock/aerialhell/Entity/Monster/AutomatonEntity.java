@@ -33,7 +33,7 @@ public class AutomatonEntity extends AerialHellHostileEntity
     public boolean doHurtTarget(Entity entityIn)
     {
         boolean flag = super.doHurtTarget(entityIn);
-        this.level.broadcastEntityEvent(this, (byte)4);
+        this.level().broadcastEntityEvent(this, (byte)4);
         return flag;
     }
 

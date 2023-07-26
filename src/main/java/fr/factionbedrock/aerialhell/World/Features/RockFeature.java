@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
@@ -21,13 +22,13 @@ public class RockFeature extends Feature<NoneFeatureConfiguration>
 	WeightedStateProvider blockStateProvider;
 	public RockFeature(Codec<NoneFeatureConfiguration> codec, WeightedStateProvider bsProvider) {super(codec); this.blockStateProvider = bsProvider;}
 	
-	protected BlockState randomState(Random rand, BlockPos pos) {return blockStateProvider.getState(rand, pos);}
+	protected BlockState randomState(RandomSource rand, BlockPos pos) {return blockStateProvider.getState(rand, pos);}
 	protected void placeBlocks(WorldGenLevel reader, BlockPos pos, BlockState state, int number, Direction direction) {for (int d=0;d<number;d++) {reader.setBlock(pos.relative(direction, d), state, 2);}}
 	protected boolean canGenerateAtPos(ChunkGenerator chunkGenerator, WorldGenLevel reader, BlockPos pos) {return hasSupportToGenerate(reader, pos) && !(FeatureHelper.generatesInAnyDungeon(chunkGenerator, reader, pos));}
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); Random rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
+		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
 		BlockPos placementPos = findPosForPlacement(reader, pos);
 		if (!canGenerateAtPos(generator, reader, placementPos)) {return false;}
 		

@@ -21,14 +21,14 @@ public class MisleadableNearestAttackableTargetGoal<T extends LivingEntity>  ext
         else
         {
             double x = this.mob.getX(), y = this.mob.getEyeY(), z = this.mob.getZ();
-            List<Entity> nearbyEntities = this.mob.level.getEntities(this.mob, this.mob.getBoundingBox().inflate(20), EntitySelector.withinDistance(x, y, z, 16));
+            List<Entity> nearbyEntities = this.mob.level().getEntities(this.mob, this.mob.getBoundingBox().inflate(20), EntitySelector.withinDistance(x, y, z, 16));
 
             List<Player> nearbyTargetablePlayers = nearbyEntities.stream()
                     .filter(entity -> entity instanceof Player)
                     .filter(entity -> !isPlayerMisleadingGoalOwner((Player) entity))
                     .map(entity -> (Player) entity)
                     .collect(Collectors.toList());
-            this.target = this.mob.level.getNearestEntity(nearbyTargetablePlayers, this.targetConditions, target, x, y, z);
+            this.target = this.mob.level().getNearestEntity(nearbyTargetablePlayers, this.targetConditions, target, x, y, z);
         }
     }
 

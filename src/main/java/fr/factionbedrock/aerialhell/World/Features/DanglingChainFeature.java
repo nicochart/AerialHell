@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.BlockPos;
@@ -24,7 +25,7 @@ public class DanglingChainFeature extends Feature<NoneFeatureConfiguration>
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		BlockPos blockPos = context.origin(); WorldGenLevel reader = context.level(); Random rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
+		BlockPos blockPos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
     	boolean canGenerate = reader.getBlockState(blockPos.below()).getBlock().equals(Blocks.AIR)
     		&& reader.getBlockState(blockPos).is(AerialHellTags.Blocks.STELLAR_STONE)
     		&& hasAnyStoneBlockAbove(blockPos.north(4).west(4), reader, 10)
@@ -56,7 +57,7 @@ public class DanglingChainFeature extends Feature<NoneFeatureConfiguration>
         return false;
     }
     
-    protected void generateChainLink(WorldGenLevel reader, Random rand, BlockPos blockPos, LinkDirection direction)
+    protected void generateChainLink(WorldGenLevel reader, RandomSource rand, BlockPos blockPos, LinkDirection direction)
     {
     	int i,y;
     	if (direction == LinkDirection.NORTH_SOUTH)
@@ -87,7 +88,7 @@ public class DanglingChainFeature extends Feature<NoneFeatureConfiguration>
     	}
     }
     
-    protected void generateLastLink(WorldGenLevel reader, Random rand, BlockPos blockPos, LinkDirection direction)
+    protected void generateLastLink(WorldGenLevel reader, RandomSource rand, BlockPos blockPos, LinkDirection direction)
     {
     	int i,y;
     	if (direction == LinkDirection.NORTH_SOUTH)
@@ -130,7 +131,7 @@ public class DanglingChainFeature extends Feature<NoneFeatureConfiguration>
     	}
     }
     
-    private BlockState getRandomBlockstateToPlace(Random rand)
+    private BlockState getRandomBlockstateToPlace(RandomSource rand)
     {
     	return (rand.nextInt(4) == 0) ? AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE.get().defaultBlockState() : AerialHellBlocksAndItems.STELLAR_STONE_BRICKS.get().defaultBlockState();
     }

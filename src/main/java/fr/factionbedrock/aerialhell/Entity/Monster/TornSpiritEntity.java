@@ -84,7 +84,7 @@ public class TornSpiritEntity extends Monster
         double x = getX() + (random.nextFloat() - 0.5F) * rand;
         double y = (this.getBoundingBox().minY + rand) + 0.5D;
         double z = getZ() + (random.nextFloat() - 0.5F) * rand;
-        this.level.addParticle(AerialHellParticleTypes.GOD_FLAME.get(), x, y, z, 0.0D, -0.06D, 0.0D);
+        this.level().addParticle(AerialHellParticleTypes.GOD_FLAME.get(), x, y, z, 0.0D, -0.06D, 0.0D);
         
         super.tick();
     }
@@ -191,16 +191,16 @@ public class TornSpiritEntity extends Monster
 	                     float halfDistanceToTarget = Mth.sqrt(Mth.sqrt((float) squaredDistanceToTarget)) * 0.5F;
 	                     if (!this.tornspirit.isSilent())
 	                     {
-	                        this.tornspirit.level.levelEvent((Player)null, 1018, this.tornspirit.blockPosition(), 0);
+	                        this.tornspirit.level().levelEvent((Player)null, 1018, this.tornspirit.blockPosition(), 0);
 	                     }
 	                     
 	                     int n = (int)(Math.random() * 2) + 1; //nombre al�atoire entre 1 et 3
 	                    		 
 	                     for(int i = 0; i < n; ++i)
 	                     {
-	                        SmallFireball smallfireballentity = new SmallFireball(this.tornspirit.level, this.tornspirit, Xdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget, Ydistance, Zdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget);
+	                        SmallFireball smallfireballentity = new SmallFireball(this.tornspirit.level(), this.tornspirit, Xdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget, Ydistance, Zdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget);
 	                        smallfireballentity.setPos(smallfireballentity.getX(), this.tornspirit.getY(0.5D) + 0.5D, smallfireballentity.getZ());
-	                        this.tornspirit.level.addFreshEntity(smallfireballentity);
+	                        this.tornspirit.level().addFreshEntity(smallfireballentity);
 	                     }
 	                  }
 	               }

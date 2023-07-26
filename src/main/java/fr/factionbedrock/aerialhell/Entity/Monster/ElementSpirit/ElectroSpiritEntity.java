@@ -33,11 +33,11 @@ public class ElectroSpiritEntity extends AbstractElementSpiritEntity
     @Override
     public void attackSuicide()
     {
-    	if (this.level instanceof ServerLevel)
+    	if (this.level() instanceof ServerLevel)
     	{
-    		LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level);
+    		LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level());
 			lightningBolt.setPos(this.getX(), this.getY(), this.getZ());
-			this.level.addFreshEntity(lightningBolt);
+			this.level().addFreshEntity(lightningBolt);
     	}
     	super.attackSuicide();
     }

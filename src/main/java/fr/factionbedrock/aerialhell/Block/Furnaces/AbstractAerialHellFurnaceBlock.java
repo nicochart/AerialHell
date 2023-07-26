@@ -1,14 +1,11 @@
 package fr.factionbedrock.aerialhell.Block.Furnaces;
 
-import com.mojang.math.Vector3d;
-import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
@@ -16,8 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.Random;
+import org.joml.Vector3d;
 
 public abstract class AbstractAerialHellFurnaceBlock extends AbstractFurnaceBlock
 {
@@ -30,7 +26,7 @@ public abstract class AbstractAerialHellFurnaceBlock extends AbstractFurnaceBloc
     }
 
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, Random rand)
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource rand)
     {
         if (state.getValue(LIT))
         {
@@ -53,8 +49,8 @@ public abstract class AbstractAerialHellFurnaceBlock extends AbstractFurnaceBloc
     public abstract BlockEntityType<? extends AbstractFurnaceBlockEntity> getTickerBlockEntity();
     public abstract SoundEvent getLitSound();
     public abstract Vector3d getParticlePos(BlockPos pos, Direction direction);
-    public abstract Vector3d getParticleRandomOffset(Random rand);
-    public abstract Vector3d getParticleRandomVelocity(Random rand);
+    public abstract Vector3d getParticleRandomOffset(RandomSource rand);
+    public abstract Vector3d getParticleRandomVelocity(RandomSource rand);
     public abstract ParticleOptions getParticleType();
     public abstract int getParticleCount();
 }

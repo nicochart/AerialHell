@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Tier;
@@ -60,8 +60,8 @@ public class ForgottenBattleTridentItem extends AerialHellSwordItem
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public TranslatableComponent getDescription()
+	public MutableComponent getDescription()
 	{
-		return new TranslatableComponent(this.getDescriptionId() + ".desc");
+		return Component.translatable(this.getDescriptionId() + ".desc");
 	}
 }

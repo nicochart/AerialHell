@@ -5,17 +5,11 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.VoluciteShurikenE
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.Level;
 
 public class VoluciteShurikenItem extends AbstractShurikenItem
 {
-	public VoluciteShurikenItem(CreativeModeTab group)
-	{
-		super(new Item.Properties().rarity(AerialHellRarities.VIBRANT), group);
-	}
-	
-	public VoluciteShurikenItem() //default group
+	public VoluciteShurikenItem()
 	{
 		super(new Item.Properties().rarity(AerialHellRarities.VIBRANT));
 	}

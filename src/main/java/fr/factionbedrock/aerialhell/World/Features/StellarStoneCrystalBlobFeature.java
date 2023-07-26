@@ -7,6 +7,7 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.Direction;
@@ -23,7 +24,7 @@ public class StellarStoneCrystalBlobFeature extends Feature<NoneFeatureConfigura
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		BlockPos pos = context.origin(); WorldGenLevel world = context.level(); Random rand = context.random();
+		BlockPos pos = context.origin(); WorldGenLevel world = context.level(); RandomSource rand = context.random();
 		int x = pos.getX(), y=10, z=pos.getZ();
 		int ymax = 160;
 		BlockPos blockpos;

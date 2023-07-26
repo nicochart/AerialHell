@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.FlyingMob;
 import net.minecraft.world.entity.LivingEntity;
@@ -104,7 +105,7 @@ public class FlyingJellyfishEntity extends FlyingMob implements Enemy
 		return 1.2F;
 	}
 
-	public static boolean canJellyfishSpawn(EntityType<? extends FlyingJellyfishEntity> jellyfish, LevelAccessor worldIn, MobSpawnType reason,	BlockPos pos, Random random)
+	public static boolean canJellyfishSpawn(EntityType<? extends FlyingJellyfishEntity> jellyfish, LevelAccessor worldIn, MobSpawnType reason,	BlockPos pos, RandomSource random)
 	{
 		return worldIn.getDifficulty() != Difficulty.PEACEFUL && random.nextInt(15) == 0 && checkMobSpawnRules(jellyfish, worldIn, reason, pos, random);
 	}
@@ -144,7 +145,7 @@ public class FlyingJellyfishEntity extends FlyingMob implements Enemy
 			LivingEntity target = parentEntity.getTarget();
 			if (target.distanceToSqr(this.parentEntity) < 64*64 && this.parentEntity.hasLineOfSight(target))
 			{
-				Level world = this.parentEntity.level;
+				Level world = this.parentEntity.level();
 				++this.attackTimer;
 				if (this.attackTimer == 10)
 				{
@@ -209,7 +210,7 @@ public class FlyingJellyfishEntity extends FlyingMob implements Enemy
 		@Override
 		public void start()
 		{
-			Random random = this.parentEntity.getRandom();
+			RandomSource random = this.parentEntity.getRandom();
 			double d0 = this.parentEntity.getX() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
 			double d1 = this.parentEntity.getY() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
 			double d2 = this.parentEntity.getZ() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
@@ -258,7 +259,7 @@ public class FlyingJellyfishEntity extends FlyingMob implements Enemy
 			for (int i = 1; i < distance; ++i)
 			{
 				axisalignedbb = axisalignedbb.move(pos);
-				if (!this.parentEntity.level.noCollision(this.parentEntity, axisalignedbb)) {return false;}
+				if (!this.parentEntity.level().noCollision(this.parentEntity, axisalignedbb)) {return false;}
 			}
 
 			return true;

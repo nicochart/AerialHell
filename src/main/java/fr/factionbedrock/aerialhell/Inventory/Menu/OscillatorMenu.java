@@ -15,12 +15,12 @@ public class OscillatorMenu extends AbstractFurnaceMenu
 {
 	public OscillatorMenu(int windowId, Inventory playerInventory)
 	{
-		super(AerialHellMenuTypes.OSCILLATOR.get(), RecipeTypes.OSCILLATING, RecipeBookType.FURNACE, windowId, playerInventory);
+		super(AerialHellMenuTypes.OSCILLATOR.get(), RecipeTypes.OSCILLATING.get(), RecipeBookType.FURNACE, windowId, playerInventory);
 	}
 
 	public OscillatorMenu(int windowId, Inventory playerInventory, Container oscillatingInventory, ContainerData data)
 	{
-		super(AerialHellMenuTypes.OSCILLATOR.get(), RecipeTypes.OSCILLATING, RecipeBookType.FURNACE, windowId, playerInventory, oscillatingInventory, data);
+		super(AerialHellMenuTypes.OSCILLATOR.get(), RecipeTypes.OSCILLATING.get(), RecipeBookType.FURNACE, windowId, playerInventory, oscillatingInventory, data);
 	}
 
 	@Override public boolean isFuel(ItemStack stack) {return OscillatorBlockEntity.getOscillatingMap().containsKey(stack.getItem());}

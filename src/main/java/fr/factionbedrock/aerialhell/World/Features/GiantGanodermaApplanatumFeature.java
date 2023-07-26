@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
@@ -21,7 +22,7 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfigur
 
     @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
-        BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); Random rand = context.random();
+        BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random();
 		boolean canGenerate = (
             (!reader.getBlockState(pos.above(3)).getBlock().equals(Blocks.AIR)) &&
             ((reader.getBlockState(pos.north(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.south(2)).getBlock().equals(Blocks.AIR)) || (reader.getBlockState(pos.west(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.east(2)).getBlock().equals(Blocks.AIR))) &&
@@ -37,7 +38,7 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfigur
         return false;
     }
     
-    protected void generateCap(WorldGenLevel reader, Random rand, BlockPos blockPos)
+    protected void generateCap(WorldGenLevel reader, RandomSource rand, BlockPos blockPos)
     {
     	BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
     	boolean downInEll,isUpCap,northInEll,southInEll,westInEll,eastInEll;
@@ -82,12 +83,12 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfigur
         }
     }
     
-    private int getRandomRadius(Random rand, boolean isHuge)
+    private int getRandomRadius(RandomSource rand, boolean isHuge)
     {
     	return isHuge ? (int) (5 + rand.nextFloat() * 5) : (int) (2 + rand.nextFloat() * 4);
     }
     
-    private int getRandomHeight(Random rand, boolean isHuge)
+    private int getRandomHeight(RandomSource rand, boolean isHuge)
     {
     	int bonus = rand.nextInt(8) == 0 ? 1 : 0;
     	return 2 + (isHuge ? bonus+1 : bonus);

@@ -1,14 +1,12 @@
 package fr.factionbedrock.aerialhell.Block.Furnaces;
 
-import java.util.Random;
-
-import com.mojang.math.Vector3d;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.BlockEntity.OscillatorBlockEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -19,6 +17,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import org.joml.Vector3d;
 
 public class OscillatorBlock extends AbstractAerialHellFurnaceBlock
 {
@@ -41,8 +40,8 @@ public class OscillatorBlock extends AbstractAerialHellFurnaceBlock
 	@Override public BlockEntityType<? extends AbstractFurnaceBlockEntity> getTickerBlockEntity() {return AerialHellBlockEntities.OSCILLATOR.get();}
 	@Override public SoundEvent getLitSound() {return SoundEvents.FURNACE_FIRE_CRACKLE;}
 	@Override public Vector3d getParticlePos(BlockPos pos, Direction direction) {return new Vector3d(pos.getX() + 0.5D, pos.getY() + 1.01D, pos.getZ() + 0.5D);}
-	@Override public Vector3d getParticleRandomOffset(Random rand) {return new Vector3d(rand.nextDouble() - 0.5D, (rand.nextDouble() * 6.0D) / 16.0D, rand.nextDouble() - 0.5D);}
-	@Override public Vector3d getParticleRandomVelocity(Random rand) {return new Vector3d(0.0D, 0.0D, 0.0D);}
+	@Override public Vector3d getParticleRandomOffset(RandomSource rand) {return new Vector3d(rand.nextDouble() - 0.5D, (rand.nextDouble() * 6.0D) / 16.0D, rand.nextDouble() - 0.5D);}
+	@Override public Vector3d getParticleRandomVelocity(RandomSource rand) {return new Vector3d(0.0D, 0.0D, 0.0D);}
 	@Override public ParticleOptions getParticleType() {return AerialHellParticleTypes.OSCILLATOR.get();}
 	@Override public int getParticleCount() {return 1;}
 }
