@@ -1,0 +1,17 @@
+{
+  "feature": "aerialhell:golden_beech",
+  "placement": [
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:would_survive",
+        "state": {
+          "Name": "aerialhell:golden_beech_sapling",
+          "Properties": {
+            "stage": "0"
+          }
+        }
+      }
+    }
+  ]
+}

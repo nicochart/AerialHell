@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
@@ -24,16 +23,5 @@ public class AerialHellDamageTypes
     public static DamageSource getDamageSource(Level level, ResourceKey<DamageType> typeKey)
     {
         return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(typeKey));
-    }
-
-    public static void bootstrap(BootstapContext<DamageType> bootstrapContext)
-    {
-        bootstrapContext.register(GOD_BLESS, new DamageType(AerialHell.MODID+".god_bless", 0.0F));
-        bootstrapContext.register(WEB_THORNS, new DamageType(AerialHell.MODID+".web_thorns", 0.0F));
-        bootstrapContext.register(BRAMBLES_THORNS, new DamageType(AerialHell.MODID+".brambles_thorns", 0.0F));
-        bootstrapContext.register(ROOT_THORNS, new DamageType(AerialHell.MODID+".root_thorns", 0.0F));
-        bootstrapContext.register(SHURIKEN_HIT, new DamageType(AerialHell.MODID+".shuriken_hit", 0.0F));
-        bootstrapContext.register(LUNATIC_PROJECTION, new DamageType(AerialHell.MODID+".lunatic_projection", 0.0F));
-        bootstrapContext.register(CURSED_TOOL, new DamageType(AerialHell.MODID+".cursed_tool", 0.0F));
     }
 }

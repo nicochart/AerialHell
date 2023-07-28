@@ -1,0 +1,8 @@
+{
+  "type": "aerialhell:dead_roots",
+  "config": {
+    "spread_width": 6,
+    "spread_height": 4,
+    "max_height": 8
+  }
+}

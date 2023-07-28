@@ -1,73 +1,55 @@
 package fr.factionbedrock.aerialhell.World.Structure;
-/*
+
 import com.google.common.collect.ImmutableList;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructures;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.LevelHeightAccessor;
-import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.LegacyRandomSource;
-import net.minecraft.world.level.levelgen.WorldgenRandom;
-import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
-import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
-import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
+import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
 import java.util.List;
 import java.util.Optional;
 
 public class ShadowCatacombsStructure extends AbstractAerialHellStructure
 {
-    private final static int MIN_GEN_HEIGHT = 35, MAX_GEN_HEIGHT = 55;
+    public static final Codec<ShadowCatacombsStructure> CODEC = RecordCodecBuilder.<ShadowCatacombsStructure>mapCodec(instance ->
+            instance.group(ShadowCatacombsStructure.settingsCodec(instance),
+                    StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
+                    ResourceLocation.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
+                    Codec.intRange(MIN_STRUCTURE_SIZE, MAX_STRUCTURE_SIZE).fieldOf("size").forGetter(structure -> structure.size),
+                    HeightProvider.CODEC.fieldOf("start_height").forGetter(structure -> structure.startHeight),
+                    Heightmap.Types.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(structure -> structure.projectStartToHeightmap),
+                    Codec.intRange(MIN_STRUCTURE_DISTANCE_FROM_CENTER, MAX_STRUCTURE_DISTANCE_FROM_CENTER).fieldOf("max_distance_from_center").forGetter(structure -> structure.maxDistanceFromCenter)
+            ).apply(instance, ShadowCatacombsStructure::new)).codec();
 
-    public ShadowCatacombsStructure() {super(ShadowCatacombsStructure::getPiecesGenerator);}
-
-    private static Optional<PieceGenerator<JigsawConfiguration>> getPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context)
+    public ShadowCatacombsStructure(Structure.StructureSettings config, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, int size, HeightProvider startHeight, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter)
     {
-        if (!isFeatureChunk(context)) {return Optional.empty();}
-        else {return createPiecesGenerator(context);}
+        super(config, startPool, startJigsawName, size, startHeight, projectStartToHeightmap, maxDistanceFromCenter);
     }
 
-    private static boolean isFeatureChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context)
+    @Override protected boolean isStructureChunk(Structure.GenerationContext context)
     {
-        ChunkGenerator chunkGenerator = context.chunkGenerator();
-        ChunkPos chunkpos = context.chunkPos();
-        LevelHeightAccessor level = context.heightAccessor();
-        long seed = context.seed();
-        BlockPos centerOfChunk = chunkpos.getMiddleBlockPosition(0);
-
         int landHeight, checkDistance=30;
-        //int notShadowBiomeCount = 0;
         int highGroundCount = 0;
 
+        BlockPos centerOfChunk = context.chunkPos().getMiddleBlockPosition(0);
         List<BlockPos> posToCheck = ImmutableList.of(centerOfChunk, centerOfChunk.north(checkDistance), centerOfChunk.south(checkDistance), centerOfChunk.east(checkDistance), centerOfChunk.west(checkDistance));
         for (BlockPos pos : posToCheck)
         {
-            landHeight = chunkGenerator.getBaseHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, level);
-            *//* biomeSource.getNoiseBiome(x,y,z) doesn't return the right biome. Do not use this method for biome check.Biome posBiome = biomeSource.getNoiseBiome(pos.getX(), pos.getY(), pos.getZ());
-            if (!FeatureHelper.isShadowBiome(posBiome)) {notShadowBiomeCount++;}*//*
+            landHeight = getTerrainHeight(context, pos.getX(), pos.getZ());
+            /* biomeSource.getNoiseBiome(x,y,z) doesn't return the right biome. Do not use this method for biome check.Biome posBiome = biomeSource.getNoiseBiome(pos.getX(), pos.getY(), pos.getZ());
+            if (!FeatureHelper.isShadowBiome(posBiome)) {notShadowBiomeCount++;}*/
             if (landHeight > 50) {highGroundCount++;}
         }
         return highGroundCount > 3; //&& notShadowBiomeCount <= 1;
     }
 
-    private static Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context)
-    {
-        WorldgenRandom random = new WorldgenRandom(new LegacyRandomSource(context.seed()));
-        BlockPos blockpos = context.chunkPos().getMiddleBlockPosition(0);
-        blockpos = moveInsideHeights(blockpos, MIN_GEN_HEIGHT, MAX_GEN_HEIGHT, random);
-
-        Optional<PieceGenerator<JigsawConfiguration>> structurePiecesGenerator =
-                JigsawPlacement.addPieces(
-                        context,
-                        PoolElementStructurePiece::new,
-                        blockpos, // structure pos
-                        false,
-                        false //true = use terrain height as base, and adds blockpos y to it
-                );
-
-        return structurePiecesGenerator;
-    }
-}*/
+    @Override public StructureType<?> type() {return AerialHellStructures.SHADOW_CATACOMBS_STRUCTURE.get();}
+}

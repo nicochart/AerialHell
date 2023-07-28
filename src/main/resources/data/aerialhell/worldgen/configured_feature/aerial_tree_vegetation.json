@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "chance": 1,
+        "feature": {
+          "feature": "aerialhell:aerial_tree",
+          "placement": []
+        }
+      }
+    ],
+    "default": {
+      "feature": "aerialhell:aerial_tree",
+      "placement": []
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "feature": "aerialhell:stellar_stone_crystal_blob_in_dark_areas",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": 5
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "min_inclusive": {
+          "absolute": 10
+        },
+        "max_inclusive": {
+          "absolute": 180
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

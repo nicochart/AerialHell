@@ -1,0 +1,17 @@
+{
+  "feature": "aerialhell:lapis_robinia",
+  "placement": [
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:would_survive",
+        "state": {
+          "Name": "aerialhell:lapis_robinia_sapling",
+          "Properties": {
+            "stage": "0"
+          }
+        }
+      }
+    }
+  ]
+}

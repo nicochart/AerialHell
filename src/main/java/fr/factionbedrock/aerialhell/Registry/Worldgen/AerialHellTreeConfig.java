@@ -100,7 +100,7 @@ public class AerialHellTreeConfig
     public static final TreeConfiguration CRYSTALLIZED_TREE_CONFIG = makeClassicStellarDirtTreeConfig(
             AerialHellBlocksAndItems.AERIAL_TREE_LOG.get().defaultBlockState(),
             new StraightTrunkPlacer(4, 2, 0), //hauteur de base, randomizer1, randomizer2
-            AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get().defaultBlockState(),
+            AerialHellBlocksAndItems.CRYSTALLIZED_LEAVES.get().defaultBlockState(),
             new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3), //rayon,décalage,hauteur
             new TwoLayersFeatureSize(1, 0, 1));
 

@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
-import java.util.Random;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;

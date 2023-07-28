@@ -1,33 +1,37 @@
 package fr.factionbedrock.aerialhell.World.Structure;
-/*
+
 import java.util.Optional;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructures;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
 public class StellarStoneBricksTowerStructure extends AbstractClassicLittleStructure
 {
-    private final static int MIN_GEN_HEIGHT = 50, MAX_GEN_HEIGHT = 190, Y_OFFSET = -9;
+    public static final Codec<StellarStoneBricksTowerStructure> CODEC = RecordCodecBuilder.<StellarStoneBricksTowerStructure>mapCodec(instance ->
+            instance.group(StellarStoneBricksTowerStructure.settingsCodec(instance),
+                    StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
+                    ResourceLocation.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
+                    Codec.intRange(MIN_STRUCTURE_SIZE, MAX_STRUCTURE_SIZE).fieldOf("size").forGetter(structure -> structure.size),
+                    HeightProvider.CODEC.fieldOf("start_height").forGetter(structure -> structure.startHeight),
+                    Heightmap.Types.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(structure -> structure.projectStartToHeightmap),
+                    Codec.intRange(MIN_STRUCTURE_DISTANCE_FROM_CENTER, MAX_STRUCTURE_DISTANCE_FROM_CENTER).fieldOf("max_distance_from_center").forGetter(structure -> structure.maxDistanceFromCenter)
+            ).apply(instance, StellarStoneBricksTowerStructure::new)).codec();
 
-    public StellarStoneBricksTowerStructure() {super(StellarStoneBricksTowerStructure::getPiecesGenerator);}
-
-    private static Optional<PieceGenerator<JigsawConfiguration>> getPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context)
+    public StellarStoneBricksTowerStructure(Structure.StructureSettings config, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, int size, HeightProvider startHeight, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter)
     {
-        if (!isFeatureChunk(context)) {return Optional.empty();}
-        else {return createPiecesGenerator(context);}
+        super(config, startPool, startJigsawName, size, startHeight, projectStartToHeightmap, maxDistanceFromCenter);
     }
 
-    private static boolean isFeatureChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context)
-    {
-        return isClassicLittleStructureFeatureChunk(context, MIN_GEN_HEIGHT, MAX_GEN_HEIGHT);
-    }
+    @Override public StructureType<?> type() {return AerialHellStructures.STELLAR_STONE_BRICKS_TOWER_STRUCTURE.get();}
 
-    private static Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context)
-    {
-        BlockPos blockpos = context.chunkPos().getMiddleBlockPosition(Y_OFFSET);
-
-        return AbstractClassicLittleStructure.createClassicLittleStructurePiecesGenerator(context, blockpos);
-    }
-}*/
+    @Override protected int getMinY() {return 50;}
+    @Override protected int getMaxY() {return 190;}
+}

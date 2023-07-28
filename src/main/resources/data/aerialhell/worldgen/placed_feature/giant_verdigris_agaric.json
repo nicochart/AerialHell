@@ -1,0 +1,12 @@
+{
+  "feature": "aerialhell:giant_verdigris_agaric",
+  "placement": [
+    {
+      "type": "minecraft:count_on_every_layer",
+      "count": 1
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

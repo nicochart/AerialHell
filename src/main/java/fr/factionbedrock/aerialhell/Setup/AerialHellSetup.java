@@ -39,7 +39,7 @@ public class AerialHellSetup
         AerialHellBiomes.BIOMES.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellMobEffects.EFFECTS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellPOI.POI.register(FMLJavaModLoadingContext.get().getModEventBus());
-        //AerialHellStructures.STRUCTURES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        AerialHellStructures.STRUCTURES.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellParticleTypes.PARTICLES.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellMenuTypes.MENUS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellRecipes.RECIPE_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());

@@ -1,35 +1,80 @@
 package fr.factionbedrock.aerialhell.World.Structure;
-/*
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
-import net.minecraft.world.level.levelgen.structure.PostPlacementProcessor;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.WorldGenerationContext;
+import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
-import java.util.Random;
+import java.util.Optional;
 
-public abstract class AbstractAerialHellStructure extends StructureFeature<JigsawConfiguration>
+public abstract class AbstractAerialHellStructure extends Structure
 {
-    private static final int MIN_STRUCTURE_SIZE = 0, MAX_STRUCTURE_SIZE = 50;
-    public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> {return codec.group(StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool), Codec.intRange(MIN_STRUCTURE_SIZE, MAX_STRUCTURE_SIZE).fieldOf("size").forGetter(JigsawConfiguration::maxDepth)).apply(codec, JigsawConfiguration::new);});
+    protected static final int MIN_STRUCTURE_SIZE = 0, MAX_STRUCTURE_SIZE = 50;
+    protected static final int MIN_STRUCTURE_DISTANCE_FROM_CENTER = 1, MAX_STRUCTURE_DISTANCE_FROM_CENTER = 256;
 
-    public AbstractAerialHellStructure(PieceGeneratorSupplier<JigsawConfiguration> pieceGeneratorSupplier)
+    protected final Holder<StructureTemplatePool> startPool;
+    protected final Optional<ResourceLocation> startJigsawName;
+    protected final int size;
+    protected final HeightProvider startHeight;
+    protected final Optional<Heightmap.Types> projectStartToHeightmap;
+    protected final int maxDistanceFromCenter;
+
+    public AbstractAerialHellStructure(Structure.StructureSettings config, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, int size, HeightProvider startHeight, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter)
     {
-        super(CODEC, pieceGeneratorSupplier, PostPlacementProcessor.NONE);
+        super(config);
+        this.startPool = startPool;
+        this.startJigsawName = startJigsawName;
+        this.size = size;
+        this.startHeight = startHeight;
+        this.projectStartToHeightmap = projectStartToHeightmap;
+        this.maxDistanceFromCenter = maxDistanceFromCenter;
+    }
+
+    protected abstract boolean isStructureChunk(Structure.GenerationContext context);
+
+    protected static int getTerrainHeight(Structure.GenerationContext context)
+    {
+        ChunkPos chunkpos = context.chunkPos();
+        return getTerrainHeight(context, chunkpos.getMinBlockX(), chunkpos.getMinBlockZ());
+    }
+
+    protected static int getTerrainHeight(Structure.GenerationContext context, int posX, int posZ)
+    {
+        return context.chunkGenerator().getFirstOccupiedHeight(
+                posX,
+                posZ,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                context.heightAccessor(),
+                context.randomState());
     }
 
     @Override
-    public GenerationStep.Decoration step() //What stage of generation your structure should be generated during
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext context)
     {
-        return GenerationStep.Decoration.SURFACE_STRUCTURES;
-    }
+        if (!this.isStructureChunk(context)) {return Optional.empty();}
 
-    protected static BlockPos moveInsideHeights(BlockPos pos, int minY, int maxY, Random rand)
-    {
-        return new BlockPos(pos.getX(), minY + rand.nextInt(maxY - minY + 1), pos.getZ());
+        int startY = this.startHeight.sample(context.random(), new WorldGenerationContext(context.chunkGenerator(), context.heightAccessor()));
+
+        ChunkPos chunkPos = context.chunkPos();
+        BlockPos blockPos = new BlockPos(chunkPos.getMinBlockX(), startY, chunkPos.getMinBlockZ());
+
+        Optional<Structure.GenerationStub> structurePiecesGenerator =
+                JigsawPlacement.addPieces(
+                        context,
+                        this.startPool,
+                        this.startJigsawName,
+                        this.size, //jigsaw block "level"
+                        blockPos, //structure center
+                        false, //"useExpansionHack" (set it false)
+                        this.projectStartToHeightmap,
+                        this.maxDistanceFromCenter);
+
+        return structurePiecesGenerator;
     }
-}*/
+}

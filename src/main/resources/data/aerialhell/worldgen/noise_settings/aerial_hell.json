@@ -110,10 +110,11 @@
               "type": "minecraft:add",
               "argument1": {
                 "type": "minecraft:interpolated",
-                "argument": {
-                  "type": "minecraft:slide",
-                  "argument": "minecraft:overworld/sloped_cheese"
-                }
+                "argument": 0
+                //"argument": {
+                //  "type": "minecraft:slide", //slide no longer exists
+                //  "argument": "minecraft:overworld/sloped_cheese"
+                //}
               },
               "argument2": {
                 "type": "minecraft:mul",
@@ -475,5 +476,6 @@
         ]
       }
     ]
-  }
+  },
+  "spawn_target": []
 }

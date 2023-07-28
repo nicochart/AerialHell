@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "chance": 1,
+        "feature": {
+          "feature": "aerialhell:shadow_pine",
+          "placement": []
+        }
+      }
+    ],
+    "default": {
+      "feature": "aerialhell:shadow_pine",
+      "placement": []
+    }
+  }
+}

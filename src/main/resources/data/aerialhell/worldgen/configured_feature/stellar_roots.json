@@ -1,0 +1,8 @@
+{
+  "type": "aerialhell:stellar_roots",
+  "config": {
+    "spread_width": 6,
+    "spread_height": 3,
+    "max_height": 6
+  }
+}

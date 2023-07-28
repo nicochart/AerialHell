@@ -1,0 +1,15 @@
+{
+  "type": "aerialhell:slippery_sand_ocean_abandonned_structure",
+  "biomes": "#aerialhell:has_structure/slippery_sand_ocean_abandonned_structure",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "start_pool": "aerialhell:slippery_sand_ocean_abandonned_structure/slippery_sand_ocean_abandonned_structure_pool",
+  "size": 2,
+  "start_height": {
+    "absolute": -3
+  },
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "max_distance_from_center": 60,
+  "use_expansion_hack": false
+}
