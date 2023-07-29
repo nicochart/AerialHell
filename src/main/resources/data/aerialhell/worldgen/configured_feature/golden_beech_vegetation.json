@@ -4,10 +4,7 @@
     "features": [
       {
         "chance": 1,
-        "feature": {
-          "feature": "aerialhell:golden_beech",
-          "placement": []
-        }
+        "feature": "aerialhell:golden_beech_checked"
       }
     ],
     "default": {

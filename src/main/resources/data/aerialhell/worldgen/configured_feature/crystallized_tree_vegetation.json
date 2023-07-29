@@ -4,10 +4,7 @@
     "features": [
       {
         "chance": 1,
-        "feature": {
-          "feature": "aerialhell:crystallized_tree",
-          "placement": []
-        }
+        "feature": "aerialhell:crystallized_tree_checked"
       }
     ],
     "default": {

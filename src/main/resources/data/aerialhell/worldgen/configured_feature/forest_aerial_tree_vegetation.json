@@ -4,10 +4,7 @@
     "features": [
       {
         "chance": 1,
-        "feature": {
-          "feature": "aerialhell:forest_aerial_tree",
-          "placement": []
-        }
+        "feature": "aerialhell:forest_aerial_tree_checked"
       }
     ],
     "default": {

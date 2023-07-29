@@ -17,6 +17,7 @@ import java.util.List;
 
 public class GenAerialHellOres
 {
+	/* now done in aerialhell data
 	public static class OrePlacements
 	{
 		//copy of methods of the same name in net.minecraft.data.worldgen.placement.OrePlacements;
@@ -63,5 +64,5 @@ public class GenAerialHellOres
 	public static List<OreConfiguration.TargetBlockState> getAerialHellTargetList(BlockState stellarStoneOreState)
 	{
 		return ImmutableList.of(OreConfiguration.target(STELLAR_STONE_ORE_REPLACEABLES, stellarStoneOreState));
-	}
+	}*/
 }

@@ -4,10 +4,7 @@
     "features": [
       {
         "chance": 1,
-        "feature": {
-          "feature": "aerialhell:lapis_robinia",
-          "placement": []
-        }
+        "feature": "aerialhell:lapis_robinia_checked"
       }
     ],
     "default": {

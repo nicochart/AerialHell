@@ -4,10 +4,7 @@
     "features": [
       {
         "chance": 1,
-        "feature": {
-          "feature": "aerialhell:purple_shadow_pine",
-          "placement": []
-        }
+        "feature": "aerialhell:purple_shadow_pine_checked"
       }
     ],
     "default": {
