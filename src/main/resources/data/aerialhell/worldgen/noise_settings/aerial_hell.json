@@ -288,7 +288,7 @@
           "type": "minecraft:y_clamped_gradient",
           "from_y": 0,
           "to_y": 40,
-          "from_value": -0.1,
+          "from_value": -0.25,
           "to_value": 0
         },
         "when_out_of_range": {
