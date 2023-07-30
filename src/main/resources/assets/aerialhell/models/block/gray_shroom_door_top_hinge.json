@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/door_top_rh",
-  "textures": {
-    "bottom": "aerialhell:block/gray_shroom_door_bottom",
-    "top": "aerialhell:block/gray_shroom_door_top"
-  }
-}

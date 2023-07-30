@@ -1,22 +1,28 @@
 package fr.factionbedrock.aerialhell.Util;
 
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellBiomes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.MapColor;
 
 public class FeatureHelper
 {
-    public static boolean generatesInAnyDungeon(ChunkGenerator chunkGenerator, WorldGenLevel reader, BlockPos pos)
+    public static boolean isFeatureGeneratingNextToDungeon(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
-        long seed = reader.getSeed();
-        ChunkPos chunkPos = new ChunkPos(pos.getX() / 16, pos.getZ() / 16);
-        return StructureHelper.hasDungeonNearby(chunkGenerator, seed, chunkPos.x, chunkPos.z, 2,true);
+        WorldGenLevel level = context.level();
+        //context.chunkGenerator().findNearestMapStructure(level.getLevel(), StructureHelper.getDungeonsHolderSet(level.registryAccess()), context.origin(), 100, false);
+        BlockPos nearestDungeonPos = level.getLevel().findNearestMapStructure(AerialHellTags.Structures.DUNGEONS, context.origin(), 100, false);
+        if (nearestDungeonPos != null)
+        {
+            return context.origin().distSqr(nearestDungeonPos) < 100;
+        }
+        else {return false;}
     }
 
     public static boolean isShadowBiome(Biome biome)

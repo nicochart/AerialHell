@@ -20,7 +20,7 @@ public abstract class AbstractClassicLittleStructure extends AbstractAerialHellS
     protected boolean isStructureChunk(Structure.GenerationContext context)
     {
     	//cannot spawn next to another structure
-    	if (StructureHelper.hasDungeonNearby(context.chunkGenerator(), context.seed(), context.chunkPos().x, context.chunkPos().z, 6)) {return false;}
+    	if (StructureHelper.hasDungeonNearby(context, 150, true, 100)) {return false;}
 
         int landHeight = getTerrainHeight(context);
         return landHeight > getMinY() && landHeight < getMaxY();

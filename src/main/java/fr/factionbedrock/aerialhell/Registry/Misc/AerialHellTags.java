@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.material.Fluid;
 
 public class AerialHellTags
@@ -153,6 +154,15 @@ public class AerialHellTags
 		private static TagKey<Fluid> tag(String name)
 		{
 			return FluidTags.create(new ResourceLocation(AerialHell.MODID, name));
+		}
+	}
+
+	public static class Structures {
+		public static final TagKey<Structure> DUNGEONS = tag("dungeons");
+
+		private static TagKey<Structure> tag(String name)
+		{
+			return TagKey.create(Registries.STRUCTURE, new ResourceLocation(name));
 		}
 	}
 }

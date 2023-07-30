@@ -2,11 +2,13 @@ package fr.factionbedrock.aerialhell.Setup;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.AerialHellRendering;
+import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSkyRenderer;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSpecialEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellWoodTypes;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -23,9 +25,10 @@ public class AerialHellClientSetup
     }
     
     @SubscribeEvent
-    public static void registerDimensionRenderInfo(FMLClientSetupEvent event)
+    public static void registerDimensionRenderInfo(RegisterDimensionSpecialEffectsEvent event)
     {
+        new AerialHellDimensionSkyRenderer();
         AerialHellDimensionSpecialEffects renderInfo = new AerialHellDimensionSpecialEffects(Float.NaN, false, DimensionSpecialEffects.SkyType.NONE, false, false);
-        DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(AerialHell.MODID, "aerial_hell"), renderInfo);
+        event.register(new ResourceLocation(AerialHell.MODID, "aerial_hell"), renderInfo);
     }
 }

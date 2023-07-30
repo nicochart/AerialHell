@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_right",
+  "textures": {
+    "bottom": "aerialhell:block/lapis_robinia_door_bottom",
+    "top": "aerialhell:block/lapis_robinia_door_top"
+  }
+}

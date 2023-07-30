@@ -14,8 +14,6 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-import java.util.Random;
-
 public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfiguration>
 {
     public GiantGanodermaApplanatumFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
@@ -28,7 +26,7 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfigur
             ((reader.getBlockState(pos.north(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.south(2)).getBlock().equals(Blocks.AIR)) || (reader.getBlockState(pos.west(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.east(2)).getBlock().equals(Blocks.AIR))) &&
             (reader.getBlockState(pos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(pos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
 		
-		boolean generatesInDungeon = FeatureHelper.generatesInAnyDungeon(context.chunkGenerator(), reader, pos);
+		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
 		
         if (canGenerate && !generatesInDungeon)
         {

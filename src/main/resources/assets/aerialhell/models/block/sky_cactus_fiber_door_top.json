@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/door_top",
-  "textures": {
-    "bottom": "aerialhell:block/sky_cactus_fiber_door_bottom",
-    "top": "aerialhell:block/sky_cactus_fiber_door_top"
-  }
-}

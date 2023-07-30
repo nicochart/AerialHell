@@ -15,8 +15,6 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-import java.util.Random;
-
 public class DanglingChainFeature extends Feature<NoneFeatureConfiguration>
 {
     public DanglingChainFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
@@ -33,7 +31,7 @@ public class DanglingChainFeature extends Feature<NoneFeatureConfiguration>
     		&& hasAnyStoneBlockAbove(blockPos.south(4).west(4), reader, 10)
     		&& hasAnyStoneBlockAbove(blockPos.south(4).east(4), reader, 10);
     	
-		boolean generatesInDungeon = FeatureHelper.generatesInAnyDungeon(generator, reader, blockPos);
+		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
 		
         if (canGenerate && !generatesInDungeon)
         {

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_left_open",
+  "textures": {
+    "bottom": "aerialhell:block/shadow_pine_door_bottom",
+    "top": "aerialhell:block/shadow_pine_door_top"
+  }
+}

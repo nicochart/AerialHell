@@ -11,8 +11,6 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-import java.util.Random;
-
 public class PurpleSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 {
 	public static int getMinGenHeigh() {return 60;} public static int getMaxGenHeigh() {return 200;}
@@ -25,7 +23,7 @@ public class PurpleSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
 		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
-		if (FeatureHelper.generatesInAnyDungeon(generator, reader, pos)) {return false;}
+		if (FeatureHelper.isFeatureGeneratingNextToDungeon(context)) {return false;}
     	
 		BlockPos generatePos = pos;
 		if (pos.getY() < getMinGenHeigh() || pos.getY() >  getMaxGenHeigh()) {generatePos = getRandomHeighGenerationPos(pos.getX(), getMinGenHeigh(), getMaxGenHeigh(), pos.getZ(), rand);}

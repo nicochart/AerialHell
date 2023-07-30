@@ -302,13 +302,46 @@
           },
           "min_inclusive": 200,
           "max_exclusive": 256,
-          "when_in_range": { //top slide
-            "type": "minecraft:y_clamped_gradient",
-            "from_y": 200,
-            "to_y": 256,
-            "from_value": 0,
-            "to_value": -0.3
-          },
+          "when_in_range": { //top slide (adding a flat surface on islands at y=~215)
+            "type": "minecraft:add",
+            "argument1": {
+              "type": "minecraft:y_clamped_gradient",
+              "from_y": 200,
+              "to_y": 256,
+              "from_value": 0,
+              "to_value": -0.4
+            },
+            "argument2": {
+              "type": "minecraft:mul",
+              "argument1": {
+                "type": "minecraft:y_clamped_gradient",
+                "from_y": 200,
+                "to_y": 256,
+                "from_value": -0.1,
+                "to_value": 0.1
+              },
+              "argument2": {
+                "type": "minecraft:range_choice",
+                "input": {
+                  "type": "minecraft:y_clamped_gradient",
+                  "from_y": 200,
+                  "to_y": 256,
+                  "from_value": 200,
+                  "to_value": 256
+                },
+                "min_inclusive": 200,
+                "max_exclusive": 220,
+                "when_in_range": {
+                  "type": "minecraft:y_clamped_gradient",
+                  "from_y": 200,
+                  "to_y": 220,
+                  "from_value": 0,
+                  "to_value": 1
+                },
+                "when_out_of_range": 1
+              }
+            }
+          }, //(end of top slide)
           "when_out_of_range": 0 //nothing between y 40 -> 200
         }
       }

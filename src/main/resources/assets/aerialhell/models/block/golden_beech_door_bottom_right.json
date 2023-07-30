@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_right",
+  "textures": {
+    "bottom": "aerialhell:block/golden_beech_door_bottom",
+    "top": "aerialhell:block/golden_beech_door_top"
+  }
+}

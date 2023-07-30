@@ -2,7 +2,6 @@
   "replace": false,
   "values":
   [
-    "#aerialhell:stellar_dirt"
+    "#aerialhell:stellar_dirt" //necessaire pour faire comprendre au jeu que les arbres peuvent pousser sur les blocs qui ont ce tag !
   ]
 }
-//nécéssaire pour faire comprendre au jeu que les arbres peuvent pousser sur les blocs qui ont ce tag !

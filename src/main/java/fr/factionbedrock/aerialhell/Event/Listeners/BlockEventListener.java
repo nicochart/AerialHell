@@ -122,7 +122,7 @@ public class BlockEventListener
         BlockPos blockpos = BlockPos.containing(player.getX(), player.getEyeY(), player.getZ());
         float brightness = LightTexture.getBrightness(player.level().dimensionType(), player.level().getMaxLocalRawBrightness(blockpos));
         RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(brightness, brightness, brightness, 0.1F);
+        RenderSystem.setShaderColor(brightness, brightness, brightness, 1.0F);
         float yaw = -player.getYRot() / 64.0F;
         float pitch = player.getXRot() / 64.0F;
         Matrix4f matrix4f = matrixStackIn.last().pose();

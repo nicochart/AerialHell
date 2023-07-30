@@ -46,7 +46,7 @@ public class OscillatingRecipeCategory implements IRecipeCategory<OscillatingRec
 	public void setRecipe(IRecipeLayoutBuilder builder, OscillatingRecipe recipe, IFocusGroup focuses)
 	{
 		builder.addSlot(RecipeIngredientRole.INPUT, 55, 16).addItemStack(recipe.getIngredients().get(0).getItems()[0]);
-		builder.addSlot(RecipeIngredientRole.CATALYST, 55, 52).addItemStack(new ItemStack(AerialHellBlocksAndItems.MAGMATIC_GEL.get()));
+		builder.addSlot(RecipeIngredientRole.CATALYST, 55, 52).addItemStack(new ItemStack(AerialHellBlocksAndItems.FLUORITE.get()));
 		if (Minecraft.getInstance().level != null)
 		{
 			builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 34).addItemStack(recipe.getResultItem(Minecraft.getInstance().level.registryAccess()));
