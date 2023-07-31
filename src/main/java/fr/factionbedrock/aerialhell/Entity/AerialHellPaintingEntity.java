@@ -121,7 +121,7 @@ public class AerialHellPaintingEntity extends HangingEntity implements VariantHo
                 Player player = (Player)entity;
                 if (player.getAbilities().instabuild) {return;}
             }
-            this.spawnAtLocation(AerialHellBlocksAndItems.AERIAL_HELL_PAINTING.get()); //TODO : will it work ? will it crash ?
+            this.spawnAtLocation(AerialHellBlocksAndItems.AERIAL_HELL_PAINTING.get());
         }
     }
 
@@ -137,5 +137,5 @@ public class AerialHellPaintingEntity extends HangingEntity implements VariantHo
         this.setDirection(Direction.from3DDataValue(packet.getData()));
     }
 
-    @Override public ItemStack getPickResult() {return new ItemStack(AerialHellBlocksAndItems.AERIAL_HELL_PAINTING.get());} //TODO : will it work ? will it crash ?
+    @Override public ItemStack getPickResult() {return new ItemStack(AerialHellBlocksAndItems.AERIAL_HELL_PAINTING.get());}
 }

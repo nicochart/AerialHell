@@ -23,6 +23,7 @@ import fr.factionbedrock.aerialhell.Item.Tools.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
+import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import fr.factionbedrock.aerialhell.World.Tree.*;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -712,17 +713,17 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> DEAD_ROOTS_ITEM = ITEMS.register("dead_roots", () -> new BlockItem(DEAD_ROOTS.get(), new Item.Properties()));
 
 	//grass
-	public static final RegistryObject<Block> STELLAR_GRASS = BLOCKS.register("stellar_grass", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> STELLAR_GRASS_BALL = BLOCKS.register("stellar_grass_ball", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> STELLAR_FERN = BLOCKS.register("stellar_fern", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> STELLAR_TALL_GRASS = BLOCKS.register("stellar_tall_grass", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> STELLAR_TALL_FERN = BLOCKS.register("stellar_tall_fern", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> STELLAR_DEAD_BUSH = BLOCKS.register("stellar_dead_bush", () -> new AerialHellDeadBushBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> BRAMBLES = BLOCKS.register("brambles", () -> new BramblesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollission().strength(0.5F).sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> SHADOW_BRAMBLES = BLOCKS.register("shadow_brambles", () -> new BramblesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).noCollission().strength(0.5F).sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> SHADOW_GRASS = BLOCKS.register("shadow_grass", () -> new ShadowPlantBlock(BlockBehaviour.Properties.of().noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> SHADOW_GRASS_BALL = BLOCKS.register("shadow_grass_ball", () -> new ShadowPlantBlock(BlockBehaviour.Properties.of().noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> PURPLISH_STELLAR_GRASS = BLOCKS.register("purplish_stellar_grass", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> STELLAR_GRASS = BLOCKS.register("stellar_grass", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> STELLAR_GRASS_BALL = BLOCKS.register("stellar_grass_ball", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> STELLAR_FERN = BLOCKS.register("stellar_fern", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> STELLAR_TALL_GRASS = BLOCKS.register("stellar_tall_grass", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> STELLAR_TALL_FERN = BLOCKS.register("stellar_tall_fern", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> STELLAR_DEAD_BUSH = BLOCKS.register("stellar_dead_bush", () -> new AerialHellDeadBushBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).mapColor(MapColor.WOOD).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> BRAMBLES = BLOCKS.register("brambles", () -> new BramblesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().strength(0.5F).sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> SHADOW_BRAMBLES = BLOCKS.register("shadow_brambles", () -> new BramblesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().strength(0.5F).sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> SHADOW_GRASS = BLOCKS.register("shadow_grass", () -> new ShadowPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> SHADOW_GRASS_BALL = BLOCKS.register("shadow_grass_ball", () -> new ShadowPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> PURPLISH_STELLAR_GRASS = BLOCKS.register("purplish_stellar_grass", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
 	public static final RegistryObject<Item> STELLAR_GRASS_ITEM = ITEMS.register("stellar_grass", () -> new BlockItem(STELLAR_GRASS.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_GRASS_BALL_ITEM = ITEMS.register("stellar_grass_ball", () -> new BlockItem(STELLAR_GRASS_BALL.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_FERN_ITEM = ITEMS.register("stellar_fern", () -> new BlockItem(STELLAR_FERN.get(), new Item.Properties()));
@@ -1106,6 +1107,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SKY_BOWL = ITEMS.register("sky_bowl",() -> new BurnableItem(new Item.Properties(), 200));
 	public static final RegistryObject<Item> SHADOW_SHARD = ITEMS.register("shadow_shard",() -> new Item(new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
 	public static final RegistryObject<Item> ROTTEN_LEATHER = ITEMS.register("rotten_leather",() -> new Item(new Item.Properties()));
+	public static final RegistryObject<Item> ARSONIST_UPGRADE_SMITHING_TEMPLATE = ITEMS.register("arsonist_upgrade_smithing_template", () -> ItemHelper.SmithingTemplate.createUpgradeTemplate("arsonist"));
 
 	//shurikens
 	public static final RegistryObject<Item> IRON_SHURIKEN = ITEMS.register("iron_shuriken", () -> new IronShurikenItem());

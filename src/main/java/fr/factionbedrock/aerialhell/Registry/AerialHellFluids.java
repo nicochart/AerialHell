@@ -2,7 +2,11 @@ package fr.factionbedrock.aerialhell.Registry;
 
 import static fr.factionbedrock.aerialhell.AerialHell.MODID;
 
-import net.minecraft.client.Minecraft;
+import com.mojang.blaze3d.shaders.FogShape;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Camera;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.material.FlowingFluid;
@@ -14,7 +18,9 @@ import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 import java.util.function.Consumer;
 
@@ -45,14 +51,22 @@ public class AerialHellFluids
                 {
                     consumer.accept(new IClientFluidTypeExtensions()
                     {
-                        private static final ResourceLocation UNDER = new ResourceLocation(MODID, "textures/misc/underliquidofgods.png"),
-                                STILL = new ResourceLocation(MODID, "fluid/liquid_of_the_gods_still"),
-                                FLOW = new ResourceLocation(MODID, "fluid/liquid_of_the_gods_flow");
+                        private static final ResourceLocation UNDER = new ResourceLocation(MODID, "block/liquid_of_the_gods_overlay"),
+                                STILL = new ResourceLocation(MODID, "block/liquid_of_the_gods_still"),
+                                FLOW = new ResourceLocation(MODID, "block/liquid_of_the_gods_flow");
 
                         @Override public ResourceLocation getStillTexture() {return STILL;}
                         @Override public ResourceLocation getFlowingTexture() {return FLOW;}
-                        @Nullable @Override public ResourceLocation getOverlayTexture() {return FLOW;}
-                        @Override public ResourceLocation getRenderOverlayTexture(Minecraft mc) {return UNDER;}
+                        //@Nullable @Override public ResourceLocation getOverlayTexture() {return UNDER;} //Do not work : "failed to lead texture..."
+                        //@Override public ResourceLocation getRenderOverlayTexture(Minecraft mc) {return UNDER;}
+
+                        //@Override public int getTintColor() {return 0x310000;} modifies the whole texture tint, not the fog tint
+                        @Override public @NotNull Vector3f modifyFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance, float darkenWorldAmount, Vector3f fluidFogColor) {return new Vector3f(49f / 255f, 0f, 0f);}
+                        @Override public void modifyFogRender(Camera camera, FogRenderer.FogMode mode, float renderDistance, float partialTick, float nearDistance, float farDistance, FogShape shape)
+                        {
+                            RenderSystem.setShaderFogStart(1f);
+                            RenderSystem.setShaderFogEnd(4f);
+                        }
                     });
                 }
             });

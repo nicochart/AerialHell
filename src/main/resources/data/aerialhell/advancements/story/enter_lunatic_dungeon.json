@@ -4,15 +4,26 @@
     "icon": {"item": "aerialhell:light_lunatic_stone"},
     "title": {"translate": "advancements.story.enter_lunatic_dungeon.title"},
     "description": {"translate": "advancements.story.enter_lunatic_dungeon.desc"},
+    "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
   },
   "criteria": {
-    "requirement": {
+    "in_lunatic_temple": {
       "trigger": "minecraft:location",
-      "conditions": {"location": {"feature": "aerialhell:lunatic_temple"}}
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {"location": {"structure": "aerialhell:lunatic_temple"}}
+          }
+        ]
+      }
     }
   },
-  "rewards": {"function": "aerialhell:advancement_story_sound"}
+  "requirements": [["in_lunatic_temple"]],
+  "rewards": {"function": "aerialhell:advancement_story_sound"},
+  "sends_telemetry_event": false
 }

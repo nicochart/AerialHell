@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "aerialhell:obsidian_shard"
+    },
+    "C": {
+      "item": "aerialhell:golden_nether_bricks"
+    },
+    "S": {
+      "item": "aerialhell:arsonist_upgrade_smithing_template"
+    }
+  },
+  "pattern": [
+    "#S#",
+    "#C#",
+    "###"
+  ],
+  "result": {
+    "count": 2,
+    "item": "aerialhell:arsonist_upgrade_smithing_template"
+  },
+  "show_notification": true
+}

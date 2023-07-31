@@ -52,7 +52,7 @@ public class AerialHellHangingEntityItem extends Item
             HangingEntity hangingentity;
             //if (this.type.get() == AerialHellEntities.AERIAL_HELL_PAINTING.get()) //always true atm
             //{
-                Optional<AerialHellPaintingEntity> optional = AerialHellPaintingEntity.create(level, blockpos1, direction); //TODO: edit
+                Optional<AerialHellPaintingEntity> optional = AerialHellPaintingEntity.create(level, blockpos1, direction);
                 if (optional.isEmpty()) {return InteractionResult.CONSUME;}
                 hangingentity = optional.get();
             //}

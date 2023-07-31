@@ -4,15 +4,18 @@
     "title": {"translate": "advancements.story.enter_aerial_hell.title"},
     "description": {"translate": "advancements.story.enter_aerial_hell.desc"},
     "background": "aerialhell:textures/block/stellar_stone.png",
+    "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
   },
   "criteria": {
-    "requirement": {
-      "trigger": "minecraft:location",
-      "conditions": {"location": {"dimension": "aerialhell:aerial_hell"}}
+    "entered_aerial_hell": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {"to": "aerialhell:aerial_hell"}
     }
   },
-  "rewards": {"function": "aerialhell:advancement_story_sound"}
+  "requirements": [["entered_aerial_hell"]],
+  "rewards": {"function": "aerialhell:advancement_story_sound"},
+  "sends_telemetry_event": false
 }

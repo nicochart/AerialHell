@@ -97,7 +97,6 @@ public class AerialHellConfiguredFeatures
     public static final ResourceKey<ConfiguredFeature<?, ?>> STELLAR_COARSE_DIRT_ORE = createKey("stellar_coarse_dirt_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> STELLAR_CLAY_ORE = createKey("stellar_clay_ore");
 
-    //TODO : is there another way ? TODO : always needed ?
     public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_CORTINARIUS_VIOLACEUS_PLANTED = createKey("giant_cortinarius_violaceus_planted");
 
     public static ResourceKey<ConfiguredFeature<?, ?>> createKey(String name) {return ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(AerialHell.MODID, name));}
@@ -267,7 +266,5 @@ public class AerialHellConfiguredFeatures
     public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_COARSE_DIRT_ORE = CONFIGURED_FEATURES.register("stellar_coarse_dirt_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.STELLAR_COARSE_DIRT.get().defaultBlockState(), 22));
     public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_CLAY_ORE = CONFIGURED_FEATURES.register("stellar_clay_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.STELLAR_CLAY.get().defaultBlockState(), 28));
 
-
-    //TODO : is there another way ?
     public static final RegistryObject<ConfiguredFeature<HugeFungusConfiguration, ?>> GIANT_CORTINARIUS_VIOLACEUS_PLANTED = CONFIGURED_FEATURES.register("giant_cortinarius_violaceus_planted", () -> new ConfiguredFeature<>(Feature.HUGE_FUNGUS, Configs.GIANT_CORTINARIUS_VIOLACEUS_CONFIG));
 */}

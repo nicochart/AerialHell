@@ -682,6 +682,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get());
             itemsToAdd.add(AerialHellBlocksAndItems.CURSED_CRYSAL.get());
 
+            itemsToAdd.add(AerialHellBlocksAndItems.ARSONIST_UPGRADE_SMITHING_TEMPLATE.get());
+
             itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_BERRY_SEEDS.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY_SEEDS.get());
 

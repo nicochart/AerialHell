@@ -61,48 +61,4 @@ public class AerialHellChestMaterials
             default -> new Material(CHEST_SHEET, new ResourceLocation(AerialHell.MODID, "entity/chest/" + name + "/" + name));
         };
     }
-
-    /*@SubscribeEvent TODO : Use atlas info JSON files instead
-    public static void addMaterialSprites(TextureStitchEvent.Pre event)
-    {
-        if (event.getAtlas().location().equals(Sheets.CHEST_SHEET))
-        {
-            event.addSprite(AERIAL_TREE_SINGLE.texture());
-            event.addSprite(AERIAL_TREE_LEFT.texture());
-            event.addSprite(AERIAL_TREE_RIGHT.texture());
-            event.addSprite(COPPER_PINE_SINGLE.texture());
-            event.addSprite(COPPER_PINE_LEFT.texture());
-            event.addSprite(COPPER_PINE_RIGHT.texture());
-            event.addSprite(LAPIS_ROBINIA_SINGLE.texture());
-            event.addSprite(LAPIS_ROBINIA_LEFT.texture());
-            event.addSprite(LAPIS_ROBINIA_RIGHT.texture());
-            event.addSprite(GOLDEN_BEECH_SINGLE.texture());
-            event.addSprite(GOLDEN_BEECH_LEFT.texture());
-            event.addSprite(GOLDEN_BEECH_RIGHT.texture());
-            event.addSprite(SHADOW_PINE_SINGLE.texture());
-            event.addSprite(SHADOW_PINE_LEFT.texture());
-            event.addSprite(SHADOW_PINE_RIGHT.texture());
-            event.addSprite(GRAY_SHROOM_SINGLE.texture());
-            event.addSprite(GRAY_SHROOM_LEFT.texture());
-            event.addSprite(GRAY_SHROOM_RIGHT.texture());
-            event.addSprite(SKY_CACTUS_FIBER_SINGLE.texture());
-            event.addSprite(SKY_CACTUS_FIBER_LEFT.texture());
-            event.addSprite(SKY_CACTUS_FIBER_RIGHT.texture());
-            event.addSprite(MUD_SINGLE.texture());
-            event.addSprite(MUD_LEFT.texture());
-            event.addSprite(MUD_RIGHT.texture());
-            event.addSprite(LUNATIC_SINGLE.texture());
-            event.addSprite(LUNATIC_LEFT.texture());
-            event.addSprite(LUNATIC_RIGHT.texture());
-            event.addSprite(GOLDEN_NETHER_SINGLE.texture());
-            event.addSprite(GOLDEN_NETHER_LEFT.texture());
-            event.addSprite(GOLDEN_NETHER_RIGHT.texture());
-            event.addSprite(SHADOW_CATACOMBS_SINGLE.texture());
-            event.addSprite(SHADOW_CATACOMBS_LEFT.texture());
-            event.addSprite(SHADOW_CATACOMBS_RIGHT.texture());
-            event.addSprite(VOLUCITE_SINGLE.texture());
-            event.addSprite(VOLUCITE_LEFT.texture());
-            event.addSprite(VOLUCITE_RIGHT.texture());
-        }
-    }*/
 }

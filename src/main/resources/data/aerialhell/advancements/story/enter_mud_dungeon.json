@@ -4,15 +4,26 @@
     "icon": {"item": "aerialhell:light_mud_bricks"},
     "title": {"translate": "advancements.story.enter_mud_dungeon.title"},
     "description": {"translate": "advancements.story.enter_mud_dungeon.desc"},
+    "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
   },
   "criteria": {
-    "requirement": {
+    "in_mud_dungeon": {
       "trigger": "minecraft:location",
-      "conditions": {"location": {"feature": "aerialhell:mud_dungeon"}}
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {"location": {"structure": "aerialhell:mud_dungeon"}}
+          }
+        ]
+      }
     }
   },
-  "rewards": {"function": "aerialhell:advancement_story_sound"}
+  "requirements": [["in_mud_dungeon"]],
+  "rewards": {"function": "aerialhell:advancement_story_sound"},
+  "sends_telemetry_event": false
 }
