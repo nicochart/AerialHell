@@ -1,9 +1,13 @@
 package fr.factionbedrock.aerialhell.Registry.Misc;
 
+import com.google.common.collect.Lists;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.List;
 
 import static fr.factionbedrock.aerialhell.AerialHell.MODID;
 
@@ -30,4 +34,23 @@ public class AerialHellPaintingVariants
     public static final RegistryObject<PaintingVariant> MAGICAL_SHROOM_ISLAND = PAINTING_TYPES.register("magical_shroom_island", () -> new PaintingVariant(64, 64));
     public static final RegistryObject<PaintingVariant> MYSTERY_ISLANDS = PAINTING_TYPES.register("mystery_islands", () -> new PaintingVariant(64, 64));
     public static final RegistryObject<PaintingVariant> CYAN_SHROOM_ISLAND = PAINTING_TYPES.register("cyan_shroom_island", () -> new PaintingVariant(64, 64));
+
+    public static List<Holder<PaintingVariant>> getAerialHellPaintingVariantList()
+    {
+        List<Holder<PaintingVariant>> list = Lists.newArrayList();
+        list.add(AerialHellPaintingVariants.HOSTILE_PARADISE.getHolder().get());
+        list.add(AerialHellPaintingVariants.SPOOKY_ISLANDS.getHolder().get());
+        list.add(AerialHellPaintingVariants.BROWN_SHROOM_ISLAND.getHolder().get());
+        list.add(AerialHellPaintingVariants.LIVING_ISLAND.getHolder().get());
+        list.add(AerialHellPaintingVariants.FLOADING_ISLANDS_LANDSCAPE.getHolder().get());
+        list.add(AerialHellPaintingVariants.CUTE_SHROOMS.getHolder().get());
+        list.add(AerialHellPaintingVariants.MAGICAL_ISLAND.getHolder().get());
+        list.add(AerialHellPaintingVariants.FOGGY_PEAKS.getHolder().get());
+        list.add(AerialHellPaintingVariants.SHROOM_AND_VEGETATION_ISLANDS.getHolder().get());
+        list.add(AerialHellPaintingVariants.SHROOM_ISLAND_PIXELART.getHolder().get());
+        list.add(AerialHellPaintingVariants.MAGICAL_SHROOM_ISLAND.getHolder().get());
+        list.add(AerialHellPaintingVariants.MYSTERY_ISLANDS.getHolder().get());
+        list.add(AerialHellPaintingVariants.CYAN_SHROOM_ISLAND.getHolder().get());
+        return list;
+    }
 }

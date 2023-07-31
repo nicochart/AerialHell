@@ -41,7 +41,7 @@ public class FreezingRecipeCategory implements IRecipeCategory<FreezingRecipe>
 	@Override public IDrawable getIcon() {return this.icon;}
 	@Override public RecipeType<FreezingRecipe> getRecipeType() {return FREEZING;}
 
-	@Override public Component getTitle() {return Component.translatable("block.aerialhell.oscillator");}
+	@Override public Component getTitle() {return Component.translatable("block.aerialhell.freezer");}
 
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, FreezingRecipe recipe, IFocusGroup focuses)
