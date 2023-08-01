@@ -8,6 +8,8 @@
 
     "aerialhell:volucite_block",
     "aerialhell:lunatic_crystal_block",
-    "aerialhell:cursed_crystal_block"
+    "aerialhell:cursed_crystal_block",
+
+    "aerialhell:raw_volucite_block"
   ]
 }

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:raw_volucite"
+    }
+  },
+  "result": {
+    "item": "aerialhell:raw_volucite_block"
+  }
+}

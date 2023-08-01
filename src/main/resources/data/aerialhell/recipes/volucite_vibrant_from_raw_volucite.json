@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:oscillating",
+  "ingredient": {
+    "item": "aerialhell:raw_volucite"
+  },
+  "result": "aerialhell:volucite_vibrant",
+  "experience": 1.4,
+  "cookingtime": 600
+}

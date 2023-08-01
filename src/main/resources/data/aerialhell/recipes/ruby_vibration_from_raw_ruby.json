@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:oscillating",
+  "ingredient": {
+    "item": "aerialhell:raw_ruby"
+  },
+  "result": "aerialhell:ruby",
+  "experience": 0.8,
+  "cookingtime": 200
+}

@@ -21,6 +21,9 @@
     "aerialhell:ruby_block",
     "aerialhell:azurite_block",
 
+    "aerialhell:raw_ruby_block",
+    "aerialhell:raw_azurite_crystal_block",
+
     "aerialhell:oscillator",
     "aerialhell:freezer",
     "aerialhell:stellar_furnace"

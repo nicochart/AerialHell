@@ -647,6 +647,17 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> OBSIDIAN_ORE_ITEM = ITEMS.register("obsidian_ore", () -> new BlockItem(OBSIDIAN_ORE.get(), new Item.Properties().rarity(Rarity.EPIC)));
 	public static final RegistryObject<Item> SMOKY_QUARTZ_ORE_ITEM = ITEMS.register("smoky_quartz_ore", () -> new BlockItem(SMOKY_QUARTZ_ORE.get(), new Item.Properties().rarity(Rarity.EPIC)));
 
+	public static final RegistryObject<Block> RAW_RUBY_BLOCK = BLOCKS.register("raw_ruby_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.RAW_IRON_BLOCK).requiresCorrectToolForDrops()));
+	public static final RegistryObject<Block> RAW_AZURITE_BLOCK = BLOCKS.register("raw_azurite_crystal_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.RAW_IRON_BLOCK).requiresCorrectToolForDrops()));
+	public static final RegistryObject<Block> RAW_VOLUCITE_BLOCK = BLOCKS.register("raw_volucite_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK).requiresCorrectToolForDrops()));
+	public static final RegistryObject<Item> RAW_RUBY_BLOCK_ITEM = ITEMS.register("raw_ruby_block", () -> new BlockItem(RAW_RUBY_BLOCK.get(), new Item.Properties()));
+	public static final RegistryObject<Item> RAW_AZURITE_BLOCK_ITEM = ITEMS.register("raw_azurite_crystal_block", () -> new BlockItem(RAW_AZURITE_BLOCK.get(), new Item.Properties()));
+	public static final RegistryObject<Item> RAW_VOLUCITE_BLOCK_ITEM = ITEMS.register("raw_volucite_block", () -> new BlockItem(RAW_VOLUCITE_BLOCK.get(), new Item.Properties()));
+
+	public static final RegistryObject<Item> RAW_RUBY = ITEMS.register("raw_ruby", () -> new Item(new Item.Properties()));
+	public static final RegistryObject<Item> RAW_AZURITE = ITEMS.register("raw_azurite_crystal", () -> new Item(new Item.Properties()));
+	public static final RegistryObject<Item> RAW_VOLUCITE = ITEMS.register("raw_volucite", () -> new Item(new Item.Properties()));
+
 	public static final RegistryObject<Block> FLUORITE_BLOCK = BLOCKS.register("fluorite_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()));
 	public static final RegistryObject<Block> MAGMATIC_GEL_BLOCK = BLOCKS.register("magmatic_gel_block", () -> new MagmaticGelBlock(BlockBehaviour.Properties.of().strength(1.0F, 1600.0F).randomTicks().sound(SoundType.GLASS).noOcclusion().requiresCorrectToolForDrops().isViewBlocking((state, reader, pos) -> false)));
 	public static final RegistryObject<Block> RUBY_BLOCK = BLOCKS.register("ruby_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()));

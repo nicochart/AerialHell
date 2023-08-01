@@ -97,6 +97,10 @@
     "aerialhell:lunatic_crystal_block",
     "aerialhell:cursed_crystal_block",
 
+    "aerialhell:raw_ruby_block",
+    "aerialhell:raw_azurite_crystal_block",
+    "aerialhell:raw_volucite_block",
+
     "aerialhell:oscillator",
     "aerialhell:freezer",
     "aerialhell:stellar_furnace"

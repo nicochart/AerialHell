@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:raw_azurite_crystal"
+    }
+  },
+  "result": {
+    "item": "aerialhell:raw_azurite_crystal_block"
+  }
+}

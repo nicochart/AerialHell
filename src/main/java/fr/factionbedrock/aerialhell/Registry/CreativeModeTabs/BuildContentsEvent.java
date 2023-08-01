@@ -176,6 +176,10 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.AZURITE_BLOCK_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VOLUCITE_BLOCK_ITEM.get());
 
+            itemsToAdd.add(AerialHellBlocksAndItems.RAW_RUBY_BLOCK_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.RAW_AZURITE_BLOCK_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.RAW_VOLUCITE_BLOCK_ITEM.get());
+
             itemsToAdd.add(AerialHellBlocksAndItems.ARSONIST_BLOCK_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LUNATIC_CRYSTAL_BLOCK_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.CURSED_CRYSAL_BLOCK_ITEM.get());
@@ -673,6 +677,10 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.RUBY.get());
             itemsToAdd.add(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VOLUCITE_VIBRANT.get());
+
+            itemsToAdd.add(AerialHellBlocksAndItems.RAW_RUBY.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.RAW_AZURITE.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.RAW_VOLUCITE.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.OVERHEATED_RUBY.get());
             itemsToAdd.add(AerialHellBlocksAndItems.OVERHEATED_VOLUCITE.get());
