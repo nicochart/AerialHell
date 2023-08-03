@@ -33,5 +33,5 @@ public class StellarStoneBricksTowerStructure extends AbstractClassicLittleStruc
     @Override public StructureType<?> type() {return AerialHellStructures.STELLAR_STONE_BRICKS_TOWER_STRUCTURE.get();}
 
     @Override protected int getMinY() {return 50;}
-    @Override protected int getMaxY() {return 190;}
+    @Override protected int getMaxY() {return 260;}
 }

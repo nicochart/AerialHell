@@ -34,14 +34,16 @@ public class AerialHellWoodTypes
         WoodType.register(GRAY_SHROOM);
     }
 
-    public static void addWoodTypesToSheets() //Client & Server side
+    public static void addWoodTypesToSheets(final FMLClientSetupEvent event) //Client side too
     {
-        Sheets.addWoodType(AERIAL_TREE);
-        Sheets.addWoodType(COPPER_PINE);
-        Sheets.addWoodType(LAPIS_ROBINIA);
-        Sheets.addWoodType(GOLDEN_BEECH);
-        Sheets.addWoodType(SHADOW_PINE);
-        Sheets.addWoodType(SKY_CACTUS_FIBER);
-        Sheets.addWoodType(GRAY_SHROOM);
+        event.enqueueWork(() -> {
+            Sheets.addWoodType(AERIAL_TREE);
+            Sheets.addWoodType(COPPER_PINE);
+            Sheets.addWoodType(LAPIS_ROBINIA);
+            Sheets.addWoodType(GOLDEN_BEECH);
+            Sheets.addWoodType(SHADOW_PINE);
+            Sheets.addWoodType(SKY_CACTUS_FIBER);
+            Sheets.addWoodType(GRAY_SHROOM);
+        });
     }
 }

@@ -13,8 +13,11 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 
+@OnlyIn(Dist.CLIENT)
 public class AerialHellDimensionSkyRenderer
 {
 	private static VertexBuffer starVBO;

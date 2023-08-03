@@ -7,6 +7,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructures;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -15,6 +16,8 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
 public class MudDungeonStructure extends AbstractAerialHellStructure
 {
+    private final static int MIN_GEN_HEIGHT = 20, MAX_GEN_HEIGHT = 50;
+
     public static final Codec<MudDungeonStructure> CODEC = RecordCodecBuilder.<MudDungeonStructure>mapCodec(instance ->
             instance.group(MudDungeonStructure.settingsCodec(instance),
                     StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
@@ -32,7 +35,25 @@ public class MudDungeonStructure extends AbstractAerialHellStructure
 
     @Override protected boolean isStructureChunk(Structure.GenerationContext context)
     {
-        return getTerrainHeight(context) > 50;
+        int x=context.chunkPos().getMaxBlockX(), z=context.chunkPos().getMaxBlockZ();
+        if (getTerrainHeight(context, x, z) < MAX_GEN_HEIGHT) {return false;}
+
+        NoiseColumn column = context.chunkGenerator().getBaseColumn(x, z, context.heightAccessor(), context.randomState());
+        return columnHasPercentOfNonAirBlocks(column, 0.25F);
+    }
+
+    private static boolean columnHasPercentOfNonAirBlocks(NoiseColumn column, float part)
+    {
+        int count = 0;
+        for (int y=MIN_GEN_HEIGHT; y<MAX_GEN_HEIGHT; y++)
+        {
+            if (!column.getBlock(y).isAir())
+            {
+                count++;
+                if (count > (MAX_GEN_HEIGHT - MIN_GEN_HEIGHT) * part) {return true;}
+            }
+        }
+        return false;
     }
 
     @Override public StructureType<?> type() {return AerialHellStructures.MUD_DUNGEON_STRUCTURE.get();}

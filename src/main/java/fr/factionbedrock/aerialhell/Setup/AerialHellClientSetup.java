@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellWoodTypes;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -22,9 +23,10 @@ public class AerialHellClientSetup
     	AerialHellRendering.registerScreensMenus();
 
         AerialHellWoodTypes.registerWoodTypes(event);
+        AerialHellWoodTypes.addWoodTypesToSheets(event);
     }
     
-    @SubscribeEvent
+    @OnlyIn(Dist.CLIENT) @SubscribeEvent
     public static void registerDimensionRenderInfo(RegisterDimensionSpecialEffectsEvent event)
     {
         new AerialHellDimensionSkyRenderer();

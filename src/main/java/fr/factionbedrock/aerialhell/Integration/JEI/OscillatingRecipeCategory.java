@@ -22,8 +22,6 @@ import net.minecraft.resources.ResourceLocation;
 public class OscillatingRecipeCategory implements IRecipeCategory<OscillatingRecipe>
 {
 	public static final RecipeType<OscillatingRecipe> OSCILLATING = RecipeType.create(AerialHell.MODID, "oscillating", OscillatingRecipe.class);
-
-	public final static ResourceLocation UID = new ResourceLocation(AerialHell.MODID, "oscillating");
 	public final static ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/gui/container/oscillator.png");
 
 	private final IDrawable background;
@@ -45,8 +43,8 @@ public class OscillatingRecipeCategory implements IRecipeCategory<OscillatingRec
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, OscillatingRecipe recipe, IFocusGroup focuses)
 	{
-		builder.addSlot(RecipeIngredientRole.INPUT, 55, 16).addItemStack(recipe.getIngredients().get(0).getItems()[0]);
-		builder.addSlot(RecipeIngredientRole.CATALYST, 55, 52).addItemStack(new ItemStack(AerialHellBlocksAndItems.FLUORITE.get()));
+		builder.addSlot(RecipeIngredientRole.INPUT, 56, 17).addItemStack(recipe.getIngredients().get(0).getItems()[0]);
+		builder.addSlot(RecipeIngredientRole.CATALYST, 56, 53).addItemStack(new ItemStack(AerialHellBlocksAndItems.FLUORITE.get()));
 		if (Minecraft.getInstance().level != null)
 		{
 			builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 34).addItemStack(recipe.getResultItem(Minecraft.getInstance().level.registryAccess()));
