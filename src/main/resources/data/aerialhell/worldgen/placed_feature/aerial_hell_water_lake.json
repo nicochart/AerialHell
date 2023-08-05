@@ -2,8 +2,8 @@
   "feature": "aerialhell:aerial_hell_water_lake",
   "placement": [
     {
-      "type": "minecraft:rarity_filter",
-      "chance": 9
+      "type": "minecraft:count",
+      "count": 1
     },
     {
       "type": "minecraft:in_square"

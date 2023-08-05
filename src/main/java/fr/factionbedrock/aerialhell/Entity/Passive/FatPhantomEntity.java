@@ -66,9 +66,9 @@ public class FatPhantomEntity extends Phantom implements Enemy
    
    public static boolean canSpawn(EntityType<FatPhantomEntity> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource randomIn)
    {
-	   return worldIn.getDifficulty() != Difficulty.PEACEFUL && worldIn.getLevel().isDay() && randomIn.nextInt(120) == 0 && canSpawn(type, worldIn, reason, pos, randomIn);
+	   return worldIn.getDifficulty() != Difficulty.PEACEFUL && worldIn.getLevel().isDay() && randomIn.nextInt(120) == 0 && checkMobSpawnRules(type, worldIn, reason, pos, randomIn);
    }
-   
+
    @Override
    protected BodyRotationControl createBodyControl()
    {
