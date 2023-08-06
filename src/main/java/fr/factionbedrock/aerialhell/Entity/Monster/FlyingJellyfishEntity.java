@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
-import fr.factionbedrock.aerialhell.Entity.AI.GhastLikeGoals;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,15 +22,11 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 
 public class FlyingJellyfishEntity extends AbstractFlyingProjectileShooterMob
 {
-	public FlyingJellyfishEntity(EntityType<? extends FlyingJellyfishEntity> type, Level levelIn)
-	{
-		super(type, levelIn);
-		this.moveControl = new GhastLikeGoals.MoveHelperController(this);
-	}
+	public FlyingJellyfishEntity(EntityType<? extends FlyingJellyfishEntity> type, Level levelIn) {super(type, levelIn);}
 
 	public FlyingJellyfishEntity(Level worldIn) {this(AerialHellEntities.FLYING_JELLYFISH.get(), worldIn);}
 
-	@Override public AbstractHurtingProjectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ, int explosionPower)  {return new PoisonballEntity(level, shooter, accX, accY, accZ);}
+	@Override public AbstractHurtingProjectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ, int explosionPower) {return new PoisonballEntity(level, shooter, accX, accY, accZ);}
 	@Override public SoundEvent getShootSound() {return this.getAmbientSound();}
 
 	@Override protected void registerGoals()

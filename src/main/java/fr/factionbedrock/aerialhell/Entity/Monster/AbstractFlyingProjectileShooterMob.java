@@ -16,7 +16,7 @@ public abstract class AbstractFlyingProjectileShooterMob extends FlyingMob imple
 {
 	public static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.defineId(AbstractFlyingProjectileShooterMob.class, EntityDataSerializers.BOOLEAN);
 
-	public AbstractFlyingProjectileShooterMob(EntityType<? extends AbstractFlyingProjectileShooterMob> type, Level levelIn) {super(type, levelIn);}
+	public AbstractFlyingProjectileShooterMob(EntityType<? extends AbstractFlyingProjectileShooterMob> type, Level levelIn) {super(type, levelIn); this.moveControl = new GhastLikeGoals.MoveHelperController(this);}
 
 	@Override protected void registerGoals()
 	{

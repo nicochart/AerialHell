@@ -21,7 +21,7 @@ public class MagmaticGelOreBlock extends AerialHellOreBlock
 	public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity)
 	{
 		boolean creaPlayer = (entity instanceof Player && ((Player) entity).isCreative());
-		if (!world.isClientSide() && entity instanceof LivingEntity && !creaPlayer)
+		if (!world.isClientSide() && entity instanceof LivingEntity && !entity.isSteppingCarefully() && !creaPlayer)
 		{
 			((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 32, 1));
 		}
