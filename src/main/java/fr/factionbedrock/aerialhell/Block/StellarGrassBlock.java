@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellPlacedFeatures;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.*;
@@ -37,7 +37,7 @@ public class StellarGrassBlock extends GrassBlock implements BonemealableBlock
 	{
 	      BlockPos blockpos = pos.above();
 	      BlockState blockstate = AerialHellBlocksAndItems.STELLAR_GRASS.get().defaultBlockState();
-		  Optional<Holder.Reference<PlacedFeature>> optional = worldIn.registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getHolder(VegetationPlacements.GRASS_BONEMEAL);
+		  Optional<Holder.Reference<PlacedFeature>> optional = worldIn.registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getHolder(AerialHellPlacedFeatures.STELLAR_GRASS_BONEMEAL);
 
 	      label46:
 	      for(int i = 0; i < 128; ++i)

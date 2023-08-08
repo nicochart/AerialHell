@@ -97,6 +97,9 @@ public class AerialHellConfiguredFeatures
     public static final ResourceKey<ConfiguredFeature<?, ?>> STELLAR_COARSE_DIRT_ORE = createKey("stellar_coarse_dirt_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> STELLAR_CLAY_ORE = createKey("stellar_clay_ore");
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SINGLE_PIECE_OF_STELLAR_GRASS = createKey("single_piece_of_stellar_grass");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SINGLE_PIECE_OF_SHADOW_GRASS = createKey("single_piece_of_shadow_grass");
+
     public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_CORTINARIUS_VIOLACEUS_PLANTED = createKey("giant_cortinarius_violaceus_planted");
 
     public static ResourceKey<ConfiguredFeature<?, ?>> createKey(String name) {return ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(AerialHell.MODID, name));}

@@ -14,7 +14,10 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class StellarGrassInShadowGrassFeature extends AbstractFloorEllipsisFeature
+public class
+
+
+StellarGrassInShadowGrassFeature extends AbstractFloorEllipsisFeature
 {
 	public StellarGrassInShadowGrassFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 

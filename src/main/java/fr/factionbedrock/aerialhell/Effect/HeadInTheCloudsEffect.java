@@ -26,6 +26,7 @@ public class HeadInTheCloudsEffect extends MobEffect
         else if (y < yMin) {yNew = yMin;} //minimize vertical speed if player is not crouching
 
         entityLivingBaseIn.setDeltaMovement(xNew, yNew, zNew);
+        entityLivingBaseIn.resetFallDistance();
     }
 
     @Override

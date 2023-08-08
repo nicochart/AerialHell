@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellPlacedFeatures;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -36,7 +36,7 @@ public class ShadowGrassBlock extends GrassBlock
 	{
 	      BlockPos blockpos = pos.above();
 	      BlockState blockstate = AerialHellBlocksAndItems.SHADOW_GRASS.get().defaultBlockState();
-		  Optional<Holder.Reference<PlacedFeature>> optional = worldIn.registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getHolder(VegetationPlacements.GRASS_BONEMEAL);
+		  Optional<Holder.Reference<PlacedFeature>> optional = worldIn.registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getHolder(AerialHellPlacedFeatures.SHADOW_GRASS_BONEMEAL);
 
 	      label46:
 	      for(int i = 0; i < 128; ++i)
