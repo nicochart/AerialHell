@@ -11,6 +11,8 @@ import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGo
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ChainedGodFireballEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.level.block.state.BlockState;
@@ -92,6 +94,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	{
 		Entity immediateSourceEntity = source.getDirectEntity();
 		Entity trueSourceEntity = source.getEntity();
+		if (this.isImploding() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return false;}
 		if (this.getHealth() < this.getMaxHealth() / 3 && immediateSourceEntity instanceof AbstractArrow)
 		{
 			return false;
@@ -222,9 +225,28 @@ public class ChainedGodEntity extends AbstractBossEntity
 			double dz = (random.nextFloat() - 0.5F)/10;
 			this.level().addParticle(AerialHellParticleTypes.GOD_FLAME.get(), x, y, z, dx, -0.06D, dz);
         }
-		
+
+		this.destroyObstacles();
 		super.tick();
     }
+
+	private void destroyObstacles()
+	{
+		BlockPos pos = this.blockPosition().above(); int x,y,z; int xzRadius = 3, yRadius = 3;
+		for (x=-xzRadius;x<=xzRadius;x++)
+		{
+			for (y=-yRadius;y<=yRadius;y++)
+			{
+				for (z=-xzRadius;z<=xzRadius;z++)
+				{
+					if (level().getBlockState(pos.offset(x, y, z)).is(AerialHellTags.Blocks.CHAINED_GOD_CAN_WALK_DESTROY))
+					{
+						level().destroyBlock(pos.offset(x, y, z), this.random.nextInt(3) > 1);
+					}
+				}
+			}
+		}
+	}
 	
 	@Override
     public void aiStep()

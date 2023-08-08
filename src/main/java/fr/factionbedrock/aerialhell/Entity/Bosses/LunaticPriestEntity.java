@@ -115,6 +115,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	@Override
 	public boolean hurt(DamageSource source, float amount)
 	{
+		boolean wasActive = this.isActive();
 		boolean flag = super.hurt(source, amount);
 		if (flag)
 		{
@@ -125,6 +126,11 @@ public class LunaticPriestEntity extends AbstractBossEntity
 					this.setTarget((LivingEntity) source.getEntity());
 				}
 			}
+		}
+		if (!wasActive)
+		{
+			this.timeWithoutAnyTarget = 0;
+			this.updateToPhase1();
 		}
 		return flag;
 	}

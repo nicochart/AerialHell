@@ -39,6 +39,7 @@ public abstract class AbstractActivableEntity extends Monster
 		{
 			this.setActive(true);
 			this.lastHurtByPlayerTime = 100;
+			this.timeWithoutAnyTarget = 0;
 		}
 		return flag;
 	}
@@ -55,6 +56,8 @@ public abstract class AbstractActivableEntity extends Monster
 				this.timeWithoutAnyTarget = 0;
 			}
 			else {this.timeClosePlayer++;}
+
+			if (this.isActive() && this.timeWithoutAnyTarget > 0) {this.timeWithoutAnyTarget--;}
 		}
 		else if (this.level().getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToDeactivate(), EntitySelector.NO_CREATIVE_OR_SPECTATOR) == null)
 		{			

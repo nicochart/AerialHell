@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values":
+  [
+    "aerialhell:mud_bone_block",
+    "aerialhell:mud_bone_pile_block",
+    "#aerialhell:vines",
+    "#aerialhell:roots",
+    "aerialhell:slippery_sand",
+    "aerialhell:giant_ganoderma_applanatum_block",
+    "aerialhell:thorny_cobweb"
+  ]
+}

@@ -97,6 +97,8 @@ public class AerialHellTags
 
 		public static final TagKey<Block> NEEDS_LUNAR_TOOL = tag("needs_lunar_tool");
 
+		public static final TagKey<Block> CHAINED_GOD_CAN_WALK_DESTROY = tag("chained_god_can_walk_destroy");
+
 		private static TagKey<Block> tag(String name)
 		{
 			return BlockTags.create(new ResourceLocation(AerialHell.MODID, name));

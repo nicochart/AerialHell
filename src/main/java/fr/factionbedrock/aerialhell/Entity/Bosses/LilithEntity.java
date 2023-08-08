@@ -55,6 +55,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class LilithEntity extends AbstractBossEntity
 {
 	private int shadowProjectileTimer;
+	public int flyingSkullsTimer;
 	public int attackTimer;
 	
 	private static final EntityDataAccessor<Boolean> IS_TRANSFORMING = SynchedEntityData.defineId(LilithEntity.class, EntityDataSerializers.BOOLEAN);
@@ -65,7 +66,7 @@ public class LilithEntity extends AbstractBossEntity
 	public LilithEntity(EntityType<? extends Monster> type, Level world)
 	{
 		super(type, world);
-		attackTimer = 0; shadowProjectileTimer = 80;
+		attackTimer = 0; shadowProjectileTimer = 80; shadowProjectileTimer = 0;
 		timeSinceTransforming = 0; this.hurtTime = 0;
 		bossInfo.setColor(BossEvent.BossBarColor.PURPLE);
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
@@ -100,7 +101,7 @@ public class LilithEntity extends AbstractBossEntity
 	{
 		Entity immediateSourceEntity = source.getDirectEntity();
 		Entity trueSourceEntity = source.getEntity();
-		if (this.isTransforming() && !source.isCreativePlayer() && source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return false;}
+		if (this.isTransforming() && !source.isCreativePlayer() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return false;}
 		if (this.getMaxHealth() < 2.5 * this.getHealth() && immediateSourceEntity instanceof AbstractArrow) {return false;}
 		boolean flag = super.hurt(source, amount);
 		if (flag)
@@ -216,7 +217,8 @@ public class LilithEntity extends AbstractBossEntity
 		        	}
 		        }
 	        }
-		}		
+		}
+		if (this.flyingSkullsTimer < 250) {this.flyingSkullsTimer++;}
 		super.tick();
     }
 
@@ -567,13 +569,13 @@ public class LilithEntity extends AbstractBossEntity
 
 	public static class LilithShadowFlyingSkullAttackGoal extends Goal
 	{
-		private final AbstractBossEntity goalOwner;
-		public LilithShadowFlyingSkullAttackGoal(AbstractBossEntity entity) {this.goalOwner = entity;}
+		private final LilithEntity goalOwner;
+		public LilithShadowFlyingSkullAttackGoal(LilithEntity entity) {this.goalOwner = entity;}
 		private static final List<Vec3> spawnMotionVec3s = ImmutableList.of(new Vec3(0.5D, 0.2D, 0.0D), new Vec3(-0.2500001125833550D, 0.2D, 0.4333882291756956D), new Vec3(-0.250000112583355D, 0.2D, -0.4333882291756956D));
 
 		@Override public boolean canUse()
 		{
-			return this.goalOwner.tickCount % 250 == 0 && this.goalOwner.getMaxHealth() > 2.5 * this.goalOwner.getHealth() && this.goalOwner.isActive() && this.goalOwner.getTarget() != null;
+			return this.goalOwner.flyingSkullsTimer >= 250 && this.goalOwner.getMaxHealth() > 2.5 * this.goalOwner.getHealth() && this.goalOwner.isActive() && this.goalOwner.getTarget() != null;
 		}
 
 		@Override
@@ -586,6 +588,7 @@ public class LilithEntity extends AbstractBossEntity
 				this.goalOwner.level().addFreshEntity(skull);
 			}
 			this.playParticleAndSoundEffect();
+			this.goalOwner.flyingSkullsTimer = 0;
 		}
 
 		private void playParticleAndSoundEffect()
