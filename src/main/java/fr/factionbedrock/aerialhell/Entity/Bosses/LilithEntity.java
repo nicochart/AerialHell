@@ -218,7 +218,7 @@ public class LilithEntity extends AbstractBossEntity
 		        }
 	        }
 		}
-		if (this.flyingSkullsTimer < 250) {this.flyingSkullsTimer++;}
+		if (this.flyingSkullsTimer < this.getFlyingSkullsTimerTargetValue()) {this.flyingSkullsTimer++;}
 		super.tick();
     }
 
@@ -442,6 +442,21 @@ public class LilithEntity extends AbstractBossEntity
 		}
 		return AerialHellBlocksAndItems.SHADOW_CATACOMBS_BRICKS.get().defaultBlockState();
 	}
+
+	public int getFlyingSkullsTimerTargetValue()
+	{
+		int difficulty = this.getDifficulty();
+		return switch (difficulty)
+		{
+			default-> 300; //never happens theorically. 0 is when there is no player nearby
+			case 1 -> 250;
+			case 2 -> 200;
+			case 3 -> 160;
+			case 4 -> 130;
+			case 5 -> 105;
+			case 6 -> 90;
+		};
+	}
 	
 	@Override public void aiStep()
     {
@@ -575,7 +590,9 @@ public class LilithEntity extends AbstractBossEntity
 
 		@Override public boolean canUse()
 		{
-			return this.goalOwner.flyingSkullsTimer >= 250 && this.goalOwner.getMaxHealth() > 2.5 * this.goalOwner.getHealth() && this.goalOwner.isActive() && this.goalOwner.getTarget() != null;
+			float ownerDifficulty = (float) goalOwner.getDifficulty();
+			boolean isHealthLowEnough = this.goalOwner.getMaxHealth() > (2.5 - ownerDifficulty / 6.0) * this.goalOwner.getHealth();
+			return this.goalOwner.flyingSkullsTimer >= this.goalOwner.getFlyingSkullsTimerTargetValue() && isHealthLowEnough && this.goalOwner.isActive() && this.goalOwner.getTarget() != null;
 		}
 
 		@Override

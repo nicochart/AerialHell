@@ -2,6 +2,9 @@ package fr.factionbedrock.aerialhell.Entity;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.Entity;
@@ -21,9 +24,20 @@ import java.util.List;
 public class AbstractBossEntity extends AbstractActivableEntity
 {
 	protected final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.GREEN, BossEvent.BossBarOverlay.PROGRESS);
+	public static final EntityDataAccessor<Integer> BOSS_DIFFICULTY = SynchedEntityData.defineId(AbstractBossEntity.class, EntityDataSerializers.INT);
 	
 	public AbstractBossEntity(EntityType<? extends Monster> type, Level world) {super(type, world);}
-	
+
+	@Override
+	protected void defineSynchedData()
+	{
+		super.defineSynchedData();
+		this.entityData.define(BOSS_DIFFICULTY, 0);
+	}
+
+	public void setDifficulty(int difficulty) {this.entityData.set(BOSS_DIFFICULTY, difficulty);}
+	public int getDifficulty() {return this.entityData.get(BOSS_DIFFICULTY);}
+
 	/* Add the given player to the list of players tracking this entity. For instance, a player may track a boss in order to view its associated boss bar. */
 	@Override public void startSeenByPlayer(ServerPlayer player)
 	{
@@ -59,34 +73,40 @@ public class AbstractBossEntity extends AbstractActivableEntity
 	@Override public void tick()
 	{
 		super.tick();
-		if (this.isActive() && this.tickCount % 900 == 0) {this.adaptBossDifficulty();}
+		if (this.isActive() && this.tickCount % 900 == 0) {this.updateBossDifficulty(); this.adaptBossDifficulty();}
 		this.bossInfo.setVisible(this.isActive());
 	}
 
 	@Override public void setActive(boolean isActive)
 	{
 		super.setActive(isActive);
-		this.adaptBossDifficulty();
+		this.updateBossDifficulty(); this.adaptBossDifficulty();
 	}
 
-	public void adaptBossDifficulty()
+	private void updateBossDifficulty()
 	{
 		List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(30), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
-		int difficulty = -1;
+		int playerCount = 0;
 		for (Entity entity : nearbyEntities)
 		{
 			if (entity instanceof Player)
 			{
 				Player player = (Player) entity;
-				if (!(player.isCreative() || player.isSpectator())) {difficulty += 1;}
+				if (!(player.isCreative() || player.isSpectator())) {playerCount += 1;}
 			}
 		}
+		this.setDifficulty(Math.min(playerCount, 6)); //difficulty will be 0 if there is no player nearby, and will grow by 1 with each nearby player. capped at 6
+	}
+
+	protected void adaptBossDifficulty()
+	{
 		if (this.hasEffect(MobEffects.DAMAGE_RESISTANCE)) {this.removeEffect(MobEffects.DAMAGE_RESISTANCE);}
 		if (this.hasEffect(MobEffects.DAMAGE_BOOST)) {this.removeEffect(MobEffects.DAMAGE_BOOST);}
-		if (difficulty > 0) //is 0 if there is only one player, +1 per additional player
+		int amplifier = this.getDifficulty() - 1; //amplifier = 0 if there is one player, +1 per additional player
+		if (amplifier > 0)
 		{
-			this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 54000, Math.min(3, (int) Math.ceil(difficulty / 2.0F)), false, false));
-			this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 54000, Math.min(3, difficulty - 1), false, false));
+			this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 54000, Math.min(3, (int) Math.ceil(amplifier / 2.0F)), false, false));
+			this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 54000, Math.min(3, amplifier - 1), false, false));
 		}
 	}
 
