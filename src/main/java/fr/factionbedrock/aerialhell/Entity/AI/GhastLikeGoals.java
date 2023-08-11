@@ -4,8 +4,8 @@ import fr.factionbedrock.aerialhell.Entity.Monster.AbstractFlyingProjectileShoot
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.FlyingMob;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
@@ -17,11 +17,11 @@ import java.util.EnumSet;
 
 public class GhastLikeGoals
 {
-    /* Same as net.minecraft.world.entity.monster.Ghast.GhastLookGoal but changed GhastEntity to FlyingMob */
+    /* Same as net.minecraft.world.entity.monster.Ghast.GhastLookGoal but changed GhastEntity to Mob */
     public static class LookAroundGoal extends Goal
     {
-        private final FlyingMob parentEntity;
-        public LookAroundGoal(FlyingMob flyingMob) {this.parentEntity = flyingMob; this.setFlags(EnumSet.of(Goal.Flag.LOOK));}
+        private final Mob parentEntity;
+        public LookAroundGoal(Mob flyingMob) {this.parentEntity = flyingMob; this.setFlags(EnumSet.of(Goal.Flag.LOOK));}
 
         @Override public boolean canUse() {return true;}
 
@@ -47,11 +47,13 @@ public class GhastLikeGoals
         }
     }
 
-    /* Same as net.minecraft.world.entity.monster.Ghast.RandomFloatAroundGoal but changed Ghast to FlyingMob */
+    /* Same as net.minecraft.world.entity.monster.Ghast.RandomFloatAroundGoal but changed Ghast to Mob */
     public static class RandomFlyGoal extends Goal
     {
-        private final FlyingMob parentEntity;
-        public RandomFlyGoal(FlyingMob flyingMob) {this.parentEntity = flyingMob; this.setFlags(EnumSet.of(Goal.Flag.MOVE));}
+        private final Mob parentEntity;
+        public RandomFlyGoal(Mob flyingMob) {this.parentEntity = flyingMob; this.setFlags(EnumSet.of(Goal.Flag.MOVE));}
+
+        public Mob getParentEntity() {return parentEntity;}
 
         @Override public boolean canUse()
         {
@@ -77,13 +79,13 @@ public class GhastLikeGoals
         }
     }
 
-    /* Same as net.minecraft.world.entity.monster.Ghast.GhastMoveControl but changed Ghast to FlyingMob */
+    /* Same as net.minecraft.world.entity.monster.Ghast.GhastMoveControl but changed Ghast to Mob */
     public static class MoveHelperController extends MoveControl
     {
-        private final FlyingMob parentEntity;
+        private final Mob parentEntity;
         private int courseChangeCooldown;
 
-        public MoveHelperController(FlyingMob flyingMob) {super(flyingMob); this.parentEntity = flyingMob;}
+        public MoveHelperController(Mob flyingMob) {super(flyingMob); this.parentEntity = flyingMob;}
 
         @Override public void tick()
         {

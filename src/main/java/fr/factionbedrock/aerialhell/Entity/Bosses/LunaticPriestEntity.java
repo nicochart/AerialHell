@@ -61,7 +61,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
     {
 		/*Phase 1 only*/
 		this.goalSelector.addGoal(5, new LunaticPriestEntity.PriestRandomFlyGoal(this));
-		this.goalSelector.addGoal(7, new LunaticPriestEntity.PriestLookAroundGoal(this));
+		this.goalSelector.addGoal(7, new GhastLikeGoals.LookAroundGoal(this));
 		this.goalSelector.addGoal(6, new PriestLookRandomlyGoal(this));
 		/*Phase 2 only*/
 	    this.goalSelector.addGoal(4, new PriestWaterAvoidingRandomWalkingGoal(this, 1.0D));
@@ -101,7 +101,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	private void updateToPhase1()
 	{
 		this.entityData.set(SECOND_PHASE, false);
-		this.moveControl =  new LunaticPriestEntity.PriestMoveHelperController(this);
+		this.moveControl = new GhastLikeGoals.MoveHelperController(this);
 		this.setDeltaMovement(this.getDeltaMovement().add(0,2,0));
 	}
 	
@@ -264,139 +264,15 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	 * Goals
 	 */
 
-	/* Same as net.minecraft.entity.monster.GhastEntity.RandomFlyGoal but changed GhastEntity to LunaticPriestEntity */
-	static class PriestRandomFlyGoal extends Goal
+	static class PriestRandomFlyGoal extends GhastLikeGoals.RandomFlyGoal
 	{
-		private final LunaticPriestEntity priest;
-
-		public PriestRandomFlyGoal(LunaticPriestEntity priestIn)
-		{
-			this.priest = priestIn;
-			this.setFlags(EnumSet.of(Goal.Flag.MOVE));
-		}
+		public PriestRandomFlyGoal(LunaticPriestEntity priestIn) {super(priestIn);}
 		
-		@Override
-		public boolean canUse()
+		@Override public boolean canUse()
 		{
-			if (!priest.isActive() || priest.isInPhase2())
-			{
-				return false;
-			}
-			MoveControl movementcontroller = this.priest.getMoveControl();
-			if (!movementcontroller.hasWanted())
-			{
-				return true;
-			}
-			else
-			{
-				double d0 = movementcontroller.getWantedX() - this.priest.getX();
-				double d1 = movementcontroller.getWantedY() - this.priest.getY();
-				double d2 = movementcontroller.getWantedZ() - this.priest.getZ();
-				double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-				return d3 < 1.0 || d3 > 3600.0;
-			}
-		}
-
-		@Override
-		public boolean canContinueToUse()
-		{
-			return false;
-		}
-
-		@Override
-		public void start()
-		{
-			RandomSource random = this.priest.getRandom();
-			double d0 = this.priest.getX() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
-			double d1 = this.priest.getY() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
-			double d2 = this.priest.getZ() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
-			this.priest.getMoveControl().setWantedPosition(d0, d1, d2, 1.0);
-		}
-	}
-
-	/* Same as net.minecraft.entity.monster.GhastEntity.MoveHelperController but changed GhastEntity to LunaticPriestEntity */
-	static class PriestMoveHelperController extends MoveControl
-	{
-		private final LunaticPriestEntity priest;
-		private int courseChangeCooldown;
-
-		public PriestMoveHelperController(LunaticPriestEntity priest)
-		{
-			super(priest);
-			this.priest = priest;
-		}
-
-		@Override
-		public void tick() {
-			if (this.operation == MoveControl.Operation.MOVE_TO)
-			{
-				if (this.courseChangeCooldown-- <= 0)
-				{
-					this.courseChangeCooldown += this.priest.getRandom().nextInt(5) + 2;
-					Vec3 vec3d = new Vec3(this.wantedX - this.priest.getX(), this.wantedY - this.priest.getY(), this.wantedZ - this.priest.getZ());
-					double d0 = vec3d.length();
-					vec3d = vec3d.normalize();
-					if (this.canReach(vec3d, Mth.ceil(d0)))
-					{
-						this.priest.setDeltaMovement(this.priest.getDeltaMovement().add(vec3d.scale(0.1)));
-					}
-					else
-					{
-						this.operation = MoveControl.Operation.WAIT;
-					}
-				}
-			}
-		}
-
-		private boolean canReach(Vec3 pos, int distance) //isNotColliding
-		{
-			AABB axisalignedbb = this.priest.getBoundingBox();
-			for (int i = 1; i < distance; ++i)
-			{
-				axisalignedbb = axisalignedbb.move(pos);
-				if (!this.priest.level().noCollision(this.priest, axisalignedbb)) {return false;}
-			}
-			return true;
-		}
-	}
-
-	/* Same as net.minecraft.entity.monster.GhastEntity.LookAroundGoal but changed GhastEntity to LunaticPriestEntity */
-	static class PriestLookAroundGoal extends Goal
-	{
-		private final LunaticPriestEntity priest;
-
-		public PriestLookAroundGoal(LunaticPriestEntity priest)
-		{
-			this.priest = priest;
-			this.setFlags(EnumSet.of(Goal.Flag.LOOK));
-		}
-
-		@Override
-		public boolean canUse()
-		{
-			return priest.isActive() && priest.isInPhase1();
-		}
-
-		@Override
-		public void tick()
-		{				
-			if (this.priest.getTarget() == null)
-			{
-				Vec3 vec = this.priest.getDeltaMovement();
-				this.priest.setYRot(-((float)Mth.atan2(vec.x, vec.z)) * (180F / (float)Math.PI));
-				this.priest.yBodyRot = this.priest.getYRot();
-			}
-			else
-			{
-				LivingEntity livingentity = this.priest.getTarget();
-				if (livingentity.distanceToSqr(this.priest) < 64*64)
-				{
-					double x = livingentity.getX() - this.priest.getX();
-					double z = livingentity.getZ() - this.priest.getZ();
-					this.priest.setYRot(-((float)Mth.atan2(x, z)) * (180F / (float)Math.PI));
-					this.priest.yBodyRot = this.priest.getYRot();
-				}
-			}
+			LunaticPriestEntity priest = (LunaticPriestEntity) this.getParentEntity();
+			if (!priest.isActive() || priest.isInPhase2()) {return false;}
+			else {return super.canUse();}
 		}
 	}
 	
