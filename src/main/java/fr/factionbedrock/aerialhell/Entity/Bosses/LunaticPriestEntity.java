@@ -289,7 +289,8 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		@Override public int getShootTimeInterval()
 		{
 			LunaticPriestEntity priest = ((LunaticPriestEntity)this.getParentEntity());
-			return priest.isInPhase1() ? 19 + (int) (priest.random.nextFloat() * 15) : 14 + (int) (priest.random.nextFloat() * 7);
+			int difficulty = priest.getDifficulty(); if (difficulty == 0) {difficulty = 1;}
+			return priest.isInPhase1() ? 19 / difficulty + (int) (priest.random.nextFloat() * 15) : 14 / difficulty + (int) (priest.random.nextFloat() * 7);
 		}
 
 		@Override public int getShootDelay() {return 0;}

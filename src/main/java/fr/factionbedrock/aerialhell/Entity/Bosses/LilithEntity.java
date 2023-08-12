@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
-import java.util.EnumSet;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
@@ -12,7 +11,6 @@ import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGo
 import fr.factionbedrock.aerialhell.Entity.AI.GhastLikeGoals;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowFlyingSkullEntity;
-import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ShadowProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
@@ -57,7 +55,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class LilithEntity extends AbstractBossEntity
 {
-	private int shadowProjectileTimer;
 	public int flyingSkullsTimer;
 	public int attackTimer;
 	
@@ -69,7 +66,7 @@ public class LilithEntity extends AbstractBossEntity
 	public LilithEntity(EntityType<? extends Monster> type, Level world)
 	{
 		super(type, world);
-		attackTimer = 0; shadowProjectileTimer = 80; shadowProjectileTimer = 0;
+		attackTimer = 0;
 		timeSinceTransforming = 0; this.hurtTime = 0;
 		bossInfo.setColor(BossEvent.BossBarColor.PURPLE);
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
@@ -464,7 +461,6 @@ public class LilithEntity extends AbstractBossEntity
 	@Override public void aiStep()
     {
 		if (this.attackTimer > 0) {this.attackTimer--;}
-		if (this.shadowProjectileTimer > 0) {this.shadowProjectileTimer--;} else if (this.shadowProjectileTimer < 0) {this.shadowProjectileTimer++;}
 		super.aiStep();
     }
 	
@@ -551,7 +547,9 @@ public class LilithEntity extends AbstractBossEntity
 
 		@Override public int getShootTimeInterval()
 		{
-			return 90 + (int) (this.getParentEntity().getRandom().nextFloat() * 40);
+			int difficulty = ((LilithEntity)this.getParentEntity()).getDifficulty();
+			if (difficulty == 0) {difficulty = 1;}
+			return 90 / difficulty + (int) (this.getParentEntity().getRandom().nextFloat() * 40);
 		}
 
 		@Override public int getShootDelay() {return 0;}
