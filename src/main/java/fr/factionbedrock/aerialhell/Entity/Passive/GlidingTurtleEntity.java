@@ -26,19 +26,22 @@ import javax.annotation.Nullable;
 
 public class GlidingTurtleEntity extends AerialHellAnimalEntity
 {
-	private int jumpTimer;
+    private int jumpTimer;
+    private int randomTimerBonus;
     public static final EntityDataAccessor<Boolean> GLIDING = SynchedEntityData.<Boolean>defineId(GlidingTurtleEntity.class, EntityDataSerializers.BOOLEAN);
 
     public GlidingTurtleEntity(EntityType<? extends GlidingTurtleEntity> type, Level worldIn)
     {
         super(type, worldIn);
         this.jumpTimer = 0;
+        this.randomTimerBonus = 1 + random.nextInt(10);
     }
 
     public GlidingTurtleEntity(Level worldIn)
     {
         this(AerialHellEntities.GLIDING_TURTLE.get(), worldIn);
         this.jumpTimer = 0;
+        this.randomTimerBonus = 1 + random.nextInt(10);
     }
 
     @Override
@@ -106,11 +109,12 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
             else if (this.getDeltaMovement().y < -0.3D) {this.setGliding(true);}
         }
 
-        if (this.jumpTimer > 600 && !this.isGliding() && this.onGround())
+        if (this.jumpTimer > 1200 && !this.isGliding() && this.onGround())
         {
             this.glideJump();
+            this.randomTimerBonus = 1 + random.nextInt(10);
         }
-        if (!this.isGliding()) {this.jumpTimer += 1 + (int) Math.random()*10;}
+        if (!this.isGliding()) {this.jumpTimer += 1 + this.getRandom().nextInt(this.randomTimerBonus);}
 
         if (this.isGliding() && this.onGround() && this.getDeltaMovement().y>=-0.1F) {this.setGliding(false);}
     }

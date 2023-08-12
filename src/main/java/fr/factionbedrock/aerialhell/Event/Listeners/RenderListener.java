@@ -14,6 +14,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 //import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -32,15 +35,15 @@ public class RenderListener
     private static final int HEART_ICON_WIDTH = 9;
     private static final int HEART_ICON_HEIGHT = 9;
 
-    /*@OnlyIn(Dist.CLIENT) @SubscribeEvent
-    public static void onRenderOverlayPost(RenderGameOverlayEvent.Post event)
+    @OnlyIn(Dist.CLIENT) @SubscribeEvent
+    public static void onRenderOverlayPost(RenderGuiOverlayEvent.Post event) //TODO : fix the render
     {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
         if (player != null && EntityHelper.isLivingEntityVulnerable(player))
         {
-            if (event.getType() == RenderGameOverlayEvent.ElementType.ALL && mc.options.getCameraType().isFirstPerson()) //TODO : ElementType.ALL is ok ? before is was ElementType.VIGNETTE
+            if (event.getOverlay().id() == VanillaGuiOverlay.VIGNETTE.id() && mc.options.getCameraType().isFirstPerson())
             {
                 float alpha = Math.min(20, player.getEffect(AerialHellMobEffects.VULNERABILITY.get()).getDuration()) / 20.0F;
                 renderTextureOverlay(mc, VULNERABLE_OVERLAY, alpha);
@@ -48,7 +51,7 @@ public class RenderListener
         }
     }
 
-    @OnlyIn(Dist.CLIENT) @SubscribeEvent
+    /*@OnlyIn(Dist.CLIENT) @SubscribeEvent
     public static void onRenderOverlay(RenderGameOverlayEvent event)
     {
         Minecraft mc = Minecraft.getInstance();
@@ -65,7 +68,7 @@ public class RenderListener
 
             renderVulnerableHearts(matrixStack, player, x, y, lowHealth);
         }
-    }
+    }*/
 
     //Copy of Gui.renderTextureOverlay
     @OnlyIn(Dist.CLIENT) public static void renderTextureOverlay(Minecraft mc, ResourceLocation textureLocation, float alpha)
@@ -90,7 +93,7 @@ public class RenderListener
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    /*@OnlyIn(Dist.CLIENT)
     private static void renderVulnerableHearts(PoseStack matrixStack, Player player, int x, int y, boolean lowHealth)
     {
         int maxHalfHearts = (int)player.getMaxHealth(), maxHearts  = maxHalfHearts/2;
