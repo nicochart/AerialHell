@@ -120,41 +120,53 @@ public class GhastLikeGoals
     public abstract static class ShootProjectileGoal extends Goal
     {
         private final Mob parentEntity;
-        public int attackTimer;
+        public int shootTimer;
 
-        public ShootProjectileGoal(Mob flyingMob) {this.parentEntity = flyingMob;}
+        public ShootProjectileGoal(Mob mob) {this.parentEntity = mob;}
 
         public Mob getParentEntity() {return parentEntity;}
 
         @Override public boolean canUse() {return parentEntity.getTarget() != null;}
-        @Override public void start() {resetAttackTimer();}
-        @Override public void stop() {resetAttackTimer(); this.setAttacking(false);}
+        @Override public void start() {
+            resetTask();}
+        @Override public void stop() {
+            resetTask(); this.setAttacking(false);}
 
         @Override public void tick()
         {
             LivingEntity target = parentEntity.getTarget();
             if (target.distanceToSqr(this.parentEntity) < 64*64 && this.parentEntity.hasLineOfSight(target))
             {
-                ++this.attackTimer;
-                Level level = this.parentEntity.level();
-                if (this.attackTimer == 0 && this.getShootSound() != null) //if it's time to play shoot sound
-                {
-                    this.parentEntity.playSound(this.getShootSound(), 3.0F, (level.random.nextFloat() - level.random.nextFloat()) * 0.2F + 1.0F);
-                }
-                if (this.attackTimer >= this.getShootDelay()) //if it's time to actually shoot. (== is exact time to shoot, > is never supposed to happen, but we never know)
-                {
-                    level.addFreshEntity(createProjectile(target));
-                    this.resetAttackTimer();
-                }
-            }
-            else if (this.doesShootTimeDecreaseWhenTargetOutOfSight() && this.attackTimer > - this.getShootTimeInterval()) {this.attackTimer--;}
+                ++this.shootTimer;
 
-            this.setAttacking(attackTimer > 0);
+                if (tryPlayingShootSound()) {}
+                if (tryShooting(target)) {this.resetTask();}
+            }
+            else if (this.doesShootTimeDecreaseWhenTargetOutOfSight() && this.shootTimer > - this.getShootTimeInterval()) {this.shootTimer--;}
+
+            this.setAttacking(shootTimer > 0);
         }
 
-        private void resetAttackTimer()
+        protected void resetTask() {this.shootTimer = - this.getShootTimeInterval();} //restart
+
+        protected boolean tryPlayingShootSound() //returns true if the playsound is a success
         {
-            this.attackTimer = - this.getShootTimeInterval();
+            if (this.shootTimer == 0 && this.getShootSound() != null) //if it's time to play shoot sound
+            {
+                this.parentEntity.playSound(this.getShootSound(), 3.0F, (this.parentEntity.level().random.nextFloat() - this.parentEntity.level().random.nextFloat()) * 0.2F + 1.0F);
+                return true;
+            }
+            return false;
+        }
+
+        protected boolean tryShooting(LivingEntity target) //returns true if the shoot is a success
+        {
+            if (this.shootTimer >= this.getShootDelay()) //if it's time to actually shoot. (== is exact time to shoot the first projectile)
+            {
+                this.parentEntity.level().addFreshEntity(createProjectile(target));
+                return true;
+            }
+            return false;
         }
 
         public Projectile createProjectile(LivingEntity target)
@@ -174,5 +186,31 @@ public class GhastLikeGoals
         public abstract Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ);
         protected abstract void setAttacking(boolean bool);
         @Nullable public abstract SoundEvent getShootSound();
+    }
+
+    public abstract static class ShootSimultaneousProjectileGoal extends ShootProjectileGoal
+    {
+        private int shotProjectileCount;
+        public ShootSimultaneousProjectileGoal(Mob mob) {super(mob);}
+
+        @Override public void start() {super.start(); this.shotProjectileCount = 0;}
+        @Override public void stop() {super.stop(); this.shotProjectileCount = 0;}
+
+        @Override protected void resetTask() {super.resetTask(); this.shotProjectileCount = 0;}
+
+        @Override protected boolean tryShooting(LivingEntity target) //returns true if all the projectiles have been shot
+        {
+            boolean isNotFirstProjectileToBeShot = (this.shotProjectileCount > 0);
+            boolean shouldShootAnotherProjectileNow = isNotFirstProjectileToBeShot && this.shootTimer > this.getShootDelay() && this.shootTimer - this.shotProjectileCount * getShootInvervalWithinBurst() >= this.getShootDelay();
+            if (this.shootTimer == this.getShootDelay() || shouldShootAnotherProjectileNow) //if it's time to actually shoot. (== is exact time to shoot the first projectile)
+            {
+                this.getParentEntity().level().addFreshEntity(createProjectile(target));
+                return ++this.shotProjectileCount >= getProjectileNumber();
+            }
+            return false;
+        }
+
+        public abstract int getProjectileNumber(); //number of projectiles to shoot
+        public abstract int getShootInvervalWithinBurst(); //time gap between two projectiles of the same burst
     }
 }

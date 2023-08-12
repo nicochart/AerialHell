@@ -1,27 +1,26 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
-import java.util.EnumSet;
 import java.util.List;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveNearestAttackableTargetGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveLeapAtTargetGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveMeleeAttackGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ChainedGodFireballEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -40,7 +39,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.BossEvent;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -50,7 +48,6 @@ import net.minecraftforge.event.ForgeEventFactory;
 public class ChainedGodEntity extends AbstractBossEntity
 {
 	public int attackTimer;
-	private int fireballTimer;
 	
 	private static final EntityDataAccessor<Boolean> IMPLODING = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
 	private int timeSinceImploding;
@@ -58,15 +55,13 @@ public class ChainedGodEntity extends AbstractBossEntity
 	public ChainedGodEntity(EntityType<? extends Monster> type, Level world)
 	{
 		super(type, world);
-		fireballTimer = 5000;
 		attackTimer = 0;
 		timeSinceImploding = 0; this.hurtTime = 0;
 		bossInfo.setColor(BossEvent.BossBarColor.RED);
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 	}
 
-	@Override
-    protected void registerGoals()
+	@Override protected void registerGoals()
     {
 		this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, Player.class, true));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
@@ -77,7 +72,7 @@ public class ChainedGodEntity extends AbstractBossEntity
         this.goalSelector.addGoal(6, new ChainedGodLeapAtTargetGoal(this, 0.7F));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
     }
-	
+
 	public static AttributeSupplier.Builder registerAttributes()
     {
 		return Monster.createMonsterAttributes()
@@ -89,8 +84,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 				.add(Attributes.ATTACK_DAMAGE, 25.0D);
     }
 	
-	@Override
-	public boolean hurt(DamageSource source, float amount)
+	@Override public boolean hurt(DamageSource source, float amount)
 	{
 		Entity immediateSourceEntity = source.getDirectEntity();
 		Entity trueSourceEntity = source.getEntity();
@@ -116,15 +110,13 @@ public class ChainedGodEntity extends AbstractBossEntity
 		}
 	}
 	
-	@Override
-	protected void defineSynchedData()
+	@Override protected void defineSynchedData()
 	{
 	    super.defineSynchedData();
 	    this.entityData.define(IMPLODING, false);
 	}
 	
-	@Override
-	public void addAdditionalSaveData(CompoundTag compound)
+	@Override public void addAdditionalSaveData(CompoundTag compound)
 	{
 		super.addAdditionalSaveData(compound);
 		
@@ -132,8 +124,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	    compound.putBoolean("Imploding", this.isImploding());
 	}
 	
-	@Override
-	public void readAdditionalSaveData(CompoundTag compound)
+	@Override public void readAdditionalSaveData(CompoundTag compound)
 	{
 	    super.readAdditionalSaveData(compound);
 	    if (compound.contains("TimeImploding", 99))
@@ -143,27 +134,16 @@ public class ChainedGodEntity extends AbstractBossEntity
 	    this.setImploding(compound.getBoolean("Imploding"));
 	}
 	
-	public boolean isImploding()
-	{
-		return this.entityData.get(IMPLODING);
-	}
-
-	public void setImploding(boolean isImploding)
-	{
-	    this.entityData.set(IMPLODING, isImploding);
-	}
+	public boolean isImploding() {return this.entityData.get(IMPLODING);}
+	public void setImploding(boolean isImploding) {this.entityData.set(IMPLODING, isImploding);}
 	
 	@Override public boolean fireImmune() {return true;}
 	@Override public boolean displayFireAnimation() {return false;}
 	
 	@Override public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {return false;}
 	
-	@Override
-    public void tick()
-    {		
-		fireballTimer -= (int)(Math.random() * 41) + 1; //+random int between 1 and 42
-		if (fireballTimer <= 0) {fireballTimer = 2000;}
-		
+	@Override public void tick()
+    {
 		if (this.isActive() && this.tickCount % 600 == 0 && this.getHealth() < this.getMaxHealth() / 2)
 		{
 			this.timeSinceImploding = 0;
@@ -173,7 +153,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		
 		if (this.isImploding())
 		{
-			//lève les bras, fait des particules bonus, ne bouge plus, cr�er une explosion si timeSince = fuzetime
+			//raise his arms, make bonus particles, stop moving, create an explosion if timeSince = fuzetime
 			if (!level().isClientSide())
 			{
 				this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 10, true, false)));
@@ -192,43 +172,36 @@ public class ChainedGodEntity extends AbstractBossEntity
 	        	List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
 				for (Entity entity : nearbyEntities)
 		    	{
-					boolean creaOrSpecPlayer = (entity instanceof Player && (((Player) entity).isSpectator() || ((Player) entity).isCreative()));
+					boolean creaOrSpecPlayer = (entity instanceof Player player && (player.isSpectator() || player.isCreative()));
 		    		if (entity instanceof LivingEntity && !creaOrSpecPlayer)
 		    		{
 		    			dragEntity(entity);
 		    		}
 		    	}
 				
-				if (this.level().isClientSide())
-		        {
-		        	for (int i=0; i<5; i++)
-		        	{
-		        		double rand = random.nextFloat() * 2;
-						double x = getX() + (random.nextFloat() - 0.5F) * rand;
-						double y = (this.getBoundingBox().minY + rand) + 0.5D;
-						double z = getZ() + (random.nextFloat() - 0.5F) * rand;
-						double dx = (random.nextFloat() - 0.5F)/10;
-						double dz = (random.nextFloat() - 0.5F)/10;
-						this.level().addParticle(ParticleTypes.LAVA, x, y, z, dx, 0.5D, dz);
-		        	}
-		        }
+				if (this.level().isClientSide()) {spawnParticles(ParticleTypes.LAVA, 5, 0.5D);}
 	        }
 		}
 		
-		if (random.nextFloat() > 0.5)
-        {
+		if (random.nextFloat() > 0.5 && this.level().isClientSide()) {spawnParticles(AerialHellParticleTypes.GOD_FLAME.get(), 1, -0.06D);}
+
+		this.destroyObstacles();
+		super.tick();
+    }
+
+	private void spawnParticles(SimpleParticleType type, int number, double dy)
+	{
+		for (int i=0; i<number; i++)
+		{
 			double rand = random.nextFloat() * 2;
 			double x = getX() + (random.nextFloat() - 0.5F) * rand;
 			double y = (this.getBoundingBox().minY + rand) + 0.5D;
 			double z = getZ() + (random.nextFloat() - 0.5F) * rand;
 			double dx = (random.nextFloat() - 0.5F)/10;
 			double dz = (random.nextFloat() - 0.5F)/10;
-			this.level().addParticle(AerialHellParticleTypes.GOD_FLAME.get(), x, y, z, dx, -0.06D, dz);
-        }
-
-		this.destroyObstacles();
-		super.tick();
-    }
+			this.level().addParticle(type, x, y, z, dx, dy, dz);
+		}
+	}
 
 	private void destroyObstacles()
 	{
@@ -248,8 +221,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		}
 	}
 	
-	@Override
-    public void aiStep()
+	@Override public void aiStep()
     {
 		if (this.attackTimer > 0) {this.attackTimer--;}
 		super.aiStep();
@@ -257,8 +229,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	
 	@Override public boolean isPushable() {return false;}
 	
-	@Override
-	public boolean doHurtTarget(Entity attackedEntity)
+	@Override public boolean doHurtTarget(Entity attackedEntity)
 	{
 	      this.level().broadcastEntityEvent(this, (byte)4);
 	      float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
@@ -291,8 +262,7 @@ public class ChainedGodEntity extends AbstractBossEntity
     @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_CHAINED_GOD_HURT.get();}
     @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_CHAINED_GOD_DEATH.get();}
     
-    @Override
-    protected void playStepSound(BlockPos pos, BlockState blockIn)
+    @Override protected void playStepSound(BlockPos pos, BlockState blockIn)
     {
     	if (!blockIn.liquid())
     	{
@@ -336,50 +306,41 @@ public class ChainedGodEntity extends AbstractBossEntity
            this.level().broadcastEntityEvent(this, (byte)20);
         }
 	}
-	
-	/* Chained God Goals */
-	
-	static class ChainedGodFireballAttackGoal extends Goal
+
+	public boolean isHealthMatchToShootFireballs()
 	{
-		private final ChainedGodEntity chainedGod;
-	    private int fireballCount;
+		return this.getHealth() * 2 < this.getMaxHealth();
+	}
 
-	    public ChainedGodFireballAttackGoal(ChainedGodEntity chainedGodIn)
-	    {
-	    	this.chainedGod = chainedGodIn;
-	        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
-	    }
+	/* Chained God Goals */
 
-	    public boolean canUse()
-	    {
-	    	if (!this.chainedGod.isActive() || this.chainedGod.isImploding()) {return false;}
-	    	LivingEntity target = this.chainedGod.getTarget();
-	    	double DistanceToTarget = 0;
-	    	if (target != null)	{DistanceToTarget = this.chainedGod.distanceTo(target);}
-	        return chainedGod.getHealth() < chainedGod.getMaxHealth() / 2 && chainedGod.fireballTimer < 50 && target != null && target.isAlive() && this.chainedGod.canAttack(target) && DistanceToTarget < 16;
-	    }
-	    
-	    public void start() {this.fireballCount = 0;}
-	    
-	    public void stop() {this.fireballCount = 0;}
+	public static class ChainedGodFireballAttackGoal extends GhastLikeGoals.ShootSimultaneousProjectileGoal
+	{
+		public ChainedGodFireballAttackGoal(ChainedGodEntity entity) {super(entity);}
 
-	    public void tick()
-	    {
-	    	LivingEntity target = this.chainedGod.getTarget();
-	    	double Xdistance = target.getX() - this.chainedGod.getX();
-            double Ydistance = target.getY(0.5D) - this.chainedGod.getY(0.5D);
-            double Zdistance = target.getZ() - this.chainedGod.getZ();
-            double halfDistanceToTarget = this.chainedGod.distanceTo(target) / 2;
-            
-	        if (fireballCount < 3)
-	        {
-	        	 ++this.fireballCount;
-	        	 ChainedGodFireballEntity fireballentity = new ChainedGodFireballEntity(this.chainedGod.level(), this.chainedGod, Xdistance + 0.5 * this.chainedGod.random.nextGaussian() * (double)halfDistanceToTarget, Ydistance, Zdistance + 0.5 * this.chainedGod.random.nextGaussian() * (double)halfDistanceToTarget);
-                 fireballentity.setPos(fireballentity.getX(), this.chainedGod.getY(0.5D) + 0.5D, fireballentity.getZ());
-                 this.chainedGod.level().addFreshEntity(fireballentity);
-	        }
-	        super.tick();
-	     }
+		@Override public boolean canUse()
+		{
+			ChainedGodEntity chainedGod = (ChainedGodEntity)this.getParentEntity();
+			if (!chainedGod.isActive() || chainedGod.isImploding()) {return false;}
+			LivingEntity target = chainedGod.getTarget();
+			double DistanceToTarget = 0; if (target != null) {DistanceToTarget = chainedGod.distanceTo(target);}
+			return  chainedGod.isHealthMatchToShootFireballs() && target != null && target.isAlive() && chainedGod.canAttack(target) && DistanceToTarget < 16;
+		}
+
+		@Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ)
+		{
+			RandomSource rand = this.getParentEntity().getRandom(); double halfDistanceToTarget = this.getParentEntity().distanceTo(this.getParentEntity().getTarget()) / 2;
+			return new ChainedGodFireballEntity(level, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget);
+		}
+
+		@Override public int getShootTimeInterval() {return 50 - ((ChainedGodEntity)this.getParentEntity()).getDifficulty() * 2;}
+		@Override public int getShootDelay() {return 0;}
+		@Override public boolean doesShootTimeDecreaseWhenTargetOutOfSight() {return false;}
+		@Override public double getYProjectileOffset() {return 0.5D;}
+		@Override protected void setAttacking(boolean bool) {}
+		@Override public SoundEvent getShootSound() {return null;}
+		@Override public int getProjectileNumber() {return 3;}
+		@Override public int getShootInvervalWithinBurst() {return 4;}
 	}
 	
 	public static class ChainedGodLeapAtTargetGoal extends ActiveLeapAtTargetGoal
