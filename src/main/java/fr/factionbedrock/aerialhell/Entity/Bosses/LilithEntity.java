@@ -2,15 +2,10 @@ package fr.factionbedrock.aerialhell.Entity.Bosses;
 
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import fr.factionbedrock.aerialhell.Block.*;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveNearestAttackableTargetGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveMeleeAttackGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.GhastLikeGoals;
+import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ShadowFlyingSkullEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ShadowProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
@@ -32,7 +27,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -41,7 +35,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.core.BlockPos;
@@ -55,7 +48,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class LilithEntity extends AbstractBossEntity
 {
-	public int flyingSkullsTimer;
 	public int attackTimer;
 	
 	private static final EntityDataAccessor<Boolean> IS_TRANSFORMING = SynchedEntityData.defineId(LilithEntity.class, EntityDataSerializers.BOOLEAN);
@@ -78,7 +70,7 @@ public class LilithEntity extends AbstractBossEntity
 		this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, Player.class, true));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(3, new LilithMeleeAttackGoal(this, 1.25D, false));
-		this.goalSelector.addGoal(2, new LilithShadowFlyingSkullAttackGoal(this));
+		this.goalSelector.addGoal(2, new LilithSummonShadowFlyingSkullGoal(this));
 		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(5, new LilithWaterAvoidingRandomWalkingGoal(this, 0.6D));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
@@ -218,7 +210,6 @@ public class LilithEntity extends AbstractBossEntity
 		        }
 	        }
 		}
-		if (this.flyingSkullsTimer < this.getFlyingSkullsTimerTargetValue()) {this.flyingSkullsTimer++;}
 		super.tick();
     }
 
@@ -442,21 +433,6 @@ public class LilithEntity extends AbstractBossEntity
 		}
 		return AerialHellBlocksAndItems.SHADOW_CATACOMBS_BRICKS.get().defaultBlockState();
 	}
-
-	public int getFlyingSkullsTimerTargetValue()
-	{
-		int difficulty = this.getDifficulty();
-		return switch (difficulty)
-		{
-			default-> 300; //never happens theorically. 0 is when there is no player nearby
-			case 1 -> 250;
-			case 2 -> 200;
-			case 3 -> 160;
-			case 4 -> 130;
-			case 5 -> 105;
-			case 6 -> 90;
-		};
-	}
 	
 	@Override public void aiStep()
     {
@@ -523,10 +499,8 @@ public class LilithEntity extends AbstractBossEntity
 	
 	/* Lilith Goals */
 
-	public boolean isHealthMatchToShootShadowProjectile()
-	{
-		return this.getHealth() * 2 < this.getMaxHealth();
-	}
+	public boolean isHealthMatchToShootShadowProjectile() {return this.getHealth() * 2 < this.getMaxHealth();}
+	public boolean isHealthMatchToSummonFlyingSkulls() {return  this.getMaxHealth() > (2.5 - this.getDifficulty() / 6.0) * this.getHealth();}
 
 	public static class ShadowProjectileAttackGoal extends GhastLikeGoals.ShootProjectileGoal
 	{
@@ -573,43 +547,36 @@ public class LilithEntity extends AbstractBossEntity
 		@Override public boolean canContinueToUse() {return !((LilithEntity) this.activableGoalOwner).isTransforming() && super.canContinueToUse();}
 	}
 
-	public static class LilithShadowFlyingSkullAttackGoal extends Goal
+	public static class LilithSummonShadowFlyingSkullGoal extends SummonThreeEntitiesGoal
 	{
-		private final LilithEntity goalOwner;
-		public LilithShadowFlyingSkullAttackGoal(LilithEntity entity) {this.goalOwner = entity;}
-		private static final List<Vec3> spawnMotionVec3s = ImmutableList.of(new Vec3(0.5D, 0.2D, 0.0D), new Vec3(-0.2500001125833550D, 0.2D, 0.4333882291756956D), new Vec3(-0.250000112583355D, 0.2D, -0.4333882291756956D));
+		public LilithSummonShadowFlyingSkullGoal(LilithEntity entity) {super(entity, 0.2D);}
+
+		public LilithEntity getLilithGoalOwner() {return (LilithEntity) this.getGoalOwner();}
 
 		@Override public boolean canUse()
 		{
-			float ownerDifficulty = (float) goalOwner.getDifficulty();
-			boolean isHealthLowEnough = this.goalOwner.getMaxHealth() > (2.5 - ownerDifficulty / 6.0) * this.goalOwner.getHealth();
-			return this.goalOwner.flyingSkullsTimer >= this.goalOwner.getFlyingSkullsTimerTargetValue() && isHealthLowEnough && this.goalOwner.isActive() && this.goalOwner.getTarget() != null;
+			LilithEntity lilith = this.getLilithGoalOwner();
+			return super.canUse() && lilith.isHealthMatchToSummonFlyingSkulls() && lilith.isActive();
 		}
 
-		@Override
-		public void tick()
+		@Override public Entity createEntitiy(Level level)
 		{
-			for (Vec3 vector : spawnMotionVec3s)
-			{
-				ShadowFlyingSkullEntity skull = AerialHellEntities.SHADOW_FLYING_SKULL.get().create(this.goalOwner.level());
-				skull.setPos(this.goalOwner.getX(), this.goalOwner.getY(), this.goalOwner.getZ()); skull.setDeltaMovement(vector);
-				this.goalOwner.level().addFreshEntity(skull);
-			}
-			this.playParticleAndSoundEffect();
-			this.goalOwner.flyingSkullsTimer = 0;
+			return AerialHellEntities.SHADOW_FLYING_SKULL.get().create(this.getGoalOwner().level());
 		}
 
-		private void playParticleAndSoundEffect()
+		@Override protected int getSummonTimerTargetValue()
 		{
-			if (this.goalOwner.level().isClientSide())
+			int difficulty = this.getLilithGoalOwner().getDifficulty();
+			return switch (difficulty)
 			{
-				for(int i = 0; i < 30; ++i)
-				{
-					double d0 = this.goalOwner.level().random.nextGaussian() * 0.02D; double d1 = this.goalOwner.level().random.nextGaussian() * 0.02D; double d2 = this.goalOwner.level().random.nextGaussian() * 0.02D;
-					this.goalOwner.level().addParticle(ParticleTypes.LARGE_SMOKE, this.goalOwner.getRandomX(1.0D) - d0 * 10.0D, this.goalOwner.getRandomY() - d1 * 10.0D, this.goalOwner.getRandomZ(1.0D) - d2 * 10.0D, 0.25 * (goalOwner.level().random.nextFloat() - 0.5), 0.3D, 0.25 * (goalOwner.level().random.nextFloat() - 0.5));
-				}
-			}
-			this.goalOwner.playSound(SoundEvents.EVOKER_PREPARE_SUMMON, 1.5F, 0.95F + goalOwner.level().random.nextFloat() * 0.1F);
+				default-> 180; //never happens theorically. 0 is when there is no player nearby
+				case 1 -> 130;
+				case 2 -> 115;
+				case 3 -> 100;
+				case 4 -> 80;
+				case 5 -> 60;
+				case 6 -> 50;
+			};
 		}
 	}
 }

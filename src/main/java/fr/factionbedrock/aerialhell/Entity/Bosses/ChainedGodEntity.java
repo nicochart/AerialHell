@@ -8,7 +8,6 @@ import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ChainedGodFireballEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
@@ -314,7 +313,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	/* Chained God Goals */
 
-	public static class ChainedGodFireballAttackGoal extends GhastLikeGoals.ShootSimultaneousProjectileGoal
+	public static class ChainedGodFireballAttackGoal extends GhastLikeGoals.ShootProjectileFlurryGoal
 	{
 		public ChainedGodFireballAttackGoal(ChainedGodEntity entity) {super(entity);}
 

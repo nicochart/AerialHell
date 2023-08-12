@@ -2,11 +2,12 @@ package fr.factionbedrock.aerialhell.Entity.Bosses;
 
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -19,7 +20,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -40,6 +40,7 @@ public class MudCycleMageEntity extends AbstractBossEntity
 		this.goalSelector.addGoal(2, new RestrictSunGoal(this));
 	    this.goalSelector.addGoal(3, new FleeSunGoal(this, 1.0D));
 	    this.goalSelector.addGoal(3, new ActiveMeleeAttackGoal(this, 1.25D, false));
+	    this.goalSelector.addGoal(3, new SummonSpectralEntitiesGoal(this));
 	    this.goalSelector.addGoal(5, new ActiveWaterAvoidingRandomWalkingGoal(this, 1.0D));
 	    this.goalSelector.addGoal(6, new ActiveLookAtPlayerGoal(this, Player.class, 8.0F));
 	    this.goalSelector.addGoal(6, new ActiveRandomLookAroundGoal(this));
@@ -58,105 +59,59 @@ public class MudCycleMageEntity extends AbstractBossEntity
 				.add(Attributes.ATTACK_DAMAGE, 3.0D);
     }
 	
-	@Override
-	public boolean hurt(DamageSource source, float amount)
+	@Override public boolean hurt(DamageSource source, float amount)
 	{
 		boolean flag = super.hurt(source, amount);
 		if (flag) {this.damageAmountSinceLastSummon += amount;}
 		return flag;
 	}
-	
-	@Override
-	public void tick()
+
+	public boolean isHealthLowEnoughToSummonGolems() {return this.getHealth() * 2 < this.getMaxHealth();}
+
+	public boolean isDamageAmountSinceLastSummonSufficentToTriggerSummon() {return this.damageAmountSinceLastSummon > 85 - 4 * this.getDifficulty();}
+
+	public void resetDamageAmountSinceLastSummon() {this.damageAmountSinceLastSummon = 0;}
+
+	@Override public void tick()
 	{		
 		super.tick();
-		if (this.isActive() && (this.tickCount % 600 == 0 || this.damageAmountSinceLastSummon > 65))
+	}
+
+	public static class SummonSpectralEntitiesGoal extends SummonThreeEntitiesGoal
+	{
+		public SummonSpectralEntitiesGoal(MudCycleMageEntity entity) {super(entity, 0.0D);}
+
+		public MudCycleMageEntity getMageGoalOwner() {return (MudCycleMageEntity) this.getGoalOwner();}
+
+		@Override public boolean canUse() {return super.canUse() && this.getMageGoalOwner().isActive();}
+
+		@Override public Entity createEntitiy(Level level)
 		{
-			this.damageAmountSinceLastSummon = 0;
-			if (this.getHealth() < this.getMaxHealth() / 2)
-			{
-				this.summonSpectralSoldiersAndGolems();
-			}
+			if (!this.getMageGoalOwner().isHealthLowEnoughToSummonGolems()) {return createMudSpectralSoldier();}
 			else
 			{
-				this.summonSpectralSoldiers();
+				return (this.getGoalOwner().getRandom().nextInt(2) == 0) ? createMudSpectralSoldier() : createMudSpectralGolem();
 			}
-			if (this.level().isClientSide())
-			{
-				this.spawnSmokeParticle();
-			}
-			this.playSound(SoundEvents.EVOKER_PREPARE_SUMMON, 1.5F, 0.95F + random.nextFloat() * 0.1F);
 		}
-	}
-	
-	private void summonSpectralSoldiers()
-	{		
-		double x,y,z;
-		x = this.getX(); y = this.getY(); z = this.getZ();
-		
-		MudSpectralSoldierEntity spectralSoldier1 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level());
-		MudSpectralSoldierEntity spectralSoldier2 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level());
-		MudSpectralSoldierEntity spectralSoldier3 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level());
-		spectralSoldier1.setPos(x, y, z);
-		spectralSoldier2.setPos(x, y, z);
-		spectralSoldier3.setPos(x, y, z);
-		spectralSoldier1.setDeltaMovement(0.5, 0, 0);//(1, 0, 0);
-		spectralSoldier2.setDeltaMovement(-0.250000112583355, 0, 0.4333882291756956);//(-0.50000022516671, 0, 0.8667764583513912);
-		spectralSoldier3.setDeltaMovement(-0.250000112583355, 0, -0.4333882291756956);//(-0.50000022516671, 0, -0.8667764583513912);
-		spectralSoldier1.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
-		spectralSoldier2.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
-		spectralSoldier3.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
-		spectralSoldier1.reassessWeaponGoal();
-		spectralSoldier2.reassessWeaponGoal();
-		spectralSoldier3.reassessWeaponGoal();
-		
-		this.level().addFreshEntity(spectralSoldier1);
-		this.level().addFreshEntity(spectralSoldier2);
-		this.level().addFreshEntity(spectralSoldier3);
-	}
-	
-	private void summonSpectralSoldiersAndGolems()
-	{		
-		double x,y,z;
-		x = this.getX(); y = this.getY(); z = this.getZ();
-		
-		LivingEntity spectralEntity1;
-		LivingEntity spectralEntity2;
-		LivingEntity spectralEntity3;
-		
-		if (random.nextInt(2) == 0)
+
+		protected MudSpectralSoldierEntity createMudSpectralSoldier()
 		{
-			spectralEntity1 = AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.level());
-			spectralEntity2 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level());
-			spectralEntity3 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level());
+			MudSpectralSoldierEntity entity = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.getGoalOwner().level());
+			entity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+			entity.reassessWeaponGoal();
+			return entity;
 		}
-		else
+
+		protected MudSpectralGolemEntity createMudSpectralGolem()
 		{
-			spectralEntity1 = AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.level());
-			spectralEntity2 = AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.level());
-			spectralEntity3 = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.level());
+			return AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.getGoalOwner().level());
 		}
-		spectralEntity1.setPos(x, y, z);
-		spectralEntity2.setPos(x, y, z);
-		spectralEntity3.setPos(x, y, z);
-		spectralEntity1.setDeltaMovement(0.5, 0, 0);//(1, 0, 0);
-		spectralEntity2.setDeltaMovement(-0.250000112583355, 0, 0.4333882291756956);//(-0.50000022516671, 0, 0.8667764583513912);
-		spectralEntity3.setDeltaMovement(-0.250000112583355, 0, -0.4333882291756956);//(-0.50000022516671, 0, -0.8667764583513912);
-		
-		this.level().addFreshEntity(spectralEntity1);
-		this.level().addFreshEntity(spectralEntity2);
-		this.level().addFreshEntity(spectralEntity3);
-	}
-	
-	public void spawnSmokeParticle()
-	{
-		for(int i = 0; i < 30; ++i)
-        {
-        	double d0 = this.random.nextGaussian() * 0.02D;
-        	double d1 = this.random.nextGaussian() * 0.02D;
-        	double d2 = this.random.nextGaussian() * 0.02D;
-        	this.level().addParticle(ParticleTypes.LARGE_SMOKE, this.getRandomX(1.0D) - d0 * 10.0D, this.getRandomY() - d1 * 10.0D, this.getRandomZ(1.0D) - d2 * 10.0D, 0.25 * (random.nextFloat() - 0.5), 0.3D, 0.25 * (random.nextFloat() - 0.5));
-        }
+
+		@Override protected int getSummonTimerTargetValue() {return 200;}
+
+		@Override protected void resetTask() {super.resetTask(); this.getMageGoalOwner().resetDamageAmountSinceLastSummon();}
+
+		@Override protected boolean customSummonConditionMet() {return this.getMageGoalOwner().isDamageAmountSinceLastSummonSufficentToTriggerSummon();}
 	}
 	
 	@Override protected SoundEvent getAmbientSound() {return SoundEvents.WITHER_SKELETON_AMBIENT;}

@@ -127,10 +127,8 @@ public class GhastLikeGoals
         public Mob getParentEntity() {return parentEntity;}
 
         @Override public boolean canUse() {return parentEntity.getTarget() != null;}
-        @Override public void start() {
-            resetTask();}
-        @Override public void stop() {
-            resetTask(); this.setAttacking(false);}
+        @Override public void start() {resetTask();}
+        @Override public void stop() {resetTask(); this.setAttacking(false);}
 
         @Override public void tick()
         {
@@ -188,10 +186,11 @@ public class GhastLikeGoals
         @Nullable public abstract SoundEvent getShootSound();
     }
 
-    public abstract static class ShootSimultaneousProjectileGoal extends ShootProjectileGoal
+    /* Same as previous one (ShootProjectileGoal) but shoots a flurry of projectile, like a blaze, instead of only one projectile */
+    public abstract static class ShootProjectileFlurryGoal extends ShootProjectileGoal
     {
         private int shotProjectileCount;
-        public ShootSimultaneousProjectileGoal(Mob mob) {super(mob);}
+        public ShootProjectileFlurryGoal(Mob mob) {super(mob);}
 
         @Override public void start() {super.start(); this.shotProjectileCount = 0;}
         @Override public void stop() {super.stop(); this.shotProjectileCount = 0;}
@@ -210,7 +209,7 @@ public class GhastLikeGoals
             return false;
         }
 
-        public abstract int getProjectileNumber(); //number of projectiles to shoot
-        public abstract int getShootInvervalWithinBurst(); //time gap between two projectiles of the same burst
+        public abstract int getProjectileNumber(); //number of projectiles in one flurry
+        public abstract int getShootInvervalWithinBurst(); //time gap between two projectiles of the same flurry
     }
 }
