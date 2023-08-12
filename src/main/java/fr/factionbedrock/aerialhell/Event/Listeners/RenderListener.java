@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -36,17 +37,17 @@ public class RenderListener
     private static final int HEART_ICON_HEIGHT = 9;
 
     @OnlyIn(Dist.CLIENT) @SubscribeEvent
-    public static void onRenderOverlayPost(RenderGuiOverlayEvent.Post event) //TODO : fix the render
+    public static void onRenderOverlayPost(RenderGuiOverlayEvent.Post event)
     {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
         if (player != null && EntityHelper.isLivingEntityVulnerable(player))
         {
-            if (event.getOverlay().id() == VanillaGuiOverlay.VIGNETTE.id() && mc.options.getCameraType().isFirstPerson())
+            if (event.getOverlay().id() == VanillaGuiOverlay.FROSTBITE.id() && mc.options.getCameraType().isFirstPerson())
             {
                 float alpha = Math.min(20, player.getEffect(AerialHellMobEffects.VULNERABILITY.get()).getDuration()) / 20.0F;
-                renderTextureOverlay(mc, VULNERABLE_OVERLAY, alpha);
+                renderTextureOverlay(event.getGuiGraphics(), VULNERABLE_OVERLAY, alpha);
             }
         }
     }
@@ -71,26 +72,15 @@ public class RenderListener
     }*/
 
     //Copy of Gui.renderTextureOverlay
-    @OnlyIn(Dist.CLIENT) public static void renderTextureOverlay(Minecraft mc, ResourceLocation textureLocation, float alpha)
+    @OnlyIn(Dist.CLIENT) public static void renderTextureOverlay(GuiGraphics graphics, ResourceLocation textureLocation, float alpha)
     {
-        int screenHeight = mc.getWindow().getScreenHeight(), screenWidth = mc.getWindow().getScreenWidth();
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
-        RenderSystem.setShaderTexture(0, textureLocation);
-        Tesselator tesselator = Tesselator.getInstance();
-        BufferBuilder bufferbuilder = tesselator.getBuilder();
-        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        bufferbuilder.vertex(0.0D, screenHeight, -90.0D).uv(0.0F, 1.0F).endVertex();
-        bufferbuilder.vertex(screenWidth, screenHeight, -90.0D).uv(1.0F, 1.0F).endVertex();
-        bufferbuilder.vertex(screenWidth, 0.0D, -90.0D).uv(1.0F, 0.0F).endVertex();
-        bufferbuilder.vertex(0.0D, 0.0D, -90.0D).uv(0.0F, 0.0F).endVertex();
-        tesselator.end();
+        graphics.setColor(1.0F, 1.0F, 1.0F, alpha);
+        graphics.blit(textureLocation, 0, 0, -90, 0.0F, 0.0F, graphics.guiWidth(), graphics.guiHeight(), graphics.guiWidth(), graphics.guiHeight());
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     /*@OnlyIn(Dist.CLIENT)
