@@ -9,8 +9,10 @@ import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveNearestAttackableTargetGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveMeleeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLikeGoals;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShadowFlyingSkullEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ShadowProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
@@ -25,6 +27,7 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -524,48 +527,38 @@ public class LilithEntity extends AbstractBossEntity
 	
 	/* Lilith Goals */
 
-	static class ShadowProjectileAttackGoal extends Goal
+	public boolean isHealthMatchToShootShadowProjectile()
 	{
-		private final LilithEntity entity;
-		private int projectileCount;
+		return this.getHealth() * 2 < this.getMaxHealth();
+	}
 
-		public ShadowProjectileAttackGoal(LilithEntity entityIn)
+	public static class ShadowProjectileAttackGoal extends GhastLikeGoals.ShootProjectileGoal
+	{
+		public ShadowProjectileAttackGoal(LilithEntity entity) {super(entity);}
+
+		@Override public boolean canUse()
 		{
-			this.entity = entityIn;
-			this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+			LilithEntity lilith = (LilithEntity)this.getParentEntity();
+			if (!lilith.isActive()) {return false;}
+			LivingEntity target = lilith.getTarget();
+			return super.canUse() && lilith.isHealthMatchToShootShadowProjectile() && target.isAlive() && lilith.canAttack(target);
 		}
 
-		public boolean canUse()
+		@Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ)
 		{
-			if (!this.entity.isActive()) {return false;}
-			LivingEntity target = this.entity.getTarget();
-			return target != null && entity.getHealth() * 2 < entity.getMaxHealth() && entity.hasLineOfSight(target) && entity.shadowProjectileTimer == 0 && target.isAlive() && this.entity.canAttack(target);
+			return new ShadowProjectileEntity(level, shooter, accX, accY, accZ, 0.25f + shooter.getRandom().nextFloat(), 0.0f);
 		}
 
-		public void start() {this.projectileCount = 0;}
-
-		public void stop() {this.projectileCount = 0;}
-
-		public void tick()
+		@Override public int getShootTimeInterval()
 		{
-			LivingEntity target = this.entity.getTarget();
-
-			double Xdistance = target.getX() - this.entity.getX();
-			double Ydistance = target.getY(0.5D) - this.entity.getY(0.5D);
-			double Zdistance = target.getZ() - this.entity.getZ();
-
-			float inaccuracy = 0.0f;
-
-			if (projectileCount < 1)
-			{
-				++this.projectileCount;
-				ShadowProjectileEntity projectile = new ShadowProjectileEntity(this.entity.level(), this.entity, Xdistance, Ydistance, Zdistance, 0.25f + this.entity.random.nextFloat(), inaccuracy);
-				projectile.setPos(projectile.getX(), this.entity.getY(0.5D) + 0.5D, projectile.getZ());
-				this.entity.level().addFreshEntity(projectile);
-			}
-			entity.shadowProjectileTimer = 180 + (int) (entity.random.nextFloat() * 80);
-			super.tick();
+			return 90 + (int) (this.getParentEntity().getRandom().nextFloat() * 40);
 		}
+
+		@Override public int getShootDelay() {return 0;}
+		@Override public boolean doesShootTimeDecreaseWhenTargetOutOfSight() {return false;}
+		@Override public double getYProjectileOffset() {return 0.5D;}
+		@Override protected void setAttacking(boolean bool) {}
+		@Override public SoundEvent getShootSound() {return null;}
 	}
 
 	public static class LilithMeleeAttackGoal extends ActiveMeleeAttackGoal

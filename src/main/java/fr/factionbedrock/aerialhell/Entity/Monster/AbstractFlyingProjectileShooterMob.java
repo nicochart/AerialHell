@@ -9,7 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.FlyingMob;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 
 public abstract class AbstractFlyingProjectileShooterMob extends FlyingMob implements Enemy
@@ -22,7 +22,7 @@ public abstract class AbstractFlyingProjectileShooterMob extends FlyingMob imple
 	{
 		this.goalSelector.addGoal(5, new GhastLikeGoals.RandomFlyGoal(this));
 		this.goalSelector.addGoal(7, new GhastLikeGoals.LookAroundGoal(this));
-		this.goalSelector.addGoal(7, new GhastLikeGoals.ShootProjectileGoal(this));
+		this.goalSelector.addGoal(7, new AbstractFlyingProjectileShooterMob.ShootProjectileGoal(this));
 		//no target defined here
 	}
 
@@ -44,6 +44,19 @@ public abstract class AbstractFlyingProjectileShooterMob extends FlyingMob imple
 		if (this.getY() < 0 || this.getY() > 272) {this.discard();}
 	}
 
-	public abstract AbstractHurtingProjectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ, int explosionPower);
+	public abstract Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ);
 	public abstract SoundEvent getShootSound();
+
+	public static class ShootProjectileGoal extends GhastLikeGoals.ShootProjectileGoal
+	{
+		public ShootProjectileGoal(AbstractFlyingProjectileShooterMob flyingMob) {super(flyingMob);}
+
+		@Override public double getYProjectileOffset() {return 0;}
+		@Override public int getShootDelay() {return 10;}
+		@Override public int getShootTimeInterval() {return 50;}
+		@Override public boolean doesShootTimeDecreaseWhenTargetOutOfSight() {return true;}
+		@Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ) {return ((AbstractFlyingProjectileShooterMob)getParentEntity()).createProjectile(level, shooter, accX, accY, accZ);}
+		@Override protected void setAttacking(boolean bool) {((AbstractFlyingProjectileShooterMob)getParentEntity()).setAttacking(bool);}
+		@Override public SoundEvent getShootSound() {return ((AbstractFlyingProjectileShooterMob)getParentEntity()).getShootSound();}
+	}
 }

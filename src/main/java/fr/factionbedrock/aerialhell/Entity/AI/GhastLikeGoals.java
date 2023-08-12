@@ -1,18 +1,18 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.AbstractFlyingProjectileShooterMob;
-import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nullable;
 import java.util.EnumSet;
 
 public class GhastLikeGoals
@@ -116,44 +116,63 @@ public class GhastLikeGoals
         }
     }
 
-    /* Same as net.minecraft.world.entity.monster.Ghast.GhastShootFireballGoal but changed Ghast to AbstractFlyingProjectileShooterMob */
-    public static class ShootProjectileGoal extends Goal
+    /* Same as net.minecraft.world.entity.monster.Ghast.GhastShootFireballGoal but changed Ghast to Mob, and edited a bit to generalize */
+    public abstract static class ShootProjectileGoal extends Goal
     {
-        private final AbstractFlyingProjectileShooterMob parentEntity;
+        private final Mob parentEntity;
         public int attackTimer;
 
-        public ShootProjectileGoal(AbstractFlyingProjectileShooterMob flyingMob) {this.parentEntity = flyingMob;}
+        public ShootProjectileGoal(Mob flyingMob) {this.parentEntity = flyingMob;}
+
+        public Mob getParentEntity() {return parentEntity;}
 
         @Override public boolean canUse() {return parentEntity.getTarget() != null;}
-        @Override public void start() {this.attackTimer = 0;}
-        @Override public void stop() {this.parentEntity.setAttacking(false);}
+        @Override public void start() {resetAttackTimer();}
+        @Override public void stop() {resetAttackTimer(); this.setAttacking(false);}
 
         @Override public void tick()
         {
             LivingEntity target = parentEntity.getTarget();
             if (target.distanceToSqr(this.parentEntity) < 64*64 && this.parentEntity.hasLineOfSight(target))
             {
-                Level world = this.parentEntity.level();
                 ++this.attackTimer;
-                if (this.attackTimer == 10)
+                Level level = this.parentEntity.level();
+                if (this.attackTimer == 0 && this.getShootSound() != null) //if it's time to play shoot sound
                 {
-                    this.parentEntity.playSound(this.parentEntity.getShootSound(), 3.0F, (world.random.nextFloat() - world.random.nextFloat()) * 0.2F + 1.0F);
+                    this.parentEntity.playSound(this.getShootSound(), 3.0F, (level.random.nextFloat() - level.random.nextFloat()) * 0.2F + 1.0F);
                 }
-                else if (this.attackTimer == 20)
+                if (this.attackTimer >= this.getShootDelay()) //if it's time to actually shoot. (== is exact time to shoot, > is never supposed to happen, but we never know)
                 {
-                    double Xdistance = target.getX() - (this.parentEntity.getX());
-                    double Ydistance = target.getY(0.5)  -  this.parentEntity.getY(0.5);
-                    double Zdistance = target.getZ() - (this.parentEntity.getZ());
-                    this.parentEntity.playSound(SoundEvents.SHULKER_SHOOT, 1.2F, (world.random.nextFloat() - world.random.nextFloat()) * 0.2F + 2.0F);
-                    AbstractHurtingProjectile projectile = this.parentEntity.createProjectile(world, this.parentEntity, Xdistance, Ydistance, Zdistance, 0);
-                    projectile.setPos(this.parentEntity.getX(), this.parentEntity.getY(0.5), this.parentEntity.getZ());
-                    world.addFreshEntity(projectile);
-                    this.attackTimer = -40;
+                    level.addFreshEntity(createProjectile(target));
+                    this.resetAttackTimer();
                 }
             }
-            else if (this.attackTimer > 0) {this.attackTimer--;}
+            else if (this.doesShootTimeDecreaseWhenTargetOutOfSight() && this.attackTimer > - this.getShootTimeInterval()) {this.attackTimer--;}
 
-            this.parentEntity.setAttacking(attackTimer > 12);
+            this.setAttacking(attackTimer > 0);
         }
+
+        private void resetAttackTimer()
+        {
+            this.attackTimer = - this.getShootTimeInterval();
+        }
+
+        public Projectile createProjectile(LivingEntity target)
+        {
+            double Xdistance = target.getX() - (this.parentEntity.getX());
+            double Ydistance = target.getY(0.5)  -  this.parentEntity.getY(0.5);
+            double Zdistance = target.getZ() - (this.parentEntity.getZ());
+            Projectile projectile = this.createProjectile(this.parentEntity.level(), this.parentEntity, Xdistance, Ydistance, Zdistance);
+            projectile.setPos(this.parentEntity.getX(), this.parentEntity.getY(0.5) + this.getYProjectileOffset(), this.parentEntity.getZ());
+            return projectile;
+        }
+
+        public abstract double getYProjectileOffset();
+        public abstract int getShootDelay(); //(tick) actual moment for the projectile to spawn. The sound is played at 0 and projectile sent at this time
+        public abstract int getShootTimeInterval(); //time gap between two shots
+        public abstract boolean doesShootTimeDecreaseWhenTargetOutOfSight(); //usually true if shoot delay != 0, can be false if shoot delay == 0
+        public abstract Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ);
+        protected abstract void setAttacking(boolean bool);
+        @Nullable public abstract SoundEvent getShootSound();
     }
 }

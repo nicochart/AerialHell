@@ -1,16 +1,12 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
-import java.util.EnumSet;
-import java.util.Random;
-
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -18,7 +14,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +28,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -41,7 +35,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class LunaticPriestEntity extends AbstractBossEntity
 {
 	public int attackTimer;
-	private int lunaticProjectileTimer;
 	
 	public static final EntityDataAccessor<Boolean> SECOND_PHASE = SynchedEntityData.defineId(LunaticPriestEntity.class, EntityDataSerializers.BOOLEAN);
 	
@@ -51,7 +44,6 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		if (this.getHealth() >= getMaxHealthForPhase2()) {this.updateToPhase1();}
 		else {this.updateToPhase2();}
 		this.attackTimer = 0;
-		this.lunaticProjectileTimer = 80;
 		bossInfo.setColor(BossEvent.BossBarColor.YELLOW);
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 	}
@@ -198,7 +190,6 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	@Override public void aiStep()
     {
 		if (this.attackTimer > 0) {this.attackTimer--;}
-		if (this.lunaticProjectileTimer > 0) {this.lunaticProjectileTimer--;} else if (this.lunaticProjectileTimer < 0) {this.lunaticProjectileTimer++;}
 		super.aiStep();
     }
 	
@@ -259,6 +250,8 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		if (isInPhase1() && isActive()) {return false;}
 		else {return super.onClimbable();}
 	}
+
+	public float getShootVelocityInaccuracy() {return this.isInPhase1() ? 0.0f : 0.3f;}
 	
 	/*
 	 * Goals
@@ -275,57 +268,35 @@ public class LunaticPriestEntity extends AbstractBossEntity
 			else {return super.canUse();}
 		}
 	}
-	
-	static class LunaticProjectileAttackGoal extends Goal
+
+	public static class LunaticProjectileAttackGoal extends GhastLikeGoals.ShootProjectileGoal
 	{
-		private final LunaticPriestEntity priest;
-	    private int projectileCount;
+		public LunaticProjectileAttackGoal(LunaticPriestEntity entity) {super(entity);}
 
-	    public LunaticProjectileAttackGoal(LunaticPriestEntity priestIn)
-	    {
-	    	this.priest = priestIn;
-	        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
-	    }
+		@Override public boolean canUse()
+		{
+			LunaticPriestEntity priest = (LunaticPriestEntity)this.getParentEntity();
+			if (!priest.isActive()) {return false;}
+			LivingEntity target = priest.getTarget();
+			return super.canUse() && priest.hasLineOfSight(target) && target.isAlive() && priest.canAttack(target);
+		}
 
-	    public boolean canUse()
-	    {
-	    	if (!this.priest.isActive()) {return false;}
-	    	LivingEntity target = this.priest.getTarget();
-	        return target != null && priest.hasLineOfSight(target) && priest.lunaticProjectileTimer == 0 && target.isAlive() && this.priest.canAttack(target);
-	    }
-	    
-	    public void start() {this.projectileCount = 0;}
-	    
-	    public void stop() {this.projectileCount = 0;}
+		@Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ)
+		{
+			return new LunaticProjectileEntity(level, shooter, accX, accY, accZ, 0.7f + shooter.getRandom().nextFloat(), ((LunaticPriestEntity)this.getParentEntity()).getShootVelocityInaccuracy());
+		}
 
-	    public void tick()
-	    {
-	    	LivingEntity target = this.priest.getTarget();
-	    	
-	    	double Xdistance = target.getX() - this.priest.getX();
-            double Ydistance = target.getY(0.5D) - this.priest.getY(0.5D);
-            double Zdistance = target.getZ() - this.priest.getZ();
-            
-            float inaccuracy = 0.0f;
-            if (priest.isInPhase2()) {inaccuracy = 0.3f;}
-            
-	        if (projectileCount < 1)
-	        {
-	        	 ++this.projectileCount;
-	        	 LunaticProjectileEntity lunaticProjectileEntity = new LunaticProjectileEntity(this.priest.level(), this.priest, Xdistance, Ydistance, Zdistance, 0.7f + this.priest.random.nextFloat(), inaccuracy);
-                 lunaticProjectileEntity.setPos(lunaticProjectileEntity.getX(), this.priest.getY(0.5D) + 0.5D, lunaticProjectileEntity.getZ());
-                 this.priest.level().addFreshEntity(lunaticProjectileEntity);
-	        }
-	        if (priest.isInPhase1())
-	        {
-	        	priest.lunaticProjectileTimer = 35 + (int) (priest.random.nextFloat() * 20);
-	        }
-	        else
-	        {
-	        	priest.lunaticProjectileTimer = 30 + (int) (priest.random.nextFloat() * 10);
-	        }
-	        super.tick();
-	    }
+		@Override public int getShootTimeInterval()
+		{
+			LunaticPriestEntity priest = ((LunaticPriestEntity)this.getParentEntity());
+			return priest.isInPhase1() ? 19 + (int) (priest.random.nextFloat() * 15) : 14 + (int) (priest.random.nextFloat() * 7);
+		}
+
+		@Override public int getShootDelay() {return 0;}
+		@Override public boolean doesShootTimeDecreaseWhenTargetOutOfSight() {return false;}
+		@Override public double getYProjectileOffset() {return 0.5D;}
+		@Override protected void setAttacking(boolean bool) {}
+		@Override public SoundEvent getShootSound() {return null;}
 	}
 	
 	public static class PriestLookRandomlyGoal extends ActiveRandomLookAroundGoal

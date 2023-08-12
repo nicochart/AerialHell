@@ -12,7 +12,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
 
@@ -26,7 +26,7 @@ public class FlyingJellyfishEntity extends AbstractFlyingProjectileShooterMob
 
 	public FlyingJellyfishEntity(Level worldIn) {this(AerialHellEntities.FLYING_JELLYFISH.get(), worldIn);}
 
-	@Override public AbstractHurtingProjectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ, int explosionPower) {return new PoisonballEntity(level, shooter, accX, accY, accZ);}
+	@Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ) {return new PoisonballEntity(level, shooter, accX, accY, accZ);}
 	@Override public SoundEvent getShootSound() {return this.getAmbientSound();}
 
 	@Override protected void registerGoals()
