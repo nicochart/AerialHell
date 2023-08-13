@@ -1,14 +1,15 @@
 package fr.factionbedrock.aerialhell.Entity;
 
-import java.util.Random;
-
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.Level;
@@ -19,7 +20,19 @@ public abstract class AerialHellAnimalEntity extends Animal
 	{
 		super(type, worldIn);
 	}
-	
+
+	@Override protected void registerGoals()
+	{
+		this.goalSelector.addGoal(0, new FloatGoal(this));
+		this.goalSelector.addGoal(1, new PanicGoal(this, 1.25));
+		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0));
+		this.goalSelector.addGoal(3, new TemptGoal(this, 1.1, Ingredient.of(AerialHellBlocksAndItems.AERIAL_BERRY.get()), false));
+		this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1));
+		this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0));
+		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
+		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
+	}
+
 	@Override
 	public float getWalkTargetValue(BlockPos pos, LevelReader worldIn)
 	{

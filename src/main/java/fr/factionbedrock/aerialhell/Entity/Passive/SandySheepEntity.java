@@ -15,11 +15,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -48,24 +45,10 @@ public class SandySheepEntity extends AerialHellAnimalEntity
         this.shearedTimer = 200;
     }
 
-    @Override
-    protected void defineSynchedData()
+    @Override protected void defineSynchedData()
     {
         super.defineSynchedData();
         this.entityData.define(SHEARED, false);
-    }
-
-    @Override
-    protected void registerGoals()
-    {
-        this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new PanicGoal(this, 1.25));
-        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.1, Ingredient.of(AerialHellBlocksAndItems.AERIAL_BERRY.get()), false));
-        this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1));
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0));
-        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
-        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
     }
 
     public static AttributeSupplier.Builder registerAttributes()
@@ -75,63 +58,36 @@ public class SandySheepEntity extends AerialHellAnimalEntity
                 .add(Attributes.MOVEMENT_SPEED, 0.26);
     }
 
-    @Nullable
-    @Override
-    public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob mob)
+    @Nullable @Override public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob mob)
     {
         return AerialHellEntities.SANDY_SHEEP.get().create(this.level());
     }
     
-    public boolean hasWool()
-    {
-    	return !this.entityData.get(SHEARED);
-    }
-    
-    public void setWool(boolean flag)
-    {
-        this.entityData.set(SHEARED, !flag);
-    }
+    public boolean hasWool() {return !this.entityData.get(SHEARED);}
+    public void setWool(boolean flag) {this.entityData.set(SHEARED, !flag);}
 
-    @Override
-    protected SoundEvent getAmbientSound()
-    {
-        return AerialHellSoundEvents.ENTITY_SANDY_SHEEP_AMBIENT.get();
-    }
+    @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_SANDY_SHEEP_AMBIENT.get();}
+    @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return AerialHellSoundEvents.ENTITY_SANDY_SHEEP_HURT.get();}
+    @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_SANDY_SHEEP_DEATH.get();}
 
-    @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-    {
-        return AerialHellSoundEvents.ENTITY_SANDY_SHEEP_HURT.get();
-    }
-
-    @Override
-    protected SoundEvent getDeathSound()
-    {
-        return AerialHellSoundEvents.ENTITY_SANDY_SHEEP_DEATH.get();
-    }
-
-    @Override
-    protected void playStepSound(BlockPos pos, BlockState par4)
+    @Override protected void playStepSound(BlockPos pos, BlockState par4)
     {
         this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.SHEEP_STEP, SoundSource.NEUTRAL, 0.15F, 1.0F);
     }
 
-    @Override
-    public void addAdditionalSaveData(CompoundTag compound)
+    @Override public void addAdditionalSaveData(CompoundTag compound)
     {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("Wool", this.hasWool());
     }
 
-    @Override
-    public void readAdditionalSaveData(CompoundTag compound)
+    @Override public void readAdditionalSaveData(CompoundTag compound)
     {
         super.readAdditionalSaveData(compound);
         this.setWool(compound.getBoolean("Wool"));
     }
 
-    @Override
-    public boolean skipAttackInteraction(Entity entityIn)
+    @Override public boolean skipAttackInteraction(Entity entityIn)
     {
     	if (this.hasWool())
     	{
@@ -151,18 +107,14 @@ public class SandySheepEntity extends AerialHellAnimalEntity
         return false;
     }
     
-    @Override
-    public void tick()
+    @Override public void tick()
     {
     	if (this.shearedTimer > 4200 && !this.hasWool())
         {
         	this.setWool(true);
             this.shearedTimer = 0;
         }
-    	if (!this.hasWool())
-    	{
-    		this.shearedTimer++;
-    	}
+    	if (!this.hasWool()) {this.shearedTimer++;}
         super.tick();
     }
 }
