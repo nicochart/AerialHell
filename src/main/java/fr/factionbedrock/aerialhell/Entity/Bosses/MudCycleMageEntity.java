@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -24,6 +25,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class MudCycleMageEntity extends AbstractBossEntity
 {
@@ -77,6 +80,25 @@ public class MudCycleMageEntity extends AbstractBossEntity
 		super.tick();
 	}
 
+	@Override @OnlyIn(Dist.CLIENT)
+	public void handleEntityEvent(byte id)
+	{
+		if (id == 5) {playSummonParticles();}
+		else {super.handleEntityEvent(id);}
+	}
+
+	private void playSummonParticles()
+	{
+		if (this.level().isClientSide())
+		{
+			for(int i = 0; i < 30; ++i)
+			{
+				double d0 = random.nextGaussian() * 0.02D; double d1 = random.nextGaussian() * 0.02D; double d2 = random.nextGaussian() * 0.02D;
+				this.level().addParticle(ParticleTypes.LARGE_SMOKE, this.getRandomX(1.0D) - d0 * 10.0D, this.getRandomY() - d1 * 10.0D, this.getRandomZ(1.0D) - d2 * 10.0D, 0.25 * (random.nextFloat() - 0.5), 0.3D, 0.25 * (random.nextFloat() - 0.5));
+			}
+		}
+	}
+
 	public static class SummonSpectralEntitiesGoal extends SummonThreeEntitiesGoal
 	{
 		public SummonSpectralEntitiesGoal(MudCycleMageEntity entity) {super(entity, 0.0D);}
@@ -107,10 +129,14 @@ public class MudCycleMageEntity extends AbstractBossEntity
 			return AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.getGoalOwner().level());
 		}
 
+		@Override protected void playEffect()
+		{
+			this.getGoalOwner().level().broadcastEntityEvent(this.getGoalOwner(), (byte)5);
+			super.playEffect();
+		}
+
 		@Override protected int getSummonTimerTargetValue() {return 200;}
-
 		@Override protected void resetTask() {super.resetTask(); this.getMageGoalOwner().resetDamageAmountSinceLastSummon();}
-
 		@Override protected boolean customSummonConditionMet() {return this.getMageGoalOwner().isDamageAmountSinceLastSummonSufficentToTriggerSummon();}
 	}
 	

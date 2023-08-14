@@ -48,16 +48,8 @@ public abstract class SummonThreeEntitiesGoal extends Goal
 
     protected void playEffect() //default effect, override for custom summon effect
     {
-        Level level = this.getGoalOwner().level();
-        if (level.isClientSide())
-        {
-            for(int i = 0; i < 30; ++i)
-            {
-                double d0 = level.random.nextGaussian() * 0.02D; double d1 = level.random.nextGaussian() * 0.02D; double d2 = level.random.nextGaussian() * 0.02D;
-                this.getGoalOwner().level().addParticle(ParticleTypes.LARGE_SMOKE, this.getGoalOwner().getRandomX(1.0D) - d0 * 10.0D, this.getGoalOwner().getRandomY() - d1 * 10.0D, this.getGoalOwner().getRandomZ(1.0D) - d2 * 10.0D, 0.25 * (level.random.nextFloat() - 0.5), 0.3D, 0.25 * (level.random.nextFloat() - 0.5));
-            }
-        }
-        this.getGoalOwner().playSound(SoundEvents.EVOKER_PREPARE_SUMMON, 1.5F, 0.95F + level.random.nextFloat() * 0.1F);
+        //particles can't be added directly in this method. Need to use broadcastEntityEvent. See MudCycleMage class
+        this.getGoalOwner().playSound(SoundEvents.EVOKER_PREPARE_SUMMON, 1.5F, 0.95F + this.goalOwner.getRandom().nextFloat() * 0.1F);
     }
 
     private static List<Vec3> getSpawnMotionVec3s()
