@@ -2,43 +2,31 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class MudSpectralSoldierEntity extends MudSoldierEntity
+public class MudSpectralSoldierEntity extends MudSoldierEntity implements MudSpectralEntity
 {
-	public MudSpectralSoldierEntity(EntityType<? extends MudSpectralSoldierEntity> type, Level world)
-    {
-        super(type, world);
-    }
+	public MudSpectralSoldierEntity(EntityType<? extends MudSpectralSoldierEntity> type, Level level) {super(type, level);}
 	
 	public static AttributeSupplier.Builder registerAttributes()
     {
-		return Monster.createMonsterAttributes()
-				.add(Attributes.MAX_HEALTH, 10.0D)
-				.add(Attributes.FOLLOW_RANGE, 24.0D)
-				.add(Attributes.MOVEMENT_SPEED, 0.20D)
-				.add(Attributes.ATTACK_DAMAGE, 3.0D);
+		return MudSpectralEntity.createSpectralAttributes(10.0D, 0.0D, 3.0D, 0.20D, 24.0D);
     }
-	
-	@Override
-	public void tick()
+
+	@Override @OnlyIn(Dist.CLIENT)
+	public void handleEntityEvent(byte id)
+	{
+		if (id == 5) {this.popDisappearingParticles(this, 10);}
+		else {super.handleEntityEvent(id);}
+	}
+
+	@Override public void tick()
 	{
 		super.tick();
-		if (this.tickCount > getMaxTicksExisting() - 2 && this.level().isClientSide())
-		{
-			for (int i=0; i<10; i++) this.level().addParticle(ParticleTypes.LARGE_SMOKE, this.getX() + random.nextFloat() - 0.5, this.getY() + 2 * random.nextFloat(), this.getZ() + random.nextFloat(), 0.5 * (random.nextFloat()) - 0.5, 0.3D, 0.5 * (random.nextFloat() - 0.5));
-		}
-		if (this.tickCount > getMaxTicksExisting())
-		{
-			this.removeAfterChangingDimensions();
-		}
+		this.spectralEntityTick(this);
 	}
 	
-	public int getMaxTicksExisting()
-	{
-		return 500;
-	}
+	public int getMaxTicksExisting() {return 500;}
 }

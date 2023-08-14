@@ -36,6 +36,7 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.MUD_SOLDIER.get(), MudSoldierRender::new);
         event.registerEntityRenderer(AerialHellEntities.MUD_SPECTRAL_SOLDIER.get(), MudSoldierRender::new);
         event.registerEntityRenderer(AerialHellEntities.MUD_CYCLE_MAGE.get(), MudCycleMageRender::new);
+        event.registerEntityRenderer(AerialHellEntities.MUD_SPECTRAL_CYCLE_MAGE.get(), MudCycleMageRender::new);
         event.registerEntityRenderer(AerialHellEntities.TORN_SPIRIT.get(), TornSpiritRender::new);
         event.registerEntityRenderer(AerialHellEntities.ICE_SPIRIT.get(), ElementSpiritRender::new);
         event.registerEntityRenderer(AerialHellEntities.FIRE_SPIRIT.get(), ElementSpiritRender::new);

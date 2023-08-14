@@ -7,8 +7,9 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Mob;
 
-public class MudCycleMageRender extends MobRenderer<MudCycleMageEntity, MudCycleMageModel>
+public class MudCycleMageRender extends MobRenderer<Mob, MudCycleMageModel>
 {
 	private static String name = "mud_cycle_mage";
     private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
@@ -19,5 +20,5 @@ public class MudCycleMageRender extends MobRenderer<MudCycleMageEntity, MudCycle
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(MudCycleMageEntity entity) {return TEXTURE;}
+	public ResourceLocation getTextureLocation(Mob entity) {return TEXTURE;}
 }

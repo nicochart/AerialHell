@@ -73,6 +73,9 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<MudCycleMageEntity>> MUD_CYCLE_MAGE = ENTITIES.register("mud_cycle_mage", () -> EntityType.Builder.<MudCycleMageEntity>of(MudCycleMageEntity::new, MobCategory.MONSTER)
 			.sized(0.6F, 1.99F).build("mud_cycle_mage"));
 
+	public static final RegistryObject<EntityType<MudSpectralCycleMageEntity>> MUD_SPECTRAL_CYCLE_MAGE = ENTITIES.register("mud_spectral_cycle_mage", () -> EntityType.Builder.<MudSpectralCycleMageEntity>of(MudSpectralCycleMageEntity::new, MobCategory.MONSTER)
+			.sized(0.6F, 1.99F).build("mud_spectral_cycle_mage"));
+
 	public static final RegistryObject<EntityType<TornSpiritEntity>> TORN_SPIRIT = ENTITIES.register("torn_spirit", () -> EntityType.Builder.<TornSpiritEntity>of(TornSpiritEntity::new, MobCategory.MONSTER)
 			.sized(0.8F,1.95F).build("torn_spirit"));
 

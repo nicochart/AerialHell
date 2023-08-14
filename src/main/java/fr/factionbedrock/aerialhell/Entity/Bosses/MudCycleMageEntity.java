@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Bosses;
 
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralCycleMageEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
@@ -101,6 +102,8 @@ public class MudCycleMageEntity extends AbstractBossEntity
 
 	public static class SummonSpectralEntitiesGoal extends SummonThreeEntitiesGoal
 	{
+		private boolean shouldFinishSummoningClones;
+		private boolean isNotSummoningClones;
 		public SummonSpectralEntitiesGoal(MudCycleMageEntity entity) {super(entity, 0.0D);}
 
 		public MudCycleMageEntity getMageGoalOwner() {return (MudCycleMageEntity) this.getGoalOwner();}
@@ -109,6 +112,13 @@ public class MudCycleMageEntity extends AbstractBossEntity
 
 		@Override public Entity createEntitiy(Level level)
 		{
+			if ((!this.isNotSummoningClones && this.getGoalOwner().getRandom().nextInt(this.getMageGoalOwner().getDifficulty() + 1) > 2) || this.shouldFinishSummoningClones)
+			{
+				this.shouldFinishSummoningClones = true;
+				return createClone();
+			}
+			else {this.isNotSummoningClones = true;}
+
 			if (!this.getMageGoalOwner().isHealthLowEnoughToSummonGolems()) {return createMudSpectralSoldier();}
 			else
 			{
@@ -129,6 +139,13 @@ public class MudCycleMageEntity extends AbstractBossEntity
 			return AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.getGoalOwner().level());
 		}
 
+		protected MudSpectralCycleMageEntity createClone()
+		{
+			MudSpectralCycleMageEntity entity = AerialHellEntities.MUD_SPECTRAL_CYCLE_MAGE.get().create(this.getGoalOwner().level());
+			entity.setMaster(this.getMageGoalOwner());
+			return entity;
+		}
+
 		@Override protected void playEffect()
 		{
 			this.getGoalOwner().level().broadcastEntityEvent(this.getGoalOwner(), (byte)5);
@@ -136,8 +153,10 @@ public class MudCycleMageEntity extends AbstractBossEntity
 		}
 
 		@Override protected int getSummonTimerTargetValue() {return 200;}
-		@Override protected void resetTask() {super.resetTask(); this.getMageGoalOwner().resetDamageAmountSinceLastSummon();}
+		@Override protected void resetTask() {super.resetTask(); this.getMageGoalOwner().resetDamageAmountSinceLastSummon(); this.resetCloningStatus();}
 		@Override protected boolean customSummonConditionMet() {return this.getMageGoalOwner().isDamageAmountSinceLastSummonSufficentToTriggerSummon();}
+
+		private void resetCloningStatus() {this.shouldFinishSummoningClones = false; this.isNotSummoningClones = false;}
 	}
 	
 	@Override protected SoundEvent getAmbientSound() {return SoundEvents.WITHER_SKELETON_AMBIENT;}

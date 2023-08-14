@@ -8,11 +8,12 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Mob;
 
 // Made by Cixon with Blockbench
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class MudCycleMageModel extends EntityModel<MudCycleMageEntity>
+public class MudCycleMageModel extends EntityModel<Mob>
 {
 	private final ModelPart head;
 	private final ModelPart body;
@@ -59,7 +60,7 @@ public class MudCycleMageModel extends EntityModel<MudCycleMageEntity>
 	}
 
 	@Override
-	public void setupAnim(MudCycleMageEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(Mob entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.head.yRot = netHeadYaw / 57.0F;
 		this.head.xRot = headPitch / 57.0F;
 
