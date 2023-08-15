@@ -29,7 +29,7 @@ public class EffectTotemItem extends Item
 			if (entityIn instanceof LivingEntity)
 			{
 				LivingEntity livingEntityIn = (LivingEntity) entityIn;
-				if (livingEntityIn.getOffhandItem().getItem() == this || livingEntityIn.getOffhandItem().getItem() == this)
+				if (livingEntityIn.getMainHandItem().getItem() == this || livingEntityIn.getOffhandItem().getItem() == this)
 				{
 					if (this == AerialHellBlocksAndItems.REGENERATION_TOTEM.get())
 					{
