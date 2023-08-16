@@ -135,7 +135,7 @@ public class ChainedGodModel extends EntityModel<ChainedGodEntity>
 		this.head.yRot = netHeadYaw / 57.29578F;
 		this.head.xRot = headPitch / 57.29578F;
 
-		if (!entity.isImploding())
+		if (!(entity.isImploding() || entity.isUnchaining()))
 		{
 			int i = entity.attackTimer;
 			if (i > 0)

@@ -49,7 +49,8 @@ public class AerialHellSoundEvents
 	public static final RegistryObject<SoundEvent> ENTITY_CHAINED_GOD_DEATH = register("entity.chained_god.death");
 	public static final RegistryObject<SoundEvent> ENTITY_CHAINED_GOD_STEP = register("entity.chained_god.step");
 	public static final RegistryObject<SoundEvent> ENTITY_CHAINED_GOD_ROAR = register("entity.chained_god.roar");
-	
+	public static final RegistryObject<SoundEvent> ENTITY_CHAINED_GOD_UNCHAIN = register("entity.chained_god.unchain");
+
 	public static final RegistryObject<SoundEvent> ENTITY_LUNATIC_PRIEST_AMBIENT = register("entity.lunatic_priest.ambient");
 	public static final RegistryObject<SoundEvent> ENTITY_LUNATIC_PRIEST_HURT = register("entity.lunatic_priest.hurt");
 	public static final RegistryObject<SoundEvent> ENTITY_LUNATIC_PRIEST_DEATH = register("entity.lunatic_priest.death");

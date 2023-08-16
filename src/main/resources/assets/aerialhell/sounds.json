@@ -287,6 +287,10 @@
     "subtitle": "subtitles.entity.chained_god.roar",
     "sounds": ["aerialhell:mob/chained_god/roar"]
   },
+  "entity.chained_god.unchain": {
+    "subtitle": "subtitles.entity.chained_god.unchain",
+    "sounds": ["aerialhell:mob/chained_god/unchain"]
+  },
   "entity.ice_spirit.ambient": {
     "subtitle": "subtitles.entity.ice_spirit.ambient",
     "sounds": [
