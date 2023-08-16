@@ -1,35 +1,47 @@
 {
-  "temperature": 0.8,
+  "temperature": 0.4,
   "downfall": 0,
   "has_precipitation": false,
   "temperature_modifier": "none",
-  "category": "plains",
+  "category": "forest",
   "effects": {
     "sky_color": 6388367,
-    "fog_color": 7583106,
-    "water_color": 4090254,
-    "water_fog_color": 4019819,
-    "grass_color": 3247206,
-    "foliage_color": 3247206,
+    "fog_color": 11190677,
+    "water_color": 3304584,
+    "water_fog_color": 7253909,
+    "grass_color": 6326322,
+    "foliage_color": 6326322,
     "grass_color_modifier": "none",
     "music": {
       "sound": "aerialhell:aerialhell.dimension_music",
       "min_delay": 1200,
       "max_delay": 3600,
       "replace_current_music": false
+    },
+    "particle": {
+      "options": {
+        "type": "aerialhell:copper_pine_leaves"
+      },
+      "probability": 0.01
     }
   },
   "spawners": {
     "monster": [
       {
         "type": "aerialhell:evil_cow",
-        "weight": 100,
+        "weight": 80,
         "minCount": 4,
         "maxCount": 10
       },
       {
+        "type": "aerialhell:forest_caterpillar",
+        "weight": 40,
+        "minCount": 2,
+        "maxCount": 4
+      },
+      {
         "type": "aerialhell:fat_phantom",
-        "weight": 30,
+        "weight": 20,
         "minCount": 1,
         "maxCount": 3
       }
@@ -37,7 +49,13 @@
     "creature": [
       {
         "type": "aerialhell:sandy_sheep",
-        "weight": 30,
+        "weight": 40,
+        "minCount": 3,
+        "maxCount": 7
+      },
+      {
+        "type": "aerialhell:gliding_turtle",
+        "weight": 20,
         "minCount": 3,
         "maxCount": 10
       }
@@ -59,10 +77,11 @@
       "aerialhell:aerial_hell_water_lake"
     ],
     [
+      "aerialhell:mossy_stellar_cobblestone_rock",
       "aerialhell:white_solid_ether",
       "aerialhell:blue_solid_ether",
+      "aerialhell:green_solid_ether",
       "aerialhell:golden_solid_ether",
-      "aerialhell:slippery_sand",
       "aerialhell:dangling_chain_rare",
       "aerialhell:stellar_stone_crystal_blob_in_dark_areas",
       "aerialhell:stellar_coarse_floor_in_dark_areas"
@@ -94,11 +113,11 @@
       "aerialhell:aerial_tree_vegetation",
       //"aerialhell:forest_aerial_tree_vegetation",
       //"aerialhell:golden_beech_vegetation",
-      //"aerialhell:copper_pine_vegetation",
+      "aerialhell:copper_pine_vegetation",
       //"aerialhell:lapis_robinia_vegetation",
       //"aerialhell:crystallized_tree_vegetation",
       "aerialhell:golden_beech_rare_vegetation",
-      "aerialhell:copper_pine_rare_vegetation",
+      //"aerialhell:copper_pine_rare_vegetation",
       //"aerialhell:lapis_robinia_rare_vegetation",
 
       //"aerialhell:huge_verdigris_agaric",
@@ -119,22 +138,22 @@
       //"aerialhell:aerial_hell_bellflowers",
       "aerialhell:patch_stellar_grass",
       //"aerialhell:patch_purplish_stellar_grass",
-      //"aerialhell:patch_stellar_grass_ball",
-      //"aerialhell:patch_stellar_tall_grass",
-      //"aerialhell:patch_stellar_fern",
-      //"aerialhell:patch_stellar_tall_fern",
-      //"aerialhell:patch_aerial_berry_bush",
-      //"aerialhell:patch_brambles",
-      "aerialhell:patch_sky_cactus",
+      "aerialhell:patch_stellar_grass_ball",
+      "aerialhell:patch_stellar_tall_grass",
+      "aerialhell:patch_stellar_fern",
+      "aerialhell:patch_stellar_tall_fern",
+      "aerialhell:patch_aerial_berry_bush",
+      "aerialhell:patch_brambles",
+      //"aerialhell:patch_sky_cactus",
       //"aerialhell:patch_stellar_dead_bush",
       //"aerialhell:patch_shadow_grass",
       //"aerialhell:patch_shadow_grass_ball",
       //"aerialhell:patch_shadow_brambles",
 
-      "aerialhell:glowing_stick_fruit_vines",
+      //"aerialhell:glowing_stick_fruit_vines",
       //"aerialhell:glowing_stick_fruit_vines_rare",
-      //aerialhell:blossoming_vines",
-      "aerialhell:blossoming_vines_rare"
+      "aerialhell:blossoming_vines"
+      //"aerialhell:blossoming_vines_rare"
     ],
     []
   ]

@@ -23,6 +23,8 @@ public class AerialHellBiomes
 	public static final ResourceKey<Biome> SLIPPERY_SAND_OCEAN = makeBiomeKey("slippery_sand_ocean");
 	//Foret de sapins cuivres
 	public static final ResourceKey<Biome> COPPER_PINE_FOREST = makeBiomeKey("copper_pine_forest");
+	//Foret de sapins cuivres des hauteurs
+	public static final ResourceKey<Biome> COPPER_PINE_HIGHLAND_FOREST = makeBiomeKey("copper_pine_highland_forest");
 	//Plaine de Crystal
 	public static final ResourceKey<Biome> CRYSTAL_PLAINS = makeBiomeKey("crystal_plains");
 	//Foret de Crystal
