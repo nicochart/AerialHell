@@ -17,6 +17,8 @@ public class AerialHellTags
 
 		public static final TagKey<Block> STELLAR_DIRT = tag("stellar_dirt");
 
+		public static final TagKey<Block> STELLAR_PLANTS_MAY_PLACE_ON = tag("stellar_plants_may_place_on");
+
 		public static final TagKey<Block> SOLID_ETHER = tag("solid_ether");
 
 		public static final TagKey<Block> AERIALHELL_WOODEN_DOORS = tag("aerialhell_wooden_doors");

@@ -79,6 +79,8 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.CORTINARIUS_VIOLACEUS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.VERDIGRIS_AGARIC.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.GLOWING_BOLETUS.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.TALL_GLOWING_BOLETUS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_TALL_FERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_DEAD_BUSH.get(), cutout);
