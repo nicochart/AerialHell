@@ -1,9 +1,11 @@
 package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.Tags;
@@ -28,5 +30,14 @@ public class BlockHelper
         else if (state.is(BlockTags.NEEDS_IRON_TOOL) && miningLevel < 2) {return false;}
         else if (state.is(BlockTags.NEEDS_STONE_TOOL) && miningLevel < 1) {return false;}
         return true;
+    }
+
+    public static boolean hasAnySolidBlockAbove(LevelReader reader, BlockPos pos)
+    {
+        for (BlockPos blockpos = pos.above(); blockpos.getY() < 256; blockpos = blockpos.above())
+        {
+            if (!reader.isEmptyBlock(blockpos)) {return reader.getBlockState(blockpos).isSolidRender(reader, pos);}
+        }
+        return false;
     }
 }

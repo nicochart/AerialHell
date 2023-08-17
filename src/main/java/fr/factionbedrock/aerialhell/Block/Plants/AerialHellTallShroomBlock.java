@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -40,7 +41,9 @@ public class AerialHellTallShroomBlock extends TallGrassBlock
 		BlockState belowState = reader.getBlockState(pos.below());
 		if (belowState.is(BlockTags.DIRT) || belowState.is(AerialHellTags.Blocks.STELLAR_PLANTS_MAY_PLACE_ON) || belowState.is(AerialHellTags.Blocks.STELLAR_STONE) || belowState.is(BlockTags.MUSHROOM_GROW_BLOCK))
 		{
-			return reader.getRawBrightness(pos, 0) < 13 && belowState.canSustainPlant(reader, pos.below(), Direction.UP, this);
+			boolean isSupport = reader.getRawBrightness(pos, 0) < 13 && belowState.canSustainPlant(reader, pos.below(), Direction.UP, this);
+			boolean solidSurfaceAbove = BlockHelper.hasAnySolidBlockAbove(reader, pos) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(3, 0, 3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(3, 0, -3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(-3, 0, 3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(-3, 0, -3));
+			return isSupport && solidSurfaceAbove;
 		}
 		else {return false;}
 	}

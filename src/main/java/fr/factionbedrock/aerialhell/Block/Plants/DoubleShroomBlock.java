@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
+import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.LevelReader;
@@ -15,7 +16,9 @@ public class DoubleShroomBlock extends DoublePlantBlock
     {
         if (state.getValue(HALF) != DoubleBlockHalf.UPPER)
         {
-            return reader.getRawBrightness(pos, 0) < 13 && reader.getBlockState(pos.below()).canSustainPlant(reader, pos.below(), Direction.UP, this) && super.canSurvive(state, reader, pos);
+            boolean brightnessFlag = reader.getRawBrightness(pos, 0) < 13 && reader.getBlockState(pos.below()).canSustainPlant(reader, pos.below(), Direction.UP, this);
+            boolean solidSurfaceAbove = BlockHelper.hasAnySolidBlockAbove(reader, pos) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(3, 0, 3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(3, 0, -3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(-3, 0, 3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(-3, 0, -3));
+            return solidSurfaceAbove && brightnessFlag && super.canSurvive(state, reader, pos);
         }
         return super.canSurvive(state, reader, pos);
     }

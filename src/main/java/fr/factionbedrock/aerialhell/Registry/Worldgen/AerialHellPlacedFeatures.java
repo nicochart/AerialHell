@@ -101,6 +101,7 @@ public class AerialHellPlacedFeatures
     public static final ResourceKey<PlacedFeature> HUGE_VERDIGRIS_AGARIC = createKey("huge_verdigris_agaric");
     public static final ResourceKey<PlacedFeature> GIANT_GANODERMA_APPLANATUM = createKey("giant_ganoderma_applanatum");
     public static final ResourceKey<PlacedFeature> GIANT_RED_MUSHROOM = createKey("giant_red_mushroom");
+    public static final ResourceKey<PlacedFeature> PATCH_GLOWING_BOLETUS = createKey("patch_glowing_boletus");
 
     public static final ResourceKey<PlacedFeature> WHITE_SOLID_ETHER = createKey("white_solid_ether");
     public static final ResourceKey<PlacedFeature> BLUE_SOLID_ETHER = createKey("blue_solid_ether");
