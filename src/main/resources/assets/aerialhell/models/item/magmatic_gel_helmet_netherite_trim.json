@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "aerialhell:item/magmatic_gel_helmet",
+    "layer1": "minecraft:trims/items/helmet_trim_netherite"
+  }
+}

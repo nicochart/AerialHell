@@ -1,0 +1,9 @@
+{
+  "asset_name": "volucite_vibrant",
+  "description": {
+    "color": "#5263d1",
+    "translate": "trim_material.aerialhell.volucite_vibrant"
+  },
+  "ingredient": "aerialhell:volucite_vibrant",
+  "item_model_index": 0.9
+}

@@ -855,5 +855,14 @@
   "advancements.secret.glass_cannon.title": "Glass Cannon",
   "advancements.secret.glass_cannon.desc": "Fragile but Powerful",
   "advancements.story.kill_golden_nether_boss.title": "Freed and Buried",
-  "advancements.story.kill_golden_nether_boss.desc": "Kill the Chained God"
+  "advancements.story.kill_golden_nether_boss.desc": "Kill the Chained God",
+
+  "trim_material.aerialhell.arsonist_ingot": "Arsonist Material",
+  "trim_material.aerialhell.fluorite": "Fluorite Material",
+  "trim_material.aerialhell.lunatic_crystal": "Lunar Material",
+  "trim_material.aerialhell.magmatic_gel": "Magmatic Gel Material",
+  "trim_material.aerialhell.obsidian_shard": "Obsidian Material",
+  "trim_material.aerialhell.ruby": "Ruby Material",
+  "trim_material.aerialhell.cursed_crystal": "Cursed Material",
+  "trim_material.aerialhell.volucite_vibrant": "Vibrant Volucite Material"
 }

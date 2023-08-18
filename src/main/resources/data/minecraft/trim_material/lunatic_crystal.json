@@ -1,0 +1,9 @@
+{
+  "asset_name": "lunatic_crystal",
+  "description": {
+    "color": "#a6ddac",
+    "translate": "trim_material.aerialhell.lunatic_crystal"
+  },
+  "ingredient": "aerialhell:lunatic_crystal",
+  "item_model_index": 0.6
+}

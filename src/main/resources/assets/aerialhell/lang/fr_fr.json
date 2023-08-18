@@ -854,5 +854,14 @@
   "advancements.secret.glass_cannon.title": "Canon en Verre",
   "advancements.secret.glass_cannon.desc": "Fragile mais Puissant",
   "advancements.story.kill_golden_nether_boss.title": "Déchaîné",
-  "advancements.story.kill_golden_nether_boss.desc": "Tuez le Dieu Enchaîné"
+  "advancements.story.kill_golden_nether_boss.desc": "Tuez le Dieu Enchaîné",
+
+  "trim_material.aerialhell.arsonist_ingot": "En Incendière",
+  "trim_material.aerialhell.fluorite": "En Fluorine",
+  "trim_material.aerialhell.lunatic_crystal": "En Crystal Lunatique",
+  "trim_material.aerialhell.magmatic_gel": "En Gel Magmatique",
+  "trim_material.aerialhell.obsidian_shard": "En Obsidienne",
+  "trim_material.aerialhell.ruby": "En Rubis",
+  "trim_material.aerialhell.cursed_crystal": "En Crystal Maudit",
+  "trim_material.aerialhell.volucite_vibrant": "En Volucite Vibrante"
 }
