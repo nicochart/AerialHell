@@ -39,17 +39,17 @@ public class AerialHellTallShroomBlock extends TallGrassBlock
 	@Override public boolean canSurvive(BlockState state, LevelReader reader, BlockPos pos)
 	{
 		BlockState belowState = reader.getBlockState(pos.below());
-		if (belowState.is(BlockTags.DIRT) || belowState.is(AerialHellTags.Blocks.STELLAR_PLANTS_MAY_PLACE_ON) || belowState.is(AerialHellTags.Blocks.STELLAR_STONE) || belowState.is(BlockTags.MUSHROOM_GROW_BLOCK))
+		if (belowState.is(BlockTags.DIRT) || belowState.is(AerialHellBlocksAndItems.STELLAR_COARSE_DIRT.get()) || belowState.is(AerialHellTags.Blocks.STELLAR_STONE_AND_DERIVATIVES) || belowState.is(BlockTags.MUSHROOM_GROW_BLOCK))
 		{
-			boolean isSupport = reader.getRawBrightness(pos, 0) < 13 && belowState.canSustainPlant(reader, pos.below(), Direction.UP, this);
+			boolean brightnessFlag = reader.getRawBrightness(pos, 0) < 13;
 			boolean solidSurfaceAbove = BlockHelper.hasAnySolidBlockAbove(reader, pos) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(3, 0, 3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(3, 0, -3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(-3, 0, 3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(-3, 0, -3));
-			return isSupport && solidSurfaceAbove;
+			return brightnessFlag && solidSurfaceAbove;
 		}
 		else {return false;}
 	}
 
 	@Override protected boolean mayPlaceOn(BlockState state, BlockGetter getter, BlockPos pos)
 	{
-		return state.is(BlockTags.DIRT) || state.is(AerialHellTags.Blocks.STELLAR_STONE);
+		return state.is(BlockTags.DIRT) || state.is(AerialHellBlocksAndItems.STELLAR_COARSE_DIRT.get()) || state.is(AerialHellTags.Blocks.STELLAR_STONE_AND_DERIVATIVES) || state.is(BlockTags.MUSHROOM_GROW_BLOCK);
 	}
 }

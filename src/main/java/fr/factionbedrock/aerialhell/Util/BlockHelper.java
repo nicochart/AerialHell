@@ -36,7 +36,7 @@ public class BlockHelper
     {
         for (BlockPos blockpos = pos.above(); blockpos.getY() < 256; blockpos = blockpos.above())
         {
-            if (!reader.isEmptyBlock(blockpos)) {return reader.getBlockState(blockpos).isSolidRender(reader, pos);}
+            if (!reader.isEmptyBlock(blockpos) && reader.getBlockState(blockpos).isSolidRender(reader, pos)) {return true;}
         }
         return false;
     }

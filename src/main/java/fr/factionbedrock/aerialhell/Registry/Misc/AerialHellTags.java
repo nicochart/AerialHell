@@ -15,6 +15,8 @@ public class AerialHellTags
 	public static class Blocks {
 		public static final TagKey<Block> STELLAR_STONE = tag("stellar_stone");
 
+		public static final TagKey<Block> STELLAR_STONE_AND_DERIVATIVES = tag("stellar_stone_and_derivatives");
+
 		public static final TagKey<Block> STELLAR_DIRT = tag("stellar_dirt");
 
 		public static final TagKey<Block> STELLAR_PLANTS_MAY_PLACE_ON = tag("stellar_plants_may_place_on");

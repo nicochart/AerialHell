@@ -13,7 +13,7 @@ public class GlideGoal extends Goal
     private int jumpTimer;
     private int randomTimerBonus;
 
-    public GlideGoal(GlidingTurtleEntity entity) {this.goalOwner = entity; this.setFlags(EnumSet.of(Flag.MOVE));}
+    public GlideGoal(GlidingTurtleEntity entity) {this.goalOwner = entity;}
 
     @Override public boolean canUse() {return true;}
     @Override public void start() {this.resetTask();}

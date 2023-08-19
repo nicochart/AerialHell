@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values":
+  [
+    "aerialhell:stellar_stone",
+    "aerialhell:stellar_cobblestone",
+    "aerialhell:mossy_stellar_stone",
+    "aerialhell:mossy_stellar_cobblestone"
+  ]
+}

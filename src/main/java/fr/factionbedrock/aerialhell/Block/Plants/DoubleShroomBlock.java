@@ -1,8 +1,11 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,12 +17,21 @@ public class DoubleShroomBlock extends DoublePlantBlock
 
     public boolean canSurvive(BlockState state, LevelReader reader, BlockPos pos)
     {
-        if (state.getValue(HALF) != DoubleBlockHalf.UPPER)
+        boolean solidSurfaceAbove = BlockHelper.hasAnySolidBlockAbove(reader, pos) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(3, 0, 3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(3, 0, -3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(-3, 0, 3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(-3, 0, -3));
+        if (state.getValue(HALF) != DoubleBlockHalf.UPPER) {return solidSurfaceAbove && super.canSurvive(state, reader, pos);}
+        else
         {
-            boolean brightnessFlag = reader.getRawBrightness(pos, 0) < 13 && reader.getBlockState(pos.below()).canSustainPlant(reader, pos.below(), Direction.UP, this);
-            boolean solidSurfaceAbove = BlockHelper.hasAnySolidBlockAbove(reader, pos) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(3, 0, 3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(3, 0, -3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(-3, 0, 3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(-3, 0, -3));
-            return solidSurfaceAbove && brightnessFlag && super.canSurvive(state, reader, pos);
+            if (state.getBlock() != this) {return solidSurfaceAbove && super.canSurvive(state, reader, pos);}
+            else
+            {
+                boolean brightnessFlag = reader.getRawBrightness(pos, 0) < 13;
+                return solidSurfaceAbove && brightnessFlag && super.canSurvive(state, reader, pos);
+            }
         }
-        return super.canSurvive(state, reader, pos);
+    }
+
+    @Override protected boolean mayPlaceOn(BlockState state, BlockGetter getter, BlockPos pos)
+    {
+        return state.is(BlockTags.DIRT) || state.is(AerialHellBlocksAndItems.STELLAR_COARSE_DIRT.get()) || state.is(AerialHellTags.Blocks.STELLAR_STONE_AND_DERIVATIVES) || state.is(BlockTags.MUSHROOM_GROW_BLOCK);
     }
 }

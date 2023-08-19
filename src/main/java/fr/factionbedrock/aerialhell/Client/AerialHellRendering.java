@@ -99,6 +99,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.POTTED_CORTINARIUS_VIOLACEUS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_VERDIGRIS_AGARIC.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_VINE_BLOSSOM.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.POTTED_GLOWING_BOLETUS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get(), translucent);
         render(() -> AerialHellBlocksAndItems.SLIPPERY_SAND_GLASS.get(), translucent);
         render(() -> AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get(), translucent);
