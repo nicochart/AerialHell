@@ -44,7 +44,7 @@ public class SolidEtherBlock extends HalfTransparentBlock
 		entity.fallDistance = 0.0F;
 		if (entity.getDeltaMovement().y < 0.0)
 		{
-			if (entity instanceof LivingEntity) {entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.96, 0.002, 0.96));}
+			if (entity instanceof LivingEntity) {if (!EntityHelper.isFeatheryEntity(entity)) {entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.96, 0.002, 0.96));}}
 			else {entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.85, 0.002, 0.85));}
 		}
 	}
@@ -72,23 +72,8 @@ public class SolidEtherBlock extends HalfTransparentBlock
 		}
 		return EMPTY_SHAPE;
 	}
-	
-	protected boolean canEntityCollide(Entity entity)
-	{
-		if (entity instanceof LivingEntity)
-		{
-			LivingEntity livingEntity = (LivingEntity) entity;
-			if (EntityHelper.hasSolidEtherWalkerEnchantment(livingEntity)) {return true;}
-			if (livingEntity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get())) {return true;}
-			Iterable<ItemStack> stuff = livingEntity.getArmorSlots();
-			for (ItemStack armorStack : stuff)
-			{
-				if (armorStack.getItem() == AerialHellBlocksAndItems.MAGMATIC_GEL_BOOTS.get()) {return true;}
-			}
-			return false;
-		}
-		else {return true;}
-	}
+
+	protected boolean canEntityCollide(Entity entity) {return !EntityHelper.isImmuneToSolidEtherCollision(entity);}
 
 	@Override public VoxelShape getVisualShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext context) {return Shapes.empty();}
 }

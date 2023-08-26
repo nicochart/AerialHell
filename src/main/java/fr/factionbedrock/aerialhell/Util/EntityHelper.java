@@ -25,6 +25,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.FlyingMob;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Silverfish;
+import net.minecraft.world.entity.monster.Vex;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.Entity;
@@ -32,11 +33,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import java.util.Random;
-
 public class EntityHelper
 {
     public static boolean isCreativePlayer(Entity entity) {return entity instanceof Player player && player.isCreative();}
+
+    public static boolean isLivingEntityUnderInTheCloudsEffect(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get());}
 
     public static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.SHADOW_IMMUNITY.get());}
 
@@ -79,7 +80,7 @@ public class EntityHelper
 
     public static boolean isFeatheryEntity(Entity entity)
     {
-        return entity instanceof Silverfish || entity instanceof FlyingMob;
+        return entity instanceof Silverfish || entity instanceof FlyingMob || entity instanceof Vex; //Vex includes FlyingSkulls
     }
 
     public static boolean isImmuneToBramblesDamage(Entity entity)
@@ -87,6 +88,18 @@ public class EntityHelper
         boolean isImmuneToAllBrambles = entity instanceof SandySheepEntity || entity instanceof GlidingTurtleEntity || entity instanceof ShroomBoomEntity || entity instanceof EvilCowEntity || entity instanceof AbstractAerialHellSpiderEntity || isFeatheryEntity(entity) || entity instanceof VerdigrisZombieEntity;
         if (isImmuneToAllBrambles) {return true;}
         else {return isImmuneToSomeShadowDamage(entity);}
+    }
+
+    public static boolean isImmuneToSolidEtherCollision(Entity entity)
+    {
+        if (entity instanceof LivingEntity livingEntity)
+        {
+            if (hasSolidEtherWalkerEnchantment(livingEntity) || isLivingEntityUnderInTheCloudsEffect(livingEntity) || isFeatheryEntity(entity)) {return false;}
+            Iterable<ItemStack> stuff = livingEntity.getArmorSlots();
+            for (ItemStack armorStack : stuff) {if (armorStack.getItem() == AerialHellBlocksAndItems.MAGMATIC_GEL_BOOTS.get()) {return false;}}
+            return true;
+        }
+        return false;
     }
 
     public static boolean hasSolidEtherWalkerEnchantment(LivingEntity entity)

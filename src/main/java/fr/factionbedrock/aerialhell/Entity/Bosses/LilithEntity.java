@@ -564,6 +564,8 @@ public class LilithEntity extends AbstractBossEntity
 			return AerialHellEntities.SHADOW_FLYING_SKULL.get().create(this.getGoalOwner().level());
 		}
 
+		@Override protected void setEntityPosToSummonPos(Entity entity) {entity.setPos(this.getGoalOwner().getX(), this.getGoalOwner().getY() + 1.0, this.getGoalOwner().getZ());}
+
 		@Override protected int getSummonTimerTargetValue()
 		{
 			int difficulty = this.getLilithGoalOwner().getDifficulty();

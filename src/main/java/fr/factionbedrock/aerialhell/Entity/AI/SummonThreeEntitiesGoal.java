@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
@@ -41,10 +40,12 @@ public abstract class SummonThreeEntitiesGoal extends Goal
         for (Vec3 vector : getSpawnMotionVec3s())
         {
             Entity entity = createEntitiy(this.goalOwner.level());
-            entity.setPos(this.goalOwner.getX(), this.goalOwner.getY(), this.goalOwner.getZ()); entity.setDeltaMovement(vector);
+            this.setEntityPosToSummonPos(entity); entity.setDeltaMovement(vector);
             this.goalOwner.level().addFreshEntity(entity);
         }
     }
+
+    protected void setEntityPosToSummonPos(Entity entity) {entity.setPos(this.goalOwner.getX(), this.goalOwner.getY(), this.goalOwner.getZ());}
 
     protected void playEffect() //default effect, override for custom summon effect
     {
