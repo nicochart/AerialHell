@@ -9,6 +9,7 @@
   "block.aerialhell.stellar_portal_frame_ore" : "Stellar Debris",
   "block.aerialhell.deepslate_stellar_portal_frame_ore" : "Stellar Debris",
   "block.aerialhell.stellar_portal_frame_block" : "Stellar Portal Frame",
+  "block.aerialhell.aerial_hell_portal": "Aerial Hell Portal",
   "item.aerialhell.stellar_portal_frame_brick" : "Stellar Portal Bricks",
   "item.aerialhell.stellar_lighter" : "Stellar Lighter",
   "item.aerialhell.stellar_lighter.desc" : "Allows you to light a portal to Aerial Hell.\nRight click on the inside-bottom of a Stellar Portal to light it",
@@ -196,6 +197,7 @@
   "block.aerialhell.crystal_bricks_slab" : "Crystal Bricks Slab",
   "block.aerialhell.crystal_bricks_stairs" : "Crystal Bricks Stairs",
   "block.aerialhell.crystal_bricks_wall" : "Crystal Bricks Wall",
+  "block.aerialhell.crystallized_fire": "Crystallized Fire",
   "item.aerialhell.crystal" : "Crystal",
   "block.aerialhell.stellar_stone_crystal_block" : "Stellar Stone Crystal Block",
   "item.aerialhell.stellar_stone_crystal" : "Stellar Stone Crystal",
@@ -582,7 +584,6 @@
   "item.aerialhell.arsonist_pickaxe" : "Arsonist Pickaxe",
   "item.aerialhell.arsonist_shovel" : "Arsonist Shovel",
 
-
   "item.aerialhell.magma_cube_pickaxe" : "Magma Cube Pickaxe",
   "item.aerialhell.magma_cube_pickaxe.desc" : "Grants the Jump Boost effect. Skill: Magma Cube Jumps",
   "item.aerialhell.stellar_stone_breaker" : "Stellar Stone Breaker",
@@ -727,6 +728,7 @@
   "entity.aerialhell.shadow_flying_skull": "Shadow Flying Skull",
   "entity.aerialhell.shadow_troll": "Shadow Troll",
   "entity.aerialhell.shadow_automaton": "Shadow Automaton",
+  "entity.aerialhell.shadow_spider": "Shadow Spider",
   "entity.aerialhell.lilith": "Lilith",
   "entity.aerialhell.mud_soldier": "Mud Soldier",
   "entity.aerialhell.mud_spectral_soldier": "Spectral Mud Soldier",
