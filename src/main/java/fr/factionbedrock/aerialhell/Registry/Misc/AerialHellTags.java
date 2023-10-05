@@ -79,6 +79,8 @@ public class AerialHellTags
 
 		public static final TagKey<Block> AERIALHELL_FLOWERS = tag("aerialhell_flowers");
 
+		public static final TagKey<Block> AERIALHELL_SHROOMS = tag("aerialhell_shrooms");
+
 		public static final TagKey<Block> AERIALHELL_PLANTS = tag("aerialhell_plants");
 
 		public static final TagKey<Block> OVERWORLD_LANTERN = tag("overworld_lantern");

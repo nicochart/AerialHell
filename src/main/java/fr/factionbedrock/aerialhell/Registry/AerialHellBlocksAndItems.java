@@ -298,6 +298,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> CORTINARIUS_VIOLACEUS_ITEM = ITEMS.register("cortinarius_violaceus", () -> new BlockItem(CORTINARIUS_VIOLACEUS.get(), new Item.Properties()));
 	public static final RegistryObject<Block> GLOWING_BOLETUS = BLOCKS.register("glowing_boletus", () -> new AerialHellTallShroomBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().lightLevel((state) -> {return 9;}).instabreak().sound(SoundType.GLOW_LICHEN)));
 	public static final RegistryObject<Block> TALL_GLOWING_BOLETUS = BLOCKS.register("tall_glowing_boletus", () -> new DoubleShroomBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().lightLevel((state) -> {return 11;}).instabreak().sound(SoundType.GLOW_LICHEN)));
+	public static final RegistryObject<Block> BLUE_MEANIE_CLUSTER = BLOCKS.register("blue_meanie_cluster", () -> new TallShroomBlock(BlockBehaviour.Properties.copy(Blocks.ROSE_BUSH)));
 
 	public static final RegistryObject<RotatedPillarBlock> GIANT_VERDIGRIS_AGARIC_STEM = BLOCKS.register("giant_verdigris_agaric_stem", () -> new RotatedPillarBlock(SHROOM_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM = BLOCKS.register("stripped_giant_verdigris_agaric_stem", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(GIANT_CORTINARIUS_VIOLACEUS_STEM.get())));
@@ -309,6 +310,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> VERDIGRIS_AGARIC_ITEM = ITEMS.register("verdigris_agaric", () -> new BlockItem(VERDIGRIS_AGARIC.get(), new Item.Properties()));
 	public static final RegistryObject<Item> GLOWING_BOLETUS_ITEM = ITEMS.register("glowing_boletus", () -> new BlockItem(GLOWING_BOLETUS.get(), new Item.Properties()));
 	public static final RegistryObject<Item> TALL_GLOWING_BOLETUS_ITEM = ITEMS.register("tall_glowing_boletus", () -> new BlockItem(TALL_GLOWING_BOLETUS.get(), new Item.Properties()));
+	public static final RegistryObject<Item> BLUE_MEANIE_CLUSTER_ITEM = ITEMS.register("blue_meanie_cluster", () -> new BlockItem(BLUE_MEANIE_CLUSTER.get(), new Item.Properties()));
 
 	public static final RegistryObject<Block> GIANT_GANODERMA_APPLANATUM_BLOCK = BLOCKS.register("giant_ganoderma_applanatum_block", () -> new HugeMushroomBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).strength(0.4F).sound(SoundType.STEM)));
 	public static final RegistryObject<Item> GIANT_GANODERMA_APPLANATUM_BLOCK_ITEM = ITEMS.register("giant_ganoderma_applanatum_block", () -> new BlockItem(GIANT_GANODERMA_APPLANATUM_BLOCK.get(), new Item.Properties()));

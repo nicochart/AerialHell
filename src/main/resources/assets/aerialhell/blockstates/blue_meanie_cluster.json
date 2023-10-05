@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "aerialhell:block/blue_meanie_cluster_bottom"
+    },
+    "half=upper": {
+      "model": "aerialhell:block/blue_meanie_cluster_top"
+    }
+  }
+}

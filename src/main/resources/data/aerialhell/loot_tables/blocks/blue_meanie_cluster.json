@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "aerialhell:blue_meanie_cluster",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "half": "lower"
+              }
+            }
+          ],
+          "name": "aerialhell:blue_meanie_cluster"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "aerialhell:blocks/blue_meanie_cluster"
+}
