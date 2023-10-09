@@ -23,6 +23,7 @@ public class AerialHellRendering
 		render(() -> AerialHellBlocksAndItems.CRYSTAL_BLOCK.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.CRYSTALLIZED_LEAVES.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get(), cutout);
 		render(() -> AerialHellBlocksAndItems.GOLDEN_SOLID_ETHER.get(), translucent);
@@ -84,6 +85,10 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.BLUE_MEANIE_CLUSTER.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_TALL_FERN.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.BLUISH_FERN.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.TALL_BLUISH_FERN.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.POLYCHROME_FERN.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.TALL_POLYCHROME_FERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_DEAD_BUSH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_BLUE_FLOWER.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_BLACK_ROSE.get(), cutout);

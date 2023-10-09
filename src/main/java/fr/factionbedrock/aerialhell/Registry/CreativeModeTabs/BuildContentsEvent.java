@@ -202,6 +202,10 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_FERN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_TALL_GRASS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_TALL_FERN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.BLUISH_FERN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.TALL_BLUISH_FERN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.POLYCHROME_FERN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.TALL_POLYCHROME_FERN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_DEAD_BUSH_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.BRAMBLES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_BRAMBLES_ITEM.get());

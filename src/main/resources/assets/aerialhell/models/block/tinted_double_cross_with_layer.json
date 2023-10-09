@@ -1,0 +1,89 @@
+{
+        "textures": {"particle": "#layer"},
+	"elements": [
+		{
+			"name": "doublecross",
+			"from": [0, 0, 8],
+			"to": [16, 16, 8],
+			"color": 2,
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#doublecross", "tintindex": 0},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#doublecross", "tintindex": 0}
+			}
+		},
+		{
+			"name": "doublecross",
+			"from": [0, 0, 8],
+			"to": [16, 16, 8],
+			"color": 2,
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#layer"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#layer"}
+			}
+		},
+		{
+			"name": "doublecross",
+			"from": [8, 0, 0],
+			"to": [8, 16, 16],
+			"color": 2,
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#doublecross", "tintindex": 0},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#doublecross", "tintindex": 0}
+			}
+		},
+		{
+			"name": "doublecross",
+			"from": [8, 0, 0],
+			"to": [8, 16, 16],
+			"color": 2,
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#layer"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#layer"}
+			}
+		},
+		{
+			"name": "doublecross",
+			"from": [8, 0, 0],
+			"to": [8, 16, 16],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 8, 8]},
+			"color": 2,
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#doublecross", "tintindex": 0},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#doublecross", "tintindex": 0}
+			}
+		},
+		{
+			"name": "doublecross",
+			"from": [8, 0, 0],
+			"to": [8, 16, 16],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 8, 8]},
+			"color": 2,
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#layer"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#layer"}
+			}
+		},
+		{
+			"name": "doublecross",
+			"from": [0, 0, 8],
+			"to": [16, 16, 8],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 8, 8]},
+			"color": 2,
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#doublecross", "tintindex": 0},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#doublecross", "tintindex": 0}
+			}
+		},
+		{
+			"name": "doublecross",
+			"from": [0, 0, 8],
+			"to": [16, 16, 8],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 8, 8]},
+			"color": 2,
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#layer"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#layer"}
+			}
+		}
+	]
+}

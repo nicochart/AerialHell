@@ -736,6 +736,10 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> STELLAR_FERN = BLOCKS.register("stellar_fern", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
 	public static final RegistryObject<Block> STELLAR_TALL_GRASS = BLOCKS.register("stellar_tall_grass", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
 	public static final RegistryObject<Block> STELLAR_TALL_FERN = BLOCKS.register("stellar_tall_fern", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> BLUISH_FERN = BLOCKS.register("bluish_fern", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> TALL_BLUISH_FERN = BLOCKS.register("tall_bluish_fern", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> POLYCHROME_FERN = BLOCKS.register("polychrome_fern", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> TALL_POLYCHROME_FERN = BLOCKS.register("tall_polychrome_fern", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
 	public static final RegistryObject<Block> STELLAR_DEAD_BUSH = BLOCKS.register("stellar_dead_bush", () -> new AerialHellDeadBushBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).mapColor(MapColor.WOOD).noCollission().instabreak().sound(SoundType.GRASS)));
 	public static final RegistryObject<Block> BRAMBLES = BLOCKS.register("brambles", () -> new BramblesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().strength(0.5F).sound(SoundType.GRASS)));
 	public static final RegistryObject<Block> SHADOW_BRAMBLES = BLOCKS.register("shadow_brambles", () -> new BramblesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().strength(0.5F).sound(SoundType.GRASS)));
@@ -747,6 +751,10 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> STELLAR_FERN_ITEM = ITEMS.register("stellar_fern", () -> new BlockItem(STELLAR_FERN.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_TALL_GRASS_ITEM = ITEMS.register("stellar_tall_grass", () -> new BlockItem(STELLAR_TALL_GRASS.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_TALL_FERN_ITEM = ITEMS.register("stellar_tall_fern", () -> new BlockItem(STELLAR_TALL_FERN.get(), new Item.Properties()));
+	public static final RegistryObject<Item> BLUISH_FERN_ITEM = ITEMS.register("bluish_fern", () -> new BlockItem(BLUISH_FERN.get(), new Item.Properties()));
+	public static final RegistryObject<Item> TALL_BLUISH_FERN_ITEM = ITEMS.register("tall_bluish_fern", () -> new BlockItem(TALL_BLUISH_FERN.get(), new Item.Properties()));
+	public static final RegistryObject<Item> POLYCHROME_FERN_ITEM = ITEMS.register("polychrome_fern", () -> new BlockItem(POLYCHROME_FERN.get(), new Item.Properties()));
+	public static final RegistryObject<Item> TALL_POLYCHROME_FERN_ITEM = ITEMS.register("tall_polychrome_fern", () -> new BlockItem(TALL_POLYCHROME_FERN.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_DEAD_BUSH_ITEM = ITEMS.register("stellar_dead_bush", () -> new BlockItem(STELLAR_DEAD_BUSH.get(), new Item.Properties()));
 	public static final RegistryObject<Item> BRAMBLES_ITEM = ITEMS.register("brambles", () -> new BlockItem(BRAMBLES.get(), new Item.Properties()));
 	public static final RegistryObject<Item> SHADOW_BRAMBLES_ITEM = ITEMS.register("shadow_brambles", () -> new BlockItem(SHADOW_BRAMBLES.get(), new Item.Properties()));

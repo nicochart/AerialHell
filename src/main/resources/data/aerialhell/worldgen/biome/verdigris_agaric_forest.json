@@ -10,7 +10,7 @@
     "water_color": 6321281,
     "water_fog_color": 4019819,
     "grass_color": 6718324,
-    "foliage_color": 6718324,
+    "foliage_color": 5863528,
     "grass_color_modifier": "none",
     "music": {
       "sound": "aerialhell:aerialhell.dimension_music",
@@ -134,6 +134,8 @@
       //"aerialhell:patch_purplish_stellar_grass",
       "aerialhell:patch_stellar_grass_ball",
       //"aerialhell:patch_stellar_tall_grass",
+      "aerialhell:patch_polychrome_fern",
+      //"aerialhell:patch_bluish_fern",
       //"aerialhell:patch_stellar_fern",
       //"aerialhell:patch_stellar_tall_fern",
       //"aerialhell:patch_aerial_berry_bush",

@@ -1,0 +1,7 @@
+{
+  "parent": "aerialhell:block/tinted_double_cross_with_foliage_tinted_layer",
+  "textures": {
+    "doublecross": "aerialhell:block/polychrome_fern",
+    "layer": "aerialhell:block/polychrome_fern_layer"
+  }
+}

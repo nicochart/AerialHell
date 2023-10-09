@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "aerialhell:block/tall_bluish_fern_bottom"
+    },
+    "half=upper": {
+      "model": "aerialhell:block/tall_bluish_fern_top"
+    }
+  }
+}

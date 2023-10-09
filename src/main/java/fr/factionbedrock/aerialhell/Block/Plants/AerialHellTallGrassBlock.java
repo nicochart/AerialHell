@@ -24,6 +24,16 @@ public class AerialHellTallGrassBlock extends TallGrassBlock
 	    	tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.STELLAR_TALL_FERN.get();
 	    	placePlant(worldIn, pos, tall_plant);
 	    }
+		else if (this == AerialHellBlocksAndItems.BLUISH_FERN.get())
+		{
+			tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.TALL_BLUISH_FERN.get();
+			placePlant(worldIn, pos, tall_plant);
+		}
+		else if (this == AerialHellBlocksAndItems.POLYCHROME_FERN.get())
+		{
+			tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.TALL_POLYCHROME_FERN.get();
+			placePlant(worldIn, pos, tall_plant);
+		}
 	    else if (this == AerialHellBlocksAndItems.BRAMBLES.get()) {}
 	    else
 	    {
