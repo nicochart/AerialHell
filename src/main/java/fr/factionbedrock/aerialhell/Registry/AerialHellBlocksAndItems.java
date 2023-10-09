@@ -15,6 +15,7 @@ import fr.factionbedrock.aerialhell.Block.Plants.*;
 import fr.factionbedrock.aerialhell.Block.Plants.Bushes.*;
 import fr.factionbedrock.aerialhell.Block.Plants.Vines.*;
 import fr.factionbedrock.aerialhell.Block.SolidEther.*;
+import fr.factionbedrock.aerialhell.Block.Trophies.BottomSlabLikeTrophyBlock;
 import fr.factionbedrock.aerialhell.Item.*;
 import fr.factionbedrock.aerialhell.Item.Bucket.*;
 import fr.factionbedrock.aerialhell.Item.Material.*;
@@ -631,6 +632,12 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> GOLDEN_NETHER_BOOKSHELF_ITEM = ITEMS.register("golden_nether_bookshelf", () -> new BlockItem(GOLDEN_NETHER_BOOKSHELF.get(), new Item.Properties()));
 	public static final RegistryObject<Item> SHADOW_CATACOMBS_BOOKSHELF_ITEM = ITEMS.register("shadow_catacombs_bookshelf", () -> new BlockItem(SHADOW_CATACOMBS_BOOKSHELF.get(), new Item.Properties()));
 	public static final RegistryObject<Item> VOLUCITE_BOOKSHELF_ITEM = ITEMS.register("volucite_bookshelf", () -> new BlockItem(VOLUCITE_BOOKSHELF.get(), new Item.Properties()));
+
+	//trophies
+	public static final RegistryObject<Block> LUNAR_PRIEST_TROPHY = BLOCKS.register("lunar_priest_trophy", () -> new BottomSlabLikeTrophyBlock(BlockBehaviour.Properties.copy(LUNATIC_STONE.get()).requiresCorrectToolForDrops()));
+	public static final RegistryObject<Block> CHAINED_GOD_TROPHY = BLOCKS.register("chained_god_trophy", () -> new BottomSlabLikeTrophyBlock(BlockBehaviour.Properties.copy(GOLDEN_NETHER_BRICKS.get()).requiresCorrectToolForDrops()));
+	public static final RegistryObject<Item> LUNAR_PRIEST_TROPHY_ITEM = ITEMS.register("lunar_priest_trophy", () -> new BlockItem(LUNAR_PRIEST_TROPHY.get(), new Item.Properties()));
+	public static final RegistryObject<Item> CHAINED_GOD_TROPHY_ITEM = ITEMS.register("chained_god_trophy", () -> new BlockItem(CHAINED_GOD_TROPHY.get(), new Item.Properties()));
 
 	//ores
 	public static final RegistryObject<Block> IRON_STELLAR_ORE = BLOCKS.register("iron_stellar_ore",() -> new AerialHellOreBlock(0, 2, BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));

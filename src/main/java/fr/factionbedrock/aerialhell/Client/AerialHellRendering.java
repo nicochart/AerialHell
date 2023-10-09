@@ -159,6 +159,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.VOLUCITE_TORCH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.VOLUCITE_WALL_TORCH.get(), cutout);
         render(() -> AerialHellBlocksAndItems.SKY_LADDER.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.CHAINED_GOD_TROPHY.get(), cutout);
 	}
 	
 	private static void render(Supplier<? extends Block> block, RenderType render)
