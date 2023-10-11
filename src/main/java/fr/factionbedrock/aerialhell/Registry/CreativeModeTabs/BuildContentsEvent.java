@@ -484,6 +484,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_CATACOMBS_CHEST_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_NETHER_CHEST_ITEM.get());
 
+            itemsToAdd.add(AerialHellBlocksAndItems.MUD_CYCLE_MAGE_TROPHY_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LUNAR_PRIEST_TROPHY_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.CHAINED_GOD_TROPHY_ITEM.get());
         }

@@ -634,8 +634,10 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> VOLUCITE_BOOKSHELF_ITEM = ITEMS.register("volucite_bookshelf", () -> new BlockItem(VOLUCITE_BOOKSHELF.get(), new Item.Properties()));
 
 	//trophies
+	public static final RegistryObject<Block> MUD_CYCLE_MAGE_TROPHY = BLOCKS.register("mud_cycle_mage_trophy", () -> new BottomSlabLikeTrophyBlock(BlockBehaviour.Properties.copy(LUNATIC_STONE.get()).requiresCorrectToolForDrops()));
 	public static final RegistryObject<Block> LUNAR_PRIEST_TROPHY = BLOCKS.register("lunar_priest_trophy", () -> new BottomSlabLikeTrophyBlock(BlockBehaviour.Properties.copy(LUNATIC_STONE.get()).requiresCorrectToolForDrops()));
 	public static final RegistryObject<Block> CHAINED_GOD_TROPHY = BLOCKS.register("chained_god_trophy", () -> new BottomSlabLikeTrophyBlock(BlockBehaviour.Properties.copy(GOLDEN_NETHER_BRICKS.get()).requiresCorrectToolForDrops()));
+	public static final RegistryObject<Item> MUD_CYCLE_MAGE_TROPHY_ITEM = ITEMS.register("mud_cycle_mage_trophy", () -> new BlockItem(MUD_CYCLE_MAGE_TROPHY.get(), new Item.Properties()));
 	public static final RegistryObject<Item> LUNAR_PRIEST_TROPHY_ITEM = ITEMS.register("lunar_priest_trophy", () -> new BlockItem(LUNAR_PRIEST_TROPHY.get(), new Item.Properties()));
 	public static final RegistryObject<Item> CHAINED_GOD_TROPHY_ITEM = ITEMS.register("chained_god_trophy", () -> new BlockItem(CHAINED_GOD_TROPHY.get(), new Item.Properties()));
 
