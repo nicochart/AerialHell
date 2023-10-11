@@ -486,6 +486,7 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.MUD_CYCLE_MAGE_TROPHY_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LUNAR_PRIEST_TROPHY_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.LILITH_TROPHY_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.CHAINED_GOD_TROPHY_ITEM.get());
         }
         if (event.getTabKey() == AerialHellCreativeModeTabs.AERIAL_HELL_TOOLS.getKey())
