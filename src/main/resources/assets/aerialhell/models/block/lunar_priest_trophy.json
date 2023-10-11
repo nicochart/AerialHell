@@ -18,13 +18,13 @@
 		},
 		{
 			"name": "base_3",
-			"from": [2, 0, 2],
+			"from": [2, 1, 2],
 			"to": [14, 4, 13],
 			"faces": {
-				"north": {"uv": [2, 8, 8, 10], "texture": "#trophy"},
-				"east": {"uv": [2.5, 12, 8, 14], "texture": "#trophy"},
-				"south": {"uv": [8, 10, 2, 12], "texture": "#trophy"},
-				"west": {"uv": [2.5, 14, 8, 16], "texture": "#trophy"},
+				"north": {"uv": [2, 8.5, 8, 10], "texture": "#trophy"},
+				"east": {"uv": [2.5, 11.5, 8, 13], "texture": "#trophy"},
+				"south": {"uv": [8, 10, 2, 11.5], "texture": "#trophy"},
+				"west": {"uv": [2.5, 13.5, 8, 15], "texture": "#trophy"},
 				"up": {"uv": [6.5, 14.5, 0.5, 9], "texture": "#trophy"},
 				"down": {"uv": [15, 9, 9, 14.5], "texture": "#trophy"}
 			}

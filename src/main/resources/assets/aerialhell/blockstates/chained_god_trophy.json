@@ -1,7 +1,19 @@
 {
-    "variants": {
-      "": {
-          "model": "aerialhell:block/chained_god_trophy"
+  "variants": {
+    "facing=east": {
+      "model": "aerialhell:block/chained_god_trophy",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "aerialhell:block/chained_god_trophy",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "aerialhell:block/chained_god_trophy"
+    },
+    "facing=west": {
+      "model": "aerialhell:block/chained_god_trophy",
+      "y": 90
     }
   }
 }

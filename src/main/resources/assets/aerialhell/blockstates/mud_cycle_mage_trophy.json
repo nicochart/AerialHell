@@ -1,7 +1,19 @@
 {
-    "variants": {
-      "": {
-          "model": "aerialhell:block/mud_cycle_mage_trophy"
+  "variants": {
+    "facing=east": {
+      "model": "aerialhell:block/mud_cycle_mage_trophy",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "aerialhell:block/mud_cycle_mage_trophy",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "aerialhell:block/mud_cycle_mage_trophy"
+    },
+    "facing=west": {
+      "model": "aerialhell:block/mud_cycle_mage_trophy",
+      "y": 90
     }
   }
 }
