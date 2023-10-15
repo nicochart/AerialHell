@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import fr.factionbedrock.aerialhell.World.AerialHellTeleporter;
 
 import net.minecraft.block.AbstractBlock;
@@ -112,75 +113,39 @@ public class AerialHellPortalBlock extends Block
 		return (!flag && facingState.getBlock() != this && !(new AerialHellPortalBlock.Size(worldIn, currentPos, stateAxis)).canCreatePortal())? Blocks.AIR.getDefaultState() : super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos); 
 	}
 	
-	private static RegistryKey<World> getDestination(Entity entity)
-	{
-		return entity.world.getDimensionKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION ? World.OVERWORLD : AerialHellDimensions.AERIAL_HELL_DIMENSION;
-	}
-	
 	@Override
 	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entity)
 	{
 		if(!entity.isPassenger() && !entity.isBeingRidden() && entity.isNonBoss())
 		{
-			if(entity.func_242280_ah())
+			if (entity instanceof LivingEntity && EntityHelper.isLivingEntityOnPortalCooldown((LivingEntity) entity) && !EntityHelper.isCreativePlayer(entity))
 			{
-				entity.func_242279_ag();
+				EntityHelper.setAfterTeleportationEffect((LivingEntity)entity);
 			}
+			if(entity.func_242280_ah()) {entity.func_242279_ag();}
 			else
 			{
-				if(!entity.world.isRemote && !pos.equals(entity.field_242271_ac))
+				if (entity instanceof LivingEntity && !EntityHelper.isCreativePlayer(entity))
 				{
-					entity.field_242271_ac = pos.toImmutable();
-				}
-				World serverworld = entity.world;
-				if(serverworld != null)
-				{
-					MinecraftServer minecraftserver = serverworld.getServer();
-					RegistryKey<World> worldDestination = getDestination(entity);
-					if(minecraftserver != null)
+					LivingEntity livingEntity = (LivingEntity) entity;
+					if (EntityHelper.isLivingEntityUnderAerialHellPortalEffect(livingEntity))
 					{
-						ServerWorld destination = minecraftserver.getWorld(worldDestination);
-						if(destination != null && minecraftserver.getAllowNether() && !entity.isPassenger())
+						if (EntityHelper.isLivingEntityReadyToTeleport(livingEntity))
 						{
-							if (entity instanceof PlayerEntity)
-							{
-								PlayerEntity player = ((PlayerEntity) entity);
-								applyPortalEffects(player);
-								int maxPortalTime = player.getMaxInPortalTime();
-								if (entity.portalCounter++ > maxPortalTime || player.isSneaking())
-								{
-									entity.portalCounter = 0;
-									teleportEntity(entity, destination);
-								}
-							}
-							else
-							{
-								teleportEntity(entity, destination);
-							}
+							EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, pos);
+							EntityHelper.setAfterTeleportationEffect(livingEntity);
 						}
 					}
+					else if (EntityHelper.shouldLivingEntityHavePortalEffect(livingEntity))
+					{
+						EntityHelper.setAerialHellPortalEffect(livingEntity);
+					}
+				}
+				else
+				{
+					EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, pos);
 				}
 			}
-		}
-	}
-	
-	private void teleportEntity(Entity entity, ServerWorld destination)
-	{
-		entity.world.getProfiler().startSection("aerialhell_portal");
-		entity.func_242279_ag();
-		entity.changeDimension(destination, new AerialHellTeleporter(destination));
-		entity.world.getProfiler().endSection();
-	}
-	
-	private void applyPortalEffects(LivingEntity entity)
-	{
-		if (!entity.isPotionActive(Effects.NAUSEA) || entity.getActivePotionEffect(Effects.NAUSEA).getDuration() < 100)
-		{
-			entity.addPotionEffect(new EffectInstance(Effects.NAUSEA, 120, 0));
-		}
-		if (!entity.isPotionActive(Effects.BLINDNESS) || entity.getActivePotionEffect(Effects.BLINDNESS).getDuration() < 50)
-		{
-			entity.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 90, 0));
 		}
 	}
 	

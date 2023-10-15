@@ -500,6 +500,8 @@
   "effect.aerialhell.shadow_immunity" : "阴影免疫",
   "effect.aerialhell.vulnerability" : "脆弱",
   "effect.aerialhell.traitor" : "背叛",
+  "effect.aerialhell.aerial_hell_portal" : "Portal",
+  "effect.aerialhell.aerial_hell_portal_cooldown" : "Portal Cooldown",
   "item.aerialhell.music_disc_aerial_hell_theme_tommaup": "音乐唱片",
   "item.aerialhell.music_disc_aerial_hell_theme_tommaup.desc": "Aerial Hell Theme - TomMaup",
   "item.aerialhell.music_disc_sweden_andreas_zoeller": "音乐唱片",

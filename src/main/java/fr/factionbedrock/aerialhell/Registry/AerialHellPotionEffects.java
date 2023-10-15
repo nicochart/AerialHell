@@ -1,10 +1,7 @@
 package fr.factionbedrock.aerialhell.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Effect.GodEffect;
-import fr.factionbedrock.aerialhell.Effect.HeadInTheCloudsEffect;
-import fr.factionbedrock.aerialhell.Effect.AerialHellEffect;
-import fr.factionbedrock.aerialhell.Effect.VulnerabilityEffect;
+import fr.factionbedrock.aerialhell.Effect.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.potion.Effect;
@@ -22,4 +19,6 @@ public class AerialHellPotionEffects
     public static final RegistryObject<Effect> SHADOW_IMMUNITY = EFFECTS.register("shadow_immunity", () -> (new AerialHellEffect(EffectType.BENEFICIAL, 9740385)));
     public static final RegistryObject<Effect> VULNERABILITY = EFFECTS.register("vulnerability", () -> (new VulnerabilityEffect(EffectType.HARMFUL, 6501508)));
     public static final RegistryObject<Effect> TRAITOR = EFFECTS.register("traitor", () -> (new AerialHellEffect(EffectType.HARMFUL, 6501508)));
+    public static final RegistryObject<Effect> AERIAL_HELL_PORTAL = EFFECTS.register("aerial_hell_portal", () -> (new AerialHellEffect(EffectType.NEUTRAL, 8171462)));
+    public static final RegistryObject<Effect> AERIAL_HELL_PORTAL_COOLDOWN = EFFECTS.register("aerial_hell_portal_cooldown", () -> (new AerialHellPortalEffect(EffectType.NEUTRAL, 6501508)));
 }
