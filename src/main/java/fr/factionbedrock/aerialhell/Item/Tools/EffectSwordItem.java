@@ -28,7 +28,7 @@ public class EffectSwordItem extends AerialHellSwordItem
 		{
 			if (entityIn instanceof LivingEntity)
 			{
-				if (((LivingEntity) entityIn).getOffhandItem().getItem() == this || ((LivingEntity) entityIn).getOffhandItem().getItem() == this)
+				if (((LivingEntity) entityIn).getMainHandItem().getItem() == this || ((LivingEntity) entityIn).getOffhandItem().getItem() == this)
 				{
 					if (this == AerialHellBlocksAndItems.GOD_SWORD.get()) {EffectToolHelper.PassiveEffects.applyGodEffect((LivingEntity)entityIn);}
 				}

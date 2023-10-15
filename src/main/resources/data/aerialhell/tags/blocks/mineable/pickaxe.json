@@ -97,6 +97,9 @@
     "aerialhell:lunatic_crystal_block",
     "aerialhell:cursed_crystal_block",
 
+    "#aerialhell:aerialhell_lantern",
+    "#aerialhell:overworld_lantern",
+
     "aerialhell:oscillator",
     "aerialhell:freezer",
     "aerialhell:stellar_furnace"

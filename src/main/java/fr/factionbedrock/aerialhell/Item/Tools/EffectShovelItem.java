@@ -28,7 +28,7 @@ public class EffectShovelItem extends AerialHellShovelItem
 		{
 			if (entityIn instanceof LivingEntity)
 			{
-				if (((LivingEntity) entityIn).getOffhandItem().getItem() == this || ((LivingEntity) entityIn).getOffhandItem().getItem() == this)
+				if (((LivingEntity) entityIn).getMainHandItem().getItem() == this || ((LivingEntity) entityIn).getOffhandItem().getItem() == this)
 				{
 					if (this == AerialHellBlocksAndItems.MAGMA_CUBE_SHOVEL.get())
 					{
