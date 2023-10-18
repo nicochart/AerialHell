@@ -27,6 +27,7 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.LUNATIC_PRIEST.get(), LunaticPriestRender::new);
         event.registerEntityRenderer(AerialHellEntities.EVIL_COW.get(), EvilCowRender::new);
         event.registerEntityRenderer(AerialHellEntities.CORTINARIUS_COW.get(), CortinariusCowRender::new);
+        event.registerEntityRenderer(AerialHellEntities.STELLAR_CHICKEN.get(), StellarChickenRender::new);
         event.registerEntityRenderer(AerialHellEntities.SHROOMBOOM.get(), ShroomBoomRender::new);
         event.registerEntityRenderer(AerialHellEntities.VERDIGRIS_ZOMBIE.get(), VerdigrisZombieRender::new);
         event.registerEntityRenderer(AerialHellEntities.SANDY_SHEEP.get(), SandySheepRender::new);

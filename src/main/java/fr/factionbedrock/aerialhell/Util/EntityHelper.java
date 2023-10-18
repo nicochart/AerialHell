@@ -23,6 +23,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.FlyingMob;
+import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Silverfish;
 import net.minecraft.world.entity.monster.Vex;
@@ -80,7 +81,7 @@ public class EntityHelper
 
     public static boolean isFeatheryEntity(Entity entity)
     {
-        return entity instanceof Silverfish || entity instanceof FlyingMob || entity instanceof Vex; //Vex includes FlyingSkulls
+        return entity instanceof Silverfish || entity instanceof FlyingMob || entity instanceof Chicken || entity instanceof Vex; //Vex includes FlyingSkulls
     }
 
     public static boolean isImmuneToBramblesDamage(Entity entity)
