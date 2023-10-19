@@ -56,7 +56,7 @@ public class StellarChickenEntity extends Chicken
 
     @Nullable @Override public ItemEntity spawnAtLocation(ItemLike item)
     {
-        if (item == Items.EGG) {return super.spawnAtLocation(AerialHellBlocksAndItems.SKY_STICK.get());}
+        if (item == Items.EGG) {return super.spawnAtLocation(AerialHellBlocksAndItems.STELLAR_EGG.get());}
         else {return super.spawnAtLocation(item);}
     }
 

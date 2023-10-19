@@ -100,6 +100,9 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<FlyingJellyfishEntity>> FLYING_JELLYFISH = ENTITIES.register("flying_jellyfish", () -> EntityType.Builder.<FlyingJellyfishEntity>of(FlyingJellyfishEntity::new, MobCategory.MONSTER)
 			.sized(3.0F, 3.0F).build("flying_jellyfish"));
 
+	public static final RegistryObject<EntityType<ThrownStellarEgg>> THROWN_STELLAR_EGG = ENTITIES.register("thrown_stellar_egg", () -> EntityType.Builder.<ThrownStellarEgg>of(ThrownStellarEgg::new, MobCategory.MISC)
+			.sized(0.25F, 0.25F).build("thrown_stellar_egg"));
+
 	public static final RegistryObject<EntityType<IronShurikenEntity>> IRON_SHURIKEN = ENTITIES.register("iron_shuriken", () -> EntityType.Builder.<IronShurikenEntity>of(IronShurikenEntity::new, MobCategory.MISC)
 			.sized(0.25F, 0.25F).build("iron_shuriken"));
 

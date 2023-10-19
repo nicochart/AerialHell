@@ -637,6 +637,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.VOLUCITE_AERIAL_BERRY.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GODS_VOLUCITE_AERIAL_BERRY.get());
             itemsToAdd.add(AerialHellBlocksAndItems.FROZEN_MUTTON.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.VIBRANT_CHICKEN.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.FROZEN_CHICKEN.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GLOWING_STICK_FRUIT.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VIBRANT_GLOWING_STICK_FRUIT.get());
             itemsToAdd.add(AerialHellBlocksAndItems.FROZEN_GLOWING_STICK_FRUIT.get());
@@ -683,6 +685,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.SMOKY_QUARTZ.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.MUD_BONE.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_EGG.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.FLUORITE.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MAGMATIC_GEL.get());

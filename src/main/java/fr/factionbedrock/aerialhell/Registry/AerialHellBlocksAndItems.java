@@ -1147,6 +1147,9 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> ROTTEN_LEATHER = ITEMS.register("rotten_leather",() -> new Item(new Item.Properties()));
 	public static final RegistryObject<Item> ARSONIST_UPGRADE_SMITHING_TEMPLATE = ITEMS.register("arsonist_upgrade_smithing_template", () -> ItemHelper.SmithingTemplate.createUpgradeTemplate("arsonist"));
 
+	//projectile item
+	public static final RegistryObject<Item> STELLAR_EGG = ITEMS.register("stellar_egg",() -> new StellarEggItem(new Item.Properties().stacksTo(16)));
+
 	//shurikens
 	public static final RegistryObject<Item> IRON_SHURIKEN = ITEMS.register("iron_shuriken", () -> new IronShurikenItem());
 	public static final RegistryObject<Item> GOLD_SHURIKEN = ITEMS.register("gold_shuriken", () -> new GoldShurikenItem());
@@ -1167,6 +1170,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> VIBRANT_AERIAL_BERRY = ITEMS.register("vibrant_aerial_berry",() -> new Item(new Item.Properties().rarity(AerialHellRarities.VIBRANT).food(new FoodProperties.Builder().nutrition(6).saturationMod(0.6F).build())));
 	public static final RegistryObject<Item> FROZEN_AERIAL_BERRY = ITEMS.register("frozen_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN, () -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 310, 0), () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 210, 0)));
 	public static final RegistryObject<Item> FROZEN_MUTTON = ITEMS.register("frozen_mutton", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN, () -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 310, 0), () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 210, 0)));
+	public static final RegistryObject<Item> VIBRANT_CHICKEN = ITEMS.register("vibrant_chicken", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT, () -> new MobEffectInstance(MobEffects.SLOW_FALLING, 60, 0)));
+	public static final RegistryObject<Item> FROZEN_CHICKEN = ITEMS.register("frozen_chicken", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN, () -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 310, 0), () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 210, 1), () -> new MobEffectInstance(MobEffects.HUNGER, 80, 0)));
 	public static final RegistryObject<Item> RUBY_AERIAL_BERRY = ITEMS.register("ruby_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, Rarity.RARE, () -> new MobEffectInstance(MobEffects.HEALTH_BOOST, 2400, 0)));
 	public static final RegistryObject<Item> VOLUCITE_AERIAL_BERRY = ITEMS.register("volucite_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT, () -> new MobEffectInstance(MobEffects.SLOW_FALLING, 2400, 2)));
 	public static final RegistryObject<Item> GLOWING_STICK_FRUIT = ITEMS.register("glowing_stick_fruit",() -> new ItemNameBlockItem(GLOWING_STICK_FRUIT_VINES.get(), new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.2F).build())));

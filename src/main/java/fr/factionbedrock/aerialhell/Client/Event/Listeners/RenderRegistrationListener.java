@@ -9,6 +9,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.entity.PaintingRenderer;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -59,6 +60,7 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.FOREST_CATERPILLAR.get(), CaterpillarRender::new);
         event.registerEntityRenderer(AerialHellEntities.CRYSTAL_CATERPILLAR.get(), CaterpillarRender::new);
 
+        event.registerEntityRenderer(AerialHellEntities.THROWN_STELLAR_EGG.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(AerialHellEntities.IRON_SHURIKEN.get(), ShurikenRender::new);
         event.registerEntityRenderer(AerialHellEntities.GOLD_SHURIKEN.get(), ShurikenRender::new);
         event.registerEntityRenderer(AerialHellEntities.DIAMOND_SHURIKEN.get(), ShurikenRender::new);

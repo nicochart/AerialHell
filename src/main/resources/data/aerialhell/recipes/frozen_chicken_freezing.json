@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:freezing",
+  "ingredient": {
+    "item": "minecraft:chicken"
+  },
+  "result": "aerialhell:frozen_chicken",
+  "experience": 0.0,
+  "cookingtime": 400
+}

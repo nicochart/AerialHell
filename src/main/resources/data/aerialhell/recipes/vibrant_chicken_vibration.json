@@ -1,0 +1,9 @@
+{
+  "type": "aerialhell:oscillating",
+  "ingredient": {
+    "item": "minecraft:chicken"
+  },
+  "result": "aerialhell:vibrant_chicken",
+  "experience": 0.0,
+  "cookingtime": 350
+}
