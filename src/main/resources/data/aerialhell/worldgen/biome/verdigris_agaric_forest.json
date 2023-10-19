@@ -49,6 +49,12 @@
     "creature": [
       {
         "type": "aerialhell:sandy_sheep",
+        "weight": 20,
+        "minCount": 2,
+        "maxCount": 8
+      },
+      {
+        "type": "aerialhell:stellar_boar",
         "weight": 30,
         "minCount": 3,
         "maxCount": 10

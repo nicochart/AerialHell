@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.*;
+import fr.factionbedrock.aerialhell.Entity.Neutral.BoarEntity;
 import fr.factionbedrock.aerialhell.Entity.Neutral.ForestCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.*;
@@ -48,6 +49,9 @@ public class AerialHellEntities
 
 	public static final RegistryObject<EntityType<StellarChickenEntity>> STELLAR_CHICKEN = ENTITIES.register("stellar_chicken", () -> EntityType.Builder.<StellarChickenEntity>of(StellarChickenEntity::new, MobCategory.CREATURE)
 			.sized(0.4F, 0.7F).build("stellar_chicken"));
+
+	public static final RegistryObject<EntityType<BoarEntity>> STELLAR_BOAR = ENTITIES.register("stellar_boar", () -> EntityType.Builder.<BoarEntity>of(BoarEntity::new, MobCategory.CREATURE)
+			.sized(0.9F, 0.9F).build("stellar_boar"));
 
 	public static final RegistryObject<EntityType<ShroomBoomEntity>> SHROOMBOOM = ENTITIES.register("shroomboom", () -> EntityType.Builder.<ShroomBoomEntity>of(ShroomBoomEntity::new, MobCategory.MONSTER)
 			.sized(0.6F, 1.7F).build("shroomboom"));
@@ -201,6 +205,7 @@ public class AerialHellEntities
 		SpawnPlacements.register(SANDY_SHEEP.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellAnimalEntity::canAerialHellAnimalSpawn);
 		SpawnPlacements.register(GLIDING_TURTLE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellAnimalEntity::canAerialHellAnimalSpawn);
 		SpawnPlacements.register(STELLAR_CHICKEN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, StellarChickenEntity::canSpawn);
+		SpawnPlacements.register(STELLAR_BOAR.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BoarEntity::canSpawn);
 
 		SpawnPlacements.register(EVIL_COW.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
 		SpawnPlacements.register(CORTINARIUS_COW.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);

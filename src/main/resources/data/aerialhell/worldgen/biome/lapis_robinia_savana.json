@@ -43,12 +43,18 @@
       },
       {
         "type": "aerialhell:gliding_turtle",
-        "weight": 30,
+        "weight": 10,
         "minCount": 3,
         "maxCount": 10
       },
       {
         "type": "aerialhell:stellar_chicken",
+        "weight": 10,
+        "minCount": 3,
+        "maxCount": 10
+      },
+      {
+        "type": "aerialhell:stellar_boar",
         "weight": 10,
         "minCount": 3,
         "maxCount": 10

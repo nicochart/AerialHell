@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 public class AerialHellModelLayers
 {
     public static final ModelLayerLocation CATERPILLAR = createModelLayerLocation("caterpillar");
+    public static final ModelLayerLocation BOAR = createModelLayerLocation("boar");
     public static final ModelLayerLocation CHAINED_GOD = createModelLayerLocation("chained_god");
     public static final ModelLayerLocation CHEST_MIMIC = createModelLayerLocation("chest_mimic");
     public static final ModelLayerLocation CRYSTAL_GOLEM = createModelLayerLocation("crystal_golem");

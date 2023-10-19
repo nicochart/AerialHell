@@ -55,19 +55,25 @@
     "creature": [
       {
         "type": "aerialhell:sandy_sheep",
-        "weight": 20,
+        "weight": 10,
         "minCount": 3,
         "maxCount": 10
       },
       {
         "type": "aerialhell:gliding_turtle",
-        "weight": 40,
+        "weight": 30,
         "minCount": 3,
         "maxCount": 10
       },
       {
         "type": "aerialhell:stellar_chicken",
-        "weight": 20,
+        "weight": 10,
+        "minCount": 3,
+        "maxCount": 10
+      },
+      {
+        "type": "aerialhell:stellar_boar",
+        "weight": 30,
         "minCount": 3,
         "maxCount": 10
       }

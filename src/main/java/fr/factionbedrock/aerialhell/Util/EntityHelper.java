@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.ShadowPineBarrelMimicEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AerialTreeChestMimicEntity;
+import fr.factionbedrock.aerialhell.Entity.Neutral.BoarEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
@@ -86,7 +87,7 @@ public class EntityHelper
 
     public static boolean isImmuneToBramblesDamage(Entity entity)
     {
-        boolean isImmuneToAllBrambles = entity instanceof SandySheepEntity || entity instanceof GlidingTurtleEntity || entity instanceof ShroomBoomEntity || entity instanceof EvilCowEntity || entity instanceof AbstractAerialHellSpiderEntity || isFeatheryEntity(entity) || entity instanceof VerdigrisZombieEntity;
+        boolean isImmuneToAllBrambles = entity instanceof SandySheepEntity || entity instanceof BoarEntity || entity instanceof GlidingTurtleEntity || entity instanceof ShroomBoomEntity || entity instanceof EvilCowEntity || entity instanceof AbstractAerialHellSpiderEntity || isFeatheryEntity(entity) || entity instanceof VerdigrisZombieEntity;
         if (isImmuneToAllBrambles) {return true;}
         else {return isImmuneToSomeShadowDamage(entity);}
     }

@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
+import fr.factionbedrock.aerialhell.Entity.Neutral.BoarEntity;
 import fr.factionbedrock.aerialhell.Entity.Neutral.ForestCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
@@ -33,6 +34,7 @@ public class AerialHellEntityAttributes
 		event.put(AerialHellEntities.EVIL_COW.get(), EvilCowEntity.registerAttributes().build());
 		event.put(AerialHellEntities.CORTINARIUS_COW.get(), EvilCowEntity.registerAttributes().build());
 		event.put(AerialHellEntities.STELLAR_CHICKEN.get(), StellarChickenEntity.registerAttributes().build());
+		event.put(AerialHellEntities.STELLAR_BOAR.get(), BoarEntity.registerAttributes().build());
 		event.put(AerialHellEntities.SHROOMBOOM.get(), ShroomBoomEntity.registerAttributes().build());
 		event.put(AerialHellEntities.VERDIGRIS_ZOMBIE.get(), VerdigrisZombieEntity.registerAttributes().build());
 		event.put(AerialHellEntities.SANDY_SHEEP.get(), SandySheepEntity.registerAttributes().build());
