@@ -127,7 +127,7 @@ public class AerialHellPaintingEntity extends HangingEntity implements VariantHo
 
     @Override public void playPlacementSound() {this.playSound(SoundEvents.PAINTING_PLACE, 1.0F, 1.0F);}
     @Override public void moveTo(double x, double y, double z, float yrot, float xrot) {this.setPos(x, y, z);}
-    @Override public void lerpTo(double x, double y, double z, float yrot, float xrot, int lerpSteps, boolean bool) {this.setPos(x, y, z);}
+    @Override public void lerpTo(double x, double y, double z, float yrot, float xrot, int lerpSteps) {this.setPos(x, y, z);}
     @Override public Vec3 trackingPosition() {return Vec3.atLowerCornerOf(this.pos);}
     @Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return new ClientboundAddEntityPacket(this, this.direction.get3DDataValue(), this.getPos());}
 

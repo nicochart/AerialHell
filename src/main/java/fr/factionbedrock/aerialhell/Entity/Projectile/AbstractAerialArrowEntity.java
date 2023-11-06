@@ -7,7 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.common.ForgeHooks;
 
 public abstract class AbstractAerialArrowEntity extends AbstractArrow
 {
@@ -37,8 +37,5 @@ public abstract class AbstractAerialArrowEntity extends AbstractArrow
         this.setNoGravity(false);
     }
 
-    public Packet<ClientGamePacketListener> getAddEntityPacket()
-    {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);}
 }

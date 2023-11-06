@@ -11,7 +11,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.PlayMessages;
 
 public class LightningShurikenEntity extends AbstractShurikenEntity
 {
@@ -35,10 +34,10 @@ public class LightningShurikenEntity extends AbstractShurikenEntity
 		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), worldIn);
 	}
 
-	public LightningShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
+	/*public LightningShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
 	{
 		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), worldIn);
-	}
+	}*/
 	
 	@Override
 	protected float getKnifeDamage()

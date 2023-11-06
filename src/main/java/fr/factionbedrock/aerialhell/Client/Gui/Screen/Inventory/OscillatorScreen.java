@@ -14,10 +14,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class OscillatorScreen extends AbstractFurnaceScreen<OscillatorMenu>
 {
-	private static final ResourceLocation OSCILLATOR_TOR_GUI_TEXTURES = new ResourceLocation(AerialHell.MODID, "textures/gui/container/oscillator.png");
-	
+	private static final ResourceLocation OSCILLATOR_GUI_TEXTURES = new ResourceLocation(AerialHell.MODID, "textures/gui/container/oscillator.png");
+	private static final ResourceLocation LIT_PROGRESS_SPRITE = new ResourceLocation(AerialHell.MODID, "container/oscillator/oscillating_progress.png");
+	private static final ResourceLocation OSCILLATING_PROGRESS_SPRITE = new ResourceLocation(AerialHell.MODID, "container/oscillator/progress.png");
+
 	public OscillatorScreen(OscillatorMenu container, Inventory inventory, Component name)
 	{
-		super(container, new SmeltingRecipeBookComponent(), inventory, name, OSCILLATOR_TOR_GUI_TEXTURES);
+		super(container, new SmeltingRecipeBookComponent(), inventory, name, OSCILLATOR_GUI_TEXTURES, LIT_PROGRESS_SPRITE, OSCILLATING_PROGRESS_SPRITE);
 	}
 }

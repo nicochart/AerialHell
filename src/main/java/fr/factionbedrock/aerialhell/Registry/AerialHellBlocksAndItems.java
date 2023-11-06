@@ -774,13 +774,13 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> PURPLISH_STELLAR_GRASS_ITEM = ITEMS.register("purplish_stellar_grass", () -> new BlockItem(PURPLISH_STELLAR_GRASS.get(), new Item.Properties()));
 
 	//flowers
-	public static final RegistryObject<Block> BLUE_FLOWER = BLOCKS.register("blue_flower", () -> new FlowerBlock(() -> MobEffects.BLINDNESS, 4, BlockBehaviour.Properties.copy(Blocks.DANDELION)));
+	public static final RegistryObject<Block> BLUE_FLOWER = BLOCKS.register("blue_flower", () -> new FlowerBlock(MobEffects.BLINDNESS, 4, BlockBehaviour.Properties.copy(Blocks.DANDELION)));
 	public static final RegistryObject<Item> BLUE_FLOWER_ITEM = ITEMS.register("blue_flower", () -> new BlockItem(BLUE_FLOWER.get(), new Item.Properties()));
 
-	public static final RegistryObject<Block> BLACK_ROSE = BLOCKS.register("black_rose", () -> new FlowerBlock(() -> MobEffects.SLOW_FALLING, 12, BlockBehaviour.Properties.copy(Blocks.DANDELION)));
+	public static final RegistryObject<Block> BLACK_ROSE = BLOCKS.register("black_rose", () -> new FlowerBlock(MobEffects.SLOW_FALLING, 12, BlockBehaviour.Properties.copy(Blocks.DANDELION)));
 	public static final RegistryObject<Item> BLACK_ROSE_ITEM = ITEMS.register("black_rose", () -> new BlockItem(BLACK_ROSE.get(), new Item.Properties()));
 
-	public static final RegistryObject<Block> BELLFLOWER = BLOCKS.register("bellflower", () -> new FlowerBlock(() -> MobEffects.DIG_SLOWDOWN, 12, BlockBehaviour.Properties.copy(Blocks.DANDELION)));
+	public static final RegistryObject<Block> BELLFLOWER = BLOCKS.register("bellflower", () -> new FlowerBlock(MobEffects.DIG_SLOWDOWN, 12, BlockBehaviour.Properties.copy(Blocks.DANDELION)));
 	public static final RegistryObject<Item> BELLFLOWER_ITEM = ITEMS.register("bellflower", () -> new BlockItem(BELLFLOWER.get(), new Item.Properties()));
 
 	//potted things

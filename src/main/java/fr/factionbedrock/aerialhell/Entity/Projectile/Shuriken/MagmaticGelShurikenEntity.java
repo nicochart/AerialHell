@@ -10,7 +10,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.PlayMessages;
 
 public class MagmaticGelShurikenEntity extends AbstractShurikenEntity
 {
@@ -34,10 +33,10 @@ public class MagmaticGelShurikenEntity extends AbstractShurikenEntity
 		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN.get(), worldIn);
 	}
 
-	public MagmaticGelShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
+	/*public MagmaticGelShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
 	{
 		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN.get(), worldIn);
-	}
+	}*/
 
 	@Override
 	protected float getKnifeDamage()

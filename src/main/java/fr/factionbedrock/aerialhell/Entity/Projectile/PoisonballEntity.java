@@ -21,7 +21,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.common.ForgeHooks;
 
 public class PoisonballEntity extends Fireball
 {
@@ -97,5 +97,5 @@ public class PoisonballEntity extends Fireball
 		if (this.isInLava() || this.isInWater() || this.tickCount > 500) {this.discard();}
 	}
 
-	@Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return NetworkHooks.getEntitySpawningPacket(this);}
+	@Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);}
 }

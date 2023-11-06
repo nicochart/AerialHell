@@ -10,9 +10,9 @@ import net.minecraft.resources.ResourceLocation;
 //vanilla copy : net.minecraft.world.item.crafting.SmeltingRecipe
 public class OscillatingRecipe extends AbstractCookingRecipe
 {
-	public OscillatingRecipe(ResourceLocation idIn, String groupIn, CookingBookCategory category, Ingredient ingredientIn, ItemStack resultIn, float experienceIn, int cookTimeIn)
+	public OscillatingRecipe(/*ResourceLocation idIn,*/ String groupIn, CookingBookCategory category, Ingredient ingredientIn, ItemStack resultIn, float experienceIn, int cookTimeIn)
 	{
-		super(RecipeTypes.OSCILLATING.get(), idIn, groupIn, category, ingredientIn, resultIn, experienceIn, cookTimeIn);
+		super(RecipeTypes.OSCILLATING.get(), /*idIn,*/ groupIn, category, ingredientIn, resultIn, experienceIn, cookTimeIn);
 	}
 
 	@Override public ItemStack getToastSymbol()

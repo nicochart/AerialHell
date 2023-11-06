@@ -13,8 +13,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
+import net.minecraftforge.common.ForgeHooks;
 
 public abstract class AbstractShurikenEntity extends ThrowableItemProjectile
 {
@@ -38,11 +37,11 @@ public abstract class AbstractShurikenEntity extends ThrowableItemProjectile
 		this.shurikenZRot = -135;
 	}
 
-	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, PlayMessages.SpawnEntity packet, Level worldIn)
+	/*public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, PlayMessages.SpawnEntity packet, Level worldIn)
 	{
 		super(type, worldIn);
 		this.shurikenZRot = -135;
-	}
+	}*/
 	
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound)
@@ -81,7 +80,7 @@ public abstract class AbstractShurikenEntity extends ThrowableItemProjectile
 	abstract protected float getKnifeDamage();
 	abstract protected void applyEntityImpactEffet(Entity entity);
 	
-	@Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return NetworkHooks.getEntitySpawningPacket(this);}
+	@Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);}
 
 	@Override abstract protected Item getDefaultItem();
 }

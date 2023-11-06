@@ -22,7 +22,7 @@ public class GodEffect extends MobEffect
     }
     
     @Override
-    public boolean isDurationEffectTick(int duration, int amplifier)
+    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier)
     {
     	this.duration = duration;
     	return true;

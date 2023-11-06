@@ -11,7 +11,7 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.common.ForgeHooks;
 
 public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
 {
@@ -29,10 +29,7 @@ public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
     	this.playSound(this.getShootSound(), 3, 0.875F + 0.25F * random.nextFloat());
     }
 
-    @Override public Packet<ClientGamePacketListener> getAddEntityPacket()
-    {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
+    @Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);}
     @Override protected void defineSynchedData() {}
     @Override protected float getGravity() {return 0.0F;}
 

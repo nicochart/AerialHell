@@ -75,7 +75,7 @@ public class VibrantAerialBerryBushBlock extends BushBlock implements Bonemealab
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(AGE);}
 
-    @Override public boolean isValidBonemealTarget(LevelReader level, BlockPos blockPos, BlockState blockState, boolean b) {return blockState.getValue(AGE) < 15;}
+    @Override public boolean isValidBonemealTarget(LevelReader level, BlockPos blockPos, BlockState blockState) {return blockState.getValue(AGE) < 15;}
     @Override public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos blockPos, BlockState blockState) {return blockState.getValue(AGE) < 13;}
 
     @Override

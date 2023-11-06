@@ -15,9 +15,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class StellarFurnaceScreen extends AbstractFurnaceScreen<StellarFurnaceMenu>
 {
 	private static final ResourceLocation STELLAR_FURNACE_GUI_TEXTURES = new ResourceLocation(AerialHell.MODID, "textures/gui/container/stellar_furnace.png");
-	
+	private static final ResourceLocation LIT_PROGRESS_SPRITE = new ResourceLocation("container/furnace/lit_progress");
+	private static final ResourceLocation BURN_PROGRESS_SPRITE = new ResourceLocation("container/furnace/burn_progress");
+
 	public StellarFurnaceScreen(StellarFurnaceMenu container, Inventory inventory, Component name)
 	{
-		super(container, new SmeltingRecipeBookComponent(), inventory, name, STELLAR_FURNACE_GUI_TEXTURES);
+		super(container, new SmeltingRecipeBookComponent(), inventory, name, STELLAR_FURNACE_GUI_TEXTURES, LIT_PROGRESS_SPRITE, BURN_PROGRESS_SPRITE);
 	}
 }

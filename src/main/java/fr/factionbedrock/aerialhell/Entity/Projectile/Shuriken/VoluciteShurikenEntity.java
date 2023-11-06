@@ -10,7 +10,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.PlayMessages;
 
 public class VoluciteShurikenEntity extends AbstractShurikenEntity
 {
@@ -37,10 +36,10 @@ public class VoluciteShurikenEntity extends AbstractShurikenEntity
 		super(AerialHellEntities.VOLUCITE_SHURIKEN.get(), worldIn);
 	}
 
-	public VoluciteShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
+	/*public VoluciteShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
 	{
 		super(AerialHellEntities.VOLUCITE_SHURIKEN.get(), worldIn);
-	}
+	}*/
 	
 	@Override
     public void tick()

@@ -38,8 +38,8 @@ public class AerialHellJei implements IModPlugin
     public void registerRecipes(IRecipeRegistration registration)
     {
         RecipeManager rm = Objects.requireNonNull(Minecraft.getInstance().level).getRecipeManager();
-        List<OscillatingRecipe> oscillating_recipes = rm.getAllRecipesFor(AerialHellRecipes.RecipeTypes.OSCILLATING.get());
-        List<FreezingRecipe> freezing_recipes = rm.getAllRecipesFor(AerialHellRecipes.RecipeTypes.FREEZING.get());
+        List<OscillatingRecipe> oscillating_recipes = rm.getAllRecipesFor(AerialHellRecipes.RecipeTypes.OSCILLATING.get()); //TODO
+        List<FreezingRecipe> freezing_recipes = rm.getAllRecipesFor(AerialHellRecipes.RecipeTypes.FREEZING.get()); //TODO
         registration.addRecipes(OSCILLATING, oscillating_recipes);
         registration.addRecipes(FREEZING, freezing_recipes);
     }

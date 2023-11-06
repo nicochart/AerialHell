@@ -8,7 +8,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.PlayMessages;
 
 public class AzuriteShurikenEntity extends AbstractShurikenEntity
 {
@@ -32,10 +31,10 @@ public class AzuriteShurikenEntity extends AbstractShurikenEntity
 		super(AerialHellEntities.AZURITE_SHURIKEN.get(), worldIn);
 	}
 
-	public AzuriteShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
+	/*public AzuriteShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
 	{
 		super(AerialHellEntities.AZURITE_SHURIKEN.get(), worldIn);
-	}
+	}*/
 
 	@Override
 	protected float getKnifeDamage()
