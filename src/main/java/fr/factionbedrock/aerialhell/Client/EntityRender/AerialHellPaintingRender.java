@@ -61,15 +61,15 @@ public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingE
         float f7 = textureAtlasSprite2.getU0();
         float f8 = textureAtlasSprite2.getU1();
         float f9 = textureAtlasSprite2.getV0();
-        float f10 = textureAtlasSprite2.getV(1.0F);
+        float f10 = textureAtlasSprite2.getV(0.0625F);
         float f11 = textureAtlasSprite2.getU0();
-        float f12 = textureAtlasSprite2.getU(1.0F);
+        float f12 = textureAtlasSprite2.getU(0.0625F);
         float f13 = textureAtlasSprite2.getV0();
         float f14 = textureAtlasSprite2.getV1();
         int i = p_115562_ / 16;
         int j = p_115563_ / 16;
-        float d0 = 16.0F / (float)i;
-        float d1 = 16.0F / (float)j;
+        double d0 = 1.0D / (double)i;
+        double d1 = 1.0D / (double)j;
 
         for(int k = 0; k < i; ++k)
         {
@@ -89,10 +89,10 @@ public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingE
                 if (direction == Direction.EAST) {k1 = Mth.floor(entity.getZ() + (double)((f15 + f16) / 2.0F / 16.0F));}
 
                 int l1 = LevelRenderer.getLightColor(entity.level(), new BlockPos(i1, j1, k1));
-                float f19 = textureAtlasSprite1.getU(d0 * (float)(i - k));
-                float f20 = textureAtlasSprite1.getU(d0 * (float)(i - (k + 1)));
-                float f21 = textureAtlasSprite1.getV(d1 * (float)(j - l));
-                float f22 = textureAtlasSprite1.getV(d1 * (float)(j - (l + 1)));
+                float f19 = textureAtlasSprite1.getU((float)(d0 * (double)(i - k)));
+                float f20 = textureAtlasSprite1.getU((float)(d0 * (double)(i - (k + 1))));
+                float f21 = textureAtlasSprite1.getV((float)(d1 * (double)(j - l)));
+                float f22 = textureAtlasSprite1.getV((float)(d1 * (double)(j - (l + 1))));
                 this.vertex(matrix4f, matrix3f, consumer, f15, f18, f20, f21, -0.5F, 0, 0, -1, l1);
                 this.vertex(matrix4f, matrix3f, consumer, f16, f18, f19, f21, -0.5F, 0, 0, -1, l1);
                 this.vertex(matrix4f, matrix3f, consumer, f16, f17, f19, f22, -0.5F, 0, 0, -1, l1);
