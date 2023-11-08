@@ -11,8 +11,10 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,8 +40,12 @@ public class AerialHellJei implements IModPlugin
     public void registerRecipes(IRecipeRegistration registration)
     {
         RecipeManager rm = Objects.requireNonNull(Minecraft.getInstance().level).getRecipeManager();
-        List<OscillatingRecipe> oscillating_recipes = rm.getAllRecipesFor(AerialHellRecipes.RecipeTypes.OSCILLATING.get()); //TODO
-        List<FreezingRecipe> freezing_recipes = rm.getAllRecipesFor(AerialHellRecipes.RecipeTypes.FREEZING.get()); //TODO
+        List<RecipeHolder<OscillatingRecipe>> oscillating_recipe_holders = rm.getAllRecipesFor(AerialHellRecipes.RecipeTypes.OSCILLATING.get()); //TODO
+        List<RecipeHolder<FreezingRecipe>> freezing_recipe_holders = rm.getAllRecipesFor(AerialHellRecipes.RecipeTypes.FREEZING.get()); //TODO
+        List<OscillatingRecipe> oscillating_recipes = new ArrayList<>();
+        List<FreezingRecipe> freezing_recipes = new ArrayList<>();
+        for (RecipeHolder<OscillatingRecipe> recipe : oscillating_recipe_holders) {oscillating_recipes.add(recipe.value());}
+        for (RecipeHolder<FreezingRecipe> recipe : freezing_recipe_holders) {freezing_recipes.add(recipe.value());}
         registration.addRecipes(OSCILLATING, oscillating_recipes);
         registration.addRecipes(FREEZING, freezing_recipes);
     }
