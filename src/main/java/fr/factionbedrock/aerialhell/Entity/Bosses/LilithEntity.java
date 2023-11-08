@@ -21,6 +21,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -150,7 +151,9 @@ public class LilithEntity extends AbstractBossEntity
 	
 	@Override
 	public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {return false;}
-	
+
+	@Override public Item getTrophy() {return AerialHellBlocksAndItems.LILITH_TROPHY_ITEM.get();}
+
 	@Override public void tick()
     {
 		if (this.isActive() && !this.isTransformed() && !this.isTransforming())

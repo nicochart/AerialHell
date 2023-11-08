@@ -7,6 +7,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.world.BossEvent;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
@@ -17,15 +18,16 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
 
-public class AbstractBossEntity extends AbstractActivableEntity
+public abstract class AbstractBossEntity extends AbstractActivableEntity
 {
 	protected final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.GREEN, BossEvent.BossBarOverlay.PROGRESS);
 	public static final EntityDataAccessor<Integer> BOSS_DIFFICULTY = SynchedEntityData.defineId(AbstractBossEntity.class, EntityDataSerializers.INT);
-	
+
 	public AbstractBossEntity(EntityType<? extends Monster> type, Level world) {super(type, world);}
 
 	@Override
@@ -109,6 +111,16 @@ public class AbstractBossEntity extends AbstractActivableEntity
 			this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 54000, Math.min(3, amplifier - 1), false, false));
 		}
 	}
+
+	@Override protected void dropCustomDeathLoot(DamageSource p_33574_, int p_33575_, boolean p_33576_)
+	{
+		if (this.getTrophy() != null)
+		{
+			if (this.getRandom().nextInt(10) == 0) {this.spawnAtLocation(this.getTrophy());}
+		}
+	}
+
+	@Nullable public abstract Item getTrophy();
 
 	@Override public int getMinTimeToActivate() {return 5;}
 	@Override public double getMinDistanceToActivate() {return 8;}

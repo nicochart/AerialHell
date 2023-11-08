@@ -3,10 +3,12 @@ package fr.factionbedrock.aerialhell.Entity.Bosses;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -168,7 +170,9 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	    }
 		else {super.handleEntityEvent(id);}
 	}
-	
+
+	@Override public Item getTrophy() {return AerialHellBlocksAndItems.LUNAR_PRIEST_TROPHY_ITEM.get();}
+
 	@Override public void tick()
 	{		
 		super.tick();

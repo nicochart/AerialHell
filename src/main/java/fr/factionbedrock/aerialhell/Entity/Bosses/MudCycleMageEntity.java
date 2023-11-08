@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralCycleMageEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.Entity;
@@ -20,6 +21,7 @@ import net.minecraft.world.entity.ai.goal.RestrictSunGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.damagesource.DamageSource;
@@ -75,6 +77,8 @@ public class MudCycleMageEntity extends AbstractBossEntity
 	public boolean isDamageAmountSinceLastSummonSufficentToTriggerSummon() {return this.damageAmountSinceLastSummon > 85 - 4 * this.getDifficulty();}
 
 	public void resetDamageAmountSinceLastSummon() {this.damageAmountSinceLastSummon = 0;}
+
+	@Override public Item getTrophy() {return AerialHellBlocksAndItems.MUD_CYCLE_MAGE_TROPHY_ITEM.get();}
 
 	@Override public void tick()
 	{		
