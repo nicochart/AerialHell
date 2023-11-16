@@ -35,6 +35,7 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.SANDY_SHEEP.get(), SandySheepRender::new);
         event.registerEntityRenderer(AerialHellEntities.GLIDING_TURTLE.get(), GlidingTurtleRender::new);
         event.registerEntityRenderer(AerialHellEntities.FAT_PHANTOM.get(), FatPhantomRender::new);
+        event.registerEntityRenderer(AerialHellEntities.KODAMA.get(), KodamaRender::new);
         event.registerEntityRenderer(AerialHellEntities.CRYSTAL_SLIME.get(), CrystalSlimeRender::new);
         event.registerEntityRenderer(AerialHellEntities.MUD_SOLDIER.get(), MudSoldierRender::new);
         event.registerEntityRenderer(AerialHellEntities.MUD_SPECTRAL_SOLDIER.get(), MudSoldierRender::new);
@@ -98,6 +99,7 @@ public class RenderRegistrationListener
         event.registerLayerDefinition(AerialHellModelLayers.ELEMENT_SPIRIT, ElementSpiritModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.FLYING_JELLYFISH, FlyingJellyfishModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.GLIDING_TURTLE, GlidingTurtleModel::createBodyLayer);
+        event.registerLayerDefinition(AerialHellModelLayers.KODAMA, KodamaModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.LILITH, LilithModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.LUNATIC_PRIEST, LunaticPriestModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.MUD_CYCLE_MAGE, MudCycleMageModel::createBodyLayer);

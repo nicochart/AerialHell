@@ -22,9 +22,7 @@ public class AerialHellEntityAttributes
 	public static void entityAttributes(EntityAttributeCreationEvent event)
 	{
 		/*
-		Do not forget to register the attributes ! If you forget and try to summon the entity, this exception will pop :
-		java.lang.NullPointerException: Cannot invoke "net.minecraft.entity.ai.attributes.AttributeModifierMap.getAttributeValue(net.minecraft.entity.ai.attributes.Attribute)" because "this.attributeMap" is null
-		Entity with no attributes registered and be summoned 
+		Do not forget to register the attributes ! Entity with no attributes registered can't be summoned
 		*/
 		event.put(AerialHellEntities.STELLAR_STONE_AUTOMATON.get(), StellarStoneAutomatonEntity.registerAttributes().build());
 		event.put(AerialHellEntities.MUD_GOLEM.get(), MudGolemEntity.registerAttributes().build());
@@ -40,6 +38,7 @@ public class AerialHellEntityAttributes
 		event.put(AerialHellEntities.SANDY_SHEEP.get(), SandySheepEntity.registerAttributes().build());
 		event.put(AerialHellEntities.GLIDING_TURTLE.get(), GlidingTurtleEntity.registerAttributes().build());
 		event.put(AerialHellEntities.FAT_PHANTOM.get(), FatPhantomEntity.registerAttributes().build());
+		event.put(AerialHellEntities.KODAMA.get(), KodamaEntity.registerAttributes().build());
 		event.put(AerialHellEntities.CRYSTAL_SLIME.get(), CrystalSlimeEntity.registerAttributes().build());
 		event.put(AerialHellEntities.MUD_SOLDIER.get(), MudSoldierEntity.registerAttributes().build());
 		event.put(AerialHellEntities.MUD_SPECTRAL_SOLDIER.get(), MudSpectralSoldierEntity.registerAttributes().build());

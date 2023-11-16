@@ -757,6 +757,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.SANDY_SHEEP_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GLIDING_TURTLE_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.FAT_PHANTOM_SPAWN_EGG.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.KODAMA_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MUD_GOLEM_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MUD_SOLDIER_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MUD_CYCLE_MAGE_SPAWN_EGG.get());

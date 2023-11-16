@@ -15,6 +15,7 @@ public class AerialHellModelLayers
     public static final ModelLayerLocation ELEMENT_SPIRIT = createModelLayerLocation("element_spirit");
     public static final ModelLayerLocation FLYING_JELLYFISH = createModelLayerLocation( "flying_jellyfish");
     public static final ModelLayerLocation GLIDING_TURTLE = createModelLayerLocation("gliding_turtle");
+    public static final ModelLayerLocation KODAMA = createModelLayerLocation("kodama");
     public static final ModelLayerLocation LILITH = createModelLayerLocation("lilith");
     public static final ModelLayerLocation LUNATIC_PRIEST = createModelLayerLocation("lunatic_priest");
     public static final ModelLayerLocation MUD_CYCLE_MAGE = createModelLayerLocation("mud_cycle_mage");

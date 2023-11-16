@@ -68,6 +68,9 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<FatPhantomEntity>> FAT_PHANTOM = ENTITIES.register("fat_phantom", () -> EntityType.Builder.<FatPhantomEntity>of(FatPhantomEntity::new, MobCategory.CREATURE)
 			.sized(1.3F, 1.0F).fireImmune().build("fat_phantom"));
 
+	public static final RegistryObject<EntityType<KodamaEntity>> KODAMA = ENTITIES.register("kodama", () -> EntityType.Builder.<KodamaEntity>of(KodamaEntity::new, MobCategory.CREATURE)
+			.sized(0.7F, 0.9F).build("kodama"));
+
 	public static final RegistryObject<EntityType<CrystalSlimeEntity>> CRYSTAL_SLIME = ENTITIES.register("crystal_slime", () -> EntityType.Builder.<CrystalSlimeEntity>of(CrystalSlimeEntity::new, MobCategory.MONSTER)
 			.sized(2.0F, 2.0F).build("crystal_slime"));
 
