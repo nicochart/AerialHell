@@ -16,14 +16,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class KodamaRender<T extends KodamaEntity> extends MobRenderer<T, KodamaModel<T>>
 {
 	private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/kodama/kodama.png");
-	private static boolean SKIN = false, FACE = true;
+	private static boolean CREATURE_RENDER = false, EMPTY_RENDER = true;
 
 	public KodamaRender(EntityRendererProvider.Context context)
 	{
-		super(context, new KodamaModel(context.bakeLayer(AerialHellModelLayers.KODAMA),FACE), 0.2F);
-		this.addLayer(new KodamaSkinLayer<>(this, new KodamaModel(context.bakeLayer(AerialHellModelLayers.KODAMA),SKIN)));
+		super(context, new KodamaModel(context.bakeLayer(AerialHellModelLayers.KODAMA), EMPTY_RENDER), 0.0F);
+		this.addLayer(new KodamaSkinLayer<>(this, new KodamaModel(context.bakeLayer(AerialHellModelLayers.KODAMA), CREATURE_RENDER)));
 	}
-	
+
 	@Override public ResourceLocation getTextureLocation(T entity) {return TEXTURE;}
 
 	@Override protected void scale(T entityIn, PoseStack matrixStackIn, float partialTickTime)

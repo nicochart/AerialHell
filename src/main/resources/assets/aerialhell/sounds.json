@@ -236,6 +236,25 @@
     "subtitle": "subtitles.entity.gliding_turtle.death",
     "sounds": ["aerialhell:mob/gliding_turtle/death"]
   },
+  "entity.kodama.rattle": {
+    "subtitle": "subtitles.entity.kodama.rattle",
+    "sounds": ["aerialhell:mob/kodama/rattle"]
+  },
+  "entity.kodama.ambient": {
+    "subtitle": "subtitles.entity.kodama.ambient",
+    "sounds": ["aerialhell:mob/kodama/ambient", "aerialhell:mob/kodama/rattle"]
+  },
+  "entity.kodama.hurt": {
+    "subtitle": "subtitles.entity.kodama.hurt",
+    "sounds": [
+      "aerialhell:mob/kodama/hurt_1",
+      "aerialhell:mob/kodama/hurt_2"
+    ]
+  },
+  "entity.kodama.death": {
+    "subtitle": "subtitles.entity.kodama.death",
+    "sounds": ["aerialhell:mob/kodama/death"]
+  },
   "entity.torn_spirit.ambient": {
     "subtitle": "subtitles.entity.torn_spirit.ambient",
     "sounds": ["aerialhell:mob/torn_spirit/ambient"]

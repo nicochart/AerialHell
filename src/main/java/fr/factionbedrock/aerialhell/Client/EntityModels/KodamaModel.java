@@ -26,10 +26,11 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 	private final ModelPart arm1;
 	private final ModelPart leg0;
 	private final ModelPart leg1;
-	private boolean isFace;
+	private boolean isEmpty;
 	private int faceId;
+	private long dayTime;
 
-	public KodamaModel(ModelPart root, boolean isFace)
+	public KodamaModel(ModelPart root, boolean isEmpty)
 	{
 		this.body = root.getChild("body");
 		this.head = root.getChild("head");
@@ -42,7 +43,7 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 		this.arm1 = root.getChild("arm1");
 		this.leg0 = root.getChild("leg0");
 		this.leg1 = root.getChild("leg1");
-		this.isFace = isFace;
+		this.isEmpty = isEmpty;
 	}
 
 	public static LayerDefinition createBodyLayer()
@@ -88,6 +89,7 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
 		this.faceId = entity.getFaceId();
+		this.dayTime = entity.level().getDayTime() % 24000;
 		setHeadRot(this.head, netHeadYaw, headPitch);
 		setHeadRot(this.face_1, netHeadYaw, headPitch);
 		setHeadRot(this.face_2, netHeadYaw, headPitch);
@@ -107,22 +109,57 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 
 	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{
-		if (this.isFace)
-		{
-			if (this.faceId == 1) {face_1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);}
-			else if (this.faceId == 2) {face_2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);}
-			else if (this.faceId == 3) {face_3.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);}
-			else if (this.faceId == 4) {face_4.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);}
-			else if (this.faceId == 5) {face_5.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);}
-		}
+		if (this.isEmpty) {}
 		else
 		{
-			body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-			head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-			arm0.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-			arm1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-			leg0.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-			leg1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+			float a=alpha - getAlphaBonus();
+
+			if (this.faceId == 1) {face_1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
+			else if (this.faceId == 2) {face_2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
+			else if (this.faceId == 3) {face_3.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
+			else if (this.faceId == 4) {face_4.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
+			else if (this.faceId == 5) {face_5.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
+
+			float r=red,g=green,b=blue;
+			r-=getBlueBonus(); g-=getBlueBonus()/10;
+			body.render(poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
+			head.render(poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
+			arm0.render(poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
+			arm1.render(poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
+			leg0.render(poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
+			leg1.render(poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
 		}
+	}
+
+	private float getBlueBonus()
+	{
+		if (this.dayTime > 13000) //night time (from 13000 to 24000)
+		{
+			float blueBonus;
+			long tickBonus;
+			if (this.dayTime < 18000) //first half of the night, 13000 < time < 18000
+			{
+				tickBonus = this.dayTime - 13000; //from 0 at 13000 (night start) to 5000 (midnight)
+				blueBonus = (float)tickBonus/5000;
+			}
+			else //second half of the night, 18000 < time < 24000
+			{
+				tickBonus = 24000 - this.dayTime; //from 4000 at 18000 (midnight) to 0 at 24000
+				blueBonus = (float)tickBonus/6000;
+			}
+			return blueBonus/2;
+		}
+		else {return 0.0F;}
+	}
+
+	private float getAlphaBonus()
+	{
+		if (this.dayTime <= 13000)
+		{
+			if (this.dayTime < 1000) {return (float)this.dayTime/1000;}
+			else if (this.dayTime >= 1000 && this.dayTime <= 12000) {return 1.0f;}
+			else {return ((float)13000 - this.dayTime)/1000;}
+		}
+		else {return 0.0F;}
 	}
 }
