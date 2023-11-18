@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
 import fr.factionbedrock.aerialhell.Entity.Passive.KodamaEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.world.entity.ai.goal.Goal;
 
 public class KodamaRattleGoal extends Goal
@@ -44,7 +43,7 @@ public class KodamaRattleGoal extends Goal
 
     protected boolean shouldStartRattling() {return this.rattleTimer <= 0;}
     protected void startRattling() {this.goalOwner.setRattling(true);}
-    protected void resetRattleTimer() {this.rattleTimer += 100 + this.goalOwner.getRandom().nextInt(100);} //500 500
+    protected void resetRattleTimer() {this.rattleTimer += 200 + this.goalOwner.getRandom().nextInt(this.goalOwner.rattleTimerMalus);}
     protected int getRattlingCountTargetValue() {return 5;}
     protected int getRattlingTimerDecreaseOnCountIncrease() {return getRattlingTimerTargetValue() / 4;}
     protected int getRattlingTimerTargetValue() {return this.goalOwner.getMaxRattlingTiltAngle();}

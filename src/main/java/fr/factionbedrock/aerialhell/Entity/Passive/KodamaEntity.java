@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.Entity.Passive;
 
 import fr.factionbedrock.aerialhell.Entity.AI.KodamaRattleGoal;
 import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.nbt.CompoundTag;
@@ -30,8 +29,10 @@ public class KodamaEntity extends AerialHellAnimalEntity
     private static final EntityDataAccessor<Integer> SIZE_ID = SynchedEntityData.defineId(KodamaEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_RATTLING = SynchedEntityData.defineId(KodamaEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> RATTLING_TILT_ANGLE = SynchedEntityData.defineId(KodamaEntity.class, EntityDataSerializers.INT);
+    public int rattleTimerMalus;
+    public float rattleHeadRotZAmplitude;
 
-    public KodamaEntity(EntityType<? extends KodamaEntity> type, Level worldIn) {super(type, worldIn);}
+    public KodamaEntity(EntityType<? extends KodamaEntity> type, Level worldIn) {super(type, worldIn); this.setRandomRattleTimerMalusAndHeadRotAmplitude();}
 
     @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag compoundTag)
     {
@@ -85,6 +86,19 @@ public class KodamaEntity extends AerialHellAnimalEntity
         this.setSizeId(this.random.nextInt(5)+1);
     }
 
+    private void setRandomRattleTimerMalusAndHeadRotAmplitude()
+    {
+        this.rattleTimerMalus = random.nextInt(300, 600);
+        int negative_or_positive = this.random.nextInt(2) == 0 ? -1 : 1;
+        this.rattleHeadRotZAmplitude = negative_or_positive * (5 + this.random.nextInt(5)) / 10.0F;
+    }
+
+    @Override public void tick()
+    {
+        if (tickCount % 6000 == 0 && !this.isRattling()) {this.setRandomRattleTimerMalusAndHeadRotAmplitude();}
+        super.tick();
+    }
+
     @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_KODAMA_AMBIENT.get();}
     @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return AerialHellSoundEvents.ENTITY_KODAMA_HURT.get();}
     @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_KODAMA_DEATH.get();}
@@ -93,7 +107,7 @@ public class KodamaEntity extends AerialHellAnimalEntity
     public void playRattleSound()
     {
         SoundEvent soundevent = this.getRattleSound();
-        if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getVoicePitch());}
+        if (soundevent != null) {this.playSound(soundevent, 0.6F, this.getVoicePitch());}
     }
 
     @Override public void addAdditionalSaveData(CompoundTag compound)
