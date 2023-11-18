@@ -29,6 +29,8 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 	private boolean isEmpty;
 	private int faceId;
 	private long dayTime;
+	private int rattleTimer;
+	private int rattleCount;
 
 	public KodamaModel(ModelPart root, boolean isEmpty)
 	{
@@ -44,6 +46,8 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 		this.leg0 = root.getChild("leg0");
 		this.leg1 = root.getChild("leg1");
 		this.isEmpty = isEmpty;
+		this.rattleTimer = 0;
+		this.rattleCount = 0;
 	}
 
 	public static LayerDefinition createBodyLayer()
@@ -90,12 +94,8 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 	{
 		this.faceId = entity.getFaceId();
 		this.dayTime = entity.level().getDayTime() % 24000;
-		setHeadRot(this.head, netHeadYaw, headPitch);
-		setHeadRot(this.face_1, netHeadYaw, headPitch);
-		setHeadRot(this.face_2, netHeadYaw, headPitch);
-		setHeadRot(this.face_3, netHeadYaw, headPitch);
-		setHeadRot(this.face_4, netHeadYaw, headPitch);
-		setHeadRot(this.face_5, netHeadYaw, headPitch);
+		this.setNormalHeadRot(netHeadYaw, headPitch);
+		this.setHeadZRot(this.getZRotAngleFromEntityTiltAngle(entity));
 
 		this.arm0.zRot = -0.1F;
 		this.arm1.zRot = 0.1F;
@@ -105,7 +105,24 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 		this.leg1.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
 	}
 
-	private void setHeadRot(ModelPart part, float netHeadYaw, float headPitch) {part.yRot = netHeadYaw / 57.3F; part.xRot = headPitch / 57.3F;}
+	private void setRattleHeadRot() {this.setHeadZRot(this.rattleTimer / 400.0F);}
+
+	private void resetRattleHeadRot() {this.setHeadZRot(0.0F);}
+
+	private void setNormalHeadRot(float netHeadYaw, float headPitch)
+	{
+		this.setHeadXRot(headPitch / 57.3F); this.setHeadYRot(netHeadYaw / 57.3F);
+	}
+
+	private void setHeadXRot(float xrot) {this.head.xRot = xrot; this.face_1.xRot = xrot; this.face_2.xRot = xrot; this.face_3.xRot = xrot; this.face_4.xRot = xrot; this.face_5.xRot = xrot;}
+	private void setHeadYRot(float yrot) {this.head.yRot = yrot; this.face_1.yRot = yrot; this.face_2.yRot = yrot; this.face_3.yRot = yrot; this.face_4.yRot = yrot; this.face_5.yRot = yrot;}
+	private void setHeadZRot(float zrot) {this.head.zRot = zrot; this.face_1.zRot = zrot; this.face_2.zRot = zrot; this.face_3.zRot = zrot; this.face_4.zRot = zrot; this.face_5.zRot = zrot;}
+
+	private float getMaxHeadZRot() {return 0.6F;}
+	private float getZRotAngleFromEntityTiltAngle(T entity)
+	{
+		return this.getMaxHeadZRot() * entity.getRattlingTiltAngle() / entity.getMaxRattlingTiltAngle();
+	}
 
 	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{

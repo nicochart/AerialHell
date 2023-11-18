@@ -242,7 +242,7 @@
   },
   "entity.kodama.ambient": {
     "subtitle": "subtitles.entity.kodama.ambient",
-    "sounds": ["aerialhell:mob/kodama/ambient", "aerialhell:mob/kodama/rattle"]
+    "sounds": ["aerialhell:mob/kodama/ambient"]
   },
   "entity.kodama.hurt": {
     "subtitle": "subtitles.entity.kodama.hurt",
