@@ -39,6 +39,10 @@ public class EntityHelper
 {
     public static boolean isCreativePlayer(Entity entity) {return entity instanceof Player player && player.isCreative();}
 
+    public static boolean isSpectatorPlayer(Entity entity) {return entity instanceof Player player && player.isSpectator();}
+
+    public static boolean isCreaOrSpecPlayer(Entity entity) {return entity instanceof Player player && (player.isCreative() || player.isSpectator());}
+
     public static boolean isLivingEntityUnderInTheCloudsEffect(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get());}
 
     public static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.SHADOW_IMMUNITY.get());}

@@ -9,6 +9,7 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.ChainedGodFireballEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
@@ -170,8 +171,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
 		for (Entity entity : nearbyEntities)
 		{
-			boolean creaOrSpecPlayer = (entity instanceof Player player && (player.isSpectator() || player.isCreative()));
-			if (entity instanceof LivingEntity && !creaOrSpecPlayer) {dragEntity(entity);}
+			if (entity instanceof LivingEntity && !EntityHelper.isCreaOrSpecPlayer(entity)) {dragEntity(entity);}
 		}
 	}
 

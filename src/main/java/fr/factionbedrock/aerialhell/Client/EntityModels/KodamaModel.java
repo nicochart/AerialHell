@@ -22,6 +22,8 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 	private final ModelPart face_3;
 	private final ModelPart face_4;
 	private final ModelPart face_5;
+	private final ModelPart face_6;
+	private final ModelPart face_7;
 	private final ModelPart arm0;
 	private final ModelPart arm1;
 	private final ModelPart leg0;
@@ -29,8 +31,7 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 	private boolean isEmpty;
 	private int faceId;
 	private long dayTime;
-	private int rattleTimer;
-	private int rattleCount;
+	private float forcedAlphaBonus;
 
 	public KodamaModel(ModelPart root, boolean isEmpty)
 	{
@@ -41,13 +42,14 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 		this.face_3 = root.getChild("face_3");
 		this.face_4 = root.getChild("face_4");
 		this.face_5 = root.getChild("face_5");
+		this.face_6 = root.getChild("face_6");
+		this.face_7 = root.getChild("face_7");
 		this.arm0 = root.getChild("arm0");
 		this.arm1 = root.getChild("arm1");
 		this.leg0 = root.getChild("leg0");
 		this.leg1 = root.getChild("leg1");
 		this.isEmpty = isEmpty;
-		this.rattleTimer = 0;
-		this.rattleCount = 0;
+		this.forcedAlphaBonus = 0.0F;
 	}
 
 	public static LayerDefinition createBodyLayer()
@@ -79,6 +81,14 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 				.texOffs(52, 22).mirror().addBox(-4.4444F, -8.0F, -5.1111F, 2.5F, 2.5F, 2.5F, new CubeDeformation(0.0F)).mirror(false)
 				.texOffs(49, 25).mirror().addBox(0.0556F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-0.0556F, 7.5F, -0.3889F));
 
+		PartDefinition face_6 = partdefinition.addOrReplaceChild("face_6", CubeListBuilder.create().texOffs(50, 27).mirror().addBox(2.0556F, -7.5F, -4.6111F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(52, 22).mirror().addBox(-3.4444F, -8.5F, -4.6111F, 2.5F, 2.5F, 2.5F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(49, 25).mirror().addBox(-1.4444F, -3.5F, -4.6111F, 1.5F, 2.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-0.0556F, 7.5F, -0.3889F));
+
+		PartDefinition face_7 = partdefinition.addOrReplaceChild("face_7", CubeListBuilder.create().texOffs(52, 22).mirror().addBox(1.5556F, -7.0F, -4.6111F, 2.5F, 2.5F, 2.5F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(52, 22).mirror().addBox(-3.9444F, -8.0F, -4.6111F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(47, 23).mirror().addBox(0.5556F, -2.5F, -4.6111F, 2.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-0.0556F, 7.5F, -0.3889F));
+
 		PartDefinition arm0 = partdefinition.addOrReplaceChild("arm0", CubeListBuilder.create().texOffs(48, 0).mirror().addBox(0.0F, 0.0F, -1.0F, 2.0F, 10.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 8.5F, 0.0F));
 
 		PartDefinition arm1 = partdefinition.addOrReplaceChild("arm1", CubeListBuilder.create().texOffs(56, 0).mirror().addBox(-2.0F, 0.0F, -1.0F, 2.0F, 10.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-4.0F, 8.5F, 0.0F));
@@ -94,6 +104,7 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 	{
 		this.faceId = entity.getFaceId();
 		this.dayTime = entity.level().getDayTime() % 24000;
+		this.forcedAlphaBonus = this.getForcedAlphaBonus(entity);
 		this.setHeadRot(netHeadYaw, headPitch, this.getZRotAngleFromEntityTiltAngle(entity));
 
 		this.arm0.zRot = -0.1F;
@@ -109,9 +120,9 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 		this.setHeadXRot(headPitch / 57.3F); this.setHeadYRot(netHeadYaw / 57.3F); this.setHeadZRot(zRot);
 	}
 
-	private void setHeadXRot(float xrot) {this.head.xRot = xrot; this.face_1.xRot = xrot; this.face_2.xRot = xrot; this.face_3.xRot = xrot; this.face_4.xRot = xrot; this.face_5.xRot = xrot;}
-	private void setHeadYRot(float yrot) {this.head.yRot = yrot; this.face_1.yRot = yrot; this.face_2.yRot = yrot; this.face_3.yRot = yrot; this.face_4.yRot = yrot; this.face_5.yRot = yrot;}
-	private void setHeadZRot(float zrot) {this.head.zRot = zrot; this.face_1.zRot = zrot; this.face_2.zRot = zrot; this.face_3.zRot = zrot; this.face_4.zRot = zrot; this.face_5.zRot = zrot;}
+	private void setHeadXRot(float xrot) {this.head.xRot = xrot; this.face_1.xRot = xrot; this.face_2.xRot = xrot; this.face_3.xRot = xrot; this.face_4.xRot = xrot; this.face_5.xRot = xrot; this.face_6.xRot = xrot; this.face_7.xRot = xrot;}
+	private void setHeadYRot(float yrot) {this.head.yRot = yrot; this.face_1.yRot = yrot; this.face_2.yRot = yrot; this.face_3.yRot = yrot; this.face_4.yRot = yrot; this.face_5.yRot = yrot; this.face_6.yRot = yrot; this.face_7.yRot = yrot;}
+	private void setHeadZRot(float zrot) {this.head.zRot = zrot; this.face_1.zRot = zrot; this.face_2.zRot = zrot; this.face_3.zRot = zrot; this.face_4.zRot = zrot; this.face_5.zRot = zrot; this.face_6.zRot = zrot; this.face_7.zRot = zrot;}
 
 	private float getMaxHeadZRot(T entity) {return entity.rattleHeadRotZAmplitude;} //0.6F is cool
 	private float getZRotAngleFromEntityTiltAngle(T entity)
@@ -124,13 +135,15 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 		if (this.isEmpty) {}
 		else
 		{
-			float a=alpha - getAlphaBonus();
+			float a = this.forcedAlphaBonus > 0.0F ? alpha - this.forcedAlphaBonus : alpha - getAlphaBonus();
 
 			if (this.faceId == 1) {face_1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
 			else if (this.faceId == 2) {face_2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
 			else if (this.faceId == 3) {face_3.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
 			else if (this.faceId == 4) {face_4.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
 			else if (this.faceId == 5) {face_5.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
+			else if (this.faceId == 6) {face_6.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
+			else if (this.faceId == 7) {face_7.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
 
 			float r=red,g=green,b=blue;
 			r-=getBlueBonus(); g-=getBlueBonus()/10;
@@ -171,6 +184,24 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 			if (this.dayTime < 1000) {return (float)this.dayTime/1000;}
 			else if (this.dayTime >= 1000 && this.dayTime <= 12000) {return 1.0f;}
 			else {return ((float)13000 - this.dayTime)/1000;}
+		}
+		else {return 0.0F;}
+	}
+
+	private float getForcedAlphaBonus(T entity)
+	{
+		if (entity.timeForceInvisible > 0)
+		{
+			int transitionTime = entity.getMaxTimeForceInvisible() / 10;
+			if (entity.timeForceInvisible > entity.getMaxTimeForceInvisible() - transitionTime)
+			{
+				return (float) (entity.getMaxTimeForceInvisible() - entity.timeForceInvisible) / transitionTime;
+			}
+			else if (entity.timeForceInvisible > transitionTime) {return 1.0F;}
+			else //if (0 < entity.timeForceInvisible < transitionTime)
+			{
+				return (float) entity.timeForceInvisible / transitionTime;
+			}
 		}
 		else {return 0.0F;}
 	}

@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.KodamaRattleGoal;
 import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -12,16 +13,15 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class KodamaEntity extends AerialHellAnimalEntity
 {
@@ -29,6 +29,7 @@ public class KodamaEntity extends AerialHellAnimalEntity
     private static final EntityDataAccessor<Integer> SIZE_ID = SynchedEntityData.defineId(KodamaEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_RATTLING = SynchedEntityData.defineId(KodamaEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> RATTLING_TILT_ANGLE = SynchedEntityData.defineId(KodamaEntity.class, EntityDataSerializers.INT);
+    public int timeForceInvisible;
     public int rattleTimerMalus;
     public float rattleHeadRotZAmplitude;
 
@@ -64,6 +65,12 @@ public class KodamaEntity extends AerialHellAnimalEntity
                 .add(Attributes.MOVEMENT_SPEED, 0.26);
     }
 
+    @Override public boolean hurt(DamageSource damageSource, float amount)
+    {
+        this.timeForceInvisible = getMaxTimeForceInvisible();
+        return super.hurt(damageSource, amount);
+    }
+
     @Nullable @Override public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob mob)
     {
         return AerialHellEntities.KODAMA.get().create(this.level());
@@ -79,10 +86,11 @@ public class KodamaEntity extends AerialHellAnimalEntity
     public void setRattlingTiltAngle(int value) {this.entityData.set(RATTLING_TILT_ANGLE, value);}
 
     public int getMaxRattlingTiltAngle() {return 20;}
+    public int getMaxTimeForceInvisible() {return 200;}
 
     private void setRandomFaceAndSize()
     {
-        this.setFaceId(this.random.nextInt(5)+1);
+        this.setFaceId(this.random.nextInt(7)+1);
         this.setSizeId(this.random.nextInt(5)+1);
     }
 
@@ -95,8 +103,20 @@ public class KodamaEntity extends AerialHellAnimalEntity
 
     @Override public void tick()
     {
-        if (tickCount % 6000 == 0 && !this.isRattling()) {this.setRandomRattleTimerMalusAndHeadRotAmplitude();}
+        if (this.tickCount % 6000 == 0 && !this.isRattling()) {this.setRandomRattleTimerMalusAndHeadRotAmplitude();}
+        if (this.timeForceInvisible > 0) {this.timeForceInvisible--;}
+        else if (detectNearbyDanger()) {this.timeForceInvisible = getMaxTimeForceInvisible();}
         super.tick();
+    }
+
+    protected boolean detectNearbyDanger() //return true if there is any nearby danger
+    {
+        List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(10), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 5));
+        for (Entity entity : nearbyEntities)
+        {
+            if (entity instanceof Player player && !EntityHelper.isCreaOrSpecPlayer(player)) {return true;}
+        }
+        return false;
     }
 
     @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_KODAMA_AMBIENT.get();}
@@ -104,10 +124,12 @@ public class KodamaEntity extends AerialHellAnimalEntity
     @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_KODAMA_DEATH.get();}
     protected SoundEvent getRattleSound() {return AerialHellSoundEvents.ENTITY_KODAMA_RATTLE.get();}
 
+    @Override public int getAmbientSoundInterval() {return 420;}
+
     public void playRattleSound()
     {
         SoundEvent soundevent = this.getRattleSound();
-        if (soundevent != null) {this.playSound(soundevent, 0.6F, this.getVoicePitch());}
+        if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getVoicePitch());}
     }
 
     @Override public void addAdditionalSaveData(CompoundTag compound)
