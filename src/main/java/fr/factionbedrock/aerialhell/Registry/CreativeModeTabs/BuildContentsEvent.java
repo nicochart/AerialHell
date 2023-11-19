@@ -84,6 +84,13 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_SAPLING_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_SAPLING_ITEM.get());
 
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_STELLAR_JUNGLE_TREE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_PLANKS_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_BOOKSHELF_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_SAPLING_ITEM.get());
+
             itemsToAdd.add(AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_STEM_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK_ITEM.get());
@@ -226,6 +233,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_CHEST_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_CHEST_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_CHEST_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_CHEST_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_CHEST_ITEM.get());
 
@@ -234,6 +242,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_FENCE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_FENCE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_FENCE_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_FENCE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_FENCE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_FENCE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.RUBY_BARS_ITEM.get());
@@ -253,6 +262,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_GATE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_GATE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_GATE_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_GATE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_GATE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_GATE_ITEM.get());
 
@@ -261,6 +271,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_DOOR_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_DOOR_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_DOOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_DOOR_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_DOOR_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_DOOR_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.RUBY_DOOR_ITEM.get());
@@ -270,6 +281,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_TRAPDOOR_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_TRAPDOOR_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_TRAPDOOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_TRAPDOOR_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_TRAPDOOR_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_TRAPDOOR_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.RUBY_TRAPDOOR_ITEM.get());
@@ -284,6 +296,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_BUTTON_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_BUTTON_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_BUTTON_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_BUTTON_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_BUTTON_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_BUTTON_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GLAUCOPHANITE_BUTTON_ITEM.get());
@@ -298,6 +311,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_PRESSURE_PLATE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_PRESSURE_PLATE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_PRESSURE_PLATE_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_PRESSURE_PLATE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_PRESSURE_PLATE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_PRESSURE_PLATE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GLAUCOPHANITE_PRESSURE_PLATE_ITEM.get());
@@ -307,6 +321,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_SLAB_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_SLAB_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_SLAB_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_SLAB_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_SLAB_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_SLAB_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_STONE_SLAB_ITEM.get());
@@ -324,6 +339,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_STAIRS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_STAIRS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_STAIRS_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_STAIRS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_STAIRS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_STAIRS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_STONE_STAIRS_ITEM.get());
@@ -341,6 +357,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_SIGN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_SIGN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_SIGN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_SIGN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_SIGN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_SIGN_ITEM.get());
 
@@ -349,6 +366,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_CRAFTING_TABLE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_CRAFTING_TABLE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_CRAFTING_TABLE_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_CRAFTING_TABLE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_CRAFTING_TABLE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_CRAFTING_TABLE_ITEM.get());
 
@@ -357,6 +375,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_BARREL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_BARREL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_BARREL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_BARREL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_BARREL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_BARREL_ITEM.get());
 
@@ -365,6 +384,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_COMPOSTER_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_COMPOSTER_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_COMPOSTER_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_COMPOSTER_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_COMPOSTER_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_COMPOSTER_ITEM.get());
         }

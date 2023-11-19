@@ -24,6 +24,9 @@ public class AerialHellChestMaterials
     public static final Material LAPIS_ROBINIA_SINGLE = makeChestMaterial("lapis_robinia", ChestType.SINGLE);
     public static final Material LAPIS_ROBINIA_LEFT = makeChestMaterial("lapis_robinia", ChestType.LEFT);
     public static final Material LAPIS_ROBINIA_RIGHT = makeChestMaterial("lapis_robinia", ChestType.RIGHT);
+    public static final Material STELLAR_JUNGLE_TREE_SINGLE = makeChestMaterial("stellar_jungle_tree", ChestType.SINGLE);
+    public static final Material STELLAR_JUNGLE_TREE_LEFT = makeChestMaterial("stellar_jungle_tree", ChestType.LEFT);
+    public static final Material STELLAR_JUNGLE_TREE_RIGHT = makeChestMaterial("stellar_jungle_tree", ChestType.RIGHT);
     public static final Material GOLDEN_BEECH_SINGLE = makeChestMaterial("golden_beech", ChestType.SINGLE);
     public static final Material GOLDEN_BEECH_LEFT = makeChestMaterial("golden_beech", ChestType.LEFT);
     public static final Material GOLDEN_BEECH_RIGHT = makeChestMaterial("golden_beech", ChestType.RIGHT);

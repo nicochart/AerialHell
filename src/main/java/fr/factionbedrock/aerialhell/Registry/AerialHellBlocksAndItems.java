@@ -73,6 +73,8 @@ public class AerialHellBlocksAndItems
 		ComposterBlock.COMPOSTABLES.put(LAPIS_ROBINIA_LEAVES_ITEM.get().asItem(), 0.3F);
 		ComposterBlock.COMPOSTABLES.put(SHADOW_PINE_SAPLING_ITEM.get().asItem(), 0.3F);
 		ComposterBlock.COMPOSTABLES.put(SHADOW_PINE_LEAVES_ITEM.get().asItem(), 0.3F);
+		ComposterBlock.COMPOSTABLES.put(STELLAR_JUNGLE_TREE_SAPLING_ITEM.get().asItem(), 0.3F);
+		ComposterBlock.COMPOSTABLES.put(STELLAR_JUNGLE_TREE_LEAVES_ITEM.get().asItem(), 0.3F);
 		ComposterBlock.COMPOSTABLES.put(CORTINARIUS_VIOLACEUS.get().asItem(), 0.3F);
 		ComposterBlock.COMPOSTABLES.put(GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK.get().asItem(), 0.2F);
 		ComposterBlock.COMPOSTABLES.put(SKY_CACTUS_FIBER.get().asItem(), 0.1F);
@@ -96,6 +98,7 @@ public class AerialHellBlocksAndItems
 		pot.addPlant(COPPER_PINE_SAPLING.getId(), POTTED_COPPER_PINE_SAPLING);
 		pot.addPlant(LAPIS_ROBINIA_SAPLING.getId(), POTTED_LAPIS_ROBINIA_SAPLING);
 		pot.addPlant(SHADOW_PINE_SAPLING.getId(), POTTED_SHADOW_PINE_SAPLING);
+		pot.addPlant(STELLAR_JUNGLE_TREE_SAPLING.getId(), POTTED_STELLAR_JUNGLE_TREE_SAPLING);
 		pot.addPlant(CORTINARIUS_VIOLACEUS.getId(), POTTED_CORTINARIUS_VIOLACEUS);
 		pot.addPlant(VERDIGRIS_AGARIC.getId(), POTTED_VERDIGRIS_AGARIC);
 		pot.addPlant(BLOSSOMING_VINES.getId(), POTTED_VINE_BLOSSOM);
@@ -110,6 +113,7 @@ public class AerialHellBlocksAndItems
 				.put(COPPER_PINE_LOG.get(), STRIPPED_COPPER_PINE_LOG.get())
 				.put(LAPIS_ROBINIA_LOG.get(), STRIPPED_LAPIS_ROBINIA_LOG.get())
 				.put(SHADOW_PINE_LOG.get(), STRIPPED_SHADOW_PINE_LOG.get())
+				.put(STELLAR_JUNGLE_TREE_LOG.get(), STRIPPED_STELLAR_JUNGLE_TREE_LOG.get())
 				.put(GIANT_CORTINARIUS_VIOLACEUS_STEM.get(), STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM.get())
 				.put(GIANT_VERDIGRIS_AGARIC_STEM.get(), STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM.get())
 				.build();
@@ -285,6 +289,20 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_PINE_BOOKSHELF_ITEM = ITEMS.register("shadow_pine_bookshelf", () -> new BlockItem(SHADOW_PINE_BOOKSHELF.get(), new Item.Properties()));
 	public static final RegistryObject<Item> SHADOW_PINE_SAPLING_ITEM = ITEMS.register("shadow_pine_sapling", () -> new BlockItem(SHADOW_PINE_SAPLING.get(), new Item.Properties()));
 	public static final RegistryObject<Item> PURPLE_SHADOW_PINE_SAPLING_ITEM = ITEMS.register("purple_shadow_pine_sapling", () -> new BlockItem(PURPLE_SHADOW_PINE_SAPLING.get(), new Item.Properties()));
+
+	//stellar jungle tree
+	public static final RegistryObject<RotatedPillarBlock> STELLAR_JUNGLE_TREE_LOG = BLOCKS.register("stellar_jungle_tree_log", () -> new RotatedPillarBlock(COPPER_PINE_MATERIAL));
+	public static final RegistryObject<RotatedPillarBlock> STRIPPED_STELLAR_JUNGLE_TREE_LOG = BLOCKS.register("stripped_stellar_jungle_tree_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(STELLAR_JUNGLE_TREE_LOG.get())));
+	public static final RegistryObject<Block> STELLAR_JUNGLE_TREE_LEAVES = BLOCKS.register("stellar_jungle_tree_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
+	public static final RegistryObject<Block> STELLAR_JUNGLE_TREE_PLANKS = BLOCKS.register("stellar_jungle_tree_planks", () -> new Block(BlockBehaviour.Properties.copy(STELLAR_JUNGLE_TREE_LOG.get())));
+	public static final RegistryObject<Block> STELLAR_JUNGLE_TREE_BOOKSHELF = BLOCKS.register("stellar_jungle_tree_bookshelf", () -> new AerialHellBookshelfBlock(BlockBehaviour.Properties.copy(STELLAR_JUNGLE_TREE_PLANKS.get())));
+	public static final RegistryObject<SaplingBlock> STELLAR_JUNGLE_TREE_SAPLING = BLOCKS.register("stellar_jungle_tree_sapling", () -> new SaplingBlock(new LapisRobinia(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_LOG_ITEM = ITEMS.register("stellar_jungle_tree_log", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_LOG.get(), new Item.Properties(), 400));
+	public static final RegistryObject<Item> STRIPPED_STELLAR_JUNGLE_TREE_LOG_ITEM = ITEMS.register("stripped_stellar_jungle_tree_log", () -> new BurnableBlockItem(STRIPPED_STELLAR_JUNGLE_TREE_LOG.get(), new Item.Properties(), 400));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_LEAVES_ITEM = ITEMS.register("stellar_jungle_tree_leaves", () -> new BlockItem(STELLAR_JUNGLE_TREE_LEAVES.get(), new Item.Properties()));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_PLANKS_ITEM = ITEMS.register("stellar_jungle_tree_planks", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_PLANKS.get(), new Item.Properties(), 300));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_BOOKSHELF_ITEM = ITEMS.register("stellar_jungle_tree_bookshelf", () -> new BlockItem(STELLAR_JUNGLE_TREE_BOOKSHELF.get(), new Item.Properties()));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_SAPLING_ITEM = ITEMS.register("stellar_jungle_tree_sapling", () -> new BlockItem(STELLAR_JUNGLE_TREE_SAPLING.get(), new Item.Properties()));
 
 	//shroom
 	public static final RegistryObject<RotatedPillarBlock> GIANT_CORTINARIUS_VIOLACEUS_STEM = BLOCKS.register("giant_cortinarius_violaceus_stem", () -> new RotatedPillarBlock(SHROOM_MATERIAL));
@@ -796,6 +814,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<FlowerPotBlock> POTTED_COPPER_PINE_SAPLING = BLOCKS.register("potted_copper_pine_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, COPPER_PINE_SAPLING, BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
 	public static final RegistryObject<FlowerPotBlock> POTTED_LAPIS_ROBINIA_SAPLING = BLOCKS.register("potted_lapis_robinia_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, LAPIS_ROBINIA_SAPLING, BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
 	public static final RegistryObject<FlowerPotBlock> POTTED_SHADOW_PINE_SAPLING = BLOCKS.register("potted_shadow_pine_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, SHADOW_PINE_SAPLING, BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
+	public static final RegistryObject<FlowerPotBlock> POTTED_STELLAR_JUNGLE_TREE_SAPLING = BLOCKS.register("potted_stellar_jungle_tree_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, STELLAR_JUNGLE_TREE_SAPLING, BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
 	public static final RegistryObject<FlowerPotBlock> POTTED_CORTINARIUS_VIOLACEUS = BLOCKS.register("potted_cortinarius_violaceus", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, CORTINARIUS_VIOLACEUS, BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
 	public static final RegistryObject<FlowerPotBlock> POTTED_VERDIGRIS_AGARIC = BLOCKS.register("potted_verdigris_agaric", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, VERDIGRIS_AGARIC, BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
 	public static final RegistryObject<FlowerPotBlock> POTTED_VINE_BLOSSOM = BLOCKS.register("potted_vine_blossom", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BLOSSOMING_VINES, BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
@@ -824,6 +843,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> LAPIS_ROBINIA_CHEST_ITEM = ITEMS.register("lapis_robinia_chest", () -> new ChestBlockItem(LAPIS_ROBINIA_CHEST.get(), new Item.Properties()));
 	public static final RegistryObject<ChestBlock> SHADOW_PINE_CHEST = BLOCKS.register("shadow_pine_chest", () -> new AerialHellChestBlock(SHADOW_PINE_MATERIAL));
 	public static final RegistryObject<Item> SHADOW_PINE_CHEST_ITEM = ITEMS.register("shadow_pine_chest", () -> new ChestBlockItem(SHADOW_PINE_CHEST.get(), new Item.Properties()));
+	public static final RegistryObject<ChestBlock> STELLAR_JUNGLE_TREE_CHEST = BLOCKS.register("stellar_jungle_tree_chest", () -> new AerialHellChestBlock(COPPER_PINE_MATERIAL));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_CHEST_ITEM = ITEMS.register("stellar_jungle_tree_chest", () -> new ChestBlockItem(STELLAR_JUNGLE_TREE_CHEST.get(), new Item.Properties()));
 	public static final RegistryObject<ChestBlock> SKY_CACTUS_FIBER_CHEST = BLOCKS.register("sky_cactus_fiber_chest", () -> new AerialHellChestBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_CHEST_ITEM = ITEMS.register("sky_cactus_fiber_chest", () -> new ChestBlockItem(SKY_CACTUS_FIBER_CHEST.get(), new Item.Properties()));
 	public static final RegistryObject<ChestBlock> GRAY_SHROOM_CHEST = BLOCKS.register("gray_shroom_chest", () -> new AerialHellChestBlock(SHROOM_MATERIAL));
@@ -866,6 +887,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> LAPIS_ROBINIA_FENCE_ITEM = ITEMS.register("lapis_robinia_fence", () -> new BurnableBlockItem(LAPIS_ROBINIA_FENCE.get(), new Item.Properties(), 300));
 	public static final RegistryObject<FenceBlock> SHADOW_PINE_FENCE = BLOCKS.register("shadow_pine_fence", () -> new FenceBlock(SHADOW_PINE_MATERIAL));
 	public static final RegistryObject<Item> SHADOW_PINE_FENCE_ITEM = ITEMS.register("shadow_pine_fence", () -> new BurnableBlockItem(SHADOW_PINE_FENCE.get(), new Item.Properties(), 300));
+	public static final RegistryObject<FenceBlock> STELLAR_JUNGLE_TREE_FENCE = BLOCKS.register("stellar_jungle_tree_fence", () -> new FenceBlock(COPPER_PINE_MATERIAL));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_FENCE_ITEM = ITEMS.register("stellar_jungle_tree_fence", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_FENCE.get(), new Item.Properties(), 300));
 	public static final RegistryObject<FenceBlock> SKY_CACTUS_FIBER_FENCE = BLOCKS.register("sky_cactus_fiber_fence", () -> new FenceBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_FENCE_ITEM = ITEMS.register("sky_cactus_fiber_fence", () -> new BlockItem(SKY_CACTUS_FIBER_FENCE.get(), new Item.Properties()));
 	public static final RegistryObject<FenceBlock> GRAY_SHROOM_FENCE = BLOCKS.register("gray_shroom_fence", () -> new FenceBlock(SHROOM_MATERIAL));
@@ -904,6 +927,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> LAPIS_ROBINIA_GATE_ITEM = ITEMS.register("lapis_robinia_gate", () -> new BurnableBlockItem(LAPIS_ROBINIA_GATE.get(), new Item.Properties(), 300));
 	public static final RegistryObject<FenceGateBlock> SHADOW_PINE_GATE = BLOCKS.register("shadow_pine_gate", () -> new FenceGateBlock(SHADOW_PINE_MATERIAL, SoundEvents.FENCE_GATE_OPEN, SoundEvents.FENCE_GATE_CLOSE));
 	public static final RegistryObject<Item> SHADOW_PINE_GATE_ITEM = ITEMS.register("shadow_pine_gate", () -> new BurnableBlockItem(SHADOW_PINE_GATE.get(), new Item.Properties(), 300));
+	public static final RegistryObject<FenceGateBlock> STELLAR_JUNGLE_TREE_GATE = BLOCKS.register("stellar_jungle_tree_gate", () -> new FenceGateBlock(COPPER_PINE_MATERIAL, SoundEvents.FENCE_GATE_OPEN, SoundEvents.FENCE_GATE_CLOSE));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_GATE_ITEM = ITEMS.register("stellar_jungle_tree_gate", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_GATE.get(), new Item.Properties(), 300));
 	public static final RegistryObject<FenceGateBlock> SKY_CACTUS_FIBER_GATE = BLOCKS.register("sky_cactus_fiber_gate", () -> new FenceGateBlock(SKY_CACTUS_FIBER_MATERIAL, SoundEvents.FENCE_GATE_OPEN, SoundEvents.FENCE_GATE_CLOSE));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_GATE_ITEM = ITEMS.register("sky_cactus_fiber_gate", () -> new BlockItem(SKY_CACTUS_FIBER_GATE.get(), new Item.Properties()));
 	public static final RegistryObject<FenceGateBlock> GRAY_SHROOM_GATE = BLOCKS.register("gray_shroom_gate", () -> new FenceGateBlock(SHROOM_MATERIAL, SoundEvents.NETHER_WOOD_FENCE_GATE_OPEN, SoundEvents.NETHER_WOOD_FENCE_GATE_CLOSE));
@@ -920,6 +945,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> LAPIS_ROBINIA_DOOR_ITEM = ITEMS.register("lapis_robinia_door", () -> new BlockItem(LAPIS_ROBINIA_DOOR.get(), new Item.Properties()));
 	public static final RegistryObject<DoorBlock> SHADOW_PINE_DOOR = BLOCKS.register("shadow_pine_door", () -> new DoorBlock(BlockBehaviour.Properties.copy(SHADOW_PINE_PLANKS.get()).noOcclusion(), BlockSetType.OAK));
 	public static final RegistryObject<Item> SHADOW_PINE_DOOR_ITEM = ITEMS.register("shadow_pine_door", () -> new BlockItem(SHADOW_PINE_DOOR.get(), new Item.Properties()));
+	public static final RegistryObject<DoorBlock> STELLAR_JUNGLE_TREE_DOOR = BLOCKS.register("stellar_jungle_tree_door", () -> new DoorBlock(BlockBehaviour.Properties.copy(STELLAR_JUNGLE_TREE_PLANKS.get()).noOcclusion(), BlockSetType.OAK));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_DOOR_ITEM = ITEMS.register("stellar_jungle_tree_door", () -> new BlockItem(STELLAR_JUNGLE_TREE_DOOR.get(), new Item.Properties()));
 	public static final RegistryObject<DoorBlock> SKY_CACTUS_FIBER_DOOR = BLOCKS.register("sky_cactus_fiber_door", () -> new DoorBlock(BlockBehaviour.Properties.copy(SKY_CACTUS_FIBER_PLANKS.get()).noOcclusion(), BlockSetType.OAK));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_DOOR_ITEM = ITEMS.register("sky_cactus_fiber_door", () -> new BlockItem(SKY_CACTUS_FIBER_DOOR.get(), new Item.Properties()));
 	public static final RegistryObject<DoorBlock> GRAY_SHROOM_DOOR = BLOCKS.register("gray_shroom_door", () -> new DoorBlock(BlockBehaviour.Properties.copy(GRAY_SHROOM_PLANKS.get()).noOcclusion(), BlockSetType.CRIMSON));
@@ -938,6 +965,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> LAPIS_ROBINIA_TRAPDOOR_ITEM = ITEMS.register("lapis_robinia_trapdoor", () -> new BlockItem(LAPIS_ROBINIA_TRAPDOOR.get(), new Item.Properties()));
 	public static final RegistryObject<TrapDoorBlock> SHADOW_PINE_TRAPDOOR = BLOCKS.register("shadow_pine_trapdoor", () -> new TrapDoorBlock(BlockBehaviour.Properties.copy(SHADOW_PINE_PLANKS.get()).noOcclusion(), BlockSetType.OAK));
 	public static final RegistryObject<Item> SHADOW_PINE_TRAPDOOR_ITEM = ITEMS.register("shadow_pine_trapdoor", () -> new BlockItem(SHADOW_PINE_TRAPDOOR.get(), new Item.Properties()));
+	public static final RegistryObject<TrapDoorBlock> STELLAR_JUNGLE_TREE_TRAPDOOR = BLOCKS.register("stellar_jungle_tree_trapdoor", () -> new TrapDoorBlock(BlockBehaviour.Properties.copy(STELLAR_JUNGLE_TREE_PLANKS.get()).noOcclusion(), BlockSetType.OAK));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_TRAPDOOR_ITEM = ITEMS.register("stellar_jungle_tree_trapdoor", () -> new BlockItem(STELLAR_JUNGLE_TREE_TRAPDOOR.get(), new Item.Properties()));
 	public static final RegistryObject<TrapDoorBlock> SKY_CACTUS_FIBER_TRAPDOOR = BLOCKS.register("sky_cactus_fiber_trapdoor", () -> new TrapDoorBlock(BlockBehaviour.Properties.copy(SKY_CACTUS_FIBER_PLANKS.get()).noOcclusion(), BlockSetType.OAK));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_TRAPDOOR_ITEM = ITEMS.register("sky_cactus_fiber_trapdoor", () -> new BlockItem( SKY_CACTUS_FIBER_TRAPDOOR.get(), new Item.Properties()));
 	public static final RegistryObject<TrapDoorBlock> GRAY_SHROOM_TRAPDOOR = BLOCKS.register("gray_shroom_trapdoor", () -> new TrapDoorBlock(BlockBehaviour.Properties.copy(GRAY_SHROOM_PLANKS.get()).noOcclusion(), BlockSetType.CRIMSON));
@@ -966,6 +995,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> LAPIS_ROBINIA_BUTTON_ITEM = ITEMS.register("lapis_robinia_button", () -> new BurnableBlockItem(LAPIS_ROBINIA_BUTTON.get(), new Item.Properties(), 100));
 	public static final RegistryObject<ButtonBlock> SHADOW_PINE_BUTTON = BLOCKS.register("shadow_pine_button", () -> new ButtonBlock(SHADOW_PINE_MATERIAL, BlockSetType.OAK, 30, true));
 	public static final RegistryObject<Item> SHADOW_PINE_BUTTON_ITEM = ITEMS.register("shadow_pine_button", () -> new BurnableBlockItem(SHADOW_PINE_BUTTON.get(), new Item.Properties(), 100));
+	public static final RegistryObject<ButtonBlock> STELLAR_JUNGLE_TREE_BUTTON = BLOCKS.register("stellar_jungle_tree_button", () -> new ButtonBlock(COPPER_PINE_MATERIAL, BlockSetType.OAK, 30, true));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_BUTTON_ITEM = ITEMS.register("stellar_jungle_tree_button", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_BUTTON.get(), new Item.Properties(), 100));
 	public static final RegistryObject<ButtonBlock> SKY_CACTUS_FIBER_BUTTON = BLOCKS.register("sky_cactus_fiber_button", () -> new ButtonBlock(SKY_CACTUS_FIBER_MATERIAL, BlockSetType.OAK, 30, true));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_BUTTON_ITEM = ITEMS.register("sky_cactus_fiber_button", () -> new BlockItem(SKY_CACTUS_FIBER_BUTTON.get(), new Item.Properties()));
 	public static final RegistryObject<ButtonBlock> GRAY_SHROOM_BUTTON = BLOCKS.register("gray_shroom_button", () -> new ButtonBlock(SHROOM_MATERIAL, BlockSetType.CRIMSON, 30, true));
@@ -994,6 +1025,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> LAPIS_ROBINIA_PRESSURE_PLATE_ITEM = ITEMS.register("lapis_robinia_pressure_plate", () -> new BurnableBlockItem(LAPIS_ROBINIA_PRESSURE_PLATE.get(), new Item.Properties(), 300));
 	public static final RegistryObject<PressurePlateBlock> SHADOW_PINE_PRESSURE_PLATE = BLOCKS.register("shadow_pine_pressure_plate", () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, SHADOW_PINE_MATERIAL, BlockSetType.OAK));
 	public static final RegistryObject<Item> SHADOW_PINE_PRESSURE_PLATE_ITEM = ITEMS.register("shadow_pine_pressure_plate", () -> new BurnableBlockItem(SHADOW_PINE_PRESSURE_PLATE.get(), new Item.Properties(), 300));
+	public static final RegistryObject<PressurePlateBlock> STELLAR_JUNGLE_TREE_PRESSURE_PLATE = BLOCKS.register("stellar_jungle_tree_pressure_plate", () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, COPPER_PINE_MATERIAL, BlockSetType.OAK));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_PRESSURE_PLATE_ITEM = ITEMS.register("stellar_jungle_tree_pressure_plate", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_PRESSURE_PLATE.get(), new Item.Properties(), 300));
 	public static final RegistryObject<PressurePlateBlock> SKY_CACTUS_FIBER_PRESSURE_PLATE = BLOCKS.register("sky_cactus_fiber_pressure_plate", () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, SKY_CACTUS_FIBER_MATERIAL, BlockSetType.OAK));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_PRESSURE_PLATE_ITEM = ITEMS.register("sky_cactus_fiber_pressure_plate", () -> new BlockItem(SKY_CACTUS_FIBER_PRESSURE_PLATE.get(), new Item.Properties()));
 	public static final RegistryObject<PressurePlateBlock> GRAY_SHROOM_PRESSURE_PLATE = BLOCKS.register("gray_shroom_pressure_plate", () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, SHROOM_MATERIAL, BlockSetType.CRIMSON));
@@ -1012,6 +1045,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> LAPIS_ROBINIA_SLAB_ITEM = ITEMS.register("lapis_robinia_slab", () -> new BurnableBlockItem(LAPIS_ROBINIA_SLAB.get(), new Item.Properties(), 150));
 	public static final RegistryObject<SlabBlock> SHADOW_PINE_SLAB = BLOCKS.register("shadow_pine_slab", () -> new SlabBlock(SHADOW_PINE_MATERIAL));
 	public static final RegistryObject<Item> SHADOW_PINE_SLAB_ITEM = ITEMS.register("shadow_pine_slab", () -> new BurnableBlockItem(SHADOW_PINE_SLAB.get(), new Item.Properties(), 150));
+	public static final RegistryObject<SlabBlock> STELLAR_JUNGLE_TREE_SLAB = BLOCKS.register("stellar_jungle_tree_slab", () -> new SlabBlock(COPPER_PINE_MATERIAL));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_SLAB_ITEM = ITEMS.register("stellar_jungle_tree_slab", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_SLAB.get(), new Item.Properties(), 150));
 	public static final RegistryObject<SlabBlock> SKY_CACTUS_FIBER_SLAB = BLOCKS.register("sky_cactus_fiber_slab", () -> new SlabBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_SLAB_ITEM = ITEMS.register("sky_cactus_fiber_slab", () -> new BlockItem(SKY_CACTUS_FIBER_SLAB.get(), new Item.Properties()));
 	public static final RegistryObject<SlabBlock> GRAY_SHROOM_SLAB = BLOCKS.register("gray_shroom_slab", () -> new SlabBlock(SHROOM_MATERIAL));
@@ -1046,6 +1081,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> LAPIS_ROBINIA_STAIRS_ITEM = ITEMS.register("lapis_robinia_stairs", () -> new BurnableBlockItem(LAPIS_ROBINIA_STAIRS.get(), new Item.Properties(), 300));
 	public static final RegistryObject<StairBlock> SHADOW_PINE_STAIRS = BLOCKS.register("shadow_pine_stairs", () -> new StairBlock(() -> SHADOW_PINE_PLANKS.get().defaultBlockState(), SHADOW_PINE_MATERIAL));
 	public static final RegistryObject<Item> SHADOW_PINE_STAIRS_ITEM = ITEMS.register("shadow_pine_stairs", () -> new BurnableBlockItem(SHADOW_PINE_STAIRS.get(), new Item.Properties(), 300));
+	public static final RegistryObject<StairBlock> STELLAR_JUNGLE_TREE_STAIRS = BLOCKS.register("stellar_jungle_tree_stairs", () -> new StairBlock(() -> STELLAR_JUNGLE_TREE_PLANKS.get().defaultBlockState(), COPPER_PINE_MATERIAL));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_STAIRS_ITEM = ITEMS.register("stellar_jungle_tree_stairs", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_STAIRS.get(), new Item.Properties(), 300));
 	public static final RegistryObject<StairBlock> SKY_CACTUS_FIBER_STAIRS = BLOCKS.register("sky_cactus_fiber_stairs", () -> new StairBlock(() -> SKY_CACTUS_FIBER_PLANKS.get().defaultBlockState(), SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_STAIRS_ITEM = ITEMS.register("sky_cactus_fiber_stairs", () -> new BlockItem(SKY_CACTUS_FIBER_STAIRS.get(), new Item.Properties()));
 	public static final RegistryObject<StairBlock> GRAY_SHROOM_STAIRS = BLOCKS.register("gray_shroom_stairs", () -> new StairBlock(() -> GRAY_SHROOM_PLANKS.get().defaultBlockState(), SHROOM_MATERIAL));
@@ -1085,6 +1122,9 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<AerialHellStandingSignBlock> SHADOW_PINE_STANDING_SIGN = BLOCKS.register("shadow_pine_sign", () -> new AerialHellStandingSignBlock(SHADOW_PINE_SIGN_MATERIAL, AerialHellWoodTypes.SHADOW_PINE));
 	public static final RegistryObject<AerialHellWallSignBlock> SHADOW_PINE_WALL_SIGN = BLOCKS.register("shadow_pine_wall_sign", () -> new AerialHellWallSignBlock(SHADOW_PINE_SIGN_MATERIAL, AerialHellWoodTypes.SHADOW_PINE));
 	public static final RegistryObject<Item> SHADOW_PINE_SIGN_ITEM = ITEMS.register("shadow_pine_sign", () -> new SignItem(new Item.Properties(), SHADOW_PINE_STANDING_SIGN.get(), SHADOW_PINE_WALL_SIGN.get()));
+	public static final RegistryObject<AerialHellStandingSignBlock> STELLAR_JUNGLE_TREE_STANDING_SIGN = BLOCKS.register("stellar_jungle_tree_sign", () -> new AerialHellStandingSignBlock(COPPER_PINE_SIGN_MATERIAL, AerialHellWoodTypes.STELLAR_JUNGLE_TREE));
+	public static final RegistryObject<AerialHellWallSignBlock> STELLAR_JUNGLE_TREE_WALL_SIGN = BLOCKS.register("stellar_jungle_tree_wall_sign", () -> new AerialHellWallSignBlock(COPPER_PINE_SIGN_MATERIAL, AerialHellWoodTypes.STELLAR_JUNGLE_TREE));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_SIGN_ITEM = ITEMS.register("stellar_jungle_tree_sign", () -> new SignItem(new Item.Properties(), STELLAR_JUNGLE_TREE_STANDING_SIGN.get(), STELLAR_JUNGLE_TREE_WALL_SIGN.get()));
 	public static final RegistryObject<AerialHellStandingSignBlock> SKY_CACTUS_FIBER_STANDING_SIGN = BLOCKS.register("sky_cactus_fiber_sign", () -> new AerialHellStandingSignBlock(SKY_CACTUS_FIBER_SIGN_MATERIAL, AerialHellWoodTypes.SKY_CACTUS_FIBER));
 	public static final RegistryObject<AerialHellWallSignBlock> SKY_CACTUS_FIBER_WALL_SIGN = BLOCKS.register("sky_cactus_fiber_wall_sign", () -> new AerialHellWallSignBlock(SKY_CACTUS_FIBER_SIGN_MATERIAL, AerialHellWoodTypes.SKY_CACTUS_FIBER));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_SIGN_ITEM = ITEMS.register("sky_cactus_fiber_sign", () -> new SignItem(new Item.Properties(), SKY_CACTUS_FIBER_STANDING_SIGN.get(), SKY_CACTUS_FIBER_WALL_SIGN.get()));
@@ -1103,6 +1143,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> LAPIS_ROBINIA_CRAFTING_TABLE_ITEM = ITEMS.register("lapis_robinia_crafting_table", () -> new BurnableBlockItem(LAPIS_ROBINIA_CRAFTING_TABLE.get(), new Item.Properties(), 300));
 	public static final RegistryObject<CraftingTableBlock> SHADOW_PINE_CRAFTING_TABLE = BLOCKS.register("shadow_pine_crafting_table", () -> new AerialHellCraftingTableBlock(SHADOW_PINE_MATERIAL));
 	public static final RegistryObject<Item> SHADOW_PINE_CRAFTING_TABLE_ITEM = ITEMS.register("shadow_pine_crafting_table", () -> new BurnableBlockItem(SHADOW_PINE_CRAFTING_TABLE.get(), new Item.Properties(), 300));
+	public static final RegistryObject<CraftingTableBlock> STELLAR_JUNGLE_TREE_CRAFTING_TABLE = BLOCKS.register("stellar_jungle_tree_crafting_table", () -> new AerialHellCraftingTableBlock(COPPER_PINE_MATERIAL));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_CRAFTING_TABLE_ITEM = ITEMS.register("stellar_jungle_tree_crafting_table", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_CRAFTING_TABLE.get(), new Item.Properties(), 300));
 	public static final RegistryObject<CraftingTableBlock> SKY_CACTUS_FIBER_CRAFTING_TABLE = BLOCKS.register("sky_cactus_fiber_crafting_table", () -> new AerialHellCraftingTableBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_CRAFTING_TABLE_ITEM = ITEMS.register("sky_cactus_fiber_crafting_table", () -> new BlockItem(SKY_CACTUS_FIBER_CRAFTING_TABLE.get(), new Item.Properties()));
 	public static final RegistryObject<CraftingTableBlock> GRAY_SHROOM_CRAFTING_TABLE = BLOCKS.register("gray_shroom_crafting_table", () -> new AerialHellCraftingTableBlock(SHROOM_MATERIAL));
@@ -1119,6 +1161,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> LAPIS_ROBINIA_BARREL_ITEM = ITEMS.register("lapis_robinia_barrel", () -> new BurnableBlockItem(LAPIS_ROBINIA_BARREL.get(), new Item.Properties(), 300));
 	public static final RegistryObject<AerialHellBarrelBlock> SHADOW_PINE_BARREL = BLOCKS.register("shadow_pine_barrel", () -> new AerialHellBarrelBlock(SHADOW_PINE_MATERIAL));
 	public static final RegistryObject<Item> SHADOW_PINE_BARREL_ITEM = ITEMS.register("shadow_pine_barrel", () -> new BurnableBlockItem(SHADOW_PINE_BARREL.get(), new Item.Properties(), 300));
+	public static final RegistryObject<AerialHellBarrelBlock> STELLAR_JUNGLE_TREE_BARREL = BLOCKS.register("stellar_jungle_tree_barrel", () -> new AerialHellBarrelBlock(COPPER_PINE_MATERIAL));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_BARREL_ITEM = ITEMS.register("stellar_jungle_tree_barrel", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_BARREL.get(), new Item.Properties(), 300));
 	public static final RegistryObject<AerialHellBarrelBlock> SKY_CACTUS_FIBER_BARREL = BLOCKS.register("sky_cactus_fiber_barrel", () -> new AerialHellBarrelBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_BARREL_ITEM = ITEMS.register("sky_cactus_fiber_barrel", () -> new BlockItem(SKY_CACTUS_FIBER_BARREL.get(), new Item.Properties()));
 	public static final RegistryObject<AerialHellBarrelBlock> GRAY_SHROOM_BARREL = BLOCKS.register("gray_shroom_barrel", () -> new AerialHellBarrelBlock(SHROOM_MATERIAL));
@@ -1135,6 +1179,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> LAPIS_ROBINIA_COMPOSTER_ITEM = ITEMS.register("lapis_robinia_composter", () -> new BurnableBlockItem(LAPIS_ROBINIA_COMPOSTER.get(), new Item.Properties(), 300));
 	public static final RegistryObject<ComposterBlock> SHADOW_PINE_COMPOSTER = BLOCKS.register("shadow_pine_composter", () -> new ComposterBlock(SHADOW_PINE_MATERIAL));
 	public static final RegistryObject<Item> SHADOW_PINE_COMPOSTER_ITEM = ITEMS.register("shadow_pine_composter", () -> new BurnableBlockItem(SHADOW_PINE_COMPOSTER.get(), new Item.Properties(), 300));
+	public static final RegistryObject<ComposterBlock> STELLAR_JUNGLE_TREE_COMPOSTER = BLOCKS.register("stellar_jungle_tree_composter", () -> new ComposterBlock(COPPER_PINE_MATERIAL));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_COMPOSTER_ITEM = ITEMS.register("stellar_jungle_tree_composter", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_COMPOSTER.get(), new Item.Properties(), 300));
 	public static final RegistryObject<ComposterBlock> SKY_CACTUS_FIBER_COMPOSTER = BLOCKS.register("sky_cactus_fiber_composter", () -> new ComposterBlock(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_COMPOSTER_ITEM = ITEMS.register("sky_cactus_fiber_composter", () -> new BlockItem(SKY_CACTUS_FIBER_COMPOSTER.get(), new Item.Properties()));
 	public static final RegistryObject<ComposterBlock> GRAY_SHROOM_COMPOSTER = BLOCKS.register("gray_shroom_composter", () -> new ComposterBlock(SHROOM_MATERIAL));

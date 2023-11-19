@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "aerialhell:block/stellar_jungle_tree_crafting_table_front",
+    "north": "aerialhell:block/stellar_jungle_tree_crafting_table_otherside",
+    "south": "aerialhell:block/stellar_jungle_tree_crafting_table_front",
+    "east": "aerialhell:block/stellar_jungle_tree_crafting_table_side",
+    "west": "aerialhell:block/stellar_jungle_tree_crafting_table_side",
+    "up": "aerialhell:block/stellar_jungle_tree_crafting_table_top",
+    "down": "aerialhell:block/stellar_jungle_tree_barrel_bottom"
+  }
+}

@@ -37,6 +37,8 @@ public class AerialHellBlockEntities
 							AerialHellBlocksAndItems.LAPIS_ROBINIA_WALL_SIGN.get(),
 							AerialHellBlocksAndItems.SHADOW_PINE_STANDING_SIGN.get(),
 							AerialHellBlocksAndItems.SHADOW_PINE_WALL_SIGN.get(),
+							AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_STANDING_SIGN.get(),
+							AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_WALL_SIGN.get(),
 							AerialHellBlocksAndItems.SKY_CACTUS_FIBER_STANDING_SIGN.get(),
 							AerialHellBlocksAndItems.SKY_CACTUS_FIBER_WALL_SIGN.get(),
 							AerialHellBlocksAndItems.GRAY_SHROOM_STANDING_SIGN.get(),
@@ -51,6 +53,7 @@ public class AerialHellBlockEntities
 					AerialHellBlocksAndItems.COPPER_PINE_BARREL.get(),
 					AerialHellBlocksAndItems.LAPIS_ROBINIA_BARREL.get(),
 					AerialHellBlocksAndItems.SHADOW_PINE_BARREL.get(),
+					AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_BARREL.get(),
 					AerialHellBlocksAndItems.SKY_CACTUS_FIBER_BARREL.get(),
 					AerialHellBlocksAndItems.GRAY_SHROOM_BARREL.get()
 			), null));
@@ -63,6 +66,7 @@ public class AerialHellBlockEntities
 	        				AerialHellBlocksAndItems.COPPER_PINE_CHEST.get(),
 	        				AerialHellBlocksAndItems.LAPIS_ROBINIA_CHEST.get(),
 	        				AerialHellBlocksAndItems.SHADOW_PINE_CHEST.get(),
+	        				AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_CHEST.get(),
 	        				AerialHellBlocksAndItems.SKY_CACTUS_FIBER_CHEST.get(),
 	        				AerialHellBlocksAndItems.GRAY_SHROOM_CHEST.get(),
 	        				AerialHellBlocksAndItems.MUD_CHEST.get(),

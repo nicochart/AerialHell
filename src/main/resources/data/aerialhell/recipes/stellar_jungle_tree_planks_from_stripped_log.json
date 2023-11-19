@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "item": "aerialhell:stripped_stellar_jungle_tree_log"
+    }
+  ],
+  "result": {
+    "item": "aerialhell:stellar_jungle_tree_planks",
+    "count": 4
+  }
+}

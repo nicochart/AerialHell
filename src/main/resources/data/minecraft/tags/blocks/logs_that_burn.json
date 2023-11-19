@@ -1,22 +1,4 @@
 {
   "replace": false,
-  "values":
-  [
-    "aerialhell:aerial_tree_log",
-    "aerialhell:stripped_aerial_tree_log",
-    "aerialhell:golden_beech_log",
-    "aerialhell:stripped_golden_beech_log",
-    "aerialhell:copper_pine_log",
-    "aerialhell:stripped_copper_pine_log",
-    "aerialhell:lapis_robinia_log",
-    "aerialhell:enchanted_lapis_robinia_log",
-    "aerialhell:stripped_lapis_robinia_log",
-    "aerialhell:shadow_pine_log",
-    "aerialhell:eye_shadow_pine_log",
-    "aerialhell:stripped_shadow_pine_log",
-    "aerialhell:giant_cortinarius_violaceus_stem",
-    "aerialhell:stripped_giant_cortinarius_violaceus_stem",
-    "aerialhell:giant_verdigris_agaric_stem",
-    "aerialhell:stripped_giant_verdigris_agaric_stem"
-  ]
+  "values": ["#aerialhell:logs_that_burn"]
 }

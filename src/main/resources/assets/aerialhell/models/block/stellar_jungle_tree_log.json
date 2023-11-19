@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aerialhell:block/stellar_jungle_tree_log_top",
+    "side": "aerialhell:block/stellar_jungle_tree_log"
+  }
+}

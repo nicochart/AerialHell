@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:stellar_jungle_tree_planks"
+    }
+  },
+  "result": {
+    "item": "aerialhell:stellar_jungle_tree_stairs",
+    "count": 4
+  }
+}

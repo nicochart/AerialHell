@@ -30,6 +30,10 @@ public class AerialHellChestBlockEntityRenderer extends ChestRenderer<AerialHell
 		{
 			return chooseMaterial(chestType, AerialHellChestMaterials.LAPIS_ROBINIA_SINGLE, AerialHellChestMaterials.LAPIS_ROBINIA_LEFT, AerialHellChestMaterials.LAPIS_ROBINIA_RIGHT);
 		}
+		else if (block == AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_CHEST.get())
+		{
+			return chooseMaterial(chestType, AerialHellChestMaterials.STELLAR_JUNGLE_TREE_SINGLE, AerialHellChestMaterials.STELLAR_JUNGLE_TREE_LEFT, AerialHellChestMaterials.STELLAR_JUNGLE_TREE_RIGHT);
+		}
 		else if (block == AerialHellBlocksAndItems.GOLDEN_BEECH_CHEST.get())
 		{
 			return chooseMaterial(chestType, AerialHellChestMaterials.GOLDEN_BEECH_SINGLE, AerialHellChestMaterials.GOLDEN_BEECH_LEFT, AerialHellChestMaterials.GOLDEN_BEECH_RIGHT);

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_inventory",
+  "textures": {
+    "texture": "aerialhell:block/stellar_jungle_tree_planks"
+  }
+}
