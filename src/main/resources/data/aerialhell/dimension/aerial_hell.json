@@ -92,6 +92,18 @@
           }
         },
         {
+          "biome": "aerialhell:stellar_jungle",
+          "parameters": {
+            "temperature": 0.45,
+            "humidity": 0.45,
+            "continentalness": -0.55,
+            "erosion": 0,
+            "weirdness": 0.3,
+            "depth": 0,
+            "offset": 0.3
+          }
+        },
+        {
           "biome": "aerialhell:lapis_robinia_savana",
           "parameters": {
             "temperature": 0.5,
