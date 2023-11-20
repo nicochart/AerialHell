@@ -296,7 +296,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> STELLAR_JUNGLE_TREE_LEAVES = BLOCKS.register("stellar_jungle_tree_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
 	public static final RegistryObject<Block> STELLAR_JUNGLE_TREE_PLANKS = BLOCKS.register("stellar_jungle_tree_planks", () -> new Block(BlockBehaviour.Properties.copy(STELLAR_JUNGLE_TREE_LOG.get())));
 	public static final RegistryObject<Block> STELLAR_JUNGLE_TREE_BOOKSHELF = BLOCKS.register("stellar_jungle_tree_bookshelf", () -> new AerialHellBookshelfBlock(BlockBehaviour.Properties.copy(STELLAR_JUNGLE_TREE_PLANKS.get())));
-	public static final RegistryObject<SaplingBlock> STELLAR_JUNGLE_TREE_SAPLING = BLOCKS.register("stellar_jungle_tree_sapling", () -> new SaplingBlock(new LapisRobinia(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
+	public static final RegistryObject<SaplingBlock> STELLAR_JUNGLE_TREE_SAPLING = BLOCKS.register("stellar_jungle_tree_sapling", () -> new SaplingBlock(new StellarJungleTree(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
 	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_LOG_ITEM = ITEMS.register("stellar_jungle_tree_log", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_LOG.get(), new Item.Properties(), 400));
 	public static final RegistryObject<Item> STRIPPED_STELLAR_JUNGLE_TREE_LOG_ITEM = ITEMS.register("stripped_stellar_jungle_tree_log", () -> new BurnableBlockItem(STRIPPED_STELLAR_JUNGLE_TREE_LOG.get(), new Item.Properties(), 400));
 	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_LEAVES_ITEM = ITEMS.register("stellar_jungle_tree_leaves", () -> new BlockItem(STELLAR_JUNGLE_TREE_LEAVES.get(), new Item.Properties()));

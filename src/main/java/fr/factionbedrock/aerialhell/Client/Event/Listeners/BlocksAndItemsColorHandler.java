@@ -39,6 +39,8 @@ public class BlocksAndItemsColorHandler
                 AerialHellBlocksAndItems.BLACK_ROSE.get(),
                 AerialHellBlocksAndItems.BLUE_FLOWER.get(),
                 AerialHellBlocksAndItems.BELLFLOWER.get(),
+                AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_SAPLING.get(),
+                AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get(),
                 AerialHellBlocksAndItems.MOSSY_STELLAR_STONE.get(),
                 AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE.get(),
                 AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_WALL.get(),
@@ -102,6 +104,10 @@ public class BlocksAndItemsColorHandler
                 AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_WALL_ITEM.get(),
                 AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB_ITEM.get(),
                 AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS_ITEM.get()
+        );
+
+        event.getItemColors().register((stack, color) -> new Color(92, 171, 102).getRGB(),
+                AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get()
         );
     }
 }

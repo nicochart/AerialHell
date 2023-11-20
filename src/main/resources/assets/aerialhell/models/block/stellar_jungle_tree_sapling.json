@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cross",
+  "parent": "aerialhell:block/foliage_tinted_cross_with_layer",
   "textures": {
-    "cross": "aerialhell:block/stellar_jungle_tree_sapling"
+    "cross": "aerialhell:block/stellar_jungle_tree_sapling_leaves",
+    "layer": "aerialhell:block/stellar_jungle_tree_sapling_tree"
   }
 }

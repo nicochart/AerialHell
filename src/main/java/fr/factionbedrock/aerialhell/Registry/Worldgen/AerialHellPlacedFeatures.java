@@ -76,6 +76,8 @@ public class AerialHellPlacedFeatures
     public static final ResourceKey<PlacedFeature> PURPLE_SHADOW_PINE_CHECKED = createKey("purple_shadow_pine_checked");
     public static final ResourceKey<PlacedFeature> MEGA_SHADOW_PINE_CHECKED = createKey("mega_shadow_pine_checked");
     public static final ResourceKey<PlacedFeature> MEGA_PURPLE_SHADOW_PINE_CHECKED = createKey("mega_purple_shadow_pine_checked");
+    public static final ResourceKey<PlacedFeature> STELLAR_JUNGLE_TREE_CHECKED = createKey("stellar_jungle_tree_checked");
+    public static final ResourceKey<PlacedFeature> MEGA_STELLAR_JUNGLE_TREE_CHECKED = createKey("mega_stellar_jungle_tree_checked");
     public static final ResourceKey<PlacedFeature> CRYSTALLIZED_TREE_CHECKED = createKey("crystallized_tree_checked");
 
     public static final ResourceKey<PlacedFeature> AERIAL_TREE_VEGETATION = createKey("aerial_tree_vegetation");
@@ -90,6 +92,8 @@ public class AerialHellPlacedFeatures
     public static final ResourceKey<PlacedFeature> PURPLE_SHADOW_PINE_VEGETATION = createKey("purple_shadow_pine_vegetation");
     public static final ResourceKey<PlacedFeature> MEGA_SHADOW_PINE_VEGETATION = createKey("mega_shadow_pine_vegetation");
     public static final ResourceKey<PlacedFeature> MEGA_PURPLE_SHADOW_PINE_VEGETATION = createKey("mega_purple_shadow_pine_vegetation");
+    public static final ResourceKey<PlacedFeature> STELLAR_JUNGLE_TREE_VEGETATION = createKey("stellar_jungle_tree_vegetation");
+    public static final ResourceKey<PlacedFeature> MEGA_STELLAR_JUNGLE_TREE_VEGETATION = createKey("mega_stellar_jungle_tree_vegetation");
     public static final ResourceKey<PlacedFeature> CRYSTALLIZED_TREE_VEGETATION = createKey("crystallized_tree_vegetation");
 
     public static final ResourceKey<PlacedFeature> GIANT_CORTINARIUS_VIOLACEUS = createKey("giant_cortinarius_violaceus");

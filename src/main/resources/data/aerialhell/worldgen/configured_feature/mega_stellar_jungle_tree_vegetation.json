@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "chance": 1,
+        "feature": "aerialhell:mega_stellar_jungle_tree_checked"
+      }
+    ],
+    "default": {
+      "feature": "aerialhell:mega_stellar_jungle_tree",
+      "placement": []
+    }
+  }
+}

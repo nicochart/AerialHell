@@ -1,0 +1,17 @@
+{
+  "feature": "aerialhell:stellar_jungle_tree",
+  "placement": [
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:would_survive",
+        "state": {
+          "Name": "aerialhell:stellar_jungle_tree_sapling",
+          "Properties": {
+            "stage": "0"
+          }
+        }
+      }
+    }
+  ]
+}
