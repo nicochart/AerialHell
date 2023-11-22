@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellPlacedFeatures;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,6 +23,9 @@ import java.util.Optional;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.world.level.lighting.LightEngine;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
+import org.jetbrains.annotations.Nullable;
 
 public class ShadowGrassBlock extends GrassBlock
 {
@@ -128,5 +132,17 @@ public class ShadowGrassBlock extends GrassBlock
 	{
 	    BlockPos blockpos = pos.above();
 	    return canBeGrass(state, worldReader, pos) && !worldReader.getFluidState(blockpos).is(FluidTags.WATER);
+	}
+
+	//make it tillable
+	@Override @Nullable
+	public BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction, boolean simulate)
+	{
+		if (!context.getItemInHand().canPerformAction(toolAction)) {return null;}
+		if (ToolActions.HOE_TILL == toolAction)
+		{
+			if (state.getBlock() == AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()) {return AerialHellBlocksAndItems.STELLAR_FARMLAND.get().defaultBlockState();}
+		}
+		return super.getToolModifiedState(state, context, toolAction, simulate);
 	}
 }

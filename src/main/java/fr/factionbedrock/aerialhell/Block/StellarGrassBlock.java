@@ -5,6 +5,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.tags.FluidTags;
@@ -23,6 +24,9 @@ import java.util.Optional;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.world.level.lighting.LightEngine;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
+import org.jetbrains.annotations.Nullable;
 
 public class StellarGrassBlock extends GrassBlock implements BonemealableBlock
 {
@@ -140,5 +144,21 @@ public class StellarGrassBlock extends GrassBlock implements BonemealableBlock
 	{
 	    BlockPos blockpos = pos.above();
 	    return canBeGrass(state, worldReader, pos) && !worldReader.getFluidState(blockpos).is(FluidTags.WATER);
+	}
+
+	//make it tillable
+	@Override @Nullable
+	public BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction, boolean simulate)
+	{
+		if (!context.getItemInHand().canPerformAction(toolAction)) {return null;}
+		if (ToolActions.HOE_TILL == toolAction)
+		{
+			Block block = state.getBlock();
+			if (block == AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get() || block == AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get())
+			{
+				return AerialHellBlocksAndItems.STELLAR_FARMLAND.get().defaultBlockState();
+			}
+		}
+		return super.getToolModifiedState(state, context, toolAction, simulate);
 	}
 }

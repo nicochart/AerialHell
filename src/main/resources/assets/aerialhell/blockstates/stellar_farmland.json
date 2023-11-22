@@ -1,0 +1,13 @@
+{
+  "variants":
+  {
+    "moisture=0": {"model": "aerialhell:block/stellar_farmland"},
+    "moisture=1": {"model": "aerialhell:block/stellar_farmland"},
+    "moisture=2": {"model": "aerialhell:block/stellar_farmland"},
+    "moisture=3": {"model": "aerialhell:block/stellar_farmland"},
+    "moisture=4": {"model": "aerialhell:block/stellar_farmland"},
+    "moisture=5": {"model": "aerialhell:block/stellar_farmland"},
+    "moisture=6": {"model": "aerialhell:block/stellar_farmland"},
+    "moisture=7": {"model": "aerialhell:block/stellar_farmland_moist"}
+  }
+}
