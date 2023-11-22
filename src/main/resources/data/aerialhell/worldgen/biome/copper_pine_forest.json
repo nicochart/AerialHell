@@ -76,6 +76,12 @@
         "weight": 30,
         "minCount": 3,
         "maxCount": 10
+      },
+      {
+        "type": "aerialhell:kodama",
+        "weight": 10,
+        "minCount": 3,
+        "maxCount": 10
       }
     ],
     "ambient": [],

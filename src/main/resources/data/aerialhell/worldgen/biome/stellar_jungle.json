@@ -43,28 +43,22 @@
     ],
     "creature": [
       {
-        "type": "aerialhell:sandy_sheep",
-        "weight": 10,
-        "minCount": 3,
-        "maxCount": 7
-      },
-      {
         "type": "aerialhell:gliding_turtle",
         "weight": 20,
-        "minCount": 3,
-        "maxCount": 10
-      },
-      {
-        "type": "aerialhell:stellar_chicken",
-        "weight": 20,
-        "minCount": 3,
-        "maxCount": 10
+        "minCount": 4,
+        "maxCount": 9
       },
       {
         "type": "aerialhell:stellar_boar",
-        "weight": 30,
-        "minCount": 3,
+        "weight": 20,
+        "minCount": 4,
         "maxCount": 10
+      },
+      {
+        "type": "aerialhell:kodama",
+        "weight": 40,
+        "minCount": 7,
+        "maxCount": 15
       }
     ],
     "ambient": [],
