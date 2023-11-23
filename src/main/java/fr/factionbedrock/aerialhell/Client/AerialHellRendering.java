@@ -41,6 +41,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.DEAD_ROOTS_PLANT.get(), cutout);
 		render(() -> AerialHellBlocksAndItems.AERIAL_BERRY_BUSH.get(), cutout);
 		render(() -> AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY_BUSH.get(), cutout);
+		render(() -> AerialHellBlocksAndItems.STELLAR_WHEAT.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BLUE_FLOWER.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BLACK_ROSE.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BELLFLOWER.get(), cutout);

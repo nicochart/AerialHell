@@ -747,6 +747,11 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> VIBRANT_AERIAL_BERRY_BUSH = BLOCKS.register("vibrant_aerial_berry_bush", () -> new VibrantAerialBerryBushBlock(BlockBehaviour.Properties.copy(Blocks.SWEET_BERRY_BUSH)));
 	public static final RegistryObject<Item> VIBRANT_AERIAL_BERRY_SEEDS = ITEMS.register("vibrant_aerial_berry_seeds",() -> new ItemNameBlockItem(VIBRANT_AERIAL_BERRY_BUSH.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT)));
 
+	//crops
+	public static final RegistryObject<Block> STELLAR_WHEAT = BLOCKS.register("stellar_wheat", () -> new StellarWheatBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT)));
+	public static final RegistryObject<Item> STELLAR_WHEAT_SEEDS = ITEMS.register("stellar_wheat_seeds",() -> new ItemNameBlockItem(STELLAR_WHEAT.get(), new Item.Properties()));
+	public static final RegistryObject<Item> STELLAR_WHEAT_ITEM = ITEMS.register("stellar_wheat",() -> new Item(new Item.Properties()));
+
 	//vines
 	public static final RegistryObject<CaveVinesBlock> GLOWING_STICK_FRUIT_VINES = BLOCKS.register("glowing_stick_fruit_vines", () -> new AerialHellCaveVinesBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES)));
 	public static final RegistryObject<CaveVinesPlantBlock> GLOWING_STICK_FRUIT_VINES_PLANT = BLOCKS.register("glowing_stick_fruit_vines_plant", () -> new AerialHellCaveVinesPlantBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES_PLANT)));
@@ -1219,6 +1224,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> ROASTED_AERIAL_BERRY = ITEMS.register("roasted_aerial_berry",() -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.4F).build())));
 	public static final RegistryObject<Item> VIBRANT_AERIAL_BERRY = ITEMS.register("vibrant_aerial_berry",() -> new Item(new Item.Properties().rarity(AerialHellRarities.VIBRANT).food(new FoodProperties.Builder().nutrition(6).saturationMod(0.6F).build())));
 	public static final RegistryObject<Item> FROZEN_AERIAL_BERRY = ITEMS.register("frozen_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN, () -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 310, 0), () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 210, 0)));
+	public static final RegistryObject<Item> STELLAR_BREAD = ITEMS.register("stellar_bread",() -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).saturationMod(0.6F).build())));
 	public static final RegistryObject<Item> FROZEN_MUTTON = ITEMS.register("frozen_mutton", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN, () -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 310, 0), () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 210, 0)));
 	public static final RegistryObject<Item> VIBRANT_CHICKEN = ITEMS.register("vibrant_chicken", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT, () -> new MobEffectInstance(MobEffects.SLOW_FALLING, 60, 0)));
 	public static final RegistryObject<Item> FROZEN_CHICKEN = ITEMS.register("frozen_chicken", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN, () -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 310, 0), () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 210, 1), () -> new MobEffectInstance(MobEffects.HUNGER, 80, 0)));

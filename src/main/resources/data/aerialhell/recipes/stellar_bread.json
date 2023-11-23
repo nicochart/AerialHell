@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "aerialhell:stellar_wheat"
+    }
+  },
+  "pattern": [
+    "###"
+  ],
+  "result": {
+    "item": "aerialhell:stellar_bread"
+  },
+  "show_notification": true
+}

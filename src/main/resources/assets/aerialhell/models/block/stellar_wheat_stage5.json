@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/crop",
+  "textures": {
+    "crop": "aerialhell:block/stellar_wheat_stage5"
+  }
+}
