@@ -151,13 +151,10 @@ public class StellarGrassBlock extends GrassBlock implements BonemealableBlock
 	public BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction, boolean simulate)
 	{
 		if (!context.getItemInHand().canPerformAction(toolAction)) {return null;}
-		if (ToolActions.HOE_TILL == toolAction)
+		if (state.getBlock() == AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get() || state.getBlock() == AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get())
 		{
-			Block block = state.getBlock();
-			if (block == AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get() || block == AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get())
-			{
-				return AerialHellBlocksAndItems.STELLAR_FARMLAND.get().defaultBlockState();
-			}
+			if (ToolActions.HOE_TILL == toolAction) {return AerialHellBlocksAndItems.STELLAR_FARMLAND.get().defaultBlockState();}
+			if (ToolActions.SHOVEL_FLATTEN == toolAction) {return AerialHellBlocksAndItems.STELLAR_DIRT_PATH.get().defaultBlockState();}
 		}
 		return super.getToolModifiedState(state, context, toolAction, simulate);
 	}

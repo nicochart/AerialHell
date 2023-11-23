@@ -139,9 +139,10 @@ public class ShadowGrassBlock extends GrassBlock
 	public BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction, boolean simulate)
 	{
 		if (!context.getItemInHand().canPerformAction(toolAction)) {return null;}
-		if (ToolActions.HOE_TILL == toolAction)
+		if (state.getBlock() == AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get())
 		{
-			if (state.getBlock() == AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()) {return AerialHellBlocksAndItems.STELLAR_FARMLAND.get().defaultBlockState();}
+			if (ToolActions.HOE_TILL == toolAction) {return AerialHellBlocksAndItems.STELLAR_FARMLAND.get().defaultBlockState();}
+			else if (ToolActions.SHOVEL_FLATTEN == toolAction) {return AerialHellBlocksAndItems.STELLAR_DIRT_PATH.get().defaultBlockState();}
 		}
 		return super.getToolModifiedState(state, context, toolAction, simulate);
 	}
