@@ -80,7 +80,7 @@ public abstract class AbstractShurikenEntity extends ThrowableItemProjectile
 	abstract protected float getKnifeDamage();
 	abstract protected void applyEntityImpactEffet(Entity entity);
 	
-	@Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);}
+	//@Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);}
 
 	@Override abstract protected Item getDefaultItem();
 }

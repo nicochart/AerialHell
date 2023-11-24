@@ -97,5 +97,5 @@ public class PoisonballEntity extends Fireball
 		if (this.isInLava() || this.isInWater() || this.tickCount > 500) {this.discard();}
 	}
 
-	@Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);}
+	//@Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);} crashes the game
 }

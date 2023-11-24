@@ -40,11 +40,12 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "aerialhell:aerial_berry_seeds"
+              "name": "aerialhell:stellar_wheat_seeds"
             }
           ]
         }
       ]
     }
-  ]
+  ],
+  "random_sequence": "aerialhell:stellar_grass"
 }

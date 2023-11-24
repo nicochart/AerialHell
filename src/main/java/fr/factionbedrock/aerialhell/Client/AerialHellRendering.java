@@ -104,6 +104,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.POTTED_COPPER_PINE_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_LAPIS_ROBINIA_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_SHADOW_PINE_SAPLING.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.POTTED_PURPLE_SHADOW_PINE_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_STELLAR_JUNGLE_TREE_SAPLING.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_CORTINARIUS_VIOLACEUS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POTTED_VERDIGRIS_AGARIC.get(), cutout);

@@ -37,5 +37,5 @@ public abstract class AbstractAerialArrowEntity extends AbstractArrow
         this.setNoGravity(false);
     }
 
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);}
+    //public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);}
 }

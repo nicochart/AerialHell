@@ -29,7 +29,7 @@ public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
     	this.playSound(this.getShootSound(), 3, 0.875F + 0.25F * random.nextFloat());
     }
 
-    @Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);}
+    //@Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);}
     @Override protected void defineSynchedData() {}
     @Override protected float getGravity() {return 0.0F;}
 
