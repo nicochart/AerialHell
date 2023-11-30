@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=false": {
+      "model": "aerialhell:block/stellar_very_tall_grass"
+    },
+    "top=true": {
+      "model": "aerialhell:block/stellar_very_tall_grass_top"
+    }
+  }
+}

@@ -756,6 +756,8 @@ public class AerialHellBlocksAndItems
 	//Vertical growing plants
 	public static final RegistryObject<Block> CLIMBING_VINE = BLOCKS.register("climbing_vine", () -> new VerticalGrowingPlantBlock(BlockBehaviour.Properties.copy(Blocks.SUGAR_CANE), 4));
 	public static final RegistryObject<Item> CLIMBING_VINE_ITEM = ITEMS.register("climbing_vine",() -> new BlockItem(CLIMBING_VINE.get(), new Item.Properties()));
+	public static final RegistryObject<Block> STELLAR_SUGAR_CANE = BLOCKS.register("stellar_sugar_cane", () -> new VerticalGrowingPlantBlock(BlockBehaviour.Properties.copy(Blocks.SUGAR_CANE), 5));
+	public static final RegistryObject<Item> STELLAR_SUGAR_CANE_ITEM = ITEMS.register("stellar_sugar_cane",() -> new BlockItem(STELLAR_SUGAR_CANE.get(), new Item.Properties()));
 
 	//vines
 	public static final RegistryObject<CaveVinesBlock> GLOWING_STICK_FRUIT_VINES = BLOCKS.register("glowing_stick_fruit_vines", () -> new AerialHellCaveVinesBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES)));
@@ -779,6 +781,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> STELLAR_FERN = BLOCKS.register("stellar_fern", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
 	public static final RegistryObject<Block> STELLAR_TALL_GRASS = BLOCKS.register("stellar_tall_grass", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
 	public static final RegistryObject<Block> STELLAR_TALL_FERN = BLOCKS.register("stellar_tall_fern", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> STELLAR_VERY_TALL_GRASS = BLOCKS.register("stellar_very_tall_grass", () -> new VerticalGrowingPlantBlock(BlockBehaviour.Properties.copy(Blocks.SUGAR_CANE), 3));
 	public static final RegistryObject<Block> BLUISH_FERN = BLOCKS.register("bluish_fern", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
 	public static final RegistryObject<Block> TALL_BLUISH_FERN = BLOCKS.register("tall_bluish_fern", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
 	public static final RegistryObject<Block> POLYCHROME_FERN = BLOCKS.register("polychrome_fern", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
@@ -794,6 +797,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> STELLAR_FERN_ITEM = ITEMS.register("stellar_fern", () -> new BlockItem(STELLAR_FERN.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_TALL_GRASS_ITEM = ITEMS.register("stellar_tall_grass", () -> new BlockItem(STELLAR_TALL_GRASS.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_TALL_FERN_ITEM = ITEMS.register("stellar_tall_fern", () -> new BlockItem(STELLAR_TALL_FERN.get(), new Item.Properties()));
+	public static final RegistryObject<Item> STELLAR_VERY_TALL_GRASS_ITEM = ITEMS.register("stellar_very_tall_grass",() -> new BlockItem(STELLAR_VERY_TALL_GRASS.get(), new Item.Properties()));
 	public static final RegistryObject<Item> BLUISH_FERN_ITEM = ITEMS.register("bluish_fern", () -> new BlockItem(BLUISH_FERN.get(), new Item.Properties()));
 	public static final RegistryObject<Item> TALL_BLUISH_FERN_ITEM = ITEMS.register("tall_bluish_fern", () -> new BlockItem(TALL_BLUISH_FERN.get(), new Item.Properties()));
 	public static final RegistryObject<Item> POLYCHROME_FERN_ITEM = ITEMS.register("polychrome_fern", () -> new BlockItem(POLYCHROME_FERN.get(), new Item.Properties()));

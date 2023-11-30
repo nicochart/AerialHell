@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "aerialhell:climbing_vine"
+    "aerialhell:climbing_vine",
+    "aerialhell:stellar_sugar_cane",
+    "aerialhell:stellar_very_tall_grass"
   ]
 }

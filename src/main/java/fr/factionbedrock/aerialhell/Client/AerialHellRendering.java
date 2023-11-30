@@ -34,6 +34,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.BLOSSOMING_VINES.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT.get(), cutout);
         render(() -> AerialHellBlocksAndItems.CLIMBING_VINE.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.STELLAR_SUGAR_CANE.get(), cutout);
         render(() -> AerialHellBlocksAndItems.LAZULI_ROOTS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.LAZULI_ROOTS_PLANT.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_ROOTS.get(), cutout);
@@ -88,6 +89,7 @@ public class AerialHellRendering
         render(() -> AerialHellBlocksAndItems.BLUE_MEANIE_CLUSTER.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.STELLAR_TALL_FERN.get(), cutout);
+        render(() -> AerialHellBlocksAndItems.STELLAR_VERY_TALL_GRASS.get(), cutout);
         render(() -> AerialHellBlocksAndItems.BLUISH_FERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.TALL_BLUISH_FERN.get(), cutout);
         render(() -> AerialHellBlocksAndItems.POLYCHROME_FERN.get(), cutout);

@@ -202,6 +202,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_FIBER_LANTERN_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.CLIMBING_VINE_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_SUGAR_CANE_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.VINE_BLOSSOM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAZULI_ROOTS_ITEM.get());
@@ -213,6 +214,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_FERN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_TALL_GRASS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_TALL_FERN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_VERY_TALL_GRASS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.BLUISH_FERN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.TALL_BLUISH_FERN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.POLYCHROME_FERN_ITEM.get());

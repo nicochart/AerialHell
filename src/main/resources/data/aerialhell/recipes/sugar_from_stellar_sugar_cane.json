@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "sugar",
+  "ingredients": [
+    {
+      "item": "aerialhell:stellar_sugar_cane"
+    }
+  ],
+  "result": {
+    "item": "minecraft:sugar"
+  }
+}
