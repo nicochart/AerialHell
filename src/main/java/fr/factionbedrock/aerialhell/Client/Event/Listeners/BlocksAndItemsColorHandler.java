@@ -32,6 +32,7 @@ public class BlocksAndItemsColorHandler
                 AerialHellBlocksAndItems.TALL_POLYCHROME_FERN.get(),
                 AerialHellBlocksAndItems.BLOSSOMING_VINES.get(),
                 AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT.get(),
+                AerialHellBlocksAndItems.CLIMBING_VINE.get(),
                 AerialHellBlocksAndItems.STELLAR_ROOTS.get(),
                 AerialHellBlocksAndItems.STELLAR_ROOTS_PLANT.get(),
                 AerialHellBlocksAndItems.BRAMBLES.get(),

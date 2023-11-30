@@ -753,6 +753,10 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> STELLAR_WHEAT_SEEDS = ITEMS.register("stellar_wheat_seeds",() -> new ItemNameBlockItem(STELLAR_WHEAT.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_WHEAT_ITEM = ITEMS.register("stellar_wheat",() -> new Item(new Item.Properties()));
 
+	//Vertical growing plants
+	public static final RegistryObject<Block> CLIMBING_VINE = BLOCKS.register("climbing_vine", () -> new VerticalGrowingPlantBlock(BlockBehaviour.Properties.copy(Blocks.SUGAR_CANE), 4));
+	public static final RegistryObject<Item> CLIMBING_VINE_ITEM = ITEMS.register("climbing_vine",() -> new BlockItem(CLIMBING_VINE.get(), new Item.Properties()));
+
 	//vines
 	public static final RegistryObject<CaveVinesBlock> GLOWING_STICK_FRUIT_VINES = BLOCKS.register("glowing_stick_fruit_vines", () -> new AerialHellCaveVinesBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES)));
 	public static final RegistryObject<CaveVinesPlantBlock> GLOWING_STICK_FRUIT_VINES_PLANT = BLOCKS.register("glowing_stick_fruit_vines_plant", () -> new AerialHellCaveVinesPlantBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES_PLANT)));

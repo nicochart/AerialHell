@@ -1,0 +1,7 @@
+{
+  "parent": "aerialhell:block/tinted_cross_with_layer",
+  "textures": {
+    "cross": "aerialhell:block/climbing_vine",
+    "layer": "aerialhell:block/climbing_vine_layer"
+  }
+}

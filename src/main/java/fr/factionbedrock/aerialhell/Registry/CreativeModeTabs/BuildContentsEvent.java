@@ -201,6 +201,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_FIBER_LANTERN_ITEM.get());
 
+            itemsToAdd.add(AerialHellBlocksAndItems.CLIMBING_VINE_ITEM.get());
+
             itemsToAdd.add(AerialHellBlocksAndItems.VINE_BLOSSOM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAZULI_ROOTS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_ROOTS_ITEM.get());

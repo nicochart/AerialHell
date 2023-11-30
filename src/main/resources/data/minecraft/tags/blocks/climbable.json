@@ -2,8 +2,6 @@
   "replace": false,
   "values":
   [
-    "aerialhell:sky_ladder",
-    "#aerialhell:vines",
-    "#aerialhell:roots"
+    "#aerialhell:climbable"
   ]
 }
