@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "top=false": {
       "model": "aerialhell:block/climbing_vine"
+    },
+    "top=true": {
+      "model": "aerialhell:block/climbing_vine_top"
     }
   }
 }
