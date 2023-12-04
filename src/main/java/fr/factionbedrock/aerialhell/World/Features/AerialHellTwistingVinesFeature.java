@@ -17,10 +17,9 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.TwistingVinesConfig;
 
-import java.util.Random;
 import java.util.function.Supplier;
 
-//copy of TwistingVinesFeature class with some customizations and a config with one more parameter; editing placeWeepingVinesColumn and isInvalidPlacementLocation to adapt to Aerial Hell
+//copy of TwistingVinesFeature class ; editing placeWeepingVinesColumn and isInvalidPlacementLocation to adapt to Aerial Hell
 public class AerialHellTwistingVinesFeature extends Feature<TwistingVinesConfig>
 {
     private Supplier<Block> headBlock, bodyBlock;

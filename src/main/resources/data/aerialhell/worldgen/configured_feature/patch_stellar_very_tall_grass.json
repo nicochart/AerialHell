@@ -4,6 +4,8 @@
     "spread_width": 16,
     "spread_height": 4,
     "min_height": 3,
-    "max_height": 3
+    "max_height": 3,
+    "min_tries": 100,
+    "max_tries": 200
   }
 }

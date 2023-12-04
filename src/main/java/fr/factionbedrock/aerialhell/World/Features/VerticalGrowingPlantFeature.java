@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Block.Plants.VerticalGrowingPlantBlock;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.World.Features.Config.VerticalGrowingPlantConfig;
 import net.minecraft.core.BlockPos;
@@ -11,14 +10,13 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 import java.util.function.Supplier;
 
-//copy of TwistingVinesFeature class ; editing placeWeepingVinesColumn and isInvalidPlacementLocation to adapt to Aerial Hell
+//copy of TwistingVinesFeature class with some customizations and a config with one more parameter; editing placeWeepingVinesColumn and isInvalidPlacementLocation to adapt to Aerial Hell
 public class VerticalGrowingPlantFeature extends Feature<VerticalGrowingPlantConfig>
 {
     private Supplier<VerticalGrowingPlantBlock> block;
@@ -36,9 +34,12 @@ public class VerticalGrowingPlantFeature extends Feature<VerticalGrowingPlantCon
             int spreadY = config.spreadHeight();
             int minHeight = config.minHeight();
             int maxHeight = config.maxHeight();
+            int minTries = config.minTries();
+            int maxTries = config.maxTries();
+            int tries = (minTries == maxTries) ? minTries : Mth.nextInt(random, minTries, maxTries);
             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
-            for(int l = 0; l < spreadXZ * spreadXZ; ++l)
+            for(int l = 0; l <= tries; ++l)
             {
                 blockpos$mutableblockpos.set(blockpos).move(Mth.nextInt(random, -spreadXZ, spreadXZ), Mth.nextInt(random, -spreadY, spreadY), Mth.nextInt(random, -spreadXZ, spreadXZ));
                 if (findFirstAirBlockAboveGround(worldgenlevel, blockpos$mutableblockpos) && !isInvalidPlacementLocation(worldgenlevel, blockpos$mutableblockpos))
