@@ -1,58 +1,9 @@
 {
-  "type": "minecraft:random_patch",
+  "type": "aerialhell:stellar_very_tall_grass",
   "config": {
-    "tries": 12,
-    "xz_spread": 16,
-    "y_spread": 4,
-    "feature": {
-      "feature": {
-        "type": "minecraft:block_column",
-        "config": {
-          "direction": "up",
-          "allowed_placement": {
-            "type": "minecraft:matching_blocks",
-            "blocks": "minecraft:air"
-          },
-          "prioritize_tip": false,
-          "layers": [
-            {
-              "height": 3,
-              "provider": {
-                "type": "minecraft:simple_state_provider",
-                "state": {
-                  "Name": "aerialhell:stellar_very_tall_grass",
-                  "Properties": {
-                    "age": "0"
-                  }
-                }
-              }
-            }
-          ]
-        }
-      },
-      "placement": [
-        {
-          "type": "minecraft:block_predicate_filter",
-          "predicate": {
-            "type": "minecraft:all_of",
-            "predicates": [
-              {
-                "type": "minecraft:matching_blocks",
-                "blocks": "minecraft:air"
-              },
-              {
-                "type": "minecraft:would_survive",
-                "state": {
-                  "Name": "aerialhell:stellar_very_tall_grass",
-                  "Properties": {
-                    "age": "0"
-                  }
-                }
-              }
-            ]
-          }
-        }
-      ]
-    }
+    "spread_width": 16,
+    "spread_height": 4,
+    "min_height": 3,
+    "max_height": 3
   }
 }
