@@ -1,7 +1,7 @@
 {
-    "variants": {
-      "": {
-          "model": "aerialhell:block/stellar_stone"
-    }
-  }
+  "variants":
+  {"":[
+    {"model": "aerialhell:block/stellar_stone"},
+    {"model": "aerialhell:block/stellar_stone_variant"}
+  ]}
 }
