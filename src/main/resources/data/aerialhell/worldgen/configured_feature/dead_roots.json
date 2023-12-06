@@ -3,6 +3,7 @@
   "config": {
     "spread_width": 6,
     "spread_height": 4,
-    "max_height": 8
+    "max_height": 8,
+    "needs_roof": "false"
   }
 }

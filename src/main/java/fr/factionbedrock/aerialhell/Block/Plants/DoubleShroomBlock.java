@@ -17,7 +17,7 @@ public class DoubleShroomBlock extends DoublePlantBlock
 
     public boolean canSurvive(BlockState state, LevelReader reader, BlockPos pos)
     {
-        boolean solidSurfaceAbove = BlockHelper.hasAnySolidBlockAbove(reader, pos) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(3, 0, 3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(3, 0, -3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(-3, 0, 3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(-3, 0, -3));
+        boolean solidSurfaceAbove = BlockHelper.hasAnySolidSurfaceAbove(reader, pos, 3);
         if (state.getValue(HALF) != DoubleBlockHalf.UPPER) {return solidSurfaceAbove && super.canSurvive(state, reader, pos);}
         else
         {

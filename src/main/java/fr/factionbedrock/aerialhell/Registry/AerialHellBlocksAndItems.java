@@ -774,6 +774,9 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<AerialHellTwistingVinesBlock> DEAD_ROOTS = BLOCKS.register("dead_roots", () -> new DeadRootsBlock(BlockBehaviour.Properties.copy(Blocks.TWISTING_VINES)));
 	public static final RegistryObject<AerialHellTwistingVinesPlantBlock> DEAD_ROOTS_PLANT = BLOCKS.register("dead_roots_plant", () -> new DeadRootsPlantBlock(BlockBehaviour.Properties.copy(Blocks.TWISTING_VINES_PLANT)));
 	public static final RegistryObject<Item> DEAD_ROOTS_ITEM = ITEMS.register("dead_roots", () -> new BlockItem(DEAD_ROOTS.get(), new Item.Properties()));
+	public static final RegistryObject<AerialHellTwistingVinesBlock> GLOWING_ROOTS = BLOCKS.register("glowing_roots", () -> new AerialHellTwistingVinesBlock(BlockBehaviour.Properties.copy(Blocks.TWISTING_VINES).lightLevel((state) -> 9)));
+	public static final RegistryObject<AerialHellTwistingVinesPlantBlock> GLOWING_ROOTS_PLANT = BLOCKS.register("glowing_roots_plant", () -> new AerialHellTwistingVinesPlantBlock(BlockBehaviour.Properties.copy(Blocks.TWISTING_VINES_PLANT).lightLevel((state) -> 14)));
+	public static final RegistryObject<Item> GLOWING_ROOTS_ITEM = ITEMS.register("glowing_roots", () -> new BlockItem(GLOWING_ROOTS.get(), new Item.Properties()));
 
 	//grass
 	public static final RegistryObject<Block> STELLAR_GRASS = BLOCKS.register("stellar_grass", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));

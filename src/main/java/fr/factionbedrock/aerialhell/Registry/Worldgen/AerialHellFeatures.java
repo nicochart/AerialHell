@@ -3,13 +3,12 @@ package fr.factionbedrock.aerialhell.Registry.Worldgen;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.World.Features.*;
-import fr.factionbedrock.aerialhell.World.Features.Config.VerticalGrowingPlantConfig;
+import fr.factionbedrock.aerialhell.World.Features.Config.*;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.TwistingVinesConfig;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -21,9 +20,10 @@ public class AerialHellFeatures
 
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> GIANT_GANODERMA_APPLANATUM = FEATURES.register("giant_ganoderma_applanatum", () -> new GiantGanodermaApplanatumFeature(NoneFeatureConfiguration.CODEC));
 	public static final RegistryObject<HugeMushroomFeature> HUGE_MUSHROOM = FEATURES.register("huge_mushroom", () -> new HugeMushroomFeature(HugeMushroomFeatureConfiguration.CODEC));
-	public static final RegistryObject<AerialHellTwistingVinesFeature> LAZULI_ROOTS = FEATURES.register("lazuli_roots", () -> new AerialHellTwistingVinesFeature(TwistingVinesConfig.CODEC, () -> AerialHellBlocksAndItems.LAZULI_ROOTS.get(), () -> AerialHellBlocksAndItems.LAZULI_ROOTS_PLANT.get()));
-	public static final RegistryObject<AerialHellTwistingVinesFeature> STELLAR_ROOTS = FEATURES.register("stellar_roots", () -> new AerialHellTwistingVinesFeature(TwistingVinesConfig.CODEC, () -> AerialHellBlocksAndItems.STELLAR_ROOTS.get(), () -> AerialHellBlocksAndItems.STELLAR_ROOTS_PLANT.get()));
-	public static final RegistryObject<AerialHellTwistingVinesFeature> DEAD_ROOTS = FEATURES.register("dead_roots", () -> new AerialHellTwistingVinesFeature(TwistingVinesConfig.CODEC, () -> AerialHellBlocksAndItems.DEAD_ROOTS.get(), () -> AerialHellBlocksAndItems.DEAD_ROOTS_PLANT.get()));
+	public static final RegistryObject<AerialHellTwistingVinesFeature> LAZULI_ROOTS = FEATURES.register("lazuli_roots", () -> new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC, () -> AerialHellBlocksAndItems.LAZULI_ROOTS.get(), () -> AerialHellBlocksAndItems.LAZULI_ROOTS_PLANT.get()));
+	public static final RegistryObject<AerialHellTwistingVinesFeature> STELLAR_ROOTS = FEATURES.register("stellar_roots", () -> new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC, () -> AerialHellBlocksAndItems.STELLAR_ROOTS.get(), () -> AerialHellBlocksAndItems.STELLAR_ROOTS_PLANT.get()));
+	public static final RegistryObject<AerialHellTwistingVinesFeature> DEAD_ROOTS = FEATURES.register("dead_roots", () -> new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC, () -> AerialHellBlocksAndItems.DEAD_ROOTS.get(), () -> AerialHellBlocksAndItems.DEAD_ROOTS_PLANT.get()));
+	public static final RegistryObject<AerialHellTwistingVinesFeature> GLOWING_ROOTS = FEATURES.register("glowing_roots", () -> new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC, () -> AerialHellBlocksAndItems.GLOWING_ROOTS.get(), () -> AerialHellBlocksAndItems.GLOWING_ROOTS_PLANT.get()));
 
 	public static final RegistryObject<VerticalGrowingPlantFeature> CLIMBING_VINE = FEATURES.register("climbing_vine", () -> new VerticalGrowingPlantFeature(VerticalGrowingPlantConfig.CODEC, () -> AerialHellBlocksAndItems.CLIMBING_VINE.get()));
 	public static final RegistryObject<VerticalGrowingPlantFeature> STELLAR_SUGAR_CANE = FEATURES.register("stellar_sugar_cane", () -> new VerticalGrowingPlantFeature(VerticalGrowingPlantConfig.CODEC, () -> AerialHellBlocksAndItems.STELLAR_SUGAR_CANE.get()));

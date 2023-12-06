@@ -3,6 +3,8 @@ package fr.factionbedrock.aerialhell.World.Features;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.BlockHelper;
+import fr.factionbedrock.aerialhell.World.Features.Config.AerialHellTwistingVinesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -15,25 +17,25 @@ import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.TwistingVinesConfig;
 
 import java.util.function.Supplier;
 
 //copy of TwistingVinesFeature class ; editing placeWeepingVinesColumn and isInvalidPlacementLocation to adapt to Aerial Hell
-public class AerialHellTwistingVinesFeature extends Feature<TwistingVinesConfig>
+public class AerialHellTwistingVinesFeature extends Feature<AerialHellTwistingVinesConfig>
 {
     private Supplier<Block> headBlock, bodyBlock;
 
-    public AerialHellTwistingVinesFeature(Codec<TwistingVinesConfig> codec, Supplier<Block> headBlock, Supplier<Block> bodyBlock) {super(codec); this.headBlock = headBlock; this.bodyBlock = bodyBlock;}
+    public AerialHellTwistingVinesFeature(Codec<AerialHellTwistingVinesConfig> codec, Supplier<Block> headBlock, Supplier<Block> bodyBlock) {super(codec); this.headBlock = headBlock; this.bodyBlock = bodyBlock;}
 
-    public boolean place(FeaturePlaceContext<TwistingVinesConfig> context)
+    public boolean place(FeaturePlaceContext<AerialHellTwistingVinesConfig> context)
     {
+        boolean needsRoof =  context.config().needsRoof().equals("true");
         WorldGenLevel worldgenlevel = context.level(); BlockPos blockpos = context.origin();
-        if (isInvalidPlacementLocation(worldgenlevel, blockpos)) {return false;}
+        if (isInvalidPlacementLocation(worldgenlevel, blockpos, needsRoof)) {return false;}
         else
         {
             RandomSource random = context.random();
-            TwistingVinesConfig twistingvinesconfig = context.config();
+            AerialHellTwistingVinesConfig twistingvinesconfig = context.config();
             int i = twistingvinesconfig.spreadWidth();
             int j = twistingvinesconfig.spreadHeight();
             int k = twistingvinesconfig.maxHeight();
@@ -42,7 +44,7 @@ public class AerialHellTwistingVinesFeature extends Feature<TwistingVinesConfig>
             for(int l = 0; l < i * i; ++l)
             {
                 blockpos$mutableblockpos.set(blockpos).move(Mth.nextInt(random, -i, i), Mth.nextInt(random, -j, j), Mth.nextInt(random, -i, i));
-                if (findFirstAirBlockAboveGround(worldgenlevel, blockpos$mutableblockpos) && !isInvalidPlacementLocation(worldgenlevel, blockpos$mutableblockpos))
+                if (findFirstAirBlockAboveGround(worldgenlevel, blockpos$mutableblockpos) && !isInvalidPlacementLocation(worldgenlevel, blockpos$mutableblockpos, false))
                 {
                     int i1 = Mth.nextInt(random, 1, k);
                     if (random.nextInt(6) == 0) {i1 *= 2;}
@@ -75,11 +77,12 @@ public class AerialHellTwistingVinesFeature extends Feature<TwistingVinesConfig>
 
     }
 
-    private static boolean isInvalidPlacementLocation(LevelAccessor level, BlockPos pos)
+    private static boolean isInvalidPlacementLocation(LevelAccessor level, BlockPos pos, boolean needsRoof)
     {
         if (!level.isEmptyBlock(pos)) {return true;}
         else
         {
+            if (needsRoof && !BlockHelper.hasAnySolidSurfaceAbove(level, pos, 3)) {return true;}
             BlockState blockstate = level.getBlockState(pos.below());
             return !blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) && !blockstate.is(AerialHellBlocksAndItems.SLIPPERY_SAND.get()) && !blockstate.is(Blocks.NETHERRACK) && !blockstate.is(Blocks.WARPED_NYLIUM) && !blockstate.is(Blocks.WARPED_WART_BLOCK);
         }

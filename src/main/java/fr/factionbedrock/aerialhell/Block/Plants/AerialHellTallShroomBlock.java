@@ -42,7 +42,7 @@ public class AerialHellTallShroomBlock extends TallGrassBlock
 		if (belowState.is(BlockTags.DIRT) || belowState.is(AerialHellBlocksAndItems.STELLAR_COARSE_DIRT.get()) || belowState.is(AerialHellTags.Blocks.STELLAR_STONE_AND_DERIVATIVES) || belowState.is(BlockTags.MUSHROOM_GROW_BLOCK))
 		{
 			boolean brightnessFlag = reader.getRawBrightness(pos, 0) < 13;
-			boolean solidSurfaceAbove = BlockHelper.hasAnySolidBlockAbove(reader, pos) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(3, 0, 3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(3, 0, -3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(-3, 0, 3)) && BlockHelper.hasAnySolidBlockAbove(reader, pos.offset(-3, 0, -3));
+			boolean solidSurfaceAbove = BlockHelper.hasAnySolidSurfaceAbove(reader, pos, 3);
 			return brightnessFlag && solidSurfaceAbove;
 		}
 		else {return false;}

@@ -40,4 +40,9 @@ public class BlockHelper
         }
         return false;
     }
+
+    public static boolean hasAnySolidSurfaceAbove(LevelReader reader, BlockPos pos, int radius)
+    {
+        return BlockHelper.hasAnySolidBlockAbove(reader, pos) && hasAnySolidBlockAbove(reader, pos.offset(radius, 0, radius)) && hasAnySolidBlockAbove(reader, pos.offset(radius, 0, -radius)) && hasAnySolidBlockAbove(reader, pos.offset(-radius, 0, radius)) && hasAnySolidBlockAbove(reader, pos.offset(-radius, 0, -radius));
+    }
 }

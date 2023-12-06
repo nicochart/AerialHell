@@ -1,9 +1,9 @@
 {
-  "type": "aerialhell:lazuli_roots",
+  "type": "aerialhell:glowing_roots",
   "config": {
     "spread_width": 8,
     "spread_height": 4,
     "max_height": 8,
-    "needs_roof": "false"
+    "needs_roof": "true"
   }
 }

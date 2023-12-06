@@ -1,0 +1,7 @@
+{
+  "variants":
+  {"":[
+    {"model": "aerialhell:block/glowing_roots"},
+    {"model": "aerialhell:block/glowing_roots_variant"}
+  ]}
+}
