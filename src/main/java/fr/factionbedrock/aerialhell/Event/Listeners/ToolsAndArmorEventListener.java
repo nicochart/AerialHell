@@ -113,6 +113,12 @@ public class ToolsAndArmorEventListener
 				player.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 40, 0));
 			}
 		}
+
+		if (state != null && state.is(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get()) && !EntityHelper.isLivingEntityShadowImmune(player) && !player.isCreative())
+		{
+			player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 30, 0));
+			player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 30, 0));
+		}
     }
 
 	@SubscribeEvent
