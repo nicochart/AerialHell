@@ -1,18 +1,15 @@
 package fr.factionbedrock.aerialhell.Client.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import static net.minecraft.client.renderer.Sheets.CHEST_SHEET;
 
-@Mod.EventBusSubscriber(modid = AerialHell.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@OnlyIn(Dist.CLIENT)
 public class AerialHellChestMaterials
 {
     public static final Material AERIAL_TREE_SINGLE = makeChestMaterial("aerial_tree", ChestType.SINGLE);
