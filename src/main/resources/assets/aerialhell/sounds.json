@@ -54,42 +54,42 @@
     ]
   },
   "advancement.classic": {
-    "subtitle": "subtitles.advancement.classic",
+    "subtitle": "subtitles.aerialhell.advancement.classic",
     "sounds": ["aerialhell:advancement/classic"]
   },
   "advancement.story": {
-    "subtitle": "subtitles.advancement.story",
+    "subtitle": "subtitles.aerialhell.advancement.story",
     "sounds": ["aerialhell:advancement/story"]
   },
   "advancement.secret": {
-    "subtitle": "subtitles.advancement.secret",
+    "subtitle": "subtitles.aerialhell.advancement.secret",
     "sounds": ["aerialhell:advancement/secret"]
   },
   "advancement.lunatic": {
-    "subtitle": "subtitles.advancement.lunatic",
+    "subtitle": "subtitles.aerialhell.advancement.lunatic",
     "sounds": ["aerialhell:advancement/lunatic"]
   },
   "entity.lunatic_priest.ambient": {
-    "subtitle": "subtitles.entity.lunatic_priest.ambient",
+    "subtitle": "subtitles.aerialhell.entity.lunatic_priest.ambient",
     "sounds": [
       "aerialhell:mob/lunatic_priest/ambient"
     ]
   },
   "entity.lunatic_priest.hurt": {
-    "subtitle": "subtitles.entity.lunatic_priest.hurt",
+    "subtitle": "subtitles.aerialhell.entity.lunatic_priest.hurt",
     "sounds": [
       "aerialhell:mob/lunatic_priest/hurt"
     ]
   },
   "entity.lunatic_priest.death": {
-    "subtitle": "subtitles.entity.lunatic_priest.death",
+    "subtitle": "subtitles.aerialhell.entity.lunatic_priest.death",
     "sounds": [
       "aerialhell:mob/lunatic_priest/death1",
       "aerialhell:mob/lunatic_priest/death2"
     ]
   },
   "entity.evil_cow.ambient": {
-    "subtitle": "subtitles.entity.evil_cow.ambient",
+    "subtitle": "subtitles.aerialhell.entity.evil_cow.ambient",
     "sounds": [
       "aerialhell:mob/evil_cow/say1",
       "aerialhell:mob/evil_cow/say2",
@@ -98,7 +98,7 @@
     ]
   },
   "entity.evil_cow.hurt": {
-    "subtitle": "subtitles.entity.evil_cow.hurt",
+    "subtitle": "subtitles.aerialhell.entity.evil_cow.hurt",
     "sounds": [
       "aerialhell:mob/evil_cow/hurt1",
       "aerialhell:mob/evil_cow/hurt2",
@@ -106,7 +106,7 @@
     ]
   },
   "entity.evil_cow.death": {
-    "subtitle": "subtitles.entity.evil_cow.death",
+    "subtitle": "subtitles.aerialhell.entity.evil_cow.death",
     "sounds": [
       "aerialhell:mob/evil_cow/hurt1",
       "aerialhell:mob/evil_cow/hurt2",
@@ -114,34 +114,34 @@
     ]
   },
   "entity.stellar_stone_automaton.activation": {
-    "subtitle": "subtitles.entity.stellar_stone_automaton.activation",
+    "subtitle": "subtitles.aerialhell.entity.stellar_stone_automaton.activation",
     "sounds": ["aerialhell:mob/stellar_stone_automaton/activation"]
   },
   "entity.stellar_stone_automaton.hurt": {
-    "subtitle": "subtitles.entity.stellar_stone_automaton.hurt",
+    "subtitle": "subtitles.aerialhell.entity.stellar_stone_automaton.hurt",
     "sounds": [
       "aerialhell:mob/stellar_stone_automaton/hurt",
       "aerialhell:mob/stellar_stone_automaton/hurt_scream"
     ]
   },
   "entity.stellar_stone_automaton.death": {
-    "subtitle": "subtitles.entity.stellar_stone_automaton.death",
+    "subtitle": "subtitles.aerialhell.entity.stellar_stone_automaton.death",
     "sounds": ["aerialhell:mob/stellar_stone_automaton/death"]
   },
   "entity.warden_volucite_golem.death": {
-    "subtitle": "subtitles.entity.warden_volucite_golem.death",
+    "subtitle": "subtitles.aerialhell.entity.warden_volucite_golem.death",
     "sounds": ["aerialhell:mob/warden_volucite_golem/death"]
   },
   "entity.warden_volucite_golem.activation": {
-    "subtitle": "subtitles.entity.warden_volucite_golem.activation",
+    "subtitle": "subtitles.aerialhell.entity.warden_volucite_golem.activation",
     "sounds": ["aerialhell:mob/warden_volucite_golem/activation"]
   },
   "entity.warden_volucite_golem.hurt": {
-    "subtitle": "subtitles.entity.warden_volucite_golem.hurt",
+    "subtitle": "subtitles.aerialhell.entity.warden_volucite_golem.hurt",
     "sounds": ["aerialhell:mob/warden_volucite_golem/hurt"]
   },
   "entity.warden_volucite_golem.ambient": {
-    "subtitle": "subtitles.entity.warden_volucite_golem.ambient",
+    "subtitle": "subtitles.aerialhell.entity.warden_volucite_golem.ambient",
     "sounds": [
       "aerialhell:mob/warden_volucite_golem/ambient",
       "aerialhell:mob/warden_volucite_golem/ambient_2",
@@ -149,48 +149,48 @@
     ]
   },
   "entity.volucite_golem.ambient_alert": {
-    "subtitle": "subtitles.entity.volucite_golem.ambient_alert",
+    "subtitle": "subtitles.aerialhell.entity.volucite_golem.ambient_alert",
     "sounds": ["aerialhell:mob/volucite_golem/ambient_alert"]
   },
   "entity.volucite_golem.hurt": {
-    "subtitle": "subtitles.entity.volucite_golem.hurt",
+    "subtitle": "subtitles.aerialhell.entity.volucite_golem.hurt",
     "sounds": ["aerialhell:mob/volucite_golem/hurt"]
   },
   "entity.volucite_golem.ambient": {
-    "subtitle": "subtitles.entity.volucite_golem.ambient",
+    "subtitle": "subtitles.aerialhell.entity.volucite_golem.ambient",
     "sounds": [
       "aerialhell:mob/volucite_golem/ambient_normal",
       "aerialhell:mob/volucite_golem/ambient_speak"
     ]
   },
   "entity.volucite_golem.ambient_angry": {
-    "subtitle": "subtitles.entity.volucite_golem.ambient_angry",
+    "subtitle": "subtitles.aerialhell.entity.volucite_golem.ambient_angry",
     "sounds": [
       "aerialhell:mob/volucite_golem/ambient_angry",
       "aerialhell:mob/volucite_golem/ambient_mad"
     ]
   },
   "entity.volucite_golem.shoot": {
-    "subtitle": "subtitles.entity.volucite_golem.shoot",
+    "subtitle": "subtitles.aerialhell.entity.volucite_golem.shoot",
     "sounds": ["aerialhell:mob/volucite_golem/shoot"]
   },
   "entity.keeper_of_volucite_keys.ambient": {
-    "subtitle": "subtitles.entity.keeper_of_volucite_keys.ambient",
+    "subtitle": "subtitles.aerialhell.entity.keeper_of_volucite_keys.ambient",
     "sounds": [
       "aerialhell:mob/keeper_of_volucite_keys/speak",
       "aerialhell:mob/keeper_of_volucite_keys/speak_loud"
     ]
   },
   "entity.keeper_of_volucite_keys.hurt": {
-    "subtitle": "subtitles.entity.keeper_of_volucite_keys.hurt",
+    "subtitle": "subtitles.aerialhell.entity.keeper_of_volucite_keys.hurt",
     "sounds": ["aerialhell:mob/keeper_of_volucite_keys/hurt"]
   },
   "entity.keeper_of_volucite_keys.death": {
-    "subtitle": "subtitles.entity.keeper_of_volucite_keys.death",
+    "subtitle": "subtitles.aerialhell.entity.keeper_of_volucite_keys.death",
     "sounds": ["aerialhell:mob/keeper_of_volucite_keys/death"]
   },
   "entity.sandy_sheep.ambient": {
-    "subtitle": "subtitles.entity.sandy_sheep.ambient",
+    "subtitle": "subtitles.aerialhell.entity.sandy_sheep.ambient",
     "sounds": [
       "aerialhell:mob/sandy_sheep/say1",
       "aerialhell:mob/sandy_sheep/say2",
@@ -198,7 +198,7 @@
     ]
   },
   "entity.sandy_sheep.hurt": {
-    "subtitle": "subtitles.entity.sandy_sheep.hurt",
+    "subtitle": "subtitles.aerialhell.entity.sandy_sheep.hurt",
     "sounds": [
       "aerialhell:mob/sandy_sheep/say1",
       "aerialhell:mob/sandy_sheep/say2",
@@ -206,7 +206,7 @@
     ]
   },
   "entity.sandy_sheep.death": {
-    "subtitle": "subtitles.entity.sandy_sheep.death",
+    "subtitle": "subtitles.aerialhell.entity.sandy_sheep.death",
     "sounds": [
       "aerialhell:mob/sandy_sheep/say1",
       "aerialhell:mob/sandy_sheep/say2",
@@ -214,11 +214,11 @@
     ]
   },
   "entity.sandy_sheep.shear": {
-    "subtitle": "subtitles.item.shears.shear",
+    "subtitle": "subtitles.aerialhell.item.shears.shear",
     "sounds": ["minecraft:mob/sheep/shear"]
   },
   "entity.gliding_turtle.ambient": {
-    "subtitle": "subtitles.entity.gliding_turtle.ambient",
+    "subtitle": "subtitles.aerialhell.entity.gliding_turtle.ambient",
     "sounds": [
       "aerialhell:mob/gliding_turtle/say_1",
       "aerialhell:mob/gliding_turtle/say_2",
@@ -226,41 +226,41 @@
     ]
   },
   "entity.gliding_turtle.hurt": {
-    "subtitle": "subtitles.entity.gliding_turtle.hurt",
+    "subtitle": "subtitles.aerialhell.entity.gliding_turtle.hurt",
     "sounds": [
       "aerialhell:mob/gliding_turtle/hurt_1",
       "aerialhell:mob/gliding_turtle/hurt_2"
     ]
   },
   "entity.gliding_turtle.death": {
-    "subtitle": "subtitles.entity.gliding_turtle.death",
+    "subtitle": "subtitles.aerialhell.entity.gliding_turtle.death",
     "sounds": ["aerialhell:mob/gliding_turtle/death"]
   },
   "entity.kodama.rattle": {
-    "subtitle": "subtitles.entity.kodama.rattle",
+    "subtitle": "subtitles.aerialhell.entity.kodama.rattle",
     "sounds": ["aerialhell:mob/kodama/rattle"]
   },
   "entity.kodama.ambient": {
-    "subtitle": "subtitles.entity.kodama.ambient",
+    "subtitle": "subtitles.aerialhell.entity.kodama.ambient",
     "sounds": ["aerialhell:mob/kodama/ambient"]
   },
   "entity.kodama.hurt": {
-    "subtitle": "subtitles.entity.kodama.hurt",
+    "subtitle": "subtitles.aerialhell.entity.kodama.hurt",
     "sounds": [
       "aerialhell:mob/kodama/hurt_1",
       "aerialhell:mob/kodama/hurt_2"
     ]
   },
   "entity.kodama.death": {
-    "subtitle": "subtitles.entity.kodama.death",
+    "subtitle": "subtitles.aerialhell.entity.kodama.death",
     "sounds": ["aerialhell:mob/kodama/death"]
   },
   "entity.torn_spirit.ambient": {
-    "subtitle": "subtitles.entity.torn_spirit.ambient",
+    "subtitle": "subtitles.aerialhell.entity.torn_spirit.ambient",
     "sounds": ["aerialhell:mob/torn_spirit/ambient"]
   },
   "entity.torn_spirit.hurt": {
-    "subtitle": "subtitles.entity.torn_spirit.hurt",
+    "subtitle": "subtitles.aerialhell.entity.torn_spirit.hurt",
     "sounds":
     [
       "aerialhell:mob/torn_spirit/hurt1",
@@ -269,15 +269,15 @@
     ]
   },
   "entity.torn_spirit.death": {
-    "subtitle": "subtitles.entity.torn_spirit.death",
+    "subtitle": "subtitles.aerialhell.entity.torn_spirit.death",
     "sounds": ["aerialhell:mob/torn_spirit/death"]
   },
   "entity.chained_god.ambient": {
-    "subtitle": "subtitles.entity.chained_god.ambient",
+    "subtitle": "subtitles.aerialhell.entity.chained_god.ambient",
     "sounds": ["aerialhell:mob/chained_god/ambient"]
   },
   "entity.chained_god.hurt": {
-    "subtitle": "subtitles.entity.chained_god.hurt",
+    "subtitle": "subtitles.aerialhell.entity.chained_god.hurt",
     "sounds":
     [
       "aerialhell:mob/chained_god/hurt1",
@@ -287,11 +287,11 @@
     ]
   },
   "entity.chained_god.death": {
-    "subtitle": "subtitles.entity.chained_god.death",
+    "subtitle": "subtitles.aerialhell.entity.chained_god.death",
     "sounds": ["aerialhell:mob/chained_god/death"]
   },
   "entity.chained_god.step": {
-    "subtitle": "subtitles.entity.chained_god.step",
+    "subtitle": "subtitles.aerialhell.entity.chained_god.step",
     "sounds":
     [
       "aerialhell:mob/chained_god/step1",
@@ -303,59 +303,59 @@
     ]
   },
   "entity.chained_god.roar": {
-    "subtitle": "subtitles.entity.chained_god.roar",
+    "subtitle": "subtitles.aerialhell.entity.chained_god.roar",
     "sounds": ["aerialhell:mob/chained_god/roar"]
   },
   "entity.chained_god.unchain": {
-    "subtitle": "subtitles.entity.chained_god.unchain",
+    "subtitle": "subtitles.aerialhell.entity.chained_god.unchain",
     "sounds": ["aerialhell:mob/chained_god/unchain"]
   },
   "entity.ice_spirit.ambient": {
-    "subtitle": "subtitles.entity.ice_spirit.ambient",
+    "subtitle": "subtitles.aerialhell.entity.ice_spirit.ambient",
     "sounds": [
       "aerialhell:mob/ice_spirit/say1",
       "aerialhell:mob/ice_spirit/say2"
     ]
   },
   "entity.ice_spirit.hurt": {
-    "subtitle": "subtitles.entity.ice_spirit.hurt",
+    "subtitle": "subtitles.aerialhell.entity.ice_spirit.hurt",
     "sounds": [
       "aerialhell:mob/ice_spirit/hurt1",
       "aerialhell:mob/ice_spirit/hurt2"
     ]
   },
   "entity.ice_spirit.death": {
-    "subtitle": "subtitles.entity.ice_spirit.death",
+    "subtitle": "subtitles.aerialhell.entity.ice_spirit.death",
     "sounds": [
       "aerialhell:mob/ice_spirit/death"
     ]
   },
   "entity.fire_spirit.hurt": {
-    "subtitle": "subtitles.entity.fire_spirit.hurt",
+    "subtitle": "subtitles.aerialhell.entity.fire_spirit.hurt",
     "sounds": [
       "aerialhell:mob/fire_spirit/hurt"
     ]
   },
   "entity.electro_spirit.ambient": {
-    "subtitle": "subtitles.entity.electro_spirit.ambient",
+    "subtitle": "subtitles.aerialhell.entity.electro_spirit.ambient",
     "sounds": [
       "aerialhell:mob/electro_spirit/say"
     ]
   },
   "entity.electro_spirit.hurt": {
-    "subtitle": "subtitles.entity.electro_spirit.hurt",
+    "subtitle": "subtitles.aerialhell.entity.electro_spirit.hurt",
     "sounds": [
       "aerialhell:mob/electro_spirit/hurt"
     ]
   },
   "entity.electro_spirit.death": {
-    "subtitle": "subtitles.entity.electro_spirit.death",
+    "subtitle": "subtitles.aerialhell.entity.electro_spirit.death",
     "sounds": [
       "aerialhell:mob/electro_spirit/death"
     ]
   },
   "entity.lilith.hurt": {
-    "subtitle": "subtitles.entity.lilith.hurt",
+    "subtitle": "subtitles.aerialhell.entity.lilith.hurt",
     "sounds":
     [
       "aerialhell:mob/lilith/hurt",
@@ -363,27 +363,27 @@
     ]
   },
   "entity.lilith.death": {
-    "subtitle": "subtitles.entity.lilith.death",
+    "subtitle": "subtitles.aerialhell.entity.lilith.death",
     "sounds": ["aerialhell:mob/lilith/death"]
   },
   "entity.lilith.transformation": {
-    "subtitle": "subtitles.entity.lilith.transformation",
+    "subtitle": "subtitles.aerialhell.entity.lilith.transformation",
     "sounds": ["aerialhell:mob/lilith/transformation"]
   },
   "entity.shadow_automaton.hurt": {
-    "subtitle": "subtitles.entity.shadow_automaton.hurt",
+    "subtitle": "subtitles.aerialhell.entity.shadow_automaton.hurt",
     "sounds": ["aerialhell:mob/shadow_automaton/hurt"]
   },
   "entity.shadow_automaton.death": {
-    "subtitle": "subtitles.entity.shadow_automaton.death",
+    "subtitle": "subtitles.aerialhell.entity.shadow_automaton.death",
     "sounds": ["aerialhell:mob/shadow_automaton/death"]
   },
   "entity.shadow_automaton.ambient": {
-    "subtitle": "subtitles.entity.shadow_automaton.ambient",
+    "subtitle": "subtitles.aerialhell.entity.shadow_automaton.ambient",
     "sounds": ["aerialhell:mob/shadow_automaton/ambient"]
   },
   "entity.shadow_troll.ambient": {
-    "subtitle": "subtitles.entity.shadow_troll.ambient",
+    "subtitle": "subtitles.aerialhell.entity.shadow_troll.ambient",
     "sounds":
     [
       "aerialhell:mob/shadow_troll/ambient",
@@ -391,67 +391,67 @@
     ]
   },
   "entity.shadow_troll.hurt": {
-    "subtitle": "subtitles.entity.shadow_troll.hurt",
+    "subtitle": "subtitles.aerialhell.entity.shadow_troll.hurt",
     "sounds":
     [
       "aerialhell:mob/shadow_troll/hurt",
       "aerialhell:mob/shadow_troll/hurt1"
     ]
   },
+  "entity.shadow_troll.death": {
+    "subtitle": "subtitles.aerialhell.entity.shadow_troll.death",
+    "sounds": ["aerialhell:mob/shadow_troll/death"]
+  },
   "entity.forest_caterpillar.ambient": {
-    "subtitle": "subtitles.entity.forest_caterpillar.ambient",
+    "subtitle": "subtitles.aerialhell.entity.forest_caterpillar.ambient",
     "sounds":
     [
       "aerialhell:mob/forest_caterpillar/ambient"
     ]
   },
   "entity.flying_jellyfish.ambient": {
-    "subtitle": "subtitles.entity.flying_jellyfish.ambient",
+    "subtitle": "subtitles.aerialhell.entity.flying_jellyfish.ambient",
     "sounds":
     [
       "aerialhell:mob/flying_jellyfish/ambient"
     ]
   },
   "entity.flying_jellyfish.hurt": {
-    "subtitle": "subtitles.entity.flying_jellyfish.hurt",
+    "subtitle": "subtitles.aerialhell.entity.flying_jellyfish.hurt",
     "sounds":
     [
       "aerialhell:mob/flying_jellyfish/hurt1",
       "aerialhell:mob/flying_jellyfish/hurt2"
     ]
   },
-  "entity.shadow_troll.death": {
-    "subtitle": "subtitles.entity.shadow_troll.death",
-    "sounds": ["aerialhell:mob/shadow_troll/death"]
-  },
   "entity.volucite_blowpipe.shoot": {
-    "subtitle": "subtitles.entity.volucite_blowpipe.shoot",
+    "subtitle": "subtitles.aerialhell.entity.volucite_blowpipe.shoot",
     "sounds": ["aerialhell:projectile/volucite_blowpipe/shoot"]
   },
   "entity.shuriken.throw": {
-    "subtitle": "subtitles.entity.shuriken.throw",
+    "subtitle": "subtitles.aerialhell.entity.shuriken.throw",
     "sounds": ["aerialhell:projectile/shuriken/shoot"]
   },
   "entity.lunatic_projectile.shoot": {
-    "subtitle": "subtitles.entity.lunatic_projectile.shoot",
+    "subtitle": "subtitles.aerialhell.entity.lunatic_projectile.shoot",
     "sounds": ["aerialhell:projectile/lunatic_projectile/shoot"]
   },
   "entity.lunatic_projectile.disappear": {
-    "subtitle": "subtitles.entity.lunatic_projectile.disappear",
+    "subtitle": "subtitles.aerialhell.entity.lunatic_projectile.disappear",
     "sounds": ["aerialhell:projectile/lunatic_projectile/disappear"]
   },
   "entity.shadow_projectile.shoot": {
-    "subtitle": "subtitles.entity.shadow_projectile.shoot",
+    "subtitle": "subtitles.aerialhell.entity.shadow_projectile.shoot",
     "sounds": ["aerialhell:projectile/shadow_projectile/shoot"]
   },
   "block.trapped_block.step": {
-    "subtitle": "subtitles.block.trapped_block.step",
+    "subtitle": "subtitles.aerialhell.block.trapped_block.step",
     "sounds": [
       "aerialhell:block/trapped_block/step"
     ]
   },
   "block.bone_pile_block.step_break": {
-    "subtitle": "subtitles.block.bone_pile_block.step_break",
+    "subtitle": "subtitles.aerialhell.block.bone_pile_block.step_break",
     "sounds": [
       "aerialhell:block/bone_pile_block/step_break_1",
       "aerialhell:block/bone_pile_block/step_break_2",
@@ -459,13 +459,13 @@
     ]
   },
   "item.forgotten_battle_trident.use": {
-    "subtitle": "subtitles.item.forgotten_battle_trident.use",
+    "subtitle": "subtitles.aerialhell.item.forgotten_battle_trident.use",
     "sounds": [
       "aerialhell:item/forgotten_battle_trident"
     ]
   },
   "block.aerial_hell_portal.ambient": {
-    "subtitle": "subtitles.block.aerial_hell_portal.ambient",
+    "subtitle": "subtitles.aerialhell.block.aerial_hell_portal.ambient",
     "sounds": [
        "aerialhell:portal/portal1",
        "aerialhell:portal/portal2",
