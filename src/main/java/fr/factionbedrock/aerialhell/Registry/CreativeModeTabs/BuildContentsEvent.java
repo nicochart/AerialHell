@@ -204,6 +204,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.CLIMBING_VINE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_SUGAR_CANE_ITEM.get());
 
+            itemsToAdd.add(AerialHellBlocksAndItems.FULL_MOON_FLOWER_ITEM.get());
+
             itemsToAdd.add(AerialHellBlocksAndItems.VINE_BLOSSOM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAZULI_ROOTS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_ROOTS_ITEM.get());

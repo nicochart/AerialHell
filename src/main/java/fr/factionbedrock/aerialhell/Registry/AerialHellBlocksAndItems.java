@@ -39,6 +39,7 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -758,6 +759,11 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> CLIMBING_VINE_ITEM = ITEMS.register("climbing_vine",() -> new BlockItem(CLIMBING_VINE.get(), new Item.Properties()));
 	public static final RegistryObject<VerticalGrowingPlantBlock> STELLAR_SUGAR_CANE = BLOCKS.register("stellar_sugar_cane", () -> new VerticalGrowingPlantBlock(BlockBehaviour.Properties.copy(Blocks.SUGAR_CANE), 5));
 	public static final RegistryObject<Item> STELLAR_SUGAR_CANE_ITEM = ITEMS.register("stellar_sugar_cane",() -> new BlockItem(STELLAR_SUGAR_CANE.get(), new Item.Properties()));
+
+	//chorus like
+	public static final RegistryObject<AerialHellChorusPlantLikeBlock> FULL_MOON_PLANT = BLOCKS.register("full_moon_plant", () -> new AerialHellChorusPlantLikeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).forceSolidOff().strength(0.4F).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.DESTROY).lightLevel((state) -> 10)));
+	public static final RegistryObject<AerialHellChorusFlowerLikeBlock> FULL_MOON_FLOWER = BLOCKS.register("full_moon_flower", () -> new AerialHellChorusFlowerLikeBlock(FULL_MOON_PLANT.get(), BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).forceSolidOff().randomTicks().strength(0.4F).sound(SoundType.WOOD).noOcclusion().isValidSpawn((state, blockGetter, pos, entitytype) -> false).pushReaction(PushReaction.DESTROY).isRedstoneConductor((state, blockGetter, pos) -> false).lightLevel((state) -> 15)));
+	public static final RegistryObject<Item> FULL_MOON_FLOWER_ITEM = ITEMS.register("full_moon_flower",() -> new BlockItem(FULL_MOON_FLOWER.get(), new Item.Properties()));
 
 	//vines
 	public static final RegistryObject<CaveVinesBlock> GLOWING_STICK_FRUIT_VINES = BLOCKS.register("glowing_stick_fruit_vines", () -> new AerialHellCaveVinesBlock(BlockBehaviour.Properties.copy(Blocks.CAVE_VINES)));

@@ -1,0 +1,6 @@
+{
+  "parent": "aerialhell:block/template_full_moon_flower",
+  "textures": {
+    "texture": "aerialhell:block/full_moon_flower"
+  }
+}
