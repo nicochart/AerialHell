@@ -913,5 +913,11 @@
   "trim_material.aerialhell.obsidian_shard": "Obsidian Material",
   "trim_material.aerialhell.ruby": "Ruby Material",
   "trim_material.aerialhell.cursed_crystal": "Cursed Material",
-  "trim_material.aerialhell.volucite_vibrant": "Vibrant Volucite Material"
+  "trim_material.aerialhell.volucite_vibrant": "Vibrant Volucite Material",
+
+  "rarity.aerial_hell_frozen.name": "Frozen",
+  "rarity.aerial_hell_corrupted.name": "Corrupted",
+  "rarity.aerial_hell_vibrant.name": "Vibrant",
+  "rarity.aerial_hell_legendary.name": "Legendary",
+  "rarity.aerial_hell_mythical.name": "Mythical"
 }
