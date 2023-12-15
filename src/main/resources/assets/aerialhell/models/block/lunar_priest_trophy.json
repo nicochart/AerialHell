@@ -1,4 +1,5 @@
 {
+        "parent": "block/block",
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {"particle": "aerialhell:block/lunatic_stone", "trophy": "aerialhell:block/lunar_priest_trophy"},
