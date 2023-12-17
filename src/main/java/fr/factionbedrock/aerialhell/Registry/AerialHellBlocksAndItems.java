@@ -761,8 +761,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> STELLAR_SUGAR_CANE_ITEM = ITEMS.register("stellar_sugar_cane",() -> new BlockItem(STELLAR_SUGAR_CANE.get(), new Item.Properties()));
 
 	//chorus like
-	public static final RegistryObject<AerialHellChorusPlantLikeBlock> FULL_MOON_PLANT = BLOCKS.register("full_moon_plant", () -> new AerialHellChorusPlantLikeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).forceSolidOff().strength(0.4F).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.DESTROY).lightLevel((state) -> 10)));
-	public static final RegistryObject<AerialHellChorusFlowerLikeBlock> FULL_MOON_FLOWER = BLOCKS.register("full_moon_flower", () -> new AerialHellChorusFlowerLikeBlock(FULL_MOON_PLANT.get(), BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).forceSolidOff().randomTicks().strength(0.4F).sound(SoundType.WOOD).noOcclusion().isValidSpawn((state, blockGetter, pos, entitytype) -> false).pushReaction(PushReaction.DESTROY).isRedstoneConductor((state, blockGetter, pos) -> false).lightLevel((state) -> 15)));
+	public static final RegistryObject<ChorusPlantLikeBlock> FULL_MOON_PLANT = BLOCKS.register("full_moon_plant", () -> new ChorusPlantLikeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).forceSolidOff().strength(0.4F).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.DESTROY).lightLevel((state) -> 10)));
+	public static final RegistryObject<ChorusFlowerLikeBlock> FULL_MOON_FLOWER = BLOCKS.register("full_moon_flower", () -> new ChorusFlowerLikeBlock(FULL_MOON_PLANT.get(), BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).forceSolidOff().randomTicks().strength(0.4F).sound(SoundType.WOOD).noOcclusion().isValidSpawn((state, blockGetter, pos, entitytype) -> false).pushReaction(PushReaction.DESTROY).isRedstoneConductor((state, blockGetter, pos) -> false).lightLevel((state) -> 15)));
 	public static final RegistryObject<Item> FULL_MOON_FLOWER_ITEM = ITEMS.register("full_moon_flower",() -> new BlockItem(FULL_MOON_FLOWER.get(), new Item.Properties()));
 
 	//vines

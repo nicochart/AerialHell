@@ -15,9 +15,9 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
-public class AerialHellChorusFlowerLikeBlock extends ChorusFlowerBlock
+public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
 {
-    public AerialHellChorusFlowerLikeBlock(AerialHellChorusPlantLikeBlock plantBlock, Properties prop) {super(plantBlock, prop);}
+    public ChorusFlowerLikeBlock(ChorusPlantLikeBlock plantBlock, Properties prop) {super(plantBlock, prop);}
 
     @Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
     {
@@ -119,7 +119,7 @@ public class AerialHellChorusFlowerLikeBlock extends ChorusFlowerBlock
 
     private static void growTreeRecursive(LevelAccessor level, BlockPos pos1, RandomSource rand, BlockPos pos2, int size, int iteration)
     {
-        AerialHellChorusPlantLikeBlock plantBlock = AerialHellBlocksAndItems.FULL_MOON_PLANT.get();
+        ChorusPlantLikeBlock plantBlock = AerialHellBlocksAndItems.FULL_MOON_PLANT.get();
         int i = rand.nextInt(4) + 1;
         if (iteration == 0) {++i;}
 

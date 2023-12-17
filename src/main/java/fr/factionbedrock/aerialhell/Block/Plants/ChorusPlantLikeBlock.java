@@ -10,9 +10,9 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.ChorusPlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class AerialHellChorusPlantLikeBlock extends ChorusPlantBlock
+public class ChorusPlantLikeBlock extends ChorusPlantBlock
 {
-    public AerialHellChorusPlantLikeBlock(Properties prop) {super(prop);}
+    public ChorusPlantLikeBlock(Properties prop) {super(prop);}
 
     @Override public BlockState getStateForPlacement(BlockGetter p_51711_, BlockPos p_51712_)
     {
