@@ -40,12 +40,16 @@ import net.minecraftforge.fml.common.Mod;
 public class ToolsAndArmorEventListener
 {
 	@SubscribeEvent
-	public static void onProjectileCollideWithEntity(ProjectileImpactEvent event) {
+	public static void onProjectileCollideWithEntity(ProjectileImpactEvent event)
+	{
 		Entity projectile = event.getEntity();
-		if (event.getRayTraceResult().getType() == HitResult.Type.ENTITY) {
+
+		if (event.getRayTraceResult().getType() == HitResult.Type.ENTITY)
+		{
 			Entity hitEntity = ((EntityHitResult) event.getRayTraceResult()).getEntity();
-			if ((hitEntity instanceof ShadowTrollEntity || hitEntity instanceof ShadowAutomatonEntity) && !EntityHelper.isLightProjectile(projectile)) {
-				if (event.isCancelable()) {event.setCanceled(true);}
+			if ((hitEntity instanceof ShadowTrollEntity || hitEntity instanceof ShadowAutomatonEntity) && !EntityHelper.isLightProjectile(projectile))
+			{
+				event.setImpactResult(ProjectileImpactEvent.ImpactResult.SKIP_ENTITY);
 			}
 		}
 	}
