@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": [
+      {"model": "aerialhell:block/stellar_clovers"},
+      {"model": "aerialhell:block/stellar_clovers", "y": 90},
+      {"model": "aerialhell:block/stellar_clovers", "y": 180},
+      {"model": "aerialhell:block/stellar_clovers", "y": 270}
+    ]
+  }
+}

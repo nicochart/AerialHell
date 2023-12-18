@@ -35,7 +35,7 @@ public class AerialHellTallGrassBlock extends TallGrassBlock
 			placePlant(worldIn, pos, tall_plant);
 		}
 	    else if (this == AerialHellBlocksAndItems.BRAMBLES.get()) {}
-	    else
+	    else if (this == AerialHellBlocksAndItems.STELLAR_GRASS.get())
 	    {
 	    	tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get();
 	    	placePlant(worldIn, pos, tall_plant);

@@ -228,6 +228,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_GRASS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_GRASS_BALL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.PURPLISH_STELLAR_GRASS_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_CLOVERS_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.BLUE_FLOWER_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.BLACK_ROSE_ITEM.get());
