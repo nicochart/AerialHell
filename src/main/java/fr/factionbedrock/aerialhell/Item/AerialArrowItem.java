@@ -20,11 +20,11 @@ public class AerialArrowItem extends Item
     {
     	if (this == AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get())
     	{
-    		return new RubyArrowEntity(world, shooter);
+    		return new RubyArrowEntity(world, shooter, RubyArrowEntity.DEFAULT_STACK);
     	}
     	else //if (this == AerialHellBlocksAndItems.VOLUCITE_BLOWPIPE_ARROW.get())
     	{
-    		return new VoluciteArrowEntity(world, shooter);
+    		return new VoluciteArrowEntity(world, shooter, VoluciteArrowEntity.DEFAULT_STACK);
     	}
     }
 }

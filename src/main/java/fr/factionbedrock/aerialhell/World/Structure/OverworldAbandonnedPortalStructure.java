@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Structure;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.mojang.serialization.Codec;
@@ -27,7 +28,7 @@ public class OverworldAbandonnedPortalStructure extends AbstractAerialHellStruct
 
     public OverworldAbandonnedPortalStructure(Structure.StructureSettings config, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, int size, HeightProvider startHeight, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter)
     {
-        super(config, startPool, startJigsawName, size, startHeight, projectStartToHeightmap, maxDistanceFromCenter);
+        super(config, startPool, startJigsawName, size, startHeight, projectStartToHeightmap, maxDistanceFromCenter, List.of()); //TODO : empty list ?
     }
 
     @Override protected boolean isStructureChunk(Structure.GenerationContext context)

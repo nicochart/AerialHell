@@ -10,21 +10,29 @@ import net.minecraft.world.level.Level;
 
 public class VoluciteArrowEntity extends AbstractAerialArrowEntity
 {
+    public static final ItemStack DEFAULT_STACK = new ItemStack(AerialHellBlocksAndItems.VOLUCITE_BLOWPIPE_ARROW.get());
+
     public VoluciteArrowEntity(EntityType<? extends VoluciteArrowEntity> type, Level worldIn)
     {
-        super(type, worldIn);
+        this(type, worldIn, DEFAULT_STACK);
         this.setBaseDamage(9.0D);
     }
 
-    public VoluciteArrowEntity(Level worldIn, double x, double y, double z)
+    public VoluciteArrowEntity(EntityType<? extends VoluciteArrowEntity> type, Level worldIn, ItemStack itemStack)
     {
-        super(AerialHellEntities.VOLUCITE_BLOWPIPE_ARROW.get(), x, y, z, worldIn);
+        super(type, worldIn, itemStack);
         this.setBaseDamage(9.0D);
     }
 
-    public VoluciteArrowEntity(Level worldIn, LivingEntity shooter)
+    public VoluciteArrowEntity(Level worldIn, double x, double y, double z, ItemStack itemStack)
     {
-        super(AerialHellEntities.VOLUCITE_BLOWPIPE_ARROW.get(), shooter, worldIn);
+        super(AerialHellEntities.VOLUCITE_BLOWPIPE_ARROW.get(), x, y, z, worldIn, itemStack);
+        this.setBaseDamage(9.0D);
+    }
+
+    public VoluciteArrowEntity(Level worldIn, LivingEntity shooter, ItemStack itemStack)
+    {
+        super(AerialHellEntities.VOLUCITE_BLOWPIPE_ARROW.get(), shooter, worldIn, itemStack);
         this.setBaseDamage(9.0D);
     }
     

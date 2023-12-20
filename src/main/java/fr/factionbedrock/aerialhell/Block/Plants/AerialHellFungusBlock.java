@@ -15,8 +15,7 @@ import net.minecraft.world.level.levelgen.feature.HugeFungusConfiguration;
 
 public class AerialHellFungusBlock extends FungusBlock
 {
-	public AerialHellFungusBlock(Properties properties,	ResourceKey<ConfiguredFeature<?, ?>> fungusFeature, Block floorBlock) {super(properties, fungusFeature, floorBlock);}
-	//public AerialHellFungusBlock(Properties properties,	Supplier<ConfiguredFeature<HugeFungusConfig, ?>> fungusFeature){super(properties, fungusFeature);}
+	public AerialHellFungusBlock(ResourceKey<ConfiguredFeature<?, ?>> fungusFeature, Block floorBlock, Properties properties) {super(fungusFeature, floorBlock, properties);}
 
 	@Override protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos)
 	{

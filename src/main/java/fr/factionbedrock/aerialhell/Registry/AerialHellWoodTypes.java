@@ -2,6 +2,9 @@ package fr.factionbedrock.aerialhell.Registry;
 
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -17,11 +20,13 @@ public class AerialHellWoodTypes
     public static WoodType STELLAR_JUNGLE_TREE = createDefault(new ResourceLocation(MODID, "stellar_jungle_tree").toString());
     public static WoodType SHADOW_PINE = createDefault(new ResourceLocation(MODID, "shadow_pine").toString());
     public static WoodType SKY_CACTUS_FIBER = createDefault(new ResourceLocation(MODID, "sky_cactus_fiber").toString());
-    public static WoodType GRAY_SHROOM = createDefault(new ResourceLocation(MODID, "gray_shroom").toString());
+    public static WoodType GRAY_SHROOM = createComplete(new ResourceLocation(MODID, "gray_shroom").toString(), BlockSetType.OAK, SoundType.NETHER_WOOD, SoundType.NETHER_WOOD_HANGING_SIGN, SoundEvents.NETHER_WOOD_FENCE_GATE_CLOSE, SoundEvents.NETHER_WOOD_FENCE_GATE_OPEN);
 
-    private static WoodType createDefault(String name)
+    private static WoodType createDefault(String name) {return new WoodType(name, BlockSetType.OAK);}
+
+    private static WoodType createComplete(String name, BlockSetType setType, SoundType soundType, SoundType hangingSignSoundType, SoundEvent fenceGateClose, SoundEvent fenceGateOpen)
     {
-        return new WoodType(name, BlockSetType.OAK);
+        return new WoodType(name, setType, soundType, hangingSignSoundType, fenceGateClose, fenceGateOpen);
     }
 
     public static void registerWoodTypes(final FMLClientSetupEvent event) //Client side

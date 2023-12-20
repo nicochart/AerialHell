@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.Plants.Bushes;
 
+import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -22,9 +23,11 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 
 public class VibrantAerialBerryBushBlock extends BushBlock implements BonemealableBlock
 {
+    public static final MapCodec<VibrantAerialBerryBushBlock> CODEC = simpleCodec(VibrantAerialBerryBushBlock::new);
 	public static final IntegerProperty AGE = BlockStateProperties.AGE_15;
 	
 	public VibrantAerialBerryBushBlock(Properties properties)
@@ -32,6 +35,8 @@ public class VibrantAerialBerryBushBlock extends BushBlock implements Bonemealab
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
     }
+
+    @Override protected @NotNull MapCodec<? extends BushBlock> codec() {return CODEC;}
 
     @Override
     public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand)

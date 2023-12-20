@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 
 public class AerialHellWallSignBlock extends WallSignBlock
 {
-    public AerialHellWallSignBlock(Properties builder, WoodType woodType) {super(builder, woodType);}
+    public AerialHellWallSignBlock(Properties builder, WoodType woodType) {super(woodType, builder);}
 
     @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new AerialHellSignBlockEntity(pos, state);}
 }

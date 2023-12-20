@@ -15,7 +15,7 @@ public class CoreProtectedStairsBlock extends StairBlock
 {
 	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
 	
-	public CoreProtectedStairsBlock(java.util.function.Supplier<BlockState> state, BlockBehaviour.Properties properties)
+	public CoreProtectedStairsBlock(BlockState state, BlockBehaviour.Properties properties)
 	{
 		super(state, properties);
 		this.registerDefaultState(this.stateDefinition.any().setValue(CORE_PROTECTED, false));

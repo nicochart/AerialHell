@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
@@ -14,21 +15,25 @@ public class ChorusPlantLikeBlock extends ChorusPlantBlock
 {
     public ChorusPlantLikeBlock(Properties prop) {super(prop);}
 
-    @Override public BlockState getStateForPlacement(BlockGetter p_51711_, BlockPos p_51712_)
+    @Override public BlockState getStateForPlacement(BlockPlaceContext context)
     {
-        BlockState state_below = p_51711_.getBlockState(p_51712_.below());
-        BlockState state_above = p_51711_.getBlockState(p_51712_.above());
-        BlockState state_north = p_51711_.getBlockState(p_51712_.north());
-        BlockState state_east = p_51711_.getBlockState(p_51712_.east());
-        BlockState state_south = p_51711_.getBlockState(p_51712_.south());
-        BlockState state_west = p_51711_.getBlockState(p_51712_.west());
-        return this.defaultBlockState()
-                .setValue(DOWN, Boolean.valueOf(state_below.is(this) || state_below.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get()) || state_below.is(AerialHellTags.Blocks.STELLAR_DIRT)))
-                .setValue(UP, Boolean.valueOf(state_above.is(this) || state_above.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get())))
-                .setValue(NORTH, Boolean.valueOf(state_north.is(this) || state_north.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get())))
-                .setValue(EAST, Boolean.valueOf(state_east.is(this) || state_east.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get())))
-                .setValue(SOUTH, Boolean.valueOf(state_south.is(this) || state_south.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get())))
-                .setValue(WEST, Boolean.valueOf(state_west.is(this) || state_west.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get())));
+        return getStateWithConnections(context.getLevel(), context.getClickedPos(), this.defaultBlockState());
+    }
+    public static BlockState getStateForPlacement(BlockGetter blockGetter, BlockPos pos, BlockState state)
+    {
+        BlockState state_below = blockGetter.getBlockState(pos.below());
+        BlockState state_above = blockGetter.getBlockState(pos.above());
+        BlockState state_north = blockGetter.getBlockState(pos.north());
+        BlockState state_east = blockGetter.getBlockState(pos.east());
+        BlockState state_south = blockGetter.getBlockState(pos.south());
+        BlockState state_west = blockGetter.getBlockState(pos.west());
+        return state
+                .trySetValue(DOWN, Boolean.valueOf(state_below.is(state.getBlock()) || state_below.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get()) || state_below.is(AerialHellTags.Blocks.STELLAR_DIRT)))
+                .trySetValue(UP, Boolean.valueOf(state_above.is(state.getBlock()) || state_above.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get())))
+                .trySetValue(NORTH, Boolean.valueOf(state_north.is(state.getBlock()) || state_north.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get())))
+                .trySetValue(EAST, Boolean.valueOf(state_east.is(state.getBlock()) || state_east.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get())))
+                .trySetValue(SOUTH, Boolean.valueOf(state_south.is(state.getBlock()) || state_south.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get())))
+                .trySetValue(WEST, Boolean.valueOf(state_west.is(state.getBlock()) || state_west.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get())));
     }
 
     @Override public BlockState updateShape(BlockState state1, Direction direction, BlockState state2, LevelAccessor level, BlockPos pos1, BlockPos pos2)

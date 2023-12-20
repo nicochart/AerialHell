@@ -60,7 +60,7 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
 
                 if (flag && allNeighborsEmpty(level, blockpos, (Direction)null) && level.isEmptyBlock(pos.above(2)))
                 {
-                    level.setBlock(pos, this.plant.getStateForPlacement(level, pos), 2);
+                    level.setBlock(pos, ChorusPlantLikeBlock.getStateWithConnections(level, pos, this.plant.defaultBlockState()), 2);
                     this.placeGrownFlower(level, blockpos, i);
                 }
                 else if (i < 4)
@@ -81,7 +81,7 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
                         }
                     }
 
-                    if (flag2) {level.setBlock(pos, this.plant.getStateForPlacement(level, pos), 2);}
+                    if (flag2) {level.setBlock(pos, ChorusPlantLikeBlock.getStateWithConnections(level, pos, this.plant.defaultBlockState()), 2);}
                     else {this.placeDeadFlower(level, pos);}
                 }
                 else {this.placeDeadFlower(level, pos);}
@@ -113,7 +113,7 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
 
     public static void generatePlant(LevelAccessor level, BlockPos pos, RandomSource rand, int size)
     {
-        level.setBlock(pos, (AerialHellBlocksAndItems.FULL_MOON_PLANT.get()).getStateForPlacement(level, pos), 2);
+        level.setBlock(pos, ChorusPlantLikeBlock.getStateForPlacement(level, pos, AerialHellBlocksAndItems.FULL_MOON_PLANT.get().defaultBlockState()), 2);
         growTreeRecursive(level, pos, rand, pos, size, 0);
     }
 
@@ -127,8 +127,8 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
         {
             BlockPos blockpos = pos1.above(j + 1);
             if (!allNeighborsEmpty(level, blockpos, null)) {return;}
-            level.setBlock(blockpos, plantBlock.getStateForPlacement(level, blockpos), 2);
-            level.setBlock(blockpos.below(), plantBlock.getStateForPlacement(level, blockpos.below()), 2);
+            level.setBlock(blockpos, ChorusPlantLikeBlock.getStateForPlacement(level, blockpos, plantBlock.defaultBlockState()), 2);
+            level.setBlock(blockpos.below(), ChorusPlantLikeBlock.getStateForPlacement(level, blockpos.below(), plantBlock.defaultBlockState()), 2);
         }
 
         boolean flag = false;
@@ -144,8 +144,8 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
                 if (Math.abs(blockpos1.getX() - pos2.getX()) < size && Math.abs(blockpos1.getZ() - pos2.getZ()) < size && level.isEmptyBlock(blockpos1) && level.isEmptyBlock(blockpos1.below()) && allNeighborsEmpty(level, blockpos1, direction.getOpposite()))
                 {
                     flag = true;
-                    level.setBlock(blockpos1, plantBlock.getStateForPlacement(level, blockpos1), 2);
-                    level.setBlock(blockpos1.relative(direction.getOpposite()), plantBlock.getStateForPlacement(level, blockpos1.relative(direction.getOpposite())), 2);
+                    level.setBlock(blockpos1, ChorusPlantLikeBlock.getStateForPlacement(level, blockpos1, plantBlock.defaultBlockState()), 2);
+                    level.setBlock(blockpos1.relative(direction.getOpposite()), ChorusPlantLikeBlock.getStateForPlacement(level, blockpos1.relative(direction.getOpposite()), plantBlock.defaultBlockState()), 2);
                     growTreeRecursive(level, blockpos1, rand, pos2, size, iteration + 1);
                 }
             }
