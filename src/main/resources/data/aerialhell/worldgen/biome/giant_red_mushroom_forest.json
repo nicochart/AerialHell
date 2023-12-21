@@ -77,6 +77,8 @@
       "aerialhell:aerial_hell_water_lake"
     ],
     [
+      "aerialhell:root_bridge",
+      //"aerialhell:mossy_stellar_cobblestone_rock",
       "aerialhell:white_solid_ether",
       "aerialhell:blue_solid_ether",
       "aerialhell:golden_solid_ether",

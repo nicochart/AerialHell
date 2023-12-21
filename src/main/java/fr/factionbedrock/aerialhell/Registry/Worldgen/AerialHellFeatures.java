@@ -36,7 +36,9 @@ public class AerialHellFeatures
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> GOLDEN_SOLID_ETHER = FEATURES.register("golden_solid_ether", () -> new GoldenSolidEtherCloudFeature(NoneFeatureConfiguration.CODEC));
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> GREEN_SOLID_ETHER = FEATURES.register("green_solid_ether", () -> new GreenSolidEtherCloudFeature(NoneFeatureConfiguration.CODEC));
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> PURPLE_SOLID_ETHER = FEATURES.register("purple_solid_ether", () -> new PurpleSolidEtherCloudFeature(NoneFeatureConfiguration.CODEC));
-	
+
+	public static final RegistryObject<Feature<NoneFeatureConfiguration>> ROOT_BRIDGE = FEATURES.register("root_bridge", () -> new RootBridgeFeature(NoneFeatureConfiguration.CODEC));
+
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> STELLAR_COARSE_FLOOR_IN_DARK_AREAS = FEATURES.register("stellar_coarse_floor_in_dark_areas", () -> new StellarCoarseFloorInDarkAreasFeature(NoneFeatureConfiguration.CODEC));
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> STELLAR_GRASS_IN_SHADOW_GRASS = FEATURES.register("stellar_grass_in_shadow_grass", () -> new StellarGrassInShadowGrassFeature(NoneFeatureConfiguration.CODEC));
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> MOSSY_STELLAR_COBBLESTONE_ROCK = FEATURES.register("mossy_stellar_cobblestone_rock", () -> new RockFeature(NoneFeatureConfiguration.CODEC, new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder().add(AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE.get().defaultBlockState(), 1).add(AerialHellBlocksAndItems.STELLAR_COBBLESTONE.get().defaultBlockState(), 1))));
