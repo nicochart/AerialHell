@@ -4,9 +4,11 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellBiomes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.MapColor;
@@ -40,5 +42,20 @@ public class FeatureHelper
         {
             return state.canBeReplaced() || canReplacePlant && state.getMapColor(level, pos) == MapColor.PLANT; //TODO : it works ?
         });
+    }
+
+    public static BlockPos getFeatureCenter(FeaturePlaceContext<NoneFeatureConfiguration> context)
+    {
+        BlockPos origin = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
+
+        int chunkX = origin.getX() / 16;
+        int chunkZ = origin.getZ() / 16;
+
+        int xSign = (origin.getX() > 0) ? +1 : -1;
+        int zSign = (origin.getZ() > 0) ? +1 : -1;
+
+        int centerOfFeatureX = chunkX * 16 + xSign * 8;
+        int centerOfFeatureZ = chunkZ * 16 + zSign * 8;
+        return new BlockPos(centerOfFeatureX, origin.getY(), centerOfFeatureZ);
     }
 }

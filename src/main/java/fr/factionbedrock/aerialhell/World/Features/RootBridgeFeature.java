@@ -25,26 +25,27 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
 
     @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
-        BlockPos origin = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
-        BlockPos cencerOfFeature = new BlockPos(origin.getX() / 16 * 16 + 8, origin.getY(), origin.getZ() / 16 * 16 + 8);
+        WorldGenLevel reader = context.level(); RandomSource rand = context.random();
+        BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
 
-        BlockPos bridgeStart = getRandomBridgeStart(reader, rand, cencerOfFeature, 10);
+        BlockPos bridgeStart = getRandomBridgeStart(reader, rand, centerOfFeature, 10);
         if (bridgeStart == null) {return false;}
-        BlockPos bridgeEnd = getRandomBridgeEnd(reader, rand, cencerOfFeature, bridgeStart, 1);
+        BlockPos bridgeEnd = getRandomBridgeEnd(reader, rand, centerOfFeature, bridgeStart, 1);
 
         boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
 
         if (!generatesInDungeon)
         {
-            generateBridge(reader, rand, bridgeStart, bridgeEnd);
-            generateDebug(reader, bridgeStart, bridgeEnd, cencerOfFeature);
+            generateBridge(context, bridgeStart, bridgeEnd);
+            generateDebug(reader, bridgeStart, bridgeEnd, centerOfFeature);
         	return true;
         }
         return false;
     }
 
-    protected void generateBridge(WorldGenLevel reader, RandomSource rand, BlockPos bridgeStart, BlockPos bridgeEnd)
+    protected void generateBridge(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd)
     {
+        WorldGenLevel reader = context.level();
         int xOffset = bridgeEnd.getX() - bridgeStart.getX();
         int yOffset = bridgeEnd.getY() - bridgeStart.getY();
         int zOffset = bridgeEnd.getZ() - bridgeStart.getZ();
@@ -80,10 +81,17 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         }
     }
 
-    protected void generateDebug(WorldGenLevel reader, BlockPos bridgeStart, BlockPos bridgeEnd, BlockPos cencerOfFeature)
+    protected void generateDebug(WorldGenLevel reader, BlockPos bridgeStart, BlockPos bridgeEnd, BlockPos centerOfFeature)
     {
+        for (int i=-50; i<=50; i++)
+        {
+            reader.setBlock(centerOfFeature.offset(i, 0, 0), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
+            reader.setBlock(centerOfFeature.offset(0, i, 0), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
+            reader.setBlock(centerOfFeature.offset(0, 0, i), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
+        }
+
         //tmp, to check feature center
-        for (int x=-1; x<=1; x++) {for (int y=-1; y<=1; y++) {for (int z=-1; z<=1; z++) {reader.setBlock(cencerOfFeature.offset(x, y, z), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);}}}
+        for (int x=-1; x<=1; x++) {for (int y=-1; y<=1; y++) {for (int z=-1; z<=1; z++) {reader.setBlock(centerOfFeature.offset(x, y, z), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);}}}
         //tmp, to check bridge start and end position
         reader.setBlock(bridgeStart, AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);
         reader.setBlock(bridgeEnd, AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);
@@ -93,7 +101,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
     {
         if (isReplaceable(reader, pos)) {reader.setBlock(pos, AerialHellBlocksAndItems.AERIAL_TREE_LOG.get().defaultBlockState(), 0);}
     }
-    
+
     @Nullable protected BlockPos getRandomBridgeStart(WorldGenLevel reader, RandomSource rand, BlockPos centerOfFeature, int tries)
     {
         for (int t = 0; t < tries; t++)
