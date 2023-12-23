@@ -14,35 +14,35 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
+import javax.annotation.Nullable;
+
 public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
 {
+    private final int MIN_ABS_XZ_OFFSET = 15, MAX_ABS_XZ_OFFSET = 23; //max bridge start-end xz distance from center of worldgen feature
+    private final int MIN_ABS_Y_OFFSET = 5, MAX_ABS_Y_OFFSET = 15; //max bridge start-end y distance from center of worldgen feature
+
     public RootBridgeFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
     @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
-        BlockPos bridgeStart = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
-        boolean canGenerate =
-                (reader.getBlockState(bridgeStart).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(bridgeStart).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()) &&
-                (reader.getBlockState(bridgeStart.north(2)).getBlock().equals(Blocks.AIR) || reader.getBlockState(bridgeStart.south(2)).getBlock().equals(Blocks.AIR) || reader.getBlockState(bridgeStart.west(2)).getBlock().equals(Blocks.AIR) || reader.getBlockState(bridgeStart.east(2)).getBlock().equals(Blocks.AIR));
+        BlockPos origin = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
+        BlockPos cencerOfFeature = new BlockPos(origin.getX() / 16 * 16 + 8, origin.getY(), origin.getZ() / 16 * 16 + 8);
 
+        BlockPos bridgeStart = getRandomBridgeStart(reader, rand, cencerOfFeature, 10);
+        if (bridgeStart == null) {return false;}
+        BlockPos bridgeEnd = getRandomBridgeEnd(reader, rand, cencerOfFeature, bridgeStart, 1);
 
-		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
+        boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
 
-        int xzOffsetMinAbs = 10, xzOffsetMaxAbs = 22;
-        int yOffsetMinAbs = 5, yOffsetMaxAbs = 15;
-        int xOffset = getRandomOffset(rand, xzOffsetMinAbs, xzOffsetMaxAbs);
-        int yOffset = getRandomOffset(rand, yOffsetMinAbs, yOffsetMaxAbs);
-        int zOffset = getRandomOffset(rand, xzOffsetMinAbs, xzOffsetMaxAbs);
-        BlockPos bridgeEnd = bridgeStart.offset(xOffset, yOffset, zOffset);
-
-        if (canGenerate && !generatesInDungeon)
+        if (!generatesInDungeon)
         {
-        	generateBridge(reader, rand, bridgeStart, bridgeEnd);
+            generateBridge(reader, rand, bridgeStart, bridgeEnd);
+            generateDebug(reader, bridgeStart, bridgeEnd, cencerOfFeature);
         	return true;
         }
         return false;
     }
-    
+
     protected void generateBridge(WorldGenLevel reader, RandomSource rand, BlockPos bridgeStart, BlockPos bridgeEnd)
     {
         int xOffset = bridgeEnd.getX() - bridgeStart.getX();
@@ -78,8 +78,14 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
             tryPlacingRootBlock(reader, placementPos);
             i++;
         }
+    }
 
-        //tmp, to check bridge end position.. (trying to find why I get infinite loops)
+    protected void generateDebug(WorldGenLevel reader, BlockPos bridgeStart, BlockPos bridgeEnd, BlockPos cencerOfFeature)
+    {
+        //tmp, to check feature center
+        for (int x=-1; x<=1; x++) {for (int y=-1; y<=1; y++) {for (int z=-1; z<=1; z++) {reader.setBlock(cencerOfFeature.offset(x, y, z), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);}}}
+        //tmp, to check bridge start and end position
+        reader.setBlock(bridgeStart, AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);
         reader.setBlock(bridgeEnd, AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);
     }
 
@@ -87,17 +93,62 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
     {
         if (isReplaceable(reader, pos)) {reader.setBlock(pos, AerialHellBlocksAndItems.AERIAL_TREE_LOG.get().defaultBlockState(), 0);}
     }
+    
+    @Nullable protected BlockPos getRandomBridgeStart(WorldGenLevel reader, RandomSource rand, BlockPos centerOfFeature, int tries)
+    {
+        for (int t = 0; t < tries; t++)
+        {
+            int xOffset = getRandomOffset(rand, MIN_ABS_XZ_OFFSET, MAX_ABS_XZ_OFFSET);
+            int yOffset = getRandomOffset(rand, MIN_ABS_Y_OFFSET, MAX_ABS_Y_OFFSET);
+            int zOffset = getRandomOffset(rand, MIN_ABS_XZ_OFFSET, MAX_ABS_XZ_OFFSET);
+            BlockPos potentialBridgeStart = centerOfFeature.offset(xOffset, yOffset, zOffset);
+            if (isValidBridgeStartOrEnd(reader, potentialBridgeStart)) {return potentialBridgeStart;}
+        }
+        return null;
+    }
+
+    protected BlockPos getRandomBridgeEnd(WorldGenLevel reader, RandomSource rand, BlockPos centerOfFeature, BlockPos bridgeStart, int tries)
+    {
+        //if bridge start offset was positive, bridge end offset will be negative
+        int xMinEndOffset, yMinEndOffset, zMinEndOffset, xMaxEndOffset, yMaxEndOffset, zMaxEndOffset;
+        if (bridgeStart.getX() < centerOfFeature.getX()) {xMinEndOffset = MIN_ABS_XZ_OFFSET; xMaxEndOffset = MAX_ABS_XZ_OFFSET;}
+        else {xMinEndOffset = -MAX_ABS_XZ_OFFSET; xMaxEndOffset = -MIN_ABS_XZ_OFFSET;}
+
+        if (bridgeStart.getY() < centerOfFeature.getY()) {yMinEndOffset = MIN_ABS_Y_OFFSET; yMaxEndOffset = MAX_ABS_Y_OFFSET;}
+        else {yMinEndOffset = -MAX_ABS_Y_OFFSET; yMaxEndOffset = -MIN_ABS_Y_OFFSET;}
+
+        if (bridgeStart.getZ() < centerOfFeature.getZ()) {zMinEndOffset = MIN_ABS_XZ_OFFSET; zMaxEndOffset = MAX_ABS_XZ_OFFSET;}
+        else {zMinEndOffset = -MAX_ABS_XZ_OFFSET; zMaxEndOffset = -MIN_ABS_XZ_OFFSET;}
+
+        BlockPos potentialBridgeEnd = centerOfFeature;
+        for (int t = 0; t < tries; t++)
+        {
+            potentialBridgeEnd = centerOfFeature.offset(rand.nextInt(xMinEndOffset, xMaxEndOffset), rand.nextInt(yMinEndOffset, yMaxEndOffset), rand.nextInt(zMinEndOffset, zMaxEndOffset));
+            if (isValidBridgeStartOrEnd(reader, potentialBridgeEnd)) {return potentialBridgeEnd;}
+        }
+        return potentialBridgeEnd;
+    }
 
     private int getRandomOffset(RandomSource rand, int minAbs, int maxAbs)
     {
         int sign = rand.nextInt(2) == 0 ? -1 : 1;
-        return sign * (minAbs + rand.nextInt(maxAbs - minAbs));
+        return sign * rand.nextInt(minAbs, maxAbs);
+    }
+
+    private boolean isValidBridgeStartOrEnd(WorldGenLevel reader, BlockPos pos) {return isValidSupportForBridge(reader.getBlockState(pos)) && thereIsAirAroundPosition(reader, pos);}
+    private boolean isValidSupportForBridge(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_STONE) || state.getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get();}
+    private boolean thereIsAirAroundPosition(WorldGenLevel reader, BlockPos pos)
+    {
+        for (int distance = 1; distance < 4; distance++)
+        {
+            if (reader.getBlockState(pos.north(distance)).getBlock().equals(Blocks.AIR) || reader.getBlockState(pos.south(distance)).getBlock().equals(Blocks.AIR) || reader.getBlockState(pos.west(distance)).getBlock().equals(Blocks.AIR) || reader.getBlockState(pos.east(distance)).getBlock().equals(Blocks.AIR)) {return true;}
+        }
+        return false;
     }
 
     private boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
     {
     	BlockState previousBlock = reader.getBlockState(blockPos);
-    	if (previousBlock.isAir() || previousBlock.is(AerialHellTags.Blocks.FEATURE_CAN_REPLACE)) {return true;}
-    	else {return false;}
+        return previousBlock.isAir() || previousBlock.is(AerialHellTags.Blocks.FEATURE_CAN_REPLACE) || previousBlock.is(AerialHellBlocksAndItems.STELLAR_STONE.get());
     }
 }
