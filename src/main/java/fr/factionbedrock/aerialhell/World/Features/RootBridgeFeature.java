@@ -7,9 +7,7 @@ import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -28,16 +26,18 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         WorldGenLevel reader = context.level(); RandomSource rand = context.random();
         BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
 
-        BlockPos bridgeStart = getRandomBridgeStart(reader, rand, centerOfFeature, 10);
+        BlockPos bridgeStart = getRandomBridgeStart(reader, rand, centerOfFeature, 50);
         if (bridgeStart == null) {return false;}
-        BlockPos bridgeEnd = getRandomBridgeEnd(reader, rand, centerOfFeature, bridgeStart, 1);
+        BlockPos bridgeEnd = getRandomFarBridgeEnd(reader, rand, centerOfFeature, bridgeStart, 50, rand.nextInt(32) == 0);
+        if (bridgeEnd == null) {bridgeEnd = getRandomBridgeEnd(reader, rand, centerOfFeature, bridgeStart, 20, rand.nextInt(16) == 0);}
+        if (bridgeEnd == null) {return false;}
 
         boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
 
         if (!generatesInDungeon)
         {
             generateBridge(context, bridgeStart, bridgeEnd);
-            generateDebug(reader, bridgeStart, bridgeEnd, centerOfFeature);
+            //generateDebug(reader, bridgeStart, bridgeEnd, centerOfFeature);
         	return true;
         }
         return false;
@@ -115,7 +115,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         return null;
     }
 
-    protected BlockPos getRandomBridgeEnd(WorldGenLevel reader, RandomSource rand, BlockPos centerOfFeature, BlockPos bridgeStart, int tries)
+    @Nullable protected BlockPos getRandomFarBridgeEnd(WorldGenLevel reader, RandomSource rand, BlockPos centerOfFeature, BlockPos bridgeStart, int tries, boolean forceFarBridge)
     {
         //if bridge start offset was positive, bridge end offset will be negative
         int xMinEndOffset, yMinEndOffset, zMinEndOffset, xMaxEndOffset, yMaxEndOffset, zMaxEndOffset;
@@ -134,7 +134,21 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
             potentialBridgeEnd = centerOfFeature.offset(rand.nextInt(xMinEndOffset, xMaxEndOffset), rand.nextInt(yMinEndOffset, yMaxEndOffset), rand.nextInt(zMinEndOffset, zMaxEndOffset));
             if (isValidBridgeStartOrEnd(reader, potentialBridgeEnd)) {return potentialBridgeEnd;}
         }
-        return potentialBridgeEnd;
+        return forceFarBridge ? potentialBridgeEnd : null;
+    }
+
+    @Nullable protected BlockPos getRandomBridgeEnd(WorldGenLevel reader, RandomSource rand, BlockPos centerOfFeature, BlockPos bridgeStart, int tries, boolean forceNonNullReturn)
+    {
+        BlockPos potentialBridgeEnd = centerOfFeature;
+        for (int t = 0; t < tries; t++)
+        {
+            int xOffset = getRandomOffset(rand, MIN_ABS_XZ_OFFSET, MAX_ABS_XZ_OFFSET);
+            int yOffset = getRandomOffset(rand, MIN_ABS_Y_OFFSET, MAX_ABS_Y_OFFSET);
+            int zOffset = getRandomOffset(rand, MIN_ABS_XZ_OFFSET, MAX_ABS_XZ_OFFSET);
+            potentialBridgeEnd = centerOfFeature.offset(xOffset, yOffset, zOffset);
+            if (isValidBridgeStartOrEnd(reader, potentialBridgeEnd) && Math.sqrt(bridgeStart.distSqr(potentialBridgeEnd)) > 16) {return potentialBridgeEnd;}
+        }
+        return forceNonNullReturn ? potentialBridgeEnd : null;
     }
 
     private int getRandomOffset(RandomSource rand, int minAbs, int maxAbs)
@@ -147,11 +161,16 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
     private boolean isValidSupportForBridge(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_STONE) || state.getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get();}
     private boolean thereIsAirAroundPosition(WorldGenLevel reader, BlockPos pos)
     {
-        for (int distance = 1; distance < 4; distance++)
+        for (int distance = 1; distance < 6; distance+=2)
         {
-            if (reader.getBlockState(pos.north(distance)).getBlock().equals(Blocks.AIR) || reader.getBlockState(pos.south(distance)).getBlock().equals(Blocks.AIR) || reader.getBlockState(pos.west(distance)).getBlock().equals(Blocks.AIR) || reader.getBlockState(pos.east(distance)).getBlock().equals(Blocks.AIR)) {return true;}
+            if (thereIs3x3AirAreaAtPos(reader, pos.north(distance)) || thereIs3x3AirAreaAtPos(reader, pos.south(distance)) || thereIs3x3AirAreaAtPos(reader, pos.west(distance)) || thereIs3x3AirAreaAtPos(reader, pos.east(distance)) || thereIs3x3AirAreaAtPos(reader, pos.above(distance))) {return true;}
         }
         return false;
+    }
+
+    private boolean thereIs3x3AirAreaAtPos(WorldGenLevel reader, BlockPos pos)
+    {
+        for (int x=-1; x<=1; x++) {for (int y=-1; y<=1; y++) {for (int z=-1; z<=1; z++) {if (!reader.getBlockState(pos.offset(x, y, z)).isAir()) {return false;}}}} return true;
     }
 
     private boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
