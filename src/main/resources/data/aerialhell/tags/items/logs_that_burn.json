@@ -1,7 +1,6 @@
 {
   "replace": false,
-  "values":
-  [
+  "values": [
     "aerialhell:giant_root",
     "aerialhell:aerial_tree_log",
     "aerialhell:stripped_aerial_tree_log",
@@ -10,13 +9,9 @@
     "aerialhell:copper_pine_log",
     "aerialhell:stripped_copper_pine_log",
     "aerialhell:lapis_robinia_log",
-    "aerialhell:enchanted_lapis_robinia_log",
     "aerialhell:stripped_lapis_robinia_log",
     "aerialhell:shadow_pine_log",
-    "aerialhell:eye_shadow_pine_log",
     "aerialhell:stripped_shadow_pine_log",
-    "aerialhell:stellar_jungle_tree_log",
-    "aerialhell:stripped_stellar_jungle_tree_log",
     "aerialhell:giant_cortinarius_violaceus_stem",
     "aerialhell:stripped_giant_cortinarius_violaceus_stem",
     "aerialhell:giant_verdigris_agaric_stem",

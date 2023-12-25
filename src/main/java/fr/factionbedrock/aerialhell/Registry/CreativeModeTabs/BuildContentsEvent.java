@@ -43,6 +43,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.RUBY_CHAIN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VOLUCITE_CHAIN_ITEM.get());
 
+            itemsToAdd.add(AerialHellBlocksAndItems.GIANT_ROOT_ITEM.get());
+
             itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_AERIAL_TREE_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_LEAVES_ITEM.get());

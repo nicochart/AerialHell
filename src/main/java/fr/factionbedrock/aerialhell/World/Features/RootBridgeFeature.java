@@ -281,7 +281,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
     private void tryPlacingRootBlock(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos.MutableBlockPos pos)
     {
         WorldGenLevel reader = context.level();
-        if (isReplaceable(reader, pos) /*&& FeatureHelper.isBlockPosInFeatureRegion(context, pos)*/) {reader.setBlock(pos, AerialHellBlocksAndItems.AERIAL_TREE_LOG.get().defaultBlockState(), 0);}
+        if (isReplaceable(reader, pos) /*&& FeatureHelper.isBlockPosInFeatureRegion(context, pos)*/) {reader.setBlock(pos, AerialHellBlocksAndItems.GIANT_ROOT.get().defaultBlockState(), 0);}
     }
 
     private boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)

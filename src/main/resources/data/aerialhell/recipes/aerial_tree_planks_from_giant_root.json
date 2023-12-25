@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "item": "aerialhell:giant_root"
+    }
+  ],
+  "result": {
+    "item": "aerialhell:aerial_tree_planks",
+    "count": 4
+  }
+}
