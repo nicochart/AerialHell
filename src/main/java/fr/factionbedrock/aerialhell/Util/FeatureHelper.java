@@ -47,17 +47,21 @@ public class FeatureHelper
 
     public static BlockPos getFeatureCenter(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
-        BlockPos origin = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
+        BlockPos origin = context.origin();
+        int x = origin.getX(), y = origin.getY(), z = origin.getZ();
 
-        int chunkX = origin.getX() / 16;
-        int chunkZ = origin.getZ() / 16;
+        if (origin.getX() < 0) {x++;}
+        if (origin.getZ() < 0) {z++;}
 
-        int xSign = (origin.getX() > 0) ? +1 : -1;
-        int zSign = (origin.getZ() > 0) ? +1 : -1;
+        int chunkX = x / 16;
+        int chunkZ = z / 16;
 
-        int centerOfFeatureX = chunkX * 16 + xSign * 8;
-        int centerOfFeatureZ = chunkZ * 16 + zSign * 8;
-        return new BlockPos(centerOfFeatureX, origin.getY(), centerOfFeatureZ);
+        if (origin.getX() < 0) {chunkX--;}
+        if (origin.getZ() < 0) {chunkZ--;}
+
+        int centerOfFeatureX = chunkX * 16 + 8;
+        int centerOfFeatureZ = chunkZ * 16 + 8;
+        return new BlockPos(centerOfFeatureX, y, centerOfFeatureZ);
     }
 
     public static boolean isBlockPosInFeatureRegion(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos pos)

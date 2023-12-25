@@ -23,14 +23,14 @@ public class WhiteSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		BlockPos pos = context.origin(); WorldGenLevel world = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
+		BlockPos pos = context.origin(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
 		if (FeatureHelper.isFeatureGeneratingNextToDungeon(context)) {return false;}
     	
     	BlockPos generatePos = pos;
     	if (pos.getY() < getMinGenHeigh() || pos.getY() >  getMaxGenHeigh()) {generatePos = getRandomHeighGenerationPos(pos.getX(), getMinGenHeigh(), getMaxGenHeigh(), pos.getZ(), rand);}
     	int sizeX = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
         int sizeZ = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
-        this.generateFourLayersFirstEllipsis(sizeX, sizeZ, world, rand, generatePos);
+        this.generateFourLayersFirstEllipsis(context, sizeX, sizeZ,generatePos);
     	return false;
     }
 }

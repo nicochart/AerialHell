@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
 
 public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
 {
-    private final int MIN_ABS_XZ_OFFSET = 15, MAX_ABS_XZ_OFFSET = 23; //max bridge start-end xz distance from center of worldgen feature
+    private final int MIN_ABS_XZ_OFFSET = 15, MAX_ABS_XZ_OFFSET = 22; //max bridge start-end xz distance from center of worldgen feature
     private final int MIN_ABS_Y_OFFSET = 5, MAX_ABS_Y_OFFSET = 15; //max bridge start-end y distance from center of worldgen feature
 
     private final int KNOT_MIN_DISTANCE_TO_STRAIGHT_BRIDGE = 8, KNOT_MAX_DISTANCE_TO_STRAIGHT_BRIDGE = 16; //min and max distance to bridge before deformation
@@ -61,7 +61,6 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
 
     protected BlockPos generateBridge(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)
     {
-        WorldGenLevel reader = context.level();
         Vector3f moveStepVector = getPlacementStepMoveVector(bridgeStart, bridgeEnd);
         int i = 0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(bridgeStart, bridgeEnd);
 
@@ -76,7 +75,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
 
             Vector3f knotsDeformationVector = getKnotsDeformationVector(placementPos, knot1, knot2);
             placementPos.move((int) knotsDeformationVector.x, (int) knotsDeformationVector.y, (int) knotsDeformationVector.z);
-            tryPlacingRootBlocks(reader, placementPos);
+            tryPlacingRootBlocks(context, placementPos);
             i++;
         }
 
@@ -86,7 +85,6 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
 
     protected void generateStraightBridge(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd)
     {
-        WorldGenLevel reader = context.level();
         Vector3f moveStepVector = getPlacementStepMoveVector(bridgeStart, bridgeEnd);
         int i = 0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(bridgeStart, bridgeEnd);
 
@@ -96,7 +94,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         {
             BlockPos pos = new BlockPos((int) (i * moveStepVector.x), (int) (i * moveStepVector.y), (int) (i * moveStepVector.z));
             placementPos.set(bridgeStart.offset(pos));
-            tryPlacingRootBlocks(reader, placementPos);
+            tryPlacingRootBlocks(context, placementPos);
             i++;
         }
     }
@@ -121,6 +119,8 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         //tmp, to check spline knots position
         reader.setBlock(knot1, AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_FIBER_LANTERN.get().defaultBlockState(), 0); //TMP
         reader.setBlock(knot2, AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_FIBER_LANTERN.get().defaultBlockState(), 0); //TMP
+
+        reader.setBlock(context.origin(), AerialHellBlocksAndItems.CRYSTAL_BRICKS.get().defaultBlockState(), 0);
     }
 
     @Nullable protected BlockPos getRandomBridgeStart(WorldGenLevel reader, RandomSource rand, BlockPos centerOfFeature, int tries)
@@ -261,26 +261,27 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         for (int x=-1; x<=1; x++) {for (int y=-1; y<=1; y++) {for (int z=-1; z<=1; z++) {if (!reader.getBlockState(pos.offset(x, y, z)).isAir()) {return false;}}}} return true;
     }
 
-    private void tryPlacingRootBlocks(WorldGenLevel reader, BlockPos.MutableBlockPos pos)
+    private void tryPlacingRootBlocks(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos.MutableBlockPos pos)
     {
-        tryPlacingRootBlock(reader, pos);
+        tryPlacingRootBlock(context, pos);
         pos.move(1, 0, 0);
-        tryPlacingRootBlock(reader, pos);
+        tryPlacingRootBlock(context, pos);
         pos.move(-2, 0, 0);
-        tryPlacingRootBlock(reader, pos);
+        tryPlacingRootBlock(context, pos);
         pos.move(1, 1, 0);
-        tryPlacingRootBlock(reader, pos);
+        tryPlacingRootBlock(context, pos);
         pos.move(0, -2, 0);
-        tryPlacingRootBlock(reader, pos);
+        tryPlacingRootBlock(context, pos);
         pos.move(0, 1, 1);
-        tryPlacingRootBlock(reader, pos);
+        tryPlacingRootBlock(context, pos);
         pos.move(0, 0, -2);
-        tryPlacingRootBlock(reader, pos);
+        tryPlacingRootBlock(context, pos);
     }
 
-    private void tryPlacingRootBlock(WorldGenLevel reader, BlockPos.MutableBlockPos pos)
+    private void tryPlacingRootBlock(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos.MutableBlockPos pos)
     {
-        if (isReplaceable(reader, pos)) {reader.setBlock(pos, AerialHellBlocksAndItems.AERIAL_TREE_LOG.get().defaultBlockState(), 0);}
+        WorldGenLevel reader = context.level();
+        if (isReplaceable(reader, pos) /*&& FeatureHelper.isBlockPosInFeatureRegion(context, pos)*/) {reader.setBlock(pos, AerialHellBlocksAndItems.AERIAL_TREE_LOG.get().defaultBlockState(), 0);}
     }
 
     private boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)

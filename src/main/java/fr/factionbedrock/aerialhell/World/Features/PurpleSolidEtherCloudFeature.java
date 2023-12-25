@@ -29,7 +29,7 @@ public class PurpleSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 		if (pos.getY() < getMinGenHeigh() || pos.getY() >  getMaxGenHeigh()) {generatePos = getRandomHeighGenerationPos(pos.getX(), getMinGenHeigh(), getMaxGenHeigh(), pos.getZ(), rand);}
     	int sizeX = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
         int sizeZ = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
-    	generateFirstEllipsis(sizeX, sizeZ, reader, rand, generatePos);
+    	generateFirstEllipsis(context, sizeX, sizeZ, generatePos);
     	return false;
     }
 }
