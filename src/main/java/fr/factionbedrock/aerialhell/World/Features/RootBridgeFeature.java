@@ -20,7 +20,8 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
     private final int MIN_ABS_XZ_OFFSET = 15, MAX_ABS_XZ_OFFSET = 23; //max bridge start-end xz distance from center of worldgen feature
     private final int MIN_ABS_Y_OFFSET = 5, MAX_ABS_Y_OFFSET = 15; //max bridge start-end y distance from center of worldgen feature
 
-    private final int KNOT_MIN_DISTANCE_TO_STRAIGHT_BRIDGE = 4, KNOT_MAX_DISTANCE_TO_STRAIGHT_BRIDGE = 8; //min and max distance to bridge before deformation
+    private final int KNOT_MIN_DISTANCE_TO_STRAIGHT_BRIDGE = 8, KNOT_MAX_DISTANCE_TO_STRAIGHT_BRIDGE = 16; //min and max distance to bridge before deformation
+    private final float KNOT_DEFORMATION_MULTIPLIER = 0.3F;
     private final int KNOT_DEFORMATION_MIN_DISTANCE = 5, KNOT_DEFORMATION_MAX_DISTANCE = 20; //max = distance at which deformation start, min = distance at which deformation is maximum
 
     public RootBridgeFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
@@ -183,7 +184,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
     private Vector3f getKnotDeformationVector(BlockPos pos, BlockPos knot)
     {
         float knotDeformationFactor = getKnotDeformationFactor((float) Math.sqrt(pos.distSqr(knot)));
-        return new Vector3f(knot.getX() - pos.getX(), knot.getY() - pos.getY(), knot.getZ() - pos.getZ()).normalize(knotDeformationFactor / 4);
+        return new Vector3f(knot.getX() - pos.getX(), knot.getY() - pos.getY(), knot.getZ() - pos.getZ()).normalize(knotDeformationFactor * KNOT_DEFORMATION_MULTIPLIER);
     }
 
     private float getKnotDeformationFactor(float distanceToKnot)
