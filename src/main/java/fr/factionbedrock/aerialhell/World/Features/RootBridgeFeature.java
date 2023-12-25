@@ -31,17 +31,28 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         WorldGenLevel reader = context.level(); RandomSource rand = context.random();
         BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
 
+
         BlockPos bridgeStart = getRandomBridgeStart(reader, rand, centerOfFeature, 50);
         if (bridgeStart == null) {return false;}
-        BlockPos bridgeEnd = getRandomFarBridgeEnd(reader, rand, centerOfFeature, bridgeStart, 50, rand.nextInt(32) == 0);
-        if (bridgeEnd == null) {bridgeEnd = getRandomBridgeEnd(reader, rand, centerOfFeature, bridgeStart, 20, rand.nextInt(16) == 0);}
+        BlockPos bridgeEnd = getRandomFarBridgeEnd(reader, rand, centerOfFeature, bridgeStart, 50, rand.nextInt(64) == 0);
+        if (bridgeEnd == null) {bridgeEnd = getRandomBridgeEnd(reader, rand, centerOfFeature, bridgeStart, 20, rand.nextInt(32) == 0);}
         if (bridgeEnd == null) {return false;}
 
+        boolean isLongBridge = bridgeStart.distSqr(bridgeEnd) > 1024;
         boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
 
         if (!generatesInDungeon)
         {
-            generateBridge(context, bridgeStart, bridgeEnd);
+            if (isLongBridge)
+            {
+                BlockPos intermediatePos = getRandomIntermediatePos(context,  bridgeStart, bridgeEnd, 10);
+                generateBridge(context, bridgeStart, intermediatePos);
+                generateBridge(context, intermediatePos, bridgeEnd);
+            }
+            else
+            {
+                generateBridge(context, bridgeStart, bridgeEnd);
+            }
         	return true;
         }
         return false;
@@ -140,6 +151,21 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
             if (isValidBridgeStartOrEnd(reader, potentialBridgeEnd) && Math.sqrt(bridgeStart.distSqr(potentialBridgeEnd)) > 16) {return potentialBridgeEnd;}
         }
         return forceNonNullReturn ? potentialBridgeEnd : null;
+    }
+
+    protected BlockPos getRandomIntermediatePos(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, int maxTries)
+    {
+        RandomSource rand = context.random();
+        BlockPos intermediatePos, centerOfFeature = FeatureHelper.getFeatureCenter(context);
+        if (rand.nextInt(10) == 0) {return centerOfFeature;}
+        for (int i=0; i<maxTries; i++)
+        {
+            intermediatePos = bridgeStart.offset((bridgeEnd.getX() - bridgeStart.getX()) / 2, (bridgeEnd.getY() - bridgeStart.getY()) / 2, (bridgeEnd.getZ() - bridgeStart.getZ()) / 2)
+                    .offset(getRandomOffset(rand, 2, 4), getRandomOffset(rand, 2, 4), getRandomOffset(rand, 2, 4));
+            if (FeatureHelper.isBlockPosInFeatureRegion(centerOfFeature, intermediatePos)) {return intermediatePos;}
+        }
+        //can't find any intermediate pos in feature region
+        return centerOfFeature;
     }
 
     protected BlockPos getRandomKnot(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, int maxTries)
