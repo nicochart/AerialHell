@@ -12,6 +12,7 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.MapColor;
+import org.joml.Vector3f;
 
 public class FeatureHelper
 {
@@ -84,5 +85,13 @@ public class FeatureHelper
     {
         int xOffset = pos2.getX() - pos1.getX(); int yOffset = pos2.getY() - pos1.getY(); int zOffset = pos2.getZ() - pos1.getZ();
         return Math.max(Math.max(Math.abs(xOffset), Math.abs(yOffset)), Math.abs(zOffset));
+    }
+
+    public static Vector3f getRandomOrthogonalVectorToLineDefinedWith2Points(BlockPos linePos1, BlockPos linePos2, RandomSource rand)
+    {
+        Vector3f vector1 = new Vector3f(linePos2.getX() - linePos1.getX(), linePos2.getY() - linePos1.getY(), linePos2.getZ() - linePos1.getZ());
+        Vector3f vector2 = new Vector3f(rand.nextInt(10), rand.nextInt(10), rand.nextInt(10));
+        if (vector2.x / vector1.x == vector2.y / vector1.y) {vector2.x = - vector2.x / 2;} //quickly handle the case where vector1 and vector2 may be collinear
+        return new Vector3f(vector1.y * vector2.z - vector1.z * vector2.y, vector1.z * vector2.x - vector1.x * vector2.z, vector1.x * vector2.y - vector1.y * vector2.x);
     }
 }

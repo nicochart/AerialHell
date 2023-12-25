@@ -5,7 +5,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
@@ -21,7 +20,8 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
     private final int MIN_ABS_XZ_OFFSET = 15, MAX_ABS_XZ_OFFSET = 23; //max bridge start-end xz distance from center of worldgen feature
     private final int MIN_ABS_Y_OFFSET = 5, MAX_ABS_Y_OFFSET = 15; //max bridge start-end y distance from center of worldgen feature
 
-    private final int KNOT_DEFORMATION_MIN_DISTANCE = 3, KNOT_DEFORMATION_MAX_DISTANCE = 12; //max = distance at which deformation start, min = distance at which deformation is maximum
+    private final int KNOT_MIN_DISTANCE_TO_STRAIGHT_BRIDGE = 4, KNOT_MAX_DISTANCE_TO_STRAIGHT_BRIDGE = 8; //min and max distance to bridge before deformation
+    private final int KNOT_DEFORMATION_MIN_DISTANCE = 5, KNOT_DEFORMATION_MAX_DISTANCE = 20; //max = distance at which deformation start, min = distance at which deformation is maximum
 
     public RootBridgeFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
@@ -151,20 +151,16 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         BlockPos knot;
         while (i++ < maxTries)
         {
-            int randomStep = rand.nextInt(1, maxAbsOffset);
+            int randomStep = maxAbsOffset > 1 ? rand.nextInt(1, maxAbsOffset) : 1;
             int sign = rand.nextInt(2) == 0 ? -1 : 1;
+            int knotOffsetFromBridge = sign * rand.nextInt(KNOT_MIN_DISTANCE_TO_STRAIGHT_BRIDGE , KNOT_MAX_DISTANCE_TO_STRAIGHT_BRIDGE);
+            Vector3f offsetVector = FeatureHelper.getRandomOrthogonalVectorToLineDefinedWith2Points(bridgeStart, bridgeEnd, rand).normalize(knotOffsetFromBridge);
             knot = bridgeStart.offset((int) (randomStep * moveStepVector.x), (int) (randomStep * moveStepVector.y), (int) (randomStep * moveStepVector.z))
-                    .relative(getRandomKnotDirection(rand), sign * rand.nextInt(3 , 7));
+                    .offset((int) offsetVector.x, (int) offsetVector.y, (int) offsetVector.z);
             if (FeatureHelper.isBlockPosInFeatureRegion(centerOfFeature, knot)) {return knot;}
         }
         //can't find any knot in feature region
         return centerOfFeature;
-    }
-
-    private Direction getRandomKnotDirection(RandomSource rand)
-    {
-        float f = rand.nextFloat();
-        return f < 0.33F ? Direction.UP : f < 0.66F ? Direction.WEST : Direction.NORTH;
     }
 
     private Vector3f getPlacementStepMoveVector(BlockPos bridgeStart, BlockPos bridgeEnd)
@@ -187,7 +183,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
     private Vector3f getKnotDeformationVector(BlockPos pos, BlockPos knot)
     {
         float knotDeformationFactor = getKnotDeformationFactor((float) Math.sqrt(pos.distSqr(knot)));
-        return new Vector3f(knot.getX() - pos.getX(), knot.getY() - pos.getY(), knot.getZ() - pos.getZ()).normalize(knotDeformationFactor / 2);
+        return new Vector3f(knot.getX() - pos.getX(), knot.getY() - pos.getY(), knot.getZ() - pos.getZ()).normalize(knotDeformationFactor / 4);
     }
 
     private float getKnotDeformationFactor(float distanceToKnot)
