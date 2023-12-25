@@ -31,6 +31,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         WorldGenLevel reader = context.level(); RandomSource rand = context.random();
         BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
 
+        boolean debugFlag = false;
 
         BlockPos bridgeStart = getRandomBridgeStart(reader, rand, centerOfFeature, 50);
         if (bridgeStart == null) {return false;}
@@ -43,22 +44,22 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
 
         if (!generatesInDungeon)
         {
-            if (isLongBridge)
-            {
-                BlockPos intermediatePos = getRandomIntermediatePos(context,  bridgeStart, bridgeEnd, 10);
-                generateBridge(context, bridgeStart, intermediatePos);
-                generateBridge(context, intermediatePos, bridgeEnd);
-            }
-            else
-            {
-                generateBridge(context, bridgeStart, bridgeEnd);
-            }
+            if (isLongBridge) {generateBridgeWithIntermediatePos(context, bridgeStart, bridgeEnd, debugFlag);}
+            else {generateBridge(context, bridgeStart, bridgeEnd, debugFlag);}
         	return true;
         }
         return false;
     }
 
-    protected void generateBridge(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd)
+    protected void generateBridgeWithIntermediatePos(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)
+    {
+        BlockPos effectiveIntermediatePos1, effectiveIntermediatePos2, intermediatePos = getRandomIntermediatePos(context,  bridgeStart, bridgeEnd, 10);
+        effectiveIntermediatePos1 = generateBridge(context, bridgeStart, intermediatePos, generateDebug);
+        effectiveIntermediatePos2 = generateBridge(context, bridgeEnd, intermediatePos, generateDebug);
+        generateStraightBridge(context, effectiveIntermediatePos1, effectiveIntermediatePos2);
+    }
+
+    protected BlockPos generateBridge(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)
     {
         WorldGenLevel reader = context.level();
         Vector3f moveStepVector = getPlacementStepMoveVector(bridgeStart, bridgeEnd);
@@ -68,7 +69,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
 
     	BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
         placementPos.set(bridgeStart);
-        while(!placementPos.equals(bridgeEnd) && i < maxAbsOffset)
+        while(!placementPos.equals(bridgeEnd) && i <= maxAbsOffset)
         {
             BlockPos pos = new BlockPos((int) (i * moveStepVector.x), (int) (i * moveStepVector.y), (int) (i * moveStepVector.z));
             placementPos.set(bridgeStart.offset(pos));
@@ -79,7 +80,25 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
             i++;
         }
 
-        generateDebug(context, bridgeStart, bridgeEnd, knot1, knot2);
+        if (generateDebug) {generateDebug(context, bridgeStart, bridgeEnd, knot1, knot2);}
+        return new BlockPos(placementPos);
+    }
+
+    protected void generateStraightBridge(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd)
+    {
+        WorldGenLevel reader = context.level();
+        Vector3f moveStepVector = getPlacementStepMoveVector(bridgeStart, bridgeEnd);
+        int i = 0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(bridgeStart, bridgeEnd);
+
+        BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
+        placementPos.set(bridgeStart);
+        while(!placementPos.equals(bridgeEnd) && i <= maxAbsOffset)
+        {
+            BlockPos pos = new BlockPos((int) (i * moveStepVector.x), (int) (i * moveStepVector.y), (int) (i * moveStepVector.z));
+            placementPos.set(bridgeStart.offset(pos));
+            tryPlacingRootBlocks(reader, placementPos);
+            i++;
+        }
     }
 
     protected void generateDebug(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, BlockPos knot1, BlockPos knot2)
