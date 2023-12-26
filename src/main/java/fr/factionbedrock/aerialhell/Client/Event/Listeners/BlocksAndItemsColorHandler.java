@@ -39,6 +39,7 @@ public class BlocksAndItemsColorHandler
                 AerialHellBlocksAndItems.BRAMBLES.get(),
                 AerialHellBlocksAndItems.PURPLISH_STELLAR_GRASS.get(),
                 AerialHellBlocksAndItems.STELLAR_CLOVERS.get(),
+                AerialHellBlocksAndItems.GLOWING_STELLAR_GRASS.get(),
                 AerialHellBlocksAndItems.BLACK_ROSE.get(),
                 AerialHellBlocksAndItems.BLUE_FLOWER.get(),
                 AerialHellBlocksAndItems.BELLFLOWER.get(),

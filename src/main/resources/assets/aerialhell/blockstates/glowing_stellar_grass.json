@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "aerialhell:block/glowing_stellar_grass"
+    },
+    "lit=true": {
+      "model": "aerialhell:block/glowing_stellar_grass_lit"
+    }
+  }
+}

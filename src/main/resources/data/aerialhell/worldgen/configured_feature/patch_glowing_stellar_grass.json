@@ -1,0 +1,30 @@
+{
+  "type": "aerialhell:random_patch_in_dark_area",
+  "config": {
+    "tries": 96,
+    "xz_spread": 12,
+    "y_spread": 5,
+    "feature": {
+      "feature": {
+        "type": "minecraft:simple_block",
+        "config": {
+          "to_place": {
+            "type": "minecraft:simple_state_provider",
+            "state": {
+              "Name": "aerialhell:glowing_stellar_grass"
+            }
+          }
+        }
+      },
+      "placement": [
+        {
+          "type": "minecraft:block_predicate_filter",
+          "predicate": {
+            "type": "minecraft:matching_blocks",
+            "blocks": "minecraft:air"
+          }
+        }
+      ]
+    }
+  }
+}
