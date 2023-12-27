@@ -1,0 +1,37 @@
+{
+        "parent": "block/block",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"log": "aerialhell:block/dead_stellar_jungle_tree_log",
+		"log_top": "aerialhell:block/stellar_jungle_tree_log_top",
+		"inside": "aerialhell:block/dead_stellar_jungle_tree_log_inside",
+		"particle": "aerialhell:block/stellar_jungle_tree_log"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 2, 14],
+			"color": 0,
+			"faces": {
+				"north": {"uv": [0, 0, 16, 2], "texture": "#log_top"},
+				"east": {"uv": [2, 14, 16, 16], "texture": "#log_top"},
+				"south": {"uv": [0, 0, 16, 2], "texture": "#log_top"},
+				"west": {"uv": [0, 14, 14, 16], "texture": "#log_top"},
+				"up": {"uv": [0, 0, 16, 14], "texture": "#inside"},
+				"down": {"uv": [0, 0, 16, 14], "texture": "#log"}
+			}
+		},
+		{
+			"from": [0, 0, 14],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#inside"},
+				"east": {"uv": [0, 0, 2, 16], "texture": "#log_top"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#log"},
+				"west": {"uv": [14, 0, 16, 16], "texture": "#log_top"},
+				"up": {"uv": [0, 14, 16, 16], "texture": "#log_top"},
+				"down": {"uv": [0, 14, 16, 16], "texture": "#log"}
+			}
+		}
+	]
+}

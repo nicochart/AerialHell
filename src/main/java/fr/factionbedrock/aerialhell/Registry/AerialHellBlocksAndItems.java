@@ -307,12 +307,14 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> STELLAR_JUNGLE_TREE_PLANKS = BLOCKS.register("stellar_jungle_tree_planks", () -> new Block(BlockBehaviour.Properties.ofFullCopy(STELLAR_JUNGLE_TREE_LOG.get())));
 	public static final RegistryObject<Block> STELLAR_JUNGLE_TREE_BOOKSHELF = BLOCKS.register("stellar_jungle_tree_bookshelf", () -> new AerialHellBookshelfBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_JUNGLE_TREE_PLANKS.get())));
 	public static final RegistryObject<SaplingBlock> STELLAR_JUNGLE_TREE_SAPLING = BLOCKS.register("stellar_jungle_tree_sapling", () -> new SaplingBlock(AerialHellTreeGrowers.STELLAR_JUNGLE_TREE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING)));
+	public static final RegistryObject<LargeDeadLogBlock> DEAD_STELLAR_JUNGLE_TREE_LOG = BLOCKS.register("dead_stellar_jungle_tree_log", () -> new LargeDeadLogBlock(STELLAR_JUNGLE_TREE_PLANKS.get().defaultBlockState(), COPPER_PINE_MATERIAL));
 	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_LOG_ITEM = ITEMS.register("stellar_jungle_tree_log", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_LOG.get(), new Item.Properties(), 400));
 	public static final RegistryObject<Item> STRIPPED_STELLAR_JUNGLE_TREE_LOG_ITEM = ITEMS.register("stripped_stellar_jungle_tree_log", () -> new BurnableBlockItem(STRIPPED_STELLAR_JUNGLE_TREE_LOG.get(), new Item.Properties(), 400));
 	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_LEAVES_ITEM = ITEMS.register("stellar_jungle_tree_leaves", () -> new BlockItem(STELLAR_JUNGLE_TREE_LEAVES.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_PLANKS_ITEM = ITEMS.register("stellar_jungle_tree_planks", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_PLANKS.get(), new Item.Properties(), 300));
 	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_BOOKSHELF_ITEM = ITEMS.register("stellar_jungle_tree_bookshelf", () -> new BlockItem(STELLAR_JUNGLE_TREE_BOOKSHELF.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_SAPLING_ITEM = ITEMS.register("stellar_jungle_tree_sapling", () -> new BlockItem(STELLAR_JUNGLE_TREE_SAPLING.get(), new Item.Properties()));
+	public static final RegistryObject<Item> DEAD_STELLAR_JUNGLE_TREE_LOG_ITEM = ITEMS.register("dead_stellar_jungle_tree_log", () -> new BurnableBlockItem(DEAD_STELLAR_JUNGLE_TREE_LOG.get(), new Item.Properties(), 300));
 
 	//shroom
 	public static final RegistryObject<RotatedPillarBlock> GIANT_CORTINARIUS_VIOLACEUS_STEM = BLOCKS.register("giant_cortinarius_violaceus_stem", () -> new RotatedPillarBlock(SHROOM_MATERIAL));

@@ -92,6 +92,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_PLANKS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_BOOKSHELF_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_SAPLING_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.DEAD_STELLAR_JUNGLE_TREE_LOG_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_STEM_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM_ITEM.get());
