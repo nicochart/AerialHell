@@ -101,6 +101,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.GLOWING_BOLETUS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.TALL_GLOWING_BOLETUS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.BLUE_MEANIE_CLUSTER_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GIANT_ROOT_SHROOM_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.GIANT_VERDIGRIS_AGARIC_STEM_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM_ITEM.get());

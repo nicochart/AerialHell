@@ -53,4 +53,5 @@ public class AerialHellFeatures
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> GIANT_CRYSTAL_BLOB = FEATURES.register("giant_crystal_blob", () -> new GiantCrystalBlobFeature(NoneFeatureConfiguration.CODEC));
 
 	public static final RegistryObject<RandomPatchInDarkAreaFeature> RANDOM_PATCH_IN_DARK_AREA = FEATURES.register("random_patch_in_dark_area", () -> new RandomPatchInDarkAreaFeature(RandomPatchConfiguration.CODEC));
+	public static final RegistryObject<SingleBlockNeedingSupportFeature> SINGLE_BLOCK_NEEDING_SUPPORT = FEATURES.register("single_block_needing_support", () -> new SingleBlockNeedingSupportFeature(SingleBlockNeedingSupportConfig.CODEC));
 }

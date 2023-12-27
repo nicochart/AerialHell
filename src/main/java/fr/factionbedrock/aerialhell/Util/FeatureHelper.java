@@ -45,7 +45,7 @@ public class FeatureHelper
         });
     }
 
-    public static BlockPos getFeatureCenter(FeaturePlaceContext<NoneFeatureConfiguration> context)
+    public static BlockPos getFeatureCenter(FeaturePlaceContext<?> context)
     {
         BlockPos origin = context.origin();
         int x = origin.getX(), y = origin.getY(), z = origin.getZ();
@@ -62,6 +62,12 @@ public class FeatureHelper
         int centerOfFeatureX = chunkX * 16 + 8;
         int centerOfFeatureZ = chunkZ * 16 + 8;
         return new BlockPos(centerOfFeatureX, y, centerOfFeatureZ);
+    }
+
+    public static BlockPos getRandomPosInFeatureRegion(BlockPos featureCenter, RandomSource rand)
+    {
+        int MAX_Y_DISTANCE_FROM_CENTER = 30, MAX_XZ_DISTANCE_FROM_CENTER = 23;
+        return featureCenter.offset(rand.nextInt(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER), rand.nextInt(- MAX_Y_DISTANCE_FROM_CENTER, MAX_Y_DISTANCE_FROM_CENTER), rand.nextInt(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER));
     }
 
     public static boolean isBlockPosInFeatureRegion(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos pos)

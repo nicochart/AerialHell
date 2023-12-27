@@ -1,0 +1,13 @@
+{
+  "type": "aerialhell:single_block_needing_support",
+  "config": {
+    "max_tries": 25,
+    "support": {"state": {"Name": "aerialhell:giant_root"}},
+    "block": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "aerialhell:giant_root_shroom"
+      }
+    }
+  }
+}
