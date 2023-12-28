@@ -65,6 +65,7 @@ public abstract class AbstractAerialHellStructure extends Structure
         if (!this.isStructureChunk(context)) {return Optional.empty();}
 
         int startY = this.startHeight.sample(context.random(), new WorldGenerationContext(context.chunkGenerator(), context.heightAccessor()));
+        if (startY < 10) {return Optional.empty();}
 
         ChunkPos chunkPos = context.chunkPos();
         BlockPos blockPos = new BlockPos(chunkPos.getMinBlockX(), startY, chunkPos.getMinBlockZ());

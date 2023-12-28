@@ -72,7 +72,7 @@ public class SlipperySandFeature extends Feature<NoneFeatureConfiguration>
     private boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
     {
     	BlockState previousBlock = reader.getBlockState(blockPos);
-    	if (previousBlock.isAir() || previousBlock.is(AerialHellTags.Blocks.FEATURE_CAN_REPLACE)) {return true;}
+    	if (previousBlock.isAir() || previousBlock.is(AerialHellTags.Blocks.FEATURE_CAN_REPLACE) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT)) {return true;}
     	else {return false;}
     }
     

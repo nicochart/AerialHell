@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "#aerialhell:stellar_dirt",
     "#aerialhell:aerialhell_plants",
-    "#aerialhell:solid_ether"
+    "#aerialhell:solid_ether",
+    "minecraft:vine"
   ]
 }

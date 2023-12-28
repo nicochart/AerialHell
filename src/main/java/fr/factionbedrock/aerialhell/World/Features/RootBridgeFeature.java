@@ -287,6 +287,6 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
     private boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
     {
     	BlockState previousBlock = reader.getBlockState(blockPos);
-        return previousBlock.isAir() || previousBlock.is(AerialHellTags.Blocks.FEATURE_CAN_REPLACE) || previousBlock.is(AerialHellBlocksAndItems.STELLAR_STONE.get());
+        return previousBlock.isAir() || previousBlock.is(AerialHellTags.Blocks.FEATURE_CAN_REPLACE) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.is(AerialHellBlocksAndItems.STELLAR_STONE.get());
     }
 }

@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 
 public class LargeDeadLogFeature extends Feature<NoneFeatureConfiguration>
 {
-	private Supplier<LargeDeadLogBlock> block;
+	private final Supplier<LargeDeadLogBlock> block;
 	public LargeDeadLogFeature(Codec<NoneFeatureConfiguration> codec, Supplier<LargeDeadLogBlock> block) {super(codec); this.block = block;}
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
@@ -41,27 +41,31 @@ public class LargeDeadLogFeature extends Feature<NoneFeatureConfiguration>
 		int lenght = 3 + rand.nextInt(5);
 
 		BlockPos.MutableBlockPos placementPos = pos.mutable();
+		int percentageSupported = percentageOfLogThatHaveSupport(level, pos, generationDirection, lenght);
+		if (percentageSupported < 50 && percentageOfLogThatHaveSupport(level, pos.below(), generationDirection, lenght) > percentageSupported) {placementPos.move(Direction.DOWN, 1);}
+
 		for (int i=0; i<lenght; i++)
 		{
-			place4blocks(level, placementPos, generationDirection);
+			place4blocks(context, placementPos, generationDirection);
 			placementPos.move(generationDirection, 1);
 		}
 	}
 
-	protected void place4blocks(WorldGenLevel level, BlockPos.MutableBlockPos pos, Direction generationDirection)
+	protected void place4blocks(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos.MutableBlockPos pos, Direction generationDirection)
 	{
+		WorldGenLevel level = context.level(); RandomSource rand = context.random();
 		BlockState aboveLeft = block.get().getStateForPlacement(generationDirection.getCounterClockWise(), Half.TOP);
 		BlockState aboveRight = block.get().getStateForPlacement(generationDirection.getClockWise(), Half.TOP);
 		BlockState belowLeft = block.get().getStateForPlacement(generationDirection.getCounterClockWise(), Half.BOTTOM);
 		BlockState belowRight = block.get().getStateForPlacement(generationDirection.getClockWise(), Half.BOTTOM);
 
-		tryPlacingBlock(level, pos, belowRight);
+		tryPlacingBlock(level, pos, belowRight, rand);
 		pos.move(generationDirection.getCounterClockWise(), 1);
-		tryPlacingBlock(level, pos, belowLeft);
+		tryPlacingBlock(level, pos, belowLeft, rand);
 		pos.move(Direction.UP, 1);
-		tryPlacingBlock(level, pos, aboveLeft);
+		tryPlacingBlock(level, pos, aboveLeft, rand);
 		pos.move(generationDirection.getClockWise(), 1);
-		tryPlacingBlock(level, pos, aboveRight);
+		tryPlacingBlock(level, pos, aboveRight, rand);
 		pos.move(Direction.DOWN, 1);
 	}
 
@@ -80,16 +84,33 @@ public class LargeDeadLogFeature extends Feature<NoneFeatureConfiguration>
 		return null;
 	}
 
+	private int percentageOfLogThatHaveSupport(WorldGenLevel level, BlockPos pos, Direction generationDirection, int lenght)
+	{
+		int i, count = 0, reachableTotal = lenght*2;
+		for (i=0; i<lenght; i++)
+		{
+			if (hasSupportToGenerate(level, pos.relative(generationDirection, i))) {count++;}
+			if (hasSupportToGenerate(level, pos.relative(generationDirection, i).relative(generationDirection.getCounterClockWise(), 1))) {count++;}
+		}
+		return (int) (100.0 * count / reachableTotal);
+	}
+
 	private boolean hasSupportToGenerate(WorldGenLevel level, BlockPos pos)
 	{
 		return level.isEmptyBlock(pos) && level.getBlockState(pos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT);
 	}
 
-	private void tryPlacingBlock(WorldGenLevel level, BlockPos.MutableBlockPos pos, BlockState state) {if (isReplaceable(level, pos)) {level.setBlock(pos, state, 0);}}
+	private void tryPlacingBlock(WorldGenLevel level, BlockPos.MutableBlockPos pos, BlockState state, RandomSource rand) {if (isReplaceable(level, pos) || isPossiblyReplaceable(level, pos, rand)) {level.setBlock(pos, state, 0);}}
 
 	private boolean isReplaceable(WorldGenLevel level, BlockPos blockPos)
 	{
 		BlockState previousBlock = level.getBlockState(blockPos);
-		return previousBlock.isAir() || previousBlock.is(AerialHellTags.Blocks.FEATURE_CAN_REPLACE) || previousBlock.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get());
+		return previousBlock.isAir() || previousBlock.is(AerialHellTags.Blocks.FEATURE_CAN_REPLACE);
+	}
+
+	private boolean isPossiblyReplaceable(WorldGenLevel level, BlockPos blockPos, RandomSource rand)
+	{
+		BlockState previousBlock = level.getBlockState(blockPos);
+		return (previousBlock.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && (rand.nextInt(2) == 0)) || ((previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT)) && (rand.nextInt(3) == 0));
 	}
 }
