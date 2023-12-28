@@ -64,9 +64,9 @@ public class FeatureHelper
         return new BlockPos(centerOfFeatureX, y, centerOfFeatureZ);
     }
 
-    public static BlockPos getRandomPosInFeatureRegion(BlockPos featureCenter, RandomSource rand)
+    public static BlockPos getRandomPosInFeatureRegion(BlockPos featureCenter, RandomSource rand, int MAX_XZ_DISTANCE_FROM_CENTER, int MAX_Y_DISTANCE_FROM_CENTER)
     {
-        int MAX_Y_DISTANCE_FROM_CENTER = 30, MAX_XZ_DISTANCE_FROM_CENTER = 23;
+        //MAX_XZ_DISTANCE_FROM_CENTER must be <= 23
         return featureCenter.offset(rand.nextInt(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER), rand.nextInt(- MAX_Y_DISTANCE_FROM_CENTER, MAX_Y_DISTANCE_FROM_CENTER), rand.nextInt(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER));
     }
 

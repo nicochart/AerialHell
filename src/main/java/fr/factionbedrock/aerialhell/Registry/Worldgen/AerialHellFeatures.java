@@ -26,6 +26,8 @@ public class AerialHellFeatures
 	public static final RegistryObject<AerialHellTwistingVinesFeature> DEAD_ROOTS = FEATURES.register("dead_roots", () -> new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC, () -> AerialHellBlocksAndItems.DEAD_ROOTS.get(), () -> AerialHellBlocksAndItems.DEAD_ROOTS_PLANT.get()));
 	public static final RegistryObject<AerialHellTwistingVinesFeature> GLOWING_ROOTS = FEATURES.register("glowing_roots", () -> new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC, () -> AerialHellBlocksAndItems.GLOWING_ROOTS.get(), () -> AerialHellBlocksAndItems.GLOWING_ROOTS_PLANT.get()));
 
+	public static final RegistryObject<LargeDeadLogFeature> LARGE_DEAD_STELLAR_JUNGLE_TREE_LOG = FEATURES.register("large_dead_stellar_jungle_tree_log", () -> new LargeDeadLogFeature(NoneFeatureConfiguration.CODEC, () -> AerialHellBlocksAndItems.DEAD_STELLAR_JUNGLE_TREE_LOG.get()));
+
 	public static final RegistryObject<ChorusLikeFeature> FULL_MOON_PLANT = FEATURES.register("full_moon_plant", () -> new ChorusLikeFeature(ChorusLikePlantConfig.CODEC));
 
 	public static final RegistryObject<VerticalGrowingPlantFeature> CLIMBING_VINE = FEATURES.register("climbing_vine", () -> new VerticalGrowingPlantFeature(VerticalGrowingPlantConfig.CODEC, () -> AerialHellBlocksAndItems.CLIMBING_VINE.get()));

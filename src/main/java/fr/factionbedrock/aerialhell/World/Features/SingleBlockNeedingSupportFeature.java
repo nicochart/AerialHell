@@ -38,7 +38,7 @@ public class SingleBlockNeedingSupportFeature extends Feature<SingleBlockNeeding
 
 		for (int i=0; i<maxTries; i++)
 		{
-			testedPos = FeatureHelper.getRandomPosInFeatureRegion(featureCenter, context.random());
+			testedPos = FeatureHelper.getRandomPosInFeatureRegion(featureCenter, context.random(), 23, 30);
 			while (level.getBlockState(testedPos).is(support)) {testedPos = testedPos.above();}
 			if (hasSupportToGenerate(support, level, testedPos)) {return testedPos;}
 		}

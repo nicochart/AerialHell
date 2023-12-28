@@ -1,0 +1,27 @@
+{
+  "feature": "aerialhell:large_dead_stellar_jungle_tree_log",
+  "placement": [
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 1
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "min_inclusive": {
+          "absolute": 20
+        },
+        "max_inclusive": {
+          "absolute": 80
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

@@ -64,8 +64,13 @@ public class LargeDeadLogBlock extends Block
     {
         Direction direction = placeContext.getClickedFace();
         BlockPos blockpos = placeContext.getClickedPos();
-        BlockState blockstate = this.defaultBlockState().setValue(FACING, placeContext.getHorizontalDirection()).setValue(HALF, direction != Direction.DOWN && (direction == Direction.UP || !(placeContext.getClickLocation().y - (double)blockpos.getY() > 0.5D)) ? Half.BOTTOM : Half.TOP);
+        BlockState blockstate = getStateForPlacement(placeContext.getHorizontalDirection(), direction != Direction.DOWN && (direction == Direction.UP || !(placeContext.getClickLocation().y - (double)blockpos.getY() > 0.5D)) ? Half.BOTTOM : Half.TOP);
         return blockstate;
+    }
+
+    public BlockState getStateForPlacement(Direction direction, Half half)
+    {
+        return this.defaultBlockState().setValue(FACING, direction).setValue(HALF, half);
     }
 
     @Override public BlockState updateShape(BlockState previousState, Direction direction, BlockState newState, LevelAccessor level, BlockPos pos1, BlockPos pos2)

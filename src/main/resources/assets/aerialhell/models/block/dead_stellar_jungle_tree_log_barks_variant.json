@@ -3,6 +3,6 @@
     "textures": {
 	"log": "aerialhell:block/dead_stellar_jungle_tree_log",
 	"log_top": "aerialhell:block/stellar_jungle_tree_log_top",
-	"inside": "aerialhell:block/dead_stellar_jungle_tree_log_inside"
+	"inside": "aerialhell:block/dead_stellar_jungle_tree_log_inside_barks_variant"
     }
 }
