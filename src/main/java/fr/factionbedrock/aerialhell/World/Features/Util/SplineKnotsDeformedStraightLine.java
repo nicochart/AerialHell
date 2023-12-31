@@ -1,8 +1,10 @@
 package fr.factionbedrock.aerialhell.World.Features.Util;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import org.joml.Vector3f;
@@ -27,7 +29,7 @@ public class SplineKnotsDeformedStraightLine extends StraightLine
         }
     }
 
-    @Override public BlockPos generate()
+    @Override public BlockPos generate(boolean generateDebug)
     {
         int i = 0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(this.straightLineParams.getStart(), this.straightLineParams.getEnd());
 
@@ -41,7 +43,18 @@ public class SplineKnotsDeformedStraightLine extends StraightLine
             tryPlacingBlocks(placementPos);
             i++;
         }
+        if (generateDebug) {this.generateDebug();}
         return new BlockPos(placementPos);
+    }
+
+    @Override public void generateDebug()
+    {
+        super.generateDebug();
+        //spline knots position
+        for (int i=0; i<knotsNumber; i++)
+        {
+            this.context.level().setBlock(knots[i], AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_FIBER_LANTERN.get().defaultBlockState(), 0);
+        }
     }
 
     private Vector3f getPosKnotsDeformationVector(BlockPos deformedPos)

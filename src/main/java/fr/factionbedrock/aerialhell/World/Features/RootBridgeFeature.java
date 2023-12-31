@@ -58,14 +58,14 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         effectiveIntermediatePos1 = generateBridge(context, bridgeStart, intermediatePos, generateDebug);
         effectiveIntermediatePos2 = generateBridge(context, bridgeEnd, intermediatePos, generateDebug);
         StraightRootBridge line = new StraightRootBridge(context, new StraightLine.StraightLineParameters(effectiveIntermediatePos1, effectiveIntermediatePos2), () -> AerialHellBlocksAndItems.GIANT_ROOT.get());
-        line.generate();
+        line.generate(generateDebug);
         line = null;
     }
 
     protected BlockPos generateBridge(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)
     {
         RootBridge spline = new RootBridge(context, new StraightLine.StraightLineParameters(bridgeStart, bridgeEnd), 2, KNOTS_PARAMETERS, () -> AerialHellBlocksAndItems.GIANT_ROOT.get());
-        BlockPos lastPos = spline.generate();
+        BlockPos lastPos = spline.generate(generateDebug);
         spline = null;
         return lastPos;
     }

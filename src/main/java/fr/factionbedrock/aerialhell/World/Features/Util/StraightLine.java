@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features.Util;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.core.BlockPos;
@@ -25,7 +26,7 @@ public class StraightLine
         this.block = block;
     }
 
-    public BlockPos generate() //returns last placed block pos
+    public BlockPos generate(boolean generateDebug) //returns last placed block pos
     {
         int i = 0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(this.straightLineParams.getStart(), this.straightLineParams.getEnd());
 
@@ -37,7 +38,17 @@ public class StraightLine
             tryPlacingBlocks(placementPos);
             i++;
         }
+        if (generateDebug) {this.generateDebug();}
         return placementPos;
+    }
+
+    public void generateDebug()
+    {
+        FeatureHelper.generateDebug(this.context);
+        WorldGenLevel level = context.level();
+        //start and end position
+        level.setBlock(this.straightLineParams.getStart(), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);
+        level.setBlock(this.straightLineParams.getEnd(), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);
     }
 
     private Vector3f getStraightLineGenerationStepMoveVector()

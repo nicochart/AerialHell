@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Util;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellBiomes;
 import net.minecraft.resources.ResourceLocation;
@@ -103,5 +104,32 @@ public class FeatureHelper
         Vector3f vector2 = new Vector3f(rand.nextInt(10), rand.nextInt(10), rand.nextInt(10));
         if (vector2.x / vector1.x == vector2.y / vector1.y) {vector2.x = - vector2.x / 2;} //quickly handle the case where vector1 and vector2 may be collinear
         return new Vector3f(vector1.y * vector2.z - vector1.z * vector2.y, vector1.z * vector2.x - vector1.x * vector2.z, vector1.x * vector2.y - vector1.y * vector2.x);
+    }
+
+    public static void generateDebug(FeaturePlaceContext<?> context)
+    {
+        WorldGenLevel reader = context.level();
+        BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
+        for (int i = -50; i <= 50; i++)
+        {
+            reader.setBlock(centerOfFeature.offset(i, 0, 0), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
+            reader.setBlock(centerOfFeature.offset(0, i, 0), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
+            reader.setBlock(centerOfFeature.offset(0, 0, i), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
+        }
+
+        //feature center
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                for (int z = -1; z <= 1; z++)
+                {
+                    reader.setBlock(centerOfFeature.offset(x, y, z), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);
+                }
+            }
+        }
+
+        //feature origin
+        reader.setBlock(context.origin(), AerialHellBlocksAndItems.CRYSTAL_BRICKS.get().defaultBlockState(), 0);
     }
 }
