@@ -4,25 +4,26 @@ import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedStraightLine;
+import fr.factionbedrock.aerialhell.World.Features.Util.StraightLine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
 {
     private final int MIN_ABS_XZ_OFFSET = 15, MAX_ABS_XZ_OFFSET = 22; //max bridge start-end xz distance from center of worldgen feature
     private final int MIN_ABS_Y_OFFSET = 5, MAX_ABS_Y_OFFSET = 15; //max bridge start-end y distance from center of worldgen feature
 
-    private final int KNOT_MIN_DISTANCE_TO_STRAIGHT_BRIDGE = 8, KNOT_MAX_DISTANCE_TO_STRAIGHT_BRIDGE = 16; //min and max distance to bridge before deformation
-    private final float KNOT_DEFORMATION_MULTIPLIER = 0.3F;
-    private final int KNOT_DEFORMATION_MIN_DISTANCE = 5, KNOT_DEFORMATION_MAX_DISTANCE = 20; //max = distance at which deformation start, min = distance at which deformation is maximum
+    private final SplineKnotsDeformedStraightLine.KnotsParameters KNOTS_PARAMETERS = new SplineKnotsDeformedStraightLine.KnotsParameters(8, 16, 0.3F, 5, 20);
 
     public RootBridgeFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
@@ -56,71 +57,17 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         BlockPos effectiveIntermediatePos1, effectiveIntermediatePos2, intermediatePos = getRandomIntermediatePos(context,  bridgeStart, bridgeEnd, 10);
         effectiveIntermediatePos1 = generateBridge(context, bridgeStart, intermediatePos, generateDebug);
         effectiveIntermediatePos2 = generateBridge(context, bridgeEnd, intermediatePos, generateDebug);
-        generateStraightBridge(context, effectiveIntermediatePos1, effectiveIntermediatePos2);
+        StraightRootBridge line = new StraightRootBridge(context, new StraightLine.StraightLineParameters(effectiveIntermediatePos1, effectiveIntermediatePos2), () -> AerialHellBlocksAndItems.GIANT_ROOT.get());
+        line.generate();
+        line = null;
     }
 
     protected BlockPos generateBridge(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)
     {
-        Vector3f moveStepVector = getPlacementStepMoveVector(bridgeStart, bridgeEnd);
-        int i = 0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(bridgeStart, bridgeEnd);
-
-        BlockPos knot1 = getRandomKnot(context, bridgeStart, bridgeEnd, 15), knot2 = getRandomKnot(context, bridgeStart, bridgeEnd, 15); //spline knots
-
-    	BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
-        placementPos.set(bridgeStart);
-        while(!placementPos.equals(bridgeEnd) && i <= maxAbsOffset)
-        {
-            BlockPos pos = new BlockPos((int) (i * moveStepVector.x), (int) (i * moveStepVector.y), (int) (i * moveStepVector.z));
-            placementPos.set(bridgeStart.offset(pos));
-
-            Vector3f knotsDeformationVector = getKnotsDeformationVector(placementPos, knot1, knot2);
-            placementPos.move((int) knotsDeformationVector.x, (int) knotsDeformationVector.y, (int) knotsDeformationVector.z);
-            tryPlacingRootBlocks(context, placementPos);
-            i++;
-        }
-
-        if (generateDebug) {generateDebug(context, bridgeStart, bridgeEnd, knot1, knot2);}
-        return new BlockPos(placementPos);
-    }
-
-    protected void generateStraightBridge(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd)
-    {
-        Vector3f moveStepVector = getPlacementStepMoveVector(bridgeStart, bridgeEnd);
-        int i = 0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(bridgeStart, bridgeEnd);
-
-        BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
-        placementPos.set(bridgeStart);
-        while(!placementPos.equals(bridgeEnd) && i <= maxAbsOffset)
-        {
-            BlockPos pos = new BlockPos((int) (i * moveStepVector.x), (int) (i * moveStepVector.y), (int) (i * moveStepVector.z));
-            placementPos.set(bridgeStart.offset(pos));
-            tryPlacingRootBlocks(context, placementPos);
-            i++;
-        }
-    }
-
-    protected void generateDebug(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, BlockPos knot1, BlockPos knot2)
-    {
-        WorldGenLevel reader = context.level();
-        BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
-        for (int i=-50; i<=50; i++)
-        {
-            reader.setBlock(centerOfFeature.offset(i, 0, 0), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
-            reader.setBlock(centerOfFeature.offset(0, i, 0), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
-            reader.setBlock(centerOfFeature.offset(0, 0, i), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
-        }
-
-        //tmp, to check feature center
-        for (int x=-1; x<=1; x++) {for (int y=-1; y<=1; y++) {for (int z=-1; z<=1; z++) {reader.setBlock(centerOfFeature.offset(x, y, z), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);}}}
-        //tmp, to check bridge start and end position
-        reader.setBlock(bridgeStart, AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);
-        reader.setBlock(bridgeEnd, AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);
-
-        //tmp, to check spline knots position
-        reader.setBlock(knot1, AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_FIBER_LANTERN.get().defaultBlockState(), 0); //TMP
-        reader.setBlock(knot2, AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_FIBER_LANTERN.get().defaultBlockState(), 0); //TMP
-
-        reader.setBlock(context.origin(), AerialHellBlocksAndItems.CRYSTAL_BRICKS.get().defaultBlockState(), 0);
+        RootBridge spline = new RootBridge(context, new StraightLine.StraightLineParameters(bridgeStart, bridgeEnd), 2, KNOTS_PARAMETERS, () -> AerialHellBlocksAndItems.GIANT_ROOT.get());
+        BlockPos lastPos = spline.generate();
+        spline = null;
+        return lastPos;
     }
 
     @Nullable protected BlockPos getRandomBridgeStart(WorldGenLevel reader, RandomSource rand, BlockPos centerOfFeature, int tries)
@@ -187,58 +134,6 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         return centerOfFeature;
     }
 
-    protected BlockPos getRandomKnot(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, int maxTries)
-    {
-        RandomSource rand = context.random();
-        BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
-        Vector3f moveStepVector = getPlacementStepMoveVector(bridgeStart, bridgeEnd);
-        int i=0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(bridgeStart, bridgeEnd);
-
-        BlockPos knot;
-        while (i++ < maxTries)
-        {
-            int randomStep = maxAbsOffset > 1 ? rand.nextInt(1, maxAbsOffset) : 1;
-            int sign = rand.nextInt(2) == 0 ? -1 : 1;
-            int knotOffsetFromBridge = sign * rand.nextInt(KNOT_MIN_DISTANCE_TO_STRAIGHT_BRIDGE , KNOT_MAX_DISTANCE_TO_STRAIGHT_BRIDGE);
-            Vector3f offsetVector = FeatureHelper.getRandomOrthogonalVectorToLineDefinedWith2Points(bridgeStart, bridgeEnd, rand).normalize(knotOffsetFromBridge);
-            knot = bridgeStart.offset((int) (randomStep * moveStepVector.x), (int) (randomStep * moveStepVector.y), (int) (randomStep * moveStepVector.z))
-                    .offset((int) offsetVector.x, (int) offsetVector.y, (int) offsetVector.z);
-            if (FeatureHelper.isBlockPosInFeatureRegion(centerOfFeature, knot)) {return knot;}
-        }
-        //can't find any knot in feature region
-        return centerOfFeature;
-    }
-
-    private Vector3f getPlacementStepMoveVector(BlockPos bridgeStart, BlockPos bridgeEnd)
-    {
-        int maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(bridgeStart, bridgeEnd);
-
-        float xStep = (float) (bridgeEnd.getX() - bridgeStart.getX()) / maxAbsOffset;
-        float yStep = (float) (bridgeEnd.getY() - bridgeStart.getY()) / maxAbsOffset;
-        float zStep = (float) (bridgeEnd.getZ() - bridgeStart.getZ()) / maxAbsOffset;
-        return new Vector3f(xStep, yStep, zStep);
-    }
-
-    private Vector3f getKnotsDeformationVector(BlockPos pos, BlockPos knot1, BlockPos knot2)
-    {
-        Vector3f deformationVector1 = getKnotDeformationVector(pos, knot1);
-        Vector3f deformationVector2 = getKnotDeformationVector(pos, knot2);
-        return new Vector3f(deformationVector1.x + deformationVector2.x, deformationVector1.y + deformationVector2.y, deformationVector1.z + deformationVector2.z);
-    }
-
-    private Vector3f getKnotDeformationVector(BlockPos pos, BlockPos knot)
-    {
-        float knotDeformationFactor = getKnotDeformationFactor((float) Math.sqrt(pos.distSqr(knot)));
-        return new Vector3f(knot.getX() - pos.getX(), knot.getY() - pos.getY(), knot.getZ() - pos.getZ()).normalize(knotDeformationFactor * KNOT_DEFORMATION_MULTIPLIER);
-    }
-
-    private float getKnotDeformationFactor(float distanceToKnot)
-    {
-        if (distanceToKnot <= KNOT_DEFORMATION_MIN_DISTANCE) {return KNOT_DEFORMATION_MAX_DISTANCE - KNOT_DEFORMATION_MIN_DISTANCE;}
-        else if (distanceToKnot <= KNOT_DEFORMATION_MAX_DISTANCE) {return KNOT_DEFORMATION_MAX_DISTANCE - distanceToKnot;}
-        else /*if (distanceToKnot > KNOT_DEFORMATION_MAX_DISTANCE)*/ {return 0;}
-    }
-
     private int getRandomOffset(RandomSource rand, int minAbs, int maxAbs)
     {
         int sign = rand.nextInt(2) == 0 ? -1 : 1;
@@ -261,32 +156,25 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         for (int x=-1; x<=1; x++) {for (int y=-1; y<=1; y++) {for (int z=-1; z<=1; z++) {if (!reader.getBlockState(pos.offset(x, y, z)).isAir()) {return false;}}}} return true;
     }
 
-    private void tryPlacingRootBlocks(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos.MutableBlockPos pos)
+    private static class StraightRootBridge extends StraightLine
     {
-        tryPlacingRootBlock(context, pos);
-        pos.move(1, 0, 0);
-        tryPlacingRootBlock(context, pos);
-        pos.move(-2, 0, 0);
-        tryPlacingRootBlock(context, pos);
-        pos.move(1, 1, 0);
-        tryPlacingRootBlock(context, pos);
-        pos.move(0, -2, 0);
-        tryPlacingRootBlock(context, pos);
-        pos.move(0, 1, 1);
-        tryPlacingRootBlock(context, pos);
-        pos.move(0, 0, -2);
-        tryPlacingRootBlock(context, pos);
+        public StraightRootBridge(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams, Supplier<Block> block) {super(context, straightLineParams, block);}
+
+        @Override protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
+        {
+            BlockState previousBlock = reader.getBlockState(blockPos);
+            return super.isReplaceable(reader, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.is(AerialHellBlocksAndItems.STELLAR_STONE.get());
+        }
     }
 
-    private void tryPlacingRootBlock(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos.MutableBlockPos pos)
+    private static class RootBridge extends SplineKnotsDeformedStraightLine
     {
-        WorldGenLevel reader = context.level();
-        if (isReplaceable(reader, pos) /*&& FeatureHelper.isBlockPosInFeatureRegion(context, pos)*/) {reader.setBlock(pos, AerialHellBlocksAndItems.GIANT_ROOT.get().defaultBlockState(), 0);}
-    }
+        public RootBridge(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams, int knotsNumber, KnotsParameters knotsParameters, Supplier<Block> block) {super(context, straightLineParams, knotsNumber, knotsParameters, block);}
 
-    private boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
-    {
-    	BlockState previousBlock = reader.getBlockState(blockPos);
-        return previousBlock.isAir() || previousBlock.is(AerialHellTags.Blocks.FEATURE_CAN_REPLACE) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.is(AerialHellBlocksAndItems.STELLAR_STONE.get());
+        @Override protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
+        {
+            BlockState previousBlock = reader.getBlockState(blockPos);
+            return super.isReplaceable(reader, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.is(AerialHellBlocksAndItems.STELLAR_STONE.get());
+        }
     }
 }
