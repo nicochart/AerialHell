@@ -23,7 +23,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
     private final int MIN_ABS_XZ_OFFSET = 15, MAX_ABS_XZ_OFFSET = 22; //max bridge start-end xz distance from center of worldgen feature
     private final int MIN_ABS_Y_OFFSET = 5, MAX_ABS_Y_OFFSET = 15; //max bridge start-end y distance from center of worldgen feature
 
-    private final SplineKnotsDeformedStraightLine.KnotsParameters KNOTS_PARAMETERS = new SplineKnotsDeformedStraightLine.KnotsParameters(8, 16, 0.3F, 5, 20);
+    private static final SplineKnotsDeformedStraightLine.KnotsParameters KNOTS_PARAMETERS = new SplineKnotsDeformedStraightLine.KnotsParameters(8, 16, 0.3F, 5, 20);
 
     public RootBridgeFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
@@ -57,14 +57,14 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         BlockPos effectiveIntermediatePos1, effectiveIntermediatePos2, intermediatePos = getRandomIntermediatePos(context,  bridgeStart, bridgeEnd, 10);
         effectiveIntermediatePos1 = generateBridge(context, bridgeStart, intermediatePos, generateDebug);
         effectiveIntermediatePos2 = generateBridge(context, bridgeEnd, intermediatePos, generateDebug);
-        StraightRootBridge line = new StraightRootBridge(context, new StraightLine.StraightLineParameters(effectiveIntermediatePos1, effectiveIntermediatePos2), () -> AerialHellBlocksAndItems.GIANT_ROOT.get());
+        StraightRootBridge line = new StraightRootBridge(context, new StraightLine.StraightLineParameters(effectiveIntermediatePos1, effectiveIntermediatePos2));
         line.generate(generateDebug);
         line = null;
     }
 
     protected BlockPos generateBridge(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)
     {
-        RootBridge spline = new RootBridge(context, new StraightLine.StraightLineParameters(bridgeStart, bridgeEnd), 2, KNOTS_PARAMETERS, () -> AerialHellBlocksAndItems.GIANT_ROOT.get());
+        RootBridge spline = new RootBridge(context, new StraightLine.StraightLineParameters(bridgeStart, bridgeEnd), 2 + context.random().nextInt(8) == 0 ? 1 : 0);
         BlockPos lastPos = spline.generate(generateDebug);
         spline = null;
         return lastPos;
@@ -158,7 +158,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
 
     private static class StraightRootBridge extends StraightLine
     {
-        public StraightRootBridge(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams, Supplier<Block> block) {super(context, straightLineParams, block);}
+        public StraightRootBridge(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams) {super(context, straightLineParams, () -> AerialHellBlocksAndItems.GIANT_ROOT.get());}
 
         @Override protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
         {
@@ -169,7 +169,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
 
     private static class RootBridge extends SplineKnotsDeformedStraightLine
     {
-        public RootBridge(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams, int knotsNumber, KnotsParameters knotsParameters, Supplier<Block> block) {super(context, straightLineParams, knotsNumber, knotsParameters, block);}
+        public RootBridge(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams, int knotsNumber) {super(context, straightLineParams, knotsNumber, KNOTS_PARAMETERS, () -> AerialHellBlocksAndItems.GIANT_ROOT.get());}
 
         @Override protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
         {
