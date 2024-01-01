@@ -4,9 +4,7 @@ import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import fr.factionbedrock.aerialhell.World.Features.Util.Ellipsoid;
-import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedStraightLine;
-import fr.factionbedrock.aerialhell.World.Features.Util.StraightLine;
+import fr.factionbedrock.aerialhell.World.Features.Util.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
@@ -18,7 +16,8 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 
 public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
 {
-    private static final SplineKnotsDeformedStraightLine.KnotsParameters KNOTS_PARAMETERS = new SplineKnotsDeformedStraightLine.KnotsParameters(8, 16, 0.3F, 5, 20);
+    private static final SplineKnotsDeformedStraightLine.KnotsParameters TRUNK_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 16, 0.3F, 5, 20);
+    private static final SplineKnotsDeformedStraightLine.KnotsParameters FOLIAGE_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(4, 16, 0.35F, 5, 20);
 
     public GiantTreeFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
@@ -52,8 +51,8 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
 
     protected void generateFoliage(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos centerPos, int xzSize, int ySize)
     {
-        GiantFoliage foliage = new GiantFoliage(context, createEllipsoidParameters(xzSize, ySize));
-        foliage.generate(centerPos);
+        GiantFoliage foliage = new GiantFoliage(context, createEllipsoidParameters(xzSize, ySize), centerPos, 4);
+        foliage.generate();
         foliage = null;
     }
 
@@ -68,7 +67,7 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
 
     private static class GiantTrunk extends SplineKnotsDeformedStraightLine
     {
-        public GiantTrunk(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams, int knotsNumber) {super(context, straightLineParams, knotsNumber, KNOTS_PARAMETERS, () -> AerialHellBlocksAndItems.AERIAL_TREE_LOG.get());}
+        public GiantTrunk(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams, int knotsNumber) {super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> AerialHellBlocksAndItems.AERIAL_TREE_LOG.get());}
 
         @Override protected boolean isReplaceable(WorldGenLevel level, BlockPos blockPos)
         {
@@ -88,11 +87,11 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
         return new Ellipsoid.EllipsoidParameters(xzSize, ySize, xzSize, - xzSize, xzSize, 0, ySize, - xzSize, xzSize, 1);
     }
 
-    private static class GiantFoliage extends Ellipsoid
+    private static class GiantFoliage extends SplineKnotsDeformedEllipsoid
     {
-        public GiantFoliage(FeaturePlaceContext<?> context, Ellipsoid.EllipsoidParameters parameters)
+        public GiantFoliage(FeaturePlaceContext<?> context, Ellipsoid.EllipsoidParameters parameters, BlockPos centerPos, int knotsNumber)
         {
-            super(context, () -> AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get(), parameters, Ellipsoid.Types.CENTER_1x1);
+            super(context, () -> AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get(), parameters, centerPos, Ellipsoid.Types.CENTER_1x1, knotsNumber, FOLIAGE_KNOTS_PARAMETERS, true);
         }
 
         @Override public BlockState getStateToPlace(BlockPos pos)

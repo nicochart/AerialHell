@@ -15,16 +15,18 @@ public class Ellipsoid
     protected final FeaturePlaceContext<?> context;
     protected final EllipsoidParameters ellipsoidParams;
     protected final Types.EllipsoidType ellipsoidType;
+    protected final BlockPos centerPos;
 
-    public Ellipsoid(FeaturePlaceContext<?> context, Supplier<Block> block, EllipsoidParameters ellipsoidParams, Types.EllipsoidType type)
+    public Ellipsoid(FeaturePlaceContext<?> context, Supplier<Block> block, EllipsoidParameters ellipsoidParams, BlockPos centerPos, Types.EllipsoidType type)
     {
         this.context = context;
         this.block = block;
         this.ellipsoidParams = ellipsoidParams;
         this.ellipsoidType = type;
+        this.centerPos = centerPos;
     }
 
-    public void generate(BlockPos centerPos)
+    public void generate()
     {
         BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
         for (int y = ellipsoidParams.yForMin(); y <= ellipsoidParams.yForMax(); y++)
@@ -33,17 +35,13 @@ public class Ellipsoid
             {
                 for (int z = ellipsoidParams.zForMin(); z <= ellipsoidParams.zForMax(); z++)
                 {
-                    if (this.isPosInsideEllipsoid(x, y, z))
-                    {
-                        placementPos.set(centerPos.offset(x, y, z));
-                        tryPlacingBlock(context, placementPos);
-                    }
+                    generateInnerLoop(placementPos, x, y, z,false);
                 }
             }
         }
     }
 
-    public void generateOutsideBorder(BlockPos centerPos)
+    public void generateOutsideBorder()
     {
         BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
         for (int y = ellipsoidParams.yForMin(); y <= ellipsoidParams.yForMax(); y++)
@@ -52,15 +50,31 @@ public class Ellipsoid
             {
                 for (int z = ellipsoidParams.zForMin(); z <= ellipsoidParams.zForMax(); z++)
                 {
-                    if (!this.isPosInsideEllipsoid(x, y, z))
-                    {
-                        if (isPosAtEllipsoidBorder(x, y, z)) //if pos is at ellipsis border : try to place block
-                        {
-                            placementPos.set(centerPos.offset(x, y, z));
-                            tryPlacingBlock(context, placementPos);
-                        }
-                    }
+                    generateInnerLoop(placementPos, x, y, z,true);
                 }
+            }
+        }
+    }
+
+    protected void generateInnerLoop(BlockPos.MutableBlockPos placementPos, int x, int y, int z, boolean generateBorder)
+    {
+        if (generateBorder)
+        {
+            if (!this.isPosInsideEllipsoid(x, y, z))
+            {
+                if (isPosAtEllipsoidBorder(x, y, z)) //if pos is at ellipsis border : try to place block
+                {
+                    placementPos.set(centerPos.offset(x, y, z));
+                    tryPlacingBlock(context, placementPos);
+                }
+            }
+        }
+        else
+        {
+            if (this.isPosInsideEllipsoid(x, y, z))
+            {
+                placementPos.set(centerPos.offset(x, y, z));
+                tryPlacingBlock(context, placementPos);
             }
         }
     }
@@ -69,6 +83,15 @@ public class Ellipsoid
 
     public boolean isPosInsideEllipsoid(float xPos, float yPos, float zPos)
     {
+        float x = xPos + this.ellipsoidType.horizontalCenterOffset;
+        float y = yPos;
+        float z = zPos + this.ellipsoidType.horizontalCenterOffset;
+        return x*x/(ellipsoidParams.xSize()*ellipsoidParams.xSize()) + y*y/(ellipsoidParams.ySize()*ellipsoidParams.ySize()) + z*z/(ellipsoidParams.zSize()*ellipsoidParams.zSize()) < 1.0F;
+    }
+
+    public boolean isPosInsideGeneratedEllipsoidPart(float xPos, float yPos, float zPos) //if generate(centerPos) is called
+    {
+        if (xPos < ellipsoidParams.xForMin || xPos > ellipsoidParams.xForMax || yPos < ellipsoidParams.yForMin || yPos > ellipsoidParams.yForMax || zPos < ellipsoidParams.zForMin || zPos > ellipsoidParams.zForMax) {return false;}
         float x = xPos + this.ellipsoidType.horizontalCenterOffset;
         float y = yPos;
         float z = zPos + this.ellipsoidType.horizontalCenterOffset;

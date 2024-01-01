@@ -44,8 +44,8 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
         int capHeight = (int) (stemSize * yCapFactor);
         int yCap = (int) (stemSize * (1.0F - yCapFactor));
         BlockPos centerPos = blockPos.offset(0, yCap, 0);
-        GiantCap cap = new GiantCap(context, createEllipsoidParameters(capRadius, capHeight, 1), config.capProvider);
-        cap.generateOutsideBorder(centerPos);
+        GiantCap cap = new GiantCap(context, createEllipsoidParameters(capRadius, capHeight, 1), config.capProvider, centerPos);
+        cap.generateOutsideBorder();
     }
     
     protected void generateStem(HugeMushroomFeatureConfiguration config, LevelAccessor world, RandomSource rand, BlockPos blockPos, int stemSize)
@@ -113,9 +113,9 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
     {
         private final BlockStateProvider capProvider;
 
-        public GiantCap(FeaturePlaceContext<?> context, Ellipsoid.EllipsoidParameters parameters, BlockStateProvider capProvider)
+        public GiantCap(FeaturePlaceContext<?> context, Ellipsoid.EllipsoidParameters parameters, BlockStateProvider capProvider, BlockPos centerPos)
         {
-            super(context, () -> capProvider.getState(context.random(), FeatureHelper.getFeatureCenter(context)).getBlock(), parameters, Ellipsoid.Types.CENTER_2x2);
+            super(context, () -> capProvider.getState(context.random(), FeatureHelper.getFeatureCenter(context)).getBlock(), parameters, centerPos, Ellipsoid.Types.CENTER_2x2);
             this.capProvider = capProvider;
         }
 
