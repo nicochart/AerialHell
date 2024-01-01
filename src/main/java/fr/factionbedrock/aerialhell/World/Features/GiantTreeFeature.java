@@ -77,9 +77,9 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
 
     private boolean isPosInsideEllipsis(BlockPos pos, float a, float b, float c)
     {
-        float x = pos.getX() - 0.5F;
+        float x = pos.getX();
         float y = pos.getY();
-        float z = pos.getZ() - 0.5F;
+        float z = pos.getZ();
         return x*x/(a*a) + y*y/(b*b) + z*z/(c*c) < 1.0F;
     }
 
@@ -100,6 +100,12 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
         {
             BlockState previousBlock = level.getBlockState(blockPos);
             return super.isReplaceable(level, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT);
+        }
+
+        @Override protected void tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
+        {
+            if (step < maxStep / 8) {tryPlacingBlocksSphere(pos, 3);}
+            else {tryPlacingBlocksSphere(pos, 2);}
         }
     }
 

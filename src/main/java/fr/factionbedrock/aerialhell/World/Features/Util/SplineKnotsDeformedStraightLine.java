@@ -4,7 +4,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import org.joml.Vector3f;
@@ -40,7 +39,7 @@ public class SplineKnotsDeformedStraightLine extends StraightLine
             placementPos.set(getOffsetPosFromStart(i));
             Vector3f knotsDeformationVector = getPosKnotsDeformationVector(placementPos);
             placementPos.move((int) knotsDeformationVector.x, (int) knotsDeformationVector.y, (int) knotsDeformationVector.z);
-            tryPlacingBlocks(placementPos);
+            tryPlacingBlocks(placementPos, i, maxAbsOffset * straightLineParams.getPrecisionMultiplicator());
             i++;
         }
         if (generateDebug) {this.generateDebug();}

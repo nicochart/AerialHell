@@ -35,7 +35,7 @@ public class StraightLine
         while(!placementPos.equals(this.straightLineParams.getEnd()) && i <= maxAbsOffset * straightLineParams.precisionMultiplicator)
         {
             placementPos.set(getOffsetPosFromStart(i));
-            tryPlacingBlocks(placementPos);
+            tryPlacingBlocks(placementPos, i, maxAbsOffset * straightLineParams.precisionMultiplicator);
             i++;
         }
         if (generateDebug) {this.generateDebug();}
@@ -76,7 +76,31 @@ public class StraightLine
         return this.straightLineParams.getEnd().offset((int) (- step * this.straightLineGenStepMoveVec.x), (int) (- step * this.straightLineGenStepMoveVec.y), (int) (- step * this.straightLineGenStepMoveVec.z));
     }
 
-    protected void tryPlacingBlocks(BlockPos.MutableBlockPos pos)
+    protected void tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
+    {
+        this.tryPlacingBlocksCross(pos);
+    }
+
+    protected void tryPlacingBlocksSphere(BlockPos.MutableBlockPos pos, int radius)
+    {
+        BlockPos.MutableBlockPos placementPos = pos.mutable();
+        for (int x=-radius; x<=radius; x++)
+        {
+            for (int y=-radius; y<=radius; y++)
+            {
+                for (int z=-radius; z<=radius; z++)
+                {
+                    if (x*x + y*y + z*z <= radius*radius)
+                    {
+                        placementPos.set(pos.offset(x,y,z));
+                        tryPlacingBlock(context, placementPos);
+                    }
+                }
+            }
+        }
+    }
+
+    protected void tryPlacingBlocksCross(BlockPos.MutableBlockPos pos)
     {
         tryPlacingBlock(context, pos);
         pos.move(1, 0, 0);
@@ -94,7 +118,7 @@ public class StraightLine
         pos.move(0, 0, 1);
     }
 
-    private void tryPlacingBlock(FeaturePlaceContext<?> context, BlockPos.MutableBlockPos pos)
+    protected void tryPlacingBlock(FeaturePlaceContext<?> context, BlockPos.MutableBlockPos pos)
     {
         WorldGenLevel reader = context.level();
         if (isReplaceable(reader, pos)) {reader.setBlock(pos, block.get().defaultBlockState(), 0);}
