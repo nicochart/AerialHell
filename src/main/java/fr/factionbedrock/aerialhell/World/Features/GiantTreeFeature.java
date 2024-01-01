@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import fr.factionbedrock.aerialhell.World.Features.Util.Ellipsoid;
 import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedStraightLine;
 import fr.factionbedrock.aerialhell.World.Features.Util.StraightLine;
 import net.minecraft.core.BlockPos;
@@ -51,36 +52,9 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
 
     protected void generateFoliage(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos centerPos, int xzSize, int ySize)
     {
-        BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
-        int a,b,c; //ellipsis semi-axes length
-        a = c = xzSize; b = ySize;
-        int bonus = 1;
-        for (int y = - bonus; y <= ySize + bonus; y++)
-        {
-            for (int x = - xzSize - bonus; x <= xzSize + bonus; x++)
-            {
-                for (int z = - xzSize - bonus; z <= xzSize + bonus; z++)
-                {
-                    BlockPos ellipsisPos = new BlockPos(x, y, z);
-                    if (this.isPosInsideEllipsis(ellipsisPos, a, b, c))
-                    {
-                        placementPos.set(centerPos.offset(ellipsisPos));
-                        if (isReplaceableByFoliage(context.level(), placementPos))
-                        {
-                            context.level().setBlock(placementPos, AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get().defaultBlockState().setValue(LeavesBlock.DISTANCE, 1), 0);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private boolean isPosInsideEllipsis(BlockPos pos, float a, float b, float c)
-    {
-        float x = pos.getX();
-        float y = pos.getY();
-        float z = pos.getZ();
-        return x*x/(a*a) + y*y/(b*b) + z*z/(c*c) < 1.0F;
+        GiantFoliage foliage = new GiantFoliage(context, createEllipsoidParameters(xzSize, ySize));
+        foliage.generate(centerPos);
+        foliage = null;
     }
 
     private boolean isValidTreePos(WorldGenLevel level, BlockPos pos) {return isValidTreeSupport(level.getBlockState(pos.below())) && level.isEmptyBlock(pos) && thereIsAirAbovePosition(level, pos);}
@@ -109,9 +83,21 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
         }
     }
 
-    protected boolean isReplaceableByFoliage(WorldGenLevel level, BlockPos blockPos)
+    private Ellipsoid.EllipsoidParameters createEllipsoidParameters(int xzSize, int ySize)
     {
-        BlockState previousBlock = level.getBlockState(blockPos);
-        return previousBlock.isAir() || previousBlock.is(AerialHellTags.Blocks.FEATURE_CAN_REPLACE);
+        return new Ellipsoid.EllipsoidParameters(xzSize, ySize, xzSize, - xzSize, xzSize, 0, ySize, - xzSize, xzSize, 1);
+    }
+
+    private static class GiantFoliage extends Ellipsoid
+    {
+        public GiantFoliage(FeaturePlaceContext<?> context, Ellipsoid.EllipsoidParameters parameters)
+        {
+            super(context, () -> AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get(), parameters, Ellipsoid.Types.CENTER_1x1);
+        }
+
+        @Override public BlockState getStateToPlace(BlockPos pos)
+        {
+            return AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get().defaultBlockState().setValue(LeavesBlock.DISTANCE, 1);
+        }
     }
 }

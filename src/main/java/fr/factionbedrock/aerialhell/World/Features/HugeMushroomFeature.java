@@ -4,8 +4,10 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import fr.factionbedrock.aerialhell.World.Features.Util.Ellipsoid;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.HugeMushroomBlock;
+import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.core.Direction;
@@ -15,10 +17,11 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguration>
 {
-	public HugeMushroomFeature(Codec<HugeMushroomFeatureConfiguration> config) {super(config);}
+    public HugeMushroomFeature(Codec<HugeMushroomFeatureConfiguration> config) {super(config);}
 
     @Override public boolean place(FeaturePlaceContext<HugeMushroomFeatureConfiguration> context)
     {
@@ -29,59 +32,25 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
         if (!this.canGrow(config, world, pos, stemSize, capRadius)) {return false;}
         else
         {
-        	this.generateCap(config, world, rand, pos, stemSize, yCapFactor, capRadius);
-        	this.generateStem(config, world, rand, pos, stemSize);
+            this.generateCap(context, pos, stemSize, yCapFactor, capRadius);
+            this.generateStem(config, world, rand, pos, stemSize);
             return true;
         }
     }
     
-    protected void generateCap(HugeMushroomFeatureConfiguration config, LevelAccessor world, RandomSource rand, BlockPos blockPos, int stemSize, float yCapFactor, int capRadius)
+    protected void generateCap(FeaturePlaceContext<HugeMushroomFeatureConfiguration> context, BlockPos blockPos, int stemSize, float yCapFactor, int capRadius)
     {
-    	BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
-    	boolean downInEll,isUpCap,northInEll,southInEll,westInEll,eastInEll;
-    	int capHeight = (int) (stemSize * yCapFactor);
-    	int yCap = (int) (stemSize * (1.0F - yCapFactor));
-    	BlockPos centerPos = blockPos.offset(0, yCap, 0);
-    	float a,b,c; //ellipsis semi-axes length
-    	a = c = capRadius; b = capHeight;
-    	int bonus = 1;
-        for (int y = 0; y <= capHeight + bonus; y++)
-        {
-            for (int x = - capRadius - bonus; x <= capRadius + bonus; x++)
-            {
-                for (int z = - capRadius - bonus; z <= capRadius + bonus; z++)
-                {
-                    BlockPos pos = new BlockPos(x, y, z);
-                    if (!this.isPosInsideEllipsis(pos, a, b, c))
-                    {
-                        downInEll = isPosInsideEllipsis(pos.below(),a,b,c);
-                        northInEll = isPosInsideEllipsis(pos.north(),a,b,c);
-                        southInEll = isPosInsideEllipsis(pos.south(),a,b,c);
-                        westInEll = isPosInsideEllipsis(pos.west(),a,b,c);
-                        eastInEll = isPosInsideEllipsis(pos.east(),a,b,c);
-                        if (downInEll || northInEll || southInEll || westInEll || eastInEll) //if pos is at ellipsis border : place cap block
-                        {
-                        	isUpCap = isCapBlockPos(pos.above(), a, b, c);
-                        	placementPos.set(centerPos.offset(pos));
-                            if (FeatureHelper.isReplaceableByLogOrLeavesFeature(world, placementPos, true))
-                            {
-                                this.setBlock(world, placementPos, config.capProvider.getState(rand, placementPos)
-                                		.setValue(HugeMushroomBlock.NORTH, !northInEll)
-                                		.setValue(HugeMushroomBlock.SOUTH, !southInEll)
-                                		.setValue(HugeMushroomBlock.WEST, !westInEll)
-                                		.setValue(HugeMushroomBlock.EAST, !eastInEll)
-                                		.setValue(HugeMushroomBlock.UP, !isUpCap));
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        HugeMushroomFeatureConfiguration config = context.config();
+        int capHeight = (int) (stemSize * yCapFactor);
+        int yCap = (int) (stemSize * (1.0F - yCapFactor));
+        BlockPos centerPos = blockPos.offset(0, yCap, 0);
+        GiantCap cap = new GiantCap(context, createEllipsoidParameters(capRadius, capHeight, 1), config.capProvider);
+        cap.generateOutsideBorder(centerPos);
     }
     
     protected void generateStem(HugeMushroomFeatureConfiguration config, LevelAccessor world, RandomSource rand, BlockPos blockPos, int stemSize)
     {
-    	BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
+        BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
         for(int y = 0; y < stemSize; ++y)
         {
             for (int x = 0; x < 2; x++)
@@ -98,42 +67,21 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
         }
     }
     
-    private boolean isPosInsideEllipsis(BlockPos pos, float a, float b, float c)
-    {
-        float x = pos.getX() - 0.5F;
-        float y = pos.getY();
-        float z = pos.getZ() - 0.5F;
-        return x*x/(a*a) + y*y/(b*b) + z*z/(c*c) < 1.0F;
-    }
-    
-    private boolean isCapBlockPos(BlockPos pos, float a, float b, float c) //ellipsis border detection
-    {
-    	if (this.isPosInsideEllipsis(pos, a, b, c)) {return false;}
-    	if (isPosInsideEllipsis(pos.below(),a,b,c)) {return true;} //downInEll
-    	if (isPosInsideEllipsis(pos.north(),a,b,c)) {return true;} //northInEll
-    	if (isPosInsideEllipsis(pos.south(),a,b,c)) {return true;} //southInEll
-    	if (isPosInsideEllipsis(pos.west(),a,b,c)) {return true;} //westInEll
-    	if (isPosInsideEllipsis(pos.east(),a,b,c)) {return true;} //eastInEll
-        return false;
-    }
-    
-    
     protected boolean canGrow(HugeMushroomFeatureConfiguration config, LevelAccessor world, BlockPos blockPos, int stemSize, int capRadius)
     {
         return this.mayPlaceOn(world, blockPos)
                && canPlaceStem(config, world, blockPos, stemSize)
-        	   && blockPos.getY() >= blockPos.getY() && blockPos.getY() + stemSize + 1 < world.getHeight();
+                && blockPos.getY() >= blockPos.getY() && blockPos.getY() + stemSize + 1 < world.getHeight();
     }
     
     protected boolean canPlaceStem(HugeMushroomFeatureConfiguration config, LevelAccessor world, BlockPos blockPos, int stemSize)
     {
-    	BlockPos.MutableBlockPos placementBlockPos = new BlockPos.MutableBlockPos();
+        BlockPos.MutableBlockPos placementBlockPos = new BlockPos.MutableBlockPos();
         for (int x = 0; x < 2; x++)
         {
             for (int z = 0; z < 2; z++)
             {
-            	for(int y = 0; y <= stemSize; y++)
-            	{
+                for(int y = 0; y <= stemSize; y++) {
                     placementBlockPos.set(blockPos).move(Direction.UP, y);
                     if (!FeatureHelper.isReplaceableByLogOrLeavesFeature(world, placementBlockPos, true)) {return false;}
                 }
@@ -144,15 +92,48 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
     
     protected boolean mayPlaceOn(LevelAccessor world, BlockPos pos)
     {
-    	BlockState blockState;
+        BlockState blockState;
         for (int x = 0; x < 2; x++)
         {
             for (int z = 0; z < 2; z++)
             {
-            	blockState = world.getBlockState(pos.offset(x, -1, z));
+                blockState = world.getBlockState(pos.offset(x, -1, z));
                 if (!(blockState.is(BlockTags.MUSHROOM_GROW_BLOCK))) {return false;}
             }
         }
         return true;
+    }
+
+    private Ellipsoid.EllipsoidParameters createEllipsoidParameters(int xzSize, int ySize, int bonus)
+    {
+        return new Ellipsoid.EllipsoidParameters(xzSize, ySize, xzSize, - xzSize - bonus, xzSize + bonus, 0, ySize + bonus, - xzSize - bonus, xzSize + bonus);
+    }
+
+    private static class GiantCap extends Ellipsoid
+    {
+        private final BlockStateProvider capProvider;
+
+        public GiantCap(FeaturePlaceContext<?> context, Ellipsoid.EllipsoidParameters parameters, BlockStateProvider capProvider)
+        {
+            super(context, () -> capProvider.getState(context.random(), FeatureHelper.getFeatureCenter(context)).getBlock(), parameters, Ellipsoid.Types.CENTER_2x2);
+            this.capProvider = capProvider;
+        }
+
+        @Override public BlockState getStateToPlace(BlockPos pos)
+        {
+            int x= pos.getX(), y=pos.getY(), z= pos.getZ();
+            boolean isUpCap = isPosAtEllipsoidBorder(x, y + 1, z);
+            boolean southInEll = isPosInsideEllipsoid(x, y, z + 1);
+            boolean northInEll = isPosInsideEllipsoid(x, y, z - 1);
+            boolean eastInEll = isPosInsideEllipsoid(x + 1, y, z);
+            boolean westInEll = isPosInsideEllipsoid(x - 1, y, z);
+
+            return this.capProvider.getState(context.random(), pos)
+                    .setValue(HugeMushroomBlock.NORTH, !northInEll)
+                    .setValue(HugeMushroomBlock.SOUTH, !southInEll)
+                    .setValue(HugeMushroomBlock.WEST, !westInEll)
+                    .setValue(HugeMushroomBlock.EAST, !eastInEll)
+                    .setValue(HugeMushroomBlock.UP, !isUpCap);
+        }
     }
 }
