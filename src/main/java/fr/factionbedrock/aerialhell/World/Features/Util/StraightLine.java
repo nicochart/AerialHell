@@ -91,6 +91,7 @@ public class StraightLine
         tryPlacingBlock(context, pos);
         pos.move(0, 0, -2);
         tryPlacingBlock(context, pos);
+        pos.move(0, 0, 1);
     }
 
     private void tryPlacingBlock(FeaturePlaceContext<?> context, BlockPos.MutableBlockPos pos)

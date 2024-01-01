@@ -9,14 +9,12 @@ import fr.factionbedrock.aerialhell.World.Features.Util.StraightLine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
 {
@@ -64,7 +62,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
 
     protected BlockPos generateBridge(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)
     {
-        RootBridge spline = new RootBridge(context, new StraightLine.StraightLineParameters(bridgeStart, bridgeEnd), 2 + context.random().nextInt(8) == 0 ? 1 : 0);
+        RootBridge spline = new RootBridge(context, new StraightLine.StraightLineParameters(bridgeStart, bridgeEnd), 2 + (context.random().nextInt(8) == 0 ? 1 : 0));
         BlockPos lastPos = spline.generate(generateDebug);
         spline = null;
         return lastPos;
