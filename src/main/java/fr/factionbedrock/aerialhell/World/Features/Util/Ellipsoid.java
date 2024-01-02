@@ -58,6 +58,7 @@ public class Ellipsoid
 
     protected void generateInnerLoop(BlockPos.MutableBlockPos placementPos, int x, int y, int z, boolean generateBorder)
     {
+        if (randomlyChooseToNotPlaceBlock(generateBorder)) {return;}
         if (generateBorder)
         {
             if (!this.isPosInsideEllipsoid(x, y, z))
@@ -78,6 +79,13 @@ public class Ellipsoid
             }
         }
     }
+
+    public boolean randomlyChooseToNotPlaceBlock(boolean generateBorder)
+    {
+        return context.random().nextFloat() > randomChanceToGenerateBlock(generateBorder);
+    }
+
+    public float randomChanceToGenerateBlock(boolean generateBorder) {return 1.0F;} //the block "should be placed", but you can use this to add additional random chance to not generate the block. (1.0F = 100 percent probability to be placed)
 
     public BlockState getStateToPlace(BlockPos pos) {return block.get().defaultBlockState();}
 

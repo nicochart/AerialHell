@@ -23,6 +23,8 @@ public class AerialHellTags
 
 		public static final TagKey<Block> SOLID_ETHER = tag("solid_ether");
 
+		public static final TagKey<Block> LEAVES = tag("leaves");
+
 		public static final TagKey<Block> AERIALHELL_WOODEN_DOORS = tag("aerialhell_wooden_doors");
 
 		public static final TagKey<Block> AERIALHELL_WOODEN_TRAPDOORS = tag("aerialhell_wooden_trapdoors");

@@ -17,7 +17,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
 {
     private static final SplineKnotsDeformedStraightLine.KnotsParameters TRUNK_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 16, 0.3F, 5, 20);
-    private static final SplineKnotsDeformedStraightLine.KnotsParameters FOLIAGE_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(4, 16, 0.35F, 5, 20);
+    private static final SplineKnotsDeformedStraightLine.KnotsParameters FOLIAGE_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 18, 0.4F, 6, 19);
 
     public GiantTreeFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
@@ -33,10 +33,13 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
         {
             int maxXZdistance=3, minYdistance=15, maxYdistance=25;
             BlockPos trunkStart = origin.below(2);
-            BlockPos trunkEnd = origin.offset(rand.nextInt(-maxXZdistance, maxXZdistance), rand.nextInt(minYdistance, maxYdistance), rand.nextInt(-maxXZdistance, maxXZdistance));
-            int yFoliageSize = (trunkEnd.getY() - trunkStart.getY()) / 4;
+            int xOffset = rand.nextInt(-maxXZdistance, maxXZdistance), yOffset = rand.nextInt(minYdistance, maxYdistance), zOffset = rand.nextInt(-maxXZdistance, maxXZdistance);
+            BlockPos trunkEnd = origin.offset(xOffset, yOffset, zOffset);
+            int yFoliageSize = getYFoliageSize(yOffset);
+            int xzFoliageSize = (int) (yFoliageSize * 1.6F);
             BlockPos foliageCenter = generateTrunk(context, trunkStart, trunkEnd, false);
-            generateFoliage(context, foliageCenter, (int) (yFoliageSize * 1.5), yFoliageSize);
+            generateFoliage(context, foliageCenter, xzFoliageSize, yFoliageSize);
+            generateBranches(context, foliageCenter, xzFoliageSize, yFoliageSize);
             return true;
         }
     }
@@ -51,10 +54,30 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
 
     protected void generateFoliage(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos centerPos, int xzSize, int ySize)
     {
-        GiantFoliage foliage = new GiantFoliage(context, createEllipsoidParameters(xzSize, ySize), centerPos, 4);
+        GiantFoliage foliage = new GiantFoliage(context, createEllipsoidParameters(xzSize, ySize), centerPos, 8);
         foliage.generate();
+        foliage.generateOutsideBorder();
         foliage = null;
     }
+
+    protected void generateBranches(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos foliageCenterPos, int xzFoliageSize, int yFoliageSize)
+    {
+        RandomSource rand = context.random();
+        int branchNumber = rand.nextInt(2, 6);
+        int yMaxDistance = yFoliageSize - 1, xzMaxDistance = xzFoliageSize;
+        GiantBranch branch;
+        for (int i=0; i<branchNumber; i++)
+        {
+            BlockPos branchStart = foliageCenterPos.below(rand.nextInt(1, 4));
+            BlockPos branchEnd = foliageCenterPos.offset(rand.nextInt(-xzMaxDistance, xzMaxDistance), rand.nextInt(2, yMaxDistance), rand.nextInt(-xzMaxDistance, xzMaxDistance));
+            branch = new GiantBranch(context, new StraightLine.StraightLineParameters(branchStart, branchEnd), 1);
+            branch.generate(false);
+        }
+        branch = null;
+    }
+
+    protected int getYFoliageSize(BlockPos trunkStart, BlockPos trunkEnd) {return getYFoliageSize(trunkEnd.getY() - trunkStart.getY());}
+    protected int getYFoliageSize(int trunkHeight) {return Math.max(5, trunkHeight / 4);}
 
     private boolean isValidTreePos(WorldGenLevel level, BlockPos pos) {return isValidTreeSupport(level.getBlockState(pos.below())) && level.isEmptyBlock(pos) && thereIsAirAbovePosition(level, pos);}
     private boolean isValidTreeSupport(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_DIRT);}
@@ -97,6 +120,24 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
         @Override public BlockState getStateToPlace(BlockPos pos)
         {
             return AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get().defaultBlockState().setValue(LeavesBlock.DISTANCE, 1);
+        }
+
+        @Override public float randomChanceToGenerateBlock(boolean generatingBorder) {return generatingBorder ? 0.5F : 1.0F;}
+    }
+
+    private static class GiantBranch extends SplineKnotsDeformedStraightLine
+    {
+        public GiantBranch(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams, int knotsNumber) {super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> AerialHellBlocksAndItems.AERIAL_TREE_LOG.get());}
+
+        @Override protected boolean isReplaceable(WorldGenLevel level, BlockPos blockPos)
+        {
+            BlockState previousBlock = level.getBlockState(blockPos);
+            return previousBlock.is(AerialHellTags.Blocks.LEAVES) || super.isReplaceable(level, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT);
+        }
+
+        @Override protected void tryPlacingBlock(FeaturePlaceContext<?> context, BlockPos.MutableBlockPos pos)
+        {
+            if (!context.level().isEmptyBlock(pos.above())) {super.tryPlacingBlock(context, pos);}
         }
     }
 }
