@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.World.Features.Util.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -63,9 +64,19 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
     protected void generateBranches(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos foliageCenterPos, int xzFoliageSize, int yFoliageSize)
     {
         RandomSource rand = context.random();
+        int yMaxDistance = yFoliageSize - 1;
+        int xzMaxDistance = xzFoliageSize; int xzMinDistance = xzMaxDistance * 2 / 3;
+
+        generateRandomBranch(context, foliageCenterPos, 1, 4, xzMinDistance, xzMaxDistance, 2, yMaxDistance, xzMinDistance, xzMaxDistance);
+        generateRandomBranch(context, foliageCenterPos, 1, 4, xzMinDistance, xzMaxDistance, 2, yMaxDistance, - xzMaxDistance, - xzMinDistance);
+        generateRandomBranch(context, foliageCenterPos, 1, 4, - xzMaxDistance, - xzMinDistance, 2, yMaxDistance, xzMinDistance, xzMaxDistance);
+        generateRandomBranch(context, foliageCenterPos, 1, 4, - xzMaxDistance, - xzMinDistance, 2, yMaxDistance, - xzMaxDistance, - xzMinDistance);
+
+
+        generateRandomBranch(context, foliageCenterPos, 1, 4, - xzMaxDistance, xzMaxDistance, 2, yMaxDistance, - xzMaxDistance, xzMaxDistance);
+
+        /*GiantBranch branch;
         int branchNumber = rand.nextInt(2, 6);
-        int yMaxDistance = yFoliageSize - 1, xzMaxDistance = xzFoliageSize;
-        GiantBranch branch;
         for (int i=0; i<branchNumber; i++)
         {
             BlockPos branchStart = foliageCenterPos.below(rand.nextInt(1, 4));
@@ -73,6 +84,21 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
             branch = new GiantBranch(context, new StraightLine.StraightLineParameters(branchStart, branchEnd), 1);
             branch.generate(false);
         }
+        branch = null;*/
+    }
+
+    protected void generateRandomBranch(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos foliageCenterPos, int startMinYoffset, int startMaxYoffset, int minXoffset, int maxXoffset, int minYoffset, int maxYoffset, int minZoffset, int maxZoffset)
+    {
+        RandomSource rand = context.random();
+        BlockPos branchStart = foliageCenterPos.below(rand.nextInt(startMinYoffset, startMaxYoffset));
+        BlockPos branchEnd = foliageCenterPos.offset(rand.nextInt(minXoffset, maxXoffset), rand.nextInt(minYoffset, maxYoffset), rand.nextInt(minZoffset, maxZoffset));
+        generateBranch(context, branchStart, branchEnd);
+    }
+
+    protected void generateBranch(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos branchStart, BlockPos branchEnd)
+    {
+        GiantBranch branch = new GiantBranch(context, new StraightLine.StraightLineParameters(branchStart, branchEnd), 1);
+        branch.generate(false);
         branch = null;
     }
 
@@ -124,7 +150,7 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
 
         protected int getLeavesDistance(BlockPos ellipsoidPos)
         {
-            int x = ellipsoidPos.getX(), y = ellipsoidPos.getY(), z = ellipsoidPos.getZ();
+            int x = Math.abs(ellipsoidPos.getX()), y = Math.abs(ellipsoidPos.getY()), z = Math.abs(ellipsoidPos.getZ());
             if (x >= this.ellipsoidParams.xSize() * 6.0/7.0 || y >= this.ellipsoidParams.ySize() * 6.0/7.0 || z >= this.ellipsoidParams.zSize() * 6.0/7.0) {return 7;}
             else if (x >= this.ellipsoidParams.xSize() * 5.0/7.0 || y >= this.ellipsoidParams.ySize() * 5.0/7.0 || z >= this.ellipsoidParams.zSize() * 5.0/7.0) {return 6;}
             else if (x >= this.ellipsoidParams.xSize() * 4.0/7.0 || y >= this.ellipsoidParams.ySize() * 4.0/7.0 || z >= this.ellipsoidParams.zSize() * 4.0/7.0) {return 5;}

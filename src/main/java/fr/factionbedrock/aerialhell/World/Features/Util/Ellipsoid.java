@@ -65,7 +65,7 @@ public class Ellipsoid
             {
                 if (isPosAtEllipsoidBorder(x, y, z)) //if pos is at ellipsis border : try to place block
                 {
-                    placementPos.set(centerPos.offset(x, y, z));
+                    placementPos.set(getLevelPosFromEllipsoidPos(x, y, z));
                     tryPlacingBlock(context, placementPos, new BlockPos(x, y, z));
                 }
             }
@@ -74,7 +74,7 @@ public class Ellipsoid
         {
             if (this.isPosInsideEllipsoid(x, y, z))
             {
-                placementPos.set(centerPos.offset(x, y, z));
+                placementPos.set(getLevelPosFromEllipsoidPos(x, y, z));
                 tryPlacingBlock(context, placementPos, new BlockPos(x, y, z));
             }
         }
@@ -129,6 +129,14 @@ public class Ellipsoid
         BlockState previousBlock = reader.getBlockState(blockPos);
         return previousBlock.isAir() || previousBlock.is(AerialHellTags.Blocks.FEATURE_CAN_REPLACE);
     }
+
+    public BlockPos getEllipsoidPosFromLevelPos(BlockPos levelPos)
+    {
+        return new BlockPos(levelPos.getX() - this.centerPos.getX(), levelPos.getY() - this.centerPos.getY(), levelPos.getZ() - this.centerPos.getZ());
+    }
+
+    public BlockPos getLevelPosFromEllipsoidPos(BlockPos ellipsoidPos) {return this.centerPos.offset(ellipsoidPos);}
+    public BlockPos getLevelPosFromEllipsoidPos(int x, int y, int z) {return this.centerPos.offset(x, y, z);}
 
     public static class EllipsoidParameters
     {

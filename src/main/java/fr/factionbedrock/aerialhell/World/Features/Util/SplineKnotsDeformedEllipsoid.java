@@ -33,7 +33,7 @@ public class SplineKnotsDeformedEllipsoid extends Ellipsoid implements SplineKno
         {
             x = knotsParams.getRandomKnotDistance(context.random()); y = knotsParams.getRandomKnotDistance(context.random()); z = knotsParams.getRandomKnotDistance(context.random());
         }
-        return centerPos.offset(x, y, z);
+        return getLevelPosFromEllipsoidPos(x, y, z);
     }
 
     @Override protected void generateInnerLoop(BlockPos.MutableBlockPos placementPos, int x, int y, int z, boolean generateBorder)
@@ -46,8 +46,8 @@ public class SplineKnotsDeformedEllipsoid extends Ellipsoid implements SplineKno
             {
                 if (isPosAtEllipsoidBorder(x, y, z)) //if pos is at ellipsis border : try to place block
                 {
-                    placementPos.set(getKnotsDeformedPos(centerPos.offset(x, y, z), this.knots, this.knotsNumber, this.knotsParams));
-                    tryPlacingBlock(context, placementPos, new BlockPos(x, y, z));
+                    placementPos.set(getKnotsDeformedPos(getLevelPosFromEllipsoidPos(x, y, z), this.knots, this.knotsNumber, this.knotsParams));
+                    tryPlacingBlock(context, placementPos, getEllipsoidPosFromLevelPos(placementPos));
                 }
             }
         }
@@ -55,8 +55,8 @@ public class SplineKnotsDeformedEllipsoid extends Ellipsoid implements SplineKno
         {
             if (this.isPosInsideEllipsoid(x, y, z))
             {
-                placementPos.set(getKnotsDeformedPos(centerPos.offset(x, y, z), this.knots, this.knotsNumber, this.knotsParams));
-                tryPlacingBlock(context, placementPos, new BlockPos(x, y, z));
+                placementPos.set(getKnotsDeformedPos(getLevelPosFromEllipsoidPos(x, y, z), this.knots, this.knotsNumber, this.knotsParams));
+                tryPlacingBlock(context, placementPos, getEllipsoidPosFromLevelPos(placementPos));
             }
         }
     }
