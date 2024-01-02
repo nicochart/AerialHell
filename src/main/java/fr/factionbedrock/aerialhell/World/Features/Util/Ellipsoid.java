@@ -66,7 +66,7 @@ public class Ellipsoid
                 if (isPosAtEllipsoidBorder(x, y, z)) //if pos is at ellipsis border : try to place block
                 {
                     placementPos.set(centerPos.offset(x, y, z));
-                    tryPlacingBlock(context, placementPos);
+                    tryPlacingBlock(context, placementPos, new BlockPos(x, y, z));
                 }
             }
         }
@@ -75,7 +75,7 @@ public class Ellipsoid
             if (this.isPosInsideEllipsoid(x, y, z))
             {
                 placementPos.set(centerPos.offset(x, y, z));
-                tryPlacingBlock(context, placementPos);
+                tryPlacingBlock(context, placementPos, new BlockPos(x, y, z));
             }
         }
     }
@@ -87,7 +87,7 @@ public class Ellipsoid
 
     public float randomChanceToGenerateBlock(boolean generateBorder) {return 1.0F;} //the block "should be placed", but you can use this to add additional random chance to not generate the block. (1.0F = 100 percent probability to be placed)
 
-    public BlockState getStateToPlace(BlockPos pos) {return block.get().defaultBlockState();}
+    public BlockState getStateToPlace(BlockPos ellipsoidPos) {return block.get().defaultBlockState();}
 
     public boolean isPosInsideEllipsoid(float xPos, float yPos, float zPos)
     {
@@ -118,10 +118,10 @@ public class Ellipsoid
         return upInEll || downInEll || southInEll || northInEll || eastInEll || westInEll;
     }
 
-    protected void tryPlacingBlock(FeaturePlaceContext<?> context, BlockPos.MutableBlockPos pos)
+    protected void tryPlacingBlock(FeaturePlaceContext<?> context, BlockPos.MutableBlockPos placementPos, BlockPos ellipsoidPos) //ellipsoidPos = offset from centerPos
     {
         WorldGenLevel level = context.level();
-        if (isReplaceable(level, pos)) {level.setBlock(pos, this.getStateToPlace(pos), 0);}
+        if (isReplaceable(level, placementPos)) {level.setBlock(placementPos, this.getStateToPlace(ellipsoidPos), 0);}
     }
 
     protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)

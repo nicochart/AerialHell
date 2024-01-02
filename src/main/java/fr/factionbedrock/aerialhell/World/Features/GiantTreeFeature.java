@@ -107,7 +107,7 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
 
     private Ellipsoid.EllipsoidParameters createEllipsoidParameters(int xzSize, int ySize)
     {
-        return new Ellipsoid.EllipsoidParameters(xzSize, ySize, xzSize, - xzSize, xzSize, 0, ySize, - xzSize, xzSize, 1);
+        return new Ellipsoid.EllipsoidParameters(xzSize, ySize, xzSize, - xzSize, xzSize, -1, ySize, - xzSize, xzSize, 1);
     }
 
     private static class GiantFoliage extends SplineKnotsDeformedEllipsoid
@@ -117,12 +117,30 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
             super(context, () -> AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get(), parameters, centerPos, Ellipsoid.Types.CENTER_1x1, knotsNumber, FOLIAGE_KNOTS_PARAMETERS, true);
         }
 
-        @Override public BlockState getStateToPlace(BlockPos pos)
+        @Override public BlockState getStateToPlace(BlockPos ellipsoidPos)
         {
-            return AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get().defaultBlockState().setValue(LeavesBlock.DISTANCE, 1);
+            return super.getStateToPlace(ellipsoidPos).setValue(LeavesBlock.DISTANCE, getLeavesDistance(ellipsoidPos));
+        }
+
+        protected int getLeavesDistance(BlockPos ellipsoidPos)
+        {
+            int x = ellipsoidPos.getX(), y = ellipsoidPos.getY(), z = ellipsoidPos.getZ();
+            if (x >= this.ellipsoidParams.xSize() * 6.0/7.0 || y >= this.ellipsoidParams.ySize() * 6.0/7.0 || z >= this.ellipsoidParams.zSize() * 6.0/7.0) {return 7;}
+            else if (x >= this.ellipsoidParams.xSize() * 5.0/7.0 || y >= this.ellipsoidParams.ySize() * 5.0/7.0 || z >= this.ellipsoidParams.zSize() * 5.0/7.0) {return 6;}
+            else if (x >= this.ellipsoidParams.xSize() * 4.0/7.0 || y >= this.ellipsoidParams.ySize() * 4.0/7.0 || z >= this.ellipsoidParams.zSize() * 4.0/7.0) {return 5;}
+            else if (x >= this.ellipsoidParams.xSize() * 3.0/7.0 || y >= this.ellipsoidParams.ySize() * 3.0/7.0 || z >= this.ellipsoidParams.zSize() * 3.0/7.0) {return 4;}
+            else if (x >= this.ellipsoidParams.xSize() * 2.0/7.0 || y >= this.ellipsoidParams.ySize() * 2.0/7.0 || z >= this.ellipsoidParams.zSize() * 2.0/7.0) {return 3;}
+            else if (x >= this.ellipsoidParams.xSize() * 1.0/7.0 || y >= this.ellipsoidParams.ySize() * 1.0/7.0 || z >= this.ellipsoidParams.zSize() * 1.0/7.0) {return 2;}
+            else {return 1;}
         }
 
         @Override public float randomChanceToGenerateBlock(boolean generatingBorder) {return generatingBorder ? 0.5F : 1.0F;}
+
+        @Override protected void generateInnerLoop(BlockPos.MutableBlockPos placementPos, int x, int y, int z, boolean generateBorder)
+        {
+            if (y == this.ellipsoidParams.yForMin() && randomlyChooseToNotPlaceBlock(true)) {return;}
+            else {super.generateInnerLoop(placementPos, x, y, z, generateBorder);}
+        }
     }
 
     private static class GiantBranch extends SplineKnotsDeformedStraightLine
