@@ -63,7 +63,6 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
 
     protected void generateBranches(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos foliageCenterPos, int xzFoliageSize, int yFoliageSize)
     {
-        RandomSource rand = context.random();
         int yMaxDistance = yFoliageSize - 1;
         int xzMaxDistance = xzFoliageSize; int xzMinDistance = xzMaxDistance * 2 / 3;
 
@@ -72,19 +71,7 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
         generateRandomBranch(context, foliageCenterPos, 1, 4, - xzMaxDistance, - xzMinDistance, 2, yMaxDistance, xzMinDistance, xzMaxDistance);
         generateRandomBranch(context, foliageCenterPos, 1, 4, - xzMaxDistance, - xzMinDistance, 2, yMaxDistance, - xzMaxDistance, - xzMinDistance);
 
-
         generateRandomBranch(context, foliageCenterPos, 1, 4, - xzMaxDistance, xzMaxDistance, 2, yMaxDistance, - xzMaxDistance, xzMaxDistance);
-
-        /*GiantBranch branch;
-        int branchNumber = rand.nextInt(2, 6);
-        for (int i=0; i<branchNumber; i++)
-        {
-            BlockPos branchStart = foliageCenterPos.below(rand.nextInt(1, 4));
-            BlockPos branchEnd = foliageCenterPos.offset(rand.nextInt(-xzMaxDistance, xzMaxDistance), rand.nextInt(2, yMaxDistance), rand.nextInt(-xzMaxDistance, xzMaxDistance));
-            branch = new GiantBranch(context, new StraightLine.StraightLineParameters(branchStart, branchEnd), 1);
-            branch.generate(false);
-        }
-        branch = null;*/
     }
 
     protected void generateRandomBranch(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos foliageCenterPos, int startMinYoffset, int startMaxYoffset, int minXoffset, int maxXoffset, int minYoffset, int maxYoffset, int minZoffset, int maxZoffset)
@@ -151,12 +138,14 @@ public class GiantTreeFeature extends Feature<NoneFeatureConfiguration>
         protected int getLeavesDistance(BlockPos ellipsoidPos)
         {
             int x = Math.abs(ellipsoidPos.getX()), y = Math.abs(ellipsoidPos.getY()), z = Math.abs(ellipsoidPos.getZ());
-            if (x >= this.ellipsoidParams.xSize() * 6.0/7.0 || y >= this.ellipsoidParams.ySize() * 6.0/7.0 || z >= this.ellipsoidParams.zSize() * 6.0/7.0) {return 7;}
-            else if (x >= this.ellipsoidParams.xSize() * 5.0/7.0 || y >= this.ellipsoidParams.ySize() * 5.0/7.0 || z >= this.ellipsoidParams.zSize() * 5.0/7.0) {return 6;}
-            else if (x >= this.ellipsoidParams.xSize() * 4.0/7.0 || y >= this.ellipsoidParams.ySize() * 4.0/7.0 || z >= this.ellipsoidParams.zSize() * 4.0/7.0) {return 5;}
-            else if (x >= this.ellipsoidParams.xSize() * 3.0/7.0 || y >= this.ellipsoidParams.ySize() * 3.0/7.0 || z >= this.ellipsoidParams.zSize() * 3.0/7.0) {return 4;}
-            else if (x >= this.ellipsoidParams.xSize() * 2.0/7.0 || y >= this.ellipsoidParams.ySize() * 2.0/7.0 || z >= this.ellipsoidParams.zSize() * 2.0/7.0) {return 3;}
-            else if (x >= this.ellipsoidParams.xSize() * 1.0/7.0 || y >= this.ellipsoidParams.ySize() * 1.0/7.0 || z >= this.ellipsoidParams.zSize() * 1.0/7.0) {return 2;}
+            float r = (float) x*x/(ellipsoidParams.xSize()*ellipsoidParams.xSize()) + (float) y*y/(ellipsoidParams.ySize()*ellipsoidParams.ySize()) + (float) z*z/(ellipsoidParams.zSize()*ellipsoidParams.zSize());
+
+            if (r > 0.87) {return 7;}
+            else if (r > 0.75) {return 6;}
+            else if (r > 0.6) {return 5;}
+            else if (r > 0.4) {return 4;}
+            else if (r > 0.3) {return 3;}
+            else if (r > 0.2) {return 2;}
             else {return 1;}
         }
 

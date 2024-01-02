@@ -89,12 +89,14 @@ public class Ellipsoid
 
     public BlockState getStateToPlace(BlockPos ellipsoidPos) {return block.get().defaultBlockState();}
 
-    public boolean isPosInsideEllipsoid(float xPos, float yPos, float zPos)
+    public boolean isPosInsideEllipsoid(float xPos, float yPos, float zPos) {return isPosInsideEllipsoid(xPos, yPos, zPos, 1.0F);}
+
+    public boolean isPosInsideEllipsoid(float xPos, float yPos, float zPos, float sizeMultiplicator) //default sizeMultiplicator = 1.0F
     {
         float x = xPos + this.ellipsoidType.horizontalCenterOffset;
         float y = yPos;
         float z = zPos + this.ellipsoidType.horizontalCenterOffset;
-        return x*x/(ellipsoidParams.xSize()*ellipsoidParams.xSize()) + y*y/(ellipsoidParams.ySize()*ellipsoidParams.ySize()) + z*z/(ellipsoidParams.zSize()*ellipsoidParams.zSize()) < 1.0F;
+        return x*x/(ellipsoidParams.xSize()*ellipsoidParams.xSize()) + y*y/(ellipsoidParams.ySize()*ellipsoidParams.ySize()) + z*z/(ellipsoidParams.zSize()*ellipsoidParams.zSize()) < sizeMultiplicator;
     }
 
     public boolean isPosInsideGeneratedEllipsoidPart(float xPos, float yPos, float zPos) //if generate(centerPos) is called
