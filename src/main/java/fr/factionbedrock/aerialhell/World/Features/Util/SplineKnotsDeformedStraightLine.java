@@ -27,6 +27,10 @@ public class SplineKnotsDeformedStraightLine extends StraightLine implements Spl
         }
     }
 
+    public int getKnotsNumber() {return knotsNumber;}
+    public KnotsParameters getKnotsParameters() {return knotsParams;}
+    public BlockPos[] getKnots() {return knots;}
+
     @Override public BlockPos getRandomKnotPos()
     {
         int maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(straightLineParams.getStart(), straightLineParams.getEnd());

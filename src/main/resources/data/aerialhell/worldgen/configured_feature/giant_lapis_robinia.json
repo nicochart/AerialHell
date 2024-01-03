@@ -1,0 +1,35 @@
+{
+  "type": "aerialhell:forking_giant_tree",
+  "config": {
+    "trunk_max_horizontal_offset": 4,
+    "trunk_min_vertical_offset": 10,
+    "trunk_max_vertical_offset": 20,
+    "trunk_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 1,
+          "data": {
+            "Name": "aerialhell:lapis_robinia_log"
+          }
+        },
+        {
+          "weight": 1,
+          "data": {
+            "Name": "aerialhell:enchanted_lapis_robinia_log"
+          }
+        }
+      ]
+    },
+    "foliage_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "aerialhell:lapis_robinia_leaves",
+        "Properties": {
+          "persistent": "false",
+          "distance": "7"
+        }
+      }
+    }
+  }
+}

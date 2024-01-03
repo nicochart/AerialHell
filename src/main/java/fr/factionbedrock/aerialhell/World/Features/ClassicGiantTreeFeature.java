@@ -5,6 +5,9 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.ClassicGiantTreeConfig;
 import fr.factionbedrock.aerialhell.World.Features.Util.*;
+import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantBranch;
+import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantFoliage;
+import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantTrunk;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
@@ -53,7 +56,7 @@ public class ClassicGiantTreeFeature extends Feature<ClassicGiantTreeConfig>
 
     protected void generateFoliage(FeaturePlaceContext<ClassicGiantTreeConfig> context, BlockPos centerPos, int xzSize, int ySize)
     {
-        GiantFoliage foliage = new GiantFoliage(context, createEllipsoidParameters(xzSize, ySize), centerPos, 8);
+        GiantFoliage foliage = new GiantFoliage(context, ClassicGiantFoliage.createClassicGiantFoliageEllipsoidParameters(xzSize, ySize), centerPos, 8);
         foliage.generateFoliage();
         foliage = null;
     }
@@ -98,7 +101,7 @@ public class ClassicGiantTreeFeature extends Feature<ClassicGiantTreeConfig>
         for (int y=1; y<=8; y++) {if (!reader.getBlockState(pos.above(y)).isAir()) {return false;}} return true;
     }
 
-    private static class GiantTrunk extends SplineKnotsDeformedStraightLine
+    private static class GiantTrunk extends ClassicGiantTrunk
     {
         private final boolean largeTrunk;
         public GiantTrunk(FeaturePlaceContext<ClassicGiantTreeConfig> context, StraightLineParameters straightLineParams, int knotsNumber)
@@ -107,33 +110,10 @@ public class ClassicGiantTreeFeature extends Feature<ClassicGiantTreeConfig>
             this.largeTrunk = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 16;
         }
 
-        @Override protected boolean isReplaceable(WorldGenLevel level, BlockPos blockPos)
-        {
-            BlockState previousBlock = level.getBlockState(blockPos);
-            return super.isReplaceable(level, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT);
-        }
-
-        @Override protected void tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
-        {
-            if (this.largeTrunk)
-            {
-                if (step < maxStep / 8) {tryPlacingBlocksSphere(pos, 3);}
-                else {tryPlacingBlocksSphere(pos, 2);}
-            }
-            else
-            {
-                if (step < maxStep / 8) {tryPlacingBlocksSphere(pos, 2);}
-                else {tryPlacingBlocksCross(pos);}
-            }
-        }
+        @Override protected boolean isLarge() {return this.largeTrunk;}
     }
 
-    private Ellipsoid.EllipsoidParameters createEllipsoidParameters(int xzSize, int ySize)
-    {
-        return new Ellipsoid.EllipsoidParameters(xzSize, ySize, xzSize, - xzSize, xzSize, -1, ySize, - xzSize, xzSize, 1);
-    }
-
-    private static class GiantFoliage extends SplineKnotsDeformedEllipsoid
+    private static class GiantFoliage extends ClassicGiantFoliage
     {
         public GiantFoliage(FeaturePlaceContext<ClassicGiantTreeConfig> context, Ellipsoid.EllipsoidParameters parameters, BlockPos centerPos, int knotsNumber)
         {
@@ -144,37 +124,9 @@ public class ClassicGiantTreeFeature extends Feature<ClassicGiantTreeConfig>
         {
             return ((ClassicGiantTreeConfig)context.config()).foliageProvider().getState(context.random(), centerPos.offset(ellipsoidPos)).setValue(LeavesBlock.DISTANCE, getLeavesDistance(ellipsoidPos));
         }
-
-        public void generateFoliage()
-        {
-            this.generate();
-            this.generateOutsideBorder();
-        }
-
-        protected int getLeavesDistance(BlockPos ellipsoidPos)
-        {
-            int x = Math.abs(ellipsoidPos.getX()), y = Math.abs(ellipsoidPos.getY()), z = Math.abs(ellipsoidPos.getZ());
-            float r = (float) x*x/(ellipsoidParams.xSize()*ellipsoidParams.xSize()) + (float) y*y/(ellipsoidParams.ySize()*ellipsoidParams.ySize()) + (float) z*z/(ellipsoidParams.zSize()*ellipsoidParams.zSize());
-
-            if (r > 0.87) {return 7;}
-            else if (r > 0.75) {return 6;}
-            else if (r > 0.6) {return 5;}
-            else if (r > 0.4) {return 4;}
-            else if (r > 0.3) {return 3;}
-            else if (r > 0.2) {return 2;}
-            else {return 1;}
-        }
-
-        @Override public float randomChanceToGenerateBlock(boolean generatingBorder) {return generatingBorder ? 0.5F : 1.0F;}
-
-        @Override protected void generateInnerLoop(BlockPos.MutableBlockPos placementPos, int x, int y, int z, boolean generateBorder)
-        {
-            if (y == this.ellipsoidParams.yForMin() && randomlyChooseToNotPlaceBlock(true)) {return;}
-            else {super.generateInnerLoop(placementPos, x, y, z, generateBorder);}
-        }
     }
 
-    private static class GiantBranch extends SplineKnotsDeformedStraightLine
+    private static class GiantBranch extends ClassicGiantBranch
     {
         private final boolean largeTrunk;
 
@@ -184,22 +136,7 @@ public class ClassicGiantTreeFeature extends Feature<ClassicGiantTreeConfig>
             this.largeTrunk = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 16;
         }
 
-        @Override protected void tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
-        {
-            if (this.largeTrunk) {super.tryPlacingBlocks(pos, step, maxStep);}
-            else {tryPlacingBlock(pos);}
-        }
-
-        @Override protected boolean isReplaceable(WorldGenLevel level, BlockPos blockPos)
-        {
-            BlockState previousBlock = level.getBlockState(blockPos);
-            return previousBlock.is(AerialHellTags.Blocks.LEAVES) || super.isReplaceable(level, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT);
-        }
-
-        @Override protected void tryPlacingBlock(BlockPos.MutableBlockPos pos)
-        {
-            if (!context.level().isEmptyBlock(pos.above())) {super.tryPlacingBlock(pos);}
-        }
+        @Override protected boolean isLarge() {return this.largeTrunk;}
 
         @Override public BlockState getStateForPlacement(BlockPos pos)
         {

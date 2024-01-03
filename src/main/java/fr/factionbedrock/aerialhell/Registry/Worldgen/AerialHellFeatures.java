@@ -42,6 +42,7 @@ public class AerialHellFeatures
 
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> ROOT_BRIDGE = FEATURES.register("root_bridge", () -> new RootBridgeFeature(NoneFeatureConfiguration.CODEC));
 	public static final RegistryObject<Feature<ClassicGiantTreeConfig>> CLASSIC_GIANT_TREE = FEATURES.register("classic_giant_tree", () -> new ClassicGiantTreeFeature(ClassicGiantTreeConfig.CODEC));
+	public static final RegistryObject<ForkingGiantTreeFeature> FORKING_GIANT_TREE = FEATURES.register("forking_giant_tree", () -> new ForkingGiantTreeFeature(ForkingGiantTreeConfig.CODEC));
 
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> STELLAR_COARSE_FLOOR_IN_DARK_AREAS = FEATURES.register("stellar_coarse_floor_in_dark_areas", () -> new StellarCoarseFloorInDarkAreasFeature(NoneFeatureConfiguration.CODEC));
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> STELLAR_GRASS_IN_SHADOW_GRASS = FEATURES.register("stellar_grass_in_shadow_grass", () -> new StellarGrassInShadowGrassFeature(NoneFeatureConfiguration.CODEC));
