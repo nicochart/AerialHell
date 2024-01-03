@@ -13,12 +13,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
-public class GiantTreeFeature extends Feature<ClassicGiantTreeConfig>
+public class ClassicGiantTreeFeature extends Feature<ClassicGiantTreeConfig>
 {
     private static final SplineKnotsDeformedStraightLine.KnotsParameters TRUNK_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 16, 0.3F, 5, 20);
     private static final SplineKnotsDeformedStraightLine.KnotsParameters FOLIAGE_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 18, 0.4F, 6, 19);
 
-    public GiantTreeFeature(Codec<ClassicGiantTreeConfig> codec) {super(codec);}
+    public ClassicGiantTreeFeature(Codec<ClassicGiantTreeConfig> codec) {super(codec);}
 
     @Override public boolean place(FeaturePlaceContext<ClassicGiantTreeConfig> context)
     {
@@ -54,8 +54,7 @@ public class GiantTreeFeature extends Feature<ClassicGiantTreeConfig>
     protected void generateFoliage(FeaturePlaceContext<ClassicGiantTreeConfig> context, BlockPos centerPos, int xzSize, int ySize)
     {
         GiantFoliage foliage = new GiantFoliage(context, createEllipsoidParameters(xzSize, ySize), centerPos, 8);
-        foliage.generate();
-        foliage.generateOutsideBorder();
+        foliage.generateFoliage();
         foliage = null;
     }
 
@@ -101,7 +100,12 @@ public class GiantTreeFeature extends Feature<ClassicGiantTreeConfig>
 
     private static class GiantTrunk extends SplineKnotsDeformedStraightLine
     {
-        public GiantTrunk(FeaturePlaceContext<ClassicGiantTreeConfig> context, StraightLineParameters straightLineParams, int knotsNumber) {super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.random(), context.origin()).getBlock());}
+        private final boolean largeTrunk;
+        public GiantTrunk(FeaturePlaceContext<ClassicGiantTreeConfig> context, StraightLineParameters straightLineParams, int knotsNumber)
+        {
+            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.random(), context.origin()).getBlock());
+            this.largeTrunk = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 16;
+        }
 
         @Override protected boolean isReplaceable(WorldGenLevel level, BlockPos blockPos)
         {
@@ -111,8 +115,16 @@ public class GiantTreeFeature extends Feature<ClassicGiantTreeConfig>
 
         @Override protected void tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
         {
-            if (step < maxStep / 8) {tryPlacingBlocksSphere(pos, 3);}
-            else {tryPlacingBlocksSphere(pos, 2);}
+            if (this.largeTrunk)
+            {
+                if (step < maxStep / 8) {tryPlacingBlocksSphere(pos, 3);}
+                else {tryPlacingBlocksSphere(pos, 2);}
+            }
+            else
+            {
+                if (step < maxStep / 8) {tryPlacingBlocksSphere(pos, 2);}
+                else {tryPlacingBlocksCross(pos);}
+            }
         }
     }
 
@@ -131,6 +143,12 @@ public class GiantTreeFeature extends Feature<ClassicGiantTreeConfig>
         @Override public BlockState getStateForPlacement(BlockPos ellipsoidPos)
         {
             return ((ClassicGiantTreeConfig)context.config()).foliageProvider().getState(context.random(), centerPos.offset(ellipsoidPos)).setValue(LeavesBlock.DISTANCE, getLeavesDistance(ellipsoidPos));
+        }
+
+        public void generateFoliage()
+        {
+            this.generate();
+            this.generateOutsideBorder();
         }
 
         protected int getLeavesDistance(BlockPos ellipsoidPos)

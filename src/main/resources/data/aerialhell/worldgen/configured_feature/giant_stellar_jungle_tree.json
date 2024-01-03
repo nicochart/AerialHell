@@ -1,5 +1,5 @@
 {
-  "type": "aerialhell:giant_tree",
+  "type": "aerialhell:classic_giant_tree",
   "config": {
     "trunk_max_horizontal_offset": 3,
     "trunk_min_vertical_offset": 15,
