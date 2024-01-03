@@ -2,8 +2,8 @@
   "type": "aerialhell:giant_tree",
   "config": {
     "trunk_max_horizontal_offset": 3,
-    "trunk_min_vertical_offset": 15,
-    "trunk_max_vertical_offset": 25,
+    "trunk_min_vertical_offset": 10,
+    "trunk_max_vertical_offset": 20,
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
