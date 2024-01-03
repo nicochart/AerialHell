@@ -47,7 +47,7 @@ public class SplineKnotsDeformedEllipsoid extends Ellipsoid implements SplineKno
                 if (isPosAtEllipsoidBorder(x, y, z)) //if pos is at ellipsis border : try to place block
                 {
                     placementPos.set(getKnotsDeformedPos(getLevelPosFromEllipsoidPos(x, y, z), this.knots, this.knotsNumber, this.knotsParams));
-                    tryPlacingBlock(context, placementPos, getEllipsoidPosFromLevelPos(placementPos));
+                    tryPlacingBlock(placementPos, getEllipsoidPosFromLevelPos(placementPos));
                 }
             }
         }
@@ -56,7 +56,7 @@ public class SplineKnotsDeformedEllipsoid extends Ellipsoid implements SplineKno
             if (this.isPosInsideEllipsoid(x, y, z))
             {
                 placementPos.set(getKnotsDeformedPos(getLevelPosFromEllipsoidPos(x, y, z), this.knots, this.knotsNumber, this.knotsParams));
-                tryPlacingBlock(context, placementPos, getEllipsoidPosFromLevelPos(placementPos));
+                tryPlacingBlock(placementPos, getEllipsoidPosFromLevelPos(placementPos));
             }
         }
     }

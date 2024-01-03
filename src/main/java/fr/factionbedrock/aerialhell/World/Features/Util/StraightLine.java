@@ -93,7 +93,7 @@ public class StraightLine
                     if (x*x + y*y + z*z <= radius*radius)
                     {
                         placementPos.set(pos.offset(x,y,z));
-                        tryPlacingBlock(context, placementPos);
+                        tryPlacingBlock(placementPos);
                     }
                 }
             }
@@ -102,23 +102,23 @@ public class StraightLine
 
     protected void tryPlacingBlocksCross(BlockPos.MutableBlockPos pos)
     {
-        tryPlacingBlock(context, pos);
+        tryPlacingBlock(pos);
         pos.move(1, 0, 0);
-        tryPlacingBlock(context, pos);
+        tryPlacingBlock(pos);
         pos.move(-2, 0, 0);
-        tryPlacingBlock(context, pos);
+        tryPlacingBlock(pos);
         pos.move(1, 1, 0);
-        tryPlacingBlock(context, pos);
+        tryPlacingBlock(pos);
         pos.move(0, -2, 0);
-        tryPlacingBlock(context, pos);
+        tryPlacingBlock(pos);
         pos.move(0, 1, 1);
-        tryPlacingBlock(context, pos);
+        tryPlacingBlock(pos);
         pos.move(0, 0, -2);
-        tryPlacingBlock(context, pos);
+        tryPlacingBlock(pos);
         pos.move(0, 0, 1);
     }
 
-    protected void tryPlacingBlock(FeaturePlaceContext<?> context, BlockPos.MutableBlockPos pos)
+    protected void tryPlacingBlock(BlockPos.MutableBlockPos pos)
     {
         WorldGenLevel reader = context.level();
         if (isReplaceable(reader, pos)) {reader.setBlock(pos, getStateForPlacement(pos), 0);}

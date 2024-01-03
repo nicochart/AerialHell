@@ -176,7 +176,19 @@ public class ClassicGiantTreeFeature extends Feature<ClassicGiantTreeConfig>
 
     private static class GiantBranch extends SplineKnotsDeformedStraightLine
     {
-        public GiantBranch(FeaturePlaceContext<ClassicGiantTreeConfig> context, StraightLineParameters straightLineParams, int knotsNumber) {super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.random(), context.origin()).getBlock());}
+        private final boolean largeTrunk;
+
+        public GiantBranch(FeaturePlaceContext<ClassicGiantTreeConfig> context, StraightLineParameters straightLineParams, int knotsNumber)
+        {
+            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.random(), context.origin()).getBlock());
+            this.largeTrunk = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 16;
+        }
+
+        @Override protected void tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
+        {
+            if (this.largeTrunk) {super.tryPlacingBlocks(pos, step, maxStep);}
+            else {tryPlacingBlock(pos);}
+        }
 
         @Override protected boolean isReplaceable(WorldGenLevel level, BlockPos blockPos)
         {
@@ -184,9 +196,9 @@ public class ClassicGiantTreeFeature extends Feature<ClassicGiantTreeConfig>
             return previousBlock.is(AerialHellTags.Blocks.LEAVES) || super.isReplaceable(level, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT);
         }
 
-        @Override protected void tryPlacingBlock(FeaturePlaceContext<?> context, BlockPos.MutableBlockPos pos)
+        @Override protected void tryPlacingBlock(BlockPos.MutableBlockPos pos)
         {
-            if (!context.level().isEmptyBlock(pos.above())) {super.tryPlacingBlock(context, pos);}
+            if (!context.level().isEmptyBlock(pos.above())) {super.tryPlacingBlock(pos);}
         }
 
         @Override public BlockState getStateForPlacement(BlockPos pos)

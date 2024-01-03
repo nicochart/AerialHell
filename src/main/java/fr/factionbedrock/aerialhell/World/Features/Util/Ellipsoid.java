@@ -66,7 +66,7 @@ public class Ellipsoid
                 if (isPosAtEllipsoidBorder(x, y, z)) //if pos is at ellipsis border : try to place block
                 {
                     placementPos.set(getLevelPosFromEllipsoidPos(x, y, z));
-                    tryPlacingBlock(context, placementPos, new BlockPos(x, y, z));
+                    tryPlacingBlock(placementPos, new BlockPos(x, y, z));
                 }
             }
         }
@@ -75,7 +75,7 @@ public class Ellipsoid
             if (this.isPosInsideEllipsoid(x, y, z))
             {
                 placementPos.set(getLevelPosFromEllipsoidPos(x, y, z));
-                tryPlacingBlock(context, placementPos, new BlockPos(x, y, z));
+                tryPlacingBlock(placementPos, new BlockPos(x, y, z));
             }
         }
     }
@@ -120,7 +120,7 @@ public class Ellipsoid
         return upInEll || downInEll || southInEll || northInEll || eastInEll || westInEll;
     }
 
-    protected void tryPlacingBlock(FeaturePlaceContext<?> context, BlockPos.MutableBlockPos placementPos, BlockPos ellipsoidPos) //ellipsoidPos = offset from centerPos
+    protected void tryPlacingBlock(BlockPos.MutableBlockPos placementPos, BlockPos ellipsoidPos) //ellipsoidPos = offset from centerPos
     {
         WorldGenLevel level = context.level();
         if (isReplaceable(level, placementPos)) {level.setBlock(placementPos, this.getStateForPlacement(ellipsoidPos), 0);}
