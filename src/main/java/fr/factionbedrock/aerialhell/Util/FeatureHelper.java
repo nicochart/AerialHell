@@ -9,7 +9,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.MapColor;
@@ -17,7 +16,7 @@ import org.joml.Vector3f;
 
 public class FeatureHelper
 {
-    public static boolean isFeatureGeneratingNextToDungeon(FeaturePlaceContext<NoneFeatureConfiguration> context)
+    public static boolean isFeatureGeneratingNextToDungeon(FeaturePlaceContext<?> context)
     {
         WorldGenLevel level = context.level();
         //context.chunkGenerator().findNearestMapStructure(level.getLevel(), StructureHelper.getDungeonsHolderSet(level.registryAccess()), context.origin(), 100, false);

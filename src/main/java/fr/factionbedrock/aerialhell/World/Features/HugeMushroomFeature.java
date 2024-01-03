@@ -119,7 +119,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
             this.capProvider = capProvider;
         }
 
-        @Override public BlockState getStateToPlace(BlockPos pos)
+        @Override public BlockState getStateForPlacement(BlockPos pos)
         {
             int x= pos.getX(), y=pos.getY(), z= pos.getZ();
             boolean isUpCap = isPosAtEllipsoidBorder(x, y + 1, z);

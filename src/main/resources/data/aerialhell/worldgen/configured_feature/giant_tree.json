@@ -1,4 +1,27 @@
 {
   "type": "aerialhell:giant_tree",
-  "config": {}
+  "config": {
+    "trunk_max_horizontal_offset": 3,
+    "trunk_min_vertical_offset": 15,
+    "trunk_max_vertical_offset": 25,
+    "trunk_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "aerialhell:aerial_tree_log",
+        "Properties": {
+          "axis": "y"
+        }
+      }
+    },
+    "foliage_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "aerialhell:aerial_tree_leaves",
+        "Properties": {
+          "persistent": "false",
+          "distance": "7"
+        }
+      }
+    }
+  }
 }

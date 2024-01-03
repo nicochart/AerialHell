@@ -87,7 +87,7 @@ public class Ellipsoid
 
     public float randomChanceToGenerateBlock(boolean generateBorder) {return 1.0F;} //the block "should be placed", but you can use this to add additional random chance to not generate the block. (1.0F = 100 percent probability to be placed)
 
-    public BlockState getStateToPlace(BlockPos ellipsoidPos) {return block.get().defaultBlockState();}
+    public BlockState getStateForPlacement(BlockPos ellipsoidPos) {return block.get().defaultBlockState();}
 
     public boolean isPosInsideEllipsoid(float xPos, float yPos, float zPos) {return isPosInsideEllipsoid(xPos, yPos, zPos, 1.0F);}
 
@@ -123,7 +123,7 @@ public class Ellipsoid
     protected void tryPlacingBlock(FeaturePlaceContext<?> context, BlockPos.MutableBlockPos placementPos, BlockPos ellipsoidPos) //ellipsoidPos = offset from centerPos
     {
         WorldGenLevel level = context.level();
-        if (isReplaceable(level, placementPos)) {level.setBlock(placementPos, this.getStateToPlace(ellipsoidPos), 0);}
+        if (isReplaceable(level, placementPos)) {level.setBlock(placementPos, this.getStateForPlacement(ellipsoidPos), 0);}
     }
 
     protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
