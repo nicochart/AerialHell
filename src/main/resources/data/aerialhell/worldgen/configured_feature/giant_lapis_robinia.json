@@ -1,9 +1,9 @@
 {
   "type": "aerialhell:forking_giant_tree",
   "config": {
-    "trunk_max_horizontal_offset": 4,
-    "trunk_min_vertical_offset": 10,
-    "trunk_max_vertical_offset": 20,
+    "trunk_max_horizontal_offset": 5,
+    "trunk_min_vertical_offset": 8,
+    "trunk_max_vertical_offset": 24,
     "trunk_provider": {
       "type": "minecraft:weighted_state_provider",
       "entries": [
