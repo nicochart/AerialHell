@@ -19,7 +19,7 @@ public class ClassicGiantTrunk extends SplineKnotsDeformedStraightLine
     @Override protected boolean isReplaceable(WorldGenLevel level, BlockPos blockPos)
     {
         BlockState previousBlock = level.getBlockState(blockPos);
-        return super.isReplaceable(level, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT);
+        return super.isReplaceable(level, blockPos) || previousBlock.is(AerialHellTags.Blocks.LEAVES) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT);
     }
 
     @Override protected void tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)

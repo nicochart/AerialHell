@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import fr.factionbedrock.aerialhell.World.Features.Config.ClassicGiantTreeConfig;
 import fr.factionbedrock.aerialhell.World.Features.Config.ForkingGiantTreeConfig;
 import fr.factionbedrock.aerialhell.World.Features.Util.*;
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantBranch;
@@ -178,12 +179,7 @@ public class ForkingGiantTreeFeature extends Feature<ForkingGiantTreeConfig>
             {
                 placementPos.set(getKnotsDeformedPos(getOffsetPosFromStart(i), this.getKnots(), this.getKnotsNumber(), this.getKnotsParameters()));
 
-                if (this.isFork && i==0)
-                {
-                    StraightLineForkJonction jonction = new StraightLineForkJonction(((FeaturePlaceContext<ForkingGiantTreeConfig>) this.context), new StraightLine.StraightLineParameters(this.straightLineParams.getStart(), new BlockPos(placementPos)));
-                    jonction.generate(generateDebug);
-                    jonction = null;
-                }
+                if (this.isFork && i==0) {generateForkToSupportTrunkJonction(this.straightLineParams.getStart(), new BlockPos(placementPos));}
 
                 if (isStepFor1stFork(i, maxAbsOffset * straightLineParams.getPrecisionMultiplicator()))
                 {
@@ -197,6 +193,13 @@ public class ForkingGiantTreeFeature extends Feature<ForkingGiantTreeConfig>
             }
             if (generateDebug) {this.generateDebug();}
             return new ForkingTrunkBlockPosList(forkPos1, forkPos2, new BlockPos(placementPos));
+        }
+
+        private void generateForkToSupportTrunkJonction(BlockPos supportStart, BlockPos supportEnd)
+        {
+            StraightLineForkJonction jonction = new StraightLineForkJonction(((FeaturePlaceContext<ForkingGiantTreeConfig>) this.context), new StraightLine.StraightLineParameters(supportStart, supportEnd));
+            jonction.generate(false);
+            jonction = null;
         }
 
         public boolean isStepFor1stFork(int step, int maxStep)
@@ -222,6 +225,8 @@ public class ForkingGiantTreeFeature extends Feature<ForkingGiantTreeConfig>
             if (this.isFork) {this.tryPlacingBlocksCross(pos);}
             else {super.tryPlacingBlocks(pos, step, maxStep);}
         }
+
+        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((ForkingGiantTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);}
     }
 
     private static class GiantFoliage extends ClassicGiantFoliage
