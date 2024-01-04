@@ -9,6 +9,8 @@ import fr.factionbedrock.aerialhell.World.Features.Util.*;
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantBranch;
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantFoliage;
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantTrunk;
+import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.PosLists.FoliagePosList;
+import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.PosLists.ForkingTrunkBlockPosList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
@@ -16,6 +18,8 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+
+import javax.annotation.Nullable;
 
 public class ForkingGiantTreeFeature extends Feature<ForkingGiantTreeConfig>
 {
@@ -38,38 +42,55 @@ public class ForkingGiantTreeFeature extends Feature<ForkingGiantTreeConfig>
             BlockPos trunkStart = origin.below(2);
             int xOffset = rand.nextInt(-maxXZdistance, maxXZdistance), yOffset = rand.nextInt(minYdistance, maxYdistance), zOffset = rand.nextInt(-maxXZdistance, maxXZdistance);
             BlockPos trunkEnd = origin.offset(xOffset, yOffset, zOffset);
-            int yFoliageSize = getYFoliageSize(yOffset, minYdistance, maxYdistance);
-            int xzFoliageSize = (int) (yFoliageSize * 3.2F);
-            ForkingTrunkBlockPosList trunkPosList = generateTrunk(context, trunkStart, trunkEnd, false, false);
-            BlockPos mainFoliageCenter = trunkPosList.getEndPos();
-            BlockPos forkStart = trunkPosList.getForkPos();
-            BlockPos forkEnd = forkStart.offset(-2*xOffset, yOffset/2, -2*zOffset);
-            ForkingTrunkBlockPosList trunkPosList2 = generateTrunk(context, forkStart, forkEnd, true, false);
-            int yForkFoliageSize = getYFoliageSize(yOffset * 3 / 4, minYdistance * 3 / 4, maxYdistance * 3 / 4);
-            int xzForkFoliageSize = (int) (yForkFoliageSize * 3.2F);
-            BlockPos forkFoliageCenter = trunkPosList2.getEndPos();
-            if (trunkPosList.get2ndForkPos() != null)
-            {
-                BlockPos fork2Start = trunkPosList.get2ndForkPos();
-                BlockPos fork2End = fork2Start.offset(-2*zOffset, yOffset/2, -2*xOffset);
-                ForkingTrunkBlockPosList trunkPosList3 = generateTrunk(context, fork2Start, fork2End, true, false);
-                BlockPos fork2FoliageCenter = trunkPosList3.getEndPos();
-                generateFoliage(context, fork2FoliageCenter, xzForkFoliageSize, yForkFoliageSize);
-            }
-            generateFoliage(context, mainFoliageCenter, xzFoliageSize, yFoliageSize);
-            generateFoliage(context, forkFoliageCenter, xzForkFoliageSize, yForkFoliageSize);
-            generateBranches(context, mainFoliageCenter, xzFoliageSize, yFoliageSize);
-            generateBranches(context, forkFoliageCenter, xzForkFoliageSize, yForkFoliageSize);
+            FoliagePosList foliagePosList = generateTrunk(context, trunkStart, trunkEnd, false);
+            generateFoliagesAndBranches(context, foliagePosList);
             return true;
         }
     }
 
-    protected ForkingTrunkBlockPosList generateTrunk(FeaturePlaceContext<ForkingGiantTreeConfig> context, BlockPos trunkStart, BlockPos trunkEnd, boolean isFork, boolean generateDebug)
+    protected FoliagePosList generateTrunk(FeaturePlaceContext<ForkingGiantTreeConfig> context, BlockPos trunkStart, BlockPos trunkEnd, boolean generateDebug)
     {
-        ForkingGiantTrunk trunkSpline = new ForkingGiantTrunk(context, new StraightLine.StraightLineParameters(trunkStart, trunkEnd), 2 + context.random().nextInt(2), isFork);
+        ForkingGiantTrunk trunkSpline = new ForkingGiantTrunk(context, new StraightLine.StraightLineParameters(trunkStart, trunkEnd), 2 + context.random().nextInt(2), false);
         ForkingTrunkBlockPosList trunkPosList = trunkSpline.generateForkingTrunk(generateDebug);
         trunkSpline = null;
+
+        int yFoliageSize = getYFoliageSize(trunkStart, trunkEnd, context); int xzFoliageSize = getXZFoliageSize(yFoliageSize);
+        FoliagePosList foliagePosList = new FoliagePosList(trunkPosList.getEndPos(), xzFoliageSize, yFoliageSize);
+
+        @Nullable ForkingTrunkBlockPosList trunkPosList1 = generateTrunkFork(context, trunkStart, trunkEnd, trunkPosList, 1);
+        if (trunkPosList1 != null) {foliagePosList.addFoliageInfo(createFoliageInfo(context, trunkStart, trunkEnd, trunkPosList1, 3.0F / 4.0F));} //should use forkStart and forkEnd, but instead we use trunkStart and trunkEnd + a factor
+
+        @Nullable ForkingTrunkBlockPosList trunkPosList2 = generateTrunkFork(context, trunkStart, trunkEnd, trunkPosList, 2);
+        if (trunkPosList2 != null) {foliagePosList.addFoliageInfo(createFoliageInfo(context, trunkStart, trunkEnd, trunkPosList2, 5.0F / 8.0F));} //should use forkStart and forkEnd, but instead we use trunkStart and trunkEnd + a factor
+
+        return foliagePosList;
+    }
+
+    @Nullable protected ForkingTrunkBlockPosList generateTrunkFork(FeaturePlaceContext<ForkingGiantTreeConfig> context, BlockPos supportTrunkStart, BlockPos supportTrunkEnd, ForkingTrunkBlockPosList supportTrunkPosList, int forkIndex)
+    {
+        BlockPos forkStart = supportTrunkPosList.getForkPos(forkIndex);
+        if (forkStart == null) {return null;}
+        BlockPos forkEnd = getForkEnd(forkStart, supportTrunkStart, supportTrunkEnd, -2, 0.5F);
+
+        ForkingGiantTrunk trunkSpline = new ForkingGiantTrunk(context, new StraightLine.StraightLineParameters(forkStart, forkEnd), 1 + context.random().nextInt(2), true);
+        ForkingTrunkBlockPosList trunkPosList = trunkSpline.generateForkingTrunk(false);
+        trunkSpline = null;
         return trunkPosList;
+    }
+
+    protected void generateFoliagesAndBranches(FeaturePlaceContext<ForkingGiantTreeConfig> context, FoliagePosList posList)
+    {
+        FoliagePosList.FoliageInfo mainFoliageInfo = posList.getFoliage1();
+        FoliagePosList.FoliageInfo fork1FoliageInfo = posList.getFoliage2();
+        FoliagePosList.FoliageInfo fork2FoliageInfo = posList.getFoliage3();
+
+        generateFoliage(context, mainFoliageInfo.getFoliagePos(), mainFoliageInfo.getXzSize(), mainFoliageInfo.getySize());
+        if (fork1FoliageInfo != null) {generateFoliage(context, fork1FoliageInfo.getFoliagePos(), fork1FoliageInfo.getXzSize(), fork1FoliageInfo.getySize());}
+        if (fork2FoliageInfo != null) {generateFoliage(context, fork2FoliageInfo.getFoliagePos(), fork2FoliageInfo.getXzSize(), fork2FoliageInfo.getySize());}
+
+        generateBranches(context, mainFoliageInfo.getFoliagePos(), mainFoliageInfo.getXzSize(), mainFoliageInfo.getySize());
+        if (fork1FoliageInfo != null) {generateBranches(context, fork1FoliageInfo.getFoliagePos(), fork1FoliageInfo.getXzSize(), fork1FoliageInfo.getySize());}
+        if (fork2FoliageInfo != null) {generateBranches(context, fork2FoliageInfo.getFoliagePos(), fork2FoliageInfo.getXzSize(), fork2FoliageInfo.getySize());}
     }
 
     protected void generateFoliage(FeaturePlaceContext<ForkingGiantTreeConfig> context, BlockPos centerPos, int xzSize, int ySize)
@@ -107,8 +128,24 @@ public class ForkingGiantTreeFeature extends Feature<ForkingGiantTreeConfig>
         branch = null;
     }
 
-    protected int getYFoliageSize(BlockPos trunkStart, BlockPos trunkEnd, int minTrunkHeight, int maxTrunkHeight) {return getYFoliageSize(trunkEnd.getY() - trunkStart.getY(), minTrunkHeight, maxTrunkHeight);}
+    protected BlockPos getForkEnd(BlockPos forkStart, BlockPos supportTrunkStart, BlockPos supportTrunkEnd, float xzfactor, float yfactor)
+    {
+        int xOffset = supportTrunkEnd.getX() - supportTrunkStart.getX(), yOffset = supportTrunkEnd.getY() - supportTrunkStart.getY(), zOffset = supportTrunkEnd.getZ() - supportTrunkStart.getZ();
+        return forkStart.offset((int) (xzfactor*xOffset), (int) (yOffset*yfactor), (int) (xzfactor*zOffset));
+    }
+
+    protected int getYFoliageSize(BlockPos trunkStart, BlockPos trunkEnd, FeaturePlaceContext<ForkingGiantTreeConfig> context) {return getYFoliageSize(trunkStart, trunkEnd, context, 1);}
+    protected int getYFoliageSize(BlockPos trunkStart, BlockPos trunkEnd, FeaturePlaceContext<ForkingGiantTreeConfig> context, float sizeFactor) {return getYFoliageSize(trunkStart, trunkEnd, context.config().trunkMinVerticalOffset(), context.config().trunkMaxVerticalOffset(), sizeFactor);}
+    protected int getYFoliageSize(BlockPos trunkStart, BlockPos trunkEnd, int minTrunkHeight, int maxTrunkHeight, float sizeFactor) {return getYFoliageSize(trunkEnd.getY() - trunkStart.getY(), minTrunkHeight, maxTrunkHeight, sizeFactor);}
+    protected int getYFoliageSize(int trunkHeight, int minTrunkHeight, int maxTrunkHeight, float sizeFactor) {return getYFoliageSize((int) (trunkHeight * sizeFactor), (int) (minTrunkHeight * sizeFactor), (int) (maxTrunkHeight * sizeFactor));}
     protected int getYFoliageSize(int trunkHeight, int minTrunkHeight, int maxTrunkHeight) {return Math.max((minTrunkHeight + maxTrunkHeight) / 16 /*average divided by 8*/, trunkHeight / 8);}
+    protected int getXZFoliageSize(int yFoliageSize) {return (int) (yFoliageSize * 3.2F);}
+
+    protected FoliagePosList.FoliageInfo createFoliageInfo(FeaturePlaceContext<ForkingGiantTreeConfig> context, BlockPos trunkStart, BlockPos trunkEnd, ForkingTrunkBlockPosList trunkPosList, float sizeFactor)
+    {
+        int yFoliageSize = getYFoliageSize(trunkStart, trunkEnd, context, sizeFactor); int xzFoliageSize = getXZFoliageSize(yFoliageSize);
+        return new FoliagePosList.FoliageInfo(trunkPosList.getEndPos(), xzFoliageSize, yFoliageSize);
+    }
 
     private boolean isValidTreePos(WorldGenLevel level, BlockPos pos) {return isValidTreeSupport(level.getBlockState(pos.below())) && level.isEmptyBlock(pos) && thereIsAirAbovePosition(level, pos);}
     private boolean isValidTreeSupport(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_DIRT);}

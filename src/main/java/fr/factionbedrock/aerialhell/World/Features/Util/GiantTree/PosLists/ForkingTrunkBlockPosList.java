@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.World.Features.Util;
+package fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.PosLists;
 
 import net.minecraft.core.BlockPos;
 
@@ -36,5 +36,15 @@ public class ForkingTrunkBlockPosList
     @Nullable public BlockPos get2ndForkPos() {return this.forkPos2;}
     @Nullable public BlockPos get3rdForkPos() {return this.forkPos3;}
     @Nullable public BlockPos get4thForkPos() {return this.forkPos4;}
+
+    @Nullable public BlockPos getForkPos(int forkIndex)
+    {
+        if (forkIndex == 1) {return this.forkPos;}
+        else if (forkIndex == 2) {return this.forkPos2;}
+        else if (forkIndex == 3) {return this.forkPos3;}
+        else if (forkIndex == 4) {return this.forkPos4;}
+        else {return null;}
+    }
+
     public BlockPos getEndPos() {return this.endPos;}
 }
