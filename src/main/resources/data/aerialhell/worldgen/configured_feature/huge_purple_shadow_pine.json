@@ -4,6 +4,8 @@
     "trunk_max_horizontal_offset": 5,
     "trunk_min_vertical_offset": 28,
     "trunk_max_vertical_offset": 38,
+    "branch_quantity": 12,
+    "vertical_branch_separation": 4,
     "trunk_provider": {
       "type": "minecraft:weighted_state_provider",
       "entries": [

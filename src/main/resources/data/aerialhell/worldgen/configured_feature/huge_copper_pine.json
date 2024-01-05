@@ -4,6 +4,8 @@
     "trunk_max_horizontal_offset": 5,
     "trunk_min_vertical_offset": 27,
     "trunk_max_vertical_offset": 38,
+    "branch_quantity": 10,
+    "vertical_branch_separation": 3,
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
