@@ -11,6 +11,7 @@ import fr.factionbedrock.aerialhell.World.Features.Util.StraightLine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -28,7 +29,7 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
 
         boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
 
-        if (!isValidTreePos(level,origin) || generatesInDungeon) {return false;}
+        if (!isValidTreePos(level,origin) || context.origin().above(config.trunkMaxVerticalOffset()).getY() > context.level().getMaxBuildHeight() || generatesInDungeon) {return false;}
         else
         {
             int maxXZdistance=config.trunkMaxHorizontalOffset(), minYdistance=config.trunkMinVerticalOffset(), maxYdistance=config.trunkMaxVerticalOffset();
@@ -186,7 +187,7 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
         }
 
         @Override public BlockState getStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);}
-        public BlockState getLeavesStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).foliageProvider().getState(context.random(), pos);}
+        public BlockState getLeavesStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).foliageProvider().getState(context.random(), pos).setValue(LeavesBlock.DISTANCE, 1);}
 
         protected boolean isReplaceableByLeaves(WorldGenLevel reader, BlockPos blockPos)
         {
@@ -264,7 +265,7 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
         }
 
         @Override public BlockState getStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);}
-        public BlockState getLeavesStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).foliageProvider().getState(context.random(), pos);}
+        public BlockState getLeavesStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).foliageProvider().getState(context.random(), pos).setValue(LeavesBlock.DISTANCE, 1);}
 
         @Override protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
         {

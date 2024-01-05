@@ -1,9 +1,9 @@
 {
-  "feature": "aerialhell:huge_copper_pine",
+  "feature": "aerialhell:huge_purple_shadow_pine",
   "placement": [
     {
       "type": "minecraft:rarity_filter",
-      "chance": 20
+      "chance": 35
     },
     {
       "type": "minecraft:in_square"

@@ -2,7 +2,7 @@
   "type": "aerialhell:giant_pine_tree",
   "config": {
     "trunk_max_horizontal_offset": 5,
-    "trunk_min_vertical_offset": 25,
+    "trunk_min_vertical_offset": 27,
     "trunk_max_vertical_offset": 38,
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",
