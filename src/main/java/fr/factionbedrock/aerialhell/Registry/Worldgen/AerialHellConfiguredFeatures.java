@@ -46,6 +46,16 @@ public class AerialHellConfiguredFeatures
     public static final ResourceKey<ConfiguredFeature<?, ?>> GOLDEN_BEECH = createKey("golden_beech");
     public static final ResourceKey<ConfiguredFeature<?, ?>> CRYSTALLIZED_TREE = createKey("crystallized_tree");
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_AERIAL_TREE = createKey("giant_aerial_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_COPPER_PINE = createKey("giant_copper_pine");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> HUGE_COPPER_PINE = createKey("huge_copper_pine");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_LAPIS_ROBINIA = createKey("giant_lapis_robinia");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_SHADOW_PINE = createKey("giant_shadow_pine");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_PURPLE_SHADOW_PINE = createKey("giant_purple_shadow_pine");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> HUGE_SHADOW_PINE = createKey("huge_shadow_pine");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> HUGE_PURPLE_SHADOW_PINE = createKey("huge_purple_shadow_pine");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_STELLAR_JUNGLE_TREE = createKey("giant_stellar_jungle_tree");
+
     public static final ResourceKey<ConfiguredFeature<?, ?>> AERIAL_TREE_VEGETATION = createKey("aerial_tree_vegetation");
     public static final ResourceKey<ConfiguredFeature<?, ?>> FOREST_AERIAL_TREE_VEGETATION = createKey("forest_aerial_tree_vegetation");
     public static final ResourceKey<ConfiguredFeature<?, ?>> COPPER_PINE_VEGETATION = createKey("copper_pine_vegetation");

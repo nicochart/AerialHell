@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -11,10 +11,19 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
-public class ShadowPineSaplingBlock extends SaplingBlock
+public class ShadowPineSaplingBlock extends AerialHellSaplingBlock
 {
-	public ShadowPineSaplingBlock(TreeGrower treeIn, BlockBehaviour.Properties properties) {super(treeIn, properties);}
+	public ShadowPineSaplingBlock(TreeGrower treeIn, BlockBehaviour.Properties properties, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey, ResourceKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey, float hugeChance)
+	{
+		super(treeIn, properties, giantTreeFeatureKey, hugeTreeFeatureKey, hugeChance);
+	}
+
+	public ShadowPineSaplingBlock(TreeGrower treeIn, BlockBehaviour.Properties properties, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey)
+	{
+		super(treeIn, properties, giantTreeFeatureKey);
+	}
 	
 	@Override
 	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn)
