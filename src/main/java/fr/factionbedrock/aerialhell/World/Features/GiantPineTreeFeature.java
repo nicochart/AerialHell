@@ -188,7 +188,7 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
         protected void tryPlacingLeavesBlock(BlockPos.MutableBlockPos pos)
         {
             WorldGenLevel reader = context.level();
-            if (isReplaceableByLeaves(reader, pos)) {reader.setBlock(pos, getLeavesStateForPlacement(pos), 0);}
+            if (isReplaceableByLeaves(reader, pos)) {reader.setBlock(pos, getLeavesStateForPlacement(pos), 2);}
         }
 
         @Override public BlockState getStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);}
@@ -267,7 +267,7 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
         protected void tryPlacingLeavesBlock(BlockPos.MutableBlockPos pos)
         {
             WorldGenLevel level = context.level();
-            if (isReplaceableByLeaves(level, pos)) {level.setBlock(pos, getLeavesStateForPlacement(pos), 0);}
+            if (isReplaceableByLeaves(level, pos)) {level.setBlock(pos, getLeavesStateForPlacement(pos), 2);}
         }
 
         @Override public BlockState getStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);}
