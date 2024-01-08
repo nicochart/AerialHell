@@ -123,7 +123,7 @@ public class Ellipsoid
     protected void tryPlacingBlock(BlockPos.MutableBlockPos placementPos, BlockPos ellipsoidPos) //ellipsoidPos = offset from centerPos
     {
         WorldGenLevel level = context.level();
-        if (isReplaceable(level, placementPos)) {level.setBlock(placementPos, this.getStateForPlacement(ellipsoidPos), 0);}
+        if (isReplaceable(level, placementPos)) {level.setBlock(placementPos, this.getStateForPlacement(ellipsoidPos), 2);}
     }
 
     protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)

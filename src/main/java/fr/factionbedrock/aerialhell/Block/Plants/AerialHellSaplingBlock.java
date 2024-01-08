@@ -5,6 +5,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
@@ -40,7 +41,8 @@ public class AerialHellSaplingBlock extends SaplingBlock
 			if (giantGenerationDirection != GiantTreeGenerationDirection.NONE)
 			{
 				ConfiguredFeature<?, ?> configuredfeature = getGiantTreeCFeature(serverLevel, rand);
-				if (configuredfeature.place(serverLevel, serverLevel.getChunkSource().getGenerator(), rand, getGenerationPos(pos, giantGenerationDirection))) {}
+				BlockPos generationPos = getGenerationPos(pos, giantGenerationDirection);
+				if (configuredfeature.place(serverLevel, serverLevel.getChunkSource().getGenerator(), rand, generationPos)) {removeSaplingsAroundPos(serverLevel, generationPos);}
 				else {serverLevel.setBlockAndUpdate(pos, state);}
 			}
 			else {super.advanceTree(serverLevel, pos, state, rand);}
@@ -49,7 +51,8 @@ public class AerialHellSaplingBlock extends SaplingBlock
 
 	private BlockPos getGenerationPos(BlockPos saplingPos, GiantTreeGenerationDirection generationDirection)
 	{
-		return saplingPos;
+		BlockPos offsetVector = generationDirection.getOffsetVector();
+		return offsetVector != null ? saplingPos.offset(offsetVector): saplingPos;
 	}
 
 	public ConfiguredFeature<?, ?> getGiantTreeCFeature(ServerLevel level, RandomSource rand)
@@ -88,6 +91,21 @@ public class AerialHellSaplingBlock extends SaplingBlock
 		return true;
 	}
 
+	private void removeSaplingsAroundPos(ServerLevel serverLevel, BlockPos centerPos)
+	{
+		AerialHellSaplingBlock sapling = (AerialHellSaplingBlock) this.asBlock();
+		for (int x=-1; x<=1; x++)
+		{
+			for (int z=-1; z<=1; z++)
+			{
+				if (serverLevel.getBlockState(centerPos.offset(x, 0, z)).getBlock() == sapling)
+				{
+					serverLevel.setBlock(centerPos.offset(x, 0, z), Blocks.AIR.defaultBlockState(), 2);
+				}
+			}
+		}
+	}
+
 	public static class GiantTreeGenerationDirection
 	{
 		public static GiantTreeGenerationDirection NONE = new GiantTreeGenerationDirection(null);
@@ -105,5 +123,18 @@ public class AerialHellSaplingBlock extends SaplingBlock
 		private GiantTreeGenerationDirection(@Nullable BlockPos offsetVector) {this.offsetVector = offsetVector;}
 
 		@Nullable public BlockPos getOffsetVector() {return offsetVector;}
+		public GiantTreeGenerationDirection getOpposite()
+		{
+			if (this == MIDDLE) {return MIDDLE;}
+			else if (this == NORTH) {return SOUTH;}
+			else if (this == SOUTH) {return NORTH;}
+			else if (this == EAST) {return WEST;}
+			else if (this == WEST) {return EAST;}
+			else if (this == NORTH_EAST) {return SOUTH_WEST;}
+			else if (this == NORTH_WEST) {return SOUTH_EAST;}
+			else if (this == SOUTH_EAST) {return NORTH_WEST;}
+			else if (this == SOUTH_WEST) {return NORTH_EAST;}
+			else /*if (this == NONE)*/ {return NONE;}
+		}
 	}
 }

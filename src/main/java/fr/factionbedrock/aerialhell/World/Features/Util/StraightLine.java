@@ -121,7 +121,7 @@ public class StraightLine
     protected void tryPlacingBlock(BlockPos.MutableBlockPos pos)
     {
         WorldGenLevel reader = context.level();
-        if (isReplaceable(reader, pos)) {reader.setBlock(pos, getStateForPlacement(pos), 0);}
+        if (isReplaceable(reader, pos)) {reader.setBlock(pos, getStateForPlacement(pos), 2);}
     }
 
     public BlockState getStateForPlacement(BlockPos pos) {return block.get().defaultBlockState();}
