@@ -22,17 +22,17 @@ public class ClassicGiantTrunk extends SplineKnotsDeformedStraightLine
         return super.isReplaceable(level, blockPos) || previousBlock.is(AerialHellTags.Blocks.LEAVES) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT);
     }
 
-    @Override protected void tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
+    @Override protected boolean tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
     {
         if (this.isLarge())
         {
-            if (step < maxStep / 8) {tryPlacingBlocksSphere(pos, 3);}
-            else {tryPlacingBlocksSphere(pos, 2);}
+            if (step < maxStep / 8) {return tryPlacingBlocksSphere(pos, 3);}
+            else {return tryPlacingBlocksSphere(pos, 2);}
         }
         else
         {
-            if (step < maxStep / 8) {tryPlacingBlocksSphere(pos, 2);}
-            else {tryPlacingBlocksCross(pos);}
+            if (step < maxStep / 8) {return tryPlacingBlocksSphere(pos, 2);}
+            else {return tryPlacingBlocksCross(pos);}
         }
     }
 }

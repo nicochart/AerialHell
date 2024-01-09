@@ -120,10 +120,11 @@ public class Ellipsoid
         return upInEll || downInEll || southInEll || northInEll || eastInEll || westInEll;
     }
 
-    protected void tryPlacingBlock(BlockPos.MutableBlockPos placementPos, BlockPos ellipsoidPos) //ellipsoidPos = offset from centerPos
+    protected boolean tryPlacingBlock(BlockPos.MutableBlockPos placementPos, BlockPos ellipsoidPos) //ellipsoidPos = offset from centerPos
     {
-        WorldGenLevel level = context.level();
-        if (isReplaceable(level, placementPos)) {level.setBlock(placementPos, this.getStateForPlacement(ellipsoidPos), 2);}
+        WorldGenLevel level = context.level(); boolean isPlaceable = isReplaceable(level, placementPos);
+        if (isPlaceable) {level.setBlock(placementPos, this.getStateForPlacement(ellipsoidPos), 2);}
+        return isPlaceable;
     }
 
     protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)

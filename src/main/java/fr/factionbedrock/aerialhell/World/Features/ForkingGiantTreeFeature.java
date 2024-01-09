@@ -124,7 +124,7 @@ public class ForkingGiantTreeFeature extends Feature<ForkingGiantTreeConfig>
     protected void generateBranch(FeaturePlaceContext<ForkingGiantTreeConfig> context, BlockPos branchStart, BlockPos branchEnd)
     {
         GiantBranch branch = new GiantBranch(context, new StraightLine.StraightLineParameters(branchStart, branchEnd), 1);
-        branch.generate(false);
+        branch.generate(false, false);
         branch = null;
     }
 
@@ -197,7 +197,7 @@ public class ForkingGiantTreeFeature extends Feature<ForkingGiantTreeConfig>
         private void generateForkToSupportTrunkJonction(BlockPos supportStart, BlockPos supportEnd)
         {
             StraightLineForkJonction jonction = new StraightLineForkJonction(((FeaturePlaceContext<ForkingGiantTreeConfig>) this.context), new StraightLine.StraightLineParameters(supportStart, supportEnd));
-            jonction.generate(false);
+            jonction.generate(false, false);
             jonction = null;
         }
 
@@ -219,10 +219,10 @@ public class ForkingGiantTreeFeature extends Feature<ForkingGiantTreeConfig>
             else /*if (forkNumber == 2)*/ {return context.random().nextFloat() < 0.05F;}
         }
 
-        @Override protected void tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
+        @Override protected boolean tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
         {
-            if (this.isFork) {this.tryPlacingBlocksCross(pos);}
-            else {super.tryPlacingBlocks(pos, step, maxStep);}
+            if (this.isFork) {return this.tryPlacingBlocksCross(pos);}
+            else {return super.tryPlacingBlocks(pos, step, maxStep);}
         }
 
         @Override public BlockState getStateForPlacement(BlockPos pos) {return ((ForkingGiantTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);}

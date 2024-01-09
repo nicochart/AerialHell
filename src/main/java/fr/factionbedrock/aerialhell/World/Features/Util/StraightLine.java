@@ -26,7 +26,7 @@ public class StraightLine
         this.block = block;
     }
 
-    public BlockPos generate(boolean generateDebug) //returns last placed block pos
+    public BlockPos generate(boolean stopAtAnyObstacle, boolean generateDebug) //returns last placed block pos
     {
         int i = 0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(this.straightLineParams.getStart(), this.straightLineParams.getEnd());
 
@@ -35,7 +35,8 @@ public class StraightLine
         while(!placementPos.equals(this.straightLineParams.getEnd()) && i <= maxAbsOffset * straightLineParams.precisionMultiplicator)
         {
             placementPos.set(getOffsetPosFromStart(i));
-            tryPlacingBlocks(placementPos, i, maxAbsOffset * straightLineParams.precisionMultiplicator);
+            boolean onePlaced = tryPlacingBlocks(placementPos, i, maxAbsOffset * straightLineParams.precisionMultiplicator);
+            if (stopAtAnyObstacle && !onePlaced) {return placementPos;}
             i++;
         }
         if (generateDebug) {this.generateDebug();}
@@ -76,13 +77,14 @@ public class StraightLine
         return this.straightLineParams.getEnd().offset((int) (- step * this.straightLineGenStepMoveVec.x), (int) (- step * this.straightLineGenStepMoveVec.y), (int) (- step * this.straightLineGenStepMoveVec.z));
     }
 
-    protected void tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
+    protected boolean tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
     {
-        this.tryPlacingBlocksCross(pos);
+        return this.tryPlacingBlocksCross(pos);
     }
 
-    protected void tryPlacingBlocksSphere(BlockPos.MutableBlockPos pos, int radius)
+    protected boolean tryPlacingBlocksSphere(BlockPos.MutableBlockPos pos, int radius) //returns true if one of the blocks is placed
     {
+        boolean onePlaced = false;
         BlockPos.MutableBlockPos placementPos = pos.mutable();
         for (int x=-radius; x<=radius; x++)
         {
@@ -93,35 +95,38 @@ public class StraightLine
                     if (x*x + y*y + z*z <= radius*radius)
                     {
                         placementPos.set(pos.offset(x,y,z));
-                        tryPlacingBlock(placementPos);
+                        onePlaced = tryPlacingBlock(placementPos) || onePlaced;
                     }
                 }
             }
         }
+        return onePlaced;
     }
 
-    protected void tryPlacingBlocksCross(BlockPos.MutableBlockPos pos)
+    protected boolean tryPlacingBlocksCross(BlockPos.MutableBlockPos pos) //returns true if one of the blocks is placed
     {
-        tryPlacingBlock(pos);
+        boolean onePlaced = tryPlacingBlock(pos);
         pos.move(1, 0, 0);
-        tryPlacingBlock(pos);
+        onePlaced = tryPlacingBlock(pos) || onePlaced;
         pos.move(-2, 0, 0);
-        tryPlacingBlock(pos);
+        onePlaced = tryPlacingBlock(pos) || onePlaced;
         pos.move(1, 1, 0);
-        tryPlacingBlock(pos);
+        onePlaced = tryPlacingBlock(pos) || onePlaced;
         pos.move(0, -2, 0);
-        tryPlacingBlock(pos);
+        onePlaced = tryPlacingBlock(pos) || onePlaced;
         pos.move(0, 1, 1);
-        tryPlacingBlock(pos);
+        onePlaced = tryPlacingBlock(pos) || onePlaced;
         pos.move(0, 0, -2);
-        tryPlacingBlock(pos);
+        onePlaced = tryPlacingBlock(pos) || onePlaced;
         pos.move(0, 0, 1);
+        return onePlaced;
     }
 
-    protected void tryPlacingBlock(BlockPos.MutableBlockPos pos)
+    protected boolean tryPlacingBlock(BlockPos.MutableBlockPos pos) //returns true if the block is placed
     {
-        WorldGenLevel reader = context.level();
-        if (isReplaceable(reader, pos)) {reader.setBlock(pos, getStateForPlacement(pos), 2);}
+        WorldGenLevel level = context.level();
+        if (isReplaceable(level, pos)) {level.setBlock(pos, getStateForPlacement(pos), 2); return true;}
+        else {return false;}
     }
 
     public BlockState getStateForPlacement(BlockPos pos) {return block.get().defaultBlockState();}

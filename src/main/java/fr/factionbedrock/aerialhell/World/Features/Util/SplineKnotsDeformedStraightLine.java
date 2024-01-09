@@ -39,7 +39,7 @@ public class SplineKnotsDeformedStraightLine extends StraightLine implements Spl
         return this.getOffsetPosFromStart(randomStep).offset((int) offsetVector.x, (int) offsetVector.y, (int) offsetVector.z);
     }
 
-    @Override public BlockPos generate(boolean generateDebug)
+    @Override public BlockPos generate(boolean stopAtAnyObstacle, boolean generateDebug)
     {
         int i = 0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(this.straightLineParams.getStart(), this.straightLineParams.getEnd());
 
@@ -47,7 +47,8 @@ public class SplineKnotsDeformedStraightLine extends StraightLine implements Spl
         while(!placementPos.equals(this.straightLineParams.getEnd()) && i <= maxAbsOffset * straightLineParams.getPrecisionMultiplicator())
         {
             placementPos.set(getKnotsDeformedPos(getOffsetPosFromStart(i), this.knots, this.knotsNumber, this.knotsParams));
-            tryPlacingBlocks(placementPos, i, maxAbsOffset * straightLineParams.getPrecisionMultiplicator());
+            boolean onePlaced = tryPlacingBlocks(placementPos, i, maxAbsOffset * straightLineParams.getPrecisionMultiplicator());
+            if (stopAtAnyObstacle && !onePlaced) {return placementPos;}
             i++;
         }
         if (generateDebug) {this.generateDebug();}

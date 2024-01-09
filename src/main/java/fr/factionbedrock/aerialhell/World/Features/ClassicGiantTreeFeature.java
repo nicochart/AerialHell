@@ -49,7 +49,7 @@ public class ClassicGiantTreeFeature extends Feature<ClassicGiantTreeConfig>
     protected BlockPos generateTrunk(FeaturePlaceContext<ClassicGiantTreeConfig> context, BlockPos trunkStart, BlockPos trunkEnd, boolean generateDebug)
     {
         GiantTrunk trunkSpline = new GiantTrunk(context, new StraightLine.StraightLineParameters(trunkStart, trunkEnd), 2 + context.random().nextInt(2));
-        BlockPos lastPos = trunkSpline.generate(generateDebug);
+        BlockPos lastPos = trunkSpline.generate(false, generateDebug);
         trunkSpline = null;
         return lastPos;
     }
@@ -85,7 +85,7 @@ public class ClassicGiantTreeFeature extends Feature<ClassicGiantTreeConfig>
     protected void generateBranch(FeaturePlaceContext<ClassicGiantTreeConfig> context, BlockPos branchStart, BlockPos branchEnd)
     {
         GiantBranch branch = new GiantBranch(context, new StraightLine.StraightLineParameters(branchStart, branchEnd), 1);
-        branch.generate(false);
+        branch.generate(false, false);
         branch = null;
     }
 

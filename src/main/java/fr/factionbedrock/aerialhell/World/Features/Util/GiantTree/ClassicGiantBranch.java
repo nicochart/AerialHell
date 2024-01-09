@@ -16,10 +16,10 @@ public class ClassicGiantBranch extends SplineKnotsDeformedStraightLine
 
     protected boolean isLarge() {return false;}
 
-    @Override protected void tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
+    @Override protected boolean tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
     {
-        if (this.isLarge()) {super.tryPlacingBlocks(pos, step, maxStep);}
-        else {tryPlacingBlock(pos);}
+        if (this.isLarge()) {return super.tryPlacingBlocks(pos, step, maxStep);}
+        else {return tryPlacingBlock(pos);}
     }
 
     @Override protected boolean isReplaceable(WorldGenLevel level, BlockPos blockPos)
@@ -28,8 +28,9 @@ public class ClassicGiantBranch extends SplineKnotsDeformedStraightLine
         return previousBlock.is(AerialHellTags.Blocks.LEAVES) || super.isReplaceable(level, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT);
     }
 
-    @Override protected void tryPlacingBlock(BlockPos.MutableBlockPos pos)
+    @Override protected boolean tryPlacingBlock(BlockPos.MutableBlockPos pos)
     {
-        if (!context.level().isEmptyBlock(pos.above())) {super.tryPlacingBlock(pos);}
+        if (!context.level().isEmptyBlock(pos.above())) {return super.tryPlacingBlock(pos);}
+        else {return false;}
     }
 }

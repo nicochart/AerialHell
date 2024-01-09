@@ -44,7 +44,7 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
     protected void generate(FeaturePlaceContext<GiantPineTreeConfig> context, BlockPos startPos, BlockPos endPos, boolean generateDebug)
     {
         GiantPineTree pineTree = new GiantPineTree(context, new StraightLine.StraightLineParameters(startPos, endPos), 2 + context.random().nextInt(2));
-        pineTree.generate(generateDebug);
+        pineTree.generate(false, generateDebug);
         pineTree = null;
     }
 
@@ -70,7 +70,7 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
 
         @Override protected boolean isLarge() {return this.largeTrunk;}
 
-        @Override public BlockPos generate(boolean generateDebug)
+        @Override public BlockPos generate(boolean stopAtAnyObstacle, boolean generateDebug)
         {
             int i = 0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(this.straightLineParams.getStart(), this.straightLineParams.getEnd());
             int branchCooldown = 5, branchDistance = getContext().config().verticalBranchSeparation();
@@ -79,7 +79,7 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
             while(!placementPos.equals(this.straightLineParams.getEnd()) && i <= maxAbsOffset * straightLineParams.getPrecisionMultiplicator())
             {
                 placementPos.set(getKnotsDeformedPos(getOffsetPosFromStart(i), this.getKnots(), this.getKnotsNumber(), this.getKnotsParameters()));
-                tryPlacingBlocks(placementPos, i, maxAbsOffset * straightLineParams.getPrecisionMultiplicator());
+                boolean onePlaced = tryPlacingBlocks(placementPos, i, maxAbsOffset * straightLineParams.getPrecisionMultiplicator());
 
                 if (branchCooldown-- <= 0 && i <= maxAbsOffset * straightLineParams.getPrecisionMultiplicator() * 7 / 8)
                 {
@@ -87,6 +87,7 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
                     branchCooldown = branchDistance;
                 }
 
+                if (stopAtAnyObstacle && !onePlaced) {return placementPos;}
                 i++;
             }
             if (generateDebug) {this.generateDebug();}
@@ -105,9 +106,9 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
             int yOffset = (int) (yLargeFactor * factor * context.random().nextInt(meanYoffset-1, meanYoffset+2));
             int zOffset = (int) (xzLargeFactor * factor * context.random().nextInt(-maxXZoffset, maxXZoffset));
             StraightPineBranch branch = new StraightPineBranch(getContext(), new StraightLineParameters(startPos, startPos.offset(xOffset, yOffset, zOffset)));
-            branch.generate(false);
+            branch.generate(true, false);
             branch = new StraightPineBranch(getContext(), new StraightLineParameters(startPos, startPos.offset(-xOffset, yOffset, -zOffset)));
-            branch.generate(false);
+            branch.generate(true, false);
 
             for (int i=2; i<randomBranchCount; i++)
             {
@@ -116,7 +117,7 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
                 zOffset = (int) (xzLargeFactor * factor * context.random().nextInt(-maxXZoffset, maxXZoffset));
                 BlockPos endPos = startPos.offset(xOffset, yOffset, zOffset);
                 branch = new StraightPineBranch(getContext(), new StraightLineParameters(startPos, endPos));
-                branch.generate(false);
+                branch.generate(true, false);
             }
             branch = null;
         }
@@ -126,42 +127,40 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
             return (this.isLarge() ? getContext().config().branchQuantity() / 2 : 0) + this.context.random().nextInt(getContext().config().branchQuantity() / 2, getContext().config().branchQuantity());
         }
 
-        @Override protected void tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
+        @Override protected boolean tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
         {
-            if (step >= maxStep * 7 / 8) {tryPlacingPineTopBlocks(pos, step >= maxStep * 15 / 16);}
-            else {super.tryPlacingBlocks(pos, step, maxStep);}
+            if (step >= maxStep * 7 / 8) {return tryPlacingPineTopBlocks(pos, step >= maxStep * 15 / 16);}
+            else {return super.tryPlacingBlocks(pos, step, maxStep);}
         }
 
-        protected void tryPlacingPineTopBlocks(BlockPos.MutableBlockPos pos, boolean isVeryTop)
+        protected boolean tryPlacingPineTopBlocks(BlockPos.MutableBlockPos pos, boolean isVeryTop)
         {
-            if (this.isLarge() && !isVeryTop)
-            {
-                tryPlacingTopBlocksSphere(pos, 2);
-                tryPlacingTopBlocksSphere(pos, 2);
-            }
-            else {tryPlacingPineTopBlocksCross(pos);}
+            if (this.isLarge() && !isVeryTop) {return tryPlacingTopBlocksSphere(pos, 2);}
+            else {return tryPlacingPineTopBlocksCross(pos);}
         }
 
-        protected void tryPlacingPineTopBlocksCross(BlockPos.MutableBlockPos pos)
+        protected boolean tryPlacingPineTopBlocksCross(BlockPos.MutableBlockPos pos)
         {
-            tryPlacingBlock(pos);
+            boolean onePlaced = tryPlacingBlock(pos);
             pos.move(1, 0, 0);
-            tryPlacingLeavesBlock(pos);
+            onePlaced = tryPlacingLeavesBlock(pos) || onePlaced;
             pos.move(-2, 0, 0);
-            tryPlacingLeavesBlock(pos);
+            onePlaced = tryPlacingLeavesBlock(pos) || onePlaced;
             pos.move(1, 1, 0);
-            tryPlacingLeavesBlock(pos);
+            onePlaced = tryPlacingLeavesBlock(pos) || onePlaced;
             pos.move(0, -2, 0);
-            tryPlacingLeavesBlock(pos);
+            onePlaced = tryPlacingLeavesBlock(pos) || onePlaced;
             pos.move(0, 1, 1);
-            tryPlacingLeavesBlock(pos);
+            onePlaced = tryPlacingLeavesBlock(pos) || onePlaced;
             pos.move(0, 0, -2);
-            tryPlacingLeavesBlock(pos);
+            onePlaced = tryPlacingLeavesBlock(pos) || onePlaced;
             pos.move(0, 0, 1);
+            return onePlaced;
         }
 
-        protected void tryPlacingTopBlocksSphere(BlockPos.MutableBlockPos pos, int radius)
+        protected boolean tryPlacingTopBlocksSphere(BlockPos.MutableBlockPos pos, int radius)
         {
+            boolean onePlaced = false;
             BlockPos.MutableBlockPos placementPos = pos.mutable();
             for (int x=-radius; x<=radius; x++)
             {
@@ -173,22 +172,24 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
                         if (p <= radius*radius / 4)
                         {
                             placementPos.set(pos.offset(x,y,z));
-                            tryPlacingBlock(placementPos);
+                            onePlaced = tryPlacingBlock(placementPos) || onePlaced;
                         }
                         else if (p <= radius*radius)
                         {
                             placementPos.set(pos.offset(x,y,z));
-                            tryPlacingLeavesBlock(placementPos);
+                            onePlaced = tryPlacingLeavesBlock(placementPos) || onePlaced;
                         }
                     }
                 }
             }
+            return onePlaced;
         }
 
-        protected void tryPlacingLeavesBlock(BlockPos.MutableBlockPos pos)
+        protected boolean tryPlacingLeavesBlock(BlockPos.MutableBlockPos pos)
         {
-            WorldGenLevel reader = context.level();
-            if (isReplaceableByLeaves(reader, pos)) {reader.setBlock(pos, getLeavesStateForPlacement(pos), 2);}
+            WorldGenLevel level = context.level();
+            if (isReplaceableByLeaves(level, pos)) {level.setBlock(pos, getLeavesStateForPlacement(pos), 2); return true;}
+            else {return false;}
         }
 
         @Override public BlockState getStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);}
@@ -210,37 +211,39 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
             this.isLarge = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 22 && straightLineParams.getStart().distSqr(straightLineParams.getEnd()) > 64;
         }
 
-        @Override protected void tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
+        @Override protected boolean tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
         {
-            if (pos.getY() < context.origin().getY()) {return;}
+            if (pos.getY() < context.origin().getY()) {return false;}
             if (this.isLarge)
             {
-                if (step < maxStep / 6) {tryPlacingBlocksSphere(pos, 2);}
-                else {tryPlacingBlocksCross(pos);}
+                if (step < maxStep / 6) {return tryPlacingBlocksSphere(pos, 2);}
+                else {return tryPlacingBlocksCross(pos);}
             }
-            else {tryPlacingBlocksCross(pos);}
+            else {return tryPlacingBlocksCross(pos);}
         }
 
-        @Override protected void tryPlacingBlocksCross(BlockPos.MutableBlockPos pos)
+        @Override protected boolean tryPlacingBlocksCross(BlockPos.MutableBlockPos pos)
         {
-            tryPlacingBlock(pos);
+            boolean onePlaced = tryPlacingBlock(pos);
             pos.move(1, 0, 0);
-            tryPlacingLeavesBlock(pos);
+            onePlaced = tryPlacingLeavesBlock(pos) || onePlaced;
             pos.move(-2, 0, 0);
-            tryPlacingLeavesBlock(pos);
+            onePlaced = tryPlacingLeavesBlock(pos) || onePlaced;
             pos.move(1, 1, 0);
-            tryPlacingLeavesBlock(pos);
+            onePlaced = tryPlacingLeavesBlock(pos) || onePlaced;
             pos.move(0, -2, 0);
-            tryPlacingLeavesBlock(pos);
+            onePlaced = tryPlacingLeavesBlock(pos) || onePlaced;
             pos.move(0, 1, 1);
-            tryPlacingLeavesBlock(pos);
+            onePlaced = tryPlacingLeavesBlock(pos) || onePlaced;
             pos.move(0, 0, -2);
-            tryPlacingLeavesBlock(pos);
+            onePlaced = tryPlacingLeavesBlock(pos) || onePlaced;
             pos.move(0, 0, 1);
+            return onePlaced;
         }
 
-        @Override protected void tryPlacingBlocksSphere(BlockPos.MutableBlockPos pos, int radius)
+        @Override protected boolean tryPlacingBlocksSphere(BlockPos.MutableBlockPos pos, int radius)
         {
+            boolean onePlaced = false;
             BlockPos.MutableBlockPos placementPos = pos.mutable();
             for (int x=-radius; x<=radius; x++)
             {
@@ -252,22 +255,32 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
                         if (p <= radius*radius / 4)
                         {
                             placementPos.set(pos.offset(x,y,z));
-                            tryPlacingBlock(placementPos);
+                            onePlaced = tryPlacingBlock(placementPos) || onePlaced;
                         }
                         else if (p <= radius*radius)
                         {
                             placementPos.set(pos.offset(x,y,z));
-                            tryPlacingLeavesBlock(placementPos);
+                            onePlaced = tryPlacingLeavesBlock(placementPos) || onePlaced;
                         }
                     }
                 }
             }
+            return onePlaced;
         }
 
-        protected void tryPlacingLeavesBlock(BlockPos.MutableBlockPos pos)
+        @Override protected boolean tryPlacingBlock(BlockPos.MutableBlockPos pos)
         {
-            WorldGenLevel level = context.level();
-            if (isReplaceableByLeaves(level, pos)) {level.setBlock(pos, getLeavesStateForPlacement(pos), 2);}
+            boolean isThisBlockAlready = context.level().getBlockState(pos).is(getStateForPlacement(pos).getBlock());
+            boolean placed = super.tryPlacingBlock(pos);
+            return placed || isThisBlockAlready;
+        }
+
+        protected boolean tryPlacingLeavesBlock(BlockPos.MutableBlockPos pos)
+        {
+            boolean isTreeBlockAlready = context.level().getBlockState(pos).is(getStateForPlacement(pos).getBlock()) || context.level().getBlockState(pos).is(getLeavesStateForPlacement(pos).getBlock());
+            WorldGenLevel level = context.level(); boolean isPlaceable = isReplaceableByLeaves(level, pos);
+            if (isPlaceable) level.setBlock(pos, getLeavesStateForPlacement(pos), 2);
+            return isPlaceable || isTreeBlockAlready;
         }
 
         @Override public BlockState getStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);}
