@@ -1,7 +1,6 @@
-package fr.factionbedrock.aerialhell.World.Features;
+package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
 import com.mojang.serialization.Codec;
-import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.ClassicGiantTreeConfig;
 import fr.factionbedrock.aerialhell.World.Features.Util.*;
@@ -10,13 +9,11 @@ import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantFo
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantTrunk;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
-public class ClassicGiantTreeFeature extends Feature<ClassicGiantTreeConfig>
+public class ClassicGiantTreeFeature extends AbstractGiantTreeFeature<ClassicGiantTreeConfig>
 {
     private static final SplineKnotsDeformedStraightLine.KnotsParameters TRUNK_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 16, 0.3F, 5, 20);
     private static final SplineKnotsDeformedStraightLine.KnotsParameters FOLIAGE_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 18, 0.4F, 6, 19);
@@ -25,12 +22,10 @@ public class ClassicGiantTreeFeature extends Feature<ClassicGiantTreeConfig>
 
     @Override public boolean place(FeaturePlaceContext<ClassicGiantTreeConfig> context)
     {
-        WorldGenLevel level = context.level(); RandomSource rand = context.random(); ClassicGiantTreeConfig config = context.config();
+        RandomSource rand = context.random(); ClassicGiantTreeConfig config = context.config();
         BlockPos origin = context.origin();
 
-        boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
-
-        if (!isValidTreePos(level,origin) || generatesInDungeon) {return false;}
+        if (!canPlace(context)) {return false;}
         else
         {
             int maxXZdistance=config.trunkMaxHorizontalOffset(), minYdistance=config.trunkMinVerticalOffset(), maxYdistance=config.trunkMaxVerticalOffset();
@@ -39,6 +34,7 @@ public class ClassicGiantTreeFeature extends Feature<ClassicGiantTreeConfig>
             BlockPos trunkEnd = origin.offset(xOffset, yOffset, zOffset);
             int yFoliageSize = getYFoliageSize(yOffset, minYdistance, maxYdistance);
             int xzFoliageSize = (int) (yFoliageSize * 1.6F);
+            if (!FeatureHelper.isBelowMaxBuildHeight(context, context.origin().above(yOffset + yFoliageSize/2))) {return false;}
             BlockPos foliageCenter = generateTrunk(context, trunkStart, trunkEnd, false);
             generateFoliage(context, foliageCenter, xzFoliageSize, yFoliageSize);
             generateBranches(context, foliageCenter, xzFoliageSize, yFoliageSize);
@@ -91,15 +87,6 @@ public class ClassicGiantTreeFeature extends Feature<ClassicGiantTreeConfig>
 
     protected int getYFoliageSize(BlockPos trunkStart, BlockPos trunkEnd, int minTrunkHeight, int maxTrunkHeight) {return getYFoliageSize(trunkEnd.getY() - trunkStart.getY(), minTrunkHeight, maxTrunkHeight);}
     protected int getYFoliageSize(int trunkHeight, int minTrunkHeight, int maxTrunkHeight) {return Math.max((minTrunkHeight + maxTrunkHeight) / 8 /*average divided by 4*/, trunkHeight / 4);}
-
-    private boolean isValidTreePos(WorldGenLevel level, BlockPos pos) {return isValidTreeSupport(level.getBlockState(pos.below())) && (level.isEmptyBlock(pos) || level.getBlockState(pos).is(AerialHellTags.Blocks.AERIALHELL_SAPLINGS)) && thereIsAirAbovePosition(level, pos);}
-    private boolean isValidTreeSupport(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_DIRT);}
-    private boolean thereIsAirAbovePosition(WorldGenLevel level, BlockPos pos) {return thereIsAirColumnAbovePos(level, pos);}
-
-    private boolean thereIsAirColumnAbovePos(WorldGenLevel reader, BlockPos pos)
-    {
-        for (int y=1; y<=8; y++) {if (!reader.getBlockState(pos.above(y)).isAir()) {return false;}} return true;
-    }
 
     private static class GiantTrunk extends ClassicGiantTrunk
     {

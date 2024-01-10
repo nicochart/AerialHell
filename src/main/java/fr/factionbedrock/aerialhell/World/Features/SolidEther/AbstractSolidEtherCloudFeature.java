@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.World.Features;
+package fr.factionbedrock.aerialhell.World.Features.SolidEther;
 
 import com.mojang.serialization.Codec;
 

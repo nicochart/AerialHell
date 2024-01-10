@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.World.Features;
+package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
@@ -16,12 +16,11 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 import javax.annotation.Nullable;
 
-public class ForkingGiantTreeFeature extends Feature<ForkingGiantTreeConfig>
+public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGiantTreeConfig>
 {
     private static final SplineKnotsDeformedStraightLine.KnotsParameters TRUNK_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 16, 0.3F, 5, 20);
     private static final SplineKnotsDeformedStraightLine.KnotsParameters FOLIAGE_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 18, 0.4F, 6, 19);
@@ -30,18 +29,17 @@ public class ForkingGiantTreeFeature extends Feature<ForkingGiantTreeConfig>
 
     @Override public boolean place(FeaturePlaceContext<ForkingGiantTreeConfig> context)
     {
-        WorldGenLevel level = context.level(); RandomSource rand = context.random(); ForkingGiantTreeConfig config = context.config();
+        RandomSource rand = context.random(); ForkingGiantTreeConfig config = context.config();
         BlockPos origin = context.origin();
 
-        boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
-
-        if (!isValidTreePos(level,origin) || generatesInDungeon) {return false;}
+        if (!canPlace(context)) {return false;}
         else
         {
             int maxXZdistance=config.trunkMaxHorizontalOffset(), minYdistance=config.trunkMinVerticalOffset(), maxYdistance=config.trunkMaxVerticalOffset();
             BlockPos trunkStart = origin.below(2);
             int xOffset = rand.nextInt(-maxXZdistance, maxXZdistance), yOffset = rand.nextInt(minYdistance, maxYdistance), zOffset = rand.nextInt(-maxXZdistance, maxXZdistance);
             BlockPos trunkEnd = origin.offset(xOffset, yOffset, zOffset);
+            if (!FeatureHelper.isBelowMaxBuildHeight(context, context.origin().above(yOffset + getYFoliageSize(trunkStart, trunkEnd, context)/2))) {return false;}
             FoliagePosList foliagePosList = generateTrunk(context, trunkStart, trunkEnd, false);
             generateFoliagesAndBranches(context, foliagePosList);
             return true;
@@ -145,15 +143,6 @@ public class ForkingGiantTreeFeature extends Feature<ForkingGiantTreeConfig>
     {
         int yFoliageSize = getYFoliageSize(trunkStart, trunkEnd, context, sizeFactor); int xzFoliageSize = getXZFoliageSize(yFoliageSize);
         return new FoliagePosList.FoliageInfo(trunkPosList.getEndPos(), xzFoliageSize, yFoliageSize);
-    }
-
-    private boolean isValidTreePos(WorldGenLevel level, BlockPos pos) {return isValidTreeSupport(level.getBlockState(pos.below())) && (level.isEmptyBlock(pos) || level.getBlockState(pos).is(AerialHellTags.Blocks.AERIALHELL_SAPLINGS)) && thereIsAirAbovePosition(level, pos);}
-    private boolean isValidTreeSupport(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_DIRT);}
-    private boolean thereIsAirAbovePosition(WorldGenLevel level, BlockPos pos) {return thereIsAirColumnAbovePos(level, pos);}
-
-    private boolean thereIsAirColumnAbovePos(WorldGenLevel reader, BlockPos pos)
-    {
-        for (int y=1; y<=8; y++) {if (!reader.getBlockState(pos.above(y)).isAir()) {return false;}} return true;
     }
 
     private static class ForkingGiantTrunk extends ClassicGiantTrunk

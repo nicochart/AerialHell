@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.World.Features;
+package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -13,10 +13,9 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
-public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
+public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTreeConfig>
 {
     private static final SplineKnotsDeformedStraightLine.KnotsParameters TRUNK_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 16, 0.3F, 5, 20);
 
@@ -24,17 +23,16 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
 
     @Override public boolean place(FeaturePlaceContext<GiantPineTreeConfig> context)
     {
-        WorldGenLevel level = context.level(); RandomSource rand = context.random(); GiantPineTreeConfig config = context.config();
+        RandomSource rand = context.random(); GiantPineTreeConfig config = context.config();
         BlockPos origin = context.origin();
 
-        boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
-
-        if (!isValidTreePos(level,origin) || context.origin().above(config.trunkMaxVerticalOffset()).getY() > context.level().getMaxBuildHeight() || generatesInDungeon) {return false;}
+        if (!canPlace(context)) {return false;}
         else
         {
             int maxXZdistance=config.trunkMaxHorizontalOffset(), minYdistance=config.trunkMinVerticalOffset(), maxYdistance=config.trunkMaxVerticalOffset();
             BlockPos trunkStart = origin.below(2);
             int xOffset = rand.nextInt(-maxXZdistance, maxXZdistance), yOffset = rand.nextInt(minYdistance, maxYdistance), zOffset = rand.nextInt(-maxXZdistance, maxXZdistance);
+            if (!FeatureHelper.isBelowMaxBuildHeight(context, context.origin().above(yOffset))) {return false;}
             BlockPos trunkEnd = origin.offset(xOffset, yOffset, zOffset);
             generate(context, trunkStart, trunkEnd, false);
             return true;
@@ -46,15 +44,6 @@ public class GiantPineTreeFeature extends Feature<GiantPineTreeConfig>
         GiantPineTree pineTree = new GiantPineTree(context, new StraightLine.StraightLineParameters(startPos, endPos), 2 + context.random().nextInt(2));
         pineTree.generate(false, generateDebug);
         pineTree = null;
-    }
-
-    private boolean isValidTreePos(WorldGenLevel level, BlockPos pos) {return isValidTreeSupport(level.getBlockState(pos.below())) && (level.isEmptyBlock(pos) || level.getBlockState(pos).is(AerialHellTags.Blocks.AERIALHELL_SAPLINGS)) && thereIsAirAbovePosition(level, pos);}
-    private boolean isValidTreeSupport(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_DIRT);}
-    private boolean thereIsAirAbovePosition(WorldGenLevel level, BlockPos pos) {return thereIsAirColumnAbovePos(level, pos);}
-
-    private boolean thereIsAirColumnAbovePos(WorldGenLevel reader, BlockPos pos)
-    {
-        for (int y=1; y<=8; y++) {if (!reader.getBlockState(pos.above(y)).isAir()) {return false;}} return true;
     }
 
     private static class GiantPineTree extends ClassicGiantTrunk

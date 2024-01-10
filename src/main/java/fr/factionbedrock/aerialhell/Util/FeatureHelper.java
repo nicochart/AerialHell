@@ -85,6 +85,11 @@ public class FeatureHelper
         //MAX_FEATURE_SIZE_HORIZONTAL/2 - 1 because we check from "feature center" blockpos, which is not really the center, since a chunk is 16x16.. the center is 2x2
     }
 
+    public static boolean isBelowMaxBuildHeight(FeaturePlaceContext<?> context, BlockPos pos)
+    {
+        return pos.getY() < context.level().getMaxBuildHeight();
+    }
+
     public static int getMaxAbsoluteXZOffset(BlockPos pos1, BlockPos pos2)
     {
         int xOffset = pos2.getX() - pos1.getX(); int zOffset = pos2.getZ() - pos1.getZ();

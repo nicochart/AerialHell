@@ -1,9 +1,9 @@
-package fr.factionbedrock.aerialhell.World.Features;
+package fr.factionbedrock.aerialhell.World.Features.SolidEther;
 
 import com.mojang.serialization.Codec;
-
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import fr.factionbedrock.aerialhell.World.Features.SolidEther.AbstractSolidEtherCloudFeature;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.core.BlockPos;
@@ -12,14 +12,14 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class GreenSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
+public class PurpleSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 {
-	public static int getMinGenHeigh() {return 50;} public static int getMaxGenHeigh() {return 190;}
-	protected int getBasicMinSize() {return 4;} protected int getBasicMaxSize() {return 7;}
-	protected int getSmallMinSize() {return 2;} protected int getSmallMaxSize() {return 4;}
-	protected Block getEtherBlock() {return AerialHellBlocksAndItems.GREEN_SOLID_ETHER.get();}
-	
-	public GreenSolidEtherCloudFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
+	public static int getMinGenHeigh() {return 60;} public static int getMaxGenHeigh() {return 200;}
+	protected int getBasicMinSize() {return 4;} protected int getBasicMaxSize() {return 6;}
+	protected int getSmallMinSize() {return 2;} protected int getSmallMaxSize() {return 3;}
+	protected Block getEtherBlock() {return AerialHellBlocksAndItems.PURPLE_SOLID_ETHER.get();}
+
+	public PurpleSolidEtherCloudFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
