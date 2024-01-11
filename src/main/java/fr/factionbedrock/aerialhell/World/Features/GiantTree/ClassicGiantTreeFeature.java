@@ -34,8 +34,11 @@ public class ClassicGiantTreeFeature extends AbstractGiantTreeFeature<ClassicGia
             BlockPos trunkEnd = origin.offset(xOffset, yOffset, zOffset);
             int yFoliageSize = getYFoliageSize(yOffset, minYdistance, maxYdistance);
             int xzFoliageSize = (int) (yFoliageSize * 1.6F);
+            yFoliageSize = (int) (config.yFoliageSizeFactor() * (float) yFoliageSize);
+            xzFoliageSize = (int) (config.xzFoliageSizeFactor() * (float) xzFoliageSize);
             if (!FeatureHelper.isBelowMaxBuildHeight(context, context.origin().above(yOffset + yFoliageSize/2))) {return false;}
             BlockPos foliageCenter = generateTrunk(context, trunkStart, trunkEnd, false);
+            if (config.yFoliageSizeFactor() >= 1.3F) {foliageCenter = foliageCenter.below(config.yFoliageSizeFactor() >= 1.5F ? 2 : 1);}
             generateFoliage(context, foliageCenter, xzFoliageSize, yFoliageSize);
             generateBranches(context, foliageCenter, xzFoliageSize, yFoliageSize);
             return true;

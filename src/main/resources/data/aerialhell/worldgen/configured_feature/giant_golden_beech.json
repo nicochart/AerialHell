@@ -3,13 +3,13 @@
   "config": {
     "trunk_max_horizontal_offset": 3,
     "trunk_min_vertical_offset": 15,
-    "trunk_max_vertical_offset": 25,
-    "xz_foliage_size_factor": 1.0,
-    "y_foliage_size_factor": 1.0,
+    "trunk_max_vertical_offset": 19,
+    "xz_foliage_size_factor": 1.3,
+    "y_foliage_size_factor": 1.7,
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "aerialhell:stellar_jungle_tree_log",
+        "Name": "aerialhell:golden_beech_log",
         "Properties": {
           "axis": "y"
         }
@@ -18,11 +18,10 @@
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "aerialhell:stellar_jungle_tree_leaves",
+        "Name": "aerialhell:golden_beech_leaves",
         "Properties": {
-          "distance": "7",
           "persistent": "false",
-          "waterlogged": "false"
+          "distance": "7"
         }
       }
     }
