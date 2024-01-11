@@ -53,6 +53,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_BOOKSHELF_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_SAPLING_ITEM.get());
 
+            itemsToAdd.add(AerialHellBlocksAndItems.PETRIFIED_AERIAL_TREE_LOG_ITEM.get());
+
             itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_AERIAL_TREE_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES_ITEM.get());

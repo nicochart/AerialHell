@@ -100,6 +100,11 @@ public class ClassicGiantTreeFeature extends AbstractGiantTreeFeature<ClassicGia
             this.largeTrunk = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 16;
         }
 
+        @Override public BlockState getStateForPlacement(BlockPos pos)
+        {
+            return ((ClassicGiantTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);
+        }
+
         @Override protected boolean isLarge() {return this.largeTrunk;}
     }
 

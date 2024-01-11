@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:block",
+  "pools":
+  [
+    {
+      "rolls": 1,
+      "entries":
+      [
+        {
+          "type": "minecraft:item",
+          "name": "aerialhell:petrified_aerial_tree_log"
+        }
+      ],
+      "conditions":
+      [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ],
+  "random_sequence": "aerialhell:blocks/petrified_aerial_tree_log"
+}

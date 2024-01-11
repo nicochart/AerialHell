@@ -234,6 +234,10 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> AERIAL_TREE_BOOKSHELF_ITEM = ITEMS.register("aerial_tree_bookshelf", () -> new BlockItem(AERIAL_TREE_BOOKSHELF.get(), new Item.Properties()));
 	public static final RegistryObject<Item> AERIAL_TREE_SAPLING_ITEM = ITEMS.register("aerial_tree_sapling", () -> new BlockItem(AERIAL_TREE_SAPLING.get(), new Item.Properties()));
 
+	//petrified aerial tree
+	public static final RegistryObject<RotatedPillarBlock> PETRIFIED_AERIAL_TREE_LOG = BLOCKS.register("petrified_aerial_tree_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(AERIAL_TREE_LOG.get())));
+	public static final RegistryObject<Item> PETRIFIED_AERIAL_TREE_LOG_ITEM = ITEMS.register("petrified_aerial_tree_log", () -> new BurnableBlockItem(PETRIFIED_AERIAL_TREE_LOG.get(), new Item.Properties(), 600));
+
 	//golden beech
 	public static final RegistryObject<RotatedPillarBlock> GOLDEN_BEECH_LOG = BLOCKS.register("golden_beech_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(AERIAL_TREE_LOG.get())));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_GOLDEN_BEECH_LOG = BLOCKS.register("stripped_golden_beech_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(GOLDEN_BEECH_LOG.get())));
