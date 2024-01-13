@@ -10,6 +10,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import org.joml.Vector3f;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class StraightLine
@@ -19,14 +21,39 @@ public class StraightLine
     protected final Vector3f straightLineGenStepMoveVec;
     public final Supplier<Block> block;
 
+    protected List<BlockPos> generatePosList = null;
+    protected GenerationMode generationMode;
+
     public StraightLine(FeaturePlaceContext<?> context, StraightLineParameters parameters, Supplier<Block> block)
     {
         this.context = context; this.straightLineParams = parameters;
         this.straightLineGenStepMoveVec = getStraightLineGenerationStepMoveVector();
         this.block = block;
+        this.generationMode = GenerationMode.PLACE;
     }
 
-    public BlockPos generate(boolean stopAtAnyObstacle, boolean generateDebug) //returns last placed block pos
+    public BlockPos simulateGenerate(boolean stopAtAnyObstacle) //fills generatePosList
+    {
+        this.generationMode = GenerationMode.SIMULATE;
+        generatePosList = new ArrayList<>();
+        BlockPos pos = this.generate(stopAtAnyObstacle, false);
+        this.generationMode = GenerationMode.PLACE;
+        return pos;
+    }
+
+    public BlockPos generateWithSimulation(boolean stopAtAnyObstacle, boolean generateDebug)
+    {
+        if (generatePosList == null) {simulateGenerate(stopAtAnyObstacle);}
+        BlockPos lastPos = this.straightLineParams.getStart();
+        for (BlockPos pos : generatePosList)
+        {
+            tryPlacingBlock(pos.mutable());
+            lastPos = pos;
+        }
+        return lastPos;
+    }
+
+    public BlockPos generate(boolean stopAtAnyObstacle, boolean generateDebug) //generate without filling generatePosList, returns last placed block pos
     {
         int i = 0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(this.straightLineParams.getStart(), this.straightLineParams.getEnd());
 
@@ -41,6 +68,27 @@ public class StraightLine
         }
         if (generateDebug) {this.generateDebug();}
         return placementPos;
+    }
+
+    public BlockPos generateInsideBorder(boolean stopAtAnyObstacle, boolean generateDebug)
+    {
+        if (generatePosList == null) {simulateGenerate(stopAtAnyObstacle);}
+
+        BlockPos lastPos = this.straightLineParams.getStart();
+        if (generatePosList.isEmpty()) {return this.straightLineParams.getStart();}
+        else
+        {
+            for (BlockPos pos : generatePosList)
+            {
+                if (isInsideBorder(pos))
+                {
+                    tryPlacingBlock(pos.mutable());
+                    lastPos = pos;
+                }
+            }
+        }
+        if (generateDebug) {this.generateDebug();}
+        return lastPos;
     }
 
     public void generateDebug()
@@ -125,11 +173,33 @@ public class StraightLine
     protected boolean tryPlacingBlock(BlockPos.MutableBlockPos pos) //returns true if the block is placed
     {
         WorldGenLevel level = context.level();
-        if (isReplaceable(level, pos)) {level.setBlock(pos, getStateForPlacement(pos), 2); return true;}
+        if (isReplaceable(level, pos))
+        {
+            if (this.generationMode == GenerationMode.PLACE)
+            {
+                level.setBlock(pos, getStateForPlacement(pos), 2);
+            }
+            else //if (this.generationMode == GenerationMode.SIMULATE)
+            {
+                BlockPos blockpos = new BlockPos(pos);
+                if (!generatePosList.contains(blockpos)) {generatePosList.add(blockpos);}
+            }
+            return true;
+        }
         else {return false;}
     }
 
     public BlockState getStateForPlacement(BlockPos pos) {return block.get().defaultBlockState();}
+
+    protected boolean isInsideBorder(BlockPos pos)
+    {
+        return generatePosList.contains(pos) && !generatePosList.contains(pos.north()) || !generatePosList.contains(pos.south()) || !generatePosList.contains(pos.west()) || !generatePosList.contains(pos.east()) || !generatePosList.contains(pos.above()) || !generatePosList.contains(pos.below());
+    }
+
+    protected boolean isOutsideBorder(BlockPos pos)
+    {
+        return !generatePosList.contains(pos) && generatePosList.contains(pos.north()) || generatePosList.contains(pos.south()) || generatePosList.contains(pos.west()) || generatePosList.contains(pos.east()) || generatePosList.contains(pos.above()) || generatePosList.contains(pos.below());
+    }
 
     protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
     {

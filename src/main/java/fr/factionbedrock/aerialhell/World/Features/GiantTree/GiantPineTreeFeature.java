@@ -259,7 +259,7 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
 
         @Override protected boolean tryPlacingBlock(BlockPos.MutableBlockPos pos)
         {
-            boolean isThisBlockAlready = context.level().getBlockState(pos).is(getStateForPlacement(pos).getBlock());
+            boolean isThisBlockAlready = context.level().getBlockState(pos).is(getStateForPlacement(pos).getBlock()) || (this.generatePosList != null && this.generatePosList.contains(new BlockPos(pos)));
             boolean placed = super.tryPlacingBlock(pos);
             return placed || isThisBlockAlready;
         }
