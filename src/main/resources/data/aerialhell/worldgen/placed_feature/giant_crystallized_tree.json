@@ -1,9 +1,9 @@
 {
-  "feature": "aerialhell:petrified_giant_aerial_tree",
+  "feature": "aerialhell:giant_crystallized_tree",
   "placement": [
     {
       "type": "minecraft:rarity_filter",
-      "chance": 20
+      "chance": 6
     },
     {
       "type": "minecraft:in_square"
