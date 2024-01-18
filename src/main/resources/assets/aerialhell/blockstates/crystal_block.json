@@ -1,7 +1,7 @@
 {
-    "variants": {
-      "": {
-          "model": "aerialhell:block/crystal_block"
-    }
-  }
+    "variants":
+  {"":[
+    {"model": "aerialhell:block/crystal_block", "weight": 3},
+    {"model": "aerialhell:block/crystal_block_variant", "weight": 1}
+  ]}
 }

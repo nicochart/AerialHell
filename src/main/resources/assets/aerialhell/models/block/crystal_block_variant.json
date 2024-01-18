@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "aerialhell:block/crystal_block_variant"
+  }
+}
