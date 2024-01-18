@@ -765,6 +765,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.MUSIC_DISC_SWEDEN_ANDREAS_ZOELLER.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MUSIC_DISC_ENTHUSIAST_TOURS.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MUSIC_DISC_BMINOR_ARULO.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.MUSIC_DISC_RETRO_EXPLORATION_TOMMAUP.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.REGENERATION_TOTEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SPEED_TOTEM.get());

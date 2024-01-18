@@ -10,7 +10,9 @@
       {"name": "aerialhell:music/normal/calm_trip_zapsplat", "stream": true},
       {"name": "aerialhell:music/normal/1980_arulo", "stream": true},
       {"name": "aerialhell:music/normal/rebel_wayz_arulo", "stream": true},
-      {"name": "aerialhell:music/normal/relax_beat_arulo", "stream": true}
+      {"name": "aerialhell:music/normal/relax_beat_arulo", "stream": true},
+      {"name": "aerialhell:music/normal/amazing_vegetation_tommaup", "stream": true},
+      {"name": "aerialhell:music/normal/shroomfull_exploration_tommaup", "stream": true}
     ]
   },
   "aerialhell.shadow_music": {
@@ -51,6 +53,11 @@
   "music_disc.enthusiast_tours": {
     "sounds": [
       {"name": "aerialhell:record/enthusiast_tours", "stream": true}
+    ]
+  },
+  "music_disc.retro_exploration_tommaup": {
+    "sounds": [
+      {"name": "aerialhell:record/retro_exploration_tommaup", "stream": true}
     ]
   },
   "advancement.classic": {
