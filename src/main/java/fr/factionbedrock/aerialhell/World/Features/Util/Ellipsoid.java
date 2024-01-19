@@ -61,13 +61,10 @@ public class Ellipsoid
         if (randomlyChooseToNotPlaceBlock(generateBorder)) {return;}
         if (generateBorder)
         {
-            if (!this.isPosInsideEllipsoid(x, y, z))
+            if (this.isPosAtEllipsoidOutsideBorder(x, y, z)) //if pos is at ellipsis border : try to place block
             {
-                if (isPosAtEllipsoidBorder(x, y, z)) //if pos is at ellipsis border : try to place block
-                {
-                    placementPos.set(getLevelPosFromEllipsoidPos(x, y, z));
-                    tryPlacingBlock(placementPos, new BlockPos(x, y, z));
-                }
+                placementPos.set(getLevelPosFromEllipsoidPos(x, y, z));
+                tryPlacingBlock(placementPos, new BlockPos(x, y, z));
             }
         }
         else
@@ -108,8 +105,9 @@ public class Ellipsoid
         return x*x/(ellipsoidParams.xSize()*ellipsoidParams.xSize()) + y*y/(ellipsoidParams.ySize()*ellipsoidParams.ySize()) + z*z/(ellipsoidParams.zSize()*ellipsoidParams.zSize()) < 1.0F;
     }
 
-    public boolean isPosAtEllipsoidBorder(float x, float y, float z)
+    public boolean isPosAtEllipsoidOutsideBorder(float x, float y, float z)
     {
+        if (this.isPosInsideEllipsoid(x, y, z)) {return false;} //x, y, z pos is outside ellipsoid but at least one of adjacent pos is inside
         boolean upInEll,downInEll,northInEll,southInEll,westInEll,eastInEll;
         upInEll = isPosInsideEllipsoid(x, y + 1, z);
         downInEll = isPosInsideEllipsoid(x, y - 1, z);
@@ -118,6 +116,19 @@ public class Ellipsoid
         eastInEll = isPosInsideEllipsoid(x + 1, y, z);
         westInEll = isPosInsideEllipsoid(x - 1, y, z);
         return upInEll || downInEll || southInEll || northInEll || eastInEll || westInEll;
+    }
+
+    public boolean isPosAtEllipsoidInsideBorder(float x, float y, float z)
+    {
+        if (!this.isPosInsideEllipsoid(x, y, z)) {return false;} //x, y, z pos is inside ellipsoid but at least one of adjacent pos is outside
+        boolean upOutEll,downOutEll,northOutEll,southOutEll,westOutEll,eastOutEll;
+        upOutEll = !isPosInsideEllipsoid(x, y + 1, z);
+        downOutEll = !isPosInsideEllipsoid(x, y - 1, z);
+        southOutEll = !isPosInsideEllipsoid(x, y, z + 1);
+        northOutEll = !isPosInsideEllipsoid(x, y, z - 1);
+        eastOutEll = !isPosInsideEllipsoid(x + 1, y, z);
+        westOutEll = !isPosInsideEllipsoid(x - 1, y, z);
+        return upOutEll || downOutEll || southOutEll || northOutEll || eastOutEll || westOutEll;
     }
 
     protected boolean tryPlacingBlock(BlockPos.MutableBlockPos placementPos, BlockPos ellipsoidPos) //ellipsoidPos = offset from centerPos

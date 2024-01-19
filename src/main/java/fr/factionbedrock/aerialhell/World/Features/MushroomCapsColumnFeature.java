@@ -11,8 +11,11 @@ import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedStrai
 import fr.factionbedrock.aerialhell.World.Features.Util.StraightLine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+
+import javax.annotation.Nullable;
 
 public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<MushroomCapsColumnConfig>
 {
@@ -91,6 +94,8 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
             int capHeight = capRadius / 2;
             GiantCap cap = new GiantCap(getContext(), createEllipsoidParameters(capRadius, capHeight, 1), pos);
             cap.generateOutsideBorder();
+            cap.generateLight(1);
+            cap = null;
         }
 
         private Ellipsoid.EllipsoidParameters createEllipsoidParameters(int xzSize, int ySize, int bonus)
@@ -108,9 +113,51 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
             super(context, () -> context.config().capProvider().getState(context.random(), FeatureHelper.getFeatureCenter(context)).getBlock(), parameters, centerPos, Ellipsoid.Types.CENTER_1x1);
         }
 
+        public void generateLight(int number)
+        {
+            for (int i=0; i<number; i++)
+            {
+                BlockPos offset = findLightPos(25);
+                if (offset != null)
+                {
+                    BlockPos generatePos = this.centerPos.offset(offset);
+                    tryPlacingLightBlock(generatePos.mutable(), offset);
+                }
+            }
+        }
+
+        @Nullable public BlockPos findLightPos(int maxTries)
+        {
+            RandomSource rand = context.random();
+            boolean foundPos = false; int i=0;
+            while(!foundPos && i++ <= maxTries)
+            {
+                int x = rand.nextInt(ellipsoidParams.xForMin(), ellipsoidParams.xForMax());
+                int y = rand.nextInt(ellipsoidParams.yForMin(), ellipsoidParams.yForMax());
+                int z = rand.nextInt(ellipsoidParams.zForMin(), ellipsoidParams.zForMax());
+                if (this.isPosAtEllipsoidInsideBorder(x, y, z))
+                {
+                    return new BlockPos(x, y, z);
+                }
+            }
+            return null;
+        }
+
+        protected boolean tryPlacingLightBlock(BlockPos.MutableBlockPos placementPos, BlockPos ellipsoidPos) //ellipsoidPos = offset from centerPos
+        {
+            WorldGenLevel level = context.level(); boolean isPlaceable = isReplaceable(level, placementPos);
+            if (isPlaceable) {level.setBlock(placementPos, this.getLightStateForPlacement(ellipsoidPos), 2);}
+            return isPlaceable;
+        }
+
         @Override public BlockState getStateForPlacement(BlockPos pos)
         {
             return ((MushroomCapsColumnConfig) context.config()).capProvider().getState(context.random(), pos);
+        }
+
+        public BlockState getLightStateForPlacement(BlockPos pos)
+        {
+            return ((MushroomCapsColumnConfig) context.config()).lightProvider().getState(context.random(), pos);
         }
     }
 }

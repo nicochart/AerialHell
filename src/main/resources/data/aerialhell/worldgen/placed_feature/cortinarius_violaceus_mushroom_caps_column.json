@@ -2,8 +2,20 @@
   "feature": "aerialhell:cortinarius_violaceus_mushroom_caps_column",
   "placement": [
     {
-      "type": "minecraft:count_on_every_layer",
-      "count": 4
+      "type": "minecraft:count",
+      "count": 40
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "min_inclusive": {
+          "above_bottom": 30
+        },
+        "max_inclusive": {
+          "below_top": 20
+        }
+      }
     },
     {
       "type": "minecraft:in_square"

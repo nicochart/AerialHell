@@ -7,7 +7,6 @@ import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Util.Ellipsoid;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.HugeMushroomBlock;
-import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.core.Direction;
@@ -122,7 +121,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
         @Override public BlockState getStateForPlacement(BlockPos pos)
         {
             int x= pos.getX(), y=pos.getY(), z= pos.getZ();
-            boolean isUpCap = isPosAtEllipsoidBorder(x, y + 1, z);
+            boolean isUpCap = isPosAtEllipsoidOutsideBorder(x, y + 1, z);
             boolean southInEll = isPosInsideEllipsoid(x, y, z + 1);
             boolean northInEll = isPosInsideEllipsoid(x, y, z - 1);
             boolean eastInEll = isPosInsideEllipsoid(x + 1, y, z);
