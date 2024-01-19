@@ -1,0 +1,23 @@
+{
+  "type": "aerialhell:mushroom_caps_column",
+  "config": {
+    "stem_max_horizontal_offset": 4,
+    "stem_min_vertical_offset": 18,
+    "stem_max_vertical_offset": 32,
+    "cap_mean_size": 4,
+    "vertical_cap_separation": 3,
+    "stem_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "aerialhell:giant_cortinarius_violaceus_stem",
+        "Properties": {"axis": "y"}
+      }
+    },
+    "cap_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "aerialhell:giant_cortinarius_violaceus_cap_block"
+      }
+    }
+  }
+}

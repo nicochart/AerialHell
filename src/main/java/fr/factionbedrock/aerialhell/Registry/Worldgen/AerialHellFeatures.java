@@ -50,6 +50,7 @@ public class AerialHellFeatures
 	public static final RegistryObject<ForkingGiantTreeFeature> FORKING_GIANT_TREE = FEATURES.register("forking_giant_tree", () -> new ForkingGiantTreeFeature(ForkingGiantTreeConfig.CODEC));
 	public static final RegistryObject<GiantPineTreeFeature> GIANT_PINE_TREE = FEATURES.register("giant_pine_tree", () -> new GiantPineTreeFeature(GiantPineTreeConfig.CODEC));
 	public static final RegistryObject<DeadGiantTreeFeature> DEAD_GIANT_TREE = FEATURES.register("dead_giant_tree", () -> new DeadGiantTreeFeature(DeadGiantTreeConfig.CODEC));
+	public static final RegistryObject<MushroomCapsColumnFeature> MUSHROOM_CAPS_COLUMN = FEATURES.register("mushroom_caps_column", () -> new MushroomCapsColumnFeature(MushroomCapsColumnConfig.CODEC));
 
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> STELLAR_COARSE_FLOOR_IN_DARK_AREAS = FEATURES.register("stellar_coarse_floor_in_dark_areas", () -> new StellarCoarseFloorInDarkAreasFeature(NoneFeatureConfiguration.CODEC));
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> STELLAR_GRASS_IN_SHADOW_GRASS = FEATURES.register("stellar_grass_in_shadow_grass", () -> new StellarGrassInShadowGrassFeature(NoneFeatureConfiguration.CODEC));
