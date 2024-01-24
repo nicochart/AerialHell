@@ -142,6 +142,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_COARSE_DIRT_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_FARMLAND_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_DIRT_PATH_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_PODZOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_CRYSTAL_PODZOL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.CHISELED_STELLAR_DIRT_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK_ITEM.get());
 

@@ -234,6 +234,8 @@
   "block.aerialhell.stellar_grass_block" : "Bloc d'Herbe Stellaire",
   "block.aerialhell.stellar_farmland" : "Terre Stellaire Labourée",
   "block.aerialhell.stellar_dirt_path" : "Chemin en Terre Stellaire",
+  "block.aerialhell.stellar_podzol" : "Podzol Stellaire",
+  "block.aerialhell.stellar_crystal_podzol" : "Podzol Stellaire de Crystal",
   "block.aerialhell.stellar_grass" : "Herbe Stellaire",
   "block.aerialhell.stellar_grass_ball" : "Motte d'Herbe Stellaire",
   "block.aerialhell.stellar_tall_grass" : "Haute herbe Stellaire",

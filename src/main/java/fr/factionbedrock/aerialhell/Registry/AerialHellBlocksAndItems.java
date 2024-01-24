@@ -193,6 +193,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> STELLAR_COARSE_DIRT = BLOCKS.register("stellar_coarse_dirt", () -> new StellarDirtBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COARSE_DIRT)));
 	public static final RegistryObject<Block> STELLAR_FARMLAND = BLOCKS.register("stellar_farmland", () -> new StellarFarmBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).randomTicks().strength(0.6F).sound(SoundType.GRAVEL).isViewBlocking((state, blockgetter, pos) -> true).isSuffocating((state, blockgetter, pos) -> true)));
 	public static final RegistryObject<Block> STELLAR_DIRT_PATH = BLOCKS.register("stellar_dirt_path", () -> new StellarDirtPathBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT_PATH)));
+	public static final RegistryObject<Block> STELLAR_PODZOL = BLOCKS.register("stellar_podzol", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PODZOL)));
+	public static final RegistryObject<Block> STELLAR_CRYSTAL_PODZOL = BLOCKS.register("stellar_crystal_podzol", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PODZOL)));
 	public static final RegistryObject<Block> CHISELED_STELLAR_DIRT = BLOCKS.register("chiseled_stellar_dirt", () -> new StellarDirtBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_DIRT.get())));
 	public static final RegistryObject<Block> SHADOW_GRASS_BLOCK = BLOCKS.register("shadow_grass_block", () -> new ShadowGrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK)));
 	public static final RegistryObject<Item> STELLAR_GRASS_BLOCK_ITEM = ITEMS.register("stellar_grass_block", () -> new BlockItem(STELLAR_GRASS_BLOCK.get(), new Item.Properties()));
@@ -201,6 +203,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> STELLAR_COARSE_DIRT_ITEM = ITEMS.register("stellar_coarse_dirt", () -> new BlockItem(STELLAR_COARSE_DIRT.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_FARMLAND_ITEM = ITEMS.register("stellar_farmland", () -> new BlockItem(STELLAR_FARMLAND.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_DIRT_PATH_ITEM = ITEMS.register("stellar_dirt_path", () -> new BlockItem(STELLAR_DIRT_PATH.get(), new Item.Properties()));
+	public static final RegistryObject<Item> STELLAR_PODZOL_ITEM = ITEMS.register("stellar_podzol", () -> new BlockItem(STELLAR_PODZOL.get(), new Item.Properties()));
+	public static final RegistryObject<Item> STELLAR_CRYSTAL_PODZOL_ITEM = ITEMS.register("stellar_crystal_podzol", () -> new BlockItem(STELLAR_CRYSTAL_PODZOL.get(), new Item.Properties()));
 	public static final RegistryObject<Item> CHISELED_STELLAR_DIRT_ITEM = ITEMS.register("chiseled_stellar_dirt", () -> new BlockItem(CHISELED_STELLAR_DIRT.get(), new Item.Properties()));
 	public static final RegistryObject<Item> SHADOW_GRASS_BLOCK_ITEM = ITEMS.register("shadow_grass_block", () -> new BlockItem(SHADOW_GRASS_BLOCK.get(), new Item.Properties()));
 

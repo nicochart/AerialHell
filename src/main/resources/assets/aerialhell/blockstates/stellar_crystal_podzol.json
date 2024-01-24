@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "aerialhell:block/stellar_crystal_podzol"
+      },
+      {
+        "model": "aerialhell:block/stellar_crystal_podzol",
+        "y": 90
+      },
+      {
+        "model": "aerialhell:block/stellar_crystal_podzol",
+        "y": 180
+      },
+      {
+        "model": "aerialhell:block/stellar_crystal_podzol",
+        "y": 270
+      }
+    ]
+  }
+}
