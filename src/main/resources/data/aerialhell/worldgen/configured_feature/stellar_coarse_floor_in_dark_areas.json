@@ -1,4 +1,41 @@
 {
-  "type": "aerialhell:stellar_coarse_floor_in_dark_areas",
-  "config": {}
+  "type": "aerialhell:floor_transformation",
+  "config":
+  {
+    "size": 9,
+    "random_spread": 3,
+    "inner_chance": 0.8,
+    "outer_chance": 0.3,
+    "inner_state_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 2,
+          "data": {"Name": "aerialhell:stellar_coarse_dirt"}
+        },
+        {
+          "weight": 1,
+          "data": {"Name": "aerialhell:mossy_stellar_cobblestone"}
+        },
+        {
+          "weight": 2,
+          "data": {"Name": "aerialhell:stellar_cobblestone"}
+        }
+      ]
+    },
+    "outer_state_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 1,
+          "data": {"Name": "aerialhell:stellar_coarse_dirt"}
+        },
+        {
+          "weight": 4,
+          "data": {"Name": "aerialhell:mossy_stellar_cobblestone"}
+        }
+      ]
+    },
+    "needs_roof": "true"
+  }
 }

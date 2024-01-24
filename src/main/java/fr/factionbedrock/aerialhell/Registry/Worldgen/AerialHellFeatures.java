@@ -52,8 +52,7 @@ public class AerialHellFeatures
 	public static final RegistryObject<DeadGiantTreeFeature> DEAD_GIANT_TREE = FEATURES.register("dead_giant_tree", () -> new DeadGiantTreeFeature(DeadGiantTreeConfig.CODEC));
 	public static final RegistryObject<MushroomCapsColumnFeature> MUSHROOM_CAPS_COLUMN = FEATURES.register("mushroom_caps_column", () -> new MushroomCapsColumnFeature(MushroomCapsColumnConfig.CODEC));
 
-	public static final RegistryObject<Feature<NoneFeatureConfiguration>> STELLAR_COARSE_FLOOR_IN_DARK_AREAS = FEATURES.register("stellar_coarse_floor_in_dark_areas", () -> new StellarCoarseFloorInDarkAreasFeature(NoneFeatureConfiguration.CODEC));
-	public static final RegistryObject<Feature<NoneFeatureConfiguration>> STELLAR_GRASS_IN_SHADOW_GRASS = FEATURES.register("stellar_grass_in_shadow_grass", () -> new StellarGrassInShadowGrassFeature(NoneFeatureConfiguration.CODEC));
+	public static final RegistryObject<FloorTransformationFeature> FLOOR_TRANSFORMATION = FEATURES.register("floor_transformation", () -> new FloorTransformationFeature(FloorTransformationConfig.CODEC));
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> MOSSY_STELLAR_COBBLESTONE_ROCK = FEATURES.register("mossy_stellar_cobblestone_rock", () -> new RockFeature(NoneFeatureConfiguration.CODEC, new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder().add(AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE.get().defaultBlockState(), 1).add(AerialHellBlocksAndItems.STELLAR_COBBLESTONE.get().defaultBlockState(), 1))));
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> DANGLING_CHAIN = FEATURES.register("dangling_chain", () -> new DanglingChainFeature(NoneFeatureConfiguration.CODEC));
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> SLIPPERY_SAND = FEATURES.register("slippery_sand", () -> new SlipperySandFeature(NoneFeatureConfiguration.CODEC));

@@ -1,4 +1,19 @@
 {
-  "type": "aerialhell:stellar_grass_in_shadow_grass",
-  "config": {}
+  "type": "aerialhell:floor_transformation",
+  "config":
+  {
+    "size": 7,
+    "random_spread": 4,
+    "inner_chance": 0.5,
+    "outer_chance": 0.2,
+    "inner_state_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {"Name": "aerialhell:stellar_grass_block"}
+    },
+    "outer_state_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {"Name": "aerialhell:stellar_grass_block"}
+    },
+    "needs_roof": "false"
+  }
 }
