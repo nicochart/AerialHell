@@ -109,7 +109,10 @@
       "aerialhell:golden_solid_ether",
       "aerialhell:dangling_chain_rare",
       "aerialhell:stellar_stone_crystal_blob_in_dark_areas",
-      "aerialhell:stellar_coarse_floor_in_dark_areas"
+      "aerialhell:stellar_coarse_floor_in_dark_areas",
+      //"aerialhell:stellar_grass_in_shadow_grass",
+      "aerialhell:stellar_podzol"
+      //"aerialhell:stellar_crystal_podzol"
     ],
     [],
     [],
