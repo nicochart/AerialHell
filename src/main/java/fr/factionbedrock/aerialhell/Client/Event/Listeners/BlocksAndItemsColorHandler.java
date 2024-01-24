@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -62,6 +63,10 @@ public class BlocksAndItemsColorHandler
                 AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB.get(),
                 AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS.get()
         );
+
+        event.getBlockColors().register((state, level, pos, tint) -> getCustomColor(state, tint, level, pos),
+                AerialHellBlocksAndItems.STELLAR_PODZOL.get()
+        );
     }
 
     private static final Color DEFAULT_COLOR = new Color(12, 35, 26);
@@ -80,12 +85,36 @@ public class BlocksAndItemsColorHandler
         else {return DEFAULT_COLOR.getRGB();}
     }
 
+    private static int getCustomColor(BlockState state, int tint, BlockAndTintGetter level, BlockPos pos)
+    {
+        if (level != null && pos != null)
+        {
+            switch (tint)
+            {
+                case 0 :
+                {
+                    Color baseColor = new Color(BiomeColors.getAverageGrassColor(level, pos));
+                    int r = baseColor.getRed(), g = baseColor.getGreen(), b = baseColor.getBlue();
+                    if (state.getBlock() == AerialHellBlocksAndItems.STELLAR_PODZOL.get())
+                    {
+                        return new Color((int) Math.min(255, r * 1.5), (int) (g / 1.5), b).getRGB();
+                    }
+                }
+                case 1 : return BiomeColors.getAverageFoliageColor(level, pos);
+                case 2 : return BiomeColors.getAverageWaterColor(level, pos);
+                default: return DEFAULT_COLOR.getRGB();
+            }
+        }
+        else {return DEFAULT_COLOR.getRGB();}
+    }
+
     @SubscribeEvent
     public static void handleItemColors(RegisterColorHandlersEvent.Item event)
     {
         event.getItemColors().register((stack, color) -> new Color(50, 140, 102).getRGB(),
                 AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK_ITEM.get(),
                 AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK_ITEM.get(),
+                AerialHellBlocksAndItems.STELLAR_PODZOL_ITEM.get(),
                 AerialHellBlocksAndItems.STELLAR_GRASS_ITEM.get(),
                 AerialHellBlocksAndItems.STELLAR_TALL_GRASS_ITEM.get(),
                 AerialHellBlocksAndItems.STELLAR_GRASS_BALL_ITEM.get(),

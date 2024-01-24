@@ -1,8 +1,9 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
-  "textures": {
-    "bottom": "aerialhell:block/stellar_dirt",
-    "side": "aerialhell:block/stellar_podzol_side",
-    "top": "aerialhell:block/stellar_podzol_top"
-  }
+    "parent": "aerialhell:block/tinted_stellar_grass_like_block",
+    "textures": {
+        "bottom": "aerialhell:block/stellar_dirt",
+        "top": "aerialhell:block/stellar_podzol_top",
+        "side": "aerialhell:block/stellar_podzol_side",
+        "overlay": "aerialhell:block/stellar_podzol_side_overlay"
+    }
 }
