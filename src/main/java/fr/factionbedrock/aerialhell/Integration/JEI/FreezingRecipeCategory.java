@@ -1,4 +1,4 @@
-/*package fr.factionbedrock.aerialhell.Integration.JEI;
+package fr.factionbedrock.aerialhell.Integration.JEI;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Recipe.FreezingRecipe;
@@ -58,4 +58,3 @@ public class FreezingRecipeCategory implements IRecipeCategory<FreezingRecipe>
 		this.freezing.draw(guiGraphics, 56, 36);
 	}
 }
-*/
