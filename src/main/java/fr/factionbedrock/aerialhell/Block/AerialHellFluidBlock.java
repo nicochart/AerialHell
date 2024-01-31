@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -74,14 +75,8 @@ public class AerialHellFluidBlock extends LiquidBlock {
         	entityIn.fallDistance = 0.0F;
     		if (!entityIn.getDeltaMovement().equals(Vec3.ZERO))
     		{
-    			if (entityIn.getDeltaMovement().y < 0)
-    			{
-    				entityIn.setDeltaMovement(entityIn.getDeltaMovement().multiply(0.01, 0.05, 0.01));
-    			}
-    			else
-    			{
-    				entityIn.setDeltaMovement(entityIn.getDeltaMovement().multiply(0.01, 1, 0.01));
-    			}
+				double yFactor = entityIn.getDeltaMovement().y < 0 ? 0.05 : 1;
+    			EntityHelper.multiplyDeltaMovement(entityIn, 0.01, yFactor);
     		}
     		
             if(entityIn.isAlive() && entityIn instanceof LivingEntity)

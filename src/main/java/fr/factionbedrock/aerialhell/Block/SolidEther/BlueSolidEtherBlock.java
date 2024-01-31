@@ -3,7 +3,6 @@ package fr.factionbedrock.aerialhell.Block.SolidEther;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -14,19 +13,18 @@ public class BlueSolidEtherBlock extends SolidEtherBlock
 {
 	public BlueSolidEtherBlock(BlockBehaviour.Properties properties) {super(properties);}
 	
-	@Override
-	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity)
+	@Override public void livingEntityInside(BlockState state, Level level, BlockPos pos, LivingEntity entity)
 	{
-		super.entityInside(state, world, pos, entity);
-		if (!world.isClientSide() && entity instanceof LivingEntity)
+		super.livingEntityInside(state, level, pos, entity);
+		if (!level.isClientSide())
 		{
 			if (canEntityCollide(entity))
 			{
-				((LivingEntity) entity).addEffect(new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get(), 10, 0, false, false));
+				entity.addEffect(new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get(), 10, 0, false, false));
 			}
 			else
 			{
-				((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.JUMP, 10, 3, false, false));
+				entity.addEffect(new MobEffectInstance(MobEffects.JUMP, 10, 3, false, false));
 			}
 		}
 	}

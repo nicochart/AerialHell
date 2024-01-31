@@ -117,6 +117,11 @@ public class EntityHelper
         return false;
     }
 
+    public static void multiplyDeltaMovement(Entity entity, double xzFactor, double yFactor)
+    {
+        entity.setDeltaMovement(entity.getDeltaMovement().multiply(xzFactor, yFactor, xzFactor));
+    }
+
     public static void setAerialHellPortalEffect(LivingEntity entity)
     {
         if (!entity.level().isClientSide())

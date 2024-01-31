@@ -3,7 +3,6 @@ package fr.factionbedrock.aerialhell.Block.SolidEther;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -14,19 +13,18 @@ public class PurpleSolidEtherBlock extends SolidEtherBlock
 {
 	public PurpleSolidEtherBlock(Properties properties) {super(properties);}
 
-	@Override
-	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity)
+	@Override public void livingEntityInside(BlockState state, Level level, BlockPos pos, LivingEntity entity)
 	{
-		super.entityInside(state, world, pos, entity);
-		if (!world.isClientSide() && entity instanceof LivingEntity)
+		super.livingEntityInside(state, level, pos, entity);
+		if (!level.isClientSide())
 		{
 			if (canEntityCollide(entity))
 			{
-				((LivingEntity) entity).addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.get(), 30, 0, true, true));
+				entity.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.get(), 30, 0, true, true));
 			}
 			else if (!EntityHelper.isLivingEntityShadowImmune((LivingEntity)entity))
 			{
-				((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 40, 0, false, false));
+				entity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 40, 0, false, false));
 			}
 		}
 	}
