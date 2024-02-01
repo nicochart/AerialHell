@@ -1,5 +1,6 @@
-package fr.factionbedrock.aerialhell.Block.SolidEther;
+package fr.factionbedrock.aerialhell.Block.CollisionCondition.SolidEther;
 
+import fr.factionbedrock.aerialhell.Block.CollisionCondition.CollisionConditionHalfTransparentBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.entity.player.Player;

@@ -7,6 +7,10 @@ import java.util.function.ToIntFunction;
 import com.google.common.collect.ImmutableMap;
 
 import fr.factionbedrock.aerialhell.Block.*;
+import fr.factionbedrock.aerialhell.Block.CollisionCondition.SolidEther.BlueSolidEtherBlock;
+import fr.factionbedrock.aerialhell.Block.CollisionCondition.SolidEther.GreenSolidEtherBlock;
+import fr.factionbedrock.aerialhell.Block.CollisionCondition.SolidEther.PurpleSolidEtherBlock;
+import fr.factionbedrock.aerialhell.Block.CollisionCondition.SolidEther.SolidEtherBlock;
 import fr.factionbedrock.aerialhell.Block.DungeonCores.*;
 import fr.factionbedrock.aerialhell.Block.Furnaces.FreezerBlock;
 import fr.factionbedrock.aerialhell.Block.Furnaces.OscillatorBlock;
@@ -14,7 +18,7 @@ import fr.factionbedrock.aerialhell.Block.Furnaces.StellarFurnaceBlock;
 import fr.factionbedrock.aerialhell.Block.Plants.*;
 import fr.factionbedrock.aerialhell.Block.Plants.Bushes.*;
 import fr.factionbedrock.aerialhell.Block.Plants.Vines.*;
-import fr.factionbedrock.aerialhell.Block.SolidEther.*;
+import fr.factionbedrock.aerialhell.Block.CollisionCondition.*;
 import fr.factionbedrock.aerialhell.Block.Trophies.BottomSlabLikeTrophyBlock;
 import fr.factionbedrock.aerialhell.Item.*;
 import fr.factionbedrock.aerialhell.Item.Bucket.*;
@@ -27,7 +31,6 @@ import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatur
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellTreeGrowers;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.core.Direction;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
@@ -426,6 +429,15 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> BLACK_SLIPPERY_SAND_GLASS_PANE_ITEM = ITEMS.register("black_slippery_sand_glass_pane", () -> new BlockItem(BLACK_SLIPPERY_SAND_GLASS_PANE.get(), new Item.Properties()));
 	public static final RegistryObject<Item> BLUE_SLIPPERY_SAND_GLASS_PANE_ITEM = ITEMS.register("blue_slippery_sand_glass_pane", () -> new BlockItem(BLUE_SLIPPERY_SAND_GLASS_PANE.get(), new Item.Properties()));
 	public static final RegistryObject<Item> GREEN_SLIPPERY_SAND_GLASS_PANE_ITEM = ITEMS.register("green_slippery_sand_glass_pane", () -> new BlockItem(GREEN_SLIPPERY_SAND_GLASS_PANE.get(), new Item.Properties()));
+
+	//ghost boat
+	public static final RegistryObject<Block> GHOST_BOAT_PLANKS = BLOCKS.register("ghost_boat_planks", () -> new GhostBoatBlock(BlockBehaviour.Properties.of().strength(2.5F, 2.5F).sound(SoundType.WOOD).noOcclusion()));
+	public static final RegistryObject<GhostBoatRotatedPillarBlock> GHOST_BOAT_LOG = BLOCKS.register("ghost_boat_log", () -> new GhostBoatRotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(AERIAL_TREE_LOG.get()).noOcclusion()));
+	public static final RegistryObject<FenceBlock> GHOST_BOAT_FENCE = BLOCKS.register("ghost_boat_fence", () -> new FenceBlock(BlockBehaviour.Properties.of().strength(2.5F, 2.5F).sound(SoundType.WOOD).noOcclusion()));
+
+	public static final RegistryObject<Item> GHOST_BOAT_PLANKS_ITEM = ITEMS.register("ghost_boat_planks", () -> new BlockItem(GHOST_BOAT_PLANKS.get(), new Item.Properties()));
+	public static final RegistryObject<Item> GHOST_BOAT_LOG_ITEM = ITEMS.register("ghost_boat_log", () -> new BlockItem(GHOST_BOAT_LOG.get(), new Item.Properties()));
+	public static final RegistryObject<Item> GHOST_BOAT_FENCE_ITEM = ITEMS.register("ghost_boat_fence", () -> new BlockItem(GHOST_BOAT_FENCE.get(), new Item.Properties()));
 
 	//solid_ethers
 	public static final RegistryObject<Block> WHITE_SOLID_ETHER = BLOCKS.register("white_solid_ether", () -> new SolidEtherBlock(BlockBehaviour.Properties.of().strength(0.2F).sound(SoundType.WOOL).noOcclusion()));

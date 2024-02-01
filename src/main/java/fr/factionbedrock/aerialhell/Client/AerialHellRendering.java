@@ -18,6 +18,9 @@ public class AerialHellRendering
 		RenderType cutout = RenderType.cutout();
 		RenderType cutout_mipped = RenderType.cutoutMipped();
 		
+		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_PLANKS.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_LOG.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_FENCE.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.CRYSTAL_BLOCK.get(), translucent);

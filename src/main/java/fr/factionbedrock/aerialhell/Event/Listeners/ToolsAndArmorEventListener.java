@@ -123,6 +123,11 @@ public class ToolsAndArmorEventListener
 			player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 30, 0));
 			player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 30, 0));
 		}
+
+		if (state != null && state.is(AerialHellTags.Blocks.GHOST_BLOCK))
+		{
+			if (EntityHelper.isImmuneToGhostBlockCollision(player)) {event.setNewSpeed(Math.min(speed, 0.1F));}
+		}
     }
 
 	@SubscribeEvent

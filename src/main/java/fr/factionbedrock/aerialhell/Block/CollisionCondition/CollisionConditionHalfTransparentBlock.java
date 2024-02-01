@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Block.SolidEther;
+package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
@@ -15,6 +15,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public abstract class CollisionConditionHalfTransparentBlock extends HalfTransparentBlock
 {
+	protected final static double default_living_entity_xz_delta_movement_factor = 0.96, default_non_living_entity_xz_delta_movement_factor = 0.85, default_y_delta_movement_factor = 0.002;
 	protected final static VoxelShape EMPTY_SHAPE = Shapes.empty();
 
 	public CollisionConditionHalfTransparentBlock(Properties properties)
@@ -34,12 +35,12 @@ public abstract class CollisionConditionHalfTransparentBlock extends HalfTranspa
 
 	public void livingEntityInside(BlockState state, Level level, BlockPos pos, LivingEntity entity)
 	{
-		EntityHelper.multiplyDeltaMovement(entity, 0.96, 0.002);
+		EntityHelper.multiplyDeltaMovement(entity, default_living_entity_xz_delta_movement_factor, default_y_delta_movement_factor);
 	}
 
 	public void nonLivingEntityInside(BlockState state, Level level, BlockPos pos, Entity entity)
 	{
-		EntityHelper.multiplyDeltaMovement(entity, 0.85, 0.002);
+		EntityHelper.multiplyDeltaMovement(entity, default_non_living_entity_xz_delta_movement_factor, default_y_delta_movement_factor);
 	}
 
 	@Override public boolean useShapeForLightOcclusion(BlockState state) {return true;}

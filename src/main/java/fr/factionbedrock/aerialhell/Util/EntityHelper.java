@@ -108,6 +108,18 @@ public class EntityHelper
         return false;
     }
 
+    public static boolean isImmuneToGhostBlockCollision(Entity entity)
+    {
+        if (entity instanceof LivingEntity livingEntity)
+        {
+            if (hasSolidEtherWalkerEnchantment(livingEntity) || isLivingEntityUnderInTheCloudsEffect(livingEntity)) {return false;}
+            Iterable<ItemStack> stuff = livingEntity.getArmorSlots();
+            for (ItemStack armorStack : stuff) {if (armorStack.getItem() == AerialHellBlocksAndItems.MAGMATIC_GEL_BOOTS.get()) {return false;}}
+            return true;
+        }
+        return false;
+    }
+
     public static boolean hasSolidEtherWalkerEnchantment(LivingEntity entity)
     {
         for (ItemStack equipmentItem : entity.getAllSlots())

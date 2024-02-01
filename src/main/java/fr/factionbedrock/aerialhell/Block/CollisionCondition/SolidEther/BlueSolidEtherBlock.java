@@ -1,5 +1,6 @@
-package fr.factionbedrock.aerialhell.Block.SolidEther;
+package fr.factionbedrock.aerialhell.Block.CollisionCondition.SolidEther;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.LivingEntity;
@@ -8,16 +9,23 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 
-public class GreenSolidEtherBlock extends SolidEtherBlock
+public class BlueSolidEtherBlock extends SolidEtherBlock
 {
-	public GreenSolidEtherBlock(BlockBehaviour.Properties properties) {super(properties);}
+	public BlueSolidEtherBlock(BlockBehaviour.Properties properties) {super(properties);}
 	
 	@Override public void livingEntityInside(BlockState state, Level level, BlockPos pos, LivingEntity entity)
 	{
 		super.livingEntityInside(state, level, pos, entity);
 		if (!level.isClientSide())
 		{
-			entity.addEffect(new MobEffectInstance(MobEffects.JUMP, 10, 5, false, false));
+			if (canEntityCollide(entity))
+			{
+				entity.addEffect(new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get(), 10, 0, false, false));
+			}
+			else
+			{
+				entity.addEffect(new MobEffectInstance(MobEffects.JUMP, 10, 3, false, false));
+			}
 		}
 	}
 }
