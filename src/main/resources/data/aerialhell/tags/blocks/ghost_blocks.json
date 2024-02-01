@@ -1,8 +1,7 @@
 {
   "replace": false,
   "values": [
-    "aerialhell:ghost_boat_planks",
-    "aerialhell:ghost_boat_log",
-    "aerialhell:ghost_boat_fence"
+    "#aerialhell:wooden_ghost_blocks",
+    "#aerialhell:stone_ghost_blocks"
   ]
 }

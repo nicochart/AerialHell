@@ -1,23 +1,32 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
+import fr.factionbedrock.aerialhell.Block.AerialHellChestBlock;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class GhostBoatFenceBlock extends FenceBlock
+public class GhostBoatChestBlock extends AerialHellChestBlock
 {
-	public GhostBoatFenceBlock(Properties properties)
+	public GhostBoatChestBlock(Properties properties)
 	{
 		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
+	}
+
+	@Override public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
+	{
+		return (!canEntityCollide(player) && !player.isCreative()) ? InteractionResult.SUCCESS : super.use(state, level, pos, player, handIn, hit);
 	}
 
 	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)

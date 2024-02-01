@@ -1,3 +1,4 @@
+
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
@@ -6,18 +7,19 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class GhostBoatFenceBlock extends FenceBlock
+public class GhostBoatDoorBlock extends DoorBlock
 {
-	public GhostBoatFenceBlock(Properties properties)
+	public GhostBoatDoorBlock(BlockSetType type, Properties properties)
 	{
-		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
+		super(type, properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false));
 	}
 
 	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)

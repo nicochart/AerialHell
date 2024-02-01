@@ -50,6 +50,10 @@ public class AerialHellChestBlockEntityRenderer extends ChestRenderer<AerialHell
 		{
 			return chooseMaterial(chestType, AerialHellChestMaterials.SKY_CACTUS_FIBER_SINGLE, AerialHellChestMaterials.SKY_CACTUS_FIBER_LEFT, AerialHellChestMaterials.SKY_CACTUS_FIBER_RIGHT);
 		}
+		else if (block == AerialHellBlocksAndItems.GHOST_BOAT_CHEST.get())
+		{
+			return chooseMaterial(chestType, AerialHellChestMaterials.GHOST_BOAT_SINGLE, AerialHellChestMaterials.GHOST_BOAT_LEFT, AerialHellChestMaterials.GHOST_BOAT_RIGHT);
+		}
 		else if (block == AerialHellBlocksAndItems.MUD_CHEST.get())
 		{
 			return chooseMaterial(chestType, AerialHellChestMaterials.MUD_SINGLE, AerialHellChestMaterials.MUD_LEFT, AerialHellChestMaterials.MUD_RIGHT);

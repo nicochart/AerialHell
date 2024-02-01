@@ -10,6 +10,7 @@ import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
@@ -25,6 +26,7 @@ import net.minecraftforge.client.event.RenderBlockScreenEffectEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.RegistryObject;
 import org.joml.Matrix4f;
 
 @Mod.EventBusSubscriber
@@ -86,13 +88,6 @@ public class BlockEventListener
             }
         }
     }
-    
-    private static final ResourceLocation TEXTURE_WHITE_SOLID_ETHER = new ResourceLocation(AerialHell.MODID, "textures/block/white_solid_ether.png");
-    private static final ResourceLocation TEXTURE_BLUE_SOLID_ETHER = new ResourceLocation(AerialHell.MODID, "textures/block/blue_solid_ether.png");
-    private static final ResourceLocation TEXTURE_GOLDEN_SOLID_ETHER = new ResourceLocation(AerialHell.MODID, "textures/block/golden_solid_ether.png");
-    private static final ResourceLocation TEXTURE_GREEN_SOLID_ETHER = new ResourceLocation(AerialHell.MODID, "textures/block/green_solid_ether.png");
-    private static final ResourceLocation TEXTURE_PURPLE_SOLID_ETHER = new ResourceLocation(AerialHell.MODID, "textures/block/purple_solid_ether.png");
-    private static final ResourceLocation TEXTURE_GHOST_BOAT_BLOCK = new ResourceLocation(AerialHell.MODID, "textures/block/ghost_boat_planks.png");
 
     @SubscribeEvent @OnlyIn(Dist.CLIENT)
     public static void onOverlay(RenderBlockScreenEffectEvent event)
@@ -101,27 +96,37 @@ public class BlockEventListener
     	{
     		Player player = event.getPlayer();
 	    	PoseStack matrixStack = event.getPoseStack();
+            BlockState state = event.getBlockState();
     		if (event.getBlockState().is(AerialHellTags.Blocks.SOLID_ETHER))
     		{
     			event.setCanceled(true);
-    			if (event.getBlockState().is(AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get())) {renderEther(player, matrixStack, TEXTURE_WHITE_SOLID_ETHER);}
-    			else if (event.getBlockState().is(AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get())) {renderEther(player, matrixStack, TEXTURE_BLUE_SOLID_ETHER);}
-    			else if (event.getBlockState().is(AerialHellBlocksAndItems.GOLDEN_SOLID_ETHER.get())) {renderEther(player, matrixStack, TEXTURE_GOLDEN_SOLID_ETHER);}
-                else if (event.getBlockState().is(AerialHellBlocksAndItems.GREEN_SOLID_ETHER.get())) {renderEther(player, matrixStack, TEXTURE_GREEN_SOLID_ETHER);}
-                else if (event.getBlockState().is(AerialHellBlocksAndItems.PURPLE_SOLID_ETHER.get())) {renderEther(player, matrixStack, TEXTURE_PURPLE_SOLID_ETHER);}
+    			if (state.is(AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.WHITE_SOLID_ETHER));}
+    			else if (state.is(AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.BLUE_SOLID_ETHER));}
+    			else if (state.is(AerialHellBlocksAndItems.GOLDEN_SOLID_ETHER.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GOLDEN_SOLID_ETHER));}
+                else if (state.is(AerialHellBlocksAndItems.GREEN_SOLID_ETHER.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GREEN_SOLID_ETHER));}
+                else if (state.is(AerialHellBlocksAndItems.PURPLE_SOLID_ETHER.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.PURPLE_SOLID_ETHER));}
     		}
 
-            else if (event.getBlockState().is(AerialHellTags.Blocks.GHOST_BLOCK))
+            else if (state.is(AerialHellTags.Blocks.GHOST_BLOCK) && !state.is(AerialHellTags.Blocks.GHOST_BLOCK_NO_OVERLAY))
             {
                 event.setCanceled(true);
-                renderEther(player, matrixStack, TEXTURE_GHOST_BOAT_BLOCK);
+                if (state.is(AerialHellTags.Blocks.STONE_GHOST_BLOCK))
+                {
+                    if (state.is(AerialHellBlocksAndItems.GHOST_RUBY_BLOCK.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_RUBY_BLOCK));}
+                    else if (state.is(AerialHellBlocksAndItems.GHOST_FLUORITE_BLOCK.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_FLUORITE_BLOCK));}
+                    else {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_BOAT_PLANKS));}
+                }
+                else //if (state.is(AerialHellTags.Blocks.WOODEN_GHOST_BLOCK))
+                {
+                    renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_BOAT_PLANKS));
+                }
             }
     	}
     }
 
     //function from net.minecraft.client.renderer.ScreenEffectRenderer
     @OnlyIn(Dist.CLIENT)
-    private static void renderEther(Player player, PoseStack matrixStackIn, ResourceLocation texture)
+    private static void renderCustomOverlay(Player player, PoseStack matrixStackIn, ResourceLocation texture)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, texture); //Minecraft.getInstance() client side only !
@@ -141,5 +146,12 @@ public class BlockEventListener
         BufferUploader.drawWithShader(bufferbuilder.end());
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.disableBlend();
+     }
+
+     private static ResourceLocation getBlockTextureLocation(RegistryObject<Block> block) {return getBlockTextureLocation(block.getId().getPath());}
+
+     private static ResourceLocation getBlockTextureLocation(String id)
+     {
+         return new ResourceLocation(AerialHell.MODID, "textures/block/"+id+".png");
      }
 }

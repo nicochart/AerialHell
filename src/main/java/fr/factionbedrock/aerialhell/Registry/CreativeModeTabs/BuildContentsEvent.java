@@ -166,6 +166,10 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_PLANKS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_FENCE_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_DOOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_CHEST_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_RUBY_BLOCK_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_FLUORITE_BLOCK_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.WHITE_SOLID_ETHER_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.BLUE_SOLID_ETHER_ITEM.get());

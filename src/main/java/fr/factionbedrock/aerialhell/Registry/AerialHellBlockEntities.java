@@ -69,6 +69,7 @@ public class AerialHellBlockEntities
 	        				AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_CHEST.get(),
 	        				AerialHellBlocksAndItems.SKY_CACTUS_FIBER_CHEST.get(),
 	        				AerialHellBlocksAndItems.GRAY_SHROOM_CHEST.get(),
+	        				AerialHellBlocksAndItems.GHOST_BOAT_CHEST.get(),
 	        				AerialHellBlocksAndItems.MUD_CHEST.get(),
 	        				AerialHellBlocksAndItems.LUNATIC_CHEST.get(),
 	        				AerialHellBlocksAndItems.SHADOW_CATACOMBS_CHEST.get(),

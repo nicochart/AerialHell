@@ -36,6 +36,9 @@ public class AerialHellChestMaterials
     public static final Material SKY_CACTUS_FIBER_SINGLE = makeChestMaterial("sky_cactus_fiber", ChestType.SINGLE);
     public static final Material SKY_CACTUS_FIBER_LEFT = makeChestMaterial("sky_cactus_fiber", ChestType.LEFT);
     public static final Material SKY_CACTUS_FIBER_RIGHT = makeChestMaterial("sky_cactus_fiber", ChestType.RIGHT);
+    public static final Material GHOST_BOAT_SINGLE = makeChestMaterial("ghost_boat", ChestType.SINGLE);
+    public static final Material GHOST_BOAT_LEFT = makeChestMaterial("ghost_boat", ChestType.LEFT);
+    public static final Material GHOST_BOAT_RIGHT = makeChestMaterial("ghost_boat", ChestType.RIGHT);
     public static final Material MUD_SINGLE = makeChestMaterial("mud", ChestType.SINGLE);
     public static final Material MUD_LEFT = makeChestMaterial("mud", ChestType.LEFT);
     public static final Material MUD_RIGHT = makeChestMaterial("mud", ChestType.RIGHT);

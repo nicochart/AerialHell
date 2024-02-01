@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "aerialhell:ghost_fluorite_block"
+    }
+  ],
+  "result": {
+    "item": "aerialhell:fluorite",
+    "count": 9
+  }
+}
