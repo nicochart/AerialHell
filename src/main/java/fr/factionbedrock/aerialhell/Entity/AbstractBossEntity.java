@@ -18,7 +18,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -78,6 +81,24 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		if (this.isActive() && this.tickCount % 900 == 0) {this.updateBossDifficulty(); this.adaptBossDifficulty();}
 		this.bossInfo.setVisible(this.isActive());
 	}
+
+	@Override public boolean startRiding(Entity entity, boolean p_19967_)
+	{
+		if (entity instanceof Boat boat)
+		{
+			//Copy of net.minecraft.world.entity.vehicle.VehicleEntity.destroy(Item item) {..}
+			entity.kill();
+			if (entity.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS))
+			{
+				ItemStack itemstack = new ItemStack(boat.getDropItem());
+				if (this.hasCustomName()) {itemstack.setHoverName(this.getCustomName());}
+				this.spawnAtLocation(itemstack);
+			}
+		}
+		return false;
+	}
+
+	@Override protected boolean canRide(Entity p_20339_) {return false;}
 
 	@Override public void setActive(boolean isActive)
 	{
