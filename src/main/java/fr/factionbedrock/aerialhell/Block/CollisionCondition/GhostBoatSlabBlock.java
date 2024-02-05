@@ -1,23 +1,28 @@
+
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class GhostBoatFenceBlock extends FenceBlock
+public class GhostBoatSlabBlock extends SlabBlock
 {
-	public GhostBoatFenceBlock(Properties properties)
+	public GhostBoatSlabBlock(Properties properties)
 	{
-		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false));
+		super(properties);
+		this.registerDefaultState(this.defaultBlockState());
 	}
 
 	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
@@ -55,4 +60,30 @@ public class GhostBoatFenceBlock extends FenceBlock
 	protected boolean canEntityCollide(Entity entity) {return !EntityHelper.isImmuneToGhostBlockCollision(entity);}
 
 	@Override public VoxelShape getVisualShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {return Shapes.empty();}
+
+	@Override public boolean skipRendering(BlockState state1, BlockState state2, Direction direction)
+	{
+		if (!state1.is(AerialHellBlocksAndItems.GHOST_BOAT_SLAB.get())) {return super.skipRendering(state1, state2, direction);}
+
+		if (direction == Direction.UP) {return areVerticalSkipRenderingSlabStates(state1, state2);}
+		else if (direction == Direction.DOWN) {return areVerticalSkipRenderingSlabStates(state2, state1);}
+		else /*if (direction != Direction.UP && direction != Direction.DOWN)*/ {return areHorizontalSkipRenderingSlabStates(state1, state2);}
+	}
+
+	public boolean areHorizontalSkipRenderingSlabStates(BlockState state1, BlockState state2)
+	{
+		boolean state1IsSlab = state1.is(this), state2IsSlab = state2.is(this);
+		boolean state2IsFullBlock = state2.is(AerialHellBlocksAndItems.GHOST_BOAT_PLANKS.get()) || state2IsSlab && state2.getValue(TYPE) == SlabType.DOUBLE;
+		boolean areCompatibleSlabStates = state1IsSlab && state2IsSlab && state1.getValue(TYPE) == state2.getValue(TYPE);
+		if (!state2.is(this)) {return state2IsFullBlock;}
+		return state2IsFullBlock || areCompatibleSlabStates;
+	}
+
+	public boolean areVerticalSkipRenderingSlabStates(BlockState belowState, BlockState topState)
+	{
+		boolean belowIsSlab = belowState.is(this), topIsSlab = topState.is(this);
+		boolean isValidBelowState = belowIsSlab ? belowState.getValue(TYPE) != SlabType.BOTTOM : belowState.is(AerialHellBlocksAndItems.GHOST_BOAT_PLANKS.get());
+		boolean isValidTopState = topIsSlab ? topState.getValue(TYPE) != SlabType.TOP : topState.is(AerialHellBlocksAndItems.GHOST_BOAT_PLANKS.get());
+		return isValidBelowState && isValidTopState;
+	}
 }

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_trapdoor",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:ghost_boat_planks"
+    }
+  },
+  "result": {
+    "item": "aerialhell:ghost_boat_trapdoor",
+    "count": 2
+  }
+}

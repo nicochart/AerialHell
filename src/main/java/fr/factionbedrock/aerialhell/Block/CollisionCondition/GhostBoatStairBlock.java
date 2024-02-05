@@ -1,23 +1,26 @@
+
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class GhostBoatFenceBlock extends FenceBlock
+public class GhostBoatStairBlock extends StairBlock
 {
-	public GhostBoatFenceBlock(Properties properties)
+	public GhostBoatStairBlock(BlockState state, Properties properties)
 	{
-		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false));
+		super(state, properties);
+		this.registerDefaultState(this.defaultBlockState());
 	}
 
 	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
@@ -55,4 +58,10 @@ public class GhostBoatFenceBlock extends FenceBlock
 	protected boolean canEntityCollide(Entity entity) {return !EntityHelper.isImmuneToGhostBlockCollision(entity);}
 
 	@Override public VoxelShape getVisualShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {return Shapes.empty();}
+
+	@Override public boolean skipRendering(BlockState state1, BlockState state2, Direction direction)
+	{
+		if (state2.is(this)) {return state1.getValue(FACING) == state2.getValue(FACING) && state1.getValue(HALF) == state2.getValue(HALF) && state1.getValue(SHAPE) == state2.getValue(SHAPE);}
+		else {return super.skipRendering(state1, state2, direction);}
+	}
 }
