@@ -23,8 +23,10 @@ public class AerialHellRendering
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_SLAB.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_STAIRS.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_FENCE.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_GATE.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_DOOR.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_TRAPDOOR.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_WOOL.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_RUBY_BLOCK.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_FLUORITE_BLOCK.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_BARREL.get(), translucent);

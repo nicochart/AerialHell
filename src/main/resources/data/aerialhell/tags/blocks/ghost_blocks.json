@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "#aerialhell:wooden_ghost_blocks",
-    "#aerialhell:stone_ghost_blocks"
+    "#aerialhell:stone_ghost_blocks",
+    "aerialhell:ghost_boat_wool"
   ]
 }
