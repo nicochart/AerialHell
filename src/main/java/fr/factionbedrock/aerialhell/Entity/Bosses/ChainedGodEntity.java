@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Bosses;
 
 import java.util.List;
 
+import fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
@@ -16,8 +17,10 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -162,6 +165,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	protected void runRoarEffects(boolean dragEntities)
 	{
+		if (this.random.nextInt(4) == 0) {this.makeRandomRoofBlockFall();}
 		if (dragEntities) {this.dragEntities();}
 		if (this.level().isClientSide()) {this.spawnParticles(ParticleTypes.LAVA, 5, 0.5D);}
 	}
@@ -211,6 +215,24 @@ public class ChainedGodEntity extends AbstractBossEntity
 					}
 				}
 			}
+		}
+	}
+
+	private void makeRandomRoofBlockFall()
+	{
+		BlockPos basePos = this.blockPosition().above(5);
+		int maxXZ = 15, minY = 12, maxY = 20; //offsets
+		BlockPos fallPos = basePos.offset(this.random.nextInt(-maxXZ, maxXZ), this.random.nextInt(minY, maxY), this.random.nextInt(-maxXZ, maxXZ));
+		while (this.level().getBlockState(fallPos).isAir() && fallPos.getY() < basePos.getY() + 25) {fallPos = fallPos.above();}
+		while (!FallingBlock.isFree(level().getBlockState(fallPos.below())) && fallPos.getY() > basePos.getY()) {fallPos = fallPos.below();}
+		BlockState fallState = this.level().getBlockState(fallPos);
+		if (FallingBlock.isFree(level().getBlockState(fallPos.below())) && fallPos.getY() >= level().getMinBuildHeight())
+		{
+			if (fallState.getBlock() instanceof CoreProtectedBlock)
+			{
+				fallState = ((CoreProtectedBlock) fallState.getBlock()).getCrackedVariant().defaultBlockState();
+			}
+			FallingBlockEntity.fall(level(), fallPos, fallState);
 		}
 	}
 	
