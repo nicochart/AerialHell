@@ -54,15 +54,16 @@ import net.minecraftforge.event.ForgeEventFactory;
 public class ChainedGodEntity extends AbstractBossEntity
 {
 	public int attackTimer;
-	
+	public int timeDying;
+
 	private static final EntityDataAccessor<Boolean> IMPLODING = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> UNCHAINING = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> UNCHAINED = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
-	   
+
 	public ChainedGodEntity(EntityType<? extends Monster> type, Level world)
 	{
 		super(type, world);
-		this.attackTimer = 0; this.hurtTime = 0;
+		this.attackTimer = 0; this.hurtTime = 0; this.timeDying = 0;
 		bossInfo.setColor(BossEvent.BossBarColor.RED);
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 	}
@@ -115,7 +116,34 @@ public class ChainedGodEntity extends AbstractBossEntity
 			return flag;
 		}
 	}
-	
+
+
+	public boolean tryDying(DamageSource damageSource)
+	{
+		//this.die(damageSource); TEMPORARILY INVINCIBLE - Just to demonstrate the custom possibilities
+		this.setHealth(1.0F);
+		return false;
+	}
+
+	/*@Override public void die(DamageSource source)
+	{
+		if (this.timeDying == 0)
+		{
+			this.playUnchainSound();
+		}
+
+		if (this.isDeadOrDying())
+		{
+			this.timeDying++;
+			if (this.timeDying == 100) {super.die(source);}
+			else
+			{
+				if (this.level().isClientSide()) {spawnParticles(ParticleTypes.LAVA, 10, 0.5D);}
+			}
+		}
+		else {super.die(source);}
+	}*/
+
 	@Override protected void defineSynchedData()
 	{
 	    super.defineSynchedData();
@@ -285,6 +313,16 @@ public class ChainedGodEntity extends AbstractBossEntity
         }
     }
 
+	public void playRoarSound()
+	{
+		this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_ROAR.get(), 5.0F, 1.6F);
+	}
+
+	public void playUnchainSound()
+	{
+		this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_UNCHAIN.get(), 5.0F, 0.8F);
+	}
+
 	public boolean isHealthMatchToGetProjectileDamages() {return this.getHealth() * 3 > this.getMaxHealth();}
 	public boolean isHealthMatchToShootFireballs() {return this.getHealth() * 2 < this.getMaxHealth();}
 	public boolean isHealthMatchToImplode() {return this.getHealth() * 2 < this.getMaxHealth();}
@@ -328,8 +366,8 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 		public void playStartUnchainingEffect()
 		{
-			this.goalOwner.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_ROAR.get(), 5.0F, 1.6F);
-			this.goalOwner.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_UNCHAIN.get(), 5.0F, 0.8F);
+			this.goalOwner.playRoarSound();
+			this.goalOwner.playUnchainSound();
 		}
 
 		public void playUnchainingEffect() {}
@@ -456,7 +494,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 			else {level.broadcastEntityEvent(this.goalOwner, (byte)20);}
 		}
 
-		protected void playStartImplodingSound() {this.goalOwner.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_ROAR.get(), 5.0F, 1.0F);}
+		protected void playStartImplodingSound() {this.goalOwner.playRoarSound();}
 		private void immobilizeGoalOwner() {if (!this.goalOwner.level().isClientSide()) {this.goalOwner.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 10, true, false)));}}
 
 		public int getSoundOffset() {return 12;}
