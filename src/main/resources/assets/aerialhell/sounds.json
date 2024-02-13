@@ -297,6 +297,10 @@
     "subtitle": "subtitles.aerialhell.entity.chained_god.death",
     "sounds": ["aerialhell:mob/chained_god/death"]
   },
+  "entity.chained_god.fast_death": {
+    "subtitle": "subtitles.aerialhell.entity.chained_god.fast_death",
+    "sounds": ["aerialhell:mob/chained_god/fast_death"]
+  },
   "entity.chained_god.step": {
     "subtitle": "subtitles.aerialhell.entity.chained_god.step",
     "sounds":
@@ -316,6 +320,10 @@
   "entity.chained_god.unchain": {
     "subtitle": "subtitles.aerialhell.entity.chained_god.unchain",
     "sounds": ["aerialhell:mob/chained_god/unchain"]
+  },
+  "entity.chained_god.transition": {
+    "subtitle": "subtitles.aerialhell.entity.chained_god.transition",
+    "sounds": ["aerialhell:mob/chained_god/transition"]
   },
   "entity.ice_spirit.ambient": {
     "subtitle": "subtitles.aerialhell.entity.ice_spirit.ambient",
