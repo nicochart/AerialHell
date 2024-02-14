@@ -562,7 +562,7 @@ public class LilithEntity extends AbstractBossEntity
 			return super.canUse() && lilith.isHealthMatchToSummonFlyingSkulls() && lilith.isActive();
 		}
 
-		@Override public Entity createEntitiy(Level level)
+		@Override public Entity createEntity()
 		{
 			return AerialHellEntities.SHADOW_FLYING_SKULL.get().create(this.getGoalOwner().level());
 		}

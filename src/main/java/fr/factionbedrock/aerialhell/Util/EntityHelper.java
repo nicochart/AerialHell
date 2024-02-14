@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.*;
+import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
@@ -14,6 +15,7 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEnchantments;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.World.AerialHellTeleporter;
@@ -84,6 +86,11 @@ public class EntityHelper
         return entity instanceof MudSoldierEntity || entity instanceof MudGolemEntity || entity instanceof MudCycleMageEntity || entity instanceof AerialTreeChestMimicEntity;
     }
 
+    public static boolean isBossEntity(Entity entity)
+    {
+        return entity instanceof MudCycleMageEntity || entity instanceof LunaticPriestEntity || entity instanceof ChainedGodEntity || entity instanceof LilithEntity;
+    }
+
     public static boolean isFeatheryEntity(Entity entity)
     {
         return entity instanceof Silverfish || entity instanceof FlyingMob || entity instanceof Chicken || entity instanceof Vex; //Vex includes FlyingSkulls
@@ -118,6 +125,11 @@ public class EntityHelper
             return true;
         }
         return false;
+    }
+
+    public static boolean isImmuneToChainedGodDrag(Entity entity)
+    {
+        return isCreaOrSpecPlayer(entity) || entity.getType() == AerialHellEntities.TORN_SPIRIT.get() || isBossEntity(entity);
     }
 
     public static boolean hasSolidEtherWalkerEnchantment(LivingEntity entity)

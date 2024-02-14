@@ -114,7 +114,7 @@ public class MudCycleMageEntity extends AbstractBossEntity
 
 		@Override public boolean canUse() {return super.canUse() && this.getMageGoalOwner().isActive();}
 
-		@Override public Entity createEntitiy(Level level)
+		@Override public Entity createEntity()
 		{
 			if ((!this.isNotSummoningClones && this.getGoalOwner().getRandom().nextInt(this.getMageGoalOwner().getDifficulty() + 1) > 2) || this.shouldFinishSummoningClones)
 			{

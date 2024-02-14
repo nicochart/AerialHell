@@ -9,6 +9,7 @@ import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ChainedGodFireballEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -78,6 +79,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		this.goalSelector.addGoal(0, new ChainedGodEntity.ChainedGodRandomFireballAttackGoal(this));
 		this.goalSelector.addGoal(1, new ChainedGodEntity.ChainedGodImplodeGoal(this));
 		this.goalSelector.addGoal(2, new ChainedGodEntity.ChainedGodFireballAttackGoal(this));
+		this.goalSelector.addGoal(2, new ChainedGodEntity.ChainedGodSummonTornSpiritSkullGoal(this));
 		this.goalSelector.addGoal(3, new ChainedGodMeleeAttackGoal(this, 1.25D, false));
 		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(5, new ChainedGodWaterAvoidingRandomWalkingGoal(this, 0.6D));
@@ -250,7 +252,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
 		for (Entity entity : nearbyEntities)
 		{
-			if (entity instanceof LivingEntity && !EntityHelper.isCreaOrSpecPlayer(entity)) {dragEntity(entity);}
+			if (entity instanceof LivingEntity && !EntityHelper.isImmuneToChainedGodDrag(entity)) {dragEntity(entity);}
 		}
 	}
 
@@ -361,30 +363,11 @@ public class ChainedGodEntity extends AbstractBossEntity
         }
     }
 
-	public void playDeathSound()
-	{
-		this.playSound(this.getDeathSound(), 5.0F, 1.0F);
-	}
-
-	public void playFastDeathSound()
-	{
-		this.playSound(getFastDeathSound(), this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-	}
-
-	public void playRoarSound()
-	{
-		this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_ROAR.get(), 5.0F, 1.6F);
-	}
-
-	public void playUnchainSound()
-	{
-		this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_UNCHAIN.get(), 5.0F, 0.8F);
-	}
-
-	public void playTransitionSound()
-	{
-		this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_TRANSITION.get(), 5.0F, 1.0F);
-	}
+	public void playDeathSound() {this.playSound(this.getDeathSound(), 5.0F, 1.0F);}
+	public void playFastDeathSound() {this.playSound(getFastDeathSound(), this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);}
+	public void playRoarSound(float pitch) {this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_ROAR.get(), 5.0F, pitch);}
+	public void playUnchainSound() {this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_UNCHAIN.get(), 5.0F, 0.8F);}
+	public void playTransitionSound() {this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_TRANSITION.get(), 5.0F, 1.0F);}
 
 	@Override protected void playHurtSound(DamageSource damageSource, boolean died)
 	{
@@ -470,7 +453,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 		public void playStartUnchainingEffect()
 		{
-			this.goalOwner.playRoarSound();
+			this.goalOwner.playRoarSound(1.6F);
 			this.goalOwner.playUnchainSound();
 		}
 
@@ -572,7 +555,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 			this.goalOwner.setImploding(false);
 		}
 
-		protected void playStartImplodingSound() {this.goalOwner.playRoarSound();}
+		protected void playStartImplodingSound() {this.goalOwner.playRoarSound(1.0F);}
 		private void immobilizeGoalOwner() {if (!this.goalOwner.level().isClientSide()) {this.goalOwner.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 10, true, false)));}}
 
 		public int getSoundOffset() {return 12;}
@@ -582,6 +565,44 @@ public class ChainedGodEntity extends AbstractBossEntity
 		protected boolean shouldFinishImploding() {return this.timeSinceImploding >= this.getImplosionCastDuration();}
 		protected boolean willStartImplodingSoon() {return this.implodeTimer == this.getImplodeTimerTargetValue() - this.getSoundOffset();}
 		protected void resetTask() {this.implodeTimer = 0; this.timeSinceImploding = 0;}
+	}
+
+	public static class ChainedGodSummonTornSpiritSkullGoal extends SummonEntitiesGoal
+	{
+		public ChainedGodSummonTornSpiritSkullGoal(ChainedGodEntity entity) {super(entity, 1.1D);}
+
+		public ChainedGodEntity getChainedGodGoalOwner() {return (ChainedGodEntity) this.getGoalOwner();}
+
+		@Override public boolean canUse()
+		{
+			ChainedGodEntity goalOwner = this.getChainedGodGoalOwner();
+			return goalOwner.isUpdatingToSecondPhase();
+		}
+
+		@Override public Entity createEntity()
+		{
+			return AerialHellEntities.TORN_SPIRIT.get().create(this.getGoalOwner().level());
+		}
+
+		@Override protected void setEntityPosToSummonPos(Entity entity) {entity.setPos(this.getGoalOwner().getX(), this.getGoalOwner().getY() + 1.0, this.getGoalOwner().getZ());}
+
+		@Override protected int getSummonTimerTargetValue()
+		{
+			int difficulty = this.getChainedGodGoalOwner().getDifficulty();
+			int returnn = switch (difficulty)
+			{
+				default-> 10; //never happens theorically. 0 is when there is no player nearby
+				case 1 -> 10;
+				case 2 -> 9;
+				case 3 -> 7;
+				case 4 -> 6;
+				case 5 -> 5;
+				case 6 -> 5;
+			};
+			return returnn;
+		}
+
+		@Override protected void playEffect() {}
 	}
 	
 	public static class ChainedGodLeapAtTargetGoal extends ActiveLeapAtTargetGoal
