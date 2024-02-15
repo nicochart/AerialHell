@@ -33,8 +33,7 @@ public class TornSpiritEntity extends Monster
         super(type, world);
     }
 	
-	@Override
-    protected void registerGoals()
+	@Override protected void registerGoals()
     {
 		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
 		this.goalSelector.addGoal(2, new TornSpiritEntity.FireballAttackGoal(this));
@@ -57,8 +56,7 @@ public class TornSpiritEntity extends Monster
 				.add(Attributes.ATTACK_DAMAGE, 17.0D);
     }
 	
-	@Override
-	public boolean hurt(DamageSource source, float amount)
+	@Override public boolean hurt(DamageSource source, float amount)
 	{
 		boolean flag = super.hurt(source, amount);
 		if (flag)
@@ -77,9 +75,9 @@ public class TornSpiritEntity extends Monster
 	@Override public boolean fireImmune() {return true;}
 	@Override public boolean displayFireAnimation() {return false;}
 	
-	@Override
-    public void tick()
+	@Override public void tick()
     {
+		if (this.getTarget() instanceof ChainedGodEntity) {this.setTarget(null);}
         double rand = random.nextFloat();
         double x = getX() + (random.nextFloat() - 0.5F) * rand;
         double y = (this.getBoundingBox().minY + rand) + 0.5D;
@@ -89,23 +87,9 @@ public class TornSpiritEntity extends Monster
         super.tick();
     }
 	
-	@Override
-    protected SoundEvent getAmbientSound()
-    {
-        return AerialHellSoundEvents.ENTITY_TORN_SPIRIT_AMBIENT.get();
-    }
-
-    @Override
-    protected SoundEvent getHurtSound(DamageSource damageSource)
-    {
-    	return AerialHellSoundEvents.ENTITY_TORN_SPIRIT_HURT.get();
-    }
-
-    @Override
-    protected SoundEvent getDeathSound()
-    {
-    	return AerialHellSoundEvents.ENTITY_TORN_SPIRIT_DEATH.get();
-    }
+	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_TORN_SPIRIT_AMBIENT.get();}
+    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_TORN_SPIRIT_HURT.get();}
+	@Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_TORN_SPIRIT_DEATH.get();}
     
 	static class FireballAttackGoal extends Goal
 	{
