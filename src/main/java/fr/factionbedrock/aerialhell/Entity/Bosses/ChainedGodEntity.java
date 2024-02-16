@@ -103,13 +103,13 @@ public class ChainedGodEntity extends AbstractBossEntity
 		Entity immediateSourceEntity = source.getDirectEntity();
 		Entity trueSourceEntity = source.getEntity();
 		if ((this.isImploding() || this.isUnchaining()) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return false;}
-		if (!this.canGetProjectileDamages() && immediateSourceEntity instanceof AbstractArrow) {return false;}
+		if (!this.canGetProjectileDamages() && EntityHelper.isProjectile(immediateSourceEntity)) {return false;} //todo : why are shurikens still dealing damages ?
 		else
 		{
 			boolean flag = super.hurt(source, amount);
 			if (flag)
 			{
-				if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrow))
+				if (trueSourceEntity instanceof LivingEntity && !EntityHelper.isProjectile(immediateSourceEntity))
 				{
 					if (!(trueSourceEntity instanceof Player && ((Player)trueSourceEntity).isCreative()))
 					{
@@ -170,6 +170,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	    compound.putBoolean("Imploding", this.isImploding());
 	    compound.putBoolean("Unchaining", this.isUnchaining());
 		if (this.isUnchained()) {compound.putBoolean("Unchained", true);}
+		compound.putInt("Phase", this.getPhase());
 	}
 	
 	@Override public void readAdditionalSaveData(CompoundTag compound)
@@ -178,6 +179,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	    this.setImploding(compound.getBoolean("Imploding"));
 	    this.setUnchaining(compound.getBoolean("Unchaining"));
 	    this.setUnchained(compound.getBoolean("Unchained"));
+	    this.setPhase(compound.getInt("Phase"));
 	}
 	
 	public boolean isImploding() {return this.entityData.get(IMPLODING);}

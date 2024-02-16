@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity;
 
 import javax.annotation.Nullable;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -228,6 +229,13 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		super.tick();
 		if (this.isActive() && this.tickCount % 900 == 0) {this.updateBossDifficulty(); this.adaptBossDifficulty();}
 		this.bossInfo.setVisible(this.isActive());
+		this.immunizeToEffects();
+	}
+
+	public void immunizeToEffects()
+	{
+		this.removeEffect(MobEffects.LEVITATION);
+		this.removeEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get());
 	}
 
 	@Override public boolean startRiding(Entity entity, boolean p_19967_)

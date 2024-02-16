@@ -11,6 +11,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.ShadowPineBarrelM
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AerialTreeChestMimicEntity;
 import fr.factionbedrock.aerialhell.Entity.Neutral.BoarEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
+import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEnchantments;
@@ -31,6 +32,9 @@ import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Silverfish;
 import net.minecraft.world.entity.monster.Vex;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -76,10 +80,9 @@ public class EntityHelper
         return entity instanceof CrystalGolemEntity || entity instanceof CrystalCaterpillarEntity || entity instanceof CrystalSlimeEntity || entity instanceof CrystalSpiderEntity || entity instanceof LunaticPriestEntity;
     }
 
-    public static boolean isLightProjectile(Entity entity)
-    {
-        return entity instanceof LunaticProjectileEntity;
-    }
+    public static boolean isLightProjectile(Entity entity) {return entity instanceof LunaticProjectileEntity;}
+
+    public static boolean isProjectile(Entity entity) {return entity instanceof AbstractArrow || entity instanceof ThrowableProjectile;}
 
     public static boolean isMudEntity(Entity entity)
     {
