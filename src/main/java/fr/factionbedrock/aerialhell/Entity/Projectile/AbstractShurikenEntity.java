@@ -68,7 +68,7 @@ public abstract class AbstractShurikenEntity extends ThrowableItemProjectile
 		if (result != null && result.getType() != HitResult.Type.MISS && this.level() instanceof ServerLevel && result.getType() == HitResult.Type.ENTITY)
 		{
             Entity entity = ((EntityHitResult)result).getEntity();
-            entity.hurt(AerialHellDamageTypes.getDamageSource(this.level(), AerialHellDamageTypes.SHURIKEN_HIT), this.getKnifeDamage()); //TODO : Put Shuriken owner in DamageSource (see AbstractArrow onHitEntity method)
+            entity.hurt(AerialHellDamageTypes.getDamageSource(this.level(), AerialHellDamageTypes.SHURIKEN_HIT, this, this.getOwner()), this.getKnifeDamage());
             entity.setDeltaMovement(entity.getDeltaMovement().add(this.getDeltaMovement().x / 2, 0.12F, this.getDeltaMovement().z / 2));
             this.applyEntityImpactEffet(entity);
 		}

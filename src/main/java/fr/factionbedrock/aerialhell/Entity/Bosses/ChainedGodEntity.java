@@ -103,7 +103,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		Entity immediateSourceEntity = source.getDirectEntity();
 		Entity trueSourceEntity = source.getEntity();
 		if ((this.isImploding() || this.isUnchaining()) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return false;}
-		if (!this.canGetProjectileDamages() && EntityHelper.isProjectile(immediateSourceEntity)) {return false;} //todo : why are shurikens still dealing damages ?
+		if (!this.canGetProjectileDamages() && EntityHelper.isProjectile(immediateSourceEntity)) {return false;}
 		else
 		{
 			boolean flag = super.hurt(source, amount);

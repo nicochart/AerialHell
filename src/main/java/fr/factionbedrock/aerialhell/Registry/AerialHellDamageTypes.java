@@ -6,7 +6,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
+
+import javax.annotation.Nullable;
 
 public class AerialHellDamageTypes
 {
@@ -22,6 +25,11 @@ public class AerialHellDamageTypes
 
     public static DamageSource getDamageSource(Level level, ResourceKey<DamageType> typeKey)
     {
-        return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(typeKey));
+        return getDamageSource(level, typeKey, null, null);
+    }
+
+    public static DamageSource getDamageSource(Level level, ResourceKey<DamageType> typeKey, @Nullable Entity immediateSource, @Nullable Entity trueSource)
+    {
+        return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(typeKey), immediateSource, trueSource);
     }
 }
