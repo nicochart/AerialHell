@@ -60,7 +60,7 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.CRYSTAL_SPIDER.get(), HellSpiderRender::new);
         event.registerEntityRenderer(AerialHellEntities.SHADOW_SPIDER.get(), HellSpiderRender::new);
         event.registerEntityRenderer(AerialHellEntities.LILITH.get(), LilithRender::new);
-        event.registerEntityRenderer(AerialHellEntities.FOREST_CATERPILLAR.get(), CaterpillarRender::new);
+        event.registerEntityRenderer(AerialHellEntities.FOREST_CATERPILLAR.get(), ForestCaterpillarRender::new);
         event.registerEntityRenderer(AerialHellEntities.CRYSTAL_CATERPILLAR.get(), CaterpillarRender::new);
 
         event.registerEntityRenderer(AerialHellEntities.THROWN_STELLAR_EGG.get(), ThrownItemRenderer::new);

@@ -14,19 +14,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class CaterpillarRender<T extends AbstractCaterpillarEntity> extends MobRenderer<T, ForestCaterpillarModel<T>>
 {
-	private static String name_forest = "forest_caterpillar";
 	private static String name_crystal = "crystal_caterpillar";
-	private static final ResourceLocation FOREST = new ResourceLocation(AerialHell.MODID, "textures/entity/caterpillar/" + name_forest + ".png");
 	private static final ResourceLocation CRYSTAL = new ResourceLocation(AerialHell.MODID, "textures/entity/caterpillar/" + name_crystal + ".png");
 
     public CaterpillarRender(EntityRendererProvider.Context context)
 	{
-		super(context, new ForestCaterpillarModel<T>(context.bakeLayer(AerialHellModelLayers.CATERPILLAR)), 0.2f);
+		super(context, new ForestCaterpillarModel<T>(context.bakeLayer(AerialHellModelLayers.CATERPILLAR), false), 0.2f);
 	}
 
-    @Override public ResourceLocation getTextureLocation(T entity)
-    {
-    	if (entity instanceof ForestCaterpillarEntity) {return FOREST;}
-    	else {return CRYSTAL;}
-    }
+    @Override public ResourceLocation getTextureLocation(T entity) {return CRYSTAL;}
 }

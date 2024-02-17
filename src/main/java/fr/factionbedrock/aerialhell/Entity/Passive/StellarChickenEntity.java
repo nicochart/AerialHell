@@ -3,12 +3,19 @@ package fr.factionbedrock.aerialhell.Entity.Passive;
 import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -18,17 +25,53 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.*;
 
 import javax.annotation.Nullable;
 
 public class StellarChickenEntity extends Chicken
 {
+    private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.<Integer>defineId(StellarChickenEntity.class, EntityDataSerializers.INT);
     private static final Ingredient FOOD_ITEMS = Ingredient.of(AerialHellBlocksAndItems.AERIAL_BERRY_SEEDS.get(), AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY_SEEDS.get());
+
     public StellarChickenEntity(EntityType<? extends Chicken> entityType, Level level) {super(entityType, level);}
+
+    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag tag)
+    {
+        this.setColor(BiomeColors.getAverageGrassColor(level, this.blockPosition()));
+        return super.finalizeSpawn(level, difficulty, mobSpawnType, spawnGroupData, tag);
+    }
+
+    @Override public void tick()
+    {
+        if (this.getColor() == 0)
+        {
+            int color = BiomeColors.getAverageGrassColor(this.level(), this.blockPosition());
+            this.setColor(color != 0 ? color : 1);
+        }
+        super.tick();
+    }
+
+    @Override protected void defineSynchedData()
+    {
+        super.defineSynchedData();
+        this.entityData.define(COLOR, 0);
+    }
+
+    @Override public void addAdditionalSaveData(CompoundTag compound)
+    {
+        super.addAdditionalSaveData(compound);
+        compound.putInt("Color", this.getColor());
+    }
+
+    @Override public void readAdditionalSaveData(CompoundTag compound)
+    {
+        super.readAdditionalSaveData(compound);
+        this.setColor(compound.getInt("Color"));
+    }
+
+    public int getColor() {return this.entityData.get(COLOR);}
+    public void setColor(int color) {this.entityData.set(COLOR, color);}
 
     protected void registerGoals()
     {
