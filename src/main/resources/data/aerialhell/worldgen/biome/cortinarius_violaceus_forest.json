@@ -28,6 +28,12 @@
         "maxCount": 10
       },
       {
+        "type": "aerialhell:stellar_ent",
+        "weight": 30,
+        "minCount": 4,
+        "maxCount": 10
+      },
+      {
         "type": "aerialhell:shroomboom",
         "weight": 30,
         "minCount": 4,

@@ -47,6 +47,9 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<EvilCowEntity>> CORTINARIUS_COW = ENTITIES.register("cortinarius_cow", () -> EntityType.Builder.<EvilCowEntity>of(EvilCowEntity::new, MobCategory.MONSTER)
 			.sized(0.99F, 1.4F).build("cortinarius_cow"));
 
+	public static final RegistryObject<EntityType<EntEntity>> STELLAR_ENT = ENTITIES.register("stellar_ent", () -> EntityType.Builder.of(EntEntity::new, MobCategory.MONSTER)
+			.sized(0.7F,2.0F).build("stellar_ent"));
+
 	public static final RegistryObject<EntityType<StellarChickenEntity>> STELLAR_CHICKEN = ENTITIES.register("stellar_chicken", () -> EntityType.Builder.<StellarChickenEntity>of(StellarChickenEntity::new, MobCategory.CREATURE)
 			.sized(0.4F, 0.7F).build("stellar_chicken"));
 
@@ -212,6 +215,7 @@ public class AerialHellEntities
 
 		SpawnPlacements.register(EVIL_COW.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
 		SpawnPlacements.register(CORTINARIUS_COW.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnPlacements.register(STELLAR_ENT.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
 		SpawnPlacements.register(SHROOMBOOM.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
 		SpawnPlacements.register(VERDIGRIS_ZOMBIE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
 		//SpawnPlacements.register(MUD_SOLDIER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn); //pb : makes hostile entities that can spawn in daylight spawn without any requirement (1 entity / tick / chunk, game crash)

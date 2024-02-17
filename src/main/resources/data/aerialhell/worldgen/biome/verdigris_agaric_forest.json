@@ -23,12 +23,18 @@
     "monster": [
       {
         "type": "aerialhell:cortinarius_cow",
-        "weight": 40,
+        "weight": 50,
         "minCount": 4,
         "maxCount": 10
       },
       {
         "type": "aerialhell:shroomboom",
+        "weight": 40,
+        "minCount": 4,
+        "maxCount": 10
+      },
+      {
+        "type": "aerialhell:stellar_ent",
         "weight": 30,
         "minCount": 4,
         "maxCount": 10

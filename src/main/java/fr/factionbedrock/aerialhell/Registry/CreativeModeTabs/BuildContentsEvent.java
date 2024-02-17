@@ -807,6 +807,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_STONE_AUTOMATON_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.EVIL_COW_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.CORTINARIUS_COW_SPAWN_EGG.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_ENT_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_CHICKEN_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_BOAR_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHROOMBOOM_SPAWN_EGG.get());

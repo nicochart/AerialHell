@@ -34,6 +34,12 @@
         "maxCount": 6
       },
       {
+        "type": "aerialhell:stellar_ent",
+        "weight": 20,
+        "minCount": 4,
+        "maxCount": 10
+      },
+      {
         "type": "aerialhell:shadow_automaton",
         "weight": 100,
         "minCount": 2,

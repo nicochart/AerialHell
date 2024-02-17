@@ -46,8 +46,14 @@
         "maxCount": 6
       },
       {
+        "type": "aerialhell:stellar_ent",
+        "weight": 40,
+        "minCount": 4,
+        "maxCount": 10
+      },
+      {
         "type": "aerialhell:mud_soldier",
-        "weight": 60,
+        "weight": 40,
         "minCount": 1,
         "maxCount": 2
       }

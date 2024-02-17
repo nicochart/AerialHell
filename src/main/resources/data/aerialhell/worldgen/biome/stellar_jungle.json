@@ -24,13 +24,19 @@
     "monster": [
       {
         "type": "aerialhell:evil_cow",
-        "weight": 80,
+        "weight": 20,
+        "minCount": 4,
+        "maxCount": 10
+      },
+      {
+        "type": "aerialhell:stellar_ent",
+        "weight": 100,
         "minCount": 4,
         "maxCount": 10
       },
       {
         "type": "aerialhell:verdigris_zombie",
-        "weight": 60,
+        "weight": 50,
         "minCount": 4,
         "maxCount": 10
       },
