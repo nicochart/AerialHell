@@ -1359,7 +1359,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> MUSIC_DISC_RETRO_EXPLORATION_TOMMAUP = ITEMS.register("music_disc_retro_exploration_tommaup", () -> new RecordItem(1, () -> AerialHellSoundEvents.MUSIC_DISC_RETRO_EXPLORATION_TOMMAUP.get(), new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 3240));
 
 	//fluids
-    public static final RegistryObject<LiquidBlock> LIQUID_OF_THE_GODS = BLOCKS.register("liquid_of_the_gods", () -> new AerialHellFluidBlock(AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE, BlockBehaviour.Properties.of().lightLevel((state) -> 8)));
+    public static final RegistryObject<LiquidBlock> LIQUID_OF_THE_GODS = BLOCKS.register("liquid_of_the_gods", () -> new AerialHellFluidBlock(AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE, BlockBehaviour.Properties.of().replaceable().lightLevel((state) -> 8)));
 
     //tools
     public static final RegistryObject<PickaxeItem> SKY_WOOD_PICKAXE = ITEMS.register("sky_wood_pickaxe", () -> new PickaxeItem(ToolMaterials.sky_wood, 1, -2.8F, (new Item.Properties())));
