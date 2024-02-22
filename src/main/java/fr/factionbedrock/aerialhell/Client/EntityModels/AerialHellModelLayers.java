@@ -28,6 +28,7 @@ public class AerialHellModelLayers
     public static final ModelLayerLocation AUTOMATON = createModelLayerLocation("automaton");
     public static final ModelLayerLocation TORN_SPIRIT = createModelLayerLocation("torn_spirit");
     public static final ModelLayerLocation VERDIGRIS_ZOMBIE = createModelLayerLocation("verdigris_zombie");
+    public static final ModelLayerLocation SLIME_PIRATE = createModelLayerLocation("slime_pirate");
     public static final ModelLayerLocation ENT = createModelLayerLocation("ent");
 
     public static final ModelLayerLocation CORTINARIUS_COW_SHROOM = createModelLayerLocation( "cortinarius_cow_shroom", "shrooms");
