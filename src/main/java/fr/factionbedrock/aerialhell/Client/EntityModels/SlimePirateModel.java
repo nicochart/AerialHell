@@ -4,17 +4,19 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Entity.Monster.SlimePirateEntity;
 import net.minecraft.client.model.AnimationUtils;
+import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.HumanoidArm;
 
 // Made with Blockbench 4.9.4
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
 
-public class SlimePirateModel<T extends SlimePirateEntity> extends EntityModel<T>
+public class SlimePirateModel<T extends SlimePirateEntity> extends EntityModel<T> implements ArmedModel
 {
 	private final ModelPart head;
 	private final ModelPart head_overlay;
@@ -103,4 +105,11 @@ public class SlimePirateModel<T extends SlimePirateEntity> extends EntityModel<T
 		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		rightLeg_overlay.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
+
+	@Override public void translateToHand(HumanoidArm arm, PoseStack stack)
+	{
+		this.getArm(arm).translateAndRotate(stack);
+	}
+
+	protected ModelPart getArm(HumanoidArm arm) {return arm == HumanoidArm.LEFT ? this.rightArm : this.leftArm;}
 }

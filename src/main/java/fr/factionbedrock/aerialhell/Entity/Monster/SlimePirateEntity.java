@@ -1,10 +1,17 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -13,8 +20,12 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+
+import javax.annotation.Nullable;
 
 public class SlimePirateEntity extends Zombie
 {
@@ -29,6 +40,37 @@ public class SlimePirateEntity extends Zombie
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+    }
+
+    @Override protected void populateDefaultEquipmentSlots(RandomSource rand, DifficultyInstance difficulty)
+    {
+        if (rand.nextInt(2) == 0)
+        {
+            this.setItemSlot(EquipmentSlot.MAINHAND, getRandomWeapon(rand));
+            if (rand.nextInt(3) == 0)
+            {
+                this.setItemSlot(EquipmentSlot.OFFHAND, getRandomWeapon(rand));
+            }
+        }
+        else
+        {
+            this.setItemSlot(EquipmentSlot.OFFHAND, getRandomWeapon(rand));
+            if (rand.nextInt(3) == 0)
+            {
+                this.setItemSlot(EquipmentSlot.MAINHAND, getRandomWeapon(rand));
+            }
+        }
+    }
+
+    private ItemStack getRandomWeapon(RandomSource rand)
+    {
+        return rand.nextInt(2) == 0 ? new ItemStack(AerialHellBlocksAndItems.RUBY_SWORD.get()) : new ItemStack(AerialHellBlocksAndItems.RUBY_AXE.get());
+    }
+
+    @Override @Nullable public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag)
+    {
+        this.populateDefaultEquipmentSlots(this.random, difficultyIn);
+        return spawnDataIn;
     }
 
     public static AttributeSupplier.Builder registerAttributes()

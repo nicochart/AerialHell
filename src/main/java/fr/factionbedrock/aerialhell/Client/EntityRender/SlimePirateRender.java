@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.SlimePirateEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -21,7 +22,8 @@ public class SlimePirateRender extends MobRenderer<SlimePirateEntity, SlimePirat
 
     public SlimePirateRender(EntityRendererProvider.Context context)
     {
-        super(context, new SlimePirateModel(context.bakeLayer(AerialHellModelLayers.SLIME_PIRATE)), 0.3f);
+        super(context, new SlimePirateModel<>(context.bakeLayer(AerialHellModelLayers.SLIME_PIRATE)), 0.4f);
+        this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
     }
 
     @Nullable @Override protected RenderType getRenderType(SlimePirateEntity entity, boolean b1, boolean b2, boolean b3)
