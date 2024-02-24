@@ -15,6 +15,7 @@ public class HeadInTheCloudsEffect extends Effect
     public void performEffect(LivingEntity entityLivingBaseIn, int amplifier)
     {
     	entityLivingBaseIn.jumpMovementFactor = 0.03f * (1 + amplifier);
+        entityLivingBaseIn.fallDistance = 0.0f;
 		
 		if (entityLivingBaseIn.getMotion().y < -0.2 && !entityLivingBaseIn.isSneaking())
 		{
