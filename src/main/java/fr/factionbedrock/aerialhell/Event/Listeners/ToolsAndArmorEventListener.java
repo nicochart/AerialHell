@@ -16,6 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -40,12 +41,17 @@ public class ToolsAndArmorEventListener
 	public static void onProjectileCollideWithEntity(ProjectileImpactEvent event)
 	{
 		Entity projectile = event.getEntity();
+
 		if (event.getRayTraceResult().getType() == RayTraceResult.Type.ENTITY)
 		{
-			Entity hitEntity = ((EntityRayTraceResult) event.getRayTraceResult()).getEntity();
-			if ((hitEntity instanceof ShadowTrollEntity || hitEntity instanceof ShadowAutomatonEntity) && !EntityHelper.isLightProjectile(projectile))
+			if (EntityHelper.isPiercingArrow(projectile)) {} //fixing github issue #9
+			else
 			{
-				if (event.isCancelable()) {event.setCanceled(true);}
+				Entity hitEntity = ((EntityRayTraceResult) event.getRayTraceResult()).getEntity();
+				if ((hitEntity instanceof ShadowTrollEntity || hitEntity instanceof ShadowAutomatonEntity) && !EntityHelper.isLightProjectile(projectile))
+				{
+					if (event.isCancelable()) {event.setCanceled(true);}
+				}
 			}
 		}
 	}

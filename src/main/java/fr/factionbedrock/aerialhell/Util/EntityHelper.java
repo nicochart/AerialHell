@@ -20,6 +20,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.entity.monster.SilverfishEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.server.MinecraftServer;
@@ -45,6 +46,8 @@ public class EntityHelper
     public static boolean isLivingEntityInAerialHellPortal(LivingEntity entity) {return entity.getEntityWorld().getBlockState(entity.getPosition()).isIn(AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get());}
 
     public static boolean isLivingEntityOnPortalCooldown(LivingEntity entity) {return entity.isPotionActive(AerialHellPotionEffects.AERIAL_HELL_PORTAL_COOLDOWN.get()) || entity.func_242280_ah(); /*isOnPortalCooldown*/}
+
+    public static boolean isPiercingArrow(Entity projectile) {return projectile instanceof ArrowEntity && ((ArrowEntity) projectile).getPierceLevel() > 0;}
 
     public static boolean isImmuneToSomeShadowDamage(Entity entity)
     {
