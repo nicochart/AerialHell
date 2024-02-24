@@ -832,5 +832,11 @@
   "advancements.secret.glass_cannon.title": "Canon en Verre",
   "advancements.secret.glass_cannon.desc": "Fragile mais Puissant",
   "advancements.story.kill_golden_nether_boss.title": "Déchaîné",
-  "advancements.story.kill_golden_nether_boss.desc": "Tuez le Dieu Enchaîné"
+  "advancements.story.kill_golden_nether_boss.desc": "Tuez le Dieu Enchaîné",
+
+  "rarity.aerial_hell_frozen.name": "Gelé",
+  "rarity.aerial_hell_corrupted.name": "Corrompu",
+  "rarity.aerial_hell_vibrant.name": "Vibrant",
+  "rarity.aerial_hell_legendary.name": "Legendaire",
+  "rarity.aerial_hell_mythical.name": "Mythique"
 }
