@@ -20,7 +20,11 @@ import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.passive.OcelotEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
@@ -58,6 +62,13 @@ public class ShroomBoomEntity extends CreeperEntity
                 .createMutableAttribute(Attributes.FOLLOW_RANGE, 24.0D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D);
     }
+
+    @Override protected ActionResultType func_230254_b_(PlayerEntity entity, Hand hand)
+    {
+        ItemStack itemstack = entity.getHeldItem(hand);
+        if (itemstack.getItem() == Items.FLINT_AND_STEEL) {return ActionResultType.CONSUME;}
+        return super.func_230254_b_(entity, hand);
+    }
     
     public boolean canIgnite() {return this.getHealth() < this.getMaxHealth() / 3;}
     
@@ -70,7 +81,7 @@ public class ShroomBoomEntity extends CreeperEntity
     	}
     	else {super.setCreeperState(state);}
     }
-    
+
     @Override
     public boolean attackEntityAsMob(Entity entityIn)
     {
