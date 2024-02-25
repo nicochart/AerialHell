@@ -33,12 +33,22 @@ public class SlimePirateEntity extends Zombie
 
     @Override protected void registerGoals()
     {
-        this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 0.6D));
-        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.registerBaseGoals();
+        this.registerSpecificGoals();
+    }
+
+    protected void registerBaseGoals()
+    {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 0.6D));
+        this.goalSelector.addGoal(1, new FloatGoal(this));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+    }
+
+    protected void registerSpecificGoals()
+    {
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.25D, false));
+        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
@@ -62,7 +72,7 @@ public class SlimePirateEntity extends Zombie
         }
     }
 
-    private ItemStack getRandomWeapon(RandomSource rand)
+    protected ItemStack getRandomWeapon(RandomSource rand)
     {
         return rand.nextInt(2) == 0 ? new ItemStack(AerialHellBlocksAndItems.RUBY_SWORD.get()) : new ItemStack(AerialHellBlocksAndItems.RUBY_AXE.get());
     }

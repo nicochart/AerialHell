@@ -80,6 +80,11 @@ public class EntityHelper
         return entity instanceof CrystalGolemEntity || entity instanceof CrystalCaterpillarEntity || entity instanceof CrystalSlimeEntity || entity instanceof CrystalSpiderEntity || entity instanceof LunaticPriestEntity;
     }
 
+    public static boolean isGhostEntity(Entity entity)
+    {
+        return entity instanceof GhostSlimePirateEntity;
+    }
+
     public static boolean isLightProjectile(Entity entity) {return entity instanceof LunaticProjectileEntity;}
 
     public static boolean isProjectile(Entity entity) {return entity instanceof AbstractArrow || entity instanceof ThrowableProjectile;}
@@ -122,7 +127,7 @@ public class EntityHelper
     {
         if (entity instanceof LivingEntity livingEntity)
         {
-            if (hasSolidEtherWalkerEnchantment(livingEntity) || isLivingEntityUnderInTheCloudsEffect(livingEntity)) {return false;}
+            if (hasSolidEtherWalkerEnchantment(livingEntity) || isLivingEntityUnderInTheCloudsEffect(livingEntity) || isGhostEntity(livingEntity)) {return false;}
             Iterable<ItemStack> stuff = livingEntity.getArmorSlots();
             for (ItemStack armorStack : stuff) {if (armorStack.getItem() == AerialHellBlocksAndItems.MAGMATIC_GEL_BOOTS.get()) {return false;}}
             return true;

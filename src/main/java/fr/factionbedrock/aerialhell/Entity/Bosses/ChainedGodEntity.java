@@ -624,8 +624,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	public static class ChainedGodMeleeAttackGoal extends ActiveMeleeAttackGoal
 	{
 		public ChainedGodMeleeAttackGoal(ChainedGodEntity godIn, double speedIn, boolean useLongMemory) {super(godIn, speedIn, useLongMemory);}
-		@Override public boolean canUse() {return ((ChainedGodEntity) this.activableGoalOwner).isInNormalPhase() && super.canUse();}
-		@Override public boolean canContinueToUse() {return ((ChainedGodEntity) this.activableGoalOwner).isInNormalPhase() && super.canContinueToUse();}
+		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && ((ChainedGodEntity) this.goalOwner).isInNormalPhase();}
 	}
 	
 	public static class ChainedGodWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal

@@ -4,6 +4,7 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.SlimePirateModel;
+import fr.factionbedrock.aerialhell.Entity.Monster.GhostSlimePirateEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.SlimePirateEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -19,6 +20,7 @@ import javax.annotation.Nullable;
 public class SlimePirateRender extends MobRenderer<SlimePirateEntity, SlimePirateModel<SlimePirateEntity>>
 {
     private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/pirate/slime.png");
+    private static final ResourceLocation TEXTURE_GHOST = new ResourceLocation(AerialHell.MODID, "textures/entity/pirate/ghost.png");
 
     public SlimePirateRender(EntityRendererProvider.Context context)
     {
@@ -31,5 +33,5 @@ public class SlimePirateRender extends MobRenderer<SlimePirateEntity, SlimePirat
         return RenderType.entityTranslucent(this.getTextureLocation(entity));
     }
 
-    @Override public ResourceLocation getTextureLocation(SlimePirateEntity entity) {return TEXTURE;}
+    @Override public ResourceLocation getTextureLocation(SlimePirateEntity entity) {return entity instanceof GhostSlimePirateEntity ? TEXTURE_GHOST : TEXTURE;}
 }
