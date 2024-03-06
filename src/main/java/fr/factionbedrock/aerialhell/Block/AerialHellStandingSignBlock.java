@@ -10,7 +10,7 @@ import net.minecraft.core.BlockPos;
 
 public class AerialHellStandingSignBlock extends StandingSignBlock
 {
-	public AerialHellStandingSignBlock(BlockBehaviour.Properties builder, WoodType woodType) {super(woodType, builder);}
+	public AerialHellStandingSignBlock(BlockBehaviour.Properties builder, WoodType woodType) {super(builder, woodType);}
 
 	@Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new AerialHellSignBlockEntity(pos, state);}
 }

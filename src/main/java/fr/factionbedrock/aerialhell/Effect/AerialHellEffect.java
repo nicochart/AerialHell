@@ -15,7 +15,7 @@ public class AerialHellEffect extends MobEffect
     public void applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier) {}
     
     @Override
-    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {return true;}
+    public boolean isDurationEffectTick(int duration, int amplifier) {return true;}
 
     @Override
     public boolean isInstantenous() {return false;}

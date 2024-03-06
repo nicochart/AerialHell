@@ -7,7 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SaplingBlock;
-import net.minecraft.world.level.block.grower.TreeGrower;
+import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
@@ -19,7 +19,7 @@ public class AerialHellSaplingBlock extends SaplingBlock
 	@Nullable private final ResourceKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey;
 	private final float hugeChange;
 
-	public AerialHellSaplingBlock(TreeGrower treeIn, Properties properties, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey, ResourceKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey, float hugeChance)
+	public AerialHellSaplingBlock(AbstractTreeGrower treeIn, Properties properties, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey, ResourceKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey, float hugeChance)
 	{
 		super(treeIn, properties);
 		this.giantTreeFeatureKey = giantTreeFeatureKey;
@@ -27,7 +27,7 @@ public class AerialHellSaplingBlock extends SaplingBlock
 		this.hugeChange = hugeChance;
 	}
 
-	public AerialHellSaplingBlock(TreeGrower treeIn, Properties properties, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey)
+	public AerialHellSaplingBlock(AbstractTreeGrower treeIn, Properties properties, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey)
 	{
 		this(treeIn, properties, giantTreeFeatureKey, null, 0.0F);
 	}

@@ -27,7 +27,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class AerialBerryBushBlock extends BushBlock implements BonemealableBlock
 {
-    public static final MapCodec<AerialBerryBushBlock> CODEC = simpleCodec(AerialBerryBushBlock::new);
 	public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
 	
 	public AerialBerryBushBlock(Properties properties)
@@ -35,8 +34,6 @@ public class AerialBerryBushBlock extends BushBlock implements BonemealableBlock
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
     }
-
-    @Override protected @NotNull MapCodec<? extends BushBlock> codec() {return CODEC;}
 
     @Override
     public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand)
@@ -80,7 +77,7 @@ public class AerialBerryBushBlock extends BushBlock implements BonemealableBlock
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(AGE);}
 
-    @Override public boolean isValidBonemealTarget(LevelReader level, BlockPos blockPos, BlockState blockState) {return blockState.getValue(AGE) < 3;}
+    @Override public boolean isValidBonemealTarget(LevelReader level, BlockPos blockPos, BlockState blockState, boolean b) {return blockState.getValue(AGE) < 3;}
 
     @Override public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos blockPos, BlockState blockState) {return true;}
 

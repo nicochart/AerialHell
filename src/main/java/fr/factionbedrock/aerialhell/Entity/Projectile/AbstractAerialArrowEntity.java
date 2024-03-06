@@ -5,33 +5,30 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.network.NetworkHooks;
 
 public abstract class AbstractAerialArrowEntity extends AbstractArrow
 {
     public int ticksLiving;
-
-    protected AbstractAerialArrowEntity(EntityType<? extends AbstractArrow> type, Level worldIn, ItemStack itemStack)
+    protected AbstractAerialArrowEntity(EntityType<? extends AbstractArrow> type, Level worldIn)
     {
-        super(type, worldIn, itemStack);
+        super(type, worldIn);
         this.ticksLiving = 0;
     }
 
-    public AbstractAerialArrowEntity(EntityType<? extends AbstractArrow> type, double x, double y, double z, Level worldIn, ItemStack itemStack)
+    public AbstractAerialArrowEntity(EntityType<? extends AbstractArrow> type, double x, double y, double z, Level worldIn)
     {
-        super(type, x, y, z, worldIn, itemStack);
+        super(type, x, y, z, worldIn);
         this.ticksLiving = 0;
     }
 
-    public AbstractAerialArrowEntity(EntityType<? extends AbstractArrow> type, LivingEntity shooter, Level worldIn, ItemStack itemStack)
+    public AbstractAerialArrowEntity(EntityType<? extends AbstractArrow> type, LivingEntity shooter, Level worldIn)
     {
-        super(type, shooter, worldIn, itemStack);
+        super(type, shooter, worldIn);
         this.ticksLiving = 0;
     }
-
 
     @Override
     protected void onHitBlock(BlockHitResult result)
@@ -40,5 +37,8 @@ public abstract class AbstractAerialArrowEntity extends AbstractArrow
         this.setNoGravity(false);
     }
 
-    //public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);}
+    public Packet<ClientGamePacketListener> getAddEntityPacket()
+    {
+        return NetworkHooks.getEntitySpawningPacket(this);
+    }
 }

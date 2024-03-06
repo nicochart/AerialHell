@@ -9,9 +9,9 @@ import net.minecraft.resources.ResourceLocation;
 
 public class FreezingRecipe extends AbstractCookingRecipe
 {
-	public FreezingRecipe(/*ResourceLocation idIn,*/ String groupIn, CookingBookCategory category, Ingredient ingredientIn, ItemStack resultIn, float experienceIn, int cookTimeIn)
+	public FreezingRecipe(ResourceLocation idIn, String groupIn, CookingBookCategory category, Ingredient ingredientIn, ItemStack resultIn, float experienceIn, int cookTimeIn)
 	{
-		super(RecipeTypes.FREEZING.get(), /*idIn,*/ groupIn, category, ingredientIn, resultIn, experienceIn, cookTimeIn);
+		super(RecipeTypes.FREEZING.get(), idIn, groupIn, category, ingredientIn, resultIn, experienceIn, cookTimeIn);
 	}
 
 	@Override public ItemStack getToastSymbol() {return new ItemStack(AerialHellBlocksAndItems.FREEZER.get());}

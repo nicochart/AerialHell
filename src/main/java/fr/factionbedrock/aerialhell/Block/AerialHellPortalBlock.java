@@ -209,7 +209,7 @@ public class AerialHellPortalBlock extends Block
 		}
 	}
 
-	@Override public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {return ItemStack.EMPTY;}
+	@Override public ItemStack getCloneItemStack(BlockGetter level, BlockPos pos, BlockState state) {return ItemStack.EMPTY;}
 
 	@Override
 	public BlockState rotate(BlockState state, Rotation rot)

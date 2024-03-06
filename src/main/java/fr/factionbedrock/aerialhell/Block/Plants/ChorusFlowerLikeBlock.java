@@ -60,7 +60,7 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
 
                 if (flag && allNeighborsEmpty(level, blockpos, (Direction)null) && level.isEmptyBlock(pos.above(2)))
                 {
-                    level.setBlock(pos, ChorusPlantLikeBlock.getStateWithConnections(level, pos, this.plant.defaultBlockState()), 2);
+                    level.setBlock(pos, ChorusPlantLikeBlock.getStateForPlacement(level, pos, this.plant.defaultBlockState()), 2);
                     this.placeGrownFlower(level, blockpos, i);
                 }
                 else if (i < 4)
@@ -81,7 +81,7 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
                         }
                     }
 
-                    if (flag2) {level.setBlock(pos, ChorusPlantLikeBlock.getStateWithConnections(level, pos, this.plant.defaultBlockState()), 2);}
+                    if (flag2) {level.setBlock(pos, ChorusPlantLikeBlock.getStateForPlacement(level, pos, this.plant.defaultBlockState()), 2);}
                     else {this.placeDeadFlower(level, pos);}
                 }
                 else {this.placeDeadFlower(level, pos);}

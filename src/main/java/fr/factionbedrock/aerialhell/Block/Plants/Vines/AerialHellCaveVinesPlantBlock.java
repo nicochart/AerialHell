@@ -37,7 +37,7 @@ public class AerialHellCaveVinesPlantBlock extends CaveVinesPlantBlock
         else /*if (this == AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT.get())*/{return AerialHellBlocksAndItems.VINE_BLOSSOM.get();}
     }
 
-    @Override public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {return new ItemStack(this.getBerryItem());}
+    @Override public ItemStack getCloneItemStack(BlockGetter block, BlockPos pos, BlockState state) {return new ItemStack(this.getBerryItem());}
 
     @Override public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult)
     {

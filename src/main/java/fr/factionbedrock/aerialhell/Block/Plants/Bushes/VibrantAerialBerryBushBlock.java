@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Block.Plants.Bushes;
 
-import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -23,11 +22,9 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.NotNull;
 
 public class VibrantAerialBerryBushBlock extends BushBlock implements BonemealableBlock
 {
-    public static final MapCodec<VibrantAerialBerryBushBlock> CODEC = simpleCodec(VibrantAerialBerryBushBlock::new);
 	public static final IntegerProperty AGE = BlockStateProperties.AGE_15;
 	
 	public VibrantAerialBerryBushBlock(Properties properties)
@@ -35,8 +32,6 @@ public class VibrantAerialBerryBushBlock extends BushBlock implements Bonemealab
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
     }
-
-    @Override protected @NotNull MapCodec<? extends BushBlock> codec() {return CODEC;}
 
     @Override
     public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand)
@@ -80,7 +75,7 @@ public class VibrantAerialBerryBushBlock extends BushBlock implements Bonemealab
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(AGE);}
 
-    @Override public boolean isValidBonemealTarget(LevelReader level, BlockPos blockPos, BlockState blockState) {return blockState.getValue(AGE) < 15;}
+    @Override public boolean isValidBonemealTarget(LevelReader level, BlockPos blockPos, BlockState blockState, boolean b) {return blockState.getValue(AGE) < 15;}
     @Override public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos blockPos, BlockState blockState) {return blockState.getValue(AGE) < 13;}
 
     @Override

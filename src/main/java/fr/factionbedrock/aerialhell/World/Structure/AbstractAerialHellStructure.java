@@ -10,10 +10,7 @@ import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
-import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasBinding;
-import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
 
-import java.util.List;
 import java.util.Optional;
 
 public abstract class AbstractAerialHellStructure extends Structure
@@ -27,9 +24,8 @@ public abstract class AbstractAerialHellStructure extends Structure
     protected final HeightProvider startHeight;
     protected final Optional<Heightmap.Types> projectStartToHeightmap;
     protected final int maxDistanceFromCenter;
-    protected final List<PoolAliasBinding> poolAliases;
 
-    public AbstractAerialHellStructure(Structure.StructureSettings config, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, int size, HeightProvider startHeight, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter, List<PoolAliasBinding> poolAliasBindingList)
+    public AbstractAerialHellStructure(Structure.StructureSettings config, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, int size, HeightProvider startHeight, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter)
     {
         super(config);
         this.startPool = startPool;
@@ -38,7 +34,6 @@ public abstract class AbstractAerialHellStructure extends Structure
         this.startHeight = startHeight;
         this.projectStartToHeightmap = projectStartToHeightmap;
         this.maxDistanceFromCenter = maxDistanceFromCenter;
-        this.poolAliases = poolAliasBindingList;
     }
 
     protected abstract boolean isStructureChunk(Structure.GenerationContext context);
@@ -79,8 +74,7 @@ public abstract class AbstractAerialHellStructure extends Structure
                         blockPos, //structure center
                         false, //"useExpansionHack" (set it false)
                         this.projectStartToHeightmap,
-                        this.maxDistanceFromCenter,
-                        PoolAliasLookup.create(this.poolAliases, blockPos, context.seed()));
+                        this.maxDistanceFromCenter);
 
         return structurePiecesGenerator;
     }

@@ -22,7 +22,7 @@ public class GhostBoatFenceGateBlock extends FenceGateBlock
 {
 	public GhostBoatFenceGateBlock(WoodType woodType, Properties properties)
 	{
-		super(woodType, properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false));
+		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false), woodType);
 	}
 
 	@Override public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)

@@ -21,7 +21,7 @@ import net.minecraft.server.level.ServerLevel;
 
 public class AerialHellMushroomBlock extends MushroomBlock
 {
-	public AerialHellMushroomBlock(ResourceKey<ConfiguredFeature<?, ?>> featureKey, Properties properties) {super(featureKey, properties);}
+	public AerialHellMushroomBlock(ResourceKey<ConfiguredFeature<?, ?>> featureKey, Properties properties) {super(properties, featureKey);}
 
 	@Override
 	public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {}

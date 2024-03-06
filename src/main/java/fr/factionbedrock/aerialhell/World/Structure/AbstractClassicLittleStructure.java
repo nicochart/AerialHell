@@ -15,7 +15,7 @@ public abstract class AbstractClassicLittleStructure extends AbstractAerialHellS
 {
     public AbstractClassicLittleStructure(Structure.StructureSettings config, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, int size, HeightProvider startHeight, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter)
     {
-        super(config, startPool, startJigsawName, size, startHeight, projectStartToHeightmap, maxDistanceFromCenter, List.of()); //TODO : empty list ? check JigsawStructure() calls (line 75 of net.minecraft.world.level.levelgen.structure.structures.JigsawStructure)
+        super(config, startPool, startJigsawName, size, startHeight, projectStartToHeightmap, maxDistanceFromCenter);
     }
 
     protected boolean isStructureChunk(Structure.GenerationContext context)

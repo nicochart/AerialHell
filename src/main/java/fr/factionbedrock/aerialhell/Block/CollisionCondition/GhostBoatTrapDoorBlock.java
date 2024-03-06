@@ -19,7 +19,7 @@ public class GhostBoatTrapDoorBlock extends TrapDoorBlock
 {
 	public GhostBoatTrapDoorBlock(BlockSetType type, Properties properties)
 	{
-		super(type, properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false));
+		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false), type);
 	}
 
 	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)

@@ -139,7 +139,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	public boolean tryApplyingKnockback(DamageSource damageSource)
 	{
 		Entity sourceEntity = damageSource.getEntity();
-		if (sourceEntity != null && !damageSource.is(DamageTypeTags.NO_KNOCKBACK))
+		if (sourceEntity != null && !damageSource.is(DamageTypeTags.IS_EXPLOSION))
 		{
 			double xKb = sourceEntity.getX() - this.getX();
 

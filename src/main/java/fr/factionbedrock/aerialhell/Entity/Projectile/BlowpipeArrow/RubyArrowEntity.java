@@ -6,36 +6,27 @@ import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 
 public class RubyArrowEntity extends AbstractAerialArrowEntity
 {
-    public static final ItemStack DEFAULT_STACK = new ItemStack(AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get());
-
     public RubyArrowEntity(EntityType<? extends RubyArrowEntity> type, Level worldIn)
     {
-        this(type, worldIn, DEFAULT_STACK);
+        super(type, worldIn);
         this.setBaseDamage(6.0D);
     }
 
-    public RubyArrowEntity(EntityType<? extends RubyArrowEntity> type, Level worldIn, ItemStack itemStack)
+    public RubyArrowEntity(Level worldIn, double x, double y, double z)
     {
-        super(type, worldIn, itemStack);
+        super(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), x, y, z, worldIn);
         this.setBaseDamage(6.0D);
     }
 
-    public RubyArrowEntity(Level worldIn, double x, double y, double z, ItemStack itemStack)
+    public RubyArrowEntity(Level worldIn, LivingEntity shooter)
     {
-        super(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), x, y, z, worldIn, itemStack);
+        super(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), shooter, worldIn);
         this.setBaseDamage(6.0D);
     }
 
-    public RubyArrowEntity(Level worldIn, LivingEntity shooter, ItemStack itemStack)
-    {
-        super(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), shooter, worldIn, itemStack);
-        this.setBaseDamage(6.0D);
-    }
-    
     @Override protected ItemStack getPickupItem() {return new ItemStack(AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get());}
 }

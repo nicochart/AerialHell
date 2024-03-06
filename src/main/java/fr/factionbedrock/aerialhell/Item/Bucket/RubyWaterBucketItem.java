@@ -75,7 +75,7 @@ public class RubyWaterBucketItem extends Item
         BlockState blockstate = worldIn.getBlockState(posIn);
         Block block = blockstate.getBlock();
         boolean flag = blockstate.canBeReplaced(Fluids.WATER);
-        boolean flag1 = blockstate.isAir() || flag || block instanceof LiquidBlockContainer && ((LiquidBlockContainer)block).canPlaceLiquid(player, worldIn, posIn, blockstate, Fluids.WATER);
+        boolean flag1 = blockstate.isAir() || flag || block instanceof LiquidBlockContainer && ((LiquidBlockContainer)block).canPlaceLiquid(worldIn, posIn, blockstate, Fluids.WATER);
         if (!flag1)
         {
             return rayTrace != null && this.tryPlaceContainedLiquid(player, worldIn, rayTrace.getBlockPos().relative(rayTrace.getDirection()), (BlockHitResult)null);
@@ -94,7 +94,7 @@ public class RubyWaterBucketItem extends Item
 
             return true;
         }
-        else if (block instanceof LiquidBlockContainer && ((LiquidBlockContainer)block).canPlaceLiquid(player, worldIn,posIn,blockstate, Fluids.WATER))
+        else if (block instanceof LiquidBlockContainer && ((LiquidBlockContainer)block).canPlaceLiquid(worldIn,posIn,blockstate, Fluids.WATER))
         {
             ((LiquidBlockContainer)block).placeLiquid(worldIn, posIn, blockstate, ((FlowingFluid)Fluids.WATER).getSource(false));
             this.playEmptySound(player, worldIn, posIn);
@@ -121,7 +121,7 @@ public class RubyWaterBucketItem extends Item
 
     private boolean canBlockContainFluid(Level worldIn, BlockPos posIn, BlockState blockstate)
     {
-        return blockstate.getBlock() instanceof LiquidBlockContainer && ((LiquidBlockContainer)blockstate.getBlock()).canPlaceLiquid(null /*TODO check if null works*/, worldIn, posIn, blockstate, Fluids.WATER);
+        return blockstate.getBlock() instanceof LiquidBlockContainer && ((LiquidBlockContainer)blockstate.getBlock()).canPlaceLiquid(worldIn, posIn, blockstate, Fluids.WATER);
     }
 
     protected void playEmptySound(@Nullable Player player, LevelAccessor worldIn, BlockPos pos)

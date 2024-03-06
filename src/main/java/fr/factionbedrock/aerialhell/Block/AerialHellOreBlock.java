@@ -8,6 +8,6 @@ public class AerialHellOreBlock extends DropExperienceBlock
 {
 	public AerialHellOreBlock(int minExpDropped, int maxExpDropped, BlockBehaviour.Properties properties)
 	{
-		super(UniformInt.of(minExpDropped, maxExpDropped), properties);
+		super(properties, UniformInt.of(minExpDropped, maxExpDropped));
 	}
 }
