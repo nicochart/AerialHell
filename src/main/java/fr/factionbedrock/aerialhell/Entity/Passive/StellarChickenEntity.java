@@ -38,7 +38,7 @@ public class StellarChickenEntity extends Chicken
 
     @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag tag)
     {
-        this.setColor(BiomeColors.getAverageGrassColor(level, this.blockPosition()));
+        this.setColor(0);
         return super.finalizeSpawn(level, difficulty, mobSpawnType, spawnGroupData, tag);
     }
 
@@ -46,8 +46,11 @@ public class StellarChickenEntity extends Chicken
     {
         if (this.getColor() == 0)
         {
-            int color = BiomeColors.getAverageGrassColor(this.level(), this.blockPosition());
-            this.setColor(color != 0 ? color : 1);
+            if (this.level().isClientSide())
+            {
+                int color = BiomeColors.getAverageGrassColor(this.level(), this.blockPosition());
+                this.setColor(color != 0 ? color : 1);
+            }
         }
         super.tick();
     }
