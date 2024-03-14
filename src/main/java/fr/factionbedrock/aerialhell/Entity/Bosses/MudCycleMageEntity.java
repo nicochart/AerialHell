@@ -33,6 +33,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class MudCycleMageEntity extends AbstractBossEntity
 {
+	public int getDyingPhaseId() {return BossPhase.UNUSED.getPhaseId();}
+
 	private float damageAmountSinceLastSummon;
 	public MudCycleMageEntity(EntityType<? extends MudCycleMageEntity> type, Level world)
 	{

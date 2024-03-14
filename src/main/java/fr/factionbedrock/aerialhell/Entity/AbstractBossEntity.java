@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity;
 
 import javax.annotation.Nullable;
 
+import fr.factionbedrock.aerialhell.Entity.Bosses.BossPhase;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -9,11 +10,11 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.stats.Stats;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +34,8 @@ import java.util.List;
 public abstract class AbstractBossEntity extends AbstractActivableEntity
 {
 	protected final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.GREEN, BossEvent.BossBarOverlay.PROGRESS);
-	public static final EntityDataAccessor<Integer> BOSS_DIFFICULTY = SynchedEntityData.defineId(AbstractBossEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> BOSS_DIFFICULTY = SynchedEntityData.defineId(AbstractBossEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(AbstractBossEntity.class, EntityDataSerializers.INT);
 
 	public AbstractBossEntity(EntityType<? extends Monster> type, Level world) {super(type, world);}
 
@@ -120,10 +122,44 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		}
 	}
 
+	public enum NotDeadReason{START_NORMAL_PHASE, START_TRANSITION_PHASE}
+
 	public boolean tryDying(DamageSource damageSource)
 	{
-		this.die(damageSource);
-		return true;
+		if (damageSource.is(DamageTypes.GENERIC_KILL))
+		{
+			this.setHealth(0.0F);
+			this.playFastDeathSound();
+			this.die(damageSource);
+			return true;
+		}
+
+		if (this.isInNormalPhase())
+		{
+			BossPhase nextPhase = this.updateToNextPhase();
+			this.applyAfterTriedDyingPhaseUpdateEffect(nextPhase, NotDeadReason.START_TRANSITION_PHASE);
+			return false;
+		}
+		else if (this.isInTransitionPhase())
+		{
+			BossPhase nextPhase = this.updateToNextPhase();
+			this.applyAfterTriedDyingPhaseUpdateEffect(nextPhase, NotDeadReason.START_NORMAL_PHASE);
+			return false;
+		}
+		else //if (this.isInDeadPhase())
+		{
+			this.setHealth(0.0F);
+			this.die(damageSource);
+			return true;
+		}
+	}
+
+	public void playFastDeathSound()
+	{
+		if (this.getDeathSound() != null)
+		{
+			this.playSound(this.getDeathSound(), this.getSoundVolume(), this.getVoicePitch());
+		}
 	}
 
 	protected void playHurtSound(DamageSource damageSource, boolean died)
@@ -187,10 +223,59 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	{
 		super.defineSynchedData();
 		this.entityData.define(BOSS_DIFFICULTY, 0);
+		this.entityData.define(PHASE, 0);
 	}
 
 	public void setDifficulty(int difficulty) {this.entityData.set(BOSS_DIFFICULTY, difficulty);}
 	public int getDifficulty() {return this.entityData.get(BOSS_DIFFICULTY);}
+	public BossPhase getPhase()
+	{
+		int phase = this.entityData.get(PHASE);
+		if (phase == getDyingPhaseId()) {return BossPhase.DYING;}
+		else if (phase > getDyingPhaseId()) {return BossPhase.DEAD;}
+		return switch (phase)
+		{
+			default -> BossPhase.FIRST_PHASE;
+			case 1 -> BossPhase.FIRST_TO_SECOND_TRANSITION;
+			case 2 -> BossPhase.SECOND_PHASE;
+			case 3 -> BossPhase.SECOND_TO_THIRD_TRANSITION;
+			case 4 -> BossPhase.THIRD_PHASE;
+			case 5 -> BossPhase.THIRD_TO_FOURTH_TRANSITION;
+			case 6 -> BossPhase.FOURTH_PHASE;
+		};
+	}
+	public BossPhase setPhase(int phase) {this.entityData.set(PHASE, phase); return this.getPhase();}
+
+	public boolean cantBeInThatPhase() {return this.getPhase().getPhaseId() >= this.getDyingPhaseId() && this.getPhase().getPhaseId() < BossPhase.DYING.getPhaseId();}
+	public boolean isInDyingPhase() {return this.getPhase() == BossPhase.DYING;}
+	public boolean isInDeadPhase() {return this.getPhase() == BossPhase.DEAD || this.getPhase().getPhaseId() > BossPhase.DEAD.getPhaseId();}
+	public boolean isInDeadOrDyingPhase() {return this.isInDyingPhase() || this.isInDeadPhase();}
+
+	public boolean isInTransitionPhase() {return !this.isInDeadOrDyingPhase() && this.getPhase().getPhaseId() % 2 == 1;}
+	public boolean isInTransitionOrDyingPhase() {return this.isInDyingPhase() || this.isInTransitionPhase();}
+	public boolean isInNormalPhase() {return !isInDeadOrDyingPhase() && this.getPhase().getPhaseId() % 2 == 0;}
+
+	public void applyPhaseUpdateEffect(BossPhase nextPhase) {} //called by updateToNextPhase()
+	public void applyAfterTriedDyingPhaseUpdateEffect(BossPhase nextPhase, NotDeadReason reason) {this.setHealth(1.0F);} //called by tryDying() if the boss do not die
+	public void tickTransitionPhase() {}
+	public void tickDyingPhase() {}
+	public void tickDeadPhase() {}
+
+	public BossPhase updateToNextPhase() //returns next phase
+	{
+		BossPhase nextPhase = this.setPhase(this.getPhase().getNextPhase());
+		this.applyPhaseUpdateEffect(nextPhase);
+		return nextPhase;
+	}
+
+	public void playPhaseEffects()
+	{
+		if (this.isInTransitionPhase()) {this.tickTransitionPhase();}
+		if (this.isInDyingPhase()) {this.tickDyingPhase();}
+		if (this.isInDeadPhase()) {this.tickDeadPhase();}
+	}
+
+	public abstract int getDyingPhaseId();
 
 	/* Add the given player to the list of players tracking this entity. For instance, a player may track a boss in order to view its associated boss bar. */
 	@Override public void startSeenByPlayer(ServerPlayer player)
@@ -205,11 +290,18 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
     	super.stopSeenByPlayer(player);
     	this.bossInfo.removePlayer(player);
     }
-	
+
+	@Override public void addAdditionalSaveData(CompoundTag compound)
+	{
+		super.addAdditionalSaveData(compound);
+		compound.putInt("Phase", this.getPhase().getPhaseId());
+	}
+
 	@Override public void readAdditionalSaveData(CompoundTag compound)
 	{
-	      super.readAdditionalSaveData(compound);
-	      if (this.hasCustomName()) {this.bossInfo.setName(this.getDisplayName());}
+		super.readAdditionalSaveData(compound);
+		if (this.hasCustomName()) {this.bossInfo.setName(this.getDisplayName());}
+		this.setPhase(compound.getInt("Phase"));
 	}
 	
 	@Override public void setCustomName(@Nullable Component name)
@@ -230,6 +322,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		if (this.isActive() && this.tickCount % 900 == 0) {this.updateBossDifficulty(); this.adaptBossDifficulty();}
 		this.bossInfo.setVisible(this.isActive());
 		this.immunizeToEffects();
+		this.playPhaseEffects();
 	}
 
 	public void immunizeToEffects()

@@ -36,6 +36,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class LunaticPriestEntity extends AbstractBossEntity
 {
+	public int getDyingPhaseId() {return BossPhase.UNUSED.getPhaseId();}
+
 	public int attackTimer;
 	
 	public static final EntityDataAccessor<Boolean> SECOND_PHASE = SynchedEntityData.defineId(LunaticPriestEntity.class, EntityDataSerializers.BOOLEAN);

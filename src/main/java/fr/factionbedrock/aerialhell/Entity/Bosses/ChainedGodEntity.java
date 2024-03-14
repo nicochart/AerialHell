@@ -34,7 +34,6 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -61,7 +60,6 @@ public class ChainedGodEntity extends AbstractBossEntity
 	private static final EntityDataAccessor<Boolean> IMPLODING = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> UNCHAINING = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> UNCHAINED = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
-	public static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.INT);
 
 	public ChainedGodEntity(EntityType<? extends Monster> type, Level world)
 	{
@@ -123,36 +121,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	@Override public boolean tryActuallyHurt(DamageSource damageSource, float amount)
 	{
-		return this.isInNormalPhase() && super.tryActuallyHurt(damageSource, amount);
-	}
-
-	@Override public boolean tryDying(DamageSource damageSource)
-	{
-		if (damageSource.is(DamageTypes.GENERIC_KILL))
-		{
-			this.setHealth(0.0F);
-			this.playFastDeathSound();
-			this.die(damageSource);
-			return true;
-		}
-
-		if (this.isInFirstPhase() || this.isInSecondPhase())
-		{
-			this.setHealth(1.0F);
-			this.updateToNextPhase();
-			return false;
-		}
-		else if (this.isUpdatingToSecondPhase() || this.isDying())
-		{
-			this.updateToNextPhase();
-			return false;
-		}
-		else
-		{
-			this.setHealth(0.0F);
-			this.die(damageSource);
-			return true;
-		}
+		return this.isFreelyMoving() && super.tryActuallyHurt(damageSource, amount);
 	}
 
 	@Override protected void defineSynchedData()
@@ -161,7 +130,6 @@ public class ChainedGodEntity extends AbstractBossEntity
 	    this.entityData.define(IMPLODING, false);
 	    this.entityData.define(UNCHAINING, false);
 	    this.entityData.define(UNCHAINED, false);
-	    this.entityData.define(PHASE, 0);
 	}
 	
 	@Override public void addAdditionalSaveData(CompoundTag compound)
@@ -170,7 +138,6 @@ public class ChainedGodEntity extends AbstractBossEntity
 	    compound.putBoolean("Imploding", this.isImploding());
 	    compound.putBoolean("Unchaining", this.isUnchaining());
 		if (this.isUnchained()) {compound.putBoolean("Unchained", true);}
-		compound.putInt("Phase", this.getPhase());
 	}
 	
 	@Override public void readAdditionalSaveData(CompoundTag compound)
@@ -179,7 +146,6 @@ public class ChainedGodEntity extends AbstractBossEntity
 	    this.setImploding(compound.getBoolean("Imploding"));
 	    this.setUnchaining(compound.getBoolean("Unchaining"));
 	    this.setUnchained(compound.getBoolean("Unchained"));
-	    this.setPhase(compound.getInt("Phase"));
 	}
 	
 	public boolean isImploding() {return this.entityData.get(IMPLODING);}
@@ -188,21 +154,14 @@ public class ChainedGodEntity extends AbstractBossEntity
 	public void setUnchaining(boolean isUnchaining) {this.entityData.set(UNCHAINING, isUnchaining);}
 	public boolean isUnchained() {return this.entityData.get(UNCHAINED);}
 	public void setUnchained(boolean isUnchained) {this.entityData.set(UNCHAINED, isUnchained);}
-	public int getPhase() {return this.entityData.get(PHASE);}
-	public void setPhase(int phase) {this.entityData.set(PHASE, phase);}
 
-	public boolean isInFirstPhase() {return this.getPhase() == 0;}
-	public boolean isUpdatingToSecondPhase() {return this.getPhase() == 1;}
-	public boolean isInSecondPhase() {return this.getPhase() == 2;}
-	public boolean isDying() {return this.getPhase() == 3;}
-	public boolean isDead() {return this.getPhase() > 3;}
+	public int getDyingPhaseId() {return BossPhase.SECOND_TO_THIRD_TRANSITION.getPhaseId();}
 
-	public void updateToNextPhase()
+	@Override public void applyPhaseUpdateEffect(BossPhase nextPhase)
 	{
-		if (this.isInFirstPhase()) {this.playTransitionSound();}
-		else if (this.isUpdatingToSecondPhase()) {this.implode();}
-		else if (this.isInSecondPhase()) {this.playDeathSound();}
-		this.setPhase(this.getPhase() + 1);
+		if (nextPhase == BossPhase.FIRST_TO_SECOND_TRANSITION) {this.playTransitionSound();}
+		if (nextPhase == BossPhase.SECOND_PHASE) {this.implode();}
+		if (nextPhase == BossPhase.DYING) {this.playDeathSound();}
 	}
 
 	@Override public boolean fireImmune() {return true;}
@@ -219,21 +178,25 @@ public class ChainedGodEntity extends AbstractBossEntity
 		this.destroyObstacles();
 		super.tick();
 
-		if (this.isUpdatingToSecondPhase())
-		{
-			this.runTransitionEffect();
-			float newHealth = this.getHealth() + 7.5F;
-			if (newHealth < this.getMaxHealth()) {this.setHealth(newHealth);}
-			else {tryDying(this.lastDamageSource);}
-		}
-		else if (this.isDying() || this.isDead())
-		{
-			this.runRoarEffects();
-			this.timeDying++;
-			if (this.timeDying > 140) {this.tryDying(this.lastDamageSource);}
-		}
-		else {this.timeDying = 0;}
+		if (!this.isInDeadOrDyingPhase()) {this.timeDying = 0;}
     }
+
+	@Override public void tickTransitionPhase()
+	{
+		this.runTransitionEffect();
+		float newHealth = this.getHealth() + 7.5F;
+		if (newHealth < this.getMaxHealth()) {this.setHealth(newHealth);}
+		else {this.updateToNextPhase();}
+	}
+
+	@Override public void tickDyingPhase()
+	{
+		this.runRoarEffects();
+		this.timeDying++;
+		if (this.timeDying > 140) {this.tryDying(this.lastDamageSource);}
+	}
+
+	@Override public void tickDeadPhase() {this.tickDyingPhase();}
 
 	@Override public Item getTrophy() {return AerialHellBlocksAndItems.CHAINED_GOD_TROPHY_ITEM.get();}
 
@@ -373,7 +336,7 @@ public class ChainedGodEntity extends AbstractBossEntity
     }
 
 	public void playDeathSound() {this.playSound(this.getDeathSound(), 5.0F, 1.0F);}
-	public void playFastDeathSound() {this.playSound(getFastDeathSound(), this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);}
+	@Override public void playFastDeathSound() {this.playSound(getFastDeathSound(), this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);}
 	public void playRoarSound(float pitch) {this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_ROAR.get(), 5.0F, pitch);}
 	public void playUnchainSound() {this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_UNCHAIN.get(), 5.0F, 0.8F);}
 	public void playTransitionSound() {this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_TRANSITION.get(), 5.0F, 1.0F);}
@@ -390,12 +353,12 @@ public class ChainedGodEntity extends AbstractBossEntity
 		else {this.playHurtSound(damageSource);}
 	}
 
+	public boolean isInAnyPhaseBeforeSecondPhase() {return this.getPhase() == BossPhase.FIRST_PHASE || this.getPhase() == BossPhase.FIRST_TO_SECOND_TRANSITION;}
 	public boolean canUnchainHimself() {return !this.isUnchained() && this.isActive();}
-	public boolean canGetProjectileDamages() {return this.isInFirstPhase();}
-	public boolean canShootFireballs() {return isActiveAndUnchained() && !this.isImploding() && !isInTransitionPhase() && (this.isInSecondPhase() || this.getHealth() * 2 < this.getMaxHealth());}
-	public boolean canImplode() {return isActiveAndUnchained() && this.isInSecondPhase();}
-	public boolean isInTransitionPhase() {return !this.isInFirstPhase() && !this.isInSecondPhase();}
-	public boolean isInNormalPhase() {return !isInTransitionPhase() && !this.isImploding() && !this.isUnchaining();}
+	public boolean canGetProjectileDamages() {return this.getPhase() == BossPhase.FIRST_PHASE;}
+	public boolean canShootFireballs() {return isActiveAndUnchained() && !this.isImploding() && !isInTransitionOrDyingPhase() && (this.getPhase() == BossPhase.SECOND_PHASE || this.getHealth() * 2 < this.getMaxHealth());}
+	public boolean canImplode() {return isActiveAndUnchained() && this.getPhase() == BossPhase.SECOND_PHASE;}
+	public boolean isFreelyMoving() {return !isInTransitionOrDyingPhase() && !this.isImploding() && !this.isUnchaining();}
 	public boolean isActiveAndUnchained() {return this.isActive() && this.isUnchained();}
 
 	protected void implode()
@@ -585,7 +548,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		@Override public boolean canUse()
 		{
 			ChainedGodEntity goalOwner = this.getChainedGodGoalOwner();
-			return goalOwner.isUpdatingToSecondPhase();
+			return goalOwner.isInTransitionPhase();
 		}
 
 		@Override public Entity createEntity()
@@ -616,20 +579,20 @@ public class ChainedGodEntity extends AbstractBossEntity
 	public static class ChainedGodLeapAtTargetGoal extends ActiveLeapAtTargetGoal
 	{		
 		public ChainedGodLeapAtTargetGoal(ChainedGodEntity godIn, float leapMotionYIn) {super(godIn, leapMotionYIn);}
-		@Override public boolean canUse() {return ((ChainedGodEntity) this.activableGoalOwner).isInNormalPhase() && super.canUse();}
-		@Override public boolean canContinueToUse() {return ((ChainedGodEntity) this.activableGoalOwner).isInNormalPhase() && super.canContinueToUse();}
+		@Override public boolean canUse() {return ((ChainedGodEntity) this.activableGoalOwner).isFreelyMoving() && super.canUse();}
+		@Override public boolean canContinueToUse() {return ((ChainedGodEntity) this.activableGoalOwner).isFreelyMoving() && super.canContinueToUse();}
 	}
 	
 	public static class ChainedGodMeleeAttackGoal extends ActiveMeleeAttackGoal
 	{
 		public ChainedGodMeleeAttackGoal(ChainedGodEntity godIn, double speedIn, boolean useLongMemory) {super(godIn, speedIn, useLongMemory);}
-		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && ((ChainedGodEntity) this.goalOwner).isInNormalPhase();}
+		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && ((ChainedGodEntity) this.goalOwner).isFreelyMoving();}
 	}
 	
 	public static class ChainedGodWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal
 	{
 		public ChainedGodWaterAvoidingRandomWalkingGoal(ChainedGodEntity god, double speedIn) {super(god, speedIn);}
-		@Override public boolean canUse() {return ((ChainedGodEntity) this.activableGoalOwner).isInNormalPhase() && super.canUse();}
-		@Override public boolean canContinueToUse() {return ((ChainedGodEntity) this.activableGoalOwner).isInNormalPhase() && super.canContinueToUse();}
+		@Override public boolean canUse() {return ((ChainedGodEntity) this.activableGoalOwner).isFreelyMoving() && super.canUse();}
+		@Override public boolean canContinueToUse() {return ((ChainedGodEntity) this.activableGoalOwner).isFreelyMoving() && super.canContinueToUse();}
 	}
 }

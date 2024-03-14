@@ -2,14 +2,11 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 // Made with Blockbench 4.0.1
@@ -135,7 +132,7 @@ public class ChainedGodModel extends EntityModel<ChainedGodEntity>
 		this.head.yRot = netHeadYaw / 57.29578F;
 		this.head.xRot = headPitch / 57.29578F;
 
-		if (entity.isInNormalPhase())
+		if (entity.isFreelyMoving())
 		{
 			int i = entity.attackTimer;
 			if (i > 0)

@@ -49,6 +49,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class LilithEntity extends AbstractBossEntity
 {
+	public int getDyingPhaseId() {return BossPhase.UNUSED.getPhaseId();}
+
 	public int attackTimer;
 	
 	private static final EntityDataAccessor<Boolean> IS_TRANSFORMING = SynchedEntityData.defineId(LilithEntity.class, EntityDataSerializers.BOOLEAN);
