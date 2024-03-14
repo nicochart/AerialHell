@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.FlyingJellyfishModel;
-import fr.factionbedrock.aerialhell.Entity.Monster.FlyingJellyfishEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Flying.FlyingJellyfishEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;

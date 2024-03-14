@@ -2,10 +2,8 @@ package fr.factionbedrock.aerialhell.Entity.Bosses;
 
 import java.util.List;
 
-import fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
-import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ChainedGodFireballEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
@@ -19,10 +17,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;

@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
-import fr.factionbedrock.aerialhell.Entity.AerialHellHostileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;

@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
 import fr.factionbedrock.aerialhell.Entity.AI.*;
-import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;

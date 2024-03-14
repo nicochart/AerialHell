@@ -4,7 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.ShadowTrollModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.ShadowTrollShadowLayer;
-import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;

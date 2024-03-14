@@ -3,9 +3,12 @@ package fr.factionbedrock.aerialhell.Entity.Bosses;
 import java.util.List;
 
 import fr.factionbedrock.aerialhell.Block.*;
+import fr.factionbedrock.aerialhell.Block.DirtAndVariants.StellarGrassBlock;
+import fr.factionbedrock.aerialhell.Block.StandingAndWall.AerialHellStandingSignBlock;
+import fr.factionbedrock.aerialhell.Block.StandingAndWall.AerialHellTorchBlock;
+import fr.factionbedrock.aerialhell.Block.StandingAndWall.AerialHellWallTorchBlock;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
-import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ShadowProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;

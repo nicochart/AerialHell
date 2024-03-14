@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit;
 
 import javax.annotation.Nullable;
 
-import fr.factionbedrock.aerialhell.Entity.AbstractElementSpiritEntity;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.world.entity.Entity;

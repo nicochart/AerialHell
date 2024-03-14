@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.ChestMimicModel;
-import fr.factionbedrock.aerialhell.Entity.AbstractChestMimicEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AbstractChestMimicEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;

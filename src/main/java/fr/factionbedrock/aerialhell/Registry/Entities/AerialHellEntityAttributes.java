@@ -1,11 +1,19 @@
 package fr.factionbedrock.aerialhell.Registry.Entities;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Entity.AbstractElementSpiritEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.AbstractElementSpiritEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.Flying.FlyingJellyfishEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Mud.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowAutomatonEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowFlyingSkullEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowSpiderEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Spider.CrystalSpiderEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Spider.HellSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Neutral.BoarEntity;
 import fr.factionbedrock.aerialhell.Entity.Neutral.ForestCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;

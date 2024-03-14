@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
-import fr.factionbedrock.aerialhell.Entity.AerialHellHostileEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;

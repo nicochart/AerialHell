@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ShadowAutomatonEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowAutomatonEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.state.BlockState;

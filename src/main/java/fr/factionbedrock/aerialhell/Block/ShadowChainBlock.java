@@ -1,12 +1,11 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ShadowAutomatonEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowAutomatonEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.ChainBlock;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;

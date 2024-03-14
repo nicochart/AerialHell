@@ -19,7 +19,6 @@ import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
-import fr.factionbedrock.aerialhell.Entity.AerialHellHostileEntity;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 

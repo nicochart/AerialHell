@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralSoldierEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralSoldierEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.SkeletonRenderer;
 import net.minecraft.resources.ResourceLocation;

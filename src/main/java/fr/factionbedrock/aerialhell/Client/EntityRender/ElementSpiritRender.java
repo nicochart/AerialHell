@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.ElementSpiritModel;
-import fr.factionbedrock.aerialhell.Entity.AbstractElementSpiritEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.AbstractElementSpiritEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.ElectroSpiritEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.IceSpiritEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

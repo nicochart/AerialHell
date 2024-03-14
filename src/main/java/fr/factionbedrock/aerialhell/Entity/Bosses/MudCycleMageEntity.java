@@ -1,10 +1,9 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
 import fr.factionbedrock.aerialhell.Entity.AI.*;
-import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralCycleMageEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralGolemEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralSoldierEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralCycleMageEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralGolemEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;

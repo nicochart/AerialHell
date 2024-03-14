@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.Entity.AerialHellHostileEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.AerialHellHostileEntity;
 import net.minecraft.client.model.EntityModel;
 
 
