@@ -2,9 +2,11 @@ package fr.factionbedrock.aerialhell.Entity;
 
 import javax.annotation.Nullable;
 
+import fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock;
 import fr.factionbedrock.aerialhell.Entity.Bosses.BossPhase;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -16,6 +18,7 @@ import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
@@ -28,6 +31,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.FallingBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
@@ -44,7 +49,8 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		boolean flag = this.bossHurt(source, amount);
 		if (flag)
 		{
-			this.setActive(true);
+			if (source.is(DamageTypes.GENERIC_KILL) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {}
+			else {this.setActive(true);}
 			this.lastHurtByPlayerTime = 100;
 			this.timeWithoutAnyTarget = 0;
 		}
@@ -126,31 +132,37 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 	public boolean tryDying(DamageSource damageSource)
 	{
-		if (damageSource.is(DamageTypes.GENERIC_KILL))
+		if (!this.enableTryDyingPhaseUpdate()) {this.die(damageSource); return true;}
+		else
 		{
-			this.setHealth(0.0F);
-			this.playFastDeathSound();
-			this.die(damageSource);
-			return true;
-		}
+			if (damageSource.is(DamageTypes.GENERIC_KILL))
+			{
+				this.setHealth(0.0F);
+				this.playFastDeathSound();
+				this.die(damageSource);
+				return true;
+			}
 
-		if (this.isInNormalPhase())
-		{
-			BossPhase nextPhase = this.updateToNextPhase();
-			this.applyAfterTriedDyingPhaseUpdateEffect(nextPhase, NotDeadReason.START_TRANSITION_PHASE);
-			return false;
-		}
-		else if (this.isInTransitionPhase())
-		{
-			BossPhase nextPhase = this.updateToNextPhase();
-			this.applyAfterTriedDyingPhaseUpdateEffect(nextPhase, NotDeadReason.START_NORMAL_PHASE);
-			return false;
-		}
-		else //if (this.isInDeadPhase())
-		{
-			this.setHealth(0.0F);
-			this.die(damageSource);
-			return true;
+			if (this.isInNormalPhase())
+			{
+				BossPhase nextPhase = this.updateToNextPhase();
+				this.applyAfterTriedDyingPhaseUpdateEffect(nextPhase, NotDeadReason.START_TRANSITION_PHASE);
+				return false;
+			}
+			else if (this.isInTransitionPhase())
+			{
+				BossPhase nextPhase = this.updateToNextPhase();
+				this.applyAfterTriedDyingPhaseUpdateEffect(nextPhase, NotDeadReason.START_NORMAL_PHASE);
+				return false;
+			}
+			else //if (this.isInDeadPhase())
+			{
+				this.updateToNextPhase();
+				this.setHealth(0.0F);
+				if (doesPlayFastDeathSoundIfDyingWithTryDyingPhaseUpdate()) {this.playFastDeathSound();}
+				this.die(damageSource);
+				return true;
+			}
 		}
 	}
 
@@ -228,11 +240,15 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 	public void setDifficulty(int difficulty) {this.entityData.set(BOSS_DIFFICULTY, difficulty);}
 	public int getDifficulty() {return this.entityData.get(BOSS_DIFFICULTY);}
-	public BossPhase getPhase()
+
+	public BossPhase getPhase() {return getPhaseAfterNSteps(0);}
+	public BossPhase getNextPhase() {return getPhaseAfterNSteps(1);}
+
+	public BossPhase getPhaseAfterNSteps(int n)
 	{
-		int phase = this.entityData.get(PHASE);
-		if (phase == getDyingPhaseId()) {return BossPhase.DYING;}
-		else if (phase > getDyingPhaseId()) {return BossPhase.DEAD;}
+		int phase = this.entityData.get(PHASE) + n;
+		if (this.isDyingPhaseId(phase)) {return BossPhase.DYING;}
+		else if (phase > BossPhase.DYING.getPhaseId()) {return BossPhase.DEAD;}
 		return switch (phase)
 		{
 			default -> BossPhase.FIRST_PHASE;
@@ -244,9 +260,11 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 			case 6 -> BossPhase.FOURTH_PHASE;
 		};
 	}
-	public BossPhase setPhase(int phase) {this.entityData.set(PHASE, phase); return this.getPhase();}
 
-	public boolean cantBeInThatPhase() {return this.getPhase().getPhaseId() >= this.getDyingPhaseId() && this.getPhase().getPhaseId() < BossPhase.DYING.getPhaseId();}
+	public BossPhase setPhase(int phase) {this.entityData.set(PHASE, phase); return this.getPhase();}
+	public void setPhase(BossPhase phase) {this.setPhase(phase.getPhaseId());}
+
+	public boolean isDyingPhaseId(int phaseId) {return phaseId >= this.getPhaseIdToSkipToDyingPhase() && phaseId <= BossPhase.DYING.getPhaseId();}
 	public boolean isInDyingPhase() {return this.getPhase() == BossPhase.DYING;}
 	public boolean isInDeadPhase() {return this.getPhase() == BossPhase.DEAD || this.getPhase().getPhaseId() > BossPhase.DEAD.getPhaseId();}
 	public boolean isInDeadOrDyingPhase() {return this.isInDyingPhase() || this.isInDeadPhase();}
@@ -260,22 +278,49 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	public void tickTransitionPhase() {}
 	public void tickDyingPhase() {}
 	public void tickDeadPhase() {}
+	public boolean shouldUpdateToPhase(BossPhase phase) {return false;}
+	public boolean shouldUpdateToNextPhase() {return shouldUpdateToPhase(this.getNextPhase());}
 
-	public BossPhase updateToNextPhase() //returns next phase
+	public BossPhase updateToPhase(BossPhase phase) //returns next phase
 	{
-		BossPhase nextPhase = this.setPhase(this.getPhase().getNextPhase());
-		this.applyPhaseUpdateEffect(nextPhase);
-		return nextPhase;
+		BossPhase actualPhase = phase;
+		if (phase != BossPhase.DYING && isDyingPhaseId(phase.getPhaseId())) {actualPhase = BossPhase.DYING;}
+		this.setPhase(actualPhase);
+		this.applyPhaseUpdateEffect(actualPhase);
+		return actualPhase;
 	}
 
-	public void playPhaseEffects()
+	public BossPhase updateToNextPhase() {return updateToPhase(this.getNextPhase());}
+
+	public void tickPhaseEffects()
 	{
 		if (this.isInTransitionPhase()) {this.tickTransitionPhase();}
 		if (this.isInDyingPhase()) {this.tickDyingPhase();}
 		if (this.isInDeadPhase()) {this.tickDeadPhase();}
 	}
 
-	public abstract int getDyingPhaseId();
+	public enum BossPhaseTickType{ALL, NEXT}
+	public boolean enableTickPhaseUpdate(BossPhaseTickType type) {return type == BossPhaseTickType.NEXT;}
+	public boolean enableTryDyingPhaseUpdate() {return false;}
+	public boolean doesPlayFastDeathSoundIfDyingWithTryDyingPhaseUpdate() {return false;}
+
+	public void tickBossPhases()
+	{
+		this.tickPhaseEffects();
+		if (this.enableTickPhaseUpdate(BossPhaseTickType.NEXT))
+		{
+			if (this.shouldUpdateToNextPhase()) {this.updateToNextPhase(); return;}
+		}
+		if (this.enableTickPhaseUpdate(BossPhaseTickType.ALL))
+		{
+			for (BossPhase phase : BossPhase.PHASE_LIST)
+			{
+				if (this.shouldUpdateToPhase(phase)) {this.updateToPhase(phase); return;}
+			}
+		}
+	}
+
+	public abstract int getPhaseIdToSkipToDyingPhase(); //phase in which the boss skip to BossPhase.DYING phase
 
 	/* Add the given player to the list of players tracking this entity. For instance, a player may track a boss in order to view its associated boss bar. */
 	@Override public void startSeenByPlayer(ServerPlayer player)
@@ -322,7 +367,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		if (this.isActive() && this.tickCount % 900 == 0) {this.updateBossDifficulty(); this.adaptBossDifficulty();}
 		this.bossInfo.setVisible(this.isActive());
 		this.immunizeToEffects();
-		this.playPhaseEffects();
+		this.tickBossPhases();
 	}
 
 	public void immunizeToEffects()
@@ -379,6 +424,23 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		{
 			this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 54000, Math.min(3, (int) Math.ceil(amplifier / 2.0F)), false, false));
 			this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 54000, Math.min(3, amplifier - 1), false, false));
+		}
+	}
+
+	protected void makeRandomRoofBlockFall(int yBaseOffset, int maxXZOffset, int minYOffset, int maxYOffset)
+	{
+		BlockPos basePos = this.blockPosition().above(yBaseOffset);
+		BlockPos fallPos = basePos.offset(this.random.nextInt(-maxXZOffset, maxXZOffset), this.random.nextInt(minYOffset, maxYOffset), this.random.nextInt(-maxXZOffset, maxXZOffset));
+		while (this.level().getBlockState(fallPos).isAir() && fallPos.getY() < basePos.getY() + 25) {fallPos = fallPos.above();}
+		while (!FallingBlock.isFree(level().getBlockState(fallPos.below())) && fallPos.getY() > basePos.getY()) {fallPos = fallPos.below();}
+		BlockState fallState = this.level().getBlockState(fallPos);
+		if (FallingBlock.isFree(level().getBlockState(fallPos.below())) && fallPos.getY() >= level().getMinBuildHeight())
+		{
+			if (fallState.getBlock() instanceof CoreProtectedBlock block)
+			{
+				fallState = block.getCrackedVariant().defaultBlockState();
+			}
+			FallingBlockEntity.fall(level(), fallPos, fallState);
 		}
 	}
 

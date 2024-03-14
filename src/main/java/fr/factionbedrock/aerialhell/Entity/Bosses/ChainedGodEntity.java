@@ -155,7 +155,9 @@ public class ChainedGodEntity extends AbstractBossEntity
 	public boolean isUnchained() {return this.entityData.get(UNCHAINED);}
 	public void setUnchained(boolean isUnchained) {this.entityData.set(UNCHAINED, isUnchained);}
 
-	public int getDyingPhaseId() {return BossPhase.SECOND_TO_THIRD_TRANSITION.getPhaseId();}
+	@Override public int getPhaseIdToSkipToDyingPhase() {return BossPhase.SECOND_TO_THIRD_TRANSITION.getPhaseId();}
+	@Override public boolean enableTickPhaseUpdate(BossPhaseTickType type) {return false;}
+	@Override public boolean enableTryDyingPhaseUpdate() {return true;}
 
 	@Override public void applyPhaseUpdateEffect(BossPhase nextPhase)
 	{
@@ -212,7 +214,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	protected void runRoarEffects(NearbyEntitiesInteractionType type)
 	{
-		if (this.random.nextInt(4) == 0) {this.makeRandomRoofBlockFall();}
+		if (this.random.nextInt(4) == 0) {this.makeRandomRoofBlockFall(5, 15, 12, 20);}
 		this.dragOrRepulseEntities(type);
 		if (this.level().isClientSide()) {this.spawnParticles(ParticleTypes.LAVA, 5, 0.5D);}
 	}
@@ -264,24 +266,6 @@ public class ChainedGodEntity extends AbstractBossEntity
 					}
 				}
 			}
-		}
-	}
-
-	private void makeRandomRoofBlockFall()
-	{
-		BlockPos basePos = this.blockPosition().above(5);
-		int maxXZ = 15, minY = 12, maxY = 20; //offsets
-		BlockPos fallPos = basePos.offset(this.random.nextInt(-maxXZ, maxXZ), this.random.nextInt(minY, maxY), this.random.nextInt(-maxXZ, maxXZ));
-		while (this.level().getBlockState(fallPos).isAir() && fallPos.getY() < basePos.getY() + 25) {fallPos = fallPos.above();}
-		while (!FallingBlock.isFree(level().getBlockState(fallPos.below())) && fallPos.getY() > basePos.getY()) {fallPos = fallPos.below();}
-		BlockState fallState = this.level().getBlockState(fallPos);
-		if (FallingBlock.isFree(level().getBlockState(fallPos.below())) && fallPos.getY() >= level().getMinBuildHeight())
-		{
-			if (fallState.getBlock() instanceof CoreProtectedBlock)
-			{
-				fallState = ((CoreProtectedBlock) fallState.getBlock()).getCrackedVariant().defaultBlockState();
-			}
-			FallingBlockEntity.fall(level(), fallPos, fallState);
 		}
 	}
 	

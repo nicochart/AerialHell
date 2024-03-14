@@ -64,8 +64,16 @@ public class MudCycleMageModel extends EntityModel<Mob>
 		this.head.yRot = netHeadYaw / 57.0F;
 		this.head.xRot = headPitch / 57.0F;
 
-		this.rightArm.xRot = (-0.2F + 0.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
-		this.leftArm.xRot = (-0.2F - 0.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
+		if (entity instanceof MudCycleMageEntity boss && boss.isInDeadOrDyingPhase())
+		{
+			this.rightArm.xRot = - 1.5F;
+			this.leftArm.xRot = - 1.5F;
+		}
+		else
+		{
+			this.rightArm.xRot = (-0.2F + 0.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
+			this.leftArm.xRot = (-0.2F - 0.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
+		}
 
 		this.leftLeg.xRot = -1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
 		this.rightLeg.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
