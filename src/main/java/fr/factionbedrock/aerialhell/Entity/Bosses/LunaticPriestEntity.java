@@ -18,9 +18,6 @@ import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.damagesource.DamageSource;
@@ -36,8 +33,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class LunaticPriestEntity extends AbstractBossEntity
 {
 	public int attackTimer;
-	
-	public static final EntityDataAccessor<Boolean> SECOND_PHASE = SynchedEntityData.defineId(LunaticPriestEntity.class, EntityDataSerializers.BOOLEAN);
 	
 	public LunaticPriestEntity(EntityType<? extends Monster> type, Level world)
 	{
