@@ -1,9 +1,13 @@
 package fr.factionbedrock.aerialhell.Event.Listeners;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.level.SleepFinishedTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -22,4 +26,23 @@ public class LivingEntityEventListener
     		livingEntity.setDeltaMovement(baseMotion.x, baseMotion.y + (0.4 * bonus), baseMotion.z);
     	}
     }
+
+	@SubscribeEvent
+	public static void onSleepFinishEvent(SleepFinishedTimeEvent event)
+	{
+		LevelAccessor level = event.getLevel();
+		if (level instanceof ServerLevel)
+		{
+			MinecraftServer server = ((ServerLevel) level).getServer();
+			for (ServerLevel serverLevel : server.getAllLevels())
+			{
+				long TICK_PER_DAY = 24000L;
+				long time = event.getNewTime();
+				long timePlus1Day = time + TICK_PER_DAY;
+				long timeAddition = timePlus1Day - timePlus1Day % TICK_PER_DAY;
+				long newTime = time + timeAddition;
+				serverLevel.setDayTime(newTime);
+			}
+		}
+	}
 }
