@@ -1,6 +1,7 @@
 
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.SlimePirateModel;
@@ -31,6 +32,12 @@ public class SlimePirateRender extends MobRenderer<SlimePirateEntity, SlimePirat
     @Nullable @Override protected RenderType getRenderType(SlimePirateEntity entity, boolean b1, boolean b2, boolean b3)
     {
         return RenderType.entityTranslucent(this.getTextureLocation(entity));
+    }
+
+    @Override protected void scale(SlimePirateEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
+    {
+        float scale = entitylivingbaseIn.isBaby() ? 0.5F : 1.0F;
+        matrixStackIn.scale(scale, scale, scale);
     }
 
     @Override public ResourceLocation getTextureLocation(SlimePirateEntity entity) {return entity instanceof GhostSlimePirateEntity ? TEXTURE_GHOST : TEXTURE;}

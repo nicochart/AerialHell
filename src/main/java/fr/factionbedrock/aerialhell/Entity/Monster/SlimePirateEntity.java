@@ -8,10 +8,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -69,6 +67,48 @@ public class SlimePirateEntity extends Zombie
             {
                 this.setItemSlot(EquipmentSlot.MAINHAND, getRandomWeapon(rand));
             }
+        }
+    }
+
+    @Override public void remove(Entity.RemovalReason removalReason)
+    {
+        if (!this.level().isClientSide && !this.isBaby() && this.isDeadOrDying())
+        {
+            int number = 1 + this.random.nextInt(3);
+            for (int l = 0; l < number; ++l)
+            {
+                float x = ((float) (l % 2) - 0.5F) * 0.5F;
+                float z = ((float) (l / 2) - 0.5F) * 0.5F;
+                SlimePirateEntity littlePirate = this.getType().create(this.level());
+                if (littlePirate != null)
+                {
+                    if (this.isPersistenceRequired()) {littlePirate.setPersistenceRequired();}
+                    littlePirate.setCustomName(this.getCustomName());
+                    littlePirate.setNoAi(this.isNoAi());
+                    littlePirate.setInvulnerable(this.isInvulnerable());
+                    littlePirate.setBaby(true);
+                    littlePirate.moveTo(this.getX() + (double) x, this.getY() + 0.5D, this.getZ() + (double) z, this.random.nextFloat() * 360.0F, 0.0F);
+                    this.level().addFreshEntity(littlePirate);
+                    //No weapon
+                    //littlePirate.populateDefaultEquipmentSlots(this.getRandom(), this.level().getCurrentDifficultyAt(this.blockPosition()));
+                }
+            }
+        }
+        super.remove(removalReason);
+    }
+
+    @Override public EntityType<? extends SlimePirateEntity> getType()
+    {
+        return (EntityType<? extends SlimePirateEntity>) super.getType();
+    }
+
+    @Override public void setBaby(boolean isBaby)
+    {
+        super.setBaby(isBaby);
+        if (!this.level().isClientSide)
+        {
+            AttributeInstance attributeinstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
+            attributeinstance.removeModifier(SPEED_MODIFIER_BABY.getId());
         }
     }
 
