@@ -114,7 +114,7 @@ public class ToolsAndArmorEventListener
 		if (state != null && state.is(AerialHellTags.Blocks.NEEDS_LUNAR_TOOL)) {
 			if (ItemHelper.getItemMiningLevel(selectedItemStack.getItem()) < 4) {
 				event.setNewSpeed(Math.min(speed, 4.0F));
-				player.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 40, 0));
+				if (!player.level().isClientSide()) {player.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 40, 0));}
 			}
 		}
 
