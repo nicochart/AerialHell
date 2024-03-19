@@ -176,6 +176,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_RUBY_BLOCK_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_FLUORITE_BLOCK_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_BARREL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_CRAFTING_TABLE_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.WHITE_SOLID_ETHER_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.BLUE_SOLID_ETHER_ITEM.get());
