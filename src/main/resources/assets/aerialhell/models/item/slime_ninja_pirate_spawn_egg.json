@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "aerialhell:item/slime_ninja_pirate_spawn_egg"
+  }
+}

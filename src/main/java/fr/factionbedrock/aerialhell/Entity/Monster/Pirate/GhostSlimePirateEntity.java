@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Entity.Monster;
+package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionLookAtPlayerGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionMeleeAttackGoal;
@@ -8,16 +8,23 @@ import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class GhostSlimePirateEntity extends SlimePirateEntity
+public class GhostSlimePirateEntity extends AbstractSlimePirateEntity
 {
     public GhostSlimePirateEntity(EntityType<? extends GhostSlimePirateEntity> type, Level world) {super(type, world);}
+
+    @Override protected void registerBaseGoals()
+    {
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 0.6D));
+        this.goalSelector.addGoal(1, new FloatGoal(this));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+    }
 
     @Override protected void registerSpecificGoals()
     {
@@ -36,16 +43,6 @@ public class GhostSlimePirateEntity extends SlimePirateEntity
     @Override protected ItemStack getRandomWeapon(RandomSource rand)
     {
         return rand.nextInt(2) == 0 ? new ItemStack(AerialHellBlocksAndItems.AZURITE_SWORD.get()) : new ItemStack(AerialHellBlocksAndItems.AZURITE_AXE.get());
-    }
-
-    public static AttributeSupplier.Builder registerAttributes()
-    {
-        return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 40.0D)
-                .add(Attributes.ATTACK_DAMAGE, 5.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.23D)
-                .add(Attributes.SPAWN_REINFORCEMENTS_CHANCE, 0.0D)
-        		.add(Attributes.FOLLOW_RANGE, 35.0D);
     }
 
     protected static class GhostPirateNearestAttackableTargetGoal<T extends LivingEntity> extends MisleadableNearestAttackableTargetGoal<T>

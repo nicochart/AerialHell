@@ -16,6 +16,11 @@ public class NetheriteShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, worldIn);
 	}
 
+	public NetheriteShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	{
+		super(AerialHellEntities.NETHERITE_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+	}
+
 	public NetheriteShurikenEntity(double x, double y, double z, Level worldIn)
 	{
 		super(AerialHellEntities.NETHERITE_SHURIKEN.get(), x, y, z, worldIn);

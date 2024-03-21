@@ -16,6 +16,11 @@ public class LunaticCrystalShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, worldIn);
 	}
 
+	public LunaticCrystalShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	{
+		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+	}
+
 	public LunaticCrystalShurikenEntity(double x, double y, double z, Level worldIn)
 	{
 		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), x, y, z, worldIn);

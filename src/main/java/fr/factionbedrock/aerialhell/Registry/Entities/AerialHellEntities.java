@@ -10,6 +10,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Flying.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.*;
 import fr.factionbedrock.aerialhell.Entity.Neutral.*;
@@ -67,6 +68,9 @@ public class AerialHellEntities
 
 	public static final RegistryObject<EntityType<SlimePirateEntity>> SLIME_PIRATE = ENTITIES.register("slime_pirate", () -> EntityType.Builder.of(SlimePirateEntity::new, MobCategory.MONSTER)
 			.sized(0.7F,2.0F).build("slime_pirate"));
+
+	public static final RegistryObject<EntityType<SlimeNinjaPirateEntity>> SLIME_NINJA_PIRATE = ENTITIES.register("slime_ninja_pirate", () -> EntityType.Builder.of(SlimeNinjaPirateEntity::new, MobCategory.MONSTER)
+			.sized(0.7F,2.0F).build("slime_ninja_pirate"));
 
 	public static final RegistryObject<EntityType<GhostSlimePirateEntity>> GHOST_SLIME_PIRATE = ENTITIES.register("ghost_slime_pirate", () -> EntityType.Builder.of(GhostSlimePirateEntity::new, MobCategory.MONSTER)
 			.sized(0.7F,2.0F).build("ghost_slime_pirate"));

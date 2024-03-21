@@ -1,8 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,12 +11,17 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.common.ForgeHooks;
 
 public abstract class AbstractShurikenEntity extends ThrowableItemProjectile
 {
-	public float shurikenZRot; 
-	
+	public float shurikenZRot;
+
+	public AbstractShurikenEntity(EntityType<? extends ThrowableItemProjectile> type, Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	{
+		super(type, shooter, level);
+		this.shoot(accelX, accelY, accelZ, velocity, inaccuracy);
+	}
+
 	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> entityTypeIn, Level worldIn)
 	{
 		super(entityTypeIn, worldIn);

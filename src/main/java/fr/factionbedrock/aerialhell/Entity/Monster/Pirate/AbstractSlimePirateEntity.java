@@ -1,6 +1,5 @@
-package fr.factionbedrock.aerialhell.Entity.Monster;
+package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
@@ -12,12 +11,12 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Zombie;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -25,9 +24,9 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
-public class SlimePirateEntity extends Zombie
+public abstract class AbstractSlimePirateEntity extends Zombie
 {
-    public SlimePirateEntity(EntityType<? extends SlimePirateEntity> type, Level world) {super(type, world);}
+    public AbstractSlimePirateEntity(EntityType<? extends AbstractSlimePirateEntity> type, Level world) {super(type, world);}
 
     @Override protected void registerGoals()
     {
@@ -40,35 +39,9 @@ public class SlimePirateEntity extends Zombie
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 0.6D));
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
     }
-
-    protected void registerSpecificGoals()
-    {
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
-    }
-
-    @Override protected void populateDefaultEquipmentSlots(RandomSource rand, DifficultyInstance difficulty)
-    {
-        if (rand.nextInt(2) == 0)
-        {
-            this.setItemSlot(EquipmentSlot.MAINHAND, getRandomWeapon(rand));
-            if (rand.nextInt(3) == 0)
-            {
-                this.setItemSlot(EquipmentSlot.OFFHAND, getRandomWeapon(rand));
-            }
-        }
-        else
-        {
-            this.setItemSlot(EquipmentSlot.OFFHAND, getRandomWeapon(rand));
-            if (rand.nextInt(3) == 0)
-            {
-                this.setItemSlot(EquipmentSlot.MAINHAND, getRandomWeapon(rand));
-            }
-        }
-    }
+    protected abstract void registerSpecificGoals();
 
     @Override public void remove(Entity.RemovalReason removalReason)
     {
@@ -79,7 +52,7 @@ public class SlimePirateEntity extends Zombie
             {
                 float x = ((float) (l % 2) - 0.5F) * 0.5F;
                 float z = ((float) (l / 2) - 0.5F) * 0.5F;
-                SlimePirateEntity littlePirate = this.getType().create(this.level());
+                AbstractSlimePirateEntity littlePirate = this.getLittlePirateType().create(this.level());
                 if (littlePirate != null)
                 {
                     if (this.isPersistenceRequired()) {littlePirate.setPersistenceRequired();}
@@ -97,9 +70,11 @@ public class SlimePirateEntity extends Zombie
         super.remove(removalReason);
     }
 
-    @Override public EntityType<? extends SlimePirateEntity> getType()
+    protected EntityType<? extends AbstractSlimePirateEntity> getLittlePirateType() {return this.getType();}
+
+    @Override public EntityType<? extends AbstractSlimePirateEntity> getType()
     {
-        return (EntityType<? extends SlimePirateEntity>) super.getType();
+        return (EntityType<? extends AbstractSlimePirateEntity>) super.getType();
     }
 
     @Override public void setBaby(boolean isBaby)
@@ -112,10 +87,33 @@ public class SlimePirateEntity extends Zombie
         }
     }
 
-    protected ItemStack getRandomWeapon(RandomSource rand)
+    @Override protected void populateDefaultEquipmentSlots(RandomSource rand, DifficultyInstance difficulty)
     {
-        return rand.nextInt(2) == 0 ? new ItemStack(AerialHellBlocksAndItems.RUBY_SWORD.get()) : new ItemStack(AerialHellBlocksAndItems.RUBY_AXE.get());
+        if (rand.nextInt(2) == 0)
+        {
+            this.populateHand(EquipmentSlot.MAINHAND, this.getRandomWeapon(rand));
+            if (rand.nextInt(3) == 0)
+            {
+                this.populateHand(EquipmentSlot.OFFHAND, this.getRandomWeapon(rand));
+            }
+        }
+        else
+        {
+            this.populateHand(EquipmentSlot.OFFHAND, this.getRandomWeapon(rand));
+            if (rand.nextInt(3) == 0)
+            {
+                this.populateHand(EquipmentSlot.MAINHAND, this.getRandomWeapon(rand));
+            }
+        }
     }
+
+    protected void populateHand(EquipmentSlot hand, @Nullable ItemStack weapon)
+    {
+        if (weapon == null || this.isBaby()) {return;}
+        this.setItemSlot(hand, weapon);
+    }
+
+    @Nullable protected abstract ItemStack getRandomWeapon(RandomSource rand);
 
     @Override @Nullable public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag)
     {

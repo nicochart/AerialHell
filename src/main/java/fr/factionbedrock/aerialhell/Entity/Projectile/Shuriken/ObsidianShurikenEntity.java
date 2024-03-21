@@ -16,6 +16,11 @@ public class ObsidianShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, worldIn);
 	}
 
+	public ObsidianShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	{
+		super(AerialHellEntities.OBSIDIAN_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+	}
+
 	public ObsidianShurikenEntity(double x, double y, double z, Level worldIn)
 	{
 		super(AerialHellEntities.OBSIDIAN_SHURIKEN.get(), x, y, z, worldIn);

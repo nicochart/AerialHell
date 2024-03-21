@@ -16,6 +16,11 @@ public class DiamondShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, worldIn);
 	}
 
+	public DiamondShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	{
+		super(AerialHellEntities.DIAMOND_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+	}
+
 	public DiamondShurikenEntity(double x, double y, double z, Level worldIn)
 	{
 		super(AerialHellEntities.DIAMOND_SHURIKEN.get(), x, y, z, worldIn);

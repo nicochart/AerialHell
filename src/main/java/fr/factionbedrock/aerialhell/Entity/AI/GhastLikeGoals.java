@@ -137,7 +137,6 @@ public class GhastLikeGoals
             {
                 ++this.shootTimer;
 
-                if (tryPlayingShootSound()) {}
                 if (tryShooting(target)) {this.resetTask();}
             }
             else if (this.doesShootTimeDecreaseWhenTargetOutOfSight() && this.shootTimer > - this.getShootTimeInterval()) {this.shootTimer--;}
@@ -149,7 +148,7 @@ public class GhastLikeGoals
 
         protected boolean tryPlayingShootSound() //returns true if the playsound is a success
         {
-            if (this.shootTimer == 0 && this.getShootSound() != null) //if it's time to play shoot sound
+            if (this.getShootSound() != null) //if it's time to play shoot sound
             {
                 this.parentEntity.playSound(this.getShootSound(), 3.0F, (this.parentEntity.level().random.nextFloat() - this.parentEntity.level().random.nextFloat()) * 0.2F + 1.0F);
                 return true;
@@ -161,10 +160,16 @@ public class GhastLikeGoals
         {
             if (this.shootTimer >= this.getShootDelay()) //if it's time to actually shoot. (== is exact time to shoot the first projectile)
             {
-                this.parentEntity.level().addFreshEntity(createProjectile(target));
+                this.shootWithSound(target);
                 return true;
             }
             return false;
+        }
+
+        protected void shootWithSound(LivingEntity target)
+        {
+            this.parentEntity.level().addFreshEntity(createProjectile(target));
+            this.tryPlayingShootSound();
         }
 
         public Projectile createProjectile(LivingEntity target)
@@ -203,7 +208,7 @@ public class GhastLikeGoals
             boolean shouldShootAnotherProjectileNow = isNotFirstProjectileToBeShot && this.shootTimer > this.getShootDelay() && this.shootTimer - this.shotProjectileCount * getShootInvervalWithinBurst() >= this.getShootDelay();
             if (this.shootTimer == this.getShootDelay() || shouldShootAnotherProjectileNow) //if it's time to actually shoot. (== is exact time to shoot the first projectile)
             {
-                this.getParentEntity().level().addFreshEntity(createProjectile(target));
+                this.shootWithSound(target);
                 return ++this.shotProjectileCount >= getProjectileNumber();
             }
             return false;

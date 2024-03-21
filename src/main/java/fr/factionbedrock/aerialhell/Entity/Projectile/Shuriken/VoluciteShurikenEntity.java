@@ -21,6 +21,11 @@ public class VoluciteShurikenEntity extends AbstractShurikenEntity
 		this.ticksLiving = 0;
 	}
 
+	public VoluciteShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	{
+		super(AerialHellEntities.VOLUCITE_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+	}
+
 	public VoluciteShurikenEntity(double x, double y, double z, Level worldIn)
 	{
 		super(AerialHellEntities.VOLUCITE_SHURIKEN.get(), x, y, z, worldIn);

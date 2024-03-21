@@ -16,6 +16,11 @@ public class RubyShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, worldIn);
 	}
 
+	public RubyShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	{
+		super(AerialHellEntities.RUBY_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+	}
+
 	public RubyShurikenEntity(double x, double y, double z, Level worldIn)
 	{
 		super(AerialHellEntities.RUBY_SHURIKEN.get(), x, y, z, worldIn);
