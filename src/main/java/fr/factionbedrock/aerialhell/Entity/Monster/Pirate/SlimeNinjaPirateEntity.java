@@ -38,68 +38,9 @@ public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity
 
     public static class ShurikenAttackGoal extends GhastLikeGoals.ShootProjectileFlurryGoal
     {
-        private final double speedModifier = 1.0F;
-        private final float attackRadiusSqr = 16F*16F;
-        private int seeTime;
-        private boolean strafingClockwise;
-        private boolean strafingBackwards;
-        private int strafingTime = -1;
-
-        public ShurikenAttackGoal(SlimeNinjaPirateEntity entity) {super(entity);}
+        public ShurikenAttackGoal(SlimeNinjaPirateEntity entity) {super(entity, true);}
 
         @Override public SlimeNinjaPirateEntity getParentEntity() {return (SlimeNinjaPirateEntity) super.getParentEntity();}
-
-        @Override public void tick()
-        {
-            super.tick();
-            //copy of net.minecraft.world.entity.ai.goal.RangedBowAttackGoal tick method part modifying skeleton navigation
-            LivingEntity livingentity = this.getParentEntity().getTarget();
-            if (livingentity != null)
-            {
-                double d0 = this.getParentEntity().distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
-                boolean flag = this.getParentEntity().getSensing().hasLineOfSight(livingentity);
-                boolean flag1 = this.seeTime > 0;
-                if (flag != flag1) {this.seeTime = 0;}
-
-                if (flag) {++this.seeTime;}
-                else {--this.seeTime;}
-
-                if (!(d0 > (double)this.attackRadiusSqr) && this.seeTime >= 20)
-                {
-                    this.getParentEntity().getNavigation().stop();
-                    ++this.strafingTime;
-                }
-                else
-                {
-                    this.getParentEntity().getNavigation().moveTo(livingentity, this.speedModifier);
-                    this.strafingTime = -1;
-                }
-
-                if (this.strafingTime >= 20)
-                {
-                    if ((double)this.getParentEntity().getRandom().nextFloat() < 0.3D) {this.strafingClockwise = !this.strafingClockwise;}
-                    if ((double)this.getParentEntity().getRandom().nextFloat() < 0.3D) {this.strafingBackwards = !this.strafingBackwards;}
-                    this.strafingTime = 0;
-                }
-
-                if (this.strafingTime > -1)
-                {
-                    if (d0 > (double)(this.attackRadiusSqr * 0.75F)) {this.strafingBackwards = false;}
-                    else if (d0 < (double)(this.attackRadiusSqr * 0.25F)) {this.strafingBackwards = true;}
-
-                    this.getParentEntity().getMoveControl().strafe(this.strafingBackwards ? -0.5F : 0.5F, this.strafingClockwise ? 0.5F : -0.5F);
-                    Entity entity = this.getParentEntity().getControlledVehicle();
-                    if (entity instanceof Mob)
-                    {
-                        Mob mob = (Mob)entity;
-                        mob.lookAt(livingentity, 30.0F, 30.0F);
-                    }
-
-                    this.getParentEntity().lookAt(livingentity, 30.0F, 30.0F);
-                }
-                else {this.getParentEntity().getLookControl().setLookAt(livingentity, 30.0F, 30.0F);}
-            }
-        }
 
         @Override public boolean canUse()
         {
