@@ -36,6 +36,7 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.SLIME_PIRATE.get(), SlimePirateRender::new);
         event.registerEntityRenderer(AerialHellEntities.SLIME_NINJA_PIRATE.get(), SlimePirateRender::new);
         event.registerEntityRenderer(AerialHellEntities.GHOST_SLIME_PIRATE.get(), SlimePirateRender::new);
+        event.registerEntityRenderer(AerialHellEntities.GHOST_SLIME_NINJA_PIRATE.get(), SlimePirateRender::new);
         event.registerEntityRenderer(AerialHellEntities.SANDY_SHEEP.get(), SandySheepRender::new);
         event.registerEntityRenderer(AerialHellEntities.GLIDING_TURTLE.get(), GlidingTurtleRender::new);
         event.registerEntityRenderer(AerialHellEntities.FAT_PHANTOM.get(), FatPhantomRender::new);

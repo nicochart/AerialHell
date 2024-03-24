@@ -816,6 +816,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.SLIME_PIRATE_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIME_NINJA_PIRATE_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_SLIME_PIRATE_SPAWN_EGG.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_SLIME_NINJA_PIRATE_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SANDY_SHEEP_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GLIDING_TURTLE_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.FAT_PHANTOM_SPAWN_EGG.get());

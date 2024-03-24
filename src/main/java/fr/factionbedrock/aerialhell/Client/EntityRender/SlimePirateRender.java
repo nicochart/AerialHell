@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.SlimePirateModel;
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.AbstractSlimePirateEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.GhostSlimeNinjaPirateEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.GhostSlimePirateEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -40,5 +41,5 @@ public class SlimePirateRender extends MobRenderer<AbstractSlimePirateEntity, Sl
         matrixStackIn.scale(scale, scale, scale);
     }
 
-    @Override public ResourceLocation getTextureLocation(AbstractSlimePirateEntity entity) {return entity instanceof GhostSlimePirateEntity ? TEXTURE_GHOST : TEXTURE;}
+    @Override public ResourceLocation getTextureLocation(AbstractSlimePirateEntity entity) {return (entity instanceof GhostSlimePirateEntity || entity instanceof GhostSlimeNinjaPirateEntity) ? TEXTURE_GHOST : TEXTURE;}
 }
