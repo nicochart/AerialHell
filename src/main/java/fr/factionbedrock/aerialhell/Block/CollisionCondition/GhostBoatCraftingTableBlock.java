@@ -19,7 +19,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GhostBoatCraftingTableBlock extends AerialHellCraftingTableBlock
 {
-    public GhostBoatCraftingTableBlock(Properties prop) {super(prop);}
+    public GhostBoatCraftingTableBlock(Properties prop) {super(prop.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false));}
 
     @Override public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
     {
