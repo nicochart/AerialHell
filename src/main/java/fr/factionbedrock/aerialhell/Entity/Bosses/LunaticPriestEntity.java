@@ -280,8 +280,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	public static class PriestLookRandomlyGoal extends ActiveRandomLookAroundGoal
 	{		
 		public PriestLookRandomlyGoal(LunaticPriestEntity priestIn) {super(priestIn);}
-		@Override public boolean canUse() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.canUse();}
-		@Override public boolean canContinueToUse() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.canContinueToUse();}
+		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2();}
 	}
 	
 	public static class PriestWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal

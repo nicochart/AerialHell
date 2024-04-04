@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionLookAtPlayerGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionMeleeAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionRandomLookAroundGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionWaterAvoidingRandomStrollGoal;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -24,11 +26,12 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
+import java.util.EnumSet;
 import java.util.List;
 
 public class SnakeEntity extends Monster
 {
-    public static int LENGTH = 10;
+    public static int LENGTH = 16;
     @Nullable private SnakeEntity nextBodyPart;
     @Nullable private String nextBodyPartStringUUID;
     private static final EntityDataAccessor<Integer> BODY_PART_ID = SynchedEntityData.<Integer>defineId(SnakeEntity.class, EntityDataSerializers.INT);
@@ -49,9 +52,10 @@ public class SnakeEntity extends Monster
     {
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(2, new SnakeMeleeAttackGoal(this, 1.25D));
-        this.goalSelector.addGoal(3, new SnakeWaterAvoidingRandomWalkingGoal(this, 0.6D));
-        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(3, new SnakeWaterAvoidingRandomWalkingGoal(this, 0.9D));
+        this.goalSelector.addGoal(4, new SnakeLookAtPlayerGoal(this));
+        this.goalSelector.addGoal(4, new SnakeRandomLookAroundGoal(this));
+        this.goalSelector.addGoal(4, new AlignSnakeBodyPartGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
@@ -86,8 +90,10 @@ public class SnakeEntity extends Monster
     {
         if (this.nextBodyPart != null)
         {
+            float distanceToNextBodyPart = this.distanceTo(this.nextBodyPart);
+            if (distanceToNextBodyPart < 0.7F) {return;}
             Vec3 prevDeltaMovement = this.nextBodyPart.getDeltaMovement(); double prevx = prevDeltaMovement.x, prevy = prevDeltaMovement.y, prevz = prevDeltaMovement.z;
-            double factor = Math.min(Math.max(0.25, 0.25 * this.distanceTo(this.nextBodyPart)), 0.3F);
+            double factor = Math.min(Math.max(0.4, 0.4 * distanceToNextBodyPart), 0.5F);
             Vec3 defaultDragVector = new Vec3(this.getX() - this.nextBodyPart.getX(), this.getY() - this.nextBodyPart.getY(), this.getZ() - this.nextBodyPart.getZ()).multiply(factor,factor,factor);
 
             double x = prevx + defaultDragVector.x;
@@ -219,5 +225,36 @@ public class SnakeEntity extends Monster
     {
         public SnakeMeleeAttackGoal(SnakeEntity entity, double speedIn) {super(entity, speedIn, false);}
         @Override public boolean additionalConditionMet() {return ((SnakeEntity)this.mob).isHead();}
+    }
+
+    public static class SnakeLookAtPlayerGoal extends AdditionalConditionLookAtPlayerGoal
+    {
+        protected SnakeEntity snakeGoalOwner;
+        public SnakeLookAtPlayerGoal(SnakeEntity entity) {super(entity, Player.class, 8.0F); this.snakeGoalOwner = entity;}
+        @Override public boolean additionalConditionMet() {return this.snakeGoalOwner.isHead();}
+    }
+
+    public static class SnakeRandomLookAroundGoal extends AdditionalConditionRandomLookAroundGoal
+    {
+        protected SnakeEntity snakeGoalOwner;
+        public SnakeRandomLookAroundGoal(SnakeEntity entity) {super(entity); this.snakeGoalOwner = entity;}
+        @Override public boolean additionalConditionMet() {return this.snakeGoalOwner.isHead();}
+    }
+
+    public static class AlignSnakeBodyPartGoal extends RandomLookAroundGoal
+    {
+        protected SnakeEntity snakeGoalOwner;
+        public AlignSnakeBodyPartGoal(SnakeEntity entity) {super(entity); this.snakeGoalOwner = entity; this.setFlags(EnumSet.noneOf(Goal.Flag.class));} //bug : while moving, the body parts do not align
+
+        @Override public boolean canUse() {return super.canUse() && !this.snakeGoalOwner.isHead();}
+        @Override public boolean canContinueToUse() {return !this.snakeGoalOwner.isHead();}
+
+        @Override public void tick()
+        {
+            if (this.snakeGoalOwner.getNextBodyPart() != null)
+            {
+                this.snakeGoalOwner.getLookControl().setLookAt(this.snakeGoalOwner.getNextBodyPart());
+            }
+        }
     }
 }

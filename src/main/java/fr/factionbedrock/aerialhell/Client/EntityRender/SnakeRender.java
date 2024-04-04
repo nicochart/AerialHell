@@ -13,8 +13,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class SnakeRender<E extends SnakeEntity> extends MobRenderer<E, SnakeModel<E>>
 {
-    private static final ResourceLocation HEAD = new ResourceLocation(AerialHell.MODID, "textures/entity/snake/test_head.png");
-    private static final ResourceLocation BODY = new ResourceLocation(AerialHell.MODID, "textures/entity/snake/test_body.png");
+    private static final ResourceLocation HEAD = new ResourceLocation(AerialHell.MODID, "textures/entity/snake/head.png");
+    private static final ResourceLocation BODY = new ResourceLocation(AerialHell.MODID, "textures/entity/snake/body.png");
 
     public SnakeRender(EntityRendererProvider.Context context)
     {
