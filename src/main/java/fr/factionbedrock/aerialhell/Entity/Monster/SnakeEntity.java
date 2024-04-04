@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionMeleeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionWaterAvoidingRandomStrollGoal;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -57,10 +58,21 @@ public class SnakeEntity extends Monster
     {
         if (this.nextBodyPart != null)
         {
-            if (this.getBodyPartId() == 1) {System.out.println("DISTANCE = "+this.distanceTo(this.nextBodyPart));}
-            double factor = Math.min(Math.max(0.25, 0.25 * this.distanceTo(this.nextBodyPart)), 0.5F);
-            Vec3 dragVector = new Vec3(this.getX() - this.nextBodyPart.getX(), this.getY() - this.nextBodyPart.getY(), this.getZ() - this.nextBodyPart.getZ()).multiply(factor, factor, factor);
-            this.nextBodyPart.setDeltaMovement(this.nextBodyPart.getDeltaMovement().add(dragVector.multiply(factor,factor,factor)));
+            Vec3 prevDeltaMovement = this.nextBodyPart.getDeltaMovement(); double prevx = prevDeltaMovement.x, prevy = prevDeltaMovement.y, prevz = prevDeltaMovement.z;
+            double factor = Math.min(Math.max(0.25, 0.25 * this.distanceTo(this.nextBodyPart)), 0.3F);
+            Vec3 defaultDragVector = new Vec3(this.getX() - this.nextBodyPart.getX(), this.getY() - this.nextBodyPart.getY(), this.getZ() - this.nextBodyPart.getZ()).multiply(factor,factor,factor);
+
+            double x = prevx + defaultDragVector.x;
+            double y = prevy + defaultDragVector.y;
+            double z = prevz + defaultDragVector.z;
+
+            Direction xDirection = defaultDragVector.x > 0 ? Direction.EAST : Direction.WEST;
+            Direction zDirection = defaultDragVector.z > 0 ? Direction.SOUTH : Direction.NORTH;
+            Direction mainDirection = Math.abs(defaultDragVector.x) > Math.abs(defaultDragVector.z) ? xDirection : zDirection;
+            boolean mainDirectionColliding = !this.level().getBlockState(this.nextBodyPart.blockPosition().relative(mainDirection)).isAir();
+            boolean yOverride = (this.getY() > this.nextBodyPart.getY() && prevy < 0.9F && mainDirectionColliding);
+
+            this.nextBodyPart.setDeltaMovement(new Vec3(x, yOverride ? 0.9F * factor : y, z).multiply(factor, factor, factor));
         }
     }
 
