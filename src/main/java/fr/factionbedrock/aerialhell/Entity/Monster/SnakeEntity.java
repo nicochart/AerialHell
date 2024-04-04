@@ -11,10 +11,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -27,15 +24,26 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class SnakeEntity extends Monster
 {
     public static int LENGTH = 10;
-    private boolean isCut = false;
     @Nullable private SnakeEntity nextBodyPart;
+    @Nullable private String nextBodyPartStringUUID;
     private static final EntityDataAccessor<Integer> BODY_PART_ID = SynchedEntityData.<Integer>defineId(SnakeEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> IS_CUT = SynchedEntityData.<Boolean>defineId(SnakeEntity.class, EntityDataSerializers.BOOLEAN);
 
     public SnakeEntity(EntityType<? extends SnakeEntity> type, Level world) {super(type, world);}
+
+    public int getBodyPartId() {return this.entityData.get(BODY_PART_ID);}
+    protected void setBodyPartId(int id) {this.entityData.set(BODY_PART_ID, id);}
+    public boolean isHead() {return this.entityData.get(BODY_PART_ID) == 0;}
+
+    protected void setCut() {this.entityData.set(IS_CUT, true);}
+    protected boolean isCut() {return this.entityData.get(IS_CUT);}
+
+    @Nullable public SnakeEntity getNextBodyPart() {return this.nextBodyPart;}
 
     @Override protected void registerGoals()
     {
@@ -52,6 +60,26 @@ public class SnakeEntity extends Monster
     {
         super.tick();
         this.dragNextBodyPart();
+
+        if (!this.isCut() && this.nextBodyPart == null) {this.tryToFindBackNextBodyPart();} //called after reloading the world
+
+        if (this.nextBodyPart != null && this.nextBodyPart.isDeadOrDying()) {this.setCut();}
+    }
+
+    private void tryToFindBackNextBodyPart()
+    {
+        this.nextBodyPart = this.getNextBodyPartByUUID(this.nextBodyPartStringUUID);
+        if (this.nextBodyPart == null) {this.setCut();}
+    }
+
+    public SnakeEntity getNextBodyPartByUUID(String stringUUID)
+    {
+        List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(5), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 5));
+        for (Entity entity : nearbyEntities)
+        {
+            if (entity.getStringUUID().equals(stringUUID)) {return (SnakeEntity) entity;}
+        }
+        return null;
     }
 
     protected void dragNextBodyPart()
@@ -111,11 +139,21 @@ public class SnakeEntity extends Monster
             nextBodyPart.setCustomName(this.getCustomName());
             nextBodyPart.setNoAi(this.isNoAi());
             nextBodyPart.setInvulnerable(this.isInvulnerable());
-            nextBodyPart.moveTo(this.getX() + (double) x, this.getY() + 0.5D, this.getZ() + (double) z, this.random.nextFloat() * 360.0F, 0.0F);
+            nextBodyPart.moveTo(this.getX() + (double) x, this.getY(), this.getZ() + (double) z, this.random.nextFloat() * 360.0F, 0.0F);
             nextBodyPart.setBodyPartId(this.getBodyPartId() + 1);
             this.level().addFreshEntity(nextBodyPart);
         }
         return nextBodyPart;
+    }
+
+    @Override public void die(DamageSource damageSource)
+    {
+        if (this.nextBodyPart != null)
+        {
+            this.nextBodyPart.setHealth(0.0F);
+            this.nextBodyPart.die(damageSource);
+        }
+        super.die(damageSource);
     }
 
     @Override public EntityType<SnakeEntity> getType() {return (EntityType<SnakeEntity>) super.getType();}
@@ -124,28 +162,31 @@ public class SnakeEntity extends Monster
     {
         super.defineSynchedData();
         this.entityData.define(BODY_PART_ID, 0);
+        this.entityData.define(IS_CUT, false);
     }
 
     @Override public void addAdditionalSaveData(CompoundTag compound)
     {
         super.addAdditionalSaveData(compound);
         compound.putInt("body_part_id", this.getBodyPartId());
+        compound.putBoolean("is_cut", this.isCut());
+        if (this.nextBodyPart != null)
+        {
+            compound.putString("next_body_part_uuid", this.nextBodyPart.getStringUUID());
+        }
     }
 
     @Override public void readAdditionalSaveData(CompoundTag compound)
     {
         super.readAdditionalSaveData(compound);
         this.setBodyPartId(compound.getInt("body_part_id"));
+        if (compound.getBoolean("is_cut")) {this.setCut();}
+        else {this.entityData.set(IS_CUT, false);}
+        if (compound.contains("next_body_part_uuid"))
+        {
+            this.nextBodyPartStringUUID = compound.getString("next_body_part_uuid");
+        }
     }
-
-    public int getBodyPartId() {return this.entityData.get(BODY_PART_ID);}
-    protected void setBodyPartId(int id) {this.entityData.set(BODY_PART_ID, id);}
-    public boolean isHead() {return this.entityData.get(BODY_PART_ID) == 0;}
-
-    protected void setCut() {this.isCut = true;}
-    protected boolean isCut() {return this.isCut;}
-
-    @Nullable public SnakeEntity getNextBodyPart() {return this.nextBodyPart;}
 
     public static AttributeSupplier.Builder registerAttributes()
     {
@@ -157,6 +198,12 @@ public class SnakeEntity extends Monster
     }
 
     @Override public boolean canChangeDimensions() {return false;}
+
+    @Override public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source)
+    {
+        if (!this.isHead()) {return false;}
+        return super.causeFallDamage(distance, damageMultiplier, source);
+    }
     
     @Override protected SoundEvent getAmbientSound(){return SoundEvents.SILVERFISH_AMBIENT;}
     @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return SoundEvents.SILVERFISH_HURT;}
