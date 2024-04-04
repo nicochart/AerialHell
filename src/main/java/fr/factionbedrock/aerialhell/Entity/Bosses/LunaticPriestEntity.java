@@ -287,8 +287,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	public static class PriestWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal
 	{
 		public PriestWaterAvoidingRandomWalkingGoal(LunaticPriestEntity priestIn, double speedIn) {super(priestIn, speedIn);}
-		@Override public boolean canUse() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.canUse();}
-		@Override public boolean canContinueToUse() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.canContinueToUse();}
+		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && ((LunaticPriestEntity) this.getGoalOwner()).isInPhase2();}
 	}
 	
 	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_LUNATIC_PRIEST_AMBIENT.get();}

@@ -572,7 +572,6 @@ public class ChainedGodEntity extends AbstractBossEntity
 	public static class ChainedGodWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal
 	{
 		public ChainedGodWaterAvoidingRandomWalkingGoal(ChainedGodEntity god, double speedIn) {super(god, speedIn);}
-		@Override public boolean canUse() {return ((ChainedGodEntity) this.activableGoalOwner).isFreelyMoving() && super.canUse();}
-		@Override public boolean canContinueToUse() {return ((ChainedGodEntity) this.activableGoalOwner).isFreelyMoving() && super.canContinueToUse();}
+		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && ((ChainedGodEntity) this.getGoalOwner()).isFreelyMoving();}
 	}
 }

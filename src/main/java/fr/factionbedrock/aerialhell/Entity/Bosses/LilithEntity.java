@@ -525,8 +525,7 @@ public class LilithEntity extends AbstractBossEntity
 	public static class LilithWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal
 	{
 		public LilithWaterAvoidingRandomWalkingGoal(LilithEntity god, double speedIn) {super(god, speedIn);}
-		@Override public boolean canUse() {return !((LilithEntity) this.activableGoalOwner).isTransforming() && super.canUse();}
-		@Override public boolean canContinueToUse() {return !((LilithEntity) this.activableGoalOwner).isTransforming() && super.canContinueToUse();}
+		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && !((LilithEntity) this.getGoalOwner()).isTransforming();}
 	}
 
 	public static class LilithSummonShadowFlyingSkullGoal extends SummonThreeEntitiesGoal

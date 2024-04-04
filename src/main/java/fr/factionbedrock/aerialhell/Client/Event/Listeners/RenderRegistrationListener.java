@@ -28,6 +28,7 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.LUNATIC_PRIEST.get(), LunaticPriestRender::new);
         event.registerEntityRenderer(AerialHellEntities.EVIL_COW.get(), EvilCowRender::new);
         event.registerEntityRenderer(AerialHellEntities.STELLAR_ENT.get(), EntRender::new);
+        event.registerEntityRenderer(AerialHellEntities.SNAKE.get(), SnakeRender::new);
         event.registerEntityRenderer(AerialHellEntities.CORTINARIUS_COW.get(), CortinariusCowRender::new);
         event.registerEntityRenderer(AerialHellEntities.STELLAR_CHICKEN.get(), StellarChickenRender::new);
         event.registerEntityRenderer(AerialHellEntities.STELLAR_BOAR.get(), BoarRender::new);
@@ -98,6 +99,7 @@ public class RenderRegistrationListener
         event.registerLayerDefinition(AerialHellModelLayers.CATERPILLAR, ForestCaterpillarModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.BOAR, BoarModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.ENT, EntModel::createBodyLayer);
+        event.registerLayerDefinition(AerialHellModelLayers.SNAKE, SnakeModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CHAINED_GOD, ChainedGodModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CHEST_MIMIC, ChestMimicModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CRYSTAL_GOLEM, CrystalGolemModel::createBodyLayer);
