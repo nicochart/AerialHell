@@ -31,13 +31,15 @@ import java.util.List;
 
 public class SnakeEntity extends Monster
 {
+    private enum BodyPartDeathReaction{ALWAYS_SPLIT, SPLIT_IF_NOT_HEAD, DEATH}
     public static int LENGTH = 16;
+    public final BodyPartDeathReaction bodyPartDeathReaction;
     @Nullable private SnakeEntity nextBodyPart;
     @Nullable private String nextBodyPartStringUUID;
     private static final EntityDataAccessor<Integer> BODY_PART_ID = SynchedEntityData.<Integer>defineId(SnakeEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_CUT = SynchedEntityData.<Boolean>defineId(SnakeEntity.class, EntityDataSerializers.BOOLEAN);
 
-    public SnakeEntity(EntityType<? extends SnakeEntity> type, Level world) {super(type, world);}
+    public SnakeEntity(EntityType<? extends SnakeEntity> type, Level world) {super(type, world); this.bodyPartDeathReaction = BodyPartDeathReaction.DEATH;}
 
     public int getBodyPartId() {return this.entityData.get(BODY_PART_ID);}
     protected void setBodyPartId(int id) {this.entityData.set(BODY_PART_ID, id);}
@@ -47,6 +49,21 @@ public class SnakeEntity extends Monster
     protected boolean isCut() {return this.entityData.get(IS_CUT);}
 
     @Nullable public SnakeEntity getNextBodyPart() {return this.nextBodyPart;}
+
+    @Nullable public SnakeEntity getNextBodyPartByUUID(String stringUUID)
+    {
+        List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(5), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 5));
+        for (Entity entity : nearbyEntities)
+        {
+            if (entity.getStringUUID().equals(stringUUID)) {return (SnakeEntity) entity;}
+        }
+        return null;
+    }
+
+    public SnakeEntity getTailBodyPart()
+    {
+        return (this.nextBodyPart != null) ? this.nextBodyPart.getTailBodyPart() : this;
+    }
 
     @Override protected void registerGoals()
     {
@@ -67,23 +84,19 @@ public class SnakeEntity extends Monster
 
         if (!this.isCut() && this.nextBodyPart == null) {this.tryToFindBackNextBodyPart();} //called after reloading the world
 
-        if (this.nextBodyPart != null && this.nextBodyPart.isDeadOrDying()) {this.setCut();}
+        if (this.nextBodyPart != null && this.nextBodyPart.isDeadOrDying()) {this.setCut(); this.nextBodyPart = null;}
+
+        if (!this.onGround() && this.getTailBodyPart().onGround())
+        {
+            Vec3 deltaMovement = this.getDeltaMovement();
+            this.setDeltaMovement(deltaMovement.multiply(1.0F, 0.8F, 1.0F));
+        }
     }
 
     private void tryToFindBackNextBodyPart()
     {
         this.nextBodyPart = this.getNextBodyPartByUUID(this.nextBodyPartStringUUID);
         if (this.nextBodyPart == null) {this.setCut();}
-    }
-
-    public SnakeEntity getNextBodyPartByUUID(String stringUUID)
-    {
-        List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(5), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 5));
-        for (Entity entity : nearbyEntities)
-        {
-            if (entity.getStringUUID().equals(stringUUID)) {return (SnakeEntity) entity;}
-        }
-        return null;
     }
 
     protected void dragNextBodyPart()
@@ -110,15 +123,8 @@ public class SnakeEntity extends Monster
         }
     }
 
-    @Override public boolean canCollideWith(Entity entity)
-    {
-        return !(entity instanceof SnakeEntity) && super.canCollideWith(entity);
-    }
-
-    @Override protected void doPush(Entity entity)
-    {
-        if (!(entity instanceof SnakeEntity)) {super.doPush(entity);}
-    }
+    @Override public boolean canCollideWith(Entity entity) {return !(entity instanceof SnakeEntity) && super.canCollideWith(entity);}
+    @Override protected void doPush(Entity entity) {if (!(entity instanceof SnakeEntity)) {super.doPush(entity);}}
 
     @Override @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag)
@@ -156,8 +162,27 @@ public class SnakeEntity extends Monster
     {
         if (this.nextBodyPart != null)
         {
-            this.nextBodyPart.setHealth(0.0F);
-            this.nextBodyPart.die(damageSource);
+            if (this.bodyPartDeathReaction == BodyPartDeathReaction.DEATH)
+            {
+                this.nextBodyPart.setHealth(0.0F);
+                this.nextBodyPart.die(damageSource);
+            }
+            else
+            {
+                if (this.bodyPartDeathReaction == BodyPartDeathReaction.ALWAYS_SPLIT)
+                {
+                    this.nextBodyPart.setBodyPartId(0);
+                }
+                else //if (this.bodyPartDeathReaction == BodyPartDeathReaction.SPLIT_IF_NOT_HEAD)
+                {
+                    this.nextBodyPart.setBodyPartId(0);
+                    if (this.isHead())
+                    {
+                        this.nextBodyPart.setHealth(0.0F);
+                        this.nextBodyPart.die(damageSource);
+                    }
+                }
+            }
         }
         super.die(damageSource);
     }
@@ -241,20 +266,27 @@ public class SnakeEntity extends Monster
         @Override public boolean additionalConditionMet() {return this.snakeGoalOwner.isHead();}
     }
 
-    public static class AlignSnakeBodyPartGoal extends RandomLookAroundGoal
+    public static class AlignSnakeBodyPartGoal extends Goal
     {
         protected SnakeEntity snakeGoalOwner;
-        public AlignSnakeBodyPartGoal(SnakeEntity entity) {super(entity); this.snakeGoalOwner = entity; this.setFlags(EnumSet.noneOf(Goal.Flag.class));} //bug : while moving, the body parts do not align
 
-        @Override public boolean canUse() {return super.canUse() && !this.snakeGoalOwner.isHead();}
+        public AlignSnakeBodyPartGoal(SnakeEntity entity)
+        {
+            this.snakeGoalOwner = entity;
+            this.setFlags(EnumSet.of(Goal.Flag.LOOK));
+        }
+
+        @Override public boolean canUse() {return !this.snakeGoalOwner.isHead();}
         @Override public boolean canContinueToUse() {return !this.snakeGoalOwner.isHead();}
 
         @Override public void tick()
         {
             if (this.snakeGoalOwner.getNextBodyPart() != null)
             {
-                this.snakeGoalOwner.getLookControl().setLookAt(this.snakeGoalOwner.getNextBodyPart());
+                this.snakeGoalOwner.lookAt(this.snakeGoalOwner.getNextBodyPart(), 30.0F, 30.0F);
             }
         }
+
+        @Override public boolean requiresUpdateEveryTick() {return true;}
     }
 }
