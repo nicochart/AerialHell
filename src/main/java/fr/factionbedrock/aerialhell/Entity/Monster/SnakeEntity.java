@@ -31,15 +31,24 @@ import java.util.List;
 
 public class SnakeEntity extends Monster
 {
-    private enum BodyPartDeathReaction{ALWAYS_SPLIT, SPLIT_IF_NOT_HEAD, DEATH}
+    private enum BodyPartDeathReaction{ALWAYS_SPLIT, SPLIT_IF_NOT_HEAD, LOOSE_TAIL, ALWAYS_DIE}
     public static int LENGTH = 16;
     public final BodyPartDeathReaction bodyPartDeathReaction;
+    @Nullable private SnakeEntity head;
+    @Nullable private SnakeEntity previousBodyPart;
     @Nullable private SnakeEntity nextBodyPart;
     @Nullable private String nextBodyPartStringUUID;
     private static final EntityDataAccessor<Integer> BODY_PART_ID = SynchedEntityData.<Integer>defineId(SnakeEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_CUT = SynchedEntityData.<Boolean>defineId(SnakeEntity.class, EntityDataSerializers.BOOLEAN);
 
-    public SnakeEntity(EntityType<? extends SnakeEntity> type, Level world) {super(type, world); this.bodyPartDeathReaction = BodyPartDeathReaction.DEATH;}
+    public SnakeEntity(EntityType<? extends SnakeEntity> type, Level world)
+    {
+        super(type, world);
+        this.head = null;
+        this.previousBodyPart = null;
+        this.nextBodyPart = null;
+        this.bodyPartDeathReaction = BodyPartDeathReaction.LOOSE_TAIL;}
+
 
     public int getBodyPartId() {return this.entityData.get(BODY_PART_ID);}
     protected void setBodyPartId(int id) {this.entityData.set(BODY_PART_ID, id);}
@@ -48,6 +57,15 @@ public class SnakeEntity extends Monster
     protected void setCut() {this.entityData.set(IS_CUT, true);}
     protected boolean isCut() {return this.entityData.get(IS_CUT);}
 
+    public boolean setPreviousBodyPart(SnakeEntity previousBodyPart)
+    {
+        boolean canSet = this.previousBodyPart == null;
+        if (canSet) {this.previousBodyPart = previousBodyPart;}
+        return canSet;
+    }
+
+    @Nullable public SnakeEntity getHead() {return this.head;}
+    @Nullable public SnakeEntity getPreviousBodyPart() {return this.previousBodyPart;}
     @Nullable public SnakeEntity getNextBodyPart() {return this.nextBodyPart;}
 
     @Nullable public SnakeEntity getNextBodyPartByUUID(String stringUUID)
@@ -63,6 +81,11 @@ public class SnakeEntity extends Monster
     public SnakeEntity getTailBodyPart()
     {
         return (this.nextBodyPart != null) ? this.nextBodyPart.getTailBodyPart() : this;
+    }
+
+    public SnakeEntity getHeadBodyPart()
+    {
+        return (this.previousBodyPart != null) ? this.previousBodyPart.getHeadBodyPart() : this.isHead() ? this : null;
     }
 
     @Override protected void registerGoals()
@@ -82,6 +105,7 @@ public class SnakeEntity extends Monster
         super.tick();
         this.dragNextBodyPart();
 
+        if (this.head == null) {this.head = this.getHeadBodyPart();} //called after reloading the world
         if (!this.isCut() && this.nextBodyPart == null) {this.tryToFindBackNextBodyPart();} //called after reloading the world
 
         if (this.nextBodyPart != null && this.nextBodyPart.isDeadOrDying()) {this.setCut(); this.nextBodyPart = null;}
@@ -89,7 +113,10 @@ public class SnakeEntity extends Monster
         if (!this.onGround() && this.getTailBodyPart().onGround())
         {
             Vec3 deltaMovement = this.getDeltaMovement();
-            this.setDeltaMovement(deltaMovement.multiply(1.0F, 0.8F, 1.0F));
+            if (deltaMovement.y < 0) //slow falling if tail is not falling
+            {
+                this.setDeltaMovement(deltaMovement.multiply(1.0F, 0.8F, 1.0F));
+            }
         }
     }
 
@@ -97,6 +124,7 @@ public class SnakeEntity extends Monster
     {
         this.nextBodyPart = this.getNextBodyPartByUUID(this.nextBodyPartStringUUID);
         if (this.nextBodyPart == null) {this.setCut();}
+        else {this.nextBodyPart.setPreviousBodyPart(this);}
     }
 
     protected void dragNextBodyPart()
@@ -124,11 +152,15 @@ public class SnakeEntity extends Monster
     }
 
     @Override public boolean canCollideWith(Entity entity) {return !(entity instanceof SnakeEntity) && super.canCollideWith(entity);}
-    @Override protected void doPush(Entity entity) {if (!(entity instanceof SnakeEntity)) {super.doPush(entity);}}
+    @Override protected void doPush(Entity entity)
+    {
+        if (!(entity instanceof SnakeEntity snakeEntity && snakeEntity.getHead() != null && snakeEntity.getHead() == this.getHead())) {super.doPush(entity);}
+    }
 
     @Override @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag)
     {
+        if (this.isHead()) {this.head = this;}
         if (this.getBodyPartId() < LENGTH && !this.isCut() && this.getNextBodyPart() == null)
         {
             this.nextBodyPart = this.summonNextBodyPart();
@@ -153,16 +185,52 @@ public class SnakeEntity extends Monster
             nextBodyPart.setInvulnerable(this.isInvulnerable());
             nextBodyPart.moveTo(this.getX() + (double) x, this.getY(), this.getZ() + (double) z, this.random.nextFloat() * 360.0F, 0.0F);
             nextBodyPart.setBodyPartId(this.getBodyPartId() + 1);
+            nextBodyPart.setPreviousBodyPart(this);
+            nextBodyPart.head = this.getHead();
             this.level().addFreshEntity(nextBodyPart);
         }
         return nextBodyPart;
     }
 
+    @Override public void knockback(double strength, double ratioX, double ratioZ)
+    {
+        if (this.getHead() != null) {this.getHead().sendKnockback(strength, ratioX, ratioZ, this);}
+    }
+
+    public void sendKnockback(double strength, double ratioX, double ratioZ, SnakeEntity sender)
+    {
+        super.knockback(strength, ratioX, ratioZ);
+        if (this.nextBodyPart != null) {this.nextBodyPart.sendKnockback(strength, ratioX, ratioZ, sender);}
+    }
+
+    public void sendHeadUpdate(SnakeEntity newHead, SnakeEntity sender) //overrides head in this and all nexts body parts
+    {
+        this.head = newHead;
+        if (this.nextBodyPart != null) {this.nextBodyPart.sendHeadUpdate(newHead, sender);}
+    }
+
     @Override public void die(DamageSource damageSource)
     {
+        if (this.previousBodyPart != null) {this.previousBodyPart.setCut(); this.previousBodyPart.nextBodyPart = null;}
+
+        if (this.bodyPartDeathReaction == BodyPartDeathReaction.ALWAYS_DIE)
+        {
+            SnakeEntity head = this.getHead();
+            if (head != null && !head.isDeadOrDying())
+            {
+                head.setHealth(0.0F);
+                head.die(damageSource);
+            }
+            if (this.nextBodyPart != null && !this.nextBodyPart.isDeadOrDying())
+            {
+                this.nextBodyPart.setHealth(0.0F);
+                this.nextBodyPart.die(damageSource);
+            }
+        }
+
         if (this.nextBodyPart != null)
         {
-            if (this.bodyPartDeathReaction == BodyPartDeathReaction.DEATH)
+            if (this.bodyPartDeathReaction == BodyPartDeathReaction.LOOSE_TAIL)
             {
                 this.nextBodyPart.setHealth(0.0F);
                 this.nextBodyPart.die(damageSource);
@@ -172,10 +240,12 @@ public class SnakeEntity extends Monster
                 if (this.bodyPartDeathReaction == BodyPartDeathReaction.ALWAYS_SPLIT)
                 {
                     this.nextBodyPart.setBodyPartId(0);
+                    this.nextBodyPart.sendHeadUpdate(this.nextBodyPart, this);
                 }
-                else //if (this.bodyPartDeathReaction == BodyPartDeathReaction.SPLIT_IF_NOT_HEAD)
+                else if (this.bodyPartDeathReaction == BodyPartDeathReaction.SPLIT_IF_NOT_HEAD)
                 {
                     this.nextBodyPart.setBodyPartId(0);
+                    this.nextBodyPart.sendHeadUpdate(this.nextBodyPart, this);
                     if (this.isHead())
                     {
                         this.nextBodyPart.setHealth(0.0F);
@@ -281,9 +351,9 @@ public class SnakeEntity extends Monster
 
         @Override public void tick()
         {
-            if (this.snakeGoalOwner.getNextBodyPart() != null)
+            if (this.snakeGoalOwner.getPreviousBodyPart() != null)
             {
-                this.snakeGoalOwner.lookAt(this.snakeGoalOwner.getNextBodyPart(), 30.0F, 30.0F);
+                this.snakeGoalOwner.lookAt(this.snakeGoalOwner.getPreviousBodyPart(), 30.0F, 30.0F);
             }
         }
 
