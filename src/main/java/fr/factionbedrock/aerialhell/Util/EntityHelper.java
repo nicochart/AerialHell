@@ -118,6 +118,12 @@ public class EntityHelper
         else {return isImmuneToSomeShadowDamage(entity);}
     }
 
+    public static boolean isImmuneToSkyCactusCollision(Entity entity)
+    {
+        boolean isImmune = entity instanceof SandySheepEntity || entity instanceof KodamaEntity || entity instanceof SnakeEntity || entity instanceof AbstractAerialHellSpiderEntity || isFeatheryEntity(entity);
+        return isImmune;
+    }
+
     public static boolean isImmuneToSolidEtherCollision(Entity entity)
     {
         if (entity instanceof LivingEntity livingEntity)

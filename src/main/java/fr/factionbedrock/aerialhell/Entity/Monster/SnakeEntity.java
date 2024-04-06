@@ -32,6 +32,7 @@ import java.util.List;
 public class SnakeEntity extends Monster
 {
     private enum BodyPartDeathReaction{ALWAYS_SPLIT, SPLIT_IF_NOT_HEAD, LOOSE_TAIL, ALWAYS_DIE}
+    private enum SendDirection{FORWARD, BACKWARD}
     public static int LENGTH = 16;
     public final BodyPartDeathReaction bodyPartDeathReaction;
     @Nullable private SnakeEntity head;
@@ -47,7 +48,8 @@ public class SnakeEntity extends Monster
         this.head = null;
         this.previousBodyPart = null;
         this.nextBodyPart = null;
-        this.bodyPartDeathReaction = BodyPartDeathReaction.LOOSE_TAIL;}
+        this.bodyPartDeathReaction = BodyPartDeathReaction.LOOSE_TAIL;
+    }
 
 
     public int getBodyPartId() {return this.entityData.get(BODY_PART_ID);}
@@ -131,7 +133,9 @@ public class SnakeEntity extends Monster
     {
         if (this.nextBodyPart != null)
         {
+            boolean mayJump = this.getY() > this.nextBodyPart.getY();
             float distanceToNextBodyPart = this.distanceTo(this.nextBodyPart);
+            if (distanceToNextBodyPart > 2 && mayJump) {this.nextBodyPart.sendJump(0.42F, 0.0F, this, SendDirection.BACKWARD);}
             if (distanceToNextBodyPart < 0.7F) {return;}
             Vec3 prevDeltaMovement = this.nextBodyPart.getDeltaMovement(); double prevx = prevDeltaMovement.x, prevy = prevDeltaMovement.y, prevz = prevDeltaMovement.z;
             double factor = Math.min(Math.max(0.4, 0.4 * distanceToNextBodyPart), 0.5F);
@@ -145,7 +149,7 @@ public class SnakeEntity extends Monster
             Direction zDirection = defaultDragVector.z > 0 ? Direction.SOUTH : Direction.NORTH;
             Direction mainDirection = Math.abs(defaultDragVector.x) > Math.abs(defaultDragVector.z) ? xDirection : zDirection;
             boolean mainDirectionColliding = !this.level().getBlockState(this.nextBodyPart.blockPosition().relative(mainDirection)).isAir();
-            boolean yOverride = (this.getY() > this.nextBodyPart.getY() && prevy < 0.9F && mainDirectionColliding);
+            boolean yOverride = (mayJump && prevy < 0.9F && mainDirectionColliding);
 
             this.nextBodyPart.setDeltaMovement(new Vec3(x, yOverride ? 0.9F * factor : y, z).multiply(factor, factor, factor));
         }
@@ -154,7 +158,8 @@ public class SnakeEntity extends Monster
     @Override public boolean canCollideWith(Entity entity) {return !(entity instanceof SnakeEntity) && super.canCollideWith(entity);}
     @Override protected void doPush(Entity entity)
     {
-        if (!(entity instanceof SnakeEntity snakeEntity && snakeEntity.getHead() != null && snakeEntity.getHead() == this.getHead())) {super.doPush(entity);}
+        boolean noCollide = entity instanceof SnakeEntity snakeEntity && snakeEntity.getHead() != null && snakeEntity.getHead() == this.getHead() && this.distanceTo(snakeEntity) > 0.2F;
+        if (!noCollide) {super.doPush(entity);}
     }
 
     @Override @Nullable
@@ -192,27 +197,67 @@ public class SnakeEntity extends Monster
         return nextBodyPart;
     }
 
+    @Override public boolean hurt(DamageSource damageSource, float amount)
+    {
+        boolean flag = super.hurt(damageSource, amount);
+        if (flag)
+        {
+            float amountReduction = 2.0F;
+            float newAmount = amount - amountReduction;
+            if (this.nextBodyPart != null && newAmount > 0) {this.nextBodyPart.sendHurt(damageSource, newAmount, amountReduction, 0.5F, this, SendDirection.BACKWARD);}
+            if (this.previousBodyPart != null && newAmount > 0) {this.previousBodyPart.sendHurt(damageSource, newAmount, amountReduction, 0.5F, this, SendDirection.FORWARD);}
+        }
+        return flag;
+    }
+
     @Override public void knockback(double strength, double ratioX, double ratioZ)
     {
-        if (this.getHead() != null) {this.getHead().sendKnockback(strength, ratioX, ratioZ, this);}
+        super.knockback(strength, ratioX, ratioZ);
+        double strengthReduction = this.isHead() ? 0.01D : 0.05D;
+        double newStrength = strength - strengthReduction;
+        if (this.nextBodyPart != null && newStrength > 0) {this.nextBodyPart.sendKnockback(newStrength, strengthReduction, ratioX, ratioZ, this, SendDirection.BACKWARD);}
+        if (this.previousBodyPart != null && newStrength > 0) {this.previousBodyPart.sendKnockback(newStrength, strengthReduction, ratioX, ratioZ, this, SendDirection.FORWARD);}
     }
 
-    public void sendKnockback(double strength, double ratioX, double ratioZ, SnakeEntity sender)
+    public void sendHurt(DamageSource damageSource, float amount, float amountReduction, SnakeEntity sender, SendDirection direction)
+    {
+        this.sendHurt(damageSource, amount, amountReduction, 0.0F, sender, direction);
+    }
+
+    public void sendHurt(DamageSource damageSource, float amount, float amountReduction, float minimumAmount, SnakeEntity sender, SendDirection direction)
+    {
+        super.hurt(damageSource, amount); //problem : this calls (super.)knockback, causing the whole snake to get full knockback. That's unexpected.
+        SnakeEntity torchbearer = direction == SendDirection.BACKWARD ? this.nextBodyPart : this.previousBodyPart; //next one to receive and send the message
+        float newAmount = Math.max(amount - amountReduction, minimumAmount);
+        if (torchbearer != null && newAmount > 0) {torchbearer.sendHurt(damageSource, newAmount, amountReduction, minimumAmount, sender, direction);}
+    }
+
+    public void sendKnockback(double strength, double strengthReduction, double ratioX, double ratioZ, SnakeEntity sender, SendDirection direction)
     {
         super.knockback(strength, ratioX, ratioZ);
-        if (this.nextBodyPart != null) {this.nextBodyPart.sendKnockback(strength, ratioX, ratioZ, sender);}
+        SnakeEntity torchbearer = direction == SendDirection.BACKWARD ? this.nextBodyPart : this.previousBodyPart; //next one to receive and send the message
+        double newStrength = strength - strengthReduction;
+        if (torchbearer != null && newStrength > 0) {torchbearer.sendKnockback(newStrength, strengthReduction, ratioX, ratioZ, sender, direction);}
     }
 
-    public void sendHeadUpdate(SnakeEntity newHead, SnakeEntity sender) //overrides head in this and all nexts body parts
+    public void sendHeadUpdate(SnakeEntity newHead, SnakeEntity sender, SendDirection direction) //overrides head in this and all nexts body parts
     {
         this.head = newHead;
-        if (this.nextBodyPart != null) {this.nextBodyPart.sendHeadUpdate(newHead, sender);}
+        SnakeEntity torchbearer = direction == SendDirection.BACKWARD ? this.nextBodyPart : this.previousBodyPart; //next one to receive and send the message
+        if (torchbearer != null) {torchbearer.sendHeadUpdate(newHead, sender, direction);}
+    }
+
+    public void sendJump(float yMovement, float yMovementReduction, SnakeEntity sender, SendDirection direction)
+    {
+        Vec3 deltamovement = this.getDeltaMovement();
+        this.setDeltaMovement(deltamovement.x, yMovement, deltamovement.z);
+        SnakeEntity torchbearer = direction == SendDirection.BACKWARD ? this.nextBodyPart : this.previousBodyPart; //next one to receive and send the message
+        float newYMovement = yMovement - yMovementReduction;
+        if (torchbearer != null && newYMovement > 0) {torchbearer.sendJump(newYMovement, yMovementReduction, sender, direction);}
     }
 
     @Override public void die(DamageSource damageSource)
     {
-        if (this.previousBodyPart != null) {this.previousBodyPart.setCut(); this.previousBodyPart.nextBodyPart = null;}
-
         if (this.bodyPartDeathReaction == BodyPartDeathReaction.ALWAYS_DIE)
         {
             SnakeEntity head = this.getHead();
@@ -240,12 +285,12 @@ public class SnakeEntity extends Monster
                 if (this.bodyPartDeathReaction == BodyPartDeathReaction.ALWAYS_SPLIT)
                 {
                     this.nextBodyPart.setBodyPartId(0);
-                    this.nextBodyPart.sendHeadUpdate(this.nextBodyPart, this);
+                    this.nextBodyPart.sendHeadUpdate(this.nextBodyPart, this, SendDirection.BACKWARD);
                 }
                 else if (this.bodyPartDeathReaction == BodyPartDeathReaction.SPLIT_IF_NOT_HEAD)
                 {
                     this.nextBodyPart.setBodyPartId(0);
-                    this.nextBodyPart.sendHeadUpdate(this.nextBodyPart, this);
+                    this.nextBodyPart.sendHeadUpdate(this.nextBodyPart, this, SendDirection.BACKWARD);
                     if (this.isHead())
                     {
                         this.nextBodyPart.setHealth(0.0F);
@@ -254,7 +299,24 @@ public class SnakeEntity extends Monster
                 }
             }
         }
+        this.detach();
         super.die(damageSource);
+    }
+
+    public void detach()
+    {
+        this.head = null;
+        if (this.nextBodyPart != null)
+        {
+            this.nextBodyPart.previousBodyPart = null;
+            this.nextBodyPart = null;
+        }
+        if (this.previousBodyPart != null)
+        {
+            this.previousBodyPart.setCut();
+            this.previousBodyPart.nextBodyPart = null;
+            this.previousBodyPart = null;
+        }
     }
 
     @Override public EntityType<SnakeEntity> getType() {return (EntityType<SnakeEntity>) super.getType();}
