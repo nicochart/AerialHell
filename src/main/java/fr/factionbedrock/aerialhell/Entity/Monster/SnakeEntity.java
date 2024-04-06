@@ -4,15 +4,20 @@ import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionLookAtPlayerGoa
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionMeleeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionRandomLookAroundGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionWaterAvoidingRandomStrollGoal;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -199,15 +204,134 @@ public class SnakeEntity extends Monster
 
     @Override public boolean hurt(DamageSource damageSource, float amount)
     {
-        boolean flag = super.hurt(damageSource, amount);
+        boolean flag = this.snakeHurt(damageSource, amount, true, true);
         if (flag)
         {
             float amountReduction = 2.0F;
-            float newAmount = amount - amountReduction;
+            float newAmount = amount < 0.5F ? amount : Math.max(amount - amountReduction, 0.5F);
             if (this.nextBodyPart != null && newAmount > 0) {this.nextBodyPart.sendHurt(damageSource, newAmount, amountReduction, 0.5F, this, SendDirection.BACKWARD);}
             if (this.previousBodyPart != null && newAmount > 0) {this.previousBodyPart.sendHurt(damageSource, newAmount, amountReduction, 0.5F, this, SendDirection.FORWARD);}
         }
         return flag;
+    }
+
+    //copy of net.minecraft.world.entity.LivingEntity hurt(DamageSource source, float amount) method, removing everything non-related to my snakes, and calling other methods, allowing customization in my inheriting classes
+    public boolean snakeHurt(DamageSource source, float amount, boolean playSound, boolean applyKb)
+    {
+        if (!net.minecraftforge.common.ForgeHooks.onLivingAttack(this, source, amount)) return false;
+        if (this.isInvulnerableTo(source) || this.level().isClientSide || this.isDeadOrDying()) {return false;}
+        else if (source.is(DamageTypeTags.IS_FIRE) && this.hasEffect(MobEffects.FIRE_RESISTANCE)) {return false;}
+        else
+        {
+            this.noActionTime = 0;
+
+            if (source.is(DamageTypeTags.IS_FREEZING) && this.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {amount *= 5.0F;}
+            this.walkAnimation.setSpeed(1.5F);
+
+            boolean wasOnHurtCooldown = (float)this.invulnerableTime > 10.0F && !source.is(DamageTypeTags.BYPASSES_COOLDOWN);
+            boolean actuallyGotHurt = tryActuallyHurt(source, amount);
+
+            if (!actuallyGotHurt) {return false;}
+            //we know this got hurt
+            setLastHurtBy(source);
+
+            if (!wasOnHurtCooldown)
+            {
+                this.level().broadcastDamageEvent(this, source);
+                if (!source.is(DamageTypeTags.NO_IMPACT)) {this.markHurt();}
+
+                if (applyKb) {tryApplyingKnockback(source);}
+            }
+
+            boolean died = false;
+            if (this.isDeadOrDying()) {this.die(source); died = true;}
+
+            if (!wasOnHurtCooldown && playSound)
+            {
+                if (died) {this.playDeathSound(source);}
+                else {this.playHurtSound(source);}
+            }
+
+            this.lastDamageSource = source;
+            this.lastDamageStamp = this.level().getGameTime();
+
+            if (source.getEntity() instanceof ServerPlayer serverPlayerSource)
+            {
+                CriteriaTriggers.PLAYER_HURT_ENTITY.trigger(serverPlayerSource, this, source, amount, amount, false);
+            }
+
+            return true;
+        }
+    }
+
+    public boolean tryActuallyHurt(DamageSource damageSource, float amount) //returns true if the entity is actually hurt
+    {
+        boolean isOnHurtCooldown = (float)this.invulnerableTime > 10.0F;
+        boolean shouldDamageBeReducedDueToHurtCooldown = isOnHurtCooldown && !damageSource.is(DamageTypeTags.BYPASSES_COOLDOWN);
+
+        if (shouldDamageBeReducedDueToHurtCooldown)
+        {
+            //the difference in damage amount is dealt if the amount of new "hurt" is greater than last one
+            float reducedAmount = amount - this.lastHurt;
+            if (reducedAmount <= 0) {return false;}
+
+            this.actuallyHurt(damageSource, reducedAmount);
+            this.lastHurt = amount;
+            return true;
+        }
+        else
+        {
+            this.lastHurt = amount;
+            this.invulnerableTime = 20;
+            this.actuallyHurt(damageSource, amount);
+            this.hurtDuration = 10;
+            this.hurtTime = this.hurtDuration;
+            return true;
+        }
+    }
+
+    public void setLastHurtBy(DamageSource damageSource)
+    {
+        Entity sourceEntity = damageSource.getEntity();
+        if (sourceEntity != null)
+        {
+            if (sourceEntity instanceof LivingEntity sourceLivingEntity)
+            {
+                if (!damageSource.is(DamageTypeTags.NO_ANGER)) {this.setLastHurtByMob(sourceLivingEntity);}
+            }
+
+            if (sourceEntity instanceof Player sourcePlayerEntity)
+            {
+                this.lastHurtByPlayerTime = 100;
+                this.lastHurtByPlayer = sourcePlayerEntity;
+            }
+            else if (sourceEntity instanceof TamableAnimal tamableEntity)
+            {
+                if (tamableEntity.isTame())
+                {
+                    this.lastHurtByPlayerTime = 100;
+                    LivingEntity tamableEntityOwner = tamableEntity.getOwner();
+                    if (tamableEntityOwner instanceof Player playerOwner) {this.lastHurtByPlayer = playerOwner;}
+                    else {this.lastHurtByPlayer = null;}
+                }
+            }
+        }
+    }
+
+    public boolean tryApplyingKnockback(DamageSource damageSource)
+    {
+        Entity sourceEntity = damageSource.getEntity();
+        if (sourceEntity != null && !damageSource.is(DamageTypeTags.NO_KNOCKBACK))
+        {
+            double xKb = sourceEntity.getX() - this.getX();
+            double zKb;
+            for(zKb = sourceEntity.getZ() - this.getZ(); xKb * xKb + zKb * zKb < 1.0E-4D; zKb = (Math.random() - Math.random()) * 0.01D) {xKb = (Math.random() - Math.random()) * 0.01D;}
+
+            this.knockback((double)0.4F, xKb, zKb);
+            this.indicateDamage(xKb, zKb);
+            return true;
+        }
+        return false;
     }
 
     @Override public void knockback(double strength, double ratioX, double ratioZ)
@@ -226,7 +350,7 @@ public class SnakeEntity extends Monster
 
     public void sendHurt(DamageSource damageSource, float amount, float amountReduction, float minimumAmount, SnakeEntity sender, SendDirection direction)
     {
-        super.hurt(damageSource, amount); //problem : this calls (super.)knockback, causing the whole snake to get full knockback. That's unexpected.
+        this.snakeHurt(damageSource, amount, false, false); //kb is managed by a sendKnockback, generated by this.hurt calling this.tryApplyingKb calling this.knockback
         SnakeEntity torchbearer = direction == SendDirection.BACKWARD ? this.nextBodyPart : this.previousBodyPart; //next one to receive and send the message
         float newAmount = Math.max(amount - amountReduction, minimumAmount);
         if (torchbearer != null && newAmount > 0) {torchbearer.sendHurt(damageSource, newAmount, amountReduction, minimumAmount, sender, direction);}
@@ -368,9 +492,15 @@ public class SnakeEntity extends Monster
         return super.causeFallDamage(distance, damageMultiplier, source);
     }
     
-    @Override protected SoundEvent getAmbientSound(){return SoundEvents.SILVERFISH_AMBIENT;}
+    @Nullable @Override protected SoundEvent getAmbientSound(){return this.isHead() ? SoundEvents.SILVERFISH_AMBIENT : null;}
     @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return SoundEvents.SILVERFISH_HURT;}
     @Override protected SoundEvent getDeathSound() {return SoundEvents.SILVERFISH_DEATH;}
+
+    protected void playDeathSound(DamageSource damageSource)
+    {
+        SoundEvent soundevent = this.getDeathSound();
+        if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getVoicePitch());}
+    }
 
     public static class SnakeWaterAvoidingRandomWalkingGoal extends AdditionalConditionWaterAvoidingRandomStrollGoal
     {
