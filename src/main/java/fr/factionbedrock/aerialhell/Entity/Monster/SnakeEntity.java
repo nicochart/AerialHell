@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionMeleeAttackGoal
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionRandomLookAroundGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionWaterAvoidingRandomStrollGoal;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -28,7 +29,12 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -46,6 +52,7 @@ public class SnakeEntity extends Monster
     @Nullable private String nextBodyPartStringUUID;
     private static final EntityDataAccessor<Integer> BODY_PART_ID = SynchedEntityData.<Integer>defineId(SnakeEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_CUT = SynchedEntityData.<Boolean>defineId(SnakeEntity.class, EntityDataSerializers.BOOLEAN);
+    protected boolean reverseDrag;
 
     public SnakeEntity(EntityType<? extends SnakeEntity> type, Level world)
     {
@@ -53,9 +60,9 @@ public class SnakeEntity extends Monster
         this.head = null;
         this.previousBodyPart = null;
         this.nextBodyPart = null;
+        this.reverseDrag = false;
         this.bodyPartDeathReaction = BodyPartDeathReaction.LOOSE_TAIL;
     }
-
 
     public int getBodyPartId() {return this.entityData.get(BODY_PART_ID);}
     protected void setBodyPartId(int id) {this.entityData.set(BODY_PART_ID, id);}
@@ -90,9 +97,26 @@ public class SnakeEntity extends Monster
         return (this.nextBodyPart != null) ? this.nextBodyPart.getTailBodyPart() : this;
     }
 
-    public SnakeEntity getHeadBodyPart()
+    @Nullable public SnakeEntity getHeadBodyPart()
     {
         return (this.previousBodyPart != null) ? this.previousBodyPart.getHeadBodyPart() : this.isHead() ? this : null;
+    }
+
+    public boolean isTailFalling()
+    {
+        //tail is falling if 75% of the body parts, starting from tail, are all not on ground
+        if (!this.isHead() && this.getHead() == null) {return false;} //can't execute
+        SnakeEntity head = this.isHead() ? this : this.getHead();
+        int fallingCount = head.onGround() ? 1 : 0, count = 1;
+        SnakeEntity nextBodyPart = head.nextBodyPart;
+        while (nextBodyPart != null)
+        {
+            count++;
+            if (nextBodyPart.onGround()) {fallingCount = 0;}
+            else {fallingCount++;}
+            nextBodyPart = nextBodyPart.nextBodyPart;
+        }
+        return fallingCount >= 0.75F * count;
     }
 
     @Override protected void registerGoals()
@@ -110,19 +134,33 @@ public class SnakeEntity extends Monster
     @Override public void tick()
     {
         super.tick();
-        this.dragNextBodyPart();
+        if (!this.reverseDrag) {this.dragNextBodyPart();}
+        else {this.dragPreviousBodyPart();}
 
         if (this.head == null) {this.head = this.getHeadBodyPart();} //called after reloading the world
         if (!this.isCut() && this.nextBodyPart == null) {this.tryToFindBackNextBodyPart();} //called after reloading the world
 
         if (this.nextBodyPart != null && this.nextBodyPart.isDeadOrDying()) {this.setCut(); this.nextBodyPart = null;}
 
-        if (!this.onGround() && this.getTailBodyPart().onGround())
+        if (this.isHead() && this.tickCount % 5 == 0)
         {
-            Vec3 deltaMovement = this.getDeltaMovement();
-            if (deltaMovement.y < 0) //slow falling if tail is not falling
+            boolean shouldReverseDrag = this.isTailFalling() || (this.reverseDrag && !this.onGround());
+            if (this.reverseDrag != shouldReverseDrag)
             {
-                this.setDeltaMovement(deltaMovement.multiply(1.0F, 0.8F, 1.0F));
+                this.sendDragDirection(shouldReverseDrag ? SendDirection.FORWARD : SendDirection.BACKWARD, SendDirection.BACKWARD, this);
+            }
+        }
+
+        if (!this.onGround())
+        {
+            SnakeEntity tail = this.getTailBodyPart(), head = this.getHeadBodyPart();
+            if (tail.onGround() || head != null && head.onGround())
+            {
+                Vec3 deltaMovement = this.getDeltaMovement();
+                if (deltaMovement.y < 0) //slow falling if tail/head is not falling
+                {
+                    this.setDeltaMovement(deltaMovement.multiply(1.0F, 0.8F, 1.0F));
+                }
             }
         }
     }
@@ -138,33 +176,69 @@ public class SnakeEntity extends Monster
     {
         if (this.nextBodyPart != null)
         {
-            boolean mayJump = this.getY() > this.nextBodyPart.getY();
-            float distanceToNextBodyPart = this.distanceTo(this.nextBodyPart);
-            if (distanceToNextBodyPart > 2 && mayJump) {this.nextBodyPart.sendJump(0.42F, 0.0F, this, SendDirection.BACKWARD);}
-            if (distanceToNextBodyPart < 0.7F) {return;}
-            Vec3 prevDeltaMovement = this.nextBodyPart.getDeltaMovement(); double prevx = prevDeltaMovement.x, prevy = prevDeltaMovement.y, prevz = prevDeltaMovement.z;
-            double factor = Math.min(Math.max(0.4, 0.4 * distanceToNextBodyPart), 0.5F);
-            Vec3 defaultDragVector = new Vec3(this.getX() - this.nextBodyPart.getX(), this.getY() - this.nextBodyPart.getY(), this.getZ() - this.nextBodyPart.getZ()).multiply(factor,factor,factor);
-
-            double x = prevx + defaultDragVector.x;
-            double y = prevy + defaultDragVector.y;
-            double z = prevz + defaultDragVector.z;
-
-            Direction xDirection = defaultDragVector.x > 0 ? Direction.EAST : Direction.WEST;
-            Direction zDirection = defaultDragVector.z > 0 ? Direction.SOUTH : Direction.NORTH;
-            Direction mainDirection = Math.abs(defaultDragVector.x) > Math.abs(defaultDragVector.z) ? xDirection : zDirection;
-            boolean mainDirectionColliding = !this.level().getBlockState(this.nextBodyPart.blockPosition().relative(mainDirection)).isAir();
-            boolean yOverride = (mayJump && prevy < 0.9F && mainDirectionColliding);
-
-            this.nextBodyPart.setDeltaMovement(new Vec3(x, yOverride ? 0.9F * factor : y, z).multiply(factor, factor, factor));
+            dragBodyPartToAnother(this.nextBodyPart, this);
         }
+    }
+
+    protected void dragPreviousBodyPart()
+    {
+        if (this.previousBodyPart != null)
+        {
+            dragBodyPartToAnother(this.previousBodyPart, this);
+        }
+    }
+
+    protected static void dragBodyPartToAnother(SnakeEntity dragged, SnakeEntity source)
+    {
+        boolean mayJump = source.getY() > dragged.getY();
+        float distanceToNextBodyPart = source.distanceTo(dragged);
+        if (distanceToNextBodyPart > 2 && mayJump) {dragged.sendJump(0.42F, 0.0F, source, SendDirection.BACKWARD);}
+        if (distanceToNextBodyPart < 0.7F) {return;}
+        Vec3 prevDeltaMovement = dragged.getDeltaMovement(); double prevx = prevDeltaMovement.x, prevy = prevDeltaMovement.y, prevz = prevDeltaMovement.z;
+        double factor = Math.min(Math.max(0.4, 0.4 * distanceToNextBodyPart), 0.5F);
+        Vec3 defaultDragVector = new Vec3(source.getX() - dragged.getX(), source.getY() - dragged.getY(), source.getZ() - dragged.getZ()).multiply(factor,factor,factor);
+
+        double x = prevx + defaultDragVector.x;
+        double y = prevy + defaultDragVector.y;
+        double z = prevz + defaultDragVector.z;
+
+        Direction xDirection = defaultDragVector.x > 0 ? Direction.EAST : Direction.WEST;
+        Direction zDirection = defaultDragVector.z > 0 ? Direction.SOUTH : Direction.NORTH;
+        Direction mainDirection = Math.abs(defaultDragVector.x) > Math.abs(defaultDragVector.z) ? xDirection : zDirection;
+        boolean mainDirectionColliding = !source.level().getBlockState(dragged.blockPosition().relative(mainDirection)).isAir();
+
+        if (mayJump) //trying to avoid "tail" (body parts) getting stuck below thin-block-surface
+        {
+            BlockPos abovePos = dragged.blockPosition().above();
+            if (dragged.mayBeColliding(abovePos.relative(Direction.EAST))) {x -= 0.1F;}
+            if (dragged.mayBeColliding(abovePos.relative(Direction.WEST))) {x += 0.1F;}
+            if (dragged.mayBeColliding(abovePos.relative(Direction.SOUTH))) {z -= 0.1F;}
+            if (dragged.mayBeColliding(abovePos.relative(Direction.NORTH))) {z += 0.1F;}
+        }
+
+        boolean yOverride = (mayJump && prevy < 0.9F && mainDirectionColliding);
+
+        dragged.setDeltaMovement(new Vec3(x, yOverride ? 0.9F * factor : y, z).multiply(factor, factor, factor));
+    }
+
+    public boolean mayBeColliding(BlockPos pos)
+    {
+        BlockState state = this.level().getBlockState(pos);
+        VoxelShape blockShape = state.getCollisionShape(this.level(), pos, CollisionContext.of(this)).move(pos.getX(), pos.getY(), pos.getZ());
+        return Shapes.joinIsNotEmpty(blockShape, Shapes.create(this.getBoundingBox().inflate(0.1F)), BooleanOp.AND);
     }
 
     @Override public boolean canCollideWith(Entity entity) {return !(entity instanceof SnakeEntity) && super.canCollideWith(entity);}
     @Override protected void doPush(Entity entity)
     {
-        boolean noCollide = entity instanceof SnakeEntity snakeEntity && snakeEntity.getHead() != null && snakeEntity.getHead() == this.getHead() && this.distanceTo(snakeEntity) > 0.2F;
-        if (!noCollide) {super.doPush(entity);}
+        if (entity instanceof SnakeEntity snakeEntity)
+        {
+            boolean sameSnake = snakeEntity.getHead() != null && snakeEntity.getHead() == this.getHead();
+            boolean collisionDueToSmallDistance = this.distanceTo(snakeEntity) <= 0.2 || (entity.getDeltaMovement().x == 0 && entity.getDeltaMovement().z == 0 && this.distanceTo(entity) < 0.4F);
+            boolean noCollide = sameSnake && !collisionDueToSmallDistance;
+            if (!noCollide) {super.doPush(entity);}
+        }
+        else {super.doPush(entity);}
     }
 
     @Override @Nullable
@@ -341,6 +415,13 @@ public class SnakeEntity extends Monster
         double newStrength = strength - strengthReduction;
         if (this.nextBodyPart != null && newStrength > 0) {this.nextBodyPart.sendKnockback(newStrength, strengthReduction, ratioX, ratioZ, this, SendDirection.BACKWARD);}
         if (this.previousBodyPart != null && newStrength > 0) {this.previousBodyPart.sendKnockback(newStrength, strengthReduction, ratioX, ratioZ, this, SendDirection.FORWARD);}
+    }
+
+    public void sendDragDirection(SendDirection dragDirection, SendDirection sendDirection, SnakeEntity sender)
+    {
+        this.reverseDrag = dragDirection == SendDirection.FORWARD;
+        SnakeEntity torchbearer = sendDirection == SendDirection.BACKWARD ? this.nextBodyPart : this.previousBodyPart; //next one to receive and send the message
+        if (torchbearer != null) torchbearer.sendDragDirection(dragDirection, sendDirection, sender);
     }
 
     public void sendHurt(DamageSource damageSource, float amount, float amountReduction, SnakeEntity sender, SendDirection direction)
