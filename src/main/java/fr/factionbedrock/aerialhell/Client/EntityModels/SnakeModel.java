@@ -10,9 +10,9 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.SnakeEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Snake.VenomousSnakeEntity;
 
-public class SnakeModel<T extends SnakeEntity> extends EntityModel<T>
+public class SnakeModel<T extends VenomousSnakeEntity> extends EntityModel<T>
 {
 	private final ModelPart snake;
 

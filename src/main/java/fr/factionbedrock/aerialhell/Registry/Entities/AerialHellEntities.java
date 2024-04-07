@@ -12,6 +12,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Flying.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.Snake.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.*;
 import fr.factionbedrock.aerialhell.Entity.Neutral.*;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
@@ -54,7 +55,7 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<EntEntity>> STELLAR_ENT = ENTITIES.register("stellar_ent", () -> EntityType.Builder.of(EntEntity::new, MobCategory.MONSTER)
 			.sized(0.7F,2.0F).build("stellar_ent"));
 
-	public static final RegistryObject<EntityType<SnakeEntity>> VENOMOUS_SNAKE = ENTITIES.register("venomous_snake", () -> EntityType.Builder.of(SnakeEntity::new, MobCategory.MONSTER)
+	public static final RegistryObject<EntityType<VenomousSnakeEntity>> VENOMOUS_SNAKE = ENTITIES.register("venomous_snake", () -> EntityType.Builder.of(VenomousSnakeEntity::new, MobCategory.MONSTER)
 			.sized(0.8F,0.8F).build("venomous_snake"));
 
 	public static final RegistryObject<EntityType<StellarChickenEntity>> STELLAR_CHICKEN = ENTITIES.register("stellar_chicken", () -> EntityType.Builder.<StellarChickenEntity>of(StellarChickenEntity::new, MobCategory.CREATURE)

@@ -13,6 +13,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowAutomatonEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowFlyingSkullEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Snake.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.CrystalSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.HellSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Neutral.BoarEntity;
@@ -40,7 +41,7 @@ public class AerialHellEntityAttributes
 		event.put(AerialHellEntities.EVIL_COW.get(), EvilCowEntity.registerAttributes().build());
 		event.put(AerialHellEntities.CORTINARIUS_COW.get(), EvilCowEntity.registerAttributes().build());
 		event.put(AerialHellEntities.STELLAR_ENT.get(), EntEntity.registerAttributes().build());
-		event.put(AerialHellEntities.VENOMOUS_SNAKE.get(), SnakeEntity.registerAttributes().build());
+		event.put(AerialHellEntities.VENOMOUS_SNAKE.get(), VenomousSnakeEntity.registerAttributes().build());
 		event.put(AerialHellEntities.STELLAR_CHICKEN.get(), StellarChickenEntity.registerAttributes().build());
 		event.put(AerialHellEntities.STELLAR_BOAR.get(), BoarEntity.registerAttributes().build());
 		event.put(AerialHellEntities.SHROOMBOOM.get(), ShroomBoomEntity.registerAttributes().build());
