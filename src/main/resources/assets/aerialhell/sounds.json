@@ -120,6 +120,21 @@
       "aerialhell:mob/evil_cow/hurt3"
     ]
   },
+  "entity.snake.ambient": {
+    "subtitle": "subtitles.aerialhell.entity.snake.ambient",
+    "sounds": [
+      "aerialhell:mob/snake/ambient1",
+      "aerialhell:mob/snake/ambient2"
+    ]
+  },
+  "entity.snake.hurt": {
+    "subtitle": "subtitles.aerialhell.entity.snake.hurt",
+    "sounds": ["aerialhell:mob/snake/hurt"]
+  },
+  "entity.snake.death": {
+    "subtitle": "subtitles.aerialhell.entity.snake.death",
+    "sounds": ["aerialhell:mob/snake/death"]
+  },
   "entity.stellar_stone_automaton.activation": {
     "subtitle": "subtitles.aerialhell.entity.stellar_stone_automaton.activation",
     "sounds": ["aerialhell:mob/stellar_stone_automaton/activation"]

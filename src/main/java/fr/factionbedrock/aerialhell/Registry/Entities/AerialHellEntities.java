@@ -54,8 +54,8 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<EntEntity>> STELLAR_ENT = ENTITIES.register("stellar_ent", () -> EntityType.Builder.of(EntEntity::new, MobCategory.MONSTER)
 			.sized(0.7F,2.0F).build("stellar_ent"));
 
-	public static final RegistryObject<EntityType<SnakeEntity>> SNAKE = ENTITIES.register("snake", () -> EntityType.Builder.of(SnakeEntity::new, MobCategory.MONSTER)
-			.sized(0.8F,0.8F).build("snake"));
+	public static final RegistryObject<EntityType<SnakeEntity>> VENOMOUS_SNAKE = ENTITIES.register("venomous_snake", () -> EntityType.Builder.of(SnakeEntity::new, MobCategory.MONSTER)
+			.sized(0.8F,0.8F).build("venomous_snake"));
 
 	public static final RegistryObject<EntityType<StellarChickenEntity>> STELLAR_CHICKEN = ENTITIES.register("stellar_chicken", () -> EntityType.Builder.<StellarChickenEntity>of(StellarChickenEntity::new, MobCategory.CREATURE)
 			.sized(0.4F, 0.7F).build("stellar_chicken"));

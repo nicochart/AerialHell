@@ -4,6 +4,8 @@ import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionLookAtPlayerGoa
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionMeleeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionRandomLookAroundGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionWaterAvoidingRandomStrollGoal;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,11 +15,11 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -524,6 +526,21 @@ public class SnakeEntity extends Monster
         }
     }
 
+    @Override public boolean doHurtTarget(Entity attackedEntity)
+    {
+        boolean flag = super.doHurtTarget(attackedEntity);
+        if (flag && attackedEntity instanceof LivingEntity livingEntity && !EntityHelper.isLivingEntityShadowImmune(livingEntity))
+        {
+            livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 500, 0));
+        }
+        return flag;
+    }
+
+    @Override protected void dropExperience()
+    {
+        if (this.isHead()) {super.dropExperience();}
+    }
+
     @Override public EntityType<SnakeEntity> getType() {return (EntityType<SnakeEntity>) super.getType();}
 
     @Override protected void defineSynchedData()
@@ -573,9 +590,9 @@ public class SnakeEntity extends Monster
         return super.causeFallDamage(distance, damageMultiplier, source);
     }
     
-    @Nullable @Override protected SoundEvent getAmbientSound(){return this.isHead() ? SoundEvents.SILVERFISH_AMBIENT : null;}
-    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return SoundEvents.SILVERFISH_HURT;}
-    @Override protected SoundEvent getDeathSound() {return SoundEvents.SILVERFISH_DEATH;}
+    @Nullable @Override protected SoundEvent getAmbientSound(){return this.isHead() ? AerialHellSoundEvents.ENTITY_SNAKE_AMBIENT.get() : null;}
+    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_SNAKE_HURT.get();}
+    @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_SNAKE_DEATH.get();}
 
     protected void playDeathSound(DamageSource damageSource)
     {

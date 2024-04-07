@@ -8,7 +8,6 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.*;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
-import net.minecraft.client.renderer.entity.PaintingRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -28,7 +27,7 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.LUNATIC_PRIEST.get(), LunaticPriestRender::new);
         event.registerEntityRenderer(AerialHellEntities.EVIL_COW.get(), EvilCowRender::new);
         event.registerEntityRenderer(AerialHellEntities.STELLAR_ENT.get(), EntRender::new);
-        event.registerEntityRenderer(AerialHellEntities.SNAKE.get(), SnakeRender::new);
+        event.registerEntityRenderer(AerialHellEntities.VENOMOUS_SNAKE.get(), SnakeRender::new);
         event.registerEntityRenderer(AerialHellEntities.CORTINARIUS_COW.get(), CortinariusCowRender::new);
         event.registerEntityRenderer(AerialHellEntities.STELLAR_CHICKEN.get(), StellarChickenRender::new);
         event.registerEntityRenderer(AerialHellEntities.STELLAR_BOAR.get(), BoarRender::new);
