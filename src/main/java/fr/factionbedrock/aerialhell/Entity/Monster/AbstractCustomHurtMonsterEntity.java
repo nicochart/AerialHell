@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
+import fr.factionbedrock.aerialhell.Entity.Util.CustomHurtInfo;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -12,21 +13,28 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-public class AbstractCustomHurtMonsterEntity extends Monster
+public abstract class AbstractCustomHurtMonsterEntity extends Monster
 {
     public AbstractCustomHurtMonsterEntity(EntityType<? extends AbstractCustomHurtMonsterEntity> type, Level world) {super(type, world);}
 
     @Override public boolean hurt(DamageSource damageSource, float amount)
     {
-        return this.customHurt(damageSource, amount, this.shouldPlayHurtOrDeathSoundOnHurt(), this.shouldApplyKbOnHurt());
+        return this.customHurt(damageSource, this.getDefaultCustomHurtInfo(amount));
     }
 
-    protected boolean shouldPlayHurtOrDeathSoundOnHurt() {return true;} //default
-    protected boolean shouldApplyKbOnHurt() {return true;} //default
+    protected CustomHurtInfo getDefaultCustomHurtInfo(float amount)
+    {
+        return new CustomHurtInfo(amount, this.defaultKbStrength(), this.shouldPlayHurtOrDeathSoundOnHurt(), this.shouldApplyKbOnHurt());
+    }
+
+    protected abstract float defaultKbStrength();
+    protected abstract boolean shouldPlayHurtOrDeathSoundOnHurt();
+    protected abstract boolean shouldApplyKbOnHurt();
 
     //copy of net.minecraft.world.entity.LivingEntity hurt(DamageSource source, float amount) method, removing everything non-related to my monsters, and calling other methods, allowing customization in my inheriting classes
-    public boolean customHurt(DamageSource source, float amount, boolean playSound, boolean applyKb)
+    public boolean customHurt(DamageSource source, CustomHurtInfo info)
     {
+        float amount = info.amount();
         if (!net.minecraftforge.common.ForgeHooks.onLivingAttack(this, source, amount)) return false;
         if (this.isInvulnerableTo(source) || this.level().isClientSide || this.isDeadOrDying()) {return false;}
         else if (source.is(DamageTypeTags.IS_FIRE) && this.hasEffect(MobEffects.FIRE_RESISTANCE)) {return false;}
@@ -49,15 +57,15 @@ public class AbstractCustomHurtMonsterEntity extends Monster
                 this.level().broadcastDamageEvent(this, source);
                 if (!source.is(DamageTypeTags.NO_IMPACT)) {this.markHurt();}
 
-                if (applyKb) {tryApplyingKnockback(source);}
+                if (info.applyKb()) {tryApplyingKnockback(source);}
             }
 
             boolean died = false;
-            if (this.isDeadOrDying()) {this.die(source); died = true;}
+            if (this.isDeadOrDying()) {this.customDie(source, info.playSound()); died = true;}
 
-            if (!wasOnHurtCooldown && playSound)
+            if (!wasOnHurtCooldown && info.playSound())
             {
-                if (died) {this.playDeathSound(source);}
+                if (died) {/*this.playDeathSound(source);*/} //death sound is now played in customDie(DamageSource, boolean) method
                 else {this.playHurtSound(source);}
             }
 
@@ -71,6 +79,12 @@ public class AbstractCustomHurtMonsterEntity extends Monster
 
             return true;
         }
+    }
+
+    public void customDie(DamageSource damageSource, boolean playSound)
+    {
+        if (playSound) {this.playDeathSound(damageSource);}
+        super.die(damageSource);
     }
 
     public boolean tryActuallyHurt(DamageSource damageSource, float amount) //returns true if the entity is actually hurt
