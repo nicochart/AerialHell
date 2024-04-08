@@ -140,7 +140,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
 
         if (this.isHead() && this.tickCount % 5 == 0)
         {
-            boolean shouldReverseDrag = this.isTailFalling() || (this.reverseDrag && !this.onGround());
+            boolean shouldReverseDrag = this.isTailFalling() && this.onGround() || (this.reverseDrag && !this.onGround());
             if (this.reverseDrag != shouldReverseDrag)
             {
                 this.sendDragDirection(shouldReverseDrag ? SendDirection.FORWARD : SendDirection.BACKWARD, SendDirection.BACKWARD, this);
@@ -309,7 +309,8 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
     {
         float newAmount = Math.max(previousInfo.amount() - amountReduction, minimumAmount);
         float newKbStrength = Math.max(previousInfo.kbStrength() - kbStrengthReduction, minimumKbStrength);
-        SnakeCustomHurtInfo newInfo = new SnakeCustomHurtInfo(newAmount, newKbStrength, this.shouldPlayHurtOrDeathSoundOnHurt(), this.shouldApplyKbOnHurt(), false);
+        boolean shouldApplyKb = this.shouldApplyKbOnHurt() && newKbStrength > 0.0F;
+        SnakeCustomHurtInfo newInfo = new SnakeCustomHurtInfo(newAmount, newKbStrength, this.shouldPlayHurtOrDeathSoundOnHurt(), shouldApplyKb, false);
         AbstractSnakeEntity torchbearer = direction == SendDirection.BACKWARD ? this.nextBodyPart : this.previousBodyPart; //next one to receive and send the message
         if (torchbearer != null && newAmount > 0) {torchbearer.sendHurt(damageSource, newInfo, amountReduction, kbStrengthReduction, minimumAmount, minimumKbStrength, sender, direction);}
         this.customHurt(damageSource, newInfo);

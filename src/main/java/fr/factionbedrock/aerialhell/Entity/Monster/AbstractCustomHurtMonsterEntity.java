@@ -57,7 +57,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
                 this.level().broadcastDamageEvent(this, source);
                 if (!source.is(DamageTypeTags.NO_IMPACT)) {this.markHurt();}
 
-                if (info.applyKb()) {tryApplyingKnockback(source);}
+                if (info.applyKb()) {tryApplyingKnockback(source, info.kbStrength());}
             }
 
             boolean died = false;
@@ -141,7 +141,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
         }
     }
 
-    public boolean tryApplyingKnockback(DamageSource damageSource)
+    public boolean tryApplyingKnockback(DamageSource damageSource, float strength)
     {
         Entity sourceEntity = damageSource.getEntity();
         if (sourceEntity != null && !damageSource.is(DamageTypeTags.NO_KNOCKBACK))
@@ -150,7 +150,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
             double zKb;
             for(zKb = sourceEntity.getZ() - this.getZ(); xKb * xKb + zKb * zKb < 1.0E-4D; zKb = (Math.random() - Math.random()) * 0.01D) {xKb = (Math.random() - Math.random()) * 0.01D;}
 
-            this.knockback(0.4F, xKb, zKb);
+            this.knockback(strength, xKb, zKb);
             this.indicateDamage(xKb, zKb);
             return true;
         }
