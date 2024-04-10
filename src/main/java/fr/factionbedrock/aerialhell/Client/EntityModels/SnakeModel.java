@@ -5,6 +5,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.Entity.Monster.Snake.AbstractSnakeEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -12,7 +13,7 @@ import net.minecraft.client.model.geom.builders.*;
 
 import fr.factionbedrock.aerialhell.Entity.Monster.Snake.VenomousSnakeEntity;
 
-public class SnakeModel<T extends VenomousSnakeEntity> extends EntityModel<T>
+public class SnakeModel<T extends AbstractSnakeEntity> extends EntityModel<T>
 {
 	private final ModelPart snake;
 

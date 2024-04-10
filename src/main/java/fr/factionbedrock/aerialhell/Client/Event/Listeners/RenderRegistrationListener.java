@@ -28,6 +28,7 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.EVIL_COW.get(), EvilCowRender::new);
         event.registerEntityRenderer(AerialHellEntities.STELLAR_ENT.get(), EntRender::new);
         event.registerEntityRenderer(AerialHellEntities.VENOMOUS_SNAKE.get(), SnakeRender::new);
+        event.registerEntityRenderer(AerialHellEntities.WORM.get(), SnakeRender::new);
         event.registerEntityRenderer(AerialHellEntities.CORTINARIUS_COW.get(), CortinariusCowRender::new);
         event.registerEntityRenderer(AerialHellEntities.STELLAR_CHICKEN.get(), StellarChickenRender::new);
         event.registerEntityRenderer(AerialHellEntities.STELLAR_BOAR.get(), BoarRender::new);
