@@ -29,6 +29,10 @@ public class AerialHellSoundEvents
 	public static final RegistryObject<SoundEvent> ENTITY_SNAKE_HURT = register("entity.snake.hurt");
 	public static final RegistryObject<SoundEvent> ENTITY_SNAKE_DEATH = register("entity.snake.death");
 
+	public static final RegistryObject<SoundEvent> ENTITY_WORM_AMBIENT = register("entity.worm.ambient");
+	public static final RegistryObject<SoundEvent> ENTITY_WORM_HURT = register("entity.worm.hurt");
+	public static final RegistryObject<SoundEvent> ENTITY_WORM_DEATH = register("entity.worm.death");
+
 	public static final RegistryObject<SoundEvent> ENTITY_KODAMA_RATTLE = register("entity.kodama.rattle");
 	public static final RegistryObject<SoundEvent> ENTITY_KODAMA_AMBIENT = register("entity.kodama.ambient");
 	public static final RegistryObject<SoundEvent> ENTITY_KODAMA_HURT = register("entity.kodama.hurt");

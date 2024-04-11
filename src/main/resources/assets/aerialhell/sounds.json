@@ -135,6 +135,24 @@
     "subtitle": "subtitles.aerialhell.entity.snake.death",
     "sounds": ["aerialhell:mob/snake/death"]
   },
+  "entity.worm.ambient": {
+    "subtitle": "subtitles.aerialhell.entity.worm.ambient",
+    "sounds": [
+      "aerialhell:mob/worm/ambient1",
+      "aerialhell:mob/worm/ambient2"
+    ]
+  },
+  "entity.worm.hurt": {
+    "subtitle": "subtitles.aerialhell.entity.worm.hurt",
+    "sounds": [
+      "aerialhell:mob/worm/hurt1",
+      "aerialhell:mob/worm/hurt2"
+    ]
+  },
+  "entity.worm.death": {
+    "subtitle": "subtitles.aerialhell.entity.worm.death",
+    "sounds": ["aerialhell:mob/worm/death"]
+  },
   "entity.stellar_stone_automaton.activation": {
     "subtitle": "subtitles.aerialhell.entity.stellar_stone_automaton.activation",
     "sounds": ["aerialhell:mob/stellar_stone_automaton/activation"]

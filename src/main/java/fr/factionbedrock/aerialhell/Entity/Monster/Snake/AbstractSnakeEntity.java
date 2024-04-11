@@ -289,7 +289,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
             if (this.nextBodyPart != null) {this.nextBodyPart.sendHurt(damageSource, info, amountReduction, kbStrengthReduction, minimumAmount, 0.0F, this, AbstractSnakeEntity.SendDirection.BACKWARD);}
             if (this.previousBodyPart != null) {this.previousBodyPart.sendHurt(damageSource, info, amountReduction, kbStrengthReduction, minimumAmount, 0.0F, this, AbstractSnakeEntity.SendDirection.FORWARD);}
         }
-        if (this.isDeadOrDying()) {this.detach();}
+        if (this.isDeadOrDying()) {this.runDeathReaction();}
         return flag;
     }
 
@@ -323,6 +323,14 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         if (torchbearer != null) {torchbearer.sendHeadUpdate(newHead, sender, direction);}
     }
 
+    public void sendDie(DamageSource damageSource, AbstractSnakeEntity sender, SendDirection direction)
+    {
+        AbstractSnakeEntity torchbearer = direction == SendDirection.BACKWARD ? this.nextBodyPart : this.previousBodyPart; //next one to receive and send the message
+        if (torchbearer != null) {torchbearer.sendDie(damageSource, sender, direction);}
+        this.setHealth(0.0F);
+        this.customDie(damageSource, this.shouldPlayHurtOrDeathSoundOnHurt());
+    }
+
     public void sendJump(float yMovement, float yMovementReduction, AbstractSnakeEntity sender, SendDirection direction)
     {
         Vec3 deltamovement = this.getDeltaMovement();
@@ -348,38 +356,33 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
                 this.nextBodyPart.customDie(damageSource, this.nextBodyPart.shouldPlayHurtOrDeathSoundOnHurt());
             }
         }
-
-        if (this.nextBodyPart != null)
+        else if (this.nextBodyPart != null)
         {
             if (this.bodyPartDeathReaction == BodyPartDeathReaction.LOOSE_TAIL)
             {
                 this.nextBodyPart.setHealth(0.0F);
                 this.nextBodyPart.customDie(damageSource, this.nextBodyPart.shouldPlayHurtOrDeathSoundOnHurt());
             }
-            else
+            else if (this.bodyPartDeathReaction == BodyPartDeathReaction.ALWAYS_SPLIT) {}
+            else if (this.bodyPartDeathReaction == BodyPartDeathReaction.SPLIT_IF_NOT_HEAD)
             {
-                if (this.bodyPartDeathReaction == BodyPartDeathReaction.ALWAYS_SPLIT)
+                if (this.isHead())
                 {
-                    this.nextBodyPart.setBodyPartId(0);
-                    this.nextBodyPart.sendHeadUpdate(this.nextBodyPart, this, SendDirection.BACKWARD);
-                }
-                else if (this.bodyPartDeathReaction == BodyPartDeathReaction.SPLIT_IF_NOT_HEAD)
-                {
-                    this.nextBodyPart.setBodyPartId(0);
-                    this.nextBodyPart.sendHeadUpdate(this.nextBodyPart, this, SendDirection.BACKWARD);
-                    if (this.isHead())
-                    {
-                        this.nextBodyPart.setHealth(0.0F);
-                        this.nextBodyPart.customDie(damageSource, this.nextBodyPart.shouldPlayHurtOrDeathSoundOnHurt());
-                    }
+                    this.nextBodyPart.sendDie(damageSource, this, SendDirection.BACKWARD);
                 }
             }
         }
-        //this.detach(); now done in (this.)customHurt(..), because can't sendHurt after detach.
+        //(this.)runDeathReaction(..) now done in (this.)customHurt(..), because can't sendHurt after detach / split.
         super.customDie(damageSource, playSound);
     }
 
-    public void detach()
+    protected void runDeathReaction()
+    {
+        if (this.bodyPartDeathReaction == BodyPartDeathReaction.ALWAYS_SPLIT || this.bodyPartDeathReaction == BodyPartDeathReaction.SPLIT_IF_NOT_HEAD && !this.isHead()) {this.split();}
+        else {this.detach();}
+    }
+
+    protected void detach()
     {
         this.head = null;
         if (this.nextBodyPart != null)
@@ -393,6 +396,27 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
             this.previousBodyPart.nextBodyPart = null;
             this.previousBodyPart = null;
         }
+    }
+
+    protected void split()
+    {
+        AbstractSnakeEntity nextHead = this.findNextHead();
+        if (nextHead != null)
+        {
+            nextHead.setBodyPartId(0);
+            nextHead.sendHeadUpdate(nextHead, this, SendDirection.BACKWARD);
+        }
+        this.detach();
+    }
+
+    @Nullable private AbstractSnakeEntity findNextHead()
+    {
+        AbstractSnakeEntity next = this.nextBodyPart;
+        while (next != null && next.isDeadOrDying())
+        {
+            next = next.nextBodyPart;
+        }
+        return next;
     }
 
     @Override protected void defineSynchedData()
