@@ -187,6 +187,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
     protected static void dragBodyPartToAnother(AbstractSnakeEntity dragged, AbstractSnakeEntity source)
     {
         boolean mayJump = source.getY() > dragged.getY();
+        boolean mayFall = source.getY() < dragged.getY();
         float distanceToNextBodyPart = source.distanceTo(dragged);
         if (distanceToNextBodyPart > 2 && mayJump) {dragged.sendJump(0.42F, 0.0F, source, SendDirection.BACKWARD);}
         if (distanceToNextBodyPart < 0.7F) {return;}
@@ -203,13 +204,22 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         Direction mainDirection = Math.abs(defaultDragVector.x) > Math.abs(defaultDragVector.z) ? xDirection : zDirection;
         boolean mainDirectionColliding = !source.level().getBlockState(dragged.blockPosition().relative(mainDirection)).isAir();
 
-        if (mayJump) //trying to avoid "tail" (body parts) getting stuck below thin-block-surface
+        if (mayJump) //trying to avoid dragged (body parts) getting stuck below thin-block-surface
         {
             BlockPos abovePos = dragged.blockPosition().above();
             if (dragged.mayBeColliding(abovePos.relative(Direction.EAST))) {x -= 0.1F;}
             if (dragged.mayBeColliding(abovePos.relative(Direction.WEST))) {x += 0.1F;}
             if (dragged.mayBeColliding(abovePos.relative(Direction.SOUTH))) {z -= 0.1F;}
             if (dragged.mayBeColliding(abovePos.relative(Direction.NORTH))) {z += 0.1F;}
+        }
+
+        if (mayFall) //trying to avoid dragged (body parts) getting stuck by block collision while falling
+        {
+            BlockPos belowPos = dragged.blockPosition().below();
+            if (dragged.mayBeColliding(belowPos.relative(Direction.EAST))) {x -= 0.1F;}
+            if (dragged.mayBeColliding(belowPos.relative(Direction.WEST))) {x += 0.1F;}
+            if (dragged.mayBeColliding(belowPos.relative(Direction.SOUTH))) {z -= 0.1F;}
+            if (dragged.mayBeColliding(belowPos.relative(Direction.NORTH))) {z += 0.1F;}
         }
 
         boolean yOverride = (mayJump && prevy < 0.9F && mainDirectionColliding);
