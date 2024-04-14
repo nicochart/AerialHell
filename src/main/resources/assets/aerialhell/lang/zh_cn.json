@@ -516,6 +516,7 @@
   "item.aerialhell.smithing_template.arsonist_upgrade.applies_to": "Netherite Equipment",
   "item.aerialhell.smithing_template.arsonist_upgrade.base_slot_description": "Add netherite armor, weapon, or tool",
   "item.aerialhell.smithing_template.arsonist_upgrade.ingredients": "Arsonist Ingot",
+  "item.aerialhell.arsonist_upgrade_smithing_template": "Arsonist Smithing Template",
   "upgrade.aerialhell.arsonist_upgrade": "Arsonist Upgrade",
   "item.aerialhell.aerial_berry" : "天星浆果",
   "item.aerialhell.roasted_aerial_berry" : "烤天星浆果",

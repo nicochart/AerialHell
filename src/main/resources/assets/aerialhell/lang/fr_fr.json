@@ -516,6 +516,7 @@
   "item.aerialhell.smithing_template.arsonist_upgrade.applies_to": "Équipement en Netherite",
   "item.aerialhell.smithing_template.arsonist_upgrade.base_slot_description": "Ajoutez une pièce d'armure, une arme ou un outil en netherite",
   "item.aerialhell.smithing_template.arsonist_upgrade.ingredients": "Lingot Incendière",
+  "item.aerialhell.arsonist_upgrade_smithing_template": "Modèle de Forge Incendière",
   "upgrade.aerialhell.arsonist_upgrade": "Amélioration Incendière",
   "item.aerialhell.aerial_berry" : "Baie Aérienne",
   "item.aerialhell.roasted_aerial_berry" : "Baie Aérienne Grillée",

@@ -80,10 +80,10 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
 
     @Nullable public AbstractSnakeEntity getNextBodyPartByUUID(String stringUUID)
     {
-        List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(5), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 5));
-        for (Entity entity : nearbyEntities)
+        List<AbstractSnakeEntity> nearbyEntities = this.level().getEntitiesOfClass(AbstractSnakeEntity.class, this.getBoundingBox().inflate(5), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 5));
+        for (AbstractSnakeEntity entity : nearbyEntities)
         {
-            if (entity.getStringUUID().equals(stringUUID)) {return (AbstractSnakeEntity) entity;}
+            if (entity.getStringUUID().equals(stringUUID)) {return entity;}
         }
         return null;
     }
