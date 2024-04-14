@@ -3,8 +3,8 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +21,7 @@ public class SlimePirateEntity extends AbstractSlimePirateEntity
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
-    @Override protected ItemStack getRandomWeapon(RandomSource rand)
+    @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand)
     {
         return rand.nextInt(2) == 0 ? new ItemStack(AerialHellBlocksAndItems.RUBY_SWORD.get()) : new ItemStack(AerialHellBlocksAndItems.RUBY_AXE.get());
     }

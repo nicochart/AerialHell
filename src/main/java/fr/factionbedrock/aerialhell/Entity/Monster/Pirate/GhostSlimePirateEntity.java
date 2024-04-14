@@ -38,7 +38,7 @@ public class GhostSlimePirateEntity extends AbstractSlimePirateEntity
         return super.hurt(damageSource, amount);
     }
 
-    @Override protected ItemStack getRandomWeapon(RandomSource rand)
+    @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand)
     {
         return rand.nextInt(2) == 0 ? new ItemStack(AerialHellBlocksAndItems.AZURITE_SWORD.get()) : new ItemStack(AerialHellBlocksAndItems.AZURITE_AXE.get());
     }

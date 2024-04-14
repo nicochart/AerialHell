@@ -32,9 +32,9 @@ public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
-    @Override protected ItemStack getRandomWeapon(RandomSource rand) {return new ItemStack(AerialHellBlocksAndItems.RUBY_SHURIKEN.get());}
+    @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand) {return new ItemStack(AerialHellBlocksAndItems.RUBY_SHURIKEN.get());}
 
-    @Override protected EntityType<? extends AbstractSlimePirateEntity> getLittlePirateType() {return AerialHellEntities.SLIME_PIRATE.get();}
+    @Override public EntityType<? extends AbstractSlimePirateEntity> getType() {return AerialHellEntities.SLIME_PIRATE.get();}
 
     public static class ShurikenAttackGoal extends GhastLikeGoals.ShootProjectileFlurryGoal
     {

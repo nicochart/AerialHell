@@ -2,16 +2,12 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
 import fr.factionbedrock.aerialhell.Entity.AI.GhostGoals;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.AzuriteShurikenEntity;
-import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.RubyShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
@@ -48,9 +44,9 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity
         return super.hurt(damageSource, amount);
     }
 
-    @Override protected ItemStack getRandomWeapon(RandomSource rand) {return new ItemStack(AerialHellBlocksAndItems.AZURITE_SHURIKEN.get());}
+    @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand) {return new ItemStack(AerialHellBlocksAndItems.AZURITE_SHURIKEN.get());}
 
-    @Override protected EntityType<? extends AbstractSlimePirateEntity> getLittlePirateType() {return AerialHellEntities.GHOST_SLIME_PIRATE.get();}
+    @Override public EntityType<? extends AbstractSlimePirateEntity> getType() {return AerialHellEntities.GHOST_SLIME_PIRATE.get();}
 
     public static class GhostShurikenAttackGoal extends SlimeNinjaPirateEntity.ShurikenAttackGoal
     {
