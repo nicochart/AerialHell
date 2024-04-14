@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.AbstractSlimePirateEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.AbstractHumanoidMonster;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
@@ -16,7 +16,7 @@ import net.minecraft.world.entity.HumanoidArm;
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
 
-public class SlimePirateModel<T extends AbstractSlimePirateEntity> extends EntityModel<T> implements ArmedModel
+public class HumanoidTwoLayerModel<T extends AbstractHumanoidMonster> extends EntityModel<T> implements ArmedModel
 {
 	private final ModelPart head;
 	private final ModelPart head_overlay;
@@ -31,7 +31,7 @@ public class SlimePirateModel<T extends AbstractSlimePirateEntity> extends Entit
 	private final ModelPart rightLeg;
 	private final ModelPart rightLeg_overlay;
 
-	public SlimePirateModel(ModelPart root)
+	public HumanoidTwoLayerModel(ModelPart root)
 	{
 		this.head = root.getChild("head");
 		this.head_overlay = root.getChild("head_overlay");

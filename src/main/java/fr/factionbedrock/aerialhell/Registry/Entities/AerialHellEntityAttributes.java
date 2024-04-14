@@ -47,6 +47,7 @@ public class AerialHellEntityAttributes
 		event.put(AerialHellEntities.STELLAR_BOAR.get(), BoarEntity.registerAttributes().build());
 		event.put(AerialHellEntities.SHROOMBOOM.get(), ShroomBoomEntity.registerAttributes().build());
 		event.put(AerialHellEntities.VERDIGRIS_ZOMBIE.get(), VerdigrisZombieEntity.registerAttributes().build());
+		event.put(AerialHellEntities.MUMMY.get(), MummyEntity.registerAttributes().build());
 		event.put(AerialHellEntities.SLIME_PIRATE.get(), SlimePirateEntity.registerAttributes().build());
 		event.put(AerialHellEntities.SLIME_NINJA_PIRATE.get(), SlimeNinjaPirateEntity.registerAttributes().build());
 		event.put(AerialHellEntities.GHOST_SLIME_PIRATE.get(), GhostSlimePirateEntity.registerAttributes().build());

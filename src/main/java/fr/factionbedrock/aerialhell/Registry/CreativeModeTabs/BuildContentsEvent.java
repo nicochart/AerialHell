@@ -815,6 +815,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_BOAR_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHROOMBOOM_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VERDIGRIS_ZOMBIE_SPAWN_EGG.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.MUMMY_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIME_PIRATE_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIME_NINJA_PIRATE_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_SLIME_PIRATE_SPAWN_EGG.get());

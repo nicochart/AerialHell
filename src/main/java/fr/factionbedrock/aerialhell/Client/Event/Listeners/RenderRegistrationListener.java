@@ -34,10 +34,11 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.STELLAR_BOAR.get(), BoarRender::new);
         event.registerEntityRenderer(AerialHellEntities.SHROOMBOOM.get(), ShroomBoomRender::new);
         event.registerEntityRenderer(AerialHellEntities.VERDIGRIS_ZOMBIE.get(), VerdigrisZombieRender::new);
-        event.registerEntityRenderer(AerialHellEntities.SLIME_PIRATE.get(), SlimePirateRender::new);
-        event.registerEntityRenderer(AerialHellEntities.SLIME_NINJA_PIRATE.get(), SlimePirateRender::new);
-        event.registerEntityRenderer(AerialHellEntities.GHOST_SLIME_PIRATE.get(), SlimePirateRender::new);
-        event.registerEntityRenderer(AerialHellEntities.GHOST_SLIME_NINJA_PIRATE.get(), SlimePirateRender::new);
+        event.registerEntityRenderer(AerialHellEntities.MUMMY.get(), HumanoidTwoLayerRender::new);
+        event.registerEntityRenderer(AerialHellEntities.SLIME_PIRATE.get(), HumanoidTwoLayerRender::new);
+        event.registerEntityRenderer(AerialHellEntities.SLIME_NINJA_PIRATE.get(), HumanoidTwoLayerRender::new);
+        event.registerEntityRenderer(AerialHellEntities.GHOST_SLIME_PIRATE.get(), HumanoidTwoLayerRender::new);
+        event.registerEntityRenderer(AerialHellEntities.GHOST_SLIME_NINJA_PIRATE.get(), HumanoidTwoLayerRender::new);
         event.registerEntityRenderer(AerialHellEntities.SANDY_SHEEP.get(), SandySheepRender::new);
         event.registerEntityRenderer(AerialHellEntities.GLIDING_TURTLE.get(), GlidingTurtleRender::new);
         event.registerEntityRenderer(AerialHellEntities.FAT_PHANTOM.get(), FatPhantomRender::new);
@@ -120,7 +121,7 @@ public class RenderRegistrationListener
         event.registerLayerDefinition(AerialHellModelLayers.AUTOMATON, AutomatonModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.TORN_SPIRIT, TornSpiritModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.VERDIGRIS_ZOMBIE, VerdigrisZombieModel::createBodyLayer);
-        event.registerLayerDefinition(AerialHellModelLayers.SLIME_PIRATE, SlimePirateModel::createBodyLayer);
+        event.registerLayerDefinition(AerialHellModelLayers.SLIME_PIRATE, HumanoidTwoLayerModel::createBodyLayer);
 
         event.registerLayerDefinition(AerialHellModelLayers.CORTINARIUS_COW_SHROOM, CortinariusCowShroomModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CRYSTAL_GOLEM_CRYSTAL, CrystalGolemCrystalModel::createBodyLayer);
