@@ -1539,4 +1539,7 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<Item> LILITH_SPAWN_EGG = ITEMS.register("lilith_spawn_egg", () -> new BossSpawnEggItem(() -> AerialHellEntities.LILITH.get(), 16382457, 16382457, new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
 
 	public static final RegistryObject<Item> AERIAL_HELL_PAINTING = ITEMS.register("aerial_hell_painting", () -> new AerialHellHangingEntityItem(() -> AerialHellEntities.AERIAL_HELL_PAINTING.get(), new Item.Properties()));
+
+    //build items
+    public static final RegistryObject<Item> BLOCK_UPDATER = ITEMS.register("block_updater", () -> new BlockUpdaterItem(new Item.Properties()));
 }

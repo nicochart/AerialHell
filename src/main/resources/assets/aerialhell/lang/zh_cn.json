@@ -1043,5 +1043,8 @@
   "subtitles.aerialhell.block.trapped_block.step": "Trapped Block step",
   "subtitles.aerialhell.block.bone_pile_block.step_break": "Bone pile block step-break",
   "subtitles.aerialhell.item.forgotten_battle_trident.use": "Forgotten Battle Trident use",
-  "subtitles.aerialhell.block.aerial_hell_portal.ambient": "Aerial Hell Portal ambient"
+  "subtitles.aerialhell.block.aerial_hell_portal.ambient": "Aerial Hell Portal ambient",
+
+  "item.aerialhell.block_updater" : "Block Updater",
+  "item.aerialhell.block_updater.desc" : "nicochart's tool for building structures for Aerial Hell"
 }

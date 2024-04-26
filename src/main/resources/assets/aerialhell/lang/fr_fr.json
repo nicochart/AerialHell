@@ -1043,5 +1043,8 @@
   "subtitles.aerialhell.block.trapped_block.step": "Bloc piégé",
   "subtitles.aerialhell.block.bone_pile_block.step_break": "Tas d'os détruit",
   "subtitles.aerialhell.item.forgotten_battle_trident.use": "Usage du Trident de Guerre Oublié",
-  "subtitles.aerialhell.block.aerial_hell_portal.ambient": "Portail pour Aerial Hell"
+  "subtitles.aerialhell.block.aerial_hell_portal.ambient": "Portail pour Aerial Hell",
+
+  "item.aerialhell.block_updater" : "Block Updater",
+  "item.aerialhell.block_updater.desc" : "L'outil de nicochart pour build des structures pour Aerial Hell"
 }
