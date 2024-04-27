@@ -410,15 +410,15 @@ public class LilithEntity extends AbstractBossEntity
 		{
 			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_STANDING_SIGN.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_STANDING_SIGN.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_STANDING_SIGN.get();}
 			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_STANDING_SIGN.get();}
-			/*if (block instanceof StandingSignBlock) TODO work on signs
+			if (block instanceof StandingSignBlock)
 			{
-				return newBlock.defaultBlockState().setValue(AerialHellStandingSignBlock.FLOOR, true);
+				return newBlock.defaultBlockState().setValue(StandingSignBlock.ROTATION, blockState.getValue(StandingSignBlock.ROTATION)).setValue(StandingSignBlock.WATERLOGGED, blockState.getValue(StandingSignBlock.WATERLOGGED));
 			}
-			else if (block instanceof AerialHellStandingSignBlock)
+			else if (block instanceof WallSignBlock)
 			{
-				return newBlock.defaultBlockState().setValue(AerialHellStandingSignBlock.ROTATION, blockState.getValue(StandingSignBlock.ROTATION)).setValue(AerialHellStandingSignBlock.FLOOR, blockState.getValue(AerialHellStandingSignBlock.FLOOR));
-			}*/
-			return newBlock.defaultBlockState().setValue(AerialHellStandingSignBlock.ROTATION, blockState.getValue(StandingSignBlock.ROTATION))/*.setValue(AerialHellStandingSignBlock.FLOOR, false)*/;
+				return newBlock.defaultBlockState().setValue(WallSignBlock.FACING, blockState.getValue(WallSignBlock.FACING)).setValue(WallSignBlock.WATERLOGGED, blockState.getValue(WallSignBlock.WATERLOGGED));
+			}
+			return newBlock.defaultBlockState();
 		}
 		return AerialHellBlocksAndItems.SHADOW_CATACOMBS_BRICKS.get().defaultBlockState();
 	}

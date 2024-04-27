@@ -21,7 +21,17 @@
     "minecraft:oak_stairs",
     "minecraft:oak_trapdoor",
 
+    "minecraft:stone_button",
+    "minecraft:cobblestone",
+    "minecraft:mossy_cobblestone",
+    "minecraft:cobblestone_stairs",
+    "minecraft:cobblestone_slab",
+
+    "minecraft:ladder",
+    "minecraft:torch",
+    "minecraft:wall_torch",
     "minecraft:coal_block",
-    "minecraft:furnace"
+    "minecraft:furnace",
+    "minecraft:cobweb"
   ]
 }

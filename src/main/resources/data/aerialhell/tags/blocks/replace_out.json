@@ -21,7 +21,17 @@
     "aerialhell:aerial_tree_stairs",
     "aerialhell:aerial_tree_trapdoor",
 
+    "aerialhell:stellar_stone_button",
+    "aerialhell:stellar_cobblestone",
+    "aerialhell:mossy_stellar_cobblestone",
+    "aerialhell:stellar_cobblestone_stairs",
+    "aerialhell:stellar_cobblestone_slab",
+
+    "aerialhell:sky_ladder",
+    "aerialhell:fluorite_torch",
+    "aerialhell:fluorite_wall_torch",
     "aerialhell:fluorite_block",
-    "aerialhell:stellar_furnace"
+    "aerialhell:stellar_furnace",
+    "aerialhell:thorny_cobweb"
   ]
 }

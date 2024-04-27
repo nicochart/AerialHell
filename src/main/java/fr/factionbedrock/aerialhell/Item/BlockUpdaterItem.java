@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Item;
 
+import fr.factionbedrock.aerialhell.Block.StandingAndWall.AerialHellWallTorchBlock;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -102,6 +103,22 @@ public class BlockUpdaterItem extends WithInformationItem
         else if (nextBlock instanceof ComposterBlock && previousBlock instanceof ComposterBlock)
         {
             return nextBlock.defaultBlockState().setValue(ComposterBlock.LEVEL, previousBlockState.getValue(ComposterBlock.LEVEL));
+        }
+        else if (nextBlock instanceof LadderBlock && previousBlock instanceof LadderBlock)
+        {
+            return nextBlock.defaultBlockState().setValue(LadderBlock.FACING, previousBlockState.getValue(LadderBlock.FACING)).setValue(LadderBlock.WATERLOGGED, previousBlockState.getValue(LadderBlock.WATERLOGGED));
+        }
+        else if ((nextBlock instanceof WallTorchBlock || nextBlock instanceof AerialHellWallTorchBlock) && (previousBlock instanceof WallTorchBlock || previousBlock instanceof AerialHellWallTorchBlock))
+        {
+            return nextBlock.defaultBlockState().setValue(nextBlock instanceof WallTorchBlock ? WallTorchBlock.FACING : AerialHellWallTorchBlock.HORIZONTAL_FACING, previousBlockState.getValue(previousBlock instanceof WallTorchBlock ? WallTorchBlock.FACING : AerialHellWallTorchBlock.HORIZONTAL_FACING));
+        }
+        else if (nextBlock instanceof StandingSignBlock && previousBlock instanceof StandingSignBlock)
+        {
+            return nextBlock.defaultBlockState().setValue(StandingSignBlock.ROTATION, previousBlockState.getValue(StandingSignBlock.ROTATION)).setValue(StandingSignBlock.WATERLOGGED, previousBlockState.getValue(StandingSignBlock.WATERLOGGED));
+        }
+        else if (nextBlock instanceof WallSignBlock && previousBlock instanceof WallSignBlock)
+        {
+            return nextBlock.defaultBlockState().setValue(WallSignBlock.FACING, previousBlockState.getValue(WallSignBlock.FACING)).setValue(WallSignBlock.WATERLOGGED, previousBlockState.getValue(WallSignBlock.WATERLOGGED));
         }
         else
         {
