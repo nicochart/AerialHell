@@ -216,10 +216,12 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> SLIPPERY_SAND_STONE = BLOCKS.register("slippery_sand_stone", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.SANDSTONE).friction(1.01F)));
 	public static final RegistryObject<Block> SLIPPERY_SAND_STONE_BRICKS = BLOCKS.register("slippery_sand_stone_bricks", () -> new Block(BlockBehaviour.Properties.ofFullCopy(SLIPPERY_SAND_STONE.get()).friction(1.005F)));
 	public static final RegistryObject<Block> CUT_SLIPPERY_SAND_STONE = BLOCKS.register("cut_slippery_sand_stone", () -> new Block(BlockBehaviour.Properties.ofFullCopy(SLIPPERY_SAND_STONE.get()).friction(1.005F)));
+	public static final RegistryObject<Block> CRACKED_SLIPPERY_SAND_STONE_BRICKS = BLOCKS.register("cracked_slippery_sand_stone_bricks", () -> new Block(BlockBehaviour.Properties.ofFullCopy(SLIPPERY_SAND_STONE.get()).friction(1.003F)));
 	public static final RegistryObject<Item> SLIPPERY_SAND_ITEM = ITEMS.register("slippery_sand", () -> new BlockItem(SLIPPERY_SAND.get(), new Item.Properties()));
 	public static final RegistryObject<Item> SLIPPERY_SAND_STONE_ITEM = ITEMS.register("slippery_sand_stone", () -> new BlockItem(SLIPPERY_SAND_STONE.get(), new Item.Properties()));
 	public static final RegistryObject<Item> SLIPPERY_SAND_STONE_BRICKS_ITEM = ITEMS.register("slippery_sand_stone_bricks", () -> new BlockItem(SLIPPERY_SAND_STONE_BRICKS.get(), new Item.Properties()));
 	public static final RegistryObject<Item> CUT_SLIPPERY_SAND_STONE_ITEM = ITEMS.register("cut_slippery_sand_stone", () -> new BlockItem(CUT_SLIPPERY_SAND_STONE.get(), new Item.Properties()));
+	public static final RegistryObject<Item> CRACKED_SLIPPERY_SAND_STONE_BRICKS_ITEM = ITEMS.register("cracked_slippery_sand_stone_bricks", () -> new BlockItem(CRACKED_SLIPPERY_SAND_STONE_BRICKS.get(), new Item.Properties()));
 
 	//giant root
 	public static final RegistryObject<RotatedPillarBlock> GIANT_ROOT = BLOCKS.register("giant_root", () -> new RotatedPillarBlock(AERIAL_TREE_MATERIAL));
@@ -991,6 +993,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SLIPPERY_SAND_STONE_WALL_ITEM = ITEMS.register("slippery_sand_stone_wall", () -> new BlockItem(SLIPPERY_SAND_STONE_WALL.get(), new Item.Properties()));
 	public static final RegistryObject<WallBlock> SLIPPERY_SAND_STONE_BRICKS_WALL = BLOCKS.register("slippery_sand_stone_bricks_wall", () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(SLIPPERY_SAND_STONE_BRICKS.get())));
 	public static final RegistryObject<Item> SLIPPERY_SAND_STONE_BRICKS_WALL_ITEM = ITEMS.register("slippery_sand_stone_bricks_wall", () -> new BlockItem(SLIPPERY_SAND_STONE_BRICKS_WALL.get(), new Item.Properties()));
+	public static final RegistryObject<WallBlock> CRACKED_SLIPPERY_SAND_STONE_BRICKS_WALL = BLOCKS.register("cracked_slippery_sand_stone_bricks_wall", () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(SLIPPERY_SAND_STONE_BRICKS.get())));
+	public static final RegistryObject<Item> CRACKED_SLIPPERY_SAND_STONE_BRICKS_WALL_ITEM = ITEMS.register("cracked_slippery_sand_stone_bricks_wall", () -> new BlockItem(CRACKED_SLIPPERY_SAND_STONE_BRICKS_WALL.get(), new Item.Properties()));
 	public static final RegistryObject<WallBlock> GLAUCOPHANITE_WALL = BLOCKS.register("glaucophanite_wall", () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(GLAUCOPHANITE.get())));
 	public static final RegistryObject<Item> GLAUCOPHANITE_WALL_ITEM = ITEMS.register("glaucophanite_wall", () -> new BlockItem(GLAUCOPHANITE_WALL.get(), new Item.Properties()));
 	public static final RegistryObject<WallBlock> POLISHED_GLAUCOPHANITE_WALL = BLOCKS.register("polished_glaucophanite_wall", () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_GLAUCOPHANITE.get())));
@@ -1147,6 +1151,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SLIPPERY_SAND_STONE_SLAB_ITEM = ITEMS.register("slippery_sand_stone_slab", () -> new BlockItem(SLIPPERY_SAND_STONE_SLAB.get(), new Item.Properties()));
 	public static final RegistryObject<SlabBlock> SLIPPERY_SAND_STONE_BRICKS_SLAB = BLOCKS.register("slippery_sand_stone_bricks_slab", () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(SLIPPERY_SAND_STONE_BRICKS.get())));
 	public static final RegistryObject<Item> SLIPPERY_SAND_STONE_BRICKS_SLAB_ITEM = ITEMS.register("slippery_sand_stone_bricks_slab", () -> new BlockItem(SLIPPERY_SAND_STONE_BRICKS_SLAB.get(), new Item.Properties()));
+	public static final RegistryObject<SlabBlock> CRACKED_SLIPPERY_SAND_STONE_BRICKS_SLAB = BLOCKS.register("cracked_slippery_sand_stone_bricks_slab", () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(SLIPPERY_SAND_STONE_BRICKS.get())));
+	public static final RegistryObject<Item> CRACKED_SLIPPERY_SAND_STONE_BRICKS_SLAB_ITEM = ITEMS.register("cracked_slippery_sand_stone_bricks_slab", () -> new BlockItem(CRACKED_SLIPPERY_SAND_STONE_BRICKS_SLAB.get(), new Item.Properties()));
 	public static final RegistryObject<SlabBlock> POLISHED_GLAUCOPHANITE_SLAB = BLOCKS.register("polished_glaucophanite_slab", () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_GLAUCOPHANITE.get())));
 	public static final RegistryObject<Item> POLISHED_GLAUCOPHANITE_SLAB_ITEM = ITEMS.register("polished_glaucophanite_slab", () -> new BlockItem(POLISHED_GLAUCOPHANITE_SLAB.get(), new Item.Properties()));
 	public static final RegistryObject<SlabBlock> MAGMATIC_GEL_SLAB = BLOCKS.register("magmatic_gel_slab", () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(MAGMATIC_GEL_BLOCK.get())));
@@ -1183,6 +1189,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SLIPPERY_SAND_STONE_STAIRS_ITEM = ITEMS.register("slippery_sand_stone_stairs", () -> new BlockItem(SLIPPERY_SAND_STONE_STAIRS.get(), new Item.Properties()));
 	public static final RegistryObject<StairBlock> SLIPPERY_SAND_STONE_BRICKS_STAIRS = BLOCKS.register("slippery_sand_stone_bricks_stairs", () -> new StairBlock(SLIPPERY_SAND_STONE_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(SLIPPERY_SAND_STONE_BRICKS.get())));
 	public static final RegistryObject<Item> SLIPPERY_SAND_STONE_BRICKS_STAIRS_ITEM = ITEMS.register("slippery_sand_stone_bricks_stairs", () -> new BlockItem(SLIPPERY_SAND_STONE_BRICKS_STAIRS.get(), new Item.Properties()));
+	public static final RegistryObject<StairBlock> CRACKED_SLIPPERY_SAND_STONE_BRICKS_STAIRS = BLOCKS.register("cracked_slippery_sand_stone_bricks_stairs", () -> new StairBlock(SLIPPERY_SAND_STONE_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(SLIPPERY_SAND_STONE_BRICKS.get())));
+	public static final RegistryObject<Item> CRACKED_SLIPPERY_SAND_STONE_BRICKS_STAIRS_ITEM = ITEMS.register("cracked_slippery_sand_stone_bricks_stairs", () -> new BlockItem(CRACKED_SLIPPERY_SAND_STONE_BRICKS_STAIRS.get(), new Item.Properties()));
 	public static final RegistryObject<StairBlock> POLISHED_GLAUCOPHANITE_STAIRS = BLOCKS.register("polished_glaucophanite_stairs", () -> new StairBlock(POLISHED_GLAUCOPHANITE.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(POLISHED_GLAUCOPHANITE.get())));
 	public static final RegistryObject<Item> POLISHED_GLAUCOPHANITE_STAIRS_ITEM = ITEMS.register("polished_glaucophanite_stairs", () -> new BlockItem(POLISHED_GLAUCOPHANITE_STAIRS.get(), new Item.Properties()));
 	public static final RegistryObject<StairBlock> MAGMATIC_GEL_STAIRS = BLOCKS.register("magmatic_gel_stairs", () -> new StairBlock(MAGMATIC_GEL_BLOCK.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(MAGMATIC_GEL_BLOCK.get())));

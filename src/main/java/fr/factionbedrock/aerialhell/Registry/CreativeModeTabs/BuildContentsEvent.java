@@ -151,6 +151,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.CUT_SLIPPERY_SAND_STONE_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_GLASS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS_ITEM.get());
@@ -287,6 +288,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_WALL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_WALL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_WALL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_WALL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GLAUCOPHANITE_WALL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.POLISHED_GLAUCOPHANITE_WALL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MAGMATIC_GEL_WALL_ITEM.get());
@@ -365,6 +367,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_SLAB_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_SLAB_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_SLAB_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_SLAB_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.POLISHED_GLAUCOPHANITE_SLAB_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MAGMATIC_GEL_SLAB_ITEM.get());
 
@@ -383,6 +386,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_STAIRS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_STAIRS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_STAIRS_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_STAIRS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.POLISHED_GLAUCOPHANITE_STAIRS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MAGMATIC_GEL_STAIRS_ITEM.get());
 
