@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
@@ -58,6 +59,16 @@ public class CoreProtectedStairsBlock extends StairBlock
 			int i = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(state, player) ? 30 : 100;
 			return player.getDigSpeed(state, pos) / f / (float)i;
 		}
+	}
+
+	public Block getCrackedVariant()
+	{
+		if (this == AerialHellBlocksAndItems.MUD_BRICKS_STAIRS.get()) {return AerialHellBlocksAndItems.CRACKED_MUD_BRICKS_STAIRS.get();}
+		else if (this == AerialHellBlocksAndItems.LUNATIC_STONE_STAIRS.get()) {return AerialHellBlocksAndItems.CRACKED_LUNATIC_STONE_STAIRS.get();}
+		else if (this == AerialHellBlocksAndItems.SHADOW_CATACOMBS_BRICKS_STAIRS.get()) {return AerialHellBlocksAndItems.CRACKED_SHADOW_CATACOMBS_BRICKS_STAIRS.get();}
+		else if (this == AerialHellBlocksAndItems.GOLDEN_NETHER_BRICKS_STAIRS.get()) {return AerialHellBlocksAndItems.CRACKED_GOLDEN_NETHER_BRICKS_STAIRS.get();}
+		else if (this == AerialHellBlocksAndItems.VOLUCITE_STONE_STAIRS.get()) {return AerialHellBlocksAndItems.CRACKED_VOLUCITE_STONE_STAIRS.get();}
+		else {return this;}
 	}
 }
 

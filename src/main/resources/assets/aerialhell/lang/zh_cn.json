@@ -1050,5 +1050,7 @@
   "subtitles.aerialhell.block.aerial_hell_portal.ambient": "Aerial Hell Portal ambient",
 
   "item.aerialhell.block_updater" : "Block Updater",
-  "item.aerialhell.block_updater.desc" : "nicochart's tool for building structures for Aerial Hell"
+  "item.aerialhell.block_updater.desc" : "nicochart's Block Updater (hold in main hand)",
+  "item.aerialhell.block_cracker" : "Block Cracker",
+  "item.aerialhell.block_cracker.desc" : "nicochart's Block Cracker (right click)"
 }

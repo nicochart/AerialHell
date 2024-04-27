@@ -1550,4 +1550,5 @@ public class AerialHellBlocksAndItems
 
     //build items
     public static final RegistryObject<Item> BLOCK_UPDATER = ITEMS.register("block_updater", () -> new BlockUpdaterItem(new Item.Properties()));
+    public static final RegistryObject<Item> BLOCK_CRACKER = ITEMS.register("block_cracker", () -> new BlockCrackerItem(new Item.Properties()));
 }
