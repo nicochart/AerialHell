@@ -790,6 +790,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SKY_CACTUS_ITEM = ITEMS.register("sky_cactus", () -> new BlockItem(SKY_CACTUS.get(), new Item.Properties()));
 	public static final RegistryObject<Block> SKY_CACTUS_FIBER_PLANKS = BLOCKS.register("sky_cactus_fiber_planks", () -> new Block(SKY_CACTUS_FIBER_MATERIAL));
 	public static final RegistryObject<Item> SKY_CACTUS_FIBER_PLANKS_ITEM = ITEMS.register("sky_cactus_fiber_planks", () -> new BlockItem(SKY_CACTUS_FIBER_PLANKS.get(), new Item.Properties()));
+	public static final RegistryObject<Block> SKY_CACTUS_FIBER_BOOKSHELF = BLOCKS.register("sky_cactus_fiber_bookshelf", () -> new AerialHellBookshelfBlock(BlockBehaviour.Properties.ofFullCopy(SKY_CACTUS_FIBER_PLANKS.get())));
+	public static final RegistryObject<Item> SKY_CACTUS_FIBER_BOOKSHELF_ITEM = ITEMS.register("sky_cactus_fiber_bookshelf", () -> new BlockItem(SKY_CACTUS_FIBER_BOOKSHELF.get(), new Item.Properties()));
 	public static final RegistryObject<SkyCactusBlock> VIBRANT_SKY_CACTUS = BLOCKS.register("vibrant_sky_cactus", () -> new SkyCactusBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE).strength(0.4F).sound(SoundType.WOOL).randomTicks().lightLevel(s -> 15).noOcclusion()));
 	public static final RegistryObject<Item> VIBRANT_SKY_CACTUS_ITEM = ITEMS.register("vibrant_sky_cactus", () -> new BlockItem(VIBRANT_SKY_CACTUS.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT)));
 	public static final RegistryObject<Block> VIBRANT_SKY_CACTUS_FIBER_LANTERN = BLOCKS.register("vibrant_sky_cactus_fiber_lantern", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ).strength(0.5F).sound(SoundType.GLASS).noOcclusion().lightLevel(s -> 15)));

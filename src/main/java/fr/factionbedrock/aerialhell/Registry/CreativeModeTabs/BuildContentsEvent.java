@@ -222,6 +222,7 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_PLANKS_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_BOOKSHELF_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_FIBER_LANTERN_ITEM.get());
 
