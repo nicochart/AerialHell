@@ -1,11 +1,11 @@
 {
-  "name": "aerialhell:upside_down_pyramid/start_pool",
+  "name": "aerialhell:upside_down_pyramid/pyramid_top",
   "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 1,
       "element": {
-        "location": "aerialhell:upside_down_pyramid/pyramid_top",
+        "location": "aerialhell:upside_down_pyramid/top_star",
         "processors": "minecraft:empty",
 	"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
