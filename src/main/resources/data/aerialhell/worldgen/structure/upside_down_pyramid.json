@@ -11,6 +11,12 @@
           "weight": 2,
           "minCount": 3,
           "maxCount": 5
+        },
+        {
+          "type": "aerialhell:mummy",
+          "weight": 1,
+          "minCount": 3,
+          "maxCount": 5
         }
       ]
     }

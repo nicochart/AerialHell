@@ -12,7 +12,7 @@
       }
     },
     {
-      "weight": 10,
+      "weight": 1,
       "element": {
         "location": "aerialhell:upside_down_pyramid/top_multicut_star",
         "processors": "minecraft:empty",
