@@ -1,5 +1,7 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import fr.factionbedrock.aerialhell.Entity.Monster.MummyEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Snake.AbstractSnakeEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,10 +22,10 @@ public class ThornyWebBlock extends WebBlock
 	
 	private boolean isEntityImmuneToDamage(Entity entityIn)
 	{
-		return ((entityIn instanceof Spider) || EntityHelper.isShadowEntity(entityIn) || EntityHelper.isMudEntity(entityIn));
+		return ((entityIn instanceof Spider) || entityIn instanceof MummyEntity || EntityHelper.isShadowEntity(entityIn) || EntityHelper.isMudEntity(entityIn));
 	}
 	
-	private boolean isEntityImmuneToCollision(Entity entityIn) {return entityIn instanceof Spider || EntityHelper.isShadowEntity(entityIn);}
+	private boolean isEntityImmuneToCollision(Entity entityIn) {return entityIn instanceof AbstractSnakeEntity || entityIn instanceof Spider || EntityHelper.isShadowEntity(entityIn);}
 	
 	@Override
 	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn)

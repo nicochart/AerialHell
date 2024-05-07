@@ -121,7 +121,7 @@ public class EntityHelper
 
     public static boolean isImmuneToSkyCactusCollision(Entity entity)
     {
-        boolean isImmune = entity instanceof SandySheepEntity || entity instanceof KodamaEntity || entity instanceof AbstractSnakeEntity || entity instanceof AbstractAerialHellSpiderEntity || isFeatheryEntity(entity);
+        boolean isImmune = entity instanceof SandySheepEntity || entity instanceof KodamaEntity || entity instanceof AbstractSnakeEntity || entity instanceof MummyEntity || entity instanceof AbstractAerialHellSpiderEntity || isFeatheryEntity(entity);
         return isImmune;
     }
 
