@@ -40,7 +40,7 @@ public class MummyEntity extends AbstractHumanoidMonster
 
     public static AttributeSupplier.Builder registerAttributes()
     {
-        return AbstractHumanoidMonster.registerAttributes(38.0D, 5.0D, 0.23D, 35.0D);
+        return AbstractHumanoidMonster.registerAttributes(22.0D, 3.0D, 0.22D, 35.0D);
     }
     
     @Override protected SoundEvent getAmbientSound(){return SoundEvents.HUSK_AMBIENT;}

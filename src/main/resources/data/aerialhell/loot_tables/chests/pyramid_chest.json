@@ -1,7 +1,7 @@
 {
   "pools": [
     {
-      "rolls": 1,
+      "rolls": 2,
       "entries": [
 	{
           "type": "item",
@@ -17,16 +17,16 @@
             }
           ]
         },
-	{
+        {
           "type": "item",
-          "name": "minecraft:raw_gold",
+          "name": "aerialhell:sky_cactus_fiber",
           "weight": 1,
           "functions": [
             {
               "function": "set_count",
               "count": {
-                "min": 4,
-                "max": 8
+                "min": 3,
+                "max": 6
               }
             }
           ]
@@ -47,7 +47,7 @@
         },
         {
           "type": "item",
-          "name": "aerialhell:aerial_berry",
+          "name": "aerialhell:roasted_aerial_berry",
           "weight": 1,
           "functions": [
             {
@@ -61,35 +61,7 @@
         },
         {
           "type": "item",
-          "name": "aerialhell:aerial_berry_seeds",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 4
-              }
-            }
-          ]
-        },
-        {
-          "type": "item",
-          "name": "aerialhell:vibrant_aerial_berry_seeds",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 3
-              }
-            }
-          ]
-        },
-        {
-          "type": "item",
-          "name": "aerialhell:ruby",
+          "name": "aerialhell:stellar_wheat",
           "weight": 1,
           "functions": [
             {
@@ -104,7 +76,7 @@
       ]
     },
     {
-      "rolls": 1,
+      "rolls": 2,
       "entries": [
 	{
           "type": "item",
@@ -134,23 +106,23 @@
             }
           ]
         },
-        {
+	{
           "type": "item",
-          "name": "minecraft:gold_ingot",
+          "name": "minecraft:raw_gold",
           "weight": 1,
           "functions": [
             {
               "function": "set_count",
               "count": {
-                "min": 2,
-                "max": 4
+                "min": 4,
+                "max": 8
               }
             }
           ]
         },
         {
           "type": "item",
-          "name": "minecraft:iron_ingot",
+          "name": "aerialhell:ruby",
           "weight": 1,
           "functions": [
             {

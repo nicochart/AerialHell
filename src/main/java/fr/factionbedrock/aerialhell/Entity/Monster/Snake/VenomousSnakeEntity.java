@@ -30,8 +30,8 @@ public class VenomousSnakeEntity extends AbstractSnakeEntity
     public static AttributeSupplier.Builder registerAttributes()
     {
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 40.0D)
-                .add(Attributes.ATTACK_DAMAGE, 5.0D)
+                .add(Attributes.MAX_HEALTH, 20.0D)
+                .add(Attributes.ATTACK_DAMAGE, 3.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.23D)
                 .add(Attributes.FOLLOW_RANGE, 35.0D);
     }

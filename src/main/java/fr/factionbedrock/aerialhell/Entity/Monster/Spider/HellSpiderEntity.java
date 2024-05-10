@@ -16,9 +16,11 @@ import net.minecraft.world.level.Level;
 
 public class HellSpiderEntity extends AbstractAerialHellSpiderEntity
 {
+    private int timeNoThorns;
     public HellSpiderEntity(EntityType<? extends Spider> type, Level worldIn)
     {
         super(type, worldIn);
+        this.timeNoThorns = 0;
     }
     
     @Override
@@ -38,19 +40,33 @@ public class HellSpiderEntity extends AbstractAerialHellSpiderEntity
                 .add(Attributes.ARMOR, 0)
                 .add(Attributes.MAX_HEALTH, 32);
     }
-    
-    @Override
-    public boolean hurt(DamageSource source, float amount)
+
+    @Override public void tick()
     {
-        if (!source.is(DamageTypes.MAGIC) && source.getDirectEntity() instanceof LivingEntity)
+        if (this.invalidTimeNoThorns()) {this.timeNoThorns = 0;}
+        else if (this.timeNoThorns > 0) {this.timeNoThorns--;}
+        super.tick();
+    }
+
+    private boolean invalidTimeNoThorns()
+    {
+        return this.timeNoThorns < 0 || this.timeNoThorns > 45;
+    }
+
+    @Override public boolean hurt(DamageSource source, float amount)
+    {
+        boolean flag = super.hurt(source, amount);
+
+        if (flag && !source.is(DamageTypes.MAGIC) && source.getDirectEntity() instanceof LivingEntity livingentity)
         {
-        	LivingEntity livingentity = (LivingEntity)source.getDirectEntity();
-        	if (!source.is(DamageTypes.EXPLOSION))
+            boolean hasNoThorns = this.timeNoThorns > 0;
+        	if (!hasNoThorns && !source.is(DamageTypes.EXPLOSION))
         	{
         		livingentity.hurt(this.damageSources().thorns(this), 2.0F);
             }
+            this.timeNoThorns = hasNoThorns ? 30 : 45;
         }
         
-        return super.hurt(source, amount);
+        return flag;
     }
 }
