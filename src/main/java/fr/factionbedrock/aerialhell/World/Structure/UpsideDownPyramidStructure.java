@@ -15,11 +15,14 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
 public class UpsideDownPyramidStructure extends AbstractAerialHellStructure
 {
+    private static final int MIN_GEN_HEIGHT = 30;
+
     public static final Codec<UpsideDownPyramidStructure> CODEC = RecordCodecBuilder.<UpsideDownPyramidStructure>mapCodec(instance ->
             instance.group(UpsideDownPyramidStructure.settingsCodec(instance),
                     StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
@@ -50,7 +53,7 @@ public class UpsideDownPyramidStructure extends AbstractAerialHellStructure
         int middleHeight = getTerrainHeight(context, ChunkCoordinateType.CHUNK_MIDDLE_COORDINATE);
 
         int y = middleHeight;
-        while (y > 30)
+        while (y > MIN_GEN_HEIGHT)
         {
             if (middleColumn.getBlock(y).isAir()) {return y;}
             y--;
@@ -58,16 +61,14 @@ public class UpsideDownPyramidStructure extends AbstractAerialHellStructure
         return -1;
     }
 
-    @Override protected boolean isStructureChunk(GenerationContext context)
-    {
-        return getTerrainHeight(context) > 30;
-    }
+    @Override protected boolean isStructureChunk(GenerationContext context) {return getTerrainHeight(context) > MIN_GEN_HEIGHT;}
 
-    @Override protected BlockPos findStructureCenter(GenerationContext context)
+    @Override @Nullable protected BlockPos findStructureCenter(GenerationContext context)
     {
         int sampledStartHeight = this.startHeight.sample(context.random(), new WorldGenerationContext(context.chunkGenerator(), context.heightAccessor()));
 
         int startY = this.projectStartToHeightmap.isPresent() ? getGenerationHeight(context) + sampledStartHeight : sampledStartHeight;
+        if (startY < MIN_GEN_HEIGHT) {return null;}
 
         return new BlockPos(context.chunkPos().getMiddleBlockX(), startY, context.chunkPos().getMiddleBlockZ());
     }

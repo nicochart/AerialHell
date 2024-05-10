@@ -13,6 +13,7 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasBinding;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
@@ -131,6 +132,7 @@ public abstract class AbstractAerialHellStructure extends Structure
         if (!this.isStructureChunk(context)) {return Optional.empty();}
 
         BlockPos structureCenter = findStructureCenter(context);
+        if (structureCenter == null) {return Optional.empty();}
 
         Optional<Structure.GenerationStub> structurePiecesGenerator =
                 JigsawPlacement.addPieces(
@@ -147,7 +149,7 @@ public abstract class AbstractAerialHellStructure extends Structure
         return structurePiecesGenerator;
     }
 
-    protected BlockPos findStructureCenter(Structure.GenerationContext context)
+    @Nullable protected BlockPos findStructureCenter(Structure.GenerationContext context)
     {
         ChunkPos chunkPos = context.chunkPos();
 
