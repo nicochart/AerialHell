@@ -19,6 +19,7 @@ public class WormEntity extends AbstractSnakeEntity
 
     @Override protected BodyPartDeathReaction getBodyPartDeathReaction() {return BodyPartDeathReaction.SPLIT_IF_NOT_HEAD;}
     @Override protected IntProvider getLength() {return UniformInt.of(10,24);}
+    @Override protected int getMinLength() {return 2;}
 
     public static AttributeSupplier.Builder registerAttributes()
     {

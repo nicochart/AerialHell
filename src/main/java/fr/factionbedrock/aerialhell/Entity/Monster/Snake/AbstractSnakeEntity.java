@@ -22,6 +22,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -45,6 +46,8 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
     private static final EntityDataAccessor<Integer> BODY_PART_ID = SynchedEntityData.<Integer>defineId(AbstractSnakeEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_CUT = SynchedEntityData.<Boolean>defineId(AbstractSnakeEntity.class, EntityDataSerializers.BOOLEAN);
     protected boolean reverseDrag;
+    protected int timeInInvalidSituation;
+    private static final int MAX_TIME_IN_INVALID_SITUATION = 20; //in tick
 
     public AbstractSnakeEntity(EntityType<? extends AbstractSnakeEntity> type, Level world)
     {
@@ -55,10 +58,12 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         this.reverseDrag = false;
         this.bodyPartDeathReaction = this.getBodyPartDeathReaction();
         this.length = this.getLength().sample(this.getRandom());
+        this.timeInInvalidSituation = 0;
     }
 
     protected abstract BodyPartDeathReaction getBodyPartDeathReaction();
     protected abstract IntProvider getLength();
+    protected abstract int getMinLength(); //if the actual length of the snake is below minLength, the snake will die
 
     public int getBodyPartId() {return this.entityData.get(BODY_PART_ID);}
     protected void setBodyPartId(int id) {this.entityData.set(BODY_PART_ID, id);}
@@ -86,6 +91,13 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
             if (entity.getStringUUID().equals(stringUUID)) {return entity;}
         }
         return null;
+    }
+
+    public int countNextBodyParts() {return this.countNextBodyParts(0);}
+
+    public int countNextBodyParts(int previousCount)
+    {
+        return (this.nextBodyPart != null) ? this.nextBodyPart.countNextBodyParts(previousCount + 1) : previousCount;
     }
 
     public AbstractSnakeEntity getTailBodyPart()
@@ -145,6 +157,15 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
             {
                 this.sendDragDirection(shouldReverseDrag ? SendDirection.FORWARD : SendDirection.BACKWARD, SendDirection.BACKWARD, this);
             }
+        }
+
+        if (!this.isHead() && (this.previousBodyPart == null || this.distanceTo(this.previousBodyPart) > 2.0F)) {this.timeInInvalidSituation++;}
+        else if (this.isHead() && this.countNextBodyParts() + 1 < this.getMinLength()) {this.timeInInvalidSituation++;}
+        else {this.timeInInvalidSituation = 0;}
+
+        if (this.timeInInvalidSituation > MAX_TIME_IN_INVALID_SITUATION)
+        {
+            this.hurt(damageSources().fellOutOfWorld(), this.getMaxHealth());
         }
 
         if (!this.onGround())
@@ -470,9 +491,21 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
 
     protected float defaultKbStrength() {return 0.4F;}
     protected boolean shouldPlayHurtOrDeathSoundOnHurt() {return this.isHead();}
+    protected boolean shouldPlayAmbientSound() {return this.isHead();}
     protected boolean shouldApplyKbOnHurt() {return true;}
 
-    @Nullable @Override protected SoundEvent getAmbientSound(){return this.isHead() ? AerialHellSoundEvents.ENTITY_SNAKE_AMBIENT.get() : null;}
+    @Override public void playAmbientSound() {if (this.shouldPlayAmbientSound()) {super.playAmbientSound();}}
+    @Override protected void playStepSound(BlockPos pos, BlockState state)
+    {
+        if (this.isHead()) {super.playStepSound(pos, state);}
+        else if (this.random.nextFloat() < 0.2F) //if is not head : 20% chance to play sound anyway, but with 15x lower volume
+        {
+            SoundType soundtype = state.getSoundType(this.level(), pos, this);
+            this.playSound(soundtype.getStepSound(), soundtype.getVolume() * 0.1F, soundtype.getPitch());
+        }
+    }
+
+    @Nullable @Override protected SoundEvent getAmbientSound(){return AerialHellSoundEvents.ENTITY_SNAKE_AMBIENT.get();}
     @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_SNAKE_HURT.get();}
     @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_SNAKE_DEATH.get();}
 }

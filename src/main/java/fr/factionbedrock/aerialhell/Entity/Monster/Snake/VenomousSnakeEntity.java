@@ -16,6 +16,7 @@ public class VenomousSnakeEntity extends AbstractSnakeEntity
 
     @Override protected BodyPartDeathReaction getBodyPartDeathReaction() {return BodyPartDeathReaction.LOOSE_TAIL;}
     @Override protected IntProvider getLength() {return UniformInt.of(14,20);}//{return ConstantInt.of(16);}
+    @Override protected int getMinLength() {return 3;}
 
     @Override public boolean doHurtTarget(Entity attackedEntity)
     {
