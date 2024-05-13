@@ -25,6 +25,7 @@ public class AerialHellSetup
         	AerialHellEntities.entitySpawnPlacements();
         	AerialHellBlocksAndItems.registerPots();
         	AerialHellBlocksAndItems.registerAxeStrippingBlocks();
+        	AerialHellBrewingRecipes.registerBrewingRecipes();
         });
     }
 	
