@@ -776,6 +776,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_BOWL.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_SHARD.get());
             itemsToAdd.add(AerialHellBlocksAndItems.ROTTEN_LEATHER.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.VENOMOUS_SNAKE_SKIN.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.IRON_LIQUID_OF_GODS_BUCKET.get());
             itemsToAdd.add(AerialHellBlocksAndItems.RUBY_LIQUID_OF_GODS_BUCKET.get());

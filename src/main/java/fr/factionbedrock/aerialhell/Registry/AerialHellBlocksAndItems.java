@@ -1283,6 +1283,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SKY_BOWL = ITEMS.register("sky_bowl",() -> new BurnableItem(new Item.Properties(), 200));
 	public static final RegistryObject<Item> SHADOW_SHARD = ITEMS.register("shadow_shard",() -> new Item(new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
 	public static final RegistryObject<Item> ROTTEN_LEATHER = ITEMS.register("rotten_leather",() -> new Item(new Item.Properties()));
+	public static final RegistryObject<Item> VENOMOUS_SNAKE_SKIN = ITEMS.register("venomous_snake_skin",() -> new Item(new Item.Properties()));
 	public static final RegistryObject<Item> ARSONIST_UPGRADE_SMITHING_TEMPLATE = ITEMS.register("arsonist_upgrade_smithing_template", () -> ItemHelper.SmithingTemplate.createUpgradeTemplate("arsonist"));
 
 	//projectile item
@@ -1435,7 +1436,7 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<SwordItem> VOLUCITE_SWORD = ITEMS.register("volucite_sword", () -> new EffectSwordItem(ToolMaterials.volucite, 3, -2.4F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
     public static final RegistryObject<SwordItem> LUNATIC_SWORD = ITEMS.register("lunatic_sword", () -> new SwordItem(ToolMaterials.lunatic, 3, -2.4F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
     public static final RegistryObject<SwordItem> ARSONIST_SWORD = ITEMS.register("arsonist_sword", () -> new AerialHellSwordItem(ToolMaterials.arsonist, 3, -2.4F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
-    
+
     public static final RegistryObject<SwordItem> HEAVY_SWORD = ITEMS.register("heavy_sword", () -> new AerialHellSwordItem(ToolMaterials.heavy, 3, -2.7F, -0.30F, 0.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC)));
     public static final RegistryObject<SwordItem> HEALTH_BOOST_SWORD = ITEMS.register("health_boost_sword", () -> new AerialHellSwordItem(ToolMaterials.lunatic, 2, -2.4F, 0.0F, 4.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC)));
     public static final RegistryObject<SwordItem> NINJA_SWORD = ITEMS.register("ninja_sword", () -> new EffectSwordItem(ToolMaterials.obsidian, 2, -1.6F, 0.15F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.LEGENDARY)));

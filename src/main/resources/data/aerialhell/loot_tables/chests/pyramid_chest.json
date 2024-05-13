@@ -72,6 +72,20 @@
               }
             }
           ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:venomous_snake_skin",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
         }
       ]
     },
