@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/flower_pot_cross",
+  "parent": "aerialhell:block/flower_pot_tinted_cross",
   "textures": {
     "plant": "aerialhell:block/stellar_fern"
   }

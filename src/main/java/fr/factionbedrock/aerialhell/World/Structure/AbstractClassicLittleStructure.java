@@ -18,7 +18,7 @@ public abstract class AbstractClassicLittleStructure extends AbstractAerialHellS
         super(config, startPool, startJigsawName, size, startHeight, projectStartToHeightmap, maxDistanceFromCenter);
     }
 
-    protected boolean isStructureChunk(Structure.GenerationContext context)
+    @Override protected boolean isStructureChunk(Structure.GenerationContext context)
     {
     	//cannot spawn next to another structure
     	if (StructureHelper.hasDungeonNearby(context, 150, true, 100)) {return false;}

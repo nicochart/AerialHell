@@ -128,7 +128,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	@Override public boolean tryDying(DamageSource damageSource)
 	{
-		if (damageSource.is(DamageTypes.GENERIC_KILL))
+		if (damageSource != null && damageSource.is(DamageTypes.GENERIC_KILL))
 		{
 			this.setHealth(0.0F);
 			this.playFastDeathSound();
@@ -150,7 +150,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		else
 		{
 			this.setHealth(0.0F);
-			this.die(damageSource);
+			this.die(damageSource == null ? this.damageSources().generic() : damageSource);
 			return true;
 		}
 	}
@@ -224,13 +224,13 @@ public class ChainedGodEntity extends AbstractBossEntity
 			this.runTransitionEffect();
 			float newHealth = this.getHealth() + 7.5F;
 			if (newHealth < this.getMaxHealth()) {this.setHealth(newHealth);}
-			else {tryDying(this.lastDamageSource);}
+			else {tryDying(this.lastDamageSource == null ? this.damageSources().generic() : this.lastDamageSource);}
 		}
 		else if (this.isDying() || this.isDead())
 		{
 			this.runRoarEffects();
 			this.timeDying++;
-			if (this.timeDying > 140) {this.tryDying(this.lastDamageSource);}
+			if (this.timeDying > 140) {this.tryDying(this.lastDamageSource == null ? this.damageSources().generic() : this.lastDamageSource);}
 		}
 		else {this.timeDying = 0;}
     }
