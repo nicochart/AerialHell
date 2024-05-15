@@ -191,7 +191,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	{
 		this.runRoarEffects();
 		this.timeDying++;
-		if (this.timeDying > 140) {this.tryDying(this.lastDamageSource);}
+		if (this.timeDying > 140) {this.tryDying(this.lastDamageSource == null ? this.damageSources().generic() : this.lastDamageSource);}
 	}
 
 	@Override public void tickDeadPhase() {this.tickDyingPhase();}

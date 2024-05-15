@@ -61,7 +61,8 @@ public class BlocksAndItemsColorHandler
                 AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS.get(),
                 AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_WALL.get(),
                 AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB.get(),
-                AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS.get()
+                AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS.get(),
+                AerialHellBlocksAndItems.POTTED_STELLAR_FERN.get()
         );
 
         event.getBlockColors().register((state, level, pos, tint) -> getCustomColor(state, tint, level, pos),
