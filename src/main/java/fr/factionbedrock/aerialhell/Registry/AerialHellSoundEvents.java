@@ -33,6 +33,11 @@ public class AerialHellSoundEvents
 	public static final RegistryObject<SoundEvent> ENTITY_WORM_HURT = register("entity.worm.hurt");
 	public static final RegistryObject<SoundEvent> ENTITY_WORM_DEATH = register("entity.worm.death");
 
+	public static final RegistryObject<SoundEvent> ENTITY_SLIME_PIRATE_AMBIENT = register("entity.slime_pirate.ambient");
+	public static final RegistryObject<SoundEvent> ENTITY_SLIME_PIRATE_HURT = register("entity.slime_pirate.hurt");
+	public static final RegistryObject<SoundEvent> ENTITY_SLIME_PIRATE_DEATH = register("entity.slime_pirate.death");
+	public static final RegistryObject<SoundEvent> ENTITY_SLIME_PIRATE_STEP = register("entity.slime_pirate.step");
+
 	public static final RegistryObject<SoundEvent> ENTITY_KODAMA_RATTLE = register("entity.kodama.rattle");
 	public static final RegistryObject<SoundEvent> ENTITY_KODAMA_AMBIENT = register("entity.kodama.ambient");
 	public static final RegistryObject<SoundEvent> ENTITY_KODAMA_HURT = register("entity.kodama.hurt");

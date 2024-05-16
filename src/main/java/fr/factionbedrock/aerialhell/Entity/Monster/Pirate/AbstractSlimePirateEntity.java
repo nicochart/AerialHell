@@ -1,9 +1,9 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
 import fr.factionbedrock.aerialhell.Entity.Monster.AbstractHumanoidMonster;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -51,8 +51,8 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
         return AbstractHumanoidMonster.registerAttributes(40.0D, 5.0D, 0.23D, 35.0D);
     }
     
-    @Override protected SoundEvent getAmbientSound(){return SoundEvents.SLIME_SQUISH;}
-    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return SoundEvents.SLIME_HURT;}
-    @Override protected SoundEvent getDeathSound() {return SoundEvents.SLIME_DEATH;}
-    @Override protected void playStepSound(BlockPos pos, BlockState blockIn) {this.playSound(SoundEvents.SLIME_BLOCK_STEP, 0.15F, 0.5F);}
+    @Override protected SoundEvent getAmbientSound(){return AerialHellSoundEvents.ENTITY_SLIME_PIRATE_AMBIENT.get();}
+    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_SLIME_PIRATE_HURT.get();}
+    @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_SLIME_PIRATE_DEATH.get();}
+    @Override protected void playStepSound(BlockPos pos, BlockState blockIn) {this.playSound(AerialHellSoundEvents.ENTITY_SLIME_PIRATE_STEP.get(), 0.15F, 0.5F);}
 }
