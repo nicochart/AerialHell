@@ -476,6 +476,7 @@
   "block.aerialhell.volucite_torch" : "Volucite Torch",
   "block.aerialhell.lunatic_lantern" : "Lunar Lantern",
   "block.aerialhell.lunatic_chain" : "Lunar Chain",
+  "block.aerialhell.glyph_block" : "Glyph Block",
   "block.aerialhell.ruby_ore" : "Ruby Ore",
   "item.aerialhell.ruby" : "Ruby",
   "item.aerialhell.raw_ruby" : "Raw Ruby",

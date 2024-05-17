@@ -537,6 +537,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_CATACOMBS_BOOKSHELF_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VOLUCITE_BOOKSHELF_ITEM.get());
 
+            itemsToAdd.add(AerialHellBlocksAndItems.GLYPH_BLOCK_ITEM.get());
+
             itemsToAdd.add(AerialHellBlocksAndItems.MUD_CHEST_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LUNATIC_CHEST_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VOLUCITE_CHEST_ITEM.get());

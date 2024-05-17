@@ -66,7 +66,8 @@ public class BlocksAndItemsColorHandler
         );
 
         event.getBlockColors().register((state, level, pos, tint) -> getCustomColor(state, tint, level, pos),
-                AerialHellBlocksAndItems.STELLAR_PODZOL.get()
+                AerialHellBlocksAndItems.STELLAR_PODZOL.get(),
+                AerialHellBlocksAndItems.GLYPH_BLOCK.get()
         );
     }
 
@@ -99,6 +100,10 @@ public class BlocksAndItemsColorHandler
                     if (state.getBlock() == AerialHellBlocksAndItems.STELLAR_PODZOL.get())
                     {
                         return new Color((int) Math.min(255, r * 1.5), (int) (g / 1.5), b).getRGB();
+                    }
+                    else if (state.getBlock() == AerialHellBlocksAndItems.GLYPH_BLOCK.get())
+                    {
+                        return new Color(167, 113, 7).getRGB();
                     }
                 }
                 case 1 : return BiomeColors.getAverageFoliageColor(level, pos);

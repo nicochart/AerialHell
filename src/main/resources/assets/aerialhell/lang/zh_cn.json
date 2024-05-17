@@ -476,6 +476,7 @@
   "block.aerialhell.volucite_torch" : "蓝辉石火把",
   "block.aerialhell.lunatic_lantern" : "月光灯笼",
   "block.aerialhell.lunatic_chain" : "月光锁链",
+  "block.aerialhell.glyph_block" : "Glyph Block",
   "block.aerialhell.ruby_ore" : "红宝石矿石",
   "item.aerialhell.ruby" : "红宝石",
   "item.aerialhell.raw_ruby" : "Raw Ruby",

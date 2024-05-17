@@ -709,6 +709,10 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_CATACOMBS_BOOKSHELF_ITEM = ITEMS.register("shadow_catacombs_bookshelf", () -> new BlockItem(SHADOW_CATACOMBS_BOOKSHELF.get(), new Item.Properties()));
 	public static final RegistryObject<Item> VOLUCITE_BOOKSHELF_ITEM = ITEMS.register("volucite_bookshelf", () -> new BlockItem(VOLUCITE_BOOKSHELF.get(), new Item.Properties()));
 
+	//glyph blocks
+	public static final RegistryObject<Block> GLYPH_BLOCK = BLOCKS.register("glyph_block", () -> new GlyphBlock(BlockBehaviour.Properties.ofFullCopy(MUD_BRICKS.get())));
+	public static final RegistryObject<Item> GLYPH_BLOCK_ITEM = ITEMS.register("glyph_block", () -> new BlockItem(GLYPH_BLOCK.get(), new Item.Properties()));
+
 	//trophies
 	public static final RegistryObject<Block> MUD_CYCLE_MAGE_TROPHY = BLOCKS.register("mud_cycle_mage_trophy", () -> new BottomSlabLikeTrophyBlock(BlockBehaviour.Properties.ofFullCopy(LUNATIC_STONE.get()).requiresCorrectToolForDrops()));
 	public static final RegistryObject<Block> LUNAR_PRIEST_TROPHY = BLOCKS.register("lunar_priest_trophy", () -> new BottomSlabLikeTrophyBlock(BlockBehaviour.Properties.ofFullCopy(LUNATIC_STONE.get()).requiresCorrectToolForDrops()));
