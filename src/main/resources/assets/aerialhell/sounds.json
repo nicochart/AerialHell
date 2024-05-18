@@ -526,6 +526,14 @@
     "subtitle": "subtitles.aerialhell.entity.shadow_projectile.shoot",
     "sounds": ["aerialhell:projectile/shadow_projectile/shoot"]
   },
+  "block.glyph_block.interact": {
+    "subtitle": "subtitles.aerialhell.block.glyph_block.interact",
+    "sounds": [
+      "aerialhell:block/glyph_block/interact1",
+      "aerialhell:block/glyph_block/interact2",
+      "aerialhell:block/glyph_block/interact3"
+    ]
+  },
   "block.trapped_block.step": {
     "subtitle": "subtitles.aerialhell.block.trapped_block.step",
     "sounds": [

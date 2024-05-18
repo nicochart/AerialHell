@@ -1055,6 +1055,7 @@
   "subtitles.aerialhell.entity.lunatic_projectile.shoot": "Projectile Lunatique tiré",
   "subtitles.aerialhell.entity.lunatic_projectile.disappear": "Projectile Lunatique disparaît",
   "subtitles.aerialhell.entity.shadow_projectile.shoot": "Projectile des Ombres tiré",
+  "subtitles.aerialhell.block.glyph_block.interact": "Interaction avec le Bloc de Glyphe",
   "subtitles.aerialhell.block.trapped_block.step": "Bloc piégé",
   "subtitles.aerialhell.block.bone_pile_block.step_break": "Tas d'os détruit",
   "subtitles.aerialhell.item.forgotten_battle_trident.use": "Usage du Trident de Guerre Oublié",

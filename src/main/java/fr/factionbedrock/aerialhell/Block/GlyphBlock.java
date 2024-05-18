@@ -1,6 +1,9 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -32,6 +35,7 @@ public class GlyphBlock extends Block
 		{
 			int newIndex = getNextIndex(state.getValue(GLYPH_INDEX), player);
 			level.setBlockAndUpdate(pos, state.setValue(GLYPH_INDEX, newIndex));
+			level.playSound(player, pos, this.getInteractSound(state, level, pos, player), SoundSource.BLOCKS, 1.0F, 0.9F + (0.2F * level.random.nextFloat()));
 			return InteractionResult.SUCCESS;
 		}
 		return InteractionResult.PASS;
@@ -42,4 +46,6 @@ public class GlyphBlock extends Block
 		if (interactingPlayer != null && interactingPlayer.isShiftKeyDown()) {return previousIndex == 0 ? GLYPH_MAX_INDEX : previousIndex - 1;}
 		else {return previousIndex < GLYPH_MAX_INDEX ? previousIndex + 1 : 0;}
 	}
+
+	protected SoundEvent getInteractSound(BlockState state, Level level, BlockPos pos, Player entity) {return AerialHellSoundEvents.GLYPH_BLOCK_INTERACT.get();}
 }

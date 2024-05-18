@@ -710,15 +710,15 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> VOLUCITE_BOOKSHELF_ITEM = ITEMS.register("volucite_bookshelf", () -> new BlockItem(VOLUCITE_BOOKSHELF.get(), new Item.Properties()));
 
 	//glyph blocks
-	public static final RegistryObject<Block> MUD_GLYPH_BLOCK = BLOCKS.register("mud_glyph_block", () -> new GlyphBlock(BlockBehaviour.Properties.ofFullCopy(MUD_BRICKS.get()).lightLevel((state) -> 9)));
+	public static final RegistryObject<Block> MUD_GLYPH_BLOCK = BLOCKS.register("mud_glyph_block", () -> new CoreProtectedGlyphBlock(BlockBehaviour.Properties.ofFullCopy(MUD_BRICKS.get()).lightLevel((state) -> 9)));
 	public static final RegistryObject<Item> MUD_GLYPH_BLOCK_ITEM = ITEMS.register("mud_glyph_block", () -> new BlockItem(MUD_GLYPH_BLOCK.get(), new Item.Properties()));
-	public static final RegistryObject<Block> LUNATIC_GLYPH_BLOCK = BLOCKS.register("lunatic_glyph_block", () -> new GlyphBlock(BlockBehaviour.Properties.ofFullCopy(LUNATIC_STONE.get()).lightLevel((state) -> 9)));
+	public static final RegistryObject<Block> LUNATIC_GLYPH_BLOCK = BLOCKS.register("lunatic_glyph_block", () -> new CoreProtectedGlyphBlock(BlockBehaviour.Properties.ofFullCopy(LUNATIC_STONE.get()).lightLevel((state) -> 9)));
 	public static final RegistryObject<Item> LUNATIC_GLYPH_BLOCK_ITEM = ITEMS.register("lunatic_glyph_block", () -> new BlockItem(LUNATIC_GLYPH_BLOCK.get(), new Item.Properties()));
-	public static final RegistryObject<Block> GOLDEN_NETHER_PRISON_GLYPH_BLOCK = BLOCKS.register("golden_nether_prison_glyph_block", () -> new GlyphBlock(BlockBehaviour.Properties.ofFullCopy(GOLDEN_NETHER_BRICKS.get()).lightLevel((state) -> 9)));
+	public static final RegistryObject<Block> GOLDEN_NETHER_PRISON_GLYPH_BLOCK = BLOCKS.register("golden_nether_prison_glyph_block", () -> new CoreProtectedGlyphBlock(BlockBehaviour.Properties.ofFullCopy(GOLDEN_NETHER_BRICKS.get()).lightLevel((state) -> 9)));
 	public static final RegistryObject<Item> GOLDEN_NETHER_PRISON_GLYPH_BLOCK_ITEM = ITEMS.register("golden_nether_prison_glyph_block", () -> new BlockItem(GOLDEN_NETHER_PRISON_GLYPH_BLOCK.get(), new Item.Properties()));
-	public static final RegistryObject<Block> VOLUCITE_GLYPH_BLOCK = BLOCKS.register("volucite_glyph_block", () -> new GlyphBlock(BlockBehaviour.Properties.ofFullCopy(VOLUCITE_STONE.get()).lightLevel((state) -> 9)));
+	public static final RegistryObject<Block> VOLUCITE_GLYPH_BLOCK = BLOCKS.register("volucite_glyph_block", () -> new CoreProtectedGlyphBlock(BlockBehaviour.Properties.ofFullCopy(VOLUCITE_STONE.get()).lightLevel((state) -> 9)));
 	public static final RegistryObject<Item> VOLUCITE_GLYPH_BLOCK_ITEM = ITEMS.register("volucite_glyph_block", () -> new BlockItem(VOLUCITE_GLYPH_BLOCK.get(), new Item.Properties()));
-	public static final RegistryObject<Block> SHADOW_CATACOMBS_GLYPH_BLOCK = BLOCKS.register("shadow_catacombs_glyph_block", () -> new GlyphBlock(BlockBehaviour.Properties.ofFullCopy(SHADOW_CATACOMBS_BRICKS.get()).lightLevel((state) -> 9)));
+	public static final RegistryObject<Block> SHADOW_CATACOMBS_GLYPH_BLOCK = BLOCKS.register("shadow_catacombs_glyph_block", () -> new CoreProtectedGlyphBlock(BlockBehaviour.Properties.ofFullCopy(SHADOW_CATACOMBS_BRICKS.get()).lightLevel((state) -> 9)));
 	public static final RegistryObject<Item> SHADOW_CATACOMBS_GLYPH_BLOCK_ITEM = ITEMS.register("shadow_catacombs_glyph_block", () -> new BlockItem(SHADOW_CATACOMBS_GLYPH_BLOCK.get(), new Item.Properties()));
 
 	//trophies
