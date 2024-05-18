@@ -710,8 +710,16 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> VOLUCITE_BOOKSHELF_ITEM = ITEMS.register("volucite_bookshelf", () -> new BlockItem(VOLUCITE_BOOKSHELF.get(), new Item.Properties()));
 
 	//glyph blocks
-	public static final RegistryObject<Block> GLYPH_BLOCK = BLOCKS.register("glyph_block", () -> new GlyphBlock(BlockBehaviour.Properties.ofFullCopy(MUD_BRICKS.get())));
-	public static final RegistryObject<Item> GLYPH_BLOCK_ITEM = ITEMS.register("glyph_block", () -> new BlockItem(GLYPH_BLOCK.get(), new Item.Properties()));
+	public static final RegistryObject<Block> MUD_GLYPH_BLOCK = BLOCKS.register("mud_glyph_block", () -> new GlyphBlock(BlockBehaviour.Properties.ofFullCopy(MUD_BRICKS.get()).lightLevel((state) -> 9)));
+	public static final RegistryObject<Item> MUD_GLYPH_BLOCK_ITEM = ITEMS.register("mud_glyph_block", () -> new BlockItem(MUD_GLYPH_BLOCK.get(), new Item.Properties()));
+	public static final RegistryObject<Block> LUNATIC_GLYPH_BLOCK = BLOCKS.register("lunatic_glyph_block", () -> new GlyphBlock(BlockBehaviour.Properties.ofFullCopy(LUNATIC_STONE.get()).lightLevel((state) -> 9)));
+	public static final RegistryObject<Item> LUNATIC_GLYPH_BLOCK_ITEM = ITEMS.register("lunatic_glyph_block", () -> new BlockItem(LUNATIC_GLYPH_BLOCK.get(), new Item.Properties()));
+	public static final RegistryObject<Block> GOLDEN_NETHER_PRISON_GLYPH_BLOCK = BLOCKS.register("golden_nether_prison_glyph_block", () -> new GlyphBlock(BlockBehaviour.Properties.ofFullCopy(GOLDEN_NETHER_BRICKS.get()).lightLevel((state) -> 9)));
+	public static final RegistryObject<Item> GOLDEN_NETHER_PRISON_GLYPH_BLOCK_ITEM = ITEMS.register("golden_nether_prison_glyph_block", () -> new BlockItem(GOLDEN_NETHER_PRISON_GLYPH_BLOCK.get(), new Item.Properties()));
+	public static final RegistryObject<Block> VOLUCITE_GLYPH_BLOCK = BLOCKS.register("volucite_glyph_block", () -> new GlyphBlock(BlockBehaviour.Properties.ofFullCopy(VOLUCITE_STONE.get()).lightLevel((state) -> 9)));
+	public static final RegistryObject<Item> VOLUCITE_GLYPH_BLOCK_ITEM = ITEMS.register("volucite_glyph_block", () -> new BlockItem(VOLUCITE_GLYPH_BLOCK.get(), new Item.Properties()));
+	public static final RegistryObject<Block> SHADOW_CATACOMBS_GLYPH_BLOCK = BLOCKS.register("shadow_catacombs_glyph_block", () -> new GlyphBlock(BlockBehaviour.Properties.ofFullCopy(SHADOW_CATACOMBS_BRICKS.get()).lightLevel((state) -> 9)));
+	public static final RegistryObject<Item> SHADOW_CATACOMBS_GLYPH_BLOCK_ITEM = ITEMS.register("shadow_catacombs_glyph_block", () -> new BlockItem(SHADOW_CATACOMBS_GLYPH_BLOCK.get(), new Item.Properties()));
 
 	//trophies
 	public static final RegistryObject<Block> MUD_CYCLE_MAGE_TROPHY = BLOCKS.register("mud_cycle_mage_trophy", () -> new BottomSlabLikeTrophyBlock(BlockBehaviour.Properties.ofFullCopy(LUNATIC_STONE.get()).requiresCorrectToolForDrops()));
@@ -1387,10 +1395,10 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<PickaxeItem> VOLUCITE_PICKAXE = ITEMS.register("volucite_pickaxe", () -> new EffectPickaxeItem(ToolMaterials.volucite, 1, -2.8F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
     public static final RegistryObject<PickaxeItem> LUNATIC_PICKAXE = ITEMS.register("lunatic_pickaxe", () -> new PickaxeItem(ToolMaterials.lunatic, 1, -2.8F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
     public static final RegistryObject<PickaxeItem> ARSONIST_PICKAXE = ITEMS.register("arsonist_pickaxe", () -> new PickaxeItem(ToolMaterials.arsonist, 1, -2.8F, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
-    
+
     public static final RegistryObject<PickaxeItem> MAGMA_CUBE_PICKAXE = ITEMS.register("magma_cube_pickaxe", () -> new EffectPickaxeItem(ToolMaterials.obsidian, 1, -2.8F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
     public static final RegistryObject<PickaxeItem> STELLAR_STONE_BREAKER = ITEMS.register("stellar_stone_breaker", () -> new AerialHellPickaxeItem(ToolMaterials.breaker, 1, -2.8F, 0.0F, 0.0F, (new Item.Properties()).rarity(Rarity.EPIC)));
-    
+
     public static final RegistryObject<ShovelItem> SKY_WOOD_SHOVEL = ITEMS.register("sky_wood_shovel", () -> new ShovelItem(ToolMaterials.sky_wood, 1.5F, -3F, (new Item.Properties())));
     public static final RegistryObject<ShovelItem> STELLAR_STONE_SHOVEL = ITEMS.register("stellar_stone_shovel", () -> new ShovelItem(ToolMaterials.stellar_stone, 1.5F, -3F, (new Item.Properties())));
     public static final RegistryObject<ShovelItem> RUBY_SHOVEL = ITEMS.register("ruby_shovel", () -> new ShovelItem(ToolMaterials.ruby, 1.5F, -3F, (new Item.Properties())));
@@ -1400,9 +1408,9 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<ShovelItem> VOLUCITE_SHOVEL = ITEMS.register("volucite_shovel", () -> new EffectShovelItem(ToolMaterials.volucite, 1.5F, -3F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
     public static final RegistryObject<ShovelItem> LUNATIC_SHOVEL = ITEMS.register("lunatic_shovel", () -> new ShovelItem(ToolMaterials.lunatic, 1.5F, -3F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
     public static final RegistryObject<ShovelItem> ARSONIST_SHOVEL = ITEMS.register("arsonist_shovel", () -> new ShovelItem(ToolMaterials.arsonist, 1.5F, -3F, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
-    
+
     public static final RegistryObject<ShovelItem> MAGMA_CUBE_SHOVEL = ITEMS.register("magma_cube_shovel", () -> new EffectShovelItem(ToolMaterials.obsidian, 1.5F, -3F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
-    
+
     public static final RegistryObject<AxeItem> SKY_WOOD_AXE = ITEMS.register("sky_wood_axe", () -> new AxeItem(ToolMaterials.sky_wood, 6, -3.1F, (new Item.Properties())));
     public static final RegistryObject<AxeItem> STELLAR_STONE_AXE = ITEMS.register("stellar_stone_axe", () -> new AxeItem(ToolMaterials.stellar_stone, 6, -3.1F, (new Item.Properties())));
     public static final RegistryObject<AxeItem> RUBY_AXE = ITEMS.register("ruby_axe", () -> new AxeItem(ToolMaterials.ruby, 6, -3.1F, (new Item.Properties())));
@@ -1412,12 +1420,12 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<AxeItem> VOLUCITE_AXE = ITEMS.register("volucite_axe", () -> new EffectAxeItem(ToolMaterials.volucite, 6, -3.1F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
     public static final RegistryObject<AxeItem> LUNATIC_AXE = ITEMS.register("lunatic_axe", () -> new AxeItem(ToolMaterials.lunatic, 6, -3.1F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
     public static final RegistryObject<AxeItem> ARSONIST_AXE = ITEMS.register("arsonist_axe", () -> new AxeItem(ToolMaterials.arsonist, 6, -3.1F, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
-    
+
     public static final RegistryObject<AxeItem> HEAVY_AXE = ITEMS.register("heavy_axe", () -> new AerialHellAxeItem(ToolMaterials.heavy, 6, -3.5F, -0.30F, 0.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC)));
     public static final RegistryObject<AxeItem> AXE_OF_LIGHT = ITEMS.register("axe_of_light", () -> new EffectAxeItem(ToolMaterials.lunatic, 5, -3.1F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
     public static final RegistryObject<AxeItem> CURSED_AXE = ITEMS.register("cursed_axe", () -> new AerialHellAxeItem(ToolMaterials.shadow, 2, -3.2F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.CORRUPTED)));
     public static final RegistryObject<AxeItem> BERSERK_AXE = ITEMS.register("berserk_axe", () -> new BerserkAxeItem(ToolMaterials.arsonist, 4, -2.5F, 0.05F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL)));
-    
+
     public static final RegistryObject<HoeItem> SKY_WOOD_HOE = ITEMS.register("sky_wood_hoe", () -> new HoeItem(ToolMaterials.sky_wood, -3, 0.0F, (new Item.Properties())));
     public static final RegistryObject<HoeItem> STELLAR_STONE_HOE = ITEMS.register("stellar_stone_hoe", () -> new HoeItem(ToolMaterials.stellar_stone, -3, 0.0F, (new Item.Properties())));
     public static final RegistryObject<HoeItem> RUBY_HOE = ITEMS.register("ruby_hoe", () -> new HoeItem(ToolMaterials.ruby, -3, 0.0F, (new Item.Properties())));
@@ -1427,9 +1435,9 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<HoeItem> VOLUCITE_HOE = ITEMS.register("volucite_hoe", () -> new EffectHoeItem(ToolMaterials.volucite, -3, 0.0F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
     public static final RegistryObject<HoeItem> LUNATIC_HOE = ITEMS.register("lunatic_hoe", () -> new HoeItem(ToolMaterials.lunatic, -1, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
     public static final RegistryObject<HoeItem> ARSONIST_HOE = ITEMS.register("arsonist_hoe", () -> new HoeItem(ToolMaterials.arsonist, -1, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
-    
+
     public static final RegistryObject<HoeItem> REAPER_SCYTHE = ITEMS.register("reaper_scythe", () -> new EffectHoeItem(ToolMaterials.shadow, 4, -2.8F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
-    
+
     //weapons
     public static final RegistryObject<SwordItem> SKY_WOOD_SWORD = ITEMS.register("sky_wood_sword", () -> new SwordItem(ToolMaterials.sky_wood, 3, -2.4F, (new Item.Properties())));
     public static final RegistryObject<SwordItem> STELLAR_STONE_SWORD = ITEMS.register("stellar_stone_sword", () -> new SwordItem(ToolMaterials.stellar_stone, 3, -2.4F, (new Item.Properties())));
@@ -1455,40 +1463,40 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<SwordItem> NETHERIAN_KING_SWORD = ITEMS.register("netherian_king_sword", () -> new EffectSwordItem(ToolMaterials.obsidian, 1, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.LEGENDARY)));
     public static final RegistryObject<SwordItem> GLASS_CANON_SWORD = ITEMS.register("glass_canon_sword", () -> new EffectSwordItem(ToolMaterials.arsonist, 7, -1.6F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL)));
     public static final RegistryObject<SwordItem> GOD_SWORD = ITEMS.register("god_sword", () -> new EffectSwordItem(ToolMaterials.arsonist, 3, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL)));
-    
+
     public static final RegistryObject<SwordItem> FORGOTTEN_BATTLE_TRIDENT = ITEMS.register("forgotten_battle_trident", () -> new ForgottenBattleTridentItem(ToolMaterials.volucite, 3, -2.9F, 0.2F, (new Item.Properties()).durability(1000).rarity(AerialHellRarities.LEGENDARY)));
-    
+
     //armor
     public static final RegistryObject<ArmorItem> RUBY_HELMET = ITEMS.register("ruby_helmet", () -> new ArmorItem(AerialHellArmorMaterials.ruby, ArmorItem.Type.HELMET, (new Item.Properties())));
     public static final RegistryObject<ArmorItem> RUBY_CHESTPLATE = ITEMS.register("ruby_chestplate", () -> new ArmorItem(AerialHellArmorMaterials.ruby, ArmorItem.Type.CHESTPLATE, (new Item.Properties())));
     public static final RegistryObject<ArmorItem> RUBY_LEGGINGS = ITEMS.register("ruby_leggings", () -> new ArmorItem(AerialHellArmorMaterials.ruby, ArmorItem.Type.LEGGINGS, (new Item.Properties())));
     public static final RegistryObject<ArmorItem> RUBY_BOOTS = ITEMS.register("ruby_boots", () -> new ArmorItem(AerialHellArmorMaterials.ruby, ArmorItem.Type.BOOTS, (new Item.Properties())));
-    
+
     public static final RegistryObject<ArmorItem> AZURITE_HELMET = ITEMS.register("azurite_helmet", () -> new ArmorItem(AerialHellArmorMaterials.azurite, ArmorItem.Type.HELMET, (new Item.Properties())));
     public static final RegistryObject<ArmorItem> AZURITE_CHESTPLATE = ITEMS.register("azurite_chestplate", () -> new ArmorItem(AerialHellArmorMaterials.azurite, ArmorItem.Type.CHESTPLATE, (new Item.Properties())));
     public static final RegistryObject<ArmorItem> AZURITE_LEGGINGS = ITEMS.register("azurite_leggings", () -> new ArmorItem(AerialHellArmorMaterials.azurite, ArmorItem.Type.LEGGINGS, (new Item.Properties())));
     public static final RegistryObject<ArmorItem> AZURITE_BOOTS = ITEMS.register("azurite_boots", () -> new ArmorItem(AerialHellArmorMaterials.azurite, ArmorItem.Type.BOOTS, (new Item.Properties())));
-    
+
     public static final RegistryObject<ArmorItem> OBSIDIAN_HELMET = ITEMS.register("obsidian_helmet", () -> new ArmorItem(AerialHellArmorMaterials.obsidian, ArmorItem.Type.HELMET, (new Item.Properties()).rarity(Rarity.EPIC)));
     public static final RegistryObject<ArmorItem> OBSIDIAN_CHESTPLATE = ITEMS.register("obsidian_chestplate", () -> new ArmorItem(AerialHellArmorMaterials.obsidian, ArmorItem.Type.CHESTPLATE, (new Item.Properties()).rarity(Rarity.EPIC)));
     public static final RegistryObject<ArmorItem> OBSIDIAN_LEGGINGS = ITEMS.register("obsidian_leggings", () -> new ArmorItem(AerialHellArmorMaterials.obsidian, ArmorItem.Type.LEGGINGS, (new Item.Properties()).rarity(Rarity.EPIC)));
     public static final RegistryObject<ArmorItem> OBSIDIAN_BOOTS = ITEMS.register("obsidian_boots", () -> new ArmorItem(AerialHellArmorMaterials.obsidian, ArmorItem.Type.BOOTS, (new Item.Properties()).rarity(Rarity.EPIC)));
-    
+
     public static final RegistryObject<ArmorItem> VOLUCITE_HELMET = ITEMS.register("volucite_helmet", () -> new ArmorItem(AerialHellArmorMaterials.volucite, ArmorItem.Type.HELMET, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
     public static final RegistryObject<ArmorItem> VOLUCITE_CHESTPLATE = ITEMS.register("volucite_chestplate", () -> new ArmorItem(AerialHellArmorMaterials.volucite, ArmorItem.Type.CHESTPLATE, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
     public static final RegistryObject<ArmorItem> VOLUCITE_LEGGINGS = ITEMS.register("volucite_leggings", () -> new ArmorItem(AerialHellArmorMaterials.volucite, ArmorItem.Type.LEGGINGS, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
     public static final RegistryObject<ArmorItem> VOLUCITE_BOOTS = ITEMS.register("volucite_boots", () -> new ArmorItem(AerialHellArmorMaterials.volucite, ArmorItem.Type.BOOTS, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
-    
+
     public static final RegistryObject<ArmorItem> MAGMATIC_GEL_HELMET = ITEMS.register("magmatic_gel_helmet", () -> new ArmorItem(AerialHellArmorMaterials.magmatic_gel, ArmorItem.Type.HELMET, (new Item.Properties())));
     public static final RegistryObject<ArmorItem> MAGMATIC_GEL_CHESTPLATE = ITEMS.register("magmatic_gel_chestplate", () -> new ArmorItem(AerialHellArmorMaterials.magmatic_gel, ArmorItem.Type.CHESTPLATE, (new Item.Properties())));
     public static final RegistryObject<ArmorItem> MAGMATIC_GEL_LEGGINGS = ITEMS.register("magmatic_gel_leggings", () -> new ArmorItem(AerialHellArmorMaterials.magmatic_gel, ArmorItem.Type.LEGGINGS, (new Item.Properties())));
     public static final RegistryObject<ArmorItem> MAGMATIC_GEL_BOOTS = ITEMS.register("magmatic_gel_boots", () -> new ArmorItem(AerialHellArmorMaterials.magmatic_gel, ArmorItem.Type.BOOTS, (new Item.Properties())));
-    
+
     public static final RegistryObject<ArmorItem> LUNATIC_HELMET = ITEMS.register("lunatic_helmet", () -> new ArmorItem(AerialHellArmorMaterials.lunatic, ArmorItem.Type.HELMET, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
     public static final RegistryObject<ArmorItem> LUNATIC_CHESTPLATE = ITEMS.register("lunatic_chestplate", () -> new ArmorItem(AerialHellArmorMaterials.lunatic, ArmorItem.Type.CHESTPLATE, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
     public static final RegistryObject<ArmorItem> LUNATIC_LEGGINGS = ITEMS.register("lunatic_leggings", () -> new ArmorItem(AerialHellArmorMaterials.lunatic, ArmorItem.Type.LEGGINGS, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
     public static final RegistryObject<ArmorItem> LUNATIC_BOOTS = ITEMS.register("lunatic_boots", () -> new ArmorItem(AerialHellArmorMaterials.lunatic, ArmorItem.Type.BOOTS, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
-    
+
     public static final RegistryObject<ArmorItem> ARSONIST_HELMET = ITEMS.register("arsonist_helmet", () -> new ArmorItem(AerialHellArmorMaterials.arsonist, ArmorItem.Type.HELMET, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
     public static final RegistryObject<ArmorItem> ARSONIST_CHESTPLATE = ITEMS.register("arsonist_chestplate", () -> new ArmorItem(AerialHellArmorMaterials.arsonist, ArmorItem.Type.CHESTPLATE, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
     public static final RegistryObject<ArmorItem> ARSONIST_LEGGINGS = ITEMS.register("arsonist_leggings", () -> new ArmorItem(AerialHellArmorMaterials.arsonist, ArmorItem.Type.LEGGINGS, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
@@ -1510,7 +1518,7 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<Item> GOD_TOTEM = ITEMS.register("god_totem", () -> new EnchantedEffectTotemItem(new Item.Properties().stacksTo(1).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
     public static final RegistryObject<Item> CURSED_TOTEM = ITEMS.register("cursed_totem", () -> new EffectTotemItem(new Item.Properties().stacksTo(1).rarity(AerialHellRarities.MYTHICAL)));
     public static final RegistryObject<Item> SHADOW_TOTEM = ITEMS.register("shadow_totem", () -> new EffectTotemItem(new Item.Properties().stacksTo(1).rarity(AerialHellRarities.CORRUPTED)));
-    
+
     //spawn eggs
     public static final RegistryObject<Item> STELLAR_STONE_AUTOMATON_SPAWN_EGG = ITEMS.register("stellar_stone_automaton_spawn_egg", () -> new ForgeSpawnEggItem(() -> AerialHellEntities.STELLAR_STONE_AUTOMATON.get(), 16382457, 16382457, new Item.Properties().rarity(AerialHellRarities.VIBRANT)));
     public static final RegistryObject<Item> EVIL_COW_SPAWN_EGG = ITEMS.register("evil_cow_spawn_egg", () -> new ForgeSpawnEggItem(() -> AerialHellEntities.EVIL_COW.get(), 16382457, 16382457, new Item.Properties().rarity(Rarity.COMMON)));

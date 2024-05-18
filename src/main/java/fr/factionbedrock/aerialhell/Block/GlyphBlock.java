@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 
 public class GlyphBlock extends Block
 {
-	private static final int GLYPH_MAX_INDEX = 30;
+	private static final int GLYPH_MAX_INDEX = 35;
 	public static final IntegerProperty GLYPH_INDEX = IntegerProperty.create("glyph_index", 0, GLYPH_MAX_INDEX);
 
 	public GlyphBlock(Properties properties)

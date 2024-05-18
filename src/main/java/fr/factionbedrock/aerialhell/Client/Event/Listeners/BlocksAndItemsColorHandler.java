@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
@@ -16,6 +17,13 @@ import java.awt.*;
 @Mod.EventBusSubscriber(modid = AerialHell.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BlocksAndItemsColorHandler
 {
+    private static final Color DEFAULT_COLOR = new Color(12, 35, 26);
+    private static final int MUD_GLYPH_COLOR = new Color(144, 95, 1).getRGB();
+    private static final int LUNATIC_GLYPH_COLOR = new Color(175, 236, 181).getRGB();
+    private static final int GOLDEN_NETHER_PRISON_GLYPH_COLOR = new Color(193, 25, 25).getRGB();
+    private static final int VOLUCITE_GLYPH_COLOR = new Color(48, 66, 179).getRGB();
+    private static final int SHADOW_CATACOMBS_GLYPH_COLOR = new Color(153, 99, 248).getRGB();
+
     @SubscribeEvent
     public static void handleBlockColors(RegisterColorHandlersEvent.Block event)
     {
@@ -67,11 +75,14 @@ public class BlocksAndItemsColorHandler
 
         event.getBlockColors().register((state, level, pos, tint) -> getCustomColor(state, tint, level, pos),
                 AerialHellBlocksAndItems.STELLAR_PODZOL.get(),
-                AerialHellBlocksAndItems.GLYPH_BLOCK.get()
+                AerialHellBlocksAndItems.MUD_GLYPH_BLOCK.get(),
+                AerialHellBlocksAndItems.LUNATIC_GLYPH_BLOCK.get(),
+                AerialHellBlocksAndItems.GOLDEN_NETHER_PRISON_GLYPH_BLOCK.get(),
+                AerialHellBlocksAndItems.VOLUCITE_GLYPH_BLOCK.get(),
+                AerialHellBlocksAndItems.SHADOW_CATACOMBS_GLYPH_BLOCK.get()
         );
     }
 
-    private static final Color DEFAULT_COLOR = new Color(12, 35, 26);
     private static int getColor(int tint, BlockAndTintGetter level, BlockPos pos)
     {
         if (level != null && pos != null)
@@ -101,10 +112,11 @@ public class BlocksAndItemsColorHandler
                     {
                         return new Color((int) Math.min(255, r * 1.5), (int) (g / 1.5), b).getRGB();
                     }
-                    else if (state.getBlock() == AerialHellBlocksAndItems.GLYPH_BLOCK.get())
-                    {
-                        return new Color(167, 113, 7).getRGB();
-                    }
+                    else if (state.getBlock() == AerialHellBlocksAndItems.MUD_GLYPH_BLOCK.get()) {return MUD_GLYPH_COLOR;}
+                    else if (state.getBlock() == AerialHellBlocksAndItems.LUNATIC_GLYPH_BLOCK.get()) {return LUNATIC_GLYPH_COLOR;}
+                    else if (state.getBlock() == AerialHellBlocksAndItems.GOLDEN_NETHER_PRISON_GLYPH_BLOCK.get()) {return GOLDEN_NETHER_PRISON_GLYPH_COLOR;}
+                    else if (state.getBlock() == AerialHellBlocksAndItems.VOLUCITE_GLYPH_BLOCK.get()) {return VOLUCITE_GLYPH_COLOR;}
+                    else if (state.getBlock() == AerialHellBlocksAndItems.SHADOW_CATACOMBS_GLYPH_BLOCK.get()) {return SHADOW_CATACOMBS_GLYPH_COLOR;}
                 }
                 case 1 : return BiomeColors.getAverageFoliageColor(level, pos);
                 case 2 : return BiomeColors.getAverageWaterColor(level, pos);
@@ -150,5 +162,23 @@ public class BlocksAndItemsColorHandler
         event.getItemColors().register((stack, color) -> new Color(92, 171, 102).getRGB(),
                 AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get()
         );
+
+        event.getItemColors().register((stack, color) -> getCustomColor(stack, color),
+                AerialHellBlocksAndItems.MUD_GLYPH_BLOCK_ITEM.get(),
+                AerialHellBlocksAndItems.LUNATIC_GLYPH_BLOCK_ITEM.get(),
+                AerialHellBlocksAndItems.GOLDEN_NETHER_PRISON_GLYPH_BLOCK_ITEM.get(),
+                AerialHellBlocksAndItems.VOLUCITE_GLYPH_BLOCK_ITEM.get(),
+                AerialHellBlocksAndItems.SHADOW_CATACOMBS_GLYPH_BLOCK_ITEM.get()
+        );
+    }
+
+    private static int getCustomColor(ItemStack itemstack, int color)
+    {
+        if (itemstack.getItem() == AerialHellBlocksAndItems.MUD_GLYPH_BLOCK_ITEM.get()) {return MUD_GLYPH_COLOR;}
+        else if (itemstack.getItem() == AerialHellBlocksAndItems.LUNATIC_GLYPH_BLOCK_ITEM.get()) {return LUNATIC_GLYPH_COLOR;}
+        else if (itemstack.getItem() == AerialHellBlocksAndItems.GOLDEN_NETHER_PRISON_GLYPH_BLOCK_ITEM.get()) {return GOLDEN_NETHER_PRISON_GLYPH_COLOR;}
+        else if (itemstack.getItem() == AerialHellBlocksAndItems.VOLUCITE_GLYPH_BLOCK_ITEM.get()) {return VOLUCITE_GLYPH_COLOR;}
+        else if (itemstack.getItem() == AerialHellBlocksAndItems.SHADOW_CATACOMBS_GLYPH_BLOCK_ITEM.get()) {return SHADOW_CATACOMBS_GLYPH_COLOR;}
+        else {return DEFAULT_COLOR.getRGB();}
     }
 }

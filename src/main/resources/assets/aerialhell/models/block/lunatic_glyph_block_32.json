@@ -1,0 +1,7 @@
+{
+  "parent": "aerialhell:block/glyph_block_base",
+  "textures": {
+    "all": "aerialhell:block/lunatic_stone",
+    "glyph": "aerialhell:block/glyph/32"
+  }
+}

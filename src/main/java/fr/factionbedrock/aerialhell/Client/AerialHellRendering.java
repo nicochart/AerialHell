@@ -79,7 +79,11 @@ public class AerialHellRendering
 		render(() -> AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB.get(), cutout);
 		render(() -> AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS.get(), cutout);
 		render(() -> AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_WALL.get(), cutout);
-		render(() -> AerialHellBlocksAndItems.GLYPH_BLOCK.get(), cutout);
+		render(() -> AerialHellBlocksAndItems.MUD_GLYPH_BLOCK.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.LUNATIC_GLYPH_BLOCK.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GOLDEN_NETHER_PRISON_GLYPH_BLOCK.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.VOLUCITE_GLYPH_BLOCK.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.SHADOW_CATACOMBS_GLYPH_BLOCK.get(), translucent);
         render(() -> AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), cutout_mipped);
         render(() -> AerialHellBlocksAndItems.STELLAR_PODZOL.get(), cutout_mipped);
         render(() -> AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get(), cutout_mipped);

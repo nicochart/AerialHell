@@ -1,0 +1,7 @@
+{
+  "parent": "aerialhell:block/glyph_block_base",
+  "textures": {
+    "all": "aerialhell:block/golden_nether_bricks",
+    "glyph": "aerialhell:block/glyph/12"
+  }
+}
