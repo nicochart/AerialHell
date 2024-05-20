@@ -1,0 +1,16 @@
+{
+  "structures": [
+    {
+      "structure": "aerialhell:floating_boat",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 223454456,
+
+    "spacing": 11, //average distance (chunks)
+    "separation": 4, //minimum distance (chunks)
+
+    "type": "minecraft:random_spread"
+  }
+}

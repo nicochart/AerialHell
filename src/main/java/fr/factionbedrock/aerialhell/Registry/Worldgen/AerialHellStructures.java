@@ -36,6 +36,7 @@ public class AerialHellStructures
 	public static final RegistryObject<StructureType<ShadowPineTowerStructure>> SHADOW_PINE_TOWER_STRUCTURE = STRUCTURES.register("shadow_pine_tower", () -> () -> ShadowPineTowerStructure.CODEC);
 	public static final RegistryObject<StructureType<LapisRobiniaHutStructure>> LAPIS_ROBINIA_HUT_STRUCTURE = STRUCTURES.register("lapis_robinia_hut", () -> () -> LapisRobiniaHutStructure.CODEC);
 	public static final RegistryObject<StructureType<UpsideDownPyramidStructure>> UPSIDE_DOWN_PYRAMID = STRUCTURES.register("upside_down_pyramid", () -> () -> UpsideDownPyramidStructure.CODEC);
+	public static final RegistryObject<StructureType<FloatingBoatStructure>> FLOATING_BOAT = STRUCTURES.register("floating_boat", () -> () -> FloatingBoatStructure.CODEC);
 
 	public static class Sets
 	{

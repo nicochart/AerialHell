@@ -1,0 +1,15 @@
+{
+  "name": "aerialhell:floating_boat/aerial_tree/head_sail",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:floating_boat/aerial_tree/head_sail",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "aerialhell:floating_boat/aerial_tree/lower_deck_front",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:floating_boat/aerial_tree/lower_deck_front",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}
