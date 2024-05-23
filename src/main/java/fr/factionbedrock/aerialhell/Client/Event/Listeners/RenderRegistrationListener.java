@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.*;
 import fr.factionbedrock.aerialhell.Client.EntityRender.*;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraftforge.api.distmarker.Dist;
@@ -92,6 +93,7 @@ public class RenderRegistrationListener
         event.registerBlockEntityRenderer(AerialHellBlockEntities.CHEST.get(), AerialHellChestBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(AerialHellBlockEntities.CHEST_MIMIC.get(), AerialHellChestMimicBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(AerialHellBlockEntities.SIGN.get(), SignRenderer::new);
+        event.registerBlockEntityRenderer(AerialHellBlockEntities.HANGING_SIGN.get(), HangingSignRenderer::new);
     }
 
     @SubscribeEvent

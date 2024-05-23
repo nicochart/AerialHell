@@ -41,6 +41,7 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.registries.RegistryObject;
@@ -1235,6 +1236,32 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<AerialHellStandingSignBlock> GRAY_SHROOM_STANDING_SIGN = BLOCKS.register("gray_shroom_sign", () -> new AerialHellStandingSignBlock(SHROOM_SIGN_MATERIAL, AerialHellWoodTypes.GRAY_SHROOM));
 	public static final RegistryObject<AerialHellWallSignBlock> GRAY_SHROOM_WALL_SIGN = BLOCKS.register("gray_shroom_wall_sign", () -> new AerialHellWallSignBlock(SHROOM_SIGN_MATERIAL, AerialHellWoodTypes.GRAY_SHROOM));
 	public static final RegistryObject<Item> GRAY_SHROOM_SIGN_ITEM = ITEMS.register("gray_shroom_sign", () -> new SignItem(new Item.Properties(), GRAY_SHROOM_STANDING_SIGN.get(), GRAY_SHROOM_WALL_SIGN.get()));
+
+	//hanging signs
+	public static final RegistryObject<CeilingHangingSignBlock> AERIAL_TREE_HANGING_SIGN = BLOCKS.register("aerial_tree_hanging_sign", () -> new AerialHellHangingSignBlock(AerialHellWoodTypes.AERIAL_TREE, AERIAL_TREE_SIGN_MATERIAL));
+	public static final RegistryObject<WallHangingSignBlock> AERIAL_TREE_WALL_HANGING_SIGN = BLOCKS.register("aerial_tree_wall_hanging_sign", () -> new AerialHellWallHangingSignBlock(AerialHellWoodTypes.AERIAL_TREE, BlockBehaviour.Properties.ofFullCopy(AERIAL_TREE_HANGING_SIGN.get()).dropsLike(AERIAL_TREE_HANGING_SIGN.get())));
+	public static final RegistryObject<Item> AERIAL_TREE_HANGING_SIGN_ITEM = ITEMS.register("aerial_tree_hanging_sign", () -> new HangingSignItem(AERIAL_TREE_HANGING_SIGN.get(), AERIAL_TREE_WALL_HANGING_SIGN.get(), (new Item.Properties()).stacksTo(16)));
+	public static final RegistryObject<CeilingHangingSignBlock> GOLDEN_BEECH_HANGING_SIGN = BLOCKS.register("golden_beech_hanging_sign", () -> new AerialHellHangingSignBlock(AerialHellWoodTypes.GOLDEN_BEECH, AERIAL_TREE_SIGN_MATERIAL));
+	public static final RegistryObject<WallHangingSignBlock> GOLDEN_BEECH_WALL_HANGING_SIGN = BLOCKS.register("golden_beech_wall_hanging_sign", () -> new AerialHellWallHangingSignBlock(AerialHellWoodTypes.GOLDEN_BEECH, BlockBehaviour.Properties.ofFullCopy(GOLDEN_BEECH_HANGING_SIGN.get()).dropsLike(GOLDEN_BEECH_HANGING_SIGN.get())));
+	public static final RegistryObject<Item> GOLDEN_BEECH_HANGING_SIGN_ITEM = ITEMS.register("golden_beech_hanging_sign", () -> new HangingSignItem(GOLDEN_BEECH_HANGING_SIGN.get(), GOLDEN_BEECH_WALL_HANGING_SIGN.get(), (new Item.Properties()).stacksTo(16)));
+	public static final RegistryObject<CeilingHangingSignBlock> COPPER_PINE_HANGING_SIGN = BLOCKS.register("copper_pine_hanging_sign", () -> new AerialHellHangingSignBlock(AerialHellWoodTypes.COPPER_PINE, COPPER_PINE_SIGN_MATERIAL));
+	public static final RegistryObject<WallHangingSignBlock> COPPER_PINE_WALL_HANGING_SIGN = BLOCKS.register("copper_pine_wall_hanging_sign", () -> new AerialHellWallHangingSignBlock(AerialHellWoodTypes.COPPER_PINE, BlockBehaviour.Properties.ofFullCopy(COPPER_PINE_HANGING_SIGN.get()).dropsLike(COPPER_PINE_HANGING_SIGN.get())));
+	public static final RegistryObject<Item> COPPER_PINE_HANGING_SIGN_ITEM = ITEMS.register("copper_pine_hanging_sign", () -> new HangingSignItem(COPPER_PINE_HANGING_SIGN.get(), COPPER_PINE_WALL_HANGING_SIGN.get(), (new Item.Properties()).stacksTo(16)));
+	public static final RegistryObject<CeilingHangingSignBlock> LAPIS_ROBINIA_HANGING_SIGN = BLOCKS.register("lapis_robinia_hanging_sign", () -> new AerialHellHangingSignBlock(AerialHellWoodTypes.LAPIS_ROBINIA, COPPER_PINE_SIGN_MATERIAL));
+	public static final RegistryObject<WallHangingSignBlock> LAPIS_ROBINIA_WALL_HANGING_SIGN = BLOCKS.register("lapis_robinia_wall_hanging_sign", () -> new AerialHellWallHangingSignBlock(AerialHellWoodTypes.LAPIS_ROBINIA, BlockBehaviour.Properties.ofFullCopy(LAPIS_ROBINIA_HANGING_SIGN.get()).dropsLike(LAPIS_ROBINIA_HANGING_SIGN.get())));
+	public static final RegistryObject<Item> LAPIS_ROBINIA_HANGING_SIGN_ITEM = ITEMS.register("lapis_robinia_hanging_sign", () -> new HangingSignItem(LAPIS_ROBINIA_HANGING_SIGN.get(), LAPIS_ROBINIA_WALL_HANGING_SIGN.get(), (new Item.Properties()).stacksTo(16)));
+	public static final RegistryObject<CeilingHangingSignBlock> SHADOW_PINE_HANGING_SIGN = BLOCKS.register("shadow_pine_hanging_sign", () -> new AerialHellHangingSignBlock(AerialHellWoodTypes.SHADOW_PINE, SHADOW_PINE_SIGN_MATERIAL));
+	public static final RegistryObject<WallHangingSignBlock> SHADOW_PINE_WALL_HANGING_SIGN = BLOCKS.register("shadow_pine_wall_hanging_sign", () -> new AerialHellWallHangingSignBlock(AerialHellWoodTypes.SHADOW_PINE, BlockBehaviour.Properties.ofFullCopy(SHADOW_PINE_HANGING_SIGN.get()).dropsLike(SHADOW_PINE_HANGING_SIGN.get())));
+	public static final RegistryObject<Item> SHADOW_PINE_HANGING_SIGN_ITEM = ITEMS.register("shadow_pine_hanging_sign", () -> new HangingSignItem(SHADOW_PINE_HANGING_SIGN.get(), SHADOW_PINE_WALL_HANGING_SIGN.get(), (new Item.Properties()).stacksTo(16)));
+	public static final RegistryObject<CeilingHangingSignBlock> STELLAR_JUNGLE_TREE_HANGING_SIGN = BLOCKS.register("stellar_jungle_tree_hanging_sign", () -> new AerialHellHangingSignBlock(AerialHellWoodTypes.STELLAR_JUNGLE_TREE, SHADOW_PINE_SIGN_MATERIAL));
+	public static final RegistryObject<WallHangingSignBlock> STELLAR_JUNGLE_TREE_WALL_HANGING_SIGN = BLOCKS.register("stellar_jungle_tree_wall_hanging_sign", () -> new AerialHellWallHangingSignBlock(AerialHellWoodTypes.STELLAR_JUNGLE_TREE, BlockBehaviour.Properties.ofFullCopy(STELLAR_JUNGLE_TREE_HANGING_SIGN.get()).dropsLike(STELLAR_JUNGLE_TREE_HANGING_SIGN.get())));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_HANGING_SIGN_ITEM = ITEMS.register("stellar_jungle_tree_hanging_sign", () -> new HangingSignItem(STELLAR_JUNGLE_TREE_HANGING_SIGN.get(), STELLAR_JUNGLE_TREE_WALL_HANGING_SIGN.get(), (new Item.Properties()).stacksTo(16)));
+	public static final RegistryObject<CeilingHangingSignBlock> SKY_CACTUS_FIBER_HANGING_SIGN = BLOCKS.register("sky_cactus_fiber_hanging_sign", () -> new AerialHellHangingSignBlock(AerialHellWoodTypes.SKY_CACTUS_FIBER, SKY_CACTUS_FIBER_SIGN_MATERIAL));
+	public static final RegistryObject<WallHangingSignBlock> SKY_CACTUS_FIBER_WALL_HANGING_SIGN = BLOCKS.register("sky_cactus_fiber_wall_hanging_sign", () -> new AerialHellWallHangingSignBlock(AerialHellWoodTypes.SKY_CACTUS_FIBER, BlockBehaviour.Properties.ofFullCopy(SKY_CACTUS_FIBER_HANGING_SIGN.get()).dropsLike(SKY_CACTUS_FIBER_HANGING_SIGN.get())));
+	public static final RegistryObject<Item> SKY_CACTUS_FIBER_HANGING_SIGN_ITEM = ITEMS.register("sky_cactus_fiber_hanging_sign", () -> new HangingSignItem(SKY_CACTUS_FIBER_HANGING_SIGN.get(), SKY_CACTUS_FIBER_WALL_HANGING_SIGN.get(), (new Item.Properties()).stacksTo(16)));
+	public static final RegistryObject<CeilingHangingSignBlock> GRAY_SHROOM_HANGING_SIGN = BLOCKS.register("gray_shroom_hanging_sign", () -> new AerialHellHangingSignBlock(AerialHellWoodTypes.GRAY_SHROOM, SKY_CACTUS_FIBER_SIGN_MATERIAL));
+	public static final RegistryObject<WallHangingSignBlock> GRAY_SHROOM_WALL_HANGING_SIGN = BLOCKS.register("gray_shroom_wall_hanging_sign", () -> new AerialHellWallHangingSignBlock(AerialHellWoodTypes.GRAY_SHROOM, BlockBehaviour.Properties.ofFullCopy(GRAY_SHROOM_HANGING_SIGN.get()).dropsLike(GRAY_SHROOM_HANGING_SIGN.get())));
+	public static final RegistryObject<Item> GRAY_SHROOM_HANGING_SIGN_ITEM = ITEMS.register("gray_shroom_hanging_sign", () -> new HangingSignItem(GRAY_SHROOM_HANGING_SIGN.get(), GRAY_SHROOM_WALL_HANGING_SIGN.get(), (new Item.Properties()).stacksTo(16)));
 
 	//crafting tables
 	public static final RegistryObject<CraftingTableBlock> AERIAL_TREE_CRAFTING_TABLE = BLOCKS.register("aerial_tree_crafting_table", () -> new AerialHellCraftingTableBlock(AERIAL_TREE_MATERIAL));

@@ -400,6 +400,15 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_SIGN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_SIGN_ITEM.get());
 
+            itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_HANGING_SIGN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_HANGING_SIGN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_HANGING_SIGN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_HANGING_SIGN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_HANGING_SIGN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_HANGING_SIGN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_HANGING_SIGN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_HANGING_SIGN_ITEM.get());
+
             itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_CRAFTING_TABLE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_CRAFTING_TABLE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_CRAFTING_TABLE_ITEM.get());
