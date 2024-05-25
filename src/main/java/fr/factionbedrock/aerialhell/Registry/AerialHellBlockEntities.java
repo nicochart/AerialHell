@@ -22,7 +22,11 @@ public class AerialHellBlockEntities
 			new BlockEntityType<>(FreezerBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.FREEZER.get()), null));
 	
 	public static final RegistryObject<BlockEntityType<StellarFurnaceBlockEntity>> STELLAR_FURNACE = BLOCK_ENTITY_TYPES.register("stellar_furnace", () ->
-			new BlockEntityType<>(StellarFurnaceBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.STELLAR_FURNACE.get()), null));
+			new BlockEntityType<>(StellarFurnaceBlockEntity::new, Sets.newHashSet
+					(
+							AerialHellBlocksAndItems.STELLAR_FURNACE.get(),
+							AerialHellBlocksAndItems.GHOST_STELLAR_FURNACE.get()
+					), null));
 	
 	public static final RegistryObject<BlockEntityType<AerialHellSignBlockEntity>> SIGN = BLOCK_ENTITY_TYPES.register("sign", () ->
 			new BlockEntityType<>(AerialHellSignBlockEntity::new, Sets.newHashSet

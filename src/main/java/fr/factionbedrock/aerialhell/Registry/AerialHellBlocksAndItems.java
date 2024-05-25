@@ -929,6 +929,9 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> STELLAR_FURNACE = BLOCKS.register("stellar_furnace", () -> new StellarFurnaceBlock(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(3.5F).lightLevel(getLightValueLit(13))));
 	public static final RegistryObject<Item> STELLAR_FURNACE_ITEM = ITEMS.register("stellar_furnace", () -> new BlockItem(STELLAR_FURNACE.get(), new Item.Properties()));
 
+	public static final RegistryObject<Block> GHOST_STELLAR_FURNACE = BLOCKS.register("ghost_stellar_furnace", () -> new GhostStellarFurnaceBlock(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().noOcclusion().strength(3.5F).lightLevel(getLightValueLit(13))));
+	public static final RegistryObject<Item> GHOST_STELLAR_FURNACE_ITEM = ITEMS.register("ghost_stellar_furnace", () -> new BlockItem(GHOST_STELLAR_FURNACE.get(), new Item.Properties()));
+
 	private static ToIntFunction<BlockState> getLightValueLit(int lightValue) {return (state) -> {return state.getValue(BlockStateProperties.LIT) ? lightValue : 0;};}
 
 	//chests
