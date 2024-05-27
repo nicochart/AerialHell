@@ -34,7 +34,7 @@ public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity
 
     @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand) {return new ItemStack(AerialHellBlocksAndItems.RUBY_SHURIKEN.get());}
 
-    @Override public EntityType<? extends AbstractSlimePirateEntity> getType() {return AerialHellEntities.SLIME_PIRATE.get();}
+    @Override public EntityType<? extends AbstractSlimePirateEntity> getType() {return AerialHellEntities.SLIME_NINJA_PIRATE.get();}
 
     public static class ShurikenAttackGoal extends GhastLikeGoals.ShootProjectileFlurryGoal
     {

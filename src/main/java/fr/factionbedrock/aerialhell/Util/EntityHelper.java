@@ -10,8 +10,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.ShadowPineBarrelM
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AerialTreeChestMimicEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.AbstractSlimePirateEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.GhostSlimePirateEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowAutomatonEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowFlyingSkullEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowSpiderEntity;
@@ -90,7 +89,7 @@ public class EntityHelper
 
     public static boolean isGhostEntity(Entity entity)
     {
-        return entity instanceof GhostSlimePirateEntity;
+        return entity instanceof GhostSlimePirateEntity || entity instanceof GhostSlimeNinjaPirateEntity;
     }
 
     public static boolean isLightProjectile(Entity entity) {return entity instanceof LunaticProjectileEntity;}
