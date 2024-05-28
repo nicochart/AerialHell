@@ -47,6 +47,7 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_AERIAL_TREE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_WOOD_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_PLANKS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.CHISELED_AERIAL_TREE_PLANKS_ITEM.get());
@@ -56,7 +57,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.PETRIFIED_AERIAL_TREE_LOG_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_LOG_ITEM.get());
-            itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_AERIAL_TREE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_GOLDEN_BEECH_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_WOOD_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_PLANKS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.CHISELED_GOLDEN_BEECH_PLANKS_ITEM.get());
@@ -65,6 +67,7 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_COPPER_PINE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_WOOD_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_PLANKS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_BOOKSHELF_ITEM.get());
@@ -73,6 +76,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.ENCHANTED_LAPIS_ROBINIA_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_LAPIS_ROBINIA_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_WOOD_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_PLANKS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_BOOKSHELF_ITEM.get());
@@ -81,6 +85,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_SHADOW_PINE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_WOOD_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_PLANKS_ITEM.get());
@@ -90,6 +95,7 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_STELLAR_JUNGLE_TREE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_WOOD_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_PLANKS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_BOOKSHELF_ITEM.get());
@@ -98,6 +104,7 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_STEM_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_LIGHT_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.CORTINARIUS_VIOLACEUS_ITEM.get());
@@ -108,6 +115,7 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.GIANT_VERDIGRIS_AGARIC_STEM_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GIANT_VERDIGRIS_AGARIC_BARK_STEM_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GIANT_VERDIGRIS_AGARIC_CAP_BLOCK_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VERDIGRIS_AGARIC_ITEM.get());
 

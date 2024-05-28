@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:aerial_tree_wood",
+    "aerialhell:golden_beech_wood",
+    "aerialhell:copper_pine_wood",
+    "aerialhell:lapis_robinia_wood",
+    "aerialhell:shadow_pine_wood",
+    "aerialhell:stellar_jungle_tree_wood",
+    "aerialhell:giant_cortinarius_violaceus_bark_stem",
+    "aerialhell:giant_verdigris_agaric_bark_stem"
+  ]
+}

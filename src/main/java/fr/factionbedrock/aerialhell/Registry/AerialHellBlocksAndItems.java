@@ -231,6 +231,7 @@ public class AerialHellBlocksAndItems
     //aerial_tree
 	public static final RegistryObject<RotatedPillarBlock> AERIAL_TREE_LOG = BLOCKS.register("aerial_tree_log", () -> new RotatedPillarBlock(AERIAL_TREE_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_AERIAL_TREE_LOG = BLOCKS.register("stripped_aerial_tree_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(AERIAL_TREE_LOG.get())));
+	public static final RegistryObject<RotatedPillarBlock> AERIAL_TREE_WOOD = BLOCKS.register("aerial_tree_wood", () -> new RotatedPillarBlock(AERIAL_TREE_MATERIAL));
 	public static final RegistryObject<Block> AERIAL_TREE_LEAVES = BLOCKS.register("aerial_tree_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)));
 	public static final RegistryObject<Block> AERIAL_TREE_PLANKS = BLOCKS.register("aerial_tree_planks", () -> new Block(BlockBehaviour.Properties.ofFullCopy(AERIAL_TREE_LOG.get())));
 	public static final RegistryObject<Block> CHISELED_AERIAL_TREE_PLANKS = BLOCKS.register("chiseled_aerial_tree_planks", () -> new Block(BlockBehaviour.Properties.ofFullCopy(AERIAL_TREE_PLANKS.get())));
@@ -238,6 +239,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<SaplingBlock> AERIAL_TREE_SAPLING = BLOCKS.register("aerial_tree_sapling", () -> new AerialHellSaplingBlock(AerialHellTreeGrowers.AERIAL_TREE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING), AerialHellConfiguredFeatures.GIANT_AERIAL_TREE));
 	public static final RegistryObject<Item> AERIAL_TREE_LOG_ITEM = ITEMS.register("aerial_tree_log", () -> new BurnableBlockItem(AERIAL_TREE_LOG.get(), new Item.Properties(), 300));
 	public static final RegistryObject<Item> STRIPPED_AERIAL_TREE_LOG_ITEM = ITEMS.register("stripped_aerial_tree_log", () -> new BurnableBlockItem(STRIPPED_AERIAL_TREE_LOG.get(), new Item.Properties(), 300));
+	public static final RegistryObject<Item> AERIAL_TREE_WOOD_ITEM = ITEMS.register("aerial_tree_wood", () -> new BurnableBlockItem(AERIAL_TREE_WOOD.get(), new Item.Properties(), 210));
 	public static final RegistryObject<Item> AERIAL_TREE_LEAVES_ITEM = ITEMS.register("aerial_tree_leaves", () -> new BlockItem(AERIAL_TREE_LEAVES.get(), new Item.Properties()));
 	public static final RegistryObject<Item> AERIAL_TREE_PLANKS_ITEM = ITEMS.register("aerial_tree_planks", () -> new BurnableBlockItem(AERIAL_TREE_PLANKS.get(), new Item.Properties(), 300));
 	public static final RegistryObject<Item> CHISELED_AERIAL_TREE_PLANKS_ITEM = ITEMS.register("chiseled_aerial_tree_planks", () -> new BurnableBlockItem(CHISELED_AERIAL_TREE_PLANKS.get(), new Item.Properties(), 300));
@@ -251,6 +253,7 @@ public class AerialHellBlocksAndItems
 	//golden beech
 	public static final RegistryObject<RotatedPillarBlock> GOLDEN_BEECH_LOG = BLOCKS.register("golden_beech_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(AERIAL_TREE_LOG.get())));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_GOLDEN_BEECH_LOG = BLOCKS.register("stripped_golden_beech_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(GOLDEN_BEECH_LOG.get())));
+	public static final RegistryObject<RotatedPillarBlock> GOLDEN_BEECH_WOOD = BLOCKS.register("golden_beech_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(GOLDEN_BEECH_LOG.get())));
 	public static final RegistryObject<Block> GOLDEN_BEECH_PLANKS = BLOCKS.register("golden_beech_planks", () -> new Block(BlockBehaviour.Properties.ofFullCopy(GOLDEN_BEECH_LOG.get())));
 	public static final RegistryObject<Block> CHISELED_GOLDEN_BEECH_PLANKS = BLOCKS.register("chiseled_golden_beech_planks", () -> new Block(BlockBehaviour.Properties.ofFullCopy(GOLDEN_BEECH_PLANKS.get())));
 	public static final RegistryObject<Block> GOLDEN_BEECH_LEAVES = BLOCKS.register("golden_beech_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)));
@@ -258,6 +261,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<SaplingBlock> GOLDEN_BEECH_SAPLING = BLOCKS.register("golden_beech_sapling", () -> new SaplingBlock(AerialHellTreeGrowers.GOLDEN_BEECH, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING)));
 	public static final RegistryObject<Item> GOLDEN_BEECH_LOG_ITEM = ITEMS.register("golden_beech_log", () -> new BurnableBlockItem(GOLDEN_BEECH_LOG.get(), new Item.Properties(), 300));
 	public static final RegistryObject<Item> STRIPPED_GOLDEN_BEECH_LOG_ITEM = ITEMS.register("stripped_golden_beech_log", () -> new BurnableBlockItem(STRIPPED_GOLDEN_BEECH_LOG.get(), new Item.Properties(), 300));
+	public static final RegistryObject<Item> GOLDEN_BEECH_WOOD_ITEM = ITEMS.register("golden_beech_wood", () -> new BurnableBlockItem(GOLDEN_BEECH_WOOD.get(), new Item.Properties(), 210));
 	public static final RegistryObject<Item> GOLDEN_BEECH_PLANKS_ITEM = ITEMS.register("golden_beech_planks", () -> new BurnableBlockItem(GOLDEN_BEECH_PLANKS.get(), new Item.Properties(), 300));
 	public static final RegistryObject<Item> CHISELED_GOLDEN_BEECH_PLANKS_ITEM = ITEMS.register("chiseled_golden_beech_planks", () -> new BurnableBlockItem(CHISELED_GOLDEN_BEECH_PLANKS.get(), new Item.Properties(), 300));
 	public static final RegistryObject<Item> GOLDEN_BEECH_LEAVES_ITEM = ITEMS.register("golden_beech_leaves", () -> new BlockItem(GOLDEN_BEECH_LEAVES.get(), new Item.Properties()));
@@ -267,12 +271,14 @@ public class AerialHellBlocksAndItems
 	//cropper pine
 	public static final RegistryObject<RotatedPillarBlock> COPPER_PINE_LOG = BLOCKS.register("copper_pine_log", () -> new RotatedPillarBlock(COPPER_PINE_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_COPPER_PINE_LOG = BLOCKS.register("stripped_copper_pine_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(COPPER_PINE_LOG.get())));
+	public static final RegistryObject<RotatedPillarBlock> COPPER_PINE_WOOD = BLOCKS.register("copper_pine_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(COPPER_PINE_LOG.get())));
 	public static final RegistryObject<Block> COPPER_PINE_PLANKS = BLOCKS.register("copper_pine_planks", () -> new Block(BlockBehaviour.Properties.ofFullCopy(COPPER_PINE_LOG.get())));
 	public static final RegistryObject<Block> COPPER_PINE_LEAVES = BLOCKS.register("copper_pine_leaves", () -> new LeavesWithAmbientParticlesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)));
 	public static final RegistryObject<Block> COPPER_PINE_BOOKSHELF = BLOCKS.register("copper_pine_bookshelf", () -> new AerialHellBookshelfBlock(BlockBehaviour.Properties.ofFullCopy(COPPER_PINE_PLANKS.get())));
 	public static final RegistryObject<SaplingBlock> COPPER_PINE_SAPLING = BLOCKS.register("copper_pine_sapling", () -> new AerialHellSaplingBlock(AerialHellTreeGrowers.COPPER_PINE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING), AerialHellConfiguredFeatures.GIANT_COPPER_PINE, AerialHellConfiguredFeatures.HUGE_COPPER_PINE, 0.1F));
 	public static final RegistryObject<Item> COPPER_PINE_LOG_ITEM = ITEMS.register("copper_pine_log", () -> new BurnableBlockItem(COPPER_PINE_LOG.get(), new Item.Properties(), 300));
 	public static final RegistryObject<Item> STRIPPED_COPPER_PINE_LOG_ITEM = ITEMS.register("stripped_copper_pine_log", () -> new BurnableBlockItem(STRIPPED_COPPER_PINE_LOG.get(), new Item.Properties(), 300));
+	public static final RegistryObject<Item> COPPER_PINE_WOOD_ITEM = ITEMS.register("copper_pine_wood", () -> new BurnableBlockItem(COPPER_PINE_WOOD.get(), new Item.Properties(), 210));
 	public static final RegistryObject<Item> COPPER_PINE_PLANKS_ITEM = ITEMS.register("copper_pine_planks", () -> new BurnableBlockItem(COPPER_PINE_PLANKS.get(), new Item.Properties(), 300));
 	public static final RegistryObject<Item> COPPER_PINE_LEAVES_ITEM = ITEMS.register("copper_pine_leaves", () -> new BlockItem(COPPER_PINE_LEAVES.get(), new Item.Properties()));
 	public static final RegistryObject<Item> COPPER_PINE_BOOKSHELF_ITEM = ITEMS.register("copper_pine_bookshelf", () -> new BlockItem(COPPER_PINE_BOOKSHELF.get(), new Item.Properties()));
@@ -282,6 +288,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<RotatedPillarBlock> LAPIS_ROBINIA_LOG = BLOCKS.register("lapis_robinia_log", () -> new RotatedPillarBlock(COPPER_PINE_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> ENCHANTED_LAPIS_ROBINIA_LOG = BLOCKS.register("enchanted_lapis_robinia_log", () -> new EffectLogBlock(COPPER_PINE_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_LAPIS_ROBINIA_LOG = BLOCKS.register("stripped_lapis_robinia_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(LAPIS_ROBINIA_LOG.get())));
+	public static final RegistryObject<RotatedPillarBlock> LAPIS_ROBINIA_WOOD = BLOCKS.register("lapis_robinia_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(LAPIS_ROBINIA_LOG.get())));
 	public static final RegistryObject<Block> LAPIS_ROBINIA_LEAVES = BLOCKS.register("lapis_robinia_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)));
 	public static final RegistryObject<Block> LAPIS_ROBINIA_PLANKS = BLOCKS.register("lapis_robinia_planks", () -> new Block(BlockBehaviour.Properties.ofFullCopy(LAPIS_ROBINIA_LOG.get())));
 	public static final RegistryObject<Block> LAPIS_ROBINIA_BOOKSHELF = BLOCKS.register("lapis_robinia_bookshelf", () -> new AerialHellBookshelfBlock(BlockBehaviour.Properties.ofFullCopy(LAPIS_ROBINIA_PLANKS.get())));
@@ -289,6 +296,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> LAPIS_ROBINIA_LOG_ITEM = ITEMS.register("lapis_robinia_log", () -> new BurnableBlockItem(LAPIS_ROBINIA_LOG.get(), new Item.Properties(), 400));
 	public static final RegistryObject<Item> ENCHANTED_LAPIS_ROBINIA_LOG_ITEM = ITEMS.register("enchanted_lapis_robinia_log", () -> new BurnableBlockItem(ENCHANTED_LAPIS_ROBINIA_LOG.get(), new Item.Properties(), 400));
 	public static final RegistryObject<Item> STRIPPED_LAPIS_ROBINIA_LOG_ITEM = ITEMS.register("stripped_lapis_robinia_log", () -> new BurnableBlockItem(STRIPPED_LAPIS_ROBINIA_LOG.get(), new Item.Properties(), 400));
+	public static final RegistryObject<Item> LAPIS_ROBINIA_WOOD_ITEM = ITEMS.register("lapis_robinia_wood", () -> new BurnableBlockItem(LAPIS_ROBINIA_WOOD.get(), new Item.Properties(), 300));
 	public static final RegistryObject<Item> LAPIS_ROBINIA_LEAVES_ITEM = ITEMS.register("lapis_robinia_leaves", () -> new BlockItem(LAPIS_ROBINIA_LEAVES.get(), new Item.Properties()));
 	public static final RegistryObject<Item> LAPIS_ROBINIA_PLANKS_ITEM = ITEMS.register("lapis_robinia_planks", () -> new BurnableBlockItem(LAPIS_ROBINIA_PLANKS.get(), new Item.Properties(), 300));
 	public static final RegistryObject<Item> LAPIS_ROBINIA_BOOKSHELF_ITEM = ITEMS.register("lapis_robinia_bookshelf", () -> new BlockItem(LAPIS_ROBINIA_BOOKSHELF.get(), new Item.Properties()));
@@ -298,6 +306,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<RotatedPillarBlock> SHADOW_PINE_LOG = BLOCKS.register("shadow_pine_log", () -> new RotatedPillarBlock(SHADOW_PINE_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> EYE_SHADOW_PINE_LOG = BLOCKS.register("eye_shadow_pine_log", () -> new EffectLogBlock(SHADOW_PINE_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_SHADOW_PINE_LOG = BLOCKS.register("stripped_shadow_pine_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(SHADOW_PINE_LOG.get())));
+	public static final RegistryObject<RotatedPillarBlock> SHADOW_PINE_WOOD = BLOCKS.register("shadow_pine_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(SHADOW_PINE_LOG.get())));
 	public static final RegistryObject<Block> SHADOW_PINE_LEAVES = BLOCKS.register("shadow_pine_leaves", () -> new LeavesWithAmbientParticlesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)));
 	public static final RegistryObject<Block> PURPLE_SHADOW_PINE_LEAVES = BLOCKS.register("purple_shadow_pine_leaves", () -> new LeavesWithAmbientParticlesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)));
 	public static final RegistryObject<Block> SHADOW_PINE_PLANKS = BLOCKS.register("shadow_pine_planks", () -> new Block(BlockBehaviour.Properties.ofFullCopy(SHADOW_PINE_LOG.get())));
@@ -307,6 +316,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_PINE_LOG_ITEM = ITEMS.register("shadow_pine_log", () -> new BurnableBlockItem(SHADOW_PINE_LOG.get(), new Item.Properties(), 300));
 	public static final RegistryObject<Item> EYE_SHADOW_PINE_LOG_ITEM = ITEMS.register("eye_shadow_pine_log", () -> new BurnableBlockItem(EYE_SHADOW_PINE_LOG.get(), new Item.Properties(), 300));
 	public static final RegistryObject<Item> STRIPPED_SHADOW_PINE_LOG_ITEM = ITEMS.register("stripped_shadow_pine_log", () -> new BurnableBlockItem(STRIPPED_SHADOW_PINE_LOG.get(), new Item.Properties(), 300));
+	public static final RegistryObject<Item> SHADOW_PINE_WOOD_ITEM = ITEMS.register("shadow_pine_wood", () -> new BurnableBlockItem(SHADOW_PINE_WOOD.get(), new Item.Properties(), 210));
 	public static final RegistryObject<Item> SHADOW_PINE_LEAVES_ITEM = ITEMS.register("shadow_pine_leaves", () -> new BlockItem(SHADOW_PINE_LEAVES.get(), new Item.Properties()));
 	public static final RegistryObject<Item> PURPLE_SHADOW_PINE_LEAVES_ITEM = ITEMS.register("purple_shadow_pine_leaves", () -> new BlockItem(PURPLE_SHADOW_PINE_LEAVES.get(), new Item.Properties()));
 	public static final RegistryObject<Item> SHADOW_PINE_PLANKS_ITEM = ITEMS.register("shadow_pine_planks", () -> new BurnableBlockItem(SHADOW_PINE_PLANKS.get(), new Item.Properties(), 300));
@@ -317,6 +327,7 @@ public class AerialHellBlocksAndItems
 	//stellar jungle tree
 	public static final RegistryObject<RotatedPillarBlock> STELLAR_JUNGLE_TREE_LOG = BLOCKS.register("stellar_jungle_tree_log", () -> new RotatedPillarBlock(COPPER_PINE_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_STELLAR_JUNGLE_TREE_LOG = BLOCKS.register("stripped_stellar_jungle_tree_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_JUNGLE_TREE_LOG.get())));
+	public static final RegistryObject<RotatedPillarBlock> STELLAR_JUNGLE_TREE_WOOD = BLOCKS.register("stellar_jungle_tree_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_JUNGLE_TREE_LOG.get())));
 	public static final RegistryObject<Block> STELLAR_JUNGLE_TREE_LEAVES = BLOCKS.register("stellar_jungle_tree_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)));
 	public static final RegistryObject<Block> STELLAR_JUNGLE_TREE_PLANKS = BLOCKS.register("stellar_jungle_tree_planks", () -> new Block(BlockBehaviour.Properties.ofFullCopy(STELLAR_JUNGLE_TREE_LOG.get())));
 	public static final RegistryObject<Block> STELLAR_JUNGLE_TREE_BOOKSHELF = BLOCKS.register("stellar_jungle_tree_bookshelf", () -> new AerialHellBookshelfBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_JUNGLE_TREE_PLANKS.get())));
@@ -324,6 +335,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<LargeDeadLogBlock> DEAD_STELLAR_JUNGLE_TREE_LOG = BLOCKS.register("dead_stellar_jungle_tree_log", () -> new LargeDeadLogBlock(STELLAR_JUNGLE_TREE_PLANKS.get().defaultBlockState(), COPPER_PINE_MATERIAL));
 	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_LOG_ITEM = ITEMS.register("stellar_jungle_tree_log", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_LOG.get(), new Item.Properties(), 400));
 	public static final RegistryObject<Item> STRIPPED_STELLAR_JUNGLE_TREE_LOG_ITEM = ITEMS.register("stripped_stellar_jungle_tree_log", () -> new BurnableBlockItem(STRIPPED_STELLAR_JUNGLE_TREE_LOG.get(), new Item.Properties(), 400));
+	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_WOOD_ITEM = ITEMS.register("stellar_jungle_tree_wood", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_WOOD.get(), new Item.Properties(), 300));
 	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_LEAVES_ITEM = ITEMS.register("stellar_jungle_tree_leaves", () -> new BlockItem(STELLAR_JUNGLE_TREE_LEAVES.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_PLANKS_ITEM = ITEMS.register("stellar_jungle_tree_planks", () -> new BurnableBlockItem(STELLAR_JUNGLE_TREE_PLANKS.get(), new Item.Properties(), 300));
 	public static final RegistryObject<Item> STELLAR_JUNGLE_TREE_BOOKSHELF_ITEM = ITEMS.register("stellar_jungle_tree_bookshelf", () -> new BlockItem(STELLAR_JUNGLE_TREE_BOOKSHELF.get(), new Item.Properties()));
@@ -333,11 +345,13 @@ public class AerialHellBlocksAndItems
 	//shroom
 	public static final RegistryObject<RotatedPillarBlock> GIANT_CORTINARIUS_VIOLACEUS_STEM = BLOCKS.register("giant_cortinarius_violaceus_stem", () -> new RotatedPillarBlock(SHROOM_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM = BLOCKS.register("stripped_giant_cortinarius_violaceus_stem", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(GIANT_CORTINARIUS_VIOLACEUS_STEM.get())));
+	public static final RegistryObject<RotatedPillarBlock> GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM = BLOCKS.register("giant_cortinarius_violaceus_bark_stem", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(GIANT_CORTINARIUS_VIOLACEUS_STEM.get())));
 	public static final RegistryObject<Block> GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK = BLOCKS.register("giant_cortinarius_violaceus_cap_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_BLUE).strength(0.5F).sound(SoundType.STEM)));
 	public static final RegistryObject<Block> GIANT_CORTINARIUS_VIOLACEUS_LIGHT = BLOCKS.register("giant_cortinarius_violaceus_light", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(1.0F).sound(SoundType.SHROOMLIGHT).lightLevel((state) -> {return 15;})));
 	public static final RegistryObject<FungusBlock> CORTINARIUS_VIOLACEUS = BLOCKS.register("cortinarius_violaceus", () -> new AerialHellFungusBlock(AerialHellConfiguredFeatures.GIANT_CORTINARIUS_VIOLACEUS_PLANTED, STELLAR_GRASS_BLOCK.get(), BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_FUNGUS)));
 	public static final RegistryObject<Item> GIANT_CORTINARIUS_VIOLACEUS_STEM_ITEM = ITEMS.register("giant_cortinarius_violaceus_stem", () -> new BurnableBlockItem(GIANT_CORTINARIUS_VIOLACEUS_STEM.get(), new Item.Properties(), 100));
 	public static final RegistryObject<Item> STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM_ITEM = ITEMS.register("stripped_giant_cortinarius_violaceus_stem", () -> new BurnableBlockItem(STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM.get(), new Item.Properties(), 100));
+	public static final RegistryObject<Item> GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM_ITEM = ITEMS.register("giant_cortinarius_violaceus_bark_stem", () -> new BurnableBlockItem(GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM.get(), new Item.Properties(), 100));
 	public static final RegistryObject<Item> GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK_ITEM = ITEMS.register("giant_cortinarius_violaceus_cap_block", () -> new BlockItem(GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK.get(), new Item.Properties()));
 	public static final RegistryObject<Item> GIANT_CORTINARIUS_VIOLACEUS_LIGHT_ITEM = ITEMS.register("giant_cortinarius_violaceus_light", () -> new BlockItem(GIANT_CORTINARIUS_VIOLACEUS_LIGHT.get(), new Item.Properties()));
 	public static final RegistryObject<Item> CORTINARIUS_VIOLACEUS_ITEM = ITEMS.register("cortinarius_violaceus", () -> new BlockItem(CORTINARIUS_VIOLACEUS.get(), new Item.Properties()));
@@ -348,10 +362,12 @@ public class AerialHellBlocksAndItems
 
 	public static final RegistryObject<RotatedPillarBlock> GIANT_VERDIGRIS_AGARIC_STEM = BLOCKS.register("giant_verdigris_agaric_stem", () -> new RotatedPillarBlock(SHROOM_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM = BLOCKS.register("stripped_giant_verdigris_agaric_stem", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(GIANT_CORTINARIUS_VIOLACEUS_STEM.get())));
+	public static final RegistryObject<RotatedPillarBlock> GIANT_VERDIGRIS_AGARIC_BARK_STEM = BLOCKS.register("giant_verdigris_agaric_bark_stem", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(GIANT_CORTINARIUS_VIOLACEUS_STEM.get())));
 	public static final RegistryObject<Block> GIANT_VERDIGRIS_AGARIC_CAP_BLOCK = BLOCKS.register("giant_verdigris_agaric_cap_block", () -> new HugeMushroomBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_BLUE).lightLevel((state) -> {return 10;}).strength(0.4F).sound(SoundType.STEM)));
 	public static final RegistryObject<MushroomBlock> VERDIGRIS_AGARIC = BLOCKS.register("verdigris_agaric", () -> new AerialHellMushroomBlock(AerialHellConfiguredFeatures.GIANT_VERDIGRIS_AGARIC, BlockBehaviour.Properties.of().mapColor(MapColor.CLAY).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
 	public static final RegistryObject<Item> GIANT_VERDIGRIS_AGARIC_STEM_ITEM = ITEMS.register("giant_verdigris_agaric_stem", () -> new BurnableBlockItem(GIANT_VERDIGRIS_AGARIC_STEM.get(), new Item.Properties(), 100));
 	public static final RegistryObject<Item> STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM_ITEM = ITEMS.register("stripped_giant_verdigris_agaric_stem", () -> new BurnableBlockItem(STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM.get(), new Item.Properties(), 100));
+	public static final RegistryObject<Item> GIANT_VERDIGRIS_AGARIC_BARK_STEM_ITEM = ITEMS.register("giant_verdigris_agaric_bark_stem", () -> new BurnableBlockItem(GIANT_VERDIGRIS_AGARIC_BARK_STEM.get(), new Item.Properties(), 75));
 	public static final RegistryObject<Item> GIANT_VERDIGRIS_AGARIC_CAP_BLOCK_ITEM = ITEMS.register("giant_verdigris_agaric_cap_block", () -> new BlockItem(GIANT_VERDIGRIS_AGARIC_CAP_BLOCK.get(), new Item.Properties()));
 	public static final RegistryObject<Item> VERDIGRIS_AGARIC_ITEM = ITEMS.register("verdigris_agaric", () -> new BlockItem(VERDIGRIS_AGARIC.get(), new Item.Properties()));
 	public static final RegistryObject<Item> GLOWING_BOLETUS_ITEM = ITEMS.register("glowing_boletus", () -> new BlockItem(GLOWING_BOLETUS.get(), new Item.Properties()));
