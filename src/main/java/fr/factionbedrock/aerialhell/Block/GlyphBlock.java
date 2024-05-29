@@ -21,7 +21,7 @@ import javax.annotation.Nullable;
 
 public class GlyphBlock extends Block
 {
-	private static final int GLYPH_MAX_INDEX = 35;
+	private static final int GLYPH_MAX_INDEX = 45;
 	public static final IntegerProperty GLYPH_INDEX = IntegerProperty.create("glyph_index", 0, GLYPH_MAX_INDEX);
 	public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
 	public static final BooleanProperty EAST = BlockStateProperties.EAST;

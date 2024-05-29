@@ -580,6 +580,166 @@
     {
       "when": {"glyph_index": "35", "west" : "true"},
       "apply": {"model": "aerialhell:block/glyph_35", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "36", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_36", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "36", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_36", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "36", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_36", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "36", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_36", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "37", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_37", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "37", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_37", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "37", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_37", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "37", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_37", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "38", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_38", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "38", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_38", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "38", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_38", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "38", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_38", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "39", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_39", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "39", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_39", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "39", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_39", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "39", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_39", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "40", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_40", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "40", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_40", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "40", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_40", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "40", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_40", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "41", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_41", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "41", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_41", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "41", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_41", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "41", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_41", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "42", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_42", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "42", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_42", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "42", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_42", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "42", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_42", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "43", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_43", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "43", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_43", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "43", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_43", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "43", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_43", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "44", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_44", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "44", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_44", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "44", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_44", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "44", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_44", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "45", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_45", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "45", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_45", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "45", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_45", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "45", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_45", "y": 270, "uvlock": true}
     }
   ]
 }
