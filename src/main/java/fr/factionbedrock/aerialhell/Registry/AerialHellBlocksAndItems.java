@@ -1336,6 +1336,10 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<ComposterBlock> GRAY_SHROOM_COMPOSTER = BLOCKS.register("gray_shroom_composter", () -> new ComposterBlock(SHROOM_MATERIAL));
 	public static final RegistryObject<Item> GRAY_SHROOM_COMPOSTER_ITEM = ITEMS.register("gray_shroom_composter", () -> new BurnableBlockItem(GRAY_SHROOM_COMPOSTER.get(), new Item.Properties(), 100));
 
+	//decorative
+	public static final RegistryObject<RotatedPillarBlock> AERIAL_TREE_VINE_ROPE_SPOOL = BLOCKS.register("aerial_tree_vine_rope_spool", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+	public static final RegistryObject<Item> AERIAL_TREE_VINE_ROPE_SPOOL_ITEM = ITEMS.register("aerial_tree_vine_rope_spool", () -> new BlockItem(AERIAL_TREE_VINE_ROPE_SPOOL.get(), new Item.Properties()));
+
 	//item for crafts
 	public static final RegistryObject<Item> SKY_STICK = ITEMS.register("sky_stick",() -> new BurnableItem(new Item.Properties(), 100));
 	public static final RegistryObject<Item> SKY_BOWL = ITEMS.register("sky_bowl",() -> new BurnableItem(new Item.Properties(), 200));
