@@ -2,6 +2,13 @@
   "replace": false,
   "values":
   [
-    "aerialhell:aerial_tree_vine_rope_spool"
+    "aerialhell:aerial_tree_vine_rope_spool",
+    "aerialhell:golden_beech_vine_rope_spool",
+    "aerialhell:copper_pine_vine_rope_spool",
+    "aerialhell:lapis_robinia_vine_rope_spool",
+    "aerialhell:shadow_pine_vine_rope_spool",
+    "aerialhell:stellar_jungle_tree_vine_rope_spool",
+    "aerialhell:sky_cactus_fiber_vine_rope_spool",
+    "aerialhell:gray_shroom_vine_rope_spool"
   ]
 }

@@ -446,6 +446,13 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_COMPOSTER_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_VINE_ROPE_SPOOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_VINE_ROPE_SPOOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_VINE_ROPE_SPOOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_VINE_ROPE_SPOOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_VINE_ROPE_SPOOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_VINE_ROPE_SPOOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_VINE_ROPE_SPOOL_ITEM.get());
         }
         if (event.getTabKey() == AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS.getKey())
         {

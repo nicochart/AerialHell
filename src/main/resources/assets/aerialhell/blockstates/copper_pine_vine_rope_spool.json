@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "aerialhell:block/copper_pine_vine_rope_spool",
+      "y": 90,
+      "x": 90
+    },
+    "axis=y": {
+      "model": "aerialhell:block/copper_pine_vine_rope_spool"
+    },
+    "axis=z": {
+      "model": "aerialhell:block/copper_pine_vine_rope_spool",
+      "x": 90
+    }
+  }
+}
+
