@@ -1,0 +1,47 @@
+{
+        "parent": "minecraft:block/block",
+	"credit": "Made with Blockbench",
+	"ambientocclusion": true,
+	"textures": {"rope_spool": "aerialhell:block/vine_rope_spool","particle": "#support"},
+	"elements": [
+		{
+			"name": "support",
+			"from": [0, 0, 0],
+			"to": [3, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 4, 16, 7], "rotation": 90, "texture": "#support"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#support"},
+				"south": {"uv": [0, 12, 16, 15], "rotation": 90, "texture": "#support"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#support"},
+				"up": {"uv": [0, 4, 16, 7], "rotation": 90, "texture": "#support"},
+				"down": {"uv": [0, 8, 16, 11], "rotation": 90, "texture": "#support"}
+			}
+		},
+		{
+			"name": "vine_rope_spool",
+			"from": [3, 2, 2],
+			"to": [13, 14, 14],
+			"faces": {
+				"north": {"uv": [0, 0, 12, 10], "rotation": 90, "texture": "#rope_spool"},
+				"east": {"uv": [0, 0, 12, 12], "texture": "#rope_spool"},
+				"south": {"uv": [0, 0, 12, 10], "rotation": 90, "texture": "#rope_spool"},
+				"west": {"uv": [0, 0, 12, 12], "texture": "#rope_spool"},
+				"up": {"uv": [0, 0, 12, 10], "rotation": 90, "texture": "#rope_spool"},
+				"down": {"uv": [0, 0, 12, 10], "rotation": 90, "texture": "#rope_spool"}
+			}
+		},
+		{
+			"name": "support",
+			"from": [13, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 8, 16, 11], "rotation": 90, "texture": "#support"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#support"},
+				"south": {"uv": [0, 0, 16, 3], "rotation": 90, "texture": "#support"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#support"},
+				"up": {"uv": [0, 12, 16, 15], "rotation": 90, "texture": "#support"},
+				"down": {"uv": [0, 4, 16, 7], "rotation": 90, "texture": "#support"}
+			}
+		}
+	]
+}

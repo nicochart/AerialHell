@@ -1,16 +1,14 @@
 {
   "variants": {
     "axis=x": {
-      "model": "aerialhell:block/lapis_robinia_vine_rope_spool",
-      "y": 90,
-      "x": 90
+      "model": "aerialhell:block/lapis_robinia_vine_rope_spool_horizontal"
     },
     "axis=y": {
       "model": "aerialhell:block/lapis_robinia_vine_rope_spool"
     },
     "axis=z": {
-      "model": "aerialhell:block/lapis_robinia_vine_rope_spool",
-      "x": 90
+      "model": "aerialhell:block/lapis_robinia_vine_rope_spool_horizontal",
+      "y": 90
     }
   }
 }

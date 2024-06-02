@@ -1,7 +1,7 @@
 {
         "parent": "minecraft:block/block",
 	"credit": "Made with Blockbench",
-	"ambientocclusion": false,
+	"ambientocclusion": true,
 	"textures": {"rope_spool": "aerialhell:block/vine_rope_spool","particle": "#support"},
 	"elements": [
 		{
