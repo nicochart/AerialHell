@@ -181,12 +181,15 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_DOOR_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_TRAPDOOR_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_CHEST_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_STELLAR_COBBLESTONE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_STELLAR_FURNACE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_WOOL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_RUBY_BLOCK_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_FLUORITE_BLOCK_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_BARREL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_CRAFTING_TABLE_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_VINE_ROPE_SPOOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_LANTERN_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.WHITE_SOLID_ETHER_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.BLUE_SOLID_ETHER_ITEM.get());

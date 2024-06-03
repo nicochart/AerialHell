@@ -26,12 +26,15 @@ public class AerialHellRendering
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_GATE.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_DOOR.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_TRAPDOOR.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_STELLAR_COBBLESTONE.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_STELLAR_FURNACE.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_WOOL.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_RUBY_BLOCK.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_FLUORITE_BLOCK.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_BARREL.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_CRAFTING_TABLE.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_VINE_ROPE_SPOOL.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_LANTERN.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.CRYSTAL_BLOCK.get(), translucent);

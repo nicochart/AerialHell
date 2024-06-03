@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "aerialhell:block/ghost_lantern"
+    },
+    "hanging=true": {
+      "model": "aerialhell:block/ghost_lantern"
+    }
+  }
+}

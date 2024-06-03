@@ -460,10 +460,13 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<TrapDoorBlock> GHOST_BOAT_TRAPDOOR = BLOCKS.register("ghost_boat_trapdoor", () -> new GhostBoatTrapDoorBlock(BlockSetType.OAK, BlockBehaviour.Properties.of().strength(2.5F, 2.5F).sound(SoundType.WOOD).noOcclusion()));
 	public static final RegistryObject<ChestBlock> GHOST_BOAT_CHEST = BLOCKS.register("ghost_boat_chest", () -> new GhostBoatChestBlock(BlockBehaviour.Properties.of().strength(2.5F, 2.5F).sound(SoundType.WOOD).noOcclusion()));
 	public static final RegistryObject<Block> GHOST_BOAT_WOOL = BLOCKS.register("ghost_boat_wool", () -> new GhostBoatBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.GUITAR).strength(0.8F).sound(SoundType.WOOL).noOcclusion()));
+	public static final RegistryObject<Block> GHOST_STELLAR_COBBLESTONE = BLOCKS.register("ghost_stellar_cobblestone", () -> new GhostBoatBlock(BlockBehaviour.Properties.of().strength(2.5F, 2.5F).requiresCorrectToolForDrops().sound(SoundType.STONE).noOcclusion()));
 	public static final RegistryObject<Block> GHOST_RUBY_BLOCK = BLOCKS.register("ghost_ruby_block", () -> new GhostBoatBlock(BlockBehaviour.Properties.of().strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
 	public static final RegistryObject<Block> GHOST_FLUORITE_BLOCK = BLOCKS.register("ghost_fluorite_block", () -> new GhostBoatBlock(BlockBehaviour.Properties.of().strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
 	public static final RegistryObject<AerialHellBarrelBlock> GHOST_BOAT_BARREL = BLOCKS.register("ghost_boat_barrel", () -> new GhostBoatBarrelBlock(BlockBehaviour.Properties.of().strength(2.5F, 2.5F).sound(SoundType.WOOD).noOcclusion()));
 	public static final RegistryObject<CraftingTableBlock> GHOST_BOAT_CRAFTING_TABLE = BLOCKS.register("ghost_boat_crafting_table", () -> new GhostBoatCraftingTableBlock(BlockBehaviour.Properties.of().strength(2.5F, 2.5F).sound(SoundType.WOOD).noOcclusion()));
+	public static final RegistryObject<RotatedPillarBlock> GHOST_BOAT_VINE_ROPE_SPOOL = BLOCKS.register("ghost_boat_vine_rope_spool", () -> new GhostBoatVineRopeSpoolBlock(BlockBehaviour.Properties.of().noOcclusion().mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+	public static final RegistryObject<Block> GHOST_LANTERN = BLOCKS.register("ghost_lantern", () -> new GhostLanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
 
 	public static final RegistryObject<Item> GHOST_BOAT_PLANKS_ITEM = ITEMS.register("ghost_boat_planks", () -> new BlockItem(GHOST_BOAT_PLANKS.get(), new Item.Properties()));
 	public static final RegistryObject<Item> GHOST_BOAT_LOG_ITEM = ITEMS.register("ghost_boat_log", () -> new BlockItem(GHOST_BOAT_LOG.get(), new Item.Properties()));
@@ -475,10 +478,13 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> GHOST_BOAT_TRAPDOOR_ITEM = ITEMS.register("ghost_boat_trapdoor", () -> new BlockItem(GHOST_BOAT_TRAPDOOR.get(), new Item.Properties()));
 	public static final RegistryObject<Item> GHOST_BOAT_CHEST_ITEM = ITEMS.register("ghost_boat_chest", () -> new ChestBlockItem(GHOST_BOAT_CHEST.get(), new Item.Properties()));
 	public static final RegistryObject<Item> GHOST_BOAT_WOOL_ITEM = ITEMS.register("ghost_boat_wool", () -> new BlockItem(GHOST_BOAT_WOOL.get(), new Item.Properties()));
+	public static final RegistryObject<Item> GHOST_STELLAR_COBBLESTONE_ITEM = ITEMS.register("ghost_stellar_cobblestone", () -> new BlockItem(GHOST_STELLAR_COBBLESTONE.get(), new Item.Properties()));
 	public static final RegistryObject<Item> GHOST_RUBY_BLOCK_ITEM = ITEMS.register("ghost_ruby_block", () -> new BlockItem(GHOST_RUBY_BLOCK.get(), new Item.Properties()));
 	public static final RegistryObject<Item> GHOST_FLUORITE_BLOCK_ITEM = ITEMS.register("ghost_fluorite_block", () -> new BlockItem(GHOST_FLUORITE_BLOCK.get(), new Item.Properties()));
 	public static final RegistryObject<Item> GHOST_BOAT_BARREL_ITEM = ITEMS.register("ghost_boat_barrel", () -> new BlockItem(GHOST_BOAT_BARREL.get(), new Item.Properties()));
 	public static final RegistryObject<Item> GHOST_BOAT_CRAFTING_TABLE_ITEM = ITEMS.register("ghost_boat_crafting_table", () -> new BlockItem(GHOST_BOAT_CRAFTING_TABLE.get(), new Item.Properties()));
+	public static final RegistryObject<Item> GHOST_BOAT_VINE_ROPE_SPOOL_ITEM = ITEMS.register("ghost_boat_vine_rope_spool", () -> new BlockItem(GHOST_BOAT_VINE_ROPE_SPOOL.get(), new Item.Properties()));
+	public static final RegistryObject<Item> GHOST_LANTERN_ITEM = ITEMS.register("ghost_lantern", () -> new BlockItem(GHOST_LANTERN.get(), new Item.Properties()));
 
 	//solid_ethers
 	public static final RegistryObject<Block> WHITE_SOLID_ETHER = BLOCKS.register("white_solid_ether", () -> new SolidEtherBlock(BlockBehaviour.Properties.of().strength(0.2F).sound(SoundType.WOOL).noOcclusion()));
