@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aerialhell:block/stripped_giant_cortinarius_violaceus_stem",
+    "side": "aerialhell:block/stripped_giant_cortinarius_violaceus_stem"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aerialhell:block/stripped_golden_beech_log",
+    "side": "aerialhell:block/stripped_golden_beech_log"
+  }
+}

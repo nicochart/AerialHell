@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "aerialhell:block/stripped_giant_verdigris_agaric_bark_stem",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "aerialhell:block/stripped_giant_verdigris_agaric_bark_stem"
+    },
+    "axis=z": {
+      "model": "aerialhell:block/stripped_giant_verdigris_agaric_bark_stem",
+      "x": 90
+    }
+  }
+}
