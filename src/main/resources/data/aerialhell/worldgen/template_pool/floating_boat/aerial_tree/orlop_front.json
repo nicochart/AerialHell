@@ -5,7 +5,25 @@
     {
       "weight": 1,
       "element": {
-        "location": "aerialhell:floating_boat/aerial_tree/orlop_front",
+        "location": "aerialhell:floating_boat/aerial_tree/orlop_front_1",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:floating_boat/aerial_tree/orlop_front_2",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:floating_boat/aerial_tree/orlop_front_3",
         "processors": "minecraft:empty",
 	"projection": "rigid",
         "element_type": "minecraft:single_pool_element"

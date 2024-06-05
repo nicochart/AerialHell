@@ -5,7 +5,16 @@
     {
       "weight": 1,
       "element": {
-        "location": "aerialhell:floating_boat/aerial_tree/lower_deck_back_balcony_support",
+        "location": "aerialhell:floating_boat/aerial_tree/lower_deck_back_balcony_support_1",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:floating_boat/aerial_tree/lower_deck_back_balcony_support_2",
         "processors": "minecraft:empty",
 	"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
