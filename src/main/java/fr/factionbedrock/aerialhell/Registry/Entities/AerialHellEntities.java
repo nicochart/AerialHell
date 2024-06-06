@@ -77,16 +77,16 @@ public class AerialHellEntities
 			.sized(0.7F,2.0F).build("mummy"));
 
 	public static final RegistryObject<EntityType<SlimePirateEntity>> SLIME_PIRATE = ENTITIES.register("slime_pirate", () -> EntityType.Builder.of(SlimePirateEntity::new, MobCategory.MONSTER)
-			.sized(0.7F,2.0F).build("slime_pirate"));
+			.sized(0.7F,1.9F).build("slime_pirate"));
 
 	public static final RegistryObject<EntityType<SlimeNinjaPirateEntity>> SLIME_NINJA_PIRATE = ENTITIES.register("slime_ninja_pirate", () -> EntityType.Builder.of(SlimeNinjaPirateEntity::new, MobCategory.MONSTER)
-			.sized(0.7F,2.0F).build("slime_ninja_pirate"));
+			.sized(0.7F,1.9F).build("slime_ninja_pirate"));
 
 	public static final RegistryObject<EntityType<GhostSlimePirateEntity>> GHOST_SLIME_PIRATE = ENTITIES.register("ghost_slime_pirate", () -> EntityType.Builder.of(GhostSlimePirateEntity::new, MobCategory.MONSTER)
-			.sized(0.7F,2.0F).build("ghost_slime_pirate"));
+			.sized(0.7F,1.9F).build("ghost_slime_pirate"));
 
 	public static final RegistryObject<EntityType<GhostSlimeNinjaPirateEntity>> GHOST_SLIME_NINJA_PIRATE = ENTITIES.register("ghost_slime_ninja_pirate", () -> EntityType.Builder.of(GhostSlimeNinjaPirateEntity::new, MobCategory.MONSTER)
-			.sized(0.7F,2.0F).build("ghost_slime_ninja_pirate"));
+			.sized(0.7F,1.9F).build("ghost_slime_ninja_pirate"));
 
 	public static final RegistryObject<EntityType<SandySheepEntity>> SANDY_SHEEP = ENTITIES.register("sandy_sheep", () -> EntityType.Builder.<SandySheepEntity>of(SandySheepEntity::new, MobCategory.CREATURE)
 			.sized(0.9F, 1.4F).build("sandy_sheep"));

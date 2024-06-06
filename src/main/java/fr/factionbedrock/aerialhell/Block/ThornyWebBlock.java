@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.Entity.Monster.MummyEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.AbstractSlimePirateEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Snake.AbstractSnakeEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
@@ -22,7 +23,7 @@ public class ThornyWebBlock extends WebBlock
 	
 	private boolean isEntityImmuneToDamage(Entity entityIn)
 	{
-		return ((entityIn instanceof Spider) || entityIn instanceof MummyEntity || EntityHelper.isShadowEntity(entityIn) || EntityHelper.isMudEntity(entityIn));
+		return ((entityIn instanceof Spider) || entityIn instanceof MummyEntity || entityIn instanceof AbstractSlimePirateEntity || EntityHelper.isShadowEntity(entityIn) || EntityHelper.isMudEntity(entityIn));
 	}
 	
 	private boolean isEntityImmuneToCollision(Entity entityIn) {return entityIn instanceof AbstractSnakeEntity || entityIn instanceof Spider || EntityHelper.isShadowEntity(entityIn);}

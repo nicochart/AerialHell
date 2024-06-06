@@ -18,12 +18,13 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
     {
         if (!this.level().isClientSide && !this.isBaby() && this.isDeadOrDying())
         {
-            int number = 1 + this.random.nextInt(3);
+            int number = 1 + this.random.nextInt(2);
+            if (random.nextInt(5) == 0) {number++;}
             for (int l = 0; l < number; ++l)
             {
                 float x = ((float) (l % 2) - 0.5F) * 0.5F;
                 float z = ((float) (l / 2) - 0.5F) * 0.5F;
-                AbstractSlimePirateEntity littlePirate = this.getType().create(this.level());
+                AbstractSlimePirateEntity littlePirate = this.getDieOffspringType().create(this.level());
                 if (littlePirate != null)
                 {
                     if (this.isPersistenceRequired()) {littlePirate.setPersistenceRequired();}
@@ -41,6 +42,13 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
         super.remove(removalReason);
     }
 
+    @Override public boolean hurt(DamageSource damageSource, float amount)
+    {
+        return super.hurt(damageSource, this.isBaby() ? amount * 1.5F : amount);
+    }
+
+    public EntityType<? extends AbstractSlimePirateEntity> getDieOffspringType() {return this.getType();}
+
     @Override public EntityType<? extends AbstractSlimePirateEntity> getType()
     {
         return (EntityType<? extends AbstractSlimePirateEntity>) super.getType();
@@ -48,9 +56,10 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
 
     public static AttributeSupplier.Builder registerAttributes()
     {
-        return AbstractHumanoidMonster.registerAttributes(40.0D, 5.0D, 0.23D, 35.0D);
+        return AbstractHumanoidMonster.registerAttributes(20.0D, 4.0D, 0.2D, 35.0D);
     }
-    
+
+    @Override public int getAmbientSoundInterval() {return 300;}
     @Override protected SoundEvent getAmbientSound(){return AerialHellSoundEvents.ENTITY_SLIME_PIRATE_AMBIENT.get();}
     @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_SLIME_PIRATE_HURT.get();}
     @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_SLIME_PIRATE_DEATH.get();}
