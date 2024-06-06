@@ -74,7 +74,7 @@ public class AerialHellEntities
 			.sized(0.7F,2.0F).build("verdigris_zombie"));
 
 	public static final RegistryObject<EntityType<MummyEntity>> MUMMY = ENTITIES.register("mummy", () -> EntityType.Builder.of(MummyEntity::new, MobCategory.MONSTER)
-			.sized(0.7F,2.0F).build("mummy"));
+			.sized(0.7F,1.9F).build("mummy"));
 
 	public static final RegistryObject<EntityType<SlimePirateEntity>> SLIME_PIRATE = ENTITIES.register("slime_pirate", () -> EntityType.Builder.of(SlimePirateEntity::new, MobCategory.MONSTER)
 			.sized(0.7F,1.9F).build("slime_pirate"));

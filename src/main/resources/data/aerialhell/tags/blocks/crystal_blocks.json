@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:crystal_block",
+    "aerialhell:stellar_stone_crystal_block",
+    "aerialhell:shadow_crystal_block",
+    "aerialhell:crystal_bricks",
+    "aerialhell:crystal_bricks_slab",
+    "aerialhell:crystal_bricks_stairs",
+    "aerialhell:crystal_bricks_wall"
+  ]
+}
