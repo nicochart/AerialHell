@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -58,13 +59,24 @@ public class BlockUpdaterItem extends WithInformationItem
             nextBlock = replace_out.next();
         }
 
-        level.setBlockAndUpdate(pos, this.getNextBlockState(previousBlockState, nextBlock));
+        BlockState nextBlockState = this.getNextBlockState(previousBlockState, nextBlock);
+        BlockEntity previousBlockEntity = level.getBlockEntity(pos);
+        if (previousBlockEntity != null) {level.removeBlockEntity(pos); previousBlockEntity.setBlockState(nextBlockState);}
+        level.setBlockAndUpdate(pos, nextBlockState);
+        if (previousBlock instanceof BaseEntityBlock && nextBlock instanceof BaseEntityBlock && previousBlockEntity != null)
+        {
+            level.setBlockEntity(previousBlockEntity);
+        }
     }
 
     protected BlockState getNextBlockState(BlockState previousBlockState, Block nextBlock)
     {
         Block previousBlock = previousBlockState.getBlock();
-        if (nextBlock instanceof StairBlock && previousBlock instanceof StairBlock)
+        if (nextBlock instanceof LeavesBlock && previousBlock instanceof LeavesBlock)
+        {
+            return nextBlock.defaultBlockState().setValue(LeavesBlock.DISTANCE, previousBlockState.getValue(LeavesBlock.DISTANCE)).setValue(LeavesBlock.PERSISTENT, previousBlockState.getValue(LeavesBlock.PERSISTENT));
+        }
+        else if (nextBlock instanceof StairBlock && previousBlock instanceof StairBlock)
         {
             return nextBlock.defaultBlockState().setValue(StairBlock.FACING, previousBlockState.getValue(StairBlock.FACING)).setValue(StairBlock.HALF, previousBlockState.getValue(StairBlock.HALF)).setValue(StairBlock.SHAPE, previousBlockState.getValue(StairBlock.SHAPE));
         }
@@ -123,6 +135,14 @@ public class BlockUpdaterItem extends WithInformationItem
         else if (nextBlock instanceof WallSignBlock && previousBlock instanceof WallSignBlock)
         {
             return nextBlock.defaultBlockState().setValue(WallSignBlock.FACING, previousBlockState.getValue(WallSignBlock.FACING)).setValue(WallSignBlock.WATERLOGGED, previousBlockState.getValue(WallSignBlock.WATERLOGGED));
+        }
+        else if (nextBlock instanceof BarrelBlock && previousBlock instanceof BarrelBlock)
+        {
+            return nextBlock.defaultBlockState().setValue(BarrelBlock.FACING, previousBlockState.getValue(BarrelBlock.FACING)).setValue(BarrelBlock.OPEN, previousBlockState.getValue(BarrelBlock.OPEN));
+        }
+        else if (nextBlock instanceof ChestBlock && previousBlock instanceof ChestBlock)
+        {
+            return nextBlock.defaultBlockState().setValue(ChestBlock.FACING, previousBlockState.getValue(ChestBlock.FACING)).setValue(ChestBlock.TYPE, previousBlockState.getValue(ChestBlock.TYPE)).setValue(ChestBlock.WATERLOGGED, previousBlockState.getValue(ChestBlock.WATERLOGGED));
         }
         else
         {

@@ -2,6 +2,9 @@
   "replace": false,
   "values":
   [
+    "aerialhell:aerial_tree_barrel",
+    "aerialhell:aerial_tree_chest",
+
     "minecraft:bookshelf",
     "minecraft:oak_button",
     "minecraft:composter",
