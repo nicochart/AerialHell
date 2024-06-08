@@ -1,0 +1,213 @@
+{
+  "pools": [
+    {
+      "rolls": 3,
+      "entries": [
+	{
+          "type": "item",
+          "name": "aerialhell:fluorite_lantern",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:vibrant_sky_cactus_fiber",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 3,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:gold_ingot",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:sky_stick",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 2,
+      "entries": [
+	{
+          "type": "item",
+          "name": "aerialhell:azurite_sword",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 15.0,
+                "max": 30.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ]
+        },
+	{
+          "type": "item",
+          "name": "aerialhell:azurite_axe",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 15.0,
+                "max": 30.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ]
+        },
+	{
+          "type": "item",
+          "name": "aerialhell:azurite_helmet",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 15.0,
+                "max": 30.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ]
+        },
+	{
+          "type": "item",
+          "name": "aerialhell:azurite_chestplate",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 15.0,
+                "max": 30.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ]
+        },
+	{
+          "type": "item",
+          "name": "aerialhell:azurite_leggings",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 15.0,
+                "max": 30.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:azurite_boots",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "min": 15.0,
+                "max": 30.0,
+                "type": "minecraft:uniform"
+              },
+              "treasure": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 2,
+      "entries": [
+	{
+          "type": "item",
+          "name": "aerialhell:azurite_crystal",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 6
+              }
+            }
+          ]
+        },
+	{
+          "type": "item",
+          "name": "aerialhell:magmatic_gel",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 4,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:ruby",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 6
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

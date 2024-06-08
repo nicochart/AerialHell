@@ -6,6 +6,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -42,4 +43,6 @@ public class VineRopeSpoolBlock extends RotatedPillarBlock
             return Shapes.or(HORIZONTAL_Z_BOTTOM_SUPPORT, HORIZONTAL_Z_TOP_SUPPORT, HORIZONTAL_Z_SPOOL);
         }
     }
+
+    @Override public boolean isPathfindable(BlockState state, BlockGetter blockGetter, BlockPos pos, PathComputationType pathComputationType) {return false;}
 }

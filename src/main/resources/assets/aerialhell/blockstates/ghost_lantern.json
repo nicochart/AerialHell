@@ -4,7 +4,7 @@
       "model": "aerialhell:block/ghost_lantern"
     },
     "hanging=true": {
-      "model": "aerialhell:block/ghost_lantern"
+      "model": "aerialhell:block/ghost_lantern_hanging"
     }
   }
 }

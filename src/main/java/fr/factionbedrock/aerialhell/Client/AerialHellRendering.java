@@ -20,6 +20,7 @@ public class AerialHellRendering
 		
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_PLANKS.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_LOG.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_WOOD.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_SLAB.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_STAIRS.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_FENCE.get(), translucent);
@@ -31,6 +32,8 @@ public class AerialHellRendering
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_WOOL.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_RUBY_BLOCK.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_FLUORITE_BLOCK.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_AZURITE_BLOCK.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_GOLD_BLOCK.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_BARREL.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_CRAFTING_TABLE.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_VINE_ROPE_SPOOL.get(), translucent);
