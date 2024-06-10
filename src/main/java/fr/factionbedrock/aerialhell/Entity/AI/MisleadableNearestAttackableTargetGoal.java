@@ -26,6 +26,7 @@ public class MisleadableNearestAttackableTargetGoal<T extends LivingEntity>  ext
             List<Player> nearbyTargetablePlayers = nearbyEntities.stream()
                     .filter(entity -> entity instanceof Player)
                     .filter(entity -> !isPlayerMisleadingGoalOwner((Player) entity))
+                    .filter(entity -> this.mob.hasLineOfSight(entity))
                     .map(entity -> (Player) entity)
                     .collect(Collectors.toList());
             this.target = this.mob.level().getNearestEntity(nearbyTargetablePlayers, this.targetConditions, target, x, y, z);
