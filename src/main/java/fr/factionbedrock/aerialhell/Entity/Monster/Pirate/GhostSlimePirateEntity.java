@@ -23,7 +23,7 @@ public class GhostSlimePirateEntity extends AbstractSlimePirateEntity
     @Override protected void registerBaseGoals()
     {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 0.6D));
+        this.goalSelector.addGoal(3, new GhostGoals.GhostPirateWaterAvoidingRandomStrollGoal(this, 0.6D));
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
     }
