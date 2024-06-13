@@ -120,6 +120,73 @@
       "aerialhell:mob/evil_cow/hurt3"
     ]
   },
+  "entity.snake.ambient": {
+    "subtitle": "subtitles.aerialhell.entity.snake.ambient",
+    "sounds": [
+      "aerialhell:mob/snake/ambient1",
+      "aerialhell:mob/snake/ambient2"
+    ]
+  },
+  "entity.snake.hurt": {
+    "subtitle": "subtitles.aerialhell.entity.snake.hurt",
+    "sounds": ["aerialhell:mob/snake/hurt"]
+  },
+  "entity.snake.death": {
+    "subtitle": "subtitles.aerialhell.entity.snake.death",
+    "sounds": ["aerialhell:mob/snake/death"]
+  },
+  "entity.worm.ambient": {
+    "subtitle": "subtitles.aerialhell.entity.worm.ambient",
+    "sounds": [
+      "aerialhell:mob/worm/ambient1",
+      "aerialhell:mob/worm/ambient2"
+    ]
+  },
+  "entity.worm.hurt": {
+    "subtitle": "subtitles.aerialhell.entity.worm.hurt",
+    "sounds": [
+      "aerialhell:mob/worm/hurt1",
+      "aerialhell:mob/worm/hurt2"
+    ]
+  },
+  "entity.worm.death": {
+    "subtitle": "subtitles.aerialhell.entity.worm.death",
+    "sounds": ["aerialhell:mob/worm/death"]
+  },
+  "entity.slime_pirate.ambient": {
+    "subtitle": "subtitles.aerialhell.entity.slime_pirate.ambient",
+    "sounds": [
+      "aerialhell:mob/slime_pirate/ambient1",
+      "aerialhell:mob/slime_pirate/ambient2",
+      "aerialhell:mob/slime_pirate/ambient3",
+      "aerialhell:mob/slime_pirate/ambient4",
+      "aerialhell:mob/slime_pirate/ambient5",
+      "aerialhell:mob/slime_pirate/ambient6"
+    ]
+  },
+  "entity.slime_pirate.hurt": {
+    "subtitle": "subtitles.aerialhell.entity.slime_pirate.hurt",
+    "sounds": [
+      "aerialhell:mob/slime_pirate/hurt1",
+      "aerialhell:mob/slime_pirate/hurt2",
+      "aerialhell:mob/slime_pirate/hurt3"
+    ]
+  },
+  "entity.slime_pirate.death": {
+    "subtitle": "subtitles.aerialhell.entity.slime_pirate.death",
+    "sounds": [
+      "aerialhell:mob/slime_pirate/death1",
+      "aerialhell:mob/slime_pirate/death2"
+    ]
+  },
+  "entity.slime_pirate.step": {
+    "subtitle": "subtitles.aerialhell.entity.slime_pirate.step",
+    "sounds": [
+      "aerialhell:mob/slime_pirate/step1",
+      "aerialhell:mob/slime_pirate/step2",
+      "aerialhell:mob/slime_pirate/step3"
+    ]
+  },
   "entity.stellar_stone_automaton.activation": {
     "subtitle": "subtitles.aerialhell.entity.stellar_stone_automaton.activation",
     "sounds": ["aerialhell:mob/stellar_stone_automaton/activation"]
@@ -458,6 +525,14 @@
   "entity.shadow_projectile.shoot": {
     "subtitle": "subtitles.aerialhell.entity.shadow_projectile.shoot",
     "sounds": ["aerialhell:projectile/shadow_projectile/shoot"]
+  },
+  "block.glyph_block.interact": {
+    "subtitle": "subtitles.aerialhell.block.glyph_block.interact",
+    "sounds": [
+      "aerialhell:block/glyph_block/interact1",
+      "aerialhell:block/glyph_block/interact2",
+      "aerialhell:block/glyph_block/interact3"
+    ]
   },
   "block.trapped_block.step": {
     "subtitle": "subtitles.aerialhell.block.trapped_block.step",

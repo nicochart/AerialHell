@@ -25,6 +25,7 @@
     "aerialhell:shadow_torch",
     "aerialhell:shadow_wall_torch",
     "aerialhell:shadow_bars",
-    "aerialhell:shadow_catacombs_chest"
+    "aerialhell:shadow_catacombs_chest",
+    "aerialhell:shadow_catacombs_glyph_block"
   ]
 }

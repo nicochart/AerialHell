@@ -1,11 +1,15 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
+import com.mojang.authlib.minecraft.TelemetrySession;
+import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.GhostSlimePirateEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.SlimePirateEntity;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HalfTransparentBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -17,6 +21,7 @@ public abstract class CollisionConditionHalfTransparentBlock extends HalfTranspa
 {
 	protected final static double default_living_entity_xz_delta_movement_factor = 0.96, default_non_living_entity_xz_delta_movement_factor = 0.85, default_y_delta_movement_factor = 0.002;
 	protected final static VoxelShape EMPTY_SHAPE = Shapes.empty();
+	protected final static VoxelShape FULL_COLLISION_SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 16.0);
 
 	public CollisionConditionHalfTransparentBlock(Properties properties)
 	{
@@ -35,7 +40,8 @@ public abstract class CollisionConditionHalfTransparentBlock extends HalfTranspa
 
 	public void livingEntityInside(BlockState state, Level level, BlockPos pos, LivingEntity entity)
 	{
-		EntityHelper.multiplyDeltaMovement(entity, default_living_entity_xz_delta_movement_factor, default_y_delta_movement_factor);
+		double y_delta_movement_factor = entity.getDeltaMovement().y < 0.1D ? 0.8D : default_y_delta_movement_factor;
+		EntityHelper.multiplyDeltaMovement(entity, default_living_entity_xz_delta_movement_factor, y_delta_movement_factor);
 	}
 
 	public void nonLivingEntityInside(BlockState state, Level level, BlockPos pos, Entity entity)
@@ -51,8 +57,12 @@ public abstract class CollisionConditionHalfTransparentBlock extends HalfTranspa
 		{
 			Entity entity = ((EntityCollisionContext)context).getEntity();
 			if (canEntityCollide(entity)) {return getCollidingShape();}
+			else {return EMPTY_SHAPE;}
 		}
-		return EMPTY_SHAPE;
+		else
+		{
+			return super.getCollisionShape(state, blockGetter, pos, context);
+		}
 	}
 
 	protected abstract boolean canEntityCollide(Entity entity);

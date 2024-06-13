@@ -1,0 +1,4 @@
+{
+  "parent": "aerialhell:block/ghost_vine_rope_spool_horizontal",
+  "textures": {"support": "aerialhell:block/ghost_boat_planks"}
+}

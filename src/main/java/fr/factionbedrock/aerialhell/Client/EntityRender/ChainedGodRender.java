@@ -22,7 +22,7 @@ public class ChainedGodRender extends MobRenderer<ChainedGodEntity, ChainedGodMo
 	@Override
 	public ResourceLocation getTextureLocation(ChainedGodEntity entity)
     {
-		if (entity.getPhase() < 2) {return CHAINED;}
+		if (entity.isInAnyPhaseBeforeSecondPhase()) {return CHAINED;}
 		else {return UNCHAINED;}
     }
 }

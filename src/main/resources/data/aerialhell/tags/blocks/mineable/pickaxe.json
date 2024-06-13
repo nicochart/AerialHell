@@ -23,6 +23,7 @@
     "aerialhell:slippery_sand_stone",
     "aerialhell:slippery_sand_stone_bricks",
     "aerialhell:cut_slippery_sand_stone",
+    "aerialhell:cracked_slippery_sand_stone_bricks",
 
     "#aerialhell:stellar_portal_frame_ore",
     "aerialhell:stellar_portal_frame_block",
@@ -47,6 +48,7 @@
     "aerialhell:mossy_stellar_cobblestone_slab",
     "aerialhell:slippery_sand_stone_slab",
     "aerialhell:slippery_sand_stone_bricks_slab",
+    "aerialhell:cracked_slippery_sand_stone_bricks_slab",
     "aerialhell:polished_glaucophanite_slab",
     "aerialhell:crystal_bricks_slab",
     "aerialhell:magmatic_gel_slab",
@@ -58,6 +60,7 @@
     "aerialhell:mossy_stellar_cobblestone_stairs",
     "aerialhell:slippery_sand_stone_stairs",
     "aerialhell:slippery_sand_stone_bricks_stairs",
+    "aerialhell:cracked_slippery_sand_stone_bricks_stairs",
     "aerialhell:polished_glaucophanite_stairs",
     "aerialhell:crystal_bricks_stairs",
     "aerialhell:magmatic_gel_stairs",
@@ -69,6 +72,7 @@
     "aerialhell:stellar_stone_bricks_wall",
     "aerialhell:slippery_sand_stone_wall",
     "aerialhell:slippery_sand_stone_bricks_wall",
+    "aerialhell:cracked_slippery_sand_stone_bricks_wall",
     "aerialhell:glaucophanite_wall",
     "aerialhell:crystal_bricks_wall",
     "aerialhell:polished_glaucophanite_wall",
@@ -93,6 +97,8 @@
 
     "#aerialhell:smoky_quartz",
     "aerialhell:smoky_quartz_ore",
+
+    "#aerialhell:crystal_blocks",
 
     "aerialhell:fluorite_block",
     "aerialhell:magmatic_gel_block",

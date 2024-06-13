@@ -16,6 +16,11 @@ public class IronShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, worldIn);
 	}
 
+	public IronShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	{
+		super(AerialHellEntities.IRON_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+	}
+
 	public IronShurikenEntity(double x, double y, double z, Level worldIn)
 	{
 		super(AerialHellEntities.IRON_SHURIKEN.get(), x, y, z, worldIn);

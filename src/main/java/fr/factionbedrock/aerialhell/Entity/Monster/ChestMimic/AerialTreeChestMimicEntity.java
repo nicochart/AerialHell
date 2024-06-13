@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic;
 
-import fr.factionbedrock.aerialhell.Entity.AbstractChestMimicEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.EntityType;

@@ -22,7 +22,11 @@ public class AerialHellBlockEntities
 			new BlockEntityType<>(FreezerBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.FREEZER.get()), null));
 	
 	public static final RegistryObject<BlockEntityType<StellarFurnaceBlockEntity>> STELLAR_FURNACE = BLOCK_ENTITY_TYPES.register("stellar_furnace", () ->
-			new BlockEntityType<>(StellarFurnaceBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.STELLAR_FURNACE.get()), null));
+			new BlockEntityType<>(StellarFurnaceBlockEntity::new, Sets.newHashSet
+					(
+							AerialHellBlocksAndItems.STELLAR_FURNACE.get(),
+							AerialHellBlocksAndItems.GHOST_STELLAR_FURNACE.get()
+					), null));
 	
 	public static final RegistryObject<BlockEntityType<AerialHellSignBlockEntity>> SIGN = BLOCK_ENTITY_TYPES.register("sign", () ->
 			new BlockEntityType<>(AerialHellSignBlockEntity::new, Sets.newHashSet
@@ -43,6 +47,27 @@ public class AerialHellBlockEntities
 							AerialHellBlocksAndItems.SKY_CACTUS_FIBER_WALL_SIGN.get(),
 							AerialHellBlocksAndItems.GRAY_SHROOM_STANDING_SIGN.get(),
 							AerialHellBlocksAndItems.GRAY_SHROOM_WALL_SIGN.get()
+					), null));
+
+	public static final RegistryObject<BlockEntityType<AerialHellHangingSignBlockEntity>> HANGING_SIGN = BLOCK_ENTITY_TYPES.register("hanging_sign", () ->
+			new BlockEntityType<>(AerialHellHangingSignBlockEntity::new, Sets.newHashSet
+					(
+							AerialHellBlocksAndItems.AERIAL_TREE_HANGING_SIGN.get(),
+							AerialHellBlocksAndItems.AERIAL_TREE_WALL_HANGING_SIGN.get(),
+							AerialHellBlocksAndItems.GOLDEN_BEECH_HANGING_SIGN.get(),
+							AerialHellBlocksAndItems.GOLDEN_BEECH_WALL_HANGING_SIGN.get(),
+							AerialHellBlocksAndItems.COPPER_PINE_HANGING_SIGN.get(),
+							AerialHellBlocksAndItems.COPPER_PINE_WALL_HANGING_SIGN.get(),
+							AerialHellBlocksAndItems.LAPIS_ROBINIA_HANGING_SIGN.get(),
+							AerialHellBlocksAndItems.LAPIS_ROBINIA_WALL_HANGING_SIGN.get(),
+							AerialHellBlocksAndItems.SHADOW_PINE_HANGING_SIGN.get(),
+							AerialHellBlocksAndItems.SHADOW_PINE_WALL_HANGING_SIGN.get(),
+							AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_HANGING_SIGN.get(),
+							AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_WALL_HANGING_SIGN.get(),
+							AerialHellBlocksAndItems.SKY_CACTUS_FIBER_HANGING_SIGN.get(),
+							AerialHellBlocksAndItems.SKY_CACTUS_FIBER_WALL_HANGING_SIGN.get(),
+							AerialHellBlocksAndItems.GRAY_SHROOM_HANGING_SIGN.get(),
+							AerialHellBlocksAndItems.GRAY_SHROOM_WALL_HANGING_SIGN.get()
 					), null));
 	
 	public static final RegistryObject<BlockEntityType<AerialHellBarrelBlockEntity>> BARREL = BLOCK_ENTITY_TYPES.register("barrel", () ->

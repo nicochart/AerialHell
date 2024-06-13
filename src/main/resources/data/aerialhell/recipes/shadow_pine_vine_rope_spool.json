@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "RRR",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:shadow_pine_slab"
+    },
+    "R": {
+      "item": "minecraft:lead"
+    }
+  },
+  "result": {
+    "item": "aerialhell:shadow_pine_vine_rope_spool"
+  }
+}

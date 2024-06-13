@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -57,5 +58,15 @@ public class CoreProtectedSlabBlock extends SlabBlock
 			int i = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(state, player) ? 30 : 100;
 			return player.getDigSpeed(state, pos) / f / (float)i;
 		}
+	}
+
+	public Block getCrackedVariant()
+	{
+		if (this == AerialHellBlocksAndItems.MUD_BRICKS_SLAB.get()) {return AerialHellBlocksAndItems.CRACKED_MUD_BRICKS_SLAB.get();}
+		else if (this == AerialHellBlocksAndItems.LUNATIC_STONE_SLAB.get()) {return AerialHellBlocksAndItems.CRACKED_LUNATIC_STONE_SLAB.get();}
+		else if (this == AerialHellBlocksAndItems.SHADOW_CATACOMBS_BRICKS_SLAB.get()) {return AerialHellBlocksAndItems.CRACKED_SHADOW_CATACOMBS_BRICKS_SLAB.get();}
+		else if (this == AerialHellBlocksAndItems.GOLDEN_NETHER_BRICKS_SLAB.get()) {return AerialHellBlocksAndItems.CRACKED_GOLDEN_NETHER_BRICKS_SLAB.get();}
+		else if (this == AerialHellBlocksAndItems.VOLUCITE_STONE_SLAB.get()) {return AerialHellBlocksAndItems.CRACKED_VOLUCITE_STONE_SLAB.get();}
+		else {return this;}
 	}
 }

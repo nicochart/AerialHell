@@ -5,6 +5,8 @@ import java.util.EnumSet;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;

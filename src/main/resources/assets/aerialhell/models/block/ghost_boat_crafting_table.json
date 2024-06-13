@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "aerialhell:block/ghost_boat_crafting_table_front",
+    "north": "aerialhell:block/ghost_boat_crafting_table_otherside",
+    "south": "aerialhell:block/ghost_boat_crafting_table_front",
+    "east": "aerialhell:block/ghost_boat_crafting_table_side",
+    "west": "aerialhell:block/ghost_boat_crafting_table_side",
+    "up": "aerialhell:block/ghost_boat_crafting_table_top",
+    "down": "aerialhell:block/ghost_boat_barrel_bottom"
+  }
+}

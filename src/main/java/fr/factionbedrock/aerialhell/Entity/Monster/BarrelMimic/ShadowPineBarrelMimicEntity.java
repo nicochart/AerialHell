@@ -1,9 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic;
 
-import fr.factionbedrock.aerialhell.Entity.AbstractBarrelMimicEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;

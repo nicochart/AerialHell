@@ -8,8 +8,13 @@ import fr.factionbedrock.aerialhell.Entity.Monster.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.*;
-import fr.factionbedrock.aerialhell.Entity.Neutral.BoarEntity;
-import fr.factionbedrock.aerialhell.Entity.Neutral.ForestCaterpillarEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Flying.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.Mud.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.Snake.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.Spider.*;
+import fr.factionbedrock.aerialhell.Entity.Neutral.*;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.*;
@@ -50,6 +55,12 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<EntEntity>> STELLAR_ENT = ENTITIES.register("stellar_ent", () -> EntityType.Builder.of(EntEntity::new, MobCategory.MONSTER)
 			.sized(0.7F,2.0F).build("stellar_ent"));
 
+	public static final RegistryObject<EntityType<VenomousSnakeEntity>> VENOMOUS_SNAKE = ENTITIES.register("venomous_snake", () -> EntityType.Builder.of(VenomousSnakeEntity::new, MobCategory.MONSTER)
+			.sized(0.8F,0.8F).build("venomous_snake"));
+
+	public static final RegistryObject<EntityType<WormEntity>> WORM = ENTITIES.register("worm", () -> EntityType.Builder.of(WormEntity::new, MobCategory.MONSTER)
+			.sized(0.8F,0.8F).build("worm"));
+
 	public static final RegistryObject<EntityType<StellarChickenEntity>> STELLAR_CHICKEN = ENTITIES.register("stellar_chicken", () -> EntityType.Builder.<StellarChickenEntity>of(StellarChickenEntity::new, MobCategory.CREATURE)
 			.sized(0.4F, 0.7F).build("stellar_chicken"));
 
@@ -62,11 +73,20 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<VerdigrisZombieEntity>> VERDIGRIS_ZOMBIE = ENTITIES.register("verdigris_zombie", () -> EntityType.Builder.of(VerdigrisZombieEntity::new, MobCategory.MONSTER)
 			.sized(0.7F,2.0F).build("verdigris_zombie"));
 
+	public static final RegistryObject<EntityType<MummyEntity>> MUMMY = ENTITIES.register("mummy", () -> EntityType.Builder.of(MummyEntity::new, MobCategory.MONSTER)
+			.sized(0.7F,1.9F).build("mummy"));
+
 	public static final RegistryObject<EntityType<SlimePirateEntity>> SLIME_PIRATE = ENTITIES.register("slime_pirate", () -> EntityType.Builder.of(SlimePirateEntity::new, MobCategory.MONSTER)
-			.sized(0.7F,2.0F).build("slime_pirate"));
+			.sized(0.7F,1.9F).build("slime_pirate"));
+
+	public static final RegistryObject<EntityType<SlimeNinjaPirateEntity>> SLIME_NINJA_PIRATE = ENTITIES.register("slime_ninja_pirate", () -> EntityType.Builder.of(SlimeNinjaPirateEntity::new, MobCategory.MONSTER)
+			.sized(0.7F,1.9F).build("slime_ninja_pirate"));
 
 	public static final RegistryObject<EntityType<GhostSlimePirateEntity>> GHOST_SLIME_PIRATE = ENTITIES.register("ghost_slime_pirate", () -> EntityType.Builder.of(GhostSlimePirateEntity::new, MobCategory.MONSTER)
-			.sized(0.7F,2.0F).build("ghost_slime_pirate"));
+			.sized(0.7F,1.9F).build("ghost_slime_pirate"));
+
+	public static final RegistryObject<EntityType<GhostSlimeNinjaPirateEntity>> GHOST_SLIME_NINJA_PIRATE = ENTITIES.register("ghost_slime_ninja_pirate", () -> EntityType.Builder.of(GhostSlimeNinjaPirateEntity::new, MobCategory.MONSTER)
+			.sized(0.7F,1.9F).build("ghost_slime_ninja_pirate"));
 
 	public static final RegistryObject<EntityType<SandySheepEntity>> SANDY_SHEEP = ENTITIES.register("sandy_sheep", () -> EntityType.Builder.<SandySheepEntity>of(SandySheepEntity::new, MobCategory.CREATURE)
 			.sized(0.9F, 1.4F).build("sandy_sheep"));
@@ -228,6 +248,13 @@ public class AerialHellEntities
 		SpawnPlacements.register(HELL_SPIDER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
 		SpawnPlacements.register(CRYSTAL_SPIDER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
 		SpawnPlacements.register(SHADOW_SPIDER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnPlacements.register(VENOMOUS_SNAKE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnPlacements.register(WORM.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnPlacements.register(MUMMY.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnPlacements.register(SLIME_PIRATE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnPlacements.register(SLIME_NINJA_PIRATE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnPlacements.register(GHOST_SLIME_PIRATE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GhostSlimePirateEntity::canGhostSpawn);
+		SpawnPlacements.register(GHOST_SLIME_NINJA_PIRATE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GhostSlimePirateEntity::canGhostSpawn);
 		SpawnPlacements.register(CRYSTAL_SLIME.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CrystalSlimeEntity::canSpawn);
 		SpawnPlacements.register(FOREST_CATERPILLAR.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractCaterpillarEntity::canCaterpillarSpawn);
 		SpawnPlacements.register(CRYSTAL_CATERPILLAR.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractCaterpillarEntity::canCaterpillarSpawn);

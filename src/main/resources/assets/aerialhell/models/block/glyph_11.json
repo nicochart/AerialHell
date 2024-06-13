@@ -1,0 +1,14 @@
+{
+  "textures": {
+    "glyph": "aerialhell:block/glyph/11"
+  },
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 0 ],
+            "faces": {
+                "north": { "texture": "#glyph", "cullface": "north", "tintindex": 0 },
+                "south": { "texture": "#glyph", "cullface": "south", "tintindex": 0 }
+            }
+        }
+    ]
+}

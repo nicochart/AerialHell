@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aerialhell:block/sky_cactus_fiber_planks",
+    "side": "aerialhell:block/sky_cactus_fiber_bookshelf"
+  }
+}

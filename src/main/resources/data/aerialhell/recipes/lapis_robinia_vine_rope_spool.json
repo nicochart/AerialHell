@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "RRR",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:lapis_robinia_slab"
+    },
+    "R": {
+      "item": "minecraft:lead"
+    }
+  },
+  "result": {
+    "item": "aerialhell:lapis_robinia_vine_rope_spool"
+  }
+}

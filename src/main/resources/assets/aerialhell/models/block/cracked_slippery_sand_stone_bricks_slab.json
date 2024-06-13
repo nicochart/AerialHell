@@ -1,0 +1,8 @@
+{
+    "parent": "block/slab",
+    "textures": {
+        "bottom": "aerialhell:block/cracked_slippery_sand_stone_bricks",
+        "top": "aerialhell:block/cracked_slippery_sand_stone_bricks",
+        "side": "aerialhell:block/cracked_slippery_sand_stone_bricks"
+    }
+}

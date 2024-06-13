@@ -16,6 +16,11 @@ public class AzuriteShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, worldIn);
 	}
 
+	public AzuriteShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	{
+		super(AerialHellEntities.AZURITE_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+	}
+
 	public AzuriteShurikenEntity(double x, double y, double z, Level worldIn)
 	{
 		super(AerialHellEntities.AZURITE_SHURIKEN.get(), x, y, z, worldIn);

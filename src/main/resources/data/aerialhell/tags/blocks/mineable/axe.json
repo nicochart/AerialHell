@@ -2,12 +2,14 @@
   "replace": false,
   "values": [
     "#aerialhell:aerialhell_planks",
+    "#aerialhell:aerialhell_wood_blocks",
     "#aerialhell:aerialhell_wooden_buttons",
     "#aerialhell:aerialhell_wooden_doors",
     "#aerialhell:aerialhell_wooden_fences",
     "#aerialhell:aerialhell_wooden_gates",
     "#aerialhell:aerialhell_wooden_pressure_plates",
     "#aerialhell:aerialhell_signs",
+    "#aerialhell:aerialhell_hanging_signs",
     "#aerialhell:aerialhell_wooden_slabs",
     "#aerialhell:aerialhell_wooden_stairs",
     "#aerialhell:aerialhell_wooden_trapdoors",
@@ -20,6 +22,8 @@
     "aerialhell:gray_shroom_crafting_table",
 
     "#aerialhell:wooden_ghost_blocks",
+
+    "#aerialhell:vine_rope_spools",
 
     "#aerialhell:wooden_bookshelves",
     "#aerialhell:wooden_chests",

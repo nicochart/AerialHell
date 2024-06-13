@@ -1,0 +1,20 @@
+{
+  "type": "aerialhell:floating_boat",
+  "biomes": "#aerialhell:has_structure/floating_boat",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "start_pool": "aerialhell:floating_boat/main_deck",
+  "size": 10,
+  "start_height": {
+    "type": "minecraft:uniform",
+    "min_inclusive": {
+      "absolute": 140
+    },
+    "max_inclusive": {
+      "absolute": 220
+    }
+  },
+  "max_distance_from_center": 100,
+  "use_expansion_hack": false
+}

@@ -3,6 +3,7 @@
   "values": [
     "aerialhell:ghost_boat_planks",
     "aerialhell:ghost_boat_log",
+    "aerialhell:ghost_boat_wood",
     "aerialhell:ghost_boat_slab",
     "aerialhell:ghost_boat_stairs",
     "aerialhell:ghost_boat_fence",
@@ -10,6 +11,8 @@
     "aerialhell:ghost_boat_door",
     "aerialhell:ghost_boat_trapdoor",
     "aerialhell:ghost_boat_chest",
-    "aerialhell:ghost_boat_barrel"
+    "aerialhell:ghost_boat_barrel",
+    "aerialhell:ghost_boat_crafting_table",
+    "aerialhell:ghost_boat_vine_rope_spool"
   ]
 }

@@ -1,0 +1,40 @@
+{
+  "replace": false,
+  "values":
+  [
+    "aerialhell:lapis_robinia_barrel",
+    "aerialhell:lapis_robinia_chest",
+
+    "aerialhell:aerial_tree_bookshelf",
+    "aerialhell:aerial_tree_button",
+    "aerialhell:aerial_tree_composter",
+    "aerialhell:aerial_tree_crafting_table",
+    "aerialhell:aerial_tree_door",
+    "aerialhell:aerial_tree_fence",
+    "aerialhell:aerial_tree_gate",
+    "aerialhell:aerial_tree_leaves",
+    "aerialhell:aerial_tree_log",
+    "aerialhell:stripped_aerial_tree_log",
+    "aerialhell:aerial_tree_planks",
+    "aerialhell:aerial_tree_pressure_plate",
+    "aerialhell:aerial_tree_sapling",
+    "aerialhell:aerial_tree_sign",
+    "aerialhell:aerial_tree_wall_sign",
+    "aerialhell:aerial_tree_slab",
+    "aerialhell:aerial_tree_stairs",
+    "aerialhell:aerial_tree_trapdoor",
+
+    "aerialhell:stellar_stone_button",
+    "aerialhell:stellar_cobblestone",
+    "aerialhell:mossy_stellar_cobblestone",
+    "aerialhell:stellar_cobblestone_stairs",
+    "aerialhell:stellar_cobblestone_slab",
+
+    "aerialhell:sky_ladder",
+    "aerialhell:fluorite_torch",
+    "aerialhell:fluorite_wall_torch",
+    "aerialhell:fluorite_block",
+    "aerialhell:stellar_furnace",
+    "aerialhell:thorny_cobweb"
+  ]
+}

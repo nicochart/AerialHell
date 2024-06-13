@@ -17,8 +17,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GhostBoatBlock extends CollisionConditionHalfTransparentBlock
 {
-	protected final static VoxelShape FULL_COLLISION_SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 16.0);
-
 	public GhostBoatBlock(Properties properties)
 	{
 		super(properties);
@@ -29,7 +27,6 @@ public class GhostBoatBlock extends CollisionConditionHalfTransparentBlock
 	{
 		if (!EntityHelper.isFeatheryEntity(entity)) {super.livingEntityInside(state, level, pos, entity);}
 	}
-
 
 	@Override protected boolean canEntityCollide(Entity entity) {return !EntityHelper.isImmuneToGhostBlockCollision(entity);}
 	@Override protected VoxelShape getCollidingShape() {return FULL_COLLISION_SHAPE;}

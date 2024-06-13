@@ -19,6 +19,11 @@ public class LightningShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, worldIn);
 	}
 
+	public LightningShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	{
+		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+	}
+
 	public LightningShurikenEntity(double x, double y, double z, Level worldIn)
 	{
 		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), x, y, z, worldIn);

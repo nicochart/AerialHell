@@ -47,6 +47,8 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_AERIAL_TREE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_WOOD_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_AERIAL_TREE_WOOD_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_PLANKS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.CHISELED_AERIAL_TREE_PLANKS_ITEM.get());
@@ -56,7 +58,9 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.PETRIFIED_AERIAL_TREE_LOG_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_LOG_ITEM.get());
-            itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_AERIAL_TREE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_GOLDEN_BEECH_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_WOOD_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_GOLDEN_BEECH_WOOD_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_PLANKS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.CHISELED_GOLDEN_BEECH_PLANKS_ITEM.get());
@@ -65,6 +69,8 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_COPPER_PINE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_WOOD_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_COPPER_PINE_WOOD_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_PLANKS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_BOOKSHELF_ITEM.get());
@@ -73,6 +79,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.ENCHANTED_LAPIS_ROBINIA_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_LAPIS_ROBINIA_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_WOOD_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_LAPIS_ROBINIA_WOOD_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_PLANKS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_BOOKSHELF_ITEM.get());
@@ -81,6 +89,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_SHADOW_PINE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_WOOD_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_SHADOW_PINE_WOOD_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_PLANKS_ITEM.get());
@@ -90,6 +100,8 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_STELLAR_JUNGLE_TREE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_WOOD_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_STELLAR_JUNGLE_TREE_WOOD_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_PLANKS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_BOOKSHELF_ITEM.get());
@@ -98,6 +110,8 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_STEM_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_LIGHT_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.CORTINARIUS_VIOLACEUS_ITEM.get());
@@ -108,6 +122,8 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.GIANT_VERDIGRIS_AGARIC_STEM_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GIANT_VERDIGRIS_AGARIC_BARK_STEM_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STRIPPED_GIANT_VERDIGRIS_AGARIC_BARK_STEM_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GIANT_VERDIGRIS_AGARIC_CAP_BLOCK_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VERDIGRIS_AGARIC_ITEM.get());
 
@@ -151,6 +167,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.CUT_SLIPPERY_SAND_STONE_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_GLASS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS_ITEM.get());
@@ -165,6 +182,7 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_PLANKS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_WOOD_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_SLAB_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_STAIRS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_FENCE_ITEM.get());
@@ -172,10 +190,17 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_DOOR_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_TRAPDOOR_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_CHEST_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_STELLAR_COBBLESTONE_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_STELLAR_FURNACE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_WOOL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_RUBY_BLOCK_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_FLUORITE_BLOCK_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_AZURITE_BLOCK_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_GOLD_BLOCK_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_BARREL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_CRAFTING_TABLE_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_VINE_ROPE_SPOOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_LANTERN_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.WHITE_SOLID_ETHER_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.BLUE_SOLID_ETHER_ITEM.get());
@@ -220,6 +245,7 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_PLANKS_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_BOOKSHELF_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_FIBER_LANTERN_ITEM.get());
 
@@ -286,6 +312,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_WALL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_WALL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_WALL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_WALL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GLAUCOPHANITE_WALL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.POLISHED_GLAUCOPHANITE_WALL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MAGMATIC_GEL_WALL_ITEM.get());
@@ -364,6 +391,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_SLAB_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_SLAB_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_SLAB_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_SLAB_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.POLISHED_GLAUCOPHANITE_SLAB_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MAGMATIC_GEL_SLAB_ITEM.get());
 
@@ -382,6 +410,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_STAIRS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_STAIRS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_STAIRS_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_STAIRS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.POLISHED_GLAUCOPHANITE_STAIRS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MAGMATIC_GEL_STAIRS_ITEM.get());
 
@@ -393,6 +422,15 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_SIGN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_SIGN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_SIGN_ITEM.get());
+
+            itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_HANGING_SIGN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_HANGING_SIGN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_HANGING_SIGN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_HANGING_SIGN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_HANGING_SIGN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_HANGING_SIGN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_HANGING_SIGN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_HANGING_SIGN_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_CRAFTING_TABLE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_CRAFTING_TABLE_ITEM.get());
@@ -420,6 +458,15 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_COMPOSTER_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_COMPOSTER_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_COMPOSTER_ITEM.get());
+
+            itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_VINE_ROPE_SPOOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_VINE_ROPE_SPOOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_VINE_ROPE_SPOOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_VINE_ROPE_SPOOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_VINE_ROPE_SPOOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_VINE_ROPE_SPOOL_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_VINE_ROPE_SPOOL_ITEM.get());
         }
         if (event.getTabKey() == AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS.getKey())
         {
@@ -530,6 +577,12 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_NETHER_BOOKSHELF_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_CATACOMBS_BOOKSHELF_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VOLUCITE_BOOKSHELF_ITEM.get());
+
+            itemsToAdd.add(AerialHellBlocksAndItems.MUD_GLYPH_BLOCK_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.LUNATIC_GLYPH_BLOCK_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_NETHER_PRISON_GLYPH_BLOCK_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.VOLUCITE_GLYPH_BLOCK_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_CATACOMBS_GLYPH_BLOCK_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.MUD_CHEST_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LUNATIC_CHEST_ITEM.get());
@@ -770,6 +823,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_BOWL.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_SHARD.get());
             itemsToAdd.add(AerialHellBlocksAndItems.ROTTEN_LEATHER.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.VENOMOUS_SNAKE_SKIN.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.IRON_LIQUID_OF_GODS_BUCKET.get());
             itemsToAdd.add(AerialHellBlocksAndItems.RUBY_LIQUID_OF_GODS_BUCKET.get());
@@ -808,12 +862,17 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.EVIL_COW_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.CORTINARIUS_COW_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_ENT_SPAWN_EGG.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.VENOMOUS_SNAKE_SPAWN_EGG.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.WORM_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_CHICKEN_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_BOAR_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHROOMBOOM_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VERDIGRIS_ZOMBIE_SPAWN_EGG.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.MUMMY_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SLIME_PIRATE_SPAWN_EGG.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SLIME_NINJA_PIRATE_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_SLIME_PIRATE_SPAWN_EGG.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GHOST_SLIME_NINJA_PIRATE_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SANDY_SHEEP_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GLIDING_TURTLE_SPAWN_EGG.get());
             itemsToAdd.add(AerialHellBlocksAndItems.FAT_PHANTOM_SPAWN_EGG.get());

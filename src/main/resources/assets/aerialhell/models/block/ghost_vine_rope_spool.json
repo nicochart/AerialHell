@@ -1,0 +1,42 @@
+{
+        "parent": "minecraft:block/block",
+	"credit": "Made with Blockbench",
+	"ambientocclusion": true,
+	"textures": {"rope_spool": "aerialhell:block/ghost_vine_rope_spool","particle": "#support"},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 3, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 3], "texture": "#support"},
+				"east": {"uv": [0, 0, 16, 3], "texture": "#support"},
+				"south": {"uv": [0, 0, 16, 3], "texture": "#support"},
+				"west": {"uv": [0, 0, 16, 3], "texture": "#support"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#support"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#support"}
+			}
+		},
+		{
+			"from": [2, 3, 2],
+			"to": [14, 13, 14],
+			"faces": {
+				"north": {"uv": [0, 0, 12, 10], "texture": "#rope_spool"},
+				"east": {"uv": [0, 0, 12, 10], "texture": "#rope_spool"},
+				"south": {"uv": [0, 0, 12, 10], "texture": "#rope_spool"},
+				"west": {"uv": [0, 0, 12, 10], "texture": "#rope_spool"}
+			}
+		},
+		{
+			"from": [0, 13, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 3], "texture": "#support"},
+				"east": {"uv": [0, 0, 16, 3], "texture": "#support"},
+				"south": {"uv": [0, 0, 16, 3], "texture": "#support"},
+				"west": {"uv": [0, 0, 16, 3], "texture": "#support"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#support"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#support"}
+			}
+		}
+	]
+}

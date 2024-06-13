@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "RRR",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:ghost_boat_planks"
+    },
+    "R": {
+      "item": "minecraft:lead"
+    }
+  },
+  "result": {
+    "item": "aerialhell:ghost_boat_vine_rope_spool"
+  }
+}

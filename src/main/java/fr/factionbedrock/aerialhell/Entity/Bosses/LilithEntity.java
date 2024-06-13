@@ -3,9 +3,12 @@ package fr.factionbedrock.aerialhell.Entity.Bosses;
 import java.util.List;
 
 import fr.factionbedrock.aerialhell.Block.*;
+import fr.factionbedrock.aerialhell.Block.DirtAndVariants.StellarGrassBlock;
+import fr.factionbedrock.aerialhell.Block.StandingAndWall.AerialHellStandingSignBlock;
+import fr.factionbedrock.aerialhell.Block.StandingAndWall.AerialHellTorchBlock;
+import fr.factionbedrock.aerialhell.Block.StandingAndWall.AerialHellWallTorchBlock;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
-import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ShadowProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
@@ -33,9 +36,6 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.core.BlockPos;
@@ -50,9 +50,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class LilithEntity extends AbstractBossEntity
 {
 	public int attackTimer;
-	
-	private static final EntityDataAccessor<Boolean> IS_TRANSFORMING = SynchedEntityData.defineId(LilithEntity.class, EntityDataSerializers.BOOLEAN);
-	private static final EntityDataAccessor<Boolean> IS_TRANSFORMED = SynchedEntityData.defineId(LilithEntity.class, EntityDataSerializers.BOOLEAN);
 	private int timeSinceTransforming;
 	private final int transformationTime = 160; //8 seconds
 
@@ -65,8 +62,7 @@ public class LilithEntity extends AbstractBossEntity
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 	}
 
-	@Override
-    protected void registerGoals()
+	@Override protected void registerGoals()
     {
 		this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, Player.class, true));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
@@ -89,8 +85,7 @@ public class LilithEntity extends AbstractBossEntity
 				.add(Attributes.ATTACK_DAMAGE, 20.0D);
     }
 	
-	@Override
-	public boolean hurt(DamageSource source, float amount)
+	@Override public boolean hurt(DamageSource source, float amount)
 	{
 		Entity immediateSourceEntity = source.getDirectEntity();
 		Entity trueSourceEntity = source.getEntity();
@@ -110,41 +105,50 @@ public class LilithEntity extends AbstractBossEntity
 		return flag;
 	}
 	
-	@Override
-	protected void defineSynchedData()
-	{
-	    super.defineSynchedData();
-	    this.entityData.define(IS_TRANSFORMING, false);
-	    this.entityData.define(IS_TRANSFORMED, false);
-	}
-	
-	@Override
-	public void addAdditionalSaveData(CompoundTag compound)
+	@Override public void addAdditionalSaveData(CompoundTag compound)
 	{
 		super.addAdditionalSaveData(compound);
-		
 		compound.putShort("timeTransforming", (short)this.timeSinceTransforming);
-		compound.putBoolean("isTransforming", this.isTransforming());
-		if (this.entityData.get(IS_TRANSFORMED)) {compound.putBoolean("isTransformed", true);}
 	}
 	
-	@Override
-	public void readAdditionalSaveData(CompoundTag compound)
+	@Override public void readAdditionalSaveData(CompoundTag compound)
 	{
 	    super.readAdditionalSaveData(compound);
 	    if (compound.contains("timeTransforming", 99))
 	    {
 	    	this.timeSinceTransforming = compound.getShort("timeTransforming");
 	    }
-	    this.setTransforming(compound.getBoolean("isTransforming"));
-	    this.entityData.set(IS_TRANSFORMED,compound.getBoolean("isTransformed"));
 	}
-	
-	public boolean isTransforming() {return this.entityData.get(IS_TRANSFORMING);}
-	public void setTransforming(boolean isTransforming) {this.entityData.set(IS_TRANSFORMING, isTransforming);}
-	
-	public boolean isTransformed() {return this.entityData.get(IS_TRANSFORMED);}
-	public void setTransformed() {this.entityData.set(IS_TRANSFORMED, true);}
+
+	public BossPhase getTransformingPhase() {return BossPhase.FIRST_TO_SECOND_TRANSITION;}
+	@Override public int getPhaseIdToSkipToDyingPhase() {return BossPhase.SECOND_TO_THIRD_TRANSITION.getPhaseId();}
+	@Override public boolean enableTickPhaseUpdate(BossPhaseTickType type) {return true;}
+	@Override public boolean enableTryDyingPhaseUpdate() {return getPhase() == BossPhase.FIRST_PHASE;}
+
+	public boolean isTransformed() {return this.getPhase() != BossPhase.FIRST_PHASE && !this.isTransforming();}
+	public boolean isTransforming() {return this.getPhase() == BossPhase.FIRST_TO_SECOND_TRANSITION;}
+
+	@Override public boolean shouldUpdateToPhase(BossPhase phase)
+	{
+		if (phase == this.getTransformingPhase()) {return this.isActive() && !this.isTransformed() && !this.isTransforming();}
+		else if (phase == BossPhase.SECOND_PHASE) {return this.timeSinceTransforming >= transformationTime;}
+		else {return false;}
+	}
+
+	@Override public void applyPhaseUpdateEffect(BossPhase nextPhase)
+	{
+		if (nextPhase == getTransformingPhase())
+		{
+			this.timeSinceTransforming = 0;
+			this.playSound(AerialHellSoundEvents.ENTITY_LILITH_TRANSFORMATION.get(), 5.0F, 1.0F);
+		}
+		else if (nextPhase == BossPhase.SECOND_PHASE)
+		{
+			this.spawnTransformationParticle();
+			if (this.level().dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformAllBlocks();}
+			this.timeSinceTransforming = 0;
+		}
+	}
 
 	@Override public boolean fireImmune() {return true;}
 	@Override public boolean displayFireAnimation() {return false;}
@@ -154,67 +158,49 @@ public class LilithEntity extends AbstractBossEntity
 
 	@Override public Item getTrophy() {return AerialHellBlocksAndItems.LILITH_TROPHY_ITEM.get();}
 
-	@Override public void tick()
-    {
-		if (this.isActive() && !this.isTransformed() && !this.isTransforming())
+	@Override public void tickTransitionPhase()
+	{
+		if (this.isTransforming()) {this.tickTransformingPhase();}
+
+		if (!level().isClientSide())
 		{
-			this.timeSinceTransforming = 0;
-			this.setTransforming(true);
-			this.playSound(AerialHellSoundEvents.ENTITY_LILITH_TRANSFORMATION.get(), 5.0F, 1.0F);
+			this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 10, true, false)));
+			this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1, 10, true, false)));
+		}
+	}
+
+	public void tickTransformingPhase()
+	{
+		this.timeSinceTransforming++;
+		for (int i=0; i<10 + timeSinceTransforming/1.5; i++)
+		{
+			if (this.level().dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformRandomBlock();}
 		}
 
-		if (this.isTransforming())
+		if (this.timeSinceTransforming > 12)
 		{
-			if (!level().isClientSide())
+			List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
+			for (Entity entity : nearbyEntities)
 			{
-				this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 10, true, false)));
-				this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1, 10, true, false)));
-			}
-			this.timeSinceTransforming++;
-
-			for (int i=0; i<10 + timeSinceTransforming/1.5; i++)
-			{
-				if (this.level().dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformRandomBlock();}
+				if (entity instanceof LivingEntity && !EntityHelper.isCreaOrSpecPlayer(entity))
+				{
+					dragEntity(entity);
+					((LivingEntity) entity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.get(), 40, 0));
+				}
 			}
 
-	        if (this.timeSinceTransforming >= transformationTime)
-	        {
-	        	this.transform();
-				this.setTransforming(false);
-				if (this.level().dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformAllBlocks();}
-		        this.timeSinceTransforming = 0;
-	        }
-	        
-	        if (this.timeSinceTransforming > 12)
-	        {
-	        	List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
-				for (Entity entity : nearbyEntities)
-		    	{
-					boolean creaOrSpecPlayer = (entity instanceof Player && (((Player) entity).isSpectator() || ((Player) entity).isCreative()));
-		    		if (entity instanceof LivingEntity && !creaOrSpecPlayer)
-					{
-						dragEntity(entity);
-						((LivingEntity) entity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.get(), 40, 0));
-					}
-		    	}
-				
-				if (this.level().isClientSide())
-		        {
-		        	for (int i=0; i<5; i++)
-		        	{
-		        		double rand = random.nextFloat() * 2;
-						double x = getX() + (random.nextFloat() - 0.5F) * rand;
-						double y = (this.getBoundingBox().minY + rand) + 0.5D;
-						double z = getZ() + (random.nextFloat() - 0.5F) * rand;
-						double dx = (random.nextFloat() - 0.5F)/10;
-						double dz = (random.nextFloat() - 0.5F)/10;
-						this.level().addParticle(AerialHellParticleTypes.SHADOW_PARTICLE.get(), x, y, z, dx, 0.0D, dz);
-		        	}
-		        }
-	        }
+			if (this.level().isClientSide())
+			{
+				for (int i=0; i<5; i++)
+				{
+					double rand = random.nextFloat() * 2;
+					double x = getX() + (random.nextFloat() - 0.5F) * rand, y = (this.getBoundingBox().minY + rand) + 0.5D, z = getZ() + (random.nextFloat() - 0.5F) * rand;
+					double dx = (random.nextFloat() - 0.5F)/10, dz = (random.nextFloat() - 0.5F)/10;
+					this.level().addParticle(AerialHellParticleTypes.SHADOW_PARTICLE.get(), x, y, z, dx, 0.0D, dz);
+				}
+			}
 		}
-		super.tick();
-    }
+	}
 
 	private void transformRandomBlock()
 	{
@@ -424,15 +410,15 @@ public class LilithEntity extends AbstractBossEntity
 		{
 			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_STANDING_SIGN.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_STANDING_SIGN.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_STANDING_SIGN.get();}
 			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_STANDING_SIGN.get();}
-			/*if (block instanceof StandingSignBlock) TODO work on signs
+			if (block instanceof StandingSignBlock)
 			{
-				return newBlock.defaultBlockState().setValue(AerialHellStandingSignBlock.FLOOR, true);
+				return newBlock.defaultBlockState().setValue(StandingSignBlock.ROTATION, blockState.getValue(StandingSignBlock.ROTATION)).setValue(StandingSignBlock.WATERLOGGED, blockState.getValue(StandingSignBlock.WATERLOGGED));
 			}
-			else if (block instanceof AerialHellStandingSignBlock)
+			else if (block instanceof WallSignBlock)
 			{
-				return newBlock.defaultBlockState().setValue(AerialHellStandingSignBlock.ROTATION, blockState.getValue(StandingSignBlock.ROTATION)).setValue(AerialHellStandingSignBlock.FLOOR, blockState.getValue(AerialHellStandingSignBlock.FLOOR));
-			}*/
-			return newBlock.defaultBlockState().setValue(AerialHellStandingSignBlock.ROTATION, blockState.getValue(StandingSignBlock.ROTATION))/*.setValue(AerialHellStandingSignBlock.FLOOR, false)*/;
+				return newBlock.defaultBlockState().setValue(WallSignBlock.FACING, blockState.getValue(WallSignBlock.FACING)).setValue(WallSignBlock.WATERLOGGED, blockState.getValue(WallSignBlock.WATERLOGGED));
+			}
+			return newBlock.defaultBlockState();
 		}
 		return AerialHellBlocksAndItems.SHADOW_CATACOMBS_BRICKS.get().defaultBlockState();
 	}
@@ -474,12 +460,6 @@ public class LilithEntity extends AbstractBossEntity
 		double factor = 0.2 / Math.max(5, this.distanceTo(entityIn)); //0.04 / Math.max(1, this.getDistance(entityIn)); and multiply only one time, to get uniform dragging
 		Vec3 toGod = new Vec3(this.getX() - entityIn.getX(), this.getY() - entityIn.getY(), this.getZ() - entityIn.getZ()).multiply(factor, factor, factor);
 		entityIn.setDeltaMovement(entityIn.getDeltaMovement().add(toGod.multiply(factor,factor,factor)));
-	}
-	
-	private void transform()
-	{
-		this.setTransformed();
-		spawnTransformationParticle();
 	}
 	
 	public void spawnTransformationParticle()
@@ -545,8 +525,7 @@ public class LilithEntity extends AbstractBossEntity
 	public static class LilithWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal
 	{
 		public LilithWaterAvoidingRandomWalkingGoal(LilithEntity god, double speedIn) {super(god, speedIn);}
-		@Override public boolean canUse() {return !((LilithEntity) this.activableGoalOwner).isTransforming() && super.canUse();}
-		@Override public boolean canContinueToUse() {return !((LilithEntity) this.activableGoalOwner).isTransforming() && super.canContinueToUse();}
+		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && !((LilithEntity) this.getGoalOwner()).isTransforming();}
 	}
 
 	public static class LilithSummonShadowFlyingSkullGoal extends SummonThreeEntitiesGoal

@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.AI;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.control.MoveControl;
@@ -122,7 +123,17 @@ public class GhastLikeGoals
         private final Mob parentEntity;
         public int shootTimer;
 
-        public ShootProjectileGoal(Mob mob) {this.parentEntity = mob;}
+        protected final boolean imitateSkeletonBowAttackMovement;
+        private final double speedModifier = 1.0F;
+        private final float attackRadiusSqr = 16F*16F;
+        private int seeTime;
+        private boolean strafingClockwise;
+        private boolean strafingBackwards;
+        private int strafingTime = -1;
+
+        public ShootProjectileGoal(Mob mob) {this(mob, false);}
+
+        public ShootProjectileGoal(Mob mob, boolean affectMovements) {this.parentEntity = mob; imitateSkeletonBowAttackMovement = affectMovements;}
 
         public Mob getParentEntity() {return parentEntity;}
 
@@ -137,19 +148,67 @@ public class GhastLikeGoals
             {
                 ++this.shootTimer;
 
-                if (tryPlayingShootSound()) {}
                 if (tryShooting(target)) {this.resetTask();}
             }
             else if (this.doesShootTimeDecreaseWhenTargetOutOfSight() && this.shootTimer > - this.getShootTimeInterval()) {this.shootTimer--;}
 
             this.setAttacking(shootTimer > 0);
+
+            if (this.imitateSkeletonBowAttackMovement) {this.imitateBowAttackMovementTick();}
+        }
+
+        public void imitateBowAttackMovementTick()
+        {
+            //copy of net.minecraft.world.entity.ai.goal.RangedBowAttackGoal tick method part modifying skeleton navigation
+            LivingEntity target = this.getParentEntity().getTarget();
+            if (target != null)
+            {
+                double distanceToTarget = this.getParentEntity().distanceToSqr(target.getX(), target.getY(), target.getZ());
+                boolean hasLineOfSight = this.getParentEntity().getSensing().hasLineOfSight(target);
+                boolean seeingTarget = this.seeTime > 0;
+                if (hasLineOfSight != seeingTarget) {this.seeTime = 0;}
+
+                if (hasLineOfSight) {++this.seeTime;}
+                else {--this.seeTime;}
+
+                if (!(distanceToTarget > (double)this.attackRadiusSqr) && this.seeTime >= 20)
+                {
+                    this.getParentEntity().getNavigation().stop();
+                    ++this.strafingTime;
+                }
+                else
+                {
+                    this.getParentEntity().getNavigation().moveTo(target, this.speedModifier);
+                    this.strafingTime = -1;
+                }
+
+                if (this.strafingTime >= 20)
+                {
+                    if ((double)this.getParentEntity().getRandom().nextFloat() < 0.3D) {this.strafingClockwise = !this.strafingClockwise;}
+                    if ((double)this.getParentEntity().getRandom().nextFloat() < 0.3D) {this.strafingBackwards = !this.strafingBackwards;}
+                    this.strafingTime = 0;
+                }
+
+                if (this.strafingTime > -1)
+                {
+                    if (distanceToTarget > (double)(this.attackRadiusSqr * 0.75F)) {this.strafingBackwards = false;}
+                    else if (distanceToTarget < (double)(this.attackRadiusSqr * 0.25F)) {this.strafingBackwards = true;}
+
+                    this.getParentEntity().getMoveControl().strafe(this.strafingBackwards ? -0.5F : 0.5F, this.strafingClockwise ? 0.5F : -0.5F);
+                    Entity entity = this.getParentEntity().getControlledVehicle();
+                    if (entity instanceof Mob mob) {mob.lookAt(target, 30.0F, 30.0F);}
+
+                    this.getParentEntity().lookAt(target, 30.0F, 30.0F);
+                }
+                else {this.getParentEntity().getLookControl().setLookAt(target, 30.0F, 30.0F);}
+            }
         }
 
         protected void resetTask() {this.shootTimer = - this.getShootTimeInterval();} //restart
 
         protected boolean tryPlayingShootSound() //returns true if the playsound is a success
         {
-            if (this.shootTimer == 0 && this.getShootSound() != null) //if it's time to play shoot sound
+            if (this.getShootSound() != null) //if it's time to play shoot sound
             {
                 this.parentEntity.playSound(this.getShootSound(), 3.0F, (this.parentEntity.level().random.nextFloat() - this.parentEntity.level().random.nextFloat()) * 0.2F + 1.0F);
                 return true;
@@ -161,10 +220,16 @@ public class GhastLikeGoals
         {
             if (this.shootTimer >= this.getShootDelay()) //if it's time to actually shoot. (== is exact time to shoot the first projectile)
             {
-                this.parentEntity.level().addFreshEntity(createProjectile(target));
+                this.shootWithSound(target);
                 return true;
             }
             return false;
+        }
+
+        protected void shootWithSound(LivingEntity target)
+        {
+            this.parentEntity.level().addFreshEntity(createProjectile(target));
+            this.tryPlayingShootSound();
         }
 
         public Projectile createProjectile(LivingEntity target)
@@ -191,6 +256,7 @@ public class GhastLikeGoals
     {
         private int shotProjectileCount;
         public ShootProjectileFlurryGoal(Mob mob) {super(mob);}
+        public ShootProjectileFlurryGoal(Mob mob, boolean affectMovements) {super(mob, affectMovements);}
 
         @Override public void start() {super.start(); this.shotProjectileCount = 0;}
         @Override public void stop() {super.stop(); this.shotProjectileCount = 0;}
@@ -203,7 +269,7 @@ public class GhastLikeGoals
             boolean shouldShootAnotherProjectileNow = isNotFirstProjectileToBeShot && this.shootTimer > this.getShootDelay() && this.shootTimer - this.shotProjectileCount * getShootInvervalWithinBurst() >= this.getShootDelay();
             if (this.shootTimer == this.getShootDelay() || shouldShootAnotherProjectileNow) //if it's time to actually shoot. (== is exact time to shoot the first projectile)
             {
-                this.getParentEntity().level().addFreshEntity(createProjectile(target));
+                this.shootWithSound(target);
                 return ++this.shotProjectileCount >= getProjectileNumber();
             }
             return false;

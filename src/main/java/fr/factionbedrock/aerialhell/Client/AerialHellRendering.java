@@ -20,16 +20,24 @@ public class AerialHellRendering
 		
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_PLANKS.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_LOG.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_WOOD.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_SLAB.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_STAIRS.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_FENCE.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_GATE.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_DOOR.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_TRAPDOOR.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_STELLAR_COBBLESTONE.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_STELLAR_FURNACE.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_WOOL.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_RUBY_BLOCK.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_FLUORITE_BLOCK.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_AZURITE_BLOCK.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_GOLD_BLOCK.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_BARREL.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_CRAFTING_TABLE.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_BOAT_VINE_ROPE_SPOOL.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GHOST_LANTERN.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get(), translucent);
 		render(() -> AerialHellBlocksAndItems.CRYSTAL_BLOCK.get(), translucent);
@@ -78,6 +86,11 @@ public class AerialHellRendering
 		render(() -> AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB.get(), cutout);
 		render(() -> AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS.get(), cutout);
 		render(() -> AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_WALL.get(), cutout);
+		render(() -> AerialHellBlocksAndItems.MUD_GLYPH_BLOCK.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.LUNATIC_GLYPH_BLOCK.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.GOLDEN_NETHER_PRISON_GLYPH_BLOCK.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.VOLUCITE_GLYPH_BLOCK.get(), translucent);
+		render(() -> AerialHellBlocksAndItems.SHADOW_CATACOMBS_GLYPH_BLOCK.get(), translucent);
         render(() -> AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), cutout_mipped);
         render(() -> AerialHellBlocksAndItems.STELLAR_PODZOL.get(), cutout_mipped);
         render(() -> AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get(), cutout_mipped);

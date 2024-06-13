@@ -16,6 +16,11 @@ public class ArsonistShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, worldIn);
 	}
 
+	public ArsonistShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	{
+		super(AerialHellEntities.ARSONIST_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+	}
+
 	public ArsonistShurikenEntity(double x, double y, double z, Level worldIn)
 	{
 		super(AerialHellEntities.ARSONIST_SHURIKEN.get(), x, y, z, worldIn);

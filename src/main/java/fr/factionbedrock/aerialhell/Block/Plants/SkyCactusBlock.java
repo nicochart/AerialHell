@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.level.block.CactusBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
@@ -35,6 +36,7 @@ public class SkyCactusBlock extends CactusBlock
 	@Override
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn)
 	{
+		if (EntityHelper.isImmuneToSkyCactusCollision(entityIn)) {return;}
 		Vec3 motion = entityIn.getDeltaMovement();
 		entityIn.hurt(level.damageSources().cactus(), 2.0F);
 		entityIn.setDeltaMovement(motion.x, 1.0, motion.z);

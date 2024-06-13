@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "aerialhell:block/ghost_boat_vine_rope_spool_horizontal"
+    },
+    "axis=y": {
+      "model": "aerialhell:block/ghost_boat_vine_rope_spool"
+    },
+    "axis=z": {
+      "model": "aerialhell:block/ghost_boat_vine_rope_spool_horizontal",
+      "y": 90
+    }
+  }
+}
+

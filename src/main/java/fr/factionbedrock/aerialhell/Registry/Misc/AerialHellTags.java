@@ -117,6 +117,10 @@ public class AerialHellTags
 
 		public static final TagKey<Block> TROPHIES = tag("trophies");
 
+		public static final TagKey<Block> REPLACE_IN = tag("replace_in");
+
+		public static final TagKey<Block> REPLACE_OUT = tag("replace_out");
+
 		private static TagKey<Block> tag(String name)
 		{
 			return BlockTags.create(new ResourceLocation(AerialHell.MODID, name));

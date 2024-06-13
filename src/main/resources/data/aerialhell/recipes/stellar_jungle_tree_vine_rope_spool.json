@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "RRR",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aerialhell:stellar_jungle_tree_slab"
+    },
+    "R": {
+      "item": "minecraft:lead"
+    }
+  },
+  "result": {
+    "item": "aerialhell:stellar_jungle_tree_vine_rope_spool"
+  }
+}

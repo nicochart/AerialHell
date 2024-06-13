@@ -1,7 +1,12 @@
 {
   "replace": false,
   "values": [
+    "aerialhell:ghost_stellar_cobblestone",
     "aerialhell:ghost_ruby_block",
-    "aerialhell:ghost_fluorite_block"
+    "aerialhell:ghost_fluorite_block",
+    "aerialhell:ghost_azurite_block",
+    "aerialhell:ghost_gold_block",
+    "aerialhell:ghost_stellar_furnace",
+    "aerialhell:ghost_lantern"
   ]
 }

@@ -1,0 +1,40 @@
+{
+  "replace": false,
+  "values":
+  [
+    "aerialhell:aerial_tree_barrel",
+    "aerialhell:aerial_tree_chest",
+
+    "minecraft:bookshelf",
+    "minecraft:oak_button",
+    "minecraft:composter",
+    "minecraft:crafting_table",
+    "minecraft:oak_door",
+    "minecraft:oak_fence",
+    "minecraft:oak_fence_gate",
+    "minecraft:oak_leaves",
+    "minecraft:oak_log",
+    "minecraft:stripped_oak_log",
+    "minecraft:oak_planks",
+    "minecraft:oak_pressure_plate",
+    "minecraft:oak_sapling",
+    "minecraft:oak_sign",
+    "minecraft:oak_wall_sign",
+    "minecraft:oak_slab",
+    "minecraft:oak_stairs",
+    "minecraft:oak_trapdoor",
+
+    "minecraft:stone_button",
+    "minecraft:cobblestone",
+    "minecraft:mossy_cobblestone",
+    "minecraft:cobblestone_stairs",
+    "minecraft:cobblestone_slab",
+
+    "minecraft:ladder",
+    "minecraft:torch",
+    "minecraft:wall_torch",
+    "minecraft:coal_block",
+    "minecraft:furnace",
+    "minecraft:cobweb"
+  ]
+}

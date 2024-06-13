@@ -1,14 +1,15 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
 import fr.factionbedrock.aerialhell.Entity.AI.*;
-import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralCycleMageEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralGolemEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.MudSpectralSoldierEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralCycleMageEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralGolemEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -33,11 +34,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class MudCycleMageEntity extends AbstractBossEntity
 {
+	public int timeDying;
+	public static int timeToDie = 60;
+	private boolean forceSummoningClonesOnce = false;
 	private float damageAmountSinceLastSummon;
 	public MudCycleMageEntity(EntityType<? extends MudCycleMageEntity> type, Level world)
 	{
 		super(type, world);
 		this.damageAmountSinceLastSummon = 0;
+		this.timeDying = 0;
 	}
 	
 	@Override
@@ -72,34 +77,74 @@ public class MudCycleMageEntity extends AbstractBossEntity
 		return flag;
 	}
 
-	public boolean isHealthLowEnoughToSummonGolems() {return this.getHealth() * 2 < this.getMaxHealth();}
+	@Override public boolean tryActuallyHurt(DamageSource damageSource, float amount)
+	{
+		return this.getPhase() != BossPhase.DYING && super.tryActuallyHurt(damageSource, amount);
+	}
 
+	@Override public boolean doHurtTarget(Entity attackedEntity)
+	{
+		return !this.isInDeadOrDyingPhase() && super.doHurtTarget(attackedEntity);
+	}
+
+	public boolean isHealthMatchForSecondPhase() {return this.getHealth() * 2 < this.getMaxHealth();}
 	public boolean isDamageAmountSinceLastSummonSufficentToTriggerSummon() {return this.damageAmountSinceLastSummon > 85 - 4 * this.getDifficulty();}
-
 	public void resetDamageAmountSinceLastSummon() {this.damageAmountSinceLastSummon = 0;}
 
 	@Override public Item getTrophy() {return AerialHellBlocksAndItems.MUD_CYCLE_MAGE_TROPHY_ITEM.get();}
 
+	@Override public int getPhaseIdToSkipToDyingPhase() {return BossPhase.SECOND_TO_THIRD_TRANSITION.getPhaseId();}
+	@Override public boolean enableTickPhaseUpdate(BossPhaseTickType type) {return type == BossPhaseTickType.ALL;}
+	@Override public boolean enableTryDyingPhaseUpdate() {return true;}
+	@Override public boolean doesPlayFastDeathSoundIfDyingWithTryDyingPhaseUpdate() {return true;}
+
 	@Override public void tick()
-	{		
+	{
 		super.tick();
+		if (!this.isInDeadOrDyingPhase()) {this.timeDying = 0;}
+	}
+
+	@Override public void tickDyingPhase()
+	{
+		this.timeDying++;
+		if (this.timeDying > timeToDie) {this.tryDying(this.lastDamageSource);}
+		if (this.tickCount % 2 == 0) {this.makeRandomRoofBlockFall(2, 8, 2, 13);}
+		this.playSummonParticles(2);
+	}
+
+	@Override public void applyPhaseUpdateEffect(BossPhase nextPhase)
+	{
+		if (nextPhase == BossPhase.SECOND_PHASE) {this.forceSummoningClonesOnce = true;}
+		if (nextPhase == BossPhase.DYING)
+		{
+			this.playSound(SoundEvents.WITHER_DEATH, 1.0F, 1.9F);
+			this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, timeToDie, 10, true, false)));
+		}
+	}
+
+	@Override public boolean shouldUpdateToPhase(BossPhase phase)
+	{
+		if (this.getPhase() == phase) {return false;}
+		if (phase == BossPhase.FIRST_PHASE) {return !isHealthMatchForSecondPhase();}
+		if (phase == BossPhase.SECOND_PHASE) {return isHealthMatchForSecondPhase() && !this.isInDeadOrDyingPhase();}
+		else {return false;}
 	}
 
 	@Override @OnlyIn(Dist.CLIENT)
 	public void handleEntityEvent(byte id)
 	{
-		if (id == 5) {playSummonParticles();}
+		if (id == 5) {playSummonParticles(30);}
 		else {super.handleEntityEvent(id);}
 	}
 
-	private void playSummonParticles()
+	private void playSummonParticles(int number)
 	{
 		if (this.level().isClientSide())
 		{
-			for(int i = 0; i < 30; ++i)
+			for(int i = 0; i < number; ++i)
 			{
 				double d0 = random.nextGaussian() * 0.02D; double d1 = random.nextGaussian() * 0.02D; double d2 = random.nextGaussian() * 0.02D;
-				this.level().addParticle(ParticleTypes.LARGE_SMOKE, this.getRandomX(1.0D) - d0 * 10.0D, this.getRandomY() - d1 * 10.0D, this.getRandomZ(1.0D) - d2 * 10.0D, 0.25 * (random.nextFloat() - 0.5), 0.3D, 0.25 * (random.nextFloat() - 0.5));
+				this.level().addParticle(ParticleTypes.LARGE_SMOKE, this.getRandomX(1.0D) - d0 * 10.0D, this.getRandomY() - d1 * 10.0D, this.getRandomZ(1.0D) - d2 * 10.0D, 0.25 * (random.nextFloat() - 0.5), 0.2D, 0.25 * (random.nextFloat() - 0.5));
 			}
 		}
 	}
@@ -116,14 +161,15 @@ public class MudCycleMageEntity extends AbstractBossEntity
 
 		@Override public Entity createEntity()
 		{
-			if ((!this.isNotSummoningClones && this.getGoalOwner().getRandom().nextInt(this.getMageGoalOwner().getDifficulty() + 1) > 2) || this.shouldFinishSummoningClones)
+			if ((!this.isNotSummoningClones && this.getGoalOwner().getRandom().nextInt(this.getMageGoalOwner().getDifficulty() + 1) > 2) || this.shouldFinishSummoningClones || this.getMageGoalOwner().forceSummoningClonesOnce)
 			{
 				this.shouldFinishSummoningClones = true;
+				this.getMageGoalOwner().forceSummoningClonesOnce = false;
 				return createClone();
 			}
 			else {this.isNotSummoningClones = true;}
 
-			if (!this.getMageGoalOwner().isHealthLowEnoughToSummonGolems()) {return createMudSpectralSoldier();}
+			if (!(this.getMageGoalOwner().getPhase() == BossPhase.SECOND_PHASE)) {return createMudSpectralSoldier();}
 			else
 			{
 				return (this.getGoalOwner().getRandom().nextInt(2) == 0) ? createMudSpectralSoldier() : createMudSpectralGolem();

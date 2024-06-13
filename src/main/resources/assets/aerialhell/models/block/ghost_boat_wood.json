@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aerialhell:block/ghost_boat_log",
+    "side": "aerialhell:block/ghost_boat_log"
+  }
+}

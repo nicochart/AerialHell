@@ -1,0 +1,23 @@
+{
+  "name": "aerialhell:floating_boat/ghost/lower_deck_back_normal_support",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:floating_boat/ghost/lower_deck_back_normal_support_1",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:floating_boat/ghost/lower_deck_back_normal_support_2",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
 import fr.factionbedrock.aerialhell.Entity.AI.*;
-import fr.factionbedrock.aerialhell.Entity.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
@@ -19,9 +18,6 @@ import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.damagesource.DamageSource;
@@ -38,13 +34,9 @@ public class LunaticPriestEntity extends AbstractBossEntity
 {
 	public int attackTimer;
 	
-	public static final EntityDataAccessor<Boolean> SECOND_PHASE = SynchedEntityData.defineId(LunaticPriestEntity.class, EntityDataSerializers.BOOLEAN);
-	
 	public LunaticPriestEntity(EntityType<? extends Monster> type, Level world)
 	{
 		super(type, world);
-		if (this.getHealth() >= getMaxHealthForPhase2()) {this.updateToPhase1();}
-		else {this.updateToPhase2();}
 		this.attackTimer = 0;
 		bossInfo.setColor(BossEvent.BossBarColor.YELLOW);
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
@@ -70,46 +62,51 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	
 	public float getMaxHealthForPhase2() {return this.getMaxHealth() / 2;}
 	
-	@Override
-	protected void defineSynchedData()
-	{
-		super.defineSynchedData();
-		this.entityData.define(SECOND_PHASE, false);
-	}
-	
-	@Override
-	public void setActive(boolean isActive)
+	@Override public void setActive(boolean isActive)
 	{
 		super.setActive(isActive);
 		if (!isActive)
 		{
 			this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.SLOW_FALLING, 120, 2, true, false)));
 		}
+		else
+		{
+			if (this.shouldUpdateToPhase1()) {this.updateToPhase(BossPhase.FIRST_PHASE);}
+		}
 	}
+
+	@Override public int getPhaseIdToSkipToDyingPhase() {return BossPhase.SECOND_TO_THIRD_TRANSITION.getPhaseId();}
+	@Override public boolean enableTickPhaseUpdate(BossPhaseTickType type) {return type == BossPhaseTickType.ALL;}
 	
-	public boolean isInPhase1() {return !this.entityData.get(SECOND_PHASE);}
-	public boolean isInPhase2() {return this.entityData.get(SECOND_PHASE);}
+	public boolean isInPhase1() {return this.getPhase() == BossPhase.FIRST_PHASE;}
+	public boolean isInPhase2() {return this.getPhase() == BossPhase.SECOND_PHASE;}
 	public boolean shouldUpdateToPhase1() {return this.getHealth() >= getMaxHealthForPhase2() && this.isInPhase2();}
 	public boolean shouldUpdateToPhase2() {return this.getHealth() < getMaxHealthForPhase2() && this.isInPhase1();}
-	
-	private void updateToPhase1()
+
+	@Override public void applyPhaseUpdateEffect(BossPhase nextPhase)
 	{
-		this.entityData.set(SECOND_PHASE, false);
-		this.moveControl = new GhastLikeGoals.MoveHelperController(this);
-		this.setDeltaMovement(this.getDeltaMovement().add(0,2,0));
+		if (nextPhase == BossPhase.FIRST_PHASE)
+		{
+			this.moveControl = new GhastLikeGoals.MoveHelperController(this);
+			this.setDeltaMovement(this.getDeltaMovement().add(0,2,0));
+		}
+		else if (nextPhase == BossPhase.SECOND_PHASE)
+		{
+			this.moveControl = new MoveControl(this);
+			this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.SLOW_FALLING, 120, 2, true, false)));
+		}
+	}
+
+	@Override public boolean shouldUpdateToPhase(BossPhase phase)
+	{
+		if (this.getPhase() == phase) {return false;}
+		if (phase == BossPhase.FIRST_PHASE) {return shouldUpdateToPhase1() && this.isActive();}
+		if (phase == BossPhase.SECOND_PHASE) {return shouldUpdateToPhase2() || !this.isActive();}
+		else {return false;}
 	}
 	
-	private void updateToPhase2()
+	@Override public boolean hurt(DamageSource source, float amount)
 	{
-		this.entityData.set(SECOND_PHASE, true);
-		this.moveControl = new MoveControl(this);
-		this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.SLOW_FALLING, 120, 2, true, false)));
-	}
-	
-	@Override
-	public boolean hurt(DamageSource source, float amount)
-	{
-		boolean wasActive = this.isActive();
 		boolean flag = super.hurt(source, amount);
 		if (flag)
 		{
@@ -120,11 +117,6 @@ public class LunaticPriestEntity extends AbstractBossEntity
 					this.setTarget((LivingEntity) source.getEntity());
 				}
 			}
-		}
-		if (!wasActive)
-		{
-			this.timeWithoutAnyTarget = 0;
-			this.updateToPhase1();
 		}
 		return flag;
 	}
@@ -143,8 +135,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	@Override public boolean fireImmune() {return true;}
 	@Override public boolean displayFireAnimation() {return false;}
 	
-	@Override
-	public boolean doHurtTarget(Entity attackedEntity)
+	@Override public boolean doHurtTarget(Entity attackedEntity)
 	{
 	      this.level().broadcastEntityEvent(this, (byte)4);
 	      float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
@@ -173,24 +164,6 @@ public class LunaticPriestEntity extends AbstractBossEntity
 
 	@Override public Item getTrophy() {return AerialHellBlocksAndItems.LUNAR_PRIEST_TROPHY_ITEM.get();}
 
-	@Override public void tick()
-	{		
-		super.tick();
-		if (this.shouldUpdateToPhase1() && this.isActive() && this.timeWithoutAnyTarget == 0)
-		{
-			this.updateToPhase1();
-		}
-		if (this.shouldUpdateToPhase2() && this.isActive() && this.timeWithoutAnyTarget == 0)
-		{
-			this.updateToPhase2();
-		}
-		
-		if (this.timeWithoutAnyTarget > 0 && this.isInPhase1())
-		{
-			this.updateToPhase2();
-		}
-	}
-	
 	@Override public void aiStep()
     {
 		if (this.attackTimer > 0) {this.attackTimer--;}
@@ -307,15 +280,13 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	public static class PriestLookRandomlyGoal extends ActiveRandomLookAroundGoal
 	{		
 		public PriestLookRandomlyGoal(LunaticPriestEntity priestIn) {super(priestIn);}
-		@Override public boolean canUse() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.canUse();}
-		@Override public boolean canContinueToUse() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.canContinueToUse();}
+		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2();}
 	}
 	
 	public static class PriestWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal
 	{
 		public PriestWaterAvoidingRandomWalkingGoal(LunaticPriestEntity priestIn, double speedIn) {super(priestIn, speedIn);}
-		@Override public boolean canUse() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.canUse();}
-		@Override public boolean canContinueToUse() {return ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2() && super.canContinueToUse();}
+		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && ((LunaticPriestEntity) this.getGoalOwner()).isInPhase2();}
 	}
 	
 	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_LUNATIC_PRIEST_AMBIENT.get();}

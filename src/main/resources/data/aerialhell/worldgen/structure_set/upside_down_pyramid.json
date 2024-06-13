@@ -1,0 +1,16 @@
+{
+  "structures": [
+    {
+      "structure": "aerialhell:upside_down_pyramid",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 223343356,
+
+    "spacing": 8, //average distance (chunks)
+    "separation": 4, //minimum distance (chunks)
+
+    "type": "minecraft:random_spread"
+  }
+}

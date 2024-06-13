@@ -52,6 +52,12 @@
         "maxCount": 4
       },
       {
+        "type": "aerialhell:worm",
+        "weight": 40,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
         "type": "aerialhell:fat_phantom",
         "weight": 30,
         "minCount": 1,

@@ -1,0 +1,745 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "aerialhell:block/mud_bricks"
+      }
+    },
+    {
+      "when": {"glyph_index": "0", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_0", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "0", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_0", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "0", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_0", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "0", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_0", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "1", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_1", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "1", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_1", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "1", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_1", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "1", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_1", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "2", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_2", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "2", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_2", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "2", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_2", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "2", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_2", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "3", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_3", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "3", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_3", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "3", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_3", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "3", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_3", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "4", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_4", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "4", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_4", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "4", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_4", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "4", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_4", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "5", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_5", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "5", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_5", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "5", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_5", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "5", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_5", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "6", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_6", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "6", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_6", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "6", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_6", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "6", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_6", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "7", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_7", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "7", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_7", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "7", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_7", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "7", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_7", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "8", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_8", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "8", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_8", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "8", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_8", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "8", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_8", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "9", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_9", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "9", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_9", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "9", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_9", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "9", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_9", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "10", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_10", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "10", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_10", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "10", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_10", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "10", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_10", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "11", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_11", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "11", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_11", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "11", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_11", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "11", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_11", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "12", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_12", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "12", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_12", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "12", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_12", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "12", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_12", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "13", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_13", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "13", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_13", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "13", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_13", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "13", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_13", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "14", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_14", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "14", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_14", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "14", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_14", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "14", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_14", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "15", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_15", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "15", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_15", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "15", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_15", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "15", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_15", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "16", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_16", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "16", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_16", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "16", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_16", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "16", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_16", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "17", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_17", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "17", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_17", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "17", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_17", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "17", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_17", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "18", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_18", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "18", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_18", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "18", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_18", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "18", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_18", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "19", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_19", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "19", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_19", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "19", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_19", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "19", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_19", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "20", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_20", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "20", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_20", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "20", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_20", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "20", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_20", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "21", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_21", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "21", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_21", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "21", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_21", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "21", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_21", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "22", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_22", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "22", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_22", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "22", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_22", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "22", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_22", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "23", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_23", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "23", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_23", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "23", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_23", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "23", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_23", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "24", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_24", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "24", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_24", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "24", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_24", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "24", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_24", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "25", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_25", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "25", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_25", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "25", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_25", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "25", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_25", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "26", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_26", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "26", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_26", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "26", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_26", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "26", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_26", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "27", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_27", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "27", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_27", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "27", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_27", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "27", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_27", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "28", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_28", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "28", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_28", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "28", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_28", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "28", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_28", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "29", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_29", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "29", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_29", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "29", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_29", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "29", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_29", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "30", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_30", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "30", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_30", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "30", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_30", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "30", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_30", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "31", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_31", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "31", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_31", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "31", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_31", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "31", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_31", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "32", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_32", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "32", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_32", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "32", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_32", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "32", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_32", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "33", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_33", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "33", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_33", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "33", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_33", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "33", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_33", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "34", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_34", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "34", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_34", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "34", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_34", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "34", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_34", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "35", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_35", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "35", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_35", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "35", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_35", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "35", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_35", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "36", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_36", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "36", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_36", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "36", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_36", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "36", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_36", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "37", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_37", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "37", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_37", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "37", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_37", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "37", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_37", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "38", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_38", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "38", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_38", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "38", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_38", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "38", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_38", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "39", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_39", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "39", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_39", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "39", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_39", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "39", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_39", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "40", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_40", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "40", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_40", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "40", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_40", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "40", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_40", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "41", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_41", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "41", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_41", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "41", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_41", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "41", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_41", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "42", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_42", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "42", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_42", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "42", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_42", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "42", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_42", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "43", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_43", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "43", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_43", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "43", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_43", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "43", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_43", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "44", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_44", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "44", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_44", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "44", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_44", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "44", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_44", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "45", "north" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_45", "y": 0, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "45", "east" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_45", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "45", "south" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_45", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"glyph_index": "45", "west" : "true"},
+      "apply": {"model": "aerialhell:block/glyph_45", "y": 270, "uvlock": true}
+    }
+  ]
+}

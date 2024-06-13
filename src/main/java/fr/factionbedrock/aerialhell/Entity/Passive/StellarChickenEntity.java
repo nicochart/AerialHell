@@ -26,6 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.*;
+import net.minecraft.world.level.biome.Biome;
 
 import javax.annotation.Nullable;
 
@@ -38,7 +39,7 @@ public class StellarChickenEntity extends Chicken
 
     @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag tag)
     {
-        this.setColor(0);
+        this.setColor(getBlockPositionTint());
         return super.finalizeSpawn(level, difficulty, mobSpawnType, spawnGroupData, tag);
     }
 
@@ -46,13 +47,15 @@ public class StellarChickenEntity extends Chicken
     {
         if (this.getColor() == 0)
         {
-            if (this.level().isClientSide())
-            {
-                int color = BiomeColors.getAverageGrassColor(this.level(), this.blockPosition());
-                this.setColor(color != 0 ? color : 1);
-            }
+            int color = getBlockPositionTint();
+            this.setColor(color != 0 ? color : 1);
         }
         super.tick();
+    }
+
+    private int getBlockPositionTint()
+    {
+        return this.level().getBlockTint(this.blockPosition(), Biome::getGrassColor);
     }
 
     @Override protected void defineSynchedData()

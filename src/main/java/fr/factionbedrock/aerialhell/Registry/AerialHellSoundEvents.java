@@ -25,6 +25,19 @@ public class AerialHellSoundEvents
 	public static final RegistryObject<SoundEvent> ENTITY_GLIDING_TURTLE_HURT = register("entity.gliding_turtle.hurt");
 	public static final RegistryObject<SoundEvent> ENTITY_GLIDING_TURTLE_DEATH = register("entity.gliding_turtle.death");
 
+	public static final RegistryObject<SoundEvent> ENTITY_SNAKE_AMBIENT = register("entity.snake.ambient");
+	public static final RegistryObject<SoundEvent> ENTITY_SNAKE_HURT = register("entity.snake.hurt");
+	public static final RegistryObject<SoundEvent> ENTITY_SNAKE_DEATH = register("entity.snake.death");
+
+	public static final RegistryObject<SoundEvent> ENTITY_WORM_AMBIENT = register("entity.worm.ambient");
+	public static final RegistryObject<SoundEvent> ENTITY_WORM_HURT = register("entity.worm.hurt");
+	public static final RegistryObject<SoundEvent> ENTITY_WORM_DEATH = register("entity.worm.death");
+
+	public static final RegistryObject<SoundEvent> ENTITY_SLIME_PIRATE_AMBIENT = register("entity.slime_pirate.ambient");
+	public static final RegistryObject<SoundEvent> ENTITY_SLIME_PIRATE_HURT = register("entity.slime_pirate.hurt");
+	public static final RegistryObject<SoundEvent> ENTITY_SLIME_PIRATE_DEATH = register("entity.slime_pirate.death");
+	public static final RegistryObject<SoundEvent> ENTITY_SLIME_PIRATE_STEP = register("entity.slime_pirate.step");
+
 	public static final RegistryObject<SoundEvent> ENTITY_KODAMA_RATTLE = register("entity.kodama.rattle");
 	public static final RegistryObject<SoundEvent> ENTITY_KODAMA_AMBIENT = register("entity.kodama.ambient");
 	public static final RegistryObject<SoundEvent> ENTITY_KODAMA_HURT = register("entity.kodama.hurt");
@@ -103,6 +116,7 @@ public class AerialHellSoundEvents
 	
 	public static final RegistryObject<SoundEvent> ITEM_FORGOTTEN_BATTLE_TRIDENT_USE = register("item.forgotten_battle_trident.use");
 	
+	public static final RegistryObject<SoundEvent> GLYPH_BLOCK_INTERACT = register("block.glyph_block.interact");
 	public static final RegistryObject<SoundEvent> TRAPPED_BLOCK_STEP = register("block.trapped_block.step");
 	public static final RegistryObject<SoundEvent> BLOCK_AERIAL_HELL_PORTAL_AMBIENT = register("block.aerial_hell_portal.ambient");
 	public static final RegistryObject<SoundEvent> BLOCK_BONE_PILE_STEP_BREAK = register("block.bone_pile_block.step_break");

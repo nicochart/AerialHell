@@ -32,7 +32,11 @@ public class GhostBoatFenceBlock extends FenceBlock
 
 	public void livingEntityInside(BlockState state, Level level, BlockPos pos, LivingEntity entity)
 	{
-		if (!canEntityCollide(entity)) {EntityHelper.multiplyDeltaMovement(entity, CollisionConditionHalfTransparentBlock.default_living_entity_xz_delta_movement_factor, CollisionConditionHalfTransparentBlock.default_y_delta_movement_factor);}
+		if (!canEntityCollide(entity))
+		{
+			double y_delta_movement_factor = entity.getDeltaMovement().y < 0.1D ? 0.8D : CollisionConditionHalfTransparentBlock.default_y_delta_movement_factor;
+			EntityHelper.multiplyDeltaMovement(entity, CollisionConditionHalfTransparentBlock.default_living_entity_xz_delta_movement_factor, y_delta_movement_factor);
+		}
 	}
 
 	public void nonLivingEntityInside(BlockState state, Level level, BlockPos pos, Entity entity)

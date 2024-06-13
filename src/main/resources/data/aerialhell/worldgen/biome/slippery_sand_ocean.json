@@ -34,6 +34,12 @@
         "maxCount": 10
       },
       {
+        "type": "aerialhell:venomous_snake",
+        "weight": 60,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
         "type": "aerialhell:mud_soldier",
         "weight": 100,
         "minCount": 1,
@@ -41,7 +47,7 @@
       },
       {
         "type": "aerialhell:hell_spider",
-        "weight": 100,
+        "weight": 80,
         "minCount": 4,
         "maxCount": 10
       }

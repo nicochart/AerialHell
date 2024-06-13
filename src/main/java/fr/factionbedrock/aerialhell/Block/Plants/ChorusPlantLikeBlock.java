@@ -17,7 +17,7 @@ public class ChorusPlantLikeBlock extends ChorusPlantBlock
 
     @Override public BlockState getStateForPlacement(BlockPlaceContext context)
     {
-        return getStateForPlacement(context.getLevel(), context.getClickedPos());
+        return getStateForPlacement(context.getLevel(), context.getClickedPos(), this.defaultBlockState());
     }
     public static BlockState getStateForPlacement(BlockGetter blockGetter, BlockPos pos, BlockState state)
     {

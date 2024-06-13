@@ -1,0 +1,33 @@
+{
+  "name": "aerialhell:upside_down_pyramid/top_terrain/medium_sand_agglomerate",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:upside_down_pyramid/top_terrain/medium_sand_agglomerate_1",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:upside_down_pyramid/top_terrain/medium_sand_agglomerate_2",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:upside_down_pyramid/top_terrain/medium_sand_agglomerate_3",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

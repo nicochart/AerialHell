@@ -113,6 +113,10 @@ public class DungeonCoreBlock extends Block
 		{
 			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedTrappedBlock.CORE_PROTECTED, protect));
 		}
+		else if (block instanceof CoreProtectedGlyphBlock)
+		{
+			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedTrappedBlock.CORE_PROTECTED, protect));
+		}
 		//else if (block instanceof CoreProtectedWallBlock)
 		//{
 		//	worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedWallBlock.CORE_PROTECTED, protect));

@@ -30,15 +30,27 @@
       },
       {
         "type": "aerialhell:stellar_ent",
-        "weight": 100,
+        "weight": 80,
         "minCount": 4,
         "maxCount": 10
       },
       {
         "type": "aerialhell:verdigris_zombie",
-        "weight": 50,
+        "weight": 30,
         "minCount": 4,
         "maxCount": 10
+      },
+      {
+        "type": "aerialhell:venomous_snake",
+        "weight": 60,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "aerialhell:worm",
+        "weight": 40,
+        "minCount": 4,
+        "maxCount": 4
       },
       {
         "type": "aerialhell:fat_phantom",

@@ -5,8 +5,8 @@ import java.util.UUID;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalGolemEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ShadowAutomatonEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ShadowTrollEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowAutomatonEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
@@ -14,6 +14,7 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
@@ -42,14 +43,23 @@ public class ToolsAndArmorEventListener
 	@SubscribeEvent
 	public static void onProjectileCollideWithEntity(ProjectileImpactEvent event)
 	{
-		Entity projectile = event.getEntity();
+		Entity collidingEntity = event.getEntity();
+		boolean isLightProjectile = EntityHelper.isLightProjectile(collidingEntity);
 
 		if (event.getRayTraceResult().getType() == HitResult.Type.ENTITY)
 		{
 			Entity hitEntity = ((EntityHitResult) event.getRayTraceResult()).getEntity();
-			if ((hitEntity instanceof ShadowTrollEntity || hitEntity instanceof ShadowAutomatonEntity) && !EntityHelper.isLightProjectile(projectile))
+			if ((hitEntity instanceof ShadowTrollEntity || hitEntity instanceof ShadowAutomatonEntity) && !isLightProjectile)
 			{
 				event.setImpactResult(ProjectileImpactEvent.ImpactResult.SKIP_ENTITY);
+			}
+
+			if (EntityHelper.isGhostEntity(hitEntity) && !isLightProjectile)
+			{
+				if (collidingEntity instanceof Projectile projectile && EntityHelper.isImmuneToGhostBlockCollision(projectile.getOwner()))
+				{
+					event.setImpactResult(ProjectileImpactEvent.ImpactResult.SKIP_ENTITY);
+				}
 			}
 		}
 	}
@@ -114,7 +124,7 @@ public class ToolsAndArmorEventListener
 		if (state != null && state.is(AerialHellTags.Blocks.NEEDS_LUNAR_TOOL)) {
 			if (ItemHelper.getItemMiningLevel(selectedItemStack.getItem()) < 4) {
 				event.setNewSpeed(Math.min(speed, 4.0F));
-				player.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 40, 0));
+				if (!player.level().isClientSide()) {player.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 40, 0));}
 			}
 		}
 
