@@ -74,7 +74,7 @@ public class AerialHellArmorMaterials
 		SoundEvents.ARMOR_EQUIP_DIAMOND, //Son lorsqu'on équipe
 		2.5F, //Robustesse
 		0.05F, //Resistance au recul
-		() -> Ingredient.of(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //Matériaux de réparation
+		() -> Ingredient.of(AerialHellBlocksAndItems.VOLUCITE_VIBRANT.get()) //Matériaux de réparation
 	);
 	
 	public final static ArmorMaterial lunatic = new AerialHellArmorMaterial

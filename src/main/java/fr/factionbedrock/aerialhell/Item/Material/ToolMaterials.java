@@ -18,7 +18,7 @@ public class ToolMaterials
 		2.0F, //efficacité
 		0.0F, //Dégats d'attaque
 		15, //Enchantabilité
-		() -> Ingredient.of(AerialHellBlocksAndItems.STELLAR_COBBLESTONE_ITEM.get()) //Ingrédient de réparation (Enclume)
+		() -> Ingredient.of(AerialHellTags.Items.AERIALHELL_PLANKS) //Ingrédient de réparation (Enclume)
 	);
 	
 	public static final Tier stellar_stone = new ToolMaterial
@@ -28,7 +28,7 @@ public class ToolMaterials
 		4.0F, //efficacité
 		1.0F, //Dégats d'attaque
 		5, //Enchantabilité
-		() -> {return Ingredient.of(AerialHellTags.Items.AERIALHELL_PLANKS);} //Ingrédient de réparation (Enclume)
+		() -> {return Ingredient.of(AerialHellBlocksAndItems.STELLAR_COBBLESTONE_ITEM.get());} //Ingrédient de réparation (Enclume)
 	);
 	
 	public static final Tier ruby = new ToolMaterial
