@@ -16,9 +16,9 @@ public class EffectShovelItem extends AerialHellShovelItem
 {	
 	private int timer;
 	
-	public EffectShovelItem(Tier tier, float attackDamageIn, float attackSpeedIn, float movementSpeedIn, float maxHealthIn, Properties builderIn)
+	public EffectShovelItem(Tier tier, float movementSpeedIn, float maxHealthIn, Properties builderIn)
 	{
-		super(tier, attackDamageIn, attackSpeedIn, movementSpeedIn, maxHealthIn, builderIn);
+		super(tier, movementSpeedIn, maxHealthIn, builderIn);
 	}
 
 	@Override
@@ -51,12 +51,12 @@ public class EffectShovelItem extends AerialHellShovelItem
 		Random rand = new Random();
 		if (this == AerialHellBlocksAndItems.VOLUCITE_SHOVEL.get())
 		{
-			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, rand, false)) {return InteractionResultHolder.consume(heldItem);}
+			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, handIn, rand, false)) {return InteractionResultHolder.consume(heldItem);}
 			else {return InteractionResultHolder.pass(heldItem);}
 		}
 		else if (this == AerialHellBlocksAndItems.MAGMA_CUBE_SHOVEL.get())
 		{
-			EffectToolHelper.applyJumpBoostEffect(this, heldItem, worldIn, playerIn, rand, 100, 2);
+			EffectToolHelper.applyJumpBoostEffect(this, heldItem, worldIn, playerIn, handIn, rand, 100, 2);
 			return InteractionResultHolder.consume(heldItem);
 		}
 		else {return super.use(worldIn, playerIn, handIn);}

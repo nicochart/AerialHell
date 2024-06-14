@@ -44,11 +44,11 @@ public class KodamaEntity extends AerialHellAnimalEntity
         return worldIn.getBlockState(pos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT);
     }
 
-    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag compoundTag)
+    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData)
     {
         this.setRandomFaceAndSize();
         this.setRattling(false);
-        return super.finalizeSpawn(serverLevelAccessor, difficulty, mobSpawnType, spawnGroupData, compoundTag);
+        return super.finalizeSpawn(serverLevelAccessor, difficulty, mobSpawnType, spawnGroupData);
     }
 
     @Override protected void registerGoals()
@@ -57,13 +57,13 @@ public class KodamaEntity extends AerialHellAnimalEntity
         super.registerGoals();
     }
 
-    @Override protected void defineSynchedData()
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        super.defineSynchedData();
-        this.entityData.define(FACE_ID, 1);
-        this.entityData.define(SIZE_ID, 1);
-        this.entityData.define(IS_RATTLING, false);
-        this.entityData.define(RATTLING_TILT_ANGLE, 0);
+        super.defineSynchedData(builder);
+        builder.define(FACE_ID, 1);
+        builder.define(SIZE_ID, 1);
+        builder.define(IS_RATTLING, false);
+        builder.define(RATTLING_TILT_ANGLE, 0);
     }
 
     public static AttributeSupplier.Builder registerAttributes()

@@ -45,10 +45,10 @@ public class SandySheepEntity extends AerialHellAnimalEntity
         this.shearedTimer = 200;
     }
 
-    @Override protected void defineSynchedData()
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        super.defineSynchedData();
-        this.entityData.define(SHEARED, false);
+        super.defineSynchedData(builder);
+        builder.define(SHEARED, false);
     }
 
     public static AttributeSupplier.Builder registerAttributes()

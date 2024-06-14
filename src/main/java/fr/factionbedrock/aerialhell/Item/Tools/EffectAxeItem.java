@@ -12,9 +12,9 @@ import net.minecraft.world.level.Level;
 
 public class EffectAxeItem extends AerialHellAxeItem
 {
-	public EffectAxeItem(Tier tier, float attackDamageIn, float attackSpeedIn, float movementSpeedIn,float maxHealthIn, Properties builderIn)
+	public EffectAxeItem(Tier tier, float movementSpeedIn,float maxHealthIn, Properties builderIn)
 	{
-		super(tier, attackDamageIn, attackSpeedIn, movementSpeedIn, maxHealthIn, builderIn);
+		super(tier, movementSpeedIn, maxHealthIn, builderIn);
 	}
 	
 	@Override
@@ -25,12 +25,12 @@ public class EffectAxeItem extends AerialHellAxeItem
 		
 		if (this == AerialHellBlocksAndItems.VOLUCITE_AXE.get())
 		{
-			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, rand, true)) {return InteractionResultHolder.consume(heldItem);}
+			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, handIn, rand, true)) {return InteractionResultHolder.consume(heldItem);}
 			else {return InteractionResultHolder.pass(heldItem);}
 		}
 		else if (this == AerialHellBlocksAndItems.AXE_OF_LIGHT.get())
 		{
-			EffectToolHelper.applyLunaticLight(this, heldItem, worldIn, playerIn, rand, 320);
+			EffectToolHelper.applyLunaticLight(this, heldItem, worldIn, playerIn, handIn, rand, 320);
 		    return InteractionResultHolder.consume(heldItem);
 		}
 		else

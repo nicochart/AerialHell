@@ -26,10 +26,10 @@ public abstract class AbstractFlyingProjectileShooterMob extends FlyingMob imple
 		//no target defined here
 	}
 
-	@Override protected void defineSynchedData()
+	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
 	{
-		super.defineSynchedData();
-		this.entityData.define(ATTACKING, false);
+		super.defineSynchedData(builder);
+		builder.define(ATTACKING, false);
 	}
 	
 	public boolean isAttacking() {return this.entityData.get(ATTACKING);}

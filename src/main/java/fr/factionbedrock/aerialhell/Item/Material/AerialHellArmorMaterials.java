@@ -1,176 +1,51 @@
 package fr.factionbedrock.aerialhell.Item.Material;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.function.Supplier;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.Util;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class AerialHellArmorMaterials
 {
-	public final static ArmorMaterial ruby = new AerialHellArmorMaterial
-	(
-		AerialHell.MODID + ":ruby", //Nom du matériau 
-		15, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
-		new int[] {2, 5, 6, 2}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
-		9, //Enchantabilité
-		SoundEvents.ARMOR_EQUIP_IRON, //Son lorsqu'on équipe
-		0.0F, //Robustesse
-		0.0F, //Resistance au recul
-		() -> Ingredient.of(AerialHellBlocksAndItems.RUBY.get()) //Matériaux de réparation
-	);
-	
-	public final static ArmorMaterial azurite = new AerialHellArmorMaterial
-	(
-		AerialHell.MODID + ":azurite", //Nom du matériau 
-		10, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
-		new int[] {1, 3, 5, 2}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
-		25, //Enchantabilité
-		SoundEvents.ARMOR_EQUIP_GOLD, //Son lorsqu'on équipe
-		0.0F, //Robustesse
-		0.0F, //Resistance au recul
-		() -> Ingredient.of(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //Matériaux de réparation
-	);
-	
-	public final static ArmorMaterial magmatic_gel = new AerialHellArmorMaterial
-	(
-		AerialHell.MODID + ":magmatic_gel", //Nom du matériau 
-		7, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
-		new int[] {1, 3, 5, 2}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
-		25, //Enchantabilité
-		SoundEvents.ARMOR_EQUIP_GOLD, //Son lorsqu'on équipe
-		0.0F, //Robustesse
-		0.0F, //Resistance au recul
-		() -> Ingredient.of(AerialHellBlocksAndItems.MAGMATIC_GEL.get()) //Matériaux de réparation
-	);
-	
-	public final static ArmorMaterial obsidian = new AerialHellArmorMaterial
-	(
-		AerialHell.MODID + ":obsidian", //Nom du matériau 
-		37, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
-		new int[] {3, 6, 8, 3}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
-		10, //Enchantabilité
-		SoundEvents.ARMOR_EQUIP_DIAMOND, //Son lorsqu'on équipe
-		2.0F, //Robustesse
-		0.1F, //Resistance au recul
-		() -> Ingredient.of(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //Matériaux de réparation
-	);
-	
-	public final static ArmorMaterial volucite = new AerialHellArmorMaterial
-	(
-		AerialHell.MODID + ":volucite", //Nom du matériau 
-		35, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
-		new int[] {4, 7, 9, 4}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
-		10, //Enchantabilité
-		SoundEvents.ARMOR_EQUIP_DIAMOND, //Son lorsqu'on équipe
-		2.5F, //Robustesse
-		0.05F, //Resistance au recul
-		() -> Ingredient.of(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //Matériaux de réparation
-	);
-	
-	public final static ArmorMaterial lunatic = new AerialHellArmorMaterial
-	(
-		AerialHell.MODID + ":lunatic", //Nom du matériau
-		33, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array
-		new int[] {4, 7, 8, 3}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
-		15, //Enchantabilité
-		SoundEvents.ARMOR_EQUIP_GOLD, //Son lorsqu'on équipe
-		1.5F, //Robustesse
-		0.0F, //Resistance au recul
-		() -> Ingredient.of(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //Matériaux de réparation
-	);
+	public final static Holder<ArmorMaterial> RUBY = register(":ruby", createProtectionMap(2, 5, 6, 2, 5), 15, SoundEvents.ARMOR_EQUIP_IRON,0.0F,0.0F, () -> Ingredient.of(AerialHellBlocksAndItems.RUBY.get()));
+	public final static Holder<ArmorMaterial> AZURITE = register(":azurite", createProtectionMap(1, 3, 5, 2, 4), 10, SoundEvents.ARMOR_EQUIP_GOLD,0.0F,0.0F, () -> Ingredient.of(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()));
+	public final static Holder<ArmorMaterial> MAGMATIC_GEL = register(":magmatic_gel", createProtectionMap(1, 3, 5, 2, 4), 7, SoundEvents.ARMOR_EQUIP_GOLD,0.0F,0.0F, () -> Ingredient.of(AerialHellBlocksAndItems.MAGMATIC_GEL.get()));
+	public final static Holder<ArmorMaterial> OBSIDIAN = register(":obsidian", createProtectionMap(3, 6, 8, 3, 11), 37, SoundEvents.ARMOR_EQUIP_DIAMOND,2.0F,0.1F, () -> Ingredient.of(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()));
+	public final static Holder<ArmorMaterial> VOLUCITE = register(":volucite", createProtectionMap(4, 7, 9, 4, 12), 35, SoundEvents.ARMOR_EQUIP_DIAMOND,2.5F,0.05F, () -> Ingredient.of(AerialHellBlocksAndItems.VOLUCITE_VIBRANT.get()));
+	public final static Holder<ArmorMaterial> LUNATIC = register(":lunatic", createProtectionMap(4, 7, 8, 3, 11), 33, SoundEvents.ARMOR_EQUIP_GOLD,1.5F,0.0F, () -> Ingredient.of(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()));
+	public final static Holder<ArmorMaterial> SHADOW = register(":shadow", createProtectionMap(4, 7, 7, 3, 11), 25, SoundEvents.ARMOR_EQUIP_LEATHER,1.0F,0.0F, () -> Ingredient.of(AerialHellBlocksAndItems.CURSED_CRYSAL.get()));
+	public final static Holder<ArmorMaterial> ARSONIST = register(":arsonist", createProtectionMap(5, 8, 9, 4, 12), 37, SoundEvents.ARMOR_EQUIP_LEATHER,3.0F,0.1F, () -> Ingredient.of(AerialHellBlocksAndItems.ARSONIST_INGOT.get()));
 
-	public final static ArmorMaterial shadow = new AerialHellArmorMaterial
-	(
-		AerialHell.MODID + ":shadow", //Nom du matériau
-		25, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array
-		new int[] {4, 7, 7, 3}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
-		15, //Enchantabilité
-		SoundEvents.ARMOR_EQUIP_LEATHER, //Son lorsqu'on équipe
-		1.0F, //Robustesse
-		0.0F, //Resistance au recul
-		() -> Ingredient.of(AerialHellBlocksAndItems.CURSED_CRYSAL.get()) //Matériaux de réparation
-	);
-	
-	public final static ArmorMaterial arsonist = new AerialHellArmorMaterial
-	(
-		AerialHell.MODID + ":arsonist", //Nom du matériau 
-		37, //Facteur de dégats, permet de calculer la durabilité avec le Max_Damage_Array 
-		new int[] {5, 8, 9, 4}, //Protection des Bottes, du Pantalon, du Plastron, et du Casque
-		15, //Enchantabilité
-		SoundEvents.ARMOR_EQUIP_NETHERITE, //Son lorsqu'on équipe
-		3.0F, //Robustesse
-		0.1F, //Resistance au recul
-		() -> Ingredient.of(AerialHellBlocksAndItems.ARSONIST_INGOT.get()) //Matériaux de réparation
-	);
-	
-	private static class AerialHellArmorMaterial implements ArmorMaterial
+	//copy of ArmorMaterials "register" method
+	private static Holder<ArmorMaterial> register(String id, EnumMap<ArmorItem.Type, Integer> protectionMap, int damageFactor, Holder<SoundEvent> equipSound, float toughness, float knockbackReduction, Supplier<Ingredient> repairIngredient)
 	{
-		private static final EnumMap<ArmorItem.Type, Integer> HEALTH_FUNCTION_FOR_TYPE = makeDamageReductionForArmorTypeEnumMap(new int[] {13,15,16,11});
-        private final String name;
-        private final int maxDamageFactor;
-		private final EnumMap<ArmorItem.Type, Integer> protectionFunctionForType;
-        private final int enchantability;
-        private final SoundEvent soundEvent;
-        private final float toughness;
-        private final float knockbackResistance;
-        private final LazyLoadedValue<Ingredient> repairMaterial;
+		List<ArmorMaterial.Layer> layerList = List.of(new ArmorMaterial.Layer(new ResourceLocation(AerialHell.MODID, id)));
+		EnumMap<ArmorItem.Type, Integer> enummap = new EnumMap<>(ArmorItem.Type.class);
 
-        public AerialHellArmorMaterial(String name, int maxDamageFactor, int[] damageReductionAmountArray, int enchantability, SoundEvent soundEvent, double toughness, float knockbackResistance, Supplier<Ingredient> supplier)
-        {
-            this.name = name;
-            this.maxDamageFactor = maxDamageFactor;
-            this.protectionFunctionForType = makeDamageReductionForArmorTypeEnumMap(damageReductionAmountArray);
-            this.enchantability = enchantability;
-            this.soundEvent = soundEvent;
-            this.toughness = (float)toughness;
-            this.knockbackResistance = knockbackResistance;
-            this.repairMaterial = new LazyLoadedValue<Ingredient>(supplier);
-        }
+		for (ArmorItem.Type armoritem$type : ArmorItem.Type.values()) {enummap.put(armoritem$type, protectionMap.get(armoritem$type));}
+		return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, new ResourceLocation(AerialHell.MODID, id), new ArmorMaterial(enummap, damageFactor, equipSound, repairIngredient, layerList, toughness, knockbackReduction));
+	}
 
-        //getters
-		@Override
-		public int getDurabilityForType(ArmorItem.Type type) {return HEALTH_FUNCTION_FOR_TYPE.get(type) * this.maxDamageFactor;}
-
-		@Override
-		public int getDefenseForType(ArmorItem.Type type) {return this.protectionFunctionForType.get(type);}
-
-        @Override
-        public int getEnchantmentValue() {return enchantability;}
-
-        @Override
-        public SoundEvent getEquipSound() {return soundEvent;}
-
-        @Override
-        public Ingredient getRepairIngredient() {return repairMaterial.get();}
-
-        @OnlyIn(Dist.CLIENT)
-        @Override
-        public String getName() {return name;}
-
-        @Override
-        public float getToughness() {return toughness;}
-
-        @Override
-        public float getKnockbackResistance() {return this.knockbackResistance;}
-
-		private static EnumMap<ArmorItem.Type, Integer> makeDamageReductionForArmorTypeEnumMap(int[] damageReductionArray)
-		{
-			return Util.make(new EnumMap<>(ArmorItem.Type.class), (map) -> {
-				map.put(ArmorItem.Type.BOOTS, damageReductionArray[0]);
-				map.put(ArmorItem.Type.LEGGINGS, damageReductionArray[1]);
-				map.put(ArmorItem.Type.CHESTPLATE, damageReductionArray[2]);
-				map.put(ArmorItem.Type.HELMET, damageReductionArray[3]);
-			});
-		}
-    }
+	private static EnumMap<ArmorItem.Type, Integer> createProtectionMap(int boots, int leggings, int chestplate, int helmet, int body)
+	{
+		return Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
+			map.put(ArmorItem.Type.BOOTS, boots);
+			map.put(ArmorItem.Type.LEGGINGS, leggings);
+			map.put(ArmorItem.Type.CHESTPLATE, chestplate);
+			map.put(ArmorItem.Type.HELMET, helmet);
+			map.put(ArmorItem.Type.BODY, body);
+		});
+	}
 }

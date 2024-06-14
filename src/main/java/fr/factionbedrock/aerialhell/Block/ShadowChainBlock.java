@@ -30,5 +30,5 @@ public class ShadowChainBlock extends ChainBlock
         return super.getCollisionShape(state, worldIn, pos, context);
     }
 
-    @Override public boolean isPathfindable(BlockState state, BlockGetter worldIn, BlockPos pos, PathComputationType type) {return true;}
+    @Override public boolean isPathfindable(BlockState state, PathComputationType type) {return true;}
 }

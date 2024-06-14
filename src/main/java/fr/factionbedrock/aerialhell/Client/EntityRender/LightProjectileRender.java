@@ -13,8 +13,6 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
 
 //see net.minecraft.client.renderer.entity.DragonFireballRenderer
 public class LightProjectileRender<T extends AbstractLightProjectileEntity> extends EntityRenderer<T>
@@ -28,31 +26,30 @@ public class LightProjectileRender<T extends AbstractLightProjectileEntity> exte
         this.shadowRadius = 0.0F;
     }
 
-    @Override
-    public void render(T entityIn, float entityYaw, float partialTicks, PoseStack poseStackIn, MultiBufferSource bufferIn, int packedLightIn)
+    @Override public void render(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight)
     {
-        poseStackIn.pushPose();
-        poseStackIn.mulPose(this.entityRenderDispatcher.cameraOrientation());
-        poseStackIn.mulPose(Axis.YP.rotationDegrees(180.0F));
-        poseStackIn.scale(1.5f, 1.5f, 1.5f);
-        VertexConsumer vertex = bufferIn.getBuffer(RenderType.entityCutout(getTextureLocation(entityIn)));
-        PoseStack.Pose posestack$pose = poseStackIn.last();
-        Matrix4f matrix4f = posestack$pose.pose();
-        Matrix3f matrix3f = posestack$pose.normal();
-        drawVertex(matrix4f, matrix3f, vertex, -0.5F, -0.25F, 0.0F, 0.0F, 0.0F, 0, 1, 0, packedLightIn);
-        drawVertex(matrix4f, matrix3f, vertex, 0.5F, -0.25F, 0.0F, 0.0F, 1.0F, 0, 1, 0, packedLightIn);
-        drawVertex(matrix4f, matrix3f, vertex, 0.5F, 0.75F, 0.0F, 1.0F, 1.0F, 0, 1, 0, packedLightIn);
-        drawVertex(matrix4f, matrix3f, vertex, -0.5F, 0.75F, 0.0F, 1.0F, 0.0F, 0, 1, 0, packedLightIn);
-        poseStackIn.popPose();
-        super.render(entityIn, entityYaw, partialTicks, poseStackIn, bufferIn, packedLightIn);
+        poseStack.pushPose();
+        poseStack.scale(2.0F, 2.0F, 2.0F);
+        poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
+        PoseStack.Pose posestack$pose = poseStack.last();
+        VertexConsumer vertexconsumer = buffer.getBuffer(getRenderType(this.getTextureLocation(entity)));
+        vertex(vertexconsumer, posestack$pose, packedLight, 0.0F, 0, 0, 1);
+        vertex(vertexconsumer, posestack$pose, packedLight, 1.0F, 0, 1, 1);
+        vertex(vertexconsumer, posestack$pose, packedLight, 1.0F, 1, 1, 0);
+        vertex(vertexconsumer, posestack$pose, packedLight, 0.0F, 1, 0, 0);
+        poseStack.popPose();
+        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
-    
+
     @Override
     protected int getBlockLightLevel(T entity, BlockPos partialTicks)
     {
         if (entity instanceof LunaticProjectileEntity) {return 15;}
         else {return 13;}
     }
+
+    public static RenderType getRenderType(ResourceLocation texture) {return RenderType.entityCutoutNoCull(texture);}
 
     @Override
     public ResourceLocation getTextureLocation(T entity)
@@ -61,8 +58,8 @@ public class LightProjectileRender<T extends AbstractLightProjectileEntity> exte
         else {return SHADOW_PROJECTILE;}
     }
 
-    public void drawVertex(Matrix4f matrix, Matrix3f normals, VertexConsumer vertexBuilder, float offsetX, float offsetY, float offsetZ, float textureX, float textureY, int normalX, int normalY, int normalZ, int packedLightIn)
+    private static void vertex(VertexConsumer vertex, PoseStack.Pose poseStack, int offsetX, float offsetY, int offsetZ, int textureX, int textureY)
     {
-        vertexBuilder.vertex(matrix, offsetX, offsetY, offsetZ).color(255, 255, 255, 255).uv(textureX, textureY).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLightIn).normal(normals, (float)normalX, (float)normalZ, (float)normalY).endVertex();
+        vertex.vertex(poseStack, offsetY - 0.5F, (float)offsetZ - 0.25F, 0.0F).color(255, 255, 255, 255).uv((float)textureX, (float)textureY).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(offsetX).normal(poseStack, 0.0F, 1.0F, 0.0F).endVertex();
     }
 }

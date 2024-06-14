@@ -47,7 +47,7 @@ public class AerialHellPaintingEntity extends HangingEntity implements VariantHo
 
     private static Holder<PaintingVariant> getDefaultVariant() {return AerialHellPaintingVariants.SPOOKY_ISLANDS.getHolder().get();}
 
-    @Override protected void defineSynchedData() {this.entityData.define(DATA_PAINTING_VARIANT_ID, getDefaultVariant());}
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {builder.define(DATA_PAINTING_VARIANT_ID, getDefaultVariant());}
 
     @Override public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor)
     {

@@ -13,16 +13,16 @@ public class GodsVoluciteBerryItem extends Item
     public GodsVoluciteBerryItem()
     {
         super(new Item.Properties().rarity(AerialHellRarities.MYTHICAL)
-                .food(new FoodProperties.Builder().alwaysEat().nutrition(6).saturationMod(0.8F)
-                		.effect(() -> new MobEffectInstance(MobEffects.SLOW_FALLING, 2400, 2), 1.0F)
-                		.effect(() -> new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get(), 2000, 2), 1.0F)
-                		.effect(() -> new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.get(), 2400, 2), 1.0F)
-                		.effect(() -> new MobEffectInstance(AerialHellMobEffects.GOD.get(), 6000, 0), 1.0F)
-                		.effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 6000, 0), 1.0F)
-                		.effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 2400, 0), 1.0F)
-                		.effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 2400, 1), 1.0F)
-                		.effect(() -> new MobEffectInstance(MobEffects.DIG_SPEED, 2400, 1), 1.0F)
-                		.effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 2400, 3), 1.0F)
+                .food(new FoodProperties.Builder().alwaysEdible().nutrition(6).saturationModifier(0.8F)
+                		.effect(new MobEffectInstance(MobEffects.SLOW_FALLING, 2400, 2), 1.0F)
+                		.effect(new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getHolder().get(), 2000, 2), 1.0F)
+                		.effect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.getHolder().get(), 2400, 2), 1.0F)
+                		.effect(new MobEffectInstance(AerialHellMobEffects.GOD.getHolder().get(), 6000, 0), 1.0F)
+                		.effect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 6000, 0), 1.0F)
+                		.effect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 2400, 0), 1.0F)
+                		.effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 2400, 1), 1.0F)
+                		.effect(new MobEffectInstance(MobEffects.DIG_SPEED, 2400, 1), 1.0F)
+                		.effect(new MobEffectInstance(MobEffects.ABSORPTION, 2400, 3), 1.0F)
                 .build()));
     }
     

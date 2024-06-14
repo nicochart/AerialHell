@@ -37,10 +37,10 @@ public class StellarChickenEntity extends Chicken
 
     public StellarChickenEntity(EntityType<? extends Chicken> entityType, Level level) {super(entityType, level);}
 
-    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag tag)
+    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData)
     {
         this.setColor(getBlockPositionTint());
-        return super.finalizeSpawn(level, difficulty, mobSpawnType, spawnGroupData, tag);
+        return super.finalizeSpawn(level, difficulty, mobSpawnType, spawnGroupData);
     }
 
     @Override public void tick()
@@ -58,10 +58,10 @@ public class StellarChickenEntity extends Chicken
         return this.level().getBlockTint(this.blockPosition(), Biome::getGrassColor);
     }
 
-    @Override protected void defineSynchedData()
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        super.defineSynchedData();
-        this.entityData.define(COLOR, 0);
+        super.defineSynchedData(builder);
+        builder.define(COLOR, 0);
     }
 
     @Override public void addAdditionalSaveData(CompoundTag compound)

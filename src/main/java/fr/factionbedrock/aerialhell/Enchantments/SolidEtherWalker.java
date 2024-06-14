@@ -1,24 +1,19 @@
 package fr.factionbedrock.aerialhell.Enchantments;
 
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.enchantment.Enchantments;
 
-public class SolidEtherWalker extends Enchantment
+public class SolidEtherWalker extends AerialHellEnchantment
 {
-    public SolidEtherWalker(Enchantment.Rarity rarityIn, EquipmentSlot... slots)
+    public SolidEtherWalker(TagKey<Item> supportedItems, int weight, int maxLevel, int minCostAtLevel1, int minCostBonusPerLevel, int maxCostAtLevel1, int maxCostBonusPerLevel, int anvilCost, EquipmentSlot... validSlots)
     {
-        super(rarityIn, EnchantmentCategory.ARMOR_FEET, slots);
+        super(supportedItems, weight, maxLevel, minCostAtLevel1, minCostBonusPerLevel, maxCostAtLevel1, maxCostBonusPerLevel, anvilCost, validSlots);
     }
 
-    @Override public int getMinLevel() {return 1;}
-    @Override public int getMaxLevel() {return 1;}
-
     @Override public boolean isDiscoverable() {return false;}
-
-    @Override public int getMinCost(int enchantmentLevel) {return enchantmentLevel * 25;}
-    @Override public int getMaxCost(int enchantmentLevel) {return this.getMinCost(enchantmentLevel) + 50;}
 
     @Override public boolean isTreasureOnly() {return true;}
     @Override public boolean isCurse() {return false;}

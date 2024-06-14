@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -57,12 +58,12 @@ public class VibrantAerialBerryBushBlock extends BushBlock implements Bonemealab
     }
     
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
+    public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
     {
         int age = state.getValue(AGE);
-        if (age != 15 && player.getItemInHand(handIn).getItem() == Items.BONE_MEAL)
+        if (age != 15 && stack.getItem() == Items.BONE_MEAL)
         {
-            return InteractionResult.PASS;
+            return ItemInteractionResult.FAIL;
         }
         else if (age > 13)
         {
@@ -70,11 +71,11 @@ public class VibrantAerialBerryBushBlock extends BushBlock implements Bonemealab
             popResource(worldIn, pos, new ItemStack(AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY.get(), j + (age == 15 ? 1 : 0)));
             worldIn.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 1F + worldIn.random.nextFloat() * 0.2F);
             worldIn.setBlock(pos, state.setValue(AGE, 13), 2);
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         }
         else
         {
-            return super.use(state, worldIn, pos, player, handIn, hit);
+            return super.useItemOn(stack, state, worldIn, pos, player, handIn, hit);
         }
     }
 

@@ -22,7 +22,6 @@ public class AerialHellSetup
         event.enqueueWork(() ->
         {
         	AerialHellBlocksAndItems.registerCompostableItems();
-        	AerialHellEntities.entitySpawnPlacements();
         	AerialHellBlocksAndItems.registerPots();
         	AerialHellBlocksAndItems.registerAxeStrippingBlocks();
         	AerialHellBrewingRecipes.registerBrewingRecipes();

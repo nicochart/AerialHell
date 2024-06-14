@@ -56,7 +56,7 @@ public class CoreProtectedSlabBlock extends SlabBlock
 		else
 		{
 			int i = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(state, player) ? 30 : 100;
-			return player.getDigSpeed(state, pos) / f / (float)i;
+			return player.getDestroySpeed(state, pos) / f / (float)i;
 		}
 	}
 

@@ -17,11 +17,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class WithInformationItem extends Item
 {
 	public WithInformationItem(Properties properties) {super(properties);}
-	
+
 	@Override @OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn)
+	public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
 	{
-		tooltip.add(this.getDescription().withStyle(ChatFormatting.GRAY));
+		components.add(this.getDescription().withStyle(ChatFormatting.GRAY));
 	}
 
 	@OnlyIn(Dist.CLIENT)

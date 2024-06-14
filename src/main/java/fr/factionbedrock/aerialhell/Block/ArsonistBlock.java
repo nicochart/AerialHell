@@ -23,7 +23,7 @@ public class ArsonistBlock extends Block
 			{
 		         entityIn.hurt(level.damageSources().hotFloor(), 1.0F);
 			}
-			entityIn.setSecondsOnFire(2);
+			entityIn.igniteForSeconds(2);
 		}
 	}
 }

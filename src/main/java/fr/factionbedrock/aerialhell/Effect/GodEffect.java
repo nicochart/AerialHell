@@ -13,12 +13,13 @@ public class GodEffect extends MobEffect
     }
 
     @Override
-    public void applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier)
+    public boolean applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier)
     {    	
 		if (entityLivingBaseIn.getHealth() < entityLivingBaseIn.getMaxHealth() && duration  % 20 == 0)
         {
             entityLivingBaseIn.heal(1.0F);
         }
+        return true;
     }
     
     @Override

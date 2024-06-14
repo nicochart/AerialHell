@@ -93,36 +93,36 @@ public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingE
                 float f20 = textureAtlasSprite1.getU((float)(d0 * (double)(i - (k + 1))));
                 float f21 = textureAtlasSprite1.getV((float)(d1 * (double)(j - l)));
                 float f22 = textureAtlasSprite1.getV((float)(d1 * (double)(j - (l + 1))));
-                this.vertex(matrix4f, matrix3f, consumer, f15, f18, f20, f21, -0.5F, 0, 0, -1, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f16, f18, f19, f21, -0.5F, 0, 0, -1, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f16, f17, f19, f22, -0.5F, 0, 0, -1, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f15, f17, f20, f22, -0.5F, 0, 0, -1, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f15, f17, f4, f5, 0.5F, 0, 0, 1, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f16, f17, f3, f5, 0.5F, 0, 0, 1, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f16, f18, f3, f6, 0.5F, 0, 0, 1, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f15, f18, f4, f6, 0.5F, 0, 0, 1, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f15, f17, f7, f9, -0.5F, 0, 1, 0, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f16, f17, f8, f9, -0.5F, 0, 1, 0, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f16, f17, f8, f10, 0.5F, 0, 1, 0, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f15, f17, f7, f10, 0.5F, 0, 1, 0, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f15, f18, f7, f9, 0.5F, 0, -1, 0, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f16, f18, f8, f9, 0.5F, 0, -1, 0, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f16, f18, f8, f10, -0.5F, 0, -1, 0, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f15, f18, f7, f10, -0.5F, 0, -1, 0, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f15, f17, f12, f13, 0.5F, -1, 0, 0, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f15, f18, f12, f14, 0.5F, -1, 0, 0, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f15, f18, f11, f14, -0.5F, -1, 0, 0, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f15, f17, f11, f13, -0.5F, -1, 0, 0, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f16, f17, f12, f13, -0.5F, 1, 0, 0, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f16, f18, f12, f14, -0.5F, 1, 0, 0, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f16, f18, f11, f14, 0.5F, 1, 0, 0, l1);
-                this.vertex(matrix4f, matrix3f, consumer, f16, f17, f11, f13, 0.5F, 1, 0, 0, l1);
+                this.vertex(posestack$pose, consumer, f15, f18, f20, f21, -0.5F, 0, 0, -1, l1);
+                this.vertex(posestack$pose, consumer, f16, f18, f19, f21, -0.5F, 0, 0, -1, l1);
+                this.vertex(posestack$pose, consumer, f16, f17, f19, f22, -0.5F, 0, 0, -1, l1);
+                this.vertex(posestack$pose, consumer, f15, f17, f20, f22, -0.5F, 0, 0, -1, l1);
+                this.vertex(posestack$pose, consumer, f15, f17, f4, f5, 0.5F, 0, 0, 1, l1);
+                this.vertex(posestack$pose, consumer, f16, f17, f3, f5, 0.5F, 0, 0, 1, l1);
+                this.vertex(posestack$pose, consumer, f16, f18, f3, f6, 0.5F, 0, 0, 1, l1);
+                this.vertex(posestack$pose, consumer, f15, f18, f4, f6, 0.5F, 0, 0, 1, l1);
+                this.vertex(posestack$pose, consumer, f15, f17, f7, f9, -0.5F, 0, 1, 0, l1);
+                this.vertex(posestack$pose, consumer, f16, f17, f8, f9, -0.5F, 0, 1, 0, l1);
+                this.vertex(posestack$pose, consumer, f16, f17, f8, f10, 0.5F, 0, 1, 0, l1);
+                this.vertex(posestack$pose, consumer, f15, f17, f7, f10, 0.5F, 0, 1, 0, l1);
+                this.vertex(posestack$pose, consumer, f15, f18, f7, f9, 0.5F, 0, -1, 0, l1);
+                this.vertex(posestack$pose, consumer, f16, f18, f8, f9, 0.5F, 0, -1, 0, l1);
+                this.vertex(posestack$pose, consumer, f16, f18, f8, f10, -0.5F, 0, -1, 0, l1);
+                this.vertex(posestack$pose, consumer, f15, f18, f7, f10, -0.5F, 0, -1, 0, l1);
+                this.vertex(posestack$pose, consumer, f15, f17, f12, f13, 0.5F, -1, 0, 0, l1);
+                this.vertex(posestack$pose, consumer, f15, f18, f12, f14, 0.5F, -1, 0, 0, l1);
+                this.vertex(posestack$pose, consumer, f15, f18, f11, f14, -0.5F, -1, 0, 0, l1);
+                this.vertex(posestack$pose, consumer, f15, f17, f11, f13, -0.5F, -1, 0, 0, l1);
+                this.vertex(posestack$pose, consumer, f16, f17, f12, f13, -0.5F, 1, 0, 0, l1);
+                this.vertex(posestack$pose, consumer, f16, f18, f12, f14, -0.5F, 1, 0, 0, l1);
+                this.vertex(posestack$pose, consumer, f16, f18, f11, f14, 0.5F, 1, 0, 0, l1);
+                this.vertex(posestack$pose, consumer, f16, f17, f11, f13, 0.5F, 1, 0, 0, l1);
             }
         }
     }
 
-    private void vertex(Matrix4f matrix4f, Matrix3f matrix3f, VertexConsumer consumer, float p_254164_, float p_254459_, float p_254183_, float p_253615_, float p_254448_, int p_253660_, int p_254342_, int p_253757_, int p_254101_)
+    private void vertex(PoseStack.Pose p_329838_, VertexConsumer p_254114_, float p_254164_, float p_254459_, float p_254183_, float p_253615_, float p_254448_, int p_253660_, int p_254342_, int p_253757_, int p_254101_)
     {
-        consumer.vertex(matrix4f, p_254164_, p_254459_, p_254448_).color(255, 255, 255, 255).uv(p_254183_, p_253615_).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(p_254101_).normal(matrix3f, (float)p_253660_, (float)p_254342_, (float)p_253757_).endVertex();
+        p_254114_.vertex(p_329838_, p_254164_, p_254459_, p_254448_).color(255, 255, 255, 255).uv(p_254183_, p_253615_).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(p_254101_).normal(p_329838_, (float)p_253660_, (float)p_254342_, (float)p_253757_).endVertex();
     }
 }

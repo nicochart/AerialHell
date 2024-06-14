@@ -37,10 +37,10 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
         this.xpReward = 6;
     }
     
-    @Override protected void defineSynchedData()
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        super.defineSynchedData();
-        this.entityData.define(DISAPPEARING, false);
+        super.defineSynchedData(builder);
+        builder.define(DISAPPEARING, false);
     }
     
     @Override public void addAdditionalSaveData(CompoundTag compound)

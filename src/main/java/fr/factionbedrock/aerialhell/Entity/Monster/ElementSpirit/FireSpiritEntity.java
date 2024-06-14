@@ -28,7 +28,7 @@ public class FireSpiritEntity extends AbstractElementSpiritEntity
     
     public void applyEffect(Entity entityIn)
     {
-    	((LivingEntity) entityIn).setSecondsOnFire(6);
+    	((LivingEntity) entityIn).igniteForSeconds(6);
     }
     
     public SimpleParticleType getParticleToSpawn()

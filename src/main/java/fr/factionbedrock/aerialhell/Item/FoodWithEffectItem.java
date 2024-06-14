@@ -12,24 +12,24 @@ public class FoodWithEffectItem extends Item
 	public FoodWithEffectItem(int hungerIn, float saturationIn, Rarity rarity, Supplier<MobEffectInstance> effectIn1, Supplier<MobEffectInstance> effectIn2, Supplier<MobEffectInstance> effectIn3)
 	{
 		super(new Item.Properties().rarity(rarity)
-				.food(new FoodProperties.Builder().alwaysEat().nutrition(hungerIn).saturationMod(saturationIn).effect(effectIn1, 1.0F).effect(effectIn2, 1.0F).effect(effectIn3, 1.0F).build()));
+				.food(new FoodProperties.Builder().alwaysEdible().nutrition(hungerIn).saturationModifier(saturationIn).effect(effectIn1.get(), 1.0F).effect(effectIn2.get(), 1.0F).effect(effectIn3.get(), 1.0F).build()));
 	}
 
 	public FoodWithEffectItem(int hungerIn, float saturationIn, Rarity rarity, Supplier<MobEffectInstance> effectIn1, Supplier<MobEffectInstance> effectIn2)
 	{
 		super(new Item.Properties().rarity(rarity)
-                .food(new FoodProperties.Builder().alwaysEat().nutrition(hungerIn).saturationMod(saturationIn).effect(effectIn1, 1.0F).effect(effectIn2, 1.0F).build()));
+                .food(new FoodProperties.Builder().alwaysEdible().nutrition(hungerIn).saturationModifier(saturationIn).effect(effectIn1.get(), 1.0F).effect(effectIn2.get(), 1.0F).build()));
 	}
 	
 	public FoodWithEffectItem(int hungerIn, float saturationIn, Rarity rarity, Supplier<MobEffectInstance> effectIn)
 	{
 		super(new Item.Properties().rarity(rarity)
-                .food(new FoodProperties.Builder().alwaysEat().nutrition(hungerIn).saturationMod(saturationIn).effect(effectIn, 1.0F).build()));
+                .food(new FoodProperties.Builder().alwaysEdible().nutrition(hungerIn).saturationModifier(saturationIn).effect(effectIn.get(), 1.0F).build()));
 	}
     
     public FoodWithEffectItem(int hungerIn, float saturationIn, Supplier<MobEffectInstance> effectIn) //default rarity
     {
         super(new Item.Properties().rarity(Rarity.COMMON)
-                .food(new FoodProperties.Builder().alwaysEat().nutrition(hungerIn).saturationMod(saturationIn).effect(effectIn, 1.0F).build()));
+                .food(new FoodProperties.Builder().alwaysEdible().nutrition(hungerIn).saturationModifier(saturationIn).effect(effectIn.get(), 1.0F).build()));
     }
 }

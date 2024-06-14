@@ -185,7 +185,7 @@ public class LilithEntity extends AbstractBossEntity
 				if (entity instanceof LivingEntity && !EntityHelper.isCreaOrSpecPlayer(entity))
 				{
 					dragEntity(entity);
-					((LivingEntity) entity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.get(), 40, 0));
+					((LivingEntity) entity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getHolder().get(), 40, 0));
 				}
 			}
 
@@ -437,7 +437,7 @@ public class LilithEntity extends AbstractBossEntity
 		boolean flag = super.doHurtTarget(target);
 		if (flag && target instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune((LivingEntity) target))
 		{
-			((LivingEntity) target).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.get(), 40, 0));
+			((LivingEntity) target).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getHolder().get(), 40, 0));
 		}
 		this.playSound(SoundEvents.RAVAGER_STEP, 1.0F, 0.5F);
 		return flag;

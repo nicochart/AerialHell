@@ -15,9 +15,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 //import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+//import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+//import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -36,7 +36,7 @@ public class RenderListener
     private static final int HEART_ICON_WIDTH = 9;
     private static final int HEART_ICON_HEIGHT = 9;
 
-    @OnlyIn(Dist.CLIENT) @SubscribeEvent
+    /*@OnlyIn(Dist.CLIENT) @SubscribeEvent TODO
     public static void onRenderOverlayPost(RenderGuiOverlayEvent.Post event)
     {
         Minecraft mc = Minecraft.getInstance();
@@ -50,7 +50,7 @@ public class RenderListener
                 renderTextureOverlay(event.getGuiGraphics(), VULNERABLE_OVERLAY, alpha);
             }
         }
-    }
+    }*/
 
     /*@OnlyIn(Dist.CLIENT) @SubscribeEvent
     public static void onRenderOverlay(RenderGameOverlayEvent event)

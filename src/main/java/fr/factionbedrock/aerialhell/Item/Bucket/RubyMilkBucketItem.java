@@ -1,6 +1,9 @@
 package fr.factionbedrock.aerialhell.Item.Bucket;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -15,15 +18,18 @@ public class RubyMilkBucketItem extends Item
         super(properties);
     }
 
-    @Override
-    public ItemStack finishUsingItem(ItemStack stack, Level worldIn, LivingEntity entityLiving)
+    @Override public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity)
     {
-        if (!worldIn.isClientSide()) entityLiving.curePotionEffects(new ItemStack(Items.MILK_BUCKET));
-        if (entityLiving instanceof Player && !((Player)entityLiving).getAbilities().instabuild)
+        if (entity instanceof ServerPlayer serverplayer)
         {
-            stack.shrink(1);
+            CriteriaTriggers.CONSUME_ITEM.trigger(serverplayer, stack);
+            serverplayer.awardStat(Stats.ITEM_USED.get(this));
         }
-        return stack.isEmpty() ? new ItemStack(AerialHellBlocksAndItems.RUBY_BUCKET.get()) : stack;
+
+        stack.consume(1, entity);
+        if (!level.isClientSide) {entity.removeAllEffects();}
+
+        return stack.isEmpty() ? new ItemStack(Items.BUCKET) : stack;
     }
 
     @Override

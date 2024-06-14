@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Item;
 
 import fr.factionbedrock.aerialhell.Block.AerialHellPortalBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.core.Direction;
@@ -24,7 +25,7 @@ public class StellarLighterItem extends WithInformationItem
                 if(((AerialHellPortalBlock) AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get()).trySpawnPortal(context.getLevel(), framePos))
                 {
                 	context.getPlayer().getCooldowns().addCooldown(this, 50);
-                	context.getItemInHand().hurtAndBreak(1, player, (p) -> {p.broadcastBreakEvent(player.getUsedItemHand());});
+                	context.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
                 	return InteractionResult.CONSUME;
                 }
                 else {return InteractionResult.FAIL;}

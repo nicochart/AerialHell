@@ -44,5 +44,5 @@ public class VineRopeSpoolBlock extends RotatedPillarBlock
         }
     }
 
-    @Override public boolean isPathfindable(BlockState state, BlockGetter blockGetter, BlockPos pos, PathComputationType pathComputationType) {return false;}
+    @Override public boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {return false;}
 }

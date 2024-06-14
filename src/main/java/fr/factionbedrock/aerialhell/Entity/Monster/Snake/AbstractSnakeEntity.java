@@ -269,7 +269,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
     }
 
     @Override @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag)
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn)
     {
         if (this.isHead()) {this.head = this;}
         if (this.getBodyPartId() < this.length && !this.isCut() && this.getNextBodyPart() == null)
@@ -277,7 +277,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
             this.nextBodyPart = this.summonNextBodyPart();
             if (this.nextBodyPart != null)
             {
-                this.nextBodyPart.finalizeSpawn(level, difficultyIn, reason, spawnDataIn, dataTag);
+                this.nextBodyPart.finalizeSpawn(level, difficultyIn, reason, spawnDataIn);
             }
         }
         return spawnDataIn;
@@ -450,11 +450,11 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         return next;
     }
 
-    @Override protected void defineSynchedData()
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        super.defineSynchedData();
-        this.entityData.define(BODY_PART_ID, 0);
-        this.entityData.define(IS_CUT, false);
+        super.defineSynchedData(builder);
+        builder.define(BODY_PART_ID, 0);
+        builder.define(IS_CUT, false);
     }
 
     @Override public void addAdditionalSaveData(CompoundTag compound)

@@ -8,6 +8,8 @@ import javax.annotation.Nullable;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Tier;
@@ -24,9 +26,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ForgottenBattleTridentItem extends AerialHellSwordItem
 {	
-	public ForgottenBattleTridentItem(Tier tier, int attackDamageIn, float attackSpeedIn, float movementSpeedIn, Properties builderIn)
+	public ForgottenBattleTridentItem(Tier tier, float movementSpeedIn, Properties builderIn)
 	{
-		super(tier, attackDamageIn, attackSpeedIn, movementSpeedIn, 0.0F, builderIn);
+		super(tier, movementSpeedIn, 0.0F, builderIn);
 	}
 	
 	@Override
@@ -49,14 +51,14 @@ public class ForgottenBattleTridentItem extends AerialHellSwordItem
 			playerIn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 300, 0));
 		}
 		playerIn.getCooldowns().addCooldown(this, 540);
-		heldItem.hurtAndBreak(1, playerIn, (player) -> {player.broadcastBreakEvent(playerIn.getUsedItemHand());});
+		heldItem.hurtAndBreak(1, playerIn, LivingEntity.getSlotForHand(handIn));
 		return InteractionResultHolder.consume(heldItem);
     }
-	
+
 	@Override @OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn)
+	public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
 	{
-		tooltip.add(this.getDescription().withStyle(ChatFormatting.GRAY));
+		components.add(this.getDescription().withStyle(ChatFormatting.GRAY));
 	}
 
 	@OnlyIn(Dist.CLIENT)

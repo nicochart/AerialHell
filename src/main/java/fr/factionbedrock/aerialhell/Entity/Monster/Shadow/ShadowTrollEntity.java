@@ -74,18 +74,18 @@ public class ShadowTrollEntity extends Monster
                     {
                         ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 35, 0));
                     }
-                    else if (!((LivingEntity) attackedEntity).hasEffect(AerialHellMobEffects.VULNERABILITY.get()))
+                    else if (!((LivingEntity) attackedEntity).hasEffect(AerialHellMobEffects.VULNERABILITY.getHolder().get()))
                     {
-                        ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.get(), 60, 0));
+                        ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getHolder().get(), 60, 0));
                     }
                     else
                     {
-                        ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.get(), 120, 0));
+                        ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getHolder().get(), 120, 0));
                     }
                 }
                 else //attacked entity is shadow immune
                 {
-                    ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.get(), 50, 0));
+                    ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getHolder().get(), 50, 0));
                 }
             }
     		return true;
@@ -130,10 +130,10 @@ public class ShadowTrollEntity extends Monster
         super.doPush(entityIn);
     }
     
-    @Override protected void defineSynchedData()
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        super.defineSynchedData();
-        this.entityData.define(DISAPPEARING, false);
+        super.defineSynchedData(builder);
+        builder.define(DISAPPEARING, false);
     }
     
     @Override public void addAdditionalSaveData(CompoundTag compound)

@@ -36,7 +36,7 @@ public class GlyphBlock extends Block
 
 	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(GLYPH_INDEX, NORTH, EAST, SOUTH, WEST);}
 
-	@Override public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult)
+	@Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult)
 	{
 		Direction face = hitResult.getDirection();
 		if (face == Direction.UP || face == Direction.DOWN) {return InteractionResult.PASS;}

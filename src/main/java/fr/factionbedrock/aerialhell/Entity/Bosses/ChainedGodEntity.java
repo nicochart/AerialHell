@@ -120,12 +120,12 @@ public class ChainedGodEntity extends AbstractBossEntity
 		return this.isFreelyMoving() && super.tryActuallyHurt(damageSource, amount);
 	}
 
-	@Override protected void defineSynchedData()
+	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
 	{
-	    super.defineSynchedData();
-	    this.entityData.define(IMPLODING, false);
-	    this.entityData.define(UNCHAINING, false);
-	    this.entityData.define(UNCHAINED, false);
+	    super.defineSynchedData(builder);
+	    builder.define(IMPLODING, false);
+	    builder.define(UNCHAINING, false);
+	    builder.define(UNCHAINED, false);
 	}
 	
 	@Override public void addAdditionalSaveData(CompoundTag compound)

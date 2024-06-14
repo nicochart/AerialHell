@@ -36,10 +36,10 @@ public class CoreProtectedGlyphBlock extends GlyphBlock
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult)
+	public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult)
 	{
 		if (!player.isCreative() && this.isProtected(state)) {return InteractionResult.PASS;}
-		else {return super.use(state, level, pos, player, hand, hitResult);}
+		else {return super.useWithoutItem(state, level, pos, player, hitResult);}
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class CoreProtectedGlyphBlock extends GlyphBlock
 	    else
 	    {
 	         int i = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(state, player) ? 30 : 100;
-	         return player.getDigSpeed(state, pos) / f / (float)i;
+	         return player.getDestroySpeed(state, pos) / f / (float)i;
 	    }
 	}
 }

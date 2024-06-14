@@ -24,7 +24,7 @@ public abstract class AbstractShurikenItem extends Item
 	{
 		ItemStack heldItem = playerIn.getItemInHand(hand);
 		
-		if (!playerIn.isCreative() && EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, heldItem) == 0)
+		if (!playerIn.isCreative() && EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY, heldItem) == 0)
 		{
 			heldItem.shrink(1);
 		}

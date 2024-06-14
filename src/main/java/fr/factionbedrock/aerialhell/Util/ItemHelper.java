@@ -27,8 +27,8 @@ public class ItemHelper
     }
 
     public static int getItemMiningLevel(Item item)
-    {
-        return item instanceof DiggerItem ? ((DiggerItem)item).getTier().getLevel() : 0;
+    {//TODO use tags instead of mining level
+        return 4; //return item instanceof DiggerItem ? ((DiggerItem)item).getTier().getLevel() : 0;
     }
 
     public static class SmithingTemplate

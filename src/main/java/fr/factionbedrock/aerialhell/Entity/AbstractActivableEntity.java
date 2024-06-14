@@ -22,10 +22,10 @@ public abstract class AbstractActivableEntity extends Monster
 	}
 
 	@Override
-	protected void defineSynchedData()
+	protected void defineSynchedData(SynchedEntityData.Builder builder)
 	{
-		super.defineSynchedData();
-		this.entityData.define(ACTIVE, false);
+		super.defineSynchedData(builder);
+		builder.define(ACTIVE, false);
 	}
 
     public void setActive(boolean isActive) {this.entityData.set(ACTIVE, isActive);}

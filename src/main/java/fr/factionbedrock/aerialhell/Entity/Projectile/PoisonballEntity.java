@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -60,10 +61,10 @@ public class PoisonballEntity extends Fireball
 				{
 					entity.setDeltaMovement(this.getDeltaMovement().x * 0.3, entity.getDeltaMovement().y + 0.1, this.getDeltaMovement().z * 0.3);
 				}
-				else
+				else //TODO
 				{
 					ItemStack activeItemStack = livingEntity.getUseItem();
-					activeItemStack.hurtAndBreak(1, livingEntity, p -> p.broadcastBreakEvent(activeItemStack.getEquipmentSlot()));
+					//activeItemStack.hurtAndBreak(1, livingEntity, p -> p.broadcastBreakEvent(activeItemStack.getEquipmentSlot()));
 					level().playSound((Player)null, entity.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
 				}
 				livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 160, 0));
@@ -72,7 +73,7 @@ public class PoisonballEntity extends Fireball
 		this.discard();
 	}
 
-	@Override protected void defineSynchedData() {super.defineSynchedData();}
+	@Override protected void defineSynchedData(SynchedEntityData.Builder builder) {super.defineSynchedData(builder);}
 
 	@Override public void tick()
 	{

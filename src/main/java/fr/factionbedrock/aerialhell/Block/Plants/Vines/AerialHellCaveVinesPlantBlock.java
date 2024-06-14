@@ -39,7 +39,7 @@ public class AerialHellCaveVinesPlantBlock extends CaveVinesPlantBlock
 
     @Override public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {return new ItemStack(this.getBerryItem());}
 
-    @Override public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult)
+    @Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult)
     {
         if (state.getValue(BERRIES))
         {

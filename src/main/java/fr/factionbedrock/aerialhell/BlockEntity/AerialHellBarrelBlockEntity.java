@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
@@ -54,17 +55,17 @@ public class AerialHellBarrelBlockEntity extends RandomizableContainerBlockEntit
 
 	public AerialHellBarrelBlockEntity(BlockPos pos, BlockState state) {super(AerialHellBlockEntities.BARREL.get(), pos, state);}
 
-	protected void saveAdditional(CompoundTag tag)
+	@Override protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider)
 	{
-		super.saveAdditional(tag);
-		if (!this.trySaveLootTable(tag)) {ContainerHelper.saveAllItems(tag, this.items);}
+		super.saveAdditional(tag, provider);
+		if (!this.trySaveLootTable(tag)) {ContainerHelper.saveAllItems(tag, this.items, provider);}
 	}
 
-	public void load(CompoundTag tag)
+	@Override protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider)
 	{
-		super.load(tag);
+		super.loadAdditional(tag, provider);
 		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-		if (!this.tryLoadLootTable(tag)) {ContainerHelper.loadAllItems(tag, this.items);}
+		if (!this.tryLoadLootTable(tag)) {ContainerHelper.loadAllItems(tag, this.items, provider);}
 	}
 
 	public int getContainerSize() {return 27;}

@@ -52,10 +52,10 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
         this.goalSelector.addGoal(0, new GlideGoal(this));
     }
 
-    @Override protected void defineSynchedData()
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        super.defineSynchedData();
-        this.entityData.define(GLIDING, false);
+        super.defineSynchedData(builder);
+        builder.define(GLIDING, false);
     }
 
     public static AttributeSupplier.Builder registerAttributes()

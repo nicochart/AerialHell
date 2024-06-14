@@ -21,7 +21,7 @@ public class PurpleSolidEtherBlock extends SolidEtherBlock
 		{
 			if (canEntityCollide(entity))
 			{
-				entity.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.get(), 30, 0, true, true));
+				entity.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.getHolder().get(), 30, 0, true, true));
 			}
 			else if (!EntityHelper.isLivingEntityShadowImmune((LivingEntity)entity))
 			{

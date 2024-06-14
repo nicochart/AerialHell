@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
 import java.util.Random;
 
+import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
@@ -39,9 +40,9 @@ public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 				EntityType<?> entityType = getEntity(this);
 				Entity entity = entityType.create(world);
 				entity.absMoveTo(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, (rand.nextFloat() - 0.5F) * 180.0F, 0.0F);
-				if (this == AerialHellBlocksAndItems.TRAPPED_MUD_BRICKS.get() || this == AerialHellBlocksAndItems.TRAPPED_LIGHT_MUD_BRICKS.get())
+				if (this == AerialHellBlocksAndItems.TRAPPED_MUD_BRICKS.get() || this == AerialHellBlocksAndItems.TRAPPED_LIGHT_MUD_BRICKS.get() && entity instanceof MudSoldierEntity)
 				{
-					entity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+					((MudSoldierEntity) entity).setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
 				}
 				world.addFreshEntity(entity);
 			}

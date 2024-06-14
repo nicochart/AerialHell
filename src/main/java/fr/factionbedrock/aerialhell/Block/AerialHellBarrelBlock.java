@@ -41,15 +41,15 @@ public class AerialHellBarrelBlock extends BarrelBlock
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
+	public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit)
 	{
-		if (world.isClientSide())
+		if (level.isClientSide())
 		{
 			return InteractionResult.SUCCESS;
 		}
 		else
 		{
-			BlockEntity blockEntity = world.getBlockEntity(pos);
+			BlockEntity blockEntity = level.getBlockEntity(pos);
 			if (blockEntity instanceof AerialHellBarrelBlockEntity)
 			{
 				player.openMenu((AerialHellBarrelBlockEntity) blockEntity);
@@ -77,7 +77,7 @@ public class AerialHellBarrelBlock extends BarrelBlock
 		return RenderShape.MODEL;
 	}
 
-	@Override
+	/*@Override TODO where is set the custom name ?
 	public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer,	ItemStack stack)
 	{
 		if (stack.hasCustomHoverName())
@@ -88,5 +88,5 @@ public class AerialHellBarrelBlock extends BarrelBlock
 				((AerialHellBarrelBlockEntity) blockEntity).setCustomName(stack.getHoverName());
 			}
 		}
-	}
+	}*/
 }

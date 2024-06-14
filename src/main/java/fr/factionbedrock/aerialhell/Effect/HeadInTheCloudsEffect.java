@@ -10,7 +10,7 @@ public class HeadInTheCloudsEffect extends MobEffect
     public HeadInTheCloudsEffect(MobEffectCategory typeIn, int liquidColorIn) {super(typeIn, liquidColorIn);}
 
     @Override
-    public void applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier)
+    public boolean applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier)
     {
         double x=entityLivingBaseIn.getDeltaMovement().x, y=entityLivingBaseIn.getDeltaMovement().y, z=entityLivingBaseIn.getDeltaMovement().z;
         double xNew = x, yNew = y, zNew = z;
@@ -27,6 +27,7 @@ public class HeadInTheCloudsEffect extends MobEffect
 
         entityLivingBaseIn.setDeltaMovement(xNew, yNew, zNew);
         entityLivingBaseIn.resetFallDistance();
+        return true;
     }
 
     @Override

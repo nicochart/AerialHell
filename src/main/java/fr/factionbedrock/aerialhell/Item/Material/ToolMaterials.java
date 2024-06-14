@@ -3,170 +3,56 @@ package fr.factionbedrock.aerialhell.Item.Material;
 
 import java.util.function.Supplier;
 
+import com.google.common.base.Suppliers;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.util.LazyLoadedValue;
+import net.minecraft.world.level.block.Block;
 
 public class ToolMaterials
 {
-	public static final Tier sky_wood = new ToolMaterial
-	(
-		0, //Niveau de minage
-		59, //durabilité
-		2.0F, //efficacité
-		0.0F, //Dégats d'attaque
-		15, //Enchantabilité
-		() -> Ingredient.of(AerialHellBlocksAndItems.STELLAR_COBBLESTONE_ITEM.get()) //Ingrédient de réparation (Enclume)
-	);
-	
-	public static final Tier stellar_stone = new ToolMaterial
-	(
-		1, //Niveau de minage
-		131, //durabilité
-		4.0F, //efficacité
-		1.0F, //Dégats d'attaque
-		5, //Enchantabilité
-		() -> {return Ingredient.of(AerialHellTags.Items.AERIALHELL_PLANKS);} //Ingrédient de réparation (Enclume)
-	);
-	
-	public static final Tier ruby = new ToolMaterial
-	(
-		2, //Niveau de minage
-		250, //durabilité
-		6.0F, //efficacité
-		2.0F, //Dégats d'attaque
-		14, //Enchantabilité
-		() -> Ingredient.of(AerialHellBlocksAndItems.RUBY.get()) //Ingrédient de réparation (Enclume)
-	);
-	
-	public static final Tier azurite = new ToolMaterial
-	(
-		0, //Niveau de minage
-		110, //durabilité
-		12.0F, //efficacité
-		0.0F, //Dégats d'attaque
-		22, //Enchantabilité
-		() -> Ingredient.of(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()) //Ingrédient de réparation (Enclume)
-	);
-	
-	public static final Tier magmatic_gel = new ToolMaterial
-	(
-		0, //Niveau de minage
-		32, //durabilité
-		12.0F, //efficacité
-		0.0F, //Dégats d'attaque
-		22, //Enchantabilité
-		() -> Ingredient.of(AerialHellBlocksAndItems.MAGMATIC_GEL.get()) //Ingrédient de réparation (Enclume)
-	);
-	
-	public static final Tier obsidian = new ToolMaterial
-	(
-		3, //Niveau de minage
-		2031, //durabilité
-		8.0F, //efficacité
-		3.0F, //Dégats d'attaque
-		10, //Enchantabilité
-		() -> Ingredient.of(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //Ingrédient de réparation (Enclume)
-	);
-	
-	public static final Tier shadow = new ToolMaterial
-	(
-		3, //Niveau de minage
-		112, //durabilité
-		8.0F, //efficacité
-		3.0F, //Dégats d'attaque
-		15, //Enchantabilité
-		() -> Ingredient.of(AerialHellBlocksAndItems.CURSED_CRYSAL.get()) //Ingrédient de réparation (Enclume)
-	);
-	
-	public static final Tier volucite = new ToolMaterial
-	(
-		4, //Niveau de minage
-		1620, //durabilité
-		8.5F, //efficacité
-		4.5F, //Dégats d'attaque
-		10, //Enchantabilité
-		() -> Ingredient.of(AerialHellBlocksAndItems.VOLUCITE_VIBRANT.get()) //Ingrédient de réparation (Enclume)
-	);
-	
-	public static final Tier heavy = new ToolMaterial
-	(
-		3, //Niveau de minage
-		1561, //durabilité
-		8.0F, //efficacité
-		6.0F, //Dégats d'attaque
-		10, //Enchantabilité
-		() -> Ingredient.of(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()) //Ingrédient de réparation (Enclume)
-	);
-	
-	public static final Tier lunatic = new ToolMaterial
-	(
-		4, //Niveau de minage
-		1712, //durabilité
-		8.0F, //efficacité
-		4.0F, //Dégats d'attaque
-		15, //Enchantabilité
-		() -> Ingredient.of(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //Ingrédient de réparation (Enclume)
-	);
-	
-	public static final Tier breaker = new ToolMaterial
-	(
-		3, //Niveau de minage
-		742, //durabilité
-		7.5F, //efficacité
-		5.0F, //Dégats d'attaque
-		10, //Enchantabilité
-		() -> Ingredient.of(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()) //Ingrédient de réparation (Enclume)
-	);
+	public static final Tier SKY_WOOD = new ToolMaterial(BlockTags.INCORRECT_FOR_WOODEN_TOOL, 59, 2.0F, 0.0F, 15, () -> Ingredient.of(AerialHellTags.Items.AERIALHELL_PLANKS));
+	public static final Tier STELLAR_STONE = new ToolMaterial(BlockTags.INCORRECT_FOR_STONE_TOOL, 131, 4.0F, 1.0F, 5, () -> Ingredient.of(AerialHellBlocksAndItems.STELLAR_COBBLESTONE_ITEM.get()));
+	public static final Tier RUBY = new ToolMaterial(BlockTags.INCORRECT_FOR_IRON_TOOL, 250, 6.0F, 2.0F, 14, () -> Ingredient.of(AerialHellBlocksAndItems.RUBY.get()));
+	public static final Tier AZURITE = new ToolMaterial(BlockTags.INCORRECT_FOR_STONE_TOOL, 110, 12.0F, 0.0F, 22, () -> Ingredient.of(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()));
+	public static final Tier MAGMATIC_GEL = new ToolMaterial(BlockTags.INCORRECT_FOR_WOODEN_TOOL, 32, 12.0F, 0.0F, 22, () -> Ingredient.of(AerialHellBlocksAndItems.MAGMATIC_GEL.get()));
+	public static final Tier OBSIDIAN = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 2031, 8.0F, 3.0F, 10, () -> Ingredient.of(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()));
+	public static final Tier SHADOW = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 112, 8.0F, 3.0F, 15, () -> Ingredient.of(AerialHellBlocksAndItems.CURSED_CRYSAL.get()));
+	public static final Tier VOLUCITE = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1620, 8.5F, 4.5F, 10, () -> Ingredient.of(AerialHellBlocksAndItems.VOLUCITE_VIBRANT.get()));
+	public static final Tier HEAVY = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 1561, 8.0F, 6.0F, 10, () -> Ingredient.of(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()));
+	public static final Tier LUNATIC = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1712, 8.0F, 4.0F, 15, () -> Ingredient.of(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()));
+	public static final Tier BREAKER = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 742, 7.5F, 5.0F, 10, () -> Ingredient.of(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()));
+	public static final Tier ARSONIST = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2031, 9.0F, 5.5F, 15, () -> Ingredient.of(AerialHellBlocksAndItems.ARSONIST_INGOT.get()));
 
-	public static final Tier arsonist = new ToolMaterial
-	(
-		4, //Niveau de minage
-		2031, //durabilité
-		9.0F, //efficacité
-		5.5F, //Dégats d'attaque
-		15, //Enchantabilité
-		() -> Ingredient.of(AerialHellBlocksAndItems.ARSONIST_INGOT.get()) //Ingrédient de réparation (Enclume)
-	);
-	
 	private static class ToolMaterial implements Tier
 	{
+		private final TagKey<Block> incorrectBlocksForDrops;
+		private final int uses;
+		private final float speed;
+		private final float damage;
+		private final int enchantmentValue;
+		private final Supplier<Ingredient> repairIngredient;
 
-        private final int harvestLevel;
-        private final int maxUses;
-        private final float efficiency;
-        private final float attackDamage;
-        private final int enchantability;
-        private final LazyLoadedValue<Ingredient> repair;
+		public ToolMaterial(final TagKey<Block> incorrectBlocksForDrops, final int uses, final float speed, final float damage, final int enchantmentValue, final Supplier<Ingredient> repairIngredients)
+		{
+			this.incorrectBlocksForDrops = incorrectBlocksForDrops;
+			this.uses = uses;
+			this.speed = speed;
+			this.damage = damage;
+			this.enchantmentValue = enchantmentValue;
+			this.repairIngredient = Suppliers.memoize(repairIngredients::get);
+		}
 
-        public ToolMaterial(int harvestLevel, int maxUses, float efficiency, double attackDamage, int enchantability, Supplier<Ingredient> supplier)
-        {
-            this.harvestLevel = harvestLevel;
-            this.maxUses = maxUses;
-            this.efficiency = efficiency;
-            this.attackDamage = (float)attackDamage;
-            this.enchantability = enchantability;
-            this.repair = new LazyLoadedValue<Ingredient>(supplier);
-        }
-
-        @Override
-        public int getUses() {return maxUses;}
-
-        @Override
-        public float getSpeed() {return efficiency;}
-
-        @Override
-        public float getAttackDamageBonus() {return attackDamage;}
-
-        @Override
-        public int getLevel() {return harvestLevel;}
-
-        @Override
-        public int getEnchantmentValue() {return enchantability;}
-
-        @Override
-        public Ingredient getRepairIngredient() {return repair.get();}
+		@Override public int getUses() {return this.uses;}
+		@Override public float getSpeed() {return this.speed;}
+		@Override public float getAttackDamageBonus() {return this.damage;}
+		@Override public TagKey<Block> getIncorrectBlocksForDrops() {return this.incorrectBlocksForDrops;}
+		@Override public int getEnchantmentValue() {return this.enchantmentValue;}
+		@Override public Ingredient getRepairIngredient() {return this.repairIngredient.get();}
 	}
 }

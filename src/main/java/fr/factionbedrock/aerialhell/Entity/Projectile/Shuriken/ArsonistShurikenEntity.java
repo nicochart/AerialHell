@@ -52,7 +52,7 @@ public class ArsonistShurikenEntity extends AbstractShurikenEntity
 	{
 		if (entity instanceof LivingEntity)
         {
-        	entity.setSecondsOnFire(5);
+        	entity.igniteForSeconds(5);
         }
 	}
 	

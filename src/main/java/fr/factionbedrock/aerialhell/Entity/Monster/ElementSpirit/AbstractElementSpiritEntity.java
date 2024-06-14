@@ -84,10 +84,10 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
     public abstract void applyEffect(Entity entity);
     public abstract SimpleParticleType getParticleToSpawn();
 
-    @Override protected void defineSynchedData()
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        super.defineSynchedData();
-        this.entityData.define(ATTACKING, false);
+        super.defineSynchedData(builder);
+        builder.define(ATTACKING, false);
     }
 
     @Override public void addAdditionalSaveData(CompoundTag compound)

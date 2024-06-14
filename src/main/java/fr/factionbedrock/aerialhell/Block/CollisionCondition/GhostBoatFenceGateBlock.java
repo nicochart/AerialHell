@@ -25,9 +25,9 @@ public class GhostBoatFenceGateBlock extends FenceGateBlock
 		super(woodType, properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false));
 	}
 
-	@Override public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
+	@Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit)
 	{
-		return (!canEntityCollide(player) && !player.isCreative()) ? InteractionResult.SUCCESS : super.use(state, level, pos, player, handIn, hit);
+		return (!canEntityCollide(player) && !player.isCreative()) ? InteractionResult.SUCCESS : super.useWithoutItem(state, level, pos, player, hit);
 	}
 
 	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)

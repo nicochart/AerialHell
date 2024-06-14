@@ -78,7 +78,7 @@ public abstract class AbstractShurikenEntity extends ThrowableItemProjectile
 		this.discard();
 	}
 
-	@Override protected float getGravity() {return 0.04F;}
+	@Override protected double getDefaultGravity() {return 0.04F;}
 	
 	abstract protected float getKnifeDamage();
 	abstract protected void applyEntityImpactEffet(Entity entity);

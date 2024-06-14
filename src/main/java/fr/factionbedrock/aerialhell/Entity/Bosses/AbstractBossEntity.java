@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -231,11 +232,11 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		}
 	}
 
-	@Override protected void defineSynchedData()
+	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
 	{
-		super.defineSynchedData();
-		this.entityData.define(BOSS_DIFFICULTY, 0);
-		this.entityData.define(PHASE, 0);
+		super.defineSynchedData(builder);
+		builder.define(BOSS_DIFFICULTY, 0);
+		builder.define(PHASE, 0);
 	}
 
 	public void setDifficulty(int difficulty) {this.entityData.set(BOSS_DIFFICULTY, difficulty);}
@@ -373,7 +374,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	public void immunizeToEffects()
 	{
 		this.removeEffect(MobEffects.LEVITATION);
-		this.removeEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get());
+		this.removeEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getHolder().get());
 	}
 
 	@Override public boolean startRiding(Entity entity, boolean p_19967_)
@@ -382,10 +383,10 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		{
 			//Copy of net.minecraft.world.entity.vehicle.VehicleEntity.destroy(Item item) {..}
 			entity.kill();
-			if (entity.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS))
+			if (this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS))
 			{
 				ItemStack itemstack = new ItemStack(boat.getDropItem());
-				if (this.hasCustomName()) {itemstack.setHoverName(this.getCustomName());}
+				itemstack.set(DataComponents.CUSTOM_NAME, this.getCustomName());
 				this.spawnAtLocation(itemstack);
 			}
 		}

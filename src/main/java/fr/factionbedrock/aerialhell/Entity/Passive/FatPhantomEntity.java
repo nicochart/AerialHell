@@ -134,10 +134,10 @@ public class FatPhantomEntity extends Phantom implements Enemy
    }
    
    @Override
-   protected void defineSynchedData()
+   protected void defineSynchedData(SynchedEntityData.Builder builder)
    {
-      super.defineSynchedData();
-      this.entityData.define(DISAPPEARING, false);
+      super.defineSynchedData(builder);
+      builder.define(DISAPPEARING, false);
    }
    
    public int getDefaultFatPhantomSize()
@@ -149,12 +149,6 @@ public class FatPhantomEntity extends Phantom implements Enemy
    {
       this.refreshDimensions();
       this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue((double)(Math.max(16 + this.getPhantomSize() - getDefaultFatPhantomSize(), 16)));
-   }
-
-   @Override
-   protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn)
-   {
-      return sizeIn.height * 0.35F;
    }
    
    @Override
@@ -224,9 +218,9 @@ public class FatPhantomEntity extends Phantom implements Enemy
    public void setDisappearing(boolean flag) {this.entityData.set(DISAPPEARING, flag);}
    
    @Override
-   public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag)
+   public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn)
    {
-      SpawnGroupData data = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+      SpawnGroupData data = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn);
       this.orbitPosition = this.blockPosition().above(6);
       this.setPhantomSize(10 + random.nextInt(6));
       if (worldIn.getBlockState(this.blockPosition().above()).getBlock() == Blocks.AIR)
@@ -260,12 +254,11 @@ public class FatPhantomEntity extends Phantom implements Enemy
    }
 
    @Override
-   public EntityDimensions getDimensions(Pose poseIn)
+   public EntityDimensions getDefaultDimensions(Pose poseIn)
    {
       int i = this.getPhantomSize();
-      EntityDimensions entitysize = super.getDimensions(poseIn);
-      float f = (entitysize.width + 0.2F * (float)i) / entitysize.width;
-      return entitysize.scale(f);
+      EntityDimensions entitydimensions = super.getDefaultDimensions(poseIn);
+      return entitydimensions.scale(1.0F + 0.15F * (float)i);
    }
 
    static enum AttackPhase

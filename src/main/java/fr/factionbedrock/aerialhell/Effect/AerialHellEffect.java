@@ -10,9 +10,6 @@ public class AerialHellEffect extends MobEffect
     {
         super(typeIn, liquidColorIn);
     }
-
-    @Override
-    public void applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier) {}
     
     @Override
     public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {return true;}

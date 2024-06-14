@@ -13,9 +13,9 @@ import net.minecraft.world.level.Level;
 
 public class EffectHoeItem extends AerialHellHoeItem
 {	
-	public EffectHoeItem(Tier tier, int attackDamageIn, float attackSpeedIn, float movementSpeedIn, float maxHealthIn, Properties builderIn)
+	public EffectHoeItem(Tier tier, float movementSpeedIn, float maxHealthIn, Properties builderIn)
 	{
-		super(tier, attackDamageIn, attackSpeedIn, movementSpeedIn, maxHealthIn, builderIn);
+		super(tier, movementSpeedIn, maxHealthIn, builderIn);
 	}
 	
 	@Override
@@ -28,12 +28,12 @@ public class EffectHoeItem extends AerialHellHoeItem
 		Random rand = new Random();
 		if (this == AerialHellBlocksAndItems.VOLUCITE_HOE.get())
 		{
-			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, rand, false)) {return InteractionResultHolder.consume(heldItem);}
+			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, handIn, rand, false)) {return InteractionResultHolder.consume(heldItem);}
 			else {return InteractionResultHolder.pass(heldItem);}
 		}
 		else if (this == AerialHellBlocksAndItems.REAPER_SCYTHE.get())
 		{
-			EffectToolHelper.applyReaperWalkEffect(this, heldItem, worldIn, playerIn, rand, 600);
+			EffectToolHelper.applyReaperWalkEffect(this, heldItem, worldIn, playerIn, handIn, rand, 600);
 	        return InteractionResultHolder.consume(heldItem);
 		}
 		else {return super.use(worldIn, playerIn, handIn);}

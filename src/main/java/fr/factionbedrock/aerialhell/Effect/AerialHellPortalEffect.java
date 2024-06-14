@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Effect;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -13,12 +14,13 @@ public class AerialHellPortalEffect extends MobEffect
     }
 
     @Override
-    public void applyEffectTick(LivingEntity livingIn, int amplifier)
+    public boolean applyEffectTick(LivingEntity livingIn, int amplifier)
     {
     	if (!EntityHelper.isLivingEntityInAerialHellPortal(livingIn) && !EntityHelper.isLivingEntityReadyToTeleport(livingIn))
         {
-            livingIn.removeEffect(this);
+            livingIn.removeEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL.getHolder().get());
         }
+        return true;
     }
 
     @Override

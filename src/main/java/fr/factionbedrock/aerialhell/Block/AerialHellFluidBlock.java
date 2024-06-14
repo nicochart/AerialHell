@@ -81,7 +81,7 @@ public class AerialHellFluidBlock extends LiquidBlock {
     		
             if(entityIn.isAlive() && entityIn instanceof LivingEntity)
             {
-            	if (!(entityIn instanceof TornSpiritEntity || entityIn instanceof ChainedGodEntity || ((LivingEntity) entityIn).hasEffect(AerialHellMobEffects.GOD.get())))
+            	if (!(entityIn instanceof TornSpiritEntity || entityIn instanceof ChainedGodEntity || ((LivingEntity) entityIn).hasEffect(AerialHellMobEffects.GOD.getHolder().get())))
             	{
             		entityIn.hurt(AerialHellDamageTypes.getDamageSource(worldIn, AerialHellDamageTypes.GOD_BLESS), 1.5F);//.setFire(10);
             	}
@@ -94,5 +94,5 @@ public class AerialHellFluidBlock extends LiquidBlock {
         }
     }
     
-    @Override public boolean isPathfindable(BlockState state, BlockGetter worldIn, BlockPos pos, PathComputationType type) {return true;}
+    @Override public boolean isPathfindable(BlockState state, PathComputationType type) {return true;}
 }

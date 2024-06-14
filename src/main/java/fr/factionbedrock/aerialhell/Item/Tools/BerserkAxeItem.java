@@ -9,6 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.entity.Entity;
@@ -31,9 +32,9 @@ public class BerserkAxeItem extends EffectAxeItem
 {
 	private int weight_ticks;
 	
-	public BerserkAxeItem(Tier tier, float attackDamageIn, float attackSpeedIn, float movementSpeedIn,	float maxHealthIn, Properties builderIn)
+	public BerserkAxeItem(Tier tier, float movementSpeedIn,	float maxHealthIn, Properties builderIn)
 	{
-		super(tier, attackDamageIn, attackSpeedIn, movementSpeedIn, maxHealthIn, builderIn);
+		super(tier, movementSpeedIn, maxHealthIn, builderIn);
 		this.weight_ticks = 0;
 	}
 	
@@ -96,7 +97,7 @@ public class BerserkAxeItem extends EffectAxeItem
 		}
 		
 		playerIn.getCooldowns().addCooldown(this, cooldown);
-		heldItem.hurtAndBreak(1, playerIn, (player) -> {player.broadcastBreakEvent(playerIn.getUsedItemHand());});
+		heldItem.hurtAndBreak(1, playerIn, LivingEntity.getSlotForHand(handIn));
         return InteractionResultHolder.consume(heldItem);
 	}
 	
@@ -161,11 +162,11 @@ public class BerserkAxeItem extends EffectAxeItem
 			}
 		}
 	}
-	
+
 	@Override @OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn)
+	public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
 	{
-		tooltip.add(this.getDescription().append(Integer.toString(getStatus())).withStyle(ChatFormatting.GRAY));
+		components.add(this.getDescription().append(Integer.toString(getStatus())).withStyle(ChatFormatting.GRAY));
 	}
 
 	@OnlyIn(Dist.CLIENT)

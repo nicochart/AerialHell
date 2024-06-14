@@ -35,7 +35,7 @@ public class ChestMimicBlock extends ChestBlock
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
+	public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player, BlockHitResult hit)
 	{
 		if (!ChestBlock.isChestBlockedAt(worldIn, pos))
 		{

@@ -36,9 +36,9 @@ public class FatPhantomRender extends MobRenderer<FatPhantomEntity, PhantomModel
         matrixStackIn.translate(0.0D, 1.3125D, 0.1875D);
     }
 
-    protected void setupRotations(FatPhantomEntity entityLiving, PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks)
+    protected void setupRotations(FatPhantomEntity entity, PoseStack poseStack, float p_115687_, float p_115688_, float p_115689_, float p_328426_)
     {
-    	super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
-        matrixStackIn.mulPose(Axis.XP.rotationDegrees(entityLiving.getXRot()));
+        super.setupRotations(entity, poseStack, p_115687_, p_115688_, p_115689_, p_328426_);
+        poseStack.mulPose(Axis.XP.rotationDegrees(entity.getXRot()));
     }
 }

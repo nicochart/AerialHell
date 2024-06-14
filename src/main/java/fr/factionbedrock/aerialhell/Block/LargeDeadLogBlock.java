@@ -98,5 +98,5 @@ public class LargeDeadLogBlock extends Block
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> state) {state.add(FACING, HALF);}
 
-    @Override public boolean isPathfindable(BlockState state, BlockGetter blockGetter, BlockPos pos, PathComputationType pathComputationType) {return false;}
+    @Override public boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {return false;}
 }

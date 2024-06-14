@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Item;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -65,7 +66,7 @@ public class BlowpipeItem extends Item
         {
             ammo.shrink(1);
             if (ammo.isEmpty()) {playerIn.getInventory().removeItem(ammo);}
-            heldItem.hurtAndBreak(1, playerIn, (player) -> {player.broadcastBreakEvent(playerIn.getUsedItemHand());});
+            heldItem.hurtAndBreak(1, playerIn, LivingEntity.getSlotForHand(handIn));
         }
         playerIn.getCooldowns().addCooldown(this, 12);
         return InteractionResultHolder.consume(heldItem);

@@ -22,11 +22,11 @@ public class AerialHellDimensionSpecialEffects extends DimensionSpecialEffects
         return biomeFogColor.multiply(daylight * 0.94F + 0.06F, daylight * 0.94F + 0.06F, daylight * 0.91F + 0.09F);
     }
 
-    @Override
-    public boolean renderSky(ClientLevel level, int ticks, float partialTick, PoseStack poseStack, Camera camera, Matrix4f projectionMatrix, boolean isFoggy, Runnable setupFog)
-    {
-        return AerialHellDimensionSkyRenderer.render(level, partialTick, poseStack, camera, projectionMatrix, setupFog);
-    }
+    //@Override TODO
+    //public boolean renderSky(ClientLevel level, int ticks, float partialTick, PoseStack poseStack, Camera camera, Matrix4f projectionMatrix, boolean isFoggy, Runnable setupFog)
+    //{
+    //    return AerialHellDimensionSkyRenderer.render(level, partialTick, poseStack, camera, projectionMatrix, setupFog);
+    //}
 
     @Nullable @Override public float[] getSunriseColor(float daycycle, float partialTicks) {return null;}
     @Override public boolean isFoggyAt(int x, int y) {return false;}

@@ -35,9 +35,9 @@ public class CoreProtectedChestBlock extends AerialHellChestBlock
 	}
 	
 	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
+	public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit)
 	{
-		return (isProtected(state) && !player.isCreative()) ? InteractionResult.SUCCESS : super.use(state, worldIn, pos, player, handIn, hit);
+		return (isProtected(state) && !player.isCreative()) ? InteractionResult.SUCCESS : super.useWithoutItem(state, level, pos, player, hit);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -65,7 +65,7 @@ public class CoreProtectedChestBlock extends AerialHellChestBlock
 		else
 		{
 			int i = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(state, player) ? 30 : 100;
-			return player.getDigSpeed(state, pos) / f / (float)i;
+			return player.getDestroySpeed(state, pos) / f / (float)i;
 		}
 	}
 }

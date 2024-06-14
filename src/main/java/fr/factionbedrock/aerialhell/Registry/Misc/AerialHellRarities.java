@@ -5,9 +5,10 @@ import net.minecraft.world.item.Rarity;
 
 public class AerialHellRarities
 {
-	public static final Rarity FROZEN = Rarity.create("aerial_hell_frozen", ChatFormatting.DARK_AQUA);
-	public static final Rarity CORRUPTED = Rarity.create("aerial_hell_corrupted", ChatFormatting.DARK_PURPLE);
-	public static final Rarity VIBRANT = Rarity.create("aerial_hell_vibrant", ChatFormatting.DARK_GREEN);
-	public static final Rarity LEGENDARY = Rarity.create("aerial_hell_legendary", ChatFormatting.GOLD);
-	public static final Rarity MYTHICAL = Rarity.create("aerial_hell_mythical", ChatFormatting.RED);
+	//TODO : find a way to add new rarities
+	public static final Rarity FROZEN = Rarity.UNCOMMON; //.create("aerial_hell_frozen", ChatFormatting.DARK_AQUA);
+	public static final Rarity CORRUPTED = Rarity.UNCOMMON; //.create("aerial_hell_corrupted", ChatFormatting.DARK_PURPLE);
+	public static final Rarity VIBRANT = Rarity.UNCOMMON; //.create("aerial_hell_vibrant", ChatFormatting.DARK_GREEN);
+	public static final Rarity LEGENDARY = Rarity.RARE; //.create("aerial_hell_legendary", ChatFormatting.GOLD);
+	public static final Rarity MYTHICAL = Rarity.EPIC; //.create("aerial_hell_mythical", ChatFormatting.RED);
 }
