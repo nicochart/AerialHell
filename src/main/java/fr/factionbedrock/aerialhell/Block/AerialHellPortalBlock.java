@@ -65,7 +65,6 @@ import javax.annotation.Nullable;
  * SOFTWARE.
  */
 
-@EventBusSubscriber(modid = AerialHell.MODID)
 public class AerialHellPortalBlock extends Block
 {
 	public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;

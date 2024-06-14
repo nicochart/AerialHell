@@ -72,7 +72,8 @@ public class RenderListener
     }*/
 
     //Copy of Gui.renderTextureOverlay
-    @OnlyIn(Dist.CLIENT) public static void renderTextureOverlay(GuiGraphics graphics, ResourceLocation textureLocation, float alpha)
+    //@OnlyIn(Dist.CLIENT)
+    public static void renderTextureOverlay(GuiGraphics graphics, ResourceLocation textureLocation, float alpha)
     {
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);

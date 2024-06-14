@@ -89,7 +89,8 @@ public class BlockEventListener
         }
     }
 
-    @SubscribeEvent @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
+    //@OnlyIn(Dist.CLIENT)
     public static void onOverlay(RenderBlockScreenEffectEvent event)
     {
     	if (event.getOverlayType() == RenderBlockScreenEffectEvent.OverlayType.BLOCK)
@@ -130,7 +131,7 @@ public class BlockEventListener
     }
 
     //function from net.minecraft.client.renderer.ScreenEffectRenderer
-    @OnlyIn(Dist.CLIENT)
+    //@OnlyIn(Dist.CLIENT)
     private static void renderCustomOverlay(Player player, PoseStack matrixStackIn, ResourceLocation texture)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);

@@ -26,7 +26,7 @@ public class AerialHellClientSetup
         AerialHellWoodTypes.addWoodTypesToSheets(event);
     }
     
-    @OnlyIn(Dist.CLIENT) @SubscribeEvent
+    @SubscribeEvent
     public static void registerDimensionRenderInfo(RegisterDimensionSpecialEffectsEvent event)
     {
         new AerialHellDimensionSkyRenderer();

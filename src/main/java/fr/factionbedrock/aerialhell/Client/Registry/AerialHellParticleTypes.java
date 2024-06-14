@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@Mod.EventBusSubscriber(modid = AerialHell.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = AerialHell.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class AerialHellParticleTypes
 {
 	public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, AerialHell.MODID);
@@ -39,7 +39,6 @@ public class AerialHellParticleTypes
 	public static final RegistryObject<SimpleParticleType> FAT_PHANTOM_SMOKE = PARTICLES.register("fat_phantom_smoke", () -> new SimpleParticleType(false));
 	
 	@SubscribeEvent
-	@OnlyIn(Dist.CLIENT)
 	public static void registerParticleFactories(RegisterParticleProvidersEvent event)
 	{
 		ParticleEngine particleManager = Minecraft.getInstance().particleEngine;
