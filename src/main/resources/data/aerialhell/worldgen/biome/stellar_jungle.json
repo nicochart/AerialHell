@@ -3,7 +3,6 @@
   "downfall": 0,
   "has_precipitation": false,
   "temperature_modifier": "none",
-  "category": "forest",
   "effects": {
     "sky_color": 6388367,
     "fog_color": 7583106,
@@ -17,8 +16,7 @@
       "min_delay": 1200,
       "max_delay": 3600,
       "replace_current_music": false
-    },
-    "particle": {}
+    }
   },
   "spawners": {
     "monster": [

@@ -1,16 +1,16 @@
 {
   "type": "minecraft:ore",
   "config": {
+    "discard_chance_on_air_exposure": 0.0,
     "size": 14,
-    "discard_chance_on_air_exposure": 0,
     "targets": [
       {
+        "state": {
+          "Name": "aerialhell:smoky_quartz_ore"
+        },
         "target": {
           "predicate_type": "minecraft:tag_match",
           "tag": "aerialhell:stellar_stone"
-        },
-        "state": {
-          "Name": "aerialhell:smoky_quartz_ore"
         }
       }
     ]

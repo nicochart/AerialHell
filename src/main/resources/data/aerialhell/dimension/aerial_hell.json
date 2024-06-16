@@ -2,7 +2,6 @@
   "type": "aerialhell:aerial_hell",
   "generator": {
     "type": "minecraft:noise",
-    "seed": 42,
     "settings": "aerialhell:aerial_hell",
     "biome_source": {
       "type": "minecraft:multi_noise",

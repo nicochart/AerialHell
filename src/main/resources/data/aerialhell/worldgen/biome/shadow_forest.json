@@ -3,7 +3,6 @@
   "downfall": 0,
   "has_precipitation": false,
   "temperature_modifier": "none",
-  "category": "forest",
   "effects": {
     "sky_color": 1914152,
     "fog_color": 2377529,

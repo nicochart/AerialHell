@@ -3,7 +3,6 @@
   "downfall": 0,
   "has_precipitation": false,
   "temperature_modifier": "none",
-  "category": "plains",
   "effects": {
     "sky_color": 6388370,
     "fog_color": 7909282,

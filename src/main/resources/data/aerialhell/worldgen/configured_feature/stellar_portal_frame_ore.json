@@ -1,25 +1,25 @@
 {
   "type": "minecraft:ore",
   "config": {
+    "discard_chance_on_air_exposure": 0.0,
     "size": 5,
-    "discard_chance_on_air_exposure": 0,
     "targets": [
       {
+        "state": {
+          "Name": "aerialhell:stellar_portal_frame_ore"
+        },
         "target": {
           "predicate_type": "minecraft:tag_match",
           "tag": "minecraft:stone_ore_replaceables"
-        },
-        "state": {
-          "Name": "aerialhell:stellar_portal_frame_ore"
         }
       },
       {
+        "state": {
+          "Name": "aerialhell:deepslate_stellar_portal_frame_ore"
+        },
         "target": {
           "predicate_type": "minecraft:tag_match",
           "tag": "minecraft:deepslate_ore_replaceables"
-        },
-        "state": {
-          "Name": "aerialhell:deepslate_stellar_portal_frame_ore"
         }
       }
     ]
