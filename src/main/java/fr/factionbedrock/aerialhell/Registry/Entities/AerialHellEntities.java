@@ -106,7 +106,7 @@ public class AerialHellEntities
 			.sized(0.7F, 0.9F).build("kodama"));
 
 	public static final RegistryObject<EntityType<CrystalSlimeEntity>> CRYSTAL_SLIME = ENTITIES.register("crystal_slime", () -> EntityType.Builder.<CrystalSlimeEntity>of(CrystalSlimeEntity::new, MobCategory.MONSTER)
-			.sized(2.0F, 2.0F).build("crystal_slime"));
+			.sized(1.0F, 1.0F).build("crystal_slime"));
 
 	public static final RegistryObject<EntityType<MudSoldierEntity>> MUD_SOLDIER = ENTITIES.register("mud_soldier", () -> EntityType.Builder.<MudSoldierEntity>of(MudSoldierEntity::new, MobCategory.MONSTER)
 			.sized(0.6F, 1.99F).build("mud_soldier"));
