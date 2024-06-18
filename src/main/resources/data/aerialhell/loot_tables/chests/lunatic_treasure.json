@@ -23,14 +23,16 @@
         },
 	{
     	  "type": "item",
-    	  "name": "minecraft:enchanted_book",
+          "name": "minecraft:book",
     	  "weight": 1,
-    	  "functions": [
+          "functions": [
             {
-              "function": "set_nbt",
-              "tag": "{StoredEnchantments:[{id:\"aerialhell:solid_ether_walker\",lvl:1}]}"
+              "enchantments": [
+                "aerialhell:solid_ether_walker"
+              ],
+              "function": "minecraft:enchant_randomly"
             }
-    	  ]
+          ]
         },
         {
           "type": "item",
