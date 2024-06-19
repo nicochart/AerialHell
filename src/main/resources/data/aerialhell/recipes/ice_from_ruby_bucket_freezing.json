@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:ruby_water_bucket"
   },
-  "result": "minecraft:ice",
+  "result": {
+    "id": "minecraft:ice"
+  },
   "experience": 0.0,
   "cookingtime": 500
 }

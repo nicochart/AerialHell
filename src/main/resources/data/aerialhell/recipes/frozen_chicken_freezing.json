@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "minecraft:chicken"
   },
-  "result": "aerialhell:frozen_chicken",
+  "result": {
+    "id": "aerialhell:frozen_chicken"
+  },
   "experience": 0.0,
   "cookingtime": 400
 }

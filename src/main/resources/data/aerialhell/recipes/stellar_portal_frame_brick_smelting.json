@@ -3,7 +3,9 @@
     "ingredient": {
         "tag": "aerialhell:stellar_portal_frame_ore"
     },
-    "result": "aerialhell:stellar_portal_frame_brick",
+    "result": {
+        "id": "aerialhell:stellar_portal_frame_brick"
+    },
     "experience": 2.5,
     "cookingtime": 400
 }

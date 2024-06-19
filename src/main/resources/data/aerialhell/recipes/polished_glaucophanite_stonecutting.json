@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:glaucophanite"
   },
-  "result": "aerialhell:polished_glaucophanite",
-  "count": 1
+  "result": {
+    "count": 1,
+    "id": "aerialhell:polished_glaucophanite"
+  }
 }

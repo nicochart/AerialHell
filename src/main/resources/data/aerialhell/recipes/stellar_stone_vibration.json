@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:stellar_cobblestone"
   },
-  "result": "aerialhell:stellar_stone",
+  "result": {
+    "id": "aerialhell:stellar_stone"
+  },
   "experience": 0.1,
   "cookingtime": 200
 }

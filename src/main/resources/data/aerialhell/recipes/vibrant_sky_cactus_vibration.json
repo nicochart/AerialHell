@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:sky_cactus"
   },
-  "result": "aerialhell:vibrant_sky_cactus",
+  "result": {
+    "id": "aerialhell:vibrant_sky_cactus"
+  },
   "experience": 0.0,
   "cookingtime": 900
 }

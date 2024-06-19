@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:magmatic_gel_ore"
   },
-  "result": "aerialhell:magmatic_gel",
+  "result": {
+    "id": "aerialhell:magmatic_gel"
+  },
   "experience": 0.1,
   "cookingtime": 200
 }

@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:mud_bricks"
   },
-  "result": "aerialhell:mud_bricks_stairs",
-  "count": 1
+  "result": {
+    "count": 1,
+    "id": "aerialhell:mud_bricks_stairs"
+  }
 }

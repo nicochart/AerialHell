@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:magmatic_gel_block"
   },
-  "result": "aerialhell:magmatic_gel_wall",
-  "count": 1
+  "result": {
+    "count": 1,
+    "id": "aerialhell:magmatic_gel_wall"
+  }
 }

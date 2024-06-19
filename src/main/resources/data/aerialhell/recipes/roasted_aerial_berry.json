@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:aerial_berry"
   },
-  "result": "aerialhell:roasted_aerial_berry",
+  "result": {
+    "id": "aerialhell:roasted_aerial_berry"
+  },
   "experience": 0.25,
   "cookingtime": 180
 }

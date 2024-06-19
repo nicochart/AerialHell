@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "minecraft:mutton"
   },
-  "result": "aerialhell:frozen_mutton",
+  "result": {
+    "id": "aerialhell:frozen_mutton"
+  },
   "experience": 0.0,
   "cookingtime": 400
 }

@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:lunatic_stone"
   },
-  "result": "aerialhell:lunatic_stone_stairs",
-  "count": 1
+  "result": {
+    "count": 1,
+    "id": "aerialhell:lunatic_stone_stairs"
+  }
 }

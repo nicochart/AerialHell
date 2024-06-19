@@ -10,7 +10,7 @@
     "B": {"item": "aerialhell:lunatic_stone"}
   },
   "result": {
-    "item": "aerialhell:lunatic_chain",
+    "id": "aerialhell:lunatic_chain",
     "count": 8
   }
 }

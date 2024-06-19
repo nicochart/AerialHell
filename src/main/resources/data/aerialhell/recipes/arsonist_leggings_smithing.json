@@ -7,7 +7,7 @@
     "item": "aerialhell:arsonist_ingot"
   },
   "result": {
-    "item": "aerialhell:arsonist_leggings"
+    "id": "aerialhell:arsonist_leggings"
   },
   "template": {
     "item": "aerialhell:arsonist_upgrade_smithing_template"

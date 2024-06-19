@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:golden_nether_steak"
   },
-  "result": "aerialhell:vibrant_golden_nether_steak",
+  "result": {
+    "id": "aerialhell:vibrant_golden_nether_steak"
+  },
   "experience": 0.8,
   "cookingtime": 500
 }

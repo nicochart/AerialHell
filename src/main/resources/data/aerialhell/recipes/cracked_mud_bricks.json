@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:mud_bricks"
   },
-  "result": "aerialhell:cracked_mud_bricks",
+  "result": {
+    "id": "aerialhell:cracked_mud_bricks"
+  },
   "experience": 0.1,
   "cookingtime": 200
 }

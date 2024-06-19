@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:cracked_volucite_stone"
   },
-  "result": "aerialhell:cracked_volucite_stone_stairs",
-  "count": 1
+  "result": {
+    "count": 1,
+    "id": "aerialhell:cracked_volucite_stone_stairs"
+  }
 }

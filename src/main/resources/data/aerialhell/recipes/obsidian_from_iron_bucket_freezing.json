@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:iron_liquid_of_gods_bucket"
   },
-  "result": "minecraft:obsidian",
+  "result": {
+    "id": "minecraft:obsidian"
+  },
   "experience": 0.0,
   "cookingtime": 500
 }

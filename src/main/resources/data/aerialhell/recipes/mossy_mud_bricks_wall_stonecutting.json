@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:mossy_mud_bricks"
   },
-  "result": "aerialhell:mossy_mud_bricks_wall",
-  "count": 1
+  "result": {
+    "count": 1,
+    "id": "aerialhell:mossy_mud_bricks_wall"
+  }
 }

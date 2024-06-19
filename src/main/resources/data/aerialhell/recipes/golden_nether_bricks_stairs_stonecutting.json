@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:golden_nether_bricks"
   },
-  "result": "aerialhell:golden_nether_bricks_stairs",
-  "count": 1
+  "result": {
+    "count": 1,
+    "id": "aerialhell:golden_nether_bricks_stairs"
+  }
 }

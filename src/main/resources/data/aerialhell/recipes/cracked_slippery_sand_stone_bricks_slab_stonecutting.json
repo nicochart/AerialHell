@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:cracked_slippery_sand_stone_bricks"
   },
-  "result": "aerialhell:cracked_slippery_sand_stone_bricks_slab",
-  "count": 2
+  "result": {
+    "count": 2,
+    "id": "aerialhell:cracked_slippery_sand_stone_bricks_slab"
+  }
 }

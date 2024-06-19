@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:smoky_quartz_ore"
   },
-  "result": "aerialhell:smoky_quartz",
+  "result": {
+    "id": "aerialhell:smoky_quartz"
+  },
   "experience": 0.2,
   "cookingtime": 200
 }

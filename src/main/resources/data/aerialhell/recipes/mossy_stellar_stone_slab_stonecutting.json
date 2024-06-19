@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:mossy_stellar_stone"
   },
-  "result": "aerialhell:mossy_stellar_stone_slab",
-  "count": 2
+  "result": {
+    "count": 2,
+    "id": "aerialhell:mossy_stellar_stone_slab"
+  }
 }

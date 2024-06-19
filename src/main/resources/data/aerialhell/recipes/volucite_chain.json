@@ -9,7 +9,7 @@
     "V": {"item": "aerialhell:volucite_vibrant"}
   },
   "result": {
-    "item": "aerialhell:volucite_chain",
+    "id": "aerialhell:volucite_chain",
     "count": 8
   }
 }

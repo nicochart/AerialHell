@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:turtle_meat"
   },
-  "result": "aerialhell:frozen_turtle_meat",
+  "result": {
+    "id": "aerialhell:frozen_turtle_meat"
+  },
   "experience": 0.2,
   "cookingtime": 400
 }

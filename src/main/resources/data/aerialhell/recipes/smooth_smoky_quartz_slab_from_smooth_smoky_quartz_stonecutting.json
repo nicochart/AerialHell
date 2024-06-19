@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:smooth_smoky_quartz"
   },
-  "result": "aerialhell:smooth_smoky_quartz_slab",
-  "count": 2
+  "result": {
+    "count": 2,
+    "id": "aerialhell:smooth_smoky_quartz_slab"
+  }
 }

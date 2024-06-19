@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:shadow_catacombs_bricks"
   },
-  "result": "aerialhell:shadow_catacombs_bricks_stairs",
-  "count": 1
+  "result": {
+    "count": 1,
+    "id": "aerialhell:shadow_catacombs_bricks_stairs"
+  }
 }

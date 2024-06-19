@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:aerial_berry"
   },
-  "result": "aerialhell:vibrant_aerial_berry",
+  "result": {
+    "id": "aerialhell:vibrant_aerial_berry"
+  },
   "experience": 0.0,
   "cookingtime": 300
 }

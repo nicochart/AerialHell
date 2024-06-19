@@ -1,10 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "group": "bed",
-  "pattern": [
-    "###",
-    "XXX"
-  ],
   "key": {
     "#": {
       "item": "minecraft:magenta_wool"
@@ -13,7 +10,12 @@
       "tag": "aerialhell:aerialhell_planks"
     }
   },
+  "pattern": [
+    "###",
+    "XXX"
+  ],
   "result": {
-    "item": "minecraft:magenta_bed"
+    "count": 1,
+    "id": "minecraft:magenta_bed"
   }
 }

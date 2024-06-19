@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:aerial_netherrack"
   },
-  "result": "aerialhell:aerial_netherrack_slab",
-  "count": 2
+  "result": {
+    "count": 2,
+    "id": "aerialhell:aerial_netherrack_slab"
+  }
 }

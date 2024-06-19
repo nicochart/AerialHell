@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:volucite_stone"
   },
-  "result": "aerialhell:volucite_stone_wall",
-  "count": 1
+  "result": {
+    "count": 1,
+    "id": "aerialhell:volucite_stone_wall"
+  }
 }

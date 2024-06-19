@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:turtle_meat"
   },
-  "result": "aerialhell:cooked_turtle_meat",
+  "result": {
+    "id": "aerialhell:cooked_turtle_meat"
+  },
   "experience": 0.8,
   "cookingtime": 400
 }

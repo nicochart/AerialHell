@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:slippery_sand_stone"
   },
-  "result": "aerialhell:slippery_sand_stone_bricks",
-  "count": 1
+  "result": {
+    "count": 1,
+    "id": "aerialhell:slippery_sand_stone_bricks"
+  }
 }

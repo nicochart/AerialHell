@@ -3,7 +3,10 @@
   "ingredient": {
     "item": "aerialhell:glowing_stick_fruit"
   },
-  "result": "aerialhell:frozen_glowing_stick_fruit",
+  "result": {
+    "id": "aerialhell:frozen_glowing_stick_fruit"
+  },
+
   "experience": 0.0,
   "cookingtime": 400
 }

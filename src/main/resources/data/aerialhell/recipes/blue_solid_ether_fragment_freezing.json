@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:white_solid_ether_fragment"
   },
-  "result": "aerialhell:blue_solid_ether_fragment",
+  "result": {
+    "id": "aerialhell:blue_solid_ether_fragment"
+  },
   "experience": 0.0,
   "cookingtime": 70
 }

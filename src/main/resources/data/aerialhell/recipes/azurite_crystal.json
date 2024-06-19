@@ -3,7 +3,9 @@
     "ingredient": {
         "item": "aerialhell:azurite_ore"
     },
-    "result": "aerialhell:azurite_crystal",
+    "result": {
+        "id": "aerialhell:azurite_crystal"
+    },
     "experience": 0.8,
     "cookingtime": 400
 }

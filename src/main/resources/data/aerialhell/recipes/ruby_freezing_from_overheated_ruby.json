@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:overheated_ruby"
   },
-  "result": "aerialhell:ruby",
+  "result": {
+    "id": "aerialhell:ruby"
+  },
   "experience": 0.6,
   "cookingtime": 100
 }

@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:ruby_ore"
   },
-  "result": "aerialhell:ruby",
+  "result": {
+    "id": "aerialhell:ruby"
+  },
   "experience": 0.9,
   "cookingtime": 200
 }

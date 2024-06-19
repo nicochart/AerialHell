@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:slippery_sand_stone"
   },
-  "result": "aerialhell:cut_slippery_sand_stone",
-  "count": 1
+  "result": {
+    "count": 1,
+    "id": "aerialhell:cut_slippery_sand_stone"
+  }
 }

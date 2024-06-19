@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:stellar_stone"
   },
-  "result": "aerialhell:stellar_stone_bricks",
-  "count": 1
+  "result": {
+    "count": 1,
+    "id": "aerialhell:stellar_stone_bricks"
+  }
 }

@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:mossy_stellar_cobblestone"
   },
-  "result": "aerialhell:mossy_stellar_cobblestone_wall",
-  "count": 1
+  "result": {
+    "count": 1,
+    "id": "aerialhell:mossy_stellar_cobblestone_wall"
+  }
 }

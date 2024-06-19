@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:solid_ether_soup"
   },
-  "result": "aerialhell:frozen_solid_ether_soup",
+  "result": {
+    "id": "aerialhell:frozen_solid_ether_soup"
+  },
   "experience": 0.2,
   "cookingtime": 600
 }

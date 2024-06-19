@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:volucite_vibrant"
   },
-  "result": "minecraft:diamond",
+  "result": {
+    "id": "minecraft:diamond"
+  },
   "experience": 4.0,
   "cookingtime": 800
 }

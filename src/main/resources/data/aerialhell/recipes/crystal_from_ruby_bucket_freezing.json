@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "minecraft:lava_bucket"
   },
-  "result": "aerialhell:crystal_block",
+  "result": {
+    "id": "aerialhell:crystal_block"
+  },
   "experience": 0.0,
   "cookingtime": 500
 }

@@ -9,7 +9,7 @@
     "R": {"item": "aerialhell:ruby"}
   },
   "result": {
-    "item": "aerialhell:ruby_chain",
+    "id": "aerialhell:ruby_chain",
     "count": 3
   }
 }

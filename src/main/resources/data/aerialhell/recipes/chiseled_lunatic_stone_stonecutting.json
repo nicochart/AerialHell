@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:lunatic_stone"
   },
-  "result": "aerialhell:chiseled_lunatic_stone",
-  "count": 1
+  "result": {
+    "count": 1,
+    "id": "aerialhell:chiseled_lunatic_stone"
+  }
 }

@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:volucite_stone"
   },
-  "result": "aerialhell:chiseled_volucite_stone",
-  "count": 1
+  "result": {
+    "count": 1,
+    "id": "aerialhell:chiseled_volucite_stone"
+  }
 }

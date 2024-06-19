@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "aerialhell:dark_lunatic_stone"
   },
-  "result": "aerialhell:dark_lunatic_stone_slab",
-  "count": 2
+  "result": {
+    "count": 2,
+    "id": "aerialhell:dark_lunatic_stone_slab"
+  }
 }

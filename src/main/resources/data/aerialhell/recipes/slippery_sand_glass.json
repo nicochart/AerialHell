@@ -3,7 +3,9 @@
     "ingredient": {
         "item": "aerialhell:slippery_sand"
     },
-    "result": "aerialhell:slippery_sand_glass",
+    "result": {
+      "id": "aerialhell:slippery_sand_glass"
+    },
     "experience": 0.1,
     "cookingtime": 200
 }

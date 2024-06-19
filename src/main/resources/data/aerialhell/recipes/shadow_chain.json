@@ -10,7 +10,7 @@
     "R": {"item": "aerialhell:ruby"}
   },
   "result": {
-    "item": "aerialhell:shadow_chain",
+    "id": "aerialhell:shadow_chain",
     "count": 3
   }
 }

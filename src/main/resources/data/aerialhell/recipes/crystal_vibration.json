@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "aerialhell:stellar_stone_crystal"
   },
-  "result": "aerialhell:crystal",
+  "result": {
+    "id": "aerialhell:crystal"
+  },
   "experience": 0.0,
   "cookingtime": 200
 }
