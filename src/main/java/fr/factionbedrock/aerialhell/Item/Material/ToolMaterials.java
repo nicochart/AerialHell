@@ -29,7 +29,7 @@ public class ToolMaterials
 	public static final Tier BREAKER = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 742, 7.5F, 5.0F, 10, () -> Ingredient.of(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()));
 	public static final Tier ARSONIST = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2031, 9.0F, 5.5F, 15, () -> Ingredient.of(AerialHellBlocksAndItems.ARSONIST_INGOT.get()));
 
-	private static class ToolMaterial implements Tier
+	public static class ToolMaterial implements Tier
 	{
 		private final TagKey<Block> incorrectBlocksForDrops;
 		private final int uses;

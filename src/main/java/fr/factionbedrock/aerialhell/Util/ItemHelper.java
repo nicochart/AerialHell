@@ -6,11 +6,10 @@ import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.DiggerItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SmithingTemplateItem;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
 
 import javax.annotation.Nullable;
 
@@ -27,8 +26,18 @@ public class ItemHelper
     }
 
     public static int getItemMiningLevel(Item item)
-    {//TODO use tags instead of mining level
-        return 4; //return item instanceof DiggerItem ? ((DiggerItem)item).getTier().getLevel() : 0;
+    {
+        if (item instanceof DiggerItem diggerItem)
+        {
+            Tier tier = diggerItem.getTier();
+            TagKey<Block> incorrectTag = tier.getIncorrectBlocksForDrops();
+            if (incorrectTag == BlockTags.INCORRECT_FOR_WOODEN_TOOL) {return 0;}
+            else if (incorrectTag == BlockTags.INCORRECT_FOR_STONE_TOOL) {return 1;}
+            else if (incorrectTag == BlockTags.INCORRECT_FOR_IRON_TOOL) {return 2;}
+            else if (incorrectTag == BlockTags.INCORRECT_FOR_DIAMOND_TOOL) {return 3;}
+            else /*if (incorrectTag == BlockTags.INCORRECT_FOR_NETHERITE_TOOL)*/ {return 4;}
+        }
+        return 0;
     }
 
     public static class SmithingTemplate
