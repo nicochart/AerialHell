@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:classic/ruby_tools",
   "display": {
-    "icon": {"item": "aerialhell:light_mud_bricks"},
+    "icon": {"id": "aerialhell:light_mud_bricks"},
     "title": {"translate": "advancements.story.enter_mud_dungeon.title"},
     "description": {"translate": "advancements.story.enter_mud_dungeon.desc"},
     "frame": "task",
@@ -17,7 +17,7 @@
           {
             "condition": "minecraft:entity_properties",
             "entity": "this",
-            "predicate": {"location": {"structure": "aerialhell:mud_dungeon"}}
+            "predicate": {"location": {"structures": "aerialhell:mud_dungeon"}}
           }
         ]
       }

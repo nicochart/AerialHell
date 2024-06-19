@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:story/kill_lunatic_boss",
   "display": {
-    "icon": {"item": "aerialhell:light_golden_nether_bricks"},
+    "icon": {"id": "aerialhell:light_golden_nether_bricks"},
     "title": {"translate": "advancements.story.enter_golden_nether_dungeon.title"},
     "description": {"translate": "advancements.story.enter_golden_nether_dungeon.desc"},
     "frame": "task",
@@ -17,7 +17,7 @@
           {
             "condition": "minecraft:entity_properties",
             "entity": "this",
-            "predicate": {"location": {"structure": "aerialhell:golden_nether_prison"}}
+            "predicate": {"location": {"structures": "aerialhell:golden_nether_prison"}}
           }
         ]
       }

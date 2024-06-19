@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:classic/harder_stone",
   "display": {
-    "icon": {"item": "aerialhell:ruby"},
+    "icon": {"id": "aerialhell:ruby"},
     "title": {"translate": "advancements.classic.collect_ruby.title"},
     "description": {"translate": "advancements.classic.collect_ruby.desc"},
     "frame": "task",

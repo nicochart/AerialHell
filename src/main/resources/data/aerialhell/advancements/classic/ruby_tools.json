@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:classic/collect_ruby",
   "display": {
-    "icon": {"item": "aerialhell:ruby_pickaxe", "nbt": "{Damage:0}"},
+    "icon": {"id": "aerialhell:ruby_pickaxe"},
     "title": {"translate": "advancements.classic.ruby_tools.title"},
     "description": {"translate": "advancements.classic.ruby_tools.desc"},
     "frame": "task",

@@ -2,7 +2,7 @@
   "parent": "aerialhell:classic/harder_stone",
   "display": {
     "icon": {
-      "item": "aerialhell:magmatic_gel"
+      "id": "aerialhell:magmatic_gel"
     },
     "title": {"translate": "advancements.classic.collect_magmatic_gel.title"},
     "description": {"translate": "advancements.classic.collect_magmatic_gel.desc"},

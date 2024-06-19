@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:story/enter_golden_nether_dungeon",
   "display": {
-    "icon": {"item": "aerialhell:arsonist_chestplate", "nbt": "{Damage:0}"},
+    "icon": {"id": "aerialhell:arsonist_chestplate"},
     "title": {"translate": "advancements.classic.obtain_arsonist_stuff.title"},
     "description": {"translate": "advancements.classic.obtain_arsonist_stuff.desc"},
     "frame": "task",
@@ -12,7 +12,7 @@
   "criteria": {
     "arsonist_stuff": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"tag": "aerialhell:arsonist_stuff"}]}
+      "conditions": {"items": [{"items": "#aerialhell:arsonist_stuff"}]}
     }
   },
   "requirements": [["arsonist_stuff"]],

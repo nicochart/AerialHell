@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:classic/shadow_hunter",
   "display": {
-    "icon": {"item": "aerialhell:shadow_shard"},
+    "icon": {"id": "aerialhell:shadow_shard"},
     "title": {"translate": "advancements.classic.collect_shadow_shard.title"},
     "description": {"translate": "advancements.classic.collect_shadow_shard.desc"},
     "frame": "task",

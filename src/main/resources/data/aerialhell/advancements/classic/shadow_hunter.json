@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:classic/ruby_tools",
   "display": {
-    "icon": {"item": "aerialhell:shadow_spider_eye"},
+    "icon": {"id": "aerialhell:shadow_spider_eye"},
     "title": {"translate": "advancements.classic.shadow_hunter.title"},
     "description": {"translate": "advancements.classic.shadow_hunter.desc"},
     "frame": "task",

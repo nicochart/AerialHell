@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:story/vibrate_volucite",
   "display": {
-    "icon": {"item": "aerialhell:volucite_blowpipe_arrow"},
+    "icon": {"id": "aerialhell:volucite_blowpipe_arrow"},
     "title": {"translate": "advancements.classic.shoot_volucite_blowpipe_arrow.title"},
     "description": {"translate": "advancements.classic.shoot_volucite_blowpipe_arrow.desc"},
     "frame": "task",

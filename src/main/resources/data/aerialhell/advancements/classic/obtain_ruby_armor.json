@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:classic/collect_ruby",
   "display": {
-    "icon": {"item": "aerialhell:ruby_chestplate", "nbt": "{Damage:0}"},
+    "icon": {"id": "aerialhell:ruby_chestplate"},
     "title": {"translate": "advancements.classic.obtain_ruby_armor.title"},
     "description": {"translate": "advancements.classic.obtain_ruby_armor.desc"},
     "frame": "task",

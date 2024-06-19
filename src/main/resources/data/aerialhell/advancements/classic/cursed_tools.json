@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:classic/obtain_shadow_stuff",
   "display": {
-    "icon": {"item": "aerialhell:cursed_sword", "nbt": "{Damage:0}"},
+    "icon": {"id": "aerialhell:cursed_sword"},
     "title": {"translate": "advancements.classic.cursed_tools.title"},
     "description": {"translate": "advancements.classic.cursed_tools.desc"},
     "frame": "task",

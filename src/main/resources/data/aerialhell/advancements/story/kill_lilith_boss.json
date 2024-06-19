@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:story/enter_shadow_catacombs_dungeon",
   "display": {
-    "icon": {"item": "aerialhell:shadow_catacombs_dungeon_core"},
+    "icon": {"id": "aerialhell:shadow_catacombs_dungeon_core"},
     "title": {"translate": "advancements.story.kill_lilith_boss.title"},
     "description": {"translate": "advancements.story.kill_lilith_boss.desc"},
     "frame": "challenge",

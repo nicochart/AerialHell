@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:classic/collect_ruby",
   "display": {
-    "icon": {"item": "aerialhell:ruby_shuriken"},
+    "icon": {"id": "aerialhell:ruby_shuriken"},
     "title": {"translate": "advancements.classic.throw_shuriken.title"},
     "description": {"translate": "advancements.classic.throw_shuriken.desc"},
     "frame": "task",

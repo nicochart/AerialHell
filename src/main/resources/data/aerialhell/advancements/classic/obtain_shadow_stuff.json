@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:story/enter_shadow_catacombs_dungeon",
   "display": {
-    "icon": {"item": "aerialhell:shadow_chestplate", "nbt": "{Damage:0}"},
+    "icon": {"id": "aerialhell:shadow_chestplate"},
     "title": {"translate": "advancements.classic.obtain_shadow_stuff.title"},
     "description": {"translate": "advancements.classic.obtain_shadow_stuff.desc"},
     "frame": "task",
@@ -12,7 +12,7 @@
   "criteria": {
     "shadow_armor": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": {"items": [{"tag": "aerialhell:shadow_armor"}]}
+      "conditions": {"items": [{"items": "#aerialhell:shadow_armor"}]}
     }
   },
   "requirements": [["shadow_armor"]],

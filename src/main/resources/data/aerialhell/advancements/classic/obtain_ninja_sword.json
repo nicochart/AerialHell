@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:story/kill_mud_boss",
   "display": {
-    "icon": {"item": "aerialhell:ninja_sword", "nbt": "{Damage:0}"},
+    "icon": {"id": "aerialhell:ninja_sword"},
     "title": {"translate": "advancements.classic.obtain_ninja_sword.title"},
     "description": {"translate": "advancements.classic.obtain_ninja_sword.desc"},
     "frame": "task",

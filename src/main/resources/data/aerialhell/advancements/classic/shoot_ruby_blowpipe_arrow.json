@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:classic/collect_ruby",
   "display": {
-    "icon": {"item": "aerialhell:ruby_blowpipe_arrow"},
+    "icon": {"id": "aerialhell:ruby_blowpipe_arrow"},
     "title": {"translate": "advancements.classic.shoot_ruby_blowpipe_arrow.title"},
     "description": {"translate": "advancements.classic.shoot_ruby_blowpipe_arrow.desc"},
     "frame": "task",

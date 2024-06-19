@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:story/enter_mud_dungeon",
   "display": {
-    "icon": {"item": "aerialhell:mud_dungeon_core"},
+    "icon": {"id": "aerialhell:mud_dungeon_core"},
     "title": {"translate": "advancements.story.kill_mud_boss.title"},
     "description": {"translate": "advancements.story.kill_mud_boss.desc"},
     "frame": "challenge",

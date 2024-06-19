@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:story/vibrate_volucite",
   "display": {
-    "icon": {"item": "aerialhell:volucite_chestplate", "nbt": "{Damage:0}"},
+    "icon": {"id": "aerialhell:volucite_chestplate"},
     "title": {"translate": "advancements.classic.obtain_volucite_armor.title"},
     "description": {"translate": "advancements.classic.obtain_volucite_armor.desc"},
     "frame": "task",

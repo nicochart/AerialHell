@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:story/enter_golden_nether_dungeon",
   "display": {
-    "icon": {"item": "aerialhell:golden_nether_dungeon_core"},
+    "icon": {"id": "aerialhell:golden_nether_dungeon_core"},
     "title": {"translate": "advancements.story.kill_golden_nether_boss.title"},
     "description": {"translate": "advancements.story.kill_golden_nether_boss.desc"},
     "frame": "challenge",

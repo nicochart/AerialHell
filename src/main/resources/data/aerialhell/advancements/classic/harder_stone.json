@@ -1,7 +1,7 @@
 {
   "parent": "aerialhell:story/enter_aerial_hell",
   "display": {
-    "icon": {"item": "aerialhell:stellar_stone"},
+    "icon": {"id": "aerialhell:stellar_stone"},
     "title": {"translate": "advancements.classic.harder_stone.title"},
     "description": {"translate": "advancements.classic.harder_stone.desc"},
     "show_toast": true,
