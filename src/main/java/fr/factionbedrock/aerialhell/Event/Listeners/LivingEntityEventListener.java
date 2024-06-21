@@ -6,28 +6,23 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.level.SleepFinishedTimeEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.living.LivingEvent;
+import net.neoforged.neoforge.event.level.SleepFinishedTimeEvent;
 
-@Mod.EventBusSubscriber
 public class LivingEntityEventListener
 {
-    @SubscribeEvent
     public static void onLivingJumpEvent(LivingEvent.LivingJumpEvent event)
     {
     	LivingEntity livingEntity = event.getEntity();
-    	if (livingEntity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getHolder().get()))
+    	if (livingEntity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate()))
     	{
-    		int bonus = livingEntity.getEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getHolder().get()).getAmplifier() + 1;
+    		int bonus = livingEntity.getEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate()).getAmplifier() + 1;
     		livingEntity.heal(0.5F * bonus);
     		Vec3 baseMotion = livingEntity.getDeltaMovement();
     		livingEntity.setDeltaMovement(baseMotion.x, baseMotion.y + (0.4 * bonus), baseMotion.z);
     	}
     }
 
-	@SubscribeEvent
 	public static void onSleepFinishEvent(SleepFinishedTimeEvent event)
 	{
 		LevelAccessor level = event.getLevel();

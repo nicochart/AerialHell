@@ -20,20 +20,14 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderBlockScreenEffectEvent;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.event.RenderBlockScreenEffectEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import org.joml.Matrix4f;
 
-@Mod.EventBusSubscriber
 public class BlockEventListener
 {
-    @SubscribeEvent
-    public static void onBlockEvent(BlockEvent.NeighborNotifyEvent event)
+    public static void onNeighborNotifyEvent(BlockEvent.NeighborNotifyEvent event)
     {
         if (event.getLevel() instanceof Level world)
         {
@@ -73,9 +67,8 @@ public class BlockEventListener
             }
         }
     }
-    
-    @SubscribeEvent
-    public static void onBlockEvent(BlockEvent.EntityPlaceEvent event)
+
+    public static void onEntityPlaceEvent(BlockEvent.EntityPlaceEvent event)
     {
     	if (event.getLevel() instanceof Level world)
         {
@@ -89,8 +82,6 @@ public class BlockEventListener
         }
     }
 
-    @SubscribeEvent
-    //@OnlyIn(Dist.CLIENT)
     public static void onOverlay(RenderBlockScreenEffectEvent event)
     {
     	if (event.getOverlayType() == RenderBlockScreenEffectEvent.OverlayType.BLOCK)
@@ -131,7 +122,6 @@ public class BlockEventListener
     }
 
     //function from net.minecraft.client.renderer.ScreenEffectRenderer
-    //@OnlyIn(Dist.CLIENT)
     private static void renderCustomOverlay(Player player, PoseStack matrixStackIn, ResourceLocation texture)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -154,7 +144,7 @@ public class BlockEventListener
         RenderSystem.disableBlend();
      }
 
-     private static ResourceLocation getBlockTextureLocation(RegistryObject<? extends Block> block) {return getBlockTextureLocation(block.getId().getPath());}
+     private static ResourceLocation getBlockTextureLocation(DeferredBlock<? extends Block> block) {return getBlockTextureLocation(block.getId().getPath());}
 
      private static ResourceLocation getBlockTextureLocation(String id)
      {

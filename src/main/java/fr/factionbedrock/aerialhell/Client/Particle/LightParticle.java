@@ -6,10 +6,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.PortalParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class LightParticle extends PortalParticle
 {
 	protected LightParticle(ClientLevel worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
@@ -21,8 +18,7 @@ public class LightParticle extends PortalParticle
 	}
 	
 	@Override public int getLightColor(float partialTick) {return 255;}
-	
-	@OnlyIn(Dist.CLIENT)
+
 	public static class Factory implements ParticleProvider<SimpleParticleType>
 	{
 		private final SpriteSet spriteSet;

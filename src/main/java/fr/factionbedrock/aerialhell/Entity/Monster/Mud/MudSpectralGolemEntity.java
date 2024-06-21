@@ -4,8 +4,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class MudSpectralGolemEntity extends MudGolemEntity implements MudSpectralEntity
 {
@@ -16,7 +14,7 @@ public class MudSpectralGolemEntity extends MudGolemEntity implements MudSpectra
 		return MudSpectralEntity.createSpectralAttributes(15.0D, 3.0D, 5.0D, 0.25D, 24.0D);
 	}
 
-	@Override @OnlyIn(Dist.CLIENT)
+	@Override
 	public void handleEntityEvent(byte id)
 	{
 		if (id == 5) {this.popDisappearingParticles(this, 17);}

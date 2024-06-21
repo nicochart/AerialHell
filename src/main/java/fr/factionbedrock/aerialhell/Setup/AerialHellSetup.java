@@ -1,23 +1,29 @@
 package fr.factionbedrock.aerialhell.Setup;
 
-import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Event.Listeners.BlockEventListener;
+import fr.factionbedrock.aerialhell.Event.Listeners.LivingEntityEventListener;
+import fr.factionbedrock.aerialhell.Event.Listeners.ToolsAndArmorEventListener;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.AerialHellCreativeModeTabs;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMenuTypes;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntityAttributes;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellPaintingVariants;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.*;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
-@Mod.EventBusSubscriber(modid = AerialHell.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class AerialHellSetup
 {
-	public static void init(final FMLCommonSetupEvent event)
+    public static void init(IEventBus bus)
+    {
+        registration(bus);
+        bus.addListener(AerialHellSetup::additionalRegistration);
+        listen(bus);
+    }
+
+    public static void additionalRegistration(final FMLCommonSetupEvent event)
     {
         event.enqueueWork(() ->
         {
@@ -28,36 +34,46 @@ public class AerialHellSetup
         });
     }
 	
-	public static void registration()
+	public static void registration(IEventBus bus)
     {
-    	AerialHellBlocksAndItems.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-    	AerialHellFluids.FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
-    	AerialHellFluids.FLUID_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
-    	AerialHellBlocksAndItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        AerialHellEntities.ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        AerialHellBiomes.BIOMES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        AerialHellMobEffects.EFFECTS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        AerialHellPOI.POI.register(FMLJavaModLoadingContext.get().getModEventBus());
-        AerialHellStructures.STRUCTURES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        AerialHellParticleTypes.PARTICLES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        AerialHellMenuTypes.MENUS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        AerialHellRecipes.RECIPE_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        AerialHellRecipes.RecipeTypes.RECIPE_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        AerialHellBlockEntities.BLOCK_ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        AerialHellSoundEvents.SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        AerialHellCreativeModeTabs.TABS.register(FMLJavaModLoadingContext.get().getModEventBus());
+    	AerialHellBlocksAndItems.BLOCKS.register(bus);
+    	AerialHellFluids.FLUIDS.register(bus);
+    	AerialHellFluids.FLUID_TYPES.register(bus);
+    	AerialHellBlocksAndItems.ITEMS.register(bus);
+        AerialHellEntities.ENTITIES.register(bus);
+        //AerialHellBiomes.BIOMES.register(bus);
+        AerialHellMobEffects.EFFECTS.register(bus);
+        AerialHellPOI.POI.register(bus);
+        AerialHellPOI.POI.register(bus);
+        AerialHellStructures.STRUCTURES.register(bus);
+        AerialHellParticleTypes.PARTICLES.register(bus);
+        AerialHellMenuTypes.MENUS.register(bus);
+        AerialHellRecipes.RECIPE_SERIALIZERS.register(bus);
+        AerialHellRecipes.RecipeTypes.RECIPE_TYPES.register(bus);
+        AerialHellBlockEntities.BLOCK_ENTITY_TYPES.register(bus);
+        AerialHellSoundEvents.SOUNDS.register(bus);
+        AerialHellCreativeModeTabs.TABS.register(bus);
 
-        AerialHellFeatures.FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        //AerialHellConfiguredFeatures.CONFIGURED_FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        //AerialHellPlacedFeatures.PLACED_FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        AerialHellFeatures.FEATURES.register(bus);
+        //AerialHellConfiguredFeatures.CONFIGURED_FEATURES.register(bus);
+        //AerialHellPlacedFeatures.PLACED_FEATURES.register(bus);
 
-        AerialHellEnchantments.ENCHANTMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        AerialHellPaintingVariants.PAINTING_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        AerialHellEnchantments.ENCHANTMENTS.register(bus);
+        AerialHellPaintingVariants.PAINTING_TYPES.register(bus);
     }
 
-    @SubscribeEvent
-    public static void serverLoad(RegisterCommandsEvent event)
+    public static void listen(IEventBus bus)
     {
-        
+        bus.addListener(BlockEventListener::onNeighborNotifyEvent);
+        bus.addListener(BlockEventListener::onEntityPlaceEvent);
+        bus.addListener(BlockEventListener::onOverlay);
+        bus.addListener(LivingEntityEventListener::onLivingJumpEvent);
+        bus.addListener(LivingEntityEventListener::onSleepFinishEvent);
+        bus.addListener(ToolsAndArmorEventListener::onProjectileCollideWithEntity);
+        bus.addListener(ToolsAndArmorEventListener::onLivingHurtEvent);
+        bus.addListener(ToolsAndArmorEventListener::onPlayerHarvest);
+        bus.addListener(ToolsAndArmorEventListener::addReach);
+        bus.addListener(AerialHellEntities::entitySpawnPlacements);
+        bus.addListener(AerialHellEntityAttributes::entityAttributes);
     }
 }

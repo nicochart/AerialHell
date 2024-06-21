@@ -13,11 +13,9 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
+import org.joml.Matrix4fStack;
 
-@OnlyIn(Dist.CLIENT)
 public class AerialHellDimensionSkyRenderer
 {
 	private static VertexBuffer starVBO;
@@ -50,9 +48,11 @@ public class AerialHellDimensionSkyRenderer
 
 	// Copy from net.minecraft.client.renderer.LevelRenderer renderSky(PoseStack matrixStackIn, float partialTicks) function, only overworld part
 	@SuppressWarnings("deprecation")
-	public static boolean render(ClientLevel level, float partialTicks, PoseStack poseStackIn, Camera camera, Matrix4f projectionMatrix, Runnable setupFog)
+	public static boolean render(ClientLevel level, float partialTicks, Matrix4f modelViewMatrix, Camera camera, Matrix4f projectionMatrix, Runnable setupFog)
 	{
 		LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
+		Matrix4fStack matrixStack = new Matrix4fStack(4);
+		matrixStack.set(modelViewMatrix);
 
 		setupFog.run();
 		Vec3 skyColorVec = level.getSkyColor(camera.getPosition(), partialTicks);
@@ -65,7 +65,7 @@ public class AerialHellDimensionSkyRenderer
 		RenderSystem.setShaderColor(x, y, z, 1.0F);
 		ShaderInstance shaderinstance = RenderSystem.getShader();
 		levelRenderer.skyBuffer.bind();
-		levelRenderer.skyBuffer.drawWithShader(poseStackIn.last().pose(), projectionMatrix, shaderinstance);
+		levelRenderer.skyBuffer.drawWithShader(matrixStack, projectionMatrix, shaderinstance);
 		VertexBuffer.unbind();
 		RenderSystem.enableBlend();
 		//sunrise and sunset
@@ -100,24 +100,23 @@ public class AerialHellDimensionSkyRenderer
 		}
 		*/
 		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-		poseStackIn.pushPose();
+		matrixStack.pushMatrix();
 		//float rainReduction = 1.0F - level.getRainLevel(partialTicks); No rain effect on shader color
 		//RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, rainReduction);
-		poseStackIn.mulPose(Axis.YP.rotationDegrees(-90.0F));
-		poseStackIn.mulPose(Axis.XP.rotationDegrees(level.getTimeOfDay(partialTicks) * 360.0F));
+		matrixStack.rotate(Axis.YP.rotationDegrees(-90.0F));
+		matrixStack.rotate(Axis.XP.rotationDegrees(level.getTimeOfDay(partialTicks) * 360.0F));
 		//sun and moon
 		float moonBrightness = Math.min(level.getStarBrightness(partialTicks) * 2, 1.0F); //Moon brightness = 0.0F during the day, 1.0F during the night. Using / 0.5F and "min" because StarBrightness is never 1.0F (never above 0.6F) apparently
 		float sunBrightness = 1.0F - moonBrightness; //Sun brightness = 1.0F during the day, 0.0F during the night
-		Matrix4f matrix4f1 = poseStackIn.last().pose();
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, sunBrightness); //Sun is visible only during the day
 		float f12 = 30.0F;
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderTexture(0, AERIAL_HELL_SUN_LOCATION);
 		bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-		bufferbuilder.vertex(matrix4f1, -f12, 100.0F, -f12).uv(0.0F, 0.0F).endVertex();
-		bufferbuilder.vertex(matrix4f1, f12, 100.0F, -f12).uv(1.0F, 0.0F).endVertex();
-		bufferbuilder.vertex(matrix4f1, f12, 100.0F, f12).uv(1.0F, 1.0F).endVertex();
-		bufferbuilder.vertex(matrix4f1, -f12, 100.0F, f12).uv(0.0F, 1.0F).endVertex();
+		bufferbuilder.vertex(matrixStack, -f12, 100.0F, -f12).uv(0.0F, 0.0F).endVertex();
+		bufferbuilder.vertex(matrixStack, f12, 100.0F, -f12).uv(1.0F, 0.0F).endVertex();
+		bufferbuilder.vertex(matrixStack, f12, 100.0F, f12).uv(1.0F, 1.0F).endVertex();
+		bufferbuilder.vertex(matrixStack, -f12, 100.0F, f12).uv(0.0F, 1.0F).endVertex();
 		BufferUploader.drawWithShader(bufferbuilder.end());
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, moonBrightness); //Moon is visible only at night
 		f12 = 20.0F;
@@ -130,10 +129,10 @@ public class AerialHellDimensionSkyRenderer
 		float f15 = (float)(l + 1) / 4.0F;
 		float f16 = (float)(i1 + 1) / 2.0F;
 		bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-		bufferbuilder.vertex(matrix4f1, -f12, -100.0F, f12).uv(f15, f16).endVertex();
-		bufferbuilder.vertex(matrix4f1, f12, -100.0F, f12).uv(f13, f16).endVertex();
-		bufferbuilder.vertex(matrix4f1, f12, -100.0F, -f12).uv(f13, f14).endVertex();
-		bufferbuilder.vertex(matrix4f1, -f12, -100.0F, -f12).uv(f15, f14).endVertex();
+		bufferbuilder.vertex(matrixStack, -f12, -100.0F, f12).uv(f15, f16).endVertex();
+		bufferbuilder.vertex(matrixStack, f12, -100.0F, f12).uv(f13, f16).endVertex();
+		bufferbuilder.vertex(matrixStack, f12, -100.0F, -f12).uv(f13, f14).endVertex();
+		bufferbuilder.vertex(matrixStack, -f12, -100.0F, -f12).uv(f15, f14).endVertex();
 		BufferUploader.drawWithShader(bufferbuilder.end());
 
 		//stars
@@ -144,7 +143,7 @@ public class AerialHellDimensionSkyRenderer
 			RenderSystem.setShaderColor(starsBrightness, starsBrightness, starsBrightness, starsBrightness);
 			FogRenderer.setupNoFog();
 			starVBO.bind();
-			starVBO.drawWithShader(poseStackIn.last().pose(), projectionMatrix, GameRenderer.getPositionShader());
+			starVBO.drawWithShader(matrixStack, projectionMatrix, GameRenderer.getPositionShader());
 			VertexBuffer.unbind();
 			setupFog.run();
 		}
@@ -152,7 +151,7 @@ public class AerialHellDimensionSkyRenderer
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.disableBlend();
 		RenderSystem.defaultBlendFunc();
-		poseStackIn.popPose();
+		matrixStack.popMatrix();
 		RenderSystem.setShaderColor(0.0F, 0.0F, 0.0F, 1.0F);
 		/* No fog change when y < sea level
 		double d0 = camera.getEntity().getEyePosition(partialTicks).y - level.getLevelData().getHorizonHeight(level);

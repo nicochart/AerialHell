@@ -7,14 +7,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 
 import java.awt.*;
 
-@Mod.EventBusSubscriber(modid = AerialHell.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BlocksAndItemsColorHandler
 {
     private static final Color DEFAULT_COLOR = new Color(12, 35, 26);
@@ -24,7 +20,6 @@ public class BlocksAndItemsColorHandler
     private static final int VOLUCITE_GLYPH_COLOR = new Color(48, 66, 179).getRGB();
     private static final int SHADOW_CATACOMBS_GLYPH_COLOR = new Color(153, 99, 248).getRGB();
 
-    @SubscribeEvent
     public static void handleBlockColors(RegisterColorHandlersEvent.Block event)
     {
         event.getBlockColors().register((state, level, pos, tint) -> getColor(tint, level, pos),
@@ -126,7 +121,6 @@ public class BlocksAndItemsColorHandler
         else {return DEFAULT_COLOR.getRGB();}
     }
 
-    @SubscribeEvent
     public static void handleItemColors(RegisterColorHandlersEvent.Item event)
     {
         event.getItemColors().register((stack, color) -> new Color(50, 140, 102).getRGB(),

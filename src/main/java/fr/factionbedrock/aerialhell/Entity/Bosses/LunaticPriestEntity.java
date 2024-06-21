@@ -27,8 +27,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class LunaticPriestEntity extends AbstractBossEntity
 {
@@ -151,7 +149,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	      return flag;
 	}
 	
-	@Override @OnlyIn(Dist.CLIENT)
+	@Override
 	public void handleEntityEvent(byte id)
 	{
 		if (id == 4)

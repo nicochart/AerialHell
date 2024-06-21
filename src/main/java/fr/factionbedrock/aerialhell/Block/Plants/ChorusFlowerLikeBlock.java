@@ -33,7 +33,7 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
         if (level.isEmptyBlock(blockpos) && blockpos.getY() < level.getMaxBuildHeight())
         {
             int i = state.getValue(AGE);
-            if (i < 5 && net.minecraftforge.common.ForgeHooks.onCropsGrowPre(level, blockpos, state, true))
+            if (i < 5 && net.neoforged.neoforge.common.CommonHooks.canCropGrow(level, blockpos, state, true))
             {
                 boolean flag = false;
                 boolean flag1 = false;
@@ -85,7 +85,7 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
                     else {this.placeDeadFlower(level, pos);}
                 }
                 else {this.placeDeadFlower(level, pos);}
-                net.minecraftforge.common.ForgeHooks.onCropsGrowPost(level, pos, state);
+                net.neoforged.neoforge.common.CommonHooks.fireCropGrowPost(level, pos, state);
             }
         }
     }

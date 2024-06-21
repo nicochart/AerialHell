@@ -14,10 +14,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class HellSpiderSpikesLayer<T extends Spider, M extends SpiderModel<T>> extends RenderLayer<T, M>
 {
    private final HellSpiderSpikeModel<T> spiderSpikeModel;

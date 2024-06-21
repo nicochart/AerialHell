@@ -61,7 +61,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	//copy of net.minecraft.world.entity.LivingEntity hurt(DamageSource source, float amount) method, removing everything non-related to my bosses, and calling other methods, allowing customization in my inheriting classes
 	public boolean bossHurt(DamageSource source, float amount)
 	{
-		if (!net.minecraftforge.common.ForgeHooks.onLivingAttack(this, source, amount)) return false;
+		if (!net.neoforged.neoforge.common.CommonHooks.onLivingAttack(this, source, amount)) return false;
 		if (this.isInvulnerableTo(source) || this.level().isClientSide || this.isDeadOrDying()) {return false;}
 		else if (source.is(DamageTypeTags.IS_FIRE) && this.hasEffect(MobEffects.FIRE_RESISTANCE)) {return false;}
 		else
@@ -374,7 +374,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	public void immunizeToEffects()
 	{
 		this.removeEffect(MobEffects.LEVITATION);
-		this.removeEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getHolder().get());
+		this.removeEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate());
 	}
 
 	@Override public boolean startRiding(Entity entity, boolean p_19967_)

@@ -175,7 +175,7 @@ public class CrystalSlimeEntity extends Mob
 	{
 		this.setRemoved(reason);
 		if (reason == Entity.RemovalReason.KILLED) {this.gameEvent(GameEvent.ENTITY_DIE);}
-		this.invalidateCaps();
+		//this.invalidateCaps();
 	}
 
 	@Override protected ResourceKey<LootTable> getDefaultLootTable() {return this.getType().getDefaultLootTable();}

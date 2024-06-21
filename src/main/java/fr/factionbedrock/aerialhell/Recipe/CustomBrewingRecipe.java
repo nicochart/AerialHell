@@ -4,8 +4,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.Potion;
+import net.neoforged.neoforge.common.brewing.IBrewingRecipe;
 //import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraftforge.common.brewing.IBrewingRecipe;
 
 /*
  * I followed this tutorial : https://www.youtube.com/watch?v=ILDolvc_5tU

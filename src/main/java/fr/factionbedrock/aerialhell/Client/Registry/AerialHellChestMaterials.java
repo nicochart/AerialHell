@@ -4,12 +4,9 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.properties.ChestType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import static net.minecraft.client.renderer.Sheets.CHEST_SHEET;
 
-@OnlyIn(Dist.CLIENT)
 public class AerialHellChestMaterials
 {
     public static final Material AERIAL_TREE_SINGLE = makeChestMaterial("aerial_tree", ChestType.SINGLE);

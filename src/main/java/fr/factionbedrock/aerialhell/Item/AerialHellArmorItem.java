@@ -26,7 +26,7 @@ public class AerialHellArmorItem extends ArmorItem
             if (ItemHelper.getItemInTagCount(playerEntity.getArmorSlots(), AerialHellTags.Items.SHADOW_ARMOR) >= 4)
             {
                 playerEntity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 220, 0, false, false));
-                playerEntity.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.getHolder().get(), 100, 0, false, false));
+                playerEntity.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.getDelegate(), 100, 0, false, false));
             }
         }
     }

@@ -41,7 +41,7 @@ public class EffectToolHelper
 		playerIn.playSound(SoundEvents.ILLUSIONER_CAST_SPELL, 1.0F, 1.5F);
 		if (!worldIn.isClientSide())
 		{
-			playerIn.addEffect(new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getHolder().get(), 100, 1));
+			playerIn.addEffect(new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate(), 100, 1));
 			playerIn.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 120, 0));
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, 250);
@@ -88,7 +88,7 @@ public class EffectToolHelper
 		{
 			playerIn.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 200, 0));
 			playerIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 120, 0));
-			playerIn.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.getHolder().get(), 120, 0));
+			playerIn.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.getDelegate(), 120, 0));
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, cooldown);
 	}
@@ -171,7 +171,7 @@ public class EffectToolHelper
 	public static void PlayerLiftoff(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand)
 	{
 		addParticleOnPlayer(20, ParticleTypes.EXPLOSION, playerIn, worldIn, rand);
-		playerIn.playSound(SoundEvents.GENERIC_EXPLODE.get(), 1.0F, 0.5F + rand.nextFloat());
+		playerIn.playSound(SoundEvents.GENERIC_EXPLODE.value(), 1.0F, 0.5F + rand.nextFloat());
 		int cooldown;
 		if (playerIn.isShiftKeyDown()) //armored glass
 		{
@@ -219,6 +219,6 @@ public class EffectToolHelper
 	public static class PassiveEffects
 	{
 		public static void applyMagmaCubeEffect(LivingEntity entityIn) {((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.JUMP, 400, 0));}
-		public static void applyGodEffect(LivingEntity entityIn) {((LivingEntity) entityIn).addEffect(new MobEffectInstance(AerialHellMobEffects.GOD.getHolder().get(), 400, 0));}
+		public static void applyGodEffect(LivingEntity entityIn) {((LivingEntity) entityIn).addEffect(new MobEffectInstance(AerialHellMobEffects.GOD.getDelegate(), 400, 0));}
 	}
 }

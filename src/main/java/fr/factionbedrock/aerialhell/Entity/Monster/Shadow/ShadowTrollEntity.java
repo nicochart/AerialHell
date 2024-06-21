@@ -74,18 +74,18 @@ public class ShadowTrollEntity extends Monster
                     {
                         ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 35, 0));
                     }
-                    else if (!((LivingEntity) attackedEntity).hasEffect(AerialHellMobEffects.VULNERABILITY.getHolder().get()))
+                    else if (!((LivingEntity) attackedEntity).hasEffect(AerialHellMobEffects.VULNERABILITY.getDelegate()))
                     {
-                        ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getHolder().get(), 60, 0));
+                        ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 60, 0));
                     }
                     else
                     {
-                        ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getHolder().get(), 120, 0));
+                        ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 120, 0));
                     }
                 }
                 else //attacked entity is shadow immune
                 {
-                    ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getHolder().get(), 50, 0));
+                    ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 50, 0));
                 }
             }
     		return true;

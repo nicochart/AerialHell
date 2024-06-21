@@ -39,15 +39,15 @@ public class VibrantAerialBerryBushBlock extends BushBlock implements Bonemealab
 
     @Override protected @NotNull MapCodec<? extends BushBlock> codec() {return CODEC;}
 
-    @Override
+    @Override //TODO replace with RandomTick() ?
     public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand)
     {
         super.tick(state, worldIn, pos, rand);
         int age = state.getValue(AGE);
-        if (age < 15 && net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt(5) == 0))
+        if (age < 15 && net.neoforged.neoforge.common.CommonHooks.canCropGrow(worldIn, pos, state, rand.nextInt(5) == 0))
         {
             worldIn.setBlock(pos, state.setValue(AGE, age + 1), 2);
-            net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state);
+            net.neoforged.neoforge.common.CommonHooks.fireCropGrowPost(worldIn, pos, state);
         }
     }
     

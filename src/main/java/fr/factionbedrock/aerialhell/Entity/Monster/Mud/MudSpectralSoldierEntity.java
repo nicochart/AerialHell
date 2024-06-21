@@ -3,8 +3,6 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Mud;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class MudSpectralSoldierEntity extends MudSoldierEntity implements MudSpectralEntity
 {
@@ -15,7 +13,7 @@ public class MudSpectralSoldierEntity extends MudSoldierEntity implements MudSpe
 		return MudSpectralEntity.createSpectralAttributes(10.0D, 0.0D, 3.0D, 0.20D, 24.0D);
     }
 
-	@Override @OnlyIn(Dist.CLIENT)
+	@Override
 	public void handleEntityEvent(byte id)
 	{
 		if (id == 5) {this.popDisappearingParticles(this, 10);}

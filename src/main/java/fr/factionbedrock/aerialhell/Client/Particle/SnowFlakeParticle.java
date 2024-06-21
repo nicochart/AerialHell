@@ -6,10 +6,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.PortalParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class SnowFlakeParticle extends PortalParticle
 {
 	protected SnowFlakeParticle(ClientLevel worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
@@ -21,8 +18,7 @@ public class SnowFlakeParticle extends PortalParticle
 		this.quadSize *= (0.8F + 0.5*Math.random());
 		this.lifetime = ((int)(16.0F / (Math.random() * 0.9F + 0.1F)));
 	}
-	
-	@OnlyIn(Dist.CLIENT)
+
 	public static class Factory implements ParticleProvider<SimpleParticleType>
 	{
 		private final SpriteSet spriteSet;

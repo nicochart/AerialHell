@@ -54,7 +54,7 @@ public class EffectTotemItem extends Item
 					}
 					else if (this == AerialHellBlocksAndItems.HEAD_IN_THE_CLOUDS_TOTEM.get())
 					{
-						livingEntityIn.addEffect(new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getHolder().get(), 1000, 0));
+						livingEntityIn.addEffect(new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate(), 1000, 0));
 					}
 					else if (this == AerialHellBlocksAndItems.HERO_TOTEM.get())
 					{
@@ -62,7 +62,7 @@ public class EffectTotemItem extends Item
 					}
 					else if (this == AerialHellBlocksAndItems.GOD_TOTEM.get())
 					{
-						livingEntityIn.addEffect(new MobEffectInstance(AerialHellMobEffects.GOD.getHolder().get(), 1200, 0));
+						livingEntityIn.addEffect(new MobEffectInstance(AerialHellMobEffects.GOD.getDelegate(), 1200, 0));
 					}
 					else if (this == AerialHellBlocksAndItems.CURSED_TOTEM.get())
 					{
@@ -76,7 +76,7 @@ public class EffectTotemItem extends Item
 					}
 					else if (this == AerialHellBlocksAndItems.SHADOW_TOTEM.get())
 					{
-						livingEntityIn.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.getHolder().get(), 1000, 0));
+						livingEntityIn.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.getDelegate(), 1000, 0));
 					}
 				}
 			}

@@ -20,9 +20,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ForgeHooks;
 
 public class PoisonballEntity extends Fireball
 {
@@ -31,7 +28,6 @@ public class PoisonballEntity extends Fireball
 		super(type, worldIn);
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public PoisonballEntity(Level worldIn, double x, double y, double z, double accX, double accY, double accZ)
 	{
 		super(AerialHellEntities.POISONBALL.get(), x, y, z, accX, accY, accZ, worldIn);
@@ -81,7 +77,7 @@ public class PoisonballEntity extends Fireball
 		if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition()))
 		{
 			HitResult raytraceresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
-			if (raytraceresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult))
+			if (raytraceresult.getType() != HitResult.Type.MISS && !net.neoforged.neoforge.event.EventHooks.onProjectileImpact(this, raytraceresult))
 			{
 				this.onHit(raytraceresult);
 			}

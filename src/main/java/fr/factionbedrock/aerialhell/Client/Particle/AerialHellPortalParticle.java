@@ -6,10 +6,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.PortalParticle;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class AerialHellPortalParticle extends PortalParticle
 {
 	protected AerialHellPortalParticle(ClientLevel worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
@@ -21,8 +18,7 @@ public class AerialHellPortalParticle extends PortalParticle
 		this.gravity = -1.0F;
 		this.quadSize *= 1.25F;
 	}
-	
-	@OnlyIn(Dist.CLIENT)
+
 	public static class Factory implements ParticleProvider<SimpleParticleType>
 	{
 		private final SpriteSet spriteSet;

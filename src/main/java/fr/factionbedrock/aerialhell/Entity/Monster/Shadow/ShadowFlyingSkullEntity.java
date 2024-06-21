@@ -41,7 +41,7 @@ public class ShadowFlyingSkullEntity extends Vex
                 LivingEntity attackedLiving = ((LivingEntity) attackedEntity);
                 if (!EntityHelper.isLivingEntityShadowImmune(attackedLiving))
                 {
-                    attackedLiving.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getHolder().get(), 80, 0));
+                    attackedLiving.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 80, 0));
                     attackedLiving.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 1));
                 }
                 else //attacked entity is shadow immune

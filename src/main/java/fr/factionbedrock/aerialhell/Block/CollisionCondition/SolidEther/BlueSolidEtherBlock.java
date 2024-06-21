@@ -20,7 +20,7 @@ public class BlueSolidEtherBlock extends SolidEtherBlock
 		{
 			if (canEntityCollide(entity))
 			{
-				entity.addEffect(new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getHolder().get(), 10, 0, false, false));
+				entity.addEffect(new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate(), 10, 0, false, false));
 			}
 			else
 			{

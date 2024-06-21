@@ -43,17 +43,17 @@ public class CoreProtectedBlock extends Block
 	}
 	
 	@Override
-	public float getDestroyProgress(BlockState state, Player player, BlockGetter worldIn, BlockPos pos)
+	public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
 	{
-		float f = state.getDestroySpeed(worldIn, pos);
+		float f = state.getDestroySpeed(level, pos);
 	    if (f == -1.0F || isProtected(state))
 	    {
 	         return 0.0F;
 	    }
 	    else
 	    {
-	         int i = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(state, player) ? 30 : 100;
-	         return player.getDestroySpeed(state, pos) / f / (float)i;
+	         int i = net.neoforged.neoforge.event.EventHooks.doPlayerHarvestCheck(player, state, level, pos) ? 30 : 100;
+	         return player.getDigSpeed(state, pos) / f / (float)i;
 	    }
 	}
 

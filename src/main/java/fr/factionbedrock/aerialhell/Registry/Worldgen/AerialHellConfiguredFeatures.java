@@ -177,7 +177,7 @@ public class AerialHellConfiguredFeatures
         public static final RandomFeatureConfiguration GOLDEN_BEECH_VEGETATION_CONFIG = randomFeatureConfigFromSingleFeature(AerialHellPlacedFeatures.GOLDEN_BEECH_CHECKED);
         public static final RandomFeatureConfiguration CRYSTALLIZED_TREE_VEGETATION_CONFIG = randomFeatureConfigFromSingleFeature(AerialHellPlacedFeatures.CRYSTALLIZED_TREE_CHECKED);
 
-        private static RandomFeatureConfiguration randomFeatureConfigFromSingleFeature(RegistryObject<PlacedFeature> feature) {return new RandomFeatureConfiguration(List.of(new WeightedPlacedFeature(feature.getHolder().get(), 1.0F)), feature.getHolder().get());}
+        private static RandomFeatureConfiguration randomFeatureConfigFromSingleFeature(RegistryObject<PlacedFeature> feature) {return new RandomFeatureConfiguration(List.of(new WeightedPlacedFeature(feature.getDelegate(), 1.0F)), feature.getDelegate());}
 
         // Vine placement configs
         private static final WeightedStateProvider GLOWING_STICK_FRUIT_VINES_BODY_PROVIDER = createVinesBodyProvider(AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES_PLANT.get());

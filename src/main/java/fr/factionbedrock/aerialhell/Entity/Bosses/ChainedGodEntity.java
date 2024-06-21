@@ -44,9 +44,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.ForgeEventFactory;
 
 public class ChainedGodEntity extends AbstractBossEntity
 {
@@ -191,7 +188,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	{
 		this.runRoarEffects();
 		this.timeDying++;
-		if (this.timeDying > 140) {this.tryDying(this.lastDamageSource == null ? this.damageSources().generic() : this.lastDamageSource);}
+		if (this.timeDying > 140) {this.tryDying(this.getLastDamageSource() == null ? this.damageSources().generic() : this.getLastDamageSource());}
 	}
 
 	@Override public void tickDeadPhase() {this.tickDyingPhase();}
@@ -291,7 +288,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	      return flag;
 	}
 
-	@Override @OnlyIn(Dist.CLIENT)
+	@Override
 	public void handleEntityEvent(byte id) //broadcastEntityEvent
 	{
 		if (id == 4)
@@ -346,8 +343,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		Level level = this.level();
 		if (!level.isClientSide())
 		{
-			Level.ExplosionInteraction explosionInteraction = ForgeEventFactory.getMobGriefingEvent(level, this) ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
-			level.explode(this, this.getX(), this.getY(), this.getZ(), (float)5, explosionInteraction);
+			level.explode(this, this.getX(), this.getY(), this.getZ(), (float)5, Level.ExplosionInteraction.MOB);
 		}
 		this.spawnImplosionParticle();
 	}

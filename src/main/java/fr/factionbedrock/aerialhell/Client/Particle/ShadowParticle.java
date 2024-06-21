@@ -3,10 +3,7 @@ package fr.factionbedrock.aerialhell.Client.Particle;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ShadowParticle extends TextureSheetParticle
 {
 	protected ShadowParticle(ClientLevel worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
@@ -18,8 +15,7 @@ public class ShadowParticle extends TextureSheetParticle
 		this.quadSize *= 1.5F;
 		this.lifetime =(int) (32.0F + 4.0F * Math.random());
 	}
-	
-	@OnlyIn(Dist.CLIENT)
+
 	public static class Factory implements ParticleProvider<SimpleParticleType>
 	{
 		private final SpriteSet spriteSet;

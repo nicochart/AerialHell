@@ -2,31 +2,39 @@ package fr.factionbedrock.aerialhell.Setup;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.AerialHellRendering;
+import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
+import fr.factionbedrock.aerialhell.Client.Event.Listeners.RenderRegistrationListener;
+import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSkyRenderer;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSpecialEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellWoodTypes;
+import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.BuildContentsEvent;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RegisterDimensionSpecialEffectsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
 
-@Mod.EventBusSubscriber(modid = AerialHell.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AerialHellClientSetup
 {
-    public static void init(final FMLClientSetupEvent event)
+    public static void init(IEventBus modEventBus)
     {
     	AerialHellRendering.registerBlockRenderLayers();
-    	AerialHellRendering.registerScreensMenus();
 
-        AerialHellWoodTypes.registerWoodTypes(event);
-        AerialHellWoodTypes.addWoodTypesToSheets(event);
+        //TODO it works ?
+        modEventBus.addListener(AerialHellWoodTypes::registerWoodTypes); //AerialHellWoodTypes.registerWoodTypes(event);
+        modEventBus.addListener(AerialHellWoodTypes::addWoodTypesToSheets); //AerialHellWoodTypes.addWoodTypesToSheets(event);
+
+        modEventBus.addListener(BlocksAndItemsColorHandler::handleBlockColors);
+        modEventBus.addListener(BlocksAndItemsColorHandler::handleItemColors);
+        modEventBus.addListener(RenderRegistrationListener::onRegisterRenderers);
+        modEventBus.addListener(RenderRegistrationListener::onRegisterLayerDefinitions);
+        modEventBus.addListener(AerialHellParticleTypes::registerParticleFactories);
+        modEventBus.addListener(AerialHellClientSetup::registerDimensionRenderInfo);
+        modEventBus.addListener(BuildContentsEvent::buildContents);
+        modEventBus.addListener(AerialHellRendering::registerScreensMenus);
     }
-    
-    @SubscribeEvent
+
+
     public static void registerDimensionRenderInfo(RegisterDimensionSpecialEffectsEvent event)
     {
         new AerialHellDimensionSkyRenderer();

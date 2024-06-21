@@ -16,8 +16,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public abstract class AerialHellGolemEntity extends AbstractActivableEntity
 {
@@ -70,7 +68,7 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
     
     public abstract float getYMotionOnAttack();
 
-    @Override @OnlyIn(Dist.CLIENT)
+    @Override
 	public void handleEntityEvent(byte id) //broadcastEntityEvent
 	{
 		if (id == 4)

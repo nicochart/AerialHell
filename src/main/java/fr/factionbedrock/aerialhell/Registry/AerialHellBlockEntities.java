@@ -6,29 +6,29 @@ import fr.factionbedrock.aerialhell.BlockEntity.AerialHellSignBlockEntity;
 
 import com.google.common.collect.Sets;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.registries.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class AerialHellBlockEntities
 {
-	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, AerialHell.MODID);
+	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.MODID);
 
-	public static final RegistryObject<BlockEntityType<OscillatorBlockEntity>> OSCILLATOR = BLOCK_ENTITY_TYPES.register("oscillator", () ->
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OscillatorBlockEntity>> OSCILLATOR = BLOCK_ENTITY_TYPES.register("oscillator", () ->
 			new BlockEntityType<>(OscillatorBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.OSCILLATOR.get()), null));
 	
-	public static final RegistryObject<BlockEntityType<FreezerBlockEntity>> FREEZER = BLOCK_ENTITY_TYPES.register("freezer", () ->
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FreezerBlockEntity>> FREEZER = BLOCK_ENTITY_TYPES.register("freezer", () ->
 			new BlockEntityType<>(FreezerBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.FREEZER.get()), null));
 	
-	public static final RegistryObject<BlockEntityType<StellarFurnaceBlockEntity>> STELLAR_FURNACE = BLOCK_ENTITY_TYPES.register("stellar_furnace", () ->
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<StellarFurnaceBlockEntity>> STELLAR_FURNACE = BLOCK_ENTITY_TYPES.register("stellar_furnace", () ->
 			new BlockEntityType<>(StellarFurnaceBlockEntity::new, Sets.newHashSet
 					(
 							AerialHellBlocksAndItems.STELLAR_FURNACE.get(),
 							AerialHellBlocksAndItems.GHOST_STELLAR_FURNACE.get()
 					), null));
 	
-	public static final RegistryObject<BlockEntityType<AerialHellSignBlockEntity>> SIGN = BLOCK_ENTITY_TYPES.register("sign", () ->
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AerialHellSignBlockEntity>> SIGN = BLOCK_ENTITY_TYPES.register("sign", () ->
 			new BlockEntityType<>(AerialHellSignBlockEntity::new, Sets.newHashSet
 					(
 							AerialHellBlocksAndItems.AERIAL_TREE_STANDING_SIGN.get(),
@@ -49,7 +49,7 @@ public class AerialHellBlockEntities
 							AerialHellBlocksAndItems.GRAY_SHROOM_WALL_SIGN.get()
 					), null));
 
-	public static final RegistryObject<BlockEntityType<AerialHellHangingSignBlockEntity>> HANGING_SIGN = BLOCK_ENTITY_TYPES.register("hanging_sign", () ->
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AerialHellHangingSignBlockEntity>> HANGING_SIGN = BLOCK_ENTITY_TYPES.register("hanging_sign", () ->
 			new BlockEntityType<>(AerialHellHangingSignBlockEntity::new, Sets.newHashSet
 					(
 							AerialHellBlocksAndItems.AERIAL_TREE_HANGING_SIGN.get(),
@@ -70,7 +70,7 @@ public class AerialHellBlockEntities
 							AerialHellBlocksAndItems.GRAY_SHROOM_WALL_HANGING_SIGN.get()
 					), null));
 	
-	public static final RegistryObject<BlockEntityType<AerialHellBarrelBlockEntity>> BARREL = BLOCK_ENTITY_TYPES.register("barrel", () ->
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AerialHellBarrelBlockEntity>> BARREL = BLOCK_ENTITY_TYPES.register("barrel", () ->
 	new BlockEntityType<>(AerialHellBarrelBlockEntity::new, Sets.newHashSet
 			(
 					AerialHellBlocksAndItems.AERIAL_TREE_BARREL.get(),
@@ -83,7 +83,7 @@ public class AerialHellBlockEntities
 					AerialHellBlocksAndItems.GRAY_SHROOM_BARREL.get()
 			), null));
 	
-	public static final RegistryObject<BlockEntityType<AerialHellChestBlockEntity>> CHEST = BLOCK_ENTITY_TYPES.register("chest", () ->
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AerialHellChestBlockEntity>> CHEST = BLOCK_ENTITY_TYPES.register("chest", () ->
 	        new BlockEntityType<>(AerialHellChestBlockEntity::new, Sets.newHashSet
 	        		(
 	        				AerialHellBlocksAndItems.AERIAL_TREE_CHEST.get(),
@@ -102,7 +102,7 @@ public class AerialHellBlockEntities
 	        				AerialHellBlocksAndItems.GOLDEN_NETHER_CHEST.get()
 	        		), null));
 	
-	public static final RegistryObject<BlockEntityType<ChestMimicBlockEntity>> CHEST_MIMIC = BLOCK_ENTITY_TYPES.register("chest_mimic", () ->
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ChestMimicBlockEntity>> CHEST_MIMIC = BLOCK_ENTITY_TYPES.register("chest_mimic", () ->
 			new BlockEntityType<>(ChestMimicBlockEntity::new, Sets.newHashSet
 					(
 							AerialHellBlocksAndItems.AERIAL_TREE_CHEST_MIMIC.get(),

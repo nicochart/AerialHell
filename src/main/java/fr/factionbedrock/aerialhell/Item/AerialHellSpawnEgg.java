@@ -27,8 +27,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.List;
 import java.util.Objects;
@@ -113,13 +111,12 @@ public class AerialHellSpawnEgg extends Item
 
     @Override public boolean isFoil(ItemStack stack) {return this.isBoss;}
 
-    @Override @OnlyIn(Dist.CLIENT)
+    @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
     {
         if (this.isBoss) {components.add(this.getDescription().withStyle(ChatFormatting.DARK_RED));}
     }
 
-    @OnlyIn(Dist.CLIENT)
     public MutableComponent getDescription()
     {
         return Component.translatable("item.aerialhell.boss_spawn_egg.desc");

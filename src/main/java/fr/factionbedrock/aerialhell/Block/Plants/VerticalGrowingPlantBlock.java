@@ -16,10 +16,9 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.PlantType;
+import net.neoforged.neoforge.common.PlantType;
 
-public class VerticalGrowingPlantBlock extends Block implements net.minecraftforge.common.IPlantable
+public class VerticalGrowingPlantBlock extends Block implements net.neoforged.neoforge.common.IPlantable
 {
     public static final IntegerProperty AGE = BlockStateProperties.AGE_15;
     public static final BooleanProperty TOP = BooleanProperty.create("top");
@@ -52,10 +51,10 @@ public class VerticalGrowingPlantBlock extends Block implements net.minecraftfor
 
             if (height < this.MAX_GROWTH_HEIGHT)
             {
-                if (ForgeHooks.onCropsGrowPre(level, pos, state, true))
+                if (net.neoforged.neoforge.common.CommonHooks.canCropGrow(level, pos, state, true))
                 {
                     if (state_age == 15) {this.growUp(state, level, pos);}
-                    else {level.setBlock(pos, state.setValue(AGE, state_age + 1).setValue(TOP, true), 4);}
+                    else {level.setBlock(pos, state.setValue(AGE, Integer.valueOf(state_age + 1)), 4);}
                 }
             }
         }
@@ -80,9 +79,9 @@ public class VerticalGrowingPlantBlock extends Block implements net.minecraftfor
 
     private void growUp(BlockState state, ServerLevel level, BlockPos pos)
     {
-        level.setBlockAndUpdate(pos, state.setValue(AGE, 0).setValue(TOP, false)); //this is no longer top
-        level.setBlockAndUpdate(pos.above(), this.defaultBlockState()); //above is now top
-        ForgeHooks.onCropsGrowPost(level, pos.above(), this.defaultBlockState());
+        level.setBlockAndUpdate(pos.above(), this.defaultBlockState());
+        net.neoforged.neoforge.common.CommonHooks.fireCropGrowPost(level, pos.above(), this.defaultBlockState());
+        level.setBlock(pos, state.setValue(AGE, Integer.valueOf(0)), 4);
     }
 
     @Override public BlockState updateShape(BlockState state1, Direction direction, BlockState state2, LevelAccessor levelAccessor, BlockPos pos1, BlockPos pos2)
@@ -101,6 +100,6 @@ public class VerticalGrowingPlantBlock extends Block implements net.minecraftfor
     }
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateDefinitionBuilder) {stateDefinitionBuilder.add(AGE); stateDefinitionBuilder.add(TOP);}
-    @Override public net.minecraftforge.common.PlantType getPlantType(BlockGetter world, BlockPos pos) {return PlantType.PLAINS;}
+    @Override public net.neoforged.neoforge.common.PlantType getPlantType(BlockGetter world, BlockPos pos) {return PlantType.PLAINS;}
     @Override public BlockState getPlant(BlockGetter world, BlockPos pos) {return defaultBlockState();}
 }

@@ -18,14 +18,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.decoration.PaintingVariant;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 //copy of net.minecraft.client.renderer.entity.PaintingRenderer but for AerialHellPaintingEntity
 
-@OnlyIn(Dist.CLIENT)
 public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingEntity>
 {
     public AerialHellPaintingRender(EntityRendererProvider.Context context) {super(context);}

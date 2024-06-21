@@ -15,13 +15,10 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-@OnlyIn(Dist.CLIENT)
 public class HumanoidTwoLayerRender extends MobRenderer<AbstractHumanoidMonster, HumanoidTwoLayerModel<AbstractHumanoidMonster>>
 {
     private static final ResourceLocation SLIME_PIRATE = new ResourceLocation(AerialHell.MODID, "textures/entity/pirate/slime.png");

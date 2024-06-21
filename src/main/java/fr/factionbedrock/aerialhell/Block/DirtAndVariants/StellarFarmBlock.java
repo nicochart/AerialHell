@@ -43,7 +43,7 @@ public class StellarFarmBlock extends FarmBlock
 
     @Override public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance)
     {
-        if (!level.isClientSide && net.minecraftforge.common.ForgeHooks.onFarmlandTrample(level, pos, AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState(), fallDistance, entity))
+        if (!level.isClientSide && net.neoforged.neoforge.common.CommonHooks.onFarmlandTrample(level, pos, AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState(), fallDistance, entity))
         {
             turnToStellarDirt(entity, state, level, pos);
         }
@@ -63,7 +63,7 @@ public class StellarFarmBlock extends FarmBlock
     {
         BlockState plant = blockGetter.getBlockState(pos.above());
         BlockState state = blockGetter.getBlockState(pos);
-        return plant.getBlock() instanceof net.minecraftforge.common.IPlantable && state.canSustainPlant(blockGetter, pos, Direction.UP, (net.minecraftforge.common.IPlantable)plant.getBlock());
+        return plant.getBlock() instanceof net.neoforged.neoforge.common.IPlantable && state.canSustainPlant(blockGetter, pos, Direction.UP, (net.neoforged.neoforge.common.IPlantable)plant.getBlock());
     }
 
     //copy of net.minecraft.world.level.block.FarmBlock.isNearWater
@@ -74,6 +74,6 @@ public class StellarFarmBlock extends FarmBlock
         {
             if (state.canBeHydrated(level, pos, level.getFluidState(blockpos), blockpos)) {return true;}
         }
-        return net.minecraftforge.common.FarmlandWaterManager.hasBlockWaterTicket(level, pos);
+        return net.neoforged.neoforge.common.FarmlandWaterManager.hasBlockWaterTicket(level, pos);
     }
 }

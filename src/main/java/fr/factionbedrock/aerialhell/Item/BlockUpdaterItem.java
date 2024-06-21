@@ -3,13 +3,14 @@ package fr.factionbedrock.aerialhell.Item;
 import fr.factionbedrock.aerialhell.Block.StandingAndWall.AerialHellWallTorchBlock;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Iterator;
 
@@ -46,8 +47,8 @@ public class BlockUpdaterItem extends WithInformationItem
 
     protected void replaceBlock(Level level, BlockPos pos)
     {
-        Iterator<Block> replace_in = ForgeRegistries.BLOCKS.tags().getTag(AerialHellTags.Blocks.REPLACE_IN).iterator();
-        Iterator<Block> replace_out = ForgeRegistries.BLOCKS.tags().getTag(AerialHellTags.Blocks.REPLACE_OUT).iterator();
+        Iterator<Holder<Block>> replace_in = BuiltInRegistries.BLOCK.getTag(AerialHellTags.Blocks.REPLACE_IN).get().iterator();
+        Iterator<Holder<Block>> replace_out = BuiltInRegistries.BLOCK.getTag(AerialHellTags.Blocks.REPLACE_OUT).get().iterator();
 
         BlockState previousBlockState = level.getBlockState(pos);
         Block previousBlock = null, nextBlock = null;
@@ -55,8 +56,8 @@ public class BlockUpdaterItem extends WithInformationItem
         while(previousBlockState.getBlock() != previousBlock)
         {
             if (!replace_in.hasNext() || !replace_out.hasNext()) {return;}
-            previousBlock = replace_in.next();
-            nextBlock = replace_out.next();
+            previousBlock = replace_in.next().value();
+            nextBlock = replace_out.next().value();
         }
 
         BlockState nextBlockState = this.getNextBlockState(previousBlockState, nextBlock);

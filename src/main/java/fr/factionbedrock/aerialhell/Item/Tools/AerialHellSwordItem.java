@@ -12,8 +12,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class AerialHellSwordItem extends SwordItem
 {
@@ -36,13 +34,12 @@ public class AerialHellSwordItem extends SwordItem
 
 	@Override public ItemAttributeModifiers getDefaultAttributeModifiers() {return this.defaultModifiers.get();}
 
-	@Override @OnlyIn(Dist.CLIENT)
+	@Override
 	public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
 	{
 		components.add(this.getDescription().withStyle(ChatFormatting.GRAY));
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public MutableComponent getDescription()
 	{
 		return Component.translatable(this.getDescriptionId() + ".desc");

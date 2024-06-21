@@ -29,8 +29,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class MudCycleMageEntity extends AbstractBossEntity
 {
@@ -107,7 +105,7 @@ public class MudCycleMageEntity extends AbstractBossEntity
 	@Override public void tickDyingPhase()
 	{
 		this.timeDying++;
-		if (this.timeDying > timeToDie) {this.tryDying(this.lastDamageSource);}
+		if (this.timeDying > timeToDie) {this.tryDying(this.getLastDamageSource());}
 		if (this.tickCount % 2 == 0) {this.makeRandomRoofBlockFall(2, 8, 2, 13);}
 		this.playSummonParticles(2);
 	}
@@ -130,7 +128,7 @@ public class MudCycleMageEntity extends AbstractBossEntity
 		else {return false;}
 	}
 
-	@Override @OnlyIn(Dist.CLIENT)
+	@Override
 	public void handleEntityEvent(byte id)
 	{
 		if (id == 5) {playSummonParticles(30);}

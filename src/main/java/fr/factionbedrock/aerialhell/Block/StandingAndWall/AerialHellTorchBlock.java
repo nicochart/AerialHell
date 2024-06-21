@@ -16,8 +16,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 /*Copy of net.minecraft.block.TorchBlock, removing smoke particles, and editing the way particles are added*/
 
@@ -45,7 +43,6 @@ public class AerialHellTorchBlock extends Block
 		return canSupportCenter(worldIn, pos.below(), Direction.UP);
    	}
 
-	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand)
 	{
 		double d0 = (double)pos.getX() + 0.5D;

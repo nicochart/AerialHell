@@ -28,8 +28,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 /*Copy of net.minecraft.block.WallTorchBlock, removing smoke particles, and editing the way particles are added*/
 
@@ -86,7 +84,6 @@ public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 		return facing.getOpposite() == stateIn.getValue(HORIZONTAL_FACING) && !stateIn.canSurvive(worldIn, currentPos) ? Blocks.AIR.defaultBlockState() : stateIn;
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand)
 	{
 		Direction direction = stateIn.getValue(HORIZONTAL_FACING);

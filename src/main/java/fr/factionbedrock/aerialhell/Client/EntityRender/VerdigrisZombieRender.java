@@ -7,10 +7,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.VerdigrisZombieEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class VerdigrisZombieRender extends MobRenderer<VerdigrisZombieEntity, VerdigrisZombieModel>
 {
     private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/zombie/verdigris.png");

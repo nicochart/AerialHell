@@ -12,10 +12,7 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class CrystalGolemCrystalLayer<T extends AerialHellGolemEntity, M extends CrystalGolemModel<T>> extends RenderLayer<T,M>
 {
    private final CrystalGolemCrystalModel<T> golemModel;

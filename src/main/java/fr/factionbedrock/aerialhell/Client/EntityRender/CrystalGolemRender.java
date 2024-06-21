@@ -11,10 +11,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.CrystalGolemEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class CrystalGolemRender extends MobRenderer<CrystalGolemEntity, CrystalGolemModel<CrystalGolemEntity>>
 {
 	private static String name = "crystal_golem";

@@ -10,11 +10,8 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 //see net.minecraft.client.renderer.entity.CreeperRenderer
-@OnlyIn(Dist.CLIENT)
 public class ShroomBoomRender extends MobRenderer<ShroomBoomEntity, ShroomBoomModel>
 {	
 	private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/shroomboom/shroomboom.png");

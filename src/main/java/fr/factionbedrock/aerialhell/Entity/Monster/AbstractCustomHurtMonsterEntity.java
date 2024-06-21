@@ -35,7 +35,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
     public boolean customHurt(DamageSource source, CustomHurtInfo info)
     {
         float amount = info.amount();
-        if (!net.minecraftforge.common.ForgeHooks.onLivingAttack(this, source, amount)) return false;
+        if (!net.neoforged.neoforge.common.CommonHooks.onLivingAttack(this, source, amount)) return false;
         if (this.isInvulnerableTo(source) || this.level().isClientSide || this.isDeadOrDying()) {return false;}
         else if (source.is(DamageTypeTags.IS_FIRE) && this.hasEffect(MobEffects.FIRE_RESISTANCE)) {return false;}
         else

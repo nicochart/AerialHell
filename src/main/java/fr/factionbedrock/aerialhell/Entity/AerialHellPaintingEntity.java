@@ -45,7 +45,7 @@ public class AerialHellPaintingEntity extends HangingEntity implements VariantHo
     private AerialHellPaintingEntity(Level level, BlockPos pos) {super(AerialHellEntities.AERIAL_HELL_PAINTING.get(), level, pos);}
     public AerialHellPaintingEntity(Level level, BlockPos pos, Direction direction, Holder<PaintingVariant> variant) {this(level, pos); this.setVariant(variant); this.setDirection(direction);}
 
-    private static Holder<PaintingVariant> getDefaultVariant() {return AerialHellPaintingVariants.SPOOKY_ISLANDS.getHolder().get();}
+    private static Holder<PaintingVariant> getDefaultVariant() {return AerialHellPaintingVariants.SPOOKY_ISLANDS.getDelegate();}
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {builder.define(DATA_PAINTING_VARIANT_ID, getDefaultVariant());}
 

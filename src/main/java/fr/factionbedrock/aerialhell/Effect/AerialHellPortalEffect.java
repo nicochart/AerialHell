@@ -18,7 +18,7 @@ public class AerialHellPortalEffect extends MobEffect
     {
     	if (!EntityHelper.isLivingEntityInAerialHellPortal(livingIn) && !EntityHelper.isLivingEntityReadyToTeleport(livingIn))
         {
-            livingIn.removeEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL.getHolder().get());
+            livingIn.removeEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL.getDelegate());
         }
         return true;
     }

@@ -6,8 +6,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class AutomatonEntity extends AerialHellHostileEntity
 {
@@ -21,7 +19,7 @@ public class AutomatonEntity extends AerialHellHostileEntity
         super.aiStep();
     }
 
-    @Override @OnlyIn(Dist.CLIENT)
+    @Override
     public void handleEntityEvent(byte id)
     {
         if (id == 4) {this.attackTimer = 10;}

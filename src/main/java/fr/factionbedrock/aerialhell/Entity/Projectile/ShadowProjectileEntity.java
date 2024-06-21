@@ -31,7 +31,7 @@ public class ShadowProjectileEntity extends AbstractLightProjectileEntity
         Entity target = result.getEntity();
         if (target instanceof LivingEntity && !(target instanceof LilithEntity))
         {
-            ((LivingEntity) target).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getHolder().get(), 100, 0));
+            ((LivingEntity) target).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 100, 0));
         }
     }
 

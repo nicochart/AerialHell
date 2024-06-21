@@ -12,16 +12,10 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 //import net.minecraftforge.client.event.RenderGameOverlayEvent;
 //import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
 //import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber
 public class RenderListener
 {
     //TODO work on that
@@ -36,7 +30,7 @@ public class RenderListener
     private static final int HEART_ICON_WIDTH = 9;
     private static final int HEART_ICON_HEIGHT = 9;
 
-    /*@OnlyIn(Dist.CLIENT) @SubscribeEvent TODO
+    /* @SubscribeEvent TODO
     public static void onRenderOverlayPost(RenderGuiOverlayEvent.Post event)
     {
         Minecraft mc = Minecraft.getInstance();
@@ -52,7 +46,7 @@ public class RenderListener
         }
     }*/
 
-    /*@OnlyIn(Dist.CLIENT) @SubscribeEvent
+    /* @SubscribeEvent
     public static void onRenderOverlay(RenderGameOverlayEvent event)
     {
         Minecraft mc = Minecraft.getInstance();
@@ -72,7 +66,7 @@ public class RenderListener
     }*/
 
     //Copy of Gui.renderTextureOverlay
-    //@OnlyIn(Dist.CLIENT)
+    //
     public static void renderTextureOverlay(GuiGraphics graphics, ResourceLocation textureLocation, float alpha)
     {
         RenderSystem.disableDepthTest();
@@ -84,7 +78,7 @@ public class RenderListener
         graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    /*@OnlyIn(Dist.CLIENT)
+    /*
     private static void renderVulnerableHearts(PoseStack matrixStack, Player player, int x, int y, boolean lowHealth)
     {
         int maxHalfHearts = (int)player.getMaxHealth(), maxHearts  = maxHalfHearts/2;

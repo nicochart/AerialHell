@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -27,9 +28,9 @@ import net.minecraft.world.phys.Vec3;
 
 public class AerialHellFluidBlock extends LiquidBlock {
 
-	public AerialHellFluidBlock(Supplier<? extends FlowingFluid> supplier, Properties properties)
+	public AerialHellFluidBlock(FlowingFluid flowingFluid, Properties properties)
 	{
-        super(supplier, properties.noCollission().strength(100F).noLootTable());
+        super(flowingFluid, properties.noCollission().strength(100F).noLootTable());
     }
 	
 	private void triggerMixEffects(LevelAccessor worldIn, BlockPos pos) {worldIn.levelEvent(1501, pos, 0);} //fizz in FluidBlock
@@ -47,20 +48,20 @@ public class AerialHellFluidBlock extends LiquidBlock {
 		reactWithNeighbors(worldIn, pos, state);
 	}
 	
-	private void reactWithNeighbors(Level worldIn, BlockPos pos, BlockState state)
+	private void reactWithNeighbors(Level level, BlockPos pos, BlockState state)
 	{
-		if(this.getFluid() == AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE.get() || this.getFluid() == AerialHellFluids.LIQUID_OF_THE_GODS_FLOWING.get())
+		if(this.fluid.is(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
 		{
 			for(Direction direction : Direction.values())
 			{
 				if (direction != Direction.DOWN)
 				{
 					BlockPos blockpos = pos.relative(direction);
-	                if (worldIn.getFluidState(blockpos).is(FluidTags.WATER) || worldIn.getFluidState(blockpos).is(FluidTags.LAVA))
+	                if (level.getFluidState(blockpos).is(FluidTags.WATER) || level.getFluidState(blockpos).is(FluidTags.LAVA))
 	                {
-	                	Block block = worldIn.getFluidState(pos).isSource() ? AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get() /*AerialHellBlocksAndItems.STELLAR_OBSIDIAN ??*/ : AerialHellBlocksAndItems.STELLAR_STONE.get();
-	                    worldIn.setBlockAndUpdate(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(worldIn, pos, pos, block.defaultBlockState()));
-	                    this.triggerMixEffects(worldIn, pos);
+	                	Block block = level.getFluidState(pos).isSource() ? AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get() /*AerialHellBlocksAndItems.STELLAR_OBSIDIAN ??*/ : AerialHellBlocksAndItems.STELLAR_STONE.get();
+	                    level.setBlockAndUpdate(pos, block.defaultBlockState());
+	                    this.triggerMixEffects(level, pos);
 	                }
 	            }
 	        }
@@ -70,7 +71,7 @@ public class AerialHellFluidBlock extends LiquidBlock {
     @Override
     public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn)
     {
-        if(this.getFluid() == AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE.get() || this.getFluid() == AerialHellFluids.LIQUID_OF_THE_GODS_FLOWING.get())
+		if(this.fluid.is(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
         {
         	entityIn.fallDistance = 0.0F;
     		if (!entityIn.getDeltaMovement().equals(Vec3.ZERO))
@@ -81,7 +82,7 @@ public class AerialHellFluidBlock extends LiquidBlock {
     		
             if(entityIn.isAlive() && entityIn instanceof LivingEntity)
             {
-            	if (!(entityIn instanceof TornSpiritEntity || entityIn instanceof ChainedGodEntity || ((LivingEntity) entityIn).hasEffect(AerialHellMobEffects.GOD.getHolder().get())))
+            	if (!(entityIn instanceof TornSpiritEntity || entityIn instanceof ChainedGodEntity || ((LivingEntity) entityIn).hasEffect(AerialHellMobEffects.GOD.getDelegate())))
             	{
             		entityIn.hurt(AerialHellDamageTypes.getDamageSource(worldIn, AerialHellDamageTypes.GOD_BLESS), 1.5F);//.setFire(10);
             	}

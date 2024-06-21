@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.client.renderer.RenderType;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 public class AerialHellRendering
 {
@@ -207,10 +208,10 @@ public class AerialHellRendering
         ItemBlockRenderTypes.setRenderLayer(block.get(), render);
     }
 	
-	public static void registerScreensMenus()
+	public static void registerScreensMenus(RegisterMenuScreensEvent event)
 	{
-        MenuScreens.register(AerialHellMenuTypes.OSCILLATOR.get(), OscillatorScreen::new);
-        MenuScreens.register(AerialHellMenuTypes.FREEZER.get(), FreezerScreen::new);
-        MenuScreens.register(AerialHellMenuTypes.STELLAR_FURNACE.get(), StellarFurnaceScreen::new);
+        event.register(AerialHellMenuTypes.OSCILLATOR.get(), OscillatorScreen::new);
+        event.register(AerialHellMenuTypes.FREEZER.get(), FreezerScreen::new);
+        event.register(AerialHellMenuTypes.STELLAR_FURNACE.get(), StellarFurnaceScreen::new);
     }
 }

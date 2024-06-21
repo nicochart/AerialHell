@@ -1,11 +1,9 @@
 package fr.factionbedrock.aerialhell.Block;
 
-import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 
-import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
@@ -13,6 +11,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -24,18 +23,15 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.portal.PortalShape;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.eventbus.api.Cancelable;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.level.BlockEvent;
 
 import javax.annotation.Nullable;
 
@@ -92,53 +88,37 @@ public class AerialHellPortalBlock extends Block
 
 	public boolean trySpawnPortal(LevelAccessor level, BlockPos pos)
 	{
-		AerialHellPortalBlock.Size portalSize = this.isPortal(level, pos);
-		if (portalSize != null && !onTrySpawnPortal(level, pos, portalSize))
+		AerialHellPortalBlock.AerialHellPortalShape size = this.isPortal(level, pos);
+		if (size != null && !this.isPortalSpawnCanceled(level, pos, size))
 		{
-			portalSize.placePortalBlocks();
+			size.createPortalBlocks();
 			return true;
 		}
 		else {return false;}
 	}
 
-	public static boolean onTrySpawnPortal(LevelAccessor world, BlockPos pos, AerialHellPortalBlock.Size size)
+	public boolean isPortalSpawnCanceled(LevelAccessor world, BlockPos pos, AerialHellPortalBlock.AerialHellPortalShape size)
 	{
-		return MinecraftForge.EVENT_BUS.post(new PortalSpawnEvent(world, pos, world.getBlockState(pos), size));
+		return NeoForge.EVENT_BUS.post(new BlockEvent.PortalSpawnEvent(world, pos, world.getBlockState(pos), size)).isCanceled();
 	}
 
-	@Cancelable
-	public static class PortalSpawnEvent extends BlockEvent
+	@Nullable public AerialHellPortalBlock.AerialHellPortalShape isPortal(LevelAccessor level, BlockPos pos)
 	{
-		private final AerialHellPortalBlock.Size size;
-
-		public PortalSpawnEvent(LevelAccessor world, BlockPos pos, BlockState state, AerialHellPortalBlock.Size size)
-		{
-			super(world, pos, state);
-			this.size = size;
-		}
-
-		public AerialHellPortalBlock.Size getPortalSize() {return size;}
-	}
-
-	@Nullable
-	public AerialHellPortalBlock.Size isPortal(LevelAccessor level, BlockPos pos)
-	{
-		AerialHellPortalBlock.Size sizeX = new Size(level, pos, Direction.Axis.X);
-		if (sizeX.isValid() && sizeX.portalBlockCount == 0) {return sizeX;}
+		AerialHellPortalBlock.AerialHellPortalShape UndergardenPortalBlock$size = new AerialHellPortalShape(level, pos, Direction.Axis.X);
+		if (UndergardenPortalBlock$size.isValid() && UndergardenPortalBlock$size.numPortalBlocks == 0) {return UndergardenPortalBlock$size;}
 		else
 		{
-			AerialHellPortalBlock.Size sizeZ = new Size(level, pos, Direction.Axis.Z);
-			return sizeZ.isValid() && sizeZ.portalBlockCount == 0 ? sizeZ : null;
+			AerialHellPortalBlock.AerialHellPortalShape UndergardenPortalBlock$size1 = new AerialHellPortalShape(level, pos, Direction.Axis.Z);
+			return UndergardenPortalBlock$size1.isValid() && UndergardenPortalBlock$size1.numPortalBlocks == 0 ? UndergardenPortalBlock$size1 : null;
 		}
 	}
 
-	@Override
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos)
+	@Override public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos)
 	{
 		Direction.Axis direction$axis = facing.getAxis();
 		Direction.Axis direction$axis1 = stateIn.getValue(AXIS);
 		boolean flag = direction$axis1 != direction$axis && direction$axis.isHorizontal();
-		return !flag && facingState.getBlock() != this && !(new Size(level, currentPos, direction$axis1)).validatePortal() ? Blocks.AIR.defaultBlockState() : super.updateShape(stateIn, facing, facingState, level, currentPos, facingPos);
+		return !flag && facingState.getBlock() != this && !(new AerialHellPortalShape(level, currentPos, direction$axis1)).isComplete() ? Blocks.AIR.defaultBlockState() : super.updateShape(stateIn, facing, facingState, level, currentPos, facingPos);
 	}
 
 	@Override
@@ -176,7 +156,6 @@ public class AerialHellPortalBlock extends Block
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	@Override public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random)
 	{
 		if (random.nextInt(100) == 0)
@@ -233,137 +212,122 @@ public class AerialHellPortalBlock extends Block
 
 	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(AXIS);}
 
-	public static class Size
+	//copy of Minecraft's PortalShape, frame and portal blocks changed accordingly
+	public static class AerialHellPortalShape extends PortalShape
 	{
+		private static final int MIN_WIDTH = 1;
+		public static final int MAX_WIDTH = 21;
+		private static final int MIN_HEIGHT = 2;
+		public static final int MAX_HEIGHT = 21;
+		private static final BlockBehaviour.StatePredicate FRAME = (state, getter, pos) -> state.is(AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK);
 		private final LevelAccessor level;
 		private final Direction.Axis axis;
 		private final Direction rightDir;
-		private final Direction leftDir;
-		private int portalBlockCount;
-		@Nullable
+		private int numPortalBlocks;
 		private BlockPos bottomLeft;
 		private int height;
-		private int width;
+		private final int width;
 
-		public Size(LevelAccessor level, BlockPos pos, Direction.Axis axis)
+		public AerialHellPortalShape(LevelAccessor level, BlockPos bottomLeftPos, Direction.Axis axis)
 		{
+			super(level, bottomLeftPos, axis);
 			this.level = level;
 			this.axis = axis;
-			if (axis == Direction.Axis.X)
+			this.rightDir = axis == Direction.Axis.X ? Direction.WEST : Direction.SOUTH;
+			this.bottomLeft = this.calculateBottomLeft(bottomLeftPos);
+			if (this.bottomLeft == null)
 			{
-				this.leftDir = Direction.EAST;
-				this.rightDir = Direction.WEST;
+				this.bottomLeft = bottomLeftPos;
+				this.width = 1;
+				this.height = 1;
 			}
 			else
 			{
-				this.leftDir = Direction.NORTH;
-				this.rightDir = Direction.SOUTH;
+				this.width = this.calculateWidth();
+				if (this.width > 0) {this.height = this.calculateHeight();}
 			}
+		}
 
-			for (BlockPos blockpos = pos; pos.getY() > blockpos.getY() - 21 && pos.getY() > 0 && this.canConnect(level.getBlockState(pos.below())); pos = pos.below()) {}
+		@Nullable
+		private BlockPos calculateBottomLeft(BlockPos pos)
+		{
+			for (int i = Math.max(this.level.getMinBuildHeight(), pos.getY() - MAX_HEIGHT); pos.getY() > i && isEmpty(this.level.getBlockState(pos.below())); pos = pos.below()){}
 
-			int i = this.getDistanceUntilEdge(pos, this.leftDir) - 1;
-			if (i >= 0)
+			Direction direction = this.rightDir.getOpposite();
+			int j = this.getDistanceUntilEdgeAboveFrame(pos, direction) - 1;
+			return j < 0 ? null : pos.relative(direction, j);
+		}
+
+		private int calculateWidth()
+		{
+			int i = this.getDistanceUntilEdgeAboveFrame(this.bottomLeft, this.rightDir);
+			return i >= MIN_WIDTH && i <= MAX_WIDTH ? i : 0;
+		}
+
+		private int getDistanceUntilEdgeAboveFrame(BlockPos pos, Direction direction)
+		{
+			BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+
+			for (int i = 0; i <= MAX_WIDTH; ++i)
 			{
-				this.bottomLeft = pos.relative(this.leftDir, i);
-				this.width = this.getDistanceUntilEdge(this.bottomLeft, this.rightDir);
-				if (this.width < 2 || this.width > 21)
+				mutablePos.set(pos).move(direction, i);
+				BlockState blockstate = this.level.getBlockState(mutablePos);
+				if (!isEmpty(blockstate)) {if (FRAME.test(blockstate, this.level, mutablePos)) {return i;} break;}
+
+				BlockState blockstate1 = this.level.getBlockState(mutablePos.move(Direction.DOWN));
+				if (!FRAME.test(blockstate1, this.level, mutablePos)) {break;}
+			}
+			return 0;
+		}
+
+		private int calculateHeight()
+		{
+			BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+			int i = this.getDistanceUntilTop(mutablePos);
+			return i >= MIN_HEIGHT && i <= MAX_HEIGHT && this.hasTopFrame(mutablePos, i) ? i : 0;
+		}
+
+		private boolean hasTopFrame(BlockPos.MutableBlockPos pos, int height)
+		{
+			for (int i = 0; i < this.width; ++i)
+			{
+				BlockPos.MutableBlockPos mutablePos = pos.set(this.bottomLeft).move(Direction.UP, height).move(this.rightDir, i);
+				if (!FRAME.test(this.level.getBlockState(mutablePos), this.level, mutablePos)) {return false;}
+			}
+			return true;
+		}
+
+		private int getDistanceUntilTop(BlockPos.MutableBlockPos pos)
+		{
+			for (int i = 0; i < MAX_HEIGHT; ++i)
+			{
+				pos.set(this.bottomLeft).move(Direction.UP, i).move(this.rightDir, -1);
+				if (!FRAME.test(this.level.getBlockState(pos), this.level, pos)) {return i;}
+
+				pos.set(this.bottomLeft).move(Direction.UP, i).move(this.rightDir, this.width);
+				if (!FRAME.test(this.level.getBlockState(pos), this.level, pos)) {return i;}
+
+				for (int j = 0; j < this.width; ++j)
 				{
-					this.bottomLeft = null;
-					this.width = 0;
+					pos.set(this.bottomLeft).move(Direction.UP, i).move(this.rightDir, j);
+					BlockState blockstate = this.level.getBlockState(pos);
+					if (!isEmpty(blockstate)) {return i;}
+
+					if (blockstate.is(AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get())) {++this.numPortalBlocks;}
 				}
 			}
-			if (this.bottomLeft != null) {this.height = this.calculatePortalHeight();}
+			return MAX_HEIGHT;
 		}
 
-		protected int getDistanceUntilEdge(BlockPos pos, Direction directionIn)
+		private static boolean isEmpty(BlockState state) {return state.isAir() || state.is(AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get());}
+		public boolean isValid() {return this.bottomLeft != null && this.width >= MIN_WIDTH && this.width <= MAX_WIDTH && this.height >= MIN_HEIGHT && this.height <= MAX_HEIGHT;}
+
+		public void createPortalBlocks()
 		{
-			int distance; BlockState state;
-			for(distance = 0; distance < 22; ++distance)
-			{
-				BlockPos blockpos = pos.relative(directionIn, distance);
-				state = this.level.getBlockState(blockpos.below());
-				if(!this.canConnect(this.level.getBlockState(blockpos)) || !BlockHelper.isAerialHellPortalFrameBlock(state)) {break;}
-			}
-
-			BlockPos framePos = pos.relative(directionIn, distance);
-			state = this.level.getBlockState(framePos);
-			return BlockHelper.isAerialHellPortalFrameBlock(state) ? distance : 0;
+			BlockState blockstate = AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get().defaultBlockState().setValue(NetherPortalBlock.AXIS, this.axis);
+			BlockPos.betweenClosed(this.bottomLeft, this.bottomLeft.relative(Direction.UP, this.height - 1).relative(this.rightDir, this.width - 1)).forEach(pos -> this.level.setBlock(pos, blockstate, 18));
 		}
 
-		public int getHeight() {return this.height;}
-
-		public int getWidth() {return this.width;}
-
-		protected int calculatePortalHeight()
-		{
-			label:
-			for(this.height = 0; this.height < 21; ++this.height)
-			{
-				for(int i = 0; i < this.width; ++i)
-				{
-					BlockPos blockpos = this.bottomLeft.relative(this.rightDir, i).above(this.height);
-					BlockState blockstate = this.level.getBlockState(blockpos);
-					if (!this.canConnect(blockstate)) {break label;}
-
-					Block block = blockstate.getBlock();
-					if (block == AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get()) {++this.portalBlockCount;}
-
-					if (i == 0)
-					{
-						BlockState state = level.getBlockState(blockpos.relative(this.leftDir));
-						if (!BlockHelper.isAerialHellPortalFrameBlock(state)) {break label;}
-					}
-					else if (i == this.width - 1)
-					{
-						BlockState state = level.getBlockState(blockpos.relative(this.rightDir));
-						if (!BlockHelper.isAerialHellPortalFrameBlock(state)) {break label;}
-					}
-				}
-			}
-
-			for(int j = 0; j < this.width; ++j)
-			{
-				BlockState state = level.getBlockState(this.bottomLeft.relative(this.rightDir, j).above(this.height));
-				if (!BlockHelper.isAerialHellPortalFrameBlock(state)) {this.height = 0; break;}
-			}
-
-			if (this.height <= 21 && this.height >= 3) {return this.height;}
-			else
-			{
-				this.bottomLeft = null;
-				this.width = 0;
-				this.height = 0;
-				return 0;
-			}
-		}
-
-		protected boolean canConnect(BlockState pos)
-		{
-			Block block = pos.getBlock();
-			return pos.isAir() || block == AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get();
-		}
-
-		public boolean isValid()
-		{
-			return this.bottomLeft != null && this.width >= 2 && this.width <= 21 && this.height >= 3 && this.height <= 21;
-		}
-
-		public void placePortalBlocks()
-		{
-			for(int i = 0; i < this.width; ++i)
-			{
-				BlockPos blockpos = this.bottomLeft.relative(this.rightDir, i);
-
-				for(int j = 0; j < this.height; ++j)
-				{
-					this.level.setBlock(blockpos.above(j), AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get().defaultBlockState().setValue(AerialHellPortalBlock.AXIS, this.axis), 18);
-				}
-			}
-		}
-
-		private boolean isPortalCountValidForSize() {return this.portalBlockCount >= this.width * this.height;}
-
-		public boolean validatePortal() {return this.isValid() && this.isPortalCountValidForSize();}
+		public boolean isComplete() {return this.isValid() && this.numPortalBlocks == this.width * this.height;}
 	}
 }
