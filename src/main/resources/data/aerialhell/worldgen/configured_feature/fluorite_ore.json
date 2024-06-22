@@ -6,11 +6,11 @@
     "targets": [
       {
         "state": {
-          "Name": "aerialhell:volucite_ore"
+          "Name": "aerialhell:fluorite_ore"
         },
         "target": {
           "predicate_type": "minecraft:tag_match",
-          "tag": "aerialhell:fluorite_ore"
+          "tag": "aerialhell:stellar_stone"
         }
       }
     ]

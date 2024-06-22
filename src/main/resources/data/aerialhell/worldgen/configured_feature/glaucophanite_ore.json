@@ -6,7 +6,7 @@
     "targets": [
       {
         "state": {
-          "Name": "aerialhell:glaucophanite_ore"
+          "Name": "aerialhell:glaucophanite"
         },
         "target": {
           "predicate_type": "minecraft:tag_match",

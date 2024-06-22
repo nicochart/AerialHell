@@ -6,7 +6,7 @@
     "targets": [
       {
         "state": {
-          "Name": "aerialhell:stellar_coarse_dirt_ore"
+          "Name": "aerialhell:stellar_coarse_dirt"
         },
         "target": {
           "predicate_type": "minecraft:tag_match",
