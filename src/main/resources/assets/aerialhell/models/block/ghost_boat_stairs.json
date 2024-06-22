@@ -1,5 +1,6 @@
 {
     "parent": "block/stairs",
+    "render_type": "minecraft:translucent",
     "textures": {
         "bottom": "aerialhell:block/ghost_boat_planks",
         "top": "aerialhell:block/ghost_boat_planks",

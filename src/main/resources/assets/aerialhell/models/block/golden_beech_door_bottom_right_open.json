@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/door_bottom_right_open",
+  "render_type": "minecraft:cutout",
   "textures": {
     "bottom": "aerialhell:block/golden_beech_door_bottom",
     "top": "aerialhell:block/golden_beech_door_top"

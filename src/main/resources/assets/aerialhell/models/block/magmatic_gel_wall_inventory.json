@@ -1,5 +1,6 @@
 {
     "parent": "block/wall_inventory",
+    "render_type": "minecraft:translucent",
     "textures": {
         "wall": "aerialhell:block/magmatic_gel_block"
     }

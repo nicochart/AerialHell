@@ -1,5 +1,6 @@
 {
     "ambientocclusion": false,
+    "render_type": "minecraft:cutout",
     "textures": {
         "particle": "aerialhell:block/ruby_bars",
         "bars": "aerialhell:block/ruby_bars",

@@ -1,5 +1,6 @@
 {
     "parent": "aerialhell:block/slab_top_with_tinted_layer",
+    "render_type": "minecraft:cutout",
     "textures": {
         "bottom": "aerialhell:block/stellar_cobblestone",
         "top": "aerialhell:block/stellar_cobblestone",

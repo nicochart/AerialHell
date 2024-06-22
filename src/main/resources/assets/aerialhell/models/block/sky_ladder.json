@@ -1,5 +1,6 @@
 {
     "ambientocclusion": false,
+    "render_type": "minecraft:cutout",
     "textures": {
         "particle": "aerialhell:block/sky_ladder",
         "texture": "aerialhell:block/sky_ladder"

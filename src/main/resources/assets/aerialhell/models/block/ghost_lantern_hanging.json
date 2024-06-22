@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/template_hanging_lantern",
+  "render_type": "minecraft:translucent",
   "textures": {
     "lantern": "aerialhell:block/ghost_lantern"
   }

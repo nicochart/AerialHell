@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/door_top_right_open",
+  "render_type": "minecraft:cutout",
   "textures": {
     "bottom": "aerialhell:block/copper_pine_door_bottom",
     "top": "aerialhell:block/copper_pine_door_top"

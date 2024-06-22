@@ -1,5 +1,6 @@
 {
   "parent": "aerialhell:block/tinted_cross_with_layer",
+  "render_type": "minecraft:cutout",
   "textures": {
     "cross": "aerialhell:block/blossoming_vines",
     "layer": "aerialhell:block/blossoming_vines_blossom"

@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/orientable",
+  "render_type": "minecraft:translucent",
   "textures": {
     "top": "aerialhell:block/ghost_stellar_furnace_top",
     "front": "aerialhell:block/ghost_stellar_furnace_front",

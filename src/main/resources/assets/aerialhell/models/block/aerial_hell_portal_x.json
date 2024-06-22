@@ -1,4 +1,5 @@
 {
+    "render_type": "minecraft:translucent",
     "textures": {
         "particle": "aerialhell:block/aerial_hell_portal",
         "portal": "aerialhell:block/aerial_hell_portal"

@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/cube",
+  "render_type": "minecraft:translucent",
   "textures": {
     "particle": "aerialhell:block/ghost_boat_crafting_table_front",
     "north": "aerialhell:block/ghost_boat_crafting_table_otherside",

@@ -1,6 +1,7 @@
 {
         "parent": "block/block",
 	"credit": "Made with Blockbench",
+        "render_type": "minecraft:cutout",
 	"ambientocclusion": false,
 	"textures": {
 		"texture": "aerialhell:block/stellar_clovers",

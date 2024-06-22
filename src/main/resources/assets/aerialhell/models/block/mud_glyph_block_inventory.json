@@ -1,5 +1,6 @@
 {
   "parent": "aerialhell:block/glyph_block_inventory_base",
+  "render_type": "minecraft:translucent",
   "textures": {
     "all": "aerialhell:block/mud_bricks",
     "glyph": "aerialhell:block/glyph/29"

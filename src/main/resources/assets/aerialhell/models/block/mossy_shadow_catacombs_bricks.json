@@ -1,5 +1,6 @@
 {
   "parent": "aerialhell:block/cube_all_with_tinted_layer",
+  "render_type": "minecraft:cutout",
   "textures": {
     "all": "aerialhell:block/shadow_catacombs_bricks",
     "layer": "aerialhell:block/stellar_moss"

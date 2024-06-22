@@ -1,5 +1,6 @@
 {
     "parent": "block/inner_stairs",
+    "render_type": "minecraft:translucent",
     "textures": {
         "bottom": "aerialhell:block/magmatic_gel_block",
         "top": "aerialhell:block/magmatic_gel_block",

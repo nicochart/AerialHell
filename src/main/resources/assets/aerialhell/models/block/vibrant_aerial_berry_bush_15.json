@@ -1,5 +1,6 @@
 {
     "parent": "block/cross",
+    "render_type": "minecraft:cutout",
     "textures":
     {
         "cross": "aerialhell:block/vibrant_aerial_berry_bush_15"

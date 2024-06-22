@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/template_fence_gate",
+  "render_type": "minecraft:translucent",
   "textures": {
     "texture": "aerialhell:block/ghost_boat_planks"
   }

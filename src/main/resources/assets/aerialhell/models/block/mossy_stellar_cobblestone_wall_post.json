@@ -1,5 +1,6 @@
 {
     "parent": "aerialhell:block/template_wall_post_with_tinted_layer",
+    "render_type": "minecraft:cutout",
     "textures": {
         "wall": "aerialhell:block/stellar_cobblestone",
         "wall_layer": "aerialhell:block/stellar_moss"

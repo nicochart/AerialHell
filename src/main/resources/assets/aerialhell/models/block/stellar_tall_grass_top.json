@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/tinted_cross",
+  "render_type": "minecraft:cutout",
   "textures": {
     "cross": "aerialhell:block/stellar_tall_grass_top"
   }

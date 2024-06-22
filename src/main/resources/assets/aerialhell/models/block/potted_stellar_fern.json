@@ -1,5 +1,6 @@
 {
   "parent": "aerialhell:block/flower_pot_tinted_cross",
+  "render_type": "minecraft:cutout",
   "textures": {
     "plant": "aerialhell:block/stellar_fern"
   }

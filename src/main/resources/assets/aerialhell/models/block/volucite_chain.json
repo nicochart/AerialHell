@@ -1,5 +1,6 @@
 {
     "parent": "block/block",
+    "render_type": "minecraft:cutout_mipped",
     "textures": {
         "particle": "aerialhell:block/volucite_chain",
         "all": "aerialhell:block/volucite_chain"

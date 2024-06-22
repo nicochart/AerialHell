@@ -1,5 +1,6 @@
 {
     "parent": "aerialhell:block/outer_stairs_with_tinted_layer",
+    "render_type": "minecraft:cutout",
     "textures": {
         "bottom": "aerialhell:block/mud_bricks",
         "top": "aerialhell:block/mud_bricks",

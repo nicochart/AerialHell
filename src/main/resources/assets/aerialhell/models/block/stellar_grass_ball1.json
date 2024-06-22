@@ -1,5 +1,6 @@
 {
   "parent": "aerialhell:block/tinted_template_doublecross",
+  "render_type": "minecraft:cutout",
   "textures": {
     "texture": "aerialhell:block/stellar_grass_ball_1"
   }

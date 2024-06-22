@@ -24,8 +24,6 @@ public class AerialHell
     	
         // Register the setup method for modloading
 
-		modEventBus.addListener(AerialHellClientSetup::init);
-
 		if (dist == Dist.CLIENT) {AerialHellClientSetup.init(modEventBus);}
     }
 }

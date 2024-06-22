@@ -1,5 +1,6 @@
 {   "parent": "block/block",
     "ambientocclusion": false,
+    "render_type": "minecraft:cutout",
     "textures": {
         "particle": "aerialhell:block/sky_cactus_side",
         "bottom": "aerialhell:block/sky_cactus_bottom",

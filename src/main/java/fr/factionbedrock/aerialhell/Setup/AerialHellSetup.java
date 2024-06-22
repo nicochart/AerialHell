@@ -13,6 +13,7 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellPaintingVariants;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.NeoForge;
 
 public class AerialHellSetup
 {
@@ -21,6 +22,7 @@ public class AerialHellSetup
         registration(bus);
         bus.addListener(AerialHellSetup::additionalRegistration);
         listen(bus);
+        eventBusListen(NeoForge.EVENT_BUS);
     }
 
     public static void additionalRegistration(final FMLCommonSetupEvent event)
@@ -44,7 +46,6 @@ public class AerialHellSetup
         //AerialHellBiomes.BIOMES.register(bus);
         AerialHellMobEffects.EFFECTS.register(bus);
         AerialHellPOI.POI.register(bus);
-        AerialHellPOI.POI.register(bus);
         AerialHellStructures.STRUCTURES.register(bus);
         AerialHellParticleTypes.PARTICLES.register(bus);
         AerialHellMenuTypes.MENUS.register(bus);
@@ -62,7 +63,7 @@ public class AerialHellSetup
         AerialHellPaintingVariants.PAINTING_TYPES.register(bus);
     }
 
-    public static void listen(IEventBus bus)
+    public static void eventBusListen(IEventBus bus)
     {
         bus.addListener(BlockEventListener::onNeighborNotifyEvent);
         bus.addListener(BlockEventListener::onEntityPlaceEvent);
@@ -73,6 +74,10 @@ public class AerialHellSetup
         bus.addListener(ToolsAndArmorEventListener::onLivingHurtEvent);
         bus.addListener(ToolsAndArmorEventListener::onPlayerHarvest);
         bus.addListener(ToolsAndArmorEventListener::addReach);
+    }
+
+    public static void listen(IEventBus bus)
+    {
         bus.addListener(AerialHellEntities::entitySpawnPlacements);
         bus.addListener(AerialHellEntityAttributes::entityAttributes);
     }

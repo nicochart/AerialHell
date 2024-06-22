@@ -1,5 +1,6 @@
 {
     "parent": "block/slab_top",
+    "render_type": "minecraft:translucent",
     "textures": {
         "bottom": "aerialhell:block/ghost_boat_planks",
         "top": "aerialhell:block/ghost_boat_planks",

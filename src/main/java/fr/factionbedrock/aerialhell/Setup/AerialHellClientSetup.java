@@ -18,8 +18,6 @@ public class AerialHellClientSetup
 {
     public static void init(IEventBus modEventBus)
     {
-    	AerialHellRendering.registerBlockRenderLayers();
-
         //TODO it works ?
         modEventBus.addListener(AerialHellWoodTypes::registerWoodTypes); //AerialHellWoodTypes.registerWoodTypes(event);
         modEventBus.addListener(AerialHellWoodTypes::addWoodTypesToSheets); //AerialHellWoodTypes.addWoodTypesToSheets(event);

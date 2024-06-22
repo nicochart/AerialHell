@@ -1,5 +1,6 @@
 {
   "parent": "aerialhell:block/tinted_double_cross_with_layer",
+  "render_type": "minecraft:cutout",
   "textures": {
     "doublecross": "aerialhell:block/tall_polychrome_fern_top",
     "layer": "aerialhell:block/tall_bluish_fern_top_layer"
