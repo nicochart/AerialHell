@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Event.Listeners.BlockEventListener;
 import fr.factionbedrock.aerialhell.Event.Listeners.LivingEntityEventListener;
 import fr.factionbedrock.aerialhell.Event.Listeners.ToolsAndArmorEventListener;
+import fr.factionbedrock.aerialhell.Recipe.CustomBrewingRecipe;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.AerialHellCreativeModeTabs;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
@@ -74,6 +75,7 @@ public class AerialHellSetup
         bus.addListener(ToolsAndArmorEventListener::onLivingHurtEvent);
         bus.addListener(ToolsAndArmorEventListener::onPlayerHarvest);
         bus.addListener(ToolsAndArmorEventListener::addReach);
+        bus.addListener(CustomBrewingRecipe::addBrewingRecipes);
     }
 
     public static void listen(IEventBus bus)
