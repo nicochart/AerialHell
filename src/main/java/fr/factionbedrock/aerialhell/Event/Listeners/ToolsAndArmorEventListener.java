@@ -43,21 +43,14 @@ public class ToolsAndArmorEventListener
 		Entity collidingEntity = event.getEntity();
 		boolean isLightProjectile = EntityHelper.isLightProjectile(collidingEntity);
 
-		//TODO : try to cancel ?
 		if (event.getRayTraceResult().getType() == HitResult.Type.ENTITY)
 		{
 			Entity hitEntity = ((EntityHitResult) event.getRayTraceResult()).getEntity();
-			if ((hitEntity instanceof ShadowTrollEntity || hitEntity instanceof ShadowAutomatonEntity) && !isLightProjectile)
-			{
-				//event.setImpactResult(ProjectileImpactEvent.ImpactResult.SKIP_ENTITY);
-			}
+			if ((hitEntity instanceof ShadowTrollEntity || hitEntity instanceof ShadowAutomatonEntity) && !isLightProjectile) {event.setCanceled(true);}
 
 			if (EntityHelper.isGhostEntity(hitEntity) && !isLightProjectile)
 			{
-				if (collidingEntity instanceof Projectile projectile && EntityHelper.isImmuneToGhostBlockCollision(projectile.getOwner()))
-				{
-					//event.setImpactResult(ProjectileImpactEvent.ImpactResult.SKIP_ENTITY);
-				}
+				if (collidingEntity instanceof Projectile projectile && EntityHelper.isImmuneToGhostBlockCollision(projectile.getOwner())) {event.setCanceled(true);}
 			}
 		}
 	}

@@ -105,7 +105,7 @@ public class MudCycleMageEntity extends AbstractBossEntity
 	@Override public void tickDyingPhase()
 	{
 		this.timeDying++;
-		if (this.timeDying > timeToDie) {this.tryDying(this.getLastDamageSource());}
+		if (this.timeDying > timeToDie) {this.tryDying(this.lastDamageSource == null ? this.damageSources().generic() : this.lastDamageSource);}
 		if (this.tickCount % 2 == 0) {this.makeRandomRoofBlockFall(2, 8, 2, 13);}
 		this.playSummonParticles(2);
 	}

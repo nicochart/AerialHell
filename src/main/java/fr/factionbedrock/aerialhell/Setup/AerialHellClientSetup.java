@@ -18,10 +18,8 @@ public class AerialHellClientSetup
 {
     public static void init(IEventBus modEventBus)
     {
-        //TODO it works ?
-        modEventBus.addListener(AerialHellWoodTypes::registerWoodTypes); //AerialHellWoodTypes.registerWoodTypes(event);
-        modEventBus.addListener(AerialHellWoodTypes::addWoodTypesToSheets); //AerialHellWoodTypes.addWoodTypesToSheets(event);
-
+        modEventBus.addListener(AerialHellWoodTypes::registerWoodTypes);
+        modEventBus.addListener(AerialHellWoodTypes::addWoodTypesToSheets);
         modEventBus.addListener(BlocksAndItemsColorHandler::handleBlockColors);
         modEventBus.addListener(BlocksAndItemsColorHandler::handleItemColors);
         modEventBus.addListener(RenderRegistrationListener::onRegisterRenderers);

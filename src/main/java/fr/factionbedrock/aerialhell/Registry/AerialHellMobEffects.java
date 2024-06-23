@@ -7,6 +7,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.neoforged.neoforge.common.EffectCure;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -21,4 +22,9 @@ public class AerialHellMobEffects
     public static final DeferredHolder<MobEffect, MobEffect> TRAITOR = EFFECTS.register("traitor", () -> (new AerialHellEffect(MobEffectCategory.HARMFUL, 6501508)));
     public static final DeferredHolder<MobEffect, MobEffect> AERIAL_HELL_PORTAL = EFFECTS.register("aerial_hell_portal", () -> (new AerialHellPortalEffect(MobEffectCategory.NEUTRAL, 8171462)));
     public static final DeferredHolder<MobEffect, MobEffect> AERIAL_HELL_PORTAL_COOLDOWN = EFFECTS.register("aerial_hell_portal_cooldown", () -> (new AerialHellEffect(MobEffectCategory.NEUTRAL, 6501508)));
+
+    public static class Cures
+    {
+        public static final EffectCure SHADOW_FRUIT_STEW = EffectCure.get("shadow_fruit_stew");
+    }
 }

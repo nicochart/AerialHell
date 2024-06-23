@@ -2,7 +2,8 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1,
+      "bonus_rolls": 0.0,
+      "rolls": 1.0,
       "entries": [
         {
           "type": "minecraft:alternatives",
@@ -13,14 +14,14 @@
                 {
                   "condition": "minecraft:match_tool",
                   "predicate": {
-                    "enchantments": [
-                      {
-                        "enchantment": "minecraft:silk_touch",
-                        "levels": {
-                          "min": 1
+                    "predicates": {
+                      "minecraft:enchantments": [
+                        {
+                          "enchantment": "minecraft:silk_touch",
+                          "levels": {"min": 1}
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 }
               ],
@@ -39,5 +40,6 @@
         }
       ]
     }
-  ]
+  ],
+  "random_sequence": "aerialhell:blocks/chiseled_stellar_grass_block"
 }
