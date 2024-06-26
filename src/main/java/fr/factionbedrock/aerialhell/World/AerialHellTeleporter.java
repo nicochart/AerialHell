@@ -22,10 +22,10 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.portal.PortalInfo;
+//import net.minecraft.world.level.portal.PortalInfo;
 import net.minecraft.world.level.portal.PortalShape;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.util.ITeleporter;
+//import net.neoforged.neoforge.common.util.ITeleporter;
 
 import javax.annotation.Nullable;
 import java.util.Comparator;
@@ -58,6 +58,8 @@ import java.util.function.Function;
  * SOFTWARE.
  */
 
+public class AerialHellTeleporter{} //TODO
+/*
 public class AerialHellTeleporter implements ITeleporter
 {
     protected final ServerLevel level;
@@ -256,3 +258,4 @@ public class AerialHellTeleporter implements ITeleporter
         return false;
     }
 }
+*/
