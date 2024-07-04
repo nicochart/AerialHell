@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class EvilCowRender extends MobRenderer<EvilCowEntity, CowModel<EvilCowEntity>>
 {
-    private static final ResourceLocation EVIL_COW_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/evil_cow/evil_cow.png");
+    private static final ResourceLocation EVIL_COW_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/evil_cow/evil_cow.png");
     
     public EvilCowRender(EntityRendererProvider.Context context)
     {

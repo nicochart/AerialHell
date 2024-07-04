@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class BoarRender<T extends BoarEntity> extends MobRenderer<T, BoarModel<T>>
 {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/boar/stellar_boar.png");
+	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/boar/stellar_boar.png");
 
     public BoarRender(EntityRendererProvider.Context context)
 	{

@@ -98,7 +98,7 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleEntity>
 		model.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount; model.yRot = 0.0F;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 
 		if(isChild)
@@ -108,14 +108,14 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleEntity>
 		}
 		poseStack.pushPose();
 
-		Head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		Body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		WingRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		WingLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		LegFrontRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		LegFrontLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		LegBackRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		LegBackLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		Head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		Body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		WingRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		WingLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		LegFrontRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		LegFrontLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		LegBackRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		LegBackLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		poseStack.popPose();
 	}
 }

@@ -11,6 +11,8 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 
+import java.awt.*;
+
 public class ShadowAutomatonShadowLayer<T extends AutomatonEntity, M extends EmptyModel<T>> extends RenderLayer<T,M>
 {
    private final AutomatonModel<T> shadowAutomatonModel;
@@ -29,7 +31,7 @@ public class ShadowAutomatonShadowLayer<T extends AutomatonEntity, M extends Emp
          this.shadowAutomatonModel.prepareMobModel(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks);
          this.shadowAutomatonModel.setupAnim(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
          VertexConsumer consumer = bufferIn.getBuffer(RenderType.entityTranslucent(this.getTextureLocation(entitylivingbaseIn)));
-         this.shadowAutomatonModel.renderToBuffer(matrixStackIn, consumer, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+         this.shadowAutomatonModel.renderToBuffer(matrixStackIn, consumer, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB());
       }
    }
 }

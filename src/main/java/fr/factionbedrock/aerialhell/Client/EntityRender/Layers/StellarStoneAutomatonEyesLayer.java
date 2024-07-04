@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 public class StellarStoneAutomatonEyesLayer<T extends AutomatonEntity, M extends AutomatonModel<T>> extends EyesLayer<T, M>
 {
 	private static String name = "stellar_stone_automaton";
-    private static final RenderType TEXTURE = RenderType.eyes(new ResourceLocation(AerialHell.MODID, "textures/entity/automaton/" + name + "_eyes.png"));
+    private static final RenderType TEXTURE = RenderType.eyes(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/automaton/" + name + "_eyes.png"));
 
     public StellarStoneAutomatonEyesLayer(RenderLayerParent<T, M> layerParent) {super(layerParent);}
 

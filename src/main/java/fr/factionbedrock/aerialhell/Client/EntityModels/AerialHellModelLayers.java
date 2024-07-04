@@ -40,6 +40,6 @@ public class AerialHellModelLayers
 
     private static ModelLayerLocation createModelLayerLocation(String id, String layer)
     {
-        return new ModelLayerLocation(new ResourceLocation(AerialHell.MODID, id), layer);
+        return new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, id), layer);
     }
 }

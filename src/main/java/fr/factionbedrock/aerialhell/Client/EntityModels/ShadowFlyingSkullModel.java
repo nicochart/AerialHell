@@ -62,11 +62,11 @@ public class ShadowFlyingSkullModel<T extends ShadowFlyingSkullEntity> extends E
 		this.rightWing.zRot = 0.47123894F;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
-		skull.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftWing.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightWing.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		jaw.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		skull.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leftWing.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		rightWing.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		jaw.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 }

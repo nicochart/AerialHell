@@ -123,7 +123,7 @@ public class AerialHellTags
 
 		private static TagKey<Block> tag(String name)
 		{
-			return BlockTags.create(new ResourceLocation(AerialHell.MODID, name));
+			return BlockTags.create(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 
@@ -168,7 +168,7 @@ public class AerialHellTags
 
 		private static TagKey<Item> tag(String name)
 		{
-			return ItemTags.create(new ResourceLocation(AerialHell.MODID, name));
+			return ItemTags.create(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 
@@ -179,7 +179,7 @@ public class AerialHellTags
 
 		private static TagKey<Fluid> tag(String name)
 		{
-			return FluidTags.create(new ResourceLocation(AerialHell.MODID, name));
+			return FluidTags.create(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 

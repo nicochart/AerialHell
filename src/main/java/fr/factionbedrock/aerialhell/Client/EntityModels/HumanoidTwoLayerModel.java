@@ -90,20 +90,20 @@ public class HumanoidTwoLayerModel<T extends AbstractHumanoidMonster> extends En
 		right.yRot = 0.0F;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
-		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		head_overlay.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		body_overlay.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftArm_overlay.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightArm_overlay.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftLeg_overlay.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightLeg_overlay.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		head_overlay.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		body_overlay.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leftArm_overlay.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		rightArm_overlay.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leftLeg_overlay.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		rightLeg_overlay.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 
 	@Override public void translateToHand(HumanoidArm arm, PoseStack stack)

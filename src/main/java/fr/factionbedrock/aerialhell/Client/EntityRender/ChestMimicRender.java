@@ -11,11 +11,11 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ChestMimicRender<T extends AbstractChestMimicEntity> extends MobRenderer<T, ChestMimicModel<T>>
 {	
-	private static final ResourceLocation OVERWORLD_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/chest_mimic/overworld.png");
-	private static final ResourceLocation AERIAL_TREE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/chest_mimic/aerial_tree.png");
-	private static final ResourceLocation SKY_CACTUS_FIBER_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/chest_mimic/sky_cactus_fiber.png");
-	private static final ResourceLocation GOLDEN_BEECH_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/chest_mimic/golden_beech.png");
-	private static final ResourceLocation COPPER_PINE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/chest_mimic/copper_pine.png");
+	private static final ResourceLocation OVERWORLD_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/chest_mimic/overworld.png");
+	private static final ResourceLocation AERIAL_TREE_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/chest_mimic/aerial_tree.png");
+	private static final ResourceLocation SKY_CACTUS_FIBER_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/chest_mimic/sky_cactus_fiber.png");
+	private static final ResourceLocation GOLDEN_BEECH_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/chest_mimic/golden_beech.png");
+	private static final ResourceLocation COPPER_PINE_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/chest_mimic/copper_pine.png");
 	
 	public ChestMimicRender(EntityRendererProvider.Context context)
 	{

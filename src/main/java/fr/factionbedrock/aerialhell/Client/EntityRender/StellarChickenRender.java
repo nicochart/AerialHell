@@ -11,7 +11,7 @@ import net.minecraft.util.Mth;
 
 public class StellarChickenRender extends MobRenderer<StellarChickenEntity, StellarChickenModel<StellarChickenEntity>>
 {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/stellar_chicken/stellar_chicken.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/stellar_chicken/stellar_chicken.png");
 
     public StellarChickenRender(EntityRendererProvider.Context context)
     {

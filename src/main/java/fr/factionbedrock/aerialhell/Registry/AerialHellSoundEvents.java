@@ -138,6 +138,6 @@ public class AerialHellSoundEvents
 	
 	private static DeferredHolder<SoundEvent, SoundEvent> register(String name)
 	{
-		return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(AerialHell.MODID, name)));
+		return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name)));
 	}
 }

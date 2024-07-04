@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class SpiderBarrelMimicRender<T extends AbstractBarrelMimicEntity> extends MobRenderer<T, SpiderBarrelMimicModel<T>>
 {
-	private static final ResourceLocation SHADOW_PINE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/barrel_mimic/shadow_pine.png");
+	private static final ResourceLocation SHADOW_PINE_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/barrel_mimic/shadow_pine.png");
 
 	public SpiderBarrelMimicRender(EntityRendererProvider.Context context)
 	{

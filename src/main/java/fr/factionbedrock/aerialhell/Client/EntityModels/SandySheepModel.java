@@ -113,7 +113,7 @@ public class SandySheepModel extends EntityModel<SandySheepEntity>
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		if(isChild)
 		{
@@ -122,20 +122,20 @@ public class SandySheepModel extends EntityModel<SandySheepEntity>
 		}
 		poseStack.pushPose();
 
-		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightFrontLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightBackLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftFrontLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftBackLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		rightFrontLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		rightBackLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leftFrontLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leftBackLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		if (this.hasWool)
 		{
-			rightFrontLegCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-			rightBackLegCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-			leftFrontLegCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-			leftBackLegCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-			headCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-			bodyCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+			rightFrontLegCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+			rightBackLegCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+			leftFrontLegCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+			leftBackLegCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+			headCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+			bodyCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		}
 		poseStack.popPose();
 	}

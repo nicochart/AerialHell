@@ -63,18 +63,18 @@ public class CrystalSlimeModel extends EntityModel<CrystalSlimeEntity>
 
 	@Override public void setupAnim(CrystalSlimeEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		if (isGelAndCrystal)
 		{
-			cube.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-			crystal.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+			cube.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+			crystal.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		}
 		else
 		{
-			eye0.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-			eye1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-			mouth.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+			eye0.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+			eye1.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+			mouth.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		}
 	}
 }

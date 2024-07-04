@@ -19,13 +19,13 @@ import net.minecraft.resources.ResourceLocation;
 public class RenderListener
 {
     //TODO work on that
-    private static final ResourceLocation VULNERABLE_OVERLAY = new ResourceLocation(AerialHell.MODID, "textures/misc/vulnerability_blur.png");
-    private static final ResourceLocation VULNERABLE_HEART = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_hearts.png");
-    private static final ResourceLocation VULNERABLE_HEART_WITH_BORDER = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_hearts_with_border.png");
-    private static final ResourceLocation VULNERABLE_HALF_HEART = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_half_hearts.png");
-    private static final ResourceLocation VULNERABLE_HALF_HEART_WITH_BORDER = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_half_hearts_with_border.png");
-    private static final ResourceLocation VULNERABLE_EMPTY_HEART = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts.png");
-    private static final ResourceLocation VULNERABLE_EMPTY_HEART_WITH_BORDER = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts_with_border.png");
+    private static final ResourceLocation VULNERABLE_OVERLAY = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/misc/vulnerability_blur.png");
+    private static final ResourceLocation VULNERABLE_HEART = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_hearts.png");
+    private static final ResourceLocation VULNERABLE_HEART_WITH_BORDER = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_hearts_with_border.png");
+    private static final ResourceLocation VULNERABLE_HALF_HEART = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_half_hearts.png");
+    private static final ResourceLocation VULNERABLE_HALF_HEART_WITH_BORDER = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_half_hearts_with_border.png");
+    private static final ResourceLocation VULNERABLE_EMPTY_HEART = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts.png");
+    private static final ResourceLocation VULNERABLE_EMPTY_HEART_WITH_BORDER = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts_with_border.png");
 
     private static final int HEART_ICON_WIDTH = 9;
     private static final int HEART_ICON_HEIGHT = 9;

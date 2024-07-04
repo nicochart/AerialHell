@@ -77,11 +77,11 @@ public class TornSpiritModel extends EntityModel<TornSpiritEntity>
 		this.leftArm.xRot = (-0.2F - 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 }

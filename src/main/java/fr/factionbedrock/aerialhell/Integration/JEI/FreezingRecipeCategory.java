@@ -22,7 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 public class FreezingRecipeCategory implements IRecipeCategory<FreezingRecipe>
 {
 	public static final RecipeType<FreezingRecipe> FREEZING = RecipeType.create(AerialHell.MODID, "freezing", FreezingRecipe.class);
-	public final static ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/gui/container/freezer.png");
+	public final static ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/container/freezer.png");
 	
 	private final IDrawable background;
 	private final IDrawable icon;

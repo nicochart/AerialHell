@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class CrystalSlimeRender extends MobRenderer<CrystalSlimeEntity, CrystalSlimeModel>
 {	
-	private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/crystal_slime/crystal_slime.png");
+	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/crystal_slime/crystal_slime.png");
 	
 	public CrystalSlimeRender(EntityRendererProvider.Context context)
 	{

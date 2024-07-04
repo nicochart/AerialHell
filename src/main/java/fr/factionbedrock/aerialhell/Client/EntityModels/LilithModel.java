@@ -90,15 +90,15 @@ public class LilithModel extends EntityModel<LilithEntity>
 		this.legRight.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount; this.legRight.yRot = 0.0F;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
-		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		wingRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		wingLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		legLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		legRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		armLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		armRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		wingRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		wingLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		legLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		legRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		armLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		armRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 }

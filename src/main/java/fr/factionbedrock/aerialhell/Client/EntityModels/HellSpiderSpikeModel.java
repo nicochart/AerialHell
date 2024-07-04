@@ -57,9 +57,9 @@ public class HellSpiderSpikeModel<T extends Spider> extends EntityModel<T>//Spid
 		this.headSpikes.xRot = headPitch * ((float)Math.PI / 180F);
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
-		bodySpikes.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		headSpikes.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		bodySpikes.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		headSpikes.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 }

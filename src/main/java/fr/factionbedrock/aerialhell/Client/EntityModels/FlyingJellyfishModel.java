@@ -75,15 +75,15 @@ public class FlyingJellyfishModel<J extends FlyingJellyfishEntity> extends Entit
 		this.tentacles_6.xRot = 0.2F * Mth.sin(ageInTicks * 0.3F + 6.0F) + 0.4F;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
-		tentacles_0.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		tentacles_1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		tentacles_2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		tentacles_3.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		tentacles_4.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		tentacles_5.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		tentacles_6.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		tentacles_0.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		tentacles_1.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		tentacles_2.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		tentacles_3.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		tentacles_4.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		tentacles_5.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		tentacles_6.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 }

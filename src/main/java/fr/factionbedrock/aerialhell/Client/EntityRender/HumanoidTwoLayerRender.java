@@ -21,11 +21,11 @@ import javax.annotation.Nullable;
 
 public class HumanoidTwoLayerRender extends MobRenderer<AbstractHumanoidMonster, HumanoidTwoLayerModel<AbstractHumanoidMonster>>
 {
-    private static final ResourceLocation SLIME_PIRATE = new ResourceLocation(AerialHell.MODID, "textures/entity/pirate/slime.png");
-    private static final ResourceLocation SLIME_NINJA_PIRATE = new ResourceLocation(AerialHell.MODID, "textures/entity/pirate/slime_ninja.png");
-    private static final ResourceLocation GHOST_PIRATE = new ResourceLocation(AerialHell.MODID, "textures/entity/pirate/ghost.png");
-    private static final ResourceLocation GHOST_NINJA_PIRATE = new ResourceLocation(AerialHell.MODID, "textures/entity/pirate/ghost_ninja.png");
-    private static final ResourceLocation MUMMY = new ResourceLocation(AerialHell.MODID, "textures/entity/mummy/mummy.png");
+    private static final ResourceLocation SLIME_PIRATE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/slime.png");
+    private static final ResourceLocation SLIME_NINJA_PIRATE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/slime_ninja.png");
+    private static final ResourceLocation GHOST_PIRATE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/ghost.png");
+    private static final ResourceLocation GHOST_NINJA_PIRATE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/ghost_ninja.png");
+    private static final ResourceLocation MUMMY = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/mummy/mummy.png");
 
     public HumanoidTwoLayerRender(EntityRendererProvider.Context context)
     {

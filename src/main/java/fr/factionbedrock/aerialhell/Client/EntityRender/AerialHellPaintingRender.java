@@ -36,7 +36,7 @@ public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingE
         poseStack.scale(0.0625F, 0.0625F, 0.0625F);
         VertexConsumer vertexconsumer = bufferSource.getBuffer(RenderType.entitySolid(this.getTextureLocation(entity)));
         PaintingTextureManager paintingtexturemanager = Minecraft.getInstance().getPaintingTextures();
-        this.renderPainting(poseStack, vertexconsumer, entity, paintingvariant.getWidth(), paintingvariant.getHeight(), paintingtexturemanager.get(paintingvariant), paintingtexturemanager.getBackSprite());
+        this.renderPainting(poseStack, vertexconsumer, entity, paintingvariant.width(), paintingvariant.height(), paintingtexturemanager.get(paintingvariant), paintingtexturemanager.getBackSprite());
         poseStack.popPose();
         super.render(entity, p_115553_, p_115554_, poseStack, bufferSource, p_115557_);
     }
@@ -118,8 +118,8 @@ public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingE
         }
     }
 
-    private void vertex(PoseStack.Pose p_329838_, VertexConsumer p_254114_, float p_254164_, float p_254459_, float p_254183_, float p_253615_, float p_254448_, int p_253660_, int p_254342_, int p_253757_, int p_254101_)
+    private void vertex(PoseStack.Pose pose, VertexConsumer vertexConsumer, float x, float y, float u, float v, float z, int normalX, int normalY, int normalZ, int packedLight)
     {
-        p_254114_.vertex(p_329838_, p_254164_, p_254459_, p_254448_).color(255, 255, 255, 255).uv(p_254183_, p_253615_).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(p_254101_).normal(p_329838_, (float)p_253660_, (float)p_254342_, (float)p_253757_).endVertex();
+        vertexConsumer.addVertex(pose, x, y, z).setColor(-1).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(pose, (float)normalX, (float)normalY, (float)normalZ);
     }
 }

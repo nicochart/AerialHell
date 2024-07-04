@@ -45,7 +45,7 @@ public class AerialHellBiomes
 
 	private static ResourceKey<Biome> makeBiomeKey(String name)
 	{
-		return ResourceKey.create(Registries.BIOME, new ResourceLocation(AerialHell.MODID, name));
+		return ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
 	}
 }
 */

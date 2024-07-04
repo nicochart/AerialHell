@@ -10,8 +10,8 @@ import net.minecraft.world.entity.monster.AbstractSkeleton;
 public class MudSoldierRender extends SkeletonRenderer
 {
 	private static String name = "mud_soldier";
-	private static final ResourceLocation NORMAL = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
-	private static final ResourceLocation SPECTRAL = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name + "/mud_spectral_soldier.png");
+	private static final ResourceLocation NORMAL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
+	private static final ResourceLocation SPECTRAL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/mud_spectral_soldier.png");
 	
     public MudSoldierRender(EntityRendererProvider.Context context)
 	{

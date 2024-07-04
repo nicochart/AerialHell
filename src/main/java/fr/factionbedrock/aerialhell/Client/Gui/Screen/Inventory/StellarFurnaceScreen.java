@@ -11,9 +11,9 @@ import net.minecraft.network.chat.Component;
 
 public class StellarFurnaceScreen extends AbstractFurnaceScreen<StellarFurnaceMenu>
 {
-	private static final ResourceLocation STELLAR_FURNACE_GUI_TEXTURES = new ResourceLocation(AerialHell.MODID, "textures/gui/container/stellar_furnace.png");
-	private static final ResourceLocation LIT_PROGRESS_SPRITE = new ResourceLocation("container/furnace/lit_progress");
-	private static final ResourceLocation BURN_PROGRESS_SPRITE = new ResourceLocation("container/furnace/burn_progress");
+	private static final ResourceLocation STELLAR_FURNACE_GUI_TEXTURES = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/container/stellar_furnace.png");
+	private static final ResourceLocation LIT_PROGRESS_SPRITE = ResourceLocation.parse("container/furnace/lit_progress");
+	private static final ResourceLocation BURN_PROGRESS_SPRITE = ResourceLocation.parse("container/furnace/burn_progress");
 
 	public StellarFurnaceScreen(StellarFurnaceMenu container, Inventory inventory, Component name)
 	{

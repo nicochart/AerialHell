@@ -13,8 +13,8 @@ import net.minecraft.resources.ResourceLocation;
 public class FlyingJellyfishRender<J extends FlyingJellyfishEntity> extends MobRenderer<J, FlyingJellyfishModel<J>>
 {	
 	private static String name = "flying_jellyfish";
-	private static final ResourceLocation JELLYFISH = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
-	private static final ResourceLocation JELLYFISH_SHOOTING = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name +"/" + name + "_shooting.png");
+	private static final ResourceLocation JELLYFISH = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
+	private static final ResourceLocation JELLYFISH_SHOOTING = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + "_shooting.png");
 	
 	public FlyingJellyfishRender(EntityRendererProvider.Context context)
 	{

@@ -91,13 +91,13 @@ public class LunaticPriestModel extends EntityModel<LunaticPriestEntity>
 		this.leg1.yRot = 0.0F;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		arm0.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		arm1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leg0.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leg1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		arm0.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		arm1.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leg0.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leg1.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 }

@@ -73,14 +73,14 @@ public class ElementSpiritModel<T extends AbstractElementSpiritEntity> extends E
 		this.rightLeg.yRot = 0.0F;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
-		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		headShard.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		headShard.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 }

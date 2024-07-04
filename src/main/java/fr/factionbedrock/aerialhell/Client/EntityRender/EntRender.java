@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class EntRender<E extends EntEntity> extends MobRenderer<E, EntModel<E>>
 {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/ent/stellar_ent.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/ent/stellar_ent.png");
 
     public EntRender(EntityRendererProvider.Context context)
     {

@@ -9,6 +9,8 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 
+import java.awt.*;
+
 // Made with Blockbench 4.8.3
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
@@ -31,7 +33,7 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 	private boolean isEmpty;
 	private int faceId;
 	private long dayTime;
-	private float forcedAlphaBonus;
+	private int forcedAlphaBonus;
 
 	public KodamaModel(ModelPart root, boolean isEmpty)
 	{
@@ -49,7 +51,7 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 		this.leg0 = root.getChild("leg0");
 		this.leg1 = root.getChild("leg1");
 		this.isEmpty = isEmpty;
-		this.forcedAlphaBonus = 0.0F;
+		this.forcedAlphaBonus = 0;
 	}
 
 	public static LayerDefinition createBodyLayer()
@@ -130,30 +132,39 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 		return this.getMaxHeadZRot(entity) * entity.getRattlingTiltAngle() / entity.getMaxRattlingTiltAngle();
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	//TODO verify
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		if (this.isEmpty) {}
 		else
 		{
-			float a = this.forcedAlphaBonus > 0.0F ? alpha - this.forcedAlphaBonus : alpha - getAlphaBonus();
+			Color color = new Color(tint, true);
+			int red = color.getRed(), green = color.getGreen(), blue = color.getBlue(), alpha = color.getAlpha();
 
-			if (this.faceId == 1) {face_1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
-			else if (this.faceId == 2) {face_2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
-			else if (this.faceId == 3) {face_3.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
-			else if (this.faceId == 4) {face_4.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
-			else if (this.faceId == 5) {face_5.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
-			else if (this.faceId == 6) {face_6.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
-			else if (this.faceId == 7) {face_7.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
+			int a = this.forcedAlphaBonus > 0 ? alpha - this.forcedAlphaBonus : alpha - getAlphaBonus();
 
-			float r=red,g=green,b=blue;
-			r-=getBlueBonus(); g-=getBlueBonus()/10;
-			body.render(poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
-			head.render(poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
-			arm0.render(poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
-			arm1.render(poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
-			leg0.render(poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
-			leg1.render(poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
+			if (this.faceId == 1) {render(face_1, poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
+			else if (this.faceId == 2) {render(face_2, poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
+			else if (this.faceId == 3) {render(face_3, poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
+			else if (this.faceId == 4) {render(face_4, poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
+			else if (this.faceId == 5) {render(face_5, poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
+			else if (this.faceId == 6) {render(face_6, poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
+			else if (this.faceId == 7) {render(face_7, poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, a);}
+
+			int r=red,g=green,b=blue;
+			r-= (int) (255 * getBlueBonus()); g-= (int) (255 * getBlueBonus()/10);
+			render(body, poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
+			render(head, poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
+			render(arm0, poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
+			render(arm1, poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
+			render(leg0, poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
+			render(leg1, poseStack, vertexConsumer, 255, packedOverlay, r, g, b, a);
 		}
+	}
+
+	private static void render(ModelPart modelPart, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int r, int g, int b, int alpha)
+	{
+		modelPart.render(poseStack, vertexConsumer, packedLight, packedOverlay, new Color(r, g, b, alpha).getRGB());
 	}
 
 	private float getBlueBonus()
@@ -177,32 +188,32 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 		else {return 0.0F;}
 	}
 
-	private float getAlphaBonus()
+	private int getAlphaBonus()
 	{
 		if (this.dayTime <= 13000)
 		{
-			if (this.dayTime < 1000) {return (float)this.dayTime/1000;}
-			else if (this.dayTime >= 1000 && this.dayTime <= 12000) {return 1.0f;}
-			else {return ((float)13000 - this.dayTime)/1000;}
+			if (this.dayTime < 1000) {return (int) (this.dayTime/1000F * 255);}
+			else if (this.dayTime >= 1000 && this.dayTime <= 12000) {return 255;}
+			else {return (int) (((13000 - this.dayTime)/1000F) * 255);}
 		}
-		else {return 0.0F;}
+		else {return 0;}
 	}
 
-	private float getForcedAlphaBonus(T entity)
+	private int getForcedAlphaBonus(T entity)
 	{
 		if (entity.timeForceInvisible > 0)
 		{
 			int transitionTime = entity.getMaxTimeForceInvisible() / 10;
 			if (entity.timeForceInvisible > entity.getMaxTimeForceInvisible() - transitionTime)
 			{
-				return (float) (entity.getMaxTimeForceInvisible() - entity.timeForceInvisible) / transitionTime;
+				return (int) (255 * (float) (entity.getMaxTimeForceInvisible() - entity.timeForceInvisible) / transitionTime);
 			}
-			else if (entity.timeForceInvisible > transitionTime) {return 1.0F;}
+			else if (entity.timeForceInvisible > transitionTime) {return 255;}
 			else //if (0 < entity.timeForceInvisible < transitionTime)
 			{
-				return (float) entity.timeForceInvisible / transitionTime;
+				return (int) (255 * (float) entity.timeForceInvisible / transitionTime);
 			}
 		}
-		else {return 0.0F;}
+		else {return 0;}
 	}
 }

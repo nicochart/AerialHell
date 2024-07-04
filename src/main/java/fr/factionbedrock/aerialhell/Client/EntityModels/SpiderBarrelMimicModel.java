@@ -106,16 +106,16 @@ public class SpiderBarrelMimicModel<T extends AbstractBarrelMimicEntity> extends
 		leg7.zRot += -f10;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
-		body0.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leg0.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leg1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leg2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leg3.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leg4.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leg5.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leg6.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leg7.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		body0.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leg0.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leg1.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leg2.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leg3.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leg4.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leg5.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leg6.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leg7.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 }

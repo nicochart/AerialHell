@@ -27,7 +27,7 @@ public class AerialHellJei implements IModPlugin
     public RecipeType<FreezingRecipe> FREEZING = RecipeType.create(AerialHell.MODID, "freezing", FreezingRecipe.class);
 
     @Override
-	public ResourceLocation getPluginUid() {return new ResourceLocation(AerialHell.MODID, "jei_plugin");}
+	public ResourceLocation getPluginUid() {return ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "jei_plugin");}
 
 	@Override
     public void registerCategories(IRecipeCategoryRegistration registration)

@@ -11,8 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 public class LilithRender extends MobRenderer<LilithEntity, LilithModel>
 {
 	private static String name = "lilith";
-    private static final ResourceLocation LILITH = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
-    private static final ResourceLocation EVIL_LILITH = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name +"/" + name + "_evil.png");
+    private static final ResourceLocation LILITH = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
+    private static final ResourceLocation EVIL_LILITH = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + "_evil.png");
 	
     public LilithRender(EntityRendererProvider.Context context)
 	{

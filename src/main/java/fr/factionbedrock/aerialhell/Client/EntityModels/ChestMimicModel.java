@@ -72,11 +72,11 @@ public class ChestMimicModel<T extends AbstractChestMimicEntity> extends EntityM
 		this.leftLeg.zRot = 0.0F;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
-		chestDown.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		chestUp.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		chestDown.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		chestUp.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 }

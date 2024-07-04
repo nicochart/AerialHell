@@ -22,7 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 public class OscillatingRecipeCategory implements IRecipeCategory<OscillatingRecipe>
 {
 	public static final RecipeType<OscillatingRecipe> OSCILLATING = RecipeType.create(AerialHell.MODID, "oscillating", OscillatingRecipe.class);
-	public final static ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/gui/container/oscillator.png");
+	public final static ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/container/oscillator.png");
 
 	private final IDrawable background;
 	private final IDrawable icon;

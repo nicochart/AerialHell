@@ -19,7 +19,7 @@ public class StellarChickenModel<T extends StellarChickenEntity> extends Chicken
     private final ModelPart leftWing;
     private final ModelPart beak;
     private final ModelPart redThing;
-    private float chickenRed, chickenGreen, chickenBlue;
+    Color chickenColor;
 
     public StellarChickenModel(ModelPart modelPart)
     {
@@ -41,13 +41,12 @@ public class StellarChickenModel<T extends StellarChickenEntity> extends Chicken
 
     @Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
     {
-        Color color = new Color(entity.getColor());
-        chickenRed = color.getRed() / 255.0F; chickenGreen = color.getGreen() / 255.0F; chickenBlue = color.getBlue() / 255.0F;
+        chickenColor = new Color(entity.getColor());
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     }
 
     //Copy of net.minecraft.client.model.AgeableListModel.renderToBuffer(...) but editing colors (r,g,b) for some model parts
-    @Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+    @Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
     {
         float babyYHeadOffset = 5.0F, babyZHeadOffset = 2.0F, babyBodyScale = 2.0F, bodyYOffset = 24.0F;
 
@@ -56,23 +55,23 @@ public class StellarChickenModel<T extends StellarChickenEntity> extends Chicken
             poseStack.pushPose();
 
             poseStack.translate(0.0F, babyYHeadOffset / 16.0F, babyZHeadOffset / 16.0F);
-            this.coloredHeadParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, chickenRed, chickenGreen, chickenBlue, alpha);});
-            this.uncoloredHeadParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);});
+            this.coloredHeadParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, chickenColor.getRGB());});
+            this.uncoloredHeadParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);});
             poseStack.popPose();
             poseStack.pushPose();
             float f1 = 1.0F / babyBodyScale;
             poseStack.scale(f1, f1, f1);
             poseStack.translate(0.0F, bodyYOffset / 16.0F, 0.0F);
-            this.coloredBodyParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, chickenRed, chickenGreen, chickenBlue, alpha);});
-            this.uncoloredBodyParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);});
+            this.coloredBodyParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, chickenColor.getRGB());});
+            this.uncoloredBodyParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);});
             poseStack.popPose();
         }
         else
         {
-            this.coloredHeadParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, chickenRed, chickenGreen, chickenBlue, alpha);});
-            this.uncoloredHeadParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);});
-            this.coloredBodyParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, chickenRed, chickenGreen, chickenBlue, alpha);});
-            this.uncoloredBodyParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);});
+            this.coloredHeadParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, chickenColor.getRGB());});
+            this.uncoloredHeadParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);});
+            this.coloredBodyParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, chickenColor.getRGB());});
+            this.uncoloredBodyParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);});
         }
 
     }

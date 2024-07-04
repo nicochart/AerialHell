@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 public class FatPhantomRender extends MobRenderer<FatPhantomEntity, PhantomModel<FatPhantomEntity>>
 {
 	private static String name = "fat_phantom";
-	private static final ResourceLocation FAT_PHANTOM_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
+	private static final ResourceLocation FAT_PHANTOM_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
 
 	public FatPhantomRender(EntityRendererProvider.Context context)
 	{

@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ShadowFlyingSkullRender<T extends ShadowFlyingSkullEntity> extends MobRenderer<T, ShadowFlyingSkullModel<T>>
 {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/flying_skull/shadow_flying_skull.png");
+	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/flying_skull/shadow_flying_skull.png");
 
 	public ShadowFlyingSkullRender(EntityRendererProvider.Context context)
 	{

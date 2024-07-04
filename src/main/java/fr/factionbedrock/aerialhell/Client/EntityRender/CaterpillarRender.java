@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 public class CaterpillarRender<T extends AbstractCaterpillarEntity> extends MobRenderer<T, ForestCaterpillarModel<T>>
 {
 	private static String name_crystal = "crystal_caterpillar";
-	private static final ResourceLocation CRYSTAL = new ResourceLocation(AerialHell.MODID, "textures/entity/caterpillar/" + name_crystal + ".png");
+	private static final ResourceLocation CRYSTAL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/caterpillar/" + name_crystal + ".png");
 
     public CaterpillarRender(EntityRendererProvider.Context context)
 	{

@@ -14,9 +14,9 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ElementSpiritRender<T extends AbstractElementSpiritEntity> extends MobRenderer<T, ElementSpiritModel<T>>
 {
-	private static final ResourceLocation ICE_SPIRIT_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/element_spirit/ice_spirit.png");
-	private static final ResourceLocation FIRE_SPIRIT_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/element_spirit/fire_spirit.png");
-	private static final ResourceLocation ELECTRO_SPIRIT_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/element_spirit/electro_spirit.png");
+	private static final ResourceLocation ICE_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/element_spirit/ice_spirit.png");
+	private static final ResourceLocation FIRE_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/element_spirit/fire_spirit.png");
+	private static final ResourceLocation ELECTRO_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/element_spirit/electro_spirit.png");
 	
     public ElementSpiritRender(EntityRendererProvider.Context context)
 	{

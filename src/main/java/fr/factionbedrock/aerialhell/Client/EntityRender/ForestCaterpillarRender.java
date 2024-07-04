@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 public class ForestCaterpillarRender<T extends AbstractCaterpillarEntity> extends MobRenderer<T, ForestCaterpillarModel<T>>
 {
 	private static String name_forest = "forest_caterpillar";
-	private static final ResourceLocation FOREST = new ResourceLocation(AerialHell.MODID, "textures/entity/caterpillar/" + name_forest + ".png");
+	private static final ResourceLocation FOREST = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/caterpillar/" + name_forest + ".png");
 
     public ForestCaterpillarRender(EntityRendererProvider.Context context)
 	{

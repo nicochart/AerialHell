@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 public class SandySheepRender extends MobRenderer<SandySheepEntity, SandySheepModel>
 {
 	private static String name = "sandy_sheep";
-    private static final ResourceLocation SANDYSHEEP_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/"+ name +"/" + name + ".png");
+    private static final ResourceLocation SANDYSHEEP_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/"+ name +"/" + name + ".png");
     
     public SandySheepRender(EntityRendererProvider.Context context)
     {

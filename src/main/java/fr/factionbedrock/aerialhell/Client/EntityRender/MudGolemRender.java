@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 public class MudGolemRender extends MobRenderer<MudGolemEntity, MudGolemModel<MudGolemEntity>>
 {
 	private static String name = "mud_golem";
-    private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
 
     public MudGolemRender(EntityRendererProvider.Context context)
     {

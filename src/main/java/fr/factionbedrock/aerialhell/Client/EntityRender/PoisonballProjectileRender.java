@@ -16,7 +16,7 @@ import org.joml.Matrix4f;
 
 public class PoisonballProjectileRender extends EntityRenderer<PoisonballEntity>
 {
-    public static final ResourceLocation POISONBALL = new ResourceLocation(AerialHell.MODID, "textures/entity/projectile/poisonball.png");
+    public static final ResourceLocation POISONBALL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/poisonball.png");
 
     public PoisonballProjectileRender(EntityRendererProvider.Context context)
     {
@@ -46,8 +46,8 @@ public class PoisonballProjectileRender extends EntityRenderer<PoisonballEntity>
         return POISONBALL;
     }
 
-    private static void vertex(VertexConsumer vertex, PoseStack.Pose poseStack, int offsetX, float offsetY, int offsetZ, int textureX, int textureY)
+    private static void vertex(VertexConsumer vertexConsumer, PoseStack.Pose poseStack, int packedLight, float x, int y, int u, int v)
     {
-        vertex.vertex(poseStack, offsetY - 0.5F, (float)offsetZ - 0.25F, 0.0F).color(255, 255, 255, 255).uv((float)textureX, (float)textureY).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(offsetX).normal(poseStack, 0.0F, 1.0F, 0.0F).endVertex();
+        vertexConsumer.addVertex(poseStack, x - 0.5F, (float)y - 0.25F, 0.0F).setColor(-1).setUv((float)u, (float)v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(poseStack, 0.0F, 1.0F, 0.0F);
     }
 }

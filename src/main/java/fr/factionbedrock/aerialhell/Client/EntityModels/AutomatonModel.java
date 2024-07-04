@@ -84,13 +84,13 @@ public class AutomatonModel<T extends AutomatonEntity> extends EmptyModel<T>
 		this.rightLeg.xRot = Mth.cos(limbSwing * 0.7F + (float)Math.PI) * 1.4F * limbSwingAmount;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 }

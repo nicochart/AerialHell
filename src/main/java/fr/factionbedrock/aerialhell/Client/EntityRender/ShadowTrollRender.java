@@ -13,8 +13,8 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ShadowTrollRender extends MobRenderer<ShadowTrollEntity, ShadowTrollModel>
 {	
-	private static final ResourceLocation TEXTURE_NORMAL = new ResourceLocation(AerialHell.MODID, "textures/entity/shadow_troll/shadow_troll.png");
-	private static final ResourceLocation TEXTURE_INVERT = new ResourceLocation(AerialHell.MODID, "textures/entity/shadow_troll/shadow_troll_invert.png");
+	private static final ResourceLocation TEXTURE_NORMAL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/shadow_troll/shadow_troll.png");
+	private static final ResourceLocation TEXTURE_INVERT = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/shadow_troll/shadow_troll_invert.png");
 
 	public ShadowTrollRender(EntityRendererProvider.Context context)
 	{

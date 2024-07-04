@@ -31,11 +31,11 @@ public class AerialHellArmorMaterials
 	//copy of ArmorMaterials "register" method
 	private static Holder<ArmorMaterial> register(String id, EnumMap<ArmorItem.Type, Integer> protectionMap, int damageFactor, Holder<SoundEvent> equipSound, float toughness, float knockbackReduction, Supplier<Ingredient> repairIngredient)
 	{
-		List<ArmorMaterial.Layer> layerList = List.of(new ArmorMaterial.Layer(new ResourceLocation(AerialHell.MODID, id)));
+		List<ArmorMaterial.Layer> layerList = List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, id)));
 		EnumMap<ArmorItem.Type, Integer> enummap = new EnumMap<>(ArmorItem.Type.class);
 
 		for (ArmorItem.Type armoritem$type : ArmorItem.Type.values()) {enummap.put(armoritem$type, protectionMap.get(armoritem$type));}
-		return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, new ResourceLocation(AerialHell.MODID, id), new ArmorMaterial(enummap, damageFactor, equipSound, repairIngredient, layerList, toughness, knockbackReduction));
+		return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, id), new ArmorMaterial(enummap, damageFactor, equipSound, repairIngredient, layerList, toughness, knockbackReduction));
 	}
 
 	private static EnumMap<ArmorItem.Type, Integer> createProtectionMap(int boots, int leggings, int chestplate, int helmet, int body)

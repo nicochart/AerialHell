@@ -87,7 +87,7 @@ public class BoarModel<T extends BoarEntity> extends EntityModel<T>
 		this.frontLeftLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		if(isChild)
 		{
@@ -96,16 +96,16 @@ public class BoarModel<T extends BoarEntity> extends EntityModel<T>
 		}
 		poseStack.pushPose();
 
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		backLeftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		backRightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		frontLeftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		frontRightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		backLeftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		backRightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		frontLeftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		frontRightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 
 		if (!isChild)
 		{
-			tusk.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+			tusk.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		}
 		poseStack.popPose();
 	}

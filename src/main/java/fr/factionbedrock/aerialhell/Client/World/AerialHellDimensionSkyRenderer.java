@@ -21,8 +21,8 @@ public class AerialHellDimensionSkyRenderer
 	private static VertexBuffer starVBO;
 	//private final VertexFormat skyVertexFormat = DefaultVertexFormat.POSITION;
 
-	private static final ResourceLocation AERIAL_HELL_SUN_LOCATION = new ResourceLocation(AerialHell.MODID, "textures/environment/aerial_hell_sun.png");
-	private static final ResourceLocation AERIAL_HELL_MOON_PHASES_LOCATION = new ResourceLocation(AerialHell.MODID, "textures/environment/aerial_hell_moon_phases.png");
+	private static final ResourceLocation AERIAL_HELL_SUN_LOCATION = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/environment/aerial_hell_sun.png");
+	private static final ResourceLocation AERIAL_HELL_MOON_PHASES_LOCATION = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/environment/aerial_hell_moon_phases.png");
 
 	public AerialHellDimensionSkyRenderer()
 	{

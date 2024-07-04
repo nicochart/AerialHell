@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 public class TornSpiritRender extends MobRenderer<TornSpiritEntity, TornSpiritModel>
 {
 	private static String name = "torn_spirit";
-    private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
 	
     public TornSpiritRender(EntityRendererProvider.Context context)
 	{

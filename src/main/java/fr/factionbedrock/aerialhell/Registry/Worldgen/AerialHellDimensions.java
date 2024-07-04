@@ -13,5 +13,5 @@ public class AerialHellDimensions
 	public static final ResourceKey<DimensionType> AERIAL_HELL_DIMENSION_TYPE = ResourceKey.create(Registries.DIMENSION_TYPE, name("aerial_hell"));
     public static final ResourceKey<Level> AERIAL_HELL_DIMENSION = ResourceKey.create(Registries.DIMENSION, name("aerial_hell"));
     
-    private static ResourceLocation name(String name) {return new ResourceLocation(AerialHell.MODID, name);}
+    private static ResourceLocation name(String name) {return ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name);}
 }

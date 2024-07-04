@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 public class LunaticPriestRender extends MobRenderer<LunaticPriestEntity, LunaticPriestModel>
 {
 	private static String name = "lunatic_priest";
-    private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
 
     public LunaticPriestRender(EntityRendererProvider.Context context)
     {

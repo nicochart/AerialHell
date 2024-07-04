@@ -11,7 +11,7 @@ import net.minecraft.world.entity.Mob;
 public class MudCycleMageRender extends MobRenderer<Mob, MudCycleMageModel>
 {
 	private static String name = "mud_cycle_mage";
-    private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
 	
     public MudCycleMageRender(EntityRendererProvider.Context context)
 	{

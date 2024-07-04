@@ -11,10 +11,10 @@ import net.minecraft.resources.ResourceLocation;
 
 public class SnakeRender<E extends AbstractSnakeEntity> extends MobRenderer<E, SnakeModel<E>>
 {
-    private static final ResourceLocation VENOMOUS_HEAD = new ResourceLocation(AerialHell.MODID, "textures/entity/snake/venomous_head.png");
-    private static final ResourceLocation VENOMOUS_BODY = new ResourceLocation(AerialHell.MODID, "textures/entity/snake/venomous_body.png");
-    private static final ResourceLocation WORM_HEAD = new ResourceLocation(AerialHell.MODID, "textures/entity/snake/worm_head.png");
-    private static final ResourceLocation WORM_BODY = new ResourceLocation(AerialHell.MODID, "textures/entity/snake/worm_body.png");
+    private static final ResourceLocation VENOMOUS_HEAD = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/snake/venomous_head.png");
+    private static final ResourceLocation VENOMOUS_BODY = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/snake/venomous_body.png");
+    private static final ResourceLocation WORM_HEAD = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/snake/worm_head.png");
+    private static final ResourceLocation WORM_BODY = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/snake/worm_body.png");
 
     public SnakeRender(EntityRendererProvider.Context context)
     {

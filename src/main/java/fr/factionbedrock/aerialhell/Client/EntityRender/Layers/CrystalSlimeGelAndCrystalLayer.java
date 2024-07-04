@@ -10,6 +10,8 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 
+import java.awt.*;
+
 public class CrystalSlimeGelAndCrystalLayer extends RenderLayer<CrystalSlimeEntity, CrystalSlimeModel>
 {
    private final CrystalSlimeModel crystalSlimeModel;
@@ -27,7 +29,7 @@ public class CrystalSlimeGelAndCrystalLayer extends RenderLayer<CrystalSlimeEnti
          this.getParentModel().copyPropertiesTo(this.crystalSlimeModel);
          this.crystalSlimeModel.setupAnim(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
          VertexConsumer consumer = bufferIn.getBuffer(RenderType.entityTranslucent(this.getTextureLocation(entitylivingbaseIn)));
-         this.crystalSlimeModel.renderToBuffer(matrixStackIn, consumer, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+         this.crystalSlimeModel.renderToBuffer(matrixStackIn, consumer, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB());
       }
    }
 }

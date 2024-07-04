@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class VerdigrisZombieRender extends MobRenderer<VerdigrisZombieEntity, VerdigrisZombieModel>
 {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/zombie/verdigris.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/zombie/verdigris.png");
     
     public VerdigrisZombieRender(EntityRendererProvider.Context context)
     {

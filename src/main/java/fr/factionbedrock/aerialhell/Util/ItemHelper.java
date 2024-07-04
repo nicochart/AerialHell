@@ -50,12 +50,12 @@ public class ItemHelper
 
         private static Component makeUpgradeTitleComponent(String materialName)
         {
-            return Component.translatable(Util.makeDescriptionId("upgrade", new ResourceLocation(AerialHell.MODID,materialName + "_upgrade"))).withStyle(TITLE_FORMAT);
+            return Component.translatable(Util.makeDescriptionId("upgrade", ResourceLocation.fromNamespaceAndPath(AerialHell.MODID,materialName + "_upgrade"))).withStyle(TITLE_FORMAT);
         }
 
         private static Component makeSmithingTemplateItemDescComponent(String materialName, String info, @Nullable ChatFormatting format)
         {
-            MutableComponent returnComponent = Component.translatable(Util.makeDescriptionId("item", new ResourceLocation(AerialHell.MODID, "smithing_template." + materialName + "_upgrade." + info)));
+            MutableComponent returnComponent = Component.translatable(Util.makeDescriptionId("item", ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "smithing_template." + materialName + "_upgrade." + info)));
             return format == null ? returnComponent : returnComponent.withStyle(format);
         }
 

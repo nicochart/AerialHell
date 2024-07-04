@@ -15,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 public class CrystalGolemRender extends MobRenderer<CrystalGolemEntity, CrystalGolemModel<CrystalGolemEntity>>
 {
 	private static String name = "crystal_golem";
-    private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
 
     public CrystalGolemRender(EntityRendererProvider.Context context)
     {

@@ -9,8 +9,8 @@ import net.minecraft.resources.ResourceLocation;
 
 public class AerialArrowRenderer<T extends AbstractAerialArrowEntity> extends ArrowRenderer<T>
 {
-	public static final ResourceLocation VOLUCITE_ARROW_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/projectile/arrow/volucite_blowpipe_arrow.png");
-	public static final ResourceLocation RUBY_ARROW_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/projectile/arrow/ruby_blowpipe_arrow.png");
+	public static final ResourceLocation VOLUCITE_ARROW_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/arrow/volucite_blowpipe_arrow.png");
+	public static final ResourceLocation RUBY_ARROW_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/arrow/ruby_blowpipe_arrow.png");
 
     public AerialArrowRenderer(EntityRendererProvider.Context context)
     {

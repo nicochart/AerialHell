@@ -14,7 +14,7 @@ import net.minecraft.util.Mth;
 //see net.minecraft.client.renderer.entity.CreeperRenderer
 public class ShroomBoomRender extends MobRenderer<ShroomBoomEntity, ShroomBoomModel>
 {	
-	private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/shroomboom/shroomboom.png");
+	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/shroomboom/shroomboom.png");
 	
 	public ShroomBoomRender(EntityRendererProvider.Context context) {super(context, new ShroomBoomModel(context.bakeLayer(AerialHellModelLayers.SHROOMBOOM)), 0.5F);}
 	

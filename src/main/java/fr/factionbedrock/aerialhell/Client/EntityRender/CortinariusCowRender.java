@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class CortinariusCowRender<T extends EvilCowEntity> extends MobRenderer<T, CowModel<T>>
 {
-    private static final ResourceLocation CORTINARIUS_COW_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/cortinarius_cow/cortinarius_cow.png");
+    private static final ResourceLocation CORTINARIUS_COW_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/cortinarius_cow/cortinarius_cow.png");
     
     public CortinariusCowRender(EntityRendererProvider.Context context)
     {

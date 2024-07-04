@@ -17,8 +17,8 @@ import net.minecraft.core.BlockPos;
 //see net.minecraft.client.renderer.entity.DragonFireballRenderer
 public class LightProjectileRender<T extends AbstractLightProjectileEntity> extends EntityRenderer<T>
 {
-    public static final ResourceLocation LUNATIC_PROJECTILE = new ResourceLocation(AerialHell.MODID, "textures/entity/projectile/lunatic_projectile.png");
-    public static final ResourceLocation SHADOW_PROJECTILE = new ResourceLocation(AerialHell.MODID, "textures/entity/projectile/shadow_projectile.png");
+    public static final ResourceLocation LUNATIC_PROJECTILE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/lunatic_projectile.png");
+    public static final ResourceLocation SHADOW_PROJECTILE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/shadow_projectile.png");
 
     public LightProjectileRender(EntityRendererProvider.Context context)
     {
@@ -58,8 +58,8 @@ public class LightProjectileRender<T extends AbstractLightProjectileEntity> exte
         else {return SHADOW_PROJECTILE;}
     }
 
-    private static void vertex(VertexConsumer vertex, PoseStack.Pose poseStack, int offsetX, float offsetY, int offsetZ, int textureX, int textureY)
+    private static void vertex(VertexConsumer vertexConsumer, PoseStack.Pose poseStack, int packedLight, float x, int y, int u, int v)
     {
-        vertex.vertex(poseStack, offsetY - 0.5F, (float)offsetZ - 0.25F, 0.0F).color(255, 255, 255, 255).uv((float)textureX, (float)textureY).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(offsetX).normal(poseStack, 0.0F, 1.0F, 0.0F).endVertex();
+        vertexConsumer.addVertex(poseStack, x - 0.5F, (float)y - 0.25F, 0.0F).setColor(-1).setUv((float)u, (float)v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(poseStack, 0.0F, 1.0F, 0.0F);
     }
 }

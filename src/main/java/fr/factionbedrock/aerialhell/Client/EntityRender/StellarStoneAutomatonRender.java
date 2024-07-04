@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 public class StellarStoneAutomatonRender<T extends AutomatonEntity> extends MobRenderer<T, AutomatonModel<T>>
 {
 	private static String name = "stellar_stone_automaton";
-    private static final ResourceLocation texture = new ResourceLocation(AerialHell.MODID, "textures/entity/automaton/" + name + ".png");
+    private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/automaton/" + name + ".png");
 
     public StellarStoneAutomatonRender(EntityRendererProvider.Context context)
     {

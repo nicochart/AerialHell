@@ -36,8 +36,8 @@ public class SnakeModel<T extends AbstractSnakeEntity> extends EntityModel<T>
 
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
-		snake.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		snake.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 }

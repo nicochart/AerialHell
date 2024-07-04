@@ -24,7 +24,7 @@ public class AerialHellRecipes
 	{
 		public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(BuiltInRegistries.RECIPE_TYPE, AerialHell.MODID);
 
-		public static final DeferredHolder<RecipeType<?>, RecipeType<OscillatingRecipe>> OSCILLATING = RECIPE_TYPES.register("oscillating", () -> RecipeType.simple(new ResourceLocation(AerialHell.MODID, "oscillating")));
-		public static final DeferredHolder<RecipeType<?>, RecipeType<FreezingRecipe>> FREEZING = RECIPE_TYPES.register("freezing", () -> RecipeType.simple(new ResourceLocation(AerialHell.MODID, "freezing")));
+		public static final DeferredHolder<RecipeType<?>, RecipeType<OscillatingRecipe>> OSCILLATING = RECIPE_TYPES.register("oscillating", () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "oscillating")));
+		public static final DeferredHolder<RecipeType<?>, RecipeType<FreezingRecipe>> FREEZING = RECIPE_TYPES.register("freezing", () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "freezing")));
 	}
 }

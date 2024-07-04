@@ -15,6 +15,6 @@ public class AerialHellRarities
 
 	public static Rarity create(String name, ChatFormatting chatFormatting)
 	{
-		return Rarity.create(name, new ResourceLocation(AerialHell.MODID, name), chatFormatting);
+		return Rarity.create(name, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name), chatFormatting);
 	}
 }

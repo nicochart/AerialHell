@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 public class GlidingTurtleRender extends MobRenderer<GlidingTurtleEntity, GlidingTurtleModel>
 {
 	private static String name = "gliding_turtle";
-    private static final ResourceLocation TURTLE_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/"+ name +"/" + name + ".png");
+    private static final ResourceLocation TURTLE_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/"+ name +"/" + name + ".png");
 
     public GlidingTurtleRender(EntityRendererProvider.Context context)
     {

@@ -56,9 +56,9 @@ public class AerialHellChestMaterials
     {
         return switch (type)
         {
-            case LEFT -> new Material(CHEST_SHEET, new ResourceLocation(AerialHell.MODID, "entity/chest/" + name + "/" + name + "_left"));
-            case RIGHT -> new Material(CHEST_SHEET, new ResourceLocation(AerialHell.MODID, "entity/chest/" + name + "/" + name + "_right"));
-            default -> new Material(CHEST_SHEET, new ResourceLocation(AerialHell.MODID, "entity/chest/" + name + "/" + name));
+            case LEFT -> new Material(CHEST_SHEET, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "entity/chest/" + name + "/" + name + "_left"));
+            case RIGHT -> new Material(CHEST_SHEET, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "entity/chest/" + name + "/" + name + "_right"));
+            default -> new Material(CHEST_SHEET, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "entity/chest/" + name + "/" + name));
         };
     }
 }

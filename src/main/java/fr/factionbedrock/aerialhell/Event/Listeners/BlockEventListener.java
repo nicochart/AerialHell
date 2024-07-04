@@ -148,6 +148,6 @@ public class BlockEventListener
 
      private static ResourceLocation getBlockTextureLocation(String id)
      {
-         return new ResourceLocation(AerialHell.MODID, "textures/block/"+id+".png");
+         return ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/block/"+id+".png");
      }
 }

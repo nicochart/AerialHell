@@ -13,10 +13,12 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 
+import java.awt.*;
+
 public class CrystalGolemCrystalLayer<T extends AerialHellGolemEntity, M extends CrystalGolemModel<T>> extends RenderLayer<T,M>
 {
    private final CrystalGolemCrystalModel<T> golemModel;
-   private static final ResourceLocation CRYSTAL_GOLEM_CRYSTALS = new ResourceLocation(AerialHell.MODID, "textures/entity/crystal_golem/crystal_golem.png");
+   private static final ResourceLocation CRYSTAL_GOLEM_CRYSTALS = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/crystal_golem/crystal_golem.png");
    
    public CrystalGolemCrystalLayer(RenderLayerParent<T,M> layerParent, CrystalGolemCrystalModel<T> crystalModel)
    {
@@ -31,7 +33,7 @@ public class CrystalGolemCrystalLayer<T extends AerialHellGolemEntity, M extends
          this.getParentModel().copyPropertiesTo(this.golemModel);
          this.golemModel.setupAnim(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
          VertexConsumer consumer = bufferIn.getBuffer(RenderType.entityCutout(CRYSTAL_GOLEM_CRYSTALS));
-         this.golemModel.renderToBuffer(matrixStackIn, consumer, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+         this.golemModel.renderToBuffer(matrixStackIn, consumer, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB());
       }
    }
 }

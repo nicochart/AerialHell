@@ -18,7 +18,7 @@ import java.awt.*;
 
 public class EntModel<T extends EntEntity> extends EntityModel<T>
 {
-	float biomeRed, biomeGreen, biomeBlue;
+	Color biomeColor;
 	private final ModelPart head;
 	private final ModelPart headLeaves;
 	private final ModelPart body;
@@ -124,8 +124,7 @@ public class EntModel<T extends EntEntity> extends EntityModel<T>
 
 	private void updateBiomeColors(T entity)
 	{
-		Color color = new Color(BiomeColors.getAverageFoliageColor(entity.level(), entity.getOnPos()));
-		biomeRed = color.getRed() / 255.0F; biomeGreen = color.getGreen() / 255.0F; biomeBlue = color.getBlue() / 255.0F;
+		biomeColor = new Color(BiomeColors.getAverageFoliageColor(entity.level(), entity.getOnPos()));
 	}
 
 	private void setupHeadAnim(ModelPart part, float netHeadYaw, float headPitch)
@@ -142,19 +141,19 @@ public class EntModel<T extends EntEntity> extends EntityModel<T>
 		right.yRot = 0.0F;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
-		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		headLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeRed, biomeGreen, biomeBlue, alpha);
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		bodyLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeRed, biomeGreen, biomeBlue, alpha);
-		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftArmLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeRed, biomeGreen, biomeBlue, alpha);
-		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightArmLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeRed, biomeGreen, biomeBlue, alpha);
-		leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftLegLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeRed, biomeGreen, biomeBlue, alpha);
-		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightLegLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeRed, biomeGreen, biomeBlue, alpha);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		headLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor.getRGB()); //TODO is it ARGB ?
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		bodyLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor.getRGB());
+		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leftArmLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor.getRGB());
+		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		rightArmLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor.getRGB());
+		leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leftLegLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor.getRGB());
+		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		rightLegLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor.getRGB());
 	}
 }

@@ -74,13 +74,13 @@ public class MudGolemModel<T extends AerialHellGolemEntity> extends EntityModel<
 		this.left_leg.yRot = 0.0F; this.right_leg.yRot = 0.0F;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
-		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		left_arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		right_arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		left_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		right_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		left_arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		right_arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		left_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		right_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 }

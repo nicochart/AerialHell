@@ -35,6 +35,6 @@ public class AerialHellClientSetup
     {
         new AerialHellDimensionSkyRenderer();
         AerialHellDimensionSpecialEffects renderInfo = new AerialHellDimensionSpecialEffects(Float.NaN, false, DimensionSpecialEffects.SkyType.NONE, false, false);
-        event.register(new ResourceLocation(AerialHell.MODID, "aerial_hell"), renderInfo);
+        event.register(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "aerial_hell"), renderInfo);
     }
 }

@@ -18,11 +18,11 @@ import net.minecraft.resources.ResourceLocation;
 public class HellSpiderRender<T extends Spider> extends MobRenderer<T, SpiderModel<T>>
 {
 	private static String hsName = "hell_spider";
-	private static final ResourceLocation HELL_SPIDER_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/" + hsName + "/" + hsName + ".png");
+	private static final ResourceLocation HELL_SPIDER_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + hsName + "/" + hsName + ".png");
 	private static String csName = "crystal_spider";
-	private static final ResourceLocation CRYSTAL_SPIDER_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/" + csName + "/" + csName + ".png");
+	private static final ResourceLocation CRYSTAL_SPIDER_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + csName + "/" + csName + ".png");
 	private static String ssName = "shadow_spider";
-	private static final ResourceLocation SHADOW_SPIDER_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/" + ssName + "/" + ssName + ".png");
+	private static final ResourceLocation SHADOW_SPIDER_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + ssName + "/" + ssName + ".png");
 	
 	public HellSpiderRender(EntityRendererProvider.Context context)
 	{

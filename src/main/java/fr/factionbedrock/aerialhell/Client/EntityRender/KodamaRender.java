@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class KodamaRender<T extends KodamaEntity> extends MobRenderer<T, KodamaModel<T>>
 {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/kodama/kodama.png");
+	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/kodama/kodama.png");
 	private static boolean CREATURE_RENDER = false, EMPTY_RENDER = true;
 
 	public KodamaRender(EntityRendererProvider.Context context)

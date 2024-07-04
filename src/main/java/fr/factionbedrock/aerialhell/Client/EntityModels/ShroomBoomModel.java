@@ -75,15 +75,15 @@ public class ShroomBoomModel extends EntityModel<ShroomBoomEntity>
 		this.leg3.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leg0.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leg1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leg2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leg3.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		arm1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		arm2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leg0.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leg1.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leg2.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		leg3.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		arm1.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		arm2.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 }

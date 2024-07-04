@@ -18,8 +18,7 @@ import java.awt.*;
 public class ForestCaterpillarModel<T extends AbstractCaterpillarEntity> extends EntityModel<T>
 {
 	private final boolean isColored;
-	float grassRed, grassGreen, grassBlue;
-	float foliageRed, foliageGreen, foliageBlue;
+	int grassARGB, foliageARGB;
 	private final ModelPart head;
 	private final ModelPart head_colored;
 	private final ModelPart body;
@@ -91,26 +90,22 @@ public class ForestCaterpillarModel<T extends AbstractCaterpillarEntity> extends
 
 	private void updateBiomeColors(T entity)
 	{
-		Color grass_color = new Color(BiomeColors.getAverageGrassColor(entity.level(), entity.getOnPos()));
-		grassRed = grass_color.getRed() / 255.0F; grassGreen = grass_color.getGreen() / 255.0F; grassBlue = grass_color.getBlue() / 255.0F;
-		Color foliage_color = new Color(BiomeColors.getAverageFoliageColor(entity.level(), entity.getOnPos()));
-		foliageRed = foliage_color.getRed() / 255.0F; foliageGreen = foliage_color.getGreen() / 255.0F; foliageBlue = foliage_color.getBlue() / 255.0F;
+		grassARGB = new Color(BiomeColors.getAverageGrassColor(entity.level(), entity.getOnPos())).getRGB();
+		foliageARGB = new Color(BiomeColors.getAverageFoliageColor(entity.level(), entity.getOnPos())).getRGB();
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float redIn, float greenIn, float blueIn, float alpha)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tintIn)
 	{
-		float red = isColored ? grassRed : redIn;
-		float blue = isColored ? grassBlue : blueIn;
-		float green = isColored ? grassGreen : greenIn;
+		int tint = isColored ? grassARGB : tintIn;
 
-		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		head_colored.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		body_colored.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		tail.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		tail_end.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		sapling.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		if (isColored) {red = foliageRed; green = foliageGreen; blue = foliageBlue;}
-		sapling_colored.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		head_colored.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		body_colored.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		tail.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		tail_end.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		sapling.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		if (isColored) {tint = foliageARGB;}
+		sapling_colored.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 }

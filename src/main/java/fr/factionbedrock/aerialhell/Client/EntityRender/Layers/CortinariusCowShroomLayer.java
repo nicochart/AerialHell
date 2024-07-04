@@ -13,10 +13,12 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 
+import java.awt.*;
+
 public class CortinariusCowShroomLayer<T extends EvilCowEntity, M extends CowModel<T>> extends RenderLayer<T, M>
 {
    private final CortinariusCowShroomModel<T> cortinariusCowShroomModel;
-   private static final ResourceLocation CORTINARIUS_COW_SHROOM_LAYER = new ResourceLocation(AerialHell.MODID, "textures/entity/cortinarius_cow/cortinarius_cow_shroom.png");
+   private static final ResourceLocation CORTINARIUS_COW_SHROOM_LAYER = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/cortinarius_cow/cortinarius_cow_shroom.png");
    
    public CortinariusCowShroomLayer(RenderLayerParent<T,M> layerParent, CortinariusCowShroomModel<T> shroomModel)
    {
@@ -31,7 +33,7 @@ public class CortinariusCowShroomLayer<T extends EvilCowEntity, M extends CowMod
          this.getParentModel().copyPropertiesTo(this.cortinariusCowShroomModel);
          this.cortinariusCowShroomModel.setupAnim(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
          VertexConsumer consumer = bufferIn.getBuffer(RenderType.entityCutout(CORTINARIUS_COW_SHROOM_LAYER));
-         this.cortinariusCowShroomModel.renderToBuffer(matrixStackIn, consumer, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+         this.cortinariusCowShroomModel.renderToBuffer(matrixStackIn, consumer, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB());
       }
    }
 }

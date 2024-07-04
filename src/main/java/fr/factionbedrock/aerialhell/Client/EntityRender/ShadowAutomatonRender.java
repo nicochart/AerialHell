@@ -15,8 +15,8 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ShadowAutomatonRender<T extends AutomatonEntity, M extends EmptyModel<T>> extends MobRenderer<T,M>
 {
-	private static final ResourceLocation TEXTURE_NORMAL = new ResourceLocation(AerialHell.MODID, "textures/entity/automaton/shadow_automaton.png");
-	private static final ResourceLocation TEXTURE_INVERT = new ResourceLocation(AerialHell.MODID, "textures/entity/automaton/shadow_automaton_invert.png");
+	private static final ResourceLocation TEXTURE_NORMAL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/automaton/shadow_automaton.png");
+	private static final ResourceLocation TEXTURE_INVERT = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/automaton/shadow_automaton_invert.png");
 
 	public ShadowAutomatonRender(EntityRendererProvider.Context context)
 	{

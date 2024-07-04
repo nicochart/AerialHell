@@ -53,7 +53,7 @@ public class AerialHellStructures
 
 		private static ResourceKey<StructureSet> register(String name)
 		{
-			return ResourceKey.create(Registries.STRUCTURE_SET, new ResourceLocation(AerialHell.MODID, name));
+			return ResourceKey.create(Registries.STRUCTURE_SET, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 
