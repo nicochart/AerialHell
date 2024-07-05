@@ -29,6 +29,8 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.World.AerialHellTeleporter;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -42,11 +44,14 @@ import net.minecraft.world.entity.monster.Vex;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+
+import java.util.Optional;
 
 public class EntityHelper
 {
@@ -155,9 +160,15 @@ public class EntityHelper
 
     public static boolean hasSolidEtherWalkerEnchantment(LivingEntity entity)
     {
-        for (ItemStack equipmentItem : entity.getAllSlots())
+        //TODO test
+        Optional<Holder.Reference<Enchantment>> frostWalkerEnchantment = entity.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolder(AerialHellEnchantments.SOLID_ETHER_WALKER);
+        if (frostWalkerEnchantment.isPresent())
         {
-            if (EnchantmentHelper.getItemEnchantmentLevel(AerialHellEnchantments.SOLID_ETHER_WALKER.get(), equipmentItem) > 0) {return true;}
+            return EnchantmentHelper.getEnchantmentLevel(frostWalkerEnchantment.get().getDelegate(), entity) > 0;
+            /*for (ItemStack equipmentItem : entity.getAllSlots())
+            {
+                return EnchantmentHelper.getTagEnchantmentLevel(frostWalkerEnchantment.get(), equipmentItem) > 0;
+            }*/
         }
         return false;
     }
