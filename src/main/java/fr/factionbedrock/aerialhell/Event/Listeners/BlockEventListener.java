@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Block.DungeonCores.DungeonCoreBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.world.level.block.Block;
@@ -122,27 +123,26 @@ public class BlockEventListener
     }
 
     //function from net.minecraft.client.renderer.ScreenEffectRenderer
-    private static void renderCustomOverlay(Player player, PoseStack matrixStackIn, ResourceLocation texture)
+    public static void renderCustomOverlay(Player player, PoseStack poseStack, ResourceLocation texture)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, texture); //Minecraft.getInstance() client side only !
-        BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
+        RenderSystem.setShaderTexture(0, texture);
         BlockPos blockpos = BlockPos.containing(player.getX(), player.getEyeY(), player.getZ());
         float brightness = LightTexture.getBrightness(player.level().dimensionType(), player.level().getMaxLocalRawBrightness(blockpos));
         RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(brightness, brightness, brightness, 1.0F);
-        float yaw = -player.getYRot() / 64.0F;
+        RenderSystem.setShaderColor(brightness, brightness, brightness, 0.1F);
+        float yaw = player.getYRot() / 64.0F;
         float pitch = player.getXRot() / 64.0F;
-        Matrix4f matrix4f = matrixStackIn.last().pose();
-        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        bufferbuilder.vertex(matrix4f, -1.0F, -1.0F, -0.5F).color(brightness, brightness, brightness, 1.0F).uv(4.0F + yaw, 4.0F + pitch).endVertex();
-        bufferbuilder.vertex(matrix4f, 1.0F, -1.0F, -0.5F).color(brightness, brightness, brightness, 1.0F).uv(0.0F + yaw, 4.0F + pitch).endVertex();
-        bufferbuilder.vertex(matrix4f, 1.0F, 1.0F, -0.5F).color(brightness, brightness, brightness, 1.0F).uv(0.0F + yaw, 0.0F + pitch).endVertex();
-        bufferbuilder.vertex(matrix4f, -1.0F, 1.0F, -0.5F).color(brightness, brightness, brightness, 1.0F).uv(4.0F + yaw, 0.0F + pitch).endVertex();
-        BufferUploader.drawWithShader(bufferbuilder.end());
+        Matrix4f matrix4f = poseStack.last().pose();
+        BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        bufferbuilder.addVertex(matrix4f, -1.0F, -1.0F, -0.5F).setUv(4.0F + yaw, 4.0F + pitch);
+        bufferbuilder.addVertex(matrix4f, 1.0F, -1.0F, -0.5F).setUv(0.0F + yaw, 4.0F + pitch);
+        bufferbuilder.addVertex(matrix4f, 1.0F, 1.0F, -0.5F).setUv(0.0F + yaw, 0.0F + pitch);
+        bufferbuilder.addVertex(matrix4f, -1.0F, 1.0F, -0.5F).setUv(4.0F + yaw, 0.0F + pitch);
+        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.disableBlend();
-     }
+    }
 
      private static ResourceLocation getBlockTextureLocation(DeferredBlock<? extends Block> block) {return getBlockTextureLocation(block.getId().getPath());}
 
