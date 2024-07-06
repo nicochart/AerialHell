@@ -160,15 +160,21 @@ public class EntityHelper
 
     public static boolean hasSolidEtherWalkerEnchantment(LivingEntity entity)
     {
-        //TODO test
-        Optional<Holder.Reference<Enchantment>> frostWalkerEnchantment = entity.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolder(AerialHellEnchantments.SOLID_ETHER_WALKER);
-        if (frostWalkerEnchantment.isPresent())
+        return hasEnchantment(entity, AerialHellEnchantments.SOLID_ETHER_WALKER);
+        /*for (ItemStack equipmentItem : entity.getAllSlots())
         {
-            return EnchantmentHelper.getEnchantmentLevel(frostWalkerEnchantment.get().getDelegate(), entity) > 0;
-            /*for (ItemStack equipmentItem : entity.getAllSlots())
-            {
-                return EnchantmentHelper.getTagEnchantmentLevel(frostWalkerEnchantment.get(), equipmentItem) > 0;
-            }*/
+            return EnchantmentHelper.getTagEnchantmentLevel(enchantment.get(), equipmentItem) > 0;
+        }*/
+    }
+
+    public static boolean hasEnchantment(LivingEntity entity, ResourceKey<Enchantment> enchantmentKey)
+    {
+        //TODO test
+        Optional<Holder.Reference<Enchantment>> enchantment = entity.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolder(enchantmentKey);
+        if (enchantment.isPresent())
+        {
+            return EnchantmentHelper.getEnchantmentLevel(enchantment.get().getDelegate(), entity) > 0;
+
         }
         return false;
     }
@@ -204,7 +210,7 @@ public class EntityHelper
         return isLivingEntityUnderAerialHellPortalEffect(entity) && entity.getEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL.getDelegate()).getDuration() < 20;
     }
 
-    public static void tryTeleportEntityWithAerialHellPortal(Entity entity, BlockPos pos)
+    /*public static void tryTeleportEntityWithAerialHellPortal(Entity entity, BlockPos pos)
     {
         if(!entity.level().isClientSide && !pos.equals(entity.portalEntrancePos)) {entity.portalEntrancePos = pos.immutable();}
         Level level = entity.level();
@@ -222,7 +228,7 @@ public class EntityHelper
                 }
             }
         }
-    }
+    }*/
 
     public static void addBatParticle(LivingEntity entity, RandomSource rand, int number)
     {

@@ -27,6 +27,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class TornSpiritEntity extends Monster
 {
@@ -184,9 +185,10 @@ public class TornSpiritEntity extends Monster
 	                    		 
 	                     for(int i = 0; i < n; ++i)
 	                     {
-	                        SmallFireball smallfireballentity = new SmallFireball(this.tornspirit.level(), this.tornspirit, Xdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget, Ydistance, Zdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget);
-	                        smallfireballentity.setPos(smallfireballentity.getX(), this.tornspirit.getY(0.5D) + 0.5D, smallfireballentity.getZ());
-	                        this.tornspirit.level().addFreshEntity(smallfireballentity);
+							 Vec3 vec3 = new Vec3(Xdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget, Ydistance, Zdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget);
+							 SmallFireball smallfireball = new SmallFireball(this.tornspirit.level(), this.tornspirit, vec3.normalize());
+							 smallfireball.setPos(smallfireball.getX(), this.tornspirit.getY(0.5D) + 0.5D, smallfireball.getZ());
+	                        this.tornspirit.level().addFreshEntity(smallfireball);
 	                     }
 	                  }
 	               }

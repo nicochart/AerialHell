@@ -188,7 +188,7 @@ public class AerialHellTags
 
 		private static TagKey<Structure> tag(String name)
 		{
-			return TagKey.create(Registries.STRUCTURE, new ResourceLocation(name));
+			return TagKey.create(Registries.STRUCTURE, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 }

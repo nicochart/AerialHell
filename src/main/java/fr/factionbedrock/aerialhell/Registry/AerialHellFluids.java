@@ -50,9 +50,9 @@ public class AerialHellFluids
                 {
                     consumer.accept(new IClientFluidTypeExtensions()
                     {
-                        private static final ResourceLocation UNDER = new ResourceLocation(MODID, "block/liquid_of_the_gods_overlay"),
-                                STILL = new ResourceLocation(MODID, "block/liquid_of_the_gods_still"),
-                                FLOW = new ResourceLocation(MODID, "block/liquid_of_the_gods_flow");
+                        private static final ResourceLocation UNDER = ResourceLocation.fromNamespaceAndPath(MODID, "block/liquid_of_the_gods_overlay"),
+                                STILL = ResourceLocation.fromNamespaceAndPath(MODID, "block/liquid_of_the_gods_still"),
+                                FLOW = ResourceLocation.fromNamespaceAndPath(MODID, "block/liquid_of_the_gods_flow");
 
                         @Override public ResourceLocation getStillTexture() {return STILL;}
                         @Override public ResourceLocation getFlowingTexture() {return FLOW;}

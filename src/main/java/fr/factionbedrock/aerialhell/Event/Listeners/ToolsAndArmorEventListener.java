@@ -129,7 +129,7 @@ public class ToolsAndArmorEventListener
 		}
     }
 
-	public static void addReach(PlayerInteractEvent.LeftClickBlock event)
+	/*public static void addReach(PlayerInteractEvent.LeftClickBlock event) TODO
 	{
 		Item item = event.getItemStack().getItem();
 		if ((item == AerialHellBlocksAndItems.REAPER_SCYTHE.get() || item == AerialHellBlocksAndItems.FORGOTTEN_BATTLE_TRIDENT.get()) && event.getHand() == InteractionHand.MAIN_HAND)
@@ -145,7 +145,7 @@ public class ToolsAndArmorEventListener
 				AttributeModifier newModifier = new AttributeModifier(modifierUUID, "Tool modifier",amount + 2.0, AttributeModifier.Operation.ADD_VALUE);
 			}
 		}
-	}
+	}*/
 
 	public static void applyEffectsDueToPotionEffects(LivingHurtEvent event, DamageSource damageSource, LivingEntity target) {
 		float amount = event.getAmount();

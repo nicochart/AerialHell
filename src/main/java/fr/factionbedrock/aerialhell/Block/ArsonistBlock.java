@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -23,11 +24,9 @@ public class ArsonistBlock extends Block
 	
 	@Override public void stepOn(Level level, BlockPos pos, BlockState state, Entity entityIn)
 	{
-		if (entityIn instanceof LivingEntity)
+		if (entityIn instanceof LivingEntity livingEntity)
 		{
-			//TODO test
-			Optional<Holder.Reference<Enchantment>> frostWalkerEnchantment = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolder(Enchantments.FROST_WALKER);
-			if (!entityIn.fireImmune() && (frostWalkerEnchantment.isPresent() && !(EnchantmentHelper.getEnchantmentLevel(frostWalkerEnchantment.get().getDelegate(), (LivingEntity) entityIn) > 0)))
+			if (!entityIn.fireImmune() && !EntityHelper.hasEnchantment(livingEntity, Enchantments.FROST_WALKER))
 			{
 		         entityIn.hurt(level.damageSources().hotFloor(), 1.0F);
 			}

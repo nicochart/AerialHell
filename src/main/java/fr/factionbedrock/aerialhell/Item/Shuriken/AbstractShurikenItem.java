@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Item.Shuriken;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -23,8 +24,7 @@ public abstract class AbstractShurikenItem extends Item
 	public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand hand)
 	{
 		ItemStack heldItem = playerIn.getItemInHand(hand);
-		
-		if (!playerIn.isCreative() && EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY, heldItem) == 0)
+		if (!playerIn.isCreative() && EntityHelper.hasEnchantment(playerIn, Enchantments.INFINITY))
 		{
 			heldItem.shrink(1);
 		}

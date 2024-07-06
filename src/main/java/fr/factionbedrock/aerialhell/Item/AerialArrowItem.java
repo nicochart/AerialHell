@@ -16,15 +16,15 @@ public class AerialArrowItem extends Item
         super(properties);
     }
 
-    public AbstractAerialArrowEntity createArrow(Level world, ItemStack stack, LivingEntity shooter)
+    public AbstractAerialArrowEntity createArrow(Level level, ItemStack stack, LivingEntity shooter)
     {
     	if (this == AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get())
     	{
-    		return new RubyArrowEntity(world, shooter, RubyArrowEntity.DEFAULT_STACK);
+    		return new RubyArrowEntity(shooter, level, RubyArrowEntity.DEFAULT_STACK);
     	}
     	else //if (this == AerialHellBlocksAndItems.VOLUCITE_BLOWPIPE_ARROW.get())
     	{
-    		return new VoluciteArrowEntity(world, shooter, VoluciteArrowEntity.DEFAULT_STACK);
+    		return new VoluciteArrowEntity(shooter, level, VoluciteArrowEntity.DEFAULT_STACK);
     	}
     }
 }

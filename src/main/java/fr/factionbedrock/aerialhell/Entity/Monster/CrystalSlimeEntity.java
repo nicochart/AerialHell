@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -25,6 +26,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -122,12 +124,13 @@ public class CrystalSlimeEntity extends Mob
 
 	protected void dealDamage(LivingEntity livingEntity)
 	{
-		if (this.isAlive())
+		if (this.isAlive() && this.isWithinMeleeAttackRange(livingEntity) && this.hasLineOfSight(livingEntity))
 		{
-			if (this.distanceToSqr(livingEntity) < 0.36 * 4 && this.hasLineOfSight(livingEntity) && livingEntity.hurt(this.damageSources().mobAttack(this), this.getAttackDamage()))
+			DamageSource damagesource = this.damageSources().mobAttack(this);
+			if (livingEntity.hurt(damagesource, this.getAttackDamage()))
 			{
 				this.playSound(SoundEvents.SLIME_ATTACK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-				this.doEnchantDamageEffects(this, livingEntity);
+				if (this.level() instanceof ServerLevel serverlevel) {EnchantmentHelper.doPostAttackEffects(serverlevel, livingEntity, damagesource);}
 			}
 		}
 	}
@@ -150,7 +153,7 @@ public class CrystalSlimeEntity extends Mob
 	protected boolean doPlayJumpSound() {return this.isAlive();}
 	float getSoundPitch() {return ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F) * 0.8F;}
 
-	@Override protected void jumpFromGround()
+	@Override public void jumpFromGround()
 	{
 		Vec3 vec3 = this.getDeltaMovement();
 		this.setDeltaMovement(vec3.x, (double)this.getJumpPower(), vec3.z);

@@ -8,32 +8,26 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+import javax.annotation.Nullable;
+
 public class RubyArrowEntity extends AbstractAerialArrowEntity
 {
     public static final ItemStack DEFAULT_STACK = new ItemStack(AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get());
 
-    public RubyArrowEntity(EntityType<? extends RubyArrowEntity> type, Level worldIn)
+    public RubyArrowEntity(LivingEntity shooter, Level level, ItemStack pickupItemStack)
     {
-        this(type, worldIn, DEFAULT_STACK);
+        this(shooter, level, pickupItemStack, null);
+    }
+
+    public RubyArrowEntity(LivingEntity shooter, Level level, ItemStack pickupItemStack, @Nullable ItemStack weapon)
+    {
+        super(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), shooter, level, pickupItemStack, weapon);
         this.setBaseDamage(6.0D);
     }
 
-    public RubyArrowEntity(EntityType<? extends RubyArrowEntity> type, Level worldIn, ItemStack itemStack)
+    public RubyArrowEntity(EntityType<RubyArrowEntity> type, Level level)
     {
-        super(type, worldIn, itemStack);
-        this.setBaseDamage(6.0D);
-    }
-
-    public RubyArrowEntity(Level worldIn, double x, double y, double z, ItemStack itemStack)
-    {
-        super(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), x, y, z, worldIn, itemStack);
-        this.setBaseDamage(6.0D);
-    }
-
-    public RubyArrowEntity(Level worldIn, LivingEntity shooter, ItemStack itemStack)
-    {
-        super(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), shooter, worldIn, itemStack);
-        this.setBaseDamage(6.0D);
+        super(type, level);
     }
     
     @Override protected ItemStack getPickupItem() {return new ItemStack(AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get());}

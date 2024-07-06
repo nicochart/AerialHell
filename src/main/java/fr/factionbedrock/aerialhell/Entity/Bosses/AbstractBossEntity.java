@@ -12,6 +12,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.EntityTypeTags;
@@ -445,7 +446,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		}
 	}
 
-	@Override protected void dropCustomDeathLoot(DamageSource p_33574_, int p_33575_, boolean p_33576_)
+	@Override protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean p_33576_)
 	{
 		if (this.getTrophy() != null)
 		{
@@ -459,5 +460,5 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	@Override public double getMinDistanceToActivate() {return 8;}
 	@Override public double getMinDistanceToDeactivate() {return 48;}
 	@Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
-	@Override public boolean canChangeDimensions() {return false;}
+	@Override public boolean canChangeDimensions(Level source, Level dest) {return false;}
 }

@@ -8,10 +8,12 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.WorldGenerationContext;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.pools.DimensionPadding;
 import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasBinding;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
+import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -136,15 +138,17 @@ public abstract class AbstractAerialHellStructure extends Structure
 
         Optional<Structure.GenerationStub> structurePiecesGenerator =
                 JigsawPlacement.addPieces(
-                        context,
-                        this.startPool,
-                        this.startJigsawName,
-                        this.size, //jigsaw block "level"
-                        structureCenter, //structure center
+                        context, // Used for JigsawPlacement to get all the proper behaviors done.
+                        this.startPool, // The starting pool to use to create the structure layout from
+                        this.startJigsawName, // Can be used to only spawn from one Jigsaw block. But we don't need to worry about this.
+                        this.size, // How deep a branch of pieces can go away from center piece. (5 means branches cannot be longer than 5 pieces from center piece)
+                        structureCenter, // Where to spawn the structure.
                         false, //"useExpansionHack" (set it false)
                         Optional.empty(), //this.projectStartToHeightmap is now manually override by findStructureCenter(context).
-                        this.maxDistanceFromCenter,
-                        PoolAliasLookup.create(this.poolAliases, structureCenter, context.seed()));
+                        this.maxDistanceFromCenter, // Maximum limit for how far pieces can spawn from center. You cannot set this bigger than 128 or else pieces gets cutoff.
+                        PoolAliasLookup.EMPTY, // Optional thing that allows swapping a template pool with another per structure json instance. We don't need this but see vanilla JigsawStructure class for how to wire it up if you want it.
+                        DimensionPadding.ZERO, // dimensionPadding - Optional thing to prevent generating too close to the bottom or top of the dimension.
+                        LiquidSettings.IGNORE_WATERLOGGING); // liquidSettings - Optional thing to control whether the structure will be waterlogged when replacing pre-existing water in the world.
 
         return structurePiecesGenerator;
     }

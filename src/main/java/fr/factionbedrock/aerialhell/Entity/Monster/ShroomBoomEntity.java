@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 
 public class ShroomBoomEntity extends Creeper
@@ -66,27 +68,28 @@ public class ShroomBoomEntity extends Creeper
     	else {super.setSwellDir(state);}
     }
     
-    @Override
-    public boolean doHurtTarget(Entity entityIn)
+    @Override public boolean doHurtTarget(Entity attackedEntity)
     {
         if (!this.canIgnite())
         {
+            DamageSource damagesource = this.damageSources().mobAttack(this);
         	float damage = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
         	float kb = (float)this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
-            boolean isAttackSuccess = entityIn.hurt(this.damageSources().mobAttack(this), damage);
+            boolean isAttackSuccess = attackedEntity.hurt(damagesource, damage);
             if (isAttackSuccess)
             {
-            	if (kb > 0.0F && entityIn instanceof LivingEntity)
+            	if (kb > 0.0F && attackedEntity instanceof LivingEntity)
                 {
-            		((LivingEntity)entityIn).knockback(kb * 0.5F, (double) Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))));
+            		((LivingEntity)attackedEntity).knockback(kb * 0.5F, (double) Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))));
                     EntityHelper.multiplyDeltaMovement(this, 0.6D, 1.0D);
                 }
-            	this.doEnchantDamageEffects(this, entityIn);
-            	this.setLastHurtMob(entityIn);
+                if (level() instanceof ServerLevel serverLevel) {
+                    EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);}
+            	this.setLastHurtMob(attackedEntity);
             }
             return isAttackSuccess;
         }
-        else {return super.doHurtTarget(entityIn);}        
+        else {return super.doHurtTarget(attackedEntity);}
     }
 
     public static class ShroomBoomMeleeAttackGoal extends MeleeAttackGoal

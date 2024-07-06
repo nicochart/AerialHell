@@ -30,12 +30,12 @@ public class PoisonballEntity extends Fireball
 
 	public PoisonballEntity(Level worldIn, double x, double y, double z, double accX, double accY, double accZ)
 	{
-		super(AerialHellEntities.POISONBALL.get(), x, y, z, accX, accY, accZ, worldIn);
+		super(AerialHellEntities.POISONBALL.get(), x, y, z, new Vec3(accX, accY, accZ), worldIn);
 	}
 
 	public PoisonballEntity(Level worldIn, LivingEntity shooter, double accX, double accY, double accZ)
 	{
-		super(AerialHellEntities.POISONBALL.get(), shooter, accX, accY, accZ, worldIn);
+		super(AerialHellEntities.POISONBALL.get(), shooter, new Vec3(accX, accY, accZ), worldIn);
 	}
 
 	@Override public boolean fireImmune() {return true;}
@@ -86,7 +86,7 @@ public class PoisonballEntity extends Fireball
 			double d0 = this.getX() + movement.x; double d1 = this.getY() + movement.y; double d2 = this.getZ() + movement.z;
 			ProjectileUtil.rotateTowardsMovement(this, 0.2F);
 
-			this.setDeltaMovement(movement.add(this.xPower, this.yPower, this.zPower));
+			this.setDeltaMovement(this.getDeltaMovement().add(this.getDeltaMovement().normalize().scale(this.accelerationPower)).scale(this.getInertia()));
 			this.setPos(d0, d1, d2);
 		}
 		else {this.discard(); return;}

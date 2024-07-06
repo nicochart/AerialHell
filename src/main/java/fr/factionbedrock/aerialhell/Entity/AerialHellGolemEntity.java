@@ -4,9 +4,13 @@ import fr.factionbedrock.aerialhell.Entity.AI.ActiveLookAtPlayerGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveRandomLookAroundGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveMeleeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGoal;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -49,17 +53,17 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
 		super.aiStep();
     }
 	
-    @Override
-    public boolean doHurtTarget(Entity entityIn)
+    @Override public boolean doHurtTarget(Entity attackedEntity)
     {
-    	float attackDamage = this.getAttackDamage();
-    	this.level().broadcastEntityEvent(this, (byte)4);
-        float f1 = (int)attackDamage > 0 ? attackDamage / 2.0F + (float)this.random.nextInt((int)attackDamage) : attackDamage;
-        boolean flag = entityIn.hurt(this.damageSources().mobAttack(this), f1);
+        DamageSource damagesource = this.damageSources().mobAttack(this);
+        float attackDamage = this.getAttackDamage();
+        this.level().broadcastEntityEvent(this, (byte)4);
+        float amount = (int)attackDamage > 0 ? attackDamage / 2.0F + (float)this.random.nextInt((int)attackDamage) : attackDamage;
+        boolean flag = attackedEntity.hurt(damagesource, amount);
         if (flag)
         {
-           entityIn.setDeltaMovement(entityIn.getDeltaMovement().add(0.0D, (double)this.getYMotionOnAttack(), 0.0D)); //projection en hauteur
-           this.doEnchantDamageEffects(this, entityIn);
+            attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().add(0.0D, (double)this.getYMotionOnAttack(), 0.0D)); //projection en hauteur
+            if (level() instanceof ServerLevel serverLevel) {EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);}
         }
 
         this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);

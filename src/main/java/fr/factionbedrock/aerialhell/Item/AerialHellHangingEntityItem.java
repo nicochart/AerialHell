@@ -94,7 +94,7 @@ public class AerialHellHangingEntityItem extends Item
                                 paintingVariantHolder ->
                                 {
                                     paintingVariantHolder.unwrapKey().ifPresent(p_270217_ -> {components.add(Component.translatable(p_270217_.location().toLanguageKey("painting", "title")).withStyle(ChatFormatting.YELLOW)); components.add(Component.translatable(p_270217_.location().toLanguageKey("painting", "author")).withStyle(ChatFormatting.GRAY));});
-                                    components.add(Component.translatable("painting.dimensions", Mth.positiveCeilDiv(paintingVariantHolder.value().getWidth(), 16), Mth.positiveCeilDiv(paintingVariantHolder.value().getHeight(), 16)));
+                                    components.add(Component.translatable("painting.dimensions", Mth.positiveCeilDiv(paintingVariantHolder.value().width(), 16), Mth.positiveCeilDiv(paintingVariantHolder.value().height(), 16)));
                                 },
                                 () -> components.add(TOOLTIP_RANDOM_VARIANT)
                         );

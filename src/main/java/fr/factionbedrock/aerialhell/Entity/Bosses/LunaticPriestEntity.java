@@ -4,10 +4,12 @@ import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -135,18 +137,19 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	
 	@Override public boolean doHurtTarget(Entity attackedEntity)
 	{
-	      this.level().broadcastEntityEvent(this, (byte)4);
-	      float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
-	      float f1 = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
-	      boolean flag = attackedEntity.hurt(this.damageSources().mobAttack(this), f1);
-	      if (flag)
-	      {
-	         attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().x, (double)0.4F, attackedEntity.getDeltaMovement().z);
-	         this.doEnchantDamageEffects(this, attackedEntity);
-	      }
+		DamageSource damagesource = this.damageSources().mobAttack(this);
+		this.level().broadcastEntityEvent(this, (byte)4);
+		float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		float f1 = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
+		boolean flag = attackedEntity.hurt(damagesource, f1);
+		if (flag)
+		{
+			attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().x, (double)0.4F, attackedEntity.getDeltaMovement().z);
+			if (level() instanceof ServerLevel serverLevel) {EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);}
+		}
 
-	      this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
-	      return flag;
+		this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
+		return flag;
 	}
 	
 	@Override

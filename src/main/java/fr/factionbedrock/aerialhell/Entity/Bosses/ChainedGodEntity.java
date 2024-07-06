@@ -11,6 +11,7 @@ import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -19,6 +20,7 @@ import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -272,20 +274,21 @@ public class ChainedGodEntity extends AbstractBossEntity
 	
 	@Override public boolean doHurtTarget(Entity attackedEntity)
 	{
-	      this.level().broadcastEntityEvent(this, (byte)4);
-	      float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
-	      float amount = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
-	      float kb = (float)this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
-	      boolean flag = attackedEntity.hurt(this.damageSources().mobAttack(this), amount);
-	      if (flag)
-	      {
-	    	 ((LivingEntity)attackedEntity).knockback(kb * 0.5F, (double) Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))));
-	         attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().x, (double)0.8F, attackedEntity.getDeltaMovement().z);
-	         this.doEnchantDamageEffects(this, attackedEntity);
-	      }
+		DamageSource damagesource = this.damageSources().mobAttack(this);
+		this.level().broadcastEntityEvent(this, (byte)4);
+		float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		float amount = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
+		float kb = (float)this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
+		boolean flag = attackedEntity.hurt(damagesource, amount);
+		if (flag)
+		{
+			((LivingEntity)attackedEntity).knockback(kb * 0.5F, (double) Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))));
+			attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().x, (double)0.8F, attackedEntity.getDeltaMovement().z);
+			if (level() instanceof ServerLevel serverLevel) {EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);}
+		}
 
-	      this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
-	      return flag;
+		this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
+		return flag;
 	}
 
 	@Override

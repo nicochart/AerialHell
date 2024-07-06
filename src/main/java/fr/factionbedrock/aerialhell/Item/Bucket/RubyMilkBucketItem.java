@@ -32,11 +32,7 @@ public class RubyMilkBucketItem extends Item
         return stack.isEmpty() ? new ItemStack(Items.BUCKET) : stack;
     }
 
-    @Override
-    public int getUseDuration(ItemStack stack)
-    {
-        return 32;
-    }
+    @Override public int getUseDuration(ItemStack stack, LivingEntity livingEntity) {return 32;}
 
     @Override
     public UseAnim getUseAnimation(ItemStack stack) {return UseAnim.DRINK;}

@@ -10,7 +10,6 @@ import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.AerialHellCreative
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMenuTypes;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntityAttributes;
-import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellPaintingVariants;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -59,9 +58,6 @@ public class AerialHellSetup
         AerialHellFeatures.FEATURES.register(bus);
         //AerialHellConfiguredFeatures.CONFIGURED_FEATURES.register(bus);
         //AerialHellPlacedFeatures.PLACED_FEATURES.register(bus);
-
-        AerialHellEnchantments.ENCHANTMENTS.register(bus);
-        AerialHellPaintingVariants.PAINTING_TYPES.register(bus);
     }
 
     public static void eventBusListen(IEventBus bus)
@@ -74,7 +70,7 @@ public class AerialHellSetup
         bus.addListener(ToolsAndArmorEventListener::onProjectileCollideWithEntity);
         bus.addListener(ToolsAndArmorEventListener::onLivingHurtEvent);
         bus.addListener(ToolsAndArmorEventListener::onPlayerHarvest);
-        bus.addListener(ToolsAndArmorEventListener::addReach);
+        //bus.addListener(ToolsAndArmorEventListener::addReach); TODO
         bus.addListener(CustomBrewingRecipe::addBrewingRecipes);
     }
 

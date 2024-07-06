@@ -480,8 +480,8 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         }
     }
 
-    @Override public boolean canChangeDimensions() {return false;}
-    @Override protected void dropExperience() {if (this.isHead()) {super.dropExperience();}}
+    @Override public boolean canChangeDimensions(Level source, Level dest) {return false;}
+    @Override protected void dropExperience(Entity entity) {if (this.isHead()) {super.dropExperience(entity);}}
     @Override public EntityType<AbstractSnakeEntity> getType() {return (EntityType<AbstractSnakeEntity>) super.getType();}
     @Override public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source)
     {

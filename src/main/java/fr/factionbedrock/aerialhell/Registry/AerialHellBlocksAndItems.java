@@ -26,6 +26,7 @@ import fr.factionbedrock.aerialhell.Item.Material.*;
 import fr.factionbedrock.aerialhell.Item.Shuriken.*;
 import fr.factionbedrock.aerialhell.Item.Tools.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellJukeboxSongs;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellTreeGrowers;
@@ -1475,11 +1476,11 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> VOLUCITE_BLOWPIPE = ITEMS.register("volucite_blowpipe", () -> new BlowpipeItem(new Item.Properties().rarity(AerialHellRarities.VIBRANT).stacksTo(1).durability(400), 2.4F));
 
 	//music discs
-	public static final DeferredItem<Item> MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP = ITEMS.register("music_disc_aerial_hell_theme_tommaup", () -> new RecordItem(1, () -> AerialHellSoundEvents.MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP.get(), new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 2860));
-	public static final DeferredItem<Item> MUSIC_DISC_SWEDEN_ANDREAS_ZOELLER = ITEMS.register("music_disc_sweden_andreas_zoeller", () -> new RecordItem(1, () -> AerialHellSoundEvents.MUSIC_DISC_SWEDEN_ANDREAS_ZOELLER.get(), new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 3740));
-	public static final DeferredItem<Item> MUSIC_DISC_ENTHUSIAST_TOURS = ITEMS.register("music_disc_enthusiast_tours", () -> new RecordItem(1, () -> AerialHellSoundEvents.MUSIC_DISC_ENTHUSIAST_TOURS.get(), new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 3380));
-	public static final DeferredItem<Item> MUSIC_DISC_BMINOR_ARULO = ITEMS.register("music_disc_bminor_arulo", () -> new RecordItem(1, () -> AerialHellSoundEvents.MUSIC_DISC_BMINOR_ARULO.get(), new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 2160));
-	public static final DeferredItem<Item> MUSIC_DISC_RETRO_EXPLORATION_TOMMAUP = ITEMS.register("music_disc_retro_exploration_tommaup", () -> new RecordItem(1, () -> AerialHellSoundEvents.MUSIC_DISC_RETRO_EXPLORATION_TOMMAUP.get(), new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 3240));
+	public static final DeferredItem<Item> MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP = ITEMS.register("music_disc_aerial_hell_theme_tommaup", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(AerialHellJukeboxSongs.AERIAL_HELL_THEME_TOMMAUP)));
+	public static final DeferredItem<Item> MUSIC_DISC_SWEDEN_ANDREAS_ZOELLER = ITEMS.register("music_disc_sweden_andreas_zoeller", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(AerialHellJukeboxSongs.SWEDEN_ANDREAS_ZOELLER)));
+	public static final DeferredItem<Item> MUSIC_DISC_ENTHUSIAST_TOURS = ITEMS.register("music_disc_enthusiast_tours", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(AerialHellJukeboxSongs.ENTHUSIAST_TOURS)));
+	public static final DeferredItem<Item> MUSIC_DISC_BMINOR_ARULO = ITEMS.register("music_disc_bminor_arulo", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(AerialHellJukeboxSongs.BMINOR_ARULO)));
+	public static final DeferredItem<Item> MUSIC_DISC_RETRO_EXPLORATION_TOMMAUP = ITEMS.register("music_disc_retro_exploration_tommaup", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(AerialHellJukeboxSongs.RETRO_EXPLORATION_TOMMAUP)));
 
 	//fluids
     public static final DeferredBlock<LiquidBlock> LIQUID_OF_THE_GODS = BLOCKS.register("liquid_of_the_gods", () -> new AerialHellFluidBlock(AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE.get(), BlockBehaviour.Properties.of().replaceable().lightLevel((state) -> 8)));

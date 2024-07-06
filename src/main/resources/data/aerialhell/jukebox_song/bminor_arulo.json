@@ -1,0 +1,8 @@
+{
+  "comparator_output": 12,
+  "description": {
+    "translate": "jukebox_song.aerialhell.bminor_arulo"
+  },
+  "length_in_seconds": 108.0,
+  "sound_event": "aerialhell:music_disc.bminor_arulo"
+}
