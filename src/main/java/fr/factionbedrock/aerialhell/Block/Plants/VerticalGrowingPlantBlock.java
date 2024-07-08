@@ -15,10 +15,9 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.util.TriState;
 
-import net.neoforged.neoforge.common.PlantType;
-
-public class VerticalGrowingPlantBlock extends Block implements net.neoforged.neoforge.common.IPlantable
+public class VerticalGrowingPlantBlock extends Block
 {
     public static final IntegerProperty AGE = BlockStateProperties.AGE_15;
     public static final BooleanProperty TOP = BooleanProperty.create("top");
@@ -93,13 +92,14 @@ public class VerticalGrowingPlantBlock extends Block implements net.neoforged.ne
     @Override public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos)
     {
         BlockState soil = levelReader.getBlockState(pos.below());
-        if (soil.canSustainPlant(levelReader, pos.below(), Direction.UP, this)) {return true;}
+        TriState tristate = soil.canSustainPlant(levelReader, pos.below(), Direction.UP, this.defaultBlockState());
+        if (tristate == TriState.TRUE || tristate == TriState.DEFAULT) {return true;} //TODO verify
         BlockState belowstate = levelReader.getBlockState(pos.below());
         if (belowstate.is(this) && !belowstate.getValue(TOP)) {return true;}
         return false;
     }
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateDefinitionBuilder) {stateDefinitionBuilder.add(AGE); stateDefinitionBuilder.add(TOP);}
-    @Override public net.neoforged.neoforge.common.PlantType getPlantType(BlockGetter world, BlockPos pos) {return PlantType.PLAINS;}
-    @Override public BlockState getPlant(BlockGetter world, BlockPos pos) {return defaultBlockState();}
+    //@Override public net.neoforged.neoforge.common.PlantType getPlantType(BlockGetter world, BlockPos pos) {return PlantType.PLAINS;} TODO
+    //@Override public BlockState getPlant(BlockGetter world, BlockPos pos) {return defaultBlockState();}
 }

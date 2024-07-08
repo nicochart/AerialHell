@@ -23,8 +23,6 @@ import java.util.Optional;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.world.level.lighting.LightEngine;
-import net.neoforged.neoforge.common.ToolAction;
-import net.neoforged.neoforge.common.ToolActions;
 import org.jetbrains.annotations.Nullable;
 
 public class ShadowGrassBlock extends GrassBlock
@@ -135,7 +133,7 @@ public class ShadowGrassBlock extends GrassBlock
 	}
 
 	//make it tillable
-	@Override @Nullable
+	/*@Override @Nullable TODO make tillable
 	public BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction, boolean simulate)
 	{
 		if (!context.getItemInHand().canPerformAction(toolAction)) {return null;}
@@ -145,5 +143,5 @@ public class ShadowGrassBlock extends GrassBlock
 			else if (ToolActions.SHOVEL_FLATTEN == toolAction) {return AerialHellBlocksAndItems.STELLAR_DIRT_PATH.get().defaultBlockState();}
 		}
 		return super.getToolModifiedState(state, context, toolAction, simulate);
-	}
+	}*/
 }

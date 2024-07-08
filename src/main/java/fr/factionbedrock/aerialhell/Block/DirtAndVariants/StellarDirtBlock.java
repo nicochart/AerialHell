@@ -4,8 +4,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.ToolAction;
-import net.neoforged.neoforge.common.ToolActions;
 import org.jetbrains.annotations.Nullable;
 
 public class StellarDirtBlock extends Block
@@ -16,7 +14,7 @@ public class StellarDirtBlock extends Block
 	}
 
 	//make it tillable
-	@Override @Nullable
+	/*@Override @Nullable TODO make tillable
 	public BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction, boolean simulate)
 	{
 		if (!context.getItemInHand().canPerformAction(toolAction)) {return null;}
@@ -27,5 +25,5 @@ public class StellarDirtBlock extends Block
 			if (ToolActions.SHOVEL_FLATTEN == toolAction) {return AerialHellBlocksAndItems.STELLAR_DIRT_PATH.get().defaultBlockState();}
 		}
 		return super.getToolModifiedState(state, context, toolAction, simulate);
-	}
+	}*/
 }

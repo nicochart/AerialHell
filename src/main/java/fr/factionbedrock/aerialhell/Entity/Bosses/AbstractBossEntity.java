@@ -62,9 +62,9 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	//copy of net.minecraft.world.entity.LivingEntity hurt(DamageSource source, float amount) method, removing everything non-related to my bosses, and calling other methods, allowing customization in my inheriting classes
 	public boolean bossHurt(DamageSource source, float amount)
 	{
-		if (!net.neoforged.neoforge.common.CommonHooks.onLivingAttack(this, source, amount)) return false;
 		if (this.isInvulnerableTo(source) || this.level().isClientSide || this.isDeadOrDying()) {return false;}
 		else if (source.is(DamageTypeTags.IS_FIRE) && this.hasEffect(MobEffects.FIRE_RESISTANCE)) {return false;}
+		else if (net.neoforged.neoforge.common.CommonHooks.onEntityIncomingDamage(this, this.damageContainers.peek())) {return false;}
 		else
 		{
 			this.noActionTime = 0;

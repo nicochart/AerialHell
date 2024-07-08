@@ -13,6 +13,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.neoforged.neoforge.common.util.TriState;
 
 import javax.annotation.Nullable;
 
@@ -63,7 +64,8 @@ public class StellarFarmBlock extends FarmBlock
     {
         BlockState plant = blockGetter.getBlockState(pos.above());
         BlockState state = blockGetter.getBlockState(pos);
-        return plant.getBlock() instanceof net.neoforged.neoforge.common.IPlantable && state.canSustainPlant(blockGetter, pos, Direction.UP, (net.neoforged.neoforge.common.IPlantable)plant.getBlock());
+        TriState tristate = state.canSustainPlant(blockGetter, pos, Direction.UP, plant.getBlock().defaultBlockState());
+        return tristate == TriState.TRUE || tristate == TriState.DEFAULT;
     }
 
     //copy of net.minecraft.world.level.block.FarmBlock.isNearWater

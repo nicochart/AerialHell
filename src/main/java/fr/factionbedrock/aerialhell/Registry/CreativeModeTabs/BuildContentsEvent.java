@@ -902,7 +902,7 @@ public class BuildContentsEvent
     {
         for (Item item : itemList)
         {
-            event.getEntries().put(item.getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.accept(item.getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
     }
 }
