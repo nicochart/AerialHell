@@ -64,42 +64,45 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	{
 		if (this.isInvulnerableTo(source) || this.level().isClientSide || this.isDeadOrDying()) {return false;}
 		else if (source.is(DamageTypeTags.IS_FIRE) && this.hasEffect(MobEffects.FIRE_RESISTANCE)) {return false;}
-		else if (net.neoforged.neoforge.common.CommonHooks.onEntityIncomingDamage(this, this.damageContainers.peek())) {return false;}
 		else
 		{
-			this.noActionTime = 0;
-
-			if (source.is(DamageTypeTags.IS_FREEZING) && this.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {amount *= 5.0F;}
-			this.walkAnimation.setSpeed(1.5F);
-
-			boolean wasOnHurtCooldown = (float)this.invulnerableTime > 10.0F && !source.is(DamageTypeTags.BYPASSES_COOLDOWN);
-			boolean actuallyGotHurt = tryActuallyHurt(source, amount);
-
-			if (!actuallyGotHurt) {return false;}
-			//we know this got hurt
-			setLastHurtBy(source);
-
-			if (!wasOnHurtCooldown)
+			this.damageContainers.push(new net.neoforged.neoforge.common.damagesource.DamageContainer(source, amount));
+			if (net.neoforged.neoforge.common.CommonHooks.onEntityIncomingDamage(this, this.damageContainers.peek())) {return false;}
+			else
 			{
-				this.level().broadcastDamageEvent(this, source);
-				if (!source.is(DamageTypeTags.NO_IMPACT)) {this.markHurt();}
+				this.noActionTime = 0;
 
-				tryApplyingKnockback(source);
+				if (source.is(DamageTypeTags.IS_FREEZING) && this.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {amount *= 5.0F;}
+				this.walkAnimation.setSpeed(1.5F);
+
+				boolean wasOnHurtCooldown = (float)this.invulnerableTime > 10.0F && !source.is(DamageTypeTags.BYPASSES_COOLDOWN);
+				boolean actuallyGotHurt = tryActuallyHurt(source, amount);
+
+				if (!actuallyGotHurt) {return false;}
+				//we know this got hurt
+				setLastHurtBy(source);
+
+				if (!wasOnHurtCooldown)
+				{
+					this.level().broadcastDamageEvent(this, source);
+					if (!source.is(DamageTypeTags.NO_IMPACT)) {this.markHurt();}
+
+					tryApplyingKnockback(source);
+				}
+
+				boolean died = false;
+				if (this.isDeadOrDying()) {died = tryDying(source);}
+
+				if (!wasOnHurtCooldown) {playHurtSound(source, died);}
+
+				this.lastDamageSource = source;
+				this.lastDamageStamp = this.level().getGameTime();
+
+				if (source.getEntity() instanceof ServerPlayer serverPlayerSource)
+				{
+					CriteriaTriggers.PLAYER_HURT_ENTITY.trigger(serverPlayerSource, this, source, amount, amount, false);
+				}
 			}
-
-			boolean died = false;
-			if (this.isDeadOrDying()) {died = tryDying(source);}
-
-			if (!wasOnHurtCooldown) {playHurtSound(source, died);}
-
-			this.lastDamageSource = source;
-			this.lastDamageStamp = this.level().getGameTime();
-
-			if (source.getEntity() instanceof ServerPlayer serverPlayerSource)
-			{
-				CriteriaTriggers.PLAYER_HURT_ENTITY.trigger(serverPlayerSource, this, source, amount, amount, false);
-			}
-
 			return true;
 		}
 	}
