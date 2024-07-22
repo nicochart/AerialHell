@@ -11,7 +11,7 @@ public class LunaticCrystalShurikenItem extends AbstractShurikenItem
 {
 	public LunaticCrystalShurikenItem()
 	{
-		super(new Item.Properties().rarity(AerialHellRarities.LEGENDARY));
+		super(new Item.Properties().rarity(AerialHellRarities.LEGENDARY.getValue()));
 	}
 
 	@Override protected float getVelocity() {return 1.8F;}

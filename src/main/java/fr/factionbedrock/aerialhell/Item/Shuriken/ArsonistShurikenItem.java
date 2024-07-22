@@ -11,7 +11,7 @@ public class ArsonistShurikenItem extends AbstractShurikenItem
 {
 	public ArsonistShurikenItem()
 	{
-		super(new Item.Properties().rarity(AerialHellRarities.MYTHICAL));
+		super(new Item.Properties().rarity(AerialHellRarities.MYTHICAL.getValue()));
 	}
 
 	@Override protected float getVelocity() {return 1.7F;}

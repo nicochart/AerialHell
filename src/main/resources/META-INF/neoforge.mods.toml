@@ -10,6 +10,8 @@ version="${mod_version}" #mandatory
 displayName="${mod_name}"
 authors="nicochart"
 
+enumExtensions="META-INF/enumextensions.json"
+
 logoFile="aerialhell.png"
 
 description='''

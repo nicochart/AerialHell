@@ -11,7 +11,7 @@ public class VoluciteShurikenItem extends AbstractShurikenItem
 {
 	public VoluciteShurikenItem()
 	{
-		super(new Item.Properties().rarity(AerialHellRarities.VIBRANT));
+		super(new Item.Properties().rarity(AerialHellRarities.VIBRANT.getValue()));
 	}
 
 	@Override protected float getVelocity() {return 1.6F;}

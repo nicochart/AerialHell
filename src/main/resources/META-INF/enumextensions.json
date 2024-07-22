@@ -1,0 +1,49 @@
+{
+    "entries": [
+        {
+            "enum": "net/minecraft/world/item/Rarity",
+            "name": "AERIALHELL_FROZEN_RARITY",
+            "constructor": "(ILjava/lang/String;Ljava/util/function/UnaryOperator;)V",
+            "parameters": {
+                "class": "fr/factionbedrock/aerialhell/Registry/Misc/AerialHellRarities",
+                "field": "FROZEN"
+            }
+        },
+        {
+            "enum": "net/minecraft/world/item/Rarity",
+            "name": "AERIALHELL_CORRUPTED_RARITY",
+            "constructor": "(ILjava/lang/String;Ljava/util/function/UnaryOperator;)V",
+            "parameters": {
+                "class": "fr/factionbedrock/aerialhell/Registry/Misc/AerialHellRarities",
+                "field": "CORRUPTED"
+            }
+        },
+        {
+            "enum": "net/minecraft/world/item/Rarity",
+            "name": "AERIALHELL_VIBRANT_RARITY",
+            "constructor": "(ILjava/lang/String;Ljava/util/function/UnaryOperator;)V",
+            "parameters": {
+                "class": "fr/factionbedrock/aerialhell/Registry/Misc/AerialHellRarities",
+                "field": "VIBRANT"
+            }
+        },
+        {
+            "enum": "net/minecraft/world/item/Rarity",
+            "name": "AERIALHELL_LEGENDARY_RARITY",
+            "constructor": "(ILjava/lang/String;Ljava/util/function/UnaryOperator;)V",
+            "parameters": {
+                "class": "fr/factionbedrock/aerialhell/Registry/Misc/AerialHellRarities",
+                "field": "LEGENDARY"
+            }
+        },
+        {
+            "enum": "net/minecraft/world/item/Rarity",
+            "name": "AERIALHELL_MYTHICAL_RARITY",
+            "constructor": "(ILjava/lang/String;Ljava/util/function/UnaryOperator;)V",
+            "parameters": {
+                "class": "fr/factionbedrock/aerialhell/Registry/Misc/AerialHellRarities",
+                "field": "MYTHICAL"
+            }
+        }
+    ]
+}

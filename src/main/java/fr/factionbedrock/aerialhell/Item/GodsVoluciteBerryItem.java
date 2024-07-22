@@ -12,7 +12,7 @@ public class GodsVoluciteBerryItem extends Item
 {
     public GodsVoluciteBerryItem()
     {
-        super(new Item.Properties().rarity(AerialHellRarities.MYTHICAL)
+        super(new Item.Properties().rarity(AerialHellRarities.MYTHICAL.getValue())
                 .food(new FoodProperties.Builder().alwaysEdible().nutrition(6).saturationModifier(0.8F)
                 		.effect(new MobEffectInstance(MobEffects.SLOW_FALLING, 2400, 2), 1.0F)
                 		.effect(new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate(), 2000, 2), 1.0F)
