@@ -34,6 +34,6 @@ public class BlueSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 		int sizeX = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
         int sizeZ = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
 		generateFirstEllipsis(context, sizeX, sizeZ, generatePos);
-		return false;
+		return true;
     }
 }

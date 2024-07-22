@@ -17,6 +17,7 @@ public class FeatureHelper
 {
     public static boolean isFeatureGeneratingNextToDungeon(FeaturePlaceContext<?> context)
     {
+        /* TODO (currently makes worldgen stops with no error in log, new chunks do not load, infinite loop)
         WorldGenLevel level = context.level();
         //context.chunkGenerator().findNearestMapStructure(level.getLevel(), StructureHelper.getDungeonsHolderSet(level.registryAccess()), context.origin(), 100, false);
         BlockPos nearestDungeonPos = level.getLevel().findNearestMapStructure(AerialHellTags.Structures.DUNGEONS, context.origin(), 100, false);
@@ -25,6 +26,8 @@ public class FeatureHelper
             return context.origin().distSqr(nearestDungeonPos) < 100;
         }
         else {return false;}
+        */
+        return false;
     }
 
     public static boolean isShadowBiome(Biome biome)
