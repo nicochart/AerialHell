@@ -186,28 +186,59 @@ public class AerialHellDimensionSkyRenderer
 	@SuppressWarnings("unused")
 	private MeshData renderStars(Tesselator tesselator)
 	{
-		RandomSource randomsource = RandomSource.create(10842L);
-		int i = 1500;
-		float f = 100.0F;
+		RandomSource rand = RandomSource.create(10842L);
 		BufferBuilder bufferbuilder = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
 
 		//from 1500 to 4000
 		for (int j = 0; j < 4000; j++)
 		{
-			float f1 = randomsource.nextFloat() * 2.0F - 1.0F;
-			float f2 = randomsource.nextFloat() * 2.0F - 1.0F;
-			float f3 = randomsource.nextFloat() * 2.0F - 1.0F;
-			float f4 = 0.15F + randomsource.nextFloat() * 0.1F;
-			float f5 = Mth.lengthSquared(f1, f2, f3);
+			float vecx, vecy, vecz, size = 0.15F + rand.nextFloat() * 0.1F;
+			int choice = rand.nextInt(6);
+			if (choice == 1) //cluster 1
+			{
+				vecx = 0.0F + rand.nextFloat() * 0.5F;
+				vecy = -1.0F + rand.nextFloat() * 0.5F;
+				vecz = 0.2F + rand.nextFloat() * 0.5F;
+				if (rand.nextFloat() > 0.8F) {size += rand.nextFloat() * 0.6F;}
+			}
+			else if (choice == 2) //cluster 2
+			{
+				vecx = 0.3F + rand.nextFloat() * 0.7F;
+				vecy = 0.4F + rand.nextFloat() * 0.6F;
+				vecz = 0.1F + rand.nextFloat() * 0.7F;
+				if (rand.nextFloat() > 0.7F) {size += rand.nextFloat() * 0.6F;}
+			}
+			else if (choice == 3) //cluster 3
+			{
+				vecx = -1.0F + rand.nextFloat() * 0.4F;
+				vecy = -0.2F + rand.nextFloat() * 0.5F;
+				vecz = -1.0F + rand.nextFloat() * 0.5F;
+				if (rand.nextFloat() > 0.9F) {size += rand.nextFloat() * 0.6F;}
+			}
+			else if (choice == 4) //cluster 4
+			{
+				vecx = 0.4F + rand.nextFloat() * 0.6F;
+				vecy = 0.5F + rand.nextFloat() * 0.5F;
+				vecz = -1.0F + rand.nextFloat() * 0.6F;
+				if (rand.nextFloat() > 0.85F) {size += rand.nextFloat() * 0.6F;}
+			}
+			else //completely random star
+			{
+				vecx = rand.nextFloat() * 2.0F - 1.0F;
+				vecy = rand.nextFloat() * 2.0F - 1.0F;
+				vecz = rand.nextFloat() * 2.0F - 1.0F;
+			}
+
+			float f5 = Mth.lengthSquared(vecx, vecy, vecz);
 			if (!(f5 <= 0.010000001F) && !(f5 >= 1.0F))
 			{
-				Vector3f vector3f = new Vector3f(f1, f2, f3).normalize(100.0F);
-				float f6 = (float)(randomsource.nextDouble() * (float) Math.PI * 2.0);
+				Vector3f vector3f = new Vector3f(vecx, vecy, vecz).normalize(100.0F);
+				float f6 = 0;//(float)(randomsource.nextDouble() * (float) Math.PI * 2.0);
 				Quaternionf quaternionf = new Quaternionf().rotateTo(new Vector3f(0.0F, 0.0F, -1.0F), vector3f).rotateZ(f6);
-				bufferbuilder.addVertex(vector3f.add(new Vector3f(f4, -f4, 0.0F).rotate(quaternionf)));
-				bufferbuilder.addVertex(vector3f.add(new Vector3f(f4, f4, 0.0F).rotate(quaternionf)));
-				bufferbuilder.addVertex(vector3f.add(new Vector3f(-f4, f4, 0.0F).rotate(quaternionf)));
-				bufferbuilder.addVertex(vector3f.add(new Vector3f(-f4, -f4, 0.0F).rotate(quaternionf)));
+				bufferbuilder.addVertex(vector3f.add(new Vector3f(size, -size, 0.0F).rotate(quaternionf)));
+				bufferbuilder.addVertex(vector3f.add(new Vector3f(size, size, 0.0F).rotate(quaternionf)));
+				bufferbuilder.addVertex(vector3f.add(new Vector3f(-size, size, 0.0F).rotate(quaternionf)));
+				bufferbuilder.addVertex(vector3f.add(new Vector3f(-size, -size, 0.0F).rotate(quaternionf)));
 			}
 		}
 
