@@ -18,7 +18,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.material.FogType;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
-import org.joml.Matrix4fStack;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -189,59 +188,74 @@ public class AerialHellDimensionSkyRenderer
 		RandomSource rand = RandomSource.create(10842L);
 		BufferBuilder bufferbuilder = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
 
-		//from 1500 to 4000
-		for (int j = 0; j < 4000; j++)
-		{
-			float vecx, vecy, vecz, size = 0.15F + rand.nextFloat() * 0.1F;
-			int choice = rand.nextInt(6);
-			if (choice == 1) //cluster 1
-			{
-				vecx = 0.0F + rand.nextFloat() * 0.5F;
-				vecy = -1.0F + rand.nextFloat() * 0.5F;
-				vecz = 0.2F + rand.nextFloat() * 0.5F;
-				if (rand.nextFloat() > 0.8F) {size += rand.nextFloat() * 0.6F;}
-			}
-			else if (choice == 2) //cluster 2
-			{
-				vecx = 0.3F + rand.nextFloat() * 0.7F;
-				vecy = 0.4F + rand.nextFloat() * 0.6F;
-				vecz = 0.1F + rand.nextFloat() * 0.7F;
-				if (rand.nextFloat() > 0.7F) {size += rand.nextFloat() * 0.6F;}
-			}
-			else if (choice == 3) //cluster 3
-			{
-				vecx = -1.0F + rand.nextFloat() * 0.4F;
-				vecy = -0.2F + rand.nextFloat() * 0.5F;
-				vecz = -1.0F + rand.nextFloat() * 0.5F;
-				if (rand.nextFloat() > 0.9F) {size += rand.nextFloat() * 0.6F;}
-			}
-			else if (choice == 4) //cluster 4
-			{
-				vecx = 0.4F + rand.nextFloat() * 0.6F;
-				vecy = 0.5F + rand.nextFloat() * 0.5F;
-				vecz = -1.0F + rand.nextFloat() * 0.6F;
-				if (rand.nextFloat() > 0.85F) {size += rand.nextFloat() * 0.6F;}
-			}
-			else //completely random star
-			{
-				vecx = rand.nextFloat() * 2.0F - 1.0F;
-				vecy = rand.nextFloat() * 2.0F - 1.0F;
-				vecz = rand.nextFloat() * 2.0F - 1.0F;
-			}
-
-			float f5 = Mth.lengthSquared(vecx, vecy, vecz);
-			if (!(f5 <= 0.010000001F) && !(f5 >= 1.0F))
-			{
-				Vector3f vector3f = new Vector3f(vecx, vecy, vecz).normalize(100.0F);
-				float f6 = 0;//(float)(randomsource.nextDouble() * (float) Math.PI * 2.0);
-				Quaternionf quaternionf = new Quaternionf().rotateTo(new Vector3f(0.0F, 0.0F, -1.0F), vector3f).rotateZ(f6);
-				bufferbuilder.addVertex(vector3f.add(new Vector3f(size, -size, 0.0F).rotate(quaternionf)));
-				bufferbuilder.addVertex(vector3f.add(new Vector3f(size, size, 0.0F).rotate(quaternionf)));
-				bufferbuilder.addVertex(vector3f.add(new Vector3f(-size, size, 0.0F).rotate(quaternionf)));
-				bufferbuilder.addVertex(vector3f.add(new Vector3f(-size, -size, 0.0F).rotate(quaternionf)));
-			}
-		}
+		//vecx & vecz are angular coordinates, vecy is distance - lens effect (0.0 looks like the cluster is closer, bigger. 1.0 or -1.0 is far away, smaller)
+		//vecx is horizontal angle and vecz vertical angle. vecx = 0 -> vertically aligned with the moon
+		renderStarCluster(bufferbuilder, 500, new Vector3f(0.3F, -0.7F, 0.25F), new Vector3f(0.5F, 0.5F, 0.5F), 0.1F, 0.6F, rand);
+		renderStarCluster(bufferbuilder, 600, new Vector3f(-0.3F, -0.6F, -0.7F), new Vector3f(0.5F, 0.5F, 0.5F), 0.2F, 0.5F, rand);
+		renderStarCluster(bufferbuilder, 400, new Vector3f(0.2F, 0.2F, -0.7F), new Vector3f(0.5F, 0.3F, 0.5F), 0.1F, 0.4F, rand);
+		renderStarCluster(bufferbuilder, 600, new Vector3f(0.65F, 0.7F, 0.45F), new Vector3f(0.7F, 0.6F, 0.7F), 0.3F, 0.6F, rand);
+		renderStarCluster(bufferbuilder, 700, new Vector3f(-0.8F, 0.1F, -0.5F), new Vector3f(0.7F, 0.7F, 0.7F), 0.1F, 0.6F, rand);
+		renderStarCluster(bufferbuilder, 500, new Vector3f(0.7F, 0.75F, -0.4F), new Vector3f(0.6F, 0.5F, 0.6F), 0.15F, 0.4F, rand);
+		renderScatteredStars(bufferbuilder, 2000, 0.01F, 0.4F, rand);
 
 		return bufferbuilder.buildOrThrow();
+	}
+
+	private void renderScatteredStars(BufferBuilder builder, int starNumber, float bigChance, float bigSizeBonus, RandomSource rand)
+	{
+		for (int i = 0; i < starNumber; i++)
+		{
+			Vector3f starVec = createRandomStar(rand);
+			float starSize = 0.15F + rand.nextFloat() * 0.1F;
+			if (rand.nextFloat() < bigChance) {starSize += rand.nextFloat() * bigSizeBonus;}
+
+			float lengthSquared = Mth.lengthSquared(starVec.x, starVec.y, starVec.z);
+			if (lengthSquared > 0.010000001F && lengthSquared < 1.0F)
+			{
+				generateStar(builder, starVec.normalize(100.0F), starSize);
+			}
+		}
+	}
+
+	private void renderStarCluster(BufferBuilder builder, int starNumber, Vector3f origin, Vector3f size, float bigChance, float bigSizeBonus, RandomSource rand)
+	{
+		for (int i = 0; i < starNumber; i++)
+		{
+			Vector3f starVec = createRandomStar(origin, size, rand);
+			float starSize = 0.15F + rand.nextFloat() * 0.1F;
+			if (rand.nextFloat() < bigChance) {starSize += rand.nextFloat() * bigSizeBonus;}
+
+			float lengthSquared = Mth.lengthSquared(starVec.x, starVec.y, starVec.z);
+			if (lengthSquared > 0.010000001F && lengthSquared < 1.0F && isStarInsideCluster(origin, starVec, size))
+			{
+				generateStar(builder, starVec.normalize(100.0F), starSize);
+			}
+		}
+	}
+
+	private void generateStar(BufferBuilder builder, Vector3f normalizedStarVec, float starSize)
+	{
+		Quaternionf quaternionf = new Quaternionf().rotateTo(new Vector3f(0.0F, 0.0F, -1.0F), normalizedStarVec);
+		builder.addVertex(normalizedStarVec.add(new Vector3f(starSize, -starSize, 0.0F).rotate(quaternionf)));
+		builder.addVertex(normalizedStarVec.add(new Vector3f(starSize, starSize, 0.0F).rotate(quaternionf)));
+		builder.addVertex(normalizedStarVec.add(new Vector3f(-starSize, starSize, 0.0F).rotate(quaternionf)));
+		builder.addVertex(normalizedStarVec.add(new Vector3f(-starSize, -starSize, 0.0F).rotate(quaternionf)));
+	}
+
+	private Vector3f createRandomStar(Vector3f origin, Vector3f size, RandomSource rand)
+	{
+		return new Vector3f(origin.x + size.x * (rand.nextFloat() - 0.5F), origin.y + size.y * (rand.nextFloat() - 0.5F), origin.z + size.z * (rand.nextFloat() - 0.5F));
+	}
+
+	private Vector3f createRandomStar(RandomSource rand)
+	{
+		return new Vector3f(rand.nextFloat() * 2.0F - 1.0F, rand.nextFloat() * 2.0F - 1.0F, rand.nextFloat() * 2.0F - 1.0F);
+	}
+
+	protected boolean isStarInsideCluster(Vector3f clusterCenter, Vector3f star, Vector3f clusterSize)
+	{
+		float x = star.x - clusterCenter.x, y = star.y - clusterCenter.y, z = star.z - clusterCenter.z;
+		float sizex = clusterSize.x/2, sizey = clusterSize.y/2, sizez = clusterSize.z/2;
+		return x*x/(sizex*sizex) + y*y/(sizey*sizey) + z*z/(sizez*sizez) < 1.0F;
 	}
 }
