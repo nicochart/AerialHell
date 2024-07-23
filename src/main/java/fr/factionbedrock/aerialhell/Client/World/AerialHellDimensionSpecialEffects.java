@@ -23,7 +23,7 @@ public class AerialHellDimensionSpecialEffects extends DimensionSpecialEffects
     }
 
     @Override
-    public boolean renderSky(ClientLevel level, int ticks, float partialTick, Matrix4f modelViewMatrix, Camera camera, Matrix4f projectionMatrix, boolean isFoggy, Runnable setupFog)
+    public boolean renderSky(ClientLevel level, int ticks, float partialTick, Matrix4f projectionMatrix, Camera camera, Matrix4f modelViewMatrix, boolean isFoggy, Runnable setupFog)
     {
         return AerialHellDimensionSkyRenderer.render(level, projectionMatrix, modelViewMatrix, partialTick, camera, isFoggy, setupFog);
     }
