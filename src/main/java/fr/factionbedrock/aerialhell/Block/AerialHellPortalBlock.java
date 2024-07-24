@@ -135,26 +135,34 @@ public class AerialHellPortalBlock extends Block implements Portal
 	{
 		if(entity.canUsePortal(false))
 		{
-			if (entity instanceof LivingEntity livingEntity && EntityHelper.isLivingEntityOnPortalCooldown(livingEntity) && !EntityHelper.isCreativePlayer(entity))
+			if (entity instanceof LivingEntity livingEntity && EntityHelper.isLivingEntityOnPortalCooldown(livingEntity))
 			{
-				EntityHelper.setAfterTeleportationEffect((LivingEntity)entity);
+				EntityHelper.setAfterTeleportationEffect((LivingEntity)entity, !EntityHelper.isCreativePlayer(entity) ? 110 : 20);
 			}
 			else if(entity.isOnPortalCooldown()) {entity.setPortalCooldown();}
 			else
 			{
-				if (entity instanceof LivingEntity livingEntity && !EntityHelper.isCreativePlayer(entity))
+				if (entity instanceof LivingEntity livingEntity)
 				{
-					if (EntityHelper.isLivingEntityUnderAerialHellPortalEffect(livingEntity))
+					if (!EntityHelper.isCreativePlayer(entity))
 					{
-						if (EntityHelper.isLivingEntityReadyToTeleport(livingEntity))
+						if (EntityHelper.isLivingEntityUnderAerialHellPortalEffect(livingEntity))
 						{
-							EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, this, pos);
-							EntityHelper.setAfterTeleportationEffect(livingEntity);
+							if (EntityHelper.isLivingEntityReadyToTeleport(livingEntity))
+							{
+								EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, this, pos);
+								EntityHelper.setAfterTeleportationEffect(livingEntity, 110);
+							}
+						}
+						else if (EntityHelper.shouldLivingEntityHavePortalEffect(livingEntity))
+						{
+							EntityHelper.setAerialHellPortalEffect(livingEntity);
 						}
 					}
-					else if (EntityHelper.shouldLivingEntityHavePortalEffect(livingEntity))
+					else
 					{
-						EntityHelper.setAerialHellPortalEffect(livingEntity);
+						EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, this, pos);
+						EntityHelper.setAfterTeleportationEffect(livingEntity, 20);
 					}
 				}
 				else

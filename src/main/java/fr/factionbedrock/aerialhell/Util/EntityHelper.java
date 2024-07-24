@@ -194,11 +194,11 @@ public class EntityHelper
         }
     }
 
-    public static void setAfterTeleportationEffect(LivingEntity entity)
+    public static void setAfterTeleportationEffect(LivingEntity entity, int duration)
     {
         if (!entity.level().isClientSide())
         {
-            entity.addEffect(new MobEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN.getDelegate(), 110, 0));
+            entity.addEffect(new MobEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN.getDelegate(), duration, 0));
         }
     }
 
