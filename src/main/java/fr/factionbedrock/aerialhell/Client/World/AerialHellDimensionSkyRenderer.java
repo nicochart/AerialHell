@@ -190,11 +190,11 @@ public class AerialHellDimensionSkyRenderer
 
 		//vecx & vecz are angular coordinates, vecy is distance - lens effect (0.0 looks like the cluster is closer, bigger. 1.0 or -1.0 is far away, smaller)
 		//vecx is horizontal angle and vecz vertical angle. vecx = 0 -> vertically aligned with the moon
-		renderStarCluster(bufferbuilder, 500, new Vector3f(0.3F, -0.7F, 0.25F), new Vector3f(0.5F, 0.5F, 0.5F), 0.1F, 0.6F, rand);
-		renderStarCluster(bufferbuilder, 600, new Vector3f(-0.3F, -0.6F, -0.7F), new Vector3f(0.5F, 0.5F, 0.5F), 0.2F, 0.5F, rand);
+		renderStarCluster(bufferbuilder, 500, new Vector3f(0.3F, -0.7F, 0.25F), new Vector3f(0.5F, 0.5F, 0.8F), 0.1F, 0.6F, rand);
+		renderStarCluster(bufferbuilder, 600, new Vector3f(-0.3F, -0.6F, -0.7F), new Vector3f(0.5F, 0.5F, 0.6F), 0.2F, 0.5F, rand);
 		renderStarCluster(bufferbuilder, 400, new Vector3f(0.2F, 0.2F, -0.7F), new Vector3f(0.5F, 0.3F, 0.5F), 0.1F, 0.4F, rand);
 		renderStarCluster(bufferbuilder, 600, new Vector3f(0.65F, 0.7F, 0.45F), new Vector3f(0.7F, 0.6F, 0.7F), 0.3F, 0.6F, rand);
-		renderStarCluster(bufferbuilder, 700, new Vector3f(-0.8F, 0.1F, -0.5F), new Vector3f(0.7F, 0.7F, 0.7F), 0.1F, 0.6F, rand);
+		renderStarCluster(bufferbuilder, 700, new Vector3f(-0.8F, 0.1F, -0.5F), new Vector3f(0.8F, 0.7F, 0.7F), 0.1F, 0.6F, rand);
 		renderStarCluster(bufferbuilder, 500, new Vector3f(0.7F, 0.75F, -0.4F), new Vector3f(0.6F, 0.5F, 0.6F), 0.15F, 0.4F, rand);
 		renderScatteredStars(bufferbuilder, 2000, 0.01F, 0.4F, rand);
 
@@ -226,9 +226,20 @@ public class AerialHellDimensionSkyRenderer
 			if (rand.nextFloat() < bigChance) {starSize += rand.nextFloat() * bigSizeBonus;}
 
 			float lengthSquared = Mth.lengthSquared(starVec.x, starVec.y, starVec.z);
-			if (lengthSquared > 0.010000001F && lengthSquared < 1.0F && isStarInsideCluster(origin, starVec, size))
+			if (lengthSquared > 0.010000001F && lengthSquared < 1.0F)
 			{
-				generateStar(builder, starVec.normalize(100.0F), starSize);
+				if (isStarInsideCluster(origin, starVec, new Vector3f(size).mul(0.70F)))
+				{
+					generateStar(builder, starVec.normalize(100.0F), starSize);
+				}
+				else if (isStarInsideCluster(origin, starVec, size))
+				{
+					if (rand.nextFloat() < 0.6F) {generateStar(builder, starVec.normalize(100.0F), starSize);}
+				}
+				else if (isStarInsideCluster(origin, starVec, new Vector3f(size).mul(1.15F)))
+				{
+					if (rand.nextFloat() < 0.2F) {generateStar(builder, starVec.normalize(100.0F), starSize);}
+				}
 			}
 		}
 	}
