@@ -16,9 +16,9 @@ public class EffectShovelItem extends AerialHellShovelItem
 {	
 	private int timer;
 	
-	public EffectShovelItem(Tier tier, float movementSpeedIn, float maxHealthIn, Properties builderIn)
+	public EffectShovelItem(Tier tier, Properties builderIn)
 	{
-		super(tier, movementSpeedIn, maxHealthIn, builderIn);
+		super(tier, builderIn);
 	}
 
 	@Override

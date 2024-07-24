@@ -16,9 +16,9 @@ public class EffectPickaxeItem extends AerialHellPickaxeItem
 {
 	private int timer;
 	
-	public EffectPickaxeItem(Tier tier, float movementSpeedIn, float maxHealthIn, Properties builderIn)
+	public EffectPickaxeItem(Tier tier, Properties builderIn)
 	{
-		super(tier, movementSpeedIn, maxHealthIn, builderIn);
+		super(tier, builderIn);
 	}
 	
 	@Override

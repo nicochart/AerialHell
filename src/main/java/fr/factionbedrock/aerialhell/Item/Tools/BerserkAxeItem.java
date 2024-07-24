@@ -30,9 +30,9 @@ public class BerserkAxeItem extends EffectAxeItem
 {
 	private int weight_ticks;
 	
-	public BerserkAxeItem(Tier tier, float movementSpeedIn,	float maxHealthIn, Properties builderIn)
+	public BerserkAxeItem(Tier tier, Properties builderIn)
 	{
-		super(tier, movementSpeedIn, maxHealthIn, builderIn);
+		super(tier, builderIn);
 		this.weight_ticks = 0;
 	}
 	

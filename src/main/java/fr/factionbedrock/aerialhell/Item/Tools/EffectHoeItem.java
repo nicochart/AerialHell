@@ -13,9 +13,9 @@ import net.minecraft.world.level.Level;
 
 public class EffectHoeItem extends AerialHellHoeItem
 {	
-	public EffectHoeItem(Tier tier, float movementSpeedIn, float maxHealthIn, Properties builderIn)
+	public EffectHoeItem(Tier tier, Properties builderIn)
 	{
-		super(tier, movementSpeedIn, maxHealthIn, builderIn);
+		super(tier, builderIn);
 	}
 	
 	@Override

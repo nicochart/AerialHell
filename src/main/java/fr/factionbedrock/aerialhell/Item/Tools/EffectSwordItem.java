@@ -16,9 +16,9 @@ public class EffectSwordItem extends AerialHellSwordItem
 {
 	private int timer;
 	
-	public EffectSwordItem(Tier tier, float movementSpeedIn, float maxHealthIn, Properties builderIn)
+	public EffectSwordItem(Tier tier, Properties builderIn)
 	{
-		super(tier, movementSpeedIn, maxHealthIn, builderIn);
+		super(tier, builderIn);
 	}
 	
 	@Override

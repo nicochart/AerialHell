@@ -24,9 +24,9 @@ import net.minecraft.world.level.Level;
 
 public class ForgottenBattleTridentItem extends AerialHellSwordItem
 {	
-	public ForgottenBattleTridentItem(Tier tier, float movementSpeedIn, Properties builderIn)
+	public ForgottenBattleTridentItem(Tier tier, Properties builderIn)
 	{
-		super(tier, movementSpeedIn, 0.0F, builderIn);
+		super(tier, builderIn);
 	}
 	
 	@Override

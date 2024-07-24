@@ -12,9 +12,9 @@ import net.minecraft.world.level.Level;
 
 public class EffectAxeItem extends AerialHellAxeItem
 {
-	public EffectAxeItem(Tier tier, float movementSpeedIn,float maxHealthIn, Properties builderIn)
+	public EffectAxeItem(Tier tier, Properties builderIn)
 	{
-		super(tier, movementSpeedIn, maxHealthIn, builderIn);
+		super(tier, builderIn);
 	}
 	
 	@Override
