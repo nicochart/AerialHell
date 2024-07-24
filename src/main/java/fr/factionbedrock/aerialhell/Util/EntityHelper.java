@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Util;
 
+import fr.factionbedrock.aerialhell.Block.AerialHellPortalBlock;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
@@ -50,6 +51,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.portal.DimensionTransition;
 
 import java.util.Optional;
 
@@ -210,25 +212,21 @@ public class EntityHelper
         return isLivingEntityUnderAerialHellPortalEffect(entity) && entity.getEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL.getDelegate()).getDuration() < 20;
     }
 
-    /*public static void tryTeleportEntityWithAerialHellPortal(Entity entity, BlockPos pos)
+    public static void tryTeleportEntityWithAerialHellPortal(Entity entity, AerialHellPortalBlock portalBlock, BlockPos pos)
     {
-        if(!entity.level().isClientSide && !pos.equals(entity.portalEntrancePos)) {entity.portalEntrancePos = pos.immutable();}
-        Level level = entity.level();
-        if(level != null)
+        if (entity.level() instanceof ServerLevel serverlevel)
         {
-            MinecraftServer minecraftserver = level.getServer();
-            ResourceKey<Level> destination = entity.level().dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION ? Level.OVERWORLD : AerialHellDimensions.AERIAL_HELL_DIMENSION;
-            if(minecraftserver != null) {
-                ServerLevel destinationWorld = minecraftserver.getLevel(destination);
-                if(destinationWorld != null && minecraftserver.isNetherEnabled() && !entity.isPassenger()) {
-                    entity.level().getProfiler().push("aerialhell_portal");
-                    entity.setPortalCooldown();
-                    entity.changeDimension(destinationWorld, new AerialHellTeleporter(destinationWorld));
-                    entity.level().getProfiler().pop();
+            DimensionTransition dimensiontransition = portalBlock.getPortalDestination(serverlevel, entity, pos);
+            if (dimensiontransition != null)
+            {
+                ServerLevel serverlevel1 = dimensiontransition.newLevel();
+                if (serverlevel.getServer().isLevelEnabled(serverlevel1) && (serverlevel1.dimension() == serverlevel.dimension() || entity.canChangeDimensions(serverlevel, serverlevel1)))
+                {
+                    entity.changeDimension(dimensiontransition);
                 }
             }
         }
-    }*/
+    }
 
     public static void addBatParticle(LivingEntity entity, RandomSource rand, int number)
     {

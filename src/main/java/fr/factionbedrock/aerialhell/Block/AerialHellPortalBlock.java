@@ -148,7 +148,7 @@ public class AerialHellPortalBlock extends Block implements Portal
 					{
 						if (EntityHelper.isLivingEntityReadyToTeleport(livingEntity))
 						{
-							//EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, pos);
+							EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, this, pos);
 							EntityHelper.setAfterTeleportationEffect(livingEntity);
 						}
 					}
@@ -159,7 +159,7 @@ public class AerialHellPortalBlock extends Block implements Portal
 				}
 				else
 				{
-					//EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, pos);
+					EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, this, pos);
 				}
 			}
 		}
