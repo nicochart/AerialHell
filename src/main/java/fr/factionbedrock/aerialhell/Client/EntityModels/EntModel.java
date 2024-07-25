@@ -144,7 +144,7 @@ public class EntModel<T extends EntEntity> extends EntityModel<T>
 	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
-		headLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor.getRGB()); //TODO is it ARGB ?
+		headLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor.getRGB());
 		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		bodyLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor.getRGB());
 		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);

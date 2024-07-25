@@ -32,7 +32,6 @@ public class AerialHellSetup
         	AerialHellBlocksAndItems.registerCompostableItems();
         	AerialHellBlocksAndItems.registerPots();
         	AerialHellBlocksAndItems.registerAxeStrippingBlocks();
-        	AerialHellBrewingRecipes.registerBrewingRecipes();
         });
     }
 	

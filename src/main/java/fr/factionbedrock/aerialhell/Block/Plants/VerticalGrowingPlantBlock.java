@@ -89,7 +89,7 @@ public class VerticalGrowingPlantBlock extends Block
         return super.updateShape(state1, direction, state2, levelAccessor, pos1, pos2);
     }
 
-    @Override public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos)
+    @Override public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos) //TODO
     {
         BlockState soil = levelReader.getBlockState(pos.below());
         TriState tristate = soil.canSustainPlant(levelReader, pos.below(), Direction.UP, this.defaultBlockState());

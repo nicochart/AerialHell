@@ -121,7 +121,7 @@ public class RubyWaterBucketItem extends Item
 
     private boolean canBlockContainFluid(Level worldIn, BlockPos posIn, BlockState blockstate)
     {
-        return blockstate.getBlock() instanceof LiquidBlockContainer && ((LiquidBlockContainer)blockstate.getBlock()).canPlaceLiquid(null /*TODO check if null works*/, worldIn, posIn, blockstate, Fluids.WATER);
+        return blockstate.getBlock() instanceof LiquidBlockContainer && ((LiquidBlockContainer)blockstate.getBlock()).canPlaceLiquid(null, worldIn, posIn, blockstate, Fluids.WATER);
     }
 
     protected void playEmptySound(@Nullable Player player, LevelAccessor worldIn, BlockPos pos)

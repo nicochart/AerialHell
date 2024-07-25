@@ -132,7 +132,6 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 		return this.getMaxHeadZRot(entity) * entity.getRattlingTiltAngle() / entity.getMaxRattlingTiltAngle();
 	}
 
-	//TODO verify
 	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		if (this.isEmpty) {}

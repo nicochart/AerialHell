@@ -171,7 +171,6 @@ public class EntityHelper
 
     public static boolean hasEnchantment(LivingEntity entity, ResourceKey<Enchantment> enchantmentKey)
     {
-        //TODO test
         Optional<Holder.Reference<Enchantment>> enchantment = entity.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolder(enchantmentKey);
         if (enchantment.isPresent())
         {
