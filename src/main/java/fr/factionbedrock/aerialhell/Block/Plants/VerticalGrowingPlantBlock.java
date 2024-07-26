@@ -3,16 +3,19 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.util.TriState;
@@ -80,7 +83,7 @@ public class VerticalGrowingPlantBlock extends Block
     {
         level.setBlockAndUpdate(pos.above(), this.defaultBlockState());
         net.neoforged.neoforge.common.CommonHooks.fireCropGrowPost(level, pos.above(), this.defaultBlockState());
-        level.setBlock(pos, state.setValue(AGE, Integer.valueOf(0)), 4);
+        level.setBlockAndUpdate(pos, state.setValue(AGE, 0).setValue(TOP, false));
     }
 
     @Override public BlockState updateShape(BlockState state1, Direction direction, BlockState state2, LevelAccessor levelAccessor, BlockPos pos1, BlockPos pos2)
@@ -89,14 +92,17 @@ public class VerticalGrowingPlantBlock extends Block
         return super.updateShape(state1, direction, state2, levelAccessor, pos1, pos2);
     }
 
-    @Override public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos) //TODO
+    @Override protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
     {
-        BlockState soil = levelReader.getBlockState(pos.below());
-        TriState tristate = soil.canSustainPlant(levelReader, pos.below(), Direction.UP, this.defaultBlockState());
-        if (tristate == TriState.TRUE || tristate == TriState.DEFAULT) {return true;} //TODO verify
-        BlockState belowstate = levelReader.getBlockState(pos.below());
-        if (belowstate.is(this) && !belowstate.getValue(TOP)) {return true;}
-        return false;
+        BlockState belowState = level.getBlockState(pos.below());
+        if (belowState.is(this) && !belowState.getValue(TOP)) {return true;}
+        else
+        {
+            TriState soilDecision = belowState.canSustainPlant(level, pos.below(), Direction.UP, state);
+            if (!soilDecision.isDefault()) {return soilDecision.isTrue();}
+            if (belowState.is(BlockTags.DIRT)) {return true;}
+            return false;
+        }
     }
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateDefinitionBuilder) {stateDefinitionBuilder.add(AGE); stateDefinitionBuilder.add(TOP);}
