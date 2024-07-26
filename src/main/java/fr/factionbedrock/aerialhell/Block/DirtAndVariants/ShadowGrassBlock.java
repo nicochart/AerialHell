@@ -23,6 +23,8 @@ import java.util.Optional;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.world.level.lighting.LightEngine;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.Nullable;
 
 public class ShadowGrassBlock extends GrassBlock
@@ -132,16 +134,15 @@ public class ShadowGrassBlock extends GrassBlock
 	    return canBeGrass(state, worldReader, pos) && !worldReader.getFluidState(blockpos).is(FluidTags.WATER);
 	}
 
-	//make it tillable
-	/*@Override @Nullable TODO make tillable
-	public BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction, boolean simulate)
+	@Override @Nullable
+	public BlockState getToolModifiedState(BlockState state, UseOnContext context, ItemAbility itemAbility, boolean simulate)
 	{
-		if (!context.getItemInHand().canPerformAction(toolAction)) {return null;}
+		if (!context.getItemInHand().canPerformAction(itemAbility)) {return null;}
 		if (state.getBlock() == AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get())
 		{
-			if (ToolActions.HOE_TILL == toolAction) {return AerialHellBlocksAndItems.STELLAR_FARMLAND.get().defaultBlockState();}
-			else if (ToolActions.SHOVEL_FLATTEN == toolAction) {return AerialHellBlocksAndItems.STELLAR_DIRT_PATH.get().defaultBlockState();}
+			if (ItemAbilities.HOE_TILL == itemAbility) {return AerialHellBlocksAndItems.STELLAR_FARMLAND.get().defaultBlockState();}
+			else if (ItemAbilities.SHOVEL_FLATTEN == itemAbility) {return AerialHellBlocksAndItems.STELLAR_DIRT_PATH.get().defaultBlockState();}
 		}
-		return super.getToolModifiedState(state, context, toolAction, simulate);
-	}*/
+		return super.getToolModifiedState(state, context, itemAbility, simulate);
+	}
 }
