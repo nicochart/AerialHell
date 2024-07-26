@@ -7,9 +7,12 @@ import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
@@ -36,9 +39,9 @@ public class ThrownStellarEgg extends ThrowableItemProjectile
         entityHitResult.getEntity().hurt(this.damageSources().thrown(this, this.getOwner()), 0.0F);
     }
 
-    @Override protected void onHit(HitResult p_37488_) //copied from ThrownEgg, replacing Chicken with StellarChicken
+    @Override protected void onHit(HitResult hitResult) //copied from ThrownEgg, replacing Chicken with StellarChicken
     {
-        super.onHit(p_37488_);
+        super.onHit(hitResult);
         if (!this.level().isClientSide)
         {
             if (this.random.nextInt(8) == 0)
@@ -53,6 +56,8 @@ public class ThrownStellarEgg extends ThrowableItemProjectile
                     {
                         chicken.setAge(-24000);
                         chicken.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
+                        chicken.setColor(this.level().getBlockTint(this.blockPosition(), Biome::getGrassColor));
+
                         this.level().addFreshEntity(chicken);
                     }
                 }
