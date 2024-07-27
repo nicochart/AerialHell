@@ -33,6 +33,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
@@ -55,8 +56,7 @@ public class ToolsAndArmorEventListener
 		}
 	}
 
-	//TODO replace LivingDamageEvent.Pre with LivingIncomingDamageEvent ?
-    public static void onLivingDamageEvent(LivingDamageEvent.Pre event)
+    public static void onLivingDamageEvent(LivingIncomingDamageEvent event)
     {
 		DamageSource damageSource = event.getSource();
 		Entity sourceEntity = damageSource.getEntity();
@@ -148,23 +148,23 @@ public class ToolsAndArmorEventListener
 		}
 	}*/
 
-	public static void applyEffectsDueToPotionEffects(LivingDamageEvent.Pre event, DamageSource damageSource, LivingEntity target) {
-		float amount = event.getOriginalDamage();
-		if ((damageSource.is(DamageTypes.ON_FIRE) || damageSource.is(DamageTypes.ON_FIRE) || damageSource.is(DamageTypes.LAVA)) && target.hasEffect(AerialHellMobEffects.GOD.getDelegate())) {/*event.setCanceled(true); TODO*/event.setNewDamage(0);} //target with Gods Effect has Fire Resistance
+	public static void applyEffectsDueToPotionEffects(LivingIncomingDamageEvent event, DamageSource damageSource, LivingEntity target) {
+		float amount = event.getAmount();
+		if ((damageSource.is(DamageTypes.ON_FIRE) || damageSource.is(DamageTypes.ON_FIRE) || damageSource.is(DamageTypes.LAVA)) && target.hasEffect(AerialHellMobEffects.GOD.getDelegate())) {/*event.setCanceled(true); TODO*/event.setAmount(0);} //target with Gods Effect has Fire Resistance
 		if (EntityHelper.isLivingEntityVulnerable(target)) {
 			int multiplier = target.getEffect(AerialHellMobEffects.VULNERABILITY.getDelegate()).getAmplifier() + 1;
-			event.setNewDamage(amount * 2.0F * multiplier); //*2 *multiplier damage if target is vulnerable
-			if (event.getSource().getEntity() instanceof LilithEntity) {event.setNewDamage(amount * 1.5F * multiplier);} //total *3 *multiplier if source is Lilith boss
+			event.setAmount(amount * 2.0F * multiplier); //*2 *multiplier damage if target is vulnerable
+			if (event.getSource().getEntity() instanceof LilithEntity) {event.setAmount(amount * 1.5F * multiplier);} //total *3 *multiplier if source is Lilith boss
 		}
 	}
 
-	public static void applyEffectsBasedOnTargetHandEquippedItem(LivingDamageEvent.Pre event, Item targetEquippedItem, LivingEntity target) {
-		float amount = event.getOriginalDamage();
-		if (targetEquippedItem == AerialHellBlocksAndItems.GLASS_CANON_SWORD.get()) {event.setNewDamage(amount * 2.0F);} //*2 damage if target has glass cannon sword
+	public static void applyEffectsBasedOnTargetHandEquippedItem(LivingIncomingDamageEvent event, Item targetEquippedItem, LivingEntity target) {
+		float amount = event.getAmount();
+		if (targetEquippedItem == AerialHellBlocksAndItems.GLASS_CANON_SWORD.get()) {event.setAmount(amount * 2.0F);} //*2 damage if target has glass cannon sword
 	}
 
-	public static void applyEffectsBasedOnTargetEquippedArmor(LivingDamageEvent.Pre event, Iterable<ItemStack> armorStuff, LivingEntity source, LivingEntity target) {
-		float amount = event.getOriginalDamage();
+	public static void applyEffectsBasedOnTargetEquippedArmor(LivingIncomingDamageEvent event, Iterable<ItemStack> armorStuff, LivingEntity source, LivingEntity target) {
+		float amount = event.getAmount();
 		for (ItemStack armorStack : armorStuff) {
 			if (armorStack.is(AerialHellTags.Items.MAGMATIC_GEL)) //target equipped of any magmatic gel armor
 			{
@@ -181,15 +181,15 @@ public class ToolsAndArmorEventListener
 				source.igniteForSeconds(5);
 				if (target.getRemainingFireTicks() > 0) //damage reduction if player with arsonist armor is on fire
 				{
-					event.setNewDamage(amount * 0.93F);
+					event.setAmount(amount * 0.93F);
 				}
 			}
 		}
 	}
 
-	public static void applyEffectsBasedOnSourceHandEquippedItem(LivingDamageEvent.Pre event, ItemStack sourceEquippedItemStack, LivingEntity source, LivingEntity target) {
+	public static void applyEffectsBasedOnSourceHandEquippedItem(LivingIncomingDamageEvent event, ItemStack sourceEquippedItemStack, LivingEntity source, LivingEntity target) {
 		Item sourceEquippedItem = sourceEquippedItemStack.getItem();
-		float amount = event.getOriginalDamage();
+		float amount = event.getAmount();
 		if (sourceEquippedItemStack.is(AerialHellTags.Items.MAGMATIC_GEL)) //source attacking target with any magmatic gel tool
 		{
 			int count = 0;
@@ -203,7 +203,7 @@ public class ToolsAndArmorEventListener
 		{
 			target.igniteForSeconds(5);
 			if (source.getRemainingFireTicks() > 0) {
-				event.setNewDamage(amount * 1.5F); //damage bonus when on fire
+				event.setAmount(amount * 1.5F); //damage bonus when on fire
 			}
 		} else if (sourceEquippedItem == AerialHellBlocksAndItems.DISLOYAL_SWORD.get()) //source attacking target with disloyal sword
 		{
@@ -239,10 +239,10 @@ public class ToolsAndArmorEventListener
 		} else if (sourceEquippedItem == AerialHellBlocksAndItems.SWORD_OF_LIGHT.get() || sourceEquippedItem == AerialHellBlocksAndItems.AXE_OF_LIGHT.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_SWORD.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_AXE.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_HOE.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_SHOVEL.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_PICKAXE.get() || sourceEquippedItem == AerialHellBlocksAndItems.STELLAR_STONE_BREAKER.get()) //source attacking target with light tool
 		{
 			if (EntityHelper.isShadowEntity(target)) {
-				if (sourceEquippedItem == AerialHellBlocksAndItems.SWORD_OF_LIGHT.get() || sourceEquippedItem == AerialHellBlocksAndItems.AXE_OF_LIGHT.get()) {event.setNewDamage(amount * 1.8F);} else {event.setNewDamage(amount * 1.4F);}
+				if (sourceEquippedItem == AerialHellBlocksAndItems.SWORD_OF_LIGHT.get() || sourceEquippedItem == AerialHellBlocksAndItems.AXE_OF_LIGHT.get()) {event.setAmount(amount * 1.8F);} else {event.setAmount(amount * 1.4F);}
 			}
 		} else if (sourceEquippedItem == AerialHellBlocksAndItems.NETHERIAN_KING_SWORD.get() && source.level().dimension() == Level.NETHER) {
-			event.setNewDamage(amount * 2.0F);
+			event.setAmount(amount * 2.0F);
 		}
 	}
 
