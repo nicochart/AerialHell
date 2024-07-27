@@ -96,7 +96,7 @@ public class AerialHellEntities
 			.sized(1.4F, 1.9F).build("gliding_turtle"));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<FatPhantomEntity>> FAT_PHANTOM = ENTITIES.register("fat_phantom", () -> EntityType.Builder.<FatPhantomEntity>of(FatPhantomEntity::new, MobCategory.CREATURE)
-			.sized(1.3F, 1.0F).fireImmune().build("fat_phantom"));
+			.sized(2.6F, 1.5F).fireImmune().build("fat_phantom"));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<KodamaEntity>> KODAMA = ENTITIES.register("kodama", () -> EntityType.Builder.<KodamaEntity>of(KodamaEntity::new, MobCategory.CREATURE)
 			.sized(0.7F, 0.9F).build("kodama"));

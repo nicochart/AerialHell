@@ -65,6 +65,8 @@ public class FatPhantomEntity extends Phantom implements Enemy
 	   return worldIn.getDifficulty() != Difficulty.PEACEFUL && worldIn.getLevel().isDay() && randomIn.nextInt(120) == 0 && checkMobSpawnRules(type, worldIn, reason, pos, randomIn);
    }
 
+   @Override public void refreshDimensions() {}
+
    @Override
    protected BodyRotationControl createBodyControl()
    {
