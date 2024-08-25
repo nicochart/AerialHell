@@ -80,7 +80,8 @@ public class AerialHellBlockEntities
 					AerialHellBlocksAndItems.SHADOW_PINE_BARREL.get(),
 					AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_BARREL.get(),
 					AerialHellBlocksAndItems.SKY_CACTUS_FIBER_BARREL.get(),
-					AerialHellBlocksAndItems.GRAY_SHROOM_BARREL.get()
+					AerialHellBlocksAndItems.GRAY_SHROOM_BARREL.get(),
+					AerialHellBlocksAndItems.GHOST_BOAT_BARREL.get()
 			), null));
 	
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AerialHellChestBlockEntity>> CHEST = BLOCK_ENTITY_TYPES.register("chest", () ->
