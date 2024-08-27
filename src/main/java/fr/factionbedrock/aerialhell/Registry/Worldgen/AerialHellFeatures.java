@@ -24,6 +24,8 @@ public class AerialHellFeatures
 {
 	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(BuiltInRegistries.FEATURE, AerialHell.MODID);
 
+	public static final DeferredHolder<Feature<?>, AerialHellLakeFeature> AERIAL_HELL_LAKE = FEATURES.register("lake", () -> new AerialHellLakeFeature(AerialHellLakeFeature.Configuration.CODEC));
+
 	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> GIANT_GANODERMA_APPLANATUM = FEATURES.register("giant_ganoderma_applanatum", () -> new GiantGanodermaApplanatumFeature(NoneFeatureConfiguration.CODEC));
 	public static final DeferredHolder<Feature<?>, Feature<HugeMushroomFeatureConfiguration>> HUGE_MUSHROOM = FEATURES.register("huge_mushroom", () -> new HugeMushroomFeature(HugeMushroomFeatureConfiguration.CODEC));
 	public static final DeferredHolder<Feature<?>, Feature<AerialHellTwistingVinesConfig>> LAZULI_ROOTS = FEATURES.register("lazuli_roots", () -> new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC, () -> AerialHellBlocksAndItems.LAZULI_ROOTS.get(), () -> AerialHellBlocksAndItems.LAZULI_ROOTS_PLANT.get()));
