@@ -13,6 +13,8 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
+//copy of vanilla LakeFeature, but removing some conditions (see below)
+//
 public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configuration>
 {
     private static final BlockState AIR = Blocks.CAVE_AIR.defaultBlockState();
@@ -24,7 +26,7 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configu
     {
         BlockPos origin = context.origin(); WorldGenLevel level = context.level(); RandomSource randomsource = context.random(); AerialHellLakeFeature.Configuration config = context.config();
 
-        if (level.getBlockState(origin).isAir() || origin.getY() <= level.getMinBuildHeight() + 4) {return false;}
+        if (level.getBlockState(origin).isAir() || level.getBlockState(origin.below(3)).isAir() || origin.getY() <= level.getMinBuildHeight() + 4) {return false;}
         else
         {
             origin = origin.below(4);
@@ -76,7 +78,8 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configu
                         );
                         if (flag)
                         {
-                            BlockState blockstate3 = level.getBlockState(origin.offset(k1, l2, k));
+                            //removed conditions
+                            //BlockState blockstate3 = level.getBlockState(origin.offset(k1, l2, k));
                             //if (l2 >= 4 && blockstate3.liquid()) {return false;}
                             //if (l2 < 4 && !blockstate3.isSolid() && worldgenlevel.getBlockState(blockpos.offset(k1, l2, k)) != fluidState) {return false;}
                         }
@@ -108,6 +111,7 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configu
                 }
             }
 
+            //edited barrier placement
             if (!barrierState.isAir())
             {
                 for (int dx = 0; dx < 16; dx++)
@@ -130,6 +134,8 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configu
                 }
             }
             return true;
+
+            //removed water freezing (worldgenlevel.getBiome(..) is crashing the game)
         }
     }
 
