@@ -1,27 +1,22 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
 import fr.factionbedrock.aerialhell.Block.CollisionCondition.IntangibleTemporaryBlock;
+import fr.factionbedrock.aerialhell.BlockEntity.IntangibleTemporaryBlockEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Fireball;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+
+import javax.annotation.Nullable;
 
 public class DimensionShattererProjectileEntity extends Fireball
 {
@@ -65,8 +60,9 @@ public class DimensionShattererProjectileEntity extends Fireball
 							BlockState beforeState = this.level().getBlockState(pos);
 							if (!beforeState.isAir() && beforeState.getBlock() != AerialHellBlocksAndItems.INTANGIBLE_TEMPORARY_BLOCK.get())
 							{
-								this.level().setBlock(pos, AerialHellBlocksAndItems.INTANGIBLE_TEMPORARY_BLOCK.get().defaultBlockState(), 2);
-								((IntangibleTemporaryBlock) this.level().getBlockState(pos).getBlock()).setBeforeState(beforeState); //do not work
+								IntangibleTemporaryBlock intangibleBlock = ((IntangibleTemporaryBlock) AerialHellBlocksAndItems.INTANGIBLE_TEMPORARY_BLOCK.get());
+								this.level().setBlock(pos, intangibleBlock.defaultBlockState(), 2);
+								setIntangibleTemporaryBlockEntityBeforeState(this.level(), pos, beforeState);
 							}
 						}
 					}
@@ -74,5 +70,11 @@ public class DimensionShattererProjectileEntity extends Fireball
 			}
 		}
 		else {this.discard();}
+	}
+
+	public static void setIntangibleTemporaryBlockEntityBeforeState(LevelAccessor level, BlockPos pos, @Nullable BlockState state)
+	{
+		BlockEntity blockentity = level.getBlockEntity(pos);
+		if (blockentity instanceof IntangibleTemporaryBlockEntity intangibleblockentity) {intangibleblockentity.setBeforeState(state);}
 	}
 }
