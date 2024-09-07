@@ -11,20 +11,20 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
+import net.minecraft.world.entity.projectile.Fireball;
 
-public class PoisonballProjectileRender extends EntityRenderer<PoisonballEntity>
+public class FireballLikeProjectileRender<T extends Fireball> extends EntityRenderer<T>
 {
     public static final ResourceLocation POISONBALL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/poisonball.png");
+    public static final ResourceLocation DIMENSION_SHATTERER_PROJECTILE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/dimension_shatterer_projectile.png");
 
-    public PoisonballProjectileRender(EntityRendererProvider.Context context)
+    public FireballLikeProjectileRender(EntityRendererProvider.Context context)
     {
         super(context);
         this.shadowRadius = 0.0F;
     }
 
-    @Override public void render(PoisonballEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight)
+    @Override public void render(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight)
     {
         poseStack.pushPose();
         poseStack.scale(2.0F, 2.0F, 2.0F);
@@ -41,9 +41,10 @@ public class PoisonballProjectileRender extends EntityRenderer<PoisonballEntity>
     }
 
     @Override
-    public ResourceLocation getTextureLocation(PoisonballEntity entity)
+    public ResourceLocation getTextureLocation(T entity)
     {
-        return POISONBALL;
+        if (entity instanceof PoisonballEntity) {return POISONBALL;}
+        else /*if (entity instanceof DimensionShattererProjectileEntity)*/ {return DIMENSION_SHATTERER_PROJECTILE;}
     }
 
     private static void vertex(VertexConsumer vertexConsumer, PoseStack.Pose poseStack, int packedLight, float x, int y, int u, int v)

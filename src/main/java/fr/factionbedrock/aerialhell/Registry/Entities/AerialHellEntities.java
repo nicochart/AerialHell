@@ -134,6 +134,9 @@ public class AerialHellEntities
 	public static final DeferredHolder<EntityType<?>, EntityType<PoisonballEntity>> POISONBALL = ENTITIES.register("poisonball", () -> EntityType.Builder.<PoisonballEntity>of(PoisonballEntity::new, MobCategory.MISC)
 			.sized(1.0F, 1.0F).build("poisonball"));
 
+	public static final DeferredHolder<EntityType<?>, EntityType<DimensionShattererProjectileEntity>> DIMENSION_SHATTERER_PROJECTILE = ENTITIES.register("dimension_shatterer_projectile", () -> EntityType.Builder.<DimensionShattererProjectileEntity>of(DimensionShattererProjectileEntity::new, MobCategory.MISC)
+			.sized(1.0F, 1.0F).build("dimension_shatterer_projectile"));
+
 	public static final DeferredHolder<EntityType<?>, EntityType<FlyingJellyfishEntity>> FLYING_JELLYFISH = ENTITIES.register("flying_jellyfish", () -> EntityType.Builder.<FlyingJellyfishEntity>of(FlyingJellyfishEntity::new, MobCategory.MONSTER)
 			.sized(3.0F, 3.0F).build("flying_jellyfish"));
 

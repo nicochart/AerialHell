@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
-import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestMimicBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.EntityModels.*;
@@ -78,7 +77,8 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), ShurikenRender::new);
         event.registerEntityRenderer(AerialHellEntities.ARSONIST_SHURIKEN.get(), ShurikenRender::new);
         event.registerEntityRenderer(AerialHellEntities.LIGHTNING_SHURIKEN.get(), ShurikenRender::new);
-        event.registerEntityRenderer(AerialHellEntities.POISONBALL.get(), PoisonballProjectileRender::new);
+        event.registerEntityRenderer(AerialHellEntities.POISONBALL.get(), FireballLikeProjectileRender::new);
+        event.registerEntityRenderer(AerialHellEntities.DIMENSION_SHATTERER_PROJECTILE.get(), FireballLikeProjectileRender::new);
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_BLOWPIPE_ARROW.get(), AerialArrowRenderer::new);
         event.registerEntityRenderer(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), AerialArrowRenderer::new);
         event.registerEntityRenderer(AerialHellEntities.LUNATIC_PROJECTILE.get(), LightProjectileRender::new);
