@@ -788,6 +788,7 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.MUD_BONE.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_EGG.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.DIMENSION_SHATTERER_PROJECTILE.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.FLUORITE.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MAGMATIC_GEL.get());

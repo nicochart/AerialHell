@@ -20,6 +20,7 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
 {
     private BlockState beforeState;
     private int tickCount;
+    public static int LIFETIME = 180;
 
     public IntangibleTemporaryBlockEntity(BlockPos pos, BlockState blockState)
     {
@@ -31,7 +32,7 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
     {
         if (blockEntity.tickCount < 0) {blockEntity.tickCount = 0;}
         blockEntity.tickCount++;
-        if (blockEntity.tickCount >= 180)
+        if (blockEntity.tickCount >= LIFETIME)
         {
             level.setBlock(pos, blockEntity.beforeState == null ? Blocks.AIR.defaultBlockState() : blockEntity.beforeState, 2);
         }
@@ -39,6 +40,8 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
 
     public void setBeforeState(@Nullable BlockState state) {this.beforeState = state;}
     @Nullable public BlockState getBeforeState() {return beforeState;}
+    public void resetTickCount() {this.tickCount = 0;}
+    public int getTickCount() {return tickCount;}
 
     @Override protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {

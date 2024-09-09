@@ -517,7 +517,7 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> GHOST_LANTERN_ITEM = ITEMS.register("ghost_lantern", () -> new BlockItem(GHOST_LANTERN.get(), new Item.Properties()));
 
 	//other condition condition blocks
-	public static final DeferredBlock<Block> INTANGIBLE_TEMPORARY_BLOCK = BLOCKS.register("intangible_temporary_block", () -> new IntangibleTemporaryBlock(BlockBehaviour.Properties.of().strength(-1.0F, 3600000.0F).randomTicks().sound(SoundType.STONE).noOcclusion()));
+	public static final DeferredBlock<Block> INTANGIBLE_TEMPORARY_BLOCK = BLOCKS.register("intangible_temporary_block", () -> new IntangibleTemporaryBlock(BlockBehaviour.Properties.of().strength(2.0F, 3600000.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion()));
 
 	//solid_ethers
 	public static final DeferredBlock<Block> WHITE_SOLID_ETHER = BLOCKS.register("white_solid_ether", () -> new SolidEtherBlock(BlockBehaviour.Properties.of().strength(0.2F).sound(SoundType.WOOL).noOcclusion()));
@@ -1403,6 +1403,7 @@ public class AerialHellBlocksAndItems
 
 	//projectile item
 	public static final DeferredItem<Item> STELLAR_EGG = ITEMS.register("stellar_egg",() -> new StellarEggItem(new Item.Properties().stacksTo(16)));
+	public static final DeferredItem<Item> DIMENSION_SHATTERER_PROJECTILE = ITEMS.register("dimension_shatterer_projectile",() -> new DimensionShattererProjectileItem(new Item.Properties().stacksTo(16)));
 
 	//shurikens
 	public static final DeferredItem<Item> IRON_SHURIKEN = ITEMS.register("iron_shuriken", () -> new IronShurikenItem());
