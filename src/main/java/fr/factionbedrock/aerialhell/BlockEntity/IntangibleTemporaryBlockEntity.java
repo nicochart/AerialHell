@@ -2,11 +2,14 @@ package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -46,9 +49,9 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
 
     @Override protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
-        System.out.println("INTANTIBLE LOAD ADDITIONAL"); //not done. where is the block entity after disconnect/reconnect ?
         super.loadAdditional(tag, registries);
-        this.beforeState = NbtUtils.readBlockState(this.level.holderLookup(Registries.BLOCK), tag.getCompound("beforeState"));
+        HolderGetter<Block> blockGetter = this.getLevel() != null ? this.getLevel().holderLookup(Registries.BLOCK) : BuiltInRegistries.BLOCK.asLookup();
+        this.beforeState = NbtUtils.readBlockState(blockGetter, tag.getCompound("beforeState"));
         this.tickCount = tag.getInt("tickCount");
     }
 }
