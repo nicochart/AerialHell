@@ -18,7 +18,6 @@ import fr.factionbedrock.aerialhell.Block.Plants.Bushes.*;
 import fr.factionbedrock.aerialhell.Block.Plants.Vines.*;
 import fr.factionbedrock.aerialhell.Block.CollisionCondition.*;
 import fr.factionbedrock.aerialhell.Block.StandingAndWall.*;
-import fr.factionbedrock.aerialhell.Block.TransparentBlock;
 import fr.factionbedrock.aerialhell.Block.Trophies.BottomSlabLikeTrophyBlock;
 import fr.factionbedrock.aerialhell.Item.*;
 import fr.factionbedrock.aerialhell.Item.Bucket.*;
