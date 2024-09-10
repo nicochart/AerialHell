@@ -95,5 +95,9 @@ public class IntangibleTemporaryBlock extends CollisionConditionHalfTransparentB
 
     @Override protected boolean canEntityCollide(Entity entity) {return false;}
 
-    @Override protected VoxelShape getCollidingShape() {return FULL_COLLISION_SHAPE;}
+    @Override protected VoxelShape getCollidingShape() {return CollisionConditionHalfTransparentBlock.FULL_COLLISION_SHAPE;}
+
+    @Override protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {return 1.0F;}
+
+    @Override protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {return true;}
 }

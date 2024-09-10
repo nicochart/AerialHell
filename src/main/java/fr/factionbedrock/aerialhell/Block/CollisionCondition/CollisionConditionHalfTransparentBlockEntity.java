@@ -19,8 +19,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public abstract class CollisionConditionHalfTransparentBlockEntity extends BaseEntityBlock
 {
     protected final static double default_living_entity_xz_delta_movement_factor = 0.96, default_non_living_entity_xz_delta_movement_factor = 0.85, default_y_delta_movement_factor = 0.002;
-    protected final static VoxelShape EMPTY_SHAPE = Shapes.empty();
-    protected final static VoxelShape FULL_COLLISION_SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 16.0);
 
     protected CollisionConditionHalfTransparentBlockEntity(Properties properties)
     {
@@ -50,15 +48,13 @@ public abstract class CollisionConditionHalfTransparentBlockEntity extends BaseE
         EntityHelper.multiplyDeltaMovement(entity, default_non_living_entity_xz_delta_movement_factor, default_y_delta_movement_factor);
     }
 
-    @Override public boolean useShapeForLightOcclusion(BlockState state) {return true;}
-
     @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context)
     {
         if (context instanceof EntityCollisionContext)
         {
             Entity entity = ((EntityCollisionContext)context).getEntity();
-            if (canEntityCollide(entity)) {return getCollidingShape();}
-            else {return EMPTY_SHAPE;}
+            if (canEntityCollide(entity) || entity == null) {return getCollidingShape();}
+            else {return CollisionConditionHalfTransparentBlock.EMPTY_SHAPE;}
         }
         else
         {
