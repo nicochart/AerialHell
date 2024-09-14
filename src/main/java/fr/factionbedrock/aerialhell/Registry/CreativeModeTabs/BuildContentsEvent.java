@@ -130,6 +130,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_LADDER_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_STONE_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_STONE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_COBBLESTONE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_ITEM.get());

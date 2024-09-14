@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.DirtAndVariants;
 
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellPlacedFeatures;
+import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
@@ -8,12 +9,9 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
@@ -93,7 +91,7 @@ public class StellarGrassBlock extends GrassBlock implements BonemealableBlock
 	@Override
 	public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random)
 	{
-		if (!canBeGrass(state, worldIn, pos))
+		if (!BlockHelper.canBeGrass(state, worldIn, pos))
 		{
 			if (!worldIn.isAreaLoaded(pos, 3)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light and spreading
 			worldIn.setBlockAndUpdate(pos, AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState());
@@ -115,35 +113,13 @@ public class StellarGrassBlock extends GrassBlock implements BonemealableBlock
 						blockstate = AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get().defaultBlockState();
 					}
 					
-					if ((worldIn.getBlockState(blockpos).is(AerialHellBlocksAndItems.STELLAR_DIRT.get()) || worldIn.getBlockState(blockpos).is(AerialHellBlocksAndItems.CHISELED_STELLAR_DIRT.get())) && canPropagate(blockstate, worldIn, blockpos))
+					if ((worldIn.getBlockState(blockpos).is(AerialHellBlocksAndItems.STELLAR_DIRT.get()) || worldIn.getBlockState(blockpos).is(AerialHellBlocksAndItems.CHISELED_STELLAR_DIRT.get())) && BlockHelper.grassCanPropagate(blockstate, worldIn, blockpos))
 					{
 						worldIn.setBlockAndUpdate(blockpos, blockstate.setValue(SNOWY, worldIn.getBlockState(blockpos.above()).is(Blocks.SNOW)));
 					}
 				}
 			}
 		}
-	}
-	
-	
-	/* ---- Functions copied from SpreadingSnowyDirtBlock class ---- */
-	
-	private static boolean canBeGrass(BlockState state, LevelReader worldReader, BlockPos pos) //canBeGrass in official mappings
-	{
-	     BlockPos blockpos = pos.above();
-	     BlockState blockstate = worldReader.getBlockState(blockpos);
-	     if (blockstate.is(Blocks.SNOW) && blockstate.getValue(SnowLayerBlock.LAYERS) == 1) {return true;}
-	     else if (blockstate.getFluidState().getAmount() == 8) {return false;}
-	     else
-	     {
-	        int i = LightEngine.getLightBlockInto(worldReader, state, pos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(worldReader, blockpos));
-	        return i < worldReader.getMaxLightLevel();
-	     }
-	 }
-	
-	private static boolean canPropagate(BlockState state, LevelReader worldReader, BlockPos pos)
-	{
-	    BlockPos blockpos = pos.above();
-	    return canBeGrass(state, worldReader, pos) && !worldReader.getFluidState(blockpos).is(FluidTags.WATER);
 	}
 
 	@Override @Nullable

@@ -419,6 +419,7 @@ public class AerialHellBlocksAndItems
 	public static final DeferredBlock<Block> STELLAR_CLAY = BLOCKS.register("stellar_clay", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CLAY)));
 	public static final DeferredBlock<Block> GLAUCOPHANITE = BLOCKS.register("glaucophanite",() -> new Block(BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
 	public static final DeferredBlock<Block> POLISHED_GLAUCOPHANITE = BLOCKS.register("polished_glaucophanite",() -> new Block(BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+	public static final DeferredBlock<Block> SHADOW_STONE = BLOCKS.register("shadow_stone", () -> new ShadowStoneBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).randomTicks()));
 	public static final DeferredItem<Item> STELLAR_STONE_ITEM = ITEMS.register("stellar_stone", () -> new BlockItem(STELLAR_STONE.get(), new Item.Properties()));
 	public static final DeferredItem<Item> STELLAR_COBBLESTONE_ITEM = ITEMS.register("stellar_cobblestone", () -> new BlockItem(STELLAR_COBBLESTONE.get(), new Item.Properties()));
 	public static final DeferredItem<Item> MOSSY_STELLAR_STONE_ITEM = ITEMS.register("mossy_stellar_stone", () -> new BlockItem(MOSSY_STELLAR_STONE.get(), new Item.Properties()));
@@ -427,6 +428,7 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> STELLAR_STONE_BRICKS_ITEM = ITEMS.register("stellar_stone_bricks", () -> new BlockItem(STELLAR_STONE_BRICKS.get(), new Item.Properties()));
 	public static final DeferredItem<Item> GLAUCOPHANITE_ITEM = ITEMS.register("glaucophanite", () -> new BlockItem(GLAUCOPHANITE.get(), new Item.Properties()));
 	public static final DeferredItem<Item> POLISHED_GLAUCOPHANITE_ITEM = ITEMS.register("polished_glaucophanite", () -> new BlockItem(POLISHED_GLAUCOPHANITE.get(), new Item.Properties()));
+	public static final DeferredItem<Item> SHADOW_STONE_ITEM = ITEMS.register("shadow_stone", () -> new BlockItem(SHADOW_STONE.get(), new Item.Properties()));
 
 	//crystal
 	public static final DeferredBlock<Block> CRYSTAL_BLOCK = BLOCKS.register("crystal_block", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel((state) -> 14)));
