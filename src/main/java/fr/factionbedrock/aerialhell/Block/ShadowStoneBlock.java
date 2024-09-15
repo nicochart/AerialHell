@@ -17,7 +17,6 @@ public class ShadowStoneBlock extends Block
 
 	@Override public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
 	{
-		System.out.println(level.getBiome(pos));
 		if (BlockHelper.isCorrupted(level, pos) && BlockHelper.surroundingsPreventCorruption(level, pos, BlockHelper.CorruptionType.STONE) && level.isAreaLoaded(pos, 3)) {BlockHelper.uncorrupt(level, pos);}
 		else
 		{

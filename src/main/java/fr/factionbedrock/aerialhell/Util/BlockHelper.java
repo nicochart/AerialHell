@@ -2,22 +2,32 @@ package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellBiomes;
+import net.minecraft.core.*;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeResolver;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.lighting.LightEngine;
 import net.neoforged.neoforge.common.Tags;
+import org.apache.commons.lang3.mutable.MutableInt;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class BlockHelper
 {
@@ -96,8 +106,52 @@ public class BlockHelper
                 corruptedState = AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().defaultBlockState();
             }
         }
-        if (corruptedState != null) {level.setBlockAndUpdate(pos, corruptedState); return true;}
-        return false;
+
+        if (corruptedState != null)
+        {
+            level.setBlockAndUpdate(pos, corruptedState);
+            corruptBiome(level, pos, corruptionType);
+            return true;
+        }
+        else {return false;}
+    }
+
+    //see net.minecraft.gametest.framework.GameTestHelper setBiome method and net.minecraft.server.commands.FillBiomeCommand fill method
+    public static void corruptBiome(ServerLevel level, BlockPos pos, CorruptionType corruptionType)
+    {
+        BlockPos pos1 = pos.offset(-1, -1, -1), pos2 = pos.offset(1, 1, 1);
+        BoundingBox boundingbox = BoundingBox.fromCorners(pos1, pos2);
+
+        ChunkAccess chunkaccess = level.getChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()), ChunkStatus.FULL, false);
+        if (chunkaccess != null)
+        {
+            List<ChunkAccess> list = new ArrayList<>();
+            list.add(chunkaccess);
+
+            Holder<Biome> biome = level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(AerialHellBiomes.SHADOW_PLAIN);
+
+            chunkaccess.fillBiomesFromNoise(makeResolver(new MutableInt(0), chunkaccess, boundingbox, biome, b -> true), level.getChunkSource().randomState().sampler());
+            chunkaccess.setUnsaved(true);
+
+            level.getChunkSource().chunkMap.resendBiomesForChunks(list);
+        }
+    }
+
+    //copy of net.minecraft.server.commands.FillBiomeCommand makeResolver method
+    private static BiomeResolver makeResolver(MutableInt biomeEntries, ChunkAccess chunk, BoundingBox targetRegion, Holder<Biome> replacementBiome, Predicate<Holder<Biome>> filter)
+    {
+        return (x, y, z, sampler) ->
+        {
+            int i = QuartPos.toBlock(x);
+            int j = QuartPos.toBlock(y);
+            int k = QuartPos.toBlock(z);
+            Holder<Biome> holder = chunk.getNoiseBiome(x, y, z);
+            if (targetRegion.isInside(i, j, k) && filter.test(holder))
+            {
+                biomeEntries.increment();
+                return replacementBiome;
+            } else {return holder;}
+        };
     }
 
     public static void uncorrupt(ServerLevel level, BlockPos pos)

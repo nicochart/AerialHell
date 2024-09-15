@@ -1,21 +1,13 @@
-/*package fr.factionbedrock.aerialhell.Registry.Worldgen;
+package fr.factionbedrock.aerialhell.Registry.Worldgen;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
-@EventBusSubscriber(modid = AerialHell.MODID, bus = Bus.MOD)
 public class AerialHellBiomes
 {
-	public static final DeferredRegister<Biome> BIOMES = DeferredRegister.create(ForgeRegistries.BIOMES, AerialHell.MODID);
-	
 	//Biome de base
 	public static final ResourceKey<Biome> AERIAL_HELL_PLAINS = makeBiomeKey("aerial_hell_plains");
 	//Foret d'arbres aeriens
@@ -48,4 +40,3 @@ public class AerialHellBiomes
 		return ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
 	}
 }
-*/
