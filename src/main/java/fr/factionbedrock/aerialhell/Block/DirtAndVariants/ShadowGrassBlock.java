@@ -76,7 +76,7 @@ public class ShadowGrassBlock extends GrassBlock
 	}
 
 	@Override
-	public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
+	public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
 	{
 		if (BlockHelper.isCorrupted(level, pos) && BlockHelper.surroundingsPreventCorruption(level, pos, BlockHelper.CorruptionType.GRASS))
 		{
@@ -87,7 +87,7 @@ public class ShadowGrassBlock extends GrassBlock
 		{
 			for(int i = 0; i < 4; ++i)
 			{
-				BlockPos blockpos = pos.offset(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
+				BlockPos blockpos = pos.offset(rand.nextInt(3) - 1, rand.nextInt(5) - 3, rand.nextInt(3) - 1);
 				BlockState blockstate = AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().defaultBlockState();
 
 				if (level.getMaxLocalRawBrightness(pos.above()) >= 9 && level.getBlockState(blockpos).is(AerialHellBlocksAndItems.STELLAR_DIRT.get()) && BlockHelper.grassCanPropagate(blockstate, level, blockpos))
@@ -98,7 +98,7 @@ public class ShadowGrassBlock extends GrassBlock
 				{
 					if (!BlockHelper.isCorrupted(level, blockpos))
 					{
-						BlockHelper.tryCorrupt(level, blockpos);
+						BlockHelper.tryCorrupt(level, blockpos, rand);
 					}
 					else //isCorrupted
 					{

@@ -1,11 +1,13 @@
 package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -61,10 +63,19 @@ public class BlockHelper
 
     public enum CorruptionType{STONE, GRASS, ANY}
 
-    public static void tryCorrupt(ServerLevel level, BlockPos pos)
+    public static void tryCorrupt(ServerLevel level, BlockPos pos, RandomSource rand)
     {
+        if (rand.nextFloat() > getCorruptChance(level, pos)) {return;}
         if (BlockHelper.canBeCorrupted(level, pos, BlockHelper.CorruptionType.STONE)) {if (BlockHelper.corrupt(level, pos, CorruptionType.STONE)) {return ;}}
         if (BlockHelper.canBeCorrupted(level, pos, CorruptionType.GRASS)) {if (BlockHelper.corrupt(level, pos, CorruptionType.GRASS)) {return ;}}
+    }
+
+    public static float getCorruptChance(ServerLevel level, BlockPos pos)
+    {
+        if (level.getBiome(pos).is(AerialHellTags.Biomes.IS_SHADOW)) {return 1.0F;}
+        else if (level.getBiome(pos).is(AerialHellTags.Biomes.IS_CRYSTAL)) {return 0.0F;}
+        else if (level.getBiome(pos).is(AerialHellTags.Biomes.IS_AERIAL_HELL)) {return 0.1F;}
+        else {return 0.0F;}
     }
 
     public static boolean corrupt(ServerLevel level, BlockPos pos, CorruptionType corruptionType)
