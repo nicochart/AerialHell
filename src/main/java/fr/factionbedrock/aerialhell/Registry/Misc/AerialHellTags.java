@@ -208,6 +208,8 @@ public class AerialHellTags
 
 		public static final TagKey<Biome> IS_FOREST = tag("is_forest");
 
+		public static final TagKey<Biome> IS_PLAIN = tag("is_plain");
+
 		public static final TagKey<Biome> IS_SAVANA = tag("is_savana");
 
 		public static final TagKey<Biome> IS_SHADOW = tag("is_shadow");
