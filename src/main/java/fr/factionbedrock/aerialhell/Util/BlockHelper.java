@@ -110,48 +110,31 @@ public class BlockHelper
         if (corruptedState != null)
         {
             level.setBlockAndUpdate(pos, corruptedState);
-            corruptBiome(level, pos, corruptionType);
+            corruptBiome(level, pos, 1);
             return true;
         }
         else {return false;}
     }
 
     //see net.minecraft.gametest.framework.GameTestHelper setBiome method and net.minecraft.server.commands.FillBiomeCommand fill method
-    public static void corruptBiome(ServerLevel level, BlockPos pos, CorruptionType corruptionType)
+    public static void corruptBiome(ServerLevel level, BlockPos pos, int radius)
     {
-        BlockPos pos1 = pos.offset(-1, -1, -1), pos2 = pos.offset(1, 1, 1);
+        BlockPos pos1 = pos.offset(-radius, -radius, -radius), pos2 = pos.offset(radius, radius, radius);
         BoundingBox boundingbox = BoundingBox.fromCorners(pos1, pos2);
 
-        ChunkAccess chunkaccess = level.getChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()), ChunkStatus.FULL, false);
-        if (chunkaccess != null)
+        List<ChunkAccess> list = getChunkAccessListForBoundingBox(level, boundingbox);
+        if (!list.isEmpty())
         {
-            List<ChunkAccess> list = new ArrayList<>();
-            list.add(chunkaccess);
-
             Holder<Biome> biome = level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(AerialHellBiomes.SHADOW_PLAIN);
 
-            chunkaccess.fillBiomesFromNoise(makeResolver(new MutableInt(0), chunkaccess, boundingbox, biome, b -> true), level.getChunkSource().randomState().sampler());
-            chunkaccess.setUnsaved(true);
+            for (ChunkAccess chunk : list)
+            {
+                chunk.fillBiomesFromNoise(makeBiomeResolver(new MutableInt(0), chunk, boundingbox, biome, b -> true), level.getChunkSource().randomState().sampler());
+                chunk.setUnsaved(true);
+            }
 
             level.getChunkSource().chunkMap.resendBiomesForChunks(list);
         }
-    }
-
-    //copy of net.minecraft.server.commands.FillBiomeCommand makeResolver method
-    private static BiomeResolver makeResolver(MutableInt biomeEntries, ChunkAccess chunk, BoundingBox targetRegion, Holder<Biome> replacementBiome, Predicate<Holder<Biome>> filter)
-    {
-        return (x, y, z, sampler) ->
-        {
-            int i = QuartPos.toBlock(x);
-            int j = QuartPos.toBlock(y);
-            int k = QuartPos.toBlock(z);
-            Holder<Biome> holder = chunk.getNoiseBiome(x, y, z);
-            if (targetRegion.isInside(i, j, k) && filter.test(holder))
-            {
-                biomeEntries.increment();
-                return replacementBiome;
-            } else {return holder;}
-        };
     }
 
     public static void uncorrupt(ServerLevel level, BlockPos pos)
@@ -167,6 +150,39 @@ public class BlockHelper
             corruptedState = AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().defaultBlockState();
         }
         level.setBlockAndUpdate(pos, corruptedState);
+        uncorruptBiome(level, pos, 1);
+    }
+
+    //see net.minecraft.gametest.framework.GameTestHelper setBiome method and net.minecraft.server.commands.FillBiomeCommand fill method
+    public static void uncorruptBiome(ServerLevel level, BlockPos pos, int radius)
+    {
+        BlockPos pos1 = pos.offset(-radius, -radius, -radius), pos2 = pos.offset(radius, radius, radius);
+        BoundingBox boundingbox = BoundingBox.fromCorners(pos1, pos2);
+
+        List<ChunkAccess> list = getChunkAccessListForBoundingBox(level, boundingbox);
+        if (!list.isEmpty())
+        {
+            Holder<Biome> biome = level.getNoiseBiome(pos.getX() >> 2, pos.getY() >> 2, pos.getZ() >> 2);
+            if (biome.is(AerialHellTags.Biomes.IS_SHADOW))
+            {
+                if (biome.is(AerialHellBiomes.SHADOW_FOREST))
+                {
+                    biome = level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(AerialHellBiomes.COPPER_PINE_FOREST);
+                }
+                else
+                {
+                    biome = level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(AerialHellBiomes.AERIAL_HELL_PLAINS);
+                }
+            }
+
+            for (ChunkAccess chunk : list)
+            {
+                chunk.fillBiomesFromNoise(makeBiomeResolver(new MutableInt(0), chunk, boundingbox, biome, b -> true), level.getChunkSource().randomState().sampler());
+                chunk.setUnsaved(true);
+            }
+
+            level.getChunkSource().chunkMap.resendBiomesForChunks(list);
+        }
     }
 
     public static boolean canBeCorrupted(LevelReader level, BlockPos pos, CorruptionType corruptionType)
@@ -181,6 +197,8 @@ public class BlockHelper
 
     public static boolean surroundingsPreventCorruption(LevelReader level, BlockPos pos, CorruptionType corruptionType)
     {
+        if (hasNearbyFluoriteBlock(level, pos)) {return true;}
+
         if (corruptionType == CorruptionType.STONE)
         {
             return false;
@@ -197,9 +215,59 @@ public class BlockHelper
         }
     }
 
+    private static boolean hasNearbyFluoriteBlock(LevelReader level, BlockPos pos)
+    {
+        for (int x=-1; x<=1; x++)
+        {
+            for (int y=-1; y<=1; y++)
+            {
+                for (int z=-1; z<=1; z++)
+                {
+                    if (level.getBlockState(pos.offset(x, y, z)).is(AerialHellBlocksAndItems.FLUORITE_BLOCK.get()))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public static boolean isCorrupted(LevelReader level, BlockPos pos)
     {
         return level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()) || level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_STONE.get());
+    }
+
+    //copy of net.minecraft.server.commands.FillBiomeCommand makeResolver method
+    private static BiomeResolver makeBiomeResolver(MutableInt biomeEntries, ChunkAccess chunk, BoundingBox targetRegion, Holder<Biome> replacementBiome, Predicate<Holder<Biome>> filter)
+    {
+        return (x, y, z, sampler) ->
+        {
+            int i = QuartPos.toBlock(x);
+            int j = QuartPos.toBlock(y);
+            int k = QuartPos.toBlock(z);
+            Holder<Biome> holder = chunk.getNoiseBiome(x, y, z);
+            if (targetRegion.isInside(i, j, k) && filter.test(holder))
+            {
+                biomeEntries.increment();
+                return replacementBiome;
+            } else {return holder;}
+        };
+    }
+
+    private static List<ChunkAccess> getChunkAccessListForBoundingBox(ServerLevel level, BoundingBox boundingbox)
+    {
+        List<ChunkAccess> list = new ArrayList<>();
+        for (int z = SectionPos.blockToSectionCoord(boundingbox.minZ()); z <= SectionPos.blockToSectionCoord(boundingbox.maxZ()); z++)
+        {
+            for (int x = SectionPos.blockToSectionCoord(boundingbox.minX()); x <= SectionPos.blockToSectionCoord(boundingbox.maxX()); x++)
+            {
+                ChunkAccess chunkaccess = level.getChunk(x, z, ChunkStatus.FULL, false);
+                if (chunkaccess == null) {/*load chunk ?*/}
+                else {list.add(chunkaccess);}
+            }
+        }
+        return list;
     }
 
     public static boolean hasAnySolidBlockAbove(LevelReader reader, BlockPos pos)

@@ -93,6 +93,7 @@ public class ShadowGrassBlock extends GrassBlock
 				if (level.getMaxLocalRawBrightness(pos.above()) >= 9 && level.getBlockState(blockpos).is(AerialHellBlocksAndItems.STELLAR_DIRT.get()) && BlockHelper.grassCanPropagate(blockstate, level, blockpos))
 				{
 					level.setBlockAndUpdate(blockpos, blockstate.setValue(SNOWY, level.getBlockState(blockpos.above()).is(Blocks.SNOW)));
+					BlockHelper.corruptBiome(level, blockpos, 1);
 				}
 				else
 				{
