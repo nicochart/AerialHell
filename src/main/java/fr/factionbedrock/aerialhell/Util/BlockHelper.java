@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellBiomes;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
@@ -124,7 +125,11 @@ public class BlockHelper
         List<ChunkAccess> list = getChunkAccessListForBoundingBox(level, boundingbox);
         if (!list.isEmpty())
         {
-            Holder<Biome> biome = level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(AerialHellBiomes.SHADOW_PLAIN);
+            Holder<Biome> biome = getBiome(level, AerialHellBiomes.SHADOW_PLAIN);
+            Holder<Biome> baseBiome = getInitialBiomeAtPos(level, pos); //initial worldgen biome
+            Holder<Biome> currentBiome = getInitialBiomeAtPos(level, pos); //current biome
+            if (currentBiome.is(AerialHellTags.Biomes.IS_SHADOW)) {return;} //biome is already shadow
+            else if (baseBiome.is(AerialHellTags.Biomes.IS_SHADOW)) {biome = baseBiome;} //biome initially was shadow but is currently not
 
             for (ChunkAccess chunk : list)
             {
@@ -160,17 +165,11 @@ public class BlockHelper
         List<ChunkAccess> list = getChunkAccessListForBoundingBox(level, boundingbox);
         if (!list.isEmpty())
         {
-            Holder<Biome> biome = level.getNoiseBiome(pos.getX() >> 2, pos.getY() >> 2, pos.getZ() >> 2);
-            if (biome.is(AerialHellTags.Biomes.IS_SHADOW))
+            Holder<Biome> biome = getInitialBiomeAtPos(level, pos);
+            if (biome.is(AerialHellTags.Biomes.IS_SHADOW)) //initial biome is shadow, need to find another biome to set
             {
-                if (biome.is(AerialHellBiomes.SHADOW_FOREST))
-                {
-                    biome = level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(AerialHellBiomes.COPPER_PINE_FOREST);
-                }
-                else
-                {
-                    biome = level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(AerialHellBiomes.AERIAL_HELL_PLAINS);
-                }
+                if (biome.is(AerialHellBiomes.SHADOW_FOREST)) {biome = getBiome(level, AerialHellBiomes.COPPER_PINE_FOREST);}
+                else {biome = getBiome(level, AerialHellBiomes.AERIAL_HELL_PLAINS);}
             }
 
             for (ChunkAccess chunk : list)
@@ -234,6 +233,21 @@ public class BlockHelper
     public static boolean isCorrupted(LevelReader level, BlockPos pos)
     {
         return level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()) || level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_STONE.get());
+    }
+
+    public static Holder<Biome> getBiome(ServerLevel level, ResourceKey<Biome> biomeKey)
+    {
+        return level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(biomeKey);
+    }
+
+    public static Holder<Biome> getCurrentBiomeAtPos(ServerLevel level, BlockPos pos)
+    {
+        return level.getNoiseBiome(pos.getX() >> 2, pos.getY() >> 2, pos.getZ() >> 2);
+    }
+
+    public static Holder<Biome> getInitialBiomeAtPos(ServerLevel level, BlockPos pos) //return the worldgen biome, before any corruption
+    {
+        return level.getChunkSource().getGenerator().getBiomeSource().getNoiseBiome(pos.getX() >> 2, pos.getY() >> 2, pos.getZ() >> 2,level.getChunkSource().randomState().sampler());
     }
 
     //copy of net.minecraft.server.commands.FillBiomeCommand makeResolver method
