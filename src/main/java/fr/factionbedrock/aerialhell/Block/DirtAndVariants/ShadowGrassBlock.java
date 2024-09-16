@@ -78,10 +78,15 @@ public class ShadowGrassBlock extends GrassBlock
 	@Override
 	public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
 	{
-		if (BlockHelper.isCorrupted(level, pos) && BlockHelper.surroundingsPreventCorruption(level, pos, BlockHelper.CorruptionType.GRASS))
+		if (!BlockHelper.canBeGrass(state, level, pos))
 		{
 			if (!level.isAreaLoaded(pos, 3)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light and spreading
 			level.setBlockAndUpdate(pos, AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState());
+		}
+		else if (BlockHelper.isCorrupted(level, pos) && BlockHelper.surroundingsPreventCorruption(level, pos, BlockHelper.CorruptionType.GRASS))
+		{
+			if (!level.isAreaLoaded(pos, 3)) return;
+			BlockHelper.uncorrupt(level, pos);
 		}
 		else
 		{

@@ -119,8 +119,7 @@ public class BlockHelper
     //see net.minecraft.gametest.framework.GameTestHelper setBiome method and net.minecraft.server.commands.FillBiomeCommand fill method
     public static void corruptBiome(ServerLevel level, BlockPos pos, int radius)
     {
-        BlockPos pos1 = pos.offset(-radius, -radius, -radius), pos2 = pos.offset(radius, radius, radius);
-        BoundingBox boundingbox = BoundingBox.fromCorners(pos1, pos2);
+        BoundingBox boundingbox = getQuantizedBoundingBox(pos, radius);
 
         List<ChunkAccess> list = getChunkAccessListForBoundingBox(level, boundingbox);
         if (!list.isEmpty())
@@ -156,8 +155,7 @@ public class BlockHelper
     //see net.minecraft.gametest.framework.GameTestHelper setBiome method and net.minecraft.server.commands.FillBiomeCommand fill method
     public static void uncorruptBiome(ServerLevel level, BlockPos pos, int radius)
     {
-        BlockPos pos1 = pos.offset(-radius, -radius, -radius), pos2 = pos.offset(radius, radius, radius);
-        BoundingBox boundingbox = BoundingBox.fromCorners(pos1, pos2);
+        BoundingBox boundingbox = getQuantizedBoundingBox(pos, radius);
 
         List<ChunkAccess> list = getChunkAccessListForBoundingBox(level, boundingbox);
         if (!list.isEmpty())
@@ -255,6 +253,15 @@ public class BlockHelper
         };
     }
 
+    private static int quantize(int blockCoordinate) {return QuartPos.toBlock(QuartPos.fromBlock(blockCoordinate));}
+
+    private static BoundingBox getQuantizedBoundingBox(BlockPos pos, int radius)
+    {
+        BlockPos pos1 = new BlockPos(quantize(pos.getX() - radius), quantize(pos.getY() - radius), quantize(pos.getZ() - radius));
+        BlockPos pos2 = new BlockPos(quantize(pos.getX() + radius), quantize(pos.getY() + radius), quantize(pos.getZ() + radius));
+        return BoundingBox.fromCorners(pos1, pos2);
+    }
+
     private static List<ChunkAccess> getChunkAccessListForBoundingBox(ServerLevel level, BoundingBox boundingbox)
     {
         List<ChunkAccess> list = new ArrayList<>();
@@ -262,8 +269,8 @@ public class BlockHelper
         {
             for (int x = SectionPos.blockToSectionCoord(boundingbox.minX()); x <= SectionPos.blockToSectionCoord(boundingbox.maxX()); x++)
             {
-                ChunkAccess chunkaccess = level.getChunk(x, z, ChunkStatus.FULL, false);
-                if (chunkaccess == null) {/*load chunk ?*/}
+                ChunkAccess chunkaccess = level.getChunk(x, z, ChunkStatus.FULL, true);
+                if (chunkaccess == null) {/*should not happen*/}
                 else {list.add(chunkaccess);}
             }
         }
