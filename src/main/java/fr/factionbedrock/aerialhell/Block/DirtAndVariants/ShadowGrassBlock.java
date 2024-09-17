@@ -104,7 +104,7 @@ public class ShadowGrassBlock extends GrassBlock
 				{
 					if (!BlockHelper.isCorrupted(level, blockpos))
 					{
-						BlockHelper.tryCorrupt(level, blockpos, rand);
+						BlockHelper.tryCorrupt(level, blockpos, rand, 1.0F);
 					}
 					else //isCorrupted
 					{

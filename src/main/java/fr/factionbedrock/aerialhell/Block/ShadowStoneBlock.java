@@ -29,7 +29,8 @@ public class ShadowStoneBlock extends Block
 				BlockPos blockpos = pos.offset(rand.nextInt(3) - 1, rand.nextInt(3) - 1, rand.nextInt(3) - 1);
 				if (!BlockHelper.isCorrupted(level, blockpos))
 				{
-					BlockHelper.tryCorrupt(level, blockpos, rand);
+					BlockHelper.tryCorrupt(level, blockpos, rand, 0.4F);
+					return;
 				}
 				else //isCorrupted
 				{

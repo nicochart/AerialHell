@@ -74,9 +74,9 @@ public class BlockHelper
 
     public enum CorruptionType{STONE, GRASS, ANY}
 
-    public static void tryCorrupt(ServerLevel level, BlockPos pos, RandomSource rand)
+    public static void tryCorrupt(ServerLevel level, BlockPos pos, RandomSource rand, float chanceMultiplier)
     {
-        if (rand.nextFloat() > getCorruptChance(level, pos)) {return;}
+        if (rand.nextFloat() > getCorruptChance(level, pos) * chanceMultiplier) {return;}
         if (BlockHelper.canBeCorrupted(level, pos, BlockHelper.CorruptionType.STONE)) {if (BlockHelper.corrupt(level, pos, CorruptionType.STONE)) {return ;}}
         if (BlockHelper.canBeCorrupted(level, pos, CorruptionType.GRASS)) {if (BlockHelper.corrupt(level, pos, CorruptionType.GRASS)) {return ;}}
     }
