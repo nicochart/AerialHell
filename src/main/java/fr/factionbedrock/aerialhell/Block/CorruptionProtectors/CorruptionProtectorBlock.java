@@ -1,0 +1,48 @@
+package fr.factionbedrock.aerialhell.Block.CorruptionProtectors;
+
+import com.mojang.serialization.MapCodec;
+import fr.factionbedrock.aerialhell.Block.CollisionCondition.IntangibleTemporaryBlock;
+import fr.factionbedrock.aerialhell.BlockEntity.CorruptionProtectorBlockEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+
+import javax.annotation.Nullable;
+
+public class CorruptionProtectorBlock extends BaseEntityBlock
+{
+    public static int MAX_PROTECTION_DISTANCE = 100;
+    public final int protection_distance;
+    public static final MapCodec<IntangibleTemporaryBlock> CODEC = simpleCodec(IntangibleTemporaryBlock::new);
+
+    public CorruptionProtectorBlock(Properties prop, int protectionDistance)
+    {
+        super(prop);
+        this.protection_distance = protectionDistance;
+    }
+
+    @Override protected MapCodec<? extends IntangibleTemporaryBlock> codec() {return CODEC;}
+
+    @Nullable @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new CorruptionProtectorBlockEntity(pos, state, this.protection_distance);}
+
+    @Override protected RenderShape getRenderShape(BlockState pState) {return RenderShape.MODEL;}
+
+    @Nullable @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type)
+    {
+        return level.isClientSide ? null : createTickerHelper(type, AerialHellBlockEntities.CORRUPTION_PROTECTOR_BLOCK.get(), CorruptionProtectorBlockEntity::tick);
+    }
+
+    @Override protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
+    {
+        if (level.getBlockState(pos).getBlock() instanceof CorruptionProtectorBlock) {return;}
+    }
+}

@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableMap;
 
 import fr.factionbedrock.aerialhell.Block.*;
 import fr.factionbedrock.aerialhell.Block.CollisionCondition.SolidEther.*;
+import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.CorruptionProtectorBlock;
 import fr.factionbedrock.aerialhell.Block.DirtAndVariants.*;
 import fr.factionbedrock.aerialhell.Block.DungeonCores.*;
 import fr.factionbedrock.aerialhell.Block.Furnaces.*;
@@ -519,6 +520,10 @@ public class AerialHellBlocksAndItems
 
 	//other condition condition blocks
 	public static final DeferredBlock<Block> INTANGIBLE_TEMPORARY_BLOCK = BLOCKS.register("intangible_temporary_block", () -> new IntangibleTemporaryBlock(BlockBehaviour.Properties.of().strength(2.0F, 3600000.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion()));
+
+	//corruption protector
+	public static final DeferredBlock<Block> BASE_FLUORITE_BEACON = BLOCKS.register("base_fluorite_beacon", () -> new CorruptionProtectorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion(), 50));
+	public static final DeferredItem<Item> BASE_FLUORITE_BEACON_ITEM = ITEMS.register("base_fluorite_beacon", () -> new BlockItem(BASE_FLUORITE_BEACON.get(), new Item.Properties()));
 
 	//solid_ethers
 	public static final DeferredBlock<Block> WHITE_SOLID_ETHER = BLOCKS.register("white_solid_ether", () -> new SolidEtherBlock(BlockBehaviour.Properties.of().strength(0.2F).sound(SoundType.WOOL).noOcclusion()));

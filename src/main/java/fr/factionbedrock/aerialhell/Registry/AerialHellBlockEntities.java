@@ -24,6 +24,9 @@ public class AerialHellBlockEntities
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<IntangibleTemporaryBlockEntity>> INTANGIBLE_TEMPORARY_BLOCK = BLOCK_ENTITY_TYPES.register("intangible_temporary_block", () ->
 			new BlockEntityType<>(IntangibleTemporaryBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.INTANGIBLE_TEMPORARY_BLOCK.get()), null));
 
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CorruptionProtectorBlockEntity>> CORRUPTION_PROTECTOR_BLOCK = BLOCK_ENTITY_TYPES.register("corruption_protector_block", () ->
+			new BlockEntityType<>((pos, blockState) -> new CorruptionProtectorBlockEntity(pos, blockState, CorruptionProtectorBlockEntity.MAX_PROTECTION_DISTANCE), Sets.newHashSet(AerialHellBlocksAndItems.BASE_FLUORITE_BEACON.get()), null));
+
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<StellarFurnaceBlockEntity>> STELLAR_FURNACE = BLOCK_ENTITY_TYPES.register("stellar_furnace", () ->
 			new BlockEntityType<>(StellarFurnaceBlockEntity::new, Sets.newHashSet
 					(
