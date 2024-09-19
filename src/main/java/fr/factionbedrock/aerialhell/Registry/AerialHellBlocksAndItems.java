@@ -420,7 +420,7 @@ public class AerialHellBlocksAndItems
 	public static final DeferredBlock<Block> STELLAR_CLAY = BLOCKS.register("stellar_clay", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CLAY)));
 	public static final DeferredBlock<Block> GLAUCOPHANITE = BLOCKS.register("glaucophanite",() -> new Block(BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
 	public static final DeferredBlock<Block> POLISHED_GLAUCOPHANITE = BLOCKS.register("polished_glaucophanite",() -> new Block(BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
-	public static final DeferredBlock<Block> SHADOW_STONE = BLOCKS.register("shadow_stone", () -> new ShadowStoneBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).randomTicks()));
+	public static final DeferredBlock<Block> SHADOW_STONE = BLOCKS.register("shadow_stone", () -> new ShadowStoneBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
 	public static final DeferredItem<Item> STELLAR_STONE_ITEM = ITEMS.register("stellar_stone", () -> new BlockItem(STELLAR_STONE.get(), new Item.Properties()));
 	public static final DeferredItem<Item> STELLAR_COBBLESTONE_ITEM = ITEMS.register("stellar_cobblestone", () -> new BlockItem(STELLAR_COBBLESTONE.get(), new Item.Properties()));
 	public static final DeferredItem<Item> MOSSY_STELLAR_STONE_ITEM = ITEMS.register("mossy_stellar_stone", () -> new BlockItem(MOSSY_STELLAR_STONE.get(), new Item.Properties()));
@@ -522,7 +522,9 @@ public class AerialHellBlocksAndItems
 	public static final DeferredBlock<Block> INTANGIBLE_TEMPORARY_BLOCK = BLOCKS.register("intangible_temporary_block", () -> new IntangibleTemporaryBlock(BlockBehaviour.Properties.of().strength(2.0F, 3600000.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion()));
 
 	//corruption protector
+	public static final DeferredBlock<Block> WEAK_FLUORITE_BEACON = BLOCKS.register("weak_fluorite_beacon", () -> new CorruptionProtectorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion(), 10));
 	public static final DeferredBlock<Block> BASE_FLUORITE_BEACON = BLOCKS.register("base_fluorite_beacon", () -> new CorruptionProtectorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion(), 50));
+	public static final DeferredItem<Item> WEAK_FLUORITE_BEACON_ITEM = ITEMS.register("weak_fluorite_beacon", () -> new BlockItem(WEAK_FLUORITE_BEACON.get(), new Item.Properties()));
 	public static final DeferredItem<Item> BASE_FLUORITE_BEACON_ITEM = ITEMS.register("base_fluorite_beacon", () -> new BlockItem(BASE_FLUORITE_BEACON.get(), new Item.Properties()));
 
 	//solid_ethers

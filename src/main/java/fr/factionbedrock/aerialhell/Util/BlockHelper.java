@@ -83,9 +83,10 @@ public class BlockHelper
 
     public static float getCorruptChance(ServerLevel level, BlockPos pos)
     {
-        if (level.getBiome(pos).is(AerialHellTags.Biomes.IS_SHADOW)) {return 1.0F;}
-        else if (level.getBiome(pos).is(AerialHellTags.Biomes.IS_CRYSTAL)) {return 0.0F;}
-        else if (level.getBiome(pos).is(AerialHellTags.Biomes.IS_AERIAL_HELL)) {return 0.1F;}
+        Holder<Biome> biome = getInitialBiomeAtPos(level, pos);
+        if (biome.is(AerialHellTags.Biomes.IS_SHADOW)) {return 1.0F;}
+        else if (biome.is(AerialHellTags.Biomes.IS_CRYSTAL)) {return 0.0F;}
+        else if (biome.is(AerialHellTags.Biomes.IS_AERIAL_HELL)) {return 0.1F;}
         else {return 0.0F;}
     }
 
@@ -127,7 +128,7 @@ public class BlockHelper
         {
             Holder<Biome> biome = getBiome(level, AerialHellBiomes.SHADOW_PLAIN);
             Holder<Biome> baseBiome = getInitialBiomeAtPos(level, pos); //initial worldgen biome
-            Holder<Biome> currentBiome = getInitialBiomeAtPos(level, pos); //current biome
+            Holder<Biome> currentBiome = getCurrentBiomeAtPos(level, pos); //current biome
             if (currentBiome.is(AerialHellTags.Biomes.IS_SHADOW)) {return;} //biome is already shadow
             else if (baseBiome.is(AerialHellTags.Biomes.IS_SHADOW)) {biome = baseBiome;} //biome initially was shadow but is currently not
 
@@ -153,7 +154,7 @@ public class BlockHelper
         {
             corruptedState = AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().defaultBlockState();
         }
-        level.setBlockAndUpdate(pos, corruptedState);
+        level.setBlock(pos, corruptedState, 3); //flag 1 | 2 = 3, to get client update and send neighborChange
         uncorruptBiome(level, pos, 1);
     }
 
@@ -184,11 +185,13 @@ public class BlockHelper
 
     public static boolean canBeCorrupted(LevelReader level, BlockPos pos, CorruptionType corruptionType)
     {
+        boolean isGrassType = corruptionType == CorruptionType.GRASS || corruptionType == CorruptionType.ANY;
+        boolean isStoneType = corruptionType == CorruptionType.GRASS ||  corruptionType == CorruptionType.ANY;
         if (surroundingsPreventCorruption(level, pos, corruptionType)) {return false;}
         else
         {
-            return isCorrupted(level, pos) || ((level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && corruptionType == CorruptionType.GRASS)
-                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_STONE.get()) && corruptionType == CorruptionType.STONE));
+            return isCorrupted(level, pos) || ((level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && isGrassType)
+                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_STONE.get()) && isStoneType));
         }
     }
 
@@ -233,6 +236,21 @@ public class BlockHelper
     public static boolean isCorrupted(LevelReader level, BlockPos pos)
     {
         return level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()) || level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_STONE.get());
+    }
+
+    public static boolean isSurroundingCorrupted(LevelReader level, BlockPos pos)
+    {
+        for(int dx=-1; dx<=1; dx++)
+        {
+            for(int dy=-1; dy<=1; dy++)
+            {
+                for(int dz=-1; dz<=1; dz++)
+                {
+                    if (canBeCorrupted(level, pos, CorruptionType.ANY) && !isCorrupted(level, pos)) {return false;}
+                }
+            }
+        }
+        return true;
     }
 
     public static Holder<Biome> getBiome(ServerLevel level, ResourceKey<Biome> biomeKey)
