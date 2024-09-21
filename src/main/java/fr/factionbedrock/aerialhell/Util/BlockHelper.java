@@ -74,19 +74,30 @@ public class BlockHelper
 
     public enum CorruptionType{STONE, GRASS, ANY}
 
-    public static void tryCorrupt(ServerLevel level, BlockPos pos, RandomSource rand, float chanceMultiplier)
+    public static boolean tryCorrupt(ServerLevel level, BlockPos pos, RandomSource rand)
     {
-        if (rand.nextFloat() > getCorruptChance(level, pos) * chanceMultiplier) {return;}
-        if (BlockHelper.canBeCorrupted(level, pos, BlockHelper.CorruptionType.STONE)) {if (BlockHelper.corrupt(level, pos, CorruptionType.STONE)) {return ;}}
-        if (BlockHelper.canBeCorrupted(level, pos, CorruptionType.GRASS)) {if (BlockHelper.corrupt(level, pos, CorruptionType.GRASS)) {return ;}}
+        return tryCorrupt(level, pos, rand, 1.0F);
     }
 
-    public static float getCorruptChance(ServerLevel level, BlockPos pos)
+    public static boolean tryCorrupt(ServerLevel level, BlockPos pos, RandomSource rand, float chanceMultiplier)
     {
+        float chance = rand.nextFloat();
+        if (chance < getCorruptChance(level, pos, CorruptionType.STONE, chanceMultiplier) && BlockHelper.corrupt(level, pos, CorruptionType.STONE)) {return true;}
+        if (chance < getCorruptChance(level, pos, CorruptionType.GRASS, chanceMultiplier) && BlockHelper.corrupt(level, pos, CorruptionType.GRASS)) {return true;}
+        return BlockHelper.canBeCorrupted(level, pos, BlockHelper.CorruptionType.ANY);
+    }
+
+    public static float getCorruptChance(ServerLevel level, BlockPos pos, BlockHelper.CorruptionType type, float chance_multiplier)
+    {
+        if (!BlockHelper.canBeCorrupted(level, pos, type)) {return 0.0F;}
+
+        float custom_multiplier = 1.0F;
+        float type_multiplier = (type == CorruptionType.ANY || type == CorruptionType.STONE) ? 0.4F : 1.0F;
+        float multiplier = chance_multiplier * custom_multiplier * type_multiplier;
         Holder<Biome> biome = getInitialBiomeAtPos(level, pos);
-        if (biome.is(AerialHellTags.Biomes.IS_SHADOW)) {return 1.8F;}
+        if (biome.is(AerialHellTags.Biomes.IS_SHADOW)) {return multiplier * 1.8F;}
         else if (biome.is(AerialHellTags.Biomes.IS_CRYSTAL)) {return 0.0F;}
-        else if (biome.is(AerialHellTags.Biomes.IS_AERIAL_HELL)) {return 0.8F;}
+        else if (biome.is(AerialHellTags.Biomes.IS_AERIAL_HELL)) {return multiplier * 0.8F;}
         else {return 0.0F;}
     }
 
