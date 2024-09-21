@@ -84,9 +84,9 @@ public class BlockHelper
     public static float getCorruptChance(ServerLevel level, BlockPos pos)
     {
         Holder<Biome> biome = getInitialBiomeAtPos(level, pos);
-        if (biome.is(AerialHellTags.Biomes.IS_SHADOW)) {return 1.0F;}
+        if (biome.is(AerialHellTags.Biomes.IS_SHADOW)) {return 1.8F;}
         else if (biome.is(AerialHellTags.Biomes.IS_CRYSTAL)) {return 0.0F;}
-        else if (biome.is(AerialHellTags.Biomes.IS_AERIAL_HELL)) {return 0.1F;}
+        else if (biome.is(AerialHellTags.Biomes.IS_AERIAL_HELL)) {return 0.8F;}
         else {return 0.0F;}
     }
 
@@ -186,7 +186,7 @@ public class BlockHelper
     public static boolean canBeCorrupted(LevelReader level, BlockPos pos, CorruptionType corruptionType)
     {
         boolean isGrassType = corruptionType == CorruptionType.GRASS || corruptionType == CorruptionType.ANY;
-        boolean isStoneType = corruptionType == CorruptionType.GRASS ||  corruptionType == CorruptionType.ANY;
+        boolean isStoneType = corruptionType == CorruptionType.STONE ||  corruptionType == CorruptionType.ANY;
         if (surroundingsPreventCorruption(level, pos, corruptionType)) {return false;}
         else
         {
@@ -246,7 +246,7 @@ public class BlockHelper
             {
                 for(int dz=-1; dz<=1; dz++)
                 {
-                    if (canBeCorrupted(level, pos, CorruptionType.ANY) && !isCorrupted(level, pos)) {return false;}
+                    if (canBeCorrupted(level, pos.offset(dx, dy, dz), CorruptionType.ANY) && !isCorrupted(level, pos.offset(dx, dy, dz))) {return false;}
                 }
             }
         }

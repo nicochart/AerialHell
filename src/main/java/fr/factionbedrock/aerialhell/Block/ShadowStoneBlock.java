@@ -29,7 +29,7 @@ public class ShadowStoneBlock extends Block
 		super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
 		if (BlockHelper.canBeCorrupted(level, neighborPos, BlockHelper.CorruptionType.ANY))
 		{
-			level.setBlock(pos, state.setValue(CAN_SPREAD, true), 4);
+			level.setBlock(pos, state.setValue(CAN_SPREAD, true), 2);
 		}
 	}
 
@@ -60,7 +60,7 @@ public class ShadowStoneBlock extends Block
 
 		if (BlockHelper.isSurroundingCorrupted(level, pos))
 		{
-			level.setBlock(pos, state.setValue(CAN_SPREAD, false), 4);
+			level.setBlock(pos, state.setValue(CAN_SPREAD, false), 2);
 		}
 	}
 }
