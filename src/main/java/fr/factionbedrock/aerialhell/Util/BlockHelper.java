@@ -208,8 +208,6 @@ public class BlockHelper
 
     public static boolean surroundingsPreventCorruption(LevelReader level, BlockPos pos, CorruptionType corruptionType)
     {
-        if (hasNearbyFluoriteBlock(level, pos)) {return true;}
-
         if (corruptionType == CorruptionType.STONE)
         {
             return false;
@@ -224,24 +222,6 @@ public class BlockHelper
         {
             return surroundingsPreventCorruption(level, pos, CorruptionType.STONE) && surroundingsPreventCorruption(level, pos, CorruptionType.GRASS);
         }
-    }
-
-    private static boolean hasNearbyFluoriteBlock(LevelReader level, BlockPos pos)
-    {
-        for (int x=-1; x<=1; x++)
-        {
-            for (int y=-1; y<=1; y++)
-            {
-                for (int z=-1; z<=1; z++)
-                {
-                    if (level.getBlockState(pos.offset(x, y, z)).is(AerialHellBlocksAndItems.FLUORITE_BLOCK.get()))
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     public static boolean isCorrupted(LevelReader level, BlockPos pos)

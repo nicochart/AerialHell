@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Registry.CreativeModeTabs;
 
-import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.world.item.*;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -198,8 +197,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_VINE_ROPE_SPOOL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_LANTERN_ITEM.get());
 
-            itemsToAdd.add(AerialHellBlocksAndItems.WEAK_FLUORITE_BEACON_ITEM.get());
-            itemsToAdd.add(AerialHellBlocksAndItems.BASE_FLUORITE_BEACON_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.WEAK_FLUORITE_REACTOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.BASE_FLUORITE_REACTOR_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.WHITE_SOLID_ETHER_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.BLUE_SOLID_ETHER_ITEM.get());

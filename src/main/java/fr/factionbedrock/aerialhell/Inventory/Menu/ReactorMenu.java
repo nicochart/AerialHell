@@ -9,18 +9,18 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 
-public class ProtectorMenu extends AbstractContainerMenu
+public class ReactorMenu extends AbstractContainerMenu
 {
 	private final Container container;
 
-	public ProtectorMenu(int containerId, Inventory playerInventory)
+	public ReactorMenu(int containerId, Inventory playerInventory)
 	{
 		this(containerId, playerInventory, new SimpleContainer(1));
 	}
 
-	public ProtectorMenu(int containerId, Inventory playerInventory, Container container)
+	public ReactorMenu(int containerId, Inventory playerInventory, Container container)
 	{
-		super(AerialHellMenuTypes.PROTECTOR.get(), containerId);
+		super(AerialHellMenuTypes.REACTOR.get(), containerId);
 		this.container = container;
 
 		createPlayerHotbar(playerInventory);
@@ -75,7 +75,7 @@ public class ProtectorMenu extends AbstractContainerMenu
 		{
 			if(!moveItemStackTo(fromStack, 36, 37, false)) {return ItemStack.EMPTY;}
 		}
-		else if (index == 36) //protector inventory
+		else if (index == 36) //reactor inventory
 		{
 			if(!moveItemStackTo(fromStack, 0, 36, false)) {return ItemStack.EMPTY;}
 		}

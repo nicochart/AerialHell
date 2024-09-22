@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Inventory.Menu.ProtectorMenu;
+import fr.factionbedrock.aerialhell.Inventory.Menu.ReactorMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -9,11 +9,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 
-public class ProtectorScreen extends AbstractContainerScreen<ProtectorMenu>
+public class ReactorScreen extends AbstractContainerScreen<ReactorMenu>
 {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/container/protector.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/container/reactor.png");
 
-    public ProtectorScreen(ProtectorMenu menu, Inventory playerInventory, Component title)
+    public ReactorScreen(ReactorMenu menu, Inventory playerInventory, Component title)
     {
         super(menu, playerInventory, title);
         this.imageWidth = 176;

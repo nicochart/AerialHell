@@ -8,7 +8,7 @@ import com.google.common.collect.ImmutableMap;
 
 import fr.factionbedrock.aerialhell.Block.*;
 import fr.factionbedrock.aerialhell.Block.CollisionCondition.SolidEther.*;
-import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.CorruptionProtectorBlock;
+import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.*;
 import fr.factionbedrock.aerialhell.Block.DirtAndVariants.*;
 import fr.factionbedrock.aerialhell.Block.DungeonCores.*;
 import fr.factionbedrock.aerialhell.Block.Furnaces.*;
@@ -521,11 +521,11 @@ public class AerialHellBlocksAndItems
 	//other condition condition blocks
 	public static final DeferredBlock<Block> INTANGIBLE_TEMPORARY_BLOCK = BLOCKS.register("intangible_temporary_block", () -> new IntangibleTemporaryBlock(BlockBehaviour.Properties.of().strength(2.0F, 3600000.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion()));
 
-	//corruption protector
-	public static final DeferredBlock<Block> WEAK_FLUORITE_BEACON = BLOCKS.register("weak_fluorite_beacon", () -> new CorruptionProtectorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion(), 10));
-	public static final DeferredBlock<Block> BASE_FLUORITE_BEACON = BLOCKS.register("base_fluorite_beacon", () -> new CorruptionProtectorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion(), 50));
-	public static final DeferredItem<Item> WEAK_FLUORITE_BEACON_ITEM = ITEMS.register("weak_fluorite_beacon", () -> new BlockItem(WEAK_FLUORITE_BEACON.get(), new Item.Properties()));
-	public static final DeferredItem<Item> BASE_FLUORITE_BEACON_ITEM = ITEMS.register("base_fluorite_beacon", () -> new BlockItem(BASE_FLUORITE_BEACON.get(), new Item.Properties()));
+	//reactors
+	public static final DeferredBlock<Block> WEAK_FLUORITE_REACTOR = BLOCKS.register("weak_fluorite_reactor", () -> new ReactorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion(), 32));
+	public static final DeferredBlock<Block> BASE_FLUORITE_REACTOR = BLOCKS.register("base_fluorite_reactor", () -> new ReactorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion(), 50));
+	public static final DeferredItem<Item> WEAK_FLUORITE_REACTOR_ITEM = ITEMS.register("weak_fluorite_reactor", () -> new BlockItem(WEAK_FLUORITE_REACTOR.get(), new Item.Properties()));
+	public static final DeferredItem<Item> BASE_FLUORITE_REACTOR_ITEM = ITEMS.register("base_fluorite_reactor", () -> new BlockItem(BASE_FLUORITE_REACTOR.get(), new Item.Properties()));
 
 	//solid_ethers
 	public static final DeferredBlock<Block> WHITE_SOLID_ETHER = BLOCKS.register("white_solid_ether", () -> new SolidEtherBlock(BlockBehaviour.Properties.of().strength(0.2F).sound(SoundType.WOOL).noOcclusion()));
@@ -828,7 +828,7 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> RAW_AZURITE = ITEMS.register("raw_azurite_crystal", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> RAW_VOLUCITE = ITEMS.register("raw_volucite", () -> new Item(new Item.Properties()));
 
-	public static final DeferredBlock<Block> FLUORITE_BLOCK = BLOCKS.register("fluorite_block", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()));
+	public static final DeferredBlock<Block> FLUORITE_BLOCK = BLOCKS.register("fluorite_block", () -> new BiomeShifterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops(), 8));
 	public static final DeferredBlock<Block> MAGMATIC_GEL_BLOCK = BLOCKS.register("magmatic_gel_block", () -> new MagmaticGelBlock(BlockBehaviour.Properties.of().strength(1.0F, 1600.0F).randomTicks().sound(SoundType.GLASS).noOcclusion().requiresCorrectToolForDrops().isViewBlocking((state, reader, pos) -> false)));
 	public static final DeferredBlock<Block> RUBY_BLOCK = BLOCKS.register("ruby_block", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()));
 	public static final DeferredBlock<Block> AZURITE_BLOCK = BLOCKS.register("azurite_block", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()));

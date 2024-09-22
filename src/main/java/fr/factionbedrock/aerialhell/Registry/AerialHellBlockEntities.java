@@ -24,11 +24,17 @@ public class AerialHellBlockEntities
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<IntangibleTemporaryBlockEntity>> INTANGIBLE_TEMPORARY_BLOCK = BLOCK_ENTITY_TYPES.register("intangible_temporary_block", () ->
 			new BlockEntityType<>(IntangibleTemporaryBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.INTANGIBLE_TEMPORARY_BLOCK.get()), null));
 
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CorruptionProtectorBlockEntity>> CORRUPTION_PROTECTOR_BLOCK = BLOCK_ENTITY_TYPES.register("corruption_protector_block", () ->
-			new BlockEntityType<>((pos, blockState) -> new CorruptionProtectorBlockEntity(pos, blockState, CorruptionProtectorBlockEntity.MAX_PROTECTION_DISTANCE), Sets.newHashSet
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BiomeShifterBlockEntity>> BIOME_SHIFTER = BLOCK_ENTITY_TYPES.register("biome_shifter", () ->
+			new BlockEntityType<>((pos, blockState) -> new BiomeShifterBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE), Sets.newHashSet
 					(
-							AerialHellBlocksAndItems.WEAK_FLUORITE_BEACON.get(),
-							AerialHellBlocksAndItems.BASE_FLUORITE_BEACON.get()
+							AerialHellBlocksAndItems.FLUORITE_BLOCK.get()
+					), null));
+
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ReactorBlockEntity>> REACTOR = BLOCK_ENTITY_TYPES.register("reactor", () ->
+			new BlockEntityType<>((pos, blockState) -> new ReactorBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE), Sets.newHashSet
+					(
+							AerialHellBlocksAndItems.WEAK_FLUORITE_REACTOR.get(),
+							AerialHellBlocksAndItems.BASE_FLUORITE_REACTOR.get()
 					), null));
 
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<StellarFurnaceBlockEntity>> STELLAR_FURNACE = BLOCK_ENTITY_TYPES.register("stellar_furnace", () ->
