@@ -1,20 +1,30 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
+import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.CorruptionProtectorBlock;
+import fr.factionbedrock.aerialhell.Inventory.Menu.ProtectorMenu;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
-public class CorruptionProtectorBlockEntity extends BlockEntity
+public class CorruptionProtectorBlockEntity extends BaseContainerBlockEntity
 {
+    protected NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
     public static int MAX_PROTECTION_DISTANCE = 100;
     private int protection_distance;
 
@@ -23,6 +33,13 @@ public class CorruptionProtectorBlockEntity extends BlockEntity
         super(AerialHellBlockEntities.CORRUPTION_PROTECTOR_BLOCK.get(), pos, blockState);
         this.protection_distance = protectionDistance;
     }
+
+    @Override @NotNull protected Component getDefaultName()
+    {
+        return Component.translatable("container." + AerialHell.MODID + ".protector");
+    }
+
+    @Override protected AbstractContainerMenu createMenu(int id, @NotNull Inventory inv) {return new ProtectorMenu(id, inv, this);}
 
     public static void tick(Level level, BlockPos pos, BlockState state, CorruptionProtectorBlockEntity blockEntity)
     {
@@ -48,12 +65,19 @@ public class CorruptionProtectorBlockEntity extends BlockEntity
     @Override protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
         super.saveAdditional(tag, registries);
+        ContainerHelper.saveAllItems(tag, this.items, registries);
         tag.putInt("protection_distance", protection_distance);
     }
 
     @Override protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
         super.loadAdditional(tag, registries);
+        this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.items, registries);
         this.protection_distance = tag.getInt("protection_distance");
     }
+
+    @Override public NonNullList<ItemStack> getItems() {return this.items;}
+    @Override protected void setItems(NonNullList<ItemStack> items) {this.items = items;}
+    @Override public int getContainerSize() {return this.items.size();}
 }

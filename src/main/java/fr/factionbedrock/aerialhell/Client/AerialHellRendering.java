@@ -13,5 +13,6 @@ public class AerialHellRendering
         event.register(AerialHellMenuTypes.OSCILLATOR.get(), OscillatorScreen::new);
         event.register(AerialHellMenuTypes.FREEZER.get(), FreezerScreen::new);
         event.register(AerialHellMenuTypes.STELLAR_FURNACE.get(), StellarFurnaceScreen::new);
+        event.register(AerialHellMenuTypes.PROTECTOR.get(), ProtectorScreen::new);
     }
 }
