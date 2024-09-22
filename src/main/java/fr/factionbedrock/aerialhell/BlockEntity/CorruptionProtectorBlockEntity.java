@@ -26,12 +26,14 @@ public class CorruptionProtectorBlockEntity extends BaseContainerBlockEntity
 {
     protected NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
     public static int MAX_PROTECTION_DISTANCE = 100;
+    private int active_timer;
     private int protection_distance;
 
     public CorruptionProtectorBlockEntity(BlockPos pos, BlockState blockState, int protectionDistance)
     {
         super(AerialHellBlockEntities.CORRUPTION_PROTECTOR_BLOCK.get(), pos, blockState);
         this.protection_distance = protectionDistance;
+        this.active_timer = 0;
     }
 
     @Override @NotNull protected Component getDefaultName()
@@ -43,7 +45,19 @@ public class CorruptionProtectorBlockEntity extends BaseContainerBlockEntity
 
     public static void tick(Level level, BlockPos pos, BlockState state, CorruptionProtectorBlockEntity blockEntity)
     {
-        int protection_distance = blockEntity.getProtectionDistance(); RandomSource rand = level.random;
+        boolean isActive = blockEntity.active_timer > 0;
+        if (isActive) {blockEntity.active_timer--;}
+        else if (!blockEntity.items.isEmpty())
+        {
+            ItemStack stack = blockEntity.items.get(0);
+            if (OscillatorBlockEntity.getOscillatingMap().containsKey(stack.getItem()))
+            {
+                blockEntity.active_timer += 10 * OscillatorBlockEntity.getOscillatingMap().get(stack.getItem());
+                stack.shrink(1);
+            }
+        }
+
+        int protection_distance = (int) ((isActive ? 1.0F : 0.25F) * blockEntity.getProtectionDistance()); RandomSource rand = level.random;
         int try_number = (int) (protection_distance * protection_distance * protection_distance * 1.0F/8.0F);
         for (int i=0; i<try_number; i++)
         {
@@ -67,6 +81,7 @@ public class CorruptionProtectorBlockEntity extends BaseContainerBlockEntity
         super.saveAdditional(tag, registries);
         ContainerHelper.saveAllItems(tag, this.items, registries);
         tag.putInt("protection_distance", protection_distance);
+        tag.putInt("active_timer", active_timer);
     }
 
     @Override protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
@@ -75,6 +90,7 @@ public class CorruptionProtectorBlockEntity extends BaseContainerBlockEntity
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, this.items, registries);
         this.protection_distance = tag.getInt("protection_distance");
+        this.active_timer = tag.getInt("active_timer");
     }
 
     @Override public NonNullList<ItemStack> getItems() {return this.items;}

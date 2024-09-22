@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -23,7 +24,6 @@ import javax.annotation.Nullable;
 
 public class CorruptionProtectorBlock extends BaseEntityBlock
 {
-    public static int MAX_PROTECTION_DISTANCE = 100;
     public final int protection_distance;
     public static final MapCodec<IntangibleTemporaryBlock> CODEC = simpleCodec(IntangibleTemporaryBlock::new);
 
@@ -54,6 +54,12 @@ public class CorruptionProtectorBlock extends BaseEntityBlock
         {
             player.openMenu((MenuProvider)blockentity);
         }
+    }
+
+    @Override protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving)
+    {
+        Containers.dropContentsOnDestroy(state, newState, level, pos);
+        super.onRemove(state, level, pos, newState, isMoving);
     }
 
     @Override protected RenderShape getRenderShape(BlockState pState) {return RenderShape.MODEL;}
