@@ -1,13 +1,17 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.BiomeShifterBlock;
+import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 public interface BiomeShifter
 {
@@ -24,9 +28,15 @@ public interface BiomeShifter
         for (int i=0; i<tryNumber; i++)
         {
             BlockPos blockpos = pos.offset(rand.nextInt(-fieldSize, fieldSize), rand.nextInt(-fieldSize, fieldSize), rand.nextInt(-fieldSize, fieldSize));
-            if (blockEntity.isValidBiomeShifterForPos(level, blockpos, pos) && BlockHelper.isCorrupted(level, blockpos) && level instanceof ServerLevel serverlevel)
+            if (blockEntity.isValidBiomeShifterForPos(level, blockpos, pos) && BlockHelper.isCorrupted(level, blockpos))
             {
-                BlockHelper.uncorrupt(serverlevel, blockpos);
+                if (level instanceof ServerLevel serverlevel)
+                {
+                    BlockHelper.uncorrupt(serverlevel, blockpos);
+                    Vec3 vecpos = new Vec3(blockpos.getX() + 0.5, blockpos.getY() + 0.5, blockpos.getZ() + 0.5);
+                    serverlevel.sendParticles(AerialHellParticleTypes.OSCILLATOR.get(), vecpos.x(), vecpos.y(), vecpos.z(), 5, 0.0, 0.0, 0.0, 1.0);
+                    serverlevel.playSound(null, vecpos.x(), vecpos.y(), vecpos.z(), SoundEvents.WART_BLOCK_HIT, SoundSource.BLOCKS, 0.5F, rand.nextFloat() * 0.4F + 0.8F);
+                }
             }
         }
     }

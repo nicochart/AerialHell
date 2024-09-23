@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.ReactorBlock;
 import fr.factionbedrock.aerialhell.Inventory.Menu.ReactorMenu;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -8,6 +9,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -21,6 +23,7 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
 {
     protected NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
     public static int MAX_PROTECTION_DISTANCE = 100;
+    public static int MAX_ACTIVE_TIMER = 500000;
     private int activeTimer;
     private int fieldSize;
 
@@ -32,6 +35,7 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
     }
 
     @Override public int getFieldSize() {return this.activeTimer > 0 ? this.fieldSize : (int) (0.25F * this.fieldSize);}
+    public int getActiveTimer() {return activeTimer;}
 
     @Override @NotNull protected Component getDefaultName()
     {
@@ -42,23 +46,35 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
 
     public static void tick(Level level, BlockPos pos, BlockState state, ReactorBlockEntity blockEntity)
     {
-        blockEntity.updateActiveTimer();
+        boolean isActive = blockEntity.updateActiveTimer();
+        if (state.getValue(ReactorBlock.ACTIVE) != isActive) {level.setBlockAndUpdate(pos, state.setValue(ReactorBlock.ACTIVE, isActive));}
+
         BiomeShifter.transformRandomBlocks(level, pos, state, blockEntity);
+        ReactorBlock.tickParticleAndSoundAnimation((ServerLevel) level, state, pos, level.random);
     }
 
-    public void updateActiveTimer()
+    public boolean updateActiveTimer() //returns true if isActive, else false
     {
+        int active_factor = 10;
         boolean isActive = this.activeTimer > 0;
         if (isActive) {this.activeTimer--;}
-        else if (!this.items.isEmpty())
+
+        if (!this.items.isEmpty())
         {
             ItemStack stack = this.items.get(0);
             if (OscillatorBlockEntity.getOscillatingMap().containsKey(stack.getItem()))
             {
-                this.activeTimer += 10 * OscillatorBlockEntity.getOscillatingMap().get(stack.getItem());
-                stack.shrink(1);
+                int activeTimerIncrement = active_factor * OscillatorBlockEntity.getOscillatingMap().get(stack.getItem());
+                if (this.activeTimer + activeTimerIncrement <= MAX_ACTIVE_TIMER)
+                {
+                    this.activeTimer += activeTimerIncrement;
+                    stack.shrink(1);
+                    isActive = true;
+                }
             }
         }
+
+        return isActive;
     }
 
     @Override protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
