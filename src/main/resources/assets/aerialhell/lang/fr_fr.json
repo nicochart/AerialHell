@@ -20,6 +20,8 @@
   "block.aerialhell.stellar_furnace" : "Fourneau Stellaire",
   "block.aerialhell.ghost_stellar_furnace" : "Fourneau Stellaire Fantôme",
   "container.aerialhell.stellar_furnace": "Fourneau Stellaire",
+  "block.aerialhell.weak_light_reactor" : "Faible Réacteur de Lumière",
+  "block.aerialhell.high_power_light_reactor" : "Puissant Réacteur de Lumière",
   "container.aerialhell.reactor": "Reacteur",
   "item.aerialhell.magmatic_gel" : "Gel Magmatique",
   "block.aerialhell.magmatic_gel_ore" : "Minerai de Gel Magmatique",

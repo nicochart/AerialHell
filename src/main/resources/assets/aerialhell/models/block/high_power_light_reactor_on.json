@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "aerialhell:block/high_power_light_reactor_side_on",
+    "bottom": "aerialhell:block/high_power_light_reactor_bottom",
+    "top": "aerialhell:block/high_power_light_reactor_top_on"
+  }
+}

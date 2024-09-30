@@ -20,6 +20,8 @@
   "block.aerialhell.stellar_furnace" : "Stellar Furnace",
   "block.aerialhell.ghost_stellar_furnace" : "Ghost Stellar Furnace",
   "container.aerialhell.stellar_furnace": "Stellar Furnace",
+  "block.aerialhell.weak_light_reactor" : "Weak Light Reactor",
+  "block.aerialhell.high_power_light_reactor" : "High Power Light Reactor",
   "container.aerialhell.reactor": "Reactor",
   "item.aerialhell.magmatic_gel" : "Magmatic Gel",
   "block.aerialhell.magmatic_gel_ore" : "Magmatic Gel Ore",

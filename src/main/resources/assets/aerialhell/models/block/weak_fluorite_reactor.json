@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/cube_bottom_top",
-  "textures": {
-    "side": "aerialhell:block/weak_fluorite_reactor_side",
-    "bottom": "aerialhell:block/weak_fluorite_reactor_bottom",
-    "top": "aerialhell:block/weak_fluorite_reactor_top"
-  }
-}

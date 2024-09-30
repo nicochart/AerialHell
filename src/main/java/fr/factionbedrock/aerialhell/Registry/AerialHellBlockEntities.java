@@ -33,8 +33,8 @@ public class AerialHellBlockEntities
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ReactorBlockEntity>> REACTOR = BLOCK_ENTITY_TYPES.register("reactor", () ->
 			new BlockEntityType<>((pos, blockState) -> new ReactorBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE), Sets.newHashSet
 					(
-							AerialHellBlocksAndItems.WEAK_FLUORITE_REACTOR.get(),
-							AerialHellBlocksAndItems.BASE_FLUORITE_REACTOR.get()
+							AerialHellBlocksAndItems.WEAK_LIGHT_REACTOR.get(),
+							AerialHellBlocksAndItems.HIGH_POWER_LIGHT_REACTOR.get()
 					), null));
 
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<StellarFurnaceBlockEntity>> STELLAR_FURNACE = BLOCK_ENTITY_TYPES.register("stellar_furnace", () ->

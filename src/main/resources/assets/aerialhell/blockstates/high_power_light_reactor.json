@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "aerialhell:block/high_power_light_reactor"
+    },
+    "active=true": {
+      "model": "aerialhell:block/high_power_light_reactor_on"
+    }
+  }
+}

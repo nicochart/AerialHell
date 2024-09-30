@@ -522,10 +522,10 @@ public class AerialHellBlocksAndItems
 	public static final DeferredBlock<Block> INTANGIBLE_TEMPORARY_BLOCK = BLOCKS.register("intangible_temporary_block", () -> new IntangibleTemporaryBlock(BlockBehaviour.Properties.of().strength(2.0F, 3600000.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion()));
 
 	//reactors
-	public static final DeferredBlock<Block> WEAK_FLUORITE_REACTOR = BLOCKS.register("weak_fluorite_reactor", () -> new ReactorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion(), 32));
-	public static final DeferredBlock<Block> BASE_FLUORITE_REACTOR = BLOCKS.register("base_fluorite_reactor", () -> new ReactorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion(), 50));
-	public static final DeferredItem<Item> WEAK_FLUORITE_REACTOR_ITEM = ITEMS.register("weak_fluorite_reactor", () -> new BlockItem(WEAK_FLUORITE_REACTOR.get(), new Item.Properties()));
-	public static final DeferredItem<Item> BASE_FLUORITE_REACTOR_ITEM = ITEMS.register("base_fluorite_reactor", () -> new BlockItem(BASE_FLUORITE_REACTOR.get(), new Item.Properties()));
+	public static final DeferredBlock<Block> WEAK_LIGHT_REACTOR = BLOCKS.register("weak_light_reactor", () -> new ReactorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 32));
+	public static final DeferredBlock<Block> HIGH_POWER_LIGHT_REACTOR = BLOCKS.register("high_power_light_reactor", () -> new ReactorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 50));
+	public static final DeferredItem<Item> WEAK_LIGHT_REACTOR_ITEM = ITEMS.register("weak_light_reactor", () -> new BlockItem(WEAK_LIGHT_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT.getValue())));
+	public static final DeferredItem<Item> HIGH_POWER_LIGHT_REACTOR_ITEM = ITEMS.register("high_power_light_reactor", () -> new BlockItem(HIGH_POWER_LIGHT_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT.getValue())));
 
 	//solid_ethers
 	public static final DeferredBlock<Block> WHITE_SOLID_ETHER = BLOCKS.register("white_solid_ether", () -> new SolidEtherBlock(BlockBehaviour.Properties.of().strength(0.2F).sound(SoundType.WOOL).noOcclusion()));

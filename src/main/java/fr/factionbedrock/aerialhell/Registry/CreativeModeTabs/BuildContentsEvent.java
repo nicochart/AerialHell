@@ -197,8 +197,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_VINE_ROPE_SPOOL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_LANTERN_ITEM.get());
 
-            itemsToAdd.add(AerialHellBlocksAndItems.WEAK_FLUORITE_REACTOR_ITEM.get());
-            itemsToAdd.add(AerialHellBlocksAndItems.BASE_FLUORITE_REACTOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.WEAK_LIGHT_REACTOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.HIGH_POWER_LIGHT_REACTOR_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.WHITE_SOLID_ETHER_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.BLUE_SOLID_ETHER_ITEM.get());
