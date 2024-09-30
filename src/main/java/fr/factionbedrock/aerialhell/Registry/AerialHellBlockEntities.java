@@ -25,16 +25,18 @@ public class AerialHellBlockEntities
 			new BlockEntityType<>(IntangibleTemporaryBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.INTANGIBLE_TEMPORARY_BLOCK.get()), null));
 
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BiomeShifterBlockEntity>> BIOME_SHIFTER = BLOCK_ENTITY_TYPES.register("biome_shifter", () ->
-			new BlockEntityType<>((pos, blockState) -> new BiomeShifterBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE), Sets.newHashSet
+			new BlockEntityType<>((pos, blockState) -> new BiomeShifterBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT), Sets.newHashSet
 					(
 							AerialHellBlocksAndItems.FLUORITE_BLOCK.get()
 					), null));
 
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ReactorBlockEntity>> REACTOR = BLOCK_ENTITY_TYPES.register("reactor", () ->
-			new BlockEntityType<>((pos, blockState) -> new ReactorBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE), Sets.newHashSet
+			new BlockEntityType<>((pos, blockState) -> new ReactorBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT), Sets.newHashSet
 					(
 							AerialHellBlocksAndItems.WEAK_LIGHT_REACTOR.get(),
-							AerialHellBlocksAndItems.HIGH_POWER_LIGHT_REACTOR.get()
+							AerialHellBlocksAndItems.HIGH_POWER_LIGHT_REACTOR.get(),
+							AerialHellBlocksAndItems.WEAK_SHADOW_REACTOR.get(),
+							AerialHellBlocksAndItems.HIGH_POWER_SHADOW_REACTOR.get()
 					), null));
 
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<StellarFurnaceBlockEntity>> STELLAR_FURNACE = BLOCK_ENTITY_TYPES.register("stellar_furnace", () ->

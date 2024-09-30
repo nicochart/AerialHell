@@ -153,20 +153,25 @@ public class BlockHelper
         }
     }
 
-    public static void uncorrupt(ServerLevel level, BlockPos pos)
+    public static boolean uncorrupt(ServerLevel level, BlockPos pos)
     {
         BlockState beforeState = level.getBlockState(pos);
-        BlockState corruptedState;
+        @Nullable BlockState uncorruptedState = null;
         if (beforeState.is(AerialHellBlocksAndItems.SHADOW_STONE.get()))
         {
-            corruptedState = AerialHellBlocksAndItems.STELLAR_STONE.get().defaultBlockState();
+            uncorruptedState = AerialHellBlocksAndItems.STELLAR_STONE.get().defaultBlockState();
         }
-        else /*if (beforeState.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()))*/
+        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()))
         {
-            corruptedState = AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().defaultBlockState();
+            uncorruptedState = AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().defaultBlockState();
         }
-        level.setBlock(pos, corruptedState, 3); //flag 1 | 2 = 3, to get client update and send neighborChange
-        uncorruptBiome(level, pos, 1);
+        if (uncorruptedState != null)
+        {
+            level.setBlock(pos, uncorruptedState, 3); //flag 1 | 2 = 3, to get client update and send neighborChange
+            uncorruptBiome(level, pos, 1);
+            return true;
+        }
+        return false;
     }
 
     //see net.minecraft.gametest.framework.GameTestHelper setBiome method and net.minecraft.server.commands.FillBiomeCommand fill method

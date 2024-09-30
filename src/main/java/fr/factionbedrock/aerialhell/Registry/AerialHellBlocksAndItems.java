@@ -20,6 +20,7 @@ import fr.factionbedrock.aerialhell.Block.Plants.Vines.*;
 import fr.factionbedrock.aerialhell.Block.CollisionCondition.*;
 import fr.factionbedrock.aerialhell.Block.StandingAndWall.*;
 import fr.factionbedrock.aerialhell.Block.Trophies.BottomSlabLikeTrophyBlock;
+import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Item.*;
 import fr.factionbedrock.aerialhell.Item.Bucket.*;
 import fr.factionbedrock.aerialhell.Item.Material.*;
@@ -522,10 +523,14 @@ public class AerialHellBlocksAndItems
 	public static final DeferredBlock<Block> INTANGIBLE_TEMPORARY_BLOCK = BLOCKS.register("intangible_temporary_block", () -> new IntangibleTemporaryBlock(BlockBehaviour.Properties.of().strength(2.0F, 3600000.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion()));
 
 	//reactors
-	public static final DeferredBlock<Block> WEAK_LIGHT_REACTOR = BLOCKS.register("weak_light_reactor", () -> new ReactorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 32));
-	public static final DeferredBlock<Block> HIGH_POWER_LIGHT_REACTOR = BLOCKS.register("high_power_light_reactor", () -> new ReactorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 50));
+	public static final DeferredBlock<Block> WEAK_LIGHT_REACTOR = BLOCKS.register("weak_light_reactor", () -> new ReactorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 32, BiomeShifter.ShiftType.UNCORRUPT));
+	public static final DeferredBlock<Block> HIGH_POWER_LIGHT_REACTOR = BLOCKS.register("high_power_light_reactor", () -> new ReactorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 50, BiomeShifter.ShiftType.UNCORRUPT));
+	public static final DeferredBlock<Block> WEAK_SHADOW_REACTOR = BLOCKS.register("weak_shadow_reactor", () -> new ReactorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 50, BiomeShifter.ShiftType.CORRUPT));
+	public static final DeferredBlock<Block> HIGH_POWER_SHADOW_REACTOR = BLOCKS.register("high_power_shadow_reactor", () -> new ReactorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 50, BiomeShifter.ShiftType.CORRUPT));
 	public static final DeferredItem<Item> WEAK_LIGHT_REACTOR_ITEM = ITEMS.register("weak_light_reactor", () -> new BlockItem(WEAK_LIGHT_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT.getValue())));
 	public static final DeferredItem<Item> HIGH_POWER_LIGHT_REACTOR_ITEM = ITEMS.register("high_power_light_reactor", () -> new BlockItem(HIGH_POWER_LIGHT_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT.getValue())));
+	public static final DeferredItem<Item> WEAK_SHADOW_REACTOR_ITEM = ITEMS.register("weak_shadow_reactor", () -> new BlockItem(WEAK_SHADOW_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED.getValue())));
+	public static final DeferredItem<Item> HIGH_POWER_SHADOW_REACTOR_ITEM = ITEMS.register("high_power_shadow_reactor", () -> new BlockItem(HIGH_POWER_SHADOW_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED.getValue())));
 
 	//solid_ethers
 	public static final DeferredBlock<Block> WHITE_SOLID_ETHER = BLOCKS.register("white_solid_ether", () -> new SolidEtherBlock(BlockBehaviour.Properties.of().strength(0.2F).sound(SoundType.WOOL).noOcclusion()));
@@ -828,7 +833,7 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> RAW_AZURITE = ITEMS.register("raw_azurite_crystal", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> RAW_VOLUCITE = ITEMS.register("raw_volucite", () -> new Item(new Item.Properties()));
 
-	public static final DeferredBlock<Block> FLUORITE_BLOCK = BLOCKS.register("fluorite_block", () -> new BiomeShifterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops(), 8));
+	public static final DeferredBlock<Block> FLUORITE_BLOCK = BLOCKS.register("fluorite_block", () -> new BiomeShifterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops(), 8, BiomeShifter.ShiftType.UNCORRUPT));
 	public static final DeferredBlock<Block> MAGMATIC_GEL_BLOCK = BLOCKS.register("magmatic_gel_block", () -> new MagmaticGelBlock(BlockBehaviour.Properties.of().strength(1.0F, 1600.0F).randomTicks().sound(SoundType.GLASS).noOcclusion().requiresCorrectToolForDrops().isViewBlocking((state, reader, pos) -> false)));
 	public static final DeferredBlock<Block> RUBY_BLOCK = BLOCKS.register("ruby_block", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()));
 	public static final DeferredBlock<Block> AZURITE_BLOCK = BLOCKS.register("azurite_block", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()));

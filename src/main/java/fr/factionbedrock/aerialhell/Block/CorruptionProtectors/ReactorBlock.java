@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.BlockEntity.ReactorBlockEntity;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
@@ -30,17 +31,17 @@ public class ReactorBlock extends BiomeShifterBlock
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
     public static final MapCodec<ReactorBlock> CODEC = simpleCodec(ReactorBlock::new);
 
-    private ReactorBlock(Properties prop) {this(prop, BiomeShifter.MAX_PROTECTION_DISTANCE);}
-    public ReactorBlock(Properties prop, int fieldSize)
+    private ReactorBlock(Properties prop) {this(prop, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT);}
+    public ReactorBlock(Properties prop, int fieldSize, BiomeShifter.ShiftType shiftType)
     {
-        super(prop, fieldSize);
+        super(prop, fieldSize, shiftType);
         this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, Boolean.FALSE));
     }
 
     @Override protected MapCodec<? extends ReactorBlock> codec() {return CODEC;}
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(ACTIVE);}
 
-    @Nullable @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new ReactorBlockEntity(pos, state, this.fieldSize);}
+    @Nullable @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new ReactorBlockEntity(pos, state, this.fieldSize, this.shiftType);}
 
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult)
     {
@@ -68,7 +69,7 @@ public class ReactorBlock extends BiomeShifterBlock
     }
 
     //sent from server because client side do not have access to activeTimer update (always 0)
-    public static void tickParticleAndSoundAnimation(ServerLevel level, BlockState state, BlockPos pos, RandomSource rand)
+    public static void tickParticleAndSoundAnimation(ServerLevel level, BlockState state, BlockPos pos, RandomSource rand, BiomeShifter.ShiftType shiftType)
     {
         if (state.getValue(ACTIVE) && level.getBlockEntity(pos) instanceof ReactorBlockEntity reactorBlockEntity)
         {
@@ -82,16 +83,16 @@ public class ReactorBlock extends BiomeShifterBlock
             double speed = 0.1D + 0.1D * percentage;
             //face 1
             offsetx = basePosOffset; offsetz = 0.0;
-            sendReactorParticles(level, new Vector3d(basePos).add(offsetx, offsety, offsetz), particleNumber, 0.0, verticalParticleOffset, baseHorizontalParticleOffset, speed);
+            sendReactorParticles(level, new Vector3d(basePos).add(offsetx, offsety, offsetz), particleNumber, 0.0, verticalParticleOffset, baseHorizontalParticleOffset, speed, shiftType);
             //face 2
             offsetx = -basePosOffset; offsetz = 0.0;
-            sendReactorParticles(level, new Vector3d(basePos).add(offsetx, offsety, offsetz), particleNumber, 0.0, verticalParticleOffset, baseHorizontalParticleOffset, speed);
+            sendReactorParticles(level, new Vector3d(basePos).add(offsetx, offsety, offsetz), particleNumber, 0.0, verticalParticleOffset, baseHorizontalParticleOffset, speed, shiftType);
             //face 3
             offsetx = 0.0; offsetz = basePosOffset;
-            sendReactorParticles(level, new Vector3d(basePos).add(offsetx, offsety, offsetz), particleNumber, baseHorizontalParticleOffset, verticalParticleOffset, 0.0, speed);
+            sendReactorParticles(level, new Vector3d(basePos).add(offsetx, offsety, offsetz), particleNumber, baseHorizontalParticleOffset, verticalParticleOffset, 0.0, speed, shiftType);
             //face 4
             offsetx = 0.0; offsetz = -basePosOffset;
-            sendReactorParticles(level, new Vector3d(basePos).add(offsetx, offsety, offsetz), particleNumber, baseHorizontalParticleOffset, verticalParticleOffset, 0.0, speed);
+            sendReactorParticles(level, new Vector3d(basePos).add(offsetx, offsety, offsetz), particleNumber, baseHorizontalParticleOffset, verticalParticleOffset, 0.0, speed, shiftType);
 
             //TODO add a active sound
             //if (rand.nextDouble() < 0.1)
@@ -101,9 +102,10 @@ public class ReactorBlock extends BiomeShifterBlock
         }
     }
 
-    public static void sendReactorParticles(ServerLevel level, Vector3d pos, int number, double xOffset, double yOffset, double zOffset, double speed)
+    public static void sendReactorParticles(ServerLevel level, Vector3d pos, int number, double xOffset, double yOffset, double zOffset, double speed, BiomeShifter.ShiftType type)
     {
-        level.sendParticles(AerialHellParticleTypes.OSCILLATOR.get(), pos.x, pos.y, pos.z, number, xOffset, yOffset, zOffset, speed);
+        ParticleOptions particle = type == BiomeShifter.ShiftType.CORRUPT ? AerialHellParticleTypes.SHADOW_LIGHT.get() : AerialHellParticleTypes.OSCILLATOR.get();
+        level.sendParticles(particle, pos.x, pos.y, pos.z, number, xOffset, yOffset, zOffset, speed);
     }
 
     @Nullable @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type)

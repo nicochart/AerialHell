@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "aerialhell:weak_light_reactor",
-    "aerialhell:high_power_light_reactor"
+    "aerialhell:high_power_light_reactor",
+    "aerialhell:weak_shadow_reactor",
+    "aerialhell:high_power_shadow_reactor"
   ]
 }
