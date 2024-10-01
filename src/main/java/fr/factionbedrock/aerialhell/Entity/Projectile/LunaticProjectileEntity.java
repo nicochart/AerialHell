@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
+import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
@@ -27,6 +28,8 @@ public class LunaticProjectileEntity extends AbstractLightProjectileEntity
     	super(AerialHellEntities.LUNATIC_PROJECTILE.get(), shooter, world);
     	this.shoot(accelX, accelY, accelZ, velocity, inaccuracy);
     }
+
+    @Override protected BiomeShifter.ShiftType getShiftType() {return BiomeShifter.ShiftType.UNCORRUPT;}
 
     @Override
     protected void onHit(HitResult result)

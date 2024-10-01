@@ -1,15 +1,21 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
+import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.BlockHelper;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
@@ -41,7 +47,40 @@ public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
         if (!this.onGround()) {++this.ticksInAir;}
         if (this.ticksInAir > 300) {this.discard();}
         if (this.level().getBlockState(this.blockPosition()).is(AerialHellTags.Blocks.SOLID_ETHER)) {this.playHitEffect(); this.discard();}
+        if (this.level() instanceof  ServerLevel serverLevel)
+        {
+            transformBlocks(serverLevel, this, this.getShiftType());
+        }
+
     }
+
+    static void transformBlocks(ServerLevel level, AbstractLightProjectileEntity projectile, BiomeShifter.ShiftType shiftType)
+    {
+        BlockPos pos;
+        for (int x=-2; x<=2; x++)
+        {
+            for (int y = 2; y >= -2; y--)
+            {
+                for (int z = -2; z <= 2; z++)
+                {
+                    if (!((Math.abs(x) == 2 && Math.abs(y) == 2) || (Math.abs(x) == 2 && Math.abs(z) == 2) || (Math.abs(y) == 2 && Math.abs(z) == 2)))
+                    {
+                        pos = new BlockPos((int) (projectile.position().x - 0.5F + x), (int) (projectile.position().y + 0.5F + y), (int) (projectile.position().z - 0.5F + z));
+                        if (shiftType == BiomeShifter.ShiftType.UNCORRUPT && BlockHelper.isCorrupted(level, pos))
+                        {
+                            BlockHelper.uncorrupt(level, pos);
+                        }
+                        else if (shiftType == BiomeShifter.ShiftType.CORRUPT && !BlockHelper.isCorrupted(level, pos) && BlockHelper.canBeCorrupted(level, pos, BlockHelper.CorruptionType.ANY))
+                        {
+                            BlockHelper.corrupt(level, pos, BlockHelper.CorruptionType.ANY);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    protected abstract BiomeShifter.ShiftType getShiftType();
 
     @Override protected void onHit(HitResult result)
     {
