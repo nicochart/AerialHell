@@ -532,6 +532,15 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> WEAK_SHADOW_REACTOR_ITEM = ITEMS.register("weak_shadow_reactor", () -> new BlockItem(WEAK_SHADOW_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED.getValue())));
 	public static final DeferredItem<Item> HIGH_POWER_SHADOW_REACTOR_ITEM = ITEMS.register("high_power_shadow_reactor", () -> new BlockItem(HIGH_POWER_SHADOW_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED.getValue())));
 
+	public static final DeferredBlock<Block> BROKEN_WEAK_LIGHT_REACTOR = BLOCKS.register("broken_weak_light_reactor", () -> new Block(BlockBehaviour.Properties.ofFullCopy(WEAK_LIGHT_REACTOR.get())));
+	public static final DeferredBlock<Block> BROKEN_HIGH_POWER_LIGHT_REACTOR = BLOCKS.register("broken_high_power_light_reactor", () -> new Block(BlockBehaviour.Properties.ofFullCopy(HIGH_POWER_LIGHT_REACTOR.get())));
+	public static final DeferredBlock<Block> BROKEN_WEAK_SHADOW_REACTOR = BLOCKS.register("broken_weak_shadow_reactor", () -> new Block(BlockBehaviour.Properties.ofFullCopy(WEAK_SHADOW_REACTOR.get())));
+	public static final DeferredBlock<Block> BROKEN_HIGH_POWER_SHADOW_REACTOR = BLOCKS.register("broken_high_power_shadow_reactor", () -> new Block(BlockBehaviour.Properties.ofFullCopy(HIGH_POWER_SHADOW_REACTOR.get())));
+	public static final DeferredItem<Item> BROKEN_WEAK_LIGHT_REACTOR_ITEM = ITEMS.register("broken_weak_light_reactor", () -> new BlockItem(BROKEN_WEAK_LIGHT_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT.getValue())));
+	public static final DeferredItem<Item> BROKEN_HIGH_POWER_LIGHT_REACTOR_ITEM = ITEMS.register("broken_high_power_light_reactor", () -> new BlockItem(BROKEN_HIGH_POWER_LIGHT_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT.getValue())));
+	public static final DeferredItem<Item> BROKEN_WEAK_SHADOW_REACTOR_ITEM = ITEMS.register("broken_weak_shadow_reactor", () -> new BlockItem(BROKEN_WEAK_SHADOW_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED.getValue())));
+	public static final DeferredItem<Item> BROKEN_HIGH_POWER_SHADOW_REACTOR_ITEM = ITEMS.register("broken_high_power_shadow_reactor", () -> new BlockItem(BROKEN_HIGH_POWER_SHADOW_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED.getValue())));
+
 	//solid_ethers
 	public static final DeferredBlock<Block> WHITE_SOLID_ETHER = BLOCKS.register("white_solid_ether", () -> new SolidEtherBlock(BlockBehaviour.Properties.of().strength(0.2F).sound(SoundType.WOOL).noOcclusion()));
 	public static final DeferredBlock<Block> BLUE_SOLID_ETHER = BLOCKS.register("blue_solid_ether", () -> new BlueSolidEtherBlock(BlockBehaviour.Properties.ofFullCopy(WHITE_SOLID_ETHER.get())));

@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Util;
 
+import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellBiomes;
@@ -197,6 +198,42 @@ public class BlockHelper
 
             level.getChunkSource().chunkMap.resendBiomesForChunks(list);
         }
+    }
+
+    public static boolean shiftBiomeShifterBlock(ServerLevel level, BlockPos pos, BiomeShifter.ShiftType shiftType)
+    {
+        BlockState beforeState = level.getBlockState(pos);
+        @Nullable BlockState uncorruptedState = null;
+        if (beforeState.is(AerialHellBlocksAndItems.WEAK_LIGHT_REACTOR.get()))
+        {
+            uncorruptedState = AerialHellBlocksAndItems.BROKEN_WEAK_LIGHT_REACTOR.get().defaultBlockState();
+        }
+        else if (beforeState.is(AerialHellBlocksAndItems.HIGH_POWER_LIGHT_REACTOR.get()))
+        {
+            uncorruptedState = AerialHellBlocksAndItems.BROKEN_HIGH_POWER_LIGHT_REACTOR.get().defaultBlockState();
+        }
+        else if (beforeState.is(AerialHellBlocksAndItems.WEAK_SHADOW_REACTOR.get()))
+        {
+            uncorruptedState = AerialHellBlocksAndItems.BROKEN_WEAK_SHADOW_REACTOR.get().defaultBlockState();
+        }
+        else if (beforeState.is(AerialHellBlocksAndItems.HIGH_POWER_SHADOW_REACTOR.get()))
+        {
+            uncorruptedState = AerialHellBlocksAndItems.BROKEN_HIGH_POWER_SHADOW_REACTOR.get().defaultBlockState();
+        }
+        else if (beforeState.is(AerialHellBlocksAndItems.FLUORITE_BLOCK.get()))
+        {
+            uncorruptedState = AerialHellBlocksAndItems.SMOKY_QUARTZ_BLOCK.get().defaultBlockState();
+        }
+
+        if (uncorruptedState != null)
+        {
+            level.setBlock(pos, uncorruptedState, 3); //flag 1 | 2 = 3, to get client update and send neighborChange
+            if (shiftType == BiomeShifter.ShiftType.CORRUPT) {corruptBiome(level, pos, 1);}
+            else /*if (shiftType == BiomeShifter.ShiftType.UNCORRUPT)*/ {uncorruptBiome(level, pos, 1);}
+
+            return true;
+        }
+        return false;
     }
 
     public static boolean canBeCorrupted(LevelReader level, BlockPos pos, CorruptionType corruptionType)

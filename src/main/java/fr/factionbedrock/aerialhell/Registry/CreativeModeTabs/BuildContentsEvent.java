@@ -201,6 +201,10 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.HIGH_POWER_LIGHT_REACTOR_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.WEAK_SHADOW_REACTOR_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.HIGH_POWER_SHADOW_REACTOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.BROKEN_WEAK_LIGHT_REACTOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.BROKEN_HIGH_POWER_LIGHT_REACTOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.BROKEN_WEAK_SHADOW_REACTOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.BROKEN_HIGH_POWER_SHADOW_REACTOR_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.WHITE_SOLID_ETHER_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.BLUE_SOLID_ETHER_ITEM.get());

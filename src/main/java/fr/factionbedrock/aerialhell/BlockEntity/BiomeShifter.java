@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.BiomeShifterBlock;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
@@ -34,8 +35,13 @@ public interface BiomeShifter
         for (int i=0; i<tryNumber; i++)
         {
             BlockPos blockpos = pos.offset(rand.nextInt(-fieldSize, fieldSize), rand.nextInt(-fieldSize, fieldSize), rand.nextInt(-fieldSize, fieldSize));
-            if (blockEntity.isValidBiomeShifterForPos(level, blockpos, pos) && level instanceof ServerLevel serverlevel)
+            if (!areSameBlockpos(pos, blockpos) && blockEntity.isValidBiomeShifterForPos(level, blockpos, pos) && level instanceof ServerLevel serverlevel)
             {
+                if (level.getBlockEntity(blockpos) instanceof BiomeShifter biomeShifter && shiftType != biomeShifter.getShiftType() && blockEntity.getFieldSize() >= biomeShifter.getFieldSize())
+                {
+                    BlockHelper.shiftBiomeShifterBlock(serverlevel, blockpos, shiftType);
+                }
+
                 if (shiftType == ShiftType.UNCORRUPT && BlockHelper.isCorrupted(level, blockpos))
                 {
                     if (BlockHelper.uncorrupt(serverlevel, blockpos)) {sendTransformEffect(serverlevel, blockpos, shiftType);}
@@ -47,6 +53,8 @@ public interface BiomeShifter
             }
         }
     }
+
+    private static boolean areSameBlockpos(BlockPos pos1, BlockPos pos2) {return pos1.getX() == pos2.getX() && pos1.getY() == pos2.getY() && pos1.getZ() == pos2.getZ();}
 
     private static void sendTransformEffect(ServerLevel serverlevel, BlockPos blockpos, ShiftType type)
     {

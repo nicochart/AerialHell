@@ -4,6 +4,10 @@
     "aerialhell:weak_light_reactor",
     "aerialhell:high_power_light_reactor",
     "aerialhell:weak_shadow_reactor",
-    "aerialhell:high_power_shadow_reactor"
+    "aerialhell:high_power_shadow_reactor",
+    "aerialhell:broken_weak_light_reactor",
+    "aerialhell:broken_high_power_light_reactor",
+    "aerialhell:broken_weak_shadow_reactor",
+    "aerialhell:broken_high_power_shadow_reactor"
   ]
 }

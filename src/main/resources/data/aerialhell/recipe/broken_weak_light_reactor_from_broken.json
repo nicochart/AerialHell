@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FLF",
+    "LBL",
+    "FLF"
+  ],
+  "key": {
+    "F": {
+      "item": "aerialhell:fluorite"
+    },
+    "B": {
+      "item": "aerialhell:broken_weak_light_reactor"
+    },
+    "L": {
+      "item": "aerialhell:lunatic_crystal"
+    }
+  },
+  "result": {
+    "id": "aerialhell:weak_light_reactor"
+  }
+}
