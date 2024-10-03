@@ -27,6 +27,7 @@ public class AerialHellBlockEntities
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BiomeShifterBlockEntity>> BIOME_SHIFTER = BLOCK_ENTITY_TYPES.register("biome_shifter", () ->
 			new BlockEntityType<>((pos, blockState) -> new BiomeShifterBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT), Sets.newHashSet
 					(
+							AerialHellBlocksAndItems.FLUORITE_ORE.get(),
 							AerialHellBlocksAndItems.FLUORITE_BLOCK.get()
 					), null));
 

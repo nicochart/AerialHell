@@ -18,7 +18,7 @@ import net.minecraft.world.phys.Vec3;
 
 public interface BiomeShifter
 {
-    int MIN_PROTECTION_DISTANCE = 5;
+    int MIN_PROTECTION_DISTANCE = 2;
     int MAX_PROTECTION_DISTANCE = 100;
 
     enum ShiftType{CORRUPT, UNCORRUPT}
@@ -37,7 +37,7 @@ public interface BiomeShifter
             BlockPos blockpos = pos.offset(rand.nextInt(-fieldSize, fieldSize), rand.nextInt(-fieldSize, fieldSize), rand.nextInt(-fieldSize, fieldSize));
             if (!areSameBlockpos(pos, blockpos) && blockEntity.isValidBiomeShifterForPos(level, blockpos, pos) && level instanceof ServerLevel serverlevel)
             {
-                if (level.getBlockEntity(blockpos) instanceof BiomeShifter biomeShifter && shiftType != biomeShifter.getShiftType() && blockEntity.getFieldSize() >= biomeShifter.getFieldSize())
+                if (level.getBlockEntity(blockpos) instanceof BiomeShifter otherBiomeShifter && shiftType != otherBiomeShifter.getShiftType() && blockEntity.getFieldSize() >= otherBiomeShifter.getFieldSize())
                 {
                     BlockHelper.shiftBiomeShifterBlock(serverlevel, blockpos, shiftType);
                 }
@@ -60,7 +60,7 @@ public interface BiomeShifter
     {
         RandomSource rand = serverlevel.random;
         ParticleOptions particle = type == ShiftType.CORRUPT ? AerialHellParticleTypes.SHADOW_LIGHT.get() : AerialHellParticleTypes.OSCILLATOR.get();
-        SoundEvent sound = type == ShiftType.CORRUPT ? SoundEvents.FUNGUS_HIT : SoundEvents.WART_BLOCK_HIT;
+        SoundEvent sound = type == ShiftType.CORRUPT ? SoundEvents.LODESTONE_HIT : SoundEvents.WART_BLOCK_HIT;
         Vec3 vecpos = new Vec3(blockpos.getX() + 0.5, blockpos.getY() + 0.5, blockpos.getZ() + 0.5);
         serverlevel.sendParticles(particle, vecpos.x(), vecpos.y(), vecpos.z(), 5, 0.0, 0.0, 0.0, 1.0);
         serverlevel.playSound(null, vecpos.x(), vecpos.y(), vecpos.z(), sound, SoundSource.BLOCKS, 0.5F, rand.nextFloat() * 0.4F + 0.8F);

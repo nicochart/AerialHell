@@ -220,6 +220,10 @@ public class BlockHelper
         {
             uncorruptedState = AerialHellBlocksAndItems.BROKEN_HIGH_POWER_SHADOW_REACTOR.get().defaultBlockState();
         }
+        else if (beforeState.is(AerialHellBlocksAndItems.FLUORITE_ORE.get()))
+        {
+            uncorruptedState = AerialHellBlocksAndItems.SMOKY_QUARTZ_ORE.get().defaultBlockState();
+        }
         else if (beforeState.is(AerialHellBlocksAndItems.FLUORITE_BLOCK.get()))
         {
             uncorruptedState = AerialHellBlocksAndItems.SMOKY_QUARTZ_BLOCK.get().defaultBlockState();
