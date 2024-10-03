@@ -3,7 +3,7 @@
   "group": "planks",
   "ingredients": [
     {
-      "item": "aerialhell:shadow_pine_log"
+      "tag": "aerialhell:shadow_log"
     }
   ],
   "result": {
