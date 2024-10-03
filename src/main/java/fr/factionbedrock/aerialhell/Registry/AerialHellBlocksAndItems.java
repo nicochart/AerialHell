@@ -18,6 +18,9 @@ import fr.factionbedrock.aerialhell.Block.Plants.*;
 import fr.factionbedrock.aerialhell.Block.Plants.Bushes.*;
 import fr.factionbedrock.aerialhell.Block.Plants.Vines.*;
 import fr.factionbedrock.aerialhell.Block.CollisionCondition.*;
+import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowLeavesBlock;
+import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowLogBlock;
+import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowStoneBlock;
 import fr.factionbedrock.aerialhell.Block.StandingAndWall.*;
 import fr.factionbedrock.aerialhell.Block.Trophies.BottomSlabLikeTrophyBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
@@ -409,25 +412,25 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> GRAY_SHROOM_BOOKSHELF_ITEM = ITEMS.register("gray_shroom_bookshelf", () -> new BlockItem(GRAY_SHROOM_BOOKSHELF.get(), new Item.Properties()));
 
 	//shadow corrupted variants
-	public static final DeferredBlock<RotatedPillarBlock> SHADOW_AERIAL_TREE_LOG = BLOCKS.register("shadow_aerial_tree_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(AERIAL_TREE_LOG.get())));
+	public static final DeferredBlock<ShadowLogBlock> SHADOW_AERIAL_TREE_LOG = BLOCKS.register("shadow_aerial_tree_log", () -> new ShadowLogBlock(BlockBehaviour.Properties.ofFullCopy(AERIAL_TREE_LOG.get())));
 	public static final DeferredItem<Item> SHADOW_AERIAL_TREE_LOG_ITEM = ITEMS.register("shadow_aerial_tree_log", () -> new BurnableBlockItem(SHADOW_AERIAL_TREE_LOG.get(), new Item.Properties(), 300));
-	public static final DeferredBlock<RotatedPillarBlock> SHADOW_GOLDEN_BEECH_LOG = BLOCKS.register("shadow_golden_beech_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(GOLDEN_BEECH_LOG.get())));
+	public static final DeferredBlock<ShadowLogBlock> SHADOW_GOLDEN_BEECH_LOG = BLOCKS.register("shadow_golden_beech_log", () -> new ShadowLogBlock(BlockBehaviour.Properties.ofFullCopy(GOLDEN_BEECH_LOG.get())));
 	public static final DeferredItem<Item> SHADOW_GOLDEN_BEECH_LOG_ITEM = ITEMS.register("shadow_golden_beech_log", () -> new BurnableBlockItem(SHADOW_GOLDEN_BEECH_LOG.get(), new Item.Properties(), 300));
-	public static final DeferredBlock<RotatedPillarBlock> SHADOW_COPPER_PINE_LOG = BLOCKS.register("shadow_copper_pine_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(COPPER_PINE_LOG.get())));
+	public static final DeferredBlock<ShadowLogBlock> SHADOW_COPPER_PINE_LOG = BLOCKS.register("shadow_copper_pine_log", () -> new ShadowLogBlock(BlockBehaviour.Properties.ofFullCopy(COPPER_PINE_LOG.get())));
 	public static final DeferredItem<Item> SHADOW_COPPER_PINE_LOG_ITEM = ITEMS.register("shadow_copper_pine_log", () -> new BurnableBlockItem(SHADOW_COPPER_PINE_LOG.get(), new Item.Properties(), 300));
-	public static final DeferredBlock<RotatedPillarBlock> SHADOW_LAPIS_ROBINIA_LOG = BLOCKS.register("shadow_lapis_robinia_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(LAPIS_ROBINIA_LOG.get())));
+	public static final DeferredBlock<ShadowLogBlock> SHADOW_LAPIS_ROBINIA_LOG = BLOCKS.register("shadow_lapis_robinia_log", () -> new ShadowLogBlock(BlockBehaviour.Properties.ofFullCopy(LAPIS_ROBINIA_LOG.get())));
 	public static final DeferredItem<Item> SHADOW_LAPIS_ROBINIA_LOG_ITEM = ITEMS.register("shadow_lapis_robinia_log", () -> new BurnableBlockItem(SHADOW_LAPIS_ROBINIA_LOG.get(), new Item.Properties(), 300));
-	public static final DeferredBlock<RotatedPillarBlock> SHADOW_STELLAR_JUNGLE_TREE_LOG = BLOCKS.register("shadow_stellar_jungle_tree_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_JUNGLE_TREE_LOG.get())));
+	public static final DeferredBlock<ShadowLogBlock> SHADOW_STELLAR_JUNGLE_TREE_LOG = BLOCKS.register("shadow_stellar_jungle_tree_log", () -> new ShadowLogBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_JUNGLE_TREE_LOG.get())));
 	public static final DeferredItem<Item> SHADOW_STELLAR_JUNGLE_TREE_LOG_ITEM = ITEMS.register("shadow_stellar_jungle_tree_log", () -> new BurnableBlockItem(SHADOW_STELLAR_JUNGLE_TREE_LOG.get(), new Item.Properties(), 300));
-	public static final DeferredBlock<Block> SHADOW_AERIAL_TREE_LEAVES = BLOCKS.register("shadow_aerial_tree_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(AERIAL_TREE_LEAVES.get())));
+	public static final DeferredBlock<Block> SHADOW_AERIAL_TREE_LEAVES = BLOCKS.register("shadow_aerial_tree_leaves", () -> new ShadowLeavesBlock(BlockBehaviour.Properties.ofFullCopy(AERIAL_TREE_LEAVES.get())));
 	public static final DeferredItem<Item> SHADOW_AERIAL_TREE_LEAVES_ITEM = ITEMS.register("shadow_aerial_tree_leaves", () -> new BlockItem(SHADOW_AERIAL_TREE_LEAVES.get(), new Item.Properties()));
-	public static final DeferredBlock<Block> SHADOW_GOLDEN_BEECH_LEAVES = BLOCKS.register("shadow_golden_beech_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(GOLDEN_BEECH_LEAVES.get())));
+	public static final DeferredBlock<Block> SHADOW_GOLDEN_BEECH_LEAVES = BLOCKS.register("shadow_golden_beech_leaves", () -> new ShadowLeavesBlock(BlockBehaviour.Properties.ofFullCopy(GOLDEN_BEECH_LEAVES.get())));
 	public static final DeferredItem<Item> SHADOW_GOLDEN_BEECH_LEAVES_ITEM = ITEMS.register("shadow_golden_beech_leaves", () -> new BlockItem(SHADOW_GOLDEN_BEECH_LEAVES.get(), new Item.Properties()));
-	public static final DeferredBlock<Block> SHADOW_COPPER_PINE_LEAVES = BLOCKS.register("shadow_copper_pine_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(COPPER_PINE_LEAVES.get())));
+	public static final DeferredBlock<Block> SHADOW_COPPER_PINE_LEAVES = BLOCKS.register("shadow_copper_pine_leaves", () -> new ShadowLeavesBlock(BlockBehaviour.Properties.ofFullCopy(COPPER_PINE_LEAVES.get())));
 	public static final DeferredItem<Item> SHADOW_COPPER_PINE_LEAVES_ITEM = ITEMS.register("shadow_copper_pine_leaves", () -> new BlockItem(SHADOW_COPPER_PINE_LEAVES.get(), new Item.Properties()));
-	public static final DeferredBlock<Block> SHADOW_LAPIS_ROBINIA_LEAVES = BLOCKS.register("shadow_lapis_robinia_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(LAPIS_ROBINIA_LEAVES.get())));
+	public static final DeferredBlock<Block> SHADOW_LAPIS_ROBINIA_LEAVES = BLOCKS.register("shadow_lapis_robinia_leaves", () -> new ShadowLeavesBlock(BlockBehaviour.Properties.ofFullCopy(LAPIS_ROBINIA_LEAVES.get())));
 	public static final DeferredItem<Item> SHADOW_LAPIS_ROBINIA_LEAVES_ITEM = ITEMS.register("shadow_lapis_robinia_leaves", () -> new BlockItem(SHADOW_LAPIS_ROBINIA_LEAVES.get(), new Item.Properties()));
-	public static final DeferredBlock<Block> SHADOW_STELLAR_JUNGLE_TREE_LEAVES = BLOCKS.register("shadow_stellar_jungle_tree_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_JUNGLE_TREE_LEAVES.get())));
+	public static final DeferredBlock<Block> SHADOW_STELLAR_JUNGLE_TREE_LEAVES = BLOCKS.register("shadow_stellar_jungle_tree_leaves", () -> new ShadowLeavesBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_JUNGLE_TREE_LEAVES.get())));
 	public static final DeferredItem<Item> SHADOW_STELLAR_JUNGLE_TREE_LEAVES_ITEM = ITEMS.register("shadow_stellar_jungle_tree_leaves", () -> new BlockItem(SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get(), new Item.Properties()));
 
 	//ladder

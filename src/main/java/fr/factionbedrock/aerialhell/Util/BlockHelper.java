@@ -112,6 +112,46 @@ public class BlockHelper
             {
                 corruptedState = AerialHellBlocksAndItems.SHADOW_STONE.get().defaultBlockState();
             }
+            else if (beforeState.is(AerialHellBlocksAndItems.AERIAL_TREE_LOG.get()))
+            {
+                corruptedState = AerialHellBlocksAndItems.SHADOW_AERIAL_TREE_LOG.get().defaultBlockState();
+            }
+            else if (beforeState.is(AerialHellBlocksAndItems.GOLDEN_BEECH_LOG.get()))
+            {
+                corruptedState = AerialHellBlocksAndItems.SHADOW_GOLDEN_BEECH_LOG.get().defaultBlockState();
+            }
+            else if (beforeState.is(AerialHellBlocksAndItems.COPPER_PINE_LOG.get()))
+            {
+                corruptedState = AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LOG.get().defaultBlockState();
+            }
+            else if (beforeState.is(AerialHellBlocksAndItems.LAPIS_ROBINIA_LOG.get()) || beforeState.is(AerialHellBlocksAndItems.ENCHANTED_LAPIS_ROBINIA_LOG.get()))
+            {
+                corruptedState = AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LOG.get().defaultBlockState();
+            }
+            else if (beforeState.is(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LOG.get()))
+            {
+                corruptedState = AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LOG.get().defaultBlockState();
+            }
+            else if (beforeState.is(AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get()))
+            {
+                corruptedState = AerialHellBlocksAndItems.SHADOW_AERIAL_TREE_LEAVES.get().defaultBlockState();
+            }
+            else if (beforeState.is(AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES.get()))
+            {
+                corruptedState = AerialHellBlocksAndItems.SHADOW_GOLDEN_BEECH_LEAVES.get().defaultBlockState();
+            }
+            else if (beforeState.is(AerialHellBlocksAndItems.COPPER_PINE_LEAVES.get()))
+            {
+                corruptedState = AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LEAVES.get().defaultBlockState();
+            }
+            else if (beforeState.is(AerialHellBlocksAndItems.LAPIS_ROBINIA_LEAVES.get()))
+            {
+                corruptedState = AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LEAVES.get().defaultBlockState();
+            }
+            else if (beforeState.is(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get()))
+            {
+                corruptedState = AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get().defaultBlockState();
+            }
         }
         if (corruptionType == CorruptionType.GRASS || corruptionType == CorruptionType.ANY)
         {
@@ -165,6 +205,46 @@ public class BlockHelper
         else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()))
         {
             uncorruptedState = AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().defaultBlockState();
+        }
+        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_AERIAL_TREE_LOG.get()))
+        {
+            uncorruptedState = AerialHellBlocksAndItems.AERIAL_TREE_LOG.get().defaultBlockState();
+        }
+        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_GOLDEN_BEECH_LOG.get()))
+        {
+            uncorruptedState = AerialHellBlocksAndItems.GOLDEN_BEECH_LOG.get().defaultBlockState();
+        }
+        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LOG.get()))
+        {
+            uncorruptedState = AerialHellBlocksAndItems.COPPER_PINE_LOG.get().defaultBlockState();
+        }
+        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LOG.get()))
+        {
+            uncorruptedState = level.random.nextFloat() > 0.6F ? AerialHellBlocksAndItems.ENCHANTED_LAPIS_ROBINIA_LOG.get().defaultBlockState() : AerialHellBlocksAndItems.LAPIS_ROBINIA_LOG.get().defaultBlockState();
+        }
+        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LOG.get()))
+        {
+            uncorruptedState = AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LOG.get().defaultBlockState();
+        }
+        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_AERIAL_TREE_LEAVES.get()))
+        {
+            uncorruptedState = AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get().defaultBlockState();
+        }
+        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_GOLDEN_BEECH_LEAVES.get()))
+        {
+            uncorruptedState = AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES.get().defaultBlockState();
+        }
+        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LEAVES.get()))
+        {
+            uncorruptedState = AerialHellBlocksAndItems.COPPER_PINE_LEAVES.get().defaultBlockState();
+        }
+        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LEAVES.get()))
+        {
+            uncorruptedState = AerialHellBlocksAndItems.LAPIS_ROBINIA_LEAVES.get().defaultBlockState();
+        }
+        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get()))
+        {
+            uncorruptedState = AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get().defaultBlockState();
         }
         if (uncorruptedState != null)
         {
@@ -248,6 +328,17 @@ public class BlockHelper
         else
         {
             return isCorrupted(level, pos) || ((level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && isGrassType)
+                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.AERIAL_TREE_LOG.get()) && isStoneType)
+                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.GOLDEN_BEECH_LOG.get()) && isStoneType)
+                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.COPPER_PINE_LOG.get()) && isStoneType)
+                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.LAPIS_ROBINIA_LOG.get()) && isStoneType)
+                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.ENCHANTED_LAPIS_ROBINIA_LOG.get()) && isStoneType)
+                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LOG.get()) && isStoneType)
+                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get()) && isStoneType)
+                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES.get()) && isStoneType)
+                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.COPPER_PINE_LEAVES.get()) && isStoneType)
+                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.LAPIS_ROBINIA_LEAVES.get()) && isStoneType)
+                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get()) && isStoneType)
                                            || (level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_STONE.get()) && isStoneType));
         }
     }
@@ -272,7 +363,18 @@ public class BlockHelper
 
     public static boolean isCorrupted(LevelReader level, BlockPos pos)
     {
-        return level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()) || level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_STONE.get());
+        return level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get())
+            || level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_STONE.get())
+            || (level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_AERIAL_TREE_LOG.get()))
+            || (level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_GOLDEN_BEECH_LOG.get()))
+            || (level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LOG.get()))
+            || (level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LOG.get()))
+            || (level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LOG.get()))
+            || (level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_AERIAL_TREE_LEAVES.get()))
+            || (level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_GOLDEN_BEECH_LEAVES.get()))
+            || (level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LEAVES.get()))
+            || (level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LEAVES.get()))
+            || (level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get()));
     }
 
     public static boolean isSurroundingCorrupted(LevelReader level, BlockPos pos)
