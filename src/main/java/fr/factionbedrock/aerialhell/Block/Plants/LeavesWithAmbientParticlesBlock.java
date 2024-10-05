@@ -1,5 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
+import fr.factionbedrock.aerialhell.Block.AerialHellLeavesBlock;
+import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import net.minecraft.client.ParticleStatus;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
@@ -16,11 +18,13 @@ import net.minecraft.world.level.Level;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 
-public class LeavesWithAmbientParticlesBlock extends LeavesBlock
+import java.util.function.Supplier;
+
+public class LeavesWithAmbientParticlesBlock extends AerialHellLeavesBlock
 {
-	public LeavesWithAmbientParticlesBlock(BlockBehaviour.Properties properties)
+	public LeavesWithAmbientParticlesBlock(BlockBehaviour.Properties properties, Supplier<AerialHellLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
 	{
-		super(properties.isValidSpawn((state, reader, pos, entity) -> (entity == EntityType.OCELOT || entity == EntityType.PARROT)).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> false));
+		super(properties.isValidSpawn((state, reader, pos, entity) -> (entity == EntityType.OCELOT || entity == EntityType.PARROT)).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> false), shiftedVariant, shiftType);
 	}
 
 	@Override

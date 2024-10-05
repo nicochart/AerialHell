@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.level.block.state.BlockState;
@@ -11,9 +12,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
 
-public class EffectLogBlock extends RotatedPillarBlock
+import java.util.function.Supplier;
+
+public class EffectLogBlock extends AerialHellLogBlock
 {
-	public EffectLogBlock(Properties properties) {super(properties);}
+	public EffectLogBlock(Properties properties, Supplier<AerialHellLogBlock> shiftedVariant, BiomeShifter.ShiftType shiftType) {super(properties, shiftedVariant, shiftType);}
 	
 	@Override
 	public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)

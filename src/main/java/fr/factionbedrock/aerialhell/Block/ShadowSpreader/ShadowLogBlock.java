@@ -1,5 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.ShadowSpreader;
 
+import fr.factionbedrock.aerialhell.Block.AerialHellLogBlock;
+import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,11 +13,13 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 
-public class ShadowLogBlock extends RotatedPillarBlock implements ShadowSpreaderBlock
+import java.util.function.Supplier;
+
+public class ShadowLogBlock extends AerialHellLogBlock implements ShadowSpreaderBlock
 {
-	public ShadowLogBlock(Properties properties)
+	public ShadowLogBlock(Properties properties, Supplier<AerialHellLogBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
 	{
-		super(properties);
+		super(properties, shiftedVariant, shiftType);
 		this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.Y).setValue(CAN_SPREAD, true));
 	}
 

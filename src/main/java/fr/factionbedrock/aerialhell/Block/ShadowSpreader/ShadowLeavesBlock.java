@@ -1,5 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.ShadowSpreader;
 
+import fr.factionbedrock.aerialhell.Block.AerialHellLeavesBlock;
+import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -10,11 +12,13 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 
-public class ShadowLeavesBlock extends LeavesBlock implements ShadowSpreaderBlock
+import java.util.function.Supplier;
+
+public class ShadowLeavesBlock extends AerialHellLeavesBlock implements ShadowSpreaderBlock
 {
-	public ShadowLeavesBlock(Properties properties)
+	public ShadowLeavesBlock(Properties properties, Supplier<AerialHellLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
 	{
-		super(properties);
+		super(properties, shiftedVariant, shiftType);
 		this.registerDefaultState(this.defaultBlockState().setValue(DISTANCE, Integer.valueOf(7)).setValue(PERSISTENT, Boolean.valueOf(false)).setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(CAN_SPREAD, true));
 	}
 

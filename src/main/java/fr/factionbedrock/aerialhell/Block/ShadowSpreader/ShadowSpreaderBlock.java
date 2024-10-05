@@ -20,7 +20,7 @@ public interface ShadowSpreaderBlock
 
     static void trySpreading(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand, boolean lookForAboveGrassBlock)
     {
-        if (BlockHelper.isCorrupted(level, pos) && BlockHelper.surroundingsPreventCorruption(level, pos, BlockHelper.CorruptionType.STONE))
+        if (BlockHelper.isCorrupted(level, pos) && BlockHelper.surroundingsPreventCorruption(level, pos, BlockHelper.CorruptionType.OTHER))
         {
             if (!level.isAreaLoaded(pos, 3)) {return;}
             BlockHelper.uncorrupt(level, pos);
