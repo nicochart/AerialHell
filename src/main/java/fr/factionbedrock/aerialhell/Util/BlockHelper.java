@@ -114,6 +114,10 @@ public class BlockHelper
             {
                 corruptedState = AerialHellBlocksAndItems.SHADOW_STONE.get().defaultBlockState();
             }
+            else if (beforeState.is(AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get()))
+            {
+                corruptedState = AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK.get().defaultBlockState();
+            }
             else if (beforeState.getBlock() instanceof ShiftableLogBlock)
             {
                 corruptedState = ShiftableLogBlock.getShiftedState(beforeState);
@@ -175,6 +179,10 @@ public class BlockHelper
         else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()))
         {
             uncorruptedState = AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().defaultBlockState();
+        }
+        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK.get()))
+        {
+            uncorruptedState = AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get().defaultBlockState();
         }
         else if (beforeState.getBlock() instanceof ShiftableLogBlock)
         {
@@ -247,7 +255,8 @@ public class BlockHelper
             return isCorrupted(level, pos) || ((level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && isGrassType)
                                            || (level.getBlockState(pos).getBlock() instanceof ShiftableLogBlock logBlock && logBlock.getShiftType() == BiomeShifter.ShiftType.CORRUPT && isOtherType)
                                            || (level.getBlockState(pos).getBlock() instanceof ShiftableLeavesBlock leavesBlock && leavesBlock.getShiftType() == BiomeShifter.ShiftType.CORRUPT && isOtherType)
-                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_STONE.get()) && isOtherType));
+                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_STONE.get()) && isOtherType)
+                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get()) && isOtherType));
         }
     }
 
@@ -273,6 +282,7 @@ public class BlockHelper
     {
         return level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get())
             || level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_STONE.get())
+            || level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK.get())
             || (level.getBlockState(pos).getBlock() instanceof ShiftableLogBlock logBlock && logBlock.getShiftType() == BiomeShifter.ShiftType.UNCORRUPT)
             || (level.getBlockState(pos).getBlock() instanceof ShiftableLeavesBlock leavesBlock && leavesBlock.getShiftType() == BiomeShifter.ShiftType.UNCORRUPT);
     }
