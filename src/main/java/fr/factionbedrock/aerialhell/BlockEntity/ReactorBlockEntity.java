@@ -16,9 +16,13 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 public class ReactorBlockEntity extends BaseContainerBlockEntity implements BiomeShifter
 {
@@ -28,17 +32,20 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
     private int activeTimer;
     private int fieldSize;
     private ShiftType shiftType;
+    @Nullable private Supplier<Block> shiftedOrBrokenVariant;
 
-    public ReactorBlockEntity(BlockPos pos, BlockState blockState, int fieldSize, ShiftType shiftType)
+    public ReactorBlockEntity(BlockPos pos, BlockState blockState, int fieldSize, ShiftType shiftType, @Nullable Supplier<Block> shiftedOrBrokenVariant)
     {
         super(AerialHellBlockEntities.REACTOR.get(), pos, blockState);
         this.fieldSize = fieldSize;
         this.shiftType = shiftType;
+        this.shiftedOrBrokenVariant = shiftedOrBrokenVariant;
         this.activeTimer = 0;
     }
 
     @Override public int getFieldSize() {return this.activeTimer > 0 ? this.fieldSize : (int) (0.25F * this.fieldSize);}
     @Override public ShiftType getShiftType() {return this.shiftType;}
+    @Override @Nullable public Supplier<Block> getShiftedOrBrokenVariant() {return this.shiftedOrBrokenVariant;}
     public int getActiveTimer() {return activeTimer;}
 
     @Override @NotNull protected Component getDefaultName()

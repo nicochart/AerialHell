@@ -13,8 +13,12 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 public interface BiomeShifter
 {
@@ -25,6 +29,7 @@ public interface BiomeShifter
 
     int getFieldSize();
     ShiftType getShiftType();
+    @Nullable Supplier<Block> getShiftedOrBrokenVariant();
     private int getRealFieldSize() {return Math.min(Math.max(MIN_PROTECTION_DISTANCE, this.getFieldSize()), MAX_PROTECTION_DISTANCE);}
 
     static void transformRandomBlocks(Level level, BlockPos pos, BlockState state, BiomeShifter blockEntity)

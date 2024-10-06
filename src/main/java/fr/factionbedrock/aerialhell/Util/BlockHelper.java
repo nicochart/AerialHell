@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Util;
 
-import fr.factionbedrock.aerialhell.Block.AerialHellLeavesBlock;
-import fr.factionbedrock.aerialhell.Block.AerialHellLogBlock;
+import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
+import fr.factionbedrock.aerialhell.Block.ShiftableLogBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -114,13 +114,13 @@ public class BlockHelper
             {
                 corruptedState = AerialHellBlocksAndItems.SHADOW_STONE.get().defaultBlockState();
             }
-            else if (beforeState.getBlock() instanceof AerialHellLogBlock)
+            else if (beforeState.getBlock() instanceof ShiftableLogBlock)
             {
-                corruptedState = AerialHellLogBlock.getShiftedState(beforeState);
+                corruptedState = ShiftableLogBlock.getShiftedState(beforeState);
             }
-            else if (beforeState.getBlock() instanceof AerialHellLeavesBlock)
+            else if (beforeState.getBlock() instanceof ShiftableLeavesBlock)
             {
-                corruptedState = AerialHellLeavesBlock.getShiftedState(beforeState);
+                corruptedState = ShiftableLeavesBlock.getShiftedState(beforeState);
             }
         }
         if (corruptionType == CorruptionType.GRASS || corruptionType == CorruptionType.ANY)
@@ -176,13 +176,13 @@ public class BlockHelper
         {
             uncorruptedState = AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().defaultBlockState();
         }
-        else if (beforeState.getBlock() instanceof AerialHellLogBlock)
+        else if (beforeState.getBlock() instanceof ShiftableLogBlock)
         {
-            uncorruptedState = AerialHellLogBlock.getShiftedState(beforeState);
+            uncorruptedState = ShiftableLogBlock.getShiftedState(beforeState);
         }
-        else if (beforeState.getBlock() instanceof AerialHellLeavesBlock)
+        else if (beforeState.getBlock() instanceof ShiftableLeavesBlock)
         {
-            uncorruptedState = AerialHellLeavesBlock.getShiftedState(beforeState);
+            uncorruptedState = ShiftableLeavesBlock.getShiftedState(beforeState);
         }
         if (uncorruptedState != null)
         {
@@ -220,31 +220,10 @@ public class BlockHelper
 
     public static boolean shiftBiomeShifterBlock(ServerLevel level, BlockPos pos, BiomeShifter.ShiftType shiftType)
     {
-        BlockState beforeState = level.getBlockState(pos);
         @Nullable BlockState uncorruptedState = null;
-        if (beforeState.is(AerialHellBlocksAndItems.WEAK_LIGHT_REACTOR.get()))
+        if (level.getBlockEntity(pos) instanceof BiomeShifter biomeShifter)
         {
-            uncorruptedState = AerialHellBlocksAndItems.BROKEN_WEAK_LIGHT_REACTOR.get().defaultBlockState();
-        }
-        else if (beforeState.is(AerialHellBlocksAndItems.HIGH_POWER_LIGHT_REACTOR.get()))
-        {
-            uncorruptedState = AerialHellBlocksAndItems.BROKEN_HIGH_POWER_LIGHT_REACTOR.get().defaultBlockState();
-        }
-        else if (beforeState.is(AerialHellBlocksAndItems.WEAK_SHADOW_REACTOR.get()))
-        {
-            uncorruptedState = AerialHellBlocksAndItems.BROKEN_WEAK_SHADOW_REACTOR.get().defaultBlockState();
-        }
-        else if (beforeState.is(AerialHellBlocksAndItems.HIGH_POWER_SHADOW_REACTOR.get()))
-        {
-            uncorruptedState = AerialHellBlocksAndItems.BROKEN_HIGH_POWER_SHADOW_REACTOR.get().defaultBlockState();
-        }
-        else if (beforeState.is(AerialHellBlocksAndItems.FLUORITE_ORE.get()))
-        {
-            uncorruptedState = AerialHellBlocksAndItems.SMOKY_QUARTZ_ORE.get().defaultBlockState();
-        }
-        else if (beforeState.is(AerialHellBlocksAndItems.FLUORITE_BLOCK.get()))
-        {
-            uncorruptedState = AerialHellBlocksAndItems.SMOKY_QUARTZ_BLOCK.get().defaultBlockState();
+            uncorruptedState = biomeShifter.getShiftedOrBrokenVariant().get().defaultBlockState();
         }
 
         if (uncorruptedState != null)
@@ -266,8 +245,8 @@ public class BlockHelper
         else
         {
             return isCorrupted(level, pos) || ((level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && isGrassType)
-                                           || (level.getBlockState(pos).getBlock() instanceof AerialHellLogBlock logBlock && logBlock.getShiftType() == BiomeShifter.ShiftType.CORRUPT && isOtherType)
-                                           || (level.getBlockState(pos).getBlock() instanceof AerialHellLeavesBlock leavesBlock && leavesBlock.getShiftType() == BiomeShifter.ShiftType.CORRUPT && isOtherType)
+                                           || (level.getBlockState(pos).getBlock() instanceof ShiftableLogBlock logBlock && logBlock.getShiftType() == BiomeShifter.ShiftType.CORRUPT && isOtherType)
+                                           || (level.getBlockState(pos).getBlock() instanceof ShiftableLeavesBlock leavesBlock && leavesBlock.getShiftType() == BiomeShifter.ShiftType.CORRUPT && isOtherType)
                                            || (level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_STONE.get()) && isOtherType));
         }
     }
@@ -294,8 +273,8 @@ public class BlockHelper
     {
         return level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get())
             || level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_STONE.get())
-            || (level.getBlockState(pos).getBlock() instanceof AerialHellLogBlock logBlock && logBlock.getShiftType() == BiomeShifter.ShiftType.UNCORRUPT)
-            || (level.getBlockState(pos).getBlock() instanceof AerialHellLeavesBlock leavesBlock && leavesBlock.getShiftType() == BiomeShifter.ShiftType.UNCORRUPT);
+            || (level.getBlockState(pos).getBlock() instanceof ShiftableLogBlock logBlock && logBlock.getShiftType() == BiomeShifter.ShiftType.UNCORRUPT)
+            || (level.getBlockState(pos).getBlock() instanceof ShiftableLeavesBlock leavesBlock && leavesBlock.getShiftType() == BiomeShifter.ShiftType.UNCORRUPT);
     }
 
     public static boolean isSurroundingCorrupted(LevelReader level, BlockPos pos)

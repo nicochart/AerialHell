@@ -24,24 +24,26 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.joml.Vector3d;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 public class ReactorBlock extends BiomeShifterBlock
 {
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
     public static final MapCodec<ReactorBlock> CODEC = simpleCodec(ReactorBlock::new);
 
-    private ReactorBlock(Properties prop) {this(prop, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT);}
-    public ReactorBlock(Properties prop, int fieldSize, BiomeShifter.ShiftType shiftType)
+    private ReactorBlock(Properties prop) {this(prop, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null);}
+    public ReactorBlock(Properties prop, int fieldSize, BiomeShifter.ShiftType shiftType, @Nullable Supplier<Block> shiftedOrBrokenVariant)
     {
-        super(prop, fieldSize, shiftType);
+        super(prop, fieldSize, shiftType, shiftedOrBrokenVariant);
         this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, Boolean.FALSE));
     }
 
     @Override protected MapCodec<? extends ReactorBlock> codec() {return CODEC;}
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(ACTIVE);}
 
-    @Nullable @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new ReactorBlockEntity(pos, state, this.fieldSize, this.shiftType);}
+    @Nullable @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new ReactorBlockEntity(pos, state, this.fieldSize, this.shiftType, this.getShiftedOrBrokenVariant());}
 
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult)
     {

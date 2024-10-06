@@ -5,24 +5,29 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
+import java.util.function.Supplier;
 
 public class BiomeShifterBlockEntity extends BlockEntity implements BiomeShifter
 {
     private int fieldSize;
     private ShiftType shiftType;
+    @Nullable private final Supplier<Block> shiftedOrBrokenVariant;
 
-    public BiomeShifterBlockEntity(BlockPos pos, BlockState blockState, int fieldSize, ShiftType shiftType)
+    public BiomeShifterBlockEntity(BlockPos pos, BlockState blockState, int fieldSize, ShiftType shiftType, @Nullable Supplier<Block> shiftedOrBrokenVariant)
     {
         super(AerialHellBlockEntities.BIOME_SHIFTER.get(), pos, blockState);
         this.fieldSize = fieldSize;
         this.shiftType = shiftType;
+        this.shiftedOrBrokenVariant = shiftedOrBrokenVariant;
     }
-
 
     @Override public int getFieldSize() {return this.fieldSize;}
     @Override public ShiftType getShiftType() {return this.shiftType;}
+    @Override @Nullable public Supplier<Block> getShiftedOrBrokenVariant() {return this.shiftedOrBrokenVariant;}
 
     public static void tick(Level level, BlockPos pos, BlockState state, BiomeShifterBlockEntity blockEntity)
     {
