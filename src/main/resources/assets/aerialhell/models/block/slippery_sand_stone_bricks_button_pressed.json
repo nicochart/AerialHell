@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/button_pressed",
+  "parent": "aerialhell:block/tinted_button_pressed",
   "textures": {
     "texture": "aerialhell:block/slippery_sand_stone_bricks"
   }

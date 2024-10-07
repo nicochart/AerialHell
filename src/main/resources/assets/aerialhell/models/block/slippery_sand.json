@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "aerialhell:block/tinted_cube_all",
   "textures": {
     "all": "aerialhell:block/slippery_sand"
   }

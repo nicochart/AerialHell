@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:slippery_sand",
+    "aerialhell:slippery_sand_stone",
+    "aerialhell:slippery_sand_stone_bricks",
+    "aerialhell:cracked_slippery_sand_stone_bricks",
+    "aerialhell:cut_slippery_sand_stone",
+    "aerialhell:slippery_sand_stone_slab",
+    "aerialhell:slippery_sand_stone_bricks_slab",
+    "aerialhell:cracked_slippery_sand_stone_bricks_slab",
+    "aerialhell:slippery_sand_stone_stairs",
+    "aerialhell:slippery_sand_stone_bricks_stairs",
+    "aerialhell:cracked_slippery_sand_stone_bricks_stairs",
+    "aerialhell:slippery_sand_stone_wall",
+    "aerialhell:slippery_sand_stone_bricks_wall",
+    "aerialhell:cracked_slippery_sand_stone_bricks_wall",
+    "aerialhell:slippery_sand_stone_button",
+    "aerialhell:slippery_sand_stone_bricks_button",
+    "aerialhell:slippery_sand_stone_pressure_plate",
+    "aerialhell:slippery_sand_stone_bricks_pressure_plate"
+  ]
+}

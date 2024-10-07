@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/pressure_plate_down",
+  "parent": "aerialhell:block/tinted_pressure_plate_down",
   "textures": {
     "texture": "aerialhell:block/slippery_sand_stone_bricks"
   }

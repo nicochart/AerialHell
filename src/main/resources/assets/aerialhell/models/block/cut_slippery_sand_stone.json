@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "aerialhell:block/tinted_cube_bottom_top",
   "textures": {
     "top": "aerialhell:block/cut_slippery_sand_stone_top_bottom",
     "bottom": "aerialhell:block/cut_slippery_sand_stone_top_bottom",

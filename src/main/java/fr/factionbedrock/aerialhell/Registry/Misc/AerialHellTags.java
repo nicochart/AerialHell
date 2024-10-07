@@ -100,6 +100,8 @@ public class AerialHellTags
 
 		public static final TagKey<Block> FEATURE_CAN_REPLACE = tag("feature_can_replace");
 
+		public static final TagKey<Block> SLIPPERY_SAND = tag("slippery_sand");
+
 		public static final TagKey<Block> SLIPPERY_SAND_GLASS = tag("slippery_sand_glass");
 
 		public static final TagKey<Block> SMOKY_QUARTZ = tag("smoky_quartz");

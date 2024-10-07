@@ -1,9 +1,12 @@
 package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
-import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Cursor3D;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,6 +17,8 @@ import java.awt.*;
 public class BlocksAndItemsColorHandler
 {
     private static final Color DEFAULT_COLOR = new Color(12, 35, 26);
+    private static final int WHITE = new Color(255, 255, 255).getRGB();
+    private static final int SHADOW_SLIPPERY_SAND_COLOR = new Color(106, 49, 140).getRGB();
     private static final int MUD_GLYPH_COLOR = new Color(144, 95, 1).getRGB();
     private static final int LUNATIC_GLYPH_COLOR = new Color(175, 236, 181).getRGB();
     private static final int GOLDEN_NETHER_PRISON_GLYPH_COLOR = new Color(193, 25, 25).getRGB();
@@ -69,6 +74,24 @@ public class BlocksAndItemsColorHandler
         );
 
         event.getBlockColors().register((state, level, pos, tint) -> getCustomColor(state, tint, level, pos),
+                AerialHellBlocksAndItems.SLIPPERY_SAND.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS.get(),
+                AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS.get(),
+                AerialHellBlocksAndItems.CUT_SLIPPERY_SAND_STONE.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_SLAB.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_SLAB.get(),
+                AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_SLAB.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_STAIRS.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_STAIRS.get(),
+                AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_STAIRS.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_WALL.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_WALL.get(),
+                AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_WALL.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BUTTON.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_BUTTON.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_PRESSURE_PLATE.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_PRESSURE_PLATE.get(),
                 AerialHellBlocksAndItems.STELLAR_PODZOL.get(),
                 AerialHellBlocksAndItems.MUD_GLYPH_BLOCK.get(),
                 AerialHellBlocksAndItems.LUNATIC_GLYPH_BLOCK.get(),
@@ -103,7 +126,11 @@ public class BlocksAndItemsColorHandler
                 {
                     Color baseColor = new Color(BiomeColors.getAverageGrassColor(level, pos));
                     int r = baseColor.getRed(), g = baseColor.getGreen(), b = baseColor.getBlue();
-                    if (state.getBlock() == AerialHellBlocksAndItems.STELLAR_PODZOL.get())
+                    if (state.is(AerialHellTags.Blocks.SLIPPERY_SAND))
+                    {
+                        return calculateSlipperySandTint(pos);
+                    }
+                    else if (state.getBlock() == AerialHellBlocksAndItems.STELLAR_PODZOL.get())
                     {
                         return new Color((int) Math.min(255, r * 1.5), (int) (g / 1.5), b).getRGB();
                     }
@@ -174,5 +201,40 @@ public class BlocksAndItemsColorHandler
         else if (itemstack.getItem() == AerialHellBlocksAndItems.VOLUCITE_GLYPH_BLOCK_ITEM.get()) {return VOLUCITE_GLYPH_COLOR;}
         else if (itemstack.getItem() == AerialHellBlocksAndItems.SHADOW_CATACOMBS_GLYPH_BLOCK_ITEM.get()) {return SHADOW_CATACOMBS_GLYPH_COLOR;}
         else {return DEFAULT_COLOR.getRGB();}
+    }
+
+    //copy of net.minecraft.client.multiplayer.ClientLevel calculateBlockTint method, edited to only get shadow / non shadow blend
+    public static int calculateSlipperySandTint(BlockPos pos)
+    {
+        ClientLevel level = Minecraft.getInstance().level;
+        int biomeBlendRadius = Minecraft.getInstance().options.biomeBlendRadius().get();
+        if (biomeBlendRadius == 0)
+        {
+            return level.getBiome(pos).is(AerialHellTags.Biomes.IS_SHADOW) ? SHADOW_SLIPPERY_SAND_COLOR : WHITE;
+        }
+        else
+        {
+            int blend = (biomeBlendRadius * 2 + 1) * (biomeBlendRadius * 2 + 1);
+            int r = 0;
+            int g = 0;
+            int b = 0;
+            Cursor3D cursor3d = new Cursor3D(pos.getX() - biomeBlendRadius, pos.getY(), pos.getZ() - biomeBlendRadius, pos.getX() + biomeBlendRadius, pos.getY(), pos.getZ() + biomeBlendRadius);
+            BlockPos.MutableBlockPos mutablepos = new BlockPos.MutableBlockPos();
+
+            int color;
+            while (cursor3d.advance())
+            {
+                mutablepos.set(cursor3d.nextX(), cursor3d.nextY(), cursor3d.nextZ());
+
+                if (level.getBiome(mutablepos).is(AerialHellTags.Biomes.IS_SHADOW)) {color = SHADOW_SLIPPERY_SAND_COLOR;}
+                else {color = new Color(255, 255, 255).getRGB();}
+
+                r += (color & 0xFF0000) >> 16;
+                g += (color & 0xFF00) >> 8;
+                b += color & 0xFF;
+            }
+
+            return (r / blend & 0xFF) << 16 | (g / blend & 0xFF) << 8 | b / blend & 0xFF;
+        }
     }
 }
