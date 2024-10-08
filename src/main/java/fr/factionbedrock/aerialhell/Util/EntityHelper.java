@@ -32,9 +32,11 @@ import fr.factionbedrock.aerialhell.World.AerialHellTeleporter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.protocol.game.ClientboundChunksBiomesPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.FlyingMob;
@@ -51,8 +53,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.portal.DimensionTransition;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class EntityHelper
@@ -65,7 +72,9 @@ public class EntityHelper
 
     public static boolean isLivingEntityUnderInTheCloudsEffect(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate());}
 
-    public static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.SHADOW_IMMUNITY.getDelegate());}
+    public static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.SHADOW_IMMUNITY.getDelegate()) || isLivingEntityShadowBind(entity);}
+
+    public static boolean isLivingEntityShadowBind(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.SHADOW_BIND.getDelegate()) && entity.getEffect(AerialHellMobEffects.SHADOW_BIND.getDelegate()).getDuration() > 1;}
 
     public static boolean isLivingEntityVulnerable(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.VULNERABILITY.getDelegate());}
 
@@ -243,5 +252,21 @@ public class EntityHelper
     public static boolean isLivingEntityMisleadingShadow(LivingEntity entity)
     {
         return ItemHelper.getItemInTagCount(entity.getArmorSlots(), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !isLivingEntityATraitor(entity);
+    }
+
+    //from in net.minecraft.server.level.ChunkMap resendBiomesForChunks(..) method
+    public static void refreshChunkColors(ServerPlayer player, ServerLevel level, int radius)
+    {
+        BoundingBox boundingbox = BlockHelper.getQuantizedBoundingBox(player.getOnPos().above(), radius);
+        List<ChunkAccess> chunkAccessList = BlockHelper.getChunkAccessListForBoundingBox(level, boundingbox);
+
+        List<LevelChunk> chunkList = new ArrayList<>();
+        for (ChunkAccess chunkaccess : chunkAccessList)
+        {
+            if (chunkaccess instanceof LevelChunk levelchunk) {chunkList.add(levelchunk);}
+            else {chunkList.add(level.getChunk(chunkaccess.getPos().x, chunkaccess.getPos().z));}
+        }
+
+        player.connection.send(ClientboundChunksBiomesPacket.forChunks(chunkList));
     }
 }

@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.BiomeColors;
@@ -128,6 +129,7 @@ public class BlocksAndItemsColorHandler
                     int r = baseColor.getRed(), g = baseColor.getGreen(), b = baseColor.getBlue();
                     if (state.is(AerialHellTags.Blocks.SLIPPERY_SAND))
                     {
+                        if (EntityHelper.isLivingEntityShadowBind(Minecraft.getInstance().player)) {return WHITE;}
                         return calculateSlipperySandTint(pos);
                     }
                     else if (state.getBlock() == AerialHellBlocksAndItems.STELLAR_PODZOL.get())

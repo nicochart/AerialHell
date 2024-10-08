@@ -336,14 +336,14 @@ public class BlockHelper
 
     private static int quantize(int blockCoordinate) {return QuartPos.toBlock(QuartPos.fromBlock(blockCoordinate));}
 
-    private static BoundingBox getQuantizedBoundingBox(BlockPos pos, int radius)
+    public static BoundingBox getQuantizedBoundingBox(BlockPos pos, int radius)
     {
         BlockPos pos1 = new BlockPos(quantize(pos.getX() - radius), quantize(pos.getY() - radius), quantize(pos.getZ() - radius));
         BlockPos pos2 = new BlockPos(quantize(pos.getX() + radius), quantize(pos.getY() + radius), quantize(pos.getZ() + radius));
         return BoundingBox.fromCorners(pos1, pos2);
     }
 
-    private static List<ChunkAccess> getChunkAccessListForBoundingBox(ServerLevel level, BoundingBox boundingbox)
+    public static List<ChunkAccess> getChunkAccessListForBoundingBox(ServerLevel level, BoundingBox boundingbox)
     {
         List<ChunkAccess> list = new ArrayList<>();
         for (int z = SectionPos.blockToSectionCoord(boundingbox.minZ()); z <= SectionPos.blockToSectionCoord(boundingbox.maxZ()); z++)
