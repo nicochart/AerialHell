@@ -19,6 +19,12 @@ public class BlocksAndItemsColorHandler
 {
     private static final Color DEFAULT_COLOR = new Color(12, 35, 26);
     private static final int WHITE = new Color(255, 255, 255).getRGB();
+    //private static final int SHADOW_BLACK = new Color(19, 17, 19).getRGB(); //marche bien avec la v2
+    private static final int SHADOW_BLACK = new Color(9, 8, 9).getRGB(); //marche bien avec v0
+    //private static final int SHADOW_BLACK = new Color(10, 9, 10).getRGB(); //marche bien avec v3
+    private static final int AERIAL_HELL_PLAINS_GRASS_COLOR = new Color(49, 140, 102).getRGB(); //v0
+    private static final int LIGHT_AERIAL_HELL_PLAINS_GRASS_COLOR = new Color(164, 254, 210).getRGB();
+    //private static final int /*DARK_*/AERIAL_HELL_PLAINS_GRASS_COLOR = new Color(0, 109, 76).getRGB(); //marche bien avec la v2
     private static final int SHADOW_SLIPPERY_SAND_COLOR = new Color(106, 49, 140).getRGB();
     private static final int MUD_GLYPH_COLOR = new Color(144, 95, 1).getRGB();
     private static final int LUNATIC_GLYPH_COLOR = new Color(175, 236, 181).getRGB();
@@ -75,6 +81,7 @@ public class BlocksAndItemsColorHandler
         );
 
         event.getBlockColors().register((state, level, pos, tint) -> getCustomColor(state, tint, level, pos),
+                AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(),
                 AerialHellBlocksAndItems.SLIPPERY_SAND.get(),
                 AerialHellBlocksAndItems.SLIPPERY_SAND_STONE.get(),
                 AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS.get(),
@@ -127,10 +134,13 @@ public class BlocksAndItemsColorHandler
                 {
                     Color baseColor = new Color(BiomeColors.getAverageGrassColor(level, pos));
                     int r = baseColor.getRed(), g = baseColor.getGreen(), b = baseColor.getBlue();
-                    if (state.is(AerialHellTags.Blocks.SLIPPERY_SAND))
+                    if (state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK))
                     {
-                        if (EntityHelper.isLivingEntityShadowBind(Minecraft.getInstance().player)) {return WHITE;}
-                        return calculateSlipperySandTint(pos);
+                        return EntityHelper.isLivingEntityShadowBind(Minecraft.getInstance().player) ? /*getColor(tint, level, pos)*/ AERIAL_HELL_PLAINS_GRASS_COLOR : SHADOW_BLACK;
+                    }
+                    else if (state.is(AerialHellTags.Blocks.SLIPPERY_SAND))
+                    {
+                        return EntityHelper.isLivingEntityShadowBind(Minecraft.getInstance().player) ? WHITE : calculateSlipperySandTint(pos);
                     }
                     else if (state.getBlock() == AerialHellBlocksAndItems.STELLAR_PODZOL.get())
                     {
