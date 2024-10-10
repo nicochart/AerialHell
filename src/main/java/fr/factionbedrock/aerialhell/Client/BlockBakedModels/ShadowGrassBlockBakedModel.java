@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Client.BlockBakedModels;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -11,11 +12,15 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.ChunkRenderTypeSet;
+import net.neoforged.neoforge.client.model.data.ModelData;
 
 import java.util.List;
 
 public class ShadowGrassBlockBakedModel implements BakedModel
 {
+    //copy of net.minecraft.client.renderer.ItemBlockRenderTypes private final CUTOUT_MIPPED
+    private static final net.neoforged.neoforge.client.ChunkRenderTypeSet CUTOUT_MIPPED = net.neoforged.neoforge.client.ChunkRenderTypeSet.of(RenderType.cutoutMipped());
     private final BakedModel shadowModel;
 
     public ShadowGrassBlockBakedModel(BakedModel shadowModel) {this.shadowModel = shadowModel;}
@@ -34,6 +39,7 @@ public class ShadowGrassBlockBakedModel implements BakedModel
         }
     }
 
+    @Override public ChunkRenderTypeSet getRenderTypes(BlockState state, RandomSource rand, ModelData data) {return CUTOUT_MIPPED;}
     @Override public boolean useAmbientOcclusion() {return getModel(shadowModel).useAmbientOcclusion();}
     @Override public boolean isGui3d() {return getModel(shadowModel).isGui3d();}
     @Override public boolean usesBlockLight() {return getModel(shadowModel).usesBlockLight();}
