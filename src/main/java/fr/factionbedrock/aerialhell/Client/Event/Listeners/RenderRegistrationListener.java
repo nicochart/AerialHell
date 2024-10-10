@@ -2,14 +2,20 @@ package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestMimicBlockEntityRenderer;
+import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShadowGrassBlockBakedModel;
 import fr.factionbedrock.aerialhell.Client.EntityModels.*;
 import fr.factionbedrock.aerialhell.Client.EntityRender.*;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
 
 public class RenderRegistrationListener
 {
@@ -122,5 +128,18 @@ public class RenderRegistrationListener
         event.registerLayerDefinition(AerialHellModelLayers.CORTINARIUS_COW_SHROOM, CortinariusCowShroomModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CRYSTAL_GOLEM_CRYSTAL, CrystalGolemCrystalModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.SPIDER_SPIKE, HellSpiderSpikeModel::createBodyLayer);
+    }
+
+    public static void onModelBake(ModelEvent.ModifyBakingResult event)
+    {
+        ModelResourceLocation shadowGrassBaseModelRL = BlockModelShaper.stateToModelLocation(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().defaultBlockState());
+        BakedModel shadowGrassBaseModel = event.getModels().get(shadowGrassBaseModelRL);
+
+        if (shadowGrassBaseModel != null)
+        {
+            BakedModel shadowGrassNewModel = new ShadowGrassBlockBakedModel(shadowGrassBaseModel);
+            //replaces the model in the map
+            event.getModels().put(shadowGrassBaseModelRL, shadowGrassNewModel);
+        }
     }
 }

@@ -29,6 +29,7 @@ import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.World.AerialHellTeleporter;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -73,6 +74,8 @@ public class EntityHelper
     public static boolean isLivingEntityUnderInTheCloudsEffect(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate());}
 
     public static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.SHADOW_IMMUNITY.getDelegate()) || isLivingEntityShadowBind(entity);}
+
+    public static boolean isCurrentPlayerInstanceShadowBind() {return isLivingEntityShadowBind(Minecraft.getInstance().player);}
 
     public static boolean isLivingEntityShadowBind(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.SHADOW_BIND.getDelegate()) && entity.getEffect(AerialHellMobEffects.SHADOW_BIND.getDelegate()).getDuration() > 1;}
 

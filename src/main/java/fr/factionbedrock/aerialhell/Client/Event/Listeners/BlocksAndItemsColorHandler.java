@@ -19,12 +19,8 @@ public class BlocksAndItemsColorHandler
 {
     private static final Color DEFAULT_COLOR = new Color(12, 35, 26);
     private static final int WHITE = new Color(255, 255, 255).getRGB();
-    //private static final int SHADOW_BLACK = new Color(19, 17, 19).getRGB(); //marche bien avec la v2
-    private static final int SHADOW_BLACK = new Color(9, 8, 9).getRGB(); //marche bien avec v0
-    //private static final int SHADOW_BLACK = new Color(10, 9, 10).getRGB(); //marche bien avec v3
-    private static final int AERIAL_HELL_PLAINS_GRASS_COLOR = new Color(49, 140, 102).getRGB(); //v0
-    private static final int LIGHT_AERIAL_HELL_PLAINS_GRASS_COLOR = new Color(164, 254, 210).getRGB();
-    //private static final int /*DARK_*/AERIAL_HELL_PLAINS_GRASS_COLOR = new Color(0, 109, 76).getRGB(); //marche bien avec la v2
+    private static final int SHADOW_BLACK = new Color(19, 17, 19).getRGB();
+    private static final int AERIAL_HELL_PLAINS_GRASS_COLOR = new Color(49, 140, 102).getRGB();
     private static final int SHADOW_SLIPPERY_SAND_COLOR = new Color(106, 49, 140).getRGB();
     private static final int MUD_GLYPH_COLOR = new Color(144, 95, 1).getRGB();
     private static final int LUNATIC_GLYPH_COLOR = new Color(175, 236, 181).getRGB();
@@ -136,11 +132,11 @@ public class BlocksAndItemsColorHandler
                     int r = baseColor.getRed(), g = baseColor.getGreen(), b = baseColor.getBlue();
                     if (state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK))
                     {
-                        return EntityHelper.isLivingEntityShadowBind(Minecraft.getInstance().player) ? /*getColor(tint, level, pos)*/ AERIAL_HELL_PLAINS_GRASS_COLOR : SHADOW_BLACK;
+                        return EntityHelper.isCurrentPlayerInstanceShadowBind() ? /*getColor(tint, level, pos)*/ AERIAL_HELL_PLAINS_GRASS_COLOR : SHADOW_BLACK;
                     }
                     else if (state.is(AerialHellTags.Blocks.SLIPPERY_SAND))
                     {
-                        return EntityHelper.isLivingEntityShadowBind(Minecraft.getInstance().player) ? WHITE : calculateSlipperySandTint(pos);
+                        return EntityHelper.isCurrentPlayerInstanceShadowBind() ? WHITE : calculateSlipperySandTint(pos);
                     }
                     else if (state.getBlock() == AerialHellBlocksAndItems.STELLAR_PODZOL.get())
                     {

@@ -24,6 +24,7 @@ public class AerialHellClientSetup
         modEventBus.addListener(BlocksAndItemsColorHandler::handleItemColors);
         modEventBus.addListener(RenderRegistrationListener::onRegisterRenderers);
         modEventBus.addListener(RenderRegistrationListener::onRegisterLayerDefinitions);
+        modEventBus.addListener(RenderRegistrationListener::onModelBake);
         modEventBus.addListener(AerialHellParticleTypes::registerParticleFactories);
         modEventBus.addListener(AerialHellClientSetup::registerDimensionRenderInfo);
         modEventBus.addListener(BuildContentsEvent::buildContents);
