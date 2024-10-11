@@ -24,30 +24,17 @@ public class ShiftingGrassBlockBakedModel implements BakedModel
     //copy of net.minecraft.client.renderer.ItemBlockRenderTypes private final CUTOUT_MIPPED
     private static final ChunkRenderTypeSet CUTOUT_MIPPED = ChunkRenderTypeSet.of(RenderType.cutoutMipped());
     private final BakedModel defaultModel;
-    private final Supplier<Block> shiftedBlock;
+    private final BakedModel shiftedModel;
     private final Function<Boolean, Boolean> shouldDisplayShiftedModel;
 
-    public ShiftingGrassBlockBakedModel(BakedModel defaultModel, Supplier<Block> shiftedBlock, Function<Boolean, Boolean> shouldDisplayShiftedModel)
+    public ShiftingGrassBlockBakedModel(BakedModel defaultModel, BakedModel shifterModel, Function<Boolean, Boolean> shouldDisplayShiftedModel)
     {
         this.defaultModel = defaultModel;
-        this.shiftedBlock = shiftedBlock;
+        this.shiftedModel = shifterModel;
         this.shouldDisplayShiftedModel = shouldDisplayShiftedModel;
     }
 
-    @Override public List<BakedQuad> getQuads(BlockState state, Direction side, RandomSource rand)
-    {
-        if (shouldDisplayShiftedModel(false))
-        {
-            BlockState shiftedState = getShiftedDefaultState();
-            BakedModel shiftedModel = Minecraft.getInstance().getBlockRenderer().getBlockModel(shiftedState);
-            return shiftedModel.getQuads(shiftedState, side, rand);
-        }
-        else
-        {
-            return defaultModel.getQuads(state, side, rand);
-        }
-    }
-
+    @Override public List<BakedQuad> getQuads(BlockState state, Direction side, RandomSource rand) {return getModel().getQuads(state, side, rand);}
     @Override public ChunkRenderTypeSet getRenderTypes(BlockState state, RandomSource rand, ModelData data) {return CUTOUT_MIPPED;}
     @Override public boolean useAmbientOcclusion() {return getModel().useAmbientOcclusion();}
     @Override public boolean isGui3d() {return getModel().isGui3d();}
@@ -59,13 +46,8 @@ public class ShiftingGrassBlockBakedModel implements BakedModel
 
     private BakedModel getModel()
     {
-        return shouldDisplayShiftedModel(false) ? getShiftedDefaultModel() : defaultModel;
+        return shouldDisplayShiftedModel(false) ? shiftedModel : defaultModel;
     }
 
     protected boolean shouldDisplayShiftedModel(boolean forceDefault) {return this.shouldDisplayShiftedModel.apply(forceDefault);}
-
-    private BakedModel getShiftedDefaultModel() {return getShiftedModelFromState(getShiftedDefaultState());}
-    private BakedModel getShiftedModelFromState(BlockState state) {return Minecraft.getInstance().getBlockRenderer().getBlockModel(state);}
-
-    protected BlockState getShiftedDefaultState() {return shiftedBlock.get().defaultBlockState();}
 }

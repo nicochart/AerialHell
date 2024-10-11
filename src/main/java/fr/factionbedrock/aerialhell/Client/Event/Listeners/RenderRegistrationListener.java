@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
+import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShiftingGrassBlockBakedModel;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestMimicBlockEntityRenderer;
@@ -15,6 +16,9 @@ import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 
@@ -133,11 +137,28 @@ public class RenderRegistrationListener
 
     public static void onModelBake(ModelEvent.ModifyBakingResult event)
     {
-        ModelResourceLocation shadowGrassBaseModelRL = BlockModelShaper.stateToModelLocation(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().defaultBlockState());
-        BakedModel shadowGrassBaseModel = event.getModels().get(shadowGrassBaseModelRL);
-        BakedModel shadowGrassNewModel = new ShiftingGrassBlockBakedModel(shadowGrassBaseModel, () -> AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), (forceShifted) -> EntityHelper.isCurrentPlayerInstanceShadowBind() || forceShifted);
+        ShiftedRenderDuo shadowGrassShiftDuo = new ShiftedRenderDuo(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(), "stellar_grass_block_shifted_render", event);
+        ShiftedRenderDuo stellarGrassShiftDuo = new ShiftedRenderDuo(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), "shadow_grass_block_shifted_render", event);
 
         //replaces the models in the map
-        event.getModels().put(shadowGrassBaseModelRL, shadowGrassNewModel);
+        event.getModels().put(shadowGrassShiftDuo.baseModelRL, shadowGrassShiftDuo.newBakedModel);
+        event.getModels().put(stellarGrassShiftDuo.baseModelRL, stellarGrassShiftDuo.newBakedModel);
+    }
+
+    private static class ShiftedRenderDuo
+    {
+        private final ModelResourceLocation baseModelRL;
+        private final BakedModel newBakedModel;
+
+        protected ShiftedRenderDuo(Block baseBlock, String blockStateRenderID, ModelEvent.ModifyBakingResult event)
+        {
+            this.baseModelRL = BlockModelShaper.stateToModelLocation(baseBlock.defaultBlockState());
+            ModelResourceLocation stellarGrassShiftedModelRL = new ModelResourceLocation(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, blockStateRenderID),"");
+            BakedModel stellarGrassShiftedModel = event.getModels().get(stellarGrassShiftedModelRL);
+            this.newBakedModel = new ShiftingGrassBlockBakedModel(event.getModels().get(baseModelRL), stellarGrassShiftedModel, (forceShifted) -> EntityHelper.isCurrentPlayerInstanceShadowBind() || forceShifted);
+        }
+
+        public ModelResourceLocation getBaseModelRL() {return baseModelRL;}
+        public BakedModel getNewBakedModel() {return newBakedModel;}
     }
 }

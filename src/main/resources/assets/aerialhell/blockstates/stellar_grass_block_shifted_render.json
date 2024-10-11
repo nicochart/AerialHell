@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "aerialhell:block/stellar_grass_block_shifted_render"
+      },
+      {
+        "model": "aerialhell:block/stellar_grass_block_shifted_render",
+        "y": 90
+      },
+      {
+        "model": "aerialhell:block/stellar_grass_block_shifted_render",
+        "y": 180
+      },
+      {
+        "model": "aerialhell:block/stellar_grass_block_shifted_render",
+        "y": 270
+      }
+    ]
+  }
+}
