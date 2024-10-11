@@ -1,13 +1,14 @@
 package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
+import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShiftingGrassBlockBakedModel;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestMimicBlockEntityRenderer;
-import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShadowGrassBlockBakedModel;
 import fr.factionbedrock.aerialhell.Client.EntityModels.*;
 import fr.factionbedrock.aerialhell.Client.EntityRender.*;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
@@ -134,12 +135,9 @@ public class RenderRegistrationListener
     {
         ModelResourceLocation shadowGrassBaseModelRL = BlockModelShaper.stateToModelLocation(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().defaultBlockState());
         BakedModel shadowGrassBaseModel = event.getModels().get(shadowGrassBaseModelRL);
+        BakedModel shadowGrassNewModel = new ShiftingGrassBlockBakedModel(shadowGrassBaseModel, () -> AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), (forceShifted) -> EntityHelper.isCurrentPlayerInstanceShadowBind() || forceShifted);
 
-        if (shadowGrassBaseModel != null)
-        {
-            BakedModel shadowGrassNewModel = new ShadowGrassBlockBakedModel(shadowGrassBaseModel);
-            //replaces the model in the map
-            event.getModels().put(shadowGrassBaseModelRL, shadowGrassNewModel);
-        }
+        //replaces the models in the map
+        event.getModels().put(shadowGrassBaseModelRL, shadowGrassNewModel);
     }
 }
