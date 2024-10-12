@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
 import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShiftingGrassBlockBakedModel;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestMimicBlockEntityRenderer;
@@ -137,8 +138,8 @@ public class RenderRegistrationListener
 
     public static void onModelBake(ModelEvent.ModifyBakingResult event)
     {
-        ShiftedRenderDuo shadowGrassShiftDuo = new ShiftedRenderDuo(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(), "stellar_grass_block_shifted_render", event);
-        ShiftedRenderDuo stellarGrassShiftDuo = new ShiftedRenderDuo(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), "shadow_grass_block_shifted_render", event);
+        ShiftedRenderDuo shadowGrassShiftDuo = new ShiftedRenderDuo(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(), AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().defaultBlockState().setValue(AerialHellGrassBlock.SNOWY, false).setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), event);
+        ShiftedRenderDuo stellarGrassShiftDuo = new ShiftedRenderDuo(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().defaultBlockState().setValue(AerialHellGrassBlock.SNOWY, false).setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), event);
 
         //replaces the models in the map
         event.getModels().put(shadowGrassShiftDuo.baseModelRL, shadowGrassShiftDuo.newBakedModel);
@@ -150,12 +151,12 @@ public class RenderRegistrationListener
         private final ModelResourceLocation baseModelRL;
         private final BakedModel newBakedModel;
 
-        protected ShiftedRenderDuo(Block baseBlock, String blockStateRenderID, ModelEvent.ModifyBakingResult event)
+        protected ShiftedRenderDuo(Block baseBlock, BlockState shiftedBlockState, ModelEvent.ModifyBakingResult event)
         {
             this.baseModelRL = BlockModelShaper.stateToModelLocation(baseBlock.defaultBlockState());
-            ModelResourceLocation stellarGrassShiftedModelRL = new ModelResourceLocation(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, blockStateRenderID),"");
-            BakedModel stellarGrassShiftedModel = event.getModels().get(stellarGrassShiftedModelRL);
-            this.newBakedModel = new ShiftingGrassBlockBakedModel(event.getModels().get(baseModelRL), stellarGrassShiftedModel, (forceShifted) -> EntityHelper.isCurrentPlayerInstanceShadowBind() || forceShifted);
+            ModelResourceLocation shiftedModelRL = BlockModelShaper.stateToModelLocation(shiftedBlockState);
+            BakedModel shiftedModel = event.getModels().get(shiftedModelRL);
+            this.newBakedModel = new ShiftingGrassBlockBakedModel(event.getModels().get(baseModelRL), shiftedModel, (forceShifted) -> EntityHelper.isCurrentPlayerInstanceShadowBind() || forceShifted);
         }
 
         public ModelResourceLocation getBaseModelRL() {return baseModelRL;}

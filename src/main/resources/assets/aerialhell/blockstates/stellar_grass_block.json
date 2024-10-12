@@ -1,6 +1,6 @@
 {
   "variants": {
-    "snowy=false": [
+    "snowy=false,shifted_render=false": [
       {
         "model": "aerialhell:block/stellar_grass_block"
       },
@@ -17,8 +17,24 @@
         "y": 270
       }
     ],
-    "snowy=true": {
-      "model": "aerialhell:block/stellar_grass_block_snow"
-    }
+    "snowy=false,shifted_render=true": [
+      {
+        "model": "aerialhell:block/stellar_grass_block_shifted_render"
+      },
+      {
+        "model": "aerialhell:block/stellar_grass_block_shifted_render",
+        "y": 90
+      },
+      {
+        "model": "aerialhell:block/stellar_grass_block_shifted_render",
+        "y": 180
+      },
+      {
+        "model": "aerialhell:block/stellar_grass_block_shifted_render",
+        "y": 270
+      }
+    ],
+    "snowy=true,shifted_render=false": {"model": "aerialhell:block/stellar_grass_block_snow"},
+    "snowy=true,shifted_render=true": {"model": "aerialhell:block/stellar_grass_block_snow"}
   }
 }
