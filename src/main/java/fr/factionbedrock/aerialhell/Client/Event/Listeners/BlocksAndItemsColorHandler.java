@@ -140,18 +140,18 @@ public class BlocksAndItemsColorHandler
                 {
                     if (state.is(AerialHellBlocksAndItems.BLUISH_FERN.get()) || state.is(AerialHellBlocksAndItems.TALL_BLUISH_FERN.get()) || state.is(AerialHellBlocksAndItems.POLYCHROME_FERN.get()) || state.is(AerialHellBlocksAndItems.TALL_POLYCHROME_FERN.get()))
                     {
-                        return calculateTint(pos, (blockpos) -> getLightGrassColor(blockpos), (blockpos) -> EntityHelper.isCurrentPlayerInstanceShadowBind() ? getShadowGrassColor(blockpos) : vanillaGetColor(blockpos, BiomeColors.GRASS_COLOR_RESOLVER));
+                        return calculateTint(new CalculateTintContextInfo(pos), (info) -> getLightGrassColor(info), (info) -> EntityHelper.isCurrentPlayerInstanceShadowBind() ? getShadowGrassColor(info) : vanillaGetColor(info.pos, BiomeColors.GRASS_COLOR_RESOLVER));
                     }
                     else
                     {
-                        return calculateTint(pos, (blockpos) -> getLightGrassColor(blockpos), (blockpos) -> getShadowGrassColor(blockpos));
+                        return calculateTint(new CalculateTintContextInfo(pos), (info) -> getLightGrassColor(info), (info) -> getShadowGrassColor(info));
                     }
                 }
                 case 1 :
                 {
                     if (state.is(AerialHellBlocksAndItems.BLUISH_FERN.get()) || state.is(AerialHellBlocksAndItems.TALL_BLUISH_FERN.get()) || state.is(AerialHellBlocksAndItems.POLYCHROME_FERN.get()) || state.is(AerialHellBlocksAndItems.TALL_POLYCHROME_FERN.get()))
                     {
-                        return calculateTint(pos, (blockpos) -> getLightFoliageColor(blockpos), (blockpos) -> EntityHelper.isCurrentPlayerInstanceShadowBind() ? getShiftedOrNotGrassColor(blockpos) : vanillaGetColor(blockpos, BiomeColors.FOLIAGE_COLOR_RESOLVER));
+                        return calculateTint(new CalculateTintContextInfo(pos), (info) -> getLightFoliageColor(info), (info) -> EntityHelper.isCurrentPlayerInstanceShadowBind() ? getShiftedOrNotGrassColor(info.pos) : vanillaGetColor(info.pos, BiomeColors.FOLIAGE_COLOR_RESOLVER));
                     }
                     else {return BiomeColors.getAverageFoliageColor(level, pos);}
                 }
@@ -174,11 +174,11 @@ public class BlocksAndItemsColorHandler
                     int r = baseColor.getRed(), g = baseColor.getGreen(), b = baseColor.getBlue();
                     if (state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK) || state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK))
                     {
-                        return calculateTint(pos, (blockpos) -> getLightGrassColor(blockpos), (blockpos) -> getShadowGrassColor(blockpos));
+                        return calculateTint(new CalculateTintContextInfo(pos), (blockpos) -> getLightGrassColor(blockpos), (blockpos) -> getShadowGrassColor(blockpos));
                     }
                     else if (state.is(AerialHellTags.Blocks.SLIPPERY_SAND))
                     {
-                        return EntityHelper.isCurrentPlayerInstanceShadowBind() ? WHITE : calculateTint(pos, (blockpos) -> WHITE, (blockpos) -> SHADOW_PURPLE);
+                        return EntityHelper.isCurrentPlayerInstanceShadowBind() ? WHITE : calculateTint(new CalculateTintContextInfo(pos), (blockpos) -> WHITE, (blockpos) -> SHADOW_PURPLE);
                     }
                     else if (state.getBlock() == AerialHellBlocksAndItems.STELLAR_PODZOL.get())
                     {
@@ -254,14 +254,15 @@ public class BlocksAndItemsColorHandler
     }
 
     //copy of net.minecraft.client.multiplayer.ClientLevel calculateBlockTint method, edited to have custom shadow / non shadow blend
-    public static int calculateTint(BlockPos pos, Function<BlockPos,Integer> getLightBiomeColor, Function<BlockPos,Integer> getShadowBiomeColor)
+    public static int calculateTint(CalculateTintContextInfo info, Function<CalculateTintContextInfo,Integer> getLightBiomeColor, Function<CalculateTintContextInfo,Integer> getShadowBiomeColor)
     {
+        BlockPos pos = info.pos;
         ClientLevel level = Minecraft.getInstance().level;
         int biomeBlendRadius = Minecraft.getInstance().options.biomeBlendRadius().get();
-        if (biomeBlendRadius == 0)
+        if (biomeBlendRadius == 0 || !needsBlend(pos, biomeBlendRadius))
         {
             Holder<Biome> biome = level.getBiome(pos);
-            return biome.is(AerialHellTags.Biomes.IS_SHADOW) ? getShadowBiomeColor.apply(pos) : getLightBiomeColor.apply(pos);
+            return biome.is(AerialHellTags.Biomes.IS_SHADOW) ? getShadowBiomeColor.apply(info) : getLightBiomeColor.apply(info);
         }
         else
         {
@@ -276,13 +277,37 @@ public class BlocksAndItemsColorHandler
                 mutablepos.set(cursor3d.nextX(), cursor3d.nextY(), cursor3d.nextZ());
                 Holder<Biome> biome = level.getBiome(mutablepos);
 
-                color = biome.is(AerialHellTags.Biomes.IS_SHADOW) ? getShadowBiomeColor.apply(mutablepos) : getLightBiomeColor.apply(mutablepos);
+                color = biome.is(AerialHellTags.Biomes.IS_SHADOW) ? getShadowBiomeColor.apply(new CalculateTintContextInfo(mutablepos, info.shiftedRender)) : getLightBiomeColor.apply(new CalculateTintContextInfo(mutablepos, info.shiftedRender));
 
                 r += (color & 0xFF0000) >> 16; g += (color & 0xFF00) >> 8; b += color & 0xFF;
             }
 
             return (r / blend & 0xFF) << 16 | (g / blend & 0xFF) << 8 | b / blend & 0xFF;
         }
+    }
+
+    private static class CalculateTintContextInfo
+    {
+        public final BlockPos pos;
+        public final boolean shiftedRender;
+
+        public CalculateTintContextInfo(BlockPos pos) {this(pos, EntityHelper.isCurrentPlayerInstanceShadowBind());}
+        public CalculateTintContextInfo(BlockPos pos, boolean shiftedRender) {this.pos = pos; this.shiftedRender = shiftedRender;}
+    }
+
+    protected static boolean needsBlend(BlockPos pos, int blendRadius)
+    {
+        ClientLevel level = Minecraft.getInstance().level;
+        Holder<Biome> localBiome = level.getBiome(pos);
+        Holder<Biome> southBiome = level.getBiome(pos.south(blendRadius));
+        if (localBiome != southBiome) {return true;}
+        Holder<Biome> northBiome = level.getBiome(pos.north(blendRadius));
+        if (localBiome != northBiome) {return true;}
+        Holder<Biome> eastBiome = level.getBiome(pos.east(blendRadius));
+        if (localBiome != eastBiome) {return true;}
+        Holder<Biome> westBiome = level.getBiome(pos.west(blendRadius));
+        if (localBiome != westBiome) {return true;}
+        return false;
     }
 
     private static int getShiftedOrNotGrassColor(BlockPos pos) {return getShiftedOrNotGrassColor(Minecraft.getInstance().level.getBiome(pos), pos);}
@@ -301,28 +326,26 @@ public class BlocksAndItemsColorHandler
         }
     }
 
-    private static int getShadowGrassColor(BlockPos pos) {return getShadowColor(pos, BiomeColors.GRASS_COLOR_RESOLVER);}
-    private static int getShadowFoliageColor(BlockPos pos) {return getShadowColor(pos, BiomeColors.FOLIAGE_COLOR_RESOLVER);}
+    private static int getShadowGrassColor(CalculateTintContextInfo info) {return getShadowColor(info, BiomeColors.GRASS_COLOR_RESOLVER);}
+    private static int getShadowFoliageColor(CalculateTintContextInfo info) {return getShadowColor(info, BiomeColors.FOLIAGE_COLOR_RESOLVER);}
 
-    private static int getLightGrassColor(BlockPos pos) {return getLightColor(pos, BiomeColors.GRASS_COLOR_RESOLVER);}
-    private static int getLightFoliageColor(BlockPos pos) {return getLightColor(pos, BiomeColors.FOLIAGE_COLOR_RESOLVER);}
+    private static int getLightGrassColor(CalculateTintContextInfo info) {return getLightColor(info, BiomeColors.GRASS_COLOR_RESOLVER);}
+    private static int getLightFoliageColor(CalculateTintContextInfo info) {return getLightColor(info, BiomeColors.FOLIAGE_COLOR_RESOLVER);}
 
-    private static int getShadowColor(BlockPos pos, ColorResolver colorResolver) {return getShadowColor(Minecraft.getInstance().level.getBiome(pos), pos, colorResolver);}
-    private static int getShadowColor(Holder<Biome> biome, BlockPos pos, ColorResolver colorResolver)
+    private static int getShadowColor(CalculateTintContextInfo info, ColorResolver colorResolver) {return getShadowColor(Minecraft.getInstance().level.getBiome(info.pos), info, colorResolver);}
+    private static int getShadowColor(Holder<Biome> biome, CalculateTintContextInfo info, ColorResolver colorResolver)
     {
-        boolean shifted = EntityHelper.isCurrentPlayerInstanceShadowBind();
         int SHADOW_COLOR = colorResolver == BiomeColors.GRASS_COLOR_RESOLVER ? SHADOW_BLACK : SHADOW_PURPLE;
-        if (biome.is(AerialHellBiomes.SHADOW_PLAIN)) {return shifted ? AERIAL_TREE_FOREST_GRASS_COLOR : SHADOW_COLOR;}
-        else if (biome.is(AerialHellBiomes.SHADOW_FOREST)) {return shifted ? LAPIS_ROBINIA_SAVANA_GRASS_COLOR : SHADOW_COLOR;}
+        if (biome.is(AerialHellBiomes.SHADOW_PLAIN)) {return info.shiftedRender ? AERIAL_TREE_FOREST_GRASS_COLOR : SHADOW_COLOR;}
+        else if (biome.is(AerialHellBiomes.SHADOW_FOREST)) {return info.shiftedRender ? LAPIS_ROBINIA_SAVANA_GRASS_COLOR : SHADOW_COLOR;}
         else {return SHADOW_COLOR;}
     }
 
-    private static int getLightColor(BlockPos pos, ColorResolver colorResolver) {return getLightColor(Minecraft.getInstance().level.getBiome(pos), pos, colorResolver);}
-    private static int getLightColor(Holder<Biome> biome, BlockPos pos, ColorResolver colorResolver)
+    private static int getLightColor(CalculateTintContextInfo info, ColorResolver colorResolver) {return getLightColor(Minecraft.getInstance().level.getBiome(info.pos), info, colorResolver);}
+    private static int getLightColor(Holder<Biome> biome, CalculateTintContextInfo info, ColorResolver colorResolver)
     {
         int SHADOW_COLOR = colorResolver == BiomeColors.GRASS_COLOR_RESOLVER ? SHADOW_BLACK : SHADOW_PURPLE;
-        boolean shifted = EntityHelper.isCurrentPlayerInstanceShadowBind();
-        return shifted ? SHADOW_COLOR : vanillaGetColor(biome, pos, colorResolver);
+        return info.shiftedRender ? SHADOW_COLOR : vanillaGetColor(biome, info.pos, colorResolver);
     }
 
     private static int vanillaGetColor(BlockPos pos, ColorResolver colorResolver) {return vanillaGetColor(Minecraft.getInstance().level.getBiome(pos), pos, colorResolver);}
