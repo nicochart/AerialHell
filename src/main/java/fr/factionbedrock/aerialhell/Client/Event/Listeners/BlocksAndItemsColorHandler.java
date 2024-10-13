@@ -123,9 +123,14 @@ public class BlocksAndItemsColorHandler
                     {
                         return ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(pos), ColorHandlerHelper::getLightGrassColor, (info) -> EntityHelper.isCurrentPlayerInstanceShadowBind() ? ColorHandlerHelper.getShadowGrassColor(info) : ColorHandlerHelper.vanillaGetColor(info.pos, BiomeColors.GRASS_COLOR_RESOLVER));
                     }
+                    else if (state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK) || state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK))
+                    {
+                        boolean shouldRenderBlack = (state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK) && EntityHelper.isCurrentPlayerInstanceShadowBind()) || (state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK) && !EntityHelper.isCurrentPlayerInstanceShadowBind());
+                        return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassVegetationTint(new CalculateTintContextInfo(pos));
+                    }
                     else
                     {
-                        return ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(pos));
+                        return ColorHandlerHelper.calculateGrassVegetationTint(new CalculateTintContextInfo(pos));
                     }
                 }
                 case 1 :
@@ -209,6 +214,10 @@ public class BlocksAndItemsColorHandler
 
         event.getItemColors().register((stack, color) -> new Color(92, 171, 102).getRGB(),
                 AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get()
+        );
+
+        event.getItemColors().register((stack, color) -> ColorHandlerHelper.SHADOW_BLACK,
+                AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()
         );
 
         event.getItemColors().register((stack, color) -> getCustomColor(stack, color),

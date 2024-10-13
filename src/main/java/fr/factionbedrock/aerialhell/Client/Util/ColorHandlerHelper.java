@@ -11,6 +11,7 @@ import net.minecraft.core.Cursor3D;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.ColorResolver;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.awt.*;
 import java.util.function.Function;
@@ -30,7 +31,12 @@ public class ColorHandlerHelper
     public static final int VOLUCITE_GLYPH_COLOR = new Color(48, 66, 179).getRGB();
     public static final int SHADOW_CATACOMBS_GLYPH_COLOR = new Color(153, 99, 248).getRGB();
 
-    public static int calculateGrassTint(CalculateTintContextInfo contextInfo)
+    public static int calculateGrassBlockTint(BlockState state, CalculateTintContextInfo contextInfo)
+    {
+        return calculateTint(contextInfo, (info) -> getLightGrassColor(info), (info) -> getShadowGrassColor(info));
+    }
+
+    public static int calculateGrassVegetationTint(CalculateTintContextInfo contextInfo)
     {
         return calculateTint(contextInfo, (info) -> getLightGrassColor(info), (info) -> getShadowGrassColor(info));
     }
