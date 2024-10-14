@@ -129,13 +129,21 @@ public class RenderRegistrationListener
 
     public static void onModelBake(ModelEvent.ModifyBakingResult event)
     {
-        ShiftedModelRenderHelper.createAndRegisterBothWaysGrassBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(), AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterBothWaysLeavesBlockShiftedRender(AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get(), AerialHellBlocksAndItems.SHADOW_AERIAL_TREE_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterBothWaysLeavesBlockShiftedRender(AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES.get(), AerialHellBlocksAndItems.SHADOW_GOLDEN_BEECH_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterBothWaysLeavesBlockShiftedRender(AerialHellBlocksAndItems.COPPER_PINE_LEAVES.get(), AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterBothWaysLeavesBlockShiftedRender(AerialHellBlocksAndItems.LAPIS_ROBINIA_LEAVES.get(), AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterBothWaysLeavesBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get(), AerialHellBlocksAndItems.HOLLOW_SHADOW_PINE_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterBothWaysLeavesBlockShiftedRender(AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_LEAVES.get(), AerialHellBlocksAndItems.HOLLOW_PURPLE_SHADOW_PINE_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterBothWaysLeavesBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get(), AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterGrassBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterGrassBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_AERIAL_TREE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GOLDEN_BEECH_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.COPPER_PINE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.LAPIS_ROBINIA_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.HOLLOW_SHADOW_PINE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.HOLLOW_PURPLE_SHADOW_PINE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get(), event);
     }
 }

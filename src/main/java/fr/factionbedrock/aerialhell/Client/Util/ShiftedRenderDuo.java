@@ -27,9 +27,9 @@ public class ShiftedRenderDuo
         this.newBakedModel = new ShiftingBlockBakedModel(event.getModels().get(baseModelRL), shiftedModel, (forceShifted) -> EntityHelper.isCurrentPlayerInstanceShadowBind() || forceShifted, renderType);
     }
 
-    protected ShiftedRenderDuo(Block baseBlock, BlockState shiftedBlockState, String state, ChunkRenderTypeSet renderType, ModelEvent.ModifyBakingResult event)
+    protected ShiftedRenderDuo(BlockState baseBlockState, BlockState shiftedBlockState, ChunkRenderTypeSet renderType, ModelEvent.ModifyBakingResult event)
     {
-        this.baseModelRL = new ModelResourceLocation(ResourceLocation.parse(BuiltInRegistries.BLOCK.wrapAsHolder(baseBlock).getRegisteredName()), state);
+        this.baseModelRL = BlockModelShaper.stateToModelLocation(baseBlockState);
         ModelResourceLocation shiftedModelRL = BlockModelShaper.stateToModelLocation(shiftedBlockState);
         BakedModel shiftedModel = event.getModels().get(shiftedModelRL);
         this.newBakedModel = new ShiftingBlockBakedModel(event.getModels().get(baseModelRL), shiftedModel, (forceShifted) -> EntityHelper.isCurrentPlayerInstanceShadowBind() || forceShifted, renderType);

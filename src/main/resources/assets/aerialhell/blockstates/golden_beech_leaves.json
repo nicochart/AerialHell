@@ -1,6 +1,6 @@
 {
   "variants": {
       "shifted_render=false": {"model": "aerialhell:block/golden_beech_leaves"},
-      "shifted_render=true": {"model": "aerialhell:block/golden_beech_leaves"}
+      "shifted_render=true": {"model": "aerialhell:block/shadow_golden_beech_leaves"}
   }
 }

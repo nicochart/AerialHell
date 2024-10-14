@@ -201,7 +201,7 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> SHADOW_CHAIN_ITEM = ITEMS.register("shadow_chain", () -> new BlockItem(SHADOW_CHAIN.get(), new Item.Properties()));
 
 	//grass & dirt
-	public static final DeferredBlock<Block> STELLAR_GRASS_BLOCK = BLOCKS.register("stellar_grass_block", () -> new StellarGrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK)));
+	public static final DeferredBlock<StellarGrassBlock> STELLAR_GRASS_BLOCK = BLOCKS.register("stellar_grass_block", () -> new StellarGrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK)));
 	public static final DeferredBlock<Block> CHISELED_STELLAR_GRASS_BLOCK = BLOCKS.register("chiseled_stellar_grass_block", () -> new StellarGrassBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_GRASS_BLOCK.get())));
 	public static final DeferredBlock<Block> STELLAR_DIRT = BLOCKS.register("stellar_dirt", () -> new StellarDirtBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT)));
 	public static final DeferredBlock<Block> STELLAR_COARSE_DIRT = BLOCKS.register("stellar_coarse_dirt", () -> new StellarDirtBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COARSE_DIRT)));
@@ -210,7 +210,7 @@ public class AerialHellBlocksAndItems
 	public static final DeferredBlock<Block> STELLAR_PODZOL = BLOCKS.register("stellar_podzol", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PODZOL)));
 	public static final DeferredBlock<Block> STELLAR_CRYSTAL_PODZOL = BLOCKS.register("stellar_crystal_podzol", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PODZOL)));
 	public static final DeferredBlock<Block> CHISELED_STELLAR_DIRT = BLOCKS.register("chiseled_stellar_dirt", () -> new StellarDirtBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_DIRT.get())));
-	public static final DeferredBlock<Block> SHADOW_GRASS_BLOCK = BLOCKS.register("shadow_grass_block", () -> new ShadowGrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK)));
+	public static final DeferredBlock<ShadowGrassBlock> SHADOW_GRASS_BLOCK = BLOCKS.register("shadow_grass_block", () -> new ShadowGrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK)));
 	public static final DeferredItem<Item> STELLAR_GRASS_BLOCK_ITEM = ITEMS.register("stellar_grass_block", () -> new BlockItem(STELLAR_GRASS_BLOCK.get(), new Item.Properties()));
 	public static final DeferredItem<Item> CHISELED_STELLAR_GRASS_BLOCK_ITEM = ITEMS.register("chiseled_stellar_grass_block", () -> new BlockItem(CHISELED_STELLAR_GRASS_BLOCK.get(), new Item.Properties()));
 	public static final DeferredItem<Item> STELLAR_DIRT_ITEM = ITEMS.register("stellar_dirt", () -> new BlockItem(STELLAR_DIRT.get(), new Item.Properties()));
