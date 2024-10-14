@@ -32,7 +32,7 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
     private int activeTimer;
     private int fieldSize;
     private ShiftType shiftType;
-    @Nullable private Supplier<Block> shiftedOrBrokenVariant;
+    @Nullable private final Supplier<Block> shiftedOrBrokenVariant;
 
     public ReactorBlockEntity(BlockPos pos, BlockState blockState, int fieldSize, ShiftType shiftType, @Nullable Supplier<Block> shiftedOrBrokenVariant)
     {

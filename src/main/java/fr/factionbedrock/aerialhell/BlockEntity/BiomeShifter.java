@@ -37,11 +37,13 @@ public interface BiomeShifter
         ShiftType shiftType = blockEntity.getShiftType();
         int fieldSize = blockEntity.getRealFieldSize(); RandomSource rand = level.random;
         int tryNumber = (int) (fieldSize * fieldSize * fieldSize * 1.0F/8.0F);
+        boolean transformed; int transformedCount = 0;
         for (int i=0; i<tryNumber; i++)
         {
             BlockPos blockpos = pos.offset(rand.nextInt(-fieldSize, fieldSize), rand.nextInt(-fieldSize, fieldSize), rand.nextInt(-fieldSize, fieldSize));
             if (!areSameBlockpos(pos, blockpos) && blockEntity.isValidBiomeShifterForPos(level, blockpos, pos) && level instanceof ServerLevel serverlevel)
             {
+                transformed = false;
                 if (level.getBlockEntity(blockpos) instanceof BiomeShifter otherBiomeShifter && shiftType != otherBiomeShifter.getShiftType() && blockEntity.getFieldSize() >= otherBiomeShifter.getFieldSize())
                 {
                     BlockHelper.shiftBiomeShifterBlock(serverlevel, blockpos, shiftType);
@@ -49,12 +51,14 @@ public interface BiomeShifter
 
                 if (shiftType == ShiftType.UNCORRUPT && BlockHelper.isCorrupted(level, blockpos))
                 {
-                    if (BlockHelper.uncorrupt(serverlevel, blockpos)) {sendTransformEffect(serverlevel, blockpos, shiftType);}
+                    if (BlockHelper.uncorrupt(serverlevel, blockpos)) {transformed = true;}
                 }
                 else if (shiftType == ShiftType.CORRUPT && !BlockHelper.isCorrupted(level, blockpos) && BlockHelper.canBeCorrupted(level, blockpos, BlockHelper.CorruptionType.ANY))
                 {
-                    if (BlockHelper.corrupt(serverlevel, blockpos, BlockHelper.CorruptionType.ANY)) {sendTransformEffect(serverlevel, blockpos, shiftType);}
+                    if (BlockHelper.corrupt(serverlevel, blockpos, BlockHelper.CorruptionType.ANY)) {transformed = true;}
                 }
+
+                if (transformed && transformedCount++ < 6) {sendTransformEffect(serverlevel, blockpos, shiftType);}
             }
         }
     }

@@ -32,6 +32,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class BlockHelper
 {
@@ -231,7 +232,9 @@ public class BlockHelper
         @Nullable BlockState uncorruptedState = null;
         if (level.getBlockEntity(pos) instanceof BiomeShifter biomeShifter)
         {
-            uncorruptedState = biomeShifter.getShiftedOrBrokenVariant().get().defaultBlockState();
+            Supplier<Block> block = biomeShifter.getShiftedOrBrokenVariant();
+            if (block == null) {return false;} //should never happen, but happened one time with fluorite ore, for a unknown reason
+            uncorruptedState = block.get().defaultBlockState();
         }
 
         if (uncorruptedState != null)
