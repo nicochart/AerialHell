@@ -1,25 +1,16 @@
 package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
-import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
-import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShiftingGrassBlockBakedModel;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestMimicBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.EntityModels.*;
 import fr.factionbedrock.aerialhell.Client.EntityRender.*;
+import fr.factionbedrock.aerialhell.Client.Util.ShiftedModelRenderHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 
@@ -138,28 +129,13 @@ public class RenderRegistrationListener
 
     public static void onModelBake(ModelEvent.ModifyBakingResult event)
     {
-        ShiftedRenderDuo shadowGrassShiftDuo = new ShiftedRenderDuo(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(), AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().defaultBlockState().setValue(AerialHellGrassBlock.SNOWY, false).setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), event);
-        ShiftedRenderDuo stellarGrassShiftDuo = new ShiftedRenderDuo(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().defaultBlockState().setValue(AerialHellGrassBlock.SNOWY, false).setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), event);
-
-        //replaces the models in the map
-        event.getModels().put(shadowGrassShiftDuo.baseModelRL, shadowGrassShiftDuo.newBakedModel);
-        event.getModels().put(stellarGrassShiftDuo.baseModelRL, stellarGrassShiftDuo.newBakedModel);
-    }
-
-    private static class ShiftedRenderDuo
-    {
-        private final ModelResourceLocation baseModelRL;
-        private final BakedModel newBakedModel;
-
-        protected ShiftedRenderDuo(Block baseBlock, BlockState shiftedBlockState, ModelEvent.ModifyBakingResult event)
-        {
-            this.baseModelRL = BlockModelShaper.stateToModelLocation(baseBlock.defaultBlockState());
-            ModelResourceLocation shiftedModelRL = BlockModelShaper.stateToModelLocation(shiftedBlockState);
-            BakedModel shiftedModel = event.getModels().get(shiftedModelRL);
-            this.newBakedModel = new ShiftingGrassBlockBakedModel(event.getModels().get(baseModelRL), shiftedModel, (forceShifted) -> EntityHelper.isCurrentPlayerInstanceShadowBind() || forceShifted);
-        }
-
-        public ModelResourceLocation getBaseModelRL() {return baseModelRL;}
-        public BakedModel getNewBakedModel() {return newBakedModel;}
+        ShiftedModelRenderHelper.createAndRegisterBothWaysGrassBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(), AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterBothWaysLeavesBlockShiftedRender(AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get(), AerialHellBlocksAndItems.SHADOW_AERIAL_TREE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterBothWaysLeavesBlockShiftedRender(AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES.get(), AerialHellBlocksAndItems.SHADOW_GOLDEN_BEECH_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterBothWaysLeavesBlockShiftedRender(AerialHellBlocksAndItems.COPPER_PINE_LEAVES.get(), AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterBothWaysLeavesBlockShiftedRender(AerialHellBlocksAndItems.LAPIS_ROBINIA_LEAVES.get(), AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterBothWaysLeavesBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get(), AerialHellBlocksAndItems.HOLLOW_SHADOW_PINE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterBothWaysLeavesBlockShiftedRender(AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_LEAVES.get(), AerialHellBlocksAndItems.HOLLOW_PURPLE_SHADOW_PINE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterBothWaysLeavesBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get(), AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get(), event);
     }
 }

@@ -1,7 +1,6 @@
 {
     "variants": {
-      "": {
-          "model": "aerialhell:block/copper_pine_leaves"
-    }
+      "shifted_render=false": {"model": "aerialhell:block/copper_pine_leaves"},
+      "shifted_render=true": {"model": "aerialhell:block/copper_pine_leaves"}
   }
 }
