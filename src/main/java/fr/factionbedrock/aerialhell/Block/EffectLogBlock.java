@@ -21,12 +21,6 @@ public class EffectLogBlock extends ShiftableLogBlock
 	public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)
 	{
 		boolean flag = super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
-		if (flag && this == AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get() && !EntityHelper.isLivingEntityShadowImmune(player) && !player.isCreative())
-		{
-			player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 60, 0));
-			player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 60, 1));
-		}
-		
 		if (flag && this == AerialHellBlocksAndItems.ENCHANTED_LAPIS_ROBINIA_LOG.get() && !player.isCreative())
 		{
 			player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 30, 0));

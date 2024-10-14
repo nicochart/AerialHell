@@ -18,10 +18,7 @@ import fr.factionbedrock.aerialhell.Block.Plants.*;
 import fr.factionbedrock.aerialhell.Block.Plants.Bushes.*;
 import fr.factionbedrock.aerialhell.Block.Plants.Vines.*;
 import fr.factionbedrock.aerialhell.Block.CollisionCondition.*;
-import fr.factionbedrock.aerialhell.Block.ShadowSpreader.BasicShadowSpreaderBlock;
-import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowLeavesBlock;
-import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowLogBlock;
-import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowStoneBlock;
+import fr.factionbedrock.aerialhell.Block.ShadowSpreader.*;
 import fr.factionbedrock.aerialhell.Block.StandingAndWall.*;
 import fr.factionbedrock.aerialhell.Block.Trophies.BottomSlabLikeTrophyBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
@@ -324,13 +321,13 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> LAPIS_ROBINIA_SAPLING_ITEM = ITEMS.register("lapis_robinia_sapling", () -> new BlockItem(LAPIS_ROBINIA_SAPLING.get(), new Item.Properties()));
 
 	//shadow_pine
-	public static final DeferredBlock<RotatedPillarBlock> SHADOW_PINE_LOG = BLOCKS.register("shadow_pine_log", () -> new RotatedPillarBlock(SHADOW_PINE_MATERIAL));
-	public static final DeferredBlock<RotatedPillarBlock> EYE_SHADOW_PINE_LOG = BLOCKS.register("eye_shadow_pine_log", () -> new EffectLogBlock(SHADOW_PINE_MATERIAL, () -> AerialHellBlocksAndItems.COPPER_PINE_LOG.get(), BiomeShifter.ShiftType.CORRUPT));
+	public static final DeferredBlock<ShiftableLogBlock> SHADOW_PINE_LOG = BLOCKS.register("shadow_pine_log", () -> new ShadowLogBlock(SHADOW_PINE_MATERIAL, () -> AerialHellBlocksAndItems.HOLLOW_SHADOW_PINE_LOG.get(), BiomeShifter.ShiftType.UNCORRUPT));
+	public static final DeferredBlock<ShiftableLogBlock> EYE_SHADOW_PINE_LOG = BLOCKS.register("eye_shadow_pine_log", () -> new ShadowEffectLogBlock(SHADOW_PINE_MATERIAL, () -> AerialHellBlocksAndItems.HOLLOW_SHADOW_PINE_LOG.get(), BiomeShifter.ShiftType.UNCORRUPT));
 	public static final DeferredBlock<RotatedPillarBlock> STRIPPED_SHADOW_PINE_LOG = BLOCKS.register("stripped_shadow_pine_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(SHADOW_PINE_LOG.get())));
 	public static final DeferredBlock<RotatedPillarBlock> SHADOW_PINE_WOOD = BLOCKS.register("shadow_pine_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(SHADOW_PINE_LOG.get())));
 	public static final DeferredBlock<RotatedPillarBlock> STRIPPED_SHADOW_PINE_WOOD = BLOCKS.register("stripped_shadow_pine_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(SHADOW_PINE_LOG.get())));
-	public static final DeferredBlock<ShiftableLeavesBlock> SHADOW_PINE_LEAVES = BLOCKS.register("shadow_pine_leaves", () -> new LeavesWithAmbientParticlesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES), () -> AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get(), BiomeShifter.ShiftType.UNCORRUPT));
-	public static final DeferredBlock<ShiftableLeavesBlock> PURPLE_SHADOW_PINE_LEAVES = BLOCKS.register("purple_shadow_pine_leaves", () -> new LeavesWithAmbientParticlesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES), () -> AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get(), BiomeShifter.ShiftType.UNCORRUPT));
+	public static final DeferredBlock<ShiftableLeavesBlock> SHADOW_PINE_LEAVES = BLOCKS.register("shadow_pine_leaves", () -> new ShadowLeavesWithParticlesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES), () -> AerialHellBlocksAndItems.HOLLOW_SHADOW_PINE_LEAVES.get(), BiomeShifter.ShiftType.UNCORRUPT));
+	public static final DeferredBlock<ShiftableLeavesBlock> PURPLE_SHADOW_PINE_LEAVES = BLOCKS.register("purple_shadow_pine_leaves", () -> new ShadowLeavesWithParticlesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES), () -> AerialHellBlocksAndItems.HOLLOW_PURPLE_SHADOW_PINE_LEAVES.get(), BiomeShifter.ShiftType.UNCORRUPT));
 	public static final DeferredBlock<Block> SHADOW_PINE_PLANKS = BLOCKS.register("shadow_pine_planks", () -> new Block(BlockBehaviour.Properties.ofFullCopy(SHADOW_PINE_LOG.get())));
 	public static final DeferredBlock<Block> SHADOW_PINE_BOOKSHELF = BLOCKS.register("shadow_pine_bookshelf", () -> new AerialHellBookshelfBlock(BlockBehaviour.Properties.ofFullCopy(SHADOW_PINE_PLANKS.get())));
 	public static final DeferredBlock<SaplingBlock> SHADOW_PINE_SAPLING = BLOCKS.register("shadow_pine_sapling", () -> new ShadowPineSaplingBlock(AerialHellTreeGrowers.SHADOW_PINE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING), AerialHellConfiguredFeatures.GIANT_SHADOW_PINE, AerialHellConfiguredFeatures.HUGE_SHADOW_PINE, 0.1F));
@@ -412,7 +409,7 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> GRAY_SHROOM_PLANKS_ITEM = ITEMS.register("gray_shroom_planks", () -> new BurnableBlockItem(GRAY_SHROOM_PLANKS.get(), new Item.Properties(), 100));
 	public static final DeferredItem<Item> GRAY_SHROOM_BOOKSHELF_ITEM = ITEMS.register("gray_shroom_bookshelf", () -> new BlockItem(GRAY_SHROOM_BOOKSHELF.get(), new Item.Properties()));
 
-	//shadow corrupted variants
+	//shadow corrupted / uncorrupted variants
 	public static final DeferredBlock<ShadowLogBlock> SHADOW_AERIAL_TREE_LOG = BLOCKS.register("shadow_aerial_tree_log", () -> new ShadowLogBlock(BlockBehaviour.Properties.ofFullCopy(AERIAL_TREE_LOG.get()), () -> AERIAL_TREE_LOG.get(), BiomeShifter.ShiftType.UNCORRUPT));
 	public static final DeferredItem<Item> SHADOW_AERIAL_TREE_LOG_ITEM = ITEMS.register("shadow_aerial_tree_log", () -> new BurnableBlockItem(SHADOW_AERIAL_TREE_LOG.get(), new Item.Properties(), 300));
 	public static final DeferredBlock<ShadowLogBlock> SHADOW_GOLDEN_BEECH_LOG = BLOCKS.register("shadow_golden_beech_log", () -> new ShadowLogBlock(BlockBehaviour.Properties.ofFullCopy(GOLDEN_BEECH_LOG.get()), () -> GOLDEN_BEECH_LOG.get(), BiomeShifter.ShiftType.UNCORRUPT));
@@ -423,6 +420,8 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> SHADOW_LAPIS_ROBINIA_LOG_ITEM = ITEMS.register("shadow_lapis_robinia_log", () -> new BurnableBlockItem(SHADOW_LAPIS_ROBINIA_LOG.get(), new Item.Properties(), 300));
 	public static final DeferredBlock<ShadowLogBlock> SHADOW_STELLAR_JUNGLE_TREE_LOG = BLOCKS.register("shadow_stellar_jungle_tree_log", () -> new ShadowLogBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_JUNGLE_TREE_LOG.get()), () -> STELLAR_JUNGLE_TREE_LOG.get(), BiomeShifter.ShiftType.UNCORRUPT));
 	public static final DeferredItem<Item> SHADOW_STELLAR_JUNGLE_TREE_LOG_ITEM = ITEMS.register("shadow_stellar_jungle_tree_log", () -> new BurnableBlockItem(SHADOW_STELLAR_JUNGLE_TREE_LOG.get(), new Item.Properties(), 300));
+	public static final DeferredBlock<ShiftableLogBlock> HOLLOW_SHADOW_PINE_LOG = BLOCKS.register("hollow_shadow_pine_log", () -> new ShiftableLogBlock(BlockBehaviour.Properties.ofFullCopy(AERIAL_TREE_LOG.get()), () -> SHADOW_PINE_LOG.get(), BiomeShifter.ShiftType.CORRUPT));
+	public static final DeferredItem<Item> HOLLOW_SHADOW_PINE_LOG_ITEM = ITEMS.register("hollow_shadow_pine_log", () -> new BurnableBlockItem(HOLLOW_SHADOW_PINE_LOG.get(), new Item.Properties(), 300));
 	public static final DeferredBlock<ShiftableLeavesBlock> SHADOW_AERIAL_TREE_LEAVES = BLOCKS.register("shadow_aerial_tree_leaves", () -> new ShadowLeavesBlock(BlockBehaviour.Properties.ofFullCopy(AERIAL_TREE_LEAVES.get()), () -> AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get(), BiomeShifter.ShiftType.UNCORRUPT));
 	public static final DeferredItem<Item> SHADOW_AERIAL_TREE_LEAVES_ITEM = ITEMS.register("shadow_aerial_tree_leaves", () -> new BlockItem(SHADOW_AERIAL_TREE_LEAVES.get(), new Item.Properties()));
 	public static final DeferredBlock<ShiftableLeavesBlock> SHADOW_GOLDEN_BEECH_LEAVES = BLOCKS.register("shadow_golden_beech_leaves", () -> new ShadowLeavesBlock(BlockBehaviour.Properties.ofFullCopy(GOLDEN_BEECH_LEAVES.get()), () -> AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES.get(), BiomeShifter.ShiftType.UNCORRUPT));
@@ -433,6 +432,10 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> SHADOW_LAPIS_ROBINIA_LEAVES_ITEM = ITEMS.register("shadow_lapis_robinia_leaves", () -> new BlockItem(SHADOW_LAPIS_ROBINIA_LEAVES.get(), new Item.Properties()));
 	public static final DeferredBlock<ShiftableLeavesBlock> SHADOW_STELLAR_JUNGLE_TREE_LEAVES = BLOCKS.register("shadow_stellar_jungle_tree_leaves", () -> new ShadowLeavesBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_JUNGLE_TREE_LEAVES.get()), () -> AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get(), BiomeShifter.ShiftType.UNCORRUPT));
 	public static final DeferredItem<Item> SHADOW_STELLAR_JUNGLE_TREE_LEAVES_ITEM = ITEMS.register("shadow_stellar_jungle_tree_leaves", () -> new BlockItem(SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get(), new Item.Properties()));
+	public static final DeferredBlock<ShiftableLeavesBlock> HOLLOW_SHADOW_PINE_LEAVES = BLOCKS.register("hollow_shadow_pine_leaves", () -> new ShiftableLeavesBlock(BlockBehaviour.Properties.ofFullCopy(SHADOW_PINE_LEAVES.get()), () -> AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get(), BiomeShifter.ShiftType.CORRUPT));
+	public static final DeferredItem<Item> HOLLOW_SHADOW_PINE_LEAVES_ITEM = ITEMS.register("hollow_shadow_pine_leaves", () -> new BlockItem(HOLLOW_SHADOW_PINE_LEAVES.get(), new Item.Properties()));
+	public static final DeferredBlock<ShiftableLeavesBlock> HOLLOW_PURPLE_SHADOW_PINE_LEAVES = BLOCKS.register("hollow_purple_shadow_pine_leaves", () -> new ShiftableLeavesBlock(BlockBehaviour.Properties.ofFullCopy(PURPLE_SHADOW_PINE_LEAVES.get()), () -> AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_LEAVES.get(), BiomeShifter.ShiftType.CORRUPT));
+	public static final DeferredItem<Item> HOLLOW_PURPLE_SHADOW_PINE_LEAVES_ITEM = ITEMS.register("hollow_purple_shadow_pine_leaves", () -> new BlockItem(HOLLOW_PURPLE_SHADOW_PINE_LEAVES.get(), new Item.Properties()));
 
 	//ladder
 	public static final DeferredBlock<LadderBlock> SKY_LADDER = BLOCKS.register("sky_ladder", () -> new LadderBlock(BlockBehaviour.Properties.ofFullCopy(AERIAL_TREE_PLANKS.get()).noOcclusion()));

@@ -131,11 +131,14 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.HOLLOW_SHADOW_PINE_LOG_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_AERIAL_TREE_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_GOLDEN_BEECH_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LEAVES_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.HOLLOW_SHADOW_PINE_LEAVES_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.HOLLOW_PURPLE_SHADOW_PINE_LEAVES_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_LADDER_ITEM.get());
 
