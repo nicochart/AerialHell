@@ -19,7 +19,7 @@ public class ShadowLogBlock extends ShiftableLogBlock implements ShadowSpreaderB
 	public ShadowLogBlock(Properties properties, Supplier<ShiftableLogBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
 	{
 		super(properties, shiftedVariant, shiftType);
-		this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.Y).setValue(CAN_SPREAD, true));
+		this.registerDefaultState(this.defaultBlockState().setValue(CAN_SPREAD, true));
 	}
 
 	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {super.createBlockStateDefinition(builder); builder.add(CAN_SPREAD);}

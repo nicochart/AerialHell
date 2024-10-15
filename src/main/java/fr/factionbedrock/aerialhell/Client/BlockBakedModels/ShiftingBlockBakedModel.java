@@ -21,6 +21,7 @@ public class ShiftingBlockBakedModel implements BakedModel
     //copy of net.minecraft.client.renderer.ItemBlockRenderTypes private final CUTOUT_MIPPED
     public static final ChunkRenderTypeSet CUTOUT_MIPPED = ChunkRenderTypeSet.of(RenderType.cutoutMipped());
     public static final ChunkRenderTypeSet CUTOUT = ChunkRenderTypeSet.of(RenderType.cutout());
+    public static final ChunkRenderTypeSet SOLID = ChunkRenderTypeSet.of(RenderType.solid());
     private final ChunkRenderTypeSet renderType;
     private final BakedModel defaultModel;
     private final BakedModel shiftedModel;

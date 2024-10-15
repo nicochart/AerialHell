@@ -2,10 +2,13 @@ package fr.factionbedrock.aerialhell.Client.Util;
 
 import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
 import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowLeavesBlock;
+import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowLogBlock;
 import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
 import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShiftingBlockBakedModel;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.event.ModelEvent;
 
@@ -41,6 +44,24 @@ public class ShiftedModelRenderHelper
                         event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
                     }
                 }
+            }
+        }
+    }
+
+    public static void createAndRegisterLogBlockShiftedRender(RotatedPillarBlock block, ModelEvent.ModifyBakingResult event)
+    {
+        BlockState state;
+        List<Boolean> booleanValues = new ArrayList<>();
+        booleanValues.add(true); booleanValues.add(false);
+        for (Boolean can_spread : booleanValues)
+        {
+            for (Direction.Axis axis : Direction.Axis.VALUES)
+            {
+                state = block.defaultBlockState().setValue(RotatedPillarBlock.AXIS, axis);
+                if (block instanceof ShadowLogBlock) {state = state.setValue(ShadowLogBlock.CAN_SPREAD, can_spread);}
+                ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.defaultBlockState().setValue(ShadowLogBlock.SHIFTED_RENDER, true), ShiftingBlockBakedModel.SOLID, event);
+                //replaces the models in the map
+                event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
             }
         }
     }
