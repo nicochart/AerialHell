@@ -41,6 +41,11 @@ public class ColorHandlerHelper
         return calculateTint(contextInfo, (info) -> getLightGrassColor(info), (info) -> getShadowGrassColor(info));
     }
 
+    public static int calculateFoliageTint(CalculateTintContextInfo contextInfo)
+    {
+        return calculateTint(contextInfo, (info) -> getLightFoliageColor(info), (info) -> getShadowFoliageColor(info));
+    }
+
     //copy of net.minecraft.client.multiplayer.ClientLevel calculateBlockTint method, edited to have custom shadow / non shadow blend
     public static int calculateTint(CalculateTintContextInfo info, Function<CalculateTintContextInfo,Integer> getLightBiomeColor, Function<CalculateTintContextInfo,Integer> getShadowBiomeColor)
     {

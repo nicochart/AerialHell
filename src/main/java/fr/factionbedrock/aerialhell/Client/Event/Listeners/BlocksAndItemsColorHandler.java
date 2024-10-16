@@ -21,7 +21,6 @@ public class BlocksAndItemsColorHandler
         event.getBlockColors().register((state, level, pos, tint) -> getColor(tint, level, pos),
                 AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get(),
                 AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_SAPLING.get(),
-                AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get(),
                 AerialHellBlocksAndItems.MOSSY_STELLAR_STONE.get(),
                 AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE.get(),
                 AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_WALL.get(),
@@ -68,9 +67,11 @@ public class BlocksAndItemsColorHandler
                 AerialHellBlocksAndItems.SHADOW_CATACOMBS_GLYPH_BLOCK.get()
         );
 
-        event.getBlockColors().register((state, level, pos, tint) -> getGrassColor(state, tint, level, pos),
+        event.getBlockColors().register((state, level, pos, tint) -> getVegetationColor(state, tint, level, pos),
                 AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(),
                 AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(),
+                AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get(),
+                AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get(),
                 AerialHellBlocksAndItems.STELLAR_GRASS.get(),
                 AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get(),
                 AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get(),
@@ -111,7 +112,7 @@ public class BlocksAndItemsColorHandler
         else {return ColorHandlerHelper.DEFAULT_COLOR.getRGB();}
     }
 
-    private static int getGrassColor(BlockState state, int tint, BlockAndTintGetter level, BlockPos pos)
+    private static int getVegetationColor(BlockState state, int tint, BlockAndTintGetter level, BlockPos pos)
     {
         if (level != null && pos != null)
         {
@@ -139,6 +140,13 @@ public class BlocksAndItemsColorHandler
                     {
                         return ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(pos), ColorHandlerHelper::getLightFoliageColor, (info) -> EntityHelper.isCurrentPlayerInstanceShadowBind() ? ColorHandlerHelper.getShiftedOrNotGrassColor(info.pos) : ColorHandlerHelper.vanillaGetColor(info.pos, BiomeColors.FOLIAGE_COLOR_RESOLVER));
                     }
+                    else if (state.is(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES) || state.is(AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES))
+                    {
+                        boolean isShadow = state.is(AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES);
+                        boolean isShifted = EntityHelper.isCurrentPlayerInstanceShadowBind();
+                        boolean shouldRenderWhite = (isShifted && !isShadow) || (!isShifted && isShadow);
+                        return shouldRenderWhite ? ColorHandlerHelper.WHITE : ColorHandlerHelper.calculateFoliageTint(new CalculateTintContextInfo(pos));
+                    }
                     else {return BiomeColors.getAverageFoliageColor(level, pos);}
                 }
                 case 2 : return BiomeColors.getAverageWaterColor(level, pos);
@@ -156,14 +164,15 @@ public class BlocksAndItemsColorHandler
             {
                 case 0 :
                 {
-                    Color baseColor = new Color(BiomeColors.getAverageGrassColor(level, pos));
-                    int r = baseColor.getRed(), g = baseColor.getGreen(), b = baseColor.getBlue();
+
                     if (state.is(AerialHellTags.Blocks.SLIPPERY_SAND))
                     {
                         return EntityHelper.isCurrentPlayerInstanceShadowBind() ? ColorHandlerHelper.WHITE : ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(pos), (blockpos) -> ColorHandlerHelper.WHITE, (blockpos) -> ColorHandlerHelper.SHADOW_PURPLE);
                     }
                     else if (state.getBlock() == AerialHellBlocksAndItems.STELLAR_PODZOL.get())
                     {
+                        Color baseColor = new Color(ColorHandlerHelper.calculateGrassVegetationTint(new CalculateTintContextInfo(pos)));
+                        int r = baseColor.getRed(), g = baseColor.getGreen(), b = baseColor.getBlue();
                         return new Color((int) Math.min(255, r * 1.5), (int) (g / 1.5), b).getRGB();
                     }
                     else if (state.getBlock() == AerialHellBlocksAndItems.MUD_GLYPH_BLOCK.get()) {return ColorHandlerHelper.MUD_GLYPH_COLOR;}
