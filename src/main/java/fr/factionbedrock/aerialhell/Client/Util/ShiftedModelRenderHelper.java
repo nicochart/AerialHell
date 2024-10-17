@@ -59,7 +59,7 @@ public class ShiftedModelRenderHelper
             {
                 state = block.defaultBlockState().setValue(RotatedPillarBlock.AXIS, axis);
                 if (block instanceof ShadowLogBlock) {state = state.setValue(ShadowLogBlock.CAN_SPREAD, can_spread);}
-                ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.defaultBlockState().setValue(ShadowLogBlock.SHIFTED_RENDER, true), ShiftingBlockBakedModel.SOLID, event);
+                ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.defaultBlockState().setValue(ShadowLogBlock.SHIFTED_RENDER, true).setValue(RotatedPillarBlock.AXIS, axis), ShiftingBlockBakedModel.SOLID, event);
                 //replaces the models in the map
                 event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
             }
