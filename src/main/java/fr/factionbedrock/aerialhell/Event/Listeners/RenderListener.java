@@ -1,17 +1,16 @@
 package fr.factionbedrock.aerialhell.Event.Listeners;
 
-import com.mojang.blaze3d.vertex.*;
 import com.mojang.blaze3d.systems.RenderSystem;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.client.event.RenderGuiEvent;
+
+import java.util.Optional;
 //import net.minecraftforge.client.event.RenderGameOverlayEvent;
 //import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 //import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
@@ -29,6 +28,18 @@ public class RenderListener
 
     private static final int HEART_ICON_WIDTH = 9;
     private static final int HEART_ICON_HEIGHT = 9;
+
+    public static void onRenderOverlayPost(RenderGuiEvent.Post event)
+    {
+        Minecraft mc = Minecraft.getInstance();
+        Player player = mc.player;
+
+        if (player != null && EntityHelper.isLivingEntityVulnerable(player))
+        {
+            float alpha = Math.min(20, player.getEffect(AerialHellMobEffects.VULNERABILITY).getDuration()) / 20.0F;
+            renderTextureOverlay(event.getGuiGraphics(), VULNERABLE_OVERLAY, alpha);
+        }
+    }
 
     /* @SubscribeEvent TODO
     public static void onRenderOverlayPost(RenderGuiOverlayEvent.Post event)
@@ -66,13 +77,14 @@ public class RenderListener
     }*/
 
     //Copy of Gui.renderTextureOverlay
-    //
     public static void renderTextureOverlay(GuiGraphics graphics, ResourceLocation textureLocation, float alpha)
     {
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
+        RenderSystem.enableBlend();
         graphics.setColor(1.0F, 1.0F, 1.0F, alpha);
         graphics.blit(textureLocation, 0, 0, -90, 0.0F, 0.0F, graphics.guiWidth(), graphics.guiHeight(), graphics.guiWidth(), graphics.guiHeight());
+        RenderSystem.disableBlend();
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();
         graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
