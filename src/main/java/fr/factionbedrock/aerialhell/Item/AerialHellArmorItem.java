@@ -17,16 +17,16 @@ public class AerialHellArmorItem extends ArmorItem
 {
     public AerialHellArmorItem(Holder<ArmorMaterial> materialIn, Type armorType, Properties builderIn) {super(materialIn, armorType, builderIn);}
 
-    @Override public void inventoryTick(ItemStack stack, Level world, Entity entity, int itemSlot, boolean isSelected)
+    @Override public void inventoryTick(ItemStack stack, Level level, Entity entity, int itemSlot, boolean isSelected)
     {
         if (entity instanceof Player)
         {
             Player playerEntity = (Player) entity;
 
-            if (ItemHelper.getItemInTagCount(playerEntity.getArmorSlots(), AerialHellTags.Items.SHADOW_ARMOR) >= 4)
+            if (ItemHelper.getItemInTagCount(playerEntity.getArmorSlots(), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !level.isClientSide())
             {
                 playerEntity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 220, 0, false, false));
-                playerEntity.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.getDelegate(), 100, 0, false, false));
+                playerEntity.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_BIND.getDelegate(), 100, 0, false, false));
             }
         }
     }

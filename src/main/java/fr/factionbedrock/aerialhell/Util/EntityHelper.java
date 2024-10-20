@@ -254,7 +254,7 @@ public class EntityHelper
 
     public static boolean isLivingEntityMisleadingShadow(LivingEntity entity)
     {
-        return ItemHelper.getItemInTagCount(entity.getArmorSlots(), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !isLivingEntityATraitor(entity);
+        return isLivingEntityShadowBind(entity) && !isLivingEntityATraitor(entity);
     }
 
     //from in net.minecraft.server.level.ChunkMap resendBiomesForChunks(..) method
