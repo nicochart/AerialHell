@@ -7,12 +7,14 @@ import fr.factionbedrock.aerialhell.Client.Event.Listeners.RenderRegistrationLis
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSkyRenderer;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSpecialEffects;
+import fr.factionbedrock.aerialhell.Event.Listeners.RenderListener;
 import fr.factionbedrock.aerialhell.Registry.AerialHellWoodTypes;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.BuildContentsEvent;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
+import net.neoforged.neoforge.common.NeoForge;
 
 public class AerialHellClientSetup
 {
@@ -29,6 +31,7 @@ public class AerialHellClientSetup
         modEventBus.addListener(AerialHellClientSetup::registerDimensionRenderInfo);
         modEventBus.addListener(BuildContentsEvent::buildContents);
         modEventBus.addListener(AerialHellRendering::registerScreensMenus);
+        NeoForge.EVENT_BUS.addListener(RenderListener::onRenderOverlayPost);
     }
 
 
