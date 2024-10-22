@@ -53,9 +53,9 @@ public abstract class CollisionConditionHalfTransparentBlock extends HalfTranspa
 
 	@Override public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context)
 	{
-		if (context instanceof EntityCollisionContext)
+		if (context instanceof EntityCollisionContext entityCollisionContext && entityCollisionContext.getEntity() != null)
 		{
-			Entity entity = ((EntityCollisionContext)context).getEntity();
+			Entity entity = entityCollisionContext.getEntity();
 			if (canEntityCollide(entity)) {return getCollidingShape();}
 			else {return EMPTY_SHAPE;}
 		}
