@@ -2,8 +2,8 @@ package fr.factionbedrock.aerialhell.Block.ShadowSpreader;
 
 import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
+import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.ParticleStatus;
 import net.minecraft.core.BlockPos;
@@ -21,7 +21,7 @@ public class ShadowLeavesWithParticlesBlock extends ShadowLeavesBlock
 
     @Nullable protected SimpleParticleType getParticle()
     {
-        return EntityHelper.isCurrentPlayerInstanceShadowBind() ? null : AerialHellParticleTypes.SHADOW_PARTICLE.get();
+        return BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() ? null : AerialHellParticleTypes.SHADOW_PARTICLE.get();
     }
 
     protected int getParticleNumber() {return 1;}

@@ -27,15 +27,11 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellEnchantments;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
-import fr.factionbedrock.aerialhell.World.AerialHellTeleporter;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.protocol.game.ClientboundChunksBiomesPacket;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
@@ -53,7 +49,6 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -74,8 +69,6 @@ public class EntityHelper
     public static boolean isLivingEntityUnderInTheCloudsEffect(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate());}
 
     public static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.SHADOW_IMMUNITY.getDelegate()) || isLivingEntityShadowBind(entity);}
-
-    public static boolean isCurrentPlayerInstanceShadowBind() {return isLivingEntityShadowBind(Minecraft.getInstance().player);}
 
     public static boolean isLivingEntityShadowBind(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.SHADOW_BIND.getDelegate()) && entity.getEffect(AerialHellMobEffects.SHADOW_BIND.getDelegate()).getDuration() > 1;}
 

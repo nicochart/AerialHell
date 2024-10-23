@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Client.Util;
 
+import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellBiomes;
-import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.BiomeColors;
@@ -97,7 +97,7 @@ public class ColorHandlerHelper
     public static int getShiftedOrNotGrassColor(BlockPos pos) {return getShiftedOrNotGrassColor(Minecraft.getInstance().level.getBiome(pos), pos);}
     public static int getShiftedOrNotGrassColor(Holder<Biome> biome, BlockPos pos)
     {
-        boolean shifted = EntityHelper.isCurrentPlayerInstanceShadowBind();
+        boolean shifted = BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind();
         if (biome.is(AerialHellTags.Biomes.IS_SHADOW))
         {
             if (biome.is(AerialHellBiomes.SHADOW_PLAIN)) {return shifted ? AERIAL_TREE_FOREST_GRASS_COLOR : SHADOW_BLACK;}
