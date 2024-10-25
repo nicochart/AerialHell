@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Setup;
 
+import fr.factionbedrock.aerialhell.Client.Event.Listeners.DataPacketPayloads;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Event.Listeners.BlockEventListener;
 import fr.factionbedrock.aerialhell.Event.Listeners.LivingEntityEventListener;
@@ -77,5 +78,6 @@ public class AerialHellSetup
     {
         bus.addListener(AerialHellEntities::entitySpawnPlacements);
         bus.addListener(AerialHellEntityAttributes::entityAttributes);
+        bus.addListener(DataPacketPayloads::register);
     }
 }
