@@ -23,6 +23,7 @@ import fr.factionbedrock.aerialhell.Block.StandingAndWall.*;
 import fr.factionbedrock.aerialhell.Block.Trophies.BottomSlabLikeTrophyBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Item.*;
+import fr.factionbedrock.aerialhell.Item.Armor.ShadowArmorItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.*;
 import fr.factionbedrock.aerialhell.Item.Material.*;
 import fr.factionbedrock.aerialhell.Item.Shuriken.*;
@@ -1657,10 +1658,10 @@ public class AerialHellBlocksAndItems
     public static final DeferredItem<ArmorItem> ARSONIST_LEGGINGS = ITEMS.register("arsonist_leggings", () -> new ArmorItem(AerialHellArmorMaterials.ARSONIST, ArmorItem.Type.LEGGINGS, (new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(37))).rarity(AerialHellRarities.MYTHICAL.getValue()).fireResistant()));
     public static final DeferredItem<ArmorItem> ARSONIST_BOOTS = ITEMS.register("arsonist_boots", () -> new ArmorItem(AerialHellArmorMaterials.ARSONIST, ArmorItem.Type.BOOTS, (new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(37))).rarity(AerialHellRarities.MYTHICAL.getValue()).fireResistant()));
 
-	public static final DeferredItem<ArmorItem> SHADOW_HELMET = ITEMS.register("shadow_helmet", () -> new ArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.HELMET, (new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
-	public static final DeferredItem<ArmorItem> SHADOW_CHESTPLATE = ITEMS.register("shadow_chestplate", () -> new AerialHellArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.CHESTPLATE, (new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
-	public static final DeferredItem<ArmorItem> SHADOW_LEGGINGS = ITEMS.register("shadow_leggings", () -> new ArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.LEGGINGS, (new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
-	public static final DeferredItem<ArmorItem> SHADOW_BOOTS = ITEMS.register("shadow_boots", () -> new ArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.BOOTS, (new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
+	public static final DeferredItem<ArmorItem> SHADOW_HELMET = ITEMS.register("shadow_helmet", () -> new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.HELMET, (new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
+	public static final DeferredItem<ArmorItem> SHADOW_CHESTPLATE = ITEMS.register("shadow_chestplate", () -> new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.CHESTPLATE, (new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
+	public static final DeferredItem<ArmorItem> SHADOW_LEGGINGS = ITEMS.register("shadow_leggings", () -> new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.LEGGINGS, (new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
+	public static final DeferredItem<ArmorItem> SHADOW_BOOTS = ITEMS.register("shadow_boots", () -> new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.BOOTS, (new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
 
 	//effect totems
     public static final DeferredItem<Item> REGENERATION_TOTEM = ITEMS.register("regeneration_totem", () -> new EffectTotemItem(new Item.Properties().stacksTo(1).rarity(AerialHellRarities.LEGENDARY.getValue())));
