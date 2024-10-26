@@ -1,7 +1,8 @@
 {
-  "parent": "aerialhell:block/tinted_template_doublecross",
+  "parent": "aerialhell:block/tinted_template_doublecross_with_layer",
   "render_type": "minecraft:cutout",
   "textures": {
-    "texture": "aerialhell:block/shadow_grass_ball_0"
+    "texture": "aerialhell:block/shadow_grass_ball_0",
+    "layer": "aerialhell:block/shadow_grass_ball_0_layer"
   }
 }

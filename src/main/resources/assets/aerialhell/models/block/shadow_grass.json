@@ -1,7 +1,8 @@
 {
-  "parent": "minecraft:block/tinted_cross",
+  "parent": "aerialhell:block/tinted_cross_with_layer",
   "render_type": "minecraft:cutout",
   "textures": {
-    "cross": "aerialhell:block/shadow_grass"
+    "cross": "aerialhell:block/shadow_grass",
+    "layer": "aerialhell:block/shadow_grass_layer"
   }
 }

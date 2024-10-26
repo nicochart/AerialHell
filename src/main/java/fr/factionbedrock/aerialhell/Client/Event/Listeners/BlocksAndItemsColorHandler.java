@@ -75,6 +75,8 @@ public class BlocksAndItemsColorHandler
                 AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(),
                 AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get(),
                 AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get(),
+                AerialHellBlocksAndItems.SHADOW_GRASS.get(),
+                AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get(),
                 AerialHellBlocksAndItems.STELLAR_GRASS.get(),
                 AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get(),
                 AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get(),
@@ -130,6 +132,16 @@ public class BlocksAndItemsColorHandler
                     else if (state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK) || state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK))
                     {
                         boolean shouldRenderBlack = (state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK) && isCurrentPlayerInstanceShadowBind()) || (state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK) && !isCurrentPlayerInstanceShadowBind());
+                        return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassVegetationTint(new CalculateTintContextInfo(pos));
+                    }
+                    else if (state.is(AerialHellBlocksAndItems.STELLAR_GRASS) || state.is(AerialHellBlocksAndItems.SHADOW_GRASS))
+                    {
+                        boolean shouldRenderBlack = (state.is(AerialHellBlocksAndItems.STELLAR_GRASS) && isCurrentPlayerInstanceShadowBind()) || (state.is(AerialHellBlocksAndItems.SHADOW_GRASS) && !isCurrentPlayerInstanceShadowBind());
+                        return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassVegetationTint(new CalculateTintContextInfo(pos));
+                    }
+                    else if (state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BALL) || state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BALL))
+                    {
+                        boolean shouldRenderBlack = (state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BALL) && isCurrentPlayerInstanceShadowBind()) || (state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BALL) && !isCurrentPlayerInstanceShadowBind());
                         return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassVegetationTint(new CalculateTintContextInfo(pos));
                     }
                     else
