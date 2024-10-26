@@ -473,7 +473,7 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> CRYSTAL_BRICKS_STAIRS_ITEM = ITEMS.register("crystal_bricks_stairs", () -> new BlockItem(CRYSTAL_BRICKS_STAIRS.get(), new Item.Properties()));
 	public static final DeferredBlock<WallBlock> CRYSTAL_BRICKS_WALL = BLOCKS.register("crystal_bricks_wall", () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BRICKS.get())));
 	public static final DeferredItem<Item> CRYSTAL_BRICKS_WALL_ITEM = ITEMS.register("crystal_bricks_wall", () -> new BlockItem(CRYSTAL_BRICKS_WALL.get(), new Item.Properties()));
-	public static final DeferredBlock<Block> STELLAR_STONE_CRYSTAL_BLOCK = BLOCKS.register("stellar_stone_crystal_block", () -> new Block(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BLOCK.get()).lightLevel((state) -> 13)));
+	public static final DeferredBlock<Block> STELLAR_STONE_CRYSTAL_BLOCK = BLOCKS.register("stellar_stone_crystal_block", () -> new BasicShiftableRenderBlock(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BLOCK.get()).lightLevel((state) -> 13)));
 	public static final DeferredItem<Item> STELLAR_STONE_CRYSTAL_BLOCK_ITEM = ITEMS.register("stellar_stone_crystal_block", () -> new BlockItem(STELLAR_STONE_CRYSTAL_BLOCK.get(), new Item.Properties()));
 	public static final DeferredBlock<Block> SHADOW_CRYSTAL_BLOCK = BLOCKS.register("shadow_crystal_block", () -> new BasicShadowSpreaderBlock(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BLOCK.get()).lightLevel((state) -> 12)));
 	public static final DeferredItem<Item> SHADOW_CRYSTAL_BLOCK_ITEM = ITEMS.register("shadow_crystal_block", () -> new BlockItem(SHADOW_CRYSTAL_BLOCK.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED.getValue())));

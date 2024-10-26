@@ -129,6 +129,8 @@ public class RenderRegistrationListener
 
     public static void onModelBake(ModelEvent.ModifyBakingResult event)
     {
+        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK.get(), event);
         ShiftedModelRenderHelper.createAndRegisterGrassBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), event);
         ShiftedModelRenderHelper.createAndRegisterGrassBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(), event);
         ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get(), event);
