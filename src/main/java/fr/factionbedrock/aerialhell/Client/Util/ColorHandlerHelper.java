@@ -21,6 +21,7 @@ public class ColorHandlerHelper
     public static final Color DEFAULT_COLOR = new Color(12, 35, 26);
     public static final int WHITE = new Color(255, 255, 255).getRGB();
     public static final int SHADOW_BLACK = new Color(19, 17, 19).getRGB();
+    public static final int SHADOW_DEEP_BLACK = new Color(7, 6, 7).getRGB();
     public static final int AERIAL_HELL_PLAINS_GRASS_COLOR = new Color(49, 140, 102).getRGB();
     public static final int AERIAL_TREE_FOREST_GRASS_COLOR = new Color(49, 140, 83).getRGB();
     public static final int LAPIS_ROBINIA_SAVANA_GRASS_COLOR = new Color(48, 105, 79).getRGB();
@@ -31,14 +32,14 @@ public class ColorHandlerHelper
     public static final int VOLUCITE_GLYPH_COLOR = new Color(48, 66, 179).getRGB();
     public static final int SHADOW_CATACOMBS_GLYPH_COLOR = new Color(153, 99, 248).getRGB();
 
-    public static int calculateGrassBlockTint(BlockState state, CalculateTintContextInfo contextInfo)
+    public static int calculateGrassTint(CalculateTintContextInfo contextInfo)
     {
         return calculateTint(contextInfo, (info) -> getLightGrassColor(info), (info) -> getShadowGrassColor(info));
     }
 
-    public static int calculateGrassVegetationTint(CalculateTintContextInfo contextInfo)
+    public static int calculatePlantVegetationBlockTint(CalculateTintContextInfo contextInfo)
     {
-        return calculateTint(contextInfo, (info) -> getLightGrassColor(info), (info) -> getShadowGrassColor(info));
+        return calculateTint(contextInfo, (info) -> getLightPlantVegetationColor(info), (info) -> getShadowPlantVegetationColor(info));
     }
 
     public static int calculateFoliageTint(CalculateTintContextInfo contextInfo)
@@ -110,25 +111,27 @@ public class ColorHandlerHelper
         }
     }
 
-    public static int getShadowGrassColor(CalculateTintContextInfo info) {return getShadowColor(info, BiomeColors.GRASS_COLOR_RESOLVER);}
-    public static int getShadowFoliageColor(CalculateTintContextInfo info) {return getShadowColor(info, BiomeColors.FOLIAGE_COLOR_RESOLVER);}
+    public static int getShadowGrassColor(CalculateTintContextInfo info) {return getShadowColor(info, BiomeColors.GRASS_COLOR_RESOLVER, SHADOW_BLACK);}
+    public static int getShadowPlantVegetationColor(CalculateTintContextInfo info) {return getShadowColor(info, BiomeColors.GRASS_COLOR_RESOLVER, SHADOW_DEEP_BLACK);}
+    public static int getShadowFoliageColor(CalculateTintContextInfo info) {return getShadowColor(info, BiomeColors.FOLIAGE_COLOR_RESOLVER, SHADOW_BLACK);}
 
-    public static int getLightGrassColor(CalculateTintContextInfo info) {return getLightColor(info, BiomeColors.GRASS_COLOR_RESOLVER);}
-    public static int getLightFoliageColor(CalculateTintContextInfo info) {return getLightColor(info, BiomeColors.FOLIAGE_COLOR_RESOLVER);}
+    public static int getLightGrassColor(CalculateTintContextInfo info) {return getLightColor(info, BiomeColors.GRASS_COLOR_RESOLVER, SHADOW_BLACK);}
+    public static int getLightPlantVegetationColor(CalculateTintContextInfo info) {return getLightColor(info, BiomeColors.GRASS_COLOR_RESOLVER, SHADOW_DEEP_BLACK);}
+    public static int getLightFoliageColor(CalculateTintContextInfo info) {return getLightColor(info, BiomeColors.FOLIAGE_COLOR_RESOLVER, SHADOW_BLACK);}
 
-    public static int getShadowColor(CalculateTintContextInfo info, ColorResolver colorResolver) {return getShadowColor(Minecraft.getInstance().level.getBiome(info.pos), info, colorResolver);}
-    public static int getShadowColor(Holder<Biome> biome, CalculateTintContextInfo info, ColorResolver colorResolver)
+    public static int getShadowColor(CalculateTintContextInfo info, ColorResolver colorResolver, int shadowBlack) {return getShadowColor(Minecraft.getInstance().level.getBiome(info.pos), info, colorResolver, shadowBlack);}
+    public static int getShadowColor(Holder<Biome> biome, CalculateTintContextInfo info, ColorResolver colorResolver, int shadowBlack)
     {
-        int SHADOW_COLOR = colorResolver == BiomeColors.GRASS_COLOR_RESOLVER ? SHADOW_BLACK : SHADOW_PURPLE;
+        int SHADOW_COLOR = colorResolver == BiomeColors.GRASS_COLOR_RESOLVER ? shadowBlack : SHADOW_PURPLE;
         if (biome.is(AerialHellBiomes.SHADOW_PLAIN)) {return info.shiftedRender ? AERIAL_TREE_FOREST_GRASS_COLOR : SHADOW_COLOR;}
         else if (biome.is(AerialHellBiomes.SHADOW_FOREST)) {return info.shiftedRender ? LAPIS_ROBINIA_SAVANA_GRASS_COLOR : SHADOW_COLOR;}
         else {return SHADOW_COLOR;}
     }
 
-    public static int getLightColor(CalculateTintContextInfo info, ColorResolver colorResolver) {return getLightColor(Minecraft.getInstance().level.getBiome(info.pos), info, colorResolver);}
-    public static int getLightColor(Holder<Biome> biome, CalculateTintContextInfo info, ColorResolver colorResolver)
+    public static int getLightColor(CalculateTintContextInfo info, ColorResolver colorResolver, int shadowBlack) {return getLightColor(Minecraft.getInstance().level.getBiome(info.pos), info, colorResolver, shadowBlack);}
+    public static int getLightColor(Holder<Biome> biome, CalculateTintContextInfo info, ColorResolver colorResolver, int shadowBlack)
     {
-        int SHADOW_COLOR = colorResolver == BiomeColors.GRASS_COLOR_RESOLVER ? SHADOW_BLACK : SHADOW_PURPLE;
+        int SHADOW_COLOR = colorResolver == BiomeColors.GRASS_COLOR_RESOLVER ? shadowBlack : SHADOW_PURPLE;
         return info.shiftedRender ? SHADOW_COLOR : vanillaGetColor(biome, info.pos, colorResolver);
     }
 

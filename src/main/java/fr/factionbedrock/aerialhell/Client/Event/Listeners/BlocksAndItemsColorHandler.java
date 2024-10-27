@@ -132,21 +132,21 @@ public class BlocksAndItemsColorHandler
                     else if (state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK) || state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK))
                     {
                         boolean shouldRenderBlack = (state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK) && isCurrentPlayerInstanceShadowBind()) || (state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK) && !isCurrentPlayerInstanceShadowBind());
-                        return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassVegetationTint(new CalculateTintContextInfo(pos));
+                        return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(pos));
                     }
                     else if (state.is(AerialHellBlocksAndItems.STELLAR_GRASS) || state.is(AerialHellBlocksAndItems.SHADOW_GRASS))
                     {
                         boolean shouldRenderBlack = (state.is(AerialHellBlocksAndItems.STELLAR_GRASS) && isCurrentPlayerInstanceShadowBind()) || (state.is(AerialHellBlocksAndItems.SHADOW_GRASS) && !isCurrentPlayerInstanceShadowBind());
-                        return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassVegetationTint(new CalculateTintContextInfo(pos));
+                        return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(pos));
                     }
                     else if (state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BALL) || state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BALL))
                     {
                         boolean shouldRenderBlack = (state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BALL) && isCurrentPlayerInstanceShadowBind()) || (state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BALL) && !isCurrentPlayerInstanceShadowBind());
-                        return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassVegetationTint(new CalculateTintContextInfo(pos));
+                        return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(pos));
                     }
                     else
                     {
-                        return ColorHandlerHelper.calculateGrassVegetationTint(new CalculateTintContextInfo(pos));
+                        return ColorHandlerHelper.calculatePlantVegetationBlockTint(new CalculateTintContextInfo(pos));
                     }
                 }
                 case 1 :
@@ -186,7 +186,7 @@ public class BlocksAndItemsColorHandler
                     }
                     else if (state.getBlock() == AerialHellBlocksAndItems.STELLAR_PODZOL.get())
                     {
-                        Color baseColor = new Color(ColorHandlerHelper.calculateGrassVegetationTint(new CalculateTintContextInfo(pos)));
+                        Color baseColor = new Color(ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(pos)));
                         int r = baseColor.getRed(), g = baseColor.getGreen(), b = baseColor.getBlue();
                         return new Color((int) Math.min(255, r * 1.5), (int) (g / 1.5), b).getRGB();
                     }
