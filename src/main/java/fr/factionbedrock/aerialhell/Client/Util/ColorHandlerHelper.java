@@ -51,7 +51,7 @@ public class ColorHandlerHelper
     public static int calculateTint(CalculateTintContextInfo info, Function<CalculateTintContextInfo,Integer> getLightBiomeColor, Function<CalculateTintContextInfo,Integer> getShadowBiomeColor)
     {
         BlockPos pos = info.pos;
-        ClientLevel level = Minecraft.getInstance().level;
+        ClientLevel level = Minecraft.getInstance().level; if (level == null) {return 0;}
         int biomeBlendRadius = Minecraft.getInstance().options.biomeBlendRadius().get();
         if (biomeBlendRadius == 0 || !needsBlend(pos, biomeBlendRadius))
         {
@@ -83,6 +83,7 @@ public class ColorHandlerHelper
     public static boolean needsBlend(BlockPos pos, int blendRadius)
     {
         ClientLevel level = Minecraft.getInstance().level;
+        if (level == null) {return false;}
         Holder<Biome> localBiome = level.getBiome(pos);
         Holder<Biome> southBiome = level.getBiome(pos.south(blendRadius));
         if (localBiome != southBiome) {return true;}
@@ -95,7 +96,7 @@ public class ColorHandlerHelper
         return false;
     }
 
-    public static int getShiftedOrNotGrassColor(BlockPos pos) {return getShiftedOrNotGrassColor(Minecraft.getInstance().level.getBiome(pos), pos);}
+    public static int getShiftedOrNotGrassColor(BlockPos pos) {return Minecraft.getInstance().level == null ? 0 : getShiftedOrNotGrassColor(Minecraft.getInstance().level.getBiome(pos), pos);}
     public static int getShiftedOrNotGrassColor(Holder<Biome> biome, BlockPos pos)
     {
         boolean shifted = BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind();
@@ -119,7 +120,7 @@ public class ColorHandlerHelper
     public static int getLightPlantVegetationColor(CalculateTintContextInfo info) {return getLightColor(info, BiomeColors.GRASS_COLOR_RESOLVER, SHADOW_DEEP_BLACK);}
     public static int getLightFoliageColor(CalculateTintContextInfo info) {return getLightColor(info, BiomeColors.FOLIAGE_COLOR_RESOLVER, SHADOW_BLACK);}
 
-    public static int getShadowColor(CalculateTintContextInfo info, ColorResolver colorResolver, int shadowBlack) {return getShadowColor(Minecraft.getInstance().level.getBiome(info.pos), info, colorResolver, shadowBlack);}
+    public static int getShadowColor(CalculateTintContextInfo info, ColorResolver colorResolver, int shadowBlack) {return Minecraft.getInstance().level == null ? 0 : getShadowColor(Minecraft.getInstance().level.getBiome(info.pos), info, colorResolver, shadowBlack);}
     public static int getShadowColor(Holder<Biome> biome, CalculateTintContextInfo info, ColorResolver colorResolver, int shadowBlack)
     {
         int SHADOW_COLOR = colorResolver == BiomeColors.GRASS_COLOR_RESOLVER ? shadowBlack : SHADOW_PURPLE;
@@ -128,13 +129,13 @@ public class ColorHandlerHelper
         else {return SHADOW_COLOR;}
     }
 
-    public static int getLightColor(CalculateTintContextInfo info, ColorResolver colorResolver, int shadowBlack) {return getLightColor(Minecraft.getInstance().level.getBiome(info.pos), info, colorResolver, shadowBlack);}
+    public static int getLightColor(CalculateTintContextInfo info, ColorResolver colorResolver, int shadowBlack) {return Minecraft.getInstance().level == null ? 0 : getLightColor(Minecraft.getInstance().level.getBiome(info.pos), info, colorResolver, shadowBlack);}
     public static int getLightColor(Holder<Biome> biome, CalculateTintContextInfo info, ColorResolver colorResolver, int shadowBlack)
     {
         int SHADOW_COLOR = colorResolver == BiomeColors.GRASS_COLOR_RESOLVER ? shadowBlack : SHADOW_PURPLE;
         return info.shiftedRender ? SHADOW_COLOR : vanillaGetColor(biome, info.pos, colorResolver);
     }
 
-    public static int vanillaGetColor(BlockPos pos, ColorResolver colorResolver) {return vanillaGetColor(Minecraft.getInstance().level.getBiome(pos), pos, colorResolver);}
+    public static int vanillaGetColor(BlockPos pos, ColorResolver colorResolver) {return Minecraft.getInstance().level == null ? 0 : vanillaGetColor(Minecraft.getInstance().level.getBiome(pos), pos, colorResolver);}
     public static int vanillaGetColor(Holder<Biome> biome, BlockPos pos, ColorResolver colorResolver) {return colorResolver.getColor(biome.value(), pos.getX(), pos.getZ());}
 }
