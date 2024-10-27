@@ -135,6 +135,8 @@ public class RenderRegistrationListener
         ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GRASS.get(), event);
         ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get(), event);
         ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.BRAMBLES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_BRAMBLES.get(), event);
         ShiftedModelRenderHelper.createAndRegisterGrassBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), event);
         ShiftedModelRenderHelper.createAndRegisterGrassBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(), event);
         ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get(), event);

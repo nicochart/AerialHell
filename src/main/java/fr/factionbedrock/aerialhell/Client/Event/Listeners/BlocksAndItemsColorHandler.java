@@ -93,6 +93,7 @@ public class BlocksAndItemsColorHandler
                 AerialHellBlocksAndItems.POLYCHROME_FERN.get(),
                 AerialHellBlocksAndItems.TALL_POLYCHROME_FERN.get(),
                 AerialHellBlocksAndItems.BRAMBLES.get(),
+                AerialHellBlocksAndItems.SHADOW_BRAMBLES.get(),
                 AerialHellBlocksAndItems.PURPLISH_STELLAR_GRASS.get(),
                 AerialHellBlocksAndItems.STELLAR_CLOVERS.get(),
                 AerialHellBlocksAndItems.GLOWING_STELLAR_GRASS.get(),
@@ -143,6 +144,15 @@ public class BlocksAndItemsColorHandler
                     {
                         boolean shouldRenderBlack = (state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BALL) && isCurrentPlayerInstanceShadowBind()) || (state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BALL) && !isCurrentPlayerInstanceShadowBind());
                         return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(pos));
+                    }
+                    else if (state.is(AerialHellBlocksAndItems.BRAMBLES) || state.is(AerialHellBlocksAndItems.SHADOW_BRAMBLES))
+                    {
+                        boolean shouldRenderBlack = (state.is(AerialHellBlocksAndItems.BRAMBLES) && isCurrentPlayerInstanceShadowBind()) || (state.is(AerialHellBlocksAndItems.SHADOW_BRAMBLES) && !isCurrentPlayerInstanceShadowBind());
+                        return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(pos));
+                    }
+                    else if (state.is(AerialHellBlocksAndItems.STELLAR_ROOTS) || state.is(AerialHellBlocksAndItems.STELLAR_ROOTS_PLANT) || state.is(AerialHellBlocksAndItems.BLOSSOMING_VINES) || state.is(AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT))
+                    {
+                        return ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(pos), (info) -> ColorHandlerHelper.getLightColor(info, BiomeColors.GRASS_COLOR_RESOLVER, ColorHandlerHelper.SHADOW_PURPLE), (info) -> ColorHandlerHelper.getShadowColor(info, BiomeColors.GRASS_COLOR_RESOLVER, ColorHandlerHelper.SHADOW_PURPLE));
                     }
                     else
                     {
