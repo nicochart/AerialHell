@@ -9,6 +9,7 @@ import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShiftingBlockBakedMo
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.ChunkRenderTypeSet;
 import net.neoforged.neoforge.client.event.ModelEvent;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class ShiftedModelRenderHelper
 {
-    public static void createAndRegisterDefaultBlockShiftedRender(Block block, ModelEvent.ModifyBakingResult event)
+    public static void createAndRegisterDefaultBlockShiftedRender(Block block, ModelEvent.ModifyBakingResult event, ChunkRenderTypeSet renderType)
     {
         if (block instanceof BasicShadowSpreaderBlock)
         {
@@ -27,13 +28,13 @@ public class ShiftedModelRenderHelper
             {
                 BlockState state = block.defaultBlockState().setValue(BasicShadowSpreaderBlock.CAN_SPREAD, canSpread).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
                 //replaces the models in the map
-                ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), ShiftingBlockBakedModel.CUTOUT, event);
+                ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), renderType, event);
                 event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
             }
         }
         else
         {
-            ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(block, block.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), ShiftingBlockBakedModel.CUTOUT, event);
+            ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(block, block.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), renderType, event);
             //replaces the models in the map
             event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
         }
