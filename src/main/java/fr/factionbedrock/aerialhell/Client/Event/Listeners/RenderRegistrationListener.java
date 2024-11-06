@@ -138,6 +138,10 @@ public class RenderRegistrationListener
         ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get(), event, ShiftingBlockBakedModel.CUTOUT);
         ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.BRAMBLES.get(), event, ShiftingBlockBakedModel.CUTOUT);
         ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_BRAMBLES.get(), event, ShiftingBlockBakedModel.CUTOUT);
+        ShiftedModelRenderHelper.createAndRegisterGrowingPlantHeadBlock(AerialHellBlocksAndItems.GLOWING_ROOTS.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.GLOWING_ROOTS_PLANT.get(), event, ShiftingBlockBakedModel.CUTOUT);
+        ShiftedModelRenderHelper.createAndRegisterGrowingPlantHeadBlock(AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS_PLANT.get(), event, ShiftingBlockBakedModel.CUTOUT);
         ShiftedModelRenderHelper.createAndRegisterGrassBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), event);
         ShiftedModelRenderHelper.createAndRegisterGrassBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(), event);
         ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get(), event);

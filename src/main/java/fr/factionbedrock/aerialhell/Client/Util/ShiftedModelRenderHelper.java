@@ -40,6 +40,17 @@ public class ShiftedModelRenderHelper
         }
     }
 
+    public static void createAndRegisterGrowingPlantHeadBlock(GrowingPlantHeadBlock block, ModelEvent.ModifyBakingResult event)
+    {
+        for (int age = 0; age <= 25; age++)
+        {
+            BlockState state = block.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, age).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
+            //replaces the models in the map
+            ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), ShiftingBlockBakedModel.CUTOUT, event);
+            event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+        }
+    }
+
     public static void createAndRegisterGrassBlockShiftedRender(GrassBlock block, ModelEvent.ModifyBakingResult event)
     {
         ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(block, block.defaultBlockState().setValue(AerialHellGrassBlock.SNOWY, false).setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), ShiftingBlockBakedModel.CUTOUT_MIPPED, event);

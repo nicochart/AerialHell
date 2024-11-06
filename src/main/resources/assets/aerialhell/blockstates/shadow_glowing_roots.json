@@ -1,7 +1,11 @@
 {
-  "variants":
-  {"":[
+  "variants": {
+    "shifted_render=false": [
     {"model": "aerialhell:block/shadow_glowing_roots"},
     {"model": "aerialhell:block/shadow_glowing_roots_variant"}
+  ],
+    "shifted_render=true": [
+    {"model": "aerialhell:block/glowing_roots"},
+    {"model": "aerialhell:block/glowing_roots_variant"}
   ]}
 }

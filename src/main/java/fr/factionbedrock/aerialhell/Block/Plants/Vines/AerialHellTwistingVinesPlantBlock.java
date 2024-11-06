@@ -1,12 +1,22 @@
 package fr.factionbedrock.aerialhell.Block.Plants.Vines;
 
+import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.TwistingVinesPlantBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 
 public class AerialHellTwistingVinesPlantBlock extends TwistingVinesPlantBlock
 {
-    public AerialHellTwistingVinesPlantBlock(Properties properties) {super(properties);}
+    public AerialHellTwistingVinesPlantBlock(Properties properties)
+    {
+        super(properties);
+        this.registerDefaultState(this.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, false));
+    }
+
+    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(AerialHellGrassBlock.SHIFTED_RENDER);}
 
     @Override protected GrowingPlantHeadBlock getHeadBlock()
     {
