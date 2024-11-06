@@ -318,6 +318,7 @@
   "block.aerialhell.stellar_roots" : "Racines Stellaires",
   "block.aerialhell.dead_roots" : "Racines Mortes",
   "block.aerialhell.glowing_roots" : "Racines Lumineuses",
+  "block.aerialhell.shadow_glowing_roots" : "Racines Lumineuses des Ombres",
   "block.aerialhell.brambles" : "Ronces",
   "block.aerialhell.shadow_brambles" : "Ronces des Ombres",
   "block.aerialhell.shadow_grass" : "Herbe des Ombres",

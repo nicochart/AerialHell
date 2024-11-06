@@ -37,7 +37,7 @@
                   ]
                 }
               ],
-              "name": "aerialhell:glowing_roots"
+              "name": "aerialhell:shadow_glowing_roots"
             },
             {
               "type": "minecraft:item",
@@ -53,7 +53,7 @@
                   "enchantment": "minecraft:fortune"
                 }
               ],
-              "name": "aerialhell:glowing_roots"
+              "name": "aerialhell:shadow_glowing_roots"
             }
           ]
         }
@@ -61,5 +61,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "aerialhell:blocks/glowing_roots_plant"
+  "random_sequence": "aerialhell:blocks/shadow_glowing_roots_plant"
 }

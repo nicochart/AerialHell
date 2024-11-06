@@ -13,6 +13,7 @@ public class AerialHellTwistingVinesBlock extends TwistingVinesBlock
         if (this == AerialHellBlocksAndItems.LAZULI_ROOTS.get()) {return AerialHellBlocksAndItems.LAZULI_ROOTS_PLANT.get();}
         else if (this == AerialHellBlocksAndItems.STELLAR_ROOTS.get()) {return AerialHellBlocksAndItems.STELLAR_ROOTS_PLANT.get();}
         else if (this == AerialHellBlocksAndItems.DEAD_ROOTS.get()) {return AerialHellBlocksAndItems.DEAD_ROOTS_PLANT.get();}
-        else /*if (this == AerialHellBlocksAndItems.GLOWING_ROOTS.get())*/ {return AerialHellBlocksAndItems.GLOWING_ROOTS_PLANT.get();}
+        else if (this == AerialHellBlocksAndItems.GLOWING_ROOTS.get()) {return AerialHellBlocksAndItems.GLOWING_ROOTS_PLANT.get();}
+        else /*if (this == AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS.get())*/ {return AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS_PLANT.get();}
     }
 }

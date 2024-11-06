@@ -8,6 +8,8 @@
     "aerialhell:dead_roots",
     "aerialhell:dead_roots_plant",
     "aerialhell:glowing_roots",
-    "aerialhell:glowing_roots_plant"
+    "aerialhell:glowing_roots_plant",
+    "aerialhell:shadow_glowing_roots",
+    "aerialhell:shadow_glowing_roots_plant"
   ]
 }

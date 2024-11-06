@@ -277,6 +277,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_ROOTS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.DEAD_ROOTS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GLOWING_ROOTS_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_GRASS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_GRASS_BALL_ITEM.get());

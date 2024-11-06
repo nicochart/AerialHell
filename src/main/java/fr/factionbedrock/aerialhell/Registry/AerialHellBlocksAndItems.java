@@ -956,6 +956,9 @@ public class AerialHellBlocksAndItems
 	public static final DeferredBlock<AerialHellTwistingVinesBlock> GLOWING_ROOTS = BLOCKS.register("glowing_roots", () -> new AerialHellTwistingVinesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TWISTING_VINES).lightLevel((state) -> 9)));
 	public static final DeferredBlock<AerialHellTwistingVinesPlantBlock> GLOWING_ROOTS_PLANT = BLOCKS.register("glowing_roots_plant", () -> new AerialHellTwistingVinesPlantBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TWISTING_VINES_PLANT).lightLevel((state) -> 14)));
 	public static final DeferredItem<Item> GLOWING_ROOTS_ITEM = ITEMS.register("glowing_roots", () -> new BlockItem(GLOWING_ROOTS.get(), new Item.Properties()));
+	public static final DeferredBlock<AerialHellTwistingVinesBlock> SHADOW_GLOWING_ROOTS = BLOCKS.register("shadow_glowing_roots", () -> new AerialHellTwistingVinesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TWISTING_VINES).lightLevel((state) -> 8)));
+	public static final DeferredBlock<AerialHellTwistingVinesPlantBlock> SHADOW_GLOWING_ROOTS_PLANT = BLOCKS.register("shadow_glowing_roots_plant", () -> new AerialHellTwistingVinesPlantBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TWISTING_VINES_PLANT).lightLevel((state) -> 13)));
+	public static final DeferredItem<Item> SHADOW_GLOWING_ROOTS_ITEM = ITEMS.register("shadow_glowing_roots", () -> new BlockItem(SHADOW_GLOWING_ROOTS.get(), new Item.Properties()));
 
 	//grass
 	public static final DeferredBlock<Block> STELLAR_GRASS = BLOCKS.register("stellar_grass", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
