@@ -23,6 +23,7 @@ import fr.factionbedrock.aerialhell.Block.StandingAndWall.*;
 import fr.factionbedrock.aerialhell.Block.Trophies.BottomSlabLikeTrophyBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Item.*;
+import fr.factionbedrock.aerialhell.Item.Armor.ShadowArmorItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.*;
 import fr.factionbedrock.aerialhell.Item.Material.*;
 import fr.factionbedrock.aerialhell.Item.Shuriken.*;
@@ -472,7 +473,7 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> CRYSTAL_BRICKS_STAIRS_ITEM = ITEMS.register("crystal_bricks_stairs", () -> new BlockItem(CRYSTAL_BRICKS_STAIRS.get(), new Item.Properties()));
 	public static final DeferredBlock<WallBlock> CRYSTAL_BRICKS_WALL = BLOCKS.register("crystal_bricks_wall", () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BRICKS.get())));
 	public static final DeferredItem<Item> CRYSTAL_BRICKS_WALL_ITEM = ITEMS.register("crystal_bricks_wall", () -> new BlockItem(CRYSTAL_BRICKS_WALL.get(), new Item.Properties()));
-	public static final DeferredBlock<Block> STELLAR_STONE_CRYSTAL_BLOCK = BLOCKS.register("stellar_stone_crystal_block", () -> new Block(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BLOCK.get()).lightLevel((state) -> 13)));
+	public static final DeferredBlock<Block> STELLAR_STONE_CRYSTAL_BLOCK = BLOCKS.register("stellar_stone_crystal_block", () -> new BasicShiftableRenderBlock(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BLOCK.get()).lightLevel((state) -> 13)));
 	public static final DeferredItem<Item> STELLAR_STONE_CRYSTAL_BLOCK_ITEM = ITEMS.register("stellar_stone_crystal_block", () -> new BlockItem(STELLAR_STONE_CRYSTAL_BLOCK.get(), new Item.Properties()));
 	public static final DeferredBlock<Block> SHADOW_CRYSTAL_BLOCK = BLOCKS.register("shadow_crystal_block", () -> new BasicShadowSpreaderBlock(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BLOCK.get()).lightLevel((state) -> 12)));
 	public static final DeferredItem<Item> SHADOW_CRYSTAL_BLOCK_ITEM = ITEMS.register("shadow_crystal_block", () -> new BlockItem(SHADOW_CRYSTAL_BLOCK.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED.getValue())));
@@ -961,8 +962,8 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> SHADOW_GLOWING_ROOTS_ITEM = ITEMS.register("shadow_glowing_roots", () -> new BlockItem(SHADOW_GLOWING_ROOTS.get(), new Item.Properties()));
 
 	//grass
-	public static final DeferredBlock<Block> STELLAR_GRASS = BLOCKS.register("stellar_grass", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final DeferredBlock<Block> STELLAR_GRASS_BALL = BLOCKS.register("stellar_grass_ball", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final DeferredBlock<Block> STELLAR_GRASS = BLOCKS.register("stellar_grass", () -> new ShiftableRenderTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final DeferredBlock<Block> STELLAR_GRASS_BALL = BLOCKS.register("stellar_grass_ball", () -> new ShiftableRenderTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
 	public static final DeferredBlock<Block> STELLAR_FERN = BLOCKS.register("stellar_fern", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
 	public static final DeferredBlock<Block> STELLAR_TALL_GRASS = BLOCKS.register("stellar_tall_grass", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
 	public static final DeferredBlock<Block> STELLAR_TALL_FERN = BLOCKS.register("stellar_tall_fern", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
@@ -1660,10 +1661,10 @@ public class AerialHellBlocksAndItems
     public static final DeferredItem<ArmorItem> ARSONIST_LEGGINGS = ITEMS.register("arsonist_leggings", () -> new ArmorItem(AerialHellArmorMaterials.ARSONIST, ArmorItem.Type.LEGGINGS, (new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(37))).rarity(AerialHellRarities.MYTHICAL.getValue()).fireResistant()));
     public static final DeferredItem<ArmorItem> ARSONIST_BOOTS = ITEMS.register("arsonist_boots", () -> new ArmorItem(AerialHellArmorMaterials.ARSONIST, ArmorItem.Type.BOOTS, (new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(37))).rarity(AerialHellRarities.MYTHICAL.getValue()).fireResistant()));
 
-	public static final DeferredItem<ArmorItem> SHADOW_HELMET = ITEMS.register("shadow_helmet", () -> new ArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.HELMET, (new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
-	public static final DeferredItem<ArmorItem> SHADOW_CHESTPLATE = ITEMS.register("shadow_chestplate", () -> new AerialHellArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.CHESTPLATE, (new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
-	public static final DeferredItem<ArmorItem> SHADOW_LEGGINGS = ITEMS.register("shadow_leggings", () -> new ArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.LEGGINGS, (new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
-	public static final DeferredItem<ArmorItem> SHADOW_BOOTS = ITEMS.register("shadow_boots", () -> new ArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.BOOTS, (new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
+	public static final DeferredItem<ArmorItem> SHADOW_HELMET = ITEMS.register("shadow_helmet", () -> new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.HELMET, (new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
+	public static final DeferredItem<ArmorItem> SHADOW_CHESTPLATE = ITEMS.register("shadow_chestplate", () -> new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.CHESTPLATE, (new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
+	public static final DeferredItem<ArmorItem> SHADOW_LEGGINGS = ITEMS.register("shadow_leggings", () -> new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.LEGGINGS, (new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
+	public static final DeferredItem<ArmorItem> SHADOW_BOOTS = ITEMS.register("shadow_boots", () -> new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.BOOTS, (new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
 
 	//effect totems
     public static final DeferredItem<Item> REGENERATION_TOTEM = ITEMS.register("regeneration_totem", () -> new EffectTotemItem(new Item.Properties().stacksTo(1).rarity(AerialHellRarities.LEGENDARY.getValue())));

@@ -825,6 +825,7 @@
   "item.aerialhell.shadow_chestplate" : "Plastron des Ombres",
   "item.aerialhell.shadow_leggings" : "Jambières des Ombres",
   "item.aerialhell.shadow_boots" : "Bottes des Ombres",
+  "item.aerialhell.shadow_armor.desc" : "Attention : Équiper/Déséquiper l'armure complète rechargera les textures",
 
   "item.aerialhell.regeneration_totem" : "Totem de Régénération",
   "item.aerialhell.speed_totem" : "Totem de Rapidité",

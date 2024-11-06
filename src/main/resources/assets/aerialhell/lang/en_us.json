@@ -825,6 +825,7 @@
   "item.aerialhell.shadow_chestplate" : "Shadow Chestplate",
   "item.aerialhell.shadow_leggings" : "Shadow Leggings",
   "item.aerialhell.shadow_boots" : "Shadow Boots",
+  "item.aerialhell.shadow_armor.desc" : "Warning : Equipping/Unequipping full armor will reload textures",
 
   "item.aerialhell.regeneration_totem" : "Regeneration Totem",
   "item.aerialhell.speed_totem" : "Speed Totem",

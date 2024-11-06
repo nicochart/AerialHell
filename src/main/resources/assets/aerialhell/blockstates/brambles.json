@@ -1,14 +1,11 @@
 {
-  "multipart": [
-    {
-      "apply": [
-        {
-          "model": "aerialhell:block/brambles0"
-        },
-        {
-          "model": "aerialhell:block/brambles1"
-        }
-      ]
-    }
-  ]
+  "variants": {
+    "shifted_render=false": [
+    {"model": "aerialhell:block/brambles0"},
+    {"model": "aerialhell:block/brambles1"}
+  ],
+    "shifted_render=true": [
+    {"model": "aerialhell:block/shadow_brambles0"},
+    {"model": "aerialhell:block/shadow_brambles1"}
+  ]}
 }

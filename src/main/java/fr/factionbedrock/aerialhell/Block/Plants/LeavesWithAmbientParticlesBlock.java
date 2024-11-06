@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
-import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
 import net.minecraft.client.ParticleStatus;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
@@ -27,7 +27,7 @@ public class LeavesWithAmbientParticlesBlock extends ShiftableLeavesBlock
 
 	@Nullable protected SimpleParticleType getParticle()
 	{
-		return !EntityHelper.isCurrentPlayerInstanceShadowBind() ? AerialHellParticleTypes.COPPER_PINE_LEAVES.get() : null;
+		return !BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() ? AerialHellParticleTypes.COPPER_PINE_LEAVES.get() : null;
 	}
 	
 	protected int getParticleNumber() {return 15;}

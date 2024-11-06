@@ -22,6 +22,7 @@ public class ShiftingBlockBakedModel implements BakedModel
     public static final ChunkRenderTypeSet CUTOUT_MIPPED = ChunkRenderTypeSet.of(RenderType.cutoutMipped());
     public static final ChunkRenderTypeSet CUTOUT = ChunkRenderTypeSet.of(RenderType.cutout());
     public static final ChunkRenderTypeSet SOLID = ChunkRenderTypeSet.of(RenderType.solid());
+    public static final ChunkRenderTypeSet TRANSLUCENT = ChunkRenderTypeSet.of(RenderType.translucent());
     private final ChunkRenderTypeSet renderType;
     private final BakedModel defaultModel;
     private final BakedModel shiftedModel;
