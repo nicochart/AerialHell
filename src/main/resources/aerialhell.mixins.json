@@ -1,3 +1,10 @@
 {
-
+	"required": true,
+	"package": "fr.factionbedrock.aerialhell.Mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
 }
