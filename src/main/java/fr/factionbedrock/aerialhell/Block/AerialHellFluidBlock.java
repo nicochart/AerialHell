@@ -3,6 +3,9 @@ package fr.factionbedrock.aerialhell.Block;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.FluidBlock;
+import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,11 +29,11 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
 
-public class AerialHellFluidBlock extends LiquidBlock {
+public class AerialHellFluidBlock extends FluidBlock {
 
-	public AerialHellFluidBlock(FlowingFluid flowingFluid, Properties properties)
+	public AerialHellFluidBlock(FlowableFluid flowableFluid, AbstractBlock.Settings settings)
 	{
-        super(flowingFluid, properties.noCollission().strength(100F).noLootTable());
+        super(flowableFluid, settings.noCollision().strength(100F).dropsNothing());
     }
 	
 	private void triggerMixEffects(LevelAccessor worldIn, BlockPos pos) {worldIn.levelEvent(1501, pos, 0);} //fizz in FluidBlock

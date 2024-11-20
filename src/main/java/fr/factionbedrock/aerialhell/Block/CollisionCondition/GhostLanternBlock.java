@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.LanternBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,9 +16,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GhostLanternBlock extends LanternBlock
 {
-    public GhostLanternBlock(Properties prop)
+    public GhostLanternBlock(Settings settings)
     {
-        super(prop.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false));
+        super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false));
     }
 
     @Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)

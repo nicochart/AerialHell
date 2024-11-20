@@ -2,6 +2,8 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.CactusBlock;
 import net.minecraft.world.level.block.CactusBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
@@ -14,9 +16,9 @@ import net.minecraft.world.phys.Vec3;
 
 public class SkyCactusBlock extends CactusBlock
 {
-	public SkyCactusBlock(Properties properties)
+	public SkyCactusBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 	}
 	
 	/*Edited isValidPosition to make the cactus can grow on slippery_sand and on itself*/

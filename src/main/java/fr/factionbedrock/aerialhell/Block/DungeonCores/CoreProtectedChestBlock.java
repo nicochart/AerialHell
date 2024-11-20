@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
 import fr.factionbedrock.aerialhell.Block.AerialHellChestBlock;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -18,9 +19,9 @@ public class CoreProtectedChestBlock extends AerialHellChestBlock
 {
 	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
 	
-	public CoreProtectedChestBlock(Properties builder)
+	public CoreProtectedChestBlock(AbstractBlock.Settings settings)
 	{
-		super(builder);
+		super(settings);
 		this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
 	

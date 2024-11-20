@@ -2,6 +2,9 @@ package fr.factionbedrock.aerialhell.Block;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -39,9 +42,9 @@ public class LargeDeadLogBlock extends Block
 
     @Override public MapCodec<? extends LargeDeadLogBlock> codec() {return CODEC;}
 
-    public LargeDeadLogBlock(BlockState state, BlockBehaviour.Properties prop)
+    public LargeDeadLogBlock(BlockState state, AbstractBlock.Settings settings)
     {
-        super(prop);
+        super(settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(HALF, Half.BOTTOM));
         this.base = state.getBlock();
         this.baseState = state;

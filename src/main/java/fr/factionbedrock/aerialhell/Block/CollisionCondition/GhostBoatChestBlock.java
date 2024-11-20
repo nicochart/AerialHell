@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Block.AerialHellChestBlock;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -19,9 +20,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GhostBoatChestBlock extends AerialHellChestBlock
 {
-	public GhostBoatChestBlock(Properties properties)
+	public GhostBoatChestBlock(AbstractBlock.Settings settings)
 	{
-		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
+		super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
 	}
 
 	@Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit)

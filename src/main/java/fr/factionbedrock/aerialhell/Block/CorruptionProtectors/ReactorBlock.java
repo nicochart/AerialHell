@@ -5,6 +5,8 @@ import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.BlockEntity.ReactorBlockEntity;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
@@ -33,10 +35,10 @@ public class ReactorBlock extends BiomeShifterBlock
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
     public static final MapCodec<ReactorBlock> CODEC = simpleCodec(ReactorBlock::new);
 
-    private ReactorBlock(Properties prop) {this(prop, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null);}
-    public ReactorBlock(Properties prop, int fieldSize, BiomeShifter.ShiftType shiftType, @Nullable Supplier<Block> shiftedOrBrokenVariant)
+    private ReactorBlock(AbstractBlock.Settings settings) {this(settings, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null);}
+    public ReactorBlock(AbstractBlock.Settings settings, int fieldSize, BiomeShifter.ShiftType shiftType, @Nullable Supplier<Block> shiftedOrBrokenVariant)
     {
-        super(prop, fieldSize, shiftType, shiftedOrBrokenVariant);
+        super(settings, fieldSize, shiftType, shiftedOrBrokenVariant);
         this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, Boolean.FALSE));
     }
 

@@ -2,6 +2,9 @@ package fr.factionbedrock.aerialhell.Block.Plants.Bushes;
 
 import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Fertilizable;
+import net.minecraft.block.PlantBlock;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
@@ -26,14 +29,14 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 
-public class AerialBerryBushBlock extends BushBlock implements BonemealableBlock
+public class AerialBerryBushBlock extends PlantBlock implements Fertilizable
 {
     public static final MapCodec<AerialBerryBushBlock> CODEC = simpleCodec(AerialBerryBushBlock::new);
 	public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
 	
-	public AerialBerryBushBlock(Properties properties)
+	public AerialBerryBushBlock(AbstractBlock.Settings settings)
 	{
-        super(properties);
+        super(settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
     }
 

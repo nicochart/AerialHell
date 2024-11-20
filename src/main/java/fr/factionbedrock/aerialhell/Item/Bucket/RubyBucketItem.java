@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellFluids;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.item.Item;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -27,9 +28,9 @@ import net.minecraft.world.phys.HitResult;
 
 public class RubyBucketItem extends Item
 {
-    public RubyBucketItem(Properties properties)
+    public RubyBucketItem(Item.Settings settings)
     {
-        super(properties);
+        super(settings);
     }
 
     @Override

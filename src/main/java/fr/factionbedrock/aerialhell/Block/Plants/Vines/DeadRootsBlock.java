@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.Plants.Vines;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -12,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class DeadRootsBlock extends AerialHellTwistingVinesBlock
 {
-    public DeadRootsBlock(Properties properties) {super(properties);}
+    public DeadRootsBlock(AbstractBlock.Settings settings) {super(settings);}
 
     private boolean isEntityImmuneToDamage(Entity entityIn)
     {

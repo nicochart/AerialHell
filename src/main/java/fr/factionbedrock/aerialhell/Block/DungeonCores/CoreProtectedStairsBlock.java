@@ -1,6 +1,9 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.StairsBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
@@ -12,13 +15,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.BlockGetter;
 
-public class CoreProtectedStairsBlock extends StairBlock
+public class CoreProtectedStairsBlock extends StairsBlock
 {
 	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
 	
-	public CoreProtectedStairsBlock(BlockState state, BlockBehaviour.Properties properties)
+	public CoreProtectedStairsBlock(BlockState state, AbstractBlock.Settings settings)
 	{
-		super(state, properties);
+		super(state, settings);
 		this.registerDefaultState(this.stateDefinition.any().setValue(CORE_PROTECTED, false));
 	}
 	

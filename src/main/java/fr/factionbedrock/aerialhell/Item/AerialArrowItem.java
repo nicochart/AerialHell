@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractAerialArrowEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.RubyArrowEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.VoluciteArrowEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.item.Item;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -11,9 +12,9 @@ import net.minecraft.world.level.Level;
 
 public class AerialArrowItem extends Item
 {
-    public AerialArrowItem(Properties properties)
+    public AerialArrowItem(Item.Settings settings)
     {
-        super(properties);
+        super(settings);
     }
 
     public AbstractAerialArrowEntity createArrow(Level level, ItemStack stack, LivingEntity shooter)

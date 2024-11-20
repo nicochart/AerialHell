@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.SaplingGenerator;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -15,12 +17,12 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
 public class ShadowPineSaplingBlock extends AerialHellSaplingBlock
 {
-	public ShadowPineSaplingBlock(TreeGrower treeIn, BlockBehaviour.Properties properties, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey, ResourceKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey, float hugeChance)
+	public ShadowPineSaplingBlock(SaplingGenerator treeIn, AbstractBlock.Settings settings, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey, ResourceKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey, float hugeChance)
 	{
-		super(treeIn, properties, giantTreeFeatureKey, hugeTreeFeatureKey, hugeChance);
+		super(treeIn, settings, giantTreeFeatureKey, hugeTreeFeatureKey, hugeChance);
 	}
 
-	public ShadowPineSaplingBlock(TreeGrower treeIn, BlockBehaviour.Properties properties, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey)
+	public ShadowPineSaplingBlock(SaplingGenerator treeIn, AbstractBlock.Settings settings, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey)
 	{
 		super(treeIn, properties, giantTreeFeatureKey);
 	}

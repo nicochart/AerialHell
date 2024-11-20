@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -21,7 +22,7 @@ import java.util.function.ToIntFunction;
 public class GlowingStellarTallGrass extends AerialHellTallGrassBlock
 {
 	public static final BooleanProperty LIT = RedstoneTorchBlock.LIT;
-	public GlowingStellarTallGrass(Properties properties) {super(properties); this.registerDefaultState(this.defaultBlockState().setValue(LIT, false));}
+	public GlowingStellarTallGrass(AbstractBlock.Settings settings) {super(settings); this.registerDefaultState(this.defaultBlockState().setValue(LIT, false));}
 
 	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
 	{

@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition.SolidEther;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,7 +11,7 @@ import net.minecraft.world.level.Level;
 
 public class GreenSolidEtherBlock extends SolidEtherBlock
 {
-	public GreenSolidEtherBlock(BlockBehaviour.Properties properties) {super(properties);}
+	public GreenSolidEtherBlock(AbstractBlock.Settings settings) {super(settings);}
 	
 	@Override public void livingEntityInside(BlockState state, Level level, BlockPos pos, LivingEntity entity)
 	{

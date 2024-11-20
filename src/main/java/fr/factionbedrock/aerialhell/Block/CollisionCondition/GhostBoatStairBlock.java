@@ -2,6 +2,9 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.StairsBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
@@ -15,11 +18,11 @@ import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class GhostBoatStairBlock extends StairBlock
+public class GhostBoatStairBlock extends StairsBlock
 {
-	public GhostBoatStairBlock(BlockState state, Properties properties)
+	public GhostBoatStairBlock(BlockState state, AbstractBlock.Settings settings)
 	{
-		super(state, properties);
+		super(state, settings);
 		this.registerDefaultState(this.defaultBlockState());
 	}
 

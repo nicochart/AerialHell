@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Item.Shuriken;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.item.Item;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -15,9 +16,9 @@ import net.minecraft.world.level.Level;
 
 public abstract class AbstractShurikenItem extends Item
 {
-	public AbstractShurikenItem(Properties properties)
+	public AbstractShurikenItem(Item.Settings settings)
 	{
-		super(properties.stacksTo(16));
+		super(settings.maxCount(16));
 	}
 	
 	@Override

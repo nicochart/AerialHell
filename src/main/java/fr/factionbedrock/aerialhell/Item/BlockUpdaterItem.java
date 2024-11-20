@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.item.Item;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -16,7 +17,7 @@ import java.util.Iterator;
 
 public class BlockUpdaterItem extends WithInformationItem
 {
-    public BlockUpdaterItem(Properties prop) {super(prop);}
+    public BlockUpdaterItem(Item.Settings settings) {super(settings);}
 
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int itemSlot, boolean isSelected)
     {

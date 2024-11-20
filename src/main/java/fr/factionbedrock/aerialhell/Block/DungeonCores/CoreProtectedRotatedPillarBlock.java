@@ -1,5 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.PillarBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.RotatedPillarBlock;
@@ -10,13 +12,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.BlockGetter;
 
-public class CoreProtectedRotatedPillarBlock extends RotatedPillarBlock
+public class CoreProtectedRotatedPillarBlock extends PillarBlock
 {
 	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
 	
-	public CoreProtectedRotatedPillarBlock(Properties properties)
+	public CoreProtectedRotatedPillarBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 		this.registerDefaultState(this.stateDefinition.any().setValue(CORE_PROTECTED, false));
 	}
 	

@@ -3,6 +3,8 @@ package fr.factionbedrock.aerialhell.Block;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowAutomatonEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.ChainBlock;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.ChainBlock;
@@ -18,7 +20,7 @@ import net.minecraft.world.level.BlockGetter;
 public class ShadowChainBlock extends ChainBlock
 {
     protected final static VoxelShape EMPTY_SHAPE = Shapes.empty();
-    public ShadowChainBlock(Properties properties) {super(properties);}
+    public ShadowChainBlock(AbstractBlock.Settings settings) {super(settings);}
 
     @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
     {

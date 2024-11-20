@@ -15,9 +15,9 @@ import java.util.function.Supplier;
 
 public class ShadowLeavesBlock extends ShiftableLeavesBlock implements ShadowSpreaderBlock
 {
-	public ShadowLeavesBlock(Properties properties, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
+	public ShadowLeavesBlock(Settings settings, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
 	{
-		super(properties, shiftedVariant, shiftType);
+		super(settings, shiftedVariant, shiftType);
 		this.registerDefaultState(this.defaultBlockState().setValue(DISTANCE, Integer.valueOf(7)).setValue(PERSISTENT, Boolean.valueOf(false)).setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(CAN_SPREAD, true));
 	}
 

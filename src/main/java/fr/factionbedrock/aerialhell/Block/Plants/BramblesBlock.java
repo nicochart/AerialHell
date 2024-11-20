@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
@@ -17,9 +18,9 @@ import net.minecraft.world.phys.Vec3;
 
 public class BramblesBlock extends AerialHellTallGrassBlock
 {
-	public BramblesBlock(Properties properties)
+	public BramblesBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 		this.registerDefaultState(this.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, false));
 	}
 

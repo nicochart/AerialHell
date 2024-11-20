@@ -1,29 +1,27 @@
 package fr.factionbedrock.aerialhell;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.ModContainer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.ModInitializer;
+import net.minecraft.util.Identifier;
 
 import fr.factionbedrock.aerialhell.Setup.*;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.common.Mod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Mod(AerialHell.MODID) 
-public class AerialHell
+public class AerialHell implements ModInitializer, ClientModInitializer
 {
 	public static final String MODID = "aerialhell";
-	public static final String NAME = "Aerial Hell";
-	public static final String VERSION = "1.0";
-	
-	public static Logger LOGGER = LogManager.getLogger();
+	public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
-    public AerialHell(IEventBus modEventBus, ModContainer modContainer, Dist dist)
-    {
-    	AerialHellSetup.init(modEventBus);
-    	
-        // Register the setup method for modloading
+	@Override public void onInitialize()
+	{
+		AerialHellSetup.init();
+	}
 
-		if (dist == Dist.CLIENT) {AerialHellClientSetup.init(modEventBus);}
-    }
+	@Override public void onInitializeClient()
+	{
+		AerialHellClientSetup.init();
+	}
+
+	public static Identifier id(String path) {return Identifier.of(MODID, path);}
 }

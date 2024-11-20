@@ -6,6 +6,8 @@ import java.util.function.Supplier;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.MushroomBlock;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -21,7 +23,7 @@ import net.minecraft.server.level.ServerLevel;
 
 public class AerialHellMushroomBlock extends MushroomBlock
 {
-	public AerialHellMushroomBlock(ResourceKey<ConfiguredFeature<?, ?>> featureKey, Properties properties) {super(featureKey, properties);}
+	public AerialHellMushroomBlock(ResourceKey<ConfiguredFeature<?, ?>> featureKey, AbstractBlock.Settings settings) {super(featureKey, settings);}
 
 	@Override
 	public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {}

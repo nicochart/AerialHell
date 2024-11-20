@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.Ores;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,9 +13,9 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class MagmaticGelOreBlock extends AerialHellOreBlock
 {	
-	public MagmaticGelOreBlock(int minExpDropped, int maxExpDropped, BlockBehaviour.Properties properties)
+	public MagmaticGelOreBlock(int minExpDropped, int maxExpDropped, AbstractBlock.Settings settings)
 	{
-		super(minExpDropped, maxExpDropped, properties);
+		super(minExpDropped, maxExpDropped, settings);
 	}
 	
 	@Override

@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.CollisionCondition.SolidEther;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,7 +13,7 @@ import net.minecraft.world.level.Level;
 
 public class PurpleSolidEtherBlock extends SolidEtherBlock
 {
-	public PurpleSolidEtherBlock(BlockBehaviour.Properties properties) {super(properties);}
+	public PurpleSolidEtherBlock(AbstractBlock.Settings settings) {super(settings);}
 
 	@Override public void livingEntityInside(BlockState state, Level level, BlockPos pos, LivingEntity entity)
 	{

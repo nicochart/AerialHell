@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Block.Furnaces;
 import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.BlockEntity.StellarFurnaceBlockEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
@@ -25,9 +26,9 @@ public class StellarFurnaceBlock extends AbstractAerialHellFurnaceBlock
 {
 	public static final MapCodec<StellarFurnaceBlock> CODEC = simpleCodec(StellarFurnaceBlock::new);
 
-	public StellarFurnaceBlock(Properties properties)
+	public StellarFurnaceBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 	}
 
 	@Override protected @NotNull MapCodec<? extends AbstractFurnaceBlock> codec() {return CODEC;}

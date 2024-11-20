@@ -1,5 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.Furnaces;
 
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
@@ -17,7 +19,7 @@ import org.joml.Vector3d;
 
 public abstract class AbstractAerialHellFurnaceBlock extends AbstractFurnaceBlock
 {
-    protected AbstractAerialHellFurnaceBlock(Properties properties) {super(properties);}
+    protected AbstractAerialHellFurnaceBlock(AbstractBlock.Settings settings) {super(settings);}
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType)

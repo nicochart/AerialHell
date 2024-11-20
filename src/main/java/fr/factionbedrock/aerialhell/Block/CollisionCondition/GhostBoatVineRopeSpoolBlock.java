@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Block.VineRopeSpoolBlock;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,9 +16,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GhostBoatVineRopeSpoolBlock extends VineRopeSpoolBlock {
 
-    public GhostBoatVineRopeSpoolBlock(Properties prop)
+    public GhostBoatVineRopeSpoolBlock(AbstractBlock.Settings settings)
     {
-        super(prop.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
+        super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
     }
 
     @Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)

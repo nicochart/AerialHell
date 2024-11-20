@@ -3,6 +3,8 @@ package fr.factionbedrock.aerialhell.Block;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.SnowBlock;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SnowLayerBlock;
@@ -20,13 +22,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import java.util.Random;
 
-public class BonePileBlock extends SnowLayerBlock
+public class BonePileBlock extends SnowBlock
 {
     private static final int MAX_WAIT_TIMER = 10;
     public static final IntegerProperty WALK_DESTROY_TIMER = IntegerProperty.create("walk_destroy_timer", 0, MAX_WAIT_TIMER);
-    public BonePileBlock(Properties properties)
+    public BonePileBlock(AbstractBlock.Settings settings)
     {
-        super(properties);
+        super(settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(WALK_DESTROY_TIMER, Integer.valueOf(0)).setValue(LAYERS, Integer.valueOf(1)));
     }
 

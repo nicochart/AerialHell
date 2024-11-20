@@ -1,5 +1,8 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.SaplingBlock;
+import net.minecraft.block.SaplingGenerator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -19,17 +22,17 @@ public class AerialHellSaplingBlock extends SaplingBlock
 	@Nullable private final ResourceKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey;
 	private final float hugeChange;
 
-	public AerialHellSaplingBlock(TreeGrower treeIn, Properties properties, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey, ResourceKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey, float hugeChance)
+	public AerialHellSaplingBlock(SaplingGenerator treeIn, AbstractBlock.Settings settings, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey, ResourceKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey, float hugeChance)
 	{
-		super(treeIn, properties);
+		super(treeIn, settings);
 		this.giantTreeFeatureKey = giantTreeFeatureKey;
 		this.hugeTreeFeatureKey = hugeTreeFeatureKey;
 		this.hugeChange = hugeChance;
 	}
 
-	public AerialHellSaplingBlock(TreeGrower treeIn, Properties properties, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey)
+	public AerialHellSaplingBlock(SaplingGenerator treeIn, AbstractBlock.Settings settings, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey)
 	{
-		this(treeIn, properties, giantTreeFeatureKey, null, 0.0F);
+		this(treeIn, settings, giantTreeFeatureKey, null, 0.0F);
 	}
 
 	@Override public void advanceTree(ServerLevel serverLevel, BlockPos pos, BlockState state, RandomSource rand)

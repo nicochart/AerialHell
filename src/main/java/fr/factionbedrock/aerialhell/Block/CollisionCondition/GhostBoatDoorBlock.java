@@ -2,6 +2,9 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.BlockSetType;
+import net.minecraft.block.DoorBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -21,9 +24,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GhostBoatDoorBlock extends DoorBlock
 {
-	public GhostBoatDoorBlock(BlockSetType type, Properties properties)
+	public GhostBoatDoorBlock(BlockSetType type, AbstractBlock.Settings settings)
 	{
-		super(type, properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false));
+		super(type, settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false));
 	}
 
 	@Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit)

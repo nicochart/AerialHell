@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Block.DirtAndVariants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -10,9 +12,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class StellarDirtBlock extends Block
 {
-	public StellarDirtBlock(Properties properties)
+	public StellarDirtBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 	}
 
 	@Override @Nullable

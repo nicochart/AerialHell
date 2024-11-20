@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.FenceBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,9 +17,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GhostBoatFenceBlock extends FenceBlock
 {
-	public GhostBoatFenceBlock(Properties properties)
+	public GhostBoatFenceBlock(AbstractBlock.Settings settings)
 	{
-		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false));
+		super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false));
 	}
 
 	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)

@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.level.block.Block;
@@ -22,9 +23,9 @@ public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 {
 	private static final Random rand = new Random();
 	
-	public CoreProtectedTrappedBlock(Properties properties)
+	public CoreProtectedTrappedBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 		this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
 

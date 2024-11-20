@@ -3,6 +3,8 @@ package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
@@ -19,9 +21,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GhostBoatSlabBlock extends SlabBlock
 {
-	public GhostBoatSlabBlock(Properties properties)
+	public GhostBoatSlabBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 		this.registerDefaultState(this.defaultBlockState());
 	}
 

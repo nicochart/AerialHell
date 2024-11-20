@@ -1,5 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.TallFlowerBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -9,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class TallShroomBlock extends TallFlowerBlock
 {
-    public TallShroomBlock(Properties prop) {super(prop);}
+    public TallShroomBlock(AbstractBlock.Settings settings) {super(settings);}
 
     @Override
     public void performBonemeal(ServerLevel level, RandomSource rand, BlockPos pos, BlockState state)

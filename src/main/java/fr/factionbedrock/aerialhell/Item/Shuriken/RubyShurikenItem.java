@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Item.Shuriken;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.RubyShurikenEntity;
+import net.minecraft.item.Item;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -11,7 +12,7 @@ public class RubyShurikenItem extends AbstractShurikenItem
 {
 	public RubyShurikenItem()
 	{
-		super(new Item.Properties().rarity(Rarity.COMMON));
+		super(new Item.Settings().rarity(Rarity.COMMON));
 	}
 
 	@Override protected float getVelocity() {return 1.8F;}

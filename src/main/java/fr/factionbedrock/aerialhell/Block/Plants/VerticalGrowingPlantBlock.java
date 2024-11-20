@@ -1,5 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -27,9 +29,9 @@ public class VerticalGrowingPlantBlock extends Block
     protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 16.0D, 14.0D);
     private final int MAX_GROWTH_HEIGHT;
 
-    public VerticalGrowingPlantBlock(Properties prop, int maxHeight)
+    public VerticalGrowingPlantBlock(AbstractBlock.Settings settings, int maxHeight)
     {
-        super(prop);
+        super(settings);
         this.MAX_GROWTH_HEIGHT = maxHeight;
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0).setValue(TOP, true));
     }

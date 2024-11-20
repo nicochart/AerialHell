@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
 import fr.factionbedrock.aerialhell.Block.GlyphBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -19,9 +20,9 @@ public class CoreProtectedGlyphBlock extends GlyphBlock
 {
 	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
 
-	public CoreProtectedGlyphBlock(Properties properties)
+	public CoreProtectedGlyphBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 		this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
 	

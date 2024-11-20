@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Item;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.item.Item;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
@@ -38,9 +39,9 @@ public class AerialHellSpawnEgg extends Item
     private final Supplier<? extends EntityType<? extends Mob>> typeSupplier;
     private final boolean isBoss;
 
-    public AerialHellSpawnEgg(Supplier<? extends EntityType<? extends Mob>> type, Item.Properties props, boolean isBoss)
+    public AerialHellSpawnEgg(Supplier<? extends EntityType<? extends Mob>> type, Item.Settings settings, boolean isBoss)
     {
-        super(props);
+        super(settings);
         this.typeSupplier = type;
         this.isBoss = isBoss;
     }

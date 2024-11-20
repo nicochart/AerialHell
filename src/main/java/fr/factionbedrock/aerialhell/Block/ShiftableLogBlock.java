@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
+import net.minecraft.block.PillarBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -10,15 +11,15 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
-public class ShiftableLogBlock extends RotatedPillarBlock
+public class ShiftableLogBlock extends PillarBlock
 {
     private final Supplier<ShiftableLogBlock> shiftedVariant;
     private final BiomeShifter.ShiftType shiftType;
     public static final BooleanProperty SHIFTED_RENDER = BooleanProperty.create("shifted_render"); //only used for render purposes
 
-    public ShiftableLogBlock(Properties prop, Supplier<ShiftableLogBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
+    public ShiftableLogBlock(Settings settings, Supplier<ShiftableLogBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
     {
-        super(prop);
+        super(settings);
         this.shiftedVariant = shiftedVariant;
         this.shiftType = shiftType;
         this.registerDefaultState(this.defaultBlockState().setValue(SHIFTED_RENDER, false));

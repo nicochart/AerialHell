@@ -3,6 +3,8 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.ShortPlantBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -19,11 +21,11 @@ import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.TallGrassBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class AerialHellTallShroomBlock extends TallGrassBlock
+public class AerialHellTallShroomBlock extends ShortPlantBlock
 {
 	private final boolean needsDarkness;
 
-	public AerialHellTallShroomBlock(Properties properties, boolean needsDarkness) {super(properties); this.needsDarkness = needsDarkness;}
+	public AerialHellTallShroomBlock(AbstractBlock.Settings settings, boolean needsDarkness) {super(settings); this.needsDarkness = needsDarkness;}
 
 	@Override public void performBonemeal(ServerLevel level, RandomSource rand, BlockPos pos, BlockState state)
 	{

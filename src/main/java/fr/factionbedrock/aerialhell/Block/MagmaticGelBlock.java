@@ -1,5 +1,7 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.TranslucentBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.entity.Entity;
@@ -18,11 +20,11 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 
-public class MagmaticGelBlock extends HalfTransparentBlock
+public class MagmaticGelBlock extends TranslucentBlock
 {
-	public MagmaticGelBlock(BlockBehaviour.Properties properties)
+	public MagmaticGelBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 	}
 	
 	@Override

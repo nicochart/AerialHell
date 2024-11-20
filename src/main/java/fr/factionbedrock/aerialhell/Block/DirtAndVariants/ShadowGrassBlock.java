@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.DirtAndVariants;
 
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellPlacedFeatures;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
@@ -25,9 +26,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class ShadowGrassBlock extends AerialHellGrassBlock
 {
-	public ShadowGrassBlock(BlockBehaviour.Properties properties)
+	public ShadowGrassBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 		this.registerDefaultState(this.defaultBlockState());
 	}
 

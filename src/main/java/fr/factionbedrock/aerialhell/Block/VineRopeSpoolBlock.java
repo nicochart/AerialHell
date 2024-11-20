@@ -1,5 +1,7 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.PillarBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -11,7 +13,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class VineRopeSpoolBlock extends RotatedPillarBlock
+public class VineRopeSpoolBlock extends PillarBlock
 {
     //protected static final VoxelShape SHAPE = Block.box(0.1D, 0.1D, 0.1D, 15.8D, 15.8D, 15.8D);
     protected static final VoxelShape VERTICAL_BOTTOM_SUPPORT = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 3.0D, 16.0D);
@@ -26,7 +28,7 @@ public class VineRopeSpoolBlock extends RotatedPillarBlock
     protected static final VoxelShape HORIZONTAL_Z_TOP_SUPPORT = Block.box(0.0D, 0.0D, 13.0D, 16.0D, 16.0D, 16.0D);
     protected static final VoxelShape HORIZONTAL_Z_SPOOL = Block.box(2.0D, 2.0D, 3.0D, 14.0D, 14.0D, 13.0D);
 
-    public VineRopeSpoolBlock(Properties prop) {super(prop);}
+    public VineRopeSpoolBlock(AbstractBlock.Settings settings) {super(settings);}
 
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
     {

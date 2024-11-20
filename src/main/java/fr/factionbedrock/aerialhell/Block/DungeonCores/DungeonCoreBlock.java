@@ -5,6 +5,8 @@ import javax.annotation.Nullable;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
@@ -22,9 +24,9 @@ public class DungeonCoreBlock extends Block
 {	
 	int coreProtectRange; //odd number is better
 	
-	public DungeonCoreBlock(Properties properties, int coreRangeIn)
+	public DungeonCoreBlock(AbstractBlock.Settings settings, int coreRangeIn)
 	{
-		super(properties);
+		super(settings);
 		this.coreProtectRange = coreRangeIn;
 	}
 	

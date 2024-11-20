@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Item.Bucket;
 
 import net.minecraft.core.Direction;
+import net.minecraft.item.Item;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -28,9 +29,9 @@ import net.minecraft.world.phys.HitResult;
 
 public class RubyWaterBucketItem extends Item
 {
-    public RubyWaterBucketItem(Properties properties)
+    public RubyWaterBucketItem(Item.Settings settings)
     {
-        super(properties);
+        super(settings);
     }
 
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)

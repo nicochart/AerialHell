@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Block.Furnaces.StellarFurnaceBlock;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -20,7 +21,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GhostStellarFurnaceBlock extends StellarFurnaceBlock
 {
-    public GhostStellarFurnaceBlock(Properties properties) {super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));}
+    public GhostStellarFurnaceBlock(AbstractBlock.Settings settings) {super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));}
 
     @Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit)
     {

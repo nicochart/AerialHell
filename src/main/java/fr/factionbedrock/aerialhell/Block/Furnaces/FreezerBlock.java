@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.BlockEntity.FreezerBlockEntity;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.sounds.SoundEvent;
@@ -27,9 +28,9 @@ public class FreezerBlock extends AbstractAerialHellFurnaceBlock
 {
 	public static final MapCodec<FreezerBlock> CODEC = simpleCodec(FreezerBlock::new);
 
-	public FreezerBlock(BlockBehaviour.Properties properties)
+	public FreezerBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 	}
 
 	@Override protected @NotNull MapCodec<? extends AbstractFurnaceBlock> codec() {return CODEC;}

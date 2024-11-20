@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Block.DirtAndVariants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.FarmlandBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -17,9 +19,9 @@ import net.neoforged.neoforge.common.util.TriState;
 
 import javax.annotation.Nullable;
 
-public class StellarFarmBlock extends FarmBlock
+public class StellarFarmBlock extends FarmlandBlock
 {
-    public StellarFarmBlock(Properties prop) {super(prop);}
+    public StellarFarmBlock(AbstractBlock.Settings settings) {super(settings);}
 
     @Override public BlockState getStateForPlacement(BlockPlaceContext context)
     {

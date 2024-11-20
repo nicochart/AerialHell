@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.Inventory.Menu.AerialHellCraftingMenu;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
@@ -19,9 +21,9 @@ public class AerialHellCraftingTableBlock extends CraftingTableBlock
 {
 	private static final Component CONTAINER_NAME = Component.translatable("container.crafting");
 
-	public AerialHellCraftingTableBlock(Properties properties)
+	public AerialHellCraftingTableBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 	}
 
 	@Override

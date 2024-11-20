@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Item;
 import fr.factionbedrock.aerialhell.Block.DungeonCores.*;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.item.Item;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -16,7 +17,7 @@ import javax.annotation.Nullable;
 
 public class BlockCrackerItem extends WithInformationItem
 {
-    public BlockCrackerItem(Properties prop) {super(prop);}
+    public BlockCrackerItem(Item.Settings settings) {super(settings);}
 
     @Override public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
     {

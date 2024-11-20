@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Registry;
 
+import net.minecraft.block.WoodType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;

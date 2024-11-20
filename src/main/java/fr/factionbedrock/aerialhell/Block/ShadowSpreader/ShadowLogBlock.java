@@ -16,9 +16,9 @@ import java.util.function.Supplier;
 
 public class ShadowLogBlock extends ShiftableLogBlock implements ShadowSpreaderBlock
 {
-	public ShadowLogBlock(Properties properties, Supplier<ShiftableLogBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
+	public ShadowLogBlock(Settings settings, Supplier<ShiftableLogBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
 	{
-		super(properties, shiftedVariant, shiftType);
+		super(settings, shiftedVariant, shiftType);
 		this.registerDefaultState(this.defaultBlockState().setValue(CAN_SPREAD, true));
 	}
 

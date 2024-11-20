@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -17,9 +19,9 @@ import java.util.Optional;
 
 public class ArsonistBlock extends Block
 {
-	public ArsonistBlock(Properties properties)
+	public ArsonistBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 	}
 	
 	@Override public void stepOn(Level level, BlockPos pos, BlockState state, Entity entityIn)

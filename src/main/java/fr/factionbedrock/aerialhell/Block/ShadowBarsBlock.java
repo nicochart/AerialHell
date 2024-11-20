@@ -3,6 +3,8 @@ package fr.factionbedrock.aerialhell.Block;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowAutomatonEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.PaneBlock;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,10 +16,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.level.BlockGetter;
 
-public class ShadowBarsBlock extends IronBarsBlock
+public class ShadowBarsBlock extends PaneBlock
 {
     protected final static VoxelShape EMPTY_SHAPE = Shapes.empty();
-    public ShadowBarsBlock(Properties builder) {super(builder.isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false));}
+    public ShadowBarsBlock(AbstractBlock.Settings settings) {super(settings.isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false));}
 
     @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
     {

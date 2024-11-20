@@ -12,72 +12,69 @@ import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMenuTypes;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntityAttributes;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.*;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.common.NeoForge;
 
 public class AerialHellSetup
 {
-    public static void init(IEventBus bus)
+    public static void init()
     {
-        registration(bus);
-        bus.addListener(AerialHellSetup::additionalRegistration);
-        listen(bus);
-        eventBusListen(NeoForge.EVENT_BUS);
+        registration();
+        //addListener(AerialHellSetup::additionalRegistration);
+        //listen(bus);
+        //eventBusListen(NeoForge.EVENT_BUS);
     }
 
-    public static void additionalRegistration(final FMLCommonSetupEvent event)
-    {
-        event.enqueueWork(() ->
-        {
-        	AerialHellBlocksAndItems.registerCompostableItems();
-        	AerialHellBlocksAndItems.registerPots();
-        	AerialHellBlocksAndItems.registerAxeStrippingBlocks();
-        });
-    }
+    //public static void additionalRegistration(final FMLCommonSetupEvent event)
+    //{
+    //    event.enqueueWork(() ->
+    //    {
+    //    	AerialHellBlocksAndItems.registerCompostableItems();
+    //    	AerialHellBlocksAndItems.registerPots();
+    //    	AerialHellBlocksAndItems.registerAxeStrippingBlocks();
+    //    });
+    //}
 	
-	public static void registration(IEventBus bus)
+	public static void registration()
     {
-    	AerialHellBlocksAndItems.BLOCKS.register(bus);
-    	AerialHellFluids.FLUIDS.register(bus);
-    	AerialHellFluids.FLUID_TYPES.register(bus);
-    	AerialHellBlocksAndItems.ITEMS.register(bus);
-        AerialHellEntities.ENTITIES.register(bus);
+    	AerialHellBlocks.load();
+        AerialHellItems.load();
+        //AerialHellFluids.FLUIDS.register(bus);
+        //AerialHellFluids.FLUID_TYPES.register(bus);
+        //AerialHellEntities.ENTITIES.register(bus);
         //AerialHellBiomes.BIOMES.register(bus);
-        AerialHellMobEffects.EFFECTS.register(bus);
-        AerialHellPOI.POI.register(bus);
-        AerialHellStructures.STRUCTURES.register(bus);
-        AerialHellParticleTypes.PARTICLES.register(bus);
-        AerialHellMenuTypes.MENUS.register(bus);
-        AerialHellRecipes.RECIPE_SERIALIZERS.register(bus);
-        AerialHellRecipes.RecipeTypes.RECIPE_TYPES.register(bus);
-        AerialHellBlockEntities.BLOCK_ENTITY_TYPES.register(bus);
-        AerialHellSoundEvents.SOUNDS.register(bus);
-        AerialHellCreativeModeTabs.TABS.register(bus);
+        //AerialHellMobEffects.EFFECTS.register(bus);
+        //AerialHellPOI.POI.register(bus);
+        //AerialHellStructures.STRUCTURES.register(bus);
+        //AerialHellParticleTypes.PARTICLES.register(bus);
+        //AerialHellMenuTypes.MENUS.register(bus);
+        //AerialHellRecipes.RECIPE_SERIALIZERS.register(bus);
+        //AerialHellRecipes.RecipeTypes.RECIPE_TYPES.register(bus);
+        //AerialHellBlockEntities.BLOCK_ENTITY_TYPES.register(bus);
+        //AerialHellSoundEvents.SOUNDS.register(bus);
+        //AerialHellCreativeModeTabs.TABS.register(bus);
 
-        AerialHellFeatures.FEATURES.register(bus);
+        //AerialHellFeatures.FEATURES.register(bus);
         //AerialHellConfiguredFeatures.CONFIGURED_FEATURES.register(bus);
         //AerialHellPlacedFeatures.PLACED_FEATURES.register(bus);
     }
 
-    public static void eventBusListen(IEventBus bus)
-    {
-        bus.addListener(BlockEventListener::onNeighborNotifyEvent);
-        bus.addListener(BlockEventListener::onEntityPlaceEvent);
-        bus.addListener(BlockEventListener::onOverlay);
-        bus.addListener(LivingEntityEventListener::onLivingJumpEvent);
-        bus.addListener(LivingEntityEventListener::onSleepFinishEvent);
-        bus.addListener(ToolsAndArmorEventListener::onProjectileCollideWithEntity);
-        bus.addListener(ToolsAndArmorEventListener::onLivingDamageEvent);
-        bus.addListener(ToolsAndArmorEventListener::onPlayerHarvest);
-        //bus.addListener(ToolsAndArmorEventListener::addReach); TODO
-        bus.addListener(CustomBrewingRecipe::addBrewingRecipes);
-    }
+    //public static void eventBusListen(IEventBus bus)
+    //{
+    //    bus.addListener(BlockEventListener::onNeighborNotifyEvent);
+    //    bus.addListener(BlockEventListener::onEntityPlaceEvent);
+    //    bus.addListener(BlockEventListener::onOverlay);
+    //    bus.addListener(LivingEntityEventListener::onLivingJumpEvent);
+    //    bus.addListener(LivingEntityEventListener::onSleepFinishEvent);
+    //    bus.addListener(ToolsAndArmorEventListener::onProjectileCollideWithEntity);
+    //    bus.addListener(ToolsAndArmorEventListener::onLivingDamageEvent);
+    //    bus.addListener(ToolsAndArmorEventListener::onPlayerHarvest);
+    //    //bus.addListener(ToolsAndArmorEventListener::addReach); TODO
+    //    bus.addListener(CustomBrewingRecipe::addBrewingRecipes);
+    //}
 
-    public static void listen(IEventBus bus)
-    {
-        bus.addListener(AerialHellEntities::entitySpawnPlacements);
-        bus.addListener(AerialHellEntityAttributes::entityAttributes);
-        bus.addListener(DataPacketPayloads::register);
-    }
+    //public static void listen(IEventBus bus)
+    //{
+    //    bus.addListener(AerialHellEntities::entitySpawnPlacements);
+    //    bus.addListener(AerialHellEntityAttributes::entityAttributes);
+    //    bus.addListener(DataPacketPayloads::register);
+    //}
 }

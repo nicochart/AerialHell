@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.DirtAndVariants;
 
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellPlacedFeatures;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
@@ -27,9 +28,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class StellarGrassBlock extends AerialHellGrassBlock
 {
-	public StellarGrassBlock(BlockBehaviour.Properties properties)
+	public StellarGrassBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 		this.registerDefaultState(this.defaultBlockState());
 	}
 

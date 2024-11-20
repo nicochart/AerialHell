@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Item;
 
+import net.minecraft.item.Item;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,9 +20,9 @@ public class BlowpipeItem extends Item
 {
 	private float arrowVelocity;
 	
-    public BlowpipeItem(Properties builder, float arrowVelocity)
+    public BlowpipeItem(Item.Settings settings, float arrowVelocity)
     {
-        super(builder);
+        super(settings);
         this.arrowVelocity = arrowVelocity;
     }
 

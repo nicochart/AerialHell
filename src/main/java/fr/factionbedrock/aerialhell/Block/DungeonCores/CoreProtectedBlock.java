@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,9 +16,9 @@ public class CoreProtectedBlock extends Block
 {
 	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
 	
-	public CoreProtectedBlock(Properties properties)
+	public CoreProtectedBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 		this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
 	

@@ -5,6 +5,9 @@ import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifterBlockEntity;
 import fr.factionbedrock.aerialhell.BlockEntity.ReactorBlockEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -14,22 +17,23 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
-public class BiomeShifterBlock extends BaseEntityBlock
+public class BiomeShifterBlock extends BlockWithEntity
 {
     public final int fieldSize;
     protected final BiomeShifter.ShiftType shiftType;
     @Nullable private final Supplier<Block> shiftedOrBrokenVariant;
     public static final MapCodec<BiomeShifterBlock> CODEC = simpleCodec(BiomeShifterBlock::new);
 
-    private BiomeShifterBlock(Properties prop) {this(prop, ReactorBlockEntity.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null);}
+    private BiomeShifterBlock(AbstractBlock.Settings settings) {this(settings, ReactorBlockEntity.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null);}
 
-    public BiomeShifterBlock(Properties prop, int fieldSize, BiomeShifter.ShiftType shiftType, @Nullable Supplier<Block> shiftedOrBrokenVariant)
+    public BiomeShifterBlock(AbstractBlock.Settings settings, int fieldSize, BiomeShifter.ShiftType shiftType, @Nullable Supplier<Block> shiftedOrBrokenVariant)
     {
-        super(prop);
+        super(settings);
         this.fieldSize = fieldSize;
         this.shiftType = shiftType;
         this.shiftedOrBrokenVariant = shiftedOrBrokenVariant;

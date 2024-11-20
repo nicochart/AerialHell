@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
@@ -16,13 +18,13 @@ import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public abstract class CollisionConditionHalfTransparentBlockEntity extends BaseEntityBlock
+public abstract class CollisionConditionHalfTransparentBlockEntity extends BlockWithEntity
 {
     protected final static double default_living_entity_xz_delta_movement_factor = 0.96, default_non_living_entity_xz_delta_movement_factor = 0.85, default_y_delta_movement_factor = 0.002;
 
-    protected CollisionConditionHalfTransparentBlockEntity(Properties properties)
+    protected CollisionConditionHalfTransparentBlockEntity(AbstractBlock.Settings settings)
     {
-        super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
+        super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
     }
 
     @Override protected RenderShape getRenderShape(BlockState pState) {return RenderShape.MODEL;}

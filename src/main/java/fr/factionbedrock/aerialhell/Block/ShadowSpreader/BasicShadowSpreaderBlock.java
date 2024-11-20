@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.ShadowSpreader;
 
 import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
+import net.minecraft.block.Block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -12,9 +13,9 @@ import net.minecraft.world.level.block.state.StateDefinition;
 
 public class BasicShadowSpreaderBlock extends Block implements ShadowSpreaderBlock
 {
-	public BasicShadowSpreaderBlock(Properties properties)
+	public BasicShadowSpreaderBlock(Settings settings)
 	{
-		super(properties);
+		super(settings);
 		this.registerDefaultState(this.defaultBlockState().setValue(CAN_SPREAD, true).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false));
 	}
 

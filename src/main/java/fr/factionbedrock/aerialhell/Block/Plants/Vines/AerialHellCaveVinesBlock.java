@@ -2,6 +2,9 @@ package fr.factionbedrock.aerialhell.Block.Plants.Vines;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.CaveVinesHeadBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -18,9 +21,9 @@ import net.minecraft.world.level.block.CaveVinesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class AerialHellCaveVinesBlock extends CaveVinesBlock
+public class AerialHellCaveVinesBlock extends CaveVinesHeadBlock
 {
-    public AerialHellCaveVinesBlock(Properties properties) {super(properties);}
+    public AerialHellCaveVinesBlock(AbstractBlock.Settings settings) {super(settings);}
 
     @Override protected Block getBodyBlock()
     {

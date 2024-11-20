@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Block.Trophies;
 
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -19,7 +21,7 @@ public class BottomSlabLikeTrophyBlock extends Block
 {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-    public BottomSlabLikeTrophyBlock(Properties prop) {super(prop); this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));}
+    public BottomSlabLikeTrophyBlock(AbstractBlock.Settings settings) {super(settings); this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));}
 
     protected static final VoxelShape BOTTOM_SLAB_SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
 

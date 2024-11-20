@@ -2,6 +2,8 @@ package fr.factionbedrock.aerialhell.Block.Mimics;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AbstractChestMimicEntity;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.ChestBlock;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -28,9 +30,9 @@ import fr.factionbedrock.aerialhell.BlockEntity.ChestMimicBlockEntity;
 
 public class ChestMimicBlock extends ChestBlock
 {
-	public ChestMimicBlock(BlockBehaviour.Properties builder)
+	public ChestMimicBlock(AbstractBlock.Settings settings)
 	{
-		super(builder, AerialHellBlockEntities.CHEST_MIMIC::get);
+		super(settings, AerialHellBlockEntities.CHEST_MIMIC::get);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, ChestType.SINGLE).setValue(WATERLOGGED, Boolean.valueOf(false)));
 	}
 

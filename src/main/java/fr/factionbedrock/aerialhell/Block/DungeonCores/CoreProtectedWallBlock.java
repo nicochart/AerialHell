@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.WallBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
@@ -12,9 +14,9 @@ public class CoreProtectedWallBlock extends WallBlock
 	//Problem with .isOpaque()
 	//public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
 	
-	public CoreProtectedWallBlock(Properties properties)
+	public CoreProtectedWallBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 		//this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
 	

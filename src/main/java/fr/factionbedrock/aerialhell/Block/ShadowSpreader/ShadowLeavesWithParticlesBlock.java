@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.ParticleStatus;
 import net.minecraft.core.BlockPos;
@@ -17,7 +18,7 @@ import java.util.function.Supplier;
 
 public class ShadowLeavesWithParticlesBlock extends ShadowLeavesBlock
 {
-    public ShadowLeavesWithParticlesBlock(Properties properties, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType) {super(properties, shiftedVariant, shiftType);}
+    public ShadowLeavesWithParticlesBlock(AbstractBlock.Settings settings, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType) {super(settings, shiftedVariant, shiftType);}
 
     @Nullable protected SimpleParticleType getParticle()
     {

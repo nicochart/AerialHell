@@ -1,6 +1,9 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.FenceGateBlock;
+import net.minecraft.block.WoodType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -20,9 +23,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GhostBoatFenceGateBlock extends FenceGateBlock
 {
-	public GhostBoatFenceGateBlock(WoodType woodType, Properties properties)
+	public GhostBoatFenceGateBlock(WoodType woodType, AbstractBlock.Settings settings)
 	{
-		super(woodType, properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false));
+		super(woodType, settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false));
 	}
 
 	@Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit)

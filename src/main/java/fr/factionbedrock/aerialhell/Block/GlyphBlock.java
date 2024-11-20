@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
@@ -28,9 +30,9 @@ public class GlyphBlock extends Block
 	public static final BooleanProperty SOUTH = BlockStateProperties.SOUTH;
 	public static final BooleanProperty WEST = BlockStateProperties.WEST;
 
-	public GlyphBlock(Properties properties)
+	public GlyphBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 		this.registerDefaultState(this.stateDefinition.any().setValue(GLYPH_INDEX, 0).setValue(NORTH, true).setValue(EAST, true).setValue(SOUTH, true).setValue(WEST, true));
 	}
 

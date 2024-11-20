@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Block.DirtAndVariants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.GrassBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
@@ -27,9 +29,9 @@ public abstract class AerialHellGrassBlock extends GrassBlock implements Bonemea
 {
 	public static final BooleanProperty SHIFTED_RENDER = BooleanProperty.create("shifted_render"); //only used for render purposes
 
-	public AerialHellGrassBlock(Properties properties)
+	public AerialHellGrassBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 		this.registerDefaultState(this.defaultBlockState().setValue(SNOWY, false).setValue(SHIFTED_RENDER, false));
 	}
 

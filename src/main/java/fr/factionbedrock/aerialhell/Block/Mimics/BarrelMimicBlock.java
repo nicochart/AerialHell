@@ -4,6 +4,8 @@ import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.AbstractBarrelMimicEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.ShadowPineBarrelMimicEntity;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.PillarBlock;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -18,9 +20,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class BarrelMimicBlock extends RotatedPillarBlock
+public class BarrelMimicBlock extends PillarBlock
 {
-	public BarrelMimicBlock(Properties properties) {super(properties);}
+	public BarrelMimicBlock(AbstractBlock.Settings settings) {super(settings);}
 
 	@Override
 	public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player, BlockHitResult hit)

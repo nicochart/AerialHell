@@ -2,6 +2,8 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.ChorusFlowerBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -17,7 +19,7 @@ import javax.annotation.Nullable;
 
 public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
 {
-    public ChorusFlowerLikeBlock(ChorusPlantLikeBlock plantBlock, Properties prop) {super(plantBlock, prop);}
+    public ChorusFlowerLikeBlock(ChorusPlantLikeBlock plantBlock, AbstractBlock.Settings settings) {super(plantBlock, settings);}
 
     @Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
     {

@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
@@ -17,9 +18,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GhostBoatBlock extends CollisionConditionHalfTransparentBlock
 {
-	public GhostBoatBlock(Properties properties)
+	public GhostBoatBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 		this.registerDefaultState(this.defaultBlockState());
 	}
 

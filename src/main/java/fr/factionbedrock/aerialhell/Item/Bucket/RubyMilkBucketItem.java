@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Item.Bucket;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.item.Item;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,9 +14,9 @@ import net.minecraft.world.level.Level;
 
 public class RubyMilkBucketItem extends Item
 {
-    public RubyMilkBucketItem(Properties properties)
+    public RubyMilkBucketItem(Item.Settings settings)
     {
-        super(properties);
+        super(settings);
     }
 
     @Override public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity)

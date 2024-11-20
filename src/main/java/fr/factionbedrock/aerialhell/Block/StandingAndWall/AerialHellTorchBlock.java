@@ -4,6 +4,8 @@ import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,9 +25,9 @@ public class AerialHellTorchBlock extends Block
 {
 	protected static final VoxelShape SHAPE = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 10.0D, 10.0D);
 
-	public AerialHellTorchBlock(BlockBehaviour.Properties properties)
+	public AerialHellTorchBlock(AbstractBlock.Settings settings)
 	{
-    	super(properties);
+    	super(settings);
 	}
 
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)

@@ -2,6 +2,8 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.DeadBushBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.DeadBushBlock;
@@ -11,9 +13,9 @@ import net.minecraft.world.level.block.state.StateDefinition;
 
 public class ShadowPlantBlock extends DeadBushBlock
 {
-	public ShadowPlantBlock(Properties builder)
+	public ShadowPlantBlock(AbstractBlock.Settings settings)
 	{
-		super(builder);
+		super(settings);
 		this.registerDefaultState(this.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, false));
 	}
 

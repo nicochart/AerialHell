@@ -5,6 +5,8 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.AbstractSlimePirateEnt
 import fr.factionbedrock.aerialhell.Entity.Monster.Snake.AbstractSnakeEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.CobwebBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.WebBlock;
 import net.minecraft.world.entity.Entity;
@@ -14,11 +16,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public class ThornyWebBlock extends WebBlock
+public class ThornyWebBlock extends CobwebBlock
 {
-	public ThornyWebBlock(Properties properties)
+	public ThornyWebBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 	}
 	
 	private boolean isEntityImmuneToDamage(Entity entityIn)

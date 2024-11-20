@@ -1,15 +1,17 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 
 public class BasicShiftableRenderBlock extends Block
 {
-    public BasicShiftableRenderBlock(Properties prop)
+    public BasicShiftableRenderBlock(AbstractBlock.Settings settings)
     {
-        super(prop);
+        super(settings);
         this.registerDefaultState(this.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, false));
     }
 

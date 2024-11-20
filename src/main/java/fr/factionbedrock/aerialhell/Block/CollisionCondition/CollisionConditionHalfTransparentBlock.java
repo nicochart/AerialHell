@@ -4,6 +4,8 @@ import com.mojang.authlib.minecraft.TelemetrySession;
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.GhostSlimePirateEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.SlimePirateEntity;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.TranslucentBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,15 +19,15 @@ import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public abstract class CollisionConditionHalfTransparentBlock extends HalfTransparentBlock
+public abstract class CollisionConditionHalfTransparentBlock extends TranslucentBlock
 {
 	protected final static double default_living_entity_xz_delta_movement_factor = 0.96, default_non_living_entity_xz_delta_movement_factor = 0.85, default_y_delta_movement_factor = 0.002;
 	protected final static VoxelShape EMPTY_SHAPE = Shapes.empty();
 	protected final static VoxelShape FULL_COLLISION_SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 16.0);
 
-	public CollisionConditionHalfTransparentBlock(Properties properties)
+	public CollisionConditionHalfTransparentBlock(AbstractBlock.Settings settings)
 	{
-		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
+		super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
 	}
 	
 	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)

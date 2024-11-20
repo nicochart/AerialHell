@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
+import net.minecraft.block.TallPlantBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.BlockGetter;
@@ -11,9 +12,9 @@ import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
-public class DoubleShroomBlock extends DoublePlantBlock
+public class DoubleShroomBlock extends TallPlantBlock
 {
-    public DoubleShroomBlock(Properties prop) {super(prop);}
+    public DoubleShroomBlock(Settings settings) {super(settings);}
 
     public boolean canSurvive(BlockState state, LevelReader reader, BlockPos pos)
     {

@@ -2,6 +2,8 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.ChorusPlantBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -13,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class ChorusPlantLikeBlock extends ChorusPlantBlock
 {
-    public ChorusPlantLikeBlock(Properties prop) {super(prop);}
+    public ChorusPlantLikeBlock(AbstractBlock.Settings settings) {super(settings);}
 
     @Override public BlockState getStateForPlacement(BlockPlaceContext context)
     {

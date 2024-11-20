@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -18,9 +19,9 @@ public class GhostBoatRotatedPillarBlock extends CollisionConditionHalfTranspare
 {
     public static final MapCodec<GhostBoatRotatedPillarBlock> CODEC = simpleCodec(GhostBoatRotatedPillarBlock::new);
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
-    public GhostBoatRotatedPillarBlock(Properties properties)
+    public GhostBoatRotatedPillarBlock(AbstractBlock.Settings settings)
     {
-        super(properties);
+        super(settings);
         this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.Y));
     }
 

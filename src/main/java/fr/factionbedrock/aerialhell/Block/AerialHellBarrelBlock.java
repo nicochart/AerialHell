@@ -2,6 +2,8 @@ package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.BlockEntity.AerialHellBarrelBlockEntity;
 
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.BarrelBlock;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
@@ -29,9 +31,9 @@ public class AerialHellBarrelBlock extends BarrelBlock
 	Because in BarrelBlockEntity, the barrel can close only if the barrel blockstate isIn(Blocks.BARREL).
 	*/
 	
-	public AerialHellBarrelBlock(BlockBehaviour.Properties properties)
+	public AerialHellBarrelBlock(AbstractBlock.Settings settings)
 	{
-		super(properties);
+		super(settings);
 	}
 
 	@Override
