@@ -36,8 +36,7 @@ public class FreezerBlock extends AbstractAerialHellFurnaceBlock
 
 	@Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new FreezerBlockEntity(pos, state);}
 	
-	@Override
-	protected void openContainer(Level worldIn, BlockPos pos, Player player)
+	@Override protected void openContainer(Level worldIn, BlockPos pos, Player player)
 	{
 		BlockEntity blockentity = worldIn.getBlockEntity(pos);
 		if (blockentity instanceof FreezerBlockEntity)
