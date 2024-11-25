@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.BiomeShifterBlock
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
+import net.minecraft.block.Block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
@@ -72,7 +73,7 @@ public interface BiomeShifter
         SoundEvent sound = type == ShiftType.CORRUPT ? SoundEvents.LODESTONE_HIT : SoundEvents.WART_BLOCK_HIT;
         Vec3 vecpos = new Vec3(blockpos.getX() + 0.5, blockpos.getY() + 0.5, blockpos.getZ() + 0.5);
         serverlevel.sendParticles(particle, vecpos.x(), vecpos.y(), vecpos.z(), 5, 0.0, 0.0, 0.0, 1.0);
-        serverlevel.playSound(null, vecpos.x(), vecpos.y(), vecpos.z(), sound, SoundSource.BLOCKS, 0.5F, rand.nextFloat() * 0.4F + 0.8F);
+        serverlevel.playSound(null, vecpos.x(), vecpos.y(), vecpos.z(), sound, SoundCategory.BLOCKS, 0.5F, rand.nextFloat() * 0.4F + 0.8F);
     }
 
     default boolean isValidBiomeShifterForPos(LevelReader level, BlockPos posToShift, BlockPos shifterPos)

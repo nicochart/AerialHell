@@ -243,15 +243,15 @@ public class LilithEntity extends AbstractBossEntity
 			if (half == DoubleBlockHalf.LOWER)
 			{
 				level().destroyBlock(pos, false);
-				level().destroyBlock(pos.above(), false);
+				level().destroyBlock(pos.up(), false);
 			}
 			else
 			{
-				level().destroyBlock(pos.below(), false);
+				level().destroyBlock(pos.down(), false);
 				level().destroyBlock(pos, false);
 			}
 		}
-		else {level().setBlockAndUpdate(pos, getEquivalentShadowBlockstate(level().getBlockState(pos)));}
+		else {level().setBlockState(pos, getEquivalentShadowBlockstate(level().getBlockState(pos)));}
 	}
 
 	private BlockState getEquivalentShadowBlockstate(BlockState blockState)
@@ -261,71 +261,71 @@ public class LilithEntity extends AbstractBossEntity
 		{
 			if (block instanceof AerialHellWallTorchBlock)
 			{
-				return AerialHellBlocksAndItems.SHADOW_WALL_TORCH.get().defaultBlockState().setValue(AerialHellWallTorchBlock.HORIZONTAL_FACING, blockState.getValue(AerialHellWallTorchBlock.HORIZONTAL_FACING));
+				return AerialHellBlocksAndItems.SHADOW_WALL_TORCH.get().getDefaultState().with(AerialHellWallTorchBlock.HORIZONTAL_FACING, blockState.get(AerialHellWallTorchBlock.HORIZONTAL_FACING));
 			}
 			else //not a wall torch
 			{
-				return AerialHellBlocksAndItems.SHADOW_TORCH.get().defaultBlockState();
+				return AerialHellBlocksAndItems.SHADOW_TORCH.get().getDefaultState();
 			}
 		}
-		else if (blockState.is(AerialHellTags.Blocks.SOLID_ETHER))
+		else if (blockState.isIn(AerialHellTags.Blocks.SOLID_ETHER))
 		{
-			return AerialHellBlocksAndItems.PURPLE_SOLID_ETHER.get().defaultBlockState();
+			return AerialHellBlocksAndItems.PURPLE_SOLID_ETHER.get().getDefaultState();
 		}
 		else if (block == AerialHellBlocksAndItems.CRYSTAL_BLOCK.get())
 		{
-			return AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK.get().defaultBlockState();
+			return AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK.get().getDefaultState();
 		}
 		else if (block == AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_FIBER_LANTERN.get())
 		{
-			return AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_LIGHT.get().defaultBlockState();
+			return AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_LIGHT.get().getDefaultState();
 		}
 		else if (block instanceof StellarGrassBlock)
 		{
-			return AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().defaultBlockState();
+			return AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().getDefaultState();
 		}
 		else if (block == AerialHellBlocksAndItems.STELLAR_GRASS.get())
 		{
-			return AerialHellBlocksAndItems.SHADOW_GRASS.get().defaultBlockState();
+			return AerialHellBlocksAndItems.SHADOW_GRASS.get().getDefaultState();
 		}
 		else if (block == AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get())
 		{
-			return AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get().defaultBlockState();
+			return AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get().getDefaultState();
 		}
 		else if (block instanceof LanternBlock)
 		{
-			return AerialHellBlocksAndItems.SHADOW_LANTERN.get().defaultBlockState().setValue(LanternBlock.HANGING, blockState.getValue(LanternBlock.HANGING));
+			return AerialHellBlocksAndItems.SHADOW_LANTERN.get().getDefaultState().with(LanternBlock.HANGING, blockState.get(LanternBlock.HANGING));
 		}
 		else if (block instanceof ChainBlock)
 		{
-			return AerialHellBlocksAndItems.SHADOW_CHAIN.get().defaultBlockState().setValue(ChainBlock.AXIS, blockState.getValue(ChainBlock.AXIS));
+			return AerialHellBlocksAndItems.SHADOW_CHAIN.get().getDefaultState().with(ChainBlock.AXIS, blockState.get(ChainBlock.AXIS));
 		}
 		else if (block instanceof IronBarsBlock)
 		{
-			return AerialHellBlocksAndItems.SHADOW_BARS.get().defaultBlockState().setValue(IronBarsBlock.NORTH, blockState.getValue(IronBarsBlock.NORTH)).setValue(IronBarsBlock.SOUTH, blockState.getValue(IronBarsBlock.SOUTH)).setValue(IronBarsBlock.WEST, blockState.getValue(IronBarsBlock.WEST)).setValue(IronBarsBlock.EAST, blockState.getValue(IronBarsBlock.EAST));
+			return AerialHellBlocksAndItems.SHADOW_BARS.get().getDefaultState().with(IronBarsBlock.NORTH, blockState.get(IronBarsBlock.NORTH)).setValue(IronBarsBlock.SOUTH, blockState.get(IronBarsBlock.SOUTH)).setValue(IronBarsBlock.WEST, blockState.get(IronBarsBlock.WEST)).setValue(IronBarsBlock.EAST, blockState.get(IronBarsBlock.EAST));
 		}
 		else if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_PLANKS.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_PLANKS.get() || block == AerialHellBlocksAndItems.CHISELED_AERIAL_TREE_PLANKS.get())
 		{
-			return AerialHellBlocksAndItems.GRAY_SHROOM_PLANKS.get().defaultBlockState();
+			return AerialHellBlocksAndItems.GRAY_SHROOM_PLANKS.get().getDefaultState();
 		}
 		else if (block == AerialHellBlocksAndItems.GOLDEN_BEECH_PLANKS.get() || block == AerialHellBlocksAndItems.CHISELED_GOLDEN_BEECH_PLANKS.get() || block == Blocks.DARK_OAK_PLANKS || block == AerialHellBlocksAndItems.CHISELED_AERIAL_TREE_PLANKS.get())
 		{
-			return AerialHellBlocksAndItems.SHADOW_PINE_PLANKS.get().defaultBlockState();
+			return AerialHellBlocksAndItems.SHADOW_PINE_PLANKS.get().getDefaultState();
 		}
 		else if (block instanceof SaplingBlock)
 		{
-			return AerialHellBlocksAndItems.SHADOW_PINE_SAPLING.get().defaultBlockState();
+			return AerialHellBlocksAndItems.SHADOW_PINE_SAPLING.get().getDefaultState();
 		}
 		else if (block instanceof LeavesBlock)
 		{
 			if (block == AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES.get() || block == Blocks.DARK_OAK_LEAVES) {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get();}
 			else {newBlock = AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_LEAVES.get();}
-			return newBlock.defaultBlockState().setValue(LeavesBlock.PERSISTENT, blockState.getValue(LeavesBlock.PERSISTENT)).setValue(LeavesBlock.DISTANCE, blockState.getValue(LeavesBlock.DISTANCE));
+			return newBlock.getDefaultState().with(LeavesBlock.PERSISTENT, blockState.get(LeavesBlock.PERSISTENT)).setValue(LeavesBlock.DISTANCE, blockState.get(LeavesBlock.DISTANCE));
 		}
 		else if (block instanceof CraftingTableBlock)
 		{
-			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_CRAFTING_TABLE.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_CRAFTING_TABLE.get()) {return AerialHellBlocksAndItems.GRAY_SHROOM_CRAFTING_TABLE.get().defaultBlockState();}
-			else {return AerialHellBlocksAndItems.SHADOW_PINE_CRAFTING_TABLE.get().defaultBlockState();}
+			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_CRAFTING_TABLE.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_CRAFTING_TABLE.get()) {return AerialHellBlocksAndItems.GRAY_SHROOM_CRAFTING_TABLE.get().getDefaultState();}
+			else {return AerialHellBlocksAndItems.SHADOW_PINE_CRAFTING_TABLE.get().getDefaultState();}
 		}
 		else if (block instanceof StairBlock)
 		{
@@ -333,7 +333,7 @@ public class LilithEntity extends AbstractBossEntity
 			else if (block == Blocks.QUARTZ_STAIRS) {newBlock = AerialHellBlocksAndItems.SMOKY_QUARTZ_STAIRS.get();}
 			else if (block == Blocks.SMOOTH_QUARTZ_STAIRS) {newBlock = AerialHellBlocksAndItems.SMOOTH_SMOKY_QUARTZ_STAIRS.get();}
 			else /*golden beech & all other woods*/ {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_STAIRS.get();}
-			return newBlock.defaultBlockState().setValue(StairBlock.FACING, blockState.getValue(StairBlock.FACING)).setValue(StairBlock.HALF, blockState.getValue(StairBlock.HALF)).setValue(StairBlock.SHAPE, blockState.getValue(StairBlock.SHAPE));
+			return newBlock.getDefaultState().with(StairBlock.FACING, blockState.get(StairBlock.FACING)).setValue(StairBlock.HALF, blockState.get(StairBlock.HALF)).setValue(StairBlock.SHAPE, blockState.get(StairBlock.SHAPE));
 		}
 		else if (block instanceof SlabBlock)
 		{
@@ -341,19 +341,19 @@ public class LilithEntity extends AbstractBossEntity
 			else if (block == Blocks.QUARTZ_SLAB) {newBlock = AerialHellBlocksAndItems.SMOKY_QUARTZ_SLAB.get();}
 			else if (block == Blocks.SMOOTH_QUARTZ_SLAB) {newBlock = AerialHellBlocksAndItems.SMOOTH_SMOKY_QUARTZ_SLAB.get();}
 			else /*golden beech & all other woods*/ {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_SLAB.get();}
-			return newBlock.defaultBlockState().setValue(SlabBlock.TYPE, blockState.getValue(SlabBlock.TYPE));
+			return newBlock.getDefaultState().with(SlabBlock.TYPE, blockState.get(SlabBlock.TYPE));
 		}
 		else if (block instanceof FenceBlock)
 		{
 			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_FENCE.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_FENCE.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_FENCE.get();}
 			else /*golden beech & all other woods*/ {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_FENCE.get();}
-			return newBlock.defaultBlockState().setValue(FenceBlock.NORTH, blockState.getValue(FenceBlock.NORTH)).setValue(FenceBlock.EAST, blockState.getValue(FenceBlock.EAST)).setValue(FenceBlock.WEST, blockState.getValue(FenceBlock.WEST)).setValue(FenceBlock.SOUTH, blockState.getValue(FenceBlock.SOUTH));
+			return newBlock.getDefaultState().with(FenceBlock.NORTH, blockState.get(FenceBlock.NORTH)).setValue(FenceBlock.EAST, blockState.get(FenceBlock.EAST)).setValue(FenceBlock.WEST, blockState.get(FenceBlock.WEST)).setValue(FenceBlock.SOUTH, blockState.get(FenceBlock.SOUTH));
 		}
 		else if (block instanceof FenceGateBlock)
 		{
 			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_GATE.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_GATE.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_GATE.get();}
 			else /*golden beech & all other woods*/ {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_GATE.get();}
-			return newBlock.defaultBlockState().setValue(FenceGateBlock.FACING, blockState.getValue(FenceGateBlock.FACING)).setValue(FenceGateBlock.OPEN, blockState.getValue(FenceGateBlock.OPEN)).setValue(FenceGateBlock.POWERED, blockState.getValue(FenceGateBlock.POWERED)).setValue(FenceGateBlock.IN_WALL, blockState.getValue(FenceGateBlock.IN_WALL));
+			return newBlock.getDefaultState().with(FenceGateBlock.FACING, blockState.get(FenceGateBlock.FACING)).setValue(FenceGateBlock.OPEN, blockState.get(FenceGateBlock.OPEN)).setValue(FenceGateBlock.POWERED, blockState.get(FenceGateBlock.POWERED)).setValue(FenceGateBlock.IN_WALL, blockState.get(FenceGateBlock.IN_WALL));
 		}
 		else if (block instanceof RotatedPillarBlock)
 		{
@@ -362,47 +362,47 @@ public class LilithEntity extends AbstractBossEntity
 			else if (block == Blocks.QUARTZ_PILLAR) {newBlock = AerialHellBlocksAndItems.SMOKY_QUARTZ_PILLAR.get();}
 			else if (block == AerialHellBlocksAndItems.STRIPPED_GOLDEN_BEECH_LOG.get() || block == Blocks.STRIPPED_DARK_OAK_LOG || block == Blocks.STRIPPED_OAK_LOG) {newBlock = AerialHellBlocksAndItems.STRIPPED_SHADOW_PINE_LOG.get();}
 			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_LOG.get();}
-			return newBlock.defaultBlockState().setValue(RotatedPillarBlock.AXIS, blockState.getValue(RotatedPillarBlock.AXIS));
+			return newBlock.getDefaultState().with(RotatedPillarBlock.AXIS, blockState.get(RotatedPillarBlock.AXIS));
 		}
-		else if (block == Blocks.CHISELED_QUARTZ_BLOCK) {return AerialHellBlocksAndItems.CHISELED_SMOKY_QUARTZ_BLOCK.get().defaultBlockState();}
-		else if (block == Blocks.QUARTZ_BLOCK) {return AerialHellBlocksAndItems.SMOKY_QUARTZ_BLOCK.get().defaultBlockState();}
-		else if (block == Blocks.QUARTZ_BRICKS) {return AerialHellBlocksAndItems.SMOKY_QUARTZ_BRICKS.get().defaultBlockState();}
-		else if (block == Blocks.SMOOTH_QUARTZ) {return AerialHellBlocksAndItems.SMOOTH_SMOKY_QUARTZ.get().defaultBlockState();}
-		else if (block == AerialHellBlocksAndItems.GIANT_GANODERMA_APPLANATUM_BLOCK.get()) {return AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK.get().defaultBlockState();}
+		else if (block == Blocks.CHISELED_QUARTZ_BLOCK) {return AerialHellBlocksAndItems.CHISELED_SMOKY_QUARTZ_BLOCK.get().getDefaultState();}
+		else if (block == Blocks.QUARTZ_BLOCK) {return AerialHellBlocksAndItems.SMOKY_QUARTZ_BLOCK.get().getDefaultState();}
+		else if (block == Blocks.QUARTZ_BRICKS) {return AerialHellBlocksAndItems.SMOKY_QUARTZ_BRICKS.get().getDefaultState();}
+		else if (block == Blocks.SMOOTH_QUARTZ) {return AerialHellBlocksAndItems.SMOOTH_SMOKY_QUARTZ.get().getDefaultState();}
+		else if (block == AerialHellBlocksAndItems.GIANT_GANODERMA_APPLANATUM_BLOCK.get()) {return AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK.get().getDefaultState();}
 		else if (block instanceof AerialHellBookshelfBlock || block == Blocks.BOOKSHELF)
 		{
-			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_BOOKSHELF.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_BOOKSHELF.get()) {return AerialHellBlocksAndItems.GRAY_SHROOM_BOOKSHELF.get().defaultBlockState();}
-			else {return AerialHellBlocksAndItems.SHADOW_PINE_BOOKSHELF.get().defaultBlockState();}
+			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_BOOKSHELF.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_BOOKSHELF.get()) {return AerialHellBlocksAndItems.GRAY_SHROOM_BOOKSHELF.get().getDefaultState();}
+			else {return AerialHellBlocksAndItems.SHADOW_PINE_BOOKSHELF.get().getDefaultState();}
 		}
 		else if (block instanceof TrapDoorBlock)
 		{
 			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_TRAPDOOR.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_TRAPDOOR.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_TRAPDOOR.get();}
 			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_TRAPDOOR.get();}
-			return newBlock.defaultBlockState().setValue(TrapDoorBlock.OPEN, blockState.getValue(TrapDoorBlock.OPEN)).setValue(TrapDoorBlock.HALF, blockState.getValue(TrapDoorBlock.HALF)).setValue(TrapDoorBlock.POWERED, blockState.getValue(TrapDoorBlock.POWERED)).setValue(TrapDoorBlock.FACING, blockState.getValue(TrapDoorBlock.FACING));
+			return newBlock.getDefaultState().with(TrapDoorBlock.OPEN, blockState.get(TrapDoorBlock.OPEN)).setValue(TrapDoorBlock.HALF, blockState.get(TrapDoorBlock.HALF)).setValue(TrapDoorBlock.POWERED, blockState.get(TrapDoorBlock.POWERED)).setValue(TrapDoorBlock.FACING, blockState.get(TrapDoorBlock.FACING));
 		}
 		else if (block instanceof DoorBlock)
 		{
 			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_DOOR.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_DOOR.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_DOOR.get();}
 			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_DOOR.get();}
-			return newBlock.defaultBlockState().setValue(DoorBlock.FACING, blockState.getValue(DoorBlock.FACING)).setValue(DoorBlock.OPEN, blockState.getValue(DoorBlock.OPEN)).setValue(DoorBlock.HINGE, blockState.getValue(DoorBlock.HINGE)).setValue(DoorBlock.POWERED, blockState.getValue(DoorBlock.POWERED)).setValue(DoorBlock.HALF, blockState.getValue(DoorBlock.HALF));
+			return newBlock.getDefaultState().with(DoorBlock.FACING, blockState.get(DoorBlock.FACING)).setValue(DoorBlock.OPEN, blockState.get(DoorBlock.OPEN)).setValue(DoorBlock.HINGE, blockState.get(DoorBlock.HINGE)).setValue(DoorBlock.POWERED, blockState.get(DoorBlock.POWERED)).setValue(DoorBlock.HALF, blockState.get(DoorBlock.HALF));
 		}
 		else if (block instanceof ButtonBlock)
 		{
 			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_BUTTON.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_BUTTON.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_BUTTON.get();}
 			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_BUTTON.get();}
-			return newBlock.defaultBlockState().setValue(ButtonBlock.POWERED, blockState.getValue(ButtonBlock.POWERED)).setValue(ButtonBlock.FACE, blockState.getValue(ButtonBlock.FACE)).setValue(ButtonBlock.FACING, blockState.getValue(ButtonBlock.FACING));
+			return newBlock.getDefaultState().with(ButtonBlock.POWERED, blockState.get(ButtonBlock.POWERED)).setValue(ButtonBlock.FACE, blockState.get(ButtonBlock.FACE)).setValue(ButtonBlock.FACING, blockState.get(ButtonBlock.FACING));
 		}
 		else if (block instanceof PressurePlateBlock)
 		{
 			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_PRESSURE_PLATE.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_PRESSURE_PLATE.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_PRESSURE_PLATE.get();}
 			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_PRESSURE_PLATE.get();}
-			return newBlock.defaultBlockState().setValue(PressurePlateBlock.POWERED, blockState.getValue(PressurePlateBlock.POWERED));
+			return newBlock.getDefaultState().with(PressurePlateBlock.POWERED, blockState.get(PressurePlateBlock.POWERED));
 		}
 		else if (block instanceof ComposterBlock)
 		{
 			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_COMPOSTER.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_COMPOSTER.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_COMPOSTER.get();}
 			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_COMPOSTER.get();}
-			return newBlock.defaultBlockState().setValue(ComposterBlock.LEVEL, blockState.getValue(ComposterBlock.LEVEL));
+			return newBlock.getDefaultState().with(ComposterBlock.LEVEL, blockState.get(ComposterBlock.LEVEL));
 		}
 		else if (block instanceof SignBlock)
 		{
@@ -410,15 +410,15 @@ public class LilithEntity extends AbstractBossEntity
 			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_STANDING_SIGN.get();}
 			if (block instanceof StandingSignBlock)
 			{
-				return newBlock.defaultBlockState().setValue(StandingSignBlock.ROTATION, blockState.getValue(StandingSignBlock.ROTATION)).setValue(StandingSignBlock.WATERLOGGED, blockState.getValue(StandingSignBlock.WATERLOGGED));
+				return newBlock.getDefaultState().with(StandingSignBlock.ROTATION, blockState.get(StandingSignBlock.ROTATION)).setValue(StandingSignBlock.WATERLOGGED, blockState.get(StandingSignBlock.WATERLOGGED));
 			}
 			else if (block instanceof WallSignBlock)
 			{
-				return newBlock.defaultBlockState().setValue(WallSignBlock.FACING, blockState.getValue(WallSignBlock.FACING)).setValue(WallSignBlock.WATERLOGGED, blockState.getValue(WallSignBlock.WATERLOGGED));
+				return newBlock.getDefaultState().with(WallSignBlock.FACING, blockState.get(WallSignBlock.FACING)).setValue(WallSignBlock.WATERLOGGED, blockState.get(WallSignBlock.WATERLOGGED));
 			}
-			return newBlock.defaultBlockState();
+			return newBlock.getDefaultState();
 		}
-		return AerialHellBlocksAndItems.SHADOW_CATACOMBS_BRICKS.get().defaultBlockState();
+		return AerialHellBlocksAndItems.SHADOW_CATACOMBS_BRICKS.get().getDefaultState();
 	}
 	
 	@Override public void aiStep()

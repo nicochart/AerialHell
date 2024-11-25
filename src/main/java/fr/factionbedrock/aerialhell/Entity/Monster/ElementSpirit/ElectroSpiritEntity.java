@@ -36,7 +36,7 @@ public class ElectroSpiritEntity extends AbstractElementSpiritEntity
     	{
     		LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level());
 			lightningBolt.setPos(this.getX(), this.getY(), this.getZ());
-			this.level().addFreshEntity(lightningBolt);
+			this.level().spawnEntity(lightningBolt);
     	}
     	super.attackSuicide();
     }

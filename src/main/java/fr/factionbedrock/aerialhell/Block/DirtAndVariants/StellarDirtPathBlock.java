@@ -1,24 +1,26 @@
 package fr.factionbedrock.aerialhell.Block.DirtAndVariants;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.DirtPathBlock;
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DirtPathBlock;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 
 public class StellarDirtPathBlock extends DirtPathBlock
 {
 	public StellarDirtPathBlock(AbstractBlock.Settings settings) {super(settings);}
 
-	@Override public BlockState getStateForPlacement(BlockPlaceContext context)
+	@Override public BlockState getPlacementState(ItemPlacementContext context)
 	{
-		return !this.defaultBlockState().canSurvive(context.getLevel(), context.getClickedPos()) ? Block.pushEntitiesUp(this.defaultBlockState(), AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState(), context.getLevel(), context.getClickedPos()) : super.getStateForPlacement(context);
+		return !this.getDefaultState().canPlaceAt(context.getWorld(), context.getBlockPos()) ? Block.pushEntitiesUpBeforeBlockChange(this.getDefaultState(), AerialHellBlocks.STELLAR_DIRT.getDefaultState(), context.getWorld(), context.getBlockPos()) : super.getPlacementState(context);
 	}
 
-	@Override public void tick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource rand) {StellarFarmBlock.turnToStellarDirt(null, state, serverLevel, pos);}
+	@Override protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random)
+	{
+		StellarFarmBlock.turnToStellarDirt(null, state, world, pos);
+	}
 }

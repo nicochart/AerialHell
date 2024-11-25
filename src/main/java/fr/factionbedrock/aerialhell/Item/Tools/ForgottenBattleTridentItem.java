@@ -43,10 +43,10 @@ public class ForgottenBattleTridentItem extends AerialHellSwordItem
 		
 		if (!worldIn.isClientSide())
 		{
-			playerIn.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 120, 0));
-			playerIn.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 120, 0));
-			playerIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 120, 0));
-			playerIn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 300, 0));
+			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.DOLPHINS_GRACE, 120, 0));
+			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.WATER_BREATHING, 120, 0));
+			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SPEED, 120, 0));
+			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.DAMAGE_BOOST, 300, 0));
 		}
 		playerIn.getCooldowns().addCooldown(this, 540);
 		heldItem.hurtAndBreak(1, playerIn, LivingEntity.getSlotForHand(handIn));

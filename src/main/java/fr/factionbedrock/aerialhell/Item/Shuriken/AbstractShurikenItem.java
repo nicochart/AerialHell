@@ -37,7 +37,7 @@ public abstract class AbstractShurikenItem extends Item
 			AbstractShurikenEntity shuriken = this.getKnifeEntity(playerIn, worldIn);
 			shuriken.shootFromRotation(playerIn, playerIn.getXRot(), playerIn.getYRot(), 0.0F, this.getVelocity(), this.getInaccuracy());
 			//shuriken.setShooter(playerIn); shooter is not detected
-			worldIn.addFreshEntity(shuriken);
+			worldIn.spawnEntity(shuriken);
 		}
 		playerIn.getCooldowns().addCooldown(this, this.getCooldown());
 		return InteractionResultHolder.success(heldItem);

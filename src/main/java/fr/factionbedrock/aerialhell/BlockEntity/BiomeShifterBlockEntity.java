@@ -1,9 +1,14 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,9 +34,9 @@ public class BiomeShifterBlockEntity extends BlockEntity implements BiomeShifter
     @Override public ShiftType getShiftType() {return this.shiftType;}
     @Override @Nullable public Supplier<Block> getShiftedOrBrokenVariant() {return this.shiftedOrBrokenVariant;}
 
-    public static void tick(Level level, BlockPos pos, BlockState state, BiomeShifterBlockEntity blockEntity)
+    public static void tick(World world, BlockPos pos, BlockState state, BiomeShifterBlockEntity blockEntity)
     {
-        BiomeShifter.transformRandomBlocks(level, pos, state, blockEntity);
+        BiomeShifter.transformRandomBlocks(world, pos, state, blockEntity);
     }
 
     @Override protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)

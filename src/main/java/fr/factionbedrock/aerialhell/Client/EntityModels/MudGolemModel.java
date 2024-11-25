@@ -60,17 +60,17 @@ public class MudGolemModel<T extends AerialHellGolemEntity> extends EntityModel<
 		int i = entity.attackTimer;
 		if (i > 0)
 		{
-			this.left_arm.xRot = -2.0F + 0.6F * Mth.triangleWave((float)i, 10.0F);
-			this.right_arm.xRot = -2.0F + 0.6F * Mth.triangleWave((float)i, 10.0F);
+			this.left_arm.xRot = -2.0F + 0.6F * MathHelper.triangleWave((float)i, 10.0F);
+			this.right_arm.xRot = -2.0F + 0.6F * MathHelper.triangleWave((float)i, 10.0F);
 		}
 		else
 		{
-			this.left_arm.xRot = (-0.2F + 0.8F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
-			this.right_arm.xRot = (-0.2F - 0.8F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
+			this.left_arm.xRot = (-0.2F + 0.8F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
+			this.right_arm.xRot = (-0.2F - 0.8F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
 		}
 
-		this.left_leg.xRot = -1.5F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		this.right_leg.xRot = 1.5F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.left_leg.xRot = -1.5F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.right_leg.xRot = 1.5F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
 		this.left_leg.yRot = 0.0F; this.right_leg.yRot = 0.0F;
 	}
 

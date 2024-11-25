@@ -72,7 +72,7 @@ public class ShadowTrollEntity extends Monster
                 {
                     if (!((LivingEntity) attackedEntity).hasEffect(MobEffects.BLINDNESS))
                     {
-                        ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 35, 0));
+                        ((LivingEntity) attackedEntity).addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 35, 0));
                     }
                     else if (!((LivingEntity) attackedEntity).hasEffect(AerialHellMobEffects.VULNERABILITY.getDelegate()))
                     {
@@ -125,7 +125,7 @@ public class ShadowTrollEntity extends Monster
     {
     	if (entityIn instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune(((LivingEntity) entityIn)))
     	{
-    		((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 60, 0));
+    		((LivingEntity) entityIn).addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 60, 0));
     	}
         super.doPush(entityIn);
     }

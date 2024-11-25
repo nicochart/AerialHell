@@ -200,7 +200,7 @@ public class AerialHellBlocks
     public static final PillarBlock GIANT_VERDIGRIS_AGARIC_BARK_STEM = register("giant_verdigris_agaric_bark_stem", new PillarBlock(AbstractBlock.Settings.copy(GIANT_CORTINARIUS_VIOLACEUS_STEM)));
     public static final PillarBlock STRIPPED_GIANT_VERDIGRIS_AGARIC_BARK_STEM = register("stripped_giant_verdigris_agaric_bark_stem", new PillarBlock(AbstractBlock.Settings.copy(GIANT_CORTINARIUS_VIOLACEUS_STEM)));
     public static final Block GIANT_VERDIGRIS_AGARIC_CAP_BLOCK = register("giant_verdigris_agaric_cap_block", new MushroomBlock(AbstractBlock.Settings.create().mapColor(MapColor.TERRACOTTA_BLUE).luminance((state) -> {return 10;}).strength(0.4F).sounds(BlockSoundGroup.STEM)));
-    public static final MushroomBlock VERDIGRIS_AGARIC = register("verdigris_agaric", new AerialHellMushroomBlock(AerialHellConfiguredFeatures.GIANT_VERDIGRIS_AGARIC, AbstractBlock.Settings.create().mapColor(MapColor.GRAY).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS)));
+    public static final MushroomPlantBlock VERDIGRIS_AGARIC = register("verdigris_agaric", new AerialHellMushroomBlock(AerialHellConfiguredFeatures.GIANT_VERDIGRIS_AGARIC, AbstractBlock.Settings.create().mapColor(MapColor.GRAY).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS)));
 
     public static final Block GIANT_GANODERMA_APPLANATUM_BLOCK = register("giant_ganoderma_applanatum_block", new MushroomBlock(AbstractBlock.Settings.create().mapColor(MapColor.BROWN).strength(0.4F).sounds(BlockSoundGroup.STEM)));
 

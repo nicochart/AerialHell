@@ -1,12 +1,9 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.ChestBlockEntity;
+import net.minecraft.util.math.BlockPos;
 
 public class AerialHellChestBlockEntity extends ChestBlockEntity
 {
@@ -28,6 +25,6 @@ public class AerialHellChestBlockEntity extends ChestBlockEntity
 		
 	public boolean hasChest()
 	{
-		return !chest.defaultBlockState().isAir();
+		return !chest.getDefaultState().isAir();
 	}
 }

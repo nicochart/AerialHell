@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity;
 
 import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.*;
@@ -15,7 +16,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.Level;
 
-public abstract class AbstractMimicEntity extends PathfinderMob
+public abstract class AbstractMimicEntity extends PathAwareEntity
 {
 	public AbstractMimicEntity(EntityType<? extends AbstractMimicEntity> type, Level worldIn)
 	{
@@ -41,7 +42,7 @@ public abstract class AbstractMimicEntity extends PathfinderMob
 		{
 			double x = this.getX(),y = this.getY() + this.getEyeHeight() / 1.5,z = this.getZ();
 			double dx = random.nextFloat() - 0.5F, dy = random.nextFloat() - 0.5F, dz = random.nextFloat() - 0.5F;
-			this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, getMimicBlock().defaultBlockState()), x, y, z, dx, dy, dz);
+			this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, getMimicBlock().getDefaultState()), x, y, z, dx, dy, dz);
 		}
 		boolean flag = super.hurt(source, amount);
 		if (flag)

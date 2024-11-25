@@ -282,7 +282,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		boolean flag = attackedEntity.hurt(damagesource, amount);
 		if (flag)
 		{
-			((LivingEntity)attackedEntity).knockback(kb * 0.5F, (double) Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))));
+			((LivingEntity)attackedEntity).knockback(kb * 0.5F, (double) MathHelper.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(this.getYRot() * ((float)Math.PI / 180F))));
 			attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().x, (double)0.8F, attackedEntity.getDeltaMovement().z);
 			if (level() instanceof ServerLevel serverLevel) {EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);}
 		}

@@ -1,31 +1,28 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.FluidState;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.function.Supplier;
 
 public class EffectLogBlock extends ShiftableLogBlock
 {
 	public EffectLogBlock(AbstractBlock.Settings settings, Supplier<ShiftableLogBlock> shiftedVariant, BiomeShifter.ShiftType shiftType) {super(settings, shiftedVariant, shiftType);}
-	
+
 	@Override
-	public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)
+	public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player)
 	{
-		boolean flag = super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
-		if (flag && this == AerialHellBlocksAndItems.ENCHANTED_LAPIS_ROBINIA_LOG.get() && !player.isCreative())
+		if (this == AerialHellBlocks.ENCHANTED_LAPIS_ROBINIA_LOG && !player.isCreative())
 		{
-			player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 30, 0));
+			player.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 30, 0));
 		}
-		return flag;
+		return super.onBreak(world, pos, state, player);
 	}
 }

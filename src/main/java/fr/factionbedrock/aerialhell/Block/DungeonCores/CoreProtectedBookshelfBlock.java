@@ -1,9 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.LevelReader;
 
 public class CoreProtectedBookshelfBlock extends CoreProtectedBlock
 {
@@ -12,9 +9,9 @@ public class CoreProtectedBookshelfBlock extends CoreProtectedBlock
 		super(settings);
 	}
 	
-	@Override
+	/*@Override TODO use enchantment_power_provider.json block tag
 	public float getEnchantPowerBonus(BlockState state, LevelReader world, BlockPos pos)
     {
         return 1F;
-    }
+    }*/
 }

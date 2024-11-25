@@ -42,7 +42,7 @@ public class StellarStoneCrystalBlobFeature extends Feature<NoneFeatureConfigura
 		
 		if (rand.nextInt(160) < y) {return false;}
 
-		world.setBlock(pos, crystalBlock.get().defaultBlockState(), 2);
+		world.setBlockState(pos, crystalBlock.get().getDefaultState(), 2);
         for(int i = 0; i < 300; ++i)
         {
         	blockpos = pos.offset(rand.nextInt(2) - rand.nextInt(2), rand.nextInt(5), rand.nextInt(2) - rand.nextInt(2)); //55855
@@ -58,7 +58,7 @@ public class StellarStoneCrystalBlobFeature extends Feature<NoneFeatureConfigura
 		            if (j > 1) {break;}
 	            }
 
-	            if (j == 1) {world.setBlock(blockpos, crystalBlock.get().defaultBlockState(), 2);}
+	            if (j == 1) {world.setBlockState(blockpos, crystalBlock.get().getDefaultState(), 2);}
             }
         }
 	    return true;
@@ -66,14 +66,14 @@ public class StellarStoneCrystalBlobFeature extends Feature<NoneFeatureConfigura
 	
 	private boolean hasSupportToGenerate(BlockPos pos, WorldGenLevel reader)
 	{
-		BlockState blockstateDown = reader.getBlockState(pos.below());
+		BlockState blockstateDown = reader.getBlockState(pos.down());
 		if (isValidFloorState(blockstateDown) && hasAirColumnAbove(pos, reader, 4)) {return true;}
 		else {return false;}
 	}
 		
 	private boolean isValidFloorState(BlockState state)
 	{
-		return state.is(AerialHellTags.Blocks.STELLAR_DIRT) || state.is(AerialHellBlocksAndItems.SLIPPERY_SAND.get());
+		return state.isIn(AerialHellTags.Blocks.STELLAR_DIRT) || state.isOf(AerialHellBlocks.SLIPPERY_SAND.get());
 	}
 	
 	private boolean squareHasRoof(BlockPos pos, WorldGenLevel reader)
@@ -93,7 +93,7 @@ public class StellarStoneCrystalBlobFeature extends Feature<NoneFeatureConfigura
 	
 	private boolean hasAnyBlockAbove(BlockPos pos, WorldGenLevel reader)
 	{
-		for (BlockPos blockpos = pos.above(); blockpos.getY() < 250; blockpos = blockpos.above())
+		for (BlockPos blockpos = pos.up(); blockpos.getY() < 250; blockpos = blockpos.up())
 		{
 			if (!reader.isEmptyBlock(blockpos)) {return true;}
 		}
@@ -102,7 +102,7 @@ public class StellarStoneCrystalBlobFeature extends Feature<NoneFeatureConfigura
 	
 	private boolean hasAirColumnAbove(BlockPos pos, WorldGenLevel reader, int dy)
 	{
-		for (BlockPos blockpos = pos.above(); blockpos.getY() < pos.getY()+dy; blockpos = blockpos.above())
+		for (BlockPos blockpos = pos.up(); blockpos.getY() < pos.getY()+dy; blockpos = blockpos.up())
 		{
 			if (!reader.isEmptyBlock(blockpos)) {return false;}
 		}

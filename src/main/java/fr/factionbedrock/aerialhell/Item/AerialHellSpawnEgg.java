@@ -49,7 +49,7 @@ public class AerialHellSpawnEgg extends Item
     @Override public InteractionResult useOn(UseOnContext context)
     {
         Level level = context.getLevel();
-        if (!(level instanceof ServerLevel)) {return InteractionResult.SUCCESS;}
+        if (!(level instanceof ServerLevel)) {return ActionResult.SUCCESS;}
         else
         {
             ItemStack itemstack = context.getItemInHand();
@@ -63,7 +63,7 @@ public class AerialHellSpawnEgg extends Item
                 level.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
                 level.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, blockpos);
                 itemstack.shrink(1);
-                return InteractionResult.CONSUME;
+                return ActionResult.CONSUME;
             }
             else
             {
@@ -76,7 +76,7 @@ public class AerialHellSpawnEgg extends Item
                     itemstack.shrink(1);
                     level.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, blockpos);
                 }
-                return InteractionResult.CONSUME;
+                return ActionResult.CONSUME;
             }
         }
     }

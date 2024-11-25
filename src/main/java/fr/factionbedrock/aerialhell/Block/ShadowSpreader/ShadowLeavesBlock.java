@@ -3,13 +3,13 @@ package fr.factionbedrock.aerialhell.Block.ShadowSpreader;
 import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.state.StateManager;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.World;
 
 import java.util.function.Supplier;
 
@@ -18,24 +18,24 @@ public class ShadowLeavesBlock extends ShiftableLeavesBlock implements ShadowSpr
 	public ShadowLeavesBlock(Settings settings, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
 	{
 		super(settings, shiftedVariant, shiftType);
-		this.registerDefaultState(this.defaultBlockState().setValue(DISTANCE, Integer.valueOf(7)).setValue(PERSISTENT, Boolean.valueOf(false)).setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(CAN_SPREAD, true));
+		this.setDefaultState(this.getDefaultState().with(DISTANCE, Integer.valueOf(7)).with(PERSISTENT, Boolean.valueOf(false)).with(WATERLOGGED, Boolean.valueOf(false)).with(CAN_SPREAD, true));
 	}
 
-	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {super.createBlockStateDefinition(builder); builder.add(CAN_SPREAD);}
+	@Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {super.appendProperties(builder); builder.add(CAN_SPREAD);}
 
-	@Override protected boolean isRandomlyTicking(BlockState state) {return state.getValue(CAN_SPREAD);}
+	@Override protected boolean hasRandomTicks(BlockState state) {return state.get(CAN_SPREAD);}
 
-	@Override protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston)
+	@Override protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston)
 	{
-		super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
-		if (BlockHelper.canBeCorrupted(level, neighborPos, BlockHelper.CorruptionType.ANY))
+		super.neighborUpdate(state, world, pos, neighborBlock, neighborPos, movedByPiston);
+		if (BlockHelper.canBeCorrupted(world, neighborPos, BlockHelper.CorruptionType.ANY))
 		{
-			level.setBlock(pos, state.setValue(CAN_SPREAD, true), 2);
+			world.setBlockState(pos, state.with(CAN_SPREAD, true), 2);
 		}
 	}
 
-	@Override public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
+	@Override public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
 	{
-		ShadowSpreaderBlock.trySpreading(state, level, pos, rand);
+		ShadowSpreaderBlock.trySpreading(state, world, pos, rand);
 	}
 }

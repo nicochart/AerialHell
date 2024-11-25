@@ -36,7 +36,7 @@ public abstract class AerialHellAnimalEntity extends Animal
 	@Override
 	public float getWalkTargetValue(BlockPos pos, LevelReader worldIn)
 	{
-		return worldIn.getBlockState(pos.below()).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) ? 10.0F : worldIn.getPathfindingCostFromLightLevels(pos) - 0.5F;
+		return worldIn.getBlockState(pos.down()).isOf(AerialHellBlocks.STELLAR_GRASS_BLOCK.get()) ? 10.0F : worldIn.getPathfindingCostFromLightLevels(pos) - 0.5F;
 	}
 
 	@Override public int getAmbientSoundInterval() {return 160;}
@@ -49,6 +49,6 @@ public abstract class AerialHellAnimalEntity extends Animal
 
 	public static boolean canAerialHellAnimalSpawn(EntityType<? extends AerialHellAnimalEntity> entityType, LevelAccessor worldIn, MobSpawnType spawnType, BlockPos pos, RandomSource random)
 	{
-		return worldIn.getBlockState(pos.below()).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && isBrightEnoughToSpawn(worldIn, pos);
+		return worldIn.getBlockState(pos.down()).isOf(AerialHellBlocks.STELLAR_GRASS_BLOCK.get()) && isBrightEnoughToSpawn(worldIn, pos);
 	}
 }

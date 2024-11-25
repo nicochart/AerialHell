@@ -21,7 +21,7 @@ public class RockFeature extends Feature<NoneFeatureConfiguration>
 	public RockFeature(Codec<NoneFeatureConfiguration> codec, WeightedStateProvider bsProvider) {super(codec); this.blockStateProvider = bsProvider;}
 	
 	protected BlockState randomState(RandomSource rand, BlockPos pos) {return blockStateProvider.getState(rand, pos);}
-	protected void placeBlocks(WorldGenLevel reader, BlockPos pos, BlockState state, int number, Direction direction) {for (int d=0;d<number;d++) {reader.setBlock(pos.relative(direction, d), state, 2);}}
+	protected void placeBlocks(WorldGenLevel reader, BlockPos pos, BlockState state, int number, Direction direction) {for (int d=0;d<number;d++) {reader.setBlockState(pos.relative(direction, d), state, 2);}}
 	protected boolean canGenerateAtPos(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos placementPos) {return hasSupportToGenerate(context.level(), placementPos) && !(FeatureHelper.isFeatureGeneratingNextToDungeon(context));}
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
@@ -61,7 +61,7 @@ public class RockFeature extends Feature<NoneFeatureConfiguration>
 	
 	private boolean hasSupportToGenerate(WorldGenLevel reader, BlockPos pos)
 	{
-		if (reader.isEmptyBlock(pos) && reader.getBlockState(pos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT)) {return true;}
+		if (reader.isEmptyBlock(pos) && reader.getBlockState(pos.down()).is(AerialHellTags.Blocks.STELLAR_DIRT)) {return true;}
 		else {return false;}
 	}
 }

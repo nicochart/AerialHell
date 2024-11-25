@@ -55,7 +55,7 @@ public class PoisonballEntity extends Fireball
 
 				if (!livingEntity.isBlocking())
 				{
-					entity.setDeltaMovement(this.getDeltaMovement().x * 0.3, entity.getDeltaMovement().y + 0.1, this.getDeltaMovement().z * 0.3);
+					entity.setDeltaMovement(this.getDeltaMovement().x * 0.3, entity.getVelocity().y + 0.1, this.getDeltaMovement().z * 0.3);
 				}
 				else //TODO
 				{
@@ -63,7 +63,7 @@ public class PoisonballEntity extends Fireball
 					//activeItemStack.hurtAndBreak(1, livingEntity, p -> p.broadcastBreakEvent(activeItemStack.getEquipmentSlot()));
 					level().playSound((Player)null, entity.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
 				}
-				livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 160, 0));
+				livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 0));
 			}
 		}
 		this.discard();

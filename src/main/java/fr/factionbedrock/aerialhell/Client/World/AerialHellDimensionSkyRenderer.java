@@ -80,7 +80,7 @@ public class AerialHellDimensionSkyRenderer
 					RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 					posestack.pushPose();
 					posestack.mulPose(Axis.XP.rotationDegrees(90.0F));
-					float f3 = Mth.sin(level.getSunAngle(partialTicks)) < 0.0F ? 180.0F : 0.0F;
+					float f3 = MathHelper.sin(level.getSunAngle(partialTicks)) < 0.0F ? 180.0F : 0.0F;
 					posestack.mulPose(Axis.ZP.rotationDegrees(f3));
 					posestack.mulPose(Axis.ZP.rotationDegrees(90.0F));
 					float f4 = afloat[0];
@@ -93,8 +93,8 @@ public class AerialHellDimensionSkyRenderer
 
 					for (int j = 0; j <= 16; j++) {
 						float f7 = (float)j * (float) (Math.PI * 2) / 16.0F;
-						float f8 = Mth.sin(f7);
-						float f9 = Mth.cos(f7);
+						float f8 = MathHelper.sin(f7);
+						float f9 = MathHelper.cos(f7);
 						bufferbuilder.addVertex(matrix4f, f8 * 120.0F, f9 * 120.0F, -f9 * 40.0F * afloat[3])
 								.setColor(afloat[0], afloat[1], afloat[2], 0.0F);
 					}
@@ -209,7 +209,7 @@ public class AerialHellDimensionSkyRenderer
 			float starSize = 0.15F + rand.nextFloat() * 0.1F;
 			if (rand.nextFloat() < bigChance) {starSize += rand.nextFloat() * bigSizeBonus;}
 
-			float lengthSquared = Mth.lengthSquared(starVec.x, starVec.y, starVec.z);
+			float lengthSquared = MathHelper.lengthSquared(starVec.x, starVec.y, starVec.z);
 			if (lengthSquared > 0.010000001F && lengthSquared < 1.0F)
 			{
 				generateStar(builder, starVec.normalize(100.0F), starSize);
@@ -225,7 +225,7 @@ public class AerialHellDimensionSkyRenderer
 			float starSize = 0.15F + rand.nextFloat() * 0.1F;
 			if (rand.nextFloat() < bigChance) {starSize += rand.nextFloat() * bigSizeBonus;}
 
-			float lengthSquared = Mth.lengthSquared(starVec.x, starVec.y, starVec.z);
+			float lengthSquared = MathHelper.lengthSquared(starVec.x, starVec.y, starVec.z);
 			if (lengthSquared > 0.010000001F && lengthSquared < 1.0F)
 			{
 				if (isStarInsideCluster(origin, starVec, new Vector3f(size).mul(0.70F)))

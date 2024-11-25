@@ -2,10 +2,6 @@ package fr.factionbedrock.aerialhell.Block;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.LevelReader;
 
 public class AerialHellBookshelfBlock extends Block
 {
@@ -14,9 +10,9 @@ public class AerialHellBookshelfBlock extends Block
 		super(settings);
 	}
 
-	@Override
-	public float getEnchantPowerBonus(BlockState state, LevelReader world, BlockPos pos)
-    {
-        return 1;
-    }
+	//@Override TODO use enchantment_power_provider.json block tag
+	//public float getEnchantPowerBonus(BlockState state, LevelReader world, BlockPos pos)
+	//{
+	//    return 1;
+	//}
 }

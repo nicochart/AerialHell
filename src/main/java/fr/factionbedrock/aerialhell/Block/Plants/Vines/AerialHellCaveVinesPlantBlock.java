@@ -1,61 +1,46 @@
 package fr.factionbedrock.aerialhell.Block.Plants.Vines;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.AbstractPlantStemBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.CaveVinesBodyBlock;
-import net.minecraft.core.BlockPos;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CaveVinesPlantBlock;
-import net.minecraft.world.level.block.GrowingPlantHeadBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 
 public class AerialHellCaveVinesPlantBlock extends CaveVinesBodyBlock
 {
     public AerialHellCaveVinesPlantBlock(AbstractBlock.Settings settings) {super(settings);}
 
-    @Override protected GrowingPlantHeadBlock getHeadBlock()
+    @Override protected AbstractPlantStemBlock getStem()
     {
-        if (this == AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES_PLANT.get()) {return (GrowingPlantHeadBlock) AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES.get();}
-        else /*if (this == AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT.get())*/{return (GrowingPlantHeadBlock) AerialHellBlocksAndItems.BLOSSOMING_VINES.get();}
+        if (this == AerialHellBlocks.GLOWING_STICK_FRUIT_VINES_PLANT) {return AerialHellBlocks.GLOWING_STICK_FRUIT_VINES;}
+        else /*if (this == AerialHellBlocks.BLOSSOMING_VINES_PLANT)*/{return AerialHellBlocks.BLOSSOMING_VINES;}
     }
 
     protected Item getBerryItem()
     {
-        if (this == AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES_PLANT.get()) {return AerialHellBlocksAndItems.GLOWING_STICK_FRUIT.get();}
-        else /*if (this == AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT.get())*/{return AerialHellBlocksAndItems.VINE_BLOSSOM.get();}
+        if (this == AerialHellBlocks.GLOWING_STICK_FRUIT_VINES_PLANT) {return AerialHellItems.GLOWING_STICK_FRUIT;}
+        else /*if (this == AerialHellBlocks.BLOSSOMING_VINES_PLANT)*/{return AerialHellItems.VINE_BLOSSOM;}
     }
 
-    @Override public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {return new ItemStack(this.getBerryItem());}
+    @Override public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {return new ItemStack(this.getBerryItem());}
 
-    @Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult)
+    @Override public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit)
     {
-        if (state.getValue(BERRIES))
-        {
-            Block.popResource(level, pos, new ItemStack(this.getBerryItem(), 1));
-            float f = Mth.randomBetween(level.random, 0.8F, 1.2F);
-            level.playSound((Player)null, pos, SoundEvents.CAVE_VINES_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, f);
-            level.setBlock(pos, state.setValue(BERRIES, Boolean.valueOf(false)), 2);
-            return InteractionResult.sidedSuccess(level.isClientSide);
-        }
-        else {return InteractionResult.PASS;}
+        return AerialHellCaveVinesBlock.tryPickBerries(player, state, world, pos, this.getBerryItem());
     }
 
-    @Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
+    @Override public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos)
     {
-        return super.canSurvive(state, level, pos) && !level.getBlockState(pos.relative(this.growthDirection.getOpposite())).is(AerialHellTags.Blocks.SOLID_ETHER);
+        return super.canPlaceAt(state, world, pos) && !world.getBlockState(pos.offset((this.growthDirection.getOpposite()))).isIn(AerialHellTags.Blocks.SOLID_ETHER);
     }
 }

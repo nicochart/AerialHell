@@ -70,13 +70,13 @@ public class LilithModel extends EntityModel<LilithEntity>
 			int i = entity.attackTimer;
 			if (i > 0)
 			{
-				this.armRight.xRot = -2.0F + 1.5F * Mth.triangleWave((float)i, 10.0F) * 0.5f;
-				this.armLeft.xRot = -2.0F + 1.5F * Mth.triangleWave((float)i, 10.0F) * 0.5f;
+				this.armRight.xRot = -2.0F + 1.5F * MathHelper.triangleWave((float)i, 10.0F) * 0.5f;
+				this.armLeft.xRot = -2.0F + 1.5F * MathHelper.triangleWave((float)i, 10.0F) * 0.5f;
 			}
 			else
 			{
-				this.armRight.xRot = (-0.2F + 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
-				this.armLeft.xRot = (-0.2F - 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+				this.armRight.xRot = (-0.2F + 1.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+				this.armLeft.xRot = (-0.2F - 1.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
 			}
 		}
 		else
@@ -86,8 +86,8 @@ public class LilithModel extends EntityModel<LilithEntity>
 		}
 		this.head.yRot = netHeadYaw / 57.3F;
 		this.head.xRot = headPitch / 57.3F;
-		this.legLeft.xRot = -1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount; this.legLeft.yRot = 0.0F;
-		this.legRight.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount; this.legRight.yRot = 0.0F;
+		this.legLeft.xRot = -1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount; this.legLeft.yRot = 0.0F;
+		this.legRight.xRot = 1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount; this.legRight.yRot = 0.0F;
 	}
 
 	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)

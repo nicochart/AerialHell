@@ -1,14 +1,13 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.ShortPlantBlock;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.DoublePlantBlock;
-import net.minecraft.world.level.block.TallGrassBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.block.TallPlantBlock;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 
 public class AerialHellTallGrassBlock extends ShortPlantBlock
 {
@@ -16,39 +15,39 @@ public class AerialHellTallGrassBlock extends ShortPlantBlock
 	{
 		super(settings);
 	}
-	
+
 	@Override
-	public void performBonemeal(ServerLevel worldIn, RandomSource rand, BlockPos pos, BlockState state)
+	public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state)
 	{
-	    DoublePlantBlock tall_plant;
-	    if (this == AerialHellBlocksAndItems.STELLAR_FERN.get())
+		TallPlantBlock tall_plant;
+	    if (this == AerialHellBlocks.STELLAR_FERN)
 	    {
-	    	tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.STELLAR_TALL_FERN.get();
-	    	placePlant(worldIn, pos, tall_plant);
+	    	tall_plant = (TallPlantBlock) AerialHellBlocks.STELLAR_TALL_FERN;
+	    	placePlant(world, pos, tall_plant);
 	    }
-		else if (this == AerialHellBlocksAndItems.BLUISH_FERN.get())
+		else if (this == AerialHellBlocks.BLUISH_FERN)
 		{
-			tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.TALL_BLUISH_FERN.get();
-			placePlant(worldIn, pos, tall_plant);
+			tall_plant = (TallPlantBlock) AerialHellBlocks.TALL_BLUISH_FERN;
+			placePlant(world, pos, tall_plant);
 		}
-		else if (this == AerialHellBlocksAndItems.POLYCHROME_FERN.get())
+		else if (this == AerialHellBlocks.POLYCHROME_FERN)
 		{
-			tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.TALL_POLYCHROME_FERN.get();
-			placePlant(worldIn, pos, tall_plant);
+			tall_plant = (TallPlantBlock) AerialHellBlocks.TALL_POLYCHROME_FERN;
+			placePlant(world, pos, tall_plant);
 		}
-	    else if (this == AerialHellBlocksAndItems.BRAMBLES.get()) {}
-	    else if (this == AerialHellBlocksAndItems.STELLAR_GRASS.get())
+	    else if (this == AerialHellBlocks.BRAMBLES) {}
+	    else if (this == AerialHellBlocks.STELLAR_GRASS)
 	    {
-	    	tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get();
-	    	placePlant(worldIn, pos, tall_plant);
+	    	tall_plant = (TallPlantBlock) AerialHellBlocks.STELLAR_TALL_GRASS;
+	    	placePlant(world, pos, tall_plant);
 	    }
 	}
 
-	protected void placePlant(ServerLevel worldIn, BlockPos pos, DoublePlantBlock plantIn)
+	protected void placePlant(ServerWorld world, BlockPos pos, TallPlantBlock plantIn)
 	{
-		if (plantIn.defaultBlockState().canSurvive(worldIn, pos) && worldIn.isEmptyBlock(pos.above()))
+		if (plantIn.getDefaultState().canPlaceAt(world, pos) && world.isAir(pos.up()))
 	    {
-	         plantIn.placeAt(worldIn, plantIn.defaultBlockState(), pos, 2);
+	         plantIn.placeAt(world, plantIn.getDefaultState(), pos, 2);
 	    }
 	}
 }

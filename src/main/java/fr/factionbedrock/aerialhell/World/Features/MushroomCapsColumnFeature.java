@@ -146,7 +146,7 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
         protected boolean tryPlacingLightBlock(BlockPos.MutableBlockPos placementPos, BlockPos ellipsoidPos) //ellipsoidPos = offset from centerPos
         {
             WorldGenLevel level = context.level(); boolean isPlaceable = isReplaceable(level, placementPos);
-            if (isPlaceable) {level.setBlock(placementPos, this.getLightStateForPlacement(ellipsoidPos), 2);}
+            if (isPlaceable) {level.setBlockState(placementPos, this.getLightStateForPlacement(ellipsoidPos), 2);}
             return isPlaceable;
         }
 

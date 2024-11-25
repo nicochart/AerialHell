@@ -77,8 +77,8 @@ public class VerdigrisZombieModel extends EntityModel<VerdigrisZombieEntity>//Hu
 		AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, entity.isAggressive(), this.attackTime, ageInTicks);
 		this.head.yRot = netHeadYaw / 57.3F;
 		this.head.xRot = headPitch / 57.3F;
-		this.leftLeg.xRot = -1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		this.rightLeg.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.leftLeg.xRot = -1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.rightLeg.xRot = 1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
 		this.leftLeg.yRot = 0.0F;
 		this.rightLeg.yRot = 0.0F;
 	}

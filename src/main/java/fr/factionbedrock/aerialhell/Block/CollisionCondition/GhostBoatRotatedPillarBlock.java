@@ -3,33 +3,33 @@ package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.core.Direction;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.PillarBlock;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.EnumProperty;
+import net.minecraft.state.property.Properties;
+import net.minecraft.util.BlockRotation;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
 
 public class GhostBoatRotatedPillarBlock extends CollisionConditionHalfTransparentBlock
 {
-    public static final MapCodec<GhostBoatRotatedPillarBlock> CODEC = simpleCodec(GhostBoatRotatedPillarBlock::new);
-    public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
+    public static final MapCodec<GhostBoatRotatedPillarBlock> CODEC = createCodec(GhostBoatRotatedPillarBlock::new);
+    public static final EnumProperty<Direction.Axis> AXIS = Properties.AXIS;
     public GhostBoatRotatedPillarBlock(AbstractBlock.Settings settings)
     {
         super(settings);
-        this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.Y));
+        this.setDefaultState(this.getDefaultState().with(AXIS, Direction.Axis.Y));
     }
 
-    public BlockState rotate(BlockState state, Rotation rotation) {return RotatedPillarBlock.rotatePillar(state, rotation);}
+    protected BlockState rotate(BlockState state, BlockRotation rotation) {return PillarBlock.changeRotation(state, rotation);}
 
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(AXIS);}
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {builder.add(AXIS);}
 
-    public BlockState getStateForPlacement(BlockPlaceContext context) {return this.defaultBlockState().setValue(AXIS, context.getClickedFace().getAxis());}
+    public BlockState getPlacementState(ItemPlacementContext ctx) {return this.getDefaultState().with(AXIS, ctx.getSide().getAxis());}
 
     @Override protected boolean canEntityCollide(Entity entity) {return !EntityHelper.isImmuneToGhostBlockCollision(entity);}
     @Override protected VoxelShape getCollidingShape() {return GhostBoatBlock.FULL_COLLISION_SHAPE;}

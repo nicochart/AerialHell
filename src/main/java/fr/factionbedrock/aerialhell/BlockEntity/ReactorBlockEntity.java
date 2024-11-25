@@ -5,13 +5,18 @@ import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.ReactorBlock;
 import fr.factionbedrock.aerialhell.Inventory.Menu.ReactorMenu;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.World;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
@@ -20,11 +25,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
-public class ReactorBlockEntity extends BaseContainerBlockEntity implements BiomeShifter
+public class ReactorBlockEntity extends LootableContainerBlockEntity implements BiomeShifter
 {
     protected NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
     public static int MAX_PROTECTION_DISTANCE = 100;
@@ -56,13 +62,13 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
 
     @Override protected AbstractContainerMenu createMenu(int id, @NotNull Inventory inv) {return new ReactorMenu(id, inv, this);}
 
-    public static void tick(Level level, BlockPos pos, BlockState state, ReactorBlockEntity blockEntity)
+    public static void tick(World world, BlockPos pos, BlockState state, ReactorBlockEntity blockEntity)
     {
         boolean isActive = blockEntity.updateActiveTimer();
-        if (state.getValue(ReactorBlock.ACTIVE) != isActive) {level.setBlockAndUpdate(pos, state.setValue(ReactorBlock.ACTIVE, isActive));}
+        if (state.get(ReactorBlock.ACTIVE) != isActive) {world.setBlockState(pos, state.with(ReactorBlock.ACTIVE, isActive));}
 
-        BiomeShifter.transformRandomBlocks(level, pos, state, blockEntity);
-        ReactorBlock.tickParticleAndSoundAnimation((ServerLevel) level, state, pos, level.random, blockEntity.shiftType);
+        BiomeShifter.transformRandomBlocks(world, pos, state, blockEntity);
+        ReactorBlock.tickParticleAndSoundAnimation((ServerLevel) world, state, pos, world.random, blockEntity.shiftType);
     }
 
     public boolean updateActiveTimer() //returns true if isActive, else false
@@ -91,10 +97,10 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
             else
             {
                 int activeTimerIncrement = 0;
-                if (stack.is(AerialHellBlocksAndItems.SHADOW_CRYSTAL)) {activeTimerIncrement = 400 * active_factor;}
-                else if (stack.is(AerialHellBlocksAndItems.SHADOW_SHARD)) {activeTimerIncrement = 1000 * active_factor;}
-                else if (stack.is(AerialHellBlocksAndItems.CURSED_CRYSAL)) {activeTimerIncrement = 2000 * active_factor;}
-                else if (stack.is(AerialHellBlocksAndItems.CURSED_CRYSAL_BLOCK_ITEM)) {activeTimerIncrement = 18000 * active_factor;}
+                if (stack.isOf(AerialHellBlocks.SHADOW_CRYSTAL)) {activeTimerIncrement = 400 * active_factor;}
+                else if (stack.isOf(AerialHellBlocks.SHADOW_SHARD)) {activeTimerIncrement = 1000 * active_factor;}
+                else if (stack.isOf(AerialHellBlocks.CURSED_CRYSAL)) {activeTimerIncrement = 2000 * active_factor;}
+                else if (stack.isOf(AerialHellBlocks.CURSED_CRYSAL_BLOCK_ITEM)) {activeTimerIncrement = 18000 * active_factor;}
                 if (activeTimerIncrement > 0 && this.activeTimer + activeTimerIncrement <= MAX_ACTIVE_TIMER)
                 {
                     this.activeTimer += activeTimerIncrement;

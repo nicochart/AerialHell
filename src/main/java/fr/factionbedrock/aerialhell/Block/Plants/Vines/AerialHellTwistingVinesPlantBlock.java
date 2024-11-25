@@ -1,31 +1,26 @@
 package fr.factionbedrock.aerialhell.Block.Plants.Vines;
 
 import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.TwistingVinesPlantBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.GrowingPlantHeadBlock;
-import net.minecraft.world.level.block.TwistingVinesPlantBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import net.minecraft.block.*;
+import net.minecraft.state.StateManager;
 
 public class AerialHellTwistingVinesPlantBlock extends TwistingVinesPlantBlock
 {
     public AerialHellTwistingVinesPlantBlock(AbstractBlock.Settings settings)
     {
         super(settings);
-        this.registerDefaultState(this.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, false));
+        this.setDefaultState(this.getDefaultState().with(AerialHellGrassBlock.SHIFTED_RENDER, false));
     }
 
-    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(AerialHellGrassBlock.SHIFTED_RENDER);}
+    @Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {builder.add(AerialHellGrassBlock.SHIFTED_RENDER);}
 
-    @Override protected GrowingPlantHeadBlock getHeadBlock()
+    @Override protected AbstractPlantStemBlock getStem()
     {
-        if (this == AerialHellBlocksAndItems.LAZULI_ROOTS_PLANT.get()) {return AerialHellBlocksAndItems.LAZULI_ROOTS.get();}
-        else if (this == AerialHellBlocksAndItems.STELLAR_ROOTS_PLANT.get()) {return AerialHellBlocksAndItems.STELLAR_ROOTS.get();}
-        else if (this == AerialHellBlocksAndItems.DEAD_ROOTS_PLANT.get()) {return AerialHellBlocksAndItems.DEAD_ROOTS.get();}
-        else if (this == AerialHellBlocksAndItems.GLOWING_ROOTS_PLANT.get()) {return AerialHellBlocksAndItems.GLOWING_ROOTS.get();}
-        else /*if (this == AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS_PLANT.get())*/ {return AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS.get();}
+        if (this == AerialHellBlocks.LAZULI_ROOTS_PLANT) {return AerialHellBlocks.LAZULI_ROOTS;}
+        else if (this == AerialHellBlocks.STELLAR_ROOTS_PLANT) {return AerialHellBlocks.STELLAR_ROOTS;}
+        else if (this == AerialHellBlocks.DEAD_ROOTS_PLANT) {return AerialHellBlocks.DEAD_ROOTS;}
+        else if (this == AerialHellBlocks.GLOWING_ROOTS_PLANT) {return AerialHellBlocks.GLOWING_ROOTS;}
+        else /*if (this == AerialHellBlocks.SHADOW_GLOWING_ROOTS_PLANT)*/ {return AerialHellBlocks.SHADOW_GLOWING_ROOTS;}
     }
 }

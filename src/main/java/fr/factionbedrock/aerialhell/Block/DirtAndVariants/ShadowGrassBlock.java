@@ -1,76 +1,61 @@
 package fr.factionbedrock.aerialhell.Block.DirtAndVariants;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellPlacedFeatures;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.gen.feature.PlacedFeature;
 
-import java.util.List;
 import java.util.Optional;
-
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.common.ItemAbility;
-import org.jetbrains.annotations.Nullable;
 
 public class ShadowGrassBlock extends AerialHellGrassBlock
 {
-	public ShadowGrassBlock(AbstractBlock.Settings settings)
-	{
-		super(settings);
-		this.registerDefaultState(this.defaultBlockState());
-	}
+	public ShadowGrassBlock(AbstractBlock.Settings settings) {super(settings);}
 
-	@Override protected Optional<Holder.Reference<PlacedFeature>> getBonemealFeature(ServerLevel level)
+	@Override protected Optional<RegistryEntry.Reference<PlacedFeature>> getBonemealFeature(ServerWorld world)
 	{
-		return level.registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getHolder(AerialHellPlacedFeatures.SHADOW_GRASS_BONEMEAL);
+		return world.getRegistryManager().get(RegistryKeys.PLACED_FEATURE).getEntry(AerialHellPlacedFeatures.SHADOW_GRASS_BONEMEAL);
 	}
 
 	@Override
-	public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
+	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
 	{
-		if (!BlockHelper.canBeGrass(state, level, pos))
+		if (!BlockHelper.canBeGrass(state, world, pos))
 		{
-			if (!level.isAreaLoaded(pos, 3)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light and spreading
-			level.setBlockAndUpdate(pos, AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState());
+			world.setBlockState(pos, AerialHellBlocks.STELLAR_DIRT.getDefaultState());
 		}
-		else if (BlockHelper.isCorrupted(level, pos) && BlockHelper.surroundingsPreventCorruption(level, pos, BlockHelper.CorruptionType.GRASS))
+		else if (BlockHelper.isCorrupted(world, pos) && BlockHelper.surroundingsPreventCorruption(world, pos, BlockHelper.CorruptionType.GRASS))
 		{
-			if (!level.isAreaLoaded(pos, 3)) return;
-			BlockHelper.uncorrupt(level, pos);
+			BlockHelper.uncorrupt(world, pos);
 		}
 		else
 		{
 			for(int i = 0; i < 4; ++i)
 			{
-				BlockPos blockpos = pos.offset(rand.nextInt(3) - 1, rand.nextInt(5) - 3, rand.nextInt(3) - 1);
-				BlockState blockstate = AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().defaultBlockState();
+				BlockPos blockpos = pos.add(rand.nextInt(3) - 1, rand.nextInt(5) - 3, rand.nextInt(3) - 1);
+				BlockState blockstate = AerialHellBlocks.SHADOW_GRASS_BLOCK.getDefaultState();
 
-				if (level.getMaxLocalRawBrightness(pos.above()) >= 9 && level.getBlockState(blockpos).is(AerialHellBlocksAndItems.STELLAR_DIRT.get()) && BlockHelper.grassCanPropagate(blockstate, level, blockpos))
+				if (world.getLightLevel(pos.up()) >= 9 && world.getBlockState(blockpos).isOf(AerialHellBlocks.STELLAR_DIRT) && BlockHelper.grassCanPropagate(blockstate, world, blockpos))
 				{
-					level.setBlockAndUpdate(blockpos, blockstate.setValue(SNOWY, level.getBlockState(blockpos.above()).is(Blocks.SNOW)));
-					BlockHelper.corruptBiome(level, blockpos, 1);
+					world.setBlockState(blockpos, blockstate.with(SNOWY, world.getBlockState(blockpos.up()).isOf(Blocks.SNOW)));
+					BlockHelper.corruptBiome(world, blockpos, 1);
 				}
 				else
 				{
-					if (!BlockHelper.isCorrupted(level, blockpos))
+					if (!BlockHelper.isCorrupted(world, blockpos))
 					{
-						BlockHelper.tryCorrupt(level, blockpos, rand);
+						BlockHelper.tryCorrupt(world, blockpos, rand);
 					}
 					else //isCorrupted
 					{
-						if (BlockHelper.surroundingsPreventCorruption(level, blockpos, BlockHelper.CorruptionType.ANY)) {BlockHelper.uncorrupt(level, blockpos);}
+						if (BlockHelper.surroundingsPreventCorruption(world, blockpos, BlockHelper.CorruptionType.ANY)) {BlockHelper.uncorrupt(world, blockpos);}
 					}
 				}
 			}

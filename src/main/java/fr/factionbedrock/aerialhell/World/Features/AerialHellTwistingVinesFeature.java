@@ -43,10 +43,10 @@ public class AerialHellTwistingVinesFeature extends Feature<AerialHellTwistingVi
 
             for(int l = 0; l < i * i; ++l)
             {
-                blockpos$mutableblockpos.set(blockpos).move(Mth.nextInt(random, -i, i), Mth.nextInt(random, -j, j), Mth.nextInt(random, -i, i));
+                blockpos$mutableblockpos.set(blockpos).move(MathHelper.nextInt(random, -i, i), MathHelper.nextInt(random, -j, j), MathHelper.nextInt(random, -i, i));
                 if (findFirstAirBlockAboveGround(worldgenlevel, blockpos$mutableblockpos) && !isInvalidPlacementLocation(worldgenlevel, blockpos$mutableblockpos, false))
                 {
-                    int i1 = Mth.nextInt(random, 1, k);
+                    int i1 = MathHelper.nextInt(random, 1, k);
                     if (random.nextInt(6) == 0) {i1 *= 2;}
                     if (random.nextInt(5) == 0) {i1 = 1;}
                     placeWeepingVinesColumn(worldgenlevel, random, blockpos$mutableblockpos, i1, 17, 25, this.headBlock.get(), this.bodyBlock.get());
@@ -69,8 +69,8 @@ public class AerialHellTwistingVinesFeature extends Feature<AerialHellTwistingVi
         {
             if (level.isEmptyBlock(mutablePos))
             {
-                if (i == height || !level.isEmptyBlock(mutablePos.above())) {level.setBlock(mutablePos, headBlock.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, Integer.valueOf(Mth.nextInt(rand, minAge, maxAge))), 2); break;}
-                level.setBlock(mutablePos, bodyBlock.defaultBlockState(), 2);
+                if (i == height || !level.isEmptyBlock(mutablePos.above())) {level.setBlockState(mutablePos, headBlock.getDefaultState().with(GrowingPlantHeadBlock.AGE, Integer.valueOf(MathHelper.nextInt(rand, minAge, maxAge))), 2); break;}
+                level.setBlockState(mutablePos, bodyBlock.getDefaultState(), 2);
             }
             mutablePos.move(Direction.UP);
         }
@@ -83,8 +83,8 @@ public class AerialHellTwistingVinesFeature extends Feature<AerialHellTwistingVi
         else
         {
             if (needsRoof && !BlockHelper.hasAnySolidSurfaceAbove(level, pos, 3)) {return true;}
-            BlockState blockstate = level.getBlockState(pos.below());
-            return !blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) && !blockstate.is(AerialHellBlocksAndItems.SLIPPERY_SAND.get()) && !blockstate.is(Blocks.NETHERRACK) && !blockstate.is(Blocks.WARPED_NYLIUM) && !blockstate.is(Blocks.WARPED_WART_BLOCK);
+            BlockState blockstate = level.getBlockState(pos.down());
+            return !blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT) && !blockstate.isOf(AerialHellBlocks.SLIPPERY_SAND.get()) && !blockstate.isOf(Blocks.NETHERRACK) && !blockstate.isOf(Blocks.WARPED_NYLIUM) && !blockstate.isOf(Blocks.WARPED_WART_BLOCK);
         }
     }
 }

@@ -175,7 +175,7 @@ public class TornSpiritEntity extends Monster
 
 	                  if (this.attackStep > 1)
 	                  {
-	                     float halfDistanceToTarget = Mth.sqrt(Mth.sqrt((float) squaredDistanceToTarget)) * 0.5F;
+	                     float halfDistanceToTarget = MathHelper.sqrt(MathHelper.sqrt((float) squaredDistanceToTarget)) * 0.5F;
 	                     if (!this.tornspirit.isSilent())
 	                     {
 	                        this.tornspirit.level().levelEvent((Player)null, 1018, this.tornspirit.blockPosition(), 0);
@@ -188,7 +188,7 @@ public class TornSpiritEntity extends Monster
 							 Vec3 vec3 = new Vec3(Xdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget, Ydistance, Zdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget);
 							 SmallFireball smallfireball = new SmallFireball(this.tornspirit.level(), this.tornspirit, vec3.normalize());
 							 smallfireball.setPos(smallfireball.getX(), this.tornspirit.getY(0.5D) + 0.5D, smallfireball.getZ());
-	                        this.tornspirit.level().addFreshEntity(smallfireball);
+	                        this.tornspirit.level().spawnEntity(smallfireball);
 	                     }
 	                  }
 	               }

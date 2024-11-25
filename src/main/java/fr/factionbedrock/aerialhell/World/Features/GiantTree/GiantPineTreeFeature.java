@@ -177,7 +177,7 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
         protected boolean tryPlacingLeavesBlock(BlockPos.MutableBlockPos pos)
         {
             WorldGenLevel level = context.level();
-            if (isReplaceableByLeaves(level, pos)) {level.setBlock(pos, getLeavesStateForPlacement(pos), 2); return true;}
+            if (isReplaceableByLeaves(level, pos)) {level.setBlockState(pos, getLeavesStateForPlacement(pos), 2); return true;}
             else {return false;}
         }
 
@@ -268,7 +268,7 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
         {
             boolean isTreeBlockAlready = context.level().getBlockState(pos).is(getStateForPlacement(pos).getBlock()) || context.level().getBlockState(pos).is(getLeavesStateForPlacement(pos).getBlock());
             WorldGenLevel level = context.level(); boolean isPlaceable = isReplaceableByLeaves(level, pos);
-            if (isPlaceable) level.setBlock(pos, getLeavesStateForPlacement(pos), 2);
+            if (isPlaceable) level.setBlockState(pos, getLeavesStateForPlacement(pos), 2);
             return isPlaceable || isTreeBlockAlready;
         }
 

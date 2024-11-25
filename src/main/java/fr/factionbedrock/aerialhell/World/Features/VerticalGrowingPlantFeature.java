@@ -36,15 +36,15 @@ public class VerticalGrowingPlantFeature extends Feature<VerticalGrowingPlantCon
             int maxHeight = config.maxHeight();
             int minTries = config.minTries();
             int maxTries = config.maxTries();
-            int tries = (minTries == maxTries) ? minTries : Mth.nextInt(random, minTries, maxTries);
+            int tries = (minTries == maxTries) ? minTries : MathHelper.nextInt(random, minTries, maxTries);
             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
             for(int l = 0; l <= tries; ++l)
             {
-                blockpos$mutableblockpos.set(blockpos).move(Mth.nextInt(random, -spreadXZ, spreadXZ), Mth.nextInt(random, -spreadY, spreadY), Mth.nextInt(random, -spreadXZ, spreadXZ));
+                blockpos$mutableblockpos.set(blockpos).move(MathHelper.nextInt(random, -spreadXZ, spreadXZ), MathHelper.nextInt(random, -spreadY, spreadY), MathHelper.nextInt(random, -spreadXZ, spreadXZ));
                 if (findFirstAirBlockAboveGround(worldgenlevel, blockpos$mutableblockpos) && !isInvalidPlacementLocation(worldgenlevel, blockpos$mutableblockpos))
                 {
-                    int plantHeight = (minHeight == maxHeight) ? minHeight : Mth.nextInt(random, minHeight, maxHeight);
+                    int plantHeight = (minHeight == maxHeight) ? minHeight : MathHelper.nextInt(random, minHeight, maxHeight);
                     placeVerticalGrowingPlantColumn(worldgenlevel, random, blockpos$mutableblockpos, plantHeight, 9, 14, block.get());
                 }
             }
@@ -65,8 +65,8 @@ public class VerticalGrowingPlantFeature extends Feature<VerticalGrowingPlantCon
         {
             if (level.isEmptyBlock(mutablePos))
             {
-                if (i == height || !level.isEmptyBlock(mutablePos.above())) {level.setBlock(mutablePos, plantBlock.defaultBlockState().setValue(VerticalGrowingPlantBlock.AGE, Mth.nextInt(rand, minAge, maxAge)).setValue(VerticalGrowingPlantBlock.TOP, true), 2); break;}
-                level.setBlock(mutablePos, plantBlock.defaultBlockState().setValue(VerticalGrowingPlantBlock.TOP, false), 2);
+                if (i == height || !level.isEmptyBlock(mutablePos.above())) {level.setBlockState(mutablePos, plantBlock.getDefaultState().with(VerticalGrowingPlantBlock.AGE, MathHelper.nextInt(rand, minAge, maxAge)).setValue(VerticalGrowingPlantBlock.TOP, true), 2); break;}
+                level.setBlockState(mutablePos, plantBlock.getDefaultState().with(VerticalGrowingPlantBlock.TOP, false), 2);
             }
             mutablePos.move(Direction.UP);
         }
@@ -77,8 +77,8 @@ public class VerticalGrowingPlantFeature extends Feature<VerticalGrowingPlantCon
         if (!level.isEmptyBlock(pos)) {return true;}
         else
         {
-            BlockState blockstate = level.getBlockState(pos.below());
-            return !blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT);
+            BlockState blockstate = level.getBlockState(pos.down());
+            return !blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT);
         }
     }
 }

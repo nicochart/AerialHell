@@ -21,8 +21,8 @@ public class ShroomBoomRender extends MobRenderer<ShroomBoomEntity, ShroomBoomMo
 	@Override protected void scale(ShroomBoomEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
 	{
 		float f = entitylivingbaseIn.getSwelling(partialTickTime);
-	    float f1 = 1.0F + Mth.sin(f * 100.0F) * f * 0.01F;
-	    f = Mth.clamp(f, 0.0F, 1.0F);
+	    float f1 = 1.0F + MathHelper.sin(f * 100.0F) * f * 0.01F;
+	    f = MathHelper.clamp(f, 0.0F, 1.0F);
 	    f = f * f;
 	    f = f * f;
 	    float f2 = (1.0F + f * 0.4F) * f1;
@@ -33,7 +33,7 @@ public class ShroomBoomRender extends MobRenderer<ShroomBoomEntity, ShroomBoomMo
 	@Override protected float getWhiteOverlayProgress(ShroomBoomEntity livingEntityIn, float partialTicks)
 	{
 		float f = livingEntityIn.getSwelling(partialTicks);
-	    return (int)(f * 10.0F) % 2 == 0 ? 0.0F : Mth.clamp(f, 0.5F, 1.0F);
+	    return (int)(f * 10.0F) % 2 == 0 ? 0.0F : MathHelper.clamp(f, 0.5F, 1.0F);
 	}
 	
 	@Override public ResourceLocation getTextureLocation(ShroomBoomEntity entity) {return TEXTURE;}

@@ -25,11 +25,11 @@ public class CrystallizedFireFeature extends Feature<NoneFeatureConfiguration>
 		if (!reader.isEmptyBlock(pos)) {return false;}
 		else
 		{
-			BlockState blockstate = reader.getBlockState(pos.below());
-		    if (!blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT)) {return false;}
+			BlockState blockstate = reader.getBlockState(pos.down());
+		    if (!blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT)) {return false;}
 		    else
 		    {
-		    	reader.setBlock(pos, AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get().defaultBlockState(), 2);
+		    	reader.setBlockState(pos, AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get().getDefaultState(), 2);
 		    	
 		    	int neighbor_number = 4 + rand.nextInt(3);
 		    	for(int i = 0; i < neighbor_number; ++i)
@@ -38,26 +38,26 @@ public class CrystallizedFireFeature extends Feature<NoneFeatureConfiguration>
 		    		int j = 0;
 		    		if (reader.getBlockState(blockpos).is(Blocks.AIR))
 		    		{
-		    			while (reader.getBlockState(blockpos.below()).is(Blocks.AIR) && j < 10)
+		    			while (reader.getBlockState(blockpos.down()).is(Blocks.AIR) && j < 10)
 			    		{
-		    				blockpos = blockpos.below();
+		    				blockpos = blockpos.down();
 		    				j++;
 			    		}
-		    			if (reader.getBlockState(blockpos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT))
+		    			if (reader.getBlockState(blockpos.down()).is(AerialHellTags.Blocks.STELLAR_DIRT))
 			    		{
-		    				reader.setBlock(blockpos, AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get().defaultBlockState(), 2);
+		    				reader.setBlockState(blockpos, AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get().getDefaultState(), 2);
 			    		}
 		    		}
 		    		else
 		    		{
 		    			while (!reader.getBlockState(blockpos).is(Blocks.AIR) && j < 10)
 			    		{
-		    				blockpos = blockpos.above();
+		    				blockpos = blockpos.up();
 		    				j++;
 			    		}
-		    			if (reader.getBlockState(blockpos).is(Blocks.AIR) && reader.getBlockState(blockpos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT))
+		    			if (reader.getBlockState(blockpos).is(Blocks.AIR) && reader.getBlockState(blockpos.down()).is(AerialHellTags.Blocks.STELLAR_DIRT))
 			    		{
-		    				reader.setBlock(blockpos, AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get().defaultBlockState(), 2);
+		    				reader.setBlockState(blockpos, AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get().getDefaultState(), 2);
 			    		}
 		    		}
 		        }

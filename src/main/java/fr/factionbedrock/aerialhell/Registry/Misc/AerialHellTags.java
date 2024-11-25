@@ -1,9 +1,12 @@
 package fr.factionbedrock.aerialhell.Registry.Misc;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import net.minecraft.block.Block;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.*;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Item;

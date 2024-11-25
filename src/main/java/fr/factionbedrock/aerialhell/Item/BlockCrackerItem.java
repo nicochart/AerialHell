@@ -60,7 +60,7 @@ public class BlockCrackerItem extends WithInformationItem
         BlockState previousBlockState = level.getBlockState(pos);
         @Nullable BlockState nextBlockState = getNextBlockState(previousBlockState);
 
-        if (nextBlockState != null) {level.setBlockAndUpdate(pos, nextBlockState);}
+        if (nextBlockState != null) {level.setBlockState(pos, nextBlockState);}
     }
 
     @Nullable protected BlockState getNextBlockState(BlockState previousBlockState)
@@ -71,19 +71,19 @@ public class BlockCrackerItem extends WithInformationItem
 
         if (previousBlock instanceof SlabBlock)
         {
-            return nextBlock.defaultBlockState().setValue(SlabBlock.TYPE, previousBlockState.getValue(SlabBlock.TYPE));
+            return nextBlock.getDefaultState().with(SlabBlock.TYPE, previousBlockState.get(SlabBlock.TYPE));
         }
         else if (previousBlock instanceof StairBlock)
         {
-            return nextBlock.defaultBlockState().setValue(StairBlock.FACING, previousBlockState.getValue(StairBlock.FACING)).setValue(StairBlock.HALF, previousBlockState.getValue(StairBlock.HALF)).setValue(StairBlock.SHAPE, previousBlockState.getValue(StairBlock.SHAPE));
+            return nextBlock.getDefaultState().with(StairBlock.FACING, previousBlockState.get(StairBlock.FACING)).setValue(StairBlock.HALF, previousBlockState.get(StairBlock.HALF)).setValue(StairBlock.SHAPE, previousBlockState.get(StairBlock.SHAPE));
         }
         else if (previousBlock instanceof WallBlock)
         {
-            return nextBlock.defaultBlockState().setValue(WallBlock.UP, previousBlockState.getValue(WallBlock.UP)).setValue(WallBlock.NORTH_WALL, previousBlockState.getValue(WallBlock.NORTH_WALL)).setValue(WallBlock.SOUTH_WALL, previousBlockState.getValue(WallBlock.SOUTH_WALL)).setValue(WallBlock.WEST_WALL, previousBlockState.getValue(WallBlock.WEST_WALL)).setValue(WallBlock.EAST_WALL, previousBlockState.getValue(WallBlock.EAST_WALL)).setValue(WallBlock.WATERLOGGED, previousBlockState.getValue(WallBlock.WATERLOGGED));
+            return nextBlock.getDefaultState().with(WallBlock.UP, previousBlockState.get(WallBlock.UP)).setValue(WallBlock.NORTH_WALL, previousBlockState.get(WallBlock.NORTH_WALL)).setValue(WallBlock.SOUTH_WALL, previousBlockState.get(WallBlock.SOUTH_WALL)).setValue(WallBlock.WEST_WALL, previousBlockState.get(WallBlock.WEST_WALL)).setValue(WallBlock.EAST_WALL, previousBlockState.get(WallBlock.EAST_WALL)).setValue(WallBlock.WATERLOGGED, previousBlockState.get(WallBlock.WATERLOGGED));
         }
         else
         {
-            return nextBlock.defaultBlockState();
+            return nextBlock.getDefaultState();
         }
     }
 

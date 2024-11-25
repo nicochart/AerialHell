@@ -41,7 +41,7 @@ public class KodamaEntity extends AerialHellAnimalEntity
 
     public static boolean canSpawn(EntityType<? extends AerialHellAnimalEntity> entityType, LevelAccessor worldIn, MobSpawnType spawnType, BlockPos pos, RandomSource random)
     {
-        return worldIn.getBlockState(pos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT);
+        return worldIn.getBlockState(pos.down()).is(AerialHellTags.Blocks.STELLAR_DIRT);
     }
 
     @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData)

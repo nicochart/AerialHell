@@ -3,43 +3,38 @@ package fr.factionbedrock.aerialhell.Block;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowAutomatonEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.PaneBlock;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.IronBarsBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.EntityCollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.block.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.pathing.NavigationType;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.BlockView;
 
 public class ShadowBarsBlock extends PaneBlock
 {
-    protected final static VoxelShape EMPTY_SHAPE = Shapes.empty();
-    public ShadowBarsBlock(AbstractBlock.Settings settings) {super(settings.isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false));}
+    protected final static VoxelShape EMPTY_SHAPE = VoxelShapes.empty();
+    public ShadowBarsBlock(AbstractBlock.Settings settings) {super(settings.solidBlock((state, reader, pos) -> false).suffocates((state, reader, pos) -> false));}
 
-    @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
+    @Override public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context)
     {
-        if (context instanceof EntityCollisionContext)
+        if (context instanceof EntityShapeContext entityShapeContext)
         {
-            Entity entity = ((EntityCollisionContext)context).getEntity();
+            Entity entity = entityShapeContext.getEntity();
             if (entity instanceof ShadowTrollEntity || entity instanceof ShadowAutomatonEntity || entity instanceof LilithEntity) {return EMPTY_SHAPE;}
         }
-        return super.getCollisionShape(state, worldIn, pos, context);
+        return super.getCollisionShape(state, world, pos, context);
     }
 
-    @Override public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
+    @Override public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context)
     {
-        if (context instanceof EntityCollisionContext)
+        if (context instanceof EntityShapeContext entityShapeContext)
         {
-            Entity entity = ((EntityCollisionContext)context).getEntity();
+            Entity entity = entityShapeContext.getEntity();
             if (entity instanceof ShadowTrollEntity || entity instanceof ShadowAutomatonEntity || entity instanceof LilithEntity) {return EMPTY_SHAPE;}
         }
-        return super.getShape(state, worldIn, pos, context);
+        return super.getOutlineShape(state, world, pos, context);
     }
 
-    @Override public boolean isPathfindable(BlockState state, PathComputationType type) {return true;}
+    @Override public boolean canPathfindThrough(BlockState state, NavigationType type) {return true;}
 }

@@ -64,11 +64,11 @@ public class ElementSpiritModel<T extends AbstractElementSpiritEntity> extends E
 		this.headShard.yRot = netHeadYaw / 57.0F;
 		this.headShard.xRot = headPitch / 57.0F;
 
-		this.rightArm.xRot = (-0.2F + 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 1.2F;
-		this.leftArm.xRot = (-0.2F - 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 1.2F;
+		this.rightArm.xRot = (-0.2F + 1.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 1.2F;
+		this.leftArm.xRot = (-0.2F - 1.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 1.2F;
 
-		this.leftLeg.xRot = -1.5F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		this.rightLeg.xRot = 1.5F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.leftLeg.xRot = -1.5F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.rightLeg.xRot = 1.5F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
 		this.leftLeg.yRot = 0.0F;
 		this.rightLeg.yRot = 0.0F;
 	}

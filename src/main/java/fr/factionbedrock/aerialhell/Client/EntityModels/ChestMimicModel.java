@@ -63,9 +63,9 @@ public class ChestMimicModel<T extends AbstractChestMimicEntity> extends EntityM
 
 	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		this.chestUp.xRot = - entity.mouthOpeningAmplitude * Mth.sqrt(1.0F + Mth.cos(ageInTicks / entity.mouthOpeningFrequencyMalus * (float) Math.PI));
-		this.rightLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-		this.leftLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+		this.chestUp.xRot = - entity.mouthOpeningAmplitude * MathHelper.sqrt(1.0F + MathHelper.cos(ageInTicks / entity.mouthOpeningFrequencyMalus * (float) Math.PI));
+		this.rightLeg.xRot = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+		this.leftLeg.xRot = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
 		this.rightLeg.yRot = 0.0F;
 		this.leftLeg.yRot = 0.0F;
 		this.rightLeg.zRot = 0.0F;

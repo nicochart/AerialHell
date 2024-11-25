@@ -118,9 +118,9 @@ public class FeatureHelper
         BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
         for (int i = -50; i <= 50; i++)
         {
-            reader.setBlock(centerOfFeature.offset(i, 0, 0), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
-            reader.setBlock(centerOfFeature.offset(0, i, 0), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
-            reader.setBlock(centerOfFeature.offset(0, 0, i), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
+            reader.setBlockState(centerOfFeature.offset(i, 0, 0), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().getDefaultState(), 0);
+            reader.setBlockState(centerOfFeature.offset(0, i, 0), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().getDefaultState(), 0);
+            reader.setBlockState(centerOfFeature.offset(0, 0, i), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().getDefaultState(), 0);
         }
 
         //feature center
@@ -130,12 +130,12 @@ public class FeatureHelper
             {
                 for (int z = -1; z <= 1; z++)
                 {
-                    reader.setBlock(centerOfFeature.offset(x, y, z), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);
+                    reader.setBlockState(centerOfFeature.offset(x, y, z), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().getDefaultState(), 0);
                 }
             }
         }
 
         //feature origin
-        reader.setBlock(context.origin(), AerialHellBlocksAndItems.CRYSTAL_BRICKS.get().defaultBlockState(), 0);
+        reader.setBlockState(context.origin(), AerialHellBlocksAndItems.CRYSTAL_BRICKS.get().getDefaultState(), 0);
     }
 }

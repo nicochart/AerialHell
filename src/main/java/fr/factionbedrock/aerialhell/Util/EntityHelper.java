@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Util;
 
-import fr.factionbedrock.aerialhell.Block.AerialHellPortalBlock;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
@@ -30,7 +29,11 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.protocol.game.ClientboundChunksBiomesPacket;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -78,7 +81,7 @@ public class EntityHelper
 
     public static boolean isLivingEntityUnderAerialHellPortalEffect(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL.getDelegate());}
 
-    public static boolean isLivingEntityInAerialHellPortal(LivingEntity entity) {return entity.level().getBlockState(entity.blockPosition()).is(AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get());}
+    public static boolean isLivingEntityInAerialHellPortal(LivingEntity entity) {return entity.level().getBlockState(entity.blockPosition()).isOf(AerialHellBlocks.AERIAL_HELL_PORTAL.get());}
 
     public static boolean isLivingEntityOnPortalCooldown(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN.getDelegate()) || entity.isOnPortalCooldown();}
 
@@ -174,7 +177,7 @@ public class EntityHelper
         }*/
     }
 
-    public static boolean hasEnchantment(LivingEntity entity, ResourceKey<Enchantment> enchantmentKey)
+    public static boolean hasEnchantment(LivingEntity entity, RegistryKey<Enchantment> enchantmentKey)
     {
         Optional<Holder.Reference<Enchantment>> enchantment = entity.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolder(enchantmentKey);
         if (enchantment.isPresent())
@@ -187,7 +190,7 @@ public class EntityHelper
 
     public static void multiplyDeltaMovement(Entity entity, double xzFactor, double yFactor)
     {
-        entity.setDeltaMovement(entity.getDeltaMovement().multiply(xzFactor, yFactor, xzFactor));
+        entity.setDeltaMovement(entity.getVelocity().multiply(xzFactor, yFactor, xzFactor));
     }
 
     public static void setAerialHellPortalEffect(LivingEntity entity)

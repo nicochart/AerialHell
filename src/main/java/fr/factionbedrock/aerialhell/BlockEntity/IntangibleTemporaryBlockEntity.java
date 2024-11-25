@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
@@ -8,6 +10,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -24,17 +28,17 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
 
     public IntangibleTemporaryBlockEntity(BlockPos pos, BlockState blockState)
     {
-        super(AerialHellBlockEntities.INTANGIBLE_TEMPORARY_BLOCK.get(), pos, blockState);
+        super(AerialHellBlockEntities.INTANGIBLE_TEMPORARY_BLOCK, pos, blockState);
         this.tickCount = 0;
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, IntangibleTemporaryBlockEntity blockEntity)
+    public static void tick(World world, BlockPos pos, BlockState state, IntangibleTemporaryBlockEntity blockEntity)
     {
         if (blockEntity.tickCount < 0) {blockEntity.tickCount = 0;}
         blockEntity.tickCount++;
         if (blockEntity.tickCount >= LIFETIME)
         {
-            level.setBlock(pos, blockEntity.beforeState == null ? Blocks.AIR.defaultBlockState() : blockEntity.beforeState, 2);
+            world.setBlockState(pos, blockEntity.beforeState == null ? Blocks.AIR.getDefaultState() : blockEntity.beforeState, 2);
         }
     }
 
@@ -46,7 +50,7 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
     @Override protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
         super.saveAdditional(tag, registries);
-        tag.put("beforeState", NbtUtils.writeBlockState(beforeState == null ? Blocks.AIR.defaultBlockState() : beforeState));
+        tag.put("beforeState", NbtUtils.writeBlockState(beforeState == null ? Blocks.AIR.getDefaultState() : beforeState));
         tag.putInt("tickCount", tickCount);
     }
 

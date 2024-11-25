@@ -66,13 +66,13 @@ public class FlyingJellyfishModel<J extends FlyingJellyfishEntity> extends Entit
 
 	@Override public void setupAnim(J entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		this.tentacles_0.xRot = 0.1F * Mth.sin(ageInTicks * 0.3F + 0.0F) + 0.4F;
-		this.tentacles_1.xRot = 0.1F * Mth.sin(ageInTicks * 0.3F + 1.0F) + 0.4F;
-		this.tentacles_2.xRot = 0.2F * Mth.sin(ageInTicks * 0.3F + 2.0F) + 0.4F;
-		this.tentacles_3.xRot = 0.2F * Mth.sin(ageInTicks * 0.3F + 3.0F) + 0.4F;
-		this.tentacles_4.xRot = 0.2F * Mth.sin(ageInTicks * 0.3F + 4.0F) + 0.4F;
-		this.tentacles_5.xRot = 0.2F * Mth.sin(ageInTicks * 0.3F + 5.0F) + 0.4F;
-		this.tentacles_6.xRot = 0.2F * Mth.sin(ageInTicks * 0.3F + 6.0F) + 0.4F;
+		this.tentacles_0.xRot = 0.1F * MathHelper.sin(ageInTicks * 0.3F + 0.0F) + 0.4F;
+		this.tentacles_1.xRot = 0.1F * MathHelper.sin(ageInTicks * 0.3F + 1.0F) + 0.4F;
+		this.tentacles_2.xRot = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 2.0F) + 0.4F;
+		this.tentacles_3.xRot = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 3.0F) + 0.4F;
+		this.tentacles_4.xRot = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 4.0F) + 0.4F;
+		this.tentacles_5.xRot = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 5.0F) + 0.4F;
+		this.tentacles_6.xRot = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 6.0F) + 0.4F;
 	}
 
 	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)

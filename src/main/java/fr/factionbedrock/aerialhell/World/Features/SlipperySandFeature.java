@@ -60,8 +60,8 @@ public class SlipperySandFeature extends Feature<NoneFeatureConfiguration>
                     	if (isReplaceable(reader, placementPos))
                     	{
                     		boolean isInsideInnerEllipsis = isPosInsideEllipsis(pos, radiusX-1, radiusY, radiusZ-1);
-                    		if (isInsideInnerEllipsis) {reader.setBlock(placementPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().defaultBlockState(), 0);}
-                    		else if (!(rand.nextInt(3) == 0)) {reader.setBlock(placementPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().defaultBlockState(), 0);}
+                    		if (isInsideInnerEllipsis) {reader.setBlockState(placementPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().getDefaultState(), 0);}
+                    		else if (!(rand.nextInt(3) == 0)) {reader.setBlockState(placementPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().getDefaultState(), 0);}
                     	}
                     }
                 }

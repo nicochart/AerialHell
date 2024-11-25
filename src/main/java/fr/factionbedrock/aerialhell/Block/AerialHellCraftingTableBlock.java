@@ -2,47 +2,43 @@ package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.Inventory.Menu.AerialHellCraftingMenu;
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.CraftingTableBlock;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleMenuProvider;
-import net.minecraft.world.level.block.CraftingTableBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.stats.Stats;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.screen.CraftingScreenHandler;
+import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
+import net.minecraft.stat.Stats;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class AerialHellCraftingTableBlock extends CraftingTableBlock
 {
-	private static final Component CONTAINER_NAME = Component.translatable("container.crafting");
+	private static final Text CONTAINER_NAME = Text.translatable("container.crafting");;
 
 	public AerialHellCraftingTableBlock(AbstractBlock.Settings settings)
 	{
 		super(settings);
 	}
 
-	@Override
-	public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player, BlockHitResult hit)
+	@Override protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit)
 	{
-		if (worldIn.isClientSide())
-		{
-			return InteractionResult.SUCCESS;
-		}
+		if (world.isClient) {return ActionResult.SUCCESS;}
 		else
 		{
-			player.openMenu(state.getMenuProvider(worldIn, pos));
-			player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
-			return InteractionResult.CONSUME;
+			player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
+			player.incrementStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
+			return ActionResult.CONSUME;
 		}
 	}
 
-	public MenuProvider getMenuProvider(BlockState state, Level worldIn, BlockPos pos)
+	@Override
+	protected NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos)
 	{
-		return new SimpleMenuProvider((id, inventory, player) -> {return new AerialHellCraftingMenu(id, inventory, ContainerLevelAccess.create(worldIn, pos), this);}, CONTAINER_NAME);
+		return new SimpleNamedScreenHandlerFactory((syncId, inventory, player) -> new CraftingScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos)), CONTAINER_NAME);
 	}
 }

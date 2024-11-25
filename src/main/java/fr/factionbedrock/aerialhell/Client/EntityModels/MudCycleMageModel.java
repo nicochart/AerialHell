@@ -71,12 +71,12 @@ public class MudCycleMageModel extends EntityModel<Mob>
 		}
 		else
 		{
-			this.rightArm.xRot = (-0.2F + 0.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
-			this.leftArm.xRot = (-0.2F - 0.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
+			this.rightArm.xRot = (-0.2F + 0.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
+			this.leftArm.xRot = (-0.2F - 0.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
 		}
 
-		this.leftLeg.xRot = -1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		this.rightLeg.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.leftLeg.xRot = -1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.rightLeg.xRot = 1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
 		this.leftLeg.yRot = 0.0F;
 		this.rightLeg.yRot = 0.0F;
 	}

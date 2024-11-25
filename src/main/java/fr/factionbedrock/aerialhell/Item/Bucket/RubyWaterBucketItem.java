@@ -86,7 +86,7 @@ public class RubyWaterBucketItem extends Item
             int i = posIn.getX();
             int j = posIn.getY();
             int k = posIn.getZ();
-            worldIn.playSound(player, posIn, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 2.6F + (worldIn.random.nextFloat() - worldIn.random.nextFloat()) * 0.8F);
+            worldIn.playSound(player, posIn, SoundEvents.FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F + (worldIn.random.nextFloat() - worldIn.random.nextFloat()) * 0.8F);
 
             for(int l = 0; l < 8; ++l)
             {
@@ -108,7 +108,7 @@ public class RubyWaterBucketItem extends Item
                 worldIn.destroyBlock(posIn, true);
             }
 
-            if (!worldIn.setBlock(posIn, Fluids.WATER.defaultFluidState().createLegacyBlock(), 11) && !blockstate.getFluidState().isSource())
+            if (!worldIn.setBlockState(posIn, Fluids.WATER.defaultFluidState().createLegacyBlock(), 11) && !blockstate.getFluidState().isSource())
             {
                 return false;
             }
@@ -128,6 +128,6 @@ public class RubyWaterBucketItem extends Item
     protected void playEmptySound(@Nullable Player player, LevelAccessor worldIn, BlockPos pos)
     {
         SoundEvent soundevent = SoundEvents.BUCKET_EMPTY;
-        worldIn.playSound(player, pos, soundevent, SoundSource.BLOCKS, 1.0F, 1.0F);
+        worldIn.playSound(player, pos, soundevent, SoundCategory.BLOCKS, 1.0F, 1.0F);
     }
 }

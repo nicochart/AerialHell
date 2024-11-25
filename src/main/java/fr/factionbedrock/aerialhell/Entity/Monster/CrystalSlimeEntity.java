@@ -75,7 +75,7 @@ public class CrystalSlimeEntity extends Mob
 
 	protected ParticleOptions getParticleType()
 	{
-		return new BlockParticleOption(ParticleTypes.BLOCK, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().defaultBlockState());
+		return new BlockParticleOption(ParticleTypes.BLOCK, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().getDefaultState());
 	}
 
 	@Override protected boolean shouldDespawnInPeaceful() {return true;}
@@ -94,8 +94,8 @@ public class CrystalSlimeEntity extends Mob
 			{
 				float f2 = this.random.nextFloat() * (float) (Math.PI * 2);
 				float f3 = this.random.nextFloat() * 0.5F + 0.5F;
-				float f4 = Mth.sin(f2) * f1 * f3;
-				float f5 = Mth.cos(f2) * f1 * f3;
+				float f4 = MathHelper.sin(f2) * f1 * f3;
+				float f5 = MathHelper.cos(f2) * f1 * f3;
 				this.level().addParticle(this.getParticleType(), this.getX() + (double)f4, this.getY(), this.getZ() + (double)f5, 0.0, 0.0, 0.0);
 			}
 

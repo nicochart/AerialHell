@@ -34,8 +34,8 @@ public class ReactorMenu extends AbstractContainerMenu
 		{
 			@Override public boolean mayPlace(ItemStack stack)
 			{
-				return stack.is(AerialHellBlocksAndItems.FLUORITE.get()) || stack.is(AerialHellBlocksAndItems.FLUORITE_BLOCK_ITEM.get())
-					|| stack.is(AerialHellBlocksAndItems.SHADOW_CRYSTAL.get()) || stack.is(AerialHellBlocksAndItems.SHADOW_SHARD.get()) || stack.is(AerialHellBlocksAndItems.CURSED_CRYSAL.get()) || stack.is(AerialHellBlocksAndItems.CURSED_CRYSAL_BLOCK_ITEM.get());
+				return stack.isOf(AerialHellBlocks.FLUORITE.get()) || stack.isOf(AerialHellBlocks.FLUORITE_BLOCK_ITEM.get())
+					|| stack.isOf(AerialHellBlocks.SHADOW_CRYSTAL.get()) || stack.isOf(AerialHellBlocks.SHADOW_SHARD.get()) || stack.isOf(AerialHellBlocks.CURSED_CRYSAL.get()) || stack.isOf(AerialHellBlocks.CURSED_CRYSAL_BLOCK_ITEM.get());
 			}
 		});
 	}

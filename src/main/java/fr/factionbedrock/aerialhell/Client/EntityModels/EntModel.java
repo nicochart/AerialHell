@@ -135,8 +135,8 @@ public class EntModel<T extends EntEntity> extends EntityModel<T>
 
 	private void setupLegsAnim(ModelPart left, ModelPart right, float limbSwing, float limbSwingAmount)
 	{
-		left.xRot = -1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		right.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		left.xRot = -1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		right.xRot = 1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
 		left.yRot = 0.0F;
 		right.yRot = 0.0F;
 	}

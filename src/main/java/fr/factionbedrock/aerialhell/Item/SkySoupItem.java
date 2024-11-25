@@ -35,7 +35,7 @@ public class SkySoupItem extends Item //copy of net.minecraft.item.SoupItem but 
 	
 	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entityLiving)
 	{
-		if (stack.is(AerialHellBlocksAndItems.SHADOW_FRUIT_STEW) && !level.isClientSide) {entityLiving.removeEffectsCuredBy(AerialHellMobEffects.Cures.SHADOW_FRUIT_STEW);}
+		if (stack.isOf(AerialHellBlocks.SHADOW_FRUIT_STEW) && !level.isClientSide) {entityLiving.removeEffectsCuredBy(AerialHellMobEffects.Cures.SHADOW_FRUIT_STEW);}
 		ItemStack itemstack = super.finishUsingItem(stack, level, entityLiving);
 		return entityLiving instanceof Player && ((Player)entityLiving).getAbilities().instabuild ? itemstack : new ItemStack(AerialHellBlocksAndItems.SKY_BOWL.get());
 	}

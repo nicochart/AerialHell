@@ -55,7 +55,7 @@ public class AerialHellHangingEntityItem extends Item
             //if (this.type.get() == AerialHellEntities.AERIAL_HELL_PAINTING.get()) //always true atm
             //{
                 Optional<AerialHellPaintingEntity> optional = AerialHellPaintingEntity.create(level, blockpos1, direction);
-                if (optional.isEmpty()) {return InteractionResult.CONSUME;}
+                if (optional.isEmpty()) {return ActionResult.CONSUME;}
                 hangingentity = optional.get();
             //}
 
@@ -65,13 +65,13 @@ public class AerialHellHangingEntityItem extends Item
                 {
                     hangingentity.playPlacementSound();
                     level.gameEvent(player, GameEvent.ENTITY_PLACE, hangingentity.position());
-                    level.addFreshEntity(hangingentity);
+                    level.spawnEntity(hangingentity);
                 }
 
                 itemstack.shrink(1);
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
-            else {return InteractionResult.CONSUME;}
+            else {return ActionResult.CONSUME;}
         }
     }
 
@@ -94,7 +94,7 @@ public class AerialHellHangingEntityItem extends Item
                                 paintingVariantHolder ->
                                 {
                                     paintingVariantHolder.unwrapKey().ifPresent(p_270217_ -> {components.add(Component.translatable(p_270217_.location().toLanguageKey("painting", "title")).withStyle(ChatFormatting.YELLOW)); components.add(Component.translatable(p_270217_.location().toLanguageKey("painting", "author")).withStyle(ChatFormatting.GRAY));});
-                                    components.add(Component.translatable("painting.dimensions", Mth.positiveCeilDiv(paintingVariantHolder.value().width(), 16), Mth.positiveCeilDiv(paintingVariantHolder.value().height(), 16)));
+                                    components.add(Component.translatable("painting.dimensions", MathHelper.positiveCeilDiv(paintingVariantHolder.value().width(), 16), MathHelper.positiveCeilDiv(paintingVariantHolder.value().height(), 16)));
                                 },
                                 () -> components.add(TOOLTIP_RANDOM_VARIANT)
                         );

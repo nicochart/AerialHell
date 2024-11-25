@@ -63,17 +63,17 @@ public class CrystalGolemModel<T extends AerialHellGolemEntity> extends EntityMo
 		int i = entity.attackTimer;
 		if (i > 0)
 		{
-			this.arm0.xRot = -2.0F + 0.6F * Mth.triangleWave((float)i, 10.0F);
-			this.arm1.xRot = -2.0F + 0.6F * Mth.triangleWave((float)i, 10.0F);
+			this.arm0.xRot = -2.0F + 0.6F * MathHelper.triangleWave((float)i, 10.0F);
+			this.arm1.xRot = -2.0F + 0.6F * MathHelper.triangleWave((float)i, 10.0F);
 		}
 		else
 		{
-			this.arm0.xRot = (-0.2F + 0.8F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
-			this.arm1.xRot = (-0.2F - 0.8F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
+			this.arm0.xRot = (-0.2F + 0.8F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
+			this.arm1.xRot = (-0.2F - 0.8F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
 		}
 
-		this.leg0.xRot = -1.5F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		this.leg1.xRot = 1.5F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.leg0.xRot = -1.5F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.leg1.xRot = 1.5F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
 		this.leg0.yRot = 0.0F;
 		this.leg1.yRot = 0.0F;
 	}

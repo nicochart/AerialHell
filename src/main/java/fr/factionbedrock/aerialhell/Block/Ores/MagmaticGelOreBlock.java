@@ -1,15 +1,14 @@
 package fr.factionbedrock.aerialhell.Block.Ores;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class MagmaticGelOreBlock extends AerialHellOreBlock
 {	
@@ -19,12 +18,12 @@ public class MagmaticGelOreBlock extends AerialHellOreBlock
 	}
 	
 	@Override
-	public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity)
+	public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity)
 	{
-		boolean creaPlayer = (entity instanceof Player && ((Player) entity).isCreative());
-		if (!world.isClientSide() && entity instanceof LivingEntity && !entity.isSteppingCarefully() && !creaPlayer)
+		boolean creaPlayer = (entity instanceof PlayerEntity && ((PlayerEntity) entity).isCreative());
+		if (!world.isClient() && entity instanceof LivingEntity && !entity.isSneaking() && !creaPlayer)
 		{
-			((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 32, 1));
+			((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 32, 1));
 		}
 	}
 }

@@ -23,7 +23,7 @@ public class VenomousSnakeEntity extends AbstractSnakeEntity
         boolean flag = super.doHurtTarget(attackedEntity);
         if (flag && attackedEntity instanceof LivingEntity livingEntity && !EntityHelper.isLivingEntityShadowImmune(livingEntity))
         {
-            livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 500, 0));
+            livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 500, 0));
         }
         return flag;
     }

@@ -134,29 +134,29 @@ public class BerserkAxeItem extends EffectAxeItem
 			int weight = this.getStatus();
 			if (weight == 0)
 			{
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 22, 1, false, false));
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 22, 1, false, false));
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 22, 1, false, false));
+				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.DAMAGE_BOOST, 22, 1, false, false));
+				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SPEED, 22, 1, false, false));
+				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.DIG_SPEED, 22, 1, false, false));
 			}
 			else if (weight == 1)
 			{
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 22, 0, false, false));
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 22, 0, false, false));
+				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SPEED, 22, 0, false, false));
+				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.DIG_SPEED, 22, 0, false, false));
 			}
 			else if (weight == 2)
 			{
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 22, 0, false, false));
+				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.DIG_SLOWDOWN, 22, 0, false, false));
 			}
 			else if (weight == 3)
 			{
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 22, 0, false, false));
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 22, 1, false, false));
+				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SLOWDOWN, 22, 0, false, false));
+				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.DIG_SLOWDOWN, 22, 1, false, false));
 			}
 			else //(weight == 4)
 			{
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 22, 0, false, false));
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 22, 1, false, false));
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 22, 3, false, false));
+				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 22, 0, false, false));
+				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SLOWDOWN, 22, 1, false, false));
+				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.DIG_SLOWDOWN, 22, 3, false, false));
 			}
 		}
 	}

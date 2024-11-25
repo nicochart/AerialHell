@@ -53,8 +53,8 @@ public class ShadowFlyingSkullModel<T extends ShadowFlyingSkullEntity> extends E
 
 	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		this.jaw.xRot = entity.jawOpeningAmplitude * Mth.sqrt(1.0F + Mth.cos(ageInTicks / entity.jawOpeningFrequencyMalus * 3.2F));
-		this.rightWing.yRot = 0.47123894F + Mth.cos(ageInTicks * 0.8F) * 0.3F;
+		this.jaw.xRot = entity.jawOpeningAmplitude * MathHelper.sqrt(1.0F + MathHelper.cos(ageInTicks / entity.jawOpeningFrequencyMalus * 3.2F));
+		this.rightWing.yRot = 0.47123894F + MathHelper.cos(ageInTicks * 0.8F) * 0.3F;
 		this.leftWing.yRot = -this.rightWing.yRot;
 		this.leftWing.zRot = -0.47123894F;
 		this.leftWing.xRot = 0.47123894F;

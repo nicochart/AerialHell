@@ -17,7 +17,7 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 //
 public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configuration>
 {
-    private static final BlockState AIR = Blocks.CAVE_AIR.defaultBlockState();
+    private static final BlockState AIR = Blocks.CAVE_AIR.getDefaultState();
 
     public AerialHellLakeFeature(Codec<AerialHellLakeFeature.Configuration> codec) {super(codec);}
 
@@ -99,7 +99,7 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configu
                             if (this.canReplaceBlock(level.getBlockState(liquidPlacementPos)))
                             {
                                 boolean shouldBecomeAir = i3 >= 4;
-                                level.setBlock(liquidPlacementPos, shouldBecomeAir ? AIR : fluidState, 2);
+                                level.setBlockState(liquidPlacementPos, shouldBecomeAir ? AIR : fluidState, 2);
                                 if (shouldBecomeAir)
                                 {
                                     level.scheduleTick(liquidPlacementPos, AIR.getBlock(), 0);
@@ -141,10 +141,10 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configu
 
     private void placeBarrierIfNeeded(WorldGenLevel level, BlockPos pos, BlockState barrierState)
     {
-        if (level.getBlockState(pos).isAir()) {level.setBlock(pos, barrierState, 2);}
+        if (level.getBlockState(pos).isAir()) {level.setBlockState(pos, barrierState, 2);}
     }
 
-    private boolean canReplaceBlock(BlockState state) {return !state.is(BlockTags.FEATURES_CANNOT_REPLACE);}
+    private boolean canReplaceBlock(BlockState state) {return !state.isIn(BlockTags.FEATURES_CANNOT_REPLACE);}
 
     public record Configuration(BlockStateProvider fluid, BlockStateProvider barrier) implements FeatureConfiguration
     {

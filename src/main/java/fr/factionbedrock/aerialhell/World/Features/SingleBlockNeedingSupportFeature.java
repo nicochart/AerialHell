@@ -24,7 +24,7 @@ public class SingleBlockNeedingSupportFeature extends Feature<SingleBlockNeeding
 		if (pos == null) {return false;}
 		else
 		{
-			context.level().setBlock(pos, block.getState(context.random(), pos), 0);
+			context.level().setBlockState(pos, block.getState(context.random(), pos), 0);
 			return true;
 		}
 	}
@@ -47,6 +47,6 @@ public class SingleBlockNeedingSupportFeature extends Feature<SingleBlockNeeding
 	
 	private boolean hasSupportToGenerate(Block support, WorldGenLevel level, BlockPos pos)
 	{
-		return level.isEmptyBlock(pos) && level.getBlockState(pos.below()).is(support);
+		return level.isEmptyBlock(pos) && level.getBlockState(pos.down()).is(support);
 	}
 }

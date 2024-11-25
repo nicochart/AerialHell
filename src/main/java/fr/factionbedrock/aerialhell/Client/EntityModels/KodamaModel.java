@@ -111,10 +111,10 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 
 		this.arm0.zRot = -0.1F;
 		this.arm1.zRot = 0.1F;
-		this.arm0.xRot = (-0.2F + 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
-		this.arm1.xRot = (-0.2F - 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
-		this.leg0.xRot = -1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		this.leg1.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.arm0.xRot = (-0.2F + 1.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+		this.arm1.xRot = (-0.2F - 1.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+		this.leg0.xRot = -1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.leg1.xRot = 1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
 	}
 
 	private void setHeadRot(float netHeadYaw, float headPitch, float zRot)

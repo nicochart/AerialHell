@@ -58,7 +58,7 @@ public class ThrownStellarEgg extends ThrowableItemProjectile
                         chicken.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
                         chicken.setColor(this.level().getBlockTint(this.blockPosition(), Biome::getGrassColor));
 
-                        this.level().addFreshEntity(chicken);
+                        this.level().spawnEntity(chicken);
                     }
                 }
             }

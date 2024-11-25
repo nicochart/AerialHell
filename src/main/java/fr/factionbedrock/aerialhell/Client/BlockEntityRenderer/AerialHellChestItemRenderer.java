@@ -30,7 +30,7 @@ public class AerialHellChestItemRenderer extends BlockEntityWithoutLevelRenderer
 			final Block block = ((BlockItem) stack.getItem()).getBlock();
 			if (block instanceof AerialHellChestBlock)
 			{
-				if (chest == null) {chest = new AerialHellChestBlockEntity(BlockPos.ZERO, block.defaultBlockState());}
+				if (chest == null) {chest = new AerialHellChestBlockEntity(BlockPos.ZERO, block.getDefaultState());}
 				chest.setChest(Block.byItem(stack.getItem()));
 				renderDispatcher.renderItem(chest, poseStack, buffer, combinedLight, combinedOverlay);
 			}

@@ -1,72 +1,56 @@
 package fr.factionbedrock.aerialhell.Block.DirtAndVariants;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellPlacedFeatures;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.gen.feature.PlacedFeature;
 
-import java.util.List;
 import java.util.Optional;
-
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.common.ItemAbility;
-import org.jetbrains.annotations.Nullable;
 
 public class StellarGrassBlock extends AerialHellGrassBlock
 {
-	public StellarGrassBlock(AbstractBlock.Settings settings)
-	{
-		super(settings);
-		this.registerDefaultState(this.defaultBlockState());
-	}
+	public StellarGrassBlock(AbstractBlock.Settings settings) {super(settings);}
 
-	@Override protected Optional<Holder.Reference<PlacedFeature>> getBonemealFeature(ServerLevel level)
+	@Override protected Optional<RegistryEntry.Reference<PlacedFeature>> getBonemealFeature(ServerWorld world)
 	{
-		return level.registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getHolder(AerialHellPlacedFeatures.STELLAR_GRASS_BONEMEAL);
+		return world.getRegistryManager().get(RegistryKeys.PLACED_FEATURE).getEntry(AerialHellPlacedFeatures.STELLAR_GRASS_BONEMEAL);
 	}
 
 	@Override
-	public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
+	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
 	{
-		if (!BlockHelper.canBeGrass(state, level, pos))
+		if (!BlockHelper.canBeGrass(state, world, pos))
 		{
-			if (!level.isAreaLoaded(pos, 3)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light and spreading
-			level.setBlockAndUpdate(pos, AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState());
+			world.setBlockState(pos, AerialHellBlocks.STELLAR_DIRT.getDefaultState());
 		}
 		else
 		{
-			if (level.getMaxLocalRawBrightness(pos.above()) >= 9)
+			if (world.getLightLevel(pos.up()) >= 9)
 			{
 				for(int i = 0; i < 4; ++i)
 				{
-					BlockPos blockpos = pos.offset(rand.nextInt(3) - 1, rand.nextInt(5) - 3, rand.nextInt(3) - 1);
+					BlockPos blockpos = pos.add(rand.nextInt(3) - 1, rand.nextInt(5) - 3, rand.nextInt(3) - 1);
 					BlockState blockstate;
-					if (level.getBlockState(blockpos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get())
+					if (world.getBlockState(blockpos).getBlock() == AerialHellBlocks.STELLAR_DIRT)
 					{
-						blockstate = AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().defaultBlockState();
+						blockstate = AerialHellBlocks.STELLAR_GRASS_BLOCK.getDefaultState();
 					}
 					else //CHISELED_STELLAR_DIRT
 					{
-						blockstate = AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get().defaultBlockState();
+						blockstate = AerialHellBlocks.CHISELED_STELLAR_GRASS_BLOCK.getDefaultState();
 					}
 					
-					if ((level.getBlockState(blockpos).is(AerialHellBlocksAndItems.STELLAR_DIRT.get()) || level.getBlockState(blockpos).is(AerialHellBlocksAndItems.CHISELED_STELLAR_DIRT.get())) && BlockHelper.grassCanPropagate(blockstate, level, blockpos))
+					if ((world.getBlockState(blockpos).isOf(AerialHellBlocks.STELLAR_DIRT) || world.getBlockState(blockpos).isOf(AerialHellBlocks.CHISELED_STELLAR_DIRT)) && BlockHelper.grassCanPropagate(blockstate, world, blockpos))
 					{
-						level.setBlockAndUpdate(blockpos, blockstate.setValue(SNOWY, level.getBlockState(blockpos.above()).is(Blocks.SNOW)));
+						world.setBlockState(blockpos, blockstate.with(SNOWY, world.getBlockState(blockpos.up()).isOf(Blocks.SNOW)));
 					}
 				}
 			}

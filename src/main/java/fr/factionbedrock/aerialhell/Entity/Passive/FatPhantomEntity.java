@@ -162,16 +162,16 @@ public class FatPhantomEntity extends Phantom implements Enemy
       super.tick();
       if (this.level().isClientSide())
       {
-         float f = Mth.cos((float)(this.getId() * 3 + this.tickCount) * 7.448451F * ((float)Math.PI / 180F) + (float)Math.PI);
-         float f1 = Mth.cos((float)(this.getId() * 3 + this.tickCount + 1) * 7.448451F * ((float)Math.PI / 180F) + (float)Math.PI);
+         float f = MathHelper.cos((float)(this.getId() * 3 + this.tickCount) * 7.448451F * ((float)Math.PI / 180F) + (float)Math.PI);
+         float f1 = MathHelper.cos((float)(this.getId() * 3 + this.tickCount + 1) * 7.448451F * ((float)Math.PI / 180F) + (float)Math.PI);
          if (f > 0.0F && f1 <= 0.0F)
          {
             this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), SoundEvents.PHANTOM_FLAP, this.getSoundSource(), 0.95F + this.random.nextFloat() * 0.05F, 0.95F + this.random.nextFloat() * 0.05F, false);
          }
 
          int i = this.getPhantomSize();
-         float f2 = Mth.cos(this.getYRot() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
-         float f3 = Mth.sin(this.getYRot() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
+         float f2 = MathHelper.cos(this.getYRot() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
+         float f3 = MathHelper.sin(this.getYRot() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
          float f4 = (0.3F + f * 0.45F) * ((float)i * 0.2F + 1.0F);
          this.level().addParticle(ParticleTypes.MYCELIUM, this.getX() + (double)f2, this.getY() + (double)f4, this.getZ() + (double)f3, 0.0D, 0.0D, 0.0D);
          this.level().addParticle(ParticleTypes.MYCELIUM, this.getX() - (double)f2, this.getY() + (double)f4, this.getZ() - (double)f3, 0.0D, 0.0D, 0.0D);
@@ -369,23 +369,23 @@ public class FatPhantomEntity extends Phantom implements Enemy
             d3 = Math.sqrt(d0 * d0 + d2 * d2);
             double d5 = Math.sqrt(d0 * d0 + d2 * d2 + d1 * d1);
             float f = FatPhantomEntity.this.getYRot();
-            float f1 = (float) Mth.atan2(d2, d0);
-            float f2 = Mth.wrapDegrees(FatPhantomEntity.this.getYRot() + 90.0F);
-            float f3 = Mth.wrapDegrees(f1 * (180F / (float) Math.PI));
-            FatPhantomEntity.this.setYRot(Mth.approachDegrees(f2, f3, 4.0F) - 90.0F);
+            float f1 = (float) MathHelper.atan2(d2, d0);
+            float f2 = MathHelper.wrapDegrees(FatPhantomEntity.this.getYRot() + 90.0F);
+            float f3 = MathHelper.wrapDegrees(f1 * (180F / (float) Math.PI));
+            FatPhantomEntity.this.setYRot(MathHelper.approachDegrees(f2, f3, 4.0F) - 90.0F);
             FatPhantomEntity.this.yBodyRot = FatPhantomEntity.this.getYRot();
-            if (Mth.degreesDifferenceAbs(f, FatPhantomEntity.this.getYRot()) < 3.0F) {
-               this.speedFactor = Mth.approach(this.speedFactor, 1.8F, 0.005F * (1.8F / this.speedFactor));
+            if (MathHelper.degreesDifferenceAbs(f, FatPhantomEntity.this.getYRot()) < 3.0F) {
+               this.speedFactor = MathHelper.approach(this.speedFactor, 1.8F, 0.005F * (1.8F / this.speedFactor));
             } else {
-               this.speedFactor = Mth.approach(this.speedFactor, 0.2F, 0.025F);
+               this.speedFactor = MathHelper.approach(this.speedFactor, 0.2F, 0.025F);
             }
 
-            float f4 = (float) (-(Mth.atan2(-d1, d3) * (double) (180F / (float) Math.PI)));
+            float f4 = (float) (-(MathHelper.atan2(-d1, d3) * (double) (180F / (float) Math.PI)));
             FatPhantomEntity.this.setXRot(f4);
             float f5 = FatPhantomEntity.this.getYRot() + 90.0F;
-            double d6 = (double) (this.speedFactor * Mth.cos(f5 * ((float) Math.PI / 180F))) * Math.abs(d0 / d5);
-            double d7 = (double) (this.speedFactor * Mth.sin(f5 * ((float) Math.PI / 180F))) * Math.abs(d2 / d5);
-            double d8 = (double) (this.speedFactor * Mth.sin(f4 * ((float) Math.PI / 180F))) * Math.abs(d1 / d5);
+            double d6 = (double) (this.speedFactor * MathHelper.cos(f5 * ((float) Math.PI / 180F))) * Math.abs(d0 / d5);
+            double d7 = (double) (this.speedFactor * MathHelper.sin(f5 * ((float) Math.PI / 180F))) * Math.abs(d2 / d5);
+            double d8 = (double) (this.speedFactor * MathHelper.sin(f4 * ((float) Math.PI / 180F))) * Math.abs(d1 / d5);
             Vec3 vec3 = FatPhantomEntity.this.getDeltaMovement();
             FatPhantomEntity.this.setDeltaMovement(vec3.add((new Vec3(d6, d8, d7)).subtract(vec3).scale(0.2D)));
          }
@@ -450,7 +450,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
          if (BlockPos.ZERO.equals(FatPhantomEntity.this.orbitPosition)) {FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.blockPosition();}
 
          this.angle += this.clockwise * 15.0F * ((float)Math.PI / 180F);
-         FatPhantomEntity.this.orbitOffset = Vec3.atLowerCornerOf(FatPhantomEntity.this.orbitPosition).add((double)(this.distance * Mth.cos(this.angle)), (double)(-4.0F + this.height), (double)(this.distance * Mth.sin(this.angle)));
+         FatPhantomEntity.this.orbitOffset = Vec3.atLowerCornerOf(FatPhantomEntity.this.orbitPosition).add((double)(this.distance * MathHelper.cos(this.angle)), (double)(-4.0F + this.height), (double)(this.distance * MathHelper.sin(this.angle)));
       }
    }
 

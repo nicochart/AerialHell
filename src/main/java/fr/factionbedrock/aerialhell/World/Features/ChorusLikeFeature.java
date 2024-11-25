@@ -22,7 +22,7 @@ public class ChorusLikeFeature extends Feature<ChorusLikePlantConfig>
         BlockPos pos = context.origin();
         RandomSource randomsource = context.random();
         if (needsRoof && !BlockHelper.hasAnySolidSurfaceAbove(level, pos, 3)) {return false;}
-        if (level.isEmptyBlock(pos) && level.getBlockState(pos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT))
+        if (level.isEmptyBlock(pos) && level.getBlockState(pos.down()).is(AerialHellTags.Blocks.STELLAR_DIRT))
         {
             ChorusFlowerLikeBlock.generatePlant(level, pos, randomsource, 8);
             return true;

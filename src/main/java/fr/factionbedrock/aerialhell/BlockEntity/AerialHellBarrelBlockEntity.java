@@ -1,34 +1,17 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.Vec3i;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.Container;
-import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BarrelBlock;
-import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.chat.Component;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.LootableContainerBlockEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
-public class AerialHellBarrelBlockEntity extends RandomizableContainerBlockEntity
-{
+public class AerialHellBarrelBlockEntity extends LootableContainerBlockEntity
+{BarrelB
 	private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
 	private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter()
 	{
-		protected void onOpen(Level level, BlockPos pos, BlockState state)
+		protected void onOpen(World level, BlockPos pos, BlockState state)
 		{
 			AerialHellBarrelBlockEntity.this.playSound(state, SoundEvents.BARREL_OPEN);
 			AerialHellBarrelBlockEntity.this.updateBlockState(state, true);
@@ -95,15 +78,15 @@ public class AerialHellBarrelBlockEntity extends RandomizableContainerBlockEntit
 
 	void updateBlockState(BlockState state, boolean bool)
 	{
-		this.level.setBlock(this.getBlockPos(), state.setValue(BarrelBlock.OPEN, Boolean.valueOf(bool)), 3);
+		this.level.setBlockState(this.getBlockPos(), state.with(BarrelBlock.OPEN, Boolean.valueOf(bool)), 3);
 	}
 
 	void playSound(BlockState state, SoundEvent event)
 	{
-		Vec3i vec3i = state.getValue(BarrelBlock.FACING).getNormal();
+		Vec3i vec3i = state.get(BarrelBlock.FACING).getNormal();
 		double d0 = (double)this.worldPosition.getX() + 0.5D + (double)vec3i.getX() / 2.0D;
 		double d1 = (double)this.worldPosition.getY() + 0.5D + (double)vec3i.getY() / 2.0D;
 		double d2 = (double)this.worldPosition.getZ() + 0.5D + (double)vec3i.getZ() / 2.0D;
-		this.level.playSound((Player)null, d0, d1, d2, event, SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
+		this.level.playSound((Player)null, d0, d1, d2, event, SoundCategory.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
 	}
 }

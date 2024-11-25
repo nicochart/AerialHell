@@ -24,7 +24,7 @@ public class StellarEggItem extends EggItem
             ThrownStellarEgg projectile = new ThrownStellarEgg(level, player);
             projectile.setItem(itemstack);
             projectile.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
-            level.addFreshEntity(projectile);
+            level.spawnEntity(projectile);
         }
 
         player.awardStat(Stats.ITEM_USED.get(this));

@@ -427,8 +427,8 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		int amplifier = this.getDifficulty() - 1; //amplifier = 0 if there is one player, +1 per additional player
 		if (amplifier > 0)
 		{
-			this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 54000, Math.min(3, (int) Math.ceil(amplifier / 2.0F)), false, false));
-			this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 54000, Math.min(3, amplifier - 1), false, false));
+			this.addStatusEffect(new StatusEffectInstance(StatusEffects.DAMAGE_RESISTANCE, 54000, Math.min(3, (int) Math.ceil(amplifier / 2.0F)), false, false));
+			this.addStatusEffect(new StatusEffectInstance(StatusEffects.DAMAGE_BOOST, 54000, Math.min(3, amplifier - 1), false, false));
 		}
 	}
 
@@ -437,13 +437,13 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		BlockPos basePos = this.blockPosition().above(yBaseOffset);
 		BlockPos fallPos = basePos.offset(this.random.nextInt(-maxXZOffset, maxXZOffset), this.random.nextInt(minYOffset, maxYOffset), this.random.nextInt(-maxXZOffset, maxXZOffset));
 		while (this.level().getBlockState(fallPos).isAir() && fallPos.getY() < basePos.getY() + 25) {fallPos = fallPos.above();}
-		while (!FallingBlock.isFree(level().getBlockState(fallPos.below())) && fallPos.getY() > basePos.getY()) {fallPos = fallPos.below();}
+		while (!FallingBlock.isFree(level().getBlockState(fallPos.down())) && fallPos.getY() > basePos.getY()) {fallPos = fallPos.down();}
 		BlockState fallState = this.level().getBlockState(fallPos);
-		if (FallingBlock.isFree(level().getBlockState(fallPos.below())) && fallPos.getY() >= level().getMinBuildHeight())
+		if (FallingBlock.isFree(level().getBlockState(fallPos.down())) && fallPos.getY() >= level().getMinBuildHeight())
 		{
 			if (fallState.getBlock() instanceof CoreProtectedBlock block)
 			{
-				fallState = block.getCrackedVariant().defaultBlockState();
+				fallState = block.getCrackedVariant().getDefaultState();
 			}
 			FallingBlockEntity.fall(level(), fallPos, fallState);
 		}

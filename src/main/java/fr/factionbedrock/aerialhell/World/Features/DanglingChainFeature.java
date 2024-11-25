@@ -24,7 +24,7 @@ public class DanglingChainFeature extends Feature<NoneFeatureConfiguration>
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
 		BlockPos blockPos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
-    	boolean canGenerate = reader.getBlockState(blockPos.below()).getBlock().equals(Blocks.AIR)
+    	boolean canGenerate = reader.getBlockState(blockPos.down()).getBlock().equals(Blocks.AIR)
     		&& reader.getBlockState(blockPos).is(AerialHellTags.Blocks.STELLAR_STONE)
     		&& hasAnyStoneBlockAbove(blockPos.north(4).west(4), reader, 10)
     		&& hasAnyStoneBlockAbove(blockPos.north(4).east(4), reader, 10)
@@ -131,12 +131,12 @@ public class DanglingChainFeature extends Feature<NoneFeatureConfiguration>
     
     private BlockState getRandomBlockstateToPlace(RandomSource rand)
     {
-    	return (rand.nextInt(4) == 0) ? AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE.get().defaultBlockState() : AerialHellBlocksAndItems.STELLAR_STONE_BRICKS.get().defaultBlockState();
+    	return (rand.nextInt(4) == 0) ? AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE.get().getDefaultState() : AerialHellBlocksAndItems.STELLAR_STONE_BRICKS.get().getDefaultState();
     }
     
     private void setBlockStateIfPossible(WorldGenLevel reader, BlockPos blockPos, BlockState state)
     {
-    	if (this.isReplaceable(reader, blockPos)) {reader.setBlock(blockPos, state, 0);}
+    	if (this.isReplaceable(reader, blockPos)) {reader.setBlockState(blockPos, state, 0);}
     }
     
     private boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
@@ -148,7 +148,7 @@ public class DanglingChainFeature extends Feature<NoneFeatureConfiguration>
     
     private boolean hasAnyStoneBlockAbove(BlockPos pos, WorldGenLevel reader, int yMaxDistance)
 	{
-		for (BlockPos blockpos = pos.above(); blockpos.getY() < pos.getY() + yMaxDistance; blockpos = blockpos.above())
+		for (BlockPos blockpos = pos.up(); blockpos.getY() < pos.getY() + yMaxDistance; blockpos = blockpos.up())
 		{
 			if (reader.getBlockState(blockpos).is(AerialHellTags.Blocks.STELLAR_STONE)) {return true;}
 		}

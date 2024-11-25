@@ -4,12 +4,7 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.World.Features.Config.FloorTransformationConfig;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.block.BlockState;
 
 public class FloorTransformationFeature extends Feature<FloorTransformationConfig>
 {
@@ -40,7 +35,7 @@ public class FloorTransformationFeature extends Feature<FloorTransformationConfi
 							if (type != PlacementType.NONE)
 							{
 								placementState = getPlacementState(context, placementPos, type);
-								level.setBlock(placementPos, placementState, 2);
+								level.setBlockState(placementPos, placementState, 2);
 							}
 	            			y += 7; //if we found stellar grass block <=> we found surface, skip other y values
 	            		}
@@ -91,12 +86,12 @@ public class FloorTransformationFeature extends Feature<FloorTransformationConfi
 
 	protected boolean canGenerate(FeaturePlaceContext<FloorTransformationConfig> context, BlockPos pos)
 	{
-		return (isValidSupport(pos, context.level()) || isValidSupport(pos.below(), context.level())) && hasRoofIfNeeded(context, pos);
+		return (isValidSupport(pos, context.level()) || isValidSupport(pos.down(), context.level())) && hasRoofIfNeeded(context, pos);
 	}
 
 	protected boolean isValidSupport(BlockPos pos, WorldGenLevel level)
 	{
-		return level.isEmptyBlock(pos.above()) && isReplaceable(level.getBlockState(pos));
+		return level.isEmptyBlock(pos.up()) && isReplaceable(level.getBlockState(pos));
 	}
 
 	protected boolean hasRoofIfNeeded(FeaturePlaceContext<FloorTransformationConfig> context, BlockPos pos)
@@ -104,11 +99,11 @@ public class FloorTransformationFeature extends Feature<FloorTransformationConfi
 		return !context.config().needsRoof().equals("true") || hasAnyBlockAbove(pos, context.level());
 	}
 
-	protected boolean isReplaceable(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_DIRT);}
+	protected boolean isReplaceable(BlockState state) {return state.isIn(AerialHellTags.Blocks.STELLAR_DIRT);}
 
 	protected boolean hasAnyBlockAbove(BlockPos pos, WorldGenLevel level)
 	{
-		for (BlockPos blockpos1 = pos.above(); blockpos1.getY() < 250; blockpos1 = blockpos1.above())
+		for (BlockPos blockpos1 = pos.up(); blockpos1.getY() < 250; blockpos1 = blockpos1.up())
 		{
 			if (!level.isEmptyBlock(blockpos1)) {return true;}
 		}

@@ -27,11 +27,11 @@ public class CrystalBlobFeature extends Feature<NoneFeatureConfiguration>
 		if (!reader.isEmptyBlock(pos)) {return false;}
 		else
 		{
-			BlockState blockstate = reader.getBlockState(pos.below());
-		    if (!blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT)) {return false;}
+			BlockState blockstate = reader.getBlockState(pos.down());
+		    if (!blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT)) {return false;}
 		    else
 		    {
-		    	reader.setBlock(pos, crystalBlock.get().defaultBlockState(), 2);
+		    	reader.setBlockState(pos, crystalBlock.get().getDefaultState(), 2);
 
 		        for(int i = 0; i < 1700; ++i)
 		        {
@@ -55,7 +55,7 @@ public class CrystalBlobFeature extends Feature<NoneFeatureConfiguration>
 				            if (j > 1) {break;}
 			            }
 	
-			            if (j == 1) {reader.setBlock(blockpos, crystalBlock.get().defaultBlockState(), 2);}
+			            if (j == 1) {reader.setBlockState(blockpos, crystalBlock.get().getDefaultState(), 2);}
 		            }
 		        }
 

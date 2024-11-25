@@ -44,7 +44,7 @@ public class DeadGiantTreeFeature extends AbstractGiantTreeFeature<DeadGiantTree
         trunkSpline = null;
     }
 
-    @Override protected boolean isValidTreeSupport(BlockState state) {return super.isValidTreeSupport(state) || state.is(AerialHellBlocksAndItems.SLIPPERY_SAND.get());}
+    @Override protected boolean isValidTreeSupport(BlockState state) {return super.isValidTreeSupport(state) || state.isOf(AerialHellBlocks.SLIPPERY_SAND.get());}
 
     private static class DeadGiantTrunk extends ClassicGiantTrunk
     {

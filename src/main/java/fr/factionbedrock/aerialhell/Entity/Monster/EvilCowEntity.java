@@ -52,7 +52,7 @@ public class EvilCowEntity extends AerialHellHostileEntity
     @Override public InteractionResult mobInteract(Player player, InteractionHand hand)
     {
         ItemStack itemstack = player.getItemInHand(hand);
-        if (itemstack.is(Items.BUCKET) || itemstack.is(AerialHellBlocksAndItems.RUBY_BUCKET.get()) && !this.isBaby())
+        if (itemstack.is(Items.BUCKET) || itemstack.isOf(AerialHellBlocks.RUBY_BUCKET.get()) && !this.isBaby())
         {
             player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
             ItemStack filledBucket;

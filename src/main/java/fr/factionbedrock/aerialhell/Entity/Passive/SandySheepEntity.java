@@ -101,7 +101,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
     			double z = getZ() + (random.nextFloat() - 0.5F) * rand;
     			double dx = (random.nextFloat() - 0.5F)/10;
     			double dz = (random.nextFloat() - 0.5F)/10;
-    			this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, AerialHellBlocksAndItems.SLIPPERY_SAND.get().defaultBlockState()), x, y, z, dx, -0.06D, dz);
+    			this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, AerialHellBlocksAndItems.SLIPPERY_SAND.get().getDefaultState()), x, y, z, dx, -0.06D, dz);
             }
     	}
         return false;

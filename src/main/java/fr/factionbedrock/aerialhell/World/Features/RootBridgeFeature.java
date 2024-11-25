@@ -140,12 +140,12 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
     }
 
     private boolean isValidBridgeStartOrEnd(WorldGenLevel reader, BlockPos pos) {return isValidSupportForBridge(reader.getBlockState(pos)) && thereIsAirAroundPosition(reader, pos);}
-    private boolean isValidSupportForBridge(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_STONE) || state.getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get();}
+    private boolean isValidSupportForBridge(BlockState state) {return state.isIn(AerialHellTags.Blocks.STELLAR_STONE) || state.getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get();}
     private boolean thereIsAirAroundPosition(WorldGenLevel reader, BlockPos pos)
     {
         for (int distance = 1; distance < 6; distance+=2)
         {
-            if (thereIs3x3AirAreaAtPos(reader, pos.north(distance)) || thereIs3x3AirAreaAtPos(reader, pos.south(distance)) || thereIs3x3AirAreaAtPos(reader, pos.west(distance)) || thereIs3x3AirAreaAtPos(reader, pos.east(distance)) || thereIs3x3AirAreaAtPos(reader, pos.above(distance))) {return true;}
+            if (thereIs3x3AirAreaAtPos(reader, pos.north(distance)) || thereIs3x3AirAreaAtPos(reader, pos.south(distance)) || thereIs3x3AirAreaAtPos(reader, pos.west(distance)) || thereIs3x3AirAreaAtPos(reader, pos.east(distance)) || thereIs3x3AirAreaAtPos(reader, pos.up(distance))) {return true;}
         }
         return false;
     }
@@ -162,7 +162,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         @Override protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
         {
             BlockState previousBlock = reader.getBlockState(blockPos);
-            return super.isReplaceable(reader, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.is(AerialHellBlocksAndItems.STELLAR_STONE.get());
+            return super.isReplaceable(reader, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.isOf(AerialHellBlocks.STELLAR_STONE.get());
         }
     }
 
@@ -173,7 +173,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         @Override protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
         {
             BlockState previousBlock = reader.getBlockState(blockPos);
-            return super.isReplaceable(reader, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.is(AerialHellBlocksAndItems.STELLAR_STONE.get());
+            return super.isReplaceable(reader, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.isOf(AerialHellBlocks.STELLAR_STONE.get());
         }
     }
 }

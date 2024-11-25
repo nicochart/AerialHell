@@ -111,14 +111,14 @@ public class AerialHellChestBlockEntityRenderer extends ChestRenderer<AerialHell
 	{
 		Level level = tileEntityIn.getLevel();
 		boolean levelnotnull = level != null;
-		BlockState blockstate = levelnotnull ? tileEntityIn.getBlockState() : Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, Direction.SOUTH);
-		ChestType chesttype = blockstate.hasProperty(ChestBlock.TYPE) ? blockstate.getValue(ChestBlock.TYPE) : ChestType.SINGLE;
+		BlockState blockstate = levelnotnull ? tileEntityIn.getBlockState() : Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, Direction.SOUTH);
+		ChestType chesttype = blockstate.hasProperty(ChestBlock.TYPE) ? blockstate.get(ChestBlock.TYPE) : ChestType.SINGLE;
 		Block block = blockstate.getBlock();
 		if (block instanceof AbstractChestBlock<?> abstractchestblock)
 		{
 			boolean notSingle = chesttype != ChestType.SINGLE;
 			poseStack.pushPose();
-			float f = blockstate.getValue(ChestBlock.FACING).toYRot();
+			float f = blockstate.get(ChestBlock.FACING).toYRot();
 			poseStack.translate(0.5F, 0.5F, 0.5F);
 			poseStack.mulPose(Axis.YP.rotationDegrees(-f));
 			poseStack.translate(-0.5F, -0.5F, -0.5F);

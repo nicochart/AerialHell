@@ -3,33 +3,32 @@ package fr.factionbedrock.aerialhell.Util;
 import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
 import fr.factionbedrock.aerialhell.Block.ShiftableLogBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellBiomes;
-import net.minecraft.core.*;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.BiomeResolver;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.GrowingPlantHeadBlock;
-import net.minecraft.world.level.block.SnowLayerBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.status.ChunkStatus;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.lighting.LightEngine;
-import net.neoforged.neoforge.common.Tags;
+import net.minecraft.block.*;
+import net.minecraft.item.Item;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockBox;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkSectionPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.source.BiomeCoords;
+import net.minecraft.world.biome.source.BiomeSupplier;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.world.chunk.light.ChunkLightProvider;
 import org.apache.commons.lang3.mutable.MutableInt;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -39,87 +38,87 @@ public class BlockHelper
 {
     public static boolean isAerialHellPortalFrameBlock(BlockState blockstate)
     {
-        return blockstate.is(AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get());
+        return blockstate.isOf(AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK);
     }
 
     public static Block getAerialHellPortalFrameBlock()
     {
-        return AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get();
+        return AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK;
     }
 
     public static boolean isItemMiningLevelSufficentForHarvesting(BlockState state, Item item)
     {
         int miningLevel = ItemHelper.getItemMiningLevel(item);
-        if (state.is(Tags.Blocks.NEEDS_NETHERITE_TOOL) && miningLevel < 4) {return false;}
-        else if (state.is(BlockTags.NEEDS_DIAMOND_TOOL) && miningLevel < 3) {return false;}
-        else if (state.is(BlockTags.NEEDS_IRON_TOOL) && miningLevel < 2) {return false;}
-        else if (state.is(BlockTags.NEEDS_STONE_TOOL) && miningLevel < 1) {return false;}
+        if (state.isOf(Tag.Blocks.NEEDS_NETHERITE_TOOL) && miningLevel < 4) {return false;}
+        else if (state.isIn(BlockTags.NEEDS_DIAMOND_TOOL) && miningLevel < 3) {return false;}
+        else if (state.isIn(BlockTags.NEEDS_IRON_TOOL) && miningLevel < 2) {return false;}
+        else if (state.isIn(BlockTags.NEEDS_STONE_TOOL) && miningLevel < 1) {return false;}
         return true;
     }
 
-    /* ---- Functions copied from SpreadingSnowyDirtBlock class ---- */
-    public static boolean canBeGrass(BlockState state, LevelReader worldReader, BlockPos pos)
+    /* ---- Functions copied from SpreadableBlock class ---- */
+    private static boolean canBeGrass(BlockState state, WorldView world, BlockPos pos)
     {
-        BlockPos blockpos = pos.above();
-        BlockState blockstate = worldReader.getBlockState(blockpos);
-        if (blockstate.is(Blocks.SNOW) && blockstate.getValue(SnowLayerBlock.LAYERS) == 1) {return true;}
-        else if (blockstate.getFluidState().getAmount() == 8) {return false;}
+        BlockPos blockPos = pos.up();
+        BlockState blockState = world.getBlockState(blockPos);
+        if (blockState.isOf(Blocks.SNOW) && blockState.get(SnowBlock.LAYERS) == 1) {return true;}
+        else if (blockState.getFluidState().getLevel() == 8) {return false;}
         else
         {
-            int i = LightEngine.getLightBlockInto(worldReader, state, pos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(worldReader, blockpos));
-            return i < worldReader.getMaxLightLevel();
+            int i = ChunkLightProvider.getRealisticOpacity(world, state, pos, blockState, blockPos, Direction.UP, blockState.getOpacity(world, blockPos));
+            return i < world.getMaxLightLevel();
         }
     }
 
-    public static boolean grassCanPropagate(BlockState state, LevelReader worldReader, BlockPos pos)
+    public static boolean grassCanPropagate(BlockState state, ServerWorld world, BlockPos pos)
     {
-        BlockPos blockpos = pos.above();
-        return canBeGrass(state, worldReader, pos) && !worldReader.getFluidState(blockpos).is(FluidTags.WATER);
+        BlockPos blockpos = pos.up();
+        return canBeGrass(state, world, pos) && !world.getFluidState(blockpos).isIn(FluidTags.WATER);
     }
 
     public enum CorruptionType{GRASS, OTHER, ANY}
 
-    public static boolean tryCorrupt(ServerLevel level, BlockPos pos, RandomSource rand)
+    public static boolean tryCorrupt(ServerWorld world, BlockPos pos, Random rand)
     {
-        return tryCorrupt(level, pos, rand, 1.0F);
+        return tryCorrupt(world, pos, rand, 1.0F);
     }
 
-    public static boolean tryCorrupt(ServerLevel level, BlockPos pos, RandomSource rand, float chanceMultiplier)
+    public static boolean tryCorrupt(ServerWorld world, BlockPos pos, Random rand, float chanceMultiplier)
     {
         float chance = rand.nextFloat();
-        if (chance < getCorruptChance(level, pos, CorruptionType.OTHER, chanceMultiplier) && BlockHelper.corrupt(level, pos, CorruptionType.OTHER)) {return true;}
-        if (chance < getCorruptChance(level, pos, CorruptionType.GRASS, chanceMultiplier) && BlockHelper.corrupt(level, pos, CorruptionType.GRASS)) {return true;}
-        return BlockHelper.canBeCorrupted(level, pos, BlockHelper.CorruptionType.ANY);
+        if (chance < getCorruptChance(world, pos, CorruptionType.OTHER, chanceMultiplier) && BlockHelper.corrupt(world, pos, CorruptionType.OTHER)) {return true;}
+        if (chance < getCorruptChance(world, pos, CorruptionType.GRASS, chanceMultiplier) && BlockHelper.corrupt(world, pos, CorruptionType.GRASS)) {return true;}
+        return BlockHelper.canBeCorrupted(world, pos, BlockHelper.CorruptionType.ANY);
     }
 
-    public static float getCorruptChance(ServerLevel level, BlockPos pos, BlockHelper.CorruptionType type, float chance_multiplier)
+    public static float getCorruptChance(ServerWorld world, BlockPos pos, BlockHelper.CorruptionType type, float chance_multiplier)
     {
-        if (!BlockHelper.canBeCorrupted(level, pos, type)) {return 0.0F;}
+        if (!BlockHelper.canBeCorrupted(world, pos, type)) {return 0.0F;}
 
         float custom_multiplier = 1.0F;
         float type_multiplier = (type == CorruptionType.ANY || type == CorruptionType.OTHER) ? 0.4F : 1.0F;
         float multiplier = chance_multiplier * custom_multiplier * type_multiplier;
-        Holder<Biome> biome = getInitialBiomeAtPos(level, pos);
-        if (biome.is(AerialHellTags.Biomes.IS_SHADOW)) {return multiplier * 1.8F;}
-        else if (biome.is(AerialHellTags.Biomes.IS_CRYSTAL)) {return 0.0F;}
-        else if (biome.is(AerialHellTags.Biomes.IS_AERIAL_HELL)) {return multiplier * 0.8F;}
+        RegistryEntry<Biome> biome = getInitialBiomeAtPos(world, pos);
+        if (biome.isIn(AerialHellTags.Biomes.IS_SHADOW)) {return multiplier * 1.8F;}
+        else if (biome.isIn(AerialHellTags.Biomes.IS_CRYSTAL)) {return 0.0F;}
+        else if (biome.isIn(AerialHellTags.Biomes.IS_AERIAL_HELL)) {return multiplier * 0.8F;}
         else {return 0.0F;}
     }
 
-    public static boolean corrupt(ServerLevel level, BlockPos pos, CorruptionType corruptionType)
+    public static boolean corrupt(ServerWorld world, BlockPos pos, CorruptionType corruptionType)
     {
         boolean mayCorruptAbove = false, mayCorruptBelow = false;
-        BlockState beforeState = level.getBlockState(pos);
+        BlockState beforeState = world.getBlockState(pos);
         @Nullable BlockState corruptedState = null;
         if (corruptionType == CorruptionType.OTHER || corruptionType == CorruptionType.ANY)
         {
-            if (beforeState.is(AerialHellBlocksAndItems.STELLAR_STONE.get()))
+            if (beforeState.isOf(AerialHellBlocks.STELLAR_STONE))
             {
-                corruptedState = AerialHellBlocksAndItems.SHADOW_STONE.get().defaultBlockState();
+                corruptedState = AerialHellBlocks.SHADOW_STONE.getDefaultState();
             }
-            else if (beforeState.is(AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get()))
+            else if (beforeState.isOf(AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK))
             {
-                corruptedState = AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK.get().defaultBlockState();
+                corruptedState = AerialHellBlocks.SHADOW_CRYSTAL_BLOCK.getDefaultState();
             }
             else if (beforeState.getBlock() instanceof ShiftableLogBlock)
             {
@@ -129,92 +128,92 @@ public class BlockHelper
             {
                 corruptedState = ShiftableLeavesBlock.getShiftedState(beforeState);
             }
-            else if (beforeState.is(AerialHellBlocksAndItems.STELLAR_GRASS))
+            else if (beforeState.isOf(AerialHellBlocks.STELLAR_GRASS))
             {
-                corruptedState = AerialHellBlocksAndItems.SHADOW_GRASS.get().defaultBlockState();
+                corruptedState = AerialHellBlocks.SHADOW_GRASS.getDefaultState();
             }
-            else if (beforeState.is(AerialHellBlocksAndItems.STELLAR_GRASS_BALL))
+            else if (beforeState.isOf(AerialHellBlocks.STELLAR_GRASS_BALL))
             {
-                corruptedState = AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get().defaultBlockState();
+                corruptedState = AerialHellBlocks.SHADOW_GRASS_BALL.getDefaultState();
             }
-            else if (beforeState.is(AerialHellBlocksAndItems.BRAMBLES))
+            else if (beforeState.isOf(AerialHellBlocks.BRAMBLES))
             {
-                corruptedState = AerialHellBlocksAndItems.SHADOW_BRAMBLES.get().defaultBlockState();
+                corruptedState = AerialHellBlocks.SHADOW_BRAMBLES.getDefaultState();
             }
-            else if (beforeState.is(AerialHellBlocksAndItems.GLOWING_ROOTS))
+            else if (beforeState.isOf(AerialHellBlocks.GLOWING_ROOTS))
             {
-                BlockState aboveState = level.getBlockState(pos.above()), belowState = level.getBlockState(pos.above());
-                boolean aboveIsAlreadyCorrupted = aboveState.is(AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS.get()) || aboveState.is(AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS_PLANT.get());
-                BlockState defaultState = aboveIsAlreadyCorrupted ? AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS_PLANT.get().defaultBlockState() : AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS.get().defaultBlockState();
-                corruptedState =  aboveIsAlreadyCorrupted ? defaultState : defaultState.setValue(GrowingPlantHeadBlock.AGE, beforeState.getValue(GrowingPlantHeadBlock.AGE));
-                mayCorruptBelow = aboveState.is(AerialHellTags.Blocks.ROOTS); mayCorruptAbove = !aboveIsAlreadyCorrupted && belowState.is(AerialHellTags.Blocks.ROOTS);
+                BlockState aboveState = world.getBlockState(pos.up()), belowState = world.getBlockState(pos.up());
+                boolean aboveIsAlreadyCorrupted = aboveState.isOf(AerialHellBlocks.SHADOW_GLOWING_ROOTS) || aboveState.isOf(AerialHellBlocks.SHADOW_GLOWING_ROOTS_PLANT);
+                BlockState defaultState = aboveIsAlreadyCorrupted ? AerialHellBlocks.SHADOW_GLOWING_ROOTS_PLANT.getDefaultState() : AerialHellBlocks.SHADOW_GLOWING_ROOTS.getDefaultState();
+                corruptedState =  aboveIsAlreadyCorrupted ? defaultState : defaultState.with(AbstractPlantStemBlock.AGE, beforeState.get(AbstractPlantStemBlock.AGE));
+                mayCorruptBelow = aboveState.isIn(AerialHellTags.Blocks.ROOTS); mayCorruptAbove = !aboveIsAlreadyCorrupted && belowState.isIn(AerialHellTags.Blocks.ROOTS);
             }
-            else if (beforeState.is(AerialHellBlocksAndItems.GLOWING_ROOTS_PLANT))
+            else if (beforeState.isOf(AerialHellBlocks.GLOWING_ROOTS_PLANT))
             {
-                corruptedState = AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS_PLANT.get().defaultBlockState();
-                mayCorruptBelow = level.getBlockState(pos.below()).is(AerialHellTags.Blocks.ROOTS); mayCorruptAbove = level.getBlockState(pos.above()).is(AerialHellTags.Blocks.ROOTS);
+                corruptedState = AerialHellBlocks.SHADOW_GLOWING_ROOTS_PLANT.getDefaultState();
+                mayCorruptBelow = world.getBlockState(pos.down()).isIn(AerialHellTags.Blocks.ROOTS); mayCorruptAbove = world.getBlockState(pos.up()).is(AerialHellTags.Blocks.ROOTS);
             }
         }
         if (corruptionType == CorruptionType.GRASS || corruptionType == CorruptionType.ANY)
         {
-            if (beforeState.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()))
+            if (beforeState.isOf(AerialHellBlocks.STELLAR_GRASS_BLOCK))
             {
-                corruptedState = AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().defaultBlockState();
+                corruptedState = AerialHellBlocks.SHADOW_GRASS_BLOCK.getDefaultState();
                 mayCorruptAbove = true;
             }
         }
 
         if (corruptedState != null)
         {
-            level.setBlockAndUpdate(pos, corruptedState);
-            corruptBiome(level, pos, 1);
-            if (mayCorruptBelow && canBeCorrupted(level, pos.below(), CorruptionType.OTHER)) {corrupt(level, pos.below(), CorruptionType.OTHER);}
-            if (mayCorruptAbove && canBeCorrupted(level, pos.above(), CorruptionType.OTHER)) {corrupt(level, pos.above(), CorruptionType.OTHER);}
+            world.setBlockState(pos, corruptedState);
+            corruptBiome(world, pos, 1);
+            if (mayCorruptBelow && canBeCorrupted(world, pos.down(), CorruptionType.OTHER)) {corrupt(world, pos.down(), CorruptionType.OTHER);}
+            if (mayCorruptAbove && canBeCorrupted(world, pos.up(), CorruptionType.OTHER)) {corrupt(world, pos.up(), CorruptionType.OTHER);}
             return true;
         }
         else {return false;}
     }
 
     //see net.minecraft.gametest.framework.GameTestHelper setBiome method and net.minecraft.server.commands.FillBiomeCommand fill method
-    public static void corruptBiome(ServerLevel level, BlockPos pos, int radius)
+    public static void corruptBiome(ServerWorld world, BlockPos pos, int radius)
     {
-        BoundingBox boundingbox = getQuantizedBoundingBox(pos, radius);
+        BlockBox boundingbox = getQuantizedBoundingBox(pos, radius);
 
-        List<ChunkAccess> list = getChunkAccessListForBoundingBox(level, boundingbox);
+        List<Chunk> list = getChunkAccessListForBoundingBox(world, boundingbox);
         if (!list.isEmpty())
         {
-            Holder<Biome> biome = getBiome(level, AerialHellBiomes.SHADOW_PLAIN);
-            Holder<Biome> baseBiome = getInitialBiomeAtPos(level, pos); //initial worldgen biome
-            Holder<Biome> currentBiome = getCurrentBiomeAtPos(level, pos); //current biome
-            if (currentBiome.is(AerialHellTags.Biomes.IS_SHADOW)) {return;} //biome is already shadow
-            else if (baseBiome.is(AerialHellTags.Biomes.IS_SHADOW)) {biome = baseBiome;} //biome initially was shadow but is currently not
+            Biome biome = getBiome(world, AerialHellBiomes.SHADOW_PLAIN);
+            RegistryEntry<Biome> baseBiome = getInitialBiomeAtPos(world, pos); //initial worldgen biome
+            RegistryEntry<Biome> currentBiome = getCurrentBiomeAtPos(world, pos); //current biome
+            if (currentBiome.isIn(AerialHellTags.Biomes.IS_SHADOW)) {return;} //biome is already shadow
+            else if (baseBiome.isIn(AerialHellTags.Biomes.IS_SHADOW)) {biome = baseBiome.value();} //biome initially was shadow but is currently not
 
-            for (ChunkAccess chunk : list)
+            for (Chunk chunk : list)
             {
-                chunk.fillBiomesFromNoise(makeBiomeResolver(new MutableInt(0), chunk, boundingbox, biome, b -> true), level.getChunkSource().randomState().sampler());
-                chunk.setUnsaved(true);
+                chunk.populateBiomes(makeBiomeResolver(new MutableInt(0), chunk, boundingbox, biome, b -> true), world.getChunkManager().getNoiseConfig().getMultiNoiseSampler());
+                chunk.setNeedsSaving(true);
             }
 
-            level.getChunkSource().chunkMap.resendBiomesForChunks(list);
+            world.getChunkManager().chunkLoadingManager.sendChunkBiomePackets(list);
         }
     }
 
-    public static boolean uncorrupt(ServerLevel level, BlockPos pos)
+    public static boolean uncorrupt(ServerWorld world, BlockPos pos)
     {
         boolean mayUncorruptAbove = false, mayUncorruptBelow = false;
-        BlockState beforeState = level.getBlockState(pos);
+        BlockState beforeState = world.getBlockState(pos);
         @Nullable BlockState uncorruptedState = null;
-        if (beforeState.is(AerialHellBlocksAndItems.SHADOW_STONE.get()))
+        if (beforeState.isOf(AerialHellBlocks.SHADOW_STONE))
         {
-            uncorruptedState = AerialHellBlocksAndItems.STELLAR_STONE.get().defaultBlockState();
+            uncorruptedState = AerialHellBlocks.STELLAR_STONE.getDefaultState();
         }
-        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()))
+        else if (beforeState.isOf(AerialHellBlocks.SHADOW_GRASS_BLOCK))
         {
-            uncorruptedState = AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().defaultBlockState();
+            uncorruptedState = AerialHellBlocks.STELLAR_GRASS_BLOCK.getDefaultState();
         }
-        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK.get()))
+        else if (beforeState.isOf(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK))
         {
-            uncorruptedState = AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get().defaultBlockState();
+            uncorruptedState = AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK.getDefaultState();
         }
         else if (beforeState.getBlock() instanceof ShiftableLogBlock)
         {
@@ -224,110 +223,110 @@ public class BlockHelper
         {
             uncorruptedState = ShiftableLeavesBlock.getShiftedState(beforeState);
         }
-        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_GRASS))
+        else if (beforeState.isOf(AerialHellBlocks.SHADOW_GRASS))
         {
-            uncorruptedState = AerialHellBlocksAndItems.STELLAR_GRASS.get().defaultBlockState();
+            uncorruptedState = AerialHellBlocks.STELLAR_GRASS.getDefaultState();
             mayUncorruptAbove = true;
         }
-        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_GRASS_BALL))
+        else if (beforeState.isOf(AerialHellBlocks.SHADOW_GRASS_BALL))
         {
-            uncorruptedState = AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get().defaultBlockState();
+            uncorruptedState = AerialHellBlocks.STELLAR_GRASS_BALL.getDefaultState();
         }
-        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_BRAMBLES))
+        else if (beforeState.isOf(AerialHellBlocks.SHADOW_BRAMBLES))
         {
-            uncorruptedState = AerialHellBlocksAndItems.BRAMBLES.get().defaultBlockState();
+            uncorruptedState = AerialHellBlocks.BRAMBLES.getDefaultState();
         }
-        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS))
+        else if (beforeState.isOf(AerialHellBlocks.SHADOW_GLOWING_ROOTS))
         {
-            BlockState aboveState = level.getBlockState(pos.above()), belowState = level.getBlockState(pos.above());
-            boolean aboveIsAlreadyUncorrupted = aboveState.is(AerialHellBlocksAndItems.GLOWING_ROOTS.get()) || aboveState.is(AerialHellBlocksAndItems.GLOWING_ROOTS_PLANT.get());
-            BlockState defaultState = aboveIsAlreadyUncorrupted ? AerialHellBlocksAndItems.GLOWING_ROOTS_PLANT.get().defaultBlockState() : AerialHellBlocksAndItems.GLOWING_ROOTS.get().defaultBlockState();
-            uncorruptedState =  aboveIsAlreadyUncorrupted ? defaultState : defaultState.setValue(GrowingPlantHeadBlock.AGE, beforeState.getValue(GrowingPlantHeadBlock.AGE));
-            mayUncorruptBelow = aboveState.is(AerialHellTags.Blocks.ROOTS); mayUncorruptAbove = !aboveIsAlreadyUncorrupted && belowState.is(AerialHellTags.Blocks.ROOTS);
+            BlockState aboveState = world.getBlockState(pos.up()), belowState = world.getBlockState(pos.up());
+            boolean aboveIsAlreadyUncorrupted = aboveState.isOf(AerialHellBlocks.GLOWING_ROOTS) || aboveState.isOf(AerialHellBlocks.GLOWING_ROOTS_PLANT);
+            BlockState defaultState = aboveIsAlreadyUncorrupted ? AerialHellBlocks.GLOWING_ROOTS_PLANT.getDefaultState() : AerialHellBlocks.GLOWING_ROOTS.getDefaultState();
+            uncorruptedState =  aboveIsAlreadyUncorrupted ? defaultState : defaultState.with(AbstractPlantStemBlock.AGE, beforeState.get(AbstractPlantStemBlock.AGE));
+            mayUncorruptBelow = aboveState.isIn(AerialHellTags.Blocks.ROOTS); mayUncorruptAbove = !aboveIsAlreadyUncorrupted && belowState.isIn(AerialHellTags.Blocks.ROOTS);
         }
-        else if (beforeState.is(AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS_PLANT))
+        else if (beforeState.isOf(AerialHellBlocks.SHADOW_GLOWING_ROOTS_PLANT))
         {
-            uncorruptedState = AerialHellBlocksAndItems.GLOWING_ROOTS_PLANT.get().defaultBlockState();
-            mayUncorruptBelow = level.getBlockState(pos.below()).is(AerialHellTags.Blocks.ROOTS); mayUncorruptAbove = level.getBlockState(pos.above()).is(AerialHellTags.Blocks.ROOTS);
+            uncorruptedState = AerialHellBlocks.GLOWING_ROOTS_PLANT.getDefaultState();
+            mayUncorruptBelow = world.getBlockState(pos.down()).isIn(AerialHellTags.Blocks.ROOTS); mayUncorruptAbove = world.getBlockState(pos.up()).isIn(AerialHellTags.Blocks.ROOTS);
         }
         if (uncorruptedState != null)
         {
-            level.setBlock(pos, uncorruptedState, 3); //flag 1 | 2 = 3, to get client update and send neighborChange
-            uncorruptBiome(level, pos, 1);
-            if (mayUncorruptBelow && isCorrupted(level, pos.below())) {uncorrupt(level, pos.below());}
-            if (mayUncorruptAbove && isCorrupted(level, pos.above())) {uncorrupt(level, pos.above());}
+            world.setBlockState(pos, uncorruptedState, 3); //flag 1 | 2 = 3, to get client update and send neighborChange
+            uncorruptBiome(world, pos, 1);
+            if (mayUncorruptBelow && isCorrupted(world, pos.down())) {uncorrupt(world, pos.down());}
+            if (mayUncorruptAbove && isCorrupted(world, pos.up())) {uncorrupt(world, pos.up());}
             return true;
         }
         return false;
     }
 
     //see net.minecraft.gametest.framework.GameTestHelper setBiome method and net.minecraft.server.commands.FillBiomeCommand fill method
-    public static void uncorruptBiome(ServerLevel level, BlockPos pos, int radius)
+    public static void uncorruptBiome(ServerWorld world, BlockPos pos, int radius)
     {
-        BoundingBox boundingbox = getQuantizedBoundingBox(pos, radius);
+        BlockBox boundingbox = getQuantizedBoundingBox(pos, radius);
 
-        List<ChunkAccess> list = getChunkAccessListForBoundingBox(level, boundingbox);
+        List<Chunk> list = getChunkAccessListForBoundingBox(world, boundingbox);
         if (!list.isEmpty())
         {
-            Holder<Biome> biome = getInitialBiomeAtPos(level, pos);
-            if (biome.is(AerialHellTags.Biomes.IS_SHADOW)) //initial biome is shadow, need to find another biome to set
+            RegistryEntry<Biome> biome = getInitialBiomeAtPos(world, pos);
+            if (biome.isIn(AerialHellTags.Biomes.IS_SHADOW)) //initial biome is shadow, need to find another biome to set
             {
-                if (biome.is(AerialHellBiomes.SHADOW_FOREST)) {biome = getBiome(level, AerialHellBiomes.COPPER_PINE_FOREST);}
-                else {biome = getBiome(level, AerialHellBiomes.AERIAL_HELL_PLAINS);}
+                if (biome.is(AerialHellBiomes.SHADOW_FOREST)) {biome = getBiome(world, AerialHellBiomes.COPPER_PINE_FOREST);}
+                else {biome = getBiome(world, AerialHellBiomes.AERIAL_HELL_PLAINS);}
             }
 
-            for (ChunkAccess chunk : list)
+            for (Chunk chunk : list)
             {
-                chunk.fillBiomesFromNoise(makeBiomeResolver(new MutableInt(0), chunk, boundingbox, biome, b -> true), level.getChunkSource().randomState().sampler());
-                chunk.setUnsaved(true);
+                chunk.populateBiomes(makeBiomeResolver(new MutableInt(0), chunk, boundingbox, biome, b -> true), world.getChunkManager().getNoiseConfig().getMultiNoiseSampler());
+                chunk.setNeedsSaving(true);
             }
 
-            level.getChunkSource().chunkMap.resendBiomesForChunks(list);
+            world.getChunkManager().chunkLoadingManager.sendChunkBiomePackets(list);
         }
     }
 
-    public static boolean shiftBiomeShifterBlock(ServerLevel level, BlockPos pos, BiomeShifter.ShiftType shiftType)
+    public static boolean shiftBiomeShifterBlock(ServerWorld world, BlockPos pos, BiomeShifter.ShiftType shiftType)
     {
         @Nullable BlockState uncorruptedState = null;
-        if (level.getBlockEntity(pos) instanceof BiomeShifter biomeShifter)
+        if (world.getBlockEntity(pos) instanceof BiomeShifter biomeShifter)
         {
             Supplier<Block> block = biomeShifter.getShiftedOrBrokenVariant();
             if (block == null) {return false;} //should never happen, but happened one time with fluorite ore, for a unknown reason
-            uncorruptedState = block.get().defaultBlockState();
+            uncorruptedState = block.get().getDefaultState();
         }
 
         if (uncorruptedState != null)
         {
-            level.setBlock(pos, uncorruptedState, 3); //flag 1 | 2 = 3, to get client update and send neighborChange
-            if (shiftType == BiomeShifter.ShiftType.CORRUPT) {corruptBiome(level, pos, 1);}
-            else /*if (shiftType == BiomeShifter.ShiftType.UNCORRUPT)*/ {uncorruptBiome(level, pos, 1);}
+            world.setBlockState(pos, uncorruptedState, 3); //flag 1 | 2 = 3, to get client update and send neighborChange
+            if (shiftType == BiomeShifter.ShiftType.CORRUPT) {corruptBiome(world, pos, 1);}
+            else /*if (shiftType == BiomeShifter.ShiftType.UNCORRUPT)*/ {uncorruptBiome(world, pos, 1);}
 
             return true;
         }
         return false;
     }
 
-    public static boolean canBeCorrupted(LevelReader level, BlockPos pos, CorruptionType corruptionType)
+    public static boolean canBeCorrupted(WorldView world, BlockPos pos, CorruptionType corruptionType)
     {
         boolean isGrassType = corruptionType == CorruptionType.GRASS || corruptionType == CorruptionType.ANY;
         boolean isOtherType = corruptionType == CorruptionType.OTHER ||  corruptionType == CorruptionType.ANY;
-        if (surroundingsPreventCorruption(level, pos, corruptionType)) {return false;}
+        if (surroundingsPreventCorruption(world, pos, corruptionType)) {return false;}
         else
         {
-            return isCorrupted(level, pos) || ((level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && isGrassType)
-                                           || (level.getBlockState(pos).getBlock() instanceof ShiftableLogBlock logBlock && logBlock.getShiftType() == BiomeShifter.ShiftType.CORRUPT && isOtherType)
-                                           || (level.getBlockState(pos).getBlock() instanceof ShiftableLeavesBlock leavesBlock && leavesBlock.getShiftType() == BiomeShifter.ShiftType.CORRUPT && isOtherType)
-                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_STONE.get()) && isOtherType)
-                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get()) && isOtherType)
-                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_GRASS.get()) && isOtherType)
-                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get()) && isOtherType)
-                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.BRAMBLES.get()) && isOtherType)
-                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.GLOWING_ROOTS.get()) && isOtherType)
-                                           || (level.getBlockState(pos).is(AerialHellBlocksAndItems.GLOWING_ROOTS_PLANT.get()) && isOtherType));
+            return isCorrupted(world, pos) || ((world.getBlockState(pos).isOf(AerialHellBlocks.STELLAR_GRASS_BLOCK) && isGrassType)
+                                           || (world.getBlockState(pos).getBlock() instanceof ShiftableLogBlock logBlock && logBlock.getShiftType() == BiomeShifter.ShiftType.CORRUPT && isOtherType)
+                                           || (world.getBlockState(pos).getBlock() instanceof ShiftableLeavesBlock leavesBlock && leavesBlock.getShiftType() == BiomeShifter.ShiftType.CORRUPT && isOtherType)
+                                           || (world.getBlockState(pos).isOf(AerialHellBlocks.STELLAR_STONE) && isOtherType)
+                                           || (world.getBlockState(pos).isOf(AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK) && isOtherType)
+                                           || (world.getBlockState(pos).isOf(AerialHellBlocks.STELLAR_GRASS) && isOtherType)
+                                           || (world.getBlockState(pos).isOf(AerialHellBlocks.STELLAR_GRASS_BALL) && isOtherType)
+                                           || (world.getBlockState(pos).isOf(AerialHellBlocks.BRAMBLES) && isOtherType)
+                                           || (world.getBlockState(pos).isOf(AerialHellBlocks.GLOWING_ROOTS) && isOtherType)
+                                           || (world.getBlockState(pos).isOf(AerialHellBlocks.GLOWING_ROOTS_PLANT) && isOtherType));
         }
     }
 
-    public static boolean surroundingsPreventCorruption(LevelReader level, BlockPos pos, CorruptionType corruptionType)
+    public static boolean surroundingsPreventCorruption(WorldView world, BlockPos pos, CorruptionType corruptionType)
     {
         if (corruptionType == CorruptionType.OTHER)
         {
@@ -336,30 +335,30 @@ public class BlockHelper
         else if (corruptionType == CorruptionType.GRASS)
         {
             boolean isAlreadyGrass = false;
-            if (level.getBlockState(pos).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get())) {isAlreadyGrass = true;}
-            return !isAlreadyGrass && !canBeGrass(level.getBlockState(pos), level, pos);
+            if (world.getBlockState(pos).isOf(AerialHellBlocks.STELLAR_GRASS_BLOCK)) {isAlreadyGrass = true;}
+            return !isAlreadyGrass && !canBeGrass(world.getBlockState(pos), world, pos);
         }
         else /*if (corruptionType == CorruptionType.ANY)*/
         {
-            return surroundingsPreventCorruption(level, pos, CorruptionType.OTHER) && surroundingsPreventCorruption(level, pos, CorruptionType.GRASS);
+            return surroundingsPreventCorruption(world, pos, CorruptionType.OTHER) && surroundingsPreventCorruption(world, pos, CorruptionType.GRASS);
         }
     }
 
-    public static boolean isCorrupted(LevelReader level, BlockPos pos)
+    public static boolean isCorrupted(WorldView world, BlockPos pos)
     {
-        return level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get())
-            || level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_STONE.get())
-            || level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK.get())
-            || (level.getBlockState(pos).getBlock() instanceof ShiftableLogBlock logBlock && logBlock.getShiftType() == BiomeShifter.ShiftType.UNCORRUPT)
-            || (level.getBlockState(pos).getBlock() instanceof ShiftableLeavesBlock leavesBlock && leavesBlock.getShiftType() == BiomeShifter.ShiftType.UNCORRUPT)
-            || level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_GRASS.get())
-            || level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get())
-            || level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_BRAMBLES.get())
-            || level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS.get())
-            || level.getBlockState(pos).is(AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS_PLANT.get());
+        return world.getBlockState(pos).isOf(AerialHellBlocks.SHADOW_GRASS_BLOCK)
+            || world.getBlockState(pos).isOf(AerialHellBlocks.SHADOW_STONE)
+            || world.getBlockState(pos).isOf(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK)
+            || (world.getBlockState(pos).getBlock() instanceof ShiftableLogBlock logBlock && logBlock.getShiftType() == BiomeShifter.ShiftType.UNCORRUPT)
+            || (world.getBlockState(pos).getBlock() instanceof ShiftableLeavesBlock leavesBlock && leavesBlock.getShiftType() == BiomeShifter.ShiftType.UNCORRUPT)
+            || world.getBlockState(pos).isOf(AerialHellBlocks.SHADOW_GRASS)
+            || world.getBlockState(pos).isOf(AerialHellBlocks.SHADOW_GRASS_BALL)
+            || world.getBlockState(pos).isOf(AerialHellBlocks.SHADOW_BRAMBLES)
+            || world.getBlockState(pos).isOf(AerialHellBlocks.SHADOW_GLOWING_ROOTS)
+            || world.getBlockState(pos).isOf(AerialHellBlocks.SHADOW_GLOWING_ROOTS_PLANT);
     }
 
-    public static boolean isSurroundingCorrupted(LevelReader level, BlockPos pos)
+    public static boolean isSurroundingCorrupted(WorldView level, BlockPos pos)
     {
         for(int dx=-1; dx<=1; dx++)
         {
@@ -367,80 +366,82 @@ public class BlockHelper
             {
                 for(int dz=-1; dz<=1; dz++)
                 {
-                    if (canBeCorrupted(level, pos.offset(dx, dy, dz), CorruptionType.ANY) && !isCorrupted(level, pos.offset(dx, dy, dz))) {return false;}
+                    if (canBeCorrupted(level, pos.add(dx, dy, dz), CorruptionType.ANY) && !isCorrupted(level, pos.add(dx, dy, dz))) {return false;}
                 }
             }
         }
         return true;
     }
 
-    public static Holder<Biome> getBiome(ServerLevel level, ResourceKey<Biome> biomeKey)
+    public static Biome getBiome(ServerWorld world, RegistryKey<Biome> biomeKey)
     {
-        return level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(biomeKey);
+        return world.getRegistryManager().get(RegistryKeys.BIOME).get(biomeKey);
     }
 
-    public static Holder<Biome> getCurrentBiomeAtPos(ServerLevel level, BlockPos pos)
+    public static RegistryEntry<Biome> getCurrentBiomeAtPos(ServerWorld world, BlockPos pos)
     {
-        return level.getNoiseBiome(pos.getX() >> 2, pos.getY() >> 2, pos.getZ() >> 2);
+        return world.getBiomeForNoiseGen(pos.getX() >> 2, pos.getY() >> 2, pos.getZ() >> 2);
     }
 
-    public static Holder<Biome> getInitialBiomeAtPos(ServerLevel level, BlockPos pos) //return the worldgen biome, before any corruption
+    public static RegistryEntry<Biome> getInitialBiomeAtPos(ServerWorld world, BlockPos pos) //return the worldgen biome, before any corruption
     {
-        return level.getChunkSource().getGenerator().getBiomeSource().getNoiseBiome(pos.getX() >> 2, pos.getY() >> 2, pos.getZ() >> 2,level.getChunkSource().randomState().sampler());
+        return world.getChunkManager().getChunkGenerator().getBiomeSource().getBiome(pos.getX() >> 2, pos.getY() >> 2, pos.getZ() >> 2,world.getChunkManager().getNoiseConfig().getMultiNoiseSampler());
     }
 
-    //copy of net.minecraft.server.commands.FillBiomeCommand makeResolver method
-    private static BiomeResolver makeBiomeResolver(MutableInt biomeEntries, ChunkAccess chunk, BoundingBox targetRegion, Holder<Biome> replacementBiome, Predicate<Holder<Biome>> filter)
+    //copy of net.minecraft.server.command.FillBiomeCommand createBiomeSupplier method
+    private static BiomeSupplier makeBiomeResolver(MutableInt counter, Chunk chunk, BlockBox box, RegistryEntry<Biome> biome, Predicate<RegistryEntry<Biome>> filter)
     {
-        return (x, y, z, sampler) ->
+        return (x, y, z, noise) ->
         {
-            int i = QuartPos.toBlock(x);
-            int j = QuartPos.toBlock(y);
-            int k = QuartPos.toBlock(z);
-            Holder<Biome> holder = chunk.getNoiseBiome(x, y, z);
-            if (targetRegion.isInside(i, j, k) && filter.test(holder))
+            int i = BiomeCoords.toBlock(x);
+            int j = BiomeCoords.toBlock(y);
+            int k = BiomeCoords.toBlock(z);
+            RegistryEntry<Biome> registryEntry2 = chunk.getBiomeForNoiseGen(x, y, z);
+            if (box.contains(i, j, k) && filter.test(registryEntry2))
             {
-                biomeEntries.increment();
-                return replacementBiome;
-            } else {return holder;}
+                counter.increment();
+                return biome;
+            }
+            else {return registryEntry2;}
         };
     }
 
-    private static int quantize(int blockCoordinate) {return QuartPos.toBlock(QuartPos.fromBlock(blockCoordinate));}
+    private static int quantize(int blockCoordinate) {return BiomeCoords.toBlock(BiomeCoords.fromBlock(blockCoordinate));}
 
-    public static BoundingBox getQuantizedBoundingBox(BlockPos pos, int radius)
+    public static BlockBox getQuantizedBoundingBox(BlockPos pos, int radius)
     {
         BlockPos pos1 = new BlockPos(quantize(pos.getX() - radius), quantize(pos.getY() - radius), quantize(pos.getZ() - radius));
         BlockPos pos2 = new BlockPos(quantize(pos.getX() + radius), quantize(pos.getY() + radius), quantize(pos.getZ() + radius));
-        return BoundingBox.fromCorners(pos1, pos2);
+        return BlockBox.create(pos1, pos2);
     }
 
-    public static List<ChunkAccess> getChunkAccessListForBoundingBox(ServerLevel level, BoundingBox boundingbox)
+    public static List<Chunk> getChunkAccessListForBoundingBox(ServerWorld world, BlockBox boundingbox)
     {
-        List<ChunkAccess> list = new ArrayList<>();
-        for (int z = SectionPos.blockToSectionCoord(boundingbox.minZ()); z <= SectionPos.blockToSectionCoord(boundingbox.maxZ()); z++)
+        List<Chunk> list = new ArrayList();
+
+        for (int k = ChunkSectionPos.getSectionCoord(boundingbox.getMinZ()); k <= ChunkSectionPos.getSectionCoord(boundingbox.getMaxZ()); k++)
         {
-            for (int x = SectionPos.blockToSectionCoord(boundingbox.minX()); x <= SectionPos.blockToSectionCoord(boundingbox.maxX()); x++)
+            for (int l = ChunkSectionPos.getSectionCoord(boundingbox.getMinX()); l <= ChunkSectionPos.getSectionCoord(boundingbox.getMaxX()); l++)
             {
-                ChunkAccess chunkaccess = level.getChunk(x, z, ChunkStatus.FULL, true);
-                if (chunkaccess == null) {/*should not happen*/}
-                else {list.add(chunkaccess);}
+                Chunk chunk = world.getChunk(l, k, ChunkStatus.FULL, false);
+                if (chunk == null) {/*should not happen*/}
+                list.add(chunk);
             }
         }
         return list;
     }
 
-    public static boolean hasAnySolidBlockAbove(LevelReader reader, BlockPos pos)
+    public static boolean hasAnySolidBlockAbove(WorldView world, BlockPos pos)
     {
-        for (BlockPos blockpos = pos.above(); blockpos.getY() < 256; blockpos = blockpos.above())
+        for (BlockPos blockpos = pos.up(); blockpos.getY() < 256; blockpos = blockpos.up())
         {
-            if (!reader.isEmptyBlock(blockpos) && reader.getBlockState(blockpos).isSolidRender(reader, pos)) {return true;}
+            if (!world.isAir(blockpos) && world.getBlockState(blockpos).isSolidBlock(world, pos)) {return true;}
         }
         return false;
     }
 
-    public static boolean hasAnySolidSurfaceAbove(LevelReader reader, BlockPos pos, int radius)
+    public static boolean hasAnySolidSurfaceAbove(WorldView world, BlockPos pos, int radius)
     {
-        return BlockHelper.hasAnySolidBlockAbove(reader, pos) && hasAnySolidBlockAbove(reader, pos.offset(radius, 0, radius)) && hasAnySolidBlockAbove(reader, pos.offset(radius, 0, -radius)) && hasAnySolidBlockAbove(reader, pos.offset(-radius, 0, radius)) && hasAnySolidBlockAbove(reader, pos.offset(-radius, 0, -radius));
+        return BlockHelper.hasAnySolidBlockAbove(world, pos) && hasAnySolidBlockAbove(world, pos.add(radius, 0, radius)) && hasAnySolidBlockAbove(world, pos.add(radius, 0, -radius)) && hasAnySolidBlockAbove(world, pos.add(-radius, 0, radius)) && hasAnySolidBlockAbove(world, pos.add(-radius, 0, -radius));
     }
 }

@@ -30,7 +30,7 @@ public class ClassicGiantBranch extends SplineKnotsDeformedStraightLine
 
     @Override protected boolean tryPlacingBlock(BlockPos.MutableBlockPos pos)
     {
-        if (!context.level().isEmptyBlock(pos.above())) {return super.tryPlacingBlock(pos);}
+        if (!context.level().isEmptyBlock(pos.up())) {return super.tryPlacingBlock(pos);}
         else {return false;}
     }
 }

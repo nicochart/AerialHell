@@ -1,10 +1,7 @@
 package fr.factionbedrock.aerialhell.World;
 
-import fr.factionbedrock.aerialhell.Block.AerialHellPortalBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellPOI;
-import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -34,9 +31,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.Comparator;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
 
 /*
  * I followed this tutorial : https://www.youtube.com/watch?v=CYdq8e-zDSo
@@ -68,7 +63,7 @@ public class AerialHellTeleporter
 {
 
     protected final ServerLevel level;
-    private final BlockState frame = AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get().defaultBlockState();
+    private final BlockState frame = AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get().getDefaultState();
 
     public AerialHellTeleporter(ServerLevel pLevel) {this.level = pLevel;}
 
@@ -146,7 +141,7 @@ public class AerialHellTeleporter
             int i2 = i - 9;
             if (i2 < k1) {return Optional.empty();}
 
-            blockPos = new BlockPos(pos.getX() - direction.getStepX() * 1, Mth.clamp(pos.getY(), k1, i2), pos.getZ() - direction.getStepZ() * 1).immutable();
+            blockPos = new BlockPos(pos.getX() - direction.getStepX() * 1, MathHelper.clamp(pos.getY(), k1, i2), pos.getZ() - direction.getStepZ() * 1).immutable();
             blockPos = worldBorder.clampToBounds(blockPos);
             Direction direction1 = direction.getClockWise();
 
@@ -156,9 +151,9 @@ public class AerialHellTeleporter
                 {
                     for (int k3 = -1; k3 < 3; k3++)
                     {
-                        BlockState blockstate1 = k3 < 0 ? frame : Blocks.AIR.defaultBlockState();
+                        BlockState blockstate1 = k3 < 0 ? frame : Blocks.AIR.getDefaultState();
                         mutablePos.setWithOffset(blockPos, j3 * direction.getStepX() + i3 * direction1.getStepX(), k3, j3 * direction.getStepZ() + i3 * direction1.getStepZ());
-                        this.level.setBlockAndUpdate(mutablePos, blockstate1);
+                        this.level.setBlockState(mutablePos, blockstate1);
                     }
                 }
             }
@@ -168,19 +163,19 @@ public class AerialHellTeleporter
             for (int j2 = -1; j2 < 4; j2++) {
                 if (l1 == -1 || l1 == 2 || j2 == -1 || j2 == 3) {
                     mutablePos.setWithOffset(blockPos, l1 * direction.getStepX(), j2, l1 * direction.getStepZ());
-                    this.level.setBlock(mutablePos, frame, 3);
+                    this.level.setBlockState(mutablePos, frame, 3);
                 }
             }
         }
 
-        BlockState blockstate = AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get().defaultBlockState().setValue(NetherPortalBlock.AXIS, axis);
+        BlockState blockstate = AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get().getDefaultState().with(NetherPortalBlock.AXIS, axis);
 
         for (int k2 = 0; k2 < 2; k2++)
         {
             for (int l2 = 0; l2 < 3; l2++)
             {
                 mutablePos.setWithOffset(blockPos, k2 * direction.getStepX(), l2, k2 * direction.getStepZ());
-                this.level.setBlock(mutablePos, blockstate, 18);
+                this.level.setBlockState(mutablePos, blockstate, 18);
             }
         }
 

@@ -59,6 +59,6 @@ public class BoarEntity extends Pig
 
     public static boolean canSpawn(EntityType<? extends Pig> entityType, LevelAccessor worldIn, MobSpawnType spawnType, BlockPos pos, RandomSource random)
     {
-        return worldIn.getBlockState(pos.below()).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && isBrightEnoughToSpawn(worldIn, pos);
+        return worldIn.getBlockState(pos.down()).isOf(AerialHellBlocks.STELLAR_GRASS_BLOCK.get()) && isBrightEnoughToSpawn(worldIn, pos);
     }
 }

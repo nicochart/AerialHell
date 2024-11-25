@@ -57,9 +57,9 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
                 for (int z = 0; z < 2; z++)
                 {
                     placementPos.set(blockPos).move(x, y, z);
-                    if (FeatureHelper.isReplaceableByLogOrLeavesFeature(world, placementPos, true) || world.getBlockState(placementPos).is(AerialHellBlocksAndItems.VERDIGRIS_AGARIC.get()))
+                    if (FeatureHelper.isReplaceableByLogOrLeavesFeature(world, placementPos, true) || world.getBlockState(placementPos).isOf(AerialHellBlocks.VERDIGRIS_AGARIC.get()))
                     {
-                        this.setBlock(world, placementPos, config.stemProvider.getState(rand, blockPos));
+                        this.setBlockState(world, placementPos, config.stemProvider.getState(rand, blockPos));
                     }
                 }
             }
@@ -97,7 +97,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
             for (int z = 0; z < 2; z++)
             {
                 blockState = world.getBlockState(pos.offset(x, -1, z));
-                if (!(blockState.is(BlockTags.MUSHROOM_GROW_BLOCK))) {return false;}
+                if (!(blockState.isIn(BlockTags.MUSHROOM_GROW_BLOCK))) {return false;}
             }
         }
         return true;

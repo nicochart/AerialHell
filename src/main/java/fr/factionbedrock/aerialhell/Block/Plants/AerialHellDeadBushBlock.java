@@ -1,14 +1,12 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.DeadBushBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DeadBushBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 
 public class AerialHellDeadBushBlock extends DeadBushBlock
 {
@@ -16,11 +14,11 @@ public class AerialHellDeadBushBlock extends DeadBushBlock
 	{
 		super(settings);
 	}
-	
+
 	@Override
-	protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos)
+	protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos)
 	{
-		Block block = state.getBlock();
-	 	return block == AerialHellBlocksAndItems.SLIPPERY_SAND.get();
+		Block block = floor.getBlock();
+		return block == AerialHellBlocks.SLIPPERY_SAND;
 	}
 }

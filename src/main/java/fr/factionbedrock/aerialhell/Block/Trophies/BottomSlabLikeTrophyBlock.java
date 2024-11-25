@@ -1,36 +1,31 @@
 package fr.factionbedrock.aerialhell.Block.Trophies;
 
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.block.*;
+import net.minecraft.entity.ai.pathing.NavigationType;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
+import net.minecraft.world.WorldView;
 
 public class BottomSlabLikeTrophyBlock extends Block
 {
-    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+    public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
 
-    public BottomSlabLikeTrophyBlock(AbstractBlock.Settings settings) {super(settings); this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));}
+    public BottomSlabLikeTrophyBlock(AbstractBlock.Settings settings) {super(settings); this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));}
 
-    protected static final VoxelShape BOTTOM_SLAB_SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
+    protected static final VoxelShape BOTTOM_SLAB_SHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
 
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {return BOTTOM_SLAB_SHAPE;}
+    @Override protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {return BOTTOM_SLAB_SHAPE;}
 
-    public BlockState getStateForPlacement(BlockPlaceContext context) {return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());}
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {stateBuilder.add(FACING);}
+    @Override public BlockState getPlacementState(ItemPlacementContext context) {return this.getDefaultState().with(FACING, context.getHorizontalPlayerFacing());}
+    @Override protected void appendProperties(StateManager.Builder<Block, BlockState> stateBuilder) {stateBuilder.add(FACING);}
 
-    public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType pathType) {return false;}
+    @Override public boolean canPathfindThrough(BlockState state, NavigationType type) {return false;}
 
-    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {return level.getBlockState(pos.below()).isSolid() && !level.getBlockState(pos.below()).is(AerialHellTags.Blocks.TROPHIES);}
+    @Override public boolean canPlaceAt(BlockState state, WorldView level, BlockPos pos) {return level.getBlockState(pos.down()).isSolid() && !level.getBlockState(pos.down()).isIn(AerialHellTags.Blocks.TROPHIES);}
 }

@@ -26,14 +26,14 @@ public class GiantCrystalBlobFeature extends Feature<NoneFeatureConfiguration>
 		if (!reader.isEmptyBlock(pos)) {return false;}
 		else
 		{
-			BlockState blockstate = reader.getBlockState(pos.below());
-		    if (!blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT))
+			BlockState blockstate = reader.getBlockState(pos.down());
+		    if (!blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT))
 		    {
 		    	return false;
 		    }
 		    else
 		    {
-		    	reader.setBlock(pos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().defaultBlockState(), 2);
+		    	reader.setBlockState(pos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().getDefaultState(), 2);
 		    	
 		    	BlockPos blockpos;
 		        for(int i = 0; i < 3000; ++i)
@@ -57,7 +57,7 @@ public class GiantCrystalBlobFeature extends Feature<NoneFeatureConfiguration>
 	
 			            for(Direction direction : Direction.values())
 			            {
-				            if (reader.getBlockState(blockpos.relative(direction)).is(AerialHellBlocksAndItems.CRYSTAL_BLOCK.get()))
+				            if (reader.getBlockState(blockpos.relative(direction)).isOf(AerialHellBlocks.CRYSTAL_BLOCK.get()))
 				            {
 				            	++j;
 				            }
@@ -67,16 +67,16 @@ public class GiantCrystalBlobFeature extends Feature<NoneFeatureConfiguration>
 	
 			            if (j == 1 || j == 2 && rand.nextInt(25) == 0)
 			            {
-			            	reader.setBlock(blockpos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().defaultBlockState(), 2);
+			            	reader.setBlockState(blockpos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().getDefaultState(), 2);
 			            }
 		            }
 		        }
 		        for(int i = 0; i < 100; ++i)
 		        {
 		        	blockpos = pos.offset(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(12), rand.nextInt(8) - rand.nextInt(8));
-		        	if (reader.getBlockState(blockpos).is(Blocks.AIR) && (reader.getBlockState(blockpos.below()).is(AerialHellBlocksAndItems.CRYSTAL_BLOCK.get())))
+		        	if (reader.getBlockState(blockpos).is(Blocks.AIR) && (reader.getBlockState(blockpos.down()).isOf(AerialHellBlocks.CRYSTAL_BLOCK.get())))
 		        	{
-		        		reader.setBlock(blockpos, AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get().defaultBlockState(), 2);
+		        		reader.setBlockState(blockpos, AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get().getDefaultState(), 2);
 		        	}
 		        }
 

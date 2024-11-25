@@ -21,7 +21,7 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeature
 	protected abstract int getBasicMinSize(); protected abstract int getBasicMaxSize();
 	protected abstract int getSmallMinSize(); protected abstract int getSmallMaxSize();
 	protected abstract Block getEtherBlock();
-	protected BlockState getEtherBlockState() {return this.getEtherBlock().defaultBlockState();}
+	protected BlockState getEtherBlockState() {return this.getEtherBlock().getDefaultState();}
 
 	public int chooseRandomSize(int minSize, int maxSize, RandomSource rand)
 	{
@@ -47,19 +47,19 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeature
                 	// ~y=0
                 	Block previousBlock = reader.getBlockState(newPos).getBlock();
                 	if (previousBlock == Blocks.AIR)
-                		reader.setBlock(newPos, this.getEtherBlockState(), 0);
+                		reader.setBlockState(newPos, this.getEtherBlockState(), 0);
                 	// ~y=+1
                 	Block previousTop1Block = reader.getBlockState(newPos.above()).getBlock();
                 	if (previousTop1Block == Blocks.AIR)
-                		reader.setBlock(newPos.above(), this.getEtherBlockState(), 0);
+                		reader.setBlockState(newPos.above(), this.getEtherBlockState(), 0);
                 	// ~y=+2
                 	Block previousTop2Block = reader.getBlockState(newPos.above().above()).getBlock();
                 	if (previousTop2Block == Blocks.AIR)
-                		reader.setBlock(newPos.above().above(), this.getEtherBlockState(), 0);
+                		reader.setBlockState(newPos.above().above(), this.getEtherBlockState(), 0);
                 	// ~y=-1
-                	Block previousBottomBlock = reader.getBlockState(newPos.below()).getBlock();
+                	Block previousBottomBlock = reader.getBlockState(newPos.down()).getBlock();
                 	if (previousBottomBlock == Blocks.AIR)
-                		reader.setBlock(newPos.below(), this.getEtherBlockState(), 0);
+                		reader.setBlockState(newPos.down(), this.getEtherBlockState(), 0);
                 }
                 else
                 {
@@ -85,11 +85,11 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeature
                 		generateLastEllipsis(context, newSizeX, newSizeZ, newPos.above().above());
                 	}
                 	// ~y=-1
-                	if (reader.getBlockState(newPos.below()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.8)
+                	if (reader.getBlockState(newPos.down()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.8)
                 	{
                     	int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
                         int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                		generateLastEllipsis(context, newSizeX, newSizeZ, newPos.below());
+                		generateLastEllipsis(context, newSizeX, newSizeZ, newPos.down());
                 	}
                 }
             }
@@ -110,7 +110,7 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeature
                 	// ~y=0
                 	Block previousBlock = reader.getBlockState(newPos).getBlock();
                 	if (previousBlock == Blocks.AIR)
-                		reader.setBlock(newPos, this.getEtherBlockState(), 0);
+                		reader.setBlockState(newPos, this.getEtherBlockState(), 0);
                 }
                 else
                 {
@@ -136,11 +136,11 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeature
                 	// ~y=+1
                 	Block previousTop1Block = reader.getBlockState(newPos.above()).getBlock();
                 	if (previousTop1Block == Blocks.AIR)
-                		reader.setBlock(newPos.above(), this.getEtherBlockState(), 0);
+                		reader.setBlockState(newPos.above(), this.getEtherBlockState(), 0);
                 	// ~y=-1
-                	Block previousBottomBlock = reader.getBlockState(newPos.below()).getBlock();
+                	Block previousBottomBlock = reader.getBlockState(newPos.down()).getBlock();
                 	if (previousBottomBlock == Blocks.AIR)
-                		reader.setBlock(newPos.below(), this.getEtherBlockState(), 0);
+                		reader.setBlockState(newPos.down(), this.getEtherBlockState(), 0);
                 }
             	else
             	{
@@ -152,11 +152,11 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeature
                         generateLastEllipsis(context, newSizeX, newSizeZ, newPos.above());
                 	}
                 	// ~y=-1
-                	if (reader.getBlockState(newPos.below()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.95)
+                	if (reader.getBlockState(newPos.down()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.95)
                 	{
                     	int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
                         int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                		generateLastEllipsis(context, newSizeX,newSizeZ, newPos.below());
+                		generateLastEllipsis(context, newSizeX,newSizeZ, newPos.down());
                 	}
                 }
             }
@@ -176,7 +176,7 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeature
                 {
                 	Block previousBlock = reader.getBlockState(newPos).getBlock();
                 	if (previousBlock == Blocks.AIR)
-                		reader.setBlock(newPos, this.getEtherBlockState(), 0);
+                		reader.setBlockState(newPos, this.getEtherBlockState(), 0);
                 }
                 else
                 {
@@ -204,7 +204,7 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeature
                 {
                 	Block previousBlock = reader.getBlockState(newPos).getBlock();
                 	if (previousBlock == Blocks.AIR)
-                		reader.setBlock(newPos, this.getEtherBlockState(), 0);
+                		reader.setBlockState(newPos, this.getEtherBlockState(), 0);
                 }
                 else
                 {
@@ -233,7 +233,7 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeature
                 	Block previousBlock = reader.getBlockState(newPos).getBlock();
                 	if (previousBlock == Blocks.AIR && FeatureHelper.isBlockPosInFeatureRegion(context, newPos))
                     {
-                        reader.setBlock(newPos, this.getEtherBlockState(), 0);
+                        reader.setBlockState(newPos, this.getEtherBlockState(), 0);
                     }
                 }
             }

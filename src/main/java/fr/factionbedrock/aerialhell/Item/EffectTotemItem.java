@@ -33,24 +33,24 @@ public class EffectTotemItem extends Item
 				{
 					if (this == AerialHellBlocksAndItems.REGENERATION_TOTEM.get())
 					{
-						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 1200, 0));
+						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 1200, 0));
 					}
 					else if (this == AerialHellBlocksAndItems.SPEED_TOTEM.get())
 					{
-						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1200, 0));
+						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SPEED, 1200, 0));
 					}
 					else if (this == AerialHellBlocksAndItems.SPEED_II_TOTEM.get())
 					{
-						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1200, 1));
+						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SPEED, 1200, 1));
 					}
 					else if (this == AerialHellBlocksAndItems.NIGHT_VISION_TOTEM.get())
 					{
-						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 1200, 0));
+						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 1200, 0));
 					}
 					else if (this == AerialHellBlocksAndItems.AGILITY_TOTEM.get())
 					{
-						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1200, 0));
-						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.JUMP, 1200, 0));
+						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SPEED, 1200, 0));
+						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP, 1200, 0));
 					}
 					else if (this == AerialHellBlocksAndItems.HEAD_IN_THE_CLOUDS_TOTEM.get())
 					{
@@ -58,7 +58,7 @@ public class EffectTotemItem extends Item
 					}
 					else if (this == AerialHellBlocksAndItems.HERO_TOTEM.get())
 					{
-						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.HERO_OF_THE_VILLAGE, 1200, 0));
+						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.HERO_OF_THE_VILLAGE, 1200, 0));
 					}
 					else if (this == AerialHellBlocksAndItems.GOD_TOTEM.get())
 					{
@@ -68,11 +68,11 @@ public class EffectTotemItem extends Item
 					{
 						if (!(ItemHelper.getItemInTagCount(livingEntityIn.getArmorSlots(), AerialHellTags.Items.SHADOW_ARMOR) >= 4))
 						{
-							livingEntityIn.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 300, 0));
-							livingEntityIn.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 600, 0));
-							livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900, 0));
+							livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.CONFUSION, 300, 0));
+							livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 600, 0));
+							livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SLOWDOWN, 900, 0));
 						}
-						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1500, 2));
+						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.DAMAGE_RESISTANCE, 1500, 2));
 					}
 					else if (this == AerialHellBlocksAndItems.SHADOW_TOTEM.get())
 					{

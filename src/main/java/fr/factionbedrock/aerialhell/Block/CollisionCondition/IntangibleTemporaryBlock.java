@@ -5,100 +5,102 @@ import fr.factionbedrock.aerialhell.BlockEntity.IntangibleTemporaryBlockEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
-import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.LootTables;
+import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.loot.context.LootContextTypes;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
 public class IntangibleTemporaryBlock extends CollisionConditionHalfTransparentBlockEntity
 {
-    public static final MapCodec<IntangibleTemporaryBlock> CODEC = simpleCodec(IntangibleTemporaryBlock::new);
+    public static final MapCodec<IntangibleTemporaryBlock> CODEC = createCodec(IntangibleTemporaryBlock::new);
 
     public IntangibleTemporaryBlock(AbstractBlock.Settings settings) {super(settings);}
 
-    @Override protected MapCodec<? extends IntangibleTemporaryBlock> codec() {return CODEC;}
+    @Override protected MapCodec<? extends IntangibleTemporaryBlock> getCodec() {return CODEC;}
 
-    @Nullable @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new IntangibleTemporaryBlockEntity(pos, state);}
+    @Nullable @Override public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {return new IntangibleTemporaryBlockEntity(pos, state);}
 
-    @Override public void livingEntityInside(BlockState state, Level level, BlockPos pos, LivingEntity entity)
+    @Override public void livingEntityInside(BlockState state, World world, BlockPos pos, LivingEntity entity)
     {
         EntityHelper.multiplyDeltaMovement(entity, default_living_entity_xz_delta_movement_factor, 1.0F);
-        if (level.getBlockEntity(pos) instanceof IntangibleTemporaryBlockEntity blockentity) {blockentity.resetTickCount();}
-        if (level.getBlockEntity(pos.above()) instanceof IntangibleTemporaryBlockEntity blockentity) {blockentity.resetTickCount();}
+        if (world.getBlockEntity(pos) instanceof IntangibleTemporaryBlockEntity blockentity) {blockentity.resetTickCount();}
+        if (world.getBlockEntity(pos.up()) instanceof IntangibleTemporaryBlockEntity blockentity) {blockentity.resetTickCount();}
     }
 
-    @Override public void nonLivingEntityInside(BlockState state, Level level, BlockPos pos, Entity entity)
+    @Override public void nonLivingEntityInside(BlockState state, World world, BlockPos pos, Entity entity)
     {
         EntityHelper.multiplyDeltaMovement(entity, default_non_living_entity_xz_delta_movement_factor, 0.05);
     }
 
-    @Override public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player)
+    @Override public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player)
     {
-        List<ItemStack> drops = getBeforeStateDrops(state, level, pos, player);
+        List<ItemStack> drops = getBeforeStateDrops(state, world, pos, player);
 
-        for (ItemStack stack : drops) {level.addFreshEntity(createItemEntitySupplier(level, pos, stack).get());}
-        return super.playerWillDestroy(level, pos, state, player);
+        for (ItemStack stack : drops) {world.spawnEntity(createItemEntitySupplier(world, pos, stack).get());}
+        return super.onBreak(world, pos, state, player);
     }
 
-    private static Supplier<ItemEntity> createItemEntitySupplier(Level level, BlockPos pos, ItemStack stack)
+    private static Supplier<ItemEntity> createItemEntitySupplier(World world, BlockPos pos, ItemStack stack)
     {
-        double dx = Mth.nextDouble(level.random, -0.1, 0.1);
-        double dy = Mth.nextDouble(level.random, 0.0, 0.1);
-        double dz = Mth.nextDouble(level.random, -0.1, 0.1);
-        return () -> new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), stack, dx, dy, dz);
+        double dx = MathHelper.nextDouble(world.random, -0.1, 0.1);
+        double dy = MathHelper.nextDouble(world.random, 0.0, 0.1);
+        double dz = MathHelper.nextDouble(world.random, -0.1, 0.1);
+        return () -> new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack, dx, dy, dz);
     }
 
-    protected List<ItemStack> getBeforeStateDrops(BlockState state, Level level, BlockPos pos, Player player)
+    protected List<ItemStack> getBeforeStateDrops(BlockState state, World world, BlockPos pos, PlayerEntity player)
     {
-        if (level instanceof ServerLevel serverlevel && level.getBlockEntity(pos) instanceof IntangibleTemporaryBlockEntity intangibleBlockEntity && intangibleBlockEntity.getBeforeState() != null)
+        if (world instanceof ServerWorld serverworld && world.getBlockEntity(pos) instanceof IntangibleTemporaryBlockEntity intangibleBlockEntity && intangibleBlockEntity.getBeforeState() != null)
         {
-            ResourceLocation resourcelocation = BuiltInRegistries.BLOCK.getKey(intangibleBlockEntity.getBeforeState().getBlock());
-            ResourceKey<LootTable> lootTable = ResourceKey.create(Registries.LOOT_TABLE, resourcelocation.withPrefix("blocks/"));
-            if (lootTable != BuiltInLootTables.EMPTY)
+            //copy of net.minecraft.block.AbstractBlock.getLootTableKey()
+            Identifier identifier = Registries.BLOCK.getId(intangibleBlockEntity.getBeforeState().getBlock());
+            RegistryKey<LootTable> lootTable = RegistryKey.of(RegistryKeys.LOOT_TABLE, identifier.withPrefixedPath("blocks/"));
+            //copy of net.minecraft.block.AbstractBlock.getDroppedStacks()
+            if (lootTable != LootTables.EMPTY)
             {
-                LootParams lootparams = new LootParams.Builder(serverlevel).create(LootContextParamSets.EMPTY);
-                ServerLevel lootparamserverlevel = lootparams.getLevel();
-                LootTable loottable = lootparamserverlevel.getServer().reloadableRegistries().getLootTable(lootTable);
-                return loottable.getRandomItems(lootparams);
+                LootContextParameterSet lootContextParameterSet = new LootContextParameterSet.Builder(serverworld).build(LootContextTypes.EMPTY);
+                ServerWorld lootparamsServerworld = lootContextParameterSet.getWorld();
+                LootTable loottable = lootparamsServerworld.getServer().getReloadableRegistries().getLootTable(lootTable);
+                return loottable.generateLoot(lootContextParameterSet);
             }
         }
         return Collections.emptyList();
     }
 
-    @Nullable @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type)
+    @Nullable @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type)
     {
-        return level.isClientSide ? null : createTickerHelper(type, AerialHellBlockEntities.INTANGIBLE_TEMPORARY_BLOCK.get(), IntangibleTemporaryBlockEntity::tick);
+        return world.isClient ? null : validateTicker(type, AerialHellBlockEntities.INTANGIBLE_TEMPORARY_BLOCK, IntangibleTemporaryBlockEntity::tick);
     }
 
     @Override protected boolean canEntityCollide(Entity entity) {return false;}
 
     @Override protected VoxelShape getCollidingShape() {return CollisionConditionHalfTransparentBlock.FULL_COLLISION_SHAPE;}
 
-    @Override protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {return 1.0F;}
+    @Override protected float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {return 1.0F;}
 
-    @Override protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {return true;}
+    @Override protected boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {return true;}
 }

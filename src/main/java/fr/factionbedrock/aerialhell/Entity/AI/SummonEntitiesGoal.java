@@ -34,7 +34,7 @@ public abstract class SummonEntitiesGoal extends Goal
     {
         Entity entity = createEntity();
         this.setEntityPosToSummonPos(entity); entity.setDeltaMovement(this.getSpawnMotionVec3());
-        this.getGoalOwner().level().addFreshEntity(entity);
+        this.getGoalOwner().level().spawnEntity(entity);
     }
 
     protected void setEntityPosToSummonPos(Entity entity) {entity.setPos(this.goalOwner.getX(), this.goalOwner.getY(), this.goalOwner.getZ());}

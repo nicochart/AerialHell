@@ -59,10 +59,10 @@ public class ShadowSpiderEntity extends AbstractAerialHellSpiderEntity
 	    				if (amplifier < 2) {amplifier++;}
 	    				else
 	    				{
-	    					livingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0));
+	    					livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0));
 	    				}
 	    			}
-	    			livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 90 + amplifier * 30, amplifier));
+	    			livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SLOWDOWN, 90 + amplifier * 30, amplifier));
     			}
         	}
     		return true;

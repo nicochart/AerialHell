@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Block.DungeonCores.DungeonCoreBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
@@ -39,27 +40,27 @@ public class BlockEventListener
             {
 	            if (fluidstate.getType().is(AerialHellTags.Fluids.CRYSTALLIZABLE))
 	            {
-	                world.setBlockAndUpdate(pos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().defaultBlockState());
+	                world.setBlockState(pos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().getDefaultState());
 	                world.playSound(null, event.getPos(), SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
 	                event.setCanceled(true);
 	            }
 	            else if (blockstate.getBlock().equals(Blocks.MAGMA_BLOCK))
 	            {
-	            	world.setBlockAndUpdate(pos, AerialHellBlocksAndItems.MAGMATIC_GEL_ORE.get().defaultBlockState());
+	            	world.setBlockState(pos, AerialHellBlocksAndItems.MAGMATIC_GEL_ORE.get().getDefaultState());
 	            	world.playSound(null, event.getPos(), SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
 	            	event.setCanceled(true);
 	            }
 	            else if (blockstate.getBlock().equals(Blocks.FIRE) || blockstate.getBlock().equals(Blocks.SOUL_FIRE))
 	            {
-	            	world.setBlockAndUpdate(pos, AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get().defaultBlockState());
+	            	world.setBlockState(pos, AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get().getDefaultState());
 	            	world.playSound(null, event.getPos(), SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
-	            	if (world.getBlockState(pos.below()).getBlock() == Blocks.AIR)
+	            	if (world.getBlockState(pos.down()).getBlock() == Blocks.AIR)
 	            	{
 	            		world.destroyBlock(pos, true);
 	            	}
 	            	event.setCanceled(true);
 	            }
-	            else if (blockstate.getBlock().equals(Blocks.TORCH) || blockstate.getBlock().equals(Blocks.WALL_TORCH) || blockstate.is(AerialHellTags.Blocks.OVERWORLD_LANTERN))
+	            else if (blockstate.getBlock().equals(Blocks.TORCH) || blockstate.getBlock().equals(Blocks.WALL_TORCH) || blockstate.isIn(AerialHellTags.Blocks.OVERWORLD_LANTERN))
 	            {
 	            	world.destroyBlock(pos, true);
 	            	world.playSound(null, event.getPos(), SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -75,7 +76,7 @@ public class BlockEventListener
         {
     		BlockPos pos = event.getPos();
             BlockState blockstate = world.getBlockState(pos);
-        	if (blockstate.is(AerialHellTags.Blocks.DUNGEON_CORES))
+        	if (blockstate.isIn(AerialHellTags.Blocks.DUNGEON_CORES))
             {
             	((DungeonCoreBlock) blockstate.getBlock()).setAreaProtected(world, pos, true);
             	world.playSound(null, event.getPos(), SoundEvents.BEACON_ACTIVATE, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -93,34 +94,34 @@ public class BlockEventListener
     		if (event.getBlockState().is(AerialHellTags.Blocks.SOLID_ETHER))
     		{
     			event.setCanceled(true);
-    			if (state.is(AerialHellBlocksAndItems.WHITE_SOLID_ETHER.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.WHITE_SOLID_ETHER));}
-    			else if (state.is(AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.BLUE_SOLID_ETHER));}
-    			else if (state.is(AerialHellBlocksAndItems.GOLDEN_SOLID_ETHER.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GOLDEN_SOLID_ETHER));}
-                else if (state.is(AerialHellBlocksAndItems.GREEN_SOLID_ETHER.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GREEN_SOLID_ETHER));}
-                else if (state.is(AerialHellBlocksAndItems.PURPLE_SOLID_ETHER.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.PURPLE_SOLID_ETHER));}
+    			if (state.isOf(AerialHellBlocks.WHITE_SOLID_ETHER.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.WHITE_SOLID_ETHER));}
+    			else if (state.isOf(AerialHellBlocks.BLUE_SOLID_ETHER.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.BLUE_SOLID_ETHER));}
+    			else if (state.isOf(AerialHellBlocks.GOLDEN_SOLID_ETHER.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GOLDEN_SOLID_ETHER));}
+                else if (state.isOf(AerialHellBlocks.GREEN_SOLID_ETHER.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GREEN_SOLID_ETHER));}
+                else if (state.isOf(AerialHellBlocks.PURPLE_SOLID_ETHER.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.PURPLE_SOLID_ETHER));}
     		}
 
-            else if (state.is(AerialHellTags.Blocks.GHOST_BLOCK) && !state.is(AerialHellTags.Blocks.GHOST_BLOCK_NO_OVERLAY))
+            else if (state.isIn(AerialHellTags.Blocks.GHOST_BLOCK) && !state.isIn(AerialHellTags.Blocks.GHOST_BLOCK_NO_OVERLAY))
             {
                 event.setCanceled(true);
-                if (state.is(AerialHellTags.Blocks.STONE_GHOST_BLOCK))
+                if (state.isIn(AerialHellTags.Blocks.STONE_GHOST_BLOCK))
                 {
-                    if (state.is(AerialHellBlocksAndItems.GHOST_RUBY_BLOCK.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_RUBY_BLOCK));}
-                    else if (state.is(AerialHellBlocksAndItems.GHOST_FLUORITE_BLOCK.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_FLUORITE_BLOCK));}
-                    else if (state.is(AerialHellBlocksAndItems.GHOST_AZURITE_BLOCK.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_AZURITE_BLOCK));}
-                    else if (state.is(AerialHellBlocksAndItems.GHOST_GOLD_BLOCK.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_GOLD_BLOCK));}
-                    else if (state.is(AerialHellBlocksAndItems.GHOST_STELLAR_COBBLESTONE.get()) || state.is(AerialHellBlocksAndItems.GHOST_STELLAR_FURNACE.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_STELLAR_COBBLESTONE));}
+                    if (state.isOf(AerialHellBlocks.GHOST_RUBY_BLOCK.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_RUBY_BLOCK));}
+                    else if (state.isOf(AerialHellBlocks.GHOST_FLUORITE_BLOCK.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_FLUORITE_BLOCK));}
+                    else if (state.isOf(AerialHellBlocks.GHOST_AZURITE_BLOCK.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_AZURITE_BLOCK));}
+                    else if (state.isOf(AerialHellBlocks.GHOST_GOLD_BLOCK.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_GOLD_BLOCK));}
+                    else if (state.isOf(AerialHellBlocks.GHOST_STELLAR_COBBLESTONE.get()) || state.isOf(AerialHellBlocks.GHOST_STELLAR_FURNACE.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_STELLAR_COBBLESTONE));}
                     else {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_STELLAR_COBBLESTONE));}
                 }
-                else if (state.is(AerialHellBlocksAndItems.GHOST_BOAT_WOOL.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_BOAT_WOOL));}
-                else //if (state.is(AerialHellTags.Blocks.WOODEN_GHOST_BLOCK))
+                else if (state.isOf(AerialHellBlocks.GHOST_BOAT_WOOL.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_BOAT_WOOL));}
+                else //if (state.isIn(AerialHellTags.Blocks.WOODEN_GHOST_BLOCK))
                 {
-                    if (state.is(AerialHellBlocksAndItems.GHOST_BOAT_WOOD.get()) || state.is(AerialHellBlocksAndItems.GHOST_BOAT_LOG.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_BOAT_LOG));}
+                    if (state.isOf(AerialHellBlocks.GHOST_BOAT_WOOD.get()) || state.isOf(AerialHellBlocks.GHOST_BOAT_LOG.get())) {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_BOAT_LOG));}
                     else {renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.GHOST_BOAT_PLANKS));}
                 }
             }
 
-            else if (state.is(AerialHellBlocksAndItems.INTANGIBLE_TEMPORARY_BLOCK.get()))
+            else if (state.isOf(AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK.get()))
             {
                 event.setCanceled(true);
                 renderCustomOverlay(player, matrixStack, getBlockTextureLocation(AerialHellBlocksAndItems.INTANGIBLE_TEMPORARY_BLOCK));

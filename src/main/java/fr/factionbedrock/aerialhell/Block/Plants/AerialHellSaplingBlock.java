@@ -1,28 +1,22 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.SaplingBlock;
-import net.minecraft.block.SaplingGenerator;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SaplingBlock;
-import net.minecraft.world.level.block.grower.TreeGrower;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-
-import javax.annotation.Nullable;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
+import net.minecraft.block.*;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import org.jetbrains.annotations.Nullable;
 
 public class AerialHellSaplingBlock extends SaplingBlock
 {
-	private final ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey;
-	@Nullable private final ResourceKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey;
+	private final RegistryKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey;
+	@Nullable private final RegistryKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey;
 	private final float hugeChange;
 
-	public AerialHellSaplingBlock(SaplingGenerator treeIn, AbstractBlock.Settings settings, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey, ResourceKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey, float hugeChance)
+	public AerialHellSaplingBlock(SaplingGenerator treeIn, AbstractBlock.Settings settings, RegistryKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey, RegistryKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey, float hugeChance)
 	{
 		super(treeIn, settings);
 		this.giantTreeFeatureKey = giantTreeFeatureKey;
@@ -30,80 +24,80 @@ public class AerialHellSaplingBlock extends SaplingBlock
 		this.hugeChange = hugeChance;
 	}
 
-	public AerialHellSaplingBlock(SaplingGenerator treeIn, AbstractBlock.Settings settings, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey)
+	public AerialHellSaplingBlock(SaplingGenerator treeIn, AbstractBlock.Settings settings, RegistryKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey)
 	{
 		this(treeIn, settings, giantTreeFeatureKey, null, 0.0F);
 	}
 
-	@Override public void advanceTree(ServerLevel serverLevel, BlockPos pos, BlockState state, RandomSource rand)
+	@Override public void generate(ServerWorld serverWorld, BlockPos pos, BlockState state, Random rand)
 	{
-		if (state.getValue(STAGE) == 0) {serverLevel.setBlock(pos, state.cycle(STAGE), 4);}
+		if (state.get(STAGE) == 0) {serverWorld.setBlockState(pos, state.cycle(STAGE), 4);}
 		else
 		{
-			GiantTreeGenerationDirection giantGenerationDirection = getGiantTreeDirection(serverLevel, pos, state);
+			GiantTreeGenerationDirection giantGenerationDirection = getGiantTreeDirection(serverWorld, pos, state);
 			if (giantGenerationDirection != GiantTreeGenerationDirection.NONE)
 			{
-				ConfiguredFeature<?, ?> configuredfeature = getGiantTreeCFeature(serverLevel, rand);
+				ConfiguredFeature<?, ?> configuredfeature = getGiantTreeCFeature(serverWorld, rand);
 				BlockPos generationPos = getGenerationPos(pos, giantGenerationDirection);
-				if (configuredfeature.place(serverLevel, serverLevel.getChunkSource().getGenerator(), rand, generationPos)) {removeSaplingsAroundPos(serverLevel, generationPos);}
-				else {serverLevel.setBlockAndUpdate(pos, state);}
+				if (configuredfeature.generate(serverWorld, serverWorld.getChunkManager().getChunkGenerator(), rand, generationPos)) {removeSaplingsAroundPos(serverWorld, generationPos);}
+				else {serverWorld.setBlockState(pos, state);}
 			}
-			else {super.advanceTree(serverLevel, pos, state, rand);}
+			else {super.generate(serverWorld, pos, state, rand);}
 		}
 	}
 
 	private BlockPos getGenerationPos(BlockPos saplingPos, GiantTreeGenerationDirection generationDirection)
 	{
 		BlockPos offsetVector = generationDirection.getOffsetVector();
-		return offsetVector != null ? saplingPos.offset(offsetVector): saplingPos;
+		return offsetVector != null ? saplingPos.add(offsetVector): saplingPos;
 	}
 
-	public ConfiguredFeature<?, ?> getGiantTreeCFeature(ServerLevel level, RandomSource rand)
+	public ConfiguredFeature<?, ?> getGiantTreeCFeature(ServerWorld world, Random rand)
 	{
-		ResourceKey<ConfiguredFeature<?, ?>> cfKey = (hugeTreeFeatureKey != null && rand.nextFloat() < hugeChange) ? hugeTreeFeatureKey : giantTreeFeatureKey;
-		return level.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getHolder(cfKey).orElse(null).value();
+		RegistryKey<ConfiguredFeature<?, ?>> cfKey = (hugeTreeFeatureKey != null && rand.nextFloat() < hugeChange) ? hugeTreeFeatureKey : giantTreeFeatureKey;
+		return world.getRegistryManager().get(RegistryKeys.CONFIGURED_FEATURE).getEntry(cfKey).orElse(null).value(); //TODO check
 	}
 
 	//Returns the direction of the generation of the giant tree (NONE if there is no generation possible)
-	public GiantTreeGenerationDirection getGiantTreeDirection(ServerLevel serverLevel, BlockPos pos, BlockState state)
+	public GiantTreeGenerationDirection getGiantTreeDirection(ServerWorld serverWorld, BlockPos pos, BlockState state)
 	{
-		if (checkGiantTreeGenerationDirection(serverLevel, pos, GiantTreeGenerationDirection.MIDDLE)) {return GiantTreeGenerationDirection.MIDDLE;}
-		else if (checkGiantTreeGenerationDirection(serverLevel, pos, GiantTreeGenerationDirection.NORTH)) {return GiantTreeGenerationDirection.NORTH;}
-		else if (checkGiantTreeGenerationDirection(serverLevel, pos, GiantTreeGenerationDirection.SOUTH)) {return GiantTreeGenerationDirection.SOUTH;}
-		else if (checkGiantTreeGenerationDirection(serverLevel, pos, GiantTreeGenerationDirection.WEST)) {return GiantTreeGenerationDirection.WEST;}
-		else if (checkGiantTreeGenerationDirection(serverLevel, pos, GiantTreeGenerationDirection.EAST)) {return GiantTreeGenerationDirection.EAST;}
-		else if (checkGiantTreeGenerationDirection(serverLevel, pos, GiantTreeGenerationDirection.NORTH_EAST)) {return GiantTreeGenerationDirection.NORTH_EAST;}
-		else if (checkGiantTreeGenerationDirection(serverLevel, pos, GiantTreeGenerationDirection.NORTH_WEST)) {return GiantTreeGenerationDirection.NORTH_WEST;}
-		else if (checkGiantTreeGenerationDirection(serverLevel, pos, GiantTreeGenerationDirection.SOUTH_EAST)) {return GiantTreeGenerationDirection.SOUTH_EAST;}
-		else if (checkGiantTreeGenerationDirection(serverLevel, pos, GiantTreeGenerationDirection.SOUTH_WEST)) {return GiantTreeGenerationDirection.SOUTH_WEST;}
+		if (checkGiantTreeGenerationDirection(serverWorld, pos, GiantTreeGenerationDirection.MIDDLE)) {return GiantTreeGenerationDirection.MIDDLE;}
+		else if (checkGiantTreeGenerationDirection(serverWorld, pos, GiantTreeGenerationDirection.NORTH)) {return GiantTreeGenerationDirection.NORTH;}
+		else if (checkGiantTreeGenerationDirection(serverWorld, pos, GiantTreeGenerationDirection.SOUTH)) {return GiantTreeGenerationDirection.SOUTH;}
+		else if (checkGiantTreeGenerationDirection(serverWorld, pos, GiantTreeGenerationDirection.WEST)) {return GiantTreeGenerationDirection.WEST;}
+		else if (checkGiantTreeGenerationDirection(serverWorld, pos, GiantTreeGenerationDirection.EAST)) {return GiantTreeGenerationDirection.EAST;}
+		else if (checkGiantTreeGenerationDirection(serverWorld, pos, GiantTreeGenerationDirection.NORTH_EAST)) {return GiantTreeGenerationDirection.NORTH_EAST;}
+		else if (checkGiantTreeGenerationDirection(serverWorld, pos, GiantTreeGenerationDirection.NORTH_WEST)) {return GiantTreeGenerationDirection.NORTH_WEST;}
+		else if (checkGiantTreeGenerationDirection(serverWorld, pos, GiantTreeGenerationDirection.SOUTH_EAST)) {return GiantTreeGenerationDirection.SOUTH_EAST;}
+		else if (checkGiantTreeGenerationDirection(serverWorld, pos, GiantTreeGenerationDirection.SOUTH_WEST)) {return GiantTreeGenerationDirection.SOUTH_WEST;}
 		else {return GiantTreeGenerationDirection.NONE;}
 	}
 
-	private boolean checkGiantTreeGenerationDirection(ServerLevel serverLevel, BlockPos pos, GiantTreeGenerationDirection direction)
+	private boolean checkGiantTreeGenerationDirection(ServerWorld serverWorld, BlockPos pos, GiantTreeGenerationDirection direction)
 	{
 		AerialHellSaplingBlock sapling = (AerialHellSaplingBlock) this.asBlock();
 		if (direction.getOffsetVector() == null) {return false;}
-		BlockPos centerPos = pos.offset(direction.getOffsetVector());
+		BlockPos centerPos = pos.add(direction.getOffsetVector());
 		for (int x=-1; x<=1; x++)
 		{
 			for (int z=-1; z<=1; z++)
 			{
-				if (serverLevel.getBlockState(centerPos.offset(x, 0, z)).getBlock() != sapling) {return false;}
+				if (serverWorld.getBlockState(centerPos.add(x, 0, z)).getBlock() != sapling) {return false;}
 			}
 		}
 		return true;
 	}
 
-	private void removeSaplingsAroundPos(ServerLevel serverLevel, BlockPos centerPos)
+	private void removeSaplingsAroundPos(ServerWorld serverWorld, BlockPos centerPos)
 	{
 		AerialHellSaplingBlock sapling = (AerialHellSaplingBlock) this.asBlock();
 		for (int x=-1; x<=1; x++)
 		{
 			for (int z=-1; z<=1; z++)
 			{
-				if (serverLevel.getBlockState(centerPos.offset(x, 0, z)).getBlock() == sapling)
+				if (serverWorld.getBlockState(centerPos.add(x, 0, z)).getBlock() == sapling)
 				{
-					serverLevel.setBlock(centerPos.offset(x, 0, z), Blocks.AIR.defaultBlockState(), 2);
+					serverWorld.setBlockState(centerPos.add(x, 0, z), Blocks.AIR.getDefaultState(), 2);
 				}
 			}
 		}

@@ -78,7 +78,7 @@ public class RubyLiquidOfGodsBucketItem extends Item
             {
                 worldIn.destroyBlock(posIn, true);
             }
-            if (!worldIn.setBlock(posIn, AerialHellBlocksAndItems.LIQUID_OF_THE_GODS.get().defaultBlockState(), 11) && !blockstate.getFluidState().isSource())
+            if (!worldIn.setBlockState(posIn, AerialHellBlocksAndItems.LIQUID_OF_THE_GODS.get().getDefaultState(), 11) && !blockstate.getFluidState().isSource())
             {
                 return false;
             }
@@ -93,6 +93,6 @@ public class RubyLiquidOfGodsBucketItem extends Item
     protected void playEmptySound(@Nullable Player player, LevelAccessor worldIn, BlockPos pos)
     {
         SoundEvent soundevent = SoundEvents.BUCKET_EMPTY_LAVA;
-        worldIn.playSound(player, pos, soundevent, SoundSource.BLOCKS, 1.0F, 1.0F);
+        worldIn.playSound(player, pos, soundevent, SoundCategory.BLOCKS, 1.0F, 1.0F);
     }
 }

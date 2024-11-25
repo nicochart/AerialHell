@@ -42,7 +42,7 @@ public class LargeDeadLogFeature extends Feature<NoneFeatureConfiguration>
 
 		BlockPos.MutableBlockPos placementPos = pos.mutable();
 		int percentageSupported = percentageOfLogThatHaveSupport(level, pos, generationDirection, lenght);
-		if (percentageSupported < 50 && percentageOfLogThatHaveSupport(level, pos.below(), generationDirection, lenght) > percentageSupported) {placementPos.move(Direction.DOWN, 1);}
+		if (percentageSupported < 50 && percentageOfLogThatHaveSupport(level, pos.down(), generationDirection, lenght) > percentageSupported) {placementPos.move(Direction.DOWN, 1);}
 
 		for (int i=0; i<lenght; i++)
 		{
@@ -78,7 +78,7 @@ public class LargeDeadLogFeature extends Feature<NoneFeatureConfiguration>
 		for (t=0; t<10; t++)
 		{
 			i=0; testedPos = FeatureHelper.getRandomPosInFeatureRegion(featureCenter, context.random(), 12, 20);
-			while (level.getBlockState(testedPos.below()).isAir() && i++ < 10 && testedPos.getY() > 10) {testedPos = testedPos.below();}
+			while (level.getBlockState(testedPos.down()).isAir() && i++ < 10 && testedPos.getY() > 10) {testedPos = testedPos.down();}
 			if (hasSupportToGenerate(level, testedPos)) {return testedPos;}
 		}
 		return null;
@@ -97,10 +97,10 @@ public class LargeDeadLogFeature extends Feature<NoneFeatureConfiguration>
 
 	private boolean hasSupportToGenerate(WorldGenLevel level, BlockPos pos)
 	{
-		return level.isEmptyBlock(pos) && level.getBlockState(pos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT);
+		return level.isEmptyBlock(pos) && level.getBlockState(pos.down()).is(AerialHellTags.Blocks.STELLAR_DIRT);
 	}
 
-	private void tryPlacingBlock(WorldGenLevel level, BlockPos.MutableBlockPos pos, BlockState state, RandomSource rand) {if (isReplaceable(level, pos) || isPossiblyReplaceable(level, pos, rand)) {level.setBlock(pos, state, 0);}}
+	private void tryPlacingBlock(WorldGenLevel level, BlockPos.MutableBlockPos pos, BlockState state, RandomSource rand) {if (isReplaceable(level, pos) || isPossiblyReplaceable(level, pos, rand)) {level.setBlockState(pos, state, 0);}}
 
 	private boolean isReplaceable(WorldGenLevel level, BlockPos blockPos)
 	{
@@ -111,6 +111,6 @@ public class LargeDeadLogFeature extends Feature<NoneFeatureConfiguration>
 	private boolean isPossiblyReplaceable(WorldGenLevel level, BlockPos blockPos, RandomSource rand)
 	{
 		BlockState previousBlock = level.getBlockState(blockPos);
-		return (previousBlock.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && (rand.nextInt(2) == 0)) || ((previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT)) && (rand.nextInt(3) == 0));
+		return (previousBlock.isOf(AerialHellBlocks.STELLAR_GRASS_BLOCK.get()) && (rand.nextInt(2) == 0)) || ((previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT)) && (rand.nextInt(3) == 0));
 	}
 }

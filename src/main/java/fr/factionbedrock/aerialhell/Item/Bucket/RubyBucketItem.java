@@ -57,14 +57,14 @@ public class RubyBucketItem extends Item
                     if (fluid == Fluids.WATER)
                     {
                         playPickupSound(fluid, playerIn);
-                        worldIn.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
+                        worldIn.setBlockState(blockpos, Blocks.AIR.getDefaultState());
                         ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, playerIn, new ItemStack(AerialHellBlocksAndItems.RUBY_WATER_BUCKET.get()));
                         return InteractionResultHolder.sidedSuccess(afterPickupHandItemStack, worldIn.isClientSide());
                     }
                     else if (fluid == AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE.get())
                     {
                         playPickupSound(fluid, playerIn);
-                        worldIn.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
+                        worldIn.setBlockState(blockpos, Blocks.AIR.getDefaultState());
                         ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, playerIn, new ItemStack(AerialHellBlocksAndItems.RUBY_LIQUID_OF_GODS_BUCKET.get()));
                         return InteractionResultHolder.sidedSuccess(afterPickupHandItemStack, worldIn.isClientSide());
                     }

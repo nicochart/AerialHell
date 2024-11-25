@@ -135,35 +135,35 @@ public class AerialHellConfiguredFeatures
         public static final RandomPatchConfiguration PURPLISH_STELLAR_GRASS_PATCH_CONFIG = new RandomPatchConfiguration(16, 8, 4, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(AerialHellBlocksAndItems.PURPLISH_STELLAR_GRASS.get()))));
         public static final RandomPatchConfiguration VERDIGRIS_AGARIC_PATCH_CONFIG = new RandomPatchConfiguration(32, 8, 4, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(AerialHellBlocksAndItems.VERDIGRIS_AGARIC.get()))));
         public static final RandomPatchConfiguration CORTINARIUS_VIOLACEUS_PATCH_CONFIG = new RandomPatchConfiguration(32, 8, 4, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(AerialHellBlocksAndItems.CORTINARIUS_VIOLACEUS.get()))));
-        public static final RandomPatchConfiguration SKY_CACTUS_PATCH_CONFIG = new RandomPatchConfiguration(8, 8, 4, PlacementUtils.inlinePlaced(Feature.BLOCK_COLUMN, BlockColumnConfiguration.simple(BiasedToBottomInt.of(1, 3), BlockStateProvider.simple(AerialHellBlocksAndItems.SKY_CACTUS.get())), BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.wouldSurvive(AerialHellBlocksAndItems.SKY_CACTUS.get().defaultBlockState(), BlockPos.ZERO)))));
+        public static final RandomPatchConfiguration SKY_CACTUS_PATCH_CONFIG = new RandomPatchConfiguration(8, 8, 4, PlacementUtils.inlinePlaced(Feature.BLOCK_COLUMN, BlockColumnConfiguration.simple(BiasedToBottomInt.of(1, 3), BlockStateProvider.simple(AerialHellBlocksAndItems.SKY_CACTUS.get())), BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.wouldSurvive(AerialHellBlocksAndItems.SKY_CACTUS.get().getDefaultState(), BlockPos.ZERO)))));
 
         public static final RandomPatchConfiguration AERIAL_HELL_BELLFLOWERS_CONFIG = new RandomPatchConfiguration(8, 8, 4, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(AerialHellBlocksAndItems.BELLFLOWER.get()))));
 
         public static final RandomPatchConfiguration AERIAL_HELL_FLOWERS_CONFIG = new RandomPatchConfiguration(8, 8, 4, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
-                .add(AerialHellBlocksAndItems.BLUE_FLOWER.get().defaultBlockState(), 1)
-                .add(AerialHellBlocksAndItems.BLACK_ROSE.get().defaultBlockState(), 1)
-                .add(AerialHellBlocksAndItems.AERIAL_BERRY_BUSH.get().defaultBlockState(), 1)))));
+                .add(AerialHellBlocksAndItems.BLUE_FLOWER.get().getDefaultState(), 1)
+                .add(AerialHellBlocksAndItems.BLACK_ROSE.get().getDefaultState(), 1)
+                .add(AerialHellBlocksAndItems.AERIAL_BERRY_BUSH.get().getDefaultState(), 1)))));
 
         public static final HugeFungusConfiguration GIANT_CORTINARIUS_VIOLACEUS_CONFIG = new HugeFungusConfiguration(
-                AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().defaultBlockState(),
-                AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_STEM.get().defaultBlockState(),
-                AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK.get().defaultBlockState(),
-                AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_LIGHT.get().defaultBlockState(),
+                AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get().getDefaultState(),
+                AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_STEM.get().getDefaultState(),
+                AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK.get().getDefaultState(),
+                AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_LIGHT.get().getDefaultState(),
                 false);
 
         public static final HugeMushroomFeatureConfiguration GIANT_VERDIGRIS_AGARIC_MUSHROOM_CONFIG = new HugeMushroomFeatureConfiguration(
-                BlockStateProvider.simple(AerialHellBlocksAndItems.GIANT_VERDIGRIS_AGARIC_CAP_BLOCK.get().defaultBlockState().setValue(HugeMushroomBlock.DOWN, Boolean.valueOf(false))),
-                BlockStateProvider.simple(AerialHellBlocksAndItems.GIANT_VERDIGRIS_AGARIC_STEM.get().defaultBlockState()),
+                BlockStateProvider.simple(AerialHellBlocksAndItems.GIANT_VERDIGRIS_AGARIC_CAP_BLOCK.get().getDefaultState().with(HugeMushroomBlock.DOWN, Boolean.valueOf(false))),
+                BlockStateProvider.simple(AerialHellBlocksAndItems.GIANT_VERDIGRIS_AGARIC_STEM.get().getDefaultState()),
                 2); //Foliage Radius
 
         public static final HugeMushroomFeatureConfiguration GIANT_RED_MUSHROOM_CONFIG = new HugeMushroomFeatureConfiguration(
-                BlockStateProvider.simple(Blocks.RED_MUSHROOM_BLOCK.defaultBlockState().setValue(HugeMushroomBlock.DOWN, Boolean.valueOf(false))),
-                BlockStateProvider.simple(Blocks.MUSHROOM_STEM.defaultBlockState()),
+                BlockStateProvider.simple(Blocks.RED_MUSHROOM_BLOCK.getDefaultState().with(HugeMushroomBlock.DOWN, Boolean.valueOf(false))),
+                BlockStateProvider.simple(Blocks.MUSHROOM_STEM.getDefaultState()),
                 2); //Foliage Radius
 
         public static final AerialHellLakeFeature.Configuration AERIAL_HELL_WATER_LAKE_CONFIG = new AerialHellLakeFeature.Configuration(
-                BlockStateProvider.simple(Blocks.WATER.defaultBlockState()),
-                BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_STONE.get().defaultBlockState()));
+                BlockStateProvider.simple(Blocks.WATER.getDefaultState()),
+                BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_STONE.get().getDefaultState()));
 
         // Tree placement configs
         public static final RandomFeatureConfiguration AERIAL_TREE_VEGETATION_CONFIG = randomFeatureConfigFromSingleFeature(AerialHellPlacedFeatures.AERIAL_TREE_CHECKED);
@@ -189,8 +189,8 @@ public class AerialHellConfiguredFeatures
         public static final BlockColumnConfiguration BLOSSOMING_VINES_CONFIG = createVinesBlockColumnConfig(BLOSSOMING_VINES_BODY_PROVIDER, BLOSSOMING_VINES_HEAD_PROVIDER);
 
         private static BlockColumnConfiguration createVinesBlockColumnConfig(WeightedStateProvider bodyProvider, RandomizedIntStateProvider headProvider) {return new BlockColumnConfiguration(List.of(BlockColumnConfiguration.layer(new WeightedListInt(SimpleWeightedRandomList.<IntProvider>builder().add(UniformInt.of(0, 19), 2).add(UniformInt.of(0, 2), 3).add(UniformInt.of(0, 6), 10).build()), bodyProvider), BlockColumnConfiguration.layer(ConstantInt.of(1), headProvider)), Direction.DOWN, BlockPredicate.ONLY_IN_AIR_PREDICATE, true);}
-        private static WeightedStateProvider createVinesBodyProvider(CaveVinesPlantBlock bodyBlock) {return new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder().add(bodyBlock.defaultBlockState(), 4).add(bodyBlock.defaultBlockState().setValue(CaveVines.BERRIES, Boolean.valueOf(true)), 1));}
-        private static RandomizedIntStateProvider createVinesHeadProvider(CaveVinesBlock headBlock) {return new RandomizedIntStateProvider(new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder().add(headBlock.defaultBlockState(), 4).add(headBlock.defaultBlockState().setValue(CaveVines.BERRIES, Boolean.valueOf(true)), 1)), CaveVinesBlock.AGE, UniformInt.of(23, 25));}
+        private static WeightedStateProvider createVinesBodyProvider(CaveVinesPlantBlock bodyBlock) {return new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder().add(bodyBlock.getDefaultState(), 4).add(bodyBlock.getDefaultState().with(CaveVines.BERRIES, Boolean.valueOf(true)), 1));}
+        private static RandomizedIntStateProvider createVinesHeadProvider(CaveVinesBlock headBlock) {return new RandomizedIntStateProvider(new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder().add(headBlock.getDefaultState(), 4).add(headBlock.getDefaultState().with(CaveVines.BERRIES, Boolean.valueOf(true)), 1)), CaveVinesBlock.AGE, UniformInt.of(23, 25));}
     }
 
     public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, AerialHell.MODID);
@@ -268,21 +268,21 @@ public class AerialHellConfiguredFeatures
     public static final RegistryObject<ConfiguredFeature<?, ?>> CRYSTALLIZED_FIRE = CONFIGURED_FEATURES.register("cristallized_fire", () -> new ConfiguredFeature<>(AerialHellFeatures.CRYSTALLIZED_FIRE.get(), new NoneFeatureConfiguration()));
     public static final RegistryObject<ConfiguredFeature<?, ?>> GIANT_CRYSTAL_BLOB = CONFIGURED_FEATURES.register("giant_crystal_blob", () -> new ConfiguredFeature<>(AerialHellFeatures.GIANT_CRYSTAL_BLOB.get(), new NoneFeatureConfiguration()));
 
-    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_PORTAL_FRAME_ORE = CONFIGURED_FEATURES.register("stellar_portal_frame_ore", () -> GenAerialHellOres.createOverworldOreConfiguredFeature(AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_ORE.get().defaultBlockState(), AerialHellBlocksAndItems.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE.get().defaultBlockState(), 5));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> IRON_STELLAR_ORE = CONFIGURED_FEATURES.register("iron_stellar_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.IRON_STELLAR_ORE.get().defaultBlockState(), 12));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> GOLD_STELLAR_ORE = CONFIGURED_FEATURES.register("gold_stellar_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.GOLD_STELLAR_ORE.get().defaultBlockState(), 7));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> DIAMOND_STELLAR_ORE = CONFIGURED_FEATURES.register("diamond_stellar_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.DIAMOND_STELLAR_ORE.get().defaultBlockState(), 7));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> FLUORITE_ORE = CONFIGURED_FEATURES.register("fluorite_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.FLUORITE_ORE.get().defaultBlockState(), 12));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> RUBY_ORE = CONFIGURED_FEATURES.register("ruby_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.RUBY_ORE.get().defaultBlockState(), 7));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> MAGMATIC_GEL_ORE = CONFIGURED_FEATURES.register("magmatic_gel_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.MAGMATIC_GEL_ORE.get().defaultBlockState(), 12));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> AZURITE_ORE = CONFIGURED_FEATURES.register("azurite_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.AZURITE_ORE.get().defaultBlockState(), 5));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> SMOKY_QUARTZ_ORE = CONFIGURED_FEATURES.register("smoky_quartz_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.SMOKY_QUARTZ_ORE.get().defaultBlockState(), 14));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> VOLUCITE_ORE = CONFIGURED_FEATURES.register("volucite_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.VOLUCITE_ORE.get().defaultBlockState(), 7));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> OBSIDIAN_ORE = CONFIGURED_FEATURES.register("obsidian_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.OBSIDIAN_ORE.get().defaultBlockState(), 7));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> GLAUCOPHANITE_ORE = CONFIGURED_FEATURES.register("glaucophanite_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.GLAUCOPHANITE.get().defaultBlockState(), 32));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_DIRT_ORE = CONFIGURED_FEATURES.register("stellar_dirt_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState(), 33));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_COARSE_DIRT_ORE = CONFIGURED_FEATURES.register("stellar_coarse_dirt_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.STELLAR_COARSE_DIRT.get().defaultBlockState(), 22));
-    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_CLAY_ORE = CONFIGURED_FEATURES.register("stellar_clay_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.STELLAR_CLAY.get().defaultBlockState(), 28));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_PORTAL_FRAME_ORE = CONFIGURED_FEATURES.register("stellar_portal_frame_ore", () -> GenAerialHellOres.createOverworldOreConfiguredFeature(AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_ORE.get().getDefaultState(), AerialHellBlocksAndItems.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE.get().getDefaultState(), 5));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> IRON_STELLAR_ORE = CONFIGURED_FEATURES.register("iron_stellar_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.IRON_STELLAR_ORE.get().getDefaultState(), 12));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> GOLD_STELLAR_ORE = CONFIGURED_FEATURES.register("gold_stellar_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.GOLD_STELLAR_ORE.get().getDefaultState(), 7));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> DIAMOND_STELLAR_ORE = CONFIGURED_FEATURES.register("diamond_stellar_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.DIAMOND_STELLAR_ORE.get().getDefaultState(), 7));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> FLUORITE_ORE = CONFIGURED_FEATURES.register("fluorite_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.FLUORITE_ORE.get().getDefaultState(), 12));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> RUBY_ORE = CONFIGURED_FEATURES.register("ruby_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.RUBY_ORE.get().getDefaultState(), 7));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> MAGMATIC_GEL_ORE = CONFIGURED_FEATURES.register("magmatic_gel_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.MAGMATIC_GEL_ORE.get().getDefaultState(), 12));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> AZURITE_ORE = CONFIGURED_FEATURES.register("azurite_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.AZURITE_ORE.get().getDefaultState(), 5));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> SMOKY_QUARTZ_ORE = CONFIGURED_FEATURES.register("smoky_quartz_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.SMOKY_QUARTZ_ORE.get().getDefaultState(), 14));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> VOLUCITE_ORE = CONFIGURED_FEATURES.register("volucite_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.VOLUCITE_ORE.get().getDefaultState(), 7));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> OBSIDIAN_ORE = CONFIGURED_FEATURES.register("obsidian_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.OBSIDIAN_ORE.get().getDefaultState(), 7));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> GLAUCOPHANITE_ORE = CONFIGURED_FEATURES.register("glaucophanite_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.GLAUCOPHANITE.get().getDefaultState(), 32));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_DIRT_ORE = CONFIGURED_FEATURES.register("stellar_dirt_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.STELLAR_DIRT.get().getDefaultState(), 33));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_COARSE_DIRT_ORE = CONFIGURED_FEATURES.register("stellar_coarse_dirt_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.STELLAR_COARSE_DIRT.get().getDefaultState(), 22));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> STELLAR_CLAY_ORE = CONFIGURED_FEATURES.register("stellar_clay_ore", () -> GenAerialHellOres.createAerialHellOreConfiguredFeature(AerialHellBlocksAndItems.STELLAR_CLAY.get().getDefaultState(), 28));
 
     public static final RegistryObject<ConfiguredFeature<HugeFungusConfiguration, ?>> GIANT_CORTINARIUS_VIOLACEUS_PLANTED = CONFIGURED_FEATURES.register("giant_cortinarius_violaceus_planted", () -> new ConfiguredFeature<>(Feature.HUGE_FUNGUS, Configs.GIANT_CORTINARIUS_VIOLACEUS_CONFIG));
 */}

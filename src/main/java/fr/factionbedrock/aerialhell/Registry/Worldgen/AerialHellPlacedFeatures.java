@@ -218,6 +218,6 @@ public class AerialHellPlacedFeatures
 
     private static List<PlacementModifier> createVinesPlacementModifiers(int countPlacement)
     {
-        return List.of(CountPlacement.of(countPlacement), InSquarePlacement.spread(), PlacementUtils.RANGE_BOTTOM_TO_MAX_TERRAIN_HEIGHT, EnvironmentScanPlacement.scanningFor(Direction.UP, BlockPredicate.hasSturdyFace(Direction.DOWN), BlockPredicate.ONLY_IN_AIR_PREDICATE, 12), BlockPredicateFilter.forPredicate(BlockPredicate.wouldSurvive(AerialHellBlocksAndItems.BLOSSOMING_VINES.get().defaultBlockState(), BlockPos.ZERO)), RandomOffsetPlacement.vertical(ConstantInt.of(-1)), BiomeFilter.biome());
+        return List.of(CountPlacement.of(countPlacement), InSquarePlacement.spread(), PlacementUtils.RANGE_BOTTOM_TO_MAX_TERRAIN_HEIGHT, EnvironmentScanPlacement.scanningFor(Direction.UP, BlockPredicate.hasSturdyFace(Direction.DOWN), BlockPredicate.ONLY_IN_AIR_PREDICATE, 12), BlockPredicateFilter.forPredicate(BlockPredicate.wouldSurvive(AerialHellBlocksAndItems.BLOSSOMING_VINES.get().getDefaultState(), BlockPos.ZERO)), RandomOffsetPlacement.vertical(ConstantInt.of(-1)), BiomeFilter.biome());
     }*/
 }

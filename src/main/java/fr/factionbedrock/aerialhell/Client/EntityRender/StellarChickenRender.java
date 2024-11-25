@@ -22,8 +22,8 @@ public class StellarChickenRender extends MobRenderer<StellarChickenEntity, Stel
 
     @Override protected float getBob(StellarChickenEntity entity, float flap)
     {
-        float f = Mth.lerp(flap, entity.oFlap, entity.flap);
-        float f1 = Mth.lerp(flap, entity.oFlapSpeed, entity.flapSpeed);
-        return (Mth.sin(f) + 1.0F) * f1;
+        float f = MathHelper.lerp(flap, entity.oFlap, entity.flap);
+        float f1 = MathHelper.lerp(flap, entity.oFlapSpeed, entity.flapSpeed);
+        return (MathHelper.sin(f) + 1.0F) * f1;
     }
 }

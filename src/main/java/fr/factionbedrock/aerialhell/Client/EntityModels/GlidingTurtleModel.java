@@ -90,12 +90,12 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleEntity>
 
 	private void animateLeftLeg(ModelPart model, float limbSwing, float limbSwingAmount)
 	{
-		model.xRot = -1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount; model.yRot = 0.0F;
+		model.xRot = -1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount; model.yRot = 0.0F;
 	}
 
 	private void animateRightLeg(ModelPart model, float limbSwing, float limbSwingAmount)
 	{
-		model.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount; model.yRot = 0.0F;
+		model.xRot = 1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount; model.yRot = 0.0F;
 	}
 
 	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)

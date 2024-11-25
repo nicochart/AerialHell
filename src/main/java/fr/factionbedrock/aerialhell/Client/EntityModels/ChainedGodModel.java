@@ -137,13 +137,13 @@ public class ChainedGodModel extends EntityModel<ChainedGodEntity>
 			int i = entity.attackTimer;
 			if (i > 0)
 			{
-				this.rightArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float)i, 10.0F) * 0.5f;
-				this.leftArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float)i, 10.0F) * 0.5f;
+				this.rightArm.xRot = -2.0F + 1.5F * MathHelper.triangleWave((float)i, 10.0F) * 0.5f;
+				this.leftArm.xRot = -2.0F + 1.5F * MathHelper.triangleWave((float)i, 10.0F) * 0.5f;
 			}
 			else
 			{
-				this.rightArm.xRot = (-0.2F + 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
-				this.leftArm.xRot = (-0.2F - 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+				this.rightArm.xRot = (-0.2F + 1.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+				this.leftArm.xRot = (-0.2F - 1.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
 			}
 		}
 		else
@@ -152,8 +152,8 @@ public class ChainedGodModel extends EntityModel<ChainedGodEntity>
 			this.leftArm.xRot = - 2.2F;
 		}
 
-		this.leftLeg.xRot = -1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		this.rightLeg.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.leftLeg.xRot = -1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.rightLeg.xRot = 1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
 		this.leftLeg.yRot = 0.0F;
 		this.rightLeg.yRot = 0.0F;
 	}

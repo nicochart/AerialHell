@@ -76,17 +76,17 @@ public class LunaticPriestModel extends EntityModel<LunaticPriestEntity>
 		int i = entity.attackTimer;
 		if (i > 0)
 		{
-			this.arm0.xRot = -2.0F + 0.6F * Mth.triangleWave((float)i, 10.0F);
-			this.arm1.xRot = -2.0F + 0.6F * Mth.triangleWave((float)i, 10.0F);
+			this.arm0.xRot = -2.0F + 0.6F * MathHelper.triangleWave((float)i, 10.0F);
+			this.arm1.xRot = -2.0F + 0.6F * MathHelper.triangleWave((float)i, 10.0F);
 		}
 		else
 		{
-			this.arm0.xRot = (-0.2F + 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
-			this.arm1.xRot = (-0.2F - 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+			this.arm0.xRot = (-0.2F + 1.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+			this.arm1.xRot = (-0.2F - 1.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
 		}
 
-		this.leg0.xRot = -1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		this.leg1.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.leg0.xRot = -1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.leg1.xRot = 1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
 		this.leg0.yRot = 0.0F;
 		this.leg1.yRot = 0.0F;
 	}

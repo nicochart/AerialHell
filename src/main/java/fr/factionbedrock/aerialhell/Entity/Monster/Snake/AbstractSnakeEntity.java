@@ -261,7 +261,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         if (entity instanceof AbstractSnakeEntity snakeEntity && snakeEntity.getType() == this.getType())
         {
             boolean sameSnake = snakeEntity.getHead() != null && snakeEntity.getHead() == this.getHead();
-            boolean collisionDueToSmallDistance = this.distanceTo(snakeEntity) <= 0.2 || (entity.getDeltaMovement().x == 0 && entity.getDeltaMovement().z == 0 && this.distanceTo(entity) < 0.4F);
+            boolean collisionDueToSmallDistance = this.distanceTo(snakeEntity) <= 0.2 || (entity.getVelocity().x == 0 && entity.getVelocity().z == 0 && this.distanceTo(entity) < 0.4F);
             boolean noCollide = sameSnake && !collisionDueToSmallDistance;
             if (!noCollide) {super.doPush(entity);}
         }
@@ -298,7 +298,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
             nextBodyPart.setBodyPartId(this.getBodyPartId() + 1);
             nextBodyPart.setPreviousBodyPart(this);
             nextBodyPart.head = this.getHead();
-            this.level().addFreshEntity(nextBodyPart);
+            this.level().spawnEntity(nextBodyPart);
         }
         return nextBodyPart;
     }

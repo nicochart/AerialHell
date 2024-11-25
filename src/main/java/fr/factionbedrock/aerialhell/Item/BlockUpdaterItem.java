@@ -64,7 +64,7 @@ public class BlockUpdaterItem extends WithInformationItem
         BlockState nextBlockState = this.getNextBlockState(previousBlockState, nextBlock);
         BlockEntity previousBlockEntity = level.getBlockEntity(pos);
         if (previousBlockEntity != null) {level.removeBlockEntity(pos); previousBlockEntity.setBlockState(nextBlockState);}
-        level.setBlockAndUpdate(pos, nextBlockState);
+        level.setBlockState(pos, nextBlockState);
         if (previousBlock instanceof BaseEntityBlock && nextBlock instanceof BaseEntityBlock && previousBlockEntity != null)
         {
             level.setBlockEntity(previousBlockEntity);
@@ -76,79 +76,79 @@ public class BlockUpdaterItem extends WithInformationItem
         Block previousBlock = previousBlockState.getBlock();
         if (nextBlock instanceof LeavesBlock && previousBlock instanceof LeavesBlock)
         {
-            return nextBlock.defaultBlockState().setValue(LeavesBlock.DISTANCE, previousBlockState.getValue(LeavesBlock.DISTANCE)).setValue(LeavesBlock.PERSISTENT, previousBlockState.getValue(LeavesBlock.PERSISTENT));
+            return nextBlock.getDefaultState().with(LeavesBlock.DISTANCE, previousBlockState.get(LeavesBlock.DISTANCE)).setValue(LeavesBlock.PERSISTENT, previousBlockState.get(LeavesBlock.PERSISTENT));
         }
         else if (nextBlock instanceof StairBlock && previousBlock instanceof StairBlock)
         {
-            return nextBlock.defaultBlockState().setValue(StairBlock.FACING, previousBlockState.getValue(StairBlock.FACING)).setValue(StairBlock.HALF, previousBlockState.getValue(StairBlock.HALF)).setValue(StairBlock.SHAPE, previousBlockState.getValue(StairBlock.SHAPE));
+            return nextBlock.getDefaultState().with(StairBlock.FACING, previousBlockState.get(StairBlock.FACING)).setValue(StairBlock.HALF, previousBlockState.get(StairBlock.HALF)).setValue(StairBlock.SHAPE, previousBlockState.get(StairBlock.SHAPE));
         }
         else if (nextBlock instanceof SlabBlock && previousBlock instanceof SlabBlock)
         {
-            return nextBlock.defaultBlockState().setValue(SlabBlock.TYPE, previousBlockState.getValue(SlabBlock.TYPE));
+            return nextBlock.getDefaultState().with(SlabBlock.TYPE, previousBlockState.get(SlabBlock.TYPE));
         }
         else if (nextBlock instanceof WallBlock && previousBlock instanceof WallBlock)
         {
-            return nextBlock.defaultBlockState().setValue(WallBlock.UP, previousBlockState.getValue(WallBlock.UP)).setValue(WallBlock.NORTH_WALL, previousBlockState.getValue(WallBlock.NORTH_WALL)).setValue(WallBlock.SOUTH_WALL, previousBlockState.getValue(WallBlock.SOUTH_WALL)).setValue(WallBlock.WEST_WALL, previousBlockState.getValue(WallBlock.WEST_WALL)).setValue(WallBlock.EAST_WALL, previousBlockState.getValue(WallBlock.EAST_WALL)).setValue(WallBlock.WATERLOGGED, previousBlockState.getValue(WallBlock.WATERLOGGED));
+            return nextBlock.getDefaultState().with(WallBlock.UP, previousBlockState.get(WallBlock.UP)).setValue(WallBlock.NORTH_WALL, previousBlockState.get(WallBlock.NORTH_WALL)).setValue(WallBlock.SOUTH_WALL, previousBlockState.get(WallBlock.SOUTH_WALL)).setValue(WallBlock.WEST_WALL, previousBlockState.get(WallBlock.WEST_WALL)).setValue(WallBlock.EAST_WALL, previousBlockState.get(WallBlock.EAST_WALL)).setValue(WallBlock.WATERLOGGED, previousBlockState.get(WallBlock.WATERLOGGED));
         }
         else if (nextBlock instanceof FenceBlock && previousBlock instanceof FenceBlock)
         {
-            return nextBlock.defaultBlockState().setValue(FenceBlock.NORTH, previousBlockState.getValue(FenceBlock.NORTH)).setValue(FenceBlock.EAST, previousBlockState.getValue(FenceBlock.EAST)).setValue(FenceBlock.WEST, previousBlockState.getValue(FenceBlock.WEST)).setValue(FenceBlock.SOUTH, previousBlockState.getValue(FenceBlock.SOUTH));
+            return nextBlock.getDefaultState().with(FenceBlock.NORTH, previousBlockState.get(FenceBlock.NORTH)).setValue(FenceBlock.EAST, previousBlockState.get(FenceBlock.EAST)).setValue(FenceBlock.WEST, previousBlockState.get(FenceBlock.WEST)).setValue(FenceBlock.SOUTH, previousBlockState.get(FenceBlock.SOUTH));
         }
         else if (nextBlock instanceof FenceGateBlock && previousBlock instanceof FenceGateBlock)
         {
-            return nextBlock.defaultBlockState().setValue(FenceGateBlock.FACING, previousBlockState.getValue(FenceGateBlock.FACING)).setValue(FenceGateBlock.OPEN, previousBlockState.getValue(FenceGateBlock.OPEN)).setValue(FenceGateBlock.POWERED, previousBlockState.getValue(FenceGateBlock.POWERED)).setValue(FenceGateBlock.IN_WALL, previousBlockState.getValue(FenceGateBlock.IN_WALL));
+            return nextBlock.getDefaultState().with(FenceGateBlock.FACING, previousBlockState.get(FenceGateBlock.FACING)).setValue(FenceGateBlock.OPEN, previousBlockState.get(FenceGateBlock.OPEN)).setValue(FenceGateBlock.POWERED, previousBlockState.get(FenceGateBlock.POWERED)).setValue(FenceGateBlock.IN_WALL, previousBlockState.get(FenceGateBlock.IN_WALL));
         }
         else if (nextBlock instanceof RotatedPillarBlock && previousBlock instanceof RotatedPillarBlock)
         {
-            return nextBlock.defaultBlockState().setValue(RotatedPillarBlock.AXIS, previousBlockState.getValue(RotatedPillarBlock.AXIS));
+            return nextBlock.getDefaultState().with(RotatedPillarBlock.AXIS, previousBlockState.get(RotatedPillarBlock.AXIS));
         }
         else if (nextBlock instanceof TrapDoorBlock && previousBlock instanceof TrapDoorBlock)
         {
-            return nextBlock.defaultBlockState().setValue(TrapDoorBlock.OPEN, previousBlockState.getValue(TrapDoorBlock.OPEN)).setValue(TrapDoorBlock.HALF, previousBlockState.getValue(TrapDoorBlock.HALF)).setValue(TrapDoorBlock.POWERED, previousBlockState.getValue(TrapDoorBlock.POWERED)).setValue(TrapDoorBlock.FACING, previousBlockState.getValue(TrapDoorBlock.FACING));
+            return nextBlock.getDefaultState().with(TrapDoorBlock.OPEN, previousBlockState.get(TrapDoorBlock.OPEN)).setValue(TrapDoorBlock.HALF, previousBlockState.get(TrapDoorBlock.HALF)).setValue(TrapDoorBlock.POWERED, previousBlockState.get(TrapDoorBlock.POWERED)).setValue(TrapDoorBlock.FACING, previousBlockState.get(TrapDoorBlock.FACING));
         }
         else if (nextBlock instanceof DoorBlock && previousBlock instanceof DoorBlock)
         {
-            return nextBlock.defaultBlockState().setValue(DoorBlock.FACING, previousBlockState.getValue(DoorBlock.FACING)).setValue(DoorBlock.OPEN, previousBlockState.getValue(DoorBlock.OPEN)).setValue(DoorBlock.HINGE, previousBlockState.getValue(DoorBlock.HINGE)).setValue(DoorBlock.POWERED, previousBlockState.getValue(DoorBlock.POWERED)).setValue(DoorBlock.HALF, previousBlockState.getValue(DoorBlock.HALF));
+            return nextBlock.getDefaultState().with(DoorBlock.FACING, previousBlockState.get(DoorBlock.FACING)).setValue(DoorBlock.OPEN, previousBlockState.get(DoorBlock.OPEN)).setValue(DoorBlock.HINGE, previousBlockState.get(DoorBlock.HINGE)).setValue(DoorBlock.POWERED, previousBlockState.get(DoorBlock.POWERED)).setValue(DoorBlock.HALF, previousBlockState.get(DoorBlock.HALF));
         }
         else if (nextBlock instanceof ButtonBlock && previousBlock instanceof ButtonBlock)
         {
-            return nextBlock.defaultBlockState().setValue(ButtonBlock.POWERED, previousBlockState.getValue(ButtonBlock.POWERED)).setValue(ButtonBlock.FACE, previousBlockState.getValue(ButtonBlock.FACE)).setValue(ButtonBlock.FACING, previousBlockState.getValue(ButtonBlock.FACING));
+            return nextBlock.getDefaultState().with(ButtonBlock.POWERED, previousBlockState.get(ButtonBlock.POWERED)).setValue(ButtonBlock.FACE, previousBlockState.get(ButtonBlock.FACE)).setValue(ButtonBlock.FACING, previousBlockState.get(ButtonBlock.FACING));
         }
         else if (nextBlock instanceof PressurePlateBlock && previousBlock instanceof PressurePlateBlock)
         {
-            return nextBlock.defaultBlockState().setValue(PressurePlateBlock.POWERED, previousBlockState.getValue(PressurePlateBlock.POWERED));
+            return nextBlock.getDefaultState().with(PressurePlateBlock.POWERED, previousBlockState.get(PressurePlateBlock.POWERED));
         }
         else if (nextBlock instanceof ComposterBlock && previousBlock instanceof ComposterBlock)
         {
-            return nextBlock.defaultBlockState().setValue(ComposterBlock.LEVEL, previousBlockState.getValue(ComposterBlock.LEVEL));
+            return nextBlock.getDefaultState().with(ComposterBlock.LEVEL, previousBlockState.get(ComposterBlock.LEVEL));
         }
         else if (nextBlock instanceof LadderBlock && previousBlock instanceof LadderBlock)
         {
-            return nextBlock.defaultBlockState().setValue(LadderBlock.FACING, previousBlockState.getValue(LadderBlock.FACING)).setValue(LadderBlock.WATERLOGGED, previousBlockState.getValue(LadderBlock.WATERLOGGED));
+            return nextBlock.getDefaultState().with(LadderBlock.FACING, previousBlockState.get(LadderBlock.FACING)).setValue(LadderBlock.WATERLOGGED, previousBlockState.get(LadderBlock.WATERLOGGED));
         }
         else if ((nextBlock instanceof WallTorchBlock || nextBlock instanceof AerialHellWallTorchBlock) && (previousBlock instanceof WallTorchBlock || previousBlock instanceof AerialHellWallTorchBlock))
         {
-            return nextBlock.defaultBlockState().setValue(nextBlock instanceof WallTorchBlock ? WallTorchBlock.FACING : AerialHellWallTorchBlock.HORIZONTAL_FACING, previousBlockState.getValue(previousBlock instanceof WallTorchBlock ? WallTorchBlock.FACING : AerialHellWallTorchBlock.HORIZONTAL_FACING));
+            return nextBlock.getDefaultState().with(nextBlock instanceof WallTorchBlock ? WallTorchBlock.FACING : AerialHellWallTorchBlock.HORIZONTAL_FACING, previousBlockState.get(previousBlock instanceof WallTorchBlock ? WallTorchBlock.FACING : AerialHellWallTorchBlock.HORIZONTAL_FACING));
         }
         else if (nextBlock instanceof StandingSignBlock && previousBlock instanceof StandingSignBlock)
         {
-            return nextBlock.defaultBlockState().setValue(StandingSignBlock.ROTATION, previousBlockState.getValue(StandingSignBlock.ROTATION)).setValue(StandingSignBlock.WATERLOGGED, previousBlockState.getValue(StandingSignBlock.WATERLOGGED));
+            return nextBlock.getDefaultState().with(StandingSignBlock.ROTATION, previousBlockState.get(StandingSignBlock.ROTATION)).setValue(StandingSignBlock.WATERLOGGED, previousBlockState.get(StandingSignBlock.WATERLOGGED));
         }
         else if (nextBlock instanceof WallSignBlock && previousBlock instanceof WallSignBlock)
         {
-            return nextBlock.defaultBlockState().setValue(WallSignBlock.FACING, previousBlockState.getValue(WallSignBlock.FACING)).setValue(WallSignBlock.WATERLOGGED, previousBlockState.getValue(WallSignBlock.WATERLOGGED));
+            return nextBlock.getDefaultState().with(WallSignBlock.FACING, previousBlockState.get(WallSignBlock.FACING)).setValue(WallSignBlock.WATERLOGGED, previousBlockState.get(WallSignBlock.WATERLOGGED));
         }
         else if (nextBlock instanceof BarrelBlock && previousBlock instanceof BarrelBlock)
         {
-            return nextBlock.defaultBlockState().setValue(BarrelBlock.FACING, previousBlockState.getValue(BarrelBlock.FACING)).setValue(BarrelBlock.OPEN, previousBlockState.getValue(BarrelBlock.OPEN));
+            return nextBlock.getDefaultState().with(BarrelBlock.FACING, previousBlockState.get(BarrelBlock.FACING)).setValue(BarrelBlock.OPEN, previousBlockState.get(BarrelBlock.OPEN));
         }
         else if (nextBlock instanceof ChestBlock && previousBlock instanceof ChestBlock)
         {
-            return nextBlock.defaultBlockState().setValue(ChestBlock.FACING, previousBlockState.getValue(ChestBlock.FACING)).setValue(ChestBlock.TYPE, previousBlockState.getValue(ChestBlock.TYPE)).setValue(ChestBlock.WATERLOGGED, previousBlockState.getValue(ChestBlock.WATERLOGGED));
+            return nextBlock.getDefaultState().with(ChestBlock.FACING, previousBlockState.get(ChestBlock.FACING)).setValue(ChestBlock.TYPE, previousBlockState.get(ChestBlock.TYPE)).setValue(ChestBlock.WATERLOGGED, previousBlockState.get(ChestBlock.WATERLOGGED));
         }
         else
         {
-            return nextBlock.defaultBlockState();
+            return nextBlock.getDefaultState();
         }
     }
 }

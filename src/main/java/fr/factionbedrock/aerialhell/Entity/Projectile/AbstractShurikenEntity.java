@@ -72,7 +72,7 @@ public abstract class AbstractShurikenEntity extends ThrowableItemProjectile
 		{
             Entity entity = ((EntityHitResult)result).getEntity();
             entity.hurt(AerialHellDamageTypes.getDamageSource(this.level(), AerialHellDamageTypes.SHURIKEN_HIT, this, this.getOwner()), this.getKnifeDamage());
-            entity.setDeltaMovement(entity.getDeltaMovement().add(this.getDeltaMovement().x / 2, 0.12F, this.getDeltaMovement().z / 2));
+            entity.setDeltaMovement(entity.getVelocity().add(this.getDeltaMovement().x / 2, 0.12F, this.getDeltaMovement().z / 2));
             this.applyEntityImpactEffet(entity);
 		}
 		this.discard();

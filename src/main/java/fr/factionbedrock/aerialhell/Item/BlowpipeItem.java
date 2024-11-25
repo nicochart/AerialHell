@@ -60,7 +60,7 @@ public class BlowpipeItem extends Item
             {
                 arrow.pickup = AbstractArrow.Pickup.ALLOWED;
             }
-            worldIn.addFreshEntity(arrow);
+            worldIn.spawnEntity(arrow);
         }
         worldIn.playSound(playerIn, playerIn.getX(), playerIn.getY(), playerIn.getZ(), AerialHellSoundEvents.ENTITY_VOLUCITE_BLOWPIPE_SHOOT.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (playerIn.getRandom().nextFloat() * 0.4F + 0.8F));
         if (!isCreative)

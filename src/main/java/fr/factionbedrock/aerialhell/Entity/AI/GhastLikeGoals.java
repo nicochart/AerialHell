@@ -31,7 +31,7 @@ public class GhastLikeGoals
             if (this.parentEntity.getTarget() == null)
             {
                 Vec3 vec = this.parentEntity.getDeltaMovement();
-                this.parentEntity.setYRot(-((float) Mth.atan2(vec.x, vec.z)) * (180F / (float)Math.PI));
+                this.parentEntity.setYRot(-((float) MathHelper.atan2(vec.x, vec.z)) * (180F / (float)Math.PI));
                 this.parentEntity.yBodyRot = this.parentEntity.getYRot();
             }
             else
@@ -41,7 +41,7 @@ public class GhastLikeGoals
                 {
                     double x = livingentity.getX() - this.parentEntity.getX();
                     double z = livingentity.getZ() - this.parentEntity.getZ();
-                    this.parentEntity.setYRot(-((float)Mth.atan2(x, z)) * (180F / (float)Math.PI));
+                    this.parentEntity.setYRot(-((float)MathHelper.atan2(x, z)) * (180F / (float)Math.PI));
                     this.parentEntity.yBodyRot = this.parentEntity.getYRot();
                 }
             }
@@ -98,7 +98,7 @@ public class GhastLikeGoals
                     Vec3 vec = new Vec3(this.wantedX - this.parentEntity.getX(), this.wantedY - this.parentEntity.getY(), this.wantedZ - this.parentEntity.getZ());
                     double d0 = vec.length();
                     vec = vec.normalize();
-                    if (this.canReach(vec, Mth.ceil(d0))) {this.parentEntity.setDeltaMovement(this.parentEntity.getDeltaMovement().add(vec.scale(0.1)));}
+                    if (this.canReach(vec, MathHelper.ceil(d0))) {this.parentEntity.setDeltaMovement(this.parentEntity.getDeltaMovement().add(vec.scale(0.1)));}
                     else {this.operation = MoveControl.Operation.WAIT;}
                 }
             }
@@ -228,7 +228,7 @@ public class GhastLikeGoals
 
         protected void shootWithSound(LivingEntity target)
         {
-            this.parentEntity.level().addFreshEntity(createProjectile(target));
+            this.parentEntity.level().spawnEntity(createProjectile(target));
             this.tryPlayingShootSound();
         }
 

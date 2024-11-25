@@ -71,17 +71,17 @@ public class AutomatonModel<T extends AutomatonEntity> extends EmptyModel<T>
 		int i = entity.attackTimer;
 		if (i > 0)
 		{
-			this.leftArm.xRot = -2.0F + 0.6F * Mth.triangleWave((float)i, 10.0F);
-			this.rightArm.xRot = -2.0F + 0.6F * Mth.triangleWave((float)i, 10.0F);
+			this.leftArm.xRot = -2.0F + 0.6F * MathHelper.triangleWave((float)i, 10.0F);
+			this.rightArm.xRot = -2.0F + 0.6F * MathHelper.triangleWave((float)i, 10.0F);
 		}
 		else
 		{
-			this.leftArm.xRot = (-0.2F + 0.8F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
-			this.rightArm.xRot = (-0.2F - 0.8F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
+			this.leftArm.xRot = (-0.2F + 0.8F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
+			this.rightArm.xRot = (-0.2F - 0.8F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
 		}
 
-		this.leftLeg.xRot = Mth.cos(limbSwing * 0.7F) * 1.4F * limbSwingAmount;
-		this.rightLeg.xRot = Mth.cos(limbSwing * 0.7F + (float)Math.PI) * 1.4F * limbSwingAmount;
+		this.leftLeg.xRot = MathHelper.cos(limbSwing * 0.7F) * 1.4F * limbSwingAmount;
+		this.rightLeg.xRot = MathHelper.cos(limbSwing * 0.7F + (float)Math.PI) * 1.4F * limbSwingAmount;
 	}
 
 	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)

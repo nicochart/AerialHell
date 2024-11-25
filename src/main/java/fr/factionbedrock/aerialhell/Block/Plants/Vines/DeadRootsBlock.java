@@ -3,29 +3,28 @@ package fr.factionbedrock.aerialhell.Block.Plants.Vines;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Spider;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.SpiderEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class DeadRootsBlock extends AerialHellTwistingVinesBlock
 {
     public DeadRootsBlock(AbstractBlock.Settings settings) {super(settings);}
 
-    private boolean isEntityImmuneToDamage(Entity entityIn)
+    private boolean isEntityImmuneToDamage(Entity entity)
     {
-        return ((entityIn instanceof Spider) || EntityHelper.isShadowEntity(entityIn) || EntityHelper.isMudEntity(entityIn)) || EntityHelper.isFeatheryEntity(entityIn) || EntityHelper.isImmuneToBramblesDamage(entityIn);
+        return ((entity instanceof SpiderEntity) || EntityHelper.isShadowEntity(entity) || EntityHelper.isMudEntity(entity)) || EntityHelper.isFeatheryEntity(entity) || EntityHelper.isImmuneToBramblesDamage(entity);
     }
 
     @Override
-    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn)
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
     {
-        if (entityIn instanceof LivingEntity && !isEntityImmuneToDamage(entityIn))
+        if (entity instanceof LivingEntity && !isEntityImmuneToDamage(entity))
         {
-            entityIn.hurt(AerialHellDamageTypes.getDamageSource(level, AerialHellDamageTypes.ROOT_THORNS), 2.0F);
+            entity.damage(AerialHellDamageTypes.getDamageSource(world, AerialHellDamageTypes.ROOT_THORNS), 2.0F);
         }
     }
 }

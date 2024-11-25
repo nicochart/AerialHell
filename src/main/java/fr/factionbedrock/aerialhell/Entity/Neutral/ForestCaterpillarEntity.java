@@ -46,7 +46,7 @@ public class ForestCaterpillarEntity extends AbstractCaterpillarEntity
 
 	            if (i > 0)
 	            {
-	               ((LivingEntity)entityIn).addEffect(new MobEffectInstance(MobEffects.POISON, i * 20, 2)); //poison III
+	               ((LivingEntity)entityIn).addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, i * 20, 2)); //poison III
 	            }
 	         }
 	         return true;

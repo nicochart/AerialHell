@@ -73,7 +73,7 @@ public class StructureHelper
 		int x=genPos.getX(), z=genPos.getZ(); int y = context.chunkGenerator().getFirstOccupiedHeight(x, z, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, context.heightAccessor(), context.randomState());
 		BlockState surfaceBlock = context.chunkGenerator().getBaseColumn(x, z, context.heightAccessor(), context.randomState()).getBlock(y);
 
-		boolean isSurfaceBlockAnAerialHellSurfaceBlock = surfaceBlock.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) || surfaceBlock.is(AerialHellBlocksAndItems.STELLAR_STONE.get()) || surfaceBlock.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()) || surfaceBlock.is(AerialHellBlocksAndItems.SLIPPERY_SAND.get());
+		boolean isSurfaceBlockAnAerialHellSurfaceBlock = surfaceBlock.isOf(AerialHellBlocks.STELLAR_GRASS_BLOCK.get()) || surfaceBlock.isOf(AerialHellBlocks.STELLAR_STONE.get()) || surfaceBlock.isOf(AerialHellBlocks.SHADOW_GRASS_BLOCK.get()) || surfaceBlock.isOf(AerialHellBlocks.SLIPPERY_SAND.get());
 		return isSurfaceBlockAnAerialHellSurfaceBlock;
 	}
 

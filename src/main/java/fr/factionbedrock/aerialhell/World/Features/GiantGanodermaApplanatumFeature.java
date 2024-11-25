@@ -22,7 +22,7 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfigur
     {
         BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random();
 		boolean canGenerate = (
-            (!reader.getBlockState(pos.above(3)).getBlock().equals(Blocks.AIR)) &&
+            (!reader.getBlockState(pos.up(3)).getBlock().equals(Blocks.AIR)) &&
             ((reader.getBlockState(pos.north(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.south(2)).getBlock().equals(Blocks.AIR)) || (reader.getBlockState(pos.west(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.east(2)).getBlock().equals(Blocks.AIR))) &&
             (reader.getBlockState(pos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(pos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
 		
@@ -55,18 +55,18 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfigur
                     BlockPos pos = new BlockPos(x, y, z);
                     if (!this.isPosInsideEllipsis(pos, a, b, c))
                     {
-                        downInEll = isPosInsideEllipsis(pos.below(),a,b,c);
+                        downInEll = isPosInsideEllipsis(pos.down(),a,b,c);
                         northInEll = isPosInsideEllipsis(pos.north(),a,b,c);
                         southInEll = isPosInsideEllipsis(pos.south(),a,b,c);
                         westInEll = isPosInsideEllipsis(pos.west(),a,b,c);
                         eastInEll = isPosInsideEllipsis(pos.east(),a,b,c);
                         if (downInEll || northInEll || southInEll || westInEll || eastInEll) //if pos is at ellipsis border : place cap block
                         {
-                        	isUpCap = isCapBlockPos(pos.above(), a, b, c);
+                        	isUpCap = isCapBlockPos(pos.up(), a, b, c);
                         	placementPos.set(blockPos.offset(pos));
                             if (FeatureHelper.isReplaceableByLogOrLeavesFeature(reader, placementPos, true))
                             {
-                            	reader.setBlock(placementPos, AerialHellBlocksAndItems.GIANT_GANODERMA_APPLANATUM_BLOCK.get().defaultBlockState()
+                            	reader.setBlockState(placementPos, AerialHellBlocksAndItems.GIANT_GANODERMA_APPLANATUM_BLOCK.get().getDefaultState()
                                 		.setValue(HugeMushroomBlock.NORTH, !northInEll)
                                 		.setValue(HugeMushroomBlock.SOUTH, !southInEll)
                                 		.setValue(HugeMushroomBlock.WEST, !westInEll)
@@ -103,7 +103,7 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfigur
     private boolean isCapBlockPos(BlockPos pos, float a, float b, float c) //ellipsis border detection
     {
     	if (this.isPosInsideEllipsis(pos, a, b, c)) {return false;}
-    	if (isPosInsideEllipsis(pos.below(),a,b,c)) {return true;} //downInEll
+    	if (isPosInsideEllipsis(pos.down(),a,b,c)) {return true;} //downInEll
     	if (isPosInsideEllipsis(pos.north(),a,b,c)) {return true;} //northInEll
     	if (isPosInsideEllipsis(pos.south(),a,b,c)) {return true;} //southInEll
     	if (isPosInsideEllipsis(pos.west(),a,b,c)) {return true;} //westInEll

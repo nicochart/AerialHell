@@ -22,12 +22,12 @@ public class AbstractGiantTreeFeature<FC extends FeatureConfiguration> extends F
         return isValidTreePos(context.level(), context.origin()) && !generatesInDungeon;
     }
 
-    protected boolean isValidTreePos(WorldGenLevel level, BlockPos pos) {return isValidTreeSupport(level.getBlockState(pos.below())) && (level.isEmptyBlock(pos) || level.getBlockState(pos).is(AerialHellTags.Blocks.AERIALHELL_SAPLINGS)) && thereIsAirAbovePosition(level, pos);}
-    protected boolean isValidTreeSupport(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_DIRT);}
+    protected boolean isValidTreePos(WorldGenLevel level, BlockPos pos) {return isValidTreeSupport(level.getBlockState(pos.down())) && (level.isEmptyBlock(pos) || level.getBlockState(pos).is(AerialHellTags.Blocks.AERIALHELL_SAPLINGS)) && thereIsAirAbovePosition(level, pos);}
+    protected boolean isValidTreeSupport(BlockState state) {return state.isIn(AerialHellTags.Blocks.STELLAR_DIRT);}
     protected boolean thereIsAirAbovePosition(WorldGenLevel level, BlockPos pos) {return thereIsAirColumnAbovePos(level, pos);}
 
     protected boolean thereIsAirColumnAbovePos(WorldGenLevel reader, BlockPos pos)
     {
-        for (int y=1; y<=8; y++) {if (!reader.getBlockState(pos.above(y)).isAir()) {return false;}} return true;
+        for (int y=1; y<=8; y++) {if (!reader.getBlockState(pos.up(y)).isAir()) {return false;}} return true;
     }
 }

@@ -1,62 +1,52 @@
 package fr.factionbedrock.aerialhell.Block.StandingAndWall;
 
-import java.util.Random;
-
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.Level;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import net.minecraft.block.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
 
 /*Copy of net.minecraft.block.TorchBlock, removing smoke particles, and editing the way particles are added*/
 
 public class AerialHellTorchBlock extends Block
 {
-	protected static final VoxelShape SHAPE = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 10.0D, 10.0D);
+	protected static final VoxelShape SHAPE = Block.createCuboidShape(6.0D, 0.0D, 6.0D, 10.0D, 10.0D, 10.0D);
 
 	public AerialHellTorchBlock(AbstractBlock.Settings settings)
 	{
     	super(settings);
 	}
 
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
+	@Override protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {return SHAPE;}
+
+	@Override protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos)
 	{
-		return SHAPE;
+		return direction == Direction.DOWN && !this.canPlaceAt(state, world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
 	}
 
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos)
-	{
-		return facing == Direction.DOWN && !this.canSurvive(stateIn, worldIn, currentPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
-	}
-
-	@Override public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos)
+	@Override public boolean canPlaceAt(BlockState state, WorldView worldIn, BlockPos pos)
    	{
-		return canSupportCenter(worldIn, pos.below(), Direction.UP);
+		return sideCoversSmallSquare(worldIn, pos.down(), Direction.UP);
    	}
 
-	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand)
+	public void randomDisplayTick(BlockState stateIn, World world, BlockPos pos, Random rand)
 	{
 		double d0 = (double)pos.getX() + 0.5D;
       	double d1 = (double)pos.getY() + 0.7D;
       	double d2 = (double)pos.getZ() + 0.5D;
-      	if (this == AerialHellBlocksAndItems.FLUORITE_TORCH.get() && rand.nextInt(5) == 0)
+      	if (this == AerialHellBlocks.FLUORITE_TORCH && rand.nextInt(5) == 0)
       	{
-      		worldIn.addParticle(AerialHellParticleTypes.OSCILLATOR.get(), d0 + 0.5 * (rand.nextFloat() - 0.5), d1 - 0.2 * rand.nextFloat(), d2 + 0.5 * (rand.nextFloat() - 0.5), rand.nextFloat() - 0.5, rand.nextFloat() - 0.5, rand.nextFloat() - 0.5);
+      		world.addParticle(AerialHellParticleTypes.OSCILLATOR, d0 + 0.5 * (rand.nextFloat() - 0.5), d1 - 0.2 * rand.nextFloat(), d2 + 0.5 * (rand.nextFloat() - 0.5), rand.nextFloat() - 0.5, rand.nextFloat() - 0.5, rand.nextFloat() - 0.5);
       	}
-		else if (this == AerialHellBlocksAndItems.SHADOW_TORCH.get() && rand.nextInt(5) == 0)
+		else if (this == AerialHellBlocks.SHADOW_TORCH && rand.nextInt(5) == 0)
 		{
-			worldIn.addParticle(AerialHellParticleTypes.SHADOW_LIGHT.get(), d0 + 0.5 * (rand.nextFloat() - 0.5), d1 - 0.2 * rand.nextFloat(), d2 + 0.5 * (rand.nextFloat() - 0.5), rand.nextFloat() - 0.5, 0.1, rand.nextFloat() - 0.5);
+			world.addParticle(AerialHellParticleTypes.SHADOW_LIGHT, d0 + 0.5 * (rand.nextFloat() - 0.5), d1 - 0.2 * rand.nextFloat(), d2 + 0.5 * (rand.nextFloat() - 0.5), rand.nextFloat() - 0.5, 0.1, rand.nextFloat() - 0.5);
 		}
 	}
 }

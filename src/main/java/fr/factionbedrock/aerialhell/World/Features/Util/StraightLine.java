@@ -96,8 +96,8 @@ public class StraightLine
         FeatureHelper.generateDebug(this.context);
         WorldGenLevel level = context.level();
         //start and end position
-        level.setBlock(this.straightLineParams.getStart(), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);
-        level.setBlock(this.straightLineParams.getEnd(), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);
+        level.setBlockState(this.straightLineParams.getStart(), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().getDefaultState(), 0);
+        level.setBlockState(this.straightLineParams.getEnd(), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().getDefaultState(), 0);
     }
 
     private Vector3f getStraightLineGenerationStepMoveVector()
@@ -177,7 +177,7 @@ public class StraightLine
         {
             if (this.generationMode == GenerationMode.PLACE)
             {
-                level.setBlock(pos, getStateForPlacement(pos), 2);
+                level.setBlockState(pos, getStateForPlacement(pos), 2);
             }
             else //if (this.generationMode == GenerationMode.SIMULATE)
             {
@@ -189,16 +189,16 @@ public class StraightLine
         else {return false;}
     }
 
-    public BlockState getStateForPlacement(BlockPos pos) {return block.get().defaultBlockState();}
+    public BlockState getStateForPlacement(BlockPos pos) {return block.get().getDefaultState();}
 
     protected boolean isInsideBorder(BlockPos pos)
     {
-        return generatePosList.contains(pos) && !generatePosList.contains(pos.north()) || !generatePosList.contains(pos.south()) || !generatePosList.contains(pos.west()) || !generatePosList.contains(pos.east()) || !generatePosList.contains(pos.above()) || !generatePosList.contains(pos.below());
+        return generatePosList.contains(pos) && !generatePosList.contains(pos.north()) || !generatePosList.contains(pos.south()) || !generatePosList.contains(pos.west()) || !generatePosList.contains(pos.east()) || !generatePosList.contains(pos.up()) || !generatePosList.contains(pos.down());
     }
 
     protected boolean isOutsideBorder(BlockPos pos)
     {
-        return !generatePosList.contains(pos) && generatePosList.contains(pos.north()) || generatePosList.contains(pos.south()) || generatePosList.contains(pos.west()) || generatePosList.contains(pos.east()) || generatePosList.contains(pos.above()) || generatePosList.contains(pos.below());
+        return !generatePosList.contains(pos) && generatePosList.contains(pos.north()) || generatePosList.contains(pos.south()) || generatePosList.contains(pos.west()) || generatePosList.contains(pos.east()) || generatePosList.contains(pos.up()) || generatePosList.contains(pos.down());
     }
 
     protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)

@@ -80,7 +80,7 @@ public class DimensionShattererProjectileEntity extends Fireball
 									if (beforeState.getBlock() != AerialHellBlocksAndItems.INTANGIBLE_TEMPORARY_BLOCK.get())
 									{
 										IntangibleTemporaryBlock intangibleBlock = ((IntangibleTemporaryBlock) AerialHellBlocksAndItems.INTANGIBLE_TEMPORARY_BLOCK.get());
-										this.level().setBlock(pos, intangibleBlock.defaultBlockState(), 2);
+										this.level().setBlockState(pos, intangibleBlock.getDefaultState(), 2);
 										setIntangibleTemporaryBlockEntityBeforeState(this.level(), pos, beforeState);
 									}
 									else
@@ -100,9 +100,9 @@ public class DimensionShattererProjectileEntity extends Fireball
 
 	public void shootStraightForwars(Entity shooter, float xRot, float yRot, float zRot, float velocity, float inaccuracy)
 	{
-		float x = -Mth.sin(yRot * (float) (Math.PI / 180.0)) * Mth.cos(xRot * (float) (Math.PI / 180.0));
-		float y = -Mth.sin((xRot + zRot) * (float) (Math.PI / 180.0));
-		float z = Mth.cos(yRot * (float) (Math.PI / 180.0)) * Mth.cos(xRot * (float) (Math.PI / 180.0));
+		float x = -MathHelper.sin(yRot * (float) (Math.PI / 180.0)) * MathHelper.cos(xRot * (float) (Math.PI / 180.0));
+		float y = -MathHelper.sin((xRot + zRot) * (float) (Math.PI / 180.0));
+		float z = MathHelper.cos(yRot * (float) (Math.PI / 180.0)) * MathHelper.cos(xRot * (float) (Math.PI / 180.0));
 		this.shoot(x, y, z, velocity, inaccuracy);
 	}
 

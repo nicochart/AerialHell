@@ -61,7 +61,7 @@ public class SplineKnotsDeformedStraightLine extends StraightLine implements Spl
         //spline knots position
         for (int i=0; i<knotsNumber; i++)
         {
-            this.context.level().setBlock(knots[i], AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_FIBER_LANTERN.get().defaultBlockState(), 0);
+            this.context.level().setBlockState(knots[i], AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_FIBER_LANTERN.get().getDefaultState(), 0);
         }
     }
 }

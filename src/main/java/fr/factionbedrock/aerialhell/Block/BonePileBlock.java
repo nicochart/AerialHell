@@ -1,100 +1,94 @@
 package fr.factionbedrock.aerialhell.Block;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.SnowBlock;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SnowLayerBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
-import java.util.Random;
+import net.minecraft.block.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.IntProperty;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 
 public class BonePileBlock extends SnowBlock
 {
     private static final int MAX_WAIT_TIMER = 10;
-    public static final IntegerProperty WALK_DESTROY_TIMER = IntegerProperty.create("walk_destroy_timer", 0, MAX_WAIT_TIMER);
+    public static final IntProperty WALK_DESTROY_TIMER = IntProperty.of("walk_destroy_timer", 0, MAX_WAIT_TIMER);
     public BonePileBlock(AbstractBlock.Settings settings)
     {
         super(settings);
-        this.registerDefaultState(this.stateDefinition.any().setValue(WALK_DESTROY_TIMER, Integer.valueOf(0)).setValue(LAYERS, Integer.valueOf(1)));
+        this.setDefaultState(this.stateManager.getDefaultState().with(WALK_DESTROY_TIMER, Integer.valueOf(0)).with(LAYERS, Integer.valueOf(1)));
     }
 
-    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(WALK_DESTROY_TIMER, LAYERS);}
+    @Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {builder.add(WALK_DESTROY_TIMER, LAYERS);}
 
-    private int getRandomWalkDestroyTimer(RandomSource rand) {return (int) (0.25 * MAX_WAIT_TIMER) + rand.nextInt((int) (0.75F * MAX_WAIT_TIMER));}
+    private int getRandomWalkDestroyTimer(Random rand) {return (int) (0.25 * MAX_WAIT_TIMER) + rand.nextInt((int) (0.75F * MAX_WAIT_TIMER));}
 
     @Override
-    public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos)
+    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos)
     {
-        BlockState blockstate = worldIn.getBlockState(pos.below());
-        if (!blockstate.is(Blocks.BARRIER)) {
-            if (!blockstate.is(Blocks.HONEY_BLOCK) && !blockstate.is(Blocks.SOUL_SAND)) {
-                return Block.isFaceFull(blockstate.getCollisionShape(worldIn, pos.below()), Direction.UP) || blockstate.getBlock() == this && blockstate.getValue(LAYERS) == 8;
+        BlockState blockstate = world.getBlockState(pos.down());
+        if (!blockstate.isOf(Blocks.BARRIER)) {
+            if (!blockstate.isOf(Blocks.HONEY_BLOCK) && !blockstate.isOf(Blocks.SOUL_SAND)) {
+                return Block.isFaceFullSquare(blockstate.getCollisionShape(world, pos.down()), Direction.UP) || blockstate.getBlock() == this && blockstate.get(LAYERS) == 8;
             } else {return true;}
         } else {return false;}
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random)
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random)
     {/* unused yet, decreasing the "timer" only when player walks is great
         BlockState blockState = world.getBlockState(pos);
-        if (!world.isClientSide() && blockState.get(WALK_DESTROY_TIMER) > 0 && world.random.nextInt(10) == 0)
+        if (!world.isClient() && blockState.get(WALK_DESTROY_TIMER) > 0 && world.random.nextInt(10) == 0)
         {
-            world.setBlockAndUpdate(pos, world.getBlockState(pos).setValue(LAYERS, blockState.getValue(LAYERS)).setValue(WALK_DESTROY_TIMER, blockState.getValue(WALK_DESTROY_TIMER) - 1));
+            world.setBlockState(pos, world.getBlockState(pos).with(LAYERS, blockState.get(LAYERS)).with(WALK_DESTROY_TIMER, blockState.get(WALK_DESTROY_TIMER) - 1));
         }
     */}
 
-    @Override public boolean isRandomlyTicking(BlockState state) {/*return state.getValue(WALK_DESTROY_TIMER) > 0;*/return false;}
+    @Override public boolean hasRandomTicks(BlockState state) {/*return state.get(WALK_DESTROY_TIMER) > 0;*/return false;}
 
     @Override
-    public void stepOn(Level world, BlockPos pos, BlockState state, Entity entityIn)
+    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity)
     {
-        if (canEntityWalkDestroy(world, pos, entityIn))
+        if (canEntityWalkDestroy(world, pos, entity))
         {
-            boolean downBlockStateIsBonePile = isBonePileBlockState(world, pos.below());
-            boolean topBlockStateIsBonePile = isBonePileBlockState(world, pos.above());
+            boolean downBlockStateIsBonePile = isBonePileBlockState(world, pos.down());
+            boolean topBlockStateIsBonePile = isBonePileBlockState(world, pos.up());
             BlockPos posToUpdate = pos;
-            if (topBlockStateIsBonePile) {posToUpdate = pos.above(); downBlockStateIsBonePile=true;}
-            int currentLayerNumber = world.getBlockState(posToUpdate).getValue(LAYERS);
+            if (topBlockStateIsBonePile) {posToUpdate = pos.up(); downBlockStateIsBonePile=true;}
+            int currentLayerNumber = world.getBlockState(posToUpdate).get(LAYERS);
             int newLayerNumber = getNewLayerNumber(currentLayerNumber, downBlockStateIsBonePile, world.random);
-            updateLayerNumber(world, posToUpdate, newLayerNumber, entityIn);
+            updateLayerNumber(world, posToUpdate, newLayerNumber, entity);
 
         }
     }
 
-    private void updateLayerNumber(Level world, BlockPos pos, int newLayerNumber, Entity entityIn)
+    private void updateLayerNumber(World world, BlockPos pos, int newLayerNumber, Entity entityIn)
     {
         if (newLayerNumber > 0)
         {
-            if (!world.isClientSide()) {world.setBlockAndUpdate(pos, world.getBlockState(pos).setValue(LAYERS, newLayerNumber).setValue(WALK_DESTROY_TIMER, getRandomWalkDestroyTimer(world.random)));}
+            if (!world.isClient()) {world.setBlockState(pos, world.getBlockState(pos).with(LAYERS, newLayerNumber).with(WALK_DESTROY_TIMER, getRandomWalkDestroyTimer(world.random)));}
         }
         else
         {
-            if (!world.isClientSide()) {world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());}
+            if (!world.isClient()) {world.setBlockState(pos, Blocks.AIR.getDefaultState());}
         }
-        if (!world.isClientSide()) {if (newLayerNumber < 2 || world.random.nextInt(4) == 0) {entityIn.spawnAtLocation(new ItemStack(AerialHellBlocksAndItems.MUD_BONE.get()));}}
-        else {entityIn.playSound(AerialHellSoundEvents.BLOCK_BONE_PILE_STEP_BREAK.get(), 0.5F, 0.9F + world.random.nextFloat() * 0.3F);}
+        if (!world.isClient()) {if (newLayerNumber < 2 || world.random.nextInt(4) == 0) {entityIn.dropStack(new ItemStack(AerialHellItems.MUD_BONE));}}
+        else {entityIn.playSound(AerialHellSoundEvents.BLOCK_BONE_PILE_STEP_BREAK, 0.5F, 0.9F + world.random.nextFloat() * 0.3F);}
     }
 
-    private boolean canEntityWalkDestroy(Level world, BlockPos pos, Entity walkingEntity)
+    private boolean canEntityWalkDestroy(World world, BlockPos pos, Entity walkingEntity)
     {
         BlockState blockState = world.getBlockState(pos);
-        if (blockState.getValue(WALK_DESTROY_TIMER) > 0)
+        if (blockState.get(WALK_DESTROY_TIMER) > 0)
         {
-            world.setBlockAndUpdate(pos, world.getBlockState(pos).setValue(LAYERS, blockState.getValue(LAYERS)).setValue(WALK_DESTROY_TIMER, blockState.getValue(WALK_DESTROY_TIMER) - 1));
+            world.setBlockState(pos, world.getBlockState(pos).with(LAYERS, blockState.get(LAYERS)).with(WALK_DESTROY_TIMER, blockState.get(WALK_DESTROY_TIMER) - 1));
             return false;
         }
         else if (walkingEntity instanceof LivingEntity)
@@ -102,20 +96,20 @@ public class BonePileBlock extends SnowBlock
             LivingEntity walkingLEntity = (LivingEntity)walkingEntity;
             if (!EntityHelper.isShadowEntity(walkingLEntity) && !EntityHelper.isFeatheryEntity(walkingLEntity))
             {
-                boolean topBlockStateIsBonePile = isBonePileBlockState(world, pos.above());
+                boolean topBlockStateIsBonePile = isBonePileBlockState(world, pos.up());
                 boolean posBlockStateIsBonePile = isBonePileBlockState(world, pos);
-                boolean downBlockStateIsBonePile = isBonePileBlockState(world, pos.below());
-                int posLayerNumber = posBlockStateIsBonePile ? world.getBlockState(pos).getValue(LAYERS) : 0;
-                int topLayerNumber = topBlockStateIsBonePile ? world.getBlockState(pos.above()).getValue(LAYERS) : 0;
+                boolean downBlockStateIsBonePile = isBonePileBlockState(world, pos.down());
+                int posLayerNumber = posBlockStateIsBonePile ? world.getBlockState(pos).get(LAYERS) : 0;
+                int topLayerNumber = topBlockStateIsBonePile ? world.getBlockState(pos.up()).get(LAYERS) : 0;
                 if (!(topBlockStateIsBonePile && topLayerNumber > 2) && (posLayerNumber > 1 || downBlockStateIsBonePile)) {return true;}
             }
         }
         return false;
     }
 
-    private boolean isBonePileBlockState(Level world, BlockPos pos) {return world.getBlockState(pos).is(this);}
+    private boolean isBonePileBlockState(World world, BlockPos pos) {return world.getBlockState(pos).isOf(this);}
 
-    private int getNewLayerNumber(int currentLayerNumber, boolean downBlockStateIsBonePile, RandomSource rand)
+    private int getNewLayerNumber(int currentLayerNumber, boolean downBlockStateIsBonePile, Random rand)
     {
         if (downBlockStateIsBonePile)
         {

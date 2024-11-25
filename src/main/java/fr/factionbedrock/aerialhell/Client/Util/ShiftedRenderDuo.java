@@ -17,7 +17,7 @@ public class ShiftedRenderDuo
 
     protected ShiftedRenderDuo(Block baseBlock, BlockState shiftedBlockState, ChunkRenderTypeSet renderType, ModelEvent.ModifyBakingResult event)
     {
-        this.baseModelRL = BlockModelShaper.stateToModelLocation(baseBlock.defaultBlockState()); //warning : will set all state values to default before looking for model. For example, for leaves, default is #distance=7,persistent=false,shifted_render=false,waterlogged=false.. which means the only shifted model is distance=7,persistent=false,..
+        this.baseModelRL = BlockModelShaper.stateToModelLocation(baseBlock.getDefaultState()); //warning : will set all state values to default before looking for model. For example, for leaves, default is #distance=7,persistent=false,shifted_render=false,waterlogged=false.. which means the only shifted model is distance=7,persistent=false,..
         ModelResourceLocation shiftedModelRL = BlockModelShaper.stateToModelLocation(shiftedBlockState);
         BakedModel shiftedModel = event.getModels().get(shiftedModelRL);
         this.newBakedModel = new ShiftingBlockBakedModel(event.getModels().get(baseModelRL), shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted, renderType);

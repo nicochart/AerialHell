@@ -62,7 +62,7 @@ public class LightningShurikenEntity extends AbstractShurikenEntity
 		{
 			LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level());
 			lightningBolt.setPos(this.getX(), this.getY(), this.getZ());
-			this.level().addFreshEntity(lightningBolt);
+			this.level().spawnEntity(lightningBolt);
 		}
 		super.onHit(result);
 	}

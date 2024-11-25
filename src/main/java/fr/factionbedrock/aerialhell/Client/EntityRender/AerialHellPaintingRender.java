@@ -77,13 +77,13 @@ public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingE
                 float f17 = f1 + (float)((l + 1) * 16);
                 float f18 = f1 + (float)(l * 16);
                 int i1 = entity.getBlockX();
-                int j1 = Mth.floor(entity.getY() + (double)((f17 + f18) / 2.0F / 16.0F));
+                int j1 = MathHelper.floor(entity.getY() + (double)((f17 + f18) / 2.0F / 16.0F));
                 int k1 = entity.getBlockZ();
                 Direction direction = entity.getDirection();
-                if (direction == Direction.NORTH) {i1 = Mth.floor(entity.getX() + (double)((f15 + f16) / 2.0F / 16.0F));}
-                if (direction == Direction.WEST) {k1 = Mth.floor(entity.getZ() - (double)((f15 + f16) / 2.0F / 16.0F));}
-                if (direction == Direction.SOUTH) {i1 = Mth.floor(entity.getX() - (double)((f15 + f16) / 2.0F / 16.0F));}
-                if (direction == Direction.EAST) {k1 = Mth.floor(entity.getZ() + (double)((f15 + f16) / 2.0F / 16.0F));}
+                if (direction == Direction.NORTH) {i1 = MathHelper.floor(entity.getX() + (double)((f15 + f16) / 2.0F / 16.0F));}
+                if (direction == Direction.WEST) {k1 = MathHelper.floor(entity.getZ() - (double)((f15 + f16) / 2.0F / 16.0F));}
+                if (direction == Direction.SOUTH) {i1 = MathHelper.floor(entity.getX() - (double)((f15 + f16) / 2.0F / 16.0F));}
+                if (direction == Direction.EAST) {k1 = MathHelper.floor(entity.getZ() + (double)((f15 + f16) / 2.0F / 16.0F));}
 
                 int l1 = LevelRenderer.getLightColor(entity.level(), new BlockPos(i1, j1, k1));
                 float f19 = textureAtlasSprite1.getU((float)(d0 * (double)(i - k)));

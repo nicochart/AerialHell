@@ -1,69 +1,64 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidBlock;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.fluid.FlowableFluid;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.material.FlowingFluid;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.Level;
-
-import java.util.function.Supplier;
 
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellFluids;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
-import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldEvents;
 
-public class AerialHellFluidBlock extends FluidBlock {
-
+public class AerialHellFluidBlock extends FluidBlock
+{
 	public AerialHellFluidBlock(FlowableFluid flowableFluid, AbstractBlock.Settings settings)
 	{
         super(flowableFluid, settings.noCollision().strength(100F).dropsNothing());
     }
 	
-	private void triggerMixEffects(LevelAccessor worldIn, BlockPos pos) {worldIn.levelEvent(1501, pos, 0);} //fizz in FluidBlock
+	private void triggerMixEffects(WorldAccess world, BlockPos pos) {world.syncWorldEvent(WorldEvents.LAVA_EXTINGUISHED, pos, 0);}
 	
 	@Override
-	public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean isMoving)
+	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify)
 	{
-		reactWithNeighbors(worldIn, pos, state);
-		super.onPlace(state, worldIn, pos, oldState, isMoving);
+		reactWithNeighbors(world, pos, state);
+		super.onBlockAdded(state, world, pos, oldState, notify);
 	}
 	
 	@Override
-	public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving)
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving)
 	{
-		reactWithNeighbors(worldIn, pos, state);
+		reactWithNeighbors(world, pos, state);
 	}
 	
-	private void reactWithNeighbors(Level level, BlockPos pos, BlockState state)
+	private void reactWithNeighbors(World level, BlockPos pos, BlockState state)
 	{
-		if(this.fluid.is(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
+		if(this.fluid.isIn(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
 		{
 			for(Direction direction : Direction.values())
 			{
 				if (direction != Direction.DOWN)
 				{
-					BlockPos blockpos = pos.relative(direction);
-	                if (level.getFluidState(blockpos).is(FluidTags.WATER) || level.getFluidState(blockpos).is(FluidTags.LAVA))
+					BlockPos blockpos = pos.offset(direction);
+	                if (level.getFluidState(blockpos).isIn(FluidTags.WATER) || level.getFluidState(blockpos).isIn(FluidTags.LAVA))
 	                {
-	                	Block block = level.getFluidState(pos).isSource() ? AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get() /*AerialHellBlocksAndItems.STELLAR_OBSIDIAN ??*/ : AerialHellBlocksAndItems.STELLAR_STONE.get();
-	                    level.setBlockAndUpdate(pos, block.defaultBlockState());
+	                	Block block = level.getFluidState(pos).isStill() ? AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK /*AerialHellBlocksAndItems.STELLAR_OBSIDIAN ??*/ : AerialHellBlocks.STELLAR_STONE;
+	                    level.setBlockState(pos, block.getDefaultState());
 	                    this.triggerMixEffects(level, pos);
 	                }
 	            }
@@ -72,31 +67,31 @@ public class AerialHellFluidBlock extends FluidBlock {
 	}
 	
     @Override
-    public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn)
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
     {
-		if(this.fluid.is(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
+		if(this.fluid.isIn(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
         {
-        	entityIn.fallDistance = 0.0F;
-    		if (!entityIn.getDeltaMovement().equals(Vec3.ZERO))
+        	entity.fallDistance = 0.0F;
+    		if (!entity.getVelocity().equals(Vec3d.ZERO))
     		{
-				double yFactor = entityIn.getDeltaMovement().y < 0 ? 0.05 : 1;
-    			EntityHelper.multiplyDeltaMovement(entityIn, 0.01, yFactor);
+				double yFactor = entity.getVelocity().y < 0 ? 0.05 : 1;
+    			EntityHelper.multiplyDeltaMovement(entity, 0.01, yFactor);
     		}
     		
-            if(entityIn.isAlive() && entityIn instanceof LivingEntity)
+            if(entity.isAlive() && entity instanceof LivingEntity)
             {
-            	if (!(entityIn instanceof TornSpiritEntity || entityIn instanceof ChainedGodEntity || ((LivingEntity) entityIn).hasEffect(AerialHellMobEffects.GOD.getDelegate())))
+            	if (!(entity instanceof TornSpiritEntity || entity instanceof ChainedGodEntity || ((LivingEntity) entity).hasStatusEffect(AerialHellMobEffects.GOD)))
             	{
-            		entityIn.hurt(AerialHellDamageTypes.getDamageSource(worldIn, AerialHellDamageTypes.GOD_BLESS), 1.5F);//.setFire(10);
+            		entity.damage(AerialHellDamageTypes.getDamageSource(world, AerialHellDamageTypes.GOD_BLESS), 1.5F);//.setFire(10);
             	}
-                LivingEntity livingEntity = (LivingEntity) entityIn;
-                if (livingEntity.isCrouching())
+                LivingEntity livingEntity = (LivingEntity) entity;
+                if (livingEntity.isSneaking())
                 {
-                	livingEntity.setDeltaMovement(livingEntity.getDeltaMovement().x, 0.2, livingEntity.getDeltaMovement().z);
+                	livingEntity.setVelocity(livingEntity.getVelocity().x, 0.2, livingEntity.getVelocity().z);
                 }
             }
         }
     }
-    
-    @Override public boolean isPathfindable(BlockState state, PathComputationType type) {return true;}
+
+	@Override public boolean canPathfindThrough(BlockState state, NavigationType type) {return true;}
 }

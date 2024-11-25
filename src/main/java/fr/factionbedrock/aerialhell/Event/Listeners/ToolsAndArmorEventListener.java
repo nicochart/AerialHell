@@ -111,20 +111,20 @@ public class ToolsAndArmorEventListener
 		}
 
 		//player mining a block that needs lunar tool
-		if (state != null && state.is(AerialHellTags.Blocks.NEEDS_LUNAR_TOOL)) {
+		if (state != null && state.isIn(AerialHellTags.Blocks.NEEDS_LUNAR_TOOL)) {
 			if (ItemHelper.getItemMiningLevel(selectedItemStack.getItem()) < 4) {
 				event.setNewSpeed(Math.min(speed, 4.0F));
-				if (!player.level().isClientSide()) {player.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 40, 0));}
+				if (!player.level().isClientSide()) {player.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 40, 0));}
 			}
 		}
 
-		if (state != null && state.is(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get()) && !EntityHelper.isLivingEntityShadowImmune(player) && !player.isCreative())
+		if (state != null && state.isOf(AerialHellBlocks.EYE_SHADOW_PINE_LOG.get()) && !EntityHelper.isLivingEntityShadowImmune(player) && !player.isCreative())
 		{
-			player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 30, 0));
-			player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 30, 0));
+			player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 30, 0));
+			player.addStatusEffect(new StatusEffectInstance(StatusEffects.DIG_SLOWDOWN, 30, 0));
 		}
 
-		if (state != null && state.is(AerialHellTags.Blocks.GHOST_BLOCK))
+		if (state != null && state.isIn(AerialHellTags.Blocks.GHOST_BLOCK))
 		{
 			if (EntityHelper.isImmuneToGhostBlockCollision(player)) {event.setNewSpeed(Math.min(speed, 0.1F));}
 		}

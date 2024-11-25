@@ -1,24 +1,19 @@
 package fr.factionbedrock.aerialhell.Block;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.TranslucentBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.block.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.Block;
 
 public class MagmaticGelBlock extends TranslucentBlock
 {
@@ -28,7 +23,7 @@ public class MagmaticGelBlock extends TranslucentBlock
 	}
 	
 	@Override
-	public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean isMoving)
+	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify)
 	{
 		for (int x = -2; x < 3; x++)
 		{
@@ -36,38 +31,38 @@ public class MagmaticGelBlock extends TranslucentBlock
 			{
 				for (int z = -2; z < 3; z++)
 				{
-					BlockPos newPos = pos.offset(x, y, z);
-					BlockState newPosState = worldIn.getBlockState(newPos);
+					BlockPos newPos = pos.add(x, y, z);
+					BlockState newPosState = world.getBlockState(newPos);
 					Block block = newPosState.getBlock();
-					if (block instanceof LiquidBlock)
+					if (block instanceof FluidDrainable)
 					{
 						FluidState fluidState = newPosState.getFluidState();
-						if (fluidState.is(FluidTags.WATER))
+						if (fluidState.isOf(FluidTags.WATER))
 						{
-							worldIn.setBlockAndUpdate(newPos, Blocks.ICE.defaultBlockState());
+							world.setBlockState(newPos, Blocks.ICE.getDefaultState());
 						}
-						else if (fluidState.is(FluidTags.LAVA))
+						else if (fluidState.isOf(FluidTags.LAVA))
 						{
-							worldIn.setBlockAndUpdate(newPos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().defaultBlockState());
-							worldIn.playSound(null, newPos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
+							world.setBlockState(newPos, AerialHellBlocks.CRYSTAL_BLOCK.getDefaultState());
+							world.playSound(null, newPos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 1.0F);
 						}
-						else if (fluidState.is(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
+						else if (fluidState.isIn(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
 						{
-							worldIn.setBlockAndUpdate(newPos, Blocks.OBSIDIAN.defaultBlockState());
-							worldIn.playSound(null, newPos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
+							world.setBlockState(newPos, Blocks.OBSIDIAN.getDefaultState());
+							world.playSound(null, newPos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 1.0F);
 						}
 					}
 					else
 					{
 						if (block instanceof FireBlock || block instanceof SoulFireBlock)
 						{
-							worldIn.setBlockAndUpdate(newPos, Blocks.AIR.defaultBlockState());
-							worldIn.playSound(null, newPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
+							world.setBlockState(newPos, Blocks.AIR.getDefaultState());
+							world.playSound(null, newPos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 1.0F);
 						}
 						if (block instanceof MagmaBlock)
 						{
-							worldIn.setBlockAndUpdate(newPos, AerialHellBlocksAndItems.MAGMATIC_GEL_ORE.get().defaultBlockState());
-							worldIn.playSound(null, newPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
+							world.setBlockState(newPos, AerialHellBlocks.MAGMATIC_GEL_ORE.getDefaultState());
+							world.playSound(null, newPos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 1.0F);
 						}
 					}
 				}
@@ -76,12 +71,12 @@ public class MagmaticGelBlock extends TranslucentBlock
 	}
 	
 	@Override
-	public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity)
+	public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity)
 	{
-		boolean creaPlayer = (entity instanceof Player && ((Player) entity).isCreative());
-		if (!world.isClientSide() && entity instanceof LivingEntity && !creaPlayer)
+		boolean creaPlayer = (entity instanceof PlayerEntity player && player.isCreative());
+		if (!world.isClient() && entity instanceof LivingEntity && !creaPlayer)
 		{
-			((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 32, 1));
+			((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 32, 1));
 		}
 	}
 }

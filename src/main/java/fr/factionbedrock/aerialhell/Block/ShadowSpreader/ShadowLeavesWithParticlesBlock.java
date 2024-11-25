@@ -5,38 +5,38 @@ import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.ParticleStatus;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.ParticlesMode;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 public class ShadowLeavesWithParticlesBlock extends ShadowLeavesBlock
 {
     public ShadowLeavesWithParticlesBlock(AbstractBlock.Settings settings, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType) {super(settings, shiftedVariant, shiftType);}
 
-    @Nullable protected SimpleParticleType getParticle()
+    @Nullable protected ParticleEffect getParticle()
     {
-        return BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() ? null : AerialHellParticleTypes.SHADOW_PARTICLE.get();
+        return BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() ? null : AerialHellParticleTypes.SHADOW_PARTICLE);
     }
 
     protected int getParticleNumber() {return 1;}
 
-    @Override public void animateTick(BlockState stateIn, Level level, BlockPos pos, RandomSource rand)
+    @Override public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random rand)
     {
-        super.animateTick(stateIn, level, pos, rand);
+        super.randomDisplayTick(state, world, pos, rand);
 
-        @Nullable SimpleParticleType particleType = this.getParticle();
+        @Nullable ParticleEffect particleType = this.getParticle();
         if (particleType == null) {return;}
 
-        if (Minecraft.getInstance().options.particles().get() != ParticleStatus.MINIMAL)
+        if (MinecraftClient.getInstance().options.getParticles().getValue() != ParticlesMode.MINIMAL)
         {
-            if (level.isClientSide())
+            if (world.isClient())
             {
                 if (rand.nextInt(10) == 0)
                 {
@@ -48,7 +48,7 @@ public class ShadowLeavesWithParticlesBlock extends ShadowLeavesBlock
                         double dx = (rand.nextFloat() - 0.5) * 0.5;
                         double dy = (rand.nextFloat() - 0.5) * 0.5;
                         double dz = (rand.nextFloat() - 0.5) * 0.5;
-                        level.addParticle(particleType, x, y, z, dx, dy, dz);
+                        world.addParticle(particleType, x, y, z, dx, dy, dz);
                     }
                 }
             }

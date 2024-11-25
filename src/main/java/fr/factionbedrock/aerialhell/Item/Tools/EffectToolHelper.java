@@ -42,7 +42,7 @@ public class EffectToolHelper
 		if (!worldIn.isClientSide())
 		{
 			playerIn.addEffect(new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate(), 100, 1));
-			playerIn.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 120, 0));
+			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 120, 0));
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, 250);
 	}
@@ -51,7 +51,7 @@ public class EffectToolHelper
 	{
 		addParticleOnPlayer(20, ParticleTypes.CLOUD, playerIn, worldIn, rand);
 		playerIn.playSound(SoundEvents.ILLUSIONER_CAST_SPELL, 1.0F, 1.6F);
-		if (!worldIn.isClientSide()) {playerIn.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 80, 0));}
+		if (!worldIn.isClientSide()) {playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 80, 0));}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, 250);
 	}
 	
@@ -74,8 +74,8 @@ public class EffectToolHelper
 		playerIn.playSound(SoundEvents.ILLUSIONER_CAST_SPELL, 1.0F, 1.6F);
 		if (!worldIn.isClientSide())
 		{
-			playerIn.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 200, 0));
-			playerIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 120, 0));
+			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 200, 0));
+			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SPEED, 120, 0));
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, cooldown);
 	}
@@ -86,8 +86,8 @@ public class EffectToolHelper
 		playerIn.playSound(SoundEvents.ILLUSIONER_CAST_SPELL, 1.0F, 1.6F);
 		if (!worldIn.isClientSide())
 		{
-			playerIn.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 200, 0));
-			playerIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 120, 0));
+			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 200, 0));
+			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SPEED, 120, 0));
 			playerIn.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.getDelegate(), 120, 0));
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, cooldown);
@@ -102,20 +102,20 @@ public class EffectToolHelper
 		{
 			if (rand.nextFloat() < 0.25)
 			{
-				playerIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 750, 0));
+				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SPEED, 750, 0));
 			}
 			else if (rand.nextFloat() < 0.3333)
 			{
-				playerIn.addEffect(new MobEffectInstance(MobEffects.JUMP, 750, 0));
+				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP, 750, 0));
 			}
 			else if (rand.nextFloat() < 0.5)
 			{
-				playerIn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 750, 0));
+				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.DAMAGE_RESISTANCE, 750, 0));
 			}
 			else
 			{
-				playerIn.addEffect(new MobEffectInstance(MobEffects.UNLUCK, 750, 0));
-				playerIn.addEffect(new MobEffectInstance(MobEffects.POISON, 60, 0));
+				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.UNLUCK, 750, 0));
+				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 60, 0));
 			}
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, 900);
@@ -130,8 +130,8 @@ public class EffectToolHelper
         {
 			LunaticProjectileEntity lunaticProjectileEntity = new LunaticProjectileEntity(worldIn, playerIn, playerIn.getLookAngle().x, playerIn.getLookAngle().y, playerIn.getLookAngle().z, 0.7f, 0);
 			lunaticProjectileEntity.setPos(playerIn.getX(), playerIn.getY(0.5D) + 0.5D, playerIn.getZ());
-            worldIn.addFreshEntity(lunaticProjectileEntity);
-            playerIn.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, cooldown/2, 2));
+            worldIn.spawnEntity(lunaticProjectileEntity);
+            playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, cooldown/2, 2));
         }
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, cooldown);
 	}
@@ -159,8 +159,8 @@ public class EffectToolHelper
 			playerIn.playSound(SoundEvents.GENERIC_EAT, 1.0F, 0.5F + rand.nextFloat());
 			if (!worldIn.isClientSide())
 			{
-				playerIn.addEffect(new MobEffectInstance(MobEffects.SATURATION, 1, 0));
-				playerIn.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 40, 0));
+				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 0));
+				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 0));
 			}
 			setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, 20);
 			return true;
@@ -177,15 +177,15 @@ public class EffectToolHelper
 		{
 			if (!worldIn.isClientSide())
 			{
-				playerIn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 200, 1));
-				playerIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 0));
+				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.DAMAGE_RESISTANCE, 200, 1));
+				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SLOWDOWN, 100, 0));
 			}
 			cooldown = 400;
 		}
 		else //lift-off
 		{
 			if (worldIn.isClientSide()) {playerIn.setDeltaMovement(playerIn.getDeltaMovement().add(0, 2, 0));}
-			else  {playerIn.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 200, 2));}
+			else  {playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 200, 2));}
 			cooldown = 600;
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, cooldown);
@@ -200,7 +200,7 @@ public class EffectToolHelper
 		if (count >= 4) {cooldown/=2;}
 		if (!worldIn.isClientSide())
 		{
-			playerIn.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, duration, 0));
+			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, duration, 0));
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, cooldown);
 	}
@@ -211,14 +211,14 @@ public class EffectToolHelper
 		playerIn.playSound(SoundEvents.PARROT_IMITATE_MAGMA_CUBE, 1.0F, 0.5F + rand.nextFloat());
 		if (!worldIn.isClientSide())
 		{
-			playerIn.addEffect(new MobEffectInstance(MobEffects.JUMP, duration, amplifier));
+			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP, duration, amplifier));
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, 400);
 	}
 	
 	public static class PassiveEffects
 	{
-		public static void applyMagmaCubeEffect(LivingEntity entityIn) {((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.JUMP, 400, 0));}
+		public static void applyMagmaCubeEffect(LivingEntity entityIn) {((LivingEntity) entityIn).addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP, 400, 0));}
 		public static void applyGodEffect(LivingEntity entityIn) {((LivingEntity) entityIn).addEffect(new MobEffectInstance(AerialHellMobEffects.GOD.getDelegate(), 400, 0));}
 	}
 }
