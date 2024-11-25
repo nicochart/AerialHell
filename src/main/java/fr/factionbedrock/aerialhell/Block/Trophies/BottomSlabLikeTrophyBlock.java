@@ -23,12 +23,12 @@ public class BottomSlabLikeTrophyBlock extends Block
 
     protected static final VoxelShape BOTTOM_SLAB_SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
 
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {return BOTTOM_SLAB_SHAPE;}
+    @Override public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {return BOTTOM_SLAB_SHAPE;}
 
-    public BlockState getStateForPlacement(BlockPlaceContext context) {return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());}
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {stateBuilder.add(FACING);}
+    @Override public BlockState getStateForPlacement(BlockPlaceContext context) {return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());}
+    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {stateBuilder.add(FACING);}
 
-    public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType pathType) {return false;}
+    @Override public boolean isPathfindable(BlockState pState, PathComputationType pPathComputationType) {return false;}
 
-    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {return level.getBlockState(pos.below()).isSolid() && !level.getBlockState(pos.below()).is(AerialHellTags.Blocks.TROPHIES);}
+    @Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {return level.getBlockState(pos.below()).isSolid() && !level.getBlockState(pos.below()).is(AerialHellTags.Blocks.TROPHIES);}
 }

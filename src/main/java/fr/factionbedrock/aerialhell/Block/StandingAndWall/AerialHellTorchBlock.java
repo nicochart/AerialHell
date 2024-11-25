@@ -1,9 +1,8 @@
 package fr.factionbedrock.aerialhell.Block.StandingAndWall;
 
-import java.util.Random;
-
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,12 +27,12 @@ public class AerialHellTorchBlock extends Block
     	super(properties);
 	}
 
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
+	@Override public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
 	{
 		return SHAPE;
 	}
 
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos)
+	@Override public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos)
 	{
 		return facing == Direction.DOWN && !this.canSurvive(stateIn, worldIn, currentPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
@@ -43,7 +42,7 @@ public class AerialHellTorchBlock extends Block
 		return canSupportCenter(worldIn, pos.below(), Direction.UP);
    	}
 
-	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand)
+	@Override public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand)
 	{
 		double d0 = (double)pos.getX() + 0.5D;
       	double d1 = (double)pos.getY() + 0.7D;

@@ -7,9 +7,9 @@ import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 
 import java.util.Map;
-import java.util.Random;
 import javax.annotation.Nullable;
 
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -44,7 +44,7 @@ public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 
 	@Override public String getDescriptionId() {return this.asItem().getDescriptionId();}
 
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
+	@Override public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
 	{
 		return getShapeForState(state);
 	}
@@ -84,7 +84,7 @@ public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 		return facing.getOpposite() == stateIn.getValue(HORIZONTAL_FACING) && !stateIn.canSurvive(worldIn, currentPos) ? Blocks.AIR.defaultBlockState() : stateIn;
 	}
 
-	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand)
+	@Override public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand)
 	{
 		Direction direction = stateIn.getValue(HORIZONTAL_FACING);
 		Direction direction1 = direction.getOpposite();
@@ -101,17 +101,17 @@ public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 		}
 	}
 
-	public BlockState rotate(BlockState state, Rotation rot)
+	@Override public BlockState rotate(BlockState state, Rotation rot)
 	{
 		return state.setValue(HORIZONTAL_FACING, rot.rotate(state.getValue(HORIZONTAL_FACING)));
 	}
 
-	public BlockState mirror(BlockState state, Mirror mirrorIn)
+	@Override public BlockState mirror(BlockState state, Mirror mirrorIn)
 	{
 		return state.rotate(mirrorIn.getRotation(state.getValue(HORIZONTAL_FACING)));
 	}
 
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
+	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(HORIZONTAL_FACING);
 	}
