@@ -178,7 +178,7 @@ public class AerialHellDimensionSkyRenderer
 
 	private static boolean doesMobEffectBlockSky(Camera camera)
 	{
-		return !(camera.getEntity() instanceof LivingEntity livingentity) ? false : livingentity.hasEffect(MobEffects.BLINDNESS) || livingentity.hasEffect(MobEffects.DARKNESS);
+		return !(camera.getEntity() instanceof LivingEntity livingentity) ? false : livingentity.hasStatusEffect(MobEffects.BLINDNESS) || livingentity.hasStatusEffect(MobEffects.DARKNESS);
 	}
 	
 	// Copy from net.minecraft.client.renderer.WorldRenderer renderStars(BufferBuilder bufferBuilderIn) but with more stars

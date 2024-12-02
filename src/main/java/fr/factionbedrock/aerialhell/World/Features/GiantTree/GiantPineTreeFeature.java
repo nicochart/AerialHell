@@ -197,7 +197,7 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
         public StraightPineBranch(FeaturePlaceContext<GiantPineTreeConfig> context, StraightLineParameters straightLineParams)
         {
             super(context, straightLineParams, () -> context.config().trunkProvider().getState(context.random(), context.origin()).getBlock());
-            this.isLarge = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 22 && straightLineParams.getStart().distSqr(straightLineParams.getEnd()) > 64;
+            this.isLarge = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 22 && straightLineParams.getStart().getSquaredDistance(straightLineParams.getEnd()) > 64;
         }
 
         @Override protected boolean tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)

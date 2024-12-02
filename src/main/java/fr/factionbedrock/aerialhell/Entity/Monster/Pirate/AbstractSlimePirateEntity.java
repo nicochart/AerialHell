@@ -35,7 +35,7 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
                     littlePirate.moveTo(this.getX() + (double) x, this.getY() + 0.5D, this.getZ() + (double) z, this.random.nextFloat() * 360.0F, 0.0F);
                     this.level().spawnEntity(littlePirate);
                     //No weapon
-                    //littlePirate.populateDefaultEquipmentSlots(this.getRandom(), this.level().getCurrentDifficultyAt(this.blockPosition()));
+                    //littlePirate.populateDefaultEquipmentSlots(this.getRandom(), this.level().getCurrentDifficultyAt(this.getBlockPos()));
                 }
             }
         }

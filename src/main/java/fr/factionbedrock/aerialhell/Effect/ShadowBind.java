@@ -24,7 +24,7 @@ public class ShadowBind extends MobEffect
             if (amplifier > 0)
             {
                 livingEntity.removeEffect(AerialHellMobEffects.SHADOW_BIND.getDelegate());
-                livingEntity.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_BIND.getDelegate(), instance.getDuration(), 0));
+                livingEntity.addStatusEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_BIND.getDelegate(), instance.getDuration(), 0));
                 if (livingEntity instanceof ServerPlayer serverPlayer) {PacketDistributor.sendToPlayer(serverPlayer, new AerialHellData("reloadTextures", 0));}
             }
             if (instance.getDuration() < 2)

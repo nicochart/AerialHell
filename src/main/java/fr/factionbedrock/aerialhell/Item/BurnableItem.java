@@ -1,11 +1,6 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.item.Item;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
 
 public class BurnableItem extends Item
 {
@@ -17,9 +12,9 @@ public class BurnableItem extends Item
 		this.burnTime = burnTimeIn;
 	}
 	
-	@Override
+	/*@Override TODO : Mixin to add custom fuels
 	public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType)
     {
         return recipeType == RecipeType.SMELTING ? burnTime : 0;
-    }
+    }*/
 }

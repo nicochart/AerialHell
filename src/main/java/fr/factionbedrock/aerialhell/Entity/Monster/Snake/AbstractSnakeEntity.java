@@ -223,11 +223,11 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         Direction xDirection = defaultDragVector.x > 0 ? Direction.EAST : Direction.WEST;
         Direction zDirection = defaultDragVector.z > 0 ? Direction.SOUTH : Direction.NORTH;
         Direction mainDirection = Math.abs(defaultDragVector.x) > Math.abs(defaultDragVector.z) ? xDirection : zDirection;
-        boolean mainDirectionColliding = !source.level().getBlockState(dragged.blockPosition().relative(mainDirection)).isAir();
+        boolean mainDirectionColliding = !source.level().getBlockState(dragged.getBlockPos().relative(mainDirection)).isAir();
 
         if (mayJump) //trying to avoid dragged (body parts) getting stuck below thin-block-surface
         {
-            BlockPos abovePos = dragged.blockPosition().above();
+            BlockPos abovePos = dragged.getBlockPos().above();
             if (dragged.mayBeColliding(abovePos.relative(Direction.EAST))) {x -= 0.1F;}
             if (dragged.mayBeColliding(abovePos.relative(Direction.WEST))) {x += 0.1F;}
             if (dragged.mayBeColliding(abovePos.relative(Direction.SOUTH))) {z -= 0.1F;}
@@ -236,7 +236,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
 
         if (mayFall) //trying to avoid dragged (body parts) getting stuck by block collision while falling
         {
-            BlockPos belowPos = dragged.blockPosition().below();
+            BlockPos belowPos = dragged.getBlockPos().below();
             if (dragged.mayBeColliding(belowPos.relative(Direction.EAST))) {x -= 0.1F;}
             if (dragged.mayBeColliding(belowPos.relative(Direction.WEST))) {x += 0.1F;}
             if (dragged.mayBeColliding(belowPos.relative(Direction.SOUTH))) {z -= 0.1F;}

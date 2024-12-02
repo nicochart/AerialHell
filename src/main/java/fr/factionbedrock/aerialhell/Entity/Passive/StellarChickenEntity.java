@@ -55,7 +55,7 @@ public class StellarChickenEntity extends Chicken
 
     private int getBlockPositionTint()
     {
-        return this.level().getBlockTint(this.blockPosition(), Biome::getGrassColor);
+        return this.level().getBlockTint(this.getBlockPos(), Biome::getGrassColor);
     }
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)

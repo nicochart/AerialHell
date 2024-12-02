@@ -2,37 +2,38 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 
 import java.util.Random;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.level.Level;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolMaterial;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.world.World;
 
 public class EffectPickaxeItem extends AerialHellPickaxeItem
 {
 	private int timer;
 	
-	public EffectPickaxeItem(Tier tier, Properties builderIn)
+	public EffectPickaxeItem(ToolMaterial toolMaterial, Item.Settings settings)
 	{
-		super(tier, builderIn);
+		super(toolMaterial, settings);
 	}
 	
 	@Override
-	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected)
 	{
-		if (!worldIn.isClientSide() && timer <= 0)
+		if (!world.isClient() && timer <= 0)
 		{
-			if (entityIn instanceof LivingEntity)
+			if (entity instanceof LivingEntity livingEntity)
 			{
-				if (((LivingEntity) entityIn).getMainHandItem().getItem() == this || ((LivingEntity) entityIn).getOffhandItem().getItem() == this)
+				if (livingEntity.getMainHandStack().getItem() == this || ((LivingEntity) entity).getOffHandStack().getItem() == this)
 				{
-					if (this == AerialHellBlocksAndItems.MAGMA_CUBE_PICKAXE.get())
+					if (this == AerialHellItems.MAGMA_CUBE_PICKAXE)
 					{
-						EffectToolHelper.PassiveEffects.applyMagmaCubeEffect((LivingEntity)entityIn);
+						EffectToolHelper.PassiveEffects.applyMagmaCubeEffect(livingEntity);
 					}
 				}
 			}
@@ -45,20 +46,20 @@ public class EffectPickaxeItem extends AerialHellPickaxeItem
 	}
 	
 	@Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
     {
-		ItemStack heldItem = playerIn.getItemInHand(handIn);
+		ItemStack heldItem = player.getStackInHand(hand);
 		Random rand = new Random();
-		if (this == AerialHellBlocksAndItems.VOLUCITE_PICKAXE.get())
+		if (this == AerialHellItems.VOLUCITE_PICKAXE)
 		{
-			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, handIn, rand, false)) {return InteractionResultHolder.consume(heldItem);}
-			else {return InteractionResultHolder.pass(heldItem);}
+			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, world, player, hand, rand, false)) {return TypedActionResult.consume(heldItem);}
+			else {return TypedActionResult.pass(heldItem);}
 		}
-		else if (this == AerialHellBlocksAndItems.MAGMA_CUBE_PICKAXE.get())
+		else if (this == AerialHellItems.MAGMA_CUBE_PICKAXE)
 		{
-			EffectToolHelper.applyJumpBoostEffect(this, heldItem, worldIn, playerIn, handIn, rand, 100, 2);
-			return InteractionResultHolder.consume(heldItem);
+			EffectToolHelper.applyJumpBoostEffect(this, heldItem, world, player, hand, rand, 100, 2);
+			return TypedActionResult.consume(heldItem);
 		}
-		else {return super.use(worldIn, playerIn, handIn);}
+		else {return super.use(world, player, hand);}
     }
 }

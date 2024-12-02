@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -23,7 +24,7 @@ import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 
-public class DimensionShattererProjectileEntity extends Fireball
+public class DimensionShattererProjectileEntity extends FireballEntity
 {
 	public DimensionShattererProjectileEntity(EntityType<? extends DimensionShattererProjectileEntity> type, Level level) {super(type, level);}
 	public DimensionShattererProjectileEntity(Level level, LivingEntity shooter) {this(AerialHellEntities.DIMENSION_SHATTERER_PROJECTILE.get(), level); this.setOwner(shooter);}
@@ -48,7 +49,7 @@ public class DimensionShattererProjectileEntity extends Fireball
 
 	@Override public void tick()
 	{
-		if (this.level().isClientSide || (this.getOwner() == null || !this.getOwner().isRemoved()) && this.level().hasChunkAt(this.blockPosition()))
+		if (this.level().isClientSide || (this.getOwner() == null || !this.getOwner().isRemoved()) && this.level().hasChunkAt(this.getBlockPos()))
 		{
 			Vec3 vec3 = this.getDeltaMovement();
 			double d0 = this.getX() + vec3.x;
@@ -98,7 +99,7 @@ public class DimensionShattererProjectileEntity extends Fireball
 		else {this.discard();}
 	}
 
-	public void shootStraightForwars(Entity shooter, float xRot, float yRot, float zRot, float velocity, float inaccuracy)
+	public void shootStraightForward(Entity shooter, float xRot, float yRot, float zRot, float velocity, float inaccuracy)
 	{
 		float x = -MathHelper.sin(yRot * (float) (Math.PI / 180.0)) * MathHelper.cos(xRot * (float) (Math.PI / 180.0));
 		float y = -MathHelper.sin((xRot + zRot) * (float) (Math.PI / 180.0));

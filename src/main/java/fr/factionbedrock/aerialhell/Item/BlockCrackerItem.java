@@ -1,41 +1,39 @@
 package fr.factionbedrock.aerialhell.Item;
 
 import fr.factionbedrock.aerialhell.Block.DungeonCores.*;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.core.BlockPos;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import net.minecraft.block.*;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockState;
-
-import javax.annotation.Nullable;
+import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class BlockCrackerItem extends WithInformationItem
 {
     public BlockCrackerItem(Item.Settings settings) {super(settings);}
 
-    @Override public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
+    @Override public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
     {
-        BlockPos origin = player.blockPosition();
-        if (player.isCreative())
+        BlockPos origin = user.getBlockPos();
+        if (user.isCreative())
         {
-            this.crackRandomBlocks(level, origin, 0.25F);
-            player.playSound(SoundEvents.TURTLE_EGG_CRACK, 1.0F, 0.1F);
-            player.getCooldowns().addCooldown(this, 10);
-            return InteractionResultHolder.consume(player.getItemInHand(hand));
+            this.crackRandomBlocks(world, origin, 0.25F);
+            user.playSound(SoundEvents.ENTITY_TURTLE_EGG_CRACK, 1.0F, 0.1F);
+            user.getItemCooldownManager().set(this, 10);
+            return TypedActionResult.consume(user.getStackInHand(hand));
         }
         else
         {
-            return InteractionResultHolder.pass(player.getItemInHand(hand));
+            return TypedActionResult.pass(user.getStackInHand(hand));
         }
     }
 
-    protected void crackRandomBlocks(Level level, BlockPos origin, float chance)
+    protected void crackRandomBlocks(World world, BlockPos origin, float chance)
     {
         BlockPos setPos;
         int x, y, z, range = 5;
@@ -45,22 +43,22 @@ public class BlockCrackerItem extends WithInformationItem
             {
                 for (z=-range - 1; z<=range + 1; z++)
                 {
-                    setPos = origin.offset(x, y, z);
-                    if (setPos.distSqr(origin) < range * range && level.getRandom().nextFloat() < chance)
+                    setPos = origin.add(x, y, z);
+                    if (setPos.getSquaredDistance(origin) < range * range && world.getRandom().nextFloat() < chance)
                     {
-                        this.tryCrackingBlock(level, setPos);
+                        this.tryCrackingBlock(world, setPos);
                     }
                 }
             }
         }
     }
 
-    protected void tryCrackingBlock(Level level, BlockPos pos)
+    protected void tryCrackingBlock(World world, BlockPos pos)
     {
-        BlockState previousBlockState = level.getBlockState(pos);
+        BlockState previousBlockState = world.getBlockState(pos);
         @Nullable BlockState nextBlockState = getNextBlockState(previousBlockState);
 
-        if (nextBlockState != null) {level.setBlockState(pos, nextBlockState);}
+        if (nextBlockState != null) {world.setBlockState(pos, nextBlockState);}
     }
 
     @Nullable protected BlockState getNextBlockState(BlockState previousBlockState)
@@ -73,13 +71,13 @@ public class BlockCrackerItem extends WithInformationItem
         {
             return nextBlock.getDefaultState().with(SlabBlock.TYPE, previousBlockState.get(SlabBlock.TYPE));
         }
-        else if (previousBlock instanceof StairBlock)
+        else if (previousBlock instanceof StairsBlock)
         {
-            return nextBlock.getDefaultState().with(StairBlock.FACING, previousBlockState.get(StairBlock.FACING)).setValue(StairBlock.HALF, previousBlockState.get(StairBlock.HALF)).setValue(StairBlock.SHAPE, previousBlockState.get(StairBlock.SHAPE));
+            return nextBlock.getDefaultState().with(StairsBlock.FACING, previousBlockState.get(StairsBlock.FACING)).with(StairsBlock.HALF, previousBlockState.get(StairsBlock.HALF)).with(StairsBlock.SHAPE, previousBlockState.get(StairsBlock.SHAPE));
         }
         else if (previousBlock instanceof WallBlock)
         {
-            return nextBlock.getDefaultState().with(WallBlock.UP, previousBlockState.get(WallBlock.UP)).setValue(WallBlock.NORTH_WALL, previousBlockState.get(WallBlock.NORTH_WALL)).setValue(WallBlock.SOUTH_WALL, previousBlockState.get(WallBlock.SOUTH_WALL)).setValue(WallBlock.WEST_WALL, previousBlockState.get(WallBlock.WEST_WALL)).setValue(WallBlock.EAST_WALL, previousBlockState.get(WallBlock.EAST_WALL)).setValue(WallBlock.WATERLOGGED, previousBlockState.get(WallBlock.WATERLOGGED));
+            return nextBlock.getDefaultState().with(WallBlock.UP, previousBlockState.get(WallBlock.UP)).with(WallBlock.NORTH_SHAPE, previousBlockState.get(WallBlock.NORTH_SHAPE)).with(WallBlock.SOUTH_SHAPE, previousBlockState.get(WallBlock.SOUTH_SHAPE)).with(WallBlock.WEST_SHAPE, previousBlockState.get(WallBlock.WEST_SHAPE)).with(WallBlock.EAST_SHAPE, previousBlockState.get(WallBlock.EAST_SHAPE)).with(WallBlock.WATERLOGGED, previousBlockState.get(WallBlock.WATERLOGGED));
         }
         else
         {
@@ -93,10 +91,10 @@ public class BlockCrackerItem extends WithInformationItem
         else if (previousBlock instanceof CoreProtectedStairsBlock previousCoreProtectedStairsBlock) {return previousCoreProtectedStairsBlock.getCrackedVariant();}
         else if (previousBlock instanceof CoreProtectedWallBlock previousCoreProtectedWallBlock) {return previousCoreProtectedWallBlock.getCrackedVariant();}
         else if (previousBlock instanceof CoreProtectedBlock previousCoreProtectedBlock) {return previousCoreProtectedBlock.getCrackedVariant();}
-        else if (previousBlock == AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS.get()) {return AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS.get();}
-        else if (previousBlock == AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_SLAB.get()) {return AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_SLAB.get();}
-        else if (previousBlock == AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_STAIRS.get()) {return AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_STAIRS.get();}
-        else if (previousBlock == AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_WALL.get()) {return AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_WALL.get();}
+        else if (previousBlock == AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS) {return AerialHellBlocks.CRACKED_SLIPPERY_SAND_STONE_BRICKS;}
+        else if (previousBlock == AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS_SLAB) {return AerialHellBlocks.CRACKED_SLIPPERY_SAND_STONE_BRICKS_SLAB;}
+        else if (previousBlock == AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS_STAIRS) {return AerialHellBlocks.CRACKED_SLIPPERY_SAND_STONE_BRICKS_STAIRS;}
+        else if (previousBlock == AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS_WALL) {return AerialHellBlocks.CRACKED_SLIPPERY_SAND_STONE_BRICKS_WALL;}
         return null;
     }
 }

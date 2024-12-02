@@ -1,22 +1,9 @@
 package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.item.Item;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.*;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.minecraft.world.level.block.Block;
-
-import javax.annotation.Nullable;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.tag.TagKey;
 
 public class ItemHelper
 {
@@ -25,7 +12,7 @@ public class ItemHelper
         int count = 0;
         for (ItemStack item : stuff)
         {
-            if (item.is(tag)) {count++;}
+            if (item.isIn(tag)) {count++;}
         }
         return count;
     }

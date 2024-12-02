@@ -138,8 +138,8 @@ public class BlockEventListener
         float brightness = LightTexture.getBrightness(player.level().dimensionType(), player.level().getMaxLocalRawBrightness(blockpos));
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(brightness, brightness, brightness, 1.0F);
-        float yaw = -player.getYRot() / 64.0F;
-        float pitch = player.getXRot() / 64.0F;
+        float yaw = -player.getYaw() / 64.0F;
+        float pitch = player.getPitch() / 64.0F;
         Matrix4f matrix4f = poseStack.last().pose();
         BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         bufferbuilder.addVertex(matrix4f, -1.0F, -1.0F, -0.5F).setUv(4.0F + yaw, 4.0F + pitch);

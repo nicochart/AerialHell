@@ -14,7 +14,7 @@ public class LivingEntityEventListener
     public static void onLivingJumpEvent(LivingEvent.LivingJumpEvent event)
     {
     	LivingEntity livingEntity = event.getEntity();
-    	if (livingEntity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate()))
+    	if (livingEntity.hasStatusEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate()))
     	{
     		int bonus = livingEntity.getEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate()).getAmplifier() + 1;
     		livingEntity.heal(0.5F * bonus);

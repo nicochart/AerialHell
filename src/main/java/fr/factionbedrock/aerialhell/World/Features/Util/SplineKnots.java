@@ -43,7 +43,7 @@ public interface SplineKnots
 
     default Vector3f getKnotDeformationVector(BlockPos deformedPos, BlockPos knot, KnotsParameters knotsParams)
     {
-        float knotDeformationFactor = knotsParams.getKnotDeformationFactor((float) Math.sqrt(deformedPos.distSqr(knot)));
+        float knotDeformationFactor = knotsParams.getKnotDeformationFactor((float) Math.sqrt(deformedPos.getSquaredDistance(knot)));
         return new Vector3f(knot.getX() - deformedPos.getX(), knot.getY() - deformedPos.getY(), knot.getZ() - deformedPos.getZ()).normalize(knotDeformationFactor * knotsParams.getKnotDeformation());
     }
 

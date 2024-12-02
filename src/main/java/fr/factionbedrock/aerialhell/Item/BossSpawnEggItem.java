@@ -1,34 +1,27 @@
 package fr.factionbedrock.aerialhell.Item;
 
 import java.util.List;
-import java.util.function.Supplier;
 
-import javax.annotation.Nullable;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.SpawnEggItem;
+import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.TooltipFlag;
-import net.neoforged.neoforge.common.DeferredSpawnEggItem;
-
-public class BossSpawnEggItem extends DeferredSpawnEggItem
+public class BossSpawnEggItem extends SpawnEggItem
 {
-	public BossSpawnEggItem(Supplier<? extends EntityType<? extends Mob>> type, int backgroundColor, int highlightColor, Properties props) {super(type, backgroundColor, highlightColor, props);}
+	public BossSpawnEggItem(EntityType<? extends MobEntity> type, int primaryColor, int secondaryColor, Item.Settings settings) {super(type, primaryColor, secondaryColor, settings);}
 	
-	@Override public boolean isFoil(ItemStack stack) {return true;}
-
-	@Override
-	public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
+	@Override public boolean hasGlint(ItemStack stack) {return true;}
+	
+	@Override public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type)
 	{
-		components.add(this.getDescription().withStyle(ChatFormatting.DARK_RED));
+		tooltip.add(this.getDescription().formatted(Formatting.DARK_RED));
 	}
 
-	public MutableComponent getDescription()
-	{
-		return Component.translatable("item.aerialhell.boss_spawn_egg.desc");
-	}
+	public MutableText getDescription() {return Text.translatable("item.aerialhell.boss_spawn_egg.desc");}
 }

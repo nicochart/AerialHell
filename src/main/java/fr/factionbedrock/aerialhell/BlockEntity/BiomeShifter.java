@@ -78,6 +78,6 @@ public interface BiomeShifter
 
     default boolean isValidBiomeShifterForPos(LevelReader level, BlockPos posToShift, BlockPos shifterPos)
     {
-        return level.getBlockState(shifterPos).getBlock() instanceof BiomeShifterBlock && shifterPos.distSqr(posToShift) < this.getRealFieldSize() * this.getRealFieldSize();
+        return level.getBlockState(shifterPos).getBlock() instanceof BiomeShifterBlock && shifterPos.getSquaredDistance(posToShift) < this.getRealFieldSize() * this.getRealFieldSize();
     }
 }

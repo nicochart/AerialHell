@@ -1,21 +1,24 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class VoluciteVibrantItem extends WithInformationItem
 { 
-	public VoluciteVibrantItem(Properties properties) {super(properties);}
-	
-	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	public VoluciteVibrantItem(Item.Settings settings) {super(settings);}
+
+	public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected)
 	{
-		LivingEntity livingEntityIn = (LivingEntity) entityIn;
-		if (livingEntityIn.getDeltaMovement().y < -0.2 && !livingEntityIn.isShiftKeyDown())
+		if (entity instanceof LivingEntity livingEntity)
 		{
-			livingEntityIn.fallDistance = 0;
-			livingEntityIn.setDeltaMovement(livingEntityIn.getDeltaMovement().x, -0.2, livingEntityIn.getDeltaMovement().z);
+			if (livingEntity.getVelocity().y < -0.2 && !livingEntity.isSneaking())
+			{
+				livingEntity.fallDistance = 0;
+				livingEntity.setVelocity(livingEntity.getVelocity().x, -0.2, livingEntity.getVelocity().z);
+			}
 		}
 	}
 }

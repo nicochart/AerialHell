@@ -1,31 +1,28 @@
 package fr.factionbedrock.aerialhell.Item.Bucket;
 
-import net.minecraft.core.Direction;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.FluidFillable;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FlowableFluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LiquidBlockContainer;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.material.FlowingFluid;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.Level;
-
-import javax.annotation.Nullable;
-
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.RaycastContext;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
+import org.jetbrains.annotations.Nullable;
 
 public class RubyWaterBucketItem extends Item
 {
@@ -34,100 +31,100 @@ public class RubyWaterBucketItem extends Item
         super(settings);
     }
 
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
     {
-        ItemStack itemstack = playerIn.getItemInHand(handIn);
-        BlockHitResult blockhitresult = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.NONE);
+        ItemStack itemstack = user.getStackInHand(hand);
+        BlockHitResult blockhitresult = raycast(world, user, RaycastContext.FluidHandling.NONE);
         if (blockhitresult.getType() == HitResult.Type.MISS)
         {
-            return InteractionResultHolder.pass(itemstack);
+            return TypedActionResult.pass(itemstack);
         }
         else if (blockhitresult.getType() != HitResult.Type.BLOCK)
         {
-            return InteractionResultHolder.pass(itemstack);
+            return TypedActionResult.pass(itemstack);
         }
         else
         {
             BlockPos blockpos = blockhitresult.getBlockPos();
-            Direction direction = blockhitresult.getDirection();
-            BlockPos blockpos1 = blockpos.relative(direction);
-            if (worldIn.mayInteract(playerIn, blockpos) && playerIn.mayUseItemAt(blockpos1, direction, itemstack))
+            Direction direction = blockhitresult.getSide();
+            BlockPos blockpos1 = blockpos.offset(direction);
+            if (world.canPlayerModifyAt(user, blockpos) && user.canPlaceOn(blockpos1, direction, itemstack))
             {
-                BlockState blockstate = worldIn.getBlockState(blockpos);
-                BlockPos blockpos2 = canBlockContainFluid(worldIn, blockpos, blockstate) ? blockpos : blockpos1;
-                if (this.tryPlaceContainedLiquid(playerIn, worldIn, blockpos2, blockhitresult))
+                BlockState blockstate = world.getBlockState(blockpos);
+                BlockPos blockpos2 = canBlockContainFluid(world, blockpos, blockstate) ? blockpos : blockpos1;
+                if (this.tryPlaceContainedLiquid(user, world, blockpos2, blockhitresult))
                 {
-                    return InteractionResultHolder.sidedSuccess(!playerIn.getAbilities().instabuild ? new ItemStack(AerialHellBlocksAndItems.RUBY_BUCKET.get()) : itemstack, worldIn.isClientSide());
+                    return TypedActionResult.success(!user.getAbilities().creativeMode ? new ItemStack(AerialHellItems.RUBY_BUCKET) : itemstack, world.isClient());
                 }
                 else
                 {
-                    return InteractionResultHolder.fail(itemstack);
+                    return TypedActionResult.fail(itemstack);
                 }
             }
             else
             {
-                return InteractionResultHolder.fail(itemstack);
+                return TypedActionResult.fail(itemstack);
             }
         }
     }
 
-    public boolean tryPlaceContainedLiquid(@Nullable Player player, Level worldIn, BlockPos posIn, @Nullable BlockHitResult rayTrace)
+    public boolean tryPlaceContainedLiquid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult rayTrace)
     {
-        BlockState blockstate = worldIn.getBlockState(posIn);
+        BlockState blockstate = world.getBlockState(pos);
         Block block = blockstate.getBlock();
-        boolean flag = blockstate.canBeReplaced(Fluids.WATER);
-        boolean flag1 = blockstate.isAir() || flag || block instanceof LiquidBlockContainer && ((LiquidBlockContainer)block).canPlaceLiquid(player, worldIn, posIn, blockstate, Fluids.WATER);
+        boolean flag = blockstate.canBucketPlace(Fluids.WATER);
+        boolean flag1 = blockstate.isAir() || flag || block instanceof FluidFillable fluidFillableBlock && fluidFillableBlock.canFillWithFluid(player, world, pos, blockstate, Fluids.WATER);
         if (!flag1)
         {
-            return rayTrace != null && this.tryPlaceContainedLiquid(player, worldIn, rayTrace.getBlockPos().relative(rayTrace.getDirection()), (BlockHitResult)null);
+            return rayTrace != null && this.tryPlaceContainedLiquid(player, world, rayTrace.getBlockPos().offset(rayTrace.getSide()), (BlockHitResult)null);
         }
-        else if (worldIn.dimensionType().ultraWarm())
+        else if (world.getDimension().ultrawarm())
         {
-            int i = posIn.getX();
-            int j = posIn.getY();
-            int k = posIn.getZ();
-            worldIn.playSound(player, posIn, SoundEvents.FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F + (worldIn.random.nextFloat() - worldIn.random.nextFloat()) * 0.8F);
+            int i = pos.getX();
+            int j = pos.getY();
+            int k = pos.getZ();
+            world.playSound(player, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F + (world.random.nextFloat() - world.random.nextFloat()) * 0.8F);
 
             for(int l = 0; l < 8; ++l)
             {
-                worldIn.addParticle(ParticleTypes.LARGE_SMOKE, (double)i + Math.random(), (double)j + Math.random(), (double)k + Math.random(), 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.LARGE_SMOKE, (double)i + Math.random(), (double)j + Math.random(), (double)k + Math.random(), 0.0D, 0.0D, 0.0D);
             }
 
             return true;
         }
-        else if (block instanceof LiquidBlockContainer && ((LiquidBlockContainer)block).canPlaceLiquid(player, worldIn,posIn,blockstate, Fluids.WATER))
+        else if (block instanceof FluidFillable fluidFillableBlock && fluidFillableBlock.canFillWithFluid(player, world,pos,blockstate, Fluids.WATER))
         {
-            ((LiquidBlockContainer)block).placeLiquid(worldIn, posIn, blockstate, ((FlowingFluid)Fluids.WATER).getSource(false));
-            this.playEmptySound(player, worldIn, posIn);
+            fluidFillableBlock.tryFillWithFluid(world, pos, blockstate, Fluids.WATER.getStill(false));
+            this.playEmptySound(player, world, pos);
             return true;
         }
         else
         {
-            if (!worldIn.isClientSide() && flag && !blockstate.liquid())
+            if (!world.isClient() && flag && !blockstate.isLiquid())
             {
-                worldIn.destroyBlock(posIn, true);
+                world.breakBlock(pos, true);
             }
 
-            if (!worldIn.setBlockState(posIn, Fluids.WATER.defaultFluidState().createLegacyBlock(), 11) && !blockstate.getFluidState().isSource())
+            if (!world.setBlockState(pos, Fluids.WATER.getDefaultState().getBlockState(), 11) && !blockstate.getFluidState().isStill())
             {
                 return false;
             }
             else
             {
-                this.playEmptySound(player, worldIn, posIn);
+                this.playEmptySound(player, world, pos);
                 return true;
             }
         }
     }
 
-    private boolean canBlockContainFluid(Level worldIn, BlockPos posIn, BlockState blockstate)
+    private boolean canBlockContainFluid(World world, BlockPos posIn, BlockState blockstate)
     {
-        return blockstate.getBlock() instanceof LiquidBlockContainer && ((LiquidBlockContainer)blockstate.getBlock()).canPlaceLiquid(null, worldIn, posIn, blockstate, Fluids.WATER);
+        return blockstate.getBlock() instanceof FluidFillable fluidFillableBlock && fluidFillableBlock.canFillWithFluid(null, world, posIn, blockstate, Fluids.WATER);
     }
 
-    protected void playEmptySound(@Nullable Player player, LevelAccessor worldIn, BlockPos pos)
+    protected void playEmptySound(@Nullable PlayerEntity player, WorldAccess world, BlockPos pos)
     {
-        SoundEvent soundevent = SoundEvents.BUCKET_EMPTY;
-        worldIn.playSound(player, pos, soundevent, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        SoundEvent soundevent = SoundEvents.ITEM_BUCKET_EMPTY;
+        world.playSound(player, pos, soundevent, SoundCategory.BLOCKS, 1.0F, 1.0F);
     }
 }

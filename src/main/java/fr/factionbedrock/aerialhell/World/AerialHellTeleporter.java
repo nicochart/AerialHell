@@ -76,7 +76,7 @@ public class AerialHellTeleporter
                 .map(PoiRecord::getPos)
                 .filter(worldBorder::isWithinBounds)
                 .filter(p_352047_ -> this.level.getBlockState(p_352047_).hasProperty(BlockStateProperties.HORIZONTAL_AXIS))
-                .min(Comparator.<BlockPos>comparingDouble(p_352046_ -> p_352046_.distSqr(exitPos)).thenComparingInt(Vec3i::getY));
+                .min(Comparator.<BlockPos>comparingDouble(p_352046_ -> p_352046_.getSquaredDistance(exitPos)).thenComparingInt(Vec3i::getY));
     }
 
     public Optional<BlockUtil.FoundRectangle> createPortal(BlockPos pos, Direction.Axis axis)
@@ -109,7 +109,7 @@ public class AerialHellTeleporter
                             if (j1 <= 0 || j1 >= 3) {
                                 mutablePos1.setY(l);
                                 if (this.canHostFrame(mutablePos1, mutablePos, direction, 0)) {
-                                    double d2 = pos.distSqr(mutablePos1);
+                                    double d2 = pos.getSquaredDistance(mutablePos1);
                                     if (this.canHostFrame(mutablePos1, mutablePos, direction, -1)
                                             && this.canHostFrame(mutablePos1, mutablePos, direction, 1)
                                             && (d0 == -1.0 || d0 > d2)) {

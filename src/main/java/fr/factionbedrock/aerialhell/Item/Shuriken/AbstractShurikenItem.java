@@ -3,16 +3,14 @@ package fr.factionbedrock.aerialhell.Item.Shuriken;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.Level;
+import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.world.World;
 
 public abstract class AbstractShurikenItem extends Item
 {
@@ -22,29 +20,29 @@ public abstract class AbstractShurikenItem extends Item
 	}
 	
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand hand)
+	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
 	{
-		ItemStack heldItem = playerIn.getItemInHand(hand);
-		if (!playerIn.isCreative() && EntityHelper.hasEnchantment(playerIn, Enchantments.INFINITY))
+		ItemStack heldItem = user.getStackInHand(hand);
+		if (!user.isCreative() && EntityHelper.hasEnchantment(user, Enchantments.INFINITY))
 		{
-			heldItem.shrink(1);
+			heldItem.decrement(1);
 		}
 		
-		worldIn.playSound(null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), AerialHellSoundEvents.ENTITY_SHURIKEN_SHOOT.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (worldIn.getRandom().nextFloat() * 0.4F + 0.8F));
+		world.playSound(null, user.getX(), user.getY(), user.getZ(), AerialHellSoundEvents.ENTITY_SHURIKEN_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
 		
-		if (!worldIn.isClientSide())
+		if (!world.isClient())
 		{
-			AbstractShurikenEntity shuriken = this.getKnifeEntity(playerIn, worldIn);
-			shuriken.shootFromRotation(playerIn, playerIn.getXRot(), playerIn.getYRot(), 0.0F, this.getVelocity(), this.getInaccuracy());
+			AbstractShurikenEntity shuriken = this.getKnifeEntity(user, world);
+			shuriken.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, this.getVelocity(), this.getInaccuracy());
 			//shuriken.setShooter(playerIn); shooter is not detected
-			worldIn.spawnEntity(shuriken);
+			world.spawnEntity(shuriken);
 		}
-		playerIn.getCooldowns().addCooldown(this, this.getCooldown());
-		return InteractionResultHolder.success(heldItem);
+		user.getItemCooldownManager().set(this, this.getCooldown());
+		return TypedActionResult.success(heldItem);
 	}
 
 	abstract protected float getVelocity();
 	abstract protected float getInaccuracy();
 	abstract protected int getCooldown();
-	abstract protected AbstractShurikenEntity getKnifeEntity(Player playerIn, Level worldIn);
+	abstract protected AbstractShurikenEntity getKnifeEntity(PlayerEntity player, World world);
 }

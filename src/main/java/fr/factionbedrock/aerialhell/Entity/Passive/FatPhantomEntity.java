@@ -170,8 +170,8 @@ public class FatPhantomEntity extends Phantom implements Enemy
          }
 
          int i = this.getPhantomSize();
-         float f2 = MathHelper.cos(this.getYRot() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
-         float f3 = MathHelper.sin(this.getYRot() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
+         float f2 = MathHelper.cos(this.getYaw() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
+         float f3 = MathHelper.sin(this.getYaw() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
          float f4 = (0.3F + f * 0.45F) * ((float)i * 0.2F + 1.0F);
          this.level().addParticle(ParticleTypes.MYCELIUM, this.getX() + (double)f2, this.getY() + (double)f4, this.getZ() + (double)f3, 0.0D, 0.0D, 0.0D);
          this.level().addParticle(ParticleTypes.MYCELIUM, this.getX() - (double)f2, this.getY() + (double)f4, this.getZ() - (double)f3, 0.0D, 0.0D, 0.0D);
@@ -219,9 +219,9 @@ public class FatPhantomEntity extends Phantom implements Enemy
    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn)
    {
       SpawnGroupData data = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn);
-      this.orbitPosition = this.blockPosition().above(6);
+      this.orbitPosition = this.getBlockPos().above(6);
       this.setPhantomSize(10 + random.nextInt(6));
-      if (worldIn.getBlockState(this.blockPosition().above()).getBlock() == Blocks.AIR)
+      if (worldIn.getBlockState(this.getBlockPos().above()).getBlock() == Blocks.AIR)
       {
     	  this.moveTo(new Vec3(blockPosition().above().getX(), blockPosition().above().getY(), blockPosition().above().getZ()));
       }
@@ -317,7 +317,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
       @Override public void clientTick()
       {
          FatPhantomEntity.this.yHeadRot = FatPhantomEntity.this.yBodyRot;
-         FatPhantomEntity.this.yBodyRot = FatPhantomEntity.this.getYRot();
+         FatPhantomEntity.this.yBodyRot = FatPhantomEntity.this.getYaw();
       }
    }
 
@@ -354,7 +354,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
       {
          if (FatPhantomEntity.this.horizontalCollision)
          {
-            FatPhantomEntity.this.setYRot(FatPhantomEntity.this.getYRot() + 180.0F);
+            FatPhantomEntity.this.setYRot(FatPhantomEntity.this.getYaw() + 180.0F);
             this.speedFactor = 0.1F;
          }
 
@@ -368,13 +368,13 @@ public class FatPhantomEntity extends Phantom implements Enemy
             d2 *= d4;
             d3 = Math.sqrt(d0 * d0 + d2 * d2);
             double d5 = Math.sqrt(d0 * d0 + d2 * d2 + d1 * d1);
-            float f = FatPhantomEntity.this.getYRot();
+            float f = FatPhantomEntity.this.getYaw();
             float f1 = (float) MathHelper.atan2(d2, d0);
-            float f2 = MathHelper.wrapDegrees(FatPhantomEntity.this.getYRot() + 90.0F);
+            float f2 = MathHelper.wrapDegrees(FatPhantomEntity.this.getYaw() + 90.0F);
             float f3 = MathHelper.wrapDegrees(f1 * (180F / (float) Math.PI));
             FatPhantomEntity.this.setYRot(MathHelper.approachDegrees(f2, f3, 4.0F) - 90.0F);
-            FatPhantomEntity.this.yBodyRot = FatPhantomEntity.this.getYRot();
-            if (MathHelper.degreesDifferenceAbs(f, FatPhantomEntity.this.getYRot()) < 3.0F) {
+            FatPhantomEntity.this.yBodyRot = FatPhantomEntity.this.getYaw();
+            if (MathHelper.degreesDifferenceAbs(f, FatPhantomEntity.this.getYaw()) < 3.0F) {
                this.speedFactor = MathHelper.approach(this.speedFactor, 1.8F, 0.005F * (1.8F / this.speedFactor));
             } else {
                this.speedFactor = MathHelper.approach(this.speedFactor, 0.2F, 0.025F);
@@ -382,7 +382,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
 
             float f4 = (float) (-(MathHelper.atan2(-d1, d3) * (double) (180F / (float) Math.PI)));
             FatPhantomEntity.this.setXRot(f4);
-            float f5 = FatPhantomEntity.this.getYRot() + 90.0F;
+            float f5 = FatPhantomEntity.this.getYaw() + 90.0F;
             double d6 = (double) (this.speedFactor * MathHelper.cos(f5 * ((float) Math.PI / 180F))) * Math.abs(d0 / d5);
             double d7 = (double) (this.speedFactor * MathHelper.sin(f5 * ((float) Math.PI / 180F))) * Math.abs(d2 / d5);
             double d8 = (double) (this.speedFactor * MathHelper.sin(f4 * ((float) Math.PI / 180F))) * Math.abs(d1 / d5);
@@ -431,13 +431,13 @@ public class FatPhantomEntity extends Phantom implements Enemy
 
          if (this.touchingTarget()) {this.selectNext();}
 
-         if (FatPhantomEntity.this.orbitOffset.y < FatPhantomEntity.this.getY() && !FatPhantomEntity.this.level().isEmptyBlock(FatPhantomEntity.this.blockPosition().below(1)))
+         if (FatPhantomEntity.this.orbitOffset.y < FatPhantomEntity.this.getY() && !FatPhantomEntity.this.level().isEmptyBlock(FatPhantomEntity.this.getBlockPos().below(1)))
          {
             this.height = Math.max(1.0F, this.height);
             this.selectNext();
          }
 
-         if (FatPhantomEntity.this.orbitOffset.y > FatPhantomEntity.this.getY() && !FatPhantomEntity.this.level().isEmptyBlock(FatPhantomEntity.this.blockPosition().above(1)))
+         if (FatPhantomEntity.this.orbitOffset.y > FatPhantomEntity.this.getY() && !FatPhantomEntity.this.level().isEmptyBlock(FatPhantomEntity.this.getBlockPos().above(1)))
          {
             this.height = Math.min(-1.0F, this.height);
             this.selectNext();
@@ -447,7 +447,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
 
       private void selectNext()
       {
-         if (BlockPos.ZERO.equals(FatPhantomEntity.this.orbitPosition)) {FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.blockPosition();}
+         if (BlockPos.ZERO.equals(FatPhantomEntity.this.orbitPosition)) {FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.getBlockPos();}
 
          this.angle += this.clockwise * 15.0F * ((float)Math.PI / 180F);
          FatPhantomEntity.this.orbitOffset = Vec3.atLowerCornerOf(FatPhantomEntity.this.orbitPosition).add((double)(this.distance * MathHelper.cos(this.angle)), (double)(-4.0F + this.height), (double)(this.distance * MathHelper.sin(this.angle)));
@@ -490,7 +490,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
 
       private void setAnchorAboveTarget()
       {
-         FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.getTarget().blockPosition().above(20 + FatPhantomEntity.this.random.nextInt(20));
+         FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.getTarget().getBlockPos().above(20 + FatPhantomEntity.this.random.nextInt(20));
          if (FatPhantomEntity.this.orbitPosition.getY() < FatPhantomEntity.this.level().getSeaLevel())
          {
             FatPhantomEntity.this.orbitPosition = new BlockPos(FatPhantomEntity.this.orbitPosition.getX(), FatPhantomEntity.this.level().getSeaLevel() + 1, FatPhantomEntity.this.orbitPosition.getZ());
@@ -531,7 +531,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
             FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
             if (!FatPhantomEntity.this.isSilent())
             {
-               FatPhantomEntity.this.level().levelEvent(1039, FatPhantomEntity.this.blockPosition(), 0);
+               FatPhantomEntity.this.level().levelEvent(1039, FatPhantomEntity.this.getBlockPos(), 0);
             }
          }
          else if (FatPhantomEntity.this.horizontalCollision || FatPhantomEntity.this.hurtTime > 0)

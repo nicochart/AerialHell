@@ -51,7 +51,7 @@ public class FleeBlockGoal<T extends Block> extends Goal
             if (this.fleePos == null) {return false;}
             else
             {
-                if (this.posToAvoid.distSqr(new Vec3i((int)fleePos.x, (int)fleePos.y, (int)fleePos.z)) < this.posToAvoid.distSqr(goalOwnerPos)) {return false;}
+                if (this.posToAvoid.getSquaredDistance(new Vec3i((int)fleePos.x, (int)fleePos.y, (int)fleePos.z)) < this.posToAvoid.getSquaredDistance(goalOwnerPos)) {return false;}
                 this.path = this.navigator.createPath(fleePos.x, fleePos.y, fleePos.z, 0);
                 return this.path != null;
             }

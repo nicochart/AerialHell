@@ -229,7 +229,7 @@ public class CrystalSlimeEntity extends Mob
 				this.slime.lookAt(livingentity, 10.0F, 10.0F);
 			}
 
-			if (this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl movecontrol) {movecontrol.setDirection(this.slime.getYRot(), this.slime.isDealsDamage());}
+			if (this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl movecontrol) {movecontrol.setDirection(this.slime.getYaw(), this.slime.isDealsDamage());}
 		}
 	}
 
@@ -288,7 +288,7 @@ public class CrystalSlimeEntity extends Mob
 		{
 			super(entity);
 			this.slime = entity;
-			this.yRot = 180.0F * entity.getYRot() / (float) Math.PI;
+			this.yRot = 180.0F * entity.getYaw() / (float) Math.PI;
 		}
 
 		public void setDirection(float yRot, boolean isAgressive)
@@ -305,9 +305,9 @@ public class CrystalSlimeEntity extends Mob
 
 		@Override public void tick()
 		{
-			this.mob.setYRot(this.rotlerp(this.mob.getYRot(), this.yRot, 90.0F));
-			this.mob.yHeadRot = this.mob.getYRot();
-			this.mob.yBodyRot = this.mob.getYRot();
+			this.mob.setYRot(this.rotlerp(this.mob.getYaw(), this.yRot, 90.0F));
+			this.mob.yHeadRot = this.mob.getYaw();
+			this.mob.yBodyRot = this.mob.getYaw();
 			if (this.operation != MoveControl.Operation.MOVE_TO) {this.mob.setZza(0.0F);}
 			else
 			{

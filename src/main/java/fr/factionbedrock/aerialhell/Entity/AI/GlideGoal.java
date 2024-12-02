@@ -41,13 +41,13 @@ public class GlideGoal extends Goal
         if (this.goalOwner.getDeltaMovement().y < 0.0D)
         {
             Vec3 forward = Vec3.directionFromRotation(this.goalOwner.getRotationVector());
-            if (this.hasBlockUnder(this.goalOwner.blockPosition().offset((int)(2.5*forward.x), (int)forward.y, (int)(2.5*forward.z)), 20)) //goal owner has block forward (1 - 2 blocks in front of him)
+            if (this.hasBlockUnder(this.goalOwner.getBlockPos().offset((int)(2.5*forward.x), (int)forward.y, (int)(2.5*forward.z)), 20)) //goal owner has block forward (1 - 2 blocks in front of him)
             {
                 this.glideForward(forward);
             }
             else //goal owner has no block forward
             {
-                if (this.hasBlockUnder(this.goalOwner.blockPosition(), 25)) //goal owner has block under himself = he is safe
+                if (this.hasBlockUnder(this.goalOwner.getBlockPos(), 25)) //goal owner has block under himself = he is safe
                 {
                     this.slowDownMovement(); //to not fall in the void (because no block forward)
                 }

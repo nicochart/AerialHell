@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -9,7 +10,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import javax.annotation.Nullable;
 
-public abstract class AbstractAerialArrowEntity extends AbstractArrow
+public abstract class AbstractAerialArrowEntity extends PersistentProjectileEntity
 {
     public int ticksLiving;
 

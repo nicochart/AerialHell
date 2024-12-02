@@ -23,7 +23,7 @@ public class FeatureHelper
         BlockPos nearestDungeonPos = level.getLevel().findNearestMapStructure(AerialHellTags.Structures.DUNGEONS, context.origin(), 100, false);
         if (nearestDungeonPos != null)
         {
-            return context.origin().distSqr(nearestDungeonPos) < 100;
+            return context.origin().getSquaredDistance(nearestDungeonPos) < 100;
         }
         else {return false;}
         */

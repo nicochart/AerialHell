@@ -3,64 +3,55 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 import java.util.List;
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolMaterial;
+import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.world.World;
 
 public class ForgottenBattleTridentItem extends AerialHellSwordItem
 {	
-	public ForgottenBattleTridentItem(Tier tier, Properties builderIn)
-	{
-		super(tier, builderIn);
-	}
+	public ForgottenBattleTridentItem(ToolMaterial toolMaterial, Item.Settings settings) {super(toolMaterial, settings);}
 	
 	@Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
     {
-		ItemStack heldItem = playerIn.getItemInHand(handIn);
+		ItemStack heldItem = player.getStackInHand(hand);
 		Random rand = new Random();
 
 		for (int i=0 ; i<20; i++)
 		{
-			worldIn.addParticle(ParticleTypes.DRIPPING_WATER, playerIn.getX() + 4*(rand.nextFloat() - 0.5F), playerIn.getY() + 4*rand.nextFloat(), playerIn.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
+			world.addParticle(ParticleTypes.DRIPPING_WATER, player.getX() + 4*(rand.nextFloat() - 0.5F), player.getY() + 4*rand.nextFloat(), player.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
 		}
-		playerIn.playSound(AerialHellSoundEvents.ITEM_FORGOTTEN_BATTLE_TRIDENT_USE.get(), 1.0F, 1.5F);
+		player.playSound(AerialHellSoundEvents.ITEM_FORGOTTEN_BATTLE_TRIDENT_USE, 1.0F, 1.5F);
 		
-		if (!worldIn.isClientSide())
+		if (!world.isClient())
 		{
-			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.DOLPHINS_GRACE, 120, 0));
-			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.WATER_BREATHING, 120, 0));
-			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SPEED, 120, 0));
-			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.DAMAGE_BOOST, 300, 0));
+			player.addStatusEffect(new StatusEffectInstance(StatusEffects.DOLPHINS_GRACE, 120, 0));
+			player.addStatusEffect(new StatusEffectInstance(StatusEffects.WATER_BREATHING, 120, 0));
+			player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 120, 0));
+			player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 300, 0));
 		}
-		playerIn.getCooldowns().addCooldown(this, 540);
-		heldItem.hurtAndBreak(1, playerIn, LivingEntity.getSlotForHand(handIn));
-		return InteractionResultHolder.consume(heldItem);
+		player.getItemCooldownManager().set(this, 540);
+		heldItem.damage(1, player, LivingEntity.getSlotForHand(hand));
+		return TypedActionResult.consume(heldItem);
     }
 
-	@Override
-	public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
+	@Override public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type)
 	{
-		components.add(this.getDescription().withStyle(ChatFormatting.GRAY));
+		tooltip.add(this.getDescription().formatted(Formatting.GRAY));
 	}
 
-	public MutableComponent getDescription()
-	{
-		return Component.translatable(this.getDescriptionId() + ".desc");
-	}
+	public MutableText getDescription() {return Text.translatable(this.getTranslationKey()+".desc");}
 }

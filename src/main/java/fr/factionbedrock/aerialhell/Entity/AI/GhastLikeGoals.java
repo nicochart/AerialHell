@@ -32,7 +32,7 @@ public class GhastLikeGoals
             {
                 Vec3 vec = this.parentEntity.getDeltaMovement();
                 this.parentEntity.setYRot(-((float) MathHelper.atan2(vec.x, vec.z)) * (180F / (float)Math.PI));
-                this.parentEntity.yBodyRot = this.parentEntity.getYRot();
+                this.parentEntity.yBodyRot = this.parentEntity.getYaw();
             }
             else
             {
@@ -42,7 +42,7 @@ public class GhastLikeGoals
                     double x = livingentity.getX() - this.parentEntity.getX();
                     double z = livingentity.getZ() - this.parentEntity.getZ();
                     this.parentEntity.setYRot(-((float)MathHelper.atan2(x, z)) * (180F / (float)Math.PI));
-                    this.parentEntity.yBodyRot = this.parentEntity.getYRot();
+                    this.parentEntity.yBodyRot = this.parentEntity.getYaw();
                 }
             }
         }

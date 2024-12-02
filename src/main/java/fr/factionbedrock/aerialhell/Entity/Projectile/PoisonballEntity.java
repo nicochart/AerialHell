@@ -60,8 +60,8 @@ public class PoisonballEntity extends Fireball
 				else //TODO
 				{
 					ItemStack activeItemStack = livingEntity.getUseItem();
-					//activeItemStack.hurtAndBreak(1, livingEntity, p -> p.broadcastBreakEvent(activeItemStack.getEquipmentSlot()));
-					level().playSound((Player)null, entity.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
+					//activeItemStack.damage(1, livingEntity, p -> p.broadcastBreakEvent(activeItemStack.getEquipmentSlot()));
+					level().playSound((Player)null, entity.getBlockPos(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
 				}
 				livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 0));
 			}
@@ -74,7 +74,7 @@ public class PoisonballEntity extends Fireball
 	@Override public void tick()
 	{
 		Entity entity = this.getOwner();
-		if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition()))
+		if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.getBlockPos()))
 		{
 			HitResult raytraceresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
 			if (raytraceresult.getType() != HitResult.Type.MISS && !net.neoforged.neoforge.event.EventHooks.onProjectileImpact(this, raytraceresult))

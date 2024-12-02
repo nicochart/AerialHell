@@ -780,7 +780,7 @@ public class AerialHellBlocks
     public static final PillarBlock GRAY_SHROOM_VINE_ROPE_SPOOL = register("gray_shroom_vine_rope_spool", new VineRopeSpoolBlock(AbstractBlock.Settings.create().nonOpaque().blockVision((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.BROWN).strength(1.2F).sounds(BlockSoundGroup.WOOD)));
 
     //fluids
-    public static final LiquidBlock LIQUID_OF_THE_GODS = register("liquid_of_the_gods", new AerialHellFluidBlock(AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE, AbstractBlock.Settings.create().replaceable().luminance((state) -> 8)));
+    public static final FluidBlock LIQUID_OF_THE_GODS = register("liquid_of_the_gods", new AerialHellFluidBlock(AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE, AbstractBlock.Settings.create().replaceable().luminance((state) -> 8)));
 
     public static <T extends Block> T register(String name, T block) {return Registry.register(Registries.BLOCK, AerialHell.id(name), block);}
 

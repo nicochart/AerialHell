@@ -1,105 +1,104 @@
 package fr.factionbedrock.aerialhell.Item;
 
 import fr.factionbedrock.aerialhell.Entity.AerialHellPaintingEntity;
-import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.decoration.HangingEntity;
-import net.minecraft.world.entity.decoration.Painting;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.decoration.AbstractDecorationEntity;
+import net.minecraft.entity.decoration.painting.PaintingEntity;
+import net.minecraft.entity.decoration.painting.PaintingVariant;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-/* Copy of net.minecraft.item.HangingEntityItem but for Aerial Hell paintings */
+/* Copy of net.minecraft.item.DecorationItem but for Aerial Hell paintings */
 
 public class AerialHellHangingEntityItem extends Item
 {
-    private static final Component TOOLTIP_RANDOM_VARIANT = Component.translatable("painting.random").withStyle(ChatFormatting.GRAY);
-    private final Supplier<EntityType<? extends HangingEntity>> type;
+    private static final Text TOOLTIP_RANDOM_VARIANT = Text.translatable("painting.random").formatted(Formatting.GRAY);
+    private final EntityType<? extends AbstractDecorationEntity> entityType;
 
-    public AerialHellHangingEntityItem(Supplier<EntityType<? extends HangingEntity>> entityType, Item.Properties properties)
+    public AerialHellHangingEntityItem(EntityType<? extends AbstractDecorationEntity> type, Item.Settings settings)
     {
-        super(properties);
-        this.type = entityType;
+        super(settings);
+        this.entityType = type;
     }
 
-    public InteractionResult useOn(UseOnContext context)
+    @Override public ActionResult useOnBlock(ItemUsageContext context)
     {
-        BlockPos blockpos = context.getClickedPos();
-        Direction direction = context.getClickedFace();
-        BlockPos blockpos1 = blockpos.relative(direction);
-        Player player = context.getPlayer();
-        ItemStack itemstack = context.getItemInHand();
-        if (player != null && !this.mayPlace(player, direction, itemstack, blockpos1)) {return InteractionResult.FAIL;}
+        BlockPos blockPos = context.getBlockPos();
+        Direction direction = context.getSide();
+        BlockPos blockPos2 = blockPos.offset(direction);
+        PlayerEntity playerEntity = context.getPlayer();
+        ItemStack itemStack = context.getStack();
+        if (playerEntity != null && !this.mayPlace(playerEntity, direction, itemStack, blockPos2)) {return ActionResult.FAIL;}
         else
         {
-            Level level = context.getLevel();
-            HangingEntity hangingentity;
+            World world = context.getWorld();
+            AbstractDecorationEntity abstractDecorationEntity;
             //if (this.type.get() == AerialHellEntities.AERIAL_HELL_PAINTING.get()) //always true atm
             //{
-                Optional<AerialHellPaintingEntity> optional = AerialHellPaintingEntity.create(level, blockpos1, direction);
+                Optional<AerialHellPaintingEntity> optional = AerialHellPaintingEntity.create(world, blockPos2, direction);
                 if (optional.isEmpty()) {return ActionResult.CONSUME;}
-                hangingentity = optional.get();
+
+                abstractDecorationEntity = optional.get();
             //}
 
-            if (hangingentity.survives())
+            if (abstractDecorationEntity.canStayAttached())
             {
-                if (!level.isClientSide)
+                if (!world.isClient)
                 {
-                    hangingentity.playPlacementSound();
-                    level.gameEvent(player, GameEvent.ENTITY_PLACE, hangingentity.position());
-                    level.spawnEntity(hangingentity);
+                    abstractDecorationEntity.onPlace();
+                    world.emitGameEvent(playerEntity, GameEvent.ENTITY_PLACE, abstractDecorationEntity.getPos());
+                    world.spawnEntity(abstractDecorationEntity);
                 }
 
-                itemstack.shrink(1);
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                itemStack.decrement(1);
+                return ActionResult.success(world.isClient);
             }
             else {return ActionResult.CONSUME;}
         }
     }
 
-    protected boolean mayPlace(Player playerIn, Direction directionIn, ItemStack itemStackIn, BlockPos posIn)
+    protected boolean mayPlace(PlayerEntity player, Direction side, ItemStack stack, BlockPos pos)
     {
-        return !directionIn.getAxis().isVertical() && playerIn.mayUseItemAt(posIn, directionIn, itemStackIn);
+        return !side.getAxis().isVertical() && player.canPlaceOn(pos, side, stack);
     }
 
-    @Override public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
+    @Override public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type)
     {
-        super.appendHoverText(stack, tooltipContext, components, tooltipFlag);
-        //if (this.type == AerialHellEntities.AERIAL_HELL_PAINTING.get())
-        //{
-            CustomData customdata = stack.getOrDefault(DataComponents.ENTITY_DATA, CustomData.EMPTY);
-            if (!customdata.isEmpty())
+        super.appendTooltip(stack, context, tooltip, type);
+        RegistryWrapper.WrapperLookup wrapperLookup = context.getRegistryLookup();
+        if (wrapperLookup != null /*&& this.type == AerialHellEntities.AERIAL_HELL_PAINTING.get()*/)
+        {
+            NbtComponent nbtComponent = stack.getOrDefault(DataComponentTypes.ENTITY_DATA, NbtComponent.DEFAULT);
+            if (!nbtComponent.isEmpty())
             {
-                customdata.read(Painting.VARIANT_MAP_CODEC)
-                        .result()
-                        .ifPresentOrElse(
-                                paintingVariantHolder ->
-                                {
-                                    paintingVariantHolder.unwrapKey().ifPresent(p_270217_ -> {components.add(Component.translatable(p_270217_.location().toLanguageKey("painting", "title")).withStyle(ChatFormatting.YELLOW)); components.add(Component.translatable(p_270217_.location().toLanguageKey("painting", "author")).withStyle(ChatFormatting.GRAY));});
-                                    components.add(Component.translatable("painting.dimensions", MathHelper.positiveCeilDiv(paintingVariantHolder.value().width(), 16), MathHelper.positiveCeilDiv(paintingVariantHolder.value().height(), 16)));
-                                },
-                                () -> components.add(TOOLTIP_RANDOM_VARIANT)
-                        );
+                nbtComponent.get(wrapperLookup.getOps(NbtOps.INSTANCE), PaintingEntity.VARIANT_MAP_CODEC).result().ifPresentOrElse(variant -> {
+                    variant.getKey().ifPresent(key ->
+                    {
+                        tooltip.add(Text.translatable(key.getValue().toTranslationKey("painting", "title")).formatted(Formatting.YELLOW));
+                        tooltip.add(Text.translatable(key.getValue().toTranslationKey("painting", "author")).formatted(Formatting.GRAY));
+                    });
+                    tooltip.add(Text.translatable("painting.dimensions", ((PaintingVariant)variant.value()).width(), ((PaintingVariant)variant.value()).height()));
+                }, () -> tooltip.add(TOOLTIP_RANDOM_VARIANT));
             }
-            else if (tooltipFlag.isCreative()) {components.add(TOOLTIP_RANDOM_VARIANT);}
-        //}
+            else if (type.isCreative()) {tooltip.add(TOOLTIP_RANDOM_VARIANT);}
+        }
     }
 }

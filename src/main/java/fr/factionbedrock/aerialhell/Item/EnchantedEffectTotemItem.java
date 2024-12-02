@@ -1,13 +1,11 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class EnchantedEffectTotemItem extends EffectTotemItem
 {
-	public EnchantedEffectTotemItem(Properties properties)
-	{
-		super(properties);
-	}
+	public EnchantedEffectTotemItem(Item.Settings settings) {super(settings);}
 	
-	@Override public boolean isFoil(ItemStack stack) {return true;}
+	@Override public boolean hasGlint(ItemStack stack) {return true;}
 }

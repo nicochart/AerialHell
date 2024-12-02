@@ -66,7 +66,7 @@ public class ToolsAndArmorEventListener
 
 		if (target instanceof Player) //*2 damage if target has glass cannon sword
 		{
-			Item targetMainHandItem = ((Player) target).getMainHandItem().getItem();
+			Item targetMainHandItem = ((Player) target).getMainHandStack().getItem();
 			applyEffectsBasedOnTargetHandEquippedItem(event, targetMainHandItem, target);
 		} else {
 			Iterable<ItemStack> handStuff = target.getHandSlots();
@@ -81,7 +81,7 @@ public class ToolsAndArmorEventListener
 			applyEffectsBasedOnTargetEquippedArmor(event, stuff, source, target);
 
 			if (source instanceof Player) {
-				ItemStack mainHandItemStack = ((Player) source).getMainHandItem();
+				ItemStack mainHandItemStack = ((Player) source).getMainHandStack();
 				applyEffectsBasedOnSourceHandEquippedItem(event, mainHandItemStack, source, target);
 				applyTraitorEffectIfNecessary((Player)source, target);
 			} else {

@@ -1,27 +1,26 @@
 package fr.factionbedrock.aerialhell.Item.Bucket;
 
-import net.minecraft.core.Direction;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.Level;
 
-import javax.annotation.Nullable;
-
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.world.phys.HitResult;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.RaycastContext;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
+import org.jetbrains.annotations.Nullable;
 
 public class RubyLiquidOfGodsBucketItem extends Item
 {
@@ -30,69 +29,69 @@ public class RubyLiquidOfGodsBucketItem extends Item
         super(settings);
     }
 
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
     {
-        ItemStack itemstack = playerIn.getItemInHand(handIn);
-        BlockHitResult blockhitresult = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.NONE);
+        ItemStack itemstack = user.getStackInHand(hand);
+        BlockHitResult blockhitresult = raycast(world, user, RaycastContext.FluidHandling.NONE);
         if (blockhitresult.getType() == HitResult.Type.MISS)
         {
-            return InteractionResultHolder.pass(itemstack);
+            return TypedActionResult.pass(itemstack);
         }
         else if (blockhitresult.getType() != HitResult.Type.BLOCK)
         {
-            return InteractionResultHolder.pass(itemstack);
+            return TypedActionResult.pass(itemstack);
         }
         else
         {
             BlockPos blockpos = blockhitresult.getBlockPos();
-            Direction direction = blockhitresult.getDirection();
-            BlockPos blockpos1 = blockpos.relative(direction);
-            if (worldIn.mayInteract(playerIn, blockpos) && playerIn.mayUseItemAt(blockpos1, direction, itemstack))
+            Direction direction = blockhitresult.getSide();
+            BlockPos blockpos1 = blockpos.offset(direction);
+            if (world.canPlayerModifyAt(user, blockpos) && user.canPlaceOn(blockpos1, direction, itemstack))
             {
-                if (this.tryPlaceContainedLiquid(playerIn, worldIn, blockpos1, blockhitresult))
+                if (this.tryPlaceContainedLiquid(user, world, blockpos1, blockhitresult))
                 {
-                    return InteractionResultHolder.sidedSuccess(!playerIn.getAbilities().instabuild ? new ItemStack(AerialHellBlocksAndItems.RUBY_BUCKET.get()) : itemstack, worldIn.isClientSide());
+                    return TypedActionResult.success(!user.getAbilities().creativeMode ? new ItemStack(AerialHellItems.RUBY_BUCKET) : itemstack, world.isClient());
                 }
                 else
                 {
-                    return InteractionResultHolder.fail(itemstack);
+                    return TypedActionResult.fail(itemstack);
                 }
             }
             else
             {
-                return InteractionResultHolder.fail(itemstack);
+                return TypedActionResult.fail(itemstack);
             }
         }
     }
 
-    public boolean tryPlaceContainedLiquid(@Nullable Player player, Level worldIn, BlockPos posIn, @Nullable BlockHitResult rayTrace)
+    public boolean tryPlaceContainedLiquid(@Nullable PlayerEntity player, World world, BlockPos posIn, @Nullable BlockHitResult rayTrace)
     {
-        BlockState blockstate = worldIn.getBlockState(posIn);
-        if (!(blockstate.isAir() || blockstate.canBeReplaced(Fluids.WATER)))
+        BlockState blockstate = world.getBlockState(posIn);
+        if (!(blockstate.isAir() || blockstate.canBucketPlace(Fluids.WATER)))
         {
-            return rayTrace != null && this.tryPlaceContainedLiquid(player, worldIn, rayTrace.getBlockPos().relative(rayTrace.getDirection()), (BlockHitResult)null);
+            return rayTrace != null && this.tryPlaceContainedLiquid(player, world, rayTrace.getBlockPos().offset(rayTrace.getSide()), (BlockHitResult)null);
         }
         else
         {
-            if (!worldIn.isClientSide() && blockstate.canBeReplaced(Fluids.WATER) && !blockstate.liquid())
+            if (!world.isClient() && blockstate.canBucketPlace(Fluids.WATER) && !blockstate.isLiquid())
             {
-                worldIn.destroyBlock(posIn, true);
+                world.breakBlock(posIn, true);
             }
-            if (!worldIn.setBlockState(posIn, AerialHellBlocksAndItems.LIQUID_OF_THE_GODS.get().getDefaultState(), 11) && !blockstate.getFluidState().isSource())
+            if (!world.setBlockState(posIn, AerialHellBlocks.LIQUID_OF_THE_GODS.getDefaultState(), 11) && !blockstate.getFluidState().isStill())
             {
                 return false;
             }
             else
             {
-                this.playEmptySound(player, worldIn, posIn);
+                this.playEmptySound(player, world, posIn);
                 return true;
             }
         }
     }
 
-    protected void playEmptySound(@Nullable Player player, LevelAccessor worldIn, BlockPos pos)
+    protected void playEmptySound(@Nullable PlayerEntity player, WorldAccess world, BlockPos pos)
     {
-        SoundEvent soundevent = SoundEvents.BUCKET_EMPTY_LAVA;
-        worldIn.playSound(player, pos, soundevent, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        SoundEvent soundevent = SoundEvents.ITEM_BUCKET_EMPTY_LAVA;
+        world.playSound(player, pos, soundevent, SoundCategory.BLOCKS, 1.0F, 1.0F);
     }
 }

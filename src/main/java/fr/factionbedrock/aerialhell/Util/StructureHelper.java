@@ -48,7 +48,7 @@ public class StructureHelper
 		if (nearestDungeonPos != null)
 		{
 			if (!checkAltitude) {nearestDungeonPos = new BlockPos(nearestDungeonPos.getX(), yCheck, nearestDungeonPos.getZ());}
-			return generationPos.distSqr(nearestDungeonPos) < blockCheckDistance;
+			return generationPos.getSquaredDistance(nearestDungeonPos) < blockCheckDistance;
 		}
 		else {return false;}
 		---------------------------
@@ -60,7 +60,7 @@ public class StructureHelper
 			if (nearestDungeonPos != null)
 			{
 				if (!checkAltitude) {nearestDungeonPos = new BlockPos(nearestDungeonPos.getX(), yCheck, nearestDungeonPos.getZ());}
-				return generationPos.distSqr(nearestDungeonPos) < blockCheckDistance;
+				return generationPos.getSquaredDistance(nearestDungeonPos) < blockCheckDistance;
 			}
 			else {return true;}
 		}

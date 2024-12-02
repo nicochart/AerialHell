@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
@@ -16,7 +17,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
-public class ThrownStellarEgg extends ThrowableItemProjectile
+public class ThrownStellarEgg extends ThrownItemEntity
 {
     public ThrownStellarEgg(EntityType<? extends ThrownStellarEgg> type, Level level) {super(type, level);}
     public ThrownStellarEgg(Level level, LivingEntity shooter) {super(AerialHellEntities.THROWN_STELLAR_EGG.get(), shooter, level);}
@@ -55,8 +56,8 @@ public class ThrownStellarEgg extends ThrowableItemProjectile
                     if (chicken != null)
                     {
                         chicken.setAge(-24000);
-                        chicken.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-                        chicken.setColor(this.level().getBlockTint(this.blockPosition(), Biome::getGrassColor));
+                        chicken.moveTo(this.getX(), this.getY(), this.getZ(), this.getYaw(), 0.0F);
+                        chicken.setColor(this.level().getBlockTint(this.getBlockPos(), Biome::getGrassColor));
 
                         this.level().spawnEntity(chicken);
                     }

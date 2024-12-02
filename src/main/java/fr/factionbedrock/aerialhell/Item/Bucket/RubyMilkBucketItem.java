@@ -1,16 +1,18 @@
 package fr.factionbedrock.aerialhell.Item.Bucket;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.advancements.CriteriaTriggers;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.stats.Stats;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.level.Level;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsage;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.stat.Stats;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.UseAction;
+import net.minecraft.world.World;
 
 public class RubyMilkBucketItem extends Item
 {
@@ -19,28 +21,29 @@ public class RubyMilkBucketItem extends Item
         super(settings);
     }
 
-    @Override public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity)
+    @Override public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user)
     {
-        if (entity instanceof ServerPlayer serverplayer)
+        if (user instanceof ServerPlayerEntity serverPlayerEntity)
         {
-            CriteriaTriggers.CONSUME_ITEM.trigger(serverplayer, stack);
-            serverplayer.awardStat(Stats.ITEM_USED.get(this));
+            Criteria.CONSUME_ITEM.trigger(serverPlayerEntity, stack);
+            serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
         }
 
-        stack.consume(1, entity);
-        if (!level.isClientSide) {entity.removeAllEffects();}
+        if (!world.isClient) {user.clearStatusEffects();}
 
-        return stack.isEmpty() ? new ItemStack(Items.BUCKET) : stack;
+        if (user instanceof PlayerEntity playerEntity) {return ItemUsage.exchangeStack(stack, playerEntity, new ItemStack(AerialHellItems.RUBY_BUCKET), false);}
+        else
+        {
+            stack.decrementUnlessCreative(1, user);
+            return stack;
+        }
     }
 
-    @Override public int getUseDuration(ItemStack stack, LivingEntity livingEntity) {return 32;}
+    @Override public int getMaxUseTime(ItemStack stack, LivingEntity livingEntity) {return 32;}
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) {return UseAnim.DRINK;}
+    public UseAction getUseAction(ItemStack stack) {return UseAction.DRINK;}
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
-    {
-        return ItemUtils.startUsingInstantly(worldIn, playerIn, handIn);
-    }
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {return ItemUsage.consumeHeldItem(world, user, hand);}
 }

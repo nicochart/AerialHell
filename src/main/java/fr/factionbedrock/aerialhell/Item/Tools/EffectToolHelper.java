@@ -6,219 +6,219 @@ import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Hand;
+import net.minecraft.world.World;
 
 public class EffectToolHelper
 {
-	public static void addParticleOnPlayer(int count, SimpleParticleType particleType, Player playerIn, Level worldIn, Random rand)
+	public static void addParticleOnPlayer(int count, SimpleParticleType particleType, PlayerEntity player, World world, Random rand)
 	{
 		int i;
 		for (i=0 ; i<count; i++)
 		{
-			worldIn.addParticle(particleType, playerIn.getX() + 4*(rand.nextFloat() - 0.5F), playerIn.getY() + 4*rand.nextFloat(), playerIn.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
+			world.addParticle(particleType, player.getX() + 4*(rand.nextFloat() - 0.5F), player.getY() + 4*rand.nextFloat(), player.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
 		}
 	}
 	
-	public static void setDamageAndCooldown(Item ItemIn, ItemStack heldItem, Player playerIn, InteractionHand hand, int cooldown)
+	public static void setDamageAndCooldown(Item item, ItemStack heldItem, PlayerEntity player, Hand hand, int cooldown)
 	{
-		playerIn.getCooldowns().addCooldown(ItemIn, cooldown);
-		heldItem.hurtAndBreak(1, playerIn, LivingEntity.getSlotForHand(hand));
+		player.getItemCooldownManager().set(item, cooldown);
+		heldItem.damage(1, player, LivingEntity.getSlotForHand(hand));
 	}
 	
-	public static void applyFullVolucitePower(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand)
+	public static void applyFullVolucitePower(Item item, ItemStack heldItem, World world, PlayerEntity player, Hand hand, Random rand)
 	{
-		addParticleOnPlayer(20, ParticleTypes.CLOUD, playerIn, worldIn, rand);
-		playerIn.playSound(SoundEvents.ILLUSIONER_CAST_SPELL, 1.0F, 1.5F);
-		if (!worldIn.isClientSide())
+		addParticleOnPlayer(20, ParticleTypes.CLOUD, player, world, rand);
+		player.playSound(SoundEvents.ENTITY_ILLUSIONER_CAST_SPELL, 1.0F, 1.5F);
+		if (!world.isClient())
 		{
-			playerIn.addEffect(new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate(), 100, 1));
-			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 120, 0));
+			player.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS, 100, 1));
+			player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 120, 0));
 		}
-		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, 250);
+		setDamageAndCooldown(item, heldItem, player, hand, 250);
 	}
 	
-	public static void applyHalfVolucitePower(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand)
+	public static void applyHalfVolucitePower(Item item, ItemStack heldItem, World world, PlayerEntity player, Hand hand, Random rand)
 	{
-		addParticleOnPlayer(20, ParticleTypes.CLOUD, playerIn, worldIn, rand);
-		playerIn.playSound(SoundEvents.ILLUSIONER_CAST_SPELL, 1.0F, 1.6F);
-		if (!worldIn.isClientSide()) {playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 80, 0));}
-		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, 250);
+		addParticleOnPlayer(20, ParticleTypes.CLOUD, player, world, rand);
+		player.playSound(SoundEvents.ENTITY_ILLUSIONER_CAST_SPELL, 1.0F, 1.6F);
+		if (!world.isClient()) {player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 80, 0));}
+		setDamageAndCooldown(item, heldItem, player, hand, 250);
 	}
 	
-	public static boolean tryToApplyVolucitePower(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand, boolean canApplyFullPower)
+	public static boolean tryToApplyVolucitePower(Item item, ItemStack heldItem, World world, PlayerEntity player, Hand hand, Random rand, boolean canApplyFullPower)
 	{
 		int count_volucite = 0, count_heavy = 0;
-		for (ItemStack armorStack : playerIn.getArmorSlots())
+		for (ItemStack armorStack : player.getArmorItems())
 		{
-			if (armorStack.is(AerialHellTags.Items.VOLUCITE_STUFF)) {count_volucite++;}
-			if (armorStack.is(AerialHellTags.Items.OBSIDIAN_STUFF) || armorStack.is(AerialHellTags.Items.ARSONIST_STUFF)) {count_heavy++;}
+			if (armorStack.isIn(AerialHellTags.Items.VOLUCITE_STUFF)) {count_volucite++;}
+			if (armorStack.isIn(AerialHellTags.Items.OBSIDIAN_STUFF) || armorStack.isIn(AerialHellTags.Items.ARSONIST_STUFF)) {count_heavy++;}
 		}
-		if (canApplyFullPower && count_volucite >= 4) {applyFullVolucitePower(ItemIn, heldItem, worldIn, playerIn, hand, rand); return true;} //full volucite armor : full volucite power
-		else if (count_heavy == 0 || count_volucite > 0) {applyHalfVolucitePower(ItemIn, heldItem, worldIn, playerIn, hand, rand); return true;} //not too heavy : half volucite power
+		if (canApplyFullPower && count_volucite >= 4) {applyFullVolucitePower(item, heldItem, world, player, hand, rand); return true;} //full volucite armor : full volucite power
+		else if (count_heavy == 0 || count_volucite > 0) {applyHalfVolucitePower(item, heldItem, world, player, hand, rand); return true;} //not too heavy : half volucite power
 		else {return false;} //any heavy armor piece equiped and no volucite armor piece equiped : no effect
 	}
 	
-	public static void applyNinjaEffect(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, Random rand, InteractionHand hand, int cooldown)
+	public static void applyNinjaEffect(Item item, ItemStack heldItem, World world, PlayerEntity player, Random rand, Hand hand, int cooldown)
 	{
-		addParticleOnPlayer(20, ParticleTypes.CLOUD, playerIn, worldIn, rand);
-		playerIn.playSound(SoundEvents.ILLUSIONER_CAST_SPELL, 1.0F, 1.6F);
-		if (!worldIn.isClientSide())
+		addParticleOnPlayer(20, ParticleTypes.CLOUD, player, world, rand);
+		player.playSound(SoundEvents.ENTITY_ILLUSIONER_CAST_SPELL, 1.0F, 1.6F);
+		if (!world.isClient())
 		{
-			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 200, 0));
-			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SPEED, 120, 0));
+			player.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 200, 0));
+			player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 120, 0));
 		}
-		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, cooldown);
+		setDamageAndCooldown(item, heldItem, player, hand, cooldown);
 	}
 
-	public static void applyReaperWalkEffect(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand, int cooldown)
+	public static void applyReaperWalkEffect(Item item, ItemStack heldItem, World world, PlayerEntity player, Hand hand, Random rand, int cooldown)
 	{
-		addParticleOnPlayer(20, AerialHellParticleTypes.SHADOW_LIGHT.get(), playerIn, worldIn, rand);
-		playerIn.playSound(SoundEvents.ILLUSIONER_CAST_SPELL, 1.0F, 1.6F);
-		if (!worldIn.isClientSide())
+		addParticleOnPlayer(20, AerialHellParticleTypes.SHADOW_LIGHT, player, world, rand);
+		player.playSound(SoundEvents.ENTITY_ILLUSIONER_CAST_SPELL, 1.0F, 1.6F);
+		if (!world.isClient())
 		{
-			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 200, 0));
-			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SPEED, 120, 0));
-			playerIn.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.getDelegate(), 120, 0));
+			player.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 200, 0));
+			player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 120, 0));
+			player.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY, 120, 0));
 		}
-		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, cooldown);
+		setDamageAndCooldown(item, heldItem, player, hand, cooldown);
 	}
 	
-	public static void applyRandomEffect(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand)
+	public static void applyRandomEffect(Item item, ItemStack heldItem, World world, PlayerEntity player, Hand hand, Random rand)
 	{
-		addParticleOnPlayer(20, ParticleTypes.ENCHANT, playerIn, worldIn, rand);
-		playerIn.playSound(SoundEvents.ENCHANTMENT_TABLE_USE, 1.0F, 1.5F);
+		addParticleOnPlayer(20, ParticleTypes.ENCHANT, player, world, rand);
+		player.playSound(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, 1.0F, 1.5F);
 		
-		if (!worldIn.isClientSide())
+		if (!world.isClient())
 		{
 			if (rand.nextFloat() < 0.25)
 			{
-				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SPEED, 750, 0));
+				player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 750, 0));
 			}
 			else if (rand.nextFloat() < 0.3333)
 			{
-				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP, 750, 0));
+				player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 750, 0));
 			}
 			else if (rand.nextFloat() < 0.5)
 			{
-				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.DAMAGE_RESISTANCE, 750, 0));
+				player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 750, 0));
 			}
 			else
 			{
-				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.UNLUCK, 750, 0));
-				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 60, 0));
+				player.addStatusEffect(new StatusEffectInstance(StatusEffects.UNLUCK, 750, 0));
+				player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 60, 0));
 			}
 		}
-		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, 900);
+		setDamageAndCooldown(item, heldItem, player, hand, 900);
 	}
 	
-	public static void applyLunaticLight(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand, int baseCooldown)
+	public static void applyLunaticLight(Item item, ItemStack heldItem, World world, PlayerEntity player, Hand hand, Random rand, int baseCooldown)
 	{
 		int count = 0;
-		for (ItemStack armorStack : playerIn.getArmorSlots()) {if (armorStack.is(AerialHellTags.Items.LUNATIC_STUFF)) {count++;}}
+		for (ItemStack armorStack : player.getArmorItems()) {if (armorStack.isIn(AerialHellTags.Items.LUNATIC_STUFF)) {count++;}}
 		int cooldown = count == 4 ? baseCooldown/2 : baseCooldown;
-		if (!worldIn.isClientSide())
+		if (!world.isClient())
         {
-			LunaticProjectileEntity lunaticProjectileEntity = new LunaticProjectileEntity(worldIn, playerIn, playerIn.getLookAngle().x, playerIn.getLookAngle().y, playerIn.getLookAngle().z, 0.7f, 0);
-			lunaticProjectileEntity.setPos(playerIn.getX(), playerIn.getY(0.5D) + 0.5D, playerIn.getZ());
-            worldIn.spawnEntity(lunaticProjectileEntity);
-            playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, cooldown/2, 2));
+			LunaticProjectileEntity lunaticProjectileEntity = new LunaticProjectileEntity(world, player, player.getRotationVector().x, player.getRotationVector().y, player.getRotationVector().z, 0.7f, 0);
+			lunaticProjectileEntity.setPos(player.getX(), player.getBodyY(0.5D) + 0.5D, player.getZ());
+            world.spawnEntity(lunaticProjectileEntity);
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, cooldown/2, 2));
         }
-		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, cooldown);
+		setDamageAndCooldown(item, heldItem, player, hand, cooldown);
 	}
 	
-	public static boolean tryRemovingPoisonAndWitherEffect(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand) //returns true if any effect is removed
+	public static boolean tryRemovingPoisonAndWitherEffect(Item item, ItemStack heldItem, World world, PlayerEntity player, Hand hand, Random rand) //returns true if any effect is removed
 	{
-		boolean playerHasPoison = (playerIn.hasEffect(MobEffects.POISON));
-		boolean playerHasWither = (playerIn.hasEffect(MobEffects.WITHER));
+		boolean playerHasPoison = (player.hasStatusEffect(StatusEffects.POISON));
+		boolean playerHasWither = (player.hasStatusEffect(StatusEffects.WITHER));
 		if (!playerHasPoison && !playerHasWither) {return false;}
 		else
 		{
-			playerIn.playSound(SoundEvents.GENERIC_DRINK, 1.0F, 1.5F + 0.4F * rand.nextFloat());
+			player.playSound(SoundEvents.ENTITY_GENERIC_DRINK, 1.0F, 1.5F + 0.4F * rand.nextFloat());
 			
-			if (playerHasPoison) {playerIn.removeEffect(MobEffects.POISON);}
-			if (playerHasWither) {playerIn.removeEffect(MobEffects.WITHER);}
-			setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, 900);
+			if (playerHasPoison) {player.removeStatusEffect(StatusEffects.POISON);}
+			if (playerHasWither) {player.removeStatusEffect(StatusEffects.WITHER);}
+			setDamageAndCooldown(item, heldItem, player, hand, 900);
 	        return true;
 		}
 	}
 	
-	public static boolean tryEatingTool(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand) //return true if eat success
+	public static boolean tryEatingTool(Item item, ItemStack heldItem, World world, PlayerEntity player, Hand hand, Random rand) //return true if eat success
 	{
-		if (playerIn.canEat(false))
+		if (player.canConsume(false))
 		{
-			playerIn.playSound(SoundEvents.GENERIC_EAT, 1.0F, 0.5F + rand.nextFloat());
-			if (!worldIn.isClientSide())
+			player.playSound(SoundEvents.ENTITY_GENERIC_EAT, 1.0F, 0.5F + rand.nextFloat());
+			if (!world.isClient())
 			{
-				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 0));
-				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 0));
+				player.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 0));
+				player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 0));
 			}
-			setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, 20);
+			setDamageAndCooldown(item, heldItem, player, hand, 20);
 			return true;
 		}
 		else{return false;}
 	}
 	
-	public static void PlayerLiftoff(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand)
+	public static void PlayerLiftoff(Item item, ItemStack heldItem, World world, PlayerEntity player, Hand hand, Random rand)
 	{
-		addParticleOnPlayer(20, ParticleTypes.EXPLOSION, playerIn, worldIn, rand);
-		playerIn.playSound(SoundEvents.GENERIC_EXPLODE.value(), 1.0F, 0.5F + rand.nextFloat());
+		addParticleOnPlayer(20, ParticleTypes.EXPLOSION, player, world, rand);
+		player.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE.value(), 1.0F, 0.5F + rand.nextFloat());
 		int cooldown;
-		if (playerIn.isShiftKeyDown()) //armored glass
+		if (player.isSneaking()) //armored glass
 		{
-			if (!worldIn.isClientSide())
+			if (!world.isClient())
 			{
-				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.DAMAGE_RESISTANCE, 200, 1));
-				playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SLOWDOWN, 100, 0));
+				player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 200, 1));
+				player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 0));
 			}
 			cooldown = 400;
 		}
 		else //lift-off
 		{
-			if (worldIn.isClientSide()) {playerIn.setDeltaMovement(playerIn.getDeltaMovement().add(0, 2, 0));}
-			else  {playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 200, 2));}
+			if (world.isClient()) {player.setVelocity(player.getVelocity().add(0, 2, 0));}
+			else  {player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 200, 2));}
 			cooldown = 600;
 		}
-		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, cooldown);
+		setDamageAndCooldown(item, heldItem, player, hand, cooldown);
 	}
 	
-	public static void applyFireResistanceEffect(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand, int duration, int base_cooldown)
+	public static void applyFireResistanceEffect(Item item, ItemStack heldItem, World world, PlayerEntity player, Hand hand, Random rand, int duration, int base_cooldown)
 	{
-		addParticleOnPlayer(20, ParticleTypes.FLAME, playerIn, worldIn, rand);
-		playerIn.playSound(SoundEvents.GENERIC_EXTINGUISH_FIRE, 1.0F, 0.5F + rand.nextFloat());
+		addParticleOnPlayer(20, ParticleTypes.FLAME, player, world, rand);
+		player.playSound(SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, 1.0F, 0.5F + rand.nextFloat());
 		int cooldown = base_cooldown,count = 0;
-		for (ItemStack armorStack : playerIn.getArmorSlots()) {if (armorStack.is(AerialHellTags.Items.ARSONIST_STUFF)) {count++;}}
+		for (ItemStack armorStack : player.getArmorItems()) {if (armorStack.isIn(AerialHellTags.Items.ARSONIST_STUFF)) {count++;}}
 		if (count >= 4) {cooldown/=2;}
-		if (!worldIn.isClientSide())
+		if (!world.isClient())
 		{
-			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, duration, 0));
+			player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, duration, 0));
 		}
-		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, cooldown);
+		setDamageAndCooldown(item, heldItem, player, hand, cooldown);
 	}
 	
-	public static void applyJumpBoostEffect(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand, int duration, int amplifier)
+	public static void applyJumpBoostEffect(Item item, ItemStack heldItem, World world, PlayerEntity player, Hand hand, Random rand, int duration, int amplifier)
 	{
-		addParticleOnPlayer(20, ParticleTypes.CRIMSON_SPORE, playerIn, worldIn, rand);
-		playerIn.playSound(SoundEvents.PARROT_IMITATE_MAGMA_CUBE, 1.0F, 0.5F + rand.nextFloat());
-		if (!worldIn.isClientSide())
+		addParticleOnPlayer(20, ParticleTypes.CRIMSON_SPORE, player, world, rand);
+		player.playSound(SoundEvents.ENTITY_PARROT_IMITATE_MAGMA_CUBE, 1.0F, 0.5F + rand.nextFloat());
+		if (!world.isClient())
 		{
-			playerIn.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP, duration, amplifier));
+			player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, duration, amplifier));
 		}
-		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, 400);
+		setDamageAndCooldown(item, heldItem, player, hand, 400);
 	}
 	
 	public static class PassiveEffects
 	{
-		public static void applyMagmaCubeEffect(LivingEntity entityIn) {((LivingEntity) entityIn).addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP, 400, 0));}
-		public static void applyGodEffect(LivingEntity entityIn) {((LivingEntity) entityIn).addEffect(new MobEffectInstance(AerialHellMobEffects.GOD.getDelegate(), 400, 0));}
+		public static void applyMagmaCubeEffect(LivingEntity entity) {((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 400, 0));}
+		public static void applyGodEffect(LivingEntity entity) {((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.GOD, 400, 0));}
 	}
 }

@@ -1,82 +1,82 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class EffectTotemItem extends Item
 {
 	private int timer; 
 	
-	public EffectTotemItem(Properties properties)
+	public EffectTotemItem(Item.Settings settings)
 	{
-		super(properties);
+		super(settings);
 		this.timer = 0;
 	}
 	
-	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	@Override public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected)
 	{
-		if (!worldIn.isClientSide() && timer <= 0)
+		if (!world.isClient() && timer <= 0)
 		{
-			if (entityIn instanceof LivingEntity)
+			if (entity instanceof LivingEntity)
 			{
-				LivingEntity livingEntityIn = (LivingEntity) entityIn;
-				if (livingEntityIn.getMainHandItem().getItem() == this || livingEntityIn.getOffhandItem().getItem() == this)
+				LivingEntity livingEntityIn = (LivingEntity) entity;
+				if (livingEntityIn.getMainHandStack().getItem() == this || livingEntityIn.getOffHandStack().getItem() == this)
 				{
-					if (this == AerialHellBlocksAndItems.REGENERATION_TOTEM.get())
+					if (this == AerialHellItems.REGENERATION_TOTEM)
 					{
 						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 1200, 0));
 					}
-					else if (this == AerialHellBlocksAndItems.SPEED_TOTEM.get())
+					else if (this == AerialHellItems.SPEED_TOTEM)
 					{
-						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SPEED, 1200, 0));
+						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 1200, 0));
 					}
-					else if (this == AerialHellBlocksAndItems.SPEED_II_TOTEM.get())
+					else if (this == AerialHellItems.SPEED_II_TOTEM)
 					{
-						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SPEED, 1200, 1));
+						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 1200, 1));
 					}
-					else if (this == AerialHellBlocksAndItems.NIGHT_VISION_TOTEM.get())
+					else if (this == AerialHellItems.NIGHT_VISION_TOTEM)
 					{
 						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 1200, 0));
 					}
-					else if (this == AerialHellBlocksAndItems.AGILITY_TOTEM.get())
+					else if (this == AerialHellItems.AGILITY_TOTEM)
 					{
-						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SPEED, 1200, 0));
-						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP, 1200, 0));
+						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 1200, 0));
+						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 1200, 0));
 					}
-					else if (this == AerialHellBlocksAndItems.HEAD_IN_THE_CLOUDS_TOTEM.get())
+					else if (this == AerialHellItems.HEAD_IN_THE_CLOUDS_TOTEM)
 					{
-						livingEntityIn.addEffect(new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate(), 1000, 0));
+						livingEntityIn.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS, 1000, 0));
 					}
-					else if (this == AerialHellBlocksAndItems.HERO_TOTEM.get())
+					else if (this == AerialHellItems.HERO_TOTEM)
 					{
 						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.HERO_OF_THE_VILLAGE, 1200, 0));
 					}
-					else if (this == AerialHellBlocksAndItems.GOD_TOTEM.get())
+					else if (this == AerialHellItems.GOD_TOTEM)
 					{
-						livingEntityIn.addEffect(new MobEffectInstance(AerialHellMobEffects.GOD.getDelegate(), 1200, 0));
+						livingEntityIn.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.GOD, 1200, 0));
 					}
-					else if (this == AerialHellBlocksAndItems.CURSED_TOTEM.get())
+					else if (this == AerialHellItems.CURSED_TOTEM)
 					{
-						if (!(ItemHelper.getItemInTagCount(livingEntityIn.getArmorSlots(), AerialHellTags.Items.SHADOW_ARMOR) >= 4))
+						if (!(ItemHelper.getItemInTagCount(livingEntityIn.getArmorItems(), AerialHellTags.Items.SHADOW_ARMOR) >= 4))
 						{
-							livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.CONFUSION, 300, 0));
+							livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 300, 0));
 							livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 600, 0));
-							livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MOVEMENT_SLOWDOWN, 900, 0));
+							livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 900, 0));
 						}
-						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.DAMAGE_RESISTANCE, 1500, 2));
+						livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 1500, 2));
 					}
-					else if (this == AerialHellBlocksAndItems.SHADOW_TOTEM.get())
+					else if (this == AerialHellItems.SHADOW_TOTEM)
 					{
-						livingEntityIn.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.getDelegate(), 1000, 0));
+						livingEntityIn.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY, 1000, 0));
 					}
 				}
 			}

@@ -178,7 +178,7 @@ public class TornSpiritEntity extends Monster
 	                     float halfDistanceToTarget = MathHelper.sqrt(MathHelper.sqrt((float) squaredDistanceToTarget)) * 0.5F;
 	                     if (!this.tornspirit.isSilent())
 	                     {
-	                        this.tornspirit.level().levelEvent((Player)null, 1018, this.tornspirit.blockPosition(), 0);
+	                        this.tornspirit.level().levelEvent((Player)null, 1018, this.tornspirit.getBlockPos(), 0);
 	                     }
 	                     
 	                     int n = (int)(Math.random() * 2) + 1; //nombre al�atoire entre 1 et 3

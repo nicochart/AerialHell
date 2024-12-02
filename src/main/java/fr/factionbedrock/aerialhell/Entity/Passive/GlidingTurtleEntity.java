@@ -33,7 +33,7 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
 
     public InteractionResult mobInteract(Player player, InteractionHand hand)
     {
-        if (this.isFood(player.getItemInHand(hand))) {this.ateTimer = 12000;}
+        if (this.isFood(player.getStackInHand(hand))) {this.ateTimer = 12000;}
         return super.mobInteract(player, hand);
     }
 

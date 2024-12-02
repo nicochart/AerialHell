@@ -2,40 +2,41 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 
 import java.util.Random;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolMaterial;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.world.World;
 
 public class EffectHoeItem extends AerialHellHoeItem
 {	
-	public EffectHoeItem(Tier tier, Properties builderIn)
+	public EffectHoeItem(ToolMaterial toolMaterial, Item.Settings settings)
 	{
-		super(tier, builderIn);
+		super(toolMaterial, settings);
 	}
 	
 	@Override
-	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {}
+	public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {}
 	
 	@Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
     {
-		ItemStack heldItem = playerIn.getItemInHand(handIn);
+		ItemStack heldItem = player.getStackInHand(hand);
 		Random rand = new Random();
-		if (this == AerialHellBlocksAndItems.VOLUCITE_HOE.get())
+		if (this == AerialHellItems.VOLUCITE_HOE)
 		{
-			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, handIn, rand, false)) {return InteractionResultHolder.consume(heldItem);}
-			else {return InteractionResultHolder.pass(heldItem);}
+			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, world, player, hand, rand, false)) {return TypedActionResult.consume(heldItem);}
+			else {return TypedActionResult.pass(heldItem);}
 		}
-		else if (this == AerialHellBlocksAndItems.REAPER_SCYTHE.get())
+		else if (this == AerialHellItems.REAPER_SCYTHE)
 		{
-			EffectToolHelper.applyReaperWalkEffect(this, heldItem, worldIn, playerIn, handIn, rand, 600);
-	        return InteractionResultHolder.consume(heldItem);
+			EffectToolHelper.applyReaperWalkEffect(this, heldItem, world, player, hand, rand, 600);
+	        return TypedActionResult.consume(heldItem);
 		}
-		else {return super.use(worldIn, playerIn, handIn);}
+		else {return super.use(world, player, hand);}
     }
 }

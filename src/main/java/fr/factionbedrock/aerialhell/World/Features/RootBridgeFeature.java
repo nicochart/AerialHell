@@ -39,7 +39,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         if (bridgeEnd == null) {bridgeEnd = getRandomBridgeEnd(reader, rand, centerOfFeature, bridgeStart, 20, rand.nextInt(32) == 0);}
         if (bridgeEnd == null) {return false;}
 
-        boolean isLongBridge = bridgeStart.distSqr(bridgeEnd) > 1024;
+        boolean isLongBridge = bridgeStart.getSquaredDistance(bridgeEnd) > 1024;
         boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
 
         if (!generatesInDungeon)
@@ -113,7 +113,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
             int yOffset = getRandomOffset(rand, MIN_ABS_Y_OFFSET, MAX_ABS_Y_OFFSET);
             int zOffset = getRandomOffset(rand, MIN_ABS_XZ_OFFSET, MAX_ABS_XZ_OFFSET);
             potentialBridgeEnd = centerOfFeature.offset(xOffset, yOffset, zOffset);
-            if (isValidBridgeStartOrEnd(reader, potentialBridgeEnd) && Math.sqrt(bridgeStart.distSqr(potentialBridgeEnd)) > 16) {return potentialBridgeEnd;}
+            if (isValidBridgeStartOrEnd(reader, potentialBridgeEnd) && Math.sqrt(bridgeStart.getSquaredDistance(potentialBridgeEnd)) > 16) {return potentialBridgeEnd;}
         }
         return forceNonNullReturn ? potentialBridgeEnd : null;
     }

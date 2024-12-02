@@ -69,21 +69,21 @@ public class EntityHelper
 
     public static boolean isCreaOrSpecPlayer(Entity entity) {return entity instanceof Player player && (player.isCreative() || player.isSpectator());}
 
-    public static boolean isLivingEntityUnderInTheCloudsEffect(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate());}
+    public static boolean isLivingEntityUnderInTheCloudsEffect(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate());}
 
-    public static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.SHADOW_IMMUNITY.getDelegate()) || isLivingEntityShadowBind(entity);}
+    public static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.SHADOW_IMMUNITY.getDelegate()) || isLivingEntityShadowBind(entity);}
 
-    public static boolean isLivingEntityShadowBind(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.SHADOW_BIND.getDelegate()) && entity.getEffect(AerialHellMobEffects.SHADOW_BIND.getDelegate()).getDuration() > 1;}
+    public static boolean isLivingEntityShadowBind(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.SHADOW_BIND.getDelegate()) && entity.getEffect(AerialHellMobEffects.SHADOW_BIND.getDelegate()).getDuration() > 1;}
 
-    public static boolean isLivingEntityVulnerable(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.VULNERABILITY.getDelegate());}
+    public static boolean isLivingEntityVulnerable(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.VULNERABILITY.getDelegate());}
 
-    public static boolean isLivingEntityATraitor(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.TRAITOR.getDelegate());}
+    public static boolean isLivingEntityATraitor(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.TRAITOR.getDelegate());}
 
-    public static boolean isLivingEntityUnderAerialHellPortalEffect(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL.getDelegate());}
+    public static boolean isLivingEntityUnderAerialHellPortalEffect(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL.getDelegate());}
 
-    public static boolean isLivingEntityInAerialHellPortal(LivingEntity entity) {return entity.level().getBlockState(entity.blockPosition()).isOf(AerialHellBlocks.AERIAL_HELL_PORTAL.get());}
+    public static boolean isLivingEntityInAerialHellPortal(LivingEntity entity) {return entity.level().getBlockState(entity.getBlockPos()).isOf(AerialHellBlocks.AERIAL_HELL_PORTAL.get());}
 
-    public static boolean isLivingEntityOnPortalCooldown(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN.getDelegate()) || entity.isOnPortalCooldown();}
+    public static boolean isLivingEntityOnPortalCooldown(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN.getDelegate()) || entity.isOnPortalCooldown();}
 
     public static boolean isImmuneToSomeShadowDamage(Entity entity)
     {
@@ -197,7 +197,7 @@ public class EntityHelper
     {
         if (!entity.level().isClientSide())
         {
-            entity.addEffect(new MobEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL.getDelegate(), 120, 0));
+            entity.addStatusEffect(new MobEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL.getDelegate(), 120, 0));
         }
     }
 
@@ -205,7 +205,7 @@ public class EntityHelper
     {
         if (!entity.level().isClientSide())
         {
-            entity.addEffect(new MobEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN.getDelegate(), duration, 0));
+            entity.addStatusEffect(new MobEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN.getDelegate(), duration, 0));
         }
     }
 

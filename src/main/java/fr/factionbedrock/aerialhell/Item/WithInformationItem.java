@@ -2,28 +2,21 @@ package fr.factionbedrock.aerialhell.Item;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.ChatFormatting;
 import net.minecraft.item.Item;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.chat.Component;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 public class WithInformationItem extends Item
 {
 	public WithInformationItem(Item.Settings settings) {super(settings);}
 
-	@Override
-	public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
+	@Override public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type)
 	{
-		components.add(this.getDescription().withStyle(ChatFormatting.GRAY));
+		tooltip.add(this.getDescription().formatted(Formatting.GRAY));
 	}
 
-	public MutableComponent getDescription()
-	{
-		return Component.translatable(this.getDescriptionId() + ".desc");
-	}
+	public MutableText getDescription() {return Text.translatable(this.getTranslationKey()+".desc");}
 }

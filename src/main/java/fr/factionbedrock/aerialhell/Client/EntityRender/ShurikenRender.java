@@ -46,7 +46,7 @@ public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRend
 		{
 			entityIn.shurikenZRot = 360;
 		}
-		matrix.mulPose(Axis.YP.rotationDegrees(entityIn.getYRot())); /*Vertical plane rotation*/
+		matrix.mulPose(Axis.YP.rotationDegrees(entityIn.getYaw())); /*Vertical plane rotation*/
 		matrix.mulPose(Axis.XP.rotationDegrees(- 90.0f - entityIn.xRotO)); /*Pointing to forward*/
 		matrix.mulPose(Axis.ZP.rotationDegrees(entityIn.shurikenZRot)); /*Horizontal plane rotation*/
 

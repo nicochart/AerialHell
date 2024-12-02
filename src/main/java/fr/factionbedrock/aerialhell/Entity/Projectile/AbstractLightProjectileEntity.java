@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.entity.projectile.thrown.ThrownEntity;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -19,7 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
-public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
+public abstract class AbstractLightProjectileEntity extends ThrownEntity
 {
     private int ticksInAir = 0;
     public AbstractLightProjectileEntity(EntityType<? extends AbstractLightProjectileEntity> type, Level world) {super(type, world);}
@@ -46,7 +47,7 @@ public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
         super.tick();
         if (!this.onGround()) {++this.ticksInAir;}
         if (this.ticksInAir > 300) {this.discard();}
-        if (this.level().getBlockState(this.blockPosition()).is(AerialHellTags.Blocks.SOLID_ETHER)) {this.playHitEffect(); this.discard();}
+        if (this.level().getBlockState(this.getBlockPos()).is(AerialHellTags.Blocks.SOLID_ETHER)) {this.playHitEffect(); this.discard();}
         if (this.level() instanceof  ServerLevel serverLevel)
         {
             transformBlocks(serverLevel, this, this.getShiftType());
