@@ -6,7 +6,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -98,7 +97,7 @@ public class DimensionShattererProjectileEntity extends Fireball
 		else {this.discard();}
 	}
 
-	public void shootStraightForwars(Entity shooter, float xRot, float yRot, float zRot, float velocity, float inaccuracy)
+	public void shootStraightForward(Entity shooter, float xRot, float yRot, float zRot, float velocity, float inaccuracy)
 	{
 		float x = -Mth.sin(yRot * (float) (Math.PI / 180.0)) * Mth.cos(xRot * (float) (Math.PI / 180.0));
 		float y = -Mth.sin((xRot + zRot) * (float) (Math.PI / 180.0));

@@ -143,7 +143,7 @@ public class AerialHellPaintingEntity extends HangingEntity implements VariantHo
         {
             this.playSound(SoundEvents.PAINTING_BREAK, 1.0F, 1.0F);
             if (brokenEntity instanceof Player player && player.hasInfiniteMaterials()) {return;}
-            this.spawnAtLocation(Items.PAINTING);
+            this.spawnAtLocation(AerialHellBlocksAndItems.AERIAL_HELL_PAINTING.get());
         }
     }
 

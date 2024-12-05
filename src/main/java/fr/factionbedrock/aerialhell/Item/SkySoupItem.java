@@ -30,7 +30,7 @@ public class SkySoupItem extends Item //copy of net.minecraft.item.SoupItem but 
                 .food(new FoodProperties.Builder().alwaysEdible().nutrition(hungerIn).saturationModifier(saturationIn).effect(effectIn1.get(), 1.0F).effect(effectIn2.get(), 1.0F).build()));
 	}
 	
-	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entityLiving)
+	@Override public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entityLiving)
 	{
 		if (stack.is(AerialHellBlocksAndItems.SHADOW_FRUIT_STEW) && !level.isClientSide) {entityLiving.removeEffectsCuredBy(AerialHellMobEffects.Cures.SHADOW_FRUIT_STEW);}
 		ItemStack itemstack = super.finishUsingItem(stack, level, entityLiving);

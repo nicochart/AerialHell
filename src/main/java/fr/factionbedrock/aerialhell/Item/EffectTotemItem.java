@@ -22,7 +22,7 @@ public class EffectTotemItem extends Item
 		this.timer = 0;
 	}
 	
-	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	@Override public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
 		if (!worldIn.isClientSide() && timer <= 0)
 		{

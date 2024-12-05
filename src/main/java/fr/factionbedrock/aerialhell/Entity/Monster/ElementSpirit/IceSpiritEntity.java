@@ -17,44 +17,21 @@ import net.minecraft.world.level.Level;
 
 public class IceSpiritEntity extends AbstractElementSpiritEntity
 {
-	public IceSpiritEntity(EntityType<? extends IceSpiritEntity> type, Level worldIn)
+	public IceSpiritEntity(EntityType<? extends IceSpiritEntity> type, Level worldIn) {super(type, worldIn);}
+
+    public IceSpiritEntity(Level worldIn) {this(AerialHellEntities.ICE_SPIRIT.get(), worldIn);}
+
+    @Override public void applyEffect(Entity entityIn)
     {
-        super(type, worldIn);
+    	((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 150, 2, true, false));
     }
 
-    public IceSpiritEntity(Level worldIn)
-    {
-        this(AerialHellEntities.ICE_SPIRIT.get(), worldIn);
-    }
-    
-    public void applyEffect(Entity entityIn)
-    {
-    	((LivingEntity) entityIn).addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 150, 2, true, false)));
-    }
-    
-    public SimpleParticleType getParticleToSpawn()
+    @Override public SimpleParticleType getParticleToSpawn()
     {
     	return ParticleTypes.CLOUD;
     }
-    
-    @Nullable
-    @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-    {
-        return AerialHellSoundEvents.ENTITY_ICE_SPIRIT_HURT.get();
-    }
 
-    @Nullable
-    @Override
-    protected SoundEvent getDeathSound()
-    {
-        return AerialHellSoundEvents.ENTITY_ICE_SPIRIT_DEATH.get();
-    }
-
-    @Nullable
-    @Override
-    protected SoundEvent getAmbientSound()
-    {
-        return AerialHellSoundEvents.ENTITY_ICE_SPIRIT_AMBIENT.get();
-    }
+    @Nullable @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return AerialHellSoundEvents.ENTITY_ICE_SPIRIT_HURT.get();}
+    @Nullable @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_ICE_SPIRIT_DEATH.get();}
+    @Nullable @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_ICE_SPIRIT_AMBIENT.get();}
 }

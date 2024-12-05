@@ -19,18 +19,11 @@ import net.minecraft.server.level.ServerLevel;
 
 public class ElectroSpiritEntity extends AbstractElementSpiritEntity
 {
-	public ElectroSpiritEntity(EntityType<? extends ElectroSpiritEntity> type, Level worldIn)
-    {
-        super(type, worldIn);
-    }
+	public ElectroSpiritEntity(EntityType<? extends ElectroSpiritEntity> type, Level worldIn) {super(type, worldIn);}
 
-    public ElectroSpiritEntity(Level worldIn)
-    {
-        this(AerialHellEntities.ELECTRO_SPIRIT.get(), worldIn);
-    }
+    public ElectroSpiritEntity(Level worldIn) {this(AerialHellEntities.ELECTRO_SPIRIT.get(), worldIn);}
     
-    @Override
-    public void attackSuicide()
+    @Override public void attackSuicide()
     {
     	if (this.level() instanceof ServerLevel)
     	{
@@ -41,34 +34,13 @@ public class ElectroSpiritEntity extends AbstractElementSpiritEntity
     	super.attackSuicide();
     }
     
-    public void applyEffect(Entity entityIn)
+    @Override public void applyEffect(Entity entityIn)
     {
-    	((LivingEntity) entityIn).addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.GLOWING, 70, 2, true, false)));
-    }
-    
-    public SimpleParticleType getParticleToSpawn()
-    {
-    	return ParticleTypes.WITCH;
-    }
-    
-    @Nullable
-    @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-    {
-        return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_HURT.get();
+    	((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.GLOWING, 70, 2, true, false));
     }
 
-    @Nullable
-    @Override
-    protected SoundEvent getDeathSound()
-    {
-        return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_DEATH.get();
-    }
-
-    @Nullable
-    @Override
-    protected SoundEvent getAmbientSound()
-    {
-        return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_AMBIENT.get();
-    }
+    @Override public SimpleParticleType getParticleToSpawn() {return ParticleTypes.WITCH;}
+    @Nullable @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_HURT.get();}
+    @Nullable @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_DEATH.get();}
+    @Nullable @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_AMBIENT.get();}
 }

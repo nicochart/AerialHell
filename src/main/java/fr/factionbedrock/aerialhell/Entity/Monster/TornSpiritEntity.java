@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -64,11 +65,11 @@ public class TornSpiritEntity extends Monster
 		boolean flag = super.hurt(source, amount);
 		if (flag)
 		{
-			if (source.getEntity() instanceof LivingEntity && !(source.getDirectEntity() instanceof AbstractArrow))
+			if (source.getEntity() instanceof LivingEntity livingEntity && !(source.getDirectEntity() instanceof AbstractArrow))
 			{
-				if (!(source.getEntity() instanceof Player && ((Player)source.getEntity()).isCreative()))
+				if (!(EntityHelper.isCreativePlayer(livingEntity)))
 				{
-					this.setTarget((LivingEntity) source.getEntity());
+					this.setTarget(livingEntity);
 				}
 			}
 		}

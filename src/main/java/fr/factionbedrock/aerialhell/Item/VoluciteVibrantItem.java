@@ -9,13 +9,15 @@ public class VoluciteVibrantItem extends WithInformationItem
 { 
 	public VoluciteVibrantItem(Properties properties) {super(properties);}
 	
-	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	public void inventoryTick(ItemStack stack, Level level, Entity entity, int itemSlot, boolean isSelected)
 	{
-		LivingEntity livingEntityIn = (LivingEntity) entityIn;
-		if (livingEntityIn.getDeltaMovement().y < -0.2 && !livingEntityIn.isShiftKeyDown())
+		if (entity instanceof LivingEntity livingEntity)
 		{
-			livingEntityIn.fallDistance = 0;
-			livingEntityIn.setDeltaMovement(livingEntityIn.getDeltaMovement().x, -0.2, livingEntityIn.getDeltaMovement().z);
+			if (livingEntity.getDeltaMovement().y < -0.2 && !livingEntity.isShiftKeyDown())
+			{
+				livingEntity.fallDistance = 0;
+				livingEntity.setDeltaMovement(livingEntity.getDeltaMovement().x, -0.2, livingEntity.getDeltaMovement().z);
+			}
 		}
 	}
 }

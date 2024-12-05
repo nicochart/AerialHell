@@ -23,7 +23,7 @@ public class DimensionShattererProjectileItem extends EggItem
         {
             DimensionShattererProjectileEntity projectile = new DimensionShattererProjectileEntity(level, player);
             projectile.setPos(player.getX(), player.getEyeY() - 0.1F, player.getZ());
-            projectile.shootStraightForwars(player, player.getXRot(), player.getYRot(), 0.0F, 0.3F, 0.0F);
+            projectile.shootStraightForward(player, player.getXRot(), player.getYRot(), 0.0F, 0.3F, 0.0F);
             level.addFreshEntity(projectile);
         }
 

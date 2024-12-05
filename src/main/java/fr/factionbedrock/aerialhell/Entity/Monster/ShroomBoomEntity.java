@@ -58,7 +58,7 @@ public class ShroomBoomEntity extends Creeper
     
     public boolean canIgnite() {return this.getHealth() < this.getMaxHealth() / 3;}
     
-    public void setSwellDir(int state) //-1 for idle and 1 for ignited
+    @Override public void setSwellDir(int state) //-1 for idle and 1 for ignited
     {
     	if (state == 1)
     	{
