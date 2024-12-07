@@ -1,23 +1,27 @@
 package fr.factionbedrock.aerialhell.Registry;
 
-import fr.factionbedrock.aerialhell.AerialHell;
-
 import fr.factionbedrock.aerialhell.Inventory.Menu.OscillatorMenu;
 import fr.factionbedrock.aerialhell.Inventory.Menu.ReactorMenu;
 import fr.factionbedrock.aerialhell.Inventory.Menu.StellarFurnaceMenu;
 import fr.factionbedrock.aerialhell.Inventory.Menu.FreezerMenu;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.flag.FeatureFlags;
-import net.minecraft.world.inventory.MenuType;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
+import net.minecraft.resource.featuretoggle.FeatureSet;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerType;
 
 public class AerialHellMenuTypes
 {
-	public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(BuiltInRegistries.MENU, AerialHell.MODID);
+	public static final ScreenHandlerType<OscillatorMenu> OSCILLATOR = register("oscillator", OscillatorMenu::new, FeatureFlags.VANILLA_FEATURES);
+	public static final ScreenHandlerType<FreezerMenu> FREEZER = register("freezer", FreezerMenu::new, FeatureFlags.VANILLA_FEATURES);
+	public static final ScreenHandlerType<StellarFurnaceMenu> STELLAR_FURNACE = register("stellar_furnace", StellarFurnaceMenu::new, FeatureFlags.VANILLA_FEATURES);
+	public static final ScreenHandlerType<ReactorMenu> REACTOR = register("reactor", ReactorMenu::new, FeatureFlags.VANILLA_FEATURES);
 
-	public static final DeferredHolder<MenuType<?>, MenuType<OscillatorMenu>> OSCILLATOR = MENUS.register("oscillator", () -> new MenuType<>(OscillatorMenu::new, FeatureFlags.DEFAULT_FLAGS));
-	public static final DeferredHolder<MenuType<?>, MenuType<FreezerMenu>> FREEZER = MENUS.register("freezer", () -> new MenuType<>(FreezerMenu::new, FeatureFlags.DEFAULT_FLAGS));
-	public static final DeferredHolder<MenuType<?>, MenuType<StellarFurnaceMenu>> STELLAR_FURNACE = MENUS.register("stellar_furnace", () -> new MenuType<>(StellarFurnaceMenu::new, FeatureFlags.DEFAULT_FLAGS));
-	public static final DeferredHolder<MenuType<?>, MenuType<ReactorMenu>> REACTOR = MENUS.register("reactor", () -> new MenuType<>(ReactorMenu::new, FeatureFlags.DEFAULT_FLAGS));
+	private static <T extends ScreenHandler> ScreenHandlerType<T> register(String id, ScreenHandlerType.Factory<T> factory, FeatureSet featureSet)
+	{
+		return Registry.register(Registries.SCREEN_HANDLER, id, new ScreenHandlerType<>(factory, featureSet));
+	}
+
+	public static void load() {}
 }

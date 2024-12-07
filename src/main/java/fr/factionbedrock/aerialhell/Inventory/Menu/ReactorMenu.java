@@ -1,26 +1,27 @@
 package fr.factionbedrock.aerialhell.Inventory.Menu;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMenuTypes;
-import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.*;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 
-public class ReactorMenu extends AbstractContainerMenu
+public class ReactorMenu extends ScreenHandler
 {
-	private final Container container;
+	private final Inventory container;
 
-	public ReactorMenu(int containerId, Inventory playerInventory)
+	public ReactorMenu(int containerId, PlayerInventory playerInventory)
 	{
-		this(containerId, playerInventory, new SimpleContainer(1));
+		this(containerId, playerInventory, new SimpleInventory(1));
 	}
 
-	public ReactorMenu(int containerId, Inventory playerInventory, Container container)
+	public ReactorMenu(int containerId, PlayerInventory playerInventory, SimpleInventory container)
 	{
-		super(AerialHellMenuTypes.REACTOR.get(), containerId);
+		super(AerialHellMenuTypes.REACTOR, containerId);
 		this.container = container;
 
 		createPlayerHotbar(playerInventory);
@@ -28,19 +29,19 @@ public class ReactorMenu extends AbstractContainerMenu
 		createBlockEntityInventory(container);
 	}
 
-	private void createBlockEntityInventory(Container container)
+	private void createBlockEntityInventory(Inventory container)
 	{
 		addSlot(new Slot(container,0,80,36)
 		{
-			@Override public boolean mayPlace(ItemStack stack)
+			@Override public boolean canInsert(ItemStack stack)
 			{
-				return stack.isOf(AerialHellBlocks.FLUORITE.get()) || stack.isOf(AerialHellBlocks.FLUORITE_BLOCK_ITEM.get())
-					|| stack.isOf(AerialHellBlocks.SHADOW_CRYSTAL.get()) || stack.isOf(AerialHellBlocks.SHADOW_SHARD.get()) || stack.isOf(AerialHellBlocks.CURSED_CRYSAL.get()) || stack.isOf(AerialHellBlocks.CURSED_CRYSAL_BLOCK_ITEM.get());
+				return stack.isOf(AerialHellItems.FLUORITE) || stack.isOf(AerialHellItems.FLUORITE_BLOCK_ITEM)
+					|| stack.isOf(AerialHellItems.SHADOW_CRYSTAL) || stack.isOf(AerialHellItems.SHADOW_SHARD) || stack.isOf(AerialHellItems.CURSED_CRYSAL) || stack.isOf(AerialHellItems.CURSED_CRYSAL_BLOCK_ITEM);
 			}
 		});
 	}
 
-	private void createPlayerInventory(Container container)
+	private void createPlayerInventory(Inventory container)
 	{
 		for (int row = 0; row < 3; row++) {
 			for (int column = 0; column < 9; column++) {
@@ -52,7 +53,7 @@ public class ReactorMenu extends AbstractContainerMenu
 		}
 	}
 
-	private void createPlayerHotbar(Container container)
+	private void createPlayerHotbar(Inventory container)
 	{
 		for (int column = 0; column < 9; column++) {
 			addSlot(new Slot(container,
@@ -62,33 +63,33 @@ public class ReactorMenu extends AbstractContainerMenu
 		}
 	}
 
-	@Override public ItemStack quickMoveStack(PlayerEntity player, int index)
+	@Override public ItemStack quickMove(PlayerEntity player, int index)
 	{
 		Slot fromSlot = getSlot(index);
-		ItemStack fromStack = fromSlot.getItem();
+		ItemStack fromStack = fromSlot.getStack();
 
-		if (fromStack.getCount() <= 0) {fromSlot.set(ItemStack.EMPTY);}
-		if (!fromSlot.hasItem()) {return ItemStack.EMPTY;}
+		if (fromStack.getCount() <= 0) {fromSlot.setStack(ItemStack.EMPTY);}
+		if (!fromSlot.hasStack()) {return ItemStack.EMPTY;}
 
 		ItemStack copyFromStack = fromStack.copy();
 
 		if (index < 36) //player inventory
 		{
-			if(!moveItemStackTo(fromStack, 36, 37, false)) {return ItemStack.EMPTY;}
+			if(!insertItem(fromStack, 36, 37, false)) {return ItemStack.EMPTY;}
 		}
 		else if (index == 36) //reactor inventory
 		{
-			if(!moveItemStackTo(fromStack, 0, 36, false)) {return ItemStack.EMPTY;}
+			if(!insertItem(fromStack, 0, 36, false)) {return ItemStack.EMPTY;}
 		}
 
-		fromSlot.setChanged();
-		fromSlot.onTake(player, fromStack);
+		fromSlot.markDirty();
+		fromSlot.onTakeItem(player, fromStack);
 
 		return copyFromStack;
 	}
 
-	@Override public boolean stillValid(PlayerEntity player)
+	@Override public boolean canUse(PlayerEntity player)
 	{
-		return this.container.stillValid(player);
+		return this.container.canPlayerUse(player);
 	}
 }

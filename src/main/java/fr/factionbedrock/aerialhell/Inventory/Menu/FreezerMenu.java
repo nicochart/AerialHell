@@ -4,23 +4,23 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellMenuTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
 
 import fr.factionbedrock.aerialhell.BlockEntity.FreezerBlockEntity;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractFurnaceMenu;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.RecipeBookType;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.book.RecipeBookCategory;
+import net.minecraft.screen.AbstractFurnaceScreenHandler;
+import net.minecraft.screen.PropertyDelegate;
 
-public class FreezerMenu extends AbstractFurnaceMenu
+public class FreezerMenu extends AbstractFurnaceScreenHandler
 {
-	public FreezerMenu(int windowId, Inventory playerInventory)
+	public FreezerMenu(int windowId, PlayerInventory playerInventory)
 	{
-		super(AerialHellMenuTypes.FREEZER.get(), RecipeTypes.FREEZING.get(), RecipeBookType.FURNACE, windowId, playerInventory);
+		super(AerialHellMenuTypes.FREEZER, RecipeTypes.FREEZING, RecipeBookCategory.FURNACE, windowId, playerInventory);
 	}
 
-	public FreezerMenu(int windowId, Inventory playerInventory, Container freezingInventory, ContainerData data)
+	public FreezerMenu(int windowId, PlayerInventory playerInventory, Inventory freezingInventory, PropertyDelegate data)
 	{
-		super(AerialHellMenuTypes.FREEZER.get(), RecipeTypes.FREEZING.get(), RecipeBookType.FURNACE, windowId, playerInventory, freezingInventory, data);
+		super(AerialHellMenuTypes.FREEZER, RecipeTypes.FREEZING, RecipeBookCategory.FURNACE, windowId, playerInventory, freezingInventory, data);
 	}
 
 	@Override public boolean isFuel(ItemStack stack) {return FreezerBlockEntity.getFreezingMap().containsKey(stack.getItem());}

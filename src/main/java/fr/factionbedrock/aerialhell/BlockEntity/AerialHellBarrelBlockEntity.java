@@ -1,92 +1,114 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import net.minecraft.block.BarrelBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
+import net.minecraft.block.entity.ViewerCountManager;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.screen.GenericContainerScreenHandler;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
 public class AerialHellBarrelBlockEntity extends LootableContainerBlockEntity
-{BarrelB
-	private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
-	private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter()
+{
+	private DefaultedList<ItemStack> inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
+	private final ViewerCountManager stateManager = new ViewerCountManager()
 	{
-		protected void onOpen(World level, BlockPos pos, BlockState state)
+		@Override protected void onContainerOpen(World world, BlockPos pos, BlockState state)
 		{
-			AerialHellBarrelBlockEntity.this.playSound(state, SoundEvents.BARREL_OPEN);
-			AerialHellBarrelBlockEntity.this.updateBlockState(state, true);
+			AerialHellBarrelBlockEntity.this.playSound(state, SoundEvents.BLOCK_BARREL_OPEN);
+			AerialHellBarrelBlockEntity.this.setOpen(state, true);
 		}
 
-		protected void onClose(Level level, BlockPos pos, BlockState state)
+		@Override protected void onContainerClose(World world, BlockPos pos, BlockState state)
 		{
-			AerialHellBarrelBlockEntity.this.playSound(state, SoundEvents.BARREL_CLOSE);
-			AerialHellBarrelBlockEntity.this.updateBlockState(state, false);
+			AerialHellBarrelBlockEntity.this.playSound(state, SoundEvents.BLOCK_BARREL_CLOSE);
+			AerialHellBarrelBlockEntity.this.setOpen(state, false);
 		}
 
-		protected void openerCountChanged(Level level, BlockPos pos, BlockState state, int p_155069_, int p_155070_) {}
+		@Override protected void onViewerCountUpdate(World world, BlockPos pos, BlockState state, int oldViewerCount, int newViewerCount) {}
 
-		protected boolean isOwnContainer(Player p_155060_)
+		@Override protected boolean isPlayerViewing(PlayerEntity player)
 		{
-			if (p_155060_.containerMenu instanceof ChestMenu)
+			if (player.currentScreenHandler instanceof GenericContainerScreenHandler)
 			{
-				Container container = ((ChestMenu)p_155060_.containerMenu).getContainer();
-				return container == AerialHellBarrelBlockEntity.this;
+				Inventory inventory = ((GenericContainerScreenHandler)player.currentScreenHandler).getInventory();
+				return inventory == AerialHellBarrelBlockEntity.this;
 			}
 			else {return false;}
 		}
 	};
 
-	public AerialHellBarrelBlockEntity(BlockPos pos, BlockState state) {super(AerialHellBlockEntities.BARREL.get(), pos, state);}
+	public AerialHellBarrelBlockEntity(BlockPos pos, BlockState state) {super(AerialHellBlockEntities.BARREL, pos, state);}
 
-	@Override protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider)
+	@Override protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
 	{
-		super.saveAdditional(tag, provider);
-		if (!this.trySaveLootTable(tag)) {ContainerHelper.saveAllItems(tag, this.items, provider);}
+		super.writeNbt(nbt, registryLookup);
+		if (!this.writeLootTable(nbt)) {Inventories.writeNbt(nbt, this.inventory, registryLookup);}
 	}
 
-	@Override protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider)
+	@Override protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
 	{
-		super.loadAdditional(tag, provider);
-		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-		if (!this.tryLoadLootTable(tag)) {ContainerHelper.loadAllItems(tag, this.items, provider);}
+		super.readNbt(nbt, registryLookup);
+		this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
+		if (!this.readLootTable(nbt)) {Inventories.readNbt(nbt, this.inventory, registryLookup);}
 	}
 
-	public int getContainerSize() {return 27;}
+	@Override public int size() {return 27;}
 
-	protected NonNullList<ItemStack> getItems() {return this.items;}
+	@Override protected DefaultedList<ItemStack> getHeldStacks() {return this.inventory;}
 
-	protected void setItems(NonNullList<ItemStack> itemStackList) {this.items = itemStackList;}
+	@Override protected void setHeldStacks(DefaultedList<ItemStack> inventory) {this.inventory = inventory;}
 
-	protected Component getDefaultName() {return Component.translatable("container.barrel");}
+	@Override protected Text getContainerName() {return Text.translatable("container.barrel");}
 
-	protected AbstractContainerMenu createMenu(int p_58598_, Inventory inv) {return ChestMenu.threeRows(p_58598_, inv, this);}
-
-	public void startOpen(PlayerEntity player)
+	@Override protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory)
 	{
-		if (!this.remove && !player.isSpectator()) {this.openersCounter.incrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());}
+		return GenericContainerScreenHandler.createGeneric9x3(syncId, playerInventory, this);
 	}
 
-	public void stopOpen(PlayerEntity player)
+	@Override public void onOpen(PlayerEntity player)
 	{
-		if (!this.remove && !player.isSpectator()) {this.openersCounter.decrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());}
+		if (!this.removed && !player.isSpectator()) {this.stateManager.openContainer(player, this.getWorld(), this.getPos(), this.getCachedState());}
+	}
+
+	@Override public void onClose(PlayerEntity player)
+	{
+		if (!this.removed && !player.isSpectator()) {this.stateManager.closeContainer(player, this.getWorld(), this.getPos(), this.getCachedState());}
 	}
 
 	public void recheckOpen()
 	{
-		if (!this.remove) {this.openersCounter.recheckOpeners(this.getLevel(), this.getBlockPos(), this.getBlockState());}
+		if (!this.removed) {this.stateManager.updateViewerCount(this.getWorld(), this.getPos(), this.getCachedState());}
 	}
 
-	void updateBlockState(BlockState state, boolean bool)
+	void setOpen(BlockState state, boolean open)
 	{
-		this.level.setBlockState(this.getBlockPos(), state.with(BarrelBlock.OPEN, Boolean.valueOf(bool)), 3);
+		this.world.setBlockState(this.getPos(), state.with(BarrelBlock.OPEN, Boolean.valueOf(open)), Block.NOTIFY_ALL);
 	}
 
-	void playSound(BlockState state, SoundEvent event)
+	void playSound(BlockState state, SoundEvent soundEvent)
 	{
-		Vec3i vec3i = state.get(BarrelBlock.FACING).getNormal();
-		double d0 = (double)this.worldPosition.getX() + 0.5D + (double)vec3i.getX() / 2.0D;
-		double d1 = (double)this.worldPosition.getY() + 0.5D + (double)vec3i.getY() / 2.0D;
-		double d2 = (double)this.worldPosition.getZ() + 0.5D + (double)vec3i.getZ() / 2.0D;
-		this.level.playSound((Player)null, d0, d1, d2, event, SoundCategory.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
+		Vec3i vec3i = ((Direction)state.get(BarrelBlock.FACING)).getVector();
+		double d = (double)this.pos.getX() + 0.5 + (double)vec3i.getX() / 2.0;
+		double e = (double)this.pos.getY() + 0.5 + (double)vec3i.getY() / 2.0;
+		double f = (double)this.pos.getZ() + 0.5 + (double)vec3i.getZ() / 2.0;
+		this.world.playSound(null, d, e, f, soundEvent, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
 	}
 }

@@ -35,10 +35,10 @@ public class AerialHellSetup
         //AerialHellPOI.POI.register(bus);
         //AerialHellStructures.STRUCTURES.register(bus);
         //AerialHellParticleTypes.PARTICLES.register(bus);
-        //AerialHellMenuTypes.MENUS.register(bus);
+        AerialHellMenuTypes.load();
         //AerialHellRecipes.RECIPE_SERIALIZERS.register(bus);
         //AerialHellRecipes.RecipeTypes.RECIPE_TYPES.register(bus);
-        //AerialHellBlockEntities.BLOCK_ENTITY_TYPES.register(bus);
+        AerialHellBlockEntities.load();
         //AerialHellSoundEvents.SOUNDS.register(bus);
         //AerialHellCreativeModeTabs.TABS.register(bus);
 

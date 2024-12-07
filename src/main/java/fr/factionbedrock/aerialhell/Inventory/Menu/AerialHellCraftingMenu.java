@@ -1,17 +1,17 @@
 package fr.factionbedrock.aerialhell.Inventory.Menu;
 
 import fr.factionbedrock.aerialhell.Block.AerialHellCraftingTableBlock;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.CraftingMenu;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.screen.CraftingScreenHandler;
+import net.minecraft.screen.ScreenHandlerContext;
 
-public class AerialHellCraftingMenu extends CraftingMenu
+public class AerialHellCraftingMenu extends CraftingScreenHandler
 {
     private final AerialHellCraftingTableBlock craftingTableBlock;
 
-    public AerialHellCraftingMenu(int id, Inventory inventory, ContainerLevelAccess access, AerialHellCraftingTableBlock block) {super(id, inventory, access); this.craftingTableBlock = block;}
+    public AerialHellCraftingMenu(int id, PlayerInventory playerInventory, ScreenHandlerContext context, AerialHellCraftingTableBlock block) {super(id, playerInventory, context); this.craftingTableBlock = block;}
 
     @Override
-    public boolean stillValid(PlayerEntity player) {return stillValid(this.access, player, this.craftingTableBlock);}
+    public boolean canUse(PlayerEntity player) {return canUse(this.context, player, this.craftingTableBlock);}
 }

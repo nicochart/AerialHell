@@ -12,3 +12,6 @@ accessible method net/minecraft/entity/mob/AbstractSkeletonEntity getStepSound (
 
 #PhantomEntity
 accessible field net/minecraft/entity/mob/PhantomEntity SIZE Lnet/minecraft/entity/data/TrackedData;
+
+#CraftingScreenHandler
+accessible field net/minecraft/screen/CraftingScreenHandler context Lnet/minecraft/screen/ScreenHandlerContext;

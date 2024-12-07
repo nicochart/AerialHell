@@ -2,21 +2,19 @@ package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.BiomeShifterBlock;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.block.Block;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.block.BlockState;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -33,51 +31,51 @@ public interface BiomeShifter
     @Nullable Supplier<Block> getShiftedOrBrokenVariant();
     private int getRealFieldSize() {return Math.min(Math.max(MIN_PROTECTION_DISTANCE, this.getFieldSize()), MAX_PROTECTION_DISTANCE);}
 
-    static void transformRandomBlocks(Level level, BlockPos pos, BlockState state, BiomeShifter blockEntity)
+    static void transformRandomBlocks(World world, BlockPos pos, BlockState state, BiomeShifter blockEntity)
     {
         ShiftType shiftType = blockEntity.getShiftType();
-        int fieldSize = blockEntity.getRealFieldSize(); RandomSource rand = level.random;
+        int fieldSize = blockEntity.getRealFieldSize(); Random rand = world.random;
         int tryNumber = (int) (fieldSize * fieldSize * fieldSize * 1.0F/8.0F);
         boolean transformed; int transformedCount = 0;
         for (int i=0; i<tryNumber; i++)
         {
-            BlockPos blockpos = pos.offset(rand.nextInt(-fieldSize, fieldSize), rand.nextInt(-fieldSize, fieldSize), rand.nextInt(-fieldSize, fieldSize));
-            if (!areSameBlockpos(pos, blockpos) && blockEntity.isValidBiomeShifterForPos(level, blockpos, pos) && level instanceof ServerLevel serverlevel)
+            BlockPos blockpos = pos.add(rand.nextBetween(-fieldSize, fieldSize), rand.nextBetween(-fieldSize, fieldSize), rand.nextBetween(-fieldSize, fieldSize));
+            if (!areSameBlockpos(pos, blockpos) && blockEntity.isValidBiomeShifterForPos(world, blockpos, pos) && world instanceof ServerWorld serverworld)
             {
                 transformed = false;
-                if (level.getBlockEntity(blockpos) instanceof BiomeShifter otherBiomeShifter && shiftType != otherBiomeShifter.getShiftType() && blockEntity.getFieldSize() >= otherBiomeShifter.getFieldSize())
+                if (world.getBlockEntity(blockpos) instanceof BiomeShifter otherBiomeShifter && shiftType != otherBiomeShifter.getShiftType() && blockEntity.getFieldSize() >= otherBiomeShifter.getFieldSize())
                 {
-                    BlockHelper.shiftBiomeShifterBlock(serverlevel, blockpos, shiftType);
+                    BlockHelper.shiftBiomeShifterBlock(serverworld, blockpos, shiftType);
                 }
 
-                if (shiftType == ShiftType.UNCORRUPT && BlockHelper.isCorrupted(level, blockpos))
+                if (shiftType == ShiftType.UNCORRUPT && BlockHelper.isCorrupted(world, blockpos))
                 {
-                    if (BlockHelper.uncorrupt(serverlevel, blockpos)) {transformed = true;}
+                    if (BlockHelper.uncorrupt(serverworld, blockpos)) {transformed = true;}
                 }
-                else if (shiftType == ShiftType.CORRUPT && !BlockHelper.isCorrupted(level, blockpos) && BlockHelper.canBeCorrupted(level, blockpos, BlockHelper.CorruptionType.ANY))
+                else if (shiftType == ShiftType.CORRUPT && !BlockHelper.isCorrupted(world, blockpos) && BlockHelper.canBeCorrupted(world, blockpos, BlockHelper.CorruptionType.ANY))
                 {
-                    if (BlockHelper.corrupt(serverlevel, blockpos, BlockHelper.CorruptionType.ANY)) {transformed = true;}
+                    if (BlockHelper.corrupt(serverworld, blockpos, BlockHelper.CorruptionType.ANY)) {transformed = true;}
                 }
 
-                if (transformed && transformedCount++ < 6) {sendTransformEffect(serverlevel, blockpos, shiftType);}
+                if (transformed && transformedCount++ < 6) {sendTransformEffect(serverworld, blockpos, shiftType);}
             }
         }
     }
 
     private static boolean areSameBlockpos(BlockPos pos1, BlockPos pos2) {return pos1.getX() == pos2.getX() && pos1.getY() == pos2.getY() && pos1.getZ() == pos2.getZ();}
 
-    private static void sendTransformEffect(ServerLevel serverlevel, BlockPos blockpos, ShiftType type)
+    private static void sendTransformEffect(ServerWorld serverworld, BlockPos blockpos, ShiftType type)
     {
-        RandomSource rand = serverlevel.random;
-        ParticleOptions particle = type == ShiftType.CORRUPT ? AerialHellParticleTypes.SHADOW_LIGHT.get() : AerialHellParticleTypes.OSCILLATOR.get();
-        SoundEvent sound = type == ShiftType.CORRUPT ? SoundEvents.LODESTONE_HIT : SoundEvents.WART_BLOCK_HIT;
+        Random rand = serverworld.random;
+        ParticleEffect particle = type == ShiftType.CORRUPT ? AerialHellParticleTypes.SHADOW_LIGHT : AerialHellParticleTypes.OSCILLATOR;
+        SoundEvent sound = type == ShiftType.CORRUPT ? SoundEvents.BLOCK_LODESTONE_HIT : SoundEvents.BLOCK_WART_BLOCK_HIT;
         Vec3d vecpos = new Vec3d(blockpos.getX() + 0.5, blockpos.getY() + 0.5, blockpos.getZ() + 0.5);
-        serverlevel.sendParticles(particle, vecpos.x(), vecpos.y(), vecpos.z(), 5, 0.0, 0.0, 0.0, 1.0);
-        serverlevel.playSound(null, vecpos.x(), vecpos.y(), vecpos.z(), sound, SoundCategory.BLOCKS, 0.5F, rand.nextFloat() * 0.4F + 0.8F);
+        serverworld.spawnParticles(particle, vecpos.getX(), vecpos.getY(), vecpos.getZ(), 5, 0.0, 0.0, 0.0, 1.0);
+        serverworld.playSound(null, vecpos.getX(), vecpos.getY(), vecpos.getZ(), sound, SoundCategory.BLOCKS, 0.5F, rand.nextFloat() * 0.4F + 0.8F);
     }
 
-    default boolean isValidBiomeShifterForPos(LevelReader level, BlockPos posToShift, BlockPos shifterPos)
+    default boolean isValidBiomeShifterForPos(WorldView world, BlockPos posToShift, BlockPos shifterPos)
     {
-        return level.getBlockState(shifterPos).getBlock() instanceof BiomeShifterBlock && shifterPos.getSquaredDistance(posToShift) < this.getRealFieldSize() * this.getRealFieldSize();
+        return world.getBlockState(shifterPos).getBlock() instanceof BiomeShifterBlock && shifterPos.getSquaredDistance(posToShift) < this.getRealFieldSize() * this.getRealFieldSize();
     }
 }

@@ -1,24 +1,23 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
 import fr.factionbedrock.aerialhell.Inventory.Menu.OscillatorMenu;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import com.google.common.collect.Maps;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.AbstractCookingRecipe;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 
 import java.util.Map;
 
@@ -26,28 +25,27 @@ public class OscillatorBlockEntity extends AbstractFurnaceBlockEntity
 {
 	protected OscillatorBlockEntity(BlockEntityType<?> blockEntity, BlockPos pos, BlockState state, RecipeType<? extends AbstractCookingRecipe> recipeType) {super(blockEntity, pos, state, recipeType);}
 
-	public OscillatorBlockEntity(BlockPos pos, BlockState state) {this(AerialHellBlockEntities.OSCILLATOR.get(), pos, state, RecipeTypes.OSCILLATING.get());}
+	public OscillatorBlockEntity(BlockPos pos, BlockState state) {this(AerialHellBlockEntities.OSCILLATOR, pos, state, RecipeTypes.OSCILLATING);}
 
-	@Override
-	protected Component getDefaultName()
+	@Override protected Text getContainerName()
 	{
-		return Component.translatable("container." + AerialHell.MODID + ".oscillator");
+		return Text.translatable("container." + AerialHell.MODID + ".oscillator");
 	}
 
-	@Override protected AbstractContainerMenu createMenu(int id, Inventory inv) {return new OscillatorMenu(id, inv, this, this.dataAccess);}
+	@Override protected ScreenHandler createScreenHandler(int id, PlayerInventory inv) {return new OscillatorMenu(id, inv, this, this.propertyDelegate);}
 
 	public static Map<Item, Integer> getOscillatingMap()
 	{
 		Map<Item, Integer> map = Maps.newLinkedHashMap();
-		map.put(AerialHellBlocksAndItems.FLUORITE.get(), 1200);
-		map.put(AerialHellBlocksAndItems.FLUORITE_BLOCK_ITEM.get(), 10800);
-		map.put(AerialHellBlocksAndItems.CRYSTAL.get(), 300);
-		map.put(AerialHellBlocksAndItems.CRYSTAL_BLOCK_ITEM.get(), 1200);
+		map.put(AerialHellItems.FLUORITE, 1200);
+		map.put(AerialHellItems.FLUORITE_BLOCK_ITEM, 10800);
+		map.put(AerialHellItems.CRYSTAL, 300);
+		map.put(AerialHellItems.CRYSTAL_BLOCK_ITEM, 1200);
 		return map;
 	}
 
 	@Override
-	protected int getBurnDuration(ItemStack fuel)
+	protected int getFuelTime(ItemStack fuel)
 	{
 		if (fuel.isEmpty() || !getOscillatingMap().containsKey(fuel.getItem())) {return 0;}
 		else {return getOscillatingMap().get(fuel.getItem());}
