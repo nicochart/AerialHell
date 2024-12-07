@@ -17,7 +17,7 @@ public class GlowingStellarTallGrass extends AerialHellTallGrassBlock
 		if (!level.isClientSide) {interact(state, level, pos);}
 	}
 
-	@Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult)
+	@Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, PlayerEntity player, BlockHitResult hitResult)
 	{
 		if (!level.isClientSide) {interact(state, level, pos);}
 		return InteractionResult.PASS;

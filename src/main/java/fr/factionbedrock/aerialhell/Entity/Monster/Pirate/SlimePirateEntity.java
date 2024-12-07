@@ -1,28 +1,29 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtEntityGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.World;
 
 public class SlimePirateEntity extends AbstractSlimePirateEntity
 {
-    public SlimePirateEntity(EntityType<? extends SlimePirateEntity> type, Level world) {super(type, world);}
+    public SlimePirateEntity(EntityType<? extends SlimePirateEntity> type, World world) {super(type, world);}
 
     @Override protected void registerSpecificGoals()
     {
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.goalSelector.add(2, new MeleeAttackGoal(this, 1.25D, false));
+        this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
 
-    @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand)
+    @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, Random rand)
     {
-        return rand.nextInt(2) == 0 ? new ItemStack(AerialHellBlocksAndItems.RUBY_SWORD.get()) : new ItemStack(AerialHellBlocksAndItems.RUBY_AXE.get());
+        return rand.nextInt(2) == 0 ? new ItemStack(AerialHellItems.RUBY_SWORD) : new ItemStack(AerialHellItems.RUBY_AXE);
     }
 }

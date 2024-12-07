@@ -1,19 +1,19 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractMimicEntity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.EntityType;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.world.World;
 
 public abstract class AbstractChestMimicEntity extends AbstractMimicEntity
 {
 	public float mouthOpeningAmplitude;
 	public float mouthOpeningFrequencyMalus;
 	
-	public AbstractChestMimicEntity(EntityType<? extends AbstractChestMimicEntity> type, Level worldIn)
+	public AbstractChestMimicEntity(EntityType<? extends AbstractChestMimicEntity> type, World world)
 	{
-		super(type, worldIn);
+		super(type, world);
 		this.SetRandomMouthOpeningAmplitudeAndFrequency();
 	}
 	
@@ -27,8 +27,5 @@ public abstract class AbstractChestMimicEntity extends AbstractMimicEntity
 		this.mouthOpeningFrequencyMalus = min_frequency_malus + (random.nextFloat() * (max_frequency_malus - min_frequency_malus));
 	}
 
-	@Override protected SoundEvent getDeathSound()
-	{
-		return SoundEvents.CHEST_CLOSE;
-	}
+	@Override protected SoundEvent getDeathSound() {return SoundEvents.BLOCK_CHEST_CLOSE;}
 }

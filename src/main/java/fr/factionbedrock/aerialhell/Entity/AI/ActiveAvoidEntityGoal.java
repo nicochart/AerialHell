@@ -1,10 +1,10 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.FleeEntityGoal;
 
-public class ActiveAvoidEntityGoal<T extends LivingEntity> extends AvoidEntityGoal<T>
+public class ActiveAvoidEntityGoal<T extends LivingEntity> extends FleeEntityGoal<T>
 {
     protected final AbstractActivableEntity activableEntity;
 
@@ -14,6 +14,6 @@ public class ActiveAvoidEntityGoal<T extends LivingEntity> extends AvoidEntityGo
         this.activableEntity = entityIn;
     }
 
-    @Override public boolean canUse() {return this.activableEntity.isActive() && super.canUse();}
-    @Override public boolean canContinueToUse() {return this.activableEntity.isActive() && super.canContinueToUse();}
+    @Override public boolean canStart() {return this.activableEntity.isActive() && super.canStart();}
+    @Override public boolean shouldContinue() {return this.activableEntity.isActive() && super.shouldContinue();}
 }

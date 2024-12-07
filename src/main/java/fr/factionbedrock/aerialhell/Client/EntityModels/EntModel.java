@@ -124,7 +124,7 @@ public class EntModel<T extends EntEntity> extends EntityModel<T>
 
 	private void updateBiomeColors(T entity)
 	{
-		biomeColor = new Color(BiomeColors.getAverageFoliageColor(entity.level(), entity.getOnPos()));
+		biomeColor = new Color(BiomeColors.getAverageFoliageColor(entity.getWorld(), entity.getOnPos()));
 	}
 
 	private void setupHeadAnim(ModelPart part, float netHeadYaw, float headPitch)

@@ -2,80 +2,80 @@ package fr.factionbedrock.aerialhell.Entity.AI;
 
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
-import net.minecraft.world.entity.ai.util.GoalUtils;
-import net.minecraft.world.entity.ai.util.LandRandomPos;
-import net.minecraft.world.entity.ai.util.RandomPos;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.FuzzyPositions;
+import net.minecraft.entity.ai.FuzzyTargeting;
+import net.minecraft.entity.ai.NavigationConditions;
+import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.function.ToDoubleFunction;
 
 public class GhostGoals
 {
     public static class GhostPirateNearestAttackableTargetGoal<T extends LivingEntity> extends MisleadableNearestAttackableTargetGoal<T>
     {
-        public GhostPirateNearestAttackableTargetGoal(Mob entityIn, Class<T> targetClassIn, boolean checkSight) {super(entityIn, targetClassIn, checkSight);}
-        @Override public boolean isPlayerMisleadingGoalOwner(Player player) {return EntityHelper.isImmuneToGhostBlockCollision(player);}
+        public GhostPirateNearestAttackableTargetGoal(MobEntity entity, Class<T> targetClassIn, boolean checkSight) {super(entity, targetClassIn, checkSight);}
+        @Override public boolean isPlayerMisleadingGoalOwner(PlayerEntity player) {return EntityHelper.isImmuneToGhostBlockCollision(player);}
     }
 
     public static class GhostPirateMeleeAttackGoal extends AdditionalConditionMeleeAttackGoal
     {
-        public GhostPirateMeleeAttackGoal(PathfinderMob entityIn, double speedIn, boolean useLongMemory) {super(entityIn, speedIn, useLongMemory);}
+        public GhostPirateMeleeAttackGoal(PathAwareEntity entity, double speedIn, boolean useLongMemory) {super(entity, speedIn, useLongMemory);}
         @Override public boolean additionalConditionMet() {return !EntityHelper.isImmuneToGhostBlockCollision(this.goalOwner.getTarget());}
     }
 
     public static class GhostPirateLookAtPlayerGoal extends AdditionalConditionLookAtPlayerGoal
     {
-        public GhostPirateLookAtPlayerGoal(Mob entityIn, Class<? extends LivingEntity> watchTargetClass, float maxDistance) {super(entityIn, watchTargetClass, maxDistance);}
+        public GhostPirateLookAtPlayerGoal(MobEntity entity, Class<? extends LivingEntity> watchTargetClass, float maxDistance) {super(entity, watchTargetClass, maxDistance);}
         @Override public boolean additionalConditionMet() {return !EntityHelper.isImmuneToGhostBlockCollision(this.goalOwner.getTarget());}
     }
 
     //custom random stroll goal to consider ghost blocks as stable destination
-    public static class GhostPirateWaterAvoidingRandomStrollGoal extends WaterAvoidingRandomStrollGoal
+    public static class GhostPirateWaterAvoidingRandomStrollGoal extends WanderAroundFarGoal
     {
-        public GhostPirateWaterAvoidingRandomStrollGoal(PathfinderMob mob, double speedIn) {super(mob, speedIn);}
+        public GhostPirateWaterAvoidingRandomStrollGoal(PathAwareEntity mob, double speedIn) {super(mob, speedIn);}
 
-        @Override @Nullable protected Vec3 getPosition()
+        @Override @Nullable protected Vec3d getWanderTarget()
         {
-            if (this.mob.isInWaterOrBubble())
+            if (this.mob.isTouchingWater())
             {
-                Vec3 vec3 = LandRandomPos.getPos(this.mob, 15, 7);
-                return vec3 == null ? super.getPosition() : vec3;
+                Vec3d vec3 = FuzzyTargeting.find(this.mob, 15, 7);
+                return vec3 == null ? super.getWanderTarget() : vec3;
             }
             else
             {
-                return this.mob.getRandom().nextFloat() >= this.probability ? getPos(this.mob, 10, 7, mob::getWalkTargetValue) : super.getPosition();
+                return this.mob.getRandom().nextFloat() >= this.probability ? getPos(this.mob, 10, 7, mob::getPathfindingFavor) : super.getWanderTarget();
             }
         }
 
-        //copy of LandRandomPos.getPos(PathfinderMob mob, int xzDistance, int yDistance, ToDoubleFunction<BlockPos> walkTargetValue) calling custom generateRandomPosTowardDirection
-        @Nullable public static Vec3 getPos(PathfinderMob mob, int xzDistance, int yDistance, ToDoubleFunction<BlockPos> walkTargetValue)
+        //copy of FuzzyTargeting.find(PathAwareEntity mob, int xzDistance, int yDistance, ToDoubleFunction<BlockPos> walkTargetValue) calling custom generateRandomPosTowardDirection
+        @Nullable public static Vec3d getPos(PathAwareEntity mob, int xzDistance, int yDistance, ToDoubleFunction<BlockPos> walkTargetValue)
         {
-            boolean flag = GoalUtils.mobRestricted(mob, xzDistance);
-            return RandomPos.generateRandomPos(() ->
+            boolean flag = NavigationConditions.isPositionTargetInRange(mob, xzDistance);
+            return FuzzyPositions.guessBest(() ->
             {
-                BlockPos randomDirection = RandomPos.generateRandomDirection(mob.getRandom(), xzDistance, yDistance);
+                BlockPos randomDirection = FuzzyPositions.localFuzz(mob.getRandom(), xzDistance, yDistance);
                 BlockPos targetPos = generateRandomPosTowardDirection(mob, xzDistance, flag, randomDirection);
-                return targetPos == null ? null : LandRandomPos.movePosUpOutOfSolid(mob, targetPos);
+                return targetPos == null ? null : FuzzyTargeting.validate(mob, targetPos);
             }, walkTargetValue);
         }
 
-        //copy of LandRandomPos.generateRandomPosTowardDirection(PathfinderMob mob, int xzDistance, boolean mobRestricted, BlockPos randomDirection) not calling GoalUtils.isNotStable(...). calling isStableDestination(...) instead
-        @Nullable public static BlockPos generateRandomPosTowardDirection(PathfinderMob mob, int xzDistance, boolean mobRestricted, BlockPos randomDirection)
+        //copy of FuzzyTargeting.towardTarget(PathAwareEntity mob, int xzDistance, boolean mobRestricted, BlockPos randomDirection) not calling GoalUtils.isNotStable(...). calling isStableDestination(...) instead
+        @Nullable public static BlockPos generateRandomPosTowardDirection(PathAwareEntity mob, int xzDistance, boolean mobRestricted, BlockPos randomDirection)
         {
-            BlockPos blockpos = RandomPos.generateRandomPosTowardDirection(mob, xzDistance, mob.getRandom(), randomDirection);
-            return !GoalUtils.isOutsideLimits(blockpos, mob) && !GoalUtils.isRestricted(mobRestricted, mob, blockpos) && isStableDestination(mob, blockpos) ? blockpos : null;
+            BlockPos blockpos = FuzzyPositions.towardTarget(mob, xzDistance, mob.getRandom(), randomDirection);
+            return !NavigationConditions.isHeightInvalid(blockpos, mob) && !NavigationConditions.isPositionTargetOutOfWalkRange(mobRestricted, mob, blockpos) && isStableDestination(mob, blockpos) ? blockpos : null;
         }
 
-        public static boolean isStableDestination(PathfinderMob mob, BlockPos pos)
+        public static boolean isStableDestination(PathAwareEntity mob, BlockPos pos)
         {
-            return !GoalUtils.isNotStable(mob.getNavigation(), pos) || mob.level().getBlockState(pos).is(AerialHellTags.Blocks.GHOST_BLOCK);
+            return !NavigationConditions.isInvalidPosition(mob.getNavigation(), pos) || mob.getWorld().getBlockState(pos).isIn(AerialHellTags.Blocks.GHOST_BLOCK);
         }
     }
 }

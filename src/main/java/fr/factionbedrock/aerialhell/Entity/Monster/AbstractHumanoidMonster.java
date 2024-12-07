@@ -1,38 +1,36 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.Zombie;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.entity.EntityData;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.LookAroundGoal;
+import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.ZombieEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
-
-public abstract class AbstractHumanoidMonster extends Zombie
+public abstract class AbstractHumanoidMonster extends ZombieEntity
 {
     protected final float equipMainHandProbability, equipOffHandProbability;
-    public AbstractHumanoidMonster(EntityType<? extends AbstractHumanoidMonster> type, Level world, float equipMainHandProbability, float equipOffHandProbability)
+    public AbstractHumanoidMonster(EntityType<? extends AbstractHumanoidMonster> type, World world, float equipMainHandProbability, float equipOffHandProbability)
     {
         super(type, world);
         this.equipMainHandProbability = equipMainHandProbability;
         this.equipOffHandProbability = equipOffHandProbability;
     }
 
-    @Override protected void registerGoals()
+    @Override protected void initGoals()
     {
         this.registerBaseGoals();
         this.registerSpecificGoals();
@@ -40,24 +38,24 @@ public abstract class AbstractHumanoidMonster extends Zombie
 
     protected void registerBaseGoals()
     {
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 0.6D));
-        this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
+        this.targetSelector.add(1, new RevengeGoal(this));
+        this.goalSelector.add(3, new WanderAroundFarGoal(this, 0.6D));
+        this.goalSelector.add(1, new SwimGoal(this));
+        this.goalSelector.add(5, new LookAroundGoal(this));
     }
     protected abstract void registerSpecificGoals();
 
     @Override public void setBaby(boolean isBaby)
     {
         super.setBaby(isBaby);
-        if (!this.level().isClientSide)
+        if (!this.getWorld().isClient)
         {
-            AttributeInstance attributeinstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
-            attributeinstance.removeModifier(SPEED_MODIFIER_BABY.id());
+            EntityAttributeInstance attributeinstance = this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED);
+            attributeinstance.removeModifier(BABY_SPEED_MODIFIER_ID);
         }
     }
 
-    @Override protected void populateDefaultEquipmentSlots(RandomSource rand, DifficultyInstance difficulty)
+    @Override protected void initEquipment(Random rand, LocalDifficulty difficulty)
     {
         boolean equipMainHand = (random.nextFloat() < this.equipMainHandProbability);
         boolean equipOffHand = (random.nextFloat() < this.equipOffHandProbability);
@@ -74,27 +72,27 @@ public abstract class AbstractHumanoidMonster extends Zombie
     protected void populateHand(EquipmentSlot hand, @Nullable ItemStack weapon)
     {
         if (weapon == null || this.isBaby()) {return;}
-        this.setItemSlot(hand, weapon);
+        this.equipStack(hand, weapon);
     }
 
-    @Nullable protected abstract ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand);
+    @Nullable protected abstract ItemStack getRandomHandItem(EquipmentSlot hand, Random rand);
 
-    @Override @Nullable public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn)
+    @Override @Nullable public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason reason, @Nullable EntityData spawnDataIn)
     {
         this.setLeftHanded(random.nextFloat() < 0.5F);
-        this.populateDefaultEquipmentSlots(this.random, difficultyIn);
+        this.initEquipment(this.random, difficulty);
         return spawnDataIn;
     }
 
-    public static AttributeSupplier.Builder registerAttributes(double maxHealth, double attackDamage, double movementSpeed, double followRange)
+    public static DefaultAttributeContainer.Builder registerAttributes(double maxHealth, double attackDamage, double movementSpeed, double followRange)
     {
-        return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, maxHealth)
-                .add(Attributes.ATTACK_DAMAGE, attackDamage)
-                .add(Attributes.MOVEMENT_SPEED, movementSpeed)
-                .add(Attributes.SPAWN_REINFORCEMENTS_CHANCE, 0.0D)
-        		.add(Attributes.FOLLOW_RANGE, followRange);
+        return HostileEntity.createHostileAttributes()
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, maxHealth)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, movementSpeed)
+                .add(EntityAttributes.ZOMBIE_SPAWN_REINFORCEMENTS, 0.0D)
+        		.add(EntityAttributes.GENERIC_FOLLOW_RANGE, followRange);
     }
 
-    @Override protected boolean isSunSensitive() {return false;}
+    @Override protected boolean burnsInDaylight() {return false;}
 }

@@ -3,55 +3,55 @@ package fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit;
 import java.util.List;
 
 import fr.factionbedrock.aerialhell.Entity.Monster.AerialHellHostileEntity;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.PounceAtTargetGoal;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.world.World;
 
 public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntity
 {
-    private static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.<Boolean>defineId(AbstractElementSpiritEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final TrackedData<Boolean> ATTACKING = DataTracker.<Boolean>registerData(AbstractElementSpiritEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private int tickStartAttacking;
 
-	public AbstractElementSpiritEntity(EntityType<? extends AbstractElementSpiritEntity> type, Level worldIn) {super(type, worldIn);}
+	public AbstractElementSpiritEntity(EntityType<? extends AbstractElementSpiritEntity> type, World world) {super(type, world);}
 	
 	@Override
-    protected void registerGoals()
+    protected void initGoals()
     {
-    	super.registerGoals();
-    	this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.3F));
+    	super.initGoals();
+    	this.goalSelector.add(3, new PounceAtTargetGoal(this, 0.3F));
     }
 	
-    public static AttributeSupplier.Builder registerAttributes()
+    public static DefaultAttributeContainer.Builder registerAttributes()
     {
-        return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 15.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.24D)
-        		.add(Attributes.ATTACK_DAMAGE, 0.5D);
+        return HostileEntity.createHostileAttributes()
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0D)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.24D)
+        		.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.5D);
     }
     
     @Override
-    public boolean doHurtTarget(Entity entityIn)
+    public boolean tryAttack(Entity entityIn)
     {
-    	boolean flag = super.doHurtTarget(entityIn);
-    	if (flag) {this.setAttacking(); this.tickStartAttacking = this.tickCount;}
+    	boolean flag = super.tryAttack(entityIn);
+    	if (flag) {this.setAttacking(); this.tickStartAttacking = this.age;}
     	return flag;
     }
 
     @Override
     public void tick()
     {
-        if (this.isAttacking() && this.tickCount > this.tickStartAttacking + 3) {this.attackSuicide();}
+        if (this.isAttacking() && this.age > this.tickStartAttacking + 3) {this.attackSuicide();}
         super.tick();
     }
 
@@ -59,7 +59,7 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
     {
     	this.playSound(this.getDeathSound(), 1.5F, 0.95F + random.nextFloat() * 0.1F);
     	this.spawnParticle();
-    	List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(4), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 4));
+    	List<Entity> nearbyEntities = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(4), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), 4));
     	for (Entity entity : nearbyEntities)
     	{
     		if (entity instanceof LivingEntity)
@@ -77,31 +77,31 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
             double d0 = (this.random.nextGaussian() - 0.5D) * 0.02D;
             double d1 = (this.random.nextGaussian() - 0.5D) * 0.02D;
             double d2 = (this.random.nextGaussian() - 0.5D) * 0.02D;
-            this.level().addParticle(this.getParticleToSpawn(), this.getX(1.0D) + d0 * 10.0D, this.getRandomY() + d1 * 10.0D, this.getRandomZ(1.0D) + d2 * 10.0D, d0, d1, d2);
+            this.getWorld().addParticle(this.getParticleToSpawn(), this.getParticleX(1.0D) + d0 * 10.0D, this.getRandomBodyY() + d1 * 10.0D, this.getParticleZ(1.0D) + d2 * 10.0D, d0, d1, d2);
         }
     }
 
     public abstract void applyEffect(Entity entity);
     public abstract SimpleParticleType getParticleToSpawn();
 
-    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
+    @Override protected void initDataTracker(DataTracker.Builder builder)
     {
-        super.defineSynchedData(builder);
-        builder.define(ATTACKING, false);
+        super.initDataTracker(builder);
+        builder.add(ATTACKING, false);
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag compound)
+    @Override public void writeCustomDataToNbt(NbtCompound nbt)
     {
-        super.addAdditionalSaveData(compound);
-        compound.putBoolean("Disappearing", this.isAttacking());
+        super.writeCustomDataToNbt(nbt);
+        nbt.putBoolean("Disappearing", this.isAttacking());
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag compound)
+    @Override public void readCustomDataFromNbt(NbtCompound nbt)
     {
-        super.readAdditionalSaveData(compound);
-        if (compound.getBoolean("Disappearing")) {this.setAttacking();}
+        super.readCustomDataFromNbt(nbt);
+        if (nbt.getBoolean("Disappearing")) {this.setAttacking();}
     }
 
-    public boolean isAttacking() {return this.entityData.get(ATTACKING);}
-    public void setAttacking() {this.entityData.set(ATTACKING, true);}
+    public boolean isAttacking() {return this.getDataTracker().get(ATTACKING);}
+    public void setAttacking() {this.getDataTracker().set(ATTACKING, true);}
 }

@@ -1,1 +1,14 @@
 accessWidener v2 named
+
+#Living Entity
+accessible field net/minecraft/entity/LivingEntity lastDamageSource Lnet/minecraft/entity/damage/DamageSource;
+accessible field net/minecraft/entity/LivingEntity lastDamageTime J
+
+#ZombieEntity
+accessible field net/minecraft/entity/mob/ZombieEntity BABY_SPEED_MODIFIER_ID Lnet/minecraft/util/Identifier;
+
+#AbstractSkeletonEntity
+accessible method net/minecraft/entity/mob/AbstractSkeletonEntity getStepSound ()Lnet/minecraft/sound/SoundEvent;
+
+#PhantomEntity
+accessible field net/minecraft/entity/mob/PhantomEntity SIZE Lnet/minecraft/entity/data/TrackedData;

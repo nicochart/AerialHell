@@ -12,7 +12,7 @@ public class HeadInTheCloudsEffect extends MobEffect
     @Override
     public boolean applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier)
     {
-        double x=entityLivingBaseIn.getDeltaMovement().x, y=entityLivingBaseIn.getDeltaMovement().y, z=entityLivingBaseIn.getDeltaMovement().z;
+        double x=entityLivingBaseIn.getVelocity().x, y=entityLivingBaseIn.getVelocity().y, z=entityLivingBaseIn.getVelocity().z;
         double xNew = x, yNew = y, zNew = z;
         if (!entityLivingBaseIn.onGround())
         {
@@ -25,7 +25,7 @@ public class HeadInTheCloudsEffect extends MobEffect
 		if (entityLivingBaseIn.isCrouching()) {xNew /= 1.2; zNew /= 1.2; if (yNew > -2) {yNew -= 0.02;}} //slow down horizontal speed, faster vertical speed if player is crouching
         else if (y < yMin) {yNew = yMin;} //minimize vertical speed if player is not crouching
 
-        entityLivingBaseIn.setDeltaMovement(xNew, yNew, zNew);
+        entityLivingBaseIn.setVelocity(xNew, yNew, zNew);
         entityLivingBaseIn.resetFallDistance();
         return true;
     }

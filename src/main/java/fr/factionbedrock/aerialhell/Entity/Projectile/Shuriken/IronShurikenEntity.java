@@ -1,58 +1,47 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
+import net.minecraft.world.World;
 
 public class IronShurikenEntity extends AbstractShurikenEntity
 {
-	public IronShurikenEntity(EntityType<? extends IronShurikenEntity> entityTypeIn, Level worldIn)
+	public IronShurikenEntity(EntityType<? extends IronShurikenEntity> entityTypeIn, World world)
 	{
-		super(entityTypeIn, worldIn);
+		super(entityTypeIn, world);
 	}
 
-	public IronShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public IronShurikenEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
 	{
-		super(AerialHellEntities.IRON_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+		super(AerialHellEntities.IRON_SHURIKEN, world, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
 	}
 
-	public IronShurikenEntity(double x, double y, double z, Level worldIn)
+	public IronShurikenEntity(double x, double y, double z, World world)
 	{
-		super(AerialHellEntities.IRON_SHURIKEN.get(), x, y, z, worldIn);
+		super(AerialHellEntities.IRON_SHURIKEN, x, y, z, world);
 	}
 
-	public IronShurikenEntity(LivingEntity shooter, Level worldIn)
+	public IronShurikenEntity(LivingEntity shooter, World world)
 	{
-		super(AerialHellEntities.IRON_SHURIKEN.get(), shooter, worldIn);
+		super(AerialHellEntities.IRON_SHURIKEN, shooter, world);
 	}
 
-	public IronShurikenEntity(Level worldIn)
+	public IronShurikenEntity(World world)
 	{
-		super(AerialHellEntities.IRON_SHURIKEN.get(), worldIn);
+		super(AerialHellEntities.IRON_SHURIKEN, world);
 	}
 
-	/*public IronShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
+	/*public IronShurikenEntity(PlayMessages.SpawnEntity packet, World world)
 	{
-		super(AerialHellEntities.IRON_SHURIKEN.get(), worldIn);
+		super(AerialHellEntities.IRON_SHURIKEN, world);
 	}*/
 
-	@Override
-	protected float getKnifeDamage()
-	{
-		return 8.0F;
-	}
-	
-	@Override
-	protected void applyEntityImpactEffet(Entity entity) {}
-
-	@Override
-	protected Item getDefaultItem()
-	{
-		return AerialHellBlocksAndItems.IRON_SHURIKEN.get();
-	}	
+	@Override protected float getKnifeDamage() {return 8.0F;}
+	@Override protected void applyEntityImpactEffet(Entity entity) {}
+	@Override protected Item getDefaultItem() {return AerialHellItems.IRON_SHURIKEN;}
 }

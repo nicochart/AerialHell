@@ -88,7 +88,7 @@ public class BlockEventListener
     {
     	if (event.getOverlayType() == RenderBlockScreenEffectEvent.OverlayType.BLOCK)
     	{
-    		Player player = event.getPlayer();
+    		PlayerEntity player = event.getPlayer();
 	    	PoseStack matrixStack = event.getPoseStack();
             BlockState state = event.getBlockState();
     		if (event.getBlockState().is(AerialHellTags.Blocks.SOLID_ETHER))
@@ -130,12 +130,12 @@ public class BlockEventListener
     }
 
     //function from net.minecraft.client.renderer.ScreenEffectRenderer
-    public static void renderCustomOverlay(Player player, PoseStack poseStack, ResourceLocation texture)
+    public static void renderCustomOverlay(PlayerEntity player, PoseStack poseStack, ResourceLocation texture)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, texture);
         BlockPos blockpos = BlockPos.containing(player.getX(), player.getEyeY(), player.getZ());
-        float brightness = LightTexture.getBrightness(player.level().dimensionType(), player.level().getMaxLocalRawBrightness(blockpos));
+        float brightness = LightTexture.getBrightness(player.getWorld().dimensionType(), player.getWorld().getMaxLocalRawBrightness(blockpos));
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(brightness, brightness, brightness, 1.0F);
         float yaw = -player.getYaw() / 64.0F;

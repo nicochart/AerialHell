@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
 import fr.factionbedrock.aerialhell.Entity.Passive.KodamaEntity;
-import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.Goal;
 
 public class KodamaRattleGoal extends Goal
 {
@@ -11,10 +11,10 @@ public class KodamaRattleGoal extends Goal
 
     public KodamaRattleGoal(KodamaEntity entity) {this.goalOwner = entity;}
 
-    @Override public boolean canUse() {return goalOwner.level().getDayTime() % 24000 > 12000;}
+    @Override public boolean canStart() {return goalOwner.getWorld().getTimeOfDay() % 24000 > 12000;}
     @Override public void start() {this.resetTask();}
     @Override public void stop() {this.resetTask();}
-    @Override public boolean requiresUpdateEveryTick() {return true;}
+    @Override public boolean shouldRunEveryTick() {return true;}
 
     @Override public void tick()
     {

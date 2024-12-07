@@ -1,75 +1,64 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LightningEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.world.World;
 
 public class LightningShurikenEntity extends AbstractShurikenEntity
 {
-	public LightningShurikenEntity(EntityType<? extends LightningShurikenEntity> entityTypeIn, Level worldIn)
+	public LightningShurikenEntity(EntityType<? extends LightningShurikenEntity> entityTypeIn, World world)
 	{
-		super(entityTypeIn, worldIn);
+		super(entityTypeIn, world);
 	}
 
-	public LightningShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public LightningShurikenEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
 	{
-		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+		super(AerialHellEntities.LIGHTNING_SHURIKEN, world, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
 	}
 
-	public LightningShurikenEntity(double x, double y, double z, Level worldIn)
+	public LightningShurikenEntity(double x, double y, double z, World world)
 	{
-		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), x, y, z, worldIn);
+		super(AerialHellEntities.LIGHTNING_SHURIKEN, x, y, z, world);
 	}
 
-	public LightningShurikenEntity(LivingEntity shooter, Level worldIn)
+	public LightningShurikenEntity(LivingEntity shooter, World world)
 	{
-		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), shooter, worldIn);
+		super(AerialHellEntities.LIGHTNING_SHURIKEN, shooter, world);
 	}
 
-	public LightningShurikenEntity(Level worldIn)
+	public LightningShurikenEntity(World world)
 	{
-		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), worldIn);
+		super(AerialHellEntities.LIGHTNING_SHURIKEN, world);
 	}
 
-	/*public LightningShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
+	/*public LightningShurikenEntity(PlayMessages.SpawnEntity packet, World world)
 	{
-		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), worldIn);
+		super(AerialHellEntities.LIGHTNING_SHURIKEN, world);
 	}*/
 	
-	@Override
-	protected float getKnifeDamage()
-	{
-		return 2.0F;
-	}
+	@Override protected float getKnifeDamage() {return 2.0F;}
+	@Override protected void applyEntityImpactEffet(Entity entity) {}
 	
-	@Override
-	protected void applyEntityImpactEffet(Entity entity) {}
-	
-	@Override
-	protected void onHit(HitResult result)
+	@Override protected void onCollision(HitResult result)
 	{
-		if (this.level().isClientSide()) {return;}
+		if (this.getWorld().isClient()) {return;}
 		
-		if (result.getType() != HitResult.Type.MISS && this.level() instanceof ServerLevel)
+		if (result.getType() != HitResult.Type.MISS && this.getWorld() instanceof ServerWorld)
 		{
-			LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level());
+			LightningEntity lightningBolt = EntityType.LIGHTNING_BOLT.create(this.getWorld());
 			lightningBolt.setPos(this.getX(), this.getY(), this.getZ());
-			this.level().spawnEntity(lightningBolt);
+			this.getWorld().spawnEntity(lightningBolt);
 		}
-		super.onHit(result);
+		super.onCollision(result);
 	}
 
-	@Override
-	protected Item getDefaultItem()
-	{
-		return AerialHellBlocksAndItems.LIGHTNING_SHURIKEN.get();
-	}
+	@Override protected Item getDefaultItem() {return AerialHellItems.LIGHTNING_SHURIKEN;}
 }

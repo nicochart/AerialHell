@@ -2,167 +2,163 @@ package fr.factionbedrock.aerialhell.Entity;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.Util;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.VariantHolder;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.decoration.AbstractDecorationEntity;
+import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.server.level.ServerEntity;
-import net.minecraft.tags.PaintingVariantTags;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.VariantHolder;
-import net.minecraft.world.entity.decoration.HangingEntity;
-import net.minecraft.world.entity.decoration.PaintingVariant;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.core.Direction;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.GameRules;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.PaintingVariantTags;
+import net.minecraft.server.network.EntityTrackerEntry;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.GameRules;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class AerialHellPaintingEntity extends AbstractDecorationEntity implements VariantHolder<RegistryKey<PaintingVariant>>
+public class AerialHellPaintingEntity extends AbstractDecorationEntity implements VariantHolder<RegistryEntry<PaintingVariant>>
 {
-    private static final EntityDataAccessor<Holder<PaintingVariant>> DATA_PAINTING_VARIANT_ID = SynchedEntityData.defineId(AerialHellPaintingEntity.class, EntityDataSerializers.PAINTING_VARIANT);
-    public static final MapCodec<Holder<PaintingVariant>> VARIANT_MAP_CODEC = PaintingVariant.CODEC.fieldOf("variant");
-    public static final Codec<Holder<PaintingVariant>> VARIANT_CODEC = VARIANT_MAP_CODEC.codec();
+    private static final TrackedData<RegistryEntry<PaintingVariant>> DATA_PAINTING_VARIANT_ID = DataTracker.registerData(PaintingEntity.class, TrackedDataHandlerRegistry.PAINTING_VARIANT);
+    public static final MapCodec<RegistryEntry<PaintingVariant>> VARIANT_MAP_CODEC = PaintingVariant.ENTRY_CODEC.fieldOf("variant");
+    public static final Codec<RegistryEntry<PaintingVariant>> VARIANT_CODEC = VARIANT_MAP_CODEC.codec();
     public static final float DEPTH = 0.0625F;
 
-    public AerialHellPaintingEntity(EntityType<? extends AerialHellPaintingEntity> entityType, Level level) {super(entityType, level);}
+    public AerialHellPaintingEntity(EntityType<? extends AerialHellPaintingEntity> entityType, World world) {super(entityType, world);}
 
-    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
+    @Override protected void initDataTracker(DataTracker.Builder builder)
     {
-        builder.define(DATA_PAINTING_VARIANT_ID, this.registryAccess().registryOrThrow(Registries.PAINTING_VARIANT).getAny().orElseThrow());
+        builder.add(DATA_PAINTING_VARIANT_ID, this.getRegistryManager().get(RegistryKeys.PAINTING_VARIANT).getDefaultEntry().orElseThrow());
     }
 
-    @Override
-    public void onSyncedDataUpdated(EntityDataAccessor<?> key)
+    @Override public void onTrackedDataSet(TrackedData<?> data)
     {
-        if (DATA_PAINTING_VARIANT_ID.equals(key)) {this.recalculateBoundingBox();}
+        if (DATA_PAINTING_VARIANT_ID.equals(data)) {this.updateAttachmentPosition();}
     }
 
-    public void setVariant(Holder<PaintingVariant> variant) {this.entityData.set(DATA_PAINTING_VARIANT_ID, variant);}
+    public void setVariant(RegistryEntry<PaintingVariant> variant) {this.dataTracker.set(DATA_PAINTING_VARIANT_ID, variant);}
+    public RegistryEntry<PaintingVariant> getVariant() {return this.dataTracker.get(DATA_PAINTING_VARIANT_ID);}
 
-    public Holder<PaintingVariant> getVariant() {return this.entityData.get(DATA_PAINTING_VARIANT_ID);}
-
-    public static Optional<AerialHellPaintingEntity> create(Level level, BlockPos pos, Direction direction)
+    public static Optional<AerialHellPaintingEntity> create(World world, BlockPos pos, Direction facing)
     {
-        AerialHellPaintingEntity painting = new AerialHellPaintingEntity(level, pos);
-        List<Holder<PaintingVariant>> list = new ArrayList<>();
-        level.registryAccess().registryOrThrow(Registries.PAINTING_VARIANT).getTagOrEmpty(PaintingVariantTags.PLACEABLE).forEach(list::add);
+        AerialHellPaintingEntity paintingEntity = new AerialHellPaintingEntity(world, pos);
+        List<RegistryEntry<PaintingVariant>> list = new ArrayList();
+        world.getRegistryManager().get(RegistryKeys.PAINTING_VARIANT).iterateEntries(PaintingVariantTags.PLACEABLE).forEach(list::add);
         if (list.isEmpty()) {return Optional.empty();}
         else
         {
-            painting.setDirection(direction);
-            list.removeIf(p_344343_ ->
+            paintingEntity.setFacing(facing);
+            list.removeIf(variant ->
             {
-                painting.setVariant((Holder<PaintingVariant>)p_344343_);
-                return !painting.survives();
+                paintingEntity.setVariant(variant);
+                return !paintingEntity.canStayAttached();
             });
             if (list.isEmpty()) {return Optional.empty();}
             else
             {
                 int i = list.stream().mapToInt(AerialHellPaintingEntity::variantArea).max().orElse(0);
-                list.removeIf(p_218883_ -> variantArea((Holder<PaintingVariant>)p_218883_) < i);
-                Optional<Holder<PaintingVariant>> optional = Util.getRandomSafe(list, painting.getRandom());
+                list.removeIf(variant -> variantArea(variant) < i);
+                Optional<RegistryEntry<PaintingVariant>> optional = Util.getRandomOrEmpty(list, paintingEntity.random);
                 if (optional.isEmpty()) {return Optional.empty();}
                 else
                 {
-                    painting.setVariant(optional.get());
-                    painting.setDirection(direction);
-                    return Optional.of(painting);
+                    paintingEntity.setVariant((RegistryEntry<PaintingVariant>)optional.get());
+                    paintingEntity.setFacing(facing);
+                    return Optional.of(paintingEntity);
                 }
             }
         }
     }
 
-    private static int variantArea(Holder<PaintingVariant> variant) {return variant.value().area();}
-    private AerialHellPaintingEntity(Level level, BlockPos pos) {super(EntityType.PAINTING, level, pos);}
+    private static int variantArea(RegistryEntry<PaintingVariant> variant) {return variant.value().getArea();}
+    private AerialHellPaintingEntity(World world, BlockPos pos) {super(EntityType.PAINTING, world, pos);}
 
-    public AerialHellPaintingEntity(Level level, BlockPos pos, Direction direction, Holder<PaintingVariant> variant)
+    public AerialHellPaintingEntity(World world, BlockPos pos, Direction direction, RegistryEntry<PaintingVariant> variant)
     {
-        this(level, pos);
+        this(world, pos);
         this.setVariant(variant);
-        this.setDirection(direction);
+        this.setFacing(direction);
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag compoundTag)
+    @Override public void writeCustomDataToNbt(NbtCompound nbt)
     {
-        VARIANT_CODEC.encodeStart(this.registryAccess().createSerializationContext(NbtOps.INSTANCE), this.getVariant())
-                .ifSuccess(p_330061_ -> compoundTag.merge((CompoundTag)p_330061_));
-        compoundTag.putByte("facing", (byte)this.direction.get2DDataValue());
-        super.addAdditionalSaveData(compoundTag);
+        VARIANT_CODEC.encodeStart(this.getRegistryManager().getOps(NbtOps.INSTANCE), this.getVariant())
+                .ifSuccess(nbtElement -> nbt.copyFrom((NbtCompound)nbtElement));
+        nbt.putByte("facing", (byte)this.facing.getHorizontal());
+        super.writeCustomDataToNbt(nbt);
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag compoundTag)
+    @Override public void readCustomDataFromNbt(NbtCompound nbt)
     {
-        VARIANT_CODEC.parse(this.registryAccess().createSerializationContext(NbtOps.INSTANCE), compoundTag).ifSuccess(this::setVariant);
-        this.direction = Direction.from2DDataValue(compoundTag.getByte("facing"));
-        super.readAdditionalSaveData(compoundTag);
-        this.setDirection(this.direction);
+        VARIANT_CODEC.parse(this.getRegistryManager().getOps(NbtOps.INSTANCE), nbt).ifSuccess(this::setVariant);
+        this.facing = Direction.fromHorizontal(nbt.getByte("facing"));
+        super.readCustomDataFromNbt(nbt);
+        this.setFacing(this.facing);
     }
 
-    @Override protected AABB calculateBoundingBox(BlockPos pos, Direction direction)
+    @Override protected Box calculateBoundingBox(BlockPos pos, Direction side)
     {
-        Vec3 vec3 = Vec3.atCenterOf(pos).relative(direction, -0.46875);
-        PaintingVariant paintingvariant = this.getVariant().value();
-        double d0 = this.offsetForPaintingSize(paintingvariant.width());
-        double d1 = this.offsetForPaintingSize(paintingvariant.height());
-        Direction counterClockWiseDirection = direction.getCounterClockWise();
-        Vec3 vec31 = vec3.relative(counterClockWiseDirection, d0).relative(Direction.UP, d1);
-        Direction.Axis direction$axis = direction.getAxis();
-        double d2 = direction$axis == Direction.Axis.X ? 0.0625 : (double)paintingvariant.width();
-        double d3 = (double)paintingvariant.height();
-        double d4 = direction$axis == Direction.Axis.Z ? 0.0625 : (double)paintingvariant.width();
-        return AABB.ofSize(vec31, d2, d3, d4);
+        float f = 0.46875F;
+        Vec3d vec3d = Vec3d.ofCenter(pos).offset(side, -0.46875);
+        PaintingVariant paintingVariant = this.getVariant().value();
+        double d = this.offsetForPaintingSize(paintingVariant.width());
+        double e = this.offsetForPaintingSize(paintingVariant.height());
+        Direction direction = side.rotateYCounterclockwise();
+        Vec3d vec3d2 = vec3d.offset(direction, d).offset(Direction.UP, e);
+        Direction.Axis axis = side.getAxis();
+        double g = axis == Direction.Axis.X ? 0.0625 : (double)paintingVariant.width();
+        double h = paintingVariant.height();
+        double i = axis == Direction.Axis.Z ? 0.0625 : (double)paintingVariant.width();
+        return Box.of(vec3d2, g, h, i);
     }
 
-    private double offsetForPaintingSize(int dimension) {
-        return dimension % 2 == 0 ? 0.5 : 0.0;
-    }
+    private double offsetForPaintingSize(int dimension) {return dimension % 2 == 0 ? 0.5 : 0.0;}
 
-    @Override public void dropItem(@Nullable Entity brokenEntity)
+    @Override public void onBreak(@Nullable Entity breaker)
     {
-        if (this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS))
+        if (this.getWorld().getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS))
         {
-            this.playSound(SoundEvents.PAINTING_BREAK, 1.0F, 1.0F);
-            if (brokenEntity instanceof Player player && player.hasInfiniteMaterials()) {return;}
-            this.spawnAtLocation(Items.PAINTING);
+            this.playSound(SoundEvents.ENTITY_PAINTING_BREAK, 1.0F, 1.0F);
+            if (breaker instanceof PlayerEntity playerEntity && playerEntity.isInCreativeMode()) {return;}
+            this.dropItem(AerialHellItems.AERIAL_HELL_PAINTING);
         }
     }
 
-    @Override public void playPlacementSound() {this.playSound(SoundEvents.PAINTING_PLACE, 1.0F, 1.0F);}
-    @Override public void moveTo(double pX, double pY, double pZ, float pYaw, float pPitch) {this.setPos(pX, pY, pZ);}
-    @Override public void lerpTo(double pX, double pY, double pZ, float pYRot, float pXRot, int pSteps) {this.setPos(pX, pY, pZ);}
+    @Override public void onPlace() {this.playSound(SoundEvents.ENTITY_PAINTING_PLACE, 1.0F, 1.0F);}
 
-    @Override public Vec3 trackingPosition() {return Vec3.atLowerCornerOf(this.pos);}
+    @Override public void refreshPositionAndAngles(double x, double y, double z, float yaw, float pitch) {this.setPosition(x, y, z);}
 
-    @Override public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entity) {return new ClientboundAddEntityPacket(this, this.direction.get3DDataValue(), this.getPos());}
+    @Override public void updateTrackedPositionAndAngles(double x, double y, double z, float yaw, float pitch, int interpolationSteps) {this.setPosition(x, y, z);}
 
-    @Override public void recreateFromPacket(ClientboundAddEntityPacket pPacket)
+    @Override public Vec3d getSyncedPos() {return Vec3d.of(this.attachedBlockPos);}
+
+    @Override public Packet<ClientPlayPacketListener> createSpawnPacket(EntityTrackerEntry entityTrackerEntry) {return new EntitySpawnS2CPacket(this, this.facing.getId(), this.getAttachedBlockPos());}
+
+    @Override public void onSpawnPacket(EntitySpawnS2CPacket packet)
     {
-        super.recreateFromPacket(pPacket);
-        this.setDirection(Direction.from3DDataValue(pPacket.getData()));
+        super.onSpawnPacket(packet);
+        this.setFacing(Direction.byId(packet.getEntityData()));
     }
 
-    @Override public ItemStack getPickResult() {return new ItemStack(AerialHellBlocksAndItems.AERIAL_HELL_PAINTING.get());}
+    @Override public ItemStack getPickBlockStack() {return new ItemStack(AerialHellItems.AERIAL_HELL_PAINTING);}
 }

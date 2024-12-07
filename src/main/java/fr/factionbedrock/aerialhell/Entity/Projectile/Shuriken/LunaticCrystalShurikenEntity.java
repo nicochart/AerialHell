@@ -1,58 +1,47 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
+import net.minecraft.world.World;
 
 public class LunaticCrystalShurikenEntity extends AbstractShurikenEntity
 {
-	public LunaticCrystalShurikenEntity(EntityType<? extends LunaticCrystalShurikenEntity> entityTypeIn, Level worldIn)
+	public LunaticCrystalShurikenEntity(EntityType<? extends LunaticCrystalShurikenEntity> entityTypeIn, World world)
 	{
-		super(entityTypeIn, worldIn);
+		super(entityTypeIn, world);
 	}
 
-	public LunaticCrystalShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public LunaticCrystalShurikenEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
 	{
-		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN, world, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
 	}
 
-	public LunaticCrystalShurikenEntity(double x, double y, double z, Level worldIn)
+	public LunaticCrystalShurikenEntity(double x, double y, double z, World world)
 	{
-		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), x, y, z, worldIn);
+		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN, x, y, z, world);
 	}
 
-	public LunaticCrystalShurikenEntity(LivingEntity shooter, Level worldIn)
+	public LunaticCrystalShurikenEntity(LivingEntity shooter, World world)
 	{
-		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), shooter, worldIn);
+		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN, shooter, world);
 	}
 
-	public LunaticCrystalShurikenEntity(Level worldIn)
+	public LunaticCrystalShurikenEntity(World world)
 	{
-		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), worldIn);
+		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN, world);
 	}
 
-	/*public LunaticCrystalShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
+	/*public LunaticCrystalShurikenEntity(PlayMessages.SpawnEntity packet, World world)
 	{
-		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), worldIn);
+		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN, world);
 	}*/
 
-	@Override
-	protected float getKnifeDamage()
-	{
-		return 12.0F;
-	}
-	
-	@Override
-	protected void applyEntityImpactEffet(Entity entity) {}
-
-	@Override
-	protected Item getDefaultItem()
-	{
-		return AerialHellBlocksAndItems.LUNATIC_CRYSTAL_SHURIKEN.get();
-	}	
+	@Override protected float getKnifeDamage() {return 12.0F;}
+	@Override protected void applyEntityImpactEffet(Entity entity) {}
+	@Override protected Item getDefaultItem() {return AerialHellItems.LUNATIC_CRYSTAL_SHURIKEN;}
 }

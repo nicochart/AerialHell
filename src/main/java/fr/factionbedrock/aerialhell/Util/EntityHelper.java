@@ -38,6 +38,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.FlyingMob;
 import net.minecraft.world.entity.animal.Chicken;
@@ -63,11 +64,11 @@ import java.util.Optional;
 
 public class EntityHelper
 {
-    public static boolean isCreativePlayer(Entity entity) {return entity instanceof Player player && player.isCreative();}
+    public static boolean isCreativePlayer(Entity entity) {return entity instanceof PlayerEntity player && player.isCreative();}
 
-    public static boolean isSpectatorPlayer(Entity entity) {return entity instanceof Player player && player.isSpectator();}
+    public static boolean isSpectatorPlayer(Entity entity) {return entity instanceof PlayerEntity player && player.isSpectator();}
 
-    public static boolean isCreaOrSpecPlayer(Entity entity) {return entity instanceof Player player && (player.isCreative() || player.isSpectator());}
+    public static boolean isCreaOrSpecPlayer(Entity entity) {return entity instanceof PlayerEntity player && (player.isCreative() || player.isSpectator());}
 
     public static boolean isLivingEntityUnderInTheCloudsEffect(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate());}
 
@@ -81,7 +82,7 @@ public class EntityHelper
 
     public static boolean isLivingEntityUnderAerialHellPortalEffect(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL.getDelegate());}
 
-    public static boolean isLivingEntityInAerialHellPortal(LivingEntity entity) {return entity.level().getBlockState(entity.getBlockPos()).isOf(AerialHellBlocks.AERIAL_HELL_PORTAL.get());}
+    public static boolean isLivingEntityInAerialHellPortal(LivingEntity entity) {return entity.getWorld().getBlockState(entity.getBlockPos()).isOf(AerialHellBlocks.AERIAL_HELL_PORTAL.get());}
 
     public static boolean isLivingEntityOnPortalCooldown(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN.getDelegate()) || entity.isOnPortalCooldown();}
 
@@ -190,12 +191,12 @@ public class EntityHelper
 
     public static void multiplyDeltaMovement(Entity entity, double xzFactor, double yFactor)
     {
-        entity.setDeltaMovement(entity.getVelocity().multiply(xzFactor, yFactor, xzFactor));
+        entity.setVelocity(entity.getVelocity().multiply(xzFactor, yFactor, xzFactor));
     }
 
     public static void setAerialHellPortalEffect(LivingEntity entity)
     {
-        if (!entity.level().isClientSide())
+        if (!entity.getWorld().isClientSide())
         {
             entity.addStatusEffect(new MobEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL.getDelegate(), 120, 0));
         }
@@ -203,7 +204,7 @@ public class EntityHelper
 
     public static void setAfterTeleportationEffect(LivingEntity entity, int duration)
     {
-        if (!entity.level().isClientSide())
+        if (!entity.getWorld().isClientSide())
         {
             entity.addStatusEffect(new MobEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN.getDelegate(), duration, 0));
         }
@@ -221,13 +222,13 @@ public class EntityHelper
 
     public static void tryTeleportEntityWithAerialHellPortal(Entity entity, AerialHellPortalBlock portalBlock, BlockPos pos)
     {
-        if (entity.level() instanceof ServerLevel serverlevel)
+        if (entity.getWorld() instanceof ServerLevel serverlevel)
         {
             DimensionTransition dimensiontransition = portalBlock.getPortalDestination(serverlevel, entity, pos);
             if (dimensiontransition != null)
             {
                 ServerLevel serverlevel1 = dimensiontransition.newLevel();
-                if (serverlevel.getServer().isLevelEnabled(serverlevel1) && (serverlevel1.dimension() == serverlevel.dimension() || entity.canChangeDimensions(serverlevel, serverlevel1)))
+                if (serverlevel.getServer().isLevelEnabled(serverlevel1) && (serverlevel1.dimension() == serverlevel.dimension() || entity.canTeleportBetween(serverlevel, serverlevel1)))
                 {
                     entity.changeDimension(dimensiontransition);
                 }
@@ -235,11 +236,11 @@ public class EntityHelper
         }
     }
 
-    public static void addBatParticle(LivingEntity entity, RandomSource rand, int number)
+    public static void addBatParticle(LivingEntity entity, Random rand, int number)
     {
         for (int i=0; i<number; i++)
         {
-            entity.level().addParticle(AerialHellParticleTypes.SHADOW_TROLL_BAT.get(), entity.getX() + rand.nextFloat() - 0.5, entity.getY() + 2 * rand.nextFloat(), entity.getZ() + rand.nextFloat() - 0.5, 2 * (rand.nextFloat()) - 0.5, -0.3D, 2 * (rand.nextFloat() - 0.5));
+            entity.getWorld().addParticle(AerialHellParticleTypes.SHADOW_TROLL_BAT.get(), entity.getX() + rand.nextFloat() - 0.5, entity.getY() + 2 * rand.nextFloat(), entity.getZ() + rand.nextFloat() - 0.5, 2 * (rand.nextFloat()) - 0.5, -0.3D, 2 * (rand.nextFloat() - 0.5));
         }
     }
 
@@ -254,7 +255,7 @@ public class EntityHelper
     }
 
     //from in net.minecraft.server.level.ChunkMap resendBiomesForChunks(..) method
-    public static void refreshChunkColors(ServerPlayer player, ServerLevel level, int radius)
+    public static void refreshChunkColors(ServerPlayerEntity player, ServerLevel level, int radius)
     {
         BoundingBox boundingbox = BlockHelper.getQuantizedBoundingBox(player.getOnPos().above(), radius);
         List<ChunkAccess> chunkAccessList = BlockHelper.getChunkAccessListForBoundingBox(level, boundingbox);

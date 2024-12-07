@@ -6,69 +6,69 @@ import fr.factionbedrock.aerialhell.Entity.AI.ActiveMisleadableNearestAttackable
 import fr.factionbedrock.aerialhell.Entity.AI.FleeBlockGoal;
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.level.Level;
+import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.world.World;
 
 import java.util.List;
 
 public class CrystalGolemEntity extends AerialHellGolemEntity
-{	
+{
 	private int timeUntilActivation;
-	public static final EntityDataAccessor<Boolean> DISAPPEARING = SynchedEntityData.<Boolean>defineId(CrystalGolemEntity.class, EntityDataSerializers.BOOLEAN);
+	public static final TrackedData<Boolean> DISAPPEARING = DataTracker.<Boolean>registerData(CrystalGolemEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	private int timeDisappearing;
-	
-    public CrystalGolemEntity(EntityType<? extends Monster> type, Level world)
+
+    public CrystalGolemEntity(EntityType<? extends HostileEntity> type, World world)
     {
         super(type, world);
         this.timeUntilActivation = 0;
-        this.xpReward = 6;
-    }
-    
-    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
-    {
-        super.defineSynchedData(builder);
-        builder.define(DISAPPEARING, false);
-    }
-    
-    @Override public void addAdditionalSaveData(CompoundTag compound)
-    {
-        super.addAdditionalSaveData(compound);
-        compound.putBoolean("Disappearing", this.isDisappearing());
+        this.experiencePoints = 6;
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag compound)
+    @Override protected void initDataTracker(DataTracker.Builder builder)
     {
-        super.readAdditionalSaveData(compound);
-        this.setDisappearing(compound.getBoolean("Disappearing"));
+        super.initDataTracker(builder);
+        builder.add(DISAPPEARING, false);
     }
-    
-    public boolean isDisappearing() {return this.entityData.get(DISAPPEARING);}
+
+    @Override public void writeCustomDataToNbt(NbtCompound nbt)
+    {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putBoolean("Disappearing", this.isDisappearing());
+    }
+
+    @Override public void readCustomDataFromNbt(NbtCompound nbt)
+    {
+        super.readCustomDataFromNbt(nbt);
+        this.setDisappearing(nbt.getBoolean("Disappearing"));
+    }
+
+    public boolean isDisappearing() {return this.getDataTracker().get(DISAPPEARING);}
     public void setDisappearing(boolean flag)
     {
-    	this.entityData.set(DISAPPEARING, flag);
+    	this.getDataTracker().set(DISAPPEARING, flag);
     }
     public int getTimeDisappearing() {return this.timeDisappearing;}
     public int getMaxLifeTime() {return 1200;}
-    
+
     @Override public void tick()
     {
     	super.tick();
-    	if (this.removeWhenFarAway(64) && this.tickCount > getMaxLifeTime() && !isDisappearing()) {this.setDisappearing(true);}
+    	if (this.canImmediatelyDespawn(64) && this.age > getMaxLifeTime() && !isDisappearing()) {this.setDisappearing(true);}
     	if (this.isDisappearing())
-    	{    		
+    	{
     		if (this.timeDisappearing < 95)
     		{
     			this.addDisappearingParticle(1);
@@ -81,48 +81,48 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
     		this.timeDisappearing++;
     	}
     }
-    
+
     private void addDisappearingParticle(int number)
     {
     	for (int i=0; i<number; i++)
 		{
-			this.level().addParticle(ParticleTypes.CLOUD, this.getX() + random.nextFloat() - 0.5, this.getY() + 2 * random.nextFloat(), this.getZ() + random.nextFloat() - 0.5, 0.5 * (random.nextFloat() - 0.5), 0.5 * (random.nextFloat() - 0.5), 0.5 * (random.nextFloat() - 0.5));
+			this.getWorld().addParticle(ParticleTypes.CLOUD, this.getX() + random.nextFloat() - 0.5, this.getY() + 2 * random.nextFloat(), this.getZ() + random.nextFloat() - 0.5, 0.5 * (random.nextFloat() - 0.5), 0.5 * (random.nextFloat() - 0.5), 0.5 * (random.nextFloat() - 0.5));
 		}
     }
-    
-    public static AttributeSupplier.Builder registerAttributes()
+
+    public static DefaultAttributeContainer.Builder registerAttributes()
     {
-        return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 45.0D)
-                .add(Attributes.ARMOR, 2.0D)
-                .add(Attributes.ATTACK_DAMAGE, 7.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.24D);
+        return HostileEntity.createHostileAttributes()
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 45.0D)
+                .add(EntityAttributes.GENERIC_ARMOR, 2.0D)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7.0D)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.24D);
     }
-    
-    @Override public boolean fireImmune() {return true;}
-	@Override public boolean displayFireAnimation() {return false;}
-	
+
+    @Override public boolean isFireImmune() {return true;}
+	@Override public boolean doesRenderOnFire() {return false;}
+
     @Override
-    protected void registerGoals()
+    protected void initGoals()
     {
-    	super.registerGoals();
-        List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocksAndItems.SHADOW_TORCH.get(), AerialHellBlocksAndItems.SHADOW_WALL_TORCH.get());
-        this.goalSelector.addGoal(1, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
-        this.targetSelector.addGoal(2, new CrystalGolemNearestAttackableTargetGoal<>(this, Player.class, true));
-        this.goalSelector.addGoal(1, new CrystalGolemAvoidEntityGoal<>(this, Player.class, 16.0F, 1.2D, 1.5D));
+    	super.initGoals();
+        List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocks.SHADOW_TORCH, AerialHellBlocks.SHADOW_WALL_TORCH);
+        this.goalSelector.add(1, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
+        this.targetSelector.add(2, new CrystalGolemNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+        this.goalSelector.add(1, new CrystalGolemFleeEntityGoal<>(this, PlayerEntity.class, 16.0F, 1.2D, 1.5D));
     }
     
-    protected static class CrystalGolemAvoidEntityGoal<T extends LivingEntity> extends ActiveAvoidEntityGoal<T>
+    protected static class CrystalGolemFleeEntityGoal<T extends LivingEntity> extends ActiveAvoidEntityGoal<T>
     {
-    	public CrystalGolemAvoidEntityGoal(CrystalGolemEntity golemIn, Class<T> avoidClassIn, float avoidDistanceIn, double farSpeedIn, double nearSpeedIn) {super(golemIn, avoidClassIn, avoidDistanceIn, farSpeedIn, nearSpeedIn);}
-    	@Override public boolean canUse() {return ((CrystalGolemEntity)this.activableEntity).isDisappearing() && super.canUse();}
-		@Override public boolean canContinueToUse() {return ((CrystalGolemEntity)this.activableEntity).isDisappearing() && super.canContinueToUse();}
+    	public CrystalGolemFleeEntityGoal(CrystalGolemEntity golemIn, Class<T> avoidClassIn, float avoidDistanceIn, double farSpeedIn, double nearSpeedIn) {super(golemIn, avoidClassIn, avoidDistanceIn, farSpeedIn, nearSpeedIn);}
+    	@Override public boolean canStart() {return ((CrystalGolemEntity)this.activableEntity).isDisappearing() && super.canStart();}
+		@Override public boolean shouldContinue() {return ((CrystalGolemEntity)this.activableEntity).isDisappearing() && super.shouldContinue();}
     }
 
     protected static class CrystalGolemNearestAttackableTargetGoal<T extends LivingEntity> extends ActiveMisleadableNearestAttackableTargetGoal<T>
     {
         public CrystalGolemNearestAttackableTargetGoal(AbstractActivableEntity entityIn, Class<T> targetClassIn, boolean checkSight) {super(entityIn, targetClassIn, checkSight);}
-        @Override public boolean isPlayerMisleadingGoalOwner(Player player)
+        @Override public boolean isPlayerMisleadingGoalOwner(PlayerEntity player)
         {
             return EntityHelper.isLivingEntityMisleadingLunar(player);
         }

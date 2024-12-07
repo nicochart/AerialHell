@@ -1,58 +1,62 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
 import fr.factionbedrock.aerialhell.Entity.AI.GhostGoals;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.LookAroundGoal;
+import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.world.World;
 
 public class GhostSlimePirateEntity extends AbstractSlimePirateEntity
 {
-    public GhostSlimePirateEntity(EntityType<? extends GhostSlimePirateEntity> type, Level world) {super(type, world);}
+    public GhostSlimePirateEntity(EntityType<? extends GhostSlimePirateEntity> type, World world) {super(type, world);}
 
     @Override protected void registerBaseGoals()
     {
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.goalSelector.addGoal(3, new GhostGoals.GhostPirateWaterAvoidingRandomStrollGoal(this, 0.6D));
-        this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.targetSelector.add(1, new RevengeGoal(this));
+        this.goalSelector.add(3, new GhostGoals.GhostPirateWaterAvoidingRandomStrollGoal(this, 0.6D));
+        this.goalSelector.add(1, new SwimGoal(this));
+        this.goalSelector.add(4, new LookAroundGoal(this));
     }
 
     @Override protected void registerSpecificGoals()
     {
-        this.goalSelector.addGoal(2, new GhostGoals.GhostPirateMeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.addGoal(4, new GhostGoals.GhostPirateLookAtPlayerGoal(this, Player.class, 8.0F));
-        this.targetSelector.addGoal(2, new GhostGoals.GhostPirateNearestAttackableTargetGoal<>(this, Player.class, true));
+        this.goalSelector.add(2, new GhostGoals.GhostPirateMeleeAttackGoal(this, 1.25D, false));
+        this.goalSelector.add(4, new GhostGoals.GhostPirateLookAtPlayerGoal(this, PlayerEntity.class, 8.0F));
+        this.targetSelector.add(2, new GhostGoals.GhostPirateNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
     }
 
-    @Override public EntityType<? extends AbstractSlimePirateEntity> getDieOffspringType() {return AerialHellEntities.GHOST_SLIME_PIRATE.get();}
+    @Override public EntityType<? extends AbstractSlimePirateEntity> getDieOffspringType() {return AerialHellEntities.GHOST_SLIME_PIRATE;}
 
-    @Override public EntityType<? extends AbstractSlimePirateEntity> getType() {return AerialHellEntities.GHOST_SLIME_PIRATE.get();}
+    @Override public EntityType<? extends AbstractSlimePirateEntity> getType() {return AerialHellEntities.GHOST_SLIME_PIRATE;}
 
-    @Override public boolean hurt(DamageSource damageSource, float amount)
+    @Override public boolean damage(DamageSource damageSource, float amount)
     {
-        Entity sourceEntity = damageSource.getEntity();
+        Entity sourceEntity = damageSource.getAttacker();
         if (EntityHelper.isImmuneToGhostBlockCollision(sourceEntity) && !EntityHelper.isCreaOrSpecPlayer(sourceEntity)) {return false;}
-        return super.hurt(damageSource, amount);
+        return super.damage(damageSource, amount);
     }
 
-    @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand)
+    @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, Random rand)
     {
-        return rand.nextInt(2) == 0 ? new ItemStack(AerialHellBlocksAndItems.AZURITE_SWORD.get()) : new ItemStack(AerialHellBlocksAndItems.AZURITE_AXE.get());
+        return rand.nextInt(2) == 0 ? new ItemStack(AerialHellItems.AZURITE_SWORD) : new ItemStack(AerialHellItems.AZURITE_AXE);
     }
 
-    public static boolean canGhostSpawn(EntityType<? extends Monster> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource randomIn)
+    public static boolean canGhostSpawn(EntityType<? extends HostileEntity> type, ServerWorldAccess world, SpawnReason reason, BlockPos pos, Random randomIn)
     {
-        return randomIn.nextInt(40) == 0 && checkAnyLightMonsterSpawnRules(type, worldIn, reason, pos, randomIn);
+        return randomIn.nextInt(40) == 0 && canSpawnIgnoreLightLevel(type, world, reason, pos, randomIn);
     }
 }

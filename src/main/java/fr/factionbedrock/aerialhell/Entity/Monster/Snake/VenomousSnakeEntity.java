@@ -1,26 +1,28 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Snake;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.util.valueproviders.*;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
+import net.minecraft.world.World;
 
 public class VenomousSnakeEntity extends AbstractSnakeEntity
 {
-    public VenomousSnakeEntity(EntityType<? extends VenomousSnakeEntity> type, Level world) {super(type, world);}
+    public VenomousSnakeEntity(EntityType<? extends VenomousSnakeEntity> type, World world) {super(type, world);}
 
     @Override protected BodyPartDeathReaction getBodyPartDeathReaction() {return BodyPartDeathReaction.LOOSE_TAIL;}
-    @Override protected IntProvider getLength() {return UniformInt.of(14,20);}//{return ConstantInt.of(16);}
+    @Override protected UniformIntProvider getLength() {return UniformIntProvider.create(14,20);}//{return ConstantInt.of(16);}
     @Override protected int getMinLength() {return 3;}
 
-    @Override public boolean doHurtTarget(Entity attackedEntity)
+    @Override public boolean tryAttack(Entity attackedEntity)
     {
-        boolean flag = super.doHurtTarget(attackedEntity);
+        boolean flag = super.tryAttack(attackedEntity);
         if (flag && attackedEntity instanceof LivingEntity livingEntity && !EntityHelper.isLivingEntityShadowImmune(livingEntity))
         {
             livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 500, 0));
@@ -28,12 +30,12 @@ public class VenomousSnakeEntity extends AbstractSnakeEntity
         return flag;
     }
 
-    public static AttributeSupplier.Builder registerAttributes()
+    public static DefaultAttributeContainer.Builder registerAttributes()
     {
-        return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 20.0D)
-                .add(Attributes.ATTACK_DAMAGE, 3.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.23D)
-                .add(Attributes.FOLLOW_RANGE, 35.0D);
+        return HostileEntity.createHostileAttributes()
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0D)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23D)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0D);
     }
 }

@@ -1,80 +1,76 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Mud;
 
-import javax.annotation.Nullable;
-
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.monster.AbstractSkeleton;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.entity.EntityData;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.AbstractSkeletonEntity;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-public class MudSoldierEntity extends AbstractSkeleton
+public class MudSoldierEntity extends AbstractSkeletonEntity
 {
-	public MudSoldierEntity(EntityType<? extends MudSoldierEntity> type, Level world)
+	public MudSoldierEntity(EntityType<? extends MudSoldierEntity> type, World world)
     {
         super(type, world);
     }
 	
 	@Override
-    protected void registerGoals()
+    protected void initGoals()
     {
-		this.goalSelector.addGoal(2, new RestrictSunGoal(this));
-	    this.goalSelector.addGoal(3, new FleeSunGoal(this, 1.0D));
-	    this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-	    this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
-	    this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
-	    this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-	    this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
-	    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, TornSpiritEntity.class, true));
-	    this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, ChainedGodEntity.class, true));
+		this.goalSelector.add(2, new AvoidSunlightGoal(this));
+	    this.goalSelector.add(3, new EscapeSunlightGoal(this, 1.0D));
+	    this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0D));
+	    this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+	    this.goalSelector.add(6, new LookAroundGoal(this));
+	    this.targetSelector.add(1, new RevengeGoal(this));
+	    this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+	    this.targetSelector.add(3, new ActiveTargetGoal<>(this, TornSpiritEntity.class, true));
+	    this.targetSelector.add(4, new ActiveTargetGoal<>(this, ChainedGodEntity.class, true));
     }
 	
-	public static AttributeSupplier.Builder registerAttributes()
+	public static DefaultAttributeContainer.Builder registerAttributes()
     {
-		return Monster.createMonsterAttributes()
-				.add(Attributes.MAX_HEALTH, 20.0D)
-				.add(Attributes.FOLLOW_RANGE, 24.0D)
-				.add(Attributes.MOVEMENT_SPEED, 0.20D)
-				.add(Attributes.ATTACK_DAMAGE, 3.0D);
+		return HostileEntity.createHostileAttributes()
+				.add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
+				.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.20D)
+				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0D);
     }
 
 	@Override
-	protected void populateDefaultEquipmentSlots(RandomSource rand, DifficultyInstance difficulty)
+	protected void initEquipment(Random rand, LocalDifficulty difficulty)
 	{
-		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
 	}
 	
 	@Override
 	@Nullable
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn)
+	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData)
 	{
-		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
-		this.populateDefaultEquipmentSlots(this.random, difficultyIn);
-		this.reassessWeaponGoal();
-		return spawnDataIn;
+		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+		this.initEquipment(this.random, difficulty);
+		this.updateAttackType();
+		return entityData;
 	}
 	
-	@Override protected SoundEvent getAmbientSound() {return SoundEvents.WITHER_SKELETON_AMBIENT;}
-	@Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return SoundEvents.WITHER_SKELETON_HURT;}
-	@Override protected SoundEvent getDeathSound() {return SoundEvents.WITHER_SKELETON_DEATH;}
-	@Override protected SoundEvent getStepSound() {return SoundEvents.WITHER_SKELETON_STEP;}
+	@Override protected SoundEvent getAmbientSound() {return SoundEvents.ENTITY_WITHER_SKELETON_AMBIENT;}
+	@Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return SoundEvents.ENTITY_WITHER_SKELETON_HURT;}
+	@Override protected SoundEvent getDeathSound() {return SoundEvents.ENTITY_WITHER_SKELETON_DEATH;}
+	@Override public SoundEvent getStepSound() {return SoundEvents.ENTITY_WITHER_SKELETON_STEP;}
 }

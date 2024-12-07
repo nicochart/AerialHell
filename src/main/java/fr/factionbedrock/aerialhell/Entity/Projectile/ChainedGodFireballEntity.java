@@ -1,15 +1,15 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.LargeFireball;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.projectile.FireballEntity;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 
-public class ChainedGodFireballEntity extends LargeFireball
+public class ChainedGodFireballEntity extends FireballEntity
 {
 	private final static int explosion_power = 0;
-	public ChainedGodFireballEntity(Level worldIn, LivingEntity shooter, double accelX, double accelY, double accelZ)
+	public ChainedGodFireballEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ)
 	{
-		super(worldIn,shooter,new Vec3(accelX,accelY,accelZ),explosion_power);
+		super(world,shooter,new Vec3d(accelX,accelY,accelZ),explosion_power);
 	}
 }

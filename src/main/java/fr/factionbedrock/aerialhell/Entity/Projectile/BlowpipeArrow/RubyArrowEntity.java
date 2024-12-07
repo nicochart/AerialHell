@@ -1,36 +1,35 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractAerialArrowEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-
-import javax.annotation.Nullable;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class RubyArrowEntity extends AbstractAerialArrowEntity
 {
-    public static final ItemStack DEFAULT_STACK = new ItemStack(AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get());
+    public static final ItemStack DEFAULT_STACK = new ItemStack(AerialHellItems.RUBY_BLOWPIPE_ARROW);
 
-    public RubyArrowEntity(LivingEntity shooter, Level level, ItemStack pickupItemStack)
+    public RubyArrowEntity(LivingEntity shooter, World world, ItemStack pickupItemStack)
     {
-        this(shooter, level, pickupItemStack, null);
+        this(shooter, world, pickupItemStack, null);
     }
 
-    public RubyArrowEntity(LivingEntity shooter, Level level, ItemStack pickupItemStack, @Nullable ItemStack weapon)
+    public RubyArrowEntity(LivingEntity shooter, World world, ItemStack pickupItemStack, @Nullable ItemStack weapon)
     {
-        super(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), shooter, level, pickupItemStack, weapon);
-        this.setBaseDamage(6.0D);
+        super(AerialHellEntities.RUBY_BLOWPIPE_ARROW, shooter, world, pickupItemStack, weapon);
+        this.setDamage(6.0D);
     }
 
-    public RubyArrowEntity(EntityType<RubyArrowEntity> type, Level level)
+    public RubyArrowEntity(EntityType<RubyArrowEntity> type, World world)
     {
-        super(type, level);
+        super(type, world);
     }
     
-    @Override protected ItemStack getPickupItem() {return new ItemStack(AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get());}
+    @Override protected ItemStack asItemStack() {return new ItemStack(AerialHellItems.RUBY_BLOWPIPE_ARROW);}
 
-    @Override protected ItemStack getDefaultPickupItem() {return new ItemStack(AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get());}
+    @Override protected ItemStack () {return new ItemStack(AerialHellItems.RUBY_BLOWPIPE_ARROW);}
 }

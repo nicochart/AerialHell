@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
 
 public class ActiveLookAtPlayerGoal extends AdditionalConditionLookAtPlayerGoal
 {

@@ -1,49 +1,41 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit;
 
-import javax.annotation.Nullable;
-
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LightningEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class ElectroSpiritEntity extends AbstractElementSpiritEntity
 {
-	public ElectroSpiritEntity(EntityType<? extends ElectroSpiritEntity> type, Level worldIn)
-    {
-        super(type, worldIn);
-    }
+	public ElectroSpiritEntity(EntityType<? extends ElectroSpiritEntity> type, World world) {super(type, world);}
 
-    public ElectroSpiritEntity(Level worldIn)
-    {
-        this(AerialHellEntities.ELECTRO_SPIRIT.get(), worldIn);
-    }
+    public ElectroSpiritEntity(World world) {this(AerialHellEntities.ELECTRO_SPIRIT, world);}
     
-    @Override
-    public void attackSuicide()
+    @Override public void attackSuicide()
     {
-    	if (this.level() instanceof ServerLevel)
+    	if (this.getWorld() instanceof ServerWorld)
     	{
-    		LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level());
+    		LightningEntity lightningBolt = EntityType.LIGHTNING_BOLT.create(this.getWorld());
 			lightningBolt.setPos(this.getX(), this.getY(), this.getZ());
-			this.level().spawnEntity(lightningBolt);
+			this.getWorld().spawnEntity(lightningBolt);
     	}
     	super.attackSuicide();
     }
     
-    public void applyEffect(Entity entityIn)
+    @Override public void applyEffect(Entity entityIn)
     {
-    	((LivingEntity) entityIn).addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.GLOWING, 70, 2, true, false)));
+    	((LivingEntity) entityIn).addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 70, 2, true, false));
     }
     
     public SimpleParticleType getParticleToSpawn()
@@ -51,24 +43,7 @@ public class ElectroSpiritEntity extends AbstractElementSpiritEntity
     	return ParticleTypes.WITCH;
     }
     
-    @Nullable
-    @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-    {
-        return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_HURT.get();
-    }
-
-    @Nullable
-    @Override
-    protected SoundEvent getDeathSound()
-    {
-        return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_DEATH.get();
-    }
-
-    @Nullable
-    @Override
-    protected SoundEvent getAmbientSound()
-    {
-        return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_AMBIENT.get();
-    }
+    @Nullable @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_HURT;}
+    @Nullable @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_DEATH;}
+    @Nullable @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_AMBIENT;}
 }

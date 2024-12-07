@@ -85,7 +85,7 @@ public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingE
                 if (direction == Direction.SOUTH) {i1 = MathHelper.floor(entity.getX() - (double)((f15 + f16) / 2.0F / 16.0F));}
                 if (direction == Direction.EAST) {k1 = MathHelper.floor(entity.getZ() + (double)((f15 + f16) / 2.0F / 16.0F));}
 
-                int l1 = LevelRenderer.getLightColor(entity.level(), new BlockPos(i1, j1, k1));
+                int l1 = LevelRenderer.getLightColor(entity.getWorld(), new BlockPos(i1, j1, k1));
                 float f19 = textureAtlasSprite1.getU((float)(d0 * (double)(i - k)));
                 float f20 = textureAtlasSprite1.getU((float)(d0 * (double)(i - (k + 1))));
                 float f21 = textureAtlasSprite1.getV((float)(d1 * (double)(j - l)));

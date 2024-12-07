@@ -2,21 +2,22 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
 import fr.factionbedrock.aerialhell.Entity.Monster.AbstractHumanoidMonster;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.core.BlockPos;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
 {
-    public AbstractSlimePirateEntity(EntityType<? extends AbstractSlimePirateEntity> type, Level world) {super(type, world, 1.0F, 0.33F);}
+    public AbstractSlimePirateEntity(EntityType<? extends AbstractSlimePirateEntity> type, World world) {super(type, world, 1.0F, 0.33F);}
 
     @Override public void remove(Entity.RemovalReason removalReason)
     {
-        if (!this.level().isClientSide && !this.isBaby() && this.isDeadOrDying())
+        if (!this.getWorld().isClient && !this.isBaby() && this.isDead())
         {
             int number = 1 + this.random.nextInt(2);
             if (random.nextInt(5) == 0) {number++;}
@@ -24,27 +25,27 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
             {
                 float x = ((float) (l % 2) - 0.5F) * 0.5F;
                 float z = ((float) (l / 2) - 0.5F) * 0.5F;
-                AbstractSlimePirateEntity littlePirate = this.getDieOffspringType().create(this.level());
+                AbstractSlimePirateEntity littlePirate = this.getDieOffspringType().create(this.getWorld());
                 if (littlePirate != null)
                 {
-                    if (this.isPersistenceRequired()) {littlePirate.setPersistenceRequired();}
+                    if (this.isPersistent()) {littlePirate.setPersistent();}
                     littlePirate.setCustomName(this.getCustomName());
-                    littlePirate.setNoAi(this.isNoAi());
+                    littlePirate.setAiDisabled(this.isAiDisabled());
                     littlePirate.setInvulnerable(this.isInvulnerable());
                     littlePirate.setBaby(true);
-                    littlePirate.moveTo(this.getX() + (double) x, this.getY() + 0.5D, this.getZ() + (double) z, this.random.nextFloat() * 360.0F, 0.0F);
-                    this.level().spawnEntity(littlePirate);
+                    littlePirate.refreshPositionAndAngles(this.getX() + (double) x, this.getY() + 0.5D, this.getZ() + (double) z, this.random.nextFloat() * 360.0F, 0.0F);
+                    this.getWorld().spawnEntity(littlePirate);
                     //No weapon
-                    //littlePirate.populateDefaultEquipmentSlots(this.getRandom(), this.level().getCurrentDifficultyAt(this.getBlockPos()));
+                    //littlePirate.initEquipment(this.getRandom(), this.getWorld().getCurrentDifficultyAt(this.getBlockPos()));
                 }
             }
         }
         super.remove(removalReason);
     }
 
-    @Override public boolean hurt(DamageSource damageSource, float amount)
+    @Override public boolean damage(DamageSource damageSource, float amount)
     {
-        return super.hurt(damageSource, this.isBaby() ? amount * 1.5F : amount);
+        return super.damage(damageSource, this.isBaby() ? amount * 1.5F : amount);
     }
 
     public EntityType<? extends AbstractSlimePirateEntity> getDieOffspringType() {return this.getType();}
@@ -54,14 +55,14 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
         return (EntityType<? extends AbstractSlimePirateEntity>) super.getType();
     }
 
-    public static AttributeSupplier.Builder registerAttributes()
+    public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return AbstractHumanoidMonster.registerAttributes(20.0D, 4.0D, 0.2D, 35.0D);
     }
 
-    @Override public int getAmbientSoundInterval() {return 300;}
-    @Override protected SoundEvent getAmbientSound(){return AerialHellSoundEvents.ENTITY_SLIME_PIRATE_AMBIENT.get();}
-    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_SLIME_PIRATE_HURT.get();}
-    @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_SLIME_PIRATE_DEATH.get();}
-    @Override protected void playStepSound(BlockPos pos, BlockState blockIn) {this.playSound(AerialHellSoundEvents.ENTITY_SLIME_PIRATE_STEP.get(), 0.15F, 0.5F);}
+    @Override public int getMinAmbientSoundDelay() {return 300;}
+    @Override protected SoundEvent getAmbientSound(){return AerialHellSoundEvents.ENTITY_SLIME_PIRATE_AMBIENT;}
+    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_SLIME_PIRATE_HURT;}
+    @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_SLIME_PIRATE_DEATH;}
+    @Override protected void playStepSound(BlockPos pos, BlockState blockIn) {this.playSound(AerialHellSoundEvents.ENTITY_SLIME_PIRATE_STEP, 0.15F, 0.5F);}
 }

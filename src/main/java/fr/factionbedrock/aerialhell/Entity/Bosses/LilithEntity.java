@@ -4,7 +4,6 @@ import java.util.List;
 
 import fr.factionbedrock.aerialhell.Block.*;
 import fr.factionbedrock.aerialhell.Block.DirtAndVariants.StellarGrassBlock;
-import fr.factionbedrock.aerialhell.Block.StandingAndWall.AerialHellStandingSignBlock;
 import fr.factionbedrock.aerialhell.Block.StandingAndWall.AerialHellTorchBlock;
 import fr.factionbedrock.aerialhell.Block.StandingAndWall.AerialHellWallTorchBlock;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
@@ -15,35 +14,34 @@ import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.core.Vec3i;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.BossEvent;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.block.*;
+import net.minecraft.block.enums.DoubleBlockHalf;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtEntityGoal;
+import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.boss.BossBar;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.item.Item;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
+import net.minecraft.world.World;
 
 public class LilithEntity extends AbstractBossEntity
 {
@@ -51,50 +49,50 @@ public class LilithEntity extends AbstractBossEntity
 	private int timeSinceTransforming;
 	private final int transformationTime = 160; //8 seconds
 
-	public LilithEntity(EntityType<? extends Monster> type, Level world)
+	public LilithEntity(EntityType<? extends HostileEntity> type, World world)
 	{
 		super(type, world);
 		attackTimer = 0;
 		timeSinceTransforming = 0; this.hurtTime = 0;
-		bossInfo.setColor(BossEvent.BossBarColor.PURPLE);
-		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
+		bossInfo.setColor(BossBar.Color.PURPLE);
+		bossInfo.setStyle(BossBar.Style.NOTCHED_6);
 	}
 
-	@Override protected void registerGoals()
+	@Override protected void initGoals()
     {
-		this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, Player.class, true));
-		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		this.goalSelector.addGoal(3, new LilithMeleeAttackGoal(this, 1.25D, false));
-		this.goalSelector.addGoal(2, new LilithSummonShadowFlyingSkullGoal(this));
-		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(5, new LilithWaterAvoidingRandomWalkingGoal(this, 0.6D));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
-		this.goalSelector.addGoal(2, new ShadowProjectileAttackGoal(this));
+		this.targetSelector.add(2, new ActiveNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+		this.targetSelector.add(1, new RevengeGoal(this));
+		this.goalSelector.add(3, new LilithMeleeAttackGoal(this, 1.25D, false));
+		this.goalSelector.add(2, new LilithSummonShadowFlyingSkullGoal(this));
+		this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.add(5, new LilithWaterAvoidingRandomWalkingGoal(this, 0.6D));
+        this.targetSelector.add(3, new ActiveTargetGoal<>(this, MudCycleMageEntity.class, true));
+		this.goalSelector.add(2, new ShadowProjectileAttackGoal(this));
     }
 	
-	public static AttributeSupplier.Builder registerAttributes()
+	public static DefaultAttributeContainer.Builder registerAttributes()
     {
-		return Monster.createMonsterAttributes()
-				.add(Attributes.MAX_HEALTH, 600.0D)
-				.add(Attributes.FOLLOW_RANGE, 32.0D)
-				.add(Attributes.MOVEMENT_SPEED, 0.3D)
-				.add(Attributes.KNOCKBACK_RESISTANCE, 0.1D)
-				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
-				.add(Attributes.ATTACK_DAMAGE, 20.0D);
+		return HostileEntity.createHostileAttributes()
+				.add(EntityAttributes.GENERIC_MAX_HEALTH, 600.0D)
+				.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
+				.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.1D)
+				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D)
+				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 20.0D);
     }
 	
-	@Override public boolean hurt(DamageSource source, float amount)
+	@Override public boolean damage(DamageSource source, float amount)
 	{
-		Entity immediateSourceEntity = source.getDirectEntity();
-		Entity trueSourceEntity = source.getEntity();
-		if (this.isTransforming() && !source.isCreativePlayer() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return false;}
-		if (this.getMaxHealth() < 2.5 * this.getHealth() && immediateSourceEntity instanceof AbstractArrow) {return false;}
-		boolean flag = super.hurt(source, amount);
+		Entity immediateSourceEntity = source.getSource();
+		Entity trueSourceEntity = source.getAttacker();
+		if (this.isTransforming() && !source.isSourceCreativePlayer() && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return false;}
+		if (this.getMaxHealth() < 2.5 * this.getHealth() && immediateSourceEntity instanceof PersistentProjectileEntity) {return false;}
+		boolean flag = super.damage(source, amount);
 		if (flag)
 		{
-			if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrow))
+			if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof PersistentProjectileEntity))
 			{
-				if (!(trueSourceEntity instanceof Player && ((Player)trueSourceEntity).isCreative()))
+				if (!EntityHelper.isCreativePlayer(trueSourceEntity))
 				{
 					this.setTarget((LivingEntity) trueSourceEntity);
 				}
@@ -103,18 +101,18 @@ public class LilithEntity extends AbstractBossEntity
 		return flag;
 	}
 	
-	@Override public void addAdditionalSaveData(CompoundTag compound)
+	@Override public void writeCustomDataToNbt(NbtCompound nbt)
 	{
-		super.addAdditionalSaveData(compound);
-		compound.putShort("timeTransforming", (short)this.timeSinceTransforming);
+		super.writeCustomDataToNbt(nbt);
+		nbt.putShort("timeTransforming", (short)this.timeSinceTransforming);
 	}
 	
-	@Override public void readAdditionalSaveData(CompoundTag compound)
+	@Override public void readCustomDataFromNbt(NbtCompound nbt)
 	{
-	    super.readAdditionalSaveData(compound);
-	    if (compound.contains("timeTransforming", 99))
+	    super.readCustomDataFromNbt(nbt);
+	    if (nbt.contains("timeTransforming", 99))
 	    {
-	    	this.timeSinceTransforming = compound.getShort("timeTransforming");
+	    	this.timeSinceTransforming = nbt.getShort("timeTransforming");
 	    }
 	}
 
@@ -138,32 +136,32 @@ public class LilithEntity extends AbstractBossEntity
 		if (nextPhase == getTransformingPhase())
 		{
 			this.timeSinceTransforming = 0;
-			this.playSound(AerialHellSoundEvents.ENTITY_LILITH_TRANSFORMATION.get(), 5.0F, 1.0F);
+			this.playSound(AerialHellSoundEvents.ENTITY_LILITH_TRANSFORMATION, 5.0F, 1.0F);
 		}
 		else if (nextPhase == BossPhase.SECOND_PHASE)
 		{
 			this.spawnTransformationParticle();
-			if (this.level().dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformAllBlocks();}
+			if (this.getWorld().getDimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformAllBlocks();}
 			this.timeSinceTransforming = 0;
 		}
 	}
 
-	@Override public boolean fireImmune() {return true;}
-	@Override public boolean displayFireAnimation() {return false;}
+	@Override public boolean isFireImmune() {return true;}
+	@Override public boolean doesRenderOnFire() {return false;}
 	
 	@Override
-	public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {return false;}
+	public boolean handleFallDamage(float distance, float damageMultiplier, DamageSource source) {return false;}
 
-	@Override public Item getTrophy() {return AerialHellBlocksAndItems.LILITH_TROPHY_ITEM.get();}
+	@Override public Item getTrophy() {return AerialHellItems.LILITH_TROPHY_ITEM;}
 
 	@Override public void tickTransitionPhase()
 	{
 		if (this.isTransforming()) {this.tickTransformingPhase();}
 
-		if (!level().isClientSide())
+		if (!this.getWorld().isClient())
 		{
-			this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 10, true, false)));
-			this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1, 10, true, false)));
+			this.addStatusEffect(new StatusEffectInstance(new StatusEffectInstance(StatusEffects.SLOWNESS, 20, 10, true, false)));
+			this.addStatusEffect(new StatusEffectInstance(new StatusEffectInstance(StatusEffects.RESISTANCE, 1, 10, true, false)));
 		}
 	}
 
@@ -172,29 +170,29 @@ public class LilithEntity extends AbstractBossEntity
 		this.timeSinceTransforming++;
 		for (int i=0; i<10 + timeSinceTransforming/1.5; i++)
 		{
-			if (this.level().dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformRandomBlock();}
+			if (this.getWorld().getDimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformRandomBlock();}
 		}
 
 		if (this.timeSinceTransforming > 12)
 		{
-			List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
+			List<Entity> nearbyEntities = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(20), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), 15));
 			for (Entity entity : nearbyEntities)
 			{
 				if (entity instanceof LivingEntity && !EntityHelper.isCreaOrSpecPlayer(entity))
 				{
 					dragEntity(entity);
-					((LivingEntity) entity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 40, 0));
+					((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.VULNERABILITY, 40, 0));
 				}
 			}
 
-			if (this.level().isClientSide())
+			if (this.getWorld().isClient())
 			{
 				for (int i=0; i<5; i++)
 				{
 					double rand = random.nextFloat() * 2;
 					double x = getX() + (random.nextFloat() - 0.5F) * rand, y = (this.getBoundingBox().minY + rand) + 0.5D, z = getZ() + (random.nextFloat() - 0.5F) * rand;
 					double dx = (random.nextFloat() - 0.5F)/10, dz = (random.nextFloat() - 0.5F)/10;
-					this.level().addParticle(AerialHellParticleTypes.SHADOW_PARTICLE.get(), x, y, z, dx, 0.0D, dz);
+					this.getWorld().addParticle(AerialHellParticleTypes.SHADOW_PARTICLE, x, y, z, dx, 0.0D, dz);
 				}
 			}
 		}
@@ -207,8 +205,8 @@ public class LilithEntity extends AbstractBossEntity
 		int x = random.nextInt(2*maxHorizontalDistance) - maxHorizontalDistance;
 		int y = random.nextInt(2*maxVerticalDistance) - maxVerticalDistance;
 		int z = random.nextInt(2*maxHorizontalDistance) - maxHorizontalDistance;
-		BlockPos transformationPos = new BlockPos(this.getBlockPos().offset(new Vec3i(x, y, z)));
-		if (level().getBlockState(transformationPos).is(AerialHellTags.Blocks.LILITH_TRANSFORMABLE))
+		BlockPos transformationPos = new BlockPos(this.getBlockPos().add(new Vec3i(x, y, z)));
+		if (this.getWorld().getBlockState(transformationPos).isIn(AerialHellTags.Blocks.LILITH_TRANSFORMABLE))
 		{
 			transformBlock(transformationPos);
 		}
@@ -225,8 +223,8 @@ public class LilithEntity extends AbstractBossEntity
 			{
 				for (z=-maxHorizontalDistance; z<maxHorizontalDistance; z++)
 				{
-					BlockPos transformationPos = new BlockPos(this.getBlockPos().offset(new Vec3i(x, y, z)));
-					if (level().getBlockState(transformationPos).is(AerialHellTags.Blocks.LILITH_TRANSFORMABLE))
+					BlockPos transformationPos = new BlockPos(this.getBlockPos().add(new Vec3i(x, y, z)));
+					if (this.getWorld().getBlockState(transformationPos).isIn(AerialHellTags.Blocks.LILITH_TRANSFORMABLE))
 					{
 						transformBlock(transformationPos);
 					}
@@ -237,21 +235,21 @@ public class LilithEntity extends AbstractBossEntity
 
 	private void transformBlock(BlockPos pos)
 	{
-		if (level().getBlockState(pos).getBlock() instanceof DoorBlock)
+		if (this.getWorld().getBlockState(pos).getBlock() instanceof DoorBlock)
 		{
-			DoubleBlockHalf half = level().getBlockState(pos).getValue(DoorBlock.HALF);
+			DoubleBlockHalf half = this.getWorld().getBlockState(pos).get(DoorBlock.HALF);
 			if (half == DoubleBlockHalf.LOWER)
 			{
-				level().destroyBlock(pos, false);
-				level().destroyBlock(pos.up(), false);
+				this.getWorld().breakBlock(pos, false);
+				this.getWorld().breakBlock(pos.up(), false);
 			}
 			else
 			{
-				level().destroyBlock(pos.down(), false);
-				level().destroyBlock(pos, false);
+				this.getWorld().breakBlock(pos.down(), false);
+				this.getWorld().breakBlock(pos, false);
 			}
 		}
-		else {level().setBlockState(pos, getEquivalentShadowBlockstate(level().getBlockState(pos)));}
+		else {this.getWorld().setBlockState(pos, getEquivalentShadowBlockstate(this.getWorld().getBlockState(pos)));}
 	}
 
 	private BlockState getEquivalentShadowBlockstate(BlockState blockState)
@@ -261,220 +259,220 @@ public class LilithEntity extends AbstractBossEntity
 		{
 			if (block instanceof AerialHellWallTorchBlock)
 			{
-				return AerialHellBlocksAndItems.SHADOW_WALL_TORCH.get().getDefaultState().with(AerialHellWallTorchBlock.HORIZONTAL_FACING, blockState.get(AerialHellWallTorchBlock.HORIZONTAL_FACING));
+				return AerialHellBlocks.SHADOW_WALL_TORCH.getDefaultState().with(AerialHellWallTorchBlock.HORIZONTAL_FACING, blockState.get(AerialHellWallTorchBlock.HORIZONTAL_FACING));
 			}
 			else //not a wall torch
 			{
-				return AerialHellBlocksAndItems.SHADOW_TORCH.get().getDefaultState();
+				return AerialHellBlocks.SHADOW_TORCH.getDefaultState();
 			}
 		}
 		else if (blockState.isIn(AerialHellTags.Blocks.SOLID_ETHER))
 		{
-			return AerialHellBlocksAndItems.PURPLE_SOLID_ETHER.get().getDefaultState();
+			return AerialHellBlocks.PURPLE_SOLID_ETHER.getDefaultState();
 		}
-		else if (block == AerialHellBlocksAndItems.CRYSTAL_BLOCK.get())
+		else if (block == AerialHellBlocks.CRYSTAL_BLOCK)
 		{
-			return AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK.get().getDefaultState();
+			return AerialHellBlocks.SHADOW_CRYSTAL_BLOCK.getDefaultState();
 		}
-		else if (block == AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_FIBER_LANTERN.get())
+		else if (block == AerialHellBlocks.VIBRANT_SKY_CACTUS_FIBER_LANTERN)
 		{
-			return AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_LIGHT.get().getDefaultState();
+			return AerialHellBlocks.GIANT_CORTINARIUS_VIOLACEUS_LIGHT.getDefaultState();
 		}
 		else if (block instanceof StellarGrassBlock)
 		{
-			return AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().getDefaultState();
+			return AerialHellBlocks.SHADOW_GRASS_BLOCK.getDefaultState();
 		}
-		else if (block == AerialHellBlocksAndItems.STELLAR_GRASS.get())
+		else if (block == AerialHellBlocks.STELLAR_GRASS)
 		{
-			return AerialHellBlocksAndItems.SHADOW_GRASS.get().getDefaultState();
+			return AerialHellBlocks.SHADOW_GRASS.getDefaultState();
 		}
-		else if (block == AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get())
+		else if (block == AerialHellBlocks.STELLAR_GRASS_BALL)
 		{
-			return AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get().getDefaultState();
+			return AerialHellBlocks.SHADOW_GRASS_BALL.getDefaultState();
 		}
 		else if (block instanceof LanternBlock)
 		{
-			return AerialHellBlocksAndItems.SHADOW_LANTERN.get().getDefaultState().with(LanternBlock.HANGING, blockState.get(LanternBlock.HANGING));
+			return AerialHellBlocks.SHADOW_LANTERN.getDefaultState().with(LanternBlock.HANGING, blockState.get(LanternBlock.HANGING));
 		}
 		else if (block instanceof ChainBlock)
 		{
-			return AerialHellBlocksAndItems.SHADOW_CHAIN.get().getDefaultState().with(ChainBlock.AXIS, blockState.get(ChainBlock.AXIS));
+			return AerialHellBlocks.SHADOW_CHAIN.getDefaultState().with(ChainBlock.AXIS, blockState.get(ChainBlock.AXIS));
 		}
-		else if (block instanceof IronBarsBlock)
+		else if (block instanceof PaneBlock)
 		{
-			return AerialHellBlocksAndItems.SHADOW_BARS.get().getDefaultState().with(IronBarsBlock.NORTH, blockState.get(IronBarsBlock.NORTH)).setValue(IronBarsBlock.SOUTH, blockState.get(IronBarsBlock.SOUTH)).setValue(IronBarsBlock.WEST, blockState.get(IronBarsBlock.WEST)).setValue(IronBarsBlock.EAST, blockState.get(IronBarsBlock.EAST));
+			return AerialHellBlocks.SHADOW_BARS.getDefaultState().with(PaneBlock.NORTH, blockState.get(PaneBlock.NORTH)).with(PaneBlock.SOUTH, blockState.get(PaneBlock.SOUTH)).with(PaneBlock.WEST, blockState.get(PaneBlock.WEST)).with(PaneBlock.EAST, blockState.get(PaneBlock.EAST));
 		}
-		else if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_PLANKS.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_PLANKS.get() || block == AerialHellBlocksAndItems.CHISELED_AERIAL_TREE_PLANKS.get())
+		else if (block == AerialHellBlocks.LAPIS_ROBINIA_PLANKS || block == AerialHellBlocks.AERIAL_TREE_PLANKS || block == AerialHellBlocks.CHISELED_AERIAL_TREE_PLANKS)
 		{
-			return AerialHellBlocksAndItems.GRAY_SHROOM_PLANKS.get().getDefaultState();
+			return AerialHellBlocks.GRAY_SHROOM_PLANKS.getDefaultState();
 		}
-		else if (block == AerialHellBlocksAndItems.GOLDEN_BEECH_PLANKS.get() || block == AerialHellBlocksAndItems.CHISELED_GOLDEN_BEECH_PLANKS.get() || block == Blocks.DARK_OAK_PLANKS || block == AerialHellBlocksAndItems.CHISELED_AERIAL_TREE_PLANKS.get())
+		else if (block == AerialHellBlocks.GOLDEN_BEECH_PLANKS || block == AerialHellBlocks.CHISELED_GOLDEN_BEECH_PLANKS || block == Blocks.DARK_OAK_PLANKS || block == AerialHellBlocks.CHISELED_AERIAL_TREE_PLANKS)
 		{
-			return AerialHellBlocksAndItems.SHADOW_PINE_PLANKS.get().getDefaultState();
+			return AerialHellBlocks.SHADOW_PINE_PLANKS.getDefaultState();
 		}
 		else if (block instanceof SaplingBlock)
 		{
-			return AerialHellBlocksAndItems.SHADOW_PINE_SAPLING.get().getDefaultState();
+			return AerialHellBlocks.SHADOW_PINE_SAPLING.getDefaultState();
 		}
 		else if (block instanceof LeavesBlock)
 		{
-			if (block == AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES.get() || block == Blocks.DARK_OAK_LEAVES) {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get();}
-			else {newBlock = AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_LEAVES.get();}
-			return newBlock.getDefaultState().with(LeavesBlock.PERSISTENT, blockState.get(LeavesBlock.PERSISTENT)).setValue(LeavesBlock.DISTANCE, blockState.get(LeavesBlock.DISTANCE));
+			if (block == AerialHellBlocks.GOLDEN_BEECH_LEAVES || block == Blocks.DARK_OAK_LEAVES) {newBlock = AerialHellBlocks.SHADOW_PINE_LEAVES;}
+			else {newBlock = AerialHellBlocks.PURPLE_SHADOW_PINE_LEAVES;}
+			return newBlock.getDefaultState().with(LeavesBlock.PERSISTENT, blockState.get(LeavesBlock.PERSISTENT)).with(LeavesBlock.DISTANCE, blockState.get(LeavesBlock.DISTANCE));
 		}
 		else if (block instanceof CraftingTableBlock)
 		{
-			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_CRAFTING_TABLE.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_CRAFTING_TABLE.get()) {return AerialHellBlocksAndItems.GRAY_SHROOM_CRAFTING_TABLE.get().getDefaultState();}
-			else {return AerialHellBlocksAndItems.SHADOW_PINE_CRAFTING_TABLE.get().getDefaultState();}
+			if (block == AerialHellBlocks.LAPIS_ROBINIA_CRAFTING_TABLE || block == AerialHellBlocks.AERIAL_TREE_CRAFTING_TABLE) {return AerialHellBlocks.GRAY_SHROOM_CRAFTING_TABLE.getDefaultState();}
+			else {return AerialHellBlocks.SHADOW_PINE_CRAFTING_TABLE.getDefaultState();}
 		}
-		else if (block instanceof StairBlock)
+		else if (block instanceof StairsBlock)
 		{
-			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_STAIRS.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_STAIRS.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_STAIRS.get();}
-			else if (block == Blocks.QUARTZ_STAIRS) {newBlock = AerialHellBlocksAndItems.SMOKY_QUARTZ_STAIRS.get();}
-			else if (block == Blocks.SMOOTH_QUARTZ_STAIRS) {newBlock = AerialHellBlocksAndItems.SMOOTH_SMOKY_QUARTZ_STAIRS.get();}
-			else /*golden beech & all other woods*/ {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_STAIRS.get();}
-			return newBlock.getDefaultState().with(StairBlock.FACING, blockState.get(StairBlock.FACING)).setValue(StairBlock.HALF, blockState.get(StairBlock.HALF)).setValue(StairBlock.SHAPE, blockState.get(StairBlock.SHAPE));
+			if (block == AerialHellBlocks.LAPIS_ROBINIA_STAIRS || block == AerialHellBlocks.AERIAL_TREE_STAIRS) {newBlock = AerialHellBlocks.GRAY_SHROOM_STAIRS;}
+			else if (block == Blocks.QUARTZ_STAIRS) {newBlock = AerialHellBlocks.SMOKY_QUARTZ_STAIRS;}
+			else if (block == Blocks.SMOOTH_QUARTZ_STAIRS) {newBlock = AerialHellBlocks.SMOOTH_SMOKY_QUARTZ_STAIRS;}
+			else /*golden beech & all other woods*/ {newBlock = AerialHellBlocks.SHADOW_PINE_STAIRS;}
+			return newBlock.getDefaultState().with(StairsBlock.FACING, blockState.get(StairsBlock.FACING)).with(StairsBlock.HALF, blockState.get(StairsBlock.HALF)).with(StairsBlock.SHAPE, blockState.get(StairsBlock.SHAPE));
 		}
 		else if (block instanceof SlabBlock)
 		{
-			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_SLAB.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_SLAB.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_SLAB.get();}
-			else if (block == Blocks.QUARTZ_SLAB) {newBlock = AerialHellBlocksAndItems.SMOKY_QUARTZ_SLAB.get();}
-			else if (block == Blocks.SMOOTH_QUARTZ_SLAB) {newBlock = AerialHellBlocksAndItems.SMOOTH_SMOKY_QUARTZ_SLAB.get();}
-			else /*golden beech & all other woods*/ {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_SLAB.get();}
+			if (block == AerialHellBlocks.LAPIS_ROBINIA_SLAB || block == AerialHellBlocks.AERIAL_TREE_SLAB) {newBlock = AerialHellBlocks.GRAY_SHROOM_SLAB;}
+			else if (block == Blocks.QUARTZ_SLAB) {newBlock = AerialHellBlocks.SMOKY_QUARTZ_SLAB;}
+			else if (block == Blocks.SMOOTH_QUARTZ_SLAB) {newBlock = AerialHellBlocks.SMOOTH_SMOKY_QUARTZ_SLAB;}
+			else /*golden beech & all other woods*/ {newBlock = AerialHellBlocks.SHADOW_PINE_SLAB;}
 			return newBlock.getDefaultState().with(SlabBlock.TYPE, blockState.get(SlabBlock.TYPE));
 		}
 		else if (block instanceof FenceBlock)
 		{
-			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_FENCE.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_FENCE.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_FENCE.get();}
-			else /*golden beech & all other woods*/ {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_FENCE.get();}
-			return newBlock.getDefaultState().with(FenceBlock.NORTH, blockState.get(FenceBlock.NORTH)).setValue(FenceBlock.EAST, blockState.get(FenceBlock.EAST)).setValue(FenceBlock.WEST, blockState.get(FenceBlock.WEST)).setValue(FenceBlock.SOUTH, blockState.get(FenceBlock.SOUTH));
+			if (block == AerialHellBlocks.LAPIS_ROBINIA_FENCE || block == AerialHellBlocks.AERIAL_TREE_FENCE) {newBlock = AerialHellBlocks.GRAY_SHROOM_FENCE;}
+			else /*golden beech & all other woods*/ {newBlock = AerialHellBlocks.SHADOW_PINE_FENCE;}
+			return newBlock.getDefaultState().with(FenceBlock.NORTH, blockState.get(FenceBlock.NORTH)).with(FenceBlock.EAST, blockState.get(FenceBlock.EAST)).with(FenceBlock.WEST, blockState.get(FenceBlock.WEST)).with(FenceBlock.SOUTH, blockState.get(FenceBlock.SOUTH));
 		}
 		else if (block instanceof FenceGateBlock)
 		{
-			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_GATE.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_GATE.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_GATE.get();}
-			else /*golden beech & all other woods*/ {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_GATE.get();}
-			return newBlock.getDefaultState().with(FenceGateBlock.FACING, blockState.get(FenceGateBlock.FACING)).setValue(FenceGateBlock.OPEN, blockState.get(FenceGateBlock.OPEN)).setValue(FenceGateBlock.POWERED, blockState.get(FenceGateBlock.POWERED)).setValue(FenceGateBlock.IN_WALL, blockState.get(FenceGateBlock.IN_WALL));
+			if (block == AerialHellBlocks.LAPIS_ROBINIA_GATE || block == AerialHellBlocks.AERIAL_TREE_GATE) {newBlock = AerialHellBlocks.GRAY_SHROOM_GATE;}
+			else /*golden beech & all other woods*/ {newBlock = AerialHellBlocks.SHADOW_PINE_GATE;}
+			return newBlock.getDefaultState().with(FenceGateBlock.FACING, blockState.get(FenceGateBlock.FACING)).with(FenceGateBlock.OPEN, blockState.get(FenceGateBlock.OPEN)).with(FenceGateBlock.POWERED, blockState.get(FenceGateBlock.POWERED)).with(FenceGateBlock.IN_WALL, blockState.get(FenceGateBlock.IN_WALL));
 		}
-		else if (block instanceof RotatedPillarBlock)
+		else if (block instanceof PillarBlock)
 		{
-			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_LOG.get() || block == AerialHellBlocksAndItems.ENCHANTED_LAPIS_ROBINIA_LOG.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_LOG.get()) {newBlock = AerialHellBlocksAndItems.GIANT_VERDIGRIS_AGARIC_STEM.get();}
-			else if (block == AerialHellBlocksAndItems.STRIPPED_LAPIS_ROBINIA_LOG.get() || block == AerialHellBlocksAndItems.STRIPPED_AERIAL_TREE_LOG.get()) {newBlock = AerialHellBlocksAndItems.STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM.get();}
-			else if (block == Blocks.QUARTZ_PILLAR) {newBlock = AerialHellBlocksAndItems.SMOKY_QUARTZ_PILLAR.get();}
-			else if (block == AerialHellBlocksAndItems.STRIPPED_GOLDEN_BEECH_LOG.get() || block == Blocks.STRIPPED_DARK_OAK_LOG || block == Blocks.STRIPPED_OAK_LOG) {newBlock = AerialHellBlocksAndItems.STRIPPED_SHADOW_PINE_LOG.get();}
-			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_LOG.get();}
-			return newBlock.getDefaultState().with(RotatedPillarBlock.AXIS, blockState.get(RotatedPillarBlock.AXIS));
+			if (block == AerialHellBlocks.LAPIS_ROBINIA_LOG || block == AerialHellBlocks.ENCHANTED_LAPIS_ROBINIA_LOG || block == AerialHellBlocks.AERIAL_TREE_LOG) {newBlock = AerialHellBlocks.GIANT_VERDIGRIS_AGARIC_STEM;}
+			else if (block == AerialHellBlocks.STRIPPED_LAPIS_ROBINIA_LOG || block == AerialHellBlocks.STRIPPED_AERIAL_TREE_LOG) {newBlock = AerialHellBlocks.STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM;}
+			else if (block == Blocks.QUARTZ_PILLAR) {newBlock = AerialHellBlocks.SMOKY_QUARTZ_PILLAR;}
+			else if (block == AerialHellBlocks.STRIPPED_GOLDEN_BEECH_LOG || block == Blocks.STRIPPED_DARK_OAK_LOG || block == Blocks.STRIPPED_OAK_LOG) {newBlock = AerialHellBlocks.STRIPPED_SHADOW_PINE_LOG;}
+			else {newBlock = AerialHellBlocks.SHADOW_PINE_LOG;}
+			return newBlock.getDefaultState().with(PillarBlock.AXIS, blockState.get(PillarBlock.AXIS));
 		}
-		else if (block == Blocks.CHISELED_QUARTZ_BLOCK) {return AerialHellBlocksAndItems.CHISELED_SMOKY_QUARTZ_BLOCK.get().getDefaultState();}
-		else if (block == Blocks.QUARTZ_BLOCK) {return AerialHellBlocksAndItems.SMOKY_QUARTZ_BLOCK.get().getDefaultState();}
-		else if (block == Blocks.QUARTZ_BRICKS) {return AerialHellBlocksAndItems.SMOKY_QUARTZ_BRICKS.get().getDefaultState();}
-		else if (block == Blocks.SMOOTH_QUARTZ) {return AerialHellBlocksAndItems.SMOOTH_SMOKY_QUARTZ.get().getDefaultState();}
-		else if (block == AerialHellBlocksAndItems.GIANT_GANODERMA_APPLANATUM_BLOCK.get()) {return AerialHellBlocksAndItems.GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK.get().getDefaultState();}
+		else if (block == Blocks.CHISELED_QUARTZ_BLOCK) {return AerialHellBlocks.CHISELED_SMOKY_QUARTZ_BLOCK.getDefaultState();}
+		else if (block == Blocks.QUARTZ_BLOCK) {return AerialHellBlocks.SMOKY_QUARTZ_BLOCK.getDefaultState();}
+		else if (block == Blocks.QUARTZ_BRICKS) {return AerialHellBlocks.SMOKY_QUARTZ_BRICKS.getDefaultState();}
+		else if (block == Blocks.SMOOTH_QUARTZ) {return AerialHellBlocks.SMOOTH_SMOKY_QUARTZ.getDefaultState();}
+		else if (block == AerialHellBlocks.GIANT_GANODERMA_APPLANATUM_BLOCK) {return AerialHellBlocks.GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK.getDefaultState();}
 		else if (block instanceof AerialHellBookshelfBlock || block == Blocks.BOOKSHELF)
 		{
-			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_BOOKSHELF.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_BOOKSHELF.get()) {return AerialHellBlocksAndItems.GRAY_SHROOM_BOOKSHELF.get().getDefaultState();}
-			else {return AerialHellBlocksAndItems.SHADOW_PINE_BOOKSHELF.get().getDefaultState();}
+			if (block == AerialHellBlocks.LAPIS_ROBINIA_BOOKSHELF || block == AerialHellBlocks.AERIAL_TREE_BOOKSHELF) {return AerialHellBlocks.GRAY_SHROOM_BOOKSHELF.getDefaultState();}
+			else {return AerialHellBlocks.SHADOW_PINE_BOOKSHELF.getDefaultState();}
 		}
-		else if (block instanceof TrapDoorBlock)
+		else if (block instanceof TrapdoorBlock)
 		{
-			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_TRAPDOOR.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_TRAPDOOR.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_TRAPDOOR.get();}
-			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_TRAPDOOR.get();}
-			return newBlock.getDefaultState().with(TrapDoorBlock.OPEN, blockState.get(TrapDoorBlock.OPEN)).setValue(TrapDoorBlock.HALF, blockState.get(TrapDoorBlock.HALF)).setValue(TrapDoorBlock.POWERED, blockState.get(TrapDoorBlock.POWERED)).setValue(TrapDoorBlock.FACING, blockState.get(TrapDoorBlock.FACING));
+			if (block == AerialHellBlocks.LAPIS_ROBINIA_TRAPDOOR || block == AerialHellBlocks.AERIAL_TREE_TRAPDOOR) {newBlock = AerialHellBlocks.GRAY_SHROOM_TRAPDOOR;}
+			else {newBlock = AerialHellBlocks.SHADOW_PINE_TRAPDOOR;}
+			return newBlock.getDefaultState().with(TrapdoorBlock.OPEN, blockState.get(TrapdoorBlock.OPEN)).with(TrapdoorBlock.HALF, blockState.get(TrapdoorBlock.HALF)).with(TrapdoorBlock.POWERED, blockState.get(TrapdoorBlock.POWERED)).with(TrapdoorBlock.FACING, blockState.get(TrapdoorBlock.FACING));
 		}
 		else if (block instanceof DoorBlock)
 		{
-			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_DOOR.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_DOOR.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_DOOR.get();}
-			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_DOOR.get();}
-			return newBlock.getDefaultState().with(DoorBlock.FACING, blockState.get(DoorBlock.FACING)).setValue(DoorBlock.OPEN, blockState.get(DoorBlock.OPEN)).setValue(DoorBlock.HINGE, blockState.get(DoorBlock.HINGE)).setValue(DoorBlock.POWERED, blockState.get(DoorBlock.POWERED)).setValue(DoorBlock.HALF, blockState.get(DoorBlock.HALF));
+			if (block == AerialHellBlocks.LAPIS_ROBINIA_DOOR || block == AerialHellBlocks.AERIAL_TREE_DOOR) {newBlock = AerialHellBlocks.GRAY_SHROOM_DOOR;}
+			else {newBlock = AerialHellBlocks.SHADOW_PINE_DOOR;}
+			return newBlock.getDefaultState().with(DoorBlock.FACING, blockState.get(DoorBlock.FACING)).with(DoorBlock.OPEN, blockState.get(DoorBlock.OPEN)).with(DoorBlock.HINGE, blockState.get(DoorBlock.HINGE)).with(DoorBlock.POWERED, blockState.get(DoorBlock.POWERED)).with(DoorBlock.HALF, blockState.get(DoorBlock.HALF));
 		}
 		else if (block instanceof ButtonBlock)
 		{
-			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_BUTTON.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_BUTTON.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_BUTTON.get();}
-			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_BUTTON.get();}
-			return newBlock.getDefaultState().with(ButtonBlock.POWERED, blockState.get(ButtonBlock.POWERED)).setValue(ButtonBlock.FACE, blockState.get(ButtonBlock.FACE)).setValue(ButtonBlock.FACING, blockState.get(ButtonBlock.FACING));
+			if (block == AerialHellBlocks.LAPIS_ROBINIA_BUTTON || block == AerialHellBlocks.AERIAL_TREE_BUTTON) {newBlock = AerialHellBlocks.GRAY_SHROOM_BUTTON;}
+			else {newBlock = AerialHellBlocks.SHADOW_PINE_BUTTON;}
+			return newBlock.getDefaultState().with(ButtonBlock.POWERED, blockState.get(ButtonBlock.POWERED)).with(ButtonBlock.FACE, blockState.get(ButtonBlock.FACE)).with(ButtonBlock.FACING, blockState.get(ButtonBlock.FACING));
 		}
 		else if (block instanceof PressurePlateBlock)
 		{
-			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_PRESSURE_PLATE.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_PRESSURE_PLATE.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_PRESSURE_PLATE.get();}
-			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_PRESSURE_PLATE.get();}
+			if (block == AerialHellBlocks.LAPIS_ROBINIA_PRESSURE_PLATE || block == AerialHellBlocks.AERIAL_TREE_PRESSURE_PLATE) {newBlock = AerialHellBlocks.GRAY_SHROOM_PRESSURE_PLATE;}
+			else {newBlock = AerialHellBlocks.SHADOW_PINE_PRESSURE_PLATE;}
 			return newBlock.getDefaultState().with(PressurePlateBlock.POWERED, blockState.get(PressurePlateBlock.POWERED));
 		}
 		else if (block instanceof ComposterBlock)
 		{
-			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_COMPOSTER.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_COMPOSTER.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_COMPOSTER.get();}
-			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_COMPOSTER.get();}
+			if (block == AerialHellBlocks.LAPIS_ROBINIA_COMPOSTER || block == AerialHellBlocks.AERIAL_TREE_COMPOSTER) {newBlock = AerialHellBlocks.GRAY_SHROOM_COMPOSTER;}
+			else {newBlock = AerialHellBlocks.SHADOW_PINE_COMPOSTER;}
 			return newBlock.getDefaultState().with(ComposterBlock.LEVEL, blockState.get(ComposterBlock.LEVEL));
 		}
-		else if (block instanceof SignBlock)
+		else if (block instanceof AbstractSignBlock)
 		{
-			if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_STANDING_SIGN.get() || block == AerialHellBlocksAndItems.AERIAL_TREE_STANDING_SIGN.get()) {newBlock = AerialHellBlocksAndItems.GRAY_SHROOM_STANDING_SIGN.get();}
-			else {newBlock = AerialHellBlocksAndItems.SHADOW_PINE_STANDING_SIGN.get();}
-			if (block instanceof StandingSignBlock)
+			if (block == AerialHellBlocks.LAPIS_ROBINIA_STANDING_SIGN || block == AerialHellBlocks.AERIAL_TREE_STANDING_SIGN) {newBlock = AerialHellBlocks.GRAY_SHROOM_STANDING_SIGN;}
+			else {newBlock = AerialHellBlocks.SHADOW_PINE_STANDING_SIGN;}
+			if (block instanceof SignBlock)
 			{
-				return newBlock.getDefaultState().with(StandingSignBlock.ROTATION, blockState.get(StandingSignBlock.ROTATION)).setValue(StandingSignBlock.WATERLOGGED, blockState.get(StandingSignBlock.WATERLOGGED));
+				return newBlock.getDefaultState().with(SignBlock.ROTATION, blockState.get(SignBlock.ROTATION)).with(SignBlock.WATERLOGGED, blockState.get(SignBlock.WATERLOGGED));
 			}
 			else if (block instanceof WallSignBlock)
 			{
-				return newBlock.getDefaultState().with(WallSignBlock.FACING, blockState.get(WallSignBlock.FACING)).setValue(WallSignBlock.WATERLOGGED, blockState.get(WallSignBlock.WATERLOGGED));
+				return newBlock.getDefaultState().with(WallSignBlock.FACING, blockState.get(WallSignBlock.FACING)).with(WallSignBlock.WATERLOGGED, blockState.get(WallSignBlock.WATERLOGGED));
 			}
 			return newBlock.getDefaultState();
 		}
-		return AerialHellBlocksAndItems.SHADOW_CATACOMBS_BRICKS.get().getDefaultState();
+		return AerialHellBlocks.SHADOW_CATACOMBS_BRICKS.getDefaultState();
 	}
 	
-	@Override public void aiStep()
+	@Override public void tickMovement()
     {
 		if (this.attackTimer > 0) {this.attackTimer--;}
-		super.aiStep();
+		super.tickMovement();
     }
 	
 	@Override public boolean isPushable() {return false;}
 	
-	@Override public boolean doHurtTarget(Entity target)
+	@Override public boolean tryAttack(Entity target)
 	{
-		this.level().broadcastEntityEvent(this, (byte)4);
-		boolean flag = super.doHurtTarget(target);
+		this.getWorld().sendEntityStatus(this, (byte)4);
+		boolean flag = super.tryAttack(target);
 		if (flag && target instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune((LivingEntity) target))
 		{
-			((LivingEntity) target).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 40, 0));
+			((LivingEntity) target).addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.VULNERABILITY, 40, 0));
 		}
-		this.playSound(SoundEvents.RAVAGER_STEP, 1.0F, 0.5F);
+		this.playSound(SoundEvents.ENTITY_RAVAGER_STEP, 1.0F, 0.5F);
 		return flag;
 	}
 	
 	@Override
-	public void handleEntityEvent(byte id)
+	public void handleStatus(byte id)
 	{
 		if (id == 4) {this.attackTimer = 10;}
-		else {super.handleEntityEvent(id);}
+		else {super.handleStatus(id);}
 	}
 	
-	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_LILITH_HURT.get();}
-    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_LILITH_HURT.get();}
-    @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_LILITH_DEATH.get();}
+	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_LILITH_HURT;}
+    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_LILITH_HURT;}
+    @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_LILITH_DEATH;}
 	@Override public void playAmbientSound() {if (this.isTransforming()) {} else {super.playAmbientSound();}}
 
 	private void dragEntity(Entity entityIn)
 	{
 		double factor = 0.2 / Math.max(5, this.distanceTo(entityIn)); //0.04 / Math.max(1, this.getDistance(entityIn)); and multiply only one time, to get uniform dragging
-		Vec3 toGod = new Vec3(this.getX() - entityIn.getX(), this.getY() - entityIn.getY(), this.getZ() - entityIn.getZ()).multiply(factor, factor, factor);
-		entityIn.setDeltaMovement(entityIn.getDeltaMovement().add(toGod.multiply(factor,factor,factor)));
+		Vec3d toGod = new Vec3d(this.getX() - entityIn.getX(), this.getY() - entityIn.getY(), this.getZ() - entityIn.getZ()).multiply(factor, factor, factor);
+		entityIn.setVelocity(entityIn.getVelocity().add(toGod.multiply(factor,factor,factor)));
 	}
 	
 	public void spawnTransformationParticle()
 	{
-		if (this.level().isClientSide())
+		if (this.getWorld().isClient())
         {
         	for(int i = 0; i < 30; ++i)
             {
             	double d0 = this.random.nextGaussian() * 0.02D;
             	double d1 = this.random.nextGaussian() * 0.02D;
             	double d2 = this.random.nextGaussian() * 0.02D;
-            	this.level().addParticle(AerialHellParticleTypes.SHADOW_PARTICLE.get(), this.getRandomX(1.0D) - d0 * 10.0D, this.getRandomY() - d1 * 10.0D, this.getRandomZ(1.0D) - d2 * 10.0D, 2 * d0, d1, 2 * d2);
+            	this.getWorld().addParticle(AerialHellParticleTypes.SHADOW_PARTICLE, this.getParticleX(1.0D) - d0 * 10.0D, this.getRandomBodyY() - d1 * 10.0D, this.getParticleZ(1.0D) - d2 * 10.0D, 2 * d0, d1, 2 * d2);
             }
         }
         else
         {
-           this.level().broadcastEntityEvent(this, (byte)20);
+           this.getWorld().sendEntityStatus(this, (byte)20);
         }
 	}
 	
@@ -487,17 +485,17 @@ public class LilithEntity extends AbstractBossEntity
 	{
 		public ShadowProjectileAttackGoal(LilithEntity entity) {super(entity);}
 
-		@Override public boolean canUse()
+		@Override public boolean canStart()
 		{
 			LilithEntity lilith = (LilithEntity)this.getParentEntity();
 			if (!lilith.isActive()) {return false;}
 			LivingEntity target = lilith.getTarget();
-			return super.canUse() && lilith.isHealthMatchToShootShadowProjectile() && target.isAlive() && lilith.canAttack(target);
+			return super.canStart() && lilith.isHealthMatchToShootShadowProjectile() && target.isAlive() && lilith.canTarget(target);
 		}
 
-		@Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ)
+		@Override public ProjectileEntity createProjectile(World world, LivingEntity shooter, double accX, double accY, double accZ)
 		{
-			return new ShadowProjectileEntity(level, shooter, accX, accY, accZ, 0.25f + shooter.getRandom().nextFloat(), 0.0f);
+			return new ShadowProjectileEntity(world, shooter, accX, accY, accZ, 0.25f + shooter.getRandom().nextFloat(), 0.0f);
 		}
 
 		@Override public int getShootTimeInterval()
@@ -532,15 +530,15 @@ public class LilithEntity extends AbstractBossEntity
 
 		public LilithEntity getLilithGoalOwner() {return (LilithEntity) this.getGoalOwner();}
 
-		@Override public boolean canUse()
+		@Override public boolean canStart()
 		{
 			LilithEntity lilith = this.getLilithGoalOwner();
-			return super.canUse() && lilith.isHealthMatchToSummonFlyingSkulls() && lilith.isActive();
+			return super.canStart() && lilith.isHealthMatchToSummonFlyingSkulls() && lilith.isActive();
 		}
 
 		@Override public Entity createEntity()
 		{
-			return AerialHellEntities.SHADOW_FLYING_SKULL.get().create(this.getGoalOwner().level());
+			return AerialHellEntities.SHADOW_FLYING_SKULL.create(this.getGoalOwner().getWorld());
 		}
 
 		@Override protected void setEntityPosToSummonPos(Entity entity) {entity.setPos(this.getGoalOwner().getX(), this.getGoalOwner().getY() + 1.0, this.getGoalOwner().getZ());}

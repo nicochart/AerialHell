@@ -17,7 +17,7 @@ public class AerialHellDimensionSpecialEffects extends DimensionSpecialEffects
     }
     
     // Copy from DimensionSpecialEffects.Overworld
-    @Override public Vec3 getBrightnessDependentFogColor(Vec3 biomeFogColor, float daylight)
+    @Override public Vec3d getBrightnessDependentFogColor(Vec3d biomeFogColor, float daylight)
     {
         return biomeFogColor.multiply(daylight * 0.94F + 0.06F, daylight * 0.94F + 0.06F, daylight * 0.91F + 0.09F);
     }

@@ -1,9 +1,9 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.entity.ai.goal.PounceAtTargetGoal;
 
-public class ActiveLeapAtTargetGoal extends LeapAtTargetGoal
+public class ActiveLeapAtTargetGoal extends PounceAtTargetGoal
 {
     protected final AbstractActivableEntity activableGoalOwner;
 
@@ -14,8 +14,8 @@ public class ActiveLeapAtTargetGoal extends LeapAtTargetGoal
     }
 
     //Returns whether the EntityAIBase should begin execution.
-    @Override public boolean canUse() {return this.activableGoalOwner.isActive() && super.canUse();}
+    @Override public boolean canStart() {return this.activableGoalOwner.isActive() && super.canStart();}
 
     //Returns whether an in-progress EntityAIBase should continue executing
-    @Override public boolean canContinueToUse() {return this.activableGoalOwner.isActive() && super.canContinueToUse();}
+    @Override public boolean shouldContinue() {return this.activableGoalOwner.isActive() && super.shouldContinue();}
 }

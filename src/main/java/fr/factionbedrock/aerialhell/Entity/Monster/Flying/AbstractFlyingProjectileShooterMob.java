@@ -1,50 +1,50 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Flying;
 
 import fr.factionbedrock.aerialhell.Entity.AI.GhastLikeGoals;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.FlyingMob;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.mob.FlyingEntity;
+import net.minecraft.entity.mob.Monster;
+import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.world.World;
 
-public abstract class AbstractFlyingProjectileShooterMob extends FlyingMob implements Enemy
+public abstract class AbstractFlyingProjectileShooterMob extends FlyingEntity implements Monster
 {
-	public static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.defineId(AbstractFlyingProjectileShooterMob.class, EntityDataSerializers.BOOLEAN);
+	public static final TrackedData<Boolean> ATTACKING = DataTracker.registerData(AbstractFlyingProjectileShooterMob.class, TrackedDataHandlerRegistry.BOOLEAN);
 
-	public AbstractFlyingProjectileShooterMob(EntityType<? extends AbstractFlyingProjectileShooterMob> type, Level levelIn) {super(type, levelIn); this.moveControl = new GhastLikeGoals.MoveHelperController(this);}
+	public AbstractFlyingProjectileShooterMob(EntityType<? extends AbstractFlyingProjectileShooterMob> type, World world) {super(type, world); this.moveControl = new GhastLikeGoals.MoveHelperController(this);}
 
-	@Override protected void registerGoals()
+	@Override protected void initGoals()
 	{
-		this.goalSelector.addGoal(5, new GhastLikeGoals.RandomFlyGoal(this));
-		this.goalSelector.addGoal(7, new GhastLikeGoals.LookAroundGoal(this));
-		this.goalSelector.addGoal(7, new AbstractFlyingProjectileShooterMob.ShootProjectileGoal(this));
+		this.goalSelector.add(5, new GhastLikeGoals.RandomFlyGoal(this));
+		this.goalSelector.add(7, new GhastLikeGoals.LookAroundGoal(this));
+		this.goalSelector.add(7, new AbstractFlyingProjectileShooterMob.ShootProjectileGoal(this));
 		//no target defined here
 	}
 
-	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
+	@Override protected void initDataTracker(DataTracker.Builder builder)
 	{
-		super.defineSynchedData(builder);
-		builder.define(ATTACKING, false);
+		super.initDataTracker(builder);
+		builder.add(ATTACKING, false);
 	}
 	
-	public boolean isAttacking() {return this.entityData.get(ATTACKING);}
-	public void setAttacking(boolean isAttacking) {this.entityData.set(ATTACKING, isAttacking);}
+	public boolean isAttacking() {return this.getDataTracker().get(ATTACKING);}
+	public void setAttacking(boolean isAttacking) {this.getDataTracker().set(ATTACKING, isAttacking);}
 
-	@Override protected boolean shouldDespawnInPeaceful() {return true;}
-	@Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return true;}
+	@Override protected boolean isDisallowedInPeaceful() {return true;}
+	@Override public boolean canImmediatelyDespawn(double distanceToClosestPlayer) {return true;}
 
-	@Override public void aiStep()
+	@Override public void tickMovement()
 	{
-		super.aiStep();
+		super.tickMovement();
 		if (this.getY() < 0 || this.getY() > 272) {this.discard();}
 	}
 
-	public abstract Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ);
+	public abstract ProjectileEntity createProjectile(World world, LivingEntity shooter, double accX, double accY, double accZ);
 	public abstract SoundEvent getShootSound();
 
 	public static class ShootProjectileGoal extends GhastLikeGoals.ShootProjectileGoal
@@ -55,7 +55,7 @@ public abstract class AbstractFlyingProjectileShooterMob extends FlyingMob imple
 		@Override public int getShootDelay() {return 10;}
 		@Override public int getShootTimeInterval() {return 50;}
 		@Override public boolean doesShootTimeDecreaseWhenTargetOutOfSight() {return true;}
-		@Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ) {return ((AbstractFlyingProjectileShooterMob)getParentEntity()).createProjectile(level, shooter, accX, accY, accZ);}
+		@Override public ProjectileEntity createProjectile(World world, LivingEntity shooter, double accX, double accY, double accZ) {return ((AbstractFlyingProjectileShooterMob)getParentEntity()).createProjectile(world, shooter, accX, accY, accZ);}
 		@Override protected void setAttacking(boolean bool) {((AbstractFlyingProjectileShooterMob)getParentEntity()).setAttacking(bool);}
 		@Override public SoundEvent getShootSound() {return ((AbstractFlyingProjectileShooterMob)getParentEntity()).getShootSound();}
 	}

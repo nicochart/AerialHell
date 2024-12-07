@@ -59,7 +59,7 @@ public class ToolsAndArmorEventListener
     public static void onLivingDamageEvent(LivingIncomingDamageEvent event)
     {
 		DamageSource damageSource = event.getSource();
-		Entity sourceEntity = damageSource.getEntity();
+		Entity sourceEntity = damageSource.getAttacker();
 		LivingEntity target = event.getEntity();
 
 		applyEffectsDueToPotionEffects(event, damageSource, target);
@@ -95,7 +95,7 @@ public class ToolsAndArmorEventListener
 
     public static void onPlayerHarvest(PlayerEvent.BreakSpeed event)
     {
-		Player player = event.getEntity();
+		PlayerEntity player = event.getEntity();
 		ItemStack selectedItemStack = player.getInventory().getSelected();
 		BlockState state = event.getState();
 		float speed = event.getOriginalSpeed();
@@ -114,7 +114,7 @@ public class ToolsAndArmorEventListener
 		if (state != null && state.isIn(AerialHellTags.Blocks.NEEDS_LUNAR_TOOL)) {
 			if (ItemHelper.getItemMiningLevel(selectedItemStack.getItem()) < 4) {
 				event.setNewSpeed(Math.min(speed, 4.0F));
-				if (!player.level().isClientSide()) {player.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 40, 0));}
+				if (!player.getWorld().isClientSide()) {player.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 40, 0));}
 			}
 		}
 
@@ -135,7 +135,7 @@ public class ToolsAndArmorEventListener
 		Item item = event.getItemStack().getItem();
 		if ((item == AerialHellBlocksAndItems.REAPER_SCYTHE.get() || item == AerialHellBlocksAndItems.FORGOTTEN_BATTLE_TRIDENT.get()) && event.getHand() == InteractionHand.MAIN_HAND)
 		{
-			Player player = event.getEntity();
+			PlayerEntity player = event.getEntity();
 			UUID modifierUUID = UUID.fromString("6127DB5B-1AE8-4030-940E-512C1F160890");
 			AttributeInstance reachDistance = player.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
 			if (reachDistance != null)
@@ -170,10 +170,10 @@ public class ToolsAndArmorEventListener
 			{
 				if (source instanceof Player) {
 					if (!((Player) source).isCreative()) {
-						source.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 1, true, false)));
+						source.addStatusEffect(new MobEffectInstance(new MobEffectInstance(StatusEffects.SLOWNESS, 120, 1, true, false)));
 					}
 				} else {
-					source.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 1, true, false)));
+					source.addStatusEffect(new MobEffectInstance(new MobEffectInstance(StatusEffects.SLOWNESS, 120, 1, true, false)));
 				}
 			}
 			if (armorStack.is(AerialHellTags.Items.ARSONIST)) //target equipped of any arsonist armor
@@ -195,10 +195,10 @@ public class ToolsAndArmorEventListener
 			int count = 0;
 			for (ItemStack armorStack : source.getArmorSlots()) {if (armorStack.is(AerialHellTags.Items.MAGMATIC_GEL)) {count++;}}
 			int amplifier = count == 4 ? 1 : 0;
-			target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, amplifier, true, false)));
+			target.addStatusEffect(new MobEffectInstance(new MobEffectInstance(StatusEffects.SLOWNESS, 120, amplifier, true, false)));
 		} else if (sourceEquippedItem == AerialHellBlocksAndItems.ABSOLUTE_ZERO_SWORD.get()) //source attacking target with absolute zero sword
 		{
-			target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2, true, false)));
+			target.addStatusEffect(new MobEffectInstance(new MobEffectInstance(StatusEffects.SLOWNESS, 100, 2, true, false)));
 		} else if (sourceEquippedItemStack.is(AerialHellTags.Items.ARSONIST)) //source attacking target with any arsonist tool
 		{
 			target.igniteForSeconds(5);
@@ -207,33 +207,33 @@ public class ToolsAndArmorEventListener
 			}
 		} else if (sourceEquippedItem == AerialHellBlocksAndItems.DISLOYAL_SWORD.get()) //source attacking target with disloyal sword
 		{
-			target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 0, true, false)));
-			target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, true, false)));
-			target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 0, true, false)));
+			target.addStatusEffect(new MobEffectInstance(new MobEffectInstance(StatusEffects.SLOWNESS, 100, 0, true, false)));
+			target.addStatusEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, true, false)));
+			target.addStatusEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 0, true, false)));
 		} else if (sourceEquippedItem == AerialHellBlocksAndItems.GOD_SWORD.get()) //source attacking target with god sword
 		{
 			target.igniteForSeconds(5);
 		} else if (sourceEquippedItem == AerialHellBlocksAndItems.REAPER_SCYTHE.get()) //source attacking target with reaper scythe
 		{
 			if (!EntityHelper.isLivingEntityShadowImmune(target)) {
-				target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.BLINDNESS, 100, 0, true, false)));
-				target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.WEAKNESS, 100, 1, true, false)));
-				target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1, true, false)));
-				target.addEffect(new MobEffectInstance(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 70, 0, true, false)));
+				target.addStatusEffect(new MobEffectInstance(new MobEffectInstance(StatusEffects.BLINDNESS, 100, 0, true, false)));
+				target.addStatusEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.WEAKNESS, 100, 1, true, false)));
+				target.addStatusEffect(new MobEffectInstance(new MobEffectInstance(StatusEffects.SLOWNESS, 100, 1, true, false)));
+				target.addStatusEffect(new MobEffectInstance(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 70, 0, true, false)));
 			} else {
-				source.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.WITHER, 80, 2, true, false)));
+				source.addStatusEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.WITHER, 80, 2, true, false)));
 			}
-			source.addEffect(new MobEffectInstance(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 60, 0, true, false)));
+			source.addStatusEffect(new MobEffectInstance(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 60, 0, true, false)));
 		} else if (sourceEquippedItem == AerialHellBlocksAndItems.CURSED_SWORD.get() || sourceEquippedItem == AerialHellBlocksAndItems.CURSED_AXE.get()) //source attacking target with cursed tool
 		{
 			float damage_return_amount;
 			if (EntityHelper.isLivingEntityShadowImmune(source) || EntityHelper.isLivingEntityVulnerable(target)) {damage_return_amount = amount / 2;} else {damage_return_amount = amount;}
-			source.hurt(AerialHellDamageTypes.getDamageSource(event.getEntity().level(), AerialHellDamageTypes.CURSED_TOOL), damage_return_amount);
+			source.hurt(AerialHellDamageTypes.getDamageSource(event.getEntity().getWorld(), AerialHellDamageTypes.CURSED_TOOL), damage_return_amount);
 			if (!EntityHelper.isLivingEntityShadowImmune(target)) {
 				if (EntityHelper.isLightEntity(target) && !(target instanceof LunaticPriestEntity)) {
-					target.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 40, 1));
+					target.addStatusEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 40, 1));
 				} else {
-					target.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 40, 0));
+					target.addStatusEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 40, 0));
 				}
 			}
 		} else if (sourceEquippedItem == AerialHellBlocksAndItems.SWORD_OF_LIGHT.get() || sourceEquippedItem == AerialHellBlocksAndItems.AXE_OF_LIGHT.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_SWORD.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_AXE.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_HOE.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_SHOVEL.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_PICKAXE.get() || sourceEquippedItem == AerialHellBlocksAndItems.STELLAR_STONE_BREAKER.get()) //source attacking target with light tool
@@ -241,7 +241,7 @@ public class ToolsAndArmorEventListener
 			if (EntityHelper.isShadowEntity(target)) {
 				if (sourceEquippedItem == AerialHellBlocksAndItems.SWORD_OF_LIGHT.get() || sourceEquippedItem == AerialHellBlocksAndItems.AXE_OF_LIGHT.get()) {event.setAmount(amount * 1.8F);} else {event.setAmount(amount * 1.4F);}
 			}
-		} else if (sourceEquippedItem == AerialHellBlocksAndItems.NETHERIAN_KING_SWORD.get() && source.level().dimension() == Level.NETHER) {
+		} else if (sourceEquippedItem == AerialHellBlocksAndItems.NETHERIAN_KING_SWORD.get() && source.getWorld().dimension() == Level.NETHER) {
 			event.setAmount(amount * 2.0F);
 		}
 	}
@@ -249,9 +249,9 @@ public class ToolsAndArmorEventListener
 	public static void applyTraitorEffectIfNecessary(Player source, LivingEntity target) {
 		if (source.isCreative()) {return;}
 		if ((target instanceof CrystalGolemEntity || target instanceof LunaticPriestEntity) && EntityHelper.isLivingEntityMisleadingLunar(source)) {
-			source.addEffect(new MobEffectInstance(AerialHellMobEffects.TRAITOR.getDelegate(), 12000, 0));
+			source.addStatusEffect(new MobEffectInstance(AerialHellMobEffects.TRAITOR.getDelegate(), 12000, 0));
 		} else if ((target instanceof ShadowAutomatonEntity || target instanceof LilithEntity) && EntityHelper.isLivingEntityMisleadingShadow(source)) {
-			source.addEffect(new MobEffectInstance(AerialHellMobEffects.TRAITOR.getDelegate(), 12000, 0));
+			source.addStatusEffect(new MobEffectInstance(AerialHellMobEffects.TRAITOR.getDelegate(), 12000, 0));
 		}
 	}
 }

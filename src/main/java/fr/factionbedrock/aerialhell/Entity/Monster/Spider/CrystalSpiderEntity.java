@@ -1,80 +1,69 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Spider;
 
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.Spider;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.SpiderEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.World;
 
 public class CrystalSpiderEntity extends AbstractAerialHellSpiderEntity
 {
-    public CrystalSpiderEntity(EntityType<? extends Spider> type, Level worldIn)
-    {
-        super(type, worldIn);
-    }
+    public CrystalSpiderEntity(EntityType<? extends SpiderEntity> type, World worldIn) {super(type, worldIn);}
     
     @Override
-    public void registerGoals()
+    public void initGoals()
     {
-        this.goalSelector.addGoal(4, new CrystalSpiderEntity.AttackGoal(this));
-        this.targetSelector.addGoal(1, new CrystalSpiderEntity.TargetGoal<>(this, Player.class));
-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers(CrystalSpiderEntity.class));
-        super.registerGoals();
+        this.goalSelector.add(4, new CrystalSpiderEntity.AttackGoal(this));
+        this.targetSelector.add(1, new CrystalSpiderEntity.TargetGoal<>(this, PlayerEntity.class));
+        this.targetSelector.add(1, (new RevengeGoal(this)).setGroupRevenge(CrystalSpiderEntity.class));
+        super.initGoals();
     }
     
-    public static AttributeSupplier.Builder registerAttributes()
+    public static DefaultAttributeContainer.Builder registerAttributes()
     {
-        return Monster.createMonsterAttributes()
-                .add(Attributes.MOVEMENT_SPEED, 0.25)
-                .add(Attributes.ATTACK_DAMAGE, 4)
-                .add(Attributes.ARMOR, 0)
-                .add(Attributes.MAX_HEALTH, 24);
+        return HostileEntity.createHostileAttributes()
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4)
+                .add(EntityAttributes.GENERIC_ARMOR, 0)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 24);
     }
     
     static class AttackGoal extends MeleeAttackGoal
     {
-        public AttackGoal(Spider spider)
+        public AttackGoal(SpiderEntity spider)
         {
            super(spider, 1.0D, true);
         }
         
-        public boolean canContinueToUse()
+        public boolean shouldContinue()
         {
-            float f = this.mob.getLightLevelDependentMagicValue(); //goalOwner (=attacker) .getBrightness()
+            float f = this.mob.getBrightnessAtEyes(); //goalOwner (=attacker) .getBrightness()
             if (f >= 0.5F && this.mob.getRandom().nextInt(100) == 0)
             {
             	this.mob.setTarget((LivingEntity)null);
                 return false;
             }
-            else
-            {
-        	    return super.canContinueToUse();
-            }
-        }
-
-        protected double getAttackReachSqr(LivingEntity attackTarget)
-        {
-        	return (double)(4.0F + attackTarget.getBbWidth());
+            else {return super.shouldContinue();}
         }
     }
     
-    static class TargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T>
+    static class TargetGoal<T extends LivingEntity> extends ActiveTargetGoal<T>
     {
-        public TargetGoal(Spider spider, Class<T> classTarget)
+        public TargetGoal(SpiderEntity spider, Class<T> classTarget)
         {
         	super(spider, classTarget, true);
         }
 
-        public boolean canUse()
+        public boolean canStart()
         {
-        	float f = this.mob.getLightLevelDependentMagicValue(); //goalOwner.getBrightness()
-            return f >= 0.5F ? false : super.canUse();
+        	float f = this.mob.getBrightnessAtEyes(); //goalOwner.getBrightness()
+            return f >= 0.5F ? false : super.canStart();
         }
     }
 }

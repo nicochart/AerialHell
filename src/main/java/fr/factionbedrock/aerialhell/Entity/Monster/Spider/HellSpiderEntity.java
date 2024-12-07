@@ -1,44 +1,44 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Spider;
 
-import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.Spider;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.SpiderEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.World;
 
 public class HellSpiderEntity extends AbstractAerialHellSpiderEntity
 {
     private int timeNoThorns;
-    public HellSpiderEntity(EntityType<? extends Spider> type, Level worldIn)
+    public HellSpiderEntity(EntityType<? extends SpiderEntity> type, World world)
     {
-        super(type, worldIn);
+        super(type, world);
         this.timeNoThorns = 0;
     }
     
     @Override
-    public void registerGoals()
+    public void initGoals()
     {
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, true));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers(HellSpiderEntity.class));
-        super.registerGoals();
+        this.goalSelector.add(4, new MeleeAttackGoal(this, 1.0D, true));
+        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+        this.targetSelector.add(1, (new RevengeGoal(this)).setGroupRevenge(HellSpiderEntity.class));
+        super.initGoals();
     }
     
-    public static AttributeSupplier.Builder registerAttributes()
+    public static DefaultAttributeContainer.Builder registerAttributes()
     {
-        return Monster.createMonsterAttributes()
-                .add(Attributes.MOVEMENT_SPEED, 0.25)
-                .add(Attributes.ATTACK_DAMAGE, 5)
-                .add(Attributes.ARMOR, 0)
-                .add(Attributes.MAX_HEALTH, 32);
+        return HostileEntity.createHostileAttributes()
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5)
+                .add(EntityAttributes.GENERIC_ARMOR, 0)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 32);
     }
 
     @Override public void tick()
@@ -53,16 +53,16 @@ public class HellSpiderEntity extends AbstractAerialHellSpiderEntity
         return this.timeNoThorns < 0 || this.timeNoThorns > 45;
     }
 
-    @Override public boolean hurt(DamageSource source, float amount)
+    @Override public boolean damage(DamageSource source, float amount)
     {
-        boolean flag = super.hurt(source, amount);
+        boolean flag = super.damage(source, amount);
 
-        if (flag && !source.is(DamageTypes.MAGIC) && source.getDirectEntity() instanceof LivingEntity livingentity)
+        if (flag && !source.isOf(DamageTypes.MAGIC) && source.getSource() instanceof LivingEntity livingentity)
         {
             boolean hasNoThorns = this.timeNoThorns > 0;
-        	if (!hasNoThorns && !source.is(DamageTypes.EXPLOSION))
+        	if (!hasNoThorns && !source.isOf(DamageTypes.EXPLOSION))
         	{
-        		livingentity.hurt(this.damageSources().thorns(this), 2.0F);
+        		livingentity.damage(this.getDamageSources().thorns(this), 2.0F);
             }
             this.timeNoThorns = hasNoThorns ? 30 : 45;
         }

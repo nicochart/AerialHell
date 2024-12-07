@@ -1,107 +1,106 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
-import javax.annotation.Nullable;
-
 import fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock;
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
-import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerBossEvent;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.tags.EntityTypeTags;
-import net.minecraft.world.BossEvent;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.item.FallingBlockEntity;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.vehicle.Boat;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameRules;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.FallingBlock;
-import net.minecraft.world.level.block.state.BlockState;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.FallingBlock;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.FallingBlockEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.boss.BossBar;
+import net.minecraft.entity.boss.ServerBossBar;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.registry.tag.EntityTypeTags;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.GameRules;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public abstract class AbstractBossEntity extends AbstractActivableEntity
 {
-	protected final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.GREEN, BossEvent.BossBarOverlay.PROGRESS);
-	private static final EntityDataAccessor<Integer> BOSS_DIFFICULTY = SynchedEntityData.defineId(AbstractBossEntity.class, EntityDataSerializers.INT);
-	private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(AbstractBossEntity.class, EntityDataSerializers.INT);
+	protected final ServerBossBar bossInfo = new ServerBossBar(this.getDisplayName(), BossBar.Color.GREEN, BossBar.Style.PROGRESS);
+	private static final TrackedData<Integer> BOSS_DIFFICULTY = DataTracker.registerData(AbstractBossEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	private static final TrackedData<Integer> PHASE = DataTracker.registerData(AbstractBossEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
-	public AbstractBossEntity(EntityType<? extends Monster> type, Level world) {super(type, world);}
+	public AbstractBossEntity(EntityType<? extends HostileEntity> type, World world) {super(type, world);}
 
-	@Override public boolean hurt(DamageSource source, float amount)
+	@Override public boolean damage(DamageSource source, float amount)
 	{
 		boolean flag = this.bossHurt(source, amount);
 		if (flag)
 		{
-			if (source.is(DamageTypes.GENERIC_KILL) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {}
+			if (source.isOf(DamageTypes.GENERIC_KILL) || source.isOf(DamageTypes.OUT_OF_WORLD)) {}
 			else {this.setActive(true);}
-			this.lastHurtByPlayerTime = 100;
+			this.playerHitTimer = 100;
 			this.timeWithoutAnyTarget = 0;
 		}
 		return flag;
 	}
 
-	//copy of net.minecraft.world.entity.LivingEntity hurt(DamageSource source, float amount) method, removing everything non-related to my bosses, and calling other methods, allowing customization in my inheriting classes
+	//copy of net.minecraft.world.entity.LivingEntity damage(DamageSource source, float amount) method, removing everything non-related to my bosses, and calling other methods, allowing customization in my inheriting classes
 	public boolean bossHurt(DamageSource source, float amount)
 	{
-		if (this.isInvulnerableTo(source) || this.level().isClientSide || this.isDeadOrDying()) {return false;}
-		else if (source.is(DamageTypeTags.IS_FIRE) && this.hasEffect(MobEffects.FIRE_RESISTANCE)) {return false;}
+		if (this.isInvulnerableTo(source) || this.getWorld().isClient || this.isDead()) {return false;}
+		else if (source.isIn(DamageTypeTags.IS_FIRE) && this.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {return false;}
 		else
 		{
-			this.damageContainers.push(new net.neoforged.neoforge.common.damagesource.DamageContainer(source, amount));
-			if (net.neoforged.neoforge.common.CommonHooks.onEntityIncomingDamage(this, this.damageContainers.peek())) {return false;}
-			else
+			this.despawnCounter = 0;
+
+			if (source.isIn(DamageTypeTags.IS_FREEZING) && this.getType().isIn(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {amount *= 5.0F;}
+			this.limbAnimator.setSpeed(1.5F);
+
+			boolean wasOnHurtCooldown = (float)this.timeUntilRegen > 10.0F && !source.isIn(DamageTypeTags.BYPASSES_COOLDOWN);
+			boolean actuallyGotHurt = tryActuallyHurt(source, amount);
+
+			if (!actuallyGotHurt) {return false;}
+			//we know this got hurt
+			setLastHurtBy(source);
+
+			if (!wasOnHurtCooldown)
 			{
-				this.noActionTime = 0;
+				this.getWorld().sendEntityDamage(this, source);
+				if (!source.isIn(DamageTypeTags.NO_IMPACT)) {this.scheduleVelocityUpdate();}
 
-				if (source.is(DamageTypeTags.IS_FREEZING) && this.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {amount *= 5.0F;}
-				this.walkAnimation.setSpeed(1.5F);
+				tryApplyingKnockback(source);
+			}
 
-				boolean wasOnHurtCooldown = (float)this.invulnerableTime > 10.0F && !source.is(DamageTypeTags.BYPASSES_COOLDOWN);
-				boolean actuallyGotHurt = tryActuallyHurt(source, amount);
+			boolean died = false;
+			if (this.isDead()) {died = tryDying(source);}
 
-				if (!actuallyGotHurt) {return false;}
-				//we know this got hurt
-				setLastHurtBy(source);
+			if (!wasOnHurtCooldown) {playHurtSound(source, died);}
 
-				if (!wasOnHurtCooldown)
-				{
-					this.level().broadcastDamageEvent(this, source);
-					if (!source.is(DamageTypeTags.NO_IMPACT)) {this.markHurt();}
+			this.lastDamageSource = source;
+			this.lastDamageTime = this.getWorld().getTime();
 
-					tryApplyingKnockback(source);
-				}
-
-				boolean died = false;
-				if (this.isDeadOrDying()) {died = tryDying(source);}
-
-				if (!wasOnHurtCooldown) {playHurtSound(source, died);}
-
-				this.lastDamageSource = source;
-				this.lastDamageStamp = this.level().getGameTime();
-
-				if (source.getEntity() instanceof ServerPlayer serverPlayerSource)
-				{
-					CriteriaTriggers.PLAYER_HURT_ENTITY.trigger(serverPlayerSource, this, source, amount, amount, false);
-				}
+			if (source.getAttacker() instanceof ServerPlayerEntity serverPlayerSource)
+			{
+				Criteria.PLAYER_HURT_ENTITY.trigger(serverPlayerSource, this, source, amount, amount, false);
 			}
 			return true;
 		}
@@ -109,26 +108,26 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 	public boolean tryActuallyHurt(DamageSource damageSource, float amount) //returns true if the entity is actually hurt
 	{
-		boolean isOnHurtCooldown = (float)this.invulnerableTime > 10.0F;
-		boolean shouldDamageBeReducedDueToHurtCooldown = isOnHurtCooldown && !damageSource.is(DamageTypeTags.BYPASSES_COOLDOWN);
+		boolean isOnHurtCooldown = (float)this.timeUntilRegen > 10.0F;
+		boolean shouldDamageBeReducedDueToHurtCooldown = isOnHurtCooldown && !damageSource.isIn(DamageTypeTags.BYPASSES_COOLDOWN);
 
 		if (shouldDamageBeReducedDueToHurtCooldown)
 		{
 			//the difference in damage amount is dealt if the amount of new "hurt" is greater than last one
-			float reducedAmount = amount - this.lastHurt;
+			float reducedAmount = amount - this.lastDamageTaken;
 			if (reducedAmount <= 0) {return false;}
 
-			this.actuallyHurt(damageSource, reducedAmount);
-			this.lastHurt = amount;
+			this.applyDamage(damageSource, reducedAmount);
+			this.lastDamageTaken = amount;
 			return true;
 		}
 		else
 		{
-			this.lastHurt = amount;
-			this.invulnerableTime = 20;
-			this.actuallyHurt(damageSource, amount);
-			this.hurtDuration = 10;
-			this.hurtTime = this.hurtDuration;
+			this.lastDamageTaken = amount;
+			this.timeUntilRegen = 20;
+			this.applyDamage(damageSource, amount);
+			this.maxHurtTime = 10;
+			this.hurtTime = this.maxHurtTime;
 			return true;
 		}
 	}
@@ -137,14 +136,14 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 	public boolean tryDying(DamageSource damageSource)
 	{
-		if (!this.enableTryDyingPhaseUpdate()) {this.die(damageSource); return true;}
+		if (!this.enableTryDyingPhaseUpdate()) {this.onDeath(damageSource); return true;}
 		else
 		{
-			if (damageSource.is(DamageTypes.GENERIC_KILL))
+			if (damageSource.isOf(DamageTypes.GENERIC_KILL))
 			{
 				this.setHealth(0.0F);
 				this.playFastDeathSound();
-				this.die(damageSource);
+				this.onDeath(damageSource);
 				return true;
 			}
 
@@ -165,7 +164,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 				this.updateToNextPhase();
 				this.setHealth(0.0F);
 				if (doesPlayFastDeathSoundIfDyingWithTryDyingPhaseUpdate()) {this.playFastDeathSound();}
-				this.die(damageSource);
+				this.onDeath(damageSource);
 				return true;
 			}
 		}
@@ -175,7 +174,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	{
 		if (this.getDeathSound() != null)
 		{
-			this.playSound(this.getDeathSound(), this.getSoundVolume(), this.getVoicePitch());
+			this.playSound(this.getDeathSound(), this.getSoundVolume(), this.getPitch());
 		}
 	}
 
@@ -184,15 +183,15 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		if (died)
 		{
 			SoundEvent soundevent = this.getDeathSound();
-			if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getVoicePitch());}
+			if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getPitch());}
 		}
 		else {this.playHurtSound(damageSource);}
 	}
 
 	public boolean tryApplyingKnockback(DamageSource damageSource)
 	{
-		Entity sourceEntity = damageSource.getEntity();
-		if (sourceEntity != null && !damageSource.is(DamageTypeTags.NO_KNOCKBACK))
+		Entity sourceEntity = damageSource.getAttacker();
+		if (sourceEntity != null && !damageSource.isIn(DamageTypeTags.NO_KNOCKBACK))
 		{
 			double xKb = sourceEntity.getX() - this.getX();
 
@@ -201,8 +200,8 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 				xKb = (Math.random() - Math.random()) * 0.01D;
 			}
 
-			this.knockback((double)0.4F, xKb, zKb);
-			this.indicateDamage(xKb, zKb);
+			this.takeKnockback((double)0.4F, xKb, zKb);
+			this.tiltScreen(xKb, zKb);
 			return true;
 		}
 		return false;
@@ -210,48 +209,48 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 	public void setLastHurtBy(DamageSource damageSource)
 	{
-		Entity sourceEntity = damageSource.getEntity();
+		Entity sourceEntity = damageSource.getAttacker();
 		if (sourceEntity != null)
 		{
 			if (sourceEntity instanceof LivingEntity sourceLivingEntity)
 			{
-				if (!damageSource.is(DamageTypeTags.NO_ANGER)) {this.setLastHurtByMob(sourceLivingEntity);}
+				if (!damageSource.isIn(DamageTypeTags.NO_ANGER)) {this.setAttacker(sourceLivingEntity);}
 			}
 
-			if (sourceEntity instanceof Player sourcePlayerEntity)
+			if (sourceEntity instanceof PlayerEntity sourcePlayerEntity)
 			{
-				this.lastHurtByPlayerTime = 100;
-				this.lastHurtByPlayer = sourcePlayerEntity;
+				this.playerHitTimer = 100;
+				this.attackingPlayer = sourcePlayerEntity;
 			}
-			else if (sourceEntity instanceof TamableAnimal tamableEntity)
+			else if (sourceEntity instanceof WolfEntity worfEntity)
 			{
-				if (tamableEntity.isTame())
+				if (worfEntity.isTamed())
 				{
-					this.lastHurtByPlayerTime = 100;
-					LivingEntity tamableEntityOwner = tamableEntity.getOwner();
-					if (tamableEntityOwner instanceof Player playerOwner) {this.lastHurtByPlayer = playerOwner;}
-					else {this.lastHurtByPlayer = null;}
+					this.playerHitTimer = 100;
+					LivingEntity tamableEntityOwner = worfEntity.getOwner();
+					if (tamableEntityOwner instanceof PlayerEntity playerOwner) {this.attackingPlayer = playerOwner;}
+					else {this.attackingPlayer = null;}
 				}
 			}
 		}
 	}
 
-	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
+	@Override protected void initDataTracker(DataTracker.Builder builder)
 	{
-		super.defineSynchedData(builder);
-		builder.define(BOSS_DIFFICULTY, 0);
-		builder.define(PHASE, 0);
+		super.initDataTracker(builder);
+		builder.add(BOSS_DIFFICULTY, 0);
+		builder.add(PHASE, 0);
 	}
 
-	public void setDifficulty(int difficulty) {this.entityData.set(BOSS_DIFFICULTY, difficulty);}
-	public int getDifficulty() {return this.entityData.get(BOSS_DIFFICULTY);}
+	public void setDifficulty(int difficulty) {this.getDataTracker().set(BOSS_DIFFICULTY, difficulty);}
+	public int getDifficulty() {return this.getDataTracker().get(BOSS_DIFFICULTY);}
 
 	public BossPhase getPhase() {return getPhaseAfterNSteps(0);}
 	public BossPhase getNextPhase() {return getPhaseAfterNSteps(1);}
 
 	public BossPhase getPhaseAfterNSteps(int n)
 	{
-		int phase = this.entityData.get(PHASE) + n;
+		int phase = this.getDataTracker().get(PHASE) + n;
 		if (this.isDyingPhaseId(phase)) {return BossPhase.DYING;}
 		else if (phase > BossPhase.DYING.getPhaseId()) {return BossPhase.DEAD;}
 		return switch (phase)
@@ -266,7 +265,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		};
 	}
 
-	public BossPhase setPhase(int phase) {this.entityData.set(PHASE, phase); return this.getPhase();}
+	public BossPhase setPhase(int phase) {this.getDataTracker().set(PHASE, phase); return this.getPhase();}
 	public void setPhase(BossPhase phase) {this.setPhase(phase.getPhaseId());}
 
 	public boolean isDyingPhaseId(int phaseId) {return phaseId >= this.getPhaseIdToSkipToDyingPhase() && phaseId <= BossPhase.DYING.getPhaseId();}
@@ -328,48 +327,48 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	public abstract int getPhaseIdToSkipToDyingPhase(); //phase in which the boss skip to BossPhase.DYING phase
 
 	/* Add the given player to the list of players tracking this entity. For instance, a player may track a boss in order to view its associated boss bar. */
-	@Override public void startSeenByPlayer(ServerPlayer player)
+	@Override public void onStartedTrackingBy(ServerPlayerEntity player)
 	{
-    	super.startSeenByPlayer(player);
+    	super.onStartedTrackingBy(player);
     	this.bossInfo.addPlayer(player);
     }
 
     /* Removes the given player from the list of players tracking this entity. See {@link Entity#addTrackingPlayer} for more information on tracking. */
-	@Override public void stopSeenByPlayer(ServerPlayer player)
+	@Override public void onStoppedTrackingBy(ServerPlayerEntity player)
     {
-    	super.stopSeenByPlayer(player);
+    	super.onStoppedTrackingBy(player);
     	this.bossInfo.removePlayer(player);
     }
 
-	@Override public void addAdditionalSaveData(CompoundTag compound)
+	@Override public void writeCustomDataToNbt(NbtCompound nbt)
 	{
-		super.addAdditionalSaveData(compound);
-		compound.putInt("Phase", this.getPhase().getPhaseId());
+		super.writeCustomDataToNbt(nbt);
+		nbt.putInt("Phase", this.getPhase().getPhaseId());
 	}
 
-	@Override public void readAdditionalSaveData(CompoundTag compound)
+	@Override public void readCustomDataFromNbt(NbtCompound nbt)
 	{
-		super.readAdditionalSaveData(compound);
+		super.readCustomDataFromNbt(nbt);
 		if (this.hasCustomName()) {this.bossInfo.setName(this.getDisplayName());}
-		this.setPhase(compound.getInt("Phase"));
+		this.setPhase(nbt.getInt("Phase"));
 	}
 	
-	@Override public void setCustomName(@Nullable Component name)
+	@Override public void setCustomName(@Nullable Text name)
 	{
 	      super.setCustomName(name);
 	      this.bossInfo.setName(this.getDisplayName());
 	}
-	
-	@Override protected void customServerAiStep()
+
+	@Override protected void mobTick()
 	{
-		super.customServerAiStep();
-		this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
+		super.mobTick();
+		this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
 	}
 
 	@Override public void tick()
 	{
 		super.tick();
-		if (this.isActive() && this.tickCount % 900 == 0) {this.updateBossDifficulty(); this.adaptBossDifficulty();}
+		if (this.isActive() && this.age % 900 == 0) {this.updateBossDifficulty(); this.adaptBossDifficulty();}
 		this.bossInfo.setVisible(this.isActive());
 		this.immunizeToEffects();
 		this.tickBossPhases();
@@ -377,27 +376,27 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 	public void immunizeToEffects()
 	{
-		this.removeEffect(MobEffects.LEVITATION);
-		this.removeEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate());
+		this.removeStatusEffect(StatusEffects.LEVITATION);
+		this.removeStatusEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS);
 	}
 
 	@Override public boolean startRiding(Entity entity, boolean p_19967_)
 	{
-		if (entity instanceof Boat boat)
+		if (entity instanceof BoatEntity boat)
 		{
-			//Copy of net.minecraft.world.entity.vehicle.VehicleEntity.destroy(Item item) {..}
+			//Copy of net.minecraft.entity.vehicle.VehicleEntity.killAndDropItem(Item item) {..}
 			entity.kill();
-			if (this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS))
+			if (this.getWorld().getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS))
 			{
-				ItemStack itemstack = new ItemStack(boat.getDropItem());
-				itemstack.set(DataComponents.CUSTOM_NAME, this.getCustomName());
-				this.spawnAtLocation(itemstack);
+				ItemStack itemstack = new ItemStack(boat.asItem());
+				itemstack.set(DataComponentTypes.CUSTOM_NAME, this.getCustomName());
+				this.dropStack(itemstack);
 			}
 		}
 		return false;
 	}
 
-	@Override protected boolean canRide(Entity p_20339_) {return false;}
+	@Override protected boolean canStartRiding(Entity entity) {return false;}
 
 	@Override public void setActive(boolean isActive)
 	{
@@ -407,53 +406,49 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 	private void updateBossDifficulty()
 	{
-		List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(30), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
+		List<Entity> nearbyEntities = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(30), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), 15));
 		int playerCount = 0;
 		for (Entity entity : nearbyEntities)
 		{
-			if (entity instanceof Player)
-			{
-				Player player = (Player) entity;
-				if (!(player.isCreative() || player.isSpectator())) {playerCount += 1;}
-			}
+			if (entity instanceof PlayerEntity && !EntityHelper.isCreaOrSpecPlayer(entity)) {playerCount += 1;}
 		}
 		this.setDifficulty(Math.min(playerCount, 6)); //difficulty will be 0 if there is no player nearby, and will grow by 1 with each nearby player. capped at 6
 	}
 
 	protected void adaptBossDifficulty()
 	{
-		if (this.hasEffect(MobEffects.DAMAGE_RESISTANCE)) {this.removeEffect(MobEffects.DAMAGE_RESISTANCE);}
-		if (this.hasEffect(MobEffects.DAMAGE_BOOST)) {this.removeEffect(MobEffects.DAMAGE_BOOST);}
+		if (this.hasStatusEffect(StatusEffects.RESISTANCE)) {this.removeStatusEffect(StatusEffects.RESISTANCE);}
+		if (this.hasStatusEffect(StatusEffects.STRENGTH)) {this.removeStatusEffect(StatusEffects.STRENGTH);}
 		int amplifier = this.getDifficulty() - 1; //amplifier = 0 if there is one player, +1 per additional player
 		if (amplifier > 0)
 		{
-			this.addStatusEffect(new StatusEffectInstance(StatusEffects.DAMAGE_RESISTANCE, 54000, Math.min(3, (int) Math.ceil(amplifier / 2.0F)), false, false));
-			this.addStatusEffect(new StatusEffectInstance(StatusEffects.DAMAGE_BOOST, 54000, Math.min(3, amplifier - 1), false, false));
+			this.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 54000, Math.min(3, (int) Math.ceil(amplifier / 2.0F)), false, false));
+			this.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 54000, Math.min(3, amplifier - 1), false, false));
 		}
 	}
 
 	protected void makeRandomRoofBlockFall(int yBaseOffset, int maxXZOffset, int minYOffset, int maxYOffset)
 	{
-		BlockPos basePos = this.getBlockPos().above(yBaseOffset);
-		BlockPos fallPos = basePos.offset(this.random.nextInt(-maxXZOffset, maxXZOffset), this.random.nextInt(minYOffset, maxYOffset), this.random.nextInt(-maxXZOffset, maxXZOffset));
-		while (this.level().getBlockState(fallPos).isAir() && fallPos.getY() < basePos.getY() + 25) {fallPos = fallPos.above();}
-		while (!FallingBlock.isFree(level().getBlockState(fallPos.down())) && fallPos.getY() > basePos.getY()) {fallPos = fallPos.down();}
-		BlockState fallState = this.level().getBlockState(fallPos);
-		if (FallingBlock.isFree(level().getBlockState(fallPos.down())) && fallPos.getY() >= level().getMinBuildHeight())
+		BlockPos basePos = this.getBlockPos().up(yBaseOffset);
+		BlockPos fallPos = basePos.add(this.random.nextBetween(-maxXZOffset, maxXZOffset), this.random.nextBetween(minYOffset, maxYOffset), this.random.nextBetween(-maxXZOffset, maxXZOffset));
+		while (this.getWorld().getBlockState(fallPos).isAir() && fallPos.getY() < basePos.getY() + 25) {fallPos = fallPos.up();}
+		while (!FallingBlock.canFallThrough(this.getWorld().getBlockState(fallPos.down())) && fallPos.getY() > basePos.getY()) {fallPos = fallPos.down();}
+		BlockState fallState = this.getWorld().getBlockState(fallPos);
+		if (FallingBlock.canFallThrough(this.getWorld().getBlockState(fallPos.down())) && fallPos.getY() >= this.getWorld().getHeight())
 		{
 			if (fallState.getBlock() instanceof CoreProtectedBlock block)
 			{
 				fallState = block.getCrackedVariant().getDefaultState();
 			}
-			FallingBlockEntity.fall(level(), fallPos, fallState);
+			FallingBlockEntity.spawnFromBlock(this.getWorld(), fallPos, fallState);
 		}
 	}
 
-	@Override protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean p_33576_)
+	@Override protected void dropEquipment(ServerWorld world, DamageSource damageSource, boolean p_33576_)
 	{
 		if (this.getTrophy() != null)
 		{
-			if (this.getRandom().nextInt(10) == 0) {this.spawnAtLocation(this.getTrophy());}
+			if (this.getRandom().nextInt(10) == 0) {this.dropItem(this.getTrophy());}
 		}
 	}
 
@@ -462,6 +457,6 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	@Override public int getMinTimeToActivate() {return 5;}
 	@Override public double getMinDistanceToActivate() {return 8;}
 	@Override public double getMinDistanceToDeactivate() {return 48;}
-	@Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
-	@Override public boolean canChangeDimensions(Level source, Level dest) {return false;}
+	@Override public boolean canImmediatelyDespawn(double distanceToClosestPlayer) {return false;}
+	@Override public boolean canTeleportBetween(World source, World dest) {return false;}
 }

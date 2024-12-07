@@ -32,7 +32,7 @@ public class RenderListener
     public static void onRenderOverlayPost(RenderGuiEvent.Post event)
     {
         Minecraft mc = Minecraft.getInstance();
-        Player player = mc.player;
+        PlayerEntity player = mc.player;
 
         if (player != null && EntityHelper.isLivingEntityVulnerable(player))
         {
@@ -45,7 +45,7 @@ public class RenderListener
     public static void onRenderOverlayPost(RenderGuiOverlayEvent.Post event)
     {
         Minecraft mc = Minecraft.getInstance();
-        Player player = mc.player;
+        PlayerEntity player = mc.player;
 
         if (player != null && EntityHelper.isLivingEntityVulnerable(player))
         {
@@ -61,7 +61,7 @@ public class RenderListener
     public static void onRenderOverlay(RenderGameOverlayEvent event)
     {
         Minecraft mc = Minecraft.getInstance();
-        Player player = mc.player;
+        PlayerEntity player = mc.player;
 
         if (event.getType() == RenderGameOverlayEvent.ElementType.ALL && player != null && EntityHelper.isLivingEntityVulnerable(player)) //TODO : ElementType.ALL is ok ? before is was ElementType.HEALTH
         {
@@ -91,7 +91,7 @@ public class RenderListener
     }
 
     /*
-    private static void renderVulnerableHearts(PoseStack matrixStack, Player player, int x, int y, boolean lowHealth)
+    private static void renderVulnerableHearts(PoseStack matrixStack, PlayerEntity player, int x, int y, boolean lowHealth)
     {
         int maxHalfHearts = (int)player.getMaxHealth(), maxHearts  = maxHalfHearts/2;
         int halfHearts = (int) player.getHealth(), hearts = halfHearts / 2;
@@ -141,7 +141,7 @@ public class RenderListener
         Gui.blit(matrixStack, x, y, 0, 0, HEART_ICON_WIDTH, HEART_ICON_HEIGHT, 9, 9);
     }
 
-    private static int getHealthBarYOffset(Player player)
+    private static int getHealthBarYOffset(PlayerEntity player)
     {
         int maxHalfHearts = (int)player.getMaxHealth();
         if (player.hasEffect(MobEffects.ABSORPTION)) {maxHalfHearts += 4 * (player.getEffect(MobEffects.ABSORPTION).getAmplifier() + 1);}

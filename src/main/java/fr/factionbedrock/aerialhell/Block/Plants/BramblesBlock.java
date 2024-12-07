@@ -29,14 +29,14 @@ public class BramblesBlock extends AerialHellTallGrassBlock
 	@Override
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn)
 	{
-		entityIn.makeStuckInBlock(state, new Vec3((double)0.8F, 0.75D, (double)0.8F));
+		entityIn.makeStuckInBlock(state, new Vec3d((double)0.8F, 0.75D, (double)0.8F));
 		if (!level.isClientSide() && entityIn instanceof LivingEntity livingEntity)
     	{
 			if (!EntityHelper.isImmuneToBramblesDamage(livingEntity))
 			{
 				int poisonDuration = this == AerialHellBlocksAndItems.SHADOW_BRAMBLES.get() ? 60 : 40;
 				livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, poisonDuration, 0));
-				livingEntity.hurt(AerialHellDamageTypes.getDamageSource(level, AerialHellDamageTypes.BRAMBLES_THORNS), 1.0F);
+				livingEntity.damage(AerialHellDamageTypes.getDamageSource(level, AerialHellDamageTypes.BRAMBLES_THORNS), 1.0F);
 			}
     	}
 	}

@@ -61,12 +61,12 @@ public class AerialHellBarrelBlockEntity extends LootableContainerBlockEntity
 
 	protected AbstractContainerMenu createMenu(int p_58598_, Inventory inv) {return ChestMenu.threeRows(p_58598_, inv, this);}
 
-	public void startOpen(Player player)
+	public void startOpen(PlayerEntity player)
 	{
 		if (!this.remove && !player.isSpectator()) {this.openersCounter.incrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());}
 	}
 
-	public void stopOpen(Player player)
+	public void stopOpen(PlayerEntity player)
 	{
 		if (!this.remove && !player.isSpectator()) {this.openersCounter.decrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());}
 	}

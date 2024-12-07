@@ -1,17 +1,7 @@
 package fr.factionbedrock.aerialhell.Setup;
 
-import fr.factionbedrock.aerialhell.Client.Event.Listeners.DataPacketPayloads;
-import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Event.Listeners.BlockEventListener;
-import fr.factionbedrock.aerialhell.Event.Listeners.LivingEntityEventListener;
-import fr.factionbedrock.aerialhell.Event.Listeners.ToolsAndArmorEventListener;
-import fr.factionbedrock.aerialhell.Recipe.CustomBrewingRecipe;
 import fr.factionbedrock.aerialhell.Registry.*;
-import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.AerialHellCreativeModeTabs;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Registry.AerialHellMenuTypes;
-import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntityAttributes;
-import fr.factionbedrock.aerialhell.Registry.Worldgen.*;
 
 public class AerialHellSetup
 {
@@ -39,7 +29,7 @@ public class AerialHellSetup
         AerialHellItems.load();
         //AerialHellFluids.FLUIDS.register(bus);
         //AerialHellFluids.FLUID_TYPES.register(bus);
-        //AerialHellEntities.ENTITIES.register(bus);
+        AerialHellEntities.load();
         //AerialHellBiomes.BIOMES.register(bus);
         //AerialHellMobEffects.EFFECTS.register(bus);
         //AerialHellPOI.POI.register(bus);
@@ -74,7 +64,6 @@ public class AerialHellSetup
     //public static void listen(IEventBus bus)
     //{
     //    bus.addListener(AerialHellEntities::entitySpawnPlacements);
-    //    bus.addListener(AerialHellEntityAttributes::entityAttributes);
     //    bus.addListener(DataPacketPayloads::register);
     //}
 }

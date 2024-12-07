@@ -90,8 +90,8 @@ public class ForestCaterpillarModel<T extends AbstractCaterpillarEntity> extends
 
 	private void updateBiomeColors(T entity)
 	{
-		grassARGB = new Color(BiomeColors.getAverageGrassColor(entity.level(), entity.getOnPos())).getRGB();
-		foliageARGB = new Color(BiomeColors.getAverageFoliageColor(entity.level(), entity.getOnPos())).getRGB();
+		grassARGB = new Color(BiomeColors.getAverageGrassColor(entity.getWorld(), entity.getOnPos())).getRGB();
+		foliageARGB = new Color(BiomeColors.getAverageFoliageColor(entity.getWorld(), entity.getOnPos())).getRGB();
 	}
 
 	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tintIn)

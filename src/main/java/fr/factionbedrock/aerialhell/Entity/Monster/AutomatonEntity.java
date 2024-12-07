@@ -1,50 +1,52 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
-import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.world.World;
 
 public class AutomatonEntity extends AerialHellHostileEntity
 {
     public int attackTimer;
-    public AutomatonEntity(EntityType<? extends Monster> type, Level world) {super(type, world); this.attackTimer = 0;}
+    public AutomatonEntity(EntityType<? extends HostileEntity> type, World world) {super(type, world); this.attackTimer = 0;}
 
     @Override
-    public void aiStep()
+    public void tickMovement()
     {
         if (this.attackTimer > 0) {this.attackTimer--;}
-        super.aiStep();
+        super.tickMovement();
     }
 
     @Override
-    public void handleEntityEvent(byte id)
+    public void handleStatus(byte id)
     {
         if (id == 4) {this.attackTimer = 10;}
-        else {super.handleEntityEvent(id);}
+        else {super.handleStatus(id);}
     }
 
     @Override
-    public boolean doHurtTarget(Entity entityIn)
+    public boolean tryAttack(Entity entityIn)
     {
-        boolean flag = super.doHurtTarget(entityIn);
-        this.level().broadcastEntityEvent(this, (byte)4);
+        boolean flag = super.tryAttack(entityIn);
+        this.getWorld().sendEntityStatus(this, (byte)4);
         return flag;
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount)
+    public boolean damage(DamageSource source, float amount)
     {
-        Entity immediateSourceEntity = source.getDirectEntity();
-        Entity trueSourceEntity = source.getEntity();
-        boolean flag = super.hurt(source, amount);
+        Entity immediateSourceEntity = source.getSource();
+        Entity trueSourceEntity = source.getAttacker();
+        boolean flag = super.damage(source, amount);
         if (flag)
         {
-            if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrow))
+            if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof PersistentProjectileEntity))
             {
-                if (!(trueSourceEntity instanceof Player && ((Player)trueSourceEntity).isCreative()))
+                if (!(trueSourceEntity instanceof PlayerEntity && ((PlayerEntity)trueSourceEntity).isCreative()))
                 {
                     this.setTarget((LivingEntity) trueSourceEntity);
                 }

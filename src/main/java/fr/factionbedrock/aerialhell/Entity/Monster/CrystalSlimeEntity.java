@@ -2,90 +2,90 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import java.util.EnumSet;
 
+import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.animal.IronGolem;
-import net.minecraft.world.entity.monster.Slime;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.control.MoveControl;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.SlimeEntity;
+import net.minecraft.entity.passive.IronGolemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.loot.LootTable;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
-
-//copy of net.minecraft.world.entity.monster.Slime but without size system
-public class CrystalSlimeEntity extends Mob
+//copy of net.minecraft.entity.mob.SlimeEntity but without size system
+public class CrystalSlimeEntity extends MobEntity
 {
 	public float targetSquish;
 	public float squish;
 	public float oSquish;
 	private boolean wasOnGround;
 
-	public CrystalSlimeEntity(EntityType<? extends CrystalSlimeEntity> type, Level worldIn)
+	public CrystalSlimeEntity(EntityType<? extends CrystalSlimeEntity> type, World world)
 	{
-		super(type, worldIn);
+		super(type, world);
 		this.moveControl = new CrystalSlimeMoveControl(this);
 	}
 
-	@Override protected void registerGoals()
+	@Override protected void initGoals()
 	{
-		this.goalSelector.addGoal(1, new CrystalSlimeEntity.CrystalSlimeFloatGoal(this));
-		this.goalSelector.addGoal(2, new CrystalSlimeEntity.CrystalSlimeAttackGoal(this));
-		this.goalSelector.addGoal(3, new CrystalSlimeEntity.CrystalSlimeRandomDirectionGoal(this));
-		this.goalSelector.addGoal(5, new CrystalSlimeEntity.CrystalSlimeKeepOnJumpingGoal(this));
-		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (entity) -> Math.abs(entity.getY() - this.getY()) <= 4.0));
-		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
+		this.goalSelector.add(1, new CrystalSlimeEntity.CrystalSlimeSwimGoal(this));
+		this.goalSelector.add(2, new CrystalSlimeEntity.CrystalSlimeAttackGoal(this));
+		this.goalSelector.add(3, new CrystalSlimeEntity.CrystalSlimeRandomDirectionGoal(this));
+		this.goalSelector.add(5, new CrystalSlimeEntity.CrystalSlimeKeepOnJumpingGoal(this));
+		this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, (entity) -> Math.abs(entity.getY() - this.getY()) <= 4.0));
+		this.targetSelector.add(3, new ActiveTargetGoal<>(this, IronGolemEntity.class, true));
 	}
 
-	@Override public SoundSource getSoundSource() {return SoundSource.HOSTILE;}
+	@Override public SoundCategory getSoundCategory() {return SoundCategory.HOSTILE;}
 
-	@Override public void addAdditionalSaveData(CompoundTag compoundTag)
+	@Override public void writeCustomDataToNbt(NbtCompound nbt)
 	{
-		super.addAdditionalSaveData(compoundTag);
-		compoundTag.putBoolean("wasOnGround", this.wasOnGround);
+		super.writeCustomDataToNbt(nbt);
+		nbt.putBoolean("wasOnGround", this.wasOnGround);
 	}
 
-	@Override public void readAdditionalSaveData(CompoundTag compoundTag)
+	@Override public void readCustomDataFromNbt(NbtCompound nbt)
 	{
-		super.readAdditionalSaveData(compoundTag);
-		this.wasOnGround = compoundTag.getBoolean("wasOnGround");
+		super.readCustomDataFromNbt(nbt);
+		this.wasOnGround = nbt.getBoolean("wasOnGround");
 	}
 
-	protected ParticleOptions getParticleType()
+	protected ParticleEffect getParticleType()
 	{
-		return new BlockParticleOption(ParticleTypes.BLOCK, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().getDefaultState());
+		return new BlockStateParticleEffect(ParticleTypes.BLOCK, AerialHellBlocks.CRYSTAL_BLOCK.getDefaultState());
 	}
 
-	@Override protected boolean shouldDespawnInPeaceful() {return true;}
+	@Override protected boolean isDisallowedInPeaceful() {return true;}
 
 	@Override public void tick()
 	{
 		this.squish = this.squish + (this.targetSquish - this.squish) * 0.5F;
 		this.oSquish = this.squish;
 		super.tick();
-		if (this.onGround() && !this.wasOnGround)
+		if (this.isOnGround() && !this.wasOnGround)
 		{
 			float f = this.getDimensions(this.getPose()).width() * 2.0F;
 			float f1 = f / 2.0F;
@@ -96,16 +96,16 @@ public class CrystalSlimeEntity extends Mob
 				float f3 = this.random.nextFloat() * 0.5F + 0.5F;
 				float f4 = MathHelper.sin(f2) * f1 * f3;
 				float f5 = MathHelper.cos(f2) * f1 * f3;
-				this.level().addParticle(this.getParticleType(), this.getX() + (double)f4, this.getY(), this.getZ() + (double)f5, 0.0, 0.0, 0.0);
+				this.getWorld().addParticle(this.getParticleType(), this.getX() + (double)f4, this.getY(), this.getZ() + (double)f5, 0.0, 0.0, 0.0);
 			}
 
 			this.playSound(this.getSquishSound(), this.getSoundVolume(), ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F) / 0.8F);
 			this.targetSquish = -0.5F;
-		} else if (!this.onGround() && this.wasOnGround) {
+		} else if (!this.isOnGround() && this.wasOnGround) {
 			this.targetSquish = 1.0F;
 		}
 
-		this.wasOnGround = this.onGround();
+		this.wasOnGround = this.isOnGround();
 		this.decreaseSquish();
 	}
 
@@ -114,74 +114,73 @@ public class CrystalSlimeEntity extends Mob
 
 	@Override public EntityType<? extends CrystalSlimeEntity> getType() {return (EntityType<? extends CrystalSlimeEntity>) super.getType();}
 
-	@Override public void push(Entity entity)
+	@Override public void pushAwayFrom(Entity entity)
 	{
-		super.push(entity);
-		if (entity instanceof IronGolem && this.isDealsDamage()) {this.dealDamage((LivingEntity)entity);}
+		super.pushAwayFrom(entity);
+		if (entity instanceof IronGolemEntity && this.isDealsDamage()) {this.dealDamage((LivingEntity)entity);}
 	}
 
-	@Override public void playerTouch(Player player) { if (this.isDealsDamage()) {this.dealDamage(player);}}
+	@Override public void onPlayerCollision(PlayerEntity player) { if (this.isDealsDamage()) {this.dealDamage(player);}}
 
 	protected void dealDamage(LivingEntity livingEntity)
 	{
-		if (this.isAlive() && this.isWithinMeleeAttackRange(livingEntity) && this.hasLineOfSight(livingEntity))
+		if (this.isAlive() && this.isInAttackRange(livingEntity) && this.canSee(livingEntity))
 		{
-			DamageSource damagesource = this.damageSources().mobAttack(this);
-			if (livingEntity.hurt(damagesource, this.getAttackDamage()))
+			DamageSource damagesource = this.getDamageSources().mobAttack(this);
+			if (livingEntity.damage(damagesource, this.getAttackDamage()))
 			{
-				this.playSound(SoundEvents.SLIME_ATTACK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-				if (this.level() instanceof ServerLevel serverlevel) {EnchantmentHelper.doPostAttackEffects(serverlevel, livingEntity, damagesource);}
+				this.playSound(SoundEvents.ENTITY_SLIME_ATTACK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+				if (this.getWorld() instanceof ServerWorld serverlevel) {EnchantmentHelper.onTargetDamaged(serverlevel, livingEntity, damagesource);}
 			}
 		}
 	}
 
-	@Override protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float y)
+	@Override protected Vec3d getPassengerAttachmentPos(Entity entity, EntityDimensions dimensions, float y)
 	{
-		return new Vec3(0.0, (double)dimensions.height() - 0.015625 * 2 * (double)y, 0.0);
+		return new Vec3d(0.0, (double)dimensions.height() - 0.015625 * 2 * (double)y, 0.0);
 	}
 
-	protected boolean isDealsDamage() {return this.isEffectiveAi();}
-	protected float getAttackDamage() {return (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);}
+	protected boolean isDealsDamage() {return this.canMoveVoluntarily();}
+	protected float getAttackDamage() {return (float)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);}
 
-	@Override protected SoundEvent getHurtSound(DamageSource p_33631_) {return SoundEvents.SLIME_HURT_SMALL;}
-	@Override protected SoundEvent getDeathSound() {return SoundEvents.SLIME_DEATH_SMALL;}
-	protected SoundEvent getSquishSound() {return SoundEvents.SLIME_SQUISH_SMALL;}
-	protected SoundEvent getJumpSound() {return SoundEvents.SLIME_JUMP_SMALL;}
+	@Override protected SoundEvent getHurtSound(DamageSource source) {return SoundEvents.ENTITY_SLIME_HURT_SMALL;}
+	@Override protected SoundEvent getDeathSound() {return SoundEvents.ENTITY_SLIME_DEATH_SMALL;}
+	protected SoundEvent getSquishSound() {return SoundEvents.ENTITY_SLIME_SQUISH_SMALL;}
+	protected SoundEvent getJumpSound() {return SoundEvents.ENTITY_SLIME_JUMP_SMALL;}
 
 	@Override protected float getSoundVolume() {return 0.8F;}
-	@Override public int getMaxHeadXRot() {return 0;}
+	@Override public int getMaxLookPitchChange() {return 0;}
 	protected boolean doPlayJumpSound() {return this.isAlive();}
-	float getSoundPitch() {return ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F) * 0.8F;}
+	float getSlimeSoundPitch() {return ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F) * 0.8F;}
 
-	@Override public void jumpFromGround()
+	@Override public void jump()
 	{
-		Vec3 vec3 = this.getDeltaMovement();
-		this.setDeltaMovement(vec3.x, (double)this.getJumpPower(), vec3.z);
-		this.hasImpulse = true;
+		Vec3d vec3 = this.getVelocity();
+		this.setVelocity(vec3.x, (double)this.getJumpVelocity(), vec3.z);
+		this.velocityDirty = true;
 	}
 
-	public static AttributeSupplier.Builder registerAttributes()
+	public static DefaultAttributeContainer.Builder registerAttributes()
     {
-        return Slime.createMobAttributes()
-        		.add(Attributes.ATTACK_DAMAGE, 4D)
-        		.add(Attributes.MOVEMENT_SPEED, 0.4D)
-        		.add(Attributes.MAX_HEALTH, 24.0D)
-        		.add(Attributes.FOLLOW_RANGE, 16.0D);
+        return SlimeEntity.createMobAttributes()
+        		.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4D)
+        		.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.4D)
+        		.add(EntityAttributes.GENERIC_MAX_HEALTH, 24.0D)
+        		.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D);
     }
 	
-	public static boolean canSpawn(EntityType<CrystalSlimeEntity> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource randomIn)
+	public static boolean canSpawn(EntityType<? extends AbstractCaterpillarEntity> type, ServerWorldAccess world, SpawnReason reason, BlockPos pos, Random random)
     {
-        return randomIn.nextInt(10) == 0 && worldIn.getLevel().isDay();
+        return random.nextInt(10) == 0 && world.toServerWorld().isDay();
     }
 
-	@Override public void remove(@Nonnull Entity.RemovalReason reason) //copied from Entity class
+	@Override public void remove(Entity.RemovalReason reason) //copied from Entity class
 	{
 		this.setRemoved(reason);
-		if (reason == Entity.RemovalReason.KILLED) {this.gameEvent(GameEvent.ENTITY_DIE);}
 		//this.invalidateCaps();
 	}
 
-	@Override protected ResourceKey<LootTable> getDefaultLootTable() {return this.getType().getDefaultLootTable();}
+	@Override protected RegistryKey<LootTable> getLootTableId() {return this.getType().getLootTableId();}
 
 	public static class CrystalSlimeAttackGoal extends Goal
 	{
@@ -191,69 +190,69 @@ public class CrystalSlimeEntity extends Mob
 		public CrystalSlimeAttackGoal(CrystalSlimeEntity entity)
 		{
 			this.slime = entity;
-			this.setFlags(EnumSet.of(Goal.Flag.LOOK));
+			this.setControls(EnumSet.of(Goal.Control.LOOK));
 		}
 
-		@Override public boolean canUse()
+		@Override public boolean canStart()
 		{
 			LivingEntity livingentity = this.slime.getTarget();
 			if (livingentity == null) {
 				return false;
 			} else {
-				return !this.slime.canAttack(livingentity) ? false : this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl;
+				return !this.slime.canTarget(livingentity) ? false : this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl;
 			}
 		}
 
 		@Override public void start()
 		{
-			this.growTiredTimer = reducedTickDelay(300);
+			this.growTiredTimer = toGoalTicks(300);
 			super.start();
 		}
 
-		@Override public boolean canContinueToUse()
+		@Override public boolean shouldContinue()
 		{
 			LivingEntity livingentity = this.slime.getTarget();
 			if (livingentity == null) {
 				return false;
 			} else {
-				return !this.slime.canAttack(livingentity) ? false : --this.growTiredTimer > 0;
+				return !this.slime.canTarget(livingentity) ? false : --this.growTiredTimer > 0;
 			}
 		}
 
-		@Override public boolean requiresUpdateEveryTick() {return true;}
+		@Override public boolean shouldRunEveryTick() {return true;}
 
 		@Override public void tick()
 		{
 			LivingEntity livingentity = this.slime.getTarget();
 			if (livingentity != null) {
-				this.slime.lookAt(livingentity, 10.0F, 10.0F);
+				this.slime.lookAtEntity(livingentity, 10.0F, 10.0F);
 			}
 
 			if (this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl movecontrol) {movecontrol.setDirection(this.slime.getYaw(), this.slime.isDealsDamage());}
 		}
 	}
 
-	public static class CrystalSlimeFloatGoal extends Goal
+	public static class CrystalSlimeSwimGoal extends Goal
 	{
 		private final CrystalSlimeEntity slime;
 
-		public CrystalSlimeFloatGoal(CrystalSlimeEntity entity)
+		public CrystalSlimeSwimGoal(CrystalSlimeEntity entity)
 		{
 			this.slime = entity;
-			this.setFlags(EnumSet.of(Goal.Flag.JUMP, Goal.Flag.MOVE));
-			entity.getNavigation().setCanFloat(true);
+			this.setControls(EnumSet.of(Goal.Control.JUMP, Goal.Control.MOVE));
+			entity.getNavigation().setCanSwim(true);
 		}
 
-		@Override public boolean canUse()
+		@Override public boolean canStart()
 		{
-			return (this.slime.isInWater() || this.slime.isInLava()) && this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl;
+			return (this.slime.isTouchingWater() || this.slime.isInLava()) && this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl;
 		}
 
-		@Override public boolean requiresUpdateEveryTick() {return true;}
+		@Override public boolean shouldRunEveryTick() {return true;}
 
 		@Override public void tick()
 		{
-			if (this.slime.getRandom().nextFloat() < 0.8F) {this.slime.getJumpControl().jump();}
+			if (this.slime.getRandom().nextFloat() < 0.8F) {this.slime.getJumpControl().setActive();}
 
 			if (this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl movecontrol) {movecontrol.setWantedMovement(1.2);}
 		}
@@ -266,10 +265,10 @@ public class CrystalSlimeEntity extends Mob
 		public CrystalSlimeKeepOnJumpingGoal(CrystalSlimeEntity entity)
 		{
 			this.slime = entity;
-			this.setFlags(EnumSet.of(Goal.Flag.JUMP, Goal.Flag.MOVE));
+			this.setControls(EnumSet.of(Goal.Control.JUMP, Goal.Control.MOVE));
 		}
 
-		@Override public boolean canUse() {return !this.slime.isPassenger();}
+		@Override public boolean canStart() {return !this.slime.hasVehicle();}
 
 		@Override public void tick()
 		{
@@ -299,38 +298,38 @@ public class CrystalSlimeEntity extends Mob
 
 		public void setWantedMovement(double speedModivierIn)
 		{
-			this.speedModifier = speedModivierIn;
-			this.operation = MoveControl.Operation.MOVE_TO;
+			this.speed = speedModivierIn;
+			this.state = MoveControl.State.MOVE_TO;
 		}
 
 		@Override public void tick()
 		{
-			this.mob.setYRot(this.rotlerp(this.mob.getYaw(), this.yRot, 90.0F));
-			this.mob.yHeadRot = this.mob.getYaw();
-			this.mob.yBodyRot = this.mob.getYaw();
-			if (this.operation != MoveControl.Operation.MOVE_TO) {this.mob.setZza(0.0F);}
+			this.entity.setYaw(this.wrapDegrees(this.entity.getYaw(), this.yRot, 90.0F));
+			this.entity.headYaw = this.entity.getYaw();
+			this.entity.bodyYaw = this.entity.getYaw();
+			if (this.state != MoveControl.State.MOVE_TO) {this.entity.setForwardSpeed(0.0F);}
 			else
 			{
-				this.operation = MoveControl.Operation.WAIT;
-				if (this.mob.onGround())
+				this.state = MoveControl.State.WAIT;
+				if (this.entity.isOnGround())
 				{
-					this.mob.setSpeed((float)(this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED)));
+					this.entity.setMovementSpeed((float)(this.speed * this.entity.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)));
 					if (this.jumpDelay-- <= 0)
 					{
 						this.jumpDelay = this.slime.getJumpDelay();
 						if (this.isAggressive) {this.jumpDelay /= 3;}
 
-						this.slime.getJumpControl().jump();
-						if (this.slime.doPlayJumpSound()) {this.slime.playSound(this.slime.getJumpSound(), this.slime.getSoundVolume(), this.slime.getSoundPitch());}
+						this.slime.getJumpControl().setActive();
+						if (this.slime.doPlayJumpSound()) {this.slime.playSound(this.slime.getJumpSound(), this.slime.getSoundVolume(), this.slime.getSlimeSoundPitch());}
 					}
 					else
 					{
-						this.slime.xxa = 0.0F;
-						this.slime.zza = 0.0F;
-						this.mob.setSpeed(0.0F);
+						this.slime.sidewaysSpeed = 0.0F;
+						this.slime.forwardSpeed = 0.0F;
+						this.entity.setMovementSpeed(0.0F);
 					}
 				}
-				else {this.mob.setSpeed((float)(this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED)));}
+				else {this.entity.setMovementSpeed((float)(this.speed * this.entity.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)));}
 			}
 		}
 	}
@@ -344,19 +343,19 @@ public class CrystalSlimeEntity extends Mob
 		public CrystalSlimeRandomDirectionGoal(CrystalSlimeEntity entity)
 		{
 			this.slime = entity;
-			this.setFlags(EnumSet.of(Goal.Flag.LOOK));
+			this.setControls(EnumSet.of(Goal.Control.LOOK));
 		}
 
-		@Override public boolean canUse()
+		@Override public boolean canStart()
 		{
-			return this.slime.getTarget() == null && (this.slime.onGround() || this.slime.isInWater() || this.slime.isInLava() || this.slime.hasEffect(MobEffects.LEVITATION)) && this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl;
+			return this.slime.getTarget() == null && (this.slime.isOnGround() || this.slime.isTouchingWater() || this.slime.isInLava() || this.slime.hasStatusEffect(StatusEffects.LEVITATION)) && this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl;
 		}
 
 		@Override public void tick()
 		{
 			if (--this.nextRandomizeTime <= 0)
 			{
-				this.nextRandomizeTime = this.adjustedTickDelay(40 + this.slime.getRandom().nextInt(60));
+				this.nextRandomizeTime = this.getTickCount(40 + this.slime.getRandom().nextInt(60));
 				this.chosenDegrees = (float)this.slime.getRandom().nextInt(360);
 			}
 

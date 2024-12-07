@@ -62,7 +62,7 @@ public class ReactorMenu extends AbstractContainerMenu
 		}
 	}
 
-	@Override public ItemStack quickMoveStack(Player player, int index)
+	@Override public ItemStack quickMoveStack(PlayerEntity player, int index)
 	{
 		Slot fromSlot = getSlot(index);
 		ItemStack fromStack = fromSlot.getItem();
@@ -87,7 +87,7 @@ public class ReactorMenu extends AbstractContainerMenu
 		return copyFromStack;
 	}
 
-	@Override public boolean stillValid(Player player)
+	@Override public boolean stillValid(PlayerEntity player)
 	{
 		return this.container.stillValid(player);
 	}

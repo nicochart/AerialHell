@@ -2,50 +2,48 @@ package fr.factionbedrock.aerialhell.Entity.Projectile;
 
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Fireball;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.FireballEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
+import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 
-public class PoisonballEntity extends Fireball
+public class PoisonballEntity extends FireballEntity
 {
-	public PoisonballEntity(EntityType<? extends PoisonballEntity> type, Level worldIn)
+	public PoisonballEntity(EntityType<? extends PoisonballEntity> type, World world)
 	{
-		super(type, worldIn);
+		super(type, world);
 	}
 
-	public PoisonballEntity(Level worldIn, double x, double y, double z, double accX, double accY, double accZ)
+	public PoisonballEntity(World world, double x, double y, double z, double accX, double accY, double accZ)
 	{
-		super(AerialHellEntities.POISONBALL.get(), x, y, z, new Vec3(accX, accY, accZ), worldIn);
+		super(AerialHellEntities.POISONBALL, x, y, z, new Vec3d(accX, accY, accZ), world);
 	}
 
-	public PoisonballEntity(Level worldIn, LivingEntity shooter, double accX, double accY, double accZ)
+	public PoisonballEntity(World world, LivingEntity shooter, double accX, double accY, double accZ)
 	{
-		super(AerialHellEntities.POISONBALL.get(), shooter, new Vec3(accX, accY, accZ), worldIn);
+		super(AerialHellEntities.POISONBALL, shooter, new Vec3d(accX, accY, accZ), world);
 	}
 
-	@Override public boolean fireImmune() {return true;}
-	@Override protected boolean shouldBurn() {return false;}
+	@Override public boolean isFireImmune() {return true;}
+	@Override protected boolean isBurning() {return false;}
 	@Override public float getLightLevelDependentMagicValue() {return 0.0F;}
 
 	@Override
-	protected void onHit(HitResult result)
+	protected void onCollision(HitResult result)
 	{
-		super.onHit(result);
+		super.onCollision(result);
 		if (result.getType() == HitResult.Type.ENTITY)
 		{
 			Entity entity = ((EntityHitResult)result).getEntity();
@@ -55,13 +53,13 @@ public class PoisonballEntity extends Fireball
 
 				if (!livingEntity.isBlocking())
 				{
-					entity.setDeltaMovement(this.getDeltaMovement().x * 0.3, entity.getVelocity().y + 0.1, this.getDeltaMovement().z * 0.3);
+					entity.setVelocity(this.getVelocity().x * 0.3, entity.getVelocity().y + 0.1, this.getVelocity().z * 0.3);
 				}
 				else //TODO
 				{
-					ItemStack activeItemStack = livingEntity.getUseItem();
+					ItemStack activeItemStack = livingEntity.getActiveItem();
 					//activeItemStack.damage(1, livingEntity, p -> p.broadcastBreakEvent(activeItemStack.getEquipmentSlot()));
-					level().playSound((Player)null, entity.getBlockPos(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
+					this.getWorld().playSound((PlayerEntity) null, entity.getBlockPos(), SoundEvents.ITEM_SHIELD_BREAK, SoundCategory.PLAYERS, 1.0F, 0.8F + this.getWorld().random.nextFloat() * 0.4F);
 				}
 				livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 0));
 			}
@@ -69,29 +67,29 @@ public class PoisonballEntity extends Fireball
 		this.discard();
 	}
 
-	@Override protected void defineSynchedData(SynchedEntityData.Builder builder) {super.defineSynchedData(builder);}
+	@Override protected void initDataTracker(DataTracker.Builder builder) {super.initDataTracker(builder);}
 
 	@Override public void tick()
 	{
 		Entity entity = this.getOwner();
-		if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.getBlockPos()))
+		if (this.getWorld().isClient || (entity == null || !entity.isRemoved()) && this.getWorld().isChunkLoaded(this.getBlockPos()))
 		{
-			HitResult raytraceresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
-			if (raytraceresult.getType() != HitResult.Type.MISS && !net.neoforged.neoforge.event.EventHooks.onProjectileImpact(this, raytraceresult))
+			HitResult raytraceresult = ProjectileUtil.getCollision(this, this::canHit);
+			if (raytraceresult.getType() != HitResult.Type.MISS)
 			{
-				this.onHit(raytraceresult);
+				this.onCollision(raytraceresult);
 			}
 
-			Vec3 movement = this.getDeltaMovement();
+			Vec3d movement = this.getVelocity();
 			double d0 = this.getX() + movement.x; double d1 = this.getY() + movement.y; double d2 = this.getZ() + movement.z;
-			ProjectileUtil.rotateTowardsMovement(this, 0.2F);
+			ProjectileUtil.setRotationFromVelocity(this, 0.2F);
 
-			this.setDeltaMovement(this.getDeltaMovement().add(this.getDeltaMovement().normalize().scale(this.accelerationPower)).scale(this.getInertia()));
+			this.setVelocity(this.getVelocity().add(this.getVelocity().normalize().multiply(this.accelerationPower)).multiply(this.getDrag()));
 			this.setPos(d0, d1, d2);
 		}
 		else {this.discard(); return;}
 		
-		if (this.isInLava() || this.isInWater() || this.tickCount > 500) {this.discard();}
+		if (this.isInLava() || this.isTouchingWater() || this.age > 500) {this.discard();}
 	}
 
 	//@Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);} crashes the game

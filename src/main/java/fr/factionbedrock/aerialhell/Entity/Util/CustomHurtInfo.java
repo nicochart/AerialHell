@@ -1,11 +1,12 @@
 package fr.factionbedrock.aerialhell.Entity.Util;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class CustomHurtInfo
 {
     private final float amount;
-    @Nullable private final float kbStrength;
+    @Nullable
+    private final float kbStrength;
     private final boolean playSound, applyKb;
 
     public CustomHurtInfo(float amount) {this(amount, 0.4F);}

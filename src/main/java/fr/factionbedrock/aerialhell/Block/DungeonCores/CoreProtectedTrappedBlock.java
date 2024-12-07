@@ -43,7 +43,7 @@ public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 				creature.updatePositionAndAngles(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, (rand.nextFloat() - 0.5F) * 180.0F, 0.0F);
 				if (this == AerialHellBlocks.TRAPPED_MUD_BRICKS || this == AerialHellBlocks.TRAPPED_LIGHT_MUD_BRICKS && entity instanceof MudSoldierEntity)
 				{
-					((MudSoldierEntity) creature).setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+					((MudSoldierEntity) creature).equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
 				}
 				world.spawnEntity(creature);
 			}

@@ -29,7 +29,7 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
     public IntangibleTemporaryBlockEntity(BlockPos pos, BlockState blockState)
     {
         super(AerialHellBlockEntities.INTANGIBLE_TEMPORARY_BLOCK, pos, blockState);
-        this.tickCount = 0;
+        this.age = 0;
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, IntangibleTemporaryBlockEntity blockEntity)
@@ -44,7 +44,7 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
 
     public void setBeforeState(@Nullable BlockState state) {this.beforeState = state;}
     @Nullable public BlockState getBeforeState() {return beforeState;}
-    public void resetTickCount() {this.tickCount = 0;}
+    public void resetTickCount() {this.age = 0;}
     public int getTickCount() {return tickCount;}
 
     @Override protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
@@ -59,6 +59,6 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
         super.loadAdditional(tag, registries);
         HolderGetter<Block> blockGetter = this.getLevel() != null ? this.getLevel().holderLookup(Registries.BLOCK) : BuiltInRegistries.BLOCK.asLookup();
         this.beforeState = NbtUtils.readBlockState(blockGetter, tag.getCompound("beforeState"));
-        this.tickCount = tag.getInt("tickCount");
+        this.age = tag.getInt("tickCount");
     }
 }

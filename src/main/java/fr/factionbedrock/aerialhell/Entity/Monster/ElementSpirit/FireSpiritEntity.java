@@ -1,62 +1,32 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit;
 
-import javax.annotation.Nullable;
-
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class FireSpiritEntity extends AbstractElementSpiritEntity
 {
-	public FireSpiritEntity(EntityType<? extends FireSpiritEntity> type, Level worldIn)
-    {
-        super(type, worldIn);
-    }
+	public FireSpiritEntity(EntityType<? extends FireSpiritEntity> type, World world) {super(type, world);}
 
-    public FireSpiritEntity(Level worldIn)
-    {
-        this(AerialHellEntities.FIRE_SPIRIT.get(), worldIn);
-    }
-    
-    public void applyEffect(Entity entityIn)
-    {
-    	((LivingEntity) entityIn).igniteForSeconds(6);
-    }
-    
-    public SimpleParticleType getParticleToSpawn()
-    {
-    	return ParticleTypes.FLAME;
-    }
-    
-    @Override public boolean fireImmune() {return true;}
-	@Override public boolean displayFireAnimation() {return false;}
-	
-    @Nullable
-    @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-    {
-        return AerialHellSoundEvents.ENTITY_FIRE_SPIRIT_HURT.get();
-    }
+    public FireSpiritEntity(World world) {this(AerialHellEntities.FIRE_SPIRIT, world);}
 
-    @Nullable
-    @Override
-    protected SoundEvent getDeathSound()
-    {
-        return SoundEvents.GENERIC_EXTINGUISH_FIRE;
-    }
+    @Override public void applyEffect(Entity entityIn) {((LivingEntity) entityIn).setOnFireFor(6);}
 
-    @Nullable
-    @Override
-    protected SoundEvent getAmbientSound()
-    {
-        return SoundEvents.FURNACE_FIRE_CRACKLE;
-    }
+    @Override public SimpleParticleType getParticleToSpawn() {return ParticleTypes.FLAME;}
+    
+    @Override public boolean isFireImmune() {return true;}
+	@Override public boolean doesRenderOnFire() {return false;}
+
+    @Nullable @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return AerialHellSoundEvents.ENTITY_FIRE_SPIRIT_HURT;}
+    @Nullable @Override protected SoundEvent getDeathSound() {return SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE;}
+    @Nullable @Override  protected SoundEvent getAmbientSound() {return SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE;}
 }

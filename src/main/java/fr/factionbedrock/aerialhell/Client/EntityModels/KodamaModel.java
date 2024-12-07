@@ -105,7 +105,7 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
 		this.faceId = entity.getFaceId();
-		this.dayTime = entity.level().getDayTime() % 24000;
+		this.dayTime = entity.getWorld().getDayTime() % 24000;
 		this.forcedAlphaBonus = this.getForcedAlphaBonus(entity);
 		this.setHeadRot(netHeadYaw, headPitch, this.getZRotAngleFromEntityTiltAngle(entity));
 

@@ -1,64 +1,53 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
+import net.minecraft.world.World;
 
 public class ArsonistShurikenEntity extends AbstractShurikenEntity
 {
-	public ArsonistShurikenEntity(EntityType<? extends ArsonistShurikenEntity> entityTypeIn, Level worldIn)
+	public ArsonistShurikenEntity(EntityType<? extends ArsonistShurikenEntity> entityTypeIn, World world)
 	{
-		super(entityTypeIn, worldIn);
+		super(entityTypeIn, world);
 	}
 
-	public ArsonistShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public ArsonistShurikenEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
 	{
-		super(AerialHellEntities.ARSONIST_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+		super(AerialHellEntities.ARSONIST_SHURIKEN, world, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
 	}
 
-	public ArsonistShurikenEntity(double x, double y, double z, Level worldIn)
+	public ArsonistShurikenEntity(double x, double y, double z, World world)
 	{
-		super(AerialHellEntities.ARSONIST_SHURIKEN.get(), x, y, z, worldIn);
+		super(AerialHellEntities.ARSONIST_SHURIKEN, x, y, z, world);
 	}
 
-	public ArsonistShurikenEntity(LivingEntity shooter, Level worldIn)
+	public ArsonistShurikenEntity(LivingEntity shooter, World world)
 	{
-		super(AerialHellEntities.ARSONIST_SHURIKEN.get(), shooter, worldIn);
+		super(AerialHellEntities.ARSONIST_SHURIKEN, shooter, world);
 	}
 
-	public ArsonistShurikenEntity(Level worldIn)
+	public ArsonistShurikenEntity(World world)
 	{
-		super(AerialHellEntities.ARSONIST_SHURIKEN.get(), worldIn);
+		super(AerialHellEntities.ARSONIST_SHURIKEN, world);
 	}
 
-	/*public ArsonistShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
+	/*public ArsonistShurikenEntity(PlayMessages.SpawnEntity packet, World world)
 	{
-		super(AerialHellEntities.ARSONIST_SHURIKEN.get(), worldIn);
+		super(AerialHellEntities.ARSONIST_SHURIKEN, world);
 	}*/
 
-	@Override
-	protected float getKnifeDamage()
-	{
-		return 14.0F;
-	}
-	
-	@Override
-	protected void applyEntityImpactEffet(Entity entity)
+	@Override protected float getKnifeDamage() {return 14.0F;}
+	@Override protected void applyEntityImpactEffet(Entity entity)
 	{
 		if (entity instanceof LivingEntity)
-        {
-        	entity.igniteForSeconds(5);
-        }
+		{
+			entity.setOnFireFor(5);
+		}
 	}
-	
-	@Override
-	protected Item getDefaultItem()
-	{
-		return AerialHellBlocksAndItems.ARSONIST_SHURIKEN.get();
-	}	
+	@Override protected Item getDefaultItem() {return AerialHellItems.ARSONIST_SHURIKEN;}
 }

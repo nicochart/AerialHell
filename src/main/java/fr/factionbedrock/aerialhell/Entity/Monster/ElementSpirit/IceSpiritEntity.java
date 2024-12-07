@@ -1,60 +1,33 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit;
 
-import javax.annotation.Nullable;
-
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class IceSpiritEntity extends AbstractElementSpiritEntity
 {
-	public IceSpiritEntity(EntityType<? extends IceSpiritEntity> type, Level worldIn)
+	public IceSpiritEntity(EntityType<? extends IceSpiritEntity> type, World world) {super(type, world);}
+
+    public IceSpiritEntity(World world) {this(AerialHellEntities.ICE_SPIRIT, world);}
+
+    @Override public void applyEffect(Entity entityIn)
     {
-        super(type, worldIn);
+    	((LivingEntity) entityIn).addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 150, 2, true, false));
     }
 
-    public IceSpiritEntity(Level worldIn)
-    {
-        this(AerialHellEntities.ICE_SPIRIT.get(), worldIn);
-    }
-    
-    public void applyEffect(Entity entityIn)
-    {
-    	((LivingEntity) entityIn).addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 150, 2, true, false)));
-    }
-    
-    public SimpleParticleType getParticleToSpawn()
-    {
-    	return ParticleTypes.CLOUD;
-    }
-    
-    @Nullable
-    @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-    {
-        return AerialHellSoundEvents.ENTITY_ICE_SPIRIT_HURT.get();
-    }
+    @Override public SimpleParticleType getParticleToSpawn() {return ParticleTypes.CLOUD;}
 
-    @Nullable
-    @Override
-    protected SoundEvent getDeathSound()
-    {
-        return AerialHellSoundEvents.ENTITY_ICE_SPIRIT_DEATH.get();
-    }
-
-    @Nullable
-    @Override
-    protected SoundEvent getAmbientSound()
-    {
-        return AerialHellSoundEvents.ENTITY_ICE_SPIRIT_AMBIENT.get();
-    }
+    @Nullable @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return AerialHellSoundEvents.ENTITY_ICE_SPIRIT_HURT;}
+    @Nullable @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_ICE_SPIRIT_DEATH;}
+    @Nullable @Override  protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_ICE_SPIRIT_AMBIENT;}
 }

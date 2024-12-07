@@ -59,7 +59,7 @@ public class AerialHellDimensionSkyRenderer
 				PoseStack posestack = new PoseStack();
 				posestack.mulPose(projectionMatrix);
 
-				Vec3 vec3 = level.getSkyColor(camera.getPosition(), partialTicks);
+				Vec3d vec3 = level.getSkyColor(camera.getPosition(), partialTicks);
 				float f = (float)vec3.x;
 				float f1 = (float)vec3.y;
 				float f2 = (float)vec3.z;
@@ -178,7 +178,7 @@ public class AerialHellDimensionSkyRenderer
 
 	private static boolean doesMobEffectBlockSky(Camera camera)
 	{
-		return !(camera.getEntity() instanceof LivingEntity livingentity) ? false : livingentity.hasStatusEffect(MobEffects.BLINDNESS) || livingentity.hasStatusEffect(MobEffects.DARKNESS);
+		return !(camera.getEntity() instanceof LivingEntity livingentity) ? false : livingentity.hasStatusEffect(StatusEffects.BLINDNESS) || livingentity.hasStatusEffect(MobEffects.DARKNESS);
 	}
 	
 	// Copy from net.minecraft.client.renderer.WorldRenderer renderStars(BufferBuilder bufferBuilderIn) but with more stars

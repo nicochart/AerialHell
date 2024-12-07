@@ -18,8 +18,8 @@ public class LivingEntityEventListener
     	{
     		int bonus = livingEntity.getEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate()).getAmplifier() + 1;
     		livingEntity.heal(0.5F * bonus);
-    		Vec3 baseMotion = livingEntity.getDeltaMovement();
-    		livingEntity.setDeltaMovement(baseMotion.x, baseMotion.y + (0.4 * bonus), baseMotion.z);
+    		Vec3d baseMotion = livingEntity.getVelocity();
+    		livingEntity.setVelocity(baseMotion.x, baseMotion.y + (0.4 * bonus), baseMotion.z);
     	}
     }
 

@@ -1,39 +1,39 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
+import net.minecraft.world.World;
 
 public class AzuriteShurikenEntity extends AbstractShurikenEntity
 {
-	public AzuriteShurikenEntity(EntityType<? extends AzuriteShurikenEntity> entityTypeIn, Level worldIn)
+	public AzuriteShurikenEntity(EntityType<? extends AzuriteShurikenEntity> entityTypeIn, World world)
 	{
-		super(entityTypeIn, worldIn);
+		super(entityTypeIn, world);
 	}
 
-	public AzuriteShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public AzuriteShurikenEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
 	{
-		super(AerialHellEntities.AZURITE_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+		super(AerialHellEntities.AZURITE_SHURIKEN, world, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
 	}
 
-	public AzuriteShurikenEntity(double x, double y, double z, Level worldIn)
+	public AzuriteShurikenEntity(double x, double y, double z, World world)
 	{
-		super(AerialHellEntities.AZURITE_SHURIKEN.get(), x, y, z, worldIn);
+		super(AerialHellEntities.AZURITE_SHURIKEN, x, y, z, world);
 	}
 
-	public AzuriteShurikenEntity(LivingEntity shooter, Level worldIn)
+	public AzuriteShurikenEntity(LivingEntity shooter, World world)
 	{
-		super(AerialHellEntities.AZURITE_SHURIKEN.get(), shooter, worldIn);
+		super(AerialHellEntities.AZURITE_SHURIKEN, shooter, world);
 	}
 
-	public AzuriteShurikenEntity(Level worldIn)
+	public AzuriteShurikenEntity(World world)
 	{
-		super(AerialHellEntities.AZURITE_SHURIKEN.get(), worldIn);
+		super(AerialHellEntities.AZURITE_SHURIKEN, world);
 	}
 
 	/*public AzuriteShurikenEntity(PlayMessages.SpawnEntity packet, Level worldIn)
@@ -41,18 +41,7 @@ public class AzuriteShurikenEntity extends AbstractShurikenEntity
 		super(AerialHellEntities.AZURITE_SHURIKEN.get(), worldIn);
 	}*/
 
-	@Override
-	protected float getKnifeDamage()
-	{
-		return 9.0F;
-	}
-	
-	@Override
-	protected void applyEntityImpactEffet(Entity entity) {}
-
-	@Override
-	protected Item getDefaultItem()
-	{
-		return AerialHellBlocksAndItems.AZURITE_SHURIKEN.get();
-	}	
+	@Override protected float getKnifeDamage() {return 9.0F;}
+	@Override protected void applyEntityImpactEffet(Entity entity) {}
+	@Override protected Item getDefaultItem() {return AerialHellItems.AZURITE_SHURIKEN;}
 }

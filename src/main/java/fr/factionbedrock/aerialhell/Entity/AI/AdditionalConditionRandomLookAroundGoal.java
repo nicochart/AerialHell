@@ -1,14 +1,14 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.entity.ai.goal.LookAroundGoal;
+import net.minecraft.entity.mob.MobEntity;
 
-public class AdditionalConditionRandomLookAroundGoal extends RandomLookAroundGoal
+public class AdditionalConditionRandomLookAroundGoal extends LookAroundGoal
 {
-    public AdditionalConditionRandomLookAroundGoal(Mob entityIn) {super(entityIn);}
+    public AdditionalConditionRandomLookAroundGoal(MobEntity entityIn) {super(entityIn);}
 
-    @Override public boolean canUse() {return this.additionalConditionMet() && super.canUse();}
-    @Override public boolean canContinueToUse() {return this.additionalConditionMet() && super.canContinueToUse();}
+    @Override public boolean canStart() {return this.additionalConditionMet() && super.canStart();}
+    @Override public boolean shouldContinue() {return this.additionalConditionMet() && super.shouldContinue();}
 
     public boolean additionalConditionMet() {return true;}
 }

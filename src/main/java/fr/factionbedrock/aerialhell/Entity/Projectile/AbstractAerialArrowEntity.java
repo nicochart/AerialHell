@@ -1,39 +1,36 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
-
-import javax.annotation.Nullable;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.world.World;
 
 public abstract class AbstractAerialArrowEntity extends PersistentProjectileEntity
 {
     public int ticksLiving;
 
-    public AbstractAerialArrowEntity(EntityType<? extends AbstractArrow> type, LivingEntity shooter, Level worldIn, ItemStack pickupItemStack)
+    public AbstractAerialArrowEntity(EntityType<? extends PersistentProjectileEntity> type, LivingEntity shooter, World world, ItemStack pickupItemStack)
     {
-        this(type, shooter, worldIn, pickupItemStack, null);
+        this(type, shooter, world, pickupItemStack, null);
     }
 
-    public AbstractAerialArrowEntity(EntityType<? extends AbstractArrow> type, LivingEntity shooter, Level worldIn, ItemStack pickupItemStack, @Nullable ItemStack weapon)
+    public AbstractAerialArrowEntity(EntityType<? extends PersistentProjectileEntity> type, LivingEntity shooter, World world, ItemStack pickupItemStack, @Nullable ItemStack weapon)
     {
-        super(type, shooter, worldIn, pickupItemStack, weapon);
+        super(type, shooter, world, pickupItemStack, weapon);
         this.ticksLiving = 0;
     }
 
-    public AbstractAerialArrowEntity(EntityType<? extends AbstractAerialArrowEntity> type, Level level)
+    public AbstractAerialArrowEntity(EntityType<? extends AbstractAerialArrowEntity> type, World world)
     {
-        super(type, level);
+        super(type, world);
     }
 
     @Override
-    protected void onHitBlock(BlockHitResult result)
+    protected void onBlockHit(BlockHitResult result)
     {
-        super.onHitBlock(result);
+        super.onBlockHit(result);
         this.setNoGravity(false);
     }
 

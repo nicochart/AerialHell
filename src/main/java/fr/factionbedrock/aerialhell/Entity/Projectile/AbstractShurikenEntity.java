@@ -1,85 +1,84 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
-import net.minecraft.world.item.Item;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.item.Item;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.world.World;
 
 public abstract class AbstractShurikenEntity extends ThrownItemEntity
 {
 	public float shurikenZRot;
 
-	public AbstractShurikenEntity(EntityType<? extends ThrowableItemProjectile> type, Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public AbstractShurikenEntity(EntityType<? extends ThrownItemEntity> type, World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
 	{
-		super(type, shooter, level);
-		this.shoot(accelX, accelY, accelZ, velocity, inaccuracy);
+		super(type, shooter, world);
+		this.setVelocity(accelX, accelY, accelZ, velocity, inaccuracy);
 	}
 
-	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> entityTypeIn, Level worldIn)
+	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> entityTypeIn, World world)
 	{
-		super(entityTypeIn, worldIn);
+		super(entityTypeIn, world);
 		this.shurikenZRot = -135;
 	}
 
-	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, double x, double y, double z, Level worldIn)
+	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, double x, double y, double z, World world)
 	{
-		super(type, x, y, z, worldIn);
+		super(type, x, y, z, world);
 		this.shurikenZRot = -135;
 	}
 
-	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, LivingEntity shooter, Level worldIn)
+	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, LivingEntity shooter, World world)
 	{
-		super(type, shooter, worldIn);
+		super(type, shooter, world);
 		this.shurikenZRot = -135;
 	}
 
-	/*public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, PlayMessages.SpawnEntity packet, Level worldIn)
+	/*public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, PlayMessages.SpawnEntity packet, Level world)
 	{
-		super(type, worldIn);
+		super(type, world);
 		this.shurikenZRot = -135;
 	}*/
 	
 	@Override
-	public void addAdditionalSaveData(CompoundTag compound)
+	public void writeCustomDataToNbt(NbtCompound nbt)
 	{
-		super.addAdditionalSaveData(compound);
-		
-		compound.putShort("shurikenZRot", (short)this.shurikenZRot);
+		super.writeCustomDataToNbt(nbt);
+
+		nbt.putShort("shurikenZRot", (short)this.shurikenZRot);
 	}
 	
 	@Override
-	public void readAdditionalSaveData(CompoundTag compound)
+	public void readCustomDataFromNbt(NbtCompound nbt)
 	{
-	    super.readAdditionalSaveData(compound);
-	    if (compound.contains("shurikenZRot", 99))
+	    super.readCustomDataFromNbt(nbt);
+	    if (nbt.contains("shurikenZRot", 99))
 	    {
-	    	this.shurikenZRot = compound.getShort("shurikenZRot");
+	    	this.shurikenZRot = nbt.getShort("shurikenZRot");
 	    }
 	}
 	
 	@Override
-	protected void onHit(HitResult result)
+	protected void onCollision(HitResult result)
 	{
-		if (this.level().isClientSide()) {return;}
-		if (result != null && result.getType() != HitResult.Type.MISS && this.level() instanceof ServerLevel && result.getType() == HitResult.Type.ENTITY)
+		if (this.getWorld().isClient()) {return;}
+		if (result != null && result.getType() != HitResult.Type.MISS && this.getWorld() instanceof ServerWorld && result.getType() == HitResult.Type.ENTITY)
 		{
             Entity entity = ((EntityHitResult)result).getEntity();
-            entity.hurt(AerialHellDamageTypes.getDamageSource(this.level(), AerialHellDamageTypes.SHURIKEN_HIT, this, this.getOwner()), this.getKnifeDamage());
-            entity.setDeltaMovement(entity.getVelocity().add(this.getDeltaMovement().x / 2, 0.12F, this.getDeltaMovement().z / 2));
+            entity.damage(AerialHellDamageTypes.getDamageSource(this.getWorld(), AerialHellDamageTypes.SHURIKEN_HIT, this, this.getOwner()), this.getKnifeDamage());
+            entity.setVelocity(entity.getVelocity().add(this.getVelocity().x / 2, 0.12F, this.getVelocity().z / 2));
             this.applyEntityImpactEffet(entity);
 		}
 		this.discard();
 	}
 
-	@Override protected double getDefaultGravity() {return 0.04F;}
+	@Override protected double getGravity() {return 0.04F;}
 	
 	abstract protected float getKnifeDamage();
 	abstract protected void applyEntityImpactEffet(Entity entity);

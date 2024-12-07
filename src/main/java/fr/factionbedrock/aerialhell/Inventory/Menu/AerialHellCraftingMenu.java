@@ -13,5 +13,5 @@ public class AerialHellCraftingMenu extends CraftingMenu
     public AerialHellCraftingMenu(int id, Inventory inventory, ContainerLevelAccess access, AerialHellCraftingTableBlock block) {super(id, inventory, access); this.craftingTableBlock = block;}
 
     @Override
-    public boolean stillValid(Player player) {return stillValid(this.access, player, this.craftingTableBlock);}
+    public boolean stillValid(PlayerEntity player) {return stillValid(this.access, player, this.craftingTableBlock);}
 }
