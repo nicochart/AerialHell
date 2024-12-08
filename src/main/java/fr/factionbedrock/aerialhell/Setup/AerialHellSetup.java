@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Setup;
 
 import fr.factionbedrock.aerialhell.Client.Packet.AerialHellData;
 import fr.factionbedrock.aerialhell.Client.Packet.ServerPayloadHandler;
+import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -40,7 +41,7 @@ public class AerialHellSetup
         AerialHellMobEffects.load();
         //AerialHellPOI.POI.register(bus);
         //AerialHellStructures.STRUCTURES.register(bus);
-        //AerialHellParticleTypes.PARTICLES.register(bus);
+        AerialHellParticleTypes.load();
         AerialHellMenuTypes.load();
         AerialHellRecipes.load();
         AerialHellRecipes.RecipeTypes.load();

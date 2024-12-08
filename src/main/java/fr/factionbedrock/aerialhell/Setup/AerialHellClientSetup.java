@@ -25,7 +25,7 @@ public class AerialHellClientSetup
         //modEventBus.addListener(RenderRegistrationListener::onRegisterRenderers);
         //modEventBus.addListener(RenderRegistrationListener::onRegisterLayerDefinitions);
         //modEventBus.addListener(RenderRegistrationListener::onModelBake);
-        //modEventBus.addListener(AerialHellParticleTypes::registerParticleFactories);
+        AerialHellParticleTypes.registerParticleFactories();
         //modEventBus.addListener(AerialHellClientSetup::registerDimensionRenderInfo);
         //modEventBus.addListener(BuildContentsEvent::buildContents);
         //modEventBus.addListener(AerialHellRendering::registerScreensMenus);

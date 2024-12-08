@@ -1,38 +1,38 @@
 package fr.factionbedrock.aerialhell.Client.Particle;
 
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.particle.PortalParticle;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.client.particle.SpriteProvider;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.particle.SimpleParticleType;
 
 public class LightParticle extends PortalParticle
 {
-	protected LightParticle(ClientLevel worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
+	protected LightParticle(ClientWorld world, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
 	{
-		super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
-		this.rCol = this.bCol = this.gCol = 1.0F;
-		this.gravity = 0.5F * (-0.5F + this.random.nextFloat());
-		this.quadSize *= 1.5F;
+		super(world, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
+		this.red = this.blue = this.green = 1.0F;
+		this.gravityStrength = 0.5F * (-0.5F + this.random.nextFloat());
+		this.scale *= 1.5F;
 	}
 	
-	@Override public int getLightColor(float partialTick) {return 255;}
+	@Override public int getBrightness(float partialTick) {return 255;}
 
-	public static class Factory implements ParticleProvider<SimpleParticleType>
+	public static class Factory implements ParticleFactory<SimpleParticleType>
 	{
-		private final SpriteSet spriteSet;
+		private final SpriteProvider spriteSet;
 		
-		public Factory(SpriteSet spriteSetIn)
+		public Factory(SpriteProvider spriteSetIn)
 		{
 			this.spriteSet = spriteSetIn;
 		}
 		
 		@Override
-		public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed)
+		public Particle createParticle(SimpleParticleType typeIn, ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed)
 		{
-			 LightParticle particle = new LightParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
-	         particle.pickSprite(this.spriteSet);
+			 LightParticle particle = new LightParticle(world, x, y, z, xSpeed, ySpeed, zSpeed);
+	         particle.setSprite(this.spriteSet);
 	         return particle;
 		}
 	}

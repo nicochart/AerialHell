@@ -1,37 +1,37 @@
 package fr.factionbedrock.aerialhell.Client.Particle;
 
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.particle.PortalParticle;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.client.particle.SpriteProvider;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.particle.SimpleParticleType;
 
 public class OscillatorParticle extends PortalParticle
 {
-    protected OscillatorParticle(ClientLevel worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
+    protected OscillatorParticle(ClientWorld world, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
     {
-        super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
+        super(world, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
 
-        this.rCol = 0.17F;//0.30F;
-        this.gCol = 0.32F;//0.64F;
-        this.bCol = 0.27F;//0.55F;
+        this.red = 0.17F;//0.30F;
+        this.green = 0.32F;//0.64F;
+        this.blue = 0.27F;//0.55F;
     }
 
-    public static class Factory implements ParticleProvider<SimpleParticleType>
+    public static class Factory implements ParticleFactory<SimpleParticleType>
     {
-        private final SpriteSet spriteSet;
+        private final SpriteProvider spriteSet;
 
-        public Factory(SpriteSet spriteSetIn)
+        public Factory(SpriteProvider spriteSetIn)
         {
             this.spriteSet = spriteSetIn;
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed)
+        public Particle createParticle(SimpleParticleType typeIn, ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed)
         {
-            OscillatorParticle oscillatorParticle = new OscillatorParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
-            oscillatorParticle.pickSprite(this.spriteSet);
+            OscillatorParticle oscillatorParticle = new OscillatorParticle(world, x, y, z, xSpeed, ySpeed, zSpeed);
+            oscillatorParticle.setSprite(this.spriteSet);
             return oscillatorParticle;
         }
     }
