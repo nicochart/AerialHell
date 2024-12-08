@@ -1,11 +1,15 @@
 package fr.factionbedrock.aerialhell.Client.Packet;
 
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
+//https://wiki.fabricmc.net/tutorial:networking
 public class ServerPayloadHandler
 {
-    public static void handleDataOnMain(final AerialHellData data, final IPayloadContext context)
+    public static void handleDataOnMain()
     {
-        // Do something with the data, on the main thread
+        ServerPlayNetworking.registerGlobalReceiver(AerialHellData.ID, (payload, context) ->
+        {
+            // Do something with the data, on the main thread
+        });
     }
 }

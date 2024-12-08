@@ -1,7 +1,10 @@
 package fr.factionbedrock.aerialhell.Setup;
 
+import fr.factionbedrock.aerialhell.Client.Packet.AerialHellData;
+import fr.factionbedrock.aerialhell.Client.Packet.ServerPayloadHandler;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 
 public class AerialHellSetup
 {
@@ -11,6 +14,9 @@ public class AerialHellSetup
         //addListener(AerialHellSetup::additionalRegistration);
         //listen(bus);
         //eventBusListen(NeoForge.EVENT_BUS);
+
+        PayloadTypeRegistry.playS2C().register(AerialHellData.ID, AerialHellData.CODEC);
+        ServerPayloadHandler.handleDataOnMain();
     }
 
     //public static void additionalRegistration(final FMLCommonSetupEvent event)
@@ -31,7 +37,7 @@ public class AerialHellSetup
         //AerialHellFluids.FLUID_TYPES.register(bus);
         AerialHellEntities.load();
         //AerialHellBiomes.BIOMES.register(bus);
-        //AerialHellMobEffects.EFFECTS.register(bus);
+        AerialHellMobEffects.load();
         //AerialHellPOI.POI.register(bus);
         //AerialHellStructures.STRUCTURES.register(bus);
         //AerialHellParticleTypes.PARTICLES.register(bus);

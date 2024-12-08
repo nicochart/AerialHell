@@ -1,16 +1,19 @@
 package fr.factionbedrock.aerialhell.Client.Packet;
 
-import net.minecraft.client.Minecraft;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.MinecraftClient;
 
+//https://wiki.fabricmc.net/tutorial:networking
 public class ClientPayloadHandler
 {
-    public static void handleDataOnMain(final AerialHellData data, final IPayloadContext context)
+    public static void handleDataOnMain()
     {
-        // Do something with the data, on the main thread
-        if (data.name().equals("reloadTextures"))
+        ClientPlayNetworking.registerGlobalReceiver(AerialHellData.ID, (payload, context) ->
         {
-            Minecraft.getInstance().reloadResourcePacks();
-        }
+            if (payload.name().equals("reloadTextures"))
+            {
+                MinecraftClient.getInstance().reloadResources();
+            }
+        });
     }
 }
