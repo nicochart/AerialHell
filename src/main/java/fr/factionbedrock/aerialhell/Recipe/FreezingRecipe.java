@@ -1,24 +1,27 @@
 package fr.factionbedrock.aerialhell.Recipe;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.AbstractCookingRecipe;
+import net.minecraft.recipe.CookingRecipeSerializer;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.book.CookingRecipeCategory;
 
 public class FreezingRecipe extends AbstractCookingRecipe
 {
-	public FreezingRecipe(/*ResourceLocation idIn,*/ String groupIn, CookingBookCategory category, Ingredient ingredientIn, ItemStack resultIn, float experienceIn, int cookTimeIn)
+	public FreezingRecipe(String group, CookingRecipeCategory category, Ingredient ingredient, ItemStack result, float experience, int cookingTime)
 	{
-		super(RecipeTypes.FREEZING.get(), /*idIn,*/ groupIn, category, ingredientIn, resultIn, experienceIn, cookTimeIn);
+		super(RecipeTypes.FREEZING, group, category, ingredient, result, experience, cookingTime);
 	}
 
-	@Override public ItemStack getToastSymbol() {return new ItemStack(AerialHellBlocksAndItems.FREEZER.get());}
+	@Override public ItemStack createIcon() {return new ItemStack(AerialHellBlocks.FREEZER);}
 
-	@Override public RecipeSerializer<?> getSerializer() {return AerialHellRecipes.FREEZING.get();}
+	@Override public RecipeSerializer<?> getSerializer() {return AerialHellRecipes.FREEZING;}
 
-	public static class Serializer extends SimpleCookingSerializer<FreezingRecipe>
+	public static class Serializer extends CookingRecipeSerializer<FreezingRecipe>
 	{
 		public Serializer() {super(FreezingRecipe::new, 200);}
 	}

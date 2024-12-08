@@ -3,6 +3,7 @@
 	"package": "fr.factionbedrock.aerialhell.Mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
+		"CustomBrewingRecipeMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
