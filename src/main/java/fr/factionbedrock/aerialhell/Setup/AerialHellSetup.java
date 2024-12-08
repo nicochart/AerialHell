@@ -39,7 +39,7 @@ public class AerialHellSetup
         //AerialHellRecipes.RECIPE_SERIALIZERS.register(bus);
         //AerialHellRecipes.RecipeTypes.RECIPE_TYPES.register(bus);
         AerialHellBlockEntities.load();
-        //AerialHellSoundEvents.SOUNDS.register(bus);
+        AerialHellSoundEvents.load();
         //AerialHellCreativeModeTabs.TABS.register(bus);
 
         //AerialHellFeatures.FEATURES.register(bus);
