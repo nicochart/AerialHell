@@ -67,7 +67,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		super.setActive(isActive);
 		if (!isActive)
 		{
-			this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.SLOW_FALLING, 120, 2, true, false)));
+			this.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 120, 2, true, false));
 		}
 		else
 		{
@@ -93,7 +93,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		else if (nextPhase == BossPhase.SECOND_PHASE)
 		{
 			this.moveControl = new MoveControl(this);
-			this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.SLOW_FALLING, 120, 2, true, false)));
+			this.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 120, 2, true, false));
 		}
 	}
 

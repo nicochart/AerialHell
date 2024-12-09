@@ -33,7 +33,7 @@ public class ThrownStellarEgg extends ThrowableItemProjectile
         }
     }
 
-    protected void onHitEntity(EntityHitResult entityHitResult) //copied from ThrownEgg
+    @Override protected void onHitEntity(EntityHitResult entityHitResult) //copied from ThrownEgg
     {
         super.onHitEntity(entityHitResult);
         entityHitResult.getEntity().hurt(this.damageSources().thrown(this, this.getOwner()), 0.0F);

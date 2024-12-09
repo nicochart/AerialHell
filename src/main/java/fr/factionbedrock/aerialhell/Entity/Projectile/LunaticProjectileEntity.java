@@ -40,7 +40,7 @@ public class LunaticProjectileEntity extends AbstractLightProjectileEntity
     
     private boolean targetIsImmuneToLunaticProjectileKb(Entity target) //target is not a ChainedGod or Lunatic Priest
     {
-    	return (target instanceof ChainedGodEntity || target instanceof LunaticPriestEntity || (target instanceof Player && ((Player)target).isCreative()));
+    	return (target instanceof ChainedGodEntity || target instanceof LunaticPriestEntity || EntityHelper.isCreaOrSpecPlayer(target));
     }
     
     @Override

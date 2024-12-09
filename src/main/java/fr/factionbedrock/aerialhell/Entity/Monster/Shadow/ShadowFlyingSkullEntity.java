@@ -21,7 +21,7 @@ public class ShadowFlyingSkullEntity extends Vex
 {
     public float jawOpeningAmplitude = 0.2F;
     public float jawOpeningFrequencyMalus = 7.0F;
-    public ShadowFlyingSkullEntity(EntityType<? extends Vex> p_i50190_1_, Level p_i50190_2_) {super(p_i50190_1_, p_i50190_2_); this.setLimitedLife(700); this.SetRandomJawOpeningAmplitudeAndFrequency();}
+    public ShadowFlyingSkullEntity(EntityType<? extends Vex> type, Level level) {super(type, level); this.setLimitedLife(700); this.SetRandomJawOpeningAmplitudeAndFrequency();}
 
     public static AttributeSupplier.Builder registerAttributes()
     {

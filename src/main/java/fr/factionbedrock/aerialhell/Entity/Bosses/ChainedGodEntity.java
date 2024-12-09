@@ -104,7 +104,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 			{
 				if (trueSourceEntity instanceof LivingEntity && !EntityHelper.isProjectile(immediateSourceEntity))
 				{
-					if (!(trueSourceEntity instanceof Player && ((Player)trueSourceEntity).isCreative()))
+					if (!EntityHelper.isCreativePlayer(trueSourceEntity))
 					{
 						this.setTarget((LivingEntity) trueSourceEntity);
 					}
@@ -409,7 +409,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		}
 
 		public void playUnchainingEffect() {}
-		private void immobilizeGoalOwner() {if (!this.goalOwner.level().isClientSide()) {this.goalOwner.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, this.getTimeToUnchain() * 2, 10, true, false)));}}
+		private void immobilizeGoalOwner() {if (!this.goalOwner.level().isClientSide()) {this.goalOwner.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, this.getTimeToUnchain() * 2, 10, true, false));}}
 
 		public int getTimeToUnchain() {return 38;} //tick/2
 		protected boolean canUnchain() {return this.timeSinceUnchaining > getTimeToUnchain();}
@@ -507,7 +507,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		}
 
 		protected void playStartImplodingSound() {this.goalOwner.playRoarSound(1.0F);}
-		private void immobilizeGoalOwner() {if (!this.goalOwner.level().isClientSide()) {this.goalOwner.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 10, true, false)));}}
+		private void immobilizeGoalOwner() {if (!this.goalOwner.level().isClientSide()) {this.goalOwner.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 10, true, false));}}
 
 		public int getSoundOffset() {return 12;}
 		public int getImplodeTimerTargetValue() {return 600;}

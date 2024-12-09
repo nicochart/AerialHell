@@ -52,15 +52,7 @@ public class CrystalSpiderEntity extends AbstractAerialHellSpiderEntity
             	this.mob.setTarget((LivingEntity)null);
                 return false;
             }
-            else
-            {
-        	    return super.canContinueToUse();
-            }
-        }
-
-        protected double getAttackReachSqr(LivingEntity attackTarget)
-        {
-        	return (double)(4.0F + attackTarget.getBbWidth());
+            else {return super.canContinueToUse();}
         }
     }
     

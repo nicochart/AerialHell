@@ -68,22 +68,22 @@ public class AerialHellBarrelBlockEntity extends RandomizableContainerBlockEntit
 		if (!this.tryLoadLootTable(tag)) {ContainerHelper.loadAllItems(tag, this.items, provider);}
 	}
 
-	public int getContainerSize() {return 27;}
+	@Override public int getContainerSize() {return 27;}
 
-	protected NonNullList<ItemStack> getItems() {return this.items;}
+	@Override protected NonNullList<ItemStack> getItems() {return this.items;}
 
-	protected void setItems(NonNullList<ItemStack> itemStackList) {this.items = itemStackList;}
+	@Override protected void setItems(NonNullList<ItemStack> itemStackList) {this.items = itemStackList;}
 
-	protected Component getDefaultName() {return Component.translatable("container.barrel");}
+	@Override protected Component getDefaultName() {return Component.translatable("container.barrel");}
 
-	protected AbstractContainerMenu createMenu(int p_58598_, Inventory inv) {return ChestMenu.threeRows(p_58598_, inv, this);}
+	@Override protected AbstractContainerMenu createMenu(int p_58598_, Inventory inv) {return ChestMenu.threeRows(p_58598_, inv, this);}
 
-	public void startOpen(Player player)
+	@Override public void startOpen(Player player)
 	{
 		if (!this.remove && !player.isSpectator()) {this.openersCounter.incrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());}
 	}
 
-	public void stopOpen(Player player)
+	@Override public void stopOpen(Player player)
 	{
 		if (!this.remove && !player.isSpectator()) {this.openersCounter.decrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());}
 	}

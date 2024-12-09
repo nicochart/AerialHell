@@ -1048,9 +1048,9 @@ public class AerialHellBlocksAndItems
 	public static final DeferredBlock<ChestBlock> AERIAL_TREE_CHEST = BLOCKS.register("aerial_tree_chest", () -> new AerialHellChestBlock(AERIAL_TREE_MATERIAL));
 	public static final DeferredItem<Item> AERIAL_TREE_CHEST_ITEM = ITEMS.register("aerial_tree_chest", () -> new ChestBlockItem(AERIAL_TREE_CHEST.get(), new Item.Properties()));
 	public static final DeferredBlock<ChestBlock> GOLDEN_BEECH_CHEST = BLOCKS.register("golden_beech_chest", () -> new AerialHellChestBlock(AERIAL_TREE_MATERIAL));
-	public static final DeferredItem<Item> GOLDEN_BEECH_ITEM = ITEMS.register("golden_beech_chest", () -> new ChestBlockItem(GOLDEN_BEECH_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> GOLDEN_BEECH_CHEST_ITEM = ITEMS.register("golden_beech_chest", () -> new ChestBlockItem(GOLDEN_BEECH_CHEST.get(), new Item.Properties()));
 	public static final DeferredBlock<ChestBlock> COPPER_PINE_CHEST = BLOCKS.register("copper_pine_chest", () -> new AerialHellChestBlock(COPPER_PINE_MATERIAL));
-	public static final DeferredItem<Item> COPPER_PINE_ITEM = ITEMS.register("copper_pine_chest", () -> new ChestBlockItem(COPPER_PINE_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> COPPER_PINE_CHEST_ITEM = ITEMS.register("copper_pine_chest", () -> new ChestBlockItem(COPPER_PINE_CHEST.get(), new Item.Properties()));
 	public static final DeferredBlock<ChestBlock> LAPIS_ROBINIA_CHEST = BLOCKS.register("lapis_robinia_chest", () -> new AerialHellChestBlock(COPPER_PINE_MATERIAL));
 	public static final DeferredItem<Item> LAPIS_ROBINIA_CHEST_ITEM = ITEMS.register("lapis_robinia_chest", () -> new ChestBlockItem(LAPIS_ROBINIA_CHEST.get(), new Item.Properties()));
 	public static final DeferredBlock<ChestBlock> SHADOW_PINE_CHEST = BLOCKS.register("shadow_pine_chest", () -> new AerialHellChestBlock(SHADOW_PINE_MATERIAL));

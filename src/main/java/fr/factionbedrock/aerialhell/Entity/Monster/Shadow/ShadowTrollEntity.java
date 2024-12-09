@@ -115,7 +115,7 @@ public class ShadowTrollEntity extends Monster
     		if (!this.isDisappearing())
     		{
     			this.playSound(AerialHellSoundEvents.ENTITY_SHADOW_TROLL_DEATH.get(), 1.0F, 0.9F);
-    			this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 10, true, false)));
+    			this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 10, true, false));
     			this.setDisappearing(true);
     		}
     	}

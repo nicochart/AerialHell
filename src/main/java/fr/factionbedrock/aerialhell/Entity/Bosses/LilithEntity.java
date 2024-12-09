@@ -94,7 +94,7 @@ public class LilithEntity extends AbstractBossEntity
 		{
 			if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrow))
 			{
-				if (!(trueSourceEntity instanceof Player && ((Player)trueSourceEntity).isCreative()))
+				if (!EntityHelper.isCreativePlayer(trueSourceEntity))
 				{
 					this.setTarget((LivingEntity) trueSourceEntity);
 				}
@@ -162,8 +162,8 @@ public class LilithEntity extends AbstractBossEntity
 
 		if (!level().isClientSide())
 		{
-			this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 10, true, false)));
-			this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1, 10, true, false)));
+			this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 10, true, false));
+			this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1, 10, true, false));
 		}
 	}
 

@@ -76,7 +76,7 @@ public class VoluciteShurikenEntity extends AbstractShurikenEntity
 	{
 		if (entity instanceof LivingEntity)
         {
-        	((LivingEntity) entity).addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.LEVITATION, 20, 1, true, false)));
+        	((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.LEVITATION, 20, 1, true, false));
         }
 	}
 

@@ -307,8 +307,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_FURNACE_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_CHEST_ITEM.get());
-            itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_ITEM.get());
-            itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_CHEST_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_CHEST_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_CHEST_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_CHEST_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_CHEST_ITEM.get());

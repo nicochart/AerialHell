@@ -47,9 +47,8 @@ public class ShadowSpiderEntity extends AbstractAerialHellSpiderEntity
     {
     	if (super.doHurtTarget(attackedEntity))
     	{
-    		if (attackedEntity instanceof LivingEntity)
+    		if (attackedEntity instanceof LivingEntity livingEntity)
         	{
-    			LivingEntity livingEntity = (LivingEntity) attackedEntity;
     			if (!EntityHelper.isLivingEntityShadowImmune(livingEntity))
     			{
 	    			int amplifier = 0;

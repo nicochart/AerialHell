@@ -54,7 +54,7 @@ public class MagmaticGelShurikenEntity extends AbstractShurikenEntity
 	{
 		if (entity instanceof LivingEntity)
         {
-        	((LivingEntity) entity).addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 1, true, false)));
+        	((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 1, true, false));
         }
 	}
 	

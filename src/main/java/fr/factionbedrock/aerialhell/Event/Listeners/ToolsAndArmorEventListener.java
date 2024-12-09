@@ -170,10 +170,10 @@ public class ToolsAndArmorEventListener
 			{
 				if (source instanceof Player) {
 					if (!((Player) source).isCreative()) {
-						source.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 1, true, false)));
+						source.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 1, true, false));
 					}
 				} else {
-					source.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 1, true, false)));
+					source.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 1, true, false));
 				}
 			}
 			if (armorStack.is(AerialHellTags.Items.ARSONIST)) //target equipped of any arsonist armor
@@ -195,10 +195,10 @@ public class ToolsAndArmorEventListener
 			int count = 0;
 			for (ItemStack armorStack : source.getArmorSlots()) {if (armorStack.is(AerialHellTags.Items.MAGMATIC_GEL)) {count++;}}
 			int amplifier = count == 4 ? 1 : 0;
-			target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, amplifier, true, false)));
+			target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, amplifier, true, false));
 		} else if (sourceEquippedItem == AerialHellBlocksAndItems.ABSOLUTE_ZERO_SWORD.get()) //source attacking target with absolute zero sword
 		{
-			target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2, true, false)));
+			target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2, true, false));
 		} else if (sourceEquippedItemStack.is(AerialHellTags.Items.ARSONIST)) //source attacking target with any arsonist tool
 		{
 			target.igniteForSeconds(5);
@@ -207,23 +207,23 @@ public class ToolsAndArmorEventListener
 			}
 		} else if (sourceEquippedItem == AerialHellBlocksAndItems.DISLOYAL_SWORD.get()) //source attacking target with disloyal sword
 		{
-			target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 0, true, false)));
-			target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, true, false)));
-			target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 0, true, false)));
+			target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 0, true, false));
+			target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, true, false));
+			target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 0, true, false));
 		} else if (sourceEquippedItem == AerialHellBlocksAndItems.GOD_SWORD.get()) //source attacking target with god sword
 		{
 			target.igniteForSeconds(5);
 		} else if (sourceEquippedItem == AerialHellBlocksAndItems.REAPER_SCYTHE.get()) //source attacking target with reaper scythe
 		{
 			if (!EntityHelper.isLivingEntityShadowImmune(target)) {
-				target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.BLINDNESS, 100, 0, true, false)));
-				target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.WEAKNESS, 100, 1, true, false)));
-				target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1, true, false)));
-				target.addEffect(new MobEffectInstance(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 70, 0, true, false)));
+				target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100, 0, true, false));
+				target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 1, true, false));
+				target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1, true, false));
+				target.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 70, 0, true, false));
 			} else {
-				source.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.WITHER, 80, 2, true, false)));
+				source.addEffect(new MobEffectInstance(MobEffects.WITHER, 80, 2, true, false));
 			}
-			source.addEffect(new MobEffectInstance(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 60, 0, true, false)));
+			source.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 60, 0, true, false));
 		} else if (sourceEquippedItem == AerialHellBlocksAndItems.CURSED_SWORD.get() || sourceEquippedItem == AerialHellBlocksAndItems.CURSED_AXE.get()) //source attacking target with cursed tool
 		{
 			float damage_return_amount;
