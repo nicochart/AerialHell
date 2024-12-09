@@ -4,19 +4,19 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.ForestCaterpillarModel;
 import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.util.Identifier;
 
-public class ForestCaterpillarRender<T extends AbstractCaterpillarEntity> extends MobRenderer<T, ForestCaterpillarModel<T>>
+public class ForestCaterpillarRender<T extends AbstractCaterpillarEntity> extends MobEntityRenderer<T, ForestCaterpillarModel<T>>
 {
 	private static String name_forest = "forest_caterpillar";
-	private static final ResourceLocation FOREST = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/caterpillar/" + name_forest + ".png");
+	private static final Identifier FOREST = Identifier.of(AerialHell.MODID, "textures/entity/caterpillar/" + name_forest + ".png");
 
-    public ForestCaterpillarRender(EntityRendererProvider.Context context)
+    public ForestCaterpillarRender(EntityRendererFactory.Context context)
 	{
-		super(context, new ForestCaterpillarModel<T>(context.bakeLayer(AerialHellModelLayers.CATERPILLAR), true), 0.2f);
+		super(context, new ForestCaterpillarModel<T>(context.getPart(AerialHellModelLayers.CATERPILLAR), true), 0.2f);
 	}
 
-    @Override public ResourceLocation getTextureLocation(T entity) {return FOREST;}
+    @Override public Identifier getTexture(T entity) {return FOREST;}
 }

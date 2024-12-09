@@ -1,13 +1,11 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.AbstractBarrelMimicEntity;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.util.Mth;
+import net.minecraft.client.model.*;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.MathHelper;
 
 // Base model made by Cixon with Blockbench
 // Edited in-ide by Nicochart to mimic vanilla animation
@@ -38,48 +36,48 @@ public class SpiderBarrelMimicModel<T extends AbstractBarrelMimicEntity> extends
 		this.leg7 = root.getChild("leg7");
 	}
 
-	public static LayerDefinition createBodyLayer()
+	public static TexturedModelData createBodyLayer()
 	{
-		MeshDefinition meshdefinition = new MeshDefinition();
-		PartDefinition partdefinition = meshdefinition.getRoot();
+		ModelData meshdefinition = new ModelData();
+		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		PartDefinition body0 = partdefinition.addOrReplaceChild("body0", CubeListBuilder.create(), PartPose.offset(0.0F, 15.0F, 9.0F));
+		ModelPartData body0 = partdefinition.addChild("body0", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 15.0F, 9.0F));
 
-		PartDefinition teethbottom_r1 = body0.addOrReplaceChild("teethbottom_r1", CubeListBuilder.create().texOffs(19, 10).addBox(-6.0F, -11.0F, -16.0F, 12.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.6283F, 0.0F, 0.0F));
+		ModelPartData teethbottom_r1 = body0.addChild("teethbottom_r1", ModelPartBuilder.create().uv(19, 10).cuboid(-6.0F, -11.0F, -16.0F, 12.0F, 4.0F, 0.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.6283F, 0.0F, 0.0F));
 
-		PartDefinition teethtop_r1 = body0.addOrReplaceChild("teethtop_r1", CubeListBuilder.create().texOffs(19, 2).addBox(-6.0F, 2.0F, -17.0F, 12.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.6283F, 0.0F, 0.0F));
+		ModelPartData teethtop_r1 = body0.addChild("teethtop_r1", ModelPartBuilder.create().uv(19, 2).cuboid(-6.0F, 2.0F, -17.0F, 12.0F, 4.0F, 0.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, -0.6283F, 0.0F, 0.0F));
 
-		PartDefinition main_r1 = body0.addOrReplaceChild("main_r1", CubeListBuilder.create().texOffs(0, 32).addBox(-8.0F, -9.0F, 2.0F, 16.0F, 16.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 9.0F, -9.0F, 1.3963F, 0.0F, 0.0F));
+		ModelPartData main_r1 = body0.addChild("main_r1", ModelPartBuilder.create().uv(0, 32).cuboid(-8.0F, -9.0F, 2.0F, 16.0F, 16.0F, 16.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 9.0F, -9.0F, 1.3963F, 0.0F, 0.0F));
 
-		PartDefinition leg0 = partdefinition.addOrReplaceChild("leg0", CubeListBuilder.create().texOffs(13, 17).addBox(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, 15.0F, 2.0F));
+		ModelPartData leg0 = partdefinition.addChild("leg0", ModelPartBuilder.create().uv(13, 17).cuboid(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(4.0F, 15.0F, 2.0F));
 
-		PartDefinition leg1 = partdefinition.addOrReplaceChild("leg1", CubeListBuilder.create().texOffs(13, 17).addBox(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 15.0F, 2.0F));
+		ModelPartData leg1 = partdefinition.addChild("leg1", ModelPartBuilder.create().uv(13, 17).cuboid(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, 15.0F, 2.0F));
 
-		PartDefinition leg2 = partdefinition.addOrReplaceChild("leg2", CubeListBuilder.create().texOffs(13, 17).addBox(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, 15.0F, 1.0F));
+		ModelPartData leg2 = partdefinition.addChild("leg2", ModelPartBuilder.create().uv(13, 17).cuboid(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(4.0F, 15.0F, 1.0F));
 
-		PartDefinition leg3 = partdefinition.addOrReplaceChild("leg3", CubeListBuilder.create().texOffs(13, 17).addBox(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 15.0F, 1.0F));
+		ModelPartData leg3 = partdefinition.addChild("leg3", ModelPartBuilder.create().uv(13, 17).cuboid(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, 15.0F, 1.0F));
 
-		PartDefinition leg4 = partdefinition.addOrReplaceChild("leg4", CubeListBuilder.create().texOffs(13, 17).addBox(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, 15.0F, 0.0F));
+		ModelPartData leg4 = partdefinition.addChild("leg4", ModelPartBuilder.create().uv(13, 17).cuboid(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(4.0F, 15.0F, 0.0F));
 
-		PartDefinition leg5 = partdefinition.addOrReplaceChild("leg5", CubeListBuilder.create().texOffs(13, 17).addBox(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 15.0F, 0.0F));
+		ModelPartData leg5 = partdefinition.addChild("leg5", ModelPartBuilder.create().uv(13, 17).cuboid(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, 15.0F, 0.0F));
 
-		PartDefinition leg6 = partdefinition.addOrReplaceChild("leg6", CubeListBuilder.create().texOffs(13, 17).addBox(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, 15.0F, -1.0F));
+		ModelPartData leg6 = partdefinition.addChild("leg6", ModelPartBuilder.create().uv(13, 17).cuboid(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(4.0F, 15.0F, -1.0F));
 
-		PartDefinition leg7 = partdefinition.addOrReplaceChild("leg7", CubeListBuilder.create().texOffs(13, 17).addBox(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 15.0F, -1.0F));
+		ModelPartData leg7 = partdefinition.addChild("leg7", ModelPartBuilder.create().uv(13, 17).cuboid(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, 15.0F, -1.0F));
 
-		return LayerDefinition.create(meshdefinition, 64, 64);
+		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
 
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		leg0.zRot = ((float)Math.PI / 4F); leg0.yRot = ((float)Math.PI / 4F);
-		leg1.zRot = (-(float)Math.PI / 4F); leg1.yRot = (-(float)Math.PI / 4F);
-		leg2.zRot = 0.58119464F; leg2.yRot = ((float)Math.PI / 8F);
-		leg3.zRot = -0.58119464F; leg3.yRot = (-(float)Math.PI / 8F);
-		leg4.zRot = 0.58119464F; leg4.yRot = (-(float)Math.PI / 8F);
-		leg5.zRot = -0.58119464F; leg5.yRot = ((float)Math.PI / 8F);
-		leg6.zRot = ((float)Math.PI / 4F); leg6.yRot = (-(float)Math.PI / 4F);
-		leg7.zRot = -((float)Math.PI / 4F); leg7.yRot = ((float)Math.PI / 4F);
+		leg0.roll = ((float)Math.PI / 4F); leg0.yaw = ((float)Math.PI / 4F);
+		leg1.roll = (-(float)Math.PI / 4F); leg1.yaw = (-(float)Math.PI / 4F);
+		leg2.roll = 0.58119464F; leg2.yaw = ((float)Math.PI / 8F);
+		leg3.roll = -0.58119464F; leg3.yaw = (-(float)Math.PI / 8F);
+		leg4.roll = 0.58119464F; leg4.yaw = (-(float)Math.PI / 8F);
+		leg5.roll = -0.58119464F; leg5.yaw = ((float)Math.PI / 8F);
+		leg6.roll = ((float)Math.PI / 4F); leg6.yaw = (-(float)Math.PI / 4F);
+		leg7.roll = -((float)Math.PI / 4F); leg7.yaw = ((float)Math.PI / 4F);
 		float f3 = -(MathHelper.cos(limbSwing * 0.6662F * 2.0F + 0.0F) * 0.4F) * limbSwingAmount;
 		float f4 = -(MathHelper.cos(limbSwing * 0.6662F * 2.0F + (float)Math.PI) * 0.4F) * limbSwingAmount;
 		float f5 = -(MathHelper.cos(limbSwing * 0.6662F * 2.0F + ((float)Math.PI / 2F)) * 0.4F) * limbSwingAmount;
@@ -88,25 +86,25 @@ public class SpiderBarrelMimicModel<T extends AbstractBarrelMimicEntity> extends
 		float f8 = Math.abs(MathHelper.sin(limbSwing * 0.6662F + (float)Math.PI) * 0.4F) * limbSwingAmount;
 		float f9 = Math.abs(MathHelper.sin(limbSwing * 0.6662F + ((float)Math.PI / 2F)) * 0.4F) * limbSwingAmount;
 		float f10 = Math.abs(MathHelper.sin(limbSwing * 0.6662F + ((float)Math.PI * 1.5F)) * 0.4F) * limbSwingAmount;
-		leg0.yRot += f3;
-		leg1.yRot += -f3;
-		leg2.yRot += f4;
-		leg3.yRot += -f4;
-		leg4.yRot += f5;
-		leg5.yRot += -f5;
-		leg6.yRot += f6;
-		leg7.yRot += -f6;
-		leg0.zRot += f7;
-		leg1.zRot += -f7;
-		leg2.zRot += f8;
-		leg3.zRot += -f8;
-		leg4.zRot += f9;
-		leg5.zRot += -f9;
-		leg6.zRot += f10;
-		leg7.zRot += -f10;
+		leg0.yaw += f3;
+		leg1.yaw += -f3;
+		leg2.yaw += f4;
+		leg3.yaw += -f4;
+		leg4.yaw += f5;
+		leg5.yaw += -f5;
+		leg6.yaw += f6;
+		leg7.yaw += -f6;
+		leg0.roll += f7;
+		leg1.roll += -f7;
+		leg2.roll += f8;
+		leg3.roll += -f8;
+		leg4.roll += f9;
+		leg5.roll += -f9;
+		leg6.roll += f10;
+		leg7.roll += -f10;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
+	@Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		body0.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		leg0.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);

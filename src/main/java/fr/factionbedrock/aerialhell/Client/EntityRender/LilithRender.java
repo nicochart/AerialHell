@@ -4,23 +4,23 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.LilithModel;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.util.Identifier;
 
-public class LilithRender extends MobRenderer<LilithEntity, LilithModel>
+public class LilithRender extends MobEntityRenderer<LilithEntity, LilithModel>
 {
 	private static String name = "lilith";
-    private static final ResourceLocation LILITH = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
-    private static final ResourceLocation EVIL_LILITH = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + "_evil.png");
+    private static final Identifier LILITH = Identifier.of(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
+    private static final Identifier EVIL_LILITH = Identifier.of(AerialHell.MODID, "textures/entity/" + name +"/" + name + "_evil.png");
 	
-    public LilithRender(EntityRendererProvider.Context context)
+    public LilithRender(EntityRendererFactory.Context context)
 	{
-		super(context, new LilithModel(context.bakeLayer(AerialHellModelLayers.LILITH)), 0.5F);
+		super(context, new LilithModel(context.getPart(AerialHellModelLayers.LILITH)), 0.5F);
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(LilithEntity entity)
+	public Identifier getTexture(LilithEntity entity)
     {
 		if (entity.isTransformed()) {return EVIL_LILITH;}
 		else {return LILITH;}

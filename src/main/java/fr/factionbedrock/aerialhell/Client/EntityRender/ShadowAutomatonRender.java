@@ -1,37 +1,37 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AutomatonModel;
 import fr.factionbedrock.aerialhell.Client.EntityModels.EmptyModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.ShadowAutomatonShadowLayer;
 import fr.factionbedrock.aerialhell.Entity.Monster.AutomatonEntity;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.util.Identifier;
 
-public class ShadowAutomatonRender<T extends AutomatonEntity, M extends EmptyModel<T>> extends MobRenderer<T,M>
+public class ShadowAutomatonRender<T extends AutomatonEntity, M extends EmptyModel<T>> extends MobEntityRenderer<T,M>
 {
-	private static final ResourceLocation TEXTURE_NORMAL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/automaton/shadow_automaton.png");
-	private static final ResourceLocation TEXTURE_INVERT = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/automaton/shadow_automaton_invert.png");
+	private static final Identifier TEXTURE_NORMAL = Identifier.of(AerialHell.MODID, "textures/entity/automaton/shadow_automaton.png");
+	private static final Identifier TEXTURE_INVERT = Identifier.of(AerialHell.MODID, "textures/entity/automaton/shadow_automaton_invert.png");
 
-	public ShadowAutomatonRender(EntityRendererProvider.Context context)
+	public ShadowAutomatonRender(EntityRendererFactory.Context context)
 	{
 		super(context, (M) new EmptyModel<T>(), 0.3F);
-		this.addLayer(new ShadowAutomatonShadowLayer<T,M>(this, new AutomatonModel<>(context.bakeLayer(AerialHellModelLayers.AUTOMATON))));
+		this.addFeature(new ShadowAutomatonShadowLayer<T,M>(this, new AutomatonModel<>(context.getPart(AerialHellModelLayers.AUTOMATON))));
 	}
 
-	@Override protected void scale(T entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
+	@Override protected void scale(T entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime)
 	{
 		float f = 0.9F; matrixStackIn.scale(f, f, f);
 	}
 	
-	@Override public ResourceLocation getTextureLocation(AutomatonEntity entity)
+	@Override public Identifier getTexture(AutomatonEntity entity)
 	{
-		if (Minecraft.getInstance().player.hasEffect(MobEffects.NIGHT_VISION)) {return TEXTURE_INVERT;}
+		if (MinecraftClient.getInstance().player.hasStatusEffect(StatusEffects.NIGHT_VISION)) {return TEXTURE_INVERT;}
 		else {return TEXTURE_NORMAL;}
 	}
 }

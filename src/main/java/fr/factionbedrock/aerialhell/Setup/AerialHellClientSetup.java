@@ -22,8 +22,8 @@ public class AerialHellClientSetup
         //modEventBus.addListener(AerialHellWoodTypes::addWoodTypesToSheets);
         //modEventBus.addListener(BlocksAndItemsColorHandler::handleBlockColors);
         //modEventBus.addListener(BlocksAndItemsColorHandler::handleItemColors);
-        //modEventBus.addListener(RenderRegistrationListener::onRegisterRenderers);
-        //modEventBus.addListener(RenderRegistrationListener::onRegisterLayerDefinitions);
+        RenderRegistrationListener.registerRenderers();
+        RenderRegistrationListener.registerLayerDefinitions();
         //modEventBus.addListener(RenderRegistrationListener::onModelBake);
         AerialHellParticleTypes.registerParticleFactories();
         //modEventBus.addListener(AerialHellClientSetup::registerDimensionRenderInfo);

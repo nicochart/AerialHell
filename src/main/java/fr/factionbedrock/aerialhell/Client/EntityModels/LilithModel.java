@@ -1,13 +1,11 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.util.Mth;
+import net.minecraft.client.model.*;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.MathHelper;
 
 // Made by Cixon with Blockbench
 // Exported for Minecraft version 1.17 or later with Mojang mappings
@@ -35,62 +33,62 @@ public class LilithModel extends EntityModel<LilithEntity>
 		this.armRight = root.getChild("armRight");
 	}
 
-	public static LayerDefinition createBodyLayer()
+	public static TexturedModelData createBodyLayer()
 	{
-		MeshDefinition meshdefinition = new MeshDefinition();
-		PartDefinition partdefinition = meshdefinition.getRoot();
+		ModelData meshdefinition = new ModelData();
+		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
 
-		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(17, 16).addBox(-4.0F, -24.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(17, 16).cuboid(-4.0F, -24.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
 
-		PartDefinition wingRight = partdefinition.addOrReplaceChild("wingRight", CubeListBuilder.create(), PartPose.offset(-2.0F, 5.0F, 2.0F));
+		ModelPartData wingRight = partdefinition.addChild("wingRight", ModelPartBuilder.create(), ModelTransform.pivot(-2.0F, 5.0F, 2.0F));
 
-		PartDefinition wingRight_r1 = wingRight.addOrReplaceChild("wingRight_r1", CubeListBuilder.create().texOffs(0, 30).addBox(-0.5F, -25.0F, 4.0F, 0.0F, 13.0F, 21.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, 19.0F, -2.0F, 0.2094F, -0.6981F, 0.0F));
+		ModelPartData wingRight_r1 = wingRight.addChild("wingRight_r1", ModelPartBuilder.create().uv(0, 30).cuboid(-0.5F, -25.0F, 4.0F, 0.0F, 13.0F, 21.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, 19.0F, -2.0F, 0.2094F, -0.6981F, 0.0F));
 
-		PartDefinition wingLeft = partdefinition.addOrReplaceChild("wingLeft", CubeListBuilder.create(), PartPose.offset(2.0F, 5.0F, 2.0F));
+		ModelPartData wingLeft = partdefinition.addChild("wingLeft", ModelPartBuilder.create(), ModelTransform.pivot(2.0F, 5.0F, 2.0F));
 
-		PartDefinition wingLeft_r1 = wingLeft.addOrReplaceChild("wingLeft_r1", CubeListBuilder.create().texOffs(0, 30).addBox(0.5F, -25.0F, 4.0F, 0.0F, 13.0F, 21.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, 19.0F, -2.0F, 0.2094F, 0.6981F, 0.0F));
+		ModelPartData wingLeft_r1 = wingLeft.addChild("wingLeft_r1", ModelPartBuilder.create().uv(0, 30).cuboid(0.5F, -25.0F, 4.0F, 0.0F, 13.0F, 21.0F, new Dilation(0.0F)), ModelTransform.of(-2.0F, 19.0F, -2.0F, 0.2094F, 0.6981F, 0.0F));
 
-		PartDefinition legLeft = partdefinition.addOrReplaceChild("legLeft", CubeListBuilder.create().texOffs(0, 16).mirror().addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(2.0F, 12.0F, 0.0F));
+		ModelPartData legLeft = partdefinition.addChild("legLeft", ModelPartBuilder.create().uv(0, 16).mirrored().cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(2.0F, 12.0F, 0.0F));
 
-		PartDefinition legRight = partdefinition.addOrReplaceChild("legRight", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, 12.0F, 0.0F));
+		ModelPartData legRight = partdefinition.addChild("legRight", ModelPartBuilder.create().uv(0, 16).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(-2.0F, 12.0F, 0.0F));
 
-		PartDefinition armLeft = partdefinition.addOrReplaceChild("armLeft", CubeListBuilder.create().texOffs(41, 16).mirror().addBox(0.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 0.0F, 0.0F));
+		ModelPartData armLeft = partdefinition.addChild("armLeft", ModelPartBuilder.create().uv(41, 16).mirrored().cuboid(0.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(4.0F, 0.0F, 0.0F));
 
-		PartDefinition armRight = partdefinition.addOrReplaceChild("armRight", CubeListBuilder.create().texOffs(41, 16).addBox(-4.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 0.0F, 0.0F));
+		ModelPartData armRight = partdefinition.addChild("armRight", ModelPartBuilder.create().uv(41, 16).cuboid(-4.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, 0.0F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 64, 64);
+		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
 
-	@Override public void setupAnim(LilithEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(LilithEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
 		if (!entity.isTransforming())
 		{
 			int i = entity.attackTimer;
 			if (i > 0)
 			{
-				this.armRight.xRot = -2.0F + 1.5F * MathHelper.triangleWave((float)i, 10.0F) * 0.5f;
-				this.armLeft.xRot = -2.0F + 1.5F * MathHelper.triangleWave((float)i, 10.0F) * 0.5f;
+				this.armRight.pitch = -2.0F + 1.5F * MathHelper.wrap((float)i, 10.0F) * 0.5f;
+				this.armLeft.pitch = -2.0F + 1.5F * MathHelper.wrap((float)i, 10.0F) * 0.5f;
 			}
 			else
 			{
-				this.armRight.xRot = (-0.2F + 1.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
-				this.armLeft.xRot = (-0.2F - 1.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+				this.armRight.pitch = (-0.2F + 1.5F * MathHelper.wrap(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+				this.armLeft.pitch = (-0.2F - 1.5F * MathHelper.wrap(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
 			}
 		}
 		else
 		{
-			this.armRight.xRot = - 2.2F;
-			this.armLeft.xRot = - 2.2F;
+			this.armRight.pitch = - 2.2F;
+			this.armLeft.pitch = - 2.2F;
 		}
-		this.head.yRot = netHeadYaw / 57.3F;
-		this.head.xRot = headPitch / 57.3F;
-		this.legLeft.xRot = -1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount; this.legLeft.yRot = 0.0F;
-		this.legRight.xRot = 1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount; this.legRight.yRot = 0.0F;
+		this.head.yaw = netHeadYaw / 57.3F;
+		this.head.pitch = headPitch / 57.3F;
+		this.legLeft.pitch = -1.0F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount; this.legLeft.yaw = 0.0F;
+		this.legRight.pitch = 1.0F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount; this.legRight.yaw = 0.0F;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
+	@Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);

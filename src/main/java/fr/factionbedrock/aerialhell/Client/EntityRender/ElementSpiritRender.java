@@ -1,30 +1,29 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.ElementSpiritModel;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.AbstractElementSpiritEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.ElectroSpiritEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.IceSpiritEntity;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
 
-public class ElementSpiritRender<T extends AbstractElementSpiritEntity> extends MobRenderer<T, ElementSpiritModel<T>>
+public class ElementSpiritRender<T extends AbstractElementSpiritEntity> extends MobEntityRenderer<T, ElementSpiritModel<T>>
 {
-	private static final ResourceLocation ICE_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/element_spirit/ice_spirit.png");
-	private static final ResourceLocation FIRE_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/element_spirit/fire_spirit.png");
-	private static final ResourceLocation ELECTRO_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/element_spirit/electro_spirit.png");
+	private static final Identifier ICE_SPIRIT_TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/element_spirit/ice_spirit.png");
+	private static final Identifier FIRE_SPIRIT_TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/element_spirit/fire_spirit.png");
+	private static final Identifier ELECTRO_SPIRIT_TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/element_spirit/electro_spirit.png");
 	
-    public ElementSpiritRender(EntityRendererProvider.Context context)
+    public ElementSpiritRender(EntityRendererFactory.Context context)
 	{
-    	super(context, new ElementSpiritModel<T>(context.bakeLayer(AerialHellModelLayers.ELEMENT_SPIRIT)), 0.3F);
+    	super(context, new ElementSpiritModel<T>(context.getPart(AerialHellModelLayers.ELEMENT_SPIRIT)), 0.3F);
 	}
     
     @Override
-    protected void scale(T entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
+    protected void scale(T entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime)
     {
         float f = 0.6F;
         matrixStackIn.scale(f, f, f);
@@ -32,7 +31,7 @@ public class ElementSpiritRender<T extends AbstractElementSpiritEntity> extends 
     }
     
 	@Override
-	public ResourceLocation getTextureLocation(AbstractElementSpiritEntity entity)
+	public Identifier getTexture(AbstractElementSpiritEntity entity)
     {
 		if (entity instanceof IceSpiritEntity) {return ICE_SPIRIT_TEXTURE;}
 		else if (entity instanceof ElectroSpiritEntity) {return ELECTRO_SPIRIT_TEXTURE;}

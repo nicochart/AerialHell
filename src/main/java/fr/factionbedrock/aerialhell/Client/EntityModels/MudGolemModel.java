@@ -1,13 +1,11 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.util.Mth;
+import net.minecraft.client.model.*;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.MathHelper;
 
 //Made by Cixon using BlockBench
 // Exported for Minecraft version 1.17 or later with Mojang mappings
@@ -31,50 +29,50 @@ public class MudGolemModel<T extends AerialHellGolemEntity> extends EntityModel<
 		this.right_leg = root.getChild("right_leg");
 	}
 
-	public static LayerDefinition createBodyLayer()
+	public static TexturedModelData createBodyLayer()
 	{
-		MeshDefinition meshdefinition = new MeshDefinition();
-		PartDefinition partdefinition = meshdefinition.getRoot();
+		ModelData meshdefinition = new ModelData();
+		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-7.0F, -9.8F, -4.5F, 14.0F, 10.0F, 8.0F, new CubeDeformation(-0.2F)), PartPose.offset(0.0F, -4.0F, 0.0F));
+		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-7.0F, -9.8F, -4.5F, 14.0F, 10.0F, 8.0F, new Dilation(-0.2F)), ModelTransform.pivot(0.0F, -4.0F, 0.0F));
 
-		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 19).addBox(-10.0F, -29.0F, -5.0F, 20.0F, 12.0F, 10.0F, new CubeDeformation(-1.0F))
-				.texOffs(9, 42).addBox(-7.5F, -18.0F, -2.5F, 15.0F, 5.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(0, 19).cuboid(-10.0F, -29.0F, -5.0F, 20.0F, 12.0F, 10.0F, new Dilation(-1.0F))
+				.uv(9, 42).cuboid(-7.5F, -18.0F, -2.5F, 15.0F, 5.0F, 5.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
 
-		PartDefinition left_arm = partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(62, 54).addBox(0.0F, -1.0F, -2.5F, 5.0F, 25.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(9.0F, -3.0F, 0.0F));
+		ModelPartData left_arm = partdefinition.addChild("left_arm", ModelPartBuilder.create().uv(62, 54).cuboid(0.0F, -1.0F, -2.5F, 5.0F, 25.0F, 5.0F, new Dilation(0.0F)), ModelTransform.pivot(9.0F, -3.0F, 0.0F));
 
-		PartDefinition right_arm = partdefinition.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(62, 19).mirror().addBox(-5.0F, -1.0F, -2.5F, 5.0F, 25.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-9.0F, -3.0F, 0.0F));
+		ModelPartData right_arm = partdefinition.addChild("right_arm", ModelPartBuilder.create().uv(62, 19).mirrored().cuboid(-5.0F, -1.0F, -2.5F, 5.0F, 25.0F, 5.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-9.0F, -3.0F, 0.0F));
 
-		PartDefinition left_leg = partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(18, 72).mirror().addBox(-3.5F, 0.0F, -2.5F, 6.0F, 13.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(5.0F, 11.0F, 0.0F));
+		ModelPartData left_leg = partdefinition.addChild("left_leg", ModelPartBuilder.create().uv(18, 72).mirrored().cuboid(-3.5F, 0.0F, -2.5F, 6.0F, 13.0F, 5.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(5.0F, 11.0F, 0.0F));
 
-		PartDefinition right_leg = partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(18, 53).addBox(-3.5F, 0.0F, -2.5F, 6.0F, 13.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 11.0F, 0.0F));
+		ModelPartData right_leg = partdefinition.addChild("right_leg", ModelPartBuilder.create().uv(18, 53).cuboid(-3.5F, 0.0F, -2.5F, 6.0F, 13.0F, 5.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, 11.0F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 128, 128);
+		return TexturedModelData.of(meshdefinition, 128, 128);
 	}
 
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
-		this.head.xRot = headPitch * ((float)Math.PI / 180F);
+		this.head.yaw = netHeadYaw * ((float)Math.PI / 180F);
+		this.head.pitch = headPitch * ((float)Math.PI / 180F);
 
 		int i = entity.attackTimer;
 		if (i > 0)
 		{
-			this.left_arm.xRot = -2.0F + 0.6F * MathHelper.triangleWave((float)i, 10.0F);
-			this.right_arm.xRot = -2.0F + 0.6F * MathHelper.triangleWave((float)i, 10.0F);
+			this.left_arm.pitch = -2.0F + 0.6F * MathHelper.wrap((float)i, 10.0F);
+			this.right_arm.pitch = -2.0F + 0.6F * MathHelper.wrap((float)i, 10.0F);
 		}
 		else
 		{
-			this.left_arm.xRot = (-0.2F + 0.8F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
-			this.right_arm.xRot = (-0.2F - 0.8F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
+			this.left_arm.pitch = (-0.2F + 0.8F * MathHelper.wrap(limbSwing, 13.0F)) * limbSwingAmount;
+			this.right_arm.pitch = (-0.2F - 0.8F * MathHelper.wrap(limbSwing, 13.0F)) * limbSwingAmount;
 		}
 
-		this.left_leg.xRot = -1.5F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		this.right_leg.xRot = 1.5F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		this.left_leg.yRot = 0.0F; this.right_leg.yRot = 0.0F;
+		this.left_leg.pitch = -1.5F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount;
+		this.right_leg.pitch = 1.5F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount;
+		this.left_leg.yaw = 0.0F; this.right_leg.yaw = 0.0F;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
+	@Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);

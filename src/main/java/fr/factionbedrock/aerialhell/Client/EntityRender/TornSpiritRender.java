@@ -4,21 +4,21 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.TornSpiritModel;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.util.Identifier;
 
-public class TornSpiritRender extends MobRenderer<TornSpiritEntity, TornSpiritModel>
+public class TornSpiritRender extends MobEntityRenderer<TornSpiritEntity, TornSpiritModel>
 {
 	private static String name = "torn_spirit";
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
+    private static final Identifier TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
 	
-    public TornSpiritRender(EntityRendererProvider.Context context)
+    public TornSpiritRender(EntityRendererFactory.Context context)
 	{
-		super(context, new TornSpiritModel(context.bakeLayer(AerialHellModelLayers.TORN_SPIRIT)), 0.3F);
+		super(context, new TornSpiritModel(context.getPart(AerialHellModelLayers.TORN_SPIRIT)), 0.3F);
 	}
 
-	@Override public ResourceLocation getTextureLocation(TornSpiritEntity entity)
+	@Override public Identifier getTexture(TornSpiritEntity entity)
     {
 		return TEXTURE;
     }

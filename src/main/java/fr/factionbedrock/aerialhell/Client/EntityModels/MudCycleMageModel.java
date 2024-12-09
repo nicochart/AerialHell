@@ -1,19 +1,17 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.client.model.*;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.util.math.MathHelper;
 
 // Made by Cixon with Blockbench
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class MudCycleMageModel extends EntityModel<Mob>
+public class MudCycleMageModel extends EntityModel<MobEntity>
 {
 	private final ModelPart head;
 	private final ModelPart body;
@@ -31,58 +29,58 @@ public class MudCycleMageModel extends EntityModel<Mob>
 		this.leftLeg = root.getChild("leftLeg");
 	}
 
-	public static LayerDefinition createBodyLayer()
+	public static TexturedModelData createBodyLayer()
 	{
-		MeshDefinition meshdefinition = new MeshDefinition();
-		PartDefinition partdefinition = meshdefinition.getRoot();
+		ModelData meshdefinition = new ModelData();
+		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -3.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
-				.texOffs(32, 53).mirror().addBox(-4.0F, -10.0F, -3.0F, 8.0F, 3.0F, 8.0F, new CubeDeformation(0.25F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
+		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, -8.0F, -3.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F))
+				.uv(32, 53).mirrored().cuboid(-4.0F, -10.0F, -3.0F, 8.0F, 3.0F, 8.0F, new Dilation(0.25F)).mirrored(false), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
 
-		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 32).addBox(-4.0F, -24.0F, -1.0F, 8.0F, 22.0F, 4.0F, new CubeDeformation(0.0F))
-				.texOffs(16, 16).addBox(-4.0F, -24.0F, -1.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(16, 32).cuboid(-4.0F, -24.0F, -1.0F, 8.0F, 22.0F, 4.0F, new Dilation(0.0F))
+				.uv(16, 16).cuboid(-4.0F, -24.0F, -1.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
 
-		PartDefinition leftArm = partdefinition.addOrReplaceChild("leftArm", CubeListBuilder.create().texOffs(48, 37).addBox(0.5F, 1.0F, -8.0F, 0.0F, 6.0F, 7.0F, new CubeDeformation(0.0F))
-				.texOffs(40, 36).addBox(-0.5F, -2.0F, -9.0F, 3.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, 2.0F, 1.0F));
+		ModelPartData leftArm = partdefinition.addChild("leftArm", ModelPartBuilder.create().uv(48, 37).cuboid(0.5F, 1.0F, -8.0F, 0.0F, 6.0F, 7.0F, new Dilation(0.0F))
+				.uv(40, 36).cuboid(-0.5F, -2.0F, -9.0F, 3.0F, 8.0F, 1.0F, new Dilation(0.0F)), ModelTransform.pivot(4.0F, 2.0F, 1.0F));
 
-		PartDefinition Leftarm_r1 = leftArm.addOrReplaceChild("leftArm_r1", CubeListBuilder.create().texOffs(40, 16).mirror().addBox(4.0F, -2.0F, -23.0F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-4.0F, 22.0F, -1.0F, -1.5708F, 0.0F, 0.0F));
+		ModelPartData Leftarm_r1 = leftArm.addChild("leftArm_r1", ModelPartBuilder.create().uv(40, 16).mirrored().cuboid(4.0F, -2.0F, -23.0F, 2.0F, 12.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(-4.0F, 22.0F, -1.0F, -1.5708F, 0.0F, 0.0F));
 
-		PartDefinition rightArm = partdefinition.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(48, 37).mirror().addBox(-0.5F, 1.0F, -7.0F, 0.0F, 6.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(40, 36).addBox(-2.5F, -2.0F, -8.0F, 3.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 2.0F, 0.0F));
+		ModelPartData rightArm = partdefinition.addChild("rightArm", ModelPartBuilder.create().uv(48, 37).mirrored().cuboid(-0.5F, 1.0F, -7.0F, 0.0F, 6.0F, 7.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(40, 36).cuboid(-2.5F, -2.0F, -8.0F, 3.0F, 8.0F, 1.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, 2.0F, 0.0F));
 
-		PartDefinition Rightarm_r1 = rightArm.addOrReplaceChild("rightArm_r1", CubeListBuilder.create().texOffs(40, 16).addBox(-6.0F, -2.0F, -23.0F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.0F, 22.0F, 0.0F, -1.5708F, 0.0F, 0.0F));
+		ModelPartData Rightarm_r1 = rightArm.addChild("rightArm_r1", ModelPartBuilder.create().uv(40, 16).cuboid(-6.0F, -2.0F, -23.0F, 2.0F, 12.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(4.0F, 22.0F, 0.0F, -1.5708F, 0.0F, 0.0F));
 
-		PartDefinition rightLeg = partdefinition.addOrReplaceChild("rightLeg", CubeListBuilder.create().texOffs(0, 16).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, 13.0F, 1.0F));
+		ModelPartData rightLeg = partdefinition.addChild("rightLeg", ModelPartBuilder.create().uv(0, 16).cuboid(-1.0F, -1.0F, -1.0F, 2.0F, 12.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(-2.0F, 13.0F, 1.0F));
 
-		PartDefinition leftLeg = partdefinition.addOrReplaceChild("leftLeg", CubeListBuilder.create().texOffs(0, 16).mirror().addBox(-1.0F, -1.0F, -1.0F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(2.0F, 13.0F, 1.0F));
+		ModelPartData leftLeg = partdefinition.addChild("leftLeg", ModelPartBuilder.create().uv(0, 16).mirrored().cuboid(-1.0F, -1.0F, -1.0F, 2.0F, 12.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(2.0F, 13.0F, 1.0F));
 
-		return LayerDefinition.create(meshdefinition, 64, 64);
+		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
 
 	@Override
-	public void setupAnim(Mob entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.head.yRot = netHeadYaw / 57.0F;
-		this.head.xRot = headPitch / 57.0F;
+	public void setAngles(MobEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		this.head.yaw = netHeadYaw / 57.0F;
+		this.head.pitch = headPitch / 57.0F;
 
 		if (entity instanceof MudCycleMageEntity boss && boss.isInDeadOrDyingPhase())
 		{
-			this.rightArm.xRot = - 1.5F;
-			this.leftArm.xRot = - 1.5F;
+			this.rightArm.pitch = - 1.5F;
+			this.leftArm.pitch = - 1.5F;
 		}
 		else
 		{
-			this.rightArm.xRot = (-0.2F + 0.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
-			this.leftArm.xRot = (-0.2F - 0.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
+			this.rightArm.pitch = (-0.2F + 0.5F * MathHelper.wrap(limbSwing, 13.0F)) * limbSwingAmount;
+			this.leftArm.pitch = (-0.2F - 0.5F * MathHelper.wrap(limbSwing, 13.0F)) * limbSwingAmount;
 		}
 
-		this.leftLeg.xRot = -1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		this.rightLeg.xRot = 1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		this.leftLeg.yRot = 0.0F;
-		this.rightLeg.yRot = 0.0F;
+		this.leftLeg.pitch = -1.0F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount;
+		this.rightLeg.pitch = 1.0F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount;
+		this.leftLeg.yaw = 0.0F;
+		this.rightLeg.yaw = 0.0F;
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint) {
+	public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint) {
 		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);

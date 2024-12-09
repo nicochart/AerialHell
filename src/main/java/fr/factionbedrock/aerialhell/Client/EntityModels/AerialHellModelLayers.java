@@ -1,45 +1,45 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.util.Identifier;
 
 public class AerialHellModelLayers
 {
-    public static final ModelLayerLocation CATERPILLAR = createModelLayerLocation("caterpillar");
-    public static final ModelLayerLocation BOAR = createModelLayerLocation("boar");
-    public static final ModelLayerLocation CHAINED_GOD = createModelLayerLocation("chained_god");
-    public static final ModelLayerLocation CHEST_MIMIC = createModelLayerLocation("chest_mimic");
-    public static final ModelLayerLocation CRYSTAL_GOLEM = createModelLayerLocation("crystal_golem");
-    public static final ModelLayerLocation CRYSTAL_SLIME = createModelLayerLocation("crystal_slime");
-    public static final ModelLayerLocation ELEMENT_SPIRIT = createModelLayerLocation("element_spirit");
-    public static final ModelLayerLocation FLYING_JELLYFISH = createModelLayerLocation( "flying_jellyfish");
-    public static final ModelLayerLocation GLIDING_TURTLE = createModelLayerLocation("gliding_turtle");
-    public static final ModelLayerLocation KODAMA = createModelLayerLocation("kodama");
-    public static final ModelLayerLocation LILITH = createModelLayerLocation("lilith");
-    public static final ModelLayerLocation LUNATIC_PRIEST = createModelLayerLocation("lunatic_priest");
-    public static final ModelLayerLocation MUD_CYCLE_MAGE = createModelLayerLocation("mud_cycle_mage");
-    public static final ModelLayerLocation MUD_GOLEM = createModelLayerLocation("mud_golem");
-    public static final ModelLayerLocation SANDY_SHEEP = createModelLayerLocation("sandy_sheep");
-    public static final ModelLayerLocation SHADOW_FLYING_SKULL = createModelLayerLocation("shadow_flying_skull");
-    public static final ModelLayerLocation SHADOW_TROLL = createModelLayerLocation("shadow_troll");
-    public static final ModelLayerLocation SHROOMBOOM = createModelLayerLocation("shroomboom");
-    public static final ModelLayerLocation SPIDER_BARREL_MIMIC = createModelLayerLocation("spider_barrel_mimic");
-    public static final ModelLayerLocation AUTOMATON = createModelLayerLocation("automaton");
-    public static final ModelLayerLocation TORN_SPIRIT = createModelLayerLocation("torn_spirit");
-    public static final ModelLayerLocation VERDIGRIS_ZOMBIE = createModelLayerLocation("verdigris_zombie");
-    public static final ModelLayerLocation SLIME_PIRATE = createModelLayerLocation("slime_pirate");
-    public static final ModelLayerLocation ENT = createModelLayerLocation("ent");
-    public static final ModelLayerLocation SNAKE = createModelLayerLocation("snake");
+    public static final EntityModelLayer CATERPILLAR = createEntityModelLayer("caterpillar");
+    public static final EntityModelLayer BOAR = createEntityModelLayer("boar");
+    public static final EntityModelLayer CHAINED_GOD = createEntityModelLayer("chained_god");
+    public static final EntityModelLayer CHEST_MIMIC = createEntityModelLayer("chest_mimic");
+    public static final EntityModelLayer CRYSTAL_GOLEM = createEntityModelLayer("crystal_golem");
+    public static final EntityModelLayer CRYSTAL_SLIME = createEntityModelLayer("crystal_slime");
+    public static final EntityModelLayer ELEMENT_SPIRIT = createEntityModelLayer("element_spirit");
+    public static final EntityModelLayer FLYING_JELLYFISH = createEntityModelLayer( "flying_jellyfish");
+    public static final EntityModelLayer GLIDING_TURTLE = createEntityModelLayer("gliding_turtle");
+    public static final EntityModelLayer KODAMA = createEntityModelLayer("kodama");
+    public static final EntityModelLayer LILITH = createEntityModelLayer("lilith");
+    public static final EntityModelLayer LUNATIC_PRIEST = createEntityModelLayer("lunatic_priest");
+    public static final EntityModelLayer MUD_CYCLE_MAGE = createEntityModelLayer("mud_cycle_mage");
+    public static final EntityModelLayer MUD_GOLEM = createEntityModelLayer("mud_golem");
+    public static final EntityModelLayer SANDY_SHEEP = createEntityModelLayer("sandy_sheep");
+    public static final EntityModelLayer SHADOW_FLYING_SKULL = createEntityModelLayer("shadow_flying_skull");
+    public static final EntityModelLayer SHADOW_TROLL = createEntityModelLayer("shadow_troll");
+    public static final EntityModelLayer SHROOMBOOM = createEntityModelLayer("shroomboom");
+    public static final EntityModelLayer SPIDER_BARREL_MIMIC = createEntityModelLayer("spider_barrel_mimic");
+    public static final EntityModelLayer AUTOMATON = createEntityModelLayer("automaton");
+    public static final EntityModelLayer TORN_SPIRIT = createEntityModelLayer("torn_spirit");
+    public static final EntityModelLayer VERDIGRIS_ZOMBIE = createEntityModelLayer("verdigris_zombie");
+    public static final EntityModelLayer SLIME_PIRATE = createEntityModelLayer("slime_pirate");
+    public static final EntityModelLayer ENT = createEntityModelLayer("ent");
+    public static final EntityModelLayer SNAKE = createEntityModelLayer("snake");
 
-    public static final ModelLayerLocation CORTINARIUS_COW_SHROOM = createModelLayerLocation( "cortinarius_cow_shroom", "shrooms");
-    public static final ModelLayerLocation CRYSTAL_GOLEM_CRYSTAL = createModelLayerLocation("crystal_golem_crystal", "crystals");
-    public static final ModelLayerLocation SPIDER_SPIKE = createModelLayerLocation("spider_spike", "spikes");
+    public static final EntityModelLayer CORTINARIUS_COW_SHROOM = createEntityModelLayer( "cortinarius_cow_shroom", "shrooms");
+    public static final EntityModelLayer CRYSTAL_GOLEM_CRYSTAL = createEntityModelLayer("crystal_golem_crystal", "crystals");
+    public static final EntityModelLayer SPIDER_SPIKE = createEntityModelLayer("spider_spike", "spikes");
 
-    private static ModelLayerLocation createModelLayerLocation(String id) {return createModelLayerLocation(id, "main");}
+    private static EntityModelLayer createEntityModelLayer(String id) {return createEntityModelLayer(id, "main");}
 
-    private static ModelLayerLocation createModelLayerLocation(String id, String layer)
+    private static EntityModelLayer createEntityModelLayer(String id, String layer)
     {
-        return new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, id), layer);
+        return new EntityModelLayer(Identifier.of(AerialHell.MODID, id), layer);
     }
 }

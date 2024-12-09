@@ -1,13 +1,11 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Entity.Monster.Flying.FlyingJellyfishEntity;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.util.Mth;
+import net.minecraft.client.model.*;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.MathHelper;
 
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
@@ -35,47 +33,47 @@ public class FlyingJellyfishModel<J extends FlyingJellyfishEntity> extends Entit
 		this.body = root.getChild("body");
 	}
 
-	public static LayerDefinition createBodyLayer()
+	public static TexturedModelData createBodyLayer()
 	{
-		MeshDefinition meshdefinition = new MeshDefinition();
-		PartDefinition partdefinition = meshdefinition.getRoot();
+		ModelData meshdefinition = new ModelData();
+		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		PartDefinition tentacles_0 = partdefinition.addOrReplaceChild("tentacles_0", CubeListBuilder.create().texOffs(4, 0).mirror().addBox(-3.0F, -1.0F, 3.0F, 1.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(3.8F, 23.0F, -5.0F));
+		ModelPartData tentacles_0 = partdefinition.addChild("tentacles_0", ModelPartBuilder.create().uv(4, 0).mirrored().cuboid(-3.0F, -1.0F, 3.0F, 1.0F, 4.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(3.8F, 23.0F, -5.0F));
 
-		PartDefinition tentacles_1 = partdefinition.addOrReplaceChild("tentacles_1", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-1.0F, -1.0F, 3.0F, 1.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-1.3F, 23.0F, -5.0F));
+		ModelPartData tentacles_1 = partdefinition.addChild("tentacles_1", ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(-1.0F, -1.0F, 3.0F, 1.0F, 5.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-1.3F, 23.0F, -5.0F));
 
-		PartDefinition tentacles_2 = partdefinition.addOrReplaceChild("tentacles_2", CubeListBuilder.create().texOffs(8, 0).mirror().addBox(5.0F, -1.0F, 4.8F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-6.3F, 23.0F, -5.0F));
+		ModelPartData tentacles_2 = partdefinition.addChild("tentacles_2", ModelPartBuilder.create().uv(8, 0).mirrored().cuboid(5.0F, -1.0F, 4.8F, 1.0F, 3.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-6.3F, 23.0F, -5.0F));
 
-		PartDefinition tentacles_3 = partdefinition.addOrReplaceChild("tentacles_3", CubeListBuilder.create().texOffs(4, 8).mirror().addBox(-5.0F, -1.0F, 0.0F, 1.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(6.3F, 23.0F, 0.0F));
+		ModelPartData tentacles_3 = partdefinition.addChild("tentacles_3", ModelPartBuilder.create().uv(4, 8).mirrored().cuboid(-5.0F, -1.0F, 0.0F, 1.0F, 7.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(6.3F, 23.0F, 0.0F));
 
-		PartDefinition tentacles_4 = partdefinition.addOrReplaceChild("tentacles_4", CubeListBuilder.create().texOffs(0, 9).mirror().addBox(-1.2F, -1.0F, 1.0F, 1.0F, 6.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(1.3F, 23.0F, 0.0F));
+		ModelPartData tentacles_4 = partdefinition.addChild("tentacles_4", ModelPartBuilder.create().uv(0, 9).mirrored().cuboid(-1.2F, -1.0F, 1.0F, 1.0F, 6.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(1.3F, 23.0F, 0.0F));
 
-		PartDefinition tentacles_5 = partdefinition.addOrReplaceChild("tentacles_5", CubeListBuilder.create().texOffs(0, 9).mirror().addBox(1.0F, -1.0F, 0.0F, 1.0F, 6.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-3.8F, 23.0F, 0.0F));
+		ModelPartData tentacles_5 = partdefinition.addChild("tentacles_5", ModelPartBuilder.create().uv(0, 9).mirrored().cuboid(1.0F, -1.0F, 0.0F, 1.0F, 6.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-3.8F, 23.0F, 0.0F));
 
-		PartDefinition tentacles_6 = partdefinition.addOrReplaceChild("tentacles_6", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(0.0F, -1.0F, -3.35F, 1.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-1.3F, 23.0F, 5.0F));
+		ModelPartData tentacles_6 = partdefinition.addChild("tentacles_6", ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(0.0F, -1.0F, -3.35F, 1.0F, 5.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-1.3F, 23.0F, 5.0F));
 
-		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(8, 0).mirror().addBox(-3.0F, 2.0F, -3.0F, 6.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(26, 1).mirror().addBox(3.0F, 4.0F, 2.2F, 2.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(24, 12).mirror().addBox(3.0F, 2.0F, 2.6F, 2.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(28, 2).mirror().addBox(-5.0F, 4.0F, 2.0F, 2.0F, 3.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(28, 12).mirror().addBox(-5.0F, 2.0F, 2.64F, 2.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(8, 14).mirror().addBox(-4.0F, 0.0F, 2.64F, 8.0F, 2.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 16.0F, 0.0F));
+		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(8, 0).mirrored().cuboid(-3.0F, 2.0F, -3.0F, 6.0F, 6.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(26, 1).mirrored().cuboid(3.0F, 4.0F, 2.2F, 2.0F, 4.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(24, 12).mirrored().cuboid(3.0F, 2.0F, 2.6F, 2.0F, 4.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(28, 2).mirrored().cuboid(-5.0F, 4.0F, 2.0F, 2.0F, 3.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(28, 12).mirrored().cuboid(-5.0F, 2.0F, 2.64F, 2.0F, 4.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(8, 14).mirrored().cuboid(-4.0F, 0.0F, 2.64F, 8.0F, 2.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 16.0F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 32, 16);
+		return TexturedModelData.of(meshdefinition, 32, 16);
 	}
 
-	@Override public void setupAnim(J entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(J entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		this.tentacles_0.xRot = 0.1F * MathHelper.sin(ageInTicks * 0.3F + 0.0F) + 0.4F;
-		this.tentacles_1.xRot = 0.1F * MathHelper.sin(ageInTicks * 0.3F + 1.0F) + 0.4F;
-		this.tentacles_2.xRot = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 2.0F) + 0.4F;
-		this.tentacles_3.xRot = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 3.0F) + 0.4F;
-		this.tentacles_4.xRot = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 4.0F) + 0.4F;
-		this.tentacles_5.xRot = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 5.0F) + 0.4F;
-		this.tentacles_6.xRot = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 6.0F) + 0.4F;
+		this.tentacles_0.pitch = 0.1F * MathHelper.sin(ageInTicks * 0.3F + 0.0F) + 0.4F;
+		this.tentacles_1.pitch = 0.1F * MathHelper.sin(ageInTicks * 0.3F + 1.0F) + 0.4F;
+		this.tentacles_2.pitch = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 2.0F) + 0.4F;
+		this.tentacles_3.pitch = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 3.0F) + 0.4F;
+		this.tentacles_4.pitch = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 4.0F) + 0.4F;
+		this.tentacles_5.pitch = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 5.0F) + 0.4F;
+		this.tentacles_6.pitch = 0.2F * MathHelper.sin(ageInTicks * 0.3F + 6.0F) + 0.4F;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
+	@Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		tentacles_0.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		tentacles_1.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);

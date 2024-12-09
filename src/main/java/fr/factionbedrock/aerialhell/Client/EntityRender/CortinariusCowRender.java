@@ -5,22 +5,22 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.CortinariusCowShroomModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.CortinariusCowShroomLayer;
 import fr.factionbedrock.aerialhell.Entity.Monster.EvilCowEntity;
-import net.minecraft.client.model.CowModel;
-import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.client.render.entity.model.CowEntityModel;
+import net.minecraft.client.render.entity.model.EntityModelLayers;
+import net.minecraft.util.Identifier;
 
-public class CortinariusCowRender<T extends EvilCowEntity> extends MobRenderer<T, CowModel<T>>
+public class CortinariusCowRender<T extends EvilCowEntity> extends MobEntityRenderer<T, CowEntityModel<T>>
 {
-    private static final ResourceLocation CORTINARIUS_COW_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/cortinarius_cow/cortinarius_cow.png");
+    private static final Identifier CORTINARIUS_COW_TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/cortinarius_cow/cortinarius_cow.png");
     
-    public CortinariusCowRender(EntityRendererProvider.Context context)
+    public CortinariusCowRender(EntityRendererFactory.Context context)
     {
-        super(context, new CowModel<>(context.bakeLayer(ModelLayers.COW)), 0.7F);
-        this.addLayer(new CortinariusCowShroomLayer<T, CowModel<T>>(this, new CortinariusCowShroomModel<T>(context.bakeLayer(AerialHellModelLayers.CORTINARIUS_COW_SHROOM))));
+        super(context, new CowEntityModel<>(context.getPart(EntityModelLayers.COW)), 0.7F);
+        this.addFeature(new CortinariusCowShroomLayer<T, CowEntityModel<T>>(this, new CortinariusCowShroomModel<T>(context.getPart(AerialHellModelLayers.CORTINARIUS_COW_SHROOM))));
     }
 
     @Override
-    public ResourceLocation getTextureLocation(EvilCowEntity entity) {return CORTINARIUS_COW_TEXTURE;}
+    public Identifier getTexture(EvilCowEntity entity) {return CORTINARIUS_COW_TEXTURE;}
 }

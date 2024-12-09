@@ -3,21 +3,21 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.MudCycleMageModel;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.util.Identifier;
 
-public class MudCycleMageRender extends MobRenderer<Mob, MudCycleMageModel>
+public class MudCycleMageRender extends MobEntityRenderer<MobEntity, MudCycleMageModel>
 {
 	private static String name = "mud_cycle_mage";
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
+    private static final Identifier TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
 	
-    public MudCycleMageRender(EntityRendererProvider.Context context)
+    public MudCycleMageRender(EntityRendererFactory.Context context)
 	{
-    	super(context, new MudCycleMageModel(context.bakeLayer(AerialHellModelLayers.MUD_CYCLE_MAGE)), 0.5F);
+    	super(context, new MudCycleMageModel(context.getPart(AerialHellModelLayers.MUD_CYCLE_MAGE)), 0.5F);
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(Mob entity) {return TEXTURE;}
+	public Identifier getTexture(MobEntity entity) {return TEXTURE;}
 }

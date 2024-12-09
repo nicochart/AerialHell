@@ -4,21 +4,21 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.SpiderBarrelMimicModel;
 import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.AbstractBarrelMimicEntity;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.util.Identifier;
 
-public class SpiderBarrelMimicRender<T extends AbstractBarrelMimicEntity> extends MobRenderer<T, SpiderBarrelMimicModel<T>>
+public class SpiderBarrelMimicRender<T extends AbstractBarrelMimicEntity> extends MobEntityRenderer<T, SpiderBarrelMimicModel<T>>
 {
-	private static final ResourceLocation SHADOW_PINE_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/barrel_mimic/shadow_pine.png");
+	private static final Identifier SHADOW_PINE_TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/barrel_mimic/shadow_pine.png");
 
-	public SpiderBarrelMimicRender(EntityRendererProvider.Context context)
+	public SpiderBarrelMimicRender(EntityRendererFactory.Context context)
 	{
-		super(context, new SpiderBarrelMimicModel(context.bakeLayer(AerialHellModelLayers.SPIDER_BARREL_MIMIC)), 1.0F);
+		super(context, new SpiderBarrelMimicModel(context.getPart(AerialHellModelLayers.SPIDER_BARREL_MIMIC)), 1.0F);
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(T mimic)
+	public Identifier getTexture(T mimic)
 	{
 		//if (mimic instanceof ShadowPineBarrelMimicEntity)
 		//{

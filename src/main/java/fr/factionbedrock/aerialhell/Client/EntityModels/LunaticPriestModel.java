@@ -1,13 +1,11 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.util.Mth;
+import net.minecraft.client.model.*;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.MathHelper;
 
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
@@ -31,67 +29,67 @@ public class LunaticPriestModel extends EntityModel<LunaticPriestEntity>
 		this.leg1 = root.getChild("leg1");
 	}
 
-	public static LayerDefinition createBodyLayer()
+	public static TexturedModelData createBodyLayer()
 	{
-		MeshDefinition meshdefinition = new MeshDefinition();
-		PartDefinition partdefinition = meshdefinition.getRoot();
+		ModelData meshdefinition = new ModelData();
+		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 32).mirror().addBox(-7.0F, 1.0F, -4.0F, 14.0F, 14.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(7, 53).mirror().addBox(-4.5F, 15.0F, -3.0F, 9.0F, 5.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(0.0F, -7.0F, 0.0F));
+		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(0, 32).mirrored().cuboid(-7.0F, 1.0F, -4.0F, 14.0F, 14.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(7, 53).mirrored().cuboid(-4.5F, 15.0F, -3.0F, 9.0F, 5.0F, 6.0F, new Dilation(0.5F)).mirrored(false), ModelTransform.pivot(0.0F, -7.0F, 0.0F));
 
-		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(6, 16).mirror().addBox(-4.0F, -6.0F, -5.5F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(4, 0).mirror().addBox(-5.0F, -7.0F, -4.5F, 10.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(7, 1).mirror().addBox(-4.0F, -8.0F, -2.5F, 8.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(15, 6).mirror().addBox(-3.0F, -8.0F, 5.5F, 6.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(10, 2).mirror().addBox(-3.0F, -9.0F, 0.5F, 6.0F, 5.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(15, 5).mirror().addBox(-2.0F, -7.0F, 5.5F, 4.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(18, 6).mirror().addBox(-1.0F, -4.0F, 7.5F, 2.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(40, 29).mirror().addBox(-2.0F, 2.0F, -5.5F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(41, 27).mirror().addBox(-2.0F, -7.0F, -5.5F, 4.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, -7.0F, -1.0F));
+		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(6, 16).mirrored().cuboid(-4.0F, -6.0F, -5.5F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(4, 0).mirrored().cuboid(-5.0F, -7.0F, -4.5F, 10.0F, 8.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(7, 1).mirrored().cuboid(-4.0F, -8.0F, -2.5F, 8.0F, 7.0F, 7.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(15, 6).mirrored().cuboid(-3.0F, -8.0F, 5.5F, 6.0F, 4.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(10, 2).mirrored().cuboid(-3.0F, -9.0F, 0.5F, 6.0F, 5.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(15, 5).mirrored().cuboid(-2.0F, -7.0F, 5.5F, 4.0F, 4.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(18, 6).mirrored().cuboid(-1.0F, -4.0F, 7.5F, 2.0F, 3.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(40, 29).mirrored().cuboid(-2.0F, 2.0F, -5.5F, 4.0F, 1.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(41, 27).mirrored().cuboid(-2.0F, -7.0F, -5.5F, 4.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, -7.0F, -1.0F));
 
-		PartDefinition arm0 = partdefinition.addOrReplaceChild("arm0", CubeListBuilder.create().texOffs(72, 40).mirror().addBox(1.0F, -0.5F, -2.0F, 2.0F, 20.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(86, 41).mirror().addBox(3.0F, 8.5F, -4.0F, 1.0F, 3.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(90, 36).mirror().addBox(3.0F, 7.5F, -2.0F, 1.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(88, 44).mirror().addBox(3.0F, 10.5F, -5.0F, 1.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(96, 44).mirror().addBox(3.0F, 10.5F, 3.0F, 1.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(6.0F, -4.0F, 0.0F));
+		ModelPartData arm0 = partdefinition.addChild("arm0", ModelPartBuilder.create().uv(72, 40).mirrored().cuboid(1.0F, -0.5F, -2.0F, 2.0F, 20.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(86, 41).mirrored().cuboid(3.0F, 8.5F, -4.0F, 1.0F, 3.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(90, 36).mirrored().cuboid(3.0F, 7.5F, -2.0F, 1.0F, 1.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(88, 44).mirrored().cuboid(3.0F, 10.5F, -5.0F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(96, 44).mirrored().cuboid(3.0F, 10.5F, 3.0F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(6.0F, -4.0F, 0.0F));
 
-		PartDefinition arm1 = partdefinition.addOrReplaceChild("arm1", CubeListBuilder.create().texOffs(57, 40).mirror().addBox(-3.0F, -0.5F, -2.0F, 2.0F, 20.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(86, 41).mirror().addBox(-4.0F, 8.5F, -4.0F, 1.0F, 3.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(90, 36).mirror().addBox(-4.0F, 7.5F, -2.0F, 1.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(87, 44).mirror().addBox(-4.0F, 10.5F, 3.0F, 1.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(96, 44).mirror().addBox(-4.0F, 10.5F, -5.0F, 1.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-6.0F, -4.0F, 0.0F));
+		ModelPartData arm1 = partdefinition.addChild("arm1", ModelPartBuilder.create().uv(57, 40).mirrored().cuboid(-3.0F, -0.5F, -2.0F, 2.0F, 20.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(86, 41).mirrored().cuboid(-4.0F, 8.5F, -4.0F, 1.0F, 3.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(90, 36).mirrored().cuboid(-4.0F, 7.5F, -2.0F, 1.0F, 1.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(87, 44).mirrored().cuboid(-4.0F, 10.5F, 3.0F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(96, 44).mirrored().cuboid(-4.0F, 10.5F, -5.0F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-6.0F, -4.0F, 0.0F));
 
-		PartDefinition leg0 = partdefinition.addOrReplaceChild("leg0", CubeListBuilder.create().texOffs(54, 13).mirror().addBox(-2.5F, 2.0F, -2.0F, 3.0F, 11.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 11.0F, 0.0F));
+		ModelPartData leg0 = partdefinition.addChild("leg0", ModelPartBuilder.create().uv(54, 13).mirrored().cuboid(-2.5F, 2.0F, -2.0F, 3.0F, 11.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(4.0F, 11.0F, 0.0F));
 
-		PartDefinition leg1 = partdefinition.addOrReplaceChild("leg1", CubeListBuilder.create().texOffs(70, 13).addBox(0.5F, 2.0F, -2.0F, 3.0F, 11.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-5.0F, 11.0F, 0.0F));
+		ModelPartData leg1 = partdefinition.addChild("leg1", ModelPartBuilder.create().uv(70, 13).cuboid(0.5F, 2.0F, -2.0F, 3.0F, 11.0F, 3.0F, new Dilation(0.0F)), ModelTransform.pivot(-5.0F, 11.0F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 128, 64);
+		return TexturedModelData.of(meshdefinition, 128, 64);
 	}
 
-	@Override public void setupAnim(LunaticPriestEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(LunaticPriestEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		this.head.yRot = netHeadYaw / 57.29578F;
-		this.head.xRot = headPitch / 57.29578F;
+		this.head.yaw = netHeadYaw / 57.29578F;
+		this.head.pitch = headPitch / 57.29578F;
 
 		int i = entity.attackTimer;
 		if (i > 0)
 		{
-			this.arm0.xRot = -2.0F + 0.6F * MathHelper.triangleWave((float)i, 10.0F);
-			this.arm1.xRot = -2.0F + 0.6F * MathHelper.triangleWave((float)i, 10.0F);
+			this.arm0.pitch = -2.0F + 0.6F * MathHelper.wrap((float)i, 10.0F);
+			this.arm1.pitch = -2.0F + 0.6F * MathHelper.wrap((float)i, 10.0F);
 		}
 		else
 		{
-			this.arm0.xRot = (-0.2F + 1.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
-			this.arm1.xRot = (-0.2F - 1.5F * MathHelper.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+			this.arm0.pitch = (-0.2F + 1.5F * MathHelper.wrap(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+			this.arm1.pitch = (-0.2F - 1.5F * MathHelper.wrap(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
 		}
 
-		this.leg0.xRot = -1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		this.leg1.xRot = 1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		this.leg0.yRot = 0.0F;
-		this.leg1.yRot = 0.0F;
+		this.leg0.pitch = -1.0F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount;
+		this.leg1.pitch = 1.0F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount;
+		this.leg0.yaw = 0.0F;
+		this.leg1.yaw = 0.0F;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
+	@Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);

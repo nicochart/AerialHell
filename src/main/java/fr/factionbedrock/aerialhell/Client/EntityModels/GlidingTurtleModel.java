@@ -1,13 +1,11 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Entity.Passive.GlidingTurtleEntity;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.util.Mth;
+import net.minecraft.client.model.*;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.MathHelper;
 
 // Made by Cixon with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
@@ -38,67 +36,67 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleEntity>
 		this.LegBackLeft = root.getChild("LegBackLeft");
 	}
 
-	public static LayerDefinition createBodyLayer()
+	public static TexturedModelData createBodyLayer()
 	{
-		MeshDefinition meshdefinition = new MeshDefinition();
-		PartDefinition partdefinition = meshdefinition.getRoot();
+		ModelData meshdefinition = new ModelData();
+		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		PartDefinition Head = partdefinition.addOrReplaceChild("Head", CubeListBuilder.create().texOffs(92, 0).addBox(-4.0F, -5.0F, -10.0F, 8.0F, 6.0F, 10.0F, new CubeDeformation(0.0F))
-				.texOffs(92, 16).addBox(-4.0F, 1.0F, -10.0F, 8.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 9.0F, -7.0F));
+		ModelPartData Head = partdefinition.addChild("Head", ModelPartBuilder.create().uv(92, 0).cuboid(-4.0F, -5.0F, -10.0F, 8.0F, 6.0F, 10.0F, new Dilation(0.0F))
+				.uv(92, 16).cuboid(-4.0F, 1.0F, -10.0F, 8.0F, 2.0F, 10.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 9.0F, -7.0F));
 
-		PartDefinition Body = partdefinition.addOrReplaceChild("Body", CubeListBuilder.create().texOffs(0, 61).addBox(-12.0F, -17.0F, -9.0F, 24.0F, 4.0F, 25.0F, new CubeDeformation(0.0F))
-				.texOffs(25, 91).addBox(-10.0F, -33.0F, -7.0F, 20.0F, 16.0F, 21.0F, new CubeDeformation(0.0F))
-				.texOffs(0, 90).addBox(-5.0F, -22.0F, -8.0F, 10.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 27.0F, 0.0F));
+		ModelPartData Body = partdefinition.addChild("Body", ModelPartBuilder.create().uv(0, 61).cuboid(-12.0F, -17.0F, -9.0F, 24.0F, 4.0F, 25.0F, new Dilation(0.0F))
+				.uv(25, 91).cuboid(-10.0F, -33.0F, -7.0F, 20.0F, 16.0F, 21.0F, new Dilation(0.0F))
+				.uv(0, 90).cuboid(-5.0F, -22.0F, -8.0F, 10.0F, 5.0F, 1.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 27.0F, 0.0F));
 
-		PartDefinition rightHole_r1 = Body.addOrReplaceChild("rightHole_r1", CubeListBuilder.create().texOffs(0, 90).mirror().addBox(-8.0F, -22.0F, -11.0F, 10.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 1.5708F, 0.0F));
+		ModelPartData rightHole_r1 = Body.addChild("rightHole_r1", ModelPartBuilder.create().uv(0, 90).mirrored().cuboid(-8.0F, -22.0F, -11.0F, 10.0F, 5.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 1.5708F, 0.0F));
 
-		PartDefinition leftHole_r1 = Body.addOrReplaceChild("leftHole_r1", CubeListBuilder.create().texOffs(0, 90).addBox(-2.0F, -22.0F, -11.0F, 10.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, -1.5708F, 0.0F));
+		ModelPartData leftHole_r1 = Body.addChild("leftHole_r1", ModelPartBuilder.create().uv(0, 90).cuboid(-2.0F, -22.0F, -11.0F, 10.0F, 5.0F, 1.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, -1.5708F, 0.0F));
 
-		PartDefinition WingRight = partdefinition.addOrReplaceChild("WingRight", CubeListBuilder.create(), PartPose.offset(-11.0F, 7.0F, 3.0F));
+		ModelPartData WingRight = partdefinition.addChild("WingRight", ModelPartBuilder.create(), ModelTransform.pivot(-11.0F, 7.0F, 3.0F));
 
-		PartDefinition Wing_r1 = WingRight.addOrReplaceChild("Wing_r1", CubeListBuilder.create().texOffs(19, 0).addBox(-24.0F, -19.0F, -7.0F, 12.0F, 0.0F, 18.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.0F, 20.0F, -3.0F, -0.2094F, 0.0F, 0.0873F));
+		ModelPartData Wing_r1 = WingRight.addChild("Wing_r1", ModelPartBuilder.create().uv(19, 0).cuboid(-24.0F, -19.0F, -7.0F, 12.0F, 0.0F, 18.0F, new Dilation(0.0F)), ModelTransform.of(11.0F, 20.0F, -3.0F, -0.2094F, 0.0F, 0.0873F));
 
-		PartDefinition WingLeft = partdefinition.addOrReplaceChild("WingLeft", CubeListBuilder.create(), PartPose.offset(11.0F, 7.0F, 3.0F));
+		ModelPartData WingLeft = partdefinition.addChild("WingLeft", ModelPartBuilder.create(), ModelTransform.pivot(11.0F, 7.0F, 3.0F));
 
-		PartDefinition Wing_r2 = WingLeft.addOrReplaceChild("Wing_r2", CubeListBuilder.create().texOffs(19, 0).mirror().addBox(12.0F, -19.0F, -7.0F, 12.0F, 0.0F, 18.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-11.0F, 20.0F, -3.0F, -0.2094F, 0.0F, -0.0873F));
+		ModelPartData Wing_r2 = WingLeft.addChild("Wing_r2", ModelPartBuilder.create().uv(19, 0).mirrored().cuboid(12.0F, -19.0F, -7.0F, 12.0F, 0.0F, 18.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(-11.0F, 20.0F, -3.0F, -0.2094F, 0.0F, -0.0873F));
 
-		PartDefinition LegFrontRight = partdefinition.addOrReplaceChild("LegFrontRight", CubeListBuilder.create().texOffs(0, 112).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 10.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(-6.0F, 14.0F, -4.0F));
+		ModelPartData LegFrontRight = partdefinition.addChild("LegFrontRight", ModelPartBuilder.create().uv(0, 112).cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 10.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(-6.0F, 14.0F, -4.0F));
 
-		PartDefinition LegFrontLeft = partdefinition.addOrReplaceChild("LegFrontLeft", CubeListBuilder.create().texOffs(0, 112).mirror().addBox(-3.0F, 0.0F, -3.0F, 6.0F, 10.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(6.0F, 14.0F, -4.0F));
+		ModelPartData LegFrontLeft = partdefinition.addChild("LegFrontLeft", ModelPartBuilder.create().uv(0, 112).mirrored().cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 10.0F, 6.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(6.0F, 14.0F, -4.0F));
 
-		PartDefinition LegBackRight = partdefinition.addOrReplaceChild("LegBackRight", CubeListBuilder.create().texOffs(0, 112).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 10.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(-6.0F, 14.0F, 10.0F));
+		ModelPartData LegBackRight = partdefinition.addChild("LegBackRight", ModelPartBuilder.create().uv(0, 112).cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 10.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(-6.0F, 14.0F, 10.0F));
 
-		PartDefinition LegBackLeft = partdefinition.addOrReplaceChild("LegBackLeft", CubeListBuilder.create().texOffs(0, 112).mirror().addBox(-3.0F, 0.0F, -3.0F, 6.0F, 10.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(6.0F, 14.0F, 10.0F));
+		ModelPartData LegBackLeft = partdefinition.addChild("LegBackLeft", ModelPartBuilder.create().uv(0, 112).mirrored().cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 10.0F, 6.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(6.0F, 14.0F, 10.0F));
 
-		return LayerDefinition.create(meshdefinition, 128, 128);
+		return TexturedModelData.of(meshdefinition, 128, 128);
 	}
 
-	@Override public void setupAnim(GlidingTurtleEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(GlidingTurtleEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
 		this.isGliding = entity.isGliding(); this.isChild = entity.isBaby();
-		this.Head.yRot = netHeadYaw / 57.29578F;
-		this.Head.xRot = headPitch / 57.29578F;
+		this.Head.yaw = netHeadYaw / 57.29578F;
+		this.Head.pitch = headPitch / 57.29578F;
 
 		this.animateRightLeg(this.LegFrontRight, limbSwing, limbSwingAmount);
 		this.animateRightLeg(this.LegBackRight, limbSwing, limbSwingAmount);
 		this.animateLeftLeg(this.LegFrontLeft, limbSwing, limbSwingAmount);
 		this.animateLeftLeg(this.LegBackLeft, limbSwing, limbSwingAmount);
 
-		if (isGliding) {this.WingRight.zRot = 0; this.WingLeft.zRot = 0;}
-		else {this.WingRight.zRot = -45F; this.WingLeft.zRot = 45F;}
+		if (isGliding) {this.WingRight.roll = 0; this.WingLeft.roll = 0;}
+		else {this.WingRight.roll = -45F; this.WingLeft.roll = 45F;}
 	}
 
 	private void animateLeftLeg(ModelPart model, float limbSwing, float limbSwingAmount)
 	{
-		model.xRot = -1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount; model.yRot = 0.0F;
+		model.pitch = -1.0F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount; model.yaw = 0.0F;
 	}
 
 	private void animateRightLeg(ModelPart model, float limbSwing, float limbSwingAmount)
 	{
-		model.xRot = 1.0F * MathHelper.triangleWave(limbSwing, 13.0F) * limbSwingAmount; model.yRot = 0.0F;
+		model.pitch = 1.0F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount; model.yaw = 0.0F;
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
+	@Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 
 		if(isChild)
@@ -106,7 +104,7 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleEntity>
 			poseStack.scale(0.5F, 0.5F, 0.5F);
 			poseStack.translate(0.0F, 1.5F, 0.0F);
 		}
-		poseStack.pushPose();
+		poseStack.push();
 
 		Head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		Body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
@@ -116,6 +114,6 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleEntity>
 		LegFrontLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		LegBackRight.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		LegBackLeft.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
-		poseStack.popPose();
+		poseStack.pop();
 	}
 }

@@ -1,17 +1,15 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.world.entity.monster.Spider;
+import net.minecraft.client.model.*;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.mob.SpiderEntity;
 
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class HellSpiderSpikeModel<T extends Spider> extends EntityModel<T>//SpiderModel<T>
+public class HellSpiderSpikeModel<T extends SpiderEntity> extends EntityModel<T>//SpiderModel<T>
 {
 	private final ModelPart bodySpikes;
 	private final ModelPart headSpikes;
@@ -23,41 +21,41 @@ public class HellSpiderSpikeModel<T extends Spider> extends EntityModel<T>//Spid
 		this.headSpikes = root.getChild("headSpikes");
 	}
 
-	public static LayerDefinition createBodyLayer()
+	public static TexturedModelData createBodyLayer()
 	{
-		MeshDefinition meshdefinition = new MeshDefinition();
-		PartDefinition partdefinition = meshdefinition.getRoot();
+		ModelData meshdefinition = new ModelData();
+		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		PartDefinition bodySpikes = partdefinition.addOrReplaceChild("bodySpikes", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-4.5F, -18.0F, 8.0F, 5.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(0, 0).mirror().addBox(-2.0F, -18.0F, 5.5F, 0.0F, 5.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(0, 10).mirror().addBox(-0.5F, -18.0F, 12.0F, 5.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(0, 11).mirror().addBox(2.0F, -18.0F, 9.5F, 0.0F, 5.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(0, 21).mirror().addBox(0.0F, -18.0F, 5.0F, 6.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(0, 20).mirror().addBox(3.0F, -18.0F, 2.0F, 0.0F, 5.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(12, -4).mirror().addBox(1.0F, -11.5F, 15.0F, 0.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(8, 6).mirror().addBox(-1.5F, -9.0F, 15.0F, 5.0F, 0.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(12, 10).mirror().addBox(-9.0F, -12.0F, 11.0F, 4.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(6, 16).mirror().addBox(-9.0F, -9.0F, 8.0F, 4.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(6, 22).mirror().addBox(5.0F, -10.0F, 7.5F, 4.0F, 0.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(20, 0).mirror().addBox(5.0F, -12.5F, 10.0F, 4.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 24.0F, 0.0F));
+		ModelPartData bodySpikes = partdefinition.addChild("bodySpikes", ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(-4.5F, -18.0F, 8.0F, 5.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
+		.uv(0, 0).mirrored().cuboid(-2.0F, -18.0F, 5.5F, 0.0F, 5.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
+		.uv(0, 10).mirrored().cuboid(-0.5F, -18.0F, 12.0F, 5.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
+		.uv(0, 11).mirrored().cuboid(2.0F, -18.0F, 9.5F, 0.0F, 5.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
+		.uv(0, 21).mirrored().cuboid(0.0F, -18.0F, 5.0F, 6.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
+		.uv(0, 20).mirrored().cuboid(3.0F, -18.0F, 2.0F, 0.0F, 5.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
+		.uv(12, -4).mirrored().cuboid(1.0F, -11.5F, 15.0F, 0.0F, 5.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
+		.uv(8, 6).mirrored().cuboid(-1.5F, -9.0F, 15.0F, 5.0F, 0.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
+		.uv(12, 10).mirrored().cuboid(-9.0F, -12.0F, 11.0F, 4.0F, 6.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
+		.uv(6, 16).mirrored().cuboid(-9.0F, -9.0F, 8.0F, 4.0F, 0.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
+		.uv(6, 22).mirrored().cuboid(5.0F, -10.0F, 7.5F, 4.0F, 0.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
+		.uv(20, 0).mirrored().cuboid(5.0F, -12.5F, 10.0F, 4.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
 
-		PartDefinition headSpikes = partdefinition.addOrReplaceChild("headSpikes", CubeListBuilder.create().texOffs(32, 0).mirror().addBox(-2.5F, -18.0F, -7.0F, 5.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(32, 0).mirror().addBox(0.0F, -18.0F, -9.5F, 0.0F, 5.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(35, 10).mirror().addBox(4.0F, -12.0F, -7.0F, 3.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(29, 16).mirror().addBox(4.0F, -9.0F, -10.0F, 3.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(29, 22).mirror().addBox(-7.0F, -9.0F, -10.5F, 3.0F, 0.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(44, 0).mirror().addBox(-7.0F, -11.5F, -8.0F, 3.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 24.0F, 0.0F));
+		ModelPartData headSpikes = partdefinition.addChild("headSpikes", ModelPartBuilder.create().uv(32, 0).mirrored().cuboid(-2.5F, -18.0F, -7.0F, 5.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
+		.uv(32, 0).mirrored().cuboid(0.0F, -18.0F, -9.5F, 0.0F, 5.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
+		.uv(35, 10).mirrored().cuboid(4.0F, -12.0F, -7.0F, 3.0F, 6.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
+		.uv(29, 16).mirrored().cuboid(4.0F, -9.0F, -10.0F, 3.0F, 0.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
+		.uv(29, 22).mirrored().cuboid(-7.0F, -9.0F, -10.5F, 3.0F, 0.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
+		.uv(44, 0).mirrored().cuboid(-7.0F, -11.5F, -8.0F, 3.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 64, 32);
+		return TexturedModelData.of(meshdefinition, 64, 32);
 	}
 
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		this.headSpikes.yRot = netHeadYaw * ((float)Math.PI / 180F);
-		this.headSpikes.xRot = headPitch * ((float)Math.PI / 180F);
+		this.headSpikes.yaw = netHeadYaw * ((float)Math.PI / 180F);
+		this.headSpikes.pitch = headPitch * ((float)Math.PI / 180F);
 	}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
+	@Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		bodySpikes.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		headSpikes.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);

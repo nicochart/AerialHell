@@ -1,12 +1,11 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSlimeEntity;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.model.*;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.MathHelper;
 
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
@@ -32,38 +31,38 @@ public class CrystalSlimeModel extends EntityModel<CrystalSlimeEntity>
 		this.isGelAndCrystal = isGelAndCrystal;
 	}
 
-	public static LayerDefinition createBodyLayer()
+	public static TexturedModelData createBodyLayer()
 	{
-		MeshDefinition meshdefinition = new MeshDefinition();
-		PartDefinition partdefinition = meshdefinition.getRoot();
+		ModelData meshdefinition = new ModelData();
+		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		PartDefinition cube = partdefinition.addOrReplaceChild("cube", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-4.0F, 16.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
+		ModelPartData cube = partdefinition.addChild("cube", ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(-4.0F, 16.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
 
-		PartDefinition crystal = partdefinition.addOrReplaceChild("crystal", CubeListBuilder.create().texOffs(0, 17).mirror().addBox(-4.0F, 19.0F, -1.0F, 6.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(0, 19).mirror().addBox(-1.0F, 19.0F, -4.0F, 0.0F, 7.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(14, 21).mirror().addBox(2.0F, 21.0F, 0.0F, 0.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(14, 19).mirror().addBox(0.0F, 21.0F, 2.0F, 4.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(40, 13).mirror().addBox(2.0F, 25.0F, 1.0F, 0.0F, 4.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(54, 20).mirror().addBox(-2.0F, 26.0F, 2.0F, 0.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(50, 19).mirror().addBox(-4.0F, 28.0F, 2.0F, 4.0F, 0.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(36, 24).mirror().addBox(0.0F, 27.0F, 1.0F, 4.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(24, 18).mirror().addBox(2.0F, 25.0F, 0.0F, 7.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(18, 25).mirror().addBox(2.0F, 28.0F, -3.0F, 7.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(37, 6).mirror().addBox(-8.0F, 28.0F, -2.0F, 6.0F, 0.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(52, 13).mirror().addBox(-7.0F, 30.0F, -3.0F, 4.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(55, 9).mirror().addBox(-7.0F, 29.0F, -2.0F, 4.0F, 3.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(42, 12).mirror().addBox(-8.0F, 26.0F, 1.0F, 6.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, -8.0F, 0.0F));
+		ModelPartData crystal = partdefinition.addChild("crystal", ModelPartBuilder.create().uv(0, 17).mirrored().cuboid(-4.0F, 19.0F, -1.0F, 6.0F, 7.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(0, 19).mirrored().cuboid(-1.0F, 19.0F, -4.0F, 0.0F, 7.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(14, 21).mirrored().cuboid(2.0F, 21.0F, 0.0F, 0.0F, 5.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(14, 19).mirrored().cuboid(0.0F, 21.0F, 2.0F, 4.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(40, 13).mirrored().cuboid(2.0F, 25.0F, 1.0F, 0.0F, 4.0F, 7.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(54, 20).mirrored().cuboid(-2.0F, 26.0F, 2.0F, 0.0F, 4.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(50, 19).mirrored().cuboid(-4.0F, 28.0F, 2.0F, 4.0F, 0.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(36, 24).mirrored().cuboid(0.0F, 27.0F, 1.0F, 4.0F, 0.0F, 7.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(24, 18).mirrored().cuboid(2.0F, 25.0F, 0.0F, 7.0F, 6.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(18, 25).mirrored().cuboid(2.0F, 28.0F, -3.0F, 7.0F, 0.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(37, 6).mirrored().cuboid(-8.0F, 28.0F, -2.0F, 6.0F, 0.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(52, 13).mirrored().cuboid(-7.0F, 30.0F, -3.0F, 4.0F, 0.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(55, 9).mirrored().cuboid(-7.0F, 29.0F, -2.0F, 4.0F, 3.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
+				.uv(42, 12).mirrored().cuboid(-8.0F, 26.0F, 1.0F, 6.0F, 4.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, -8.0F, 0.0F));
 
-		PartDefinition eye0 = partdefinition.addOrReplaceChild("eye0", CubeListBuilder.create().texOffs(33, 0).mirror().addBox(1.3F, 18.0F, -3.5F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
-		PartDefinition eye1 = partdefinition.addOrReplaceChild("eye1", CubeListBuilder.create().texOffs(33, 5).mirror().addBox(-3.3F, 18.0F, -3.5F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
-		PartDefinition mouth = partdefinition.addOrReplaceChild("mouth", CubeListBuilder.create().texOffs(35, 10).mirror().addBox(-1.0F, 21.0F, -3.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
+		ModelPartData eye0 = partdefinition.addChild("eye0", ModelPartBuilder.create().uv(33, 0).mirrored().cuboid(1.3F, 18.0F, -3.5F, 2.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+		ModelPartData eye1 = partdefinition.addChild("eye1", ModelPartBuilder.create().uv(33, 5).mirrored().cuboid(-3.3F, 18.0F, -3.5F, 2.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+		ModelPartData mouth = partdefinition.addChild("mouth", ModelPartBuilder.create().uv(35, 10).mirrored().cuboid(-1.0F, 21.0F, -3.5F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 64, 32);
+		return TexturedModelData.of(meshdefinition, 64, 32);
 	}
 
-	@Override public void setupAnim(CrystalSlimeEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {}
+	@Override public void setAngles(CrystalSlimeEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {}
 
-	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
+	@Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		if (isGelAndCrystal)
 		{
