@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -65,7 +66,7 @@ public class AerialHellPaintingEntity extends HangingEntity implements VariantHo
     {
         AerialHellPaintingEntity painting = new AerialHellPaintingEntity(level, pos);
         List<Holder<PaintingVariant>> list = new ArrayList<>();
-        level.registryAccess().registryOrThrow(Registries.PAINTING_VARIANT).getTagOrEmpty(PaintingVariantTags.PLACEABLE).forEach(list::add);
+        level.registryAccess().registryOrThrow(Registries.PAINTING_VARIANT).getTagOrEmpty(AerialHellTags.PaintingVariants.PLACEABLE).forEach(list::add);
         if (list.isEmpty()) {return Optional.empty();}
         else
         {

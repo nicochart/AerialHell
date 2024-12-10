@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.*;
+import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Item;
@@ -223,6 +224,16 @@ public class AerialHellTags
 		private static TagKey<Biome> tag(String name)
 		{
 			return TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+		}
+	}
+
+	public static class PaintingVariants
+	{
+		public static final TagKey<PaintingVariant> PLACEABLE = tag("placeable");
+
+		private static TagKey<PaintingVariant> tag(String name)
+		{
+			return TagKey.create(Registries.PAINTING_VARIANT, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 }

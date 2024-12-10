@@ -27,7 +27,7 @@ public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingE
 {
     public AerialHellPaintingRender(EntityRendererProvider.Context context) {super(context);}
 
-    public void render(AerialHellPaintingEntity entity, float p_115553_, float p_115554_, PoseStack poseStack, MultiBufferSource bufferSource, int p_115557_)
+    @Override public void render(AerialHellPaintingEntity entity, float p_115553_, float p_115554_, PoseStack poseStack, MultiBufferSource bufferSource, int p_115557_)
     {
         poseStack.pushPose();
         poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - p_115553_));
@@ -41,7 +41,7 @@ public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingE
         super.render(entity, p_115553_, p_115554_, poseStack, bufferSource, p_115557_);
     }
 
-    public ResourceLocation getTextureLocation(AerialHellPaintingEntity entity) {return Minecraft.getInstance().getPaintingTextures().getBackSprite().atlasLocation();}
+    @Override public ResourceLocation getTextureLocation(AerialHellPaintingEntity entity) {return Minecraft.getInstance().getPaintingTextures().getBackSprite().atlasLocation();}
 
     private void renderPainting(PoseStack poseStack, VertexConsumer consumer, AerialHellPaintingEntity entity, int p_115562_, int p_115563_, TextureAtlasSprite textureAtlasSprite1, TextureAtlasSprite textureAtlasSprite2)
     {
