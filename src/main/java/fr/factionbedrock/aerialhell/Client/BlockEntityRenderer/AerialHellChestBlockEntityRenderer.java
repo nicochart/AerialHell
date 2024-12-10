@@ -1,155 +1,151 @@
 package fr.factionbedrock.aerialhell.Client.BlockEntityRenderer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellChestMaterials;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.BlockEntity.AerialHellChestBlockEntity;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Sheets;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.blockentity.BrightnessCombiner;
-import net.minecraft.client.renderer.blockentity.ChestRenderer;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.ChestType;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import it.unimi.dsi.fastutil.ints.Int2IntFunction;
+import net.minecraft.block.*;
+import net.minecraft.block.entity.ChestBlockEntity;
+import net.minecraft.block.enums.ChestType;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.TexturedRenderLayers;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
+import net.minecraft.client.render.block.entity.ChestBlockEntityRenderer;
+import net.minecraft.client.render.block.entity.LightmapCoordinatesRetriever;
+import net.minecraft.client.util.SpriteIdentifier;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.RotationAxis;
+import net.minecraft.world.World;
 
 import java.util.function.Function;
 
-public class AerialHellChestBlockEntityRenderer extends ChestRenderer<AerialHellChestBlockEntity>
+public class AerialHellChestBlockEntityRenderer<T extends ChestBlockEntity> extends ChestBlockEntityRenderer<T>
 {
-	public AerialHellChestBlockEntityRenderer(BlockEntityRendererProvider.Context context) {super(context);}
+	public AerialHellChestBlockEntityRenderer(BlockEntityRendererFactory.Context context) {super(context);}
 
-	protected MaterialAndRenderType getMaterialAndRenderType(AerialHellChestBlockEntity blockEntity, ChestType chestType)
+	protected SpriteIdentifierAndRenderType getSpriteIdentifierAndRenderType(T blockEntity, ChestType chestType)
 	{
-		Block block = blockEntity.getBlockState().getBlock();
-		if (block == AerialHellBlocksAndItems.AERIAL_TREE_CHEST.get())
+		Block block = blockEntity.getCachedState().getBlock();
+		if (block == AerialHellBlocks.AERIAL_TREE_CHEST)
 		{
-			return new MaterialAndRenderType(chooseMaterial(chestType, AerialHellChestMaterials.AERIAL_TREE_SINGLE, AerialHellChestMaterials.AERIAL_TREE_LEFT, AerialHellChestMaterials.AERIAL_TREE_RIGHT), RenderType::entityCutout);
+			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, AerialHellChestMaterials.AERIAL_TREE_SINGLE, AerialHellChestMaterials.AERIAL_TREE_LEFT, AerialHellChestMaterials.AERIAL_TREE_RIGHT), RenderLayer::getEntityCutout);
 		}
-		else if (block == AerialHellBlocksAndItems.COPPER_PINE_CHEST.get())
+		else if (block == AerialHellBlocks.COPPER_PINE_CHEST)
 		{
-			return new MaterialAndRenderType(chooseMaterial(chestType, AerialHellChestMaterials.COPPER_PINE_SINGLE, AerialHellChestMaterials.COPPER_PINE_LEFT, AerialHellChestMaterials.COPPER_PINE_RIGHT), RenderType::entityCutout);
+			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, AerialHellChestMaterials.COPPER_PINE_SINGLE, AerialHellChestMaterials.COPPER_PINE_LEFT, AerialHellChestMaterials.COPPER_PINE_RIGHT), RenderLayer::getEntityCutout);
 		}
-		else if (block == AerialHellBlocksAndItems.LAPIS_ROBINIA_CHEST.get())
+		else if (block == AerialHellBlocks.LAPIS_ROBINIA_CHEST)
 		{
-			return new MaterialAndRenderType(chooseMaterial(chestType, AerialHellChestMaterials.LAPIS_ROBINIA_SINGLE, AerialHellChestMaterials.LAPIS_ROBINIA_LEFT, AerialHellChestMaterials.LAPIS_ROBINIA_RIGHT), RenderType::entityCutout);
+			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, AerialHellChestMaterials.LAPIS_ROBINIA_SINGLE, AerialHellChestMaterials.LAPIS_ROBINIA_LEFT, AerialHellChestMaterials.LAPIS_ROBINIA_RIGHT), RenderLayer::getEntityCutout);
 		}
-		else if (block == AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_CHEST.get())
+		else if (block == AerialHellBlocks.STELLAR_JUNGLE_TREE_CHEST)
 		{
-			return new MaterialAndRenderType(chooseMaterial(chestType, AerialHellChestMaterials.STELLAR_JUNGLE_TREE_SINGLE, AerialHellChestMaterials.STELLAR_JUNGLE_TREE_LEFT, AerialHellChestMaterials.STELLAR_JUNGLE_TREE_RIGHT), RenderType::entityCutout);
+			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, AerialHellChestMaterials.STELLAR_JUNGLE_TREE_SINGLE, AerialHellChestMaterials.STELLAR_JUNGLE_TREE_LEFT, AerialHellChestMaterials.STELLAR_JUNGLE_TREE_RIGHT), RenderLayer::getEntityCutout);
 		}
-		else if (block == AerialHellBlocksAndItems.GOLDEN_BEECH_CHEST.get())
+		else if (block == AerialHellBlocks.GOLDEN_BEECH_CHEST)
 		{
-			return new MaterialAndRenderType(chooseMaterial(chestType, AerialHellChestMaterials.GOLDEN_BEECH_SINGLE, AerialHellChestMaterials.GOLDEN_BEECH_LEFT, AerialHellChestMaterials.GOLDEN_BEECH_RIGHT), RenderType::entityCutout);
+			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, AerialHellChestMaterials.GOLDEN_BEECH_SINGLE, AerialHellChestMaterials.GOLDEN_BEECH_LEFT, AerialHellChestMaterials.GOLDEN_BEECH_RIGHT), RenderLayer::getEntityCutout);
 		}
-		else if (block == AerialHellBlocksAndItems.SHADOW_PINE_CHEST.get())
+		else if (block == AerialHellBlocks.SHADOW_PINE_CHEST)
 		{
-			return new MaterialAndRenderType(chooseMaterial(chestType, AerialHellChestMaterials.SHADOW_PINE_SINGLE, AerialHellChestMaterials.SHADOW_PINE_LEFT, AerialHellChestMaterials.SHADOW_PINE_RIGHT), RenderType::entityCutout);
+			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, AerialHellChestMaterials.SHADOW_PINE_SINGLE, AerialHellChestMaterials.SHADOW_PINE_LEFT, AerialHellChestMaterials.SHADOW_PINE_RIGHT), RenderLayer::getEntityCutout);
 		}
-		else if (block == AerialHellBlocksAndItems.GRAY_SHROOM_CHEST.get())
+		else if (block == AerialHellBlocks.GRAY_SHROOM_CHEST)
 		{
-			return new MaterialAndRenderType(chooseMaterial(chestType, AerialHellChestMaterials.GRAY_SHROOM_SINGLE, AerialHellChestMaterials.GRAY_SHROOM_LEFT, AerialHellChestMaterials.GRAY_SHROOM_RIGHT), RenderType::entityCutout);
+			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, AerialHellChestMaterials.GRAY_SHROOM_SINGLE, AerialHellChestMaterials.GRAY_SHROOM_LEFT, AerialHellChestMaterials.GRAY_SHROOM_RIGHT), RenderLayer::getEntityCutout);
 		}
-		else if (block == AerialHellBlocksAndItems.SKY_CACTUS_FIBER_CHEST.get())
+		else if (block == AerialHellBlocks.SKY_CACTUS_FIBER_CHEST)
 		{
-			return new MaterialAndRenderType(chooseMaterial(chestType, AerialHellChestMaterials.SKY_CACTUS_FIBER_SINGLE, AerialHellChestMaterials.SKY_CACTUS_FIBER_LEFT, AerialHellChestMaterials.SKY_CACTUS_FIBER_RIGHT), RenderType::entityCutout);
+			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, AerialHellChestMaterials.SKY_CACTUS_FIBER_SINGLE, AerialHellChestMaterials.SKY_CACTUS_FIBER_LEFT, AerialHellChestMaterials.SKY_CACTUS_FIBER_RIGHT), RenderLayer::getEntityCutout);
 		}
-		else if (block == AerialHellBlocksAndItems.GHOST_BOAT_CHEST.get())
+		else if (block == AerialHellBlocks.GHOST_BOAT_CHEST)
 		{
-			return new MaterialAndRenderType(chooseMaterial(chestType, AerialHellChestMaterials.GHOST_BOAT_SINGLE, AerialHellChestMaterials.GHOST_BOAT_LEFT, AerialHellChestMaterials.GHOST_BOAT_RIGHT), RenderType::entityTranslucent);
+			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, AerialHellChestMaterials.GHOST_BOAT_SINGLE, AerialHellChestMaterials.GHOST_BOAT_LEFT, AerialHellChestMaterials.GHOST_BOAT_RIGHT), RenderLayer::getEntityTranslucent);
 		}
-		else if (block == AerialHellBlocksAndItems.MUD_CHEST.get())
+		else if (block == AerialHellBlocks.MUD_CHEST)
 		{
-			return new MaterialAndRenderType(chooseMaterial(chestType, AerialHellChestMaterials.MUD_SINGLE, AerialHellChestMaterials.MUD_LEFT, AerialHellChestMaterials.MUD_RIGHT), RenderType::entityCutout);
+			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, AerialHellChestMaterials.MUD_SINGLE, AerialHellChestMaterials.MUD_LEFT, AerialHellChestMaterials.MUD_RIGHT), RenderLayer::getEntityCutout);
 		}
-		else if (block == AerialHellBlocksAndItems.LUNATIC_CHEST.get())
+		else if (block == AerialHellBlocks.LUNATIC_CHEST)
 		{
-			return new MaterialAndRenderType(chooseMaterial(chestType, AerialHellChestMaterials.LUNATIC_SINGLE, AerialHellChestMaterials.LUNATIC_LEFT, AerialHellChestMaterials.LUNATIC_RIGHT), RenderType::entityCutout);
+			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, AerialHellChestMaterials.LUNATIC_SINGLE, AerialHellChestMaterials.LUNATIC_LEFT, AerialHellChestMaterials.LUNATIC_RIGHT), RenderLayer::getEntityCutout);
 		}
-		else if (block == AerialHellBlocksAndItems.GOLDEN_NETHER_CHEST.get())
+		else if (block == AerialHellBlocks.GOLDEN_NETHER_CHEST)
 		{
-			return new MaterialAndRenderType(chooseMaterial(chestType, AerialHellChestMaterials.GOLDEN_NETHER_SINGLE, AerialHellChestMaterials.GOLDEN_NETHER_LEFT, AerialHellChestMaterials.GOLDEN_NETHER_RIGHT), RenderType::entityCutout);
+			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, AerialHellChestMaterials.GOLDEN_NETHER_SINGLE, AerialHellChestMaterials.GOLDEN_NETHER_LEFT, AerialHellChestMaterials.GOLDEN_NETHER_RIGHT), RenderLayer::getEntityCutout);
 		}
-		else if (block == AerialHellBlocksAndItems.SHADOW_CATACOMBS_CHEST.get())
+		else if (block == AerialHellBlocks.SHADOW_CATACOMBS_CHEST)
 		{
-			return new MaterialAndRenderType(chooseMaterial(chestType, AerialHellChestMaterials.SHADOW_CATACOMBS_SINGLE, AerialHellChestMaterials.SHADOW_CATACOMBS_LEFT, AerialHellChestMaterials.SHADOW_CATACOMBS_RIGHT), RenderType::entityCutout);
+			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, AerialHellChestMaterials.SHADOW_CATACOMBS_SINGLE, AerialHellChestMaterials.SHADOW_CATACOMBS_LEFT, AerialHellChestMaterials.SHADOW_CATACOMBS_RIGHT), RenderLayer::getEntityCutout);
 		}
-		else if (block == AerialHellBlocksAndItems.VOLUCITE_CHEST.get())
+		else if (block == AerialHellBlocks.VOLUCITE_CHEST)
 		{
-			return new MaterialAndRenderType(chooseMaterial(chestType, AerialHellChestMaterials.VOLUCITE_SINGLE, AerialHellChestMaterials.VOLUCITE_LEFT, AerialHellChestMaterials.VOLUCITE_RIGHT), RenderType::entityCutout);
+			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, AerialHellChestMaterials.VOLUCITE_SINGLE, AerialHellChestMaterials.VOLUCITE_LEFT, AerialHellChestMaterials.VOLUCITE_RIGHT), RenderLayer::getEntityCutout);
 		}
 		else //default material (should never happen)
 		{
-			return new MaterialAndRenderType(chooseMaterial(chestType, Sheets.CHEST_LOCATION, Sheets.CHEST_LOCATION_LEFT, Sheets.CHEST_LOCATION_RIGHT), RenderType::entityCutout);
+			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, TexturedRenderLayers.NORMAL, TexturedRenderLayers.NORMAL_LEFT, TexturedRenderLayers.NORMAL_RIGHT), RenderLayer::getEntityCutout);
 		}
 	}
 
-	@Override protected Material getMaterial(AerialHellChestBlockEntity blockEntity, ChestType chestType)
-	{
-		return getMaterialAndRenderType(blockEntity, chestType).getMaterial();
-	}
-
-	private static Material chooseMaterial(ChestType type, Material materialSingle, Material materialLeft, Material materialRight)
+	private static SpriteIdentifier getSpriteIdentifier(ChestType type, SpriteIdentifier single, SpriteIdentifier left, SpriteIdentifier right)
 	{
 		return switch (type)
 		{
-			case LEFT -> materialLeft;
-			case RIGHT -> materialRight;
-			case SINGLE -> materialSingle;
+			case LEFT -> left;
+			case RIGHT -> right;
+			case SINGLE -> single;
 		};
 	}
 
-	@Override public void render(AerialHellChestBlockEntity tileEntityIn, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLightIn, int combinedOverlayIn)
+	@Override public void render(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay)
 	{
-		Level level = tileEntityIn.getLevel();
-		boolean levelnotnull = level != null;
-		BlockState blockstate = levelnotnull ? tileEntityIn.getBlockState() : Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, Direction.SOUTH);
-		ChestType chesttype = blockstate.hasProperty(ChestBlock.TYPE) ? blockstate.get(ChestBlock.TYPE) : ChestType.SINGLE;
-		Block block = blockstate.getBlock();
-		if (block instanceof AbstractChestBlock<?> abstractchestblock)
+		World world = entity.getWorld();
+		boolean worldNotNull = world != null;
+		BlockState blockState = worldNotNull ? entity.getCachedState() : Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, Direction.SOUTH);
+		ChestType chestType = blockState.contains(ChestBlock.CHEST_TYPE) ? blockState.get(ChestBlock.CHEST_TYPE) : ChestType.SINGLE;
+		Block block = blockState.getBlock();
+		if (block instanceof AbstractChestBlock<?> abstractChestBlock)
 		{
-			boolean notSingle = chesttype != ChestType.SINGLE;
-			poseStack.pushPose();
-			float f = blockstate.get(ChestBlock.FACING).toYRot();
-			poseStack.translate(0.5F, 0.5F, 0.5F);
-			poseStack.mulPose(Axis.YP.rotationDegrees(-f));
-			poseStack.translate(-0.5F, -0.5F, -0.5F);
-			DoubleBlockCombiner.NeighborCombineResult<? extends ChestBlockEntity> neighborcombineresult;
-			if (levelnotnull) {neighborcombineresult = abstractchestblock.combine(blockstate, level, tileEntityIn.getBlockPos(), true);}
-			else {neighborcombineresult = DoubleBlockCombiner.Combiner::acceptNone;}
+			boolean notSingle = chestType != ChestType.SINGLE;
+			matrices.push();
+			float f = (blockState.get(ChestBlock.FACING)).asRotation();
+			matrices.translate(0.5F, 0.5F, 0.5F);
+			matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-f));
+			matrices.translate(-0.5F, -0.5F, -0.5F);
+			DoubleBlockProperties.PropertySource<? extends ChestBlockEntity> propertySource;
+			if (worldNotNull) {propertySource = abstractChestBlock.getBlockEntitySource(blockState, world, entity.getPos(), true);}
+			else {propertySource = DoubleBlockProperties.PropertyRetriever::getFallback;}
 
-			float openness = neighborcombineresult.apply(ChestBlock.opennessCombiner(tileEntityIn)).get(partialTicks);
+			float openness = propertySource.apply(ChestBlock.getAnimationProgressRetriever(entity)).get(tickDelta);
 			openness = 1.0F - openness;
 			openness = 1.0F - openness * openness * openness;
-			int i = neighborcombineresult.apply(new BrightnessCombiner<>()).applyAsInt(combinedLightIn);
-			MaterialAndRenderType materialAndRenderType = getMaterialAndRenderType(tileEntityIn, chesttype);
-			VertexConsumer vertexconsumer = materialAndRenderType.getMaterial().buffer(bufferSource, materialAndRenderType.getRenderType());
+			int i = ((Int2IntFunction)propertySource.apply(new LightmapCoordinatesRetriever())).applyAsInt(light);
+			SpriteIdentifierAndRenderType materialAndRenderType = getSpriteIdentifierAndRenderType(entity, chestType);
+
+			VertexConsumer vertexConsumer = materialAndRenderType.getSpriteIdentifier().getVertexConsumer(vertexConsumers, materialAndRenderType.getRenderType());
 			if (notSingle)
 			{
-				if (chesttype == ChestType.LEFT) {this.render(poseStack, vertexconsumer, this.doubleLeftLid, this.doubleLeftLock, this.doubleLeftBottom, openness, i, combinedOverlayIn);}
-				else {this.render(poseStack, vertexconsumer, this.doubleRightLid, this.doubleRightLock, this.doubleRightBottom, openness, i, combinedOverlayIn);}
+				if (chestType == ChestType.LEFT) {this.render(matrices, vertexConsumer, this.doubleChestLeftLid, this.doubleChestLeftLatch, this.doubleChestLeftBase, openness, i, overlay);}
+				else {this.render(matrices, vertexConsumer, this.doubleChestRightLid, this.doubleChestRightLatch, this.doubleChestRightBase, openness, i, overlay);}
 			}
-			else {this.render(poseStack, vertexconsumer, this.lid, this.lock, this.bottom, openness, i, combinedOverlayIn);}
-			poseStack.popPose();
+			else {this.render(matrices, vertexConsumer, this.singleChestLid, this.singleChestLatch, this.singleChestBase, openness, i, overlay);}
+
+			matrices.pop();
 		}
 	}
 
-	private class MaterialAndRenderType
+	protected static class SpriteIdentifierAndRenderType
 	{
-		private final Function<ResourceLocation, RenderType> renderType;
-		private final Material material;
+		private final Function<Identifier, RenderLayer> renderType;
+		private final SpriteIdentifier spriteIdentifier;
 
-		private MaterialAndRenderType(Material material, Function<ResourceLocation, RenderType> renderType) {this.renderType = renderType; this.material = material;}
+		protected SpriteIdentifierAndRenderType(SpriteIdentifier spriteIdentifier, Function<Identifier, RenderLayer> renderType) {this.renderType = renderType; this.spriteIdentifier = spriteIdentifier;}
 
-		public Function<ResourceLocation, RenderType> getRenderType() {return renderType;}
-		public Material getMaterial() {return material;}
+		public Function<Identifier, RenderLayer> getRenderType() {return renderType;}
+		public SpriteIdentifier getSpriteIdentifier() {return spriteIdentifier;}
 	}
 }

@@ -11,6 +11,9 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
+import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer;
+import net.minecraft.client.render.block.entity.SignBlockEntityRenderer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 
 public class RenderRegistrationListener
@@ -87,10 +90,11 @@ public class RenderRegistrationListener
         EntityRendererRegistry.register(AerialHellEntities.SHADOW_PROJECTILE, LightProjectileRender::new);
         EntityRendererRegistry.register(AerialHellEntities.AERIAL_HELL_PAINTING, AerialHellPaintingRender::new);
 
-        event.registerBlockEntityRenderer(AerialHellBlockEntities.CHEST, AerialHellChestBlockEntityRenderer::new);
-        event.registerBlockEntityRenderer(AerialHellBlockEntities.CHEST_MIMIC, AerialHellChestMimicBlockEntityRenderer::new);
-        event.registerBlockEntityRenderer(AerialHellBlockEntities.SIGN, SignRenderer::new);
-        event.registerBlockEntityRenderer(AerialHellBlockEntities.HANGING_SIGN, HangingSignRenderer::new);
+        BlockEntityRendererFactories.register(AerialHellBlockEntities.CHEST, AerialHellChestBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(AerialHellBlockEntities.CHEST, AerialHellChestBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(AerialHellBlockEntities.CHEST_MIMIC, AerialHellChestMimicBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(AerialHellBlockEntities.SIGN, SignBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(AerialHellBlockEntities.HANGING_SIGN, HangingSignBlockEntityRenderer::new);
     }
 
     public static void registerLayerDefinitions()

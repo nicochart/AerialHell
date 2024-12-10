@@ -15,3 +15,18 @@ accessible field net/minecraft/entity/mob/PhantomEntity SIZE Lnet/minecraft/enti
 
 #CraftingScreenHandler
 accessible field net/minecraft/screen/CraftingScreenHandler context Lnet/minecraft/screen/ScreenHandlerContext;
+
+#ChestBlockEntityRenderer
+accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer BASE Ljava/lang/String;
+accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer LID Ljava/lang/String;
+accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer LATCH Ljava/lang/String;
+accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer singleChestLid Lnet/minecraft/client/model/ModelPart;
+accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer singleChestBase Lnet/minecraft/client/model/ModelPart;
+accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer singleChestLatch Lnet/minecraft/client/model/ModelPart;
+accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestLeftLid Lnet/minecraft/client/model/ModelPart;
+accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestLeftBase Lnet/minecraft/client/model/ModelPart;
+accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestLeftLatch Lnet/minecraft/client/model/ModelPart;
+accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestRightLid Lnet/minecraft/client/model/ModelPart;
+accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestRightBase Lnet/minecraft/client/model/ModelPart;
+accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestRightLatch Lnet/minecraft/client/model/ModelPart;
+accessible method net/minecraft/client/render/block/entity/ChestBlockEntityRenderer render (Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;Lnet/minecraft/client/model/ModelPart;Lnet/minecraft/client/model/ModelPart;Lnet/minecraft/client/model/ModelPart;FII)V
