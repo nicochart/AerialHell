@@ -35,11 +35,8 @@ public class AerialHellClientSetup
         //NeoForge.EVENT_BUS.addListener(RenderListener::onRenderOverlayPost);
     }
 
-
     public static void registerDimensionRenderInfo()
     {
-
-        new AerialHellDimensionSkyRenderer();
         DimensionRenderingRegistry.SkyRenderer renderInfo = new AerialHellDimensionSpecialEffects(Float.NaN, false, DimensionEffects.SkyType.NONE, false, false);
         DimensionRenderingRegistry.registerSkyRenderer(AerialHellDimensions.AERIAL_HELL_DIMENSION, renderInfo);
     }

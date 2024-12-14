@@ -30,19 +30,14 @@ public class AerialHellDimensionSkyRenderer
 	private static final Identifier AERIAL_HELL_SUN_LOCATION = AerialHell.id("textures/environment/aerial_hell_sun.png");
 	private static final Identifier AERIAL_HELL_MOON_PHASES_LOCATION = AerialHell.id("textures/environment/aerial_hell_moon_phases.png");
 
-	public AerialHellDimensionSkyRenderer()
-	{
-		generateStars();
-	}
-
 	// Copy from net.minecraft.client.renderer.LevelRenderer
-	private void generateStars()
+	private static void generateStars()
 	{
 		if (starBuffer != null) {starBuffer.close();}
 
 		starBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
 		starBuffer.bind();
-		starBuffer.upload(this.renderStars(Tessellator.getInstance()));
+		starBuffer.upload(renderStars(Tessellator.getInstance()));
 		VertexBuffer.unbind();
 	}
 
@@ -149,6 +144,7 @@ public class AerialHellDimensionSkyRenderer
 					//if (starBrightness > 0.7F) {starBrightness = 0.7F;} //maximum brightness = 0.7F
 					RenderSystem.setShaderColor(starBrightness, starBrightness, starBrightness, starBrightness);
 					BackgroundRenderer.clearFog();
+					if (starBuffer == null) {generateStars();}
 					starBuffer.bind();
 					starBuffer.draw(matrixstack.peek().getPositionMatrix(), modelViewMatrix, GameRenderer.getPositionProgram());
 					VertexBuffer.unbind();
@@ -185,7 +181,7 @@ public class AerialHellDimensionSkyRenderer
 	
 	// Copy from net.minecraft.client.renderer.WorldRenderer renderStars(BufferBuilder bufferBuilderIn) but with more stars
 	@SuppressWarnings("unused")
-	private BuiltBuffer renderStars(Tessellator tesselator)
+	private static BuiltBuffer renderStars(Tessellator tesselator)
 	{
 		Random rand = Random.create(10842L);
 		BufferBuilder bufferbuilder = tesselator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
@@ -203,7 +199,7 @@ public class AerialHellDimensionSkyRenderer
 		return bufferbuilder.end();
 	}
 
-	private void renderScatteredStars(BufferBuilder builder, int starNumber, float bigChance, float bigSizeBonus, Random rand)
+	private static void renderScatteredStars(BufferBuilder builder, int starNumber, float bigChance, float bigSizeBonus, Random rand)
 	{
 		for (int i = 0; i < starNumber; i++)
 		{
@@ -219,7 +215,7 @@ public class AerialHellDimensionSkyRenderer
 		}
 	}
 
-	private void renderStarCluster(BufferBuilder builder, int starNumber, Vector3f origin, Vector3f size, float bigChance, float bigSizeBonus, Random rand)
+	private static void renderStarCluster(BufferBuilder builder, int starNumber, Vector3f origin, Vector3f size, float bigChance, float bigSizeBonus, Random rand)
 	{
 		for (int i = 0; i < starNumber; i++)
 		{
@@ -246,7 +242,7 @@ public class AerialHellDimensionSkyRenderer
 		}
 	}
 
-	private void generateStar(BufferBuilder builder, Vector3f normalizedStarVec, float starSize)
+	private static void generateStar(BufferBuilder builder, Vector3f normalizedStarVec, float starSize)
 	{
 		Quaternionf quaternionf = new Quaternionf().rotateTo(new Vector3f(0.0F, 0.0F, -1.0F), normalizedStarVec);
 		builder.vertex(normalizedStarVec.add(new Vector3f(starSize, -starSize, 0.0F).rotate(quaternionf)));
@@ -255,17 +251,17 @@ public class AerialHellDimensionSkyRenderer
 		builder.vertex(normalizedStarVec.add(new Vector3f(-starSize, -starSize, 0.0F).rotate(quaternionf)));
 	}
 
-	private Vector3f createRandomStar(Vector3f origin, Vector3f size, Random rand)
+	private static Vector3f createRandomStar(Vector3f origin, Vector3f size, Random rand)
 	{
 		return new Vector3f(origin.x + size.x * (rand.nextFloat() - 0.5F), origin.y + size.y * (rand.nextFloat() - 0.5F), origin.z + size.z * (rand.nextFloat() - 0.5F));
 	}
 
-	private Vector3f createRandomStar(Random rand)
+	private static Vector3f createRandomStar(Random rand)
 	{
 		return new Vector3f(rand.nextFloat() * 2.0F - 1.0F, rand.nextFloat() * 2.0F - 1.0F, rand.nextFloat() * 2.0F - 1.0F);
 	}
 
-	protected boolean isStarInsideCluster(Vector3f clusterCenter, Vector3f star, Vector3f clusterSize)
+	protected static boolean isStarInsideCluster(Vector3f clusterCenter, Vector3f star, Vector3f clusterSize)
 	{
 		float x = star.x - clusterCenter.x, y = star.y - clusterCenter.y, z = star.z - clusterCenter.z;
 		float sizex = clusterSize.x/2, sizey = clusterSize.y/2, sizez = clusterSize.z/2;
