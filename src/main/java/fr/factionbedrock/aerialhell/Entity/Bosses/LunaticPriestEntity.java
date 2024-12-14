@@ -94,7 +94,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		else if (nextPhase == BossPhase.SECOND_PHASE)
 		{
 			this.moveControl = new MoveControl(this);
-			this.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 120, 2, true, false)));
+			this.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 120, 2, true, false));
 		}
 	}
 

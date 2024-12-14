@@ -505,8 +505,8 @@ public class AerialHellItems
 
     //chests
     public static final Item AERIAL_TREE_CHEST_ITEM = register("aerial_tree_chest", new BlockItem(AerialHellBlocks.AERIAL_TREE_CHEST, new Item.Settings()));
-    public static final Item GOLDEN_BEECH_ITEM = register("golden_beech_chest", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_CHEST, new Item.Settings()));
-    public static final Item COPPER_PINE_ITEM = register("copper_pine_chest", new BlockItem(AerialHellBlocks.COPPER_PINE_CHEST, new Item.Settings()));
+    public static final Item GOLDEN_BEECH_CHEST_ITEM = register("golden_beech_chest", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_CHEST, new Item.Settings()));
+    public static final Item COPPER_PINE_CHEST_ITEM = register("copper_pine_chest", new BlockItem(AerialHellBlocks.COPPER_PINE_CHEST, new Item.Settings()));
     public static final Item LAPIS_ROBINIA_CHEST_ITEM = register("lapis_robinia_chest", new BlockItem(AerialHellBlocks.LAPIS_ROBINIA_CHEST, new Item.Settings()));
     public static final Item SHADOW_PINE_CHEST_ITEM = register("shadow_pine_chest", new BlockItem(AerialHellBlocks.SHADOW_PINE_CHEST, new Item.Settings()));
     public static final Item STELLAR_JUNGLE_TREE_CHEST_ITEM = register("stellar_jungle_tree_chest", new BlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_CHEST, new Item.Settings()));

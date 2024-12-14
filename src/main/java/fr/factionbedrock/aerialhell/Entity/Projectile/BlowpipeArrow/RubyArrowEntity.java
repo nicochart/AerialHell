@@ -31,5 +31,5 @@ public class RubyArrowEntity extends AbstractAerialArrowEntity
     
     @Override protected ItemStack asItemStack() {return new ItemStack(AerialHellItems.RUBY_BLOWPIPE_ARROW);}
 
-    @Override protected ItemStack () {return new ItemStack(AerialHellItems.RUBY_BLOWPIPE_ARROW);}
+    @Override protected ItemStack getDefaultItemStack() {return new ItemStack(AerialHellItems.RUBY_BLOWPIPE_ARROW);}
 }

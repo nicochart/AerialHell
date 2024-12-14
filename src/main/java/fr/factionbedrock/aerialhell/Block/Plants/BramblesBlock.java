@@ -1,20 +1,21 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.state.StateManager;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 
 public class BramblesBlock extends AerialHellTallGrassBlock
 {
@@ -27,16 +28,16 @@ public class BramblesBlock extends AerialHellTallGrassBlock
 	@Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {builder.add(AerialHellGrassBlock.SHIFTED_RENDER);}
 
 	@Override
-	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn)
+	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entityIn)
 	{
-		entityIn.makeStuckInBlock(state, new Vec3d((double)0.8F, 0.75D, (double)0.8F));
-		if (!level.isClientSide() && entityIn instanceof LivingEntity livingEntity)
+		entityIn.slowMovement(state, new Vec3d((double)0.8F, 0.75D, (double)0.8F));
+		if (!world.isClient() && entityIn instanceof LivingEntity livingEntity)
     	{
 			if (!EntityHelper.isImmuneToBramblesDamage(livingEntity))
 			{
-				int poisonDuration = this == AerialHellBlocksAndItems.SHADOW_BRAMBLES.get() ? 60 : 40;
+				int poisonDuration = this == AerialHellBlocks.SHADOW_BRAMBLES ? 60 : 40;
 				livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, poisonDuration, 0));
-				livingEntity.damage(AerialHellDamageTypes.getDamageSource(level, AerialHellDamageTypes.BRAMBLES_THORNS), 1.0F);
+				livingEntity.damage(AerialHellDamageTypes.getDamageSource(world, AerialHellDamageTypes.BRAMBLES_THORNS), 1.0F);
 			}
     	}
 	}

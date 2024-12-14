@@ -20,22 +20,22 @@ public class MagmaticGelShurikenEntity extends AbstractShurikenEntity
 
 	public MagmaticGelShurikenEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
 	{
-		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN), world, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN, world, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
 	}
 
 	public MagmaticGelShurikenEntity(double x, double y, double z, World world)
 	{
-		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN), x, y, z, world);
+		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN, x, y, z, world);
 	}
 
 	public MagmaticGelShurikenEntity(LivingEntity shooter, World world)
 	{
-		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN), shooter, world);
+		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN, shooter, world);
 	}
 
 	public MagmaticGelShurikenEntity(World world)
 	{
-		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN), world);
+		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN, world);
 	}
 
 	/*public MagmaticGelShurikenEntity(PlayMessages.SpawnEntity packet, World world)
