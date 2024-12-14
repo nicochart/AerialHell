@@ -1,36 +1,35 @@
 package fr.factionbedrock.aerialhell.Registry;
 
+import fr.factionbedrock.aerialhell.AerialHell;
+import net.minecraft.block.BlockSetType;
 import net.minecraft.block.WoodType;
-import net.minecraft.client.renderer.Sheets;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
-import net.minecraft.world.level.block.state.properties.WoodType;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraft.client.util.SpriteIdentifier;
+import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Identifier;
 
-import static fr.factionbedrock.aerialhell.AerialHell.MODID;
+import static net.minecraft.client.render.TexturedRenderLayers.*;
 
 public class AerialHellWoodTypes
 {
-    public static WoodType AERIAL_TREE = createDefault(ResourceLocation.fromNamespaceAndPath(MODID, "aerial_tree").toString());
-    public static WoodType COPPER_PINE = createDefault(ResourceLocation.fromNamespaceAndPath(MODID, "copper_pine").toString());
-    public static WoodType LAPIS_ROBINIA = createDefault(ResourceLocation.fromNamespaceAndPath(MODID, "lapis_robinia").toString());
-    public static WoodType GOLDEN_BEECH = createDefault(ResourceLocation.fromNamespaceAndPath(MODID, "golden_beech").toString());
-    public static WoodType STELLAR_JUNGLE_TREE = createDefault(ResourceLocation.fromNamespaceAndPath(MODID, "stellar_jungle_tree").toString());
-    public static WoodType SHADOW_PINE = createDefault(ResourceLocation.fromNamespaceAndPath(MODID, "shadow_pine").toString());
-    public static WoodType SKY_CACTUS_FIBER = createDefault(ResourceLocation.fromNamespaceAndPath(MODID, "sky_cactus_fiber").toString());
-    public static WoodType GRAY_SHROOM = createComplete(ResourceLocation.fromNamespaceAndPath(MODID, "gray_shroom").toString(), BlockSetType.OAK, SoundType.NETHER_WOOD, SoundType.NETHER_WOOD_HANGING_SIGN, SoundEvents.NETHER_WOOD_FENCE_GATE_CLOSE, SoundEvents.NETHER_WOOD_FENCE_GATE_OPEN);
+    public static WoodType AERIAL_TREE = createDefault(AerialHell.id("aerial_tree").toString());
+    public static WoodType COPPER_PINE = createDefault(AerialHell.id("copper_pine").toString());
+    public static WoodType LAPIS_ROBINIA = createDefault(AerialHell.id("lapis_robinia").toString());
+    public static WoodType GOLDEN_BEECH = createDefault(AerialHell.id("golden_beech").toString());
+    public static WoodType STELLAR_JUNGLE_TREE = createDefault(AerialHell.id("stellar_jungle_tree").toString());
+    public static WoodType SHADOW_PINE = createDefault(AerialHell.id("shadow_pine").toString());
+    public static WoodType SKY_CACTUS_FIBER = createDefault(AerialHell.id("sky_cactus_fiber").toString());
+    public static WoodType GRAY_SHROOM = createComplete(AerialHell.id("gray_shroom").toString(), BlockSetType.OAK, BlockSoundGroup.NETHER_WOOD, BlockSoundGroup.NETHER_WOOD_HANGING_SIGN, SoundEvents.BLOCK_NETHER_WOOD_FENCE_GATE_CLOSE, SoundEvents.BLOCK_NETHER_WOOD_FENCE_GATE_OPEN);
 
     private static WoodType createDefault(String name) {return new WoodType(name, BlockSetType.OAK);}
 
-    private static WoodType createComplete(String name, BlockSetType setType, SoundType soundType, SoundType hangingSignSoundType, SoundEvent fenceGateClose, SoundEvent fenceGateOpen)
+    private static WoodType createComplete(String name, BlockSetType setType, BlockSoundGroup soundType, BlockSoundGroup hangingSignSoundType, SoundEvent fenceGateClose, SoundEvent fenceGateOpen)
     {
         return new WoodType(name, setType, soundType, hangingSignSoundType, fenceGateClose, fenceGateOpen);
     }
 
-    public static void registerWoodTypes(final FMLClientSetupEvent event) //Client side
+    public static void registerWoodTypes()
     {
         WoodType.register(AERIAL_TREE);
         WoodType.register(COPPER_PINE);
@@ -42,17 +41,25 @@ public class AerialHellWoodTypes
         WoodType.register(GRAY_SHROOM);
     }
 
-    public static void addWoodTypesToSheets(final FMLClientSetupEvent event) //Client side too
+    public static void addWoodTypesToSheets()
     {
-        event.enqueueWork(() -> {
-            Sheets.addWoodType(AERIAL_TREE);
-            Sheets.addWoodType(COPPER_PINE);
-            Sheets.addWoodType(LAPIS_ROBINIA);
-            Sheets.addWoodType(GOLDEN_BEECH);
-            Sheets.addWoodType(STELLAR_JUNGLE_TREE);
-            Sheets.addWoodType(SHADOW_PINE);
-            Sheets.addWoodType(SKY_CACTUS_FIBER);
-            Sheets.addWoodType(GRAY_SHROOM);
-        });
+        addWoodTypeToSheets(AERIAL_TREE);
+        addWoodTypeToSheets(COPPER_PINE);
+        addWoodTypeToSheets(LAPIS_ROBINIA);
+        addWoodTypeToSheets(GOLDEN_BEECH);
+        addWoodTypeToSheets(STELLAR_JUNGLE_TREE);
+        addWoodTypeToSheets(SHADOW_PINE);
+        addWoodTypeToSheets(SKY_CACTUS_FIBER);
+        addWoodTypeToSheets(GRAY_SHROOM);
     }
+
+    public static void addWoodTypeToSheets(WoodType woodType)
+    {
+        SIGN_TYPE_TEXTURES.put(woodType, createSignTextureId(woodType));
+        HANGING_SIGN_TYPE_TEXTURES.put(woodType, createHangingSignTextureId(woodType));
+    }
+
+    //copies of methods of same name from net.minecraft.client.render.TexturedRenderLayers
+    private static SpriteIdentifier createSignTextureId(WoodType type) {return new SpriteIdentifier(SIGNS_ATLAS_TEXTURE, Identifier.ofVanilla("entity/signs/" + type.name()));}
+    private static SpriteIdentifier createHangingSignTextureId(WoodType type) {return new SpriteIdentifier(SIGNS_ATLAS_TEXTURE, Identifier.ofVanilla("entity/signs/hanging/" + type.name()));}
 }

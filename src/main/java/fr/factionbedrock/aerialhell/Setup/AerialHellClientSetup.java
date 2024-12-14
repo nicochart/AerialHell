@@ -18,8 +18,8 @@ public class AerialHellClientSetup
     {
         ClientPayloadHandler.handleDataOnMain();
 
-        //modEventBus.addListener(AerialHellWoodTypes::registerWoodTypes);
-        //modEventBus.addListener(AerialHellWoodTypes::addWoodTypesToSheets);
+        AerialHellWoodTypes.registerWoodTypes();
+        AerialHellWoodTypes.addWoodTypesToSheets();
         //modEventBus.addListener(BlocksAndItemsColorHandler::handleBlockColors);
         //modEventBus.addListener(BlocksAndItemsColorHandler::handleItemColors);
         RenderRegistrationListener.registerRenderers();
