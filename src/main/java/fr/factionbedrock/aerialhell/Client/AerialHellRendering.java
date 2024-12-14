@@ -2,15 +2,15 @@ package fr.factionbedrock.aerialhell.Client;
 
 import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.*;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMenuTypes;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 
 public class AerialHellRendering
 {
-	public static void registerScreensMenus(RegisterMenuScreensEvent event)
+	public static void registerScreensMenus()
 	{
-        event.register(AerialHellMenuTypes.OSCILLATOR.get(), OscillatorScreen::new);
-        event.register(AerialHellMenuTypes.FREEZER.get(), FreezerScreen::new);
-        event.register(AerialHellMenuTypes.STELLAR_FURNACE.get(), StellarFurnaceScreen::new);
-        event.register(AerialHellMenuTypes.REACTOR.get(), ReactorScreen::new);
+        HandledScreens.register(AerialHellMenuTypes.OSCILLATOR, OscillatorScreen::new);
+        HandledScreens.register(AerialHellMenuTypes.FREEZER, FreezerScreen::new);
+        HandledScreens.register(AerialHellMenuTypes.STELLAR_FURNACE, StellarFurnaceScreen::new);
+        HandledScreens.register(AerialHellMenuTypes.REACTOR, ReactorScreen::new);
     }
 }

@@ -31,7 +31,7 @@ public class AerialHellClientSetup
         AerialHellParticleTypes.registerParticleFactories();
         AerialHellClientSetup.registerDimensionRenderInfo();
         //modEventBus.addListener(BuildContentsEvent::buildContents);
-        //modEventBus.addListener(AerialHellRendering::registerScreensMenus);
+        AerialHellRendering.registerScreensMenus();
         //NeoForge.EVENT_BUS.addListener(RenderListener::onRenderOverlayPost);
     }
 

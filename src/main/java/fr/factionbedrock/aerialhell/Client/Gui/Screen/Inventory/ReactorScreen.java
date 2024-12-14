@@ -2,33 +2,33 @@ package fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Inventory.Menu.ReactorMenu;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
-public class ReactorScreen extends AbstractContainerScreen<ReactorMenu>
+public class ReactorScreen extends HandledScreen<ReactorMenu>
 {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/container/reactor.png");
+    private static final Identifier TEXTURE =  AerialHell.id("textures/gui/container/reactor.png");
 
-    public ReactorScreen(ReactorMenu menu, Inventory playerInventory, Component title)
+    public ReactorScreen(ReactorMenu menu, PlayerInventory playerInventory, Text title)
     {
         super(menu, playerInventory, title);
-        this.imageWidth = 176;
-        this.imageHeight = 166;
+        this.backgroundWidth = 176;
+        this.backgroundHeight = 166;
     }
 
-    @Override protected void renderBg(@NotNull GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY)
+    @Override protected void drawBackground(@NotNull DrawContext context, float delta, int mouseX, int mouseY)
     {
-        renderTransparentBackground(pGuiGraphics);
-        pGuiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+        renderInGameBackground(context);
+        context.drawTexture(TEXTURE, this.x, this.y, 0, 0, this.backgroundWidth, this.backgroundHeight);
     }
 
-    @Override public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick)
+    @Override public void render(@NotNull DrawContext context, int pMouseX, int pMouseY, float pPartialTick)
     {
-        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-        renderTooltip(pGuiGraphics, pMouseX, pMouseY);
+        super.render(context, pMouseX, pMouseY, pPartialTick);
+        drawMouseoverTooltip(context, pMouseX, pMouseY);
     }
 }
