@@ -33,3 +33,6 @@ accessible method net/minecraft/client/render/block/entity/ChestBlockEntityRende
 
 #WoodType
 accessible method net/minecraft/block/WoodType register (Lnet/minecraft/block/WoodType;)Lnet/minecraft/block/WoodType;
+
+#WorldRenderer
+accessible field net/minecraft/client/render/WorldRenderer lightSkyBuffer Lnet/minecraft/client/gl/VertexBuffer;

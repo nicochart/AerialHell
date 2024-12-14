@@ -11,6 +11,9 @@ import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSpecialEffec
 import fr.factionbedrock.aerialhell.Event.Listeners.RenderListener;
 import fr.factionbedrock.aerialhell.Registry.AerialHellWoodTypes;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.BuildContentsEvent;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
+import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
+import net.minecraft.client.render.DimensionEffects;
 
 public class AerialHellClientSetup
 {
@@ -26,17 +29,18 @@ public class AerialHellClientSetup
         RenderRegistrationListener.registerLayerDefinitions();
         //modEventBus.addListener(RenderRegistrationListener::onModelBake);
         AerialHellParticleTypes.registerParticleFactories();
-        //modEventBus.addListener(AerialHellClientSetup::registerDimensionRenderInfo);
+        AerialHellClientSetup.registerDimensionRenderInfo();
         //modEventBus.addListener(BuildContentsEvent::buildContents);
         //modEventBus.addListener(AerialHellRendering::registerScreensMenus);
         //NeoForge.EVENT_BUS.addListener(RenderListener::onRenderOverlayPost);
     }
 
 
-    //public static void registerDimensionRenderInfo(RegisterDimensionSpecialEffectsEvent event)
-    //{
-    //    new AerialHellDimensionSkyRenderer();
-    //    AerialHellDimensionSpecialEffects renderInfo = new AerialHellDimensionSpecialEffects(Float.NaN, false, DimensionSpecialEffects.SkyType.NONE, false, false);
-    //    event.register(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "aerial_hell"), renderInfo);
-    //}
+    public static void registerDimensionRenderInfo()
+    {
+
+        new AerialHellDimensionSkyRenderer();
+        DimensionRenderingRegistry.SkyRenderer renderInfo = new AerialHellDimensionSpecialEffects(Float.NaN, false, DimensionEffects.SkyType.NONE, false, false);
+        DimensionRenderingRegistry.registerSkyRenderer(AerialHellDimensions.AERIAL_HELL_DIMENSION, renderInfo);
+    }
 }

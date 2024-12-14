@@ -1,33 +1,40 @@
 package fr.factionbedrock.aerialhell.Client.World;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Camera;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.DimensionSpecialEffects;
-import net.minecraft.world.phys.Vec3;
-import org.joml.Matrix4f;
+import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.BackgroundRenderer;
+import net.minecraft.client.render.DimensionEffects;
+import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
-
-public class AerialHellDimensionSpecialEffects extends DimensionSpecialEffects
+public class AerialHellDimensionSpecialEffects extends DimensionEffects implements DimensionRenderingRegistry.SkyRenderer
 {
-    public AerialHellDimensionSpecialEffects(float cloudLevel, boolean skyEffect, DimensionSpecialEffects.SkyType skyType, boolean forceBrightLightmap, boolean hasEntityGroundLit)
+    public AerialHellDimensionSpecialEffects(float cloudLevel, boolean skyEffect, DimensionEffects.SkyType skyType, boolean forceBrightLightmap, boolean hasEntityGroundLit)
     {
         super(cloudLevel, skyEffect, skyType, forceBrightLightmap, hasEntityGroundLit);
     }
     
-    // Copy from DimensionSpecialEffects.Overworld
-    @Override public Vec3d getBrightnessDependentFogColor(Vec3d biomeFogColor, float daylight)
+    // Copy from DimensionEffects.Overworld
+    @Override public Vec3d adjustFogColor(Vec3d color, float sunHeight)
     {
-        return biomeFogColor.multiply(daylight * 0.94F + 0.06F, daylight * 0.94F + 0.06F, daylight * 0.91F + 0.09F);
+        return color.multiply((double)(sunHeight * 0.94F + 0.06F), (double)(sunHeight * 0.94F + 0.06F), (double)(sunHeight * 0.91F + 0.09F));
     }
+
+    @Override @Nullable public float[] getFogColorOverride(float skyAngle, float tickDelta) {return null;}
+    @Override public boolean useThickFog(int camX, int camY) {return false;}
 
     @Override
-    public boolean renderSky(ClientLevel level, int ticks, float partialTick, Matrix4f projectionMatrix, Camera camera, Matrix4f modelViewMatrix, boolean isFoggy, Runnable setupFog)
+    public void render(WorldRenderContext context)
     {
-        return AerialHellDimensionSkyRenderer.render(level, projectionMatrix, modelViewMatrix, partialTick, camera, isFoggy, setupFog);
+        AerialHellDimensionSkyRenderer.render(context.world(), context.projectionMatrix(), context.positionMatrix(), context.tickCounter().getTickDelta(false), context.camera(), false, getSetupFog(context));
     }
 
-    @Nullable @Override public float[] getSunriseColor(float daycycle, float partialTicks) {return null;}
-    @Override public boolean isFoggyAt(int x, int y) {return false;}
+    private static Runnable getSetupFog(WorldRenderContext context)
+    {
+        float viewDistance = context.gameRenderer().getViewDistance();
+        boolean shouldThickenFog = MinecraftClient.getInstance().inGameHud.getBossBarHud().shouldThickenFog();
+        float f = context.tickCounter().getTickDelta(false);
+        return () -> BackgroundRenderer.applyFog(context.camera(), BackgroundRenderer.FogType.FOG_SKY, viewDistance, shouldThickenFog, f);
+    }
 }
