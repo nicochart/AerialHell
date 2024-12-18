@@ -4,7 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractLightProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.FeatureRenderer;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -49,7 +49,7 @@ public class LightProjectileRender<T extends AbstractLightProjectileEntity> exte
         else {return 13;}
     }
 
-    public static FeatureRenderer getFeatureRenderer(Identifier texture) {return FeatureRenderer.getEntityCutoutNoCull(texture);}
+    public static RenderLayer getFeatureRenderer(Identifier texture) {return RenderLayer.getEntityCutoutNoCull(texture);}
 
     @Override
     public Identifier getTexture(T entity)

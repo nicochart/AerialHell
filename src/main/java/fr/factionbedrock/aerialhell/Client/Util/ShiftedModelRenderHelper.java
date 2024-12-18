@@ -1,24 +1,20 @@
 package fr.factionbedrock.aerialhell.Client.Util;
 
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier.AfterBake.Context;
 import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
 import fr.factionbedrock.aerialhell.Block.ShadowSpreader.BasicShadowSpreaderBlock;
 import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowLeavesBlock;
 import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowLogBlock;
 import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
-import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShiftingBlockBakedModel;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.ChunkRenderTypeSet;
-import net.neoforged.neoforge.client.event.ModelEvent;
+import net.minecraft.block.*;
+import net.minecraft.util.math.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShiftedModelRenderHelper
 {
-    public static void createAndRegisterDefaultBlockShiftedRender(Block block, ModelEvent.ModifyBakingResult event, ChunkRenderTypeSet renderType)
+    public static void createAndRegisterDefaultBlockShiftedRender(Block block, Context context)
     {
         if (block instanceof BasicShadowSpreaderBlock)
         {
@@ -27,39 +23,39 @@ public class ShiftedModelRenderHelper
 
             for (Boolean canSpread : booleanValues)
             {
-                BlockState state = block.getDefaultState().with(BasicShadowSpreaderBlock.CAN_SPREAD, canSpread).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
+                BlockState state = block.getDefaultState().with(BasicShadowSpreaderBlock.CAN_SPREAD, canSpread).with(AerialHellGrassBlock.SHIFTED_RENDER, false);
                 //replaces the models in the map
-                ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.getDefaultState().with(AerialHellGrassBlock.SHIFTED_RENDER, true), renderType, event);
-                event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+                ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.getDefaultState().with(AerialHellGrassBlock.SHIFTED_RENDER, true), context);
+                context.loader().getBakedModelMap().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
             }
         }
         else
         {
-            ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(block, block.getDefaultState().with(AerialHellGrassBlock.SHIFTED_RENDER, true), renderType, event);
+            ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(block, block.getDefaultState().with(AerialHellGrassBlock.SHIFTED_RENDER, true), context);
             //replaces the models in the map
-            event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+            context.loader().getBakedModelMap().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
         }
     }
 
-    public static void createAndRegisterGrowingPlantHeadBlock(GrowingPlantHeadBlock block, ModelEvent.ModifyBakingResult event)
+    public static void createAndRegisterAbstractPlantStemBlock(AbstractPlantStemBlock block, Context context)
     {
         for (int age = 0; age <= 25; age++)
         {
-            BlockState state = block.getDefaultState().with(GrowingPlantHeadBlock.AGE, age).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
+            BlockState state = block.getDefaultState().with(AbstractPlantStemBlock.AGE, age).with(AerialHellGrassBlock.SHIFTED_RENDER, false);
             //replaces the models in the map
-            ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.getDefaultState().with(AerialHellGrassBlock.SHIFTED_RENDER, true), ShiftingBlockBakedModel.CUTOUT, event);
-            event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+            ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.getDefaultState().with(AerialHellGrassBlock.SHIFTED_RENDER, true), context);
+            context.loader().getBakedModelMap().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
         }
     }
 
-    public static void createAndRegisterGrassBlockShiftedRender(GrassBlock block, ModelEvent.ModifyBakingResult event)
+    public static void createAndRegisterGrassBlockShiftedRender(GrassBlock block, Context context)
     {
-        ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(block, block.getDefaultState().with(AerialHellGrassBlock.SNOWY, false).setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), ShiftingBlockBakedModel.CUTOUT_MIPPED, event);
+        ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(block, block.getDefaultState().with(AerialHellGrassBlock.SNOWY, false).with(AerialHellGrassBlock.SHIFTED_RENDER, true), context);
         //replaces the models in the map
-        event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+        context.loader().getBakedModelMap().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
     }
 
-    public static void createAndRegisterLeavesBlockShiftedRender(LeavesBlock block, ModelEvent.ModifyBakingResult event)
+    public static void createAndRegisterLeavesBlockShiftedRender(LeavesBlock block, Context context)
     {
         BlockState state;
         List<Boolean> booleanValues = new ArrayList<>();
@@ -72,18 +68,18 @@ public class ShiftedModelRenderHelper
                 {
                     for (Boolean waterlogged : booleanValues)
                     {
-                        state = block.getDefaultState().with(LeavesBlock.DISTANCE, distance).setValue(LeavesBlock.PERSISTENT, persistent).setValue(ShiftableLeavesBlock.SHIFTED_RENDER, false).setValue(LeavesBlock.WATERLOGGED, waterlogged);
+                        state = block.getDefaultState().with(LeavesBlock.DISTANCE, distance).with(LeavesBlock.PERSISTENT, persistent).with(ShiftableLeavesBlock.SHIFTED_RENDER, false).with(LeavesBlock.WATERLOGGED, waterlogged);
                         if (block instanceof ShadowLeavesBlock) {state = state.with(ShadowLeavesBlock.CAN_SPREAD, can_spread);}
-                        ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.getDefaultState().with(ShadowLeavesBlock.SHIFTED_RENDER, true), ShiftingBlockBakedModel.CUTOUT, event);
+                        ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.getDefaultState().with(ShadowLeavesBlock.SHIFTED_RENDER, true), context);
                         //replaces the models in the map
-                        event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+                        context.loader().getBakedModelMap().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
                     }
                 }
             }
         }
     }
 
-    public static void createAndRegisterLogBlockShiftedRender(RotatedPillarBlock block, ModelEvent.ModifyBakingResult event)
+    public static void createAndRegisterLogBlockShiftedRender(PillarBlock block, Context context)
     {
         BlockState state;
         List<Boolean> booleanValues = new ArrayList<>();
@@ -92,11 +88,11 @@ public class ShiftedModelRenderHelper
         {
             for (Direction.Axis axis : Direction.Axis.VALUES)
             {
-                state = block.getDefaultState().with(RotatedPillarBlock.AXIS, axis);
+                state = block.getDefaultState().with(PillarBlock.AXIS, axis);
                 if (block instanceof ShadowLogBlock) {state = state.with(ShadowLogBlock.CAN_SPREAD, can_spread);}
-                ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.getDefaultState().with(ShadowLogBlock.SHIFTED_RENDER, true).setValue(RotatedPillarBlock.AXIS, axis), ShiftingBlockBakedModel.SOLID, event);
+                ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.getDefaultState().with(ShadowLogBlock.SHIFTED_RENDER, true).with(PillarBlock.AXIS, axis), context);
                 //replaces the models in the map
-                event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+                context.loader().getBakedModelMap().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
             }
         }
     }

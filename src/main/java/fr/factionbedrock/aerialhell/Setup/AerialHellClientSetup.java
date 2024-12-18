@@ -27,12 +27,15 @@ public class AerialHellClientSetup
         //modEventBus.addListener(BlocksAndItemsColorHandler::handleItemColors);
         RenderRegistrationListener.registerRenderers();
         RenderRegistrationListener.registerLayerDefinitions();
-        //modEventBus.addListener(RenderRegistrationListener::onModelBake);
+        RenderRegistrationListener.registerShiftingBakedModels();
         AerialHellParticleTypes.registerParticleFactories();
         AerialHellClientSetup.registerDimensionRenderInfo();
         //modEventBus.addListener(BuildContentsEvent::buildContents);
         AerialHellRendering.registerScreensMenus();
         //NeoForge.EVENT_BUS.addListener(RenderListener::onRenderOverlayPost);
+
+        BlocksAndItemsColorHandler.handleBlockColors();
+        BlocksAndItemsColorHandler.handleItemColors();
     }
 
     public static void registerDimensionRenderInfo()

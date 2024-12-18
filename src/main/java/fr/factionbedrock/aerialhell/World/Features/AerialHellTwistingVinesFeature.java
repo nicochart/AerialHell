@@ -13,7 +13,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.GrowingPlantHeadBlock;
+import net.minecraft.world.level.block.AbstractPlantStemBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -69,7 +69,7 @@ public class AerialHellTwistingVinesFeature extends Feature<AerialHellTwistingVi
         {
             if (level.isEmptyBlock(mutablePos))
             {
-                if (i == height || !level.isEmptyBlock(mutablePos.above())) {level.setBlockState(mutablePos, headBlock.getDefaultState().with(GrowingPlantHeadBlock.AGE, Integer.valueOf(MathHelper.nextInt(rand, minAge, maxAge))), 2); break;}
+                if (i == height || !level.isEmptyBlock(mutablePos.above())) {level.setBlockState(mutablePos, headBlock.getDefaultState().with(AbstractPlantStemBlock.AGE, Integer.valueOf(MathHelper.nextInt(rand, minAge, maxAge))), 2); break;}
                 level.setBlockState(mutablePos, bodyBlock.getDefaultState(), 2);
             }
             mutablePos.move(Direction.UP);

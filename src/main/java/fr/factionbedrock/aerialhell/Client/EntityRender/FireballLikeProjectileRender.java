@@ -4,7 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Projectile.DimensionShattererProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.PoisonballEntity;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.FeatureRenderer;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -32,7 +32,7 @@ public class FireballLikeProjectileRender<T extends FireballEntity> extends Enti
         matrixStack.multiply(this.dispatcher.getRotation());
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F));
         MatrixStack.Entry entry = matrixStack.peek();
-        VertexConsumer vertexconsumer = buffer.getBuffer(FeatureRenderer.getEntityCutoutNoCull(this.getTexture(entity)));
+        VertexConsumer vertexconsumer = buffer.getBuffer(RenderLayer.getEntityCutoutNoCull(this.getTexture(entity)));
         vertex(vertexconsumer, entry, packedLight, 0.0F, 0, 0, 1);
         vertex(vertexconsumer, entry, packedLight, 1.0F, 0, 1, 1);
         vertex(vertexconsumer, entry, packedLight, 1.0F, 1, 1, 0);

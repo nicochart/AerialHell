@@ -9,7 +9,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.GhostSlimeNinjaPirateE
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.GhostSlimePirateEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.SlimeNinjaPirateEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.SlimePirateEntity;
-import net.minecraft.client.render.FeatureRenderer;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer;
@@ -32,7 +32,7 @@ public class HumanoidTwoLayerRender extends MobEntityRenderer<AbstractHumanoidMo
         this.addFeature(new HeldItemFeatureRenderer<>(this, context.getHeldItemRenderer()));
     }
 
-    @Nullable @Override protected FeatureRenderer getFeatureRenderer(AbstractHumanoidMonster entity, boolean b1, boolean b2, boolean b3)
+    @Nullable @Override protected RenderLayer getRenderLayer(AbstractHumanoidMonster entity, boolean b1, boolean b2, boolean b3)
     {
         return RenderLayer.getEntityTranslucent(this.getTexture(entity));
     }

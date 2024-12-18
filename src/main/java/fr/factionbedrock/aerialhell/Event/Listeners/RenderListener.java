@@ -31,7 +31,7 @@ public class RenderListener
 
     public static void onRenderOverlayPost(RenderGuiEvent.Post event)
     {
-        Minecraft mc = Minecraft.getInstance();
+        Minecraft mc = MinecraftClient.getInstance();
         PlayerEntity player = mc.player;
 
         if (player != null && EntityHelper.isLivingEntityVulnerable(player))
@@ -44,7 +44,7 @@ public class RenderListener
     /* @SubscribeEvent TODO
     public static void onRenderOverlayPost(RenderGuiOverlayEvent.Post event)
     {
-        Minecraft mc = Minecraft.getInstance();
+        Minecraft mc = MinecraftClient.getInstance();
         PlayerEntity player = mc.player;
 
         if (player != null && EntityHelper.isLivingEntityVulnerable(player))
@@ -60,7 +60,7 @@ public class RenderListener
     /* @SubscribeEvent
     public static void onRenderOverlay(RenderGameOverlayEvent event)
     {
-        Minecraft mc = Minecraft.getInstance();
+        Minecraft mc = MinecraftClient.getInstance();
         PlayerEntity player = mc.player;
 
         if (event.getType() == RenderGameOverlayEvent.ElementType.ALL && player != null && EntityHelper.isLivingEntityVulnerable(player)) //TODO : ElementType.ALL is ok ? before is was ElementType.HEALTH

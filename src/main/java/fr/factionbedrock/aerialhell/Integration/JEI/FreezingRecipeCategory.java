@@ -46,9 +46,9 @@ public class FreezingRecipeCategory implements IRecipeCategory<FreezingRecipe>
 	{
 		builder.addSlot(RecipeIngredientRole.INPUT, 56, 17).addItemStack(recipe.getIngredients().get(0).getItems()[0]);
 		builder.addSlot(RecipeIngredientRole.CATALYST, 56, 53).addItemStack(new ItemStack(AerialHellBlocksAndItems.MAGMATIC_GEL.get()));
-		if (Minecraft.getInstance().level != null)
+		if (MinecraftClient.getInstance().world != null)
 		{
-			builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 34).addItemStack(recipe.getResultItem(Minecraft.getInstance().level.registryAccess()));
+			builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 34).addItemStack(recipe.getResultItem(MinecraftClient.getInstance().world.registryAccess()));
 		}
 	}
 
