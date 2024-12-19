@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.ShadowSpreader;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.block.BlockState;

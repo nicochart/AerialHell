@@ -1,23 +1,19 @@
 package fr.factionbedrock.aerialhell.Registry.Misc;
 
-import fr.factionbedrock.aerialhell.AerialHell;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Style;
-import net.minecraft.world.item.Rarity;
-import net.neoforged.fml.common.asm.enumextension.EnumProxy;
-
-import java.util.function.UnaryOperator;
+import fr.factionbedrock.aerialhell.Mixin.RarityMixin;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Rarity;
 
 public class AerialHellRarities
 {
-	public static final EnumProxy<Rarity> FROZEN = create("aerial_hell_frozen", ChatFormatting.DARK_AQUA);
-	public static final EnumProxy<Rarity> CORRUPTED = create("aerial_hell_corrupted", ChatFormatting.DARK_PURPLE);
-	public static final EnumProxy<Rarity> VIBRANT = create("aerial_hell_vibrant", ChatFormatting.DARK_GREEN);
-	public static final EnumProxy<Rarity> LEGENDARY = create("aerial_hell_legendary", ChatFormatting.GOLD);
-	public static final EnumProxy<Rarity> MYTHICAL = create("aerial_hell_mythical", ChatFormatting.RED);
+	public static final Rarity FROZEN = create(4, "frozen", Formatting.DARK_AQUA);
+	public static final Rarity CORRUPTED = create(5, "corrupted", Formatting.DARK_PURPLE);
+	public static final Rarity VIBRANT = create(6, "vibrant", Formatting.DARK_GREEN);
+	public static final Rarity LEGENDARY = create(7, "legendary", Formatting.GOLD);
+	public static final Rarity MYTHICAL = create(8, "mythical", Formatting.RED);
 
-	public static EnumProxy<Rarity> create(String name, ChatFormatting chatFormatting)
+	private static Rarity create(int index, String name, Formatting formatting)
 	{
-		return new EnumProxy<>(Rarity.class, -1, AerialHell.MODID+":"+name, (UnaryOperator<Style>) style -> style.withColor(chatFormatting));
+		return RarityMixin.invokeConstructor(name, index, index, "aerial_hell_"+name, formatting);
 	}
 }

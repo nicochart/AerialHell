@@ -3,7 +3,6 @@ package fr.factionbedrock.aerialhell.Block.ShadowSpreader;
 import fr.factionbedrock.aerialhell.Block.ShiftableLogBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;

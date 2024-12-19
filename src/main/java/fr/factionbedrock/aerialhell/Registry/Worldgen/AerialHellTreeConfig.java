@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Registry.Worldgen;
 
 import com.google.common.collect.ImmutableList;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;

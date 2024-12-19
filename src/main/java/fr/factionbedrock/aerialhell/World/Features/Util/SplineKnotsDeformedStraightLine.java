@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.World.Features.Util;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;

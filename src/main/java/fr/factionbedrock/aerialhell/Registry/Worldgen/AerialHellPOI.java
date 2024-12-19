@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.Registry.Worldgen;
 
 import com.google.common.collect.ImmutableSet;
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.neoforged.neoforge.registries.DeferredHolder;

@@ -1,5 +1,9 @@
 accessWidener v2 named
 
+#AxeItem strippable
+accessible field net/minecraft/item/AxeItem STRIPPED_BLOCKS Ljava/util/Map;
+mutable field net/minecraft/item/AxeItem STRIPPED_BLOCKS Ljava/util/Map;
+
 #Living Entity
 accessible field net/minecraft/entity/LivingEntity lastDamageSource Lnet/minecraft/entity/damage/DamageSource;
 accessible field net/minecraft/entity/LivingEntity lastDamageTime J

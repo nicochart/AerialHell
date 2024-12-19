@@ -1,31 +1,40 @@
 package fr.factionbedrock.aerialhell.Registry.CreativeModeTabs;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.function.Supplier;
+import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
 
-import static fr.factionbedrock.aerialhell.AerialHell.MODID;
+import java.util.Optional;
 
 public class AerialHellCreativeModeTabs
 {
-    public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+    public static final ItemGroup AERIAL_HELL_BLOCKS = register("aerialhell_blocks", AerialHellItems.STELLAR_STONE_BRICKS_ITEM);
+    public static final ItemGroup AERIAL_HELL_DUNGEON_BLOCKS = register("aerialhell_dungeon_blocks", AerialHellItems.LIGHT_LUNATIC_STONE_ITEM);
+    public static final ItemGroup AERIAL_HELL_TOOLS = register("aerialhell_tools", AerialHellItems.MAGMATIC_GEL_PICKAXE);
+    public static final ItemGroup AERIAL_HELL_COMBAT = register("aerialhell_combat", AerialHellItems.RUBY_SWORD);
+    public static final ItemGroup AERIAL_HELL_FOODSTUFFS = register("aerialhell_foodstuffs", AerialHellItems.VIBRANT_AERIAL_BERRY);
+    public static final ItemGroup AERIAL_HELL_MISCELLANEOUS = register("aerialhell_miscellaneous", AerialHellItems.RUBY_LIQUID_OF_GODS_BUCKET);
+    public static final ItemGroup AERIAL_HELL_SPAWN_EGGS = register("aerialhell_spawn_eggs", AerialHellItems.EVIL_COW_SPAWN_EGG);
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> AERIAL_HELL_BLOCKS = createTab("aerialhell_blocks", () -> AerialHellBlocksAndItems.STELLAR_STONE_BRICKS_ITEM.get());
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> AERIAL_HELL_DUNGEON_BLOCKS = createTab("aerialhell_dungeon_blocks", () -> AerialHellBlocksAndItems.LIGHT_LUNATIC_STONE_ITEM.get());
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> AERIAL_HELL_TOOLS = createTab("aerialhell_tools", () -> AerialHellBlocksAndItems.MAGMATIC_GEL_PICKAXE.get());
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> AERIAL_HELL_COMBAT = createTab("aerialhell_combat", () -> AerialHellBlocksAndItems.RUBY_SWORD.get());
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> AERIAL_HELL_FOODSTUFFS = createTab("aerialhell_foodstuffs", () -> AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY.get());
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> AERIAL_HELL_MISCELLANEOUS = createTab("aerialhell_miscellaneous", () -> AerialHellBlocksAndItems.RUBY_LIQUID_OF_GODS_BUCKET.get());
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> AERIAL_HELL_SPAWN_EGGS = createTab("aerialhell_spawn_eggs", () -> AerialHellBlocksAndItems.EVIL_COW_SPAWN_EGG.get());
+    private static ItemGroup register(String name, Item iconItem) {return Registry.register(Registries.ITEM_GROUP, AerialHell.id(name), createItemGroup(name, iconItem));}
 
-    private static DeferredHolder<CreativeModeTab, CreativeModeTab> createTab(String id, Supplier<Item> iconItem)
+    private static ItemGroup createItemGroup(String name, Item iconItem)
     {
-        return TABS.register(id, () -> CreativeModeTab.builder().title(Component.translatable("itemGroup."+id)).icon(iconItem.get()::getDefaultInstance).build());
+        return FabricItemGroup.builder().displayName(Text.translatable("itemGroup."+name)).icon(iconItem::getDefaultStack).build();
     }
+
+    @Nullable public static RegistryKey<ItemGroup> getItemGroupKey(ItemGroup group)
+    {
+        return Registries.ITEM_GROUP.getKey(group).orElse(null);
+    }
+
+    public static void load() {}
 }

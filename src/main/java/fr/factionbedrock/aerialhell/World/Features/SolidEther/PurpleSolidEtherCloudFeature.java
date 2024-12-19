@@ -1,9 +1,7 @@
 package fr.factionbedrock.aerialhell.World.Features.SolidEther;
 
 import com.mojang.serialization.Codec;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import fr.factionbedrock.aerialhell.World.Features.SolidEther.AbstractSolidEtherCloudFeature;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.core.BlockPos;

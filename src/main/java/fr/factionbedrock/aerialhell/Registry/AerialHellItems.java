@@ -15,7 +15,9 @@ import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellJukeboxSongs;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
+import net.minecraft.block.ComposterBlock;
 import net.minecraft.component.type.FoodComponent;
+import net.minecraft.component.type.FoodComponents;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
@@ -26,6 +28,41 @@ import net.minecraft.util.math.Direction;
 
 public class AerialHellItems
 {
+    public static void registerCompostableItems()
+    {
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_GRASS_ITEM, 0.1F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_TALL_GRASS_ITEM, 0.2F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_GRASS_BALL_ITEM, 0.2F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_DEAD_BUSH_ITEM, 0.1F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(BLUE_FLOWER_ITEM, 0.2F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(BLACK_ROSE_ITEM, 0.2F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(BELLFLOWER_ITEM, 0.2F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(AERIAL_BERRY, 0.5F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(VIBRANT_AERIAL_BERRY, 0.85F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(FROZEN_AERIAL_BERRY, 0.85F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(AERIAL_BERRY_SEEDS, 0.1F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(VIBRANT_AERIAL_BERRY_SEEDS, 0.2F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(COPPER_PINE_CONE, 0.5F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(AERIAL_TREE_LEAVES_ITEM, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(AERIAL_TREE_SAPLING_ITEM, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(GOLDEN_BEECH_LEAVES_ITEM, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(GOLDEN_BEECH_SAPLING_ITEM, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(COPPER_PINE_LEAVES_ITEM, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(COPPER_PINE_SAPLING_ITEM, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(LAPIS_ROBINIA_SAPLING_ITEM, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(LAPIS_ROBINIA_LEAVES_ITEM, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(SHADOW_PINE_SAPLING_ITEM, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(SHADOW_PINE_LEAVES_ITEM, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_JUNGLE_TREE_SAPLING_ITEM, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_JUNGLE_TREE_LEAVES_ITEM, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(CORTINARIUS_VIOLACEUS_ITEM, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK_ITEM, 0.2F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(SKY_CACTUS_FIBER, 0.1F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(SKY_CACTUS_ITEM, 0.4F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(VIBRANT_SKY_CACTUS_FIBER, 0.2F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(VIBRANT_SKY_CACTUS_ITEM, 0.8F);
+    }
+
     //portal
     public static final Item STELLAR_PORTAL_FRAME_BLOCK_ITEM = register("stellar_portal_frame_block", new BlockItem(AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK, new Item.Settings()));
     public static final Item STELLAR_PORTAL_FRAME_ORE_ITEM = register("stellar_portal_frame_ore", new BlockItem(AerialHellBlocks.STELLAR_PORTAL_FRAME_ORE, new Item.Settings()));
@@ -205,11 +242,11 @@ public class AerialHellItems
     public static final Item CRYSTAL_BRICKS_STAIRS_ITEM = register("crystal_bricks_stairs", new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS_STAIRS, new Item.Settings()));
     public static final Item CRYSTAL_BRICKS_WALL_ITEM = register("crystal_bricks_wall", new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS_WALL, new Item.Settings()));
     public static final Item STELLAR_STONE_CRYSTAL_BLOCK_ITEM = register("stellar_stone_crystal_block", new BlockItem(AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK, new Item.Settings()));
-    public static final Item SHADOW_CRYSTAL_BLOCK_ITEM = register("shadow_crystal_block", new BlockItem(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK, new Item.Settings().rarity(AerialHellRarities.CORRUPTED.getValue())));
+    public static final Item SHADOW_CRYSTAL_BLOCK_ITEM = register("shadow_crystal_block", new BlockItem(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
     public static final Item CRYSTALLIZED_LEAVES_ITEM = register("crystallized_leaves", new BlockItem(AerialHellBlocks.CRYSTALLIZED_LEAVES, new Item.Settings()));
     public static final Item CRYSTAL = register("crystal", new Item(new Item.Settings()));
     public static final Item STELLAR_STONE_CRYSTAL = register("stellar_stone_crystal", new Item(new Item.Settings()));
-    public static final Item SHADOW_CRYSTAL = register("shadow_crystal", new Item(new Item.Settings().rarity(AerialHellRarities.CORRUPTED.getValue())));
+    public static final Item SHADOW_CRYSTAL = register("shadow_crystal", new Item(new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
 
     //glass and glass pane
     public static final Item SLIPPERY_SAND_GLASS_ITEM = register("slippery_sand_glass", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_GLASS, new Item.Settings()));
@@ -246,15 +283,15 @@ public class AerialHellItems
     public static final Item GHOST_LANTERN_ITEM = register("ghost_lantern", new BlockItem(AerialHellBlocks.GHOST_LANTERN, new Item.Settings()));
 
     //reactors
-    public static final Item WEAK_LIGHT_REACTOR_ITEM = register("weak_light_reactor", new WithInformationBlockItem(AerialHellBlocks.WEAK_LIGHT_REACTOR, new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue())));
-    public static final Item HIGH_POWER_LIGHT_REACTOR_ITEM = register("high_power_light_reactor", new WithInformationBlockItem(AerialHellBlocks.HIGH_POWER_LIGHT_REACTOR, new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue())));
-    public static final Item WEAK_SHADOW_REACTOR_ITEM = register("weak_shadow_reactor", new WithInformationBlockItem(AerialHellBlocks.WEAK_SHADOW_REACTOR, new Item.Settings().rarity(AerialHellRarities.CORRUPTED.getValue())));
-    public static final Item HIGH_POWER_SHADOW_REACTOR_ITEM = register("high_power_shadow_reactor", new WithInformationBlockItem(AerialHellBlocks.HIGH_POWER_SHADOW_REACTOR, new Item.Settings().rarity(AerialHellRarities.CORRUPTED.getValue())));
+    public static final Item WEAK_LIGHT_REACTOR_ITEM = register("weak_light_reactor", new WithInformationBlockItem(AerialHellBlocks.WEAK_LIGHT_REACTOR, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
+    public static final Item HIGH_POWER_LIGHT_REACTOR_ITEM = register("high_power_light_reactor", new WithInformationBlockItem(AerialHellBlocks.HIGH_POWER_LIGHT_REACTOR, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
+    public static final Item WEAK_SHADOW_REACTOR_ITEM = register("weak_shadow_reactor", new WithInformationBlockItem(AerialHellBlocks.WEAK_SHADOW_REACTOR, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item HIGH_POWER_SHADOW_REACTOR_ITEM = register("high_power_shadow_reactor", new WithInformationBlockItem(AerialHellBlocks.HIGH_POWER_SHADOW_REACTOR, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
 
-    public static final Item BROKEN_WEAK_LIGHT_REACTOR_ITEM = register("broken_weak_light_reactor", new WithInformationBlockItem(AerialHellBlocks.BROKEN_WEAK_LIGHT_REACTOR, new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue())));
-    public static final Item BROKEN_HIGH_POWER_LIGHT_REACTOR_ITEM = register("broken_high_power_light_reactor", new WithInformationBlockItem(AerialHellBlocks.BROKEN_HIGH_POWER_LIGHT_REACTOR, new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue())));
-    public static final Item BROKEN_WEAK_SHADOW_REACTOR_ITEM = register("broken_weak_shadow_reactor", new WithInformationBlockItem(AerialHellBlocks.BROKEN_WEAK_SHADOW_REACTOR, new Item.Settings().rarity(AerialHellRarities.CORRUPTED.getValue())));
-    public static final Item BROKEN_HIGH_POWER_SHADOW_REACTOR_ITEM = register("broken_high_power_shadow_reactor", new WithInformationBlockItem(AerialHellBlocks.BROKEN_HIGH_POWER_SHADOW_REACTOR, new Item.Settings().rarity(AerialHellRarities.CORRUPTED.getValue())));
+    public static final Item BROKEN_WEAK_LIGHT_REACTOR_ITEM = register("broken_weak_light_reactor", new WithInformationBlockItem(AerialHellBlocks.BROKEN_WEAK_LIGHT_REACTOR, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
+    public static final Item BROKEN_HIGH_POWER_LIGHT_REACTOR_ITEM = register("broken_high_power_light_reactor", new WithInformationBlockItem(AerialHellBlocks.BROKEN_HIGH_POWER_LIGHT_REACTOR, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
+    public static final Item BROKEN_WEAK_SHADOW_REACTOR_ITEM = register("broken_weak_shadow_reactor", new WithInformationBlockItem(AerialHellBlocks.BROKEN_WEAK_SHADOW_REACTOR, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item BROKEN_HIGH_POWER_SHADOW_REACTOR_ITEM = register("broken_high_power_shadow_reactor", new WithInformationBlockItem(AerialHellBlocks.BROKEN_HIGH_POWER_SHADOW_REACTOR, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
 
     //solid_ethers
     public static final Item WHITE_SOLID_ETHER_ITEM = register("white_solid_ether", new BlockItem(AerialHellBlocks.WHITE_SOLID_ETHER, new Item.Settings()));
@@ -406,7 +443,7 @@ public class AerialHellItems
     public static final Item MAGMATIC_GEL_ORE_ITEM = register("magmatic_gel_ore", new BlockItem(AerialHellBlocks.MAGMATIC_GEL_ORE, new Item.Settings()));
     public static final Item RUBY_ORE_ITEM = register("ruby_ore", new BlockItem(AerialHellBlocks.RUBY_ORE, new Item.Settings()));
     public static final Item AZURITE_ORE_ITEM = register("azurite_ore", new BlockItem(AerialHellBlocks.AZURITE_ORE, new Item.Settings()));
-    public static final Item VOLUCITE_ORE_ITEM = register("volucite_ore", new BlockItem(AerialHellBlocks.VOLUCITE_ORE, new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue())));
+    public static final Item VOLUCITE_ORE_ITEM = register("volucite_ore", new BlockItem(AerialHellBlocks.VOLUCITE_ORE, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
     public static final Item OBSIDIAN_ORE_ITEM = register("obsidian_ore", new BlockItem(AerialHellBlocks.OBSIDIAN_ORE, new Item.Settings().rarity(Rarity.EPIC)));
     public static final Item SMOKY_QUARTZ_ORE_ITEM = register("smoky_quartz_ore", new BlockItem(AerialHellBlocks.SMOKY_QUARTZ_ORE, new Item.Settings().rarity(Rarity.EPIC)));
 
@@ -428,30 +465,30 @@ public class AerialHellItems
     public static final Item MAGMATIC_GEL = register("magmatic_gel", new Item(new Item.Settings()));
     public static final Item RUBY = register("ruby", new Item(new Item.Settings()));
     public static final Item AZURITE_CRYSTAL = register("azurite_crystal", new Item(new Item.Settings()));
-    public static final Item VOLUCITE_VIBRANT = register("volucite_vibrant", new VoluciteVibrantItem(new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue())));
+    public static final Item VOLUCITE_VIBRANT = register("volucite_vibrant", new VoluciteVibrantItem(new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
 
     public static final Item OVERHEATED_RUBY = register("overheated_ruby", new WithInformationItem(new Item.Settings()));
     public static final Item OVERHEATED_VOLUCITE = register("overheated_volucite", new WithInformationItem(new Item.Settings()));
 
     //legendary ores
-    public static final Item ARSONIST_INGOT = register("arsonist_ingot", new Item(new Item.Settings().rarity(AerialHellRarities.LEGENDARY.getValue()).fireproof()));
-    public static final Item LUNATIC_CRYSTAL = register("lunatic_crystal", new Item(new Item.Settings().rarity(AerialHellRarities.LEGENDARY.getValue())));
+    public static final Item ARSONIST_INGOT = register("arsonist_ingot", new Item(new Item.Settings().rarity(AerialHellRarities.LEGENDARY).fireproof()));
+    public static final Item LUNATIC_CRYSTAL = register("lunatic_crystal", new Item(new Item.Settings().rarity(AerialHellRarities.LEGENDARY)));
     public static final Item OBSIDIAN_SHARD = register("obsidian_shard", new Item(new Item.Settings().rarity(Rarity.EPIC)));
-    public static final Item CURSED_CRYSAL = register("cursed_crystal", new Item(new Item.Settings().rarity(AerialHellRarities.CORRUPTED.getValue())));
-    public static final Item ARSONIST_BLOCK_ITEM = register("arsonist_block", new BlockItem(AerialHellBlocks.ARSONIST_BLOCK, new Item.Settings().rarity(AerialHellRarities.LEGENDARY.getValue()).fireproof()));
-    public static final Item LUNATIC_CRYSTAL_BLOCK_ITEM = register("lunatic_crystal_block", new BlockItem(AerialHellBlocks.LUNATIC_CRYSTAL_BLOCK, new Item.Settings().rarity(AerialHellRarities.LEGENDARY.getValue())));
-    public static final Item CURSED_CRYSAL_BLOCK_ITEM = register("cursed_crystal_block", new BlockItem(AerialHellBlocks.CURSED_CRYSAL_BLOCK, new Item.Settings().rarity(AerialHellRarities.CORRUPTED.getValue())));
+    public static final Item CURSED_CRYSAL = register("cursed_crystal", new Item(new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item ARSONIST_BLOCK_ITEM = register("arsonist_block", new BlockItem(AerialHellBlocks.ARSONIST_BLOCK, new Item.Settings().rarity(AerialHellRarities.LEGENDARY).fireproof()));
+    public static final Item LUNATIC_CRYSTAL_BLOCK_ITEM = register("lunatic_crystal_block", new BlockItem(AerialHellBlocks.LUNATIC_CRYSTAL_BLOCK, new Item.Settings().rarity(AerialHellRarities.LEGENDARY)));
+    public static final Item CURSED_CRYSAL_BLOCK_ITEM = register("cursed_crystal_block", new BlockItem(AerialHellBlocks.CURSED_CRYSAL_BLOCK, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
 
     //cactus
     public static final Item SKY_CACTUS_ITEM = register("sky_cactus", new BlockItem(AerialHellBlocks.SKY_CACTUS, new Item.Settings()));
     public static final Item SKY_CACTUS_FIBER_PLANKS_ITEM = register("sky_cactus_fiber_planks", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_PLANKS, new Item.Settings()));
     public static final Item SKY_CACTUS_FIBER_BOOKSHELF_ITEM = register("sky_cactus_fiber_bookshelf", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_BOOKSHELF, new Item.Settings()));
-    public static final Item VIBRANT_SKY_CACTUS_ITEM = register("vibrant_sky_cactus", new BlockItem(AerialHellBlocks.VIBRANT_SKY_CACTUS, new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue())));
-    public static final Item VIBRANT_SKY_CACTUS_FIBER_LANTERN_ITEM = register("vibrant_sky_cactus_fiber_lantern", new BlockItem(AerialHellBlocks.VIBRANT_SKY_CACTUS_FIBER_LANTERN, new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue())));
+    public static final Item VIBRANT_SKY_CACTUS_ITEM = register("vibrant_sky_cactus", new BlockItem(AerialHellBlocks.VIBRANT_SKY_CACTUS, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
+    public static final Item VIBRANT_SKY_CACTUS_FIBER_LANTERN_ITEM = register("vibrant_sky_cactus_fiber_lantern", new BlockItem(AerialHellBlocks.VIBRANT_SKY_CACTUS_FIBER_LANTERN, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
 
     //bushes
     public static final Item AERIAL_BERRY_SEEDS = register("aerial_berry_seeds", new AliasedBlockItem(AerialHellBlocks.AERIAL_BERRY_BUSH, new Item.Settings()));
-    public static final Item VIBRANT_AERIAL_BERRY_SEEDS = register("vibrant_aerial_berry_seeds", new AliasedBlockItem(AerialHellBlocks.VIBRANT_AERIAL_BERRY_BUSH, new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue())));
+    public static final Item VIBRANT_AERIAL_BERRY_SEEDS = register("vibrant_aerial_berry_seeds", new AliasedBlockItem(AerialHellBlocks.VIBRANT_AERIAL_BERRY_BUSH, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
 
     //crops
     public static final Item STELLAR_WHEAT_SEEDS = register("stellar_wheat_seeds", new AliasedBlockItem(AerialHellBlocks.STELLAR_WHEAT, new Item.Settings()));
@@ -716,7 +753,7 @@ public class AerialHellItems
     //item for crafts
     public static final Item SKY_STICK = register("sky_stick", new BurnableItem(new Item.Settings(), 100));
     public static final Item SKY_BOWL = register("sky_bowl", new BurnableItem(new Item.Settings(), 200));
-    public static final Item SHADOW_SHARD = register("shadow_shard", new Item(new Item.Settings().rarity(AerialHellRarities.CORRUPTED.getValue())));
+    public static final Item SHADOW_SHARD = register("shadow_shard", new Item(new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
     public static final Item ROTTEN_LEATHER = register("rotten_leather", new Item(new Item.Settings()));
     public static final Item VENOMOUS_SNAKE_SKIN = register("venomous_snake_skin", new Item(new Item.Settings()));
     public static final Item ARSONIST_UPGRADE_SMITHING_TEMPLATE = register("arsonist_upgrade_smithing_template", ItemHelper.SmithingTemplate.createUpgradeTemplate("arsonist"));
@@ -742,51 +779,51 @@ public class AerialHellItems
     //food
     public static final Item AERIAL_BERRY = register("aerial_berry", new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(2).saturationModifier(0.2F).build())));
     public static final Item ROASTED_AERIAL_BERRY = register("roasted_aerial_berry", new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(4).saturationModifier(0.4F).build())));
-    public static final Item VIBRANT_AERIAL_BERRY = register("vibrant_aerial_berry", new Item(new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue()).food(new FoodComponent.Builder().nutrition(6).saturationModifier(0.6F).build())));
-    public static final Item FROZEN_AERIAL_BERRY = register("frozen_aerial_berry", new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN.getValue(), () -> new StatusEffectInstance(StatusEffects.SLOWNESS, 310, 0), () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 210, 0)));
+    public static final Item VIBRANT_AERIAL_BERRY = register("vibrant_aerial_berry", new Item(new Item.Settings().rarity(AerialHellRarities.VIBRANT).food(new FoodComponent.Builder().nutrition(6).saturationModifier(0.6F).build())));
+    public static final Item FROZEN_AERIAL_BERRY = register("frozen_aerial_berry", new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN, () -> new StatusEffectInstance(StatusEffects.SLOWNESS, 310, 0), () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 210, 0)));
     public static final Item STELLAR_BREAD = register("stellar_bread", new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(5).saturationModifier(0.6F).build())));
-    public static final Item FROZEN_MUTTON = register("frozen_mutton", new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN.getValue(), () -> new StatusEffectInstance(StatusEffects.SLOWNESS, 310, 0), () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 210, 0)));
-    public static final Item VIBRANT_CHICKEN = register("vibrant_chicken", new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT.getValue(), () -> new StatusEffectInstance(StatusEffects.SLOW_FALLING, 60, 0)));
-    public static final Item FROZEN_CHICKEN = register("frozen_chicken", new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN.getValue(), () -> new StatusEffectInstance(StatusEffects.SLOWNESS, 310, 0), () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 210, 1), () -> new StatusEffectInstance(StatusEffects.HUNGER, 80, 0)));
+    public static final Item FROZEN_MUTTON = register("frozen_mutton", new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN, () -> new StatusEffectInstance(StatusEffects.SLOWNESS, 310, 0), () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 210, 0)));
+    public static final Item VIBRANT_CHICKEN = register("vibrant_chicken", new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT, () -> new StatusEffectInstance(StatusEffects.SLOW_FALLING, 60, 0)));
+    public static final Item FROZEN_CHICKEN = register("frozen_chicken", new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN, () -> new StatusEffectInstance(StatusEffects.SLOWNESS, 310, 0), () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 210, 1), () -> new StatusEffectInstance(StatusEffects.HUNGER, 80, 0)));
     public static final Item RUBY_AERIAL_BERRY = register("ruby_aerial_berry", new FoodWithEffectItem(6, 0.8F, Rarity.RARE, () -> new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 2400, 0)));
-    public static final Item VOLUCITE_AERIAL_BERRY = register("volucite_aerial_berry", new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT.getValue(), () -> new StatusEffectInstance(StatusEffects.SLOW_FALLING, 2400, 2)));
+    public static final Item VOLUCITE_AERIAL_BERRY = register("volucite_aerial_berry", new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT, () -> new StatusEffectInstance(StatusEffects.SLOW_FALLING, 2400, 2)));
     public static final Item GLOWING_STICK_FRUIT = register("glowing_stick_fruit", new AliasedBlockItem(AerialHellBlocks.GLOWING_STICK_FRUIT_VINES, new Item.Settings().food(new FoodComponent.Builder().nutrition(2).saturationModifier(0.2F).build())));
-    public static final Item VIBRANT_GLOWING_STICK_FRUIT = register("vibrant_glowing_stick_fruit", new Item(new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue()).food(new FoodComponent.Builder().nutrition(4).saturationModifier(0.4F).build())));
-    public static final Item FROZEN_GLOWING_STICK_FRUIT = register("frozen_glowing_stick_fruit", new FoodWithEffectItem(4, 0.4F, AerialHellRarities.FROZEN.getValue(), () -> new StatusEffectInstance(StatusEffects.SLOWNESS, 120, 0), () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 180, 0)));
+    public static final Item VIBRANT_GLOWING_STICK_FRUIT = register("vibrant_glowing_stick_fruit", new Item(new Item.Settings().rarity(AerialHellRarities.VIBRANT).food(new FoodComponent.Builder().nutrition(4).saturationModifier(0.4F).build())));
+    public static final Item FROZEN_GLOWING_STICK_FRUIT = register("frozen_glowing_stick_fruit", new FoodWithEffectItem(4, 0.4F, AerialHellRarities.FROZEN, () -> new StatusEffectInstance(StatusEffects.SLOWNESS, 120, 0), () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 180, 0)));
     public static final Item CORTINARIUS_VIOLACEUS_PIECE = register("cortinarius_violaceus_piece", new FoodWithEffectItem(1, 0.1F, Rarity.COMMON, () -> new StatusEffectInstance(StatusEffects.NAUSEA, 100, 0)));
     public static final Item GANODERMA_APPLANATUM_PIECE = register("ganoderma_applanatum_piece", new FoodWithEffectItem(1, 0.1F, Rarity.COMMON, () -> new StatusEffectInstance(StatusEffects.HUNGER, 100, 0)));
     public static final Item DARK_SHADOW_FRUIT = register("dark_shadow_fruit", new FoodWithEffectItem(2, 0.2F, Rarity.COMMON, () -> new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0), () -> new StatusEffectInstance(StatusEffects.NIGHT_VISION, 120, 0)));
     public static final Item PURPLE_SHADOW_FRUIT = register("purple_shadow_fruit", new FoodWithEffectItem(2, 0.2F, Rarity.COMMON, () -> new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0), () -> new StatusEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY, 80, 0)));
-    public static final Item SHADOW_FRUIT_STEW = register("shadow_fruit_stew", new SkySoupItem(2, 0.2F, AerialHellRarities.CORRUPTED.getValue(), () -> new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0), () -> new StatusEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY, 1200, 0)));
+    public static final Item SHADOW_FRUIT_STEW = register("shadow_fruit_stew", new SkySoupItem(2, 0.2F, AerialHellRarities.CORRUPTED, () -> new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0), () -> new StatusEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY, 1200, 0)));
     public static final Item SOLID_ETHER_SOUP = register("solid_ether_soup", new SkySoupItem(2, 0.2F, Rarity.COMMON, () -> new StatusEffectInstance(StatusEffects.SLOW_FALLING, 160, 0), () -> new StatusEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS, 160, 0)));
-    public static final Item VIBRANT_SOLID_ETHER_SOUP = register("vibrant_solid_ether_soup", new SkySoupItem(4, 0.2F, AerialHellRarities.VIBRANT.getValue(), () -> new StatusEffectInstance(StatusEffects.SLOW_FALLING, 160, 0), () -> new StatusEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS, 160, 1)));
-    public static final Item FROZEN_SOLID_ETHER_SOUP = register("frozen_solid_ether_soup", new SkySoupItem(4, 0.2F, AerialHellRarities.FROZEN.getValue(), () -> new StatusEffectInstance(StatusEffects.SLOW_FALLING, 180, 0), () -> new StatusEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS, 160, 0), () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 210, 0)));
-    public static final Item SHADOW_SPIDER_EYE = register("shadow_spider_eye", new FoodWithEffectItem(2, 0.2F, AerialHellRarities.CORRUPTED.getValue(), () -> new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0), () -> new StatusEffectInstance(StatusEffects.SLOWNESS, 120, 0)));
+    public static final Item VIBRANT_SOLID_ETHER_SOUP = register("vibrant_solid_ether_soup", new SkySoupItem(4, 0.2F, AerialHellRarities.VIBRANT, () -> new StatusEffectInstance(StatusEffects.SLOW_FALLING, 160, 0), () -> new StatusEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS, 160, 1)));
+    public static final Item FROZEN_SOLID_ETHER_SOUP = register("frozen_solid_ether_soup", new SkySoupItem(4, 0.2F, AerialHellRarities.FROZEN, () -> new StatusEffectInstance(StatusEffects.SLOW_FALLING, 180, 0), () -> new StatusEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS, 160, 0), () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 210, 0)));
+    public static final Item SHADOW_SPIDER_EYE = register("shadow_spider_eye", new FoodWithEffectItem(2, 0.2F, AerialHellRarities.CORRUPTED, () -> new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0), () -> new StatusEffectInstance(StatusEffects.SLOWNESS, 120, 0)));
     public static final Item PHANTOM_MEAT = register("phantom_meat", new FoodWithEffectItem(5, 0.8F, Rarity.UNCOMMON, () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 120, 0)));
-    public static final Item VIBRANT_PHANTOM_MEAT = register("vibrant_phantom_meat", new FoodWithEffectItem(8, 0.8F, AerialHellRarities.VIBRANT.getValue(), () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 400, 1)));
-    public static final Item FROZEN_PHANTOM_MEAT = register("frozen_phantom_meat", new FoodWithEffectItem(6, 0.6F, AerialHellRarities.FROZEN.getValue(), () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 800, 1)));
+    public static final Item VIBRANT_PHANTOM_MEAT = register("vibrant_phantom_meat", new FoodWithEffectItem(8, 0.8F, AerialHellRarities.VIBRANT, () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 400, 1)));
+    public static final Item FROZEN_PHANTOM_MEAT = register("frozen_phantom_meat", new FoodWithEffectItem(6, 0.6F, AerialHellRarities.FROZEN, () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 800, 1)));
     public static final Item COOKED_PHANTOM_MEAT = register("cooked_phantom_meat", new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(10).saturationModifier(0.9F).build())));
-    public static final Item TURTLE_MEAT = register("turtle_meat", new Item(new Item.Settings().food(Foods.BEEF)));
-    public static final Item VIBRANT_TURTLE_MEAT = register("vibrant_turtle_meat", new FoodWithEffectItem(7, 0.7F, AerialHellRarities.VIBRANT.getValue(), () -> new StatusEffectInstance(StatusEffects.SLOW_FALLING, 400, 0)));
-    public static final Item FROZEN_TURTLE_MEAT = register("frozen_turtle_meat", new FoodWithEffectItem(6, 0.6F, AerialHellRarities.FROZEN.getValue(), () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 400, 0)));
-    public static final Item COOKED_TURTLE_MEAT = register("cooked_turtle_meat", new Item(new Item.Settings().food(Foods.COOKED_BEEF)));
+    public static final Item TURTLE_MEAT = register("turtle_meat", new Item(new Item.Settings().food(FoodComponents.BEEF)));
+    public static final Item VIBRANT_TURTLE_MEAT = register("vibrant_turtle_meat", new FoodWithEffectItem(7, 0.7F, AerialHellRarities.VIBRANT, () -> new StatusEffectInstance(StatusEffects.SLOW_FALLING, 400, 0)));
+    public static final Item FROZEN_TURTLE_MEAT = register("frozen_turtle_meat", new FoodWithEffectItem(6, 0.6F, AerialHellRarities.FROZEN, () -> new StatusEffectInstance(StatusEffects.RESISTANCE, 400, 0)));
+    public static final Item COOKED_TURTLE_MEAT = register("cooked_turtle_meat", new Item(new Item.Settings().food(FoodComponents.COOKED_BEEF)));
     public static final Item GODS_VOLUCITE_AERIAL_BERRY = register("gods_volucite_aerial_berry", new GodsVoluciteBerryItem());
     public static final Item COPPER_PINE_CONE = register("copper_pine_cone", new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(4).saturationModifier(0.4F).build())));
     public static final Item AZURITE_COPPER_PINE_CONE = register("azurite_copper_pine_cone", new FoodWithEffectItem(4, 0.4F, Rarity.COMMON, () -> new StatusEffectInstance(StatusEffects.HASTE, 400, 0)));
-    public static final Item PHOENIX_FEATHER = register("phoenix_feather", new FoodWithEffectItem(6, 0.8F, AerialHellRarities.LEGENDARY.getValue(), () -> new StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200, 0), () -> new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 1200, 0)));
-    public static final Item SKY_CACTUS_FIBER = register("sky_cactus_fiber", new Item(new Item.Settings().food(new FoodComponent.Builder().fast().nutrition(1).saturationModifier(0.1F).build())));
-    public static final Item VIBRANT_SKY_CACTUS_FIBER = register("vibrant_sky_cactus_fiber", new Item(new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue()).food(new FoodComponent.Builder().fast().nutrition(4).saturationModifier(0.3F).build())));
+    public static final Item PHOENIX_FEATHER = register("phoenix_feather", new FoodWithEffectItem(6, 0.8F, AerialHellRarities.LEGENDARY, () -> new StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200, 0), () -> new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 1200, 0)));
+    public static final Item SKY_CACTUS_FIBER = register("sky_cactus_fiber", new Item(new Item.Settings().food(new FoodComponent.Builder().snack().nutrition(1).saturationModifier(0.1F).build())));
+    public static final Item VIBRANT_SKY_CACTUS_FIBER = register("vibrant_sky_cactus_fiber", new Item(new Item.Settings().rarity(AerialHellRarities.VIBRANT).food(new FoodComponent.Builder().snack().nutrition(4).saturationModifier(0.3F).build())));
     public static final Item WHITE_SOLID_ETHER_FRAGMENT = register("white_solid_ether_fragment", new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(1).saturationModifier(0.1F).build())));
     public static final Item BLUE_SOLID_ETHER_FRAGMENT = register("blue_solid_ether_fragment", new FoodWithEffectItem(1, 0.1F, Rarity.UNCOMMON, () -> new StatusEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS, 90, 0)));
     public static final Item GOLDEN_SOLID_ETHER_FRAGMENT = register("golden_solid_ether_fragment", new FoodWithEffectItem(1, 0.1F, Rarity.UNCOMMON, () -> new StatusEffectInstance(StatusEffects.SLOW_FALLING, 110, 0)));
     public static final Item GREEN_SOLID_ETHER_FRAGMENT = register("green_solid_ether_fragment", new FoodWithEffectItem(1, 0.1F, Rarity.UNCOMMON, () -> new StatusEffectInstance(StatusEffects.JUMP_BOOST, 90, 1)));
-    public static final Item PURPLE_SOLID_ETHER_FRAGMENT = register("purple_solid_ether_fragment", new FoodWithEffectItem(1, 0.1F, AerialHellRarities.CORRUPTED.getValue(), () -> new StatusEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY, 90, 1)));
+    public static final Item PURPLE_SOLID_ETHER_FRAGMENT = register("purple_solid_ether_fragment", new FoodWithEffectItem(1, 0.1F, AerialHellRarities.CORRUPTED, () -> new StatusEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY, 90, 1)));
     public static final Item GOLDEN_NETHER_MEAT_PIECE = register("golden_nether_meat_piece", new FoodWithEffectItem(1, 0.1F, Rarity.UNCOMMON, () -> new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 110, 0)));
     public static final Item GOLDEN_NETHER_STEAK = register("golden_nether_steak", new FoodWithEffectItem(4, 0.4F, Rarity.UNCOMMON, () -> new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 500, 0)));
-    public static final Item VIBRANT_GOLDEN_NETHER_STEAK = register("vibrant_golden_nether_steak", new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT.getValue(), () -> new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 1000, 0)));
+    public static final Item VIBRANT_GOLDEN_NETHER_STEAK = register("vibrant_golden_nether_steak", new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT, () -> new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 1000, 0)));
 
     //buckets
-    public static final Item IRON_LIQUID_OF_GODS_BUCKET = register("iron_liquid_of_gods_bucket", new BucketItem(AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE, (new Item.Settings()).maxCount(1)));
+    public static final Item IRON_LIQUID_OF_GODS_BUCKET = register("iron_liquid_of_gods_bucket", new BucketItem(AerialHellFluids.LIQUID_OF_THE_GODS_STILL, (new Item.Settings()).maxCount(1)));
     public static final Item RUBY_LIQUID_OF_GODS_BUCKET = register("ruby_liquid_of_gods_bucket", new RubyLiquidOfGodsBucketItem(new Item.Settings().maxCount(1)));
     public static final Item RUBY_BUCKET = register("ruby_bucket", new RubyBucketItem(new Item.Settings().maxCount(16)));
     public static final Item RUBY_WATER_BUCKET = register("ruby_water_bucket", new RubyWaterBucketItem(new Item.Settings().maxCount(1)));
@@ -794,10 +831,10 @@ public class AerialHellItems
 
     //arrows & bows
     public static final Item RUBY_BLOWPIPE_ARROW = register("ruby_blowpipe_arrow", new AerialArrowItem(new Item.Settings()));
-    public static final Item VOLUCITE_BLOWPIPE_ARROW = register("volucite_blowpipe_arrow", new AerialArrowItem(new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue())));
+    public static final Item VOLUCITE_BLOWPIPE_ARROW = register("volucite_blowpipe_arrow", new AerialArrowItem(new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
 
     public static final Item RUBY_BLOWPIPE = register("ruby_blowpipe", new BlowpipeItem(new Item.Settings().maxCount(1).maxDamage(200), 1.7F));
-    public static final Item VOLUCITE_BLOWPIPE = register("volucite_blowpipe", new BlowpipeItem(new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue()).maxCount(1).maxDamage(400), 2.4F));
+    public static final Item VOLUCITE_BLOWPIPE = register("volucite_blowpipe", new BlowpipeItem(new Item.Settings().rarity(AerialHellRarities.VIBRANT).maxCount(1).maxDamage(400), 2.4F));
 
     //music discs
     public static final Item MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP = register("music_disc_aerial_hell_theme_tommaup", new Item(new Item.Settings().maxCount(1).rarity(Rarity.RARE).jukeboxPlayable(AerialHellJukeboxSongs.AERIAL_HELL_THEME_TOMMAUP)));
@@ -813,11 +850,11 @@ public class AerialHellItems
     public static final PickaxeItem AZURITE_PICKAXE = register("azurite_pickaxe", new PickaxeItem(ToolMaterials.AZURITE, new Item.Settings().attributeModifiers(PickaxeItem.createAttributeModifiers(ToolMaterials.AZURITE, 1.0F, -2.8F))));
     public static final PickaxeItem MAGMATIC_GEL_PICKAXE = register("magmatic_gel_pickaxe", new PickaxeItem(ToolMaterials.MAGMATIC_GEL, new Item.Settings().attributeModifiers(PickaxeItem.createAttributeModifiers(ToolMaterials.MAGMATIC_GEL, 1.0F, -2.8F))));
     public static final PickaxeItem OBSIDIAN_PICKAXE = register("obsidian_pickaxe", new PickaxeItem(ToolMaterials.OBSIDIAN, new Item.Settings().rarity(Rarity.EPIC).attributeModifiers(PickaxeItem.createAttributeModifiers(ToolMaterials.OBSIDIAN, 1.0F, -2.8F))));
-    public static final PickaxeItem VOLUCITE_PICKAXE = register("volucite_pickaxe", new EffectPickaxeItem(ToolMaterials.VOLUCITE, new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue()).attributeModifiers(PickaxeItem.createAttributeModifiers(ToolMaterials.VOLUCITE, 1.0F, -2.8F))));
-    public static final PickaxeItem LUNATIC_PICKAXE = register("lunatic_pickaxe", new PickaxeItem(ToolMaterials.LUNATIC, new Item.Settings().rarity(AerialHellRarities.LEGENDARY.getValue()).attributeModifiers(PickaxeItem.createAttributeModifiers(ToolMaterials.LUNATIC, 1.0F, -2.8F))));
-    public static final PickaxeItem ARSONIST_PICKAXE = register("arsonist_pickaxe", new PickaxeItem(ToolMaterials.ARSONIST, new Item.Settings().fireproof().rarity(AerialHellRarities.MYTHICAL.getValue()).attributeModifiers(PickaxeItem.createAttributeModifiers(ToolMaterials.ARSONIST, 1.0F, -2.8F))));
+    public static final PickaxeItem VOLUCITE_PICKAXE = register("volucite_pickaxe", new EffectPickaxeItem(ToolMaterials.VOLUCITE, new Item.Settings().rarity(AerialHellRarities.VIBRANT).attributeModifiers(PickaxeItem.createAttributeModifiers(ToolMaterials.VOLUCITE, 1.0F, -2.8F))));
+    public static final PickaxeItem LUNATIC_PICKAXE = register("lunatic_pickaxe", new PickaxeItem(ToolMaterials.LUNATIC, new Item.Settings().rarity(AerialHellRarities.LEGENDARY).attributeModifiers(PickaxeItem.createAttributeModifiers(ToolMaterials.LUNATIC, 1.0F, -2.8F))));
+    public static final PickaxeItem ARSONIST_PICKAXE = register("arsonist_pickaxe", new PickaxeItem(ToolMaterials.ARSONIST, new Item.Settings().fireproof().rarity(AerialHellRarities.MYTHICAL).attributeModifiers(PickaxeItem.createAttributeModifiers(ToolMaterials.ARSONIST, 1.0F, -2.8F))));
 
-    public static final PickaxeItem MAGMA_CUBE_PICKAXE = register("magma_cube_pickaxe", new EffectPickaxeItem(ToolMaterials.OBSIDIAN, new Item.Settings().rarity(AerialHellRarities.LEGENDARY.getValue()).attributeModifiers(PickaxeItem.createAttributeModifiers(ToolMaterials.OBSIDIAN, 1.0F, -2.8F))));
+    public static final PickaxeItem MAGMA_CUBE_PICKAXE = register("magma_cube_pickaxe", new EffectPickaxeItem(ToolMaterials.OBSIDIAN, new Item.Settings().rarity(AerialHellRarities.LEGENDARY).attributeModifiers(PickaxeItem.createAttributeModifiers(ToolMaterials.OBSIDIAN, 1.0F, -2.8F))));
     public static final PickaxeItem STELLAR_STONE_BREAKER = register("stellar_stone_breaker", new AerialHellPickaxeItem(ToolMaterials.BREAKER, new Item.Settings().rarity(Rarity.EPIC).attributeModifiers(PickaxeItem.createAttributeModifiers(ToolMaterials.OBSIDIAN, 1.0F, -2.8F))));
 
     public static final ShovelItem SKY_WOOD_SHOVEL = register("sky_wood_shovel", new ShovelItem(ToolMaterials.SKY_WOOD, new Item.Settings().attributeModifiers(ShovelItem.createAttributeModifiers(ToolMaterials.SKY_WOOD, 1.5F, -3.0F))));
@@ -826,11 +863,11 @@ public class AerialHellItems
     public static final ShovelItem AZURITE_SHOVEL = register("azurite_shovel", new ShovelItem(ToolMaterials.AZURITE, new Item.Settings().attributeModifiers(ShovelItem.createAttributeModifiers(ToolMaterials.AZURITE, 1.5F, -3.0F))));
     public static final ShovelItem MAGMATIC_GEL_SHOVEL = register("magmatic_gel_shovel", new ShovelItem(ToolMaterials.MAGMATIC_GEL, new Item.Settings().attributeModifiers(ShovelItem.createAttributeModifiers(ToolMaterials.MAGMATIC_GEL, 1.5F, -3.0F))));
     public static final ShovelItem OBSIDIAN_SHOVEL = register("obsidian_shovel", new ShovelItem(ToolMaterials.OBSIDIAN, new Item.Settings().rarity(Rarity.EPIC).attributeModifiers(ShovelItem.createAttributeModifiers(ToolMaterials.OBSIDIAN, 1.5F, -3.0F))));
-    public static final ShovelItem VOLUCITE_SHOVEL = register("volucite_shovel", new EffectShovelItem(ToolMaterials.VOLUCITE, new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue()).attributeModifiers(ShovelItem.createAttributeModifiers(ToolMaterials.OBSIDIAN, 1.5F, -3.0F))));
-    public static final ShovelItem LUNATIC_SHOVEL = register("lunatic_shovel", new ShovelItem(ToolMaterials.LUNATIC, new Item.Settings().rarity(AerialHellRarities.LEGENDARY.getValue()).attributeModifiers(ShovelItem.createAttributeModifiers(ToolMaterials.LUNATIC, 1.5F, -3.0F))));
-    public static final ShovelItem ARSONIST_SHOVEL = register("arsonist_shovel", new ShovelItem(ToolMaterials.ARSONIST, new Item.Settings().fireproof().rarity(AerialHellRarities.MYTHICAL.getValue()).attributeModifiers(ShovelItem.createAttributeModifiers(ToolMaterials.ARSONIST, 1.5F, -3.0F))));
+    public static final ShovelItem VOLUCITE_SHOVEL = register("volucite_shovel", new EffectShovelItem(ToolMaterials.VOLUCITE, new Item.Settings().rarity(AerialHellRarities.VIBRANT).attributeModifiers(ShovelItem.createAttributeModifiers(ToolMaterials.OBSIDIAN, 1.5F, -3.0F))));
+    public static final ShovelItem LUNATIC_SHOVEL = register("lunatic_shovel", new ShovelItem(ToolMaterials.LUNATIC, new Item.Settings().rarity(AerialHellRarities.LEGENDARY).attributeModifiers(ShovelItem.createAttributeModifiers(ToolMaterials.LUNATIC, 1.5F, -3.0F))));
+    public static final ShovelItem ARSONIST_SHOVEL = register("arsonist_shovel", new ShovelItem(ToolMaterials.ARSONIST, new Item.Settings().fireproof().rarity(AerialHellRarities.MYTHICAL).attributeModifiers(ShovelItem.createAttributeModifiers(ToolMaterials.ARSONIST, 1.5F, -3.0F))));
 
-    public static final ShovelItem MAGMA_CUBE_SHOVEL = register("magma_cube_shovel", new EffectShovelItem(ToolMaterials.OBSIDIAN, new Item.Settings().rarity(AerialHellRarities.LEGENDARY.getValue()).attributeModifiers(ShovelItem.createAttributeModifiers(ToolMaterials.OBSIDIAN, 1.5F, -3.0F))));
+    public static final ShovelItem MAGMA_CUBE_SHOVEL = register("magma_cube_shovel", new EffectShovelItem(ToolMaterials.OBSIDIAN, new Item.Settings().rarity(AerialHellRarities.LEGENDARY).attributeModifiers(ShovelItem.createAttributeModifiers(ToolMaterials.OBSIDIAN, 1.5F, -3.0F))));
 
     public static final AxeItem SKY_WOOD_AXE = register("sky_wood_axe", new AxeItem(ToolMaterials.SKY_WOOD, new Item.Settings().attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.SKY_WOOD, 6.0F, -3.1F))));
     public static final AxeItem STELLAR_STONE_AXE = register("stellar_stone_axe", new AxeItem(ToolMaterials.STELLAR_STONE, new Item.Settings().attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.STELLAR_STONE, 6.0F, -3.1F))));
@@ -838,14 +875,14 @@ public class AerialHellItems
     public static final AxeItem AZURITE_AXE = register("azurite_axe", new AxeItem(ToolMaterials.AZURITE, new Item.Settings().attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.AZURITE, 6.0F, -3.1F))));
     public static final AxeItem MAGMATIC_GEL_AXE = register("magmatic_gel_axe", new AxeItem(ToolMaterials.MAGMATIC_GEL, new Item.Settings().attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.MAGMATIC_GEL, 6.0F, -3.1F))));
     public static final AxeItem OBSIDIAN_AXE = register("obsidian_axe", new AxeItem(ToolMaterials.OBSIDIAN, new Item.Settings().rarity(Rarity.EPIC).attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.OBSIDIAN, 6.0F, -3.1F))));
-    public static final AxeItem VOLUCITE_AXE = register("volucite_axe", new EffectAxeItem(ToolMaterials.VOLUCITE, new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue()).attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.VOLUCITE, 6.0F, -3.1F))));
-    public static final AxeItem LUNATIC_AXE = register("lunatic_axe", new AxeItem(ToolMaterials.LUNATIC, new Item.Settings().rarity(AerialHellRarities.LEGENDARY.getValue()).attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.LUNATIC, 6.0F, -3.1F))));
-    public static final AxeItem ARSONIST_AXE = register("arsonist_axe", new AxeItem(ToolMaterials.ARSONIST, new Item.Settings().fireproof().rarity(AerialHellRarities.MYTHICAL.getValue()).attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.ARSONIST, 6.0F, -3.1F))));
+    public static final AxeItem VOLUCITE_AXE = register("volucite_axe", new EffectAxeItem(ToolMaterials.VOLUCITE, new Item.Settings().rarity(AerialHellRarities.VIBRANT).attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.VOLUCITE, 6.0F, -3.1F))));
+    public static final AxeItem LUNATIC_AXE = register("lunatic_axe", new AxeItem(ToolMaterials.LUNATIC, new Item.Settings().rarity(AerialHellRarities.LEGENDARY).attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.LUNATIC, 6.0F, -3.1F))));
+    public static final AxeItem ARSONIST_AXE = register("arsonist_axe", new AxeItem(ToolMaterials.ARSONIST, new Item.Settings().fireproof().rarity(AerialHellRarities.MYTHICAL).attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.ARSONIST, 6.0F, -3.1F))));
 
     public static final AxeItem HEAVY_AXE = register("heavy_axe", new AerialHellAxeItem(ToolMaterials.HEAVY, new Item.Settings().setNoRepair(/*TODO .setNoRepair() do not exists in Fabric, will need to Override "canRepair" in item classes*/).rarity(Rarity.EPIC).attributeModifiers(ItemHelper.createAerialHellToolOrWeaponAttributes(ToolMaterials.HEAVY, 6.0F, -3.5F, -0.30F, 0.0F))));
-    public static final AxeItem AXE_OF_LIGHT = register("axe_of_light", new EffectAxeItem(ToolMaterials.LUNATIC, new Item.Settings().rarity(AerialHellRarities.LEGENDARY.getValue()).attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.LUNATIC, 5.0F, -3.1F))));
-    public static final AxeItem CURSED_AXE = register("cursed_axe", new AerialHellAxeItem(ToolMaterials.SHADOW,  new Item.Settings().rarity(AerialHellRarities.CORRUPTED.getValue()).attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.SHADOW, 2.0F, -3.2F))));
-    public static final AxeItem BERSERK_AXE = register("berserk_axe", new BerserkAxeItem(ToolMaterials.ARSONIST,  new Item.Settings().setNoRepair().rarity(AerialHellRarities.MYTHICAL.getValue()).attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.ARSONIST, 4.0F, -2.5F))));
+    public static final AxeItem AXE_OF_LIGHT = register("axe_of_light", new EffectAxeItem(ToolMaterials.LUNATIC, new Item.Settings().rarity(AerialHellRarities.LEGENDARY).attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.LUNATIC, 5.0F, -3.1F))));
+    public static final AxeItem CURSED_AXE = register("cursed_axe", new AerialHellAxeItem(ToolMaterials.SHADOW,  new Item.Settings().rarity(AerialHellRarities.CORRUPTED).attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.SHADOW, 2.0F, -3.2F))));
+    public static final AxeItem BERSERK_AXE = register("berserk_axe", new BerserkAxeItem(ToolMaterials.ARSONIST,  new Item.Settings().setNoRepair().rarity(AerialHellRarities.MYTHICAL).attributeModifiers(AxeItem.createAttributeModifiers(ToolMaterials.ARSONIST, 4.0F, -2.5F))));
 
     public static final HoeItem SKY_WOOD_HOE = register("sky_wood_hoe", new HoeItem(ToolMaterials.SKY_WOOD, new Item.Settings().attributeModifiers(HoeItem.createAttributeModifiers(ToolMaterials.SKY_WOOD, 0.0F, -3.0F))));
     public static final HoeItem STELLAR_STONE_HOE = register("stellar_stone_hoe", new HoeItem(ToolMaterials.STELLAR_STONE, new Item.Settings().attributeModifiers(HoeItem.createAttributeModifiers(ToolMaterials.STELLAR_STONE, 0.0F, -3.0F))));
@@ -853,11 +890,11 @@ public class AerialHellItems
     public static final HoeItem AZURITE_HOE = register("azurite_hoe", new HoeItem(ToolMaterials.AZURITE, new Item.Settings().attributeModifiers(HoeItem.createAttributeModifiers(ToolMaterials.AZURITE, 0.0F, -3.0F))));
     public static final HoeItem MAGMATIC_GEL_HOE = register("magmatic_gel_hoe", new HoeItem(ToolMaterials.MAGMATIC_GEL, new Item.Settings().attributeModifiers(HoeItem.createAttributeModifiers(ToolMaterials.MAGMATIC_GEL, 0.0F, -3.0F))));
     public static final HoeItem OBSIDIAN_HOE = register("obsidian_hoe", new HoeItem(ToolMaterials.OBSIDIAN, new Item.Settings().rarity(Rarity.EPIC).attributeModifiers(HoeItem.createAttributeModifiers(ToolMaterials.OBSIDIAN, 0.0F, -3.0F))));
-    public static final HoeItem VOLUCITE_HOE = register("volucite_hoe", new EffectHoeItem(ToolMaterials.VOLUCITE, new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue()).attributeModifiers(HoeItem.createAttributeModifiers(ToolMaterials.VOLUCITE, 0.0F, -3.0F))));
-    public static final HoeItem LUNATIC_HOE = register("lunatic_hoe", new HoeItem(ToolMaterials.LUNATIC, new Item.Settings().rarity(AerialHellRarities.LEGENDARY.getValue()).attributeModifiers(HoeItem.createAttributeModifiers(ToolMaterials.LUNATIC, 0.0F, -1.0F))));
-    public static final HoeItem ARSONIST_HOE = register("arsonist_hoe", new HoeItem(ToolMaterials.ARSONIST, new Item.Settings().fireproof().rarity(AerialHellRarities.MYTHICAL.getValue()).attributeModifiers(HoeItem.createAttributeModifiers(ToolMaterials.ARSONIST, 0.0F, -1.0F))));
+    public static final HoeItem VOLUCITE_HOE = register("volucite_hoe", new EffectHoeItem(ToolMaterials.VOLUCITE, new Item.Settings().rarity(AerialHellRarities.VIBRANT).attributeModifiers(HoeItem.createAttributeModifiers(ToolMaterials.VOLUCITE, 0.0F, -3.0F))));
+    public static final HoeItem LUNATIC_HOE = register("lunatic_hoe", new HoeItem(ToolMaterials.LUNATIC, new Item.Settings().rarity(AerialHellRarities.LEGENDARY).attributeModifiers(HoeItem.createAttributeModifiers(ToolMaterials.LUNATIC, 0.0F, -1.0F))));
+    public static final HoeItem ARSONIST_HOE = register("arsonist_hoe", new HoeItem(ToolMaterials.ARSONIST, new Item.Settings().fireproof().rarity(AerialHellRarities.MYTHICAL).attributeModifiers(HoeItem.createAttributeModifiers(ToolMaterials.ARSONIST, 0.0F, -1.0F))));
 
-    public static final HoeItem REAPER_SCYTHE = register("reaper_scythe", new EffectHoeItem(ToolMaterials.SHADOW, new Item.Settings().rarity(AerialHellRarities.MYTHICAL.getValue()).attributeModifiers(HoeItem.createAttributeModifiers(ToolMaterials.SHADOW, -2.8F, 4.0F))));
+    public static final HoeItem REAPER_SCYTHE = register("reaper_scythe", new EffectHoeItem(ToolMaterials.SHADOW, new Item.Settings().rarity(AerialHellRarities.MYTHICAL).attributeModifiers(HoeItem.createAttributeModifiers(ToolMaterials.SHADOW, -2.8F, 4.0F))));
 
     //weapons
     public static final SwordItem SKY_WOOD_SWORD = register("sky_wood_sword", new SwordItem(ToolMaterials.SKY_WOOD, new Item.Settings().attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.SKY_WOOD, 3, -2.4F))));
@@ -866,26 +903,26 @@ public class AerialHellItems
     public static final SwordItem AZURITE_SWORD = register("azurite_sword", new SwordItem(ToolMaterials.AZURITE, new Item.Settings().attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.AZURITE, 3, -2.4F))));
     public static final SwordItem MAGMATIC_GEL_SWORD = register("magmatic_gel_sword", new SwordItem(ToolMaterials.MAGMATIC_GEL, new Item.Settings().attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.MAGMATIC_GEL, 3, -2.4F))));
     public static final SwordItem OBSIDIAN_SWORD = register("obsidian_sword", new SwordItem(ToolMaterials.OBSIDIAN, new Item.Settings().rarity(Rarity.EPIC).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.OBSIDIAN, 3, -2.4F))));
-    public static final SwordItem VOLUCITE_SWORD = register("volucite_sword", new EffectSwordItem(ToolMaterials.VOLUCITE, new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue()).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.VOLUCITE, 3, -2.4F))));
-    public static final SwordItem LUNATIC_SWORD = register("lunatic_sword", new SwordItem(ToolMaterials.LUNATIC, new Item.Settings().rarity(AerialHellRarities.LEGENDARY.getValue()).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.LUNATIC, 3, -2.4F))));
-    public static final SwordItem ARSONIST_SWORD = register("arsonist_sword", new AerialHellSwordItem(ToolMaterials.ARSONIST, new Item.Settings().fireproof().rarity(AerialHellRarities.MYTHICAL.getValue()).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.ARSONIST, 3, -2.4F))));
+    public static final SwordItem VOLUCITE_SWORD = register("volucite_sword", new EffectSwordItem(ToolMaterials.VOLUCITE, new Item.Settings().rarity(AerialHellRarities.VIBRANT).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.VOLUCITE, 3, -2.4F))));
+    public static final SwordItem LUNATIC_SWORD = register("lunatic_sword", new SwordItem(ToolMaterials.LUNATIC, new Item.Settings().rarity(AerialHellRarities.LEGENDARY).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.LUNATIC, 3, -2.4F))));
+    public static final SwordItem ARSONIST_SWORD = register("arsonist_sword", new AerialHellSwordItem(ToolMaterials.ARSONIST, new Item.Settings().fireproof().rarity(AerialHellRarities.MYTHICAL).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.ARSONIST, 3, -2.4F))));
 
     public static final SwordItem HEAVY_SWORD = register("heavy_sword", new AerialHellSwordItem(ToolMaterials.HEAVY, new Item.Settings().setNoRepair().fireproof().rarity(Rarity.EPIC).attributeModifiers(ItemHelper.createAerialHellToolOrWeaponAttributes(ToolMaterials.HEAVY, 3, -2.7F, -0.30F, 0.0F))));
     public static final SwordItem HEALTH_BOOST_SWORD = register("health_boost_sword", new AerialHellSwordItem(ToolMaterials.LUNATIC, new Item.Settings().setNoRepair().fireproof().rarity(Rarity.EPIC).attributeModifiers(ItemHelper.createAerialHellToolOrWeaponAttributes(ToolMaterials.LUNATIC, 3, -2.4F, 0.0F, 4.0F))));
-    public static final SwordItem NINJA_SWORD = register("ninja_sword", new EffectSwordItem(ToolMaterials.OBSIDIAN, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.LEGENDARY.getValue()).attributeModifiers(ItemHelper.createAerialHellToolOrWeaponAttributes(ToolMaterials.OBSIDIAN, 2, -1.6F, 0.15F, 0.0F))));
-    public static final SwordItem NINJA_MASTER_SWORD = register("ninja_master_sword", new EffectSwordItem(ToolMaterials.OBSIDIAN, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.MYTHICAL.getValue()).attributeModifiers(ItemHelper.createAerialHellToolOrWeaponAttributes(ToolMaterials.OBSIDIAN, 4, -2.4F, 0.15F, 0.0F))));
-    public static final SwordItem GLOUTON_SWORD = register("glouton_sword", new EffectSwordItem(ToolMaterials.RUBY, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.LEGENDARY.getValue()).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.RUBY, 3, -2.4F))));
+    public static final SwordItem NINJA_SWORD = register("ninja_sword", new EffectSwordItem(ToolMaterials.OBSIDIAN, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.LEGENDARY).attributeModifiers(ItemHelper.createAerialHellToolOrWeaponAttributes(ToolMaterials.OBSIDIAN, 2, -1.6F, 0.15F, 0.0F))));
+    public static final SwordItem NINJA_MASTER_SWORD = register("ninja_master_sword", new EffectSwordItem(ToolMaterials.OBSIDIAN, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.MYTHICAL).attributeModifiers(ItemHelper.createAerialHellToolOrWeaponAttributes(ToolMaterials.OBSIDIAN, 4, -2.4F, 0.15F, 0.0F))));
+    public static final SwordItem GLOUTON_SWORD = register("glouton_sword", new EffectSwordItem(ToolMaterials.RUBY, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.LEGENDARY).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.RUBY, 3, -2.4F))));
     public static final SwordItem RANDOM_SWORD = register("random_sword", new EffectSwordItem(ToolMaterials.RUBY, new Item.Settings().setNoRepair().fireproof().rarity(Rarity.EPIC).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.RUBY, 2, -2.4F))));
-    public static final SwordItem DISLOYAL_SWORD = register("disloyal_sword", new AerialHellSwordItem(ToolMaterials.LUNATIC, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.LEGENDARY.getValue()).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.LUNATIC, 2, -2.4F))));
-    public static final SwordItem CURSED_SWORD = register("cursed_sword", new AerialHellSwordItem(ToolMaterials.SHADOW, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.CORRUPTED.getValue()).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.SHADOW, 1, -2.5F))));
-    public static final SwordItem ABSOLUTE_ZERO_SWORD = register("absolute_zero_sword", new AerialHellSwordItem(ToolMaterials.LUNATIC, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.MYTHICAL.getValue()).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.LUNATIC, 2, -2.4F))));
-    public static final SwordItem SWORD_OF_LIGHT = register("sword_of_light", new EffectSwordItem(ToolMaterials.LUNATIC, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.LEGENDARY.getValue()).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.LUNATIC, 2, -2.4F))));
+    public static final SwordItem DISLOYAL_SWORD = register("disloyal_sword", new AerialHellSwordItem(ToolMaterials.LUNATIC, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.LEGENDARY).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.LUNATIC, 2, -2.4F))));
+    public static final SwordItem CURSED_SWORD = register("cursed_sword", new AerialHellSwordItem(ToolMaterials.SHADOW, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.CORRUPTED).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.SHADOW, 1, -2.5F))));
+    public static final SwordItem ABSOLUTE_ZERO_SWORD = register("absolute_zero_sword", new AerialHellSwordItem(ToolMaterials.LUNATIC, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.MYTHICAL).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.LUNATIC, 2, -2.4F))));
+    public static final SwordItem SWORD_OF_LIGHT = register("sword_of_light", new EffectSwordItem(ToolMaterials.LUNATIC, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.LEGENDARY).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.LUNATIC, 2, -2.4F))));
     public static final SwordItem ANTIDOTE_SWORD = register("antidote_sword", new EffectSwordItem(ToolMaterials.RUBY, new Item.Settings().setNoRepair().fireproof().rarity(Rarity.EPIC).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.RUBY, 4, -2.4F))));
-    public static final SwordItem NETHERIAN_KING_SWORD = register("netherian_king_sword", new EffectSwordItem(ToolMaterials.OBSIDIAN, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.LEGENDARY.getValue()).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.OBSIDIAN, 1, -2.4F))));
-    public static final SwordItem GLASS_CANON_SWORD = register("glass_canon_sword", new EffectSwordItem(ToolMaterials.ARSONIST, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.MYTHICAL.getValue()).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.ARSONIST, 7, -1.6F))));
-    public static final SwordItem GOD_SWORD = register("god_sword", new EffectSwordItem(ToolMaterials.ARSONIST, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.MYTHICAL.getValue()).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.ARSONIST, 3, -2.4F))));
+    public static final SwordItem NETHERIAN_KING_SWORD = register("netherian_king_sword", new EffectSwordItem(ToolMaterials.OBSIDIAN, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.LEGENDARY).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.OBSIDIAN, 1, -2.4F))));
+    public static final SwordItem GLASS_CANON_SWORD = register("glass_canon_sword", new EffectSwordItem(ToolMaterials.ARSONIST, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.MYTHICAL).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.ARSONIST, 7, -1.6F))));
+    public static final SwordItem GOD_SWORD = register("god_sword", new EffectSwordItem(ToolMaterials.ARSONIST, new Item.Settings().setNoRepair().fireproof().rarity(AerialHellRarities.MYTHICAL).attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.ARSONIST, 3, -2.4F))));
 
-    public static final SwordItem FORGOTTEN_BATTLE_TRIDENT = register("forgotten_battle_trident", new ForgottenBattleTridentItem(ToolMaterials.VOLUCITE, new Item.Settings().maxDamage(1000).rarity(AerialHellRarities.LEGENDARY.getValue()).attributeModifiers(ItemHelper.createAerialHellToolOrWeaponAttributes(ToolMaterials.VOLUCITE, 3, -2.9F, 0.2F, 0.0F))));
+    public static final SwordItem FORGOTTEN_BATTLE_TRIDENT = register("forgotten_battle_trident", new ForgottenBattleTridentItem(ToolMaterials.VOLUCITE, new Item.Settings().maxDamage(1000).rarity(AerialHellRarities.LEGENDARY).attributeModifiers(ItemHelper.createAerialHellToolOrWeaponAttributes(ToolMaterials.VOLUCITE, 3, -2.9F, 0.2F, 0.0F))));
 
     //armor
     public static final ArmorItem RUBY_HELMET = register("ruby_helmet", new ArmorItem(AerialHellArmorMaterials.RUBY, ArmorItem.Type.HELMET, (new Item.Settings().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(15)))));
@@ -903,45 +940,45 @@ public class AerialHellItems
     public static final ArmorItem OBSIDIAN_LEGGINGS = register("obsidian_leggings", new ArmorItem(AerialHellArmorMaterials.OBSIDIAN, ArmorItem.Type.LEGGINGS, (new Item.Settings().maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(37))).rarity(Rarity.EPIC)));
     public static final ArmorItem OBSIDIAN_BOOTS = register("obsidian_boots", new ArmorItem(AerialHellArmorMaterials.OBSIDIAN, ArmorItem.Type.BOOTS, (new Item.Settings().maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(37))).rarity(Rarity.EPIC)));
 
-    public static final ArmorItem VOLUCITE_HELMET = register("volucite_helmet", new ArmorItem(AerialHellArmorMaterials.VOLUCITE, ArmorItem.Type.HELMET, (new Item.Settings().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(35))).rarity(AerialHellRarities.VIBRANT.getValue())));
-    public static final ArmorItem VOLUCITE_CHESTPLATE = register("volucite_chestplate", new ArmorItem(AerialHellArmorMaterials.VOLUCITE, ArmorItem.Type.CHESTPLATE, (new Item.Settings().maxDamage(ArmorItem.Type.CHESTPLATE.getMaxDamage(35))).rarity(AerialHellRarities.VIBRANT.getValue())));
-    public static final ArmorItem VOLUCITE_LEGGINGS = register("volucite_leggings", new ArmorItem(AerialHellArmorMaterials.VOLUCITE, ArmorItem.Type.LEGGINGS, (new Item.Settings().maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(35))).rarity(AerialHellRarities.VIBRANT.getValue())));
-    public static final ArmorItem VOLUCITE_BOOTS = register("volucite_boots", new ArmorItem(AerialHellArmorMaterials.VOLUCITE, ArmorItem.Type.BOOTS, (new Item.Settings().maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(35))).rarity(AerialHellRarities.VIBRANT.getValue())));
+    public static final ArmorItem VOLUCITE_HELMET = register("volucite_helmet", new ArmorItem(AerialHellArmorMaterials.VOLUCITE, ArmorItem.Type.HELMET, (new Item.Settings().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(35))).rarity(AerialHellRarities.VIBRANT)));
+    public static final ArmorItem VOLUCITE_CHESTPLATE = register("volucite_chestplate", new ArmorItem(AerialHellArmorMaterials.VOLUCITE, ArmorItem.Type.CHESTPLATE, (new Item.Settings().maxDamage(ArmorItem.Type.CHESTPLATE.getMaxDamage(35))).rarity(AerialHellRarities.VIBRANT)));
+    public static final ArmorItem VOLUCITE_LEGGINGS = register("volucite_leggings", new ArmorItem(AerialHellArmorMaterials.VOLUCITE, ArmorItem.Type.LEGGINGS, (new Item.Settings().maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(35))).rarity(AerialHellRarities.VIBRANT)));
+    public static final ArmorItem VOLUCITE_BOOTS = register("volucite_boots", new ArmorItem(AerialHellArmorMaterials.VOLUCITE, ArmorItem.Type.BOOTS, (new Item.Settings().maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(35))).rarity(AerialHellRarities.VIBRANT)));
 
     public static final ArmorItem MAGMATIC_GEL_HELMET = register("magmatic_gel_helmet", new ArmorItem(AerialHellArmorMaterials.MAGMATIC_GEL, ArmorItem.Type.HELMET, (new Item.Settings().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(7)))));
     public static final ArmorItem MAGMATIC_GEL_CHESTPLATE = register("magmatic_gel_chestplate", new ArmorItem(AerialHellArmorMaterials.MAGMATIC_GEL, ArmorItem.Type.CHESTPLATE, (new Item.Settings().maxDamage(ArmorItem.Type.CHESTPLATE.getMaxDamage(7)))));
     public static final ArmorItem MAGMATIC_GEL_LEGGINGS = register("magmatic_gel_leggings", new ArmorItem(AerialHellArmorMaterials.MAGMATIC_GEL, ArmorItem.Type.LEGGINGS, (new Item.Settings().maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(7)))));
     public static final ArmorItem MAGMATIC_GEL_BOOTS = register("magmatic_gel_boots", new ArmorItem(AerialHellArmorMaterials.MAGMATIC_GEL, ArmorItem.Type.BOOTS, (new Item.Settings().maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(7)))));
 
-    public static final ArmorItem LUNATIC_HELMET = register("lunatic_helmet", new ArmorItem(AerialHellArmorMaterials.LUNATIC, ArmorItem.Type.HELMET, (new Item.Settings().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(33))).rarity(AerialHellRarities.LEGENDARY.getValue())));
-    public static final ArmorItem LUNATIC_CHESTPLATE = register("lunatic_chestplate", new ArmorItem(AerialHellArmorMaterials.LUNATIC, ArmorItem.Type.CHESTPLATE, (new Item.Settings().maxDamage(ArmorItem.Type.CHESTPLATE.getMaxDamage(33))).rarity(AerialHellRarities.LEGENDARY.getValue())));
-    public static final ArmorItem LUNATIC_LEGGINGS = register("lunatic_leggings", new ArmorItem(AerialHellArmorMaterials.LUNATIC, ArmorItem.Type.LEGGINGS, (new Item.Settings().maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(33))).rarity(AerialHellRarities.LEGENDARY.getValue())));
-    public static final ArmorItem LUNATIC_BOOTS = register("lunatic_boots", new ArmorItem(AerialHellArmorMaterials.LUNATIC, ArmorItem.Type.BOOTS, (new Item.Settings().maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(33))).rarity(AerialHellRarities.LEGENDARY.getValue())));
+    public static final ArmorItem LUNATIC_HELMET = register("lunatic_helmet", new ArmorItem(AerialHellArmorMaterials.LUNATIC, ArmorItem.Type.HELMET, (new Item.Settings().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(33))).rarity(AerialHellRarities.LEGENDARY)));
+    public static final ArmorItem LUNATIC_CHESTPLATE = register("lunatic_chestplate", new ArmorItem(AerialHellArmorMaterials.LUNATIC, ArmorItem.Type.CHESTPLATE, (new Item.Settings().maxDamage(ArmorItem.Type.CHESTPLATE.getMaxDamage(33))).rarity(AerialHellRarities.LEGENDARY)));
+    public static final ArmorItem LUNATIC_LEGGINGS = register("lunatic_leggings", new ArmorItem(AerialHellArmorMaterials.LUNATIC, ArmorItem.Type.LEGGINGS, (new Item.Settings().maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(33))).rarity(AerialHellRarities.LEGENDARY)));
+    public static final ArmorItem LUNATIC_BOOTS = register("lunatic_boots", new ArmorItem(AerialHellArmorMaterials.LUNATIC, ArmorItem.Type.BOOTS, (new Item.Settings().maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(33))).rarity(AerialHellRarities.LEGENDARY)));
 
-    public static final ArmorItem ARSONIST_HELMET = register("arsonist_helmet", new ArmorItem(AerialHellArmorMaterials.ARSONIST, ArmorItem.Type.HELMET, (new Item.Settings().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(37))).rarity(AerialHellRarities.MYTHICAL.getValue()).fireproof()));
-    public static final ArmorItem ARSONIST_CHESTPLATE = register("arsonist_chestplate", new ArmorItem(AerialHellArmorMaterials.ARSONIST, ArmorItem.Type.CHESTPLATE, (new Item.Settings().maxDamage(ArmorItem.Type.CHESTPLATE.getMaxDamage(37))).rarity(AerialHellRarities.MYTHICAL.getValue()).fireproof()));
-    public static final ArmorItem ARSONIST_LEGGINGS = register("arsonist_leggings", new ArmorItem(AerialHellArmorMaterials.ARSONIST, ArmorItem.Type.LEGGINGS, (new Item.Settings().maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(37))).rarity(AerialHellRarities.MYTHICAL.getValue()).fireproof()));
-    public static final ArmorItem ARSONIST_BOOTS = register("arsonist_boots", new ArmorItem(AerialHellArmorMaterials.ARSONIST, ArmorItem.Type.BOOTS, (new Item.Settings().maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(37))).rarity(AerialHellRarities.MYTHICAL.getValue()).fireproof()));
+    public static final ArmorItem ARSONIST_HELMET = register("arsonist_helmet", new ArmorItem(AerialHellArmorMaterials.ARSONIST, ArmorItem.Type.HELMET, (new Item.Settings().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(37))).rarity(AerialHellRarities.MYTHICAL).fireproof()));
+    public static final ArmorItem ARSONIST_CHESTPLATE = register("arsonist_chestplate", new ArmorItem(AerialHellArmorMaterials.ARSONIST, ArmorItem.Type.CHESTPLATE, (new Item.Settings().maxDamage(ArmorItem.Type.CHESTPLATE.getMaxDamage(37))).rarity(AerialHellRarities.MYTHICAL).fireproof()));
+    public static final ArmorItem ARSONIST_LEGGINGS = register("arsonist_leggings", new ArmorItem(AerialHellArmorMaterials.ARSONIST, ArmorItem.Type.LEGGINGS, (new Item.Settings().maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(37))).rarity(AerialHellRarities.MYTHICAL).fireproof()));
+    public static final ArmorItem ARSONIST_BOOTS = register("arsonist_boots", new ArmorItem(AerialHellArmorMaterials.ARSONIST, ArmorItem.Type.BOOTS, (new Item.Settings().maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(37))).rarity(AerialHellRarities.MYTHICAL).fireproof()));
 
-    public static final ArmorItem SHADOW_HELMET = register("shadow_helmet", new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.HELMET, (new Item.Settings().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
-    public static final ArmorItem SHADOW_CHESTPLATE = register("shadow_chestplate", new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.CHESTPLATE, (new Item.Settings().maxDamage(ArmorItem.Type.CHESTPLATE.getMaxDamage(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
-    public static final ArmorItem SHADOW_LEGGINGS = register("shadow_leggings", new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.LEGGINGS, (new Item.Settings().maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
-    public static final ArmorItem SHADOW_BOOTS = register("shadow_boots", new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.BOOTS, (new Item.Settings().maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(25))).rarity(AerialHellRarities.CORRUPTED.getValue())));
+    public static final ArmorItem SHADOW_HELMET = register("shadow_helmet", new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.HELMET, (new Item.Settings().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(25))).rarity(AerialHellRarities.CORRUPTED)));
+    public static final ArmorItem SHADOW_CHESTPLATE = register("shadow_chestplate", new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.CHESTPLATE, (new Item.Settings().maxDamage(ArmorItem.Type.CHESTPLATE.getMaxDamage(25))).rarity(AerialHellRarities.CORRUPTED)));
+    public static final ArmorItem SHADOW_LEGGINGS = register("shadow_leggings", new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.LEGGINGS, (new Item.Settings().maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(25))).rarity(AerialHellRarities.CORRUPTED)));
+    public static final ArmorItem SHADOW_BOOTS = register("shadow_boots", new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.BOOTS, (new Item.Settings().maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(25))).rarity(AerialHellRarities.CORRUPTED)));
 
     //effect totems
-    public static final Item REGENERATION_TOTEM = register("regeneration_totem", new EffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.LEGENDARY.getValue())));
-    public static final Item SPEED_TOTEM = register("speed_totem", new EffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.LEGENDARY.getValue())));
-    public static final Item SPEED_II_TOTEM = register("speed_ii_totem", new EnchantedEffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.MYTHICAL.getValue())));
-    public static final Item NIGHT_VISION_TOTEM = register("night_vision_totem", new EffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.LEGENDARY.getValue())));
-    public static final Item AGILITY_TOTEM = register("agility_totem", new EnchantedEffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.MYTHICAL.getValue())));
-    public static final Item HERO_TOTEM = register("hero_totem", new EffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.MYTHICAL.getValue())));
-    public static final Item HEAD_IN_THE_CLOUDS_TOTEM = register("head_in_the_clouds_totem", new EffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.VIBRANT.getValue())));
-    public static final Item GOD_TOTEM = register("god_totem", new EnchantedEffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.MYTHICAL.getValue()).fireproof()));
-    public static final Item CURSED_TOTEM = register("cursed_totem", new EffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.MYTHICAL.getValue())));
-    public static final Item SHADOW_TOTEM = register("shadow_totem", new EffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.CORRUPTED.getValue())));
+    public static final Item REGENERATION_TOTEM = register("regeneration_totem", new EffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.LEGENDARY)));
+    public static final Item SPEED_TOTEM = register("speed_totem", new EffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.LEGENDARY)));
+    public static final Item SPEED_II_TOTEM = register("speed_ii_totem", new EnchantedEffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.MYTHICAL)));
+    public static final Item NIGHT_VISION_TOTEM = register("night_vision_totem", new EffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.LEGENDARY)));
+    public static final Item AGILITY_TOTEM = register("agility_totem", new EnchantedEffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.MYTHICAL)));
+    public static final Item HERO_TOTEM = register("hero_totem", new EffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.MYTHICAL)));
+    public static final Item HEAD_IN_THE_CLOUDS_TOTEM = register("head_in_the_clouds_totem", new EffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.VIBRANT)));
+    public static final Item GOD_TOTEM = register("god_totem", new EnchantedEffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.MYTHICAL).fireproof()));
+    public static final Item CURSED_TOTEM = register("cursed_totem", new EffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.MYTHICAL)));
+    public static final Item SHADOW_TOTEM = register("shadow_totem", new EffectTotemItem(new Item.Settings().maxCount(1).rarity(AerialHellRarities.CORRUPTED)));
 
     //spawn eggs
-    public static final Item STELLAR_STONE_AUTOMATON_SPAWN_EGG = register("stellar_stone_automaton_spawn_egg", new SpawnEggItem(AerialHellEntities.STELLAR_STONE_AUTOMATON, -1, -1, new Item.Settings().rarity(AerialHellRarities.VIBRANT.getValue())));
+    public static final Item STELLAR_STONE_AUTOMATON_SPAWN_EGG = register("stellar_stone_automaton_spawn_egg", new SpawnEggItem(AerialHellEntities.STELLAR_STONE_AUTOMATON, -1, -1, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
     public static final Item EVIL_COW_SPAWN_EGG = register("evil_cow_spawn_egg", new SpawnEggItem(AerialHellEntities.EVIL_COW, -1, -1, new Item.Settings().rarity(Rarity.COMMON)));
     public static final Item CORTINARIUS_COW_SPAWN_EGG = register("cortinarius_cow_spawn_egg", new SpawnEggItem(AerialHellEntities.CORTINARIUS_COW, -1, -1, new Item.Settings().rarity(Rarity.COMMON)));
     public static final Item STELLAR_ENT_SPAWN_EGG = register("stellar_ent_spawn_egg", new SpawnEggItem(AerialHellEntities.STELLAR_ENT, -1, -1, new Item.Settings().rarity(Rarity.COMMON)));
@@ -962,25 +999,25 @@ public class AerialHellItems
     public static final Item KODAMA_SPAWN_EGG = register("kodama_spawn_egg", new SpawnEggItem(AerialHellEntities.KODAMA, -1, -1, new Item.Settings().rarity(Rarity.COMMON)));
     public static final Item MUD_GOLEM_SPAWN_EGG = register("mud_golem_spawn_egg", new SpawnEggItem(AerialHellEntities.MUD_GOLEM, -1, -1, new Item.Settings().rarity(Rarity.UNCOMMON)));
     public static final Item MUD_SOLDIER_SPAWN_EGG = register("mud_soldier_spawn_egg", new SpawnEggItem(AerialHellEntities.MUD_SOLDIER, -1, -1, new Item.Settings().rarity(Rarity.COMMON)));
-    public static final Item MUD_CYCLE_MAGE_SPAWN_EGG = register("mud_cycle_mage_spawn_egg", new BossSpawnEggItem(AerialHellEntities.MUD_CYCLE_MAGE, -1, -1, new Item.Settings().rarity(AerialHellRarities.LEGENDARY.getValue())));
+    public static final Item MUD_CYCLE_MAGE_SPAWN_EGG = register("mud_cycle_mage_spawn_egg", new BossSpawnEggItem(AerialHellEntities.MUD_CYCLE_MAGE, -1, -1, new Item.Settings().rarity(AerialHellRarities.LEGENDARY)));
     public static final Item HELL_SPIDER_SPAWN_EGG = register("hell_spider_spawn_egg", new SpawnEggItem(AerialHellEntities.HELL_SPIDER, -1, -1, new Item.Settings().rarity(Rarity.COMMON)));
     public static final Item CRYSTAL_GOLEM_SPAWN_EGG = register("crystal_golem_spawn_egg", new SpawnEggItem(AerialHellEntities.CRYSTAL_GOLEM, -1, -1, new Item.Settings().rarity(Rarity.COMMON)));
     public static final Item CRYSTAL_SLIME_SPAWN_EGG = register("crystal_slime_spawn_egg", new SpawnEggItem(AerialHellEntities.CRYSTAL_SLIME, -1, -1, new Item.Settings().rarity(Rarity.COMMON)));
     public static final Item CRYSTAL_SPIDER_SPAWN_EGG = register("crystal_spider_spawn_egg", new SpawnEggItem(AerialHellEntities.CRYSTAL_SPIDER, -1, -1, new Item.Settings().rarity(Rarity.UNCOMMON)));
-    public static final Item LUNATIC_PRIEST_SPAWN_EGG = register("lunatic_priest_spawn_egg", new BossSpawnEggItem(AerialHellEntities.LUNATIC_PRIEST, -1, -1, new Item.Settings().rarity(AerialHellRarities.MYTHICAL.getValue())));
+    public static final Item LUNATIC_PRIEST_SPAWN_EGG = register("lunatic_priest_spawn_egg", new BossSpawnEggItem(AerialHellEntities.LUNATIC_PRIEST, -1, -1, new Item.Settings().rarity(AerialHellRarities.MYTHICAL)));
     public static final Item CRYSTAL_CATERPILLAR_SPAWN_EGG = register("crystal_caterpillar_spawn_egg", new SpawnEggItem(AerialHellEntities.CRYSTAL_CATERPILLAR, -1, -1, new Item.Settings().rarity(Rarity.COMMON)));
     public static final Item FOREST_CATERPILLAR_SPAWN_EGG = register("forest_caterpillar_spawn_egg", new SpawnEggItem(AerialHellEntities.FOREST_CATERPILLAR, -1, -1, new Item.Settings().rarity(Rarity.COMMON)));
     public static final Item TORN_SPIRIT_SPAWN_EGG = register("torn_spirit_spawn_egg", new SpawnEggItem(AerialHellEntities.TORN_SPIRIT, -1, -1, new Item.Settings().rarity(Rarity.EPIC)));
-    public static final Item CHAINED_GOD_SPAWN_EGG = register("chained_god_spawn_egg", new BossSpawnEggItem(AerialHellEntities.CHAINED_GOD, -1, -1, new Item.Settings().rarity(AerialHellRarities.MYTHICAL.getValue())));
+    public static final Item CHAINED_GOD_SPAWN_EGG = register("chained_god_spawn_egg", new BossSpawnEggItem(AerialHellEntities.CHAINED_GOD, -1, -1, new Item.Settings().rarity(AerialHellRarities.MYTHICAL)));
     public static final Item ICE_SPIRIT_SPAWN_EGG = register("ice_spirit_spawn_egg", new SpawnEggItem(AerialHellEntities.ICE_SPIRIT, -1, -1, new Item.Settings().rarity(Rarity.UNCOMMON)));
     public static final Item FIRE_SPIRIT_SPAWN_EGG = register("fire_spirit_spawn_egg", new SpawnEggItem(AerialHellEntities.FIRE_SPIRIT, -1, -1, new Item.Settings().rarity(Rarity.UNCOMMON)));
     public static final Item ELECTRO_SPIRIT_SPAWN_EGG = register("electro_spirit_spawn_egg", new SpawnEggItem(AerialHellEntities.ELECTRO_SPIRIT, -1, -1, new Item.Settings().rarity(Rarity.UNCOMMON)));
     public static final Item FLYING_JELLYFISH_SPAWN_EGG = register("flying_jellyfish_spawn_egg", new SpawnEggItem(AerialHellEntities.FLYING_JELLYFISH, -1, -1, new Item.Settings().rarity(Rarity.COMMON)));
-    public static final Item SHADOW_FLYING_SKULL_SPAWN_EGG = register("shadow_flying_skull_spawn_egg", new SpawnEggItem(AerialHellEntities.SHADOW_FLYING_SKULL, -1, -1, new Item.Settings().rarity(AerialHellRarities.CORRUPTED.getValue())));
-    public static final Item SHADOW_TROLL_SPAWN_EGG = register("shadow_troll_spawn_egg", new SpawnEggItem(AerialHellEntities.SHADOW_TROLL, -1, -1, new Item.Settings().rarity(AerialHellRarities.CORRUPTED.getValue())));
-    public static final Item SHADOW_AUTOMATON_SPAWN_EGG = register("shadow_automaton_spawn_egg", new SpawnEggItem(AerialHellEntities.SHADOW_AUTOMATON, -1, -1, new Item.Settings().rarity(AerialHellRarities.CORRUPTED.getValue())));
-    public static final Item SHADOW_SPIDER_SPAWN_EGG = register("shadow_spider_spawn_egg", new SpawnEggItem(AerialHellEntities.SHADOW_SPIDER, -1, -1, new Item.Settings().rarity(AerialHellRarities.CORRUPTED.getValue())));
-    public static final Item LILITH_SPAWN_EGG = register("lilith_spawn_egg", new BossSpawnEggItem(AerialHellEntities.LILITH, -1, -1, new Item.Settings().rarity(AerialHellRarities.CORRUPTED.getValue())));
+    public static final Item SHADOW_FLYING_SKULL_SPAWN_EGG = register("shadow_flying_skull_spawn_egg", new SpawnEggItem(AerialHellEntities.SHADOW_FLYING_SKULL, -1, -1, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item SHADOW_TROLL_SPAWN_EGG = register("shadow_troll_spawn_egg", new SpawnEggItem(AerialHellEntities.SHADOW_TROLL, -1, -1, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item SHADOW_AUTOMATON_SPAWN_EGG = register("shadow_automaton_spawn_egg", new SpawnEggItem(AerialHellEntities.SHADOW_AUTOMATON, -1, -1, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item SHADOW_SPIDER_SPAWN_EGG = register("shadow_spider_spawn_egg", new SpawnEggItem(AerialHellEntities.SHADOW_SPIDER, -1, -1, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item LILITH_SPAWN_EGG = register("lilith_spawn_egg", new BossSpawnEggItem(AerialHellEntities.LILITH, -1, -1, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
 
     public static final Item AERIAL_HELL_PAINTING = register("aerial_hell_painting", new AerialHellHangingEntityItem(() -> AerialHellEntities.AERIAL_HELL_PAINTING, new Item.Settings()));
 

@@ -1,7 +1,5 @@
 package fr.factionbedrock.aerialhell.Util;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;

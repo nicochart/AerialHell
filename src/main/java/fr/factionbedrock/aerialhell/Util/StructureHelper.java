@@ -1,8 +1,6 @@
 package fr.factionbedrock.aerialhell.Util;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructures;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderGetter;

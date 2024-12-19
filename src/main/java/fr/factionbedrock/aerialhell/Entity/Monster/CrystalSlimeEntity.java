@@ -4,7 +4,6 @@ import java.util.EnumSet;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.control.MoveControl;

@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Util.Ellipsoid;
 import net.minecraft.util.RandomSource;

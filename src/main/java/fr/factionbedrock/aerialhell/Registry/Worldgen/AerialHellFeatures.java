@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Registry.Worldgen;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.World.Features.*;
 import fr.factionbedrock.aerialhell.World.Features.Config.*;
 import fr.factionbedrock.aerialhell.World.Features.GiantTree.ClassicGiantTreeFeature;

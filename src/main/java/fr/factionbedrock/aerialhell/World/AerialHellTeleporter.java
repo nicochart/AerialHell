@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.World;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellPOI;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;

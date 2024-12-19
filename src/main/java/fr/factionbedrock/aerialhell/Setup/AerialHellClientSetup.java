@@ -1,16 +1,13 @@
 package fr.factionbedrock.aerialhell.Setup;
 
-import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.AerialHellRendering;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.RenderRegistrationListener;
 import fr.factionbedrock.aerialhell.Client.Packet.ClientPayloadHandler;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSkyRenderer;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSpecialEffects;
-import fr.factionbedrock.aerialhell.Event.Listeners.RenderListener;
+import fr.factionbedrock.aerialhell.Registry.AerialHellFluids;
 import fr.factionbedrock.aerialhell.Registry.AerialHellWoodTypes;
-import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.BuildContentsEvent;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
 import net.minecraft.client.render.DimensionEffects;
@@ -28,9 +25,9 @@ public class AerialHellClientSetup
         RenderRegistrationListener.registerRenderers();
         RenderRegistrationListener.registerLayerDefinitions();
         RenderRegistrationListener.registerShiftingBakedModels();
+        AerialHellFluids.registerFluidsRender();
         AerialHellParticleTypes.registerParticleFactories();
         AerialHellClientSetup.registerDimensionRenderInfo();
-        //modEventBus.addListener(BuildContentsEvent::buildContents);
         AerialHellRendering.registerScreensMenus();
         //NeoForge.EVENT_BUS.addListener(RenderListener::onRenderOverlayPost);
 

@@ -3,7 +3,6 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Shadow;
 import com.google.common.collect.ImmutableList;
 import fr.factionbedrock.aerialhell.Entity.AI.FleeBlockGoal;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;

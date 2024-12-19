@@ -56,7 +56,7 @@ public class RubyBucketItem extends Item
                         ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, user, new ItemStack(AerialHellItems.RUBY_WATER_BUCKET));
                         return TypedActionResult.success(afterPickupHandItemStack, world.isClient());
                     }
-                    else if (fluid == AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE)
+                    else if (fluid == AerialHellFluids.LIQUID_OF_THE_GODS_STILL)
                     {
                         playPickupSound(fluid, user);
                         world.setBlockState(blockpos, Blocks.AIR.getDefaultState());

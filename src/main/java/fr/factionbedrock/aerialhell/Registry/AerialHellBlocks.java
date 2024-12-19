@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Registry;
 
+import com.google.common.collect.ImmutableMap;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Block.*;
 import fr.factionbedrock.aerialhell.Block.CollisionCondition.*;
@@ -34,6 +35,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.item.AxeItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
@@ -44,6 +46,29 @@ import java.util.function.ToIntFunction;
 
 public class AerialHellBlocks
 {
+    public static void registerAxeStrippingBlocks()
+    {
+        AxeItem.STRIPPED_BLOCKS = ImmutableMap.<Block, Block>builder()
+                .putAll(AxeItem.STRIPPED_BLOCKS)
+                .put(AERIAL_TREE_LOG, STRIPPED_AERIAL_TREE_LOG)
+                .put(AERIAL_TREE_WOOD, STRIPPED_AERIAL_TREE_WOOD)
+                .put(GOLDEN_BEECH_LOG, STRIPPED_GOLDEN_BEECH_LOG)
+                .put(GOLDEN_BEECH_WOOD, STRIPPED_GOLDEN_BEECH_WOOD)
+                .put(COPPER_PINE_LOG, STRIPPED_COPPER_PINE_LOG)
+                .put(COPPER_PINE_WOOD, STRIPPED_COPPER_PINE_WOOD)
+                .put(LAPIS_ROBINIA_LOG, STRIPPED_LAPIS_ROBINIA_LOG)
+                .put(LAPIS_ROBINIA_WOOD, STRIPPED_LAPIS_ROBINIA_WOOD)
+                .put(SHADOW_PINE_LOG, STRIPPED_SHADOW_PINE_LOG)
+                .put(SHADOW_PINE_WOOD, STRIPPED_SHADOW_PINE_WOOD)
+                .put(STELLAR_JUNGLE_TREE_LOG, STRIPPED_STELLAR_JUNGLE_TREE_LOG)
+                .put(STELLAR_JUNGLE_TREE_WOOD, STRIPPED_STELLAR_JUNGLE_TREE_WOOD)
+                .put(GIANT_CORTINARIUS_VIOLACEUS_STEM, STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM)
+                .put(GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM, STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM)
+                .put(GIANT_VERDIGRIS_AGARIC_STEM, STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM)
+                .put(GIANT_VERDIGRIS_AGARIC_BARK_STEM, STRIPPED_GIANT_VERDIGRIS_AGARIC_BARK_STEM)
+                .build();
+    }
+    
     //materials
     public static AbstractBlock.Settings AERIAL_TREE_MATERIAL = AbstractBlock.Settings.create().mapColor(MapColor.BROWN).strength(2.5F, 2.5F).sounds(BlockSoundGroup.WOOD);
     public static AbstractBlock.Settings COPPER_PINE_MATERIAL = AbstractBlock.Settings.create().mapColor(MapColor.BROWN).strength(4.5F, 4.5F).sounds(BlockSoundGroup.WOOD);
@@ -780,7 +805,7 @@ public class AerialHellBlocks
     public static final PillarBlock GRAY_SHROOM_VINE_ROPE_SPOOL = register("gray_shroom_vine_rope_spool", new VineRopeSpoolBlock(AbstractBlock.Settings.create().nonOpaque().blockVision((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.BROWN).strength(1.2F).sounds(BlockSoundGroup.WOOD)));
 
     //fluids
-    public static final FluidBlock LIQUID_OF_THE_GODS = register("liquid_of_the_gods", new AerialHellFluidBlock(AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE, AbstractBlock.Settings.create().replaceable().luminance((state) -> 8)));
+    public static final FluidBlock LIQUID_OF_THE_GODS = register("liquid_of_the_gods", new AerialHellFluidBlock(AerialHellFluids.LIQUID_OF_THE_GODS_STILL, AbstractBlock.Settings.create().replaceable().luminance((state) -> 8)));
 
     public static <T extends Block> T register(String name, T block) {return Registry.register(Registries.BLOCK, AerialHell.id(name), block);}
 

@@ -5,10 +5,8 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralCycleMageEntit
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;

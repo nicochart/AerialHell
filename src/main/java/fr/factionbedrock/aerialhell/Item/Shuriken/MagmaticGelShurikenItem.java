@@ -11,7 +11,7 @@ public class MagmaticGelShurikenItem extends AbstractShurikenItem
 {
 	public MagmaticGelShurikenItem()
 	{
-		super(new Item.Settings().rarity(AerialHellRarities.FROZEN.getValue()));
+		super(new Item.Settings().rarity(AerialHellRarities.FROZEN));
 	}
 
 	@Override protected float getVelocity() {return 1.7F;}
