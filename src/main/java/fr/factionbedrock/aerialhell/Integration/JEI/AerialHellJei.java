@@ -9,10 +9,10 @@ import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.recipe.RecipeManager;
+import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class AerialHellJei implements IModPlugin
     public RecipeType<FreezingRecipe> FREEZING = RecipeType.create(AerialHell.MODID, "freezing", FreezingRecipe.class);
 
     @Override
-	public ResourceLocation getPluginUid() {return ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "jei_plugin");}
+	public Identifier getPluginUid() {return AerialHell.id("jei_plugin");}
 
 	@Override
     public void registerCategories(IRecipeCategoryRegistration registration)
@@ -40,12 +40,12 @@ public class AerialHellJei implements IModPlugin
     public void registerRecipes(IRecipeRegistration registration)
     {
         RecipeManager rm = Objects.requireNonNull(MinecraftClient.getInstance().world).getRecipeManager();
-        List<RecipeHolder<OscillatingRecipe>> oscillating_recipe_holders = rm.getAllRecipesFor(AerialHellRecipes.RecipeTypes.OSCILLATING.get()); //TODO
-        List<RecipeHolder<FreezingRecipe>> freezing_recipe_holders = rm.getAllRecipesFor(AerialHellRecipes.RecipeTypes.FREEZING.get()); //TODO
+        List<RecipeEntry<OscillatingRecipe>> oscillating_recipe_holders = rm.listAllOfType(AerialHellRecipes.RecipeTypes.OSCILLATING); //TODO
+        List<RecipeEntry<FreezingRecipe>> freezing_recipe_holders = rm.listAllOfType(AerialHellRecipes.RecipeTypes.FREEZING); //TODO
         List<OscillatingRecipe> oscillating_recipes = new ArrayList<>();
         List<FreezingRecipe> freezing_recipes = new ArrayList<>();
-        for (RecipeHolder<OscillatingRecipe> recipe : oscillating_recipe_holders) {oscillating_recipes.add(recipe.value());}
-        for (RecipeHolder<FreezingRecipe> recipe : freezing_recipe_holders) {freezing_recipes.add(recipe.value());}
+        for (RecipeEntry<OscillatingRecipe> recipe : oscillating_recipe_holders) {oscillating_recipes.add(recipe.value());}
+        for (RecipeEntry<FreezingRecipe> recipe : freezing_recipe_holders) {freezing_recipes.add(recipe.value());}
         registration.addRecipes(OSCILLATING, oscillating_recipes);
         registration.addRecipes(FREEZING, freezing_recipes);
     }
