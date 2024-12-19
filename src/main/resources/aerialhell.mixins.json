@@ -3,7 +3,19 @@
 	"package": "fr.factionbedrock.aerialhell.Mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"CustomBrewingRecipeMixin"
+		"CustomBrewingRecipeMixin",
+		"OnBlockPlacedMixin",
+		"UpdateNeighborsAlwaysServerWorldMixin",
+		"UpdateNeighborsAlwaysWorldMixin",
+		"UpdateNeighborsExceptMixin",
+		"LivingJumpMixin",
+		"SleepFinishMixin",
+		"ImpactFromThrownEntityMixin",
+		"ImpactFromPersistentProjectileEntityMixin",
+		"LivingDamageMixin",
+		"BlockBreakingSpeedMixin",
+		"RenderBlockOverlayMixin",
+		"RenderHudOverlayMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

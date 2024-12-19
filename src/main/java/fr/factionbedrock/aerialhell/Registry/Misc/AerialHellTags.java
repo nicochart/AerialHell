@@ -2,16 +2,12 @@ package fr.factionbedrock.aerialhell.Registry.Misc;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.block.Block;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.item.Item;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.*;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.gen.structure.Structure;
 
 public class AerialHellTags
 {
@@ -131,7 +127,7 @@ public class AerialHellTags
 
 		private static TagKey<Block> tag(String name)
 		{
-			return BlockTags.create(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+			return TagKey.of(RegistryKeys.BLOCK, AerialHell.id(name));
 		}
 	}
 
@@ -177,7 +173,7 @@ public class AerialHellTags
 
 		private static TagKey<Item> tag(String name)
 		{
-			return ItemTags.create(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+			return TagKey.of(RegistryKeys.ITEM, AerialHell.id(name));
 		}
 	}
 
@@ -189,7 +185,7 @@ public class AerialHellTags
 
 		private static TagKey<Fluid> tag(String name)
 		{
-			return FluidTags.create(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+			return TagKey.of(RegistryKeys.FLUID, AerialHell.id( name));
 		}
 	}
 
@@ -199,7 +195,7 @@ public class AerialHellTags
 
 		private static TagKey<Structure> tag(String name)
 		{
-			return TagKey.create(Registries.STRUCTURE, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+			return TagKey.of(RegistryKeys.STRUCTURE, AerialHell.id( name));
 		}
 	}
 
@@ -225,7 +221,7 @@ public class AerialHellTags
 
 		private static TagKey<Biome> tag(String name)
 		{
-			return TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+			return TagKey.of(RegistryKeys.BIOME, AerialHell.id( name));
 		}
 	}
 }

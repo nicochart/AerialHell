@@ -37,7 +37,8 @@ public class DungeonCoreBlock extends Block
 		setAreaProtected(world, pos, false);
 		return super.onBreak(world, pos, state, player);
 	}
-	
+
+	//triggered by onBreak (false) and by OnBlockPlacedMixin (true)
 	public void setAreaProtected(World world, BlockPos originPos, boolean protect)
 	{		
 		if (isMudCore(this))

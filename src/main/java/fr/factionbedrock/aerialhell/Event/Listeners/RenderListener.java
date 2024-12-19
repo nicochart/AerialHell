@@ -4,11 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
 import java.util.Optional;
 //import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -17,29 +12,25 @@ import java.util.Optional;
 
 public class RenderListener
 {
-    //TODO work on that
-    private static final ResourceLocation VULNERABLE_OVERLAY = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/misc/vulnerability_blur.png");
-    private static final ResourceLocation VULNERABLE_HEART = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_hearts.png");
-    private static final ResourceLocation VULNERABLE_HEART_WITH_BORDER = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_hearts_with_border.png");
-    private static final ResourceLocation VULNERABLE_HALF_HEART = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_half_hearts.png");
-    private static final ResourceLocation VULNERABLE_HALF_HEART_WITH_BORDER = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_half_hearts_with_border.png");
-    private static final ResourceLocation VULNERABLE_EMPTY_HEART = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts.png");
-    private static final ResourceLocation VULNERABLE_EMPTY_HEART_WITH_BORDER = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts_with_border.png");
+    /*
+     *  Everything related to Render Events is done in Mixins :
+     *
+     *  Vulnerability effect overlay : RenderHudOverlayMixin
+     *
+     *  Vulnerability hearts render : TODO work on that
+     *
+     */
 
-    private static final int HEART_ICON_WIDTH = 9;
-    private static final int HEART_ICON_HEIGHT = 9;
+    //private static final ResourceLocation VULNERABLE_OVERLAY = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/misc/vulnerability_blur.png");
+    //private static final ResourceLocation VULNERABLE_HEART = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_hearts.png");
+    //private static final ResourceLocation VULNERABLE_HEART_WITH_BORDER = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_hearts_with_border.png");
+    //private static final ResourceLocation VULNERABLE_HALF_HEART = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_half_hearts.png");
+    //private static final ResourceLocation VULNERABLE_HALF_HEART_WITH_BORDER = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_half_hearts_with_border.png");
+    //private static final ResourceLocation VULNERABLE_EMPTY_HEART = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts.png");
+    //private static final ResourceLocation VULNERABLE_EMPTY_HEART_WITH_BORDER = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts_with_border.png");
 
-    public static void onRenderOverlayPost(RenderGuiEvent.Post event)
-    {
-        Minecraft mc = MinecraftClient.getInstance();
-        PlayerEntity player = mc.player;
-
-        if (player != null && EntityHelper.isLivingEntityVulnerable(player))
-        {
-            float alpha = Math.min(20, player.getEffect(AerialHellMobEffects.VULNERABILITY).getDuration()) / 20.0F;
-            renderTextureOverlay(event.getGuiGraphics(), VULNERABLE_OVERLAY, alpha);
-        }
-    }
+    //private static final int HEART_ICON_WIDTH = 9;
+    //private static final int HEART_ICON_HEIGHT = 9;
 
     /* @SubscribeEvent TODO
     public static void onRenderOverlayPost(RenderGuiOverlayEvent.Post event)
@@ -75,20 +66,6 @@ public class RenderListener
             renderVulnerableHearts(matrixStack, player, x, y, lowHealth);
         }
     }*/
-
-    //Copy of Gui.renderTextureOverlay
-    public static void renderTextureOverlay(GuiGraphics graphics, ResourceLocation textureLocation, float alpha)
-    {
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
-        RenderSystem.enableBlend();
-        graphics.setColor(1.0F, 1.0F, 1.0F, alpha);
-        graphics.blit(textureLocation, 0, 0, -90, 0.0F, 0.0F, graphics.guiWidth(), graphics.guiHeight(), graphics.guiWidth(), graphics.guiHeight());
-        RenderSystem.disableBlend();
-        RenderSystem.depthMask(true);
-        RenderSystem.enableDepthTest();
-        graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
-    }
 
     /*
     private static void renderVulnerableHearts(PoseStack matrixStack, PlayerEntity player, int x, int y, boolean lowHealth)

@@ -26,37 +26,14 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellEnchantments;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.network.protocol.game.ClientboundChunksBiomesPacket;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.RandomSource;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.FlyingMob;
-import net.minecraft.world.entity.animal.Chicken;
-import net.minecraft.world.entity.monster.EnderMan;
-import net.minecraft.world.entity.monster.Silverfish;
-import net.minecraft.world.entity.monster.Vex;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.portal.DimensionTransition;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -268,5 +245,19 @@ public class EntityHelper
         }
 
         player.connection.send(ClientboundChunksBiomesPacket.forChunks(chunkList));
+    }
+
+    public static void handleProjectileImpactWithEntity(ProjectileEntity projectileEntity, EntityHitResult hitResult, CallbackInfo ci)
+    {
+        boolean isLightProjectile = EntityHelper.isLightProjectile(projectileEntity);
+
+        Entity hitEntity = hitResult.getEntity();
+
+        if ((hitEntity instanceof ShadowTrollEntity || hitEntity instanceof ShadowAutomatonEntity) && !isLightProjectile) {ci.cancel();}
+
+        if (EntityHelper.isGhostEntity(hitEntity) && !isLightProjectile)
+        {
+            if (EntityHelper.isImmuneToGhostBlockCollision(projectileEntity.getOwner())) {ci.cancel();}
+        }
     }
 }
