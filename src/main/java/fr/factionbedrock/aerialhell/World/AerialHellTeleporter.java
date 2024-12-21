@@ -86,20 +86,20 @@ public class AerialHellTeleporter
         double d1 = -1.0;
         BlockPos blockPos1 = null;
         WorldBorder worldBorder = this.level.getWorldBorder();
-        int i = Math.min(this.level.getMaxBuildHeight(), this.level.getMinBuildHeight() + this.level.getLogicalHeight()) - 1;
-        BlockPos.MutableBlockPos mutablePos = pos.mutable();
+        int i = Math.min(this.level.getMaxBuildHeight(), this.level.getBottomY() + this.level.getLogicalHeight()) - 1;
+        BlockPos.Mutable mutablePos = pos.mutable();
 
-        for (BlockPos.MutableBlockPos mutablePos1 : BlockPos.spiralAround(pos, 16, Direction.EAST, Direction.SOUTH)) {
+        for (BlockPos.Mutable mutablePos1 : BlockPos.spiralAround(pos, 16, Direction.EAST, Direction.SOUTH)) {
             int k = Math.min(i, this.level.getHeight(Heightmap.Types.MOTION_BLOCKING, mutablePos1.getX(), mutablePos1.getZ()));
             if (worldBorder.isWithinBounds(mutablePos1) && worldBorder.isWithinBounds(mutablePos1.move(direction, 1))) {
                 mutablePos1.move(direction.getOpposite(), 1);
 
-                for (int l = k; l >= this.level.getMinBuildHeight(); l--) {
+                for (int l = k; l >= this.level.getBottomY(); l--) {
                     mutablePos1.setY(l);
                     if (this.canPortalReplaceBlock(mutablePos1)) {
                         int i1 = l;
 
-                        while (l > this.level.getMinBuildHeight() && this.canPortalReplaceBlock(mutablePos1.move(Direction.DOWN))) {
+                        while (l > this.level.getBottomY() && this.canPortalReplaceBlock(mutablePos1.move(Direction.DOWN))) {
                             l--;
                         }
 
@@ -136,13 +136,13 @@ public class AerialHellTeleporter
 
         if (d0 == -1.0)
         {
-            int k1 = Math.max(this.level.getMinBuildHeight() - -1, 70);
+            int k1 = Math.max(this.level.getBottomY() - -1, 70);
             int i2 = i - 9;
             if (i2 < k1) {return Optional.empty();}
 
             blockPos = new BlockPos(pos.getX() - direction.getStepX() * 1, MathHelper.clamp(pos.getY(), k1, i2), pos.getZ() - direction.getStepZ() * 1).immutable();
             blockPos = worldBorder.clampToBounds(blockPos);
-            Direction direction1 = direction.getClockWise();
+            Direction direction1 = direction.rotateYClockwise();
 
             for (int i3 = -1; i3 < 2; i3++)
             {
@@ -181,15 +181,15 @@ public class AerialHellTeleporter
         return Optional.of(new BlockUtil.FoundRectangle(blockPos.immutable(), 2, 3));
     }
 
-    private boolean canPortalReplaceBlock(BlockPos.MutableBlockPos pos)
+    private boolean canPortalReplaceBlock(BlockPos.Mutable pos)
     {
         BlockState blockstate = this.level.getBlockState(pos);
         return blockstate.canBeReplaced() && blockstate.getFluidState().isEmpty();
     }
 
-    private boolean canHostFrame(BlockPos originalPos, BlockPos.MutableBlockPos offsetPos, Direction direction, int pOffsetScale)
+    private boolean canHostFrame(BlockPos originalPos, BlockPos.Mutable offsetPos, Direction direction, int pOffsetScale)
     {
-        Direction directionClockWise = direction.getClockWise();
+        Direction directionClockWise = direction.rotateYClockwise();
 
         for (int i = -1; i < 3; i++)
         {

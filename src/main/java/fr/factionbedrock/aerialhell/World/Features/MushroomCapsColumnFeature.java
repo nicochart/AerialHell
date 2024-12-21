@@ -9,13 +9,12 @@ import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantTr
 import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnots;
 import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedStraightLine;
 import fr.factionbedrock.aerialhell.World.Features.Util.StraightLine;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-
-import javax.annotation.Nullable;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.util.FeatureContext;
+import org.jetbrains.annotations.Nullable;
 
 public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<MushroomCapsColumnConfig>
 {
@@ -23,27 +22,27 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
 
     public MushroomCapsColumnFeature(Codec<MushroomCapsColumnConfig> codec) {super(codec);}
 
-    @Override public boolean place(FeaturePlaceContext<MushroomCapsColumnConfig> context)
+    @Override public boolean generate(FeatureContext<MushroomCapsColumnConfig> context)
     {
-        RandomSource rand = context.random(); MushroomCapsColumnConfig config = context.config();
-        BlockPos origin = context.origin();
+        Random rand = context.getRandom(); MushroomCapsColumnConfig config = context.getConfig();
+        BlockPos origin = context.getOrigin();
 
         if (!canPlace(context)) {return false;}
         else
         {
             int maxXZdistance=config.stemMaxHorizontalOffset(), minYdistance=config.stemMinVerticalOffset(), maxYdistance=config.stemMaxVerticalOffset();
-            BlockPos trunkStart = origin.below(2);
-            int xOffset = rand.nextInt(-maxXZdistance, maxXZdistance), yOffset = rand.nextInt(minYdistance, maxYdistance), zOffset = rand.nextInt(-maxXZdistance, maxXZdistance);
-            if (!FeatureHelper.isBelowMaxBuildHeight(context, context.origin().above(yOffset))) {return false;}
-            BlockPos trunkEnd = origin.offset(xOffset, yOffset, zOffset);
+            BlockPos trunkStart = origin.down(2);
+            int xOffset = rand.nextBetween(-maxXZdistance, maxXZdistance), yOffset = rand.nextBetween(minYdistance, maxYdistance), zOffset = rand.nextBetween(-maxXZdistance, maxXZdistance);
+            if (!FeatureHelper.isBelowMaxBuildHeight(context, context.getOrigin().up(yOffset))) {return false;}
+            BlockPos trunkEnd = origin.add(xOffset, yOffset, zOffset);
             generate(context, trunkStart, trunkEnd, false);
             return true;
         }
     }
 
-    protected void generate(FeaturePlaceContext<MushroomCapsColumnConfig> context, BlockPos startPos, BlockPos endPos, boolean generateDebug)
+    protected void generate(FeatureContext<MushroomCapsColumnConfig> context, BlockPos startPos, BlockPos endPos, boolean generateDebug)
     {
-        GiantPineTree pineTree = new GiantPineTree(context, new StraightLine.StraightLineParameters(startPos, endPos), 2 + context.random().nextInt(2));
+        GiantPineTree pineTree = new GiantPineTree(context, new StraightLine.StraightLineParameters(startPos, endPos), 2 + context.getRandom().nextInt(2));
         pineTree.generate(false, generateDebug);
         pineTree = null;
     }
@@ -51,22 +50,22 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
     private static class GiantPineTree extends ClassicGiantTrunk
     {
         private final boolean largeTrunk;
-        public GiantPineTree(FeaturePlaceContext<MushroomCapsColumnConfig> context, StraightLineParameters straightLineParams, int knotsNumber)
+        public GiantPineTree(FeatureContext<MushroomCapsColumnConfig> context, StraightLineParameters straightLineParams, int knotsNumber)
         {
-            super(context, straightLineParams, knotsNumber, STEM_KNOTS_PARAMETERS, () -> context.config().stemProvider().getState(context.random(), context.origin()).getBlock());
-            this.largeTrunk = (context.config().stemMaxVerticalOffset() + context.config().stemMinVerticalOffset()) / 2 > 30;
+            super(context, straightLineParams, knotsNumber, STEM_KNOTS_PARAMETERS, () -> context.getConfig().stemProvider().get(context.getRandom(), context.getOrigin()).getBlock());
+            this.largeTrunk = (context.getConfig().stemMaxVerticalOffset() + context.getConfig().stemMinVerticalOffset()) / 2 > 30;
         }
 
-        private FeaturePlaceContext<MushroomCapsColumnConfig> getContext() {return (FeaturePlaceContext<MushroomCapsColumnConfig>)context;}
+        private FeatureContext<MushroomCapsColumnConfig> getContext() {return (FeatureContext<MushroomCapsColumnConfig>)context;}
 
         @Override protected boolean isLarge() {return this.largeTrunk;}
 
         @Override public BlockPos generate(boolean stopAtAnyObstacle, boolean generateDebug)
         {
             int i = 0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(this.straightLineParams.getStart(), this.straightLineParams.getEnd());
-            int capCooldown = getContext().config().verticalCapSeparation() * 2, capDistance = getContext().config().verticalCapSeparation();
+            int capCooldown = getContext().getConfig().verticalCapSeparation() * 2, capDistance = getContext().getConfig().verticalCapSeparation();
 
-            BlockPos.MutableBlockPos placementPos = this.straightLineParams.getStart().mutable();
+            BlockPos.Mutable placementPos = this.straightLineParams.getStart().mutableCopy();
             while(!placementPos.equals(this.straightLineParams.getEnd()) && i <= maxAbsOffset * straightLineParams.getPrecisionMultiplicator())
             {
                 placementPos.set(getKnotsDeformedPos(getOffsetPosFromStart(i), this.getKnots(), this.getKnotsNumber(), this.getKnotsParameters()));
@@ -89,7 +88,7 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
         {
             float factor = 0.6F + 0.9F * (maxStep - step) / maxStep;
 
-            MushroomCapsColumnConfig config = (MushroomCapsColumnConfig) context.config();
+            MushroomCapsColumnConfig config = (MushroomCapsColumnConfig) context.getConfig();
             int capRadius = (int) (factor * config.capMeanSize());
             int capHeight = capRadius / 2;
             GiantCap cap = new GiantCap(getContext(), createEllipsoidParameters(capRadius, capHeight, 1), pos);
@@ -103,14 +102,14 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
             return new Ellipsoid.EllipsoidParameters(xzSize, ySize, xzSize, - xzSize - bonus, xzSize + bonus, 0, ySize + bonus, - xzSize - bonus, xzSize + bonus);
         }
 
-        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((MushroomCapsColumnConfig)context.config()).stemProvider().getState(context.random(), pos);}
+        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((MushroomCapsColumnConfig)context.getConfig()).stemProvider().get(context.getRandom(), pos);}
     }
 
     private static class GiantCap extends Ellipsoid
     {
-        public GiantCap(FeaturePlaceContext<MushroomCapsColumnConfig> context, Ellipsoid.EllipsoidParameters parameters, BlockPos centerPos)
+        public GiantCap(FeatureContext<MushroomCapsColumnConfig> context, Ellipsoid.EllipsoidParameters parameters, BlockPos centerPos)
         {
-            super(context, () -> context.config().capProvider().getState(context.random(), FeatureHelper.getFeatureCenter(context)).getBlock(), parameters, centerPos, Ellipsoid.Types.CENTER_1x1);
+            super(context, () -> context.getConfig().capProvider().get(context.getRandom(), FeatureHelper.getFeatureCenter(context)).getBlock(), parameters, centerPos, Ellipsoid.Types.CENTER_1x1);
         }
 
         public void generateLight(int number)
@@ -120,21 +119,21 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
                 BlockPos offset = findLightPos(25);
                 if (offset != null)
                 {
-                    BlockPos generatePos = this.centerPos.offset(offset);
-                    tryPlacingLightBlock(generatePos.mutable(), offset);
+                    BlockPos generatePos = this.centerPos.add(offset);
+                    tryPlacingLightBlock(generatePos.mutableCopy(), offset);
                 }
             }
         }
 
         @Nullable public BlockPos findLightPos(int maxTries)
         {
-            RandomSource rand = context.random();
+            Random rand = context.getRandom();
             boolean foundPos = false; int i=0;
             while(!foundPos && i++ <= maxTries)
             {
-                int x = rand.nextInt(ellipsoidParams.xForMin(), ellipsoidParams.xForMax());
-                int y = rand.nextInt(ellipsoidParams.yForMin(), ellipsoidParams.yForMax());
-                int z = rand.nextInt(ellipsoidParams.zForMin(), ellipsoidParams.zForMax());
+                int x = rand.nextBetween(ellipsoidParams.xForMin(), ellipsoidParams.xForMax());
+                int y = rand.nextBetween(ellipsoidParams.yForMin(), ellipsoidParams.yForMax());
+                int z = rand.nextBetween(ellipsoidParams.zForMin(), ellipsoidParams.zForMax());
                 if (this.isPosAtEllipsoidInsideBorder(x, y, z))
                 {
                     return new BlockPos(x, y, z);
@@ -143,21 +142,21 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
             return null;
         }
 
-        protected boolean tryPlacingLightBlock(BlockPos.MutableBlockPos placementPos, BlockPos ellipsoidPos) //ellipsoidPos = offset from centerPos
+        protected boolean tryPlacingLightBlock(BlockPos.Mutable placementPos, BlockPos ellipsoidPos) //ellipsoidPos = offset from centerPos
         {
-            WorldGenLevel level = context.level(); boolean isPlaceable = isReplaceable(level, placementPos);
+            StructureWorldAccess level = context.getWorld(); boolean isPlaceable = isReplaceable(level, placementPos);
             if (isPlaceable) {level.setBlockState(placementPos, this.getLightStateForPlacement(ellipsoidPos), 2);}
             return isPlaceable;
         }
 
         @Override public BlockState getStateForPlacement(BlockPos pos)
         {
-            return ((MushroomCapsColumnConfig) context.config()).capProvider().getState(context.random(), pos);
+            return ((MushroomCapsColumnConfig) context.getConfig()).capProvider().get(context.getRandom(), pos);
         }
 
         public BlockState getLightStateForPlacement(BlockPos pos)
         {
-            return ((MushroomCapsColumnConfig) context.config()).lightProvider().getState(context.random(), pos);
+            return ((MushroomCapsColumnConfig) context.getConfig()).lightProvider().get(context.getRandom(), pos);
         }
     }
 }

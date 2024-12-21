@@ -1,12 +1,13 @@
 package fr.factionbedrock.aerialhell.World.Features.Util;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.function.Supplier;
 
 public class StraightLine
 {
-    protected final FeaturePlaceContext<?> context;
+    protected final FeatureContext<?> context;
     protected final StraightLineParameters straightLineParams;
     protected final Vector3f straightLineGenStepMoveVec;
     public final Supplier<Block> block;
@@ -23,7 +24,7 @@ public class StraightLine
     protected List<BlockPos> generatePosList = null;
     protected GenerationMode generationMode;
 
-    public StraightLine(FeaturePlaceContext<?> context, StraightLineParameters parameters, Supplier<Block> block)
+    public StraightLine(FeatureContext<?> context, StraightLineParameters parameters, Supplier<Block> block)
     {
         this.context = context; this.straightLineParams = parameters;
         this.straightLineGenStepMoveVec = getStraightLineGenerationStepMoveVector();
@@ -46,7 +47,7 @@ public class StraightLine
         BlockPos lastPos = this.straightLineParams.getStart();
         for (BlockPos pos : generatePosList)
         {
-            tryPlacingBlock(pos.mutable());
+            tryPlacingBlock(pos.mutableCopy());
             lastPos = pos;
         }
         return lastPos;
@@ -56,7 +57,7 @@ public class StraightLine
     {
         int i = 0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(this.straightLineParams.getStart(), this.straightLineParams.getEnd());
 
-        BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
+        BlockPos.Mutable placementPos = new BlockPos.Mutable();
         placementPos.set(this.straightLineParams.getStart());
         while(!placementPos.equals(this.straightLineParams.getEnd()) && i <= maxAbsOffset * straightLineParams.precisionMultiplicator)
         {
@@ -81,7 +82,7 @@ public class StraightLine
             {
                 if (isInsideBorder(pos))
                 {
-                    tryPlacingBlock(pos.mutable());
+                    tryPlacingBlock(pos.mutableCopy());
                     lastPos = pos;
                 }
             }
@@ -93,10 +94,10 @@ public class StraightLine
     public void generateDebug()
     {
         FeatureHelper.generateDebug(this.context);
-        WorldGenLevel level = context.level();
+        StructureWorldAccess level = context.getWorld();
         //start and end position
-        level.setBlockState(this.straightLineParams.getStart(), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().getDefaultState(), 0);
-        level.setBlockState(this.straightLineParams.getEnd(), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().getDefaultState(), 0);
+        level.setBlockState(this.straightLineParams.getStart(), AerialHellBlocks.ARSONIST_BLOCK.getDefaultState(), 0);
+        level.setBlockState(this.straightLineParams.getEnd(), AerialHellBlocks.ARSONIST_BLOCK.getDefaultState(), 0);
     }
 
     private Vector3f getStraightLineGenerationStepMoveVector()
@@ -111,28 +112,28 @@ public class StraightLine
 
     public Vector3f getRandomOrthogonalToStraightLineNormalizedVector(int normalizationFactor)
     {
-        return FeatureHelper.getRandomOrthogonalVectorToLineDefinedWith2Points(this.straightLineParams.getStart(), this.straightLineParams.getEnd(), context.random()).normalize(normalizationFactor);
+        return FeatureHelper.getRandomOrthogonalVectorToLineDefinedWith2Points(this.straightLineParams.getStart(), this.straightLineParams.getEnd(), context.getRandom()).normalize(normalizationFactor);
     }
 
     public BlockPos getOffsetPosFromStart(int step)
     {
-        return this.straightLineParams.getStart().offset((int) (step * this.straightLineGenStepMoveVec.x), (int) (step * this.straightLineGenStepMoveVec.y), (int) (step * this.straightLineGenStepMoveVec.z));
+        return this.straightLineParams.getStart().add((int) (step * this.straightLineGenStepMoveVec.x), (int) (step * this.straightLineGenStepMoveVec.y), (int) (step * this.straightLineGenStepMoveVec.z));
     }
 
     public BlockPos getOffsetPosFromEnd(int step)
     {
-        return this.straightLineParams.getEnd().offset((int) (- step * this.straightLineGenStepMoveVec.x), (int) (- step * this.straightLineGenStepMoveVec.y), (int) (- step * this.straightLineGenStepMoveVec.z));
+        return this.straightLineParams.getEnd().add((int) (- step * this.straightLineGenStepMoveVec.x), (int) (- step * this.straightLineGenStepMoveVec.y), (int) (- step * this.straightLineGenStepMoveVec.z));
     }
 
-    protected boolean tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
+    protected boolean tryPlacingBlocks(BlockPos.Mutable pos, int step, int maxStep)
     {
         return this.tryPlacingBlocksCross(pos);
     }
 
-    protected boolean tryPlacingBlocksSphere(BlockPos.MutableBlockPos pos, int radius) //returns true if one of the blocks is placed
+    protected boolean tryPlacingBlocksSphere(BlockPos.Mutable pos, int radius) //returns true if one of the blocks is placed
     {
         boolean onePlaced = false;
-        BlockPos.MutableBlockPos placementPos = pos.mutable();
+        BlockPos.Mutable placementPos = pos.mutableCopy();
         for (int x=-radius; x<=radius; x++)
         {
             for (int y=-radius; y<=radius; y++)
@@ -141,7 +142,7 @@ public class StraightLine
                 {
                     if (x*x + y*y + z*z <= radius*radius)
                     {
-                        placementPos.set(pos.offset(x,y,z));
+                        placementPos.set(pos.add(x,y,z));
                         onePlaced = tryPlacingBlock(placementPos) || onePlaced;
                     }
                 }
@@ -150,7 +151,7 @@ public class StraightLine
         return onePlaced;
     }
 
-    protected boolean tryPlacingBlocksCross(BlockPos.MutableBlockPos pos) //returns true if one of the blocks is placed
+    protected boolean tryPlacingBlocksCross(BlockPos.Mutable pos) //returns true if one of the blocks is placed
     {
         boolean onePlaced = tryPlacingBlock(pos);
         pos.move(1, 0, 0);
@@ -169,9 +170,9 @@ public class StraightLine
         return onePlaced;
     }
 
-    protected boolean tryPlacingBlock(BlockPos.MutableBlockPos pos) //returns true if the block is placed
+    protected boolean tryPlacingBlock(BlockPos.Mutable pos) //returns true if the block is placed
     {
-        WorldGenLevel level = context.level();
+        StructureWorldAccess level = context.getWorld();
         if (isReplaceable(level, pos))
         {
             if (this.generationMode == GenerationMode.PLACE)
@@ -200,10 +201,10 @@ public class StraightLine
         return !generatePosList.contains(pos) && generatePosList.contains(pos.north()) || generatePosList.contains(pos.south()) || generatePosList.contains(pos.west()) || generatePosList.contains(pos.east()) || generatePosList.contains(pos.up()) || generatePosList.contains(pos.down());
     }
 
-    protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
+    protected boolean isReplaceable(StructureWorldAccess reader, BlockPos blockPos)
     {
         BlockState previousBlock = reader.getBlockState(blockPos);
-        return previousBlock.isAir() || previousBlock.is(AerialHellTags.Blocks.FEATURE_CAN_REPLACE);
+        return previousBlock.isAir() || previousBlock.isIn(AerialHellTags.Blocks.FEATURE_CAN_REPLACE);
     }
 
     public static class StraightLineParameters

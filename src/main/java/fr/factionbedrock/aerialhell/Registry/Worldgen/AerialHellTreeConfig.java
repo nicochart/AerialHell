@@ -10,7 +10,7 @@ import net.minecraft.world.level.levelgen.feature.featuresize.FeatureSize;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.*;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
-import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
+import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedBlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.treedecorators.AlterGroundDecorator;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.*;
 
@@ -40,7 +40,7 @@ public class AerialHellTreeConfig
             new TwoLayersFeatureSize(3, 0, 2));
 
     public static final TreeConfiguration LAPIS_ROBINIA_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
-            new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
+            new WeightedBlockStateProvider(SimpleWeightedRandomList.<BlockState>builder()
                     .add(AerialHellBlocksAndItems.LAPIS_ROBINIA_LOG.get().getDefaultState(), 1)
                     .add(AerialHellBlocksAndItems.ENCHANTED_LAPIS_ROBINIA_LOG.get().getDefaultState(), 1)),
             new ForkingTrunkPlacer(5, 2, 2),
@@ -57,7 +57,7 @@ public class AerialHellTreeConfig
             new TwoLayersFeatureSize(0, 0, 0, OptionalInt.of(4)));
 
     public static final TreeConfiguration SHADOW_PINE_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
-            new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
+            new WeightedBlockStateProvider(SimpleWeightedRandomList.<BlockState>builder()
                     .add(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState(), 2)
                     .add(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get().getDefaultState(), 1)),
             new StraightTrunkPlacer(6, 2, 1),
@@ -67,7 +67,7 @@ public class AerialHellTreeConfig
     )).dirt(BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_DIRT.get())).ignoreVines().build();
 
     public static final TreeConfiguration PURPLE_SHADOW_PINE_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
-            new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
+            new WeightedBlockStateProvider(SimpleWeightedRandomList.<BlockState>builder()
                     .add(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState(), 2)
                     .add(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get().getDefaultState(), 1)),
             new StraightTrunkPlacer(6, 2, 1),
@@ -77,7 +77,7 @@ public class AerialHellTreeConfig
     )).dirt(BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_DIRT.get())).ignoreVines().build();
 
     public static final TreeConfiguration MEGA_SHADOW_PINE_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
-            new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
+            new WeightedBlockStateProvider(SimpleWeightedRandomList.<BlockState>builder()
                     .add(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState(), 6)
                     .add(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get().getDefaultState(), 1)),
             new GiantTrunkPlacer(13, 2, 14),
@@ -87,7 +87,7 @@ public class AerialHellTreeConfig
     )).dirt(BlockStateProvider.simple(AerialHellBlocksAndItems.STELLAR_DIRT.get())).decorators(ImmutableList.of(new AlterGroundDecorator(BlockStateProvider.simple(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().getDefaultState())))).ignoreVines().build();
 
     public static final TreeConfiguration MEGA_PURPLE_SHADOW_PINE_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
-            new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
+            new WeightedBlockStateProvider(SimpleWeightedRandomList.<BlockState>builder()
                     .add(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get().getDefaultState(), 4)
                     .add(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get().getDefaultState(), 1)),
             new GiantTrunkPlacer(13, 2, 14),

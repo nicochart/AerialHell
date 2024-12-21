@@ -151,7 +151,7 @@ public class BlockHelper
             else if (beforeState.isOf(AerialHellBlocks.GLOWING_ROOTS_PLANT))
             {
                 corruptedState = AerialHellBlocks.SHADOW_GLOWING_ROOTS_PLANT.getDefaultState();
-                mayCorruptBelow = world.getBlockState(pos.down()).isIn(AerialHellTags.Blocks.ROOTS); mayCorruptAbove = world.getBlockState(pos.up()).is(AerialHellTags.Blocks.ROOTS);
+                mayCorruptBelow = world.getBlockState(pos.down()).isIn(AerialHellTags.Blocks.ROOTS); mayCorruptAbove = world.getBlockState(pos.up()).isIn(AerialHellTags.Blocks.ROOTS);
             }
         }
         if (corruptionType == CorruptionType.GRASS || corruptionType == CorruptionType.ANY)

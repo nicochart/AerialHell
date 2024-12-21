@@ -2,29 +2,29 @@ package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
 
-
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.HugeMushroomBlock;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.MushroomBlock;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.DefaultFeatureConfig;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 
-public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfiguration>
+public class GiantGanodermaApplanatumFeature extends Feature<DefaultFeatureConfig>
 {
-    public GiantGanodermaApplanatumFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
+    public GiantGanodermaApplanatumFeature(Codec<DefaultFeatureConfig> codec) {super(codec);}
 
-    @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
+    @Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
     {
-        BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random();
+        BlockPos pos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom();
 		boolean canGenerate = (
             (!reader.getBlockState(pos.up(3)).getBlock().equals(Blocks.AIR)) &&
             ((reader.getBlockState(pos.north(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.south(2)).getBlock().equals(Blocks.AIR)) || (reader.getBlockState(pos.west(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.east(2)).getBlock().equals(Blocks.AIR))) &&
-            (reader.getBlockState(pos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(pos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
+            (reader.getBlockState(pos).isIn(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(pos).getBlock() == AerialHellBlocks.STELLAR_DIRT));
 		
 		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
 		
@@ -36,9 +36,9 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfigur
         return false;
     }
     
-    protected void generateCap(WorldGenLevel reader, RandomSource rand, BlockPos blockPos)
+    protected void generateCap(StructureWorldAccess reader, Random rand, BlockPos blockPos)
     {
-    	BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
+    	BlockPos.Mutable placementPos = new BlockPos.Mutable();
     	boolean downInEll,isUpCap,northInEll,southInEll,westInEll,eastInEll;
     	int a,b,c; //ellipsis semi-axes length
     	boolean isHuge = rand.nextInt(11) == 0;
@@ -63,16 +63,16 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfigur
                         if (downInEll || northInEll || southInEll || westInEll || eastInEll) //if pos is at ellipsis border : place cap block
                         {
                         	isUpCap = isCapBlockPos(pos.up(), a, b, c);
-                        	placementPos.set(blockPos.offset(pos));
+                        	placementPos.set(blockPos.add(pos));
                             if (FeatureHelper.isReplaceableByLogOrLeavesFeature(reader, placementPos, true))
                             {
-                            	reader.setBlockState(placementPos, AerialHellBlocksAndItems.GIANT_GANODERMA_APPLANATUM_BLOCK.get().getDefaultState()
-                                		.setValue(HugeMushroomBlock.NORTH, !northInEll)
-                                		.setValue(HugeMushroomBlock.SOUTH, !southInEll)
-                                		.setValue(HugeMushroomBlock.WEST, !westInEll)
-                                		.setValue(HugeMushroomBlock.EAST, !eastInEll)
-                                		.setValue(HugeMushroomBlock.DOWN, !(downInEll || y==0))
-                                		.setValue(HugeMushroomBlock.UP, !isUpCap), 0);
+                            	reader.setBlockState(placementPos, AerialHellBlocks.GIANT_GANODERMA_APPLANATUM_BLOCK.getDefaultState()
+                                		.with(MushroomBlock.NORTH, !northInEll)
+                                		.with(MushroomBlock.SOUTH, !southInEll)
+                                		.with(MushroomBlock.WEST, !westInEll)
+                                		.with(MushroomBlock.EAST, !eastInEll)
+                                		.with(MushroomBlock.DOWN, !(downInEll || y==0))
+                                		.with(MushroomBlock.UP, !isUpCap), 0);
                             }
                         }
                     }
@@ -81,12 +81,12 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfigur
         }
     }
     
-    private int getRandomRadius(RandomSource rand, boolean isHuge)
+    private int getRandomRadius(Random rand, boolean isHuge)
     {
     	return isHuge ? (int) (5 + rand.nextFloat() * 5) : (int) (2 + rand.nextFloat() * 4);
     }
     
-    private int getRandomHeight(RandomSource rand, boolean isHuge)
+    private int getRandomHeight(Random rand, boolean isHuge)
     {
     	int bonus = rand.nextInt(8) == 0 ? 1 : 0;
     	return 2 + (isHuge ? bonus+1 : bonus);

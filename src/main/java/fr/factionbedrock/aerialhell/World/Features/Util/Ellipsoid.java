@@ -1,23 +1,23 @@
 package fr.factionbedrock.aerialhell.World.Features.Util;
 
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 
 import java.util.function.Supplier;
 
 public class Ellipsoid
 {
     protected final Supplier<Block> block;
-    protected final FeaturePlaceContext<?> context;
+    protected final FeatureContext<?> context;
     protected final EllipsoidParameters ellipsoidParams;
     protected final Types.EllipsoidType ellipsoidType;
     protected final BlockPos centerPos;
 
-    public Ellipsoid(FeaturePlaceContext<?> context, Supplier<Block> block, EllipsoidParameters ellipsoidParams, BlockPos centerPos, Types.EllipsoidType type)
+    public Ellipsoid(FeatureContext<?> context, Supplier<Block> block, EllipsoidParameters ellipsoidParams, BlockPos centerPos, Types.EllipsoidType type)
     {
         this.context = context;
         this.block = block;
@@ -28,7 +28,7 @@ public class Ellipsoid
 
     public void generate()
     {
-        BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
+        BlockPos.Mutable placementPos = new BlockPos.Mutable();
         for (int y = ellipsoidParams.yForMin(); y <= ellipsoidParams.yForMax(); y++)
         {
             for (int x = ellipsoidParams.xForMin(); x <= ellipsoidParams.xForMax(); x++)
@@ -43,7 +43,7 @@ public class Ellipsoid
 
     public void generateOutsideBorder()
     {
-        BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
+        BlockPos.Mutable placementPos = new BlockPos.Mutable();
         for (int y = ellipsoidParams.yForMin(); y <= ellipsoidParams.yForMax(); y++)
         {
             for (int x = ellipsoidParams.xForMin(); x <= ellipsoidParams.xForMax(); x++)
@@ -56,7 +56,7 @@ public class Ellipsoid
         }
     }
 
-    protected void generateInnerLoop(BlockPos.MutableBlockPos placementPos, int x, int y, int z, boolean generateBorder)
+    protected void generateInnerLoop(BlockPos.Mutable placementPos, int x, int y, int z, boolean generateBorder)
     {
         if (randomlyChooseToNotPlaceBlock(generateBorder)) {return;}
         if (generateBorder)
@@ -79,7 +79,7 @@ public class Ellipsoid
 
     public boolean randomlyChooseToNotPlaceBlock(boolean generateBorder)
     {
-        return context.random().nextFloat() > randomChanceToGenerateBlock(generateBorder);
+        return context.getRandom().nextFloat() > randomChanceToGenerateBlock(generateBorder);
     }
 
     public float randomChanceToGenerateBlock(boolean generateBorder) {return 1.0F;} //the block "should be placed", but you can use this to add additional random chance to not generate the block. (1.0F = 100 percent probability to be placed)
@@ -131,17 +131,17 @@ public class Ellipsoid
         return upOutEll || downOutEll || southOutEll || northOutEll || eastOutEll || westOutEll;
     }
 
-    protected boolean tryPlacingBlock(BlockPos.MutableBlockPos placementPos, BlockPos ellipsoidPos) //ellipsoidPos = offset from centerPos
+    protected boolean tryPlacingBlock(BlockPos.Mutable placementPos, BlockPos ellipsoidPos) //ellipsoidPos = offset from centerPos
     {
-        WorldGenLevel level = context.level(); boolean isPlaceable = isReplaceable(level, placementPos);
+        StructureWorldAccess level = context.getWorld(); boolean isPlaceable = isReplaceable(level, placementPos);
         if (isPlaceable) {level.setBlockState(placementPos, this.getStateForPlacement(ellipsoidPos), 2);}
         return isPlaceable;
     }
 
-    protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
+    protected boolean isReplaceable(StructureWorldAccess reader, BlockPos blockPos)
     {
         BlockState previousBlock = reader.getBlockState(blockPos);
-        return previousBlock.isAir() || previousBlock.is(AerialHellTags.Blocks.FEATURE_CAN_REPLACE);
+        return previousBlock.isAir() || previousBlock.isIn(AerialHellTags.Blocks.FEATURE_CAN_REPLACE);
     }
 
     public BlockPos getEllipsoidPosFromLevelPos(BlockPos levelPos)
@@ -149,8 +149,8 @@ public class Ellipsoid
         return new BlockPos(levelPos.getX() - this.centerPos.getX(), levelPos.getY() - this.centerPos.getY(), levelPos.getZ() - this.centerPos.getZ());
     }
 
-    public BlockPos getLevelPosFromEllipsoidPos(BlockPos ellipsoidPos) {return this.centerPos.offset(ellipsoidPos);}
-    public BlockPos getLevelPosFromEllipsoidPos(int x, int y, int z) {return this.centerPos.offset(x, y, z);}
+    public BlockPos getLevelPosFromEllipsoidPos(BlockPos ellipsoidPos) {return this.centerPos.add(ellipsoidPos);}
+    public BlockPos getLevelPosFromEllipsoidPos(int x, int y, int z) {return this.centerPos.add(x, y, z);}
 
     public static class EllipsoidParameters
     {

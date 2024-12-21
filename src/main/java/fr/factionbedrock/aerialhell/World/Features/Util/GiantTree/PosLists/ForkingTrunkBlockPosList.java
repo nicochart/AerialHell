@@ -1,13 +1,13 @@
 package fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.PosLists;
 
-import net.minecraft.core.BlockPos;
-
-import javax.annotation.Nullable;
+import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
 
 public class ForkingTrunkBlockPosList
 {
     private final BlockPos forkPos;
-    @Nullable private final BlockPos forkPos2;
+    @Nullable
+    private final BlockPos forkPos2;
     @Nullable private final BlockPos forkPos3;
     @Nullable private final BlockPos forkPos4;
     private final BlockPos endPos; //where foliage should be generated

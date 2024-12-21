@@ -1,21 +1,23 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.AerialHellTwistingVinesConfig;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.AbstractPlantStemBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.block.AbstractPlantStemBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 
 import java.util.function.Supplier;
 
@@ -26,64 +28,63 @@ public class AerialHellTwistingVinesFeature extends Feature<AerialHellTwistingVi
 
     public AerialHellTwistingVinesFeature(Codec<AerialHellTwistingVinesConfig> codec, Supplier<Block> headBlock, Supplier<Block> bodyBlock) {super(codec); this.headBlock = headBlock; this.bodyBlock = bodyBlock;}
 
-    public boolean place(FeaturePlaceContext<AerialHellTwistingVinesConfig> context)
+    public boolean generate(FeatureContext<AerialHellTwistingVinesConfig> context)
     {
-        boolean needsRoof =  context.config().needsRoof().equals("true");
-        WorldGenLevel worldgenlevel = context.level(); BlockPos blockpos = context.origin();
-        if (isInvalidPlacementLocation(worldgenlevel, blockpos, needsRoof)) {return false;}
+        boolean needsRoof =  context.getConfig().needsRoof().equals("true");
+        StructureWorldAccess worldgenworld = context.getWorld(); BlockPos blockpos = context.getOrigin();
+        if (isInvalidPlacementLocation(worldgenworld, blockpos, needsRoof)) {return false;}
         else
         {
-            RandomSource random = context.random();
-            AerialHellTwistingVinesConfig twistingvinesconfig = context.config();
+            Random random = context.getRandom();
+            AerialHellTwistingVinesConfig twistingvinesconfig = context.getConfig();
             int i = twistingvinesconfig.spreadWidth();
             int j = twistingvinesconfig.spreadHeight();
             int k = twistingvinesconfig.maxHeight();
-            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+            BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
 
             for(int l = 0; l < i * i; ++l)
             {
                 blockpos$mutableblockpos.set(blockpos).move(MathHelper.nextInt(random, -i, i), MathHelper.nextInt(random, -j, j), MathHelper.nextInt(random, -i, i));
-                if (findFirstAirBlockAboveGround(worldgenlevel, blockpos$mutableblockpos) && !isInvalidPlacementLocation(worldgenlevel, blockpos$mutableblockpos, false))
+                if (findFirstAirBlockAboveGround(worldgenworld, blockpos$mutableblockpos) && !isInvalidPlacementLocation(worldgenworld, blockpos$mutableblockpos, false))
                 {
                     int i1 = MathHelper.nextInt(random, 1, k);
                     if (random.nextInt(6) == 0) {i1 *= 2;}
                     if (random.nextInt(5) == 0) {i1 = 1;}
-                    placeWeepingVinesColumn(worldgenlevel, random, blockpos$mutableblockpos, i1, 17, 25, this.headBlock.get(), this.bodyBlock.get());
+                    placeWeepingVinesColumn(worldgenworld, random, blockpos$mutableblockpos, i1, 17, 25, this.headBlock.get(), this.bodyBlock.get());
                 }
             }
             return true;
         }
     }
 
-    private static boolean findFirstAirBlockAboveGround(LevelAccessor level, BlockPos.MutableBlockPos mutablePos)
+    private static boolean findFirstAirBlockAboveGround(WorldAccess world, BlockPos.Mutable mutablePos)
     {
-        do {mutablePos.move(0, -1, 0); if (level.isOutsideBuildHeight(mutablePos)) {return false;}} while(level.getBlockState(mutablePos).isAir());
+        do {mutablePos.move(0, -1, 0); if (world.isOutOfHeightLimit(mutablePos)) {return false;}} while(world.getBlockState(mutablePos).isAir());
         mutablePos.move(0, 1, 0);
         return true;
     }
 
-    public static void placeWeepingVinesColumn(LevelAccessor level, RandomSource rand, BlockPos.MutableBlockPos mutablePos, int height, int minAge, int maxAge, Block headBlock, Block bodyBlock)
+    public static void placeWeepingVinesColumn(WorldAccess world, Random rand, BlockPos.Mutable mutablePos, int height, int minAge, int maxAge, Block headBlock, Block bodyBlock)
     {
         for(int i = 1; i <= height; ++i)
         {
-            if (level.isEmptyBlock(mutablePos))
+            if (world.isAir(mutablePos))
             {
-                if (i == height || !level.isEmptyBlock(mutablePos.above())) {level.setBlockState(mutablePos, headBlock.getDefaultState().with(AbstractPlantStemBlock.AGE, Integer.valueOf(MathHelper.nextInt(rand, minAge, maxAge))), 2); break;}
-                level.setBlockState(mutablePos, bodyBlock.getDefaultState(), 2);
+                if (i == height || !world.isAir(mutablePos.up())) {world.setBlockState(mutablePos, headBlock.getDefaultState().with(AbstractPlantStemBlock.AGE, Integer.valueOf(MathHelper.nextInt(rand, minAge, maxAge))), 2); break;}
+                world.setBlockState(mutablePos, bodyBlock.getDefaultState(), 2);
             }
             mutablePos.move(Direction.UP);
         }
-
     }
 
-    private static boolean isInvalidPlacementLocation(LevelAccessor level, BlockPos pos, boolean needsRoof)
+    private static boolean isInvalidPlacementLocation(WorldView world, BlockPos pos, boolean needsRoof)
     {
-        if (!level.isEmptyBlock(pos)) {return true;}
+        if (!world.isAir(pos)) {return true;}
         else
         {
-            if (needsRoof && !BlockHelper.hasAnySolidSurfaceAbove(level, pos, 3)) {return true;}
-            BlockState blockstate = level.getBlockState(pos.down());
-            return !blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT) && !blockstate.isOf(AerialHellBlocks.SLIPPERY_SAND.get()) && !blockstate.isOf(Blocks.NETHERRACK) && !blockstate.isOf(Blocks.WARPED_NYLIUM) && !blockstate.isOf(Blocks.WARPED_WART_BLOCK);
+            if (needsRoof && !BlockHelper.hasAnySolidSurfaceAbove(world, pos, 3)) {return true;}
+            BlockState blockstate = world.getBlockState(pos.down());
+            return !blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT) && !blockstate.isOf(AerialHellBlocks.SLIPPERY_SAND) && !blockstate.isOf(Blocks.NETHERRACK) && !blockstate.isOf(Blocks.WARPED_NYLIUM) && !blockstate.isOf(Blocks.WARPED_WART_BLOCK);
         }
     }
 }

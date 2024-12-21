@@ -1,16 +1,15 @@
 package fr.factionbedrock.aerialhell.World.Features.Util.GiantTree;
 
 import fr.factionbedrock.aerialhell.World.Features.Util.Ellipsoid;
-import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedEllipsoid;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedEllipsoid;import net.minecraft.block.Block;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 
 import java.util.function.Supplier;
 
 public class ClassicGiantFoliage extends SplineKnotsDeformedEllipsoid
 {
-    public ClassicGiantFoliage(FeaturePlaceContext<?> context, Supplier<Block> block, EllipsoidParameters ellipsoidParams, BlockPos centerPos, Types.EllipsoidType type, int knotsNumber, KnotsParameters knotsParams, boolean generateBothDeformedAndNonDeformed) {super(context, block, ellipsoidParams, centerPos, type, knotsNumber, knotsParams, generateBothDeformedAndNonDeformed);}
+    public ClassicGiantFoliage(FeatureContext<?> context, Supplier<Block> block, EllipsoidParameters ellipsoidParams, BlockPos centerPos, Types.EllipsoidType type, int knotsNumber, KnotsParameters knotsParams, boolean generateBothDeformedAndNonDeformed) {super(context, block, ellipsoidParams, centerPos, type, knotsNumber, knotsParams, generateBothDeformedAndNonDeformed);}
 
     public void generateFoliage()
     {
@@ -34,7 +33,7 @@ public class ClassicGiantFoliage extends SplineKnotsDeformedEllipsoid
 
     @Override public float randomChanceToGenerateBlock(boolean generatingBorder) {return generatingBorder ? 0.5F : 1.0F;}
 
-    @Override protected void generateInnerLoop(BlockPos.MutableBlockPos placementPos, int x, int y, int z, boolean generateBorder)
+    @Override protected void generateInnerLoop(BlockPos.Mutable placementPos, int x, int y, int z, boolean generateBorder)
     {
         if (y == this.ellipsoidParams.yForMin() && randomlyChooseToNotPlaceBlock(true)) {return;}
         else {super.generateInnerLoop(placementPos, x, y, z, generateBorder);}

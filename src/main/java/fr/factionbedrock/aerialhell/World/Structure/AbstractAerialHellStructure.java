@@ -120,7 +120,7 @@ public abstract class AbstractAerialHellStructure extends Structure
 
     protected static int getTerrainHeight(Structure.GenerationContext context, int posX, int posZ)
     {
-        return context.chunkGenerator().getFirstOccupiedHeight(
+        return context.getGenerator().getFirstOccupiedHeight(
                 posX,
                 posZ,
                 Heightmap.Types.WORLD_SURFACE_WG,
@@ -157,7 +157,7 @@ public abstract class AbstractAerialHellStructure extends Structure
     {
         ChunkPos chunkPos = context.chunkPos();
 
-        int sampledStartHeight = this.startHeight.sample(context.random(), new WorldGenerationContext(context.chunkGenerator(), context.heightAccessor()));
+        int sampledStartHeight = this.startHeight.sample(context.getRandom(), new WorldGenerationContext(context.getGenerator(), context.heightAccessor()));
         //sampledStartHeight corresponds to :
         //effective startY if this.projectStartToHeightmap.isEmpty()
         //y offset to apply if this.projectStartToHeightmap.isPresent()

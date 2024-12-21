@@ -3,29 +3,30 @@ package fr.factionbedrock.aerialhell.World.Features;
 import com.mojang.serialization.Codec;
 
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
+import net.minecraft.world.gen.feature.DefaultFeatureConfig;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 
-public class SlipperySandFeature extends Feature<NoneFeatureConfiguration>
+public class SlipperySandFeature extends Feature<DefaultFeatureConfig>
 {
 
-    public SlipperySandFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
+    public SlipperySandFeature(Codec<DefaultFeatureConfig> codec) {super(codec);}
 
-    @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
+    @Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
     {
-        BlockPos blockPos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
+        BlockPos blockPos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom(); ChunkGenerator generator = context.getGenerator();
 		boolean canGenerate = (
                 (reader.getBlockState(blockPos.north(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.south(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.west(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.east(3)).getBlock().equals(Blocks.AIR)) &&
-                (reader.getBlockState(blockPos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(blockPos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
+                (reader.getBlockState(blockPos).isIn(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(blockPos).getBlock() == AerialHellBlocks.STELLAR_DIRT));
 
 		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
 		
@@ -37,9 +38,9 @@ public class SlipperySandFeature extends Feature<NoneFeatureConfiguration>
         return false;
     }
     
-    protected void generateSlipperySand(WorldGenLevel reader, RandomSource rand, BlockPos blockPos)
+    protected void generateSlipperySand(StructureWorldAccess reader, Random rand, BlockPos blockPos)
     {
-    	BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
+    	BlockPos.Mutable placementPos = new BlockPos.Mutable();
     	boolean isBig = rand.nextDouble() > 0.8;
         int radiusX = getRandomRadius(rand, isBig);
         int radiusY = 2;
@@ -56,12 +57,12 @@ public class SlipperySandFeature extends Feature<NoneFeatureConfiguration>
                     BlockPos pos = new BlockPos(x, y, z);
                     if (isPosInsideEllipsis(pos, radiusX, radiusY, radiusZ))
                     {
-                    	placementPos.set(blockPos.offset(pos));
+                    	placementPos.set(blockPos.add(pos));
                     	if (isReplaceable(reader, placementPos))
                     	{
                     		boolean isInsideInnerEllipsis = isPosInsideEllipsis(pos, radiusX-1, radiusY, radiusZ-1);
-                    		if (isInsideInnerEllipsis) {reader.setBlockState(placementPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().getDefaultState(), 0);}
-                    		else if (!(rand.nextInt(3) == 0)) {reader.setBlockState(placementPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().getDefaultState(), 0);}
+                    		if (isInsideInnerEllipsis) {reader.setBlockState(placementPos, AerialHellBlocks.SLIPPERY_SAND.getDefaultState(), 0);}
+                    		else if (!(rand.nextInt(3) == 0)) {reader.setBlockState(placementPos, AerialHellBlocks.SLIPPERY_SAND.getDefaultState(), 0);}
                     	}
                     }
                 }
@@ -69,14 +70,14 @@ public class SlipperySandFeature extends Feature<NoneFeatureConfiguration>
         }
     }
     
-    private boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
+    private boolean isReplaceable(StructureWorldAccess reader, BlockPos blockPos)
     {
     	BlockState previousBlock = reader.getBlockState(blockPos);
-    	if (previousBlock.isAir() || previousBlock.is(AerialHellTags.Blocks.FEATURE_CAN_REPLACE) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT)) {return true;}
+    	if (previousBlock.isAir() || previousBlock.isIn(AerialHellTags.Blocks.FEATURE_CAN_REPLACE) || previousBlock.isIn(AerialHellTags.Blocks.STELLAR_DIRT)) {return true;}
     	else {return false;}
     }
     
-    private int getRandomRadius(RandomSource rand, boolean isBig)
+    private int getRandomRadius(Random rand, boolean isBig)
     {
     	return isBig ? (int) (5 + rand.nextFloat() * 5) : (int) (3 + rand.nextFloat() * 4);
     }

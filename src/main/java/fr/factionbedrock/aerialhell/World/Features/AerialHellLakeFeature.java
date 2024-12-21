@@ -2,45 +2,46 @@ package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.BlockPos;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.block.BlockState;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.FeatureConfig;
+import net.minecraft.world.gen.feature.util.FeatureContext;
+import net.minecraft.world.gen.stateprovider.BlockStateProvider;
+
+import static net.minecraft.block.Blocks.CAVE_AIR;
 
 //copy of vanilla LakeFeature, but removing some conditions (see below)
 //
-public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configuration>
+public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Config>
 {
-    private static final BlockState AIR = Blocks.CAVE_AIR.getDefaultState();
+    private static final BlockState AIR = CAVE_AIR.getDefaultState();
 
-    public AerialHellLakeFeature(Codec<AerialHellLakeFeature.Configuration> codec) {super(codec);}
+    public AerialHellLakeFeature(Codec<AerialHellLakeFeature.Config> codec) {super(codec);}
 
     @Override
-    public boolean place(FeaturePlaceContext<AerialHellLakeFeature.Configuration> context)
+    public boolean generate(FeatureContext<Config> context)
     {
-        BlockPos origin = context.origin(); WorldGenLevel level = context.level(); RandomSource randomsource = context.random(); AerialHellLakeFeature.Configuration config = context.config();
+        BlockPos origin = context.getOrigin(); StructureWorldAccess world = context.getWorld(); Random random = context.getRandom(); AerialHellLakeFeature.Config config = context.getConfig();
 
-        if (level.getBlockState(origin).isAir() || level.getBlockState(origin.below(3)).isAir() || origin.getY() <= level.getMinBuildHeight() + 4) {return false;}
+        if (world.getBlockState(origin).isAir() || world.getBlockState(origin.down(3)).isAir() || origin.getY() <= world.getBottomY() + 4) {return false;}
         else
         {
-            origin = origin.below(4);
+            origin = origin.down(4);
             boolean[] aboolean = new boolean[2048];
-            int i = randomsource.nextInt(4) + 4;
+            int i = random.nextInt(4) + 4;
 
             for (int j = 0; j < i; j++)
             {
-                double d0 = randomsource.nextDouble() * 6.0 + 3.0;
-                double d1 = randomsource.nextDouble() * 4.0 + 2.0;
-                double d2 = randomsource.nextDouble() * 6.0 + 3.0;
-                double d3 = randomsource.nextDouble() * (16.0 - d0 - 2.0) + 1.0 + d0 / 2.0;
-                double d4 = randomsource.nextDouble() * (8.0 - d1 - 4.0) + 2.0 + d1 / 2.0;
-                double d5 = randomsource.nextDouble() * (16.0 - d2 - 2.0) + 1.0 + d2 / 2.0;
+                double d0 = random.nextDouble() * 6.0 + 3.0;
+                double d1 = random.nextDouble() * 4.0 + 2.0;
+                double d2 = random.nextDouble() * 6.0 + 3.0;
+                double d3 = random.nextDouble() * (16.0 - d0 - 2.0) + 1.0 + d0 / 2.0;
+                double d4 = random.nextDouble() * (8.0 - d1 - 4.0) + 2.0 + d1 / 2.0;
+                double d5 = random.nextDouble() * (16.0 - d2 - 2.0) + 1.0 + d2 / 2.0;
 
                 for (int l = 1; l < 15; l++)
                 {
@@ -58,8 +59,8 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configu
                 }
             }
 
-            BlockState fluidState = config.fluid().getState(randomsource, origin);
-            BlockState barrierState = config.barrier().getState(randomsource, origin);
+            BlockState fluidState = config.fluid().get(random, origin);
+            BlockState barrierState = config.barrier().get(random, origin);
 
             for (int k1 = 0; k1 < 16; k1++)
             {
@@ -95,15 +96,15 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configu
                     {
                         if (aboolean[(l1 * 16 + i2) * 8 + i3])
                         {
-                            BlockPos liquidPlacementPos = origin.offset(l1, i3, i2);
-                            if (this.canReplaceBlock(level.getBlockState(liquidPlacementPos)))
+                            BlockPos liquidPlacementPos = origin.add(l1, i3, i2);
+                            if (this.canReplaceBlock(world.getBlockState(liquidPlacementPos)))
                             {
                                 boolean shouldBecomeAir = i3 >= 4;
-                                level.setBlockState(liquidPlacementPos, shouldBecomeAir ? AIR : fluidState, 2);
+                                world.setBlockState(liquidPlacementPos, shouldBecomeAir ? AIR : fluidState, 2);
                                 if (shouldBecomeAir)
                                 {
-                                    level.scheduleTick(liquidPlacementPos, AIR.getBlock(), 0);
-                                    this.markAboveForPostProcessing(level, liquidPlacementPos);
+                                    world.scheduleBlockTick(liquidPlacementPos, AIR.getBlock(), 0);
+                                    this.markBlocksAboveForPostProcessing(world, liquidPlacementPos);
                                 }
                             }
                         }
@@ -120,14 +121,14 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configu
                     {
                         for (int dy = 0; dy < 8; dy++)
                         {
-                            BlockPos scannedPos = origin.offset(dx, dy, dz);
-                            if (level.getBlockState(scannedPos).is(fluidState.getBlock()))
+                            BlockPos scannedPos = origin.add(dx, dy, dz);
+                            if (world.getBlockState(scannedPos).isOf(fluidState.getBlock()))
                             {
-                                placeBarrierIfNeeded(level, scannedPos.offset(-1, 0, 0), barrierState);
-                                placeBarrierIfNeeded(level, scannedPos.offset(1, 0, 0), barrierState);
-                                placeBarrierIfNeeded(level, scannedPos.offset(0, 0, -1), barrierState);
-                                placeBarrierIfNeeded(level, scannedPos.offset(0, 0, 1), barrierState);
-                                placeBarrierIfNeeded(level, scannedPos.offset(0, -1, 0), barrierState);
+                                placeBarrierIfNeeded(world, scannedPos.add(-1, 0, 0), barrierState);
+                                placeBarrierIfNeeded(world, scannedPos.add(1, 0, 0), barrierState);
+                                placeBarrierIfNeeded(world, scannedPos.add(0, 0, -1), barrierState);
+                                placeBarrierIfNeeded(world, scannedPos.add(0, 0, 1), barrierState);
+                                placeBarrierIfNeeded(world, scannedPos.add(0, -1, 0), barrierState);
                             }
                         }
                     }
@@ -139,23 +140,21 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configu
         }
     }
 
-    private void placeBarrierIfNeeded(WorldGenLevel level, BlockPos pos, BlockState barrierState)
+    private void placeBarrierIfNeeded(StructureWorldAccess world, BlockPos pos, BlockState barrierState)
     {
-        if (level.getBlockState(pos).isAir()) {level.setBlockState(pos, barrierState, 2);}
+        if (world.getBlockState(pos).isAir()) {world.setBlockState(pos, barrierState, 2);}
     }
 
     private boolean canReplaceBlock(BlockState state) {return !state.isIn(BlockTags.FEATURES_CANNOT_REPLACE);}
 
-    public record Configuration(BlockStateProvider fluid, BlockStateProvider barrier) implements FeatureConfiguration
+    public record Config(BlockStateProvider fluid, BlockStateProvider barrier) implements FeatureConfig
     {
-        public static final Codec<AerialHellLakeFeature.Configuration> CODEC = RecordCodecBuilder.create
-        (
-            config -> config.group
+        public static final Codec<AerialHellLakeFeature.Config> CODEC = RecordCodecBuilder.create(
+        (instance) -> instance.group
                 (
-                    BlockStateProvider.CODEC.fieldOf("fluid").forGetter(AerialHellLakeFeature.Configuration::fluid),
-                    BlockStateProvider.CODEC.fieldOf("barrier").forGetter(AerialHellLakeFeature.Configuration::barrier)
-                )
-                .apply(config, AerialHellLakeFeature.Configuration::new)
+                        BlockStateProvider.TYPE_CODEC.fieldOf("fluid").forGetter(AerialHellLakeFeature.Config::fluid),
+                        BlockStateProvider.TYPE_CODEC.fieldOf("barrier").forGetter(AerialHellLakeFeature.Config::barrier)
+                ).apply(instance, AerialHellLakeFeature.Config::new)
         );
     }
 }

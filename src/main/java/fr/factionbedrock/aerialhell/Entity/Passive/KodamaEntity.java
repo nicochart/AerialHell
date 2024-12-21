@@ -47,11 +47,11 @@ public class KodamaEntity extends AerialHellAnimalEntity
         return world.getBlockState(pos.down()).isOf(AerialHellTags.Blocks.STELLAR_DIRT);
     }
 
-    @Override public EntityData initialize(ServerWorldAccess serverLevelAccessor, LocalDifficulty difficulty, SpawnReason reason, @Nullable EntityData spawnGroupData)
+    @Override public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty, SpawnReason reason, @Nullable EntityData spawnGroupData)
     {
         this.setRandomFaceAndSize();
         this.setRattling(false);
-        return super.initialize(serverLevelAccessor, difficulty, reason, spawnGroupData);
+        return super.initialize(serverWorldAccess, difficulty, reason, spawnGroupData);
     }
 
     @Override protected void initGoals()

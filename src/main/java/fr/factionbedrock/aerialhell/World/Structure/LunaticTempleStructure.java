@@ -39,7 +39,7 @@ public class LunaticTempleStructure extends AbstractAerialHellStructure
 
     @Override protected boolean isStructureChunk(Structure.GenerationContext context)
     {
-        ChunkGenerator chunkGenerator = context.chunkGenerator();
+        ChunkGenerator chunkGenerator = context.getGenerator();
         ChunkPos chunkpos = context.chunkPos();
         LevelHeightAccessor level = context.heightAccessor();
         long seed = context.seed();

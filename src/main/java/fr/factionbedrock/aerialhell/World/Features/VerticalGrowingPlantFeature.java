@@ -4,15 +4,15 @@ import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Block.Plants.VerticalGrowingPlantBlock;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.World.Features.Config.VerticalGrowingPlantConfig;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.WorldAccess;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 
 import java.util.function.Supplier;
 
@@ -22,14 +22,14 @@ public class VerticalGrowingPlantFeature extends Feature<VerticalGrowingPlantCon
     private Supplier<VerticalGrowingPlantBlock> block;
     public VerticalGrowingPlantFeature(Codec<VerticalGrowingPlantConfig> codec, Supplier<VerticalGrowingPlantBlock> plantBlock) {super(codec); this.block = plantBlock;}
 
-    public boolean place(FeaturePlaceContext<VerticalGrowingPlantConfig> context)
+    public boolean generate(FeatureContext<VerticalGrowingPlantConfig> context)
     {
-        WorldGenLevel worldgenlevel = context.level(); BlockPos blockpos = context.origin();
+        StructureWorldAccess worldgenlevel = context.getWorld(); BlockPos blockpos = context.getOrigin();
         if (isInvalidPlacementLocation(worldgenlevel, blockpos)) {return false;}
         else
         {
-            RandomSource random = context.random();
-            VerticalGrowingPlantConfig config = context.config();
+            Random random = context.getRandom();
+            VerticalGrowingPlantConfig config = context.getConfig();
             int spreadXZ = config.spreadWidth();
             int spreadY = config.spreadHeight();
             int minHeight = config.minHeight();
@@ -37,7 +37,7 @@ public class VerticalGrowingPlantFeature extends Feature<VerticalGrowingPlantCon
             int minTries = config.minTries();
             int maxTries = config.maxTries();
             int tries = (minTries == maxTries) ? minTries : MathHelper.nextInt(random, minTries, maxTries);
-            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+            BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
 
             for(int l = 0; l <= tries; ++l)
             {
@@ -52,29 +52,29 @@ public class VerticalGrowingPlantFeature extends Feature<VerticalGrowingPlantCon
         }
     }
 
-    private static boolean findFirstAirBlockAboveGround(LevelAccessor level, BlockPos.MutableBlockPos mutablePos)
+    private static boolean findFirstAirBlockAboveGround(WorldAccess level, BlockPos.Mutable mutablePos)
     {
-        do {mutablePos.move(0, -1, 0); if (level.isOutsideBuildHeight(mutablePos)) {return false;}} while(level.getBlockState(mutablePos).isAir());
+        do {mutablePos.move(0, -1, 0); if (level.isOutOfHeightLimit(mutablePos)) {return false;}} while(level.getBlockState(mutablePos).isAir());
         mutablePos.move(0, 1, 0);
         return true;
     }
 
-    public static void placeVerticalGrowingPlantColumn(LevelAccessor level, RandomSource rand, BlockPos.MutableBlockPos mutablePos, int height, int minAge, int maxAge, VerticalGrowingPlantBlock plantBlock)
+    public static void placeVerticalGrowingPlantColumn(WorldAccess level, Random rand, BlockPos.Mutable mutablePos, int height, int minAge, int maxAge, VerticalGrowingPlantBlock plantBlock)
     {
         for(int i = 1; i <= height; ++i)
         {
-            if (level.isEmptyBlock(mutablePos))
+            if (level.isAir(mutablePos))
             {
-                if (i == height || !level.isEmptyBlock(mutablePos.above())) {level.setBlockState(mutablePos, plantBlock.getDefaultState().with(VerticalGrowingPlantBlock.AGE, MathHelper.nextInt(rand, minAge, maxAge)).setValue(VerticalGrowingPlantBlock.TOP, true), 2); break;}
+                if (i == height || !level.isAir(mutablePos.up())) {level.setBlockState(mutablePos, plantBlock.getDefaultState().with(VerticalGrowingPlantBlock.AGE, MathHelper.nextInt(rand, minAge, maxAge)).with(VerticalGrowingPlantBlock.TOP, true), 2); break;}
                 level.setBlockState(mutablePos, plantBlock.getDefaultState().with(VerticalGrowingPlantBlock.TOP, false), 2);
             }
             mutablePos.move(Direction.UP);
         }
     }
 
-    private static boolean isInvalidPlacementLocation(LevelAccessor level, BlockPos pos)
+    private static boolean isInvalidPlacementLocation(WorldAccess level, BlockPos pos)
     {
-        if (!level.isEmptyBlock(pos)) {return true;}
+        if (!level.isAir(pos)) {return true;}
         else
         {
             BlockState blockstate = level.getBlockState(pos.down());

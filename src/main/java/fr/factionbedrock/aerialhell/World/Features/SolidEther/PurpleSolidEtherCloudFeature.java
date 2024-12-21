@@ -1,27 +1,28 @@
 package fr.factionbedrock.aerialhell.World.Features.SolidEther;
 
 import com.mojang.serialization.Codec;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.block.Block;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
+import net.minecraft.world.gen.feature.DefaultFeatureConfig;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 
 public class PurpleSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 {
 	public static int getMinGenHeigh() {return 60;} public static int getMaxGenHeigh() {return 200;}
 	protected int getBasicMinSize() {return 4;} protected int getBasicMaxSize() {return 6;}
 	protected int getSmallMinSize() {return 2;} protected int getSmallMaxSize() {return 3;}
-	protected Block getEtherBlock() {return AerialHellBlocksAndItems.PURPLE_SOLID_ETHER.get();}
+	protected Block getEtherBlock() {return AerialHellBlocks.PURPLE_SOLID_ETHER;}
 
-	public PurpleSolidEtherCloudFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
+	public PurpleSolidEtherCloudFeature(Codec<DefaultFeatureConfig> codec) {super(codec);}
 
-	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
+	@Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
 	{
-		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
+		BlockPos pos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom(); ChunkGenerator generator = context.getGenerator();
 		if (FeatureHelper.isFeatureGeneratingNextToDungeon(context)) {return false;}
     	
 		BlockPos generatePos = pos;

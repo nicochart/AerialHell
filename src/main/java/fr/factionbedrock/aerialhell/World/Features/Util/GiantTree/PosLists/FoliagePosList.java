@@ -1,13 +1,13 @@
 package fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.PosLists;
 
-import net.minecraft.core.BlockPos;
-
-import javax.annotation.Nullable;
+import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
 
 public class FoliagePosList
 {
     private FoliageInfo foliage1;
-    @Nullable private FoliageInfo foliage2;
+    @Nullable
+    private FoliageInfo foliage2;
     @Nullable private FoliageInfo foliage3;
     @Nullable private FoliageInfo foliage4;
 

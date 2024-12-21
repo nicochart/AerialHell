@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.AerialHellCreativeModeTabs;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.BuildContentsEvent;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellFeatures;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 
 public class AerialHellSetup
@@ -47,7 +48,7 @@ public class AerialHellSetup
         AerialHellSoundEvents.load();
         AerialHellCreativeModeTabs.load();
 
-        //AerialHellFeatures.FEATURES.register(bus);
+        AerialHellFeatures.load();
         //AerialHellConfiguredFeatures.CONFIGURED_FEATURES.register(bus);
         //AerialHellPlacedFeatures.PLACED_FEATURES.register(bus);
     }

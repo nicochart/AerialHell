@@ -45,9 +45,9 @@ public class UpsideDownPyramidStructure extends AbstractAerialHellStructure
     {
         ChunkPos chunkPos = context.chunkPos();
 
-        NoiseColumn minColumn = context.chunkGenerator().getBaseColumn(chunkPos.getMinBlockX(), chunkPos.getMinBlockZ(), context.heightAccessor(), context.randomState());
-        NoiseColumn maxColumn = context.chunkGenerator().getBaseColumn(chunkPos.getMaxBlockX(), chunkPos.getMaxBlockZ(), context.heightAccessor(), context.randomState());
-        NoiseColumn middleColumn = context.chunkGenerator().getBaseColumn(chunkPos.getMiddleBlockX(), chunkPos.getMiddleBlockZ(), context.heightAccessor(), context.randomState());
+        NoiseColumn minColumn = context.getGenerator().getBaseColumn(chunkPos.getMinBlockX(), chunkPos.getMinBlockZ(), context.heightAccessor(), context.randomState());
+        NoiseColumn maxColumn = context.getGenerator().getBaseColumn(chunkPos.getMaxBlockX(), chunkPos.getMaxBlockZ(), context.heightAccessor(), context.randomState());
+        NoiseColumn middleColumn = context.getGenerator().getBaseColumn(chunkPos.getMiddleBlockX(), chunkPos.getMiddleBlockZ(), context.heightAccessor(), context.randomState());
 
         int minHeight = getTerrainHeight(context, ChunkCoordinateType.CHUNK_MIN_COORDINATE); //not actual min, just min chunk coordinates
         int maxHeight = getTerrainHeight(context, ChunkCoordinateType.CHUNK_MAX_COORDINATE); //not actual max, just max chunk coordinates
@@ -66,7 +66,7 @@ public class UpsideDownPyramidStructure extends AbstractAerialHellStructure
 
     @Override @Nullable protected BlockPos findStructureCenter(GenerationContext context)
     {
-        int sampledStartHeight = this.startHeight.sample(context.random(), new WorldGenerationContext(context.chunkGenerator(), context.heightAccessor()));
+        int sampledStartHeight = this.startHeight.sample(context.getRandom(), new WorldGenerationContext(context.getGenerator(), context.heightAccessor()));
 
         int startY = this.projectStartToHeightmap.isPresent() ? getGenerationHeight(context) + sampledStartHeight : sampledStartHeight;
         if (startY < MIN_GEN_HEIGHT) {return null;}

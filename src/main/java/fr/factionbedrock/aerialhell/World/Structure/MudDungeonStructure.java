@@ -40,7 +40,7 @@ public class MudDungeonStructure extends AbstractAerialHellStructure
         int x=context.chunkPos().getMaxBlockX(), z=context.chunkPos().getMaxBlockZ();
         if (getTerrainHeight(context, x, z) < MAX_GEN_HEIGHT) {return false;}
 
-        NoiseColumn column = context.chunkGenerator().getBaseColumn(x, z, context.heightAccessor(), context.randomState());
+        NoiseColumn column = context.getGenerator().getBaseColumn(x, z, context.heightAccessor(), context.randomState());
         return columnHasPercentOfNonAirBlocks(column, 0.25F);
     }
 

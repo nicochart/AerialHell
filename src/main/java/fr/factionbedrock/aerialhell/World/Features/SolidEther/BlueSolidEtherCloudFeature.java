@@ -2,13 +2,14 @@ package fr.factionbedrock.aerialhell.World.Features.SolidEther;
 
 import com.mojang.serialization.Codec;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.block.Block;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.DefaultFeatureConfig;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 
 public class BlueSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 {
@@ -16,15 +17,15 @@ public class BlueSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 	protected int getBasicMinSize() {return 5;} protected int getBasicMaxSize() {return 8;}
 	protected int getSmallMinSize() {return 3;} protected int getSmallMaxSize() {return 5;}
 
-	protected Block getEtherBlock() {return AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get();}
+	protected Block getEtherBlock() {return AerialHellBlocks.BLUE_SOLID_ETHER;}
 
-	public BlueSolidEtherCloudFeature(Codec<NoneFeatureConfiguration> codec) {
+	public BlueSolidEtherCloudFeature(Codec<DefaultFeatureConfig> codec) {
         super(codec);
     }
 
-	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
+	@Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
     {
-		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random();
+		BlockPos pos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom();
 		if (FeatureHelper.isFeatureGeneratingNextToDungeon(context)) {return false;}
 
 		BlockPos generatePos = pos;

@@ -14,8 +14,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.FeatureContext;
+import net.minecraft.world.level.levelgen.feature.configurations.DefaultFeatureConfig;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 
@@ -68,8 +68,8 @@ public class StructureHelper
 	public static boolean temporaryCheck_isStructureGeneratingInAerialHell(Structure.GenerationContext context)
 	{
 		BlockPos genPos = context.chunkPos().getMiddleBlockPosition(100);
-		int x=genPos.getX(), z=genPos.getZ(); int y = context.chunkGenerator().getFirstOccupiedHeight(x, z, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, context.heightAccessor(), context.randomState());
-		BlockState surfaceBlock = context.chunkGenerator().getBaseColumn(x, z, context.heightAccessor(), context.randomState()).getBlock(y);
+		int x=genPos.getX(), z=genPos.getZ(); int y = context.getGenerator().getFirstOccupiedHeight(x, z, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, context.heightAccessor(), context.randomState());
+		BlockState surfaceBlock = context.getGenerator().getBaseColumn(x, z, context.heightAccessor(), context.randomState()).getBlock(y);
 
 		boolean isSurfaceBlockAnAerialHellSurfaceBlock = surfaceBlock.isOf(AerialHellBlocks.STELLAR_GRASS_BLOCK.get()) || surfaceBlock.isOf(AerialHellBlocks.STELLAR_STONE.get()) || surfaceBlock.isOf(AerialHellBlocks.SHADOW_GRASS_BLOCK.get()) || surfaceBlock.isOf(AerialHellBlocks.SLIPPERY_SAND.get());
 		return isSurfaceBlockAnAerialHellSurfaceBlock;

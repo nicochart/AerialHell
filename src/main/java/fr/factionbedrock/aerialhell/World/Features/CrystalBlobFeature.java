@@ -1,30 +1,28 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
-import java.util.Random;
 import java.util.function.Supplier;
 
 import com.mojang.serialization.Codec;
-
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.DefaultFeatureConfig;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class CrystalBlobFeature extends Feature<NoneFeatureConfiguration>
+public class CrystalBlobFeature extends Feature<DefaultFeatureConfig>
 {
 	public Supplier<Block> crystalBlock;
-	public CrystalBlobFeature(Supplier<Block> block, Codec<NoneFeatureConfiguration> codec) {super(codec); this.crystalBlock=block;}
+	public CrystalBlobFeature(Supplier<Block> block, Codec<DefaultFeatureConfig> codec) {super(codec); this.crystalBlock=block;}
 
-	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
+	@Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
 	{
-		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random();
-		if (!reader.isEmptyBlock(pos)) {return false;}
+		BlockPos pos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom();
+		if (!reader.isAir(pos)) {return false;}
 		else
 		{
 			BlockState blockstate = reader.getBlockState(pos.down());
@@ -38,11 +36,11 @@ public class CrystalBlobFeature extends Feature<NoneFeatureConfiguration>
 		        	BlockPos blockpos;
 		        	if (i < 1400)
 		        	{
-		        		blockpos = pos.offset(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(12), rand.nextInt(8) - rand.nextInt(8));
+		        		blockpos = pos.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(12), rand.nextInt(8) - rand.nextInt(8));
 		        	}
 		        	else
 		        	{
-		        		blockpos = pos.offset(rand.nextInt(9) - rand.nextInt(9), - rand.nextInt(3), rand.nextInt(9) - rand.nextInt(9));
+		        		blockpos = pos.add(rand.nextInt(9) - rand.nextInt(9), - rand.nextInt(3), rand.nextInt(9) - rand.nextInt(9));
 		        	}
 		            if (reader.getBlockState(blockpos).isAir())
 		            {
@@ -50,7 +48,7 @@ public class CrystalBlobFeature extends Feature<NoneFeatureConfiguration>
 	
 			            for(Direction direction : Direction.values())
 			            {
-				            if (reader.getBlockState(blockpos.relative(direction)).is(crystalBlock.get())) {++j;}
+				            if (reader.getBlockState(blockpos.offset((direction))).isOf(crystalBlock.get())) {++j;}
 		
 				            if (j > 1) {break;}
 			            }
