@@ -22,7 +22,7 @@ public class PurpleSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 
 	@Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
 	{
-		BlockPos pos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom(); ChunkGenerator generator = context.getGenerator();
+		BlockPos pos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom(); ChunkGenerator generator = context.chunkGenerator();
 		if (FeatureHelper.isFeatureGeneratingNextToDungeon(context)) {return false;}
     	
 		BlockPos generatePos = pos;

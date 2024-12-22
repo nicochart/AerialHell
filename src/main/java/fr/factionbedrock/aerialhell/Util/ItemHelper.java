@@ -32,10 +32,10 @@ public class ItemHelper
         return 0;
     }
 
-    public static final ResourceLocation BASE_ATTACK_DAMAGE_ID = ResourceLocation.withDefaultNamespace("base_attack_damage");
-    public static final ResourceLocation BASE_ATTACK_SPEED_ID = ResourceLocation.withDefaultNamespace("base_attack_speed");
-    public static final ResourceLocation BASE_MOVEMENT_SPEED_ID = ResourceLocation.withDefaultNamespace("base_movement_speed");
-    public static final ResourceLocation BASE_MAX_HEALTH_ID = ResourceLocation.withDefaultNamespace("base_movement_speed");
+    public static final Identifier BASE_ATTACK_DAMAGE_ID = Identifier.withDefaultNamespace("base_attack_damage");
+    public static final Identifier BASE_ATTACK_SPEED_ID = Identifier.withDefaultNamespace("base_attack_speed");
+    public static final Identifier BASE_MOVEMENT_SPEED_ID = Identifier.withDefaultNamespace("base_movement_speed");
+    public static final Identifier BASE_MAX_HEALTH_ID = Identifier.withDefaultNamespace("base_movement_speed");
 
     public static ItemAttributeModifiers createAerialHellToolOrWeaponAttributes(Tier tier, float attackDamage, float attackSpeed, float movementSpeedIn, float maxHealthIn)
     {
@@ -57,12 +57,12 @@ public class ItemHelper
 
         private static Component makeUpgradeTitleComponent(String materialName)
         {
-            return Component.translatable(Util.makeDescriptionId("upgrade", ResourceLocation.fromNamespaceAndPath(AerialHell.MODID,materialName + "_upgrade"))).withStyle(TITLE_FORMAT);
+            return Component.translatable(Util.makeDescriptionId("upgrade", Identifier.fromNamespaceAndPath(AerialHell.MODID,materialName + "_upgrade"))).withStyle(TITLE_FORMAT);
         }
 
         private static Component makeSmithingTemplateItemDescComponent(String materialName, String info, @Nullable ChatFormatting format)
         {
-            MutableComponent returnComponent = Component.translatable(Util.makeDescriptionId("item", ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "smithing_template." + materialName + "_upgrade." + info)));
+            MutableComponent returnComponent = Component.translatable(Util.makeDescriptionId("item", Identifier.fromNamespaceAndPath(AerialHell.MODID, "smithing_template." + materialName + "_upgrade." + info)));
             return format == null ? returnComponent : returnComponent.withStyle(format);
         }
 

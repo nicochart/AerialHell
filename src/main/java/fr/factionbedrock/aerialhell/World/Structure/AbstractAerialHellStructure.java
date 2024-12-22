@@ -1,21 +1,21 @@
 package fr.factionbedrock.aerialhell.World.Structure;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.WorldGenerationContext;
-import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
-import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.pools.DimensionPadding;
-import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
-import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
-import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasBinding;
-import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
-import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.structure.StructureLiquidSettings;
+import net.minecraft.structure.pool.StructurePool;
+import net.minecraft.structure.pool.StructurePoolBasedGenerator;
+import net.minecraft.structure.pool.alias.StructurePoolAliasBinding;
+import net.minecraft.structure.pool.alias.StructurePoolAliasLookup;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.Heightmap;
+import net.minecraft.world.gen.HeightContext;
+import net.minecraft.world.gen.heightprovider.HeightProvider;
+import net.minecraft.world.gen.structure.DimensionPadding;
+import net.minecraft.world.gen.structure.Structure;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,15 +24,15 @@ public abstract class AbstractAerialHellStructure extends Structure
     protected static final int MIN_STRUCTURE_SIZE = 0, MAX_STRUCTURE_SIZE = 50;
     protected static final int MIN_STRUCTURE_DISTANCE_FROM_CENTER = 1, MAX_STRUCTURE_DISTANCE_FROM_CENTER = 256;
 
-    protected final Holder<StructureTemplatePool> startPool;
-    protected final Optional<ResourceLocation> startJigsawName;
+    protected final RegistryEntry<StructurePool> startPool;
+    protected final Optional<Identifier> startJigsawName;
     protected final int size;
     protected final HeightProvider startHeight;
-    protected final Optional<Heightmap.Types> projectStartToHeightmap;
+    protected final Optional<Heightmap.Type> projectStartToHeightmap;
     protected final int maxDistanceFromCenter;
-    protected final List<PoolAliasBinding> poolAliases;
+    protected final List<StructurePoolAliasBinding> poolAliases;
 
-    public AbstractAerialHellStructure(Structure.StructureSettings config, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, int size, HeightProvider startHeight, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter, List<PoolAliasBinding> poolAliasBindingList)
+    public AbstractAerialHellStructure(Structure.Config config, RegistryEntry<StructurePool> startPool, Optional<Identifier> startJigsawName, int size, HeightProvider startHeight, Optional<Heightmap.Type> projectStartToHeightmap, int maxDistanceFromCenter, List<StructurePoolAliasBinding> poolAliasBindingList)
     {
         super(config);
         this.startPool = startPool;
@@ -44,35 +44,35 @@ public abstract class AbstractAerialHellStructure extends Structure
         this.poolAliases = poolAliasBindingList;
     }
 
-    protected abstract boolean isStructureChunk(Structure.GenerationContext context);
+    protected abstract boolean isStructureChunk(Structure.Context context);
 
     protected enum ChunkCoordinateType{CHUNK_MIN_COORDINATE, CHUNK_MAX_COORDINATE, CHUNK_MIDDLE_COORDINATE, MEAN, MEAN_IGNORE_OUTLIER}
 
-    protected static int getTerrainHeight(Structure.GenerationContext context)
+    protected static int getTerrainHeight(Structure.Context context)
     {
         return getTerrainHeight(context, ChunkCoordinateType.MEAN_IGNORE_OUTLIER);
     }
 
-    protected static int getTerrainHeight(Structure.GenerationContext context, ChunkCoordinateType type)
+    protected static int getTerrainHeight(Structure.Context context, ChunkCoordinateType type)
     {
         ChunkPos chunkpos = context.chunkPos();
         if (type == ChunkCoordinateType.CHUNK_MIN_COORDINATE)
         {
-            return getTerrainHeight(context, chunkpos.getMinBlockX(), chunkpos.getMinBlockZ());
+            return getTerrainHeight(context, chunkpos.getStartX(), chunkpos.getStartZ());
         }
         else if (type == ChunkCoordinateType.CHUNK_MAX_COORDINATE)
         {
-            return getTerrainHeight(context, chunkpos.getMaxBlockX(), chunkpos.getMaxBlockZ());
+            return getTerrainHeight(context, chunkpos.getEndX(), chunkpos.getEndZ());
         }
         else if (type == ChunkCoordinateType.CHUNK_MIDDLE_COORDINATE)
         {
-            return getTerrainHeight(context, chunkpos.getMiddleBlockX(), chunkpos.getMiddleBlockZ());
+            return getTerrainHeight(context, chunkpos.getCenterX(), chunkpos.getCenterZ());
         }
         else if (type == ChunkCoordinateType.MEAN || type == ChunkCoordinateType.MEAN_IGNORE_OUTLIER)
         {
-            int xMin = chunkpos.getMinBlockX(), xMax = chunkpos.getMaxBlockX();
-            int zMin = chunkpos.getMinBlockZ(), zMax = chunkpos.getMaxBlockZ();
-            int xMiddle = chunkpos.getMiddleBlockX(), zMiddle = chunkpos.getMiddleBlockZ();
+            int xMin = chunkpos.getStartX(), xMax = chunkpos.getEndX();
+            int zMin = chunkpos.getStartZ(), zMax = chunkpos.getEndZ();
+            int xMiddle = chunkpos.getCenterX(), zMiddle = chunkpos.getCenterZ();
 
             int NorthWestHeight = getTerrainHeight(context, xMin, zMin);
             int SouthEastHeight = getTerrainHeight(context, xMax, zMax);
@@ -115,30 +115,29 @@ public abstract class AbstractAerialHellStructure extends Structure
             }
         }
 
-        return getTerrainHeight(context, chunkpos.getMiddleBlockX(), chunkpos.getMiddleBlockZ());
+        return getTerrainHeight(context, chunkpos.getCenterX(), chunkpos.getCenterZ());
     }
 
-    protected static int getTerrainHeight(Structure.GenerationContext context, int posX, int posZ)
+    protected static int getTerrainHeight(Structure.Context context, int posX, int posZ)
     {
-        return context.getGenerator().getFirstOccupiedHeight(
+        return context.chunkGenerator().getHeightInGround(
                 posX,
                 posZ,
-                Heightmap.Types.WORLD_SURFACE_WG,
-                context.heightAccessor(),
-                context.randomState());
+                Heightmap.Type.WORLD_SURFACE_WG,
+                context.world(),
+                context.noiseConfig());
     }
 
-    @Override
-    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext context)
+    @Override public Optional<Structure.StructurePosition> getStructurePosition(Structure.Context context)
     {
         if (!this.isStructureChunk(context)) {return Optional.empty();}
 
         BlockPos structureCenter = findStructureCenter(context);
         if (structureCenter == null) {return Optional.empty();}
 
-        Optional<Structure.GenerationStub> structurePiecesGenerator =
-                JigsawPlacement.addPieces(
-                        context, // Used for JigsawPlacement to get all the proper behaviors done.
+        Optional<Structure.StructurePosition> structurePiecesGenerator =
+                StructurePoolBasedGenerator.generate(
+                        context, // Used for StructurePoolBasedGenerator to get all the proper behaviors done.
                         this.startPool, // The starting pool to use to create the structure layout from
                         this.startJigsawName, // Can be used to only spawn from one Jigsaw block. But we don't need to worry about this.
                         this.size, // How deep a branch of pieces can go away from center piece. (5 means branches cannot be longer than 5 pieces from center piece)
@@ -146,24 +145,24 @@ public abstract class AbstractAerialHellStructure extends Structure
                         false, //"useExpansionHack" (set it false)
                         Optional.empty(), //this.projectStartToHeightmap is now manually override by findStructureCenter(context).
                         this.maxDistanceFromCenter, // Maximum limit for how far pieces can spawn from center. You cannot set this bigger than 128 or else pieces gets cutoff.
-                        PoolAliasLookup.EMPTY, // Optional thing that allows swapping a template pool with another per structure json instance. We don't need this but see vanilla JigsawStructure class for how to wire it up if you want it.
-                        DimensionPadding.ZERO, // dimensionPadding - Optional thing to prevent generating too close to the bottom or top of the dimension.
-                        LiquidSettings.IGNORE_WATERLOGGING); // liquidSettings - Optional thing to control whether the structure will be waterlogged when replacing pre-existing water in the world.
+                        StructurePoolAliasLookup.EMPTY, // Optional thing that allows swapping a template pool with another per structure json instance. We don't need this but see vanilla JigsawStructure class for how to wire it up if you want it.
+                        DimensionPadding.NONE, // dimensionPadding - Optional thing to prevent generating too close to the bottom or top of the dimension.
+                        StructureLiquidSettings.IGNORE_WATERLOGGING); // liquidSettings - Optional thing to control whether the structure will be waterlogged when replacing pre-existing water in the world.
 
         return structurePiecesGenerator;
     }
 
-    @Nullable protected BlockPos findStructureCenter(Structure.GenerationContext context)
+    @Nullable protected BlockPos findStructureCenter(Structure.Context context)
     {
         ChunkPos chunkPos = context.chunkPos();
 
-        int sampledStartHeight = this.startHeight.sample(context.getRandom(), new WorldGenerationContext(context.getGenerator(), context.heightAccessor()));
+        int sampledStartHeight = this.startHeight.get(context.random(), new HeightContext(context.chunkGenerator(), context.world()));
         //sampledStartHeight corresponds to :
         //effective startY if this.projectStartToHeightmap.isEmpty()
         //y offset to apply if this.projectStartToHeightmap.isPresent()
 
         int startY = this.projectStartToHeightmap.isPresent() ? getTerrainHeight(context) + sampledStartHeight : sampledStartHeight;
 
-        return new BlockPos(chunkPos.getMiddleBlockX(), startY, chunkPos.getMiddleBlockZ());
+        return new BlockPos(chunkPos.getCenterX(), startY, chunkPos.getCenterZ());
     }
 }

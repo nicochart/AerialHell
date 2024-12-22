@@ -26,7 +26,7 @@ public class RockFeature extends Feature<DefaultFeatureConfig>
 
 	@Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
 	{
-		BlockPos pos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom(); ChunkGenerator generator = context.getGenerator();
+		BlockPos pos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom(); ChunkGenerator generator = context.chunkGenerator();
 		BlockPos placementPos = findPosForPlacement(reader, pos);
 		if (!canGenerateAtPos(context, placementPos)) {return false;}
 		
