@@ -10,7 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.projectile.FireballEntity;
+import net.minecraft.entity.projectile.AbstractFireballEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.util.hit.HitResult;
@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
-public class DimensionShattererProjectileEntity extends FireballEntity
+public class DimensionShattererProjectileEntity extends AbstractFireballEntity
 {
 	public DimensionShattererProjectileEntity(EntityType<? extends DimensionShattererProjectileEntity> type, World world) {super(type, world);}
 	public DimensionShattererProjectileEntity(World world, LivingEntity shooter) {this(AerialHellEntities.DIMENSION_SHATTERER_PROJECTILE, world); this.setOwner(shooter);}

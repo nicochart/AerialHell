@@ -13,7 +13,7 @@ import net.minecraft.registry.tag.TagKey;
 
 public class ToolMaterials
 {
-	public static final ToolMaterial SKY_WOOD = new ToolMaterial(BlockTags.INCORRECT_FOR_WOODEN_TOOL, 59, 2.0F, 0.0F, 15, () -> Ingredient.ofItems(AerialHellTags.Items.AERIALHELL_PLANKS));
+	public static final ToolMaterial SKY_WOOD = new ToolMaterial(BlockTags.INCORRECT_FOR_WOODEN_TOOL, 59, 2.0F, 0.0F, 15, () -> Ingredient.fromTag(AerialHellTags.Items.AERIALHELL_PLANKS));
 	public static final ToolMaterial STELLAR_STONE = new ToolMaterial(BlockTags.INCORRECT_FOR_STONE_TOOL, 131, 4.0F, 1.0F, 5, () -> Ingredient.ofItems(AerialHellItems.STELLAR_COBBLESTONE_ITEM));
 	public static final ToolMaterial RUBY = new ToolMaterial(BlockTags.INCORRECT_FOR_IRON_TOOL, 250, 6.0F, 2.0F, 14, () -> Ingredient.ofItems(AerialHellItems.RUBY));
 	public static final ToolMaterial AZURITE = new ToolMaterial(BlockTags.INCORRECT_FOR_STONE_TOOL, 110, 12.0F, 0.0F, 22, () -> Ingredient.ofItems(AerialHellItems.AZURITE_CRYSTAL));

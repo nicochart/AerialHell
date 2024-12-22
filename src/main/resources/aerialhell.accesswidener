@@ -51,3 +51,10 @@ accessible field net/minecraft/client/gui/hud/InGameHud client Lnet/minecraft/cl
 #Used to handle projectile impact in mixins
 accessible method net/minecraft/entity/projectile/ProjectileEntity canHit (Lnet/minecraft/entity/Entity;)Z
 accessible method net/minecraft/entity/projectile/PersistentProjectileEntity getEntityCollision (Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/hit/EntityHitResult;
+
+# Netherite Upgrade
+accessible method net/minecraft/item/SmithingTemplateItem getNetheriteUpgradeEmptyBaseSlotTextures ()Ljava/util/List;
+accessible method net/minecraft/item/SmithingTemplateItem getNetheriteUpgradeEmptyAdditionsSlotTextures ()Ljava/util/List;
+
+# Chorus Like plants
+accessible field net/minecraft/block/ChorusFlowerBlock plantBlock Lnet/minecraft/block/Block;

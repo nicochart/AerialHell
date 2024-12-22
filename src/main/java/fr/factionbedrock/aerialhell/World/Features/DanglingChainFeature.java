@@ -23,7 +23,7 @@ public class DanglingChainFeature extends Feature<DefaultFeatureConfig>
 
 	@Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
 	{
-		BlockPos blockPos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom(); ChunkGenerator generator = context.chunkGenerator();
+		BlockPos blockPos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom(); ChunkGenerator generator = context.getGenerator();
     	boolean canGenerate = reader.getBlockState(blockPos.down()).getBlock().equals(Blocks.AIR)
     		&& reader.getBlockState(blockPos).isIn(AerialHellTags.Blocks.STELLAR_STONE)
     		&& hasAnyStoneBlockAbove(blockPos.north(4).west(4), reader, 10)

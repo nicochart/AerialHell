@@ -141,7 +141,7 @@ public class LilithEntity extends AbstractBossEntity
 		else if (nextPhase == BossPhase.SECOND_PHASE)
 		{
 			this.spawnTransformationParticle();
-			if (this.getWorld().getDimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformAllBlocks();}
+			if (this.getWorld().getRegistryKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformAllBlocks();}
 			this.timeSinceTransforming = 0;
 		}
 	}
@@ -170,7 +170,7 @@ public class LilithEntity extends AbstractBossEntity
 		this.timeSinceTransforming++;
 		for (int i=0; i<10 + timeSinceTransforming/1.5; i++)
 		{
-			if (this.getWorld().getDimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformRandomBlock();}
+			if (this.getWorld().getRegistryKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformRandomBlock();}
 		}
 
 		if (this.timeSinceTransforming > 12)

@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
-import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
@@ -29,7 +28,7 @@ public abstract class AerialHellHostileEntity extends HostileEntity
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
 
-    public static boolean canHostileEntitySpawn(EntityType<? extends AbstractCaterpillarEntity> type, ServerWorldAccess world, SpawnReason reason, BlockPos pos, Random random)
+    public static boolean canHostileEntitySpawn(EntityType<? extends HostileEntity> type, ServerWorldAccess world, SpawnReason reason, BlockPos pos, Random random)
     {
         if (type == AerialHellEntities.CRYSTAL_SPIDER)
         {

@@ -1,9 +1,8 @@
 package fr.factionbedrock.aerialhell.Registry.Worldgen;
 
 import net.minecraft.block.SaplingGenerator;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.block.grower.TreeGrower;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 
 import java.util.Optional;
 
@@ -17,17 +16,17 @@ public class AerialHellTreeGrowers
     public static final SaplingGenerator SHADOW_PINE = createSimpleMegaTreeGrower("shadow_pine", Optional.of(AerialHellConfiguredFeatures.MEGA_SHADOW_PINE), Optional.of(AerialHellConfiguredFeatures.SHADOW_PINE));
     public static final SaplingGenerator STELLAR_JUNGLE_TREE = createSimpleMegaTreeGrower("stellar_jungle_tree", Optional.of(AerialHellConfiguredFeatures.MEGA_STELLAR_JUNGLE_TREE), Optional.of(AerialHellConfiguredFeatures.STELLAR_JUNGLE_TREE));
 
-    private static SaplingGenerator createSimpleTreeGrower(String name, Optional<ResourceKey<ConfiguredFeature<?, ?>>> tree)
+    private static SaplingGenerator createSimpleTreeGrower(String name, Optional<RegistryKey<ConfiguredFeature<?, ?>>> tree)
     {
         return createSimpleMegaTreeGrower(name, Optional.empty(), tree);
     }
 
-    private static SaplingGenerator createSimpleMegaTreeGrower(String name, Optional<ResourceKey<ConfiguredFeature<?, ?>>> megaTree, Optional<ResourceKey<ConfiguredFeature<?, ?>>> tree)
+    private static SaplingGenerator createSimpleMegaTreeGrower(String name, Optional<RegistryKey<ConfiguredFeature<?, ?>>> megaTree, Optional<RegistryKey<ConfiguredFeature<?, ?>>> tree)
     {
         return createTreeGrower(name, 0.0F, megaTree,Optional.empty(), tree, Optional.empty(), Optional.empty(), Optional.empty());
     }
 
-    private static SaplingGenerator createTreeGrower(String name, float secondaryChance, Optional<ResourceKey<ConfiguredFeature<?, ?>>> megaTree, Optional<ResourceKey<ConfiguredFeature<?, ?>>> secondaryMegaTree, Optional<ResourceKey<ConfiguredFeature<?, ?>>> tree, Optional<ResourceKey<ConfiguredFeature<?, ?>>> secondaryTree, Optional<ResourceKey<ConfiguredFeature<?, ?>>> flowers, Optional<ResourceKey<ConfiguredFeature<?, ?>>> secondaryFlowers)
+    private static SaplingGenerator createTreeGrower(String name, float secondaryChance, Optional<RegistryKey<ConfiguredFeature<?, ?>>> megaTree, Optional<RegistryKey<ConfiguredFeature<?, ?>>> secondaryMegaTree, Optional<RegistryKey<ConfiguredFeature<?, ?>>> tree, Optional<RegistryKey<ConfiguredFeature<?, ?>>> secondaryTree, Optional<RegistryKey<ConfiguredFeature<?, ?>>> flowers, Optional<RegistryKey<ConfiguredFeature<?, ?>>> secondaryFlowers)
     {
         return new SaplingGenerator(name, secondaryChance, megaTree, secondaryMegaTree, tree, secondaryTree, flowers, secondaryFlowers);
     }

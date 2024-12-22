@@ -49,15 +49,15 @@ public class BlockHelper
     public static boolean isItemMiningLevelSufficentForHarvesting(BlockState state, Item item)
     {
         int miningLevel = ItemHelper.getItemMiningLevel(item);
-        if (state.isOf(Tag.Blocks.NEEDS_NETHERITE_TOOL) && miningLevel < 4) {return false;}
-        else if (state.isIn(BlockTags.NEEDS_DIAMOND_TOOL) && miningLevel < 3) {return false;}
+        //if (state.isOf(Tag.Blocks.NEEDS_NETHERITE_TOOL) && miningLevel < 4) {return false;} TODO tag was from Forge
+        if (state.isIn(BlockTags.NEEDS_DIAMOND_TOOL) && miningLevel < 3) {return false;}
         else if (state.isIn(BlockTags.NEEDS_IRON_TOOL) && miningLevel < 2) {return false;}
         else if (state.isIn(BlockTags.NEEDS_STONE_TOOL) && miningLevel < 1) {return false;}
         return true;
     }
 
     /* ---- Functions copied from SpreadableBlock class ---- */
-    private static boolean canBeGrass(BlockState state, WorldView world, BlockPos pos)
+    public static boolean canBeGrass(BlockState state, WorldView world, BlockPos pos)
     {
         BlockPos blockPos = pos.up();
         BlockState blockState = world.getBlockState(blockPos);
@@ -182,11 +182,11 @@ public class BlockHelper
         List<Chunk> list = getChunkAccessListForBoundingBox(world, boundingbox);
         if (!list.isEmpty())
         {
-            Biome biome = getBiome(world, AerialHellBiomes.SHADOW_PLAIN);
+            RegistryEntry<Biome> biome = getBiome(world, AerialHellBiomes.SHADOW_PLAIN);
             RegistryEntry<Biome> baseBiome = getInitialBiomeAtPos(world, pos); //initial worldgen biome
             RegistryEntry<Biome> currentBiome = getCurrentBiomeAtPos(world, pos); //current biome
             if (currentBiome.isIn(AerialHellTags.Biomes.IS_SHADOW)) {return;} //biome is already shadow
-            else if (baseBiome.isIn(AerialHellTags.Biomes.IS_SHADOW)) {biome = baseBiome.value();} //biome initially was shadow but is currently not
+            else if (baseBiome.isIn(AerialHellTags.Biomes.IS_SHADOW)) {biome = baseBiome;} //biome initially was shadow but is currently not
 
             for (Chunk chunk : list)
             {
@@ -271,7 +271,7 @@ public class BlockHelper
             RegistryEntry<Biome> biome = getInitialBiomeAtPos(world, pos);
             if (biome.isIn(AerialHellTags.Biomes.IS_SHADOW)) //initial biome is shadow, need to find another biome to set
             {
-                if (biome.is(AerialHellBiomes.SHADOW_FOREST)) {biome = getBiome(world, AerialHellBiomes.COPPER_PINE_FOREST);}
+                if (biome.matchesKey(AerialHellBiomes.SHADOW_FOREST)) {biome = getBiome(world, AerialHellBiomes.COPPER_PINE_FOREST);}
                 else {biome = getBiome(world, AerialHellBiomes.AERIAL_HELL_PLAINS);}
             }
 
@@ -373,9 +373,9 @@ public class BlockHelper
         return true;
     }
 
-    public static Biome getBiome(ServerWorld world, RegistryKey<Biome> biomeKey)
+    public static RegistryEntry.Reference<Biome> getBiome(ServerWorld world, RegistryKey<Biome> biomeKey)
     {
-        return world.getRegistryManager().get(RegistryKeys.BIOME).get(biomeKey);
+        return world.getRegistryManager().get(RegistryKeys.BIOME).getEntry(biomeKey).get();
     }
 
     public static RegistryEntry<Biome> getCurrentBiomeAtPos(ServerWorld world, BlockPos pos)

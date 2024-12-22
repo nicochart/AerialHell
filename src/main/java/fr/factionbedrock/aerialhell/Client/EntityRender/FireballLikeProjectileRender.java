@@ -10,11 +10,11 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.projectile.FireballEntity;
+import net.minecraft.entity.projectile.AbstractFireballEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 
-public class FireballLikeProjectileRender<T extends FireballEntity> extends EntityRenderer<T>
+public class FireballLikeProjectileRender<T extends AbstractFireballEntity> extends EntityRenderer<T>
 {
     public static final Identifier POISONBALL = Identifier.of(AerialHell.MODID, "textures/entity/projectile/poisonball.png");
     public static final Identifier DIMENSION_SHATTERER_PROJECTILE = Identifier.of(AerialHell.MODID, "textures/item/dimension_shatterer_projectile.png");

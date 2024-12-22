@@ -9,7 +9,7 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.FireballEntity;
+import net.minecraft.entity.projectile.AbstractFireballEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
@@ -19,7 +19,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class PoisonballEntity extends FireballEntity
+public class PoisonballEntity extends AbstractFireballEntity
 {
 	public PoisonballEntity(EntityType<? extends PoisonballEntity> type, World world)
 	{
@@ -38,7 +38,7 @@ public class PoisonballEntity extends FireballEntity
 
 	@Override public boolean isFireImmune() {return true;}
 	@Override protected boolean isBurning() {return false;}
-	@Override public float getLightLevelDependentMagicValue() {return 0.0F;}
+	@Override public float getBrightnessAtEyes() {return 0.0F;}
 
 	@Override
 	protected void onCollision(HitResult result)

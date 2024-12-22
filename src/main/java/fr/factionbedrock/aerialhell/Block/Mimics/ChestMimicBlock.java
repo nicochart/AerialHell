@@ -33,7 +33,7 @@ public class ChestMimicBlock extends ChestBlock
 {
 	public ChestMimicBlock(AbstractBlock.Settings settings)
 	{
-		super(settings, AerialHellBlockEntities.CHEST_MIMIC);
+		super(settings, () -> AerialHellBlockEntities.CHEST_MIMIC);
 		this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(CHEST_TYPE, ChestType.SINGLE).with(WATERLOGGED, Boolean.valueOf(false)));
 	}
 

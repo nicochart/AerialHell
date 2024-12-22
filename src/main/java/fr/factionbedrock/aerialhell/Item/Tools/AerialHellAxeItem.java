@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,4 +22,14 @@ public class AerialHellAxeItem extends AxeItem
 	}
 
 	public MutableText getDescription() {return Text.translatable(this.getTranslationKey()+".desc");}
+
+	@Override public boolean canRepair(ItemStack stack, ItemStack ingredient)
+	{
+		return !(cantRepair(stack));
+	}
+
+	public boolean cantRepair(ItemStack stack) //TODO use item tag in cantRepair method
+	{
+		return stack.isOf(AerialHellItems.HEAVY_AXE);
+	}
 }

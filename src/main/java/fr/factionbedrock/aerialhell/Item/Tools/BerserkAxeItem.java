@@ -165,4 +165,6 @@ public class BerserkAxeItem extends EffectAxeItem
 	}
 
 	public MutableText getDescription() {return Text.translatable(this.getTranslationKey()+".desc");}
+
+	@Override public boolean canRepair(ItemStack stack, ItemStack ingredient) {return false;}
 }

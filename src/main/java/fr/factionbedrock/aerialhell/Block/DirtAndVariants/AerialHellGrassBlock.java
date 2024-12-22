@@ -60,7 +60,7 @@ public abstract class AerialHellGrassBlock extends GrassBlock implements Fertili
 				{
 					List<ConfiguredFeature<?, ?>> list = world.getBiome(blockpos1).value().getGenerationSettings().getFlowerFeatures();
 					if (list.isEmpty()) {continue;}
-					registryEntry = ((RandomPatchFeatureConfig)(list.get(0)).getConfig()).feature();
+					registryEntry = ((RandomPatchFeatureConfig)(list.get(0)).config()).feature();
 				}
 				else
 				{

@@ -23,7 +23,7 @@ public class SlipperySandFeature extends Feature<DefaultFeatureConfig>
 
     @Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
     {
-        BlockPos blockPos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom(); ChunkGenerator generator = context.chunkGenerator();
+        BlockPos blockPos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom(); ChunkGenerator generator = context.getGenerator();
 		boolean canGenerate = (
                 (reader.getBlockState(blockPos.north(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.south(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.west(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.east(3)).getBlock().equals(Blocks.AIR)) &&
                 (reader.getBlockState(blockPos).isIn(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(blockPos).getBlock() == AerialHellBlocks.STELLAR_DIRT));

@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class AerialHellChestBlock extends ChestBlock
 {
-    public AerialHellChestBlock(AbstractBlock.Settings settings) {super(settings, AerialHellBlockEntities.CHEST);}
+    public AerialHellChestBlock(AbstractBlock.Settings settings) {super(settings, () -> AerialHellBlockEntities.CHEST);}
 
     @Nullable @Override public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {return new AerialHellChestBlockEntity(pos, state);}
 }

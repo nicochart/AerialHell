@@ -37,11 +37,11 @@ public class MagmaticGelBlock extends TranslucentBlock
 					if (block instanceof FluidDrainable)
 					{
 						FluidState fluidState = newPosState.getFluidState();
-						if (fluidState.isOf(FluidTags.WATER))
+						if (fluidState.isIn(FluidTags.WATER))
 						{
 							world.setBlockState(newPos, Blocks.ICE.getDefaultState());
 						}
-						else if (fluidState.isOf(FluidTags.LAVA))
+						else if (fluidState.isIn(FluidTags.LAVA))
 						{
 							world.setBlockState(newPos, AerialHellBlocks.CRYSTAL_BLOCK.getDefaultState());
 							world.playSound(null, newPos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 1.0F);

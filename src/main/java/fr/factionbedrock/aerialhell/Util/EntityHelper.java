@@ -21,17 +21,41 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Spider.CrystalSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Neutral.BoarEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEnchantments;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellPlacedFeatures;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.mob.EndermanEntity;
+import net.minecraft.entity.mob.FlyingEntity;
+import net.minecraft.entity.mob.SilverfishEntity;
+import net.minecraft.entity.mob.VexEntity;
+import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.s2c.play.ChunkBiomeDataS2CPacket;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.WorldChunk;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
@@ -46,21 +70,21 @@ public class EntityHelper
 
     public static boolean isCreaOrSpecPlayer(Entity entity) {return entity instanceof PlayerEntity player && (player.isCreative() || player.isSpectator());}
 
-    public static boolean isLivingEntityUnderInTheCloudsEffect(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate());}
+    public static boolean isLivingEntityUnderInTheCloudsEffect(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS);}
 
-    public static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.SHADOW_IMMUNITY.getDelegate()) || isLivingEntityShadowBind(entity);}
+    public static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.SHADOW_IMMUNITY) || isLivingEntityShadowBind(entity);}
 
-    public static boolean isLivingEntityShadowBind(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.SHADOW_BIND.getDelegate()) && entity.getEffect(AerialHellMobEffects.SHADOW_BIND.getDelegate()).getDuration() > 1;}
+    public static boolean isLivingEntityShadowBind(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.SHADOW_BIND) && entity.getStatusEffect(AerialHellMobEffects.SHADOW_BIND).getDuration() > 1;}
 
-    public static boolean isLivingEntityVulnerable(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.VULNERABILITY.getDelegate());}
+    public static boolean isLivingEntityVulnerable(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.VULNERABILITY);}
 
-    public static boolean isLivingEntityATraitor(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.TRAITOR.getDelegate());}
+    public static boolean isLivingEntityATraitor(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.TRAITOR);}
 
-    public static boolean isLivingEntityUnderAerialHellPortalEffect(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL.getDelegate());}
+    public static boolean isLivingEntityUnderAerialHellPortalEffect(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL);}
 
-    public static boolean isLivingEntityInAerialHellPortal(LivingEntity entity) {return entity.getWorld().getBlockState(entity.getBlockPos()).isOf(AerialHellBlocks.AERIAL_HELL_PORTAL.get());}
+    public static boolean isLivingEntityInAerialHellPortal(LivingEntity entity) {return /*entity.getWorld().getBlockState(entity.getBlockPos()).isOf(AerialHellBlocks.AERIAL_HELL_PORTAL)*/false;}
 
-    public static boolean isLivingEntityOnPortalCooldown(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN.getDelegate()) || entity.isOnPortalCooldown();}
+    public static boolean isLivingEntityOnPortalCooldown(LivingEntity entity) {return /*entity.hasStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN) || entity.isOnPortalCooldown()*/false;}
 
     public static boolean isImmuneToSomeShadowDamage(Entity entity)
     {
@@ -71,7 +95,7 @@ public class EntityHelper
 
     public static boolean isShadowEntity(Entity entity)
     {
-        return entity instanceof EvilCowEntity || entity instanceof ShadowAutomatonEntity || entity instanceof ShadowTrollEntity || entity instanceof ShadowFlyingSkullEntity || entity instanceof ShadowSpiderEntity || entity instanceof ShadowPineBarrelMimicEntity || entity instanceof LilithEntity || entity instanceof EnderMan;
+        return entity instanceof EvilCowEntity || entity instanceof ShadowAutomatonEntity || entity instanceof ShadowTrollEntity || entity instanceof ShadowFlyingSkullEntity || entity instanceof ShadowSpiderEntity || entity instanceof ShadowPineBarrelMimicEntity || entity instanceof LilithEntity || entity instanceof EndermanEntity;
     }
 
     public static boolean isLightEntity(Entity entity)
@@ -86,7 +110,7 @@ public class EntityHelper
 
     public static boolean isLightProjectile(Entity entity) {return entity instanceof LunaticProjectileEntity;}
 
-    public static boolean isProjectile(Entity entity) {return entity instanceof AbstractArrow || entity instanceof ThrowableProjectile;}
+    public static boolean isProjectile(Entity entity) {return entity instanceof PersistentProjectileEntity || entity instanceof ThrownItemEntity;}
 
     public static boolean isMudEntity(Entity entity)
     {
@@ -100,7 +124,7 @@ public class EntityHelper
 
     public static boolean isFeatheryEntity(Entity entity)
     {
-        return entity instanceof Silverfish || entity instanceof FlyingMob || entity instanceof Chicken || entity instanceof Vex; //Vex includes FlyingSkulls
+        return entity instanceof SilverfishEntity || entity instanceof FlyingEntity || entity instanceof ChickenEntity || entity instanceof VexEntity; //Vex includes FlyingSkulls
     }
 
     public static boolean isImmuneToBramblesDamage(Entity entity)
@@ -121,8 +145,8 @@ public class EntityHelper
         if (entity instanceof LivingEntity livingEntity)
         {
             if (hasSolidEtherWalkerEnchantment(livingEntity) || isLivingEntityUnderInTheCloudsEffect(livingEntity) || isFeatheryEntity(entity)) {return false;}
-            Iterable<ItemStack> stuff = livingEntity.getArmorSlots();
-            for (ItemStack armorStack : stuff) {if (armorStack.getItem() == AerialHellBlocksAndItems.MAGMATIC_GEL_BOOTS.get()) {return false;}}
+            Iterable<ItemStack> stuff = livingEntity.getArmorItems();
+            for (ItemStack armorStack : stuff) {if (armorStack.getItem() == AerialHellItems.MAGMATIC_GEL_BOOTS) {return false;}}
             return true;
         }
         return false;
@@ -133,8 +157,8 @@ public class EntityHelper
         if (entity instanceof LivingEntity livingEntity)
         {
             if (hasSolidEtherWalkerEnchantment(livingEntity) || isLivingEntityUnderInTheCloudsEffect(livingEntity) || isGhostEntity(livingEntity)) {return false;}
-            Iterable<ItemStack> stuff = livingEntity.getArmorSlots();
-            for (ItemStack armorStack : stuff) {if (armorStack.getItem() == AerialHellBlocksAndItems.MAGMATIC_GEL_BOOTS.get()) {return false;}}
+            Iterable<ItemStack> stuff = livingEntity.getArmorItems();
+            for (ItemStack armorStack : stuff) {if (armorStack.getItem() == AerialHellItems.MAGMATIC_GEL_BOOTS) {return false;}}
             return true;
         }
         return false;
@@ -142,7 +166,7 @@ public class EntityHelper
 
     public static boolean isImmuneToChainedGodDrag(Entity entity)
     {
-        return isCreaOrSpecPlayer(entity) || entity.getType() == AerialHellEntities.TORN_SPIRIT.get() || isBossEntity(entity);
+        return isCreaOrSpecPlayer(entity) || entity.getType() == AerialHellEntities.TORN_SPIRIT || isBossEntity(entity);
     }
 
     public static boolean hasSolidEtherWalkerEnchantment(LivingEntity entity)
@@ -156,11 +180,10 @@ public class EntityHelper
 
     public static boolean hasEnchantment(LivingEntity entity, RegistryKey<Enchantment> enchantmentKey)
     {
-        Optional<Holder.Reference<Enchantment>> enchantment = entity.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolder(enchantmentKey);
+        Optional<RegistryEntry.Reference<Enchantment>> enchantment = entity.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(enchantmentKey);
         if (enchantment.isPresent())
         {
-            return EnchantmentHelper.getEnchantmentLevel(enchantment.get().getDelegate(), entity) > 0;
-
+            return EnchantmentHelper.getEquipmentLevel(enchantment.get(), entity) > 0;
         }
         return false;
     }
@@ -172,17 +195,17 @@ public class EntityHelper
 
     public static void setAerialHellPortalEffect(LivingEntity entity)
     {
-        if (!entity.getWorld().isClientSide())
+        if (!entity.getWorld().isClient())
         {
-            entity.addStatusEffect(new MobEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL.getDelegate(), 120, 0));
+            entity.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL, 120, 0));
         }
     }
 
     public static void setAfterTeleportationEffect(LivingEntity entity, int duration)
     {
-        if (!entity.getWorld().isClientSide())
+        if (!entity.getWorld().isClient())
         {
-            entity.addStatusEffect(new MobEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN.getDelegate(), duration, 0));
+            entity.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN, duration, 0));
         }
     }
 
@@ -193,36 +216,20 @@ public class EntityHelper
 
     public static boolean isLivingEntityReadyToTeleport(LivingEntity entity)
     {
-        return isLivingEntityUnderAerialHellPortalEffect(entity) && entity.getEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL.getDelegate()).getDuration() < 20;
-    }
-
-    public static void tryTeleportEntityWithAerialHellPortal(Entity entity, AerialHellPortalBlock portalBlock, BlockPos pos)
-    {
-        if (entity.getWorld() instanceof ServerLevel serverlevel)
-        {
-            DimensionTransition dimensiontransition = portalBlock.getPortalDestination(serverlevel, entity, pos);
-            if (dimensiontransition != null)
-            {
-                ServerLevel serverlevel1 = dimensiontransition.newLevel();
-                if (serverlevel.getServer().isLevelEnabled(serverlevel1) && (serverlevel1.dimension() == serverlevel.dimension() || entity.canTeleportBetween(serverlevel, serverlevel1)))
-                {
-                    entity.changeDimension(dimensiontransition);
-                }
-            }
-        }
+        return isLivingEntityUnderAerialHellPortalEffect(entity) && entity.getStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL).getDuration() < 20;
     }
 
     public static void addBatParticle(LivingEntity entity, Random rand, int number)
     {
         for (int i=0; i<number; i++)
         {
-            entity.getWorld().addParticle(AerialHellParticleTypes.SHADOW_TROLL_BAT.get(), entity.getX() + rand.nextFloat() - 0.5, entity.getY() + 2 * rand.nextFloat(), entity.getZ() + rand.nextFloat() - 0.5, 2 * (rand.nextFloat()) - 0.5, -0.3D, 2 * (rand.nextFloat() - 0.5));
+            entity.getWorld().addParticle(AerialHellParticleTypes.SHADOW_TROLL_BAT, entity.getX() + rand.nextFloat() - 0.5, entity.getY() + 2 * rand.nextFloat(), entity.getZ() + rand.nextFloat() - 0.5, 2 * (rand.nextFloat()) - 0.5, -0.3D, 2 * (rand.nextFloat() - 0.5));
         }
     }
 
     public static boolean isLivingEntityMisleadingLunar(LivingEntity entity)
     {
-        return ItemHelper.getItemInTagCount(entity.getArmorSlots(), AerialHellTags.Items.LUNATIC_STUFF) >= 4 && !isLivingEntityATraitor(entity);
+        return ItemHelper.getItemInTagCount(entity.getArmorItems(), AerialHellTags.Items.LUNATIC_STUFF) >= 4 && !isLivingEntityATraitor(entity);
     }
 
     public static boolean isLivingEntityMisleadingShadow(LivingEntity entity)
@@ -230,20 +237,20 @@ public class EntityHelper
         return isLivingEntityShadowBind(entity) && !isLivingEntityATraitor(entity);
     }
 
-    //from in net.minecraft.server.level.ChunkMap resendBiomesForChunks(..) method
-    public static void refreshChunkColors(ServerPlayerEntity player, ServerLevel level, int radius)
+    //from in net.minecraft.server.world.ServerChunkLoadingManager sendChunkBiomePackets(..) method
+    public static void refreshChunkColors(ServerPlayerEntity player, ServerWorld world, int radius)
     {
-        BoundingBox boundingbox = BlockHelper.getQuantizedBoundingBox(player.getOnPos().above(), radius);
-        List<ChunkAccess> chunkAccessList = BlockHelper.getChunkAccessListForBoundingBox(level, boundingbox);
+        BlockBox boundingbox = BlockHelper.getQuantizedBoundingBox(player.getSteppingPos().up(), radius);
+        List<Chunk> chunkAccessList = BlockHelper.getChunkAccessListForBoundingBox(world, boundingbox);
 
-        List<LevelChunk> chunkList = new ArrayList<>();
-        for (ChunkAccess chunkaccess : chunkAccessList)
+        List<WorldChunk> chunkList = new ArrayList<>();
+        for (Chunk chunkaccess : chunkAccessList)
         {
-            if (chunkaccess instanceof LevelChunk levelchunk) {chunkList.add(levelchunk);}
-            else {chunkList.add(level.getChunk(chunkaccess.getPos().x, chunkaccess.getPos().z));}
+            if (chunkaccess instanceof WorldChunk levelchunk) {chunkList.add(levelchunk);}
+            else {chunkList.add(world.getChunk(chunkaccess.getPos().x, chunkaccess.getPos().z));}
         }
 
-        player.connection.send(ClientboundChunksBiomesPacket.forChunks(chunkList));
+        player.networkHandler.sendPacket(ChunkBiomeDataS2CPacket.create(chunkList));
     }
 
     public static void handleProjectileImpactWithEntity(ProjectileEntity projectileEntity, EntityHitResult hitResult, CallbackInfo ci)

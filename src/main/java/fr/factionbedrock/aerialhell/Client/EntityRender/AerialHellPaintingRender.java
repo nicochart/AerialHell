@@ -27,7 +27,7 @@ public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingE
         matrixStack.push();
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F - f));
         PaintingVariant paintingVariant = paintingEntity.getVariant().value();
-        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(FeatureRenderer.getEntitySolid(this.getTexture(paintingEntity)));
+        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntitySolid(this.getTexture(paintingEntity)));
         PaintingManager paintingManager = MinecraftClient.getInstance().getPaintingManager();
         this.renderPainting(matrixStack,vertexConsumer,paintingEntity,paintingVariant.width(),paintingVariant.height(),paintingManager.getPaintingSprite(paintingVariant), paintingManager.getBackSprite());
         matrixStack.pop();

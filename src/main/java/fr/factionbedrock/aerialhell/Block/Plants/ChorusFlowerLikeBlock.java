@@ -40,7 +40,7 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
                 boolean flag1 = false;
                 BlockState blockstate = world.getBlockState(pos.down());
                 if (isValidGround(blockstate)) {flag = true;}
-                else if (blockstate.isOf(this.plantBlock)) //TODO Access widener
+                else if (blockstate.isOf(this.plantBlock))
                 {
                     int j = 1;
 

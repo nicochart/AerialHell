@@ -19,7 +19,7 @@ public class ReactorMenu extends ScreenHandler
 		this(containerId, playerInventory, new SimpleInventory(1));
 	}
 
-	public ReactorMenu(int containerId, PlayerInventory playerInventory, SimpleInventory container)
+	public ReactorMenu(int containerId, PlayerInventory playerInventory, Inventory container)
 	{
 		super(AerialHellMenuTypes.REACTOR, containerId);
 		this.container = container;
