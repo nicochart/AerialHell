@@ -1,5 +1,9 @@
 package fr.factionbedrock.aerialhell.Integration.JEI;
 
+/* TODO fix
+java.lang.RuntimeException: Could not execute entrypoint stage 'client' due to errors, provided by 'jei' at 'mezz.jei.fabric.JustEnoughItemsClient'!
+Caused by: java.lang.NoSuchMethodError: 'net.minecraft.util.Identifier mezz.jei.api.IModPlugin.getPluginUid()'
+
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Recipe.FreezingRecipe;
 import fr.factionbedrock.aerialhell.Recipe.OscillatingRecipe;
@@ -26,7 +30,7 @@ public class AerialHellJei implements IModPlugin
     public RecipeType<OscillatingRecipe> OSCILLATING = RecipeType.create(AerialHell.MODID, "oscillating", OscillatingRecipe.class);
     public RecipeType<FreezingRecipe> FREEZING = RecipeType.create(AerialHell.MODID, "freezing", FreezingRecipe.class);
 
-    @Override
+    //@Override
 	public Identifier getPluginUid() {return AerialHell.id("jei_plugin");}
 
 	@Override
@@ -50,3 +54,4 @@ public class AerialHellJei implements IModPlugin
         registration.addRecipes(FREEZING, freezing_recipes);
     }
 }
+*/

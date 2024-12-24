@@ -40,4 +40,6 @@ public class ShiftingBlockBakedModel implements BakedModel
     }
 
     protected boolean shouldDisplayShiftedModel(boolean forceDefault) {return this.shouldDisplayShiftedModel.apply(forceDefault);}
+    public BakedModel getDefault() {return this.defaultModel;}
+    public BakedModel getShifted() {return this.shiftedModel;}
 }

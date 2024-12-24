@@ -7,9 +7,10 @@ public class ServerPayloadHandler
 {
     public static void handleDataOnMain()
     {
-        ServerPlayNetworking.registerGlobalReceiver(AerialHellData.ID, (payload, context) ->
-        {
+        //TODO
+        //ServerPlayNetworking.registerGlobalReceiver(AerialHellData.ID, (payload, context) ->
+        //{
             // Do something with the data, on the main thread
-        });
+        //});
     }
 }

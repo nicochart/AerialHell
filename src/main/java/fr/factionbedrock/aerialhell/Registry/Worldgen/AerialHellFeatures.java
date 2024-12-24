@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Registry.Worldgen;
 
+import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.World.Features.*;
 import fr.factionbedrock.aerialhell.World.Features.Config.*;
@@ -64,7 +65,7 @@ public class AerialHellFeatures
 
 	public static Feature<?> register(String name, Feature<?> feature)
 	{
-		return Registry.register(Registries.FEATURE, name, feature);
+		return Registry.register(Registries.FEATURE, AerialHell.id(name), feature);
 	}
 
 	public static void load() {}

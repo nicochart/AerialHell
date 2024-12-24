@@ -9,12 +9,15 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer;
 import net.minecraft.client.render.block.entity.SignBlockEntityRenderer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
+import net.minecraft.registry.Registries;
 
 public class RenderRegistrationListener
 {
@@ -134,6 +137,8 @@ public class RenderRegistrationListener
     {
         ModelLoadingPlugin.register(plugin -> plugin.modifyModelAfterBake().register((original, context) ->
         {
+            //TODO state to shift list & use list to avoid multiple registration problem
+            if (!validateModelBakeContext(context)) {return original;} //temporary solution to avoid registering the same shifted render multiple times
             ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK, context);
             ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK, context);
             ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.STELLAR_GRASS, context);
@@ -178,5 +183,11 @@ public class RenderRegistrationListener
             ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LOG, context);
             return original;
         }));
+    }
+
+    private static boolean validateModelBakeContext(ModelModifier.AfterBake.Context context)
+    {
+        if (context.topLevelId() == null) {return false;}
+        return context.topLevelId().id().equals(Registries.BLOCK.getId(Blocks.DIRT));
     }
 }

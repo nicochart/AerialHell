@@ -26,12 +26,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public class LivingDamageMixin
 {
     @Inject(method = "damage", at = @At("RETURN"), cancellable = true)
-    private void onDamage(DamageSource damageSource, float amount, CallbackInfo callbackInfo)
+    private void onDamage(DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir)
     {
         LivingEntity damagedEntity = (LivingEntity) (Object) this;
         Entity sourceEntity = damageSource.getAttacker();

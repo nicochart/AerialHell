@@ -4,7 +4,7 @@
 	"version": "${mod_version}",
 	"name": "${mod_name}",
 	"description": "${mod_description}",
-	"authors": "${mod_authors}",
+	"authors": ["${mod_authors}"],
 	"contact": {
 		"homepage": "https://github.com/nicochart/AerialHell/wiki",
 		"sources": "https://github.com/nicochart/AerialHell"

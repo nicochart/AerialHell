@@ -13,14 +13,14 @@ import static net.minecraft.client.render.TexturedRenderLayers.*;
 
 public class AerialHellWoodTypes
 {
-    public static WoodType AERIAL_TREE = createDefault(AerialHell.id("aerial_tree").toString());
-    public static WoodType COPPER_PINE = createDefault(AerialHell.id("copper_pine").toString());
-    public static WoodType LAPIS_ROBINIA = createDefault(AerialHell.id("lapis_robinia").toString());
-    public static WoodType GOLDEN_BEECH = createDefault(AerialHell.id("golden_beech").toString());
-    public static WoodType STELLAR_JUNGLE_TREE = createDefault(AerialHell.id("stellar_jungle_tree").toString());
-    public static WoodType SHADOW_PINE = createDefault(AerialHell.id("shadow_pine").toString());
-    public static WoodType SKY_CACTUS_FIBER = createDefault(AerialHell.id("sky_cactus_fiber").toString());
-    public static WoodType GRAY_SHROOM = createComplete(AerialHell.id("gray_shroom").toString(), BlockSetType.OAK, BlockSoundGroup.NETHER_WOOD, BlockSoundGroup.NETHER_WOOD_HANGING_SIGN, SoundEvents.BLOCK_NETHER_WOOD_FENCE_GATE_CLOSE, SoundEvents.BLOCK_NETHER_WOOD_FENCE_GATE_OPEN);
+    public static WoodType AERIAL_TREE = createDefault("aerial_tree"); //TODO does it work ?
+    public static WoodType COPPER_PINE = createDefault("copper_pine");
+    public static WoodType LAPIS_ROBINIA = createDefault("lapis_robinia");
+    public static WoodType GOLDEN_BEECH = createDefault("golden_beech");
+    public static WoodType STELLAR_JUNGLE_TREE = createDefault("stellar_jungle_tree");
+    public static WoodType SHADOW_PINE = createDefault("shadow_pine");
+    public static WoodType SKY_CACTUS_FIBER = createDefault("sky_cactus_fiber");
+    public static WoodType GRAY_SHROOM = createComplete("gray_shroom", BlockSetType.OAK, BlockSoundGroup.NETHER_WOOD, BlockSoundGroup.NETHER_WOOD_HANGING_SIGN, SoundEvents.BLOCK_NETHER_WOOD_FENCE_GATE_CLOSE, SoundEvents.BLOCK_NETHER_WOOD_FENCE_GATE_OPEN);
 
     private static WoodType createDefault(String name) {return new WoodType(name, BlockSetType.OAK);}
 
@@ -60,6 +60,6 @@ public class AerialHellWoodTypes
     }
 
     //copies of methods of same name from net.minecraft.client.render.TexturedRenderLayers
-    private static SpriteIdentifier createSignTextureId(WoodType type) {return new SpriteIdentifier(SIGNS_ATLAS_TEXTURE, Identifier.ofVanilla("entity/signs/" + type.name()));}
-    private static SpriteIdentifier createHangingSignTextureId(WoodType type) {return new SpriteIdentifier(SIGNS_ATLAS_TEXTURE, Identifier.ofVanilla("entity/signs/hanging/" + type.name()));}
+    private static SpriteIdentifier createSignTextureId(WoodType type) {return new SpriteIdentifier(SIGNS_ATLAS_TEXTURE, AerialHell.id("entity/signs/" + type.name()));}
+    private static SpriteIdentifier createHangingSignTextureId(WoodType type) {return new SpriteIdentifier(SIGNS_ATLAS_TEXTURE, AerialHell.id("entity/signs/hanging/" + type.name()));}
 }
