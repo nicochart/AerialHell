@@ -5,6 +5,8 @@
 	"mixins": [
 		"CustomBrewingRecipeMixin",
 		"OnBlockPlacedMixin",
+		"ExplosionBehaviorMixin",
+		"FurnaceFuelItemMixin",
 		"UpdateNeighborsAlwaysServerWorldMixin",
 		"UpdateNeighborsAlwaysWorldMixin",
 		"UpdateNeighborsExceptMixin",
@@ -15,6 +17,7 @@
 		"LivingDamageMixin",
 		"BlockBreakingSpeedMixin",
 		"RarityMixin",
+		"RarityFromItemStackMixin",
 		"RenderBlockOverlayMixin",
 		"RenderHudOverlayMixin"
 	],

@@ -32,12 +32,6 @@ public class CoreProtectedGlyphBlock extends GlyphBlock
 		if (!player.isCreative() && this.isProtected(state)) {return ActionResult.PASS;}
 		else {return super.onUse(state, world, pos, player, hit);}
 	}
-
-	/*@Override TODO make a mixin to intercept net.minecraft.world.explosion.ExplosionBehavior getBlastResistance(..) with a CallbackInfoReturnable<float> ci and ci.setReturnValue(1200.0F)
-	public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion)
-    {
-        return isProtected(state) ? 1200.0F : this.asBlock().getExplosionResistance();
-    }*/
 	
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder)

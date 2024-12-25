@@ -23,12 +23,6 @@ public class CoreProtectedRotatedPillarBlock extends PillarBlock
 	{
 		return state.get(CORE_PROTECTED);
 	}
-
-	/*@Override TODO make a mixin to intercept net.minecraft.world.explosion.ExplosionBehavior getBlastResistance(..) with a CallbackInfoReturnable<float> ci and ci.setReturnValue(1200.0F)
-	public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion)
-    {
-        return isProtected(state) ? 1200.0F : this.asBlock().getExplosionResistance();
-    }*/
 	
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder)

@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Item;
 import java.util.function.Supplier;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -30,7 +31,7 @@ public class SkySoupItem extends Item //copy of net.minecraft.item.SoupItem but 
 	
 	@Override public ItemStack finishUsing(ItemStack stack, World world, LivingEntity entityLiving)
 	{
-		if (stack.isOf(AerialHellItems.SHADOW_FRUIT_STEW) && !world.isClient) {/*entityLiving.removeEffectsCuredBy(AerialHellMobEffects.Cures.SHADOW_FRUIT_STEW); TODO*/}
+		ItemHelper.removeEffectCuredBy(entityLiving, stack);
 		ItemStack itemstack = super.finishUsing(stack, world, entityLiving);
 		return entityLiving instanceof PlayerEntity player && (player.getAbilities().creativeMode) ? itemstack : new ItemStack(AerialHellItems.SKY_BOWL);
 	}

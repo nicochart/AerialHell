@@ -40,5 +40,5 @@ public class ShadowBind extends AerialHellEffect
         return true;
     }
 
-    /*@Override public void fillEffectCures(Set<EffectCure> cures, MobEffectInstance effectInstance) {}TODO*/
+    /*@Override public void fillEffectCures(Set<EffectCure> cures, MobEffectInstance effectInstance) {}TODO milk bukket now removes effect. Mixin finishUsing ?*/
 }

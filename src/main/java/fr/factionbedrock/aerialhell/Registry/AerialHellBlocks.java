@@ -145,7 +145,7 @@ public class AerialHellBlocks
     public static final ShiftableLeavesBlock AERIAL_TREE_LEAVES = register("aerial_tree_leaves", new ShiftableLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES), () -> AerialHellBlocks.SHADOW_AERIAL_TREE_LEAVES, BiomeShifter.ShiftType.CORRUPT));
     public static final Block AERIAL_TREE_PLANKS = register("aerial_tree_planks", new Block(AbstractBlock.Settings.copy(AERIAL_TREE_LOG)));
     public static final Block CHISELED_AERIAL_TREE_PLANKS = register("chiseled_aerial_tree_planks", new Block(AbstractBlock.Settings.copy(AERIAL_TREE_PLANKS)));
-    public static final Block AERIAL_TREE_BOOKSHELF = register("aerial_tree_bookshelf", new AerialHellBookshelfBlock(AbstractBlock.Settings.copy(AERIAL_TREE_PLANKS)));
+    public static final Block AERIAL_TREE_BOOKSHELF = register("aerial_tree_bookshelf", new Block(AbstractBlock.Settings.copy(AERIAL_TREE_PLANKS)));
     public static final SaplingBlock AERIAL_TREE_SAPLING = register("aerial_tree_sapling", new AerialHellSaplingBlock(AerialHellTreeGrowers.AERIAL_TREE, AbstractBlock.Settings.copy(Blocks.OAK_SAPLING), AerialHellConfiguredFeatures.GIANT_AERIAL_TREE));
 
     //petrified aerial tree
@@ -159,7 +159,7 @@ public class AerialHellBlocks
     public static final Block GOLDEN_BEECH_PLANKS = register("golden_beech_planks", new Block(AbstractBlock.Settings.copy(GOLDEN_BEECH_LOG)));
     public static final Block CHISELED_GOLDEN_BEECH_PLANKS = register("chiseled_golden_beech_planks", new Block(AbstractBlock.Settings.copy(GOLDEN_BEECH_PLANKS)));
     public static final ShiftableLeavesBlock GOLDEN_BEECH_LEAVES = register("golden_beech_leaves", new ShiftableLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES), () -> AerialHellBlocks.SHADOW_GOLDEN_BEECH_LEAVES, BiomeShifter.ShiftType.CORRUPT));
-    public static final Block GOLDEN_BEECH_BOOKSHELF = register("golden_beech_bookshelf", new AerialHellBookshelfBlock(AbstractBlock.Settings.copy(GOLDEN_BEECH_PLANKS)));
+    public static final Block GOLDEN_BEECH_BOOKSHELF = register("golden_beech_bookshelf", new Block(AbstractBlock.Settings.copy(GOLDEN_BEECH_PLANKS)));
     public static final Block GOLDEN_BEECH_SAPLING = register("golden_beech_sapling", new SaplingBlock(AerialHellTreeGrowers.GOLDEN_BEECH, AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
 
     //copper pine
@@ -169,7 +169,7 @@ public class AerialHellBlocks
     public static final PillarBlock STRIPPED_COPPER_PINE_WOOD = register("stripped_copper_pine_wood", new PillarBlock(AbstractBlock.Settings.copy(COPPER_PINE_LOG)));
     public static final Block COPPER_PINE_PLANKS = register("copper_pine_planks", new Block(AbstractBlock.Settings.copy(COPPER_PINE_LOG)));
     public static final ShiftableLeavesBlock COPPER_PINE_LEAVES = register("copper_pine_leaves", new LeavesWithAmbientParticlesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES), () -> AerialHellBlocks.SHADOW_COPPER_PINE_LEAVES, BiomeShifter.ShiftType.CORRUPT));
-    public static final Block COPPER_PINE_BOOKSHELF = register("copper_pine_bookshelf", new AerialHellBookshelfBlock(AbstractBlock.Settings.copy(COPPER_PINE_PLANKS)));
+    public static final Block COPPER_PINE_BOOKSHELF = register("copper_pine_bookshelf", new Block(AbstractBlock.Settings.copy(COPPER_PINE_PLANKS)));
     public static final SaplingBlock COPPER_PINE_SAPLING = register("copper_pine_sapling", new AerialHellSaplingBlock(AerialHellTreeGrowers.COPPER_PINE, AbstractBlock.Settings.copy(Blocks.OAK_SAPLING), AerialHellConfiguredFeatures.GIANT_COPPER_PINE, AerialHellConfiguredFeatures.HUGE_COPPER_PINE, 0.1F));
 
     //lapis robinia
@@ -180,7 +180,7 @@ public class AerialHellBlocks
     public static final PillarBlock STRIPPED_LAPIS_ROBINIA_WOOD = register("stripped_lapis_robinia_wood", new PillarBlock(AbstractBlock.Settings.copy(LAPIS_ROBINIA_LOG)));
     public static final ShiftableLeavesBlock LAPIS_ROBINIA_LEAVES = register("lapis_robinia_leaves", new ShiftableLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES), () -> AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LEAVES, BiomeShifter.ShiftType.CORRUPT));
     public static final Block LAPIS_ROBINIA_PLANKS = register("lapis_robinia_planks", new Block(AbstractBlock.Settings.copy(LAPIS_ROBINIA_LOG)));
-    public static final Block LAPIS_ROBINIA_BOOKSHELF = register("lapis_robinia_bookshelf", new AerialHellBookshelfBlock(AbstractBlock.Settings.copy(LAPIS_ROBINIA_PLANKS)));
+    public static final Block LAPIS_ROBINIA_BOOKSHELF = register("lapis_robinia_bookshelf", new Block(AbstractBlock.Settings.copy(LAPIS_ROBINIA_PLANKS)));
     public static final SaplingBlock LAPIS_ROBINIA_SAPLING = register("lapis_robinia_sapling", new AerialHellSaplingBlock(AerialHellTreeGrowers.LAPIS_ROBINIA, AbstractBlock.Settings.copy(Blocks.OAK_SAPLING), AerialHellConfiguredFeatures.GIANT_LAPIS_ROBINIA));
 
     //shadow_pine
@@ -192,7 +192,7 @@ public class AerialHellBlocks
     public static final ShiftableLeavesBlock SHADOW_PINE_LEAVES = register("shadow_pine_leaves", new ShadowLeavesWithParticlesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES), () -> AerialHellBlocks.HOLLOW_SHADOW_PINE_LEAVES, BiomeShifter.ShiftType.UNCORRUPT));
     public static final ShiftableLeavesBlock PURPLE_SHADOW_PINE_LEAVES = register("purple_shadow_pine_leaves", new ShadowLeavesWithParticlesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES), () -> AerialHellBlocks.HOLLOW_PURPLE_SHADOW_PINE_LEAVES, BiomeShifter.ShiftType.UNCORRUPT));
     public static final Block SHADOW_PINE_PLANKS = register("shadow_pine_planks", new Block(AbstractBlock.Settings.copy(SHADOW_PINE_LOG)));
-    public static final Block SHADOW_PINE_BOOKSHELF = register("shadow_pine_bookshelf", new AerialHellBookshelfBlock(AbstractBlock.Settings.copy(SHADOW_PINE_PLANKS)));
+    public static final Block SHADOW_PINE_BOOKSHELF = register("shadow_pine_bookshelf", new Block(AbstractBlock.Settings.copy(SHADOW_PINE_PLANKS)));
     public static final SaplingBlock SHADOW_PINE_SAPLING = register("shadow_pine_sapling", new ShadowPineSaplingBlock(AerialHellTreeGrowers.SHADOW_PINE, AbstractBlock.Settings.copy(Blocks.OAK_SAPLING), AerialHellConfiguredFeatures.GIANT_SHADOW_PINE, AerialHellConfiguredFeatures.HUGE_SHADOW_PINE, 0.1F));
     public static final SaplingBlock PURPLE_SHADOW_PINE_SAPLING = register("purple_shadow_pine_sapling", new ShadowPineSaplingBlock(AerialHellTreeGrowers.PURPLE_SHADOW_PINE, AbstractBlock.Settings.copy(Blocks.OAK_SAPLING), AerialHellConfiguredFeatures.GIANT_PURPLE_SHADOW_PINE, AerialHellConfiguredFeatures.HUGE_PURPLE_SHADOW_PINE, 0.1F));
 
@@ -203,7 +203,7 @@ public class AerialHellBlocks
     public static final PillarBlock STRIPPED_STELLAR_JUNGLE_TREE_WOOD = register("stripped_stellar_jungle_tree_wood", new PillarBlock(AbstractBlock.Settings.copy(STELLAR_JUNGLE_TREE_LOG)));
     public static final ShiftableLeavesBlock STELLAR_JUNGLE_TREE_LEAVES = register("stellar_jungle_tree_leaves", new ShiftableLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES), () -> AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LEAVES, BiomeShifter.ShiftType.CORRUPT));
     public static final Block STELLAR_JUNGLE_TREE_PLANKS = register("stellar_jungle_tree_planks", new Block(AbstractBlock.Settings.copy(STELLAR_JUNGLE_TREE_LOG)));
-    public static final Block STELLAR_JUNGLE_TREE_BOOKSHELF = register("stellar_jungle_tree_bookshelf", new AerialHellBookshelfBlock(AbstractBlock.Settings.copy(STELLAR_JUNGLE_TREE_PLANKS)));
+    public static final Block STELLAR_JUNGLE_TREE_BOOKSHELF = register("stellar_jungle_tree_bookshelf", new Block(AbstractBlock.Settings.copy(STELLAR_JUNGLE_TREE_PLANKS)));
     public static final SaplingBlock STELLAR_JUNGLE_TREE_SAPLING = register("stellar_jungle_tree_sapling", new AerialHellSaplingBlock(AerialHellTreeGrowers.STELLAR_JUNGLE_TREE, AbstractBlock.Settings.copy(Blocks.OAK_SAPLING), AerialHellConfiguredFeatures.GIANT_STELLAR_JUNGLE_TREE));
     public static final LargeDeadLogBlock DEAD_STELLAR_JUNGLE_TREE_LOG = register("dead_stellar_jungle_tree_log", new LargeDeadLogBlock(STELLAR_JUNGLE_TREE_PLANKS.getDefaultState(), COPPER_PINE_MATERIAL));
 
@@ -230,7 +230,7 @@ public class AerialHellBlocks
     public static final Block GIANT_GANODERMA_APPLANATUM_BLOCK = register("giant_ganoderma_applanatum_block", new MushroomBlock(AbstractBlock.Settings.create().mapColor(MapColor.BROWN).strength(0.4F).sounds(BlockSoundGroup.STEM)));
 
     public static final Block GRAY_SHROOM_PLANKS = register("gray_shroom_planks", new Block(AbstractBlock.Settings.copy(GIANT_CORTINARIUS_VIOLACEUS_STEM)));
-    public static final Block GRAY_SHROOM_BOOKSHELF = register("gray_shroom_bookshelf", new AerialHellBookshelfBlock(AbstractBlock.Settings.copy(GRAY_SHROOM_PLANKS)));
+    public static final Block GRAY_SHROOM_BOOKSHELF = register("gray_shroom_bookshelf", new Block(AbstractBlock.Settings.copy(GRAY_SHROOM_PLANKS)));
 
     //shadow corrupted / uncorrupted variants
     public static final ShadowLogBlock SHADOW_AERIAL_TREE_LOG = register("shadow_aerial_tree_log", new ShadowLogBlock(AbstractBlock.Settings.copy(AERIAL_TREE_LOG), () -> AERIAL_TREE_LOG, BiomeShifter.ShiftType.UNCORRUPT));
@@ -441,11 +441,11 @@ public class AerialHellBlocks
     public static final WallBlock AERIAL_NETHERRACK_WALL = register("aerial_netherrack_wall", new WallBlock(AbstractBlock.Settings.copy(AERIAL_NETHERRACK)));
 
     //dungeon bookshelfs
-    public static final Block MUD_BOOKSHELF = register("mud_bookshelf", new CoreProtectedBookshelfBlock(AbstractBlock.Settings.copy(MUD_BRICKS)));
-    public static final Block LUNATIC_BOOKSHELF = register("lunatic_bookshelf", new CoreProtectedBookshelfBlock(AbstractBlock.Settings.copy(LUNATIC_STONE)));
-    public static final Block GOLDEN_NETHER_BOOKSHELF = register("golden_nether_bookshelf", new CoreProtectedBookshelfBlock(AbstractBlock.Settings.copy(GOLDEN_NETHER_BRICKS)));
-    public static final Block SHADOW_CATACOMBS_BOOKSHELF = register("shadow_catacombs_bookshelf", new CoreProtectedBookshelfBlock(AbstractBlock.Settings.copy(SHADOW_CATACOMBS_BRICKS)));
-    public static final Block VOLUCITE_BOOKSHELF = register("volucite_bookshelf", new CoreProtectedBookshelfBlock(AbstractBlock.Settings.copy(VOLUCITE_STONE)));
+    public static final Block MUD_BOOKSHELF = register("mud_bookshelf", new CoreProtectedBlock(AbstractBlock.Settings.copy(MUD_BRICKS)));
+    public static final Block LUNATIC_BOOKSHELF = register("lunatic_bookshelf", new CoreProtectedBlock(AbstractBlock.Settings.copy(LUNATIC_STONE)));
+    public static final Block GOLDEN_NETHER_BOOKSHELF = register("golden_nether_bookshelf", new CoreProtectedBlock(AbstractBlock.Settings.copy(GOLDEN_NETHER_BRICKS)));
+    public static final Block SHADOW_CATACOMBS_BOOKSHELF = register("shadow_catacombs_bookshelf", new CoreProtectedBlock(AbstractBlock.Settings.copy(SHADOW_CATACOMBS_BRICKS)));
+    public static final Block VOLUCITE_BOOKSHELF = register("volucite_bookshelf", new CoreProtectedBlock(AbstractBlock.Settings.copy(VOLUCITE_STONE)));
 
     //glyph blocks
     public static final Block MUD_GLYPH_BLOCK = register("mud_glyph_block", new CoreProtectedGlyphBlock(AbstractBlock.Settings.copy(MUD_BRICKS).luminance((state) -> 9)));
@@ -490,7 +490,7 @@ public class AerialHellBlocks
     //cactus
     public static final SkyCactusBlock SKY_CACTUS = register("sky_cactus", new SkyCactusBlock(AbstractBlock.Settings.create().mapColor(MapColor.CYAN).strength(0.4F).sounds(BlockSoundGroup.WOOL).ticksRandomly()));
     public static final Block SKY_CACTUS_FIBER_PLANKS = register("sky_cactus_fiber_planks", new Block(SKY_CACTUS_FIBER_MATERIAL));
-    public static final Block SKY_CACTUS_FIBER_BOOKSHELF = register("sky_cactus_fiber_bookshelf", new AerialHellBookshelfBlock(AbstractBlock.Settings.copy(SKY_CACTUS_FIBER_PLANKS)));
+    public static final Block SKY_CACTUS_FIBER_BOOKSHELF = register("sky_cactus_fiber_bookshelf", new Block(AbstractBlock.Settings.copy(SKY_CACTUS_FIBER_PLANKS)));
     public static final SkyCactusBlock VIBRANT_SKY_CACTUS = register("vibrant_sky_cactus", new SkyCactusBlock(AbstractBlock.Settings.create().mapColor(MapColor.BLUE).strength(0.4F).sounds(BlockSoundGroup.WOOL).ticksRandomly().luminance(s -> 15).nonOpaque()));
     public static final Block VIBRANT_SKY_CACTUS_FIBER_LANTERN = register("vibrant_sky_cactus_fiber_lantern", new Block(AbstractBlock.Settings.create().mapColor(MapColor.WHITE).strength(0.5F).sounds(BlockSoundGroup.GLASS).nonOpaque().luminance(s -> 15)));
 

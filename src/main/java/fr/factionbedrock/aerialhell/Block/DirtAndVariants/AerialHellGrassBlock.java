@@ -73,16 +73,4 @@ public abstract class AerialHellGrassBlock extends GrassBlock implements Fertili
 	}
 
 	protected abstract Optional<RegistryEntry.Reference<PlacedFeature>> getBonemealFeature(ServerWorld world);
-
-	/*@Override @Nullable TODO : use mixins to intercept onItemUse (Axe, Shovel, Hoe..)
-	public BlockState getToolModifiedState(BlockState state, UseOnContext context, ItemAbility itemAbility, boolean simulate)
-	{
-		if (!context.getItemInHand().canPerformAction(itemAbility)) {return null;}
-		if (state.getBlock() == AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get() || state.getBlock() == AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get())
-		{
-			if (ItemAbilities.HOE_TILL == itemAbility) {return AerialHellBlocksAndItems.STELLAR_FARMLAND.get().getDefaultState();}
-			if (ItemAbilities.SHOVEL_FLATTEN == itemAbility) {return AerialHellBlocksAndItems.STELLAR_DIRT_PATH.get().getDefaultState();}
-		}
-		return super.getToolModifiedState(state, context, itemAbility, simulate);
-	}*/
 }

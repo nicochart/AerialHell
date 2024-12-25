@@ -1,9 +1,13 @@
 package fr.factionbedrock.aerialhell.Util;
 
+import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import net.minecraft.block.Block;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.*;
@@ -16,8 +20,12 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+
 public class ItemHelper
 {
+    public static Map<Item, Integer> burnTimeMap = Maps.<Item, Integer>newLinkedHashMap();
+
     public static int getItemInTagCount(Iterable<ItemStack> stuff, TagKey<Item> tag)
     {
         int count = 0;
@@ -87,6 +95,16 @@ public class ItemHelper
                     makeSmithingTemplateItemDescComponent(materialName, ADDITIONS_SLOT_DESCRIPTION, null),
                     SmithingTemplateItem.getNetheriteUpgradeEmptyBaseSlotTextures(),
                     SmithingTemplateItem.getNetheriteUpgradeEmptyAdditionsSlotTextures());
+        }
+    }
+
+    public static void removeEffectCuredBy(LivingEntity livingEntity, ItemStack stack)
+    {
+        if (livingEntity.getWorld().isClient) {return;}
+
+        if (stack.isOf(AerialHellItems.SHADOW_FRUIT_STEW))
+        {
+            livingEntity.removeStatusEffect(AerialHellMobEffects.VULNERABILITY);
         }
     }
 }

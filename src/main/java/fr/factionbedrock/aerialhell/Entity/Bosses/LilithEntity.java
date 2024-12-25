@@ -367,7 +367,7 @@ public class LilithEntity extends AbstractBossEntity
 		else if (block == Blocks.QUARTZ_BRICKS) {return AerialHellBlocks.SMOKY_QUARTZ_BRICKS.getDefaultState();}
 		else if (block == Blocks.SMOOTH_QUARTZ) {return AerialHellBlocks.SMOOTH_SMOKY_QUARTZ.getDefaultState();}
 		else if (block == AerialHellBlocks.GIANT_GANODERMA_APPLANATUM_BLOCK) {return AerialHellBlocks.GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK.getDefaultState();}
-		else if (block instanceof AerialHellBookshelfBlock || block == Blocks.BOOKSHELF)
+		else if (blockState.isIn(AerialHellTags.Blocks.ENCHANTMENT_POWER_PROVIDER) || block == Blocks.BOOKSHELF)
 		{
 			if (block == AerialHellBlocks.LAPIS_ROBINIA_BOOKSHELF || block == AerialHellBlocks.AERIAL_TREE_BOOKSHELF) {return AerialHellBlocks.GRAY_SHROOM_BOOKSHELF.getDefaultState();}
 			else {return AerialHellBlocks.SHADOW_PINE_BOOKSHELF.getDefaultState();}
