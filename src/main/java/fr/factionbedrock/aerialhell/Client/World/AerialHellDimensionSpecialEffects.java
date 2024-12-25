@@ -27,7 +27,7 @@ public class AerialHellDimensionSpecialEffects extends DimensionEffects implemen
     @Override
     public void render(WorldRenderContext context)
     {
-        AerialHellDimensionSkyRenderer.render(context.world(), context.projectionMatrix(), context.positionMatrix(), context.tickCounter().getTickDelta(false), context.camera(), false, getSetupFog(context));
+        AerialHellDimensionSkyRenderer.render(context.world(), context.positionMatrix(), context.projectionMatrix(), context.tickCounter().getTickDelta(false), context.camera(), false, getSetupFog(context));
     }
 
     private static Runnable getSetupFog(WorldRenderContext context)
@@ -36,5 +36,10 @@ public class AerialHellDimensionSpecialEffects extends DimensionEffects implemen
         boolean shouldThickenFog = MinecraftClient.getInstance().inGameHud.getBossBarHud().shouldThickenFog();
         float f = context.tickCounter().getTickDelta(false);
         return () -> BackgroundRenderer.applyFog(context.camera(), BackgroundRenderer.FogType.FOG_SKY, viewDistance, shouldThickenFog, f);
+    }
+
+    public static class AerialHellCloudRenderer implements DimensionRenderingRegistry.CloudRenderer
+    {
+        @Override public void render(WorldRenderContext context) {}
     }
 }

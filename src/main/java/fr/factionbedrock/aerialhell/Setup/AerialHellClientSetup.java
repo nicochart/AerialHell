@@ -22,6 +22,7 @@ public class AerialHellClientSetup
         AerialHellWoodTypes.addWoodTypesToSheets();
         //modEventBus.addListener(BlocksAndItemsColorHandler::handleBlockColors);
         //modEventBus.addListener(BlocksAndItemsColorHandler::handleItemColors);
+        RenderRegistrationListener.registerBlockRenderLayers();
         RenderRegistrationListener.registerRenderers();
         RenderRegistrationListener.registerLayerDefinitions();
         RenderRegistrationListener.registerShiftingBakedModels();
@@ -37,7 +38,8 @@ public class AerialHellClientSetup
 
     public static void registerDimensionRenderInfo()
     {
-        DimensionRenderingRegistry.SkyRenderer renderInfo = new AerialHellDimensionSpecialEffects(Float.NaN, false, DimensionEffects.SkyType.NONE, false, false);
+        AerialHellDimensionSpecialEffects renderInfo = new AerialHellDimensionSpecialEffects(Float.NaN, false, DimensionEffects.SkyType.NONE, false, false);
         DimensionRenderingRegistry.registerSkyRenderer(AerialHellDimensions.AERIAL_HELL_DIMENSION, renderInfo);
+        DimensionRenderingRegistry.registerCloudRenderer(AerialHellDimensions.AERIAL_HELL_DIMENSION, new AerialHellDimensionSpecialEffects.AerialHellCloudRenderer());
     }
 }

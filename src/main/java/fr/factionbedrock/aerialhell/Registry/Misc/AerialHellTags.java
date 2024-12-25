@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Registry.Misc;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.block.Block;
+import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
@@ -222,6 +223,16 @@ public class AerialHellTags
 		private static TagKey<Biome> tag(String name)
 		{
 			return TagKey.of(RegistryKeys.BIOME, AerialHell.id( name));
+		}
+	}
+
+	public static class PaintingVariants
+	{
+		public static final TagKey<PaintingVariant> PLACEABLE = tag("placeable");
+
+		private static TagKey<PaintingVariant> tag(String name)
+		{
+			return TagKey.of(RegistryKeys.PAINTING_VARIANT, AerialHell.id(name));
 		}
 	}
 }

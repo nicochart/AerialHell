@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.VariantHolder;
@@ -39,7 +40,7 @@ import java.util.Optional;
 
 public class AerialHellPaintingEntity extends AbstractDecorationEntity implements VariantHolder<RegistryEntry<PaintingVariant>>
 {
-    private static final TrackedData<RegistryEntry<PaintingVariant>> DATA_PAINTING_VARIANT_ID = DataTracker.registerData(PaintingEntity.class, TrackedDataHandlerRegistry.PAINTING_VARIANT);
+    private static final TrackedData<RegistryEntry<PaintingVariant>> DATA_PAINTING_VARIANT_ID = DataTracker.registerData(AerialHellPaintingEntity.class, TrackedDataHandlerRegistry.PAINTING_VARIANT);
     public static final MapCodec<RegistryEntry<PaintingVariant>> VARIANT_MAP_CODEC = PaintingVariant.ENTRY_CODEC.fieldOf("variant");
     public static final Codec<RegistryEntry<PaintingVariant>> VARIANT_CODEC = VARIANT_MAP_CODEC.codec();
     public static final float DEPTH = 0.0625F;
@@ -63,7 +64,7 @@ public class AerialHellPaintingEntity extends AbstractDecorationEntity implement
     {
         AerialHellPaintingEntity paintingEntity = new AerialHellPaintingEntity(world, pos);
         List<RegistryEntry<PaintingVariant>> list = new ArrayList();
-        world.getRegistryManager().get(RegistryKeys.PAINTING_VARIANT).iterateEntries(PaintingVariantTags.PLACEABLE).forEach(list::add);
+        world.getRegistryManager().get(RegistryKeys.PAINTING_VARIANT).iterateEntries(AerialHellTags.PaintingVariants.PLACEABLE).forEach(list::add);
         if (list.isEmpty()) {return Optional.empty();}
         else
         {

@@ -18,7 +18,7 @@ public class AerialHellBlockEntities
 			BlockEntityType.Builder.create(FreezerBlockEntity::new,AerialHellBlocks.FREEZER).build());
 
 	public static final BlockEntityType<IntangibleTemporaryBlockEntity> INTANGIBLE_TEMPORARY_BLOCK = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("intangible_temporary_block"),
-			BlockEntityType.Builder.create(IntangibleTemporaryBlockEntity::new,AerialHellBlocks.OSCILLATOR).build());
+			BlockEntityType.Builder.create(IntangibleTemporaryBlockEntity::new,AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK).build());
 
 	public static final BlockEntityType<BiomeShifterBlockEntity> BIOME_SHIFTER = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("biome_shifter"),
 			BlockEntityType.Builder.create((pos, blockState) -> new BiomeShifterBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null),
