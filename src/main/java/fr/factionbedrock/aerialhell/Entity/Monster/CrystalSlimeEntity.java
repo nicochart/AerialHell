@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import java.util.EnumSet;
 
-import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
@@ -168,7 +167,7 @@ public class CrystalSlimeEntity extends MobEntity
         		.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D);
     }
 	
-	public static boolean canSpawn(EntityType<? extends AbstractCaterpillarEntity> type, ServerWorldAccess world, SpawnReason reason, BlockPos pos, Random random)
+	public static boolean canSpawn(EntityType<? extends CrystalSlimeEntity> type, ServerWorldAccess world, SpawnReason reason, BlockPos pos, Random random)
     {
         return random.nextInt(10) == 0 && world.toServerWorld().isDay();
     }

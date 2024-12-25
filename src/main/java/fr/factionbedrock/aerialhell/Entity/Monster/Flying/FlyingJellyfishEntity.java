@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Flying;
 
-import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
@@ -45,7 +44,7 @@ public class FlyingJellyfishEntity extends AbstractFlyingProjectileShooterMob
 
 	@Override protected float getSoundVolume() {return 1.2F;}
 
-	public static boolean canJellyfishSpawn(EntityType<? extends AbstractCaterpillarEntity> jellyfish, WorldAccess world, SpawnReason reason, BlockPos pos, Random random)
+	public static boolean canJellyfishSpawn(EntityType<? extends FlyingJellyfishEntity> jellyfish, WorldAccess world, SpawnReason reason, BlockPos pos, Random random)
 	{
 		return world.getDifficulty() != Difficulty.PEACEFUL && random.nextInt(15) == 0 && canMobSpawn(jellyfish, world, reason, pos, random);
 	}

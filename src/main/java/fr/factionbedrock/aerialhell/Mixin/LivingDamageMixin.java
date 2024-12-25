@@ -116,7 +116,7 @@ public class LivingDamageMixin
 
     private static float getDamageMultiplierFromMainHandItemStack(Item targetEquippedItem, LivingEntity target)
     {
-        return targetEquippedItem == AerialHellItems.GLASS_CANON_SWORD ? 2.0F : 0.0F; //*2 damage if target has glass cannon sword
+        return targetEquippedItem == AerialHellItems.GLASS_CANON_SWORD ? 2.0F : 1.0F; //*2 damage if target has glass cannon sword
     }
 
     private static float applyEffectsBasedOnTargetEquippedArmor(Iterable<ItemStack> armorStuff, LivingEntity source, LivingEntity target)

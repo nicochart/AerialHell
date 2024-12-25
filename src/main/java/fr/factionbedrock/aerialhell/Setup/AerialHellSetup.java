@@ -29,6 +29,7 @@ public class AerialHellSetup
         BuildContentsEvent.buildContents();
         AerialHellItems.registerCompostableItems();
         AerialHellBlocks.registerAxeStrippingBlocks();
+        AerialHellEntities.registerEntitySpawnPlacements();
     }
 	
 	public static void registration()
@@ -55,7 +56,6 @@ public class AerialHellSetup
 
     //public static void listen(IEventBus bus)
     //{
-    //    bus.addListener(AerialHellEntities::entitySpawnPlacements);
     //    bus.addListener(DataPacketPayloads::register);
     //}
 }

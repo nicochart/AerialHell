@@ -21,11 +21,10 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.*;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.world.Heightmap;
 
 public class AerialHellEntities
 {
@@ -162,41 +161,41 @@ public class AerialHellEntities
 		FabricDefaultAttributeRegistry.register(CRYSTAL_CATERPILLAR, CrystalCaterpillarEntity.registerAttributes());
 	}
 
-	/*public static void entitySpawnPlacements(RegisterSpawnPlacementsEvent event) TODO spawn placements
+	public static void registerEntitySpawnPlacements()
 	{
-		event.register(SANDY_SHEEP, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellAnimalEntity::canAerialHellAnimalSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(GLIDING_TURTLE, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellAnimalEntity::canAerialHellAnimalSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(STELLAR_CHICKEN, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, StellarChickenEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(STELLAR_BOAR, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, BoarEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+		SpawnRestriction.register(SANDY_SHEEP, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellAnimalEntity::canAerialHellAnimalSpawn);
+		SpawnRestriction.register(GLIDING_TURTLE, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellAnimalEntity::canAerialHellAnimalSpawn);
+		SpawnRestriction.register(STELLAR_CHICKEN, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, StellarChickenEntity::canSpawn);
+		SpawnRestriction.register(STELLAR_BOAR, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, BoarEntity::canSpawn);
 
-		event.register(EVIL_COW, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(CORTINARIUS_COW, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(STELLAR_ENT, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(SHROOMBOOM, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(VERDIGRIS_ZOMBIE, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		//event.register(MUD_SOLDIER, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE); //pb : makes hostile entities that can spawn in daylight spawn without any requirement (1 entity / tick / chunk, game crash)
-		event.register(HELL_SPIDER, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(CRYSTAL_SPIDER, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(SHADOW_SPIDER, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(VENOMOUS_SNAKE, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(WORM, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(MUMMY, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(SLIME_PIRATE, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(SLIME_NINJA_PIRATE, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(GHOST_SLIME_PIRATE, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, GhostSlimePirateEntity::canGhostSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(GHOST_SLIME_NINJA_PIRATE, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, GhostSlimePirateEntity::canGhostSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(CRYSTAL_SLIME, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, CrystalSlimeEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(FOREST_CATERPILLAR, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AbstractCaterpillarEntity::canCaterpillarSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(CRYSTAL_CATERPILLAR, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AbstractCaterpillarEntity::canCaterpillarSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(SHADOW_TROLL, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(SHADOW_AUTOMATON, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(MUD_SOLDIER, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(FAT_PHANTOM, SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, FatPhantomEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(KODAMA, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, KodamaEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(FLYING_JELLYFISH, SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, FlyingJellyfishEntity::canJellyfishSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(ICE_SPIRIT, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(FIRE_SPIRIT, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(ELECTRO_SPIRIT, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-		event.register(TORN_SPIRIT, SpawnPlacementTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-	}*/
+		SpawnRestriction.register(EVIL_COW, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(CORTINARIUS_COW, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(STELLAR_ENT, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(SHROOMBOOM, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(VERDIGRIS_ZOMBIE, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		//SpawnRestriction.register(MUD_SOLDIER, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn); //pb : makes hostile entities that can spawn in daylight spawn without any requirement (1 entity / tick / chunk, game crash)
+		SpawnRestriction.register(HELL_SPIDER, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(CRYSTAL_SPIDER, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(SHADOW_SPIDER, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(VENOMOUS_SNAKE, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(WORM, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(MUMMY, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(SLIME_PIRATE, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(SLIME_NINJA_PIRATE, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(GHOST_SLIME_PIRATE, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, GhostSlimePirateEntity::canGhostSpawn);
+		SpawnRestriction.register(GHOST_SLIME_NINJA_PIRATE, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, GhostSlimePirateEntity::canGhostSpawn);
+		SpawnRestriction.register(CRYSTAL_SLIME, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, CrystalSlimeEntity::canSpawn);
+		SpawnRestriction.register(FOREST_CATERPILLAR, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AbstractCaterpillarEntity::canCaterpillarSpawn);
+		SpawnRestriction.register(CRYSTAL_CATERPILLAR, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AbstractCaterpillarEntity::canCaterpillarSpawn);
+		SpawnRestriction.register(SHADOW_TROLL, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(SHADOW_AUTOMATON, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(MUD_SOLDIER, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(FAT_PHANTOM, SpawnLocationTypes.UNRESTRICTED, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, FatPhantomEntity::canSpawn);
+		SpawnRestriction.register(KODAMA, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, KodamaEntity::canSpawn);
+		SpawnRestriction.register(FLYING_JELLYFISH, SpawnLocationTypes.UNRESTRICTED, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, FlyingJellyfishEntity::canJellyfishSpawn);
+		SpawnRestriction.register(ICE_SPIRIT, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(FIRE_SPIRIT, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(ELECTRO_SPIRIT, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+		SpawnRestriction.register(TORN_SPIRIT, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AerialHellHostileEntity::canHostileEntitySpawn);
+	}
 }
