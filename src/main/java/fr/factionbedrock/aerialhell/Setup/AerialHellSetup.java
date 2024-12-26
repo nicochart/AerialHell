@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.AerialHellCreativeModeTabs;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.BuildContentsEvent;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellFeatures;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructures;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -30,6 +31,7 @@ public class AerialHellSetup
         AerialHellItems.registerCompostableItems();
         AerialHellBlocks.registerAxeStrippingBlocks();
         AerialHellEntities.registerEntitySpawnPlacements();
+        AerialHellDimensions.makePortal();
     }
 	
 	public static void registration()

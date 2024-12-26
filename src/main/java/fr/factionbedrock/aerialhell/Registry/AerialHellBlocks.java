@@ -88,6 +88,7 @@ public class AerialHellBlocks
 
     
     //portal
+    public static final AerialHellPortalBlock AERIAL_HELL_PORTAL = register("aerial_hell_portal", new AerialHellPortalBlock(AbstractBlock.Settings.copy(Blocks.NETHER_PORTAL).nonOpaque().blockVision(( state, blockview, pos) -> false).luminance((state) -> 10).mapColor(DyeColor.GREEN)));
     public static final Block STELLAR_PORTAL_FRAME_BLOCK = register("stellar_portal_frame_block", new Block(AbstractBlock.Settings.create().mapColor(MapColor.STONE_GRAY).requiresTool().strength(25.0F, 600.0F)));
     public static final Block STELLAR_PORTAL_FRAME_ORE = register("stellar_portal_frame_ore", new AerialHellOreBlock(0, 0, AbstractBlock.Settings.create().strength(25.0F, 600.0F).sounds(BlockSoundGroup.STONE).requiresTool()));
     public static final Block DEEPSLATE_STELLAR_PORTAL_FRAME_ORE = register("deepslate_stellar_portal_frame_ore", new AerialHellOreBlock(0, 0, AbstractBlock.Settings.create().strength(30.0F, 600.0F).sounds(BlockSoundGroup.STONE).requiresTool()));
