@@ -30,6 +30,7 @@ public class RenderRegistrationListener
         RenderLayer cutout = RenderLayer.getCutout();
         RenderLayer cutout_mipped = RenderLayer.getCutoutMipped();
 
+        BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.GHOST_BOAT_CHEST, translucent);
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.GHOST_BOAT_PLANKS, translucent);
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.GHOST_BOAT_LOG, translucent);
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.GHOST_BOAT_WOOD, translucent);

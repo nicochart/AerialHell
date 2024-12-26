@@ -1,0 +1,7 @@
+{
+    "parent": "aerialhell:block/chest_inventory",
+    "textures": {
+        "chest": "aerialhell:block/model/golden_nether_chest_inventory",
+        "particle": "aerialhell:block/golden_nether_bricks"
+    }
+}

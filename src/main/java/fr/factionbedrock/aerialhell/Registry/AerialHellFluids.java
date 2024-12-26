@@ -16,7 +16,7 @@ public class AerialHellFluids
 
     private static <T extends Fluid> T register(String id, T value)
     {
-        return Registry.register(Registries.FLUID, id, value);
+        return Registry.register(Registries.FLUID, AerialHell.id(id), value);
     }
 
     public static void load() {}
@@ -24,9 +24,9 @@ public class AerialHellFluids
     public static void registerFluidsRender()
     {
         FluidRenderHandlerRegistry.INSTANCE.register(LIQUID_OF_THE_GODS_STILL, LIQUID_OF_THE_GODS_FLOWING, new SimpleFluidRenderHandler(
-                AerialHell.id("block/liquid_of_the_gods_overlay"),
                 AerialHell.id("block/liquid_of_the_gods_still"),
-                AerialHell.id("block/liquid_of_the_gods_flow")
+                AerialHell.id("block/liquid_of_the_gods_flow"),
+                AerialHell.id("block/liquid_of_the_gods_overlay")
         ));
         //TODO : fog?
     }

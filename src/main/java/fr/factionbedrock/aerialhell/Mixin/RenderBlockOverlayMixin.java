@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -31,7 +32,7 @@ public class RenderBlockOverlayMixin
     private static void renderOverlays(MinecraftClient client, MatrixStack matrices, CallbackInfo callbackInfo)
     {
         PlayerEntity player = client.player;
-        BlockState state = getInWallBlockState(player);
+        BlockState state = EntityHelper.getInWallBlockState(player);
         if (state == null || player == null) {return ;}
 
         if (state.isIn(AerialHellTags.Blocks.SOLID_ETHER))
@@ -69,23 +70,6 @@ public class RenderBlockOverlayMixin
             callbackInfo.cancel();
             renderCustomOverlay(player, matrices, getBlockTextureLocation(AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK));
         }
-    }
-
-    //copy of net.minecraft.client.gui.hud.InGameOverlayRenderer method of same name
-    @Nullable private static BlockState getInWallBlockState(PlayerEntity player)
-    {
-        BlockPos.Mutable mutable = new BlockPos.Mutable();
-
-        for (int i = 0; i < 8; i++)
-        {
-            double eyeX = player.getX() + (double)(((float)((i >> 0) % 2) - 0.5F) * player.getWidth() * 0.8F);
-            double eyeY = player.getEyeY() + (double)(((float)((i >> 1) % 2) - 0.5F) * 0.1F * player.getScale());
-            double eyeZ = player.getZ() + (double)(((float)((i >> 2) % 2) - 0.5F) * player.getWidth() * 0.8F);
-            mutable.set(eyeX, eyeY, eyeZ);
-            BlockState blockState = player.getWorld().getBlockState(mutable);
-            if (blockState.getRenderType() != BlockRenderType.INVISIBLE && blockState.shouldBlockVision(player.getWorld(), mutable)) {return blockState;}
-        }
-        return null;
     }
 
     //copy of net.minecraft.client.gui.hud.InGameOverlayRenderer renderUnderwaterOverlay method, edited

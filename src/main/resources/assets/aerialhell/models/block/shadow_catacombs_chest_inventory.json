@@ -1,0 +1,7 @@
+{
+    "parent": "aerialhell:block/chest_inventory",
+    "textures": {
+        "chest": "aerialhell:block/model/shadow_catacombs_chest_inventory",
+        "particle": "aerialhell:block/shadow_catacombs_bricks"
+    }
+}

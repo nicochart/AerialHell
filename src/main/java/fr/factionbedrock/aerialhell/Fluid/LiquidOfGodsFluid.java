@@ -10,6 +10,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Property;
@@ -36,7 +37,7 @@ public abstract class LiquidOfGodsFluid extends FlowableFluid
         Block.dropStacks(state, world, pos, blockEntity);
     }
 
-    @Override protected int getMaxFlowDistance(WorldView world) {return 4;}
+    @Override protected int getMaxFlowDistance(WorldView world) {return 2;}
 
     @Override protected int getLevelDecreasePerBlock(WorldView world) {return 3;}
 
@@ -49,6 +50,8 @@ public abstract class LiquidOfGodsFluid extends FlowableFluid
     @Override protected float getBlastResistance() {return 100.0F;}
 
     @Override protected BlockState toBlockState(FluidState state) {return (BlockState) AerialHellBlocks.LIQUID_OF_THE_GODS.getDefaultState().with(FluidBlock.LEVEL, getBlockStateLevel(state));}
+
+    @Override public boolean matchesType(Fluid fluid) { return fluid == AerialHellFluids.LIQUID_OF_THE_GODS_FLOWING || fluid == AerialHellFluids.LIQUID_OF_THE_GODS_STILL;}
 
     public static class Flowing extends LiquidOfGodsFluid
     {
@@ -69,7 +72,7 @@ public abstract class LiquidOfGodsFluid extends FlowableFluid
     {
         public Still() {}
 
-        public int getLevel(FluidState state) {return 4;}
+        public int getLevel(FluidState state) {return 8;}
 
         public boolean isStill(FluidState state) {return true;}
     }

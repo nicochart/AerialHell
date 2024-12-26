@@ -28,6 +28,8 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellPlacedFeatures;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -43,6 +45,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.ChunkBiomeDataS2CPacket;
 import net.minecraft.registry.Registries;
@@ -53,9 +57,11 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockBox;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.WorldChunk;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
@@ -265,5 +271,38 @@ public class EntityHelper
         {
             if (EntityHelper.isImmuneToGhostBlockCollision(projectileEntity.getOwner())) {ci.cancel();}
         }
+    }
+
+    //copy of net.minecraft.client.gui.hud.InGameOverlayRenderer method of same name
+    @Nullable public static BlockState getInWallBlockState(PlayerEntity player)
+    {
+        BlockPos.Mutable mutable = new BlockPos.Mutable();
+
+        for (int i = 0; i < 8; i++)
+        {
+            double eyeX = player.getX() + (double)(((float)((i >> 0) % 2) - 0.5F) * player.getWidth() * 0.8F);
+            double eyeY = player.getEyeY() + (double)(((float)((i >> 1) % 2) - 0.5F) * 0.1F * player.getScale());
+            double eyeZ = player.getZ() + (double)(((float)((i >> 2) % 2) - 0.5F) * player.getWidth() * 0.8F);
+            mutable.set(eyeX, eyeY, eyeZ);
+            BlockState blockState = player.getWorld().getBlockState(mutable);
+            if (blockState.getRenderType() != BlockRenderType.INVISIBLE && blockState.shouldBlockVision(player.getWorld(), mutable)) {return blockState;}
+        }
+        return null;
+    }
+
+    @Nullable public static FluidState getInLiquidFluidState(PlayerEntity player)
+    {
+        BlockPos.Mutable mutable = new BlockPos.Mutable();
+
+        for (int i = 0; i < 8; i++)
+        {
+            double eyeX = player.getX() + (double)(((float)((i >> 0) % 2) - 0.5F) * player.getWidth() * 0.8F);
+            double eyeY = player.getEyeY() + (double)(((float)((i >> 1) % 2) - 0.5F) * 0.1F * player.getScale());
+            double eyeZ = player.getZ() + (double)(((float)((i >> 2) % 2) - 0.5F) * player.getWidth() * 0.8F);
+            mutable.set(eyeX, eyeY, eyeZ);
+            FluidState fluidState = player.getWorld().getFluidState(mutable);
+            if (!fluidState.isOf(Fluids.EMPTY)) {return fluidState;}
+        }
+        return null;
     }
 }

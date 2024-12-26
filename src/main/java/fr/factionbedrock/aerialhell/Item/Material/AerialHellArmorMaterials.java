@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Supplier;
 
+import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
@@ -30,7 +31,7 @@ public class AerialHellArmorMaterials
 	//copy of ArmorMaterials "register" method
 	private static RegistryEntry<ArmorMaterial> register(String id, EnumMap<ArmorItem.Type, Integer> protection, int enchantability, RegistryEntry<SoundEvent> equipSound, float toughness, float knockbackReduction, Supplier<Ingredient> repairIngredient)
 	{
-		List<ArmorMaterial.Layer> layerList = List.of(new ArmorMaterial.Layer(Identifier.of(id)));
+		List<ArmorMaterial.Layer> layerList = List.of(new ArmorMaterial.Layer(AerialHell.id(id)));
 		EnumMap<ArmorItem.Type, Integer> enumMap = new EnumMap<>(ArmorItem.Type.class);
 
 		for (ArmorItem.Type armoritem$type : ArmorItem.Type.values()) {enumMap.put(armoritem$type, protection.get(armoritem$type));}

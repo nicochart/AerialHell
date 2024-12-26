@@ -1,0 +1,7 @@
+{
+    "parent": "aerialhell:block/chest_inventory",
+    "textures": {
+        "chest": "aerialhell:block/model/stellar_jungle_tree_chest_inventory",
+        "particle": "aerialhell:block/stellar_jungle_tree_planks"
+    }
+}

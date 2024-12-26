@@ -434,13 +434,16 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		while (this.getWorld().getBlockState(fallPos).isAir() && fallPos.getY() < basePos.getY() + 25) {fallPos = fallPos.up();}
 		while (!FallingBlock.canFallThrough(this.getWorld().getBlockState(fallPos.down())) && fallPos.getY() > basePos.getY()) {fallPos = fallPos.down();}
 		BlockState fallState = this.getWorld().getBlockState(fallPos);
-		if (FallingBlock.canFallThrough(this.getWorld().getBlockState(fallPos.down())) && fallPos.getY() >= this.getWorld().getHeight())
+		if (FallingBlock.canFallThrough(this.getWorld().getBlockState(fallPos.down())) && fallPos.getY() >= this.getWorld().getBottomY())
 		{
 			if (fallState.getBlock() instanceof CoreProtectedBlock block)
 			{
 				fallState = block.getCrackedVariant().getDefaultState();
 			}
 			FallingBlockEntity.spawnFromBlock(this.getWorld(), fallPos, fallState);
+		}
+		else {
+			System.out.println("Wanted to make block fall but can't");
 		}
 	}
 

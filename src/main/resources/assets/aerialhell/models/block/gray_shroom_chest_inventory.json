@@ -1,0 +1,7 @@
+{
+    "parent": "aerialhell:block/chest_inventory",
+    "textures": {
+        "chest": "aerialhell:block/model/gray_shroom_chest_inventory",
+        "particle": "aerialhell:block/gray_shroom_planks"
+    }
+}
