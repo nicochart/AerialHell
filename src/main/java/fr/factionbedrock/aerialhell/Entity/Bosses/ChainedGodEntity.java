@@ -195,7 +195,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	@Override public void tickDeadPhase() {this.tickDyingPhase();}
 
-	@Override public Item getTrophy() {return AerialHellItems.CHAINED_GOD_TROPHY_ITEM;}
+	@Override public Item getTrophy() {return AerialHellItems.CHAINED_GOD_TROPHY;}
 
 	protected enum NearbyEntitiesInteractionType {NONE, DRAG, REPULSE}
 

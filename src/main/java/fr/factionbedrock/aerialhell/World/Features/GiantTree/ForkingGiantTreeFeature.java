@@ -36,7 +36,7 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
         {
             int maxXZdistance=config.trunkMaxHorizontalOffset(), minYdistance=config.trunkMinVerticalOffset(), maxYdistance=config.trunkMaxVerticalOffset();
             BlockPos trunkStart = origin.down(2);
-            int xOffset = rand.nextBetween(-maxXZdistance, maxXZdistance), yOffset = rand.nextBetween(minYdistance, maxYdistance), zOffset = rand.nextBetween(-maxXZdistance, maxXZdistance);
+            int xOffset = rand.nextBetweenExclusive(-maxXZdistance, maxXZdistance), yOffset = rand.nextBetweenExclusive(minYdistance, maxYdistance), zOffset = rand.nextBetweenExclusive(-maxXZdistance, maxXZdistance);
             BlockPos trunkEnd = origin.add(xOffset, yOffset, zOffset);
             if (!FeatureHelper.isBelowMaxBuildHeight(context, context.getOrigin().up(yOffset + getYFoliageSize(trunkStart, trunkEnd, context)/2))) {return false;}
             FoliagePosList foliagePosList = generateTrunk(context, trunkStart, trunkEnd, false);
@@ -113,8 +113,8 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
     protected void generateRandomBranch(FeatureContext<ForkingGiantTreeConfig> context, BlockPos foliageCenterPos, int startMinYoffset, int startMaxYoffset, int minXoffset, int maxXoffset, int minYoffset, int maxYoffset, int minZoffset, int maxZoffset)
     {
         Random rand = context.getRandom();
-        BlockPos branchStart = foliageCenterPos.down(rand.nextBetween(startMinYoffset, startMaxYoffset));
-        BlockPos branchEnd = foliageCenterPos.add(rand.nextBetween(minXoffset, maxXoffset), rand.nextBetween(minYoffset, maxYoffset), rand.nextBetween(minZoffset, maxZoffset));
+        BlockPos branchStart = foliageCenterPos.down(rand.nextBetweenExclusive(startMinYoffset, startMaxYoffset));
+        BlockPos branchEnd = foliageCenterPos.add(rand.nextBetweenExclusive(minXoffset, maxXoffset), rand.nextBetweenExclusive(minYoffset, maxYoffset), rand.nextBetweenExclusive(minZoffset, maxZoffset));
         generateBranch(context, branchStart, branchEnd);
     }
 

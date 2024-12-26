@@ -29,7 +29,7 @@ public class DeadGiantTreeFeature extends AbstractGiantTreeFeature<DeadGiantTree
         {
             int maxXZdistance=config.trunkMaxHorizontalOffset(), minYdistance=config.trunkMinVerticalOffset(), maxYdistance=config.trunkMaxVerticalOffset();
             BlockPos trunkStart = origin.down(2);
-            int xOffset = rand.nextBetween(-maxXZdistance, maxXZdistance), yOffset = rand.nextBetween(minYdistance, maxYdistance), zOffset = rand.nextBetween(-maxXZdistance, maxXZdistance);
+            int xOffset = rand.nextBetweenExclusive(-maxXZdistance, maxXZdistance), yOffset = rand.nextBetweenExclusive(minYdistance, maxYdistance), zOffset = rand.nextBetweenExclusive(-maxXZdistance, maxXZdistance);
             BlockPos trunkEnd = origin.add(xOffset, yOffset, zOffset);
             if (!FeatureHelper.isBelowMaxBuildHeight(context, context.getOrigin().up(yOffset / 2))) {return false;}
             generateTrunk(context, trunkStart, trunkEnd, false);
@@ -75,7 +75,7 @@ public class DeadGiantTreeFeature extends AbstractGiantTreeFeature<DeadGiantTree
             if (generatePosList == null) {simulateGenerate(stopAtAnyObstacle);}
 
             int yMeanOffset = (getContextConfig().trunkMinVerticalOffset() + getContextConfig().trunkMaxVerticalOffset()) / 2;
-            int yCut = this.straightLineParams.getStart().getY() + yMeanOffset/2 + context.getRandom().nextBetween(-yMeanOffset/4, +yMeanOffset/4);
+            int yCut = this.straightLineParams.getStart().getY() + yMeanOffset/2 + context.getRandom().nextBetweenExclusive(-yMeanOffset/4, +yMeanOffset/4);
             BlockPos lastPos = this.straightLineParams.getStart();
             if (generatePosList.isEmpty()) {return this.straightLineParams.getStart();}
             else

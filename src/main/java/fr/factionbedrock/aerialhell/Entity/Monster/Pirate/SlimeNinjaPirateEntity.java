@@ -27,7 +27,7 @@ public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity
     public SlimeNinjaPirateEntity(EntityType<? extends SlimeNinjaPirateEntity> type, World world) {super(type, world);}
 
     public int getNextFurryShurikenNumber() {return nextFurryShurikenNumber;}
-    public void resetNextFurryShurikenNumber() {this.nextFurryShurikenNumber = this.random.nextBetween(3,5);}
+    public void resetNextFurryShurikenNumber() {this.nextFurryShurikenNumber = this.random.nextBetweenExclusive(3,5);}
 
     @Override protected void registerSpecificGoals()
     {

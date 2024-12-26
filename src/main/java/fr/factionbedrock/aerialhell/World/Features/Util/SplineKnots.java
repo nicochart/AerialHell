@@ -69,7 +69,7 @@ public interface SplineKnots
         public int getRandomKnotDistance(Random rand)
         {
             int sign = rand.nextInt(2) == 0 ? -1 : 1;
-            return sign * rand.nextBetween(KNOT_MIN_DISTANCE_TO_POS, KNOT_MAX_DISTANCE_TO_POS);
+            return sign * rand.nextBetweenExclusive(KNOT_MIN_DISTANCE_TO_POS, KNOT_MAX_DISTANCE_TO_POS);
         }
 
         public float getKnotDeformationFactor(float distanceToKnot)

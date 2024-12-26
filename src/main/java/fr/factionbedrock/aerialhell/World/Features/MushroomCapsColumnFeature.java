@@ -32,7 +32,7 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
         {
             int maxXZdistance=config.stemMaxHorizontalOffset(), minYdistance=config.stemMinVerticalOffset(), maxYdistance=config.stemMaxVerticalOffset();
             BlockPos trunkStart = origin.down(2);
-            int xOffset = rand.nextBetween(-maxXZdistance, maxXZdistance), yOffset = rand.nextBetween(minYdistance, maxYdistance), zOffset = rand.nextBetween(-maxXZdistance, maxXZdistance);
+            int xOffset = rand.nextBetweenExclusive(-maxXZdistance, maxXZdistance), yOffset = rand.nextBetweenExclusive(minYdistance, maxYdistance), zOffset = rand.nextBetweenExclusive(-maxXZdistance, maxXZdistance);
             if (!FeatureHelper.isBelowMaxBuildHeight(context, context.getOrigin().up(yOffset))) {return false;}
             BlockPos trunkEnd = origin.add(xOffset, yOffset, zOffset);
             generate(context, trunkStart, trunkEnd, false);
@@ -131,9 +131,9 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
             boolean foundPos = false; int i=0;
             while(!foundPos && i++ <= maxTries)
             {
-                int x = rand.nextBetween(ellipsoidParams.xForMin(), ellipsoidParams.xForMax());
-                int y = rand.nextBetween(ellipsoidParams.yForMin(), ellipsoidParams.yForMax());
-                int z = rand.nextBetween(ellipsoidParams.zForMin(), ellipsoidParams.zForMax());
+                int x = rand.nextBetweenExclusive(ellipsoidParams.xForMin(), ellipsoidParams.xForMax());
+                int y = rand.nextBetweenExclusive(ellipsoidParams.yForMin(), ellipsoidParams.yForMax());
+                int z = rand.nextBetweenExclusive(ellipsoidParams.zForMin(), ellipsoidParams.zForMax());
                 if (this.isPosAtEllipsoidInsideBorder(x, y, z))
                 {
                     return new BlockPos(x, y, z);

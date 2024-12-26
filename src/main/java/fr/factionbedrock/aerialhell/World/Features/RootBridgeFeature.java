@@ -97,7 +97,7 @@ public class RootBridgeFeature extends Feature<DefaultFeatureConfig>
         BlockPos potentialBridgeEnd = centerOfFeature;
         for (int t = 0; t < tries; t++)
         {
-            potentialBridgeEnd = centerOfFeature.add(rand.nextBetween(xMinEndOffset, xMaxEndOffset), rand.nextBetween(yMinEndOffset, yMaxEndOffset), rand.nextBetween(zMinEndOffset, zMaxEndOffset));
+            potentialBridgeEnd = centerOfFeature.add(rand.nextBetweenExclusive(xMinEndOffset, xMaxEndOffset), rand.nextBetweenExclusive(yMinEndOffset, yMaxEndOffset), rand.nextBetweenExclusive(zMinEndOffset, zMaxEndOffset));
             if (isValidBridgeStartOrEnd(reader, potentialBridgeEnd)) {return potentialBridgeEnd;}
         }
         return forceFarBridge ? potentialBridgeEnd : null;
@@ -135,7 +135,7 @@ public class RootBridgeFeature extends Feature<DefaultFeatureConfig>
     private int getRandomOffset(Random rand, int minAbs, int maxAbs)
     {
         int sign = rand.nextInt(2) == 0 ? -1 : 1;
-        return sign * rand.nextBetween(minAbs, maxAbs);
+        return sign * rand.nextBetweenExclusive(minAbs, maxAbs);
     }
 
     private boolean isValidBridgeStartOrEnd(StructureWorldAccess reader, BlockPos pos) {return isValidSupportForBridge(reader.getBlockState(pos)) && thereIsAirAroundPosition(reader, pos);}

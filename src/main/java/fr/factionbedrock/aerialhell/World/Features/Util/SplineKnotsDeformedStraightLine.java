@@ -34,7 +34,7 @@ public class SplineKnotsDeformedStraightLine extends StraightLine implements Spl
     @Override public BlockPos getRandomKnotPos()
     {
         int maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(straightLineParams.getStart(), straightLineParams.getEnd());
-        int randomStep = maxAbsOffset > 1 ? context.getRandom().nextBetween(1, maxAbsOffset) : 1;
+        int randomStep = maxAbsOffset > 1 ? context.getRandom().nextBetweenExclusive(1, maxAbsOffset) : 1;
         Vector3f offsetVector = this.getRandomOrthogonalToStraightLineNormalizedVector(knotsParams.getRandomKnotDistance(context.getRandom()));
         return this.getOffsetPosFromStart(randomStep).add((int) offsetVector.x, (int) offsetVector.y, (int) offsetVector.z);
     }

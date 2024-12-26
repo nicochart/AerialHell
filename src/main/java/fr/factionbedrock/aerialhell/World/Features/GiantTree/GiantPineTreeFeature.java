@@ -31,7 +31,7 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
         {
             int maxXZdistance=config.trunkMaxHorizontalOffset(), minYdistance=config.trunkMinVerticalOffset(), maxYdistance=config.trunkMaxVerticalOffset();
             BlockPos trunkStart = origin.down(2);
-            int xOffset = rand.nextBetween(-maxXZdistance, maxXZdistance), yOffset = rand.nextBetween(minYdistance, maxYdistance), zOffset = rand.nextBetween(-maxXZdistance, maxXZdistance);
+            int xOffset = rand.nextBetweenExclusive(-maxXZdistance, maxXZdistance), yOffset = rand.nextBetweenExclusive(minYdistance, maxYdistance), zOffset = rand.nextBetweenExclusive(-maxXZdistance, maxXZdistance);
             if (!FeatureHelper.isBelowMaxBuildHeight(context, context.getOrigin().up(yOffset))) {return false;}
             BlockPos trunkEnd = origin.add(xOffset, yOffset, zOffset);
             generate(context, trunkStart, trunkEnd, false);
@@ -91,9 +91,9 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
             float factor = 0.25F + (step > maxStep / 8 ? (float)(maxStep - step)/maxStep : (float)step/maxStep) / 2;
             int randomBranchCount = getRandomBranchCount();
 
-            int xOffset = (int) (xzLargeFactor * factor * context.getRandom().nextBetween(-maxXZoffset, maxXZoffset));
-            int yOffset = (int) (yLargeFactor * factor * context.getRandom().nextBetween(meanYoffset-1, meanYoffset+2));
-            int zOffset = (int) (xzLargeFactor * factor * context.getRandom().nextBetween(-maxXZoffset, maxXZoffset));
+            int xOffset = (int) (xzLargeFactor * factor * context.getRandom().nextBetweenExclusive(-maxXZoffset, maxXZoffset));
+            int yOffset = (int) (yLargeFactor * factor * context.getRandom().nextBetweenExclusive(meanYoffset-1, meanYoffset+2));
+            int zOffset = (int) (xzLargeFactor * factor * context.getRandom().nextBetweenExclusive(-maxXZoffset, maxXZoffset));
             StraightPineBranch branch = new StraightPineBranch(getContext(), new StraightLineParameters(startPos, startPos.add(xOffset, yOffset, zOffset)));
             branch.generate(true, false);
             branch = new StraightPineBranch(getContext(), new StraightLineParameters(startPos, startPos.add(-xOffset, yOffset, -zOffset)));
@@ -101,9 +101,9 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
 
             for (int i=2; i<randomBranchCount; i++)
             {
-                xOffset = (int) (xzLargeFactor * factor * context.getRandom().nextBetween(-maxXZoffset, maxXZoffset));
-                yOffset = (int) (yLargeFactor * factor * context.getRandom().nextBetween(meanYoffset-1, meanYoffset+2));
-                zOffset = (int) (xzLargeFactor * factor * context.getRandom().nextBetween(-maxXZoffset, maxXZoffset));
+                xOffset = (int) (xzLargeFactor * factor * context.getRandom().nextBetweenExclusive(-maxXZoffset, maxXZoffset));
+                yOffset = (int) (yLargeFactor * factor * context.getRandom().nextBetweenExclusive(meanYoffset-1, meanYoffset+2));
+                zOffset = (int) (xzLargeFactor * factor * context.getRandom().nextBetweenExclusive(-maxXZoffset, maxXZoffset));
                 BlockPos endPos = startPos.add(xOffset, yOffset, zOffset);
                 branch = new StraightPineBranch(getContext(), new StraightLineParameters(startPos, endPos));
                 branch.generate(true, false);
@@ -113,7 +113,7 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
 
         private int getRandomBranchCount()
         {
-            return (this.isLarge() ? getContext().getConfig().branchQuantity() / 2 : 0) + this.context.getRandom().nextBetween(getContext().getConfig().branchQuantity() / 2, getContext().getConfig().branchQuantity());
+            return (this.isLarge() ? getContext().getConfig().branchQuantity() / 2 : 0) + this.context.getRandom().nextBetweenExclusive(getContext().getConfig().branchQuantity() / 2, getContext().getConfig().branchQuantity());
         }
 
         @Override protected boolean tryPlacingBlocks(BlockPos.Mutable pos, int step, int maxStep)

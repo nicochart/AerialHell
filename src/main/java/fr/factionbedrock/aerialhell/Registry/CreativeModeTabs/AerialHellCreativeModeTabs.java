@@ -12,12 +12,10 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-
 public class AerialHellCreativeModeTabs
 {
-    public static final ItemGroup AERIAL_HELL_BLOCKS = register("aerialhell_blocks", AerialHellItems.STELLAR_STONE_BRICKS_ITEM);
-    public static final ItemGroup AERIAL_HELL_DUNGEON_BLOCKS = register("aerialhell_dungeon_blocks", AerialHellItems.LIGHT_LUNATIC_STONE_ITEM);
+    public static final ItemGroup AERIAL_HELL_BLOCKS = register("aerialhell_blocks", AerialHellItems.STELLAR_STONE_BRICKS);
+    public static final ItemGroup AERIAL_HELL_DUNGEON_BLOCKS = register("aerialhell_dungeon_blocks", AerialHellItems.LIGHT_LUNATIC_STONE);
     public static final ItemGroup AERIAL_HELL_TOOLS = register("aerialhell_tools", AerialHellItems.MAGMATIC_GEL_PICKAXE);
     public static final ItemGroup AERIAL_HELL_COMBAT = register("aerialhell_combat", AerialHellItems.RUBY_SWORD);
     public static final ItemGroup AERIAL_HELL_FOODSTUFFS = register("aerialhell_foodstuffs", AerialHellItems.VIBRANT_AERIAL_BERRY);

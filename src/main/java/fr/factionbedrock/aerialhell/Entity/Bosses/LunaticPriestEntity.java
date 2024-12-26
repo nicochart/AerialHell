@@ -164,7 +164,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		else {super.handleStatus(id);}
 	}
 
-	@Override public Item getTrophy() {return AerialHellItems.LUNAR_PRIEST_TROPHY_ITEM;}
+	@Override public Item getTrophy() {return AerialHellItems.LUNAR_PRIEST_TROPHY;}
 
 	@Override public void tickMovement()
     {

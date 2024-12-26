@@ -39,7 +39,7 @@ public interface BiomeShifter
         boolean transformed; int transformedCount = 0;
         for (int i=0; i<tryNumber; i++)
         {
-            BlockPos blockpos = pos.add(rand.nextBetween(-fieldSize, fieldSize), rand.nextBetween(-fieldSize, fieldSize), rand.nextBetween(-fieldSize, fieldSize));
+            BlockPos blockpos = pos.add(rand.nextBetweenExclusive(-fieldSize, fieldSize), rand.nextBetweenExclusive(-fieldSize, fieldSize), rand.nextBetweenExclusive(-fieldSize, fieldSize));
             if (!areSameBlockpos(pos, blockpos) && blockEntity.isValidBiomeShifterForPos(world, blockpos, pos) && world instanceof ServerWorld serverworld)
             {
                 transformed = false;

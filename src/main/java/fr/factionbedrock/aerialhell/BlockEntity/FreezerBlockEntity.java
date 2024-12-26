@@ -38,7 +38,7 @@ public class FreezerBlockEntity extends AbstractFurnaceBlockEntity
 	{
 		Map<Item, Integer> map = Maps.newLinkedHashMap();
 		map.put(AerialHellItems.MAGMATIC_GEL, 600);
-		map.put(AerialHellItems.MAGMATIC_GEL_BLOCK_ITEM, 5400);
+		map.put(AerialHellItems.MAGMATIC_GEL_BLOCK, 5400);
 		return map;
 	}
 

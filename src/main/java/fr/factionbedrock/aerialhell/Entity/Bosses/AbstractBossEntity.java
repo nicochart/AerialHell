@@ -430,7 +430,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	protected void makeRandomRoofBlockFall(int yBaseOffset, int maxXZOffset, int minYOffset, int maxYOffset)
 	{
 		BlockPos basePos = this.getBlockPos().up(yBaseOffset);
-		BlockPos fallPos = basePos.add(this.random.nextBetween(-maxXZOffset, maxXZOffset), this.random.nextBetween(minYOffset, maxYOffset), this.random.nextBetween(-maxXZOffset, maxXZOffset));
+		BlockPos fallPos = basePos.add(this.random.nextBetweenExclusive(-maxXZOffset, maxXZOffset), this.random.nextBetweenExclusive(minYOffset, maxYOffset), this.random.nextBetweenExclusive(-maxXZOffset, maxXZOffset));
 		while (this.getWorld().getBlockState(fallPos).isAir() && fallPos.getY() < basePos.getY() + 25) {fallPos = fallPos.up();}
 		while (!FallingBlock.canFallThrough(this.getWorld().getBlockState(fallPos.down())) && fallPos.getY() > basePos.getY()) {fallPos = fallPos.down();}
 		BlockState fallState = this.getWorld().getBlockState(fallPos);

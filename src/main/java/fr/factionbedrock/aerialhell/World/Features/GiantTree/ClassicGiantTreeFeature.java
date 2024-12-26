@@ -30,7 +30,7 @@ public class ClassicGiantTreeFeature extends AbstractGiantTreeFeature<ClassicGia
         {
             int maxXZdistance=config.trunkMaxHorizontalOffset(), minYdistance=config.trunkMinVerticalOffset(), maxYdistance=config.trunkMaxVerticalOffset();
             BlockPos trunkStart = origin.down(2);
-            int xOffset = rand.nextBetween(-maxXZdistance, maxXZdistance), yOffset = rand.nextBetween(minYdistance, maxYdistance), zOffset = rand.nextBetween(-maxXZdistance, maxXZdistance);
+            int xOffset = rand.nextBetweenExclusive(-maxXZdistance, maxXZdistance), yOffset = rand.nextBetweenExclusive(minYdistance, maxYdistance), zOffset = rand.nextBetweenExclusive(-maxXZdistance, maxXZdistance);
             BlockPos trunkEnd = origin.add(xOffset, yOffset, zOffset);
             int yFoliageSize = getYFoliageSize(yOffset, minYdistance, maxYdistance);
             int xzFoliageSize = (int) (yFoliageSize * 1.6F);
@@ -76,8 +76,8 @@ public class ClassicGiantTreeFeature extends AbstractGiantTreeFeature<ClassicGia
     protected void generateRandomBranch(FeatureContext<ClassicGiantTreeConfig> context, BlockPos foliageCenterPos, int startMinYoffset, int startMaxYoffset, int minXoffset, int maxXoffset, int minYoffset, int maxYoffset, int minZoffset, int maxZoffset)
     {
         Random rand = context.getRandom();
-        BlockPos branchStart = foliageCenterPos.down(rand.nextBetween(startMinYoffset, startMaxYoffset));
-        BlockPos branchEnd = foliageCenterPos.add(rand.nextBetween(minXoffset, maxXoffset), rand.nextBetween(minYoffset, maxYoffset), rand.nextBetween(minZoffset, maxZoffset));
+        BlockPos branchStart = foliageCenterPos.down(rand.nextBetweenExclusive(startMinYoffset, startMaxYoffset));
+        BlockPos branchEnd = foliageCenterPos.add(rand.nextBetweenExclusive(minXoffset, maxXoffset), rand.nextBetweenExclusive(minYoffset, maxYoffset), rand.nextBetweenExclusive(minZoffset, maxZoffset));
         generateBranch(context, branchStart, branchEnd);
     }
 

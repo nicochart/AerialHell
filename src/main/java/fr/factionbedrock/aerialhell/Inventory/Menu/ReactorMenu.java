@@ -35,8 +35,8 @@ public class ReactorMenu extends ScreenHandler
 		{
 			@Override public boolean canInsert(ItemStack stack)
 			{
-				return stack.isOf(AerialHellItems.FLUORITE) || stack.isOf(AerialHellItems.FLUORITE_BLOCK_ITEM)
-					|| stack.isOf(AerialHellItems.SHADOW_CRYSTAL) || stack.isOf(AerialHellItems.SHADOW_SHARD) || stack.isOf(AerialHellItems.CURSED_CRYSAL) || stack.isOf(AerialHellItems.CURSED_CRYSAL_BLOCK_ITEM);
+				return stack.isOf(AerialHellItems.FLUORITE) || stack.isOf(AerialHellItems.FLUORITE_BLOCK)
+					|| stack.isOf(AerialHellItems.SHADOW_CRYSTAL) || stack.isOf(AerialHellItems.SHADOW_SHARD) || stack.isOf(AerialHellItems.CURSED_CRYSAL) || stack.isOf(AerialHellItems.CURSED_CRYSAL_BLOCK);
 			}
 		});
 	}

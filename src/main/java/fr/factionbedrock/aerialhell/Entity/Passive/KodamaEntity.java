@@ -108,7 +108,7 @@ public class KodamaEntity extends AerialHellAnimalEntity
 
     private void setRandomRattleTimerMalusAndHeadRotAmplitude()
     {
-        this.rattleTimerMalus = random.nextBetween(300, 600);
+        this.rattleTimerMalus = random.nextBetweenExclusive(300, 600);
         int negative_or_positive = this.random.nextInt(2) == 0 ? -1 : 1;
         this.rattleHeadRotZAmplitude = negative_or_positive * (5 + this.random.nextInt(5)) / 10.0F;
     }

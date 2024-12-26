@@ -85,7 +85,7 @@ public class MudCycleMageEntity extends AbstractBossEntity
 	public boolean isDamageAmountSinceLastSummonSufficentToTriggerSummon() {return this.damageAmountSinceLastSummon > 85 - 4 * this.getDifficulty();}
 	public void resetDamageAmountSinceLastSummon() {this.damageAmountSinceLastSummon = 0;}
 
-	@Override public Item getTrophy() {return AerialHellItems.MUD_CYCLE_MAGE_TROPHY_ITEM;}
+	@Override public Item getTrophy() {return AerialHellItems.MUD_CYCLE_MAGE_TROPHY;}
 
 	@Override public int getPhaseIdToSkipToDyingPhase() {return BossPhase.SECOND_TO_THIRD_TRANSITION.getPhaseId();}
 	@Override public boolean enableTickPhaseUpdate(BossPhaseTickType type) {return type == BossPhaseTickType.ALL;}

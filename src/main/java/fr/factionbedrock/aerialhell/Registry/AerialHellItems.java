@@ -30,436 +30,436 @@ public class AerialHellItems
 {
     public static void registerCompostableItems()
     {
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_GRASS_ITEM, 0.1F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_TALL_GRASS_ITEM, 0.2F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_GRASS_BALL_ITEM, 0.2F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_DEAD_BUSH_ITEM, 0.1F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(BLUE_FLOWER_ITEM, 0.2F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(BLACK_ROSE_ITEM, 0.2F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(BELLFLOWER_ITEM, 0.2F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_GRASS, 0.1F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_TALL_GRASS, 0.2F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_GRASS_BALL, 0.2F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_DEAD_BUSH, 0.1F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(BLUE_FLOWER, 0.2F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(BLACK_ROSE, 0.2F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(BELLFLOWER, 0.2F);
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(AERIAL_BERRY, 0.5F);
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(VIBRANT_AERIAL_BERRY, 0.85F);
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(FROZEN_AERIAL_BERRY, 0.85F);
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(AERIAL_BERRY_SEEDS, 0.1F);
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(VIBRANT_AERIAL_BERRY_SEEDS, 0.2F);
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(COPPER_PINE_CONE, 0.5F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(AERIAL_TREE_LEAVES_ITEM, 0.3F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(AERIAL_TREE_SAPLING_ITEM, 0.3F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(GOLDEN_BEECH_LEAVES_ITEM, 0.3F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(GOLDEN_BEECH_SAPLING_ITEM, 0.3F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(COPPER_PINE_LEAVES_ITEM, 0.3F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(COPPER_PINE_SAPLING_ITEM, 0.3F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(LAPIS_ROBINIA_SAPLING_ITEM, 0.3F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(LAPIS_ROBINIA_LEAVES_ITEM, 0.3F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(SHADOW_PINE_SAPLING_ITEM, 0.3F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(SHADOW_PINE_LEAVES_ITEM, 0.3F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_JUNGLE_TREE_SAPLING_ITEM, 0.3F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_JUNGLE_TREE_LEAVES_ITEM, 0.3F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(CORTINARIUS_VIOLACEUS_ITEM, 0.3F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK_ITEM, 0.2F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(AERIAL_TREE_LEAVES, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(AERIAL_TREE_SAPLING, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(GOLDEN_BEECH_LEAVES, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(GOLDEN_BEECH_SAPLING, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(COPPER_PINE_LEAVES, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(COPPER_PINE_SAPLING, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(LAPIS_ROBINIA_SAPLING, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(LAPIS_ROBINIA_LEAVES, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(SHADOW_PINE_SAPLING, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(SHADOW_PINE_LEAVES, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_JUNGLE_TREE_SAPLING, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(STELLAR_JUNGLE_TREE_LEAVES, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(CORTINARIUS_VIOLACEUS, 0.3F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK, 0.2F);
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(SKY_CACTUS_FIBER, 0.1F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(SKY_CACTUS_ITEM, 0.4F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(SKY_CACTUS, 0.4F);
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(VIBRANT_SKY_CACTUS_FIBER, 0.2F);
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(VIBRANT_SKY_CACTUS_ITEM, 0.8F);
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(VIBRANT_SKY_CACTUS, 0.8F);
     }
 
     //portal
-    public static final Item STELLAR_PORTAL_FRAME_BLOCK_ITEM = register("stellar_portal_frame_block", new BlockItem(AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK, new Item.Settings()));
-    public static final Item STELLAR_PORTAL_FRAME_ORE_ITEM = register("stellar_portal_frame_ore", new BlockItem(AerialHellBlocks.STELLAR_PORTAL_FRAME_ORE, new Item.Settings()));
-    public static final Item DEEPSLATE_STELLAR_PORTAL_FRAME_ORE_ITEM = register("deepslate_stellar_portal_frame_ore", new BlockItem(AerialHellBlocks.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE, new Item.Settings()));
+    public static final Item STELLAR_PORTAL_FRAME_BLOCK = register("stellar_portal_frame_block", new BlockItem(AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK, new Item.Settings()));
+    public static final Item STELLAR_PORTAL_FRAME_ORE = register("stellar_portal_frame_ore", new BlockItem(AerialHellBlocks.STELLAR_PORTAL_FRAME_ORE, new Item.Settings()));
+    public static final Item DEEPSLATE_STELLAR_PORTAL_FRAME_ORE = register("deepslate_stellar_portal_frame_ore", new BlockItem(AerialHellBlocks.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE, new Item.Settings()));
     public static final Item STELLAR_PORTAL_FRAME_BRICK = register("stellar_portal_frame_brick", new Item(new Item.Settings()));
     public static final Item STELLAR_LIGHTER = register("stellar_lighter", new Item(new Item.Settings().maxCount(1).maxDamage(4)));
 
     //torch
-    public static final Item FLUORITE_TORCH_ITEM = register("fluorite_torch", new VerticallyAttachableBlockItem(AerialHellBlocks.FLUORITE_TORCH, AerialHellBlocks.FLUORITE_WALL_TORCH, new Item.Settings(), Direction.DOWN));
-    public static final Item VOLUCITE_TORCH_ITEM = register("volucite_torch", new VerticallyAttachableBlockItem(AerialHellBlocks.VOLUCITE_TORCH, AerialHellBlocks.VOLUCITE_WALL_TORCH, new Item.Settings(), Direction.DOWN));
-    public static final Item SHADOW_TORCH_ITEM = register("shadow_torch", new VerticallyAttachableBlockItem(AerialHellBlocks.SHADOW_TORCH, AerialHellBlocks.SHADOW_WALL_TORCH, new Item.Settings(), Direction.DOWN));
+    public static final Item FLUORITE_TORCH = register("fluorite_torch", new VerticallyAttachableBlockItem(AerialHellBlocks.FLUORITE_TORCH, AerialHellBlocks.FLUORITE_WALL_TORCH, new Item.Settings(), Direction.DOWN));
+    public static final Item VOLUCITE_TORCH = register("volucite_torch", new VerticallyAttachableBlockItem(AerialHellBlocks.VOLUCITE_TORCH, AerialHellBlocks.VOLUCITE_WALL_TORCH, new Item.Settings(), Direction.DOWN));
+    public static final Item SHADOW_TORCH = register("shadow_torch", new VerticallyAttachableBlockItem(AerialHellBlocks.SHADOW_TORCH, AerialHellBlocks.SHADOW_WALL_TORCH, new Item.Settings(), Direction.DOWN));
 
     //lanterns
-    public static final Item FLUORITE_LANTERN_ITEM = register("fluorite_lantern", new BlockItem(AerialHellBlocks.FLUORITE_LANTERN, new Item.Settings()));
-    public static final Item RUBY_LANTERN_ITEM = register("ruby_lantern", new BlockItem(AerialHellBlocks.RUBY_LANTERN, new Item.Settings()));
-    public static final Item RUBY_FLUORITE_LANTERN_ITEM = register("ruby_fluorite_lantern", new BlockItem(AerialHellBlocks.RUBY_FLUORITE_LANTERN, new Item.Settings()));
-    public static final Item VOLUCITE_LANTERN_ITEM = register("volucite_lantern", new BlockItem(AerialHellBlocks.VOLUCITE_LANTERN, new Item.Settings()));
-    public static final Item VOLUCITE_FLUORITE_LANTERN_ITEM = register("volucite_fluorite_lantern", new BlockItem(AerialHellBlocks.VOLUCITE_FLUORITE_LANTERN, new Item.Settings()));
-    public static final Item LUNATIC_LANTERN_ITEM = register("lunatic_lantern", new BlockItem(AerialHellBlocks.LUNATIC_LANTERN, new Item.Settings()));
-    public static final Item SHADOW_LANTERN_ITEM = register("shadow_lantern", new BlockItem(AerialHellBlocks.SHADOW_LANTERN, new Item.Settings()));
+    public static final Item FLUORITE_LANTERN = register("fluorite_lantern", new BlockItem(AerialHellBlocks.FLUORITE_LANTERN, new Item.Settings()));
+    public static final Item RUBY_LANTERN = register("ruby_lantern", new BlockItem(AerialHellBlocks.RUBY_LANTERN, new Item.Settings()));
+    public static final Item RUBY_FLUORITE_LANTERN = register("ruby_fluorite_lantern", new BlockItem(AerialHellBlocks.RUBY_FLUORITE_LANTERN, new Item.Settings()));
+    public static final Item VOLUCITE_LANTERN = register("volucite_lantern", new BlockItem(AerialHellBlocks.VOLUCITE_LANTERN, new Item.Settings()));
+    public static final Item VOLUCITE_FLUORITE_LANTERN = register("volucite_fluorite_lantern", new BlockItem(AerialHellBlocks.VOLUCITE_FLUORITE_LANTERN, new Item.Settings()));
+    public static final Item LUNATIC_LANTERN = register("lunatic_lantern", new BlockItem(AerialHellBlocks.LUNATIC_LANTERN, new Item.Settings()));
+    public static final Item SHADOW_LANTERN = register("shadow_lantern", new BlockItem(AerialHellBlocks.SHADOW_LANTERN, new Item.Settings()));
 
     //chains
-    public static final Item RUBY_CHAIN_ITEM = register("ruby_chain", new BlockItem(AerialHellBlocks.RUBY_CHAIN, new Item.Settings()));
-    public static final Item VOLUCITE_CHAIN_ITEM = register("volucite_chain", new BlockItem(AerialHellBlocks.VOLUCITE_CHAIN, new Item.Settings()));
-    public static final Item LUNATIC_CHAIN_ITEM = register("lunatic_chain", new BlockItem(AerialHellBlocks.LUNATIC_CHAIN, new Item.Settings()));
-    public static final Item SHADOW_CHAIN_ITEM = register("shadow_chain", new BlockItem(AerialHellBlocks.SHADOW_CHAIN, new Item.Settings()));
+    public static final Item RUBY_CHAIN = register("ruby_chain", new BlockItem(AerialHellBlocks.RUBY_CHAIN, new Item.Settings()));
+    public static final Item VOLUCITE_CHAIN = register("volucite_chain", new BlockItem(AerialHellBlocks.VOLUCITE_CHAIN, new Item.Settings()));
+    public static final Item LUNATIC_CHAIN = register("lunatic_chain", new BlockItem(AerialHellBlocks.LUNATIC_CHAIN, new Item.Settings()));
+    public static final Item SHADOW_CHAIN = register("shadow_chain", new BlockItem(AerialHellBlocks.SHADOW_CHAIN, new Item.Settings()));
 
     //grass & dirt
-    public static final Item STELLAR_GRASS_BLOCK_ITEM = register("stellar_grass_block", new BlockItem(AerialHellBlocks.STELLAR_GRASS_BLOCK, new Item.Settings()));
-    public static final Item CHISELED_STELLAR_GRASS_BLOCK_ITEM = register("chiseled_stellar_grass_block", new BlockItem(AerialHellBlocks.CHISELED_STELLAR_GRASS_BLOCK, new Item.Settings()));
-    public static final Item STELLAR_DIRT_ITEM = register("stellar_dirt", new BlockItem(AerialHellBlocks.STELLAR_DIRT, new Item.Settings()));
-    public static final Item STELLAR_COARSE_DIRT_ITEM = register("stellar_coarse_dirt", new BlockItem(AerialHellBlocks.STELLAR_COARSE_DIRT, new Item.Settings()));
-    public static final Item STELLAR_FARMLAND_ITEM = register("stellar_farmland", new BlockItem(AerialHellBlocks.STELLAR_FARMLAND, new Item.Settings()));
-    public static final Item STELLAR_DIRT_PATH_ITEM = register("stellar_dirt_path", new BlockItem(AerialHellBlocks.STELLAR_DIRT_PATH, new Item.Settings()));
-    public static final Item STELLAR_PODZOL_ITEM = register("stellar_podzol", new BlockItem(AerialHellBlocks.STELLAR_PODZOL, new Item.Settings()));
-    public static final Item STELLAR_CRYSTAL_PODZOL_ITEM = register("stellar_crystal_podzol", new BlockItem(AerialHellBlocks.STELLAR_CRYSTAL_PODZOL, new Item.Settings()));
-    public static final Item CHISELED_STELLAR_DIRT_ITEM = register("chiseled_stellar_dirt", new BlockItem(AerialHellBlocks.CHISELED_STELLAR_DIRT, new Item.Settings()));
-    public static final Item SHADOW_GRASS_BLOCK_ITEM = register("shadow_grass_block", new BlockItem(AerialHellBlocks.SHADOW_GRASS_BLOCK, new Item.Settings()));
+    public static final Item STELLAR_GRASS_BLOCK = register("stellar_grass_block", new BlockItem(AerialHellBlocks.STELLAR_GRASS_BLOCK, new Item.Settings()));
+    public static final Item CHISELED_STELLAR_GRASS_BLOCK = register("chiseled_stellar_grass_block", new BlockItem(AerialHellBlocks.CHISELED_STELLAR_GRASS_BLOCK, new Item.Settings()));
+    public static final Item STELLAR_DIRT = register("stellar_dirt", new BlockItem(AerialHellBlocks.STELLAR_DIRT, new Item.Settings()));
+    public static final Item STELLAR_COARSE_DIRT = register("stellar_coarse_dirt", new BlockItem(AerialHellBlocks.STELLAR_COARSE_DIRT, new Item.Settings()));
+    public static final Item STELLAR_FARMLAND = register("stellar_farmland", new BlockItem(AerialHellBlocks.STELLAR_FARMLAND, new Item.Settings()));
+    public static final Item STELLAR_DIRT_PATH = register("stellar_dirt_path", new BlockItem(AerialHellBlocks.STELLAR_DIRT_PATH, new Item.Settings()));
+    public static final Item STELLAR_PODZOL = register("stellar_podzol", new BlockItem(AerialHellBlocks.STELLAR_PODZOL, new Item.Settings()));
+    public static final Item STELLAR_CRYSTAL_PODZOL = register("stellar_crystal_podzol", new BlockItem(AerialHellBlocks.STELLAR_CRYSTAL_PODZOL, new Item.Settings()));
+    public static final Item CHISELED_STELLAR_DIRT = register("chiseled_stellar_dirt", new BlockItem(AerialHellBlocks.CHISELED_STELLAR_DIRT, new Item.Settings()));
+    public static final Item SHADOW_GRASS_BLOCK = register("shadow_grass_block", new BlockItem(AerialHellBlocks.SHADOW_GRASS_BLOCK, new Item.Settings()));
 
     //slippery sand
-    public static final Item SLIPPERY_SAND_ITEM = register("slippery_sand", new BlockItem(AerialHellBlocks.SLIPPERY_SAND, new Item.Settings()));
-    public static final Item SLIPPERY_SAND_STONE_ITEM = register("slippery_sand_stone", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE, new Item.Settings()));
-    public static final Item SLIPPERY_SAND_STONE_BRICKS_ITEM = register("slippery_sand_stone_bricks", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS, new Item.Settings()));
-    public static final Item CUT_SLIPPERY_SAND_STONE_ITEM = register("cut_slippery_sand_stone", new BlockItem(AerialHellBlocks.CUT_SLIPPERY_SAND_STONE, new Item.Settings()));
-    public static final Item CRACKED_SLIPPERY_SAND_STONE_BRICKS_ITEM = register("cracked_slippery_sand_stone_bricks", new BlockItem(AerialHellBlocks.CRACKED_SLIPPERY_SAND_STONE_BRICKS, new Item.Settings()));
+    public static final Item SLIPPERY_SAND = register("slippery_sand", new BlockItem(AerialHellBlocks.SLIPPERY_SAND, new Item.Settings()));
+    public static final Item SLIPPERY_SAND_STONE = register("slippery_sand_stone", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE, new Item.Settings()));
+    public static final Item SLIPPERY_SAND_STONE_BRICKS = register("slippery_sand_stone_bricks", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS, new Item.Settings()));
+    public static final Item CUT_SLIPPERY_SAND_STONE = register("cut_slippery_sand_stone", new BlockItem(AerialHellBlocks.CUT_SLIPPERY_SAND_STONE, new Item.Settings()));
+    public static final Item CRACKED_SLIPPERY_SAND_STONE_BRICKS = register("cracked_slippery_sand_stone_bricks", new BlockItem(AerialHellBlocks.CRACKED_SLIPPERY_SAND_STONE_BRICKS, new Item.Settings()));
 
     //giant root
-    public static final Item GIANT_ROOT_ITEM = register("giant_root", new BurnableBlockItem(AerialHellBlocks.GIANT_ROOT, new Item.Settings(), 300));
+    public static final Item GIANT_ROOT = register("giant_root", new BurnableBlockItem(AerialHellBlocks.GIANT_ROOT, new Item.Settings(), 300));
 
     //aerial_tree
-    public static final Item AERIAL_TREE_LOG_ITEM = register("aerial_tree_log", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_LOG, new Item.Settings(), 300));
-    public static final Item STRIPPED_AERIAL_TREE_LOG_ITEM = register("stripped_aerial_tree_log", new BurnableBlockItem(AerialHellBlocks.STRIPPED_AERIAL_TREE_LOG, new Item.Settings(), 300));
-    public static final Item AERIAL_TREE_WOOD_ITEM = register("aerial_tree_wood", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_WOOD, new Item.Settings(), 210));
-    public static final Item STRIPPED_AERIAL_TREE_WOOD_ITEM = register("stripped_aerial_tree_wood", new BurnableBlockItem(AerialHellBlocks.STRIPPED_AERIAL_TREE_WOOD, new Item.Settings(), 210));
-    public static final Item AERIAL_TREE_LEAVES_ITEM = register("aerial_tree_leaves", new BlockItem(AerialHellBlocks.AERIAL_TREE_LEAVES, new Item.Settings()));
-    public static final Item AERIAL_TREE_PLANKS_ITEM = register("aerial_tree_planks", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_PLANKS, new Item.Settings(), 300));
-    public static final Item CHISELED_AERIAL_TREE_PLANKS_ITEM = register("chiseled_aerial_tree_planks", new BurnableBlockItem(AerialHellBlocks.CHISELED_AERIAL_TREE_PLANKS, new Item.Settings(), 300));
-    public static final Item AERIAL_TREE_BOOKSHELF_ITEM = register("aerial_tree_bookshelf", new BlockItem(AerialHellBlocks.AERIAL_TREE_BOOKSHELF, new Item.Settings()));
-    public static final Item AERIAL_TREE_SAPLING_ITEM = register("aerial_tree_sapling", new BlockItem(AerialHellBlocks.AERIAL_TREE_SAPLING, new Item.Settings()));
+    public static final Item AERIAL_TREE_LOG = register("aerial_tree_log", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_LOG, new Item.Settings(), 300));
+    public static final Item STRIPPED_AERIAL_TREE_LOG = register("stripped_aerial_tree_log", new BurnableBlockItem(AerialHellBlocks.STRIPPED_AERIAL_TREE_LOG, new Item.Settings(), 300));
+    public static final Item AERIAL_TREE_WOOD = register("aerial_tree_wood", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_WOOD, new Item.Settings(), 210));
+    public static final Item STRIPPED_AERIAL_TREE_WOOD = register("stripped_aerial_tree_wood", new BurnableBlockItem(AerialHellBlocks.STRIPPED_AERIAL_TREE_WOOD, new Item.Settings(), 210));
+    public static final Item AERIAL_TREE_LEAVES = register("aerial_tree_leaves", new BlockItem(AerialHellBlocks.AERIAL_TREE_LEAVES, new Item.Settings()));
+    public static final Item AERIAL_TREE_PLANKS = register("aerial_tree_planks", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_PLANKS, new Item.Settings(), 300));
+    public static final Item CHISELED_AERIAL_TREE_PLANKS = register("chiseled_aerial_tree_planks", new BurnableBlockItem(AerialHellBlocks.CHISELED_AERIAL_TREE_PLANKS, new Item.Settings(), 300));
+    public static final Item AERIAL_TREE_BOOKSHELF = register("aerial_tree_bookshelf", new BlockItem(AerialHellBlocks.AERIAL_TREE_BOOKSHELF, new Item.Settings()));
+    public static final Item AERIAL_TREE_SAPLING = register("aerial_tree_sapling", new BlockItem(AerialHellBlocks.AERIAL_TREE_SAPLING, new Item.Settings()));
     
     //petrified aerial tree
-    public static final Item PETRIFIED_AERIAL_TREE_LOG_ITEM = register("petrified_aerial_tree_log", new BurnableBlockItem(AerialHellBlocks.PETRIFIED_AERIAL_TREE_LOG, new Item.Settings(), 600));
+    public static final Item PETRIFIED_AERIAL_TREE_LOG = register("petrified_aerial_tree_log", new BurnableBlockItem(AerialHellBlocks.PETRIFIED_AERIAL_TREE_LOG, new Item.Settings(), 600));
 
     //golden beech
-    public static final Item GOLDEN_BEECH_LOG_ITEM = register("golden_beech_log", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_LOG, new Item.Settings(), 300));
-    public static final Item STRIPPED_GOLDEN_BEECH_LOG_ITEM = register("stripped_golden_beech_log", new BurnableBlockItem(AerialHellBlocks.STRIPPED_GOLDEN_BEECH_LOG, new Item.Settings(), 300));
-    public static final Item GOLDEN_BEECH_WOOD_ITEM = register("golden_beech_wood", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_WOOD, new Item.Settings(), 210));
-    public static final Item STRIPPED_GOLDEN_BEECH_WOOD_ITEM = register("stripped_golden_beech_wood", new BurnableBlockItem(AerialHellBlocks.STRIPPED_GOLDEN_BEECH_WOOD, new Item.Settings(), 210));
-    public static final Item GOLDEN_BEECH_PLANKS_ITEM = register("golden_beech_planks", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_PLANKS, new Item.Settings(), 300));
-    public static final Item CHISELED_GOLDEN_BEECH_PLANKS_ITEM = register("chiseled_golden_beech_planks", new BurnableBlockItem(AerialHellBlocks.CHISELED_GOLDEN_BEECH_PLANKS, new Item.Settings(), 300));
-    public static final Item GOLDEN_BEECH_LEAVES_ITEM = register("golden_beech_leaves", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_LEAVES, new Item.Settings()));
-    public static final Item GOLDEN_BEECH_BOOKSHELF_ITEM = register("golden_beech_bookshelf", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_BOOKSHELF, new Item.Settings()));
-    public static final Item GOLDEN_BEECH_SAPLING_ITEM = register("golden_beech_sapling", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_SAPLING, new Item.Settings()));
+    public static final Item GOLDEN_BEECH_LOG = register("golden_beech_log", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_LOG, new Item.Settings(), 300));
+    public static final Item STRIPPED_GOLDEN_BEECH_LOG = register("stripped_golden_beech_log", new BurnableBlockItem(AerialHellBlocks.STRIPPED_GOLDEN_BEECH_LOG, new Item.Settings(), 300));
+    public static final Item GOLDEN_BEECH_WOOD = register("golden_beech_wood", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_WOOD, new Item.Settings(), 210));
+    public static final Item STRIPPED_GOLDEN_BEECH_WOOD = register("stripped_golden_beech_wood", new BurnableBlockItem(AerialHellBlocks.STRIPPED_GOLDEN_BEECH_WOOD, new Item.Settings(), 210));
+    public static final Item GOLDEN_BEECH_PLANKS = register("golden_beech_planks", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_PLANKS, new Item.Settings(), 300));
+    public static final Item CHISELED_GOLDEN_BEECH_PLANKS = register("chiseled_golden_beech_planks", new BurnableBlockItem(AerialHellBlocks.CHISELED_GOLDEN_BEECH_PLANKS, new Item.Settings(), 300));
+    public static final Item GOLDEN_BEECH_LEAVES = register("golden_beech_leaves", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_LEAVES, new Item.Settings()));
+    public static final Item GOLDEN_BEECH_BOOKSHELF = register("golden_beech_bookshelf", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_BOOKSHELF, new Item.Settings()));
+    public static final Item GOLDEN_BEECH_SAPLING = register("golden_beech_sapling", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_SAPLING, new Item.Settings()));
 
     //copper pine
-    public static final Item COPPER_PINE_LOG_ITEM = register("copper_pine_log", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_LOG, new Item.Settings(), 300));
-    public static final Item STRIPPED_COPPER_PINE_LOG_ITEM = register("stripped_copper_pine_log", new BurnableBlockItem(AerialHellBlocks.STRIPPED_COPPER_PINE_LOG, new Item.Settings(), 300));
-    public static final Item COPPER_PINE_WOOD_ITEM = register("copper_pine_wood", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_WOOD, new Item.Settings(), 210));
-    public static final Item STRIPPED_COPPER_PINE_WOOD_ITEM = register("stripped_copper_pine_wood", new BurnableBlockItem(AerialHellBlocks.STRIPPED_COPPER_PINE_WOOD, new Item.Settings(), 210));
-    public static final Item COPPER_PINE_PLANKS_ITEM = register("copper_pine_planks", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_PLANKS, new Item.Settings(), 300));
-    public static final Item COPPER_PINE_LEAVES_ITEM = register("copper_pine_leaves", new BlockItem(AerialHellBlocks.COPPER_PINE_LEAVES, new Item.Settings()));
-    public static final Item COPPER_PINE_BOOKSHELF_ITEM = register("copper_pine_bookshelf", new BlockItem(AerialHellBlocks.COPPER_PINE_BOOKSHELF, new Item.Settings()));
-    public static final Item COPPER_PINE_SAPLING_ITEM = register("copper_pine_sapling", new BlockItem(AerialHellBlocks.COPPER_PINE_SAPLING, new Item.Settings()));
+    public static final Item COPPER_PINE_LOG = register("copper_pine_log", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_LOG, new Item.Settings(), 300));
+    public static final Item STRIPPED_COPPER_PINE_LOG = register("stripped_copper_pine_log", new BurnableBlockItem(AerialHellBlocks.STRIPPED_COPPER_PINE_LOG, new Item.Settings(), 300));
+    public static final Item COPPER_PINE_WOOD = register("copper_pine_wood", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_WOOD, new Item.Settings(), 210));
+    public static final Item STRIPPED_COPPER_PINE_WOOD = register("stripped_copper_pine_wood", new BurnableBlockItem(AerialHellBlocks.STRIPPED_COPPER_PINE_WOOD, new Item.Settings(), 210));
+    public static final Item COPPER_PINE_PLANKS = register("copper_pine_planks", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_PLANKS, new Item.Settings(), 300));
+    public static final Item COPPER_PINE_LEAVES = register("copper_pine_leaves", new BlockItem(AerialHellBlocks.COPPER_PINE_LEAVES, new Item.Settings()));
+    public static final Item COPPER_PINE_BOOKSHELF = register("copper_pine_bookshelf", new BlockItem(AerialHellBlocks.COPPER_PINE_BOOKSHELF, new Item.Settings()));
+    public static final Item COPPER_PINE_SAPLING = register("copper_pine_sapling", new BlockItem(AerialHellBlocks.COPPER_PINE_SAPLING, new Item.Settings()));
 
     //lapis robinia
-    public static final Item LAPIS_ROBINIA_LOG_ITEM = register("lapis_robinia_log", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_LOG, new Item.Settings(), 400));
-    public static final Item ENCHANTED_LAPIS_ROBINIA_LOG_ITEM = register("enchanted_lapis_robinia_log", new BurnableBlockItem(AerialHellBlocks.ENCHANTED_LAPIS_ROBINIA_LOG, new Item.Settings(), 400));
-    public static final Item STRIPPED_LAPIS_ROBINIA_LOG_ITEM = register("stripped_lapis_robinia_log", new BurnableBlockItem(AerialHellBlocks.STRIPPED_LAPIS_ROBINIA_LOG, new Item.Settings(), 400));
-    public static final Item LAPIS_ROBINIA_WOOD_ITEM = register("lapis_robinia_wood", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_WOOD, new Item.Settings(), 300));
-    public static final Item STRIPPED_LAPIS_ROBINIA_WOOD_ITEM = register("stripped_lapis_robinia_wood", new BurnableBlockItem(AerialHellBlocks.STRIPPED_LAPIS_ROBINIA_WOOD, new Item.Settings(), 300));
-    public static final Item LAPIS_ROBINIA_LEAVES_ITEM = register("lapis_robinia_leaves", new BlockItem(AerialHellBlocks.LAPIS_ROBINIA_LEAVES, new Item.Settings()));
-    public static final Item LAPIS_ROBINIA_PLANKS_ITEM = register("lapis_robinia_planks", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_PLANKS, new Item.Settings(), 300));
-    public static final Item LAPIS_ROBINIA_BOOKSHELF_ITEM = register("lapis_robinia_bookshelf", new BlockItem(AerialHellBlocks.LAPIS_ROBINIA_BOOKSHELF, new Item.Settings()));
-    public static final Item LAPIS_ROBINIA_SAPLING_ITEM = register("lapis_robinia_sapling", new BlockItem(AerialHellBlocks.LAPIS_ROBINIA_SAPLING, new Item.Settings()));
+    public static final Item LAPIS_ROBINIA_LOG = register("lapis_robinia_log", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_LOG, new Item.Settings(), 400));
+    public static final Item ENCHANTED_LAPIS_ROBINIA_LOG = register("enchanted_lapis_robinia_log", new BurnableBlockItem(AerialHellBlocks.ENCHANTED_LAPIS_ROBINIA_LOG, new Item.Settings(), 400));
+    public static final Item STRIPPED_LAPIS_ROBINIA_LOG = register("stripped_lapis_robinia_log", new BurnableBlockItem(AerialHellBlocks.STRIPPED_LAPIS_ROBINIA_LOG, new Item.Settings(), 400));
+    public static final Item LAPIS_ROBINIA_WOOD = register("lapis_robinia_wood", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_WOOD, new Item.Settings(), 300));
+    public static final Item STRIPPED_LAPIS_ROBINIA_WOOD = register("stripped_lapis_robinia_wood", new BurnableBlockItem(AerialHellBlocks.STRIPPED_LAPIS_ROBINIA_WOOD, new Item.Settings(), 300));
+    public static final Item LAPIS_ROBINIA_LEAVES = register("lapis_robinia_leaves", new BlockItem(AerialHellBlocks.LAPIS_ROBINIA_LEAVES, new Item.Settings()));
+    public static final Item LAPIS_ROBINIA_PLANKS = register("lapis_robinia_planks", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_PLANKS, new Item.Settings(), 300));
+    public static final Item LAPIS_ROBINIA_BOOKSHELF = register("lapis_robinia_bookshelf", new BlockItem(AerialHellBlocks.LAPIS_ROBINIA_BOOKSHELF, new Item.Settings()));
+    public static final Item LAPIS_ROBINIA_SAPLING = register("lapis_robinia_sapling", new BlockItem(AerialHellBlocks.LAPIS_ROBINIA_SAPLING, new Item.Settings()));
 
     //shadow pine
-    public static final Item SHADOW_PINE_LOG_ITEM = register("shadow_pine_log", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_LOG, new Item.Settings(), 300));
-    public static final Item EYE_SHADOW_PINE_LOG_ITEM = register("eye_shadow_pine_log", new BurnableBlockItem(AerialHellBlocks.EYE_SHADOW_PINE_LOG, new Item.Settings(), 300));
-    public static final Item STRIPPED_SHADOW_PINE_LOG_ITEM = register("stripped_shadow_pine_log", new BurnableBlockItem(AerialHellBlocks.STRIPPED_SHADOW_PINE_LOG, new Item.Settings(), 300));
-    public static final Item SHADOW_PINE_WOOD_ITEM = register("shadow_pine_wood", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_WOOD, new Item.Settings(), 210));
-    public static final Item STRIPPED_SHADOW_PINE_WOOD_ITEM = register("stripped_shadow_pine_wood", new BurnableBlockItem(AerialHellBlocks.STRIPPED_SHADOW_PINE_WOOD, new Item.Settings(), 210));
-    public static final Item SHADOW_PINE_LEAVES_ITEM = register("shadow_pine_leaves", new BlockItem(AerialHellBlocks.SHADOW_PINE_LEAVES, new Item.Settings()));
-    public static final Item PURPLE_SHADOW_PINE_LEAVES_ITEM = register("purple_shadow_pine_leaves", new BlockItem(AerialHellBlocks.PURPLE_SHADOW_PINE_LEAVES, new Item.Settings()));
-    public static final Item SHADOW_PINE_PLANKS_ITEM = register("shadow_pine_planks", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_PLANKS, new Item.Settings(), 300));
-    public static final Item SHADOW_PINE_BOOKSHELF_ITEM = register("shadow_pine_bookshelf", new BlockItem(AerialHellBlocks.SHADOW_PINE_BOOKSHELF, new Item.Settings()));
-    public static final Item SHADOW_PINE_SAPLING_ITEM = register("shadow_pine_sapling", new BlockItem(AerialHellBlocks.SHADOW_PINE_SAPLING, new Item.Settings()));
-    public static final Item PURPLE_SHADOW_PINE_SAPLING_ITEM = register("purple_shadow_pine_sapling", new BlockItem(AerialHellBlocks.PURPLE_SHADOW_PINE_SAPLING, new Item.Settings()));
+    public static final Item SHADOW_PINE_LOG = register("shadow_pine_log", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_LOG, new Item.Settings(), 300));
+    public static final Item EYE_SHADOW_PINE_LOG = register("eye_shadow_pine_log", new BurnableBlockItem(AerialHellBlocks.EYE_SHADOW_PINE_LOG, new Item.Settings(), 300));
+    public static final Item STRIPPED_SHADOW_PINE_LOG = register("stripped_shadow_pine_log", new BurnableBlockItem(AerialHellBlocks.STRIPPED_SHADOW_PINE_LOG, new Item.Settings(), 300));
+    public static final Item SHADOW_PINE_WOOD = register("shadow_pine_wood", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_WOOD, new Item.Settings(), 210));
+    public static final Item STRIPPED_SHADOW_PINE_WOOD = register("stripped_shadow_pine_wood", new BurnableBlockItem(AerialHellBlocks.STRIPPED_SHADOW_PINE_WOOD, new Item.Settings(), 210));
+    public static final Item SHADOW_PINE_LEAVES = register("shadow_pine_leaves", new BlockItem(AerialHellBlocks.SHADOW_PINE_LEAVES, new Item.Settings()));
+    public static final Item PURPLE_SHADOW_PINE_LEAVES = register("purple_shadow_pine_leaves", new BlockItem(AerialHellBlocks.PURPLE_SHADOW_PINE_LEAVES, new Item.Settings()));
+    public static final Item SHADOW_PINE_PLANKS = register("shadow_pine_planks", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_PLANKS, new Item.Settings(), 300));
+    public static final Item SHADOW_PINE_BOOKSHELF = register("shadow_pine_bookshelf", new BlockItem(AerialHellBlocks.SHADOW_PINE_BOOKSHELF, new Item.Settings()));
+    public static final Item SHADOW_PINE_SAPLING = register("shadow_pine_sapling", new BlockItem(AerialHellBlocks.SHADOW_PINE_SAPLING, new Item.Settings()));
+    public static final Item PURPLE_SHADOW_PINE_SAPLING = register("purple_shadow_pine_sapling", new BlockItem(AerialHellBlocks.PURPLE_SHADOW_PINE_SAPLING, new Item.Settings()));
 
     //stellar jungle tree
-    public static final Item STELLAR_JUNGLE_TREE_LOG_ITEM = register("stellar_jungle_tree_log", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_LOG, new Item.Settings(), 400));
-    public static final Item STRIPPED_STELLAR_JUNGLE_TREE_LOG_ITEM = register("stripped_stellar_jungle_tree_log", new BurnableBlockItem(AerialHellBlocks.STRIPPED_STELLAR_JUNGLE_TREE_LOG, new Item.Settings(), 400));
-    public static final Item STELLAR_JUNGLE_TREE_WOOD_ITEM = register("stellar_jungle_tree_wood", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_WOOD, new Item.Settings(), 300));
-    public static final Item STRIPPED_STELLAR_JUNGLE_TREE_WOOD_ITEM = register("stripped_stellar_jungle_tree_wood", new BurnableBlockItem(AerialHellBlocks.STRIPPED_STELLAR_JUNGLE_TREE_WOOD, new Item.Settings(), 300));
-    public static final Item STELLAR_JUNGLE_TREE_LEAVES_ITEM = register("stellar_jungle_tree_leaves", new BlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_LEAVES, new Item.Settings()));
-    public static final Item STELLAR_JUNGLE_TREE_PLANKS_ITEM = register("stellar_jungle_tree_planks", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_PLANKS, new Item.Settings(), 300));
-    public static final Item STELLAR_JUNGLE_TREE_BOOKSHELF_ITEM = register("stellar_jungle_tree_bookshelf", new BlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_BOOKSHELF, new Item.Settings()));
-    public static final Item STELLAR_JUNGLE_TREE_SAPLING_ITEM = register("stellar_jungle_tree_sapling", new BlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_SAPLING, new Item.Settings()));
-    public static final Item DEAD_STELLAR_JUNGLE_TREE_LOG_ITEM = register("dead_stellar_jungle_tree_log", new BurnableBlockItem(AerialHellBlocks.DEAD_STELLAR_JUNGLE_TREE_LOG, new Item.Settings(), 300));
+    public static final Item STELLAR_JUNGLE_TREE_LOG = register("stellar_jungle_tree_log", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_LOG, new Item.Settings(), 400));
+    public static final Item STRIPPED_STELLAR_JUNGLE_TREE_LOG = register("stripped_stellar_jungle_tree_log", new BurnableBlockItem(AerialHellBlocks.STRIPPED_STELLAR_JUNGLE_TREE_LOG, new Item.Settings(), 400));
+    public static final Item STELLAR_JUNGLE_TREE_WOOD = register("stellar_jungle_tree_wood", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_WOOD, new Item.Settings(), 300));
+    public static final Item STRIPPED_STELLAR_JUNGLE_TREE_WOOD = register("stripped_stellar_jungle_tree_wood", new BurnableBlockItem(AerialHellBlocks.STRIPPED_STELLAR_JUNGLE_TREE_WOOD, new Item.Settings(), 300));
+    public static final Item STELLAR_JUNGLE_TREE_LEAVES = register("stellar_jungle_tree_leaves", new BlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_LEAVES, new Item.Settings()));
+    public static final Item STELLAR_JUNGLE_TREE_PLANKS = register("stellar_jungle_tree_planks", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_PLANKS, new Item.Settings(), 300));
+    public static final Item STELLAR_JUNGLE_TREE_BOOKSHELF = register("stellar_jungle_tree_bookshelf", new BlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_BOOKSHELF, new Item.Settings()));
+    public static final Item STELLAR_JUNGLE_TREE_SAPLING = register("stellar_jungle_tree_sapling", new BlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_SAPLING, new Item.Settings()));
+    public static final Item DEAD_STELLAR_JUNGLE_TREE_LOG = register("dead_stellar_jungle_tree_log", new BurnableBlockItem(AerialHellBlocks.DEAD_STELLAR_JUNGLE_TREE_LOG, new Item.Settings(), 300));
 
     //shroom
-    public static final Item GIANT_CORTINARIUS_VIOLACEUS_STEM_ITEM = register("giant_cortinarius_violaceus_stem", new BurnableBlockItem(AerialHellBlocks.GIANT_CORTINARIUS_VIOLACEUS_STEM, new Item.Settings(), 100));
-    public static final Item STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM_ITEM = register("stripped_giant_cortinarius_violaceus_stem", new BurnableBlockItem(AerialHellBlocks.STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM, new Item.Settings(), 100));
-    public static final Item GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM_ITEM = register("giant_cortinarius_violaceus_bark_stem", new BurnableBlockItem(AerialHellBlocks.GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM, new Item.Settings(), 100));
-    public static final Item STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM_ITEM = register("stripped_giant_cortinarius_violaceus_bark_stem", new BurnableBlockItem(AerialHellBlocks.STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM, new Item.Settings(), 100));
-    public static final Item GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK_ITEM = register("giant_cortinarius_violaceus_cap_block", new BlockItem(AerialHellBlocks.GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK, new Item.Settings()));
-    public static final Item GIANT_CORTINARIUS_VIOLACEUS_LIGHT_ITEM = register("giant_cortinarius_violaceus_light", new BlockItem(AerialHellBlocks.GIANT_CORTINARIUS_VIOLACEUS_LIGHT, new Item.Settings()));
-    public static final Item CORTINARIUS_VIOLACEUS_ITEM = register("cortinarius_violaceus", new BlockItem(AerialHellBlocks.CORTINARIUS_VIOLACEUS, new Item.Settings()));
+    public static final Item GIANT_CORTINARIUS_VIOLACEUS_STEM = register("giant_cortinarius_violaceus_stem", new BurnableBlockItem(AerialHellBlocks.GIANT_CORTINARIUS_VIOLACEUS_STEM, new Item.Settings(), 100));
+    public static final Item STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM = register("stripped_giant_cortinarius_violaceus_stem", new BurnableBlockItem(AerialHellBlocks.STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM, new Item.Settings(), 100));
+    public static final Item GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM = register("giant_cortinarius_violaceus_bark_stem", new BurnableBlockItem(AerialHellBlocks.GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM, new Item.Settings(), 100));
+    public static final Item STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM = register("stripped_giant_cortinarius_violaceus_bark_stem", new BurnableBlockItem(AerialHellBlocks.STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM, new Item.Settings(), 100));
+    public static final Item GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK = register("giant_cortinarius_violaceus_cap_block", new BlockItem(AerialHellBlocks.GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK, new Item.Settings()));
+    public static final Item GIANT_CORTINARIUS_VIOLACEUS_LIGHT = register("giant_cortinarius_violaceus_light", new BlockItem(AerialHellBlocks.GIANT_CORTINARIUS_VIOLACEUS_LIGHT, new Item.Settings()));
+    public static final Item CORTINARIUS_VIOLACEUS = register("cortinarius_violaceus", new BlockItem(AerialHellBlocks.CORTINARIUS_VIOLACEUS, new Item.Settings()));
 
-    public static final Item GIANT_VERDIGRIS_AGARIC_STEM_ITEM = register("giant_verdigris_agaric_stem", new BurnableBlockItem(AerialHellBlocks.GIANT_VERDIGRIS_AGARIC_STEM, new Item.Settings(), 100));
-    public static final Item STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM_ITEM = register("stripped_giant_verdigris_agaric_stem", new BurnableBlockItem(AerialHellBlocks.STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM, new Item.Settings(), 100));
-    public static final Item GIANT_VERDIGRIS_AGARIC_BARK_STEM_ITEM = register("giant_verdigris_agaric_bark_stem", new BurnableBlockItem(AerialHellBlocks.GIANT_VERDIGRIS_AGARIC_BARK_STEM, new Item.Settings(), 75));
-    public static final Item STRIPPED_GIANT_VERDIGRIS_AGARIC_BARK_STEM_ITEM = register("stripped_giant_verdigris_agaric_bark_stem", new BurnableBlockItem(AerialHellBlocks.STRIPPED_GIANT_VERDIGRIS_AGARIC_BARK_STEM, new Item.Settings(), 75));
-    public static final Item GIANT_VERDIGRIS_AGARIC_CAP_BLOCK_ITEM = register("giant_verdigris_agaric_cap_block", new BlockItem(AerialHellBlocks.GIANT_VERDIGRIS_AGARIC_CAP_BLOCK, new Item.Settings()));
-    public static final Item VERDIGRIS_AGARIC_ITEM = register("verdigris_agaric", new BlockItem(AerialHellBlocks.VERDIGRIS_AGARIC, new Item.Settings()));
-    public static final Item GLOWING_BOLETUS_ITEM = register("glowing_boletus", new BlockItem(AerialHellBlocks.GLOWING_BOLETUS, new Item.Settings()));
-    public static final Item TALL_GLOWING_BOLETUS_ITEM = register("tall_glowing_boletus", new BlockItem(AerialHellBlocks.TALL_GLOWING_BOLETUS, new Item.Settings()));
-    public static final Item BLUE_MEANIE_CLUSTER_ITEM = register("blue_meanie_cluster", new BlockItem(AerialHellBlocks.BLUE_MEANIE_CLUSTER, new Item.Settings()));
-    public static final Item GIANT_ROOT_SHROOM_ITEM = register("giant_root_shroom", new BlockItem(AerialHellBlocks.GIANT_ROOT_SHROOM, new Item.Settings()));
+    public static final Item GIANT_VERDIGRIS_AGARIC_STEM = register("giant_verdigris_agaric_stem", new BurnableBlockItem(AerialHellBlocks.GIANT_VERDIGRIS_AGARIC_STEM, new Item.Settings(), 100));
+    public static final Item STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM = register("stripped_giant_verdigris_agaric_stem", new BurnableBlockItem(AerialHellBlocks.STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM, new Item.Settings(), 100));
+    public static final Item GIANT_VERDIGRIS_AGARIC_BARK_STEM = register("giant_verdigris_agaric_bark_stem", new BurnableBlockItem(AerialHellBlocks.GIANT_VERDIGRIS_AGARIC_BARK_STEM, new Item.Settings(), 75));
+    public static final Item STRIPPED_GIANT_VERDIGRIS_AGARIC_BARK_STEM = register("stripped_giant_verdigris_agaric_bark_stem", new BurnableBlockItem(AerialHellBlocks.STRIPPED_GIANT_VERDIGRIS_AGARIC_BARK_STEM, new Item.Settings(), 75));
+    public static final Item GIANT_VERDIGRIS_AGARIC_CAP_BLOCK = register("giant_verdigris_agaric_cap_block", new BlockItem(AerialHellBlocks.GIANT_VERDIGRIS_AGARIC_CAP_BLOCK, new Item.Settings()));
+    public static final Item VERDIGRIS_AGARIC = register("verdigris_agaric", new BlockItem(AerialHellBlocks.VERDIGRIS_AGARIC, new Item.Settings()));
+    public static final Item GLOWING_BOLETUS = register("glowing_boletus", new BlockItem(AerialHellBlocks.GLOWING_BOLETUS, new Item.Settings()));
+    public static final Item TALL_GLOWING_BOLETUS = register("tall_glowing_boletus", new BlockItem(AerialHellBlocks.TALL_GLOWING_BOLETUS, new Item.Settings()));
+    public static final Item BLUE_MEANIE_CLUSTER = register("blue_meanie_cluster", new BlockItem(AerialHellBlocks.BLUE_MEANIE_CLUSTER, new Item.Settings()));
+    public static final Item GIANT_ROOT_SHROOM = register("giant_root_shroom", new BlockItem(AerialHellBlocks.GIANT_ROOT_SHROOM, new Item.Settings()));
 
-    public static final Item GIANT_GANODERMA_APPLANATUM_BLOCK_ITEM = register("giant_ganoderma_applanatum_block", new BlockItem(AerialHellBlocks.GIANT_GANODERMA_APPLANATUM_BLOCK, new Item.Settings()));
+    public static final Item GIANT_GANODERMA_APPLANATUM_BLOCK = register("giant_ganoderma_applanatum_block", new BlockItem(AerialHellBlocks.GIANT_GANODERMA_APPLANATUM_BLOCK, new Item.Settings()));
 
-    public static final Item GRAY_SHROOM_PLANKS_ITEM = register("gray_shroom_planks", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_PLANKS, new Item.Settings(), 100));
-    public static final Item GRAY_SHROOM_BOOKSHELF_ITEM = register("gray_shroom_bookshelf", new BlockItem(AerialHellBlocks.GRAY_SHROOM_BOOKSHELF, new Item.Settings()));
+    public static final Item GRAY_SHROOM_PLANKS = register("gray_shroom_planks", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_PLANKS, new Item.Settings(), 100));
+    public static final Item GRAY_SHROOM_BOOKSHELF = register("gray_shroom_bookshelf", new BlockItem(AerialHellBlocks.GRAY_SHROOM_BOOKSHELF, new Item.Settings()));
 
-    public static final Item SHADOW_AERIAL_TREE_LOG_ITEM = register("shadow_aerial_tree_log", new BurnableBlockItem(AerialHellBlocks.SHADOW_AERIAL_TREE_LOG, new Item.Settings(), 300));
-    public static final Item SHADOW_GOLDEN_BEECH_LOG_ITEM = register("shadow_golden_beech_log", new BurnableBlockItem(AerialHellBlocks.SHADOW_GOLDEN_BEECH_LOG, new Item.Settings(), 300));
-    public static final Item SHADOW_COPPER_PINE_LOG_ITEM = register("shadow_copper_pine_log", new BurnableBlockItem(AerialHellBlocks.SHADOW_COPPER_PINE_LOG, new Item.Settings(), 300));
-    public static final Item SHADOW_LAPIS_ROBINIA_LOG_ITEM = register("shadow_lapis_robinia_log", new BurnableBlockItem(AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LOG, new Item.Settings(), 300));
-    public static final Item SHADOW_STELLAR_JUNGLE_TREE_LOG_ITEM = register("shadow_stellar_jungle_tree_log", new BurnableBlockItem(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LOG, new Item.Settings(), 300));
-    public static final Item HOLLOW_SHADOW_PINE_LOG_ITEM = register("hollow_shadow_pine_log", new BurnableBlockItem(AerialHellBlocks.HOLLOW_SHADOW_PINE_LOG, new Item.Settings(), 300));
-    public static final Item SHADOW_AERIAL_TREE_LEAVES_ITEM = register("shadow_aerial_tree_leaves", new BlockItem(AerialHellBlocks.SHADOW_AERIAL_TREE_LEAVES, new Item.Settings()));
-    public static final Item SHADOW_GOLDEN_BEECH_LEAVES_ITEM = register("shadow_golden_beech_leaves", new BlockItem(AerialHellBlocks.SHADOW_GOLDEN_BEECH_LEAVES, new Item.Settings()));
-    public static final Item SHADOW_COPPER_PINE_LEAVES_ITEM = register("shadow_copper_pine_leaves", new BlockItem(AerialHellBlocks.SHADOW_COPPER_PINE_LEAVES, new Item.Settings()));
-    public static final Item SHADOW_LAPIS_ROBINIA_LEAVES_ITEM = register("shadow_lapis_robinia_leaves", new BlockItem(AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LEAVES, new Item.Settings()));
-    public static final Item SHADOW_STELLAR_JUNGLE_TREE_LEAVES_ITEM = register("shadow_stellar_jungle_tree_leaves", new BlockItem(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LEAVES, new Item.Settings()));
-    public static final Item HOLLOW_SHADOW_PINE_LEAVES_ITEM = register("hollow_shadow_pine_leaves", new BlockItem(AerialHellBlocks.HOLLOW_SHADOW_PINE_LEAVES, new Item.Settings()));
-    public static final Item HOLLOW_PURPLE_SHADOW_PINE_LEAVES_ITEM = register("hollow_purple_shadow_pine_leaves", new BlockItem(AerialHellBlocks.HOLLOW_PURPLE_SHADOW_PINE_LEAVES, new Item.Settings()));
+    public static final Item SHADOW_AERIAL_TREE_LOG = register("shadow_aerial_tree_log", new BurnableBlockItem(AerialHellBlocks.SHADOW_AERIAL_TREE_LOG, new Item.Settings(), 300));
+    public static final Item SHADOW_GOLDEN_BEECH_LOG = register("shadow_golden_beech_log", new BurnableBlockItem(AerialHellBlocks.SHADOW_GOLDEN_BEECH_LOG, new Item.Settings(), 300));
+    public static final Item SHADOW_COPPER_PINE_LOG = register("shadow_copper_pine_log", new BurnableBlockItem(AerialHellBlocks.SHADOW_COPPER_PINE_LOG, new Item.Settings(), 300));
+    public static final Item SHADOW_LAPIS_ROBINIA_LOG = register("shadow_lapis_robinia_log", new BurnableBlockItem(AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LOG, new Item.Settings(), 300));
+    public static final Item SHADOW_STELLAR_JUNGLE_TREE_LOG = register("shadow_stellar_jungle_tree_log", new BurnableBlockItem(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LOG, new Item.Settings(), 300));
+    public static final Item HOLLOW_SHADOW_PINE_LOG = register("hollow_shadow_pine_log", new BurnableBlockItem(AerialHellBlocks.HOLLOW_SHADOW_PINE_LOG, new Item.Settings(), 300));
+    public static final Item SHADOW_AERIAL_TREE_LEAVES = register("shadow_aerial_tree_leaves", new BlockItem(AerialHellBlocks.SHADOW_AERIAL_TREE_LEAVES, new Item.Settings()));
+    public static final Item SHADOW_GOLDEN_BEECH_LEAVES = register("shadow_golden_beech_leaves", new BlockItem(AerialHellBlocks.SHADOW_GOLDEN_BEECH_LEAVES, new Item.Settings()));
+    public static final Item SHADOW_COPPER_PINE_LEAVES = register("shadow_copper_pine_leaves", new BlockItem(AerialHellBlocks.SHADOW_COPPER_PINE_LEAVES, new Item.Settings()));
+    public static final Item SHADOW_LAPIS_ROBINIA_LEAVES = register("shadow_lapis_robinia_leaves", new BlockItem(AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LEAVES, new Item.Settings()));
+    public static final Item SHADOW_STELLAR_JUNGLE_TREE_LEAVES = register("shadow_stellar_jungle_tree_leaves", new BlockItem(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LEAVES, new Item.Settings()));
+    public static final Item HOLLOW_SHADOW_PINE_LEAVES = register("hollow_shadow_pine_leaves", new BlockItem(AerialHellBlocks.HOLLOW_SHADOW_PINE_LEAVES, new Item.Settings()));
+    public static final Item HOLLOW_PURPLE_SHADOW_PINE_LEAVES = register("hollow_purple_shadow_pine_leaves", new BlockItem(AerialHellBlocks.HOLLOW_PURPLE_SHADOW_PINE_LEAVES, new Item.Settings()));
 
     //ladder
-    public static final Item SKY_LADDER_ITEM = register("sky_ladder", new BlockItem(AerialHellBlocks.SKY_LADDER, new Item.Settings()));
+    public static final Item SKY_LADDER = register("sky_ladder", new BlockItem(AerialHellBlocks.SKY_LADDER, new Item.Settings()));
 
     //natural blocks and items
-    public static final Item STELLAR_STONE_ITEM = register("stellar_stone", new BlockItem(AerialHellBlocks.STELLAR_STONE, new Item.Settings()));
-    public static final Item STELLAR_COBBLESTONE_ITEM = register("stellar_cobblestone", new BlockItem(AerialHellBlocks.STELLAR_COBBLESTONE, new Item.Settings()));
-    public static final Item MOSSY_STELLAR_STONE_ITEM = register("mossy_stellar_stone", new BlockItem(AerialHellBlocks.MOSSY_STELLAR_STONE, new Item.Settings()));
-    public static final Item MOSSY_STELLAR_COBBLESTONE_ITEM = register("mossy_stellar_cobblestone", new BlockItem(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE, new Item.Settings()));
-    public static final Item STELLAR_CLAY_ITEM = register("stellar_clay", new BlockItem(AerialHellBlocks.STELLAR_CLAY, new Item.Settings()));
-    public static final Item STELLAR_STONE_BRICKS_ITEM = register("stellar_stone_bricks", new BlockItem(AerialHellBlocks.STELLAR_STONE_BRICKS, new Item.Settings()));
-    public static final Item GLAUCOPHANITE_ITEM = register("glaucophanite", new BlockItem(AerialHellBlocks.GLAUCOPHANITE, new Item.Settings()));
-    public static final Item POLISHED_GLAUCOPHANITE_ITEM = register("polished_glaucophanite", new BlockItem(AerialHellBlocks.POLISHED_GLAUCOPHANITE, new Item.Settings()));
-    public static final Item SHADOW_STONE_ITEM = register("shadow_stone", new BlockItem(AerialHellBlocks.SHADOW_STONE, new Item.Settings()));
+    public static final Item STELLAR_STONE = register("stellar_stone", new BlockItem(AerialHellBlocks.STELLAR_STONE, new Item.Settings()));
+    public static final Item STELLAR_COBBLESTONE = register("stellar_cobblestone", new BlockItem(AerialHellBlocks.STELLAR_COBBLESTONE, new Item.Settings()));
+    public static final Item MOSSY_STELLAR_STONE = register("mossy_stellar_stone", new BlockItem(AerialHellBlocks.MOSSY_STELLAR_STONE, new Item.Settings()));
+    public static final Item MOSSY_STELLAR_COBBLESTONE = register("mossy_stellar_cobblestone", new BlockItem(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE, new Item.Settings()));
+    public static final Item STELLAR_CLAY = register("stellar_clay", new BlockItem(AerialHellBlocks.STELLAR_CLAY, new Item.Settings()));
+    public static final Item STELLAR_STONE_BRICKS = register("stellar_stone_bricks", new BlockItem(AerialHellBlocks.STELLAR_STONE_BRICKS, new Item.Settings()));
+    public static final Item GLAUCOPHANITE = register("glaucophanite", new BlockItem(AerialHellBlocks.GLAUCOPHANITE, new Item.Settings()));
+    public static final Item POLISHED_GLAUCOPHANITE = register("polished_glaucophanite", new BlockItem(AerialHellBlocks.POLISHED_GLAUCOPHANITE, new Item.Settings()));
+    public static final Item SHADOW_STONE = register("shadow_stone", new BlockItem(AerialHellBlocks.SHADOW_STONE, new Item.Settings()));
 
     //crystal
-    public static final Item CRYSTAL_BLOCK_ITEM = register("crystal_block", new BlockItem(AerialHellBlocks.CRYSTAL_BLOCK, new Item.Settings()));
-    public static final Item CRYSTAL_BRICKS_ITEM = register("crystal_bricks", new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS, new Item.Settings()));
-    public static final Item CRYSTAL_BRICKS_SLAB_ITEM = register("crystal_bricks_slab", new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS_SLAB, new Item.Settings()));
-    public static final Item CRYSTAL_BRICKS_STAIRS_ITEM = register("crystal_bricks_stairs", new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS_STAIRS, new Item.Settings()));
-    public static final Item CRYSTAL_BRICKS_WALL_ITEM = register("crystal_bricks_wall", new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS_WALL, new Item.Settings()));
-    public static final Item STELLAR_STONE_CRYSTAL_BLOCK_ITEM = register("stellar_stone_crystal_block", new BlockItem(AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK, new Item.Settings()));
-    public static final Item SHADOW_CRYSTAL_BLOCK_ITEM = register("shadow_crystal_block", new BlockItem(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
-    public static final Item CRYSTALLIZED_LEAVES_ITEM = register("crystallized_leaves", new BlockItem(AerialHellBlocks.CRYSTALLIZED_LEAVES, new Item.Settings()));
+    public static final Item CRYSTAL_BLOCK = register("crystal_block", new BlockItem(AerialHellBlocks.CRYSTAL_BLOCK, new Item.Settings()));
+    public static final Item CRYSTAL_BRICKS = register("crystal_bricks", new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS, new Item.Settings()));
+    public static final Item CRYSTAL_BRICKS_SLAB = register("crystal_bricks_slab", new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS_SLAB, new Item.Settings()));
+    public static final Item CRYSTAL_BRICKS_STAIRS = register("crystal_bricks_stairs", new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS_STAIRS, new Item.Settings()));
+    public static final Item CRYSTAL_BRICKS_WALL = register("crystal_bricks_wall", new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS_WALL, new Item.Settings()));
+    public static final Item STELLAR_STONE_CRYSTAL_BLOCK = register("stellar_stone_crystal_block", new BlockItem(AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK, new Item.Settings()));
+    public static final Item SHADOW_CRYSTAL_BLOCK = register("shadow_crystal_block", new BlockItem(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item CRYSTALLIZED_LEAVES = register("crystallized_leaves", new BlockItem(AerialHellBlocks.CRYSTALLIZED_LEAVES, new Item.Settings()));
     public static final Item CRYSTAL = register("crystal", new Item(new Item.Settings()));
     public static final Item STELLAR_STONE_CRYSTAL = register("stellar_stone_crystal", new Item(new Item.Settings()));
     public static final Item SHADOW_CRYSTAL = register("shadow_crystal", new Item(new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
 
     //glass and glass pane
-    public static final Item SLIPPERY_SAND_GLASS_ITEM = register("slippery_sand_glass", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_GLASS, new Item.Settings()));
-    public static final Item RED_SLIPPERY_SAND_GLASS_ITEM = register("red_slippery_sand_glass", new BlockItem(AerialHellBlocks.RED_SLIPPERY_SAND_GLASS, new Item.Settings()));
-    public static final Item BLACK_SLIPPERY_SAND_GLASS_ITEM = register("black_slippery_sand_glass", new BlockItem(AerialHellBlocks.BLACK_SLIPPERY_SAND_GLASS, new Item.Settings()));
-    public static final Item BLUE_SLIPPERY_SAND_GLASS_ITEM = register("blue_slippery_sand_glass", new BlockItem(AerialHellBlocks.BLUE_SLIPPERY_SAND_GLASS, new Item.Settings()));
-    public static final Item GREEN_SLIPPERY_SAND_GLASS_ITEM = register("green_slippery_sand_glass", new BlockItem(AerialHellBlocks.GREEN_SLIPPERY_SAND_GLASS, new Item.Settings()));
-    public static final Item SLIPPERY_SAND_GLASS_PANE_ITEM = register("slippery_sand_glass_pane", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_GLASS_PANE, new Item.Settings()));
-    public static final Item RED_SLIPPERY_SAND_GLASS_PANE_ITEM = register("red_slippery_sand_glass_pane", new BlockItem(AerialHellBlocks.RED_SLIPPERY_SAND_GLASS_PANE, new Item.Settings()));
-    public static final Item BLACK_SLIPPERY_SAND_GLASS_PANE_ITEM = register("black_slippery_sand_glass_pane", new BlockItem(AerialHellBlocks.BLACK_SLIPPERY_SAND_GLASS_PANE, new Item.Settings()));
-    public static final Item BLUE_SLIPPERY_SAND_GLASS_PANE_ITEM = register("blue_slippery_sand_glass_pane", new BlockItem(AerialHellBlocks.BLUE_SLIPPERY_SAND_GLASS_PANE, new Item.Settings()));
-    public static final Item GREEN_SLIPPERY_SAND_GLASS_PANE_ITEM = register("green_slippery_sand_glass_pane", new BlockItem(AerialHellBlocks.GREEN_SLIPPERY_SAND_GLASS_PANE, new Item.Settings()));
+    public static final Item SLIPPERY_SAND_GLASS = register("slippery_sand_glass", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_GLASS, new Item.Settings()));
+    public static final Item RED_SLIPPERY_SAND_GLASS = register("red_slippery_sand_glass", new BlockItem(AerialHellBlocks.RED_SLIPPERY_SAND_GLASS, new Item.Settings()));
+    public static final Item BLACK_SLIPPERY_SAND_GLASS = register("black_slippery_sand_glass", new BlockItem(AerialHellBlocks.BLACK_SLIPPERY_SAND_GLASS, new Item.Settings()));
+    public static final Item BLUE_SLIPPERY_SAND_GLASS = register("blue_slippery_sand_glass", new BlockItem(AerialHellBlocks.BLUE_SLIPPERY_SAND_GLASS, new Item.Settings()));
+    public static final Item GREEN_SLIPPERY_SAND_GLASS = register("green_slippery_sand_glass", new BlockItem(AerialHellBlocks.GREEN_SLIPPERY_SAND_GLASS, new Item.Settings()));
+    public static final Item SLIPPERY_SAND_GLASS_PANE = register("slippery_sand_glass_pane", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_GLASS_PANE, new Item.Settings()));
+    public static final Item RED_SLIPPERY_SAND_GLASS_PANE = register("red_slippery_sand_glass_pane", new BlockItem(AerialHellBlocks.RED_SLIPPERY_SAND_GLASS_PANE, new Item.Settings()));
+    public static final Item BLACK_SLIPPERY_SAND_GLASS_PANE = register("black_slippery_sand_glass_pane", new BlockItem(AerialHellBlocks.BLACK_SLIPPERY_SAND_GLASS_PANE, new Item.Settings()));
+    public static final Item BLUE_SLIPPERY_SAND_GLASS_PANE = register("blue_slippery_sand_glass_pane", new BlockItem(AerialHellBlocks.BLUE_SLIPPERY_SAND_GLASS_PANE, new Item.Settings()));
+    public static final Item GREEN_SLIPPERY_SAND_GLASS_PANE = register("green_slippery_sand_glass_pane", new BlockItem(AerialHellBlocks.GREEN_SLIPPERY_SAND_GLASS_PANE, new Item.Settings()));
 
     //ghost boat
-    public static final Item GHOST_BOAT_PLANKS_ITEM = register("ghost_boat_planks", new BlockItem(AerialHellBlocks.GHOST_BOAT_PLANKS, new Item.Settings()));
-    public static final Item GHOST_BOAT_LOG_ITEM = register("ghost_boat_log", new BlockItem(AerialHellBlocks.GHOST_BOAT_LOG, new Item.Settings()));
-    public static final Item GHOST_BOAT_WOOD_ITEM = register("ghost_boat_wood", new BlockItem(AerialHellBlocks.GHOST_BOAT_WOOD, new Item.Settings()));
-    public static final Item GHOST_BOAT_SLAB_ITEM = register("ghost_boat_slab", new BlockItem(AerialHellBlocks.GHOST_BOAT_SLAB, new Item.Settings()));
-    public static final Item GHOST_BOAT_STAIRS_ITEM = register("ghost_boat_stairs", new BlockItem(AerialHellBlocks.GHOST_BOAT_STAIRS, new Item.Settings()));
-    public static final Item GHOST_BOAT_FENCE_ITEM = register("ghost_boat_fence", new BlockItem(AerialHellBlocks.GHOST_BOAT_FENCE, new Item.Settings()));
-    public static final Item GHOST_BOAT_GATE_ITEM = register("ghost_boat_gate", new BlockItem(AerialHellBlocks.GHOST_BOAT_GATE, new Item.Settings()));
-    public static final Item GHOST_BOAT_DOOR_ITEM = register("ghost_boat_door", new BlockItem(AerialHellBlocks.GHOST_BOAT_DOOR, new Item.Settings()));
-    public static final Item GHOST_BOAT_TRAPDOOR_ITEM = register("ghost_boat_trapdoor", new BlockItem(AerialHellBlocks.GHOST_BOAT_TRAPDOOR, new Item.Settings()));
-    public static final Item GHOST_BOAT_CHEST_ITEM = register("ghost_boat_chest", new BlockItem(AerialHellBlocks.GHOST_BOAT_CHEST, new Item.Settings()));
-    public static final Item GHOST_BOAT_WOOL_ITEM = register("ghost_boat_wool", new BlockItem(AerialHellBlocks.GHOST_BOAT_WOOL, new Item.Settings()));
-    public static final Item GHOST_STELLAR_COBBLESTONE_ITEM = register("ghost_stellar_cobblestone", new BlockItem(AerialHellBlocks.GHOST_STELLAR_COBBLESTONE, new Item.Settings()));
-    public static final Item GHOST_RUBY_BLOCK_ITEM = register("ghost_ruby_block", new BlockItem(AerialHellBlocks.GHOST_RUBY_BLOCK, new Item.Settings()));
-    public static final Item GHOST_FLUORITE_BLOCK_ITEM = register("ghost_fluorite_block", new BlockItem(AerialHellBlocks.GHOST_FLUORITE_BLOCK, new Item.Settings()));
-    public static final Item GHOST_AZURITE_BLOCK_ITEM = register("ghost_azurite_block", new BlockItem(AerialHellBlocks.GHOST_AZURITE_BLOCK, new Item.Settings()));
-    public static final Item GHOST_GOLD_BLOCK_ITEM = register("ghost_gold_block", new BlockItem(AerialHellBlocks.GHOST_GOLD_BLOCK, new Item.Settings()));
-    public static final Item GHOST_BOAT_BARREL_ITEM = register("ghost_boat_barrel", new BlockItem(AerialHellBlocks.GHOST_BOAT_BARREL, new Item.Settings()));
-    public static final Item GHOST_BOAT_CRAFTING_TABLE_ITEM = register("ghost_boat_crafting_table", new BlockItem(AerialHellBlocks.GHOST_BOAT_CRAFTING_TABLE, new Item.Settings()));
-    public static final Item GHOST_BOAT_VINE_ROPE_SPOOL_ITEM = register("ghost_boat_vine_rope_spool", new BlockItem(AerialHellBlocks.GHOST_BOAT_VINE_ROPE_SPOOL, new Item.Settings()));
-    public static final Item GHOST_LANTERN_ITEM = register("ghost_lantern", new BlockItem(AerialHellBlocks.GHOST_LANTERN, new Item.Settings()));
+    public static final Item GHOST_BOAT_PLANKS = register("ghost_boat_planks", new BlockItem(AerialHellBlocks.GHOST_BOAT_PLANKS, new Item.Settings()));
+    public static final Item GHOST_BOAT_LOG = register("ghost_boat_log", new BlockItem(AerialHellBlocks.GHOST_BOAT_LOG, new Item.Settings()));
+    public static final Item GHOST_BOAT_WOOD = register("ghost_boat_wood", new BlockItem(AerialHellBlocks.GHOST_BOAT_WOOD, new Item.Settings()));
+    public static final Item GHOST_BOAT_SLAB = register("ghost_boat_slab", new BlockItem(AerialHellBlocks.GHOST_BOAT_SLAB, new Item.Settings()));
+    public static final Item GHOST_BOAT_STAIRS = register("ghost_boat_stairs", new BlockItem(AerialHellBlocks.GHOST_BOAT_STAIRS, new Item.Settings()));
+    public static final Item GHOST_BOAT_FENCE = register("ghost_boat_fence", new BlockItem(AerialHellBlocks.GHOST_BOAT_FENCE, new Item.Settings()));
+    public static final Item GHOST_BOAT_GATE = register("ghost_boat_gate", new BlockItem(AerialHellBlocks.GHOST_BOAT_GATE, new Item.Settings()));
+    public static final Item GHOST_BOAT_DOOR = register("ghost_boat_door", new BlockItem(AerialHellBlocks.GHOST_BOAT_DOOR, new Item.Settings()));
+    public static final Item GHOST_BOAT_TRAPDOOR = register("ghost_boat_trapdoor", new BlockItem(AerialHellBlocks.GHOST_BOAT_TRAPDOOR, new Item.Settings()));
+    public static final Item GHOST_BOAT_CHEST = register("ghost_boat_chest", new BlockItem(AerialHellBlocks.GHOST_BOAT_CHEST, new Item.Settings()));
+    public static final Item GHOST_STELLAR_COBBLESTONE = register("ghost_stellar_cobblestone", new BlockItem(AerialHellBlocks.GHOST_STELLAR_COBBLESTONE, new Item.Settings()));
+    public static final Item GHOST_BOAT_WOOL = register("ghost_boat_wool", new BlockItem(AerialHellBlocks.GHOST_BOAT_WOOL, new Item.Settings()));
+    public static final Item GHOST_RUBY_BLOCK = register("ghost_ruby_block", new BlockItem(AerialHellBlocks.GHOST_RUBY_BLOCK, new Item.Settings()));
+    public static final Item GHOST_FLUORITE_BLOCK = register("ghost_fluorite_block", new BlockItem(AerialHellBlocks.GHOST_FLUORITE_BLOCK, new Item.Settings()));
+    public static final Item GHOST_AZURITE_BLOCK = register("ghost_azurite_block", new BlockItem(AerialHellBlocks.GHOST_AZURITE_BLOCK, new Item.Settings()));
+    public static final Item GHOST_GOLD_BLOCK = register("ghost_gold_block", new BlockItem(AerialHellBlocks.GHOST_GOLD_BLOCK, new Item.Settings()));
+    public static final Item GHOST_BOAT_BARREL = register("ghost_boat_barrel", new BlockItem(AerialHellBlocks.GHOST_BOAT_BARREL, new Item.Settings()));
+    public static final Item GHOST_BOAT_CRAFTING_TABLE = register("ghost_boat_crafting_table", new BlockItem(AerialHellBlocks.GHOST_BOAT_CRAFTING_TABLE, new Item.Settings()));
+    public static final Item GHOST_BOAT_VINE_ROPE_SPOOL = register("ghost_boat_vine_rope_spool", new BlockItem(AerialHellBlocks.GHOST_BOAT_VINE_ROPE_SPOOL, new Item.Settings()));
+    public static final Item GHOST_LANTERN = register("ghost_lantern", new BlockItem(AerialHellBlocks.GHOST_LANTERN, new Item.Settings()));
 
     //reactors
-    public static final Item WEAK_LIGHT_REACTOR_ITEM = register("weak_light_reactor", new WithInformationBlockItem(AerialHellBlocks.WEAK_LIGHT_REACTOR, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
-    public static final Item HIGH_POWER_LIGHT_REACTOR_ITEM = register("high_power_light_reactor", new WithInformationBlockItem(AerialHellBlocks.HIGH_POWER_LIGHT_REACTOR, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
-    public static final Item WEAK_SHADOW_REACTOR_ITEM = register("weak_shadow_reactor", new WithInformationBlockItem(AerialHellBlocks.WEAK_SHADOW_REACTOR, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
-    public static final Item HIGH_POWER_SHADOW_REACTOR_ITEM = register("high_power_shadow_reactor", new WithInformationBlockItem(AerialHellBlocks.HIGH_POWER_SHADOW_REACTOR, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item WEAK_LIGHT_REACTOR = register("weak_light_reactor", new WithInformationBlockItem(AerialHellBlocks.WEAK_LIGHT_REACTOR, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
+    public static final Item HIGH_POWER_LIGHT_REACTOR = register("high_power_light_reactor", new WithInformationBlockItem(AerialHellBlocks.HIGH_POWER_LIGHT_REACTOR, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
+    public static final Item WEAK_SHADOW_REACTOR = register("weak_shadow_reactor", new WithInformationBlockItem(AerialHellBlocks.WEAK_SHADOW_REACTOR, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item HIGH_POWER_SHADOW_REACTOR = register("high_power_shadow_reactor", new WithInformationBlockItem(AerialHellBlocks.HIGH_POWER_SHADOW_REACTOR, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
 
-    public static final Item BROKEN_WEAK_LIGHT_REACTOR_ITEM = register("broken_weak_light_reactor", new WithInformationBlockItem(AerialHellBlocks.BROKEN_WEAK_LIGHT_REACTOR, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
-    public static final Item BROKEN_HIGH_POWER_LIGHT_REACTOR_ITEM = register("broken_high_power_light_reactor", new WithInformationBlockItem(AerialHellBlocks.BROKEN_HIGH_POWER_LIGHT_REACTOR, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
-    public static final Item BROKEN_WEAK_SHADOW_REACTOR_ITEM = register("broken_weak_shadow_reactor", new WithInformationBlockItem(AerialHellBlocks.BROKEN_WEAK_SHADOW_REACTOR, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
-    public static final Item BROKEN_HIGH_POWER_SHADOW_REACTOR_ITEM = register("broken_high_power_shadow_reactor", new WithInformationBlockItem(AerialHellBlocks.BROKEN_HIGH_POWER_SHADOW_REACTOR, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item BROKEN_WEAK_LIGHT_REACTOR = register("broken_weak_light_reactor", new WithInformationBlockItem(AerialHellBlocks.BROKEN_WEAK_LIGHT_REACTOR, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
+    public static final Item BROKEN_HIGH_POWER_LIGHT_REACTOR = register("broken_high_power_light_reactor", new WithInformationBlockItem(AerialHellBlocks.BROKEN_HIGH_POWER_LIGHT_REACTOR, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
+    public static final Item BROKEN_WEAK_SHADOW_REACTOR = register("broken_weak_shadow_reactor", new WithInformationBlockItem(AerialHellBlocks.BROKEN_WEAK_SHADOW_REACTOR, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item BROKEN_HIGH_POWER_SHADOW_REACTOR = register("broken_high_power_shadow_reactor", new WithInformationBlockItem(AerialHellBlocks.BROKEN_HIGH_POWER_SHADOW_REACTOR, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
 
     //solid_ethers
-    public static final Item WHITE_SOLID_ETHER_ITEM = register("white_solid_ether", new BlockItem(AerialHellBlocks.WHITE_SOLID_ETHER, new Item.Settings()));
-    public static final Item BLUE_SOLID_ETHER_ITEM = register("blue_solid_ether", new BlockItem(AerialHellBlocks.BLUE_SOLID_ETHER, new Item.Settings()));
-    public static final Item GOLDEN_SOLID_ETHER_ITEM = register("golden_solid_ether", new BlockItem(AerialHellBlocks.GOLDEN_SOLID_ETHER, new Item.Settings()));
-    public static final Item GREEN_SOLID_ETHER_ITEM = register("green_solid_ether", new BlockItem(AerialHellBlocks.GREEN_SOLID_ETHER, new Item.Settings()));
-    public static final Item PURPLE_SOLID_ETHER_ITEM = register("purple_solid_ether", new BlockItem(AerialHellBlocks.PURPLE_SOLID_ETHER, new Item.Settings()));
+    public static final Item WHITE_SOLID_ETHER = register("white_solid_ether", new BlockItem(AerialHellBlocks.WHITE_SOLID_ETHER, new Item.Settings()));
+    public static final Item BLUE_SOLID_ETHER = register("blue_solid_ether", new BlockItem(AerialHellBlocks.BLUE_SOLID_ETHER, new Item.Settings()));
+    public static final Item GOLDEN_SOLID_ETHER = register("golden_solid_ether", new BlockItem(AerialHellBlocks.GOLDEN_SOLID_ETHER, new Item.Settings()));
+    public static final Item GREEN_SOLID_ETHER = register("green_solid_ether", new BlockItem(AerialHellBlocks.GREEN_SOLID_ETHER, new Item.Settings()));
+    public static final Item PURPLE_SOLID_ETHER = register("purple_solid_ether", new BlockItem(AerialHellBlocks.PURPLE_SOLID_ETHER, new Item.Settings()));
 
     //dungeons blocks
-    public static final Item MUD_BRICKS_ITEM = register("mud_bricks", new BlockItem(AerialHellBlocks.MUD_BRICKS, new Item.Settings()));
-    public static final Item CRACKED_MUD_BRICKS_ITEM = register("cracked_mud_bricks", new BlockItem(AerialHellBlocks.CRACKED_MUD_BRICKS, new Item.Settings()));
-    public static final Item MOSSY_MUD_BRICKS_ITEM = register("mossy_mud_bricks", new BlockItem(AerialHellBlocks.MOSSY_MUD_BRICKS, new Item.Settings()));
-    public static final Item CHISELED_MUD_BRICKS_ITEM = register("chiseled_mud_bricks", new BlockItem(AerialHellBlocks.CHISELED_MUD_BRICKS, new Item.Settings()));
-    public static final Item LIGHT_MUD_BRICKS_ITEM = register("light_mud_bricks", new BlockItem(AerialHellBlocks.LIGHT_MUD_BRICKS, new Item.Settings()));
-    public static final Item CRACKED_LIGHT_MUD_BRICKS_ITEM = register("cracked_light_mud_bricks", new BlockItem(AerialHellBlocks.CRACKED_LIGHT_MUD_BRICKS, new Item.Settings()));
-    public static final Item LUNATIC_STONE_ITEM = register("lunatic_stone", new BlockItem(AerialHellBlocks.LUNATIC_STONE, new Item.Settings()));
-    public static final Item DARK_LUNATIC_STONE_ITEM = register("dark_lunatic_stone", new BlockItem(AerialHellBlocks.DARK_LUNATIC_STONE, new Item.Settings()));
-    public static final Item ROOF_LUNATIC_STONE_ITEM = register("roof_lunatic_stone", new BlockItem(AerialHellBlocks.ROOF_LUNATIC_STONE, new Item.Settings()));
-    public static final Item CRACKED_LUNATIC_STONE_ITEM = register("cracked_lunatic_stone", new BlockItem(AerialHellBlocks.CRACKED_LUNATIC_STONE, new Item.Settings()));
-    public static final Item CHISELED_LUNATIC_STONE_ITEM = register("chiseled_lunatic_stone", new BlockItem(AerialHellBlocks.CHISELED_LUNATIC_STONE, new Item.Settings()));
-    public static final Item LIGHT_LUNATIC_STONE_ITEM = register("light_lunatic_stone", new BlockItem(AerialHellBlocks.LIGHT_LUNATIC_STONE, new Item.Settings()));
-    public static final Item ROOF_LIGHT_LUNATIC_STONE_ITEM = register("roof_light_lunatic_stone", new BlockItem(AerialHellBlocks.ROOF_LIGHT_LUNATIC_STONE, new Item.Settings()));
-    public static final Item CRACKED_LIGHT_LUNATIC_STONE_ITEM = register("cracked_light_lunatic_stone", new BlockItem(AerialHellBlocks.CRACKED_LIGHT_LUNATIC_STONE, new Item.Settings()));
-    public static final Item SHADOW_CATACOMBS_BRICKS_ITEM = register("shadow_catacombs_bricks", new BlockItem(AerialHellBlocks.SHADOW_CATACOMBS_BRICKS, new Item.Settings()));
-    public static final Item CRACKED_SHADOW_CATACOMBS_BRICKS_ITEM = register("cracked_shadow_catacombs_bricks", new BlockItem(AerialHellBlocks.CRACKED_SHADOW_CATACOMBS_BRICKS, new Item.Settings()));
-    public static final Item MOSSY_SHADOW_CATACOMBS_BRICKS_ITEM = register("mossy_shadow_catacombs_bricks", new BlockItem(AerialHellBlocks.MOSSY_SHADOW_CATACOMBS_BRICKS, new Item.Settings()));
-    public static final Item CHISELED_SHADOW_CATACOMBS_BRICKS_ITEM = register("chiseled_shadow_catacombs_bricks", new BlockItem(AerialHellBlocks.CHISELED_SHADOW_CATACOMBS_BRICKS, new Item.Settings()));
-    public static final Item BONE_SHADOW_CATACOMBS_BRICKS_ITEM = register("bone_shadow_catacombs_bricks", new BlockItem(AerialHellBlocks.BONE_SHADOW_CATACOMBS_BRICKS, new Item.Settings()));
-    public static final Item SKULL_SHADOW_CATACOMBS_BRICKS_ITEM = register("skull_shadow_catacombs_bricks", new BlockItem(AerialHellBlocks.SKULL_SHADOW_CATACOMBS_BRICKS, new Item.Settings()));
-    public static final Item LIGHT_SHADOW_CATACOMBS_BRICKS_ITEM = register("light_shadow_catacombs_bricks", new BlockItem(AerialHellBlocks.LIGHT_SHADOW_CATACOMBS_BRICKS, new Item.Settings()));
-    public static final Item CRACKED_LIGHT_SHADOW_CATACOMBS_BRICKS_ITEM = register("cracked_light_shadow_catacombs_bricks", new BlockItem(AerialHellBlocks.CRACKED_LIGHT_SHADOW_CATACOMBS_BRICKS, new Item.Settings()));
-    public static final Item GOLDEN_NETHER_BRICKS_ITEM = register("golden_nether_bricks", new BlockItem(AerialHellBlocks.GOLDEN_NETHER_BRICKS, new Item.Settings()));
-    public static final Item CRACKED_GOLDEN_NETHER_BRICKS_ITEM = register("cracked_golden_nether_bricks", new BlockItem(AerialHellBlocks.CRACKED_GOLDEN_NETHER_BRICKS, new Item.Settings()));
-    public static final Item CHISELED_GOLDEN_NETHER_BRICKS_ITEM = register("chiseled_golden_nether_bricks", new BlockItem(AerialHellBlocks.CHISELED_GOLDEN_NETHER_BRICKS, new Item.Settings()));
-    public static final Item LIGHT_GOLDEN_NETHER_BRICKS_ITEM = register("light_golden_nether_bricks", new BlockItem(AerialHellBlocks.LIGHT_GOLDEN_NETHER_BRICKS, new Item.Settings()));
-    public static final Item CRACKED_LIGHT_GOLDEN_NETHER_BRICKS_ITEM = register("cracked_light_golden_nether_bricks", new BlockItem(AerialHellBlocks.CRACKED_LIGHT_GOLDEN_NETHER_BRICKS, new Item.Settings()));
-    public static final Item LUNATIC_PILLAR_ITEM = register("lunatic_pillar", new BlockItem(AerialHellBlocks.LUNATIC_PILLAR, new Item.Settings()));
-    public static final Item LUNATIC_PILLAR_TOP_ITEM = register("lunatic_pillar_top", new BlockItem(AerialHellBlocks.LUNATIC_PILLAR_TOP, new Item.Settings()));
-    public static final Item VOLUCITE_STONE_ITEM = register("volucite_stone", new BlockItem(AerialHellBlocks.VOLUCITE_STONE, new Item.Settings()));
-    public static final Item CRACKED_VOLUCITE_STONE_ITEM = register("cracked_volucite_stone", new BlockItem(AerialHellBlocks.CRACKED_VOLUCITE_STONE, new Item.Settings()));
-    public static final Item CHISELED_VOLUCITE_STONE_ITEM = register("chiseled_volucite_stone", new BlockItem(AerialHellBlocks.CHISELED_VOLUCITE_STONE, new Item.Settings()));
-    public static final Item LIGHT_VOLUCITE_STONE_ITEM = register("light_volucite_stone", new BlockItem(AerialHellBlocks.LIGHT_VOLUCITE_STONE, new Item.Settings()));
-    public static final Item CRACKED_LIGHT_VOLUCITE_STONE_ITEM = register("cracked_light_volucite_stone", new BlockItem(AerialHellBlocks.CRACKED_LIGHT_VOLUCITE_STONE, new Item.Settings()));
+    public static final Item MUD_BRICKS = register("mud_bricks", new BlockItem(AerialHellBlocks.MUD_BRICKS, new Item.Settings()));
+    public static final Item CRACKED_MUD_BRICKS = register("cracked_mud_bricks", new BlockItem(AerialHellBlocks.CRACKED_MUD_BRICKS, new Item.Settings()));
+    public static final Item MOSSY_MUD_BRICKS = register("mossy_mud_bricks", new BlockItem(AerialHellBlocks.MOSSY_MUD_BRICKS, new Item.Settings()));
+    public static final Item CHISELED_MUD_BRICKS = register("chiseled_mud_bricks", new BlockItem(AerialHellBlocks.CHISELED_MUD_BRICKS, new Item.Settings()));
+    public static final Item LIGHT_MUD_BRICKS = register("light_mud_bricks", new BlockItem(AerialHellBlocks.LIGHT_MUD_BRICKS, new Item.Settings()));
+    public static final Item CRACKED_LIGHT_MUD_BRICKS = register("cracked_light_mud_bricks", new BlockItem(AerialHellBlocks.CRACKED_LIGHT_MUD_BRICKS, new Item.Settings()));
+    public static final Item LUNATIC_STONE = register("lunatic_stone", new BlockItem(AerialHellBlocks.LUNATIC_STONE, new Item.Settings()));
+    public static final Item DARK_LUNATIC_STONE = register("dark_lunatic_stone", new BlockItem(AerialHellBlocks.DARK_LUNATIC_STONE, new Item.Settings()));
+    public static final Item ROOF_LUNATIC_STONE = register("roof_lunatic_stone", new BlockItem(AerialHellBlocks.ROOF_LUNATIC_STONE, new Item.Settings()));
+    public static final Item CRACKED_LUNATIC_STONE = register("cracked_lunatic_stone", new BlockItem(AerialHellBlocks.CRACKED_LUNATIC_STONE, new Item.Settings()));
+    public static final Item CHISELED_LUNATIC_STONE = register("chiseled_lunatic_stone", new BlockItem(AerialHellBlocks.CHISELED_LUNATIC_STONE, new Item.Settings()));
+    public static final Item LIGHT_LUNATIC_STONE = register("light_lunatic_stone", new BlockItem(AerialHellBlocks.LIGHT_LUNATIC_STONE, new Item.Settings()));
+    public static final Item ROOF_LIGHT_LUNATIC_STONE = register("roof_light_lunatic_stone", new BlockItem(AerialHellBlocks.ROOF_LIGHT_LUNATIC_STONE, new Item.Settings()));
+    public static final Item CRACKED_LIGHT_LUNATIC_STONE = register("cracked_light_lunatic_stone", new BlockItem(AerialHellBlocks.CRACKED_LIGHT_LUNATIC_STONE, new Item.Settings()));
+    public static final Item SHADOW_CATACOMBS_BRICKS = register("shadow_catacombs_bricks", new BlockItem(AerialHellBlocks.SHADOW_CATACOMBS_BRICKS, new Item.Settings()));
+    public static final Item CRACKED_SHADOW_CATACOMBS_BRICKS = register("cracked_shadow_catacombs_bricks", new BlockItem(AerialHellBlocks.CRACKED_SHADOW_CATACOMBS_BRICKS, new Item.Settings()));
+    public static final Item MOSSY_SHADOW_CATACOMBS_BRICKS = register("mossy_shadow_catacombs_bricks", new BlockItem(AerialHellBlocks.MOSSY_SHADOW_CATACOMBS_BRICKS, new Item.Settings()));
+    public static final Item CHISELED_SHADOW_CATACOMBS_BRICKS = register("chiseled_shadow_catacombs_bricks", new BlockItem(AerialHellBlocks.CHISELED_SHADOW_CATACOMBS_BRICKS, new Item.Settings()));
+    public static final Item BONE_SHADOW_CATACOMBS_BRICKS = register("bone_shadow_catacombs_bricks", new BlockItem(AerialHellBlocks.BONE_SHADOW_CATACOMBS_BRICKS, new Item.Settings()));
+    public static final Item SKULL_SHADOW_CATACOMBS_BRICKS = register("skull_shadow_catacombs_bricks", new BlockItem(AerialHellBlocks.SKULL_SHADOW_CATACOMBS_BRICKS, new Item.Settings()));
+    public static final Item LIGHT_SHADOW_CATACOMBS_BRICKS = register("light_shadow_catacombs_bricks", new BlockItem(AerialHellBlocks.LIGHT_SHADOW_CATACOMBS_BRICKS, new Item.Settings()));
+    public static final Item CRACKED_LIGHT_SHADOW_CATACOMBS_BRICKS = register("cracked_light_shadow_catacombs_bricks", new BlockItem(AerialHellBlocks.CRACKED_LIGHT_SHADOW_CATACOMBS_BRICKS, new Item.Settings()));
+    public static final Item GOLDEN_NETHER_BRICKS = register("golden_nether_bricks", new BlockItem(AerialHellBlocks.GOLDEN_NETHER_BRICKS, new Item.Settings()));
+    public static final Item CRACKED_GOLDEN_NETHER_BRICKS = register("cracked_golden_nether_bricks", new BlockItem(AerialHellBlocks.CRACKED_GOLDEN_NETHER_BRICKS, new Item.Settings()));
+    public static final Item CHISELED_GOLDEN_NETHER_BRICKS = register("chiseled_golden_nether_bricks", new BlockItem(AerialHellBlocks.CHISELED_GOLDEN_NETHER_BRICKS, new Item.Settings()));
+    public static final Item LIGHT_GOLDEN_NETHER_BRICKS = register("light_golden_nether_bricks", new BlockItem(AerialHellBlocks.LIGHT_GOLDEN_NETHER_BRICKS, new Item.Settings()));
+    public static final Item CRACKED_LIGHT_GOLDEN_NETHER_BRICKS = register("cracked_light_golden_nether_bricks", new BlockItem(AerialHellBlocks.CRACKED_LIGHT_GOLDEN_NETHER_BRICKS, new Item.Settings()));
+    public static final Item LUNATIC_PILLAR = register("lunatic_pillar", new BlockItem(AerialHellBlocks.LUNATIC_PILLAR, new Item.Settings()));
+    public static final Item LUNATIC_PILLAR_TOP = register("lunatic_pillar_top", new BlockItem(AerialHellBlocks.LUNATIC_PILLAR_TOP, new Item.Settings()));
+    public static final Item VOLUCITE_STONE = register("volucite_stone", new BlockItem(AerialHellBlocks.VOLUCITE_STONE, new Item.Settings()));
+    public static final Item CRACKED_VOLUCITE_STONE = register("cracked_volucite_stone", new BlockItem(AerialHellBlocks.CRACKED_VOLUCITE_STONE, new Item.Settings()));
+    public static final Item CHISELED_VOLUCITE_STONE = register("chiseled_volucite_stone", new BlockItem(AerialHellBlocks.CHISELED_VOLUCITE_STONE, new Item.Settings()));
+    public static final Item LIGHT_VOLUCITE_STONE = register("light_volucite_stone", new BlockItem(AerialHellBlocks.LIGHT_VOLUCITE_STONE, new Item.Settings()));
+    public static final Item CRACKED_LIGHT_VOLUCITE_STONE = register("cracked_light_volucite_stone", new BlockItem(AerialHellBlocks.CRACKED_LIGHT_VOLUCITE_STONE, new Item.Settings()));
 
     //dungeon cores
-    public static final Item MUD_DUNGEON_CORE_ITEM = register("mud_dungeon_core", new BlockItem(AerialHellBlocks.MUD_DUNGEON_CORE, new Item.Settings()));
-    public static final Item LUNATIC_DUNGEON_CORE_ITEM = register("lunatic_dungeon_core", new BlockItem(AerialHellBlocks.LUNATIC_DUNGEON_CORE, new Item.Settings()));
-    public static final Item SHADOW_CATACOMBS_DUNGEON_CORE_ITEM = register("shadow_catacombs_dungeon_core", new BlockItem(AerialHellBlocks.SHADOW_CATACOMBS_DUNGEON_CORE, new Item.Settings()));
-    public static final Item GOLDEN_NETHER_DUNGEON_CORE_ITEM = register("golden_nether_dungeon_core", new BlockItem(AerialHellBlocks.GOLDEN_NETHER_DUNGEON_CORE, new Item.Settings()));
-    public static final Item VOLUCITE_DUNGEON_CORE_ITEM = register("volucite_dungeon_core", new BlockItem(AerialHellBlocks.VOLUCITE_DUNGEON_CORE, new Item.Settings()));
+    public static final Item MUD_DUNGEON_CORE = register("mud_dungeon_core", new BlockItem(AerialHellBlocks.MUD_DUNGEON_CORE, new Item.Settings()));
+    public static final Item LUNATIC_DUNGEON_CORE = register("lunatic_dungeon_core", new BlockItem(AerialHellBlocks.LUNATIC_DUNGEON_CORE, new Item.Settings()));
+    public static final Item SHADOW_CATACOMBS_DUNGEON_CORE = register("shadow_catacombs_dungeon_core", new BlockItem(AerialHellBlocks.SHADOW_CATACOMBS_DUNGEON_CORE, new Item.Settings()));
+    public static final Item GOLDEN_NETHER_DUNGEON_CORE = register("golden_nether_dungeon_core", new BlockItem(AerialHellBlocks.GOLDEN_NETHER_DUNGEON_CORE, new Item.Settings()));
+    public static final Item VOLUCITE_DUNGEON_CORE = register("volucite_dungeon_core", new BlockItem(AerialHellBlocks.VOLUCITE_DUNGEON_CORE, new Item.Settings()));
 
     //dungeons slabs, stairs & walls
-    public static final Item MUD_BRICKS_SLAB_ITEM = register("mud_bricks_slab", new BlockItem(AerialHellBlocks.MUD_BRICKS_SLAB, new Item.Settings()));
-    public static final Item MUD_BRICKS_STAIRS_ITEM = register("mud_bricks_stairs", new BlockItem(AerialHellBlocks.MUD_BRICKS_STAIRS, new Item.Settings()));
-    public static final Item MUD_BRICKS_WALL_ITEM = register("mud_bricks_wall", new BlockItem(AerialHellBlocks.MUD_BRICKS_WALL, new Item.Settings()));
-    public static final Item CRACKED_MUD_BRICKS_SLAB_ITEM = register("cracked_mud_bricks_slab", new BlockItem(AerialHellBlocks.CRACKED_MUD_BRICKS_SLAB, new Item.Settings()));
-    public static final Item CRACKED_MUD_BRICKS_STAIRS_ITEM = register("cracked_mud_bricks_stairs", new BlockItem(AerialHellBlocks.CRACKED_MUD_BRICKS_STAIRS, new Item.Settings()));
-    public static final Item CRACKED_MUD_BRICKS_WALL_ITEM = register("cracked_mud_bricks_wall", new BlockItem(AerialHellBlocks.CRACKED_MUD_BRICKS_WALL, new Item.Settings()));
-    public static final Item MOSSY_MUD_BRICKS_SLAB_ITEM = register("mossy_mud_bricks_slab", new BlockItem(AerialHellBlocks.MOSSY_MUD_BRICKS_SLAB, new Item.Settings()));
-    public static final Item MOSSY_MUD_BRICKS_STAIRS_ITEM = register("mossy_mud_bricks_stairs", new BlockItem(AerialHellBlocks.MOSSY_MUD_BRICKS_STAIRS, new Item.Settings()));
-    public static final Item MOSSY_MUD_BRICKS_WALL_ITEM = register("mossy_mud_bricks_wall", new BlockItem(AerialHellBlocks.MOSSY_MUD_BRICKS_WALL, new Item.Settings()));
-    public static final Item VOLUCITE_STONE_SLAB_ITEM = register("volucite_stone_slab", new BlockItem(AerialHellBlocks.VOLUCITE_STONE_SLAB, new Item.Settings()));
-    public static final Item VOLUCITE_STONE_STAIRS_ITEM = register("volucite_stone_stairs", new BlockItem(AerialHellBlocks.VOLUCITE_STONE_STAIRS, new Item.Settings()));
-    public static final Item VOLUCITE_STONE_WALL_ITEM = register("volucite_stone_wall", new BlockItem(AerialHellBlocks.VOLUCITE_STONE_WALL, new Item.Settings()));
-    public static final Item CRACKED_VOLUCITE_STONE_SLAB_ITEM = register("cracked_volucite_stone_slab", new BlockItem(AerialHellBlocks.CRACKED_VOLUCITE_STONE_SLAB, new Item.Settings()));
-    public static final Item CRACKED_VOLUCITE_STONE_STAIRS_ITEM = register("cracked_volucite_stone_stairs", new BlockItem(AerialHellBlocks.CRACKED_VOLUCITE_STONE_STAIRS, new Item.Settings()));
-    public static final Item CRACKED_VOLUCITE_STONE_WALL_ITEM = register("cracked_volucite_stone_wall", new BlockItem(AerialHellBlocks.CRACKED_VOLUCITE_STONE_WALL, new Item.Settings()));
-    public static final Item LUNATIC_STONE_SLAB_ITEM = register("lunatic_stone_slab", new BlockItem(AerialHellBlocks.LUNATIC_STONE_SLAB, new Item.Settings()));
-    public static final Item LUNATIC_STONE_STAIRS_ITEM = register("lunatic_stone_stairs", new BlockItem(AerialHellBlocks.LUNATIC_STONE_STAIRS, new Item.Settings()));
-    public static final Item LUNATIC_STONE_WALL_ITEM = register("lunatic_stone_wall", new BlockItem(AerialHellBlocks.LUNATIC_STONE_WALL, new Item.Settings()));
-    public static final Item DARK_LUNATIC_STONE_SLAB_ITEM = register("dark_lunatic_stone_slab", new BlockItem(AerialHellBlocks.DARK_LUNATIC_STONE_SLAB, new Item.Settings()));
-    public static final Item DARK_LUNATIC_STONE_STAIRS_ITEM = register("dark_lunatic_stone_stairs", new BlockItem(AerialHellBlocks.DARK_LUNATIC_STONE_STAIRS, new Item.Settings()));
-    public static final Item DARK_LUNATIC_STONE_WALL_ITEM = register("dark_lunatic_stone_wall", new BlockItem(AerialHellBlocks.DARK_LUNATIC_STONE_WALL, new Item.Settings()));
-    public static final Item CRACKED_LUNATIC_STONE_SLAB_ITEM = register("cracked_lunatic_stone_slab", new BlockItem(AerialHellBlocks.CRACKED_LUNATIC_STONE_SLAB, new Item.Settings()));
-    public static final Item CRACKED_LUNATIC_STONE_STAIRS_ITEM = register("cracked_lunatic_stone_stairs", new BlockItem(AerialHellBlocks.CRACKED_LUNATIC_STONE_STAIRS, new Item.Settings()));
-    public static final Item CRACKED_LUNATIC_STONE_WALL_ITEM = register("cracked_lunatic_stone_wall", new BlockItem(AerialHellBlocks.CRACKED_LUNATIC_STONE_WALL, new Item.Settings()));
-    public static final Item SHADOW_CATACOMBS_BRICKS_SLAB_ITEM = register("shadow_catacombs_bricks_slab", new BlockItem(AerialHellBlocks.SHADOW_CATACOMBS_BRICKS_SLAB, new Item.Settings()));
-    public static final Item SHADOW_CATACOMBS_BRICKS_STAIRS_ITEM = register("shadow_catacombs_bricks_stairs", new BlockItem(AerialHellBlocks.SHADOW_CATACOMBS_BRICKS_STAIRS, new Item.Settings()));
-    public static final Item SHADOW_CATACOMBS_BRICKS_WALL_ITEM = register("shadow_catacombs_bricks_wall", new BlockItem(AerialHellBlocks.SHADOW_CATACOMBS_BRICKS_WALL, new Item.Settings()));
-    public static final Item CRACKED_SHADOW_CATACOMBS_BRICKS_SLAB_ITEM = register("cracked_shadow_catacombs_bricks_slab", new BlockItem(AerialHellBlocks.CRACKED_SHADOW_CATACOMBS_BRICKS_SLAB, new Item.Settings()));
-    public static final Item CRACKED_SHADOW_CATACOMBS_BRICKS_STAIRS_ITEM = register("cracked_shadow_catacombs_bricks_stairs", new BlockItem(AerialHellBlocks.CRACKED_SHADOW_CATACOMBS_BRICKS_STAIRS, new Item.Settings()));
-    public static final Item CRACKED_SHADOW_CATACOMBS_BRICKS_WALL_ITEM = register("cracked_shadow_catacombs_bricks_wall", new BlockItem(AerialHellBlocks.CRACKED_SHADOW_CATACOMBS_BRICKS_WALL, new Item.Settings()));
-    public static final Item MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB_ITEM = register("mossy_shadow_catacombs_bricks_slab", new BlockItem(AerialHellBlocks.MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB, new Item.Settings()));
-    public static final Item MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS_ITEM = register("mossy_shadow_catacombs_bricks_stairs", new BlockItem(AerialHellBlocks.MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS, new Item.Settings()));
-    public static final Item MOSSY_SHADOW_CATACOMBS_BRICKS_WALL_ITEM = register("mossy_shadow_catacombs_bricks_wall", new BlockItem(AerialHellBlocks.MOSSY_SHADOW_CATACOMBS_BRICKS_WALL, new Item.Settings()));
-    public static final Item SHADOW_BARS_ITEM = register("shadow_bars", new BlockItem(AerialHellBlocks.SHADOW_BARS, new Item.Settings()));
-    public static final Item GOLDEN_NETHER_BRICKS_SLAB_ITEM = register("golden_nether_bricks_slab", new BlockItem(AerialHellBlocks.GOLDEN_NETHER_BRICKS_SLAB, new Item.Settings()));
-    public static final Item GOLDEN_NETHER_BRICKS_STAIRS_ITEM = register("golden_nether_bricks_stairs", new BlockItem(AerialHellBlocks.GOLDEN_NETHER_BRICKS_STAIRS, new Item.Settings()));
-    public static final Item GOLDEN_NETHER_BRICKS_WALL_ITEM = register("golden_nether_bricks_wall", new BlockItem(AerialHellBlocks.GOLDEN_NETHER_BRICKS_WALL, new Item.Settings()));
-    public static final Item CRACKED_GOLDEN_NETHER_BRICKS_SLAB_ITEM = register("cracked_golden_nether_bricks_slab", new BlockItem(AerialHellBlocks.CRACKED_GOLDEN_NETHER_BRICKS_SLAB, new Item.Settings()));
-    public static final Item CRACKED_GOLDEN_NETHER_BRICKS_STAIRS_ITEM = register("cracked_golden_nether_bricks_stairs", new BlockItem(AerialHellBlocks.CRACKED_GOLDEN_NETHER_BRICKS_STAIRS, new Item.Settings()));
-    public static final Item CRACKED_GOLDEN_NETHER_BRICKS_WALL_ITEM = register("cracked_golden_nether_bricks_wall", new BlockItem(AerialHellBlocks.CRACKED_GOLDEN_NETHER_BRICKS_WALL, new Item.Settings()));
+    public static final Item MUD_BRICKS_SLAB = register("mud_bricks_slab", new BlockItem(AerialHellBlocks.MUD_BRICKS_SLAB, new Item.Settings()));
+    public static final Item MUD_BRICKS_STAIRS = register("mud_bricks_stairs", new BlockItem(AerialHellBlocks.MUD_BRICKS_STAIRS, new Item.Settings()));
+    public static final Item MUD_BRICKS_WALL = register("mud_bricks_wall", new BlockItem(AerialHellBlocks.MUD_BRICKS_WALL, new Item.Settings()));
+    public static final Item CRACKED_MUD_BRICKS_SLAB = register("cracked_mud_bricks_slab", new BlockItem(AerialHellBlocks.CRACKED_MUD_BRICKS_SLAB, new Item.Settings()));
+    public static final Item CRACKED_MUD_BRICKS_STAIRS = register("cracked_mud_bricks_stairs", new BlockItem(AerialHellBlocks.CRACKED_MUD_BRICKS_STAIRS, new Item.Settings()));
+    public static final Item CRACKED_MUD_BRICKS_WALL = register("cracked_mud_bricks_wall", new BlockItem(AerialHellBlocks.CRACKED_MUD_BRICKS_WALL, new Item.Settings()));
+    public static final Item MOSSY_MUD_BRICKS_SLAB = register("mossy_mud_bricks_slab", new BlockItem(AerialHellBlocks.MOSSY_MUD_BRICKS_SLAB, new Item.Settings()));
+    public static final Item MOSSY_MUD_BRICKS_STAIRS = register("mossy_mud_bricks_stairs", new BlockItem(AerialHellBlocks.MOSSY_MUD_BRICKS_STAIRS, new Item.Settings()));
+    public static final Item MOSSY_MUD_BRICKS_WALL = register("mossy_mud_bricks_wall", new BlockItem(AerialHellBlocks.MOSSY_MUD_BRICKS_WALL, new Item.Settings()));
+    public static final Item VOLUCITE_STONE_SLAB = register("volucite_stone_slab", new BlockItem(AerialHellBlocks.VOLUCITE_STONE_SLAB, new Item.Settings()));
+    public static final Item VOLUCITE_STONE_STAIRS = register("volucite_stone_stairs", new BlockItem(AerialHellBlocks.VOLUCITE_STONE_STAIRS, new Item.Settings()));
+    public static final Item VOLUCITE_STONE_WALL = register("volucite_stone_wall", new BlockItem(AerialHellBlocks.VOLUCITE_STONE_WALL, new Item.Settings()));
+    public static final Item CRACKED_VOLUCITE_STONE_SLAB = register("cracked_volucite_stone_slab", new BlockItem(AerialHellBlocks.CRACKED_VOLUCITE_STONE_SLAB, new Item.Settings()));
+    public static final Item CRACKED_VOLUCITE_STONE_STAIRS = register("cracked_volucite_stone_stairs", new BlockItem(AerialHellBlocks.CRACKED_VOLUCITE_STONE_STAIRS, new Item.Settings()));
+    public static final Item CRACKED_VOLUCITE_STONE_WALL = register("cracked_volucite_stone_wall", new BlockItem(AerialHellBlocks.CRACKED_VOLUCITE_STONE_WALL, new Item.Settings()));
+    public static final Item LUNATIC_STONE_SLAB = register("lunatic_stone_slab", new BlockItem(AerialHellBlocks.LUNATIC_STONE_SLAB, new Item.Settings()));
+    public static final Item LUNATIC_STONE_STAIRS = register("lunatic_stone_stairs", new BlockItem(AerialHellBlocks.LUNATIC_STONE_STAIRS, new Item.Settings()));
+    public static final Item LUNATIC_STONE_WALL = register("lunatic_stone_wall", new BlockItem(AerialHellBlocks.LUNATIC_STONE_WALL, new Item.Settings()));
+    public static final Item DARK_LUNATIC_STONE_SLAB = register("dark_lunatic_stone_slab", new BlockItem(AerialHellBlocks.DARK_LUNATIC_STONE_SLAB, new Item.Settings()));
+    public static final Item DARK_LUNATIC_STONE_STAIRS = register("dark_lunatic_stone_stairs", new BlockItem(AerialHellBlocks.DARK_LUNATIC_STONE_STAIRS, new Item.Settings()));
+    public static final Item DARK_LUNATIC_STONE_WALL = register("dark_lunatic_stone_wall", new BlockItem(AerialHellBlocks.DARK_LUNATIC_STONE_WALL, new Item.Settings()));
+    public static final Item CRACKED_LUNATIC_STONE_SLAB = register("cracked_lunatic_stone_slab", new BlockItem(AerialHellBlocks.CRACKED_LUNATIC_STONE_SLAB, new Item.Settings()));
+    public static final Item CRACKED_LUNATIC_STONE_STAIRS = register("cracked_lunatic_stone_stairs", new BlockItem(AerialHellBlocks.CRACKED_LUNATIC_STONE_STAIRS, new Item.Settings()));
+    public static final Item CRACKED_LUNATIC_STONE_WALL = register("cracked_lunatic_stone_wall", new BlockItem(AerialHellBlocks.CRACKED_LUNATIC_STONE_WALL, new Item.Settings()));
+    public static final Item SHADOW_CATACOMBS_BRICKS_SLAB = register("shadow_catacombs_bricks_slab", new BlockItem(AerialHellBlocks.SHADOW_CATACOMBS_BRICKS_SLAB, new Item.Settings()));
+    public static final Item SHADOW_CATACOMBS_BRICKS_STAIRS = register("shadow_catacombs_bricks_stairs", new BlockItem(AerialHellBlocks.SHADOW_CATACOMBS_BRICKS_STAIRS, new Item.Settings()));
+    public static final Item SHADOW_CATACOMBS_BRICKS_WALL = register("shadow_catacombs_bricks_wall", new BlockItem(AerialHellBlocks.SHADOW_CATACOMBS_BRICKS_WALL, new Item.Settings()));
+    public static final Item CRACKED_SHADOW_CATACOMBS_BRICKS_SLAB = register("cracked_shadow_catacombs_bricks_slab", new BlockItem(AerialHellBlocks.CRACKED_SHADOW_CATACOMBS_BRICKS_SLAB, new Item.Settings()));
+    public static final Item CRACKED_SHADOW_CATACOMBS_BRICKS_STAIRS = register("cracked_shadow_catacombs_bricks_stairs", new BlockItem(AerialHellBlocks.CRACKED_SHADOW_CATACOMBS_BRICKS_STAIRS, new Item.Settings()));
+    public static final Item CRACKED_SHADOW_CATACOMBS_BRICKS_WALL = register("cracked_shadow_catacombs_bricks_wall", new BlockItem(AerialHellBlocks.CRACKED_SHADOW_CATACOMBS_BRICKS_WALL, new Item.Settings()));
+    public static final Item MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB = register("mossy_shadow_catacombs_bricks_slab", new BlockItem(AerialHellBlocks.MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB, new Item.Settings()));
+    public static final Item MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS = register("mossy_shadow_catacombs_bricks_stairs", new BlockItem(AerialHellBlocks.MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS, new Item.Settings()));
+    public static final Item MOSSY_SHADOW_CATACOMBS_BRICKS_WALL = register("mossy_shadow_catacombs_bricks_wall", new BlockItem(AerialHellBlocks.MOSSY_SHADOW_CATACOMBS_BRICKS_WALL, new Item.Settings()));
+    public static final Item SHADOW_BARS = register("shadow_bars", new BlockItem(AerialHellBlocks.SHADOW_BARS, new Item.Settings()));
+    public static final Item GOLDEN_NETHER_BRICKS_SLAB = register("golden_nether_bricks_slab", new BlockItem(AerialHellBlocks.GOLDEN_NETHER_BRICKS_SLAB, new Item.Settings()));
+    public static final Item GOLDEN_NETHER_BRICKS_STAIRS = register("golden_nether_bricks_stairs", new BlockItem(AerialHellBlocks.GOLDEN_NETHER_BRICKS_STAIRS, new Item.Settings()));
+    public static final Item GOLDEN_NETHER_BRICKS_WALL = register("golden_nether_bricks_wall", new BlockItem(AerialHellBlocks.GOLDEN_NETHER_BRICKS_WALL, new Item.Settings()));
+    public static final Item CRACKED_GOLDEN_NETHER_BRICKS_SLAB = register("cracked_golden_nether_bricks_slab", new BlockItem(AerialHellBlocks.CRACKED_GOLDEN_NETHER_BRICKS_SLAB, new Item.Settings()));
+    public static final Item CRACKED_GOLDEN_NETHER_BRICKS_STAIRS = register("cracked_golden_nether_bricks_stairs", new BlockItem(AerialHellBlocks.CRACKED_GOLDEN_NETHER_BRICKS_STAIRS, new Item.Settings()));
+    public static final Item CRACKED_GOLDEN_NETHER_BRICKS_WALL = register("cracked_golden_nether_bricks_wall", new BlockItem(AerialHellBlocks.CRACKED_GOLDEN_NETHER_BRICKS_WALL, new Item.Settings()));
 
     //smoky quartz
     public static final Item SMOKY_QUARTZ = register("smoky_quartz", new Item(new Item.Settings()));
-    public static final Item SMOKY_QUARTZ_BLOCK_ITEM = register("smoky_quartz_block", new BlockItem(AerialHellBlocks.SMOKY_QUARTZ_BLOCK, new Item.Settings()));
-    public static final Item SMOOTH_SMOKY_QUARTZ_ITEM = register("smooth_smoky_quartz", new BlockItem(AerialHellBlocks.SMOOTH_SMOKY_QUARTZ, new Item.Settings()));
-    public static final Item CHISELED_SMOKY_QUARTZ_BLOCK_ITEM = register("chiseled_smoky_quartz_block", new BlockItem(AerialHellBlocks.CHISELED_SMOKY_QUARTZ_BLOCK, new Item.Settings()));
-    public static final Item SMOKY_QUARTZ_BRICKS_ITEM = register("smoky_quartz_bricks", new BlockItem(AerialHellBlocks.SMOKY_QUARTZ_BRICKS, new Item.Settings()));
-    public static final Item SMOKY_QUARTZ_PILLAR_ITEM = register("smoky_quartz_pillar", new BlockItem(AerialHellBlocks.SMOKY_QUARTZ_PILLAR, new Item.Settings()));
-    public static final Item SMOKY_QUARTZ_SLAB_ITEM = register("smoky_quartz_slab", new BlockItem(AerialHellBlocks.SMOKY_QUARTZ_SLAB, new Item.Settings()));
-    public static final Item SMOOTH_SMOKY_QUARTZ_SLAB_ITEM = register("smooth_smoky_quartz_slab", new BlockItem(AerialHellBlocks.SMOOTH_SMOKY_QUARTZ_SLAB, new Item.Settings()));
-    public static final Item SMOKY_QUARTZ_STAIRS_ITEM = register("smoky_quartz_stairs", new BlockItem(AerialHellBlocks.SMOKY_QUARTZ_STAIRS, new Item.Settings()));
-    public static final Item SMOOTH_SMOKY_QUARTZ_STAIRS_ITEM = register("smooth_smoky_quartz_stairs", new BlockItem(AerialHellBlocks.SMOOTH_SMOKY_QUARTZ_STAIRS, new Item.Settings()));
+    public static final Item SMOKY_QUARTZ_BLOCK = register("smoky_quartz_block", new BlockItem(AerialHellBlocks.SMOKY_QUARTZ_BLOCK, new Item.Settings()));
+    public static final Item SMOOTH_SMOKY_QUARTZ = register("smooth_smoky_quartz", new BlockItem(AerialHellBlocks.SMOOTH_SMOKY_QUARTZ, new Item.Settings()));
+    public static final Item CHISELED_SMOKY_QUARTZ_BLOCK = register("chiseled_smoky_quartz_block", new BlockItem(AerialHellBlocks.CHISELED_SMOKY_QUARTZ_BLOCK, new Item.Settings()));
+    public static final Item SMOKY_QUARTZ_BRICKS = register("smoky_quartz_bricks", new BlockItem(AerialHellBlocks.SMOKY_QUARTZ_BRICKS, new Item.Settings()));
+    public static final Item SMOKY_QUARTZ_PILLAR = register("smoky_quartz_pillar", new BlockItem(AerialHellBlocks.SMOKY_QUARTZ_PILLAR, new Item.Settings()));
+    public static final Item SMOKY_QUARTZ_SLAB = register("smoky_quartz_slab", new BlockItem(AerialHellBlocks.SMOKY_QUARTZ_SLAB, new Item.Settings()));
+    public static final Item SMOOTH_SMOKY_QUARTZ_SLAB = register("smooth_smoky_quartz_slab", new BlockItem(AerialHellBlocks.SMOOTH_SMOKY_QUARTZ_SLAB, new Item.Settings()));
+    public static final Item SMOKY_QUARTZ_STAIRS = register("smoky_quartz_stairs", new BlockItem(AerialHellBlocks.SMOKY_QUARTZ_STAIRS, new Item.Settings()));
+    public static final Item SMOOTH_SMOKY_QUARTZ_STAIRS = register("smooth_smoky_quartz_stairs", new BlockItem(AerialHellBlocks.SMOOTH_SMOKY_QUARTZ_STAIRS, new Item.Settings()));
 
     //dungeon trapped blocks
-    public static final Item TRAPPED_MUD_BRICKS_ITEM = register("trapped_mud_bricks", new BlockItem(AerialHellBlocks.TRAPPED_MUD_BRICKS, new Item.Settings()));
-    public static final Item TRAPPED_LIGHT_MUD_BRICKS_ITEM = register("trapped_light_mud_bricks", new BlockItem(AerialHellBlocks.TRAPPED_LIGHT_MUD_BRICKS, new Item.Settings()));
-    public static final Item TRAPPED_LUNATIC_STONE_ITEM = register("trapped_lunatic_stone", new BlockItem(AerialHellBlocks.TRAPPED_LUNATIC_STONE, new Item.Settings()));
-    public static final Item TRAPPED_LIGHT_LUNATIC_STONE_ITEM = register("trapped_light_lunatic_stone", new BlockItem(AerialHellBlocks.TRAPPED_LIGHT_LUNATIC_STONE, new Item.Settings()));
-    public static final Item TRAPPED_GOLDEN_NETHER_BRICKS_ITEM = register("trapped_golden_nether_bricks", new BlockItem(AerialHellBlocks.TRAPPED_GOLDEN_NETHER_BRICKS, new Item.Settings()));
-    public static final Item TRAPPED_LIGHT_GOLDEN_NETHER_BRICKS_ITEM = register("trapped_light_golden_nether_bricks", new BlockItem(AerialHellBlocks.TRAPPED_LIGHT_GOLDEN_NETHER_BRICKS, new Item.Settings()));
+    public static final Item TRAPPED_MUD_BRICKS = register("trapped_mud_bricks", new BlockItem(AerialHellBlocks.TRAPPED_MUD_BRICKS, new Item.Settings()));
+    public static final Item TRAPPED_LIGHT_MUD_BRICKS = register("trapped_light_mud_bricks", new BlockItem(AerialHellBlocks.TRAPPED_LIGHT_MUD_BRICKS, new Item.Settings()));
+    public static final Item TRAPPED_LUNATIC_STONE = register("trapped_lunatic_stone", new BlockItem(AerialHellBlocks.TRAPPED_LUNATIC_STONE, new Item.Settings()));
+    public static final Item TRAPPED_LIGHT_LUNATIC_STONE = register("trapped_light_lunatic_stone", new BlockItem(AerialHellBlocks.TRAPPED_LIGHT_LUNATIC_STONE, new Item.Settings()));
+    public static final Item TRAPPED_GOLDEN_NETHER_BRICKS = register("trapped_golden_nether_bricks", new BlockItem(AerialHellBlocks.TRAPPED_GOLDEN_NETHER_BRICKS, new Item.Settings()));
+    public static final Item TRAPPED_LIGHT_GOLDEN_NETHER_BRICKS = register("trapped_light_golden_nether_bricks", new BlockItem(AerialHellBlocks.TRAPPED_LIGHT_GOLDEN_NETHER_BRICKS, new Item.Settings()));
 
     //dungeon other blocks, loots
-    public static final Item MUD_BONE_BLOCK_ITEM = register("mud_bone_block", new BlockItem(AerialHellBlocks.MUD_BONE_BLOCK, new Item.Settings()));
-    public static final Item MUD_BONE_PILE_BLOCK_ITEM = register("mud_bone_pile_block", new BlockItem(AerialHellBlocks.MUD_BONE_PILE_BLOCK, new Item.Settings()));
+    public static final Item MUD_BONE_BLOCK = register("mud_bone_block", new BlockItem(AerialHellBlocks.MUD_BONE_BLOCK, new Item.Settings()));
+    public static final Item MUD_BONE_PILE_BLOCK = register("mud_bone_pile_block", new BlockItem(AerialHellBlocks.MUD_BONE_PILE_BLOCK, new Item.Settings()));
     public static final Item MUD_BONE = register("mud_bone", new Item(new Item.Settings()));
-    public static final Item THORNY_COBWEB_ITEM = register("thorny_cobweb", new BlockItem(AerialHellBlocks.THORNY_COBWEB, new Item.Settings()));
-    public static final Item AERIAL_NETHERRACK_ITEM = register("aerial_netherrack", new BlockItem(AerialHellBlocks.AERIAL_NETHERRACK, new Item.Settings()));
-    public static final Item AERIAL_NETHERRACK_SLAB_ITEM = register("aerial_netherrack_slab", new BlockItem(AerialHellBlocks.AERIAL_NETHERRACK_SLAB, new Item.Settings()));
-    public static final Item AERIAL_NETHERRACK_STAIRS_ITEM = register("aerial_netherrack_stairs", new BlockItem(AerialHellBlocks.AERIAL_NETHERRACK_STAIRS, new Item.Settings()));
-    public static final Item AERIAL_NETHERRACK_WALL_ITEM = register("aerial_netherrack_wall", new BlockItem(AerialHellBlocks.AERIAL_NETHERRACK_WALL, new Item.Settings()));
+    public static final Item THORNY_COBWEB = register("thorny_cobweb", new BlockItem(AerialHellBlocks.THORNY_COBWEB, new Item.Settings()));
+    public static final Item AERIAL_NETHERRACK = register("aerial_netherrack", new BlockItem(AerialHellBlocks.AERIAL_NETHERRACK, new Item.Settings()));
+    public static final Item AERIAL_NETHERRACK_SLAB = register("aerial_netherrack_slab", new BlockItem(AerialHellBlocks.AERIAL_NETHERRACK_SLAB, new Item.Settings()));
+    public static final Item AERIAL_NETHERRACK_STAIRS = register("aerial_netherrack_stairs", new BlockItem(AerialHellBlocks.AERIAL_NETHERRACK_STAIRS, new Item.Settings()));
+    public static final Item AERIAL_NETHERRACK_WALL = register("aerial_netherrack_wall", new BlockItem(AerialHellBlocks.AERIAL_NETHERRACK_WALL, new Item.Settings()));
 
     //dungeon bookshelfs
-    public static final Item MUD_BOOKSHELF_ITEM = register("mud_bookshelf", new BlockItem(AerialHellBlocks.MUD_BOOKSHELF, new Item.Settings()));
-    public static final Item LUNATIC_BOOKSHELF_ITEM = register("lunatic_bookshelf", new BlockItem(AerialHellBlocks.LUNATIC_BOOKSHELF, new Item.Settings()));
-    public static final Item GOLDEN_NETHER_BOOKSHELF_ITEM = register("golden_nether_bookshelf", new BlockItem(AerialHellBlocks.GOLDEN_NETHER_BOOKSHELF, new Item.Settings()));
-    public static final Item SHADOW_CATACOMBS_BOOKSHELF_ITEM = register("shadow_catacombs_bookshelf", new BlockItem(AerialHellBlocks.SHADOW_CATACOMBS_BOOKSHELF, new Item.Settings()));
-    public static final Item VOLUCITE_BOOKSHELF_ITEM = register("volucite_bookshelf", new BlockItem(AerialHellBlocks.VOLUCITE_BOOKSHELF, new Item.Settings()));
+    public static final Item MUD_BOOKSHELF = register("mud_bookshelf", new BlockItem(AerialHellBlocks.MUD_BOOKSHELF, new Item.Settings()));
+    public static final Item LUNATIC_BOOKSHELF = register("lunatic_bookshelf", new BlockItem(AerialHellBlocks.LUNATIC_BOOKSHELF, new Item.Settings()));
+    public static final Item GOLDEN_NETHER_BOOKSHELF = register("golden_nether_bookshelf", new BlockItem(AerialHellBlocks.GOLDEN_NETHER_BOOKSHELF, new Item.Settings()));
+    public static final Item SHADOW_CATACOMBS_BOOKSHELF = register("shadow_catacombs_bookshelf", new BlockItem(AerialHellBlocks.SHADOW_CATACOMBS_BOOKSHELF, new Item.Settings()));
+    public static final Item VOLUCITE_BOOKSHELF = register("volucite_bookshelf", new BlockItem(AerialHellBlocks.VOLUCITE_BOOKSHELF, new Item.Settings()));
 
     //glyph blocks
-    public static final Item MUD_GLYPH_BLOCK_ITEM = register("mud_glyph_block", new BlockItem(AerialHellBlocks.MUD_GLYPH_BLOCK, new Item.Settings()));
-    public static final Item LUNATIC_GLYPH_BLOCK_ITEM = register("lunatic_glyph_block", new BlockItem(AerialHellBlocks.LUNATIC_GLYPH_BLOCK, new Item.Settings()));
-    public static final Item GOLDEN_NETHER_PRISON_GLYPH_BLOCK_ITEM = register("golden_nether_prison_glyph_block", new BlockItem(AerialHellBlocks.GOLDEN_NETHER_PRISON_GLYPH_BLOCK, new Item.Settings()));
-    public static final Item VOLUCITE_GLYPH_BLOCK_ITEM = register("volucite_glyph_block", new BlockItem(AerialHellBlocks.VOLUCITE_GLYPH_BLOCK, new Item.Settings()));
-    public static final Item SHADOW_CATACOMBS_GLYPH_BLOCK_ITEM = register("shadow_catacombs_glyph_block", new BlockItem(AerialHellBlocks.SHADOW_CATACOMBS_GLYPH_BLOCK, new Item.Settings()));
+    public static final Item MUD_GLYPH_BLOCK = register("mud_glyph_block", new BlockItem(AerialHellBlocks.MUD_GLYPH_BLOCK, new Item.Settings()));
+    public static final Item LUNATIC_GLYPH_BLOCK = register("lunatic_glyph_block", new BlockItem(AerialHellBlocks.LUNATIC_GLYPH_BLOCK, new Item.Settings()));
+    public static final Item GOLDEN_NETHER_PRISON_GLYPH_BLOCK = register("golden_nether_prison_glyph_block", new BlockItem(AerialHellBlocks.GOLDEN_NETHER_PRISON_GLYPH_BLOCK, new Item.Settings()));
+    public static final Item VOLUCITE_GLYPH_BLOCK = register("volucite_glyph_block", new BlockItem(AerialHellBlocks.VOLUCITE_GLYPH_BLOCK, new Item.Settings()));
+    public static final Item SHADOW_CATACOMBS_GLYPH_BLOCK = register("shadow_catacombs_glyph_block", new BlockItem(AerialHellBlocks.SHADOW_CATACOMBS_GLYPH_BLOCK, new Item.Settings()));
 
     //trophies
-    public static final Item MUD_CYCLE_MAGE_TROPHY_ITEM = register("mud_cycle_mage_trophy", new BlockItem(AerialHellBlocks.MUD_CYCLE_MAGE_TROPHY, new Item.Settings()));
-    public static final Item LUNAR_PRIEST_TROPHY_ITEM = register("lunar_priest_trophy", new BlockItem(AerialHellBlocks.LUNAR_PRIEST_TROPHY, new Item.Settings()));
-    public static final Item LILITH_TROPHY_ITEM = register("lilith_trophy", new BlockItem(AerialHellBlocks.LILITH_TROPHY, new Item.Settings()));
-    public static final Item CHAINED_GOD_TROPHY_ITEM = register("chained_god_trophy", new BlockItem(AerialHellBlocks.CHAINED_GOD_TROPHY, new Item.Settings()));
+    public static final Item MUD_CYCLE_MAGE_TROPHY = register("mud_cycle_mage_trophy", new BlockItem(AerialHellBlocks.MUD_CYCLE_MAGE_TROPHY, new Item.Settings()));
+    public static final Item LUNAR_PRIEST_TROPHY = register("lunar_priest_trophy", new BlockItem(AerialHellBlocks.LUNAR_PRIEST_TROPHY, new Item.Settings()));
+    public static final Item LILITH_TROPHY = register("lilith_trophy", new BlockItem(AerialHellBlocks.LILITH_TROPHY, new Item.Settings()));
+    public static final Item CHAINED_GOD_TROPHY = register("chained_god_trophy", new BlockItem(AerialHellBlocks.CHAINED_GOD_TROPHY, new Item.Settings()));
 
     //ores
-    public static final Item IRON_STELLAR_ORE_ITEM = register("iron_stellar_ore", new BlockItem(AerialHellBlocks.IRON_STELLAR_ORE, new Item.Settings()));
-    public static final Item GOLD_STELLAR_ORE_ITEM = register("gold_stellar_ore", new BlockItem(AerialHellBlocks.GOLD_STELLAR_ORE, new Item.Settings()));
-    public static final Item DIAMOND_STELLAR_ORE_ITEM = register("diamond_stellar_ore", new BlockItem(AerialHellBlocks.DIAMOND_STELLAR_ORE, new Item.Settings()));
-    public static final Item FLUORITE_ORE_ITEM = register("fluorite_ore", new BlockItem(AerialHellBlocks.FLUORITE_ORE, new Item.Settings()));
-    public static final Item MAGMATIC_GEL_ORE_ITEM = register("magmatic_gel_ore", new BlockItem(AerialHellBlocks.MAGMATIC_GEL_ORE, new Item.Settings()));
-    public static final Item RUBY_ORE_ITEM = register("ruby_ore", new BlockItem(AerialHellBlocks.RUBY_ORE, new Item.Settings()));
-    public static final Item AZURITE_ORE_ITEM = register("azurite_ore", new BlockItem(AerialHellBlocks.AZURITE_ORE, new Item.Settings()));
-    public static final Item VOLUCITE_ORE_ITEM = register("volucite_ore", new BlockItem(AerialHellBlocks.VOLUCITE_ORE, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
-    public static final Item OBSIDIAN_ORE_ITEM = register("obsidian_ore", new BlockItem(AerialHellBlocks.OBSIDIAN_ORE, new Item.Settings().rarity(Rarity.EPIC)));
-    public static final Item SMOKY_QUARTZ_ORE_ITEM = register("smoky_quartz_ore", new BlockItem(AerialHellBlocks.SMOKY_QUARTZ_ORE, new Item.Settings().rarity(Rarity.EPIC)));
+    public static final Item IRON_STELLAR_ORE = register("iron_stellar_ore", new BlockItem(AerialHellBlocks.IRON_STELLAR_ORE, new Item.Settings()));
+    public static final Item GOLD_STELLAR_ORE = register("gold_stellar_ore", new BlockItem(AerialHellBlocks.GOLD_STELLAR_ORE, new Item.Settings()));
+    public static final Item DIAMOND_STELLAR_ORE = register("diamond_stellar_ore", new BlockItem(AerialHellBlocks.DIAMOND_STELLAR_ORE, new Item.Settings()));
+    public static final Item FLUORITE_ORE = register("fluorite_ore", new BlockItem(AerialHellBlocks.FLUORITE_ORE, new Item.Settings()));
+    public static final Item MAGMATIC_GEL_ORE = register("magmatic_gel_ore", new BlockItem(AerialHellBlocks.MAGMATIC_GEL_ORE, new Item.Settings()));
+    public static final Item RUBY_ORE = register("ruby_ore", new BlockItem(AerialHellBlocks.RUBY_ORE, new Item.Settings()));
+    public static final Item AZURITE_ORE = register("azurite_ore", new BlockItem(AerialHellBlocks.AZURITE_ORE, new Item.Settings()));
+    public static final Item VOLUCITE_ORE = register("volucite_ore", new BlockItem(AerialHellBlocks.VOLUCITE_ORE, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
+    public static final Item OBSIDIAN_ORE = register("obsidian_ore", new BlockItem(AerialHellBlocks.OBSIDIAN_ORE, new Item.Settings().rarity(Rarity.EPIC)));
+    public static final Item SMOKY_QUARTZ_ORE = register("smoky_quartz_ore", new BlockItem(AerialHellBlocks.SMOKY_QUARTZ_ORE, new Item.Settings().rarity(Rarity.EPIC)));
 
-    public static final Item RAW_RUBY_BLOCK_ITEM = register("raw_ruby_block", new BlockItem(AerialHellBlocks.RAW_RUBY_BLOCK, new Item.Settings()));
-    public static final Item RAW_AZURITE_BLOCK_ITEM = register("raw_azurite_crystal_block", new BlockItem(AerialHellBlocks.RAW_AZURITE_BLOCK, new Item.Settings()));
-    public static final Item RAW_VOLUCITE_BLOCK_ITEM = register("raw_volucite_block", new BlockItem(AerialHellBlocks.RAW_VOLUCITE_BLOCK, new Item.Settings()));
+    public static final Item RAW_RUBY_BLOCK = register("raw_ruby_block", new BlockItem(AerialHellBlocks.RAW_RUBY_BLOCK, new Item.Settings()));
+    public static final Item RAW_AZURITE_BLOCK = register("raw_azurite_crystal_block", new BlockItem(AerialHellBlocks.RAW_AZURITE_BLOCK, new Item.Settings()));
+    public static final Item RAW_VOLUCITE_BLOCK = register("raw_volucite_block", new BlockItem(AerialHellBlocks.RAW_VOLUCITE_BLOCK, new Item.Settings()));
 
     public static final Item RAW_RUBY = register("raw_ruby", new Item(new Item.Settings()));
     public static final Item RAW_AZURITE = register("raw_azurite_crystal", new Item(new Item.Settings()));
     public static final Item RAW_VOLUCITE = register("raw_volucite", new Item(new Item.Settings()));
 
-    public static final Item FLUORITE_BLOCK_ITEM = register("fluorite_block", new BlockItem(AerialHellBlocks.FLUORITE_BLOCK, new Item.Settings()));
-    public static final Item MAGMATIC_GEL_BLOCK_ITEM = register("magmatic_gel_block", new BlockItem(AerialHellBlocks.MAGMATIC_GEL_BLOCK, new Item.Settings()));
-    public static final Item RUBY_BLOCK_ITEM = register("ruby_block", new BlockItem(AerialHellBlocks.RUBY_BLOCK, new Item.Settings()));
-    public static final Item AZURITE_BLOCK_ITEM = register("azurite_block", new BlockItem(AerialHellBlocks.AZURITE_BLOCK, new Item.Settings()));
-    public static final Item VOLUCITE_BLOCK_ITEM = register("volucite_block", new BlockItem(AerialHellBlocks.VOLUCITE_BLOCK, new Item.Settings()));
+    public static final Item FLUORITE_BLOCK = register("fluorite_block", new BlockItem(AerialHellBlocks.FLUORITE_BLOCK, new Item.Settings()));
+    public static final Item MAGMATIC_GEL_BLOCK = register("magmatic_gel_block", new BlockItem(AerialHellBlocks.MAGMATIC_GEL_BLOCK, new Item.Settings()));
+    public static final Item RUBY_BLOCK = register("ruby_block", new BlockItem(AerialHellBlocks.RUBY_BLOCK, new Item.Settings()));
+    public static final Item AZURITE_BLOCK = register("azurite_block", new BlockItem(AerialHellBlocks.AZURITE_BLOCK, new Item.Settings()));
+    public static final Item VOLUCITE_BLOCK = register("volucite_block", new BlockItem(AerialHellBlocks.VOLUCITE_BLOCK, new Item.Settings()));
 
     public static final Item FLUORITE = register("fluorite", new Item(new Item.Settings()));
     public static final Item MAGMATIC_GEL = register("magmatic_gel", new Item(new Item.Settings()));
@@ -475,16 +475,16 @@ public class AerialHellItems
     public static final Item LUNATIC_CRYSTAL = register("lunatic_crystal", new Item(new Item.Settings().rarity(AerialHellRarities.LEGENDARY)));
     public static final Item OBSIDIAN_SHARD = register("obsidian_shard", new Item(new Item.Settings().rarity(Rarity.EPIC)));
     public static final Item CURSED_CRYSAL = register("cursed_crystal", new Item(new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
-    public static final Item ARSONIST_BLOCK_ITEM = register("arsonist_block", new BlockItem(AerialHellBlocks.ARSONIST_BLOCK, new Item.Settings().rarity(AerialHellRarities.LEGENDARY).fireproof()));
-    public static final Item LUNATIC_CRYSTAL_BLOCK_ITEM = register("lunatic_crystal_block", new BlockItem(AerialHellBlocks.LUNATIC_CRYSTAL_BLOCK, new Item.Settings().rarity(AerialHellRarities.LEGENDARY)));
-    public static final Item CURSED_CRYSAL_BLOCK_ITEM = register("cursed_crystal_block", new BlockItem(AerialHellBlocks.CURSED_CRYSAL_BLOCK, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item ARSONIST_BLOCK = register("arsonist_block", new BlockItem(AerialHellBlocks.ARSONIST_BLOCK, new Item.Settings().rarity(AerialHellRarities.LEGENDARY).fireproof()));
+    public static final Item LUNATIC_CRYSTAL_BLOCK = register("lunatic_crystal_block", new BlockItem(AerialHellBlocks.LUNATIC_CRYSTAL_BLOCK, new Item.Settings().rarity(AerialHellRarities.LEGENDARY)));
+    public static final Item CURSED_CRYSAL_BLOCK = register("cursed_crystal_block", new BlockItem(AerialHellBlocks.CURSED_CRYSAL_BLOCK, new Item.Settings().rarity(AerialHellRarities.CORRUPTED)));
 
     //cactus
-    public static final Item SKY_CACTUS_ITEM = register("sky_cactus", new BlockItem(AerialHellBlocks.SKY_CACTUS, new Item.Settings()));
-    public static final Item SKY_CACTUS_FIBER_PLANKS_ITEM = register("sky_cactus_fiber_planks", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_PLANKS, new Item.Settings()));
-    public static final Item SKY_CACTUS_FIBER_BOOKSHELF_ITEM = register("sky_cactus_fiber_bookshelf", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_BOOKSHELF, new Item.Settings()));
-    public static final Item VIBRANT_SKY_CACTUS_ITEM = register("vibrant_sky_cactus", new BlockItem(AerialHellBlocks.VIBRANT_SKY_CACTUS, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
-    public static final Item VIBRANT_SKY_CACTUS_FIBER_LANTERN_ITEM = register("vibrant_sky_cactus_fiber_lantern", new BlockItem(AerialHellBlocks.VIBRANT_SKY_CACTUS_FIBER_LANTERN, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
+    public static final Item SKY_CACTUS = register("sky_cactus", new BlockItem(AerialHellBlocks.SKY_CACTUS, new Item.Settings()));
+    public static final Item SKY_CACTUS_FIBER_PLANKS = register("sky_cactus_fiber_planks", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_PLANKS, new Item.Settings()));
+    public static final Item SKY_CACTUS_FIBER_BOOKSHELF = register("sky_cactus_fiber_bookshelf", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_BOOKSHELF, new Item.Settings()));
+    public static final Item VIBRANT_SKY_CACTUS = register("vibrant_sky_cactus", new BlockItem(AerialHellBlocks.VIBRANT_SKY_CACTUS, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
+    public static final Item VIBRANT_SKY_CACTUS_FIBER_LANTERN = register("vibrant_sky_cactus_fiber_lantern", new BlockItem(AerialHellBlocks.VIBRANT_SKY_CACTUS_FIBER_LANTERN, new Item.Settings().rarity(AerialHellRarities.VIBRANT)));
 
     //bushes
     public static final Item AERIAL_BERRY_SEEDS = register("aerial_berry_seeds", new AliasedBlockItem(AerialHellBlocks.AERIAL_BERRY_BUSH, new Item.Settings()));
@@ -492,263 +492,263 @@ public class AerialHellItems
 
     //crops
     public static final Item STELLAR_WHEAT_SEEDS = register("stellar_wheat_seeds", new AliasedBlockItem(AerialHellBlocks.STELLAR_WHEAT, new Item.Settings()));
-    public static final Item STELLAR_WHEAT_ITEM = register("stellar_wheat", new Item(new Item.Settings()));
+    public static final Item STELLAR_WHEAT = register("stellar_wheat", new Item(new Item.Settings()));
 
     //vertical growing plants
-    public static final Item CLIMBING_VINE_ITEM = register("climbing_vine", new BlockItem(AerialHellBlocks.CLIMBING_VINE, new Item.Settings()));
-    public static final Item STELLAR_SUGAR_CANE_ITEM = register("stellar_sugar_cane", new BlockItem(AerialHellBlocks.STELLAR_SUGAR_CANE, new Item.Settings()));
+    public static final Item CLIMBING_VINE = register("climbing_vine", new BlockItem(AerialHellBlocks.CLIMBING_VINE, new Item.Settings()));
+    public static final Item STELLAR_SUGAR_CANE = register("stellar_sugar_cane", new BlockItem(AerialHellBlocks.STELLAR_SUGAR_CANE, new Item.Settings()));
 
     //chorus like
-    public static final Item FULL_MOON_FLOWER_ITEM = register("full_moon_flower", new BlockItem(AerialHellBlocks.FULL_MOON_FLOWER, new Item.Settings()));
+    public static final Item FULL_MOON_FLOWER = register("full_moon_flower", new BlockItem(AerialHellBlocks.FULL_MOON_FLOWER, new Item.Settings()));
 
     //vines
     public static final Item VINE_BLOSSOM = register("vine_blossom", new AliasedBlockItem(AerialHellBlocks.BLOSSOMING_VINES, new Item.Settings()));
-    public static final Item LAZULI_ROOTS_ITEM = register("lazuli_roots", new BlockItem(AerialHellBlocks.LAZULI_ROOTS, new Item.Settings()));
-    public static final Item STELLAR_ROOTS_ITEM = register("stellar_roots", new BlockItem(AerialHellBlocks.STELLAR_ROOTS, new Item.Settings()));
-    public static final Item DEAD_ROOTS_ITEM = register("dead_roots", new BlockItem(AerialHellBlocks.DEAD_ROOTS, new Item.Settings()));
-    public static final Item GLOWING_ROOTS_ITEM = register("glowing_roots", new BlockItem(AerialHellBlocks.GLOWING_ROOTS, new Item.Settings()));
-    public static final Item SHADOW_GLOWING_ROOTS_ITEM = register("shadow_glowing_roots", new BlockItem(AerialHellBlocks.SHADOW_GLOWING_ROOTS, new Item.Settings()));
+    public static final Item LAZULI_ROOTS = register("lazuli_roots", new BlockItem(AerialHellBlocks.LAZULI_ROOTS, new Item.Settings()));
+    public static final Item STELLAR_ROOTS = register("stellar_roots", new BlockItem(AerialHellBlocks.STELLAR_ROOTS, new Item.Settings()));
+    public static final Item DEAD_ROOTS = register("dead_roots", new BlockItem(AerialHellBlocks.DEAD_ROOTS, new Item.Settings()));
+    public static final Item GLOWING_ROOTS = register("glowing_roots", new BlockItem(AerialHellBlocks.GLOWING_ROOTS, new Item.Settings()));
+    public static final Item SHADOW_GLOWING_ROOTS = register("shadow_glowing_roots", new BlockItem(AerialHellBlocks.SHADOW_GLOWING_ROOTS, new Item.Settings()));
 
     //grass
-    public static final Item STELLAR_GRASS_ITEM = register("stellar_grass", new BlockItem(AerialHellBlocks.STELLAR_GRASS, new Item.Settings()));
-    public static final Item STELLAR_GRASS_BALL_ITEM = register("stellar_grass_ball", new BlockItem(AerialHellBlocks.STELLAR_GRASS_BALL, new Item.Settings()));
-    public static final Item STELLAR_FERN_ITEM = register("stellar_fern", new BlockItem(AerialHellBlocks.STELLAR_FERN, new Item.Settings()));
-    public static final Item STELLAR_TALL_GRASS_ITEM = register("stellar_tall_grass", new BlockItem(AerialHellBlocks.STELLAR_TALL_GRASS, new Item.Settings()));
-    public static final Item STELLAR_TALL_FERN_ITEM = register("stellar_tall_fern", new BlockItem(AerialHellBlocks.STELLAR_TALL_FERN, new Item.Settings()));
-    public static final Item STELLAR_VERY_TALL_GRASS_ITEM = register("stellar_very_tall_grass", new BlockItem(AerialHellBlocks.STELLAR_VERY_TALL_GRASS, new Item.Settings()));
-    public static final Item BLUISH_FERN_ITEM = register("bluish_fern", new BlockItem(AerialHellBlocks.BLUISH_FERN, new Item.Settings()));
-    public static final Item TALL_BLUISH_FERN_ITEM = register("tall_bluish_fern", new BlockItem(AerialHellBlocks.TALL_BLUISH_FERN, new Item.Settings()));
-    public static final Item POLYCHROME_FERN_ITEM = register("polychrome_fern", new BlockItem(AerialHellBlocks.POLYCHROME_FERN, new Item.Settings()));
-    public static final Item TALL_POLYCHROME_FERN_ITEM = register("tall_polychrome_fern", new BlockItem(AerialHellBlocks.TALL_POLYCHROME_FERN, new Item.Settings()));
-    public static final Item STELLAR_DEAD_BUSH_ITEM = register("stellar_dead_bush", new BlockItem(AerialHellBlocks.STELLAR_DEAD_BUSH, new Item.Settings()));
-    public static final Item BRAMBLES_ITEM = register("brambles", new BlockItem(AerialHellBlocks.BRAMBLES, new Item.Settings()));
-    public static final Item SHADOW_BRAMBLES_ITEM = register("shadow_brambles", new BlockItem(AerialHellBlocks.SHADOW_BRAMBLES, new Item.Settings()));
-    public static final Item SHADOW_GRASS_ITEM = register("shadow_grass", new BlockItem(AerialHellBlocks.SHADOW_GRASS, new Item.Settings()));
-    public static final Item SHADOW_GRASS_BALL_ITEM = register("shadow_grass_ball", new BlockItem(AerialHellBlocks.SHADOW_GRASS_BALL, new Item.Settings()));
-    public static final Item PURPLISH_STELLAR_GRASS_ITEM = register("purplish_stellar_grass", new BlockItem(AerialHellBlocks.PURPLISH_STELLAR_GRASS, new Item.Settings()));
-    public static final Item STELLAR_CLOVERS_ITEM = register("stellar_clovers", new BlockItem(AerialHellBlocks.STELLAR_CLOVERS, new Item.Settings()));
-    public static final Item GLOWING_STELLAR_GRASS_ITEM = register("glowing_stellar_grass", new BlockItem(AerialHellBlocks.GLOWING_STELLAR_GRASS, new Item.Settings()));
+    public static final Item STELLAR_GRASS = register("stellar_grass", new BlockItem(AerialHellBlocks.STELLAR_GRASS, new Item.Settings()));
+    public static final Item STELLAR_GRASS_BALL = register("stellar_grass_ball", new BlockItem(AerialHellBlocks.STELLAR_GRASS_BALL, new Item.Settings()));
+    public static final Item STELLAR_FERN = register("stellar_fern", new BlockItem(AerialHellBlocks.STELLAR_FERN, new Item.Settings()));
+    public static final Item STELLAR_TALL_GRASS = register("stellar_tall_grass", new BlockItem(AerialHellBlocks.STELLAR_TALL_GRASS, new Item.Settings()));
+    public static final Item STELLAR_TALL_FERN = register("stellar_tall_fern", new BlockItem(AerialHellBlocks.STELLAR_TALL_FERN, new Item.Settings()));
+    public static final Item STELLAR_VERY_TALL_GRASS = register("stellar_very_tall_grass", new BlockItem(AerialHellBlocks.STELLAR_VERY_TALL_GRASS, new Item.Settings()));
+    public static final Item BLUISH_FERN = register("bluish_fern", new BlockItem(AerialHellBlocks.BLUISH_FERN, new Item.Settings()));
+    public static final Item TALL_BLUISH_FERN = register("tall_bluish_fern", new BlockItem(AerialHellBlocks.TALL_BLUISH_FERN, new Item.Settings()));
+    public static final Item POLYCHROME_FERN = register("polychrome_fern", new BlockItem(AerialHellBlocks.POLYCHROME_FERN, new Item.Settings()));
+    public static final Item TALL_POLYCHROME_FERN = register("tall_polychrome_fern", new BlockItem(AerialHellBlocks.TALL_POLYCHROME_FERN, new Item.Settings()));
+    public static final Item STELLAR_DEAD_BUSH = register("stellar_dead_bush", new BlockItem(AerialHellBlocks.STELLAR_DEAD_BUSH, new Item.Settings()));
+    public static final Item BRAMBLES = register("brambles", new BlockItem(AerialHellBlocks.BRAMBLES, new Item.Settings()));
+    public static final Item SHADOW_BRAMBLES = register("shadow_brambles", new BlockItem(AerialHellBlocks.SHADOW_BRAMBLES, new Item.Settings()));
+    public static final Item SHADOW_GRASS = register("shadow_grass", new BlockItem(AerialHellBlocks.SHADOW_GRASS, new Item.Settings()));
+    public static final Item SHADOW_GRASS_BALL = register("shadow_grass_ball", new BlockItem(AerialHellBlocks.SHADOW_GRASS_BALL, new Item.Settings()));
+    public static final Item PURPLISH_STELLAR_GRASS = register("purplish_stellar_grass", new BlockItem(AerialHellBlocks.PURPLISH_STELLAR_GRASS, new Item.Settings()));
+    public static final Item STELLAR_CLOVERS = register("stellar_clovers", new BlockItem(AerialHellBlocks.STELLAR_CLOVERS, new Item.Settings()));
+    public static final Item GLOWING_STELLAR_GRASS = register("glowing_stellar_grass", new BlockItem(AerialHellBlocks.GLOWING_STELLAR_GRASS, new Item.Settings()));
 
     //flowers
-    public static final Item BLUE_FLOWER_ITEM = register("blue_flower", new BlockItem(AerialHellBlocks.BLUE_FLOWER, new Item.Settings()));
-    public static final Item BLACK_ROSE_ITEM = register("black_rose", new BlockItem(AerialHellBlocks.BLACK_ROSE, new Item.Settings()));
-    public static final Item BELLFLOWER_ITEM = register("bellflower", new BlockItem(AerialHellBlocks.BELLFLOWER, new Item.Settings()));
+    public static final Item BLUE_FLOWER = register("blue_flower", new BlockItem(AerialHellBlocks.BLUE_FLOWER, new Item.Settings()));
+    public static final Item BLACK_ROSE = register("black_rose", new BlockItem(AerialHellBlocks.BLACK_ROSE, new Item.Settings()));
+    public static final Item BELLFLOWER = register("bellflower", new BlockItem(AerialHellBlocks.BELLFLOWER, new Item.Settings()));
 
     //with gui
-    public static final Item OSCILLATOR_ITEM = register("oscillator", new BlockItem(AerialHellBlocks.OSCILLATOR, new Item.Settings()));
-    public static final Item FREEZER_ITEM = register("freezer", new BlockItem(AerialHellBlocks.FREEZER, new Item.Settings()));
-    public static final Item STELLAR_FURNACE_ITEM = register("stellar_furnace", new BlockItem(AerialHellBlocks.STELLAR_FURNACE, new Item.Settings()));
-    public static final Item GHOST_STELLAR_FURNACE_ITEM = register("ghost_stellar_furnace", new BlockItem(AerialHellBlocks.GHOST_STELLAR_FURNACE, new Item.Settings()));
+    public static final Item OSCILLATOR = register("oscillator", new BlockItem(AerialHellBlocks.OSCILLATOR, new Item.Settings()));
+    public static final Item FREEZER = register("freezer", new BlockItem(AerialHellBlocks.FREEZER, new Item.Settings()));
+    public static final Item STELLAR_FURNACE = register("stellar_furnace", new BlockItem(AerialHellBlocks.STELLAR_FURNACE, new Item.Settings()));
+    public static final Item GHOST_STELLAR_FURNACE = register("ghost_stellar_furnace", new BlockItem(AerialHellBlocks.GHOST_STELLAR_FURNACE, new Item.Settings()));
 
     //chests
-    public static final Item AERIAL_TREE_CHEST_ITEM = register("aerial_tree_chest", new BlockItem(AerialHellBlocks.AERIAL_TREE_CHEST, new Item.Settings()));
-    public static final Item GOLDEN_BEECH_CHEST_ITEM = register("golden_beech_chest", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_CHEST, new Item.Settings()));
-    public static final Item COPPER_PINE_CHEST_ITEM = register("copper_pine_chest", new BlockItem(AerialHellBlocks.COPPER_PINE_CHEST, new Item.Settings()));
-    public static final Item LAPIS_ROBINIA_CHEST_ITEM = register("lapis_robinia_chest", new BlockItem(AerialHellBlocks.LAPIS_ROBINIA_CHEST, new Item.Settings()));
-    public static final Item SHADOW_PINE_CHEST_ITEM = register("shadow_pine_chest", new BlockItem(AerialHellBlocks.SHADOW_PINE_CHEST, new Item.Settings()));
-    public static final Item STELLAR_JUNGLE_TREE_CHEST_ITEM = register("stellar_jungle_tree_chest", new BlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_CHEST, new Item.Settings()));
-    public static final Item SKY_CACTUS_FIBER_CHEST_ITEM = register("sky_cactus_fiber_chest", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_CHEST, new Item.Settings()));
-    public static final Item GRAY_SHROOM_CHEST_ITEM = register("gray_shroom_chest", new BlockItem(AerialHellBlocks.GRAY_SHROOM_CHEST, new Item.Settings()));
-    public static final Item MUD_CHEST_ITEM = register("mud_chest", new BlockItem(AerialHellBlocks.MUD_CHEST, new Item.Settings()));
-    public static final Item LUNATIC_CHEST_ITEM = register("lunatic_chest", new BlockItem(AerialHellBlocks.LUNATIC_CHEST, new Item.Settings()));
-    public static final Item VOLUCITE_CHEST_ITEM = register("volucite_chest", new BlockItem(AerialHellBlocks.VOLUCITE_CHEST, new Item.Settings()));
-    public static final Item SHADOW_CATACOMBS_CHEST_ITEM = register("shadow_catacombs_chest", new BlockItem(AerialHellBlocks.SHADOW_CATACOMBS_CHEST, new Item.Settings()));
-    public static final Item GOLDEN_NETHER_CHEST_ITEM = register("golden_nether_chest", new BlockItem(AerialHellBlocks.GOLDEN_NETHER_CHEST, new Item.Settings()));
+    public static final Item AERIAL_TREE_CHEST = register("aerial_tree_chest", new BlockItem(AerialHellBlocks.AERIAL_TREE_CHEST, new Item.Settings()));
+    public static final Item GOLDEN_BEECH_CHEST = register("golden_beech_chest", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_CHEST, new Item.Settings()));
+    public static final Item COPPER_PINE_CHEST = register("copper_pine_chest", new BlockItem(AerialHellBlocks.COPPER_PINE_CHEST, new Item.Settings()));
+    public static final Item LAPIS_ROBINIA_CHEST = register("lapis_robinia_chest", new BlockItem(AerialHellBlocks.LAPIS_ROBINIA_CHEST, new Item.Settings()));
+    public static final Item SHADOW_PINE_CHEST = register("shadow_pine_chest", new BlockItem(AerialHellBlocks.SHADOW_PINE_CHEST, new Item.Settings()));
+    public static final Item STELLAR_JUNGLE_TREE_CHEST = register("stellar_jungle_tree_chest", new BlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_CHEST, new Item.Settings()));
+    public static final Item SKY_CACTUS_FIBER_CHEST = register("sky_cactus_fiber_chest", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_CHEST, new Item.Settings()));
+    public static final Item GRAY_SHROOM_CHEST = register("gray_shroom_chest", new BlockItem(AerialHellBlocks.GRAY_SHROOM_CHEST, new Item.Settings()));
+    public static final Item MUD_CHEST = register("mud_chest", new BlockItem(AerialHellBlocks.MUD_CHEST, new Item.Settings()));
+    public static final Item LUNATIC_CHEST = register("lunatic_chest", new BlockItem(AerialHellBlocks.LUNATIC_CHEST, new Item.Settings()));
+    public static final Item VOLUCITE_CHEST = register("volucite_chest", new BlockItem(AerialHellBlocks.VOLUCITE_CHEST, new Item.Settings()));
+    public static final Item SHADOW_CATACOMBS_CHEST = register("shadow_catacombs_chest", new BlockItem(AerialHellBlocks.SHADOW_CATACOMBS_CHEST, new Item.Settings()));
+    public static final Item GOLDEN_NETHER_CHEST = register("golden_nether_chest", new BlockItem(AerialHellBlocks.GOLDEN_NETHER_CHEST, new Item.Settings()));
 
     //chest mimics
-    public static final Item AERIAL_TREE_CHEST_MIMIC_ITEM = register("aerial_tree_chest_mimic", new BlockItem(AerialHellBlocks.AERIAL_TREE_CHEST_MIMIC, new Item.Settings()));
-    public static final Item GOLDEN_BEECH_CHEST_MIMIC_ITEM = register("golden_beech_chest_mimic", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_CHEST_MIMIC, new Item.Settings()));
-    public static final Item COPPER_PINE_CHEST_MIMIC_ITEM = register("copper_pine_chest_mimic", new BlockItem(AerialHellBlocks.COPPER_PINE_CHEST_MIMIC, new Item.Settings()));
-    public static final Item SKY_CACTUS_FIBER_CHEST_MIMIC_ITEM = register("sky_cactus_fiber_chest_mimic", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_CHEST_MIMIC, new Item.Settings()));
+    public static final Item AERIAL_TREE_CHEST_MIMIC = register("aerial_tree_chest_mimic", new BlockItem(AerialHellBlocks.AERIAL_TREE_CHEST_MIMIC, new Item.Settings()));
+    public static final Item GOLDEN_BEECH_CHEST_MIMIC = register("golden_beech_chest_mimic", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_CHEST_MIMIC, new Item.Settings()));
+    public static final Item COPPER_PINE_CHEST_MIMIC = register("copper_pine_chest_mimic", new BlockItem(AerialHellBlocks.COPPER_PINE_CHEST_MIMIC, new Item.Settings()));
+    public static final Item SKY_CACTUS_FIBER_CHEST_MIMIC = register("sky_cactus_fiber_chest_mimic", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_CHEST_MIMIC, new Item.Settings()));
 
     //barrel mimics
-    public static final Item SHADOW_PINE_BARREL_MIMIC_ITEM = register("shadow_pine_barrel_mimic", new BlockItem(AerialHellBlocks.SHADOW_PINE_BARREL_MIMIC, new Item.Settings()));
+    public static final Item SHADOW_PINE_BARREL_MIMIC = register("shadow_pine_barrel_mimic", new BlockItem(AerialHellBlocks.SHADOW_PINE_BARREL_MIMIC, new Item.Settings()));
 
     //fences, bars or walls
-    public static final Item AERIAL_TREE_FENCE_ITEM = register("aerial_tree_fence", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_FENCE, new Item.Settings(), 300));
-    public static final Item GOLDEN_BEECH_FENCE_ITEM = register("golden_beech_fence", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_FENCE, new Item.Settings(), 300));
-    public static final Item COPPER_PINE_FENCE_ITEM = register("copper_pine_fence", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_FENCE, new Item.Settings(), 300));
-    public static final Item LAPIS_ROBINIA_FENCE_ITEM = register("lapis_robinia_fence", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_FENCE, new Item.Settings(), 300));
-    public static final Item SHADOW_PINE_FENCE_ITEM = register("shadow_pine_fence", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_FENCE, new Item.Settings(), 300));
-    public static final Item STELLAR_JUNGLE_TREE_FENCE_ITEM = register("stellar_jungle_tree_fence", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_FENCE, new Item.Settings(), 300));
-    public static final Item SKY_CACTUS_FIBER_FENCE_ITEM = register("sky_cactus_fiber_fence", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_FENCE, new Item.Settings()));
-    public static final Item GRAY_SHROOM_FENCE_ITEM = register("gray_shroom_fence", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_FENCE, new Item.Settings(), 100));
-    public static final Item RUBY_BARS_ITEM = register("ruby_bars", new BlockItem(AerialHellBlocks.RUBY_BARS, new Item.Settings()));
-    public static final Item STELLAR_STONE_WALL_ITEM = register("stellar_stone_wall", new BlockItem(AerialHellBlocks.STELLAR_STONE_WALL, new Item.Settings()));
-    public static final Item STELLAR_COBBLESTONE_WALL_ITEM = register("stellar_cobblestone_wall", new BlockItem(AerialHellBlocks.STELLAR_COBBLESTONE_WALL, new Item.Settings()));
-    public static final Item STELLAR_STONE_BRICKS_WALL_ITEM = register("stellar_stone_bricks_wall", new BlockItem(AerialHellBlocks.STELLAR_STONE_BRICKS_WALL, new Item.Settings()));
-    public static final Item MOSSY_STELLAR_STONE_WALL_ITEM = register("mossy_stellar_stone_wall", new BlockItem(AerialHellBlocks.MOSSY_STELLAR_STONE_WALL, new Item.Settings()));
-    public static final Item MOSSY_STELLAR_COBBLESTONE_WALL_ITEM = register("mossy_stellar_cobblestone_wall", new BlockItem(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_WALL, new Item.Settings()));
-    public static final Item SLIPPERY_SAND_STONE_WALL_ITEM = register("slippery_sand_stone_wall", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_WALL, new Item.Settings()));
-    public static final Item SLIPPERY_SAND_STONE_BRICKS_WALL_ITEM = register("slippery_sand_stone_bricks_wall", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS_WALL, new Item.Settings()));
-    public static final Item CRACKED_SLIPPERY_SAND_STONE_BRICKS_WALL_ITEM = register("cracked_slippery_sand_stone_bricks_wall", new BlockItem(AerialHellBlocks.CRACKED_SLIPPERY_SAND_STONE_BRICKS_WALL, new Item.Settings()));
-    public static final Item GLAUCOPHANITE_WALL_ITEM = register("glaucophanite_wall", new BlockItem(AerialHellBlocks.GLAUCOPHANITE_WALL, new Item.Settings()));
-    public static final Item POLISHED_GLAUCOPHANITE_WALL_ITEM = register("polished_glaucophanite_wall", new BlockItem(AerialHellBlocks.POLISHED_GLAUCOPHANITE_WALL, new Item.Settings()));
-    public static final Item MAGMATIC_GEL_WALL_ITEM = register("magmatic_gel_wall", new BlockItem(AerialHellBlocks.MAGMATIC_GEL_WALL, new Item.Settings()));
+    public static final Item AERIAL_TREE_FENCE = register("aerial_tree_fence", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_FENCE, new Item.Settings(), 300));
+    public static final Item GOLDEN_BEECH_FENCE = register("golden_beech_fence", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_FENCE, new Item.Settings(), 300));
+    public static final Item COPPER_PINE_FENCE = register("copper_pine_fence", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_FENCE, new Item.Settings(), 300));
+    public static final Item LAPIS_ROBINIA_FENCE = register("lapis_robinia_fence", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_FENCE, new Item.Settings(), 300));
+    public static final Item SHADOW_PINE_FENCE = register("shadow_pine_fence", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_FENCE, new Item.Settings(), 300));
+    public static final Item STELLAR_JUNGLE_TREE_FENCE = register("stellar_jungle_tree_fence", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_FENCE, new Item.Settings(), 300));
+    public static final Item SKY_CACTUS_FIBER_FENCE = register("sky_cactus_fiber_fence", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_FENCE, new Item.Settings()));
+    public static final Item GRAY_SHROOM_FENCE = register("gray_shroom_fence", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_FENCE, new Item.Settings(), 100));
+    public static final Item RUBY_BARS = register("ruby_bars", new BlockItem(AerialHellBlocks.RUBY_BARS, new Item.Settings()));
+    public static final Item STELLAR_STONE_WALL = register("stellar_stone_wall", new BlockItem(AerialHellBlocks.STELLAR_STONE_WALL, new Item.Settings()));
+    public static final Item STELLAR_COBBLESTONE_WALL = register("stellar_cobblestone_wall", new BlockItem(AerialHellBlocks.STELLAR_COBBLESTONE_WALL, new Item.Settings()));
+    public static final Item STELLAR_STONE_BRICKS_WALL = register("stellar_stone_bricks_wall", new BlockItem(AerialHellBlocks.STELLAR_STONE_BRICKS_WALL, new Item.Settings()));
+    public static final Item MOSSY_STELLAR_STONE_WALL = register("mossy_stellar_stone_wall", new BlockItem(AerialHellBlocks.MOSSY_STELLAR_STONE_WALL, new Item.Settings()));
+    public static final Item MOSSY_STELLAR_COBBLESTONE_WALL = register("mossy_stellar_cobblestone_wall", new BlockItem(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_WALL, new Item.Settings()));
+    public static final Item SLIPPERY_SAND_STONE_WALL = register("slippery_sand_stone_wall", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_WALL, new Item.Settings()));
+    public static final Item SLIPPERY_SAND_STONE_BRICKS_WALL = register("slippery_sand_stone_bricks_wall", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS_WALL, new Item.Settings()));
+    public static final Item CRACKED_SLIPPERY_SAND_STONE_BRICKS_WALL = register("cracked_slippery_sand_stone_bricks_wall", new BlockItem(AerialHellBlocks.CRACKED_SLIPPERY_SAND_STONE_BRICKS_WALL, new Item.Settings()));
+    public static final Item GLAUCOPHANITE_WALL = register("glaucophanite_wall", new BlockItem(AerialHellBlocks.GLAUCOPHANITE_WALL, new Item.Settings()));
+    public static final Item POLISHED_GLAUCOPHANITE_WALL = register("polished_glaucophanite_wall", new BlockItem(AerialHellBlocks.POLISHED_GLAUCOPHANITE_WALL, new Item.Settings()));
+    public static final Item MAGMATIC_GEL_WALL = register("magmatic_gel_wall", new BlockItem(AerialHellBlocks.MAGMATIC_GEL_WALL, new Item.Settings()));
 
     //gates
-    public static final Item AERIAL_TREE_GATE_ITEM = register("aerial_tree_gate", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_GATE, new Item.Settings(), 300));
-    public static final Item GOLDEN_BEECH_GATE_ITEM = register("golden_beech_gate", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_GATE, new Item.Settings(), 300));
-    public static final Item COPPER_PINE_GATE_ITEM = register("copper_pine_gate", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_GATE, new Item.Settings(), 300));
-    public static final Item LAPIS_ROBINIA_GATE_ITEM = register("lapis_robinia_gate", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_GATE, new Item.Settings(), 300));
-    public static final Item SHADOW_PINE_GATE_ITEM = register("shadow_pine_gate", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_GATE, new Item.Settings(), 300));
-    public static final Item STELLAR_JUNGLE_TREE_GATE_ITEM = register("stellar_jungle_tree_gate", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_GATE, new Item.Settings(), 300));
-    public static final Item SKY_CACTUS_FIBER_GATE_ITEM = register("sky_cactus_fiber_gate", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_GATE, new Item.Settings()));
-    public static final Item GRAY_SHROOM_GATE_ITEM = register("gray_shroom_gate", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_GATE, new Item.Settings(), 100));
+    public static final Item AERIAL_TREE_GATE = register("aerial_tree_gate", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_GATE, new Item.Settings(), 300));
+    public static final Item GOLDEN_BEECH_GATE = register("golden_beech_gate", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_GATE, new Item.Settings(), 300));
+    public static final Item COPPER_PINE_GATE = register("copper_pine_gate", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_GATE, new Item.Settings(), 300));
+    public static final Item LAPIS_ROBINIA_GATE = register("lapis_robinia_gate", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_GATE, new Item.Settings(), 300));
+    public static final Item SHADOW_PINE_GATE = register("shadow_pine_gate", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_GATE, new Item.Settings(), 300));
+    public static final Item STELLAR_JUNGLE_TREE_GATE = register("stellar_jungle_tree_gate", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_GATE, new Item.Settings(), 300));
+    public static final Item SKY_CACTUS_FIBER_GATE = register("sky_cactus_fiber_gate", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_GATE, new Item.Settings()));
+    public static final Item GRAY_SHROOM_GATE = register("gray_shroom_gate", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_GATE, new Item.Settings(), 100));
 
     //doors
-    public static final Item AERIAL_TREE_DOOR_ITEM = register("aerial_tree_door", new BlockItem(AerialHellBlocks.AERIAL_TREE_DOOR, new Item.Settings()));
-    public static final Item GOLDEN_BEECH_DOOR_ITEM = register("golden_beech_door", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_DOOR, new Item.Settings()));
-    public static final Item COPPER_PINE_DOOR_ITEM = register("copper_pine_door", new BlockItem(AerialHellBlocks.COPPER_PINE_DOOR, new Item.Settings()));
-    public static final Item LAPIS_ROBINIA_DOOR_ITEM = register("lapis_robinia_door", new BlockItem(AerialHellBlocks.LAPIS_ROBINIA_DOOR, new Item.Settings()));
-    public static final Item SHADOW_PINE_DOOR_ITEM = register("shadow_pine_door", new BlockItem(AerialHellBlocks.SHADOW_PINE_DOOR, new Item.Settings()));
-    public static final Item STELLAR_JUNGLE_TREE_DOOR_ITEM = register("stellar_jungle_tree_door", new BlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_DOOR, new Item.Settings()));
-    public static final Item SKY_CACTUS_FIBER_DOOR_ITEM = register("sky_cactus_fiber_door", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_DOOR, new Item.Settings()));
-    public static final Item GRAY_SHROOM_DOOR_ITEM = register("gray_shroom_door", new BlockItem(AerialHellBlocks.GRAY_SHROOM_DOOR, new Item.Settings()));
-    public static final Item RUBY_DOOR_ITEM = register("ruby_door", new BlockItem(AerialHellBlocks.RUBY_DOOR, new Item.Settings()));
+    public static final Item AERIAL_TREE_DOOR = register("aerial_tree_door", new BlockItem(AerialHellBlocks.AERIAL_TREE_DOOR, new Item.Settings()));
+    public static final Item GOLDEN_BEECH_DOOR = register("golden_beech_door", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_DOOR, new Item.Settings()));
+    public static final Item COPPER_PINE_DOOR = register("copper_pine_door", new BlockItem(AerialHellBlocks.COPPER_PINE_DOOR, new Item.Settings()));
+    public static final Item LAPIS_ROBINIA_DOOR = register("lapis_robinia_door", new BlockItem(AerialHellBlocks.LAPIS_ROBINIA_DOOR, new Item.Settings()));
+    public static final Item SHADOW_PINE_DOOR = register("shadow_pine_door", new BlockItem(AerialHellBlocks.SHADOW_PINE_DOOR, new Item.Settings()));
+    public static final Item STELLAR_JUNGLE_TREE_DOOR = register("stellar_jungle_tree_door", new BlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_DOOR, new Item.Settings()));
+    public static final Item SKY_CACTUS_FIBER_DOOR = register("sky_cactus_fiber_door", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_DOOR, new Item.Settings()));
+    public static final Item GRAY_SHROOM_DOOR = register("gray_shroom_door", new BlockItem(AerialHellBlocks.GRAY_SHROOM_DOOR, new Item.Settings()));
+    public static final Item RUBY_DOOR = register("ruby_door", new BlockItem(AerialHellBlocks.RUBY_DOOR, new Item.Settings()));
 
     //trapdoors
-    public static final Item AERIAL_TREE_TRAPDOOR_ITEM = register("aerial_tree_trapdoor", new BlockItem(AerialHellBlocks.AERIAL_TREE_TRAPDOOR, new Item.Settings()));
-    public static final Item GOLDEN_BEECH_TRAPDOOR_ITEM = register("golden_beech_trapdoor", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_TRAPDOOR, new Item.Settings()));
-    public static final Item COPPER_PINE_TRAPDOOR_ITEM = register("copper_pine_trapdoor", new BlockItem(AerialHellBlocks.COPPER_PINE_TRAPDOOR, new Item.Settings()));
-    public static final Item LAPIS_ROBINIA_TRAPDOOR_ITEM = register("lapis_robinia_trapdoor", new BlockItem(AerialHellBlocks.LAPIS_ROBINIA_TRAPDOOR, new Item.Settings()));
-    public static final Item SHADOW_PINE_TRAPDOOR_ITEM = register("shadow_pine_trapdoor", new BlockItem(AerialHellBlocks.SHADOW_PINE_TRAPDOOR, new Item.Settings()));
-    public static final Item STELLAR_JUNGLE_TREE_TRAPDOOR_ITEM = register("stellar_jungle_tree_trapdoor", new BlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_TRAPDOOR, new Item.Settings()));
-    public static final Item SKY_CACTUS_FIBER_TRAPDOOR_ITEM = register("sky_cactus_fiber_trapdoor", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_TRAPDOOR, new Item.Settings()));
-    public static final Item GRAY_SHROOM_TRAPDOOR_ITEM = register("gray_shroom_trapdoor", new BlockItem(AerialHellBlocks.GRAY_SHROOM_TRAPDOOR, new Item.Settings()));
-    public static final Item RUBY_TRAPDOOR_ITEM = register("ruby_trapdoor", new BlockItem(AerialHellBlocks.RUBY_TRAPDOOR, new Item.Settings()));
+    public static final Item AERIAL_TREE_TRAPDOOR = register("aerial_tree_trapdoor", new BlockItem(AerialHellBlocks.AERIAL_TREE_TRAPDOOR, new Item.Settings()));
+    public static final Item GOLDEN_BEECH_TRAPDOOR = register("golden_beech_trapdoor", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_TRAPDOOR, new Item.Settings()));
+    public static final Item COPPER_PINE_TRAPDOOR = register("copper_pine_trapdoor", new BlockItem(AerialHellBlocks.COPPER_PINE_TRAPDOOR, new Item.Settings()));
+    public static final Item LAPIS_ROBINIA_TRAPDOOR = register("lapis_robinia_trapdoor", new BlockItem(AerialHellBlocks.LAPIS_ROBINIA_TRAPDOOR, new Item.Settings()));
+    public static final Item SHADOW_PINE_TRAPDOOR = register("shadow_pine_trapdoor", new BlockItem(AerialHellBlocks.SHADOW_PINE_TRAPDOOR, new Item.Settings()));
+    public static final Item STELLAR_JUNGLE_TREE_TRAPDOOR = register("stellar_jungle_tree_trapdoor", new BlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_TRAPDOOR, new Item.Settings()));
+    public static final Item SKY_CACTUS_FIBER_TRAPDOOR = register("sky_cactus_fiber_trapdoor", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_TRAPDOOR, new Item.Settings()));
+    public static final Item GRAY_SHROOM_TRAPDOOR = register("gray_shroom_trapdoor", new BlockItem(AerialHellBlocks.GRAY_SHROOM_TRAPDOOR, new Item.Settings()));
+    public static final Item RUBY_TRAPDOOR = register("ruby_trapdoor", new BlockItem(AerialHellBlocks.RUBY_TRAPDOOR, new Item.Settings()));
 
     //buttons
-    public static final Item STELLAR_STONE_BUTTON_ITEM = register("stellar_stone_button", new BlockItem(AerialHellBlocks.STELLAR_STONE_BUTTON, new Item.Settings()));
-    public static final Item STELLAR_COBBLESTONE_BUTTON_ITEM = register("stellar_cobblestone_button", new BlockItem(AerialHellBlocks.STELLAR_COBBLESTONE_BUTTON, new Item.Settings()));
-    public static final Item STELLAR_STONE_BRICKS_BUTTON_ITEM = register("stellar_stone_bricks_button", new BlockItem(AerialHellBlocks.STELLAR_STONE_BRICKS_BUTTON, new Item.Settings()));
-    public static final Item SLIPPERY_SAND_STONE_BUTTON_ITEM = register("slippery_sand_stone_button", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_BUTTON, new Item.Settings()));
-    public static final Item SLIPPERY_SAND_STONE_BRICKS_BUTTON_ITEM = register("slippery_sand_stone_bricks_button", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS_BUTTON, new Item.Settings()));
-    public static final Item AERIAL_TREE_BUTTON_ITEM = register("aerial_tree_button", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_BUTTON, new Item.Settings(), 100));
-    public static final Item GOLDEN_BEECH_BUTTON_ITEM = register("golden_beech_button", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_BUTTON, new Item.Settings(), 100));
-    public static final Item COPPER_PINE_BUTTON_ITEM = register("copper_pine_button", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_BUTTON, new Item.Settings(), 100));
-    public static final Item LAPIS_ROBINIA_BUTTON_ITEM = register("lapis_robinia_button", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_BUTTON, new Item.Settings(), 100));
-    public static final Item SHADOW_PINE_BUTTON_ITEM = register("shadow_pine_button", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_BUTTON, new Item.Settings(), 100));
-    public static final Item STELLAR_JUNGLE_TREE_BUTTON_ITEM = register("stellar_jungle_tree_button", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_BUTTON, new Item.Settings(), 100));
-    public static final Item SKY_CACTUS_FIBER_BUTTON_ITEM = register("sky_cactus_fiber_button", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_BUTTON, new Item.Settings()));
-    public static final Item GRAY_SHROOM_BUTTON_ITEM = register("gray_shroom_button", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_BUTTON, new Item.Settings(), 30));
-    public static final Item GLAUCOPHANITE_BUTTON_ITEM = register("glaucophanite_button", new BlockItem(AerialHellBlocks.GLAUCOPHANITE_BUTTON, new Item.Settings()));
+    public static final Item STELLAR_STONE_BUTTON = register("stellar_stone_button", new BlockItem(AerialHellBlocks.STELLAR_STONE_BUTTON, new Item.Settings()));
+    public static final Item STELLAR_COBBLESTONE_BUTTON = register("stellar_cobblestone_button", new BlockItem(AerialHellBlocks.STELLAR_COBBLESTONE_BUTTON, new Item.Settings()));
+    public static final Item STELLAR_STONE_BRICKS_BUTTON = register("stellar_stone_bricks_button", new BlockItem(AerialHellBlocks.STELLAR_STONE_BRICKS_BUTTON, new Item.Settings()));
+    public static final Item SLIPPERY_SAND_STONE_BUTTON = register("slippery_sand_stone_button", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_BUTTON, new Item.Settings()));
+    public static final Item SLIPPERY_SAND_STONE_BRICKS_BUTTON = register("slippery_sand_stone_bricks_button", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS_BUTTON, new Item.Settings()));
+    public static final Item AERIAL_TREE_BUTTON = register("aerial_tree_button", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_BUTTON, new Item.Settings(), 100));
+    public static final Item GOLDEN_BEECH_BUTTON = register("golden_beech_button", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_BUTTON, new Item.Settings(), 100));
+    public static final Item COPPER_PINE_BUTTON = register("copper_pine_button", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_BUTTON, new Item.Settings(), 100));
+    public static final Item LAPIS_ROBINIA_BUTTON = register("lapis_robinia_button", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_BUTTON, new Item.Settings(), 100));
+    public static final Item SHADOW_PINE_BUTTON = register("shadow_pine_button", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_BUTTON, new Item.Settings(), 100));
+    public static final Item STELLAR_JUNGLE_TREE_BUTTON = register("stellar_jungle_tree_button", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_BUTTON, new Item.Settings(), 100));
+    public static final Item SKY_CACTUS_FIBER_BUTTON = register("sky_cactus_fiber_button", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_BUTTON, new Item.Settings()));
+    public static final Item GRAY_SHROOM_BUTTON = register("gray_shroom_button", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_BUTTON, new Item.Settings(), 30));
+    public static final Item GLAUCOPHANITE_BUTTON = register("glaucophanite_button", new BlockItem(AerialHellBlocks.GLAUCOPHANITE_BUTTON, new Item.Settings()));
 
     //pressure plates
-    public static final Item STELLAR_STONE_PRESSURE_PLATE_ITEM = register("stellar_stone_pressure_plate", new BlockItem(AerialHellBlocks.STELLAR_STONE_PRESSURE_PLATE, new Item.Settings()));
-    public static final Item STELLAR_COBBLESTONE_PRESSURE_PLATE_ITEM = register("stellar_cobblestone_pressure_plate", new BlockItem(AerialHellBlocks.STELLAR_COBBLESTONE_PRESSURE_PLATE, new Item.Settings()));
-    public static final Item STELLAR_STONE_BRICKS_PRESSURE_PLATE_ITEM = register("stellar_stone_bricks_pressure_plate", new BlockItem(AerialHellBlocks.STELLAR_STONE_BRICKS_PRESSURE_PLATE, new Item.Settings()));
-    public static final Item SLIPPERY_SAND_STONE_PRESSURE_PLATE_ITEM = register("slippery_sand_stone_pressure_plate", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_PRESSURE_PLATE, new Item.Settings()));
-    public static final Item SLIPPERY_SAND_STONE_BRICKS_PRESSURE_PLATE_ITEM = register("slippery_sand_stone_bricks_pressure_plate", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS_PRESSURE_PLATE, new Item.Settings()));
-    public static final Item AERIAL_TREE_PRESSURE_PLATE_ITEM = register("aerial_tree_pressure_plate", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_PRESSURE_PLATE, new Item.Settings(), 300));
-    public static final Item GOLDEN_BEECH_PRESSURE_PLATE_ITEM = register("golden_beech_pressure_plate", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_PRESSURE_PLATE, new Item.Settings(), 300));
-    public static final Item COPPER_PINE_PRESSURE_PLATE_ITEM = register("copper_pine_pressure_plate", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_PRESSURE_PLATE, new Item.Settings(), 300));
-    public static final Item LAPIS_ROBINIA_PRESSURE_PLATE_ITEM = register("lapis_robinia_pressure_plate", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_PRESSURE_PLATE, new Item.Settings(), 300));
-    public static final Item SHADOW_PINE_PRESSURE_PLATE_ITEM = register("shadow_pine_pressure_plate", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_PRESSURE_PLATE, new Item.Settings(), 300));
-    public static final Item STELLAR_JUNGLE_TREE_PRESSURE_PLATE_ITEM = register("stellar_jungle_tree_pressure_plate", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_PRESSURE_PLATE, new Item.Settings(), 300));
-    public static final Item SKY_CACTUS_FIBER_PRESSURE_PLATE_ITEM = register("sky_cactus_fiber_pressure_plate", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_PRESSURE_PLATE, new Item.Settings()));
-    public static final Item GRAY_SHROOM_PRESSURE_PLATE_ITEM = register("gray_shroom_pressure_plate", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_PRESSURE_PLATE, new Item.Settings(), 100));
-    public static final Item GLAUCOPHANITE_PRESSURE_PLATE_ITEM = register("glaucophanite_pressure_plate", new BlockItem(AerialHellBlocks.GLAUCOPHANITE_PRESSURE_PLATE, new Item.Settings()));
+    public static final Item STELLAR_STONE_PRESSURE_PLATE = register("stellar_stone_pressure_plate", new BlockItem(AerialHellBlocks.STELLAR_STONE_PRESSURE_PLATE, new Item.Settings()));
+    public static final Item STELLAR_COBBLESTONE_PRESSURE_PLATE = register("stellar_cobblestone_pressure_plate", new BlockItem(AerialHellBlocks.STELLAR_COBBLESTONE_PRESSURE_PLATE, new Item.Settings()));
+    public static final Item STELLAR_STONE_BRICKS_PRESSURE_PLATE = register("stellar_stone_bricks_pressure_plate", new BlockItem(AerialHellBlocks.STELLAR_STONE_BRICKS_PRESSURE_PLATE, new Item.Settings()));
+    public static final Item SLIPPERY_SAND_STONE_PRESSURE_PLATE = register("slippery_sand_stone_pressure_plate", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_PRESSURE_PLATE, new Item.Settings()));
+    public static final Item SLIPPERY_SAND_STONE_BRICKS_PRESSURE_PLATE = register("slippery_sand_stone_bricks_pressure_plate", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS_PRESSURE_PLATE, new Item.Settings()));
+    public static final Item AERIAL_TREE_PRESSURE_PLATE = register("aerial_tree_pressure_plate", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_PRESSURE_PLATE, new Item.Settings(), 300));
+    public static final Item GOLDEN_BEECH_PRESSURE_PLATE = register("golden_beech_pressure_plate", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_PRESSURE_PLATE, new Item.Settings(), 300));
+    public static final Item COPPER_PINE_PRESSURE_PLATE = register("copper_pine_pressure_plate", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_PRESSURE_PLATE, new Item.Settings(), 300));
+    public static final Item LAPIS_ROBINIA_PRESSURE_PLATE = register("lapis_robinia_pressure_plate", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_PRESSURE_PLATE, new Item.Settings(), 300));
+    public static final Item SHADOW_PINE_PRESSURE_PLATE = register("shadow_pine_pressure_plate", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_PRESSURE_PLATE, new Item.Settings(), 300));
+    public static final Item STELLAR_JUNGLE_TREE_PRESSURE_PLATE = register("stellar_jungle_tree_pressure_plate", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_PRESSURE_PLATE, new Item.Settings(), 300));
+    public static final Item SKY_CACTUS_FIBER_PRESSURE_PLATE = register("sky_cactus_fiber_pressure_plate", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_PRESSURE_PLATE, new Item.Settings()));
+    public static final Item GRAY_SHROOM_PRESSURE_PLATE = register("gray_shroom_pressure_plate", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_PRESSURE_PLATE, new Item.Settings(), 100));
+    public static final Item GLAUCOPHANITE_PRESSURE_PLATE = register("glaucophanite_pressure_plate", new BlockItem(AerialHellBlocks.GLAUCOPHANITE_PRESSURE_PLATE, new Item.Settings()));
 
     //slabs
-    public static final Item AERIAL_TREE_SLAB_ITEM = register("aerial_tree_slab", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_SLAB, new Item.Settings(), 150));
-    public static final Item GOLDEN_BEECH_SLAB_ITEM = register("golden_beech_slab", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_SLAB, new Item.Settings(), 150));
-    public static final Item COPPER_PINE_SLAB_ITEM = register("copper_pine_slab", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_SLAB, new Item.Settings(), 150));
-    public static final Item LAPIS_ROBINIA_SLAB_ITEM = register("lapis_robinia_slab", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_SLAB, new Item.Settings(), 150));
-    public static final Item SHADOW_PINE_SLAB_ITEM = register("shadow_pine_slab", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_SLAB, new Item.Settings(), 150));
-    public static final Item STELLAR_JUNGLE_TREE_SLAB_ITEM = register("stellar_jungle_tree_slab", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_SLAB, new Item.Settings(), 150));
-    public static final Item SKY_CACTUS_FIBER_SLAB_ITEM = register("sky_cactus_fiber_slab", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_SLAB, new Item.Settings()));
-    public static final Item GRAY_SHROOM_SLAB_ITEM = register("gray_shroom_slab", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_SLAB, new Item.Settings(), 50));
-    public static final Item STELLAR_STONE_SLAB_ITEM = register("stellar_stone_slab", new BlockItem(AerialHellBlocks.STELLAR_STONE_SLAB, new Item.Settings()));
-    public static final Item STELLAR_COBBLESTONE_SLAB_ITEM = register("stellar_cobblestone_slab", new BlockItem(AerialHellBlocks.STELLAR_COBBLESTONE_SLAB, new Item.Settings()));
-    public static final Item STELLAR_STONE_BRICKS_SLAB_ITEM = register("stellar_stone_bricks_slab", new BlockItem(AerialHellBlocks.STELLAR_STONE_BRICKS_SLAB, new Item.Settings()));
-    public static final Item MOSSY_STELLAR_STONE_SLAB_ITEM = register("mossy_stellar_stone_slab", new BlockItem(AerialHellBlocks.MOSSY_STELLAR_STONE_SLAB, new Item.Settings()));
-    public static final Item MOSSY_STELLAR_COBBLESTONE_SLAB_ITEM = register("mossy_stellar_cobblestone_slab", new BlockItem(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_SLAB, new Item.Settings()));
-    public static final Item SLIPPERY_SAND_STONE_SLAB_ITEM = register("slippery_sand_stone_slab", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_SLAB, new Item.Settings()));
-    public static final Item SLIPPERY_SAND_STONE_BRICKS_SLAB_ITEM = register("slippery_sand_stone_bricks_slab", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS_SLAB, new Item.Settings()));
-    public static final Item CRACKED_SLIPPERY_SAND_STONE_BRICKS_SLAB_ITEM = register("cracked_slippery_sand_stone_bricks_slab", new BlockItem(AerialHellBlocks.CRACKED_SLIPPERY_SAND_STONE_BRICKS_SLAB, new Item.Settings()));
-    public static final Item POLISHED_GLAUCOPHANITE_SLAB_ITEM = register("polished_glaucophanite_slab", new BlockItem(AerialHellBlocks.POLISHED_GLAUCOPHANITE_SLAB, new Item.Settings()));
-    public static final Item MAGMATIC_GEL_SLAB_ITEM = register("magmatic_gel_slab", new BlockItem(AerialHellBlocks.MAGMATIC_GEL_SLAB, new Item.Settings()));
+    public static final Item AERIAL_TREE_SLAB = register("aerial_tree_slab", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_SLAB, new Item.Settings(), 150));
+    public static final Item GOLDEN_BEECH_SLAB = register("golden_beech_slab", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_SLAB, new Item.Settings(), 150));
+    public static final Item COPPER_PINE_SLAB = register("copper_pine_slab", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_SLAB, new Item.Settings(), 150));
+    public static final Item LAPIS_ROBINIA_SLAB = register("lapis_robinia_slab", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_SLAB, new Item.Settings(), 150));
+    public static final Item SHADOW_PINE_SLAB = register("shadow_pine_slab", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_SLAB, new Item.Settings(), 150));
+    public static final Item STELLAR_JUNGLE_TREE_SLAB = register("stellar_jungle_tree_slab", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_SLAB, new Item.Settings(), 150));
+    public static final Item SKY_CACTUS_FIBER_SLAB = register("sky_cactus_fiber_slab", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_SLAB, new Item.Settings()));
+    public static final Item GRAY_SHROOM_SLAB = register("gray_shroom_slab", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_SLAB, new Item.Settings(), 50));
+    public static final Item STELLAR_STONE_SLAB = register("stellar_stone_slab", new BlockItem(AerialHellBlocks.STELLAR_STONE_SLAB, new Item.Settings()));
+    public static final Item STELLAR_COBBLESTONE_SLAB = register("stellar_cobblestone_slab", new BlockItem(AerialHellBlocks.STELLAR_COBBLESTONE_SLAB, new Item.Settings()));
+    public static final Item STELLAR_STONE_BRICKS_SLAB = register("stellar_stone_bricks_slab", new BlockItem(AerialHellBlocks.STELLAR_STONE_BRICKS_SLAB, new Item.Settings()));
+    public static final Item MOSSY_STELLAR_STONE_SLAB = register("mossy_stellar_stone_slab", new BlockItem(AerialHellBlocks.MOSSY_STELLAR_STONE_SLAB, new Item.Settings()));
+    public static final Item MOSSY_STELLAR_COBBLESTONE_SLAB = register("mossy_stellar_cobblestone_slab", new BlockItem(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_SLAB, new Item.Settings()));
+    public static final Item SLIPPERY_SAND_STONE_SLAB = register("slippery_sand_stone_slab", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_SLAB, new Item.Settings()));
+    public static final Item SLIPPERY_SAND_STONE_BRICKS_SLAB = register("slippery_sand_stone_bricks_slab", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS_SLAB, new Item.Settings()));
+    public static final Item CRACKED_SLIPPERY_SAND_STONE_BRICKS_SLAB = register("cracked_slippery_sand_stone_bricks_slab", new BlockItem(AerialHellBlocks.CRACKED_SLIPPERY_SAND_STONE_BRICKS_SLAB, new Item.Settings()));
+    public static final Item POLISHED_GLAUCOPHANITE_SLAB = register("polished_glaucophanite_slab", new BlockItem(AerialHellBlocks.POLISHED_GLAUCOPHANITE_SLAB, new Item.Settings()));
+    public static final Item MAGMATIC_GEL_SLAB = register("magmatic_gel_slab", new BlockItem(AerialHellBlocks.MAGMATIC_GEL_SLAB, new Item.Settings()));
 
     //stairs
-    public static final Item AERIAL_TREE_STAIRS_ITEM = register("aerial_tree_stairs", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_STAIRS, new Item.Settings(), 300));
-    public static final Item GOLDEN_BEECH_STAIRS_ITEM = register("golden_beech_stairs", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_STAIRS, new Item.Settings(), 300));
-    public static final Item COPPER_PINE_STAIRS_ITEM = register("copper_pine_stairs", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_STAIRS, new Item.Settings(), 300));
-    public static final Item LAPIS_ROBINIA_STAIRS_ITEM = register("lapis_robinia_stairs", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_STAIRS, new Item.Settings(), 300));
-    public static final Item SHADOW_PINE_STAIRS_ITEM = register("shadow_pine_stairs", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_STAIRS, new Item.Settings(), 300));
-    public static final Item STELLAR_JUNGLE_TREE_STAIRS_ITEM = register("stellar_jungle_tree_stairs", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_STAIRS, new Item.Settings(), 300));
-    public static final Item SKY_CACTUS_FIBER_STAIRS_ITEM = register("sky_cactus_fiber_stairs", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_STAIRS, new Item.Settings()));
-    public static final Item GRAY_SHROOM_STAIRS_ITEM = register("gray_shroom_stairs", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_STAIRS, new Item.Settings(), 100));
-    public static final Item STELLAR_STONE_STAIRS_ITEM = register("stellar_stone_stairs", new BlockItem(AerialHellBlocks.STELLAR_STONE_STAIRS, new Item.Settings()));
-    public static final Item STELLAR_COBBLESTONE_STAIRS_ITEM = register("stellar_cobblestone_stairs", new BlockItem(AerialHellBlocks.STELLAR_COBBLESTONE_STAIRS, new Item.Settings()));
-    public static final Item STELLAR_STONE_BRICKS_STAIRS_ITEM = register("stellar_stone_bricks_stairs", new BlockItem(AerialHellBlocks.STELLAR_STONE_BRICKS_STAIRS, new Item.Settings()));
-    public static final Item MOSSY_STELLAR_STONE_STAIRS_ITEM = register("mossy_stellar_stone_stairs", new BlockItem(AerialHellBlocks.MOSSY_STELLAR_STONE_STAIRS, new Item.Settings()));
-    public static final Item MOSSY_STELLAR_COBBLESTONE_STAIRS_ITEM = register("mossy_stellar_cobblestone_stairs", new BlockItem(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_STAIRS, new Item.Settings()));
-    public static final Item SLIPPERY_SAND_STONE_STAIRS_ITEM = register("slippery_sand_stone_stairs", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_STAIRS, new Item.Settings()));
-    public static final Item SLIPPERY_SAND_STONE_BRICKS_STAIRS_ITEM = register("slippery_sand_stone_bricks_stairs", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS_STAIRS, new Item.Settings()));
-    public static final Item CRACKED_SLIPPERY_SAND_STONE_BRICKS_STAIRS_ITEM = register("cracked_slippery_sand_stone_bricks_stairs", new BlockItem(AerialHellBlocks.CRACKED_SLIPPERY_SAND_STONE_BRICKS_STAIRS, new Item.Settings()));
-    public static final Item POLISHED_GLAUCOPHANITE_STAIRS_ITEM = register("polished_glaucophanite_stairs", new BlockItem(AerialHellBlocks.POLISHED_GLAUCOPHANITE_STAIRS, new Item.Settings()));
-    public static final Item MAGMATIC_GEL_STAIRS_ITEM = register("magmatic_gel_stairs", new BlockItem(AerialHellBlocks.MAGMATIC_GEL_STAIRS, new Item.Settings()));
+    public static final Item AERIAL_TREE_STAIRS = register("aerial_tree_stairs", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_STAIRS, new Item.Settings(), 300));
+    public static final Item GOLDEN_BEECH_STAIRS = register("golden_beech_stairs", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_STAIRS, new Item.Settings(), 300));
+    public static final Item COPPER_PINE_STAIRS = register("copper_pine_stairs", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_STAIRS, new Item.Settings(), 300));
+    public static final Item LAPIS_ROBINIA_STAIRS = register("lapis_robinia_stairs", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_STAIRS, new Item.Settings(), 300));
+    public static final Item SHADOW_PINE_STAIRS = register("shadow_pine_stairs", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_STAIRS, new Item.Settings(), 300));
+    public static final Item STELLAR_JUNGLE_TREE_STAIRS = register("stellar_jungle_tree_stairs", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_STAIRS, new Item.Settings(), 300));
+    public static final Item SKY_CACTUS_FIBER_STAIRS = register("sky_cactus_fiber_stairs", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_STAIRS, new Item.Settings()));
+    public static final Item GRAY_SHROOM_STAIRS = register("gray_shroom_stairs", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_STAIRS, new Item.Settings(), 100));
+    public static final Item STELLAR_STONE_STAIRS = register("stellar_stone_stairs", new BlockItem(AerialHellBlocks.STELLAR_STONE_STAIRS, new Item.Settings()));
+    public static final Item STELLAR_COBBLESTONE_STAIRS = register("stellar_cobblestone_stairs", new BlockItem(AerialHellBlocks.STELLAR_COBBLESTONE_STAIRS, new Item.Settings()));
+    public static final Item STELLAR_STONE_BRICKS_STAIRS = register("stellar_stone_bricks_stairs", new BlockItem(AerialHellBlocks.STELLAR_STONE_BRICKS_STAIRS, new Item.Settings()));
+    public static final Item MOSSY_STELLAR_STONE_STAIRS = register("mossy_stellar_stone_stairs", new BlockItem(AerialHellBlocks.MOSSY_STELLAR_STONE_STAIRS, new Item.Settings()));
+    public static final Item MOSSY_STELLAR_COBBLESTONE_STAIRS = register("mossy_stellar_cobblestone_stairs", new BlockItem(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_STAIRS, new Item.Settings()));
+    public static final Item SLIPPERY_SAND_STONE_STAIRS = register("slippery_sand_stone_stairs", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_STAIRS, new Item.Settings()));
+    public static final Item SLIPPERY_SAND_STONE_BRICKS_STAIRS = register("slippery_sand_stone_bricks_stairs", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS_STAIRS, new Item.Settings()));
+    public static final Item CRACKED_SLIPPERY_SAND_STONE_BRICKS_STAIRS = register("cracked_slippery_sand_stone_bricks_stairs", new BlockItem(AerialHellBlocks.CRACKED_SLIPPERY_SAND_STONE_BRICKS_STAIRS, new Item.Settings()));
+    public static final Item POLISHED_GLAUCOPHANITE_STAIRS = register("polished_glaucophanite_stairs", new BlockItem(AerialHellBlocks.POLISHED_GLAUCOPHANITE_STAIRS, new Item.Settings()));
+    public static final Item MAGMATIC_GEL_STAIRS = register("magmatic_gel_stairs", new BlockItem(AerialHellBlocks.MAGMATIC_GEL_STAIRS, new Item.Settings()));
 
     //signs
-    public static final Item AERIAL_TREE_SIGN_ITEM = register("aerial_tree_sign", new SignItem(new Item.Settings(), AerialHellBlocks.AERIAL_TREE_STANDING_SIGN, AerialHellBlocks.AERIAL_TREE_WALL_SIGN));
-    public static final Item GOLDEN_BEECH_SIGN_ITEM = register("golden_beech_sign", new SignItem(new Item.Settings(), AerialHellBlocks.GOLDEN_BEECH_STANDING_SIGN, AerialHellBlocks.GOLDEN_BEECH_WALL_SIGN));
-    public static final Item COPPER_PINE_SIGN_ITEM = register("copper_pine_sign", new SignItem(new Item.Settings(), AerialHellBlocks.COPPER_PINE_STANDING_SIGN, AerialHellBlocks.COPPER_PINE_WALL_SIGN));
-    public static final Item LAPIS_ROBINIA_SIGN_ITEM = register("lapis_robinia_sign", new SignItem(new Item.Settings(), AerialHellBlocks.LAPIS_ROBINIA_STANDING_SIGN, AerialHellBlocks.LAPIS_ROBINIA_WALL_SIGN));
-    public static final Item SHADOW_PINE_SIGN_ITEM = register("shadow_pine_sign", new SignItem(new Item.Settings(), AerialHellBlocks.SHADOW_PINE_STANDING_SIGN, AerialHellBlocks.SHADOW_PINE_WALL_SIGN));
-    public static final Item STELLAR_JUNGLE_TREE_SIGN_ITEM = register("stellar_jungle_tree_sign", new SignItem(new Item.Settings(), AerialHellBlocks.STELLAR_JUNGLE_TREE_STANDING_SIGN, AerialHellBlocks.STELLAR_JUNGLE_TREE_WALL_SIGN));
-    public static final Item SKY_CACTUS_FIBER_SIGN_ITEM = register("sky_cactus_fiber_sign", new SignItem(new Item.Settings(), AerialHellBlocks.SKY_CACTUS_FIBER_STANDING_SIGN, AerialHellBlocks.SKY_CACTUS_FIBER_WALL_SIGN));
-    public static final Item GRAY_SHROOM_SIGN_ITEM = register("gray_shroom_sign", new SignItem(new Item.Settings(), AerialHellBlocks.GRAY_SHROOM_STANDING_SIGN, AerialHellBlocks.GRAY_SHROOM_WALL_SIGN));
+    public static final Item AERIAL_TREE_SIGN = register("aerial_tree_sign", new SignItem(new Item.Settings(), AerialHellBlocks.AERIAL_TREE_STANDING_SIGN, AerialHellBlocks.AERIAL_TREE_WALL_SIGN));
+    public static final Item GOLDEN_BEECH_SIGN = register("golden_beech_sign", new SignItem(new Item.Settings(), AerialHellBlocks.GOLDEN_BEECH_STANDING_SIGN, AerialHellBlocks.GOLDEN_BEECH_WALL_SIGN));
+    public static final Item COPPER_PINE_SIGN = register("copper_pine_sign", new SignItem(new Item.Settings(), AerialHellBlocks.COPPER_PINE_STANDING_SIGN, AerialHellBlocks.COPPER_PINE_WALL_SIGN));
+    public static final Item LAPIS_ROBINIA_SIGN = register("lapis_robinia_sign", new SignItem(new Item.Settings(), AerialHellBlocks.LAPIS_ROBINIA_STANDING_SIGN, AerialHellBlocks.LAPIS_ROBINIA_WALL_SIGN));
+    public static final Item SHADOW_PINE_SIGN = register("shadow_pine_sign", new SignItem(new Item.Settings(), AerialHellBlocks.SHADOW_PINE_STANDING_SIGN, AerialHellBlocks.SHADOW_PINE_WALL_SIGN));
+    public static final Item STELLAR_JUNGLE_TREE_SIGN = register("stellar_jungle_tree_sign", new SignItem(new Item.Settings(), AerialHellBlocks.STELLAR_JUNGLE_TREE_STANDING_SIGN, AerialHellBlocks.STELLAR_JUNGLE_TREE_WALL_SIGN));
+    public static final Item SKY_CACTUS_FIBER_SIGN = register("sky_cactus_fiber_sign", new SignItem(new Item.Settings(), AerialHellBlocks.SKY_CACTUS_FIBER_STANDING_SIGN, AerialHellBlocks.SKY_CACTUS_FIBER_WALL_SIGN));
+    public static final Item GRAY_SHROOM_SIGN = register("gray_shroom_sign", new SignItem(new Item.Settings(), AerialHellBlocks.GRAY_SHROOM_STANDING_SIGN, AerialHellBlocks.GRAY_SHROOM_WALL_SIGN));
 
     //hanging signs
-    public static final Item AERIAL_TREE_HANGING_SIGN_ITEM = register("aerial_tree_hanging_sign", new HangingSignItem(AerialHellBlocks.AERIAL_TREE_HANGING_SIGN, AerialHellBlocks.AERIAL_TREE_WALL_HANGING_SIGN, (new Item.Settings()).maxCount(16)));
-    public static final Item GOLDEN_BEECH_HANGING_SIGN_ITEM = register("golden_beech_hanging_sign", new HangingSignItem(AerialHellBlocks.GOLDEN_BEECH_HANGING_SIGN, AerialHellBlocks.GOLDEN_BEECH_WALL_HANGING_SIGN, (new Item.Settings()).maxCount(16)));
-    public static final Item COPPER_PINE_HANGING_SIGN_ITEM = register("copper_pine_hanging_sign", new HangingSignItem(AerialHellBlocks.COPPER_PINE_HANGING_SIGN, AerialHellBlocks.COPPER_PINE_WALL_HANGING_SIGN, (new Item.Settings()).maxCount(16)));
-    public static final Item LAPIS_ROBINIA_HANGING_SIGN_ITEM = register("lapis_robinia_hanging_sign", new HangingSignItem(AerialHellBlocks.LAPIS_ROBINIA_HANGING_SIGN, AerialHellBlocks.LAPIS_ROBINIA_WALL_HANGING_SIGN, (new Item.Settings()).maxCount(16)));
-    public static final Item SHADOW_PINE_HANGING_SIGN_ITEM = register("shadow_pine_hanging_sign", new HangingSignItem(AerialHellBlocks.SHADOW_PINE_HANGING_SIGN, AerialHellBlocks.SHADOW_PINE_WALL_HANGING_SIGN, (new Item.Settings()).maxCount(16)));
-    public static final Item STELLAR_JUNGLE_TREE_HANGING_SIGN_ITEM = register("stellar_jungle_tree_hanging_sign", new HangingSignItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_HANGING_SIGN, AerialHellBlocks.STELLAR_JUNGLE_TREE_WALL_HANGING_SIGN, (new Item.Settings()).maxCount(16)));
-    public static final Item SKY_CACTUS_FIBER_HANGING_SIGN_ITEM = register("sky_cactus_fiber_hanging_sign", new HangingSignItem(AerialHellBlocks.SKY_CACTUS_FIBER_HANGING_SIGN, AerialHellBlocks.SKY_CACTUS_FIBER_WALL_HANGING_SIGN, (new Item.Settings()).maxCount(16)));
-    public static final Item GRAY_SHROOM_HANGING_SIGN_ITEM = register("gray_shroom_hanging_sign", new HangingSignItem(AerialHellBlocks.GRAY_SHROOM_HANGING_SIGN, AerialHellBlocks.GRAY_SHROOM_WALL_HANGING_SIGN, (new Item.Settings()).maxCount(16)));
+    public static final Item AERIAL_TREE_HANGING_SIGN = register("aerial_tree_hanging_sign", new HangingSignItem(AerialHellBlocks.AERIAL_TREE_HANGING_SIGN, AerialHellBlocks.AERIAL_TREE_WALL_HANGING_SIGN, (new Item.Settings()).maxCount(16)));
+    public static final Item GOLDEN_BEECH_HANGING_SIGN = register("golden_beech_hanging_sign", new HangingSignItem(AerialHellBlocks.GOLDEN_BEECH_HANGING_SIGN, AerialHellBlocks.GOLDEN_BEECH_WALL_HANGING_SIGN, (new Item.Settings()).maxCount(16)));
+    public static final Item COPPER_PINE_HANGING_SIGN = register("copper_pine_hanging_sign", new HangingSignItem(AerialHellBlocks.COPPER_PINE_HANGING_SIGN, AerialHellBlocks.COPPER_PINE_WALL_HANGING_SIGN, (new Item.Settings()).maxCount(16)));
+    public static final Item LAPIS_ROBINIA_HANGING_SIGN = register("lapis_robinia_hanging_sign", new HangingSignItem(AerialHellBlocks.LAPIS_ROBINIA_HANGING_SIGN, AerialHellBlocks.LAPIS_ROBINIA_WALL_HANGING_SIGN, (new Item.Settings()).maxCount(16)));
+    public static final Item SHADOW_PINE_HANGING_SIGN = register("shadow_pine_hanging_sign", new HangingSignItem(AerialHellBlocks.SHADOW_PINE_HANGING_SIGN, AerialHellBlocks.SHADOW_PINE_WALL_HANGING_SIGN, (new Item.Settings()).maxCount(16)));
+    public static final Item STELLAR_JUNGLE_TREE_HANGING_SIGN = register("stellar_jungle_tree_hanging_sign", new HangingSignItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_HANGING_SIGN, AerialHellBlocks.STELLAR_JUNGLE_TREE_WALL_HANGING_SIGN, (new Item.Settings()).maxCount(16)));
+    public static final Item SKY_CACTUS_FIBER_HANGING_SIGN = register("sky_cactus_fiber_hanging_sign", new HangingSignItem(AerialHellBlocks.SKY_CACTUS_FIBER_HANGING_SIGN, AerialHellBlocks.SKY_CACTUS_FIBER_WALL_HANGING_SIGN, (new Item.Settings()).maxCount(16)));
+    public static final Item GRAY_SHROOM_HANGING_SIGN = register("gray_shroom_hanging_sign", new HangingSignItem(AerialHellBlocks.GRAY_SHROOM_HANGING_SIGN, AerialHellBlocks.GRAY_SHROOM_WALL_HANGING_SIGN, (new Item.Settings()).maxCount(16)));
 
     //crafting tables
-    public static final Item AERIAL_TREE_CRAFTING_TABLE_ITEM = register("aerial_tree_crafting_table", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_CRAFTING_TABLE, new Item.Settings(), 300));
-    public static final Item GOLDEN_BEECH_CRAFTING_TABLE_ITEM = register("golden_beech_crafting_table", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_CRAFTING_TABLE, new Item.Settings(), 300));
-    public static final Item COPPER_PINE_CRAFTING_TABLE_ITEM = register("copper_pine_crafting_table", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_CRAFTING_TABLE, new Item.Settings(), 300));
-    public static final Item LAPIS_ROBINIA_CRAFTING_TABLE_ITEM = register("lapis_robinia_crafting_table", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_CRAFTING_TABLE, new Item.Settings(), 300));
-    public static final Item SHADOW_PINE_CRAFTING_TABLE_ITEM = register("shadow_pine_crafting_table", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_CRAFTING_TABLE, new Item.Settings(), 300));
-    public static final Item STELLAR_JUNGLE_TREE_CRAFTING_TABLE_ITEM = register("stellar_jungle_tree_crafting_table", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_CRAFTING_TABLE, new Item.Settings(), 300));
-    public static final Item SKY_CACTUS_FIBER_CRAFTING_TABLE_ITEM = register("sky_cactus_fiber_crafting_table", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_CRAFTING_TABLE, new Item.Settings()));
-    public static final Item GRAY_SHROOM_CRAFTING_TABLE_ITEM = register("gray_shroom_crafting_table", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_CRAFTING_TABLE, new Item.Settings(), 100));
+    public static final Item AERIAL_TREE_CRAFTING_TABLE = register("aerial_tree_crafting_table", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_CRAFTING_TABLE, new Item.Settings(), 300));
+    public static final Item GOLDEN_BEECH_CRAFTING_TABLE = register("golden_beech_crafting_table", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_CRAFTING_TABLE, new Item.Settings(), 300));
+    public static final Item COPPER_PINE_CRAFTING_TABLE = register("copper_pine_crafting_table", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_CRAFTING_TABLE, new Item.Settings(), 300));
+    public static final Item LAPIS_ROBINIA_CRAFTING_TABLE = register("lapis_robinia_crafting_table", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_CRAFTING_TABLE, new Item.Settings(), 300));
+    public static final Item SHADOW_PINE_CRAFTING_TABLE = register("shadow_pine_crafting_table", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_CRAFTING_TABLE, new Item.Settings(), 300));
+    public static final Item STELLAR_JUNGLE_TREE_CRAFTING_TABLE = register("stellar_jungle_tree_crafting_table", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_CRAFTING_TABLE, new Item.Settings(), 300));
+    public static final Item SKY_CACTUS_FIBER_CRAFTING_TABLE = register("sky_cactus_fiber_crafting_table", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_CRAFTING_TABLE, new Item.Settings()));
+    public static final Item GRAY_SHROOM_CRAFTING_TABLE = register("gray_shroom_crafting_table", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_CRAFTING_TABLE, new Item.Settings(), 100));
 
     //barrels
-    public static final Item AERIAL_TREE_BARREL_ITEM = register("aerial_tree_barrel", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_BARREL, new Item.Settings(), 300));
-    public static final Item GOLDEN_BEECH_BARREL_ITEM = register("golden_beech_barrel", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_BARREL, new Item.Settings(), 300));
-    public static final Item COPPER_PINE_BARREL_ITEM = register("copper_pine_barrel", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_BARREL, new Item.Settings(), 300));
-    public static final Item LAPIS_ROBINIA_BARREL_ITEM = register("lapis_robinia_barrel", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_BARREL, new Item.Settings(), 300));
-    public static final Item SHADOW_PINE_BARREL_ITEM = register("shadow_pine_barrel", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_BARREL, new Item.Settings(), 300));
-    public static final Item STELLAR_JUNGLE_TREE_BARREL_ITEM = register("stellar_jungle_tree_barrel", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_BARREL, new Item.Settings(), 300));
-    public static final Item SKY_CACTUS_FIBER_BARREL_ITEM = register("sky_cactus_fiber_barrel", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_BARREL, new Item.Settings()));
-    public static final Item GRAY_SHROOM_BARREL_ITEM = register("gray_shroom_barrel", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_BARREL, new Item.Settings(), 100));
+    public static final Item AERIAL_TREE_BARREL = register("aerial_tree_barrel", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_BARREL, new Item.Settings(), 300));
+    public static final Item GOLDEN_BEECH_BARREL = register("golden_beech_barrel", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_BARREL, new Item.Settings(), 300));
+    public static final Item COPPER_PINE_BARREL = register("copper_pine_barrel", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_BARREL, new Item.Settings(), 300));
+    public static final Item LAPIS_ROBINIA_BARREL = register("lapis_robinia_barrel", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_BARREL, new Item.Settings(), 300));
+    public static final Item SHADOW_PINE_BARREL = register("shadow_pine_barrel", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_BARREL, new Item.Settings(), 300));
+    public static final Item STELLAR_JUNGLE_TREE_BARREL = register("stellar_jungle_tree_barrel", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_BARREL, new Item.Settings(), 300));
+    public static final Item SKY_CACTUS_FIBER_BARREL = register("sky_cactus_fiber_barrel", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_BARREL, new Item.Settings()));
+    public static final Item GRAY_SHROOM_BARREL = register("gray_shroom_barrel", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_BARREL, new Item.Settings(), 100));
 
     //composters
-    public static final Item AERIAL_TREE_COMPOSTER_ITEM = register("aerial_tree_composter", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_COMPOSTER, new Item.Settings(), 300));
-    public static final Item GOLDEN_BEECH_COMPOSTER_ITEM = register("golden_beech_composter", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_COMPOSTER, new Item.Settings(), 300));
-    public static final Item COPPER_PINE_COMPOSTER_ITEM = register("copper_pine_composter", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_COMPOSTER, new Item.Settings(), 300));
-    public static final Item LAPIS_ROBINIA_COMPOSTER_ITEM = register("lapis_robinia_composter", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_COMPOSTER, new Item.Settings(), 300));
-    public static final Item SHADOW_PINE_COMPOSTER_ITEM = register("shadow_pine_composter", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_COMPOSTER, new Item.Settings(), 300));
-    public static final Item STELLAR_JUNGLE_TREE_COMPOSTER_ITEM = register("stellar_jungle_tree_composter", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_COMPOSTER, new Item.Settings(), 300));
-    public static final Item SKY_CACTUS_FIBER_COMPOSTER_ITEM = register("sky_cactus_fiber_composter", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_COMPOSTER, new Item.Settings()));
-    public static final Item GRAY_SHROOM_COMPOSTER_ITEM = register("gray_shroom_composter", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_COMPOSTER, new Item.Settings(), 100));
+    public static final Item AERIAL_TREE_COMPOSTER = register("aerial_tree_composter", new BurnableBlockItem(AerialHellBlocks.AERIAL_TREE_COMPOSTER, new Item.Settings(), 300));
+    public static final Item GOLDEN_BEECH_COMPOSTER = register("golden_beech_composter", new BurnableBlockItem(AerialHellBlocks.GOLDEN_BEECH_COMPOSTER, new Item.Settings(), 300));
+    public static final Item COPPER_PINE_COMPOSTER = register("copper_pine_composter", new BurnableBlockItem(AerialHellBlocks.COPPER_PINE_COMPOSTER, new Item.Settings(), 300));
+    public static final Item LAPIS_ROBINIA_COMPOSTER = register("lapis_robinia_composter", new BurnableBlockItem(AerialHellBlocks.LAPIS_ROBINIA_COMPOSTER, new Item.Settings(), 300));
+    public static final Item SHADOW_PINE_COMPOSTER = register("shadow_pine_composter", new BurnableBlockItem(AerialHellBlocks.SHADOW_PINE_COMPOSTER, new Item.Settings(), 300));
+    public static final Item STELLAR_JUNGLE_TREE_COMPOSTER = register("stellar_jungle_tree_composter", new BurnableBlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_COMPOSTER, new Item.Settings(), 300));
+    public static final Item SKY_CACTUS_FIBER_COMPOSTER = register("sky_cactus_fiber_composter", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_COMPOSTER, new Item.Settings()));
+    public static final Item GRAY_SHROOM_COMPOSTER = register("gray_shroom_composter", new BurnableBlockItem(AerialHellBlocks.GRAY_SHROOM_COMPOSTER, new Item.Settings(), 100));
 
     //decorative
-    public static final Item AERIAL_TREE_VINE_ROPE_SPOOL_ITEM = register("aerial_tree_vine_rope_spool", new BlockItem(AerialHellBlocks.AERIAL_TREE_VINE_ROPE_SPOOL, new Item.Settings()));
-    public static final Item GOLDEN_BEECH_VINE_ROPE_SPOOL_ITEM = register("golden_beech_vine_rope_spool", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_VINE_ROPE_SPOOL, new Item.Settings()));
-    public static final Item COPPER_PINE_VINE_ROPE_SPOOL_ITEM = register("copper_pine_vine_rope_spool", new BlockItem(AerialHellBlocks.COPPER_PINE_VINE_ROPE_SPOOL, new Item.Settings()));
-    public static final Item LAPIS_ROBINIA_VINE_ROPE_SPOOL_ITEM = register("lapis_robinia_vine_rope_spool", new BlockItem(AerialHellBlocks.LAPIS_ROBINIA_VINE_ROPE_SPOOL, new Item.Settings()));
-    public static final Item SHADOW_PINE_VINE_ROPE_SPOOL_ITEM = register("shadow_pine_vine_rope_spool", new BlockItem(AerialHellBlocks.SHADOW_PINE_VINE_ROPE_SPOOL, new Item.Settings()));
-    public static final Item STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL_ITEM = register("stellar_jungle_tree_vine_rope_spool", new BlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL, new Item.Settings()));
-    public static final Item SKY_CACTUS_FIBER_VINE_ROPE_SPOOL_ITEM = register("sky_cactus_fiber_vine_rope_spool", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_VINE_ROPE_SPOOL, new Item.Settings()));
-    public static final Item GRAY_SHROOM_VINE_ROPE_SPOOL_ITEM = register("gray_shroom_vine_rope_spool", new BlockItem(AerialHellBlocks.GRAY_SHROOM_VINE_ROPE_SPOOL, new Item.Settings()));
+    public static final Item AERIAL_TREE_VINE_ROPE_SPOOL = register("aerial_tree_vine_rope_spool", new BlockItem(AerialHellBlocks.AERIAL_TREE_VINE_ROPE_SPOOL, new Item.Settings()));
+    public static final Item GOLDEN_BEECH_VINE_ROPE_SPOOL = register("golden_beech_vine_rope_spool", new BlockItem(AerialHellBlocks.GOLDEN_BEECH_VINE_ROPE_SPOOL, new Item.Settings()));
+    public static final Item COPPER_PINE_VINE_ROPE_SPOOL = register("copper_pine_vine_rope_spool", new BlockItem(AerialHellBlocks.COPPER_PINE_VINE_ROPE_SPOOL, new Item.Settings()));
+    public static final Item LAPIS_ROBINIA_VINE_ROPE_SPOOL = register("lapis_robinia_vine_rope_spool", new BlockItem(AerialHellBlocks.LAPIS_ROBINIA_VINE_ROPE_SPOOL, new Item.Settings()));
+    public static final Item SHADOW_PINE_VINE_ROPE_SPOOL = register("shadow_pine_vine_rope_spool", new BlockItem(AerialHellBlocks.SHADOW_PINE_VINE_ROPE_SPOOL, new Item.Settings()));
+    public static final Item STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL = register("stellar_jungle_tree_vine_rope_spool", new BlockItem(AerialHellBlocks.STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL, new Item.Settings()));
+    public static final Item SKY_CACTUS_FIBER_VINE_ROPE_SPOOL = register("sky_cactus_fiber_vine_rope_spool", new BlockItem(AerialHellBlocks.SKY_CACTUS_FIBER_VINE_ROPE_SPOOL, new Item.Settings()));
+    public static final Item GRAY_SHROOM_VINE_ROPE_SPOOL = register("gray_shroom_vine_rope_spool", new BlockItem(AerialHellBlocks.GRAY_SHROOM_VINE_ROPE_SPOOL, new Item.Settings()));
 
     //item for crafts
     public static final Item SKY_STICK = register("sky_stick", new BurnableItem(new Item.Settings(), 100));

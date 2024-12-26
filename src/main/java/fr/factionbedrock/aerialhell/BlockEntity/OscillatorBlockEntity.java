@@ -38,9 +38,9 @@ public class OscillatorBlockEntity extends AbstractFurnaceBlockEntity
 	{
 		Map<Item, Integer> map = Maps.newLinkedHashMap();
 		map.put(AerialHellItems.FLUORITE, 1200);
-		map.put(AerialHellItems.FLUORITE_BLOCK_ITEM, 10800);
+		map.put(AerialHellItems.FLUORITE_BLOCK, 10800);
 		map.put(AerialHellItems.CRYSTAL, 300);
-		map.put(AerialHellItems.CRYSTAL_BLOCK_ITEM, 1200);
+		map.put(AerialHellItems.CRYSTAL_BLOCK, 1200);
 		return map;
 	}
 

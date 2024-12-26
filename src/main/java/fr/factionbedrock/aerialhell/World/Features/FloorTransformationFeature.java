@@ -56,7 +56,7 @@ public class FloorTransformationFeature extends Feature<FloorTransformationConfi
 	{
 		FloorTransformationConfig config = context.getConfig();
 		int baseSize = config.ellipsisBaseSize(), randomSpread = config.ellipsisRandomSpreading();
-		return randomSpread > 0 ? baseSize + context.getRandom().nextBetween(-randomSpread, randomSpread) : baseSize;
+		return randomSpread > 0 ? baseSize + context.getRandom().nextBetweenExclusive(-randomSpread, randomSpread) : baseSize;
 	}
 
 	protected enum PlacementType {NONE, INNER, OUTER}

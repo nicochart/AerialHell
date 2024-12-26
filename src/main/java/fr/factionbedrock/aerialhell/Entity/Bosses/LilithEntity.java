@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.Entity.Bosses;
 
 import java.util.List;
 
-import fr.factionbedrock.aerialhell.Block.*;
 import fr.factionbedrock.aerialhell.Block.DirtAndVariants.StellarGrassBlock;
 import fr.factionbedrock.aerialhell.Block.StandingAndWall.AerialHellTorchBlock;
 import fr.factionbedrock.aerialhell.Block.StandingAndWall.AerialHellWallTorchBlock;
@@ -152,7 +151,7 @@ public class LilithEntity extends AbstractBossEntity
 	@Override
 	public boolean handleFallDamage(float distance, float damageMultiplier, DamageSource source) {return false;}
 
-	@Override public Item getTrophy() {return AerialHellItems.LILITH_TROPHY_ITEM;}
+	@Override public Item getTrophy() {return AerialHellItems.LILITH_TROPHY;}
 
 	@Override public void tickTransitionPhase()
 	{

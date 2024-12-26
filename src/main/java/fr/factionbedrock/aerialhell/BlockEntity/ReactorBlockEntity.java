@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.ReactorBlock;
-import fr.factionbedrock.aerialhell.Inventory.Menu.OscillatorMenu;
 import fr.factionbedrock.aerialhell.Inventory.Menu.ReactorMenu;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
@@ -94,7 +93,7 @@ public class ReactorBlockEntity extends LootableContainerBlockEntity implements 
                 if (stack.isOf(AerialHellItems.SHADOW_CRYSTAL)) {activeTimerIncrement = 400 * active_factor;}
                 else if (stack.isOf(AerialHellItems.SHADOW_SHARD)) {activeTimerIncrement = 1000 * active_factor;}
                 else if (stack.isOf(AerialHellItems.CURSED_CRYSAL)) {activeTimerIncrement = 2000 * active_factor;}
-                else if (stack.isOf(AerialHellItems.CURSED_CRYSAL_BLOCK_ITEM)) {activeTimerIncrement = 18000 * active_factor;}
+                else if (stack.isOf(AerialHellItems.CURSED_CRYSAL_BLOCK)) {activeTimerIncrement = 18000 * active_factor;}
                 if (activeTimerIncrement > 0 && this.activeTimer + activeTimerIncrement <= MAX_ACTIVE_TIMER)
                 {
                     this.activeTimer += activeTimerIncrement;

@@ -67,7 +67,7 @@ public class FeatureHelper
     public static BlockPos getRandomPosInFeatureRegion(BlockPos featureCenter, Random rand, int MAX_XZ_DISTANCE_FROM_CENTER, int MAX_Y_DISTANCE_FROM_CENTER)
     {
         //MAX_XZ_DISTANCE_FROM_CENTER must be <= 23
-        return featureCenter.add(rand.nextBetween(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER), rand.nextBetween(- MAX_Y_DISTANCE_FROM_CENTER, MAX_Y_DISTANCE_FROM_CENTER), rand.nextBetween(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER));
+        return featureCenter.add(rand.nextBetweenExclusive(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER), rand.nextBetweenExclusive(- MAX_Y_DISTANCE_FROM_CENTER, MAX_Y_DISTANCE_FROM_CENTER), rand.nextBetweenExclusive(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER));
     }
 
     public static boolean isBlockPosInFeatureRegion(FeatureContext<DefaultFeatureConfig> context, BlockPos pos)
