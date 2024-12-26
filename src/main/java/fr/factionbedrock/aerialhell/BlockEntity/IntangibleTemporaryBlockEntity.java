@@ -1,11 +1,14 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
+import net.minecraft.registry.BuiltinRegistries;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
@@ -49,7 +52,8 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
     @Override protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
     {
         super.readNbt(nbt, registryLookup);
-        this.beforeState = NbtHelper.toBlockState(this.getWorld().createCommandRegistryWrapper(RegistryKeys.BLOCK), nbt.getCompound("beforeState"));
+        RegistryWrapper<Block> blockGetter = this.getWorld() != null ? this.getWorld().createCommandRegistryWrapper(RegistryKeys.BLOCK) : Registries.BLOCK.getReadOnlyWrapper();
+        this.beforeState = NbtHelper.toBlockState(blockGetter, nbt.getCompound("beforeState"));
         this.tickCount = nbt.getInt("tickCount");
     }
 }
