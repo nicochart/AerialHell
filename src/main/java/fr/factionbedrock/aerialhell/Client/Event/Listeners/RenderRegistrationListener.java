@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
+import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShiftingBlockBakedModel;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestMimicBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.EntityModels.*;
@@ -7,23 +8,33 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.*;
 import fr.factionbedrock.aerialhell.Client.Util.ShiftedModelRenderHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderLayers;
+import net.minecraft.client.render.block.BlockModels;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer;
 import net.minecraft.client.render.block.entity.SignBlockEntityRenderer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
+import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.registry.Registries;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RenderRegistrationListener
 {
+    public static final List<BlockState> TO_BAKE_LIST = new ArrayList<>();
+
     public static void registerBlockRenderLayers()
     {
         RenderLayer translucent = RenderLayer.getTranslucent();
@@ -330,59 +341,74 @@ public class RenderRegistrationListener
 
     public static void registerShiftingBakedModels()
     {
+        initialiseToBakeList();
+
         ModelLoadingPlugin.register(plugin -> plugin.modifyModelAfterBake().register((original, context) ->
         {
-            //TODO state to shift list & use list to avoid multiple registration problem
-            if (!validateModelBakeContext(context)) {return original;} //temporary solution to avoid registering the same shifted render multiple times
-            ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK, context);
-            ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK, context);
-            ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.STELLAR_GRASS, context);
-            ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.SHADOW_GRASS, context);
-            ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.STELLAR_GRASS_BALL, context);
-            ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.SHADOW_GRASS_BALL, context);
-            ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.BRAMBLES, context);
-            ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.SHADOW_BRAMBLES, context);
-            ShiftedModelRenderHelper.createAndRegisterAbstractPlantStemBlock(AerialHellBlocks.GLOWING_ROOTS, context);
-            ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.GLOWING_ROOTS_PLANT, context);
-            ShiftedModelRenderHelper.createAndRegisterAbstractPlantStemBlock(AerialHellBlocks.SHADOW_GLOWING_ROOTS, context);
-            ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.SHADOW_GLOWING_ROOTS_PLANT, context);
-            ShiftedModelRenderHelper.createAndRegisterGrassBlockShiftedRender(AerialHellBlocks.STELLAR_GRASS_BLOCK, context);
-            ShiftedModelRenderHelper.createAndRegisterGrassBlockShiftedRender(AerialHellBlocks.SHADOW_GRASS_BLOCK, context);
-            ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.AERIAL_TREE_LEAVES, context);
-            ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.SHADOW_AERIAL_TREE_LEAVES, context);
-            ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.GOLDEN_BEECH_LEAVES, context);
-            ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.SHADOW_GOLDEN_BEECH_LEAVES, context);
-            ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.COPPER_PINE_LEAVES, context);
-            ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.SHADOW_COPPER_PINE_LEAVES, context);
-            ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.LAPIS_ROBINIA_LEAVES, context);
-            ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LEAVES, context);
-            ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.SHADOW_PINE_LEAVES, context);
-            ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.HOLLOW_SHADOW_PINE_LEAVES, context);
-            ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.PURPLE_SHADOW_PINE_LEAVES, context);
-            ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.HOLLOW_PURPLE_SHADOW_PINE_LEAVES, context);
-            ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.STELLAR_JUNGLE_TREE_LEAVES, context);
-            ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LEAVES, context);
-            ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.AERIAL_TREE_LOG, context);
-            ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.SHADOW_AERIAL_TREE_LOG, context);
-            ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.GOLDEN_BEECH_LOG, context);
-            ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.SHADOW_GOLDEN_BEECH_LOG, context);
-            ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.COPPER_PINE_LOG, context);
-            ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.SHADOW_COPPER_PINE_LOG, context);
-            ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.LAPIS_ROBINIA_LOG, context);
-            ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.ENCHANTED_LAPIS_ROBINIA_LOG, context);
-            ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LOG, context);
-            ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.HOLLOW_SHADOW_PINE_LOG, context);
-            ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.SHADOW_PINE_LOG, context);
-            ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.EYE_SHADOW_PINE_LOG, context);
-            ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.STELLAR_JUNGLE_TREE_LOG, context);
-            ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LOG, context);
+            if (TO_BAKE_LIST.isEmpty()) {return original;}
+            List<BlockState> bakedList = new ArrayList<>();
+            for (BlockState blockstate : TO_BAKE_LIST)
+            {
+                ModelIdentifier initialIdentifier = BlockModels.getModelId(blockstate);
+                ModelIdentifier shiftedIdentifier = BlockModels.getModelId(blockstate.with(AerialHellBooleanProperties.SHIFTED_RENDER, true));
+                BakedModel initialModel = context.loader().getBakedModelMap().get(initialIdentifier);
+                BakedModel shiftedModel = context.loader().getBakedModelMap().get(shiftedIdentifier);
+                if (initialModel != null && shiftedModel != null)
+                {
+                    BakedModel editedModel = new ShiftingBlockBakedModel(initialModel, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
+                    context.loader().getBakedModelMap().put(initialIdentifier, editedModel);
+                    bakedList.add(blockstate);
+                }
+                else {TO_BAKE_LIST.removeAll(bakedList); return original;}
+            }
+            TO_BAKE_LIST.removeAll(bakedList);
             return original;
         }));
     }
 
-    private static boolean validateModelBakeContext(ModelModifier.AfterBake.Context context)
+    public static void initialiseToBakeList()
     {
-        if (context.topLevelId() == null) {return false;}
-        return context.topLevelId().id().equals(Registries.BLOCK.getId(Blocks.DIRT));
+        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK);
+        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK);
+        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.STELLAR_GRASS);
+        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.SHADOW_GRASS);
+        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.STELLAR_GRASS_BALL);
+        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.SHADOW_GRASS_BALL);
+        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.BRAMBLES);
+        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.SHADOW_BRAMBLES);
+        ShiftedModelRenderHelper.addToBakeAbstractPlantStemBlock(AerialHellBlocks.GLOWING_ROOTS);
+        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.GLOWING_ROOTS_PLANT);
+        ShiftedModelRenderHelper.addToBakeAbstractPlantStemBlock(AerialHellBlocks.SHADOW_GLOWING_ROOTS);
+        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.SHADOW_GLOWING_ROOTS_PLANT);
+        ShiftedModelRenderHelper.addToBakeGrassBlock(AerialHellBlocks.STELLAR_GRASS_BLOCK);
+        ShiftedModelRenderHelper.addToBakeGrassBlock(AerialHellBlocks.SHADOW_GRASS_BLOCK);
+        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.AERIAL_TREE_LEAVES);
+        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.SHADOW_AERIAL_TREE_LEAVES);
+        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.GOLDEN_BEECH_LEAVES);
+        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.SHADOW_GOLDEN_BEECH_LEAVES);
+        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.COPPER_PINE_LEAVES);
+        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.SHADOW_COPPER_PINE_LEAVES);
+        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.LAPIS_ROBINIA_LEAVES);
+        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LEAVES);
+        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.SHADOW_PINE_LEAVES);
+        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.HOLLOW_SHADOW_PINE_LEAVES);
+        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.PURPLE_SHADOW_PINE_LEAVES);
+        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.HOLLOW_PURPLE_SHADOW_PINE_LEAVES);
+        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.STELLAR_JUNGLE_TREE_LEAVES);
+        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LEAVES);
+        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.AERIAL_TREE_LOG);
+        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.SHADOW_AERIAL_TREE_LOG);
+        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.GOLDEN_BEECH_LOG);
+        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.SHADOW_GOLDEN_BEECH_LOG);
+        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.COPPER_PINE_LOG);
+        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.SHADOW_COPPER_PINE_LOG);
+        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.LAPIS_ROBINIA_LOG);
+        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.ENCHANTED_LAPIS_ROBINIA_LOG);
+        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LOG);
+        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.HOLLOW_SHADOW_PINE_LOG);
+        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.SHADOW_PINE_LOG);
+        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.EYE_SHADOW_PINE_LOG);
+        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.STELLAR_JUNGLE_TREE_LOG);
+        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LOG);
     }
 }

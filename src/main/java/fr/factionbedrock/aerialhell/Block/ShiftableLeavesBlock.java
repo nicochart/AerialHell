@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
@@ -14,7 +15,7 @@ public class ShiftableLeavesBlock extends LeavesBlock
 {
     private final Supplier<ShiftableLeavesBlock> shiftedVariant;
     private final BiomeShifter.ShiftType shiftType;
-    public static final BooleanProperty SHIFTED_RENDER = BooleanProperty.of("shifted_render"); //only used for render purposes
+    public static final BooleanProperty SHIFTED_RENDER = AerialHellBooleanProperties.SHIFTED_RENDER; //only used for render purposes
 
     public ShiftableLeavesBlock(Settings settings, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
     {

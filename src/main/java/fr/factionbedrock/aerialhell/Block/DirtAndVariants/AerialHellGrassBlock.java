@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.DirtAndVariants;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
 import net.minecraft.block.*;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
@@ -16,7 +17,7 @@ import java.util.Optional;
 
 public abstract class AerialHellGrassBlock extends GrassBlock implements Fertilizable
 {
-	public static final BooleanProperty SHIFTED_RENDER = BooleanProperty.of("shifted_render"); //only used for render purposes
+	public static final BooleanProperty SHIFTED_RENDER = AerialHellBooleanProperties.SHIFTED_RENDER; //only used for render purposes
 
 	public AerialHellGrassBlock(AbstractBlock.Settings settings)
 	{
