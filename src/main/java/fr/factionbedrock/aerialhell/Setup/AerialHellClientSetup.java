@@ -26,7 +26,7 @@ public class AerialHellClientSetup
         RenderRegistrationListener.registerRenderers();
         RenderRegistrationListener.registerLayerDefinitions();
         RenderRegistrationListener.registerShiftingBakedModels();
-        AerialHellFluids.registerFluidsRender();
+        AerialHellRendering.registerFluidsRender();
         AerialHellParticleTypes.registerParticleFactories();
         AerialHellClientSetup.registerDimensionRenderInfo();
         AerialHellRendering.registerScreensMenus();

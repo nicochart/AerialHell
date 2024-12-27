@@ -2,8 +2,6 @@ package fr.factionbedrock.aerialhell.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Fluid.LiquidOfGodsFluid;
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
-import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.registry.Registries;
@@ -20,14 +18,4 @@ public class AerialHellFluids
     }
 
     public static void load() {}
-
-    public static void registerFluidsRender()
-    {
-        FluidRenderHandlerRegistry.INSTANCE.register(LIQUID_OF_THE_GODS_STILL, LIQUID_OF_THE_GODS_FLOWING, new SimpleFluidRenderHandler(
-                AerialHell.id("block/liquid_of_the_gods_still"),
-                AerialHell.id("block/liquid_of_the_gods_flow"),
-                AerialHell.id("block/liquid_of_the_gods_overlay")
-        ));
-        //TODO : fog?
-    }
 }
