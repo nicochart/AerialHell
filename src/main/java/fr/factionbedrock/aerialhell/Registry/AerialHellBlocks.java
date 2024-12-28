@@ -80,11 +80,11 @@ public class AerialHellBlocks
     public static AbstractBlock.Settings SKY_CACTUS_FIBER_MATERIAL = AbstractBlock.Settings.create().mapColor(MapColor.CYAN).strength(2.5F, 2.5F).sounds(BlockSoundGroup.WOOD);
     public static AbstractBlock.Settings SKY_CACTUS_FIBER_SIGN_MATERIAL = AbstractBlock.Settings.create().mapColor(MapColor.CYAN).strength(2.5F, 2.5F).sounds(BlockSoundGroup.WOOD).nonOpaque().noCollision();
     public static AbstractBlock.Settings SHROOM_SIGN_MATERIAL = AbstractBlock.Settings.create().mapColor(MapColor.GRAY).strength(3.5F, 3.5F).sounds(BlockSoundGroup.WOOD).nonOpaque().noCollision();
-    public static AbstractBlock.Settings MUD_CHEST_MATERIAL = AbstractBlock.Settings.create().mapColor(MapColor.GRAY).strength(20.0F, 1000.0F).sounds(BlockSoundGroup.STONE).noCollision().nonOpaque();
-    public static AbstractBlock.Settings LUNATIC_CHEST_MATERIAL = AbstractBlock.Settings.create().mapColor(MapColor.TERRACOTTA_ORANGE).strength(30.0F, 1000.0F).sounds(BlockSoundGroup.METAL).noCollision().nonOpaque();
-    public static AbstractBlock.Settings VOLUCITE_CHEST_MATERIAL = AbstractBlock.Settings.create().mapColor(MapColor.GRAY).strength(50.0F, 1200.0F).sounds(BlockSoundGroup.METAL).noCollision().nonOpaque();
-    public static AbstractBlock.Settings GOLDEN_NETHER_CHEST_MATERIAL = AbstractBlock.Settings.create().mapColor(MapColor.RED).strength(50.0F, 1200.0F).sounds(BlockSoundGroup.BASALT).noCollision().nonOpaque();
-    public static AbstractBlock.Settings METAL_NOTSOLID_MATERIAL = AbstractBlock.Settings.create().mapColor(MapColor.PURPLE).strength(10.0F, 2.0F).sounds(BlockSoundGroup.METAL).noCollision().nonOpaque();
+    public static AbstractBlock.Settings MUD_CHEST_MATERIAL = AbstractBlock.Settings.create().mapColor(MapColor.GRAY).strength(20.0F, 1000.0F).sounds(BlockSoundGroup.STONE).requiresTool().nonOpaque();
+    public static AbstractBlock.Settings LUNATIC_CHEST_MATERIAL = AbstractBlock.Settings.create().mapColor(MapColor.TERRACOTTA_ORANGE).strength(30.0F, 1000.0F).sounds(BlockSoundGroup.METAL).requiresTool().nonOpaque();
+    public static AbstractBlock.Settings VOLUCITE_CHEST_MATERIAL = AbstractBlock.Settings.create().mapColor(MapColor.GRAY).strength(50.0F, 1200.0F).sounds(BlockSoundGroup.METAL).requiresTool().nonOpaque();
+    public static AbstractBlock.Settings GOLDEN_NETHER_CHEST_MATERIAL = AbstractBlock.Settings.create().mapColor(MapColor.RED).strength(50.0F, 1200.0F).sounds(BlockSoundGroup.BASALT).requiresTool().nonOpaque();
+    public static AbstractBlock.Settings METAL_NOTSOLID_MATERIAL = AbstractBlock.Settings.create().mapColor(MapColor.PURPLE).strength(10.0F, 2.0F).sounds(BlockSoundGroup.METAL).requiresTool().nonOpaque();
 
     
     //portal

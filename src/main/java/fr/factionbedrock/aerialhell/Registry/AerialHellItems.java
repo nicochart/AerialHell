@@ -68,7 +68,7 @@ public class AerialHellItems
     public static final Item STELLAR_PORTAL_FRAME_ORE = register("stellar_portal_frame_ore", new BlockItem(AerialHellBlocks.STELLAR_PORTAL_FRAME_ORE, new Item.Settings()));
     public static final Item DEEPSLATE_STELLAR_PORTAL_FRAME_ORE = register("deepslate_stellar_portal_frame_ore", new BlockItem(AerialHellBlocks.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE, new Item.Settings()));
     public static final Item STELLAR_PORTAL_FRAME_BRICK = register("stellar_portal_frame_brick", new Item(new Item.Settings()));
-    public static final Item STELLAR_LIGHTER = register("stellar_lighter", new Item(new Item.Settings().maxCount(1).maxDamage(4)));
+    public static final Item STELLAR_LIGHTER = register("stellar_lighter", new WithInformationItem(new Item.Settings().maxCount(1).maxDamage(4)));
 
     //torch
     public static final Item FLUORITE_TORCH = register("fluorite_torch", new VerticallyAttachableBlockItem(AerialHellBlocks.FLUORITE_TORCH, AerialHellBlocks.FLUORITE_WALL_TORCH, new Item.Settings(), Direction.DOWN));

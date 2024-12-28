@@ -18,7 +18,6 @@ public class LivingJumpMixin
 
         if (livingEntity.hasStatusEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS))
         {
-            System.out.println("CALLED");
             int bonus = livingEntity.getStatusEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS).getAmplifier() + 1;
             livingEntity.heal(0.5F * bonus);
             Vec3d baseMotion = livingEntity.getVelocity();

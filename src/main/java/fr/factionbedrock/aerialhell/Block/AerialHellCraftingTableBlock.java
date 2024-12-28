@@ -39,6 +39,6 @@ public class AerialHellCraftingTableBlock extends CraftingTableBlock
 	@Override
 	protected NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos)
 	{
-		return new SimpleNamedScreenHandlerFactory((syncId, inventory, player) -> new CraftingScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos)), CONTAINER_NAME);
+		return new SimpleNamedScreenHandlerFactory((syncId, inventory, player) -> new AerialHellCraftingMenu(syncId, inventory, ScreenHandlerContext.create(world, pos), this), CONTAINER_NAME);
 	}
 }

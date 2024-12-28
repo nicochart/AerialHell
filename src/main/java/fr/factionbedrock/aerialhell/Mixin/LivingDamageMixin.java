@@ -25,7 +25,6 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
@@ -51,7 +50,7 @@ public class LivingDamageMixin
         {
             float additionalDamage = (multiplier - 1) * baseAmount;
             float totalDamage = multiplier * baseAmount;
-            if (totalDamage <= damagedEntity.lastDamageTaken)
+            if (totalDamage > damagedEntity.lastDamageTaken)
             {
                 damagedEntity.applyDamage(source, additionalDamage);
                 damagedEntity.lastDamageTaken = totalDamage;
@@ -84,7 +83,7 @@ public class LivingDamageMixin
         multiplier *= applyEffectsDueToPotionEffects(damageSource, target);
 
         Item targetMainHandItem = target.getMainHandStack().getItem();
-        multiplier *= getDamageMultiplierFromMainHandItemStack(targetMainHandItem, target);
+        multiplier *= getDamageMultiplierFromTargetMainHandItemStack(targetMainHandItem, target);
 
         if (attackerEntity instanceof LivingEntity sourceLiving)
         {
@@ -114,7 +113,7 @@ public class LivingDamageMixin
         return multiplier;
     }
 
-    private static float getDamageMultiplierFromMainHandItemStack(Item targetEquippedItem, LivingEntity target)
+    private static float getDamageMultiplierFromTargetMainHandItemStack(Item targetEquippedItem, LivingEntity target)
     {
         return targetEquippedItem == AerialHellItems.GLASS_CANON_SWORD ? 2.0F : 1.0F; //*2 damage if target has glass cannon sword
     }
@@ -126,14 +125,7 @@ public class LivingDamageMixin
         {
             if (armorStack.isIn(AerialHellTags.Items.MAGMATIC_GEL)) //target equipped of any magmatic gel armor
             {
-                if (source instanceof PlayerEntity sourcePlayer)
-                {
-                    if (!sourcePlayer.isCreative())
-                    {
-                        source.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 120, 1, true, false));
-                    }
-                }
-                else
+                if (!EntityHelper.isCreativePlayer(source))
                 {
                     source.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 120, 1, true, false));
                 }

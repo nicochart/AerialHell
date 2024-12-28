@@ -21,32 +21,29 @@ public class WorldHelper
             FluidState fluidstate = world.getFluidState(pos);
             BlockState blockstate = world.getBlockState(pos);
 
-            if (world.getFluidState(pos).isIn(FluidTags.LAVA))
+            if (fluidstate.isIn(AerialHellTags.Fluids.CRYSTALLIZABLE))
             {
-                if (fluidstate.isIn(AerialHellTags.Fluids.CRYSTALLIZABLE))
-                {
-                    world.setBlockState(pos, AerialHellBlocks.CRYSTAL_BLOCK.getDefaultState());
-                    world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                }
-                else if (blockstate.getBlock().equals(Blocks.MAGMA_BLOCK))
-                {
-                    world.setBlockState(pos, AerialHellBlocks.MAGMATIC_GEL_ORE.getDefaultState());
-                    world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                }
-                else if (blockstate.getBlock().equals(Blocks.FIRE) || blockstate.getBlock().equals(Blocks.SOUL_FIRE))
-                {
-                    world.setBlockState(pos, AerialHellBlocks.CRYSTALLIZED_FIRE.getDefaultState());
-                    world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                    if (world.getBlockState(pos.down()).getBlock() == Blocks.AIR)
-                    {
-                        world.breakBlock(pos, true);
-                    }
-                }
-                else if (blockstate.getBlock().equals(Blocks.TORCH) || blockstate.getBlock().equals(Blocks.WALL_TORCH) || blockstate.isIn(AerialHellTags.Blocks.OVERWORLD_LANTERN))
+                world.setBlockState(pos, AerialHellBlocks.CRYSTAL_BLOCK.getDefaultState());
+                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            }
+            else if (blockstate.getBlock().equals(Blocks.MAGMA_BLOCK))
+            {
+                world.setBlockState(pos, AerialHellBlocks.MAGMATIC_GEL_ORE.getDefaultState());
+                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            }
+            else if (blockstate.getBlock().equals(Blocks.FIRE) || blockstate.getBlock().equals(Blocks.SOUL_FIRE))
+            {
+                world.setBlockState(pos, AerialHellBlocks.CRYSTALLIZED_FIRE.getDefaultState());
+                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                if (world.getBlockState(pos.down()).getBlock() == Blocks.AIR)
                 {
                     world.breakBlock(pos, true);
-                    world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
                 }
+            }
+            else if (blockstate.getBlock().equals(Blocks.TORCH) || blockstate.getBlock().equals(Blocks.WALL_TORCH) || blockstate.isIn(AerialHellTags.Blocks.OVERWORLD_LANTERN))
+            {
+                world.breakBlock(pos, true);
+                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
             }
         }
     }
