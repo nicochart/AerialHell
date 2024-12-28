@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 import java.util.List;
 import java.util.Random;
 
+import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -15,9 +16,7 @@ import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
@@ -161,10 +160,8 @@ public class BerserkAxeItem extends EffectAxeItem
 
 	@Override public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type)
 	{
-		tooltip.add(this.getDescription().append(Integer.toString(getStatus())).formatted(Formatting.GRAY));
+		ItemHelper.appendBerserkAxeItemTooltip(this.getTranslationKey(), tooltip, Integer.toString(getStatus()));
 	}
-
-	public MutableText getDescription() {return Text.translatable(this.getTranslationKey()+".desc");}
 
 	@Override public boolean canRepair(ItemStack stack, ItemStack ingredient) {return false;}
 }

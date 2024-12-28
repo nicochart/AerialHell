@@ -11,15 +11,18 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.*;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Language;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 
 public class ItemHelper
@@ -107,4 +110,30 @@ public class ItemHelper
             livingEntity.removeStatusEffect(AerialHellMobEffects.VULNERABILITY);
         }
     }
+
+    public static void appendItemTooltip(String translationKey, List<Text> tooltip)
+    {
+        String desc = ".desc", desc_2 = ".desc_2";
+        tooltip.add(getFormatedDescFrom(translationKey+desc));
+        if (Language.getInstance().hasTranslation(translationKey+desc_2))
+        {
+            tooltip.add(getFormatedDescFrom(translationKey+desc_2));
+        }
+    }
+
+    public static void appendBerserkAxeItemTooltip(String translationKey, List<Text> tooltip, String status)
+    {
+        String desc = ".desc", desc_2 = ".desc_2";
+        tooltip.add(getFormatedDescFrom(translationKey+desc));
+        if (Language.getInstance().hasTranslation(translationKey+desc_2))
+        {
+            tooltip.add(getFormatedDescWithAppendedText(translationKey+desc_2, status));
+        }
+    }
+
+    public static MutableText getFormatedDescWithAppendedText(String translationKey, String textToAppend) {return getTranslatableFrom(translationKey).append(textToAppend).formatted(Formatting.GRAY);}
+
+    public static MutableText getFormatedDescFrom(String translationKey) {return getTranslatableFrom(translationKey).formatted(Formatting.GRAY);}
+
+    public static MutableText getTranslatableFrom(String translationKey) {return Text.translatable(translationKey);}
 }

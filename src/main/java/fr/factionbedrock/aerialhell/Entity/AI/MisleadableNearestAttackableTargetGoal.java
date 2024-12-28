@@ -29,7 +29,8 @@ public class MisleadableNearestAttackableTargetGoal<T extends LivingEntity>  ext
                     .filter(entity -> this.mob.canSee(entity))
                     .map(entity -> (PlayerEntity) entity)
                     .collect(Collectors.toList());
-            this.target = this.mob.getWorld().getClosestEntity(nearbyTargetablePlayers, this.targetPredicate, target, x, y, z);
+
+            this.targetEntity = this.mob.getWorld().getClosestEntity(nearbyTargetablePlayers, this.targetPredicate, targetEntity, x, y, z);
         }
     }
 

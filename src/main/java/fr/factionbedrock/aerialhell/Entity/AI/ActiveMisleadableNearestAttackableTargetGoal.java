@@ -27,7 +27,7 @@ public class ActiveMisleadableNearestAttackableTargetGoal<T extends LivingEntity
                                                                        .filter(entity -> !isPlayerMisleadingGoalOwner((PlayerEntity) entity))
                                                                        .map(entity -> (PlayerEntity) entity)
                                                                        .collect(Collectors.toList());
-            this.target = this.activableGoalOwner.getWorld().getClosestEntity(nearbyTargetablePlayers, this.targetPredicate, target, x, y, z);
+            this.targetEntity = this.activableGoalOwner.getWorld().getClosestEntity(nearbyTargetablePlayers, this.targetPredicate, targetEntity, x, y, z);
         }
     }
 
