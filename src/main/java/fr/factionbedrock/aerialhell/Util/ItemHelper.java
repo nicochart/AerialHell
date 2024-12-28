@@ -39,7 +39,7 @@ public class ItemHelper
             else if (incorrectTag == BlockTags.INCORRECT_FOR_STONE_TOOL) {return 1;}
             else if (incorrectTag == BlockTags.INCORRECT_FOR_IRON_TOOL) {return 2;}
             else if (incorrectTag == BlockTags.INCORRECT_FOR_DIAMOND_TOOL) {return 3;}
-            else /*if (incorrectTag == BlockTags.INCORRECT_FOR_NETHERITE_TOOL)*/ {return 4;}
+            else if (incorrectTag == BlockTags.INCORRECT_FOR_NETHERITE_TOOL) {return 4;}
         }
         return 0;
     }

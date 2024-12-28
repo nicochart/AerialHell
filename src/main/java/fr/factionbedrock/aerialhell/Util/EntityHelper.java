@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.Block.AerialHellPortalBlock;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
@@ -132,7 +133,7 @@ public class EntityHelper
 
     public static boolean isImmuneToSkyCactusCollision(Entity entity)
     {
-        boolean isImmune = entity instanceof SandySheepEntity || entity instanceof KodamaEntity || entity instanceof AbstractSnakeEntity || entity instanceof MummyEntity || entity instanceof AbstractAerialHellSpiderEntity || isFeatheryEntity(entity);
+        boolean isImmune = entity instanceof AerialHellAnimalEntity || entity instanceof BoarEntity || entity instanceof AbstractSnakeEntity || entity instanceof MummyEntity || entity instanceof AbstractAerialHellSpiderEntity || isFeatheryEntity(entity);
         return isImmune;
     }
 
