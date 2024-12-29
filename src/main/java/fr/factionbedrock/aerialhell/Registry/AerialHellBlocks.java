@@ -94,12 +94,12 @@ public class AerialHellBlocks
     public static final Block DEEPSLATE_STELLAR_PORTAL_FRAME_ORE = register("deepslate_stellar_portal_frame_ore", new AerialHellOreBlock(0, 0, AbstractBlock.Settings.create().strength(30.0F, 600.0F).sounds(BlockSoundGroup.STONE).requiresTool()));
 
     //torch
-    public static final Block FLUORITE_WALL_TORCH = register("fluorite_wall_torch", new AerialHellWallTorchBlock(AbstractBlock.Settings.copy(Blocks.WALL_TORCH)));
     public static final Block FLUORITE_TORCH = register("fluorite_torch", new AerialHellTorchBlock(AbstractBlock.Settings.copy(Blocks.TORCH)));
-    public static final Block VOLUCITE_WALL_TORCH = register("volucite_wall_torch", new AerialHellWallTorchBlock(AbstractBlock.Settings.copy(Blocks.WALL_TORCH).luminance((state) -> {return 9;})));
+    public static final Block FLUORITE_WALL_TORCH = register("fluorite_wall_torch", new AerialHellWallTorchBlock(AbstractBlock.Settings.copy(Blocks.WALL_TORCH).dropsLike(FLUORITE_TORCH)));
     public static final Block VOLUCITE_TORCH = register("volucite_torch", new AerialHellTorchBlock(AbstractBlock.Settings.copy(Blocks.TORCH).luminance((state) -> {return 9;})));
-    public static final Block SHADOW_WALL_TORCH = register("shadow_wall_torch", new AerialHellWallTorchBlock(AbstractBlock.Settings.copy(Blocks.WALL_TORCH).luminance((state) -> {return 9;})));
+    public static final Block VOLUCITE_WALL_TORCH = register("volucite_wall_torch", new AerialHellWallTorchBlock(AbstractBlock.Settings.copy(Blocks.WALL_TORCH).dropsLike(VOLUCITE_TORCH).luminance((state) -> {return 9;})));
     public static final Block SHADOW_TORCH = register("shadow_torch", new AerialHellTorchBlock(AbstractBlock.Settings.copy(Blocks.TORCH).luminance((state) -> {return 9;})));
+    public static final Block SHADOW_WALL_TORCH = register("shadow_wall_torch", new AerialHellWallTorchBlock(AbstractBlock.Settings.copy(Blocks.WALL_TORCH).dropsLike(SHADOW_TORCH).luminance((state) -> {return 9;})));
 
     //lanterns
     public static final Block FLUORITE_LANTERN = register("fluorite_lantern", new LanternBlock(AbstractBlock.Settings.copy(Blocks.LANTERN)));
