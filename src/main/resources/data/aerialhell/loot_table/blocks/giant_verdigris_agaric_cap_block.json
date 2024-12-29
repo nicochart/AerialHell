@@ -2,7 +2,8 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1,
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:alternatives",
@@ -11,17 +12,22 @@
               "type": "minecraft:item",
               "conditions": [
                 {
-                  "condition": "minecraft:match_tool",
-                  "predicate": {
-                    "predicates": {
-                      "minecraft:enchantments": [
-                        {
-                          "enchantments": "minecraft:silk_touch",
-                          "levels": {"min": 1}
+                  "condition": "minecraft:any_of",
+                  "terms": [
+                    {
+                      "condition": "minecraft:match_tool",
+                      "predicate": {
+                        "predicates": {
+                          "minecraft:enchantments": [
+                            {
+                              "enchantments": "minecraft:silk_touch",
+                              "levels": {"min": 1}
+                            }
+                          ]
                         }
-                      ]
+                      }
                     }
-                  }
+                  ]
                 }
               ],
               "name": "aerialhell:giant_verdigris_agaric_cap_block"
@@ -30,17 +36,18 @@
               "type": "minecraft:item",
               "functions": [
                 {
-                  "function": "minecraft:set_count",
+                  "add": false,
                   "count": {
-                    "min": -8.0,
+                    "type": "minecraft:uniform",
                     "max": 2.0,
-                    "type": "minecraft:uniform"
-                  }
+                    "min": -8.0
+                  },
+                  "function": "minecraft:set_count"
                 },
                 {
                   "function": "minecraft:limit_count",
                   "limit": {
-                    "min": 0
+                    "min": 0.0
                   }
                 },
                 {
@@ -53,5 +60,6 @@
         }
       ]
     }
-  ]
+  ],
+  "random_sequence": "aerialhell:blocks/giant_verdigris_agaric_cap_block"
 }
