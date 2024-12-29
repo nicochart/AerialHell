@@ -249,7 +249,7 @@ public class AerialHellBlocks
     public static final ShiftableLeavesBlock HOLLOW_PURPLE_SHADOW_PINE_LEAVES = register("hollow_purple_shadow_pine_leaves", new ShiftableLeavesBlock(AbstractBlock.Settings.copy(PURPLE_SHADOW_PINE_LEAVES), () -> AerialHellBlocks.PURPLE_SHADOW_PINE_LEAVES, BiomeShifter.ShiftType.CORRUPT));
 
     //ladder
-    public static final LadderBlock SKY_LADDER = register("sky_ladder", new LadderBlock(AbstractBlock.Settings.copy(AERIAL_TREE_PLANKS).noCollision()));
+    public static final LadderBlock SKY_LADDER = register("sky_ladder", new LadderBlock(AbstractBlock.Settings.copy(AERIAL_TREE_PLANKS).nonOpaque()));
 
     //natural blocks and items
     public static final Block STELLAR_STONE = register("stellar_stone", new Block(AbstractBlock.Settings.copy(Blocks.STONE)));
@@ -265,7 +265,7 @@ public class AerialHellBlocks
     //crystal
     public static final Block CRYSTAL_BLOCK = register("crystal_block", new Block(AbstractBlock.Settings.copy(Blocks.GLASS).luminance((state) -> 14)));
     public static final Block CRYSTAL_BRICKS = register("crystal_bricks", new Block(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS).luminance((state) -> 9)));
-    public static final Block CRYSTAL_BRICKS_SLAB = register("crystal_bricks_slab", new SlabBlock(AbstractBlock.Settings.copy(CRYSTAL_BRICKS).noCollision()));
+    public static final Block CRYSTAL_BRICKS_SLAB = register("crystal_bricks_slab", new SlabBlock(AbstractBlock.Settings.copy(CRYSTAL_BRICKS).nonOpaque()));
     public static final Block CRYSTAL_BRICKS_STAIRS = register("crystal_bricks_stairs", new StairsBlock(CRYSTAL_BRICKS.getDefaultState(), AbstractBlock.Settings.copy(CRYSTAL_BRICKS)));
     public static final Block CRYSTAL_BRICKS_WALL = register("crystal_bricks_wall", new WallBlock(AbstractBlock.Settings.copy(CRYSTAL_BRICKS)));
     public static final Block STELLAR_STONE_CRYSTAL_BLOCK = register("stellar_stone_crystal_block", new BasicShiftableRenderBlock(AbstractBlock.Settings.copy(CRYSTAL_BLOCK).luminance((state) -> 13)));
