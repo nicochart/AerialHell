@@ -12,6 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 
 public class SolidEtherBlock extends CollisionConditionHalfTransparentBlock
 {
@@ -27,14 +28,13 @@ public class SolidEtherBlock extends CollisionConditionHalfTransparentBlock
 		if (!EntityHelper.isFeatheryEntity(entity)) {super.livingEntityInside(state, world, pos, entity);}
 	}
 
-	@Override public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player)
+	@Override public void onBroken(WorldAccess world, BlockPos pos, BlockState state)
 	{
 		if (this != AerialHellBlocks.WHITE_SOLID_ETHER)
 		{
-			world.setBlockState(pos, AerialHellBlocks.WHITE_SOLID_ETHER.getDefaultState());
+			world.setBlockState(pos, AerialHellBlocks.WHITE_SOLID_ETHER.getDefaultState(), Block.NOTIFY_ALL);
 		}
-		return super.onBreak(world, pos, state, player);
-    }
+	}
 
 	@Override protected boolean canEntityCollide(Entity entity) {return !EntityHelper.isImmuneToSolidEtherCollision(entity);}
 	@Override protected VoxelShape getCollidingShape() {return SOLID_ETHER_COLLISION_SHAPE;}

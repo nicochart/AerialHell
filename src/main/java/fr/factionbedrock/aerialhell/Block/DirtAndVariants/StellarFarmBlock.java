@@ -49,7 +49,7 @@ public class StellarFarmBlock extends FarmlandBlock
         {
             turnToStellarDirt(entity, state, world, pos);
         }
-        super.onLandedUpon(world, state, pos, entity, fallDistance);
+        entity.handleFallDamage(fallDistance, 1.0F, entity.getDamageSources().fall()); //warning : 1.20.2 - removed super call and added what Block.fallOn does
     }
 
     //copy of net.minecraft.block.FarmlandBlock.setToDirt, edited
