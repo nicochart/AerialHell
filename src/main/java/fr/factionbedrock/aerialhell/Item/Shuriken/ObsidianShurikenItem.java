@@ -17,5 +17,5 @@ public class ObsidianShurikenItem extends AbstractShurikenItem
 	@Override protected float getVelocity() {return 1.6F;}
 	@Override protected float getInaccuracy() {return 1.0F;}
 	@Override protected int getCooldown() {return 8;}
-	@Override protected AbstractShurikenEntity getKnifeEntity(PlayerEntity player, World world) {return new ObsidianShurikenEntity(player, world);}
+	@Override protected AbstractShurikenEntity getShurikenEntity(PlayerEntity player, World world) {return new ObsidianShurikenEntity(player, world);}
 }

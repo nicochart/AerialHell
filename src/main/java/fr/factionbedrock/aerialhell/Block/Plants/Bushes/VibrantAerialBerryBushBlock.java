@@ -68,9 +68,9 @@ public class VibrantAerialBerryBushBlock extends PlantBlock implements Fertiliza
         if (age > 13)
         {
             int j = 1 + world.random.nextInt(2);
-            dropStack(world, pos, new ItemStack(AerialHellItems.AERIAL_BERRY, j + (age == 15 ? 1 : 0)));
+            dropStack(world, pos, new ItemStack(AerialHellItems.VIBRANT_AERIAL_BERRY, j + (age == 15 ? 1 : 0)));
             world.playSound(null, pos, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES, SoundCategory.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() * 0.4F);
-            BlockState blockState = state.with(AGE, 1);
+            BlockState blockState = state.with(AGE, 13);
             world.setBlockState(pos, blockState, Block.NOTIFY_LISTENERS);
             world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, blockState));
             return ActionResult.success(world.isClient);

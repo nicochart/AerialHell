@@ -69,7 +69,7 @@ public class AerialHellTallShroomBlock extends ShortPlantBlock
 	{
 		if (this == AerialHellBlocks.GIANT_ROOT_SHROOM && entity instanceof LivingEntity livingEntity)
 		{
-			livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 0, false, false, true));
+			livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 100, 0, false, false, true));
 		}
 	}
 }

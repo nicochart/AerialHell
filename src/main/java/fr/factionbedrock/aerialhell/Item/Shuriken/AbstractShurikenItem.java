@@ -23,7 +23,7 @@ public abstract class AbstractShurikenItem extends Item
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
 	{
 		ItemStack heldItem = user.getStackInHand(hand);
-		if (!user.isCreative() && EntityHelper.hasEnchantment(user, Enchantments.INFINITY))
+		if (!user.isCreative() && !EntityHelper.hasEnchantment(user, Enchantments.INFINITY))
 		{
 			heldItem.decrement(1);
 		}
@@ -32,7 +32,7 @@ public abstract class AbstractShurikenItem extends Item
 		
 		if (!world.isClient())
 		{
-			AbstractShurikenEntity shuriken = this.getKnifeEntity(user, world);
+			AbstractShurikenEntity shuriken = this.getShurikenEntity(user, world);
 			shuriken.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, this.getVelocity(), this.getInaccuracy());
 			//shuriken.setShooter(playerIn); shooter is not detected
 			world.spawnEntity(shuriken);
@@ -44,5 +44,5 @@ public abstract class AbstractShurikenItem extends Item
 	abstract protected float getVelocity();
 	abstract protected float getInaccuracy();
 	abstract protected int getCooldown();
-	abstract protected AbstractShurikenEntity getKnifeEntity(PlayerEntity player, World world);
+	abstract protected AbstractShurikenEntity getShurikenEntity(PlayerEntity player, World world);
 }

@@ -17,5 +17,5 @@ public class GoldShurikenItem extends AbstractShurikenItem
 	@Override protected float getVelocity() {return 2.0F;}
 	@Override protected float getInaccuracy() {return 1.0F;}
 	@Override protected int getCooldown() {return 7;}
-	@Override protected AbstractShurikenEntity getKnifeEntity(PlayerEntity player, World world) {return new GoldShurikenEntity(player, world);}
+	@Override protected AbstractShurikenEntity getShurikenEntity(PlayerEntity player, World world) {return new GoldShurikenEntity(player, world);}
 }

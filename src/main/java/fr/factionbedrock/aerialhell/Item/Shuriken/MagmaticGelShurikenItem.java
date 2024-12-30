@@ -17,5 +17,5 @@ public class MagmaticGelShurikenItem extends AbstractShurikenItem
 	@Override protected float getVelocity() {return 1.7F;}
 	@Override protected float getInaccuracy() {return 1.5F;}
 	@Override protected int getCooldown() {return 8;}
-	@Override protected AbstractShurikenEntity getKnifeEntity(PlayerEntity player, World world) {return new MagmaticGelShurikenEntity(player, world);}
+	@Override protected AbstractShurikenEntity getShurikenEntity(PlayerEntity player, World world) {return new MagmaticGelShurikenEntity(player, world);}
 }

@@ -17,5 +17,5 @@ public class ArsonistShurikenItem extends AbstractShurikenItem
 	@Override protected float getVelocity() {return 1.7F;}
 	@Override protected float getInaccuracy() {return 1.0F;}
 	@Override protected int getCooldown() {return 9;}
-	@Override protected AbstractShurikenEntity getKnifeEntity(PlayerEntity player, World world) {return new ArsonistShurikenEntity(player, world);}
+	@Override protected AbstractShurikenEntity getShurikenEntity(PlayerEntity player, World world) {return new ArsonistShurikenEntity(player, world);}
 }
