@@ -3,7 +3,6 @@ package fr.factionbedrock.aerialhell.Item.Shuriken;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +23,7 @@ public abstract class AbstractShurikenItem extends Item
 	public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand hand)
 	{
 		ItemStack heldItem = playerIn.getItemInHand(hand);
-		if (!playerIn.isCreative() && EntityHelper.hasEnchantment(playerIn, Enchantments.INFINITY))
+		if (!playerIn.isCreative() && !EntityHelper.hasEnchantment(playerIn, Enchantments.INFINITY))
 		{
 			heldItem.shrink(1);
 		}
@@ -33,7 +32,7 @@ public abstract class AbstractShurikenItem extends Item
 		
 		if (!worldIn.isClientSide())
 		{
-			AbstractShurikenEntity shuriken = this.getKnifeEntity(playerIn, worldIn);
+			AbstractShurikenEntity shuriken = this.getShurikenEntity(playerIn, worldIn);
 			shuriken.shootFromRotation(playerIn, playerIn.getXRot(), playerIn.getYRot(), 0.0F, this.getVelocity(), this.getInaccuracy());
 			//shuriken.setShooter(playerIn); shooter is not detected
 			worldIn.addFreshEntity(shuriken);
@@ -45,5 +44,5 @@ public abstract class AbstractShurikenItem extends Item
 	abstract protected float getVelocity();
 	abstract protected float getInaccuracy();
 	abstract protected int getCooldown();
-	abstract protected AbstractShurikenEntity getKnifeEntity(Player playerIn, Level worldIn);
+	abstract protected AbstractShurikenEntity getShurikenEntity(Player playerIn, Level worldIn);
 }
