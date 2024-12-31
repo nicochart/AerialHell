@@ -93,7 +93,12 @@ public class StellarChickenEntity extends Chicken
 
     @Override public boolean isFood(ItemStack stack) {return FOOD_ITEMS.test(stack);}
 
-    @Nullable @Override public Chicken getBreedOffspring(ServerLevel world, AgeableMob mob) {return AerialHellEntities.STELLAR_CHICKEN.get().create(this.level());}
+    @Nullable @Override public Chicken getBreedOffspring(ServerLevel world, AgeableMob mob)
+    {
+        StellarChickenEntity baby = AerialHellEntities.STELLAR_CHICKEN.get().create(this.level());
+        baby.setColor(this.getColor());
+        return baby;
+    }
 
     public static AttributeSupplier.Builder registerAttributes()
     {
