@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.AbstractCustomHurtMonsterEnti
 import fr.factionbedrock.aerialhell.Entity.Util.CustomHurtInfo;
 import fr.factionbedrock.aerialhell.Entity.Util.SnakeCustomHurtInfo;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
@@ -19,10 +20,14 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -184,6 +189,18 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
                 }
             }
         }
+    }
+
+    @Override public ActionResult interactMob(PlayerEntity player, Hand hand)
+    {
+        //debug
+        ItemStack itemstack = player.getStackInHand(hand);
+        if (itemstack.isOf(Items.STRUCTURE_VOID))
+        {
+            EntityHelper.debugSnakeEntity(this, player);
+            return ActionResult.success(this.getWorld().isClient);
+        }
+        else {return super.interactMob(player, hand);}
     }
 
     private void tryToFindBackNextBodyPart()

@@ -22,21 +22,19 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Spider.CrystalSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Neutral.BoarEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEnchantments;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellPlacedFeatures;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.entity.mob.FlyingEntity;
 import net.minecraft.entity.mob.SilverfishEntity;
@@ -50,12 +48,12 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.ChunkBiomeDataS2CPacket;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
@@ -305,5 +303,30 @@ public class EntityHelper
             if (!fluidState.isOf(Fluids.EMPTY)) {return fluidState;}
         }
         return null;
+    }
+
+    public static void debugSnakeEntity(AbstractSnakeEntity snakeEntity, PlayerEntity messageReceiver)
+    {
+        if (!snakeEntity.getWorld().isClient)
+        {
+            AbstractSnakeEntity nextBodyPart = snakeEntity.getNextBodyPart(), previousBodyPart = snakeEntity.getPreviousBodyPart();
+            String nextBodyPartString = "[", previousBodyPartString = "[";
+            if (nextBodyPart != null)
+            {
+                BlockPos pos = nextBodyPart.getBlockPos();
+                nextBodyPartString += (nextBodyPart.isDead() ? "Dead" : "Alive") + ", pos = " + pos.getX()+" "+pos.getY()+" "+pos.getZ() + ", distance = "+snakeEntity.distanceTo(nextBodyPart);
+                nextBodyPart.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 400, 0, false, false, false));
+            }
+            else {nextBodyPartString += "null";}
+            if (previousBodyPart != null)
+            {
+                BlockPos pos = previousBodyPart.getBlockPos();
+                previousBodyPartString += (previousBodyPart.isDead() ? "Dead" : "Alive") + ", pos = " + pos.getX()+" "+pos.getY()+" "+pos.getZ() + ", distance = "+snakeEntity.distanceTo(previousBodyPart);
+                previousBodyPart.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 400, 0, false, false, false));
+            }
+            else {previousBodyPartString += "null";}
+            nextBodyPartString += "]"; previousBodyPartString += "]";
+            messageReceiver.sendMessage(Text.literal("Entity "+snakeEntity.getType()+" : isHead = "+snakeEntity.isHead()+", nextBodyPart = "+nextBodyPartString+", previousBodyPart = "+previousBodyPartString));
+        }
     }
 }
