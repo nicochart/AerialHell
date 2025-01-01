@@ -57,6 +57,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.WorldChunk;
@@ -314,19 +315,31 @@ public class EntityHelper
             if (nextBodyPart != null)
             {
                 BlockPos pos = nextBodyPart.getBlockPos();
-                nextBodyPartString += (nextBodyPart.isDead() ? "Dead" : "Alive") + ", pos = " + pos.getX()+" "+pos.getY()+" "+pos.getZ() + ", distance = "+snakeEntity.distanceTo(nextBodyPart);
+                nextBodyPartString += (nextBodyPart.isDead() ? "Dead" : "Alive, health = "+nextBodyPart.getHealth()) + ", pos = " + pos.getX()+" "+pos.getY()+" "+pos.getZ() + ", distance = "+ snakeEntity.distanceTo(nextBodyPart);
+                if (nextBodyPart.hasStatusEffect(StatusEffects.GLOWING)) {nextBodyPartString += ", isGlowing = true";}
+                if (nextBodyPart.isAiDisabled()) {nextBodyPartString += ", isAiDisabled = true";}
+                if (!nextBodyPart.isAttackable()) {nextBodyPartString += ", isAttackable = false";}
+                if (nextBodyPart.isRemoved()) {nextBodyPartString += ", isRemoved = true"+nextBodyPart.getRemovalReason()+")";}
+                if (nextBodyPart.isInvisible()) {nextBodyPartString += ", isInvisible = true";}
                 nextBodyPart.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 400, 0, false, false, false));
             }
             else {nextBodyPartString += "null";}
             if (previousBodyPart != null)
             {
                 BlockPos pos = previousBodyPart.getBlockPos();
-                previousBodyPartString += (previousBodyPart.isDead() ? "Dead" : "Alive") + ", pos = " + pos.getX()+" "+pos.getY()+" "+pos.getZ() + ", distance = "+snakeEntity.distanceTo(previousBodyPart);
+                previousBodyPartString += (previousBodyPart.isDead() ? "Dead" : "Alive, health = "+previousBodyPart.getHealth()) + ", pos = " + pos.getX()+" "+pos.getY()+" "+pos.getZ() + ", distance = "+snakeEntity.distanceTo(previousBodyPart);
+                if (previousBodyPart.hasStatusEffect(StatusEffects.GLOWING)) {previousBodyPartString += ", isGlowing = true";}
+                if (previousBodyPart.isAiDisabled()) {previousBodyPartString += ", isAiDisabled = true";}
+                if (!previousBodyPart.isAttackable()) {previousBodyPartString += ", isAttackable = false";}
+                if (previousBodyPart.isRemoved()) {previousBodyPartString += ", isRemoved = true ("+previousBodyPart.getRemovalReason()+")";}
+                if (previousBodyPart.isInvisible()) {previousBodyPartString += ", isInvisible = true";}
                 previousBodyPart.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 400, 0, false, false, false));
             }
             else {previousBodyPartString += "null";}
             nextBodyPartString += "]"; previousBodyPartString += "]";
-            messageReceiver.sendMessage(Text.literal("Entity "+snakeEntity.getType()+" : isHead = "+snakeEntity.isHead()+", nextBodyPart = "+nextBodyPartString+", previousBodyPart = "+previousBodyPartString));
+            messageReceiver.sendMessage(Text.literal("Entity "+snakeEntity.getType()+" : isHead = "+snakeEntity.isHead()));
+            messageReceiver.sendMessage(Text.literal("nextBodyPart = "+nextBodyPartString));
+            messageReceiver.sendMessage(Text.literal("previousBodyPart = "+previousBodyPartString));
         }
     }
 }

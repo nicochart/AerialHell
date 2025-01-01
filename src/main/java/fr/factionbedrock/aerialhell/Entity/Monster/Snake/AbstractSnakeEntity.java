@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Snake;
 
+import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.AbstractCustomHurtMonsterEntity;
 import fr.factionbedrock.aerialhell.Entity.Util.CustomHurtInfo;
@@ -148,6 +149,19 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
 
+    @Override public boolean isPersistent() {return !this.isHead();}
+
+    @Override protected void onRemoval(RemovalReason reason)
+    {
+        //super.onRemoval is called in sendRemove
+        AbstractSnakeEntity head = this.isHead() ? this : this.getHead(); //head = this (should be) because other body parts are persistent
+        if (head != null)
+        {
+            head.sendRemove(reason, this, SendDirection.BACKWARD);
+        }
+        super.onRemoval(reason);
+    }
+
     @Override public void tick()
     {
         super.tick();
@@ -157,11 +171,11 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         if (this.head == null) {this.head = this.getHeadBodyPart();} //called after reloading the world
         if (!this.isCut() && this.nextBodyPart == null) {this.tryToFindBackNextBodyPart();} //called after reloading the world
 
-        if (this.nextBodyPart != null && this.nextBodyPart.isDead()) {this.setCut(); this.nextBodyPart = null;}
+        if (this.nextBodyPart != null && !this.nextBodyPart.isAlive()) {this.setCut(); this.nextBodyPart = null;}
 
         if (this.isHead() && this.age % 5 == 0)
         {
-            boolean shouldReverseDrag = this.isTailFalling() && this.isOnGround() || (this.reverseDrag && !this.isOnGround());
+            boolean shouldReverseDrag = this.shouldReverseDrag();
             if (this.reverseDrag != shouldReverseDrag)
             {
                 this.sendDragDirection(shouldReverseDrag ? SendDirection.FORWARD : SendDirection.BACKWARD, SendDirection.BACKWARD, this);
@@ -345,6 +359,13 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         return flag;
     }
 
+    public boolean shouldReverseDrag()
+    {
+        AbstractSnakeEntity head = this.getHead();
+        if (head != null && head.countNextBodyParts() + 1 < 6) {return false;}
+        return this.isTailFalling() && this.isOnGround() || (this.reverseDrag && !this.isOnGround());
+    }
+
     public void sendDragDirection(SendDirection dragDirection, SendDirection sendDirection, AbstractSnakeEntity sender)
     {
         this.reverseDrag = dragDirection == SendDirection.FORWARD;
@@ -381,6 +402,17 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         if (torchbearer != null) {torchbearer.sendDie(damageSource, sender, direction);}
         this.setHealth(0.0F);
         this.customOnDeath(damageSource, this.shouldPlayHurtOrDeathSoundOnHurt());
+    }
+
+    public void sendRemove(RemovalReason reason, AbstractSnakeEntity sender, SendDirection direction)
+    {
+        AbstractSnakeEntity torchbearer = direction == SendDirection.BACKWARD ? this.nextBodyPart : this.previousBodyPart; //next one to receive and send the message
+        if (torchbearer != null) {torchbearer.sendRemove(reason, sender, direction);}
+        if (!this.isRemoved())
+        {
+            this.setRemoved(reason);
+            super.onRemoval(reason); //do not call this.onRemoval here. Will infinite loop : this.onRemoval -> sendRemove -> this.onRemoval -> sendRemove -> ...
+        }
     }
 
     public void sendJump(float yMovement, float yMovementReduction, AbstractSnakeEntity sender, SendDirection direction)
