@@ -120,7 +120,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         while (nextBodyPart != null)
         {
             count++;
-            if (nextBodyPart.onGround()) {fallingCount = 0;}
+            if (nextBodyPart.onGround() || nextBodyPart.isInLiquid()) {fallingCount = 0;}
             else {fallingCount++;}
             nextBodyPart = nextBodyPart.nextBodyPart;
         }
