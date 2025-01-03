@@ -26,7 +26,7 @@ public abstract class AerialHellAnimalEntity extends AnimalEntity
 		this.goalSelector.add(0, new SwimGoal(this));
 		this.goalSelector.add(1, new EscapeDangerGoal(this, 1.25));
 		this.goalSelector.add(2, new AnimalMateGoal(this, 1.0));
-		this.goalSelector.add(3, new TemptGoal(this, 1.1, stack -> stack.isOf(AerialHellItems.AERIAL_BERRY), false));
+		this.goalSelector.add(3, new TemptGoal(this, 1.1, this::isBreedingItem, false));
 		this.goalSelector.add(4, new FollowParentGoal(this, 1.1));
 		this.goalSelector.add(6, new WanderAroundFarGoal(this, 1.0));
 		this.goalSelector.add(7, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
