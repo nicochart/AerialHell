@@ -83,7 +83,9 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
     @Override public void playAmbientSound()
     {
         SoundEvent ambientSound = this.getAmbientSound();
-        if (ambientSound != null) {this.playSound(ambientSound, this.ateTimer <= 0 ? this.getSoundVolume() : 0.0F, this.getPitch());}
+        float volume = this.ateTimer <= 0 ? this.getSoundVolume() : 0.0F;
+        float pitch = this.getSoundPitch();
+        if (ambientSound != null) {this.playSound(ambientSound, volume, pitch);}
     }
 
     @Override public void writeCustomDataToNbt(NbtCompound nbt)

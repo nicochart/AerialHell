@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Passive;
 
 import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.block.BlockState;
@@ -43,6 +44,8 @@ public class SandySheepEntity extends AerialHellAnimalEntity
         this(AerialHellEntities.SANDY_SHEEP, world);
         this.shearedTimer = 200;
     }
+
+    @Override public boolean isBreedingItem(ItemStack stack) {return super.isBreedingItem(stack) || stack.getItem() == AerialHellItems.STELLAR_WHEAT;}
 
     @Override protected void initDataTracker(DataTracker.Builder builder)
     {

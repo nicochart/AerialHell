@@ -141,7 +141,7 @@ public class KodamaEntity extends AerialHellAnimalEntity
     public void playRattleSound()
     {
         SoundEvent soundevent = this.getRattleSound();
-        if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getPitch());}
+        if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getSoundPitch());}
     }
 
     @Override public void writeCustomDataToNbt(NbtCompound nbt)

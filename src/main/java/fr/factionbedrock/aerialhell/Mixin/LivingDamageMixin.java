@@ -216,7 +216,7 @@ public class LivingDamageMixin
 
     private static void applyTraitorEffectIfNecessary(LivingEntity sourceLivingEntity, LivingEntity target)
     {
-        if (sourceLivingEntity instanceof PlayerEntity playerEntity && EntityHelper.isCreativePlayer(playerEntity))
+        if (sourceLivingEntity instanceof PlayerEntity playerEntity && !EntityHelper.isCreativePlayer(playerEntity))
         {
             if ((target instanceof CrystalGolemEntity || target instanceof LunaticPriestEntity) && EntityHelper.isLivingEntityMisleadingLunar(sourceLivingEntity))
             {

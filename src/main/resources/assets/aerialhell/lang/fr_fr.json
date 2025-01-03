@@ -966,7 +966,7 @@
   "death.attack.aerialhell.cursed_tool": "%1$s s'est enlevé la vie avec un outils maudit",
   "death.attack.aerialhell.cursed_tool.player": "%1$s s'est enlevé la vie lui même, avec un outils maudit",
   "death.attack.aerialhell.lunatic_projection": "%1$s est entré dans la lumière",
-  "death.attack.aerialhell.god_blessing": "%1$s a reçu la bénédiction des dieux",
+  "death.attack.aerialhell.god_bless": "%1$s a reçu la bénédiction des dieux",
 
   "enchantment.aerialhell.solid_ether_walker": "Marcheur Éthéré",
 

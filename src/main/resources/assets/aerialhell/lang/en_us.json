@@ -966,7 +966,7 @@
   "death.attack.aerialhell.cursed_tool": "%1$s commited suicide with a cursed tool",
   "death.attack.aerialhell.cursed_tool.player": "%1$s commited suicide with a cursed tool",
   "death.attack.aerialhell.lunatic_projection": "%1$s entered the light",
-  "death.attack.aerialhell.god_blessing": "%1$s received god's blessing",
+  "death.attack.aerialhell.god_bless": "%1$s received god's blessing",
 
   "enchantment.aerialhell.solid_ether_walker": "Solid Ether Walker",
 

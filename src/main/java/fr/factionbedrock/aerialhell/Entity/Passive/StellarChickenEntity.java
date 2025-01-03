@@ -35,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 public class StellarChickenEntity extends ChickenEntity
 {
     private static final TrackedData<Integer> COLOR = DataTracker.<Integer>registerData(StellarChickenEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private static final Ingredient FOOD_ITEMS = Ingredient.ofItems(AerialHellItems.AERIAL_BERRY_SEEDS, AerialHellItems.VIBRANT_AERIAL_BERRY_SEEDS);
+    private static final Ingredient FOOD_ITEMS = Ingredient.ofItems(AerialHellItems.STELLAR_WHEAT_SEEDS, AerialHellItems.AERIAL_BERRY_SEEDS, AerialHellItems.VIBRANT_AERIAL_BERRY_SEEDS);
 
     public StellarChickenEntity(EntityType<? extends ChickenEntity> entityType, World world) {super(entityType, world);}
 

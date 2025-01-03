@@ -328,7 +328,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		if (died)
 		{
 			SoundEvent soundevent = this.getDeathSound();
-			if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getPitch());}
+			if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getSoundPitch());}
 		}
 		else {this.playHurtSound(damageSource);}
 	}

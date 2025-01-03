@@ -174,7 +174,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	{
 		if (this.getDeathSound() != null)
 		{
-			this.playSound(this.getDeathSound(), this.getSoundVolume(), this.getPitch());
+			this.playSound(this.getDeathSound(), this.getSoundVolume(), this.getSoundPitch());
 		}
 	}
 
@@ -183,7 +183,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		if (died)
 		{
 			SoundEvent soundevent = this.getDeathSound();
-			if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getPitch());}
+			if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getSoundPitch());}
 		}
 		else {this.playHurtSound(damageSource);}
 	}
