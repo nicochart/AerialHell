@@ -45,6 +45,11 @@ public class SandySheepEntity extends AerialHellAnimalEntity
         this.shearedTimer = 200;
     }
 
+    @Override public boolean isFood(ItemStack stack)
+    {
+        return super.isFood(stack) || stack.getItem() == AerialHellBlocksAndItems.STELLAR_WHEAT_ITEM.get();
+    }
+
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
         super.defineSynchedData(builder);

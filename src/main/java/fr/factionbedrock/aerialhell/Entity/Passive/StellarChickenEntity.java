@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
 public class StellarChickenEntity extends Chicken
 {
     private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.<Integer>defineId(StellarChickenEntity.class, EntityDataSerializers.INT);
-    private static final Ingredient FOOD_ITEMS = Ingredient.of(AerialHellBlocksAndItems.AERIAL_BERRY_SEEDS.get(), AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY_SEEDS.get());
+    private static final Ingredient FOOD_ITEMS = Ingredient.of(AerialHellBlocksAndItems.STELLAR_WHEAT_SEEDS.get(), AerialHellBlocksAndItems.AERIAL_BERRY_SEEDS.get(), AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY_SEEDS.get());
 
     public StellarChickenEntity(EntityType<? extends Chicken> entityType, Level level) {super(entityType, level);}
 
