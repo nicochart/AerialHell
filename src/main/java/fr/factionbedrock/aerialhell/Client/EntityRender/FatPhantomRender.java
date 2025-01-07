@@ -28,7 +28,7 @@ public class FatPhantomRender extends MobRenderer<FatPhantomEntity, PhantomModel
     	return FAT_PHANTOM_TEXTURE;
     }
 
-    protected void scale(FatPhantomEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
+    @Override protected void scale(FatPhantomEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
     {
         int i = entitylivingbaseIn.getPhantomSize();
         float f = 1.0F + 0.15F * (float)i;
@@ -36,9 +36,9 @@ public class FatPhantomRender extends MobRenderer<FatPhantomEntity, PhantomModel
         matrixStackIn.translate(0.0D, 1.3125D, 0.1875D);
     }
 
-    protected void setupRotations(FatPhantomEntity entity, PoseStack poseStack, float p_115687_, float p_115688_, float p_115689_, float p_328426_)
+    @Override protected void setupRotations(FatPhantomEntity entity, PoseStack poseStack, float animationProgress, float bodyYRot, float partialTick, float scale)
     {
-        super.setupRotations(entity, poseStack, p_115687_, p_115688_, p_115689_, p_328426_);
+        super.setupRotations(entity, poseStack, animationProgress, bodyYRot, partialTick, scale);
         poseStack.mulPose(Axis.XP.rotationDegrees(entity.getXRot()));
     }
 }
