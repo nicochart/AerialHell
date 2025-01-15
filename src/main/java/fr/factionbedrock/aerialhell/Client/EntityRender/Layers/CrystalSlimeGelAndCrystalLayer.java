@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Client.EntityRender.Layers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Client.EntityModels.CrystalSlimeModel;
-import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSlimeEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.CrystalSlimeRenderState;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -12,24 +12,24 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 
 import java.awt.*;
 
-public class CrystalSlimeGelAndCrystalLayer extends RenderLayer<CrystalSlimeEntity, CrystalSlimeModel>
+public class CrystalSlimeGelAndCrystalLayer extends RenderLayer<CrystalSlimeRenderState, CrystalSlimeModel>
 {
    private final CrystalSlimeModel crystalSlimeModel;
 
-   public CrystalSlimeGelAndCrystalLayer(RenderLayerParent<CrystalSlimeEntity, CrystalSlimeModel> layerParent, CrystalSlimeModel model)
+   public CrystalSlimeGelAndCrystalLayer(RenderLayerParent<CrystalSlimeRenderState, CrystalSlimeModel> layerParent, CrystalSlimeModel model)
    {
       super(layerParent);
       this.crystalSlimeModel = model;
    }
-   
-   public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, CrystalSlimeEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
+
+   @Override public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, CrystalSlimeRenderState renderState, float yRot, float xRot)
    {
-      if (!entitylivingbaseIn.isInvisible())
+      if (!renderState.isInvisible)
       {
-         this.getParentModel().copyPropertiesTo(this.crystalSlimeModel);
-         this.crystalSlimeModel.setupAnim(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-         VertexConsumer consumer = bufferIn.getBuffer(RenderType.entityTranslucent(this.getTextureLocation(entitylivingbaseIn)));
-         this.crystalSlimeModel.renderToBuffer(matrixStackIn, consumer, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB());
+         //this.getParentModel().copyPropertiesTo(this.crystalSlimeModel); TODO is it still needed or is it done with renderState ?
+         this.crystalSlimeModel.setupAnim(renderState);
+         VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityTranslucent(renderState.texture));
+         this.crystalSlimeModel.renderToBuffer(poseStack, consumer, packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB());
       }
    }
 }

@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.KodamaRenderState;
 import fr.factionbedrock.aerialhell.Entity.Passive.KodamaEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -15,7 +16,7 @@ import java.awt.*;
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
-public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
+public class KodamaModel<S extends KodamaRenderState> extends EntityModel<S>
 {
 	private final ModelPart body;
 	private final ModelPart head;
@@ -37,6 +38,7 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 
 	public KodamaModel(ModelPart root, boolean isEmpty)
 	{
+		super(root);
 		this.body = root.getChild("body");
 		this.head = root.getChild("head");
 		this.face_1 = root.getChild("face_1");
@@ -102,12 +104,16 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 		return LayerDefinition.create(meshdefinition, 64, 32);
 	}
 
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(S renderState)
 	{
-		this.faceId = entity.getFaceId();
-		this.dayTime = entity.level().getDayTime() % 24000;
-		this.forcedAlphaBonus = this.getForcedAlphaBonus(entity);
-		this.setHeadRot(netHeadYaw, headPitch, this.getZRotAngleFromEntityTiltAngle(entity));
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+		this.faceId = renderState.faceId;
+		this.dayTime = renderState.dayTime;
+		this.forcedAlphaBonus = renderState.forcedAlphaBonus;
+		this.setHeadRot(netHeadYaw, headPitch, this.getZRotAngleFromEntityTiltAngle(renderState));
 
 		this.arm0.zRot = -0.1F;
 		this.arm1.zRot = 0.1F;
@@ -126,10 +132,10 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 	private void setHeadYRot(float yrot) {this.head.yRot = yrot; this.face_1.yRot = yrot; this.face_2.yRot = yrot; this.face_3.yRot = yrot; this.face_4.yRot = yrot; this.face_5.yRot = yrot; this.face_6.yRot = yrot; this.face_7.yRot = yrot;}
 	private void setHeadZRot(float zrot) {this.head.zRot = zrot; this.face_1.zRot = zrot; this.face_2.zRot = zrot; this.face_3.zRot = zrot; this.face_4.zRot = zrot; this.face_5.zRot = zrot; this.face_6.zRot = zrot; this.face_7.zRot = zrot;}
 
-	private float getMaxHeadZRot(T entity) {return entity.rattleHeadRotZAmplitude;} //0.6F is cool
-	private float getZRotAngleFromEntityTiltAngle(T entity)
+	private float getMaxHeadZRot(S renderState) {return renderState.rattleHeadRotZAmplitude;} //0.6F is cool
+	private float getZRotAngleFromEntityTiltAngle(S renderState)
 	{
-		return this.getMaxHeadZRot(entity) * entity.getRattlingTiltAngle() / entity.getMaxRattlingTiltAngle();
+		return this.getMaxHeadZRot(renderState) * renderState.rattlingTiltAngle / renderState.maxRattlingTiltAngle;
 	}
 
 	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
@@ -194,24 +200,6 @@ public class KodamaModel<T extends KodamaEntity> extends EntityModel<T>
 			if (this.dayTime < 1000) {return (int) (this.dayTime/1000F * 255);}
 			else if (this.dayTime >= 1000 && this.dayTime <= 12000) {return 255;}
 			else {return (int) (((13000 - this.dayTime)/1000F) * 255);}
-		}
-		else {return 0;}
-	}
-
-	private int getForcedAlphaBonus(T entity)
-	{
-		if (entity.timeForceInvisible > 0)
-		{
-			int transitionTime = entity.getMaxTimeForceInvisible() / 10;
-			if (entity.timeForceInvisible > entity.getMaxTimeForceInvisible() - transitionTime)
-			{
-				return (int) (255 * (float) (entity.getMaxTimeForceInvisible() - entity.timeForceInvisible) / transitionTime);
-			}
-			else if (entity.timeForceInvisible > transitionTime) {return 255;}
-			else //if (0 < entity.timeForceInvisible < transitionTime)
-			{
-				return (int) (255 * (float) entity.timeForceInvisible / transitionTime);
-			}
 		}
 		else {return 0;}
 	}

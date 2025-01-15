@@ -23,11 +23,11 @@ public class AerialHellDimensionSpecialEffects extends DimensionSpecialEffects
     }
 
     @Override
-    public boolean renderSky(ClientLevel level, int ticks, float partialTick, Matrix4f projectionMatrix, Camera camera, Matrix4f modelViewMatrix, boolean isFoggy, Runnable setupFog)
+    public boolean renderSky(ClientLevel level, int ticks, float partialTick, Matrix4f projectionMatrix, Camera camera, Matrix4f modelViewMatrix, Runnable setupFog)
     {
-        return AerialHellDimensionSkyRenderer.render(level, projectionMatrix, modelViewMatrix, partialTick, camera, isFoggy, setupFog);
+        return AerialHellDimensionSkyRenderer.render(level, projectionMatrix, modelViewMatrix, partialTick, camera, false, setupFog);
     }
 
-    @Nullable @Override public float[] getSunriseColor(float daycycle, float partialTicks) {return null;}
+    @Override public int getSunriseOrSunsetColor(float daycycle) {return 0;}
     @Override public boolean isFoggyAt(int x, int y) {return false;}
 }

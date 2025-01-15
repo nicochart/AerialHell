@@ -105,9 +105,9 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		else {return false;}
 	}
 	
-	@Override public boolean hurt(DamageSource source, float amount)
+	@Override public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount)
 	{
-		boolean flag = super.hurt(source, amount);
+		boolean flag = super.hurtServer(serverLevel, source, amount);
 		if (flag)
 		{
 			if (source.getEntity() instanceof LivingEntity)
@@ -135,17 +135,17 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	@Override public boolean fireImmune() {return true;}
 	@Override public boolean displayFireAnimation() {return false;}
 	
-	@Override public boolean doHurtTarget(Entity attackedEntity)
+	@Override public boolean doHurtTarget(ServerLevel serverLevel, Entity attackedEntity)
 	{
 		DamageSource damagesource = this.damageSources().mobAttack(this);
 		this.level().broadcastEntityEvent(this, (byte)4);
 		float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 		float f1 = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
-		boolean flag = attackedEntity.hurt(damagesource, f1);
+		boolean flag = attackedEntity.hurtServer(serverLevel, damagesource, f1);
 		if (flag)
 		{
 			attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().x, (double)0.4F, attackedEntity.getDeltaMovement().z);
-			if (level() instanceof ServerLevel serverLevel) {EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);}
+			EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);
 		}
 
 		this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);

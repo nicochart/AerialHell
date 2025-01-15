@@ -5,7 +5,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -79,7 +79,7 @@ public abstract class AbstractHumanoidMonster extends Zombie
 
     @Nullable protected abstract ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand);
 
-    @Override @Nullable public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn)
+    @Override @Nullable public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, EntitySpawnReason reason, @Nullable SpawnGroupData spawnDataIn)
     {
         this.setLeftHanded(random.nextFloat() < 0.5F);
         this.populateDefaultEquipmentSlots(this.random, difficultyIn);

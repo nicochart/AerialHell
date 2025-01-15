@@ -5,7 +5,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
@@ -29,17 +29,17 @@ public class RubyLiquidOfGodsBucketItem extends Item
         super(properties);
     }
 
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
+    public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn)
     {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
         BlockHitResult blockhitresult = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.NONE);
         if (blockhitresult.getType() == HitResult.Type.MISS)
         {
-            return InteractionResultHolder.pass(itemstack);
+            return InteractionResult.PASS;
         }
         else if (blockhitresult.getType() != HitResult.Type.BLOCK)
         {
-            return InteractionResultHolder.pass(itemstack);
+            return InteractionResult.PASS;
         }
         else
         {
@@ -50,16 +50,16 @@ public class RubyLiquidOfGodsBucketItem extends Item
             {
                 if (this.tryPlaceContainedLiquid(playerIn, worldIn, blockpos1, blockhitresult))
                 {
-                    return InteractionResultHolder.sidedSuccess(!playerIn.getAbilities().instabuild ? new ItemStack(AerialHellBlocksAndItems.RUBY_BUCKET.get()) : itemstack, worldIn.isClientSide());
+                    return InteractionResult.SUCCESS;
                 }
                 else
                 {
-                    return InteractionResultHolder.fail(itemstack);
+                    return InteractionResult.FAIL;
                 }
             }
             else
             {
-                return InteractionResultHolder.fail(itemstack);
+                return InteractionResult.FAIL;
             }
         }
     }

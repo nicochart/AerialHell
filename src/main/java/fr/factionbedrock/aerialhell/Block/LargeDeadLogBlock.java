@@ -4,15 +4,17 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.pathfinder.PathComputationType;
@@ -26,7 +28,7 @@ public class LargeDeadLogBlock extends Block
         return instance.group(BlockState.CODEC.fieldOf("base_state").forGetter((largeDeadLogBlock) -> {return largeDeadLogBlock.baseState;}), propertiesCodec()).apply(instance, LargeDeadLogBlock::new);
     });
 
-    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+    public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final EnumProperty<Half> HALF = BlockStateProperties.HALF;
     protected static final VoxelShape TOP = Block.box(0.0D, 14.0D, 0.0D, 16.0D, 16.0D, 16.0D);
     protected static final VoxelShape BOTTOM = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D);
@@ -73,9 +75,9 @@ public class LargeDeadLogBlock extends Block
         return this.defaultBlockState().setValue(FACING, direction).setValue(HALF, half);
     }
 
-    @Override public BlockState updateShape(BlockState previousState, Direction direction, BlockState newState, LevelAccessor level, BlockPos pos1, BlockPos pos2)
+    @Override public BlockState updateShape(BlockState previousState, LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random)
     {
-        return direction.getAxis().isHorizontal() ? previousState : super.updateShape(previousState, direction, newState, level, pos1, pos2);
+        return direction.getAxis().isHorizontal() ? previousState : super.updateShape(previousState, level, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
     }
 
     @Override public BlockState rotate(BlockState state, Rotation rotation)

@@ -2,17 +2,19 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.LunaticPriestRenderState;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.util.Mth;
 
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class LunaticPriestModel extends EntityModel<LunaticPriestEntity>
+public class LunaticPriestModel extends EntityModel<LunaticPriestRenderState>
 {
 	private final ModelPart body;
 	private final ModelPart head;
@@ -23,6 +25,7 @@ public class LunaticPriestModel extends EntityModel<LunaticPriestEntity>
 
 	public LunaticPriestModel(ModelPart root)
 	{
+		super(root);
 		this.body = root.getChild("body");
 		this.head = root.getChild("head");
 		this.arm0 = root.getChild("arm0");
@@ -68,12 +71,17 @@ public class LunaticPriestModel extends EntityModel<LunaticPriestEntity>
 		return LayerDefinition.create(meshdefinition, 128, 64);
 	}
 
-	@Override public void setupAnim(LunaticPriestEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(LunaticPriestRenderState renderState)
 	{
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+
 		this.head.yRot = netHeadYaw / 57.29578F;
 		this.head.xRot = headPitch / 57.29578F;
 
-		int i = entity.attackTimer;
+		int i = renderState.attackTimer;
 		if (i > 0)
 		{
 			this.arm0.xRot = -2.0F + 0.6F * Mth.triangleWave((float)i, 10.0F);

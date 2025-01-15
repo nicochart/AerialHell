@@ -24,7 +24,9 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellFluids;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 public class AerialHellFluidBlock extends LiquidBlock {
 
@@ -43,7 +45,7 @@ public class AerialHellFluidBlock extends LiquidBlock {
 	}
 	
 	@Override
-	public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving)
+	public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, @Nullable Orientation orientation, boolean isMoving)
 	{
 		reactWithNeighbors(worldIn, pos, state);
 	}

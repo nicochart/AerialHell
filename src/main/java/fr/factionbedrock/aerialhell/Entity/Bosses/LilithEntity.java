@@ -17,18 +17,16 @@ import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -83,13 +81,13 @@ public class LilithEntity extends AbstractBossEntity
 				.add(Attributes.ATTACK_DAMAGE, 20.0D);
     }
 	
-	@Override public boolean hurt(DamageSource source, float amount)
+	@Override public boolean hurtServer(ServerLevel level, DamageSource source, float amount)
 	{
 		Entity immediateSourceEntity = source.getDirectEntity();
 		Entity trueSourceEntity = source.getEntity();
 		if (this.isTransforming() && !source.isCreativePlayer() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return false;}
 		if (this.getMaxHealth() < 2.5 * this.getHealth() && immediateSourceEntity instanceof AbstractArrow) {return false;}
-		boolean flag = super.hurt(source, amount);
+		boolean flag = super.hurtServer(level, source, amount);
 		if (flag)
 		{
 			if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrow))
@@ -429,10 +427,10 @@ public class LilithEntity extends AbstractBossEntity
 	
 	@Override public boolean isPushable() {return false;}
 	
-	@Override public boolean doHurtTarget(Entity target)
+	@Override public boolean doHurtTarget(ServerLevel level, Entity target)
 	{
 		this.level().broadcastEntityEvent(this, (byte)4);
-		boolean flag = super.doHurtTarget(target);
+		boolean flag = super.doHurtTarget(level, target);
 		if (flag && target instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune((LivingEntity) target))
 		{
 			((LivingEntity) target).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 40, 0));
@@ -540,7 +538,7 @@ public class LilithEntity extends AbstractBossEntity
 
 		@Override public Entity createEntity()
 		{
-			return AerialHellEntities.SHADOW_FLYING_SKULL.get().create(this.getGoalOwner().level());
+			return AerialHellEntities.SHADOW_FLYING_SKULL.get().create(this.getGoalOwner().level(), EntitySpawnReason.MOB_SUMMONED);
 		}
 
 		@Override protected void setEntityPosToSummonPos(Entity entity) {entity.setPos(this.getGoalOwner().getX(), this.getGoalOwner().getY() + 1.0, this.getGoalOwner().getZ());}

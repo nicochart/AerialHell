@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Effect;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -13,7 +14,7 @@ public class GodEffect extends MobEffect
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier)
+    public boolean applyEffectTick(ServerLevel level, LivingEntity entityLivingBaseIn, int amplifier)
     {    	
 		if (entityLivingBaseIn.getHealth() < entityLivingBaseIn.getMaxHealth() && duration  % 20 == 0)
         {

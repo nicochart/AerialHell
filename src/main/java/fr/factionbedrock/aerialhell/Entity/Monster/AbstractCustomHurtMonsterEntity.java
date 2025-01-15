@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.Util.CustomHurtInfo;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -17,9 +18,9 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
 {
     public AbstractCustomHurtMonsterEntity(EntityType<? extends AbstractCustomHurtMonsterEntity> type, Level world) {super(type, world);}
 
-    @Override public boolean hurt(DamageSource damageSource, float amount)
+    @Override public boolean hurtServer(ServerLevel serverLevel, DamageSource damageSource, float amount)
     {
-        return this.customHurt(damageSource, this.getDefaultCustomHurtInfo(amount));
+        return this.customHurt(serverLevel, damageSource, this.getDefaultCustomHurtInfo(amount));
     }
 
     protected CustomHurtInfo getDefaultCustomHurtInfo(float amount)
@@ -32,10 +33,10 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
     protected abstract boolean shouldApplyKbOnHurt();
 
     //copy of net.minecraft.world.entity.LivingEntity hurt(DamageSource source, float amount) method, removing everything non-related to my monsters, and calling other methods, allowing customization in my inheriting classes
-    public boolean customHurt(DamageSource source, CustomHurtInfo info)
+    public boolean customHurt(ServerLevel serverLevel, DamageSource source, CustomHurtInfo info)
     {
         float amount = info.amount();
-        if (this.isInvulnerableTo(source) || this.level().isClientSide || this.isDeadOrDying()) {return false;}
+        if (this.isInvulnerableTo(serverLevel, source) || this.level().isClientSide || this.isDeadOrDying()) {return false;}
         else if (source.is(DamageTypeTags.IS_FIRE) && this.hasEffect(MobEffects.FIRE_RESISTANCE)) {return false;}
         else
         {
@@ -49,7 +50,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
                 this.walkAnimation.setSpeed(1.5F);
 
                 boolean wasOnHurtCooldown = (float)this.invulnerableTime > 10.0F && !source.is(DamageTypeTags.BYPASSES_COOLDOWN);
-                boolean actuallyGotHurt = tryActuallyHurt(source, amount);
+                boolean actuallyGotHurt = tryActuallyHurt(serverLevel, source, amount);
 
                 if (!actuallyGotHurt) {return false;}
                 //we know this got hurt
@@ -90,7 +91,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
         super.die(damageSource);
     }
 
-    public boolean tryActuallyHurt(DamageSource damageSource, float amount) //returns true if the entity is actually hurt
+    public boolean tryActuallyHurt(ServerLevel serverLevel, DamageSource damageSource, float amount) //returns true if the entity is actually hurt
     {
         boolean isOnHurtCooldown = (float)this.invulnerableTime > 10.0F;
         boolean shouldDamageBeReducedDueToHurtCooldown = isOnHurtCooldown && !damageSource.is(DamageTypeTags.BYPASSES_COOLDOWN);
@@ -101,7 +102,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
             float reducedAmount = amount - this.lastHurt;
             if (reducedAmount <= 0) {return false;}
 
-            this.actuallyHurt(damageSource, reducedAmount);
+            this.actuallyHurt(serverLevel, damageSource, reducedAmount);
             this.lastHurt = amount;
             return true;
         }
@@ -109,7 +110,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
         {
             this.lastHurt = amount;
             this.invulnerableTime = 20;
-            this.actuallyHurt(damageSource, amount);
+            this.actuallyHurt(serverLevel, damageSource, amount);
             this.hurtDuration = 10;
             this.hurtTime = this.hurtDuration;
             return true;

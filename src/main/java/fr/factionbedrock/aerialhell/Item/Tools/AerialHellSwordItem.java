@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
 import java.util.List;
+
+import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.*;
@@ -8,7 +10,20 @@ import net.minecraft.network.chat.Component;
 
 public class AerialHellSwordItem extends SwordItem
 {
-	public AerialHellSwordItem(Tier tier, Properties builderIn) {super(tier, builderIn);}
+	public AerialHellSwordItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, Properties properties)
+	{
+		this(toolMaterial, attackDamage, attackSpeed, 0.0F, 0.0F, properties);
+	}
+
+	public AerialHellSwordItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, Properties properties)
+	{
+		super(toolMaterial, 0.0F, 0.0F, properties);//attackDamage and attackSpeed are overridden below
+
+		//copy of super(..) actions to edit this.components to add custom attributes
+		//material.applyToolProperties(....)
+		Item.Properties toolProperties = ItemHelper.applySwordProperties(properties, toolMaterial, attackDamage, attackSpeed, movementSpeed, maxHealth);
+		this.components = toolProperties.buildAndValidateComponents(Component.translatable(this.descriptionId), properties.effectiveModel());
+	}
 
 	@Override
 	public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)

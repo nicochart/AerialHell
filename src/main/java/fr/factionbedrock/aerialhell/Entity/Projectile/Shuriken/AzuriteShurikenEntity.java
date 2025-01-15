@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class AzuriteShurikenEntity extends AbstractShurikenEntity
@@ -16,19 +17,19 @@ public class AzuriteShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, worldIn);
 	}
 
-	public AzuriteShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public AzuriteShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy, ItemStack itemStack)
 	{
-		super(AerialHellEntities.AZURITE_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+		super(AerialHellEntities.AZURITE_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy, itemStack);
 	}
 
-	public AzuriteShurikenEntity(double x, double y, double z, Level worldIn)
+	public AzuriteShurikenEntity(double x, double y, double z, Level worldIn, ItemStack itemStack)
 	{
-		super(AerialHellEntities.AZURITE_SHURIKEN.get(), x, y, z, worldIn);
+		super(AerialHellEntities.AZURITE_SHURIKEN.get(), x, y, z, worldIn, itemStack);
 	}
 
-	public AzuriteShurikenEntity(LivingEntity shooter, Level worldIn)
+	public AzuriteShurikenEntity(LivingEntity shooter, Level worldIn, ItemStack itemStack)
 	{
-		super(AerialHellEntities.AZURITE_SHURIKEN.get(), shooter, worldIn);
+		super(AerialHellEntities.AZURITE_SHURIKEN.get(), shooter, worldIn, itemStack);
 	}
 
 	public AzuriteShurikenEntity(Level worldIn)

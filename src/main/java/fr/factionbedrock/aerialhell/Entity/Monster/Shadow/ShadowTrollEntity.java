@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
@@ -62,9 +63,9 @@ public class ShadowTrollEntity extends Monster
     }
     
     @Override
-    public boolean doHurtTarget(Entity attackedEntity)
+    public boolean doHurtTarget(ServerLevel serverLevel, Entity attackedEntity)
     {
-    	if (super.doHurtTarget(attackedEntity))
+    	if (super.doHurtTarget(serverLevel, attackedEntity))
     	{
     		if (attackedEntity instanceof LivingEntity)
             {

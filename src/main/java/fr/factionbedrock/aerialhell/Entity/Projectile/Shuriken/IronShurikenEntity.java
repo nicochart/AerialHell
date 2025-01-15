@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class IronShurikenEntity extends AbstractShurikenEntity
@@ -16,19 +17,19 @@ public class IronShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, worldIn);
 	}
 
-	public IronShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public IronShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy, ItemStack itemStack)
 	{
-		super(AerialHellEntities.IRON_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+		super(AerialHellEntities.IRON_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy, itemStack);
 	}
 
-	public IronShurikenEntity(double x, double y, double z, Level worldIn)
+	public IronShurikenEntity(double x, double y, double z, Level worldIn, ItemStack itemStack)
 	{
-		super(AerialHellEntities.IRON_SHURIKEN.get(), x, y, z, worldIn);
+		super(AerialHellEntities.IRON_SHURIKEN.get(), x, y, z, worldIn, itemStack);
 	}
 
-	public IronShurikenEntity(LivingEntity shooter, Level worldIn)
+	public IronShurikenEntity(LivingEntity shooter, Level worldIn, ItemStack itemStack)
 	{
-		super(AerialHellEntities.IRON_SHURIKEN.get(), shooter, worldIn);
+		super(AerialHellEntities.IRON_SHURIKEN.get(), shooter, worldIn, itemStack);
 	}
 
 	public IronShurikenEntity(Level worldIn)

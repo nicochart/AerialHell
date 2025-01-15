@@ -3,26 +3,27 @@ package fr.factionbedrock.aerialhell.Recipe;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
-import net.minecraft.resources.ResourceLocation;
 
 //vanilla copy : net.minecraft.world.item.crafting.SmeltingRecipe
 public class OscillatingRecipe extends AbstractCookingRecipe
 {
-	public OscillatingRecipe(/*ResourceLocation idIn,*/ String groupIn, CookingBookCategory category, Ingredient ingredientIn, ItemStack resultIn, float experienceIn, int cookTimeIn)
+	public OscillatingRecipe(String groupIn, CookingBookCategory category, Ingredient ingredientIn, ItemStack resultIn, float experienceIn, int cookTimeIn)
 	{
-		super(RecipeTypes.OSCILLATING.get(), /*idIn,*/ groupIn, category, ingredientIn, resultIn, experienceIn, cookTimeIn);
+		super(groupIn, category, ingredientIn, resultIn, experienceIn, cookTimeIn);
 	}
 
-	@Override public ItemStack getToastSymbol()
-	{
-		return new ItemStack(AerialHellBlocksAndItems.OSCILLATOR.get());
-	}
+	@Override protected Item furnaceIcon() {return AerialHellBlocksAndItems.OSCILLATOR.asItem();}
 
-	@Override public RecipeSerializer<?> getSerializer() {return AerialHellRecipes.OSCILLATING.get();}
+	@Override public RecipeSerializer<OscillatingRecipe> getSerializer() {return AerialHellRecipes.OSCILLATING.get();}
 
-	public static class Serializer extends SimpleCookingSerializer<OscillatingRecipe>
+	@Override public RecipeType<OscillatingRecipe> getType() {return RecipeTypes.OSCILLATING.get();}
+
+	@Override public RecipeBookCategory recipeBookCategory() {return RecipeBookCategories.FURNACE_BLOCKS;}
+
+	public static class Serializer extends AbstractCookingRecipe.Serializer<OscillatingRecipe>
 	{
 		public Serializer() {super(OscillatingRecipe::new, 200);}
 	}

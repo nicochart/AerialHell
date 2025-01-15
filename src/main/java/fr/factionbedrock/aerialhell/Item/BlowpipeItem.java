@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Item;
 
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -26,14 +26,14 @@ public class BlowpipeItem extends Item
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
+    public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn)
     {
         boolean isCreative = playerIn.getAbilities().instabuild;
         ItemStack heldItem = playerIn.getItemInHand(handIn);
         ItemStack ammo = this.findAmmo(playerIn);
         if(ammo.isEmpty() && !isCreative)
         {
-        	return InteractionResultHolder.fail(heldItem);
+        	return InteractionResult.FAIL;
         }
 
         if (!worldIn.isClientSide())
@@ -68,8 +68,8 @@ public class BlowpipeItem extends Item
             if (ammo.isEmpty()) {playerIn.getInventory().removeItem(ammo);}
             heldItem.hurtAndBreak(1, playerIn, LivingEntity.getSlotForHand(handIn));
         }
-        playerIn.getCooldowns().addCooldown(this, 12);
-        return InteractionResultHolder.consume(heldItem);
+        playerIn.getCooldowns().addCooldown(playerIn.getItemInHand(handIn), 12);
+        return InteractionResult.CONSUME;
     }
 
     private ItemStack findAmmo(Player player) //copy of player.getProjectile but adapted to blowpipe use

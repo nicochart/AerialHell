@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.ElementSpiritRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.AbstractElementSpiritEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -12,7 +13,7 @@ import net.minecraft.util.Mth;
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class ElementSpiritModel<T extends AbstractElementSpiritEntity> extends EntityModel<T>
+public class ElementSpiritModel<S extends ElementSpiritRenderState> extends EntityModel<S>
 {
 	private final ModelPart head;
 	private final ModelPart headShard;
@@ -24,6 +25,7 @@ public class ElementSpiritModel<T extends AbstractElementSpiritEntity> extends E
 
 	public ElementSpiritModel(ModelPart root)
 	{
+		super(root);
 		this.head = root.getChild("head");
 		this.headShard = root.getChild("headShard");
 		this.body = root.getChild("body");
@@ -57,8 +59,13 @@ public class ElementSpiritModel<T extends AbstractElementSpiritEntity> extends E
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(S renderState)
 	{
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+
 		this.head.yRot = netHeadYaw / 57.0F;
 		this.head.xRot = headPitch / 57.0F;
 		this.headShard.yRot = netHeadYaw / 57.0F;

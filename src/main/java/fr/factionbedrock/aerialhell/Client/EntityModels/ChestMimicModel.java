@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.ChestMimicRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AbstractChestMimicEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -12,7 +13,7 @@ import net.minecraft.util.Mth;
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class ChestMimicModel<T extends AbstractChestMimicEntity> extends EntityModel<T>
+public class ChestMimicModel extends EntityModel<ChestMimicRenderState>
 {
 	private final ModelPart chestDown;
 	private final ModelPart chestUp;
@@ -21,6 +22,7 @@ public class ChestMimicModel<T extends AbstractChestMimicEntity> extends EntityM
 
 	public ChestMimicModel(ModelPart root)
 	{
+		super(root);
 		this.chestDown = root.getChild("chestDown");
 		this.chestUp = root.getChild("chestUp");
 		this.rightLeg = root.getChild("RightLeg");
@@ -61,9 +63,12 @@ public class ChestMimicModel<T extends AbstractChestMimicEntity> extends EntityM
 		return LayerDefinition.create(meshdefinition, 128, 64);
 		}
 
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(ChestMimicRenderState renderState)
 	{
-		this.chestUp.xRot = - entity.mouthOpeningAmplitude * Mth.sqrt(1.0F + Mth.cos(ageInTicks / entity.mouthOpeningFrequencyMalus * (float) Math.PI));
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+
+		this.chestUp.xRot = - renderState.mouthOpeningAmplitude * Mth.sqrt(1.0F + Mth.cos(renderState.ageInTicks / renderState.mouthOpeningFrequencyMalus * (float) Math.PI));
 		this.rightLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
 		this.leftLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
 		this.rightLeg.yRot = 0.0F;

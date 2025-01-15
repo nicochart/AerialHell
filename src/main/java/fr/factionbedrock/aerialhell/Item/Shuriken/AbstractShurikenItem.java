@@ -3,10 +3,10 @@ package fr.factionbedrock.aerialhell.Item.Shuriken;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -20,7 +20,7 @@ public abstract class AbstractShurikenItem extends Item
 	}
 	
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand hand)
+	public InteractionResult use(Level worldIn, Player playerIn, InteractionHand hand)
 	{
 		ItemStack heldItem = playerIn.getItemInHand(hand);
 		if (!playerIn.isCreative() && !EntityHelper.hasEnchantment(playerIn, Enchantments.INFINITY))
@@ -37,8 +37,8 @@ public abstract class AbstractShurikenItem extends Item
 			//shuriken.setShooter(playerIn); shooter is not detected
 			worldIn.addFreshEntity(shuriken);
 		}
-		playerIn.getCooldowns().addCooldown(this, this.getCooldown());
-		return InteractionResultHolder.success(heldItem);
+		playerIn.getCooldowns().addCooldown(heldItem, this.getCooldown());
+		return InteractionResult.SUCCESS;
 	}
 
 	abstract protected float getVelocity();

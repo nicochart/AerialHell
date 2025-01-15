@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Inventory.Menu.ReactorMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -22,8 +23,10 @@ public class ReactorScreen extends AbstractContainerScreen<ReactorMenu>
 
     @Override protected void renderBg(@NotNull GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY)
     {
+        int i = (this.width - this.imageWidth) / 2;
+        int j = (this.height - this.imageHeight) / 2;
         renderTransparentBackground(pGuiGraphics);
-        pGuiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+        pGuiGraphics.blit(RenderType::guiTextured, TEXTURE, i, j, 0.0F, 0.0F, this.leftPos, this.topPos, this.imageWidth, this.imageHeight);
     }
 
     @Override public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick)

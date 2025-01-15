@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -16,7 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
@@ -57,12 +56,12 @@ public class AerialBerryBushBlock extends BushBlock implements BonemealableBlock
     }
     
     @Override
-    public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
+    public InteractionResult useItemOn(ItemStack stack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
     {
         int age = state.getValue(AGE);
         if (age != 3 && stack.getItem() == Items.BONE_MEAL)
         {
-            return ItemInteractionResult.FAIL;
+            return InteractionResult.FAIL;
         }
         else if (age > 1)
         {
@@ -70,7 +69,7 @@ public class AerialBerryBushBlock extends BushBlock implements BonemealableBlock
             popResource(worldIn, pos, new ItemStack(AerialHellBlocksAndItems.AERIAL_BERRY.get(), j + (age == 3 ? 1 : 0)));
             worldIn.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.9F + worldIn.random.nextFloat() * 0.3F);
             worldIn.setBlock(pos, state.setValue(AGE, 1), 2);
-            return ItemInteractionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
         else
         {

@@ -10,116 +10,148 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.PaintingRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.PaintingTextureManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.decoration.PaintingVariant;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
+import net.minecraft.world.level.Level;
 
 //copy of net.minecraft.client.renderer.entity.PaintingRenderer but for AerialHellPaintingEntity
 
-public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingEntity>
+public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingEntity, PaintingRenderState>
 {
     public AerialHellPaintingRender(EntityRendererProvider.Context context) {super(context);}
 
-    @Override public void render(AerialHellPaintingEntity entity, float p_115553_, float p_115554_, PoseStack poseStack, MultiBufferSource bufferSource, int p_115557_)
+    @Override public void render(PaintingRenderState renderState, PoseStack poseStack, MultiBufferSource bufferSource, int p_115535_)
     {
-        poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - p_115553_));
-        PaintingVariant paintingvariant = entity.getVariant().value();
-        float f = 0.0625F;
-        poseStack.scale(0.0625F, 0.0625F, 0.0625F);
-        VertexConsumer vertexconsumer = bufferSource.getBuffer(RenderType.entitySolid(this.getTextureLocation(entity)));
-        PaintingTextureManager paintingtexturemanager = Minecraft.getInstance().getPaintingTextures();
-        this.renderPainting(poseStack, vertexconsumer, entity, paintingvariant.width(), paintingvariant.height(), paintingtexturemanager.get(paintingvariant), paintingtexturemanager.getBackSprite());
-        poseStack.popPose();
-        super.render(entity, p_115553_, p_115554_, poseStack, bufferSource, p_115557_);
+        PaintingVariant paintingvariant = renderState.variant;
+        if (paintingvariant != null)
+        {
+            poseStack.pushPose();
+            poseStack.mulPose(Axis.YP.rotationDegrees((float)(180 - renderState.direction.get2DDataValue() * 90)));
+            PaintingTextureManager paintingtexturemanager = Minecraft.getInstance().getPaintingTextures();
+            TextureAtlasSprite textureatlassprite = paintingtexturemanager.getBackSprite();
+            VertexConsumer vertexconsumer = bufferSource.getBuffer(RenderType.entitySolidZOffsetForward(textureatlassprite.atlasLocation()));
+            this.renderPainting(poseStack, vertexconsumer, renderState.lightCoords, paintingvariant.width(), paintingvariant.height(), paintingtexturemanager.get(paintingvariant), textureatlassprite);
+            poseStack.popPose();
+            super.render(renderState, poseStack, bufferSource, p_115535_);
+        }
     }
 
-    @Override public ResourceLocation getTextureLocation(AerialHellPaintingEntity entity) {return Minecraft.getInstance().getPaintingTextures().getBackSprite().atlasLocation();}
+    @Override public PaintingRenderState createRenderState() {return new PaintingRenderState();}
 
-    private void renderPainting(PoseStack poseStack, VertexConsumer consumer, AerialHellPaintingEntity entity, int p_115562_, int p_115563_, TextureAtlasSprite textureAtlasSprite1, TextureAtlasSprite textureAtlasSprite2)
+    @Override public void extractRenderState(AerialHellPaintingEntity painting, PaintingRenderState renderState, float fl)
     {
-        PoseStack.Pose posestack$pose = poseStack.last();
-        Matrix4f matrix4f = posestack$pose.pose();
-        Matrix3f matrix3f = posestack$pose.normal();
-        float f = (float)(-p_115562_) / 2.0F;
-        float f1 = (float)(-p_115563_) / 2.0F;
-        float f2 = 0.5F;
-        float f3 = textureAtlasSprite2.getU0();
-        float f4 = textureAtlasSprite2.getU1();
-        float f5 = textureAtlasSprite2.getV0();
-        float f6 = textureAtlasSprite2.getV1();
-        float f7 = textureAtlasSprite2.getU0();
-        float f8 = textureAtlasSprite2.getU1();
-        float f9 = textureAtlasSprite2.getV0();
-        float f10 = textureAtlasSprite2.getV(0.0625F);
-        float f11 = textureAtlasSprite2.getU0();
-        float f12 = textureAtlasSprite2.getU(0.0625F);
-        float f13 = textureAtlasSprite2.getV0();
-        float f14 = textureAtlasSprite2.getV1();
-        int i = p_115562_ / 16;
-        int j = p_115563_ / 16;
-        double d0 = 1.0D / (double)i;
-        double d1 = 1.0D / (double)j;
+        super.extractRenderState(painting, renderState, fl);
+        Direction direction = painting.getDirection();
+        PaintingVariant paintingvariant = painting.getVariant().value();
+        renderState.direction = direction;
+        renderState.variant = paintingvariant;
+        int width = paintingvariant.width();
+        int height = paintingvariant.height();
+        if (renderState.lightCoords.length != width * height) {renderState.lightCoords = new int[width * height];}
 
-        for(int k = 0; k < i; ++k)
+        float f = (float)(-width) / 2.0F;
+        float f1 = (float)(-height) / 2.0F;
+        Level level = painting.level();
+
+        for (int k = 0; k < height; k++)
         {
-            for(int l = 0; l < j; ++l)
+            for (int l = 0; l < width; l++)
             {
-                float f15 = f + (float)((k + 1) * 16);
-                float f16 = f + (float)(k * 16);
-                float f17 = f1 + (float)((l + 1) * 16);
-                float f18 = f1 + (float)(l * 16);
-                int i1 = entity.getBlockX();
-                int j1 = Mth.floor(entity.getY() + (double)((f17 + f18) / 2.0F / 16.0F));
-                int k1 = entity.getBlockZ();
-                Direction direction = entity.getDirection();
-                if (direction == Direction.NORTH) {i1 = Mth.floor(entity.getX() + (double)((f15 + f16) / 2.0F / 16.0F));}
-                if (direction == Direction.WEST) {k1 = Mth.floor(entity.getZ() - (double)((f15 + f16) / 2.0F / 16.0F));}
-                if (direction == Direction.SOUTH) {i1 = Mth.floor(entity.getX() - (double)((f15 + f16) / 2.0F / 16.0F));}
-                if (direction == Direction.EAST) {k1 = Mth.floor(entity.getZ() + (double)((f15 + f16) / 2.0F / 16.0F));}
+                float f2 = (float)l + f + 0.5F;
+                float f3 = (float)k + f1 + 0.5F;
+                int i1 = painting.getBlockX();
+                int j1 = Mth.floor(painting.getY() + (double)f3);
+                int k1 = painting.getBlockZ();
+                switch (direction)
+                {
+                    case NORTH:
+                        i1 = Mth.floor(painting.getX() + (double)f2);
+                        break;
+                    case WEST:
+                        k1 = Mth.floor(painting.getZ() - (double)f2);
+                        break;
+                    case SOUTH:
+                        i1 = Mth.floor(painting.getX() - (double)f2);
+                        break;
+                    case EAST:
+                        k1 = Mth.floor(painting.getZ() + (double)f2);
+                }
 
-                int l1 = LevelRenderer.getLightColor(entity.level(), new BlockPos(i1, j1, k1));
-                float f19 = textureAtlasSprite1.getU((float)(d0 * (double)(i - k)));
-                float f20 = textureAtlasSprite1.getU((float)(d0 * (double)(i - (k + 1))));
-                float f21 = textureAtlasSprite1.getV((float)(d1 * (double)(j - l)));
-                float f22 = textureAtlasSprite1.getV((float)(d1 * (double)(j - (l + 1))));
-                this.vertex(posestack$pose, consumer, f15, f18, f20, f21, -0.5F, 0, 0, -1, l1);
-                this.vertex(posestack$pose, consumer, f16, f18, f19, f21, -0.5F, 0, 0, -1, l1);
-                this.vertex(posestack$pose, consumer, f16, f17, f19, f22, -0.5F, 0, 0, -1, l1);
-                this.vertex(posestack$pose, consumer, f15, f17, f20, f22, -0.5F, 0, 0, -1, l1);
-                this.vertex(posestack$pose, consumer, f15, f17, f4, f5, 0.5F, 0, 0, 1, l1);
-                this.vertex(posestack$pose, consumer, f16, f17, f3, f5, 0.5F, 0, 0, 1, l1);
-                this.vertex(posestack$pose, consumer, f16, f18, f3, f6, 0.5F, 0, 0, 1, l1);
-                this.vertex(posestack$pose, consumer, f15, f18, f4, f6, 0.5F, 0, 0, 1, l1);
-                this.vertex(posestack$pose, consumer, f15, f17, f7, f9, -0.5F, 0, 1, 0, l1);
-                this.vertex(posestack$pose, consumer, f16, f17, f8, f9, -0.5F, 0, 1, 0, l1);
-                this.vertex(posestack$pose, consumer, f16, f17, f8, f10, 0.5F, 0, 1, 0, l1);
-                this.vertex(posestack$pose, consumer, f15, f17, f7, f10, 0.5F, 0, 1, 0, l1);
-                this.vertex(posestack$pose, consumer, f15, f18, f7, f9, 0.5F, 0, -1, 0, l1);
-                this.vertex(posestack$pose, consumer, f16, f18, f8, f9, 0.5F, 0, -1, 0, l1);
-                this.vertex(posestack$pose, consumer, f16, f18, f8, f10, -0.5F, 0, -1, 0, l1);
-                this.vertex(posestack$pose, consumer, f15, f18, f7, f10, -0.5F, 0, -1, 0, l1);
-                this.vertex(posestack$pose, consumer, f15, f17, f12, f13, 0.5F, -1, 0, 0, l1);
-                this.vertex(posestack$pose, consumer, f15, f18, f12, f14, 0.5F, -1, 0, 0, l1);
-                this.vertex(posestack$pose, consumer, f15, f18, f11, f14, -0.5F, -1, 0, 0, l1);
-                this.vertex(posestack$pose, consumer, f15, f17, f11, f13, -0.5F, -1, 0, 0, l1);
-                this.vertex(posestack$pose, consumer, f16, f17, f12, f13, -0.5F, 1, 0, 0, l1);
-                this.vertex(posestack$pose, consumer, f16, f18, f12, f14, -0.5F, 1, 0, 0, l1);
-                this.vertex(posestack$pose, consumer, f16, f18, f11, f14, 0.5F, 1, 0, 0, l1);
-                this.vertex(posestack$pose, consumer, f16, f17, f11, f13, 0.5F, 1, 0, 0, l1);
+                renderState.lightCoords[l + k * width] = LevelRenderer.getLightColor(level, new BlockPos(i1, j1, k1));
             }
         }
     }
 
-    private void vertex(PoseStack.Pose pose, VertexConsumer vertexConsumer, float x, float y, float u, float v, float z, int normalX, int normalY, int normalZ, int packedLight)
+    private void renderPainting(PoseStack poseStack, VertexConsumer buffer, int[] lightCoords, int width, int height, TextureAtlasSprite frontSprite, TextureAtlasSprite backSprite)
     {
-        vertexConsumer.addVertex(pose, x, y, z).setColor(-1).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(pose, (float)normalX, (float)normalY, (float)normalZ);
+        PoseStack.Pose posestack$pose = poseStack.last();
+        float f = (float)(-width) / 2.0F;
+        float f1 = (float)(-height) / 2.0F;
+        float f2 = 0.03125F;
+        float f3 = backSprite.getU0();
+        float f4 = backSprite.getU1();
+        float f5 = backSprite.getV0();
+        float f6 = backSprite.getV1();
+        float f7 = backSprite.getU0();
+        float f8 = backSprite.getU1();
+        float f9 = backSprite.getV0();
+        float f10 = backSprite.getV(0.0625F);
+        float f11 = backSprite.getU0();
+        float f12 = backSprite.getU(0.0625F);
+        float f13 = backSprite.getV0();
+        float f14 = backSprite.getV1();
+        double d0 = 1.0 / (double)width;
+        double d1 = 1.0 / (double)height;
+
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                float f15 = f + (float)(i + 1);
+                float f16 = f + (float)i;
+                float f17 = f1 + (float)(j + 1);
+                float f18 = f1 + (float)j;
+                int k = lightCoords[i + j * width];
+                float f19 = frontSprite.getU((float)(d0 * (double)(width - i)));
+                float f20 = frontSprite.getU((float)(d0 * (double)(width - (i + 1))));
+                float f21 = frontSprite.getV((float)(d1 * (double)(height - j)));
+                float f22 = frontSprite.getV((float)(d1 * (double)(height - (j + 1))));
+                this.vertex(posestack$pose, buffer, f15, f18, f20, f21, -0.03125F, 0, 0, -1, k);
+                this.vertex(posestack$pose, buffer, f16, f18, f19, f21, -0.03125F, 0, 0, -1, k);
+                this.vertex(posestack$pose, buffer, f16, f17, f19, f22, -0.03125F, 0, 0, -1, k);
+                this.vertex(posestack$pose, buffer, f15, f17, f20, f22, -0.03125F, 0, 0, -1, k);
+                this.vertex(posestack$pose, buffer, f15, f17, f4, f5, 0.03125F, 0, 0, 1, k);
+                this.vertex(posestack$pose, buffer, f16, f17, f3, f5, 0.03125F, 0, 0, 1, k);
+                this.vertex(posestack$pose, buffer, f16, f18, f3, f6, 0.03125F, 0, 0, 1, k);
+                this.vertex(posestack$pose, buffer, f15, f18, f4, f6, 0.03125F, 0, 0, 1, k);
+                this.vertex(posestack$pose, buffer, f15, f17, f7, f9, -0.03125F, 0, 1, 0, k);
+                this.vertex(posestack$pose, buffer, f16, f17, f8, f9, -0.03125F, 0, 1, 0, k);
+                this.vertex(posestack$pose, buffer, f16, f17, f8, f10, 0.03125F, 0, 1, 0, k);
+                this.vertex(posestack$pose, buffer, f15, f17, f7, f10, 0.03125F, 0, 1, 0, k);
+                this.vertex(posestack$pose, buffer, f15, f18, f7, f9, 0.03125F, 0, -1, 0, k);
+                this.vertex(posestack$pose, buffer, f16, f18, f8, f9, 0.03125F, 0, -1, 0, k);
+                this.vertex(posestack$pose, buffer, f16, f18, f8, f10, -0.03125F, 0, -1, 0, k);
+                this.vertex(posestack$pose, buffer, f15, f18, f7, f10, -0.03125F, 0, -1, 0, k);
+                this.vertex(posestack$pose, buffer, f15, f17, f12, f13, 0.03125F, -1, 0, 0, k);
+                this.vertex(posestack$pose, buffer, f15, f18, f12, f14, 0.03125F, -1, 0, 0, k);
+                this.vertex(posestack$pose, buffer, f15, f18, f11, f14, -0.03125F, -1, 0, 0, k);
+                this.vertex(posestack$pose, buffer, f15, f17, f11, f13, -0.03125F, -1, 0, 0, k);
+                this.vertex(posestack$pose, buffer, f16, f17, f12, f13, -0.03125F, 1, 0, 0, k);
+                this.vertex(posestack$pose, buffer, f16, f18, f12, f14, -0.03125F, 1, 0, 0, k);
+                this.vertex(posestack$pose, buffer, f16, f18, f11, f14, 0.03125F, 1, 0, 0, k);
+                this.vertex(posestack$pose, buffer, f16, f17, f11, f13, 0.03125F, 1, 0, 0, k);
+            }
+        }
+    }
+
+    private void vertex(PoseStack.Pose pose, VertexConsumer consumer, float x, float y, float u, float v, float z, int normalX, int normalY, int normalZ, int packedLight)
+    {
+        consumer.addVertex(pose, x, y, z).setColor(-1).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(pose, (float)normalX, (float)normalY, (float)normalZ);
     }
 }

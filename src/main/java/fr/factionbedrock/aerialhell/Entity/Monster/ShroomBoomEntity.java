@@ -68,14 +68,14 @@ public class ShroomBoomEntity extends Creeper
     	else {super.setSwellDir(state);}
     }
     
-    @Override public boolean doHurtTarget(Entity attackedEntity)
+    @Override public boolean doHurtTarget(ServerLevel level, Entity attackedEntity)
     {
         if (!this.canIgnite())
         {
             DamageSource damagesource = this.damageSources().mobAttack(this);
         	float damage = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
         	float kb = (float)this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
-            boolean isAttackSuccess = attackedEntity.hurt(damagesource, damage);
+            boolean isAttackSuccess = attackedEntity.hurtServer(level, damagesource, damage);
             if (isAttackSuccess)
             {
             	if (kb > 0.0F && attackedEntity instanceof LivingEntity)
@@ -89,7 +89,7 @@ public class ShroomBoomEntity extends Creeper
             }
             return isAttackSuccess;
         }
-        else {return super.doHurtTarget(attackedEntity);}
+        else {return super.doHurtTarget(level, attackedEntity);}
     }
 
     public static class ShroomBoomMeleeAttackGoal extends MeleeAttackGoal

@@ -1,51 +1,32 @@
 package fr.factionbedrock.aerialhell.Item.Material;
 
 import java.util.EnumMap;
-import java.util.List;
-import java.util.function.Supplier;
 
-import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.Util;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
 
 public class AerialHellArmorMaterials
 {
-	public final static Holder<ArmorMaterial> RUBY = register("ruby", createProtectionMap(2, 5, 6, 2, 5), 9, SoundEvents.ARMOR_EQUIP_IRON,0.0F,0.0F, () -> Ingredient.of(AerialHellBlocksAndItems.RUBY.get()));
-	public final static Holder<ArmorMaterial> AZURITE = register("azurite", createProtectionMap(1, 3, 5, 2, 4), 25, SoundEvents.ARMOR_EQUIP_GOLD,0.0F,0.0F, () -> Ingredient.of(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()));
-	public final static Holder<ArmorMaterial> MAGMATIC_GEL = register("magmatic_gel", createProtectionMap(1, 3, 5, 2, 4), 25, SoundEvents.ARMOR_EQUIP_GOLD,0.0F,0.0F, () -> Ingredient.of(AerialHellBlocksAndItems.MAGMATIC_GEL.get()));
-	public final static Holder<ArmorMaterial> OBSIDIAN = register("obsidian", createProtectionMap(3, 6, 8, 3, 11), 10, SoundEvents.ARMOR_EQUIP_DIAMOND,2.0F,0.1F, () -> Ingredient.of(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()));
-	public final static Holder<ArmorMaterial> VOLUCITE = register("volucite", createProtectionMap(4, 7, 9, 4, 12), 10, SoundEvents.ARMOR_EQUIP_DIAMOND,2.5F,0.05F, () -> Ingredient.of(AerialHellBlocksAndItems.VOLUCITE_VIBRANT.get()));
-	public final static Holder<ArmorMaterial> LUNATIC = register("lunatic", createProtectionMap(4, 7, 8, 3, 11), 15, SoundEvents.ARMOR_EQUIP_GOLD,1.5F,0.0F, () -> Ingredient.of(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()));
-	public final static Holder<ArmorMaterial> SHADOW = register("shadow", createProtectionMap(4, 7, 7, 3, 11), 15, SoundEvents.ARMOR_EQUIP_LEATHER,1.0F,0.0F, () -> Ingredient.of(AerialHellBlocksAndItems.CURSED_CRYSAL.get()));
-	public final static Holder<ArmorMaterial> ARSONIST = register("arsonist", createProtectionMap(5, 8, 9, 4, 12), 15, SoundEvents.ARMOR_EQUIP_LEATHER,3.0F,0.1F, () -> Ingredient.of(AerialHellBlocksAndItems.ARSONIST_INGOT.get()));
+	public final static ArmorMaterial RUBY = new ArmorMaterial(15, createProtectionMap(2, 5, 6, 2, 5), 9, SoundEvents.ARMOR_EQUIP_IRON,0.0F,0.0F, AerialHellTags.Items.REPAIRS_RUBY_MATERIAL, AerialHellEquipmentAssets.RUBY);
+	public final static ArmorMaterial AZURITE = new ArmorMaterial(10, createProtectionMap(1, 3, 5, 2, 4), 25, SoundEvents.ARMOR_EQUIP_GOLD,0.0F,0.0F, AerialHellTags.Items.REPAIRS_AZURITE_MATERIAL, AerialHellEquipmentAssets.AZURITE);
+	public final static ArmorMaterial MAGMATIC_GEL = new ArmorMaterial(7, createProtectionMap(1, 3, 5, 2, 4), 25, SoundEvents.ARMOR_EQUIP_GOLD,0.0F,0.0F, AerialHellTags.Items.REPAIRS_MAGMATIC_GEL_MATERIAL, AerialHellEquipmentAssets.MAGMATIC_GEL);
+	public final static ArmorMaterial OBSIDIAN = new ArmorMaterial(37, createProtectionMap(3, 6, 8, 3, 11), 10, SoundEvents.ARMOR_EQUIP_DIAMOND,2.0F,0.1F, AerialHellTags.Items.REPAIRS_OBSIDIAN_MATERIAL, AerialHellEquipmentAssets.OBSIDIAN);
+	public final static ArmorMaterial VOLUCITE = new ArmorMaterial(35, createProtectionMap(4, 7, 9, 4, 12), 10, SoundEvents.ARMOR_EQUIP_DIAMOND,2.5F,0.05F, AerialHellTags.Items.REPAIRS_VOLUCITE_MATERIAL, AerialHellEquipmentAssets.VOLUCITE);
+	public final static ArmorMaterial LUNATIC = new ArmorMaterial(33, createProtectionMap(4, 7, 8, 3, 11), 15, SoundEvents.ARMOR_EQUIP_GOLD,1.5F,0.0F, AerialHellTags.Items.REPAIRS_LUNATIC_MATERIAL, AerialHellEquipmentAssets.LUNATIC);
+	public final static ArmorMaterial SHADOW = new ArmorMaterial(25, createProtectionMap(4, 7, 7, 3, 11), 15, SoundEvents.ARMOR_EQUIP_LEATHER,1.0F,0.0F, AerialHellTags.Items.REPAIRS_SHADOW_MATERIAL, AerialHellEquipmentAssets.SHADOW);
+	public final static ArmorMaterial ARSONIST = new ArmorMaterial(37, createProtectionMap(5, 8, 9, 4, 12), 15, SoundEvents.ARMOR_EQUIP_LEATHER,3.0F,0.1F, AerialHellTags.Items.REPAIRS_ARSONIST_MATERIAL, AerialHellEquipmentAssets.ARSONIST);
 
-	//copy of ArmorMaterials "register" method
-	private static Holder<ArmorMaterial> register(String id, EnumMap<ArmorItem.Type, Integer> protectionMap, int enchantmentValue, Holder<SoundEvent> equipSound, float toughness, float knockbackReduction, Supplier<Ingredient> repairIngredient)
+	private static EnumMap<ArmorType, Integer> createProtectionMap(int boots, int leggings, int chestplate, int helmet, int body)
 	{
-		List<ArmorMaterial.Layer> layerList = List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, id)));
-		EnumMap<ArmorItem.Type, Integer> enummap = new EnumMap<>(ArmorItem.Type.class);
-
-		for (ArmorItem.Type armoritem$type : ArmorItem.Type.values()) {enummap.put(armoritem$type, protectionMap.get(armoritem$type));}
-		return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, id), new ArmorMaterial(enummap, enchantmentValue, equipSound, repairIngredient, layerList, toughness, knockbackReduction));
-	}
-
-	private static EnumMap<ArmorItem.Type, Integer> createProtectionMap(int boots, int leggings, int chestplate, int helmet, int body)
-	{
-		return Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-			map.put(ArmorItem.Type.BOOTS, boots);
-			map.put(ArmorItem.Type.LEGGINGS, leggings);
-			map.put(ArmorItem.Type.CHESTPLATE, chestplate);
-			map.put(ArmorItem.Type.HELMET, helmet);
-			map.put(ArmorItem.Type.BODY, body);
+		return Util.make(new EnumMap<>(ArmorType.class), map -> {
+			map.put(ArmorType.BOOTS, boots);
+			map.put(ArmorType.LEGGINGS, leggings);
+			map.put(ArmorType.CHESTPLATE, chestplate);
+			map.put(ArmorType.HELMET, helmet);
+			map.put(ArmorType.BODY, body);
 		});
 	}
 }

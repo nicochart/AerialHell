@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class RubyShurikenEntity extends AbstractShurikenEntity
@@ -16,19 +17,19 @@ public class RubyShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, worldIn);
 	}
 
-	public RubyShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public RubyShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy, ItemStack itemStack)
 	{
-		super(AerialHellEntities.RUBY_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+		super(AerialHellEntities.RUBY_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy, itemStack);
 	}
 
-	public RubyShurikenEntity(double x, double y, double z, Level worldIn)
+	public RubyShurikenEntity(double x, double y, double z, Level worldIn, ItemStack itemStack)
 	{
-		super(AerialHellEntities.RUBY_SHURIKEN.get(), x, y, z, worldIn);
+		super(AerialHellEntities.RUBY_SHURIKEN.get(), x, y, z, worldIn, itemStack);
 	}
 
-	public RubyShurikenEntity(LivingEntity shooter, Level worldIn)
+	public RubyShurikenEntity(LivingEntity shooter, Level worldIn, ItemStack itemStack)
 	{
-		super(AerialHellEntities.RUBY_SHURIKEN.get(), shooter, worldIn);
+		super(AerialHellEntities.RUBY_SHURIKEN.get(), shooter, worldIn, itemStack);
 	}
 
 	public RubyShurikenEntity(Level worldIn)

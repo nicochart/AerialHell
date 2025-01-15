@@ -39,12 +39,12 @@ public class KodamaEntity extends AerialHellAnimalEntity
 
     public KodamaEntity(EntityType<? extends KodamaEntity> type, Level worldIn) {super(type, worldIn); this.setRandomRattleTimerMalusAndHeadRotAmplitude();}
 
-    public static boolean canSpawn(EntityType<? extends AerialHellAnimalEntity> entityType, LevelAccessor worldIn, MobSpawnType spawnType, BlockPos pos, RandomSource random)
+    public static boolean canSpawn(EntityType<? extends AerialHellAnimalEntity> entityType, LevelAccessor worldIn, EntitySpawnReason spawnType, BlockPos pos, RandomSource random)
     {
         return worldIn.getBlockState(pos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT);
     }
 
-    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData)
+    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficulty, EntitySpawnReason mobSpawnType, @Nullable SpawnGroupData spawnGroupData)
     {
         this.setRandomFaceAndSize();
         this.setRattling(false);
@@ -74,15 +74,15 @@ public class KodamaEntity extends AerialHellAnimalEntity
                 .add(Attributes.MOVEMENT_SPEED, 0.26);
     }
 
-    @Override public boolean hurt(DamageSource damageSource, float amount)
+    @Override public boolean hurtServer(ServerLevel serverLevel, DamageSource damageSource, float amount)
     {
         this.timeForceInvisible = getMaxTimeForceInvisible();
-        return super.hurt(damageSource, amount);
+        return super.hurtServer(serverLevel, damageSource, amount);
     }
 
     @Nullable @Override public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob mob)
     {
-        return AerialHellEntities.KODAMA.get().create(this.level());
+        return AerialHellEntities.KODAMA.get().create(world, EntitySpawnReason.BREEDING);
     }
 
     public int getFaceId() {return this.entityData.get(FACE_ID);}

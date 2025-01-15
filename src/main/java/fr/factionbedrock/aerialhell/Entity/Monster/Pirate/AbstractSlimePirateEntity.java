@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 import fr.factionbedrock.aerialhell.Entity.Monster.AbstractHumanoidMonster;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -24,7 +25,7 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
             {
                 float x = ((float) (l % 2) - 0.5F) * 0.5F;
                 float z = ((float) (l / 2) - 0.5F) * 0.5F;
-                AbstractSlimePirateEntity littlePirate = this.getDieOffspringType().create(this.level());
+                AbstractSlimePirateEntity littlePirate = this.getDieOffspringType().create(this.level(), EntitySpawnReason.TRIGGERED);
                 if (littlePirate != null)
                 {
                     if (this.isPersistenceRequired()) {littlePirate.setPersistenceRequired();}
@@ -42,9 +43,9 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
         super.remove(removalReason);
     }
 
-    @Override public boolean hurt(DamageSource damageSource, float amount)
+    @Override public boolean hurtServer(ServerLevel serverLevel, DamageSource damageSource, float amount)
     {
-        return super.hurt(damageSource, this.isBaby() ? amount * 1.5F : amount);
+        return super.hurtServer(serverLevel, damageSource, this.isBaby() ? amount * 1.5F : amount);
     }
 
     public EntityType<? extends AbstractSlimePirateEntity> getDieOffspringType() {return this.getType();}

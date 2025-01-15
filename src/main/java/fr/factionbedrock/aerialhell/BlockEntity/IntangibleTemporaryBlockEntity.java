@@ -53,7 +53,7 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
     @Override protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
         super.loadAdditional(tag, registries);
-        HolderGetter<Block> blockGetter = this.getLevel() != null ? this.getLevel().holderLookup(Registries.BLOCK) : BuiltInRegistries.BLOCK.asLookup();
+        HolderGetter<Block> blockGetter = this.getLevel() != null ? this.getLevel().holderLookup(Registries.BLOCK) : BuiltInRegistries.BLOCK;
         this.beforeState = NbtUtils.readBlockState(blockGetter, tag.getCompound("beforeState"));
         this.tickCount = tag.getInt("tickCount");
     }

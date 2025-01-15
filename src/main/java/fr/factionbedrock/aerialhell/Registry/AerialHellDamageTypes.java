@@ -30,6 +30,6 @@ public class AerialHellDamageTypes
 
     public static DamageSource getDamageSource(Level level, ResourceKey<DamageType> typeKey, @Nullable Entity immediateSource, @Nullable Entity trueSource)
     {
-        return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(typeKey), immediateSource, trueSource);
+        return new DamageSource(level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(typeKey), immediateSource, trueSource);
     }
 }

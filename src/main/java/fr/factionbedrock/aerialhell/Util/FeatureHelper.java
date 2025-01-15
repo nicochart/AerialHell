@@ -89,7 +89,7 @@ public class FeatureHelper
 
     public static boolean isBelowMaxBuildHeight(FeaturePlaceContext<?> context, BlockPos pos)
     {
-        return pos.getY() < context.level().getMaxBuildHeight();
+        return pos.getY() < context.level().getMaxY();
     }
 
     public static int getMaxAbsoluteXZOffset(BlockPos pos1, BlockPos pos2)

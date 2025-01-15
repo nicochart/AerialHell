@@ -30,7 +30,7 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
     @Override public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
     {
         BlockPos blockpos = pos.above();
-        if (level.isEmptyBlock(blockpos) && blockpos.getY() < level.getMaxBuildHeight())
+        if (level.isEmptyBlock(blockpos) && blockpos.getY() < level.getMaxY())
         {
             int i = state.getValue(AGE);
             if (i < 5 && net.neoforged.neoforge.common.CommonHooks.canCropGrow(level, blockpos, state, true))

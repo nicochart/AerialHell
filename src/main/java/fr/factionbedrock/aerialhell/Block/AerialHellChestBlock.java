@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class AerialHellChestBlock extends ChestBlock
 {
-    public AerialHellChestBlock(Properties properties) {super(properties, AerialHellBlockEntities.CHEST::get);}
+    public AerialHellChestBlock(Properties properties) {super(AerialHellBlockEntities.CHEST::get, properties);}
 
     @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new AerialHellChestBlockEntity(pos, state);}
 }

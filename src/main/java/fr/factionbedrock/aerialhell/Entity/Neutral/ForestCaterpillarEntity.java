@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Neutral;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,9 +35,9 @@ public class ForestCaterpillarEntity extends AbstractCaterpillarEntity
     }
 	
 	@Override
-	public boolean doHurtTarget(Entity entityIn)
+	public boolean doHurtTarget(ServerLevel serverLevel, Entity entityIn)
 	{
-		if (super.doHurtTarget(entityIn))
+		if (super.doHurtTarget(serverLevel, entityIn))
 		{
 	         if (entityIn instanceof LivingEntity)
 	         {

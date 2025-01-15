@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity;
 
 import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.*;
@@ -35,7 +36,7 @@ public abstract class AbstractMimicEntity extends PathfinderMob
 	}
 
 	@Override
-	public boolean hurt(DamageSource source, float amount)
+	public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount)
 	{
 		for (int i=0; i<12; i++)
 		{
@@ -43,7 +44,7 @@ public abstract class AbstractMimicEntity extends PathfinderMob
 			double dx = random.nextFloat() - 0.5F, dy = random.nextFloat() - 0.5F, dz = random.nextFloat() - 0.5F;
 			this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, getMimicBlock().defaultBlockState()), x, y, z, dx, dy, dz);
 		}
-		boolean flag = super.hurt(source, amount);
+		boolean flag = super.hurtServer(serverLevel, source, amount);
 		if (flag)
 		{
 			if (source.getDirectEntity() instanceof LivingEntity)
@@ -56,13 +57,13 @@ public abstract class AbstractMimicEntity extends PathfinderMob
 	}
 
 	@Override
-	public boolean doHurtTarget(Entity entityIn)
+	public boolean doHurtTarget(ServerLevel serverLevel, Entity entityIn)
 	{
-		boolean flag = super.doHurtTarget(entityIn);
+		boolean flag = super.doHurtTarget(serverLevel, entityIn);
 		if (flag && entityIn instanceof LivingEntity)
 		{
 			if (((LivingEntity) entityIn).getHealth() <= 0.0) {this.playSound(SoundEvents.PLAYER_BURP, 1.0F, 1.0F);}
-			else {this.playSound(SoundEvents.GENERIC_EAT, 1.0F, 1.0F + random.nextFloat());}
+			else {this.playSound(SoundEvents.GENERIC_EAT.value(), 1.0F, 1.0F + random.nextFloat());}
 		}
 		return flag;
 	}

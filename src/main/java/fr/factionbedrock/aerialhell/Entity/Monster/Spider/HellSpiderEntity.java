@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Spider;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -53,9 +54,9 @@ public class HellSpiderEntity extends AbstractAerialHellSpiderEntity
         return this.timeNoThorns < 0 || this.timeNoThorns > 45;
     }
 
-    @Override public boolean hurt(DamageSource source, float amount)
+    @Override public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount)
     {
-        boolean flag = super.hurt(source, amount);
+        boolean flag = super.hurtServer(serverLevel, source, amount);
 
         if (flag && !source.is(DamageTypes.MAGIC) && source.getDirectEntity() instanceof LivingEntity livingentity)
         {

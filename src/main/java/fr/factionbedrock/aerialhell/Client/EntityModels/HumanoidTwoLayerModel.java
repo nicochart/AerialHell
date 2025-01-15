@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.HumanoidTwoLayerRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.AbstractHumanoidMonster;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.ArmedModel;
@@ -9,6 +10,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 
@@ -16,7 +18,7 @@ import net.minecraft.world.entity.HumanoidArm;
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
 
-public class HumanoidTwoLayerModel<T extends AbstractHumanoidMonster> extends EntityModel<T> implements ArmedModel
+public class HumanoidTwoLayerModel<T extends HumanoidTwoLayerRenderState> extends EntityModel<T> implements ArmedModel
 {
 	private final ModelPart head;
 	private final ModelPart head_overlay;
@@ -33,6 +35,7 @@ public class HumanoidTwoLayerModel<T extends AbstractHumanoidMonster> extends En
 
 	public HumanoidTwoLayerModel(ModelPart root)
 	{
+		super(root);
 		this.head = root.getChild("head");
 		this.head_overlay = root.getChild("head_overlay");
 		this.body = root.getChild("body");
@@ -66,10 +69,15 @@ public class HumanoidTwoLayerModel<T extends AbstractHumanoidMonster> extends En
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(T renderState)
 	{
-		AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, entity.isAggressive(), this.attackTime, ageInTicks);
-		AnimationUtils.animateZombieArms(this.leftArm_overlay, this.rightArm_overlay, entity.isAggressive(), this.attackTime, ageInTicks);
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+		
+		AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, renderState.isAggressive, renderState.attackTime, renderState.ageInTicks);
+		AnimationUtils.animateZombieArms(this.leftArm_overlay, this.rightArm_overlay, renderState.isAggressive, renderState.attackTime, renderState.ageInTicks);
 		setupHeadAnim(this.head, netHeadYaw, headPitch);
 		setupHeadAnim(this.head_overlay, netHeadYaw, headPitch);
 		setupLegsAnim(this.leftLeg, this.rightLeg, limbSwing, limbSwingAmount);

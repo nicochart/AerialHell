@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.FlyingJellyfishRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.Flying.FlyingJellyfishEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -12,7 +13,7 @@ import net.minecraft.util.Mth;
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class FlyingJellyfishModel<J extends FlyingJellyfishEntity> extends EntityModel<J>
+public class FlyingJellyfishModel extends EntityModel<FlyingJellyfishRenderState>
 {
 	private final ModelPart tentacles_0;
 	private final ModelPart tentacles_1;
@@ -25,6 +26,7 @@ public class FlyingJellyfishModel<J extends FlyingJellyfishEntity> extends Entit
 
 	public FlyingJellyfishModel(ModelPart root)
 	{
+		super(root);
 		this.tentacles_0 = root.getChild("tentacles_0");
 		this.tentacles_1 = root.getChild("tentacles_1");
 		this.tentacles_2 = root.getChild("tentacles_2");
@@ -64,8 +66,9 @@ public class FlyingJellyfishModel<J extends FlyingJellyfishEntity> extends Entit
 		return LayerDefinition.create(meshdefinition, 32, 16);
 	}
 
-	@Override public void setupAnim(J entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(FlyingJellyfishRenderState renderState)
 	{
+		float ageInTicks = renderState.ageInTicks;
 		this.tentacles_0.xRot = 0.1F * Mth.sin(ageInTicks * 0.3F + 0.0F) + 0.4F;
 		this.tentacles_1.xRot = 0.1F * Mth.sin(ageInTicks * 0.3F + 1.0F) + 0.4F;
 		this.tentacles_2.xRot = 0.2F * Mth.sin(ageInTicks * 0.3F + 2.0F) + 0.4F;

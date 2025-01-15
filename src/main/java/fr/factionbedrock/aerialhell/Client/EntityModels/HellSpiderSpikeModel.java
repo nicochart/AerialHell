@@ -2,23 +2,23 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.HellSpiderRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.world.entity.monster.Spider;
 
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class HellSpiderSpikeModel<T extends Spider> extends EntityModel<T>//SpiderModel<T>
+public class HellSpiderSpikeModel extends EntityModel<HellSpiderRenderState>//SpiderModel<T>
 {
 	private final ModelPart bodySpikes;
 	private final ModelPart headSpikes;
 
 	public HellSpiderSpikeModel(ModelPart root)
 	{
-		//super(root); //when extends HumanoidModel - it doesn't work : the game crashes when starting : "can't find this body part / element"
+		super(root); //TODO still crashes ? when extends HumanoidModel - it doesn't work : the game crashes when starting : "can't find this body part / element"
 		this.bodySpikes = root.getChild("bodySpikes");
 		this.headSpikes = root.getChild("headSpikes");
 	}
@@ -51,8 +51,11 @@ public class HellSpiderSpikeModel<T extends Spider> extends EntityModel<T>//Spid
 		return LayerDefinition.create(meshdefinition, 64, 32);
 	}
 
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(HellSpiderRenderState renderState)
 	{
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+
 		this.headSpikes.yRot = netHeadYaw * ((float)Math.PI / 180F);
 		this.headSpikes.xRot = headPitch * ((float)Math.PI / 180F);
 	}

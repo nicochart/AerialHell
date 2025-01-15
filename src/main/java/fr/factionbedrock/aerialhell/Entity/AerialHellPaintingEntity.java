@@ -16,6 +16,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerEntity;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.PaintingVariantTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -49,7 +50,7 @@ public class AerialHellPaintingEntity extends HangingEntity implements VariantHo
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        builder.define(DATA_PAINTING_VARIANT_ID, this.registryAccess().registryOrThrow(Registries.PAINTING_VARIANT).getAny().orElseThrow());
+        builder.define(DATA_PAINTING_VARIANT_ID, this.registryAccess().lookupOrThrow(Registries.PAINTING_VARIANT).getAny().orElseThrow());
     }
 
     @Override
@@ -66,7 +67,7 @@ public class AerialHellPaintingEntity extends HangingEntity implements VariantHo
     {
         AerialHellPaintingEntity painting = new AerialHellPaintingEntity(level, pos);
         List<Holder<PaintingVariant>> list = new ArrayList<>();
-        level.registryAccess().registryOrThrow(Registries.PAINTING_VARIANT).getTagOrEmpty(AerialHellTags.PaintingVariants.PLACEABLE).forEach(list::add);
+        level.registryAccess().lookupOrThrow(Registries.PAINTING_VARIANT).getTagOrEmpty(AerialHellTags.PaintingVariants.PLACEABLE).forEach(list::add);
         if (list.isEmpty()) {return Optional.empty();}
         else
         {
@@ -138,13 +139,13 @@ public class AerialHellPaintingEntity extends HangingEntity implements VariantHo
         return dimension % 2 == 0 ? 0.5 : 0.0;
     }
 
-    @Override public void dropItem(@Nullable Entity brokenEntity)
+    @Override public void dropItem(ServerLevel serverLevel, @Nullable Entity brokenEntity)
     {
-        if (this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS))
+        if (serverLevel.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS))
         {
             this.playSound(SoundEvents.PAINTING_BREAK, 1.0F, 1.0F);
             if (brokenEntity instanceof Player player && player.hasInfiniteMaterials()) {return;}
-            this.spawnAtLocation(AerialHellBlocksAndItems.AERIAL_HELL_PAINTING.get());
+            this.spawnAtLocation(serverLevel, AerialHellBlocksAndItems.AERIAL_HELL_PAINTING.get());
         }
     }
 

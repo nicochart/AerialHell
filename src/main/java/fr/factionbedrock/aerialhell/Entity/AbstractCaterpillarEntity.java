@@ -5,7 +5,7 @@ import java.util.Random;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -43,7 +43,7 @@ public class AbstractCaterpillarEntity extends Silverfish
 		return AerialHellSoundEvents.ENTITY_FOREST_CATERPILLAR_AMBIENT.get();
 	}
 	
-	public static boolean canCaterpillarSpawn(EntityType<? extends AbstractCaterpillarEntity> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource randomIn)
+	public static boolean canCaterpillarSpawn(EntityType<? extends AbstractCaterpillarEntity> type, ServerLevelAccessor worldIn, EntitySpawnReason reason, BlockPos pos, RandomSource randomIn)
     {
         return randomIn.nextInt(10) == 0 && worldIn.getLevel().isDay();
     }

@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.HumanoidTwoLayerModel;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.HumanoidTwoLayerRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.AbstractHumanoidMonster;
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.GhostSlimeNinjaPirateEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.GhostSlimePirateEntity;
@@ -19,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class HumanoidTwoLayerRender extends MobRenderer<AbstractHumanoidMonster, HumanoidTwoLayerModel<AbstractHumanoidMonster>>
+public class HumanoidTwoLayerRender extends MobRenderer<AbstractHumanoidMonster, HumanoidTwoLayerRenderState, HumanoidTwoLayerModel<HumanoidTwoLayerRenderState>>
 {
     private static final ResourceLocation SLIME_PIRATE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/slime.png");
     private static final ResourceLocation SLIME_NINJA_PIRATE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/slime_ninja.png");
@@ -30,21 +31,34 @@ public class HumanoidTwoLayerRender extends MobRenderer<AbstractHumanoidMonster,
     public HumanoidTwoLayerRender(EntityRendererProvider.Context context)
     {
         super(context, new HumanoidTwoLayerModel<>(context.bakeLayer(AerialHellModelLayers.SLIME_PIRATE)), 0.4f);
-        this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
+        this.addLayer(new ItemInHandLayer<>(this));
     }
 
-    @Nullable @Override protected RenderType getRenderType(AbstractHumanoidMonster entity, boolean b1, boolean b2, boolean b3)
+    @Override public HumanoidTwoLayerRenderState createRenderState() {return new HumanoidTwoLayerRenderState();}
+
+    @Override public void extractRenderState(AbstractHumanoidMonster entity, HumanoidTwoLayerRenderState renderState, float partialTick)
     {
-        return RenderType.entityTranslucent(this.getTextureLocation(entity));
+        super.extractRenderState(entity, renderState, partialTick);
+        renderState.texture = getTextureLocation(entity);
+        renderState.isBaby = entity.isBaby();
+        renderState.isAggressive = entity.isAggressive();
+        renderState.attackTime = entity.getAttackAnim(partialTick);
     }
 
-    @Override protected void scale(AbstractHumanoidMonster entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
+    @Nullable @Override protected RenderType getRenderType(HumanoidTwoLayerRenderState renderState, boolean isVisible, boolean renderTranslucent, boolean appearsGlowing)
     {
-        float scale = entitylivingbaseIn.isBaby() ? 0.5F : 1.0F;
-        matrixStackIn.scale(scale, scale, scale);
+        return RenderType.entityTranslucent(renderState.texture);
     }
 
-    @Override @NotNull public ResourceLocation getTextureLocation(AbstractHumanoidMonster entity)
+    @Override protected void scale(HumanoidTwoLayerRenderState renderState, PoseStack poseStack)
+    {
+        float scale = renderState.isBaby ? 0.5F : 1.0F;
+        poseStack.scale(scale, scale, scale);
+    }
+
+    @Override public ResourceLocation getTextureLocation(HumanoidTwoLayerRenderState renderState) {return renderState.texture;}
+
+    @NotNull public ResourceLocation getTextureLocation(AbstractHumanoidMonster entity)
     {
         if (entity instanceof GhostSlimeNinjaPirateEntity) {return GHOST_NINJA_PIRATE;}
         else if (entity instanceof SlimeNinjaPirateEntity) {return SLIME_NINJA_PIRATE;}

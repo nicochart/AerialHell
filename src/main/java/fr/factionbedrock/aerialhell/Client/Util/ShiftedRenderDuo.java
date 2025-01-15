@@ -12,6 +12,7 @@ import net.neoforged.neoforge.client.event.ModelEvent;
 
 public class ShiftedRenderDuo
 {
+    /*
     private final ModelResourceLocation baseModelRL;
     private final BakedModel newBakedModel;
 
@@ -33,4 +34,5 @@ public class ShiftedRenderDuo
 
     public ModelResourceLocation getBaseModelRL() {return baseModelRL;}
     public BakedModel getNewBakedModel() {return newBakedModel;}
+     */
 }

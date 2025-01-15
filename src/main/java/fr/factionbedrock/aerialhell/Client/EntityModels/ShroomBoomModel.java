@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.ShroomBoomRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShroomBoomEntity;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.EntityModel;
@@ -13,7 +14,7 @@ import net.minecraft.util.Mth;
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class ShroomBoomModel extends EntityModel<ShroomBoomEntity>
+public class ShroomBoomModel extends EntityModel<ShroomBoomRenderState>
 {
 	private final ModelPart body;
 	private final ModelPart head;
@@ -26,6 +27,7 @@ public class ShroomBoomModel extends EntityModel<ShroomBoomEntity>
 
 	public ShroomBoomModel(ModelPart root)
 	{
+		super(root);
 		this.body = root.getChild("body");
 		this.head = root.getChild("head");
 		this.leg0 = root.getChild("leg0");
@@ -64,9 +66,14 @@ public class ShroomBoomModel extends EntityModel<ShroomBoomEntity>
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override public void setupAnim(ShroomBoomEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(ShroomBoomRenderState renderState)
 	{
-		AnimationUtils.animateZombieArms(this.arm2, this.arm1, entity.isAggressive(), this.attackTime, ageInTicks);
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+
+		AnimationUtils.animateZombieArms(this.arm2, this.arm1, renderState.isAggressive, renderState.attackTime, renderState.ageInTicks);
 		this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.xRot = headPitch * ((float)Math.PI / 180F);
 		this.leg0.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;

@@ -4,10 +4,13 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChorusPlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -36,17 +39,17 @@ public class ChorusPlantLikeBlock extends ChorusPlantBlock
                 .trySetValue(WEST, Boolean.valueOf(state_west.is(state.getBlock()) || state_west.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get())));
     }
 
-    @Override public BlockState updateShape(BlockState state1, Direction direction, BlockState state2, LevelAccessor level, BlockPos pos1, BlockPos pos2)
+    @Override protected BlockState updateShape(BlockState previousState, LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random)
     {
-        if (!state1.canSurvive(level, pos1))
+        if (!previousState.canSurvive(level, pos))
         {
-            level.scheduleTick(pos1, this, 1);
-            return super.updateShape(state1, direction, state2, level, pos1, pos2);
+            scheduledTickAccess.scheduleTick(pos, this, 1);
+            return super.updateShape(previousState, level, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
         }
         else
         {
-            boolean flag = state2.is(this) || state2.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get()) || direction == Direction.DOWN && state2.is(AerialHellTags.Blocks.STELLAR_DIRT);
-            return state1.setValue(PROPERTY_BY_DIRECTION.get(direction), Boolean.valueOf(flag));
+            boolean flag = neighborState.is(this) || neighborState.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get()) || direction == Direction.DOWN && neighborState.is(AerialHellTags.Blocks.STELLAR_DIRT);
+            return previousState.setValue(PROPERTY_BY_DIRECTION.get(direction), Boolean.valueOf(flag));
         }
     }
 

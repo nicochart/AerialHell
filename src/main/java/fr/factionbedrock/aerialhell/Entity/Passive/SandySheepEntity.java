@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -65,7 +66,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
 
     @Nullable @Override public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob mob)
     {
-        return AerialHellEntities.SANDY_SHEEP.get().create(this.level());
+        return AerialHellEntities.SANDY_SHEEP.get().create(world, EntitySpawnReason.BREEDING);
     }
     
     public boolean hasWool() {return !this.entityData.get(SHEARED);}
@@ -97,7 +98,8 @@ public class SandySheepEntity extends AerialHellAnimalEntity
     	if (this.hasWool())
     	{
     		this.setWool(false);
-    		this.spawnAtLocation(new ItemStack(Items.YELLOW_WOOL));
+            if (!this.level().isClientSide()) {this.spawnAtLocation((ServerLevel) this.level(), new ItemStack(Items.YELLOW_WOOL));}
+
     		for (int i=0;i<10;i++)
             {
     			double rand = random.nextFloat() * 2;

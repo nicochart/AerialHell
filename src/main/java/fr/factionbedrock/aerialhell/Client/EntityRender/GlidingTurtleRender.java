@@ -3,12 +3,13 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.GlidingTurtleModel;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.GlidingTurtleRenderState;
 import fr.factionbedrock.aerialhell.Entity.Passive.GlidingTurtleEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
-public class GlidingTurtleRender extends MobRenderer<GlidingTurtleEntity, GlidingTurtleModel>
+public class GlidingTurtleRender extends MobRenderer<GlidingTurtleEntity, GlidingTurtleRenderState, GlidingTurtleModel>
 {
 	private static String name = "gliding_turtle";
     private static final ResourceLocation TURTLE_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/"+ name +"/" + name + ".png");
@@ -18,9 +19,13 @@ public class GlidingTurtleRender extends MobRenderer<GlidingTurtleEntity, Glidin
         super(context, new GlidingTurtleModel(context.bakeLayer(AerialHellModelLayers.GLIDING_TURTLE)), 0.75F);
     }
 
-    @Override
-    public ResourceLocation getTextureLocation(GlidingTurtleEntity entity)
+    @Override public void extractRenderState(GlidingTurtleEntity entity, GlidingTurtleRenderState renderState, float partialTick)
     {
-        return TURTLE_TEXTURE;
+        super.extractRenderState(entity, renderState, partialTick);
+        renderState.isGliding = entity.isGliding();
     }
+
+    @Override public GlidingTurtleRenderState createRenderState() {return new GlidingTurtleRenderState();}
+
+    @Override public ResourceLocation getTextureLocation(GlidingTurtleRenderState renderState) {return TURTLE_TEXTURE;}
 }

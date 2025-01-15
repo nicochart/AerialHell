@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.MudGolemRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -12,7 +12,7 @@ import net.minecraft.util.Mth;
 //Made by Cixon using BlockBench
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class MudGolemModel<T extends AerialHellGolemEntity> extends EntityModel<T>
+public class MudGolemModel extends EntityModel<MudGolemRenderState>
 {
 	private final ModelPart head;
 	private final ModelPart body;
@@ -23,6 +23,7 @@ public class MudGolemModel<T extends AerialHellGolemEntity> extends EntityModel<
 
 	public MudGolemModel(ModelPart root)
 	{
+		super(root);
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
 		this.left_arm = root.getChild("left_arm");
@@ -52,12 +53,17 @@ public class MudGolemModel<T extends AerialHellGolemEntity> extends EntityModel<
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(MudGolemRenderState renderState)
 	{
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+
 		this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.xRot = headPitch * ((float)Math.PI / 180F);
 
-		int i = entity.attackTimer;
+		int i = renderState.attackTimer;
 		if (i > 0)
 		{
 			this.left_arm.xRot = -2.0F + 0.6F * Mth.triangleWave((float)i, 10.0F);

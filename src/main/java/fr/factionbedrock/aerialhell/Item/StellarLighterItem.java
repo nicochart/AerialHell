@@ -24,7 +24,7 @@ public class StellarLighterItem extends WithInformationItem
                 BlockPos framePos = context.getClickedPos().relative(direction);
                 if(((AerialHellPortalBlock) AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get()).trySpawnPortal(context.getLevel(), framePos))
                 {
-                	context.getPlayer().getCooldowns().addCooldown(this, 50);
+                	context.getPlayer().getCooldowns().addCooldown(context.getItemInHand(), 50);
                 	context.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
                 	return InteractionResult.CONSUME;
                 }

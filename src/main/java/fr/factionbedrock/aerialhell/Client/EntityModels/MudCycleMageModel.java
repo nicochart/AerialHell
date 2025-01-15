@@ -2,18 +2,17 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.MudCycleMageRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Mob;
 
 // Made by Cixon with Blockbench
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class MudCycleMageModel extends EntityModel<Mob>
+public class MudCycleMageModel extends EntityModel<MudCycleMageRenderState>
 {
 	private final ModelPart head;
 	private final ModelPart body;
@@ -22,7 +21,9 @@ public class MudCycleMageModel extends EntityModel<Mob>
 	private final ModelPart rightLeg;
 	private final ModelPart leftLeg;
 
-	public MudCycleMageModel(ModelPart root) {
+	public MudCycleMageModel(ModelPart root)
+	{
+		super(root);
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
 		this.leftArm = root.getChild("leftArm");
@@ -60,11 +61,17 @@ public class MudCycleMageModel extends EntityModel<Mob>
 	}
 
 	@Override
-	public void setupAnim(Mob entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(MudCycleMageRenderState renderState)
+	{
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+
 		this.head.yRot = netHeadYaw / 57.0F;
 		this.head.xRot = headPitch / 57.0F;
 
-		if (entity instanceof MudCycleMageEntity boss && boss.isInDeadOrDyingPhase())
+		if (renderState.deadOrDyingPhase)
 		{
 			this.rightArm.xRot = - 1.5F;
 			this.leftArm.xRot = - 1.5F;

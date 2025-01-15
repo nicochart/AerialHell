@@ -8,13 +8,14 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.util.Mth;
 
 // Made with Blockbench 4.8.3
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
-public class BoarModel<T extends BoarEntity> extends EntityModel<T>
+public class BoarModel<S extends LivingEntityRenderState> extends EntityModel<S>
 {
 	private final ModelPart body;
 	private final ModelPart head;
@@ -28,7 +29,8 @@ public class BoarModel<T extends BoarEntity> extends EntityModel<T>
 
 	public BoarModel(ModelPart root)
 	{
-		this.body = root.getChild("body");
+        super(root);
+        this.body = root.getChild("body");
 		this.head = root.getChild("head");
 		this.tusk = root.getChild("tusk");
 		this.backLeftLeg = root.getChild("backLeftLeg");
@@ -75,9 +77,15 @@ public class BoarModel<T extends BoarEntity> extends EntityModel<T>
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	public void setupAnim(S renderState)
 	{
-		this.isChild = entity.isBaby();
+		super.setupAnim(renderState);
+
+		this.isChild = renderState.isBaby;
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
 
 		this.head.xRot = headPitch * ((float)Math.PI / 180F); this.tusk.xRot = headPitch * ((float)Math.PI / 180F);
 		this.head.yRot = netHeadYaw * ((float)Math.PI / 180F); this.tusk.yRot = netHeadYaw * ((float)Math.PI / 180F);

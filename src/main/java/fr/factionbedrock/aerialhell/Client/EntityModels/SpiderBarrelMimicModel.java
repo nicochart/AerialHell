@@ -2,18 +2,18 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.AbstractBarrelMimicEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.util.Mth;
 
 // Base model made by Cixon with Blockbench
 // Edited in-ide by Nicochart to mimic vanilla animation
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class SpiderBarrelMimicModel<T extends AbstractBarrelMimicEntity> extends EntityModel<T>
+public class SpiderBarrelMimicModel extends EntityModel<LivingEntityRenderState>
 {
 	private final ModelPart body0;
 	private final ModelPart leg0;
@@ -27,6 +27,7 @@ public class SpiderBarrelMimicModel<T extends AbstractBarrelMimicEntity> extends
 
 	public SpiderBarrelMimicModel(ModelPart root)
 	{
+		super(root);
 		this.body0 = root.getChild("body0");
 		this.leg0 = root.getChild("leg0");
 		this.leg1 = root.getChild("leg1");
@@ -70,8 +71,11 @@ public class SpiderBarrelMimicModel<T extends AbstractBarrelMimicEntity> extends
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(LivingEntityRenderState renderState)
 	{
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+
 		leg0.zRot = ((float)Math.PI / 4F); leg0.yRot = ((float)Math.PI / 4F);
 		leg1.zRot = (-(float)Math.PI / 4F); leg1.yRot = (-(float)Math.PI / 4F);
 		leg2.zRot = 0.58119464F; leg2.yRot = ((float)Math.PI / 8F);

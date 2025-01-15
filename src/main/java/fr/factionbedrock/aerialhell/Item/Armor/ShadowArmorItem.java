@@ -4,7 +4,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -12,17 +11,20 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
 
 public class ShadowArmorItem extends ArmorItem
 {
-    public ShadowArmorItem(Holder<ArmorMaterial> pMaterial, Type pType, Properties pProperties) {super(pMaterial, pType, pProperties);}
+    private final ArmorType type;
+    public ShadowArmorItem(ArmorMaterial pMaterial, ArmorType pType, Properties pProperties) {super(pMaterial, pType, pProperties); this.type = pType;}
 
     @Override public void inventoryTick(ItemStack stack, Level level, Entity entity, int itemSlot, boolean isSelected)
     {
-        if (entity instanceof Player && this.type == ArmorItem.Type.CHESTPLATE)
+        if (entity instanceof Player && this.type == ArmorType.CHESTPLATE)
         {
             Player playerEntity = (Player) entity;
 

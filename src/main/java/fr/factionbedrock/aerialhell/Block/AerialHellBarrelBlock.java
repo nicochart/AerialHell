@@ -54,7 +54,7 @@ public class AerialHellBarrelBlock extends BarrelBlock
 			{
 				player.openMenu((AerialHellBarrelBlockEntity) blockEntity);
 				player.awardStat(Stats.OPEN_BARREL);
-				PiglinAi.angerNearbyPiglins(player, true);
+				if (level instanceof ServerLevel serverLevel) {PiglinAi.angerNearbyPiglins(serverLevel, player, true);}
 			}
 
 			return InteractionResult.CONSUME;

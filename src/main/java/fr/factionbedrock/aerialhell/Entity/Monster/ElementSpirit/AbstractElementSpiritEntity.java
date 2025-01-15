@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
@@ -41,9 +42,9 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
     }
     
     @Override
-    public boolean doHurtTarget(Entity entityIn)
+    public boolean doHurtTarget(ServerLevel serverLevel, Entity entityIn)
     {
-    	boolean flag = super.doHurtTarget(entityIn);
+    	boolean flag = super.doHurtTarget(serverLevel, entityIn);
     	if (flag) {this.setAttacking(); this.tickStartAttacking = this.tickCount;}
     	return flag;
     }

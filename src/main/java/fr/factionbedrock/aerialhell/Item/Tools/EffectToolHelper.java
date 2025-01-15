@@ -31,7 +31,7 @@ public class EffectToolHelper
 	
 	public static void setDamageAndCooldown(Item ItemIn, ItemStack heldItem, Player playerIn, InteractionHand hand, int cooldown)
 	{
-		playerIn.getCooldowns().addCooldown(ItemIn, cooldown);
+		playerIn.getCooldowns().addCooldown(heldItem, cooldown);
 		heldItem.hurtAndBreak(1, playerIn, LivingEntity.getSlotForHand(hand));
 	}
 	
@@ -143,7 +143,7 @@ public class EffectToolHelper
 		if (!playerHasPoison && !playerHasWither) {return false;}
 		else
 		{
-			playerIn.playSound(SoundEvents.GENERIC_DRINK, 1.0F, 1.5F + 0.4F * rand.nextFloat());
+			playerIn.playSound(SoundEvents.GENERIC_DRINK.value(), 1.0F, 1.5F + 0.4F * rand.nextFloat());
 			
 			if (playerHasPoison) {playerIn.removeEffect(MobEffects.POISON);}
 			if (playerHasWither) {playerIn.removeEffect(MobEffects.WITHER);}
@@ -156,7 +156,7 @@ public class EffectToolHelper
 	{
 		if (playerIn.canEat(false))
 		{
-			playerIn.playSound(SoundEvents.GENERIC_EAT, 1.0F, 0.5F + rand.nextFloat());
+			playerIn.playSound(SoundEvents.GENERIC_EAT.value(), 1.0F, 0.5F + rand.nextFloat());
 			if (!worldIn.isClientSide())
 			{
 				playerIn.addEffect(new MobEffectInstance(MobEffects.SATURATION, 1, 0));

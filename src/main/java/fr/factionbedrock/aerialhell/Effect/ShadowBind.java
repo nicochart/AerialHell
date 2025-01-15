@@ -2,12 +2,12 @@ package fr.factionbedrock.aerialhell.Effect;
 
 import fr.factionbedrock.aerialhell.Client.Packet.AerialHellData;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.neoforged.neoforge.common.EffectCure;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Set;
@@ -16,7 +16,7 @@ public class ShadowBind extends MobEffect
 {
     public ShadowBind(MobEffectCategory typeIn, int liquidColorIn) {super(typeIn, liquidColorIn);}
 
-    @Override public boolean applyEffectTick(LivingEntity livingEntity, int amplifier)
+    @Override public boolean applyEffectTick(ServerLevel level, LivingEntity livingEntity, int amplifier)
     {
         MobEffectInstance instance = livingEntity.getEffect(AerialHellMobEffects.SHADOW_BIND.getDelegate());
         if (instance != null)
@@ -49,5 +49,5 @@ public class ShadowBind extends MobEffect
 
     @Override public boolean isInstantenous() {return false;}
 
-    @Override public void fillEffectCures(Set<EffectCure> cures, MobEffectInstance effectInstance) {}
+    //@Override public void fillEffectCures(Set<EffectCure> cures, MobEffectInstance effectInstance) {} TODO
 }

@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Entity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
@@ -47,7 +47,7 @@ public abstract class AerialHellAnimalEntity extends Animal
 		return stack.getItem() == AerialHellBlocksAndItems.AERIAL_BERRY.get();
 	}
 
-	public static boolean canAerialHellAnimalSpawn(EntityType<? extends AerialHellAnimalEntity> entityType, LevelAccessor worldIn, MobSpawnType spawnType, BlockPos pos, RandomSource random)
+	public static boolean canAerialHellAnimalSpawn(EntityType<? extends AerialHellAnimalEntity> entityType, LevelAccessor worldIn, EntitySpawnReason spawnType, BlockPos pos, RandomSource random)
 	{
 		return worldIn.getBlockState(pos.below()).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && isBrightEnoughToSpawn(worldIn, pos);
 	}

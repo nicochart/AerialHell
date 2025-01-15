@@ -9,6 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class MagmaticGelShurikenEntity extends AbstractShurikenEntity
@@ -18,19 +19,19 @@ public class MagmaticGelShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, worldIn);
 	}
 
-	public MagmaticGelShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public MagmaticGelShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy, ItemStack itemStack)
 	{
-		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy, itemStack);
 	}
 
-	public MagmaticGelShurikenEntity(double x, double y, double z, Level worldIn)
+	public MagmaticGelShurikenEntity(double x, double y, double z, Level worldIn, ItemStack itemStack)
 	{
-		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN.get(), x, y, z, worldIn);
+		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN.get(), x, y, z, worldIn, itemStack);
 	}
 
-	public MagmaticGelShurikenEntity(LivingEntity shooter, Level worldIn)
+	public MagmaticGelShurikenEntity(LivingEntity shooter, Level worldIn, ItemStack itemStack)
 	{
-		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN.get(), shooter, worldIn);
+		super(AerialHellEntities.MAGMATIC_GEL_SHURIKEN.get(), shooter, worldIn, itemStack);
 	}
 
 	public MagmaticGelShurikenEntity(Level worldIn)

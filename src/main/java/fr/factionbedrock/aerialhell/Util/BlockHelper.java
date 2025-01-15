@@ -307,6 +307,16 @@ public class BlockHelper
         return false;
     }
 
+    public static boolean canAnyNeighborBeCorrupted(LevelReader level, BlockPos centerPos, CorruptionType corruptionType)
+    {
+        return canBeCorrupted(level, centerPos.above(), corruptionType)
+                || canBeCorrupted(level, centerPos.below(), corruptionType)
+                || canBeCorrupted(level, centerPos.north(), corruptionType)
+                || canBeCorrupted(level, centerPos.south(), corruptionType)
+                || canBeCorrupted(level, centerPos.east(), corruptionType)
+                || canBeCorrupted(level, centerPos.west(), corruptionType);
+    }
+
     public static boolean canBeCorrupted(LevelReader level, BlockPos pos, CorruptionType corruptionType)
     {
         boolean isGrassType = corruptionType == CorruptionType.GRASS || corruptionType == CorruptionType.ANY;
@@ -376,7 +386,7 @@ public class BlockHelper
 
     public static Holder<Biome> getBiome(ServerLevel level, ResourceKey<Biome> biomeKey)
     {
-        return level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(biomeKey);
+        return level.registryAccess().lookupOrThrow(Registries.BIOME).getHolderOrThrow(biomeKey);
     }
 
     public static Holder<Biome> getCurrentBiomeAtPos(ServerLevel level, BlockPos pos)

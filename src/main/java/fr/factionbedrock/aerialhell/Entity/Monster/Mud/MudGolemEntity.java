@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Mud;
 
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,9 +35,9 @@ public class MudGolemEntity extends AerialHellGolemEntity
     }
     
     @Override
-	public boolean hurt(DamageSource source, float amount)
+	public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount)
 	{
-		boolean flag = super.hurt(source, amount);
+		boolean flag = super.hurtServer(serverLevel, source, amount);
 		if (flag)
 		{
 			Entity immediateSourceEntity = source.getDirectEntity();

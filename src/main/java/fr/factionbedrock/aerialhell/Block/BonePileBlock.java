@@ -83,7 +83,7 @@ public class BonePileBlock extends SnowLayerBlock
         {
             if (!world.isClientSide()) {world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());}
         }
-        if (!world.isClientSide()) {if (newLayerNumber < 2 || world.random.nextInt(4) == 0) {entityIn.spawnAtLocation(new ItemStack(AerialHellBlocksAndItems.MUD_BONE.get()));}}
+        if (!world.isClientSide()) {if (newLayerNumber < 2 || world.random.nextInt(4) == 0) {entityIn.spawnAtLocation((ServerLevel) world, new ItemStack(AerialHellBlocksAndItems.MUD_BONE.get()));}}
         else {entityIn.playSound(AerialHellSoundEvents.BLOCK_BONE_PILE_STEP_BREAK.get(), 0.5F, 0.9F + world.random.nextFloat() * 0.3F);}
     }
 

@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.Entity.Monster.AutomatonEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.AutomatonRenderState;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -12,7 +12,7 @@ import net.minecraft.util.Mth;
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class AutomatonModel<T extends AutomatonEntity> extends EmptyModel<T>
+public class AutomatonModel<S extends AutomatonRenderState> extends EmptyModel<S>
 {
 	private final ModelPart body;
 	private final ModelPart head;
@@ -23,6 +23,7 @@ public class AutomatonModel<T extends AutomatonEntity> extends EmptyModel<T>
 
 	public AutomatonModel(ModelPart root)
 	{
+		super(root);
 		this.body = root.getChild("body");
 		this.head = root.getChild("head");
 		this.rightArm = root.getChild("rightArm");
@@ -63,12 +64,17 @@ public class AutomatonModel<T extends AutomatonEntity> extends EmptyModel<T>
 		return LayerDefinition.create(meshdefinition, 64, 32);
 	}
 	
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(S renderState)
 	{
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+
 		this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.xRot = 0.0873F + headPitch * ((float)Math.PI / 180F);
 
-		int i = entity.attackTimer;
+		int i = renderState.attackTimer;
 		if (i > 0)
 		{
 			this.leftArm.xRot = -2.0F + 0.6F * Mth.triangleWave((float)i, 10.0F);

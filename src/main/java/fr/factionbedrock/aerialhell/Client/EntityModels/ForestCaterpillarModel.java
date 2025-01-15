@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.CaterpillarRenderState;
 import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -15,7 +16,7 @@ import java.awt.*;
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class ForestCaterpillarModel<T extends AbstractCaterpillarEntity> extends EntityModel<T>
+public class ForestCaterpillarModel<S extends CaterpillarRenderState> extends EntityModel<S>
 {
 	private final boolean isColored;
 	int grassARGB, foliageARGB;
@@ -30,7 +31,8 @@ public class ForestCaterpillarModel<T extends AbstractCaterpillarEntity> extends
 
 	public ForestCaterpillarModel(ModelPart root, boolean isColored)
 	{
-		this.isColored = isColored;
+        super(root);
+        this.isColored = isColored;
 		this.head = root.getChild("head");
 		this.head_colored = root.getChild("head_colored");
 		this.body = root.getChild("body");
@@ -75,9 +77,12 @@ public class ForestCaterpillarModel<T extends AbstractCaterpillarEntity> extends
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(S renderState)
 	{
-		updateBiomeColors(entity);
+		grassARGB = renderState.grassARGB;
+		foliageARGB = renderState.foliageARGB;
+		float ageInTicks = renderState.ageInTicks;
+
 		this.body.yRot = Mth.cos(ageInTicks/2 * 0.9F + (float)1 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(1 - 2));
 		this.body_colored.yRot = Mth.cos(ageInTicks/2 * 0.9F + (float)1 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(1 - 2));
 		this.sapling.yRot = Mth.cos(ageInTicks/2 * 0.9F + (float)1 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(1 - 2));
@@ -86,12 +91,6 @@ public class ForestCaterpillarModel<T extends AbstractCaterpillarEntity> extends
 		this.tail_end.yRot = Mth.cos(ageInTicks/2 * 0.9F + (float)3 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(3 - 2));
 		this.head.yRot = Mth.cos(ageInTicks/2 * 0.9F + (float)3 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(0 - 2));
 		this.head_colored.yRot = Mth.cos(ageInTicks/2 * 0.9F + (float)3 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(0 - 2));
-	}
-
-	private void updateBiomeColors(T entity)
-	{
-		grassARGB = new Color(BiomeColors.getAverageGrassColor(entity.level(), entity.getOnPos())).getRGB();
-		foliageARGB = new Color(BiomeColors.getAverageFoliageColor(entity.level(), entity.getOnPos())).getRGB();
 	}
 
 	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tintIn)

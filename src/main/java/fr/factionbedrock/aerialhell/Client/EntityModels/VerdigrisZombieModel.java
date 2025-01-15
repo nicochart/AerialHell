@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.Entity.Monster.VerdigrisZombieEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.VerdigrisZombieRenderState;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -13,7 +13,7 @@ import net.minecraft.util.Mth;
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class VerdigrisZombieModel extends EntityModel<VerdigrisZombieEntity>//HumanoidModel<VerdigrisZombieEntity>
+public class VerdigrisZombieModel extends EntityModel<VerdigrisZombieRenderState>//HumanoidModel<VerdigrisZombieEntity>
 {
 	private final ModelPart head;
 	private final ModelPart body;
@@ -24,7 +24,7 @@ public class VerdigrisZombieModel extends EntityModel<VerdigrisZombieEntity>//Hu
 
 	public VerdigrisZombieModel(ModelPart root)
 	{
-		//super(root); //when extends HumanoidModel - it doesn't work : the game crashes when starting : "can't find this body part / element"
+		super(root); //TODO still crashed ? when extends HumanoidModel - it doesn't work : the game crashes when starting : "can't find this body part / element"
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
 		this.leftArm = root.getChild("leftArm");
@@ -72,9 +72,14 @@ public class VerdigrisZombieModel extends EntityModel<VerdigrisZombieEntity>//Hu
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override public void setupAnim(VerdigrisZombieEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(VerdigrisZombieRenderState renderState)
 	{
-		AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, entity.isAggressive(), this.attackTime, ageInTicks);
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+
+		AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, renderState.isAggressive, renderState.attackTime, renderState.ageInTicks);
 		this.head.yRot = netHeadYaw / 57.3F;
 		this.head.xRot = headPitch / 57.3F;
 		this.leftLeg.xRot = -1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;

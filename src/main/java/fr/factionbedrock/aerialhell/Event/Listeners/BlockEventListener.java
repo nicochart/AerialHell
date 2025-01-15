@@ -11,6 +11,9 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.block.state.BlockState;
@@ -131,23 +134,17 @@ public class BlockEventListener
     //function from net.minecraft.client.renderer.ScreenEffectRenderer
     public static void renderCustomOverlay(Player player, PoseStack poseStack, ResourceLocation texture)
     {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, texture);
         BlockPos blockpos = BlockPos.containing(player.getX(), player.getEyeY(), player.getZ());
         float brightness = LightTexture.getBrightness(player.level().dimensionType(), player.level().getMaxLocalRawBrightness(blockpos));
-        RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(brightness, brightness, brightness, 1.0F);
+        int color = ARGB.colorFromFloat(1.0F, brightness, brightness, brightness);
         float yaw = -player.getYRot() / 64.0F;
         float pitch = player.getXRot() / 64.0F;
         Matrix4f matrix4f = poseStack.last().pose();
-        BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        bufferbuilder.addVertex(matrix4f, -1.0F, -1.0F, -0.5F).setUv(4.0F + yaw, 4.0F + pitch);
-        bufferbuilder.addVertex(matrix4f, 1.0F, -1.0F, -0.5F).setUv(0.0F + yaw, 4.0F + pitch);
-        bufferbuilder.addVertex(matrix4f, 1.0F, 1.0F, -0.5F).setUv(0.0F + yaw, 0.0F + pitch);
-        bufferbuilder.addVertex(matrix4f, -1.0F, 1.0F, -0.5F).setUv(4.0F + yaw, 0.0F + pitch);
-        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.disableBlend();
+        VertexConsumer vertexconsumer = Minecraft.getInstance().levelRenderer.renderBuffers.bufferSource().getBuffer(RenderType.blockScreenEffect(texture));
+        vertexconsumer.addVertex(matrix4f, -1.0F, -1.0F, -0.5F).setUv(4.0F + yaw, 4.0F + pitch).setColor(color);
+        vertexconsumer.addVertex(matrix4f, 1.0F, -1.0F, -0.5F).setUv(0.0F + yaw, 4.0F + pitch).setColor(color);
+        vertexconsumer.addVertex(matrix4f, 1.0F, 1.0F, -0.5F).setUv(0.0F + yaw, 0.0F + pitch).setColor(color);
+        vertexconsumer.addVertex(matrix4f, -1.0F, 1.0F, -0.5F).setUv(4.0F + yaw, 0.0F + pitch).setColor(color);
     }
 
      private static ResourceLocation getBlockTextureLocation(DeferredBlock<? extends Block> block) {return getBlockTextureLocation(block.getId().getPath());}

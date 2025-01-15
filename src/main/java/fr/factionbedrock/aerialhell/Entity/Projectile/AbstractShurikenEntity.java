@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
@@ -16,9 +17,9 @@ public abstract class AbstractShurikenEntity extends ThrowableItemProjectile
 {
 	public float shurikenZRot;
 
-	public AbstractShurikenEntity(EntityType<? extends ThrowableItemProjectile> type, Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public AbstractShurikenEntity(EntityType<? extends ThrowableItemProjectile> type, Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy, ItemStack itemStack)
 	{
-		super(type, shooter, level);
+		super(type, shooter, level, itemStack);
 		this.shoot(accelX, accelY, accelZ, velocity, inaccuracy);
 	}
 
@@ -28,15 +29,15 @@ public abstract class AbstractShurikenEntity extends ThrowableItemProjectile
 		this.shurikenZRot = -135;
 	}
 
-	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, double x, double y, double z, Level worldIn)
+	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, double x, double y, double z, Level worldIn, ItemStack itemStack)
 	{
-		super(type, x, y, z, worldIn);
+		super(type, x, y, z, worldIn, itemStack);
 		this.shurikenZRot = -135;
 	}
 
-	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, LivingEntity shooter, Level worldIn)
+	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, LivingEntity shooter, Level worldIn, ItemStack itemStack)
 	{
-		super(type, shooter, worldIn);
+		super(type, shooter, worldIn, itemStack);
 		this.shurikenZRot = -135;
 	}
 

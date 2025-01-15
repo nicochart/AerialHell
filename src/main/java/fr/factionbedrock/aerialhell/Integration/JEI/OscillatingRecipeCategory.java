@@ -1,5 +1,5 @@
 package fr.factionbedrock.aerialhell.Integration.JEI;
-
+/*
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Recipe.OscillatingRecipe;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
@@ -56,4 +56,4 @@ public class OscillatingRecipeCategory implements IRecipeCategory<OscillatingRec
 	{
 		this.oscillating.draw(guiGraphics, 56, 36);
 	}
-}
+}*/

@@ -6,12 +6,13 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.CrystalSlimeModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.CrystalSlimeGelAndCrystalLayer;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.CrystalSlimeRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSlimeEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
-public class CrystalSlimeRender extends MobRenderer<CrystalSlimeEntity, CrystalSlimeModel>
+public class CrystalSlimeRender extends MobRenderer<CrystalSlimeEntity, CrystalSlimeRenderState, CrystalSlimeModel>
 {	
 	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/crystal_slime/crystal_slime.png");
 	
@@ -20,21 +21,29 @@ public class CrystalSlimeRender extends MobRenderer<CrystalSlimeEntity, CrystalS
 		super(context, new CrystalSlimeModel(context.bakeLayer(AerialHellModelLayers.CRYSTAL_SLIME),false), 0.3F);
 		this.addLayer(new CrystalSlimeGelAndCrystalLayer(this, new CrystalSlimeModel(context.bakeLayer(AerialHellModelLayers.CRYSTAL_SLIME),true)));
 	}
-	
-	@Override
-	protected void scale(CrystalSlimeEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
+
+	@Override public CrystalSlimeRenderState createRenderState() {return new CrystalSlimeRenderState();}
+
+	@Override protected void scale(CrystalSlimeRenderState renderState, PoseStack poseStack)
 	{
 		float f = 0.879F;
-		matrixStackIn.scale(f, f, f);
+		poseStack.scale(f, f, f);
 		float f1 = 2; //entitylivingbaseIn.getSlimeSize() isn't working;
 		float f2 = 0.0F;
 		float f3 = 1.0F / (f2 + 1.0F);
-		matrixStackIn.scale(f3 * f1, 1.0F / f3 * f1, f3 * f1);
+		poseStack.scale(f3 * f1, 1.0F / f3 * f1, f3 * f1);
 	}
-	
-	@Override
+
+	@Override public void extractRenderState(CrystalSlimeEntity entity, CrystalSlimeRenderState renderState, float f)
+	{
+		super.extractRenderState(entity, renderState, f);
+		renderState.texture = getTextureLocation(entity);
+	}
+
 	public ResourceLocation getTextureLocation(CrystalSlimeEntity entity)
 	{
 		return TEXTURE;
 	}
+
+	@Override public ResourceLocation getTextureLocation(CrystalSlimeRenderState renderState) {return renderState.texture;}
 }

@@ -5,6 +5,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlockContainer;
@@ -12,7 +13,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.particles.ParticleTypes;
@@ -33,17 +33,17 @@ public class RubyWaterBucketItem extends Item
         super(properties);
     }
 
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
+    public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn)
     {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
         BlockHitResult blockhitresult = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.NONE);
         if (blockhitresult.getType() == HitResult.Type.MISS)
         {
-            return InteractionResultHolder.pass(itemstack);
+            return InteractionResult.PASS;
         }
         else if (blockhitresult.getType() != HitResult.Type.BLOCK)
         {
-            return InteractionResultHolder.pass(itemstack);
+            return InteractionResult.PASS;
         }
         else
         {
@@ -56,16 +56,16 @@ public class RubyWaterBucketItem extends Item
                 BlockPos blockpos2 = canBlockContainFluid(worldIn, blockpos, blockstate) ? blockpos : blockpos1;
                 if (this.tryPlaceContainedLiquid(playerIn, worldIn, blockpos2, blockhitresult))
                 {
-                    return InteractionResultHolder.sidedSuccess(!playerIn.getAbilities().instabuild ? new ItemStack(AerialHellBlocksAndItems.RUBY_BUCKET.get()) : itemstack, worldIn.isClientSide());
+                    return InteractionResult.SUCCESS;
                 }
                 else
                 {
-                    return InteractionResultHolder.fail(itemstack);
+                    return InteractionResult.FAIL;
                 }
             }
             else
             {
-                return InteractionResultHolder.fail(itemstack);
+                return InteractionResult.FAIL;
             }
         }
     }

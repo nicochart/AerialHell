@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.GlidingTurtleRenderState;
 import fr.factionbedrock.aerialhell.Entity.Passive.GlidingTurtleEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -12,7 +13,7 @@ import net.minecraft.util.Mth;
 // Made by Cixon with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class GlidingTurtleModel extends EntityModel<GlidingTurtleEntity>
+public class GlidingTurtleModel extends EntityModel<GlidingTurtleRenderState>
 {
 	private final ModelPart Head;
 	private final ModelPart Body;
@@ -28,6 +29,7 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleEntity>
 
 	public GlidingTurtleModel(ModelPart root)
 	{
+		super(root);
 		this.Head = root.getChild("Head");
 		this.Body = root.getChild("Body");
 		this.WingRight = root.getChild("WingRight");
@@ -73,9 +75,14 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleEntity>
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
-	@Override public void setupAnim(GlidingTurtleEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(GlidingTurtleRenderState renderState)
 	{
-		this.isGliding = entity.isGliding(); this.isChild = entity.isBaby();
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+
+		this.isGliding = renderState.isGliding; this.isChild = renderState.isBaby;
 		this.Head.yRot = netHeadYaw / 57.29578F;
 		this.Head.xRot = headPitch / 57.29578F;
 

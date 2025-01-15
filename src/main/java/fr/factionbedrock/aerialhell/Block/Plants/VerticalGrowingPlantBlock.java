@@ -8,6 +8,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -86,10 +87,10 @@ public class VerticalGrowingPlantBlock extends Block
         level.setBlockAndUpdate(pos, state.setValue(AGE, 0).setValue(TOP, false));
     }
 
-    @Override public BlockState updateShape(BlockState state1, Direction direction, BlockState state2, LevelAccessor levelAccessor, BlockPos pos1, BlockPos pos2)
+    @Override protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random)
     {
-        if (!state1.canSurvive(levelAccessor, pos1)) {levelAccessor.scheduleTick(pos1, this, 1);}
-        return super.updateShape(state1, direction, state2, levelAccessor, pos1, pos2);
+        if (!state.canSurvive(level, pos)) {scheduledTickAccess.scheduleTick(pos, this, 1);}
+        return super.updateShape(state, level, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
     }
 
     @Override protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)

@@ -126,10 +126,13 @@ public class RenderRegistrationListener
         event.registerLayerDefinition(AerialHellModelLayers.CORTINARIUS_COW_SHROOM, CortinariusCowShroomModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CRYSTAL_GOLEM_CRYSTAL, CrystalGolemCrystalModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.SPIDER_SPIKE, HellSpiderSpikeModel::createBodyLayer);
+
+        event.registerLayerDefinition(AerialHellModelLayers.EMPTY, EmptyModel::createBodyLayer);
     }
 
     public static void onModelBake(ModelEvent.ModifyBakingResult event)
     {
+        /* TODO
         ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get(), event, ShiftingBlockBakedModel.TRANSLUCENT);
         ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK.get(), event, ShiftingBlockBakedModel.TRANSLUCENT);
         ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_GRASS.get(), event, ShiftingBlockBakedModel.CUTOUT);
@@ -172,5 +175,6 @@ public class RenderRegistrationListener
         ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get(), event);
         ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LOG.get(), event);
         ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LOG.get(), event);
+        */
     }
 }

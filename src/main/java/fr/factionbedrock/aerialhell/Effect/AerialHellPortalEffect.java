@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Effect;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,7 +15,7 @@ public class AerialHellPortalEffect extends MobEffect
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity livingIn, int amplifier)
+    public boolean applyEffectTick(ServerLevel level, LivingEntity livingIn, int amplifier)
     {
     	if (!EntityHelper.isLivingEntityInAerialHellPortal(livingIn) && !EntityHelper.isLivingEntityReadyToTeleport(livingIn))
         {

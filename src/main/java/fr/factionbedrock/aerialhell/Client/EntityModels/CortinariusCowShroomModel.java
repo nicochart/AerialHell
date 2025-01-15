@@ -7,12 +7,13 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.util.Mth;
 
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class CortinariusCowShroomModel<T extends EvilCowEntity> extends EntityModel<T>
+public class CortinariusCowShroomModel<S extends LivingEntityRenderState> extends EntityModel<S>
 {
 	private final ModelPart body;
 	private final ModelPart head;
@@ -23,6 +24,7 @@ public class CortinariusCowShroomModel<T extends EvilCowEntity> extends EntityMo
 
 	public CortinariusCowShroomModel(ModelPart root)
 	{
+		super(root);
 		this.body = root.getChild("body");
 		this.head = root.getChild("head");
 		this.leg0 = root.getChild("leg0");
@@ -59,8 +61,11 @@ public class CortinariusCowShroomModel<T extends EvilCowEntity> extends EntityMo
 		return LayerDefinition.create(meshdefinition, 64, 32);
 		}
 
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(LivingEntityRenderState renderState)
 	{
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+
 		this.leg1.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
 		this.leg0.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
 		this.leg3.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;

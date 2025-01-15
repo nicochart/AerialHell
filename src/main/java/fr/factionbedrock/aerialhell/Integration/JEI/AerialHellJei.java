@@ -1,5 +1,5 @@
 package fr.factionbedrock.aerialhell.Integration.JEI;
-
+/*
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Recipe.FreezingRecipe;
 import fr.factionbedrock.aerialhell.Recipe.OscillatingRecipe;
@@ -49,4 +49,4 @@ public class AerialHellJei implements IModPlugin
         registration.addRecipes(OSCILLATING, oscillating_recipes);
         registration.addRecipes(FREEZING, freezing_recipes);
     }
-}
+}*/

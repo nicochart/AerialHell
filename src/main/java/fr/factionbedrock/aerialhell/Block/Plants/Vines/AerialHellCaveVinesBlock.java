@@ -41,7 +41,7 @@ public class AerialHellCaveVinesBlock extends CaveVinesBlock
             float f = Mth.randomBetween(level.random, 0.8F, 1.2F);
             level.playSound((Player)null, pos, SoundEvents.CAVE_VINES_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, f);
             level.setBlock(pos, state.setValue(BERRIES, Boolean.valueOf(false)), 2);
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.SUCCESS;
         }
         else {return InteractionResult.PASS;}
     }

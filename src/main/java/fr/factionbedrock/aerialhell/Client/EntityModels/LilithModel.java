@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.LilithRenderState;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -12,7 +13,7 @@ import net.minecraft.util.Mth;
 // Made by Cixon with Blockbench
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class LilithModel extends EntityModel<LilithEntity>
+public class LilithModel extends EntityModel<LilithRenderState>
 {
 	private final ModelPart head;
 	private final ModelPart body;
@@ -25,6 +26,7 @@ public class LilithModel extends EntityModel<LilithEntity>
 
 	public LilithModel(ModelPart root)
 	{
+		super(root);
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
 		this.wingRight = root.getChild("wingRight");
@@ -63,11 +65,15 @@ public class LilithModel extends EntityModel<LilithEntity>
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override public void setupAnim(LilithEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(LilithRenderState renderState)
 	{
-		if (!entity.isTransforming())
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+		if (!renderState.isTransforming)
 		{
-			int i = entity.attackTimer;
+			int i = renderState.attackTimer;
 			if (i > 0)
 			{
 				this.armRight.xRot = -2.0F + 1.5F * Mth.triangleWave((float)i, 10.0F) * 0.5f;

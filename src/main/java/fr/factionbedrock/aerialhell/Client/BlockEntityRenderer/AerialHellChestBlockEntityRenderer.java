@@ -134,10 +134,10 @@ public class AerialHellChestBlockEntityRenderer extends ChestRenderer<AerialHell
 			VertexConsumer vertexconsumer = materialAndRenderType.getMaterial().buffer(bufferSource, materialAndRenderType.getRenderType());
 			if (notSingle)
 			{
-				if (chesttype == ChestType.LEFT) {this.render(poseStack, vertexconsumer, this.doubleLeftLid, this.doubleLeftLock, this.doubleLeftBottom, openness, i, combinedOverlayIn);}
-				else {this.render(poseStack, vertexconsumer, this.doubleRightLid, this.doubleRightLock, this.doubleRightBottom, openness, i, combinedOverlayIn);}
+				if (chesttype == ChestType.LEFT) {this.render(poseStack, vertexconsumer, this.doubleLeftModel, openness, i, combinedOverlayIn);}
+				else {this.render(poseStack, vertexconsumer, this.doubleRightModel, openness, i, combinedOverlayIn);}
 			}
-			else {this.render(poseStack, vertexconsumer, this.lid, this.lock, this.bottom, openness, i, combinedOverlayIn);}
+			else {this.render(poseStack, vertexconsumer, this.singleModel, openness, i, combinedOverlayIn);}
 			poseStack.popPose();
 		}
 	}

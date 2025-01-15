@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class LunaticCrystalShurikenEntity extends AbstractShurikenEntity
@@ -16,19 +17,19 @@ public class LunaticCrystalShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, worldIn);
 	}
 
-	public LunaticCrystalShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public LunaticCrystalShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy, ItemStack itemStack)
 	{
-		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy, itemStack);
 	}
 
-	public LunaticCrystalShurikenEntity(double x, double y, double z, Level worldIn)
+	public LunaticCrystalShurikenEntity(double x, double y, double z, Level worldIn, ItemStack itemStack)
 	{
-		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), x, y, z, worldIn);
+		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), x, y, z, worldIn, itemStack);
 	}
 
-	public LunaticCrystalShurikenEntity(LivingEntity shooter, Level worldIn)
+	public LunaticCrystalShurikenEntity(LivingEntity shooter, Level worldIn, ItemStack itemStack)
 	{
-		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), shooter, worldIn);
+		super(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), shooter, worldIn, itemStack);
 	}
 
 	public LunaticCrystalShurikenEntity(Level worldIn)

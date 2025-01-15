@@ -3,13 +3,13 @@ package fr.factionbedrock.aerialhell.Entity.Passive;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Random;
 
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -24,7 +24,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -60,7 +60,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
       this.lookControl = new FatPhantomEntity.LookHelperController(this);
    }
    
-   public static boolean canSpawn(EntityType<FatPhantomEntity> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource randomIn)
+   public static boolean canSpawn(EntityType<FatPhantomEntity> type, ServerLevelAccessor worldIn, EntitySpawnReason reason, BlockPos pos, RandomSource randomIn)
    {
 	   return worldIn.getDifficulty() != Difficulty.PEACEFUL && worldIn.getLevel().isDay() && randomIn.nextInt(120) == 0 && checkMobSpawnRules(type, worldIn, reason, pos, randomIn);
    }
@@ -95,18 +95,18 @@ public class FatPhantomEntity extends Phantom implements Enemy
    }
    
    @Override
-   public boolean doHurtTarget(Entity entityIn)
+   public boolean doHurtTarget(ServerLevel level, Entity entityIn)
    {
 	   if (entityIn instanceof Player && !this.attackingPlayers.isEmpty())
 	   {
 		   Player playerIn = (Player) entityIn;
 		   if (this.attackingPlayers.contains(playerIn)) {this.attackingPlayers.remove(playerIn);}
 	   }
-	   return super.doHurtTarget(entityIn);
+	   return super.doHurtTarget(level, entityIn);
    }
    
    @Override
-   public boolean hurt(DamageSource source, float amount)
+   public boolean hurtServer(ServerLevel level, DamageSource source, float amount)
    {
 	   
 	   if (!source.is(DamageTypes.MAGIC))
@@ -118,7 +118,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
 		   }
 		   else if (source.getDirectEntity() instanceof Projectile)
 		   {
-			   List<Player> targetable_players = FatPhantomEntity.this.level().getNearbyPlayers(TargetingConditions.forCombat().range(64.0D), FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().inflate(16.0D, 64.0D, 16.0D));
+			   List<Player> targetable_players = level.getNearbyPlayers(TargetingConditions.forCombat().range(64.0D), FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().inflate(16.0D, 64.0D, 16.0D));
 			   if (!targetable_players.isEmpty())
 			   {
 				   for (Player player : targetable_players)
@@ -128,7 +128,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
 			   }
 		   }
 	   }
-	   return super.hurt(source, amount);
+	   return super.hurtServer(level, source, amount);
    }
    
    @Override
@@ -216,7 +216,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
    public void setDisappearing(boolean flag) {this.entityData.set(DISAPPEARING, flag);}
    
    @Override
-   public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn)
+   public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, EntitySpawnReason reason, @Nullable SpawnGroupData spawnDataIn)
    {
       SpawnGroupData data = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn);
       this.orbitPosition = this.blockPosition().above(6);
@@ -259,6 +259,11 @@ public class FatPhantomEntity extends Phantom implements Enemy
       return entitydimensions.scale(1.0F + 0.15F * (float)i);
    }
 
+   boolean canAttack(ServerLevel level, LivingEntity entity, TargetingConditions targetingConditions)
+   {
+      return targetingConditions.test(level, this, entity);
+   }
+
    static enum AttackPhase
    {
       CIRCLE,
@@ -282,14 +287,15 @@ public class FatPhantomEntity extends Phantom implements Enemy
          else
          {
             this.tickDelay = 60;
-            List<Player> list = FatPhantomEntity.this.level().getNearbyPlayers(this.attackTargeting, FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().inflate(16.0D, 64.0D, 16.0D));
+            ServerLevel serverlevel = getServerLevel(FatPhantomEntity.this.level());
+            List<Player> list = serverlevel.getNearbyPlayers(this.attackTargeting, FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().inflate(16.0D, 64.0D, 16.0D));
             if (!attackingPlayers.isEmpty() && !list.isEmpty())
             {
                list.sort(Comparator.<Entity, Double>comparing(Entity::getY).reversed());
 
                for(Player player : list)
                {
-                  if (FatPhantomEntity.this.canAttack(player, TargetingConditions.DEFAULT) && attackingPlayers.contains(player))
+                  if (FatPhantomEntity.this.canAttack(serverlevel, player, TargetingConditions.DEFAULT) && attackingPlayers.contains(player))
                   {
                      FatPhantomEntity.this.setTarget(player);
                      return true;
@@ -303,7 +309,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
       public boolean canContinueToUse()
       {
          LivingEntity livingentity = FatPhantomEntity.this.getTarget();
-         return livingentity != null ? FatPhantomEntity.this.canAttack(livingentity, TargetingConditions.DEFAULT) : false;
+         return livingentity != null ? FatPhantomEntity.this.canAttack(getServerLevel(FatPhantomEntity.this.level()), livingentity, TargetingConditions.DEFAULT) : false;
       }
    }
 
@@ -461,7 +467,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
       public boolean canUse()
       {
          LivingEntity livingentity = FatPhantomEntity.this.getTarget();
-         return livingentity != null ? FatPhantomEntity.this.canAttack(livingentity, TargetingConditions.DEFAULT) : false;
+         return livingentity != null ? FatPhantomEntity.this.canAttack(getServerLevel(FatPhantomEntity.this.level()), livingentity, TargetingConditions.DEFAULT) : false;
       }
 
       public void start()
@@ -527,7 +533,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
          FatPhantomEntity.this.orbitOffset = new Vec3(livingentity.getX(), livingentity.getY(0.5D), livingentity.getZ());
          if (FatPhantomEntity.this.getBoundingBox().inflate(0.2F).intersects(livingentity.getBoundingBox()))
          {
-            FatPhantomEntity.this.doHurtTarget(livingentity);
+            FatPhantomEntity.this.doHurtTarget(getServerLevel(FatPhantomEntity.this.level()), livingentity);
             FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
             if (!FatPhantomEntity.this.isSilent())
             {

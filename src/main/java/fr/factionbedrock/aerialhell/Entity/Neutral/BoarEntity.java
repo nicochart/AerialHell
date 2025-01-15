@@ -8,7 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -54,10 +54,10 @@ public class BoarEntity extends Pig
 
     @Override public boolean isSaddleable() {return false;}
 
-    @Override @Nullable public Pig getBreedOffspring(ServerLevel level, AgeableMob mob) {return AerialHellEntities.STELLAR_BOAR.get().create(level);}
+    @Override @Nullable public Pig getBreedOffspring(ServerLevel level, AgeableMob mob) {return AerialHellEntities.STELLAR_BOAR.get().create(level, EntitySpawnReason.BREEDING);}
     @Override public boolean isFood(ItemStack stack) {return FOOD_ITEMS.test(stack);}
 
-    public static boolean canSpawn(EntityType<? extends Pig> entityType, LevelAccessor worldIn, MobSpawnType spawnType, BlockPos pos, RandomSource random)
+    public static boolean canSpawn(EntityType<? extends Pig> entityType, LevelAccessor worldIn, EntitySpawnReason spawnType, BlockPos pos, RandomSource random)
     {
         return worldIn.getBlockState(pos.below()).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && isBrightEnoughToSpawn(worldIn, pos);
     }

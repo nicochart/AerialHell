@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.level.block.Block;
@@ -58,9 +59,9 @@ public class ShadowAutomatonEntity extends AutomatonEntity
         if (random.nextFloat() > 0.95) {EntityHelper.addBatParticle(this, this.random, 1);}
     }
 
-    @Override public boolean doHurtTarget(Entity attackedEntity)
+    @Override public boolean doHurtTarget(ServerLevel serverLevel, Entity attackedEntity)
     {
-        if (super.doHurtTarget(attackedEntity))
+        if (super.doHurtTarget(serverLevel, attackedEntity))
         {
             if (attackedEntity instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune(((LivingEntity) attackedEntity)))
             {

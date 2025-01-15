@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class GoldShurikenEntity extends AbstractShurikenEntity
@@ -16,19 +17,19 @@ public class GoldShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, worldIn);
 	}
 
-	public GoldShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public GoldShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy, ItemStack itemStack)
 	{
-		super(AerialHellEntities.GOLD_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+		super(AerialHellEntities.GOLD_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy, itemStack);
 	}
 
-	public GoldShurikenEntity(double x, double y, double z, Level worldIn)
+	public GoldShurikenEntity(double x, double y, double z, Level worldIn, ItemStack itemStack)
 	{
-		super(AerialHellEntities.GOLD_SHURIKEN.get(), x, y, z, worldIn);
+		super(AerialHellEntities.GOLD_SHURIKEN.get(), x, y, z, worldIn, itemStack);
 	}
 
-	public GoldShurikenEntity(LivingEntity shooter, Level worldIn)
+	public GoldShurikenEntity(LivingEntity shooter, Level worldIn, ItemStack itemStack)
 	{
-		super(AerialHellEntities.GOLD_SHURIKEN.get(), shooter, worldIn);
+		super(AerialHellEntities.GOLD_SHURIKEN.get(), shooter, worldIn, itemStack);
 	}
 
 	public GoldShurikenEntity(Level worldIn)

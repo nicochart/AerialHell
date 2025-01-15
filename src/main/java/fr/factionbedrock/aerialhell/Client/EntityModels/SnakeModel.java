@@ -5,20 +5,19 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.Entity.Monster.Snake.AbstractSnakeEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.SnakeRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.Snake.VenomousSnakeEntity;
-
-public class SnakeModel<T extends AbstractSnakeEntity> extends EntityModel<T>
+public class SnakeModel extends EntityModel<SnakeRenderState>
 {
 	private final ModelPart snake;
 
 	public SnakeModel(ModelPart root)
 	{
+		super(root);
 		this.snake = root.getChild("snake");
 	}
 
@@ -31,7 +30,7 @@ public class SnakeModel<T extends AbstractSnakeEntity> extends EntityModel<T>
 		return LayerDefinition.create(meshdefinition, 32, 32);
 	}
 
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(SnakeRenderState renderState)
 	{
 
 	}

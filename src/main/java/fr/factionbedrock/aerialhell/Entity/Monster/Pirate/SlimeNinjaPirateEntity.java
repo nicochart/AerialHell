@@ -61,7 +61,7 @@ public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity
         @Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ)
         {
             RandomSource rand = this.getParentEntity().getRandom(); double halfDistanceToTarget = this.getParentEntity().distanceTo(this.getParentEntity().getTarget()) / 2;
-            return new RubyShurikenEntity(level, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget, 1.3f, 0.0f);
+            return new RubyShurikenEntity(level, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget, 1.3f, 0.0f, AerialHellBlocksAndItems.RUBY_SHURIKEN.toStack());
         }
 
         @Override protected void resetTask() {super.resetTask(); this.getParentEntity().resetNextFurryShurikenNumber();}

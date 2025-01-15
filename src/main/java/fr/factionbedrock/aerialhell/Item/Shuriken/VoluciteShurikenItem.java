@@ -17,5 +17,5 @@ public class VoluciteShurikenItem extends AbstractShurikenItem
 	@Override protected float getVelocity() {return 1.6F;}
 	@Override protected float getInaccuracy() {return 0.0F;}
 	@Override protected int getCooldown() {return 8;}
-	@Override protected AbstractShurikenEntity getShurikenEntity(Player playerIn, Level worldIn) {return new VoluciteShurikenEntity(playerIn, worldIn);}
+	@Override protected AbstractShurikenEntity getShurikenEntity(Player playerIn, Level worldIn) {return new VoluciteShurikenEntity(playerIn, worldIn, this.getDefaultInstance());}
 }

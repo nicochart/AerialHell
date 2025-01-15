@@ -6,6 +6,8 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
@@ -79,15 +81,8 @@ public class RenderListener
     //Copy of Gui.renderTextureOverlay
     public static void renderTextureOverlay(GuiGraphics graphics, ResourceLocation textureLocation, float alpha)
     {
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
-        RenderSystem.enableBlend();
-        graphics.setColor(1.0F, 1.0F, 1.0F, alpha);
-        graphics.blit(textureLocation, 0, 0, -90, 0.0F, 0.0F, graphics.guiWidth(), graphics.guiHeight(), graphics.guiWidth(), graphics.guiHeight());
-        RenderSystem.disableBlend();
-        RenderSystem.depthMask(true);
-        RenderSystem.enableDepthTest();
-        graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+        int color = ARGB.white(alpha);
+        graphics.blit(RenderType::guiTexturedOverlay, textureLocation, 0, 0, 0.0F, 0.0F, graphics.guiWidth(), graphics.guiHeight(), graphics.guiWidth(), graphics.guiHeight(), color);
     }
 
     /*

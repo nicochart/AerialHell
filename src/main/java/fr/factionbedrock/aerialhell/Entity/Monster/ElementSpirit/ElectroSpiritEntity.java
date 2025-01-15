@@ -4,10 +4,7 @@ import javax.annotation.Nullable;
 
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -27,7 +24,7 @@ public class ElectroSpiritEntity extends AbstractElementSpiritEntity
     {
     	if (this.level() instanceof ServerLevel)
     	{
-    		LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level());
+    		LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level(), EntitySpawnReason.TRIGGERED);
 			lightningBolt.setPos(this.getX(), this.getY(), this.getZ());
 			this.level().addFreshEntity(lightningBolt);
     	}

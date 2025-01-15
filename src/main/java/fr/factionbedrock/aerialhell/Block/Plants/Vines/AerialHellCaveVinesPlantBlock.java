@@ -37,7 +37,7 @@ public class AerialHellCaveVinesPlantBlock extends CaveVinesPlantBlock
         else /*if (this == AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT.get())*/{return AerialHellBlocksAndItems.VINE_BLOSSOM.get();}
     }
 
-    @Override public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {return new ItemStack(this.getBerryItem());}
+    @Override public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {return new ItemStack(this.getBerryItem());}
 
     @Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult)
     {
@@ -47,7 +47,7 @@ public class AerialHellCaveVinesPlantBlock extends CaveVinesPlantBlock
             float f = Mth.randomBetween(level.random, 0.8F, 1.2F);
             level.playSound((Player)null, pos, SoundEvents.CAVE_VINES_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, f);
             level.setBlock(pos, state.setValue(BERRIES, Boolean.valueOf(false)), 2);
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.SUCCESS;
         }
         else {return InteractionResult.PASS;}
     }

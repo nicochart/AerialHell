@@ -26,7 +26,7 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configu
     {
         BlockPos origin = context.origin(); WorldGenLevel level = context.level(); RandomSource randomsource = context.random(); AerialHellLakeFeature.Configuration config = context.config();
 
-        if (level.getBlockState(origin).isAir() || level.getBlockState(origin.below(3)).isAir() || origin.getY() <= level.getMinBuildHeight() + 4) {return false;}
+        if (level.getBlockState(origin).isAir() || level.getBlockState(origin.below(3)).isAir() || origin.getY() <= level.getMinY() + 4) {return false;}
         else
         {
             origin = origin.below(4);

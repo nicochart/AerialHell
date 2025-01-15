@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Effect;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -10,7 +11,7 @@ public class HeadInTheCloudsEffect extends MobEffect
     public HeadInTheCloudsEffect(MobEffectCategory typeIn, int liquidColorIn) {super(typeIn, liquidColorIn);}
 
     @Override
-    public boolean applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier)
+    public boolean applyEffectTick(ServerLevel level, LivingEntity entityLivingBaseIn, int amplifier)
     {
         double x=entityLivingBaseIn.getDeltaMovement().x, y=entityLivingBaseIn.getDeltaMovement().y, z=entityLivingBaseIn.getDeltaMovement().z;
         double xNew = x, yNew = y, zNew = z;

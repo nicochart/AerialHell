@@ -77,13 +77,10 @@ public class IntangibleTemporaryBlock extends CollisionConditionHalfTransparentB
         {
             ResourceLocation resourcelocation = BuiltInRegistries.BLOCK.getKey(intangibleBlockEntity.getBeforeState().getBlock());
             ResourceKey<LootTable> lootTable = ResourceKey.create(Registries.LOOT_TABLE, resourcelocation.withPrefix("blocks/"));
-            if (lootTable != BuiltInLootTables.EMPTY)
-            {
-                LootParams lootparams = new LootParams.Builder(serverlevel).create(LootContextParamSets.EMPTY);
-                ServerLevel lootparamserverlevel = lootparams.getLevel();
-                LootTable loottable = lootparamserverlevel.getServer().reloadableRegistries().getLootTable(lootTable);
-                return loottable.getRandomItems(lootparams);
-            }
+            LootParams lootparams = new LootParams.Builder(serverlevel).create(LootContextParamSets.EMPTY);
+            ServerLevel lootparamserverlevel = lootparams.getLevel();
+            LootTable loottable = lootparamserverlevel.getServer().reloadableRegistries().getLootTable(lootTable);
+            return loottable.getRandomItems(lootparams);
         }
         return Collections.emptyList();
     }
@@ -99,5 +96,5 @@ public class IntangibleTemporaryBlock extends CollisionConditionHalfTransparentB
 
     @Override protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {return 1.0F;}
 
-    @Override protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {return true;}
+    @Override protected boolean propagatesSkylightDown(BlockState state) {return true;}
 }

@@ -173,6 +173,16 @@ public class AerialHellTags
 
 		public static final TagKey<Item> SLIPPERY_SAND_GLASS = tag("slippery_sand_glass");
 
+		public static final TagKey<Item> REPAIRS_STELLAR_STONE_MATERIAL = tag("repairs_stellar_stone_material");
+		public static final TagKey<Item> REPAIRS_RUBY_MATERIAL = tag("repairs_ruby_material");
+		public static final TagKey<Item> REPAIRS_AZURITE_MATERIAL = tag("repairs_azurite_material");
+		public static final TagKey<Item> REPAIRS_MAGMATIC_GEL_MATERIAL = tag("repairs_magmatic_gel_material");
+		public static final TagKey<Item> REPAIRS_OBSIDIAN_MATERIAL = tag("repairs_obsidian_material");
+		public static final TagKey<Item> REPAIRS_VOLUCITE_MATERIAL = tag("repairs_volucite_material");
+		public static final TagKey<Item> REPAIRS_LUNATIC_MATERIAL = tag("repairs_lunatic_material");
+		public static final TagKey<Item> REPAIRS_SHADOW_MATERIAL = tag("repairs_shadow_material");
+		public static final TagKey<Item> REPAIRS_ARSONIST_MATERIAL = tag("repairs_arsonist_material");
+
 		private static TagKey<Item> tag(String name)
 		{
 			return ItemTags.create(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));

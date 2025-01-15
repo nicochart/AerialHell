@@ -17,6 +17,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.FuelValues;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Map;
@@ -46,7 +47,7 @@ public class OscillatorBlockEntity extends AbstractFurnaceBlockEntity
 	}
 
 	@Override
-	protected int getBurnDuration(ItemStack fuel)
+	protected int getBurnDuration(FuelValues fuelValues, ItemStack fuel)
 	{
 		if (fuel.isEmpty() || !getOscillatingMap().containsKey(fuel.getItem())) {return 0;}
 		else {return getOscillatingMap().get(fuel.getItem());}

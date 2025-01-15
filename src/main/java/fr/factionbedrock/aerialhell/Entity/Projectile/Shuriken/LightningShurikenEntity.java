@@ -3,11 +3,9 @@ package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.HitResult;
@@ -19,19 +17,19 @@ public class LightningShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, worldIn);
 	}
 
-	public LightningShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public LightningShurikenEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy, ItemStack itemStack)
 	{
-		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), level, shooter, accelX, accelY, accelZ, velocity, inaccuracy, itemStack);
 	}
 
-	public LightningShurikenEntity(double x, double y, double z, Level worldIn)
+	public LightningShurikenEntity(double x, double y, double z, Level worldIn, ItemStack itemStack)
 	{
-		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), x, y, z, worldIn);
+		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), x, y, z, worldIn, itemStack);
 	}
 
-	public LightningShurikenEntity(LivingEntity shooter, Level worldIn)
+	public LightningShurikenEntity(LivingEntity shooter, Level worldIn, ItemStack itemStack)
 	{
-		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), shooter, worldIn);
+		super(AerialHellEntities.LIGHTNING_SHURIKEN.get(), shooter, worldIn, itemStack);
 	}
 
 	public LightningShurikenEntity(Level worldIn)
@@ -60,7 +58,7 @@ public class LightningShurikenEntity extends AbstractShurikenEntity
 		
 		if (result.getType() != HitResult.Type.MISS && this.level() instanceof ServerLevel)
 		{
-			LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level());
+			LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level(), EntitySpawnReason.TRIGGERED);
 			lightningBolt.setPos(this.getX(), this.getY(), this.getZ());
 			this.level().addFreshEntity(lightningBolt);
 		}

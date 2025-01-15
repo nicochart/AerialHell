@@ -2,15 +2,23 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.Entity.Monster.AerialHellHostileEntity;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 
 
-public class EmptyModel<T extends AerialHellHostileEntity> extends EntityModel<T>
+public class EmptyModel<S extends LivingEntityRenderState> extends EntityModel<S>
 {
-	public EmptyModel() {}
+	public EmptyModel(ModelPart root) {super(root);}
 
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {}
+	public static LayerDefinition createBodyLayer()
+	{
+		MeshDefinition meshdefinition = new MeshDefinition();
+		return LayerDefinition.create(meshdefinition, 1, 1);
+	}
+
+	@Override public void setupAnim(S renderState) {}
 
 	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint) {}
 }

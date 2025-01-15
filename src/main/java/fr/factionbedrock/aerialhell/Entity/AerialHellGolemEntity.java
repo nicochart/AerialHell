@@ -53,17 +53,17 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
 		super.aiStep();
     }
 	
-    @Override public boolean doHurtTarget(Entity attackedEntity)
+    @Override public boolean doHurtTarget(ServerLevel serverLevel, Entity attackedEntity)
     {
         DamageSource damagesource = this.damageSources().mobAttack(this);
         float attackDamage = this.getAttackDamage();
         this.level().broadcastEntityEvent(this, (byte)4);
         float amount = (int)attackDamage > 0 ? attackDamage / 2.0F + (float)this.random.nextInt((int)attackDamage) : attackDamage;
-        boolean flag = attackedEntity.hurt(damagesource, amount);
+        boolean flag = attackedEntity.hurtServer(serverLevel, damagesource, amount);
         if (flag)
         {
             attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().add(0.0D, (double)this.getYMotionOnAttack(), 0.0D)); //projection en hauteur
-            if (level() instanceof ServerLevel serverLevel) {EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);}
+            EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);
         }
 
         this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);

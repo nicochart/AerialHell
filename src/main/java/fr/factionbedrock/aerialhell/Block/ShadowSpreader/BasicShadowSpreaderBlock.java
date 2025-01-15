@@ -9,6 +9,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.redstone.Orientation;
+
+import javax.annotation.Nullable;
 
 public class BasicShadowSpreaderBlock extends Block implements ShadowSpreaderBlock
 {
@@ -22,10 +25,10 @@ public class BasicShadowSpreaderBlock extends Block implements ShadowSpreaderBlo
 
 	@Override protected boolean isRandomlyTicking(BlockState state) {return state.getValue(CAN_SPREAD);}
 
-	@Override protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston)
+	@Override protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean movedByPiston)
 	{
-		super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
-		if (BlockHelper.canBeCorrupted(level, neighborPos, BlockHelper.CorruptionType.ANY))
+		super.neighborChanged(state, level, pos, neighborBlock, orientation, movedByPiston);
+		if (BlockHelper.canAnyNeighborBeCorrupted(level, pos, BlockHelper.CorruptionType.ANY))
 		{
 			level.setBlock(pos, state.setValue(CAN_SPREAD, true), 2);
 		}

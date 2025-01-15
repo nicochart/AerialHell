@@ -24,11 +24,12 @@ public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
     private int ticksInAir = 0;
     public AbstractLightProjectileEntity(EntityType<? extends AbstractLightProjectileEntity> type, Level world) {super(type, world);}
 
-    public AbstractLightProjectileEntity(EntityType<? extends AbstractLightProjectileEntity> type, LivingEntity shooter, Level world)
+    protected AbstractLightProjectileEntity(EntityType<? extends ThrowableProjectile> type, LivingEntity shooter, Level level)
     {
-        super(type, shooter, world);
+        super(type, shooter.getX(), shooter.getEyeY() - 0.1F, shooter.getZ(), level);
         this.setOwner(shooter);
     }
+
     @Override public void shoot(double x, double y, double z, float velocity, float inaccuracy)
     {
     	super.shoot(x, y, z, velocity, inaccuracy);

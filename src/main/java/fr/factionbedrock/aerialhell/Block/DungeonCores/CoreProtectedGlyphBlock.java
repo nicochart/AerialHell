@@ -66,7 +66,7 @@ public class CoreProtectedGlyphBlock extends GlyphBlock
 	    else
 	    {
 	         int i = net.neoforged.neoforge.event.EventHooks.doPlayerHarvestCheck(player, state, level, pos) ? 30 : 100;
-	         return player.getDigSpeed(state, pos) / f / (float)i;
+	         return player.getDestroySpeed(state, pos) / f / (float)i;
 	    }
 	}
 }

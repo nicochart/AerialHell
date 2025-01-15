@@ -17,6 +17,7 @@ import java.util.List;
 
 public class ShiftedModelRenderHelper
 {
+    /* TODO find a way to edit model map
     public static void createAndRegisterDefaultBlockShiftedRender(Block block, ModelEvent.ModifyBakingResult event, ChunkRenderTypeSet renderType)
     {
         if (block instanceof BasicShadowSpreaderBlock)
@@ -99,4 +100,5 @@ public class ShiftedModelRenderHelper
             }
         }
     }
+     */
 }

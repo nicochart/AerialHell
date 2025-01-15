@@ -14,7 +14,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -37,7 +37,7 @@ public class StellarChickenEntity extends Chicken
 
     public StellarChickenEntity(EntityType<? extends Chicken> entityType, Level level) {super(entityType, level);}
 
-    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData)
+    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason mobSpawnType, @Nullable SpawnGroupData spawnGroupData)
     {
         this.setColor(getBlockPositionTint());
         return super.finalizeSpawn(level, difficulty, mobSpawnType, spawnGroupData);
@@ -95,7 +95,7 @@ public class StellarChickenEntity extends Chicken
 
     @Nullable @Override public Chicken getBreedOffspring(ServerLevel world, AgeableMob mob)
     {
-        StellarChickenEntity baby = AerialHellEntities.STELLAR_CHICKEN.get().create(this.level());
+        StellarChickenEntity baby = AerialHellEntities.STELLAR_CHICKEN.get().create(this.level(), EntitySpawnReason.BREEDING);
         baby.setColor(this.getColor());
         return baby;
     }
@@ -108,10 +108,10 @@ public class StellarChickenEntity extends Chicken
                 .add(Attributes.MOVEMENT_SPEED, 0.3);
     }
 
-    @Nullable @Override public ItemEntity spawnAtLocation(ItemLike item)
+    @Nullable @Override public ItemEntity spawnAtLocation(ServerLevel serverLevel, ItemLike item)
     {
-        if (item == Items.EGG) {return super.spawnAtLocation(AerialHellBlocksAndItems.STELLAR_EGG.get());}
-        else {return super.spawnAtLocation(item);}
+        if (item == Items.EGG) {return super.spawnAtLocation(serverLevel, AerialHellBlocksAndItems.STELLAR_EGG.get());}
+        else {return super.spawnAtLocation(serverLevel, item);}
     }
 
     @Override public float getWalkTargetValue(BlockPos pos, LevelReader worldIn)
@@ -119,7 +119,7 @@ public class StellarChickenEntity extends Chicken
         return worldIn.getBlockState(pos.below()).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) ? 10.0F : worldIn.getPathfindingCostFromLightLevels(pos) - 0.5F;
     }
 
-    public static boolean canSpawn(EntityType<? extends Chicken> entityType, LevelAccessor worldIn, MobSpawnType spawnType, BlockPos pos, RandomSource random)
+    public static boolean canSpawn(EntityType<? extends Chicken> entityType, LevelAccessor worldIn, EntitySpawnReason spawnType, BlockPos pos, RandomSource random)
     {
         return worldIn.getBlockState(pos.below()).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && isBrightEnoughToSpawn(worldIn, pos);
     }

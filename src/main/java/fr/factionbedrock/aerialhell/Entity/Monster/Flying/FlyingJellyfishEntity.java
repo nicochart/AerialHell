@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Flying;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -44,7 +44,7 @@ public class FlyingJellyfishEntity extends AbstractFlyingProjectileShooterMob
 
 	@Override protected float getSoundVolume() {return 1.2F;}
 
-	public static boolean canJellyfishSpawn(EntityType<? extends FlyingJellyfishEntity> jellyfish, LevelAccessor worldIn, MobSpawnType reason,	BlockPos pos, RandomSource random)
+	public static boolean canJellyfishSpawn(EntityType<? extends FlyingJellyfishEntity> jellyfish, LevelAccessor worldIn, EntitySpawnReason reason,	BlockPos pos, RandomSource random)
 	{
 		return worldIn.getDifficulty() != Difficulty.PEACEFUL && random.nextInt(15) == 0 && checkMobSpawnRules(jellyfish, worldIn, reason, pos, random);
 	}

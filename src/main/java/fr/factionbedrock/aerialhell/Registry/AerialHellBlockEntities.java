@@ -15,6 +15,7 @@ public class AerialHellBlockEntities
 {
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.MODID);
 
+	//TODO : fix BlockEntityTypes
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OscillatorBlockEntity>> OSCILLATOR = BLOCK_ENTITY_TYPES.register("oscillator", () ->
 			new BlockEntityType<>(OscillatorBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.OSCILLATOR.get()), null));
 	

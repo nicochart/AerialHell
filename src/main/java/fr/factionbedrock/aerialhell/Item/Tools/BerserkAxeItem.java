@@ -8,14 +8,14 @@ import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -30,9 +30,9 @@ public class BerserkAxeItem extends EffectAxeItem
 {
 	private int weight_ticks;
 	
-	public BerserkAxeItem(Tier tier, Properties builderIn)
+	public BerserkAxeItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, Properties properties)
 	{
-		super(tier, builderIn);
+		super(toolMaterial, attackDamage, attackSpeed, 0.0F, 0.0F, properties);
 		this.weight_ticks = 0;
 	}
 	
@@ -73,7 +73,7 @@ public class BerserkAxeItem extends EffectAxeItem
 	}
 	
 	@Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
+    public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn)
     {
 		ItemStack heldItem = playerIn.getItemInHand(handIn);
 		Random rand = new Random();
@@ -94,9 +94,9 @@ public class BerserkAxeItem extends EffectAxeItem
 			playerIn.setDeltaMovement(playerIn.getDeltaMovement().add(forward));
 		}
 		
-		playerIn.getCooldowns().addCooldown(this, cooldown);
+		playerIn.getCooldowns().addCooldown(heldItem, cooldown);
 		heldItem.hurtAndBreak(1, playerIn, LivingEntity.getSlotForHand(handIn));
-        return InteractionResultHolder.consume(heldItem);
+        return InteractionResult.CONSUME;
 	}
 	
 	@Override

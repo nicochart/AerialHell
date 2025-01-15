@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -27,19 +28,19 @@ public class AutomatonEntity extends AerialHellHostileEntity
     }
 
     @Override
-    public boolean doHurtTarget(Entity entityIn)
+    public boolean doHurtTarget(ServerLevel serverLevel, Entity entityIn)
     {
-        boolean flag = super.doHurtTarget(entityIn);
+        boolean flag = super.doHurtTarget(serverLevel, entityIn);
         this.level().broadcastEntityEvent(this, (byte)4);
         return flag;
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount)
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount)
     {
         Entity immediateSourceEntity = source.getDirectEntity();
         Entity trueSourceEntity = source.getEntity();
-        boolean flag = super.hurt(source, amount);
+        boolean flag = super.hurtServer(level, source, amount);
         if (flag)
         {
             if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrow))

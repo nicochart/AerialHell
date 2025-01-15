@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Mirror;
@@ -33,7 +33,7 @@ import net.minecraft.world.level.Level;
 
 public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 {
-	public static final DirectionProperty HORIZONTAL_FACING = HorizontalDirectionalBlock.FACING;
+	public static final EnumProperty<Direction> HORIZONTAL_FACING = HorizontalDirectionalBlock.FACING;
 	private static final Map<Direction, VoxelShape> SHAPES = Maps.newEnumMap(ImmutableMap.of(Direction.NORTH, Block.box(5.5D, 3.0D, 11.0D, 10.5D, 13.0D, 16.0D), Direction.SOUTH, Block.box(5.5D, 3.0D, 0.0D, 10.5D, 13.0D, 5.0D), Direction.WEST, Block.box(11.0D, 3.0D, 5.5D, 16.0D, 13.0D, 10.5D), Direction.EAST, Block.box(0.0D, 3.0D, 5.5D, 5.0D, 13.0D, 10.5D)));
 
 	public AerialHellWallTorchBlock(BlockBehaviour.Properties properties)
@@ -42,7 +42,7 @@ public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 		this.registerDefaultState(this.stateDefinition.any().setValue(HORIZONTAL_FACING, Direction.NORTH));
 	}
 
-	@Override public String getDescriptionId() {return this.asItem().getDescriptionId();}
+	//@Override public String getDescriptionId() {return this.asItem().getDescriptionId();} TODO check
 
 	@Override public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
 	{

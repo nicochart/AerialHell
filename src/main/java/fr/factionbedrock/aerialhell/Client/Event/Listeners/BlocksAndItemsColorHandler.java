@@ -214,8 +214,9 @@ public class BlocksAndItemsColorHandler
         else {return ColorHandlerHelper.DEFAULT_COLOR.getRGB();}
     }
 
-    public static void handleItemColors(RegisterColorHandlersEvent.Item event)
+    public static void handleItemColors(RegisterColorHandlersEvent.ItemTintSources event)
     {
+        /* TODO use item model json to define tints
         event.getItemColors().register((stack, color) -> ColorHandlerHelper.AERIAL_HELL_PLAINS_GRASS_COLOR,
                 AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK_ITEM.get(),
                 AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK_ITEM.get(),
@@ -261,6 +262,7 @@ public class BlocksAndItemsColorHandler
                 AerialHellBlocksAndItems.VOLUCITE_GLYPH_BLOCK_ITEM.get(),
                 AerialHellBlocksAndItems.SHADOW_CATACOMBS_GLYPH_BLOCK_ITEM.get()
         );
+        */
     }
 
     private static int getCustomColor(ItemStack itemstack, int color)

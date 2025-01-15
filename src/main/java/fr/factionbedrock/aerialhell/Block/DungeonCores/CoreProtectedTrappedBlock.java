@@ -6,6 +6,8 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.level.block.Block;
@@ -38,7 +40,7 @@ public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 			if (!world.isClientSide())
 			{
 				EntityType<?> entityType = getEntity(this);
-				Entity entity = entityType.create(world);
+				Entity entity = entityType.create(world, EntitySpawnReason.MOB_SUMMONED);
 				entity.absMoveTo(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, (rand.nextFloat() - 0.5F) * 180.0F, 0.0F);
 				if (this == AerialHellBlocksAndItems.TRAPPED_MUD_BRICKS.get() || this == AerialHellBlocksAndItems.TRAPPED_LIGHT_MUD_BRICKS.get() && entity instanceof MudSoldierEntity)
 				{

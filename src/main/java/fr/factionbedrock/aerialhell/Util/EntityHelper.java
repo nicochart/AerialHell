@@ -53,7 +53,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.level.portal.TeleportTransition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -177,7 +177,7 @@ public class EntityHelper
 
     public static boolean hasEnchantment(LivingEntity entity, ResourceKey<Enchantment> enchantmentKey)
     {
-        Optional<Holder.Reference<Enchantment>> enchantment = entity.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolder(enchantmentKey);
+        Optional<Holder.Reference<Enchantment>> enchantment = entity.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getHolder(enchantmentKey);
         if (enchantment.isPresent())
         {
             return EnchantmentHelper.getEnchantmentLevel(enchantment.get().getDelegate(), entity) > 0;
@@ -221,11 +221,11 @@ public class EntityHelper
     {
         if (entity.level() instanceof ServerLevel serverlevel)
         {
-            DimensionTransition dimensiontransition = portalBlock.getPortalDestination(serverlevel, entity, pos);
+            TeleportTransition dimensiontransition = portalBlock.getPortalDestination(serverlevel, entity, pos);
             if (dimensiontransition != null)
             {
                 ServerLevel serverlevel1 = dimensiontransition.newLevel();
-                if (serverlevel.getServer().isLevelEnabled(serverlevel1) && (serverlevel1.dimension() == serverlevel.dimension() || entity.canChangeDimensions(serverlevel, serverlevel1)))
+                if (serverlevel.getServer().isLevelEnabled(serverlevel1) && (serverlevel1.dimension() == serverlevel.dimension() || entity.canTeleport(serverlevel, serverlevel1)))
                 {
                     entity.changeDimension(dimensiontransition);
                 }

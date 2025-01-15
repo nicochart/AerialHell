@@ -8,9 +8,11 @@ import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -68,21 +70,21 @@ public class MudCycleMageEntity extends AbstractBossEntity
 				.add(Attributes.ATTACK_DAMAGE, 3.0D);
     }
 	
-	@Override public boolean hurt(DamageSource source, float amount)
+	@Override public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount)
 	{
-		boolean flag = super.hurt(source, amount);
+		boolean flag = super.hurtServer(serverLevel, source, amount);
 		if (flag) {this.damageAmountSinceLastSummon += amount;}
 		return flag;
 	}
 
-	@Override public boolean tryActuallyHurt(DamageSource damageSource, float amount)
+	@Override public boolean tryActuallyHurt(ServerLevel serverLevel, DamageSource damageSource, float amount)
 	{
-		return this.getPhase() != BossPhase.DYING && super.tryActuallyHurt(damageSource, amount);
+		return this.getPhase() != BossPhase.DYING && super.tryActuallyHurt(serverLevel, damageSource, amount);
 	}
 
-	@Override public boolean doHurtTarget(Entity attackedEntity)
+	@Override public boolean doHurtTarget(ServerLevel serverLevel, Entity attackedEntity)
 	{
-		return !this.isInDeadOrDyingPhase() && super.doHurtTarget(attackedEntity);
+		return !this.isInDeadOrDyingPhase() && super.doHurtTarget(serverLevel, attackedEntity);
 	}
 
 	public boolean isHealthMatchForSecondPhase() {return this.getHealth() * 2 < this.getMaxHealth();}
@@ -176,7 +178,7 @@ public class MudCycleMageEntity extends AbstractBossEntity
 
 		protected MudSpectralSoldierEntity createMudSpectralSoldier()
 		{
-			MudSpectralSoldierEntity entity = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.getGoalOwner().level());
+			MudSpectralSoldierEntity entity = AerialHellEntities.MUD_SPECTRAL_SOLDIER.get().create(this.getGoalOwner().level(), EntitySpawnReason.MOB_SUMMONED);
 			entity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
 			entity.reassessWeaponGoal();
 			return entity;
@@ -184,12 +186,12 @@ public class MudCycleMageEntity extends AbstractBossEntity
 
 		protected MudSpectralGolemEntity createMudSpectralGolem()
 		{
-			return AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.getGoalOwner().level());
+			return AerialHellEntities.MUD_SPECTRAL_GOLEM.get().create(this.getGoalOwner().level(), EntitySpawnReason.MOB_SUMMONED);
 		}
 
 		protected MudSpectralCycleMageEntity createClone()
 		{
-			MudSpectralCycleMageEntity entity = AerialHellEntities.MUD_SPECTRAL_CYCLE_MAGE.get().create(this.getGoalOwner().level());
+			MudSpectralCycleMageEntity entity = AerialHellEntities.MUD_SPECTRAL_CYCLE_MAGE.get().create(this.getGoalOwner().level(), EntitySpawnReason.MOB_SUMMONED);
 			entity.setMaster(this.getMageGoalOwner());
 			return entity;
 		}

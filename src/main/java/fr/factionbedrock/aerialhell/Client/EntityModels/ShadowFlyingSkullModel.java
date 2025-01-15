@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowFlyingSkullEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.ShadowFlyingSkullRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -12,7 +12,7 @@ import net.minecraft.util.Mth;
 // Made by Cixon with Blockbench
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class ShadowFlyingSkullModel<T extends ShadowFlyingSkullEntity> extends EntityModel<T>
+public class ShadowFlyingSkullModel extends EntityModel<ShadowFlyingSkullRenderState>
 {
 	private final ModelPart skull;
 	private final ModelPart leftWing;
@@ -21,6 +21,7 @@ public class ShadowFlyingSkullModel<T extends ShadowFlyingSkullEntity> extends E
 
 	public ShadowFlyingSkullModel(ModelPart root)
 	{
+		super(root);
 		this.skull = root.getChild("skull");
 		this.leftWing = root.getChild("leftWing");
 		this.rightWing = root.getChild("rightWing");
@@ -51,10 +52,10 @@ public class ShadowFlyingSkullModel<T extends ShadowFlyingSkullEntity> extends E
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(ShadowFlyingSkullRenderState renderState)
 	{
-		this.jaw.xRot = entity.jawOpeningAmplitude * Mth.sqrt(1.0F + Mth.cos(ageInTicks / entity.jawOpeningFrequencyMalus * 3.2F));
-		this.rightWing.yRot = 0.47123894F + Mth.cos(ageInTicks * 0.8F) * 0.3F;
+		this.jaw.xRot = renderState.jawOpeningAmplitude * Mth.sqrt(1.0F + Mth.cos(renderState.ageInTicks / renderState.jawOpeningFrequencyMalus * 3.2F));
+		this.rightWing.yRot = 0.47123894F + Mth.cos(renderState.ageInTicks * 0.8F) * 0.3F;
 		this.leftWing.yRot = -this.rightWing.yRot;
 		this.leftWing.zRot = -0.47123894F;
 		this.leftWing.xRot = 0.47123894F;

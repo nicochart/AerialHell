@@ -6,7 +6,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -65,7 +65,7 @@ public class MudSoldierEntity extends AbstractSkeleton
 	
 	@Override
 	@Nullable
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn)
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, EntitySpawnReason reason, @Nullable SpawnGroupData spawnDataIn)
 	{
 		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
 		this.populateDefaultEquipmentSlots(this.random, difficultyIn);

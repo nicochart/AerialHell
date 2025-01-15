@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Block.StandingAndWall;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -11,10 +12,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.Level;
 
 /*Copy of net.minecraft.block.TorchBlock, removing smoke particles, and editing the way particles are added*/
 
@@ -32,9 +29,9 @@ public class AerialHellTorchBlock extends Block
 		return SHAPE;
 	}
 
-	@Override public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos)
+	@Override protected BlockState updateShape(BlockState previousState, LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random)
 	{
-		return facing == Direction.DOWN && !this.canSurvive(stateIn, worldIn, currentPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+		return direction == Direction.DOWN && !this.canSurvive(previousState, level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(previousState, level, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
 	}
 
 	@Override public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos)

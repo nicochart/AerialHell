@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.ElementSpiritModel;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.ElementSpiritRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.AbstractElementSpiritEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.ElectroSpiritEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.IceSpiritEntity;
@@ -12,7 +13,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
-public class ElementSpiritRender<T extends AbstractElementSpiritEntity> extends MobRenderer<T, ElementSpiritModel<T>>
+public class ElementSpiritRender<S extends AbstractElementSpiritEntity> extends MobRenderer<S, ElementSpiritRenderState, ElementSpiritModel<ElementSpiritRenderState>>
 {
 	private static final ResourceLocation ICE_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/element_spirit/ice_spirit.png");
 	private static final ResourceLocation FIRE_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/element_spirit/fire_spirit.png");
@@ -20,22 +21,30 @@ public class ElementSpiritRender<T extends AbstractElementSpiritEntity> extends 
 	
     public ElementSpiritRender(EntityRendererProvider.Context context)
 	{
-    	super(context, new ElementSpiritModel<T>(context.bakeLayer(AerialHellModelLayers.ELEMENT_SPIRIT)), 0.3F);
+    	super(context, new ElementSpiritModel<ElementSpiritRenderState>(context.bakeLayer(AerialHellModelLayers.ELEMENT_SPIRIT)), 0.3F);
 	}
-    
-    @Override
-    protected void scale(T entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
+
+	@Override public ElementSpiritRenderState createRenderState() {return new ElementSpiritRenderState();}
+
+	@Override protected void scale(ElementSpiritRenderState renderState, PoseStack poseStack)
     {
         float f = 0.6F;
-        matrixStackIn.scale(f, f, f);
-        matrixStackIn.translate(0.0D, 0.0D, 0.0D);
+		poseStack.scale(f, f, f);
+		poseStack.translate(0.0D, 0.0D, 0.0D);
     }
-    
-	@Override
-	public ResourceLocation getTextureLocation(AbstractElementSpiritEntity entity)
+
+	@Override public void extractRenderState(S entity, ElementSpiritRenderState renderState, float f)
+	{
+		super.extractRenderState(entity, renderState, f);
+		renderState.texture = getTextureLocation(entity);
+	}
+
+	public ResourceLocation getTextureLocation(S entity)
     {
 		if (entity instanceof IceSpiritEntity) {return ICE_SPIRIT_TEXTURE;}
 		else if (entity instanceof ElectroSpiritEntity) {return ELECTRO_SPIRIT_TEXTURE;}
 		else {return FIRE_SPIRIT_TEXTURE;}
     }
+
+	@Override public ResourceLocation getTextureLocation(ElementSpiritRenderState renderState) {return renderState.texture;}
 }

@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.damagesource.DamageSource;
@@ -32,9 +33,9 @@ public abstract class AbstractActivableEntity extends Monster
 	public boolean isActive() {return this.entityData.get(ACTIVE);}
 
 	@Override
-	public boolean hurt(DamageSource source, float amount)
+	public boolean hurtServer(ServerLevel level, DamageSource source, float amount)
 	{
-		boolean flag = super.hurt(source, amount);
+		boolean flag = super.hurtServer(level, source, amount);
 		if (flag)
 		{
 			this.setActive(true);

@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.ChainedGodRenderState;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -12,7 +13,7 @@ import net.minecraft.util.Mth;
 // Made with Blockbench 4.0.1
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class ChainedGodModel extends EntityModel<ChainedGodEntity>
+public class ChainedGodModel extends EntityModel<ChainedGodRenderState>
 {
 	private final ModelPart body;
 	private final ModelPart chains;
@@ -24,6 +25,7 @@ public class ChainedGodModel extends EntityModel<ChainedGodEntity>
 
 	public ChainedGodModel(ModelPart root)
 	{
+		super(root);
 		this.body = root.getChild("body");
 		this.chains = root.getChild("chains");
 		this.head = root.getChild("head");
@@ -127,14 +129,19 @@ public class ChainedGodModel extends EntityModel<ChainedGodEntity>
 		}
 
 	@Override
-	public void setupAnim(ChainedGodEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	public void setupAnim(ChainedGodRenderState renderState)
 	{
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+
 		this.head.yRot = netHeadYaw / 57.29578F;
 		this.head.xRot = headPitch / 57.29578F;
 
-		if (entity.isFreelyMoving())
+		if (renderState.freelyMoving)
 		{
-			int i = entity.attackTimer;
+			int i = renderState.attackTimer;
 			if (i > 0)
 			{
 				this.rightArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float)i, 10.0F) * 0.5f;

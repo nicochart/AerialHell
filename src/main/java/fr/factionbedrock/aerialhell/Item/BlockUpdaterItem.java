@@ -47,8 +47,8 @@ public class BlockUpdaterItem extends WithInformationItem
 
     protected void replaceBlock(Level level, BlockPos pos)
     {
-        Iterator<Holder<Block>> replace_in = BuiltInRegistries.BLOCK.getTag(AerialHellTags.Blocks.REPLACE_IN).get().iterator();
-        Iterator<Holder<Block>> replace_out = BuiltInRegistries.BLOCK.getTag(AerialHellTags.Blocks.REPLACE_OUT).get().iterator();
+        Iterator<Holder<Block>> replace_in = BuiltInRegistries.BLOCK.get(AerialHellTags.Blocks.REPLACE_IN).get().iterator();
+        Iterator<Holder<Block>> replace_out = BuiltInRegistries.BLOCK.get(AerialHellTags.Blocks.REPLACE_OUT).get().iterator();
 
         BlockState previousBlockState = level.getBlockState(pos);
         Block previousBlock = null, nextBlock = null;

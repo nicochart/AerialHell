@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -68,7 +69,7 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
 
     @Nullable @Override public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob mob)
     {
-        return AerialHellEntities.GLIDING_TURTLE.get().create(this.level());
+        return AerialHellEntities.GLIDING_TURTLE.get().create(world, EntitySpawnReason.BREEDING);
     }
     
     public boolean isGliding() {return !this.entityData.get(GLIDING);}

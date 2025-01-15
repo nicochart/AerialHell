@@ -3,8 +3,8 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
-import net.minecraft.client.ParticleStatus;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.server.level.ParticleStatus;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -38,7 +38,7 @@ public class LeavesWithAmbientParticlesBlock extends ShiftableLeavesBlock
 
 		@Nullable SimpleParticleType particleType = this.getParticle();
 		if (particleType == null) {return;}
-		
+
 		if (Minecraft.getInstance().options.particles().get() != ParticleStatus.MINIMAL)
 		{
 			if (level.isClientSide())

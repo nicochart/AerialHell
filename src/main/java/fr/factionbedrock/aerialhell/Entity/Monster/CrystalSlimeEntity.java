@@ -55,7 +55,7 @@ public class CrystalSlimeEntity extends Mob
 		this.goalSelector.addGoal(2, new CrystalSlimeEntity.CrystalSlimeAttackGoal(this));
 		this.goalSelector.addGoal(3, new CrystalSlimeEntity.CrystalSlimeRandomDirectionGoal(this));
 		this.goalSelector.addGoal(5, new CrystalSlimeEntity.CrystalSlimeKeepOnJumpingGoal(this));
-		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (entity) -> Math.abs(entity.getY() - this.getY()) <= 4.0));
+		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (entity, serverLevel) -> Math.abs(entity.getY() - this.getY()) <= 4.0));
 		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
 	}
 
@@ -127,7 +127,7 @@ public class CrystalSlimeEntity extends Mob
 		if (this.isAlive() && this.isWithinMeleeAttackRange(livingEntity) && this.hasLineOfSight(livingEntity))
 		{
 			DamageSource damagesource = this.damageSources().mobAttack(this);
-			if (livingEntity.hurt(damagesource, this.getAttackDamage()))
+			if (this.level() instanceof ServerLevel serverLevel && livingEntity.hurtServer(serverLevel, damagesource, this.getAttackDamage()))
 			{
 				this.playSound(SoundEvents.SLIME_ATTACK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
 				if (this.level() instanceof ServerLevel serverlevel) {EnchantmentHelper.doPostAttackEffects(serverlevel, livingEntity, damagesource);}
@@ -169,7 +169,7 @@ public class CrystalSlimeEntity extends Mob
         		.add(Attributes.FOLLOW_RANGE, 16.0D);
     }
 	
-	public static boolean canSpawn(EntityType<CrystalSlimeEntity> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource randomIn)
+	public static boolean canSpawn(EntityType<CrystalSlimeEntity> type, ServerLevelAccessor worldIn, EntitySpawnReason reason, BlockPos pos, RandomSource randomIn)
     {
         return randomIn.nextInt(10) == 0 && worldIn.getLevel().isDay();
     }
@@ -180,8 +180,6 @@ public class CrystalSlimeEntity extends Mob
 		if (reason == Entity.RemovalReason.KILLED) {this.gameEvent(GameEvent.ENTITY_DIE);}
 		//this.invalidateCaps();
 	}
-
-	@Override protected ResourceKey<LootTable> getDefaultLootTable() {return this.getType().getDefaultLootTable();}
 
 	public static class CrystalSlimeAttackGoal extends Goal
 	{

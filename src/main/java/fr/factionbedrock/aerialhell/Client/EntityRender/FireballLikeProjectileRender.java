@@ -4,17 +4,19 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.FireballLikeProjectileRenderState;
 import fr.factionbedrock.aerialhell.Entity.Projectile.DimensionShattererProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.PoisonballEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.projectile.Fireball;
 
-public class FireballLikeProjectileRender<T extends Fireball> extends EntityRenderer<T>
+public class FireballLikeProjectileRender<T extends Fireball> extends EntityRenderer<T, FireballLikeProjectileRenderState>
 {
     public static final ResourceLocation POISONBALL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/poisonball.png");
     public static final ResourceLocation DIMENSION_SHATTERER_PROJECTILE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/item/dimension_shatterer_projectile.png");
@@ -25,23 +27,31 @@ public class FireballLikeProjectileRender<T extends Fireball> extends EntityRend
         this.shadowRadius = 0.0F;
     }
 
-    @Override public void render(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight)
+    @Override public FireballLikeProjectileRenderState createRenderState() {return new FireballLikeProjectileRenderState();}
+
+    @Override public void extractRenderState(T entity, FireballLikeProjectileRenderState renderState, float partialTick)
+    {
+        super.extractRenderState(entity, renderState, partialTick);
+        renderState.scale = entity instanceof DimensionShattererProjectileEntity ? 2.0F : 1.0F;
+        renderState.texture = this.getTextureLocation(entity);
+    }
+
+    @Override public void render(FireballLikeProjectileRenderState renderState, PoseStack poseStack, MultiBufferSource buffer, int packedLight)
     {
         poseStack.pushPose();
-        if (entity instanceof DimensionShattererProjectileEntity) {poseStack.scale(2.0F, 2.0F, 2.0F);}
+        poseStack.scale(renderState.scale, renderState.scale, renderState.scale);
         poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
         poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
         PoseStack.Pose posestack$pose = poseStack.last();
-        VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(this.getTextureLocation(entity)));
+        VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(renderState.texture));
         vertex(vertexconsumer, posestack$pose, packedLight, 0.0F, 0, 0, 1);
         vertex(vertexconsumer, posestack$pose, packedLight, 1.0F, 0, 1, 1);
         vertex(vertexconsumer, posestack$pose, packedLight, 1.0F, 1, 1, 0);
         vertex(vertexconsumer, posestack$pose, packedLight, 0.0F, 1, 0, 0);
         poseStack.popPose();
-        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+        super.render(renderState, poseStack, buffer, packedLight);
     }
 
-    @Override
     public ResourceLocation getTextureLocation(T entity)
     {
         if (entity instanceof PoisonballEntity) {return POISONBALL;}

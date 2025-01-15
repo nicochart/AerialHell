@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.AzuriteShurikenEn
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -36,11 +37,11 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity
         this.targetSelector.addGoal(2, new GhostGoals.GhostPirateNearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
-    @Override public boolean hurt(DamageSource damageSource, float amount)
+    @Override public boolean hurtServer(ServerLevel serverLevel, DamageSource damageSource, float amount)
     {
         Entity sourceEntity = damageSource.getEntity();
         if (EntityHelper.isImmuneToGhostBlockCollision(sourceEntity) && !EntityHelper.isCreaOrSpecPlayer(sourceEntity)) {return false;}
-        return super.hurt(damageSource, amount);
+        return super.hurtServer(serverLevel, damageSource, amount);
     }
 
     @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand) {return new ItemStack(AerialHellBlocksAndItems.AZURITE_SHURIKEN.get());}
@@ -64,7 +65,7 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity
         @Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ)
         {
             RandomSource rand = this.getParentEntity().getRandom(); double halfDistanceToTarget = this.getParentEntity().distanceTo(this.getParentEntity().getTarget()) / 2;
-            return new AzuriteShurikenEntity(level, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget, 1.3f, 0.0f);
+            return new AzuriteShurikenEntity(level, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget, 1.3f, 0.0f, AerialHellBlocksAndItems.AZURITE_SHURIKEN.toStack());
         }
     }
 

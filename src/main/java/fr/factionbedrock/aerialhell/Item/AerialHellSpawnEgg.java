@@ -9,11 +9,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -70,7 +69,7 @@ public class AerialHellSpawnEgg extends Item
                 if (blockstate.getCollisionShape(level, blockpos).isEmpty()) {blockpos1 = blockpos;}
                 else {blockpos1 = blockpos.relative(direction);}
                 EntityType<?> entitytype = this.getType(itemstack);
-                if (entitytype.spawn((ServerLevel)level,itemstack,context.getPlayer(),blockpos1,MobSpawnType.SPAWN_EGG,true,!Objects.equals(blockpos, blockpos1) && direction == Direction.UP) != null)
+                if (entitytype.spawn((ServerLevel)level,itemstack,context.getPlayer(),blockpos1,EntitySpawnReason.SPAWN_ITEM_USE,true,!Objects.equals(blockpos, blockpos1) && direction == Direction.UP) != null)
                 {
                     itemstack.shrink(1);
                     level.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, blockpos);
@@ -80,30 +79,30 @@ public class AerialHellSpawnEgg extends Item
         }
     }
 
-    @Override public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
+    @Override public InteractionResult use(Level level, Player player, InteractionHand hand)
     {
         ItemStack itemstack = player.getItemInHand(hand);
         BlockHitResult blockhitresult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
-        if (blockhitresult.getType() != HitResult.Type.BLOCK) {return InteractionResultHolder.pass(itemstack);}
-        else if (!(level instanceof ServerLevel)) {return InteractionResultHolder.success(itemstack);}
+        if (blockhitresult.getType() != HitResult.Type.BLOCK) {return InteractionResult.PASS;}
+        else if (!(level instanceof ServerLevel)) {return InteractionResult.SUCCESS;}
         else
         {
             BlockPos blockpos = blockhitresult.getBlockPos();
-            if (!(level.getBlockState(blockpos).getBlock() instanceof LiquidBlock)) {return InteractionResultHolder.pass(itemstack);}
+            if (!(level.getBlockState(blockpos).getBlock() instanceof LiquidBlock)) {return InteractionResult.PASS;}
             else if (level.mayInteract(player, blockpos) && player.mayUseItemAt(blockpos, blockhitresult.getDirection(), itemstack))
             {
                 EntityType<?> entitytype = this.getType(itemstack);
-                Entity entity = entitytype.spawn((ServerLevel)level, itemstack, player, blockpos, MobSpawnType.SPAWN_EGG, false, false);
-                if (entity == null) {return InteractionResultHolder.pass(itemstack);}
+                Entity entity = entitytype.spawn((ServerLevel)level, itemstack, player, blockpos, EntitySpawnReason.SPAWN_ITEM_USE, false, false);
+                if (entity == null) {return InteractionResult.PASS;}
                 else
                 {
                     itemstack.consume(1, player);
                     player.awardStat(Stats.ITEM_USED.get(this));
                     level.gameEvent(player, GameEvent.ENTITY_PLACE, entity.position());
-                    return InteractionResultHolder.consume(itemstack);
+                    return InteractionResult.CONSUME;
                 }
             }
-            else {return InteractionResultHolder.fail(itemstack);}
+            else {return InteractionResult.FAIL;}
         }
     }
 

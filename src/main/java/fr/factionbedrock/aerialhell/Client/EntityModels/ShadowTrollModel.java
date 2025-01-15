@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.ShadowTrollRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -12,7 +12,7 @@ import net.minecraft.util.Mth;
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class ShadowTrollModel extends EntityModel<ShadowTrollEntity>
+public class ShadowTrollModel extends EntityModel<ShadowTrollRenderState>
 {
 	private final ModelPart body;
 	private final ModelPart head;
@@ -26,6 +26,7 @@ public class ShadowTrollModel extends EntityModel<ShadowTrollEntity>
 
 	public ShadowTrollModel(ModelPart root, boolean isEyes)
 	{
+		super(root);
 		this.isEyes = isEyes;
 		this.body = root.getChild("body");
 		this.head = root.getChild("head");
@@ -96,14 +97,19 @@ public class ShadowTrollModel extends EntityModel<ShadowTrollEntity>
 	}
 
 	@Override
-	public void setupAnim(ShadowTrollEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	public void setupAnim(ShadowTrollRenderState renderState)
 	{
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+
 		this.head.yRot = netHeadYaw / 57.3F;
 		this.head.xRot = headPitch / 57.3F;
 		this.eyes.yRot = netHeadYaw / 57.3F;
 		this.eyes.xRot = headPitch / 57.3F;
 
-		if (!entity.isDisappearing())
+		if (!renderState.isDisappearing)
 		{
 			this.rightArm.xRot = (-0.2F + 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
 			this.leftArm.xRot = (-0.2F - 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;

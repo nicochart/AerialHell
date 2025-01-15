@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Shadow;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -32,9 +33,9 @@ public class ShadowFlyingSkullEntity extends Vex
                 .add(Attributes.ATTACK_DAMAGE, 6.0D);
     }
 
-    @Override public boolean doHurtTarget(Entity attackedEntity)
+    @Override public boolean doHurtTarget(ServerLevel serverLevel, Entity attackedEntity)
     {
-        if (super.doHurtTarget(attackedEntity))
+        if (super.doHurtTarget(serverLevel, attackedEntity))
         {
             if (attackedEntity instanceof LivingEntity)
             {

@@ -9,6 +9,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -60,9 +61,9 @@ public class TornSpiritEntity extends Monster
 				.add(Attributes.ATTACK_DAMAGE, 17.0D);
     }
 	
-	@Override public boolean hurt(DamageSource source, float amount)
+	@Override public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount)
 	{
-		boolean flag = super.hurt(source, amount);
+		boolean flag = super.hurtServer(serverLevel, source, amount);
 		if (flag)
 		{
 			if (source.getEntity() instanceof LivingEntity livingEntity && !(source.getDirectEntity() instanceof AbstractArrow))
@@ -147,7 +148,7 @@ public class TornSpiritEntity extends Monster
 	               if (this.attackTime <= 0)
 	               {
 	                  this.attackTime = 20;
-	                  this.tornspirit.doHurtTarget(target);
+	                  this.tornspirit.doHurtTarget(getServerLevel(this.tornspirit), target);
 	               }
 
 	               this.tornspirit.getMoveControl().setWantedPosition(target.getX(), target.getY(), target.getZ(), 2.0D);

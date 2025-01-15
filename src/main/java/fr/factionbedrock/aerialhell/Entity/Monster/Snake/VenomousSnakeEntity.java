@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Snake;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.valueproviders.*;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -18,9 +19,9 @@ public class VenomousSnakeEntity extends AbstractSnakeEntity
     @Override protected IntProvider getLength() {return UniformInt.of(14,20);}//{return ConstantInt.of(16);}
     @Override protected int getMinLength() {return 3;}
 
-    @Override public boolean doHurtTarget(Entity attackedEntity)
+    @Override public boolean doHurtTarget(ServerLevel serverLevel, Entity attackedEntity)
     {
-        boolean flag = super.doHurtTarget(attackedEntity);
+        boolean flag = super.doHurtTarget(serverLevel, attackedEntity);
         if (flag && attackedEntity instanceof LivingEntity livingEntity && !EntityHelper.isLivingEntityShadowImmune(livingEntity))
         {
             livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 500, 0));

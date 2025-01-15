@@ -9,13 +9,10 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -33,13 +30,13 @@ public class RubyBucketItem extends Item
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
+    public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn)
     {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
         BlockHitResult blockhitresult = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.SOURCE_ONLY);
         if (blockhitresult.getType() != HitResult.Type.BLOCK)
         {
-            return InteractionResultHolder.pass(itemstack);
+            return InteractionResult.PASS;
         }
         else
         {
@@ -58,19 +55,19 @@ public class RubyBucketItem extends Item
                         playPickupSound(fluid, playerIn);
                         worldIn.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
                         ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, playerIn, new ItemStack(AerialHellBlocksAndItems.RUBY_WATER_BUCKET.get()));
-                        return InteractionResultHolder.sidedSuccess(afterPickupHandItemStack, worldIn.isClientSide());
+                        return InteractionResult.SUCCESS;
                     }
                     else if (fluid == AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE.get())
                     {
                         playPickupSound(fluid, playerIn);
                         worldIn.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
                         ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, playerIn, new ItemStack(AerialHellBlocksAndItems.RUBY_LIQUID_OF_GODS_BUCKET.get()));
-                        return InteractionResultHolder.sidedSuccess(afterPickupHandItemStack, worldIn.isClientSide());
+                        return InteractionResult.SUCCESS;
                     }
                 }
             }
         }
-        return InteractionResultHolder.fail(itemstack);
+        return InteractionResult.FAIL;
     }
 
     public ItemStack fillBucket(ItemStack emptyBucket, Player player, ItemStack filledBucket)

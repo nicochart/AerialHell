@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Shadow;
 
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.AbstractAerialHellSpiderEntity;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -43,9 +44,9 @@ public class ShadowSpiderEntity extends AbstractAerialHellSpiderEntity
     }
     
     @Override
-    public boolean doHurtTarget(Entity attackedEntity)
+    public boolean doHurtTarget(ServerLevel serverLevel, Entity attackedEntity)
     {
-    	if (super.doHurtTarget(attackedEntity))
+    	if (super.doHurtTarget(serverLevel, attackedEntity))
     	{
     		if (attackedEntity instanceof LivingEntity livingEntity)
         	{

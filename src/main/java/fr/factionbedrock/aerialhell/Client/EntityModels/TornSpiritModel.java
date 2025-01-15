@@ -2,17 +2,17 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.util.Mth;
 
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class TornSpiritModel extends EntityModel<TornSpiritEntity>
+public class TornSpiritModel extends EntityModel<LivingEntityRenderState>
 {
 	private final ModelPart body;
 	private final ModelPart head;
@@ -21,6 +21,7 @@ public class TornSpiritModel extends EntityModel<TornSpiritEntity>
 
 	public TornSpiritModel(ModelPart root)
 	{
+		super(root);
 		this.body = root.getChild("body");
 		this.head = root.getChild("head");
 		this.rightArm = root.getChild("rightArm");
@@ -68,8 +69,13 @@ public class TornSpiritModel extends EntityModel<TornSpiritEntity>
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override public void setupAnim(TornSpiritEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setupAnim(LivingEntityRenderState renderState)
 	{
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+
 		this.head.yRot = netHeadYaw / 57.29578F;
 		this.head.xRot = headPitch / 57.29578F;
 

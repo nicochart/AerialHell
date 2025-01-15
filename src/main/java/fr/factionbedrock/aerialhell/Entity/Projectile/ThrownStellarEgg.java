@@ -7,7 +7,7 @@ import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
@@ -19,8 +19,8 @@ import net.minecraft.world.phys.HitResult;
 public class ThrownStellarEgg extends ThrowableItemProjectile
 {
     public ThrownStellarEgg(EntityType<? extends ThrownStellarEgg> type, Level level) {super(type, level);}
-    public ThrownStellarEgg(Level level, LivingEntity shooter) {super(AerialHellEntities.THROWN_STELLAR_EGG.get(), shooter, level);}
-    public ThrownStellarEgg(Level level, double x, double y, double z) {super(AerialHellEntities.THROWN_STELLAR_EGG.get(), x, y, z, level);}
+    public ThrownStellarEgg(Level level, LivingEntity shooter) {super(AerialHellEntities.THROWN_STELLAR_EGG.get(), shooter, level, AerialHellBlocksAndItems.STELLAR_EGG.toStack());}
+    public ThrownStellarEgg(Level level, double x, double y, double z) {super(AerialHellEntities.THROWN_STELLAR_EGG.get(), x, y, z, level, AerialHellBlocksAndItems.STELLAR_EGG.toStack());}
 
     @Override public void handleEntityEvent(byte p_37484_) //copied from ThrownEgg
     {
@@ -51,7 +51,7 @@ public class ThrownStellarEgg extends ThrowableItemProjectile
 
                 for(int j = 0; j < i; ++j)
                 {
-                    StellarChickenEntity chicken = AerialHellEntities.STELLAR_CHICKEN.get().create(this.level());
+                    StellarChickenEntity chicken = AerialHellEntities.STELLAR_CHICKEN.get().create(this.level(), EntitySpawnReason.TRIGGERED);
                     if (chicken != null)
                     {
                         chicken.setAge(-24000);
