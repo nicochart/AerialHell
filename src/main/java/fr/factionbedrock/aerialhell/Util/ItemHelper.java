@@ -41,9 +41,10 @@ public class ItemHelper
 
     public static int getItemMiningLevel(Item item)
     {
+        /* TODO
         if (item instanceof DiggerItem diggerItem)
         {
-            ToolMaterial toolMaterial = diggerItem.getTier();
+            ToolMaterial toolMaterial = diggerItem.components().get(DataComponents.TOOL).isCorrectForDrops().getTier();
             TagKey<Block> incorrectTag = toolMaterial.getIncorrectBlocksForDrops();
             if (incorrectTag == BlockTags.INCORRECT_FOR_WOODEN_TOOL) {return 0;}
             else if (incorrectTag == BlockTags.INCORRECT_FOR_STONE_TOOL) {return 1;}
@@ -51,7 +52,9 @@ public class ItemHelper
             else if (incorrectTag == BlockTags.INCORRECT_FOR_DIAMOND_TOOL) {return 3;}
             else if (incorrectTag == BlockTags.INCORRECT_FOR_NETHERITE_TOOL) {return 4;}
         }
+         */
         return 0;
+
     }
 
     public static final ResourceLocation BASE_ATTACK_DAMAGE_ID = ResourceLocation.withDefaultNamespace("base_attack_damage");
@@ -143,11 +146,12 @@ public class ItemHelper
             return new SmithingTemplateItem(
                     makeSmithingTemplateItemDescComponent(materialName, APPLIES_TO, DESCRIPTION_FORMAT),
                     makeSmithingTemplateItemDescComponent(materialName, INGREDIENTS, DESCRIPTION_FORMAT),
-                    makeUpgradeTitleComponent(materialName),
+                    //makeUpgradeTitleComponent(materialName), TODO work as expected ?
                     makeSmithingTemplateItemDescComponent(materialName, BASE_SLOT_DESCRIPTION, null),
                     makeSmithingTemplateItemDescComponent(materialName, ADDITIONS_SLOT_DESCRIPTION, null),
                     SmithingTemplateItem.createNetheriteUpgradeIconList(),
-                    SmithingTemplateItem.createNetheriteUpgradeMaterialList());
+                    SmithingTemplateItem.createNetheriteUpgradeMaterialList(),
+                    new Item.Properties());
         }
     }
 

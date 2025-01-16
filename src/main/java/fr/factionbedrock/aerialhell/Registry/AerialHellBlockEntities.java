@@ -15,22 +15,21 @@ public class AerialHellBlockEntities
 {
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.MODID);
 
-	//TODO : fix BlockEntityTypes
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OscillatorBlockEntity>> OSCILLATOR = BLOCK_ENTITY_TYPES.register("oscillator", () ->
-			new BlockEntityType<>(OscillatorBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.OSCILLATOR.get()), null));
+			new BlockEntityType<>(OscillatorBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.OSCILLATOR.get())));
 	
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FreezerBlockEntity>> FREEZER = BLOCK_ENTITY_TYPES.register("freezer", () ->
-			new BlockEntityType<>(FreezerBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.FREEZER.get()), null));
+			new BlockEntityType<>(FreezerBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.FREEZER.get())));
 
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<IntangibleTemporaryBlockEntity>> INTANGIBLE_TEMPORARY_BLOCK = BLOCK_ENTITY_TYPES.register("intangible_temporary_block", () ->
-			new BlockEntityType<>(IntangibleTemporaryBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.INTANGIBLE_TEMPORARY_BLOCK.get()), null));
+			new BlockEntityType<>(IntangibleTemporaryBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.INTANGIBLE_TEMPORARY_BLOCK.get())));
 
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BiomeShifterBlockEntity>> BIOME_SHIFTER = BLOCK_ENTITY_TYPES.register("biome_shifter", () ->
 			new BlockEntityType<>((pos, blockState) -> new BiomeShifterBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null), Sets.newHashSet
 					(
 							AerialHellBlocksAndItems.FLUORITE_ORE.get(),
 							AerialHellBlocksAndItems.FLUORITE_BLOCK.get()
-					), null));
+					)));
 
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ReactorBlockEntity>> REACTOR = BLOCK_ENTITY_TYPES.register("reactor", () ->
 			new BlockEntityType<>((pos, blockState) -> new ReactorBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null), Sets.newHashSet
@@ -39,14 +38,14 @@ public class AerialHellBlockEntities
 							AerialHellBlocksAndItems.HIGH_POWER_LIGHT_REACTOR.get(),
 							AerialHellBlocksAndItems.WEAK_SHADOW_REACTOR.get(),
 							AerialHellBlocksAndItems.HIGH_POWER_SHADOW_REACTOR.get()
-					), null));
+					)));
 
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<StellarFurnaceBlockEntity>> STELLAR_FURNACE = BLOCK_ENTITY_TYPES.register("stellar_furnace", () ->
 			new BlockEntityType<>(StellarFurnaceBlockEntity::new, Sets.newHashSet
 					(
 							AerialHellBlocksAndItems.STELLAR_FURNACE.get(),
 							AerialHellBlocksAndItems.GHOST_STELLAR_FURNACE.get()
-					), null));
+					)));
 	
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AerialHellSignBlockEntity>> SIGN = BLOCK_ENTITY_TYPES.register("sign", () ->
 			new BlockEntityType<>(AerialHellSignBlockEntity::new, Sets.newHashSet
@@ -67,7 +66,7 @@ public class AerialHellBlockEntities
 							AerialHellBlocksAndItems.SKY_CACTUS_FIBER_WALL_SIGN.get(),
 							AerialHellBlocksAndItems.GRAY_SHROOM_STANDING_SIGN.get(),
 							AerialHellBlocksAndItems.GRAY_SHROOM_WALL_SIGN.get()
-					), null));
+					)));
 
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AerialHellHangingSignBlockEntity>> HANGING_SIGN = BLOCK_ENTITY_TYPES.register("hanging_sign", () ->
 			new BlockEntityType<>(AerialHellHangingSignBlockEntity::new, Sets.newHashSet
@@ -88,7 +87,7 @@ public class AerialHellBlockEntities
 							AerialHellBlocksAndItems.SKY_CACTUS_FIBER_WALL_HANGING_SIGN.get(),
 							AerialHellBlocksAndItems.GRAY_SHROOM_HANGING_SIGN.get(),
 							AerialHellBlocksAndItems.GRAY_SHROOM_WALL_HANGING_SIGN.get()
-					), null));
+					)));
 	
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AerialHellBarrelBlockEntity>> BARREL = BLOCK_ENTITY_TYPES.register("barrel", () ->
 	new BlockEntityType<>(AerialHellBarrelBlockEntity::new, Sets.newHashSet
@@ -102,7 +101,7 @@ public class AerialHellBlockEntities
 					AerialHellBlocksAndItems.SKY_CACTUS_FIBER_BARREL.get(),
 					AerialHellBlocksAndItems.GRAY_SHROOM_BARREL.get(),
 					AerialHellBlocksAndItems.GHOST_BOAT_BARREL.get()
-			), null));
+			)));
 	
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AerialHellChestBlockEntity>> CHEST = BLOCK_ENTITY_TYPES.register("chest", () ->
 	        new BlockEntityType<>(AerialHellChestBlockEntity::new, Sets.newHashSet
@@ -121,7 +120,7 @@ public class AerialHellBlockEntities
 	        				AerialHellBlocksAndItems.SHADOW_CATACOMBS_CHEST.get(),
 	        				AerialHellBlocksAndItems.VOLUCITE_CHEST.get(),
 	        				AerialHellBlocksAndItems.GOLDEN_NETHER_CHEST.get()
-	        		), null));
+	        		)));
 	
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ChestMimicBlockEntity>> CHEST_MIMIC = BLOCK_ENTITY_TYPES.register("chest_mimic", () ->
 			new BlockEntityType<>(ChestMimicBlockEntity::new, Sets.newHashSet
@@ -130,5 +129,5 @@ public class AerialHellBlockEntities
 							AerialHellBlocksAndItems.GOLDEN_BEECH_CHEST_MIMIC.get(),
 							AerialHellBlocksAndItems.COPPER_PINE_CHEST_MIMIC.get(),
 							AerialHellBlocksAndItems.SKY_CACTUS_FIBER_CHEST_MIMIC.get()
-					), null));
+					)));
 }

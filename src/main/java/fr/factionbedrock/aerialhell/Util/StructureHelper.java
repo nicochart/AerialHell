@@ -108,7 +108,7 @@ public class StructureHelper
 
 	public static HolderSet<Structure> getDungeonsHolderSet(RegistryAccess registryAccess)
 	{
-		Optional<HolderSet.Named<Structure>> optional = registryAccess.registryOrThrow(Registries.STRUCTURE).getTag(AerialHellTags.Structures.DUNGEONS);
+		Optional<HolderSet.Named<Structure>> optional = registryAccess.lookupOrThrow(Registries.STRUCTURE).get(AerialHellTags.Structures.DUNGEONS);
 		return optional.orElse(null);
 	}
 

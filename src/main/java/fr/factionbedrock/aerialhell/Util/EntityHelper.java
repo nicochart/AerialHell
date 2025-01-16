@@ -177,7 +177,7 @@ public class EntityHelper
 
     public static boolean hasEnchantment(LivingEntity entity, ResourceKey<Enchantment> enchantmentKey)
     {
-        Optional<Holder.Reference<Enchantment>> enchantment = entity.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getHolder(enchantmentKey);
+        Optional<Holder.Reference<Enchantment>> enchantment = entity.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).get(enchantmentKey);
         if (enchantment.isPresent())
         {
             return EnchantmentHelper.getEnchantmentLevel(enchantment.get().getDelegate(), entity) > 0;
@@ -227,7 +227,7 @@ public class EntityHelper
                 ServerLevel serverlevel1 = dimensiontransition.newLevel();
                 if (serverlevel.getServer().isLevelEnabled(serverlevel1) && (serverlevel1.dimension() == serverlevel.dimension() || entity.canTeleport(serverlevel, serverlevel1)))
                 {
-                    entity.changeDimension(dimensiontransition);
+                    entity.teleport(dimensiontransition);
                 }
             }
         }

@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.Ores;
 
+import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
@@ -16,6 +17,7 @@ public class VoluciteOreBlock extends AerialHellOreBlock
     {
         Item usedItem = player.getInventory().getSelected().getItem();
         boolean flag = super.canHarvestBlock(state, level, pos, player);
-        return flag && ItemHelper.getItemMiningLevel(usedItem) >= 4;
+        return flag && BlockHelper.isItemMiningLevelSufficentForHarvesting(state, usedItem);
+        //return flag && ItemHelper.getItemMiningLevel(usedItem) >= 4; TODO does it work ?
     }
 }

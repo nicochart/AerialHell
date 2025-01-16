@@ -7,12 +7,14 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellBiomes;
 import net.minecraft.core.*;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
@@ -49,12 +51,25 @@ public class BlockHelper
 
     public static boolean isItemMiningLevelSufficentForHarvesting(BlockState state, Item item)
     {
+        if (item instanceof DiggerItem diggerItem)
+        {
+            return diggerItem.components().get(DataComponents.TOOL).isCorrectForDrops(state);
+        }
+        else return !(state.is(BlockTags.INCORRECT_FOR_WOODEN_TOOL)
+                || state.is(BlockTags.INCORRECT_FOR_STONE_TOOL)
+                || state.is(BlockTags.INCORRECT_FOR_IRON_TOOL)
+                || state.is(BlockTags.INCORRECT_FOR_GOLD_TOOL)
+                || state.is(BlockTags.INCORRECT_FOR_DIAMOND_TOOL)
+                || state.is(BlockTags.INCORRECT_FOR_NETHERITE_TOOL));
+
+        /*
         int miningLevel = ItemHelper.getItemMiningLevel(item);
         if (state.is(Tags.Blocks.NEEDS_NETHERITE_TOOL) && miningLevel < 4) {return false;}
         else if (state.is(BlockTags.NEEDS_DIAMOND_TOOL) && miningLevel < 3) {return false;}
         else if (state.is(BlockTags.NEEDS_IRON_TOOL) && miningLevel < 2) {return false;}
         else if (state.is(BlockTags.NEEDS_STONE_TOOL) && miningLevel < 1) {return false;}
         return true;
+         */
     }
 
     /* ---- Functions copied from SpreadingSnowyDirtBlock class ---- */
@@ -66,8 +81,8 @@ public class BlockHelper
         else if (blockstate.getFluidState().getAmount() == 8) {return false;}
         else
         {
-            int i = LightEngine.getLightBlockInto(worldReader, state, pos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(worldReader, blockpos));
-            return i < worldReader.getMaxLightLevel();
+            int i = LightEngine.getLightBlockInto(state, blockstate, Direction.UP, blockstate.getLightBlock());
+            return i < 15;
         }
     }
 
@@ -192,7 +207,7 @@ public class BlockHelper
             for (ChunkAccess chunk : list)
             {
                 chunk.fillBiomesFromNoise(makeBiomeResolver(new MutableInt(0), chunk, boundingbox, biome, b -> true), level.getChunkSource().randomState().sampler());
-                chunk.setUnsaved(true);
+                chunk.markUnsaved();
             }
 
             level.getChunkSource().chunkMap.resendBiomesForChunks(list);
@@ -279,7 +294,7 @@ public class BlockHelper
             for (ChunkAccess chunk : list)
             {
                 chunk.fillBiomesFromNoise(makeBiomeResolver(new MutableInt(0), chunk, boundingbox, biome, b -> true), level.getChunkSource().randomState().sampler());
-                chunk.setUnsaved(true);
+                chunk.markUnsaved();
             }
 
             level.getChunkSource().chunkMap.resendBiomesForChunks(list);
@@ -386,7 +401,7 @@ public class BlockHelper
 
     public static Holder<Biome> getBiome(ServerLevel level, ResourceKey<Biome> biomeKey)
     {
-        return level.registryAccess().lookupOrThrow(Registries.BIOME).getHolderOrThrow(biomeKey);
+        return level.registryAccess().lookupOrThrow(Registries.BIOME).getOrThrow(biomeKey);
     }
 
     public static Holder<Biome> getCurrentBiomeAtPos(ServerLevel level, BlockPos pos)
@@ -444,7 +459,7 @@ public class BlockHelper
     {
         for (BlockPos blockpos = pos.above(); blockpos.getY() < 256; blockpos = blockpos.above())
         {
-            if (!reader.isEmptyBlock(blockpos) && reader.getBlockState(blockpos).isSolidRender(reader, pos)) {return true;}
+            if (!reader.isEmptyBlock(blockpos) && reader.getBlockState(blockpos).isSolidRender()) {return true;}
         }
         return false;
     }

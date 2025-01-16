@@ -45,7 +45,7 @@ public class AerialHellFluids
                     .viscosity(5000)
                     .temperature(400))
             {
-                @Override
+                /*@Override TODO
                 public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer)
                 {
                     consumer.accept(new IClientFluidTypeExtensions()
@@ -67,7 +67,7 @@ public class AerialHellFluids
                             RenderSystem.setShaderFogEnd(4f);
                         }
                     });
-                }
+                }*/
             });
 
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> LIQUID_OF_THE_GODS_SOURCE = FLUIDS.register("liquid_of_the_gods_source", () -> new BaseFlowingFluid.Source(AerialHellFluids.LIQUID_OF_THE_GODS_PROPERTIES));
