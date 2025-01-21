@@ -13,7 +13,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
@@ -46,7 +46,7 @@ public class MagmaticGelBlock extends HalfTransparentBlock
 						}
 						else if (fluidState.is(FluidTags.LAVA))
 						{
-							worldIn.setBlockAndUpdate(newPos, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().defaultBlockState());
+							worldIn.setBlockAndUpdate(newPos, AerialHellBlocks.CRYSTAL_BLOCK.get().defaultBlockState());
 							worldIn.playSound(null, newPos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
 						}
 						else if (fluidState.is(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
@@ -64,7 +64,7 @@ public class MagmaticGelBlock extends HalfTransparentBlock
 						}
 						if (block instanceof MagmaBlock)
 						{
-							worldIn.setBlockAndUpdate(newPos, AerialHellBlocksAndItems.MAGMATIC_GEL_ORE.get().defaultBlockState());
+							worldIn.setBlockAndUpdate(newPos, AerialHellBlocks.MAGMATIC_GEL_ORE.get().defaultBlockState());
 							worldIn.playSound(null, newPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
 						}
 					}

@@ -1,7 +1,8 @@
 package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
@@ -159,7 +160,7 @@ public class ItemHelper
     {
         if (livingEntity.level().isClientSide()) {return;}
 
-        if (stack.is(AerialHellBlocksAndItems.SHADOW_FRUIT_STEW))
+        if (stack.is(AerialHellItems.SHADOW_FRUIT_STEW))
         {
             livingEntity.removeEffect(AerialHellMobEffects.VULNERABILITY);
         }

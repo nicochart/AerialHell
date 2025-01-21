@@ -30,18 +30,18 @@ public class AerialHellSetup
     {
         event.enqueueWork(() ->
         {
-        	AerialHellBlocksAndItems.registerCompostableItems();
-        	AerialHellBlocksAndItems.registerPots();
-        	AerialHellBlocksAndItems.registerAxeStrippingBlocks();
+        	AerialHellItems.registerCompostableItems();
+        	AerialHellBlocks.registerPots();
+        	AerialHellBlocks.registerAxeStrippingBlocks();
         });
     }
 	
 	public static void registration(IEventBus bus)
     {
-    	AerialHellBlocksAndItems.BLOCKS.register(bus);
+    	AerialHellBlocks.BLOCKS.register(bus);
     	AerialHellFluids.FLUIDS.register(bus);
     	AerialHellFluids.FLUID_TYPES.register(bus);
-    	AerialHellBlocksAndItems.ITEMS.register(bus);
+    	AerialHellItems.ITEMS.register(bus);
         AerialHellEntities.ENTITIES.register(bus);
         //AerialHellBiomes.BIOMES.register(bus);
         AerialHellMobEffects.EFFECTS.register(bus);

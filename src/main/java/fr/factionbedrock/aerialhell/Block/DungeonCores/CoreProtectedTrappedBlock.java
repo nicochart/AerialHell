@@ -3,10 +3,9 @@ package fr.factionbedrock.aerialhell.Block.DungeonCores;
 import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -42,7 +41,7 @@ public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 				EntityType<?> entityType = getEntity(this);
 				Entity entity = entityType.create(world, EntitySpawnReason.MOB_SUMMONED);
 				entity.absMoveTo(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, (rand.nextFloat() - 0.5F) * 180.0F, 0.0F);
-				if (this == AerialHellBlocksAndItems.TRAPPED_MUD_BRICKS.get() || this == AerialHellBlocksAndItems.TRAPPED_LIGHT_MUD_BRICKS.get() && entity instanceof MudSoldierEntity)
+				if (this == AerialHellBlocks.TRAPPED_MUD_BRICKS.get() || this == AerialHellBlocks.TRAPPED_LIGHT_MUD_BRICKS.get() && entity instanceof MudSoldierEntity)
 				{
 					((MudSoldierEntity) entity).setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
 				}
@@ -54,47 +53,47 @@ public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 	
 	private Block getUntrappedBlock(Block trappedBlock)
 	{
-		if (trappedBlock == AerialHellBlocksAndItems.TRAPPED_MUD_BRICKS.get())
+		if (trappedBlock == AerialHellBlocks.TRAPPED_MUD_BRICKS.get())
 		{
-			return AerialHellBlocksAndItems.MUD_BRICKS.get();
+			return AerialHellBlocks.MUD_BRICKS.get();
 		}
-		else if (trappedBlock == AerialHellBlocksAndItems.TRAPPED_LIGHT_MUD_BRICKS.get())
+		else if (trappedBlock == AerialHellBlocks.TRAPPED_LIGHT_MUD_BRICKS.get())
 		{
-			return AerialHellBlocksAndItems.LIGHT_MUD_BRICKS.get();
+			return AerialHellBlocks.LIGHT_MUD_BRICKS.get();
 		}
-		else if (trappedBlock == AerialHellBlocksAndItems.TRAPPED_LUNATIC_STONE.get())
+		else if (trappedBlock == AerialHellBlocks.TRAPPED_LUNATIC_STONE.get())
 		{
-			return AerialHellBlocksAndItems.LUNATIC_STONE.get();
+			return AerialHellBlocks.LUNATIC_STONE.get();
 		}
-		else if (trappedBlock == AerialHellBlocksAndItems.TRAPPED_LIGHT_LUNATIC_STONE.get())
+		else if (trappedBlock == AerialHellBlocks.TRAPPED_LIGHT_LUNATIC_STONE.get())
 		{
-			return AerialHellBlocksAndItems.LIGHT_LUNATIC_STONE.get();
+			return AerialHellBlocks.LIGHT_LUNATIC_STONE.get();
 		}
-		else if (trappedBlock == AerialHellBlocksAndItems.TRAPPED_GOLDEN_NETHER_BRICKS.get())
+		else if (trappedBlock == AerialHellBlocks.TRAPPED_GOLDEN_NETHER_BRICKS.get())
 		{
-			return AerialHellBlocksAndItems.GOLDEN_NETHER_BRICKS.get();
+			return AerialHellBlocks.GOLDEN_NETHER_BRICKS.get();
 		}
-		else if (trappedBlock == AerialHellBlocksAndItems.TRAPPED_LIGHT_GOLDEN_NETHER_BRICKS.get())
+		else if (trappedBlock == AerialHellBlocks.TRAPPED_LIGHT_GOLDEN_NETHER_BRICKS.get())
 		{
-			return AerialHellBlocksAndItems.LIGHT_GOLDEN_NETHER_BRICKS.get();
+			return AerialHellBlocks.LIGHT_GOLDEN_NETHER_BRICKS.get();
 		}
 		else
 		{
-			return AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get();
+			return AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK.get();
 		}
 	}
 	
 	private EntityType<?> getEntity(Block trappedBlock)
 	{
-		if (trappedBlock == AerialHellBlocksAndItems.TRAPPED_MUD_BRICKS.get() || trappedBlock == AerialHellBlocksAndItems.TRAPPED_LIGHT_MUD_BRICKS.get())
+		if (trappedBlock == AerialHellBlocks.TRAPPED_MUD_BRICKS.get() || trappedBlock == AerialHellBlocks.TRAPPED_LIGHT_MUD_BRICKS.get())
 		{
 			return AerialHellEntities.MUD_SOLDIER.get();
 		}
-		else if (trappedBlock == AerialHellBlocksAndItems.TRAPPED_LUNATIC_STONE.get() || trappedBlock == AerialHellBlocksAndItems.TRAPPED_LIGHT_LUNATIC_STONE.get())
+		else if (trappedBlock == AerialHellBlocks.TRAPPED_LUNATIC_STONE.get() || trappedBlock == AerialHellBlocks.TRAPPED_LIGHT_LUNATIC_STONE.get())
 		{
 			return AerialHellEntities.CRYSTAL_GOLEM.get();
 		}
-		else if (trappedBlock == AerialHellBlocksAndItems.TRAPPED_GOLDEN_NETHER_BRICKS.get() || trappedBlock == AerialHellBlocksAndItems.TRAPPED_LIGHT_GOLDEN_NETHER_BRICKS.get())
+		else if (trappedBlock == AerialHellBlocks.TRAPPED_GOLDEN_NETHER_BRICKS.get() || trappedBlock == AerialHellBlocks.TRAPPED_LIGHT_GOLDEN_NETHER_BRICKS.get())
 		{
 			return AerialHellEntities.TORN_SPIRIT.get();
 		}

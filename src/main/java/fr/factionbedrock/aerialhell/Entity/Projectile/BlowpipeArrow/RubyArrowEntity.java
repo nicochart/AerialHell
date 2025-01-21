@@ -1,7 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractAerialArrowEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,7 +13,7 @@ import javax.annotation.Nullable;
 
 public class RubyArrowEntity extends AbstractAerialArrowEntity
 {
-    public static final ItemStack DEFAULT_STACK = new ItemStack(AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get());
+    public static final ItemStack DEFAULT_STACK = new ItemStack(AerialHellItems.RUBY_BLOWPIPE_ARROW.get());
 
     public RubyArrowEntity(LivingEntity shooter, Level level, ItemStack pickupItemStack)
     {
@@ -30,7 +31,7 @@ public class RubyArrowEntity extends AbstractAerialArrowEntity
         super(type, level);
     }
     
-    @Override protected ItemStack getPickupItem() {return new ItemStack(AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get());}
+    @Override protected ItemStack getPickupItem() {return new ItemStack(AerialHellItems.RUBY_BLOWPIPE_ARROW.get());}
 
-    @Override protected ItemStack getDefaultPickupItem() {return new ItemStack(AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get());}
+    @Override protected ItemStack getDefaultPickupItem() {return new ItemStack(AerialHellItems.RUBY_BLOWPIPE_ARROW.get());}
 }

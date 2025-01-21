@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.StandingAndWall;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -44,11 +44,11 @@ public class AerialHellTorchBlock extends Block
 		double d0 = (double)pos.getX() + 0.5D;
       	double d1 = (double)pos.getY() + 0.7D;
       	double d2 = (double)pos.getZ() + 0.5D;
-      	if (this == AerialHellBlocksAndItems.FLUORITE_TORCH.get() && rand.nextInt(5) == 0)
+      	if (this == AerialHellBlocks.FLUORITE_TORCH.get() && rand.nextInt(5) == 0)
       	{
       		worldIn.addParticle(AerialHellParticleTypes.OSCILLATOR.get(), d0 + 0.5 * (rand.nextFloat() - 0.5), d1 - 0.2 * rand.nextFloat(), d2 + 0.5 * (rand.nextFloat() - 0.5), rand.nextFloat() - 0.5, rand.nextFloat() - 0.5, rand.nextFloat() - 0.5);
       	}
-		else if (this == AerialHellBlocksAndItems.SHADOW_TORCH.get() && rand.nextInt(5) == 0)
+		else if (this == AerialHellBlocks.SHADOW_TORCH.get() && rand.nextInt(5) == 0)
 		{
 			worldIn.addParticle(AerialHellParticleTypes.SHADOW_LIGHT.get(), d0 + 0.5 * (rand.nextFloat() - 0.5), d1 - 0.2 * rand.nextFloat(), d2 + 0.5 * (rand.nextFloat() - 0.5), rand.nextFloat() - 0.5, 0.1, rand.nextFloat() - 0.5);
 		}

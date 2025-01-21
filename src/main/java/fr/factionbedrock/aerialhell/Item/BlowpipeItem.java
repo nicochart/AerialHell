@@ -1,5 +1,7 @@
 package fr.factionbedrock.aerialhell.Item;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractAerialArrowEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 
@@ -41,14 +42,14 @@ public class BlowpipeItem extends Item
             AerialArrowItem arrowItem;
             if(isCreative && ammo.isEmpty())
             {
-                arrowItem = (AerialArrowItem) AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get();
+                arrowItem = (AerialArrowItem) AerialHellItems.RUBY_BLOWPIPE_ARROW.get();
             }
             else
             {
                 arrowItem = (AerialArrowItem) ammo.getItem();
             }
             AbstractAerialArrowEntity arrow = arrowItem.createArrow(worldIn, ammo, playerIn);
-            if (arrowItem == AerialHellBlocksAndItems.VOLUCITE_BLOWPIPE_ARROW.get()) {arrow.setNoGravity(true);}
+            if (arrowItem == AerialHellItems.VOLUCITE_BLOWPIPE_ARROW.get()) {arrow.setNoGravity(true);}
             
             arrow.shootFromRotation(playerIn, playerIn.getXRot(), playerIn.getYRot(), 0.0F, arrowVelocity, 1.0F);
             if (isCreative)

@@ -1,42 +1,26 @@
 package fr.factionbedrock.aerialhell.World;
 
-import fr.factionbedrock.aerialhell.Block.AerialHellPortalBlock;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellPOI;
-import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.level.TicketType;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiRecord;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.border.WorldBorder;
-import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.levelgen.Heightmap;
 //import net.minecraft.world.level.portal.PortalInfo;
-import net.minecraft.world.level.portal.TeleportTransition;
-import net.minecraft.world.level.portal.PortalShape;
-import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.network.PacketDistributor;
 //import net.neoforged.neoforge.common.util.ITeleporter;
 
-import javax.annotation.Nullable;
 import java.util.Comparator;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
 
 /*
  * I followed this tutorial : https://www.youtube.com/watch?v=CYdq8e-zDSo
@@ -68,7 +52,7 @@ public class AerialHellTeleporter
 {
 
     protected final ServerLevel level;
-    private final BlockState frame = AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get().defaultBlockState();
+    private final BlockState frame = AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK.get().defaultBlockState();
 
     public AerialHellTeleporter(ServerLevel pLevel) {this.level = pLevel;}
 
@@ -173,7 +157,7 @@ public class AerialHellTeleporter
             }
         }
 
-        BlockState blockstate = AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get().defaultBlockState().setValue(NetherPortalBlock.AXIS, axis);
+        BlockState blockstate = AerialHellBlocks.AERIAL_HELL_PORTAL.get().defaultBlockState().setValue(NetherPortalBlock.AXIS, axis);
 
         for (int k2 = 0; k2 < 2; k2++)
         {

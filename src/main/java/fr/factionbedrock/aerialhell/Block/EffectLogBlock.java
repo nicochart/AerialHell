@@ -1,8 +1,7 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -21,7 +20,7 @@ public class EffectLogBlock extends ShiftableLogBlock
 	public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)
 	{
 		boolean flag = super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
-		if (flag && this == AerialHellBlocksAndItems.ENCHANTED_LAPIS_ROBINIA_LOG.get() && !player.isCreative())
+		if (flag && this == AerialHellBlocks.ENCHANTED_LAPIS_ROBINIA_LOG.get() && !player.isCreative())
 		{
 			player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 30, 0));
 		}

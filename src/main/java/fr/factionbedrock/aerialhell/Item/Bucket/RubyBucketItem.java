@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Item.Bucket;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.EvilCowEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellFluids;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
@@ -54,14 +54,14 @@ public class RubyBucketItem extends Item
                     {
                         playPickupSound(fluid, playerIn);
                         worldIn.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
-                        ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, playerIn, new ItemStack(AerialHellBlocksAndItems.RUBY_WATER_BUCKET.get()));
+                        ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, playerIn, new ItemStack(AerialHellItems.RUBY_WATER_BUCKET.get()));
                         return InteractionResult.SUCCESS;
                     }
                     else if (fluid == AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE.get())
                     {
                         playPickupSound(fluid, playerIn);
                         worldIn.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
-                        ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, playerIn, new ItemStack(AerialHellBlocksAndItems.RUBY_LIQUID_OF_GODS_BUCKET.get()));
+                        ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, playerIn, new ItemStack(AerialHellItems.RUBY_LIQUID_OF_GODS_BUCKET.get()));
                         return InteractionResult.SUCCESS;
                     }
                 }

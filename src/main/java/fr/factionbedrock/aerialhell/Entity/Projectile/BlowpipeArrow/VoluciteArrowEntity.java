@@ -1,7 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractAerialArrowEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,7 +13,7 @@ import javax.annotation.Nullable;
 
 public class VoluciteArrowEntity extends AbstractAerialArrowEntity
 {
-    public static final ItemStack DEFAULT_STACK = new ItemStack(AerialHellBlocksAndItems.VOLUCITE_BLOWPIPE_ARROW.get());
+    public static final ItemStack DEFAULT_STACK = new ItemStack(AerialHellItems.VOLUCITE_BLOWPIPE_ARROW.get());
 
     public VoluciteArrowEntity(LivingEntity shooter, Level level, ItemStack pickupItemStack)
     {
@@ -45,7 +46,7 @@ public class VoluciteArrowEntity extends AbstractAerialArrowEntity
         ++this.ticksLiving;
     }
     
-    @Override protected ItemStack getPickupItem() {return new ItemStack(AerialHellBlocksAndItems.VOLUCITE_BLOWPIPE_ARROW.get());}
+    @Override protected ItemStack getPickupItem() {return new ItemStack(AerialHellItems.VOLUCITE_BLOWPIPE_ARROW.get());}
 
-    @Override protected ItemStack getDefaultPickupItem() {return new ItemStack(AerialHellBlocksAndItems.VOLUCITE_BLOWPIPE_ARROW.get());}
+    @Override protected ItemStack getDefaultPickupItem() {return new ItemStack(AerialHellItems.VOLUCITE_BLOWPIPE_ARROW.get());}
 }

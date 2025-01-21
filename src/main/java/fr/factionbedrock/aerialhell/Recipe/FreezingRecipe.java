@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Recipe;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
@@ -14,7 +14,7 @@ public class FreezingRecipe extends AbstractCookingRecipe
 		super(groupIn, category, ingredientIn, resultIn, experienceIn, cookTimeIn);
 	}
 
-	@Override protected Item furnaceIcon() {return AerialHellBlocksAndItems.FREEZER.asItem();}
+	@Override protected Item furnaceIcon() {return AerialHellBlocks.FREEZER.asItem();}
 
 	@Override public RecipeSerializer<FreezingRecipe> getSerializer() {return AerialHellRecipes.FREEZING.get();}
 

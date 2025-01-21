@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.DirtAndVariants;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -23,7 +23,7 @@ public class StellarFarmBlock extends FarmBlock
 
     @Override public BlockState getStateForPlacement(BlockPlaceContext context)
     {
-        return !this.defaultBlockState().canSurvive(context.getLevel(), context.getClickedPos()) ? AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState() : super.getStateForPlacement(context);
+        return !this.defaultBlockState().canSurvive(context.getLevel(), context.getClickedPos()) ? AerialHellBlocks.STELLAR_DIRT.get().defaultBlockState() : super.getStateForPlacement(context);
     }
 
     @Override public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
@@ -44,7 +44,7 @@ public class StellarFarmBlock extends FarmBlock
 
     @Override public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance)
     {
-        if (!level.isClientSide && net.neoforged.neoforge.common.CommonHooks.onFarmlandTrample((ServerLevel) level, pos, AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState(), fallDistance, entity))
+        if (!level.isClientSide && net.neoforged.neoforge.common.CommonHooks.onFarmlandTrample((ServerLevel) level, pos, AerialHellBlocks.STELLAR_DIRT.get().defaultBlockState(), fallDistance, entity))
         {
             turnToStellarDirt(entity, state, level, pos);
         }
@@ -54,7 +54,7 @@ public class StellarFarmBlock extends FarmBlock
     //copy of net.minecraft.world.level.block.FarmBlock.turnToDirt, edited
     public static void turnToStellarDirt(@Nullable Entity entity, BlockState state, Level level, BlockPos pos)
     {
-        BlockState blockstate = pushEntitiesUp(state, AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState(), level, pos);
+        BlockState blockstate = pushEntitiesUp(state, AerialHellBlocks.STELLAR_DIRT.get().defaultBlockState(), level, pos);
         level.setBlockAndUpdate(pos, blockstate);
         level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(entity, blockstate));
     }

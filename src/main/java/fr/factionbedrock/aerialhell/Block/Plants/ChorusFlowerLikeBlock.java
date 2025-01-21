@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -113,13 +113,13 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
 
     public static void generatePlant(LevelAccessor level, BlockPos pos, RandomSource rand, int size)
     {
-        level.setBlock(pos, ChorusPlantLikeBlock.getStateForPlacement(level, pos, AerialHellBlocksAndItems.FULL_MOON_PLANT.get().defaultBlockState()), 2);
+        level.setBlock(pos, ChorusPlantLikeBlock.getStateForPlacement(level, pos, AerialHellBlocks.FULL_MOON_PLANT.get().defaultBlockState()), 2);
         growTreeRecursive(level, pos, rand, pos, size, 0);
     }
 
     private static void growTreeRecursive(LevelAccessor level, BlockPos pos1, RandomSource rand, BlockPos pos2, int size, int iteration)
     {
-        ChorusPlantLikeBlock plantBlock = AerialHellBlocksAndItems.FULL_MOON_PLANT.get();
+        ChorusPlantLikeBlock plantBlock = AerialHellBlocks.FULL_MOON_PLANT.get();
         int i = rand.nextInt(4) + 1;
         if (iteration == 0) {++i;}
 
@@ -150,6 +150,6 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
                 }
             }
         }
-        if (!flag) {level.setBlock(pos1.above(i), AerialHellBlocksAndItems.FULL_MOON_FLOWER.get().defaultBlockState().setValue(AGE, Integer.valueOf(5)), 2);}
+        if (!flag) {level.setBlock(pos1.above(i), AerialHellBlocks.FULL_MOON_FLOWER.get().defaultBlockState().setValue(AGE, Integer.valueOf(5)), 2);}
     }
 }

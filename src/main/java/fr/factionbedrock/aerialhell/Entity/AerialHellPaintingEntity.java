@@ -2,7 +2,8 @@ package fr.factionbedrock.aerialhell.Entity;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
@@ -17,7 +18,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.PaintingVariantTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.VariantHolder;
@@ -28,7 +28,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -145,7 +144,7 @@ public class AerialHellPaintingEntity extends HangingEntity implements VariantHo
         {
             this.playSound(SoundEvents.PAINTING_BREAK, 1.0F, 1.0F);
             if (brokenEntity instanceof Player player && player.hasInfiniteMaterials()) {return;}
-            this.spawnAtLocation(serverLevel, AerialHellBlocksAndItems.AERIAL_HELL_PAINTING.get());
+            this.spawnAtLocation(serverLevel, AerialHellItems.AERIAL_HELL_PAINTING.get());
         }
     }
 
@@ -163,5 +162,5 @@ public class AerialHellPaintingEntity extends HangingEntity implements VariantHo
         this.setDirection(Direction.from3DDataValue(pPacket.getData()));
     }
 
-    @Override public ItemStack getPickResult() {return new ItemStack(AerialHellBlocksAndItems.AERIAL_HELL_PAINTING.get());}
+    @Override public ItemStack getPickResult() {return new ItemStack(AerialHellItems.AERIAL_HELL_PAINTING.get());}
 }

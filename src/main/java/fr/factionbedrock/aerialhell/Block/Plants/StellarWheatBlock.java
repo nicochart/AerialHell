@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -15,9 +16,9 @@ public class StellarWheatBlock extends CropBlock
 {
     public StellarWheatBlock(Properties prop) {super(prop);}
 
-    @Override protected boolean mayPlaceOn(BlockState state, BlockGetter blockGetter, BlockPos pos) {return state.is(AerialHellBlocksAndItems.STELLAR_FARMLAND.get());}
+    @Override protected boolean mayPlaceOn(BlockState state, BlockGetter blockGetter, BlockPos pos) {return state.is(AerialHellBlocks.STELLAR_FARMLAND.get());}
 
-    @Override protected ItemLike getBaseSeedId() {return AerialHellBlocksAndItems.STELLAR_WHEAT_SEEDS.get();}
+    @Override protected ItemLike getBaseSeedId() {return AerialHellItems.STELLAR_WHEAT_SEEDS.get();}
 
     @Override protected void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
     {
@@ -50,7 +51,7 @@ public class StellarWheatBlock extends CropBlock
             {
                 float bonusMoisture = 0.0F;
                 BlockState blockState = world.getBlockState(blockPos.offset(x, 0, z));
-                if (blockState.is(AerialHellBlocksAndItems.STELLAR_FARMLAND))
+                if (blockState.is(AerialHellBlocks.STELLAR_FARMLAND))
                 {
                     bonusMoisture = 1.0F;
                     if (blockState.getValue(FarmBlock.MOISTURE) > 0) {bonusMoisture = 3.0F;}

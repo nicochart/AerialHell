@@ -1,8 +1,6 @@
 package fr.factionbedrock.aerialhell.Util;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.resources.ResourceLocation;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
@@ -118,9 +116,9 @@ public class FeatureHelper
         BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
         for (int i = -50; i <= 50; i++)
         {
-            reader.setBlock(centerOfFeature.offset(i, 0, 0), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
-            reader.setBlock(centerOfFeature.offset(0, i, 0), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
-            reader.setBlock(centerOfFeature.offset(0, 0, i), AerialHellBlocksAndItems.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
+            reader.setBlock(centerOfFeature.offset(i, 0, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
+            reader.setBlock(centerOfFeature.offset(0, i, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
+            reader.setBlock(centerOfFeature.offset(0, 0, i), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
         }
 
         //feature center
@@ -130,12 +128,12 @@ public class FeatureHelper
             {
                 for (int z = -1; z <= 1; z++)
                 {
-                    reader.setBlock(centerOfFeature.offset(x, y, z), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);
+                    reader.setBlock(centerOfFeature.offset(x, y, z), AerialHellBlocks.ARSONIST_BLOCK.get().defaultBlockState(), 0);
                 }
             }
         }
 
         //feature origin
-        reader.setBlock(context.origin(), AerialHellBlocksAndItems.CRYSTAL_BRICKS.get().defaultBlockState(), 0);
+        reader.setBlock(context.origin(), AerialHellBlocks.CRYSTAL_BRICKS.get().defaultBlockState(), 0);
     }
 }

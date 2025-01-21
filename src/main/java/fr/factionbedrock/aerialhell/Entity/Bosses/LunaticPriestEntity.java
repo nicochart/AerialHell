@@ -2,7 +2,8 @@ package fr.factionbedrock.aerialhell.Entity.Bosses;
 
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.MoverType;
@@ -163,7 +164,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		else {super.handleEntityEvent(id);}
 	}
 
-	@Override public Item getTrophy() {return AerialHellBlocksAndItems.LUNAR_PRIEST_TROPHY_ITEM.get();}
+	@Override public Item getTrophy() {return AerialHellItems.LUNAR_PRIEST_TROPHY.get();}
 
 	@Override public void aiStep()
     {

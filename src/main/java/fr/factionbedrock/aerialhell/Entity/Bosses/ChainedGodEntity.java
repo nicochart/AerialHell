@@ -5,7 +5,8 @@ import java.util.List;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ChainedGodFireballEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -192,7 +193,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	@Override public void tickDeadPhase() {this.tickDyingPhase();}
 
-	@Override public Item getTrophy() {return AerialHellBlocksAndItems.CHAINED_GOD_TROPHY_ITEM.get();}
+	@Override public Item getTrophy() {return AerialHellItems.CHAINED_GOD_TROPHY.get();}
 
 	protected enum NearbyEntitiesInteractionType {NONE, DRAG, REPULSE}
 

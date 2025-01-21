@@ -1,7 +1,8 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
 import fr.factionbedrock.aerialhell.Inventory.Menu.OscillatorMenu;
 
@@ -39,10 +40,10 @@ public class OscillatorBlockEntity extends AbstractFurnaceBlockEntity
 	public static Map<Item, Integer> getOscillatingMap()
 	{
 		Map<Item, Integer> map = Maps.newLinkedHashMap();
-		map.put(AerialHellBlocksAndItems.FLUORITE.get(), 1200);
-		map.put(AerialHellBlocksAndItems.FLUORITE_BLOCK_ITEM.get(), 10800);
-		map.put(AerialHellBlocksAndItems.CRYSTAL.get(), 300);
-		map.put(AerialHellBlocksAndItems.CRYSTAL_BLOCK_ITEM.get(), 1200);
+		map.put(AerialHellItems.FLUORITE.get(), 1200);
+		map.put(AerialHellItems.FLUORITE_BLOCK.get(), 10800);
+		map.put(AerialHellItems.CRYSTAL.get(), 300);
+		map.put(AerialHellItems.CRYSTAL_BLOCK.get(), 1200);
 		return map;
 	}
 

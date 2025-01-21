@@ -4,7 +4,8 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.ReactorBlock;
 import fr.factionbedrock.aerialhell.Inventory.Menu.ReactorMenu;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -91,10 +92,10 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
             else
             {
                 int activeTimerIncrement = 0;
-                if (stack.is(AerialHellBlocksAndItems.SHADOW_CRYSTAL)) {activeTimerIncrement = 400 * active_factor;}
-                else if (stack.is(AerialHellBlocksAndItems.SHADOW_SHARD)) {activeTimerIncrement = 1000 * active_factor;}
-                else if (stack.is(AerialHellBlocksAndItems.CURSED_CRYSAL)) {activeTimerIncrement = 2000 * active_factor;}
-                else if (stack.is(AerialHellBlocksAndItems.CURSED_CRYSAL_BLOCK_ITEM)) {activeTimerIncrement = 18000 * active_factor;}
+                if (stack.is(AerialHellItems.SHADOW_CRYSTAL)) {activeTimerIncrement = 400 * active_factor;}
+                else if (stack.is(AerialHellItems.SHADOW_SHARD)) {activeTimerIncrement = 1000 * active_factor;}
+                else if (stack.is(AerialHellItems.CURSED_CRYSAL)) {activeTimerIncrement = 2000 * active_factor;}
+                else if (stack.is(AerialHellItems.CURSED_CRYSAL_BLOCK)) {activeTimerIncrement = 18000 * active_factor;}
                 if (activeTimerIncrement > 0 && this.activeTimer + activeTimerIncrement <= MAX_ACTIVE_TIMER)
                 {
                     this.activeTimer += activeTimerIncrement;

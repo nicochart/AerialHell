@@ -2,7 +2,8 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
 import fr.factionbedrock.aerialhell.Entity.AI.GhostGoals;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.AzuriteShurikenEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.server.level.ServerLevel;
@@ -44,7 +45,7 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity
         return super.hurtServer(serverLevel, damageSource, amount);
     }
 
-    @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand) {return new ItemStack(AerialHellBlocksAndItems.AZURITE_SHURIKEN.get());}
+    @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand) {return new ItemStack(AerialHellItems.AZURITE_SHURIKEN.get());}
 
     @Override public EntityType<? extends AbstractSlimePirateEntity> getDieOffspringType() {return AerialHellEntities.GHOST_SLIME_PIRATE.get();}
 
@@ -65,7 +66,7 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity
         @Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ)
         {
             RandomSource rand = this.getParentEntity().getRandom(); double halfDistanceToTarget = this.getParentEntity().distanceTo(this.getParentEntity().getTarget()) / 2;
-            return new AzuriteShurikenEntity(level, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget, 1.3f, 0.0f, AerialHellBlocksAndItems.AZURITE_SHURIKEN.toStack());
+            return new AzuriteShurikenEntity(level, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget, 1.3f, 0.0f, AerialHellItems.AZURITE_SHURIKEN.toStack());
         }
     }
 

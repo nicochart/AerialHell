@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Shadow;
 
 import com.google.common.collect.ImmutableList;
 import fr.factionbedrock.aerialhell.Entity.AI.FleeBlockGoal;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
@@ -44,7 +44,7 @@ public class ShadowTrollEntity extends Monster
     @Override
     protected void registerGoals()
     {
-        List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocksAndItems.VOLUCITE_TORCH.get(), AerialHellBlocksAndItems.VOLUCITE_WALL_TORCH.get());
+        List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocks.VOLUCITE_TORCH.get(), AerialHellBlocks.VOLUCITE_WALL_TORCH.get());
         this.goalSelector.addGoal(1, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
 		this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.25D, false));

@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.level.block.CactusBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,7 +29,7 @@ public class SkyCactusBlock extends CactusBlock
 	        if (blockstate.isSolid() || level.getFluidState(pos.relative(direction)).is(FluidTags.LAVA)) {return false;}
 	    }
 	    BlockState bottom_blockstate = level.getBlockState(pos.below());
-	    return (bottom_blockstate.getBlock().equals(AerialHellBlocksAndItems.SKY_CACTUS.get()) || bottom_blockstate.getBlock().equals(AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS.get()) || bottom_blockstate.getBlock().equals(AerialHellBlocksAndItems.SLIPPERY_SAND.get()));
+	    return (bottom_blockstate.getBlock().equals(AerialHellBlocks.SKY_CACTUS.get()) || bottom_blockstate.getBlock().equals(AerialHellBlocks.VIBRANT_SKY_CACTUS.get()) || bottom_blockstate.getBlock().equals(AerialHellBlocks.SLIPPERY_SAND.get()));
 	}
 	
 	/*Edited onEntityCollision to deal more damage and to make the player jump*/

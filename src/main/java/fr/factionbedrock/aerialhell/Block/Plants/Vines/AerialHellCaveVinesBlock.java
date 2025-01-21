@@ -1,12 +1,12 @@
 package fr.factionbedrock.aerialhell.Block.Plants.Vines;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -24,13 +24,13 @@ public class AerialHellCaveVinesBlock extends CaveVinesBlock
 
     @Override protected Block getBodyBlock()
     {
-        if (this == AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES.get()) {return AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES_PLANT.get();}
-        else /*if (this == AerialHellBlocksAndItems.BLOSSOMING_VINES.get())*/{return AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT.get();}
+        if (this == AerialHellBlocks.GLOWING_STICK_FRUIT_VINES.get()) {return AerialHellBlocks.GLOWING_STICK_FRUIT_VINES_PLANT.get();}
+        else /*if (this == AerialHellBlocksAndItems.BLOSSOMING_VINES.get())*/{return AerialHellBlocks.BLOSSOMING_VINES_PLANT.get();}
     }
 
     protected Item getBerryItem() {
-        if (this == AerialHellBlocksAndItems.GLOWING_STICK_FRUIT_VINES.get()) {return AerialHellBlocksAndItems.GLOWING_STICK_FRUIT.get();}
-        else /*if (this == AerialHellBlocksAndItems.BLOSSOMING_VINES.get())*/{return AerialHellBlocksAndItems.VINE_BLOSSOM.get();}
+        if (this == AerialHellBlocks.GLOWING_STICK_FRUIT_VINES.get()) {return AerialHellItems.GLOWING_STICK_FRUIT.get();}
+        else /*if (this == AerialHellBlocksAndItems.BLOSSOMING_VINES.get())*/{return AerialHellItems.VINE_BLOSSOM.get();}
     }
 
     @Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult)

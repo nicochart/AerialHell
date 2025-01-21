@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Block.ShadowSpreader;
 
 import fr.factionbedrock.aerialhell.Block.ShiftableLogBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -21,7 +21,7 @@ public class ShadowEffectLogBlock extends ShadowLogBlock
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)
     {
         boolean flag = super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
-        if (flag && this == AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get() && !EntityHelper.isLivingEntityShadowImmune(player) && !player.isCreative())
+        if (flag && this == AerialHellBlocks.EYE_SHADOW_PINE_LOG.get() && !EntityHelper.isLivingEntityShadowImmune(player) && !player.isCreative())
         {
             player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 60, 0));
             player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 60, 1));

@@ -2,26 +2,15 @@ package fr.factionbedrock.aerialhell.Registry;
 
 import static fr.factionbedrock.aerialhell.AerialHell.MODID;
 
-import com.mojang.blaze3d.shaders.FogShape;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Camera;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.common.SoundActions;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
-import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3f;
-
-import java.util.function.Consumer;
 
 public class AerialHellFluids
 {
@@ -73,5 +62,5 @@ public class AerialHellFluids
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> LIQUID_OF_THE_GODS_SOURCE = FLUIDS.register("liquid_of_the_gods_source", () -> new BaseFlowingFluid.Source(AerialHellFluids.LIQUID_OF_THE_GODS_PROPERTIES));
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> LIQUID_OF_THE_GODS_FLOWING = FLUIDS.register("liquid_of_the_gods_flowing", () -> new BaseFlowingFluid.Flowing(AerialHellFluids.LIQUID_OF_THE_GODS_PROPERTIES));
 
-    public static final BaseFlowingFluid.Properties LIQUID_OF_THE_GODS_PROPERTIES = new BaseFlowingFluid.Properties(LIQUID_OF_GODS_TYPE, LIQUID_OF_THE_GODS_SOURCE, LIQUID_OF_THE_GODS_FLOWING).bucket(AerialHellBlocksAndItems.IRON_LIQUID_OF_GODS_BUCKET).block(AerialHellBlocksAndItems.LIQUID_OF_THE_GODS).tickRate(40).levelDecreasePerBlock(3).slopeFindDistance(4);
+    public static final BaseFlowingFluid.Properties LIQUID_OF_THE_GODS_PROPERTIES = new BaseFlowingFluid.Properties(LIQUID_OF_GODS_TYPE, LIQUID_OF_THE_GODS_SOURCE, LIQUID_OF_THE_GODS_FLOWING).bucket(AerialHellItems.IRON_LIQUID_OF_GODS_BUCKET).block(AerialHellBlocks.LIQUID_OF_THE_GODS).tickRate(40).levelDecreasePerBlock(3).slopeFindDistance(4);
 }

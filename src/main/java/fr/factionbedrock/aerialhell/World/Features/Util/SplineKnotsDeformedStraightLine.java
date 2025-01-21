@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features.Util;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
@@ -61,7 +61,7 @@ public class SplineKnotsDeformedStraightLine extends StraightLine implements Spl
         //spline knots position
         for (int i=0; i<knotsNumber; i++)
         {
-            this.context.level().setBlock(knots[i], AerialHellBlocksAndItems.VIBRANT_SKY_CACTUS_FIBER_LANTERN.get().defaultBlockState(), 0);
+            this.context.level().setBlock(knots[i], AerialHellBlocks.VIBRANT_SKY_CACTUS_FIBER_LANTERN.get().defaultBlockState(), 0);
         }
     }
 }

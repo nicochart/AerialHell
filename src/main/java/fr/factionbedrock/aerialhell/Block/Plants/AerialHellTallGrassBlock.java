@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.TallGrassBlock;
@@ -19,25 +19,25 @@ public class AerialHellTallGrassBlock extends TallGrassBlock
 	public void performBonemeal(ServerLevel worldIn, RandomSource rand, BlockPos pos, BlockState state)
 	{
 	    DoublePlantBlock tall_plant;
-	    if (this == AerialHellBlocksAndItems.STELLAR_FERN.get())
+	    if (this == AerialHellBlocks.STELLAR_FERN.get())
 	    {
-	    	tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.STELLAR_TALL_FERN.get();
+	    	tall_plant = (DoublePlantBlock) AerialHellBlocks.STELLAR_TALL_FERN.get();
 	    	placePlant(worldIn, pos, tall_plant);
 	    }
-		else if (this == AerialHellBlocksAndItems.BLUISH_FERN.get())
+		else if (this == AerialHellBlocks.BLUISH_FERN.get())
 		{
-			tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.TALL_BLUISH_FERN.get();
+			tall_plant = (DoublePlantBlock) AerialHellBlocks.TALL_BLUISH_FERN.get();
 			placePlant(worldIn, pos, tall_plant);
 		}
-		else if (this == AerialHellBlocksAndItems.POLYCHROME_FERN.get())
+		else if (this == AerialHellBlocks.POLYCHROME_FERN.get())
 		{
-			tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.TALL_POLYCHROME_FERN.get();
+			tall_plant = (DoublePlantBlock) AerialHellBlocks.TALL_POLYCHROME_FERN.get();
 			placePlant(worldIn, pos, tall_plant);
 		}
-	    else if (this == AerialHellBlocksAndItems.BRAMBLES.get()) {}
-	    else if (this == AerialHellBlocksAndItems.STELLAR_GRASS.get())
+	    else if (this == AerialHellBlocks.BRAMBLES.get()) {}
+	    else if (this == AerialHellBlocks.STELLAR_GRASS.get())
 	    {
-	    	tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get();
+	    	tall_plant = (DoublePlantBlock) AerialHellBlocks.STELLAR_TALL_GRASS.get();
 	    	placePlant(worldIn, pos, tall_plant);
 	    }
 	}

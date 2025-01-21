@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
@@ -49,6 +50,6 @@ public class MummyEntity extends AbstractHumanoidMonster
 
     @Nullable @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand)
     {
-        return rand.nextInt(2) == 0 ? new ItemStack(AerialHellBlocksAndItems.STELLAR_STONE_SWORD.get()) : new ItemStack(AerialHellBlocksAndItems.STELLAR_STONE_AXE.get());
+        return rand.nextInt(2) == 0 ? new ItemStack(AerialHellItems.STELLAR_STONE_SWORD.get()) : new ItemStack(AerialHellItems.STELLAR_STONE_AXE.get());
     }
 }

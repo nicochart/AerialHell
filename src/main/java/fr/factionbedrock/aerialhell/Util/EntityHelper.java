@@ -23,8 +23,9 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Spider.CrystalSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Neutral.BoarEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEnchantments;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -79,7 +80,7 @@ public class EntityHelper
 
     public static boolean isLivingEntityUnderAerialHellPortalEffect(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL.getDelegate());}
 
-    public static boolean isLivingEntityInAerialHellPortal(LivingEntity entity) {return entity.level().getBlockState(entity.blockPosition()).is(AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get());}
+    public static boolean isLivingEntityInAerialHellPortal(LivingEntity entity) {return entity.level().getBlockState(entity.blockPosition()).is(AerialHellBlocks.AERIAL_HELL_PORTAL.get());}
 
     public static boolean isLivingEntityOnPortalCooldown(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN.getDelegate()) || entity.isOnPortalCooldown();}
 
@@ -143,7 +144,7 @@ public class EntityHelper
         {
             if (hasSolidEtherWalkerEnchantment(livingEntity) || isLivingEntityUnderInTheCloudsEffect(livingEntity) || isFeatheryEntity(entity)) {return false;}
             Iterable<ItemStack> stuff = livingEntity.getArmorSlots();
-            for (ItemStack armorStack : stuff) {if (armorStack.getItem() == AerialHellBlocksAndItems.MAGMATIC_GEL_BOOTS.get()) {return false;}}
+            for (ItemStack armorStack : stuff) {if (armorStack.getItem() == AerialHellItems.MAGMATIC_GEL_BOOTS.get()) {return false;}}
             return true;
         }
         return false;
@@ -155,7 +156,7 @@ public class EntityHelper
         {
             if (hasSolidEtherWalkerEnchantment(livingEntity) || isLivingEntityUnderInTheCloudsEffect(livingEntity) || isGhostEntity(livingEntity)) {return false;}
             Iterable<ItemStack> stuff = livingEntity.getArmorSlots();
-            for (ItemStack armorStack : stuff) {if (armorStack.getItem() == AerialHellBlocksAndItems.MAGMATIC_GEL_BOOTS.get()) {return false;}}
+            for (ItemStack armorStack : stuff) {if (armorStack.getItem() == AerialHellItems.MAGMATIC_GEL_BOOTS.get()) {return false;}}
             return true;
         }
         return false;

@@ -1,7 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
 import fr.factionbedrock.aerialhell.Entity.AI.GhostGoals;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
@@ -49,7 +50,7 @@ public class GhostSlimePirateEntity extends AbstractSlimePirateEntity
 
     @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand)
     {
-        return rand.nextInt(2) == 0 ? new ItemStack(AerialHellBlocksAndItems.AZURITE_SWORD.get()) : new ItemStack(AerialHellBlocksAndItems.AZURITE_AXE.get());
+        return rand.nextInt(2) == 0 ? new ItemStack(AerialHellItems.AZURITE_SWORD.get()) : new ItemStack(AerialHellItems.AZURITE_AXE.get());
     }
 
     public static boolean canGhostSpawn(EntityType<? extends Monster> type, ServerLevelAccessor worldIn, EntitySpawnReason reason, BlockPos pos, RandomSource randomIn)

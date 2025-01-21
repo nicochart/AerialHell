@@ -2,7 +2,8 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 
 import java.util.Random;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -31,12 +32,12 @@ public class EffectHoeItem extends AerialHellHoeItem
     {
 		ItemStack heldItem = playerIn.getItemInHand(handIn);
 		Random rand = new Random();
-		if (this == AerialHellBlocksAndItems.VOLUCITE_HOE.get())
+		if (this == AerialHellItems.VOLUCITE_HOE.get())
 		{
 			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, handIn, rand, false)) {return InteractionResult.CONSUME;}
 			else {return InteractionResult.PASS;}
 		}
-		else if (this == AerialHellBlocksAndItems.REAPER_SCYTHE.get())
+		else if (this == AerialHellItems.REAPER_SCYTHE.get())
 		{
 			EffectToolHelper.applyReaperWalkEffect(this, heldItem, worldIn, playerIn, handIn, rand, 600);
 	        return InteractionResult.CONSUME;

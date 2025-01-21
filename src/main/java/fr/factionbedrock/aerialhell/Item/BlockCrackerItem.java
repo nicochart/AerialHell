@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Item;
 
 import fr.factionbedrock.aerialhell.Block.DungeonCores.*;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -91,10 +91,10 @@ public class BlockCrackerItem extends WithInformationItem
         else if (previousBlock instanceof CoreProtectedStairsBlock previousCoreProtectedStairsBlock) {return previousCoreProtectedStairsBlock.getCrackedVariant();}
         else if (previousBlock instanceof CoreProtectedWallBlock previousCoreProtectedWallBlock) {return previousCoreProtectedWallBlock.getCrackedVariant();}
         else if (previousBlock instanceof CoreProtectedBlock previousCoreProtectedBlock) {return previousCoreProtectedBlock.getCrackedVariant();}
-        else if (previousBlock == AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS.get()) {return AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS.get();}
-        else if (previousBlock == AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_SLAB.get()) {return AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_SLAB.get();}
-        else if (previousBlock == AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_STAIRS.get()) {return AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_STAIRS.get();}
-        else if (previousBlock == AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_WALL.get()) {return AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_WALL.get();}
+        else if (previousBlock == AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS.get()) {return AerialHellBlocks.CRACKED_SLIPPERY_SAND_STONE_BRICKS.get();}
+        else if (previousBlock == AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS_SLAB.get()) {return AerialHellBlocks.CRACKED_SLIPPERY_SAND_STONE_BRICKS_SLAB.get();}
+        else if (previousBlock == AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS_STAIRS.get()) {return AerialHellBlocks.CRACKED_SLIPPERY_SAND_STONE_BRICKS_STAIRS.get();}
+        else if (previousBlock == AerialHellBlocks.SLIPPERY_SAND_STONE_BRICKS_WALL.get()) {return AerialHellBlocks.CRACKED_SLIPPERY_SAND_STONE_BRICKS_WALL.get();}
         return null;
     }
 }

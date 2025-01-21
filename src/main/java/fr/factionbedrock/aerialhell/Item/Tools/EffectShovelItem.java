@@ -2,7 +2,8 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 
 import java.util.Random;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,7 +36,7 @@ public class EffectShovelItem extends AerialHellShovelItem
 			{
 				if (((LivingEntity) entityIn).getMainHandItem().getItem() == this || ((LivingEntity) entityIn).getOffhandItem().getItem() == this)
 				{
-					if (this == AerialHellBlocksAndItems.MAGMA_CUBE_SHOVEL.get())
+					if (this == AerialHellItems.MAGMA_CUBE_SHOVEL.get())
 					{
 						EffectToolHelper.PassiveEffects.applyMagmaCubeEffect((LivingEntity)entityIn);
 					}
@@ -54,12 +55,12 @@ public class EffectShovelItem extends AerialHellShovelItem
     {
 		ItemStack heldItem = playerIn.getItemInHand(handIn);
 		Random rand = new Random();
-		if (this == AerialHellBlocksAndItems.VOLUCITE_SHOVEL.get())
+		if (this == AerialHellItems.VOLUCITE_SHOVEL.get())
 		{
 			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, handIn, rand, false)) {return InteractionResult.CONSUME;}
 			else {return InteractionResult.PASS;}
 		}
-		else if (this == AerialHellBlocksAndItems.MAGMA_CUBE_SHOVEL.get())
+		else if (this == AerialHellItems.MAGMA_CUBE_SHOVEL.get())
 		{
 			EffectToolHelper.applyJumpBoostEffect(this, heldItem, worldIn, playerIn, handIn, rand, 100, 2);
 			return InteractionResult.CONSUME;

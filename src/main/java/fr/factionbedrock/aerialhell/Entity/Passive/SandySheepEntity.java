@@ -1,7 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Passive;
 
 import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -48,7 +49,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
 
     @Override public boolean isFood(ItemStack stack)
     {
-        return super.isFood(stack) || stack.getItem() == AerialHellBlocksAndItems.STELLAR_WHEAT_ITEM.get();
+        return super.isFood(stack) || stack.getItem() == AerialHellItems.STELLAR_WHEAT.get();
     }
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
@@ -108,7 +109,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
     			double z = getZ() + (random.nextFloat() - 0.5F) * rand;
     			double dx = (random.nextFloat() - 0.5F)/10;
     			double dz = (random.nextFloat() - 0.5F)/10;
-    			this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, AerialHellBlocksAndItems.SLIPPERY_SAND.get().defaultBlockState()), x, y, z, dx, -0.06D, dz);
+    			this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, AerialHellBlocks.SLIPPERY_SAND.get().defaultBlockState()), x, y, z, dx, -0.06D, dz);
             }
     	}
         return false;

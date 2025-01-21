@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
@@ -31,40 +32,40 @@ public class EffectTotemItem extends Item
 				LivingEntity livingEntityIn = (LivingEntity) entityIn;
 				if (livingEntityIn.getMainHandItem().getItem() == this || livingEntityIn.getOffhandItem().getItem() == this)
 				{
-					if (this == AerialHellBlocksAndItems.REGENERATION_TOTEM.get())
+					if (this == AerialHellItems.REGENERATION_TOTEM.get())
 					{
 						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 1200, 0));
 					}
-					else if (this == AerialHellBlocksAndItems.SPEED_TOTEM.get())
+					else if (this == AerialHellItems.SPEED_TOTEM.get())
 					{
 						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1200, 0));
 					}
-					else if (this == AerialHellBlocksAndItems.SPEED_II_TOTEM.get())
+					else if (this == AerialHellItems.SPEED_II_TOTEM.get())
 					{
 						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1200, 1));
 					}
-					else if (this == AerialHellBlocksAndItems.NIGHT_VISION_TOTEM.get())
+					else if (this == AerialHellItems.NIGHT_VISION_TOTEM.get())
 					{
 						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 1200, 0));
 					}
-					else if (this == AerialHellBlocksAndItems.AGILITY_TOTEM.get())
+					else if (this == AerialHellItems.AGILITY_TOTEM.get())
 					{
 						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1200, 0));
 						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.JUMP, 1200, 0));
 					}
-					else if (this == AerialHellBlocksAndItems.HEAD_IN_THE_CLOUDS_TOTEM.get())
+					else if (this == AerialHellItems.HEAD_IN_THE_CLOUDS_TOTEM.get())
 					{
 						livingEntityIn.addEffect(new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate(), 1000, 0));
 					}
-					else if (this == AerialHellBlocksAndItems.HERO_TOTEM.get())
+					else if (this == AerialHellItems.HERO_TOTEM.get())
 					{
 						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.HERO_OF_THE_VILLAGE, 1200, 0));
 					}
-					else if (this == AerialHellBlocksAndItems.GOD_TOTEM.get())
+					else if (this == AerialHellItems.GOD_TOTEM.get())
 					{
 						livingEntityIn.addEffect(new MobEffectInstance(AerialHellMobEffects.GOD.getDelegate(), 1200, 0));
 					}
-					else if (this == AerialHellBlocksAndItems.CURSED_TOTEM.get())
+					else if (this == AerialHellItems.CURSED_TOTEM.get())
 					{
 						if (!(ItemHelper.getItemInTagCount(livingEntityIn.getArmorSlots(), AerialHellTags.Items.SHADOW_ARMOR) >= 4))
 						{
@@ -74,7 +75,7 @@ public class EffectTotemItem extends Item
 						}
 						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1500, 2));
 					}
-					else if (this == AerialHellBlocksAndItems.SHADOW_TOTEM.get())
+					else if (this == AerialHellItems.SHADOW_TOTEM.get())
 					{
 						livingEntityIn.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.getDelegate(), 1000, 0));
 					}

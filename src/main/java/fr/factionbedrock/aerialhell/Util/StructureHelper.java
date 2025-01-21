@@ -1,23 +1,16 @@
 package fr.factionbedrock.aerialhell.Util;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructures;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.StructureTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 
@@ -73,7 +66,7 @@ public class StructureHelper
 		int x=genPos.getX(), z=genPos.getZ(); int y = context.chunkGenerator().getFirstOccupiedHeight(x, z, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, context.heightAccessor(), context.randomState());
 		BlockState surfaceBlock = context.chunkGenerator().getBaseColumn(x, z, context.heightAccessor(), context.randomState()).getBlock(y);
 
-		boolean isSurfaceBlockAnAerialHellSurfaceBlock = surfaceBlock.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) || surfaceBlock.is(AerialHellBlocksAndItems.STELLAR_STONE.get()) || surfaceBlock.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()) || surfaceBlock.is(AerialHellBlocksAndItems.SLIPPERY_SAND.get());
+		boolean isSurfaceBlockAnAerialHellSurfaceBlock = surfaceBlock.is(AerialHellBlocks.STELLAR_GRASS_BLOCK.get()) || surfaceBlock.is(AerialHellBlocks.STELLAR_STONE.get()) || surfaceBlock.is(AerialHellBlocks.SHADOW_GRASS_BLOCK.get()) || surfaceBlock.is(AerialHellBlocks.SLIPPERY_SAND.get());
 		return isSurfaceBlockAnAerialHellSurfaceBlock;
 	}
 

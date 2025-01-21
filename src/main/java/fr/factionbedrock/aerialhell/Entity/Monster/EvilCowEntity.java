@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -52,7 +53,7 @@ public class EvilCowEntity extends AerialHellHostileEntity
     @Override public InteractionResult mobInteract(Player player, InteractionHand hand)
     {
         ItemStack itemstack = player.getItemInHand(hand);
-        if (itemstack.is(Items.BUCKET) || itemstack.is(AerialHellBlocksAndItems.RUBY_BUCKET.get()) && !this.isBaby())
+        if (itemstack.is(Items.BUCKET) || itemstack.is(AerialHellItems.RUBY_BUCKET.get()) && !this.isBaby())
         {
             player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
             ItemStack filledBucket;
@@ -62,7 +63,7 @@ public class EvilCowEntity extends AerialHellHostileEntity
             }
             else //RUBY_BUCKET
             {
-                filledBucket = ItemUtils.createFilledResult(itemstack, player, AerialHellBlocksAndItems.RUBY_BUCKET.get().getDefaultInstance());
+                filledBucket = ItemUtils.createFilledResult(itemstack, player, AerialHellItems.RUBY_BUCKET.get().getDefaultInstance());
             }
             player.setItemInHand(hand, filledBucket);
             return InteractionResult.SUCCESS;

@@ -2,10 +2,9 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import java.util.EnumSet;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -30,7 +29,6 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nonnull;
@@ -75,7 +73,7 @@ public class CrystalSlimeEntity extends Mob
 
 	protected ParticleOptions getParticleType()
 	{
-		return new BlockParticleOption(ParticleTypes.BLOCK, AerialHellBlocksAndItems.CRYSTAL_BLOCK.get().defaultBlockState());
+		return new BlockParticleOption(ParticleTypes.BLOCK, AerialHellBlocks.CRYSTAL_BLOCK.get().defaultBlockState());
 	}
 
 	@Override protected boolean shouldDespawnInPeaceful() {return true;}

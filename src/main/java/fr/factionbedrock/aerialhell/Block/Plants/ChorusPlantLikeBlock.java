@@ -1,16 +1,14 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChorusPlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -31,12 +29,12 @@ public class ChorusPlantLikeBlock extends ChorusPlantBlock
         BlockState state_south = blockGetter.getBlockState(pos.south());
         BlockState state_west = blockGetter.getBlockState(pos.west());
         return state
-                .trySetValue(DOWN, Boolean.valueOf(state_below.is(state.getBlock()) || state_below.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get()) || state_below.is(AerialHellTags.Blocks.STELLAR_DIRT)))
-                .trySetValue(UP, Boolean.valueOf(state_above.is(state.getBlock()) || state_above.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get())))
-                .trySetValue(NORTH, Boolean.valueOf(state_north.is(state.getBlock()) || state_north.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get())))
-                .trySetValue(EAST, Boolean.valueOf(state_east.is(state.getBlock()) || state_east.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get())))
-                .trySetValue(SOUTH, Boolean.valueOf(state_south.is(state.getBlock()) || state_south.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get())))
-                .trySetValue(WEST, Boolean.valueOf(state_west.is(state.getBlock()) || state_west.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get())));
+                .trySetValue(DOWN, Boolean.valueOf(state_below.is(state.getBlock()) || state_below.is(AerialHellBlocks.FULL_MOON_FLOWER.get()) || state_below.is(AerialHellTags.Blocks.STELLAR_DIRT)))
+                .trySetValue(UP, Boolean.valueOf(state_above.is(state.getBlock()) || state_above.is(AerialHellBlocks.FULL_MOON_FLOWER.get())))
+                .trySetValue(NORTH, Boolean.valueOf(state_north.is(state.getBlock()) || state_north.is(AerialHellBlocks.FULL_MOON_FLOWER.get())))
+                .trySetValue(EAST, Boolean.valueOf(state_east.is(state.getBlock()) || state_east.is(AerialHellBlocks.FULL_MOON_FLOWER.get())))
+                .trySetValue(SOUTH, Boolean.valueOf(state_south.is(state.getBlock()) || state_south.is(AerialHellBlocks.FULL_MOON_FLOWER.get())))
+                .trySetValue(WEST, Boolean.valueOf(state_west.is(state.getBlock()) || state_west.is(AerialHellBlocks.FULL_MOON_FLOWER.get())));
     }
 
     @Override protected BlockState updateShape(BlockState previousState, LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random)
@@ -48,7 +46,7 @@ public class ChorusPlantLikeBlock extends ChorusPlantBlock
         }
         else
         {
-            boolean flag = neighborState.is(this) || neighborState.is(AerialHellBlocksAndItems.FULL_MOON_FLOWER.get()) || direction == Direction.DOWN && neighborState.is(AerialHellTags.Blocks.STELLAR_DIRT);
+            boolean flag = neighborState.is(this) || neighborState.is(AerialHellBlocks.FULL_MOON_FLOWER.get()) || direction == Direction.DOWN && neighborState.is(AerialHellTags.Blocks.STELLAR_DIRT);
             return previousState.setValue(PROPERTY_BY_DIRECTION.get(direction), Boolean.valueOf(flag));
         }
     }

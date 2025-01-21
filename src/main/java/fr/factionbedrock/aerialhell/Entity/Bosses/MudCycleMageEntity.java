@@ -5,7 +5,8 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralCycleMageEntit
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -91,7 +92,7 @@ public class MudCycleMageEntity extends AbstractBossEntity
 	public boolean isDamageAmountSinceLastSummonSufficentToTriggerSummon() {return this.damageAmountSinceLastSummon > 85 - 4 * this.getDifficulty();}
 	public void resetDamageAmountSinceLastSummon() {this.damageAmountSinceLastSummon = 0;}
 
-	@Override public Item getTrophy() {return AerialHellBlocksAndItems.MUD_CYCLE_MAGE_TROPHY_ITEM.get();}
+	@Override public Item getTrophy() {return AerialHellItems.MUD_CYCLE_MAGE_TROPHY.get();}
 
 	@Override public int getPhaseIdToSkipToDyingPhase() {return BossPhase.SECOND_TO_THIRD_TRANSITION.getPhaseId();}
 	@Override public boolean enableTickPhaseUpdate(BossPhaseTickType type) {return type == BossPhaseTickType.ALL;}

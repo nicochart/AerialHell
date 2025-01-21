@@ -1,7 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -84,6 +85,6 @@ public class VoluciteShurikenEntity extends AbstractShurikenEntity
 	@Override
 	protected Item getDefaultItem()
 	{
-		return AerialHellBlocksAndItems.VOLUCITE_SHURIKEN.get();
+		return AerialHellItems.VOLUCITE_SHURIKEN.get();
 	}	
 }

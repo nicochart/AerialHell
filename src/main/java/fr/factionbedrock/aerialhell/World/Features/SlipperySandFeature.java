@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.util.RandomSource;
@@ -25,7 +25,7 @@ public class SlipperySandFeature extends Feature<NoneFeatureConfiguration>
         BlockPos blockPos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
 		boolean canGenerate = (
                 (reader.getBlockState(blockPos.north(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.south(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.west(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.east(3)).getBlock().equals(Blocks.AIR)) &&
-                (reader.getBlockState(blockPos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(blockPos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
+                (reader.getBlockState(blockPos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(blockPos).getBlock() == AerialHellBlocks.STELLAR_DIRT.get()));
 
 		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
 		
@@ -60,8 +60,8 @@ public class SlipperySandFeature extends Feature<NoneFeatureConfiguration>
                     	if (isReplaceable(reader, placementPos))
                     	{
                     		boolean isInsideInnerEllipsis = isPosInsideEllipsis(pos, radiusX-1, radiusY, radiusZ-1);
-                    		if (isInsideInnerEllipsis) {reader.setBlock(placementPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().defaultBlockState(), 0);}
-                    		else if (!(rand.nextInt(3) == 0)) {reader.setBlock(placementPos, AerialHellBlocksAndItems.SLIPPERY_SAND.get().defaultBlockState(), 0);}
+                    		if (isInsideInnerEllipsis) {reader.setBlock(placementPos, AerialHellBlocks.SLIPPERY_SAND.get().defaultBlockState(), 0);}
+                    		else if (!(rand.nextInt(3) == 0)) {reader.setBlock(placementPos, AerialHellBlocks.SLIPPERY_SAND.get().defaultBlockState(), 0);}
                     	}
                     }
                 }

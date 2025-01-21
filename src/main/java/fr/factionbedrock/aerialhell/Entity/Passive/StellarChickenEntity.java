@@ -1,9 +1,9 @@
 package fr.factionbedrock.aerialhell.Entity.Passive;
 
 import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
 public class StellarChickenEntity extends Chicken
 {
     private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.<Integer>defineId(StellarChickenEntity.class, EntityDataSerializers.INT);
-    private static final Ingredient FOOD_ITEMS = Ingredient.of(AerialHellBlocksAndItems.STELLAR_WHEAT_SEEDS.get(), AerialHellBlocksAndItems.AERIAL_BERRY_SEEDS.get(), AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY_SEEDS.get());
+    private static final Ingredient FOOD_ITEMS = Ingredient.of(AerialHellItems.STELLAR_WHEAT_SEEDS.get(), AerialHellItems.AERIAL_BERRY_SEEDS.get(), AerialHellItems.VIBRANT_AERIAL_BERRY_SEEDS.get());
 
     public StellarChickenEntity(EntityType<? extends Chicken> entityType, Level level) {super(entityType, level);}
 
@@ -110,17 +110,17 @@ public class StellarChickenEntity extends Chicken
 
     @Nullable @Override public ItemEntity spawnAtLocation(ServerLevel serverLevel, ItemLike item)
     {
-        if (item == Items.EGG) {return super.spawnAtLocation(serverLevel, AerialHellBlocksAndItems.STELLAR_EGG.get());}
+        if (item == Items.EGG) {return super.spawnAtLocation(serverLevel, AerialHellItems.STELLAR_EGG.get());}
         else {return super.spawnAtLocation(serverLevel, item);}
     }
 
     @Override public float getWalkTargetValue(BlockPos pos, LevelReader worldIn)
     {
-        return worldIn.getBlockState(pos.below()).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) ? 10.0F : worldIn.getPathfindingCostFromLightLevels(pos) - 0.5F;
+        return worldIn.getBlockState(pos.below()).is(AerialHellBlocks.STELLAR_GRASS_BLOCK.get()) ? 10.0F : worldIn.getPathfindingCostFromLightLevels(pos) - 0.5F;
     }
 
     public static boolean canSpawn(EntityType<? extends Chicken> entityType, LevelAccessor worldIn, EntitySpawnReason spawnType, BlockPos pos, RandomSource random)
     {
-        return worldIn.getBlockState(pos.below()).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && isBrightEnoughToSpawn(worldIn, pos);
+        return worldIn.getBlockState(pos.below()).is(AerialHellBlocks.STELLAR_GRASS_BLOCK.get()) && isBrightEnoughToSpawn(worldIn, pos);
     }
 }

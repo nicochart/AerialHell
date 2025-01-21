@@ -1,13 +1,10 @@
 package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
-import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShiftingBlockBakedModel;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestMimicBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.EntityModels.*;
 import fr.factionbedrock.aerialhell.Client.EntityRender.*;
-import fr.factionbedrock.aerialhell.Client.Util.ShiftedModelRenderHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;

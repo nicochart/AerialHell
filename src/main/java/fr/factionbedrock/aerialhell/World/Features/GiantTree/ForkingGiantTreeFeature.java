@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
 import com.mojang.serialization.Codec;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.ForkingGiantTreeConfig;
@@ -252,7 +252,7 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
         @Override protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
         {
             BlockState previousBlock = reader.getBlockState(blockPos);
-            return super.isReplaceable(reader, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.is(AerialHellBlocksAndItems.STELLAR_STONE.get());
+            return super.isReplaceable(reader, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.is(AerialHellBlocks.STELLAR_STONE.get());
         }
 
         @Override public BlockState getStateForPlacement(BlockPos pos) {return ((ForkingGiantTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);}

@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
@@ -31,7 +31,6 @@ import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.portal.PortalShape;
 import net.minecraft.world.level.portal.TeleportTransition;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -326,7 +325,7 @@ public class AerialHellPortalBlock extends Block implements Portal
 		public static final int MAX_WIDTH = 21;
 		private static final int MIN_HEIGHT = 2;
 		public static final int MAX_HEIGHT = 21;
-		private static final BlockBehaviour.StatePredicate FRAME = (state, getter, pos) -> state.is(AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK);
+		private static final BlockBehaviour.StatePredicate FRAME = (state, getter, pos) -> state.is(AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK);
 		private final LevelReader level;
 		private final Direction.Axis axis;
 		private final Direction rightDir;
@@ -420,18 +419,18 @@ public class AerialHellPortalBlock extends Block implements Portal
 					BlockState blockstate = this.level.getBlockState(pos);
 					if (!isEmpty(blockstate)) {return i;}
 
-					if (blockstate.is(AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get())) {++this.numPortalBlocks;}
+					if (blockstate.is(AerialHellBlocks.AERIAL_HELL_PORTAL.get())) {++this.numPortalBlocks;}
 				}
 			}
 			return MAX_HEIGHT;
 		}
 
-		private static boolean isEmpty(BlockState state) {return state.isAir() || state.is(AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get());}
+		private static boolean isEmpty(BlockState state) {return state.isAir() || state.is(AerialHellBlocks.AERIAL_HELL_PORTAL.get());}
 		public boolean isValid() {return this.bottomLeft != null && this.width >= MIN_WIDTH && this.width <= MAX_WIDTH && this.height >= MIN_HEIGHT && this.height <= MAX_HEIGHT;}
 
 		public void createPortalBlocks(LevelAccessor level)
 		{
-			BlockState blockstate = AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get().defaultBlockState().setValue(NetherPortalBlock.AXIS, this.axis);
+			BlockState blockstate = AerialHellBlocks.AERIAL_HELL_PORTAL.get().defaultBlockState().setValue(NetherPortalBlock.AXIS, this.axis);
 			BlockPos.betweenClosed(this.bottomLeft, this.bottomLeft.relative(Direction.UP, this.height - 1).relative(this.rightDir, this.width - 1)).forEach(pos -> level.setBlock(pos, blockstate, 18));
 		}
 

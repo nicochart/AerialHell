@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.ShadowSpreader;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
@@ -33,7 +33,7 @@ public interface ShadowSpreaderBlock
                 BlockPos blockpos = pos.offset(rand.nextInt(3) - 1, rand.nextInt(3) - 1, rand.nextInt(3) - 1);
                 if (!BlockHelper.isCorrupted(level, blockpos))
                 {
-                    if (lookForAboveGrassBlock && level.getBlockState(blockpos).is(AerialHellBlocksAndItems.STELLAR_DIRT))
+                    if (lookForAboveGrassBlock && level.getBlockState(blockpos).is(AerialHellBlocks.STELLAR_DIRT))
                     {
                         @Nullable BlockPos maybeGrassPos = lookForAboveGrassBlock(level, blockpos);
                         if (maybeGrassPos != null && BlockHelper.tryCorrupt(level, maybeGrassPos, rand, 1.2F)) {return;}
@@ -59,7 +59,7 @@ public interface ShadowSpreaderBlock
         int j=0;
         while(j++ < 4 && level.getBlockState(blockpos).is(AerialHellTags.Blocks.STELLAR_DIRT)) {blockpos = blockpos.above();}
 
-        if (level.getBlockState(blockpos).isAir() && level.getBlockState(blockpos.below()).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK)) {return blockpos.below();}
+        if (level.getBlockState(blockpos).isAir() && level.getBlockState(blockpos.below()).is(AerialHellBlocks.STELLAR_GRASS_BLOCK)) {return blockpos.below();}
         else {return null;}
     }
 }

@@ -1,7 +1,7 @@
 
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -67,7 +67,7 @@ public class GhostBoatSlabBlock extends SlabBlock
 
 	@Override public boolean skipRendering(BlockState state1, BlockState state2, Direction direction)
 	{
-		if (!state1.is(AerialHellBlocksAndItems.GHOST_BOAT_SLAB.get())) {return super.skipRendering(state1, state2, direction);}
+		if (!state1.is(AerialHellBlocks.GHOST_BOAT_SLAB.get())) {return super.skipRendering(state1, state2, direction);}
 
 		if (direction == Direction.UP) {return areVerticalSkipRenderingSlabStates(state1, state2);}
 		else if (direction == Direction.DOWN) {return areVerticalSkipRenderingSlabStates(state2, state1);}
@@ -77,7 +77,7 @@ public class GhostBoatSlabBlock extends SlabBlock
 	public boolean areHorizontalSkipRenderingSlabStates(BlockState state1, BlockState state2)
 	{
 		boolean state1IsSlab = state1.is(this), state2IsSlab = state2.is(this);
-		boolean state2IsFullBlock = state2.is(AerialHellBlocksAndItems.GHOST_BOAT_PLANKS.get()) || state2IsSlab && state2.getValue(TYPE) == SlabType.DOUBLE;
+		boolean state2IsFullBlock = state2.is(AerialHellBlocks.GHOST_BOAT_PLANKS.get()) || state2IsSlab && state2.getValue(TYPE) == SlabType.DOUBLE;
 		boolean areCompatibleSlabStates = state1IsSlab && state2IsSlab && state1.getValue(TYPE) == state2.getValue(TYPE);
 		if (!state2.is(this)) {return state2IsFullBlock;}
 		return state2IsFullBlock || areCompatibleSlabStates;
@@ -86,8 +86,8 @@ public class GhostBoatSlabBlock extends SlabBlock
 	public boolean areVerticalSkipRenderingSlabStates(BlockState belowState, BlockState topState)
 	{
 		boolean belowIsSlab = belowState.is(this), topIsSlab = topState.is(this);
-		boolean isValidBelowState = belowIsSlab ? belowState.getValue(TYPE) != SlabType.BOTTOM : belowState.is(AerialHellBlocksAndItems.GHOST_BOAT_PLANKS.get());
-		boolean isValidTopState = topIsSlab ? topState.getValue(TYPE) != SlabType.TOP : topState.is(AerialHellBlocksAndItems.GHOST_BOAT_PLANKS.get());
+		boolean isValidBelowState = belowIsSlab ? belowState.getValue(TYPE) != SlabType.BOTTOM : belowState.is(AerialHellBlocks.GHOST_BOAT_PLANKS.get());
+		boolean isValidTopState = topIsSlab ? topState.getValue(TYPE) != SlabType.TOP : topState.is(AerialHellBlocks.GHOST_BOAT_PLANKS.get());
 		return isValidBelowState && isValidTopState;
 	}
 }

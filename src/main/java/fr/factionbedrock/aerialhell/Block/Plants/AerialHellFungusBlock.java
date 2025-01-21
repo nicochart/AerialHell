@@ -1,9 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import java.util.function.Supplier;
-
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.core.Holder;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FungusBlock;
@@ -11,7 +8,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.HugeFungusConfiguration;
 
 public class AerialHellFungusBlock extends FungusBlock
 {
@@ -19,6 +15,6 @@ public class AerialHellFungusBlock extends FungusBlock
 
 	@Override protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos)
 	{
-		return state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) || super.mayPlaceOn(state, worldIn, pos);
+		return state.is(AerialHellBlocks.STELLAR_GRASS_BLOCK.get()) || super.mayPlaceOn(state, worldIn, pos);
 	}
 }

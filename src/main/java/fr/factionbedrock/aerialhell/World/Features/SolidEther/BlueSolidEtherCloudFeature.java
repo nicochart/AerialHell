@@ -2,9 +2,8 @@ package fr.factionbedrock.aerialhell.World.Features.SolidEther;
 
 import com.mojang.serialization.Codec;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import fr.factionbedrock.aerialhell.World.Features.SolidEther.AbstractSolidEtherCloudFeature;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.core.BlockPos;
@@ -18,7 +17,7 @@ public class BlueSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 	protected int getBasicMinSize() {return 5;} protected int getBasicMaxSize() {return 8;}
 	protected int getSmallMinSize() {return 3;} protected int getSmallMaxSize() {return 5;}
 
-	protected Block getEtherBlock() {return AerialHellBlocksAndItems.BLUE_SOLID_ETHER.get();}
+	protected Block getEtherBlock() {return AerialHellBlocks.BLUE_SOLID_ETHER.get();}
 
 	public BlueSolidEtherCloudFeature(Codec<NoneFeatureConfiguration> codec) {
         super(codec);

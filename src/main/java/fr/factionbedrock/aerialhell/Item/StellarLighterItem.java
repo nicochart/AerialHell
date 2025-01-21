@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Item;
 
 import fr.factionbedrock.aerialhell.Block.AerialHellPortalBlock;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.InteractionResult;
@@ -22,7 +22,7 @@ public class StellarLighterItem extends WithInformationItem
             for(Direction direction : Direction.Plane.VERTICAL)
             {
                 BlockPos framePos = context.getClickedPos().relative(direction);
-                if(((AerialHellPortalBlock) AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get()).trySpawnPortal(context.getLevel(), framePos))
+                if(((AerialHellPortalBlock) AerialHellBlocks.AERIAL_HELL_PORTAL.get()).trySpawnPortal(context.getLevel(), framePos))
                 {
                 	context.getPlayer().getCooldowns().addCooldown(context.getItemInHand(), 50);
                 	context.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));

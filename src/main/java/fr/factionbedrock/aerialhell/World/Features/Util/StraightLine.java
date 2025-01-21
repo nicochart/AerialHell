@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features.Util;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.core.BlockPos;
@@ -96,8 +96,8 @@ public class StraightLine
         FeatureHelper.generateDebug(this.context);
         WorldGenLevel level = context.level();
         //start and end position
-        level.setBlock(this.straightLineParams.getStart(), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);
-        level.setBlock(this.straightLineParams.getEnd(), AerialHellBlocksAndItems.ARSONIST_BLOCK.get().defaultBlockState(), 0);
+        level.setBlock(this.straightLineParams.getStart(), AerialHellBlocks.ARSONIST_BLOCK.get().defaultBlockState(), 0);
+        level.setBlock(this.straightLineParams.getEnd(), AerialHellBlocks.ARSONIST_BLOCK.get().defaultBlockState(), 0);
     }
 
     private Vector3f getStraightLineGenerationStepMoveVector()

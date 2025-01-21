@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DeadBushBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -19,6 +19,6 @@ public class AerialHellDeadBushBlock extends DeadBushBlock
 	protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos)
 	{
 		Block block = state.getBlock();
-	 	return block == AerialHellBlocksAndItems.SLIPPERY_SAND.get();
+	 	return block == AerialHellBlocks.SLIPPERY_SAND.get();
 	}
 }

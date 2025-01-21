@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.Bucket;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -19,7 +20,6 @@ import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.world.phys.HitResult;
 
 public class RubyLiquidOfGodsBucketItem extends Item
@@ -77,7 +77,7 @@ public class RubyLiquidOfGodsBucketItem extends Item
             {
                 worldIn.destroyBlock(posIn, true);
             }
-            if (!worldIn.setBlock(posIn, AerialHellBlocksAndItems.LIQUID_OF_THE_GODS.get().defaultBlockState(), 11) && !blockstate.getFluidState().isSource())
+            if (!worldIn.setBlock(posIn, AerialHellBlocks.LIQUID_OF_THE_GODS.get().defaultBlockState(), 11) && !blockstate.getFluidState().isSource())
             {
                 return false;
             }

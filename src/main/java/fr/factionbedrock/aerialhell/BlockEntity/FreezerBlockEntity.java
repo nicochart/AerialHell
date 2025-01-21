@@ -2,7 +2,8 @@ package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Inventory.Menu.FreezerMenu;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 
@@ -38,8 +39,8 @@ public class FreezerBlockEntity extends AbstractFurnaceBlockEntity
 	public static Map<Item, Integer> getFreezingMap()
 	{
 		Map<Item, Integer> map = Maps.newLinkedHashMap();
-		map.put(AerialHellBlocksAndItems.MAGMATIC_GEL.get(), 600);
-		map.put(AerialHellBlocksAndItems.MAGMATIC_GEL_BLOCK_ITEM.get(), 5400);
+		map.put(AerialHellItems.MAGMATIC_GEL.get(), 600);
+		map.put(AerialHellItems.MAGMATIC_GEL_BLOCK.get(), 5400);
 		return map;
 	}
 

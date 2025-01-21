@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.DirtAndVariants;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
@@ -89,10 +88,10 @@ public abstract class AerialHellGrassBlock extends GrassBlock implements Bonemea
 	public BlockState getToolModifiedState(BlockState state, UseOnContext context, ItemAbility itemAbility, boolean simulate)
 	{
 		if (!context.getItemInHand().canPerformAction(itemAbility)) {return null;}
-		if (state.getBlock() == AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get() || state.getBlock() == AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get())
+		if (state.getBlock() == AerialHellBlocks.STELLAR_GRASS_BLOCK.get() || state.getBlock() == AerialHellBlocks.CHISELED_STELLAR_GRASS_BLOCK.get())
 		{
-			if (ItemAbilities.HOE_TILL == itemAbility) {return AerialHellBlocksAndItems.STELLAR_FARMLAND.get().defaultBlockState();}
-			if (ItemAbilities.SHOVEL_FLATTEN == itemAbility) {return AerialHellBlocksAndItems.STELLAR_DIRT_PATH.get().defaultBlockState();}
+			if (ItemAbilities.HOE_TILL == itemAbility) {return AerialHellBlocks.STELLAR_FARMLAND.get().defaultBlockState();}
+			if (ItemAbilities.SHOVEL_FLATTEN == itemAbility) {return AerialHellBlocks.STELLAR_DIRT_PATH.get().defaultBlockState();}
 		}
 		return super.getToolModifiedState(state, context, itemAbility, simulate);
 	}

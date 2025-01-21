@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.level.block.Block;
@@ -33,7 +33,7 @@ public class BramblesBlock extends AerialHellTallGrassBlock
     	{
 			if (!EntityHelper.isImmuneToBramblesDamage(livingEntity))
 			{
-				int poisonDuration = this == AerialHellBlocksAndItems.SHADOW_BRAMBLES.get() ? 60 : 40;
+				int poisonDuration = this == AerialHellBlocks.SHADOW_BRAMBLES.get() ? 60 : 40;
 				livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, poisonDuration, 0));
 				livingEntity.hurt(AerialHellDamageTypes.getDamageSource(level, AerialHellDamageTypes.BRAMBLES_THORNS), 1.0F);
 			}

@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.util.RandomSource;
@@ -18,7 +19,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
-import java.util.Random;
 
 public class BonePileBlock extends SnowLayerBlock
 {
@@ -83,7 +83,7 @@ public class BonePileBlock extends SnowLayerBlock
         {
             if (!world.isClientSide()) {world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());}
         }
-        if (!world.isClientSide()) {if (newLayerNumber < 2 || world.random.nextInt(4) == 0) {entityIn.spawnAtLocation((ServerLevel) world, new ItemStack(AerialHellBlocksAndItems.MUD_BONE.get()));}}
+        if (!world.isClientSide()) {if (newLayerNumber < 2 || world.random.nextInt(4) == 0) {entityIn.spawnAtLocation((ServerLevel) world, new ItemStack(AerialHellItems.MUD_BONE.get()));}}
         else {entityIn.playSound(AerialHellSoundEvents.BLOCK_BONE_PILE_STEP_BREAK.get(), 0.5F, 0.9F + world.random.nextFloat() * 0.3F);}
     }
 

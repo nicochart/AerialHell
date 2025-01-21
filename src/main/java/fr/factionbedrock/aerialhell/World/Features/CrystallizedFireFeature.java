@@ -1,10 +1,8 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
-import java.util.Random;
-
 import com.mojang.serialization.Codec;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,7 +27,7 @@ public class CrystallizedFireFeature extends Feature<NoneFeatureConfiguration>
 		    if (!blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT)) {return false;}
 		    else
 		    {
-		    	reader.setBlock(pos, AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get().defaultBlockState(), 2);
+		    	reader.setBlock(pos, AerialHellBlocks.CRYSTALLIZED_FIRE.get().defaultBlockState(), 2);
 		    	
 		    	int neighbor_number = 4 + rand.nextInt(3);
 		    	for(int i = 0; i < neighbor_number; ++i)
@@ -45,7 +43,7 @@ public class CrystallizedFireFeature extends Feature<NoneFeatureConfiguration>
 			    		}
 		    			if (reader.getBlockState(blockpos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT))
 			    		{
-		    				reader.setBlock(blockpos, AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get().defaultBlockState(), 2);
+		    				reader.setBlock(blockpos, AerialHellBlocks.CRYSTALLIZED_FIRE.get().defaultBlockState(), 2);
 			    		}
 		    		}
 		    		else
@@ -57,7 +55,7 @@ public class CrystallizedFireFeature extends Feature<NoneFeatureConfiguration>
 			    		}
 		    			if (reader.getBlockState(blockpos).is(Blocks.AIR) && reader.getBlockState(blockpos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT))
 			    		{
-		    				reader.setBlock(blockpos, AerialHellBlocksAndItems.CRYSTALLIZED_FIRE.get().defaultBlockState(), 2);
+		    				reader.setBlock(blockpos, AerialHellBlocks.CRYSTALLIZED_FIRE.get().defaultBlockState(), 2);
 			    		}
 		    		}
 		        }

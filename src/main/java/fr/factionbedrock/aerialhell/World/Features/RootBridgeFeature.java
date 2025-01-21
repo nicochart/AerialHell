@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnots;
@@ -140,7 +140,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
     }
 
     private boolean isValidBridgeStartOrEnd(WorldGenLevel reader, BlockPos pos) {return isValidSupportForBridge(reader.getBlockState(pos)) && thereIsAirAroundPosition(reader, pos);}
-    private boolean isValidSupportForBridge(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_STONE) || state.getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get();}
+    private boolean isValidSupportForBridge(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_STONE) || state.getBlock() == AerialHellBlocks.STELLAR_DIRT.get();}
     private boolean thereIsAirAroundPosition(WorldGenLevel reader, BlockPos pos)
     {
         for (int distance = 1; distance < 6; distance+=2)
@@ -157,23 +157,23 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
 
     private static class StraightRootBridge extends StraightLine
     {
-        public StraightRootBridge(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams) {super(context, straightLineParams, () -> AerialHellBlocksAndItems.GIANT_ROOT.get());}
+        public StraightRootBridge(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams) {super(context, straightLineParams, () -> AerialHellBlocks.GIANT_ROOT.get());}
 
         @Override protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
         {
             BlockState previousBlock = reader.getBlockState(blockPos);
-            return super.isReplaceable(reader, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.is(AerialHellBlocksAndItems.STELLAR_STONE.get());
+            return super.isReplaceable(reader, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.is(AerialHellBlocks.STELLAR_STONE.get());
         }
     }
 
     private static class RootBridge extends SplineKnotsDeformedStraightLine
     {
-        public RootBridge(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams, int knotsNumber) {super(context, straightLineParams, knotsNumber, KNOTS_PARAMETERS, () -> AerialHellBlocksAndItems.GIANT_ROOT.get());}
+        public RootBridge(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams, int knotsNumber) {super(context, straightLineParams, knotsNumber, KNOTS_PARAMETERS, () -> AerialHellBlocks.GIANT_ROOT.get());}
 
         @Override protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
         {
             BlockState previousBlock = reader.getBlockState(blockPos);
-            return super.isReplaceable(reader, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.is(AerialHellBlocksAndItems.STELLAR_STONE.get());
+            return super.isReplaceable(reader, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.is(AerialHellBlocks.STELLAR_STONE.get());
         }
     }
 }

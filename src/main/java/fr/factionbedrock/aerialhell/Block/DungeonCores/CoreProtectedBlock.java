@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -59,16 +59,16 @@ public class CoreProtectedBlock extends Block
 
 	public Block getCrackedVariant()
 	{
-		if (this == AerialHellBlocksAndItems.MUD_BRICKS.get()) {return AerialHellBlocksAndItems.CRACKED_MUD_BRICKS.get();}
-		else if (this == AerialHellBlocksAndItems.LIGHT_MUD_BRICKS.get()) {return AerialHellBlocksAndItems.CRACKED_LIGHT_MUD_BRICKS.get();}
-		else if (this == AerialHellBlocksAndItems.LUNATIC_STONE.get()) {return AerialHellBlocksAndItems.CRACKED_LUNATIC_STONE.get();}
-		else if (this == AerialHellBlocksAndItems.LIGHT_LUNATIC_STONE.get()) {return AerialHellBlocksAndItems.CRACKED_LIGHT_LUNATIC_STONE.get();}
-		else if (this == AerialHellBlocksAndItems.SHADOW_CATACOMBS_BRICKS.get()) {return AerialHellBlocksAndItems.CRACKED_SHADOW_CATACOMBS_BRICKS.get();}
-		else if (this == AerialHellBlocksAndItems.LIGHT_SHADOW_CATACOMBS_BRICKS.get()) {return AerialHellBlocksAndItems.CRACKED_LIGHT_SHADOW_CATACOMBS_BRICKS.get();}
-		else if (this == AerialHellBlocksAndItems.GOLDEN_NETHER_BRICKS.get()) {return AerialHellBlocksAndItems.CRACKED_GOLDEN_NETHER_BRICKS.get();}
-		else if (this == AerialHellBlocksAndItems.LIGHT_GOLDEN_NETHER_BRICKS.get()) {return AerialHellBlocksAndItems.CRACKED_LIGHT_GOLDEN_NETHER_BRICKS.get();}
-		else if (this == AerialHellBlocksAndItems.VOLUCITE_STONE.get()) {return AerialHellBlocksAndItems.CRACKED_VOLUCITE_STONE.get();}
-		else if (this == AerialHellBlocksAndItems.LIGHT_VOLUCITE_STONE.get()) {return AerialHellBlocksAndItems.CRACKED_LIGHT_VOLUCITE_STONE.get();}
+		if (this == AerialHellBlocks.MUD_BRICKS.get()) {return AerialHellBlocks.CRACKED_MUD_BRICKS.get();}
+		else if (this == AerialHellBlocks.LIGHT_MUD_BRICKS.get()) {return AerialHellBlocks.CRACKED_LIGHT_MUD_BRICKS.get();}
+		else if (this == AerialHellBlocks.LUNATIC_STONE.get()) {return AerialHellBlocks.CRACKED_LUNATIC_STONE.get();}
+		else if (this == AerialHellBlocks.LIGHT_LUNATIC_STONE.get()) {return AerialHellBlocks.CRACKED_LIGHT_LUNATIC_STONE.get();}
+		else if (this == AerialHellBlocks.SHADOW_CATACOMBS_BRICKS.get()) {return AerialHellBlocks.CRACKED_SHADOW_CATACOMBS_BRICKS.get();}
+		else if (this == AerialHellBlocks.LIGHT_SHADOW_CATACOMBS_BRICKS.get()) {return AerialHellBlocks.CRACKED_LIGHT_SHADOW_CATACOMBS_BRICKS.get();}
+		else if (this == AerialHellBlocks.GOLDEN_NETHER_BRICKS.get()) {return AerialHellBlocks.CRACKED_GOLDEN_NETHER_BRICKS.get();}
+		else if (this == AerialHellBlocks.LIGHT_GOLDEN_NETHER_BRICKS.get()) {return AerialHellBlocks.CRACKED_LIGHT_GOLDEN_NETHER_BRICKS.get();}
+		else if (this == AerialHellBlocks.VOLUCITE_STONE.get()) {return AerialHellBlocks.CRACKED_VOLUCITE_STONE.get();}
+		else if (this == AerialHellBlocks.LIGHT_VOLUCITE_STONE.get()) {return AerialHellBlocks.CRACKED_LIGHT_VOLUCITE_STONE.get();}
 		else {return this;}
 	}
 }

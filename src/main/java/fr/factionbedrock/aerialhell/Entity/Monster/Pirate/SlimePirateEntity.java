@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -23,6 +24,6 @@ public class SlimePirateEntity extends AbstractSlimePirateEntity
 
     @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand)
     {
-        return rand.nextInt(2) == 0 ? new ItemStack(AerialHellBlocksAndItems.RUBY_SWORD.get()) : new ItemStack(AerialHellBlocksAndItems.RUBY_AXE.get());
+        return rand.nextInt(2) == 0 ? new ItemStack(AerialHellItems.RUBY_SWORD.get()) : new ItemStack(AerialHellItems.RUBY_AXE.get());
     }
 }

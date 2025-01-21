@@ -1,12 +1,8 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import java.util.Random;
-import java.util.function.Supplier;
-
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
@@ -41,7 +37,7 @@ public class AerialHellMushroomBlock extends MushroomBlock
 		BlockPos generationPos = pos;
 		ConfiguredFeature<?, ?> configuredfeature;
 		HugeGenerationDirections hugeShroomDirection = this.getHugeShroomDirection(world, pos, state);
-		if (this == AerialHellBlocksAndItems.VERDIGRIS_AGARIC.get()) {
+		if (this == AerialHellBlocks.VERDIGRIS_AGARIC.get()) {
 			if (hugeShroomDirection != HugeGenerationDirections.NONE) {
 				generationPos = this.getOffsetPosForHugeShroom(pos, hugeShroomDirection);
 				configuredfeature = world.registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE).get(AerialHellConfiguredFeatures.HUGE_VERDIGRIS_AGARIC).orElse(null).value();

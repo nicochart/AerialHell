@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.util.RandomSource;
@@ -131,7 +131,7 @@ public class DanglingChainFeature extends Feature<NoneFeatureConfiguration>
     
     private BlockState getRandomBlockstateToPlace(RandomSource rand)
     {
-    	return (rand.nextInt(4) == 0) ? AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE.get().defaultBlockState() : AerialHellBlocksAndItems.STELLAR_STONE_BRICKS.get().defaultBlockState();
+    	return (rand.nextInt(4) == 0) ? AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE.get().defaultBlockState() : AerialHellBlocks.STELLAR_STONE_BRICKS.get().defaultBlockState();
     }
     
     private void setBlockStateIfPossible(WorldGenLevel reader, BlockPos blockPos, BlockState state)

@@ -5,23 +5,16 @@ import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.server.level.ServerLevel;
 
-import java.util.List;
 import java.util.Optional;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.common.ItemAbility;
-import org.jetbrains.annotations.Nullable;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 
 public class ShadowGrassBlock extends AerialHellGrassBlock
 {
@@ -42,7 +35,7 @@ public class ShadowGrassBlock extends AerialHellGrassBlock
 		if (!BlockHelper.canBeGrass(state, level, pos))
 		{
 			if (!level.isAreaLoaded(pos, 3)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light and spreading
-			level.setBlockAndUpdate(pos, AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState());
+			level.setBlockAndUpdate(pos, AerialHellBlocks.STELLAR_DIRT.get().defaultBlockState());
 		}
 		else if (BlockHelper.isCorrupted(level, pos) && BlockHelper.surroundingsPreventCorruption(level, pos, BlockHelper.CorruptionType.GRASS))
 		{
@@ -54,9 +47,9 @@ public class ShadowGrassBlock extends AerialHellGrassBlock
 			for(int i = 0; i < 4; ++i)
 			{
 				BlockPos blockpos = pos.offset(rand.nextInt(3) - 1, rand.nextInt(5) - 3, rand.nextInt(3) - 1);
-				BlockState blockstate = AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get().defaultBlockState();
+				BlockState blockstate = AerialHellBlocks.SHADOW_GRASS_BLOCK.get().defaultBlockState();
 
-				if (level.getMaxLocalRawBrightness(pos.above()) >= 9 && level.getBlockState(blockpos).is(AerialHellBlocksAndItems.STELLAR_DIRT.get()) && BlockHelper.grassCanPropagate(blockstate, level, blockpos))
+				if (level.getMaxLocalRawBrightness(pos.above()) >= 9 && level.getBlockState(blockpos).is(AerialHellBlocks.STELLAR_DIRT.get()) && BlockHelper.grassCanPropagate(blockstate, level, blockpos))
 				{
 					level.setBlockAndUpdate(blockpos, blockstate.setValue(SNOWY, level.getBlockState(blockpos.above()).is(Blocks.SNOW)));
 					BlockHelper.corruptBiome(level, blockpos, 1);

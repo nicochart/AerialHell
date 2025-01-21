@@ -1,10 +1,9 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
@@ -28,9 +27,9 @@ public class AerialHellTallShroomBlock extends TallGrassBlock
 	@Override public void performBonemeal(ServerLevel level, RandomSource rand, BlockPos pos, BlockState state)
 	{
 		DoublePlantBlock tall_plant;
-		if (this == AerialHellBlocksAndItems.GLOWING_BOLETUS.get())
+		if (this == AerialHellBlocks.GLOWING_BOLETUS.get())
 		{
-			tall_plant = (DoublePlantBlock) AerialHellBlocksAndItems.TALL_GLOWING_BOLETUS.get();
+			tall_plant = (DoublePlantBlock) AerialHellBlocks.TALL_GLOWING_BOLETUS.get();
 			placePlant(level, pos, tall_plant);
 		}
 	}
@@ -61,13 +60,13 @@ public class AerialHellTallShroomBlock extends TallGrassBlock
 
 	@Override protected boolean mayPlaceOn(BlockState state, BlockGetter getter, BlockPos pos)
 	{
-		if (this == AerialHellBlocksAndItems.GIANT_ROOT_SHROOM.get() && state.is(AerialHellBlocksAndItems.GIANT_ROOT.get())) {return true;}
-		return state.is(BlockTags.DIRT) || state.is(AerialHellBlocksAndItems.STELLAR_COARSE_DIRT.get()) || state.is(AerialHellTags.Blocks.STELLAR_STONE_AND_DERIVATIVES) || state.is(BlockTags.MUSHROOM_GROW_BLOCK);
+		if (this == AerialHellBlocks.GIANT_ROOT_SHROOM.get() && state.is(AerialHellBlocks.GIANT_ROOT.get())) {return true;}
+		return state.is(BlockTags.DIRT) || state.is(AerialHellBlocks.STELLAR_COARSE_DIRT.get()) || state.is(AerialHellTags.Blocks.STELLAR_STONE_AND_DERIVATIVES) || state.is(BlockTags.MUSHROOM_GROW_BLOCK);
 	}
 
 	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
 	{
-		if (this == AerialHellBlocksAndItems.GIANT_ROOT_SHROOM.get() && entity instanceof LivingEntity livingEntity)
+		if (this == AerialHellBlocks.GIANT_ROOT_SHROOM.get() && entity instanceof LivingEntity livingEntity)
 		{
 			livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100, 0, false, false, true));
 		}

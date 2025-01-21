@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -14,11 +15,11 @@ public class SkySoupItem extends Item //copy of net.minecraft.item.SoupItem but 
 	
 	@Override public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entityLiving)
 	{
-		if (stack.is(AerialHellBlocksAndItems.SHADOW_FRUIT_STEW) && !level.isClientSide)
+		if (stack.is(AerialHellItems.SHADOW_FRUIT_STEW) && !level.isClientSide)
 		{
 			ItemHelper.removeEffectCuredBy(entityLiving, stack);
 		}
 		ItemStack itemstack = super.finishUsingItem(stack, level, entityLiving);
-		return entityLiving instanceof Player && ((Player)entityLiving).getAbilities().instabuild ? itemstack : new ItemStack(AerialHellBlocksAndItems.SKY_BOWL.get());
+		return entityLiving instanceof Player && ((Player)entityLiving).getAbilities().instabuild ? itemstack : new ItemStack(AerialHellItems.SKY_BOWL.get());
 	}
 }

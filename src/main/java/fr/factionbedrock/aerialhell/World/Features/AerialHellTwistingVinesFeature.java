@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.AerialHellTwistingVinesConfig;
@@ -84,7 +84,7 @@ public class AerialHellTwistingVinesFeature extends Feature<AerialHellTwistingVi
         {
             if (needsRoof && !BlockHelper.hasAnySolidSurfaceAbove(level, pos, 3)) {return true;}
             BlockState blockstate = level.getBlockState(pos.below());
-            return !blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) && !blockstate.is(AerialHellBlocksAndItems.SLIPPERY_SAND.get()) && !blockstate.is(Blocks.NETHERRACK) && !blockstate.is(Blocks.WARPED_NYLIUM) && !blockstate.is(Blocks.WARPED_WART_BLOCK);
+            return !blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) && !blockstate.is(AerialHellBlocks.SLIPPERY_SAND.get()) && !blockstate.is(Blocks.NETHERRACK) && !blockstate.is(Blocks.WARPED_NYLIUM) && !blockstate.is(Blocks.WARPED_WART_BLOCK);
         }
     }
 }

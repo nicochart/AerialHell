@@ -6,7 +6,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.ActiveMisleadableNearestAttackable
 import fr.factionbedrock.aerialhell.Entity.AI.FleeBlockGoal;
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -106,7 +106,7 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
     protected void registerGoals()
     {
     	super.registerGoals();
-        List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocksAndItems.SHADOW_TORCH.get(), AerialHellBlocksAndItems.SHADOW_WALL_TORCH.get());
+        List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocks.SHADOW_TORCH.get(), AerialHellBlocks.SHADOW_WALL_TORCH.get());
         this.goalSelector.addGoal(1, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
         this.targetSelector.addGoal(2, new CrystalGolemNearestAttackableTargetGoal<>(this, Player.class, true));
         this.goalSelector.addGoal(1, new CrystalGolemAvoidEntityGoal<>(this, Player.class, 16.0F, 1.2D, 1.5D));

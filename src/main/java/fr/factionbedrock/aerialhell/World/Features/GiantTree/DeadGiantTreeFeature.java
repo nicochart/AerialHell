@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
 import com.mojang.serialization.Codec;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.DeadGiantTreeConfig;
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantTrunk;
@@ -44,7 +44,7 @@ public class DeadGiantTreeFeature extends AbstractGiantTreeFeature<DeadGiantTree
         trunkSpline = null;
     }
 
-    @Override protected boolean isValidTreeSupport(BlockState state) {return super.isValidTreeSupport(state) || state.is(AerialHellBlocksAndItems.SLIPPERY_SAND.get());}
+    @Override protected boolean isValidTreeSupport(BlockState state) {return super.isValidTreeSupport(state) || state.is(AerialHellBlocks.SLIPPERY_SAND.get());}
 
     private static class DeadGiantTrunk extends ClassicGiantTrunk
     {

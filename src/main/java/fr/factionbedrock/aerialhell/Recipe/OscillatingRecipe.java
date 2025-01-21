@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Recipe;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
 import net.minecraft.world.item.Item;
@@ -15,7 +15,7 @@ public class OscillatingRecipe extends AbstractCookingRecipe
 		super(groupIn, category, ingredientIn, resultIn, experienceIn, cookTimeIn);
 	}
 
-	@Override protected Item furnaceIcon() {return AerialHellBlocksAndItems.OSCILLATOR.asItem();}
+	@Override protected Item furnaceIcon() {return AerialHellBlocks.OSCILLATOR.asItem();}
 
 	@Override public RecipeSerializer<OscillatingRecipe> getSerializer() {return AerialHellRecipes.OSCILLATING.get();}
 

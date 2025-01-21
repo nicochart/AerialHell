@@ -1,11 +1,10 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
-import java.util.Random;
 import java.util.function.Supplier;
 
 import com.mojang.serialization.Codec;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
@@ -73,7 +72,7 @@ public class StellarStoneCrystalBlobFeature extends Feature<NoneFeatureConfigura
 		
 	private boolean isValidFloorState(BlockState state)
 	{
-		return state.is(AerialHellTags.Blocks.STELLAR_DIRT) || state.is(AerialHellBlocksAndItems.SLIPPERY_SAND.get());
+		return state.is(AerialHellTags.Blocks.STELLAR_DIRT) || state.is(AerialHellBlocks.SLIPPERY_SAND.get());
 	}
 	
 	private boolean squareHasRoof(BlockPos pos, WorldGenLevel reader)

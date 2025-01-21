@@ -1,28 +1,23 @@
 package fr.factionbedrock.aerialhell.Event.Listeners;
 
-import java.util.UUID;
-
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowAutomatonEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -32,10 +27,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 public class ToolsAndArmorEventListener
 {
@@ -106,7 +99,7 @@ public class ToolsAndArmorEventListener
 		}
 
 		//player mining stellar stone with stellar stone breaker
-		else if (selectedItemStack.getItem() == AerialHellBlocksAndItems.STELLAR_STONE_BREAKER.get() && state.getBlock() == AerialHellBlocksAndItems.STELLAR_STONE.get()) {
+		else if (selectedItemStack.getItem() == AerialHellItems.STELLAR_STONE_BREAKER.get() && state.getBlock() == AerialHellBlocks.STELLAR_STONE.get()) {
 			event.setNewSpeed(speed * 2.0F);
 		}
 
@@ -118,7 +111,7 @@ public class ToolsAndArmorEventListener
 			}
 		}
 
-		if (state != null && state.is(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get()) && !EntityHelper.isLivingEntityShadowImmune(player) && !player.isCreative())
+		if (state != null && state.is(AerialHellBlocks.EYE_SHADOW_PINE_LOG.get()) && !EntityHelper.isLivingEntityShadowImmune(player) && !player.isCreative())
 		{
 			player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 30, 0));
 			player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 30, 0));
@@ -160,7 +153,7 @@ public class ToolsAndArmorEventListener
 
 	public static void applyEffectsBasedOnTargetHandEquippedItem(LivingIncomingDamageEvent event, Item targetEquippedItem, LivingEntity target) {
 		float amount = event.getAmount();
-		if (targetEquippedItem == AerialHellBlocksAndItems.GLASS_CANON_SWORD.get()) {event.setAmount(amount * 2.0F);} //*2 damage if target has glass cannon sword
+		if (targetEquippedItem == AerialHellItems.GLASS_CANON_SWORD.get()) {event.setAmount(amount * 2.0F);} //*2 damage if target has glass cannon sword
 	}
 
 	public static void applyEffectsBasedOnTargetEquippedArmor(LivingIncomingDamageEvent event, Iterable<ItemStack> armorStuff, LivingEntity source, LivingEntity target) {
@@ -196,7 +189,7 @@ public class ToolsAndArmorEventListener
 			for (ItemStack armorStack : source.getArmorSlots()) {if (armorStack.is(AerialHellTags.Items.MAGMATIC_GEL)) {count++;}}
 			int amplifier = count == 4 ? 1 : 0;
 			target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, amplifier, true, false));
-		} else if (sourceEquippedItem == AerialHellBlocksAndItems.ABSOLUTE_ZERO_SWORD.get()) //source attacking target with absolute zero sword
+		} else if (sourceEquippedItem == AerialHellItems.ABSOLUTE_ZERO_SWORD.get()) //source attacking target with absolute zero sword
 		{
 			target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2, true, false));
 		} else if (sourceEquippedItemStack.is(AerialHellTags.Items.ARSONIST)) //source attacking target with any arsonist tool
@@ -205,15 +198,15 @@ public class ToolsAndArmorEventListener
 			if (source.getRemainingFireTicks() > 0) {
 				event.setAmount(amount * 1.5F); //damage bonus when on fire
 			}
-		} else if (sourceEquippedItem == AerialHellBlocksAndItems.DISLOYAL_SWORD.get()) //source attacking target with disloyal sword
+		} else if (sourceEquippedItem == AerialHellItems.DISLOYAL_SWORD.get()) //source attacking target with disloyal sword
 		{
 			target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 0, true, false));
 			target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, true, false));
 			target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 0, true, false));
-		} else if (sourceEquippedItem == AerialHellBlocksAndItems.GOD_SWORD.get()) //source attacking target with god sword
+		} else if (sourceEquippedItem == AerialHellItems.GOD_SWORD.get()) //source attacking target with god sword
 		{
 			target.igniteForSeconds(5);
-		} else if (sourceEquippedItem == AerialHellBlocksAndItems.REAPER_SCYTHE.get()) //source attacking target with reaper scythe
+		} else if (sourceEquippedItem == AerialHellItems.REAPER_SCYTHE.get()) //source attacking target with reaper scythe
 		{
 			if (!EntityHelper.isLivingEntityShadowImmune(target)) {
 				target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100, 0, true, false));
@@ -224,7 +217,7 @@ public class ToolsAndArmorEventListener
 				source.addEffect(new MobEffectInstance(MobEffects.WITHER, 80, 2, true, false));
 			}
 			source.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 60, 0, true, false));
-		} else if (sourceEquippedItem == AerialHellBlocksAndItems.CURSED_SWORD.get() || sourceEquippedItem == AerialHellBlocksAndItems.CURSED_AXE.get()) //source attacking target with cursed tool
+		} else if (sourceEquippedItem == AerialHellItems.CURSED_SWORD.get() || sourceEquippedItem == AerialHellItems.CURSED_AXE.get()) //source attacking target with cursed tool
 		{
 			float damage_return_amount;
 			if (EntityHelper.isLivingEntityShadowImmune(source) || EntityHelper.isLivingEntityVulnerable(target)) {damage_return_amount = amount / 2;} else {damage_return_amount = amount;}
@@ -236,12 +229,12 @@ public class ToolsAndArmorEventListener
 					target.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 40, 0));
 				}
 			}
-		} else if (sourceEquippedItem == AerialHellBlocksAndItems.SWORD_OF_LIGHT.get() || sourceEquippedItem == AerialHellBlocksAndItems.AXE_OF_LIGHT.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_SWORD.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_AXE.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_HOE.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_SHOVEL.get() || sourceEquippedItem == AerialHellBlocksAndItems.LUNATIC_PICKAXE.get() || sourceEquippedItem == AerialHellBlocksAndItems.STELLAR_STONE_BREAKER.get()) //source attacking target with light tool
+		} else if (sourceEquippedItem == AerialHellItems.SWORD_OF_LIGHT.get() || sourceEquippedItem == AerialHellItems.AXE_OF_LIGHT.get() || sourceEquippedItem == AerialHellItems.LUNATIC_SWORD.get() || sourceEquippedItem == AerialHellItems.LUNATIC_AXE.get() || sourceEquippedItem == AerialHellItems.LUNATIC_HOE.get() || sourceEquippedItem == AerialHellItems.LUNATIC_SHOVEL.get() || sourceEquippedItem == AerialHellItems.LUNATIC_PICKAXE.get() || sourceEquippedItem == AerialHellItems.STELLAR_STONE_BREAKER.get()) //source attacking target with light tool
 		{
 			if (EntityHelper.isShadowEntity(target)) {
-				if (sourceEquippedItem == AerialHellBlocksAndItems.SWORD_OF_LIGHT.get() || sourceEquippedItem == AerialHellBlocksAndItems.AXE_OF_LIGHT.get()) {event.setAmount(amount * 1.8F);} else {event.setAmount(amount * 1.4F);}
+				if (sourceEquippedItem == AerialHellItems.SWORD_OF_LIGHT.get() || sourceEquippedItem == AerialHellItems.AXE_OF_LIGHT.get()) {event.setAmount(amount * 1.8F);} else {event.setAmount(amount * 1.4F);}
 			}
-		} else if (sourceEquippedItem == AerialHellBlocksAndItems.NETHERIAN_KING_SWORD.get() && source.level().dimension() == Level.NETHER) {
+		} else if (sourceEquippedItem == AerialHellItems.NETHERIAN_KING_SWORD.get() && source.level().dimension() == Level.NETHER) {
 			event.setAmount(amount * 2.0F);
 		}
 	}

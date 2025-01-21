@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Projectile;
 
 import fr.factionbedrock.aerialhell.Block.CollisionCondition.IntangibleTemporaryBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.IntangibleTemporaryBlockEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
@@ -76,9 +76,9 @@ public class DimensionShattererProjectileEntity extends Fireball
 								BlockState beforeState = this.level().getBlockState(pos);
 								if (!beforeState.isAir())
 								{
-									if (beforeState.getBlock() != AerialHellBlocksAndItems.INTANGIBLE_TEMPORARY_BLOCK.get())
+									if (beforeState.getBlock() != AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK.get())
 									{
-										IntangibleTemporaryBlock intangibleBlock = ((IntangibleTemporaryBlock) AerialHellBlocksAndItems.INTANGIBLE_TEMPORARY_BLOCK.get());
+										IntangibleTemporaryBlock intangibleBlock = ((IntangibleTemporaryBlock) AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK.get());
 										this.level().setBlock(pos, intangibleBlock.defaultBlockState(), 2);
 										setIntangibleTemporaryBlockEntityBeforeState(this.level(), pos, beforeState);
 									}

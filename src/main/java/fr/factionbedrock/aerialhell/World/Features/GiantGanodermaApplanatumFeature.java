@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.util.RandomSource;
@@ -24,7 +24,7 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfigur
 		boolean canGenerate = (
             (!reader.getBlockState(pos.above(3)).getBlock().equals(Blocks.AIR)) &&
             ((reader.getBlockState(pos.north(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.south(2)).getBlock().equals(Blocks.AIR)) || (reader.getBlockState(pos.west(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.east(2)).getBlock().equals(Blocks.AIR))) &&
-            (reader.getBlockState(pos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(pos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
+            (reader.getBlockState(pos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(pos).getBlock() == AerialHellBlocks.STELLAR_DIRT.get()));
 		
 		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
 		
@@ -66,7 +66,7 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfigur
                         	placementPos.set(blockPos.offset(pos));
                             if (FeatureHelper.isReplaceableByLogOrLeavesFeature(reader, placementPos, true))
                             {
-                            	reader.setBlock(placementPos, AerialHellBlocksAndItems.GIANT_GANODERMA_APPLANATUM_BLOCK.get().defaultBlockState()
+                            	reader.setBlock(placementPos, AerialHellBlocks.GIANT_GANODERMA_APPLANATUM_BLOCK.get().defaultBlockState()
                                 		.setValue(HugeMushroomBlock.NORTH, !northInEll)
                                 		.setValue(HugeMushroomBlock.SOUTH, !southInEll)
                                 		.setValue(HugeMushroomBlock.WEST, !westInEll)

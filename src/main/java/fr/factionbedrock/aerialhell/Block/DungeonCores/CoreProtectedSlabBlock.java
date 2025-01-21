@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -62,11 +62,11 @@ public class CoreProtectedSlabBlock extends SlabBlock
 
 	public Block getCrackedVariant()
 	{
-		if (this == AerialHellBlocksAndItems.MUD_BRICKS_SLAB.get()) {return AerialHellBlocksAndItems.CRACKED_MUD_BRICKS_SLAB.get();}
-		else if (this == AerialHellBlocksAndItems.LUNATIC_STONE_SLAB.get()) {return AerialHellBlocksAndItems.CRACKED_LUNATIC_STONE_SLAB.get();}
-		else if (this == AerialHellBlocksAndItems.SHADOW_CATACOMBS_BRICKS_SLAB.get()) {return AerialHellBlocksAndItems.CRACKED_SHADOW_CATACOMBS_BRICKS_SLAB.get();}
-		else if (this == AerialHellBlocksAndItems.GOLDEN_NETHER_BRICKS_SLAB.get()) {return AerialHellBlocksAndItems.CRACKED_GOLDEN_NETHER_BRICKS_SLAB.get();}
-		else if (this == AerialHellBlocksAndItems.VOLUCITE_STONE_SLAB.get()) {return AerialHellBlocksAndItems.CRACKED_VOLUCITE_STONE_SLAB.get();}
+		if (this == AerialHellBlocks.MUD_BRICKS_SLAB.get()) {return AerialHellBlocks.CRACKED_MUD_BRICKS_SLAB.get();}
+		else if (this == AerialHellBlocks.LUNATIC_STONE_SLAB.get()) {return AerialHellBlocks.CRACKED_LUNATIC_STONE_SLAB.get();}
+		else if (this == AerialHellBlocks.SHADOW_CATACOMBS_BRICKS_SLAB.get()) {return AerialHellBlocks.CRACKED_SHADOW_CATACOMBS_BRICKS_SLAB.get();}
+		else if (this == AerialHellBlocks.GOLDEN_NETHER_BRICKS_SLAB.get()) {return AerialHellBlocks.CRACKED_GOLDEN_NETHER_BRICKS_SLAB.get();}
+		else if (this == AerialHellBlocks.VOLUCITE_STONE_SLAB.get()) {return AerialHellBlocks.CRACKED_VOLUCITE_STONE_SLAB.get();}
 		else {return this;}
 	}
 }

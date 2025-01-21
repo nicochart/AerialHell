@@ -1,7 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.item.Item;
@@ -68,6 +69,6 @@ public class LightningShurikenEntity extends AbstractShurikenEntity
 	@Override
 	protected Item getDefaultItem()
 	{
-		return AerialHellBlocksAndItems.LIGHTNING_SHURIKEN.get();
+		return AerialHellItems.LIGHTNING_SHURIKEN.get();
 	}
 }

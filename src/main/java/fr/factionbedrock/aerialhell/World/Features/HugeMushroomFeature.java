@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Util.Ellipsoid;
 import net.minecraft.util.RandomSource;
@@ -57,7 +57,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
                 for (int z = 0; z < 2; z++)
                 {
                     placementPos.set(blockPos).move(x, y, z);
-                    if (FeatureHelper.isReplaceableByLogOrLeavesFeature(world, placementPos, true) || world.getBlockState(placementPos).is(AerialHellBlocksAndItems.VERDIGRIS_AGARIC.get()))
+                    if (FeatureHelper.isReplaceableByLogOrLeavesFeature(world, placementPos, true) || world.getBlockState(placementPos).is(AerialHellBlocks.VERDIGRIS_AGARIC.get()))
                     {
                         this.setBlock(world, placementPos, config.stemProvider.getState(rand, blockPos));
                     }

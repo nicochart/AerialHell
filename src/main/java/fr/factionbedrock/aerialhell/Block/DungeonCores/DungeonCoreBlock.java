@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Block.DungeonCores;
 import javax.annotation.Nullable;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.tags.TagKey;
@@ -155,9 +155,9 @@ public class DungeonCoreBlock extends Block
 		world.addParticle(particle, x + 1.5F * (rand.nextFloat() - 0.5F), y + 1.5F * (rand.nextFloat() - 0.5F), z + 1.5F * (rand.nextFloat() - 0.5F), 0.4 * (rand.nextFloat() - 0.5F), 0.4 * (rand.nextFloat() - 0.5F), 0.4 * (rand.nextFloat() - 0.5F));
 	}
 	
-	private boolean isMudCore(DungeonCoreBlock core) {return (core == AerialHellBlocksAndItems.MUD_DUNGEON_CORE.get());}
-	private boolean isLunaticCore(DungeonCoreBlock core) {return (core == AerialHellBlocksAndItems.LUNATIC_DUNGEON_CORE.get());}
-	private boolean isShadowCatacombsCore(DungeonCoreBlock core) {return (core == AerialHellBlocksAndItems.SHADOW_CATACOMBS_DUNGEON_CORE.get());}
-	private boolean isGoldenNetherCore(DungeonCoreBlock core) {return (core == AerialHellBlocksAndItems.GOLDEN_NETHER_DUNGEON_CORE.get());}
-	private boolean isVoluciteCore(DungeonCoreBlock core) {return (core == AerialHellBlocksAndItems.VOLUCITE_DUNGEON_CORE.get());}
+	private boolean isMudCore(DungeonCoreBlock core) {return (core == AerialHellBlocks.MUD_DUNGEON_CORE.get());}
+	private boolean isLunaticCore(DungeonCoreBlock core) {return (core == AerialHellBlocks.LUNATIC_DUNGEON_CORE.get());}
+	private boolean isShadowCatacombsCore(DungeonCoreBlock core) {return (core == AerialHellBlocks.SHADOW_CATACOMBS_DUNGEON_CORE.get());}
+	private boolean isGoldenNetherCore(DungeonCoreBlock core) {return (core == AerialHellBlocks.GOLDEN_NETHER_DUNGEON_CORE.get());}
+	private boolean isVoluciteCore(DungeonCoreBlock core) {return (core == AerialHellBlocks.VOLUCITE_DUNGEON_CORE.get());}
 }

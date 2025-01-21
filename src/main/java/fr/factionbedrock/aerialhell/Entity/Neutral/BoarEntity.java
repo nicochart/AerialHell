@@ -1,7 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Neutral;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -25,7 +26,7 @@ import javax.annotation.Nullable;
 
 public class BoarEntity extends Pig
 {
-    private static final Ingredient FOOD_ITEMS = Ingredient.of(AerialHellBlocksAndItems.AERIAL_BERRY.get(), AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY.get(), Items.CARROT, Items.POTATO, Items.BEETROOT);
+    private static final Ingredient FOOD_ITEMS = Ingredient.of(AerialHellItems.AERIAL_BERRY.get(), AerialHellItems.VIBRANT_AERIAL_BERRY.get(), Items.CARROT, Items.POTATO, Items.BEETROOT);
 
     public BoarEntity(EntityType<? extends Pig> entityType, Level level) {super(entityType, level);}
 
@@ -59,6 +60,6 @@ public class BoarEntity extends Pig
 
     public static boolean canSpawn(EntityType<? extends Pig> entityType, LevelAccessor worldIn, EntitySpawnReason spawnType, BlockPos pos, RandomSource random)
     {
-        return worldIn.getBlockState(pos.below()).is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && isBrightEnoughToSpawn(worldIn, pos);
+        return worldIn.getBlockState(pos.below()).is(AerialHellBlocks.STELLAR_GRASS_BLOCK.get()) && isBrightEnoughToSpawn(worldIn, pos);
     }
 }

@@ -23,7 +23,6 @@ import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.world.phys.HitResult;
 
 public class RubyWaterBucketItem extends Item

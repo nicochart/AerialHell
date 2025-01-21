@@ -1,7 +1,8 @@
 package fr.factionbedrock.aerialhell.Block.Plants.Bushes;
 
 import com.mojang.serialization.MapCodec;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -52,7 +53,7 @@ public class AerialBerryBushBlock extends BushBlock implements BonemealableBlock
     @Override
     protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos)
     {
-        return state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) || state.is(AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get());
+        return state.is(AerialHellBlocks.STELLAR_GRASS_BLOCK.get()) || state.is(AerialHellBlocks.CHISELED_STELLAR_GRASS_BLOCK.get());
     }
     
     @Override
@@ -66,7 +67,7 @@ public class AerialBerryBushBlock extends BushBlock implements BonemealableBlock
         else if (age > 1)
         {
             int j = 1 + worldIn.random.nextInt(2);
-            popResource(worldIn, pos, new ItemStack(AerialHellBlocksAndItems.AERIAL_BERRY.get(), j + (age == 3 ? 1 : 0)));
+            popResource(worldIn, pos, new ItemStack(AerialHellItems.AERIAL_BERRY.get(), j + (age == 3 ? 1 : 0)));
             worldIn.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.9F + worldIn.random.nextFloat() * 0.3F);
             worldIn.setBlock(pos, state.setValue(AGE, 1), 2);
             return InteractionResult.SUCCESS;
