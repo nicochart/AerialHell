@@ -98,6 +98,7 @@ public class RenderRegistrationListener
         event.registerLayerDefinition(AerialHellModelLayers.BOAR, BoarModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.ENT, EntModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.SNAKE, SnakeModel::createBodyLayer);
+        event.registerLayerDefinition(AerialHellModelLayers.STELLAR_CHICKEN, StellarChickenModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CHAINED_GOD, ChainedGodModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CHEST_MIMIC, ChestMimicModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CRYSTAL_GOLEM, CrystalGolemModel::createBodyLayer);

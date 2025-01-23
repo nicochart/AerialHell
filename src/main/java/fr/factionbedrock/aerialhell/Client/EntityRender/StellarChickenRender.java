@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.StellarChickenModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.StellarChickenRenderState;
 import fr.factionbedrock.aerialhell.Entity.Passive.StellarChickenEntity;
@@ -16,7 +17,7 @@ public class StellarChickenRender extends MobRenderer<StellarChickenEntity, Stel
 
     public StellarChickenRender(EntityRendererProvider.Context context)
     {
-        super(context, new StellarChickenModel(context.bakeLayer(ModelLayers.CHICKEN)), 0.3F);
+        super(context, new StellarChickenModel(context.bakeLayer(AerialHellModelLayers.STELLAR_CHICKEN)), 0.3F);
 
         // it is possible to use AgeableMobRenderer and call :
         // super(context, new StellarChickenModel(context.bakeLayer(ModelLayers.CHICKEN)), new StellarChickenModel(context.bakeLayer(ModelLayers.CHICKEN_BABY)), 0.3F);

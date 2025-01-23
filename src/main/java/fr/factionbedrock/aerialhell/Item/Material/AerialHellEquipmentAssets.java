@@ -4,6 +4,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.equipment.EquipmentAsset;
+import net.minecraft.world.item.equipment.EquipmentAssets;
 
 public class AerialHellEquipmentAssets
 {
@@ -16,10 +17,9 @@ public class AerialHellEquipmentAssets
     public static ResourceKey<EquipmentAsset> SHADOW = createId("shadow");
     public static ResourceKey<EquipmentAsset> ARSONIST = createId("arsonist");
 
-    //copy of net.minecraft.world.item.equipment.EquipmentAssets ROOT_ID and createId method
-    private static ResourceKey<? extends Registry<EquipmentAsset>> ROOT_ID = ResourceKey.createRegistryKey(ResourceLocation.withDefaultNamespace("equipment_asset"));
+    //copy of net.minecraft.world.item.equipment.EquipmentAssets createId method
     static ResourceKey<EquipmentAsset> createId(String name)
     {
-        return ResourceKey.create(ROOT_ID, ResourceLocation.withDefaultNamespace(name));
+        return ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.withDefaultNamespace(name));
     }
 }
