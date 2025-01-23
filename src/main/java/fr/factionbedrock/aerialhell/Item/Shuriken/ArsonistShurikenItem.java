@@ -9,9 +9,9 @@ import net.minecraft.world.level.Level;
 
 public class ArsonistShurikenItem extends AbstractShurikenItem
 {
-	public ArsonistShurikenItem()
+	public ArsonistShurikenItem(Item.Properties properties)
 	{
-		super(new Item.Properties().rarity(AerialHellRarities.MYTHICAL.getValue()));
+		super(properties);
 	}
 
 	@Override protected float getVelocity() {return 1.7F;}

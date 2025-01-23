@@ -9,9 +9,9 @@ import net.minecraft.world.level.Level;
 
 public class AzuriteShurikenItem extends AbstractShurikenItem
 {
-	public AzuriteShurikenItem()
+	public AzuriteShurikenItem(Item.Properties properties)
 	{
-		super(new Item.Properties().rarity(Rarity.COMMON));
+		super(properties);
 	}
 
 	@Override protected float getVelocity() {return 2.0F;}

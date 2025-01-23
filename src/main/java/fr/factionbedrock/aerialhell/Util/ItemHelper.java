@@ -12,6 +12,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -142,7 +143,7 @@ public class ItemHelper
             return format == null ? returnComponent : returnComponent.withStyle(format);
         }
 
-        public static SmithingTemplateItem createUpgradeTemplate(String materialName)
+        public static SmithingTemplateItem createUpgradeTemplate(String materialName, Item.Properties properties)
         {
             return new SmithingTemplateItem(
                     makeSmithingTemplateItemDescComponent(materialName, APPLIES_TO, DESCRIPTION_FORMAT),
@@ -152,7 +153,7 @@ public class ItemHelper
                     makeSmithingTemplateItemDescComponent(materialName, ADDITIONS_SLOT_DESCRIPTION, null),
                     SmithingTemplateItem.createNetheriteUpgradeIconList(),
                     SmithingTemplateItem.createNetheriteUpgradeMaterialList(),
-                    new Item.Properties());
+                    properties);
         }
     }
 

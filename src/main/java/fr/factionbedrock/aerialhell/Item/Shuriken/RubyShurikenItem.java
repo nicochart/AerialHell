@@ -9,9 +9,9 @@ import net.minecraft.world.level.Level;
 
 public class RubyShurikenItem extends AbstractShurikenItem
 {
-	public RubyShurikenItem()
+	public RubyShurikenItem(Item.Properties properties)
 	{
-		super(new Item.Properties().rarity(Rarity.COMMON));
+		super(properties);
 	}
 
 	@Override protected float getVelocity() {return 1.8F;}

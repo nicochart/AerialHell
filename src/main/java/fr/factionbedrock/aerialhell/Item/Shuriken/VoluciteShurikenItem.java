@@ -9,9 +9,9 @@ import net.minecraft.world.level.Level;
 
 public class VoluciteShurikenItem extends AbstractShurikenItem
 {
-	public VoluciteShurikenItem()
+	public VoluciteShurikenItem(Item.Properties properties)
 	{
-		super(new Item.Properties().rarity(AerialHellRarities.VIBRANT.getValue()));
+		super(properties);
 	}
 
 	@Override protected float getVelocity() {return 1.6F;}

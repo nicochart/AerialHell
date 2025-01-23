@@ -9,9 +9,9 @@ import net.minecraft.world.level.Level;
 
 public class MagmaticGelShurikenItem extends AbstractShurikenItem
 {
-	public MagmaticGelShurikenItem()
+	public MagmaticGelShurikenItem(Item.Properties properties)
 	{
-		super(new Item.Properties().rarity(AerialHellRarities.FROZEN.getValue()));
+		super(properties);
 	}
 
 	@Override protected float getVelocity() {return 1.7F;}

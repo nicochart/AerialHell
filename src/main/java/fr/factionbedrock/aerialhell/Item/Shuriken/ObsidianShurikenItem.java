@@ -9,9 +9,9 @@ import net.minecraft.world.level.Level;
 
 public class ObsidianShurikenItem extends AbstractShurikenItem
 {
-	public ObsidianShurikenItem()
+	public ObsidianShurikenItem(Item.Properties properties)
 	{
-		super(new Item.Properties().rarity(Rarity.EPIC));
+		super(properties);
 	}
 
 	@Override protected float getVelocity() {return 1.6F;}

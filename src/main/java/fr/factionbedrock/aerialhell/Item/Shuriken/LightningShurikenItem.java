@@ -9,9 +9,9 @@ import net.minecraft.world.level.Level;
 
 public class LightningShurikenItem extends AbstractShurikenItem
 {
-	public LightningShurikenItem()
+	public LightningShurikenItem(Item.Properties properties)
 	{
-		super(new Item.Properties().rarity(Rarity.UNCOMMON));
+		super(properties);
 	}
 
 	@Override protected float getVelocity() {return 1.7F;}
