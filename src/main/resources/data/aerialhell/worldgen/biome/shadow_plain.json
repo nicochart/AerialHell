@@ -11,12 +11,17 @@
     "grass_color": 6959500,
     "foliage_color": 2818117,
     "grass_color_modifier": "none",
-    "music": {
-      "sound": "aerialhell:aerialhell.shadow_music",
-      "min_delay": 1200,
-      "max_delay": 3600,
-      "replace_current_music": false
-    },
+    "music": [
+      {
+        "data": {
+          "max_delay": 3600,
+          "min_delay": 1200,
+          "replace_current_music": false,
+          "sound": "aerialhell:aerialhell.shadow_music"
+        },
+        "weight": 1
+      }
+    ],
     "particle": {
       "options": {
         "type": "aerialhell:shadow_particle"
@@ -58,11 +63,9 @@
     "misc": []
   },
   "spawn_costs": {},
-  "carvers": {
-    "air": [
-      "minecraft:cave"
-    ]
-  },
+  "carvers": [
+    "minecraft:cave"
+  ],
   "features": [
     [],
     [
