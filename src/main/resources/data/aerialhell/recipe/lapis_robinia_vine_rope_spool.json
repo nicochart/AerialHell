@@ -6,12 +6,8 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:lapis_robinia_slab"
-    },
-    "R": {
-      "item": "minecraft:lead"
-    }
+    "#": "aerialhell:lapis_robinia_slab",
+    "R": "minecraft:lead"
   },
   "result": {
     "id": "aerialhell:lapis_robinia_vine_rope_spool"

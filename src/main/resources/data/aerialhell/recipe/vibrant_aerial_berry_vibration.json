@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:oscillating",
-  "ingredient": {
-    "item": "aerialhell:aerial_berry"
-  },
+  "ingredient": "aerialhell:aerial_berry",
   "result": {
     "id": "aerialhell:vibrant_aerial_berry"
   },

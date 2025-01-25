@@ -1,8 +1,6 @@
 {
   "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "aerialhell:frozen_mutton"
-  },
+  "ingredient": "aerialhell:frozen_mutton",
   "result": {
     "id": "minecraft:mutton"
   },

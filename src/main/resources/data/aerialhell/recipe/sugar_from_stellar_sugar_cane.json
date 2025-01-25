@@ -3,9 +3,7 @@
   "category": "misc",
   "group": "sugar",
   "ingredients": [
-    {
-      "item": "aerialhell:stellar_sugar_cane"
-    }
+    "aerialhell:stellar_sugar_cane"
   ],
   "result": {
     "id": "minecraft:sugar"

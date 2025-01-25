@@ -1,8 +1,6 @@
 {
     "type": "minecraft:smelting",
-    "ingredient": {
-        "item": "aerialhell:azurite_ore"
-    },
+    "ingredient": "aerialhell:azurite_ore",
     "result": {
         "id": "aerialhell:azurite_crystal"
     },

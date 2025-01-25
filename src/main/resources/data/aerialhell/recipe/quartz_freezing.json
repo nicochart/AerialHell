@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:freezing",
-  "ingredient": {
-    "item": "aerialhell:azurite_crystal"
-  },
+  "ingredient": "aerialhell:azurite_crystal",
   "result": {
     "id": "minecraft:quartz"
   },

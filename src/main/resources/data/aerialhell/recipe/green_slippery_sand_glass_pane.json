@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:green_slippery_sand_glass"
-    }
+    "#": "aerialhell:green_slippery_sand_glass"
   },
   "result": {
     "id": "aerialhell:green_slippery_sand_glass_pane",

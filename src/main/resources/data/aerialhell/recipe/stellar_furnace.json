@@ -6,9 +6,7 @@
     "SSS"
   ],
   "key": {
-    "S": {
-      "item": "aerialhell:stellar_cobblestone"
-    }
+    "S": "aerialhell:stellar_cobblestone"
   },
   "result": {
     "id": "aerialhell:stellar_furnace"

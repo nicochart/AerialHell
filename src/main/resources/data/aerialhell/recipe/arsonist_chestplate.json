@@ -6,9 +6,7 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "aerialhell:arsonist_ingot"
-    }
+    "X": "aerialhell:arsonist_ingot"
   },
   "result": {
     "id": "aerialhell:arsonist_chestplate"

@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:freezing",
-  "ingredient": {
-    "item": "aerialhell:turtle_meat"
-  },
+  "ingredient": "aerialhell:turtle_meat",
   "result": {
     "id": "aerialhell:frozen_turtle_meat"
   },

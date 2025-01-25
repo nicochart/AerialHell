@@ -6,12 +6,8 @@
     "SSS"
   ],
   "key": {
-    "S": {
-      "item": "aerialhell:golden_nether_bricks"
-    },
-    "B": {
-      "item": "minecraft:book"
-    }
+    "S": "aerialhell:golden_nether_bricks",
+    "B": "minecraft:book"
   },
   "result": {
     "count": 1,

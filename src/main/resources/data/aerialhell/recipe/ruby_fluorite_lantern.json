@@ -6,12 +6,8 @@
     "XXX"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:fluorite_torch"
-    },
-    "X": {
-      "item": "aerialhell:ruby"
-    }
+    "#": "aerialhell:fluorite_torch",
+    "X": "aerialhell:ruby"
   },
   "result": {
     "id": "aerialhell:ruby_fluorite_lantern",

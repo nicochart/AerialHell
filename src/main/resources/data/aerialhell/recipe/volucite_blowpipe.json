@@ -6,12 +6,8 @@
     "V"
   ],
   "key": {
-    "S": {
-      "item": "aerialhell:sky_stick"
-    },
-    "V": {
-      "item": "aerialhell:volucite_vibrant"
-    }
+    "S": "aerialhell:sky_stick",
+    "V": "aerialhell:volucite_vibrant"
   },
   "result": {
     "id": "aerialhell:volucite_blowpipe"

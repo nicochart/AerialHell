@@ -1,8 +1,6 @@
 {
   "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "aerialhell:turtle_meat"
-  },
+  "ingredient": "aerialhell:turtle_meat",
   "result": {
     "id": "aerialhell:cooked_turtle_meat"
   },

@@ -5,9 +5,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:obsidian_shard"
-    }
+    "#": "aerialhell:obsidian_shard"
   },
   "result": {
     "id": "minecraft:obsidian"

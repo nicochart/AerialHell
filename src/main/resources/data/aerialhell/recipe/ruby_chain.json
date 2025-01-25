@@ -6,7 +6,7 @@
     "R"
   ],
   "key": {
-    "R": {"item": "aerialhell:ruby"}
+    "R": "aerialhell:ruby"
   },
   "result": {
     "id": "aerialhell:ruby_chain",

@@ -6,12 +6,8 @@
     "XXX"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:fluorite_torch"
-    },
-    "X": {
-      "item": "aerialhell:volucite_vibrant"
-    }
+    "#": "aerialhell:fluorite_torch",
+    "X": "aerialhell:volucite_vibrant"
   },
   "result": {
     "id": "aerialhell:volucite_fluorite_lantern",

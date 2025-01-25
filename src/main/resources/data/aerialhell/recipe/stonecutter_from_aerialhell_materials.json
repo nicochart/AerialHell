@@ -5,12 +5,8 @@
     "###"
   ],
   "key": {
-    "I": {
-      "item": "aerialhell:ruby"
-    },
-    "#": {
-      "item": "aerialhell:stellar_stone"
-    }
+    "I": "aerialhell:ruby",
+    "#": "aerialhell:stellar_stone"
   },
   "result": {
     "id": "minecraft:stonecutter"

@@ -1,8 +1,6 @@
 {
     "type": "minecraft:smelting",
-    "ingredient": {
-        "item": "aerialhell:slippery_sand"
-    },
+    "ingredient": "aerialhell:slippery_sand",
     "result": {
       "id": "aerialhell:slippery_sand_glass"
     },

@@ -5,9 +5,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:cracked_mud_bricks"
-    }
+    "#": "aerialhell:cracked_mud_bricks"
   },
   "result": {
     "id": "aerialhell:cracked_mud_bricks_wall",

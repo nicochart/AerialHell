@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:smooth_smoky_quartz"
-    }
+    "#": "aerialhell:smooth_smoky_quartz"
   },
   "result": {
     "id": "aerialhell:smooth_smoky_quartz_stairs",

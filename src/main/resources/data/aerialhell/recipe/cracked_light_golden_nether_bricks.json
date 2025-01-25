@@ -1,8 +1,6 @@
 {
   "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "aerialhell:light_golden_nether_bricks"
-  },
+  "ingredient": "aerialhell:light_golden_nether_bricks",
   "result": {
     "id": "aerialhell:cracked_light_golden_nether_bricks"
   },

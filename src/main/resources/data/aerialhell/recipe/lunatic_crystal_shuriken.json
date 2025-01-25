@@ -5,12 +5,8 @@
     "S "
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:lunatic_crystal"
-    },
-    "S": {
-      "item": "aerialhell:sky_stick"
-    }
+    "#": "aerialhell:lunatic_crystal",
+    "S": "aerialhell:sky_stick"
   },
   "result": {
     "id": "aerialhell:lunatic_crystal_shuriken",

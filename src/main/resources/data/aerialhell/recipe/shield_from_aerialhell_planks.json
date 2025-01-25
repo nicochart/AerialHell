@@ -6,12 +6,8 @@
     " W "
   ],
   "key": {
-    "W": {
-      "tag": "aerialhell:aerialhell_planks"
-    },
-    "o": {
-      "item": "minecraft:iron_ingot"
-    }
+    "W": "#aerialhell:aerialhell_planks",
+    "o": "minecraft:iron_ingot"
   },
   "result": {
     "id": "minecraft:shield"

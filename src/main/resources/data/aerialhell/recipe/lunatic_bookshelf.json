@@ -6,12 +6,8 @@
     "SSS"
   ],
   "key": {
-    "S": {
-      "item": "aerialhell:lunatic_stone"
-    },
-    "B": {
-      "item": "minecraft:book"
-    }
+    "S": "aerialhell:lunatic_stone",
+    "B": "minecraft:book"
   },
   "result": {
     "count": 1,

@@ -6,8 +6,8 @@
     "R"
   ],
   "key": {
-    "S": {"item": "aerialhell:shadow_shard"},
-    "R": {"item": "aerialhell:ruby"}
+    "S": "aerialhell:shadow_shard",
+    "R": "aerialhell:ruby"
   },
   "result": {
     "id": "aerialhell:shadow_chain",

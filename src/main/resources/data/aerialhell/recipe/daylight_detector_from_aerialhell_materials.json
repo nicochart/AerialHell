@@ -6,15 +6,9 @@
     "WWW"
   ],
   "key": {
-    "Q": {
-      "item": "aerialhell:smoky_quartz"
-    },
-    "G": {
-      "item": "aerialhell:slippery_sand_glass"
-    },
-    "W": {
-      "tag": "aerialhell:aerialhell_wooden_slabs"
-    }
+    "Q": "aerialhell:smoky_quartz",
+    "G": "aerialhell:slippery_sand_glass",
+    "W": "#aerialhell:aerialhell_wooden_slabs"
   },
   "result": {
     "id": "minecraft:daylight_detector"

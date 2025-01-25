@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "planks",
   "ingredients": [
-    {
-      "item": "aerialhell:stellar_jungle_tree_log"
-    }
+    "aerialhell:stellar_jungle_tree_log"
   ],
   "result": {
     "id": "aerialhell:stellar_jungle_tree_planks",

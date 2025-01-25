@@ -4,9 +4,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:volucite_stone"
-    }
+    "#": "aerialhell:volucite_stone"
   },
   "result": {
     "id": "aerialhell:volucite_stone_slab",

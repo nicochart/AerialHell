@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:crystal_bricks"
-    }
+    "#": "aerialhell:crystal_bricks"
   },
   "result": {
     "id": "aerialhell:crystal_bricks_stairs",

@@ -6,15 +6,9 @@
     "###"
   ],
   "key": {
-    "Q": {
-      "item": "aerialhell:smoky_quartz"
-    },
-    "R": {
-      "item": "minecraft:redstone"
-    },
-    "#": {
-      "item": "aerialhell:stellar_cobblestone"
-    }
+    "Q": "aerialhell:smoky_quartz",
+    "R": "minecraft:redstone",
+    "#": "aerialhell:stellar_cobblestone"
   },
   "result": {
     "id": "minecraft:observer"

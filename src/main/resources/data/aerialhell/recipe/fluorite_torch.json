@@ -5,12 +5,8 @@
     "S"
   ],
   "key": {
-    "A": {
-      "item": "aerialhell:fluorite"
-    },
-    "S": {
-      "item": "aerialhell:sky_stick"
-    }
+    "A": "aerialhell:fluorite",
+    "S": "aerialhell:sky_stick"
   },
   "result": {
     "id": "aerialhell:fluorite_torch",

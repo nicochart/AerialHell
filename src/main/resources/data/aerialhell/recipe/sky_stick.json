@@ -5,12 +5,10 @@
     "#"
   ],
   "key": {
-    "#": {
-      "tag": "aerialhell:aerialhell_planks"
-    }
+    "#": "#aerialhell:aerialhell_planks"
   },
   "result": {
-    "id": "aerialhell:sky_stick",
-    "count": 4
+    "count": 4,
+    "id": "aerialhell:sky_stick"
   }
 }

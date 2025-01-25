@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "aerialhell:ghost_azurite_block"
-    }
+    "aerialhell:ghost_azurite_block"
   ],
   "result": {
     "id": "aerialhell:azurite_crystal",

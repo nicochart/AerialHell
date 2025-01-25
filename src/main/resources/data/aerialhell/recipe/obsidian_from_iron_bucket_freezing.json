@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:freezing",
-  "ingredient": {
-    "item": "aerialhell:iron_liquid_of_gods_bucket"
-  },
+  "ingredient": "aerialhell:iron_liquid_of_gods_bucket",
   "result": {
     "id": "minecraft:obsidian"
   },

@@ -6,15 +6,9 @@
     "R"
   ],
   "key": {
-    "E": {
-      "item": "aerialhell:white_solid_ether_fragment"
-    },
-    "S": {
-      "item": "aerialhell:sky_stick"
-    },
-    "R": {
-      "item": "aerialhell:ruby"
-    }
+    "E": "aerialhell:white_solid_ether_fragment",
+    "S": "aerialhell:sky_stick",
+    "R": "aerialhell:ruby"
   },
   "result": {
     "id": "aerialhell:ruby_blowpipe_arrow",

@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:ganoderma_applanatum_piece"
-    }
+    "#": "aerialhell:ganoderma_applanatum_piece"
   },
   "result": {
     "id": "aerialhell:giant_ganoderma_applanatum_block"

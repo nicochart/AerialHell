@@ -6,15 +6,9 @@
     "V"
   ],
   "key": {
-    "E": {
-      "item": "aerialhell:white_solid_ether_fragment"
-    },
-    "S": {
-      "item": "aerialhell:sky_stick"
-    },
-    "V": {
-      "item": "aerialhell:volucite_vibrant"
-    }
+    "E": "aerialhell:white_solid_ether_fragment",
+    "S": "aerialhell:sky_stick",
+    "V": "aerialhell:volucite_vibrant"
   },
   "result": {
     "id": "aerialhell:volucite_blowpipe_arrow",

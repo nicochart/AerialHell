@@ -6,12 +6,8 @@
     "/_/"
   ],
   "key": {
-    "/": {
-      "item": "aerialhell:sky_stick"
-    },
-    "_": {
-      "item": "aerialhell:stellar_stone_slab"
-    }
+    "/": "aerialhell:sky_stick",
+    "_": "aerialhell:stellar_stone_slab"
   },
   "result": {
     "id": "minecraft:armor_stand"

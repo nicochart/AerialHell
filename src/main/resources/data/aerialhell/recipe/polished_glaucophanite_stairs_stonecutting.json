@@ -1,8 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "aerialhell:polished_glaucophanite"
-  },
+  "ingredient": "aerialhell:polished_glaucophanite",
   "result": {
     "count": 1,
     "id": "aerialhell:polished_glaucophanite_stairs"

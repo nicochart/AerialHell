@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:oscillating",
-  "ingredient": {
-    "item": "aerialhell:golden_nether_steak"
-  },
+  "ingredient": "aerialhell:golden_nether_steak",
   "result": {
     "id": "aerialhell:vibrant_golden_nether_steak"
   },

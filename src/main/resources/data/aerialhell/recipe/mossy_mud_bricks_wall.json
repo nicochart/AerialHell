@@ -5,9 +5,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:mossy_mud_bricks"
-    }
+    "#": "aerialhell:mossy_mud_bricks"
   },
   "result": {
     "id": "aerialhell:mossy_mud_bricks_wall",

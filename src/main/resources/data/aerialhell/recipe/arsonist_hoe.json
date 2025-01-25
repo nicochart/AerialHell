@@ -6,12 +6,8 @@
     " #"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "X": {
-      "item": "aerialhell:arsonist_ingot"
-    }
+    "#": "aerialhell:sky_stick",
+    "X": "aerialhell:arsonist_ingot"
   },
   "result": {
     "id": "aerialhell:arsonist_hoe"

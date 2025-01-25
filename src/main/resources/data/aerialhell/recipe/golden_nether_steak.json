@@ -5,9 +5,7 @@
     "MM"
   ],
   "key": {
-    "M": {
-      "item": "aerialhell:golden_nether_meat_piece"
-    }
+    "M": "aerialhell:golden_nether_meat_piece"
   },
   "result": {
     "id": "aerialhell:golden_nether_steak"

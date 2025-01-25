@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:golden_beech_planks"
-    }
+    "#": "aerialhell:golden_beech_planks"
   },
   "result": {
     "id": "aerialhell:golden_beech_trapdoor",

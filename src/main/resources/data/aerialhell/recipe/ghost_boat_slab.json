@@ -4,9 +4,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:ghost_boat_planks"
-    }
+    "#": "aerialhell:ghost_boat_planks"
   },
   "result": {
     "id": "aerialhell:ghost_boat_slab",

@@ -6,12 +6,8 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:volucite_vibrant"
-    },
-    "B": {
-      "item": "aerialhell:aerial_berry"
-    }
+    "#": "aerialhell:volucite_vibrant",
+    "B": "aerialhell:aerial_berry"
   },
   "result": {
     "id": "aerialhell:volucite_aerial_berry"

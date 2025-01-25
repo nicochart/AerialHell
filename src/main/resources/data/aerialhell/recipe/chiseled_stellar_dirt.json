@@ -5,9 +5,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:stellar_dirt"
-    }
+    "#": "aerialhell:stellar_dirt"
   },
   "result": {
     "id": "aerialhell:chiseled_stellar_dirt",

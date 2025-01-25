@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "bonemeal",
   "ingredients": [
-    {
-      "item": "aerialhell:mud_bone"
-    }
+    "aerialhell:mud_bone"
   ],
   "result": {
     "id": "minecraft:bone_meal",

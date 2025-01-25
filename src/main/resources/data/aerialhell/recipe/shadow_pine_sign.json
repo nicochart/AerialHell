@@ -7,12 +7,8 @@
     " X "
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:shadow_pine_planks"
-    },
-    "X": {
-      "item": "aerialhell:sky_stick"
-    }
+    "#": "aerialhell:shadow_pine_planks",
+    "X": "aerialhell:sky_stick"
   },
   "result": {
     "id": "aerialhell:shadow_pine_sign",

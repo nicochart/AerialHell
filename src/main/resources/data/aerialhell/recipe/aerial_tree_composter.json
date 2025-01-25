@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:aerial_tree_slab"
-    }
+    "#": "aerialhell:aerial_tree_slab"
   },
   "result": {
     "id": "aerialhell:aerial_tree_composter"

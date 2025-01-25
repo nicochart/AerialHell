@@ -6,9 +6,7 @@
     "# #"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    }
+    "#": "aerialhell:sky_stick"
   },
   "result": {
     "id": "aerialhell:sky_ladder",

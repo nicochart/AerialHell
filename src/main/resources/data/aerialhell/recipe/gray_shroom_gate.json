@@ -6,12 +6,8 @@
     "#W#"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "W": {
-      "item": "aerialhell:gray_shroom_planks"
-    }
+    "#": "aerialhell:sky_stick",
+    "W": "aerialhell:gray_shroom_planks"
   },
   "result": {
     "id": "aerialhell:gray_shroom_gate"

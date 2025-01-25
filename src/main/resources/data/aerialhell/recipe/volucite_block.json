@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:volucite_vibrant"
-    }
+    "#": "aerialhell:volucite_vibrant"
   },
   "result": {
     "id": "aerialhell:volucite_block"

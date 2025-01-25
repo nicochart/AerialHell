@@ -5,9 +5,7 @@
     "X X"
   ],
   "key": {
-    "X": {
-      "item": "aerialhell:ruby"
-    }
+    "X": "aerialhell:ruby"
   },
   "result": {
     "id": "aerialhell:ruby_boots"

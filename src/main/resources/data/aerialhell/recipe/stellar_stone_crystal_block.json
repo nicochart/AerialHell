@@ -5,9 +5,7 @@
     "CC"
   ],
   "key": {
-    "C": {
-      "item": "aerialhell:stellar_stone_crystal"
-    }
+    "C": "aerialhell:stellar_stone_crystal"
   },
   "result": {
     "id": "aerialhell:stellar_stone_crystal_block"

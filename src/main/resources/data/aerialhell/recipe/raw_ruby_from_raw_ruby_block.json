@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "aerialhell:raw_ruby_block"
-    }
+    "aerialhell:raw_ruby_block"
   ],
   "result": {
     "id": "aerialhell:raw_ruby",

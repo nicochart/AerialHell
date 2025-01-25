@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:copper_pine_slab"
-    }
+    "#": "aerialhell:copper_pine_slab"
   },
   "result": {
     "id": "aerialhell:copper_pine_composter"

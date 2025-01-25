@@ -5,9 +5,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:dark_lunatic_stone"
-    }
+    "#": "aerialhell:dark_lunatic_stone"
   },
   "result": {
     "id": "aerialhell:dark_lunatic_stone_wall",

@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "planks",
   "ingredients": [
-    {
-      "item": "aerialhell:stripped_aerial_tree_log"
-    }
+    "aerialhell:stripped_aerial_tree_log"
   ],
   "result": {
     "id": "aerialhell:aerial_tree_planks",

@@ -1,12 +1,8 @@
 {
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
-        {
-            "item": "aerialhell:stellar_cobblestone"
-        },
-        {
-            "item": "minecraft:vine"
-        }
+        "aerialhell:stellar_cobblestone",
+        "minecraft:vine"
     ],
     "result": {
         "id": "aerialhell:mossy_stellar_cobblestone",

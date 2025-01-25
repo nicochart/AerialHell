@@ -1,8 +1,6 @@
 {
   "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "aerialhell:light_mud_bricks"
-  },
+  "ingredient": "aerialhell:light_mud_bricks",
   "result": {
     "id": "aerialhell:cracked_light_mud_bricks"
   },

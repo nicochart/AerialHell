@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:freezing",
-  "ingredient": {
-    "item": "aerialhell:white_solid_ether_fragment"
-  },
+  "ingredient": "aerialhell:white_solid_ether_fragment",
   "result": {
     "id": "aerialhell:blue_solid_ether_fragment"
   },

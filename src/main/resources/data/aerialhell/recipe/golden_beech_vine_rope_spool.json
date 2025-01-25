@@ -6,12 +6,8 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:golden_beech_slab"
-    },
-    "R": {
-      "item": "minecraft:lead"
-    }
+    "#": "aerialhell:golden_beech_slab",
+    "R": "minecraft:lead"
   },
   "result": {
     "id": "aerialhell:golden_beech_vine_rope_spool"

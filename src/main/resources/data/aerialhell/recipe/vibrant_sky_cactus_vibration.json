@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:oscillating",
-  "ingredient": {
-    "item": "aerialhell:sky_cactus"
-  },
+  "ingredient": "aerialhell:sky_cactus",
   "result": {
     "id": "aerialhell:vibrant_sky_cactus"
   },

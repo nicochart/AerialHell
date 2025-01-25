@@ -7,12 +7,8 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:slippery_sand_glass"
-    },
-    "X": {
-      "item": "minecraft:black_dye"
-    }
+    "#": "aerialhell:slippery_sand_glass",
+    "X": "minecraft:black_dye"
   },
   "result": {
     "id": "aerialhell:black_slippery_sand_glass",

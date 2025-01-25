@@ -6,12 +6,8 @@
     "SSS"
   ],
   "key": {
-    "S": {
-      "item": "aerialhell:volucite_stone"
-    },
-    "B": {
-      "item": "minecraft:book"
-    }
+    "S": "aerialhell:volucite_stone",
+    "B": "minecraft:book"
   },
   "result": {
     "count": 1,

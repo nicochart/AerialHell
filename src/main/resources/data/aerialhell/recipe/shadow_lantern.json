@@ -1,12 +1,8 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "aerialhell:lunatic_lantern"
-    },
-    {
-      "item": "aerialhell:shadow_shard"
-    }
+    "aerialhell:lunatic_lantern",
+    "aerialhell:shadow_shard"
   ],
   "result": {
     "id": "aerialhell:shadow_lantern"

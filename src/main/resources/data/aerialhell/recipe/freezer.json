@@ -6,12 +6,8 @@
     "SSS"
   ],
   "key": {
-    "S": {
-      "item": "aerialhell:stellar_stone"
-    },
-    "G": {
-      "item": "aerialhell:magmatic_gel"
-    }
+    "S": "aerialhell:stellar_stone",
+    "G": "aerialhell:magmatic_gel"
   },
   "result": {
     "id": "aerialhell:freezer"

@@ -6,15 +6,9 @@
     "III"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:redstone_torch"
-    },
-    "X": {
-      "item": "aerialhell:smoky_quartz"
-    },
-    "I": {
-      "item": "aerialhell:stellar_stone"
-    }
+    "#": "minecraft:redstone_torch",
+    "X": "aerialhell:smoky_quartz",
+    "I": "aerialhell:stellar_stone"
   },
   "result": {
     "id": "minecraft:comparator"

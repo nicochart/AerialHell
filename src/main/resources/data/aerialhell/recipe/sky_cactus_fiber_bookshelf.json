@@ -6,12 +6,8 @@
     "PPP"
   ],
   "key": {
-    "P": {
-      "item": "aerialhell:sky_cactus_fiber_planks"
-    },
-    "B": {
-      "item": "minecraft:book"
-    }
+    "P": "aerialhell:sky_cactus_fiber_planks",
+    "B": "minecraft:book"
   },
   "result": {
     "count": 1,

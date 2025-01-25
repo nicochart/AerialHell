@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "hanging_sign",
   "key": {
-    "#": {
-      "item": "aerialhell:stripped_golden_beech_log"
-    },
-    "X": {
-      "item": "minecraft:chain"
-    }
+    "#": "aerialhell:stripped_golden_beech_log",
+    "X": "minecraft:chain"
   },
   "pattern": [
     "X X",

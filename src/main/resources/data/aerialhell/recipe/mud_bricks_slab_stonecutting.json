@@ -1,8 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "aerialhell:mud_bricks"
-  },
+  "ingredient": "aerialhell:mud_bricks",
   "result": "aerialhell:mud_bricks_slab",
   "result": {
     "count": 2,

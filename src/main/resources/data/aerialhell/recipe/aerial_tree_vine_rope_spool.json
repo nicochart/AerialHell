@@ -6,12 +6,8 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:aerial_tree_slab"
-    },
-    "R": {
-      "item": "minecraft:lead"
-    }
+    "#": "aerialhell:aerial_tree_slab",
+    "R": "minecraft:lead"
   },
   "result": {
     "id": "aerialhell:aerial_tree_vine_rope_spool"

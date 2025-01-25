@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:oscillating",
-  "ingredient": {
-    "item": "aerialhell:raw_azurite_crystal"
-  },
+  "ingredient": "aerialhell:raw_azurite_crystal",
   "result": {
     "id": "aerialhell:azurite_crystal"
   },

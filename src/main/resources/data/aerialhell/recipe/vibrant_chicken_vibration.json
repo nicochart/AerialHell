@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:oscillating",
-  "ingredient": {
-    "item": "minecraft:chicken"
-  },
+  "ingredient": "minecraft:chicken",
   "result": {
     "id": "aerialhell:vibrant_chicken"
   },

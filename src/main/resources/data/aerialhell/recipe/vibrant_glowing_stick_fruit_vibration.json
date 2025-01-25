@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:oscillating",
-  "ingredient": {
-    "item": "aerialhell:glowing_stick_fruit"
-  },
+  "ingredient": "aerialhell:glowing_stick_fruit",
   "result": {
     "id": "aerialhell:vibrant_glowing_stick_fruit"
   },

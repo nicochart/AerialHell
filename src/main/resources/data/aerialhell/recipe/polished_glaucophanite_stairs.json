@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:polished_glaucophanite"
-    }
+    "#": "aerialhell:polished_glaucophanite"
   },
   "result": {
     "id": "aerialhell:polished_glaucophanite_stairs",

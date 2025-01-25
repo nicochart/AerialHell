@@ -6,12 +6,8 @@
     " #"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "X": {
-      "item": "aerialhell:stellar_cobblestone"
-    }
+    "#": "aerialhell:sky_stick",
+    "X": "aerialhell:stellar_cobblestone"
   },
   "result": {
     "id": "aerialhell:stellar_stone_axe"

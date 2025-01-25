@@ -6,12 +6,8 @@
     "PSP"
   ],
   "key": {
-    "P": {
-      "item": "aerialhell:shadow_pine_planks"
-    },
-    "S": {
-      "item": "aerialhell:shadow_pine_slab"
-    }
+    "P": "aerialhell:shadow_pine_planks",
+    "S": "aerialhell:shadow_pine_slab"
   },
   "result": {
     "id": "aerialhell:shadow_pine_barrel"

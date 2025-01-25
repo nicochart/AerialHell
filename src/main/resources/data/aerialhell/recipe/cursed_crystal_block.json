@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:cursed_crystal"
-    }
+    "#": "aerialhell:cursed_crystal"
   },
   "result": {
     "id": "aerialhell:cursed_crystal_block"

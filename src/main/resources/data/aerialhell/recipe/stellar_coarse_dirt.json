@@ -5,12 +5,8 @@
     "GD"
   ],
   "key": {
-    "D": {
-      "item": "aerialhell:stellar_dirt"
-    },
-    "G": {
-      "item": "aerialhell:slippery_sand"
-    }
+    "D": "aerialhell:stellar_dirt",
+    "G": "aerialhell:slippery_sand"
   },
   "result": {
     "id": "aerialhell:stellar_coarse_dirt",

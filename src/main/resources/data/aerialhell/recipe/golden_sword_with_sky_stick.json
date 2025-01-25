@@ -6,12 +6,8 @@
     "#"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "X": {
-      "item": "minecraft:gold_ingot"
-    }
+    "#": "aerialhell:sky_stick",
+    "X": "minecraft:gold_ingot"
   },
   "result": {
     "id": "minecraft:golden_sword"

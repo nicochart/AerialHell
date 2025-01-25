@@ -5,9 +5,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:mossy_stellar_cobblestone"
-    }
+    "#": "aerialhell:mossy_stellar_cobblestone"
   },
   "result": {
     "id": "aerialhell:mossy_stellar_cobblestone_wall",

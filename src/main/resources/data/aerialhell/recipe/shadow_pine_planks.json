@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "planks",
   "ingredients": [
-    {
-      "tag": "aerialhell:shadow_log"
-    }
+    "#aerialhell:shadow_log"
   ],
   "result": {
     "id": "aerialhell:shadow_pine_planks",

@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "aerialhell:mud_bone_block"
-    }
+    "aerialhell:mud_bone_block"
   ],
   "result": {
     "id": "aerialhell:mud_bone",

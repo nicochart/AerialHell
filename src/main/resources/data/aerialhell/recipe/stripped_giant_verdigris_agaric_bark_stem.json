@@ -3,9 +3,7 @@
   "category": "building",
   "group": "bark",
   "key": {
-    "#": {
-      "item": "aerialhell:stripped_giant_verdigris_agaric_stem"
-    }
+    "#": "aerialhell:stripped_giant_verdigris_agaric_stem"
   },
   "pattern": [
     "##",

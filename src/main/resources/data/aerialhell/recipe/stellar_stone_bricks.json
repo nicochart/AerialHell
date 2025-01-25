@@ -5,9 +5,7 @@
     "HH"
   ],
   "key": {
-    "H": {
-      "item": "aerialhell:stellar_stone"
-    }
+    "H": "aerialhell:stellar_stone"
   },
   "result": {
     "id": "aerialhell:stellar_stone_bricks",

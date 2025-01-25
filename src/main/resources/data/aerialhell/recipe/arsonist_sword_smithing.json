@@ -1,15 +1,9 @@
 {
   "type": "minecraft:smithing_transform",
-  "base": {
-    "item": "minecraft:netherite_sword"
-  },
-  "addition": {
-    "item": "aerialhell:arsonist_ingot"
-  },
+  "base": "minecraft:netherite_sword",
+  "addition": "aerialhell:arsonist_ingot",
   "result": {
     "id": "aerialhell:arsonist_sword"
   },
-  "template": {
-    "item": "aerialhell:arsonist_upgrade_smithing_template"
-  }
+  "template": "aerialhell:arsonist_upgrade_smithing_template"
 }

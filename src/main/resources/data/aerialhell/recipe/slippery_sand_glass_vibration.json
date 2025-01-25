@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:oscillating",
-  "ingredient": {
-    "item": "aerialhell:slippery_sand"
-  },
+  "ingredient": "aerialhell:slippery_sand",
   "result": {
     "count": 1,
     "id": "aerialhell:slippery_sand_glass"

@@ -6,12 +6,8 @@
     "SSS"
   ],
   "key": {
-    "S": {
-      "item": "aerialhell:stellar_stone"
-    },
-    "F": {
-      "item": "aerialhell:fluorite"
-    }
+    "S": "aerialhell:stellar_stone",
+    "F": "aerialhell:fluorite"
   },
   "result": {
     "id": "aerialhell:oscillator"

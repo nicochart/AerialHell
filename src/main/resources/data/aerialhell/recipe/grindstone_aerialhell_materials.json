@@ -5,15 +5,9 @@
     "# #"
   ],
   "key": {
-    "I": {
-      "item": "aerialhell:sky_stick"
-    },
-    "-": {
-      "item": "aerialhell:stellar_stone_slab"
-    },
-    "#": {
-      "tag": "aerialhell:aerialhell_planks"
-    }
+    "I": "aerialhell:sky_stick",
+    "-": "aerialhell:stellar_stone_slab",
+    "#": "#aerialhell:aerialhell_planks"
   },
   "result": {
     "id": "minecraft:grindstone"

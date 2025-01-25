@@ -5,9 +5,7 @@
     "GG"
   ],
   "key": {
-    "G": {
-      "item": "aerialhell:magmatic_gel"
-    }
+    "G": "aerialhell:magmatic_gel"
   },
   "result": {
     "id": "aerialhell:magmatic_gel_block"

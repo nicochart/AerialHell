@@ -6,18 +6,10 @@
     "SSS"
   ],
   "key": {
-    "R": {
-      "item": "aerialhell:weak_shadow_reactor"
-    },
-    "S": {
-      "item": "aerialhell:shadow_shard"
-    },
-    "B": {
-      "item": "aerialhell:cursed_crystal_block"
-    },
-    "C": {
-      "item": "aerialhell:cursed_crystal"
-    }
+    "R": "aerialhell:weak_shadow_reactor",
+    "S": "aerialhell:shadow_shard",
+    "B": "aerialhell:cursed_crystal_block",
+    "C": "aerialhell:cursed_crystal"
   },
   "result": {
     "id": "aerialhell:high_power_shadow_reactor"

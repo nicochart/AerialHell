@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:oscillating",
-  "ingredient": {
-    "item": "aerialhell:white_solid_ether_fragment"
-  },
+  "ingredient": "aerialhell:white_solid_ether_fragment",
   "result": {
     "id": "aerialhell:golden_solid_ether_fragment"
   },

@@ -5,9 +5,7 @@
     "QQ"
   ],
   "key": {
-    "Q": {
-      "item": "aerialhell:slippery_sand"
-    }
+    "Q": "aerialhell:slippery_sand"
   },
   "result": {
     "id": "aerialhell:slippery_sand_stone"

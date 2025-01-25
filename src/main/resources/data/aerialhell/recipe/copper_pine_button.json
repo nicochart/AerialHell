@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "wooden_button",
   "ingredients": [
-    {
-      "item": "aerialhell:copper_pine_planks"
-    }
+    "aerialhell:copper_pine_planks"
   ],
   "result": {
     "id": "aerialhell:copper_pine_button"

@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "blue_dye",
   "ingredients": [
-    {
-      "item": "aerialhell:blue_flower"
-    }
+    "aerialhell:blue_flower"
   ],
   "result": {
     "id": "minecraft:blue_dye"

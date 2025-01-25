@@ -7,12 +7,8 @@
     " X "
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:copper_pine_planks"
-    },
-    "X": {
-      "item": "aerialhell:sky_stick"
-    }
+    "#": "aerialhell:copper_pine_planks",
+    "X": "aerialhell:sky_stick"
   },
   "result": {
     "id": "aerialhell:copper_pine_sign",

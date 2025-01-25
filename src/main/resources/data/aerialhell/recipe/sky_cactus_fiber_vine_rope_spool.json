@@ -6,12 +6,8 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_cactus_fiber_slab"
-    },
-    "R": {
-      "item": "minecraft:lead"
-    }
+    "#": "aerialhell:sky_cactus_fiber_slab",
+    "R": "minecraft:lead"
   },
   "result": {
     "id": "aerialhell:sky_cactus_fiber_vine_rope_spool"

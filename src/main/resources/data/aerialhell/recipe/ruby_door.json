@@ -7,9 +7,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:ruby"
-    }
+    "#": "aerialhell:ruby"
   },
   "result": {
     "id": "aerialhell:ruby_door",

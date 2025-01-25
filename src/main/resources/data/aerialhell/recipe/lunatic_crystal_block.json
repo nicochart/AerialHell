@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:lunatic_crystal"
-    }
+    "#": "aerialhell:lunatic_crystal"
   },
   "result": {
     "id": "aerialhell:lunatic_crystal_block"

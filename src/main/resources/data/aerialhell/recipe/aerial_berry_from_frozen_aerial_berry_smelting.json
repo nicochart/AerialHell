@@ -1,8 +1,6 @@
 {
   "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "aerialhell:frozen_aerial_berry"
-  },
+  "ingredient": "aerialhell:frozen_aerial_berry",
   "result": {
     "id": "aerialhell:aerial_berry"
   },

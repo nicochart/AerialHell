@@ -7,12 +7,8 @@
     " X "
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:golden_beech_planks"
-    },
-    "X": {
-      "item": "aerialhell:sky_stick"
-    }
+    "#": "aerialhell:golden_beech_planks",
+    "X": "aerialhell:sky_stick"
   },
   "result": {
     "id": "aerialhell:golden_beech_sign",

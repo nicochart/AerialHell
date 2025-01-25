@@ -5,12 +5,8 @@
     "S "
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:magmatic_gel"
-    },
-    "S": {
-      "item": "aerialhell:sky_stick"
-    }
+    "#": "aerialhell:magmatic_gel",
+    "S": "aerialhell:sky_stick"
   },
   "result": {
     "id": "aerialhell:magmatic_gel_shuriken",

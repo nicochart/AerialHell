@@ -5,9 +5,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_cactus_fiber"
-    }
+    "#": "aerialhell:sky_cactus_fiber"
   },
   "result": {
     "id": "aerialhell:sky_cactus_fiber_planks"

@@ -5,9 +5,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:slippery_sand_stone"
-    }
+    "#": "aerialhell:slippery_sand_stone"
   },
   "result": {
     "id": "aerialhell:slippery_sand_stone_wall",

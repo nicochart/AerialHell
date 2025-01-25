@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_cactus_fiber_slab"
-    }
+    "#": "aerialhell:sky_cactus_fiber_slab"
   },
   "result": {
     "id": "aerialhell:sky_cactus_fiber_composter"

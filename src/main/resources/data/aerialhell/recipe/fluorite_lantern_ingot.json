@@ -6,12 +6,8 @@
     "XXX"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:fluorite_torch"
-    },
-    "X": {
-      "item": "minecraft:iron_ingot"
-    }
+    "#": "aerialhell:fluorite_torch",
+    "X": "minecraft:iron_ingot"
   },
   "result": {
     "id": "aerialhell:fluorite_lantern",

@@ -1,8 +1,6 @@
 {
   "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "aerialhell:lunatic_stone"
-  },
+  "ingredient": "aerialhell:lunatic_stone",
   "result": {
     "id": "aerialhell:cracked_lunatic_stone"
   },

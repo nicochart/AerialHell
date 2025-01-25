@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:freezing",
-  "ingredient": {
-    "item": "aerialhell:overheated_ruby"
-  },
+  "ingredient": "aerialhell:overheated_ruby",
   "result": {
     "id": "aerialhell:ruby"
   },

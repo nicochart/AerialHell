@@ -5,9 +5,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:smoky_quartz_block"
-    }
+    "#": "aerialhell:smoky_quartz_block"
   },
   "result": {
     "id": "aerialhell:smoky_quartz_bricks",

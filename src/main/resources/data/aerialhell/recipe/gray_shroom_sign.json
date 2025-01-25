@@ -7,12 +7,8 @@
     " X "
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:gray_shroom_planks"
-    },
-    "X": {
-      "item": "aerialhell:sky_stick"
-    }
+    "#": "aerialhell:gray_shroom_planks",
+    "X": "aerialhell:sky_stick"
   },
   "result": {
     "id": "aerialhell:gray_shroom_sign",

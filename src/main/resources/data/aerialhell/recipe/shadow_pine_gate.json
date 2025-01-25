@@ -6,12 +6,8 @@
     "#W#"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "W": {
-      "item": "aerialhell:shadow_pine_planks"
-    }
+    "#": "aerialhell:sky_stick",
+    "W": "aerialhell:shadow_pine_planks"
   },
   "result": {
     "id": "aerialhell:shadow_pine_gate"

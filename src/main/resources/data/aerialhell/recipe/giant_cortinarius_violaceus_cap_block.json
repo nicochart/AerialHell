@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:cortinarius_violaceus_piece"
-    }
+    "#": "aerialhell:cortinarius_violaceus_piece"
   },
   "result": {
     "id": "aerialhell:giant_cortinarius_violaceus_cap_block"

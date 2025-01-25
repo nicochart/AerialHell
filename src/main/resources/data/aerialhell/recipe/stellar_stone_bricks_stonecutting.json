@@ -1,8 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "aerialhell:stellar_stone"
-  },
+  "ingredient": "aerialhell:stellar_stone",
   "result": {
     "count": 1,
     "id": "aerialhell:stellar_stone_bricks"

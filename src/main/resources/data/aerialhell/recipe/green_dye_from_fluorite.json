@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "black_dye",
   "ingredients": [
-    {
-      "item": "aerialhell:fluorite"
-    }
+    "aerialhell:fluorite"
   ],
   "result": {
     "id": "minecraft:green_dye"

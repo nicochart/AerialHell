@@ -1,12 +1,8 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "aerialhell:fluorite_torch"
-    },
-    {
-      "item": "aerialhell:shadow_shard"
-    }
+    "aerialhell:fluorite_torch",
+    "aerialhell:shadow_shard"
   ],
   "result": {
     "id": "aerialhell:shadow_torch"

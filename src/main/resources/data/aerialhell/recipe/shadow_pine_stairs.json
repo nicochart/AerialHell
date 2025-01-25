@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:shadow_pine_planks"
-    }
+    "#": "aerialhell:shadow_pine_planks"
   },
   "result": {
     "id": "aerialhell:shadow_pine_stairs",

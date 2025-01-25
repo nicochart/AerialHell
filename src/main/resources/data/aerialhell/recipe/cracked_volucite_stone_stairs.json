@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:cracked_volucite_stone"
-    }
+    "#": "aerialhell:cracked_volucite_stone"
   },
   "result": {
     "id": "aerialhell:cracked_volucite_stone_stairs",

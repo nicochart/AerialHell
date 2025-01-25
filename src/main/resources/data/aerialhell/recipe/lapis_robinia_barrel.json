@@ -6,12 +6,8 @@
     "PSP"
   ],
   "key": {
-    "P": {
-      "item": "aerialhell:lapis_robinia_planks"
-    },
-    "S": {
-      "item": "aerialhell:lapis_robinia_slab"
-    }
+    "P": "aerialhell:lapis_robinia_planks",
+    "S": "aerialhell:lapis_robinia_slab"
   },
   "result": {
     "id": "aerialhell:lapis_robinia_barrel"

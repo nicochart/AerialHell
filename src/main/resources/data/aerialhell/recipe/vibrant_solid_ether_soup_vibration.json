@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:oscillating",
-  "ingredient": {
-    "item": "aerialhell:solid_ether_soup"
-  },
+  "ingredient": "aerialhell:solid_ether_soup",
   "result": {
     "id": "aerialhell:vibrant_solid_ether_soup"
   },

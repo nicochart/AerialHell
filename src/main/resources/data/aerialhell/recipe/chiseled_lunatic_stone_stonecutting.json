@@ -1,8 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "aerialhell:lunatic_stone"
-  },
+  "ingredient": "aerialhell:lunatic_stone",
   "result": {
     "count": 1,
     "id": "aerialhell:chiseled_lunatic_stone"

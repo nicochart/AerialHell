@@ -1,8 +1,6 @@
 {
     "type": "minecraft:smelting",
-    "ingredient": {
-        "item": "aerialhell:raw_volucite"
-    },
+    "ingredient": "aerialhell:raw_volucite",
     "result": {
         "id": "aerialhell:overheated_volucite"
     },

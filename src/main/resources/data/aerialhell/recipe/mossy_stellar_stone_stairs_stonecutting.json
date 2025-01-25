@@ -1,8 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "aerialhell:mossy_stellar_stone"
-  },
+  "ingredient": "aerialhell:mossy_stellar_stone",
   "result": {
     "count": 1,
     "id": "aerialhell:mossy_stellar_stone_stairs"

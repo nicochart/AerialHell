@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "wooden_button",
   "ingredients": [
-    {
-      "item": "aerialhell:slippery_sand_stone"
-    }
+    "aerialhell:slippery_sand_stone"
   ],
   "result": {
     "id": "aerialhell:slippery_sand_stone_button"

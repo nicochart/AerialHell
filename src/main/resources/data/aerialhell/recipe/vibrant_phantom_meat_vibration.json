@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:oscillating",
-  "ingredient": {
-    "item": "aerialhell:phantom_meat"
-  },
+  "ingredient": "aerialhell:phantom_meat",
   "result": {
     "id": "aerialhell:vibrant_phantom_meat"
   },

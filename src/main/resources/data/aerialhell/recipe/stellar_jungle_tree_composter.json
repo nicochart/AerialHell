@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:stellar_jungle_tree_slab"
-    }
+    "#": "aerialhell:stellar_jungle_tree_slab"
   },
   "result": {
     "id": "aerialhell:stellar_jungle_tree_composter"

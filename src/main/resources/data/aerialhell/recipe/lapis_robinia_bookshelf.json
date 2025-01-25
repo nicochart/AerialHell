@@ -6,12 +6,8 @@
     "PPP"
   ],
   "key": {
-    "P": {
-      "item": "aerialhell:lapis_robinia_planks"
-    },
-    "B": {
-      "item": "minecraft:book"
-    }
+    "P": "aerialhell:lapis_robinia_planks",
+    "B": "minecraft:book"
   },
   "result": {
     "count": 1,

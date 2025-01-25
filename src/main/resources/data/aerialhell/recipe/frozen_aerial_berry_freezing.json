@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:freezing",
-  "ingredient": {
-    "item": "aerialhell:aerial_berry"
-  },
+  "ingredient": "aerialhell:aerial_berry",
   "result": {
     "id": "aerialhell:frozen_aerial_berry"
   },

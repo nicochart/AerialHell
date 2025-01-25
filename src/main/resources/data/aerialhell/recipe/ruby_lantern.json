@@ -6,12 +6,8 @@
     "XXX"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:torch"
-    },
-    "X": {
-      "item": "aerialhell:ruby"
-    }
+    "#": "minecraft:torch",
+    "X": "aerialhell:ruby"
   },
   "result": {
     "id": "aerialhell:ruby_lantern",

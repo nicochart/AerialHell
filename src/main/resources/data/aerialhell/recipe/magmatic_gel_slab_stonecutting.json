@@ -1,8 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "aerialhell:magmatic_gel_block"
-  },
+  "ingredient": "aerialhell:magmatic_gel_block",
   "result": {
     "count": 2,
     "id": "aerialhell:magmatic_gel_slab"

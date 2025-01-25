@@ -1,8 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "aerialhell:volucite_stone"
-  },
+  "ingredient": "aerialhell:volucite_stone",
   "result": {
     "count": 1,
     "id": "aerialhell:volucite_stone_stairs"

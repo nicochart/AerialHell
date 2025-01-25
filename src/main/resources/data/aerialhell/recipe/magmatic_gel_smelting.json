@@ -1,8 +1,6 @@
 {
   "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "aerialhell:magmatic_gel_ore"
-  },
+  "ingredient": "aerialhell:magmatic_gel_ore",
   "result": {
     "id": "aerialhell:magmatic_gel"
   },

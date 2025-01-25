@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "planks",
   "ingredients": [
-    {
-      "item": "aerialhell:vibrant_sky_cactus"
-    }
+    "aerialhell:vibrant_sky_cactus"
   ],
   "result": {
     "id": "aerialhell:vibrant_sky_cactus_fiber",

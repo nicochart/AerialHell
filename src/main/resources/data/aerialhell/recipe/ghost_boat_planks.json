@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "planks",
   "ingredients": [
-    {
-      "item": "aerialhell:ghost_boat_log"
-    }
+    "aerialhell:ghost_boat_log"
   ],
   "result": {
     "id": "aerialhell:ghost_boat_planks",
