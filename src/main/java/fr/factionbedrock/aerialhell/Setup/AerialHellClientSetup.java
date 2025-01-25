@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Setup;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.AerialHellRendering;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
+import fr.factionbedrock.aerialhell.Client.Event.Listeners.FluidRenderHandler;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.RenderRegistrationListener;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSkyRenderer;
@@ -24,6 +25,7 @@ public class AerialHellClientSetup
         modEventBus.addListener(AerialHellWoodTypes::addWoodTypesToSheets);
         modEventBus.addListener(BlocksAndItemsColorHandler::handleBlockColors);
         modEventBus.addListener(BlocksAndItemsColorHandler::handleItemColors);
+        modEventBus.addListener(FluidRenderHandler::handleFluidRender);
         modEventBus.addListener(RenderRegistrationListener::onRegisterRenderers);
         modEventBus.addListener(RenderRegistrationListener::onRegisterLayerDefinitions);
         modEventBus.addListener(RenderRegistrationListener::onModelBake);

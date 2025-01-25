@@ -17,7 +17,7 @@ public class AerialHellFluids
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(BuiltInRegistries.FLUID, MODID);
     public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.FLUID_TYPES, MODID);
 
-    //see net.minecraftforge.common.ForgeMod WATER_TYPE and LAVA_TYPE to see possibilities
+    //see net.neoforged.neoforge.common.NeoForgeMod WATER_TYPE and LAVA_TYPE to see possibilities
     public static final DeferredHolder<FluidType, FluidType> LIQUID_OF_GODS_TYPE = FLUID_TYPES.register("liquid_of_the_gods", () ->
             new FluidType(FluidType.Properties.create()
                     .descriptionId("block."+MODID+".liquid_of_the_gods")
@@ -33,31 +33,7 @@ public class AerialHellFluids
                     .density(3000)
                     .viscosity(5000)
                     .temperature(400))
-            {
-                /*@Override TODO
-                public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer)
-                {
-                    consumer.accept(new IClientFluidTypeExtensions()
-                    {
-                        private static final ResourceLocation UNDER = ResourceLocation.fromNamespaceAndPath(MODID, "block/liquid_of_the_gods_overlay"),
-                                STILL = ResourceLocation.fromNamespaceAndPath(MODID, "block/liquid_of_the_gods_still"),
-                                FLOW = ResourceLocation.fromNamespaceAndPath(MODID, "block/liquid_of_the_gods_flow");
-
-                        @Override public ResourceLocation getStillTexture() {return STILL;}
-                        @Override public ResourceLocation getFlowingTexture() {return FLOW;}
-                        //@Nullable @Override public ResourceLocation getOverlayTexture() {return UNDER;} //Do not work : "failed to lead texture..."
-                        //@Override public ResourceLocation getRenderOverlayTexture(Minecraft mc) {return UNDER;}
-
-                        //@Override public int getTintColor() {return 0x310000;} modifies the whole texture tint, not the fog tint
-                        @Override public @NotNull Vector3f modifyFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance, float darkenWorldAmount, Vector3f fluidFogColor) {return new Vector3f(49f / 255f, 0f, 0f);}
-                        @Override public void modifyFogRender(Camera camera, FogRenderer.FogMode mode, float renderDistance, float partialTick, float nearDistance, float farDistance, FogShape shape)
-                        {
-                            RenderSystem.setShaderFogStart(1f);
-                            RenderSystem.setShaderFogEnd(4f);
-                        }
-                    });
-                }*/
-            });
+            {}); //render is handled in fr.factionbedrock.aerialhell.Client.Event.Listeners.FluidRenderHandler
 
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> LIQUID_OF_THE_GODS_SOURCE = FLUIDS.register("liquid_of_the_gods_source", () -> new BaseFlowingFluid.Source(AerialHellFluids.LIQUID_OF_THE_GODS_PROPERTIES));
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> LIQUID_OF_THE_GODS_FLOWING = FLUIDS.register("liquid_of_the_gods_flowing", () -> new BaseFlowingFluid.Flowing(AerialHellFluids.LIQUID_OF_THE_GODS_PROPERTIES));
