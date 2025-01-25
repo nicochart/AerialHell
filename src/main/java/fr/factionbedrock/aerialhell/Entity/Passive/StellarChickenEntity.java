@@ -105,6 +105,7 @@ public class StellarChickenEntity extends Chicken
         return AerialHellAnimalEntity.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 6.0D)
                 .add(Attributes.FOLLOW_RANGE, 16.0D)
+                .add(Attributes.TEMPT_RANGE, 10.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.3);
     }
 

@@ -62,6 +62,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
     {
         return AerialHellAnimalEntity.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 12.0D)
+                .add(Attributes.TEMPT_RANGE, 10.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.26);
     }
 

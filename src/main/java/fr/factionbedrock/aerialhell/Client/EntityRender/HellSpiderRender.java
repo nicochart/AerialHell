@@ -37,6 +37,7 @@ public class HellSpiderRender<T extends Spider> extends MobRenderer<T, HellSpide
 	{
 		super.extractRenderState(entity, renderState, partialTick);
 		renderState.base_texture = getTextureLocation(entity);
+		renderState.layer_texture = HellSpiderSpikesLayer.getTextureLocation(entity);
 		renderState.scale = (entity instanceof HellSpiderEntity || entity instanceof ShadowSpiderEntity) ? 0.8F : 1.0F;
 	}
 

@@ -43,6 +43,13 @@ public class HellSpiderSpikesLayer<S extends HellSpiderRenderState, M extends Sp
        }
     }
 
+    public static <T extends Spider> ResourceLocation getTextureLocation(T entity)
+    {
+        if (entity instanceof HellSpiderEntity) {return HELL_SPIDER_SPIKES;}
+        else if (entity instanceof ShadowSpiderEntity) {return CRYSTAL_SPIDER_SPIKES;}
+        else {return SHADOW_SPIDER_SPIKES;}
+    }
+
     @Override public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, S renderState, float yRot, float xRot)
     {
         if (!renderState.isInvisible)

@@ -50,6 +50,7 @@ public class BoarEntity extends Pig
                 .add(Attributes.MAX_HEALTH, 20.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.25D)
                 .add(Attributes.FOLLOW_RANGE, 10.0D)
+                .add(Attributes.TEMPT_RANGE, 10.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0D);
     }
 
