@@ -1,0 +1,7 @@
+{
+    "parent": "aerialhell:block/chest_inventory",
+    "textures": {
+        "chest": "aerialhell:block/model/mud_chest_inventory",
+        "particle": "aerialhell:block/mud_bricks"
+    }
+}

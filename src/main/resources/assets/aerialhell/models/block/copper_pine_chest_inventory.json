@@ -1,0 +1,7 @@
+{
+    "parent": "aerialhell:block/chest_inventory",
+    "textures": {
+        "chest": "aerialhell:block/model/copper_pine_chest_inventory",
+        "particle": "aerialhell:block/copper_pine_planks"
+    }
+}
