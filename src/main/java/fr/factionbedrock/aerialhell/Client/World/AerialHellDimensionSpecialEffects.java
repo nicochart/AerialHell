@@ -30,7 +30,7 @@ public class AerialHellDimensionSpecialEffects extends DimensionSpecialEffects
     @Override
     public boolean renderSky(ClientLevel level, int ticks, float partialTick, Matrix4f projectionMatrix, Camera camera, Matrix4f modelViewMatrix, Runnable setupFog)
     {
-        //this.render(level, partialTick, camera, setupFog);
+        this.render(level, partialTick, camera, setupFog);
         return true;
     }
 
