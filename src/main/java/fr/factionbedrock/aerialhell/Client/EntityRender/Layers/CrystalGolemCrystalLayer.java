@@ -30,7 +30,6 @@ public class CrystalGolemCrystalLayer<T extends CrystalGolemRenderState, M exten
    {
       if (!renderState.isInvisible)
       {
-         //this.getParentModel().copyPropertiesTo(this.golemModel); TODO is it still needed or is it done with renderState ?
          this.golemModel.setupAnim(renderState);
          VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityCutout(CRYSTAL_GOLEM_CRYSTALS));
          this.golemModel.renderToBuffer(poseStack, consumer, packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB());

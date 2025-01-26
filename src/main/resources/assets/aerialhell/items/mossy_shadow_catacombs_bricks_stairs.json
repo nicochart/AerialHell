@@ -1,6 +1,11 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "aerialhell:item/mossy_shadow_catacombs_bricks_stairs"
+    "model": "aerialhell:item/mossy_shadow_catacombs_bricks_stairs",
+    "tints": [
+      {
+        "type": "aerialhell:stellar_grass"
+      }
+    ]
   }
 }

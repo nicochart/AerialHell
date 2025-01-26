@@ -1,6 +1,11 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "aerialhell:item/mossy_stellar_cobblestone"
+    "model": "aerialhell:item/mossy_stellar_cobblestone",
+    "tints": [
+      {
+        "type": "aerialhell:stellar_grass"
+      }
+    ]
   }
 }

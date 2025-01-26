@@ -30,7 +30,6 @@ public class CortinariusCowShroomLayer<S extends LivingEntityRenderState, M exte
    {
       if (!renderState.isInvisible)
       {
-         //this.getParentModel().copyPropertiesTo(this.cortinariusCowShroomModel); TODO is it still needed or is it done with renderState ?
          this.cortinariusCowShroomModel.setupAnim(renderState);
          VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityCutout(CORTINARIUS_COW_SHROOM_LAYER));
          this.cortinariusCowShroomModel.renderToBuffer(poseStack, consumer, packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB());

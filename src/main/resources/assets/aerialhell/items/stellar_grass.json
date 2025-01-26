@@ -1,6 +1,11 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "aerialhell:item/stellar_grass"
+    "model": "aerialhell:item/stellar_grass",
+    "tints": [
+      {
+        "type": "aerialhell:stellar_grass"
+      }
+    ]
   }
 }

@@ -493,11 +493,11 @@ public class AerialHellItems
     public static final DeferredItem<Item> VIBRANT_SKY_CACTUS_FIBER_LANTERN = ITEMS.register(Keys.VIBRANT_SKY_CACTUS_FIBER_LANTERN.location().getPath(), () -> new UseBDPBlockItem(AerialHellBlocks.VIBRANT_SKY_CACTUS_FIBER_LANTERN.get(), new Item.Properties().setId(Keys.VIBRANT_SKY_CACTUS_FIBER_LANTERN).rarity(AerialHellRarities.VIBRANT.getValue())));
 
     //bushes
-    public static final DeferredItem<Item> AERIAL_BERRY_SEEDS = ITEMS.register(Keys.AERIAL_BERRY_SEEDS.location().getPath(),() -> new UseBDPBlockItem(AerialHellBlocks.AERIAL_BERRY_BUSH.get(), new Item.Properties().setId(Keys.AERIAL_BERRY_SEEDS).useItemDescriptionPrefix()));
-    public static final DeferredItem<Item> VIBRANT_AERIAL_BERRY_SEEDS = ITEMS.register(Keys.VIBRANT_AERIAL_BERRY_SEEDS.location().getPath(),() -> new UseBDPBlockItem(AerialHellBlocks.VIBRANT_AERIAL_BERRY_BUSH.get(), new Item.Properties().setId(Keys.VIBRANT_AERIAL_BERRY_SEEDS).useItemDescriptionPrefix().rarity(AerialHellRarities.VIBRANT.getValue())));
+    public static final DeferredItem<Item> AERIAL_BERRY_SEEDS = ITEMS.register(Keys.AERIAL_BERRY_SEEDS.location().getPath(),() -> new BlockItem(AerialHellBlocks.AERIAL_BERRY_BUSH.get(), new Item.Properties().setId(Keys.AERIAL_BERRY_SEEDS).useItemDescriptionPrefix()));
+    public static final DeferredItem<Item> VIBRANT_AERIAL_BERRY_SEEDS = ITEMS.register(Keys.VIBRANT_AERIAL_BERRY_SEEDS.location().getPath(),() -> new BlockItem(AerialHellBlocks.VIBRANT_AERIAL_BERRY_BUSH.get(), new Item.Properties().setId(Keys.VIBRANT_AERIAL_BERRY_SEEDS).useItemDescriptionPrefix().rarity(AerialHellRarities.VIBRANT.getValue())));
 
     //crops
-    public static final DeferredItem<Item> STELLAR_WHEAT_SEEDS = ITEMS.register(Keys.STELLAR_WHEAT_SEEDS.location().getPath(),() -> new UseBDPBlockItem(AerialHellBlocks.STELLAR_WHEAT.get(), new Item.Properties().setId(Keys.STELLAR_WHEAT_SEEDS).useItemDescriptionPrefix()));
+    public static final DeferredItem<Item> STELLAR_WHEAT_SEEDS = ITEMS.register(Keys.STELLAR_WHEAT_SEEDS.location().getPath(),() -> new BlockItem(AerialHellBlocks.STELLAR_WHEAT.get(), new Item.Properties().setId(Keys.STELLAR_WHEAT_SEEDS).useItemDescriptionPrefix()));
     public static final DeferredItem<Item> STELLAR_WHEAT = ITEMS.register(Keys.STELLAR_WHEAT.location().getPath(),() -> new Item(new Item.Properties().setId(Keys.STELLAR_WHEAT)));
 
     //vertical growing plants

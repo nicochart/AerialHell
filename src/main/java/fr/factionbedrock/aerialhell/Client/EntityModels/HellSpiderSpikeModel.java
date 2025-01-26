@@ -18,7 +18,7 @@ public class HellSpiderSpikeModel extends EntityModel<HellSpiderRenderState>//Sp
 
 	public HellSpiderSpikeModel(ModelPart root)
 	{
-		super(root); //TODO still crashes ? when extends HumanoidModel - it doesn't work : the game crashes when starting : "can't find this body part / element"
+		super(root);
 		this.bodySpikes = root.getChild("bodySpikes");
 		this.headSpikes = root.getChild("headSpikes");
 	}

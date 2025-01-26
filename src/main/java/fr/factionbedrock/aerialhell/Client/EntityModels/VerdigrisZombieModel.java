@@ -24,7 +24,7 @@ public class VerdigrisZombieModel extends EntityModel<VerdigrisZombieRenderState
 
 	public VerdigrisZombieModel(ModelPart root)
 	{
-		super(root); //TODO still crashed ? when extends HumanoidModel - it doesn't work : the game crashes when starting : "can't find this body part / element"
+		super(root);
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
 		this.leftArm = root.getChild("leftArm");

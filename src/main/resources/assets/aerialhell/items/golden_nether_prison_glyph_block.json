@@ -1,6 +1,11 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "aerialhell:item/golden_nether_prison_glyph_block"
+    "model": "aerialhell:item/golden_nether_prison_glyph_block",
+    "tints": [
+      {
+        "type": "aerialhell:glyph_block"
+      }
+    ]
   }
 }

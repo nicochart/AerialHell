@@ -42,8 +42,6 @@ public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 		this.registerDefaultState(this.stateDefinition.any().setValue(HORIZONTAL_FACING, Direction.NORTH));
 	}
 
-	//@Override public String getDescriptionId() {return this.asItem().getDescriptionId();} TODO check
-
 	@Override public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
 	{
 		return getShapeForState(state);

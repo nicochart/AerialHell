@@ -1,6 +1,11 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "aerialhell:item/mossy_mud_bricks_wall"
+    "model": "aerialhell:item/mossy_mud_bricks_wall",
+    "tints": [
+      {
+        "type": "aerialhell:stellar_grass"
+      }
+    ]
   }
 }

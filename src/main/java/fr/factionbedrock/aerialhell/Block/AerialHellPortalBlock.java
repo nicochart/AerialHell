@@ -336,7 +336,7 @@ public class AerialHellPortalBlock extends Block implements Portal
 
 		public AerialHellPortalShape(LevelReader level, BlockPos bottomLeftPos, Direction.Axis axis)
 		{
-			super(axis, 0, Direction.WEST, bottomLeftPos, 0, 0); //TODO : it works ? passed random parameters because AHPortalShape uses its own parameters
+			super(axis, 0, Direction.WEST, bottomLeftPos, 0, 0);
 			this.level = level;
 			this.axis = axis;
 			this.rightDir = axis == Direction.Axis.X ? Direction.WEST : Direction.SOUTH;
