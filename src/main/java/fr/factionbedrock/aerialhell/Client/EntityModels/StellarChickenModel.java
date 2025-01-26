@@ -59,6 +59,10 @@ public class StellarChickenModel extends EntityModel<StellarChickenRenderState>
         float f = (Mth.sin(renderState.flap) + 1.0F) * renderState.flapSpeed;
         this.head.xRot = renderState.xRot * (float) (Math.PI / 180.0);
         this.head.yRot = renderState.yRot * (float) (Math.PI / 180.0);
+        this.beak.xRot = renderState.xRot * (float) (Math.PI / 180.0);
+        this.beak.yRot = renderState.yRot * (float) (Math.PI / 180.0);
+        this.redThing.xRot = renderState.xRot * (float) (Math.PI / 180.0);
+        this.redThing.yRot = renderState.yRot * (float) (Math.PI / 180.0);
         float f1 = renderState.walkAnimationSpeed;
         float f2 = renderState.walkAnimationPos;
         this.rightLeg.xRot = Mth.cos(f2 * 0.6662F) * 1.4F * f1;
