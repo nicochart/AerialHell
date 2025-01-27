@@ -17,7 +17,6 @@ import java.util.List;
 
 public class ShiftedModelRenderHelper
 {
-    /* TODO find a way to edit model map
     public static void createAndRegisterDefaultBlockShiftedRender(Block block, ModelEvent.ModifyBakingResult event, ChunkRenderTypeSet renderType)
     {
         if (block instanceof BasicShadowSpreaderBlock)
@@ -30,14 +29,14 @@ public class ShiftedModelRenderHelper
                 BlockState state = block.defaultBlockState().setValue(BasicShadowSpreaderBlock.CAN_SPREAD, canSpread).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
                 //replaces the models in the map
                 ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), renderType, event);
-                event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+                event.getBakingResult().blockStateModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
             }
         }
         else
         {
             ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(block, block.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), renderType, event);
             //replaces the models in the map
-            event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+            event.getBakingResult().blockStateModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
         }
     }
 
@@ -48,7 +47,7 @@ public class ShiftedModelRenderHelper
             BlockState state = block.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, age).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
             //replaces the models in the map
             ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), ShiftingBlockBakedModel.CUTOUT, event);
-            event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+            event.getBakingResult().blockStateModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
         }
     }
 
@@ -56,7 +55,7 @@ public class ShiftedModelRenderHelper
     {
         ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(block, block.defaultBlockState().setValue(AerialHellGrassBlock.SNOWY, false).setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), ShiftingBlockBakedModel.CUTOUT_MIPPED, event);
         //replaces the models in the map
-        event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+        event.getBakingResult().blockStateModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
     }
 
     public static void createAndRegisterLeavesBlockShiftedRender(LeavesBlock block, ModelEvent.ModifyBakingResult event)
@@ -76,7 +75,7 @@ public class ShiftedModelRenderHelper
                         if (block instanceof ShadowLeavesBlock) {state = state.setValue(ShadowLeavesBlock.CAN_SPREAD, can_spread);}
                         ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.defaultBlockState().setValue(ShadowLeavesBlock.SHIFTED_RENDER, true), ShiftingBlockBakedModel.CUTOUT, event);
                         //replaces the models in the map
-                        event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+                        event.getBakingResult().blockStateModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
                     }
                 }
             }
@@ -96,9 +95,8 @@ public class ShiftedModelRenderHelper
                 if (block instanceof ShadowLogBlock) {state = state.setValue(ShadowLogBlock.CAN_SPREAD, can_spread);}
                 ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.defaultBlockState().setValue(ShadowLogBlock.SHIFTED_RENDER, true).setValue(RotatedPillarBlock.AXIS, axis), ShiftingBlockBakedModel.SOLID, event);
                 //replaces the models in the map
-                event.getModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+                event.getBakingResult().blockStateModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
             }
         }
     }
-     */
 }

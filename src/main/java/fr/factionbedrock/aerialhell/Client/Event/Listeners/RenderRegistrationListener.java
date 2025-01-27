@@ -1,10 +1,13 @@
 package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
+import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShiftingBlockBakedModel;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestMimicBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.EntityModels.*;
 import fr.factionbedrock.aerialhell.Client.EntityRender.*;
+import fr.factionbedrock.aerialhell.Client.Util.ShiftedModelRenderHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
@@ -130,49 +133,47 @@ public class RenderRegistrationListener
 
     public static void onModelBake(ModelEvent.ModifyBakingResult event)
     {
-        /* TODO
-        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get(), event, ShiftingBlockBakedModel.TRANSLUCENT);
-        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK.get(), event, ShiftingBlockBakedModel.TRANSLUCENT);
-        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_GRASS.get(), event, ShiftingBlockBakedModel.CUTOUT);
-        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GRASS.get(), event, ShiftingBlockBakedModel.CUTOUT);
-        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get(), event, ShiftingBlockBakedModel.CUTOUT);
-        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get(), event, ShiftingBlockBakedModel.CUTOUT);
-        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.BRAMBLES.get(), event, ShiftingBlockBakedModel.CUTOUT);
-        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_BRAMBLES.get(), event, ShiftingBlockBakedModel.CUTOUT);
-        ShiftedModelRenderHelper.createAndRegisterGrowingPlantHeadBlock(AerialHellBlocksAndItems.GLOWING_ROOTS.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.GLOWING_ROOTS_PLANT.get(), event, ShiftingBlockBakedModel.CUTOUT);
-        ShiftedModelRenderHelper.createAndRegisterGrowingPlantHeadBlock(AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS_PLANT.get(), event, ShiftingBlockBakedModel.CUTOUT);
-        ShiftedModelRenderHelper.createAndRegisterGrassBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterGrassBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_AERIAL_TREE_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GOLDEN_BEECH_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.COPPER_PINE_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.LAPIS_ROBINIA_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.HOLLOW_SHADOW_PINE_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.HOLLOW_PURPLE_SHADOW_PINE_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.AERIAL_TREE_LOG.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_AERIAL_TREE_LOG.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.GOLDEN_BEECH_LOG.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_GOLDEN_BEECH_LOG.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.COPPER_PINE_LOG.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LOG.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.LAPIS_ROBINIA_LOG.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.ENCHANTED_LAPIS_ROBINIA_LOG.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LOG.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.HOLLOW_SHADOW_PINE_LOG.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_PINE_LOG.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.EYE_SHADOW_PINE_LOG.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LOG.get(), event);
-        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LOG.get(), event);
-        */
+        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK.get(), event, ShiftingBlockBakedModel.TRANSLUCENT);
+        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK.get(), event, ShiftingBlockBakedModel.TRANSLUCENT);
+        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.STELLAR_GRASS.get(), event, ShiftingBlockBakedModel.CUTOUT);
+        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.SHADOW_GRASS.get(), event, ShiftingBlockBakedModel.CUTOUT);
+        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.STELLAR_GRASS_BALL.get(), event, ShiftingBlockBakedModel.CUTOUT);
+        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.SHADOW_GRASS_BALL.get(), event, ShiftingBlockBakedModel.CUTOUT);
+        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.BRAMBLES.get(), event, ShiftingBlockBakedModel.CUTOUT);
+        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.SHADOW_BRAMBLES.get(), event, ShiftingBlockBakedModel.CUTOUT);
+        ShiftedModelRenderHelper.createAndRegisterGrowingPlantHeadBlock(AerialHellBlocks.GLOWING_ROOTS.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.GLOWING_ROOTS_PLANT.get(), event, ShiftingBlockBakedModel.CUTOUT);
+        ShiftedModelRenderHelper.createAndRegisterGrowingPlantHeadBlock(AerialHellBlocks.SHADOW_GLOWING_ROOTS.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocks.SHADOW_GLOWING_ROOTS_PLANT.get(), event, ShiftingBlockBakedModel.CUTOUT);
+        ShiftedModelRenderHelper.createAndRegisterGrassBlockShiftedRender(AerialHellBlocks.STELLAR_GRASS_BLOCK.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterGrassBlockShiftedRender(AerialHellBlocks.SHADOW_GRASS_BLOCK.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.AERIAL_TREE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.SHADOW_AERIAL_TREE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.GOLDEN_BEECH_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.SHADOW_GOLDEN_BEECH_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.COPPER_PINE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.SHADOW_COPPER_PINE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.LAPIS_ROBINIA_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.SHADOW_PINE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.HOLLOW_SHADOW_PINE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.PURPLE_SHADOW_PINE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.HOLLOW_PURPLE_SHADOW_PINE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.STELLAR_JUNGLE_TREE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLeavesBlockShiftedRender(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.AERIAL_TREE_LOG.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.SHADOW_AERIAL_TREE_LOG.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.GOLDEN_BEECH_LOG.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.SHADOW_GOLDEN_BEECH_LOG.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.COPPER_PINE_LOG.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.SHADOW_COPPER_PINE_LOG.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.LAPIS_ROBINIA_LOG.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.ENCHANTED_LAPIS_ROBINIA_LOG.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LOG.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.HOLLOW_SHADOW_PINE_LOG.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.SHADOW_PINE_LOG.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.EYE_SHADOW_PINE_LOG.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.STELLAR_JUNGLE_TREE_LOG.get(), event);
+        ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LOG.get(), event);
     }
 }
