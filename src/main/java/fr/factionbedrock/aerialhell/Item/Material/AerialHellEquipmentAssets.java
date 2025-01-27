@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.Material;
 
+import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -20,6 +21,6 @@ public class AerialHellEquipmentAssets
     //copy of net.minecraft.world.item.equipment.EquipmentAssets createId method
     static ResourceKey<EquipmentAsset> createId(String name)
     {
-        return ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.withDefaultNamespace(name));
+        return ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
     }
 }

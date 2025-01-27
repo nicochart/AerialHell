@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "aerialhell:lunatic"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "aerialhell:lunatic"
+      }
+    ]
+  }
+}

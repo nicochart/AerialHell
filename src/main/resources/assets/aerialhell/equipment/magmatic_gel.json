@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "aerialhell:magmatic_gel"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "aerialhell:magmatic_gel"
+      }
+    ]
+  }
+}
