@@ -26,7 +26,7 @@ public class ReactorScreen extends AbstractContainerScreen<ReactorMenu>
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
         renderTransparentBackground(pGuiGraphics);
-        pGuiGraphics.blit(RenderType::guiTextured, TEXTURE, i, j, 0.0F, 0.0F, this.leftPos, this.topPos, this.imageWidth, this.imageHeight);
+        pGuiGraphics.blit(RenderType::guiTextured, TEXTURE, i, j, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
     }
 
     @Override public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick)
