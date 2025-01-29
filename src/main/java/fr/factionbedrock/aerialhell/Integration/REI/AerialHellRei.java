@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.OscillatorScreen
 import fr.factionbedrock.aerialhell.Recipe.FreezingRecipe;
 import fr.factionbedrock.aerialhell.Recipe.OscillatingRecipe;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
@@ -13,7 +14,10 @@ import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.client.registry.screen.ScreenRegistry;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
+import me.shedaniel.rei.forge.REIPluginClient;
+import me.shedaniel.rei.plugin.common.displays.DefaultStrippingDisplay;
 
+@REIPluginClient
 public class AerialHellRei implements REIClientPlugin
 {
     public static final CategoryIdentifier<AerialHellRecipeDisplay> OSCILLATING = CategoryIdentifier.of(AerialHell.MODID, "oscillating");
@@ -30,8 +34,11 @@ public class AerialHellRei implements REIClientPlugin
 
     @Override public void registerDisplays(DisplayRegistry registry)
     {
-        registry.beginFiller(OscillatingRecipe.class).fill((recipe) -> new AerialHellRecipeDisplay(recipe, OSCILLATING));
-        registry.beginFiller(FreezingRecipe.class).fill((recipe) -> new AerialHellRecipeDisplay(recipe, FREEZING));
+        //registry.beginFiller(OscillatingRecipe.class).fill((recipe) -> new AerialHellRecipeDisplay(recipe, OSCILLATING));
+        //registry.beginFiller(FreezingRecipe.class).fill((recipe) -> new AerialHellRecipeDisplay(recipe, FREEZING));
+        registry.startReload();
+        registry.add(new OscillatingDisplay(EntryStacks.of(AerialHellItems.AERIAL_BERRY), EntryStacks.of(AerialHellItems.VIBRANT_AERIAL_BERRY)));
+        registry.endReload();
     }
 
     @Override public void registerScreens(ScreenRegistry registry)
