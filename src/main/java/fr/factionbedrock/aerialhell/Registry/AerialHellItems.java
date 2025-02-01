@@ -5,7 +5,6 @@ import fr.factionbedrock.aerialhell.Item.*;
 import fr.factionbedrock.aerialhell.Item.Armor.ShadowArmorItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.RubyBucketItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.RubyLiquidOfGodsBucketItem;
-import fr.factionbedrock.aerialhell.Item.Bucket.RubyMilkBucketItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.RubyWaterBucketItem;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterials;
 import fr.factionbedrock.aerialhell.Item.Material.ToolMaterials;
@@ -16,11 +15,13 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellJukeboxSongs;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -833,7 +834,7 @@ public class AerialHellItems
     public static final DeferredItem<Item> RUBY_LIQUID_OF_GODS_BUCKET = ITEMS.register(Keys.RUBY_LIQUID_OF_GODS_BUCKET.location().getPath(), () -> new RubyLiquidOfGodsBucketItem(new Item.Properties().setId(Keys.RUBY_LIQUID_OF_GODS_BUCKET).stacksTo(1)));
     public static final DeferredItem<Item> RUBY_BUCKET = ITEMS.register(Keys.RUBY_BUCKET.location().getPath(), () -> new RubyBucketItem(new Item.Properties().setId(Keys.RUBY_BUCKET).stacksTo(16)));
     public static final DeferredItem<Item> RUBY_WATER_BUCKET = ITEMS.register(Keys.RUBY_WATER_BUCKET.location().getPath(), () -> new RubyWaterBucketItem(new Item.Properties().setId(Keys.RUBY_WATER_BUCKET).stacksTo(1)));
-    public static final DeferredItem<Item> RUBY_MILK_BUCKET = ITEMS.register(Keys.RUBY_MILK_BUCKET.location().getPath(), () -> new RubyMilkBucketItem(new Item.Properties().setId(Keys.RUBY_MILK_BUCKET).stacksTo(1)));
+    public static final DeferredItem<Item> RUBY_MILK_BUCKET = ITEMS.register(Keys.RUBY_MILK_BUCKET.location().getPath(), () -> new Item(new Item.Properties().setId(Keys.RUBY_MILK_BUCKET).craftRemainder(RUBY_BUCKET.get()).component(DataComponents.CONSUMABLE, Consumables.MILK_BUCKET).usingConvertsTo(RUBY_BUCKET.get()).stacksTo(1)));
 
     //arrows & bows
     public static final DeferredItem<Item> RUBY_BLOWPIPE_ARROW = ITEMS.register(Keys.RUBY_BLOWPIPE_ARROW.location().getPath(), () -> new AerialArrowItem(new Item.Properties().setId(Keys.RUBY_BLOWPIPE_ARROW)));

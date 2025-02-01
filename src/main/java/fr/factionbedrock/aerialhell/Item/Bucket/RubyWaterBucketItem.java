@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.Bucket;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -55,7 +56,7 @@ public class RubyWaterBucketItem extends Item
                 BlockPos blockpos2 = canBlockContainFluid(worldIn, blockpos, blockstate) ? blockpos : blockpos1;
                 if (this.tryPlaceContainedLiquid(playerIn, worldIn, blockpos2, blockhitresult))
                 {
-                    return InteractionResult.SUCCESS;
+                    return playerIn.hasInfiniteMaterials() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS.heldItemTransformedTo(new ItemStack(AerialHellItems.RUBY_BUCKET.get()));
                 }
                 else
                 {

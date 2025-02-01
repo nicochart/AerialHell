@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Item.Bucket;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -50,7 +51,7 @@ public class RubyLiquidOfGodsBucketItem extends Item
             {
                 if (this.tryPlaceContainedLiquid(playerIn, worldIn, blockpos1, blockhitresult))
                 {
-                    return InteractionResult.SUCCESS;
+                    return playerIn.hasInfiniteMaterials() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS.heldItemTransformedTo(new ItemStack(AerialHellItems.RUBY_BUCKET.get()));
                 }
                 else
                 {
