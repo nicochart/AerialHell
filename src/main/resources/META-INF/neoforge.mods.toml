@@ -18,6 +18,10 @@ description='''
 nicochart's Aerial Hell
 '''
 
+# Mixins
+[[mixins]]
+config="${mod_id}.mixins.json"
+
 ### Dependances
 [[dependencies.aerialhell]] #optional
     modId="neoforge" #mandatory

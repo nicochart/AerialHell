@@ -1,3 +1,12 @@
 {
-
+	"required": true,
+	"package": "fr.factionbedrock.aerialhell.Mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"LivingEntityFallFlyingMixin",
+		"LivingEntityGravityMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
 }

@@ -1,16 +1,9 @@
 package fr.factionbedrock.aerialhell.Effect;
 
-import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeMap;
-import java.util.Map;
-
-import static fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects.HEAD_IN_THE_CLOUDS_GRAVITY_MODIFIER;
 
 public class HeadInTheCloudsEffect extends MobEffect
 {
@@ -19,7 +12,11 @@ public class HeadInTheCloudsEffect extends MobEffect
     @Override
     public boolean applyEffectTick(ServerLevel level, LivingEntity entityLivingBaseIn, int amplifier)
     {
-        /*TODO doesn't work because MobEffect can't impact entity movements*/
+        // 1.21.4 - Movement effects are now applied in LivingEntityFallFlyingMixin and LivingEntityGravityMixin
+        //          because applying player delta movement modifications here doesn't work : delta movement is edited somewhere else just after mob effect tick and before any movement.
+        //          so any movement modification here is ignored for players
+        /*
+        if (entityLivingBaseIn instanceof Player player) {player.startFallFlying();}
         double x=entityLivingBaseIn.getDeltaMovement().x, y=entityLivingBaseIn.getDeltaMovement().y, z=entityLivingBaseIn.getDeltaMovement().z;
         double xNew = x, yNew = y, zNew = z;
         if (!entityLivingBaseIn.onGround())
@@ -33,24 +30,12 @@ public class HeadInTheCloudsEffect extends MobEffect
 		if (entityLivingBaseIn.isCrouching()) {xNew /= 1.2; zNew /= 1.2; if (yNew > -2) {yNew -= 0.02;}} //slow down horizontal speed, faster vertical speed if player is crouching
         else if (y < yMin) {yNew = yMin;} //minimize vertical speed if player is not crouching
 
-        entityLivingBaseIn.setDeltaMovement(xNew, yNew, zNew);
+        entityLivingBaseIn.setDeltaMovement(xNew, yNew, zNew);*/
         entityLivingBaseIn.resetFallDistance();
         return true;
     }
 
-    @Override public boolean isInstantenous() {return false;}
+    @Override public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {return true;}
 
-    @Override public void addAttributeModifiers(AttributeMap attributeMap, int amplifier)
-    {
-        for (Map.Entry<Holder<Attribute>, AttributeTemplate> entry : this.attributeModifiers.entrySet())
-        {
-            AttributeInstance attributeinstance = attributeMap.getInstance(entry.getKey());
-            if (attributeinstance != null)
-            {
-                int appliedAmplifier = (entry.getValue().id() == HEAD_IN_THE_CLOUDS_GRAVITY_MODIFIER) ? 0 : amplifier;
-                attributeinstance.removeModifier(entry.getValue().id());
-                attributeinstance.addPermanentModifier(entry.getValue().create(appliedAmplifier));
-            }
-        }
-    }
+    @Override public boolean isInstantenous() {return false;}
 }
