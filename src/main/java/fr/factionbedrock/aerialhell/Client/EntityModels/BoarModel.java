@@ -77,7 +77,7 @@ public class BoarModel<S extends LivingEntityRenderState> extends EntityModel<S>
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	public void setupAnim(S renderState)
+	@Override public void setupAnim(S renderState)
 	{
 		super.setupAnim(renderState);
 

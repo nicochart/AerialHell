@@ -31,7 +31,7 @@ public class AerialArrowRenderer<T extends AbstractAerialArrowEntity, S extends 
         return renderState.texture;
     }
 
-    public void extractRenderState(T entity, AerialArrowRenderState renderState, float f)
+    @Override public void extractRenderState(T entity, AerialArrowRenderState renderState, float f)
     {
         super.extractRenderState(entity, renderState, f);
         renderState.texture = getTextureLocation(entity);
