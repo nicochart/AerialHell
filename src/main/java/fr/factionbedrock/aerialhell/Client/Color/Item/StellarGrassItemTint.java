@@ -17,5 +17,5 @@ public class StellarGrassItemTint implements ItemTintSource
 
     @Override public int calculate(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity) {return ColorHandlerHelper.AERIAL_HELL_PLAINS_GRASS_COLOR;}
 
-    @Override public MapCodec<? extends ItemTintSource> type() {return null;}
+    @Override public MapCodec<StellarGrassItemTint> type() {return MAP_CODEC;}
 }

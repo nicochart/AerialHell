@@ -17,5 +17,5 @@ public class ShadowGrassItemTint implements ItemTintSource
 
     @Override public int calculate(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity) {return ColorHandlerHelper.SHADOW_BLACK;}
 
-    @Override public MapCodec<? extends ItemTintSource> type() {return null;}
+    @Override public MapCodec<ShadowGrassItemTint> type() {return MAP_CODEC;}
 }

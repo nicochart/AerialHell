@@ -26,5 +26,5 @@ public class GlyphBlockItemTint implements ItemTintSource
         else {return ColorHandlerHelper.DEFAULT_COLOR.getRGB();}
     }
 
-    @Override public MapCodec<? extends ItemTintSource> type() {return null;}
+    @Override public MapCodec<GlyphBlockItemTint> type() {return MAP_CODEC;}
 }
