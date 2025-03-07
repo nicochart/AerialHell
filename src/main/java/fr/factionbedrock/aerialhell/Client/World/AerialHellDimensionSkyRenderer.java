@@ -132,36 +132,6 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
         poseStack.popPose();
     }
 
-    private void buildEndSky(VertexConsumer buffer)
-    {
-        for (int i = 0; i < 6; i++)
-        {
-            Matrix4f matrix4f = new Matrix4f();
-            switch (i)
-            {
-                case 1:
-                    matrix4f.rotationX((float) (Math.PI / 2));
-                    break;
-                case 2:
-                    matrix4f.rotationX((float) (-Math.PI / 2));
-                    break;
-                case 3:
-                    matrix4f.rotationX((float) Math.PI);
-                    break;
-                case 4:
-                    matrix4f.rotationZ((float) (Math.PI / 2));
-                    break;
-                case 5:
-                    matrix4f.rotationZ((float) (-Math.PI / 2));
-            }
-
-            buffer.addVertex(matrix4f, -100.0F, -100.0F, -100.0F).setUv(0.0F, 0.0F).setColor(-14145496);
-            buffer.addVertex(matrix4f, -100.0F, -100.0F, 100.0F).setUv(0.0F, 16.0F).setColor(-14145496);
-            buffer.addVertex(matrix4f, 100.0F, -100.0F, 100.0F).setUv(16.0F, 16.0F).setColor(-14145496);
-            buffer.addVertex(matrix4f, 100.0F, -100.0F, -100.0F).setUv(16.0F, 0.0F).setColor(-14145496);
-        }
-    }
-
     @Override public void close()
     {
         this.starBuffer.close();
