@@ -10,8 +10,8 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
@@ -104,10 +104,14 @@ public class ToolsAndArmorEventListener
 		}
 
 		//player mining a block that needs lunar tool
-		if (state != null && state.is(AerialHellTags.Blocks.NEEDS_LUNAR_TOOL)) {
-			if (ItemHelper.getItemMiningLevel(selectedItemStack.getItem()) < 4) {
-				event.setNewSpeed(Math.min(speed, 4.0F));
-				if (!player.level().isClientSide()) {player.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 40, 0));}
+		if (state != null && state.is(AerialHellTags.Blocks.NEEDS_LUNAR_TOOL))
+		{
+			if (!BlockHelper.isItemCorrectForHarvesting(state, selectedItemStack.getItem()))
+			{
+				if (state.is(AerialHellBlocks.VOLUCITE_ORE) && !player.level().isClientSide())
+				{
+					player.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 40, 0));
+				}
 			}
 		}
 

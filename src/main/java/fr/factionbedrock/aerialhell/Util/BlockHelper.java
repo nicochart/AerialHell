@@ -16,6 +16,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeResolver;
@@ -48,27 +49,23 @@ public class BlockHelper
         return AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK.get();
     }
 
-    public static boolean isItemMiningLevelSufficentForHarvesting(BlockState state, Item item)
+    public static boolean isItemCorrectForHarvesting(BlockState state, Item item)
     {
         if (item instanceof DiggerItem diggerItem)
         {
-            return diggerItem.components().get(DataComponents.TOOL).isCorrectForDrops(state);
+            Tool tool = diggerItem.components().get(DataComponents.TOOL);
+            if (tool != null)
+            {
+                return tool.isCorrectForDrops(state);
+            }
         }
-        else return !(state.is(BlockTags.INCORRECT_FOR_WOODEN_TOOL)
+
+        return !(state.is(BlockTags.INCORRECT_FOR_WOODEN_TOOL)
                 || state.is(BlockTags.INCORRECT_FOR_STONE_TOOL)
                 || state.is(BlockTags.INCORRECT_FOR_IRON_TOOL)
                 || state.is(BlockTags.INCORRECT_FOR_GOLD_TOOL)
                 || state.is(BlockTags.INCORRECT_FOR_DIAMOND_TOOL)
                 || state.is(BlockTags.INCORRECT_FOR_NETHERITE_TOOL));
-
-        /*
-        int miningLevel = ItemHelper.getItemMiningLevel(item);
-        if (state.is(Tags.Blocks.NEEDS_NETHERITE_TOOL) && miningLevel < 4) {return false;}
-        else if (state.is(BlockTags.NEEDS_DIAMOND_TOOL) && miningLevel < 3) {return false;}
-        else if (state.is(BlockTags.NEEDS_IRON_TOOL) && miningLevel < 2) {return false;}
-        else if (state.is(BlockTags.NEEDS_STONE_TOOL) && miningLevel < 1) {return false;}
-        return true;
-         */
     }
 
     /* ---- Functions copied from SpreadingSnowyDirtBlock class ---- */

@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import net.minecraft.ChatFormatting;
@@ -12,7 +11,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -39,24 +37,6 @@ public class ItemHelper
             if (item.is(tag)) {count++;}
         }
         return count;
-    }
-
-    public static int getItemMiningLevel(Item item)
-    {
-        /* TODO
-        if (item instanceof DiggerItem diggerItem)
-        {
-            ToolMaterial toolMaterial = diggerItem.components().get(DataComponents.TOOL).isCorrectForDrops().getTier();
-            TagKey<Block> incorrectTag = toolMaterial.getIncorrectBlocksForDrops();
-            if (incorrectTag == BlockTags.INCORRECT_FOR_WOODEN_TOOL) {return 0;}
-            else if (incorrectTag == BlockTags.INCORRECT_FOR_STONE_TOOL) {return 1;}
-            else if (incorrectTag == BlockTags.INCORRECT_FOR_IRON_TOOL) {return 2;}
-            else if (incorrectTag == BlockTags.INCORRECT_FOR_DIAMOND_TOOL) {return 3;}
-            else if (incorrectTag == BlockTags.INCORRECT_FOR_NETHERITE_TOOL) {return 4;}
-        }
-         */
-        return 0;
-
     }
 
     public static final ResourceLocation BASE_ATTACK_DAMAGE_ID = ResourceLocation.withDefaultNamespace("base_attack_damage");

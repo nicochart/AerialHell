@@ -52,7 +52,6 @@ public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
         {
             transformBlocks(serverLevel, this, this.getShiftType());
         }
-
     }
 
     static void transformBlocks(ServerLevel level, AbstractLightProjectileEntity projectile, BiomeShifter.ShiftType shiftType)
