@@ -14,7 +14,7 @@ public class ToolMaterials
 	public static final ToolMaterial OBSIDIAN = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 2031, 8.0F, 3.0F, 10, AerialHellTags.Items.REPAIRS_OBSIDIAN_MATERIAL);
 	public static final ToolMaterial SHADOW = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 112, 8.0F, 3.0F, 15, AerialHellTags.Items.REPAIRS_SHADOW_MATERIAL);
 	public static final ToolMaterial VOLUCITE = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1620, 8.5F, 4.5F, 10, AerialHellTags.Items.REPAIRS_VOLUCITE_MATERIAL);
-	public static final ToolMaterial HEAVY = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 1561, 8.0F, 6.0F, 10, AerialHellTags.Items.REPAIRS_OBSIDIAN_MATERIAL);
+	public static final ToolMaterial HEAVY = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 1561, 8.0F, 6.0F, 10, AerialHellTags.Items.REPAIRS_HEAVY_MATERIAL);
 	public static final ToolMaterial LUNATIC = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1712, 8.0F, 4.0F, 15, AerialHellTags.Items.REPAIRS_LUNATIC_MATERIAL);
 	public static final ToolMaterial BREAKER = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 742, 7.5F, 5.0F, 10, AerialHellTags.Items.REPAIRS_LUNATIC_MATERIAL);
 	public static final ToolMaterial ARSONIST = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2031, 9.0F, 5.5F, 15, AerialHellTags.Items.REPAIRS_ARSONIST_MATERIAL);
