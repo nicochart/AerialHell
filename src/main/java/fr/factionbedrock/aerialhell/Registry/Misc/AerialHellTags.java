@@ -177,7 +177,7 @@ public class AerialHellTags
 		public static final TagKey<Item> REPAIRS_RUBY_MATERIAL = tag("repairs_ruby_material");
 		public static final TagKey<Item> REPAIRS_AZURITE_MATERIAL = tag("repairs_azurite_material");
 		public static final TagKey<Item> REPAIRS_MAGMATIC_GEL_MATERIAL = tag("repairs_magmatic_gel_material");
-		public static final TagKey<Item> REPAIRS_HEAVY_MATERIAL = tag("repairs_obsidian_material");
+		public static final TagKey<Item> REPAIRS_HEAVY_MATERIAL = tag("repairs_heavy_material");
 		public static final TagKey<Item> REPAIRS_OBSIDIAN_MATERIAL = tag("repairs_obsidian_material");
 		public static final TagKey<Item> REPAIRS_VOLUCITE_MATERIAL = tag("repairs_volucite_material");
 		public static final TagKey<Item> REPAIRS_LUNATIC_MATERIAL = tag("repairs_lunatic_material");
