@@ -5,12 +5,8 @@
     "S "
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:arsonist_ingot"
-    },
-    "S": {
-      "item": "aerialhell:sky_stick"
-    }
+    "#": "aerialhell:arsonist_ingot",
+    "S": "aerialhell:sky_stick"
   },
   "result": {
     "id": "aerialhell:arsonist_shuriken",

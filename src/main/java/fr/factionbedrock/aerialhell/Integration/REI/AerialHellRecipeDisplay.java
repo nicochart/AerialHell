@@ -1,40 +1,45 @@
 package fr.factionbedrock.aerialhell.Integration.REI;
 
-import me.shedaniel.rei.api.common.category.CategoryIdentifier;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
-import me.shedaniel.rei.api.common.util.EntryIngredients;
-import me.shedaniel.rei.api.common.util.EntryStacks;
-import net.minecraft.recipe.AbstractCookingRecipe;
-import net.minecraft.recipe.RecipeEntry;
+import me.shedaniel.rei.api.common.entry.EntryStack;
+import net.minecraft.network.codec.PacketCodec;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class AerialHellRecipeDisplay extends BasicDisplay
+public abstract class AerialHellRecipeDisplay extends BasicDisplay
 {
-    private final CategoryIdentifier<AerialHellRecipeDisplay> categoryIdentifier;
-
-    public AerialHellRecipeDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, CategoryIdentifier<AerialHellRecipeDisplay> category)
+    protected static <D extends AerialHellRecipeDisplay> DisplaySerializer<D> serializer(Constructor<D> constructor)
     {
-        super(inputs, outputs);
-        this.categoryIdentifier = category;
+        return DisplaySerializer.of(
+                RecordCodecBuilder.mapCodec(instance -> instance.group(
+                        EntryIngredient.codec().fieldOf("input").forGetter(D::getIn),
+                        EntryIngredient.codec().fieldOf("output").forGetter(D::getOut)
+                ).apply(instance, constructor::create)),
+                PacketCodec.tuple(
+                        EntryIngredient.streamCodec(), D::getIn,
+                        EntryIngredient.streamCodec(), D::getOut,
+                        constructor::create
+                ));
     }
 
-    public AerialHellRecipeDisplay(RecipeEntry<? extends AbstractCookingRecipe> recipe, CategoryIdentifier<AerialHellRecipeDisplay> category)
+    public AerialHellRecipeDisplay(EntryStack<?> in, EntryStack<?> out)
     {
-        super(getInputList(recipe.value()), List.of(EntryIngredient.of(EntryStacks.of(recipe.value().getResult(null)))));
-        this.categoryIdentifier = category;
+        this(List.of(EntryIngredient.of(in)), List.of(EntryIngredient.of(out)));
     }
 
-    private static <R extends AbstractCookingRecipe> List<EntryIngredient> getInputList(R recipe)
-    {
-        if(recipe == null) return Collections.emptyList();
-        List<EntryIngredient> list = new ArrayList<>();
-        list.add(EntryIngredients.ofIngredient(recipe.getIngredients().get(0)));
-        return list;
-    }
+    public AerialHellRecipeDisplay(EntryIngredient in, EntryIngredient out) {this(List.of(in), List.of(out));}
 
-    @Override public CategoryIdentifier<?> getCategoryIdentifier() {return this.categoryIdentifier;}
+    public AerialHellRecipeDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs) {super(inputs, outputs);}
+
+    public final EntryIngredient getIn() {return getInputEntries().get(0);}
+
+    public final EntryIngredient getOut() {return getOutputEntries().get(0);}
+
+    protected interface Constructor<T extends AerialHellRecipeDisplay>
+    {
+        T create(EntryIngredient in, EntryIngredient out);
+    }
 }

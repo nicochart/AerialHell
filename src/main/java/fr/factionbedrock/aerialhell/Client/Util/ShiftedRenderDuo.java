@@ -12,7 +12,7 @@ import net.minecraft.client.util.ModelIdentifier;
 
 public class ShiftedRenderDuo
 {
-    private final ModelIdentifier baseModelRL;
+    /*private final ModelIdentifier baseModelRL;
     private final ShiftingBlockBakedModel newBakedModel;
 
     protected ShiftedRenderDuo(Block baseBlock, BlockState shiftedBlockState, ModelModifier.AfterBake.Context context)
@@ -35,4 +35,5 @@ public class ShiftedRenderDuo
     public BakedModel getNewBakedModel() {return newBakedModel;}
 
     public boolean isValid() {return this.baseModelRL != null && this.newBakedModel != null && this.newBakedModel.getDefault() != null && this.newBakedModel.getShifted() != null;}
+    */
 }

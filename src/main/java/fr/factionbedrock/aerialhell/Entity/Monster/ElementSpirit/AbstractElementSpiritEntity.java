@@ -16,6 +16,7 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 
 public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntity
@@ -35,15 +36,15 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.24D)
-        		.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.5D);
+                .add(EntityAttributes.MAX_HEALTH, 15.0D)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.24D)
+        		.add(EntityAttributes.ATTACK_DAMAGE, 0.5D);
     }
     
     @Override
-    public boolean tryAttack(Entity entityIn)
+    public boolean tryAttack(ServerWorld serverWorld, Entity entityIn)
     {
-    	boolean flag = super.tryAttack(entityIn);
+    	boolean flag = super.tryAttack(serverWorld, entityIn);
     	if (flag) {this.setAttacking(); this.tickStartAttacking = this.age;}
     	return flag;
     }

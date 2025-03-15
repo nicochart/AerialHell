@@ -4,9 +4,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:stellar_cobblestone"
-    }
+    "#": "aerialhell:stellar_cobblestone"
   },
   "result": {
     "id": "aerialhell:stellar_cobblestone_slab",

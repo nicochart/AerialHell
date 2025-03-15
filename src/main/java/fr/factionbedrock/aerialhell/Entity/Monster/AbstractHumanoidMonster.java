@@ -50,7 +50,7 @@ public abstract class AbstractHumanoidMonster extends ZombieEntity
         super.setBaby(isBaby);
         if (!this.getWorld().isClient)
         {
-            EntityAttributeInstance attributeinstance = this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED);
+            EntityAttributeInstance attributeinstance = this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED);
             attributeinstance.removeModifier(BABY_SPEED_MODIFIER_ID);
         }
     }
@@ -87,11 +87,11 @@ public abstract class AbstractHumanoidMonster extends ZombieEntity
     public static DefaultAttributeContainer.Builder registerAttributes(double maxHealth, double attackDamage, double movementSpeed, double followRange)
     {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, maxHealth)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, movementSpeed)
-                .add(EntityAttributes.ZOMBIE_SPAWN_REINFORCEMENTS, 0.0D)
-        		.add(EntityAttributes.GENERIC_FOLLOW_RANGE, followRange);
+                .add(EntityAttributes.MAX_HEALTH, maxHealth)
+                .add(EntityAttributes.ATTACK_DAMAGE, attackDamage)
+                .add(EntityAttributes.MOVEMENT_SPEED, movementSpeed)
+                .add(EntityAttributes.SPAWN_REINFORCEMENTS, 0.0D)
+        		.add(EntityAttributes.FOLLOW_RANGE, followRange);
     }
 
     @Override protected boolean burnsInDaylight() {return false;}

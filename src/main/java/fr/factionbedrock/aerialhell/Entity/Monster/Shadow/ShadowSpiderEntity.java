@@ -15,6 +15,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 
 public class ShadowSpiderEntity extends AbstractAerialHellSpiderEntity
@@ -36,16 +37,16 @@ public class ShadowSpiderEntity extends AbstractAerialHellSpiderEntity
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7)
-                .add(EntityAttributes.GENERIC_ARMOR, 4)
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 32);
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.25)
+                .add(EntityAttributes.ATTACK_DAMAGE, 7)
+                .add(EntityAttributes.ARMOR, 4)
+                .add(EntityAttributes.MAX_HEALTH, 32);
     }
     
     @Override
-    public boolean tryAttack(Entity attackedEntity)
+    public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
     {
-    	if (super.tryAttack(attackedEntity))
+    	if (super.tryAttack(serverWorld, attackedEntity))
     	{
     		if (attackedEntity instanceof LivingEntity livingEntity)
         	{

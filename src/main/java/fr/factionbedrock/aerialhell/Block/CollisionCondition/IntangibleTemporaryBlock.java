@@ -15,9 +15,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootTable;
-import net.minecraft.loot.LootTables;
-import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextTypes;
+import net.minecraft.loot.context.LootWorldContext;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -79,14 +78,10 @@ public class IntangibleTemporaryBlock extends CollisionConditionHalfTransparentB
             //copy of net.minecraft.block.AbstractBlock.getLootTableKey()
             Identifier identifier = Registries.BLOCK.getId(intangibleBlockEntity.getBeforeState().getBlock());
             RegistryKey<LootTable> lootTable = RegistryKey.of(RegistryKeys.LOOT_TABLE, identifier.withPrefixedPath("blocks/"));
-            //copy of net.minecraft.block.AbstractBlock.getDroppedStacks()
-            if (lootTable != LootTables.EMPTY)
-            {
-                LootContextParameterSet lootContextParameterSet = new LootContextParameterSet.Builder(serverworld).build(LootContextTypes.EMPTY);
-                ServerWorld lootparamsServerworld = lootContextParameterSet.getWorld();
-                LootTable loottable = lootparamsServerworld.getServer().getReloadableRegistries().getLootTable(lootTable);
-                return loottable.generateLoot(lootContextParameterSet);
-            }
+            LootWorldContext lootparams = new LootWorldContext.Builder(serverworld).build(LootContextTypes.EMPTY);
+            ServerWorld lootparamserverlevel = lootparams.getWorld();
+            LootTable loottable = lootparamserverlevel.getServer().getReloadableRegistries().getLootTable(lootTable);
+            return loottable.generateLoot(lootparams);
         }
         return Collections.emptyList();
     }
@@ -102,5 +97,5 @@ public class IntangibleTemporaryBlock extends CollisionConditionHalfTransparentB
 
     @Override protected float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {return 1.0F;}
 
-    @Override protected boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {return true;}
+    @Override protected boolean isTransparent(BlockState state) {return true;}
 }

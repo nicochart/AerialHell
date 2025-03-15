@@ -11,6 +11,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.FuelRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.AbstractCookingRecipe;
@@ -43,7 +44,7 @@ public class FreezerBlockEntity extends AbstractFurnaceBlockEntity
 	}
 
 	@Override
-	protected int getFuelTime(ItemStack fuel)
+	protected int getFuelTime(FuelRegistry fuelRegistry, ItemStack fuel)
 	{
 		if (fuel.isEmpty() || !getFreezingMap().containsKey(fuel.getItem())) {return 0;}
 		else {return getFreezingMap().get(fuel.getItem());}

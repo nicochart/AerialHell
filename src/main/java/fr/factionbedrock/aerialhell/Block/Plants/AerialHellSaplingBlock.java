@@ -55,7 +55,7 @@ public class AerialHellSaplingBlock extends SaplingBlock
 	public ConfiguredFeature<?, ?> getGiantTreeCFeature(ServerWorld world, Random rand)
 	{
 		RegistryKey<ConfiguredFeature<?, ?>> cfKey = (hugeTreeFeatureKey != null && rand.nextFloat() < hugeChange) ? hugeTreeFeatureKey : giantTreeFeatureKey;
-		return world.getRegistryManager().get(RegistryKeys.CONFIGURED_FEATURE).getEntry(cfKey).orElse(null).value(); //TODO check
+		return world.getRegistryManager().getOrThrow(RegistryKeys.CONFIGURED_FEATURE).getOptional(cfKey).orElse(null).value(); //TODO check
 	}
 
 	//Returns the direction of the generation of the giant tree (NONE if there is no generation possible)

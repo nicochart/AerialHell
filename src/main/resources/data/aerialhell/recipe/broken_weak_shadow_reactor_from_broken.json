@@ -6,12 +6,8 @@
     " S "
   ],
   "key": {
-    "B": {
-      "item": "aerialhell:broken_weak_shadow_reactor"
-    },
-    "S": {
-      "item": "aerialhell:shadow_shard"
-    }
+    "B": "aerialhell:broken_weak_shadow_reactor",
+    "S": "aerialhell:shadow_shard"
   },
   "result": {
     "id": "aerialhell:weak_shadow_reactor"

@@ -17,12 +17,15 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldEvents;
+import net.minecraft.world.block.WireOrientation;
+import org.jetbrains.annotations.Nullable;
 
 public class AerialHellFluidBlock extends FluidBlock
 {
@@ -41,7 +44,7 @@ public class AerialHellFluidBlock extends FluidBlock
 	}
 	
 	@Override
-	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving)
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify)
 	{
 		reactWithNeighbors(world, pos, state);
 	}
@@ -80,9 +83,9 @@ public class AerialHellFluidBlock extends FluidBlock
     		
             if(entity.isAlive() && entity instanceof LivingEntity)
             {
-            	if (!(entity instanceof TornSpiritEntity || entity instanceof ChainedGodEntity || ((LivingEntity) entity).hasStatusEffect(AerialHellMobEffects.GOD)))
+            	if (world instanceof ServerWorld serverWorld && !(entity instanceof TornSpiritEntity || entity instanceof ChainedGodEntity || ((LivingEntity) entity).hasStatusEffect(AerialHellMobEffects.GOD)))
             	{
-            		entity.damage(AerialHellDamageTypes.getDamageSource(world, AerialHellDamageTypes.GOD_BLESS), 1.5F);//.setFire(10);
+            		entity.damage(serverWorld, AerialHellDamageTypes.getDamageSource(world, AerialHellDamageTypes.GOD_BLESS), 1.5F);//.setFire(10);
             	}
                 LivingEntity livingEntity = (LivingEntity) entity;
                 if (livingEntity.isSneaking())

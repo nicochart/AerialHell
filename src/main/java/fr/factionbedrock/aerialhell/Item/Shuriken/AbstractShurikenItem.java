@@ -9,7 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 
 public abstract class AbstractShurikenItem extends Item
@@ -20,7 +20,7 @@ public abstract class AbstractShurikenItem extends Item
 	}
 	
 	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
+	public ActionResult use(World world, PlayerEntity user, Hand hand)
 	{
 		ItemStack heldItem = user.getStackInHand(hand);
 		if (!user.isCreative() && !EntityHelper.hasEnchantment(user, Enchantments.INFINITY))
@@ -37,8 +37,8 @@ public abstract class AbstractShurikenItem extends Item
 			//shuriken.setShooter(playerIn); shooter is not detected
 			world.spawnEntity(shuriken);
 		}
-		user.getItemCooldownManager().set(this, this.getCooldown());
-		return TypedActionResult.success(heldItem);
+		user.getItemCooldownManager().set(heldItem, this.getCooldown());
+		return ActionResult.SUCCESS;
 	}
 
 	abstract protected float getVelocity();

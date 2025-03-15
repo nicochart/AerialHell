@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
@@ -29,13 +29,13 @@ public class RubyBucketItem extends Item
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
+    public ActionResult use(World world, PlayerEntity user, Hand hand)
     {
         ItemStack itemstack = user.getStackInHand(hand);
         BlockHitResult blockhitresult = raycast(world, user, RaycastContext.FluidHandling.SOURCE_ONLY);
         if (blockhitresult.getType() != HitResult.Type.BLOCK)
         {
-            return TypedActionResult.pass(itemstack);
+            return ActionResult.PASS;
         }
         else
         {
@@ -53,42 +53,33 @@ public class RubyBucketItem extends Item
                     {
                         playPickupSound(fluid, user);
                         world.setBlockState(blockpos, Blocks.AIR.getDefaultState());
-                        ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, user, new ItemStack(AerialHellItems.RUBY_WATER_BUCKET));
-                        return TypedActionResult.success(afterPickupHandItemStack, world.isClient());
+                        ItemStack afterPickupHandItemStack = new ItemStack(AerialHellItems.RUBY_WATER_BUCKET);
+                        return user.isCreative() ? ActionResult.SUCCESS : fillBucketFromStack(itemstack, user, afterPickupHandItemStack);
                     }
                     else if (fluid == AerialHellFluids.LIQUID_OF_THE_GODS_STILL)
                     {
                         playPickupSound(fluid, user);
                         world.setBlockState(blockpos, Blocks.AIR.getDefaultState());
-                        ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, user, new ItemStack(AerialHellItems.RUBY_LIQUID_OF_GODS_BUCKET));
-                        return TypedActionResult.success(afterPickupHandItemStack, world.isClient());
+                        ItemStack afterPickupHandItemStack = new ItemStack(AerialHellItems.RUBY_LIQUID_OF_GODS_BUCKET);
+                        return user.isCreative() ? ActionResult.SUCCESS : fillBucketFromStack(itemstack, user, afterPickupHandItemStack);
                     }
                 }
             }
         }
-        return TypedActionResult.fail(itemstack);
+        return ActionResult.FAIL;
     }
 
-    public ItemStack fillBucket(ItemStack emptyBucket, PlayerEntity player, ItemStack filledBucket)
+    public ActionResult fillBucketFromStack(ItemStack emptyBucket, PlayerEntity player, ItemStack filledBucket)
     {
-        boolean creative = player.isCreative();
-        if (creative)
+        if (emptyBucket.getCount() > 1)
         {
-            player.getInventory().insertStack(filledBucket);
-            return emptyBucket;
+            emptyBucket.decrement(1);
+            if (!player.getInventory().insertStack(filledBucket)) {player.dropItem(filledBucket, false);}
+            return ActionResult.SUCCESS;
         }
         else
         {
-            emptyBucket.decrementUnlessCreative(1, player);
-            if (emptyBucket.isEmpty())
-            {
-                return filledBucket;
-            }
-            else
-            {
-                if (!player.getInventory().insertStack(filledBucket)) {player.dropItem(filledBucket, false);}
-                return emptyBucket;
-            }
+            return ActionResult.SUCCESS.withNewHandStack(filledBucket);
         }
     }
 

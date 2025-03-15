@@ -6,12 +6,8 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:gray_shroom_slab"
-    },
-    "R": {
-      "item": "minecraft:lead"
-    }
+    "#": "aerialhell:gray_shroom_slab",
+    "R": "minecraft:lead"
   },
   "result": {
     "id": "aerialhell:gray_shroom_vine_rope_spool"

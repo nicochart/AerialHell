@@ -12,7 +12,7 @@ import java.util.Map;
 import net.minecraft.block.*;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
@@ -29,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 {
-	public static final DirectionProperty HORIZONTAL_FACING = HorizontalFacingBlock.FACING;
+	public static final EnumProperty<Direction> HORIZONTAL_FACING = HorizontalFacingBlock.FACING;
 	private static final Map<Direction, VoxelShape> SHAPES = Maps.newEnumMap(ImmutableMap.of(Direction.NORTH, Block.createCuboidShape(5.5D, 3.0D, 11.0D, 10.5D, 13.0D, 16.0D), Direction.SOUTH, Block.createCuboidShape(5.5D, 3.0D, 0.0D, 10.5D, 13.0D, 5.0D), Direction.WEST, Block.createCuboidShape(11.0D, 3.0D, 5.5D, 16.0D, 13.0D, 10.5D), Direction.EAST, Block.createCuboidShape(0.0D, 3.0D, 5.5D, 5.0D, 13.0D, 10.5D)));
 
 	public AerialHellWallTorchBlock(AbstractBlock.Settings settings)
@@ -37,8 +37,6 @@ public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 		super(settings);
 		this.setDefaultState(this.stateManager.getDefaultState().with(HORIZONTAL_FACING, Direction.NORTH));
 	}
-
-	@Override public String getTranslationKey() {return this.asItem().getTranslationKey();}
 
 	@Override protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context)
 	{

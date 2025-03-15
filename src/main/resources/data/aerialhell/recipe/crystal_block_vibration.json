@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:oscillating",
-  "ingredient": {
-    "item": "aerialhell:stellar_stone_crystal_block"
-  },
+  "ingredient": "aerialhell:stellar_stone_crystal_block",
   "result": {
     "id": "aerialhell:crystal_block"
   },

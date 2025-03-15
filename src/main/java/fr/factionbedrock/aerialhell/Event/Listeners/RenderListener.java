@@ -21,13 +21,13 @@ public class RenderListener
      *
      */
 
-    //private static final Identifier VULNERABLE_OVERLAY = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/misc/vulnerability_blur.png");
-    //private static final Identifier VULNERABLE_HEART = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_hearts.png");
-    //private static final Identifier VULNERABLE_HEART_WITH_BORDER = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_hearts_with_border.png");
-    //private static final Identifier VULNERABLE_HALF_HEART = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_half_hearts.png");
-    //private static final Identifier VULNERABLE_HALF_HEART_WITH_BORDER = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_half_hearts_with_border.png");
-    //private static final Identifier VULNERABLE_EMPTY_HEART = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts.png");
-    //private static final Identifier VULNERABLE_EMPTY_HEART_WITH_BORDER = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts_with_border.png");
+    //private static final Identifier VULNERABLE_OVERLAY = Identifier.of(AerialHell.MODID, "textures/misc/vulnerability_blur.png");
+    //private static final Identifier VULNERABLE_HEART = Identifier.of(AerialHell.MODID, "textures/gui/vulnerability_hearts.png");
+    //private static final Identifier VULNERABLE_HEART_WITH_BORDER = Identifier.of(AerialHell.MODID, "textures/gui/vulnerability_hearts_with_border.png");
+    //private static final Identifier VULNERABLE_HALF_HEART = Identifier.of(AerialHell.MODID, "textures/gui/vulnerability_half_hearts.png");
+    //private static final Identifier VULNERABLE_HALF_HEART_WITH_BORDER = Identifier.of(AerialHell.MODID, "textures/gui/vulnerability_half_hearts_with_border.png");
+    //private static final Identifier VULNERABLE_EMPTY_HEART = Identifier.of(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts.png");
+    //private static final Identifier VULNERABLE_EMPTY_HEART_WITH_BORDER = Identifier.of(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts_with_border.png");
 
     //private static final int HEART_ICON_WIDTH = 9;
     //private static final int HEART_ICON_HEIGHT = 9;

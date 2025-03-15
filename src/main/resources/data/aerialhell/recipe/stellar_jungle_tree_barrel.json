@@ -6,12 +6,8 @@
     "PSP"
   ],
   "key": {
-    "P": {
-      "item": "aerialhell:stellar_jungle_tree_planks"
-    },
-    "S": {
-      "item": "aerialhell:stellar_jungle_tree_slab"
-    }
+    "P": "aerialhell:stellar_jungle_tree_planks",
+    "S": "aerialhell:stellar_jungle_tree_slab"
   },
   "result": {
     "id": "aerialhell:stellar_jungle_tree_barrel"

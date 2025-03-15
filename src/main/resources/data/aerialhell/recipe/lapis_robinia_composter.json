@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:lapis_robinia_slab"
-    }
+    "#": "aerialhell:lapis_robinia_slab"
   },
   "result": {
     "id": "aerialhell:lapis_robinia_composter"

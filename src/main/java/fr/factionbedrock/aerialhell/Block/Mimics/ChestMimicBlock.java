@@ -33,7 +33,7 @@ public class ChestMimicBlock extends ChestBlock
 {
 	public ChestMimicBlock(AbstractBlock.Settings settings)
 	{
-		super(settings, () -> AerialHellBlockEntities.CHEST_MIMIC);
+		super(() -> AerialHellBlockEntities.CHEST_MIMIC, settings);
 		this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(CHEST_TYPE, ChestType.SINGLE).with(WATERLOGGED, Boolean.valueOf(false)));
 	}
 
@@ -62,7 +62,7 @@ public class ChestMimicBlock extends ChestBlock
 
 	private void revealMimic(BlockState state, World world, BlockPos pos)
 	{
-		float angle = state.get(FACING).asRotation();
+		float angle = state.get(FACING).getPositiveHorizontalDegrees();
 		AbstractChestMimicEntity chestMimic = getNewChestMimicEntity(world);
 		chestMimic.updatePositionAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, angle, 0.0F);
 		chestMimic.setHeadYaw(angle);

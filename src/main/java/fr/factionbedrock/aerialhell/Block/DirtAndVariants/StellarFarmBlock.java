@@ -45,7 +45,7 @@ public class StellarFarmBlock extends FarmlandBlock
 
     @Override public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance)
     {
-        if (!world.isClient && world.random.nextFloat() < fallDistance - 0.5F && entity instanceof LivingEntity && (entity instanceof PlayerEntity || world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) && entity.getWidth() * entity.getWidth() * entity.getHeight() > 0.512F)
+        if (world instanceof ServerWorld serverWorld && world.random.nextFloat() < fallDistance - 0.5F && entity instanceof LivingEntity && (entity instanceof PlayerEntity || serverWorld.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) && entity.getWidth() * entity.getWidth() * entity.getHeight() > 0.512F)
         {
             turnToStellarDirt(entity, state, world, pos);
         }

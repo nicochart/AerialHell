@@ -6,12 +6,8 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:ghost_boat_planks"
-    },
-    "R": {
-      "item": "minecraft:lead"
-    }
+    "#": "aerialhell:ghost_boat_planks",
+    "R": "minecraft:lead"
   },
   "result": {
     "id": "aerialhell:ghost_boat_vine_rope_spool"

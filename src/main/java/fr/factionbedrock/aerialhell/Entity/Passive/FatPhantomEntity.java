@@ -30,6 +30,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -79,25 +80,25 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
    public static DefaultAttributeContainer.Builder registerAttributes()
    {
        return FlyingEntity.createMobAttributes()
-       		.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
-       		.add(EntityAttributes.GENERIC_MAX_HEALTH, 150.0D)
-       		.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 18.0D)
-       		.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D)
-       		.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 64.0D);
+       		.add(EntityAttributes.MOVEMENT_SPEED, 0.25D)
+       		.add(EntityAttributes.MAX_HEALTH, 150.0D)
+       		.add(EntityAttributes.ATTACK_DAMAGE, 18.0D)
+       		.add(EntityAttributes.KNOCKBACK_RESISTANCE, 1.0D)
+       		.add(EntityAttributes.FOLLOW_RANGE, 64.0D);
    }
    
    @Override
-   public boolean tryAttack(Entity entity)
+   public boolean tryAttack(ServerWorld serverWorld, Entity entity)
    {
 	   if (entity instanceof PlayerEntity playerEntity && !this.attackingPlayers.isEmpty())
 	   {
 		   if (this.attackingPlayers.contains(playerEntity)) {this.attackingPlayers.remove(playerEntity);}
 	   }
-	   return super.tryAttack(entity);
+	   return super.tryAttack(serverWorld, entity);
    }
    
    @Override
-   public boolean damage(DamageSource source, float amount)
+   public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
    {
 	   
 	   if (!source.isOf(DamageTypes.MAGIC))
@@ -108,7 +109,7 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
 		   }
 		   else if (source.getSource() instanceof ProjectileEntity)
 		   {
-			   List<PlayerEntity> targetable_players = FatPhantomEntity.this.getWorld().getPlayers(TargetPredicate.createAttackable().setBaseMaxDistance(64.0D), FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().expand(16.0D, 64.0D, 16.0D));
+			   List<PlayerEntity> targetable_players = serverWorld.getPlayers(TargetPredicate.createAttackable().setBaseMaxDistance(64.0D), FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().expand(16.0D, 64.0D, 16.0D));
 			   if (!targetable_players.isEmpty())
 			   {
 				   for (PlayerEntity player : targetable_players)
@@ -118,7 +119,7 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
 			   }
 		   }
 	   }
-	   return super.damage(source, amount);
+	   return super.damage(serverWorld, source, amount);
    }
    
    @Override
@@ -136,7 +137,7 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
    private void updatePhantomSize()
    {
       this.calculateDimensions();
-      this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue((double)(Math.max(16 + this.getPhantomSize() - getDefaultFatPhantomSize(), 16)));
+      this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE).setBaseValue((double)(Math.max(16 + this.getPhantomSize() - getDefaultFatPhantomSize(), 16)));
    }
    
    @Override
@@ -249,6 +250,8 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
       return entitydimensions.scaled(1.0F + 0.15F * (float)i);
    }
 
+   boolean testTargetPredicate(ServerWorld world, LivingEntity target, TargetPredicate predicate) {return predicate.test(world, this, target);}
+
    static enum AttackPhase
    {
       CIRCLE,
@@ -272,14 +275,15 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
          else
          {
             this.tickDelay = 60;
-            List<PlayerEntity> list = FatPhantomEntity.this.getWorld().getPlayers(this.attackTargeting, FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().expand(16.0D, 64.0D, 16.0D));
+            ServerWorld serverWorld = castToServerWorld(FatPhantomEntity.this.getWorld());
+            List<PlayerEntity> list = serverWorld.getPlayers(this.attackTargeting, FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().expand(16.0D, 64.0D, 16.0D));
             if (!attackingPlayers.isEmpty() && !list.isEmpty())
             {
                list.sort(Comparator.<Entity, Double>comparing(Entity::getY).reversed());
 
                for(PlayerEntity player : list)
                {
-                  if (FatPhantomEntity.this.isTarget(player, TargetPredicate.DEFAULT) && attackingPlayers.contains(player))
+                  if (FatPhantomEntity.this.testTargetPredicate(serverWorld, player, TargetPredicate.DEFAULT) && attackingPlayers.contains(player))
                   {
                      FatPhantomEntity.this.setTarget(player);
                      return true;
@@ -293,7 +297,7 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
       public boolean shouldContinue()
       {
          LivingEntity livingentity = FatPhantomEntity.this.getTarget();
-         return livingentity != null ? FatPhantomEntity.this.isTarget(livingentity, TargetPredicate.DEFAULT) : false;
+         return livingentity != null ? FatPhantomEntity.this.testTargetPredicate(castToServerWorld(FatPhantomEntity.this.getWorld()), livingentity, TargetPredicate.DEFAULT) : false;
       }
    }
 
@@ -451,7 +455,7 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
       public boolean canStart()
       {
          LivingEntity livingentity = FatPhantomEntity.this.getTarget();
-         return livingentity != null ? FatPhantomEntity.this.isTarget(livingentity, TargetPredicate.DEFAULT) : false;
+         return livingentity != null ? FatPhantomEntity.this.testTargetPredicate(castToServerWorld(FatPhantomEntity.this.getWorld()), livingentity, TargetPredicate.DEFAULT) : false;
       }
 
       public void start()
@@ -517,7 +521,7 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
          FatPhantomEntity.this.orbitOffset = new Vec3d(livingentity.getX(), livingentity.getBodyY(0.5D), livingentity.getZ());
          if (FatPhantomEntity.this.getBoundingBox().expand(0.2F).intersects(livingentity.getBoundingBox()))
          {
-            FatPhantomEntity.this.tryAttack(livingentity);
+            FatPhantomEntity.this.tryAttack(castToServerWorld(FatPhantomEntity.this.getWorld()), livingentity);
             FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
             if (!FatPhantomEntity.this.isSilent())
             {

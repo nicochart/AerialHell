@@ -17,6 +17,7 @@ import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.entity.*;
@@ -41,11 +42,11 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity
         this.targetSelector.add(2, new GhostGoals.GhostPirateNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
     }
 
-    @Override public boolean damage(DamageSource damageSource, float amount)
+    @Override public boolean damage(ServerWorld serverWorld, DamageSource damageSource, float amount)
     {
         Entity sourceEntity = damageSource.getAttacker();
         if (EntityHelper.isImmuneToGhostBlockCollision(sourceEntity) && !EntityHelper.isCreaOrSpecPlayer(sourceEntity)) {return false;}
-        return super.damage(damageSource, amount);
+        return super.damage(serverWorld, damageSource, amount);
     }
 
     @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, Random rand) {return new ItemStack(AerialHellItems.AZURITE_SHURIKEN);}
@@ -69,7 +70,7 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity
         @Override public ProjectileEntity createProjectile(World world, LivingEntity shooter, double accX, double accY, double accZ)
         {
             Random rand = this.getParentEntity().getRandom(); double halfDistanceToTarget = this.getParentEntity().distanceTo(this.getParentEntity().getTarget()) / 2;
-            return new AzuriteShurikenEntity(world, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget, 1.3f, 0.0f);
+            return new AzuriteShurikenEntity(world, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget, 1.3f, 0.0f, AerialHellItems.AZURITE_SHURIKEN.getDefaultStack());
         }
     }
 

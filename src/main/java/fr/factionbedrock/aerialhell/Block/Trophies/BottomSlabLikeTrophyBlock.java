@@ -5,7 +5,7 @@ import net.minecraft.block.*;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -14,7 +14,7 @@ import net.minecraft.world.WorldView;
 
 public class BottomSlabLikeTrophyBlock extends Block
 {
-    public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
+    public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
 
     public BottomSlabLikeTrophyBlock(AbstractBlock.Settings settings) {super(settings); this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));}
 

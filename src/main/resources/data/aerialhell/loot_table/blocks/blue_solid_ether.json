@@ -9,35 +9,22 @@
               "functions": [
                 {
                   "function": "minecraft:set_count",
-                  "count": {
-                    "min": 2.0,
-                    "max": 4.0,
-                    "type": "minecraft:uniform"
-                  }
+                  "count": {"min": 2.0, "max": 4.0, "type": "minecraft:uniform"}
                 },
                 {
                   "function": "minecraft:apply_bonus",
                   "enchantment": "minecraft:fortune",
                   "formula": "minecraft:uniform_bonus_count",
-                  "parameters": {
-                    "bonusMultiplier": 1
-                  }
+                  "parameters": {"bonusMultiplier": 1}
                 },
                 {
                   "function": "minecraft:limit_count",
-                  "limit": {
-                    "max": 4,
-                    "min": 1
-                  }
+                  "limit": {"max": 4, "min": 1}
                 },
-                {
-                  "function": "minecraft:explosion_decay"
-                }
+                {"function": "minecraft:explosion_decay"}
               ],
               "name": "aerialhell:blue_solid_ether_fragment"
             }
-          ]
-        }
       ]
     }
   ]

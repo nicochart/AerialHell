@@ -11,12 +11,17 @@
     "grass_color": 4425578,
     "foliage_color": 3247187,
     "grass_color_modifier": "none",
-    "music": {
-      "sound": "aerialhell:aerialhell.dimension_music",
-      "min_delay": 1200,
-      "max_delay": 3600,
-      "replace_current_music": false
-    }
+    "music": [
+      {
+        "data": {
+          "max_delay": 3600,
+          "min_delay": 1200,
+          "replace_current_music": false,
+          "sound": "aerialhell:aerialhell.dimension_music"
+        },
+        "weight": 1
+      }
+    ]
   },
   "spawners": {
     "monster": [
@@ -77,11 +82,9 @@
     "misc": []
   },
   "spawn_costs": {},
-  "carvers": {
-    "air": [
-      "minecraft:cave"
-    ]
-  },
+  "carvers": [
+    "minecraft:cave"
+  ],
   "features": [
     [],
     [

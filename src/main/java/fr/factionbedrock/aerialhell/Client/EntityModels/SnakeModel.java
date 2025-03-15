@@ -3,20 +3,19 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 // Made with Blockbench 4.9.4
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-import fr.factionbedrock.aerialhell.Entity.Monster.Snake.AbstractSnakeEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.SnakeRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.Snake.VenomousSnakeEntity;
-
-public class SnakeModel<T extends AbstractSnakeEntity> extends EntityModel<T>
+public class SnakeModel extends EntityModel<SnakeRenderState>
 {
 	private final ModelPart snake;
 
 	public SnakeModel(ModelPart root)
 	{
+		super(root);
 		this.snake = root.getChild("snake");
 	}
 
@@ -29,7 +28,7 @@ public class SnakeModel<T extends AbstractSnakeEntity> extends EntityModel<T>
 		return TexturedModelData.of(meshdefinition, 32, 32);
 	}
 
-	@Override public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(SnakeRenderState renderState)
 	{
 
 	}

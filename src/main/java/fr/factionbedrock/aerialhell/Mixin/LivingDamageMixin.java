@@ -21,6 +21,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.EntityTypeTags;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,19 +32,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class LivingDamageMixin
 {
     @Inject(method = "damage", at = @At("RETURN"), cancellable = true)
-    private void onDamage(DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir)
+    private void onDamage(ServerWorld serverWorld, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir)
     {
         LivingEntity damagedEntity = (LivingEntity) (Object) this;
         Entity sourceEntity = damageSource.getAttacker();
 
         float baseAmount = calculateBaseAmount(damagedEntity, damageSource, amount);
         float damageMultiplier = applyDamageEffectsAndCalculateDamageMultiplier(damagedEntity, damageSource, baseAmount);
-        applyMultipliedDamage(damagedEntity, damageSource, baseAmount, damageMultiplier);
+        applyMultipliedDamage(serverWorld, damagedEntity, damageSource, baseAmount, damageMultiplier);
     }
 
     //target method (damage(..)) already dealt baseAmount damage
     //apply damage multiplier by applying damage diff (adding or removing health)
-    private static void applyMultipliedDamage(LivingEntity damagedEntity, DamageSource source, float baseAmount, float multiplier)
+    private static void applyMultipliedDamage(ServerWorld serverWorld, LivingEntity damagedEntity, DamageSource source, float baseAmount, float multiplier)
     {
         if (multiplier == 1) {return;}
         else if (multiplier > 1)
@@ -52,7 +53,7 @@ public class LivingDamageMixin
             float totalDamage = multiplier * baseAmount;
             if (totalDamage > damagedEntity.lastDamageTaken)
             {
-                damagedEntity.applyDamage(source, additionalDamage);
+                damagedEntity.applyDamage(serverWorld, source, additionalDamage);
                 damagedEntity.lastDamageTaken = totalDamage;
             }
         }
@@ -193,7 +194,7 @@ public class LivingDamageMixin
         else if (sourceEquippedItem == AerialHellItems.CURSED_SWORD || sourceEquippedItem == AerialHellItems.CURSED_AXE) //source attacking target with cursed tool
         {
             float damage_return_amount = (EntityHelper.isLivingEntityShadowImmune(source) || EntityHelper.isLivingEntityVulnerable(target)) ? amount / 2 : amount;
-            source.damage(AerialHellDamageTypes.getDamageSource(source.getWorld(), AerialHellDamageTypes.CURSED_TOOL), damage_return_amount);
+            source.serverDamage(AerialHellDamageTypes.getDamageSource(source.getWorld(), AerialHellDamageTypes.CURSED_TOOL), damage_return_amount);
             if (!EntityHelper.isLivingEntityShadowImmune(target))
             {
                 int vulnerabilityAmplifier = (EntityHelper.isLightEntity(target) && !(target instanceof LunaticPriestEntity)) ? 1 : 0;

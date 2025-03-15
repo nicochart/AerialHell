@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:freezing",
-  "ingredient": {
-    "item": "aerialhell:volucite_vibrant"
-  },
+  "ingredient": "aerialhell:volucite_vibrant",
   "result": {
     "id": "minecraft:diamond"
   },

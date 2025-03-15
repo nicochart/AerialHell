@@ -5,10 +5,9 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -17,19 +16,19 @@ public class BlockCrackerItem extends WithInformationItem
 {
     public BlockCrackerItem(Item.Settings settings) {super(settings);}
 
-    @Override public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
+    @Override public ActionResult use(World world, PlayerEntity user, Hand hand)
     {
         BlockPos origin = user.getBlockPos();
         if (user.isCreative())
         {
             this.crackRandomBlocks(world, origin, 0.25F);
             user.playSound(SoundEvents.ENTITY_TURTLE_EGG_CRACK, 1.0F, 0.1F);
-            user.getItemCooldownManager().set(this, 10);
-            return TypedActionResult.consume(user.getStackInHand(hand));
+            user.getItemCooldownManager().set(user.getStackInHand(hand), 10);
+            return ActionResult.CONSUME;
         }
         else
         {
-            return TypedActionResult.pass(user.getStackInHand(hand));
+            return ActionResult.PASS;
         }
     }
 

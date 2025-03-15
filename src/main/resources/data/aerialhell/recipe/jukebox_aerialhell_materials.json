@@ -6,12 +6,8 @@
     "###"
   ],
   "key": {
-    "#": {
-      "tag": "aerialhell:aerialhell_planks"
-    },
-    "X": {
-      "item": "aerialhell:volucite_vibrant"
-    }
+    "#": "#aerialhell:aerialhell_planks",
+    "X": "aerialhell:volucite_vibrant"
   },
   "result": {
     "id": "minecraft:jukebox"

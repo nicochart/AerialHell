@@ -4,17 +4,18 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.HellSpiderSpikeModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.HellSpiderSpikesLayer;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.HellSpiderRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.HellSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowSpiderEntity;
-import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.render.entity.model.SpiderEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.util.Identifier;
 
-public class HellSpiderRender<T extends SpiderEntity> extends MobEntityRenderer<T, SpiderEntityModel<T>>
+public class HellSpiderRender<T extends SpiderEntity> extends MobEntityRenderer<T, HellSpiderRenderState, SpiderEntityModel>
 {
 	private static String hsName = "hell_spider";
 	private static final Identifier HELL_SPIDER_TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/" + hsName + "/" + hsName + ".png");
@@ -25,21 +26,30 @@ public class HellSpiderRender<T extends SpiderEntity> extends MobEntityRenderer<
 	
 	public HellSpiderRender(EntityRendererFactory.Context context)
 	{
-		super(context, new SpiderEntityModel<>(context.getPart(EntityModelLayers.SPIDER)), 0.5f);
-		this.addFeature(new HellSpiderSpikesLayer<T, SpiderEntityModel<T>>(this, new HellSpiderSpikeModel<>(context.getPart(AerialHellModelLayers.SPIDER_SPIKE))));
+		super(context, new SpiderEntityModel(context.getPart(EntityModelLayers.SPIDER)), 0.5f);
+		this.addFeature(new HellSpiderSpikesLayer<HellSpiderRenderState, SpiderEntityModel>(this, new HellSpiderSpikeModel(context.getPart(AerialHellModelLayers.SPIDER_SPIKE))));
 	}
-	
-	@Override
-	protected void scale(T entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime)
+
+	@Override public HellSpiderRenderState createRenderState() {return new HellSpiderRenderState();}
+
+	@Override public void updateRenderState(T entity, HellSpiderRenderState renderState, float partialTick)
 	{
-		if (entitylivingbaseIn instanceof HellSpiderEntity || entitylivingbaseIn instanceof ShadowSpiderEntity)
+		super.updateRenderState(entity, renderState, partialTick);
+		renderState.base_texture = getTexture(entity);
+		renderState.layer_texture = HellSpiderSpikesLayer.getTexture(entity);
+		renderState.scale = (entity instanceof HellSpiderEntity || entity instanceof ShadowSpiderEntity) ? 0.8F : 1.0F;
+	}
+
+	@Override protected void scale(HellSpiderRenderState renderState, MatrixStack matrixStack)
+	{
+		if (renderState.scale != 1.0F)
 		{
-			float f = 0.8F;
-			matrixStackIn.scale(f, f, f);
+			matrixStack.scale(renderState.scale, renderState.scale, renderState.scale);
 		}
 	}
-	
-	@Override
+
+	@Override public Identifier getTexture(HellSpiderRenderState renderState) {return renderState.base_texture;}
+
 	public Identifier getTexture(T entity)
 	{
 		if (entity instanceof HellSpiderEntity) {return HELL_SPIDER_TEXTURE;}

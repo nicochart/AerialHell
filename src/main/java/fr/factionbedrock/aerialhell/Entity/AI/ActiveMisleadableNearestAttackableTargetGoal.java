@@ -6,6 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ public class ActiveMisleadableNearestAttackableTargetGoal<T extends LivingEntity
 
     @Override protected void findClosestTarget()
     {
+        ServerWorld serverWorld =getServerWorld(this.mob);
         if (this.targetClass != PlayerEntity.class && this.targetClass != ServerPlayerEntity.class) {super.findClosestTarget();}
         else
         {
@@ -27,7 +29,7 @@ public class ActiveMisleadableNearestAttackableTargetGoal<T extends LivingEntity
                                                                        .filter(entity -> !isPlayerMisleadingGoalOwner((PlayerEntity) entity))
                                                                        .map(entity -> (PlayerEntity) entity)
                                                                        .collect(Collectors.toList());
-            this.targetEntity = this.activableGoalOwner.getWorld().getClosestEntity(nearbyTargetablePlayers, this.targetPredicate, targetEntity, x, y, z);
+            this.targetEntity = serverWorld.getClosestEntity(nearbyTargetablePlayers, this.targetPredicate, targetEntity, x, y, z);
         }
     }
 

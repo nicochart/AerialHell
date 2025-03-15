@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class DiamondShurikenEntity extends AbstractShurikenEntity
@@ -16,19 +17,19 @@ public class DiamondShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, world);
 	}
 
-	public DiamondShurikenEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public DiamondShurikenEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy, ItemStack itemStack)
 	{
-		super(AerialHellEntities.DIAMOND_SHURIKEN, world, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+		super(AerialHellEntities.DIAMOND_SHURIKEN, world, shooter, accelX, accelY, accelZ, velocity, inaccuracy, itemStack);
 	}
 
-	public DiamondShurikenEntity(double x, double y, double z, World world)
+	public DiamondShurikenEntity(double x, double y, double z, World world, ItemStack itemStack)
 	{
-		super(AerialHellEntities.DIAMOND_SHURIKEN, x, y, z, world);
+		super(AerialHellEntities.DIAMOND_SHURIKEN, x, y, z, world, itemStack);
 	}
 
-	public DiamondShurikenEntity(LivingEntity shooter, World world)
+	public DiamondShurikenEntity(LivingEntity shooter, World world, ItemStack itemStack)
 	{
-		super(AerialHellEntities.DIAMOND_SHURIKEN, shooter, world);
+		super(AerialHellEntities.DIAMOND_SHURIKEN, shooter, world, itemStack);
 	}
 
 	public DiamondShurikenEntity(World world)

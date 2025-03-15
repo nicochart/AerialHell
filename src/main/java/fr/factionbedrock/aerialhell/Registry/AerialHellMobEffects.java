@@ -12,8 +12,8 @@ import net.minecraft.registry.entry.RegistryEntry;
 
 public class AerialHellMobEffects
 {
-    public static final RegistryEntry<StatusEffect> HEAD_IN_THE_CLOUDS = register("head_in_the_clouds", new HeadInTheCloudsEffect(StatusEffectCategory.BENEFICIAL, 8171462).addAttributeModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED, AerialHell.id("movement_speed_modifier"), 0.2F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
-    public static final RegistryEntry<StatusEffect> GOD = register("god", new GodEffect(StatusEffectCategory.BENEFICIAL, 9740385).addAttributeModifier(EntityAttributes.GENERIC_ATTACK_SPEED, AerialHell.id("attack_speed_modifier"), 0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+    public static final RegistryEntry<StatusEffect> HEAD_IN_THE_CLOUDS = register("head_in_the_clouds", new HeadInTheCloudsEffect(StatusEffectCategory.BENEFICIAL, 8171462).addAttributeModifier(EntityAttributes.MOVEMENT_SPEED, AerialHell.id("movement_speed_modifier"), 0.2F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+    public static final RegistryEntry<StatusEffect> GOD = register("god", new GodEffect(StatusEffectCategory.BENEFICIAL, 9740385).addAttributeModifier(EntityAttributes.ATTACK_SPEED, AerialHell.id("attack_speed_modifier"), 0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
     public static final RegistryEntry<StatusEffect> SHADOW_IMMUNITY = register("shadow_immunity", new AerialHellEffect(StatusEffectCategory.BENEFICIAL, 9740385));
     public static final RegistryEntry<StatusEffect> SHADOW_BIND = register("shadow_bind", new ShadowBind(StatusEffectCategory.BENEFICIAL, 9740385));
     public static final RegistryEntry<StatusEffect> VULNERABILITY = register("vulnerability", new VulnerabilityEffect(StatusEffectCategory.HARMFUL, 6501508));

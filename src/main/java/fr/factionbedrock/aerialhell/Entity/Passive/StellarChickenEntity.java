@@ -94,7 +94,7 @@ public class StellarChickenEntity extends ChickenEntity
 
     @Nullable @Override public ChickenEntity createChild(ServerWorld world, PassiveEntity mob)
     {
-        StellarChickenEntity baby = AerialHellEntities.STELLAR_CHICKEN.create(this.getWorld());
+        StellarChickenEntity baby = AerialHellEntities.STELLAR_CHICKEN.create(this.getWorld(), SpawnReason.BREEDING);
         baby.setColor(this.getColor());
         return baby;
     }
@@ -102,15 +102,16 @@ public class StellarChickenEntity extends ChickenEntity
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return AerialHellAnimalEntity.createLivingAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 6.0D)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3);
+                .add(EntityAttributes.MAX_HEALTH, 6.0D)
+                .add(EntityAttributes.FOLLOW_RANGE, 16.0D)
+                .add(EntityAttributes.TEMPT_RANGE, 10.0D)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.3);
     }
 
-    @Nullable @Override public ItemEntity dropItem(ItemConvertible item)
+    @Nullable @Override public ItemEntity dropItem(ServerWorld serverWorld, ItemConvertible item)
     {
-        if (item == Items.EGG) {return super.dropItem(AerialHellItems.STELLAR_EGG);}
-        else {return super.dropItem(item);}
+        if (item == Items.EGG) {return super.dropItem(serverWorld, AerialHellItems.STELLAR_EGG);}
+        else {return super.dropItem(serverWorld, item);}
     }
 
     @Override public float getPathfindingFavor(BlockPos pos, WorldView world)

@@ -25,6 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.ActionResult;
@@ -151,15 +152,15 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
 
     @Override public boolean isPersistent() {return !this.isHead();}
 
-    @Override protected void onRemoval(RemovalReason reason)
+    @Override protected void onRemoval(ServerWorld serverWorld, RemovalReason reason)
     {
         //super.onRemoval is called in sendRemove
         AbstractSnakeEntity head = this.isHead() ? this : this.getHead(); //head = this (should be) because other body parts are persistent
         if (head != null)
         {
-            head.sendRemove(reason, this, SendDirection.BACKWARD);
+            head.sendRemove(serverWorld, reason, this, SendDirection.BACKWARD);
         }
-        super.onRemoval(reason);
+        super.onRemoval(serverWorld, reason);
     }
 
     @Override public void tick()
@@ -188,7 +189,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
 
         if (this.timeInInvalidSituation > MAX_TIME_IN_INVALID_SITUATION)
         {
-            this.damage(this.getDamageSources().outOfWorld(), this.getMaxHealth());
+            this.serverDamage(this.getDamageSources().outOfWorld(), this.getMaxHealth());
         }
 
         if (!this.isOnGround())
@@ -212,7 +213,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         if (itemstack.isOf(Items.STRUCTURE_VOID))
         {
             EntityHelper.debugSnakeEntity(this, player);
-            return ActionResult.success(this.getWorld().isClient);
+            return ActionResult.SUCCESS;
         }
         else {return super.interactMob(player, hand);}
     }
@@ -322,7 +323,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
     {
         float x = 0.0F;
         float z = 0.0F;
-        AbstractSnakeEntity nextBodyPart = this.getType().create(this.getWorld());
+        AbstractSnakeEntity nextBodyPart = this.getType().create(this.getWorld(), SpawnReason.NATURAL);
         if (nextBodyPart != null)
         {
             if (this.isPersistent()) {nextBodyPart.setPersistent();}
@@ -343,17 +344,17 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         return new SnakeCustomHurtInfo(amount, this.defaultKbStrength(), this.shouldPlayHurtOrDeathSoundOnHurt(), this.shouldApplyKbOnHurt(), true);
     }
 
-    @Override public boolean customHurt(DamageSource damageSource, CustomHurtInfo info)
+    @Override public boolean customHurt(ServerWorld serverWorld, DamageSource damageSource, CustomHurtInfo info)
     {
-        boolean flag = super.customHurt(damageSource, info);
+        boolean flag = super.customHurt(serverWorld, damageSource, info);
         if (flag && info instanceof SnakeCustomHurtInfo snakeHurtInfo && snakeHurtInfo.shouldSendToOthers())
         {
             float amount = info.amount();
             float amountReduction = 2.0F;
             float kbStrengthReduction = this.isHead() ? 0.01F : 0.05F;
             float minimumAmount = Math.min(amount, 0.5F);
-            if (this.nextBodyPart != null) {this.nextBodyPart.sendHurt(damageSource, info, amountReduction, kbStrengthReduction, minimumAmount, 0.0F, this, AbstractSnakeEntity.SendDirection.BACKWARD);}
-            if (this.previousBodyPart != null) {this.previousBodyPart.sendHurt(damageSource, info, amountReduction, kbStrengthReduction, minimumAmount, 0.0F, this, AbstractSnakeEntity.SendDirection.FORWARD);}
+            if (this.nextBodyPart != null) {this.nextBodyPart.sendHurt(serverWorld, damageSource, info, amountReduction, kbStrengthReduction, minimumAmount, 0.0F, this, AbstractSnakeEntity.SendDirection.BACKWARD);}
+            if (this.previousBodyPart != null) {this.previousBodyPart.sendHurt(serverWorld, damageSource, info, amountReduction, kbStrengthReduction, minimumAmount, 0.0F, this, AbstractSnakeEntity.SendDirection.FORWARD);}
         }
         if (this.isDead()) {this.runDeathReaction();}
         return flag;
@@ -373,20 +374,20 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         if (torchbearer != null) torchbearer.sendDragDirection(dragDirection, sendDirection, sender);
     }
 
-    public void sendHurt(DamageSource damageSource, CustomHurtInfo previousInfo, float amountReduction, float kbStrengthReduction, AbstractSnakeEntity sender, SendDirection direction)
+    public void sendHurt(ServerWorld serverWorld, DamageSource damageSource, CustomHurtInfo previousInfo, float amountReduction, float kbStrengthReduction, AbstractSnakeEntity sender, SendDirection direction)
     {
-        this.sendHurt(damageSource, previousInfo, amountReduction, kbStrengthReduction, 0.0F, 0.0F, sender, direction);
+        this.sendHurt(serverWorld, damageSource, previousInfo, amountReduction, kbStrengthReduction, 0.0F, 0.0F, sender, direction);
     }
 
-    public void sendHurt(DamageSource damageSource, CustomHurtInfo previousInfo, float amountReduction, float kbStrengthReduction, float minimumAmount, float minimumKbStrength, AbstractSnakeEntity sender, SendDirection direction)
+    public void sendHurt(ServerWorld serverWorld, DamageSource damageSource, CustomHurtInfo previousInfo, float amountReduction, float kbStrengthReduction, float minimumAmount, float minimumKbStrength, AbstractSnakeEntity sender, SendDirection direction)
     {
         float newAmount = Math.max(previousInfo.amount() - amountReduction, minimumAmount);
         float newKbStrength = Math.max(previousInfo.kbStrength() - kbStrengthReduction, minimumKbStrength);
         boolean shouldApplyKb = this.shouldApplyKbOnHurt() && newKbStrength > 0.0F;
         SnakeCustomHurtInfo newInfo = new SnakeCustomHurtInfo(newAmount, newKbStrength, this.shouldPlayHurtOrDeathSoundOnHurt(), shouldApplyKb, false);
         AbstractSnakeEntity torchbearer = direction == SendDirection.BACKWARD ? this.nextBodyPart : this.previousBodyPart; //next one to receive and send the message
-        if (torchbearer != null && newAmount > 0) {torchbearer.sendHurt(damageSource, newInfo, amountReduction, kbStrengthReduction, minimumAmount, minimumKbStrength, sender, direction);}
-        this.customHurt(damageSource, newInfo);
+        if (torchbearer != null && newAmount > 0) {torchbearer.sendHurt(serverWorld, damageSource, newInfo, amountReduction, kbStrengthReduction, minimumAmount, minimumKbStrength, sender, direction);}
+        this.customHurt(serverWorld, damageSource, newInfo);
     }
 
     public void sendHeadUpdate(AbstractSnakeEntity newHead, AbstractSnakeEntity sender, SendDirection direction) //overrides head in this and all nexts body parts
@@ -404,14 +405,14 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         this.customOnDeath(damageSource, this.shouldPlayHurtOrDeathSoundOnHurt());
     }
 
-    public void sendRemove(RemovalReason reason, AbstractSnakeEntity sender, SendDirection direction)
+    public void sendRemove(ServerWorld serverWorld, RemovalReason reason, AbstractSnakeEntity sender, SendDirection direction)
     {
         AbstractSnakeEntity torchbearer = direction == SendDirection.BACKWARD ? this.nextBodyPart : this.previousBodyPart; //next one to receive and send the message
-        if (torchbearer != null) {torchbearer.sendRemove(reason, sender, direction);}
+        if (torchbearer != null) {torchbearer.sendRemove(serverWorld, reason, sender, direction);}
         if (!this.isRemoved())
         {
             this.setRemoved(reason);
-            super.onRemoval(reason); //do not call this.onRemoval here. Will infinite loop : this.onRemoval -> sendRemove -> this.onRemoval -> sendRemove -> ...
+            super.onRemoval(serverWorld, reason); //do not call this.onRemoval here. Will infinite loop : this.onRemoval -> sendRemove -> this.onRemoval -> sendRemove -> ...
         }
     }
 
@@ -534,7 +535,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
     }
 
     @Override public boolean canTeleportBetween(World source, World dest) {return false;}
-    @Override protected void dropXp(Entity entity) {if (this.isHead()) {super.dropXp(entity);}}
+    @Override protected void dropExperience(ServerWorld serverWorld, Entity entity) {if (this.isHead()) {super.dropExperience(serverWorld, entity);}}
     @Override public EntityType<AbstractSnakeEntity> getType() {return (EntityType<AbstractSnakeEntity>) super.getType();}
     @Override public boolean handleFallDamage(float distance, float damageMultiplier, DamageSource source)
     {

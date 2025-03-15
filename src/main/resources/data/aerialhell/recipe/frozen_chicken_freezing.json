@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:freezing",
-  "ingredient": {
-    "item": "minecraft:chicken"
-  },
+  "ingredient": "minecraft:chicken",
   "result": {
     "id": "aerialhell:frozen_chicken"
   },

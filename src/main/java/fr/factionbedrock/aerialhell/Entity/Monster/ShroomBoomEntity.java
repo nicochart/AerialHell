@@ -40,15 +40,15 @@ public class ShroomBoomEntity extends CreeperEntity
         this.targetSelector.add(2, new RevengeGoal(this));
     }
     
-    @Override public boolean shouldRenderOverlay() {return false;}
+    @Override public boolean isCharged() {return false;}
 
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 35.0F)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25F)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0D);
+                .add(EntityAttributes.MAX_HEALTH, 35.0F)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.25F)
+                .add(EntityAttributes.FOLLOW_RANGE, 24.0D)
+                .add(EntityAttributes.ATTACK_DAMAGE, 2.0D);
     }
     
     public boolean canIgnite() {return this.getHealth() < this.getMaxHealth() / 3;}
@@ -63,14 +63,14 @@ public class ShroomBoomEntity extends CreeperEntity
     	else {super.setFuseSpeed(state);}
     }
     
-    @Override public boolean tryAttack(Entity attackedEntity)
+    @Override public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
     {
         if (!this.canIgnite())
         {
             DamageSource damagesource = this.getDamageSources().mobAttack(this);
-        	float damage = (float)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-        	float kb = (float)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_KNOCKBACK);
-            boolean isAttackSuccess = attackedEntity.damage(damagesource, damage);
+        	float damage = (float)this.getAttributeValue(EntityAttributes.ATTACK_DAMAGE);
+        	float kb = (float)this.getAttributeValue(EntityAttributes.ATTACK_KNOCKBACK);
+            boolean isAttackSuccess = attackedEntity.damage(serverWorld, damagesource, damage);
             if (isAttackSuccess)
             {
             	if (kb > 0.0F && attackedEntity instanceof LivingEntity)
@@ -78,12 +78,12 @@ public class ShroomBoomEntity extends CreeperEntity
             		((LivingEntity)attackedEntity).takeKnockback(kb * 0.5F, (double) MathHelper.sin(this.getYaw() * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(this.getYaw() * ((float)Math.PI / 180F))));
                     EntityHelper.multiplyDeltaMovement(this, 0.6D, 1.0D);
                 }
-                if (this.getWorld() instanceof ServerWorld serverWorld) {EnchantmentHelper.onTargetDamaged(serverWorld, attackedEntity, damagesource);}
+                EnchantmentHelper.onTargetDamaged(serverWorld, attackedEntity, damagesource);
             	this.onAttacking(attackedEntity);
             }
             return isAttackSuccess;
         }
-        else {return super.tryAttack(attackedEntity);}
+        else {return super.tryAttack(serverWorld, attackedEntity);}
     }
 
     public static class ShroomBoomMeleeAttackGoal extends MeleeAttackGoal

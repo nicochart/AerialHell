@@ -38,8 +38,8 @@ public class FlyingJellyfishEntity extends AbstractFlyingProjectileShooterMob
 	public static DefaultAttributeContainer.Builder registerAttributes()
 	{
 		return createMobAttributes()
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, 5.0D)
-				.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 100.0D);
+				.add(EntityAttributes.MAX_HEALTH, 5.0D)
+				.add(EntityAttributes.FOLLOW_RANGE, 100.0D);
 	}
 
 	@Override protected float getSoundVolume() {return 1.2F;}

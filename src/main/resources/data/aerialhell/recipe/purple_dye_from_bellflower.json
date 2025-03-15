@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "purple_dye",
   "ingredients": [
-    {
-      "item": "aerialhell:bellflower"
-    }
+    "aerialhell:bellflower"
   ],
   "result": {
     "id": "minecraft:purple_dye"

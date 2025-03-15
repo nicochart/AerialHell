@@ -15,6 +15,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.ServerWorldAccess;
@@ -43,11 +44,11 @@ public class GhostSlimePirateEntity extends AbstractSlimePirateEntity
 
     @Override public EntityType<? extends AbstractSlimePirateEntity> getType() {return AerialHellEntities.GHOST_SLIME_PIRATE;}
 
-    @Override public boolean damage(DamageSource damageSource, float amount)
+    @Override public boolean damage(ServerWorld serverWorld, DamageSource damageSource, float amount)
     {
         Entity sourceEntity = damageSource.getAttacker();
         if (EntityHelper.isImmuneToGhostBlockCollision(sourceEntity) && !EntityHelper.isCreaOrSpecPlayer(sourceEntity)) {return false;}
-        return super.damage(damageSource, amount);
+        return super.damage(serverWorld, damageSource, amount);
     }
 
     @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, Random rand)

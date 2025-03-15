@@ -9,6 +9,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
@@ -27,16 +28,16 @@ public class ForestCaterpillarEntity extends AbstractCaterpillarEntity
 	public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return AbstractCaterpillarEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 16.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23D)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 10.0D)
-        		.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0D);
+                .add(EntityAttributes.MAX_HEALTH, 16.0D)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.23D)
+                .add(EntityAttributes.FOLLOW_RANGE, 10.0D)
+        		.add(EntityAttributes.ATTACK_DAMAGE, 3.0D);
     }
 	
 	@Override
-	public boolean tryAttack(Entity entityIn)
+	public boolean tryAttack(ServerWorld serverWorld, Entity entityIn)
 	{
-		if (super.tryAttack(entityIn))
+		if (super.tryAttack(serverWorld, entityIn))
 		{
 	         if (entityIn instanceof LivingEntity)
 	         {

@@ -49,7 +49,7 @@ public class AerialHellBarrelBlock extends BarrelBlock
 			{
 				player.openHandledScreen(barrelBlockEntity);
 				player.incrementStat(Stats.OPEN_BARREL);
-				PiglinBrain.onGuardedBlockInteracted(player, true);
+				if (world instanceof ServerWorld serverWorld) {PiglinBrain.onGuardedBlockInteracted(serverWorld, player, true);}
 			}
 
 			return ActionResult.CONSUME;

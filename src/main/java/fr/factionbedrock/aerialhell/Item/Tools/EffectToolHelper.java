@@ -31,7 +31,7 @@ public class EffectToolHelper
 	
 	public static void setDamageAndCooldown(Item item, ItemStack heldItem, PlayerEntity player, Hand hand, int cooldown)
 	{
-		player.getItemCooldownManager().set(item, cooldown);
+		player.getItemCooldownManager().set(heldItem, cooldown);
 		heldItem.damage(1, player, LivingEntity.getSlotForHand(hand));
 	}
 	
@@ -143,7 +143,7 @@ public class EffectToolHelper
 		if (!playerHasPoison && !playerHasWither) {return false;}
 		else
 		{
-			player.playSound(SoundEvents.ENTITY_GENERIC_DRINK, 1.0F, 1.5F + 0.4F * rand.nextFloat());
+			player.playSound(SoundEvents.ENTITY_GENERIC_DRINK.value(), 1.0F, 1.5F + 0.4F * rand.nextFloat());
 			
 			if (playerHasPoison) {player.removeStatusEffect(StatusEffects.POISON);}
 			if (playerHasWither) {player.removeStatusEffect(StatusEffects.WITHER);}
@@ -156,7 +156,7 @@ public class EffectToolHelper
 	{
 		if (player.canConsume(false))
 		{
-			player.playSound(SoundEvents.ENTITY_GENERIC_EAT, 1.0F, 0.5F + rand.nextFloat());
+			player.playSound(SoundEvents.ENTITY_GENERIC_EAT.value(), 1.0F, 0.5F + rand.nextFloat());
 			if (!world.isClient())
 			{
 				player.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 0));

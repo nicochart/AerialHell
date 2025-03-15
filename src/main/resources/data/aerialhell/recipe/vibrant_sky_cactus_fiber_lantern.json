@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:vibrant_sky_cactus_fiber"
-    }
+    "#": "aerialhell:vibrant_sky_cactus_fiber"
   },
   "result": {
     "id": "aerialhell:vibrant_sky_cactus_fiber_lantern"

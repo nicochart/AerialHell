@@ -11,6 +11,8 @@
 		"UpdateNeighborsAlwaysWorldMixin",
 		"UpdateNeighborsExceptMixin",
 		"LivingJumpMixin",
+		"LivingEntityFallFlyingMixin",
+		"LivingEntityGravityMixin",
 		"SleepFinishMixin",
 		"ImpactFromThrownEntityMixin",
 		"ImpactFromPersistentProjectileEntityMixin",
@@ -19,7 +21,8 @@
 		"RarityMixin",
 		"RarityFromItemStackMixin",
 		"RenderBlockOverlayMixin",
-		"RenderHudOverlayMixin"
+		"RenderHudOverlayMixin",
+		"ItemTintMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

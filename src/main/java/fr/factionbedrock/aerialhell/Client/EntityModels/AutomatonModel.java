@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.AutomatonEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.AutomatonRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -9,7 +9,7 @@ import net.minecraft.util.math.MathHelper;
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class AutomatonModel<T extends AutomatonEntity> extends EmptyModel<T>
+public class AutomatonModel<S extends AutomatonRenderState> extends EmptyModel<S>
 {
 	private final ModelPart body;
 	private final ModelPart head;
@@ -20,6 +20,7 @@ public class AutomatonModel<T extends AutomatonEntity> extends EmptyModel<T>
 
 	public AutomatonModel(ModelPart root)
 	{
+		super(root);
 		this.body = root.getChild("body");
 		this.head = root.getChild("head");
 		this.rightArm = root.getChild("rightArm");
@@ -60,12 +61,17 @@ public class AutomatonModel<T extends AutomatonEntity> extends EmptyModel<T>
 		return TexturedModelData.of(meshdefinition, 64, 32);
 	}
 	
-	@Override public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(S renderState)
 	{
+		float headPitch = renderState.pitch;
+		float netHeadYaw = renderState.yawDegrees;
+		float limbSwing = renderState.limbFrequency;
+		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+
 		this.head.yaw = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.pitch = 0.0873F + headPitch * ((float)Math.PI / 180F);
 
-		int i = entity.attackTimer;
+		int i = renderState.attackTimer;
 		if (i > 0)
 		{
 			this.leftArm.pitch = -2.0F + 0.6F * MathHelper.wrap((float)i, 10.0F);

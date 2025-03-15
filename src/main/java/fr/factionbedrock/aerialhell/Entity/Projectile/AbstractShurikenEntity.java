@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.EntityHitResult;
@@ -16,9 +17,9 @@ public abstract class AbstractShurikenEntity extends ThrownItemEntity
 {
 	public float shurikenZRot;
 
-	public AbstractShurikenEntity(EntityType<? extends ThrownItemEntity> type, World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public AbstractShurikenEntity(EntityType<? extends ThrownItemEntity> type, World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy, ItemStack itemStack)
 	{
-		super(type, shooter, world);
+		super(type, shooter, world, itemStack);
 		this.setVelocity(accelX, accelY, accelZ, velocity, inaccuracy);
 	}
 
@@ -28,15 +29,15 @@ public abstract class AbstractShurikenEntity extends ThrownItemEntity
 		this.shurikenZRot = -135;
 	}
 
-	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, double x, double y, double z, World world)
+	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, double x, double y, double z, World world, ItemStack itemStack)
 	{
-		super(type, x, y, z, world);
+		super(type, x, y, z, world, itemStack);
 		this.shurikenZRot = -135;
 	}
 
-	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, LivingEntity shooter, World world)
+	public AbstractShurikenEntity(EntityType<? extends AbstractShurikenEntity> type, LivingEntity shooter, World world, ItemStack itemStack)
 	{
-		super(type, shooter, world);
+		super(type, shooter, world, itemStack);
 		this.shurikenZRot = -135;
 	}
 
@@ -71,7 +72,10 @@ public abstract class AbstractShurikenEntity extends ThrownItemEntity
 		if (result != null && result.getType() != HitResult.Type.MISS && this.getWorld() instanceof ServerWorld && result.getType() == HitResult.Type.ENTITY)
 		{
             Entity entity = ((EntityHitResult)result).getEntity();
-            entity.damage(AerialHellDamageTypes.getDamageSource(this.getWorld(), AerialHellDamageTypes.SHURIKEN_HIT, this, this.getOwner()), this.getKnifeDamage());
+			if (this.getWorld() instanceof ServerWorld serverWorld)
+			{
+				entity.damage(serverWorld, AerialHellDamageTypes.getDamageSource(this.getWorld(), AerialHellDamageTypes.SHURIKEN_HIT, this, this.getOwner()), this.getKnifeDamage());
+			}
             entity.setVelocity(entity.getVelocity().add(this.getVelocity().x / 2, 0.12F, this.getVelocity().z / 2));
             this.applyEntityImpactEffet(entity);
 		}

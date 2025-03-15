@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.Layers;
 
 import fr.factionbedrock.aerialhell.Client.EntityModels.CrystalSlimeModel;
-import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSlimeEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.CrystalSlimeRenderState;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -12,24 +12,23 @@ import net.minecraft.client.util.math.MatrixStack;
 
 import java.awt.*;
 
-public class CrystalSlimeGelAndCrystalLayer extends FeatureRenderer<CrystalSlimeEntity, CrystalSlimeModel>
+public class CrystalSlimeGelAndCrystalLayer extends FeatureRenderer<CrystalSlimeRenderState, CrystalSlimeModel>
 {
    private final CrystalSlimeModel crystalSlimeModel;
 
-   public CrystalSlimeGelAndCrystalLayer(FeatureRendererContext<CrystalSlimeEntity, CrystalSlimeModel> layerParent, CrystalSlimeModel model)
+   public CrystalSlimeGelAndCrystalLayer(FeatureRendererContext<CrystalSlimeRenderState, CrystalSlimeModel> layerParent, CrystalSlimeModel model)
    {
       super(layerParent);
       this.crystalSlimeModel = model;
    }
-   
-   public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn, CrystalSlimeEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
+
+   @Override public void render(MatrixStack poseStack, VertexConsumerProvider bufferSource, int packedLight, CrystalSlimeRenderState renderState, float yaw, float pitch)
    {
-      if (!entitylivingbaseIn.isInvisible())
+      if (!renderState.invisible)
       {
-         this.getContextModel().copyStateTo(this.crystalSlimeModel);
-         this.crystalSlimeModel.setAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-         VertexConsumer consumer = bufferIn.getBuffer(RenderLayer.getEntityTranslucent(this.getTexture(entitylivingbaseIn)));
-         this.crystalSlimeModel.render(matrixStackIn, consumer, packedLightIn, LivingEntityRenderer.getOverlay(entitylivingbaseIn, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB());
+         this.crystalSlimeModel.setAngles(renderState);
+         VertexConsumer consumer = bufferSource.getBuffer(RenderLayer.getEntityTranslucent(renderState.texture));
+         this.crystalSlimeModel.render(poseStack, consumer, packedLight, LivingEntityRenderer.getOverlay(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB());
       }
    }
 }

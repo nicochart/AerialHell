@@ -12,8 +12,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 
 public class VerticalGrowingPlantBlock extends Block
 {
@@ -77,10 +77,10 @@ public class VerticalGrowingPlantBlock extends Block
         world.setBlockState(pos, state.with(AGE, 0).with(TOP, false));
     }
 
-    @Override public BlockState getStateForNeighborUpdate(BlockState state1, Direction direction, BlockState state2, WorldAccess worldAccess, BlockPos pos1, BlockPos pos2)
+    @Override protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random)
     {
-        if (!state1.canPlaceAt(worldAccess, pos1)) {worldAccess.scheduleBlockTick(pos1, this, 1);}
-        return super.getStateForNeighborUpdate(state1, direction, state2, worldAccess, pos1, pos2);
+        if (!state.canPlaceAt(world, pos)) {tickView.scheduleBlockTick(pos, this, 1);}
+        return super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState, random);
     }
 
     @Override protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos)

@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:freezing",
-  "ingredient": {
-    "item": "aerialhell:solid_ether_soup"
-  },
+  "ingredient": "aerialhell:solid_ether_soup",
   "result": {
     "id": "aerialhell:frozen_solid_ether_soup"
   },

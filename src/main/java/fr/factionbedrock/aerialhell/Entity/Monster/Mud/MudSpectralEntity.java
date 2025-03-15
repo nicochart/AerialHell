@@ -11,11 +11,11 @@ public interface MudSpectralEntity
     static DefaultAttributeContainer.Builder createSpectralAttributes(double maxHealth, double armor, double attackDamage, double movementSpeed, double followRange)
     {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, maxHealth)
-                .add(EntityAttributes.GENERIC_ARMOR, armor)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, movementSpeed)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, followRange);
+                .add(EntityAttributes.MAX_HEALTH, maxHealth)
+                .add(EntityAttributes.ARMOR, armor)
+                .add(EntityAttributes.ATTACK_DAMAGE, attackDamage)
+                .add(EntityAttributes.MOVEMENT_SPEED, movementSpeed)
+                .add(EntityAttributes.FOLLOW_RANGE, followRange);
     }
 
     default void spectralEntityTick(MobEntity mob)

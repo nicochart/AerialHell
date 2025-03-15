@@ -1,8 +1,6 @@
 {
   "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "aerialhell:light_shadow_catacombs_bricks"
-  },
+  "ingredient": "aerialhell:light_shadow_catacombs_bricks",
   "result": {
     "id": "aerialhell:cracked_light_shadow_catacombs_bricks"
   },

@@ -11,7 +11,7 @@ import net.minecraft.registry.Registry;
 
 public class AerialHellRecipes
 {
-	public static final RecipeSerializer<?> OSCILLATING = registerSerializer("oscillating", new OscillatingRecipe.Serializer());
+	public static final RecipeSerializer<OscillatingRecipe> OSCILLATING = registerSerializer("oscillating", new OscillatingRecipe.Serializer());
 	public static final RecipeSerializer<FreezingRecipe> FREEZING = registerSerializer("freezing", new FreezingRecipe.Serializer());
 
 	public static <S extends RecipeSerializer<T>, T extends Recipe<?>> S registerSerializer(String name, S serializer) {return Registry.register(Registries.RECIPE_SERIALIZER, AerialHell.id(name), serializer);}

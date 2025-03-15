@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -30,13 +31,13 @@ public class BramblesBlock extends AerialHellTallGrassBlock
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entityIn)
 	{
 		entityIn.slowMovement(state, new Vec3d((double)0.8F, 0.75D, (double)0.8F));
-		if (!world.isClient() && entityIn instanceof LivingEntity livingEntity)
+		if (world instanceof ServerWorld serverWorld && entityIn instanceof LivingEntity livingEntity)
     	{
 			if (!EntityHelper.isImmuneToBramblesDamage(livingEntity))
 			{
 				int poisonDuration = this == AerialHellBlocks.SHADOW_BRAMBLES ? 60 : 40;
 				livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, poisonDuration, 0));
-				livingEntity.damage(AerialHellDamageTypes.getDamageSource(world, AerialHellDamageTypes.BRAMBLES_THORNS), 1.0F);
+				livingEntity.damage(serverWorld, AerialHellDamageTypes.getDamageSource(world, AerialHellDamageTypes.BRAMBLES_THORNS), 1.0F);
 			}
     	}
 	}

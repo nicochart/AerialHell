@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:green_solid_ether_fragment"
-    }
+    "#": "aerialhell:green_solid_ether_fragment"
   },
   "result": {
     "id": "aerialhell:green_solid_ether"

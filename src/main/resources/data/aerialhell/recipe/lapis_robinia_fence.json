@@ -6,12 +6,8 @@
     "W#W"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "W": {
-      "item": "aerialhell:lapis_robinia_planks"
-    }
+    "#": "aerialhell:sky_stick",
+    "W": "aerialhell:lapis_robinia_planks"
   },
   "result": {
     "id": "aerialhell:lapis_robinia_fence",

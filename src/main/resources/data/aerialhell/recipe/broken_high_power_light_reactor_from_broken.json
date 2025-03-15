@@ -6,18 +6,10 @@
     "FLF"
   ],
   "key": {
-    "V": {
-      "item": "aerialhell:volucite_vibrant"
-    },
-    "F": {
-      "item": "aerialhell:fluorite"
-    },
-    "B": {
-      "item": "aerialhell:broken_high_power_light_reactor"
-    },
-    "L": {
-      "item": "aerialhell:lunatic_crystal"
-    }
+    "V": "aerialhell:volucite_vibrant",
+    "F": "aerialhell:fluorite",
+    "B": "aerialhell:broken_high_power_light_reactor",
+    "L": "aerialhell:lunatic_crystal"
   },
   "result": {
     "id": "aerialhell:high_power_light_reactor"

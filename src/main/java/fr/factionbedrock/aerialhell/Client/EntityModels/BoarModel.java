@@ -1,9 +1,9 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.Neutral.BoarEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 
@@ -11,7 +11,7 @@ import net.minecraft.util.math.MathHelper;
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
-public class BoarModel<T extends BoarEntity> extends EntityModel<T>
+public class BoarModel<S extends LivingEntityRenderState> extends EntityModel<S>
 {
 	private final ModelPart body;
 	private final ModelPart head;
@@ -25,7 +25,8 @@ public class BoarModel<T extends BoarEntity> extends EntityModel<T>
 
 	public BoarModel(ModelPart root)
 	{
-		this.body = root.getChild("body");
+        super(root);
+        this.body = root.getChild("body");
 		this.head = root.getChild("head");
 		this.tusk = root.getChild("tusk");
 		this.backLeftLeg = root.getChild("backLeftLeg");
@@ -72,9 +73,15 @@ public class BoarModel<T extends BoarEntity> extends EntityModel<T>
 		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
 
-	@Override public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(S renderState)
 	{
-		this.isChild = entity.isBaby();
+		super.setAngles(renderState);
+
+		this.isChild = renderState.baby;
+		float headPitch = renderState.pitch;
+		float netHeadYaw = renderState.yawDegrees;
+		float limbSwing = renderState.limbFrequency;
+		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
 
 		this.head.pitch = headPitch * ((float)Math.PI / 180F); this.tusk.pitch = headPitch * ((float)Math.PI / 180F);
 		this.head.yaw = netHeadYaw * ((float)Math.PI / 180F); this.tusk.yaw = netHeadYaw * ((float)Math.PI / 180F);

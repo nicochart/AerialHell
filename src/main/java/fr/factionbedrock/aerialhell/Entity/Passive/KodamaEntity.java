@@ -72,20 +72,21 @@ public class KodamaEntity extends AerialHellAnimalEntity
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return AerialHellAnimalEntity.createLivingAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 30.0D)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.26);
+                .add(EntityAttributes.MAX_HEALTH, 30.0D)
+                .add(EntityAttributes.FOLLOW_RANGE, 16.0D)
+                .add(EntityAttributes.TEMPT_RANGE, 10.0D)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.26);
     }
 
-    @Override public boolean damage(DamageSource damageSource, float amount)
+    @Override public boolean damage(ServerWorld serverWorld, DamageSource damageSource, float amount)
     {
         this.timeForceInvisible = getMaxTimeForceInvisible();
-        return super.damage(damageSource, amount);
+        return super.damage(serverWorld, damageSource, amount);
     }
 
     @Nullable @Override public PassiveEntity createChild(ServerWorld serverWorld, PassiveEntity mob)
     {
-        return AerialHellEntities.KODAMA.create(this.getWorld());
+        return AerialHellEntities.KODAMA.create(this.getWorld(), SpawnReason.BREEDING);
     }
 
     public int getFaceId() {return this.getDataTracker().get(FACE_ID);}

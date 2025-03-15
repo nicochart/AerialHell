@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:raw_ruby"
-    }
+    "#": "aerialhell:raw_ruby"
   },
   "result": {
     "id": "aerialhell:raw_ruby_block"

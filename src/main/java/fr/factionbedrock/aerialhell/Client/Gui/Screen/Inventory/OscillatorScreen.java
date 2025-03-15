@@ -2,14 +2,11 @@ package fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Inventory.Menu.OscillatorMenu;
-
-import net.minecraft.client.gui.screen.ingame.AbstractFurnaceScreen;
-import net.minecraft.client.gui.screen.recipebook.FurnaceRecipeBookScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class OscillatorScreen extends AbstractFurnaceScreen<OscillatorMenu>
+public class OscillatorScreen extends FurnaceLikeScreen<OscillatorMenu>
 {
 	private static final Identifier OSCILLATOR_GUI_TEXTURES = AerialHell.id("textures/gui/container/oscillator.png");
 	private static final Identifier LIT_PROGRESS_SPRITE =  AerialHell.id("container/oscillator/oscillating_progress");
@@ -17,6 +14,6 @@ public class OscillatorScreen extends AbstractFurnaceScreen<OscillatorMenu>
 
 	public OscillatorScreen(OscillatorMenu container, PlayerInventory inventory, Text name)
 	{
-		super(container, new FurnaceRecipeBookScreen(), inventory, name, OSCILLATOR_GUI_TEXTURES, LIT_PROGRESS_SPRITE, OSCILLATING_PROGRESS_SPRITE);
+		super(container, inventory, name, OSCILLATOR_GUI_TEXTURES, LIT_PROGRESS_SPRITE, OSCILLATING_PROGRESS_SPRITE);
 	}
 }

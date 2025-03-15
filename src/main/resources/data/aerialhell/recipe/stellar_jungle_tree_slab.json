@@ -4,9 +4,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:stellar_jungle_tree_planks"
-    }
+    "#": "aerialhell:stellar_jungle_tree_planks"
   },
   "result": {
     "id": "aerialhell:stellar_jungle_tree_slab",

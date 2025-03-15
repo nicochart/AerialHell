@@ -1,17 +1,16 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.MudCycleMageRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.math.MathHelper;
 
 // Made by Cixon with Blockbench
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class MudCycleMageModel extends EntityModel<MobEntity>
+public class MudCycleMageModel extends EntityModel<MudCycleMageRenderState>
 {
 	private final ModelPart head;
 	private final ModelPart body;
@@ -20,7 +19,9 @@ public class MudCycleMageModel extends EntityModel<MobEntity>
 	private final ModelPart rightLeg;
 	private final ModelPart leftLeg;
 
-	public MudCycleMageModel(ModelPart root) {
+	public MudCycleMageModel(ModelPart root)
+	{
+		super(root);
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
 		this.leftArm = root.getChild("leftArm");
@@ -58,11 +59,17 @@ public class MudCycleMageModel extends EntityModel<MobEntity>
 	}
 
 	@Override
-	public void setAngles(MobEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setAngles(MudCycleMageRenderState renderState)
+	{
+		float headPitch = renderState.pitch;
+		float netHeadYaw = renderState.yawDegrees;
+		float limbSwing = renderState.limbFrequency;
+		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+
 		this.head.yaw = netHeadYaw / 57.0F;
 		this.head.pitch = headPitch / 57.0F;
 
-		if (entity instanceof MudCycleMageEntity boss && boss.isInDeadOrDyingPhase())
+		if (renderState.deadOrDyingPhase)
 		{
 			this.rightArm.pitch = - 1.5F;
 			this.leftArm.pitch = - 1.5F;

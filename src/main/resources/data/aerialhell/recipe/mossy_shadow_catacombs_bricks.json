@@ -1,12 +1,8 @@
 {
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
-        {
-            "item": "aerialhell:shadow_catacombs_bricks"
-        },
-        {
-            "item": "minecraft:vine"
-        }
+        "aerialhell:shadow_catacombs_bricks",
+        "minecraft:vine"
     ],
     "result": {
         "id": "aerialhell:mossy_shadow_catacombs_bricks",

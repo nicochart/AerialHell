@@ -18,10 +18,10 @@ public class VerdigrisZombieEntity extends AerialHellHostileEntity
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0D)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23D)
-        		.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0D);
+                .add(EntityAttributes.MAX_HEALTH, 40.0D)
+                .add(EntityAttributes.ATTACK_DAMAGE, 5.0D)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.23D)
+        		.add(EntityAttributes.FOLLOW_RANGE, 35.0D);
     }
     
     @Override protected SoundEvent getAmbientSound(){return SoundEvents.ENTITY_ZOMBIE_AMBIENT;}

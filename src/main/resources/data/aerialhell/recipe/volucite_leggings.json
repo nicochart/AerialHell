@@ -6,9 +6,7 @@
     "X X"
   ],
   "key": {
-    "X": {
-      "item": "aerialhell:volucite_vibrant"
-    }
+    "X": "aerialhell:volucite_vibrant"
   },
   "result": {
     "id": "aerialhell:volucite_leggings"

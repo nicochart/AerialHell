@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.MudGolemRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 //Made by Cixon using BlockBench
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class MudGolemModel<T extends AerialHellGolemEntity> extends EntityModel<T>
+public class MudGolemModel extends EntityModel<MudGolemRenderState>
 {
 	private final ModelPart head;
 	private final ModelPart body;
@@ -21,6 +21,7 @@ public class MudGolemModel<T extends AerialHellGolemEntity> extends EntityModel<
 
 	public MudGolemModel(ModelPart root)
 	{
+		super(root);
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
 		this.left_arm = root.getChild("left_arm");
@@ -50,12 +51,17 @@ public class MudGolemModel<T extends AerialHellGolemEntity> extends EntityModel<
 		return TexturedModelData.of(meshdefinition, 128, 128);
 	}
 
-	@Override public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(MudGolemRenderState renderState)
 	{
+		float headPitch = renderState.pitch;
+		float netHeadYaw = renderState.yawDegrees;
+		float limbSwing = renderState.limbFrequency;
+		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+
 		this.head.yaw = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.pitch = headPitch * ((float)Math.PI / 180F);
 
-		int i = entity.attackTimer;
+		int i = renderState.attackTimer;
 		if (i > 0)
 		{
 			this.left_arm.pitch = -2.0F + 0.6F * MathHelper.wrap((float)i, 10.0F);

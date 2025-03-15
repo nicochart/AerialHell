@@ -6,12 +6,8 @@
     "W#W"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "W": {
-      "item": "aerialhell:golden_beech_planks"
-    }
+    "#": "aerialhell:sky_stick",
+    "W": "aerialhell:golden_beech_planks"
   },
   "result": {
     "id": "aerialhell:golden_beech_fence",

@@ -9,6 +9,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class VoluciteShurikenEntity extends AbstractShurikenEntity
@@ -21,19 +22,19 @@ public class VoluciteShurikenEntity extends AbstractShurikenEntity
 		this.ticksLiving = 0;
 	}
 
-	public VoluciteShurikenEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public VoluciteShurikenEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy, ItemStack itemStack)
 	{
-		super(AerialHellEntities.VOLUCITE_SHURIKEN, world, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+		super(AerialHellEntities.VOLUCITE_SHURIKEN, world, shooter, accelX, accelY, accelZ, velocity, inaccuracy, itemStack);
 	}
 
-	public VoluciteShurikenEntity(double x, double y, double z, World world)
+	public VoluciteShurikenEntity(double x, double y, double z, World world, ItemStack itemStack)
 	{
-		super(AerialHellEntities.VOLUCITE_SHURIKEN, x, y, z, world);
+		super(AerialHellEntities.VOLUCITE_SHURIKEN, x, y, z, world, itemStack);
 	}
 
-	public VoluciteShurikenEntity(LivingEntity shooter, World world)
+	public VoluciteShurikenEntity(LivingEntity shooter, World world, ItemStack itemStack)
 	{
-		super(AerialHellEntities.VOLUCITE_SHURIKEN, shooter, world);
+		super(AerialHellEntities.VOLUCITE_SHURIKEN, shooter, world, itemStack);
 	}
 
 	public VoluciteShurikenEntity(World world)

@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:freezing",
-  "ingredient": {
-    "item": "minecraft:lava_bucket"
-  },
+  "ingredient": "minecraft:lava_bucket",
   "result": {
     "id": "aerialhell:crystal_block"
   },

@@ -1,17 +1,16 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSlimeEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.CrystalSlimeRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
 
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
 
-public class CrystalSlimeModel extends EntityModel<CrystalSlimeEntity>
+public class CrystalSlimeModel extends EntityModel<CrystalSlimeRenderState>
 {
 	private final ModelPart cube;
 	private final ModelPart eye0;
@@ -23,6 +22,7 @@ public class CrystalSlimeModel extends EntityModel<CrystalSlimeEntity>
 
 	public CrystalSlimeModel(ModelPart root, boolean isGelAndCrystal)
 	{
+		super(root);
 		this.cube = root.getChild("cube");
 		this.eye0 = root.getChild("eye0");
 		this.eye1 = root.getChild("eye1");
@@ -60,7 +60,7 @@ public class CrystalSlimeModel extends EntityModel<CrystalSlimeEntity>
 		return TexturedModelData.of(meshdefinition, 64, 32);
 	}
 
-	@Override public void setAngles(CrystalSlimeEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {}
+	@Override public void setAngles(CrystalSlimeRenderState renderState) {}
 
 	@Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{

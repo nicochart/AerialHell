@@ -32,7 +32,7 @@ public class AerialHellCaveVinesPlantBlock extends CaveVinesBodyBlock
         else /*if (this == AerialHellBlocks.BLOSSOMING_VINES_PLANT)*/{return AerialHellItems.VINE_BLOSSOM;}
     }
 
-    @Override public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {return new ItemStack(this.getBerryItem());}
+    @Override public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state, boolean includeData) {return new ItemStack(this.getBerryItem());}
 
     @Override public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit)
     {

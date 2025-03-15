@@ -29,9 +29,9 @@ public class EvilCowEntity extends AerialHellHostileEntity
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.20000000298023224D)
-        		.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0D);
+                .add(EntityAttributes.MAX_HEALTH, 20.0D)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.20000000298023224D)
+        		.add(EntityAttributes.ATTACK_DAMAGE, 3.0D);
     }
     
     @Override
@@ -57,7 +57,7 @@ public class EvilCowEntity extends AerialHellHostileEntity
                 filledBucket = ItemUsage.exchangeStack(itemstack, player, AerialHellItems.RUBY_BUCKET.getDefaultStack());
             }
             player.setStackInHand(hand, filledBucket);
-            return ActionResult.success(this.getWorld().isClient);
+            return ActionResult.SUCCESS;
         }
         else {return super.interactMob(player, hand);}
     }

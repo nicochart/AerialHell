@@ -3,13 +3,14 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.ChestMimicModel;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.ChestMimicRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AbstractChestMimicEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
-import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.util.Identifier;
 
-public class ChestMimicRender<T extends AbstractChestMimicEntity> extends MobEntityRenderer<T, ChestMimicModel<T>>
+public class ChestMimicRender<T extends AbstractChestMimicEntity> extends MobEntityRenderer<T, ChestMimicRenderState, ChestMimicModel>
 {	
 	private static final Identifier OVERWORLD_TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/chest_mimic/overworld.png");
 	private static final Identifier AERIAL_TREE_TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/chest_mimic/aerial_tree.png");
@@ -22,7 +23,16 @@ public class ChestMimicRender<T extends AbstractChestMimicEntity> extends MobEnt
 		super(context, new ChestMimicModel(context.getPart(AerialHellModelLayers.CHEST_MIMIC)), 1.0F);
 	}
 
-	@Override
+	@Override public ChestMimicRenderState createRenderState() {return new ChestMimicRenderState();}
+
+	@Override public void updateRenderState(T entity, ChestMimicRenderState renderState, float f)
+	{
+		super.updateRenderState(entity, renderState, f);
+		renderState.texture = getTexture(entity);
+		renderState.mouthOpeningAmplitude = entity.mouthOpeningAmplitude;
+		renderState.mouthOpeningFrequencyMalus = entity.mouthOpeningFrequencyMalus;
+	}
+
 	public Identifier getTexture(T mimic)
 	{
 		if (mimic instanceof AerialTreeChestMimicEntity)
@@ -46,4 +56,6 @@ public class ChestMimicRender<T extends AbstractChestMimicEntity> extends MobEnt
 			return OVERWORLD_TEXTURE;
 		}
 	}
+
+	@Override public Identifier getTexture(ChestMimicRenderState renderState) {return renderState.texture;}
 }

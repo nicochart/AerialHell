@@ -4,9 +4,7 @@
     "FFF"
   ],
   "key": {
-    "F": {
-      "item": "aerialhell:sky_cactus_fiber"
-    }
+    "F": "aerialhell:sky_cactus_fiber"
   },
   "result": {
     "id": "minecraft:paper",

@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:oscillating",
-  "ingredient": {
-    "item": "aerialhell:raw_volucite"
-  },
+  "ingredient": "aerialhell:raw_volucite",
   "result": {
     "id": "aerialhell:volucite_vibrant"
   },

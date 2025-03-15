@@ -50,9 +50,9 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 	public AbstractBossEntity(EntityType<? extends HostileEntity> type, World world) {super(type, world);}
 
-	@Override public boolean damage(DamageSource source, float amount)
+	@Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
 	{
-		boolean flag = this.bossHurt(source, amount);
+		boolean flag = this.bossHurt(serverWorld, source, amount);
 		if (flag)
 		{
 			if (source.isOf(DamageTypes.GENERIC_KILL) || source.isOf(DamageTypes.OUT_OF_WORLD)) {}
@@ -64,9 +64,9 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	}
 
 	//copy of net.minecraft.world.entity.LivingEntity damage(DamageSource source, float amount) method, removing everything non-related to my bosses, and calling other methods, allowing customization in my inheriting classes
-	public boolean bossHurt(DamageSource source, float amount)
+	public boolean bossHurt(ServerWorld serverWorld, DamageSource source, float amount)
 	{
-		if (this.isInvulnerableTo(source) || this.getWorld().isClient || this.isDead()) {return false;}
+		if (this.isInvulnerableTo(serverWorld, source) || this.getWorld().isClient || this.isDead()) {return false;}
 		else if (source.isIn(DamageTypeTags.IS_FIRE) && this.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {return false;}
 		else
 		{
@@ -76,7 +76,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 			this.limbAnimator.setSpeed(1.5F);
 
 			boolean wasOnHurtCooldown = (float)this.timeUntilRegen > 10.0F && !source.isIn(DamageTypeTags.BYPASSES_COOLDOWN);
-			boolean actuallyGotHurt = tryActuallyHurt(source, amount);
+			boolean actuallyGotHurt = tryActuallyHurt(serverWorld, source, amount);
 
 			if (!actuallyGotHurt) {return false;}
 			//we know this got hurt
@@ -106,7 +106,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		}
 	}
 
-	public boolean tryActuallyHurt(DamageSource damageSource, float amount) //returns true if the entity is actually hurt
+	public boolean tryActuallyHurt(ServerWorld serverWorld, DamageSource damageSource, float amount) //returns true if the entity is actually hurt
 	{
 		boolean isOnHurtCooldown = (float)this.timeUntilRegen > 10.0F;
 		boolean shouldDamageBeReducedDueToHurtCooldown = isOnHurtCooldown && !damageSource.isIn(DamageTypeTags.BYPASSES_COOLDOWN);
@@ -117,7 +117,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 			float reducedAmount = amount - this.lastDamageTaken;
 			if (reducedAmount <= 0) {return false;}
 
-			this.applyDamage(damageSource, reducedAmount);
+			this.applyDamage(serverWorld, damageSource, reducedAmount);
 			this.lastDamageTaken = amount;
 			return true;
 		}
@@ -125,7 +125,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		{
 			this.lastDamageTaken = amount;
 			this.timeUntilRegen = 20;
-			this.applyDamage(damageSource, amount);
+			this.applyDamage(serverWorld, damageSource, amount);
 			this.maxHurtTime = 10;
 			this.hurtTime = this.maxHurtTime;
 			return true;
@@ -359,9 +359,9 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	      this.bossInfo.setName(this.getDisplayName());
 	}
 
-	@Override protected void mobTick()
+	@Override protected void mobTick(ServerWorld serverWorld)
 	{
-		super.mobTick();
+		super.mobTick(serverWorld);
 		this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
 	}
 
@@ -382,15 +382,15 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 	@Override public boolean startRiding(Entity entity, boolean p_19967_)
 	{
-		if (entity instanceof BoatEntity boat)
+		if (entity instanceof BoatEntity boat && this.getWorld() instanceof ServerWorld serverWorld)
 		{
 			//Copy of net.minecraft.entity.vehicle.VehicleEntity.killAndDropItem(Item item) {..}
-			entity.kill();
-			if (this.getWorld().getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS))
+			entity.kill(serverWorld);
+			if (serverWorld.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS))
 			{
 				ItemStack itemstack = new ItemStack(boat.asItem());
 				itemstack.set(DataComponentTypes.CUSTOM_NAME, this.getCustomName());
-				this.dropStack(itemstack);
+				this.dropStack(serverWorld, itemstack);
 			}
 		}
 		return false;
@@ -451,7 +451,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	{
 		if (this.getTrophy() != null)
 		{
-			if (this.getRandom().nextInt(10) == 0) {this.dropItem(this.getTrophy());}
+			if (this.getRandom().nextInt(10) == 0) {this.dropItem(world, this.getTrophy());}
 		}
 	}
 

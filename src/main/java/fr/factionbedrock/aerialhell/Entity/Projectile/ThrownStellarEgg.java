@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.particle.ItemStackParticleEffect;
@@ -17,8 +18,8 @@ import net.minecraft.world.biome.Biome;
 public class ThrownStellarEgg extends ThrownItemEntity
 {
     public ThrownStellarEgg(EntityType<? extends ThrownStellarEgg> type, World world) {super(type, world);}
-    public ThrownStellarEgg(World world, LivingEntity shooter) {super(AerialHellEntities.THROWN_STELLAR_EGG, shooter, world);}
-    public ThrownStellarEgg(World world, double x, double y, double z) {super(AerialHellEntities.THROWN_STELLAR_EGG, x, y, z, world);}
+    public ThrownStellarEgg(World world, LivingEntity shooter) {super(AerialHellEntities.THROWN_STELLAR_EGG, shooter, world, AerialHellItems.STELLAR_EGG.getDefaultStack());}
+    public ThrownStellarEgg(World world, double x, double y, double z) {super(AerialHellEntities.THROWN_STELLAR_EGG, x, y, z, world, AerialHellItems.STELLAR_EGG.getDefaultStack());}
 
     @Override public void handleStatus(byte p_37484_) //copied from EggEntity
     {
@@ -34,7 +35,7 @@ public class ThrownStellarEgg extends ThrownItemEntity
     @Override protected void onEntityHit(EntityHitResult entityHitResult) //copied from EggEntity
     {
         super.onEntityHit(entityHitResult);
-        entityHitResult.getEntity().damage(this.getDamageSources().thrown(this, this.getOwner()), 0.0F);
+        entityHitResult.getEntity().serverDamage(this.getDamageSources().thrown(this, this.getOwner()), 0.0F);
     }
 
     @Override protected void onCollision(HitResult hitResult) //copied from EggEntity, replacing Chicken with StellarChicken
@@ -49,7 +50,7 @@ public class ThrownStellarEgg extends ThrownItemEntity
 
                 for(int j = 0; j < i; ++j)
                 {
-                    StellarChickenEntity chicken = AerialHellEntities.STELLAR_CHICKEN.create(this.getWorld());
+                    StellarChickenEntity chicken = AerialHellEntities.STELLAR_CHICKEN.create(this.getWorld(), SpawnReason.TRIGGERED);
                     if (chicken != null)
                     {
                         chicken.setBreedingAge(-24000);

@@ -18,7 +18,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -26,10 +26,10 @@ import net.minecraft.world.World;
 public class BerserkAxeItem extends EffectAxeItem
 {
 	private int weight_ticks;
-	
-	public BerserkAxeItem(ToolMaterial toolMaterial, Item.Settings settings)
+
+	public BerserkAxeItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, Settings settings)
 	{
-		super(toolMaterial, settings);
+		super(toolMaterial, attackDamage, attackSpeed, 0.0F, 0.0F, settings);
 		this.weight_ticks = 0;
 	}
 	
@@ -70,7 +70,7 @@ public class BerserkAxeItem extends EffectAxeItem
 	}
 	
 	@Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
+    public ActionResult use(World world, PlayerEntity player, Hand hand)
     {
 		ItemStack heldItem = player.getStackInHand(hand);
 		Random rand = new Random();
@@ -91,9 +91,9 @@ public class BerserkAxeItem extends EffectAxeItem
 			player.setVelocity(player.getVelocity().add(forward));
 		}
 
-		player.getItemCooldownManager().set(this, cooldown);
+		player.getItemCooldownManager().set(heldItem, cooldown);
 		heldItem.damage(1, player, LivingEntity.getSlotForHand(hand));
-        return TypedActionResult.consume(heldItem);
+        return ActionResult.CONSUME;
 	}
 	
 	@Override
@@ -162,6 +162,4 @@ public class BerserkAxeItem extends EffectAxeItem
 	{
 		ItemHelper.appendBerserkAxeItemTooltip(this.getTranslationKey(), tooltip, Integer.toString(getStatus()));
 	}
-
-	@Override public boolean canRepair(ItemStack stack, ItemStack ingredient) {return false;}
 }

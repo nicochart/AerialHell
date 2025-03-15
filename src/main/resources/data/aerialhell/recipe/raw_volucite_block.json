@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:raw_volucite"
-    }
+    "#": "aerialhell:raw_volucite"
   },
   "result": {
     "id": "aerialhell:raw_volucite_block"

@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "wooden_button",
   "ingredients": [
-    {
-      "item": "aerialhell:sky_cactus_fiber_planks"
-    }
+    "aerialhell:sky_cactus_fiber_planks"
   ],
   "result": {
     "id": "aerialhell:sky_cactus_fiber_button"

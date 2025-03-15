@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:oscillating",
-  "ingredient": {
-    "item": "aerialhell:raw_ruby"
-  },
+  "ingredient": "aerialhell:raw_ruby",
   "result": {
     "id": "aerialhell:ruby"
   },

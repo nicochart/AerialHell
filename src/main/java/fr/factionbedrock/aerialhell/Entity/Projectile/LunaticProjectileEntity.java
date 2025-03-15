@@ -50,10 +50,10 @@ public class LunaticProjectileEntity extends AbstractLightProjectileEntity
         Entity target = result.getEntity();
         if (target != this.getOwner()) //target != projectile shooter (not working yet..)
         {
-        	target.damage(this.getDamageSources().thrown(this, getOwner()), 5);
+        	target.serverDamage(this.getDamageSources().thrown(this, getOwner()), 5);
             float amount = 4.0F;
             if (EntityHelper.isShadowEntity(target) || (target instanceof LivingEntity && EntityHelper.isLivingEntityVulnerable((LivingEntity) target))) {amount*=2;}
-            target.damage(AerialHellDamageTypes.getDamageSource(this.getWorld(), AerialHellDamageTypes.LUNATIC_PROJECTION), amount);
+            target.serverDamage(AerialHellDamageTypes.getDamageSource(this.getWorld(), AerialHellDamageTypes.LUNATIC_PROJECTION), amount);
             if (!targetIsImmuneToLunaticProjectileKb(target))
             {
             	target.addVelocity(this.getVelocity().x, 0.3D, this.getVelocity().z);

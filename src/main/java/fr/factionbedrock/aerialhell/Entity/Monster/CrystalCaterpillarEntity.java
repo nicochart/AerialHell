@@ -31,9 +31,9 @@ public class CrystalCaterpillarEntity extends AbstractCaterpillarEntity
 	public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 16.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23D)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 12.0D)
-        		.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0D);
+                .add(EntityAttributes.MAX_HEALTH, 16.0D)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.23D)
+                .add(EntityAttributes.FOLLOW_RANGE, 12.0D)
+        		.add(EntityAttributes.ATTACK_DAMAGE, 2.0D);
     }
 }

@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "wooden_button",
   "ingredients": [
-    {
-      "item": "aerialhell:aerial_tree_planks"
-    }
+    "aerialhell:aerial_tree_planks"
   ],
   "result": {
     "id": "aerialhell:aerial_tree_button"

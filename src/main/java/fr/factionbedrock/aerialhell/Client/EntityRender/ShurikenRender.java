@@ -1,21 +1,24 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.ShurikenRenderState;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.*;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 
-//see net.minecraft.client.renderer.entity ThrownItemRenderer
-public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRenderer<T>
+//see net.minecraft.client.render.entity.FlyingItemEntityRenderer
+public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRenderer<T, ShurikenRenderState>
 {
+	private final ItemModelManager itemModelResolver;
+
 	private static final Identifier IRON_SHURIKEN_TEXTURE = Identifier.of(AerialHell.MODID, "textures/item/iron_shuriken.png");
 	private static final Identifier GOLD_SHURIKEN_TEXTURE = Identifier.of(AerialHell.MODID, "textures/item/gold_shuriken.png");
 	private static final Identifier DIAMOND_SHURIKEN_TEXTURE = Identifier.of(AerialHell.MODID, "textures/item/diamond_shuriken.png");
@@ -32,28 +35,39 @@ public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRend
 	public ShurikenRender(EntityRendererFactory.Context context)
 	{
 		super(context);
+		this.itemModelResolver = context.getItemModelManager();
 	}
-	
-	@Override
-	public void render(T entityIn, float entityYaw, float partialTicks, MatrixStack matrix, VertexConsumerProvider bufferIn, int packedLightIn)
+
+	@Override public ShurikenRenderState createRenderState() {return new ShurikenRenderState();}
+
+	@Override public void updateRenderState(T entity, ShurikenRenderState renderState, float partialTick)
 	{
-		matrix.push();
-		
-		entityIn.shurikenZRot -= 4;
-		if (entityIn.shurikenZRot <= -360)
-		{
-			entityIn.shurikenZRot = 360;
-		}
-		matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entityIn.getYaw())); /*Vertical plane rotation*/
-		matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(- 90.0f - entityIn.prevPitch)); /*Pointing to forward*/
-		matrix.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(entityIn.shurikenZRot)); /*Horizontal plane rotation*/
-
-		MinecraftClient.getInstance().getItemRenderer().renderItem(entityIn.getStack(), ModelTransformationMode.GROUND, packedLightIn, OverlayTexture.DEFAULT_UV, matrix, bufferIn, entityIn.getWorld(), entityIn.getId());
-		matrix.pop();
-		super.render(entityIn, entityYaw, partialTicks, matrix, bufferIn, packedLightIn);
+		super.updateRenderState(entity, renderState, partialTick);
+		renderState.texture = getTexture(entity);
+		renderState.YRot = entity.getYaw();
+		renderState.pitchO = entity.prevPitch;
+		renderState.shurikenZRot = entity.shurikenZRot;
+		this.itemModelResolver.updateForNonLivingEntity(renderState.item, entity.getStack(), ModelTransformationMode.GROUND, entity);
 	}
 
-	@Override
+	@Override public void render(ShurikenRenderState renderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int packedLight)
+	{
+		matrixStack.push();
+
+		renderState.shurikenZRot -= 4;
+		if (renderState.shurikenZRot <= -360)
+		{
+			renderState.shurikenZRot = 360;
+		}
+		matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(renderState.YRot)); /*Vertical plane rotation*/
+		matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(- 90.0f - renderState.pitchO)); /*Pointing to forward*/
+		matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(renderState.shurikenZRot)); /*Horizontal plane rotation*/
+
+		renderState.item.render(matrixStack, vertexConsumerProvider, packedLight, OverlayTexture.DEFAULT_UV);
+		matrixStack.pop();
+		super.render(renderState, matrixStack, vertexConsumerProvider, packedLight);
+	}
+
 	public Identifier getTexture(T entity)
 	{
 		if (entity instanceof IronShurikenEntity) {return IRON_SHURIKEN_TEXTURE;}

@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:mud_bone"
-    }
+    "#": "aerialhell:mud_bone"
   },
   "result": {
     "id": "aerialhell:mud_bone_block"

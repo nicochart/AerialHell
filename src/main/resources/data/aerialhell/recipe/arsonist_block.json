@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:arsonist_ingot"
-    }
+    "#": "aerialhell:arsonist_ingot"
   },
   "result": {
     "id": "aerialhell:arsonist_block"

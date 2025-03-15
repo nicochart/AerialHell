@@ -5,9 +5,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:glaucophanite"
-    }
+    "#": "aerialhell:glaucophanite"
   },
   "result": {
     "id": "aerialhell:glaucophanite_wall",

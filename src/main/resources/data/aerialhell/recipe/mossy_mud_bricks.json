@@ -1,12 +1,8 @@
 {
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
-        {
-            "item": "aerialhell:mud_bricks"
-        },
-        {
-            "item": "minecraft:vine"
-        }
+        "aerialhell:mud_bricks",
+        "minecraft:vine"
     ],
     "result": {
         "id": "aerialhell:mossy_mud_bricks",

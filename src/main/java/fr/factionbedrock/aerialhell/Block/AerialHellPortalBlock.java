@@ -17,9 +17,7 @@ public class AerialHellPortalBlock extends CustomPortalBlock
     {
         if (random.nextInt(100) == 0)
         {
-            world.getProfiler().push("portal");
             world.playSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, AerialHellSoundEvents.BLOCK_AERIAL_HELL_PORTAL_AMBIENT, SoundCategory.BLOCKS, 0.6F, 0.9F + random.nextFloat() * 0.2F, false);
-            world.getProfiler().pop();
         }
 
         for(int i = 0; i < 4; ++i)

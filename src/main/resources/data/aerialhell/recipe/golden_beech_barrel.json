@@ -6,12 +6,8 @@
     "PSP"
   ],
   "key": {
-    "P": {
-      "item": "aerialhell:golden_beech_planks"
-    },
-    "S": {
-      "item": "aerialhell:golden_beech_slab"
-    }
+    "P": "aerialhell:golden_beech_planks",
+    "S": "aerialhell:golden_beech_slab"
   },
   "result": {
     "id": "aerialhell:golden_beech_barrel"

@@ -6,12 +6,8 @@
     "PSP"
   ],
   "key": {
-    "P": {
-      "item": "aerialhell:ghost_boat_planks"
-    },
-    "S": {
-      "item": "aerialhell:ghost_boat_slab"
-    }
+    "P": "aerialhell:ghost_boat_planks",
+    "S": "aerialhell:ghost_boat_slab"
   },
   "result": {
     "id": "aerialhell:ghost_boat_barrel"

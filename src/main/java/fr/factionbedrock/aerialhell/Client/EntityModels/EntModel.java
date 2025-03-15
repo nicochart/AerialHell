@@ -3,8 +3,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 // Made with Blockbench 4.9.2
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-import fr.factionbedrock.aerialhell.Entity.Monster.EntEntity;
-import net.minecraft.client.color.world.BiomeColors;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.EntRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.CrossbowPosing;
@@ -14,9 +13,9 @@ import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
 
-public class EntModel<T extends EntEntity> extends EntityModel<T>
+public class EntModel<S extends EntRenderState> extends EntityModel<S>
 {
-	Color biomeColor;
+	int biomeColor;
 	private final ModelPart head;
 	private final ModelPart headLeaves;
 	private final ModelPart body;
@@ -32,6 +31,7 @@ public class EntModel<T extends EntEntity> extends EntityModel<T>
 
 	public EntModel(ModelPart root)
 	{
+		super(root);
 		this.head = root.getChild("head");
 		this.headLeaves = root.getChild("headLeaves");
 		this.body = root.getChild("body");
@@ -108,21 +108,21 @@ public class EntModel<T extends EntEntity> extends EntityModel<T>
 		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
 
-	@Override public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(S renderState)
 	{
-		updateBiomeColors(entity);
+		biomeColor = renderState.color;
+		float headPitch = renderState.pitch;
+		float netHeadYaw = renderState.yawDegrees;
+		float limbSwing = renderState.limbFrequency;
+		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		float ageInTicks = renderState.age;
 
-		CrossbowPosing.meleeAttack(this.leftArm, this.rightArm, entity.isAttacking(), this.handSwingProgress, ageInTicks);
-		CrossbowPosing.meleeAttack(this.leftArmLeaves, this.rightArmLeaves, entity.isAttacking(), this.handSwingProgress, ageInTicks);
+		CrossbowPosing.meleeAttack(this.leftArm, this.rightArm, renderState.isAggressive, renderState.handSwingProgress, ageInTicks);
+		CrossbowPosing.meleeAttack(this.leftArmLeaves, this.rightArmLeaves, renderState.isAggressive, renderState.handSwingProgress, ageInTicks);
 		setupHeadAnim(this.head, netHeadYaw, headPitch);
 		setupHeadAnim(this.headLeaves, netHeadYaw, headPitch);
 		setupLegsAnim(this.leftLeg, this.rightLeg, limbSwing, limbSwingAmount);
 		setupLegsAnim(this.leftLegLeaves, this.rightLegLeaves, limbSwing, limbSwingAmount);
-	}
-
-	private void updateBiomeColors(T entity)
-	{
-		biomeColor = new Color(BiomeColors.getFoliageColor(entity.getWorld(), entity.getSteppingPos()));
 	}
 
 	private void setupHeadAnim(ModelPart part, float netHeadYaw, float headPitch)
@@ -142,16 +142,16 @@ public class EntModel<T extends EntEntity> extends EntityModel<T>
 	@Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
-		headLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor.getRGB());
+		headLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor);
 		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
-		bodyLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor.getRGB());
+		bodyLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor);
 		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
-		leftArmLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor.getRGB());
+		leftArmLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor);
 		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
-		rightArmLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor.getRGB());
+		rightArmLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor);
 		leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
-		leftLegLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor.getRGB());
+		leftLegLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor);
 		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
-		rightLegLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor.getRGB());
+		rightLegLeaves.render(poseStack, vertexConsumer, packedLight, packedOverlay, biomeColor);
 	}
 }

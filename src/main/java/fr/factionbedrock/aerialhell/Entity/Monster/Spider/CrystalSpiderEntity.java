@@ -28,10 +28,10 @@ public class CrystalSpiderEntity extends AbstractAerialHellSpiderEntity
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4)
-                .add(EntityAttributes.GENERIC_ARMOR, 0)
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 24);
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.25)
+                .add(EntityAttributes.ATTACK_DAMAGE, 4)
+                .add(EntityAttributes.ARMOR, 0)
+                .add(EntityAttributes.MAX_HEALTH, 24);
     }
     
     static class AttackGoal extends MeleeAttackGoal

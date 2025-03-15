@@ -19,6 +19,7 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.SmallFireballEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -49,15 +50,15 @@ public class TornSpiritEntity extends HostileEntity
 	public static DefaultAttributeContainer.Builder registerAttributes()
     {
 		return HostileEntity.createHostileAttributes()
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, 50.0D)
-				.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.33D)
-				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 17.0D);
+				.add(EntityAttributes.MAX_HEALTH, 50.0D)
+				.add(EntityAttributes.FOLLOW_RANGE, 24.0D)
+				.add(EntityAttributes.MOVEMENT_SPEED, 0.33D)
+				.add(EntityAttributes.ATTACK_DAMAGE, 17.0D);
     }
 	
-	@Override public boolean damage(DamageSource source, float amount)
+	@Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
 	{
-		boolean flag = super.damage(source, amount);
+		boolean flag = super.damage(serverWorld, source, amount);
 		if (flag)
 		{
 			if (source.getAttacker() instanceof LivingEntity  livingEntity && !(source.getSource() instanceof PersistentProjectileEntity))
@@ -142,7 +143,7 @@ public class TornSpiritEntity extends HostileEntity
 	               if (this.attackTime <= 0)
 	               {
 	                  this.attackTime = 20;
-	                  this.tornspirit.tryAttack(target);
+	                  this.tornspirit.tryAttack(getServerWorld(this.tornspirit), target);
 	               }
 
 	               this.tornspirit.getMoveControl().moveTo(target.getX(), target.getY(), target.getZ(), 2.0D);
@@ -201,7 +202,7 @@ public class TornSpiritEntity extends HostileEntity
 
 	     private double getFollowDistance()
 	     {
-	         return this.tornspirit.getAttributeValue(EntityAttributes.GENERIC_FOLLOW_RANGE);
+	         return this.tornspirit.getAttributeValue(EntityAttributes.FOLLOW_RANGE);
 	     }
 	}
 }

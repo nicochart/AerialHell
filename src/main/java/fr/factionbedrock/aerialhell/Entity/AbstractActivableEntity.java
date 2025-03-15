@@ -7,6 +7,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 
 public abstract class AbstractActivableEntity extends HostileEntity
@@ -32,9 +33,9 @@ public abstract class AbstractActivableEntity extends HostileEntity
 	public boolean isActive() {return this.getDataTracker().get(ACTIVE);}
 
 	@Override
-	public boolean damage(DamageSource source, float amount)
+	public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
 	{
-		boolean flag = super.damage(source, amount);
+		boolean flag = super.damage(serverWorld, source, amount);
 		if (flag)
 		{
 			this.setActive(true);

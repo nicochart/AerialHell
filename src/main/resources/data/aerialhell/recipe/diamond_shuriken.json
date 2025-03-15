@@ -5,12 +5,8 @@
     "S "
   ],
   "key": {
-    "#": {
-      "item": "minecraft:diamond"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "#": "minecraft:diamond",
+    "S": "minecraft:stick"
   },
   "result": {
     "id": "aerialhell:diamond_shuriken",

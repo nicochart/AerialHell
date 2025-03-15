@@ -22,7 +22,7 @@ public abstract class AbstractAerialHellFurnaceBlock extends AbstractFurnaceBloc
 
     @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type)
     {
-        return validateTicker(type, this.getTickerBlockEntity(), AbstractFurnaceBlockEntity::tick);
+        return validateTicker(world, type, this.getTickerBlockEntity());
     }
 
     @Override

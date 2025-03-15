@@ -3,9 +3,7 @@
   "category": "building",
   "group": "bark",
   "key": {
-    "#": {
-      "item": "aerialhell:shadow_pine_log"
-    }
+    "#": "aerialhell:shadow_pine_log"
   },
   "pattern": [
     "##",

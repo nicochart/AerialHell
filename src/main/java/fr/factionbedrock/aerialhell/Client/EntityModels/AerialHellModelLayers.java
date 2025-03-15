@@ -31,6 +31,8 @@ public class AerialHellModelLayers
     public static final EntityModelLayer SLIME_PIRATE = createEntityModelLayer("slime_pirate");
     public static final EntityModelLayer ENT = createEntityModelLayer("ent");
     public static final EntityModelLayer SNAKE = createEntityModelLayer("snake");
+    public static final EntityModelLayer STELLAR_CHICKEN = createEntityModelLayer("stellar_chicken");
+    public static final EntityModelLayer EMPTY = createEntityModelLayer("empty");
 
     public static final EntityModelLayer CORTINARIUS_COW_SHROOM = createEntityModelLayer( "cortinarius_cow_shroom", "shrooms");
     public static final EntityModelLayer CRYSTAL_GOLEM_CRYSTAL = createEntityModelLayer("crystal_golem_crystal", "crystals");

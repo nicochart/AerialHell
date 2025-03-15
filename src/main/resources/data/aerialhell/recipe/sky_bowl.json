@@ -5,9 +5,7 @@
     " # "
   ],
   "key": {
-    "#": {
-      "tag": "aerialhell:aerialhell_planks"
-    }
+    "#": "#aerialhell:aerialhell_planks"
   },
   "result": {
     "id": "aerialhell:sky_bowl",

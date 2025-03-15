@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "hanging_sign",
   "key": {
-    "#": {
-      "item": "aerialhell:stripped_giant_cortinarius_violaceus_stem"
-    },
-    "X": {
-      "item": "minecraft:chain"
-    }
+    "#": "aerialhell:stripped_giant_cortinarius_violaceus_stem",
+    "X": "minecraft:chain"
   },
   "pattern": [
     "X X",

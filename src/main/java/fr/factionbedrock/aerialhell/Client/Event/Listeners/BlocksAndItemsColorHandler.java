@@ -215,55 +215,6 @@ public class BlocksAndItemsColorHandler
         else {return ColorHandlerHelper.DEFAULT_COLOR.getRGB();}
     }
 
-    public static void handleItemColors()
-    {
-        ColorProviderRegistry.ITEM.register((stack, color) -> ColorHandlerHelper.AERIAL_HELL_PLAINS_GRASS_COLOR,
-                AerialHellItems.CHISELED_STELLAR_GRASS_BLOCK,
-                AerialHellItems.STELLAR_GRASS_BLOCK,
-                AerialHellItems.STELLAR_PODZOL,
-                AerialHellItems.STELLAR_GRASS,
-                AerialHellItems.STELLAR_TALL_GRASS,
-                AerialHellItems.STELLAR_GRASS_BALL,
-                AerialHellItems.STELLAR_FERN,
-                AerialHellItems.STELLAR_TALL_FERN,
-                AerialHellItems.STELLAR_VERY_TALL_GRASS,
-                AerialHellItems.STELLAR_CLOVERS,
-                AerialHellItems.STELLAR_ROOTS,
-                AerialHellItems.MOSSY_STELLAR_STONE,
-                AerialHellItems.MOSSY_STELLAR_COBBLESTONE,
-                AerialHellItems.MOSSY_STELLAR_STONE_WALL,
-                AerialHellItems.MOSSY_STELLAR_COBBLESTONE_WALL,
-                AerialHellItems.MOSSY_STELLAR_STONE_SLAB,
-                AerialHellItems.MOSSY_STELLAR_COBBLESTONE_SLAB,
-                AerialHellItems.MOSSY_STELLAR_STONE_STAIRS,
-                AerialHellItems.MOSSY_STELLAR_COBBLESTONE_STAIRS,
-                AerialHellItems.MOSSY_MUD_BRICKS,
-                AerialHellItems.MOSSY_MUD_BRICKS_WALL,
-                AerialHellItems.MOSSY_MUD_BRICKS_SLAB,
-                AerialHellItems.MOSSY_MUD_BRICKS_STAIRS,
-                AerialHellItems.MOSSY_SHADOW_CATACOMBS_BRICKS,
-                AerialHellItems.MOSSY_SHADOW_CATACOMBS_BRICKS_WALL,
-                AerialHellItems.MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB,
-                AerialHellItems.MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS
-        );
-
-        ColorProviderRegistry.ITEM.register((stack, color) -> new Color(92, 171, 102).getRGB(),
-                AerialHellItems.STELLAR_JUNGLE_TREE_LEAVES
-        );
-
-        ColorProviderRegistry.ITEM.register((stack, color) -> ColorHandlerHelper.SHADOW_BLACK,
-                AerialHellItems.SHADOW_GRASS_BLOCK
-        );
-
-        ColorProviderRegistry.ITEM.register((stack, color) -> getCustomColor(stack, color),
-                AerialHellItems.MUD_GLYPH_BLOCK,
-                AerialHellItems.LUNATIC_GLYPH_BLOCK,
-                AerialHellItems.GOLDEN_NETHER_PRISON_GLYPH_BLOCK,
-                AerialHellItems.VOLUCITE_GLYPH_BLOCK,
-                AerialHellItems.SHADOW_CATACOMBS_GLYPH_BLOCK
-        );
-    }
-
     private static int getCustomColor(ItemStack itemstack, int color)
     {
         if (itemstack.getItem() == AerialHellItems.MUD_GLYPH_BLOCK) {return ColorHandlerHelper.MUD_GLYPH_COLOR;}

@@ -7,6 +7,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 
 public class AutomatonEntity extends AerialHellHostileEntity
@@ -29,19 +30,19 @@ public class AutomatonEntity extends AerialHellHostileEntity
     }
 
     @Override
-    public boolean tryAttack(Entity entityIn)
+    public boolean tryAttack(ServerWorld serverWorld, Entity entityIn)
     {
-        boolean flag = super.tryAttack(entityIn);
+        boolean flag = super.tryAttack(serverWorld, entityIn);
         this.getWorld().sendEntityStatus(this, (byte)4);
         return flag;
     }
 
     @Override
-    public boolean damage(DamageSource source, float amount)
+    public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
     {
         Entity immediateSourceEntity = source.getSource();
         Entity trueSourceEntity = source.getAttacker();
-        boolean flag = super.damage(source, amount);
+        boolean flag = super.damage(serverWorld, source, amount);
         if (flag)
         {
             if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof PersistentProjectileEntity))

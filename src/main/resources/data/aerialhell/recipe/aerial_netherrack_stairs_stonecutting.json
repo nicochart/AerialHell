@@ -1,8 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "aerialhell:aerial_netherrack"
-  },
+  "ingredient": "aerialhell:aerial_netherrack",
   "result": {
     "count": 1,
     "id": "aerialhell:aerial_netherrack_stairs"

@@ -5,12 +5,8 @@
     "S "
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:volucite_vibrant"
-    },
-    "S": {
-      "item": "aerialhell:sky_stick"
-    }
+    "#": "aerialhell:volucite_vibrant",
+    "S": "aerialhell:sky_stick"
   },
   "result": {
     "id": "aerialhell:volucite_shuriken",

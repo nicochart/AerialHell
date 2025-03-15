@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.Layers;
 
 import fr.factionbedrock.aerialhell.Client.EntityModels.KodamaModel;
-import fr.factionbedrock.aerialhell.Entity.Passive.KodamaEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.KodamaRenderState;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -12,25 +12,23 @@ import net.minecraft.client.util.math.MatrixStack;
 
 import java.awt.*;
 
-public class KodamaSkinLayer<T extends KodamaEntity> extends FeatureRenderer<T, KodamaModel<T>>
+public class KodamaSkinLayer<S extends KodamaRenderState> extends FeatureRenderer<S, KodamaModel<S>>
 {
-   private final KodamaModel kodamaModel;
+   private final KodamaModel<S> kodamaModel;
 
-   public KodamaSkinLayer(FeatureRendererContext<T, KodamaModel<T>> layerParent, KodamaModel model)
+   public KodamaSkinLayer(FeatureRendererContext<S, KodamaModel<S>> layerParent, KodamaModel<S> model)
    {
       super(layerParent);
       this.kodamaModel = model;
    }
-   
-   @Override public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
+
+   @Override public void render(MatrixStack poseStack, VertexConsumerProvider bufferSource, int packedLight, S renderState, float yaw, float pitch)
    {
-      if (!entitylivingbaseIn.isInvisible())
+      if (!renderState.invisible)
       {
-         this.getContextModel().copyStateTo(this.kodamaModel);
-         this.kodamaModel.animateModel(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks);
-         this.kodamaModel.setAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-         VertexConsumer consumer = bufferIn.getBuffer(RenderLayer.getEntityTranslucent(this.getTexture(entitylivingbaseIn)));
-         this.kodamaModel.render(matrixStackIn, consumer, packedLightIn, LivingEntityRenderer.getOverlay(entitylivingbaseIn, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB());
+         this.kodamaModel.setAngles(renderState);
+         VertexConsumer consumer = bufferSource.getBuffer(RenderLayer.getEntityTranslucent(renderState.texture));
+         this.kodamaModel.render(poseStack, consumer, packedLight, LivingEntityRenderer.getOverlay(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB());
       }
    }
 }

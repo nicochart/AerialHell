@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.Passive.SandySheepEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.SandySheepRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 // Made by Cixon
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class SandySheepModel extends EntityModel<SandySheepEntity>
+public class SandySheepModel extends EntityModel<SandySheepRenderState>
 {
 	private final ModelPart head;
 	private final ModelPart body;
@@ -30,6 +30,7 @@ public class SandySheepModel extends EntityModel<SandySheepEntity>
 
 	public SandySheepModel(ModelPart root)
 	{
+		super(root);
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
 		this.rightFrontLeg = root.getChild("rightFrontLeg");
@@ -79,9 +80,14 @@ public class SandySheepModel extends EntityModel<SandySheepEntity>
 	}
 
 	@Override
-	public void setAngles(SandySheepEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	public void setAngles(SandySheepRenderState renderState)
 	{
-		this.hasWool = entity.hasWool(); this.isChild = entity.isBaby();
+		float headPitch = renderState.pitch;
+		float netHeadYaw = renderState.yawDegrees;
+		float limbSwing = renderState.limbFrequency;
+		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+
+		this.hasWool = renderState.hasWool; this.isChild = renderState.baby;
 
 		this.head.yaw = netHeadYaw / 57.29578F;
 		this.head.pitch = headPitch / 57.29578F;

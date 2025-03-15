@@ -12,6 +12,7 @@ import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 
 public class HellSpiderEntity extends AbstractAerialHellSpiderEntity
@@ -35,10 +36,10 @@ public class HellSpiderEntity extends AbstractAerialHellSpiderEntity
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5)
-                .add(EntityAttributes.GENERIC_ARMOR, 0)
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 32);
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.25)
+                .add(EntityAttributes.ATTACK_DAMAGE, 5)
+                .add(EntityAttributes.ARMOR, 0)
+                .add(EntityAttributes.MAX_HEALTH, 32);
     }
 
     @Override public void tick()
@@ -53,16 +54,16 @@ public class HellSpiderEntity extends AbstractAerialHellSpiderEntity
         return this.timeNoThorns < 0 || this.timeNoThorns > 45;
     }
 
-    @Override public boolean damage(DamageSource source, float amount)
+    @Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
     {
-        boolean flag = super.damage(source, amount);
+        boolean flag = super.damage(serverWorld, source, amount);
 
         if (flag && !source.isOf(DamageTypes.MAGIC) && source.getSource() instanceof LivingEntity livingentity)
         {
             boolean hasNoThorns = this.timeNoThorns > 0;
         	if (!hasNoThorns && !source.isOf(DamageTypes.EXPLOSION))
         	{
-        		livingentity.damage(this.getDamageSources().thorns(this), 2.0F);
+        		livingentity.damage(serverWorld, this.getDamageSources().thorns(this), 2.0F);
             }
             this.timeNoThorns = hasNoThorns ? 30 : 45;
         }

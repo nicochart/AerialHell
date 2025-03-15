@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "black_dye",
   "ingredients": [
-    {
-      "item": "aerialhell:ruby"
-    }
+    "aerialhell:ruby"
   ],
   "result": {
     "id": "minecraft:red_dye"

@@ -45,15 +45,16 @@ public class BoarEntity extends PigEntity
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return AbstractCaterpillarEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 10.0D)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0D);
+                .add(EntityAttributes.MAX_HEALTH, 20.0D)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.25D)
+                .add(EntityAttributes.FOLLOW_RANGE, 10.0D)
+                .add(EntityAttributes.TEMPT_RANGE, 10.0D)
+                .add(EntityAttributes.ATTACK_DAMAGE, 3.0D);
     }
 
     @Override public boolean canBeSaddled() {return false;}
 
-    @Override @Nullable public PigEntity createChild(ServerWorld serverWorld, PassiveEntity mob) {return AerialHellEntities.STELLAR_BOAR.create(serverWorld);}
+    @Override @Nullable public PigEntity createChild(ServerWorld serverWorld, PassiveEntity mob) {return AerialHellEntities.STELLAR_BOAR.create(serverWorld, SpawnReason.BREEDING);}
     @Override public boolean isBreedingItem(ItemStack stack) {return FOOD_ITEMS.test(stack);}
 
     public static boolean canSpawn(EntityType<? extends PigEntity> type, ServerWorldAccess world, SpawnReason reason, BlockPos pos, Random random)

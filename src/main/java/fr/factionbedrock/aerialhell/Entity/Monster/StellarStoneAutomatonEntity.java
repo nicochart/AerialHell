@@ -19,10 +19,10 @@ public class StellarStoneAutomatonEntity extends AutomatonEntity
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0D)
-                .add(EntityAttributes.GENERIC_ARMOR, 3.0D)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23D);
+                .add(EntityAttributes.MAX_HEALTH, 40.0D)
+                .add(EntityAttributes.ARMOR, 3.0D)
+                .add(EntityAttributes.ATTACK_DAMAGE, 5.0D)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.23D);
     }
 
     @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_STELLAR_STONE_AUTOMATON_ACTIVATION;}

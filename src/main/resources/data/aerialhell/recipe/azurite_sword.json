@@ -6,12 +6,8 @@
     "#"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "X": {
-      "item": "aerialhell:azurite_crystal"
-    }
+    "#": "aerialhell:sky_stick",
+    "X": "aerialhell:azurite_crystal"
   },
   "result": {
     "id": "aerialhell:azurite_sword"

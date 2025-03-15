@@ -1,16 +1,16 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class TornSpiritModel extends EntityModel<TornSpiritEntity>
+public class TornSpiritModel extends EntityModel<LivingEntityRenderState>
 {
 	private final ModelPart body;
 	private final ModelPart head;
@@ -19,6 +19,7 @@ public class TornSpiritModel extends EntityModel<TornSpiritEntity>
 
 	public TornSpiritModel(ModelPart root)
 	{
+		super(root);
 		this.body = root.getChild("body");
 		this.head = root.getChild("head");
 		this.rightArm = root.getChild("rightArm");
@@ -66,8 +67,13 @@ public class TornSpiritModel extends EntityModel<TornSpiritEntity>
 		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
 
-	@Override public void setAngles(TornSpiritEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(LivingEntityRenderState renderState)
 	{
+		float headPitch = renderState.pitch;
+		float netHeadYaw = renderState.yawDegrees;
+		float limbSwing = renderState.limbFrequency;
+		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+
 		this.head.yaw = netHeadYaw / 57.29578F;
 		this.head.pitch = headPitch / 57.29578F;
 

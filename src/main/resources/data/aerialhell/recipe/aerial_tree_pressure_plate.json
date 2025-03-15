@@ -5,9 +5,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:aerial_tree_planks"
-    }
+    "#": "aerialhell:aerial_tree_planks"
   },
   "result": {
     "id": "aerialhell:aerial_tree_pressure_plate"

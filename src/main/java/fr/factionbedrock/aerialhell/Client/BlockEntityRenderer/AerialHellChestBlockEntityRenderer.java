@@ -112,7 +112,7 @@ public class AerialHellChestBlockEntityRenderer<T extends ChestBlockEntity> exte
 		{
 			boolean notSingle = chestType != ChestType.SINGLE;
 			matrices.push();
-			float f = (blockState.get(ChestBlock.FACING)).asRotation();
+			float f = (blockState.get(ChestBlock.FACING)).getPositiveHorizontalDegrees();
 			matrices.translate(0.5F, 0.5F, 0.5F);
 			matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-f));
 			matrices.translate(-0.5F, -0.5F, -0.5F);
@@ -129,10 +129,10 @@ public class AerialHellChestBlockEntityRenderer<T extends ChestBlockEntity> exte
 			VertexConsumer vertexConsumer = materialAndRenderType.getSpriteIdentifier().getVertexConsumer(vertexConsumers, materialAndRenderType.getRenderType());
 			if (notSingle)
 			{
-				if (chestType == ChestType.LEFT) {this.render(matrices, vertexConsumer, this.doubleChestLeftLid, this.doubleChestLeftLatch, this.doubleChestLeftBase, openness, i, overlay);}
-				else {this.render(matrices, vertexConsumer, this.doubleChestRightLid, this.doubleChestRightLatch, this.doubleChestRightBase, openness, i, overlay);}
+				if (chestType == ChestType.LEFT) {this.render(matrices, vertexConsumer, this.doubleChestLeft, openness, i, overlay);}
+				else {this.render(matrices, vertexConsumer, this.doubleChestRight, openness, i, overlay);}
 			}
-			else {this.render(matrices, vertexConsumer, this.singleChestLid, this.singleChestLatch, this.singleChestBase, openness, i, overlay);}
+			else {this.render(matrices, vertexConsumer, this.singleChest, openness, i, overlay);}
 
 			matrices.pop();
 		}

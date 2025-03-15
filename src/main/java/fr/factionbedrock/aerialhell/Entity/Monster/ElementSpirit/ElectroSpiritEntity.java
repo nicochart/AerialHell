@@ -2,10 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit;
 
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LightningEntity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -26,7 +23,7 @@ public class ElectroSpiritEntity extends AbstractElementSpiritEntity
     {
     	if (this.getWorld() instanceof ServerWorld)
     	{
-    		LightningEntity lightningBolt = EntityType.LIGHTNING_BOLT.create(this.getWorld());
+    		LightningEntity lightningBolt = EntityType.LIGHTNING_BOLT.create(this.getWorld(), SpawnReason.TRIGGERED);
 			lightningBolt.setPos(this.getX(), this.getY(), this.getZ());
 			this.getWorld().spawnEntity(lightningBolt);
     	}

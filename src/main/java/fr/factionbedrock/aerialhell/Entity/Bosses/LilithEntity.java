@@ -18,6 +18,7 @@ import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
@@ -35,6 +36,7 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -72,21 +74,21 @@ public class LilithEntity extends AbstractBossEntity
 	public static DefaultAttributeContainer.Builder registerAttributes()
     {
 		return HostileEntity.createHostileAttributes()
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, 600.0D)
-				.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
-				.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.1D)
-				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D)
-				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 20.0D);
+				.add(EntityAttributes.MAX_HEALTH, 600.0D)
+				.add(EntityAttributes.FOLLOW_RANGE, 32.0D)
+				.add(EntityAttributes.MOVEMENT_SPEED, 0.3D)
+				.add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.1D)
+				.add(EntityAttributes.ATTACK_KNOCKBACK, 1.0D)
+				.add(EntityAttributes.ATTACK_DAMAGE, 20.0D);
     }
 	
-	@Override public boolean damage(DamageSource source, float amount)
+	@Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
 	{
 		Entity immediateSourceEntity = source.getSource();
 		Entity trueSourceEntity = source.getAttacker();
 		if (this.isTransforming() && !source.isSourceCreativePlayer() && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return false;}
 		if (this.getMaxHealth() < 2.5 * this.getHealth() && immediateSourceEntity instanceof PersistentProjectileEntity) {return false;}
-		boolean flag = super.damage(source, amount);
+		boolean flag = super.damage(serverWorld, source, amount);
 		if (flag)
 		{
 			if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof PersistentProjectileEntity))
@@ -426,10 +428,10 @@ public class LilithEntity extends AbstractBossEntity
 	
 	@Override public boolean isPushable() {return false;}
 	
-	@Override public boolean tryAttack(Entity target)
+	@Override public boolean tryAttack(ServerWorld serverWorld, Entity target)
 	{
 		this.getWorld().sendEntityStatus(this, (byte)4);
-		boolean flag = super.tryAttack(target);
+		boolean flag = super.tryAttack(serverWorld, target);
 		if (flag && target instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune((LivingEntity) target))
 		{
 			((LivingEntity) target).addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.VULNERABILITY, 40, 0));
@@ -537,7 +539,7 @@ public class LilithEntity extends AbstractBossEntity
 
 		@Override public Entity createEntity()
 		{
-			return AerialHellEntities.SHADOW_FLYING_SKULL.create(this.getGoalOwner().getWorld());
+			return AerialHellEntities.SHADOW_FLYING_SKULL.create(this.getGoalOwner().getWorld(), SpawnReason.MOB_SUMMONED);
 		}
 
 		@Override protected void setEntityPosToSummonPos(Entity entity) {entity.setPos(this.getGoalOwner().getX(), this.getGoalOwner().getY() + 1.0, this.getGoalOwner().getZ());}

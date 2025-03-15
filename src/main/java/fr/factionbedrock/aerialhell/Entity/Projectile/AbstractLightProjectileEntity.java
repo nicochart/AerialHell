@@ -22,7 +22,7 @@ public abstract class AbstractLightProjectileEntity extends ThrownEntity
 
     public AbstractLightProjectileEntity(EntityType<? extends AbstractLightProjectileEntity> type, LivingEntity shooter, World world)
     {
-        super(type, shooter, world);
+        super(type, shooter.getX(), shooter.getEyeY() - 0.1F, shooter.getZ(), world);
         this.setOwner(shooter);
     }
     @Override public void setVelocity(double x, double y, double z, float velocity, float inaccuracy)

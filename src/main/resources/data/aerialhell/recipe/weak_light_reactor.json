@@ -6,18 +6,10 @@
     "LLL"
   ],
   "key": {
-    "L": {
-      "item": "aerialhell:lunatic_stone"
-    },
-    "F": {
-      "item": "aerialhell:fluorite_block"
-    },
-    "O": {
-      "item": "aerialhell:oscillator"
-    },
-    "C": {
-      "item": "aerialhell:lunatic_crystal"
-    }
+    "L": "aerialhell:lunatic_stone",
+    "F": "aerialhell:fluorite_block",
+    "O": "aerialhell:oscillator",
+    "C": "aerialhell:lunatic_crystal"
   },
   "result": {
     "id": "aerialhell:weak_light_reactor"

@@ -6,12 +6,8 @@
     " #"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "X": {
-      "item": "aerialhell:lunatic_crystal"
-    }
+    "#": "aerialhell:sky_stick",
+    "X": "aerialhell:lunatic_crystal"
   },
   "result": {
     "id": "aerialhell:lunatic_axe"

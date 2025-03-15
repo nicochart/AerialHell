@@ -1,9 +1,7 @@
 {
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
-        {
-            "item": "aerialhell:aerial_berry"
-        }
+        "aerialhell:aerial_berry"
     ],
     "result": {
         "id": "aerialhell:aerial_berry_seeds",

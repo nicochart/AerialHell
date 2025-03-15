@@ -6,9 +6,7 @@
     "X X"
   ],
   "key": {
-    "X": {
-      "item": "aerialhell:magmatic_gel"
-    }
+    "X": "aerialhell:magmatic_gel"
   },
   "result": {
     "id": "aerialhell:magmatic_gel_leggings"

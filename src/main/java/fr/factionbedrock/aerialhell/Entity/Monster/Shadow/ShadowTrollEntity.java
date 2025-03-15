@@ -25,6 +25,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
 
@@ -51,17 +52,17 @@ public class ShadowTrollEntity extends HostileEntity
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 60.0F)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3F)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 12.0D)
-                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.3F);
+                .add(EntityAttributes.MAX_HEALTH, 60.0F)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.3F)
+                .add(EntityAttributes.FOLLOW_RANGE, 24.0D)
+                .add(EntityAttributes.ATTACK_DAMAGE, 12.0D)
+                .add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.3F);
     }
     
     @Override
-    public boolean tryAttack(Entity attackedEntity)
+    public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
     {
-    	if (super.tryAttack(attackedEntity))
+    	if (super.tryAttack(serverWorld, attackedEntity))
     	{
     		if (attackedEntity instanceof LivingEntity attackedLivingEntity)
             {

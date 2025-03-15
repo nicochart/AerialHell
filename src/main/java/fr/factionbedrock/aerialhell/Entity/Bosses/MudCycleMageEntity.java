@@ -10,6 +10,7 @@ import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -22,6 +23,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
@@ -58,27 +60,27 @@ public class MudCycleMageEntity extends AbstractBossEntity
 	public static DefaultAttributeContainer.Builder registerAttributes()
     {
 		return HostileEntity.createHostileAttributes()
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, 200.0D)
-				.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
-				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0D);
+				.add(EntityAttributes.MAX_HEALTH, 200.0D)
+				.add(EntityAttributes.FOLLOW_RANGE, 32.0D)
+				.add(EntityAttributes.MOVEMENT_SPEED, 0.25D)
+				.add(EntityAttributes.ATTACK_DAMAGE, 3.0D);
     }
 	
-	@Override public boolean damage(DamageSource source, float amount)
+	@Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
 	{
-		boolean flag = super.damage(source, amount);
+		boolean flag = super.damage(serverWorld, source, amount);
 		if (flag) {this.damageAmountSinceLastSummon += amount;}
 		return flag;
 	}
 
-	@Override public boolean tryActuallyHurt(DamageSource damageSource, float amount)
+	@Override public boolean tryActuallyHurt(ServerWorld serverWorld, DamageSource damageSource, float amount)
 	{
-		return this.getPhase() != BossPhase.DYING && super.tryActuallyHurt(damageSource, amount);
+		return this.getPhase() != BossPhase.DYING && super.tryActuallyHurt(serverWorld, damageSource, amount);
 	}
 
-	@Override public boolean tryAttack(Entity attackedEntity)
+	@Override public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
 	{
-		return !this.isInDeadOrDyingPhase() && super.tryAttack(attackedEntity);
+		return !this.isInDeadOrDyingPhase() && super.tryAttack(serverWorld, attackedEntity);
 	}
 
 	public boolean isHealthMatchForSecondPhase() {return this.getHealth() * 2 < this.getMaxHealth();}
@@ -172,7 +174,7 @@ public class MudCycleMageEntity extends AbstractBossEntity
 
 		protected MudSpectralSoldierEntity createMudSpectralSoldier()
 		{
-			MudSpectralSoldierEntity entity = AerialHellEntities.MUD_SPECTRAL_SOLDIER.create(this.getGoalOwner().getWorld());
+			MudSpectralSoldierEntity entity = AerialHellEntities.MUD_SPECTRAL_SOLDIER.create(this.getGoalOwner().getWorld(), SpawnReason.MOB_SUMMONED);
 			entity.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
 			entity.updateAttackType();
 			return entity;
@@ -180,12 +182,12 @@ public class MudCycleMageEntity extends AbstractBossEntity
 
 		protected MudSpectralGolemEntity createMudSpectralGolem()
 		{
-			return AerialHellEntities.MUD_SPECTRAL_GOLEM.create(this.getGoalOwner().getWorld());
+			return AerialHellEntities.MUD_SPECTRAL_GOLEM.create(this.getGoalOwner().getWorld(), SpawnReason.MOB_SUMMONED);
 		}
 
 		protected MudSpectralCycleMageEntity createClone()
 		{
-			MudSpectralCycleMageEntity entity = AerialHellEntities.MUD_SPECTRAL_CYCLE_MAGE.create(this.getGoalOwner().getWorld());
+			MudSpectralCycleMageEntity entity = AerialHellEntities.MUD_SPECTRAL_CYCLE_MAGE.create(this.getGoalOwner().getWorld(), SpawnReason.MOB_SUMMONED);
 			entity.setMaster(this.getMageGoalOwner());
 			return entity;
 		}

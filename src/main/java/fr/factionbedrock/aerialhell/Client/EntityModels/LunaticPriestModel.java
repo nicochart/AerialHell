@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.LunaticPriestRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class LunaticPriestModel extends EntityModel<LunaticPriestEntity>
+public class LunaticPriestModel extends EntityModel<LunaticPriestRenderState>
 {
 	private final ModelPart body;
 	private final ModelPart head;
@@ -21,6 +21,7 @@ public class LunaticPriestModel extends EntityModel<LunaticPriestEntity>
 
 	public LunaticPriestModel(ModelPart root)
 	{
+		super(root);
 		this.body = root.getChild("body");
 		this.head = root.getChild("head");
 		this.arm0 = root.getChild("arm0");
@@ -66,12 +67,17 @@ public class LunaticPriestModel extends EntityModel<LunaticPriestEntity>
 		return TexturedModelData.of(meshdefinition, 128, 64);
 	}
 
-	@Override public void setAngles(LunaticPriestEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(LunaticPriestRenderState renderState)
 	{
+		float headPitch = renderState.pitch;
+		float netHeadYaw = renderState.yawDegrees;
+		float limbSwing = renderState.limbFrequency;
+		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+
 		this.head.yaw = netHeadYaw / 57.29578F;
 		this.head.pitch = headPitch / 57.29578F;
 
-		int i = entity.attackTimer;
+		int i = renderState.attackTimer;
 		if (i > 0)
 		{
 			this.arm0.pitch = -2.0F + 0.6F * MathHelper.wrap((float)i, 10.0F);

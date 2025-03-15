@@ -6,7 +6,6 @@ import fr.factionbedrock.aerialhell.Client.Event.Listeners.RenderRegistrationLis
 import fr.factionbedrock.aerialhell.Client.Packet.ClientPayloadHandler;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSpecialEffects;
-import fr.factionbedrock.aerialhell.Registry.AerialHellFluids;
 import fr.factionbedrock.aerialhell.Registry.AerialHellWoodTypes;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
@@ -33,12 +32,12 @@ public class AerialHellClientSetup
         //NeoForge.EVENT_BUS.addListener(RenderListener::onRenderOverlayPost);
 
         BlocksAndItemsColorHandler.handleBlockColors();
-        BlocksAndItemsColorHandler.handleItemColors();
+        //BlocksAndItemsColorHandler.handleItemColors(); now done in ItemTintMixin
     }
 
     public static void registerDimensionRenderInfo()
     {
-        AerialHellDimensionSpecialEffects renderInfo = new AerialHellDimensionSpecialEffects(Float.NaN, false, DimensionEffects.SkyType.NONE, false, false);
+        AerialHellDimensionSpecialEffects renderInfo = new AerialHellDimensionSpecialEffects(Float.NaN, true, DimensionEffects.SkyType.NORMAL, false, false);
         DimensionRenderingRegistry.registerSkyRenderer(AerialHellDimensions.AERIAL_HELL_DIMENSION, renderInfo);
         DimensionRenderingRegistry.registerCloudRenderer(AerialHellDimensions.AERIAL_HELL_DIMENSION, new AerialHellDimensionSpecialEffects.AerialHellCloudRenderer());
     }

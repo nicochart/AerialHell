@@ -8,11 +8,11 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.equipment.ArmorMaterial;
+import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -22,11 +22,12 @@ import java.util.List;
 
 public class ShadowArmorItem extends ArmorItem
 {
-    public ShadowArmorItem(RegistryEntry<ArmorMaterial> material, ArmorItem.Type type, Item.Settings settings) {super(material, type, settings);}
+    private final EquipmentType type;
+    public ShadowArmorItem(ArmorMaterial material, EquipmentType type, Item.Settings settings) {super(material, type, settings); this.type = type;}
 
     @Override public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected)
     {
-        if (entity instanceof PlayerEntity playerEntity && this.type == ArmorItem.Type.CHESTPLATE)
+        if (entity instanceof PlayerEntity playerEntity && this.type == EquipmentType.CHESTPLATE)
         {
             if (ItemHelper.getItemInTagCount(playerEntity.getArmorItems(), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !world.isClient())
             {

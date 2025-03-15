@@ -1,8 +1,6 @@
 {
   "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "aerialhell:phantom_meat"
-  },
+  "ingredient": "aerialhell:phantom_meat",
   "result": {
     "id": "aerialhell:cooked_phantom_meat"
   },

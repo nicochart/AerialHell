@@ -16,12 +16,10 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -53,7 +51,7 @@ public class CrystalSlimeEntity extends MobEntity
 		this.goalSelector.add(2, new CrystalSlimeEntity.CrystalSlimeAttackGoal(this));
 		this.goalSelector.add(3, new CrystalSlimeEntity.CrystalSlimeRandomDirectionGoal(this));
 		this.goalSelector.add(5, new CrystalSlimeEntity.CrystalSlimeKeepOnJumpingGoal(this));
-		this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, (entity) -> Math.abs(entity.getY() - this.getY()) <= 4.0));
+		this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, (entity, serverWorld) -> Math.abs(entity.getY() - this.getY()) <= 4.0));
 		this.targetSelector.add(3, new ActiveTargetGoal<>(this, IronGolemEntity.class, true));
 	}
 
@@ -125,7 +123,7 @@ public class CrystalSlimeEntity extends MobEntity
 		if (this.isAlive() && this.isInAttackRange(livingEntity) && this.canSee(livingEntity))
 		{
 			DamageSource damagesource = this.getDamageSources().mobAttack(this);
-			if (livingEntity.damage(damagesource, this.getAttackDamage()))
+			if (this.getWorld() instanceof ServerWorld serverWorld && livingEntity.damage(serverWorld, damagesource, this.getAttackDamage()))
 			{
 				this.playSound(SoundEvents.ENTITY_SLIME_ATTACK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
 				if (this.getWorld() instanceof ServerWorld serverlevel) {EnchantmentHelper.onTargetDamaged(serverlevel, livingEntity, damagesource);}
@@ -139,7 +137,7 @@ public class CrystalSlimeEntity extends MobEntity
 	}
 
 	protected boolean isDealsDamage() {return this.canMoveVoluntarily();}
-	protected float getAttackDamage() {return (float)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);}
+	protected float getAttackDamage() {return (float)this.getAttributeValue(EntityAttributes.ATTACK_DAMAGE);}
 
 	@Override protected SoundEvent getHurtSound(DamageSource source) {return SoundEvents.ENTITY_SLIME_HURT_SMALL;}
 	@Override protected SoundEvent getDeathSound() {return SoundEvents.ENTITY_SLIME_DEATH_SMALL;}
@@ -161,10 +159,10 @@ public class CrystalSlimeEntity extends MobEntity
 	public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return SlimeEntity.createMobAttributes()
-        		.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4D)
-        		.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.4D)
-        		.add(EntityAttributes.GENERIC_MAX_HEALTH, 24.0D)
-        		.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D);
+        		.add(EntityAttributes.ATTACK_DAMAGE, 4D)
+        		.add(EntityAttributes.MOVEMENT_SPEED, 0.4D)
+        		.add(EntityAttributes.MAX_HEALTH, 24.0D)
+        		.add(EntityAttributes.FOLLOW_RANGE, 16.0D);
     }
 	
 	public static boolean canSpawn(EntityType<? extends CrystalSlimeEntity> type, ServerWorldAccess world, SpawnReason reason, BlockPos pos, Random random)
@@ -177,8 +175,6 @@ public class CrystalSlimeEntity extends MobEntity
 		this.setRemoved(reason);
 		//this.invalidateCaps();
 	}
-
-	@Override protected RegistryKey<LootTable> getLootTableId() {return this.getType().getLootTableId();}
 
 	public static class CrystalSlimeAttackGoal extends Goal
 	{
@@ -276,7 +272,7 @@ public class CrystalSlimeEntity extends MobEntity
 
 	static class CrystalSlimeMoveControl extends MoveControl
 	{
-		private float yRot;
+		private float yaw;
 		private int jumpDelay;
 		private final CrystalSlimeEntity slime;
 		private boolean isAggressive;
@@ -285,12 +281,12 @@ public class CrystalSlimeEntity extends MobEntity
 		{
 			super(entity);
 			this.slime = entity;
-			this.yRot = 180.0F * entity.getYaw() / (float) Math.PI;
+			this.yaw = 180.0F * entity.getYaw() / (float) Math.PI;
 		}
 
-		public void setDirection(float yRot, boolean isAgressive)
+		public void setDirection(float yaw, boolean isAgressive)
 		{
-			this.yRot = yRot;
+			this.yaw = yaw;
 			this.isAggressive = isAgressive;
 		}
 
@@ -302,7 +298,7 @@ public class CrystalSlimeEntity extends MobEntity
 
 		@Override public void tick()
 		{
-			this.entity.setYaw(this.wrapDegrees(this.entity.getYaw(), this.yRot, 90.0F));
+			this.entity.setYaw(this.wrapDegrees(this.entity.getYaw(), this.yaw, 90.0F));
 			this.entity.headYaw = this.entity.getYaw();
 			this.entity.bodyYaw = this.entity.getYaw();
 			if (this.state != MoveControl.State.MOVE_TO) {this.entity.setForwardSpeed(0.0F);}
@@ -311,7 +307,7 @@ public class CrystalSlimeEntity extends MobEntity
 				this.state = MoveControl.State.WAIT;
 				if (this.entity.isOnGround())
 				{
-					this.entity.setMovementSpeed((float)(this.speed * this.entity.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)));
+					this.entity.setMovementSpeed((float)(this.speed * this.entity.getAttributeValue(EntityAttributes.MOVEMENT_SPEED)));
 					if (this.jumpDelay-- <= 0)
 					{
 						this.jumpDelay = this.slime.getJumpDelay();
@@ -327,7 +323,7 @@ public class CrystalSlimeEntity extends MobEntity
 						this.entity.setMovementSpeed(0.0F);
 					}
 				}
-				else {this.entity.setMovementSpeed((float)(this.speed * this.entity.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)));}
+				else {this.entity.setMovementSpeed((float)(this.speed * this.entity.getAttributeValue(EntityAttributes.MOVEMENT_SPEED)));}
 			}
 		}
 	}

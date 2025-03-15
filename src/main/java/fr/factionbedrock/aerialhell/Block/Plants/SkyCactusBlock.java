@@ -39,7 +39,7 @@ public class SkyCactusBlock extends CactusBlock
 	{
 		if (EntityHelper.isImmuneToSkyCactusCollision(entity)) {return;}
 		Vec3d motion = entity.getVelocity();
-		entity.damage(world.getDamageSources().cactus(), 2.0F);
+		entity.serverDamage(world.getDamageSources().cactus(), 2.0F);
 		entity.setVelocity(motion.x, 1.0, motion.z);
 	}
 }

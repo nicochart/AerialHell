@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AbstractChestMimicEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.ChestMimicRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class ChestMimicModel<T extends AbstractChestMimicEntity> extends EntityModel<T>
+public class ChestMimicModel extends EntityModel<ChestMimicRenderState>
 {
 	private final ModelPart chestDown;
 	private final ModelPart chestUp;
@@ -19,6 +19,7 @@ public class ChestMimicModel<T extends AbstractChestMimicEntity> extends EntityM
 
 	public ChestMimicModel(ModelPart root)
 	{
+		super(root);
 		this.chestDown = root.getChild("chestDown");
 		this.chestUp = root.getChild("chestUp");
 		this.rightLeg = root.getChild("RightLeg");
@@ -59,9 +60,12 @@ public class ChestMimicModel<T extends AbstractChestMimicEntity> extends EntityM
 		return TexturedModelData.of(meshdefinition, 128, 64);
 		}
 
-	@Override public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(ChestMimicRenderState renderState)
 	{
-		this.chestUp.pitch = - entity.mouthOpeningAmplitude * MathHelper.sqrt(1.0F + MathHelper.cos(ageInTicks / entity.mouthOpeningFrequencyMalus * (float) Math.PI));
+		float limbSwing = renderState.limbFrequency;
+		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+
+		this.chestUp.pitch = - renderState.mouthOpeningAmplitude * MathHelper.sqrt(1.0F + MathHelper.cos(renderState.age / renderState.mouthOpeningFrequencyMalus * (float) Math.PI));
 		this.rightLeg.pitch = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
 		this.leftLeg.pitch = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
 		this.rightLeg.yaw = 0.0F;

@@ -8,7 +8,7 @@ mutable field net/minecraft/item/AxeItem STRIPPED_BLOCKS Ljava/util/Map;
 accessible field net/minecraft/entity/LivingEntity lastDamageSource Lnet/minecraft/entity/damage/DamageSource;
 accessible field net/minecraft/entity/LivingEntity lastDamageTime J
 accessible field net/minecraft/entity/LivingEntity lastDamageTaken F
-accessible method net/minecraft/entity/LivingEntity applyDamage (Lnet/minecraft/entity/damage/DamageSource;F)V
+#accessible method net/minecraft/entity/LivingEntity applyDamage (Lnet/minecraft/entity/damage/DamageSource;F)V
 
 #ZombieEntity
 accessible field net/minecraft/entity/mob/ZombieEntity BABY_SPEED_MODIFIER_ID Lnet/minecraft/util/Identifier;
@@ -23,30 +23,27 @@ accessible field net/minecraft/entity/mob/PhantomEntity SIZE Lnet/minecraft/enti
 accessible field net/minecraft/screen/CraftingScreenHandler context Lnet/minecraft/screen/ScreenHandlerContext;
 
 #ChestBlockEntityRenderer
-accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer BASE Ljava/lang/String;
-accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer LID Ljava/lang/String;
-accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer LATCH Ljava/lang/String;
-accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer singleChestLid Lnet/minecraft/client/model/ModelPart;
-accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer singleChestBase Lnet/minecraft/client/model/ModelPart;
-accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer singleChestLatch Lnet/minecraft/client/model/ModelPart;
-accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestLeftLid Lnet/minecraft/client/model/ModelPart;
-accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestLeftBase Lnet/minecraft/client/model/ModelPart;
-accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestLeftLatch Lnet/minecraft/client/model/ModelPart;
-accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestRightLid Lnet/minecraft/client/model/ModelPart;
-accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestRightBase Lnet/minecraft/client/model/ModelPart;
-accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestRightLatch Lnet/minecraft/client/model/ModelPart;
-accessible method net/minecraft/client/render/block/entity/ChestBlockEntityRenderer render (Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;Lnet/minecraft/client/model/ModelPart;Lnet/minecraft/client/model/ModelPart;Lnet/minecraft/client/model/ModelPart;FII)V
+accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestLeft Lnet/minecraft/client/render/block/entity/model/ChestBlockModel;
+accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestRight Lnet/minecraft/client/render/block/entity/model/ChestBlockModel;
+accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer singleChest Lnet/minecraft/client/render/block/entity/model/ChestBlockModel;
+accessible method net/minecraft/client/render/block/entity/ChestBlockEntityRenderer render (Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;Lnet/minecraft/client/render/block/entity/model/ChestBlockModel;FII)V
+
+#Used in AbstractBossEntity startRiding
+accessible method net/minecraft/entity/vehicle/AbstractBoatEntity asItem ()Lnet/minecraft/item/Item;
 
 #WoodType
 accessible method net/minecraft/block/WoodType register (Lnet/minecraft/block/WoodType;)Lnet/minecraft/block/WoodType;
 
 #WorldRenderer
-accessible field net/minecraft/client/render/WorldRenderer lightSkyBuffer Lnet/minecraft/client/gl/VertexBuffer;
+#accessible field net/minecraft/client/render/WorldRenderer lightSkyBuffer Lnet/minecraft/client/gl/VertexBuffer;
 
 #ServerWorld
 accessible field net/minecraft/server/world/ServerWorld worldProperties Lnet/minecraft/world/level/ServerWorldProperties; #used in SleepFinishMixin
 
 accessible field net/minecraft/client/gui/hud/InGameHud client Lnet/minecraft/client/MinecraftClient;
+
+#Used in most of entities model, for custom opacity or color render / baby scale / ..
+extendable method net/minecraft/client/model/Model render (Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;III)V
 
 #Used to handle projectile impact in mixins
 accessible method net/minecraft/entity/projectile/ProjectileEntity canHit (Lnet/minecraft/entity/Entity;)Z
@@ -58,3 +55,11 @@ accessible method net/minecraft/item/SmithingTemplateItem getNetheriteUpgradeEmp
 
 # Chorus Like plants
 accessible field net/minecraft/block/ChorusFlowerBlock plantBlock Lnet/minecraft/block/Block;
+
+#Used in Aerial Hell tools items
+accessible field net/minecraft/item/Item components Lnet/minecraft/component/ComponentMap;
+mutable field net/minecraft/item/Item components Lnet/minecraft/component/ComponentMap;
+accessible method net/minecraft/item/Item$Settings getValidatedComponents (Lnet/minecraft/text/Text;Lnet/minecraft/util/Identifier;)Lnet/minecraft/component/ComponentMap;
+
+#Used in LivingDamageMixin
+accessible method net/minecraft/entity/LivingEntity applyDamage (Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;F)V

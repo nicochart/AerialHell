@@ -14,7 +14,7 @@ import net.minecraft.util.Formatting;
 
 public class BossSpawnEggItem extends SpawnEggItem
 {
-	public BossSpawnEggItem(EntityType<? extends MobEntity> type, int primaryColor, int secondaryColor, Item.Settings settings) {super(type, primaryColor, secondaryColor, settings);}
+	public BossSpawnEggItem(EntityType<? extends MobEntity> type, Item.Settings settings) {super(type, settings);}
 	
 	@Override public boolean hasGlint(ItemStack stack) {return true;}
 	

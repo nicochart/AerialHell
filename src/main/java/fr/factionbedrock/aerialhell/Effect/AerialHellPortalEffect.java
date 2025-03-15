@@ -5,13 +5,14 @@ import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.server.world.ServerWorld;
 
 public class AerialHellPortalEffect extends StatusEffect
 {
     public AerialHellPortalEffect(StatusEffectCategory category, int liquidColor) {super(category, liquidColor);}
 
     @Override
-    public boolean applyUpdateEffect(LivingEntity livingIn, int amplifier)
+    public boolean applyUpdateEffect(ServerWorld serverWorld, LivingEntity livingIn, int amplifier)
     {
     	if (!EntityHelper.isLivingEntityInAerialHellPortal(livingIn) && !EntityHelper.isLivingEntityReadyToTeleport(livingIn))
         {

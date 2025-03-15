@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Mixin;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.block.BlockState;
@@ -34,10 +35,12 @@ public class BlockBreakingSpeedMixin
         //player mining a block that needs lunar tool
         if (blockstate != null && blockstate.isIn(AerialHellTags.Blocks.NEEDS_LUNAR_TOOL))
         {
-            if (ItemHelper.getItemMiningLevel(selectedItemStack.getItem()) < 4)
+            if (!BlockHelper.isItemCorrectForHarvesting(blockstate, selectedItemStack.getItem()))
             {
-                speed = Math.min(speed, 4.0F);
-                if (!player.getWorld().isClient()) {player.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 40, 0));}
+                if (blockstate.isOf(AerialHellBlocks.VOLUCITE_ORE) && !player.getWorld().isClient())
+                {
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 40, 0));
+                }
             }
         }
 

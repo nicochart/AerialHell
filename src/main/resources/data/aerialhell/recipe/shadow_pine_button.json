@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "wooden_button",
   "ingredients": [
-    {
-      "item": "aerialhell:shadow_pine_planks"
-    }
+    "aerialhell:shadow_pine_planks"
   ],
   "result": {
     "id": "aerialhell:shadow_pine_button"

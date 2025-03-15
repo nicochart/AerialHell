@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class NetheriteShurikenEntity extends AbstractShurikenEntity
@@ -16,19 +17,19 @@ public class NetheriteShurikenEntity extends AbstractShurikenEntity
 		super(entityTypeIn, world);
 	}
 
-	public NetheriteShurikenEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public NetheriteShurikenEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy, ItemStack itemStack)
 	{
-		super(AerialHellEntities.NETHERITE_SHURIKEN, world, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
+		super(AerialHellEntities.NETHERITE_SHURIKEN, world, shooter, accelX, accelY, accelZ, velocity, inaccuracy, itemStack);
 	}
 
-	public NetheriteShurikenEntity(double x, double y, double z, World world)
+	public NetheriteShurikenEntity(double x, double y, double z, World world, ItemStack itemStack)
 	{
-		super(AerialHellEntities.NETHERITE_SHURIKEN, x, y, z, world);
+		super(AerialHellEntities.NETHERITE_SHURIKEN, x, y, z, world, itemStack);
 	}
 
-	public NetheriteShurikenEntity(LivingEntity shooter, World world)
+	public NetheriteShurikenEntity(LivingEntity shooter, World world, ItemStack itemStack)
 	{
-		super(AerialHellEntities.NETHERITE_SHURIKEN, shooter, world);
+		super(AerialHellEntities.NETHERITE_SHURIKEN, shooter, world, itemStack);
 	}
 
 	public NetheriteShurikenEntity(World world)

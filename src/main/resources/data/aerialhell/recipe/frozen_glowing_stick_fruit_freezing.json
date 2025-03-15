@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:freezing",
-  "ingredient": {
-    "item": "aerialhell:glowing_stick_fruit"
-  },
+  "ingredient": "aerialhell:glowing_stick_fruit",
   "result": {
     "id": "aerialhell:frozen_glowing_stick_fruit"
   },

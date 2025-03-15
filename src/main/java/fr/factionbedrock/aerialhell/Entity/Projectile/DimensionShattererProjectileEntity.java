@@ -96,11 +96,11 @@ public class DimensionShattererProjectileEntity extends AbstractFireballEntity
 		else {this.discard();}
 	}
 
-	public void shootStraightForward(Entity shooter, float xRot, float yRot, float zRot, float velocity, float inaccuracy)
+	public void shootStraightForward(Entity shooter, float pitch, float yaw, float roll, float velocity, float inaccuracy)
 	{
-		float x = -MathHelper.sin(yRot * (float) (Math.PI / 180.0)) * MathHelper.cos(xRot * (float) (Math.PI / 180.0));
-		float y = -MathHelper.sin((xRot + zRot) * (float) (Math.PI / 180.0));
-		float z = MathHelper.cos(yRot * (float) (Math.PI / 180.0)) * MathHelper.cos(xRot * (float) (Math.PI / 180.0));
+		float x = -MathHelper.sin(yaw * (float) (Math.PI / 180.0)) * MathHelper.cos(pitch * (float) (Math.PI / 180.0));
+		float y = -MathHelper.sin((pitch + roll) * (float) (Math.PI / 180.0));
+		float z = MathHelper.cos(yaw * (float) (Math.PI / 180.0)) * MathHelper.cos(pitch * (float) (Math.PI / 180.0));
 		this.setVelocity(x, y, z, velocity, inaccuracy);
 	}
 

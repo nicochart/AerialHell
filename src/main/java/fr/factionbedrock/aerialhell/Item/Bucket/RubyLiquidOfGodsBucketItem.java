@@ -12,7 +12,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
@@ -29,17 +29,17 @@ public class RubyLiquidOfGodsBucketItem extends Item
         super(settings);
     }
 
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
+    public ActionResult use(World world, PlayerEntity user, Hand hand)
     {
         ItemStack itemstack = user.getStackInHand(hand);
         BlockHitResult blockhitresult = raycast(world, user, RaycastContext.FluidHandling.NONE);
         if (blockhitresult.getType() == HitResult.Type.MISS)
         {
-            return TypedActionResult.pass(itemstack);
+            return ActionResult.PASS;
         }
         else if (blockhitresult.getType() != HitResult.Type.BLOCK)
         {
-            return TypedActionResult.pass(itemstack);
+            return ActionResult.PASS;
         }
         else
         {
@@ -50,16 +50,16 @@ public class RubyLiquidOfGodsBucketItem extends Item
             {
                 if (this.tryPlaceContainedLiquid(user, world, blockpos1, blockhitresult))
                 {
-                    return TypedActionResult.success(!user.getAbilities().creativeMode ? new ItemStack(AerialHellItems.RUBY_BUCKET) : itemstack, world.isClient());
+                    return user.isInCreativeMode() ? ActionResult.SUCCESS : ActionResult.SUCCESS.withNewHandStack(new ItemStack(AerialHellItems.RUBY_BUCKET));
                 }
                 else
                 {
-                    return TypedActionResult.fail(itemstack);
+                    return ActionResult.FAIL;
                 }
             }
             else
             {
-                return TypedActionResult.fail(itemstack);
+                return ActionResult.FAIL;
             }
         }
     }

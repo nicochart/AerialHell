@@ -10,14 +10,13 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
@@ -29,7 +28,7 @@ public abstract class LiquidOfGodsFluid extends FlowableFluid
 
     @Override public Fluid getStill() {return AerialHellFluids.LIQUID_OF_THE_GODS_STILL;}
 
-    @Override protected boolean isInfinite(World world) {return false;}
+    @Override protected boolean isInfinite(ServerWorld world) {return false;}
 
     @Override protected void beforeBreakingBlock(WorldAccess world, BlockPos pos, BlockState state)
     {

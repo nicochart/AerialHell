@@ -4,9 +4,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:cracked_lunatic_stone"
-    }
+    "#": "aerialhell:cracked_lunatic_stone"
   },
   "result": {
     "id": "aerialhell:cracked_lunatic_stone_slab",

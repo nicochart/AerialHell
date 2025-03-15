@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:oscillating",
-  "ingredient": {
-    "item": "aerialhell:fluorite_ore"
-  },
+  "ingredient": "aerialhell:fluorite_ore",
   "result": {
     "id": "aerialhell:fluorite"
   },

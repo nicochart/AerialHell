@@ -6,12 +6,8 @@
     "##"
   ],
   "key": {
-    "#": {
-      "tag": "aerialhell:aerialhell_planks"
-    },
-    "@": {
-      "item": "aerialhell:ruby"
-    }
+    "#": "#aerialhell:aerialhell_planks",
+    "@": "aerialhell:ruby"
   },
   "result": {
     "id": "minecraft:smithing_table"

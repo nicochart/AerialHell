@@ -6,12 +6,8 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:ruby"
-    },
-    "B": {
-      "item": "aerialhell:aerial_berry"
-    }
+    "#": "aerialhell:ruby",
+    "B": "aerialhell:aerial_berry"
   },
   "result": {
     "id": "aerialhell:ruby_aerial_berry"

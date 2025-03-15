@@ -7,6 +7,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 
 import java.util.Set;
 
@@ -14,7 +15,7 @@ public class ShadowBind extends AerialHellEffect
 {
     public ShadowBind(StatusEffectCategory category, int liquidColor) {super(category, liquidColor);}
 
-    @Override public boolean applyUpdateEffect(LivingEntity livingEntity, int amplifier)
+    @Override public boolean applyUpdateEffect(ServerWorld serverWorld, LivingEntity livingEntity, int amplifier)
     {
         StatusEffectInstance instance = livingEntity.getStatusEffect(AerialHellMobEffects.SHADOW_BIND);
         if (instance != null)

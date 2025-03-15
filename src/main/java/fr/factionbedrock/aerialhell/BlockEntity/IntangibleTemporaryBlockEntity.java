@@ -52,7 +52,7 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
     @Override protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
     {
         super.readNbt(nbt, registryLookup);
-        RegistryWrapper<Block> blockGetter = this.getWorld() != null ? this.getWorld().createCommandRegistryWrapper(RegistryKeys.BLOCK) : Registries.BLOCK.getReadOnlyWrapper();
+        RegistryWrapper<Block> blockGetter = this.getWorld() != null ? this.getWorld().createCommandRegistryWrapper(RegistryKeys.BLOCK) : Registries.BLOCK;
         this.beforeState = NbtHelper.toBlockState(blockGetter, nbt.getCompound("beforeState"));
         this.tickCount = nbt.getInt("tickCount");
     }

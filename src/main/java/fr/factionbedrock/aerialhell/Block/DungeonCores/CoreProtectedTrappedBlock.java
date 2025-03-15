@@ -12,6 +12,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -39,7 +40,7 @@ public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 			if (!world.isClient())
 			{
 				EntityType<?> entityType = getEntity(this);
-				Entity creature = entityType.create(world);
+				Entity creature = entityType.create(world, SpawnReason.MOB_SUMMONED);
 				creature.updatePositionAndAngles(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, (rand.nextFloat() - 0.5F) * 180.0F, 0.0F);
 				if (this == AerialHellBlocks.TRAPPED_MUD_BRICKS || this == AerialHellBlocks.TRAPPED_LIGHT_MUD_BRICKS && entity instanceof MudSoldierEntity)
 				{

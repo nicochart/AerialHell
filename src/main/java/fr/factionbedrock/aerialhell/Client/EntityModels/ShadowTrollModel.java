@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.ShadowTrollRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class ShadowTrollModel extends EntityModel<ShadowTrollEntity>
+public class ShadowTrollModel extends EntityModel<ShadowTrollRenderState>
 {
 	private final ModelPart body;
 	private final ModelPart head;
@@ -24,6 +24,7 @@ public class ShadowTrollModel extends EntityModel<ShadowTrollEntity>
 
 	public ShadowTrollModel(ModelPart root, boolean isEyes)
 	{
+		super(root);
 		this.isEyes = isEyes;
 		this.body = root.getChild("body");
 		this.head = root.getChild("head");
@@ -94,14 +95,19 @@ public class ShadowTrollModel extends EntityModel<ShadowTrollEntity>
 	}
 
 	@Override
-	public void setAngles(ShadowTrollEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	public void setAngles(ShadowTrollRenderState renderState)
 	{
+		float headPitch = renderState.pitch;
+		float netHeadYaw = renderState.yawDegrees;
+		float limbSwing = renderState.limbFrequency;
+		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+
 		this.head.yaw = netHeadYaw / 57.3F;
 		this.head.pitch = headPitch / 57.3F;
 		this.eyes.yaw = netHeadYaw / 57.3F;
 		this.eyes.pitch = headPitch / 57.3F;
 
-		if (!entity.isDisappearing())
+		if (!renderState.isDisappearing)
 		{
 			this.rightArm.pitch = (-0.2F + 1.5F * MathHelper.wrap(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
 			this.leftArm.pitch = (-0.2F - 1.5F * MathHelper.wrap(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;

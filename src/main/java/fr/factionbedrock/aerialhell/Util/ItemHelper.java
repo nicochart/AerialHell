@@ -5,13 +5,18 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
+import net.minecraft.component.type.ToolComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.*;
-import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryEntryLookup;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.MutableText;
@@ -39,33 +44,66 @@ public class ItemHelper
         return count;
     }
 
-    public static int getItemMiningLevel(Item item)
-    {
-        if (item instanceof MiningToolItem toolItem)
-        {
-            ToolMaterial toolMaterial = toolItem.getMaterial();
-            TagKey<Block> incorrectTag = toolMaterial.getInverseTag();
-            if (incorrectTag == BlockTags.INCORRECT_FOR_WOODEN_TOOL) {return 0;}
-            else if (incorrectTag == BlockTags.INCORRECT_FOR_STONE_TOOL) {return 1;}
-            else if (incorrectTag == BlockTags.INCORRECT_FOR_IRON_TOOL) {return 2;}
-            else if (incorrectTag == BlockTags.INCORRECT_FOR_DIAMOND_TOOL) {return 3;}
-            else if (incorrectTag == BlockTags.INCORRECT_FOR_NETHERITE_TOOL) {return 4;}
-        }
-        return 0;
-    }
-
     public static final Identifier BASE_ATTACK_DAMAGE_ID = Identifier.ofVanilla("base_attack_damage");
     public static final Identifier BASE_ATTACK_SPEED_ID = Identifier.ofVanilla("base_attack_speed");
     public static final Identifier BASE_MOVEMENT_SPEED_ID = Identifier.ofVanilla("base_movement_speed");
     public static final Identifier BASE_MAX_HEALTH_ID = Identifier.ofVanilla("base_movement_speed");
 
+    public static Item.Settings applySwordProperties(Item.Settings properties, ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth)
+    {
+        return applyToolProperties(properties, toolMaterial, null, attackDamage, attackSpeed, movementSpeed, maxHealth);
+    }
+
+    //copy of ToolMaterial applyToolSettings / applySwordSettings method, with the ToolMaterial as additional parameter
+    //if mineableBlocks == null, the tool is a sword
+    public static Item.Settings applyToolProperties(Item.Settings properties, ToolMaterial toolMaterial, @Nullable TagKey<Block> mineableBlocks, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth)
+    {
+        RegistryEntryLookup<Block> registryEntryLookup = Registries.createEntryLookup(Registries.BLOCK);
+        return applyCommonProperties(properties, toolMaterial)
+                .component(
+                        DataComponentTypes.TOOL,
+                        new ToolComponent(getRules(registryEntryLookup, toolMaterial, mineableBlocks), 1.0F, 1)
+                )
+                .attributeModifiers(createAerialHellToolOrWeaponAttributes(toolMaterial, attackDamage, attackSpeed, movementSpeed, maxHealth));
+    }
+
+    private static List<ToolComponent.Rule> getRules(RegistryEntryLookup<Block> bootstrapRegistrationLookup, ToolMaterial toolMaterial, @Nullable TagKey<Block> mineableBlocks)
+    {
+        if (mineableBlocks == null) {return getSwordRules(bootstrapRegistrationLookup);}
+        else {return getToolRules(bootstrapRegistrationLookup, toolMaterial, mineableBlocks);}
+    }
+
+    //copy of applyToolSettings(..) rules list
+    private static List<ToolComponent.Rule> getToolRules(RegistryEntryLookup<Block> bootstrapRegistrationLookup, ToolMaterial toolMaterial, TagKey<Block> mineableBlocks)
+    {
+        return List.of(
+                ToolComponent.Rule.ofNeverDropping(bootstrapRegistrationLookup.getOrThrow(toolMaterial.incorrectBlocksForDrops())),
+                ToolComponent.Rule.ofAlwaysDropping(bootstrapRegistrationLookup.getOrThrow(mineableBlocks), toolMaterial.speed())
+        );
+    }
+
+    //copy of applySwordSettings(..) rules list
+    private static List<ToolComponent.Rule> getSwordRules(RegistryEntryLookup<Block> bootstrapRegistrationLookup)
+    {
+        return List.of(
+                ToolComponent.Rule.ofAlwaysDropping(RegistryEntryList.of(Blocks.COBWEB.getRegistryEntry()), 15.0F),
+                ToolComponent.Rule.of(bootstrapRegistrationLookup.getOrThrow(BlockTags.SWORD_EFFICIENT), 1.5F)
+        );
+    }
+
+    //copy of ToolMaterial applyBaseSettings method
+    private static Item.Settings applyCommonProperties(Item.Settings properties, ToolMaterial material)
+    {
+        return properties.maxDamage(material.durability()).repairable(material.repairItems()).enchantable(material.enchantmentValue());
+    }
+
     public static AttributeModifiersComponent createAerialHellToolOrWeaponAttributes(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeedIn, float maxHealthIn)
     {
         AttributeModifiersComponent.Builder builder = AttributeModifiersComponent.builder();
-        builder.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(BASE_ATTACK_DAMAGE_ID, attackDamage + toolMaterial.getAttackDamage(), EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND);
-        builder.add(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND);
-        if (movementSpeedIn != 0) {builder.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(BASE_MOVEMENT_SPEED_ID, movementSpeedIn, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), AttributeModifierSlot.MAINHAND);}
-        if (maxHealthIn != 0) {builder.add(EntityAttributes.GENERIC_MAX_HEALTH, new EntityAttributeModifier(BASE_MAX_HEALTH_ID, maxHealthIn, EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND);}
+        builder.add(EntityAttributes.ATTACK_DAMAGE, new EntityAttributeModifier(BASE_ATTACK_DAMAGE_ID, attackDamage + toolMaterial.attackDamageBonus(), EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND);
+        builder.add(EntityAttributes.ATTACK_SPEED, new EntityAttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND);
+        if (movementSpeedIn != 0) {builder.add(EntityAttributes.MOVEMENT_SPEED, new EntityAttributeModifier(BASE_MOVEMENT_SPEED_ID, movementSpeedIn, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), AttributeModifierSlot.MAINHAND);}
+        if (maxHealthIn != 0) {builder.add(EntityAttributes.MAX_HEALTH, new EntityAttributeModifier(BASE_MAX_HEALTH_ID, maxHealthIn, EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND);}
         return builder.build();
     }
 
@@ -88,16 +126,17 @@ public class ItemHelper
             return format == null ? returnComponent : returnComponent.formatted(format);
         }
 
-        public static SmithingTemplateItem createUpgradeTemplate(String materialName)
+        public static SmithingTemplateItem createUpgradeTemplate(String materialName, Item.Settings settings)
         {
             return new SmithingTemplateItem(
                     makeSmithingTemplateItemDescComponent(materialName, APPLIES_TO, DESCRIPTION_FORMAT),
                     makeSmithingTemplateItemDescComponent(materialName, INGREDIENTS, DESCRIPTION_FORMAT),
-                    makeUpgradeTitleComponent(materialName),
+                    //makeUpgradeTitleComponent(materialName), TODO work as expected ?
                     makeSmithingTemplateItemDescComponent(materialName, BASE_SLOT_DESCRIPTION, null),
                     makeSmithingTemplateItemDescComponent(materialName, ADDITIONS_SLOT_DESCRIPTION, null),
                     SmithingTemplateItem.getNetheriteUpgradeEmptyBaseSlotTextures(),
-                    SmithingTemplateItem.getNetheriteUpgradeEmptyAdditionsSlotTextures());
+                    SmithingTemplateItem.getNetheriteUpgradeEmptyAdditionsSlotTextures(),
+                    settings);
         }
     }
 

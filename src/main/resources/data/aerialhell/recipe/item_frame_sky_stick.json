@@ -6,12 +6,8 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "X": {
-      "item": "minecraft:leather"
-    }
+    "#": "aerialhell:sky_stick",
+    "X": "minecraft:leather"
   },
   "result": {
     "id": "minecraft:item_frame"

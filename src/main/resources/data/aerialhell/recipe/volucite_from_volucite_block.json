@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "aerialhell:volucite_block"
-    }
+    "aerialhell:volucite_block"
   ],
   "result": {
     "id": "aerialhell:volucite_vibrant",

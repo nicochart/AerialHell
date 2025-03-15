@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:freezing",
-  "ingredient": {
-    "item": "aerialhell:ruby_water_bucket"
-  },
+  "ingredient": "aerialhell:ruby_water_bucket",
   "result": {
     "id": "minecraft:ice"
   },

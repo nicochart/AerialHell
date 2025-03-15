@@ -46,9 +46,9 @@ public class AerialHellMushroomBlock extends MushroomPlantBlock
 			if (hugeShroomDirection != HugeGenerationDirections.NONE)
 			{
 				generationPos = this.getOffsetPosForHugeShroom(pos, hugeShroomDirection);
-				configuredfeature = world.getRegistryManager().get(RegistryKeys.CONFIGURED_FEATURE).getEntry(AerialHellConfiguredFeatures.HUGE_VERDIGRIS_AGARIC).orElse(null).value(); //TODO check
+				configuredfeature = world.getRegistryManager().getOrThrow(RegistryKeys.CONFIGURED_FEATURE).getOptional(AerialHellConfiguredFeatures.HUGE_VERDIGRIS_AGARIC).orElse(null).value(); //TODO check
 			}
-			else {configuredfeature = world.getRegistryManager().get(RegistryKeys.CONFIGURED_FEATURE).getEntry(AerialHellConfiguredFeatures.GIANT_VERDIGRIS_AGARIC).orElse(null).value();}
+			else {configuredfeature = world.getRegistryManager().getOrThrow(RegistryKeys.CONFIGURED_FEATURE).getOptional(AerialHellConfiguredFeatures.GIANT_VERDIGRIS_AGARIC).orElse(null).value();}
 		} else {return false;}
 
 		world.removeBlock(generationPos, false);

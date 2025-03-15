@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "wooden_button",
   "ingredients": [
-    {
-      "item": "aerialhell:stellar_cobblestone"
-    }
+    "aerialhell:stellar_cobblestone"
   ],
   "result": {
     "id": "aerialhell:stellar_cobblestone_button"

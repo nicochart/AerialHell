@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "aerialhell:ghost_fluorite_block"
-    }
+    "aerialhell:ghost_fluorite_block"
   ],
   "result": {
     "id": "aerialhell:fluorite",

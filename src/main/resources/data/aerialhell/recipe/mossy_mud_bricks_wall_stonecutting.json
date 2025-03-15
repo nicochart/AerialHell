@@ -1,8 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "aerialhell:mossy_mud_bricks"
-  },
+  "ingredient": "aerialhell:mossy_mud_bricks",
   "result": {
     "count": 1,
     "id": "aerialhell:mossy_mud_bricks_wall"

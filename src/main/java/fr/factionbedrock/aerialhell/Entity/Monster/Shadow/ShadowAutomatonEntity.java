@@ -21,6 +21,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
 
@@ -33,10 +34,10 @@ public class ShadowAutomatonEntity extends AutomatonEntity
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 50.0D)
-                .add(EntityAttributes.GENERIC_ARMOR, 3.0D)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 9.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23D);
+                .add(EntityAttributes.MAX_HEALTH, 50.0D)
+                .add(EntityAttributes.ARMOR, 3.0D)
+                .add(EntityAttributes.ATTACK_DAMAGE, 9.0D)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.23D);
     }
 
     @Override protected void initGoals()
@@ -57,9 +58,9 @@ public class ShadowAutomatonEntity extends AutomatonEntity
         if (random.nextFloat() > 0.95) {EntityHelper.addBatParticle(this, this.random, 1);}
     }
 
-    @Override public boolean tryAttack(Entity attackedEntity)
+    @Override public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
     {
-        if (super.tryAttack(attackedEntity))
+        if (super.tryAttack(serverWorld, attackedEntity))
         {
             if (attackedEntity instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune(((LivingEntity) attackedEntity)))
             {

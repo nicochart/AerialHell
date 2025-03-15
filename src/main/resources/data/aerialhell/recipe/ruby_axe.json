@@ -6,12 +6,8 @@
     " #"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "X": {
-      "item": "aerialhell:ruby"
-    }
+    "#": "aerialhell:sky_stick",
+    "X": "aerialhell:ruby"
   },
   "result": {
     "id": "aerialhell:ruby_axe"

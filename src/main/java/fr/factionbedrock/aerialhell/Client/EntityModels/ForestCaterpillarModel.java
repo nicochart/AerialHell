@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
-import net.minecraft.client.color.world.BiomeColors;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.CaterpillarRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -13,7 +12,7 @@ import java.awt.*;
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class ForestCaterpillarModel<T extends AbstractCaterpillarEntity> extends EntityModel<T>
+public class ForestCaterpillarModel<S extends CaterpillarRenderState> extends EntityModel<S>
 {
 	private final boolean isColored;
 	int grassARGB, foliageARGB;
@@ -28,7 +27,8 @@ public class ForestCaterpillarModel<T extends AbstractCaterpillarEntity> extends
 
 	public ForestCaterpillarModel(ModelPart root, boolean isColored)
 	{
-		this.isColored = isColored;
+        super(root);
+        this.isColored = isColored;
 		this.head = root.getChild("head");
 		this.head_colored = root.getChild("head_colored");
 		this.body = root.getChild("body");
@@ -73,9 +73,12 @@ public class ForestCaterpillarModel<T extends AbstractCaterpillarEntity> extends
 		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
 
-	@Override public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(S renderState)
 	{
-		updateBiomeColors(entity);
+		grassARGB = renderState.grassARGB;
+		foliageARGB = renderState.foliageARGB;
+		float ageInTicks = renderState.age;
+
 		this.body.yaw = MathHelper.cos(ageInTicks/2 * 0.9F + (float)1 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(1 - 2));
 		this.body_colored.yaw = MathHelper.cos(ageInTicks/2 * 0.9F + (float)1 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(1 - 2));
 		this.sapling.yaw = MathHelper.cos(ageInTicks/2 * 0.9F + (float)1 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(1 - 2));
@@ -84,12 +87,6 @@ public class ForestCaterpillarModel<T extends AbstractCaterpillarEntity> extends
 		this.tail_end.yaw = MathHelper.cos(ageInTicks/2 * 0.9F + (float)3 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(3 - 2));
 		this.head.yaw = MathHelper.cos(ageInTicks/2 * 0.9F + (float)3 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(0 - 2));
 		this.head_colored.yaw = MathHelper.cos(ageInTicks/2 * 0.9F + (float)3 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(0 - 2));
-	}
-
-	private void updateBiomeColors(T entity)
-	{
-		grassARGB = new Color(BiomeColors.getGrassColor(entity.getWorld(), entity.getSteppingPos())).getRGB();
-		foliageARGB = new Color(BiomeColors.getFoliageColor(entity.getWorld(), entity.getSteppingPos())).getRGB();
 	}
 
 	@Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tintIn)

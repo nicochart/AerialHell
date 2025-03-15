@@ -49,8 +49,8 @@ public class BlockUpdaterItem extends WithInformationItem
 
     protected void replaceBlock(World world, BlockPos pos)
     {
-        Optional<RegistryEntryList.Named<Block>> OptionalInRegistryEntry = Registries.BLOCK.getEntryList(AerialHellTags.Blocks.REPLACE_IN);
-        Optional<RegistryEntryList.Named<Block>> OptionalOutRegistryEntry = Registries.BLOCK.getEntryList(AerialHellTags.Blocks.REPLACE_OUT);
+        Optional<RegistryEntryList.Named<Block>> OptionalInRegistryEntry = Registries.BLOCK.getOptional(AerialHellTags.Blocks.REPLACE_IN);
+        Optional<RegistryEntryList.Named<Block>> OptionalOutRegistryEntry = Registries.BLOCK.getOptional(AerialHellTags.Blocks.REPLACE_OUT);
         if (OptionalInRegistryEntry.isEmpty() || OptionalOutRegistryEntry.isEmpty()) {return;}
 
         Iterator<RegistryEntry<Block>> replace_in = OptionalInRegistryEntry.get().iterator();

@@ -5,12 +5,8 @@
     "S "
   ],
   "key": {
-    "#": {
-      "item": "minecraft:gold_ingot"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "#": "minecraft:gold_ingot",
+    "S": "minecraft:stick"
   },
   "result": {
     "id": "aerialhell:gold_shuriken",

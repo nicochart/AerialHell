@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:oscillating",
-  "ingredient": {
-    "item": "aerialhell:rotten_leather"
-  },
+  "ingredient": "aerialhell:rotten_leather",
   "result": {
     "id": "minecraft:leather"
   },

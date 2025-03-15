@@ -17,10 +17,10 @@ public class CopperPineChestMimicEntity extends AbstractChestMimicEntity
 	public static DefaultAttributeContainer.Builder registerAttributes()
 	{
 		return createMobAttributes()
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, 50.0D)
-				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
-				.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 8.0D);
+				.add(EntityAttributes.MAX_HEALTH, 50.0D)
+				.add(EntityAttributes.ATTACK_DAMAGE, 5.0D)
+				.add(EntityAttributes.MOVEMENT_SPEED, 0.3D)
+				.add(EntityAttributes.FOLLOW_RANGE, 8.0D);
 	}
 
 	@Override

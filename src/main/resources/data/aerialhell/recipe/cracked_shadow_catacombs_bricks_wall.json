@@ -5,9 +5,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:cracked_shadow_catacombs_bricks"
-    }
+    "#": "aerialhell:cracked_shadow_catacombs_bricks"
   },
   "result": {
     "id": "aerialhell:cracked_shadow_catacombs_bricks_wall",

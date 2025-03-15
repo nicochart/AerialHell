@@ -1,22 +1,23 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.HellSpiderRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.mob.SpiderEntity;
+import net.minecraft.util.math.MathHelper;
 
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class HellSpiderSpikeModel<T extends SpiderEntity> extends EntityModel<T>//SpiderModel<T>
+public class HellSpiderSpikeModel extends EntityModel<HellSpiderRenderState>//SpiderModel<T>
 {
 	private final ModelPart bodySpikes;
 	private final ModelPart headSpikes;
 
 	public HellSpiderSpikeModel(ModelPart root)
 	{
-		//super(root); //when extends HumanoidModel - it doesn't work : the game crashes when starting : "can't find this body part / element"
+		super(root);
 		this.bodySpikes = root.getChild("bodySpikes");
 		this.headSpikes = root.getChild("headSpikes");
 	}
@@ -49,8 +50,11 @@ public class HellSpiderSpikeModel<T extends SpiderEntity> extends EntityModel<T>
 		return TexturedModelData.of(meshdefinition, 64, 32);
 	}
 
-	@Override public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(HellSpiderRenderState renderState)
 	{
+		float headPitch = renderState.pitch;
+		float netHeadYaw = renderState.yawDegrees;
+
 		this.headSpikes.yaw = netHeadYaw * ((float)Math.PI / 180F);
 		this.headSpikes.pitch = headPitch * ((float)Math.PI / 180F);
 	}

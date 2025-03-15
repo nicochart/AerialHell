@@ -106,9 +106,9 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		else {return false;}
 	}
 	
-	@Override public boolean damage(DamageSource source, float amount)
+	@Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
 	{
-		boolean flag = super.damage(source, amount);
+		boolean flag = super.damage(serverWorld, source, amount);
 		if (flag)
 		{
 			if (source.getAttacker() instanceof LivingEntity)
@@ -125,28 +125,28 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	public static DefaultAttributeContainer.Builder registerAttributes()
     {
 		return HostileEntity.createHostileAttributes()
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, 600.0D)
-				.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.27D)
-				.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.05D)
-				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D)
-				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7.0D);
+				.add(EntityAttributes.MAX_HEALTH, 600.0D)
+				.add(EntityAttributes.FOLLOW_RANGE, 48.0D)
+				.add(EntityAttributes.MOVEMENT_SPEED, 0.27D)
+				.add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.05D)
+				.add(EntityAttributes.ATTACK_KNOCKBACK, 1.0D)
+				.add(EntityAttributes.ATTACK_DAMAGE, 7.0D);
     }
 	
 	@Override public boolean isFireImmune() {return true;}
 	@Override public boolean doesRenderOnFire() {return false;}
 	
-	@Override public boolean tryAttack(Entity attackedEntity)
+	@Override public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
 	{
 		DamageSource damagesource = this.getDamageSources().mobAttack(this);
 		this.getWorld().sendEntityStatus(this, (byte)4);
-		float f = (float)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+		float f = (float)this.getAttributeValue(EntityAttributes.ATTACK_DAMAGE);
 		float f1 = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
-		boolean flag = attackedEntity.damage(damagesource, f1);
+		boolean flag = attackedEntity.damage(serverWorld, damagesource, f1);
 		if (flag)
 		{
 			attackedEntity.setVelocity(attackedEntity.getVelocity().x, (double)0.4F, attackedEntity.getVelocity().z);
-			if (this.getWorld() instanceof ServerWorld serverWevel) {EnchantmentHelper.onTargetDamaged(serverWevel, attackedEntity, damagesource);}
+			EnchantmentHelper.onTargetDamaged(serverWorld, attackedEntity, damagesource);
 		}
 
 		this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);

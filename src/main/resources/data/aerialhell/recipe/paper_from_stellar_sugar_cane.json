@@ -4,9 +4,7 @@
     "FFF"
   ],
   "key": {
-    "F": {
-      "item": "aerialhell:stellar_sugar_cane"
-    }
+    "F": "aerialhell:stellar_sugar_cane"
   },
   "result": {
     "id": "minecraft:paper",

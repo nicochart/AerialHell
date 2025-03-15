@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -56,13 +57,14 @@ public class SandySheepEntity extends AerialHellAnimalEntity
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return AerialHellAnimalEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 12.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.26);
+                .add(EntityAttributes.MAX_HEALTH, 12.0D)
+                .add(EntityAttributes.TEMPT_RANGE, 10.0D)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.26);
     }
 
     @Nullable @Override public PassiveEntity createChild(ServerWorld serverWorld, PassiveEntity mob)
     {
-        return AerialHellEntities.SANDY_SHEEP.create(this.getWorld());
+        return AerialHellEntities.SANDY_SHEEP.create(this.getWorld(), SpawnReason.BREEDING);
     }
     
     public boolean hasWool() {return !this.getDataTracker().get(SHEARED);}
@@ -94,7 +96,8 @@ public class SandySheepEntity extends AerialHellAnimalEntity
     	if (this.hasWool())
     	{
     		this.setWool(false);
-    		this.dropStack(new ItemStack(Items.YELLOW_WOOL));
+            if (this.getWorld() instanceof ServerWorld serverWorld) {this.dropStack(serverWorld, new ItemStack(Items.YELLOW_WOOL));}
+
     		for (int i=0;i<10;i++)
             {
     			double rand = random.nextFloat() * 2;

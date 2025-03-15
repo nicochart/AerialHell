@@ -6,12 +6,8 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "X": {
-      "tag": "minecraft:wool"
-    }
+    "#": "aerialhell:sky_stick",
+    "X": "#minecraft:wool"
   },
   "result": {
     "id": "aerialhell:aerial_hell_painting"

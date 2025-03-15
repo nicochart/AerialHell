@@ -11,6 +11,7 @@ import net.minecraft.block.CobwebBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.SpiderEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -35,9 +36,9 @@ public class ThornyWebBlock extends CobwebBlock
 		boolean isTotallyImmune = isEntityImmuneToCollision(entityIn);
 		
 		if (!isTotallyImmune) {entityIn.slowMovement(state, new Vec3d(0.45D, 0.25D, 0.45D));}
-		if (entityIn instanceof LivingEntity && !isTotallyImmune)
+		if (world instanceof ServerWorld serverWorld && entityIn instanceof LivingEntity && !isTotallyImmune)
 		{
-			if (!isEntityImmuneToDamage(entityIn)) {entityIn.damage(AerialHellDamageTypes.getDamageSource(world, AerialHellDamageTypes.WEB_THORNS), 2.0F);}
+			if (!isEntityImmuneToDamage(entityIn)) {entityIn.damage(serverWorld, AerialHellDamageTypes.getDamageSource(world, AerialHellDamageTypes.WEB_THORNS), 2.0F);}
 		}
 	}
 }

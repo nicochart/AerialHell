@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.ShroomBoomEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.ShroomBoomRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.CrossbowPosing;
@@ -11,7 +11,7 @@ import net.minecraft.util.math.MathHelper;
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class ShroomBoomModel extends EntityModel<ShroomBoomEntity>
+public class ShroomBoomModel extends EntityModel<ShroomBoomRenderState>
 {
 	private final ModelPart body;
 	private final ModelPart head;
@@ -24,6 +24,7 @@ public class ShroomBoomModel extends EntityModel<ShroomBoomEntity>
 
 	public ShroomBoomModel(ModelPart root)
 	{
+		super(root);
 		this.body = root.getChild("body");
 		this.head = root.getChild("head");
 		this.leg0 = root.getChild("leg0");
@@ -62,9 +63,14 @@ public class ShroomBoomModel extends EntityModel<ShroomBoomEntity>
 		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
 
-	@Override public void setAngles(ShroomBoomEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(ShroomBoomRenderState renderState)
 	{
-		CrossbowPosing.meleeAttack(this.arm2, this.arm1, entity.isAttacking(), this.handSwingProgress, ageInTicks);
+		float headPitch = renderState.pitch;
+		float netHeadYaw = renderState.yawDegrees;
+		float limbSwing = renderState.limbFrequency;
+		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+
+		CrossbowPosing.meleeAttack(this.arm2, this.arm1, renderState.isAggressive, renderState.attackTime, renderState.age);
 		this.head.yaw = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.pitch = headPitch * ((float)Math.PI / 180F);
 		this.leg0.pitch = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;

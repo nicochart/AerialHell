@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "wooden_button",
   "ingredients": [
-    {
-      "item": "aerialhell:gray_shroom_planks"
-    }
+    "aerialhell:gray_shroom_planks"
   ],
   "result": {
     "id": "aerialhell:gray_shroom_button"

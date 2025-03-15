@@ -7,7 +7,10 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellBiomes;
 import net.minecraft.block.*;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ToolComponent;
 import net.minecraft.item.Item;
+import net.minecraft.item.MiningToolItem;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -46,14 +49,23 @@ public class BlockHelper
         return AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK;
     }
 
-    public static boolean isItemMiningLevelSufficentForHarvesting(BlockState state, Item item)
+    public static boolean isItemCorrectForHarvesting(BlockState state, Item item)
     {
-        int miningLevel = ItemHelper.getItemMiningLevel(item);
-        //if (state.isOf(Tag.Blocks.NEEDS_NETHERITE_TOOL) && miningLevel < 4) {return false;} TODO tag was from Forge
-        if (state.isIn(BlockTags.NEEDS_DIAMOND_TOOL) && miningLevel < 3) {return false;}
-        else if (state.isIn(BlockTags.NEEDS_IRON_TOOL) && miningLevel < 2) {return false;}
-        else if (state.isIn(BlockTags.NEEDS_STONE_TOOL) && miningLevel < 1) {return false;}
-        return true;
+        if (item instanceof MiningToolItem miningToolItem)
+        {
+            ToolComponent toolComponent = miningToolItem.getComponents().get(DataComponentTypes.TOOL);
+            if (toolComponent != null)
+            {
+                return toolComponent.isCorrectForDrops(state);
+            }
+        }
+
+        return !(state.isIn(BlockTags.INCORRECT_FOR_WOODEN_TOOL)
+                || state.isIn(BlockTags.INCORRECT_FOR_STONE_TOOL)
+                || state.isIn(BlockTags.INCORRECT_FOR_IRON_TOOL)
+                || state.isIn(BlockTags.INCORRECT_FOR_GOLD_TOOL)
+                || state.isIn(BlockTags.INCORRECT_FOR_DIAMOND_TOOL)
+                || state.isIn(BlockTags.INCORRECT_FOR_NETHERITE_TOOL));
     }
 
     /* ---- Functions copied from SpreadableBlock class ---- */
@@ -65,8 +77,8 @@ public class BlockHelper
         else if (blockState.getFluidState().getLevel() == 8) {return false;}
         else
         {
-            int i = ChunkLightProvider.getRealisticOpacity(world, state, pos, blockState, blockPos, Direction.UP, blockState.getOpacity(world, blockPos));
-            return i < world.getMaxLightLevel();
+            int i = ChunkLightProvider.getRealisticOpacity(state, blockState, Direction.UP, blockState.getOpacity());
+            return i < 15;
         }
     }
 
@@ -191,7 +203,7 @@ public class BlockHelper
             for (Chunk chunk : list)
             {
                 chunk.populateBiomes(makeBiomeResolver(new MutableInt(0), chunk, boundingbox, biome, b -> true), world.getChunkManager().getNoiseConfig().getMultiNoiseSampler());
-                chunk.setNeedsSaving(true);
+                chunk.markNeedsSaving();
             }
 
             world.getChunkManager().chunkLoadingManager.sendChunkBiomePackets(list);
@@ -278,7 +290,7 @@ public class BlockHelper
             for (Chunk chunk : list)
             {
                 chunk.populateBiomes(makeBiomeResolver(new MutableInt(0), chunk, boundingbox, biome, b -> true), world.getChunkManager().getNoiseConfig().getMultiNoiseSampler());
-                chunk.setNeedsSaving(true);
+                chunk.markNeedsSaving();
             }
 
             world.getChunkManager().chunkLoadingManager.sendChunkBiomePackets(list);
@@ -304,6 +316,16 @@ public class BlockHelper
             return true;
         }
         return false;
+    }
+
+    public static boolean canAnyNeighborBeCorrupted(WorldView world, BlockPos centerPos, CorruptionType corruptionType)
+    {
+        return canBeCorrupted(world, centerPos.up(), corruptionType)
+                || canBeCorrupted(world, centerPos.down(), corruptionType)
+                || canBeCorrupted(world, centerPos.north(), corruptionType)
+                || canBeCorrupted(world, centerPos.south(), corruptionType)
+                || canBeCorrupted(world, centerPos.east(), corruptionType)
+                || canBeCorrupted(world, centerPos.west(), corruptionType);
     }
 
     public static boolean canBeCorrupted(WorldView world, BlockPos pos, CorruptionType corruptionType)
@@ -375,7 +397,7 @@ public class BlockHelper
 
     public static RegistryEntry.Reference<Biome> getBiome(ServerWorld world, RegistryKey<Biome> biomeKey)
     {
-        return world.getRegistryManager().get(RegistryKeys.BIOME).getEntry(biomeKey).get();
+        return world.getRegistryManager().getOrThrow(RegistryKeys.BIOME).getOrThrow(biomeKey);
     }
 
     public static RegistryEntry<Biome> getCurrentBiomeAtPos(ServerWorld world, BlockPos pos)

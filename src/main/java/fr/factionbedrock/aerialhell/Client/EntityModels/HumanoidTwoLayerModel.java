@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.AbstractHumanoidMonster;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.HumanoidTwoLayerRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.CrossbowPosing;
@@ -13,7 +13,8 @@ import net.minecraft.util.math.MathHelper;
 // Made with Blockbench 4.9.4
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class HumanoidTwoLayerModel<T extends AbstractHumanoidMonster> extends EntityModel<T> implements ModelWithArms
+
+public class HumanoidTwoLayerModel<T extends HumanoidTwoLayerRenderState> extends EntityModel<T> implements ModelWithArms
 {
 	private final ModelPart head;
 	private final ModelPart head_overlay;
@@ -30,6 +31,7 @@ public class HumanoidTwoLayerModel<T extends AbstractHumanoidMonster> extends En
 
 	public HumanoidTwoLayerModel(ModelPart root)
 	{
+		super(root);
 		this.head = root.getChild("head");
 		this.head_overlay = root.getChild("head_overlay");
 		this.body = root.getChild("body");
@@ -63,10 +65,15 @@ public class HumanoidTwoLayerModel<T extends AbstractHumanoidMonster> extends En
 		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
 
-	@Override public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(T renderState)
 	{
-		CrossbowPosing.meleeAttack(this.leftArm, this.rightArm, entity.isAttacking(), this.handSwingProgress, ageInTicks);
-		CrossbowPosing.meleeAttack(this.leftArm_overlay, this.rightArm_overlay, entity.isAttacking(), this.handSwingProgress, ageInTicks);
+		float headPitch = renderState.pitch;
+		float netHeadYaw = renderState.yawDegrees;
+		float limbSwing = renderState.limbFrequency;
+		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		
+		CrossbowPosing.meleeAttack(this.leftArm, this.rightArm, renderState.isAggressive, renderState.handSwingProgress, renderState.age);
+		CrossbowPosing.meleeAttack(this.leftArm_overlay, this.rightArm_overlay, renderState.isAggressive, renderState.handSwingProgress, renderState.age);
 		setupHeadAnim(this.head, netHeadYaw, headPitch);
 		setupHeadAnim(this.head_overlay, netHeadYaw, headPitch);
 		setupLegsAnim(this.leftLeg, this.rightLeg, limbSwing, limbSwingAmount);

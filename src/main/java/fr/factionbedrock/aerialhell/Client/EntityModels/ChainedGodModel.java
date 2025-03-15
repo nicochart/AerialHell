@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.ChainedGodRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 // Made with Blockbench 4.0.1
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class ChainedGodModel extends EntityModel<ChainedGodEntity>
+public class ChainedGodModel extends EntityModel<ChainedGodRenderState>
 {
 	private final ModelPart body;
 	private final ModelPart chains;
@@ -22,6 +22,7 @@ public class ChainedGodModel extends EntityModel<ChainedGodEntity>
 
 	public ChainedGodModel(ModelPart root)
 	{
+		super(root);
 		this.body = root.getChild("body");
 		this.chains = root.getChild("chains");
 		this.head = root.getChild("head");
@@ -125,14 +126,19 @@ public class ChainedGodModel extends EntityModel<ChainedGodEntity>
 		}
 
 	@Override
-	public void setAngles(ChainedGodEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	public void setAngles(ChainedGodRenderState renderState)
 	{
+		float headPitch = renderState.pitch;
+		float netHeadYaw = renderState.yawDegrees;
+		float limbSwing = renderState.limbFrequency;
+		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+
 		this.head.yaw = netHeadYaw / 57.29578F;
 		this.head.pitch = headPitch / 57.29578F;
 
-		if (entity.isFreelyMoving())
+		if (renderState.freelyMoving)
 		{
-			int i = entity.attackTimer;
+			int i = renderState.attackTimer;
 			if (i > 0)
 			{
 				this.rightArm.pitch = -2.0F + 1.5F * MathHelper.wrap((float)i, 10.0F) * 0.5f;

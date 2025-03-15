@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "aerialhell:ghost_gold_block"
-    }
+    "aerialhell:ghost_gold_block"
   ],
   "result": {
     "id": "minecraft:gold_ingot",

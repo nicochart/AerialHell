@@ -1,8 +1,6 @@
 {
   "type": "aerialhell:oscillating",
-  "ingredient": {
-    "item": "aerialhell:turtle_meat"
-  },
+  "ingredient": "aerialhell:turtle_meat",
   "result": {
     "id": "aerialhell:vibrant_turtle_meat"
   },

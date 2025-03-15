@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:gray_shroom_planks"
-    }
+    "#": "aerialhell:gray_shroom_planks"
   },
   "result": {
     "id": "aerialhell:gray_shroom_stairs",

@@ -7,6 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.SpiderEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -22,9 +23,9 @@ public class DeadRootsBlock extends AerialHellTwistingVinesBlock
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
     {
-        if (entity instanceof LivingEntity && !isEntityImmuneToDamage(entity))
+        if (world instanceof ServerWorld serverWorld && entity instanceof LivingEntity && !isEntityImmuneToDamage(entity))
         {
-            entity.damage(AerialHellDamageTypes.getDamageSource(world, AerialHellDamageTypes.ROOT_THORNS), 2.0F);
+            entity.damage(serverWorld, AerialHellDamageTypes.getDamageSource(world, AerialHellDamageTypes.ROOT_THORNS), 2.0F);
         }
     }
 }

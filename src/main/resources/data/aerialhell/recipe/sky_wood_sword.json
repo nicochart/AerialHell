@@ -6,12 +6,8 @@
     "#"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "X": {
-      "tag": "aerialhell:aerialhell_planks"
-    }
+    "#": "aerialhell:sky_stick",
+    "X": "#aerialhell:aerialhell_planks"
   },
   "result": {
     "id": "aerialhell:sky_wood_sword"

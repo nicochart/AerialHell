@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "planks",
   "ingredients": [
-    {
-      "item": "aerialhell:giant_cortinarius_violaceus_stem"
-    }
+    "aerialhell:giant_cortinarius_violaceus_stem"
   ],
   "result": {
     "id": "aerialhell:gray_shroom_planks",

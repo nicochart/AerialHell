@@ -6,12 +6,8 @@
     "#W#"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "W": {
-      "item": "aerialhell:stellar_jungle_tree_planks"
-    }
+    "#": "aerialhell:sky_stick",
+    "W": "aerialhell:stellar_jungle_tree_planks"
   },
   "result": {
     "id": "aerialhell:stellar_jungle_tree_gate"

@@ -6,12 +6,8 @@
     "W#W"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "W": {
-      "item": "aerialhell:sky_cactus_fiber_planks"
-    }
+    "#": "aerialhell:sky_stick",
+    "W": "aerialhell:sky_cactus_fiber_planks"
   },
   "result": {
     "id": "aerialhell:sky_cactus_fiber_fence",

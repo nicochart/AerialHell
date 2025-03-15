@@ -9,14 +9,14 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 
 public class DimensionShattererProjectileItem extends EggItem
 {
     public DimensionShattererProjectileItem(Item.Settings settings) {super(settings);}
 
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) //copied from ThrownEgg, replacing ThrownEgg with DimensionShattererProjectile
+    public ActionResult use(World world, PlayerEntity user, Hand hand) //copied from ThrownEgg, replacing ThrownEgg with DimensionShattererProjectile
     {
         ItemStack itemstack = user.getStackInHand(hand);
         world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
@@ -28,10 +28,10 @@ public class DimensionShattererProjectileItem extends EggItem
             world.spawnEntity(projectile);
         }
 
-        user.getItemCooldownManager().set(this, 40);
+        user.getItemCooldownManager().set(itemstack, 40);
         user.incrementStat(Stats.USED.getOrCreateStat(this));
         itemstack.decrementUnlessCreative(1, user);
 
-        return TypedActionResult.success(itemstack, world.isClient());
+        return ActionResult.SUCCESS;
     }
 }

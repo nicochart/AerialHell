@@ -6,12 +6,8 @@
     "SSS"
   ],
   "key": {
-    "S": {
-      "item": "aerialhell:mud_bricks"
-    },
-    "B": {
-      "item": "minecraft:book"
-    }
+    "S": "aerialhell:mud_bricks",
+    "B": "minecraft:book"
   },
   "result": {
     "count": 1,

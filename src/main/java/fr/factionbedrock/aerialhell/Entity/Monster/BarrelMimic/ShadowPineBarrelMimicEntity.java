@@ -17,10 +17,10 @@ public class ShadowPineBarrelMimicEntity extends AbstractBarrelMimicEntity
 	public static DefaultAttributeContainer.Builder registerAttributes()
 	{
 		return createMobAttributes()
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0D)
-				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
-				.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D);
+				.add(EntityAttributes.MAX_HEALTH, 40.0D)
+				.add(EntityAttributes.ATTACK_DAMAGE, 3.0D)
+				.add(EntityAttributes.MOVEMENT_SPEED, 0.3D)
+				.add(EntityAttributes.FOLLOW_RANGE, 16.0D);
 	}
 
 	@Override

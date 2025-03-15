@@ -12,12 +12,10 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
-import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.client.model.ModelNameSupplier;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.BlockModels;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
@@ -25,8 +23,10 @@ import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer;
 import net.minecraft.client.render.block.entity.SignBlockEntityRenderer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.ModelBaker;
+import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.ModelIdentifier;
-import net.minecraft.registry.Registries;
+import net.minecraft.client.util.SpriteIdentifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -314,6 +314,7 @@ public class RenderRegistrationListener
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.BOAR, BoarModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.ENT, EntModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SNAKE, SnakeModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.STELLAR_CHICKEN, StellarChickenModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CHAINED_GOD, ChainedGodModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CHEST_MIMIC, ChestMimicModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CRYSTAL_GOLEM, CrystalGolemModel::createBodyLayer);
@@ -339,10 +340,16 @@ public class RenderRegistrationListener
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CORTINARIUS_COW_SHROOM, CortinariusCowShroomModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CRYSTAL_GOLEM_CRYSTAL, CrystalGolemCrystalModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SPIDER_SPIKE, HellSpiderSpikeModel::createBodyLayer);
+
+        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.EMPTY, EmptyModel::createBodyLayer);
     }
 
     public static void registerShiftingBakedModels()
     {
+        /* TODO find a way to put custom baked models in the map
+        Maybe try to inject code to net.minecraft.client.render.model.BakedModelManager "bake()" method, before profiler.swap("dispatch") call
+        putting my custom models in the map
+
         initialiseToBakeList();
 
         ModelLoadingPlugin.register(plugin -> plugin.modifyModelAfterBake().register((original, context) ->
@@ -353,6 +360,8 @@ public class RenderRegistrationListener
             {
                 ModelIdentifier initialIdentifier = BlockModels.getModelId(blockstate);
                 ModelIdentifier shiftedIdentifier = BlockModels.getModelId(blockstate.with(AerialHellBooleanProperties.SHIFTED_RENDER, true));
+                //if (context.baker() instanceof ModelBaker modelBaker)
+                //{
                 BakedModel initialModel = context.loader().getBakedModelMap().get(initialIdentifier);
                 BakedModel shiftedModel = context.loader().getBakedModelMap().get(shiftedIdentifier);
                 if (initialModel != null && shiftedModel != null)
@@ -362,10 +371,12 @@ public class RenderRegistrationListener
                     bakedList.add(blockstate);
                 }
                 else {TO_BAKE_LIST.removeAll(bakedList); return original;}
+                //}
             }
             TO_BAKE_LIST.removeAll(bakedList);
             return original;
         }));
+        */
     }
 
     public static void initialiseToBakeList()

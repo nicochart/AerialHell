@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.text.Text;
 
 import java.util.List;
@@ -23,7 +24,15 @@ public class AerialHellHoeItem extends HoeItem
 		TILLING_ACTIONS.put(AerialHellBlocks.CHISELED_STELLAR_GRASS_BLOCK, Pair.of(HoeItem::canTillFarmland, createTillAction(AerialHellBlocks.STELLAR_FARMLAND.getDefaultState())));
 	}
 
-	public AerialHellHoeItem(ToolMaterial toolMaterial, Item.Settings settings) {super(toolMaterial, settings);}
+	public AerialHellHoeItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, Item.Settings settings)
+	{
+		super(toolMaterial, 0.0F, 0.0F, settings); //attackDamage and attackSpeed are overridden below
+
+		//copy of super(..) actions to edit this.components to add custom attributes
+		//material.applyToolProperties(....)
+		Item.Settings toolSettings = ItemHelper.applyToolProperties(settings, toolMaterial, BlockTags.HOE_MINEABLE, attackDamage, attackSpeed, movementSpeed, maxHealth);
+		this.components = toolSettings.getValidatedComponents(Text.translatable(this.translationKey), settings.getModelId());
+	}
 
 	@Override public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type)
 	{

@@ -3,7 +3,6 @@ package fr.factionbedrock.aerialhell.Client.BlockBakedModels;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
-import net.minecraft.client.render.model.json.ModelOverrideList;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.math.Direction;
@@ -29,10 +28,8 @@ public class ShiftingBlockBakedModel implements BakedModel
     @Override public boolean useAmbientOcclusion() {return getModel().useAmbientOcclusion();}
     @Override public boolean hasDepth() {return getModel().hasDepth();}
     @Override public boolean isSideLit() {return getModel().isSideLit();}
-    @Override public boolean isBuiltin() {return getModel().isBuiltin();}
     @Override public Sprite getParticleSprite() {return getModel().getParticleSprite();}
     @Override public ModelTransformation getTransformation() {return getModel().getTransformation();}
-    @Override public ModelOverrideList getOverrides() {return getModel().getOverrides();}
 
     private BakedModel getModel()
     {

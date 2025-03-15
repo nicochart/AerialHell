@@ -5,9 +5,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:lapis_robinia_planks"
-    }
+    "#": "aerialhell:lapis_robinia_planks"
   },
   "result": {
     "id": "aerialhell:lapis_robinia_crafting_table"

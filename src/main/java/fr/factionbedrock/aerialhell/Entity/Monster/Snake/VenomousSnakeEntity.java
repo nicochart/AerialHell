@@ -9,6 +9,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.World;
 
@@ -20,9 +21,9 @@ public class VenomousSnakeEntity extends AbstractSnakeEntity
     @Override protected UniformIntProvider getLength() {return UniformIntProvider.create(14,20);}//{return ConstantInt.of(16);}
     @Override protected int getMinLength() {return 3;}
 
-    @Override public boolean tryAttack(Entity attackedEntity)
+    @Override public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
     {
-        boolean flag = super.tryAttack(attackedEntity);
+        boolean flag = super.tryAttack(serverWorld, attackedEntity);
         if (flag && attackedEntity instanceof LivingEntity livingEntity && !EntityHelper.isLivingEntityShadowImmune(livingEntity))
         {
             livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 500, 0));
@@ -33,9 +34,9 @@ public class VenomousSnakeEntity extends AbstractSnakeEntity
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23D)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0D);
+                .add(EntityAttributes.MAX_HEALTH, 20.0D)
+                .add(EntityAttributes.ATTACK_DAMAGE, 3.0D)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.23D)
+                .add(EntityAttributes.FOLLOW_RANGE, 35.0D);
     }
 }

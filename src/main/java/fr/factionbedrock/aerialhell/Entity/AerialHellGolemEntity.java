@@ -41,7 +41,7 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
 
     public float getAttackDamage()
     {
-        return (float)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+        return (float)this.getAttributeValue(EntityAttributes.ATTACK_DAMAGE);
     }
 	
 	@Override
@@ -51,17 +51,17 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
 		super.tickMovement();
     }
 	
-    @Override public boolean tryAttack(Entity attackedEntity)
+    @Override public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
     {
         DamageSource damagesource = this.getDamageSources().mobAttack(this);
         float attackDamage = this.getAttackDamage();
         this.getWorld().sendEntityStatus(this, (byte)4);
         float amount = (int)attackDamage > 0 ? attackDamage / 2.0F + (float)this.random.nextInt((int)attackDamage) : attackDamage;
-        boolean flag = attackedEntity.damage(damagesource, amount);
+        boolean flag = attackedEntity.damage(serverWorld, damagesource, amount);
         if (flag)
         {
             attackedEntity.setVelocity(attackedEntity.getVelocity().add(0.0D, (double)this.getYMotionOnAttack(), 0.0D)); //projection en hauteur
-            if (this.getWorld() instanceof ServerWorld serverWorld) {EnchantmentHelper.onTargetDamaged(serverWorld, attackedEntity, damagesource);}
+            EnchantmentHelper.onTargetDamaged(serverWorld, attackedEntity, damagesource);
         }
 
         this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);

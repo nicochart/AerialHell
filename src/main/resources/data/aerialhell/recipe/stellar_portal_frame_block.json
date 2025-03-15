@@ -5,9 +5,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:stellar_portal_frame_brick"
-    }
+    "#": "aerialhell:stellar_portal_frame_brick"
   },
   "result": {
     "id": "aerialhell:stellar_portal_frame_block"

@@ -5,12 +5,8 @@
     "S "
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:ruby"
-    },
-    "S": {
-      "item": "aerialhell:sky_stick"
-    }
+    "#": "aerialhell:ruby",
+    "S": "aerialhell:sky_stick"
   },
   "result": {
     "id": "aerialhell:ruby_shuriken",

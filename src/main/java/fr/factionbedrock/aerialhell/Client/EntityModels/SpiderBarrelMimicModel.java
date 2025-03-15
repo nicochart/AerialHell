@@ -1,9 +1,9 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.AbstractBarrelMimicEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 
@@ -11,7 +11,7 @@ import net.minecraft.util.math.MathHelper;
 // Edited in-ide by Nicochart to mimic vanilla animation
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class SpiderBarrelMimicModel<T extends AbstractBarrelMimicEntity> extends EntityModel<T>
+public class SpiderBarrelMimicModel extends EntityModel<LivingEntityRenderState>
 {
 	private final ModelPart body0;
 	private final ModelPart leg0;
@@ -25,6 +25,7 @@ public class SpiderBarrelMimicModel<T extends AbstractBarrelMimicEntity> extends
 
 	public SpiderBarrelMimicModel(ModelPart root)
 	{
+		super(root);
 		this.body0 = root.getChild("body0");
 		this.leg0 = root.getChild("leg0");
 		this.leg1 = root.getChild("leg1");
@@ -68,8 +69,11 @@ public class SpiderBarrelMimicModel<T extends AbstractBarrelMimicEntity> extends
 		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
 
-	@Override public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(LivingEntityRenderState renderState)
 	{
+		float limbSwing = renderState.limbFrequency;
+		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+
 		leg0.roll = ((float)Math.PI / 4F); leg0.yaw = ((float)Math.PI / 4F);
 		leg1.roll = (-(float)Math.PI / 4F); leg1.yaw = (-(float)Math.PI / 4F);
 		leg2.roll = 0.58119464F; leg2.yaw = ((float)Math.PI / 8F);

@@ -9,6 +9,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
@@ -40,12 +41,12 @@ public class MudSpectralCycleMageEntity extends HostileEntity implements MudSpec
         return MudSpectralEntity.createSpectralAttributes(25.0D, 0.0D, 5.0D, 0.25D, 24.0D);
     }
 
-    @Override public boolean damage(DamageSource source, float amount)
+    @Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
     {
-        boolean flag = super.damage(source, amount);
+        boolean flag = super.damage(serverWorld, source, amount);
         if (flag && this.master.isAlive()) //damage master without showing
         {
-            if (!this.master.isInvulnerableTo(source) && this.master.getHealth() > 20.0F)
+            if (!this.master.isInvulnerableTo(serverWorld, source) && this.master.getHealth() > 20.0F)
             {
                 float amountToMaster = amount / (4 + this.master.getDifficulty());
                 this.master.setHealth(this.master.getHealth() - amountToMaster);

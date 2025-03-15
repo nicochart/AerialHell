@@ -6,12 +6,8 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:azurite_crystal"
-    },
-    "X": {
-      "item": "aerialhell:copper_pine_cone"
-    }
+    "#": "aerialhell:azurite_crystal",
+    "X": "aerialhell:copper_pine_cone"
   },
   "result": {
     "id": "aerialhell:azurite_copper_pine_cone"

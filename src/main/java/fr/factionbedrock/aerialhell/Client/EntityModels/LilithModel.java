@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.LilithRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 // Made by Cixon with Blockbench
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class LilithModel extends EntityModel<LilithEntity>
+public class LilithModel extends EntityModel<LilithRenderState>
 {
 	private final ModelPart head;
 	private final ModelPart body;
@@ -23,6 +23,7 @@ public class LilithModel extends EntityModel<LilithEntity>
 
 	public LilithModel(ModelPart root)
 	{
+		super(root);
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
 		this.wingRight = root.getChild("wingRight");
@@ -61,11 +62,15 @@ public class LilithModel extends EntityModel<LilithEntity>
 		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
 
-	@Override public void setAngles(LilithEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(LilithRenderState renderState)
 	{
-		if (!entity.isTransforming())
+		float headPitch = renderState.pitch;
+		float netHeadYaw = renderState.yawDegrees;
+		float limbSwing = renderState.limbFrequency;
+		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		if (!renderState.isTransforming)
 		{
-			int i = entity.attackTimer;
+			int i = renderState.attackTimer;
 			if (i > 0)
 			{
 				this.armRight.pitch = -2.0F + 1.5F * MathHelper.wrap((float)i, 10.0F) * 0.5f;

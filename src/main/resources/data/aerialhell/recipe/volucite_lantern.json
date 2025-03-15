@@ -6,12 +6,8 @@
     "XXX"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:torch"
-    },
-    "X": {
-      "item": "aerialhell:volucite_vibrant"
-    }
+    "#": "minecraft:torch",
+    "X": "aerialhell:volucite_vibrant"
   },
   "result": {
     "id": "aerialhell:volucite_lantern",

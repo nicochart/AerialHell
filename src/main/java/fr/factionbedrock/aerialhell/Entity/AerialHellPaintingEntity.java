@@ -24,6 +24,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.PaintingVariantTags;
 import net.minecraft.server.network.EntityTrackerEntry;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
@@ -49,7 +50,7 @@ public class AerialHellPaintingEntity extends AbstractDecorationEntity implement
 
     @Override protected void initDataTracker(DataTracker.Builder builder)
     {
-        builder.add(DATA_PAINTING_VARIANT_ID, this.getRegistryManager().get(RegistryKeys.PAINTING_VARIANT).getDefaultEntry().orElseThrow());
+        builder.add(DATA_PAINTING_VARIANT_ID, this.getRegistryManager().getOrThrow(RegistryKeys.PAINTING_VARIANT).getDefaultEntry().orElseThrow());
     }
 
     @Override public void onTrackedDataSet(TrackedData<?> data)
@@ -64,7 +65,7 @@ public class AerialHellPaintingEntity extends AbstractDecorationEntity implement
     {
         AerialHellPaintingEntity paintingEntity = new AerialHellPaintingEntity(world, pos);
         List<RegistryEntry<PaintingVariant>> list = new ArrayList();
-        world.getRegistryManager().get(RegistryKeys.PAINTING_VARIANT).iterateEntries(AerialHellTags.PaintingVariants.PLACEABLE).forEach(list::add);
+        world.getRegistryManager().getOrThrow(RegistryKeys.PAINTING_VARIANT).iterateEntries(AerialHellTags.PaintingVariants.PLACEABLE).forEach(list::add);
         if (list.isEmpty()) {return Optional.empty();}
         else
         {
@@ -105,14 +106,14 @@ public class AerialHellPaintingEntity extends AbstractDecorationEntity implement
     {
         VARIANT_CODEC.encodeStart(this.getRegistryManager().getOps(NbtOps.INSTANCE), this.getVariant())
                 .ifSuccess(nbtElement -> nbt.copyFrom((NbtCompound)nbtElement));
-        nbt.putByte("facing", (byte)this.facing.getHorizontal());
+        nbt.putByte("facing", (byte)this.facing.getHorizontalQuarterTurns());
         super.writeCustomDataToNbt(nbt);
     }
 
     @Override public void readCustomDataFromNbt(NbtCompound nbt)
     {
         VARIANT_CODEC.parse(this.getRegistryManager().getOps(NbtOps.INSTANCE), nbt).ifSuccess(this::setVariant);
-        this.facing = Direction.fromHorizontal(nbt.getByte("facing"));
+        this.facing = Direction.fromHorizontalQuarterTurns(nbt.getByte("facing"));
         super.readCustomDataFromNbt(nbt);
         this.setFacing(this.facing);
     }
@@ -135,13 +136,13 @@ public class AerialHellPaintingEntity extends AbstractDecorationEntity implement
 
     private double offsetForPaintingSize(int dimension) {return dimension % 2 == 0 ? 0.5 : 0.0;}
 
-    @Override public void onBreak(@Nullable Entity breaker)
+    @Override public void onBreak(ServerWorld world, @Nullable Entity breaker)
     {
-        if (this.getWorld().getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS))
+        if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS))
         {
             this.playSound(SoundEvents.ENTITY_PAINTING_BREAK, 1.0F, 1.0F);
             if (breaker instanceof PlayerEntity playerEntity && playerEntity.isInCreativeMode()) {return;}
-            this.dropItem(AerialHellItems.AERIAL_HELL_PAINTING);
+            this.dropItem(world, AerialHellItems.AERIAL_HELL_PAINTING);
         }
     }
 

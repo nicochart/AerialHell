@@ -5,9 +5,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:aerial_netherrack"
-    }
+    "#": "aerialhell:aerial_netherrack"
   },
   "result": {
     "id": "aerialhell:golden_nether_bricks",

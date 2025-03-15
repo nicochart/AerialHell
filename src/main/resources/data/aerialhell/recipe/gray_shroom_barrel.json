@@ -6,12 +6,8 @@
     "PSP"
   ],
   "key": {
-    "P": {
-      "item": "aerialhell:gray_shroom_planks"
-    },
-    "S": {
-      "item": "aerialhell:gray_shroom_slab"
-    }
+    "P": "aerialhell:gray_shroom_planks",
+    "S": "aerialhell:gray_shroom_slab"
   },
   "result": {
     "id": "aerialhell:gray_shroom_barrel"

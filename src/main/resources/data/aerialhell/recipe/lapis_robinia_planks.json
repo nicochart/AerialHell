@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "planks",
   "ingredients": [
-    {
-      "item": "aerialhell:lapis_robinia_log"
-    }
+    "aerialhell:lapis_robinia_log"
   ],
   "result": {
     "id": "aerialhell:lapis_robinia_planks",

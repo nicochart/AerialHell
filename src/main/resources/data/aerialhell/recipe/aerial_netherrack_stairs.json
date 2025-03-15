@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:aerial_netherrack"
-    }
+    "#": "aerialhell:aerial_netherrack"
   },
   "result": {
     "id": "aerialhell:aerial_netherrack_stairs",

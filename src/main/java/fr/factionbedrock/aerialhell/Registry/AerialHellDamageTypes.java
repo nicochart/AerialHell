@@ -28,6 +28,6 @@ public class AerialHellDamageTypes
 
     public static DamageSource getDamageSource(World world, RegistryKey<DamageType> typeKey, @Nullable Entity immediateSource, @Nullable Entity trueSource)
     {
-        return new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).entryOf(typeKey), immediateSource, trueSource);
+        return new DamageSource(world.getRegistryManager().getOrThrow(RegistryKeys.DAMAGE_TYPE).getOrThrow(typeKey), immediateSource, trueSource);
     }
 }

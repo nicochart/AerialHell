@@ -6,12 +6,8 @@
     "#W#"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "W": {
-      "item": "aerialhell:ghost_boat_planks"
-    }
+    "#": "aerialhell:sky_stick",
+    "W": "aerialhell:ghost_boat_planks"
   },
   "result": {
     "id": "aerialhell:ghost_boat_gate"

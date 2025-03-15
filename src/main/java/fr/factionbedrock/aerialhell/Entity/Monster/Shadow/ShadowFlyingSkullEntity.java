@@ -13,6 +13,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.VexEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
@@ -26,15 +27,15 @@ public class ShadowFlyingSkullEntity extends VexEntity
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.33D)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0D);
+                .add(EntityAttributes.MAX_HEALTH, 20.0D)
+                .add(EntityAttributes.FOLLOW_RANGE, 24.0D)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.33D)
+                .add(EntityAttributes.ATTACK_DAMAGE, 6.0D);
     }
 
-    @Override public boolean tryAttack(Entity attackedEntity)
+    @Override public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
     {
-        if (super.tryAttack(attackedEntity))
+        if (super.tryAttack(serverWorld, attackedEntity))
         {
             if (attackedEntity instanceof LivingEntity)
             {

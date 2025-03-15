@@ -31,7 +31,7 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
     @Override public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
     {
         BlockPos blockpos = pos.up();
-        if (world.isAir(blockpos) && blockpos.getY() < world.getTopY())
+        if (world.isAir(blockpos) && blockpos.getY() < world.getTopYInclusive())
         {
             int i = state.get(AGE);
             if (i < 5)

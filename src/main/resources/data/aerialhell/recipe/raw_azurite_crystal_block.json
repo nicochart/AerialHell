@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:raw_azurite_crystal"
-    }
+    "#": "aerialhell:raw_azurite_crystal"
   },
   "result": {
     "id": "aerialhell:raw_azurite_crystal_block"

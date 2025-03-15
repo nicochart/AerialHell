@@ -3,9 +3,7 @@
   "category": "building",
   "group": "bark",
   "key": {
-    "#": {
-      "item": "aerialhell:lapis_robinia_log"
-    }
+    "#": "aerialhell:lapis_robinia_log"
   },
   "pattern": [
     "##",

@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowFlyingSkullEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.ShadowFlyingSkullRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 // Made by Cixon with Blockbench
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class ShadowFlyingSkullModel<T extends ShadowFlyingSkullEntity> extends EntityModel<T>
+public class ShadowFlyingSkullModel extends EntityModel<ShadowFlyingSkullRenderState>
 {
 	private final ModelPart skull;
 	private final ModelPart leftWing;
@@ -19,6 +19,7 @@ public class ShadowFlyingSkullModel<T extends ShadowFlyingSkullEntity> extends E
 
 	public ShadowFlyingSkullModel(ModelPart root)
 	{
+		super(root);
 		this.skull = root.getChild("skull");
 		this.leftWing = root.getChild("leftWing");
 		this.rightWing = root.getChild("rightWing");
@@ -49,10 +50,10 @@ public class ShadowFlyingSkullModel<T extends ShadowFlyingSkullEntity> extends E
 		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
 
-	@Override public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(ShadowFlyingSkullRenderState renderState)
 	{
-		this.jaw.pitch = entity.jawOpeningAmplitude * MathHelper.sqrt(1.0F + MathHelper.cos(ageInTicks / entity.jawOpeningFrequencyMalus * 3.2F));
-		this.rightWing.yaw = 0.47123894F + MathHelper.cos(ageInTicks * 0.8F) * 0.3F;
+		this.jaw.pitch = renderState.jawOpeningAmplitude * MathHelper.sqrt(1.0F + MathHelper.cos(renderState.age / renderState.jawOpeningFrequencyMalus * 3.2F));
+		this.rightWing.yaw = 0.47123894F + MathHelper.cos(renderState.age * 0.8F) * 0.3F;
 		this.leftWing.yaw = -this.rightWing.yaw;
 		this.leftWing.roll = -0.47123894F;
 		this.leftWing.pitch = 0.47123894F;

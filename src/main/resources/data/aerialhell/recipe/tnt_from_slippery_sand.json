@@ -6,14 +6,8 @@
     "X#X"
   ],
   "key": {
-    "#": [
-      {
-        "item": "aerialhell:slippery_sand"
-      }
-    ],
-    "X": {
-      "item": "minecraft:gunpowder"
-    }
+    "#": "aerialhell:slippery_sand",
+    "X": "minecraft:gunpowder"
   },
   "result": {
     "id": "minecraft:tnt"

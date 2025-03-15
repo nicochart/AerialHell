@@ -6,12 +6,8 @@
     " #"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "X": {
-      "item": "minecraft:diamond"
-    }
+    "#": "aerialhell:sky_stick",
+    "X": "minecraft:diamond"
   },
   "result": {
     "id": "minecraft:diamond_hoe"

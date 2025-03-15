@@ -6,9 +6,7 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "aerialhell:lunatic_crystal"
-    }
+    "X": "aerialhell:lunatic_crystal"
   },
   "result": {
     "id": "aerialhell:lunatic_chestplate"

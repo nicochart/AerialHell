@@ -1,8 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "aerialhell:cracked_slippery_sand_stone_bricks"
-  },
+  "ingredient": "aerialhell:cracked_slippery_sand_stone_bricks",
   "result": {
     "count": 2,
     "id": "aerialhell:cracked_slippery_sand_stone_bricks_slab"

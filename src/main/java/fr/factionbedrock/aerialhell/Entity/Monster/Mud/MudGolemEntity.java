@@ -12,6 +12,7 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 
 public class MudGolemEntity extends AerialHellGolemEntity
@@ -27,16 +28,16 @@ public class MudGolemEntity extends AerialHellGolemEntity
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 60.0D)
-                .add(EntityAttributes.GENERIC_ARMOR, 3.0D)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23D);
+                .add(EntityAttributes.MAX_HEALTH, 60.0D)
+                .add(EntityAttributes.ARMOR, 3.0D)
+                .add(EntityAttributes.ATTACK_DAMAGE, 7.0D)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.23D);
     }
     
     @Override
-	public boolean damage(DamageSource source, float amount)
+	public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
 	{
-		boolean flag = super.damage(source, amount);
+		boolean flag = super.damage(serverWorld, source, amount);
 		if (flag)
 		{
 			Entity immediateSourceEntity = source.getSource();

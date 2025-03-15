@@ -5,9 +5,7 @@
     "CC"
   ],
   "key": {
-    "C": {
-      "item": "aerialhell:shadow_crystal"
-    }
+    "C": "aerialhell:shadow_crystal"
   },
   "result": {
     "id": "aerialhell:shadow_crystal_block"

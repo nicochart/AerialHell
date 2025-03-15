@@ -6,12 +6,8 @@
     "#"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:sky_stick"
-    },
-    "X": {
-      "item": "aerialhell:magmatic_gel"
-    }
+    "#": "aerialhell:sky_stick",
+    "X": "aerialhell:magmatic_gel"
   },
   "result": {
     "id": "aerialhell:magmatic_gel_sword"

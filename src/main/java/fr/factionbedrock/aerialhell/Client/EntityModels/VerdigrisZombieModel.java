@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Entity.Monster.VerdigrisZombieEntity;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.VerdigrisZombieRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.CrossbowPosing;
@@ -11,7 +11,7 @@ import net.minecraft.util.math.MathHelper;
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class VerdigrisZombieModel extends EntityModel<VerdigrisZombieEntity>//HumanoidModel<VerdigrisZombieEntity>
+public class VerdigrisZombieModel extends EntityModel<VerdigrisZombieRenderState>//HumanoidModel<VerdigrisZombieEntity>
 {
 	private final ModelPart head;
 	private final ModelPart body;
@@ -22,7 +22,7 @@ public class VerdigrisZombieModel extends EntityModel<VerdigrisZombieEntity>//Hu
 
 	public VerdigrisZombieModel(ModelPart root)
 	{
-		//super(root); //when extends HumanoidModel - it doesn't work : the game crashes when starting : "can't find this body part / element"
+		super(root);
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
 		this.leftArm = root.getChild("leftArm");
@@ -70,9 +70,14 @@ public class VerdigrisZombieModel extends EntityModel<VerdigrisZombieEntity>//Hu
 		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
 
-	@Override public void setAngles(VerdigrisZombieEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	@Override public void setAngles(VerdigrisZombieRenderState renderState)
 	{
-		CrossbowPosing.meleeAttack(this.leftArm, this.rightArm, entity.isAttacking(), this.handSwingProgress, ageInTicks);
+		float headPitch = renderState.pitch;
+		float netHeadYaw = renderState.yawDegrees;
+		float limbSwing = renderState.limbFrequency;
+		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+
+		CrossbowPosing.meleeAttack(this.leftArm, this.rightArm, renderState.isAggressive, renderState.attackTime, renderState.age);
 		this.head.yaw = netHeadYaw / 57.3F;
 		this.head.pitch = headPitch / 57.3F;
 		this.leftLeg.pitch = -1.0F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount;

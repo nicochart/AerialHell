@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "planks",
   "ingredients": [
-    {
-      "item": "aerialhell:golden_beech_log"
-    }
+    "aerialhell:golden_beech_log"
   ],
   "result": {
     "id": "aerialhell:golden_beech_planks",

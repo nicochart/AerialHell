@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.BlockEntity.*;
 import fr.factionbedrock.aerialhell.BlockEntity.AerialHellSignBlockEntity;
 
 import com.google.common.collect.Sets;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -12,22 +13,22 @@ import net.minecraft.registry.Registry;
 public class AerialHellBlockEntities
 {
 	public static final BlockEntityType<OscillatorBlockEntity> OSCILLATOR = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("oscillator"),
-			BlockEntityType.Builder.create(OscillatorBlockEntity::new,AerialHellBlocks.OSCILLATOR).build());
+			FabricBlockEntityTypeBuilder.create(OscillatorBlockEntity::new, AerialHellBlocks.OSCILLATOR).build());
 
 	public static final BlockEntityType<FreezerBlockEntity> FREEZER = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("freezer"),
-			BlockEntityType.Builder.create(FreezerBlockEntity::new,AerialHellBlocks.FREEZER).build());
+			FabricBlockEntityTypeBuilder.create(FreezerBlockEntity::new,AerialHellBlocks.FREEZER).build());
 
 	public static final BlockEntityType<IntangibleTemporaryBlockEntity> INTANGIBLE_TEMPORARY_BLOCK = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("intangible_temporary_block"),
-			BlockEntityType.Builder.create(IntangibleTemporaryBlockEntity::new,AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK).build());
+			FabricBlockEntityTypeBuilder.create(IntangibleTemporaryBlockEntity::new,AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK).build());
 
 	public static final BlockEntityType<BiomeShifterBlockEntity> BIOME_SHIFTER = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("biome_shifter"),
-			BlockEntityType.Builder.create((pos, blockState) -> new BiomeShifterBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null),
+			FabricBlockEntityTypeBuilder.create((pos, blockState) -> new BiomeShifterBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null),
 				AerialHellBlocks.FLUORITE_ORE,
 				AerialHellBlocks.FLUORITE_BLOCK
 			).build());
 
 	public static final BlockEntityType<ReactorBlockEntity> REACTOR = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("reactor"),
-			BlockEntityType.Builder.create((pos, blockState) -> new ReactorBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null),
+			FabricBlockEntityTypeBuilder.create((pos, blockState) -> new ReactorBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null),
 				AerialHellBlocks.WEAK_LIGHT_REACTOR,
 				AerialHellBlocks.HIGH_POWER_LIGHT_REACTOR,
 				AerialHellBlocks.WEAK_SHADOW_REACTOR,
@@ -35,13 +36,13 @@ public class AerialHellBlockEntities
 			).build());
 
 	public static final BlockEntityType<StellarFurnaceBlockEntity> STELLAR_FURNACE = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("stellar_furnace"),
-			BlockEntityType.Builder.create(StellarFurnaceBlockEntity::new,
+			FabricBlockEntityTypeBuilder.create(StellarFurnaceBlockEntity::new,
 					AerialHellBlocks.STELLAR_FURNACE,
 					AerialHellBlocks.GHOST_STELLAR_FURNACE
 			).build());
 
 	public static final BlockEntityType<AerialHellSignBlockEntity> SIGN = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("sign"),
-			BlockEntityType.Builder.create(AerialHellSignBlockEntity::new,
+			FabricBlockEntityTypeBuilder.create(AerialHellSignBlockEntity::new,
 					AerialHellBlocks.AERIAL_TREE_STANDING_SIGN,
 					AerialHellBlocks.AERIAL_TREE_WALL_SIGN,
 					AerialHellBlocks.GOLDEN_BEECH_STANDING_SIGN,
@@ -61,7 +62,7 @@ public class AerialHellBlockEntities
 			).build());
 
 	public static final BlockEntityType<AerialHellHangingSignBlockEntity> HANGING_SIGN = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("hanging_sign"),
-			BlockEntityType.Builder.create(AerialHellHangingSignBlockEntity::new,
+			FabricBlockEntityTypeBuilder.create(AerialHellHangingSignBlockEntity::new,
 					AerialHellBlocks.AERIAL_TREE_HANGING_SIGN,
 					AerialHellBlocks.AERIAL_TREE_WALL_HANGING_SIGN,
 					AerialHellBlocks.GOLDEN_BEECH_HANGING_SIGN,
@@ -81,7 +82,7 @@ public class AerialHellBlockEntities
 			).build());
 
 	public static final BlockEntityType<AerialHellBarrelBlockEntity> BARREL = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("barrel"),
-			BlockEntityType.Builder.create(AerialHellBarrelBlockEntity::new,
+			FabricBlockEntityTypeBuilder.create(AerialHellBarrelBlockEntity::new,
 					AerialHellBlocks.AERIAL_TREE_BARREL,
 					AerialHellBlocks.GOLDEN_BEECH_BARREL,
 					AerialHellBlocks.COPPER_PINE_BARREL,
@@ -94,7 +95,7 @@ public class AerialHellBlockEntities
 			).build());
 
 	public static final BlockEntityType<AerialHellChestBlockEntity> CHEST = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("chest"),
-			BlockEntityType.Builder.create(AerialHellChestBlockEntity::new,
+			FabricBlockEntityTypeBuilder.create(AerialHellChestBlockEntity::new,
 					AerialHellBlocks.AERIAL_TREE_CHEST,
 					AerialHellBlocks.GOLDEN_BEECH_CHEST,
 					AerialHellBlocks.COPPER_PINE_CHEST,
@@ -112,7 +113,7 @@ public class AerialHellBlockEntities
 			).build());
 
 	public static final BlockEntityType<ChestMimicBlockEntity> CHEST_MIMIC = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("chest_mimic"),
-			BlockEntityType.Builder.create(ChestMimicBlockEntity::new,
+			FabricBlockEntityTypeBuilder.create(ChestMimicBlockEntity::new,
 					AerialHellBlocks.AERIAL_TREE_CHEST_MIMIC,
 					AerialHellBlocks.GOLDEN_BEECH_CHEST_MIMIC,
 					AerialHellBlocks.COPPER_PINE_CHEST_MIMIC,

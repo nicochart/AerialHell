@@ -6,18 +6,10 @@
     "CCC"
   ],
   "key": {
-    "A": {
-      "item": "aerialhell:ruby_milk_bucket"
-    },
-    "B": {
-      "item": "minecraft:sugar"
-    },
-    "C": {
-      "item": "minecraft:wheat"
-    },
-    "E": {
-      "item": "minecraft:egg"
-    }
+    "A": "aerialhell:ruby_milk_bucket",
+    "B": "minecraft:sugar",
+    "C": "minecraft:wheat",
+    "E": "minecraft:egg"
   },
   "result": {
     "id": "minecraft:cake"

@@ -6,12 +6,8 @@
     "PSP"
   ],
   "key": {
-    "P": {
-      "item": "aerialhell:aerial_tree_planks"
-    },
-    "S": {
-      "item": "aerialhell:aerial_tree_slab"
-    }
+    "P": "aerialhell:aerial_tree_planks",
+    "S": "aerialhell:aerial_tree_slab"
   },
   "result": {
     "id": "aerialhell:aerial_tree_barrel"

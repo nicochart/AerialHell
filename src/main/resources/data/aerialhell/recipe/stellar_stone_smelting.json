@@ -1,8 +1,6 @@
 {
   "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "aerialhell:stellar_cobblestone"
-  },
+  "ingredient": "aerialhell:stellar_cobblestone",
   "result": {
     "id": "aerialhell:stellar_stone"
   },

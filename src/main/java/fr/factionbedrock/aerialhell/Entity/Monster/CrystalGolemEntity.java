@@ -93,10 +93,10 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 45.0D)
-                .add(EntityAttributes.GENERIC_ARMOR, 2.0D)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.24D);
+                .add(EntityAttributes.MAX_HEALTH, 45.0D)
+                .add(EntityAttributes.ARMOR, 2.0D)
+                .add(EntityAttributes.ATTACK_DAMAGE, 7.0D)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.24D);
     }
 
     @Override public boolean isFireImmune() {return true;}

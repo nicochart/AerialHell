@@ -5,9 +5,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:copper_pine_planks"
-    }
+    "#": "aerialhell:copper_pine_planks"
   },
   "result": {
     "id": "aerialhell:copper_pine_pressure_plate"

@@ -9,6 +9,8 @@ import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import net.minecraft.world.block.WireOrientation;
+import org.jetbrains.annotations.Nullable;
 
 public class BasicShadowSpreaderBlock extends Block implements ShadowSpreaderBlock
 {
@@ -22,10 +24,10 @@ public class BasicShadowSpreaderBlock extends Block implements ShadowSpreaderBlo
 
 	@Override protected boolean hasRandomTicks(BlockState state) {return state.get(CAN_SPREAD);}
 
-	@Override protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston)
+	@Override protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify)
 	{
-		super.neighborUpdate(state, world, pos, neighborBlock, neighborPos, movedByPiston);
-		if (BlockHelper.canBeCorrupted(world, neighborPos, BlockHelper.CorruptionType.ANY))
+		super.neighborUpdate(state, world, pos, sourceBlock, wireOrientation, notify);
+		if (BlockHelper.canAnyNeighborBeCorrupted(world, pos, BlockHelper.CorruptionType.ANY))
 		{
 			world.setBlockState(pos, state.with(CAN_SPREAD, true), 2);
 		}

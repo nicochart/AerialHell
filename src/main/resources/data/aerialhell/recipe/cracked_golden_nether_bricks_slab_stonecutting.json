@@ -1,8 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "aerialhell:cracked_golden_nether_bricks"
-  },
+  "ingredient": "aerialhell:cracked_golden_nether_bricks",
   "result": {
     "count": 2,
     "id": "aerialhell:cracked_golden_nether_bricks_slab"

@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "bed",
   "key": {
-    "#": {
-      "item": "minecraft:red_wool"
-    },
-    "X": {
-      "tag": "aerialhell:aerialhell_planks"
-    }
+    "#": "minecraft:red_wool",
+    "X": "#aerialhell:aerialhell_planks"
   },
   "pattern": [
     "###",

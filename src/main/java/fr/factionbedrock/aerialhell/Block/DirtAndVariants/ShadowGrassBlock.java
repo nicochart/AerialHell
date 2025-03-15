@@ -21,7 +21,7 @@ public class ShadowGrassBlock extends AerialHellGrassBlock
 
 	@Override protected Optional<RegistryEntry.Reference<PlacedFeature>> getBonemealFeature(ServerWorld world)
 	{
-		return world.getRegistryManager().get(RegistryKeys.PLACED_FEATURE).getEntry(AerialHellPlacedFeatures.SHADOW_GRASS_BONEMEAL);
+		return world.getRegistryManager().getOrThrow(RegistryKeys.PLACED_FEATURE).getOptional(AerialHellPlacedFeatures.SHADOW_GRASS_BONEMEAL);
 	}
 
 	@Override

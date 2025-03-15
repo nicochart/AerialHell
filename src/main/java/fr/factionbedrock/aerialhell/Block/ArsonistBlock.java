@@ -7,6 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -21,9 +22,9 @@ public class ArsonistBlock extends Block
 	{
 		if (entity instanceof LivingEntity livingEntity)
 		{
-			if (!entity.isFireImmune() && !EntityHelper.hasEnchantment(livingEntity, Enchantments.FROST_WALKER))
+			if (world instanceof ServerWorld serverWorld && !entity.isFireImmune() && !EntityHelper.hasEnchantment(livingEntity, Enchantments.FROST_WALKER))
 			{
-				entity.damage(world.getDamageSources().hotFloor(), 1.0F);
+				entity.damage(serverWorld, world.getDamageSources().hotFloor(), 1.0F);
 			}
 			entity.setOnFireFor(2);
 		}

@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "wooden_button",
   "ingredients": [
-    {
-      "item": "aerialhell:stellar_stone"
-    }
+    "aerialhell:stellar_stone"
   ],
   "result": {
     "id": "aerialhell:stellar_stone_button"

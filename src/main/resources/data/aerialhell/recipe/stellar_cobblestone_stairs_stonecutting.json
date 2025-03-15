@@ -1,8 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "aerialhell:stellar_cobblestone"
-  },
+  "ingredient": "aerialhell:stellar_cobblestone",
   "result": {
     "count": 1,
     "id": "aerialhell:stellar_cobblestone_stairs"

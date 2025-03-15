@@ -15,6 +15,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
@@ -83,15 +84,15 @@ public class ChainedGodEntity extends AbstractBossEntity
 	public static DefaultAttributeContainer.Builder registerAttributes()
     {
 		return HostileEntity.createHostileAttributes()
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, 1400.0D)
-				.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
-				.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.2D)
-				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 6.0D)
-				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 25.0D);
+				.add(EntityAttributes.MAX_HEALTH, 1400.0D)
+				.add(EntityAttributes.FOLLOW_RANGE, 32.0D)
+				.add(EntityAttributes.MOVEMENT_SPEED, 0.3D)
+				.add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.2D)
+				.add(EntityAttributes.ATTACK_KNOCKBACK, 6.0D)
+				.add(EntityAttributes.ATTACK_DAMAGE, 25.0D);
     }
 	
-	@Override public boolean damage(DamageSource source, float amount)
+	@Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
 	{
 		Entity immediateSourceEntity = source.getSource();
 		Entity trueSourceEntity = source.getAttacker();
@@ -99,7 +100,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		if (!this.canGetProjectileDamages() && EntityHelper.isProjectile(immediateSourceEntity)) {return false;}
 		else
 		{
-			boolean flag = super.damage(source, amount);
+			boolean flag = super.damage(serverWorld, source, amount);
 			if (flag)
 			{
 				if (trueSourceEntity instanceof LivingEntity && !EntityHelper.isProjectile(immediateSourceEntity))
@@ -114,9 +115,9 @@ public class ChainedGodEntity extends AbstractBossEntity
 		}
 	}
 
-	@Override public boolean tryActuallyHurt(DamageSource damageSource, float amount)
+	@Override public boolean tryActuallyHurt(ServerWorld serverWorld, DamageSource damageSource, float amount)
 	{
-		return this.isFreelyMoving() && super.tryActuallyHurt(damageSource, amount);
+		return this.isFreelyMoving() && super.tryActuallyHurt(serverWorld, damageSource, amount);
 	}
 
 	@Override protected void initDataTracker(DataTracker.Builder builder)
@@ -272,14 +273,14 @@ public class ChainedGodEntity extends AbstractBossEntity
 	
 	@Override public boolean isPushable() {return false;}
 	
-	@Override public boolean tryAttack(Entity attackedEntity)
+	@Override public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
 	{
 		DamageSource damagesource = this.getDamageSources().mobAttack(this);
 		this.getWorld().sendEntityStatus(this, (byte)4);
-		float f = (float)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+		float f = (float)this.getAttributeValue(EntityAttributes.ATTACK_DAMAGE);
 		float amount = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
-		float kb = (float)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_KNOCKBACK);
-		boolean flag = attackedEntity.damage(damagesource, amount);
+		float kb = (float)this.getAttributeValue(EntityAttributes.ATTACK_KNOCKBACK);
+		boolean flag = attackedEntity.damage(serverWorld, damagesource, amount);
 		if (flag)
 		{
 			((LivingEntity)attackedEntity).takeKnockback(kb * 0.5F, (double) MathHelper.sin(this.getYaw() * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(this.getYaw() * ((float)Math.PI / 180F))));
@@ -532,7 +533,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 		@Override public Entity createEntity()
 		{
-			return AerialHellEntities.TORN_SPIRIT.create(this.getGoalOwner().getWorld());
+			return AerialHellEntities.TORN_SPIRIT.create(this.getGoalOwner().getWorld(), SpawnReason.MOB_SUMMONED);
 		}
 
 		@Override protected void setEntityPosToSummonPos(Entity entity) {entity.setPos(this.getGoalOwner().getX(), this.getGoalOwner().getY() + 1.0, this.getGoalOwner().getZ());}

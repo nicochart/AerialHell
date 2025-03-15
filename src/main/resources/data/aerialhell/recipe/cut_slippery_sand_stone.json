@@ -5,9 +5,7 @@
     "BB"
   ],
   "key": {
-    "B": {
-      "item": "aerialhell:slippery_sand_stone_bricks"
-    }
+    "B": "aerialhell:slippery_sand_stone_bricks"
   },
   "result": {
     "id": "aerialhell:cut_slippery_sand_stone",

@@ -16,15 +16,18 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 
 public class ForgottenBattleTridentItem extends AerialHellSwordItem
-{	
-	public ForgottenBattleTridentItem(ToolMaterial toolMaterial, Item.Settings settings) {super(toolMaterial, settings);}
+{
+	public ForgottenBattleTridentItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, Settings settings)
+	{
+		super(toolMaterial, attackDamage, attackSpeed, movementSpeed, maxHealth, settings);
+	}
 	
 	@Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
+    public ActionResult use(World world, PlayerEntity player, Hand hand)
     {
 		ItemStack heldItem = player.getStackInHand(hand);
 		Random rand = new Random();
@@ -42,9 +45,9 @@ public class ForgottenBattleTridentItem extends AerialHellSwordItem
 			player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 120, 0));
 			player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 300, 0));
 		}
-		player.getItemCooldownManager().set(this, 540);
+		player.getItemCooldownManager().set(heldItem, 540);
 		heldItem.damage(1, player, LivingEntity.getSlotForHand(hand));
-		return TypedActionResult.consume(heldItem);
+		return ActionResult.CONSUME;
     }
 
 	@Override public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type)

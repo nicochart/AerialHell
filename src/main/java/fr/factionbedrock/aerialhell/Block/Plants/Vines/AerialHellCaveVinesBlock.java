@@ -54,7 +54,7 @@ public class AerialHellCaveVinesBlock extends CaveVinesHeadBlock
             BlockState blockState = state.with(BERRIES, false);
             world.setBlockState(pos, blockState, Block.NOTIFY_LISTENERS);
             world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(picker, blockState));
-            return ActionResult.success(world.isClient);
+            return ActionResult.SUCCESS;
         }
         else {return ActionResult.PASS;}
     }

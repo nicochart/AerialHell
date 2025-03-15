@@ -7,17 +7,19 @@ import net.minecraft.block.enums.BlockHalf;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 
 public class LargeDeadLogBlock extends Block
 {
@@ -25,7 +27,7 @@ public class LargeDeadLogBlock extends Block
         return instance.group(BlockState.CODEC.fieldOf("base_state").forGetter((largeDeadLogBlock) -> {return largeDeadLogBlock.baseState;}), createSettingsCodec()).apply(instance, LargeDeadLogBlock::new);
     });
 
-    public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
+    public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
     public static final EnumProperty<BlockHalf> HALF = Properties.BLOCK_HALF;
     protected static final VoxelShape TOP = Block.createCuboidShape(0.0D, 14.0D, 0.0D, 16.0D, 16.0D, 16.0D);
     protected static final VoxelShape BOTTOM = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D);
@@ -68,9 +70,9 @@ public class LargeDeadLogBlock extends Block
         return this.getDefaultState().with(FACING, direction).with(HALF, half);
     }
 
-    @Override public BlockState getStateForNeighborUpdate(BlockState previousState, Direction direction, BlockState newState, WorldAccess level, BlockPos pos1, BlockPos pos2)
+    @Override public BlockState getStateForNeighborUpdate(BlockState previousState, WorldView world, ScheduledTickView scheduledTickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random)
     {
-        return direction.getAxis().isHorizontal() ? previousState : super.getStateForNeighborUpdate(previousState, direction, newState, level, pos1, pos2);
+        return direction.getAxis().isHorizontal() ? previousState : super.getStateForNeighborUpdate(previousState, world, scheduledTickView, pos, direction, neighborPos, neighborState, random);
     }
 
     @Override public BlockState rotate(BlockState state, BlockRotation rotation)

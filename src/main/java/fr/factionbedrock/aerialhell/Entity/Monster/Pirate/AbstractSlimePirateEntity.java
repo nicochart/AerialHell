@@ -5,8 +5,10 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,7 +27,7 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
             {
                 float x = ((float) (l % 2) - 0.5F) * 0.5F;
                 float z = ((float) (l / 2) - 0.5F) * 0.5F;
-                AbstractSlimePirateEntity littlePirate = this.getDieOffspringType().create(this.getWorld());
+                AbstractSlimePirateEntity littlePirate = this.getDieOffspringType().create(this.getWorld(), SpawnReason.TRIGGERED);
                 if (littlePirate != null)
                 {
                     if (this.isPersistent()) {littlePirate.setPersistent();}
@@ -43,9 +45,9 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
         super.remove(removalReason);
     }
 
-    @Override public boolean damage(DamageSource damageSource, float amount)
+    @Override public boolean damage(ServerWorld serverWorld, DamageSource damageSource, float amount)
     {
-        return super.damage(damageSource, this.isBaby() ? amount * 1.5F : amount);
+        return super.damage(serverWorld, damageSource, this.isBaby() ? amount * 1.5F : amount);
     }
 
     public EntityType<? extends AbstractSlimePirateEntity> getDieOffspringType() {return this.getType();}

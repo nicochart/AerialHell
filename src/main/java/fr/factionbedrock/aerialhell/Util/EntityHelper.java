@@ -186,7 +186,7 @@ public class EntityHelper
 
     public static boolean hasEnchantment(LivingEntity entity, RegistryKey<Enchantment> enchantmentKey)
     {
-        Optional<RegistryEntry.Reference<Enchantment>> enchantment = entity.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(enchantmentKey);
+        Optional<RegistryEntry.Reference<Enchantment>> enchantment = entity.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOptional(enchantmentKey);
         if (enchantment.isPresent())
         {
             return EnchantmentHelper.getEquipmentLevel(enchantment.get(), entity) > 0;
@@ -337,9 +337,9 @@ public class EntityHelper
             }
             else {previousBodyPartString += "null";}
             nextBodyPartString += "]"; previousBodyPartString += "]";
-            messageReceiver.sendMessage(Text.literal("Entity "+snakeEntity.getType()+" : isHead = "+snakeEntity.isHead()));
-            messageReceiver.sendMessage(Text.literal("nextBodyPart = "+nextBodyPartString));
-            messageReceiver.sendMessage(Text.literal("previousBodyPart = "+previousBodyPartString));
+            messageReceiver.sendMessage(Text.literal("Entity "+snakeEntity.getType()+" : isHead = "+snakeEntity.isHead()), false);
+            messageReceiver.sendMessage(Text.literal("nextBodyPart = "+nextBodyPartString), false);
+            messageReceiver.sendMessage(Text.literal("previousBodyPart = "+previousBodyPartString), false);
         }
     }
 }

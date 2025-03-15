@@ -5,12 +5,8 @@
     "S "
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:azurite_crystal"
-    },
-    "S": {
-      "item": "aerialhell:sky_stick"
-    }
+    "#": "aerialhell:azurite_crystal",
+    "S": "aerialhell:sky_stick"
   },
   "result": {
     "id": "aerialhell:azurite_shuriken",

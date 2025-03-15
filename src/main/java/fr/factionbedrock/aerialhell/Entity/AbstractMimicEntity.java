@@ -10,6 +10,7 @@ import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
@@ -34,7 +35,7 @@ public abstract class AbstractMimicEntity extends PathAwareEntity
 	}
 
 	@Override
-	public boolean damage(DamageSource source, float amount)
+	public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
 	{
 		for (int i=0; i<12; i++)
 		{
@@ -42,7 +43,7 @@ public abstract class AbstractMimicEntity extends PathAwareEntity
 			double dx = random.nextFloat() - 0.5F, dy = random.nextFloat() - 0.5F, dz = random.nextFloat() - 0.5F;
 			this.getWorld().addParticle(new BlockStateParticleEffect(ParticleTypes.BLOCK, getMimicBlock().getDefaultState()), x, y, z, dx, dy, dz);
 		}
-		boolean flag = super.damage(source, amount);
+		boolean flag = super.damage(serverWorld, source, amount);
 		if (flag)
 		{
 			if (source.getSource() instanceof LivingEntity attacker)
@@ -54,13 +55,13 @@ public abstract class AbstractMimicEntity extends PathAwareEntity
 	}
 
 	@Override
-	public boolean tryAttack(Entity target)
+	public boolean tryAttack(ServerWorld serverWorld, Entity target)
 	{
-		boolean flag = super.tryAttack(target);
+		boolean flag = super.tryAttack(serverWorld, target);
 		if (flag && target instanceof LivingEntity)
 		{
 			if (((LivingEntity) target).getHealth() <= 0.0) {this.playSound(SoundEvents.ENTITY_PLAYER_BURP, 1.0F, 1.0F);}
-			else {this.playSound(SoundEvents.ENTITY_GENERIC_EAT, 1.0F, 1.0F + random.nextFloat());}
+			else {this.playSound(SoundEvents.ENTITY_GENERIC_EAT.value(), 1.0F, 1.0F + random.nextFloat());}
 		}
 		return flag;
 	}

@@ -7,15 +7,9 @@
   ],
   "key": {
     "#": [
-      {
-        "item": "aerialhell:chiseled_smoky_quartz_block"
-      },
-      {
-        "item": "aerialhell:smoky_quartz_block"
-      },
-      {
-        "item": "aerialhell:smoky_quartz_pillar"
-      }
+      "aerialhell:chiseled_smoky_quartz_block",
+      "aerialhell:smoky_quartz_block",
+      "aerialhell:smoky_quartz_pillar"
     ]
   },
   "result": {

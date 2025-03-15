@@ -5,12 +5,8 @@
     "S "
   ],
   "key": {
-    "#": {
-      "item": "minecraft:netherite_ingot"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "#": "minecraft:netherite_ingot",
+    "S": "minecraft:stick"
   },
   "result": {
     "id": "aerialhell:netherite_shuriken",
