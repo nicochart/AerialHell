@@ -30,10 +30,10 @@ public class RubyBucketItem extends Item
     }
 
     @Override
-    public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn)
+    public InteractionResult use(Level level, Player playerIn, InteractionHand handIn)
     {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
-        BlockHitResult blockhitresult = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.SOURCE_ONLY);
+        BlockHitResult blockhitresult = getPlayerPOVHitResult(level, playerIn, ClipContext.Fluid.SOURCE_ONLY);
         if (blockhitresult.getType() != HitResult.Type.BLOCK)
         {
             return InteractionResult.PASS;
@@ -43,26 +43,26 @@ public class RubyBucketItem extends Item
             BlockPos blockpos = blockhitresult.getBlockPos();
             Direction direction = blockhitresult.getDirection();
             BlockPos blockpos1 = blockpos.relative(direction);
-            if (worldIn.mayInteract(playerIn, blockpos) && playerIn.mayUseItemAt(blockpos1, direction, itemstack))
+            if (level.mayInteract(playerIn, blockpos) && playerIn.mayUseItemAt(blockpos1, direction, itemstack))
             {
-                BlockState blockstate1 = worldIn.getBlockState(blockpos);
+                BlockState blockstate1 = level.getBlockState(blockpos);
                 if (blockstate1.getBlock() instanceof BucketPickup)
                 {
                     //BucketPickup bucketpickup = (BucketPickup)blockstate1.getBlock();
-                    Fluid fluid = worldIn.getFluidState(blockpos).getType();
+                    Fluid fluid = level.getFluidState(blockpos).getType();
                     if (fluid == Fluids.WATER)
                     {
                         playPickupSound(fluid, playerIn);
-                        worldIn.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
-                        ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, playerIn, new ItemStack(AerialHellItems.RUBY_WATER_BUCKET.get()));
-                        return InteractionResult.SUCCESS;
+                        level.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
+                        ItemStack afterPickupHandItemStack = new ItemStack(AerialHellItems.RUBY_WATER_BUCKET.get());
+                        return playerIn.isCreative() ? InteractionResult.SUCCESS : fillBucketFromStack(itemstack, playerIn, afterPickupHandItemStack);
                     }
                     else if (fluid == AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE.get())
                     {
                         playPickupSound(fluid, playerIn);
-                        worldIn.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
-                        ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, playerIn, new ItemStack(AerialHellItems.RUBY_LIQUID_OF_GODS_BUCKET.get()));
-                        return InteractionResult.SUCCESS;
+                        level.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
+                        ItemStack afterPickupHandItemStack = new ItemStack(AerialHellItems.RUBY_LIQUID_OF_GODS_BUCKET.get());
+                        return playerIn.isCreative() ? InteractionResult.SUCCESS : fillBucketFromStack(itemstack, playerIn, afterPickupHandItemStack);
                     }
                 }
             }
@@ -70,26 +70,17 @@ public class RubyBucketItem extends Item
         return InteractionResult.FAIL;
     }
 
-    public ItemStack fillBucket(ItemStack emptyBucket, Player player, ItemStack filledBucket)
+    public InteractionResult fillBucketFromStack(ItemStack emptyBucket, Player player, ItemStack filledBucket)
     {
-        boolean creative = player.isCreative();
-        if (creative)
+        if (emptyBucket.getCount() > 1)
         {
-            player.getInventory().add(filledBucket);
-            return emptyBucket;
+            emptyBucket.shrink(1);
+            if (!player.getInventory().add(filledBucket)) {player.drop(filledBucket, false);}
+            return InteractionResult.SUCCESS;
         }
         else
         {
-            emptyBucket.shrink(1);
-            if (emptyBucket.isEmpty())
-            {
-                return filledBucket;
-            }
-            else
-            {
-                if (!player.getInventory().add(filledBucket)) {player.drop(filledBucket, false);}
-                return emptyBucket;
-            }
+            return InteractionResult.SUCCESS.heldItemTransformedTo(filledBucket);
         }
     }
 
