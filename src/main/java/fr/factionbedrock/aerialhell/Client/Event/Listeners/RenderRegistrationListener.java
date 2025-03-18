@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
+import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShiftingBlockBakedModel;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestMimicBlockEntityRenderer;
@@ -23,7 +24,9 @@ import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer;
 import net.minecraft.client.render.block.entity.SignBlockEntityRenderer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.Baker;
 import net.minecraft.client.render.model.ModelBaker;
+import net.minecraft.client.render.model.ModelRotation;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.client.util.SpriteIdentifier;
@@ -346,15 +349,29 @@ public class RenderRegistrationListener
 
     public static void registerShiftingBakedModels()
     {
-        /* TODO find a way to put custom baked models in the map
-        Maybe try to inject code to net.minecraft.client.render.model.BakedModelManager "bake()" method, before profiler.swap("dispatch") call
-        putting my custom models in the map
-
         initialiseToBakeList();
 
         ModelLoadingPlugin.register(plugin -> plugin.modifyModelAfterBake().register((original, context) ->
         {
-            if (TO_BAKE_LIST.isEmpty()) {return original;}
+            Baker baker = context.baker();
+            //if (context.id().toString().contains("stellar_grass_block")
+            if (context.id().toString().equals("aerialhell:block/stellar_grass_block") && !context.baker().getModelNameSupplier().get().contains("shifted_render=true"))
+            {
+                AerialHell.LOGGER.info(context.baker().getModelNameSupplier().get());
+
+                BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_stellar_grass_block"), ModelRotation.X0_Y0);
+                BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
+                return editedModel;
+            }
+            else if (context.id().toString().equals("aerialhell:block/shadow_grass_block") && !context.baker().getModelNameSupplier().get().contains("shifted_render=true"))
+            {
+                BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_shadow_grass_block"), ModelRotation.X0_Y0);
+                BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
+                return editedModel;
+            }
+            else {return original;}
+
+            /*if (TO_BAKE_LIST.isEmpty()) {return original;}
             List<BlockState> bakedList = new ArrayList<>();
             for (BlockState blockstate : TO_BAKE_LIST)
             {
@@ -374,9 +391,8 @@ public class RenderRegistrationListener
                 //}
             }
             TO_BAKE_LIST.removeAll(bakedList);
-            return original;
+            return original;*/
         }));
-        */
     }
 
     public static void initialiseToBakeList()

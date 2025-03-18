@@ -19,18 +19,18 @@
     ],
     "snowy=false,shifted_render=true": [
       {
-        "model": "aerialhell:block/shadow_grass_block"
+        "model": "aerialhell:block/shifted_stellar_grass_block"
       },
       {
-        "model": "aerialhell:block/shadow_grass_block",
+        "model": "aerialhell:block/shifted_stellar_grass_block",
         "y": 90
       },
       {
-        "model": "aerialhell:block/shadow_grass_block",
+        "model": "aerialhell:block/shifted_stellar_grass_block",
         "y": 180
       },
       {
-        "model": "aerialhell:block/shadow_grass_block",
+        "model": "aerialhell:block/shifted_stellar_grass_block",
         "y": 270
       }
     ],
