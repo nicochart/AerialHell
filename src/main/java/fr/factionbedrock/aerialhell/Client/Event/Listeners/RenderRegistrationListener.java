@@ -6,30 +6,24 @@ import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestBl
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestMimicBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.EntityModels.*;
 import fr.factionbedrock.aerialhell.Client.EntityRender.*;
+import fr.factionbedrock.aerialhell.Client.Util.ModelRotationList;
 import fr.factionbedrock.aerialhell.Client.Util.ShiftedModelRenderHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.model.ModelNameSupplier;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.block.BlockModels;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer;
 import net.minecraft.client.render.block.entity.SignBlockEntityRenderer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.Baker;
-import net.minecraft.client.render.model.ModelBaker;
 import net.minecraft.client.render.model.ModelRotation;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.util.ModelIdentifier;
-import net.minecraft.client.util.SpriteIdentifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -351,21 +345,51 @@ public class RenderRegistrationListener
     {
         initialiseToBakeList();
 
+        ModelRotationList<ModelRotation> stellarGrassBlockRotationList = new ModelRotationList<>();
+        stellarGrassBlockRotationList.add(ModelRotation.X0_Y0); stellarGrassBlockRotationList.add(ModelRotation.X0_Y90); stellarGrassBlockRotationList.add(ModelRotation.X0_Y180); stellarGrassBlockRotationList.add(ModelRotation.X0_Y270);
+        ModelRotationList<ModelRotation> shadowGrassBlockRotationList = new ModelRotationList<>(stellarGrassBlockRotationList);
+        ModelRotationList<ModelRotation> aerialTreeLogHorizontalRotationList = new ModelRotationList<>();
+        aerialTreeLogHorizontalRotationList.add(ModelRotation.X90_Y90); aerialTreeLogHorizontalRotationList.add(ModelRotation.X90_Y0);
+        ModelRotationList<ModelRotation> shadowAerialTreeLogHorizontalRotationList = new ModelRotationList<>();
+        shadowAerialTreeLogHorizontalRotationList.add(ModelRotation.X90_Y0); shadowAerialTreeLogHorizontalRotationList.add(ModelRotation.X90_Y90);
+
         ModelLoadingPlugin.register(plugin -> plugin.modifyModelAfterBake().register((original, context) ->
         {
             Baker baker = context.baker();
-            //if (context.id().toString().contains("stellar_grass_block")
+
             if (context.id().toString().equals("aerialhell:block/stellar_grass_block") && !context.baker().getModelNameSupplier().get().contains("shifted_render=true"))
             {
-                AerialHell.LOGGER.info(context.baker().getModelNameSupplier().get());
-
-                BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_stellar_grass_block"), ModelRotation.X0_Y0);
+                BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_stellar_grass_block"), stellarGrassBlockRotationList.getNext());
                 BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
                 return editedModel;
             }
             else if (context.id().toString().equals("aerialhell:block/shadow_grass_block") && !context.baker().getModelNameSupplier().get().contains("shifted_render=true"))
             {
-                BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_shadow_grass_block"), ModelRotation.X0_Y0);
+                BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_shadow_grass_block"), shadowGrassBlockRotationList.getNext());
+                BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
+                return editedModel;
+            }
+            else if (context.id().toString().equals("aerialhell:block/aerial_tree_log") && !context.baker().getModelNameSupplier().get().contains("shifted_render=true"))
+            {
+                BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_aerial_tree_log"), ModelRotation.X0_Y0);
+                BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
+                return editedModel;
+            }
+            else if (context.id().toString().equals("aerialhell:block/aerial_tree_log_horizontal") && !context.baker().getModelNameSupplier().get().contains("shifted_render=true"))
+            {
+                BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_aerial_tree_log_horizontal"), aerialTreeLogHorizontalRotationList.getNext());
+                BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
+                return editedModel;
+            }
+            else if (context.id().toString().equals("aerialhell:block/shadow_aerial_tree_log") && !context.baker().getModelNameSupplier().get().contains("shifted_render=true"))
+            {
+                BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_shadow_aerial_tree_log"), ModelRotation.X0_Y0);
+                BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
+                return editedModel;
+            }
+            else if (context.id().toString().equals("aerialhell:block/shadow_aerial_tree_log_horizontal") && !context.baker().getModelNameSupplier().get().contains("shifted_render=true"))
+            {
+                BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_shadow_aerial_tree_log_horizontal"), shadowAerialTreeLogHorizontalRotationList.getNext());
                 BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
                 return editedModel;
             }
