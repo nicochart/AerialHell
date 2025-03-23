@@ -1,12 +1,20 @@
 package fr.factionbedrock.aerialhell.Client.Util;
 
+import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShiftingBlockBakedModel;
+import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.RenderRegistrationListener;
 import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
 import fr.factionbedrock.aerialhell.Block.ShadowSpreader.BasicShadowSpreaderBlock;
 import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowLeavesBlock;
 import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowLogBlock;
 import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier;
 import net.minecraft.block.*;
+import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.Baker;
+import net.minecraft.client.render.model.ModelRotation;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.Direction;
 
 import java.util.ArrayList;
@@ -14,6 +22,49 @@ import java.util.List;
 
 public class ShiftedModelRenderHelper
 {
+    public static boolean contextMatch(ModelModifier.AfterBake.Context context, RegistryKey<Block> key, String postVariantString)
+    {
+        return contextMatch(context, "aerialhell:block/"+key.getValue().getPath()+"_"+postVariantString);
+    }
+
+    public static boolean contextMatch(ModelModifier.AfterBake.Context context, RegistryKey<Block> key)
+    {
+        return contextMatch(context, "aerialhell:block/"+key.getValue().getPath());
+    }
+
+    public static boolean contextMatch(ModelModifier.AfterBake.Context context, String modelString)
+    {
+        return context.id().toString().equals(modelString) && !context.baker().getModelNameSupplier().get().contains("shifted_render=true");
+    }
+
+    public static BakedModel getDefaultShiftingModel(BakedModel original, RegistryKey<Block> key, Baker baker)
+    {
+        BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_"+key.getValue().getPath()), ModelRotation.X0_Y0);
+        BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
+        return editedModel;
+    }
+
+    public static BakedModel getDefaultShiftingModel(BakedModel original, RegistryKey<Block> key, Baker baker, String variant)
+    {
+        BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_"+key.getValue().getPath()+"_"+variant), ModelRotation.X0_Y0);
+        BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
+        return editedModel;
+    }
+
+    public static BakedModel getCustomRotationDefaultShiftingModel(BakedModel original, RegistryKey<Block> key, Baker baker, String variant, ModelRotationList<ModelRotation> rotationList)
+    {
+        BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_"+key.getValue().getPath()+"_"+variant), rotationList.getNext());
+        BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
+        return editedModel;
+    }
+
+    public static BakedModel getCustomRotationDefaultShiftingModel(BakedModel original, RegistryKey<Block> key, Baker baker, ModelRotationList<ModelRotation> rotationList)
+    {
+        BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_"+key.getValue().getPath()), rotationList.getNext());
+        BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
+        return editedModel;
+    }
+
     public static void addToBakeDefaultBlockstate(Block block)
     {
         if (block instanceof BasicShadowSpreaderBlock)

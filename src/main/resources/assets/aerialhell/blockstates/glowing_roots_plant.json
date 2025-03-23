@@ -6,8 +6,8 @@
     {"model": "aerialhell:block/glowing_roots_plant_dot_variant"}
   ],
     "shifted_render=true": [
-    {"model": "aerialhell:block/shadow_glowing_roots_plant"},
-    {"model": "aerialhell:block/shadow_glowing_roots_plant_variant"},
-    {"model": "aerialhell:block/shadow_glowing_roots_plant_dot_variant"}
+    {"model": "aerialhell:block/shifted_glowing_roots_plant"},
+    {"model": "aerialhell:block/shifted_glowing_roots_plant_variant"},
+    {"model": "aerialhell:block/shifted_glowing_roots_plant_dot_variant"}
   ]}
 }

@@ -1,6 +1,6 @@
 {
     "variants": {
       "shifted_render=false": {"model": "aerialhell:block/aerial_tree_leaves"},
-      "shifted_render=true": {"model": "aerialhell:block/shadow_aerial_tree_leaves"}
+      "shifted_render=true": {"model": "aerialhell:block/shifted_aerial_tree_leaves"}
   }
 }

@@ -357,41 +357,77 @@ public class RenderRegistrationListener
         {
             Baker baker = context.baker();
 
-            if (context.id().toString().equals("aerialhell:block/stellar_grass_block") && !context.baker().getModelNameSupplier().get().contains("shifted_render=true"))
+            if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.STELLAR_GRASS_BLOCK))
             {
-                BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_stellar_grass_block"), stellarGrassBlockRotationList.getNext());
-                BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
-                return editedModel;
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.STELLAR_GRASS_BLOCK, baker, stellarGrassBlockRotationList);
             }
-            else if (context.id().toString().equals("aerialhell:block/shadow_grass_block") && !context.baker().getModelNameSupplier().get().contains("shifted_render=true"))
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_GRASS_BLOCK))
             {
-                BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_shadow_grass_block"), shadowGrassBlockRotationList.getNext());
-                BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
-                return editedModel;
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_GRASS_BLOCK, baker, shadowGrassBlockRotationList);
             }
-            else if (context.id().toString().equals("aerialhell:block/aerial_tree_log") && !context.baker().getModelNameSupplier().get().contains("shifted_render=true"))
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.AERIAL_TREE_LOG))
             {
-                BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_aerial_tree_log"), ModelRotation.X0_Y0);
-                BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
-                return editedModel;
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.AERIAL_TREE_LOG, baker);
             }
-            else if (context.id().toString().equals("aerialhell:block/aerial_tree_log_horizontal") && !context.baker().getModelNameSupplier().get().contains("shifted_render=true"))
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.AERIAL_TREE_LOG, "horizontal"))
             {
-                BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_aerial_tree_log_horizontal"), aerialTreeLogHorizontalRotationList.getNext());
-                BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
-                return editedModel;
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.AERIAL_TREE_LOG, baker, "horizontal", aerialTreeLogHorizontalRotationList);
             }
-            else if (context.id().toString().equals("aerialhell:block/shadow_aerial_tree_log") && !context.baker().getModelNameSupplier().get().contains("shifted_render=true"))
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_AERIAL_TREE_LOG))
             {
-                BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_shadow_aerial_tree_log"), ModelRotation.X0_Y0);
-                BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
-                return editedModel;
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_AERIAL_TREE_LOG, baker);
             }
-            else if (context.id().toString().equals("aerialhell:block/shadow_aerial_tree_log_horizontal") && !context.baker().getModelNameSupplier().get().contains("shifted_render=true"))
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_AERIAL_TREE_LOG, "horizontal"))
             {
-                BakedModel shiftedModel = baker.bake(AerialHell.id("block/shifted_shadow_aerial_tree_log_horizontal"), shadowAerialTreeLogHorizontalRotationList.getNext());
-                BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
-                return editedModel;
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_AERIAL_TREE_LOG, baker, "horizontal", shadowAerialTreeLogHorizontalRotationList);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.AERIAL_TREE_LEAVES))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.AERIAL_TREE_LEAVES, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_AERIAL_TREE_LEAVES))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_AERIAL_TREE_LEAVES, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.GLOWING_ROOTS_PLANT))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.GLOWING_ROOTS_PLANT, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.GLOWING_ROOTS_PLANT, "variant"))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.GLOWING_ROOTS_PLANT, baker, "variant");
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.GLOWING_ROOTS_PLANT, "dot_variant"))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.GLOWING_ROOTS_PLANT, baker, "dot_variant");
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.GLOWING_ROOTS))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.GLOWING_ROOTS, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.GLOWING_ROOTS, "variant"))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.GLOWING_ROOTS, baker, "variant");
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_GLOWING_ROOTS_PLANT))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_GLOWING_ROOTS_PLANT, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_GLOWING_ROOTS_PLANT, "variant"))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_GLOWING_ROOTS_PLANT, baker, "variant");
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_GLOWING_ROOTS_PLANT, "dot_variant"))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_GLOWING_ROOTS_PLANT, baker, "dot_variant");
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_GLOWING_ROOTS))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_GLOWING_ROOTS, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_GLOWING_ROOTS, "variant"))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_GLOWING_ROOTS, baker, "variant");
             }
             else {return original;}
 
