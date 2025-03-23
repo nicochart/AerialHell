@@ -13,15 +13,15 @@
       "x": 90
     },
     "axis=x,shifted_render=true": {
-      "model": "aerialhell:block/shadow_golden_beech_log_horizontal",
+      "model": "aerialhell:block/shifted_golden_beech_log_horizontal",
       "x": 90,
       "y": 90
     },
     "axis=y,shifted_render=true": {
-      "model": "aerialhell:block/shadow_golden_beech_log"
+      "model": "aerialhell:block/shifted_golden_beech_log"
     },
     "axis=z,shifted_render=true": {
-      "model": "aerialhell:block/shadow_golden_beech_log_horizontal",
+      "model": "aerialhell:block/shifted_golden_beech_log_horizontal",
       "x": 90
     }
   }

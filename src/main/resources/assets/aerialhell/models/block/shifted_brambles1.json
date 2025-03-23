@@ -1,0 +1,8 @@
+{
+  "parent": "aerialhell:block/tinted_template_doublecross_with_layer",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "texture": "aerialhell:block/shadow_brambles_1",
+    "layer": "aerialhell:block/shadow_brambles_1_layer"
+  }
+}

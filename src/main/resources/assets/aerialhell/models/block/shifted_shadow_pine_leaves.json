@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "aerialhell:block/hollow_shadow_pine_leaves"
+  }
+}

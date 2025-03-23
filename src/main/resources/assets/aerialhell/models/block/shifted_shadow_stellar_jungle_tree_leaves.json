@@ -1,0 +1,6 @@
+{
+  "parent": "aerialhell:block/stellar_leaves",
+  "textures": {
+    "all": "aerialhell:block/stellar_jungle_tree_leaves"
+  }
+}

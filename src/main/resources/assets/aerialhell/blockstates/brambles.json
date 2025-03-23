@@ -5,7 +5,7 @@
     {"model": "aerialhell:block/brambles1"}
   ],
     "shifted_render=true": [
-    {"model": "aerialhell:block/shadow_brambles0"},
-    {"model": "aerialhell:block/shadow_brambles1"}
+    {"model": "aerialhell:block/shifted_brambles0"},
+    {"model": "aerialhell:block/shifted_brambles1"}
   ]}
 }

@@ -1,7 +1,5 @@
 package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
-import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShiftingBlockBakedModel;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestMimicBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.EntityModels.*;
@@ -15,23 +13,16 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.minecraft.block.BlockState;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer;
 import net.minecraft.client.render.block.entity.SignBlockEntityRenderer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
-import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.Baker;
 import net.minecraft.client.render.model.ModelRotation;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class RenderRegistrationListener
 {
-    public static final List<BlockState> TO_BAKE_LIST = new ArrayList<>();
-
     public static void registerBlockRenderLayers()
     {
         RenderLayer translucent = RenderLayer.getTranslucent();
@@ -343,8 +334,6 @@ public class RenderRegistrationListener
 
     public static void registerShiftingBakedModels()
     {
-        initialiseToBakeList();
-
         ModelRotationList<ModelRotation> stellarGrassBlockRotationList = new ModelRotationList<>();
         stellarGrassBlockRotationList.add(ModelRotation.X0_Y0); stellarGrassBlockRotationList.add(ModelRotation.X0_Y90); stellarGrassBlockRotationList.add(ModelRotation.X0_Y180); stellarGrassBlockRotationList.add(ModelRotation.X0_Y270);
         ModelRotationList<ModelRotation> shadowGrassBlockRotationList = new ModelRotationList<>(stellarGrassBlockRotationList);
@@ -352,18 +341,88 @@ public class RenderRegistrationListener
         aerialTreeLogHorizontalRotationList.add(ModelRotation.X90_Y90); aerialTreeLogHorizontalRotationList.add(ModelRotation.X90_Y0);
         ModelRotationList<ModelRotation> shadowAerialTreeLogHorizontalRotationList = new ModelRotationList<>();
         shadowAerialTreeLogHorizontalRotationList.add(ModelRotation.X90_Y0); shadowAerialTreeLogHorizontalRotationList.add(ModelRotation.X90_Y90);
+        ModelRotationList<ModelRotation> goldenBeechLogHorizontalRotationList = new ModelRotationList<>(aerialTreeLogHorizontalRotationList);
+        ModelRotationList<ModelRotation> shadowGoldenBeechLogHorizontalRotationList = new ModelRotationList<>(shadowAerialTreeLogHorizontalRotationList);
+        ModelRotationList<ModelRotation> copperPineLogHorizontalRotationList = new ModelRotationList<>(aerialTreeLogHorizontalRotationList);
+        ModelRotationList<ModelRotation> shadowCopperPineLogHorizontalRotationList = new ModelRotationList<>(shadowAerialTreeLogHorizontalRotationList);
+        ModelRotationList<ModelRotation> lapisRobiniaPineLogHorizontalRotationList = new ModelRotationList<>(aerialTreeLogHorizontalRotationList);
+        ModelRotationList<ModelRotation> shadowLapisRobiniaLogHorizontalRotationList = new ModelRotationList<>(shadowAerialTreeLogHorizontalRotationList);
+        ModelRotationList<ModelRotation> enchantedLapisRobiniaPineLogHorizontalRotationList = new ModelRotationList<>(aerialTreeLogHorizontalRotationList);
+        ModelRotationList<ModelRotation> hollowShadowPineLogHorizontalRotationList = new ModelRotationList<>(shadowAerialTreeLogHorizontalRotationList);
+        ModelRotationList<ModelRotation> shadowPineLogHorizontalRotationList = new ModelRotationList<>(shadowAerialTreeLogHorizontalRotationList);
+        ModelRotationList<ModelRotation> eyeShadowPineLogHorizontalRotationList = new ModelRotationList<>(shadowAerialTreeLogHorizontalRotationList);
+        ModelRotationList<ModelRotation> eyeShadowPineLogHorizontalVariantRotationList = new ModelRotationList<>(shadowAerialTreeLogHorizontalRotationList);
+        ModelRotationList<ModelRotation> eyeShadowPineLogHorizontalVariant2RotationList = new ModelRotationList<>(shadowAerialTreeLogHorizontalRotationList);
+        ModelRotationList<ModelRotation> stellarJungleTreeLogHorizontalRotationList = new ModelRotationList<>(aerialTreeLogHorizontalRotationList);
+        ModelRotationList<ModelRotation> shadowStellarJungleTreeLogHorizontalRotationList = new ModelRotationList<>(shadowAerialTreeLogHorizontalRotationList);
 
         ModelLoadingPlugin.register(plugin -> plugin.modifyModelAfterBake().register((original, context) ->
         {
             Baker baker = context.baker();
 
-            if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.STELLAR_GRASS_BLOCK))
+            if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.STELLAR_STONE_CRYSTAL_BLOCK))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.STELLAR_STONE_CRYSTAL_BLOCK, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_CRYSTAL_BLOCK))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_CRYSTAL_BLOCK, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.STELLAR_GRASS_BLOCK))
             {
                 return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.STELLAR_GRASS_BLOCK, baker, stellarGrassBlockRotationList);
             }
             else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_GRASS_BLOCK))
             {
                 return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_GRASS_BLOCK, baker, shadowGrassBlockRotationList);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.STELLAR_GRASS))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.STELLAR_GRASS, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.STELLAR_GRASS_BALL))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.STELLAR_GRASS_BALL, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatchVariant(context, AerialHellBlocks.Keys.STELLAR_GRASS_BALL, "0"))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModelVariant(original, AerialHellBlocks.Keys.STELLAR_GRASS_BALL, baker, "0");
+            }
+            else if (ShiftedModelRenderHelper.contextMatchVariant(context, AerialHellBlocks.Keys.STELLAR_GRASS_BALL, "1"))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModelVariant(original, AerialHellBlocks.Keys.STELLAR_GRASS_BALL, baker, "1");
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_GRASS))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_GRASS, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_GRASS_BALL))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_GRASS_BALL, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatchVariant(context, AerialHellBlocks.Keys.SHADOW_GRASS_BALL, "0"))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModelVariant(original, AerialHellBlocks.Keys.SHADOW_GRASS_BALL, baker, "0");
+            }
+            else if (ShiftedModelRenderHelper.contextMatchVariant(context, AerialHellBlocks.Keys.SHADOW_GRASS_BALL, "1"))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModelVariant(original, AerialHellBlocks.Keys.SHADOW_GRASS_BALL, baker, "1");
+            }
+            else if (ShiftedModelRenderHelper.contextMatchVariant(context, AerialHellBlocks.Keys.BRAMBLES, "0"))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModelVariant(original, AerialHellBlocks.Keys.BRAMBLES, baker, "0");
+            }
+            else if (ShiftedModelRenderHelper.contextMatchVariant(context, AerialHellBlocks.Keys.BRAMBLES, "1"))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModelVariant(original, AerialHellBlocks.Keys.BRAMBLES, baker, "1");
+            }
+            else if (ShiftedModelRenderHelper.contextMatchVariant(context, AerialHellBlocks.Keys.SHADOW_BRAMBLES, "0"))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModelVariant(original, AerialHellBlocks.Keys.SHADOW_BRAMBLES, baker, "0");
+            }
+            else if (ShiftedModelRenderHelper.contextMatchVariant(context, AerialHellBlocks.Keys.SHADOW_BRAMBLES, "1"))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModelVariant(original, AerialHellBlocks.Keys.SHADOW_BRAMBLES, baker, "1");
             }
             else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.AERIAL_TREE_LOG))
             {
@@ -381,6 +440,118 @@ public class RenderRegistrationListener
             {
                 return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_AERIAL_TREE_LOG, baker, "horizontal", shadowAerialTreeLogHorizontalRotationList);
             }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.GOLDEN_BEECH_LOG))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.GOLDEN_BEECH_LOG, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.GOLDEN_BEECH_LOG, "horizontal"))
+            {
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.GOLDEN_BEECH_LOG, baker, "horizontal", goldenBeechLogHorizontalRotationList);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_GOLDEN_BEECH_LOG))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_GOLDEN_BEECH_LOG, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_GOLDEN_BEECH_LOG, "horizontal"))
+            {
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_GOLDEN_BEECH_LOG, baker, "horizontal", shadowGoldenBeechLogHorizontalRotationList);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.COPPER_PINE_LOG))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.COPPER_PINE_LOG, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.COPPER_PINE_LOG, "horizontal"))
+            {
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.COPPER_PINE_LOG, baker, "horizontal", copperPineLogHorizontalRotationList);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_COPPER_PINE_LOG))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_COPPER_PINE_LOG, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_COPPER_PINE_LOG, "horizontal"))
+            {
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_COPPER_PINE_LOG, baker, "horizontal", shadowCopperPineLogHorizontalRotationList);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.LAPIS_ROBINIA_LOG))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.LAPIS_ROBINIA_LOG, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.LAPIS_ROBINIA_LOG, "horizontal"))
+            {
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.LAPIS_ROBINIA_LOG, baker, "horizontal", lapisRobiniaPineLogHorizontalRotationList);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_LAPIS_ROBINIA_LOG))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_LAPIS_ROBINIA_LOG, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_LAPIS_ROBINIA_LOG, "horizontal"))
+            {
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_LAPIS_ROBINIA_LOG, baker, "horizontal", shadowLapisRobiniaLogHorizontalRotationList);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.ENCHANTED_LAPIS_ROBINIA_LOG))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.LAPIS_ROBINIA_LOG, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.ENCHANTED_LAPIS_ROBINIA_LOG, "horizontal"))
+            {
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.LAPIS_ROBINIA_LOG, baker, "horizontal", enchantedLapisRobiniaPineLogHorizontalRotationList);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.HOLLOW_SHADOW_PINE_LOG))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.HOLLOW_SHADOW_PINE_LOG, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.HOLLOW_SHADOW_PINE_LOG, "horizontal"))
+            {
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.HOLLOW_SHADOW_PINE_LOG, baker, "horizontal", hollowShadowPineLogHorizontalRotationList);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_PINE_LOG))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_PINE_LOG, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_PINE_LOG, "horizontal"))
+            {
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_PINE_LOG, baker, "horizontal", shadowPineLogHorizontalRotationList);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.EYE_SHADOW_PINE_LOG))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_PINE_LOG, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.EYE_SHADOW_PINE_LOG, "variant"))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_PINE_LOG, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.EYE_SHADOW_PINE_LOG, "variant_2"))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_PINE_LOG, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.EYE_SHADOW_PINE_LOG, "horizontal"))
+            {
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_PINE_LOG, baker, "horizontal", eyeShadowPineLogHorizontalRotationList);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.EYE_SHADOW_PINE_LOG, "horizontal_variant"))
+            {
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_PINE_LOG, baker, "horizontal", eyeShadowPineLogHorizontalVariantRotationList);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.EYE_SHADOW_PINE_LOG, "horizontal_variant_2"))
+            {
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_PINE_LOG, baker, "horizontal", eyeShadowPineLogHorizontalVariant2RotationList);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.STELLAR_JUNGLE_TREE_LOG))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.STELLAR_JUNGLE_TREE_LOG, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.STELLAR_JUNGLE_TREE_LOG, "horizontal"))
+            {
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.STELLAR_JUNGLE_TREE_LOG, baker, "horizontal", stellarJungleTreeLogHorizontalRotationList);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_STELLAR_JUNGLE_TREE_LOG))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_STELLAR_JUNGLE_TREE_LOG, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_STELLAR_JUNGLE_TREE_LOG, "horizontal"))
+            {
+                return ShiftedModelRenderHelper.getCustomRotationDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_STELLAR_JUNGLE_TREE_LOG, baker, "horizontal", shadowStellarJungleTreeLogHorizontalRotationList);
+            }
             else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.AERIAL_TREE_LEAVES))
             {
                 return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.AERIAL_TREE_LEAVES, baker);
@@ -388,6 +559,54 @@ public class RenderRegistrationListener
             else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_AERIAL_TREE_LEAVES))
             {
                 return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_AERIAL_TREE_LEAVES, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.GOLDEN_BEECH_LEAVES))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.GOLDEN_BEECH_LEAVES, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_GOLDEN_BEECH_LEAVES))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_GOLDEN_BEECH_LEAVES, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.COPPER_PINE_LEAVES))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.COPPER_PINE_LEAVES, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_COPPER_PINE_LEAVES))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_COPPER_PINE_LEAVES, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.LAPIS_ROBINIA_LEAVES))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.LAPIS_ROBINIA_LEAVES, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_LAPIS_ROBINIA_LEAVES))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_LAPIS_ROBINIA_LEAVES, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_PINE_LEAVES))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_PINE_LEAVES, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.HOLLOW_SHADOW_PINE_LEAVES))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.HOLLOW_SHADOW_PINE_LEAVES, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.PURPLE_SHADOW_PINE_LEAVES))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.PURPLE_SHADOW_PINE_LEAVES, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.HOLLOW_PURPLE_SHADOW_PINE_LEAVES))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.HOLLOW_PURPLE_SHADOW_PINE_LEAVES, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.STELLAR_JUNGLE_TREE_LEAVES))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.STELLAR_JUNGLE_TREE_LEAVES, baker);
+            }
+            else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.SHADOW_STELLAR_JUNGLE_TREE_LEAVES))
+            {
+                return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_STELLAR_JUNGLE_TREE_LEAVES, baker);
             }
             else if (ShiftedModelRenderHelper.contextMatch(context, AerialHellBlocks.Keys.GLOWING_ROOTS_PLANT))
             {
@@ -430,74 +649,6 @@ public class RenderRegistrationListener
                 return ShiftedModelRenderHelper.getDefaultShiftingModel(original, AerialHellBlocks.Keys.SHADOW_GLOWING_ROOTS, baker, "variant");
             }
             else {return original;}
-
-            /*if (TO_BAKE_LIST.isEmpty()) {return original;}
-            List<BlockState> bakedList = new ArrayList<>();
-            for (BlockState blockstate : TO_BAKE_LIST)
-            {
-                ModelIdentifier initialIdentifier = BlockModels.getModelId(blockstate);
-                ModelIdentifier shiftedIdentifier = BlockModels.getModelId(blockstate.with(AerialHellBooleanProperties.SHIFTED_RENDER, true));
-                //if (context.baker() instanceof ModelBaker modelBaker)
-                //{
-                BakedModel initialModel = context.loader().getBakedModelMap().get(initialIdentifier);
-                BakedModel shiftedModel = context.loader().getBakedModelMap().get(shiftedIdentifier);
-                if (initialModel != null && shiftedModel != null)
-                {
-                    BakedModel editedModel = new ShiftingBlockBakedModel(initialModel, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
-                    context.loader().getBakedModelMap().put(initialIdentifier, editedModel);
-                    bakedList.add(blockstate);
-                }
-                else {TO_BAKE_LIST.removeAll(bakedList); return original;}
-                //}
-            }
-            TO_BAKE_LIST.removeAll(bakedList);
-            return original;*/
         }));
-    }
-
-    public static void initialiseToBakeList()
-    {
-        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK);
-        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK);
-        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.STELLAR_GRASS);
-        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.SHADOW_GRASS);
-        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.STELLAR_GRASS_BALL);
-        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.SHADOW_GRASS_BALL);
-        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.BRAMBLES);
-        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.SHADOW_BRAMBLES);
-        ShiftedModelRenderHelper.addToBakeAbstractPlantStemBlock(AerialHellBlocks.GLOWING_ROOTS);
-        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.GLOWING_ROOTS_PLANT);
-        ShiftedModelRenderHelper.addToBakeAbstractPlantStemBlock(AerialHellBlocks.SHADOW_GLOWING_ROOTS);
-        ShiftedModelRenderHelper.addToBakeDefaultBlockstate(AerialHellBlocks.SHADOW_GLOWING_ROOTS_PLANT);
-        ShiftedModelRenderHelper.addToBakeGrassBlock(AerialHellBlocks.STELLAR_GRASS_BLOCK);
-        ShiftedModelRenderHelper.addToBakeGrassBlock(AerialHellBlocks.SHADOW_GRASS_BLOCK);
-        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.AERIAL_TREE_LEAVES);
-        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.SHADOW_AERIAL_TREE_LEAVES);
-        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.GOLDEN_BEECH_LEAVES);
-        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.SHADOW_GOLDEN_BEECH_LEAVES);
-        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.COPPER_PINE_LEAVES);
-        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.SHADOW_COPPER_PINE_LEAVES);
-        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.LAPIS_ROBINIA_LEAVES);
-        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LEAVES);
-        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.SHADOW_PINE_LEAVES);
-        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.HOLLOW_SHADOW_PINE_LEAVES);
-        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.PURPLE_SHADOW_PINE_LEAVES);
-        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.HOLLOW_PURPLE_SHADOW_PINE_LEAVES);
-        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.STELLAR_JUNGLE_TREE_LEAVES);
-        ShiftedModelRenderHelper.addToBakeLeavesBlock(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LEAVES);
-        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.AERIAL_TREE_LOG);
-        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.SHADOW_AERIAL_TREE_LOG);
-        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.GOLDEN_BEECH_LOG);
-        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.SHADOW_GOLDEN_BEECH_LOG);
-        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.COPPER_PINE_LOG);
-        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.SHADOW_COPPER_PINE_LOG);
-        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.LAPIS_ROBINIA_LOG);
-        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.ENCHANTED_LAPIS_ROBINIA_LOG);
-        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LOG);
-        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.HOLLOW_SHADOW_PINE_LOG);
-        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.SHADOW_PINE_LOG);
-        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.EYE_SHADOW_PINE_LOG);
-        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.STELLAR_JUNGLE_TREE_LOG);
-        ShiftedModelRenderHelper.addToBakeLogBlock(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LOG);
     }
 }

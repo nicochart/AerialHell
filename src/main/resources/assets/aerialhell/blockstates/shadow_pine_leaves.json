@@ -1,6 +1,6 @@
 {
     "variants": {
       "shifted_render=false": {"model": "aerialhell:block/shadow_pine_leaves"},
-      "shifted_render=true": {"model": "aerialhell:block/hollow_shadow_pine_leaves"}
+      "shifted_render=true": {"model": "aerialhell:block/shifted_shadow_pine_leaves"}
   }
 }

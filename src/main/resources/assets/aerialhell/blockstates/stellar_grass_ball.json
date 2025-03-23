@@ -5,7 +5,7 @@
     {"model": "aerialhell:block/stellar_grass_ball1"}
   ],
     "shifted_render=true": [
-    {"model": "aerialhell:block/shadow_grass_ball0"},
-    {"model": "aerialhell:block/shadow_grass_ball1"}
+    {"model": "aerialhell:block/shifted_stellar_grass_ball0"},
+    {"model": "aerialhell:block/shifted_stellar_grass_ball1"}
   ]}
 }

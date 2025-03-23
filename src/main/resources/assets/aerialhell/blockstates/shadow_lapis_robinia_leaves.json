@@ -1,6 +1,6 @@
 {
     "variants": {
       "shifted_render=false": {"model": "aerialhell:block/shadow_lapis_robinia_leaves"},
-      "shifted_render=true": {"model": "aerialhell:block/lapis_robinia_leaves"}
+      "shifted_render=true": {"model": "aerialhell:block/shifted_shadow_lapis_robinia_leaves"}
   }
 }
