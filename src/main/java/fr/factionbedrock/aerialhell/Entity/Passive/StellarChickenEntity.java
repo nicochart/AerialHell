@@ -109,10 +109,10 @@ public class StellarChickenEntity extends Chicken
                 .add(Attributes.MOVEMENT_SPEED, 0.3);
     }
 
-    @Nullable @Override public ItemEntity spawnAtLocation(ServerLevel serverLevel, ItemLike item)
+    @Nullable @Override public ItemEntity spawnAtLocation(ServerLevel serverLevel, ItemStack itemStack)
     {
-        if (item == Items.EGG) {return super.spawnAtLocation(serverLevel, AerialHellItems.STELLAR_EGG.get());}
-        else {return super.spawnAtLocation(serverLevel, item);}
+        if (itemStack.getItem() == Items.EGG) {return super.spawnAtLocation(serverLevel, AerialHellItems.STELLAR_EGG.toStack());}
+        else {return super.spawnAtLocation(serverLevel, itemStack);}
     }
 
     @Override public float getWalkTargetValue(BlockPos pos, LevelReader worldIn)
