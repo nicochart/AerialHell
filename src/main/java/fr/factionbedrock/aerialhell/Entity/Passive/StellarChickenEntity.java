@@ -108,10 +108,10 @@ public class StellarChickenEntity extends ChickenEntity
                 .add(EntityAttributes.MOVEMENT_SPEED, 0.3);
     }
 
-    @Nullable @Override public ItemEntity dropItem(ServerWorld serverWorld, ItemConvertible item)
+    @Nullable @Override public ItemEntity dropStack(ServerWorld serverWorld, ItemStack itemStack)
     {
-        if (item == Items.EGG) {return super.dropItem(serverWorld, AerialHellItems.STELLAR_EGG);}
-        else {return super.dropItem(serverWorld, item);}
+        if (itemStack.getItem() == Items.EGG) {return super.dropStack(serverWorld, AerialHellItems.STELLAR_EGG.getDefaultStack());}
+        else {return super.dropStack(serverWorld, itemStack);}
     }
 
     @Override public float getPathfindingFavor(BlockPos pos, WorldView world)
