@@ -77,7 +77,7 @@ public class RenderSkyMixin
         int skyColor = world.getSkyColor(camera.getPos(), partialTicks);
         float r = ColorHelper.getRedFloat(skyColor), g = ColorHelper.getGreenFloat(skyColor), b = ColorHelper.getBlueFloat(skyColor);
         ahSkyRenderer.renderSkyDisc(r, g, b);
-        VertexConsumerProvider.Immediate bufferSource = MinecraftClient.getInstance().getBufferBuilders().getEffectVertexConsumers();
+        VertexConsumerProvider.Immediate bufferSource = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
         if (dimensionEffects.isSunRisingOrSetting(timeOfDay))
         {
             ahSkyRenderer.renderSunriseAndSunset(matrixStack, bufferSource, sunAngle, sunriseOrSunsetColor);

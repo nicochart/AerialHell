@@ -63,7 +63,7 @@ public class AerialHellDimensionSpecialEffects extends DimensionEffects implemen
         int skyColor = world.getSkyColor(camera.getPos(), partialTicks);
         float r = ColorHelper.getRedFloat(skyColor), g = ColorHelper.getGreenFloat(skyColor), b = ColorHelper.getBlueFloat(skyColor);
         this.skyRenderer.renderSkyDisc(r, g, b);
-        VertexConsumerProvider.Immediate bufferSource = MinecraftClient.getInstance().getBufferBuilders().getEffectVertexConsumers();
+        VertexConsumerProvider.Immediate bufferSource = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
         if (dimSpecialEffects.isSunRisingOrSetting(timeOfDay))
         {
             this.skyRenderer.renderSunriseAndSunset(matrixStack, bufferSource, sunAngle, sunriseOrSunsetColor);
