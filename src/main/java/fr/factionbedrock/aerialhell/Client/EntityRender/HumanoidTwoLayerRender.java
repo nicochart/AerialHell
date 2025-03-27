@@ -14,6 +14,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer;
+import net.minecraft.client.render.entity.state.ArmedEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
@@ -42,6 +43,7 @@ public class HumanoidTwoLayerRender extends MobEntityRenderer<AbstractHumanoidMo
         renderState.baby = entity.isBaby();
         renderState.isAggressive = entity.isAttacking();
         renderState.handSwingProgress = entity.getHandSwingProgress(partialTick);
+        ArmedEntityRenderState.updateRenderState(entity, renderState, this.itemModelResolver);
     }
 
     @Nullable @Override protected RenderLayer getRenderLayer(HumanoidTwoLayerRenderState renderState, boolean isVisible, boolean renderTranslucent, boolean appearsGlowing)
