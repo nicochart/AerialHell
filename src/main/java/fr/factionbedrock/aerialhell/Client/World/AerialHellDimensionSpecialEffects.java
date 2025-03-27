@@ -12,6 +12,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Vector4f;
 
+//Sky Renderer is unused at the moment, see RenderSkyMixin
+
 public class AerialHellDimensionSpecialEffects extends DimensionEffects implements DimensionRenderingRegistry.SkyRenderer
 {
     public AerialHellDimensionSkyRenderer skyRenderer = null; //skyRenderer should be initialized here, but since the game crashes with exception (Tesselator not initialized). So it is now initialized once in render method.

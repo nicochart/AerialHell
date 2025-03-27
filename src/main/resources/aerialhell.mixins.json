@@ -22,7 +22,8 @@
 		"RarityFromItemStackMixin",
 		"RenderBlockOverlayMixin",
 		"RenderHudOverlayMixin",
-		"ItemTintMixin"
+		"ItemTintMixin",
+		"RenderSkyMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

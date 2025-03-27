@@ -37,8 +37,9 @@ public class AerialHellClientSetup
 
     public static void registerDimensionRenderInfo()
     {
-        AerialHellDimensionSpecialEffects renderInfo = new AerialHellDimensionSpecialEffects(Float.NaN, true, DimensionEffects.SkyType.NORMAL, false, false);
-        DimensionRenderingRegistry.registerSkyRenderer(AerialHellDimensions.AERIAL_HELL_DIMENSION, renderInfo);
+        //Sky render is done in RenderSkyMixin because can't get Fabric's DimensionRenderingRegistry.SkyRenderer to work
+        //AerialHellDimensionSpecialEffects renderInfo = new AerialHellDimensionSpecialEffects(Float.NaN, true, DimensionEffects.SkyType.NORMAL, false, false);
+        //DimensionRenderingRegistry.registerSkyRenderer(AerialHellDimensions.AERIAL_HELL_DIMENSION, renderInfo);
         DimensionRenderingRegistry.registerCloudRenderer(AerialHellDimensions.AERIAL_HELL_DIMENSION, new AerialHellDimensionSpecialEffects.AerialHellCloudRenderer());
     }
 }

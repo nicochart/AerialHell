@@ -63,3 +63,7 @@ accessible method net/minecraft/item/Item$Settings getValidatedComponents (Lnet/
 
 #Used in LivingDamageMixin
 accessible method net/minecraft/entity/LivingEntity applyDamage (Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;F)V
+
+#Used in RenderSkyMixin
+accessible field net/minecraft/client/render/WorldRenderer world Lnet/minecraft/client/world/ClientWorld;
+accessible field net/minecraft/client/render/WorldRenderer framebufferSet Lnet/minecraft/client/render/DefaultFramebufferSet;
