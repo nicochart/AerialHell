@@ -500,6 +500,8 @@ public class AerialHellItems
     //crops
     public static final DeferredItem<Item> STELLAR_WHEAT_SEEDS = ITEMS.register(Keys.STELLAR_WHEAT_SEEDS.location().getPath(),() -> new BlockItem(AerialHellBlocks.STELLAR_WHEAT.get(), new Item.Properties().setId(Keys.STELLAR_WHEAT_SEEDS).useItemDescriptionPrefix()));
     public static final DeferredItem<Item> STELLAR_WHEAT = ITEMS.register(Keys.STELLAR_WHEAT.location().getPath(),() -> new Item(new Item.Properties().setId(Keys.STELLAR_WHEAT)));
+    public static final DeferredItem<Item> BLUE_MEANIE_SPORES = ITEMS.register(Keys.BLUE_MEANIE_SPORES.location().getPath(),() -> new BlockItem(AerialHellBlocks.BLUE_MEANIE_CROP.get(), new Item.Properties().setId(Keys.BLUE_MEANIE_SPORES).useItemDescriptionPrefix()));
+    public static final DeferredItem<Item> BLUE_MEANIE_CAP = ITEMS.register(Keys.BLUE_MEANIE_CAP.location().getPath(),() -> new Item(new Item.Properties().setId(Keys.BLUE_MEANIE_CAP)));
 
     //vertical growing plants
     public static final DeferredItem<Item> CLIMBING_VINE = ITEMS.register(Keys.CLIMBING_VINE.location().getPath(),() -> new BlockItem(AerialHellBlocks.CLIMBING_VINE.get(), new Item.Properties().setId(Keys.CLIMBING_VINE).useBlockDescriptionPrefix()));
@@ -1465,7 +1467,9 @@ public class AerialHellItems
 
         //crops
         public static final ResourceKey<Item> STELLAR_WHEAT_SEEDS = createKey("stellar_wheat_seeds");
+        public static final ResourceKey<Item> BLUE_MEANIE_SPORES = createKey("blue_meanie_spores");
         public static final ResourceKey<Item> STELLAR_WHEAT = createKey("stellar_wheat");
+        public static final ResourceKey<Item> BLUE_MEANIE_CAP = createKey("blue_meanie_cap");
 
         //vertical growing plants
         public static final ResourceKey<Item> CLIMBING_VINE = createKey("climbing_vine");

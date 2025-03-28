@@ -838,6 +838,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellItems.VIBRANT_AERIAL_BERRY_SEEDS.get());
             itemsToAdd.add(AerialHellItems.STELLAR_WHEAT_SEEDS.get());
             itemsToAdd.add(AerialHellItems.STELLAR_WHEAT.get());
+            itemsToAdd.add(AerialHellItems.BLUE_MEANIE_SPORES.get());
+            itemsToAdd.add(AerialHellItems.BLUE_MEANIE_CAP.get());
 
             itemsToAdd.add(AerialHellItems.SKY_STICK.get());
             itemsToAdd.add(AerialHellItems.SKY_BOWL.get());

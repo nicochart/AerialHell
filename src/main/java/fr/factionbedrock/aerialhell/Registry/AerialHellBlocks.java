@@ -520,7 +520,8 @@ public class AerialHellBlocks
 	public static final DeferredBlock<Block> VIBRANT_AERIAL_BERRY_BUSH = BLOCKS.register(Keys.VIBRANT_AERIAL_BERRY_BUSH.location().getPath(), () -> new VibrantAerialBerryBushBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SWEET_BERRY_BUSH).setId(Keys.VIBRANT_AERIAL_BERRY_BUSH)));
 
 	//crops
-	public static final DeferredBlock<Block> STELLAR_WHEAT = BLOCKS.register(Keys.STELLAR_WHEAT.location().getPath(), () -> new StellarWheatBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT).setId(Keys.STELLAR_WHEAT)));
+	public static final DeferredBlock<Block> STELLAR_WHEAT = BLOCKS.register(Keys.STELLAR_WHEAT.location().getPath(), () -> new StellarCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT).setId(Keys.STELLAR_WHEAT)));
+	public static final DeferredBlock<Block> BLUE_MEANIE_CROP = BLOCKS.register(Keys.BLUE_MEANIE_CROP.location().getPath(), () -> new StellarCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT).setId(Keys.BLUE_MEANIE_CROP)));
 
 	//vertical growing plants
 	public static final DeferredBlock<VerticalGrowingPlantBlock> CLIMBING_VINE = BLOCKS.register(Keys.CLIMBING_VINE.location().getPath(), () -> new VerticalGrowingPlantBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SUGAR_CANE).setId(Keys.CLIMBING_VINE), 4));
@@ -1244,6 +1245,7 @@ public class AerialHellBlocks
 
 		//crops
 		public static final ResourceKey<Block> STELLAR_WHEAT = createKey("stellar_wheat");
+		public static final ResourceKey<Block> BLUE_MEANIE_CROP = createKey("blue_meanie_crop");
 
 		//vertical growing plants
 		public static final ResourceKey<Block> CLIMBING_VINE = createKey("climbing_vine");
