@@ -1,4 +1,15 @@
 {
-  "type": "aerialhell:stellar_wheat_field",
-  "config": {}
+  "type": "aerialhell:natural_field",
+  "config":
+  {
+    "max_vertical_offset": 3,
+    "base_chance": 0.9,
+    "accept_offset_chance": 0.9,
+    "crop_state_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "aerialhell:stellar_wheat"
+      }
+    }
+  }
 }
