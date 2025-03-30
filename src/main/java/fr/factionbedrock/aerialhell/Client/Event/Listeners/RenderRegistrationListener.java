@@ -82,6 +82,7 @@ public class RenderRegistrationListener
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.AERIAL_BERRY_BUSH, cutout);
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.VIBRANT_AERIAL_BERRY_BUSH, cutout);
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.STELLAR_WHEAT, cutout);
+        BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.BLUE_MEANIE_CROP, cutout);
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.BLUE_FLOWER, cutout);
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.BLACK_ROSE, cutout);
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.BELLFLOWER, cutout);

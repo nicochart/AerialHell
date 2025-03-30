@@ -53,6 +53,7 @@ public class AerialHellFeatures
 	public static final Feature<?> MOSSY_STELLAR_COBBLESTONE_ROCK = register("mossy_stellar_cobblestone_rock", new RockFeature(DefaultFeatureConfig.CODEC, new WeightedBlockStateProvider(DataPool.<BlockState>builder().add(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE.getDefaultState(), 1).add(AerialHellBlocks.STELLAR_COBBLESTONE.getDefaultState(), 1))));
 	public static final Feature<?> DANGLING_CHAIN = register("dangling_chain", new DanglingChainFeature(DefaultFeatureConfig.CODEC));
 	public static final Feature<?> SLIPPERY_SAND = register("slippery_sand", new SlipperySandFeature(DefaultFeatureConfig.CODEC));
+	public static final Feature<?> NATURAL_FIELD = register("natural_field", new NaturalFieldFeature(NaturalFieldConfig.CODEC));
 	public static final Feature<?> CRYSTAL_BLOB = register("crystal_blob", new CrystalBlobFeature(() -> AerialHellBlocks.CRYSTAL_BLOCK, DefaultFeatureConfig.CODEC));
 	public static final Feature<?> SHADOW_CRYSTAL_BLOB = register("shadow_crystal_blob", new CrystalBlobFeature(() -> AerialHellBlocks.SHADOW_CRYSTAL_BLOCK, DefaultFeatureConfig.CODEC));
 	public static final Feature<?> STELLAR_STONE_CRYSTAL_BLOB_IN_DARK_AREAS = register("stellar_stone_crystal_blob_in_dark_areas", new StellarStoneCrystalBlobFeature(() -> AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK, DefaultFeatureConfig.CODEC));

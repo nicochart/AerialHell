@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/template_torch_wall",
+  "parent": "aerialhell:block/old_vanilla_template_torch_wall",
   "render_type": "minecraft:cutout",
   "textures": {
     "torch": "aerialhell:block/volucite_torch"

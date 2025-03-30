@@ -499,6 +499,8 @@ public class AerialHellItems
     //crops
     public static final Item STELLAR_WHEAT_SEEDS = register(Keys.STELLAR_WHEAT_SEEDS.getValue().getPath(),new BlockItem(AerialHellBlocks.STELLAR_WHEAT, new Item.Settings().registryKey(Keys.STELLAR_WHEAT_SEEDS).useItemPrefixedTranslationKey()));
     public static final Item STELLAR_WHEAT = register(Keys.STELLAR_WHEAT.getValue().getPath(),new Item(new Item.Settings().registryKey(Keys.STELLAR_WHEAT)));
+    public static final Item BLUE_MEANIE_SPORES = register(Keys.BLUE_MEANIE_SPORES.getValue().getPath(), new BlockItem(AerialHellBlocks.BLUE_MEANIE_CROP, new Item.Settings().registryKey(Keys.BLUE_MEANIE_SPORES).useItemPrefixedTranslationKey()));
+    public static final Item BLUE_MEANIE_CAP = register(Keys.BLUE_MEANIE_CAP.getValue().getPath(), new Item(new Item.Settings().registryKey(Keys.BLUE_MEANIE_CAP)));
 
     //vertical growing plants
     public static final Item CLIMBING_VINE = register(Keys.CLIMBING_VINE.getValue().getPath(),new BlockItem(AerialHellBlocks.CLIMBING_VINE, new Item.Settings().registryKey(Keys.CLIMBING_VINE).useBlockPrefixedTranslationKey()));
@@ -1465,7 +1467,9 @@ public class AerialHellItems
 
         //crops
         public static final RegistryKey<Item> STELLAR_WHEAT_SEEDS = createKey("stellar_wheat_seeds");
+        public static final RegistryKey<Item> BLUE_MEANIE_SPORES = createKey("blue_meanie_spores");
         public static final RegistryKey<Item> STELLAR_WHEAT = createKey("stellar_wheat");
+        public static final RegistryKey<Item> BLUE_MEANIE_CAP = createKey("blue_meanie_cap");
 
         //vertical growing plants
         public static final RegistryKey<Item> CLIMBING_VINE = createKey("climbing_vine");

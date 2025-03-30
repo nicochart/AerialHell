@@ -9,13 +9,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockView;
 
-public class StellarWheatBlock extends CropBlock
+public class StellarCropBlock extends CropBlock
 {
-    public StellarWheatBlock(AbstractBlock.Settings settings) {super(settings);}
+    public StellarCropBlock(AbstractBlock.Settings settings) {super(settings);}
 
     @Override protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {return floor.isOf(AerialHellBlocks.STELLAR_FARMLAND);}
 
-    @Override protected ItemConvertible getSeedsItem() {return AerialHellItems.STELLAR_WHEAT_SEEDS;}
+    @Override protected ItemConvertible getSeedsItem() {return this == AerialHellBlocks.STELLAR_WHEAT ? AerialHellItems.STELLAR_WHEAT_SEEDS : AerialHellItems.BLUE_MEANIE_SPORES;}
 
     @Override protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random)
     {

@@ -501,7 +501,8 @@ public class AerialHellBlocks
     public static final Block VIBRANT_AERIAL_BERRY_BUSH = register(Keys.VIBRANT_AERIAL_BERRY_BUSH.getValue().getPath(), new VibrantAerialBerryBushBlock(AbstractBlock.Settings.copy(Blocks.SWEET_BERRY_BUSH).registryKey(Keys.VIBRANT_AERIAL_BERRY_BUSH)));
 
     //crops
-    public static final Block STELLAR_WHEAT = register(Keys.STELLAR_WHEAT.getValue().getPath(), new StellarWheatBlock(AbstractBlock.Settings.copy(Blocks.WHEAT).registryKey(Keys.STELLAR_WHEAT)));
+    public static final Block STELLAR_WHEAT = register(Keys.STELLAR_WHEAT.getValue().getPath(), new StellarCropBlock(AbstractBlock.Settings.copy(Blocks.WHEAT).registryKey(Keys.STELLAR_WHEAT)));
+    public static final Block BLUE_MEANIE_CROP = register(Keys.BLUE_MEANIE_CROP.getValue().getPath(), new StellarCropBlock(AbstractBlock.Settings.copy(Blocks.WHEAT).registryKey(Keys.BLUE_MEANIE_CROP)));
 
     //vertical growing plants
     public static final VerticalGrowingPlantBlock CLIMBING_VINE = register(Keys.CLIMBING_VINE.getValue().getPath(), new VerticalGrowingPlantBlock(AbstractBlock.Settings.copy(Blocks.SUGAR_CANE).registryKey(Keys.CLIMBING_VINE), 4));
@@ -1225,6 +1226,7 @@ public class AerialHellBlocks
 
         //crops
         public static final RegistryKey<Block> STELLAR_WHEAT = createKey("stellar_wheat");
+        public static final RegistryKey<Block> BLUE_MEANIE_CROP = createKey("blue_meanie_crop");
 
         //vertical growing plants
         public static final RegistryKey<Block> CLIMBING_VINE = createKey("climbing_vine");
