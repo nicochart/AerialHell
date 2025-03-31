@@ -17,10 +17,6 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 public class NaturalFieldFeature extends Feature<NaturalFieldConfig>
 {
-    private static int MAX_VERTICAL_OFFSET = 3;
-    private static float BASE_PROBABILITY_NOT_TO_PLACE_INDIVIDUAL_WHEAT = 0.1F;
-    private static float BASE_PROBABILITY_TO_ACCEPT_OFFSET = 0.9F;
-
     public NaturalFieldFeature(Codec<NaturalFieldConfig> codec) {super(codec);}
 
     @Override public boolean place(FeaturePlaceContext<NaturalFieldConfig> context)
