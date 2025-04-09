@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.Armor;
 
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
@@ -40,11 +41,22 @@ public class ShadowArmorItem extends ArmorItem
 
     @Override public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
     {
-        components.add(this.getDescription().withStyle(ChatFormatting.GRAY));
+        if (LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT)
+        {
+            components.add(this.getTextureShiftDescription().withStyle(ChatFormatting.GRAY));
+
+            if (LoadedConfigParams.ENABLE_SHADOW_BIND_RELOAD_TEXTURE)
+            {
+                components.add(this.getReloadTextureDescription().withStyle(ChatFormatting.GRAY));
+            }
+            else
+            {
+                components.add(this.getDisabledReloadTextureDescription().withStyle(ChatFormatting.GRAY));
+            }
+        }
     }
 
-    public MutableComponent getDescription()
-    {
-        return Component.translatable("item.aerialhell.shadow_armor.desc");
-    }
+    public MutableComponent getReloadTextureDescription() {return Component.translatable("item.aerialhell.shadow_armor.reload_texture_desc");}
+    public MutableComponent getDisabledReloadTextureDescription() {return Component.translatable("item.aerialhell.shadow_armor.disabled_reload_texture_desc");}
+    public MutableComponent getTextureShiftDescription() {return Component.translatable("item.aerialhell.shadow_armor.texture_shift_desc");}
 }

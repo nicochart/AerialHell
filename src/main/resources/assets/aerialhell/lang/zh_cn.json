@@ -826,7 +826,9 @@
   "item.aerialhell.shadow_chestplate" : "阴影胸甲",
   "item.aerialhell.shadow_leggings" : "阴影护腿",
   "item.aerialhell.shadow_boots" : "阴影靴子",
-  "item.aerialhell.shadow_armor.desc" : "Warning : Equipping/Unequipping full armor will reload textures",
+  "item.aerialhell.shadow_armor.reload_texture_desc" : "Warning : Equipping/Unequipping full armor will reload textures",
+  "item.aerialhell.shadow_armor.disabled_reload_texture_desc" : "Warning : Textures will slowly update with chunk updates",
+  "item.aerialhell.shadow_armor.texture_shift_desc" : "This armor changes your perspective on shadows",
 
   "item.aerialhell.regeneration_totem" : "生命恢复图腾",
   "item.aerialhell.speed_totem" : "速度图腾",

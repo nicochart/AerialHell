@@ -2,6 +2,8 @@ package fr.factionbedrock.aerialhell.Setup;
 
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.DataPacketPayloads;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Config.AerialHellConfig;
+import fr.factionbedrock.aerialhell.Config.AerialHellConfigLoader;
 import fr.factionbedrock.aerialhell.Event.Listeners.BlockEventListener;
 import fr.factionbedrock.aerialhell.Event.Listeners.LivingEntityEventListener;
 import fr.factionbedrock.aerialhell.Event.Listeners.ToolsAndArmorEventListener;
@@ -20,6 +22,7 @@ public class AerialHellSetup
 {
     public static void init(IEventBus bus)
     {
+        AerialHellConfigLoader.loadAndStoreConfigParams();
         registration(bus);
         bus.addListener(AerialHellSetup::additionalRegistration);
         listen(bus);

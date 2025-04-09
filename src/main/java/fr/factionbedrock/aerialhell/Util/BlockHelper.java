@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Util;
 import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
 import fr.factionbedrock.aerialhell.Block.ShiftableLogBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellBiomes;
@@ -107,7 +108,7 @@ public class BlockHelper
     {
         if (!BlockHelper.canBeCorrupted(level, pos, type)) {return 0.0F;}
 
-        float custom_multiplier = 1.0F;
+        float custom_multiplier = LoadedConfigParams.SHADOW_SPREAD_SPEED_MULTIPLIER;
         float type_multiplier = (type == CorruptionType.ANY || type == CorruptionType.OTHER) ? 0.4F : 1.0F;
         float multiplier = chance_multiplier * custom_multiplier * type_multiplier;
         Holder<Biome> biome = getInitialBiomeAtPos(level, pos);

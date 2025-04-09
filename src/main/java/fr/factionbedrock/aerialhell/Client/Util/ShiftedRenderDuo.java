@@ -20,7 +20,7 @@ public class ShiftedRenderDuo
         this.baseModelRL = BlockModelShaper.stateToModelLocation(baseBlock.defaultBlockState()); //warning : will set all state values to default before looking for model. For example, for leaves, default is #distance=7,persistent=false,shifted_render=false,waterlogged=false.. which means the only shifted model is distance=7,persistent=false,..
         ModelResourceLocation shiftedModelRL = BlockModelShaper.stateToModelLocation(shiftedBlockState);
         BakedModel shiftedModel = event.getBakingResult().blockStateModels().get(shiftedModelRL);
-        this.newBakedModel = new ShiftingBlockBakedModel(event.getBakingResult().blockStateModels().get(baseModelRL), shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted, renderType);
+        this.newBakedModel = new ShiftingBlockBakedModel(event.getBakingResult().blockStateModels().get(baseModelRL), shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isShadowBindEnabled() || forceShifted, renderType);
     }
 
     protected ShiftedRenderDuo(BlockState baseBlockState, BlockState shiftedBlockState, ChunkRenderTypeSet renderType, ModelEvent.ModifyBakingResult event)
@@ -28,7 +28,7 @@ public class ShiftedRenderDuo
         this.baseModelRL = BlockModelShaper.stateToModelLocation(baseBlockState);
         ModelResourceLocation shiftedModelRL = BlockModelShaper.stateToModelLocation(shiftedBlockState);
         BakedModel shiftedModel = event.getBakingResult().blockStateModels().get(shiftedModelRL);
-        this.newBakedModel = new ShiftingBlockBakedModel(event.getBakingResult().blockStateModels().get(baseModelRL), shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted, renderType);
+        this.newBakedModel = new ShiftingBlockBakedModel(event.getBakingResult().blockStateModels().get(baseModelRL), shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isShadowBindEnabled() || forceShifted, renderType);
     }
 
     public ModelResourceLocation getBaseModelRL() {return baseModelRL;}
