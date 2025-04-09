@@ -98,7 +98,7 @@ public class ColorHandlerHelper
     public static int getShiftedOrNotGrassColor(BlockPos pos) {return MinecraftClient.getInstance().world == null ? 0 : getShiftedOrNotGrassColor(MinecraftClient.getInstance().world.getBiome(pos), pos);}
     public static int getShiftedOrNotGrassColor(RegistryEntry<Biome> biome, BlockPos pos)
     {
-        boolean shifted = BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind();
+        boolean shifted = BlocksAndItemsColorHandler.isShadowBindEnabled();
         if (biome.isIn(AerialHellTags.Biomes.IS_SHADOW))
         {
             if (biome.matchesKey(AerialHellBiomes.SHADOW_PLAIN)) {return shifted ? AERIAL_TREE_FOREST_GRASS_COLOR : SHADOW_BLACK;}

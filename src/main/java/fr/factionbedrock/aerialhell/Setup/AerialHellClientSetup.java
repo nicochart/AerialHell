@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Client.Event.Listeners.RenderRegistrationLis
 import fr.factionbedrock.aerialhell.Client.Packet.ClientPayloadHandler;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSpecialEffects;
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Registry.AerialHellWoodTypes;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
@@ -24,7 +25,10 @@ public class AerialHellClientSetup
         RenderRegistrationListener.registerBlockRenderLayers();
         RenderRegistrationListener.registerRenderers();
         RenderRegistrationListener.registerLayerDefinitions();
-        RenderRegistrationListener.registerShiftingBakedModels();
+        if (LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT)
+        {
+            RenderRegistrationListener.registerShiftingBakedModels();
+        }
         AerialHellRendering.registerFluidsRender();
         AerialHellParticleTypes.registerParticleFactories();
         AerialHellClientSetup.registerDimensionRenderInfo();

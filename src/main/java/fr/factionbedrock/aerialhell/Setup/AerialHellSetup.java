@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Setup;
 import fr.factionbedrock.aerialhell.Client.Packet.AerialHellData;
 import fr.factionbedrock.aerialhell.Client.Packet.ServerPayloadHandler;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Config.AerialHellConfigLoader;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.AerialHellCreativeModeTabs;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.BuildContentsEvent;
@@ -16,6 +17,7 @@ public class AerialHellSetup
 {
     public static void init()
     {
+        AerialHellConfigLoader.loadAndStoreConfigParams();
         registration();
         additionalRegistration();
         //listen(bus);

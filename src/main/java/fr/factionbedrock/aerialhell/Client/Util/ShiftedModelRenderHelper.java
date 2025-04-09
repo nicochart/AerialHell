@@ -67,7 +67,7 @@ public class ShiftedModelRenderHelper
     public static BakedModel getShiftingModel(String shiftedModelPrefix, BakedModel original, RegistryKey<Block> key, Baker baker, String postVariantStringWithSeparator, ModelRotation rotation)
     {
         BakedModel shiftedModel = baker.bake(AerialHell.id("block/"+shiftedModelPrefix+"_"+key.getValue().getPath()+postVariantStringWithSeparator), rotation);
-        BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
+        BakedModel editedModel = new ShiftingBlockBakedModel(original, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isShadowBindEnabled() || forceShifted);
         return editedModel;
     }
 }

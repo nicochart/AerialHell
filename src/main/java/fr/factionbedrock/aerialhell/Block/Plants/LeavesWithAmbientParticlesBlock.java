@@ -27,7 +27,7 @@ public class LeavesWithAmbientParticlesBlock extends ShiftableLeavesBlock
 
 	@Nullable protected ParticleEffect getParticle()
 	{
-		return !BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() ? AerialHellParticleTypes.COPPER_PINE_LEAVES : null;
+		return !BlocksAndItemsColorHandler.isShadowBindEnabled() ? AerialHellParticleTypes.COPPER_PINE_LEAVES : null;
 	}
 	
 	protected int getParticleNumber() {return 15;}

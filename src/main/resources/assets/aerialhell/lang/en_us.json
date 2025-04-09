@@ -833,7 +833,9 @@
   "item.aerialhell.shadow_chestplate" : "Shadow Chestplate",
   "item.aerialhell.shadow_leggings" : "Shadow Leggings",
   "item.aerialhell.shadow_boots" : "Shadow Boots",
-  "item.aerialhell.shadow_armor.desc" : "Warning : Equipping/Unequipping full armor will reload textures",
+  "item.aerialhell.shadow_armor.reload_texture_desc" : "Warning : Equipping/Unequipping full armor will reload textures",
+  "item.aerialhell.shadow_armor.disabled_reload_texture_desc" : "Warning : Textures will slowly update with chunk updates",
+  "item.aerialhell.shadow_armor.texture_shift_desc" : "This armor changes your perspective on shadows",
 
   "item.aerialhell.regeneration_totem" : "Regeneration Totem",
   "item.aerialhell.speed_totem" : "Speed Totem",
