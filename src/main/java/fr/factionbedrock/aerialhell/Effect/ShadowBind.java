@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Effect;
 
 import fr.factionbedrock.aerialhell.Client.Packet.AerialHellData;
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
@@ -24,12 +25,12 @@ public class ShadowBind extends AerialHellEffect
             {
                 livingEntity.removeStatusEffect(AerialHellMobEffects.SHADOW_BIND);
                 livingEntity.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.SHADOW_BIND, instance.getDuration(), 0));
-                if (livingEntity instanceof ServerPlayerEntity serverPlayer) {ServerPlayNetworking.send(serverPlayer, new AerialHellData("reloadTextures", 0));}
+                if (livingEntity instanceof ServerPlayerEntity serverPlayer && LoadedConfigParams.ENABLE_SHADOW_BIND_RELOAD_TEXTURE) {ServerPlayNetworking.send(serverPlayer, new AerialHellData("reloadTextures", 0));}
             }
             if (instance.getDuration() < 2)
             {
                 livingEntity.removeStatusEffect(AerialHellMobEffects.SHADOW_BIND);
-                if (livingEntity instanceof ServerPlayerEntity serverPlayer) {ServerPlayNetworking.send(serverPlayer, new AerialHellData("reloadTextures", 0));}
+                if (livingEntity instanceof ServerPlayerEntity serverPlayer && LoadedConfigParams.ENABLE_SHADOW_BIND_RELOAD_TEXTURE) {ServerPlayNetworking.send(serverPlayer, new AerialHellData("reloadTextures", 0));}
             }
         }
 
