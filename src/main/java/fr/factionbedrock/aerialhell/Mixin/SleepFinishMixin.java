@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Mixin;
 
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,6 +15,7 @@ public class SleepFinishMixin
     private void onSetTimeOfDay(long timeOfDay, CallbackInfo callbackInfo)
     {
         ServerWorld world = (ServerWorld) (Object) this;
+        if (!world.getRegistryKey().equals(AerialHellDimensions.AERIAL_HELL_DIMENSION)) {return;}
 
         MinecraftServer server = world.getServer();
         for (ServerWorld serverWorld : server.getWorlds())
