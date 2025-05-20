@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
 import fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock;
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
@@ -429,6 +430,8 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 	protected void makeRandomRoofBlockFall(int yBaseOffset, int maxXZOffset, int minYOffset, int maxYOffset)
 	{
+		if (!LoadedConfigParams.DO_BOSS_GRIEFING) {return;}
+
 		BlockPos basePos = this.getBlockPos().up(yBaseOffset);
 		BlockPos fallPos = basePos.add(this.random.nextBetweenExclusive(-maxXZOffset, maxXZOffset), this.random.nextBetweenExclusive(minYOffset, maxYOffset), this.random.nextBetweenExclusive(-maxXZOffset, maxXZOffset));
 		while (this.getWorld().getBlockState(fallPos).isAir() && fallPos.getY() < basePos.getY() + 25) {fallPos = fallPos.up();}

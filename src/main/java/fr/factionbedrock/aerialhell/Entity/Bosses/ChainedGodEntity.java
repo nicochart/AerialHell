@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.Bosses;
 import java.util.List;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ChainedGodFireballEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
@@ -249,6 +250,8 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	private void destroyObstacles()
 	{
+		if (!LoadedConfigParams.DO_BOSS_GRIEFING) {return;}
+		
 		BlockPos pos = this.getBlockPos().up(); int x,y,z; int xzRadius = 3, yRadius = 3;
 		for (x=-xzRadius;x<=xzRadius;x++)
 		{
