@@ -5,4 +5,5 @@ public class AerialHellConfig
     public float ShadowSpreadSpeedMultiplier = 1.0F;
     public boolean enableShadowBindReloadTexture = true;
     public boolean enableShadowBindTextureShift = true;
+    public boolean doBossGriefing = true;
 }

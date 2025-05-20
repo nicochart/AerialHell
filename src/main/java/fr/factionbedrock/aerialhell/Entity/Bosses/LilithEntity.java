@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Block.DirtAndVariants.StellarGrassBlock;
 import fr.factionbedrock.aerialhell.Block.StandingAndWall.AerialHellTorchBlock;
 import fr.factionbedrock.aerialhell.Block.StandingAndWall.AerialHellWallTorchBlock;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ShadowProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.*;
@@ -234,6 +235,8 @@ public class LilithEntity extends AbstractBossEntity
 
 	private void transformBlock(BlockPos pos)
 	{
+		if (!LoadedConfigParams.DO_BOSS_GRIEFING) {return;}
+
 		if (level().getBlockState(pos).getBlock() instanceof DoorBlock)
 		{
 			DoubleBlockHalf half = level().getBlockState(pos).getValue(DoorBlock.HALF);
