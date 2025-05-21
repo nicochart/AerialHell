@@ -6,6 +6,7 @@ public class LoadedConfigParams
     public static boolean ENABLE_SHADOW_BIND_RELOAD_TEXTURE;
     public static boolean ENABLE_SHADOW_BIND_TEXTURE_SHIFT;
     public static boolean DO_BOSS_GRIEFING;
+    public static float OVERWORLD_ABANDONNED_PORTAL_GEN_SEPARATION_MULTIPLIER;
 
     public static void loadConfigParams(AerialHellConfig config)
     {
@@ -13,5 +14,6 @@ public class LoadedConfigParams
         ENABLE_SHADOW_BIND_RELOAD_TEXTURE = config.enableShadowBindReloadTexture;
         ENABLE_SHADOW_BIND_TEXTURE_SHIFT = config.enableShadowBindTextureShift;
         DO_BOSS_GRIEFING = config.doBossGriefing;
+        OVERWORLD_ABANDONNED_PORTAL_GEN_SEPARATION_MULTIPLIER = Math.clamp(config.overworldAbandonnedPortalGenSeparationMultiplier, 0.0F, 11.0F);
     }
 }

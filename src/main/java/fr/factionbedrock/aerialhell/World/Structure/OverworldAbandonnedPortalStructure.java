@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructures;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
@@ -34,7 +35,9 @@ public class OverworldAbandonnedPortalStructure extends AbstractAerialHellStruct
 
     @Override protected boolean isStructureChunk(Structure.GenerationContext context)
     {
-        return getTerrainHeight(context) < 150;
+        if (LoadedConfigParams.OVERWORLD_ABANDONNED_PORTAL_GEN_SEPARATION_MULTIPLIER > 10) {return false;}
+        float cancelChance = LoadedConfigParams.OVERWORLD_ABANDONNED_PORTAL_GEN_SEPARATION_MULTIPLIER / 10.0F;
+        return getTerrainHeight(context) < 150 && context.random().nextFloat() > cancelChance;
     }
 
     @Override public StructureType<?> type() {return AerialHellStructures.OVERWORLD_ABANDONNED_PORTAL_STRUCTURE.get();}
