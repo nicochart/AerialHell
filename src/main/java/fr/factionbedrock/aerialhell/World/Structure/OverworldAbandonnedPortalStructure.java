@@ -35,8 +35,8 @@ public class OverworldAbandonnedPortalStructure extends AbstractAerialHellStruct
 
     @Override protected boolean isStructureChunk(Structure.GenerationContext context)
     {
-        if (LoadedConfigParams.OVERWORLD_ABANDONNED_PORTAL_GEN_SEPARATION_MULTIPLIER > 10) {return false;}
-        float cancelChance = LoadedConfigParams.OVERWORLD_ABANDONNED_PORTAL_GEN_SEPARATION_MULTIPLIER / 10.0F;
+        if (LoadedConfigParams.OVERWORLD_ABANDONNED_PORTAL_SPACING_OVERRIDE > 10) {return false;}
+        float cancelChance = LoadedConfigParams.OVERWORLD_ABANDONNED_PORTAL_SPACING_OVERRIDE / 10.0F;
         return getTerrainHeight(context) < 150 && context.random().nextFloat() > cancelChance;
     }
 

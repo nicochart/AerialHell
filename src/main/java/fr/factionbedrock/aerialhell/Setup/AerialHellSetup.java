@@ -50,6 +50,7 @@ public class AerialHellSetup
         AerialHellMobEffects.EFFECTS.register(bus);
         AerialHellPOI.POI.register(bus);
         AerialHellStructures.STRUCTURES.register(bus);
+        AerialHellStructurePlacements.STRUCTURE_PLACEMENTS.register(bus);
         AerialHellParticleTypes.PARTICLES.register(bus);
         AerialHellMenuTypes.MENUS.register(bus);
         AerialHellRecipes.RECIPE_SERIALIZERS.register(bus);
