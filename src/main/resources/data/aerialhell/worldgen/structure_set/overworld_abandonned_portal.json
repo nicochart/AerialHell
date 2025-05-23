@@ -8,9 +8,9 @@
   "placement": {
     "salt": 166754456,
 
-    "spacing": 50, //average distance (chunks)
-    "separation": 25, //minimum distance (chunks)
+    //average distance (chunks) is configured in aerial hell config file
+    "separation": 8, //minimum distance (chunks)
 
-    "type": "minecraft:random_spread"
+    "type": "aerialhell:config_spacing"
   }
 }

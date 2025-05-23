@@ -10,6 +10,7 @@ import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.BuildContentsEvent
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellFeatures;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructurePlacement;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructures;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 
@@ -45,6 +46,7 @@ public class AerialHellSetup
         //AerialHellBiomes.BIOMES.register(bus);
         AerialHellMobEffects.load();
         AerialHellStructures.load();
+        AerialHellStructurePlacement.load();
         AerialHellParticleTypes.load();
         AerialHellMenuTypes.load();
         AerialHellRecipes.load();
