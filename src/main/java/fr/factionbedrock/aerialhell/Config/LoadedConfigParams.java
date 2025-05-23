@@ -14,6 +14,6 @@ public class LoadedConfigParams
         ENABLE_SHADOW_BIND_RELOAD_TEXTURE = config.enableShadowBindReloadTexture;
         ENABLE_SHADOW_BIND_TEXTURE_SHIFT = config.enableShadowBindTextureShift;
         DO_BOSS_GRIEFING = config.doBossGriefing;
-        OVERWORLD_ABANDONNED_PORTAL_SPACING_OVERRIDE = Math.max(9, config.overworldAbandonnedPortalSpacingOverride);
+        OVERWORLD_ABANDONNED_PORTAL_SPACING_OVERRIDE = Math.clamp(config.overworldAbandonnedPortalSpacingOverride, 9, 4096);
     }
 }

@@ -6,5 +6,5 @@ public class AerialHellConfig
     public boolean enableShadowBindReloadTexture = true;
     public boolean enableShadowBindTextureShift = true;
     public boolean doBossGriefing = true;
-    public int overworldAbandonnedPortalSpacingOverride = 80;
+    public int overworldAbandonnedPortalSpacingOverride = 60;
 }
