@@ -11,11 +11,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 @OnlyIn(Dist.CLIENT)
 public class AerialHellDimensionSkyRenderer
@@ -169,57 +171,116 @@ public class AerialHellDimensionSkyRenderer
 		RenderSystem.depthMask(true);
 		return true;
 	}
-	
-	// Copy from net.minecraft.client.renderer.WorldRenderer renderStars(BufferBuilder bufferBuilderIn) but with more stars
-	@SuppressWarnings("unused")
+
 	private BufferBuilder.RenderedBuffer renderStars(BufferBuilder buffer)
 	{
-		RandomSource randomsource = RandomSource.create(10842L);
+		RandomSource rand = RandomSource.create(10842L);
 		buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
 
-		//from 1500 to 4000
-		for(int i = 0; i < 4000; ++i)
-		{
-			double d0 = (double)(randomsource.nextFloat() * 2.0F - 1.0F);
-			double d1 = (double)(randomsource.nextFloat() * 2.0F - 1.0F);
-			double d2 = (double)(randomsource.nextFloat() * 2.0F - 1.0F);
-			double d3 = (double)(0.15F + randomsource.nextFloat() * 0.1F);
-			double d4 = d0 * d0 + d1 * d1 + d2 * d2;
-			if (d4 < 1.0D && d4 > 0.01D)
-			{
-				d4 = 1.0D / Math.sqrt(d4);
-				d0 *= d4;
-				d1 *= d4;
-				d2 *= d4;
-				double d5 = d0 * 100.0D;
-				double d6 = d1 * 100.0D;
-				double d7 = d2 * 100.0D;
-				double d8 = Math.atan2(d0, d2);
-				double d9 = Math.sin(d8);
-				double d10 = Math.cos(d8);
-				double d11 = Math.atan2(Math.sqrt(d0 * d0 + d2 * d2), d1);
-				double d12 = Math.sin(d11);
-				double d13 = Math.cos(d11);
-				double d14 = randomsource.nextDouble() * Math.PI * 2.0D;
-				double d15 = Math.sin(d14);
-				double d16 = Math.cos(d14);
+		renderStarCluster(buffer, 500, new Vector3f(0.3F, -0.7F, 0.25F), new Vector3f(0.5F, 0.5F, 0.8F), 0.1F, 0.6F, rand);
+		renderStarCluster(buffer, 600, new Vector3f(-0.3F, -0.6F, -0.7F), new Vector3f(0.5F, 0.5F, 0.6F), 0.2F, 0.5F, rand);
+		renderStarCluster(buffer, 400, new Vector3f(0.2F, 0.2F, -0.7F), new Vector3f(0.5F, 0.3F, 0.5F), 0.1F, 0.4F, rand);
+		renderStarCluster(buffer, 600, new Vector3f(0.65F, 0.7F, 0.45F), new Vector3f(0.7F, 0.6F, 0.7F), 0.3F, 0.6F, rand);
+		renderStarCluster(buffer, 700, new Vector3f(-0.8F, 0.1F, -0.5F), new Vector3f(0.8F, 0.7F, 0.7F), 0.1F, 0.6F, rand);
+		renderStarCluster(buffer, 500, new Vector3f(0.7F, 0.75F, -0.4F), new Vector3f(0.6F, 0.5F, 0.6F), 0.15F, 0.4F, rand);
+		renderScatteredStars(buffer, 2000, 0.01F, 0.4F, rand);
+		return buffer.end();
+	}
 
-				for(int j = 0; j < 4; ++j)
+	private void renderScatteredStars(BufferBuilder builder, int starNumber, float bigChance, float bigSizeBonus, RandomSource rand)
+	{
+		for (int i = 0; i < starNumber; i++)
+		{
+			Vector3f starVec = createRandomStar(rand);
+			float starSize = 0.15F + rand.nextFloat() * 0.1F;
+			if (rand.nextFloat() < bigChance) {starSize += rand.nextFloat() * bigSizeBonus;}
+
+			double lengthSquared = Mth.lengthSquared(starVec.x, starVec.y, starVec.z);
+			if (lengthSquared < 1.0D && lengthSquared > 0.01D)
+			{
+				lengthSquared = 1.0D / Math.sqrt(lengthSquared);
+				starVec.mul((float) lengthSquared);
+				generateStar(builder, starVec, starSize, rand);
+			}
+		}
+	}
+
+	private void renderStarCluster(BufferBuilder builder, int starNumber, Vector3f origin, Vector3f size, float bigChance, float bigSizeBonus, RandomSource rand)
+	{
+		for (int i = 0; i < starNumber; i++)
+		{
+			Vector3f starVec = createRandomStar(origin, size, rand);
+			float starSize = 0.15F + rand.nextFloat() * 0.1F;
+			if (rand.nextFloat() < bigChance) {starSize += rand.nextFloat() * bigSizeBonus;}
+
+			double lengthSquared = Mth.lengthSquared(starVec.x, starVec.y, starVec.z);
+			if (lengthSquared < 1.0D && lengthSquared > 0.01D)
+			{
+				lengthSquared = 1.0D / Math.sqrt(lengthSquared);
+				starVec.mul((float) lengthSquared);
+				if (isStarInsideCluster(origin, starVec, new Vector3f(size).mul(0.70F)))
 				{
-					double d17 = 0.0D;
-					double d18 = (double)((j & 2) - 1) * d3;
-					double d19 = (double)((j + 1 & 2) - 1) * d3;
-					double d20 = 0.0D;
-					double d21 = d18 * d16 - d19 * d15;
-					double d22 = d19 * d16 + d18 * d15;
-					double d23 = d21 * d12 + 0.0D * d13;
-					double d24 = 0.0D * d12 - d21 * d13;
-					double d25 = d24 * d9 - d22 * d10;
-					double d26 = d22 * d9 + d24 * d10;
-					buffer.vertex(d5 + d25, d6 + d23, d7 + d26).endVertex();
+					generateStar(builder, starVec, starSize, rand);
+				}
+				else if (isStarInsideCluster(origin, starVec, size))
+				{
+					if (rand.nextFloat() < 0.6F) {generateStar(builder, starVec, starSize, rand);}
+				}
+				else if (isStarInsideCluster(origin, starVec, new Vector3f(size).mul(1.15F)))
+				{
+					if (rand.nextFloat() < 0.2F) {generateStar(builder, starVec, starSize, rand);}
 				}
 			}
 		}
-		return buffer.end();
+	}
+
+	private void generateStar(BufferBuilder buffer, Vector3f starVec, float starSize, RandomSource rand)
+	{
+		double f1 = starVec.x;
+		double f2 = starVec.y;
+		double f3 = starVec.z;
+		starVec.mul(100.0F);
+		double d5 = starVec.x;
+		double d6 = starVec.y;
+		double d7 = starVec.z;
+		double d8 = Math.atan2(f1, f3);
+		double d9 = Math.sin(d8);
+		double d10 = Math.cos(d8);
+		double d11 = Math.atan2(Math.sqrt(f1 * f1 + f3 * f3), f2);
+		double d12 = Math.sin(d11);
+		double d13 = Math.cos(d11);
+		double d14 = rand.nextDouble() * Math.PI * 2.0D;
+		double d15 = Math.sin(d14);
+		double d16 = Math.cos(d14);
+
+		for(int j = 0; j < 4; ++j)
+		{
+			double d18 = (double)((j & 2) - 1) * starSize;
+			double d19 = (double)((j + 1 & 2) - 1) * starSize;
+			double d21 = d18 * d16 - d19 * d15;
+			double d22 = d19 * d16 + d18 * d15;
+			double d23 = d21 * d12 + 0.0D * d13;
+			double d24 = 0.0D * d12 - d21 * d13;
+			double d25 = d24 * d9 - d22 * d10;
+			double d26 = d22 * d9 + d24 * d10;
+			buffer.vertex(d5 + d25, d6 + d23, d7 + d26).endVertex();
+		}
+	}
+
+	private Vector3f createRandomStar(Vector3f origin, Vector3f size, RandomSource rand)
+	{
+		return new Vector3f(origin.x + size.x * (rand.nextFloat() - 0.5F), origin.y + size.y * (rand.nextFloat() - 0.5F), origin.z + size.z * (rand.nextFloat() - 0.5F));
+	}
+
+	private Vector3f createRandomStar(RandomSource rand)
+	{
+		return new Vector3f(rand.nextFloat() * 2.0F - 1.0F, rand.nextFloat() * 2.0F - 1.0F, rand.nextFloat() * 2.0F - 1.0F);
+	}
+
+	protected boolean isStarInsideCluster(Vector3f clusterCenter, Vector3f star, Vector3f clusterSize)
+	{
+		float x = star.x - clusterCenter.x, y = star.y - clusterCenter.y, z = star.z - clusterCenter.z;
+		float sizex = clusterSize.x/2, sizey = clusterSize.y/2, sizez = clusterSize.z/2;
+		return x*x/(sizex*sizex) + y*y/(sizey*sizey) + z*z/(sizez*sizez) < 1.0F;
 	}
 }
