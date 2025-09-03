@@ -2,18 +2,24 @@ package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructurePlacements;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructures;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderGetter;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.RegistryAccess;
+import fr.factionbedrock.aerialhell.World.StructurePlacement.ConfigSpacingStructurePlacement;
+import net.minecraft.core.*;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
+import net.minecraft.world.level.levelgen.structure.placement.ConcentricRingsStructurePlacement;
+import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
+import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class StructureHelper
@@ -113,4 +119,41 @@ public class StructureHelper
 		int minSeparationDistance =  separationConfig.func_236671_b_();
 		return minSeparationDistance >= 2 * checkRadius;
 	}*/
+
+	public static void testStructPlacement(MinecraftServer server)
+	{
+		System.out.println("Testing struct placement :");
+		BuiltInRegistries.STRUCTURE_PLACEMENT.stream().forEach(System.out::println);
+		RegistryAccess registryAccess = server.registryAccess();
+		Registry<StructureSet> structureSetRegistry = registryAccess.lookupOrThrow(Registries.STRUCTURE_SET);
+		Registry<Structure> structureRegistry = registryAccess.lookupOrThrow(Registries.STRUCTURE);
+
+		for (Map.Entry<ResourceKey<StructureSet>, StructureSet> entry : structureSetRegistry.entrySet())
+		{
+			StructureSet structureSet = entry.getValue();
+			for (StructureSet.StructureSelectionEntry selectionEntry : structureSet.structures())
+			{
+				Structure structure = selectionEntry.structure().value();
+				String id = structureRegistry.getKey(structure).toString();
+
+				StructurePlacement original = structureSet.placement();
+
+				String toPrint = "id = "+id+", placement = "+getPlacementTypeString(original);
+
+				if (original instanceof RandomSpreadStructurePlacement randomSpread)
+				{
+					toPrint += ", spacing = "+randomSpread.spacing()+", separation = "+randomSpread.separation();
+				}
+				System.out.println(toPrint);
+			}
+		}
+	}
+
+	private static String getPlacementTypeString(StructurePlacement placement)
+	{
+		if (placement instanceof ConfigSpacingStructurePlacement) {return "config spacing";}
+		else if (placement instanceof ConcentricRingsStructurePlacement) {return "concentric rings";}
+		else if (placement instanceof RandomSpreadStructurePlacement) {return "random spread";}
+		else {return "none";}
+	}
 }
