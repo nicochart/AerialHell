@@ -43,7 +43,7 @@ public class GhostGoals
 
         @Override @Nullable protected Vec3 getPosition()
         {
-            if (this.mob.isInWaterOrBubble())
+            if (this.mob.isInWater())
             {
                 Vec3 vec3 = LandRandomPos.getPos(this.mob, 15, 7);
                 return vec3 == null ? super.getPosition() : vec3;

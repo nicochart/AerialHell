@@ -2,17 +2,12 @@ package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderGetter;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 import javax.annotation.Nullable;
 
@@ -43,18 +38,17 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
     public void resetTickCount() {this.tickCount = 0;}
     public int getTickCount() {return tickCount;}
 
-    @Override protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    @Override protected void saveAdditional(ValueOutput valueOutput)
     {
-        super.saveAdditional(tag, registries);
-        tag.put("beforeState", NbtUtils.writeBlockState(beforeState == null ? Blocks.AIR.defaultBlockState() : beforeState));
-        tag.putInt("tickCount", tickCount);
+        super.saveAdditional(valueOutput);
+        valueOutput.store("beforeState", BlockState.CODEC, beforeState == null ? Blocks.AIR.defaultBlockState() : beforeState);
+        valueOutput.putInt("tickCount", tickCount);
     }
 
-    @Override protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    @Override protected void loadAdditional(ValueInput valueInput)
     {
-        super.loadAdditional(tag, registries);
-        HolderGetter<Block> blockGetter = this.getLevel() != null ? this.getLevel().holderLookup(Registries.BLOCK) : BuiltInRegistries.BLOCK;
-        this.beforeState = NbtUtils.readBlockState(blockGetter, tag.getCompound("beforeState"));
-        this.tickCount = tag.getInt("tickCount");
+        super.loadAdditional(valueInput);
+        this.beforeState = valueInput.read("beforeState", BlockState.CODEC).orElse(Blocks.AIR.defaultBlockState());
+        this.tickCount = valueInput.getInt("tickCount").get();
     }
 }

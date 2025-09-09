@@ -15,12 +15,13 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 import java.util.List;
 
@@ -43,16 +44,16 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
         builder.define(DISAPPEARING, false);
     }
     
-    @Override public void addAdditionalSaveData(CompoundTag compound)
+    @Override public void addAdditionalSaveData(ValueOutput valueOutput)
     {
-        super.addAdditionalSaveData(compound);
-        compound.putBoolean("Disappearing", this.isDisappearing());
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putBoolean("Disappearing", this.isDisappearing());
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag compound)
+    @Override public void readAdditionalSaveData(ValueInput valueInput)
     {
-        super.readAdditionalSaveData(compound);
-        this.setDisappearing(compound.getBoolean("Disappearing"));
+        super.readAdditionalSaveData(valueInput);
+        this.setDisappearing(valueInput.getBooleanOr("Disappearing", false)); //TODO default values should never be used
     }
     
     public boolean isDisappearing() {return this.entityData.get(DISAPPEARING);}

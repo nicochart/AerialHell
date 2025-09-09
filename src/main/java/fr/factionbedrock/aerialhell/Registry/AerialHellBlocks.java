@@ -290,7 +290,7 @@ public class AerialHellBlocks
 	public static final DeferredBlock<WallBlock> CRYSTAL_BRICKS_WALL = BLOCKS.register(Keys.CRYSTAL_BRICKS_WALL.location().getPath(), () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BRICKS.get()).setId(Keys.CRYSTAL_BRICKS_WALL)));
 	public static final DeferredBlock<Block> STELLAR_STONE_CRYSTAL_BLOCK = BLOCKS.register(Keys.STELLAR_STONE_CRYSTAL_BLOCK.location().getPath(), () -> new BasicShiftableRenderBlock(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BLOCK.get()).setId(Keys.STELLAR_STONE_CRYSTAL_BLOCK).lightLevel((state) -> 13)));
 	public static final DeferredBlock<Block> SHADOW_CRYSTAL_BLOCK = BLOCKS.register(Keys.SHADOW_CRYSTAL_BLOCK.location().getPath(), () -> new BasicShadowSpreaderBlock(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BLOCK.get()).setId(Keys.SHADOW_CRYSTAL_BLOCK).lightLevel((state) -> 12)));
-	public static final DeferredBlock<Block> CRYSTALLIZED_LEAVES = BLOCKS.register(Keys.CRYSTALLIZED_LEAVES.location().getPath(), () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(Keys.CRYSTALLIZED_LEAVES).lightLevel((state) -> 12)));
+	public static final DeferredBlock<Block> CRYSTALLIZED_LEAVES = BLOCKS.register(Keys.CRYSTALLIZED_LEAVES.location().getPath(), () -> new TintedParticleLeavesBlock(0.5F, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(Keys.CRYSTALLIZED_LEAVES).lightLevel((state) -> 12))); //TODO what particles ?
 	public static final DeferredBlock<Block> CRYSTALLIZED_FIRE = BLOCKS.register(Keys.CRYSTALLIZED_FIRE.location().getPath(), () -> new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.CRYSTALLIZED_FIRE).lightLevel((state) -> 12).instabreak()));
 
 	//glass and glass pane
@@ -570,7 +570,7 @@ public class AerialHellBlocks
 	//flowers
 	public static final DeferredBlock<Block> BLUE_FLOWER = BLOCKS.register(Keys.BLUE_FLOWER.location().getPath(), () -> new FlowerBlock(MobEffects.BLINDNESS, 4, BlockBehaviour.Properties.ofFullCopy(Blocks.DANDELION).setId(Keys.BLUE_FLOWER)));
 	public static final DeferredBlock<Block> BLACK_ROSE = BLOCKS.register(Keys.BLACK_ROSE.location().getPath(), () -> new FlowerBlock(MobEffects.SLOW_FALLING, 12, BlockBehaviour.Properties.ofFullCopy(Blocks.DANDELION).setId(Keys.BLACK_ROSE)));
-	public static final DeferredBlock<Block> BELLFLOWER = BLOCKS.register(Keys.BELLFLOWER.location().getPath(), () -> new FlowerBlock(MobEffects.DIG_SLOWDOWN, 12, BlockBehaviour.Properties.ofFullCopy(Blocks.DANDELION).setId(Keys.BELLFLOWER)));
+	public static final DeferredBlock<Block> BELLFLOWER = BLOCKS.register(Keys.BELLFLOWER.location().getPath(), () -> new FlowerBlock(MobEffects.MINING_FATIGUE, 12, BlockBehaviour.Properties.ofFullCopy(Blocks.DANDELION).setId(Keys.BELLFLOWER)));
 
 	//potted things
 	public static final DeferredBlock<FlowerPotBlock> POTTED_BLUE_FLOWER = BLOCKS.register(Keys.POTTED_BLUE_FLOWER.location().getPath(), () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BLUE_FLOWER, BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT).setId(Keys.POTTED_BLUE_FLOWER)));

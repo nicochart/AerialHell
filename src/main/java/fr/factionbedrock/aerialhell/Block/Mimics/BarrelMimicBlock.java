@@ -45,7 +45,7 @@ public class BarrelMimicBlock extends RotatedPillarBlock
 	private void revealMimic(BlockState state, Level worldIn, BlockPos pos)
 	{
 		AbstractBarrelMimicEntity barrelMimic = getNewBarrelMimicEntity(worldIn);
-		barrelMimic.absMoveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0.0F, 0.0F);
+		barrelMimic.absSnapTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0.0F, 0.0F);
 		worldIn.addFreshEntity(barrelMimic);
 	}
 

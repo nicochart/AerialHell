@@ -4,7 +4,6 @@ import java.util.EnumSet;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -29,6 +28,8 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nonnull;
@@ -59,16 +60,16 @@ public class CrystalSlimeEntity extends Mob
 
 	@Override public SoundSource getSoundSource() {return SoundSource.HOSTILE;}
 
-	@Override public void addAdditionalSaveData(CompoundTag compoundTag)
+	@Override public void addAdditionalSaveData(ValueOutput valueOutput)
 	{
-		super.addAdditionalSaveData(compoundTag);
-		compoundTag.putBoolean("wasOnGround", this.wasOnGround);
+		super.addAdditionalSaveData(valueOutput);
+		valueOutput.putBoolean("wasOnGround", this.wasOnGround);
 	}
 
-	@Override public void readAdditionalSaveData(CompoundTag compoundTag)
+	@Override public void readAdditionalSaveData(ValueInput valueInput)
 	{
-		super.readAdditionalSaveData(compoundTag);
-		this.wasOnGround = compoundTag.getBoolean("wasOnGround");
+		super.readAdditionalSaveData(valueInput);
+		this.wasOnGround = valueInput.getBooleanOr("wasOnGround", false); //TODO default values should never be used
 	}
 
 	protected ParticleOptions getParticleType()
@@ -169,7 +170,7 @@ public class CrystalSlimeEntity extends Mob
 	
 	public static boolean canSpawn(EntityType<CrystalSlimeEntity> type, ServerLevelAccessor worldIn, EntitySpawnReason reason, BlockPos pos, RandomSource randomIn)
     {
-        return randomIn.nextInt(10) == 0 && worldIn.getLevel().isDay();
+        return randomIn.nextInt(10) == 0 && worldIn.getLevel().isBrightOutside();
     }
 
 	@Override public void remove(@Nonnull Entity.RemovalReason reason) //copied from Entity class

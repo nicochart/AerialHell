@@ -4,12 +4,9 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.ReactorBlock;
 import fr.factionbedrock.aerialhell.Inventory.Menu.ReactorMenu;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.ContainerHelper;
@@ -20,6 +17,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -108,24 +107,24 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
         return isActive;
     }
 
-    @Override protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    @Override protected void saveAdditional(ValueOutput valueOutput)
     {
-        super.saveAdditional(tag, registries);
-        ContainerHelper.saveAllItems(tag, this.items, registries);
-        tag.putInt("field_size", fieldSize);
-        tag.putInt("active_timer", activeTimer);
+        super.saveAdditional(valueOutput);
+        ContainerHelper.saveAllItems(valueOutput, this.items);
+        valueOutput.putInt("field_size", fieldSize);
+        valueOutput.putInt("active_timer", activeTimer);
         boolean isShadow = this.shiftType == ShiftType.CORRUPT;
-        tag.putBoolean("is_shadow", isShadow);
+        valueOutput.putBoolean("is_shadow", isShadow);
     }
 
-    @Override protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    @Override protected void loadAdditional(ValueInput valueInput)
     {
-        super.loadAdditional(tag, registries);
+        super.loadAdditional(valueInput);
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(tag, this.items, registries);
-        this.fieldSize = tag.getInt("field_size");
-        this.activeTimer = tag.getInt("active_timer");
-        boolean isShadow = tag.getBoolean("is_shadow");
+        ContainerHelper.loadAllItems(valueInput, this.items);
+        this.fieldSize = valueInput.getInt("field_size").get();
+        this.activeTimer = valueInput.getInt("active_timer").get();
+        boolean isShadow = valueInput.getBooleanOr("is_shadow", false);
         this.shiftType = isShadow ? ShiftType.CORRUPT : ShiftType.UNCORRUPT;
     }
 

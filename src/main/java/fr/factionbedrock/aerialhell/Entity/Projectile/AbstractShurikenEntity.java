@@ -6,8 +6,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
@@ -48,21 +49,18 @@ public abstract class AbstractShurikenEntity extends ThrowableItemProjectile
 	}*/
 	
 	@Override
-	public void addAdditionalSaveData(CompoundTag compound)
+	public void addAdditionalSaveData(ValueOutput valueOutput)
 	{
-		super.addAdditionalSaveData(compound);
+		super.addAdditionalSaveData(valueOutput);
 		
-		compound.putShort("shurikenZRot", (short)this.shurikenZRot);
+		valueOutput.putShort("shurikenZRot", (short)this.shurikenZRot);
 	}
 	
 	@Override
-	public void readAdditionalSaveData(CompoundTag compound)
+	public void readAdditionalSaveData(ValueInput valueInput)
 	{
-	    super.readAdditionalSaveData(compound);
-	    if (compound.contains("shurikenZRot", 99))
-	    {
-	    	this.shurikenZRot = compound.getShort("shurikenZRot");
-	    }
+	    super.readAdditionalSaveData(valueInput);
+		this.shurikenZRot = valueInput.getShortOr("shurikenZRot", (short)0);
 	}
 	
 	@Override

@@ -79,7 +79,7 @@ public class MagmaticGelBlock extends HalfTransparentBlock
 		boolean creaPlayer = (entity instanceof Player && ((Player) entity).isCreative());
 		if (!world.isClientSide() && entity instanceof LivingEntity && !creaPlayer)
 		{
-			((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 32, 1));
+			((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 32, 1));
 		}
 	}
 }

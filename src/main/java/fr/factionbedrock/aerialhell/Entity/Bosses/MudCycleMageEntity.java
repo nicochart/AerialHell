@@ -119,7 +119,7 @@ public class MudCycleMageEntity extends AbstractBossEntity
 		if (nextPhase == BossPhase.DYING)
 		{
 			this.playSound(SoundEvents.WITHER_DEATH, 1.0F, 1.9F);
-			this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, timeToDie, 10, true, false));
+			this.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, timeToDie, 10, true, false));
 		}
 	}
 

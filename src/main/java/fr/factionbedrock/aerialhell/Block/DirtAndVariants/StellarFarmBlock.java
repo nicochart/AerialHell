@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -13,7 +14,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.neoforged.neoforge.common.util.TriState;
 
 import javax.annotation.Nullable;
 
@@ -42,7 +42,7 @@ public class StellarFarmBlock extends FarmBlock
         else if (i < 7) {level.setBlock(pos, state.setValue(MOISTURE, Integer.valueOf(7)), 2);}
     }
 
-    @Override public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance)
+    @Override public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, double fallDistance)
     {
         if (!level.isClientSide && net.neoforged.neoforge.common.CommonHooks.onFarmlandTrample((ServerLevel) level, pos, AerialHellBlocks.STELLAR_DIRT.get().defaultBlockState(), fallDistance, entity))
         {
@@ -60,12 +60,9 @@ public class StellarFarmBlock extends FarmBlock
     }
 
     //copy of net.minecraft.world.level.block.FarmBlock.shouldMaintainFarmland
-    private static boolean shouldMaintainStellarFarmland(BlockGetter blockGetter, BlockPos pos)
+    private static boolean shouldMaintainStellarFarmland(BlockGetter level, BlockPos pos)
     {
-        BlockState plant = blockGetter.getBlockState(pos.above());
-        BlockState state = blockGetter.getBlockState(pos);
-        TriState tristate = state.canSustainPlant(blockGetter, pos, Direction.UP, plant.getBlock().defaultBlockState());
-        return tristate == TriState.TRUE || tristate == TriState.DEFAULT;
+        return level.getBlockState(pos.above()).is(BlockTags.MAINTAINS_FARMLAND);
     }
 
     //copy of net.minecraft.world.level.block.FarmBlock.isNearWater

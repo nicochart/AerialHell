@@ -7,7 +7,6 @@ import fr.factionbedrock.aerialhell.Entity.Util.SnakeCustomHurtInfo;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -25,6 +24,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -308,7 +309,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
             nextBodyPart.setCustomName(this.getCustomName());
             nextBodyPart.setNoAi(this.isNoAi());
             nextBodyPart.setInvulnerable(this.isInvulnerable());
-            nextBodyPart.moveTo(this.getX() + (double) x, this.getY(), this.getZ() + (double) z, this.random.nextFloat() * 360.0F, 0.0F);
+            nextBodyPart.snapTo(this.getX() + (double) x, this.getY(), this.getZ() + (double) z, this.random.nextFloat() * 360.0F, 0.0F);
             nextBodyPart.setBodyPartId(this.getBodyPartId() + 1);
             nextBodyPart.setPreviousBodyPart(this);
             nextBodyPart.head = this.getHead();
@@ -489,33 +490,33 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         builder.define(IS_CUT, false);
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag compound)
+    @Override public void addAdditionalSaveData(ValueOutput valueOutput)
     {
-        super.addAdditionalSaveData(compound);
-        compound.putInt("body_part_id", this.getBodyPartId());
-        compound.putBoolean("is_cut", this.isCut());
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putInt("body_part_id", this.getBodyPartId());
+        valueOutput.putBoolean("is_cut", this.isCut());
         if (this.nextBodyPart != null)
         {
-            compound.putString("next_body_part_uuid", this.nextBodyPart.getStringUUID());
+            valueOutput.putString("next_body_part_uuid", this.nextBodyPart.getStringUUID());
         }
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag compound)
+    @Override public void readAdditionalSaveData(ValueInput valueInput)
     {
-        super.readAdditionalSaveData(compound);
-        this.setBodyPartId(compound.getInt("body_part_id"));
-        if (compound.getBoolean("is_cut")) {this.setCut();}
+        super.readAdditionalSaveData(valueInput);
+        this.setBodyPartId(valueInput.getInt("body_part_id").get());
+        if (valueInput.getBooleanOr("is_cut", false)) {this.setCut();} //TODO default values should never be used
         else {this.entityData.set(IS_CUT, false);}
-        if (compound.contains("next_body_part_uuid"))
+        if (valueInput.getString("next_body_part_uuid").isPresent())
         {
-            this.nextBodyPartStringUUID = compound.getString("next_body_part_uuid");
+            this.nextBodyPartStringUUID = valueInput.getString("next_body_part_uuid").get();
         }
     }
 
     @Override public boolean canTeleport(Level source, Level dest) {return false;}
     @Override protected void dropExperience(ServerLevel serverLevel, Entity entity) {if (this.isHead()) {super.dropExperience(serverLevel, entity);}}
     @Override public EntityType<AbstractSnakeEntity> getType() {return (EntityType<AbstractSnakeEntity>) super.getType();}
-    @Override public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source)
+    @Override public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source)
     {
         if (!this.isHead()) {return false;}
         return super.causeFallDamage(distance, damageMultiplier, source);

@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.ChatFormatting;
@@ -8,8 +8,9 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.*;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.component.TooltipDisplay;
 
-public class AerialHellPickaxeItem extends PickaxeItem
+public class AerialHellPickaxeItem extends Item
 {
 	public AerialHellPickaxeItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, Properties properties)
 	{
@@ -18,7 +19,7 @@ public class AerialHellPickaxeItem extends PickaxeItem
 
 	public AerialHellPickaxeItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, Properties properties)
 	{
-		super(toolMaterial, 0.0F, 0.0F, properties); //attackDamage and attackSpeed are overridden below
+		super(properties.pickaxe(toolMaterial, 0.0F, 0.0F)); //attackDamage and attackSpeed are overridden below
 
 		//copy of super(..) actions to edit this.components to add custom attributes
 		//material.applyToolProperties(....)
@@ -26,10 +27,9 @@ public class AerialHellPickaxeItem extends PickaxeItem
 		this.components = toolProperties.buildAndValidateComponents(Component.translatable(this.descriptionId), properties.effectiveModel());
 	}
 
-	@Override
-	public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
+	@Override public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag)
 	{
-		components.add(this.getDescription().withStyle(ChatFormatting.GRAY));
+		tooltipAdder.accept(this.getDescription().withStyle(ChatFormatting.GRAY));
 	}
 
 	public MutableComponent getDescription()

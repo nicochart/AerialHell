@@ -55,7 +55,7 @@ public class ThrownStellarEgg extends ThrowableItemProjectile
                     if (chicken != null)
                     {
                         chicken.setAge(-24000);
-                        chicken.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
+                        chicken.snapTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
                         chicken.setColor(this.level().getBlockTint(this.blockPosition(), Biome::getGrassColor));
 
                         this.level().addFreshEntity(chicken);

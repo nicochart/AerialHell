@@ -1,7 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity;
 
-import java.util.Random;
-
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
@@ -45,6 +43,6 @@ public class AbstractCaterpillarEntity extends Silverfish
 	
 	public static boolean canCaterpillarSpawn(EntityType<? extends AbstractCaterpillarEntity> type, ServerLevelAccessor worldIn, EntitySpawnReason reason, BlockPos pos, RandomSource randomIn)
     {
-        return randomIn.nextInt(10) == 0 && worldIn.getLevel().isDay();
+        return randomIn.nextInt(10) == 0 && worldIn.getLevel().isBrightOutside();
     }
 }

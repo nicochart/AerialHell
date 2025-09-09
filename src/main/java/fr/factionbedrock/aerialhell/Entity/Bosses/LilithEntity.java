@@ -41,6 +41,8 @@ import net.minecraft.world.BossEvent;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 
 public class LilithEntity extends AbstractBossEntity
@@ -101,18 +103,18 @@ public class LilithEntity extends AbstractBossEntity
 		return flag;
 	}
 	
-	@Override public void addAdditionalSaveData(CompoundTag compound)
+	@Override public void addAdditionalSaveData(ValueOutput valueOutput)
 	{
-		super.addAdditionalSaveData(compound);
-		compound.putShort("timeTransforming", (short)this.timeSinceTransforming);
+		super.addAdditionalSaveData(valueOutput);
+		valueOutput.putInt("timeTransforming", this.timeSinceTransforming); //TODO verify working transforming disconnect-reconnect
 	}
 	
-	@Override public void readAdditionalSaveData(CompoundTag compound)
+	@Override public void readAdditionalSaveData(ValueInput valueInput)
 	{
-	    super.readAdditionalSaveData(compound);
-	    if (compound.contains("timeTransforming", 99))
+	    super.readAdditionalSaveData(valueInput);
+	    if (valueInput.getInt("timeTransforming").isPresent())
 	    {
-	    	this.timeSinceTransforming = compound.getShort("timeTransforming");
+	    	this.timeSinceTransforming = valueInput.getInt("timeTransforming").get();
 	    }
 	}
 
@@ -150,7 +152,7 @@ public class LilithEntity extends AbstractBossEntity
 	@Override public boolean displayFireAnimation() {return false;}
 	
 	@Override
-	public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {return false;}
+	public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {return false;}
 
 	@Override public Item getTrophy() {return AerialHellItems.LILITH_TROPHY.get();}
 
@@ -160,8 +162,8 @@ public class LilithEntity extends AbstractBossEntity
 
 		if (!level().isClientSide())
 		{
-			this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 10, true, false));
-			this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1, 10, true, false));
+			this.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20, 10, true, false));
+			this.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 1, 10, true, false));
 		}
 	}
 

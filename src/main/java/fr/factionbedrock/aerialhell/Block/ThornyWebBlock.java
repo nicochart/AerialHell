@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.AbstractSlimePirateEnt
 import fr.factionbedrock.aerialhell.Entity.Monster.Snake.AbstractSnakeEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.WebBlock;
 import net.minecraft.world.entity.Entity;
@@ -29,14 +30,14 @@ public class ThornyWebBlock extends WebBlock
 	private boolean isEntityImmuneToCollision(Entity entityIn) {return entityIn instanceof AbstractSnakeEntity || entityIn instanceof Spider || EntityHelper.isShadowEntity(entityIn);}
 	
 	@Override
-	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn)
+	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
 	{
-		boolean isTotallyImmune = isEntityImmuneToCollision(entityIn);
+		boolean isTotallyImmune = isEntityImmuneToCollision(entity);
 		
-		if (!isTotallyImmune) {entityIn.makeStuckInBlock(state, new Vec3(0.45D, 0.25D, 0.45D));}
-		if (entityIn instanceof LivingEntity && !isTotallyImmune)
+		if (!isTotallyImmune) {entity.makeStuckInBlock(state, new Vec3(0.45D, 0.25D, 0.45D));}
+		if (entity instanceof LivingEntity && !isTotallyImmune)
 		{
-			if (!isEntityImmuneToDamage(entityIn)) {entityIn.hurt(AerialHellDamageTypes.getDamageSource(worldIn, AerialHellDamageTypes.WEB_THORNS), 2.0F);}
+			if (!isEntityImmuneToDamage(entity)) {entity.hurt(AerialHellDamageTypes.getDamageSource(worldIn, AerialHellDamageTypes.WEB_THORNS), 2.0F);}
 		}
 	}
 }

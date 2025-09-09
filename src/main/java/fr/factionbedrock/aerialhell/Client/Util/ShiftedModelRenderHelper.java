@@ -6,10 +6,13 @@ import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowLeavesBlock;
 import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowLogBlock;
 import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
 import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShiftingBlockBakedModel;
+import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
+import net.minecraft.client.renderer.block.model.BlockModelPart;
+import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.ChunkRenderTypeSet;
 import net.neoforged.neoforge.client.event.ModelEvent;
 
 import java.util.ArrayList;
@@ -17,50 +20,61 @@ import java.util.List;
 
 public class ShiftedModelRenderHelper
 {
-    public static void createAndRegisterDefaultBlockShiftedRender(Block block, ModelEvent.ModifyBakingResult event, ChunkRenderTypeSet renderType)
+    public static void createAndRegisterShiftedRender(BlockState baseState, BlockState shiftedState, ModelEvent.ModifyBakingResult event)
+    {
+        //TODO do for all blockstates variants
+        BlockStateModel baseModel = event.getBakingResult().blockStateModels().get(baseState);
+        BlockStateModel shiftedModel = event.getBakingResult().blockStateModels().get(shiftedState);
+
+        BlockStateModel shiftingModel = new ShiftingBlockBakedModel(baseModel, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isShadowBindEnabled() || forceShifted);
+        //replaces the models in the map
+        event.getBakingResult().blockStateModels().put(baseState, shiftingModel);
+    }
+
+    public static void createAndRegisterDefaultBlockShiftedRender(Block block, ModelEvent.ModifyBakingResult event)
     {
         if (block instanceof BasicShadowSpreaderBlock)
         {
             List<Boolean> booleanValues = new ArrayList<>();
             booleanValues.add(true); booleanValues.add(false);
 
+            BlockState baseState, shiftedState;
             for (Boolean canSpread : booleanValues)
             {
-                BlockState state = block.defaultBlockState().setValue(BasicShadowSpreaderBlock.CAN_SPREAD, canSpread).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
-                //replaces the models in the map
-                ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), renderType, event);
-                event.getBakingResult().blockStateModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+                baseState = block.defaultBlockState().setValue(BasicShadowSpreaderBlock.CAN_SPREAD, canSpread).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
+                shiftedState = block.defaultBlockState().setValue(BasicShadowSpreaderBlock.CAN_SPREAD, canSpread).setValue(AerialHellGrassBlock.SHIFTED_RENDER, true);
+                createAndRegisterShiftedRender(baseState, shiftedState, event);
             }
         }
         else
         {
-            ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(block, block.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), renderType, event);
-            //replaces the models in the map
-            event.getBakingResult().blockStateModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+            BlockState baseState = block.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
+            BlockState shiftedState = block.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, true);
+            createAndRegisterShiftedRender(baseState, shiftedState, event);
         }
     }
 
     public static void createAndRegisterGrowingPlantHeadBlock(GrowingPlantHeadBlock block, ModelEvent.ModifyBakingResult event)
     {
+        BlockState baseState, shiftedState;
         for (int age = 0; age <= 25; age++)
         {
-            BlockState state = block.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, age).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
-            //replaces the models in the map
-            ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), ShiftingBlockBakedModel.CUTOUT, event);
-            event.getBakingResult().blockStateModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+            baseState = block.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, age).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
+            shiftedState = block.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, age).setValue(AerialHellGrassBlock.SHIFTED_RENDER, true);
+            createAndRegisterShiftedRender(baseState, shiftedState, event);
         }
     }
 
     public static void createAndRegisterGrassBlockShiftedRender(GrassBlock block, ModelEvent.ModifyBakingResult event)
     {
-        ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(block, block.defaultBlockState().setValue(AerialHellGrassBlock.SNOWY, false).setValue(AerialHellGrassBlock.SHIFTED_RENDER, true), ShiftingBlockBakedModel.CUTOUT_MIPPED, event);
-        //replaces the models in the map
-        event.getBakingResult().blockStateModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+        BlockState baseState = block.defaultBlockState().setValue(AerialHellGrassBlock.SNOWY, false).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
+        BlockState shiftedState = block.defaultBlockState().setValue(AerialHellGrassBlock.SNOWY, false).setValue(AerialHellGrassBlock.SHIFTED_RENDER, true);
+        createAndRegisterShiftedRender(baseState, shiftedState, event);
     }
 
     public static void createAndRegisterLeavesBlockShiftedRender(LeavesBlock block, ModelEvent.ModifyBakingResult event)
     {
-        BlockState state;
+        BlockState baseState, shiftedState;
         List<Boolean> booleanValues = new ArrayList<>();
         booleanValues.add(true); booleanValues.add(false);
         for (Boolean can_spread : booleanValues)
@@ -71,11 +85,10 @@ public class ShiftedModelRenderHelper
                 {
                     for (Boolean waterlogged : booleanValues)
                     {
-                        state = block.defaultBlockState().setValue(LeavesBlock.DISTANCE, distance).setValue(LeavesBlock.PERSISTENT, persistent).setValue(ShiftableLeavesBlock.SHIFTED_RENDER, false).setValue(LeavesBlock.WATERLOGGED, waterlogged);
-                        if (block instanceof ShadowLeavesBlock) {state = state.setValue(ShadowLeavesBlock.CAN_SPREAD, can_spread);}
-                        ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.defaultBlockState().setValue(ShadowLeavesBlock.SHIFTED_RENDER, true), ShiftingBlockBakedModel.CUTOUT, event);
-                        //replaces the models in the map
-                        event.getBakingResult().blockStateModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+                        baseState = block.defaultBlockState().setValue(LeavesBlock.DISTANCE, distance).setValue(LeavesBlock.PERSISTENT, persistent).setValue(ShiftableLeavesBlock.SHIFTED_RENDER, false).setValue(LeavesBlock.WATERLOGGED, waterlogged);
+                        shiftedState = block.defaultBlockState().setValue(LeavesBlock.DISTANCE, distance).setValue(LeavesBlock.PERSISTENT, persistent).setValue(ShiftableLeavesBlock.SHIFTED_RENDER, true).setValue(LeavesBlock.WATERLOGGED, waterlogged);
+                        if (block instanceof ShadowLeavesBlock) {baseState = baseState.setValue(ShadowLeavesBlock.CAN_SPREAD, can_spread); shiftedState = shiftedState.setValue(ShadowLeavesBlock.CAN_SPREAD, can_spread);}
+                        createAndRegisterShiftedRender(baseState, shiftedState, event);
                     }
                 }
             }
@@ -84,18 +97,17 @@ public class ShiftedModelRenderHelper
 
     public static void createAndRegisterLogBlockShiftedRender(RotatedPillarBlock block, ModelEvent.ModifyBakingResult event)
     {
-        BlockState state;
+        BlockState baseState, shiftedState;
         List<Boolean> booleanValues = new ArrayList<>();
         booleanValues.add(true); booleanValues.add(false);
         for (Boolean can_spread : booleanValues)
         {
             for (Direction.Axis axis : Direction.Axis.VALUES)
             {
-                state = block.defaultBlockState().setValue(RotatedPillarBlock.AXIS, axis);
-                if (block instanceof ShadowLogBlock) {state = state.setValue(ShadowLogBlock.CAN_SPREAD, can_spread);}
-                ShiftedRenderDuo shiftedRender = new ShiftedRenderDuo(state, block.defaultBlockState().setValue(ShadowLogBlock.SHIFTED_RENDER, true).setValue(RotatedPillarBlock.AXIS, axis), ShiftingBlockBakedModel.SOLID, event);
-                //replaces the models in the map
-                event.getBakingResult().blockStateModels().put(shiftedRender.getBaseModelRL(), shiftedRender.getNewBakedModel());
+                baseState = block.defaultBlockState().setValue(RotatedPillarBlock.AXIS, axis).setValue(ShadowLogBlock.SHIFTED_RENDER, false);
+                shiftedState = block.defaultBlockState().setValue(RotatedPillarBlock.AXIS, axis).setValue(ShadowLogBlock.SHIFTED_RENDER, true);
+                if (block instanceof ShadowLogBlock) {baseState = baseState.setValue(ShadowLogBlock.CAN_SPREAD, can_spread); shiftedState = shiftedState.setValue(ShadowLogBlock.CAN_SPREAD, can_spread);}
+                createAndRegisterShiftedRender(baseState, shiftedState, event);
             }
         }
     }

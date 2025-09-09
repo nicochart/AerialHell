@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Block.VineRopeSpoolBlock;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -20,7 +21,7 @@ public class GhostBoatVineRopeSpoolBlock extends VineRopeSpoolBlock {
         super(prop.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
     }
 
-    @Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
+    @Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
     {
         entity.fallDistance = 0.0F;
         if (entity.getDeltaMovement().y < 0.0)

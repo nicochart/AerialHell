@@ -87,7 +87,7 @@ public class BlockUpdaterItem extends WithInformationItem
         }
         else if (nextBlock instanceof WallBlock && previousBlock instanceof WallBlock)
         {
-            return nextBlock.defaultBlockState().setValue(WallBlock.UP, previousBlockState.getValue(WallBlock.UP)).setValue(WallBlock.NORTH_WALL, previousBlockState.getValue(WallBlock.NORTH_WALL)).setValue(WallBlock.SOUTH_WALL, previousBlockState.getValue(WallBlock.SOUTH_WALL)).setValue(WallBlock.WEST_WALL, previousBlockState.getValue(WallBlock.WEST_WALL)).setValue(WallBlock.EAST_WALL, previousBlockState.getValue(WallBlock.EAST_WALL)).setValue(WallBlock.WATERLOGGED, previousBlockState.getValue(WallBlock.WATERLOGGED));
+            return nextBlock.defaultBlockState().setValue(WallBlock.UP, previousBlockState.getValue(WallBlock.UP)).setValue(WallBlock.NORTH, previousBlockState.getValue(WallBlock.NORTH)).setValue(WallBlock.SOUTH, previousBlockState.getValue(WallBlock.SOUTH)).setValue(WallBlock.WEST, previousBlockState.getValue(WallBlock.WEST)).setValue(WallBlock.EAST, previousBlockState.getValue(WallBlock.EAST)).setValue(WallBlock.WATERLOGGED, previousBlockState.getValue(WallBlock.WATERLOGGED));
         }
         else if (nextBlock instanceof FenceBlock && previousBlock instanceof FenceBlock)
         {

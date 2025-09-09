@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -29,6 +30,7 @@ import net.minecraft.world.phys.HitResult;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 //temporary solution to fix forge "invisible" (no texture displaying) spawn eggs
@@ -110,10 +112,9 @@ public class AerialHellSpawnEgg extends Item
 
     @Override public boolean isFoil(ItemStack stack) {return this.isBoss;}
 
-    @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
+    @Override public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag)
     {
-        if (this.isBoss) {components.add(this.getDescription().withStyle(ChatFormatting.DARK_RED));}
+        if (this.isBoss) {tooltipAdder.accept(this.getDescription().withStyle(ChatFormatting.DARK_RED));}
     }
 
     public MutableComponent getDescription()

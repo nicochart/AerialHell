@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -65,33 +66,32 @@ public class AerialHellFluidBlock extends LiquidBlock {
 	        }
 		}
 	}
-	
-    @Override
-    public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn)
-    {
+
+	@Override protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
+	{
 		if(this.fluid.is(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
-        {
-        	entityIn.fallDistance = 0.0F;
-    		if (!entityIn.getDeltaMovement().equals(Vec3.ZERO))
-    		{
-				double yFactor = entityIn.getDeltaMovement().y < 0 ? 0.05 : 1;
-    			EntityHelper.multiplyDeltaMovement(entityIn, 0.01, yFactor);
-    		}
-    		
-            if(entityIn.isAlive() && entityIn instanceof LivingEntity)
-            {
-            	if (!(entityIn instanceof TornSpiritEntity || entityIn instanceof ChainedGodEntity || ((LivingEntity) entityIn).hasEffect(AerialHellMobEffects.GOD.getDelegate())))
-            	{
-            		entityIn.hurt(AerialHellDamageTypes.getDamageSource(worldIn, AerialHellDamageTypes.GOD_BLESS), 1.5F);//.setFire(10);
-            	}
-                LivingEntity livingEntity = (LivingEntity) entityIn;
-                if (livingEntity.isCrouching())
-                {
-                	livingEntity.setDeltaMovement(livingEntity.getDeltaMovement().x, 0.2, livingEntity.getDeltaMovement().z);
-                }
-            }
-        }
-    }
+		{
+			entity.fallDistance = 0.0F;
+			if (!entity.getDeltaMovement().equals(Vec3.ZERO))
+			{
+				double yFactor = entity.getDeltaMovement().y < 0 ? 0.05 : 1;
+				EntityHelper.multiplyDeltaMovement(entity, 0.01, yFactor);
+			}
+
+			if(entity.isAlive() && entity instanceof LivingEntity)
+			{
+				if (!(entity instanceof TornSpiritEntity || entity instanceof ChainedGodEntity || ((LivingEntity) entity).hasEffect(AerialHellMobEffects.GOD.getDelegate())))
+				{
+					entity.hurt(AerialHellDamageTypes.getDamageSource(level, AerialHellDamageTypes.GOD_BLESS), 1.5F);//.setFire(10);
+				}
+				LivingEntity livingEntity = (LivingEntity) entity;
+				if (livingEntity.isCrouching())
+				{
+					livingEntity.setDeltaMovement(livingEntity.getDeltaMovement().x, 0.2, livingEntity.getDeltaMovement().z);
+				}
+			}
+		}
+	}
     
     @Override public boolean isPathfindable(BlockState state, PathComputationType type) {return true;}
 }

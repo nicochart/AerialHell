@@ -6,7 +6,6 @@ import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ChainedGodFireballEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
@@ -31,7 +30,6 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -44,6 +42,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 
 public class ChainedGodEntity extends AbstractBossEntity
@@ -126,20 +126,20 @@ public class ChainedGodEntity extends AbstractBossEntity
 	    builder.define(UNCHAINED, false);
 	}
 	
-	@Override public void addAdditionalSaveData(CompoundTag compound)
+	@Override public void addAdditionalSaveData(ValueOutput valueOutput)
 	{
-		super.addAdditionalSaveData(compound);
-	    compound.putBoolean("Imploding", this.isImploding());
-	    compound.putBoolean("Unchaining", this.isUnchaining());
-		if (this.isUnchained()) {compound.putBoolean("Unchained", true);}
+		super.addAdditionalSaveData(valueOutput);
+	    valueOutput.putBoolean("Imploding", this.isImploding());
+	    valueOutput.putBoolean("Unchaining", this.isUnchaining());
+		if (this.isUnchained()) {valueOutput.putBoolean("Unchained", true);}
 	}
 	
-	@Override public void readAdditionalSaveData(CompoundTag compound)
+	@Override public void readAdditionalSaveData(ValueInput valueInput)
 	{
-	    super.readAdditionalSaveData(compound);
-	    this.setImploding(compound.getBoolean("Imploding"));
-	    this.setUnchaining(compound.getBoolean("Unchaining"));
-	    this.setUnchained(compound.getBoolean("Unchained"));
+	    super.readAdditionalSaveData(valueInput);
+	    this.setImploding(valueInput.getBooleanOr("Imploding", false)); //TODO default values should never be used
+	    this.setUnchaining(valueInput.getBooleanOr("Unchaining", false));
+	    this.setUnchained(valueInput.getBooleanOr("Unchained", false));
 	}
 	
 	public boolean isImploding() {return this.entityData.get(IMPLODING);}
@@ -162,8 +162,8 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	@Override public boolean fireImmune() {return true;}
 	@Override public boolean displayFireAnimation() {return false;}
-	
-	@Override public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {return false;}
+
+	@Override public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {return false;}
 	
 	@Override public void tick()
     {
@@ -410,7 +410,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		}
 
 		public void playUnchainingEffect() {}
-		private void immobilizeGoalOwner() {if (!this.goalOwner.level().isClientSide()) {this.goalOwner.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, this.getTimeToUnchain() * 2, 10, true, false));}}
+		private void immobilizeGoalOwner() {if (!this.goalOwner.level().isClientSide()) {this.goalOwner.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, this.getTimeToUnchain() * 2, 10, true, false));}}
 
 		public int getTimeToUnchain() {return 38;} //tick/2
 		protected boolean canUnchain() {return this.timeSinceUnchaining > getTimeToUnchain();}
@@ -508,7 +508,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		}
 
 		protected void playStartImplodingSound() {this.goalOwner.playRoarSound(1.0F);}
-		private void immobilizeGoalOwner() {if (!this.goalOwner.level().isClientSide()) {this.goalOwner.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 10, true, false));}}
+		private void immobilizeGoalOwner() {if (!this.goalOwner.level().isClientSide()) {this.goalOwner.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20, 10, true, false));}}
 
 		public int getSoundOffset() {return 12;}
 		public int getImplodeTimerTargetValue() {return 600;}

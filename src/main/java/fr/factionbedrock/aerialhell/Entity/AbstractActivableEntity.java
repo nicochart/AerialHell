@@ -39,7 +39,7 @@ public abstract class AbstractActivableEntity extends Monster
 		if (flag)
 		{
 			this.setActive(true);
-			this.lastHurtByPlayerTime = 100;
+			this.lastHurtByPlayerMemoryTime = 100;
 			this.timeWithoutAnyTarget = 0;
 		}
 		return flag;
@@ -63,7 +63,7 @@ public abstract class AbstractActivableEntity extends Monster
 		else if (this.level().getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToDeactivate(), EntitySelector.NO_CREATIVE_OR_SPECTATOR) == null)
 		{			
 			if (timeWithoutAnyTarget < 120) {timeWithoutAnyTarget++;}
-			else if (this.lastHurtByPlayerTime <= 0 && timeWithoutAnyTarget == 120)
+			else if (this.lastHurtByPlayerMemoryTime <= 0 && timeWithoutAnyTarget == 120)
 			{
 				this.setActive(false);
 				this.timeClosePlayer = 0;

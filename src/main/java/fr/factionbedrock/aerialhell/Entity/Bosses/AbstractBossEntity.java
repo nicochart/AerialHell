@@ -36,8 +36,11 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 import java.util.List;
+import java.util.UUID;
 
 public abstract class AbstractBossEntity extends AbstractActivableEntity
 {
@@ -54,7 +57,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		{
 			if (source.is(DamageTypes.GENERIC_KILL) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {}
 			else {this.setActive(true);}
-			this.lastHurtByPlayerTime = 100;
+			this.lastHurtByPlayerMemoryTime = 100;
 			this.timeWithoutAnyTarget = 0;
 		}
 		return flag;
@@ -81,7 +84,9 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 				if (!actuallyGotHurt) {return false;}
 				//we know this got hurt
-				setLastHurtBy(source);
+				//TODO it works ? (also check for AbstractCustomHurtMonsterEntity)
+				this.resolveMobResponsibleForDamage(source);
+				this.resolvePlayerResponsibleForDamage(source);
 
 				if (!wasOnHurtCooldown)
 				{
@@ -209,34 +214,6 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		return false;
 	}
 
-	public void setLastHurtBy(DamageSource damageSource)
-	{
-		Entity sourceEntity = damageSource.getEntity();
-		if (sourceEntity != null)
-		{
-			if (sourceEntity instanceof LivingEntity sourceLivingEntity)
-			{
-				if (!damageSource.is(DamageTypeTags.NO_ANGER)) {this.setLastHurtByMob(sourceLivingEntity);}
-			}
-
-			if (sourceEntity instanceof Player sourcePlayerEntity)
-			{
-				this.lastHurtByPlayerTime = 100;
-				this.lastHurtByPlayer = sourcePlayerEntity;
-			}
-			else if (sourceEntity instanceof TamableAnimal tamableEntity)
-			{
-				if (tamableEntity.isTame())
-				{
-					this.lastHurtByPlayerTime = 100;
-					LivingEntity tamableEntityOwner = tamableEntity.getOwner();
-					if (tamableEntityOwner instanceof Player playerOwner) {this.lastHurtByPlayer = playerOwner;}
-					else {this.lastHurtByPlayer = null;}
-				}
-			}
-		}
-	}
-
 	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
 	{
 		super.defineSynchedData(builder);
@@ -342,17 +319,17 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
     	this.bossInfo.removePlayer(player);
     }
 
-	@Override public void addAdditionalSaveData(CompoundTag compound)
+	@Override public void addAdditionalSaveData(ValueOutput valueOutput)
 	{
-		super.addAdditionalSaveData(compound);
-		compound.putInt("Phase", this.getPhase().getPhaseId());
+		super.addAdditionalSaveData(valueOutput);
+		valueOutput.putInt("Phase", this.getPhase().getPhaseId());
 	}
 
-	@Override public void readAdditionalSaveData(CompoundTag compound)
+	@Override public void readAdditionalSaveData(ValueInput valueInput)
 	{
-		super.readAdditionalSaveData(compound);
+		super.readAdditionalSaveData(valueInput);
 		if (this.hasCustomName()) {this.bossInfo.setName(this.getDisplayName());}
-		this.setPhase(compound.getInt("Phase"));
+		this.setPhase(valueInput.getInt("Phase").get());
 	}
 	
 	@Override public void setCustomName(@Nullable Component name)
@@ -423,13 +400,13 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 	protected void adaptBossDifficulty()
 	{
-		if (this.hasEffect(MobEffects.DAMAGE_RESISTANCE)) {this.removeEffect(MobEffects.DAMAGE_RESISTANCE);}
-		if (this.hasEffect(MobEffects.DAMAGE_BOOST)) {this.removeEffect(MobEffects.DAMAGE_BOOST);}
+		if (this.hasEffect(MobEffects.RESISTANCE)) {this.removeEffect(MobEffects.RESISTANCE);}
+		if (this.hasEffect(MobEffects.STRENGTH)) {this.removeEffect(MobEffects.STRENGTH);}
 		int amplifier = this.getDifficulty() - 1; //amplifier = 0 if there is one player, +1 per additional player
 		if (amplifier > 0)
 		{
-			this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 54000, Math.min(3, (int) Math.ceil(amplifier / 2.0F)), false, false));
-			this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 54000, Math.min(3, amplifier - 1), false, false));
+			this.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 54000, Math.min(3, (int) Math.ceil(amplifier / 2.0F)), false, false));
+			this.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 54000, Math.min(3, amplifier - 1), false, false));
 		}
 	}
 

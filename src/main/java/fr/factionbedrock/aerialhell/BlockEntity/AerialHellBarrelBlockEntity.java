@@ -2,10 +2,8 @@ package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Vec3i;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -22,6 +20,8 @@ import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class AerialHellBarrelBlockEntity extends RandomizableContainerBlockEntity
 {
@@ -55,17 +55,17 @@ public class AerialHellBarrelBlockEntity extends RandomizableContainerBlockEntit
 
 	public AerialHellBarrelBlockEntity(BlockPos pos, BlockState state) {super(AerialHellBlockEntities.BARREL.get(), pos, state);}
 
-	@Override protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider)
+	@Override protected void saveAdditional(ValueOutput valueOutput)
 	{
-		super.saveAdditional(tag, provider);
-		if (!this.trySaveLootTable(tag)) {ContainerHelper.saveAllItems(tag, this.items, provider);}
+		super.saveAdditional(valueOutput);
+		if (!this.trySaveLootTable(valueOutput)) {ContainerHelper.saveAllItems(valueOutput, this.items);}
 	}
 
-	@Override protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider)
+	@Override protected void loadAdditional(ValueInput valueInput)
 	{
-		super.loadAdditional(tag, provider);
+		super.loadAdditional(valueInput);
 		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-		if (!this.tryLoadLootTable(tag)) {ContainerHelper.loadAllItems(tag, this.items, provider);}
+		if (!this.tryLoadLootTable(valueInput)) {ContainerHelper.loadAllItems(valueInput, this.items);}
 	}
 
 	@Override public int getContainerSize() {return 27;}

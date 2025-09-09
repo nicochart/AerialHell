@@ -172,7 +172,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		super.aiStep();
     }
 	
-	@Override public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source)
+	@Override public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source)
 	{
 		if (isInPhase1()) {return false;}
 		else {return super.causeFallDamage(distance, damageMultiplier, source);}
@@ -187,7 +187,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		{
 			if (isActive())
 			{
-				if (this.isControlledByLocalInstance())
+				if (this.isLocalInstanceAuthoritative())
 				{
 					if (this.isInWater())
 					{

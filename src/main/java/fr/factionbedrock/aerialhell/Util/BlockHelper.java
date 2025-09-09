@@ -15,7 +15,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.level.LevelReader;
@@ -52,13 +51,11 @@ public class BlockHelper
 
     public static boolean isItemCorrectForHarvesting(BlockState state, Item item)
     {
-        if (item instanceof DiggerItem diggerItem)
+        //TODO does it work ?
+        Tool tool = item.components().get(DataComponents.TOOL);
+        if (tool != null)
         {
-            Tool tool = diggerItem.components().get(DataComponents.TOOL);
-            if (tool != null)
-            {
-                return tool.isCorrectForDrops(state);
-            }
+            return tool.isCorrectForDrops(state);
         }
 
         return !(state.is(BlockTags.INCORRECT_FOR_WOODEN_TOOL)

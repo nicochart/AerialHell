@@ -58,35 +58,35 @@ public class AerialHellFoods
 
     public static class Consumables
     {
-        public static final Consumable FROZEN_AERIAL_BERRY = defautEffectConsumable(effectList(MobEffects.MOVEMENT_SLOWDOWN, 310, 0, MobEffects.DAMAGE_RESISTANCE, 210, 0));
-        public static final Consumable FROZEN_MUTTON = defautEffectConsumable(effectList(MobEffects.MOVEMENT_SLOWDOWN, 310, 0, MobEffects.DAMAGE_RESISTANCE, 210, 0));
+        public static final Consumable FROZEN_AERIAL_BERRY = defautEffectConsumable(effectList(MobEffects.SLOWNESS, 310, 0, MobEffects.RESISTANCE, 210, 0));
+        public static final Consumable FROZEN_MUTTON = defautEffectConsumable(effectList(MobEffects.SLOWNESS, 310, 0, MobEffects.RESISTANCE, 210, 0));
         public static final Consumable VIBRANT_CHICKEN = defautEffectConsumable(effectList(MobEffects.SLOW_FALLING, 60, 0));
-        public static final Consumable FROZEN_CHICKEN = defautEffectConsumable(effectList(MobEffects.MOVEMENT_SLOWDOWN, 310, 0, MobEffects.DAMAGE_RESISTANCE, 210, 0, MobEffects.HUNGER, 80, 0));
+        public static final Consumable FROZEN_CHICKEN = defautEffectConsumable(effectList(MobEffects.SLOWNESS, 310, 0, MobEffects.RESISTANCE, 210, 0, MobEffects.HUNGER, 80, 0));
         public static final Consumable RUBY_AERIAL_BERRY = defautEffectConsumable(effectList(MobEffects.HEALTH_BOOST, 2400, 0));
         public static final Consumable VOLUCITE_AERIAL_BERRY = defautEffectConsumable(effectList(AerialHellMobEffects.HEAD_IN_THE_CLOUDS, 5000, 1));
-        public static final Consumable FROZEN_GLOWING_STICK_FRUIT = defautEffectConsumable(effectList(MobEffects.MOVEMENT_SLOWDOWN, 120, 0, MobEffects.DAMAGE_RESISTANCE, 180, 0));
-        public static final Consumable CORTINARIUS_VIOLACEUS_PIECE = defautEffectConsumable(effectList(MobEffects.CONFUSION, 100, 0));
+        public static final Consumable FROZEN_GLOWING_STICK_FRUIT = defautEffectConsumable(effectList(MobEffects.SLOWNESS, 120, 0, MobEffects.RESISTANCE, 180, 0));
+        public static final Consumable CORTINARIUS_VIOLACEUS_PIECE = defautEffectConsumable(effectList(MobEffects.NAUSEA, 100, 0));
         public static final Consumable GANODERMA_APPLANATUM_PIECE = defautEffectConsumable(effectList(MobEffects.HUNGER, 100, 0));
         public static final Consumable DARK_SHADOW_FRUIT = defautEffectConsumable(effectList(MobEffects.BLINDNESS, 20, 0, MobEffects.NIGHT_VISION, 120, 0));
         public static final Consumable PURPLE_SHADOW_FRUIT = defautEffectConsumable(effectList(MobEffects.BLINDNESS, 20, 0, AerialHellMobEffects.SHADOW_IMMUNITY, 80, 0));
         public static final Consumable SHADOW_FRUIT_STEW = defautEffectConsumable(effectList(MobEffects.BLINDNESS, 20, 0, AerialHellMobEffects.SHADOW_IMMUNITY, 1200, 0));
         public static final Consumable SOLID_ETHER_SOUP = defautEffectConsumable(effectList(MobEffects.SLOW_FALLING, 160, 0, AerialHellMobEffects.HEAD_IN_THE_CLOUDS, 160, 0));
         public static final Consumable VIBRANT_SOLID_ETHER_SOUP = defautEffectConsumable(effectList(MobEffects.SLOW_FALLING, 160, 0, AerialHellMobEffects.HEAD_IN_THE_CLOUDS, 160, 1));
-        public static final Consumable FROZEN_SOLID_ETHER_SOUP = defautEffectConsumable(effectList(MobEffects.SLOW_FALLING, 180, 0, AerialHellMobEffects.HEAD_IN_THE_CLOUDS, 160, 0, MobEffects.DAMAGE_RESISTANCE, 210, 0));
-        public static final Consumable SHADOW_SPIDER_EYE = defautEffectConsumable(effectList(MobEffects.BLINDNESS, 20, 0, MobEffects.MOVEMENT_SLOWDOWN, 120, 0));
-        public static final Consumable PHANTOM_MEAT = defautEffectConsumable(effectList(MobEffects.DAMAGE_RESISTANCE, 120, 0));
-        public static final Consumable VIBRANT_PHANTOM_MEAT = defautEffectConsumable(effectList(MobEffects.DAMAGE_RESISTANCE, 400, 1));
-        public static final Consumable FROZEN_PHANTOM_MEAT = defautEffectConsumable(effectList(MobEffects.DAMAGE_RESISTANCE, 800, 1));
+        public static final Consumable FROZEN_SOLID_ETHER_SOUP = defautEffectConsumable(effectList(MobEffects.SLOW_FALLING, 180, 0, AerialHellMobEffects.HEAD_IN_THE_CLOUDS, 160, 0, MobEffects.RESISTANCE, 210, 0));
+        public static final Consumable SHADOW_SPIDER_EYE = defautEffectConsumable(effectList(MobEffects.BLINDNESS, 20, 0, MobEffects.SLOWNESS, 120, 0));
+        public static final Consumable PHANTOM_MEAT = defautEffectConsumable(effectList(MobEffects.RESISTANCE, 120, 0));
+        public static final Consumable VIBRANT_PHANTOM_MEAT = defautEffectConsumable(effectList(MobEffects.RESISTANCE, 400, 1));
+        public static final Consumable FROZEN_PHANTOM_MEAT = defautEffectConsumable(effectList(MobEffects.RESISTANCE, 800, 1));
         public static final Consumable VIBRANT_TURTLE_MEAT = defautEffectConsumable(effectList(MobEffects.SLOW_FALLING, 400, 0));
-        public static final Consumable FROZEN_TURTLE_MEAT = defautEffectConsumable(effectList(MobEffects.DAMAGE_RESISTANCE, 400, 0));
+        public static final Consumable FROZEN_TURTLE_MEAT = defautEffectConsumable(effectList(MobEffects.RESISTANCE, 400, 0));
         public static final Consumable GODS_VOLUCITE_AERIAL_BERRY = godsVoluciteAerialBerry();
-        public static final Consumable AZURITE_COPPER_PINE_CONE = defautEffectConsumable(effectList(MobEffects.DIG_SPEED, 400, 0));
+        public static final Consumable AZURITE_COPPER_PINE_CONE = defautEffectConsumable(effectList(MobEffects.HASTE, 400, 0));
         public static final Consumable PHOENIX_FEATHER = defautEffectConsumable(effectList(MobEffects.SLOW_FALLING, 1200, 0, MobEffects.FIRE_RESISTANCE, 1200, 0));
         public static final Consumable SKY_CACTUS_FIBER = fastToEat();
         public static final Consumable VIBRANT_SKY_CACTUS_FIBER = fastToEat();
         public static final Consumable BLUE_SOLID_ETHER_FRAGMENT = defautEffectConsumable(effectList(AerialHellMobEffects.HEAD_IN_THE_CLOUDS, 90, 0));
         public static final Consumable GOLDEN_SOLID_ETHER_FRAGMENT = defautEffectConsumable(effectList(MobEffects.SLOW_FALLING, 110, 0));
-        public static final Consumable GREEN_SOLID_ETHER_FRAGMENT = defautEffectConsumable(effectList(MobEffects.JUMP, 90, 1));
+        public static final Consumable GREEN_SOLID_ETHER_FRAGMENT = defautEffectConsumable(effectList(MobEffects.JUMP_BOOST, 90, 1));
         public static final Consumable PURPLE_SOLID_ETHER_FRAGMENT = defautEffectConsumable(effectList(AerialHellMobEffects.SHADOW_IMMUNITY, 90, 1));
         public static final Consumable GOLDEN_NETHER_MEAT_PIECE = defautEffectConsumable(effectList(MobEffects.FIRE_RESISTANCE, 110, 0));
         public static final Consumable GOLDEN_NETHER_STEAK = defautEffectConsumable(effectList(MobEffects.FIRE_RESISTANCE, 500, 0));
@@ -100,9 +100,9 @@ public class AerialHellFoods
                     new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY, 2400, 2),
                     new MobEffectInstance(AerialHellMobEffects.GOD, 6000, 0),
                     new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 6000, 0),
-                    new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 2400, 0),
-                    new MobEffectInstance(MobEffects.DAMAGE_BOOST, 2400, 1),
-                    new MobEffectInstance(MobEffects.DIG_SPEED, 2400, 1),
+                    new MobEffectInstance(MobEffects.RESISTANCE, 2400, 0),
+                    new MobEffectInstance(MobEffects.STRENGTH, 2400, 1),
+                    new MobEffectInstance(MobEffects.HASTE, 2400, 1),
                     new MobEffectInstance(MobEffects.ABSORPTION, 2400, 3)
             ));
         }

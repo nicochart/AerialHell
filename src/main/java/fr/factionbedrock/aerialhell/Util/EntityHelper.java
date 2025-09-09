@@ -38,7 +38,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.FlyingMob;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Silverfish;
@@ -122,7 +123,7 @@ public class EntityHelper
 
     public static boolean isFeatheryEntity(Entity entity)
     {
-        return entity instanceof Silverfish || entity instanceof FlyingMob || entity instanceof Chicken || entity instanceof Vex; //Vex includes FlyingSkulls
+        return entity instanceof Silverfish || /*entity instanceof FlyingMob || TODO use entity tag*/ entity instanceof Chicken || entity instanceof Vex; //Vex includes FlyingSkulls
     }
 
     public static boolean isImmuneToBramblesDamage(Entity entity)
@@ -143,7 +144,7 @@ public class EntityHelper
         if (entity instanceof LivingEntity livingEntity)
         {
             if (hasSolidEtherWalkerEnchantment(livingEntity) || isLivingEntityUnderInTheCloudsEffect(livingEntity) || isFeatheryEntity(entity)) {return false;}
-            Iterable<ItemStack> stuff = livingEntity.getArmorSlots();
+            Iterable<ItemStack> stuff = getEquippedHumanoidArmorItemList(livingEntity);
             for (ItemStack armorStack : stuff) {if (armorStack.getItem() == AerialHellItems.MAGMATIC_GEL_BOOTS.get()) {return false;}}
             return true;
         }
@@ -155,7 +156,7 @@ public class EntityHelper
         if (entity instanceof LivingEntity livingEntity)
         {
             if (hasSolidEtherWalkerEnchantment(livingEntity) || isLivingEntityUnderInTheCloudsEffect(livingEntity) || isGhostEntity(livingEntity)) {return false;}
-            Iterable<ItemStack> stuff = livingEntity.getArmorSlots();
+            Iterable<ItemStack> stuff = getEquippedHumanoidArmorItemList(livingEntity);
             for (ItemStack armorStack : stuff) {if (armorStack.getItem() == AerialHellItems.MAGMATIC_GEL_BOOTS.get()) {return false;}}
             return true;
         }
@@ -244,12 +245,39 @@ public class EntityHelper
 
     public static boolean isLivingEntityMisleadingLunar(LivingEntity entity)
     {
-        return ItemHelper.getItemInTagCount(entity.getArmorSlots(), AerialHellTags.Items.LUNATIC_STUFF) >= 4 && !isLivingEntityATraitor(entity);
+        return ItemHelper.getItemInTagCount(EntityHelper.getEquippedHumanoidArmorItemList(entity), AerialHellTags.Items.LUNATIC_STUFF) >= 4 && !isLivingEntityATraitor(entity);
     }
 
     public static boolean isLivingEntityMisleadingShadow(LivingEntity entity)
     {
         return isLivingEntityShadowBind(entity) && !isLivingEntityATraitor(entity);
+    }
+
+    public static List<ItemStack> getEquippedHumanoidArmorItemList(LivingEntity livingEntity)
+    {
+        //TODO does it work ?
+        List<ItemStack> list = new ArrayList<>();
+        for(EquipmentSlot equipmentslot : EquipmentSlotGroup.ARMOR)
+        {
+            if (equipmentslot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR)
+            {
+                ItemStack itemstack = livingEntity.getItemBySlot(equipmentslot);
+                if (!itemstack.isEmpty()) {list.add(itemstack);}
+            }
+        }
+        return list;
+    }
+
+    public static List<ItemStack> getInHandsItemList(LivingEntity livingEntity)
+    {
+        //TODO does it work ?
+        List<ItemStack> list = new ArrayList<>();
+        for(EquipmentSlot equipmentslot : EquipmentSlotGroup.HAND)
+        {
+            ItemStack itemstack = livingEntity.getItemBySlot(equipmentslot);
+            if (!itemstack.isEmpty()) {list.add(itemstack);}
+        }
+        return list;
     }
 
     //from in net.minecraft.server.level.ChunkMap resendBiomesForChunks(..) method

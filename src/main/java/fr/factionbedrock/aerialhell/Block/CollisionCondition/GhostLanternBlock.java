@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -20,7 +21,7 @@ public class GhostLanternBlock extends LanternBlock
         super(prop.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false));
     }
 
-    @Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
+    @Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
     {
         entity.fallDistance = 0.0F;
         if (entity.getDeltaMovement().y < 0.0)

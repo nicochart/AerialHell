@@ -6,6 +6,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -23,7 +24,7 @@ public class GlowingStellarTallGrass extends AerialHellTallGrassBlock
 	public static final BooleanProperty LIT = RedstoneTorchBlock.LIT;
 	public GlowingStellarTallGrass(Properties properties) {super(properties); this.registerDefaultState(this.defaultBlockState().setValue(LIT, false));}
 
-	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
+	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
 	{
 		if (!level.isClientSide) {interact(state, level, pos);}
 	}

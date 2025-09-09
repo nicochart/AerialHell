@@ -6,7 +6,6 @@ import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHa
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.FluidRenderHandler;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.RenderRegistrationListener;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSkyRenderer;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSpecialEffects;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Event.Listeners.RenderListener;
@@ -44,7 +43,7 @@ public class AerialHellClientSetup
     public static void registerDimensionRenderInfo(RegisterDimensionSpecialEffectsEvent event)
     {
         //using skyEffect = true & DimensionSpecialEffects.SkyType.OVERWORLD as a temporary solution
-        AerialHellDimensionSpecialEffects renderInfo = new AerialHellDimensionSpecialEffects(Float.NaN, true, DimensionSpecialEffects.SkyType.OVERWORLD, false, false);
+        AerialHellDimensionSpecialEffects renderInfo = new AerialHellDimensionSpecialEffects(DimensionSpecialEffects.SkyType.OVERWORLD, false, false);
         event.register(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "aerial_hell"), renderInfo);
     }
 }

@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -58,7 +59,7 @@ public class EffectToolHelper
 	public static boolean tryToApplyVolucitePower(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand, boolean canApplyFullPower)
 	{
 		int count_volucite = 0, count_heavy = 0;
-		for (ItemStack armorStack : playerIn.getArmorSlots())
+		for (ItemStack armorStack : EntityHelper.getEquippedHumanoidArmorItemList(playerIn))
 		{
 			if (armorStack.is(AerialHellTags.Items.VOLUCITE_STUFF)) {count_volucite++;}
 			if (armorStack.is(AerialHellTags.Items.OBSIDIAN_STUFF) || armorStack.is(AerialHellTags.Items.ARSONIST_STUFF)) {count_heavy++;}
@@ -75,7 +76,7 @@ public class EffectToolHelper
 		if (!worldIn.isClientSide())
 		{
 			playerIn.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 200, 0));
-			playerIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 120, 0));
+			playerIn.addEffect(new MobEffectInstance(MobEffects.SPEED, 120, 0));
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, cooldown);
 	}
@@ -87,7 +88,7 @@ public class EffectToolHelper
 		if (!worldIn.isClientSide())
 		{
 			playerIn.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 200, 0));
-			playerIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 120, 0));
+			playerIn.addEffect(new MobEffectInstance(MobEffects.SPEED, 120, 0));
 			playerIn.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY.getDelegate(), 120, 0));
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, cooldown);
@@ -102,15 +103,15 @@ public class EffectToolHelper
 		{
 			if (rand.nextFloat() < 0.25)
 			{
-				playerIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 750, 0));
+				playerIn.addEffect(new MobEffectInstance(MobEffects.SPEED, 750, 0));
 			}
 			else if (rand.nextFloat() < 0.3333)
 			{
-				playerIn.addEffect(new MobEffectInstance(MobEffects.JUMP, 750, 0));
+				playerIn.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 750, 0));
 			}
 			else if (rand.nextFloat() < 0.5)
 			{
-				playerIn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 750, 0));
+				playerIn.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 750, 0));
 			}
 			else
 			{
@@ -124,7 +125,7 @@ public class EffectToolHelper
 	public static void applyLunaticLight(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand, int baseCooldown)
 	{
 		int count = 0;
-		for (ItemStack armorStack : playerIn.getArmorSlots()) {if (armorStack.is(AerialHellTags.Items.LUNATIC_STUFF)) {count++;}}
+		for (ItemStack armorStack : EntityHelper.getEquippedHumanoidArmorItemList(playerIn)) {if (armorStack.is(AerialHellTags.Items.LUNATIC_STUFF)) {count++;}}
 		int cooldown = count == 4 ? baseCooldown/2 : baseCooldown;
 		if (!worldIn.isClientSide())
         {
@@ -177,8 +178,8 @@ public class EffectToolHelper
 		{
 			if (!worldIn.isClientSide())
 			{
-				playerIn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 200, 1));
-				playerIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 0));
+				playerIn.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 200, 1));
+				playerIn.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 100, 0));
 			}
 			cooldown = 400;
 		}
@@ -196,7 +197,7 @@ public class EffectToolHelper
 		addParticleOnPlayer(20, ParticleTypes.FLAME, playerIn, worldIn, rand);
 		playerIn.playSound(SoundEvents.GENERIC_EXTINGUISH_FIRE, 1.0F, 0.5F + rand.nextFloat());
 		int cooldown = base_cooldown,count = 0;
-		for (ItemStack armorStack : playerIn.getArmorSlots()) {if (armorStack.is(AerialHellTags.Items.ARSONIST_STUFF)) {count++;}}
+		for (ItemStack armorStack : EntityHelper.getEquippedHumanoidArmorItemList(playerIn)) {if (armorStack.is(AerialHellTags.Items.ARSONIST_STUFF)) {count++;}}
 		if (count >= 4) {cooldown/=2;}
 		if (!worldIn.isClientSide())
 		{
@@ -211,14 +212,14 @@ public class EffectToolHelper
 		playerIn.playSound(SoundEvents.PARROT_IMITATE_MAGMA_CUBE, 1.0F, 0.5F + rand.nextFloat());
 		if (!worldIn.isClientSide())
 		{
-			playerIn.addEffect(new MobEffectInstance(MobEffects.JUMP, duration, amplifier));
+			playerIn.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, duration, amplifier));
 		}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, 400);
 	}
 	
 	public static class PassiveEffects
 	{
-		public static void applyMagmaCubeEffect(LivingEntity entityIn) {((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.JUMP, 400, 0));}
+		public static void applyMagmaCubeEffect(LivingEntity entityIn) {((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 400, 0));}
 		public static void applyGodEffect(LivingEntity entityIn) {((LivingEntity) entityIn).addEffect(new MobEffectInstance(AerialHellMobEffects.GOD.getDelegate(), 400, 0));}
 	}
 }

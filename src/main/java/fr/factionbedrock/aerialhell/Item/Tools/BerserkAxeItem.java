@@ -1,16 +1,17 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
-import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
-
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.entity.Entity;
@@ -25,6 +26,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 public class BerserkAxeItem extends EffectAxeItem
 {
@@ -100,20 +102,18 @@ public class BerserkAxeItem extends EffectAxeItem
 	}
 	
 	@Override
-	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker)
+	public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker)
 	{
 		this.increaseWeight();
-		return super.hurtEnemy(stack, target, attacker);
+		super.hurtEnemy(stack, target, attacker);
 	}
-	
-	@Override
-	public boolean canAttackBlock(BlockState state, Level worldIn, BlockPos pos, Player player)
+
+	@Override public boolean canDestroyBlock(ItemStack stack, BlockState state, Level level, BlockPos pos, LivingEntity entity)
 	{
-		return !player.isCreative();
+		return !EntityHelper.isCreativePlayer(entity);
 	}
-	
-	@Override
-	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+
+	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
 	{
 		if (this.weight_ticks > 800)
 		{
@@ -123,7 +123,7 @@ public class BerserkAxeItem extends EffectAxeItem
 		{
 			this.weight_ticks-=2;
 		}
-		if (isSelected) {giveEntityEffect(worldIn, entityIn);}
+		if (slot == EquipmentSlot.MAINHAND) {giveEntityEffect(level, entity);}
 	}
 	
 	private void giveEntityEffect(Level worldIn, Entity entityIn)
@@ -134,37 +134,36 @@ public class BerserkAxeItem extends EffectAxeItem
 			int weight = this.getStatus();
 			if (weight == 0)
 			{
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 22, 1, false, false));
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 22, 1, false, false));
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 22, 1, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 22, 1, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.SPEED, 22, 1, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.HASTE, 22, 1, false, false));
 			}
 			else if (weight == 1)
 			{
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 22, 0, false, false));
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 22, 0, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.SPEED, 22, 0, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.HASTE, 22, 0, false, false));
 			}
 			else if (weight == 2)
 			{
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 22, 0, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 22, 0, false, false));
 			}
 			else if (weight == 3)
 			{
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 22, 0, false, false));
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 22, 1, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 22, 0, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 22, 1, false, false));
 			}
 			else //(weight == 4)
 			{
 				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 22, 0, false, false));
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 22, 1, false, false));
-				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 22, 3, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 22, 1, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 22, 3, false, false));
 			}
 		}
 	}
 
-	@Override
-	public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
+	@Override public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag)
 	{
-		components.add(this.getDescription().append(Integer.toString(getStatus())).withStyle(ChatFormatting.GRAY));
+		tooltipAdder.accept(this.getDescription().append(Integer.toString(getStatus())).withStyle(ChatFormatting.GRAY));
 	}
 
 	public MutableComponent getDescription()

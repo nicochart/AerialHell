@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,7 +27,7 @@ public class ShadowPineSaplingBlock extends AerialHellSaplingBlock
 	}
 	
 	@Override
-	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn)
+	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn, InsideBlockEffectApplier effectApplier)
 	{
 		if (!worldIn.isClientSide() && entityIn instanceof LivingEntity)
     	{

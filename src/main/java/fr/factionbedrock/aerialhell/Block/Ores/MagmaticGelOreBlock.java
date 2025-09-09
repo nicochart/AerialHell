@@ -23,7 +23,7 @@ public class MagmaticGelOreBlock extends AerialHellOreBlock
 		boolean creaPlayer = (entity instanceof Player && ((Player) entity).isCreative());
 		if (!world.isClientSide() && entity instanceof LivingEntity && !entity.isSteppingCarefully() && !creaPlayer)
 		{
-			((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 32, 1));
+			((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 32, 1));
 		}
 	}
 }

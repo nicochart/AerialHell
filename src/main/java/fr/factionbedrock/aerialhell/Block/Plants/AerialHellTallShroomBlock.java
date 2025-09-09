@@ -10,6 +10,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -64,11 +65,11 @@ public class AerialHellTallShroomBlock extends TallGrassBlock
 		return state.is(BlockTags.DIRT) || state.is(AerialHellBlocks.STELLAR_COARSE_DIRT.get()) || state.is(AerialHellTags.Blocks.STELLAR_STONE_AND_DERIVATIVES) || state.is(BlockTags.MUSHROOM_GROW_BLOCK);
 	}
 
-	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
+	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
 	{
 		if (this == AerialHellBlocks.GIANT_ROOT_SHROOM.get() && entity instanceof LivingEntity livingEntity)
 		{
-			livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100, 0, false, false, true));
+			livingEntity.addEffect(new MobEffectInstance(MobEffects.SPEED, 100, 0, false, false, true));
 		}
 	}
 }

@@ -29,7 +29,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -41,6 +40,8 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 
 public class FatPhantomEntity extends Phantom implements Enemy
@@ -62,7 +63,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
    
    public static boolean canSpawn(EntityType<FatPhantomEntity> type, ServerLevelAccessor worldIn, EntitySpawnReason reason, BlockPos pos, RandomSource randomIn)
    {
-	   return worldIn.getDifficulty() != Difficulty.PEACEFUL && worldIn.getLevel().isDay() && randomIn.nextInt(120) == 0 && checkMobSpawnRules(type, worldIn, reason, pos, randomIn);
+	   return worldIn.getDifficulty() != Difficulty.PEACEFUL && worldIn.getLevel().isBrightOutside() && randomIn.nextInt(120) == 0 && checkMobSpawnRules(type, worldIn, reason, pos, randomIn);
    }
 
    @Override public void refreshDimensions() {}
@@ -86,7 +87,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
    
    public static AttributeSupplier.Builder registerAttributes()
    {
-       return FlyingMob.createMobAttributes()
+       return Mob.createMobAttributes()
        		.add(Attributes.MOVEMENT_SPEED, 0.25D)
        		.add(Attributes.MAX_HEALTH, 150.0D)
        		.add(Attributes.ATTACK_DAMAGE, 18.0D)
@@ -200,7 +201,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
    @Override
    public void aiStep()
    {
-	   if (!this.level().isDay())
+	   if (!this.level().isBrightOutside())
 	   {
 		   if (!this.isDisappearing())
 		   {
@@ -223,32 +224,24 @@ public class FatPhantomEntity extends Phantom implements Enemy
       this.setPhantomSize(10 + random.nextInt(6));
       if (worldIn.getBlockState(this.blockPosition().above()).getBlock() == Blocks.AIR)
       {
-    	  this.moveTo(new Vec3(blockPosition().above().getX(), blockPosition().above().getY(), blockPosition().above().getZ()));
+    	  this.snapTo(new Vec3(blockPosition().above().getX(), blockPosition().above().getY(), blockPosition().above().getZ()));
       }
       this.timeDisappearing = 0; this.setDisappearing(false);
       return data;
    }
 
-   @Override
-   public void readAdditionalSaveData(CompoundTag compound)
+   @Override protected void readAdditionalSaveData(ValueInput valueInput)
    {
-      super.readAdditionalSaveData(compound);
-      if (compound.contains("AX"))
-      {
-         this.orbitPosition = new BlockPos(compound.getInt("AX"), compound.getInt("AY"), compound.getInt("AZ"));
-      }
-
-      this.setDisappearing(compound.getBoolean("Disappearing"));
+      super.readAdditionalSaveData(valueInput);
+      this.orbitPosition = (BlockPos)valueInput.read("anchor_pos", BlockPos.CODEC).orElse((BlockPos) null);
+      this.setPhantomSize(valueInput.getIntOr("size", 0));
    }
 
-   @Override
-   public void addAdditionalSaveData(CompoundTag compound)
+   @Override protected void addAdditionalSaveData(ValueOutput valueOutput)
    {
-      super.addAdditionalSaveData(compound);
-      compound.putInt("AX", this.orbitPosition.getX());
-      compound.putInt("AY", this.orbitPosition.getY());
-      compound.putInt("AZ", this.orbitPosition.getZ());
-      compound.putBoolean("Disappearing", this.isDisappearing());
+      super.addAdditionalSaveData(valueOutput);
+      valueOutput.storeNullable("anchor_pos", BlockPos.CODEC, this.orbitPosition);
+      valueOutput.putInt("size", this.getPhantomSize());
    }
 
    @Override

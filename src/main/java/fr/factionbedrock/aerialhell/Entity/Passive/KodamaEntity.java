@@ -7,7 +7,6 @@ import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -23,6 +22,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -142,21 +143,21 @@ public class KodamaEntity extends AerialHellAnimalEntity
         if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getVoicePitch());}
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag compound)
+    @Override public void addAdditionalSaveData(ValueOutput valueOutput)
     {
-        super.addAdditionalSaveData(compound);
-        compound.putInt("FaceId", this.getFaceId());
-        compound.putInt("SizeId", this.getSizeId());
-        compound.putBoolean("IsRattling", this.isRattling());
-        compound.putInt("TiltAngle", this.getRattlingTiltAngle());
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putInt("FaceId", this.getFaceId());
+        valueOutput.putInt("SizeId", this.getSizeId());
+        valueOutput.putBoolean("IsRattling", this.isRattling());
+        valueOutput.putInt("TiltAngle", this.getRattlingTiltAngle());
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag compound)
+    @Override public void readAdditionalSaveData(ValueInput valueInput)
     {
-        super.readAdditionalSaveData(compound);
-        this.setFaceId(compound.getInt("FaceId"));
-        this.setSizeId(compound.getInt("SizeId"));
-        this.setRattling(compound.getBoolean("IsRattling"));
-        this.setRattlingTiltAngle(compound.getInt("TiltAngle"));
+        super.readAdditionalSaveData(valueInput);
+        this.setFaceId(valueInput.getInt("FaceId").get());
+        this.setSizeId(valueInput.getInt("SizeId").get());
+        this.setRattling(valueInput.getBooleanOr("IsRattling", false)); //TODO default values should never be used
+        this.setRattlingTiltAngle(valueInput.getInt("TiltAngle").get());
     }
 }

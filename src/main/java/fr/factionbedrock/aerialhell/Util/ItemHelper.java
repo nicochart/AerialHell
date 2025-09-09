@@ -54,11 +54,12 @@ public class ItemHelper
     //if mineableBlocks == null, the tool is a sword
     public static Item.Properties applyToolProperties(Item.Properties properties, ToolMaterial toolMaterial, @Nullable TagKey<Block> mineableBlocks, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth)
     {
+        boolean canDestroyBlocksInCreative = mineableBlocks != null;
         HolderGetter<Block> holdergetter = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK);
         return applyCommonProperties(properties, toolMaterial)
                 .component(
                         DataComponents.TOOL,
-                        new Tool(getRules(holdergetter, toolMaterial, mineableBlocks), 1.0F, 1)
+                        new Tool(getRules(holdergetter, toolMaterial, mineableBlocks), 1.0F, 1, canDestroyBlocksInCreative)
                 )
                 .attributes(createAerialHellToolOrWeaponAttributes(toolMaterial, attackDamage, attackSpeed, movementSpeed, maxHealth));
     }

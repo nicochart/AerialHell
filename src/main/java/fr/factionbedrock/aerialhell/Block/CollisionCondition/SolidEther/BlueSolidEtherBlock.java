@@ -24,7 +24,7 @@ public class BlueSolidEtherBlock extends SolidEtherBlock
 			}
 			else
 			{
-				entity.addEffect(new MobEffectInstance(MobEffects.JUMP, 10, 3, false, false));
+				entity.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 10, 3, false, false));
 			}
 		}
 	}

@@ -54,7 +54,8 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
 
                 if (!actuallyGotHurt) {return false;}
                 //we know this got hurt
-                setLastHurtBy(source);
+                this.resolveMobResponsibleForDamage(source);
+                this.resolvePlayerResponsibleForDamage(source);
 
                 if (!wasOnHurtCooldown)
                 {
@@ -114,34 +115,6 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
             this.hurtDuration = 10;
             this.hurtTime = this.hurtDuration;
             return true;
-        }
-    }
-
-    public void setLastHurtBy(DamageSource damageSource)
-    {
-        Entity sourceEntity = damageSource.getEntity();
-        if (sourceEntity != null)
-        {
-            if (sourceEntity instanceof LivingEntity sourceLivingEntity)
-            {
-                if (!damageSource.is(DamageTypeTags.NO_ANGER)) {this.setLastHurtByMob(sourceLivingEntity);}
-            }
-
-            if (sourceEntity instanceof Player sourcePlayerEntity)
-            {
-                this.lastHurtByPlayerTime = 100;
-                this.lastHurtByPlayer = sourcePlayerEntity;
-            }
-            else if (sourceEntity instanceof TamableAnimal tamableEntity)
-            {
-                if (tamableEntity.isTame())
-                {
-                    this.lastHurtByPlayerTime = 100;
-                    LivingEntity tamableEntityOwner = tamableEntity.getOwner();
-                    if (tamableEntityOwner instanceof Player playerOwner) {this.lastHurtByPlayer = playerOwner;}
-                    else {this.lastHurtByPlayer = null;}
-                }
-            }
         }
     }
 

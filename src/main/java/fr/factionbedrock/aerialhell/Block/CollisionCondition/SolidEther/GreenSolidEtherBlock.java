@@ -17,7 +17,7 @@ public class GreenSolidEtherBlock extends SolidEtherBlock
 		super.livingEntityInside(state, level, pos, entity);
 		if (!level.isClientSide())
 		{
-			entity.addEffect(new MobEffectInstance(MobEffects.JUMP, 10, 5, false, false));
+			entity.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 10, 5, false, false));
 		}
 	}
 }

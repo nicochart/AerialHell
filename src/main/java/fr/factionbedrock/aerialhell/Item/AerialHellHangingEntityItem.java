@@ -3,13 +3,12 @@ package fr.factionbedrock.aerialhell.Item;
 import fr.factionbedrock.aerialhell.Entity.AerialHellPaintingEntity;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.HangingEntity;
-import net.minecraft.world.entity.decoration.Painting;
+import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,14 +16,13 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 
-import javax.annotation.Nullable;
-import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /* Copy of net.minecraft.item.HangingEntityItem but for Aerial Hell paintings */
@@ -80,26 +78,19 @@ public class AerialHellHangingEntityItem extends Item
         return !directionIn.getAxis().isVertical() && playerIn.mayUseItemAt(posIn, directionIn, itemStackIn);
     }
 
-    @Override public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
+    @Override public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag tooltipFlag)
     {
-        super.appendHoverText(stack, tooltipContext, components, tooltipFlag);
-        //if (this.type == AerialHellEntities.AERIAL_HELL_PAINTING.get())
+        super.appendHoverText(stack, tooltipContext, tooltipDisplay, tooltipAdder, tooltipFlag);
+        //if (this.type == AerialHellEntities.AERIAL_HELL_PAINTING.get() && tooltipDisplay.shows(DataComponents.PAINTING_VARIANT))
         //{
-            CustomData customdata = stack.getOrDefault(DataComponents.ENTITY_DATA, CustomData.EMPTY);
-            if (!customdata.isEmpty())
+            Holder<PaintingVariant> holder = stack.get(DataComponents.PAINTING_VARIANT);
+            if (holder != null)
             {
-                customdata.read(Painting.VARIANT_MAP_CODEC)
-                        .result()
-                        .ifPresentOrElse(
-                                paintingVariantHolder ->
-                                {
-                                    paintingVariantHolder.unwrapKey().ifPresent(p_270217_ -> {components.add(Component.translatable(p_270217_.location().toLanguageKey("painting", "title")).withStyle(ChatFormatting.YELLOW)); components.add(Component.translatable(p_270217_.location().toLanguageKey("painting", "author")).withStyle(ChatFormatting.GRAY));});
-                                    components.add(Component.translatable("painting.dimensions", Mth.positiveCeilDiv(paintingVariantHolder.value().width(), 16), Mth.positiveCeilDiv(paintingVariantHolder.value().height(), 16)));
-                                },
-                                () -> components.add(TOOLTIP_RANDOM_VARIANT)
-                        );
+                (holder.value()).title().ifPresent(tooltipAdder);
+                (holder.value()).author().ifPresent(tooltipAdder);
+                tooltipAdder.accept(Component.translatable("painting.dimensions", new Object[]{((PaintingVariant)holder.value()).width(), ((PaintingVariant)holder.value()).height()}));
             }
-            else if (tooltipFlag.isCreative()) {components.add(TOOLTIP_RANDOM_VARIANT);}
+            else if (tooltipFlag.isCreative()) {tooltipAdder.accept(TOOLTIP_RANDOM_VARIANT);}
         //}
     }
 }

@@ -1,17 +1,19 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 public class EffectTotemItem extends Item
 {
@@ -22,14 +24,14 @@ public class EffectTotemItem extends Item
 		super(properties);
 		this.timer = 0;
 	}
-	
-	@Override public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+
+	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
 	{
-		if (!worldIn.isClientSide() && timer <= 0)
+		if (!level.isClientSide() && timer <= 0)
 		{
-			if (entityIn instanceof LivingEntity)
+			if (entity instanceof LivingEntity)
 			{
-				LivingEntity livingEntityIn = (LivingEntity) entityIn;
+				LivingEntity livingEntityIn = (LivingEntity) entity;
 				if (livingEntityIn.getMainHandItem().getItem() == this || livingEntityIn.getOffhandItem().getItem() == this)
 				{
 					if (this == AerialHellItems.REGENERATION_TOTEM.get())
@@ -38,11 +40,11 @@ public class EffectTotemItem extends Item
 					}
 					else if (this == AerialHellItems.SPEED_TOTEM.get())
 					{
-						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1200, 0));
+						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.SPEED, 1200, 0));
 					}
 					else if (this == AerialHellItems.SPEED_II_TOTEM.get())
 					{
-						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1200, 1));
+						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.SPEED, 1200, 1));
 					}
 					else if (this == AerialHellItems.NIGHT_VISION_TOTEM.get())
 					{
@@ -50,8 +52,8 @@ public class EffectTotemItem extends Item
 					}
 					else if (this == AerialHellItems.AGILITY_TOTEM.get())
 					{
-						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1200, 0));
-						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.JUMP, 1200, 0));
+						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.SPEED, 1200, 0));
+						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 1200, 0));
 					}
 					else if (this == AerialHellItems.HEAD_IN_THE_CLOUDS_TOTEM.get())
 					{
@@ -67,13 +69,13 @@ public class EffectTotemItem extends Item
 					}
 					else if (this == AerialHellItems.CURSED_TOTEM.get())
 					{
-						if (!(ItemHelper.getItemInTagCount(livingEntityIn.getArmorSlots(), AerialHellTags.Items.SHADOW_ARMOR) >= 4))
+						if (!(ItemHelper.getItemInTagCount(EntityHelper.getEquippedHumanoidArmorItemList(livingEntityIn), AerialHellTags.Items.SHADOW_ARMOR) >= 4))
 						{
-							livingEntityIn.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 300, 0));
+							livingEntityIn.addEffect(new MobEffectInstance(MobEffects.NAUSEA, 300, 0));
 							livingEntityIn.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 600, 0));
-							livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900, 0));
+							livingEntityIn.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 900, 0));
 						}
-						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1500, 2));
+						livingEntityIn.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 1500, 2));
 					}
 					else if (this == AerialHellItems.SHADOW_TOTEM.get())
 					{

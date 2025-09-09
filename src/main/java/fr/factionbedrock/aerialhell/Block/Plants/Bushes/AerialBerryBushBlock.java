@@ -10,7 +10,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.VegetationBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,20 +24,25 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class AerialBerryBushBlock extends BushBlock implements BonemealableBlock
+public class AerialBerryBushBlock extends VegetationBlock implements BonemealableBlock
 {
     public static final MapCodec<AerialBerryBushBlock> CODEC = simpleCodec(AerialBerryBushBlock::new);
 	public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
-	
+    private static final VoxelShape SHAPE = Block.column((double)16.0F, (double)0.0F, (double)13.0F);
+
 	public AerialBerryBushBlock(Properties properties)
 	{
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
     }
 
-    @Override protected @NotNull MapCodec<? extends BushBlock> codec() {return CODEC;}
+    @Override protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext p_401402_) {return SHAPE;}
+
+    @Override public @NotNull MapCodec<? extends AerialBerryBushBlock> codec() {return CODEC;}
 
     @Override
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand)

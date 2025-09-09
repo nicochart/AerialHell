@@ -23,7 +23,7 @@ public class IceSpiritEntity extends AbstractElementSpiritEntity
 
     @Override public void applyEffect(Entity entityIn)
     {
-    	((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 150, 2, true, false));
+    	((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 150, 2, true, false));
     }
 
     @Override public SimpleParticleType getParticleToSpawn()

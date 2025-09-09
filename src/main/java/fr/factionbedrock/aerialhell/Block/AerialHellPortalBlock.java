@@ -15,6 +15,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.*;
@@ -126,8 +127,7 @@ public class AerialHellPortalBlock extends Block implements Portal
 		return !flag && facingState.getBlock() != this && !(new AerialHellPortalShape(level, currentPos, direction$axis1)).isComplete() ? Blocks.AIR.defaultBlockState() : super.updateShape(stateIn, level, tickAccess, currentPos, facing, facingPos, facingState, rand);
 	}
 
-	@Override
-	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
+	@Override protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
 	{
 		if(entity.canUsePortal(false))
 		{

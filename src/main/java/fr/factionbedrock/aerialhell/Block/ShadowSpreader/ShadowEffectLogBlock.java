@@ -24,7 +24,7 @@ public class ShadowEffectLogBlock extends ShadowLogBlock
         if (flag && this == AerialHellBlocks.EYE_SHADOW_PINE_LOG.get() && !EntityHelper.isLivingEntityShadowImmune(player) && !player.isCreative())
         {
             player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 60, 0));
-            player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 60, 1));
+            player.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 60, 1));
         }
         return flag;
     }

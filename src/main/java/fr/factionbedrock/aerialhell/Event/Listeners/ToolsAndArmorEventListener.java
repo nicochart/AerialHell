@@ -62,7 +62,7 @@ public class ToolsAndArmorEventListener
 			Item targetMainHandItem = ((Player) target).getMainHandItem().getItem();
 			applyEffectsBasedOnTargetHandEquippedItem(event, targetMainHandItem, target);
 		} else {
-			Iterable<ItemStack> handStuff = target.getHandSlots();
+			Iterable<ItemStack> handStuff = EntityHelper.getInHandsItemList(target);
 			for (ItemStack handItemStack : handStuff) {
 				applyEffectsBasedOnTargetHandEquippedItem(event, handItemStack.getItem(), target);
 			}
@@ -70,7 +70,7 @@ public class ToolsAndArmorEventListener
 
 		if (sourceEntity instanceof LivingEntity) {
 			LivingEntity source = (LivingEntity) sourceEntity;
-			Iterable<ItemStack> stuff = target.getArmorSlots();
+			Iterable<ItemStack> stuff = EntityHelper.getEquippedHumanoidArmorItemList(target);
 			applyEffectsBasedOnTargetEquippedArmor(event, stuff, source, target);
 
 			if (source instanceof Player) {
@@ -78,7 +78,7 @@ public class ToolsAndArmorEventListener
 				applyEffectsBasedOnSourceHandEquippedItem(event, mainHandItemStack, source, target);
 				applyTraitorEffectIfNecessary((Player)source, target);
 			} else {
-				Iterable<ItemStack> handStuff = source.getHandSlots();
+				Iterable<ItemStack> handStuff = EntityHelper.getInHandsItemList(target);
 				for (ItemStack handItemStack : handStuff) {
 					applyEffectsBasedOnSourceHandEquippedItem(event, handItemStack, source, target);
 				}
@@ -89,7 +89,7 @@ public class ToolsAndArmorEventListener
     public static void onPlayerHarvest(PlayerEvent.BreakSpeed event)
     {
 		Player player = event.getEntity();
-		ItemStack selectedItemStack = player.getInventory().getSelected();
+		ItemStack selectedItemStack = player.getInventory().getSelectedItem();
 		BlockState state = event.getState();
 		float speed = event.getOriginalSpeed();
 
@@ -118,7 +118,7 @@ public class ToolsAndArmorEventListener
 		if (state != null && state.is(AerialHellBlocks.EYE_SHADOW_PINE_LOG.get()) && !EntityHelper.isLivingEntityShadowImmune(player) && !player.isCreative())
 		{
 			player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 30, 0));
-			player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 30, 0));
+			player.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 30, 0));
 		}
 
 		if (state != null && state.is(AerialHellTags.Blocks.GHOST_BLOCK))
@@ -167,10 +167,10 @@ public class ToolsAndArmorEventListener
 			{
 				if (source instanceof Player) {
 					if (!((Player) source).isCreative()) {
-						source.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 1, true, false));
+						source.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 120, 1, true, false));
 					}
 				} else {
-					source.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 1, true, false));
+					source.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 120, 1, true, false));
 				}
 			}
 			if (armorStack.is(AerialHellTags.Items.ARSONIST)) //target equipped of any arsonist armor
@@ -190,12 +190,12 @@ public class ToolsAndArmorEventListener
 		if (sourceEquippedItemStack.is(AerialHellTags.Items.MAGMATIC_GEL)) //source attacking target with any magmatic gel tool
 		{
 			int count = 0;
-			for (ItemStack armorStack : source.getArmorSlots()) {if (armorStack.is(AerialHellTags.Items.MAGMATIC_GEL)) {count++;}}
+			for (ItemStack armorStack : EntityHelper.getEquippedHumanoidArmorItemList(source)) {if (armorStack.is(AerialHellTags.Items.MAGMATIC_GEL)) {count++;}}
 			int amplifier = count == 4 ? 1 : 0;
-			target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, amplifier, true, false));
+			target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 120, amplifier, true, false));
 		} else if (sourceEquippedItem == AerialHellItems.ABSOLUTE_ZERO_SWORD.get()) //source attacking target with absolute zero sword
 		{
-			target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2, true, false));
+			target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 100, 2, true, false));
 		} else if (sourceEquippedItemStack.is(AerialHellTags.Items.ARSONIST)) //source attacking target with any arsonist tool
 		{
 			target.igniteForSeconds(5);
@@ -204,9 +204,9 @@ public class ToolsAndArmorEventListener
 			}
 		} else if (sourceEquippedItem == AerialHellItems.DISLOYAL_SWORD.get()) //source attacking target with disloyal sword
 		{
-			target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 0, true, false));
+			target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 100, 0, true, false));
 			target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, true, false));
-			target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 0, true, false));
+			target.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 100, 0, true, false));
 		} else if (sourceEquippedItem == AerialHellItems.GOD_SWORD.get()) //source attacking target with god sword
 		{
 			target.igniteForSeconds(5);
@@ -215,7 +215,7 @@ public class ToolsAndArmorEventListener
 			if (!EntityHelper.isLivingEntityShadowImmune(target)) {
 				target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100, 0, true, false));
 				target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 1, true, false));
-				target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1, true, false));
+				target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 100, 1, true, false));
 				target.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 70, 0, true, false));
 			} else {
 				source.addEffect(new MobEffectInstance(MobEffects.WITHER, 80, 2, true, false));

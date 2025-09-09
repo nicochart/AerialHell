@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.ChatFormatting;
@@ -8,6 +8,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.*;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.component.TooltipDisplay;
 
 public class AerialHellHoeItem extends HoeItem
 {
@@ -21,10 +22,9 @@ public class AerialHellHoeItem extends HoeItem
 		this.components = toolProperties.buildAndValidateComponents(Component.translatable(this.descriptionId), properties.effectiveModel());
 	}
 
-	@Override
-	public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
+	@Override public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag)
 	{
-		components.add(this.getDescription().withStyle(ChatFormatting.GRAY));
+		tooltipAdder.accept(this.getDescription().withStyle(ChatFormatting.GRAY));
 	}
 
 	public MutableComponent getDescription()

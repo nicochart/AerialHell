@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.function.Function;
 
@@ -107,7 +108,7 @@ public class AerialHellChestBlockEntityRenderer extends ChestRenderer<AerialHell
 		};
 	}
 
-	@Override public void render(AerialHellChestBlockEntity tileEntityIn, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLightIn, int combinedOverlayIn)
+	@Override public void render(AerialHellChestBlockEntity tileEntityIn, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLightIn, int combinedOverlayIn, Vec3 vec3)
 	{
 		Level level = tileEntityIn.getLevel();
 		boolean levelnotnull = level != null;

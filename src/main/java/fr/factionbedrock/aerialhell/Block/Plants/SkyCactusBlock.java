@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.level.block.CactusBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
@@ -34,7 +35,7 @@ public class SkyCactusBlock extends CactusBlock
 	
 	/*Edited onEntityCollision to deal more damage and to make the player jump*/
 	@Override
-	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn)
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn, InsideBlockEffectApplier effectApplier)
 	{
 		if (EntityHelper.isImmuneToSkyCactusCollision(entityIn)) {return;}
 		Vec3 motion = entityIn.getDeltaMovement();

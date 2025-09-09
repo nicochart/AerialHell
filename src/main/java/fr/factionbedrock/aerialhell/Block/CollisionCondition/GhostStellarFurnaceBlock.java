@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
@@ -27,7 +28,7 @@ public class GhostStellarFurnaceBlock extends StellarFurnaceBlock
         return (!canEntityCollide(player) && !player.isCreative()) ? InteractionResult.SUCCESS : super.useWithoutItem(state, level, pos, player, hit);
     }
 
-    @Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
+    @Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
     {
         entity.fallDistance = 0.0F;
         if (entity.getDeltaMovement().y < 0.0)

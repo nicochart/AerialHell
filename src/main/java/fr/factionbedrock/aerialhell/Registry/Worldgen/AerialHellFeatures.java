@@ -10,7 +10,7 @@ import fr.factionbedrock.aerialhell.World.Features.GiantTree.ForkingGiantTreeFea
 import fr.factionbedrock.aerialhell.World.Features.GiantTree.GiantPineTreeFeature;
 import fr.factionbedrock.aerialhell.World.Features.SolidEther.*;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.util.random.SimpleWeightedRandomList;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
@@ -55,7 +55,7 @@ public class AerialHellFeatures
 	public static final DeferredHolder<Feature<?>, Feature<MushroomCapsColumnConfig>> MUSHROOM_CAPS_COLUMN = FEATURES.register("mushroom_caps_column", () -> new MushroomCapsColumnFeature(MushroomCapsColumnConfig.CODEC));
 
 	public static final DeferredHolder<Feature<?>, Feature<FloorTransformationConfig>> FLOOR_TRANSFORMATION = FEATURES.register("floor_transformation", () -> new FloorTransformationFeature(FloorTransformationConfig.CODEC));
-	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> MOSSY_STELLAR_COBBLESTONE_ROCK = FEATURES.register("mossy_stellar_cobblestone_rock", () -> new RockFeature(NoneFeatureConfiguration.CODEC, new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder().add(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE.get().defaultBlockState(), 1).add(AerialHellBlocks.STELLAR_COBBLESTONE.get().defaultBlockState(), 1))));
+	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> MOSSY_STELLAR_COBBLESTONE_ROCK = FEATURES.register("mossy_stellar_cobblestone_rock", () -> new RockFeature(NoneFeatureConfiguration.CODEC, new WeightedStateProvider(WeightedList.<BlockState>builder().add(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE.get().defaultBlockState(), 1).add(AerialHellBlocks.STELLAR_COBBLESTONE.get().defaultBlockState(), 1))));
 	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> DANGLING_CHAIN = FEATURES.register("dangling_chain", () -> new DanglingChainFeature(NoneFeatureConfiguration.CODEC));
 	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> SLIPPERY_SAND = FEATURES.register("slippery_sand", () -> new SlipperySandFeature(NoneFeatureConfiguration.CODEC));
 	public static final DeferredHolder<Feature<?>, Feature<NaturalFieldConfig>> NATURAL_FIELD = FEATURES.register("natural_field", () -> new NaturalFieldFeature(NaturalFieldConfig.CODEC));

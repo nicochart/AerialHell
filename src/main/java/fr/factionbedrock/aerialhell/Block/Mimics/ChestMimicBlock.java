@@ -60,7 +60,7 @@ public class ChestMimicBlock extends ChestBlock
 	{
 		float angle = state.getValue(FACING).toYRot();
 		AbstractChestMimicEntity chestMimic = getNewChestMimicEntity(worldIn);
-		chestMimic.absMoveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, angle, 0.0F);
+		chestMimic.absSnapTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, angle, 0.0F);
 		chestMimic.setYHeadRot(angle);
 		worldIn.addFreshEntity(chestMimic);
 	}

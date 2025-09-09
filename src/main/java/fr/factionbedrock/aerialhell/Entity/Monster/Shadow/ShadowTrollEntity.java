@@ -6,7 +6,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
@@ -28,6 +27,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 import java.util.List;
 
@@ -116,7 +117,7 @@ public class ShadowTrollEntity extends Monster
     		if (!this.isDisappearing())
     		{
     			this.playSound(AerialHellSoundEvents.ENTITY_SHADOW_TROLL_DEATH.get(), 1.0F, 0.9F);
-    			this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 10, true, false));
+    			this.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 100, 10, true, false));
     			this.setDisappearing(true);
     		}
     	}
@@ -137,16 +138,16 @@ public class ShadowTrollEntity extends Monster
         builder.define(DISAPPEARING, false);
     }
     
-    @Override public void addAdditionalSaveData(CompoundTag compound)
+    @Override public void addAdditionalSaveData(ValueOutput valueOutput)
     {
-        super.addAdditionalSaveData(compound);
-        compound.putBoolean("Disappearing", this.isDisappearing());
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putBoolean("Disappearing", this.isDisappearing());
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag compound)
+    @Override public void readAdditionalSaveData(ValueInput valueInput)
     {
-        super.readAdditionalSaveData(compound);
-        this.setDisappearing(compound.getBoolean("Disappearing"));
+        super.readAdditionalSaveData(valueInput);
+        this.setDisappearing(valueInput.getBooleanOr("Disappearing", false)); //TODO default values should never be used
     }
     
     public boolean isDisappearing() {return this.entityData.get(DISAPPEARING);}

@@ -53,16 +53,16 @@ public class ShadowSpiderEntity extends AbstractAerialHellSpiderEntity
     			if (!EntityHelper.isLivingEntityShadowImmune(livingEntity))
     			{
 	    			int amplifier = 0;
-	    			if (livingEntity.getEffect(MobEffects.MOVEMENT_SLOWDOWN) != null)
+	    			if (livingEntity.getEffect(MobEffects.SLOWNESS) != null)
 	    			{
-	    				amplifier = livingEntity.getEffect(MobEffects.MOVEMENT_SLOWDOWN).getAmplifier();
+	    				amplifier = livingEntity.getEffect(MobEffects.SLOWNESS).getAmplifier();
 	    				if (amplifier < 2) {amplifier++;}
 	    				else
 	    				{
 	    					livingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0));
 	    				}
 	    			}
-	    			livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 90 + amplifier * 30, amplifier));
+	    			livingEntity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 90 + amplifier * 30, amplifier));
     			}
         	}
     		return true;

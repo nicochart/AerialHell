@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
@@ -25,11 +26,10 @@ public class BramblesBlock extends AerialHellTallGrassBlock
 
 	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(AerialHellGrassBlock.SHIFTED_RENDER);}
 
-	@Override
-	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn)
+	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
 	{
-		entityIn.makeStuckInBlock(state, new Vec3((double)0.8F, 0.75D, (double)0.8F));
-		if (!level.isClientSide() && entityIn instanceof LivingEntity livingEntity)
+		entity.makeStuckInBlock(state, new Vec3((double)0.8F, 0.75D, (double)0.8F));
+		if (!level.isClientSide() && entity instanceof LivingEntity livingEntity)
     	{
 			if (!EntityHelper.isImmuneToBramblesDamage(livingEntity))
 			{

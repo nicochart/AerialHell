@@ -1,14 +1,13 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
-import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.entity.player.Player;
@@ -18,6 +17,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 
 public class ForgottenBattleTridentItem extends AerialHellSwordItem
@@ -43,18 +43,17 @@ public class ForgottenBattleTridentItem extends AerialHellSwordItem
 		{
 			playerIn.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 120, 0));
 			playerIn.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 120, 0));
-			playerIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 120, 0));
-			playerIn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 300, 0));
+			playerIn.addEffect(new MobEffectInstance(MobEffects.SPEED, 120, 0));
+			playerIn.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 300, 0));
 		}
 		playerIn.getCooldowns().addCooldown(heldItem, 540);
 		heldItem.hurtAndBreak(1, playerIn, LivingEntity.getSlotForHand(handIn));
 		return InteractionResult.CONSUME;
     }
 
-	@Override
-	public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
+	@Override public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag)
 	{
-		components.add(this.getDescription().withStyle(ChatFormatting.GRAY));
+		tooltipAdder.accept(this.getDescription().withStyle(ChatFormatting.GRAY));
 	}
 
 	public MutableComponent getDescription()

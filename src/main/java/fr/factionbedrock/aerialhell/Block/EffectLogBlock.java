@@ -22,7 +22,7 @@ public class EffectLogBlock extends ShiftableLogBlock
 		boolean flag = super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
 		if (flag && this == AerialHellBlocks.ENCHANTED_LAPIS_ROBINIA_LOG.get() && !player.isCreative())
 		{
-			player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 30, 0));
+			player.addEffect(new MobEffectInstance(MobEffects.HASTE, 30, 0));
 		}
 		return flag;
 	}

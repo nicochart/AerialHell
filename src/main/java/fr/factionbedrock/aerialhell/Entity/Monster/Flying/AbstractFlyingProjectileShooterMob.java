@@ -1,22 +1,29 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Flying;
 
 import fr.factionbedrock.aerialhell.Entity.AI.GhastLikeGoals;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.FlyingMob;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
-public abstract class AbstractFlyingProjectileShooterMob extends FlyingMob implements Enemy
+public abstract class AbstractFlyingProjectileShooterMob extends Mob implements Enemy
 {
 	public static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.defineId(AbstractFlyingProjectileShooterMob.class, EntityDataSerializers.BOOLEAN);
 
 	public AbstractFlyingProjectileShooterMob(EntityType<? extends AbstractFlyingProjectileShooterMob> type, Level levelIn) {super(type, levelIn); this.moveControl = new GhastLikeGoals.MoveHelperController(this);}
+
+	@Override protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos) {}
+	@Override public void travel(Vec3 vec3) {this.travelFlying(vec3, 0.02F);}
+	@Override public boolean onClimbable() {return false;}
 
 	@Override protected void registerGoals()
 	{

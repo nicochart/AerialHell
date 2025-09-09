@@ -6,17 +6,18 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.Block;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class WithInformationBlockItem extends BlockItem
 {
 	public WithInformationBlockItem(Block block, Properties prop) {super(block, prop);}
 
-	@Override public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
+	@Override public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag)
 	{
-		components.add(this.getDescription().withStyle(ChatFormatting.GRAY));
+		tooltipAdder.accept(this.getDescription().withStyle(ChatFormatting.GRAY));
 	}
 
 	public MutableComponent getDescription()

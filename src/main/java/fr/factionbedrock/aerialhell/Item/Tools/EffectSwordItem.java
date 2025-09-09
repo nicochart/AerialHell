@@ -4,14 +4,17 @@ import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 public class EffectSwordItem extends AerialHellSwordItem
 {
@@ -27,16 +30,15 @@ public class EffectSwordItem extends AerialHellSwordItem
 		super(toolMaterial, attackDamage, attackSpeed, movementSpeed, maxHealth, properties);
 	}
 	
-	@Override
-	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
 	{
-		if (!worldIn.isClientSide() && timer <= 0)
+		if (!level.isClientSide() && timer <= 0)
 		{
-			if (entityIn instanceof LivingEntity)
+			if (entity instanceof LivingEntity)
 			{
-				if (((LivingEntity) entityIn).getMainHandItem().getItem() == this || ((LivingEntity) entityIn).getOffhandItem().getItem() == this)
+				if (((LivingEntity) entity).getMainHandItem().getItem() == this || ((LivingEntity) entity).getOffhandItem().getItem() == this)
 				{
-					if (this == AerialHellItems.GOD_SWORD.get()) {EffectToolHelper.PassiveEffects.applyGodEffect((LivingEntity)entityIn);}
+					if (this == AerialHellItems.GOD_SWORD.get()) {EffectToolHelper.PassiveEffects.applyGodEffect((LivingEntity)entity);}
 				}
 			}
 			timer = 200;

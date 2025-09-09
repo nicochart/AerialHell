@@ -64,10 +64,10 @@ public class ReactorBlock extends BiomeShifterBlock
         }
     }
 
-    @Override protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving)
+    @Override protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean isMoving)
     {
-        Containers.dropContentsOnDestroy(state, newState, level, pos);
-        super.onRemove(state, level, pos, newState, isMoving);
+        Containers.updateNeighboursAfterDestroy(state, level, pos);
+        super.affectNeighborsAfterRemoval(state, level, pos, isMoving);
     }
 
     //sent from server because client side do not have access to activeTimer update (always 0)

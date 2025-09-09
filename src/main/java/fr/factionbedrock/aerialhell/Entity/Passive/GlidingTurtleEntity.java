@@ -11,7 +11,6 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -20,6 +19,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 import javax.annotation.Nullable;
 
@@ -76,7 +77,7 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
     public boolean isGliding() {return !this.entityData.get(GLIDING);}
     public void setGliding(boolean flag) {this.entityData.set(GLIDING, !flag);}
 
-    @Override public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {return false;}
+    @Override public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {return false;}
 
     @Override public int getAmbientSoundInterval() {return 640;}
     @Override protected float getSoundVolume() {return 0.7F;}
@@ -89,17 +90,17 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
         if (ambientSound != null) {this.playSound(ambientSound, this.ateTimer <= 0 ? this.getSoundVolume() : 0.0F, this.getVoicePitch());}
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag compound)
+    @Override public void addAdditionalSaveData(ValueOutput valueOutput)
     {
-        super.addAdditionalSaveData(compound);
-        compound.putBoolean("Glide", this.isGliding());
-        compound.putInt("AteTimer", this.ateTimer);
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putBoolean("Glide", this.isGliding());
+        valueOutput.putInt("AteTimer", this.ateTimer);
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag compound)
+    @Override public void readAdditionalSaveData(ValueInput valueInput)
     {
-        super.readAdditionalSaveData(compound);
-        this.setGliding(compound.getBoolean("Glide"));
-        this.ateTimer = compound.getInt("AteTimer");
+        super.readAdditionalSaveData(valueInput);
+        this.setGliding(valueInput.getBooleanOr("Glide", false)); //TODO default values should never be used
+        this.ateTimer = valueInput.getInt("AteTimer").get();
     }
 }
