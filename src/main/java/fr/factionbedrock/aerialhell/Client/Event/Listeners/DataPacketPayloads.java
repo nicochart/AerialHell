@@ -13,7 +13,7 @@ public class DataPacketPayloads
     {
         final PayloadRegistrar registrar = event.registrar("1");
         //TODO check
-        registrar.playToServer(AerialHellData.TYPE, AerialHellData.STREAM_CODEC, ServerPayloadHandler::handleDataOnMain);
+        //registrar.playToServer(AerialHellData.TYPE, AerialHellData.STREAM_CODEC, ServerPayloadHandler::handleDataOnMain);
         registrar.playToClient(AerialHellData.TYPE, AerialHellData.STREAM_CODEC, ClientPayloadHandler::handleDataOnMain);
     }
 }

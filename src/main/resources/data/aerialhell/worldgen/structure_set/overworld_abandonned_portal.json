@@ -8,8 +8,7 @@
   "placement": {
     "salt": 166754456,
 
-    //average distance (chunks) is configured in aerial hell config file
-    "separation": 8, //minimum distance (chunks)
+    "separation": 8,
 
     "type": "aerialhell:config_spacing"
   }
