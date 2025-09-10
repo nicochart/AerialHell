@@ -30,6 +30,17 @@ public class ColorHandlerHelper
     public static final int GOLDEN_NETHER_PRISON_GLYPH_COLOR = new Color(193, 25, 25).getRGB();
     public static final int VOLUCITE_GLYPH_COLOR = new Color(48, 66, 179).getRGB();
     public static final int SHADOW_CATACOMBS_GLYPH_COLOR = new Color(153, 99, 248).getRGB();
+    public static final int AERIAL_TREE_LEAVES_COLOR = new Color(30, 94, 108).getRGB();
+    public static final int COPPER_PINE_LEAVES_COLOR = new Color(72, 149, 100).getRGB();
+    public static final int GOLDEN_BEECH_LEAVES_COLOR = new Color(234, 202, 0).getRGB();
+    public static final int LAPIS_ROBINIA_LEAVES_COLOR = new Color(35, 77, 156).getRGB();
+    public static final int SHADOW_PINE_LEAVES_COLOR = new Color(36, 22, 42).getRGB();
+    public static final int PURPLE_SHADOW_PINE_LEAVES_COLOR = new Color(91, 54, 110).getRGB();
+    public static final int SHADOW_AERIAL_TREE_LEAVES_COLOR = new Color(101, 60, 91).getRGB();
+    public static final int SHADOW_COPPER_PINE_LEAVES_COLOR = new Color(89, 62, 102).getRGB();
+    public static final int HOLLOW_SHADOW_PINE_LEAVES_COLOR = new Color(57, 74, 31).getRGB();
+    public static final int HOLLOW_PURPLE_SHADOW_PINE_LEAVES_COLOR = new Color(76, 60, 118).getRGB();
+    public static final int CRYSTALLIZED_LEAVES_COLOR = new Color(88, 56, 123).getRGB();
 
     public static int calculateGrassTint(CalculateTintContextInfo contextInfo)
     {

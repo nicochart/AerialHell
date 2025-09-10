@@ -1,12 +1,7 @@
 package fr.factionbedrock.aerialhell.Client.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Client.Particle.AerialHellPortalParticle;
-import fr.factionbedrock.aerialhell.Client.Particle.CopperPineLeavesParticle;
-import fr.factionbedrock.aerialhell.Client.Particle.LightParticle;
-import fr.factionbedrock.aerialhell.Client.Particle.ShadowParticle;
-import fr.factionbedrock.aerialhell.Client.Particle.SnowFlakeParticle;
-import fr.factionbedrock.aerialhell.Client.Particle.OscillatorParticle;
+import fr.factionbedrock.aerialhell.Client.Particle.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.CampfireSmokeParticle;
 import net.minecraft.client.particle.FlameParticle;
@@ -32,6 +27,7 @@ public class AerialHellParticleTypes
 	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SHADOW_PARTICLE = PARTICLES.register("shadow_particle", () -> new SimpleParticleType(false));
 	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SHADOW_LIGHT = PARTICLES.register("shadow_light", () -> new SimpleParticleType(false));
 	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FAT_PHANTOM_SMOKE = PARTICLES.register("fat_phantom_smoke", () -> new SimpleParticleType(false));
+	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FALLING_CRYSTALLIZED_LEAVES = PARTICLES.register("falling_crystallized_leaves", () -> new SimpleParticleType(false));
 
 	public static void registerParticleFactories(RegisterParticleProvidersEvent event)
 	{
@@ -47,5 +43,6 @@ public class AerialHellParticleTypes
 		particleManager.register(SHADOW_PARTICLE.get(), ShadowParticle.Factory::new);
 		particleManager.register(SHADOW_LIGHT.get(), LightParticle.Factory::new);
 		particleManager.register(FAT_PHANTOM_SMOKE.get(), CampfireSmokeParticle.CosyProvider::new);
+		particleManager.register(FALLING_CRYSTALLIZED_LEAVES.get(), FallingCrystallizedLeavesParticle.Factory::new);
 	}
 }
