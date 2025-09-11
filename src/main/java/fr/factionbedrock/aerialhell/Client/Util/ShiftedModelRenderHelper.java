@@ -22,7 +22,6 @@ public class ShiftedModelRenderHelper
 {
     public static void createAndRegisterShiftedRender(BlockState baseState, BlockState shiftedState, ModelEvent.ModifyBakingResult event)
     {
-        //TODO do for all blockstates variants
         BlockStateModel baseModel = event.getBakingResult().blockStateModels().get(baseState);
         BlockStateModel shiftedModel = event.getBakingResult().blockStateModels().get(shiftedState);
 

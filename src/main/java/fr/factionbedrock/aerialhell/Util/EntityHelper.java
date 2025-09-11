@@ -255,7 +255,6 @@ public class EntityHelper
 
     public static List<ItemStack> getEquippedHumanoidArmorItemList(LivingEntity livingEntity)
     {
-        //TODO does it work ?
         List<ItemStack> list = new ArrayList<>();
         for(EquipmentSlot equipmentslot : EquipmentSlotGroup.ARMOR)
         {
@@ -270,7 +269,6 @@ public class EntityHelper
 
     public static List<ItemStack> getInHandsItemList(LivingEntity livingEntity)
     {
-        //TODO does it work ?
         List<ItemStack> list = new ArrayList<>();
         for(EquipmentSlot equipmentslot : EquipmentSlotGroup.HAND)
         {

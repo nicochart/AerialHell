@@ -53,12 +53,14 @@ public class AerialHellPaintingEntity extends HangingEntity
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
+        super.defineSynchedData(builder);
         builder.define(DATA_PAINTING_VARIANT_ID, this.registryAccess().lookupOrThrow(Registries.PAINTING_VARIANT).getAny().orElseThrow());
     }
 
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> key)
     {
+        super.onSyncedDataUpdated(key);
         if (DATA_PAINTING_VARIANT_ID.equals(key)) {this.recalculateBoundingBox();}
     }
 

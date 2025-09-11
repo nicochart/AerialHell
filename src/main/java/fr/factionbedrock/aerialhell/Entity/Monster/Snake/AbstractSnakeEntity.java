@@ -504,8 +504,8 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
     @Override public void readAdditionalSaveData(ValueInput valueInput)
     {
         super.readAdditionalSaveData(valueInput);
-        this.setBodyPartId(valueInput.getInt("body_part_id").get());
-        if (valueInput.getBooleanOr("is_cut", false)) {this.setCut();} //TODO default values should never be used
+        if (valueInput.getInt("body_part_id").isPresent()) {this.setBodyPartId(valueInput.getInt("body_part_id").get());}
+        if (valueInput.getBooleanOr("is_cut", false)) {this.setCut();}
         else {this.entityData.set(IS_CUT, false);}
         if (valueInput.getString("next_body_part_uuid").isPresent())
         {

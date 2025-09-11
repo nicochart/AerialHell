@@ -155,9 +155,9 @@ public class KodamaEntity extends AerialHellAnimalEntity
     @Override public void readAdditionalSaveData(ValueInput valueInput)
     {
         super.readAdditionalSaveData(valueInput);
-        this.setFaceId(valueInput.getInt("FaceId").get());
-        this.setSizeId(valueInput.getInt("SizeId").get());
-        this.setRattling(valueInput.getBooleanOr("IsRattling", false)); //TODO default values should never be used
-        this.setRattlingTiltAngle(valueInput.getInt("TiltAngle").get());
+        if (valueInput.getInt("FaceId").isPresent()) {this.setFaceId(valueInput.getInt("FaceId").get());}
+        if (valueInput.getInt("SizeId").isPresent()) {this.setSizeId(valueInput.getInt("SizeId").get());}
+        this.setRattling(valueInput.getBooleanOr("IsRattling", false));
+        if (valueInput.getInt("TiltAngle").isPresent()) {this.setRattlingTiltAngle(valueInput.getInt("TiltAngle").get());}
     }
 }

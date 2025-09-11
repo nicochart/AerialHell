@@ -147,7 +147,7 @@ public class ShadowTrollEntity extends Monster
     @Override public void readAdditionalSaveData(ValueInput valueInput)
     {
         super.readAdditionalSaveData(valueInput);
-        this.setDisappearing(valueInput.getBooleanOr("Disappearing", false)); //TODO default values should never be used
+        this.setDisappearing(valueInput.getBooleanOr("Disappearing", false));
     }
     
     public boolean isDisappearing() {return this.entityData.get(DISAPPEARING);}

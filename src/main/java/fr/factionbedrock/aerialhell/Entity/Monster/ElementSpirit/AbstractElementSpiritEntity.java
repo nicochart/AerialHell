@@ -101,7 +101,7 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
     @Override public void readAdditionalSaveData(ValueInput valueInput)
     {
         super.readAdditionalSaveData(valueInput);
-        if (valueInput.getBooleanOr("Disappearing", false)) {this.setAttacking();} //TODO default values should never be used
+        if (valueInput.getBooleanOr("Disappearing", false)) {this.setAttacking();}
     }
 
     public boolean isAttacking() {return this.entityData.get(ATTACKING);}

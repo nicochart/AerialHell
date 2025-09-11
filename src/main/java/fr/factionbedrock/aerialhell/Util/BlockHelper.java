@@ -51,7 +51,6 @@ public class BlockHelper
 
     public static boolean isItemCorrectForHarvesting(BlockState state, Item item)
     {
-        //TODO does it work ?
         Tool tool = item.components().get(DataComponents.TOOL);
         if (tool != null)
         {

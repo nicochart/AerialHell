@@ -329,7 +329,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	{
 		super.readAdditionalSaveData(valueInput);
 		if (this.hasCustomName()) {this.bossInfo.setName(this.getDisplayName());}
-		this.setPhase(valueInput.getInt("Phase").get());
+		if (valueInput.getInt("Phase").isPresent()) {this.setPhase(valueInput.getInt("Phase").get());}
 	}
 	
 	@Override public void setCustomName(@Nullable Component name)

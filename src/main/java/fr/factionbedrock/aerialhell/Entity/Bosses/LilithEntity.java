@@ -106,7 +106,7 @@ public class LilithEntity extends AbstractBossEntity
 	@Override public void addAdditionalSaveData(ValueOutput valueOutput)
 	{
 		super.addAdditionalSaveData(valueOutput);
-		valueOutput.putInt("timeTransforming", this.timeSinceTransforming); //TODO verify working transforming disconnect-reconnect
+		valueOutput.putInt("timeTransforming", this.timeSinceTransforming);
 	}
 	
 	@Override public void readAdditionalSaveData(ValueInput valueInput)

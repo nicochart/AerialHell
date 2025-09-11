@@ -69,7 +69,7 @@ public class CrystalSlimeEntity extends Mob
 	@Override public void readAdditionalSaveData(ValueInput valueInput)
 	{
 		super.readAdditionalSaveData(valueInput);
-		this.wasOnGround = valueInput.getBooleanOr("wasOnGround", false); //TODO default values should never be used
+		this.wasOnGround = valueInput.getBooleanOr("wasOnGround", false);
 	}
 
 	protected ParticleOptions getParticleType()

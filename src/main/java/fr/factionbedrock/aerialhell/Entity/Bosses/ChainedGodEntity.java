@@ -137,7 +137,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	@Override public void readAdditionalSaveData(ValueInput valueInput)
 	{
 	    super.readAdditionalSaveData(valueInput);
-	    this.setImploding(valueInput.getBooleanOr("Imploding", false)); //TODO default values should never be used
+	    this.setImploding(valueInput.getBooleanOr("Imploding", false));
 	    this.setUnchaining(valueInput.getBooleanOr("Unchaining", false));
 	    this.setUnchained(valueInput.getBooleanOr("Unchained", false));
 	}

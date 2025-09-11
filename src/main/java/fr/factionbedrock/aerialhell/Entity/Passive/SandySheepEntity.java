@@ -93,7 +93,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
     @Override public void readAdditionalSaveData(ValueInput valueInput)
     {
         super.readAdditionalSaveData(valueInput);
-        this.setWool(valueInput.getBooleanOr("Wool", false)); //TODO default values should never be used
+        this.setWool(valueInput.getBooleanOr("Wool", false));
     }
 
     @Override public boolean skipAttackInteraction(Entity entityIn)

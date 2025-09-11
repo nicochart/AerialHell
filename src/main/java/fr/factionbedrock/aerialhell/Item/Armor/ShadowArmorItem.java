@@ -6,7 +6,6 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
@@ -17,7 +16,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.TooltipDisplay;
-import net.minecraft.world.item.equipment.Equippable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -28,9 +26,10 @@ public class ShadowArmorItem extends Item
 
     @Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
     {
-        //TODO use slot (parameter) instead ?
-        Equippable equippableComponent = this.components().get(DataComponents.EQUIPPABLE);
-        if (entity instanceof Player playerEntity && equippableComponent.slot() == EquipmentSlot.CHEST)
+        //using slot parameter instead is better, because it is the slot in which the armor is equipped
+        //so if the chestplate is not equipped, it doesn't continue
+        //Equippable equippableComponent = this.components().get(DataComponents.EQUIPPABLE);
+        if (entity instanceof Player playerEntity && /*equippableComponent.slot()*/slot == EquipmentSlot.CHEST)
         {
             if (ItemHelper.getItemInTagCount(EntityHelper.getEquippedHumanoidArmorItemList(playerEntity), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !level.isClientSide())
             {

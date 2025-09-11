@@ -100,7 +100,8 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
     @Override public void readAdditionalSaveData(ValueInput valueInput)
     {
         super.readAdditionalSaveData(valueInput);
-        this.setGliding(valueInput.getBooleanOr("Glide", false)); //TODO default values should never be used
-        this.ateTimer = valueInput.getInt("AteTimer").get();
+        this.setGliding(valueInput.getBooleanOr("Glide", false));
+        if (valueInput.getInt("AteTimer").isPresent()) {this.ateTimer = valueInput.getInt("AteTimer").get();}
+
     }
 }
