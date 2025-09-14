@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.Setup;
 
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.DataPacketPayloads;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Config.AerialHellConfig;
 import fr.factionbedrock.aerialhell.Config.AerialHellConfigLoader;
 import fr.factionbedrock.aerialhell.Event.Listeners.BlockEventListener;
 import fr.factionbedrock.aerialhell.Event.Listeners.LivingEntityEventListener;
@@ -13,6 +12,7 @@ import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.AerialHellCreative
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMenuTypes;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntityAttributes;
+import fr.factionbedrock.aerialhell.Registry.TrimMaterials.AerialHellTrimMaterials;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -48,6 +48,7 @@ public class AerialHellSetup
         AerialHellEntities.ENTITIES.register(bus);
         //AerialHellBiomes.BIOMES.register(bus);
         AerialHellMobEffects.EFFECTS.register(bus);
+        AerialHellTrimMaterials.TRIM_MATERIALS.register(bus);
         AerialHellPOI.POI.register(bus);
         AerialHellStructures.STRUCTURES.register(bus);
         AerialHellStructurePlacements.STRUCTURE_PLACEMENTS.register(bus);

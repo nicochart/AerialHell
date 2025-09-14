@@ -1,6 +1,145 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "aerialhell:item/volucite_boots"
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_quartz_trim"
+        },
+        "when": "minecraft:quartz"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_iron_trim"
+        },
+        "when": "minecraft:iron"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_netherite_trim"
+        },
+        "when": "minecraft:netherite"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_redstone_trim"
+        },
+        "when": "minecraft:redstone"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_copper_trim"
+        },
+        "when": "minecraft:copper"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_gold_trim"
+        },
+        "when": "minecraft:gold"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_emerald_trim"
+        },
+        "when": "minecraft:emerald"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_diamond_trim"
+        },
+        "when": "minecraft:diamond"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_lapis_trim"
+        },
+        "when": "minecraft:lapis"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_amethyst_trim"
+        },
+        "when": "minecraft:amethyst"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_resin_trim"
+        },
+        "when": "minecraft:resin"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_arsonist_ingot_trim"
+        },
+        "when": "aerialhell:arsonist_ingot"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_cursed_crystal_trim"
+        },
+        "when": "aerialhell:cursed_crystal"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_fluorite_trim"
+        },
+        "when": "aerialhell:fluorite"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_lunatic_crystal_trim"
+        },
+        "when": "aerialhell:lunatic_crystal"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_magmatic_gel_trim"
+        },
+        "when": "aerialhell:magmatic_gel"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_obsidian_shard_trim"
+        },
+        "when": "aerialhell:obsidian_shard"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_ruby_trim"
+        },
+        "when": "aerialhell:ruby"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_boots_volucite_vibrant_trim"
+        },
+        "when": "aerialhell:volucite_vibrant"
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "aerialhell:item/volucite_boots"
+    },
+    "property": "minecraft:trim_material"
   }
 }

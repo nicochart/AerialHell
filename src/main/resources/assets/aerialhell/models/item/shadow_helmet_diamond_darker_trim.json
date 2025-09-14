@@ -1,7 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "aerialhell:item/shadow_helmet",
-    "layer1": "minecraft:trims/items/helmet_trim_diamond_darker"
-  }
-}

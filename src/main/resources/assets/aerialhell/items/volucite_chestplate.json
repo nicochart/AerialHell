@@ -1,6 +1,145 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "aerialhell:item/volucite_chestplate"
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_quartz_trim"
+        },
+        "when": "minecraft:quartz"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_iron_trim"
+        },
+        "when": "minecraft:iron"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_netherite_trim"
+        },
+        "when": "minecraft:netherite"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_redstone_trim"
+        },
+        "when": "minecraft:redstone"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_copper_trim"
+        },
+        "when": "minecraft:copper"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_gold_trim"
+        },
+        "when": "minecraft:gold"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_emerald_trim"
+        },
+        "when": "minecraft:emerald"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_diamond_trim"
+        },
+        "when": "minecraft:diamond"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_lapis_trim"
+        },
+        "when": "minecraft:lapis"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_amethyst_trim"
+        },
+        "when": "minecraft:amethyst"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_resin_trim"
+        },
+        "when": "minecraft:resin"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_arsonist_ingot_trim"
+        },
+        "when": "aerialhell:arsonist_ingot"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_cursed_crystal_trim"
+        },
+        "when": "aerialhell:cursed_crystal"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_fluorite_trim"
+        },
+        "when": "aerialhell:fluorite"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_lunatic_crystal_trim"
+        },
+        "when": "aerialhell:lunatic_crystal"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_magmatic_gel_trim"
+        },
+        "when": "aerialhell:magmatic_gel"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_obsidian_shard_trim"
+        },
+        "when": "aerialhell:obsidian_shard"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_ruby_trim"
+        },
+        "when": "aerialhell:ruby"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/volucite_chestplate_volucite_vibrant_trim"
+        },
+        "when": "aerialhell:volucite_vibrant"
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "aerialhell:item/volucite_chestplate"
+    },
+    "property": "minecraft:trim_material"
   }
 }

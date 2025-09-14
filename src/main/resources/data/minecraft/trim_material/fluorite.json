@@ -1,9 +1,0 @@
-{
-  "asset_name": "fluorite",
-  "description": {
-    "color": "#095b49",
-    "translate": "trim_material.aerialhell.fluorite"
-  },
-  "ingredient": "aerialhell:fluorite",
-  "item_model_index": 0.7
-}

@@ -13,6 +13,7 @@ import fr.factionbedrock.aerialhell.Item.Tools.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellJukeboxSongs;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
+import fr.factionbedrock.aerialhell.Registry.TrimMaterials.AerialHellTrimMaterials;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -467,20 +468,20 @@ public class AerialHellItems
     public static final DeferredItem<Item> AZURITE_BLOCK = ITEMS.register(Keys.AZURITE_BLOCK.location().getPath(), () -> new BlockItem(AerialHellBlocks.AZURITE_BLOCK.get(), new Item.Properties().setId(Keys.AZURITE_BLOCK).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> VOLUCITE_BLOCK = ITEMS.register(Keys.VOLUCITE_BLOCK.location().getPath(), () -> new BlockItem(AerialHellBlocks.VOLUCITE_BLOCK.get(), new Item.Properties().setId(Keys.VOLUCITE_BLOCK).useBlockDescriptionPrefix()));
 
-    public static final DeferredItem<Item> FLUORITE = ITEMS.register(Keys.FLUORITE.location().getPath(), () -> new Item(new Item.Properties().setId(Keys.FLUORITE)));
-    public static final DeferredItem<Item> MAGMATIC_GEL = ITEMS.register(Keys.MAGMATIC_GEL.location().getPath(),() -> new Item(new Item.Properties().setId(Keys.MAGMATIC_GEL)));
-    public static final DeferredItem<Item> RUBY = ITEMS.register(Keys.RUBY.location().getPath(), () -> new Item(new Item.Properties().setId(Keys.RUBY)));
+    public static final DeferredItem<Item> FLUORITE = ITEMS.register(Keys.FLUORITE.location().getPath(), () -> new Item(new Item.Properties().setId(Keys.FLUORITE).trimMaterial(AerialHellTrimMaterials.Keys.FLUORITE)));
+    public static final DeferredItem<Item> MAGMATIC_GEL = ITEMS.register(Keys.MAGMATIC_GEL.location().getPath(),() -> new Item(new Item.Properties().setId(Keys.MAGMATIC_GEL).trimMaterial(AerialHellTrimMaterials.Keys.MAGMATIC_GEL)));
+    public static final DeferredItem<Item> RUBY = ITEMS.register(Keys.RUBY.location().getPath(), () -> new Item(new Item.Properties().setId(Keys.RUBY).trimMaterial(AerialHellTrimMaterials.Keys.RUBY)));
     public static final DeferredItem<Item> AZURITE_CRYSTAL = ITEMS.register(Keys.AZURITE_CRYSTAL.location().getPath(), () -> new Item(new Item.Properties().setId(Keys.AZURITE_CRYSTAL)));
-    public static final DeferredItem<Item> VOLUCITE_VIBRANT = ITEMS.register(Keys.VOLUCITE_VIBRANT.location().getPath(), () -> new VoluciteVibrantItem(new Item.Properties().setId(Keys.VOLUCITE_VIBRANT).rarity(AerialHellRarities.VIBRANT.getValue())));
+    public static final DeferredItem<Item> VOLUCITE_VIBRANT = ITEMS.register(Keys.VOLUCITE_VIBRANT.location().getPath(), () -> new VoluciteVibrantItem(new Item.Properties().setId(Keys.VOLUCITE_VIBRANT).trimMaterial(AerialHellTrimMaterials.Keys.VOLUCITE_VIBRANT).rarity(AerialHellRarities.VIBRANT.getValue())));
 
     public static final DeferredItem<Item> OVERHEATED_RUBY = ITEMS.register(Keys.OVERHEATED_RUBY.location().getPath(), () -> new WithInformationItem(new Item.Properties().setId(Keys.OVERHEATED_RUBY)));
     public static final DeferredItem<Item> OVERHEATED_VOLUCITE = ITEMS.register(Keys.OVERHEATED_VOLUCITE.location().getPath(), () -> new WithInformationItem(new Item.Properties().setId(Keys.OVERHEATED_VOLUCITE)));
 
     //legendary ores
-    public static final DeferredItem<Item> ARSONIST_INGOT = ITEMS.register(Keys.ARSONIST_INGOT.location().getPath(), () -> new Item(new Item.Properties().setId(Keys.ARSONIST_INGOT).rarity(AerialHellRarities.LEGENDARY.getValue()).fireResistant()));
-    public static final DeferredItem<Item> LUNATIC_CRYSTAL = ITEMS.register(Keys.LUNATIC_CRYSTAL.location().getPath(), () -> new Item(new Item.Properties().setId(Keys.LUNATIC_CRYSTAL).rarity(AerialHellRarities.LEGENDARY.getValue())));
-    public static final DeferredItem<Item> OBSIDIAN_SHARD = ITEMS.register(Keys.OBSIDIAN_SHARD.location().getPath(), () -> new Item(new Item.Properties().setId(Keys.OBSIDIAN_SHARD).rarity(Rarity.EPIC)));
-    public static final DeferredItem<Item> CURSED_CRYSAL = ITEMS.register(Keys.CURSED_CRYSAL.location().getPath(), () -> new Item(new Item.Properties().setId(Keys.CURSED_CRYSAL).rarity(AerialHellRarities.CORRUPTED.getValue())));
+    public static final DeferredItem<Item> ARSONIST_INGOT = ITEMS.register(Keys.ARSONIST_INGOT.location().getPath(), () -> new Item(new Item.Properties().setId(Keys.ARSONIST_INGOT).trimMaterial(AerialHellTrimMaterials.Keys.ARSONIST_INGOT).rarity(AerialHellRarities.LEGENDARY.getValue()).fireResistant()));
+    public static final DeferredItem<Item> LUNATIC_CRYSTAL = ITEMS.register(Keys.LUNATIC_CRYSTAL.location().getPath(), () -> new Item(new Item.Properties().setId(Keys.LUNATIC_CRYSTAL).trimMaterial(AerialHellTrimMaterials.Keys.LUNATIC_CRYSTAL).rarity(AerialHellRarities.LEGENDARY.getValue())));
+    public static final DeferredItem<Item> OBSIDIAN_SHARD = ITEMS.register(Keys.OBSIDIAN_SHARD.location().getPath(), () -> new Item(new Item.Properties().setId(Keys.OBSIDIAN_SHARD).trimMaterial(AerialHellTrimMaterials.Keys.OBSIDIAN_SHARD).rarity(Rarity.EPIC)));
+    public static final DeferredItem<Item> CURSED_CRYSAL = ITEMS.register(Keys.CURSED_CRYSAL.location().getPath(), () -> new Item(new Item.Properties().setId(Keys.CURSED_CRYSAL).trimMaterial(AerialHellTrimMaterials.Keys.CURSED_CRYSTAL).rarity(AerialHellRarities.CORRUPTED.getValue())));
 
     public static final DeferredItem<Item> ARSONIST_BLOCK = ITEMS.register(Keys.ARSONIST_BLOCK.location().getPath(), () -> new BlockItem(AerialHellBlocks.ARSONIST_BLOCK.get(), new Item.Properties().setId(Keys.ARSONIST_BLOCK).useBlockDescriptionPrefix().rarity(AerialHellRarities.LEGENDARY.getValue()).fireResistant()));
     public static final DeferredItem<Item> LUNATIC_CRYSTAL_BLOCK = ITEMS.register(Keys.LUNATIC_CRYSTAL_BLOCK.location().getPath(), () -> new BlockItem(AerialHellBlocks.LUNATIC_CRYSTAL_BLOCK.get(), new Item.Properties().setId(Keys.LUNATIC_CRYSTAL_BLOCK).useBlockDescriptionPrefix().rarity(AerialHellRarities.LEGENDARY.getValue())));

@@ -1,9 +1,0 @@
-{
-  "asset_name": "obsidian_shard",
-  "description": {
-    "color": "#271e3d",
-    "translate": "trim_material.aerialhell.obsidian_shard"
-  },
-  "ingredient": "aerialhell:obsidian_shard",
-  "item_model_index": 0.3
-}
