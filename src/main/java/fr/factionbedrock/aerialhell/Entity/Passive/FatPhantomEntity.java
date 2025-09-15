@@ -235,6 +235,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
       super.readAdditionalSaveData(valueInput);
       this.orbitPosition = (BlockPos)valueInput.read("anchor_pos", BlockPos.CODEC).orElse((BlockPos) null);
       this.setPhantomSize(valueInput.getIntOr("size", 0));
+      this.setDisappearing(valueInput.getBooleanOr("Disappearing", false));
    }
 
    @Override protected void addAdditionalSaveData(ValueOutput valueOutput)
@@ -242,6 +243,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
       super.addAdditionalSaveData(valueOutput);
       valueOutput.storeNullable("anchor_pos", BlockPos.CODEC, this.orbitPosition);
       valueOutput.putInt("size", this.getPhantomSize());
+      valueOutput.putBoolean("Disappearing", this.isDisappearing());
    }
 
    @Override
