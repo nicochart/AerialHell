@@ -92,52 +92,25 @@ public class EntityHelper
         return isShadowImmune || isShadowEntity;
     }
 
-    public static boolean isShadowEntity(Entity entity)
-    {
-        return entity instanceof EvilCowEntity || entity instanceof ShadowAutomatonEntity || entity instanceof ShadowTrollEntity || entity instanceof ShadowFlyingSkullEntity || entity instanceof ShadowSpiderEntity || entity instanceof ShadowPineBarrelMimicEntity || entity instanceof LilithEntity || entity instanceof EnderMan;
-    }
-
-    public static boolean isLightEntity(Entity entity)
-    {
-        return entity instanceof CrystalGolemEntity || entity instanceof CrystalCaterpillarEntity || entity instanceof CrystalSlimeEntity || entity instanceof CrystalSpiderEntity || entity instanceof LunaticPriestEntity;
-    }
-
-    public static boolean isGhostEntity(Entity entity)
-    {
-        return entity instanceof GhostSlimePirateEntity || entity instanceof GhostSlimeNinjaPirateEntity;
-    }
-
+    public static boolean isShadowEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.SHADOW);}
+    public static boolean isLightEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.LIGHT);}
+    public static boolean isGhostEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.GHOST_PIRATE);}
     public static boolean isLightProjectile(Entity entity) {return entity instanceof LunaticProjectileEntity;}
-
     public static boolean isProjectile(Entity entity) {return entity instanceof AbstractArrow || entity instanceof ThrowableProjectile;}
-
-    public static boolean isMudEntity(Entity entity)
-    {
-        return entity instanceof MudSoldierEntity || entity instanceof MudGolemEntity || entity instanceof MudCycleMageEntity || entity instanceof AerialTreeChestMimicEntity;
-    }
-
-    public static boolean isBossEntity(Entity entity)
-    {
-        return entity instanceof MudCycleMageEntity || entity instanceof LunaticPriestEntity || entity instanceof ChainedGodEntity || entity instanceof LilithEntity;
-    }
-
-    public static boolean isFeatheryEntity(Entity entity)
-    {
-        return entity instanceof Silverfish || /*entity instanceof FlyingMob || TODO use entity tag*/ entity instanceof Chicken || entity instanceof Vex; //Vex includes FlyingSkulls
-    }
+    public static boolean isMudEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.MUD);}
+    public static boolean isBossEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.BOSS);}
+    public static boolean isAerialHellAnimalEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.PASSIVE);}
+    public static boolean isAggressive(Entity entity) {return entity.getType().is(AerialHellTags.Entities.AGGRESSIVE);}
+    public static boolean isFeatheryEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.FEATHERY);}
 
     public static boolean isImmuneToBramblesDamage(Entity entity)
     {
-        boolean isImmuneToAllBrambles = entity instanceof SandySheepEntity || entity instanceof BoarEntity || entity instanceof GlidingTurtleEntity || entity instanceof KodamaEntity || entity instanceof ShroomBoomEntity || entity instanceof EntEntity || entity instanceof AbstractSnakeEntity || entity instanceof AbstractSlimePirateEntity || entity instanceof EvilCowEntity || entity instanceof AbstractAerialHellSpiderEntity || isFeatheryEntity(entity) || entity instanceof VerdigrisZombieEntity;
+        boolean isImmuneToAllBrambles = isAerialHellAnimalEntity(entity) || isAggressive(entity) || isFeatheryEntity(entity);
         if (isImmuneToAllBrambles) {return true;}
         else {return isImmuneToSomeShadowDamage(entity);}
     }
 
-    public static boolean isImmuneToSkyCactusCollision(Entity entity)
-    {
-        boolean isImmune = entity instanceof AerialHellAnimalEntity || entity instanceof BoarEntity || entity instanceof AbstractSnakeEntity || entity instanceof MummyEntity || entity instanceof AbstractAerialHellSpiderEntity || isFeatheryEntity(entity);
-        return isImmune;
-    }
+    public static boolean isImmuneToSkyCactusCollision(Entity entity) {return entity.getType().is(AerialHellTags.Entities.SKY_CACTUS_COLLISION_IMMUNE);}
 
     public static boolean isImmuneToSolidEtherCollision(Entity entity)
     {
@@ -163,10 +136,7 @@ public class EntityHelper
         return false;
     }
 
-    public static boolean isImmuneToChainedGodDrag(Entity entity)
-    {
-        return isCreaOrSpecPlayer(entity) || entity.getType() == AerialHellEntities.TORN_SPIRIT.get() || isBossEntity(entity);
-    }
+    public static boolean isImmuneToChainedGodDrag(Entity entity) {return isCreaOrSpecPlayer(entity) || entity.getType().is(AerialHellTags.Entities.CHAINED_GOD_DRAG_IMMUNE);}
 
     public static boolean hasSolidEtherWalkerEnchantment(LivingEntity entity)
     {

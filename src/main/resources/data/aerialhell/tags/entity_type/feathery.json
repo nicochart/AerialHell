@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:silverfish",
+    "aerialhell:forest_caterpillar",
+    "aerialhell:crystal_caterpillar",
+    "minecraft:phantom",
+    "aerialhell:fat_phantom",
+    "aerialhell:flying_jellyfish",
+    "minecraft:chicken",
+    "aerialhell:stellar_chicken",
+    "minecraft:vex",
+    "aerialhell:shadow_flying_skull"
+  ]
+}
