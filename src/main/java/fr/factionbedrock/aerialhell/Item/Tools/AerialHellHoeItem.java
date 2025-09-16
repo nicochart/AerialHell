@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 import com.mojang.datafixers.util.Pair;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,7 +12,7 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.text.Text;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class AerialHellHoeItem extends HoeItem
 {
@@ -34,8 +35,8 @@ public class AerialHellHoeItem extends HoeItem
 		this.components = toolSettings.getValidatedComponents(Text.translatable(this.translationKey), settings.getModelId());
 	}
 
-	@Override public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type)
+	@Override public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type)
 	{
-		ItemHelper.appendItemTooltip(this.getTranslationKey(), tooltip);
+		ItemHelper.appendItemTooltip(this.getTranslationKey(), textConsumer);
 	}
 }

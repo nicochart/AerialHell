@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Registry.Worldgen;
 import com.google.common.collect.ImmutableList;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.block.BlockState;
-import net.minecraft.util.collection.DataPool;
+import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
@@ -41,7 +41,7 @@ public class AerialHellTreeConfig
             new TwoLayersFeatureSize(3, 0, 2));
 
     public static final TreeFeatureConfig LAPIS_ROBINIA_CONFIG = (new TreeFeatureConfig.Builder(
-            new WeightedBlockStateProvider(DataPool.<BlockState>builder()
+            new WeightedBlockStateProvider(Pool.<BlockState>builder()
                     .add(AerialHellBlocks.LAPIS_ROBINIA_LOG.getDefaultState(), 1)
                     .add(AerialHellBlocks.ENCHANTED_LAPIS_ROBINIA_LOG.getDefaultState(), 1)),
             new ForkingTrunkPlacer(5, 2, 2),
@@ -58,7 +58,7 @@ public class AerialHellTreeConfig
             new TwoLayersFeatureSize(0, 0, 0, OptionalInt.of(4)));
 
     public static final TreeFeatureConfig SHADOW_PINE_CONFIG = (new TreeFeatureConfig.Builder(
-            new WeightedBlockStateProvider(DataPool.<BlockState>builder()
+            new WeightedBlockStateProvider(Pool.<BlockState>builder()
                     .add(AerialHellBlocks.SHADOW_PINE_LOG.getDefaultState(), 2)
                     .add(AerialHellBlocks.EYE_SHADOW_PINE_LOG.getDefaultState(), 1)),
             new StraightTrunkPlacer(6, 2, 1),
@@ -68,7 +68,7 @@ public class AerialHellTreeConfig
     )).dirtProvider(BlockStateProvider.of(AerialHellBlocks.STELLAR_DIRT)).ignoreVines().build();
 
     public static final TreeFeatureConfig PURPLE_SHADOW_PINE_CONFIG = (new TreeFeatureConfig.Builder(
-            new WeightedBlockStateProvider(DataPool.<BlockState>builder()
+            new WeightedBlockStateProvider(Pool.<BlockState>builder()
                     .add(AerialHellBlocks.SHADOW_PINE_LOG.getDefaultState(), 2)
                     .add(AerialHellBlocks.EYE_SHADOW_PINE_LOG.getDefaultState(), 1)),
             new StraightTrunkPlacer(6, 2, 1),
@@ -78,7 +78,7 @@ public class AerialHellTreeConfig
     )).dirtProvider(BlockStateProvider.of(AerialHellBlocks.STELLAR_DIRT)).ignoreVines().build();
 
     public static final TreeFeatureConfig MEGA_SHADOW_PINE_CONFIG = (new TreeFeatureConfig.Builder(
-            new WeightedBlockStateProvider(DataPool.<BlockState>builder()
+            new WeightedBlockStateProvider(Pool.<BlockState>builder()
                     .add(AerialHellBlocks.SHADOW_PINE_LOG.getDefaultState(), 6)
                     .add(AerialHellBlocks.EYE_SHADOW_PINE_LOG.getDefaultState(), 1)),
             new GiantTrunkPlacer(13, 2, 14),
@@ -88,7 +88,7 @@ public class AerialHellTreeConfig
     )).dirtProvider(BlockStateProvider.of(AerialHellBlocks.STELLAR_DIRT)).decorators(ImmutableList.of(new AlterGroundTreeDecorator(BlockStateProvider.of(AerialHellBlocks.SHADOW_GRASS_BLOCK.getDefaultState())))).ignoreVines().build();
 
     public static final TreeFeatureConfig MEGA_PURPLE_SHADOW_PINE_CONFIG = (new TreeFeatureConfig.Builder(
-            new WeightedBlockStateProvider(DataPool.<BlockState>builder()
+            new WeightedBlockStateProvider(Pool.<BlockState>builder()
                     .add(AerialHellBlocks.SHADOW_PINE_LOG.getDefaultState(), 4)
                     .add(AerialHellBlocks.EYE_SHADOW_PINE_LOG.getDefaultState(), 1)),
             new GiantTrunkPlacer(13, 2, 14),

@@ -36,7 +36,7 @@ public class LunaticPriestModel extends EntityModel<LunaticPriestRenderState>
 		ModelPartData partdefinition = meshdefinition.getRoot();
 
 		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(0, 32).mirrored().cuboid(-7.0F, 1.0F, -4.0F, 14.0F, 14.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(7, 53).mirrored().cuboid(-4.5F, 15.0F, -3.0F, 9.0F, 5.0F, 6.0F, new Dilation(0.5F)).mirrored(false), ModelTransform.pivot(0.0F, -7.0F, 0.0F));
+				.uv(7, 53).mirrored().cuboid(-4.5F, 15.0F, -3.0F, 9.0F, 5.0F, 6.0F, new Dilation(0.5F)).mirrored(false), ModelTransform.origin(0.0F, -7.0F, 0.0F));
 
 		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(6, 16).mirrored().cuboid(-4.0F, -6.0F, -5.5F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(4, 0).mirrored().cuboid(-5.0F, -7.0F, -4.5F, 10.0F, 8.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
@@ -46,23 +46,23 @@ public class LunaticPriestModel extends EntityModel<LunaticPriestRenderState>
 				.uv(15, 5).mirrored().cuboid(-2.0F, -7.0F, 5.5F, 4.0F, 4.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(18, 6).mirrored().cuboid(-1.0F, -4.0F, 7.5F, 2.0F, 3.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(40, 29).mirrored().cuboid(-2.0F, 2.0F, -5.5F, 4.0F, 1.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(41, 27).mirrored().cuboid(-2.0F, -7.0F, -5.5F, 4.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, -7.0F, -1.0F));
+				.uv(41, 27).mirrored().cuboid(-2.0F, -7.0F, -5.5F, 4.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, -7.0F, -1.0F));
 
 		ModelPartData arm0 = partdefinition.addChild("arm0", ModelPartBuilder.create().uv(72, 40).mirrored().cuboid(1.0F, -0.5F, -2.0F, 2.0F, 20.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(86, 41).mirrored().cuboid(3.0F, 8.5F, -4.0F, 1.0F, 3.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(90, 36).mirrored().cuboid(3.0F, 7.5F, -2.0F, 1.0F, 1.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(88, 44).mirrored().cuboid(3.0F, 10.5F, -5.0F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(96, 44).mirrored().cuboid(3.0F, 10.5F, 3.0F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(6.0F, -4.0F, 0.0F));
+				.uv(96, 44).mirrored().cuboid(3.0F, 10.5F, 3.0F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(6.0F, -4.0F, 0.0F));
 
 		ModelPartData arm1 = partdefinition.addChild("arm1", ModelPartBuilder.create().uv(57, 40).mirrored().cuboid(-3.0F, -0.5F, -2.0F, 2.0F, 20.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(86, 41).mirrored().cuboid(-4.0F, 8.5F, -4.0F, 1.0F, 3.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(90, 36).mirrored().cuboid(-4.0F, 7.5F, -2.0F, 1.0F, 1.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(87, 44).mirrored().cuboid(-4.0F, 10.5F, 3.0F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(96, 44).mirrored().cuboid(-4.0F, 10.5F, -5.0F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-6.0F, -4.0F, 0.0F));
+				.uv(96, 44).mirrored().cuboid(-4.0F, 10.5F, -5.0F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-6.0F, -4.0F, 0.0F));
 
-		ModelPartData leg0 = partdefinition.addChild("leg0", ModelPartBuilder.create().uv(54, 13).mirrored().cuboid(-2.5F, 2.0F, -2.0F, 3.0F, 11.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(4.0F, 11.0F, 0.0F));
+		ModelPartData leg0 = partdefinition.addChild("leg0", ModelPartBuilder.create().uv(54, 13).mirrored().cuboid(-2.5F, 2.0F, -2.0F, 3.0F, 11.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 11.0F, 0.0F));
 
-		ModelPartData leg1 = partdefinition.addChild("leg1", ModelPartBuilder.create().uv(70, 13).cuboid(0.5F, 2.0F, -2.0F, 3.0F, 11.0F, 3.0F, new Dilation(0.0F)), ModelTransform.pivot(-5.0F, 11.0F, 0.0F));
+		ModelPartData leg1 = partdefinition.addChild("leg1", ModelPartBuilder.create().uv(70, 13).cuboid(0.5F, 2.0F, -2.0F, 3.0F, 11.0F, 3.0F, new Dilation(0.0F)), ModelTransform.origin(-5.0F, 11.0F, 0.0F));
 
 		return TexturedModelData.of(meshdefinition, 128, 64);
 	}
@@ -70,9 +70,9 @@ public class LunaticPriestModel extends EntityModel<LunaticPriestRenderState>
 	@Override public void setAngles(LunaticPriestRenderState renderState)
 	{
 		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.yawDegrees;
-		float limbSwing = renderState.limbFrequency;
-		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		float netHeadYaw = renderState.relativeHeadYaw;
+		float limbSwing = renderState.limbSwingAnimationProgress;
+		float limbSwingAmount = renderState.limbSwingAmplitude;
 
 		this.head.yaw = netHeadYaw / 57.29578F;
 		this.head.pitch = headPitch / 57.29578F;

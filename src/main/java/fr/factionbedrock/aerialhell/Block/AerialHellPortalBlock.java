@@ -17,7 +17,7 @@ public class AerialHellPortalBlock extends CustomPortalBlock
     {
         if (random.nextInt(100) == 0)
         {
-            world.playSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, AerialHellSoundEvents.BLOCK_AERIAL_HELL_PORTAL_AMBIENT, SoundCategory.BLOCKS, 0.6F, 0.9F + random.nextFloat() * 0.2F, false);
+            world.playSoundClient((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, AerialHellSoundEvents.BLOCK_AERIAL_HELL_PORTAL_AMBIENT, SoundCategory.BLOCKS, 0.6F, 0.9F + random.nextFloat() * 0.2F, false);
         }
 
         for(int i = 0; i < 4; ++i)
@@ -40,7 +40,7 @@ public class AerialHellPortalBlock extends CustomPortalBlock
                 zSpeed = random.nextFloat() * 2.0F * (float)j;
             }
 
-            world.addParticle(AerialHellParticleTypes.AERIAL_HELL_PORTAL, x, y, z, xSpeed, ySpeed, zSpeed);
+            world.addParticleClient(AerialHellParticleTypes.AERIAL_HELL_PORTAL, x, y, z, xSpeed, ySpeed, zSpeed);
         }
     }
 }

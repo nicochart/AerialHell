@@ -52,8 +52,6 @@ public class BoarEntity extends PigEntity
                 .add(EntityAttributes.ATTACK_DAMAGE, 3.0D);
     }
 
-    @Override public boolean canBeSaddled() {return false;}
-
     @Override @Nullable public PigEntity createChild(ServerWorld serverWorld, PassiveEntity mob) {return AerialHellEntities.STELLAR_BOAR.create(serverWorld, SpawnReason.BREEDING);}
     @Override public boolean isBreedingItem(ItemStack stack) {return FOOD_ITEMS.test(stack);}
 

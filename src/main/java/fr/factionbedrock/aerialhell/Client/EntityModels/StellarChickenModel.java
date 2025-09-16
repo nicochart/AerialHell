@@ -39,15 +39,15 @@ public class StellarChickenModel extends EntityModel<StellarChickenRenderState>
     {
         ModelData meshdefinition = new ModelData();
         ModelPartData partdefinition = meshdefinition.getRoot();
-        partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-2.0F, -6.0F, -2.0F, 4.0F, 6.0F, 3.0F), ModelTransform.pivot(0.0F, 15.0F, -4.0F));
-        partdefinition.addChild("beak", ModelPartBuilder.create().uv(14, 0).cuboid(-2.0F, -4.0F, -4.0F, 4.0F, 2.0F, 2.0F), ModelTransform.pivot(0.0F, 15.0F, -4.0F));
-        partdefinition.addChild("red_thing", ModelPartBuilder.create().uv(14, 4).cuboid(-1.0F, -2.0F, -3.0F, 2.0F, 2.0F, 2.0F), ModelTransform.pivot(0.0F, 15.0F, -4.0F));
+        partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-2.0F, -6.0F, -2.0F, 4.0F, 6.0F, 3.0F), ModelTransform.origin(0.0F, 15.0F, -4.0F));
+        partdefinition.addChild("beak", ModelPartBuilder.create().uv(14, 0).cuboid(-2.0F, -4.0F, -4.0F, 4.0F, 2.0F, 2.0F), ModelTransform.origin(0.0F, 15.0F, -4.0F));
+        partdefinition.addChild("red_thing", ModelPartBuilder.create().uv(14, 4).cuboid(-1.0F, -2.0F, -3.0F, 2.0F, 2.0F, 2.0F), ModelTransform.origin(0.0F, 15.0F, -4.0F));
         partdefinition.addChild("body",ModelPartBuilder.create().uv(0, 9).cuboid(-3.0F, -4.0F, -3.0F, 6.0F, 8.0F, 6.0F), ModelTransform.of(0.0F, 16.0F, 0.0F, (float) (Math.PI / 2), 0.0F, 0.0F));
         ModelPartBuilder cubelistbuilder = ModelPartBuilder.create().uv(26, 0).cuboid(-1.0F, 0.0F, -3.0F, 3.0F, 5.0F, 3.0F);
-        partdefinition.addChild("right_leg", cubelistbuilder, ModelTransform.pivot(-2.0F, 19.0F, 1.0F));
-        partdefinition.addChild("left_leg", cubelistbuilder, ModelTransform.pivot(1.0F, 19.0F, 1.0F));
-        partdefinition.addChild("right_wing", ModelPartBuilder.create().uv(24, 13).cuboid(0.0F, 0.0F, -3.0F, 1.0F, 4.0F, 6.0F), ModelTransform.pivot(-4.0F, 13.0F, 0.0F));
-        partdefinition.addChild("left_wing", ModelPartBuilder.create().uv(24, 13).cuboid(-1.0F, 0.0F, -3.0F, 1.0F, 4.0F, 6.0F), ModelTransform.pivot(4.0F, 13.0F, 0.0F));
+        partdefinition.addChild("right_leg", cubelistbuilder, ModelTransform.origin(-2.0F, 19.0F, 1.0F));
+        partdefinition.addChild("left_leg", cubelistbuilder, ModelTransform.origin(1.0F, 19.0F, 1.0F));
+        partdefinition.addChild("right_wing", ModelPartBuilder.create().uv(24, 13).cuboid(0.0F, 0.0F, -3.0F, 1.0F, 4.0F, 6.0F), ModelTransform.origin(-4.0F, 13.0F, 0.0F));
+        partdefinition.addChild("left_wing", ModelPartBuilder.create().uv(24, 13).cuboid(-1.0F, 0.0F, -3.0F, 1.0F, 4.0F, 6.0F), ModelTransform.origin(4.0F, 13.0F, 0.0F));
         return TexturedModelData.of(meshdefinition, 64, 32);
     }
 
@@ -56,13 +56,13 @@ public class StellarChickenModel extends EntityModel<StellarChickenRenderState>
         super.setAngles(renderState);
         float f = (MathHelper.sin(renderState.flapProgress) + 1.0F) * renderState.maxWingDeviation;
         this.head.pitch = renderState.pitch * (float) (Math.PI / 180.0);
-        this.head.yaw = renderState.yawDegrees * (float) (Math.PI / 180.0);
+        this.head.yaw = renderState.relativeHeadYaw * (float) (Math.PI / 180.0);
         this.beak.pitch = renderState.pitch * (float) (Math.PI / 180.0);
-        this.beak.yaw = renderState.yawDegrees * (float) (Math.PI / 180.0);
+        this.beak.yaw = renderState.relativeHeadYaw * (float) (Math.PI / 180.0);
         this.redThing.pitch = renderState.pitch * (float) (Math.PI / 180.0);
-        this.redThing.yaw = renderState.yawDegrees * (float) (Math.PI / 180.0);
-        float f1 = renderState.limbAmplitudeMultiplier;
-        float f2 = renderState.limbFrequency;
+        this.redThing.yaw = renderState.relativeHeadYaw * (float) (Math.PI / 180.0);
+        float f1 = renderState.limbSwingAmplitude;
+        float f2 = renderState.limbSwingAnimationProgress;
         this.rightLeg.pitch = MathHelper.cos(f2 * 0.6662F) * 1.4F * f1;
         this.leftLeg.pitch = MathHelper.cos(f2 * 0.6662F + (float) Math.PI) * 1.4F * f1;
         this.rightWing.roll = f;

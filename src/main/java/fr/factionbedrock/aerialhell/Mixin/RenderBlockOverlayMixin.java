@@ -6,7 +6,6 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameOverlayRenderer;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
@@ -27,9 +26,12 @@ public class RenderBlockOverlayMixin
     private static final Identifier ENCHANTED_GLINT = Identifier.ofVanilla("textures/misc/enchanted_glint_entity.png");
 
     @Inject(method = "renderOverlays", at = @At("HEAD"), cancellable = true)
-    private static void renderOverlays(MinecraftClient client, MatrixStack matrices, VertexConsumerProvider vertexConsumers, CallbackInfo callbackInfo)
+    private void renderOverlays(boolean sleeping, float tickProgress, CallbackInfo callbackInfo)
     {
-        PlayerEntity player = client.player;
+        InGameOverlayRenderer renderer = (InGameOverlayRenderer) (Object) this;
+        PlayerEntity player = renderer.client.player;
+        VertexConsumerProvider vertexConsumers = renderer.vertexConsumers;
+        MatrixStack matrices = new MatrixStack();
         BlockState state = EntityHelper.getInWallBlockState(player);
         if (state == null || player == null) {return ;}
 

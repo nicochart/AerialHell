@@ -6,7 +6,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.EntRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.CrossbowPosing;
+import net.minecraft.client.render.entity.model.ArmPosing;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
@@ -51,37 +51,37 @@ public class EntModel<S extends EntRenderState> extends EntityModel<S>
 		ModelData meshdefinition = new ModelData();
 		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 18).cuboid(-3.0F, -6.0F, -3.0F, 6.0F, 6.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 1.0F, -1.0F));
+		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 18).cuboid(-3.0F, -6.0F, -3.0F, 6.0F, 6.0F, 6.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 1.0F, -1.0F));
 
 		ModelPartData headLeaves = partdefinition.addChild("headLeaves", ModelPartBuilder.create().uv(36, 0).cuboid(-4.0F, -6.0F, -3.0F, 8.0F, 7.0F, 6.0F, new Dilation(0.0F))
 		.uv(36, 13).cuboid(-3.0F, -6.0F, -4.0F, 6.0F, 7.0F, 8.0F, new Dilation(0.0F))
-		.uv(36, 45).cuboid(-3.0F, -8.0F, -3.0F, 6.0F, 2.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 1.0F, -1.0F));
+		.uv(36, 45).cuboid(-3.0F, -8.0F, -3.0F, 6.0F, 2.0F, 6.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 1.0F, -1.0F));
 
-		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create(), ModelTransform.origin(0.0F, 0.0F, 0.0F));
 
 		ModelPartData body_r1 = body.addChild("body_r1", ModelPartBuilder.create().uv(0, 30).cuboid(-4.0F, -12.5F, -2.0F, 8.0F, 13.0F, 4.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 12.5F, 0.0F, 0.0873F, 0.0F, 0.0F));
 
-		ModelPartData bodyLeaves = partdefinition.addChild("bodyLeaves", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+		ModelPartData bodyLeaves = partdefinition.addChild("bodyLeaves", ModelPartBuilder.create(), ModelTransform.origin(0.0F, 0.0F, 0.0F));
 
 		ModelPartData bodyLeaves_r1 = bodyLeaves.addChild("bodyLeaves_r1", ModelPartBuilder.create().uv(32, 45).cuboid(-5.0F, -12.5F, -3.0F, 10.0F, 13.0F, 6.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 12.5F, 0.0F, 0.0873F, 0.0F, 0.0F));
 
-		ModelPartData leftArm = partdefinition.addChild("leftArm", ModelPartBuilder.create(), ModelTransform.pivot(-4.0F, 1.0F, -1.0F));
+		ModelPartData leftArm = partdefinition.addChild("leftArm", ModelPartBuilder.create(), ModelTransform.origin(-4.0F, 1.0F, -1.0F));
 
 		ModelPartData leftArm_r1 = leftArm.addChild("leftArm_r1", ModelPartBuilder.create().uv(0, 8).cuboid(-3.0F, -1.3206F, -1.5386F, 2.0F, 6.0F, 4.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 6.5F, 1.0F, -0.0007F, -0.0114F, 0.1304F));
 
 		ModelPartData leftArm_r2 = leftArm.addChild("leftArm_r2", ModelPartBuilder.create().uv(0, 0).cuboid(-2.0F, -0.5457F, -3.0459F, 2.0F, 7.0F, 4.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, -0.5F, 1.0F, 0.2174F, -0.0114F, 0.1304F));
 
-		ModelPartData leftArmLeaves = partdefinition.addChild("leftArmLeaves", ModelPartBuilder.create(), ModelTransform.pivot(-4.0F, 1.0F, -1.0F));
+		ModelPartData leftArmLeaves = partdefinition.addChild("leftArmLeaves", ModelPartBuilder.create(), ModelTransform.origin(-4.0F, 1.0F, -1.0F));
 
 		ModelPartData leftArmLeaves_r1 = leftArmLeaves.addChild("leftArmLeaves_r1", ModelPartBuilder.create().uv(33, 45).cuboid(-4.0F, 0.4543F, -3.5F, 5.0F, 6.0F, 5.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, -0.5F, 1.0F, 0.2174F, -0.0114F, 0.1304F));
 
-		ModelPartData rightArm = partdefinition.addChild("rightArm", ModelPartBuilder.create(), ModelTransform.pivot(4.0F, 1.0F, -1.0F));
+		ModelPartData rightArm = partdefinition.addChild("rightArm", ModelPartBuilder.create(), ModelTransform.origin(4.0F, 1.0F, -1.0F));
 
 		ModelPartData rightArm_r1 = rightArm.addChild("rightArm_r1", ModelPartBuilder.create().uv(13, 9).cuboid(1.15F, -0.2747F, -1.5446F, 2.0F, 5.0F, 4.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 6.5F, 1.0F, -0.0426F, 0.0209F, -0.0431F));
 
 		ModelPartData rightArm_r2 = rightArm.addChild("rightArm_r2", ModelPartBuilder.create().uv(13, 0).cuboid(0.0F, -0.5457F, -3.0459F, 2.0F, 8.0F, 4.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, -0.5F, 1.0F, 0.2168F, 0.0151F, -0.1739F));
 
-		ModelPartData rightArmLeaves = partdefinition.addChild("rightArmLeaves", ModelPartBuilder.create(), ModelTransform.pivot(4.0F, 1.0F, -1.0F));
+		ModelPartData rightArmLeaves = partdefinition.addChild("rightArmLeaves", ModelPartBuilder.create(), ModelTransform.origin(4.0F, 1.0F, -1.0F));
 
 		ModelPartData rightArmLeaves_r1 = rightArmLeaves.addChild("rightArmLeaves_r1", ModelPartBuilder.create().uv(33, 45).cuboid(-2.0F, 1.4543F, -4.0F, 5.0F, 7.0F, 5.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, -0.5F, 1.0F, 0.2168F, 0.0151F, -0.1739F));
 
@@ -112,13 +112,13 @@ public class EntModel<S extends EntRenderState> extends EntityModel<S>
 	{
 		biomeColor = renderState.color;
 		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.yawDegrees;
-		float limbSwing = renderState.limbFrequency;
-		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		float netHeadYaw = renderState.relativeHeadYaw;
+		float limbSwing = renderState.limbSwingAnimationProgress;
+		float limbSwingAmount = renderState.limbSwingAmplitude;
 		float ageInTicks = renderState.age;
 
-		CrossbowPosing.meleeAttack(this.leftArm, this.rightArm, renderState.isAggressive, renderState.handSwingProgress, ageInTicks);
-		CrossbowPosing.meleeAttack(this.leftArmLeaves, this.rightArmLeaves, renderState.isAggressive, renderState.handSwingProgress, ageInTicks);
+		ArmPosing.zombieArms(this.leftArm, this.rightArm, renderState.isAggressive, renderState.handSwingProgress, ageInTicks);
+		ArmPosing.zombieArms(this.leftArmLeaves, this.rightArmLeaves, renderState.isAggressive, renderState.handSwingProgress, ageInTicks);
 		setupHeadAnim(this.head, netHeadYaw, headPitch);
 		setupHeadAnim(this.headLeaves, netHeadYaw, headPitch);
 		setupLegsAnim(this.leftLeg, this.rightLeg, limbSwing, limbSwingAmount);

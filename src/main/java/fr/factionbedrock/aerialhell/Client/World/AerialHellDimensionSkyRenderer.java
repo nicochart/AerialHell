@@ -1,11 +1,19 @@
 package fr.factionbedrock.aerialhell.Client.World;
 
+import com.mojang.blaze3d.buffers.GpuBuffer;
+import com.mojang.blaze3d.buffers.GpuBufferSlice;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import com.mojang.blaze3d.textures.GpuTextureView;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Util.SkyRendererHelper;
-import net.minecraft.client.gl.VertexBuffer;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.render.*;
+import net.minecraft.client.util.BufferAllocator;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
@@ -13,40 +21,103 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fStack;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
+
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
 
 public class AerialHellDimensionSkyRenderer implements AutoCloseable
 {
 	private static final Identifier AERIAL_HELL_SUN_LOCATION = AerialHell.id("textures/environment/aerial_hell_sun.png");
 	private static final Identifier AERIAL_HELL_MOON_PHASES_LOCATION = AerialHell.id("textures/environment/aerial_hell_moon_phases.png");
-	private final VertexBuffer starBuffer;
-	public final VertexBuffer topSkyBuffer;
-	private final VertexBuffer bottomSkyBuffer;
+	private final RenderSystem.ShapeIndexBuffer indexBuffer;
+	private final GpuBuffer starBuffer;
+	public final GpuBuffer topSkyBuffer;
+	private final GpuBuffer bottomSkyBuffer;
+	private int starIndexCount;
 
 	public AerialHellDimensionSkyRenderer()
 	{
-		starBuffer = VertexBuffer.createAndUpload(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION, SkyRendererHelper::buildStars);
-		topSkyBuffer = VertexBuffer.createAndUpload(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION, vertexConsumer -> SkyRendererHelper.buildSkyDisc(vertexConsumer, 16.0F));
-		bottomSkyBuffer = VertexBuffer.createAndUpload(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION, vertexConsumer -> SkyRendererHelper.buildSkyDisc(vertexConsumer, -16.0F));
+		this.indexBuffer = RenderSystem.getSequentialBuffer(VertexFormat.DrawMode.QUADS);
+		this.starBuffer = this.buildStars();
+
+		try (BufferAllocator bufferAllocator = BufferAllocator.method_72201(10 * VertexFormats.POSITION.getVertexSize()))
+		{
+			BufferBuilder bufferBuilder = new BufferBuilder(bufferAllocator, VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION);
+			SkyRendererHelper.buildSkyDisc(bufferBuilder, 16.0F);
+
+			try (BuiltBuffer builtBuffer = bufferBuilder.end())
+			{
+				this.topSkyBuffer = RenderSystem.getDevice().createBuffer(() -> "Top sky vertex buffer", 32, builtBuffer.getBuffer());
+			}
+
+			bufferBuilder = new BufferBuilder(bufferAllocator, VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION);
+			SkyRendererHelper.buildSkyDisc(bufferBuilder, -16.0F);
+
+			try (BuiltBuffer builtBuffer = bufferBuilder.end())
+			{
+				this.bottomSkyBuffer = RenderSystem.getDevice().createBuffer(() -> "Bottom sky vertex buffer", 32, builtBuffer.getBuffer());
+			}
+		}
+	}
+
+	protected GpuBuffer buildStars()
+	{
+		GpuBuffer gpuBuffer;
+		try (BufferAllocator bufferAllocator = BufferAllocator.method_72201(VertexFormats.POSITION.getVertexSize() * 1900 * 4))
+		{
+			BufferBuilder bufferBuilder = new BufferBuilder(bufferAllocator, VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
+
+			SkyRendererHelper.buildStars(bufferBuilder);
+
+			try (BuiltBuffer builtBuffer = bufferBuilder.end())
+			{
+				this.starIndexCount = builtBuffer.getDrawParameters().indexCount();
+				gpuBuffer = RenderSystem.getDevice().createBuffer(() -> "Stars vertex buffer", 40, builtBuffer.getBuffer());
+			}
+		}
+		return gpuBuffer;
 	}
 
 	public void renderSkyDisc(float red, float green, float blue)
 	{
-		RenderSystem.setShaderColor(red, green, blue, 1.0F);
-		this.topSkyBuffer.draw(RenderLayer.getSky());
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		GpuBufferSlice gpuBufferSlice = RenderSystem.getDynamicUniforms().write(RenderSystem.getModelViewMatrix(), new Vector4f(red, green, blue, 1.0F), new Vector3f(), new Matrix4f(), 0.0F);
+		GpuTextureView colorTextureView = MinecraftClient.getInstance().getFramebuffer().getColorAttachmentView();
+		GpuTextureView depthTextureView = MinecraftClient.getInstance().getFramebuffer().getDepthAttachmentView();
+
+		try (RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(() -> "Sky disc", colorTextureView, OptionalInt.empty(), depthTextureView, OptionalDouble.empty()))
+		{
+			renderPass.setPipeline(RenderPipelines.POSITION_SKY);
+			RenderSystem.bindDefaultUniforms(renderPass);
+			renderPass.setUniform("DynamicTransforms", gpuBufferSlice);
+			renderPass.setVertexBuffer(0, this.topSkyBuffer);
+			renderPass.draw(0, 10);
+		}
 	}
 
-	public void renderDarkDisc(MatrixStack poseStack)
+	public void renderDarkDisc()
 	{
-		RenderSystem.setShaderColor(0.0F, 0.0F, 0.0F, 1.0F);
-		poseStack.push();
-		poseStack.translate(0.0F, 12.0F, 0.0F);
-		this.bottomSkyBuffer.draw(RenderLayer.getSky());
-		poseStack.pop();
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		Matrix4fStack matrix4fStack = RenderSystem.getModelViewStack();
+		matrix4fStack.pushMatrix();
+		matrix4fStack.translate(0.0F, 12.0F, 0.0F);
+		GpuBufferSlice gpuBufferSlice = RenderSystem.getDynamicUniforms().write(matrix4fStack, new Vector4f(0.0F, 0.0F, 0.0F, 1.0F), new Vector3f(), new Matrix4f(), 0.0F);
+		GpuTextureView colorTextureView = MinecraftClient.getInstance().getFramebuffer().getColorAttachmentView();
+		GpuTextureView depthTextureView = MinecraftClient.getInstance().getFramebuffer().getDepthAttachmentView();
+
+		try (RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(() -> "Sky dark", colorTextureView, OptionalInt.empty(), depthTextureView, OptionalDouble.empty()))
+		{
+			renderPass.setPipeline(RenderPipelines.POSITION_SKY);
+			RenderSystem.bindDefaultUniforms(renderPass);
+			renderPass.setUniform("DynamicTransforms", gpuBufferSlice);
+			renderPass.setVertexBuffer(0, this.bottomSkyBuffer);
+			renderPass.draw(0, 10);
+		}
+
+		matrix4fStack.popMatrix();
 	}
 
-	public void renderSunMoonAndStars(MatrixStack poseStack, VertexConsumerProvider.Immediate bufferSource, float timeOfDay,int moonPhase, float sunAlpha, float moonAlpha, float starAlpha, Fog fog)
+	public void renderSunMoonAndStars(MatrixStack poseStack, VertexConsumerProvider.Immediate bufferSource, float timeOfDay,int moonPhase, float sunAlpha, float moonAlpha, float starAlpha)
 	{
 		poseStack.push();
 		poseStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90.0F));
@@ -54,7 +125,7 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
 		this.renderSun(sunAlpha, bufferSource, poseStack);
 		this.renderMoon(moonPhase, moonAlpha, bufferSource, poseStack);
 		bufferSource.draw();
-		if (starAlpha > 0.0F) {this.renderStars(fog, starAlpha, poseStack);}
+		if (starAlpha > 0.0F) {this.renderStars(starAlpha, poseStack);}
 		poseStack.pop();
 	}
 
@@ -90,17 +161,28 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
 		vertexconsumer.vertex(matrix4f, -20.0F, -100.0F, -20.0F).texture(f3, f2).color(k);
 	}
 
-	private void renderStars(Fog fog, float starBrightness, MatrixStack poseStack)
+	private void renderStars(float brightness, MatrixStack matrices)
 	{
-		Matrix4fStack matrix4fstack = RenderSystem.getModelViewStack();
-		matrix4fstack.pushMatrix();
-		matrix4fstack.mul(poseStack.peek().getPositionMatrix());
-		RenderSystem.setShaderColor(starBrightness, starBrightness, starBrightness, starBrightness);
-		RenderSystem.setShaderFog(Fog.DUMMY);
-		this.starBuffer.draw(RenderLayer.getStars());
-		RenderSystem.setShaderFog(fog);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		matrix4fstack.popMatrix();
+		Matrix4fStack matrix4fStack = RenderSystem.getModelViewStack();
+		matrix4fStack.pushMatrix();
+		matrix4fStack.mul(matrices.peek().getPositionMatrix());
+		RenderPipeline starsRenderPipeline = RenderPipelines.POSITION_STARS;
+		GpuTextureView colorTextureView = MinecraftClient.getInstance().getFramebuffer().getColorAttachmentView();
+		GpuTextureView depthTextureView = MinecraftClient.getInstance().getFramebuffer().getDepthAttachmentView();
+		GpuBuffer gpuBuffer = this.indexBuffer.getIndexBuffer(this.starIndexCount);
+		GpuBufferSlice gpuBufferSlice = RenderSystem.getDynamicUniforms().write(matrix4fStack, new Vector4f(brightness, brightness, brightness, brightness), new Vector3f(), new Matrix4f(), 0.0F);
+
+		try (RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(() -> "Stars", colorTextureView , OptionalInt.empty(), depthTextureView, OptionalDouble.empty()))
+		{
+			renderPass.setPipeline(starsRenderPipeline);
+			RenderSystem.bindDefaultUniforms(renderPass);
+			renderPass.setUniform("DynamicTransforms", gpuBufferSlice);
+			renderPass.setVertexBuffer(0, this.starBuffer);
+			renderPass.setIndexBuffer(gpuBuffer, this.indexBuffer.getIndexType());
+			renderPass.drawIndexed(0, 0, this.starIndexCount, 1);
+		}
+
+		matrix4fStack.popMatrix();
 	}
 
 	public void renderSunriseAndSunset(MatrixStack poseStack, VertexConsumerProvider.Immediate bufferSource, float sunAngle, int color)

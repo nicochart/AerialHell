@@ -40,14 +40,14 @@ public class ShadowTrollModel extends EntityModel<ShadowTrollRenderState>
 		ModelData meshdefinition = new ModelData();
 		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, -14.0F, 0.0F));
+		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create(), ModelTransform.origin(0.0F, -14.0F, 0.0F));
 
 		ModelPartData body_r1 = body.addChild("body_r1", ModelPartBuilder.create().uv(4, 48).mirrored().cuboid(-4.0F, 0.4672F, -2.2607F, 8.0F, 5.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(0, 37).mirrored().cuboid(-6.0F, -6.5328F, -2.2607F, 12.0F, 7.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(0.0F, 7.5328F, -0.7393F, 0.2182F, 0.0F, 0.0F));
 
 		ModelPartData body_r2 = body.addChild("body_r2", ModelPartBuilder.create().uv(4, 29).mirrored().cuboid(-3.0F, -7.5328F, -4.2607F, 6.0F, 2.0F, 6.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(0.0F, 7.5328F, -0.7393F, 0.0873F, 0.0F, 0.0F));
 
-		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, -13.0F, -3.0F));
+		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create(), ModelTransform.origin(0.0F, -13.0F, -3.0F));
 
 		ModelPartData head_r1 = head.addChild("head_r1", ModelPartBuilder.create().uv(2, 17).mirrored().cuboid(-3.0F, -11.5328F, -7.2607F, 6.0F, 4.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(5, 0).mirrored().cuboid(-3.0F, -16.5328F, -5.2607F, 6.0F, 1.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
@@ -85,7 +85,7 @@ public class ShadowTrollModel extends EntityModel<ShadowTrollRenderState>
 
 		ModelPartData leftLeg_r2 = leftLeg.addChild("leftLeg_r2", ModelPartBuilder.create().uv(48, 48).cuboid(-1.0F, -14.0F, -1.0F, 2.0F, 14.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 26.0F, 0.0F, 0.2182F, 0.0F, 0.0F));
 
-		ModelPartData eyes = partdefinition.addChild("eyes", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, -13.0F, -3.0F));
+		ModelPartData eyes = partdefinition.addChild("eyes", ModelPartBuilder.create(), ModelTransform.origin(0.0F, -13.0F, -3.0F));
 
 		ModelPartData eyeLeft_r1 = eyes.addChild("eyeLeft_r1", ModelPartBuilder.create().uv(32, 3).mirrored().cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 1.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(2.0F, -5.9048F, -5.1121F, 0.0873F, 0.0F, -0.1745F));
 
@@ -98,9 +98,9 @@ public class ShadowTrollModel extends EntityModel<ShadowTrollRenderState>
 	public void setAngles(ShadowTrollRenderState renderState)
 	{
 		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.yawDegrees;
-		float limbSwing = renderState.limbFrequency;
-		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		float netHeadYaw = renderState.relativeHeadYaw;
+		float limbSwing = renderState.limbSwingAnimationProgress;
+		float limbSwingAmount = renderState.limbSwingAmplitude;
 
 		this.head.yaw = netHeadYaw / 57.3F;
 		this.head.pitch = headPitch / 57.3F;

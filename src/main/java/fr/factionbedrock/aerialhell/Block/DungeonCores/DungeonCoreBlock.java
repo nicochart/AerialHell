@@ -149,7 +149,7 @@ public class DungeonCoreBlock extends Block
 			particle = ParticleTypes.ENCHANT;
 		}
 		
-		world.addParticle(particle, x + 1.5F * (rand.nextFloat() - 0.5F), y + 1.5F * (rand.nextFloat() - 0.5F), z + 1.5F * (rand.nextFloat() - 0.5F), 0.4 * (rand.nextFloat() - 0.5F), 0.4 * (rand.nextFloat() - 0.5F), 0.4 * (rand.nextFloat() - 0.5F));
+		world.addParticleClient(particle, x + 1.5F * (rand.nextFloat() - 0.5F), y + 1.5F * (rand.nextFloat() - 0.5F), z + 1.5F * (rand.nextFloat() - 0.5F), 0.4 * (rand.nextFloat() - 0.5F), 0.4 * (rand.nextFloat() - 0.5F), 0.4 * (rand.nextFloat() - 0.5F));
 	}
 	
 	private boolean isMudCore(DungeonCoreBlock core) {return (core == AerialHellBlocks.MUD_DUNGEON_CORE);}

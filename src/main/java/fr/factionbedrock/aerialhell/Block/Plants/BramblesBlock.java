@@ -8,6 +8,7 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -27,8 +28,7 @@ public class BramblesBlock extends AerialHellTallGrassBlock
 
 	@Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {builder.add(AerialHellGrassBlock.SHIFTED_RENDER);}
 
-	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entityIn)
+	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entityIn, EntityCollisionHandler handler)
 	{
 		entityIn.slowMovement(state, new Vec3d((double)0.8F, 0.75D, (double)0.8F));
 		if (world instanceof ServerWorld serverWorld && entityIn instanceof LivingEntity livingEntity)

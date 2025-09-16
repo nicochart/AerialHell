@@ -1,7 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "aerialhell:item/magmatic_gel_leggings",
-    "layer1": "minecraft:trims/items/leggings_trim_diamond_darker"
-  }
-}

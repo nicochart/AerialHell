@@ -29,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class ItemHelper
 {
@@ -58,11 +59,12 @@ public class ItemHelper
     //if mineableBlocks == null, the tool is a sword
     public static Item.Settings applyToolProperties(Item.Settings properties, ToolMaterial toolMaterial, @Nullable TagKey<Block> mineableBlocks, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth)
     {
+        boolean canDestroyBlocksInCreative = mineableBlocks != null;
         RegistryEntryLookup<Block> registryEntryLookup = Registries.createEntryLookup(Registries.BLOCK);
         return applyCommonProperties(properties, toolMaterial)
                 .component(
                         DataComponentTypes.TOOL,
-                        new ToolComponent(getRules(registryEntryLookup, toolMaterial, mineableBlocks), 1.0F, 1)
+                        new ToolComponent(getRules(registryEntryLookup, toolMaterial, mineableBlocks), 1.0F, 1, canDestroyBlocksInCreative)
                 )
                 .attributeModifiers(createAerialHellToolOrWeaponAttributes(toolMaterial, attackDamage, attackSpeed, movementSpeed, maxHealth));
     }
@@ -150,23 +152,23 @@ public class ItemHelper
         }
     }
 
-    public static void appendItemTooltip(String translationKey, List<Text> tooltip)
+    public static void appendItemTooltip(String translationKey, Consumer<Text> textConsumer)
     {
         String desc = ".desc", desc_2 = ".desc_2";
-        tooltip.add(getFormatedDescFrom(translationKey+desc));
+        textConsumer.accept(getFormatedDescFrom(translationKey+desc));
         if (Language.getInstance().hasTranslation(translationKey+desc_2))
         {
-            tooltip.add(getFormatedDescFrom(translationKey+desc_2));
+            textConsumer.accept(getFormatedDescFrom(translationKey+desc_2));
         }
     }
 
-    public static void appendBerserkAxeItemTooltip(String translationKey, List<Text> tooltip, String status)
+    public static void appendBerserkAxeItemTooltip(String translationKey, Consumer<Text> textConsumer, String status)
     {
         String desc = ".desc", desc_2 = ".desc_2";
-        tooltip.add(getFormatedDescFrom(translationKey+desc));
+        textConsumer.accept(getFormatedDescFrom(translationKey+desc));
         if (Language.getInstance().hasTranslation(translationKey+desc_2))
         {
-            tooltip.add(getFormatedDescWithAppendedText(translationKey+desc_2, status));
+            textConsumer.accept(getFormatedDescWithAppendedText(translationKey+desc_2, status));
         }
     }
 

@@ -82,7 +82,7 @@ public class TornSpiritEntity extends HostileEntity
         double x = getX() + (random.nextFloat() - 0.5F) * rand;
         double y = (this.getBoundingBox().minY + rand) + 0.5D;
         double z = getZ() + (random.nextFloat() - 0.5F) * rand;
-        this.getWorld().addParticle(AerialHellParticleTypes.GOD_FLAME, x, y, z, 0.0D, -0.06D, 0.0D);
+        this.getWorld().addParticleClient(AerialHellParticleTypes.GOD_FLAME, x, y, z, 0.0D, -0.06D, 0.0D);
         
         super.tick();
     }

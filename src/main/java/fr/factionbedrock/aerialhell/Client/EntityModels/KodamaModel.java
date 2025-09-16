@@ -58,45 +58,45 @@ public class KodamaModel<S extends KodamaRenderState> extends EntityModel<S>
 		ModelData meshdefinition = new ModelData();
 		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(9, 18).mirrored().cuboid(-3.5F, 15.0F, -1.0F, 7.0F, 9.0F, 2.0F, new Dilation(0.5F)).mirrored(false), ModelTransform.pivot(0.0F, -7.0F, 0.0F));
+		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(9, 18).mirrored().cuboid(-3.5F, 15.0F, -1.0F, 7.0F, 9.0F, 2.0F, new Dilation(0.5F)).mirrored(false), ModelTransform.origin(0.0F, -7.0F, 0.0F));
 
-		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(-4.9444F, -9.5F, -3.6111F, 10.0F, 10.0F, 8.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-0.0556F, 7.5F, -0.3889F));
+		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(-4.9444F, -9.5F, -3.6111F, 10.0F, 10.0F, 8.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-0.0556F, 7.5F, -0.3889F));
 
 		ModelPartData face_1 = partdefinition.addChild("face_1", ModelPartBuilder.create().uv(50, 27).mirrored().cuboid(1.0556F, -6.0F, -4.6111F, 2.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(50, 27).mirrored().cuboid(-3.9444F, -7.5F, -4.6111F, 2.0F, 3.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(49, 25).mirrored().cuboid(-1.9444F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-0.0556F, 7.5F, -0.3889F));
+				.uv(49, 25).mirrored().cuboid(-1.9444F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-0.0556F, 7.5F, -0.3889F));
 
 		ModelPartData face_2 = partdefinition.addChild("face_2", ModelPartBuilder.create().uv(49, 26).mirrored().cuboid(1.5556F, -8.0F, -4.6111F, 2.5F, 2.5F, 2.5F, new Dilation(0.0F)).mirrored(false)
 				.uv(50, 27).mirrored().cuboid(-2.9444F, -5.5F, -4.6111F, 2.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(49, 25).mirrored().cuboid(3.0556F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-0.0556F, 7.5F, -0.3889F));
+				.uv(49, 25).mirrored().cuboid(3.0556F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-0.0556F, 7.5F, -0.3889F));
 
 		ModelPartData face_3 = partdefinition.addChild("face_3", ModelPartBuilder.create().uv(49, 26).mirrored().cuboid(1.5556F, -8.0F, -5.1111F, 2.5F, 2.5F, 2.5F, new Dilation(0.0F)).mirrored(false)
 				.uv(52, 22).mirrored().cuboid(-4.4444F, -8.0F, -4.6111F, 2.5F, 2.5F, 2.5F, new Dilation(0.0F)).mirrored(false)
-				.uv(52, 25).mirrored().cuboid(-1.9444F, -4.5F, -4.6111F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-0.0556F, 7.5F, -0.3889F));
+				.uv(52, 25).mirrored().cuboid(-1.9444F, -4.5F, -4.6111F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-0.0556F, 7.5F, -0.3889F));
 
 		ModelPartData face_4 = partdefinition.addChild("face_4", ModelPartBuilder.create().uv(50, 27).mirrored().cuboid(1.0556F, -7.5F, -4.6111F, 2.0F, 3.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(52, 22).mirrored().cuboid(-4.4444F, -8.0F, -5.1111F, 2.5F, 2.5F, 2.5F, new Dilation(0.0F)).mirrored(false)
-				.uv(49, 25).mirrored().cuboid(-3.9444F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-0.0556F, 7.5F, -0.3889F));
+				.uv(49, 25).mirrored().cuboid(-3.9444F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-0.0556F, 7.5F, -0.3889F));
 
 		ModelPartData face_5 = partdefinition.addChild("face_5", ModelPartBuilder.create().uv(50, 27).mirrored().cuboid(1.0556F, -5.5F, -4.6111F, 2.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(52, 22).mirrored().cuboid(-4.4444F, -8.0F, -5.1111F, 2.5F, 2.5F, 2.5F, new Dilation(0.0F)).mirrored(false)
-				.uv(49, 25).mirrored().cuboid(0.0556F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-0.0556F, 7.5F, -0.3889F));
+				.uv(49, 25).mirrored().cuboid(0.0556F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-0.0556F, 7.5F, -0.3889F));
 
 		ModelPartData face_6 = partdefinition.addChild("face_6", ModelPartBuilder.create().uv(50, 27).mirrored().cuboid(2.0556F, -7.5F, -4.6111F, 2.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(52, 22).mirrored().cuboid(-3.4444F, -8.5F, -4.6111F, 2.5F, 2.5F, 2.5F, new Dilation(0.0F)).mirrored(false)
-				.uv(49, 25).mirrored().cuboid(-1.4444F, -3.5F, -4.6111F, 1.5F, 2.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-0.0556F, 7.5F, -0.3889F));
+				.uv(49, 25).mirrored().cuboid(-1.4444F, -3.5F, -4.6111F, 1.5F, 2.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-0.0556F, 7.5F, -0.3889F));
 
 		ModelPartData face_7 = partdefinition.addChild("face_7", ModelPartBuilder.create().uv(52, 22).mirrored().cuboid(1.5556F, -7.0F, -4.6111F, 2.5F, 2.5F, 2.5F, new Dilation(0.0F)).mirrored(false)
 				.uv(52, 22).mirrored().cuboid(-3.9444F, -8.0F, -4.6111F, 2.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(47, 23).mirrored().cuboid(0.5556F, -2.5F, -4.6111F, 2.0F, 2.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-0.0556F, 7.5F, -0.3889F));
+				.uv(47, 23).mirrored().cuboid(0.5556F, -2.5F, -4.6111F, 2.0F, 2.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-0.0556F, 7.5F, -0.3889F));
 
-		ModelPartData arm0 = partdefinition.addChild("arm0", ModelPartBuilder.create().uv(48, 0).mirrored().cuboid(0.0F, 0.0F, -1.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(4.0F, 8.5F, 0.0F));
+		ModelPartData arm0 = partdefinition.addChild("arm0", ModelPartBuilder.create().uv(48, 0).mirrored().cuboid(0.0F, 0.0F, -1.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 8.5F, 0.0F));
 
-		ModelPartData arm1 = partdefinition.addChild("arm1", ModelPartBuilder.create().uv(56, 0).mirrored().cuboid(-2.0F, 0.0F, -1.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-4.0F, 8.5F, 0.0F));
+		ModelPartData arm1 = partdefinition.addChild("arm1", ModelPartBuilder.create().uv(56, 0).mirrored().cuboid(-2.0F, 0.0F, -1.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-4.0F, 8.5F, 0.0F));
 
-		ModelPartData leg0 = partdefinition.addChild("leg0", ModelPartBuilder.create().uv(29, 19).mirrored().cuboid(-1.0F, -1.0F, -1.0F, 2.0F, 8.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(2.0F, 17.0F, 0.0F));
+		ModelPartData leg0 = partdefinition.addChild("leg0", ModelPartBuilder.create().uv(29, 19).mirrored().cuboid(-1.0F, -1.0F, -1.0F, 2.0F, 8.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(2.0F, 17.0F, 0.0F));
 
-		ModelPartData leg1 = partdefinition.addChild("leg1", ModelPartBuilder.create().uv(37, 19).cuboid(-1.0F, -1.0F, -1.0F, 2.0F, 8.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(-2.0F, 17.0F, 0.0F));
+		ModelPartData leg1 = partdefinition.addChild("leg1", ModelPartBuilder.create().uv(37, 19).cuboid(-1.0F, -1.0F, -1.0F, 2.0F, 8.0F, 2.0F, new Dilation(0.0F)), ModelTransform.origin(-2.0F, 17.0F, 0.0F));
 
 		return TexturedModelData.of(meshdefinition, 64, 32);
 	}
@@ -104,9 +104,9 @@ public class KodamaModel<S extends KodamaRenderState> extends EntityModel<S>
 	@Override public void setAngles(S renderState)
 	{
 		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.yawDegrees;
-		float limbSwing = renderState.limbFrequency;
-		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		float netHeadYaw = renderState.relativeHeadYaw;
+		float limbSwing = renderState.limbSwingAnimationProgress;
+		float limbSwingAmount = renderState.limbSwingAmplitude;
 		this.faceId = renderState.faceId;
 		this.dayTime = renderState.dayTime;
 		this.forcedAlphaBonus = renderState.forcedAlphaBonus;

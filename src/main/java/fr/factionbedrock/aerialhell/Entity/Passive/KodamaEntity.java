@@ -18,10 +18,11 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LocalDifficulty;
@@ -145,21 +146,21 @@ public class KodamaEntity extends AerialHellAnimalEntity
         if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getSoundPitch());}
     }
 
-    @Override public void writeCustomDataToNbt(NbtCompound nbt)
+    @Override protected void writeCustomData(WriteView view)
     {
-        super.writeCustomDataToNbt(nbt);
-        nbt.putInt("FaceId", this.getFaceId());
-        nbt.putInt("SizeId", this.getSizeId());
-        nbt.putBoolean("IsRattling", this.isRattling());
-        nbt.putInt("TiltAngle", this.getRattlingTiltAngle());
+        super.writeCustomData(view);
+        view.putInt("FaceId", this.getFaceId());
+        view.putInt("SizeId", this.getSizeId());
+        view.putBoolean("IsRattling", this.isRattling());
+        view.putInt("TiltAngle", this.getRattlingTiltAngle());
     }
 
-    @Override public void readCustomDataFromNbt(NbtCompound nbt)
+    @Override protected void readCustomData(ReadView view)
     {
-        super.readCustomDataFromNbt(nbt);
-        this.setFaceId(nbt.getInt("FaceId"));
-        this.setSizeId(nbt.getInt("SizeId"));
-        this.setRattling(nbt.getBoolean("IsRattling"));
-        this.setRattlingTiltAngle(nbt.getInt("TiltAngle"));
+        super.readCustomData(view);
+        if (view.getOptionalInt("FaceId").isPresent()) {this.setFaceId(view.getOptionalInt("FaceId").get());}
+        if (view.getOptionalInt("SizeId").isPresent()) {this.setSizeId(view.getOptionalInt("SizeId").get());}
+        this.setRattling(view.getBoolean("IsRattling", false));
+        if (view.getOptionalInt("TiltAngle").isPresent()) {this.setRattlingTiltAngle(view.getOptionalInt("TiltAngle").get());}
     }
 }

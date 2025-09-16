@@ -24,7 +24,7 @@ public class ShroomBoomRender extends MobEntityRenderer<ShroomBoomEntity, Shroom
 	{
 		super.updateRenderState(entity, renderState, partialTick);
 		renderState.texture = TEXTURE;
-		renderState.swelling = entity.getClientFuseTime(partialTick);
+		renderState.swelling = entity.getLerpedFuseTime(partialTick);
 		renderState.attackTime = entity.handSwingTicks; //TODO
 		renderState.isAggressive = entity.isAttacking();
 	}

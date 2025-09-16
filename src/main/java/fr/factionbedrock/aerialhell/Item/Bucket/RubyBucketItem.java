@@ -42,7 +42,7 @@ public class RubyBucketItem extends Item
             BlockPos blockpos = blockhitresult.getBlockPos();
             Direction direction = blockhitresult.getSide();
             BlockPos blockpos1 = blockpos.offset(direction);
-            if (world.canPlayerModifyAt(user, blockpos) && user.canPlaceOn(blockpos1, direction, itemstack))
+            if (world.canEntityModifyAt(user, blockpos) && user.canPlaceOn(blockpos1, direction, itemstack))
             {
                 BlockState blockstate1 = world.getBlockState(blockpos);
                 if (blockstate1.getBlock() instanceof FluidDrainable)

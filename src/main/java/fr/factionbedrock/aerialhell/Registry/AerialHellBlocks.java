@@ -28,6 +28,7 @@ import fr.factionbedrock.aerialhell.Block.ShadowSpreader.*;
 import fr.factionbedrock.aerialhell.Block.StandingAndWall.*;
 import fr.factionbedrock.aerialhell.Block.Trophies.BottomSlabLikeTrophyBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
+import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellTreeGrowers;
 import net.minecraft.block.*;
@@ -271,7 +272,7 @@ public class AerialHellBlocks
     public static final Block CRYSTAL_BRICKS_WALL = register(Keys.CRYSTAL_BRICKS_WALL.getValue().getPath(), new WallBlock(AbstractBlock.Settings.copy(CRYSTAL_BRICKS).registryKey(Keys.CRYSTAL_BRICKS_WALL)));
     public static final Block STELLAR_STONE_CRYSTAL_BLOCK = register(Keys.STELLAR_STONE_CRYSTAL_BLOCK.getValue().getPath(), new BasicShiftableRenderBlock(AbstractBlock.Settings.copy(CRYSTAL_BLOCK).registryKey(Keys.STELLAR_STONE_CRYSTAL_BLOCK).luminance((state) -> 13)));
     public static final Block SHADOW_CRYSTAL_BLOCK = register(Keys.SHADOW_CRYSTAL_BLOCK.getValue().getPath(), new BasicShadowSpreaderBlock(AbstractBlock.Settings.copy(CRYSTAL_BLOCK).registryKey(Keys.SHADOW_CRYSTAL_BLOCK).luminance((state) -> 12)));
-    public static final Block CRYSTALLIZED_LEAVES = register(Keys.CRYSTALLIZED_LEAVES.getValue().getPath(), new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES).registryKey(Keys.CRYSTALLIZED_LEAVES).luminance((state) -> 12)));
+    public static final Block CRYSTALLIZED_LEAVES = register(Keys.CRYSTALLIZED_LEAVES.getValue().getPath(), new UntintedParticleLeavesBlock(0.1F, AerialHellParticleTypes.FALLING_CRYSTALLIZED_LEAVES, AbstractBlock.Settings.copy(Blocks.OAK_LEAVES).registryKey(Keys.CRYSTALLIZED_LEAVES).luminance((state) -> 12)));
     public static final Block CRYSTALLIZED_FIRE = register(Keys.CRYSTALLIZED_FIRE.getValue().getPath(), new TransparentBlock(AbstractBlock.Settings.copy(Blocks.GLASS).registryKey(Keys.CRYSTALLIZED_FIRE).luminance((state) -> 12).breakInstantly()));
 
     //glass and glass pane

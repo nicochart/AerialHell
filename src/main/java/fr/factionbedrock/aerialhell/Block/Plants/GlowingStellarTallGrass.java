@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.RedstoneTorchBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
@@ -22,7 +23,7 @@ public class GlowingStellarTallGrass extends AerialHellTallGrassBlock
 	public static final BooleanProperty LIT = RedstoneTorchBlock.LIT;
 	public GlowingStellarTallGrass(AbstractBlock.Settings settings) {super(settings); this.setDefaultState(this.getDefaultState().with(LIT, false));}
 
-	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
+	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
 	{
 		if (!world.isClient) {interact(state, world, pos);}
 	}

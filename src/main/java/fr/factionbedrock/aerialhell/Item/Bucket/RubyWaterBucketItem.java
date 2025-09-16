@@ -48,7 +48,7 @@ public class RubyWaterBucketItem extends Item
             BlockPos blockpos = blockhitresult.getBlockPos();
             Direction direction = blockhitresult.getSide();
             BlockPos blockpos1 = blockpos.offset(direction);
-            if (world.canPlayerModifyAt(user, blockpos) && user.canPlaceOn(blockpos1, direction, itemstack))
+            if (world.canEntityModifyAt(user, blockpos) && user.canPlaceOn(blockpos1, direction, itemstack))
             {
                 BlockState blockstate = world.getBlockState(blockpos);
                 BlockPos blockpos2 = canBlockContainFluid(world, blockpos, blockstate) ? blockpos : blockpos1;
@@ -87,7 +87,7 @@ public class RubyWaterBucketItem extends Item
 
             for(int l = 0; l < 8; ++l)
             {
-                world.addParticle(ParticleTypes.LARGE_SMOKE, (double)i + Math.random(), (double)j + Math.random(), (double)k + Math.random(), 0.0D, 0.0D, 0.0D);
+                world.addParticleClient(ParticleTypes.LARGE_SMOKE, (double)i + Math.random(), (double)j + Math.random(), (double)k + Math.random(), 0.0D, 0.0D, 0.0D);
             }
 
             return true;

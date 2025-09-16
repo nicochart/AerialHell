@@ -35,18 +35,18 @@ public class MudGolemModel extends EntityModel<MudGolemRenderState>
 		ModelData meshdefinition = new ModelData();
 		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-7.0F, -9.8F, -4.5F, 14.0F, 10.0F, 8.0F, new Dilation(-0.2F)), ModelTransform.pivot(0.0F, -4.0F, 0.0F));
+		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-7.0F, -9.8F, -4.5F, 14.0F, 10.0F, 8.0F, new Dilation(-0.2F)), ModelTransform.origin(0.0F, -4.0F, 0.0F));
 
 		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(0, 19).cuboid(-10.0F, -29.0F, -5.0F, 20.0F, 12.0F, 10.0F, new Dilation(-1.0F))
-				.uv(9, 42).cuboid(-7.5F, -18.0F, -2.5F, 15.0F, 5.0F, 5.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+				.uv(9, 42).cuboid(-7.5F, -18.0F, -2.5F, 15.0F, 5.0F, 5.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 24.0F, 0.0F));
 
-		ModelPartData left_arm = partdefinition.addChild("left_arm", ModelPartBuilder.create().uv(62, 54).cuboid(0.0F, -1.0F, -2.5F, 5.0F, 25.0F, 5.0F, new Dilation(0.0F)), ModelTransform.pivot(9.0F, -3.0F, 0.0F));
+		ModelPartData left_arm = partdefinition.addChild("left_arm", ModelPartBuilder.create().uv(62, 54).cuboid(0.0F, -1.0F, -2.5F, 5.0F, 25.0F, 5.0F, new Dilation(0.0F)), ModelTransform.origin(9.0F, -3.0F, 0.0F));
 
-		ModelPartData right_arm = partdefinition.addChild("right_arm", ModelPartBuilder.create().uv(62, 19).mirrored().cuboid(-5.0F, -1.0F, -2.5F, 5.0F, 25.0F, 5.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-9.0F, -3.0F, 0.0F));
+		ModelPartData right_arm = partdefinition.addChild("right_arm", ModelPartBuilder.create().uv(62, 19).mirrored().cuboid(-5.0F, -1.0F, -2.5F, 5.0F, 25.0F, 5.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-9.0F, -3.0F, 0.0F));
 
-		ModelPartData left_leg = partdefinition.addChild("left_leg", ModelPartBuilder.create().uv(18, 72).mirrored().cuboid(-3.5F, 0.0F, -2.5F, 6.0F, 13.0F, 5.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(5.0F, 11.0F, 0.0F));
+		ModelPartData left_leg = partdefinition.addChild("left_leg", ModelPartBuilder.create().uv(18, 72).mirrored().cuboid(-3.5F, 0.0F, -2.5F, 6.0F, 13.0F, 5.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(5.0F, 11.0F, 0.0F));
 
-		ModelPartData right_leg = partdefinition.addChild("right_leg", ModelPartBuilder.create().uv(18, 53).cuboid(-3.5F, 0.0F, -2.5F, 6.0F, 13.0F, 5.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, 11.0F, 0.0F));
+		ModelPartData right_leg = partdefinition.addChild("right_leg", ModelPartBuilder.create().uv(18, 53).cuboid(-3.5F, 0.0F, -2.5F, 6.0F, 13.0F, 5.0F, new Dilation(0.0F)), ModelTransform.origin(-4.0F, 11.0F, 0.0F));
 
 		return TexturedModelData.of(meshdefinition, 128, 128);
 	}
@@ -54,9 +54,9 @@ public class MudGolemModel extends EntityModel<MudGolemRenderState>
 	@Override public void setAngles(MudGolemRenderState renderState)
 	{
 		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.yawDegrees;
-		float limbSwing = renderState.limbFrequency;
-		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		float netHeadYaw = renderState.relativeHeadYaw;
+		float limbSwing = renderState.limbSwingAnimationProgress;
+		float limbSwingAmount = renderState.limbSwingAmplitude;
 
 		this.head.yaw = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.pitch = headPitch * ((float)Math.PI / 180F);

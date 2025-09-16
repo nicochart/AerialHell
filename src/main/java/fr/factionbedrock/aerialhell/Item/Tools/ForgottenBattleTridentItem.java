@@ -1,15 +1,15 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
-import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.tooltip.TooltipType;
@@ -34,7 +34,7 @@ public class ForgottenBattleTridentItem extends AerialHellSwordItem
 
 		for (int i=0 ; i<20; i++)
 		{
-			world.addParticle(ParticleTypes.DRIPPING_WATER, player.getX() + 4*(rand.nextFloat() - 0.5F), player.getY() + 4*rand.nextFloat(), player.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
+			world.addParticleClient(ParticleTypes.DRIPPING_WATER, player.getX() + 4*(rand.nextFloat() - 0.5F), player.getY() + 4*rand.nextFloat(), player.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
 		}
 		player.playSound(AerialHellSoundEvents.ITEM_FORGOTTEN_BATTLE_TRIDENT_USE, 1.0F, 1.5F);
 		
@@ -50,8 +50,8 @@ public class ForgottenBattleTridentItem extends AerialHellSwordItem
 		return ActionResult.CONSUME;
     }
 
-	@Override public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type)
+	@Override public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type)
 	{
-		ItemHelper.appendItemTooltip(this.getTranslationKey(), tooltip);
+		ItemHelper.appendItemTooltip(this.getTranslationKey(), textConsumer);
 	}
 }

@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Registry.Misc;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
@@ -189,6 +190,28 @@ public class AerialHellTags
 		{
 			return TagKey.of(RegistryKeys.ITEM, AerialHell.id(name));
 		}
+	}
+
+	public static class Entities
+	{
+		public static final TagKey<EntityType<?>> PASSIVE = tag("passive");
+		public static final TagKey<EntityType<?>> AGGRESSIVE = tag("aggressive");
+		public static final TagKey<EntityType<?>> MUD = tag("mud");
+		public static final TagKey<EntityType<?>> LIGHT = tag("light");
+		public static final TagKey<EntityType<?>> SHADOW = tag("shadow");
+		public static final TagKey<EntityType<?>> TORN = tag("torn");
+		public static final TagKey<EntityType<?>> PIRATE = tag("pirate");
+		public static final TagKey<EntityType<?>> GHOST_PIRATE = tag("ghost_pirate");
+		public static final TagKey<EntityType<?>> SNAKE_LIKE = tag("snake_like");
+		public static final TagKey<EntityType<?>> SHURIKEN = tag("shuriken");
+		public static final TagKey<EntityType<?>> SPIRIT = tag("spirit");
+		public static final TagKey<EntityType<?>> MIMIC = tag("mimic");
+		public static final TagKey<EntityType<?>> FEATHERY = tag("feathery");
+		public static final TagKey<EntityType<?>> BOSS = tag("boss");
+		public static final TagKey<EntityType<?>> SKY_CACTUS_COLLISION_IMMUNE = tag("sky_cactus_collision_immune");
+		public static final TagKey<EntityType<?>> CHAINED_GOD_DRAG_IMMUNE = tag("chained_god_drag_immune");
+
+		private static TagKey<EntityType<?>> tag(String name) {return TagKey.of(RegistryKeys.ENTITY_TYPE, AerialHell.id(name));}
 	}
 
 	public static class Fluids

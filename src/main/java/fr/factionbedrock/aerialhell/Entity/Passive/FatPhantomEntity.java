@@ -22,7 +22,6 @@ import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.FlyingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.mob.PhantomEntity;
@@ -32,6 +31,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -79,7 +80,7 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
    
    public static DefaultAttributeContainer.Builder registerAttributes()
    {
-       return FlyingEntity.createMobAttributes()
+       return MobEntity.createMobAttributes()
        		.add(EntityAttributes.MOVEMENT_SPEED, 0.25D)
        		.add(EntityAttributes.MAX_HEALTH, 150.0D)
        		.add(EntityAttributes.ATTACK_DAMAGE, 18.0D)
@@ -157,15 +158,15 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
          float f1 = MathHelper.cos((float)(this.getId() * 3 + this.age + 1) * 7.448451F * ((float)Math.PI / 180F) + (float)Math.PI);
          if (f > 0.0F && f1 <= 0.0F)
          {
-            this.getWorld().playSound(this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_PHANTOM_FLAP, this.getSoundCategory(), 0.95F + this.random.nextFloat() * 0.05F, 0.95F + this.random.nextFloat() * 0.05F, false);
+            this.getWorld().playSoundClient(this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_PHANTOM_FLAP, this.getSoundCategory(), 0.95F + this.random.nextFloat() * 0.05F, 0.95F + this.random.nextFloat() * 0.05F, false);
          }
 
          int i = this.getPhantomSize();
          float f2 = MathHelper.cos(this.getYaw() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
          float f3 = MathHelper.sin(this.getYaw() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
          float f4 = (0.3F + f * 0.45F) * ((float)i * 0.2F + 1.0F);
-         this.getWorld().addParticle(ParticleTypes.MYCELIUM, this.getX() + (double)f2, this.getY() + (double)f4, this.getZ() + (double)f3, 0.0D, 0.0D, 0.0D);
-         this.getWorld().addParticle(ParticleTypes.MYCELIUM, this.getX() - (double)f2, this.getY() + (double)f4, this.getZ() - (double)f3, 0.0D, 0.0D, 0.0D);
+         this.getWorld().addParticleClient(ParticleTypes.MYCELIUM, this.getX() + (double)f2, this.getY() + (double)f4, this.getZ() + (double)f3, 0.0D, 0.0D, 0.0D);
+         this.getWorld().addParticleClient(ParticleTypes.MYCELIUM, this.getX() - (double)f2, this.getY() + (double)f4, this.getZ() - (double)f3, 0.0D, 0.0D, 0.0D);
       }
       
       if (this.isDisappearing())
@@ -181,7 +182,7 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
    {
    		for (int i=0; i<number; i++)
    		{
-   			this.getWorld().addParticle(AerialHellParticleTypes.FAT_PHANTOM_SMOKE, this.getX() + random.nextFloat() - 0.5, this.getY() + 2 * random.nextFloat(), this.getZ() + random.nextFloat() - 0.5, random.nextFloat() - 0.5, random.nextFloat() -0.5, random.nextFloat() - 0.5);
+   			this.getWorld().addParticleClient(AerialHellParticleTypes.FAT_PHANTOM_SMOKE, this.getX() + random.nextFloat() - 0.5, this.getY() + 2 * random.nextFloat(), this.getZ() + random.nextFloat() - 0.5, random.nextFloat() - 0.5, random.nextFloat() -0.5, random.nextFloat() - 0.5);
    		}
    }
    
@@ -220,26 +221,20 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
       return data;
    }
 
-   @Override
-   public void readCustomDataFromNbt(NbtCompound nbt)
+   @Override protected void readCustomData(ReadView view)
    {
-      super.readCustomDataFromNbt(nbt);
-      if (nbt.contains("AX"))
-      {
-         this.orbitPosition = new BlockPos(nbt.getInt("AX"), nbt.getInt("AY"), nbt.getInt("AZ"));
-      }
-
-      this.setDisappearing(nbt.getBoolean("Disappearing"));
+      super.readCustomData(view);
+      this.orbitPosition = view.read("anchor_pos", BlockPos.CODEC).orElse(null);
+      this.setPhantomSize(view.getInt("size", 0));
+      this.setDisappearing(view.getBoolean("Disappearing", false));
    }
 
-   @Override
-   public void writeCustomDataToNbt(NbtCompound nbt)
+   @Override protected void writeCustomData(WriteView view)
    {
-      super.writeCustomDataToNbt(nbt);
-      nbt.putInt("AX", this.orbitPosition.getX());
-      nbt.putInt("AY", this.orbitPosition.getY());
-      nbt.putInt("AZ", this.orbitPosition.getZ());
-      nbt.putBoolean("Disappearing", this.isDisappearing());
+      super.writeCustomData(view);
+      view.putNullable("anchor_pos", BlockPos.CODEC, this.orbitPosition);
+      view.putInt("size", this.getPhantomSize());
+      view.putBoolean("Disappearing", this.isDisappearing());
    }
 
    @Override

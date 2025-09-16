@@ -4,8 +4,8 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -34,19 +34,19 @@ public class BiomeShifterBlockEntity extends BlockEntity implements BiomeShifter
         BiomeShifter.transformRandomBlocks(world, pos, state, blockEntity);
     }
 
-    @Override protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
+    @Override protected void writeData(WriteView view)
     {
-        super.writeNbt(nbt, registryLookup);
-        nbt.putInt("field_size", fieldSize);
+        super.writeData(view);
+        view.putInt("field_size", fieldSize);
         boolean isShadow = this.shiftType == ShiftType.CORRUPT;
-        nbt.putBoolean("is_shadow", isShadow);
+        view.putBoolean("is_shadow", isShadow);
     }
 
-    @Override protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
+    @Override protected void readData(ReadView view)
     {
-        super.readNbt(nbt, registryLookup);
-        this.fieldSize = nbt.getInt("field_size");
-        boolean isShadow = nbt.getBoolean("is_shadow");
+        super.readData(view);
+        this.fieldSize = view.getOptionalInt("field_size").get();
+        boolean isShadow = view.getBoolean("is_shadow", false);
         this.shiftType = isShadow ? ShiftType.CORRUPT : ShiftType.UNCORRUPT;
     }
 }

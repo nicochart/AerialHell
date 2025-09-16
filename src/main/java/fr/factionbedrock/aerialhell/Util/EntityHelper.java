@@ -29,14 +29,15 @@ import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.EndermanEntity;
-import net.minecraft.entity.mob.FlyingEntity;
 import net.minecraft.entity.mob.SilverfishEntity;
 import net.minecraft.entity.mob.VexEntity;
 import net.minecraft.entity.passive.ChickenEntity;
@@ -99,59 +100,32 @@ public class EntityHelper
         return isShadowImmune || isShadowEntity;
     }
 
-    public static boolean isShadowEntity(Entity entity)
-    {
-        return entity instanceof EvilCowEntity || entity instanceof ShadowAutomatonEntity || entity instanceof ShadowTrollEntity || entity instanceof ShadowFlyingSkullEntity || entity instanceof ShadowSpiderEntity || entity instanceof ShadowPineBarrelMimicEntity || entity instanceof LilithEntity || entity instanceof EndermanEntity;
-    }
-
-    public static boolean isLightEntity(Entity entity)
-    {
-        return entity instanceof CrystalGolemEntity || entity instanceof CrystalCaterpillarEntity || entity instanceof CrystalSlimeEntity || entity instanceof CrystalSpiderEntity || entity instanceof LunaticPriestEntity;
-    }
-
-    public static boolean isGhostEntity(Entity entity)
-    {
-        return entity instanceof GhostSlimePirateEntity || entity instanceof GhostSlimeNinjaPirateEntity;
-    }
-
+    public static boolean isShadowEntity(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.SHADOW);}
+    public static boolean isLightEntity(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.LIGHT);}
+    public static boolean isGhostEntity(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.GHOST_PIRATE);}
     public static boolean isLightProjectile(Entity entity) {return entity instanceof LunaticProjectileEntity;}
-
     public static boolean isProjectile(Entity entity) {return entity instanceof PersistentProjectileEntity || entity instanceof ThrownItemEntity;}
-
-    public static boolean isMudEntity(Entity entity)
-    {
-        return entity instanceof MudSoldierEntity || entity instanceof MudGolemEntity || entity instanceof MudCycleMageEntity || entity instanceof AerialTreeChestMimicEntity;
-    }
-
-    public static boolean isBossEntity(Entity entity)
-    {
-        return entity instanceof MudCycleMageEntity || entity instanceof LunaticPriestEntity || entity instanceof ChainedGodEntity || entity instanceof LilithEntity;
-    }
-
-    public static boolean isFeatheryEntity(Entity entity)
-    {
-        return entity instanceof SilverfishEntity || entity instanceof FlyingEntity || entity instanceof ChickenEntity || entity instanceof VexEntity; //Vex includes FlyingSkulls
-    }
+    public static boolean isMudEntity(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.MUD);}
+    public static boolean isBossEntity(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.BOSS);}
+    public static boolean isAerialHellAnimalEntity(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.PASSIVE);}
+    public static boolean isAggressive(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.AGGRESSIVE);}
+    public static boolean isFeatheryEntity(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.FEATHERY);}
 
     public static boolean isImmuneToBramblesDamage(Entity entity)
     {
-        boolean isImmuneToAllBrambles = entity instanceof SandySheepEntity || entity instanceof BoarEntity || entity instanceof GlidingTurtleEntity || entity instanceof KodamaEntity || entity instanceof ShroomBoomEntity || entity instanceof EntEntity || entity instanceof AbstractSnakeEntity || entity instanceof AbstractSlimePirateEntity || entity instanceof EvilCowEntity || entity instanceof AbstractAerialHellSpiderEntity || isFeatheryEntity(entity) || entity instanceof VerdigrisZombieEntity;
+        boolean isImmuneToAllBrambles = isAerialHellAnimalEntity(entity) || isAggressive(entity) || isFeatheryEntity(entity);
         if (isImmuneToAllBrambles) {return true;}
         else {return isImmuneToSomeShadowDamage(entity);}
     }
 
-    public static boolean isImmuneToSkyCactusCollision(Entity entity)
-    {
-        boolean isImmune = entity instanceof AerialHellAnimalEntity || entity instanceof BoarEntity || entity instanceof AbstractSnakeEntity || entity instanceof MummyEntity || entity instanceof AbstractAerialHellSpiderEntity || isFeatheryEntity(entity);
-        return isImmune;
-    }
+    public static boolean isImmuneToSkyCactusCollision(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.SKY_CACTUS_COLLISION_IMMUNE);}
 
     public static boolean isImmuneToSolidEtherCollision(Entity entity)
     {
         if (entity instanceof LivingEntity livingEntity)
         {
             if (hasSolidEtherWalkerEnchantment(livingEntity) || isLivingEntityUnderInTheCloudsEffect(livingEntity) || isFeatheryEntity(entity)) {return false;}
-            Iterable<ItemStack> stuff = livingEntity.getArmorItems();
+            Iterable<ItemStack> stuff = getEquippedHumanoidArmorItemList(livingEntity);
             for (ItemStack armorStack : stuff) {if (armorStack.getItem() == AerialHellItems.MAGMATIC_GEL_BOOTS) {return false;}}
             return true;
         }
@@ -163,17 +137,14 @@ public class EntityHelper
         if (entity instanceof LivingEntity livingEntity)
         {
             if (hasSolidEtherWalkerEnchantment(livingEntity) || isLivingEntityUnderInTheCloudsEffect(livingEntity) || isGhostEntity(livingEntity)) {return false;}
-            Iterable<ItemStack> stuff = livingEntity.getArmorItems();
+            Iterable<ItemStack> stuff = getEquippedHumanoidArmorItemList(livingEntity);
             for (ItemStack armorStack : stuff) {if (armorStack.getItem() == AerialHellItems.MAGMATIC_GEL_BOOTS) {return false;}}
             return true;
         }
         return false;
     }
 
-    public static boolean isImmuneToChainedGodDrag(Entity entity)
-    {
-        return isCreaOrSpecPlayer(entity) || entity.getType() == AerialHellEntities.TORN_SPIRIT || isBossEntity(entity);
-    }
+    public static boolean isImmuneToChainedGodDrag(Entity entity) {return isCreaOrSpecPlayer(entity) || entity.getType().isIn(AerialHellTags.Entities.CHAINED_GOD_DRAG_IMMUNE);}
 
     public static boolean hasSolidEtherWalkerEnchantment(LivingEntity entity)
     {
@@ -229,18 +200,43 @@ public class EntityHelper
     {
         for (int i=0; i<number; i++)
         {
-            entity.getWorld().addParticle(AerialHellParticleTypes.SHADOW_TROLL_BAT, entity.getX() + rand.nextFloat() - 0.5, entity.getY() + 2 * rand.nextFloat(), entity.getZ() + rand.nextFloat() - 0.5, 2 * (rand.nextFloat()) - 0.5, -0.3D, 2 * (rand.nextFloat() - 0.5));
+            entity.getWorld().addParticleClient(AerialHellParticleTypes.SHADOW_TROLL_BAT, entity.getX() + rand.nextFloat() - 0.5, entity.getY() + 2 * rand.nextFloat(), entity.getZ() + rand.nextFloat() - 0.5, 2 * (rand.nextFloat()) - 0.5, -0.3D, 2 * (rand.nextFloat() - 0.5));
         }
     }
 
     public static boolean isLivingEntityMisleadingLunar(LivingEntity entity)
     {
-        return ItemHelper.getItemInTagCount(entity.getArmorItems(), AerialHellTags.Items.LUNATIC_STUFF) >= 4 && !isLivingEntityATraitor(entity);
+        return ItemHelper.getItemInTagCount(EntityHelper.getEquippedHumanoidArmorItemList(entity), AerialHellTags.Items.LUNATIC_STUFF) >= 4 && !isLivingEntityATraitor(entity);
     }
 
     public static boolean isLivingEntityMisleadingShadow(LivingEntity entity)
     {
         return isLivingEntityShadowBind(entity) && !isLivingEntityATraitor(entity);
+    }
+
+    public static List<ItemStack> getEquippedHumanoidArmorItemList(LivingEntity livingEntity)
+    {
+        List<ItemStack> list = new ArrayList<>();
+        for(EquipmentSlot equipmentslot : AttributeModifierSlot.ARMOR)
+        {
+            if (equipmentslot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR)
+            {
+                ItemStack itemstack = livingEntity.getEquippedStack(equipmentslot);
+                if (!itemstack.isEmpty()) {list.add(itemstack);}
+            }
+        }
+        return list;
+    }
+
+    public static List<ItemStack> getInHandsItemList(LivingEntity livingEntity)
+    {
+        List<ItemStack> list = new ArrayList<>();
+        for(EquipmentSlot equipmentslot : AttributeModifierSlot.HAND)
+        {
+            ItemStack itemstack = livingEntity.getEquippedStack(equipmentslot);
+            if (!itemstack.isEmpty()) {list.add(itemstack);}
+        }
+        return list;
     }
 
     //from in net.minecraft.server.world.ServerChunkLoadingManager sendChunkBiomePackets(..) method

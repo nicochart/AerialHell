@@ -8,8 +8,8 @@
   "placement": {
     "salt": 223454456,
 
-    "spacing": 12, //average distance (chunks)
-    "separation": 6, //minimum distance (chunks)
+    "spacing": 12,
+    "separation": 6,
 
     "type": "minecraft:random_spread"
   }

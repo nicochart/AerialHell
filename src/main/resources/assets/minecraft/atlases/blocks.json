@@ -1,0 +1,24 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:paletted_permutations",
+      "palette_key": "minecraft:trims/color_palettes/trim_palette",
+      "permutations": {
+        "arsonist_ingot": "aerialhell:trims/color_palettes/arsonist_ingot",
+        "cursed_crystal": "aerialhell:trims/color_palettes/cursed_crystal",
+        "fluorite": "aerialhell:trims/color_palettes/fluorite",
+        "lunatic_crystal": "aerialhell:trims/color_palettes/lunatic_crystal",
+        "magmatic_gel": "aerialhell:trims/color_palettes/magmatic_gel",
+        "obsidian_shard": "aerialhell:trims/color_palettes/obsidian_shard",
+        "ruby": "aerialhell:trims/color_palettes/ruby",
+        "volucite_vibrant": "aerialhell:trims/color_palettes/volucite_vibrant"
+      },
+      "textures": [
+        "minecraft:trims/items/helmet_trim",
+        "minecraft:trims/items/chestplate_trim",
+        "minecraft:trims/items/leggings_trim",
+        "minecraft:trims/items/boots_trim"
+      ]
+    }
+  ]
+}

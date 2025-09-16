@@ -23,6 +23,8 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LocalDifficulty;
@@ -63,16 +65,16 @@ public class StellarChickenEntity extends ChickenEntity
         builder.add(COLOR, 0);
     }
 
-    @Override public void writeCustomDataToNbt(NbtCompound nbt)
+    @Override protected void writeCustomData(WriteView view)
     {
-        super.writeCustomDataToNbt(nbt);
-        nbt.putInt("Color", this.getColor());
+        super.writeCustomData(view);
+        view.putInt("Color", this.getColor());
     }
 
-    @Override public void readCustomDataFromNbt(NbtCompound nbt)
+    @Override protected void readCustomData(ReadView view)
     {
-        super.readCustomDataFromNbt(nbt);
-        this.setColor(nbt.getInt("Color"));
+        super.readCustomData(view);
+        this.setColor(view.getInt("Color", 0));
     }
 
     public int getColor() {return this.getDataTracker().get(COLOR);}

@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ShortPlantBlock;
 import net.minecraft.block.TallPlantBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -65,7 +66,7 @@ public class AerialHellTallShroomBlock extends ShortPlantBlock
 		return state.isIn(BlockTags.DIRT) || state.isOf(AerialHellBlocks.STELLAR_COARSE_DIRT) || state.isIn(AerialHellTags.Blocks.STELLAR_STONE_AND_DERIVATIVES) || state.isIn(BlockTags.MUSHROOM_GROW_BLOCK);
 	}
 
-	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
+	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
 	{
 		if (this == AerialHellBlocks.GIANT_ROOT_SHROOM && entity instanceof LivingEntity livingEntity)
 		{

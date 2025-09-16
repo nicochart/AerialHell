@@ -45,30 +45,30 @@ public class ForestCaterpillarModel<S extends CaterpillarRenderState> extends En
 		ModelPartData partdefinition = meshdefinition.getRoot();
 
 		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(5, 58).mirrored().cuboid(-2.0F, -3.0F, -3.0F, 4.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(8, 55).mirrored().cuboid(-1.0F, -4.0F, -2.0F, 2.0F, 1.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 24.0F, -3.5F));
+				.uv(8, 55).mirrored().cuboid(-1.0F, -4.0F, -2.0F, 2.0F, 1.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, -3.5F));
 
 		ModelPartData head_colored = partdefinition.addChild("head_colored", ModelPartBuilder.create().uv(5, 26).mirrored().cuboid(-2.0F, -3.0F, -3.0F, 4.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(8, 23).mirrored().cuboid(-1.0F, -4.0F, -2.0F, 2.0F, 1.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 24.0F, -3.5F));
+				.uv(8, 23).mirrored().cuboid(-1.0F, -4.0F, -2.0F, 2.0F, 1.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, -3.5F));
 
 		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(17, 46).mirrored().cuboid(-3.0F, -4.0F, -3.5F, 6.0F, 4.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(11, 56).mirrored().cuboid(-5.0F, 0.0F, -4.5F, 10.0F, 0.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(21, 39).mirrored().cuboid(-1.0F, -5.0F, -3.5F, 2.0F, 1.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(25, 36).mirrored().cuboid(-1.0F, -6.0F, -1.5F, 2.0F, 1.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+				.uv(25, 36).mirrored().cuboid(-1.0F, -6.0F, -1.5F, 2.0F, 1.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, 0.0F));
 
 		ModelPartData body_colored = partdefinition.addChild("body_colored", ModelPartBuilder.create().uv(17, 14).mirrored().cuboid(-3.0F, -4.0F, -3.5F, 6.0F, 4.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(11, 24).mirrored().cuboid(-5.0F, 0.0F, -4.5F, 10.0F, 0.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(21, 7).mirrored().cuboid(-1.0F, -5.0F, -3.5F, 2.0F, 1.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(25, 4).mirrored().cuboid(-1.0F, -6.0F, -1.5F, 2.0F, 1.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+				.uv(25, 4).mirrored().cuboid(-1.0F, -6.0F, -1.5F, 2.0F, 1.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, 0.0F));
 
-		ModelPartData tail = partdefinition.addChild("tail", ModelPartBuilder.create().uv(39, 27).mirrored().cuboid(-1.5F, -3.0F, -0.5F, 3.0F, 3.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 24.0F, 3.0F));
+		ModelPartData tail = partdefinition.addChild("tail", ModelPartBuilder.create().uv(39, 27).mirrored().cuboid(-1.5F, -3.0F, -0.5F, 3.0F, 3.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, 3.0F));
 
-		ModelPartData tail_end = partdefinition.addChild("tail_end", ModelPartBuilder.create().uv(41, 23).mirrored().cuboid(-0.5F, -2.0F, 0.5F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 24.0F, 4.0F));
+		ModelPartData tail_end = partdefinition.addChild("tail_end", ModelPartBuilder.create().uv(41, 23).mirrored().cuboid(-0.5F, -2.0F, 0.5F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, 4.0F));
 
 		ModelPartData sapling = partdefinition.addChild("sapling", ModelPartBuilder.create().uv(45, 39).mirrored().cuboid(0.0F, -11.0F, -3.5F, 0.0F, 5.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(47, 40).mirrored().cuboid(-2.0F, -11.0F, -0.5F, 4.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+				.uv(47, 40).mirrored().cuboid(-2.0F, -11.0F, -0.5F, 4.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, 0.0F));
 
 		ModelPartData sapling_colored = partdefinition.addChild("sapling_colored", ModelPartBuilder.create().uv(45, 7).mirrored().cuboid(0.0F, -11.0F, -3.5F, 0.0F, 5.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(47, 8).mirrored().cuboid(-2.0F, -11.0F, -0.5F, 4.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+				.uv(47, 8).mirrored().cuboid(-2.0F, -11.0F, -0.5F, 4.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, 0.0F));
 
 		return TexturedModelData.of(meshdefinition, 64, 64);
 	}

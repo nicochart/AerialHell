@@ -39,26 +39,26 @@ public class FlyingJellyfishModel extends EntityModel<FlyingJellyfishRenderState
 		ModelData meshdefinition = new ModelData();
 		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		ModelPartData tentacles_0 = partdefinition.addChild("tentacles_0", ModelPartBuilder.create().uv(4, 0).mirrored().cuboid(-3.0F, -1.0F, 3.0F, 1.0F, 4.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(3.8F, 23.0F, -5.0F));
+		ModelPartData tentacles_0 = partdefinition.addChild("tentacles_0", ModelPartBuilder.create().uv(4, 0).mirrored().cuboid(-3.0F, -1.0F, 3.0F, 1.0F, 4.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(3.8F, 23.0F, -5.0F));
 
-		ModelPartData tentacles_1 = partdefinition.addChild("tentacles_1", ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(-1.0F, -1.0F, 3.0F, 1.0F, 5.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-1.3F, 23.0F, -5.0F));
+		ModelPartData tentacles_1 = partdefinition.addChild("tentacles_1", ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(-1.0F, -1.0F, 3.0F, 1.0F, 5.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-1.3F, 23.0F, -5.0F));
 
-		ModelPartData tentacles_2 = partdefinition.addChild("tentacles_2", ModelPartBuilder.create().uv(8, 0).mirrored().cuboid(5.0F, -1.0F, 4.8F, 1.0F, 3.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-6.3F, 23.0F, -5.0F));
+		ModelPartData tentacles_2 = partdefinition.addChild("tentacles_2", ModelPartBuilder.create().uv(8, 0).mirrored().cuboid(5.0F, -1.0F, 4.8F, 1.0F, 3.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-6.3F, 23.0F, -5.0F));
 
-		ModelPartData tentacles_3 = partdefinition.addChild("tentacles_3", ModelPartBuilder.create().uv(4, 8).mirrored().cuboid(-5.0F, -1.0F, 0.0F, 1.0F, 7.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(6.3F, 23.0F, 0.0F));
+		ModelPartData tentacles_3 = partdefinition.addChild("tentacles_3", ModelPartBuilder.create().uv(4, 8).mirrored().cuboid(-5.0F, -1.0F, 0.0F, 1.0F, 7.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(6.3F, 23.0F, 0.0F));
 
-		ModelPartData tentacles_4 = partdefinition.addChild("tentacles_4", ModelPartBuilder.create().uv(0, 9).mirrored().cuboid(-1.2F, -1.0F, 1.0F, 1.0F, 6.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(1.3F, 23.0F, 0.0F));
+		ModelPartData tentacles_4 = partdefinition.addChild("tentacles_4", ModelPartBuilder.create().uv(0, 9).mirrored().cuboid(-1.2F, -1.0F, 1.0F, 1.0F, 6.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(1.3F, 23.0F, 0.0F));
 
-		ModelPartData tentacles_5 = partdefinition.addChild("tentacles_5", ModelPartBuilder.create().uv(0, 9).mirrored().cuboid(1.0F, -1.0F, 0.0F, 1.0F, 6.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-3.8F, 23.0F, 0.0F));
+		ModelPartData tentacles_5 = partdefinition.addChild("tentacles_5", ModelPartBuilder.create().uv(0, 9).mirrored().cuboid(1.0F, -1.0F, 0.0F, 1.0F, 6.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-3.8F, 23.0F, 0.0F));
 
-		ModelPartData tentacles_6 = partdefinition.addChild("tentacles_6", ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(0.0F, -1.0F, -3.35F, 1.0F, 5.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-1.3F, 23.0F, 5.0F));
+		ModelPartData tentacles_6 = partdefinition.addChild("tentacles_6", ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(0.0F, -1.0F, -3.35F, 1.0F, 5.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-1.3F, 23.0F, 5.0F));
 
 		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(8, 0).mirrored().cuboid(-3.0F, 2.0F, -3.0F, 6.0F, 6.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(26, 1).mirrored().cuboid(3.0F, 4.0F, 2.2F, 2.0F, 4.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(24, 12).mirrored().cuboid(3.0F, 2.0F, 2.6F, 2.0F, 4.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(28, 2).mirrored().cuboid(-5.0F, 4.0F, 2.0F, 2.0F, 3.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(28, 12).mirrored().cuboid(-5.0F, 2.0F, 2.64F, 2.0F, 4.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(8, 14).mirrored().cuboid(-4.0F, 0.0F, 2.64F, 8.0F, 2.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 16.0F, 0.0F));
+				.uv(8, 14).mirrored().cuboid(-4.0F, 0.0F, 2.64F, 8.0F, 2.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 16.0F, 0.0F));
 
 		return TexturedModelData.of(meshdefinition, 32, 16);
 	}

@@ -101,15 +101,15 @@
                       "type": "minecraft:blend_density",
                       "argument": {
                         "type": "minecraft:mul",
-                        "argument1": { //noodle detection
+                        "argument1": {
                           "type": "minecraft:range_choice",
                           "input": "minecraft:overworld/caves/noodle",
-                          "min_inclusive": 64, //noodle caves values are 0 or 64
+                          "min_inclusive": 64,
                           "max_exclusive": 65,
                           "when_in_range": 1,
                           "when_out_of_range": 0
                         },
-                        "argument2": { //y>64 detection
+                        "argument2": {
                           "type": "minecraft:range_choice",
                           "input": {
                             "type": "minecraft:y_clamped_gradient",
@@ -127,23 +127,23 @@
                     },
                     "min_inclusive": 1,
                     "max_exclusive": 2,
-                    "when_in_range": { //affects terrain "inside the noodles" & y>64 : higher value = less land
+                    "when_in_range": {
                       "type": "minecraft:y_clamped_gradient",
                       "from_y": 0,
                       "to_y": 320,
-                      "from_value": 130, //less land at low altitude
-                      "to_value": -120 //more land at high altitude
+                      "from_value": 130,
+                      "to_value": -120
                     },
-                    "when_out_of_range": { //affects terrain at y<65 & "ouside the noodles" : higher value = less land
+                    "when_out_of_range": {
                       "type": "minecraft:mul",
                       "argument1": {
                         "type": "minecraft:y_clamped_gradient",
                         "from_y": 0,
                         "to_y": 320,
-                        "from_value": -42, //more land at low altitude
-                        "to_value": 230 //less land at high altitude
+                        "from_value": -42,
+                        "to_value": 230
                       },
-                      "argument2": { //blocks suppression at low heigh level
+                      "argument2": {
                         "type": "minecraft:y_clamped_gradient",
                         "from_y": 0,
                         "to_y": 20,
@@ -158,10 +158,10 @@
             },
             "argument2": {
               "type": "minecraft:mul",
-              "argument1": { //smoothing the y=64 layer when in noodle
+              "argument1": {
                 "type": "minecraft:range_choice",
                 "input": "minecraft:overworld/caves/noodle",
-                "min_inclusive": 64, //noodle selection
+                "min_inclusive": 64,
                 "max_exclusive": 65,
                 "when_in_range": {
                   "type": "minecraft:range_choice",
@@ -172,11 +172,11 @@
                     "from_value": 0,
                     "to_value": 256
                   },
-                  "min_inclusive": 55, //y selection
+                  "min_inclusive": 55,
                   "max_exclusive": 71,
                   "when_in_range": {
                     "type": "minecraft:mul",
-                    "argument1": { //from 55 to 64 smoothing
+                    "argument1": {
                       "type": "minecraft:range_choice",
                       "input": {
                         "type": "minecraft:y_clamped_gradient",
@@ -196,7 +196,7 @@
                       },
                       "when_out_of_range": 1
                     },
-                    "argument2": { //from 64 to 71 smoothing
+                    "argument2": {
                       "type": "minecraft:range_choice",
                       "input": {
                         "type": "minecraft:y_clamped_gradient",
@@ -258,7 +258,7 @@
               "argument2": -0.065
             }
           },
-          "argument2": { //caves
+          "argument2": {
             "type": "minecraft:range_choice",
             "input": {
               "type": "minecraft:noise",
@@ -273,7 +273,7 @@
           }
         }
       },
-      "argument2": { //"slide" at the bottom and top of the world
+      "argument2": {
         "type": "minecraft:range_choice",
         "input": {
           "type": "minecraft:y_clamped_gradient",
@@ -284,7 +284,7 @@
         },
         "min_inclusive": 0,
         "max_exclusive": 40,
-        "when_in_range": { //bottom slide
+        "when_in_range": {
           "type": "minecraft:y_clamped_gradient",
           "from_y": 0,
           "to_y": 40,
@@ -302,7 +302,7 @@
           },
           "min_inclusive": 200,
           "max_exclusive": 256,
-          "when_in_range": { //top slide (adding a flat surface on islands at y=~215)
+          "when_in_range": {
             "type": "minecraft:add",
             "argument1": {
               "type": "minecraft:y_clamped_gradient",
@@ -341,8 +341,8 @@
                 "when_out_of_range": 1
               }
             }
-          }, //(end of top slide)
-          "when_out_of_range": 0 //nothing between y 40 -> 200
+          },
+          "when_out_of_range": 0
         }
       }
     },

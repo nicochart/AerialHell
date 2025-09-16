@@ -172,7 +172,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		super.tickMovement();
     }
 	
-	@Override public boolean handleFallDamage(float distance, float damageMultiplier, DamageSource source)
+	@Override public boolean handleFallDamage(double distance, float damageMultiplier, DamageSource source)
 	{
 		if (isInPhase1()) {return false;}
 		else {return super.handleFallDamage(distance, damageMultiplier, source);}

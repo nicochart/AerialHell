@@ -35,7 +35,7 @@ public class LunaticProjectileEntity extends AbstractLightProjectileEntity
     protected void onCollision(HitResult result)
     {
         super.onCollision(result);
-    	this.getWorld().addParticle(ParticleTypes.CLOUD, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+    	this.getWorld().addParticleClient(ParticleTypes.CLOUD, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
     }
     
     private boolean targetIsImmuneToLunaticProjectileKb(Entity target) //target is not a ChainedGod or Lunatic Priest

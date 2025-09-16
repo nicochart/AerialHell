@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -17,7 +18,7 @@ public class GhostBoatFenceBlock extends FenceBlock
 		super(settings.solidBlock((state, blockGetter, pos) -> false).suffocates((state, blockGetter, pos) -> false).blockVision((state, blockGetter, pos) -> false));
 	}
 
-	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
+	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
 	{
 		entity.fallDistance = 0.0F;
 		if (entity.getVelocity().y < 0.0)

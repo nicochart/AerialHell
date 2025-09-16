@@ -5,6 +5,7 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SaplingGenerator;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -25,8 +26,7 @@ public class ShadowPineSaplingBlock extends AerialHellSaplingBlock
 		super(treeIn, settings, giantTreeFeatureKey);
 	}
 	
-	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
+	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
 	{
 		if (!world.isClient() && entity instanceof LivingEntity)
     	{

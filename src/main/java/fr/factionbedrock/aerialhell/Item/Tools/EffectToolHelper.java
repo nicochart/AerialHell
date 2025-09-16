@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -25,7 +26,7 @@ public class EffectToolHelper
 		int i;
 		for (i=0 ; i<count; i++)
 		{
-			world.addParticle(particleType, player.getX() + 4*(rand.nextFloat() - 0.5F), player.getY() + 4*rand.nextFloat(), player.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
+			world.addParticleClient(particleType, player.getX() + 4*(rand.nextFloat() - 0.5F), player.getY() + 4*rand.nextFloat(), player.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
 		}
 	}
 	
@@ -58,7 +59,7 @@ public class EffectToolHelper
 	public static boolean tryToApplyVolucitePower(Item item, ItemStack heldItem, World world, PlayerEntity player, Hand hand, Random rand, boolean canApplyFullPower)
 	{
 		int count_volucite = 0, count_heavy = 0;
-		for (ItemStack armorStack : player.getArmorItems())
+		for (ItemStack armorStack : EntityHelper.getEquippedHumanoidArmorItemList(player))
 		{
 			if (armorStack.isIn(AerialHellTags.Items.VOLUCITE_STUFF)) {count_volucite++;}
 			if (armorStack.isIn(AerialHellTags.Items.OBSIDIAN_STUFF) || armorStack.isIn(AerialHellTags.Items.ARSONIST_STUFF)) {count_heavy++;}
@@ -124,7 +125,7 @@ public class EffectToolHelper
 	public static void applyLunaticLight(Item item, ItemStack heldItem, World world, PlayerEntity player, Hand hand, Random rand, int baseCooldown)
 	{
 		int count = 0;
-		for (ItemStack armorStack : player.getArmorItems()) {if (armorStack.isIn(AerialHellTags.Items.LUNATIC_STUFF)) {count++;}}
+		for (ItemStack armorStack : EntityHelper.getEquippedHumanoidArmorItemList(player)) {if (armorStack.isIn(AerialHellTags.Items.LUNATIC_STUFF)) {count++;}}
 		int cooldown = count == 4 ? baseCooldown/2 : baseCooldown;
 		if (!world.isClient())
         {
@@ -196,7 +197,7 @@ public class EffectToolHelper
 		addParticleOnPlayer(20, ParticleTypes.FLAME, player, world, rand);
 		player.playSound(SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, 1.0F, 0.5F + rand.nextFloat());
 		int cooldown = base_cooldown,count = 0;
-		for (ItemStack armorStack : player.getArmorItems()) {if (armorStack.isIn(AerialHellTags.Items.ARSONIST_STUFF)) {count++;}}
+		for (ItemStack armorStack : EntityHelper.getEquippedHumanoidArmorItemList(player)) {if (armorStack.isIn(AerialHellTags.Items.ARSONIST_STUFF)) {count++;}}
 		if (count >= 4) {cooldown/=2;}
 		if (!world.isClient())
 		{

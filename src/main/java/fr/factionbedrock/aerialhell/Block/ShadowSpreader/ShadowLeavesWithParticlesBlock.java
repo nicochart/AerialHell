@@ -48,7 +48,7 @@ public class ShadowLeavesWithParticlesBlock extends ShadowLeavesBlock
                         double dx = (rand.nextFloat() - 0.5) * 0.5;
                         double dy = (rand.nextFloat() - 0.5) * 0.5;
                         double dz = (rand.nextFloat() - 0.5) * 0.5;
-                        world.addParticle(particleType, x, y, z, dx, dy, dz);
+                        world.addParticleClient(particleType, x, y, z, dx, dy, dz);
                     }
                 }
             }

@@ -37,7 +37,7 @@ public class LivingDamageMixin
         LivingEntity damagedEntity = (LivingEntity) (Object) this;
         Entity sourceEntity = damageSource.getAttacker();
 
-        float baseAmount = calculateBaseAmount(damagedEntity, damageSource, amount);
+        float baseAmount = calculateBaseAmount(serverWorld, damagedEntity, damageSource, amount);
         float damageMultiplier = applyDamageEffectsAndCalculateDamageMultiplier(damagedEntity, damageSource, baseAmount);
         applyMultipliedDamage(serverWorld, damagedEntity, damageSource, baseAmount, damageMultiplier);
     }
@@ -66,10 +66,12 @@ public class LivingDamageMixin
         }
     }
 
-    private static float calculateBaseAmount(LivingEntity damagedEntity, DamageSource source, float amount)
+    private static float calculateBaseAmount(ServerWorld serverWorld, LivingEntity damagedEntity, DamageSource source, float amount)
     {
         float baseAmount = amount;
-        if (damagedEntity.blockedByShield(source)) {return 0.0F;}
+        float blockedAmount = damagedEntity.getDamageBlockedAmount(serverWorld, source, amount);
+        baseAmount -= blockedAmount;
+        if (baseAmount <= 0.0F) {return 0.0F;}
         if (source.isIn(DamageTypeTags.IS_FREEZING) && damagedEntity.getType().isIn(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {baseAmount *= 5.0F;}
         if (source.isIn(DamageTypeTags.DAMAGES_HELMET) && !damagedEntity.getEquippedStack(EquipmentSlot.HEAD).isEmpty()) {baseAmount *= 0.75F;}
 
@@ -88,7 +90,7 @@ public class LivingDamageMixin
 
         if (attackerEntity instanceof LivingEntity sourceLiving)
         {
-            Iterable<ItemStack> stuff = target.getArmorItems();
+            Iterable<ItemStack> stuff = EntityHelper.getEquippedHumanoidArmorItemList(target);
             multiplier *= applyEffectsBasedOnTargetEquippedArmor(stuff, sourceLiving, target);
 
             ItemStack mainHandItemStack = sourceLiving.getMainHandStack();
@@ -150,7 +152,7 @@ public class LivingDamageMixin
         if (sourceEquippedItemStack.isIn(AerialHellTags.Items.MAGMATIC_GEL)) //source attacking target with any magmatic gel tool
         {
             int count = 0;
-            for (ItemStack armorStack : source.getArmorItems()) {if (armorStack.isIn(AerialHellTags.Items.MAGMATIC_GEL)) {count++;}}
+            for (ItemStack armorStack : EntityHelper.getEquippedHumanoidArmorItemList(source)) {if (armorStack.isIn(AerialHellTags.Items.MAGMATIC_GEL)) {count++;}}
             int amplifier = count == 4 ? 1 : 0;
             target.addStatusEffect(new StatusEffectInstance(new StatusEffectInstance(StatusEffects.SLOWNESS, 120, amplifier, true, false)));
         }

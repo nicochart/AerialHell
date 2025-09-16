@@ -11,7 +11,6 @@ import net.minecraft.block.*;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ToolComponent;
 import net.minecraft.item.Item;
-import net.minecraft.item.MiningToolItem;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -52,13 +51,10 @@ public class BlockHelper
 
     public static boolean isItemCorrectForHarvesting(BlockState state, Item item)
     {
-        if (item instanceof MiningToolItem miningToolItem)
+        ToolComponent tool = item.components.get(DataComponentTypes.TOOL);
+        if (tool != null)
         {
-            ToolComponent toolComponent = miningToolItem.getComponents().get(DataComponentTypes.TOOL);
-            if (toolComponent != null)
-            {
-                return toolComponent.isCorrectForDrops(state);
-            }
+            return tool.isCorrectForDrops(state);
         }
 
         return !(state.isIn(BlockTags.INCORRECT_FOR_WOODEN_TOOL)

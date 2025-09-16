@@ -24,9 +24,10 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -133,17 +134,17 @@ public class ShadowTrollEntity extends HostileEntity
         super.initDataTracker(builder);
         builder.add(DISAPPEARING, false);
     }
-    
-    @Override public void writeCustomDataToNbt(NbtCompound nbt)
+
+    @Override protected void writeCustomData(WriteView view)
     {
-        super.writeCustomDataToNbt(nbt);
-        nbt.putBoolean("Disappearing", this.isDisappearing());
+        super.writeCustomData(view);
+        view.putBoolean("Disappearing", this.isDisappearing());
     }
 
-    @Override public void readCustomDataFromNbt(NbtCompound nbt)
+    @Override protected void readCustomData(ReadView view)
     {
-        super.readCustomDataFromNbt(nbt);
-        this.setDisappearing(nbt.getBoolean("Disappearing"));
+        super.readCustomData(view);
+        this.setDisappearing(view.getBoolean("Disappearing", false));
     }
     
     public boolean isDisappearing() {return this.getDataTracker().get(DISAPPEARING);}

@@ -28,14 +28,22 @@ accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRender
 accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer singleChest Lnet/minecraft/client/render/block/entity/model/ChestBlockModel;
 accessible method net/minecraft/client/render/block/entity/ChestBlockEntityRenderer render (Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;Lnet/minecraft/client/render/block/entity/model/ChestBlockModel;FII)V
 
+#ShiftableLeavesBlock
+accessible field net/minecraft/block/LeavesBlock leafParticleChance F
+
 #Used in AbstractBossEntity startRiding
 accessible method net/minecraft/entity/vehicle/AbstractBoatEntity asItem ()Lnet/minecraft/item/Item;
 
 #WoodType
 accessible method net/minecraft/block/WoodType register (Lnet/minecraft/block/WoodType;)Lnet/minecraft/block/WoodType;
 
+#used in RenderBlockOverlayMixin
+accessible field net/minecraft/client/gui/hud/InGameOverlayRenderer client Lnet/minecraft/client/MinecraftClient;
+accessible field net/minecraft/client/gui/hud/InGameOverlayRenderer vertexConsumers Lnet/minecraft/client/render/VertexConsumerProvider;
+
 #WorldRenderer
 #accessible field net/minecraft/client/render/WorldRenderer lightSkyBuffer Lnet/minecraft/client/gl/VertexBuffer;
+accessible field net/minecraft/client/render/GameRenderer fogRenderer Lnet/minecraft/client/render/fog/FogRenderer;
 
 #ServerWorld
 accessible field net/minecraft/server/world/ServerWorld worldProperties Lnet/minecraft/world/level/ServerWorldProperties; #used in SleepFinishMixin

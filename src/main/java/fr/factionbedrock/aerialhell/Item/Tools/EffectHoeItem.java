@@ -4,12 +4,15 @@ import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class EffectHoeItem extends AerialHellHoeItem
 {
@@ -23,11 +26,9 @@ public class EffectHoeItem extends AerialHellHoeItem
 		super(toolMaterial, attackDamage, attackSpeed, movementSpeed, maxHealth, settings);
 	}
 	
-	@Override
-	public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {}
+	@Override public void inventoryTick(ItemStack stack, ServerWorld world, Entity entity, @Nullable EquipmentSlot slot) {}
 	
-	@Override
-    public ActionResult use(World world, PlayerEntity player, Hand hand)
+	@Override public ActionResult use(World world, PlayerEntity player, Hand hand)
     {
 		ItemStack heldItem = player.getStackInHand(hand);
 		Random rand = new Random();

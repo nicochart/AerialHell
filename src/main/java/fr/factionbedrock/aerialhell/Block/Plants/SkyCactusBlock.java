@@ -6,6 +6,7 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CactusBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -35,7 +36,7 @@ public class SkyCactusBlock extends CactusBlock
 	
 	/*Edited onEntityCollision to deal more damage and to make the player jump*/
 	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
+	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
 	{
 		if (EntityHelper.isImmuneToSkyCactusCollision(entity)) {return;}
 		Vec3d motion = entity.getVelocity();

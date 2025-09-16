@@ -13,10 +13,11 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.world.World;
 
 public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntity
@@ -78,7 +79,7 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
             double d0 = (this.random.nextGaussian() - 0.5D) * 0.02D;
             double d1 = (this.random.nextGaussian() - 0.5D) * 0.02D;
             double d2 = (this.random.nextGaussian() - 0.5D) * 0.02D;
-            this.getWorld().addParticle(this.getParticleToSpawn(), this.getParticleX(1.0D) + d0 * 10.0D, this.getRandomBodyY() + d1 * 10.0D, this.getParticleZ(1.0D) + d2 * 10.0D, d0, d1, d2);
+            this.getWorld().addParticleClient(this.getParticleToSpawn(), this.getParticleX(1.0D) + d0 * 10.0D, this.getRandomBodyY() + d1 * 10.0D, this.getParticleZ(1.0D) + d2 * 10.0D, d0, d1, d2);
         }
     }
 
@@ -91,16 +92,16 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
         builder.add(ATTACKING, false);
     }
 
-    @Override public void writeCustomDataToNbt(NbtCompound nbt)
+    @Override protected void writeCustomData(WriteView view)
     {
-        super.writeCustomDataToNbt(nbt);
-        nbt.putBoolean("Disappearing", this.isAttacking());
+        super.writeCustomData(view);
+        view.putBoolean("Disappearing", this.isAttacking());
     }
 
-    @Override public void readCustomDataFromNbt(NbtCompound nbt)
+    @Override protected void readCustomData(ReadView view)
     {
-        super.readCustomDataFromNbt(nbt);
-        if (nbt.getBoolean("Disappearing")) {this.setAttacking();}
+        super.readCustomData(view);
+        if (view.getBoolean("Disappearing", false)) {this.setAttacking();}
     }
 
     public boolean isAttacking() {return this.getDataTracker().get(ATTACKING);}

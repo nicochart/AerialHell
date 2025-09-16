@@ -34,7 +34,7 @@ public class AerialHellChestMimicBlockEntityRenderer extends AerialHellChestBloc
 		}
 		else //default material (should never happen)
 		{
-			return new SpriteIdentifierAndRenderType(TexturedRenderLayers.NORMAL, RenderLayer::getEntityCutout);
+			return new SpriteIdentifierAndRenderType(TexturedRenderLayers.CHEST, RenderLayer::getEntityCutout);
 		}
 	}
 }

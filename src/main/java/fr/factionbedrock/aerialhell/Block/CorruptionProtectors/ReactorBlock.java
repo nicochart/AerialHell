@@ -64,10 +64,10 @@ public class ReactorBlock extends BiomeShifterBlock
         }
     }
 
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved)
+    @Override protected void onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, boolean moved)
     {
-        ItemScatterer.onStateReplaced(state, newState, world, pos);
-        super.onStateReplaced(state, world, pos, newState, moved);
+        ItemScatterer.onStateReplaced(state, world, pos);
+        super.onStateReplaced(state, world, pos, moved);
     }
 
     //sent from server because client side do not have access to activeTimer update (always 0)

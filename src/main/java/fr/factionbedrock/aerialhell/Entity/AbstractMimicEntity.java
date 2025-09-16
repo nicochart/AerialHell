@@ -41,7 +41,7 @@ public abstract class AbstractMimicEntity extends PathAwareEntity
 		{
 			double x = this.getX(),y = this.getY() + this.getStandingEyeHeight() / 1.5,z = this.getZ();
 			double dx = random.nextFloat() - 0.5F, dy = random.nextFloat() - 0.5F, dz = random.nextFloat() - 0.5F;
-			this.getWorld().addParticle(new BlockStateParticleEffect(ParticleTypes.BLOCK, getMimicBlock().getDefaultState()), x, y, z, dx, dy, dz);
+			this.getWorld().addParticleClient(new BlockStateParticleEffect(ParticleTypes.BLOCK, getMimicBlock().getDefaultState()), x, y, z, dx, dy, dz);
 		}
 		boolean flag = super.damage(serverWorld, source, amount);
 		if (flag)

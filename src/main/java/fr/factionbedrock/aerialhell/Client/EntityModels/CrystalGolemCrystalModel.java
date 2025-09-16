@@ -47,7 +47,7 @@ public class CrystalGolemCrystalModel<S extends CrystalGolemRenderState> extends
 		.uv(90, 73).mirrored().cuboid(5.0F, 0.0F, 5.0F, 0.0F, 8.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(82, 71).mirrored().cuboid(1.0F, 4.0F, 5.0F, 8.0F, 0.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(113, 51).mirrored().cuboid(5.0F, -3.0F, -11.0F, 0.0F, 8.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(105, 65).mirrored().cuboid(1.0F, 1.0F, -11.0F, 8.0F, 0.0F, 5.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, -7.0F, 0.0F));
+		.uv(105, 65).mirrored().cuboid(1.0F, 1.0F, -11.0F, 8.0F, 0.0F, 5.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, -7.0F, 0.0F));
 
 		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(92, 1).mirrored().cuboid(-7.0F, -19.0F, 0.5F, 3.0F, 4.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(88, 6).mirrored().cuboid(-7.0F, -17.0F, -1.5F, 3.0F, 0.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
@@ -56,7 +56,7 @@ public class CrystalGolemCrystalModel<S extends CrystalGolemRenderState> extends
 		.uv(92, 24).mirrored().cuboid(4.0F, -13.0F, -3.5F, 3.0F, 4.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(88, 29).mirrored().cuboid(4.0F, -11.0F, -5.5F, 3.0F, 0.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(92, 11).mirrored().cuboid(1.0F, -16.0F, 2.5F, 0.0F, 4.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(87, 19).mirrored().cuboid(-2.0F, -14.0F, 2.5F, 5.0F, 0.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, -7.0F, -2.0F));
+		.uv(87, 19).mirrored().cuboid(-2.0F, -14.0F, 2.5F, 5.0F, 0.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, -7.0F, -2.0F));
 
 		ModelPartData arm0 = partdefinition.addChild("arm0", ModelPartBuilder.create().uv(88, 117).mirrored().cuboid(13.0F, 13.5F, -3.0F, 3.0F, 0.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(92, 112).mirrored().cuboid(13.0F, 11.5F, -1.0F, 3.0F, 4.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
@@ -64,18 +64,18 @@ public class CrystalGolemCrystalModel<S extends CrystalGolemRenderState> extends
 		.uv(91, 93).mirrored().cuboid(11.0F, 6.5F, -7.0F, 0.0F, 4.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(91, 103).mirrored().cuboid(11.0F, 6.5F, -7.0F, 0.0F, 4.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(107, 89).mirrored().cuboid(11.0F, 18.5F, 3.0F, 0.0F, 4.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(103, 97).mirrored().cuboid(9.0F, 20.5F, 3.0F, 4.0F, 0.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, -7.0F, 0.0F));
+		.uv(103, 97).mirrored().cuboid(9.0F, 20.5F, 3.0F, 4.0F, 0.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, -7.0F, 0.0F));
 
 		ModelPartData arm1 = partdefinition.addChild("arm1", ModelPartBuilder.create().uv(104, 117).mirrored().cuboid(-15.0F, 5.5F, -2.0F, 2.0F, 0.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(108, 112).mirrored().cuboid(-15.0F, 3.5F, 0.0F, 2.0F, 4.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(103, 107).mirrored().cuboid(-13.0F, 12.5F, -6.0F, 4.0F, 0.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(107, 99).mirrored().cuboid(-11.0F, 10.5F, -6.0F, 0.0F, 4.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, -7.0F, 0.0F));
+		.uv(107, 99).mirrored().cuboid(-11.0F, 10.5F, -6.0F, 0.0F, 4.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, -7.0F, 0.0F));
 
 		ModelPartData leg0 = partdefinition.addChild("leg0", ModelPartBuilder.create().uv(71, 118).mirrored().cuboid(-0.5F, 8.0F, 2.0F, 4.0F, 0.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(75, 109).mirrored().cuboid(1.5F, 6.0F, 2.0F, 0.0F, 4.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(4.0F, 11.0F, 0.0F));
+		.uv(75, 109).mirrored().cuboid(1.5F, 6.0F, 2.0F, 0.0F, 4.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 11.0F, 0.0F));
 
 		ModelPartData leg1 = partdefinition.addChild("leg1", ModelPartBuilder.create().uv(71, 106).cuboid(-1.5F, 5.0F, -6.0F, 4.0F, 0.0F, 3.0F, new Dilation(0.0F))
-		.uv(75, 98).cuboid(0.5F, 3.0F, -6.0F, 0.0F, 4.0F, 3.0F, new Dilation(0.0F)), ModelTransform.pivot(-5.0F, 11.0F, 0.0F));
+		.uv(75, 98).cuboid(0.5F, 3.0F, -6.0F, 0.0F, 4.0F, 3.0F, new Dilation(0.0F)), ModelTransform.origin(-5.0F, 11.0F, 0.0F));
 
 		return TexturedModelData.of(meshdefinition, 128, 128);
 	}
@@ -83,9 +83,9 @@ public class CrystalGolemCrystalModel<S extends CrystalGolemRenderState> extends
 	@Override public void setAngles(S renderState)
 	{
 		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.yawDegrees;
-		float limbSwing = renderState.limbFrequency;
-		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		float netHeadYaw = renderState.relativeHeadYaw;
+		float limbSwing = renderState.limbSwingAnimationProgress;
+		float limbSwingAmount = renderState.limbSwingAmplitude;
 
 		this.head.yaw = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.pitch = headPitch * ((float)Math.PI / 180F);

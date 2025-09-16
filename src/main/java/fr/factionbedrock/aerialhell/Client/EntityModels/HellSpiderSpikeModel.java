@@ -38,14 +38,14 @@ public class HellSpiderSpikeModel extends EntityModel<HellSpiderRenderState>//Sp
 		.uv(12, 10).mirrored().cuboid(-9.0F, -12.0F, 11.0F, 4.0F, 6.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(6, 16).mirrored().cuboid(-9.0F, -9.0F, 8.0F, 4.0F, 0.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(6, 22).mirrored().cuboid(5.0F, -10.0F, 7.5F, 4.0F, 0.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(20, 0).mirrored().cuboid(5.0F, -12.5F, 10.0F, 4.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+		.uv(20, 0).mirrored().cuboid(5.0F, -12.5F, 10.0F, 4.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, 0.0F));
 
 		ModelPartData headSpikes = partdefinition.addChild("headSpikes", ModelPartBuilder.create().uv(32, 0).mirrored().cuboid(-2.5F, -18.0F, -7.0F, 5.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(32, 0).mirrored().cuboid(0.0F, -18.0F, -9.5F, 0.0F, 5.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(35, 10).mirrored().cuboid(4.0F, -12.0F, -7.0F, 3.0F, 6.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(29, 16).mirrored().cuboid(4.0F, -9.0F, -10.0F, 3.0F, 0.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(29, 22).mirrored().cuboid(-7.0F, -9.0F, -10.5F, 3.0F, 0.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(44, 0).mirrored().cuboid(-7.0F, -11.5F, -8.0F, 3.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+		.uv(44, 0).mirrored().cuboid(-7.0F, -11.5F, -8.0F, 3.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, 0.0F));
 
 		return TexturedModelData.of(meshdefinition, 64, 32);
 	}
@@ -53,7 +53,7 @@ public class HellSpiderSpikeModel extends EntityModel<HellSpiderRenderState>//Sp
 	@Override public void setAngles(HellSpiderRenderState renderState)
 	{
 		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.yawDegrees;
+		float netHeadYaw = renderState.relativeHeadYaw;
 
 		this.headSpikes.yaw = netHeadYaw * ((float)Math.PI / 180F);
 		this.headSpikes.pitch = headPitch * ((float)Math.PI / 180F);

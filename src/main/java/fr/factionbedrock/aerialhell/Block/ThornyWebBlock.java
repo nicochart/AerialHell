@@ -9,6 +9,7 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CobwebBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -30,8 +31,7 @@ public class ThornyWebBlock extends CobwebBlock
 	
 	private boolean isEntityImmuneToCollision(Entity entityIn) {return entityIn instanceof AbstractSnakeEntity || entityIn instanceof SpiderEntity || EntityHelper.isShadowEntity(entityIn);}
 	
-	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entityIn)
+	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entityIn, EntityCollisionHandler handler)
 	{
 		boolean isTotallyImmune = isEntityImmuneToCollision(entityIn);
 		

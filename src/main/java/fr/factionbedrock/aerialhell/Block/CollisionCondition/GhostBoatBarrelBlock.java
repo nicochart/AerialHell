@@ -7,6 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.EntityShapeContext;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
@@ -29,7 +30,7 @@ public class GhostBoatBarrelBlock extends AerialHellBarrelBlock
 		return (!canEntityCollide(player) && !player.isCreative()) ? ActionResult.SUCCESS : super.onUse(state, world, pos, player, hit);
 	}
 
-	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
+	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
 	{
 		entity.fallDistance = 0.0F;
 		if (entity.getVelocity().y < 0.0)

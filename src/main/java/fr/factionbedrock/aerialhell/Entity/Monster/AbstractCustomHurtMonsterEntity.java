@@ -4,12 +4,9 @@ import fr.factionbedrock.aerialhell.Entity.Util.CustomHurtInfo;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.passive.WolfEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -53,7 +50,8 @@ public abstract class AbstractCustomHurtMonsterEntity extends HostileEntity
 
             if (!actuallyGotHurt) {return false;}
             //we know this got hurt
-            setLastHurtBy(source);
+            this.becomeAngry(source);
+            this.setAttackingPlayer(source);
 
             if (!wasOnHurtCooldown)
             {
@@ -112,34 +110,6 @@ public abstract class AbstractCustomHurtMonsterEntity extends HostileEntity
             this.maxHurtTime = 10;
             this.hurtTime = this.maxHurtTime;
             return true;
-        }
-    }
-
-    public void setLastHurtBy(DamageSource damageSource)
-    {
-        Entity sourceEntity = damageSource.getAttacker();
-        if (sourceEntity != null)
-        {
-            if (sourceEntity instanceof LivingEntity sourceLivingEntity)
-            {
-                if (!damageSource.isIn(DamageTypeTags.NO_ANGER)) {this.setAttacker(sourceLivingEntity);}
-            }
-
-            if (sourceEntity instanceof PlayerEntity sourcePlayerEntity)
-            {
-                this.playerHitTimer = 100;
-                this.attackingPlayer = sourcePlayerEntity;
-            }
-            else if (sourceEntity instanceof WolfEntity worfEntity)
-            {
-                if (worfEntity.isTamed())
-                {
-                    this.playerHitTimer = 100;
-                    LivingEntity tamableEntityOwner = worfEntity.getOwner();
-                    if (tamableEntityOwner instanceof PlayerEntity playerOwner) {this.attackingPlayer = playerOwner;}
-                    else {this.attackingPlayer = null;}
-                }
-            }
         }
     }
 

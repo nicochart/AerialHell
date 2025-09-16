@@ -1,42 +1,38 @@
 package fr.factionbedrock.aerialhell.Client.BlockBakedModels;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.BakedQuad;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.BlockModelPart;
+import net.minecraft.client.render.model.BlockStateModel;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.BlockRenderView;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Function;
 
-public class ShiftingBlockBakedModel implements BakedModel
+public class ShiftingBlockBakedModel implements BlockStateModel
 {
-    private final BakedModel defaultModel;
-    private final BakedModel shiftedModel;
+    private final BlockStateModel defaultModel;
+    private final BlockStateModel shiftedModel;
     private final Function<Boolean, Boolean> shouldDisplayShiftedModel;
 
-    public ShiftingBlockBakedModel(BakedModel defaultModel, BakedModel shiftedModel, Function<Boolean, Boolean> shouldDisplayShiftedModel)
+    public ShiftingBlockBakedModel(BlockStateModel defaultModel, BlockStateModel shiftedModel, Function<Boolean, Boolean> shouldDisplayShiftedModel)
     {
         this.defaultModel = defaultModel;
         this.shiftedModel = shiftedModel;
         this.shouldDisplayShiftedModel = shouldDisplayShiftedModel;
     }
 
-    @Override public List<BakedQuad> getQuads(BlockState state, Direction side, Random rand) {return getModel().getQuads(state, side, rand);}
-    @Override public boolean useAmbientOcclusion() {return getModel().useAmbientOcclusion();}
-    @Override public boolean hasDepth() {return getModel().hasDepth();}
-    @Override public boolean isSideLit() {return getModel().isSideLit();}
-    @Override public Sprite getParticleSprite() {return getModel().getParticleSprite();}
-    @Override public ModelTransformation getTransformation() {return getModel().getTransformation();}
+    @Override public List<BlockModelPart> getParts(Random random) {return getModel().getParts(random);}
+    @Override public @Nullable Object createGeometryKey(BlockRenderView blockView, BlockPos pos, BlockState state, Random random) {return this;}
+    @Override public void addParts(Random random, List<BlockModelPart> parts) {getModel().addParts(random, parts);}
+    @Override public Sprite particleSprite() {return getModel().particleSprite();}
 
-    private BakedModel getModel()
-    {
-        return shouldDisplayShiftedModel(false) ? shiftedModel : defaultModel;
-    }
+    private BlockStateModel getModel() {return shouldDisplayShiftedModel(false) ? shiftedModel : defaultModel;}
 
     protected boolean shouldDisplayShiftedModel(boolean forceDefault) {return this.shouldDisplayShiftedModel.apply(forceDefault);}
-    public BakedModel getDefault() {return this.defaultModel;}
-    public BakedModel getShifted() {return this.shiftedModel;}
+    public BlockStateModel getDefault() {return this.defaultModel;}
+    public BlockStateModel getShifted() {return this.shiftedModel;}
 }

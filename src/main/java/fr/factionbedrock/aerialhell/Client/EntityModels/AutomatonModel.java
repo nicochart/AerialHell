@@ -34,27 +34,27 @@ public class AutomatonModel<S extends AutomatonRenderState> extends EmptyModel<S
 		ModelData meshdefinition = new ModelData();
 		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create(), ModelTransform.origin(0.0F, 0.0F, 0.0F));
 
 		ModelPartData body_r1 = body.addChild("body_r1", ModelPartBuilder.create().uv(34, 3).mirrored().cuboid(-1.0F, -28.0F, -1.0F, 2.0F, 3.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(32, 0).mirrored().cuboid(-2.0F, -25.0F, -1.0F, 4.0F, 1.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
 				.uv(16, 16).mirrored().cuboid(-4.0F, -24.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(0.0F, 24.0F, 0.0F, 0.0873F, 0.0F, 0.0F));
 
-		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(-4.0F, -10.0F, -7.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(-4.0F, -10.0F, -7.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 0.0F, 0.0F));
 
-		ModelPartData rightArm = partdefinition.addChild("rightArm", ModelPartBuilder.create(), ModelTransform.pivot(5.0F, 2.0F, 0.0F));
+		ModelPartData rightArm = partdefinition.addChild("rightArm", ModelPartBuilder.create(), ModelTransform.origin(5.0F, 2.0F, 0.0F));
 
 		ModelPartData rightArm_r1 = rightArm.addChild("rightArm_r1", ModelPartBuilder.create().uv(40, 16).mirrored().cuboid(4.0F, -24.0F, -1.0F, 2.0F, 12.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(-5.0F, 22.0F, 0.0F, 0.0873F, 0.0F, 0.0F));
 
-		ModelPartData leftArm = partdefinition.addChild("leftArm", ModelPartBuilder.create(), ModelTransform.pivot(-5.0F, 2.0F, 0.0F));
+		ModelPartData leftArm = partdefinition.addChild("leftArm", ModelPartBuilder.create(), ModelTransform.origin(-5.0F, 2.0F, 0.0F));
 
 		ModelPartData leftArm_r1 = leftArm.addChild("leftArm_r1", ModelPartBuilder.create().uv(40, 16).cuboid(-6.0F, -24.0F, -1.0F, 2.0F, 12.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(5.0F, 22.0F, 0.0F, 0.0873F, 0.0F, 0.0F));
 
-		ModelPartData rightLeg = partdefinition.addChild("rightLeg", ModelPartBuilder.create(), ModelTransform.pivot(2.0F, 12.0F, 0.0F));
+		ModelPartData rightLeg = partdefinition.addChild("rightLeg", ModelPartBuilder.create(), ModelTransform.origin(2.0F, 12.0F, 0.0F));
 
 		ModelPartData rightLeg_r1 = rightLeg.addChild("rightLeg_r1", ModelPartBuilder.create().uv(0, 16).mirrored().cuboid(1.0F, -12.0F, -1.0F, 2.0F, 12.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(-2.0F, 12.0F, 0.0F, 0.0436F, 0.0F, 0.0F));
 
-		ModelPartData leftLeg = partdefinition.addChild("leftLeg", ModelPartBuilder.create(), ModelTransform.pivot(-2.0F, 12.0F, 0.0F));
+		ModelPartData leftLeg = partdefinition.addChild("leftLeg", ModelPartBuilder.create(), ModelTransform.origin(-2.0F, 12.0F, 0.0F));
 
 		ModelPartData leftLeg_r1 = leftLeg.addChild("leftLeg_r1", ModelPartBuilder.create().uv(0, 16).cuboid(-3.0F, -12.0F, -1.0F, 2.0F, 12.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, 12.0F, 0.0F, 0.0436F, 0.0F, 0.0F));
 
@@ -64,9 +64,9 @@ public class AutomatonModel<S extends AutomatonRenderState> extends EmptyModel<S
 	@Override public void setAngles(S renderState)
 	{
 		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.yawDegrees;
-		float limbSwing = renderState.limbFrequency;
-		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		float netHeadYaw = renderState.relativeHeadYaw;
+		float limbSwing = renderState.limbSwingAnimationProgress;
+		float limbSwingAmount = renderState.limbSwingAmplitude;
 
 		this.head.yaw = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.pitch = 0.0873F + headPitch * ((float)Math.PI / 180F);

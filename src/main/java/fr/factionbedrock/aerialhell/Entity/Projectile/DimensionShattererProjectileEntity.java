@@ -54,7 +54,7 @@ public class DimensionShattererProjectileEntity extends AbstractFireballEntity
 			double d2 = this.getZ() + vec3.z;
 			ProjectileUtil.setRotationFromVelocity(this, 0.2F);
 			ParticleEffect particleoptions = this.getParticleType();
-			if (particleoptions != null) {this.getWorld().addParticle(particleoptions, d0, d1 + 0.5, d2, 0.0, 0.0, 0.0);}
+			if (particleoptions != null) {this.getWorld().addParticleClient(particleoptions, d0, d1 + 0.5, d2, 0.0, 0.0, 0.0);}
 			this.setPos(d0, d1, d2);
 		}
 

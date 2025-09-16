@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
+import net.minecraft.client.render.fog.FogRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.ColorHelper;
@@ -18,9 +19,9 @@ public class AerialHellDimensionSpecialEffects extends DimensionEffects implemen
 {
     public AerialHellDimensionSkyRenderer skyRenderer = null; //skyRenderer should be initialized here, but since the game crashes with exception (Tesselator not initialized). So it is now initialized once in render method.
 
-    public AerialHellDimensionSpecialEffects(float cloudLevel, boolean skyEffect, DimensionEffects.SkyType skyType, boolean forceBrightLightmap, boolean hasEntityGroundLit)
+    public AerialHellDimensionSpecialEffects(DimensionEffects.SkyType skyType, boolean forceBrightLightmap, boolean hasEntityGroundLit)
     {
-        super(cloudLevel, skyEffect, skyType, forceBrightLightmap, hasEntityGroundLit);
+        super(skyType, forceBrightLightmap, hasEntityGroundLit);
     }
     
     // Copy from DimensionEffects.Overworld
@@ -35,22 +36,22 @@ public class AerialHellDimensionSpecialEffects extends DimensionEffects implemen
     public void render(WorldRenderContext context)
     {
         if (skyRenderer == null) {this.skyRenderer = new AerialHellDimensionSkyRenderer();}
-        this.render(context.world(), context.tickCounter().getTickDelta(false), context.camera(), getSetupFog(context));
+        this.render(context.world(), context.tickCounter().getTickProgress(false), context.camera());
     }
 
     //copy of net.minecraft.client.render.WorldRenderer renderSky method part about overworld
-    private void render(ClientWorld world, float partialTicks, Camera camera, Runnable setupFog)
+    private void render(ClientWorld world, float partialTicks, Camera camera)
     {
-        setupFog.run();
+        //setupFog.run();
         DimensionEffects dimSpecialEffects = world.getDimensionEffects();
-        GameRenderer gameRenderer = MinecraftClient.getInstance().gameRenderer;
+        /*GameRenderer gameRenderer = MinecraftClient.getInstance().gameRenderer;
         Vec3d vec3 = camera.getPos();
         double cameraPositionX = vec3.getX(), cameraPositionY = vec3.getY();
-        float renderDistance = gameRenderer.getViewDistance();
+        float renderDistance = gameRenderer.getViewDistanceBlocks();
         boolean shouldRenderCloseFog = world.getDimensionEffects().useThickFog(MathHelper.floor(cameraPositionX), MathHelper.floor(cameraPositionY)) || MinecraftClient.getInstance().inGameHud.getBossBarHud().shouldThickenFog();
         Vector4f vector4f = BackgroundRenderer.getFogColor(camera, partialTicks, world, MinecraftClient.getInstance().options.getClampedViewDistance(), gameRenderer.getSkyDarkness(partialTicks));
         Fog fogParams = BackgroundRenderer.applyFog(camera, BackgroundRenderer.FogType.FOG_SKY, vector4f, renderDistance, shouldRenderCloseFog, partialTicks);
-        RenderSystem.setShaderFog(fogParams);
+        RenderSystem.setShaderFog(fogParams);*/
 
         MatrixStack matrixStack = new MatrixStack();
         float sunAngle = world.getSkyAngleRadians(partialTicks);
@@ -68,11 +69,11 @@ public class AerialHellDimensionSpecialEffects extends DimensionEffects implemen
         {
             this.skyRenderer.renderSunriseAndSunset(matrixStack, bufferSource, sunAngle, sunriseOrSunsetColor);
         }
-        this.skyRenderer.renderSunMoonAndStars(matrixStack, bufferSource, timeOfDay, moonPhase, sunAlpha, moonAlpha, starAlpha, fogParams);
+        this.skyRenderer.renderSunMoonAndStars(matrixStack, bufferSource, timeOfDay, moonPhase, sunAlpha, moonAlpha, starAlpha);
         bufferSource.draw();
         if (this.shouldRenderDarkDisc(partialTicks, world))
         {
-            this.skyRenderer.renderDarkDisc(matrixStack);
+            this.skyRenderer.renderDarkDisc();
         }
     }
 
@@ -86,15 +87,16 @@ public class AerialHellDimensionSpecialEffects extends DimensionEffects implemen
         return false;
     }
 
-    private static Runnable getSetupFog(WorldRenderContext context)
+    /*private static Runnable getSetupFog(WorldRenderContext context)
     {
-        float partialTicks = context.tickCounter().getTickDelta(false);
-        Vector4f vector4f = BackgroundRenderer.getFogColor(context.camera(), partialTicks, context.world(), MinecraftClient.getInstance().options.getClampedViewDistance(), MinecraftClient.getInstance().gameRenderer.getSkyDarkness(partialTicks));
-        float viewDistance = context.gameRenderer().getViewDistance();
+        GameRenderer gameRenderer = context.gameRenderer();
+        float partialTicks = context.tickCounter().getTickProgress(false);
+        Vector4f vector4f = gameRenderer.fogRenderer.getFogColor(context.camera(), partialTicks, context.world(), MinecraftClient.getInstance().options.getClampedViewDistance(), MinecraftClient.getInstance().gameRenderer.getSkyDarkness(partialTicks));
+        float viewDistance = gameRenderer.getViewDistanceBlocks();
         boolean shouldThickenFog = MinecraftClient.getInstance().inGameHud.getBossBarHud().shouldThickenFog();
-        float f = context.tickCounter().getTickDelta(false);
-        return () -> BackgroundRenderer.applyFog(context.camera(), BackgroundRenderer.FogType.FOG_SKY, vector4f, viewDistance, shouldThickenFog, f);
-    }
+        float f = context.tickCounter().getTickProgress(false);
+        return () -> gameRenderer.fogRenderer.applyFog(context.camera(), FogRenderer.FogType.WORLD, vector4f, viewDistance, shouldThickenFog, f);
+    }*/
 
     public static class AerialHellCloudRenderer implements DimensionRenderingRegistry.CloudRenderer
     {

@@ -31,8 +31,8 @@ public class StellarChickenRender extends MobEntityRenderer<StellarChickenEntity
     @Override public void updateRenderState(StellarChickenEntity entity, StellarChickenRenderState renderState, float flap)
     {
         super.updateRenderState(entity, renderState, flap);
-        renderState.flapProgress = MathHelper.lerp(flap, entity.prevFlapProgress, entity.flapProgress);
-        renderState.maxWingDeviation = MathHelper.lerp(flap, entity.prevMaxWingDeviation, entity.maxWingDeviation);
+        renderState.flapProgress = MathHelper.lerp(flap, entity.lastFlapProgress, entity.flapProgress);
+        renderState.maxWingDeviation = MathHelper.lerp(flap, entity.lastMaxWingDeviation, entity.maxWingDeviation);
         renderState.color = entity.getColor();
     }
 }

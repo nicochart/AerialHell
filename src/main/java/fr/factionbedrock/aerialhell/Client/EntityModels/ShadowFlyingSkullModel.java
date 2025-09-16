@@ -31,21 +31,21 @@ public class ShadowFlyingSkullModel extends EntityModel<ShadowFlyingSkullRenderS
 		ModelData meshdefinition = new ModelData();
 		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		ModelPartData skull = partdefinition.addChild("skull", ModelPartBuilder.create().uv(0, 0).cuboid(-7.0F, -9.0F, -1.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(3.0F, 24.0F, -3.0F));
+		ModelPartData skull = partdefinition.addChild("skull", ModelPartBuilder.create().uv(0, 0).cuboid(-7.0F, -9.0F, -1.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)), ModelTransform.origin(3.0F, 24.0F, -3.0F));
 
-		ModelPartData leftWing = partdefinition.addChild("leftWing", ModelPartBuilder.create(), ModelTransform.pivot(4.0F, 19.0F, 0.0F));
+		ModelPartData leftWing = partdefinition.addChild("leftWing", ModelPartBuilder.create(), ModelTransform.origin(4.0F, 19.0F, 0.0F));
 
 		ModelPartData wing_r1 = leftWing.addChild("wing_r1", ModelPartBuilder.create().uv(48, 25).cuboid(-0.3F, -3.0F, 0.0F, 6.0F, 8.0F, 0.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, -4.0F, 0.0F, 0.0F, 0.0F, -0.3054F));
 
 		ModelPartData bone_r1 = leftWing.addChild("bone_r1", ModelPartBuilder.create().uv(48, 15).cuboid(-2.0F, -2.0F, 0.0F, 7.0F, 3.0F, 0.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.9599F));
 
-		ModelPartData rightWing = partdefinition.addChild("rightWing", ModelPartBuilder.create(), ModelTransform.pivot(-4.0F, 19.0F, 0.0F));
+		ModelPartData rightWing = partdefinition.addChild("rightWing", ModelPartBuilder.create(), ModelTransform.origin(-4.0F, 19.0F, 0.0F));
 
 		ModelPartData wing_r2 = rightWing.addChild("wing_r2", ModelPartBuilder.create().uv(48, 25).mirrored().cuboid(-5.7F, -3.0F, 0.0F, 6.0F, 8.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(-2.0F, -4.0F, 0.0F, 0.0F, 0.0F, 0.3054F));
 
 		ModelPartData bone_r2 = rightWing.addChild("bone_r2", ModelPartBuilder.create().uv(48, 15).mirrored().cuboid(-5.0F, -2.0F, 0.0F, 7.0F, 3.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.9599F));
 
-		ModelPartData jaw = partdefinition.addChild("jaw", ModelPartBuilder.create().uv(0, 18).cuboid(-4.0F, 0.0F, -5.0F, 8.0F, 4.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 20.0F, 1.0F));
+		ModelPartData jaw = partdefinition.addChild("jaw", ModelPartBuilder.create().uv(0, 18).cuboid(-4.0F, 0.0F, -5.0F, 8.0F, 4.0F, 8.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 20.0F, 1.0F));
 
 		return TexturedModelData.of(meshdefinition, 64, 64);
 	}

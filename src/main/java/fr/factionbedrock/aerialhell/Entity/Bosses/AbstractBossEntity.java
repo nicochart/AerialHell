@@ -12,7 +12,6 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.FallingBlockEntity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.damage.DamageSource;
@@ -23,18 +22,18 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
@@ -81,7 +80,8 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 			if (!actuallyGotHurt) {return false;}
 			//we know this got hurt
-			setLastHurtBy(source);
+			this.becomeAngry(source);
+			this.setAttackingPlayer(source);
 
 			if (!wasOnHurtCooldown)
 			{
@@ -208,34 +208,6 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		return false;
 	}
 
-	public void setLastHurtBy(DamageSource damageSource)
-	{
-		Entity sourceEntity = damageSource.getAttacker();
-		if (sourceEntity != null)
-		{
-			if (sourceEntity instanceof LivingEntity sourceLivingEntity)
-			{
-				if (!damageSource.isIn(DamageTypeTags.NO_ANGER)) {this.setAttacker(sourceLivingEntity);}
-			}
-
-			if (sourceEntity instanceof PlayerEntity sourcePlayerEntity)
-			{
-				this.playerHitTimer = 100;
-				this.attackingPlayer = sourcePlayerEntity;
-			}
-			else if (sourceEntity instanceof WolfEntity worfEntity)
-			{
-				if (worfEntity.isTamed())
-				{
-					this.playerHitTimer = 100;
-					LivingEntity tamableEntityOwner = worfEntity.getOwner();
-					if (tamableEntityOwner instanceof PlayerEntity playerOwner) {this.attackingPlayer = playerOwner;}
-					else {this.attackingPlayer = null;}
-				}
-			}
-		}
-	}
-
 	@Override protected void initDataTracker(DataTracker.Builder builder)
 	{
 		super.initDataTracker(builder);
@@ -341,17 +313,17 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
     	this.bossInfo.removePlayer(player);
     }
 
-	@Override public void writeCustomDataToNbt(NbtCompound nbt)
+	@Override protected void writeCustomData(WriteView view)
 	{
-		super.writeCustomDataToNbt(nbt);
-		nbt.putInt("Phase", this.getPhase().getPhaseId());
+		super.writeCustomData(view);
+		view.putInt("Phase", this.getPhase().getPhaseId());
 	}
 
-	@Override public void readCustomDataFromNbt(NbtCompound nbt)
+	@Override protected void readCustomData(ReadView view)
 	{
-		super.readCustomDataFromNbt(nbt);
+		super.readCustomData(view);
 		if (this.hasCustomName()) {this.bossInfo.setName(this.getDisplayName());}
-		this.setPhase(nbt.getInt("Phase"));
+		if (view.getOptionalInt("Phase").isPresent()) {this.setPhase(view.getOptionalInt("Phase").get());}
 	}
 	
 	@Override public void setCustomName(@Nullable Text name)

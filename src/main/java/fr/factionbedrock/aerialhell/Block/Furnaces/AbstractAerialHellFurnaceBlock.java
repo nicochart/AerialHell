@@ -36,12 +36,12 @@ public abstract class AbstractAerialHellFurnaceBlock extends AbstractFurnaceBloc
 
             for (int i = 0; i < this.getParticleCount(); i++)
             {
-                world.addParticle(this.getParticleType(), pPos.x + pPosOffset.x, pPos.y + pPosOffset.y, pPos.z + pPosOffset.z, pVelocity.x, pVelocity.y, pVelocity.z);
+                world.addParticleClient(this.getParticleType(), pPos.x + pPosOffset.x, pPos.y + pPosOffset.y, pPos.z + pPosOffset.z, pVelocity.x, pVelocity.y, pVelocity.z);
             }
 
             if (rand.nextDouble() < 0.1)
             {
-                world.playSound(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, this.getLitSound(), SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+                world.playSoundClient(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, this.getLitSound(), SoundCategory.BLOCKS, 1.0F, 1.0F, false);
             }
         }
     }

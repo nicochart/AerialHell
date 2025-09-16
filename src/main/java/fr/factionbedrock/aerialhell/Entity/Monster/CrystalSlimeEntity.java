@@ -16,7 +16,6 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -24,6 +23,8 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -57,16 +58,16 @@ public class CrystalSlimeEntity extends MobEntity
 
 	@Override public SoundCategory getSoundCategory() {return SoundCategory.HOSTILE;}
 
-	@Override public void writeCustomDataToNbt(NbtCompound nbt)
+	@Override protected void writeCustomData(WriteView view)
 	{
-		super.writeCustomDataToNbt(nbt);
-		nbt.putBoolean("wasOnGround", this.wasOnGround);
+		super.writeCustomData(view);
+		view.putBoolean("wasOnGround", this.wasOnGround);
 	}
 
-	@Override public void readCustomDataFromNbt(NbtCompound nbt)
+	@Override protected void readCustomData(ReadView view)
 	{
-		super.readCustomDataFromNbt(nbt);
-		this.wasOnGround = nbt.getBoolean("wasOnGround");
+		super.readCustomData(view);
+		this.wasOnGround = view.getBoolean("wasOnGround", false);
 	}
 
 	protected ParticleEffect getParticleType()
@@ -92,7 +93,7 @@ public class CrystalSlimeEntity extends MobEntity
 				float f3 = this.random.nextFloat() * 0.5F + 0.5F;
 				float f4 = MathHelper.sin(f2) * f1 * f3;
 				float f5 = MathHelper.cos(f2) * f1 * f3;
-				this.getWorld().addParticle(this.getParticleType(), this.getX() + (double)f4, this.getY(), this.getZ() + (double)f5, 0.0, 0.0, 0.0);
+				this.getWorld().addParticleClient(this.getParticleType(), this.getX() + (double)f4, this.getY(), this.getZ() + (double)f5, 0.0, 0.0, 0.0);
 			}
 
 			this.playSound(this.getSquishSound(), this.getSoundVolume(), ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F) / 0.8F);

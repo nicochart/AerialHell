@@ -3,14 +3,17 @@ package fr.factionbedrock.aerialhell.Item;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.server.world.ServerWorld;
+import org.jetbrains.annotations.Nullable;
 
 public class EffectTotemItem extends Item
 {
@@ -21,8 +24,8 @@ public class EffectTotemItem extends Item
 		super(settings);
 		this.timer = 0;
 	}
-	
-	@Override public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected)
+
+	@Override public void inventoryTick(ItemStack stack, ServerWorld world, Entity entity, @Nullable EquipmentSlot slot)
 	{
 		if (!world.isClient() && timer <= 0)
 		{
@@ -66,7 +69,7 @@ public class EffectTotemItem extends Item
 					}
 					else if (this == AerialHellItems.CURSED_TOTEM)
 					{
-						if (!(ItemHelper.getItemInTagCount(livingEntityIn.getArmorItems(), AerialHellTags.Items.SHADOW_ARMOR) >= 4))
+						if (!(ItemHelper.getItemInTagCount(EntityHelper.getEquippedHumanoidArmorItemList(livingEntityIn), AerialHellTags.Items.SHADOW_ARMOR) >= 4))
 						{
 							livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 300, 0));
 							livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 600, 0));

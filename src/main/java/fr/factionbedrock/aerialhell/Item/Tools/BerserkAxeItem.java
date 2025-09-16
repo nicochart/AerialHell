@@ -2,10 +2,14 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.block.BlockState;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -15,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
@@ -22,6 +27,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class BerserkAxeItem extends EffectAxeItem
 {
@@ -81,7 +87,7 @@ public class BerserkAxeItem extends EffectAxeItem
 		
 		for (int i=0 ; i<20; i++)
 		{
-			world.addParticle(ParticleTypes.SMOKE, player.getX() + 4*(rand.nextFloat() - 0.5F), player.getY() + 4*rand.nextFloat(), player.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
+			world.addParticleClient(ParticleTypes.SMOKE, player.getX() + 4*(rand.nextFloat() - 0.5F), player.getY() + 4*rand.nextFloat(), player.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
 		}
 		player.playSound(SoundEvents.ENTITY_RAVAGER_ROAR, 1.0F, 0.5F + rand.nextFloat());
 		if (world.isClient()) //TODO update this dirty code
@@ -96,21 +102,15 @@ public class BerserkAxeItem extends EffectAxeItem
         return ActionResult.CONSUME;
 	}
 	
-	@Override
-	public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker)
+	@Override public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker)
 	{
 		this.increaseWeight();
-		return super.postHit(stack, target, attacker);
+		super.postHit(stack, target, attacker);
 	}
-	
-	@Override
-	public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity player)
-	{
-		return !player.isCreative();
-	}
-	
-	@Override
-	public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected)
+
+	@Override public boolean canMine(ItemStack stack, BlockState state, World world, BlockPos pos, LivingEntity user) {return !EntityHelper.isCreativePlayer(user);}
+
+	@Override public void inventoryTick(ItemStack stack, ServerWorld world, Entity entity, @Nullable EquipmentSlot slot)
 	{
 		if (this.weight_ticks > 800)
 		{
@@ -120,7 +120,7 @@ public class BerserkAxeItem extends EffectAxeItem
 		{
 			this.weight_ticks-=2;
 		}
-		if (isSelected) {giveEntityEffect(world, entity);}
+		if (slot == EquipmentSlot.MAINHAND) {giveEntityEffect(world, entity);}
 	}
 	
 	private void giveEntityEffect(World world, Entity entityIn)
@@ -158,8 +158,8 @@ public class BerserkAxeItem extends EffectAxeItem
 		}
 	}
 
-	@Override public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type)
+	@Override public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type)
 	{
-		ItemHelper.appendBerserkAxeItemTooltip(this.getTranslationKey(), tooltip, Integer.toString(getStatus()));
+		ItemHelper.appendBerserkAxeItemTooltip(this.getTranslationKey(), textConsumer, Integer.toString(getStatus()));
 	}
 }

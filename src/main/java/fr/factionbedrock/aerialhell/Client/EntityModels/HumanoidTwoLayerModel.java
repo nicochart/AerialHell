@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.HumanoidTwoLayerRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.CrossbowPosing;
+import net.minecraft.client.render.entity.model.ArmPosing;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.ModelWithArms;
 import net.minecraft.client.util.math.MatrixStack;
@@ -50,30 +50,30 @@ public class HumanoidTwoLayerModel<T extends HumanoidTwoLayerRenderState> extend
 	{
 		ModelData meshdefinition = new ModelData();
 		ModelPartData partdefinition = meshdefinition.getRoot();
-		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
-		ModelPartData head_overlay = partdefinition.addChild("head_overlay", ModelPartBuilder.create().uv(32, 0).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.3F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
-		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(16, 16).cuboid(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
-		ModelPartData body_overlay = partdefinition.addChild("body_overlay", ModelPartBuilder.create().uv(16, 32).cuboid(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.4F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
-		ModelPartData leftArm = partdefinition.addChild("leftArm", ModelPartBuilder.create().uv(40, 16).cuboid(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(-5.0F, 2.0F, 0.0F));
-		ModelPartData leftArm_overlay = partdefinition.addChild("leftArm_overlay", ModelPartBuilder.create().uv(40, 32).cuboid(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.3F)), ModelTransform.pivot(-5.0F, 2.0F, 0.0F));
-		ModelPartData rightArm = partdefinition.addChild("rightArm", ModelPartBuilder.create().uv(32, 48).cuboid(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(5.0F, 2.0F, 0.0F));
-		ModelPartData rightArm_overlay = partdefinition.addChild("rightArm_overlay", ModelPartBuilder.create().uv(48, 48).cuboid(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.3F)), ModelTransform.pivot(5.0F, 2.0F, 0.0F));
-		ModelPartData leftLeg = partdefinition.addChild("leftLeg", ModelPartBuilder.create().uv(0, 16).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(-1.9F, 12.0F, 0.0F));
-		ModelPartData leftLeg_overlay = partdefinition.addChild("leftLeg_overlay", ModelPartBuilder.create().uv(0, 32).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.3F)), ModelTransform.pivot(-1.9F, 12.0F, 0.0F));
-		ModelPartData rightLeg = partdefinition.addChild("rightLeg", ModelPartBuilder.create().uv(16, 48).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(1.9F, 12.0F, 0.0F));
-		ModelPartData rightLeg_overlay = partdefinition.addChild("rightLeg_overlay", ModelPartBuilder.create().uv(0, 48).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.3F)), ModelTransform.pivot(1.9F, 12.0F, 0.0F));
+		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 0.0F, 0.0F));
+		ModelPartData head_overlay = partdefinition.addChild("head_overlay", ModelPartBuilder.create().uv(32, 0).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.3F)), ModelTransform.origin(0.0F, 0.0F, 0.0F));
+		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(16, 16).cuboid(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 0.0F, 0.0F));
+		ModelPartData body_overlay = partdefinition.addChild("body_overlay", ModelPartBuilder.create().uv(16, 32).cuboid(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.4F)), ModelTransform.origin(0.0F, 0.0F, 0.0F));
+		ModelPartData leftArm = partdefinition.addChild("leftArm", ModelPartBuilder.create().uv(40, 16).cuboid(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.origin(-5.0F, 2.0F, 0.0F));
+		ModelPartData leftArm_overlay = partdefinition.addChild("leftArm_overlay", ModelPartBuilder.create().uv(40, 32).cuboid(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.3F)), ModelTransform.origin(-5.0F, 2.0F, 0.0F));
+		ModelPartData rightArm = partdefinition.addChild("rightArm", ModelPartBuilder.create().uv(32, 48).cuboid(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.origin(5.0F, 2.0F, 0.0F));
+		ModelPartData rightArm_overlay = partdefinition.addChild("rightArm_overlay", ModelPartBuilder.create().uv(48, 48).cuboid(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.3F)), ModelTransform.origin(5.0F, 2.0F, 0.0F));
+		ModelPartData leftLeg = partdefinition.addChild("leftLeg", ModelPartBuilder.create().uv(0, 16).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.origin(-1.9F, 12.0F, 0.0F));
+		ModelPartData leftLeg_overlay = partdefinition.addChild("leftLeg_overlay", ModelPartBuilder.create().uv(0, 32).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.3F)), ModelTransform.origin(-1.9F, 12.0F, 0.0F));
+		ModelPartData rightLeg = partdefinition.addChild("rightLeg", ModelPartBuilder.create().uv(16, 48).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.origin(1.9F, 12.0F, 0.0F));
+		ModelPartData rightLeg_overlay = partdefinition.addChild("rightLeg_overlay", ModelPartBuilder.create().uv(0, 48).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.3F)), ModelTransform.origin(1.9F, 12.0F, 0.0F));
 		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
 
 	@Override public void setAngles(T renderState)
 	{
 		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.yawDegrees;
-		float limbSwing = renderState.limbFrequency;
-		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		float netHeadYaw = renderState.relativeHeadYaw;
+		float limbSwing = renderState.limbSwingAnimationProgress;
+		float limbSwingAmount = renderState.limbSwingAmplitude;
 		
-		CrossbowPosing.meleeAttack(this.leftArm, this.rightArm, renderState.isAggressive, renderState.handSwingProgress, renderState.age);
-		CrossbowPosing.meleeAttack(this.leftArm_overlay, this.rightArm_overlay, renderState.isAggressive, renderState.handSwingProgress, renderState.age);
+		ArmPosing.zombieArms(this.leftArm, this.rightArm, renderState.isAggressive, renderState.handSwingProgress, renderState.age);
+		ArmPosing.zombieArms(this.leftArm_overlay, this.rightArm_overlay, renderState.isAggressive, renderState.handSwingProgress, renderState.age);
 		setupHeadAnim(this.head, netHeadYaw, headPitch);
 		setupHeadAnim(this.head_overlay, netHeadYaw, headPitch);
 		setupLegsAnim(this.leftLeg, this.rightLeg, limbSwing, limbSwingAmount);
@@ -112,7 +112,7 @@ public class HumanoidTwoLayerModel<T extends HumanoidTwoLayerRenderState> extend
 
 	@Override public void setArmAngle(Arm arm, MatrixStack matrices)
 	{
-		this.getArm(arm).rotate(matrices);
+		this.getArm(arm).applyTransform(matrices);
 	}
 
 	protected ModelPart getArm(Arm arm) {return arm == Arm.LEFT ? this.rightArm : this.leftArm;}

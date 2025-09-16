@@ -18,8 +18,9 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -43,16 +44,16 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
         builder.add(DISAPPEARING, false);
     }
 
-    @Override public void writeCustomDataToNbt(NbtCompound nbt)
+    @Override protected void writeCustomData(WriteView view)
     {
-        super.writeCustomDataToNbt(nbt);
-        nbt.putBoolean("Disappearing", this.isDisappearing());
+        super.writeCustomData(view);
+        view.putBoolean("Disappearing", this.isDisappearing());
     }
 
-    @Override public void readCustomDataFromNbt(NbtCompound nbt)
+    @Override protected void readCustomData(ReadView view)
     {
-        super.readCustomDataFromNbt(nbt);
-        this.setDisappearing(nbt.getBoolean("Disappearing"));
+        super.readCustomData(view);
+        this.setDisappearing(view.getBoolean("Disappearing", false));
     }
 
     public boolean isDisappearing() {return this.getDataTracker().get(DISAPPEARING);}
@@ -86,7 +87,7 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
     {
     	for (int i=0; i<number; i++)
 		{
-			this.getWorld().addParticle(ParticleTypes.CLOUD, this.getX() + random.nextFloat() - 0.5, this.getY() + 2 * random.nextFloat(), this.getZ() + random.nextFloat() - 0.5, 0.5 * (random.nextFloat() - 0.5), 0.5 * (random.nextFloat() - 0.5), 0.5 * (random.nextFloat() - 0.5));
+			this.getWorld().addParticleClient(ParticleTypes.CLOUD, this.getX() + random.nextFloat() - 0.5, this.getY() + 2 * random.nextFloat(), this.getZ() + random.nextFloat() - 0.5, 0.5 * (random.nextFloat() - 0.5), 0.5 * (random.nextFloat() - 0.5), 0.5 * (random.nextFloat() - 0.5));
 		}
     }
 

@@ -13,7 +13,7 @@ import fr.factionbedrock.aerialhell.World.Features.SolidEther.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.util.collection.DataPool;
+import net.minecraft.util.collection.Pool;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 
@@ -50,7 +50,7 @@ public class AerialHellFeatures
 	public static final Feature<?> MUSHROOM_CAPS_COLUMN = register("mushroom_caps_column", new MushroomCapsColumnFeature(MushroomCapsColumnConfig.CODEC));
 
 	public static final Feature<?> FLOOR_TRANSFORMATION = register("floor_transformation", new FloorTransformationFeature(FloorTransformationConfig.CODEC));
-	public static final Feature<?> MOSSY_STELLAR_COBBLESTONE_ROCK = register("mossy_stellar_cobblestone_rock", new RockFeature(DefaultFeatureConfig.CODEC, new WeightedBlockStateProvider(DataPool.<BlockState>builder().add(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE.getDefaultState(), 1).add(AerialHellBlocks.STELLAR_COBBLESTONE.getDefaultState(), 1))));
+	public static final Feature<?> MOSSY_STELLAR_COBBLESTONE_ROCK = register("mossy_stellar_cobblestone_rock", new RockFeature(DefaultFeatureConfig.CODEC, new WeightedBlockStateProvider(Pool.<BlockState>builder().add(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE.getDefaultState(), 1).add(AerialHellBlocks.STELLAR_COBBLESTONE.getDefaultState(), 1))));
 	public static final Feature<?> DANGLING_CHAIN = register("dangling_chain", new DanglingChainFeature(DefaultFeatureConfig.CODEC));
 	public static final Feature<?> SLIPPERY_SAND = register("slippery_sand", new SlipperySandFeature(DefaultFeatureConfig.CODEC));
 	public static final Feature<?> NATURAL_FIELD = register("natural_field", new NaturalFieldFeature(NaturalFieldConfig.CODEC));

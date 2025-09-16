@@ -1,12 +1,7 @@
 package fr.factionbedrock.aerialhell.Client.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Client.Particle.AerialHellPortalParticle;
-import fr.factionbedrock.aerialhell.Client.Particle.CopperPineLeavesParticle;
-import fr.factionbedrock.aerialhell.Client.Particle.LightParticle;
-import fr.factionbedrock.aerialhell.Client.Particle.ShadowParticle;
-import fr.factionbedrock.aerialhell.Client.Particle.SnowFlakeParticle;
-import fr.factionbedrock.aerialhell.Client.Particle.OscillatorParticle;
+import fr.factionbedrock.aerialhell.Client.Particle.*;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.client.particle.CampfireSmokeParticle;
@@ -27,6 +22,7 @@ public class AerialHellParticleTypes
 	public static final SimpleParticleType SHADOW_PARTICLE = register("shadow_particle", FabricParticleTypes.simple(false));
 	public static final SimpleParticleType SHADOW_LIGHT = register("shadow_light", FabricParticleTypes.simple(false));
 	public static final SimpleParticleType FAT_PHANTOM_SMOKE = register("fat_phantom_smoke", FabricParticleTypes.simple(false));
+	public static final SimpleParticleType FALLING_CRYSTALLIZED_LEAVES = register("falling_crystallized_leaves", FabricParticleTypes.simple(false));
 
 
 	public static SimpleParticleType register(String name, SimpleParticleType type) {return Registry.register(Registries.PARTICLE_TYPE, AerialHell.id(name), type);}
@@ -45,5 +41,6 @@ public class AerialHellParticleTypes
 		ParticleFactoryRegistry.getInstance().register(SHADOW_PARTICLE, ShadowParticle.Factory::new);
 		ParticleFactoryRegistry.getInstance().register(SHADOW_LIGHT, LightParticle.Factory::new);
 		ParticleFactoryRegistry.getInstance().register(FAT_PHANTOM_SMOKE, CampfireSmokeParticle.CosySmokeFactory::new);
+		ParticleFactoryRegistry.getInstance().register(FALLING_CRYSTALLIZED_LEAVES, FallingCrystallizedLeavesParticle.Factory::new);
 	}
 }

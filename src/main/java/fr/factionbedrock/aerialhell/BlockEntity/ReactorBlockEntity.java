@@ -11,10 +11,10 @@ import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -105,25 +105,25 @@ public class ReactorBlockEntity extends LootableContainerBlockEntity implements 
 
         return isActive;
     }
-    
-    @Override protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
+
+    @Override protected void writeData(WriteView view)
     {
-        super.writeNbt(nbt, registryLookup);
-        Inventories.writeNbt(nbt, this.items, registryLookup);
-        nbt.putInt("field_size", fieldSize);
-        nbt.putInt("active_timer", activeTimer);
+        super.writeData(view);
+        Inventories.writeData(view, this.items);
+        view.putInt("field_size", fieldSize);
+        view.putInt("active_timer", activeTimer);
         boolean isShadow = this.shiftType == ShiftType.CORRUPT;
-        nbt.putBoolean("is_shadow", isShadow);
+        view.putBoolean("is_shadow", isShadow);
     }
 
-    @Override protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
+    @Override protected void readData(ReadView view)
     {
-        super.readNbt(nbt, registryLookup);
+        super.readData(view);
         this.items = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
-        Inventories.readNbt(nbt, this.items, registryLookup);
-        this.fieldSize = nbt.getInt("field_size");
-        this.activeTimer = nbt.getInt("active_timer");
-        boolean isShadow = nbt.getBoolean("is_shadow");
+        Inventories.readData(view, this.items);
+        this.fieldSize = view.getOptionalInt("field_size").get();
+        this.activeTimer = view.getOptionalInt("active_timer").get();
+        boolean isShadow = view.getBoolean("is_shadow", false);
         this.shiftType = isShadow ? ShiftType.CORRUPT : ShiftType.UNCORRUPT;
     }
 

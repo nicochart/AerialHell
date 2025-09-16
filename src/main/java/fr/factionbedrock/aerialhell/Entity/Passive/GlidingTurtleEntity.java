@@ -14,9 +14,10 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -75,7 +76,7 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
     public boolean isGliding() {return !this.getDataTracker().get(GLIDING);}
     public void setGliding(boolean flag) {this.getDataTracker().set(GLIDING, !flag);}
 
-    @Override public boolean handleFallDamage(float distance, float damageMultiplier, DamageSource source) {return false;}
+    @Override public boolean handleFallDamage(double distance, float damageMultiplier, DamageSource source) {return false;}
 
     @Override public int getMinAmbientSoundDelay() {return 640;}
     @Override protected float getSoundVolume() {return 0.7F;}
@@ -90,17 +91,17 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
         if (ambientSound != null) {this.playSound(ambientSound, volume, pitch);}
     }
 
-    @Override public void writeCustomDataToNbt(NbtCompound nbt)
+    @Override protected void writeCustomData(WriteView view)
     {
-        super.writeCustomDataToNbt(nbt);
-        nbt.putBoolean("Glide", this.isGliding());
-        nbt.putInt("AteTimer", this.ateTimer);
+        super.writeCustomData(view);
+        view.putBoolean("Glide", this.isGliding());
+        view.putInt("AteTimer", this.ateTimer);
     }
 
-    @Override public void readCustomDataFromNbt(NbtCompound nbt)
+    @Override protected void readCustomData(ReadView view)
     {
-        super.readCustomDataFromNbt(nbt);
-        this.setGliding(nbt.getBoolean("Glide"));
-        this.ateTimer = nbt.getInt("AteTimer");
+        super.readCustomData(view);
+        this.setGliding(view.getBoolean("Glide", false));
+        if (view.getOptionalInt("AteTimer").isPresent()) {this.ateTimer = view.getOptionalInt("AteTimer").get();}
     }
 }

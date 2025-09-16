@@ -140,7 +140,7 @@ public class MudCycleMageEntity extends AbstractBossEntity
 			for(int i = 0; i < number; ++i)
 			{
 				double d0 = random.nextGaussian() * 0.02D; double d1 = random.nextGaussian() * 0.02D; double d2 = random.nextGaussian() * 0.02D;
-				this.getWorld().addParticle(ParticleTypes.LARGE_SMOKE, this.getParticleX(1.0D) - d0 * 10.0D, this.getRandomBodyY() - d1 * 10.0D, this.getParticleZ(1.0D) - d2 * 10.0D, 0.25 * (random.nextFloat() - 0.5), 0.2D, 0.25 * (random.nextFloat() - 0.5));
+				this.getWorld().addParticleClient(ParticleTypes.LARGE_SMOKE, this.getParticleX(1.0D) - d0 * 10.0D, this.getRandomBodyY() - d1 * 10.0D, this.getParticleZ(1.0D) - d2 * 10.0D, 0.25 * (random.nextFloat() - 0.5), 0.2D, 0.25 * (random.nextFloat() - 0.5));
 			}
 		}
 	}

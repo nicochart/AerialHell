@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.fluid.FlowableFluid;
@@ -68,9 +69,9 @@ public class AerialHellFluidBlock extends FluidBlock
 	        }
 		}
 	}
-	
-    @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
+
+	@Override
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
     {
 		if(this.fluid.isIn(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
         {

@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -20,8 +21,7 @@ public class DeadRootsPlantBlock extends AerialHellTwistingVinesPlantBlock
         return ((entity instanceof SpiderEntity) || EntityHelper.isShadowEntity(entity) || EntityHelper.isMudEntity(entity)) || EntityHelper.isFeatheryEntity(entity) || EntityHelper.isImmuneToBramblesDamage(entity);
     }
 
-    @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
+    @Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
     {
         if (world instanceof ServerWorld serverWorld && entity instanceof LivingEntity && !isEntityImmuneToDamage(entity))
         {

@@ -23,7 +23,7 @@ public class BlockBreakingSpeedMixin
     private void onBlockBreaking(BlockState blockstate, CallbackInfoReturnable<Float> callbackInfo)
     {
         PlayerEntity player = (PlayerEntity) (Object) this;
-        ItemStack selectedItemStack = player.getInventory().getMainHandStack();
+        ItemStack selectedItemStack = player.getInventory().getSelectedStack();
         float speed = callbackInfo.getReturnValue();
 
         //player on fire and mining with any arsonist item

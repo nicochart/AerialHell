@@ -50,31 +50,31 @@ public class SandySheepModel extends EntityModel<SandySheepRenderState>
 		ModelData meshdefinition = new ModelData();
 		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-2.5F, -4.0F, -7.0F, 6.0F, 6.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 8.0F, -8.0F));
+		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-2.5F, -4.0F, -7.0F, 6.0F, 6.0F, 8.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 8.0F, -8.0F));
 
 		ModelPartData snout_r1 = head.addChild("snout_r1", ModelPartBuilder.create().uv(28, 8).cuboid(-1.0F, -18.01F, -16.0F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 16.0F, 8.0F, 0.0698F, 0.0F, 0.0F));
 
-		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(80, 42).cuboid(-3.5F, -17.0F, -8.5F, 8.0F, 6.0F, 16.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(80, 42).cuboid(-3.5F, -17.0F, -8.5F, 8.0F, 6.0F, 16.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 24.0F, 0.0F));
 
-		ModelPartData rightFrontLeg = partdefinition.addChild("rightFrontLeg", ModelPartBuilder.create().uv(0, 49).cuboid(-1.0F, -4.0F, -2.0F, 3.0F, 12.0F, 3.0F, new Dilation(0.0F)), ModelTransform.pivot(-3.0F, 16.0F, -6.0F));
+		ModelPartData rightFrontLeg = partdefinition.addChild("rightFrontLeg", ModelPartBuilder.create().uv(0, 49).cuboid(-1.0F, -4.0F, -2.0F, 3.0F, 12.0F, 3.0F, new Dilation(0.0F)), ModelTransform.origin(-3.0F, 16.0F, -6.0F));
 
-		ModelPartData rightFrontLegCoat = partdefinition.addChild("rightFrontLegCoat", ModelPartBuilder.create().uv(12, 46).mirrored().cuboid(-3.0F, -5.0F, -5.0F, 7.0F, 10.0F, 8.0F, new Dilation(-1.0F)).mirrored(false), ModelTransform.pivot(-3.0F, 16.0F, -6.0F));
+		ModelPartData rightFrontLegCoat = partdefinition.addChild("rightFrontLegCoat", ModelPartBuilder.create().uv(12, 46).mirrored().cuboid(-3.0F, -5.0F, -5.0F, 7.0F, 10.0F, 8.0F, new Dilation(-1.0F)).mirrored(false), ModelTransform.origin(-3.0F, 16.0F, -6.0F));
 
-		ModelPartData rightBackLeg = partdefinition.addChild("rightBackLeg", ModelPartBuilder.create().uv(0, 49).cuboid(-1.0F, -4.0F, -1.0F, 3.0F, 12.0F, 3.0F, new Dilation(0.0F)), ModelTransform.pivot(-3.0F, 16.0F, 5.0F));
+		ModelPartData rightBackLeg = partdefinition.addChild("rightBackLeg", ModelPartBuilder.create().uv(0, 49).cuboid(-1.0F, -4.0F, -1.0F, 3.0F, 12.0F, 3.0F, new Dilation(0.0F)), ModelTransform.origin(-3.0F, 16.0F, 5.0F));
 
-		ModelPartData rightBackLegCoat = partdefinition.addChild("rightBackLegCoat", ModelPartBuilder.create().uv(12, 46).mirrored().cuboid(-3.0F, -5.0F, -3.5F, 7.0F, 10.0F, 8.0F, new Dilation(-1.0F)).mirrored(false), ModelTransform.pivot(-3.0F, 16.0F, 5.0F));
+		ModelPartData rightBackLegCoat = partdefinition.addChild("rightBackLegCoat", ModelPartBuilder.create().uv(12, 46).mirrored().cuboid(-3.0F, -5.0F, -3.5F, 7.0F, 10.0F, 8.0F, new Dilation(-1.0F)).mirrored(false), ModelTransform.origin(-3.0F, 16.0F, 5.0F));
 
-		ModelPartData leftFrontLeg = partdefinition.addChild("leftFrontLeg", ModelPartBuilder.create().uv(0, 49).mirrored().cuboid(-2.0F, -4.0F, -2.0F, 3.0F, 12.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(4.0F, 16.0F, -6.0F));
+		ModelPartData leftFrontLeg = partdefinition.addChild("leftFrontLeg", ModelPartBuilder.create().uv(0, 49).mirrored().cuboid(-2.0F, -4.0F, -2.0F, 3.0F, 12.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 16.0F, -6.0F));
 
-		ModelPartData leftFrontLegCoat = partdefinition.addChild("leftFrontLegCoat", ModelPartBuilder.create().uv(12, 46).cuboid(-4.0F, -5.0F, -5.0F, 7.0F, 10.0F, 8.0F, new Dilation(-1.0F)), ModelTransform.pivot(4.0F, 16.0F, -6.0F));
+		ModelPartData leftFrontLegCoat = partdefinition.addChild("leftFrontLegCoat", ModelPartBuilder.create().uv(12, 46).cuboid(-4.0F, -5.0F, -5.0F, 7.0F, 10.0F, 8.0F, new Dilation(-1.0F)), ModelTransform.origin(4.0F, 16.0F, -6.0F));
 
-		ModelPartData leftBackLeg = partdefinition.addChild("leftBackLeg", ModelPartBuilder.create().uv(0, 49).mirrored().cuboid(-2.0F, -4.0F, -1.0F, 3.0F, 12.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(4.0F, 16.0F, 5.0F));
+		ModelPartData leftBackLeg = partdefinition.addChild("leftBackLeg", ModelPartBuilder.create().uv(0, 49).mirrored().cuboid(-2.0F, -4.0F, -1.0F, 3.0F, 12.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 16.0F, 5.0F));
 
-		ModelPartData leftBackLegCoat = partdefinition.addChild("leftBackLegCoat", ModelPartBuilder.create().uv(12, 46).cuboid(-4.0F, -5.0F, -3.5F, 7.0F, 10.0F, 8.0F, new Dilation(-1.0F)), ModelTransform.pivot(4.0F, 16.0F, 5.0F));
+		ModelPartData leftBackLegCoat = partdefinition.addChild("leftBackLegCoat", ModelPartBuilder.create().uv(12, 46).cuboid(-4.0F, -5.0F, -3.5F, 7.0F, 10.0F, 8.0F, new Dilation(-1.0F)), ModelTransform.origin(4.0F, 16.0F, 5.0F));
 
-		ModelPartData headCoat = partdefinition.addChild("headCoat", ModelPartBuilder.create().uv(40, 0).cuboid(-3.0F, -5.0F, -8.0F, 7.0F, 5.0F, 9.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 8.0F, -8.0F));
+		ModelPartData headCoat = partdefinition.addChild("headCoat", ModelPartBuilder.create().uv(40, 0).cuboid(-3.0F, -5.0F, -8.0F, 7.0F, 5.0F, 9.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 8.0F, -8.0F));
 
-		ModelPartData bodyCoat = partdefinition.addChild("bodyCoat", ModelPartBuilder.create().uv(0, 14).cuboid(-4.5F, -18.0F, -11.0F, 10.0F, 10.0F, 20.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+		ModelPartData bodyCoat = partdefinition.addChild("bodyCoat", ModelPartBuilder.create().uv(0, 14).cuboid(-4.5F, -18.0F, -11.0F, 10.0F, 10.0F, 20.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 24.0F, 0.0F));
 
 		return TexturedModelData.of(meshdefinition, 128, 64);
 	}
@@ -83,9 +83,9 @@ public class SandySheepModel extends EntityModel<SandySheepRenderState>
 	public void setAngles(SandySheepRenderState renderState)
 	{
 		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.yawDegrees;
-		float limbSwing = renderState.limbFrequency;
-		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		float netHeadYaw = renderState.relativeHeadYaw;
+		float limbSwing = renderState.limbSwingAnimationProgress;
+		float limbSwingAmount = renderState.limbSwingAmplitude;
 
 		this.hasWool = renderState.hasWool; this.isChild = renderState.baby;
 

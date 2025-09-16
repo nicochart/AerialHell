@@ -1,16 +1,11 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtHelper;
-import net.minecraft.registry.BuiltinRegistries;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -42,18 +37,17 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
     public void resetTickCount() {this.tickCount = 0;}
     public int getTickCount() {return tickCount;}
 
-    @Override protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
+    @Override protected void writeData(WriteView view)
     {
-        super.writeNbt(nbt, registryLookup);
-        nbt.put("beforeState", NbtHelper.fromBlockState(beforeState == null ? Blocks.AIR.getDefaultState() : beforeState));
-        nbt.putInt("tickCount", tickCount);
+        super.writeData(view);
+        view.put("beforeState", BlockState.CODEC, beforeState == null ? Blocks.AIR.getDefaultState() : beforeState);
+        view.putInt("tickCount", tickCount);
     }
 
-    @Override protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
+    @Override protected void readData(ReadView view)
     {
-        super.readNbt(nbt, registryLookup);
-        RegistryWrapper<Block> blockGetter = this.getWorld() != null ? this.getWorld().createCommandRegistryWrapper(RegistryKeys.BLOCK) : Registries.BLOCK;
-        this.beforeState = NbtHelper.toBlockState(blockGetter, nbt.getCompound("beforeState"));
-        this.tickCount = nbt.getInt("tickCount");
+        super.readData(view);
+        this.beforeState = view.read("beforeState", BlockState.CODEC).orElse(Blocks.AIR.getDefaultState());
+        this.tickCount = view.getOptionalInt("tickCount").get();
     }
 }

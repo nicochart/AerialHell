@@ -7,8 +7,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
@@ -46,23 +47,17 @@ public abstract class AbstractShurikenEntity extends ThrownItemEntity
 		super(type, world);
 		this.shurikenZRot = -135;
 	}*/
-	
-	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt)
-	{
-		super.writeCustomDataToNbt(nbt);
 
-		nbt.putShort("shurikenZRot", (short)this.shurikenZRot);
-	}
-	
-	@Override
-	public void readCustomDataFromNbt(NbtCompound nbt)
+	@Override protected void writeCustomData(WriteView view)
 	{
-	    super.readCustomDataFromNbt(nbt);
-	    if (nbt.contains("shurikenZRot", 99))
-	    {
-	    	this.shurikenZRot = nbt.getShort("shurikenZRot");
-	    }
+		super.writeCustomData(view);
+		view.putShort("shurikenZRot", (short)this.shurikenZRot);
+	}
+
+	@Override protected void readCustomData(ReadView view)
+	{
+		super.readCustomData(view);
+		this.shurikenZRot = view.getShort("shurikenZRot", (short)0);
 	}
 	
 	@Override

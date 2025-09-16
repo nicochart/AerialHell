@@ -43,7 +43,7 @@ public class StellarFarmBlock extends FarmlandBlock
         else if (i < 7) {world.setBlockState(pos, state.with(MOISTURE, Integer.valueOf(7)), 2);}
     }
 
-    @Override public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance)
+    @Override public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, double fallDistance)
     {
         if (world instanceof ServerWorld serverWorld && world.random.nextFloat() < fallDistance - 0.5F && entity instanceof LivingEntity && (entity instanceof PlayerEntity || serverWorld.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) && entity.getWidth() * entity.getWidth() * entity.getHeight() > 0.512F)
         {

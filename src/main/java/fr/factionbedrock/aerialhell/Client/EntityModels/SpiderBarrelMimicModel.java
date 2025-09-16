@@ -42,7 +42,7 @@ public class SpiderBarrelMimicModel extends EntityModel<LivingEntityRenderState>
 		ModelData meshdefinition = new ModelData();
 		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		ModelPartData body0 = partdefinition.addChild("body0", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 15.0F, 9.0F));
+		ModelPartData body0 = partdefinition.addChild("body0", ModelPartBuilder.create(), ModelTransform.origin(0.0F, 15.0F, 9.0F));
 
 		ModelPartData teethbottom_r1 = body0.addChild("teethbottom_r1", ModelPartBuilder.create().uv(19, 10).cuboid(-6.0F, -11.0F, -16.0F, 12.0F, 4.0F, 0.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.6283F, 0.0F, 0.0F));
 
@@ -50,29 +50,29 @@ public class SpiderBarrelMimicModel extends EntityModel<LivingEntityRenderState>
 
 		ModelPartData main_r1 = body0.addChild("main_r1", ModelPartBuilder.create().uv(0, 32).cuboid(-8.0F, -9.0F, 2.0F, 16.0F, 16.0F, 16.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 9.0F, -9.0F, 1.3963F, 0.0F, 0.0F));
 
-		ModelPartData leg0 = partdefinition.addChild("leg0", ModelPartBuilder.create().uv(13, 17).cuboid(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(4.0F, 15.0F, 2.0F));
+		ModelPartData leg0 = partdefinition.addChild("leg0", ModelPartBuilder.create().uv(13, 17).cuboid(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.origin(4.0F, 15.0F, 2.0F));
 
-		ModelPartData leg1 = partdefinition.addChild("leg1", ModelPartBuilder.create().uv(13, 17).cuboid(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, 15.0F, 2.0F));
+		ModelPartData leg1 = partdefinition.addChild("leg1", ModelPartBuilder.create().uv(13, 17).cuboid(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.origin(-4.0F, 15.0F, 2.0F));
 
-		ModelPartData leg2 = partdefinition.addChild("leg2", ModelPartBuilder.create().uv(13, 17).cuboid(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(4.0F, 15.0F, 1.0F));
+		ModelPartData leg2 = partdefinition.addChild("leg2", ModelPartBuilder.create().uv(13, 17).cuboid(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.origin(4.0F, 15.0F, 1.0F));
 
-		ModelPartData leg3 = partdefinition.addChild("leg3", ModelPartBuilder.create().uv(13, 17).cuboid(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, 15.0F, 1.0F));
+		ModelPartData leg3 = partdefinition.addChild("leg3", ModelPartBuilder.create().uv(13, 17).cuboid(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.origin(-4.0F, 15.0F, 1.0F));
 
-		ModelPartData leg4 = partdefinition.addChild("leg4", ModelPartBuilder.create().uv(13, 17).cuboid(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(4.0F, 15.0F, 0.0F));
+		ModelPartData leg4 = partdefinition.addChild("leg4", ModelPartBuilder.create().uv(13, 17).cuboid(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.origin(4.0F, 15.0F, 0.0F));
 
-		ModelPartData leg5 = partdefinition.addChild("leg5", ModelPartBuilder.create().uv(13, 17).cuboid(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, 15.0F, 0.0F));
+		ModelPartData leg5 = partdefinition.addChild("leg5", ModelPartBuilder.create().uv(13, 17).cuboid(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.origin(-4.0F, 15.0F, 0.0F));
 
-		ModelPartData leg6 = partdefinition.addChild("leg6", ModelPartBuilder.create().uv(13, 17).cuboid(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(4.0F, 15.0F, -1.0F));
+		ModelPartData leg6 = partdefinition.addChild("leg6", ModelPartBuilder.create().uv(13, 17).cuboid(-1.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.origin(4.0F, 15.0F, -1.0F));
 
-		ModelPartData leg7 = partdefinition.addChild("leg7", ModelPartBuilder.create().uv(13, 17).cuboid(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, 15.0F, -1.0F));
+		ModelPartData leg7 = partdefinition.addChild("leg7", ModelPartBuilder.create().uv(13, 17).cuboid(-15.0F, -1.0F, -1.0F, 16.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.origin(-4.0F, 15.0F, -1.0F));
 
 		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
 
 	@Override public void setAngles(LivingEntityRenderState renderState)
 	{
-		float limbSwing = renderState.limbFrequency;
-		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		float limbSwing = renderState.limbSwingAnimationProgress;
+		float limbSwingAmount = renderState.limbSwingAmplitude;
 
 		leg0.roll = ((float)Math.PI / 4F); leg0.yaw = ((float)Math.PI / 4F);
 		leg1.roll = (-(float)Math.PI / 4F); leg1.yaw = (-(float)Math.PI / 4F);

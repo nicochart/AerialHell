@@ -28,6 +28,8 @@ import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.function.BooleanBiFunction;
@@ -511,33 +513,33 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         builder.add(IS_CUT, false);
     }
 
-    @Override public void writeCustomDataToNbt(NbtCompound nbt)
+    @Override protected void writeCustomData(WriteView view)
     {
-        super.writeCustomDataToNbt(nbt);
-        nbt.putInt("body_part_id", this.getBodyPartId());
-        nbt.putBoolean("is_cut", this.isCut());
+        super.writeCustomData(view);
+        view.putInt("body_part_id", this.getBodyPartId());
+        view.putBoolean("is_cut", this.isCut());
         if (this.nextBodyPart != null)
         {
-            nbt.putString("next_body_part_uuid", this.nextBodyPart.getUuidAsString());
+            view.putString("next_body_part_uuid", this.nextBodyPart.getUuidAsString());
         }
     }
 
-    @Override public void readCustomDataFromNbt(NbtCompound nbt)
+    @Override protected void readCustomData(ReadView view)
     {
-        super.readCustomDataFromNbt(nbt);
-        this.setBodyPartId(nbt.getInt("body_part_id"));
-        if (nbt.getBoolean("is_cut")) {this.setCut();}
+        super.readCustomData(view);
+        if (view.getOptionalInt("body_part_id").isPresent()) {this.setBodyPartId(view.getOptionalInt("body_part_id").get());}
+        if (view.getBoolean("is_cut", false)) {this.setCut();}
         else {this.getDataTracker().set(IS_CUT, false);}
-        if (nbt.contains("next_body_part_uuid"))
+        if (view.getOptionalString("next_body_part_uuid").isPresent())
         {
-            this.nextBodyPartStringUUID = nbt.getString("next_body_part_uuid");
+            this.nextBodyPartStringUUID = view.getOptionalString("next_body_part_uuid").get();
         }
     }
 
     @Override public boolean canTeleportBetween(World source, World dest) {return false;}
     @Override protected void dropExperience(ServerWorld serverWorld, Entity entity) {if (this.isHead()) {super.dropExperience(serverWorld, entity);}}
     @Override public EntityType<AbstractSnakeEntity> getType() {return (EntityType<AbstractSnakeEntity>) super.getType();}
-    @Override public boolean handleFallDamage(float distance, float damageMultiplier, DamageSource source)
+    @Override public boolean handleFallDamage(double distance, float damageMultiplier, DamageSource source)
     {
         if (!this.isHead()) {return false;}
         return super.handleFallDamage(distance, damageMultiplier, source);

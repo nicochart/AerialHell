@@ -54,7 +54,7 @@ public class ChainedGodModel extends EntityModel<ChainedGodRenderState>
 		.uv(224, 80).mirrored().cuboid(2.0F, -25.0F, -10.0F, 12.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(223, 106).mirrored().cuboid(1.0F, -7.0F, -9.0F, 9.0F, 6.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(223, 95).mirrored().cuboid(1.0F, -14.0F, -9.0F, 9.0F, 6.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(83, 197).mirrored().cuboid(-14.5F, 2.0F, -5.0F, 29.0F, 10.0F, 12.0F, new Dilation(0.5F)).mirrored(false), ModelTransform.pivot(0.0F, -7.0F, 0.0F));
+		.uv(83, 197).mirrored().cuboid(-14.5F, 2.0F, -5.0F, 29.0F, 10.0F, 12.0F, new Dilation(0.5F)).mirrored(false), ModelTransform.origin(0.0F, -7.0F, 0.0F));
 
 		ModelPartData back_r1 = body.addChild("back_r1", ModelPartBuilder.create().uv(0, 66).mirrored().cuboid(-14.5F, -1.5F, -1.1F, 21.0F, 3.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(3, 56).mirrored().cuboid(-9.5F, -6.5F, -1.1F, 18.0F, 3.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(10.5F, -24.5F, 10.0F, 0.0F, 0.0F, -0.829F));
@@ -64,7 +64,7 @@ public class ChainedGodModel extends EntityModel<ChainedGodRenderState>
 
 		ModelPartData chains = partdefinition.addChild("chains", ModelPartBuilder.create().uv(7, 139).mirrored().cuboid(-22.0F, -42.0F, 9.0F, 4.0F, 34.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(11, 139).mirrored().cuboid(-19.0F, -42.0F, -8.0F, 4.0F, 34.0F, 0.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(233, 146).mirrored().cuboid(19.0F, -42.0F, -8.0F, 4.0F, 26.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+		.uv(233, 146).mirrored().cuboid(19.0F, -42.0F, -8.0F, 4.0F, 26.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, 0.0F));
 
 		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(96, 75).mirrored().cuboid(-8.0F, -23.0F, -5.5F, 16.0F, 12.0F, 12.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(84, 12).mirrored().cuboid(-7.0F, -22.0F, -5.5F, 14.0F, 16.0F, 9.0F, new Dilation(0.0F)).mirrored(false)
@@ -78,7 +78,7 @@ public class ChainedGodModel extends EntityModel<ChainedGodRenderState>
 		.uv(8, 6).mirrored().cuboid(-7.0F, -21.0F, 6.4F, 14.0F, 2.0F, 1.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(64, 99).mirrored().cuboid(-4.0F, -11.0F, -8.5F, 8.0F, 5.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(56, 81).mirrored().cuboid(-8.0F, -23.0F, -8.5F, 16.0F, 9.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(60, 93).mirrored().cuboid(-6.0F, -14.0F, -8.5F, 12.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(0.0F, -35.0F, -2.0F));
+		.uv(60, 93).mirrored().cuboid(-6.0F, -14.0F, -8.5F, 12.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, -35.0F, -2.0F));
 
 		ModelPartData rightHorn_r1 = head.addChild("rightHorn_r1", ModelPartBuilder.create().uv(111, 51).mirrored().cuboid(-10.9384F, -9.1522F, -1.5F, 3.0F, 17.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(0.0F, -28.6543F, -1.0F, -0.1897F, -0.1084F, -0.5133F));
 
@@ -88,7 +88,7 @@ public class ChainedGodModel extends EntityModel<ChainedGodRenderState>
 
 		ModelPartData leftHorn_r2 = head.addChild("leftHorn_r2", ModelPartBuilder.create().uv(125, 51).mirrored().cuboid(7.9384F, -9.1522F, -1.5F, 3.0F, 17.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(0.0F, -28.6543F, -1.0F, -0.1897F, 0.1084F, 0.5133F));
 
-		ModelPartData leftArm = partdefinition.addChild("leftArm", ModelPartBuilder.create(), ModelTransform.pivot(21.1131F, -31.9811F, 2.1442F));
+		ModelPartData leftArm = partdefinition.addChild("leftArm", ModelPartBuilder.create(), ModelTransform.origin(21.1131F, -31.9811F, 2.1442F));
 
 		ModelPartData arm3_r1 = leftArm.addChild("arm3_r1", ModelPartBuilder.create().uv(231, 210).mirrored().cuboid(3.0F, -10.5F, -6.0F, 1.0F, 25.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(187, 185).mirrored().cuboid(-5.0F, -13.5F, -10.0F, 8.0F, 27.0F, 12.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(10.3735F, 31.0968F, 4.0241F, -0.2133F, -0.0594F, -0.1206F));
@@ -103,7 +103,7 @@ public class ChainedGodModel extends EntityModel<ChainedGodRenderState>
 		ModelPartData arm1_r1 = leftArm.addChild("arm1_r1", ModelPartBuilder.create().uv(216, 125).mirrored().cuboid(-5.0F, -7.0F, -1.0F, 9.0F, 1.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(187, 122).mirrored().cuboid(-4.0F, -6.0F, -6.0F, 8.0F, 12.0F, 12.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(3.8869F, -0.5189F, -1.1442F, 0.0873F, 0.0F, 0.0F));
 
-		ModelPartData rightArm = partdefinition.addChild("rightArm", ModelPartBuilder.create(), ModelTransform.pivot(-21.0643F, -31.9819F, 2.1278F));
+		ModelPartData rightArm = partdefinition.addChild("rightArm", ModelPartBuilder.create(), ModelTransform.origin(-21.0643F, -31.9819F, 2.1278F));
 
 		ModelPartData arm8_r1 = rightArm.addChild("arm8_r1", ModelPartBuilder.create().uv(0, 205).mirrored().cuboid(-6.0F, 4.5F, 0.0F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(0, 199).mirrored().cuboid(-6.0F, 1.5F, 0.0F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
@@ -118,9 +118,9 @@ public class ChainedGodModel extends EntityModel<ChainedGodRenderState>
 		ModelPartData arm2_r1 = rightArm.addChild("arm2_r1", ModelPartBuilder.create().uv(5, 125).mirrored().cuboid(-4.0F, -7.0F, -1.0F, 9.0F, 1.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(21, 122).mirrored().cuboid(-4.0F, -6.0F, -6.0F, 8.0F, 12.0F, 12.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(-3.9357F, -0.5181F, -1.1278F, 0.0873F, 0.0F, 0.0F));
 
-		ModelPartData rightLeg = partdefinition.addChild("rightLeg", ModelPartBuilder.create().uv(127, 224).mirrored().cuboid(-2.5F, -7.0F, -5.0F, 10.0F, 20.0F, 11.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(4.0F, 11.0F, 0.0F));
+		ModelPartData rightLeg = partdefinition.addChild("rightLeg", ModelPartBuilder.create().uv(127, 224).mirrored().cuboid(-2.5F, -7.0F, -5.0F, 10.0F, 20.0F, 11.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 11.0F, 0.0F));
 
-		ModelPartData leftLeg = partdefinition.addChild("leftLeg", ModelPartBuilder.create().uv(79, 224).cuboid(-6.5F, -7.0F, -5.0F, 10.0F, 20.0F, 11.0F, new Dilation(0.0F)), ModelTransform.pivot(-5.0F, 11.0F, 0.0F));
+		ModelPartData leftLeg = partdefinition.addChild("leftLeg", ModelPartBuilder.create().uv(79, 224).cuboid(-6.5F, -7.0F, -5.0F, 10.0F, 20.0F, 11.0F, new Dilation(0.0F)), ModelTransform.origin(-5.0F, 11.0F, 0.0F));
 
 		return TexturedModelData.of(meshdefinition, 256, 256);
 		}
@@ -129,9 +129,9 @@ public class ChainedGodModel extends EntityModel<ChainedGodRenderState>
 	public void setAngles(ChainedGodRenderState renderState)
 	{
 		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.yawDegrees;
-		float limbSwing = renderState.limbFrequency;
-		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		float netHeadYaw = renderState.relativeHeadYaw;
+		float limbSwing = renderState.limbSwingAnimationProgress;
+		float limbSwingAmount = renderState.limbSwingAmplitude;
 
 		this.head.yaw = netHeadYaw / 57.29578F;
 		this.head.pitch = headPitch / 57.29578F;

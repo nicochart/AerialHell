@@ -18,13 +18,14 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -79,16 +80,16 @@ public class SandySheepEntity extends AerialHellAnimalEntity
         this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_SHEEP_STEP, SoundCategory.NEUTRAL, 0.15F, 1.0F);
     }
 
-    @Override public void writeCustomDataToNbt(NbtCompound nbt)
+    @Override protected void writeCustomData(WriteView view)
     {
-        super.writeCustomDataToNbt(nbt);
-        nbt.putBoolean("Wool", this.hasWool());
+        super.writeCustomData(view);
+        view.putBoolean("Wool", this.hasWool());
     }
 
-    @Override public void readCustomDataFromNbt(NbtCompound nbt)
+    @Override protected void readCustomData(ReadView view)
     {
-        super.readCustomDataFromNbt(nbt);
-        this.setWool(nbt.getBoolean("Wool"));
+        super.readCustomData(view);
+        this.setWool(view.getBoolean("Wool", false));
     }
 
     @Override public boolean handleAttack(Entity entityIn)
@@ -106,7 +107,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
     			double z = getZ() + (random.nextFloat() - 0.5F) * rand;
     			double dx = (random.nextFloat() - 0.5F)/10;
     			double dz = (random.nextFloat() - 0.5F)/10;
-    			this.getWorld().addParticle(new BlockStateParticleEffect(ParticleTypes.BLOCK, AerialHellBlocks.SLIPPERY_SAND.getDefaultState()), x, y, z, dx, -0.06D, dz);
+    			this.getWorld().addParticleClient(new BlockStateParticleEffect(ParticleTypes.BLOCK, AerialHellBlocks.SLIPPERY_SAND.getDefaultState()), x, y, z, dx, -0.06D, dz);
             }
     	}
         return false;

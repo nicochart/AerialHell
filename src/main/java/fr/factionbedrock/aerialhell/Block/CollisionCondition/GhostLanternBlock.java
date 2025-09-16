@@ -6,6 +6,7 @@ import net.minecraft.block.EntityShapeContext;
 import net.minecraft.block.LanternBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -20,7 +21,7 @@ public class GhostLanternBlock extends LanternBlock
         super(settings.solidBlock((state, blockGetter, pos) -> false).suffocates((state, blockGetter, pos) -> false).blockVision((state, blockGetter, pos) -> false));
     }
 
-    @Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
+    @Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
     {
         entity.fallDistance = 0.0F;
         if (entity.getVelocity().y < 0.0)

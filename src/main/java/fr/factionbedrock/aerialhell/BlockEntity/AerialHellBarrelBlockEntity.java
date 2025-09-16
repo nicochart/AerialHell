@@ -11,13 +11,13 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -57,17 +57,17 @@ public class AerialHellBarrelBlockEntity extends LootableContainerBlockEntity
 
 	public AerialHellBarrelBlockEntity(BlockPos pos, BlockState state) {super(AerialHellBlockEntities.BARREL, pos, state);}
 
-	@Override protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
+	@Override protected void writeData(WriteView view)
 	{
-		super.writeNbt(nbt, registryLookup);
-		if (!this.writeLootTable(nbt)) {Inventories.writeNbt(nbt, this.inventory, registryLookup);}
+		super.writeData(view);
+		if (!this.writeLootTable(view)) {Inventories.writeData(view, this.inventory);}
 	}
 
-	@Override protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
+	@Override protected void readData(ReadView view)
 	{
-		super.readNbt(nbt, registryLookup);
+		super.readData(view);
 		this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
-		if (!this.readLootTable(nbt)) {Inventories.readNbt(nbt, this.inventory, registryLookup);}
+		if (!this.readLootTable(view)) {Inventories.readData(view, this.inventory);}
 	}
 
 	@Override public int size() {return 27;}

@@ -35,7 +35,7 @@ public class CortinariusCowShroomModel<S extends LivingEntityRenderState> extend
 		ModelData meshdefinition = new ModelData();
 		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 5.0F, 2.0F));
+		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create(), ModelTransform.origin(0.0F, 5.0F, 2.0F));
 
 		ModelPartData shroom_r1 = body.addChild("shroom_r1", ModelPartBuilder.create().uv(28, 18).mirrored().cuboid(4.0F, 1.0F, -9.0F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(28, 24).mirrored().cuboid(4.0F, -10.0F, -6.0F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
@@ -45,23 +45,23 @@ public class CortinariusCowShroomModel<S extends LivingEntityRenderState> extend
 		.uv(0, 12).mirrored().cuboid(-7.0F, -1.0F, -3.0F, 6.0F, 6.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
 		.uv(0, 0).mirrored().cuboid(2.0F, -6.0F, -2.0F, 6.0F, 6.0F, 6.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(0.0F, -1.0F, -2.0F, 1.5708F, 0.0F, 0.0F));
 
-		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 4.0F, -8.0F));
+		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create(), ModelTransform.origin(0.0F, 4.0F, -8.0F));
 
-		ModelPartData leg0 = partdefinition.addChild("leg0", ModelPartBuilder.create().uv(45, 12).mirrored().cuboid(0.0F, 2.0F, 0.0F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(4.0F, 12.0F, 7.0F));
+		ModelPartData leg0 = partdefinition.addChild("leg0", ModelPartBuilder.create().uv(45, 12).mirrored().cuboid(0.0F, 2.0F, 0.0F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 12.0F, 7.0F));
 
-		ModelPartData leg1 = partdefinition.addChild("leg1", ModelPartBuilder.create().uv(45, 18).mirrored().cuboid(-3.0F, 5.0F, 0.0F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-4.0F, 12.0F, 7.0F));
+		ModelPartData leg1 = partdefinition.addChild("leg1", ModelPartBuilder.create().uv(45, 18).mirrored().cuboid(-3.0F, 5.0F, 0.0F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-4.0F, 12.0F, 7.0F));
 
-		ModelPartData leg2 = partdefinition.addChild("leg2", ModelPartBuilder.create().uv(45, 0).mirrored().cuboid(0.0F, 6.0F, -2.0F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(4.0F, 12.0F, -6.0F));
+		ModelPartData leg2 = partdefinition.addChild("leg2", ModelPartBuilder.create().uv(45, 0).mirrored().cuboid(0.0F, 6.0F, -2.0F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 12.0F, -6.0F));
 
-		ModelPartData leg3 = partdefinition.addChild("leg3", ModelPartBuilder.create().uv(45, 6).mirrored().cuboid(-3.0F, 2.0F, -2.0F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(-4.0F, 12.0F, -6.0F));
+		ModelPartData leg3 = partdefinition.addChild("leg3", ModelPartBuilder.create().uv(45, 6).mirrored().cuboid(-3.0F, 2.0F, -2.0F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-4.0F, 12.0F, -6.0F));
 
 		return TexturedModelData.of(meshdefinition, 64, 32);
 		}
 
 	@Override public void setAngles(LivingEntityRenderState renderState)
 	{
-		float limbSwing = renderState.limbFrequency;
-		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		float limbSwing = renderState.limbSwingAnimationProgress;
+		float limbSwingAmount = renderState.limbSwingAmplitude;
 
 		this.leg1.pitch = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
 		this.leg0.pitch = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;

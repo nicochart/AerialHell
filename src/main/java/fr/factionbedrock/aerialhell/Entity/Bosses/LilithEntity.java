@@ -34,12 +34,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
@@ -102,20 +103,17 @@ public class LilithEntity extends AbstractBossEntity
 		}
 		return flag;
 	}
-	
-	@Override public void writeCustomDataToNbt(NbtCompound nbt)
+
+	@Override protected void writeCustomData(WriteView view)
 	{
-		super.writeCustomDataToNbt(nbt);
-		nbt.putShort("timeTransforming", (short)this.timeSinceTransforming);
+		super.writeCustomData(view);
+		view.putInt("timeTransforming", this.timeSinceTransforming);
 	}
-	
-	@Override public void readCustomDataFromNbt(NbtCompound nbt)
+
+	@Override protected void readCustomData(ReadView view)
 	{
-	    super.readCustomDataFromNbt(nbt);
-	    if (nbt.contains("timeTransforming", 99))
-	    {
-	    	this.timeSinceTransforming = nbt.getShort("timeTransforming");
-	    }
+		super.readCustomData(view);
+		if (view.getOptionalInt("timeTransforming").isPresent()) {this.timeSinceTransforming = view.getOptionalInt("timeTransforming").get();}
 	}
 
 	public BossPhase getTransformingPhase() {return BossPhase.FIRST_TO_SECOND_TRANSITION;}
@@ -151,8 +149,7 @@ public class LilithEntity extends AbstractBossEntity
 	@Override public boolean isFireImmune() {return true;}
 	@Override public boolean doesRenderOnFire() {return false;}
 	
-	@Override
-	public boolean handleFallDamage(float distance, float damageMultiplier, DamageSource source) {return false;}
+	@Override public boolean handleFallDamage(double distance, float damageMultiplier, DamageSource source) {return false;}
 
 	@Override public Item getTrophy() {return AerialHellItems.LILITH_TROPHY;}
 
@@ -194,7 +191,7 @@ public class LilithEntity extends AbstractBossEntity
 					double rand = random.nextFloat() * 2;
 					double x = getX() + (random.nextFloat() - 0.5F) * rand, y = (this.getBoundingBox().minY + rand) + 0.5D, z = getZ() + (random.nextFloat() - 0.5F) * rand;
 					double dx = (random.nextFloat() - 0.5F)/10, dz = (random.nextFloat() - 0.5F)/10;
-					this.getWorld().addParticle(AerialHellParticleTypes.SHADOW_PARTICLE, x, y, z, dx, 0.0D, dz);
+					this.getWorld().addParticleClient(AerialHellParticleTypes.SHADOW_PARTICLE, x, y, z, dx, 0.0D, dz);
 				}
 			}
 		}
@@ -471,7 +468,7 @@ public class LilithEntity extends AbstractBossEntity
             	double d0 = this.random.nextGaussian() * 0.02D;
             	double d1 = this.random.nextGaussian() * 0.02D;
             	double d2 = this.random.nextGaussian() * 0.02D;
-            	this.getWorld().addParticle(AerialHellParticleTypes.SHADOW_PARTICLE, this.getParticleX(1.0D) - d0 * 10.0D, this.getRandomBodyY() - d1 * 10.0D, this.getParticleZ(1.0D) - d2 * 10.0D, 2 * d0, d1, 2 * d2);
+            	this.getWorld().addParticleClient(AerialHellParticleTypes.SHADOW_PARTICLE, this.getParticleX(1.0D) - d0 * 10.0D, this.getRandomBodyY() - d1 * 10.0D, this.getParticleZ(1.0D) - d2 * 10.0D, 2 * d0, d1, 2 * d2);
             }
         }
         else

@@ -60,7 +60,7 @@ public class PoisonballEntity extends AbstractFireballEntity
 				{
 					ItemStack activeItemStack = livingEntity.getActiveItem();
 					//activeItemStack.damage(1, livingEntity, p -> p.broadcastBreakEvent(activeItemStack.getEquipmentSlot()));
-					this.getWorld().playSound((PlayerEntity) null, entity.getBlockPos(), SoundEvents.ITEM_SHIELD_BREAK, SoundCategory.PLAYERS, 1.0F, 0.8F + this.getWorld().random.nextFloat() * 0.4F);
+					this.getWorld().playSound((PlayerEntity) null, entity.getBlockPos(), SoundEvents.ITEM_SHIELD_BREAK.value(), SoundCategory.PLAYERS, 1.0F, 0.8F + this.getWorld().random.nextFloat() * 0.4F);
 				}
 				if (!this.getWorld().isClient) {livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 0));}
 			}

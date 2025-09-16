@@ -36,24 +36,24 @@ public class MudCycleMageModel extends EntityModel<MudCycleMageRenderState>
 		ModelPartData partdefinition = meshdefinition.getRoot();
 
 		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, -8.0F, -3.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F))
-				.uv(32, 53).mirrored().cuboid(-4.0F, -10.0F, -3.0F, 8.0F, 3.0F, 8.0F, new Dilation(0.25F)).mirrored(false), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+				.uv(32, 53).mirrored().cuboid(-4.0F, -10.0F, -3.0F, 8.0F, 3.0F, 8.0F, new Dilation(0.25F)).mirrored(false), ModelTransform.origin(0.0F, 0.0F, 0.0F));
 
 		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(16, 32).cuboid(-4.0F, -24.0F, -1.0F, 8.0F, 22.0F, 4.0F, new Dilation(0.0F))
-				.uv(16, 16).cuboid(-4.0F, -24.0F, -1.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+				.uv(16, 16).cuboid(-4.0F, -24.0F, -1.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 24.0F, 0.0F));
 
 		ModelPartData leftArm = partdefinition.addChild("leftArm", ModelPartBuilder.create().uv(48, 37).cuboid(0.5F, 1.0F, -8.0F, 0.0F, 6.0F, 7.0F, new Dilation(0.0F))
-				.uv(40, 36).cuboid(-0.5F, -2.0F, -9.0F, 3.0F, 8.0F, 1.0F, new Dilation(0.0F)), ModelTransform.pivot(4.0F, 2.0F, 1.0F));
+				.uv(40, 36).cuboid(-0.5F, -2.0F, -9.0F, 3.0F, 8.0F, 1.0F, new Dilation(0.0F)), ModelTransform.origin(4.0F, 2.0F, 1.0F));
 
 		ModelPartData Leftarm_r1 = leftArm.addChild("leftArm_r1", ModelPartBuilder.create().uv(40, 16).mirrored().cuboid(4.0F, -2.0F, -23.0F, 2.0F, 12.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(-4.0F, 22.0F, -1.0F, -1.5708F, 0.0F, 0.0F));
 
 		ModelPartData rightArm = partdefinition.addChild("rightArm", ModelPartBuilder.create().uv(48, 37).mirrored().cuboid(-0.5F, 1.0F, -7.0F, 0.0F, 6.0F, 7.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(40, 36).cuboid(-2.5F, -2.0F, -8.0F, 3.0F, 8.0F, 1.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, 2.0F, 0.0F));
+				.uv(40, 36).cuboid(-2.5F, -2.0F, -8.0F, 3.0F, 8.0F, 1.0F, new Dilation(0.0F)), ModelTransform.origin(-4.0F, 2.0F, 0.0F));
 
 		ModelPartData Rightarm_r1 = rightArm.addChild("rightArm_r1", ModelPartBuilder.create().uv(40, 16).cuboid(-6.0F, -2.0F, -23.0F, 2.0F, 12.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(4.0F, 22.0F, 0.0F, -1.5708F, 0.0F, 0.0F));
 
-		ModelPartData rightLeg = partdefinition.addChild("rightLeg", ModelPartBuilder.create().uv(0, 16).cuboid(-1.0F, -1.0F, -1.0F, 2.0F, 12.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(-2.0F, 13.0F, 1.0F));
+		ModelPartData rightLeg = partdefinition.addChild("rightLeg", ModelPartBuilder.create().uv(0, 16).cuboid(-1.0F, -1.0F, -1.0F, 2.0F, 12.0F, 2.0F, new Dilation(0.0F)), ModelTransform.origin(-2.0F, 13.0F, 1.0F));
 
-		ModelPartData leftLeg = partdefinition.addChild("leftLeg", ModelPartBuilder.create().uv(0, 16).mirrored().cuboid(-1.0F, -1.0F, -1.0F, 2.0F, 12.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(2.0F, 13.0F, 1.0F));
+		ModelPartData leftLeg = partdefinition.addChild("leftLeg", ModelPartBuilder.create().uv(0, 16).mirrored().cuboid(-1.0F, -1.0F, -1.0F, 2.0F, 12.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(2.0F, 13.0F, 1.0F));
 
 		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
@@ -62,9 +62,9 @@ public class MudCycleMageModel extends EntityModel<MudCycleMageRenderState>
 	public void setAngles(MudCycleMageRenderState renderState)
 	{
 		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.yawDegrees;
-		float limbSwing = renderState.limbFrequency;
-		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		float netHeadYaw = renderState.relativeHeadYaw;
+		float limbSwing = renderState.limbSwingAnimationProgress;
+		float limbSwingAmount = renderState.limbSwingAmplitude;
 
 		this.head.yaw = netHeadYaw / 57.0F;
 		this.head.pitch = headPitch / 57.0F;

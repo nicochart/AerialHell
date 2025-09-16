@@ -26,7 +26,7 @@ public interface MudSpectralEntity
 
     default void popDisappearingParticles(MobEntity mob, int count)
     {
-        for (int i=0; i<count; i++) {mob.getWorld().addParticle(ParticleTypes.LARGE_SMOKE, mob.getX() + mob.getRandom().nextFloat() - 0.5, mob.getY() + 2 * mob.getRandom().nextFloat(), mob.getZ() + mob.getRandom().nextFloat(), 0.5 * (mob.getRandom().nextFloat()) - 0.5, 0.3D, 0.5 * (mob.getRandom().nextFloat() - 0.5));}
+        for (int i=0; i<count; i++) {mob.getWorld().addParticleClient(ParticleTypes.LARGE_SMOKE, mob.getX() + mob.getRandom().nextFloat() - 0.5, mob.getY() + 2 * mob.getRandom().nextFloat(), mob.getZ() + mob.getRandom().nextFloat(), 0.5 * (mob.getRandom().nextFloat()) - 0.5, 0.3D, 0.5 * (mob.getRandom().nextFloat() - 0.5));}
     }
 
     int getMaxTicksExisting();

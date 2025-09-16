@@ -1,9 +1,9 @@
 package fr.factionbedrock.aerialhell.Mixin;
 
+import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.systems.RenderSystem;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSkyRenderer;
-import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSpecialEffects;
 import net.minecraft.block.enums.CameraSubmersionType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
@@ -26,7 +26,7 @@ public class RenderSkyMixin
     private static AerialHellDimensionSkyRenderer ahSkyRenderer = null;
     
     @Inject(method = "renderSky", at = @At("HEAD"), cancellable = true)
-    private void renderSky(FrameGraphBuilder frameGraphBuilder, Camera camera, float partialTicks, Fog fog, CallbackInfo callbackInfo)
+    private void renderSky(FrameGraphBuilder frameGraphBuilder, Camera camera, float partialTicks, GpuBufferSlice fog, CallbackInfo callbackInfo)
     {
         WorldRenderer worldRenderer = (WorldRenderer) (Object) this;
         ClientWorld world = worldRenderer.world;
@@ -40,7 +40,7 @@ public class RenderSkyMixin
             DimensionEffects.SkyType skyType = dimensionEffects.getSkyType();
             if (skyType != DimensionEffects.SkyType.NONE)
             {
-                RenderPass renderPass = frameGraphBuilder.createPass("sky");
+                FramePass renderPass = frameGraphBuilder.createPass("sky");
                 worldRenderer.framebufferSet.mainFramebuffer = renderPass.transfer(worldRenderer.framebufferSet.mainFramebuffer);
                 renderPass.setRenderer(() ->
                 {
@@ -60,7 +60,7 @@ public class RenderSkyMixin
     }
 
     //was previously written and used in AerialHellDimensionSpecialEffects
-    private void aerialHellRender(ClientWorld world, Camera camera, float partialTicks, Fog fog)
+    private void aerialHellRender(ClientWorld world, Camera camera, float partialTicks, GpuBufferSlice fog)
     {
         if (ahSkyRenderer == null) {ahSkyRenderer = new AerialHellDimensionSkyRenderer();}
 
@@ -82,11 +82,11 @@ public class RenderSkyMixin
         {
             ahSkyRenderer.renderSunriseAndSunset(matrixStack, bufferSource, sunAngle, sunriseOrSunsetColor);
         }
-        ahSkyRenderer.renderSunMoonAndStars(matrixStack, bufferSource, timeOfDay, moonPhase, sunAlpha, moonAlpha, starAlpha, fog);
+        ahSkyRenderer.renderSunMoonAndStars(matrixStack, bufferSource, timeOfDay, moonPhase, sunAlpha, moonAlpha, starAlpha);
         bufferSource.draw();
         if (shouldRenderDarkDisc(partialTicks, world))
         {
-            ahSkyRenderer.renderDarkDisc(matrixStack);
+            ahSkyRenderer.renderDarkDisc();
         }
     }
 

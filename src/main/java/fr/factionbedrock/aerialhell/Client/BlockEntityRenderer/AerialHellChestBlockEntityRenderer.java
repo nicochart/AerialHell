@@ -18,6 +18,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.function.Function;
@@ -87,7 +88,7 @@ public class AerialHellChestBlockEntityRenderer<T extends ChestBlockEntity> exte
 		}
 		else //default material (should never happen)
 		{
-			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, TexturedRenderLayers.NORMAL, TexturedRenderLayers.NORMAL_LEFT, TexturedRenderLayers.NORMAL_RIGHT), RenderLayer::getEntityCutout);
+			return new SpriteIdentifierAndRenderType(getSpriteIdentifier(chestType, TexturedRenderLayers.CHEST, TexturedRenderLayers.CHEST_LEFT, TexturedRenderLayers.CHEST_RIGHT), RenderLayer::getEntityCutout);
 		}
 	}
 
@@ -101,7 +102,7 @@ public class AerialHellChestBlockEntityRenderer<T extends ChestBlockEntity> exte
 		};
 	}
 
-	@Override public void render(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay)
+	@Override public void render(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, Vec3d cameraPos)
 	{
 		World world = entity.getWorld();
 		boolean worldNotNull = world != null;

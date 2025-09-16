@@ -46,7 +46,7 @@ public class RubyLiquidOfGodsBucketItem extends Item
             BlockPos blockpos = blockhitresult.getBlockPos();
             Direction direction = blockhitresult.getSide();
             BlockPos blockpos1 = blockpos.offset(direction);
-            if (world.canPlayerModifyAt(user, blockpos) && user.canPlaceOn(blockpos1, direction, itemstack))
+            if (world.canEntityModifyAt(user, blockpos) && user.canPlaceOn(blockpos1, direction, itemstack))
             {
                 if (this.tryPlaceContainedLiquid(user, world, blockpos1, blockhitresult))
                 {

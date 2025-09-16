@@ -43,31 +43,31 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleRenderState>
 		ModelPartData partdefinition = meshdefinition.getRoot();
 
 		ModelPartData Head = partdefinition.addChild("Head", ModelPartBuilder.create().uv(92, 0).cuboid(-4.0F, -5.0F, -10.0F, 8.0F, 6.0F, 10.0F, new Dilation(0.0F))
-				.uv(92, 16).cuboid(-4.0F, 1.0F, -10.0F, 8.0F, 2.0F, 10.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 9.0F, -7.0F));
+				.uv(92, 16).cuboid(-4.0F, 1.0F, -10.0F, 8.0F, 2.0F, 10.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 9.0F, -7.0F));
 
 		ModelPartData Body = partdefinition.addChild("Body", ModelPartBuilder.create().uv(0, 61).cuboid(-12.0F, -17.0F, -9.0F, 24.0F, 4.0F, 25.0F, new Dilation(0.0F))
 				.uv(25, 91).cuboid(-10.0F, -33.0F, -7.0F, 20.0F, 16.0F, 21.0F, new Dilation(0.0F))
-				.uv(0, 90).cuboid(-5.0F, -22.0F, -8.0F, 10.0F, 5.0F, 1.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 27.0F, 0.0F));
+				.uv(0, 90).cuboid(-5.0F, -22.0F, -8.0F, 10.0F, 5.0F, 1.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 27.0F, 0.0F));
 
 		ModelPartData rightHole_r1 = Body.addChild("rightHole_r1", ModelPartBuilder.create().uv(0, 90).mirrored().cuboid(-8.0F, -22.0F, -11.0F, 10.0F, 5.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 1.5708F, 0.0F));
 
 		ModelPartData leftHole_r1 = Body.addChild("leftHole_r1", ModelPartBuilder.create().uv(0, 90).cuboid(-2.0F, -22.0F, -11.0F, 10.0F, 5.0F, 1.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, -1.5708F, 0.0F));
 
-		ModelPartData WingRight = partdefinition.addChild("WingRight", ModelPartBuilder.create(), ModelTransform.pivot(-11.0F, 7.0F, 3.0F));
+		ModelPartData WingRight = partdefinition.addChild("WingRight", ModelPartBuilder.create(), ModelTransform.origin(-11.0F, 7.0F, 3.0F));
 
 		ModelPartData Wing_r1 = WingRight.addChild("Wing_r1", ModelPartBuilder.create().uv(19, 0).cuboid(-24.0F, -19.0F, -7.0F, 12.0F, 0.0F, 18.0F, new Dilation(0.0F)), ModelTransform.of(11.0F, 20.0F, -3.0F, -0.2094F, 0.0F, 0.0873F));
 
-		ModelPartData WingLeft = partdefinition.addChild("WingLeft", ModelPartBuilder.create(), ModelTransform.pivot(11.0F, 7.0F, 3.0F));
+		ModelPartData WingLeft = partdefinition.addChild("WingLeft", ModelPartBuilder.create(), ModelTransform.origin(11.0F, 7.0F, 3.0F));
 
 		ModelPartData Wing_r2 = WingLeft.addChild("Wing_r2", ModelPartBuilder.create().uv(19, 0).mirrored().cuboid(12.0F, -19.0F, -7.0F, 12.0F, 0.0F, 18.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(-11.0F, 20.0F, -3.0F, -0.2094F, 0.0F, -0.0873F));
 
-		ModelPartData LegFrontRight = partdefinition.addChild("LegFrontRight", ModelPartBuilder.create().uv(0, 112).cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 10.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(-6.0F, 14.0F, -4.0F));
+		ModelPartData LegFrontRight = partdefinition.addChild("LegFrontRight", ModelPartBuilder.create().uv(0, 112).cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 10.0F, 6.0F, new Dilation(0.0F)), ModelTransform.origin(-6.0F, 14.0F, -4.0F));
 
-		ModelPartData LegFrontLeft = partdefinition.addChild("LegFrontLeft", ModelPartBuilder.create().uv(0, 112).mirrored().cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 10.0F, 6.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(6.0F, 14.0F, -4.0F));
+		ModelPartData LegFrontLeft = partdefinition.addChild("LegFrontLeft", ModelPartBuilder.create().uv(0, 112).mirrored().cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 10.0F, 6.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(6.0F, 14.0F, -4.0F));
 
-		ModelPartData LegBackRight = partdefinition.addChild("LegBackRight", ModelPartBuilder.create().uv(0, 112).cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 10.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(-6.0F, 14.0F, 10.0F));
+		ModelPartData LegBackRight = partdefinition.addChild("LegBackRight", ModelPartBuilder.create().uv(0, 112).cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 10.0F, 6.0F, new Dilation(0.0F)), ModelTransform.origin(-6.0F, 14.0F, 10.0F));
 
-		ModelPartData LegBackLeft = partdefinition.addChild("LegBackLeft", ModelPartBuilder.create().uv(0, 112).mirrored().cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 10.0F, 6.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(6.0F, 14.0F, 10.0F));
+		ModelPartData LegBackLeft = partdefinition.addChild("LegBackLeft", ModelPartBuilder.create().uv(0, 112).mirrored().cuboid(-3.0F, 0.0F, -3.0F, 6.0F, 10.0F, 6.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(6.0F, 14.0F, 10.0F));
 
 		return TexturedModelData.of(meshdefinition, 128, 128);
 	}
@@ -75,9 +75,9 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleRenderState>
 	@Override public void setAngles(GlidingTurtleRenderState renderState)
 	{
 		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.yawDegrees;
-		float limbSwing = renderState.limbFrequency;
-		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		float netHeadYaw = renderState.relativeHeadYaw;
+		float limbSwing = renderState.limbSwingAnimationProgress;
+		float limbSwingAmount = renderState.limbSwingAmplitude;
 
 		this.isGliding = renderState.isGliding; this.isChild = renderState.baby;
 		this.Head.yaw = netHeadYaw / 57.29578F;

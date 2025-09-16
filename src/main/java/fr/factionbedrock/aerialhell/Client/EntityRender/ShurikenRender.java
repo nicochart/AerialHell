@@ -10,7 +10,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ModelTransformationMode;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 
@@ -45,9 +45,9 @@ public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRend
 		super.updateRenderState(entity, renderState, partialTick);
 		renderState.texture = getTexture(entity);
 		renderState.YRot = entity.getYaw();
-		renderState.pitchO = entity.prevPitch;
+		renderState.pitchO = entity.lastPitch;
 		renderState.shurikenZRot = entity.shurikenZRot;
-		this.itemModelResolver.updateForNonLivingEntity(renderState.item, entity.getStack(), ModelTransformationMode.GROUND, entity);
+		this.itemModelResolver.updateForNonLivingEntity(renderState.item, entity.getStack(), ItemDisplayContext.GROUND, entity);
 	}
 
 	@Override public void render(ShurikenRenderState renderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int packedLight)

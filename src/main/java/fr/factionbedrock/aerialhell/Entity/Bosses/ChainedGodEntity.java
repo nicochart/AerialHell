@@ -43,6 +43,8 @@ import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -128,23 +130,23 @@ public class ChainedGodEntity extends AbstractBossEntity
 	    builder.add(UNCHAINING, false);
 	    builder.add(UNCHAINED, false);
 	}
-	
-	@Override public void writeCustomDataToNbt(NbtCompound nbt)
+
+	@Override protected void writeCustomData(WriteView view)
 	{
-		super.writeCustomDataToNbt(nbt);
-	    nbt.putBoolean("Imploding", this.isImploding());
-	    nbt.putBoolean("Unchaining", this.isUnchaining());
-		if (this.isUnchained()) {nbt.putBoolean("Unchained", true);}
+		super.writeCustomData(view);
+		view.putBoolean("Imploding", this.isImploding());
+		view.putBoolean("Unchaining", this.isUnchaining());
+		if (this.isUnchained()) {view.putBoolean("Unchained", true);}
 	}
-	
-	@Override public void readCustomDataFromNbt(NbtCompound nbt)
+
+	@Override protected void readCustomData(ReadView view)
 	{
-	    super.readCustomDataFromNbt(nbt);
-	    this.setImploding(nbt.getBoolean("Imploding"));
-	    this.setUnchaining(nbt.getBoolean("Unchaining"));
-	    this.setUnchained(nbt.getBoolean("Unchained"));
+		super.readCustomData(view);
+		this.setImploding(view.getBoolean("Imploding", false));
+		this.setUnchaining(view.getBoolean("Unchaining", false));
+		this.setUnchained(view.getBoolean("Unchained", false));
 	}
-	
+
 	public boolean isImploding() {return this.getDataTracker().get(IMPLODING);}
 	public void setImploding(boolean isImploding) {this.getDataTracker().set(IMPLODING, isImploding);}
 	public boolean isUnchaining() {return this.getDataTracker().get(UNCHAINING);}
@@ -165,8 +167,8 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	@Override public boolean isFireImmune() {return true;}
 	@Override public boolean doesRenderOnFire() {return false;}
-	
-	@Override public boolean handleFallDamage(float distance, float damageMultiplier, DamageSource source) {return false;}
+
+	@Override public boolean handleFallDamage(double distance, float damageMultiplier, DamageSource source) {return false;}
 	
 	@Override public void tick()
     {
@@ -244,7 +246,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 			double z = getZ() + (random.nextFloat() - 0.5F) * rand;
 			double dx = (random.nextFloat() - 0.5F)/10;
 			double dz = (random.nextFloat() - 0.5F)/10;
-			this.getWorld().addParticle(type, x, y, z, dx, dy, dz);
+			this.getWorld().addParticleClient(type, x, y, z, dx, dy, dz);
 		}
 	}
 
@@ -363,7 +365,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 			for(int i = 0; i < 30; ++i)
 			{
 				Random rand = this.getRandom(); double d0 = rand.nextGaussian() * 0.02D; double d1 = rand.nextGaussian() * 0.02D; double d2 = rand.nextGaussian() * 0.02D;
-				world.addParticle(ParticleTypes.LARGE_SMOKE, this.getParticleX(1.0D) - d0 * 10.0D, this.getRandomBodyY() - d1 * 10.0D, this.getParticleZ(1.0D) - d2 * 10.0D, 2 * d0, d1, 2 * d2);
+				world.addParticleClient(ParticleTypes.LARGE_SMOKE, this.getParticleX(1.0D) - d0 * 10.0D, this.getRandomBodyY() - d1 * 10.0D, this.getParticleZ(1.0D) - d2 * 10.0D, 2 * d0, d1, 2 * d2);
 			}
 		}
 		else {world.sendEntityStatus(this, (byte)20);}

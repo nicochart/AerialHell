@@ -39,25 +39,25 @@ public class LilithModel extends EntityModel<LilithRenderState>
 		ModelData meshdefinition = new ModelData();
 		ModelPartData partdefinition = meshdefinition.getRoot();
 
-		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 0.0F, 0.0F));
 
-		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(17, 16).cuboid(-4.0F, -24.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(17, 16).cuboid(-4.0F, -24.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 24.0F, 0.0F));
 
-		ModelPartData wingRight = partdefinition.addChild("wingRight", ModelPartBuilder.create(), ModelTransform.pivot(-2.0F, 5.0F, 2.0F));
+		ModelPartData wingRight = partdefinition.addChild("wingRight", ModelPartBuilder.create(), ModelTransform.origin(-2.0F, 5.0F, 2.0F));
 
 		ModelPartData wingRight_r1 = wingRight.addChild("wingRight_r1", ModelPartBuilder.create().uv(0, 30).cuboid(-0.5F, -25.0F, 4.0F, 0.0F, 13.0F, 21.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, 19.0F, -2.0F, 0.2094F, -0.6981F, 0.0F));
 
-		ModelPartData wingLeft = partdefinition.addChild("wingLeft", ModelPartBuilder.create(), ModelTransform.pivot(2.0F, 5.0F, 2.0F));
+		ModelPartData wingLeft = partdefinition.addChild("wingLeft", ModelPartBuilder.create(), ModelTransform.origin(2.0F, 5.0F, 2.0F));
 
 		ModelPartData wingLeft_r1 = wingLeft.addChild("wingLeft_r1", ModelPartBuilder.create().uv(0, 30).cuboid(0.5F, -25.0F, 4.0F, 0.0F, 13.0F, 21.0F, new Dilation(0.0F)), ModelTransform.of(-2.0F, 19.0F, -2.0F, 0.2094F, 0.6981F, 0.0F));
 
-		ModelPartData legLeft = partdefinition.addChild("legLeft", ModelPartBuilder.create().uv(0, 16).mirrored().cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(2.0F, 12.0F, 0.0F));
+		ModelPartData legLeft = partdefinition.addChild("legLeft", ModelPartBuilder.create().uv(0, 16).mirrored().cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(2.0F, 12.0F, 0.0F));
 
-		ModelPartData legRight = partdefinition.addChild("legRight", ModelPartBuilder.create().uv(0, 16).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(-2.0F, 12.0F, 0.0F));
+		ModelPartData legRight = partdefinition.addChild("legRight", ModelPartBuilder.create().uv(0, 16).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.origin(-2.0F, 12.0F, 0.0F));
 
-		ModelPartData armLeft = partdefinition.addChild("armLeft", ModelPartBuilder.create().uv(41, 16).mirrored().cuboid(0.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(4.0F, 0.0F, 0.0F));
+		ModelPartData armLeft = partdefinition.addChild("armLeft", ModelPartBuilder.create().uv(41, 16).mirrored().cuboid(0.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 0.0F, 0.0F));
 
-		ModelPartData armRight = partdefinition.addChild("armRight", ModelPartBuilder.create().uv(41, 16).cuboid(-4.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, 0.0F, 0.0F));
+		ModelPartData armRight = partdefinition.addChild("armRight", ModelPartBuilder.create().uv(41, 16).cuboid(-4.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F)), ModelTransform.origin(-4.0F, 0.0F, 0.0F));
 
 		return TexturedModelData.of(meshdefinition, 64, 64);
 	}
@@ -65,9 +65,9 @@ public class LilithModel extends EntityModel<LilithRenderState>
 	@Override public void setAngles(LilithRenderState renderState)
 	{
 		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.yawDegrees;
-		float limbSwing = renderState.limbFrequency;
-		float limbSwingAmount = renderState.limbAmplitudeMultiplier;
+		float netHeadYaw = renderState.relativeHeadYaw;
+		float limbSwing = renderState.limbSwingAnimationProgress;
+		float limbSwingAmount = renderState.limbSwingAmplitude;
 		if (!renderState.isTransforming)
 		{
 			int i = renderState.attackTimer;

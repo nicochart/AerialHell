@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:mud_cycle_mage",
+    "aerialhell:hell_spider",
+    "aerialhell:mud_golem",
+    "aerialhell:mud_soldier",
+    "aerialhell:mud_spectral_cycle_mage",
+    "aerialhell:mud_spectral_golem",
+    "aerialhell:mud_spectral_soldier",
+    "aerialhell:aerial_tree_mimic"
+  ]
+}
