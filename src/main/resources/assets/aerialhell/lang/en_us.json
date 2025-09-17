@@ -1144,6 +1144,7 @@
   "subtitles.aerialhell.block.glyph_block.interact": "Glyph Block interact",
   "subtitles.aerialhell.block.trapped_block.step": "Trapped Block step",
   "subtitles.aerialhell.block.bone_pile_block.step_break": "Bone pile block step-break",
+  "subtitles.aerialhell.block.reactor.ambient": "Reactor ambient",
   "subtitles.aerialhell.item.forgotten_battle_trident.use": "Forgotten Battle Trident use",
   "subtitles.aerialhell.block.aerial_hell_portal.ambient": "Aerial Hell Portal ambient",
 

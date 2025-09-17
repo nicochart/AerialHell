@@ -108,7 +108,7 @@ public class AerialHellChestBlockEntityRenderer extends ChestRenderer<AerialHell
 		};
 	}
 
-	@Override public void render(AerialHellChestBlockEntity tileEntityIn, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLightIn, int combinedOverlayIn, Vec3 vec3)
+	@Override public void render(AerialHellChestBlockEntity tileEntityIn, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLightIn, int combinedOverlayIn, Vec3 cameraPos)
 	{
 		Level level = tileEntityIn.getLevel();
 		boolean levelnotnull = level != null;

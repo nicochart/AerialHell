@@ -5,9 +5,12 @@ import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.BlockEntity.ReactorBlockEntity;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
@@ -95,13 +98,15 @@ public class ReactorBlock extends BiomeShifterBlock
             //face 4
             offsetx = 0.0; offsetz = -basePosOffset;
             sendReactorParticles(level, new Vector3d(basePos).add(offsetx, offsety, offsetz), particleNumber, baseHorizontalParticleOffset, verticalParticleOffset, 0.0, speed, shiftType);
-
-            //TODO add a active sound
-            //if (rand.nextDouble() < 0.1)
-            //{
-            //    level.playLocalSound(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, this.getActiveSound(), SoundSource.BLOCKS, 1.0F, 1.0F, false);
-            //}
         }
+    }
+
+    @Override public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random)
+    {
+        float randFloat = random.nextFloat();
+        if (!state.getValue(ACTIVE) || randFloat > 0.9F) {return;}
+        SoundEvent ambientSound = randFloat < 0.1F ? AerialHellSoundEvents.REACTOR_AMBIENT.get() : AerialHellSoundEvents.REACTOR_AMBIENT_SHORT.get();
+        level.playLocalSound(pos.getX() + 0.5F, pos.getY(), pos.getZ() + 0.5F, ambientSound, SoundSource.BLOCKS, 0.7F, 0.8F + random.nextFloat() * 0.6F, false);
     }
 
     public static void sendReactorParticles(ServerLevel level, Vector3d pos, int number, double xOffset, double yOffset, double zOffset, double speed, BiomeShifter.ShiftType type)

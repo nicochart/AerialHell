@@ -120,7 +120,9 @@ public class AerialHellSoundEvents
 	public static final DeferredHolder<SoundEvent, SoundEvent> TRAPPED_BLOCK_STEP = register("block.trapped_block.step");
 	public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_AERIAL_HELL_PORTAL_AMBIENT = register("block.aerial_hell_portal.ambient");
 	public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_BONE_PILE_STEP_BREAK = register("block.bone_pile_block.step_break");
-	
+	public static final DeferredHolder<SoundEvent, SoundEvent> REACTOR_AMBIENT = register("block.reactor.ambient");
+	public static final DeferredHolder<SoundEvent, SoundEvent> REACTOR_AMBIENT_SHORT = register("block.reactor.ambient_short");
+
 	public static final DeferredHolder<SoundEvent, SoundEvent> MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP = register("music_disc.aerial_hell_theme_tommaup");
 	public static final DeferredHolder<SoundEvent, SoundEvent> MUSIC_DISC_SWEDEN_ANDREAS_ZOELLER = register("music_disc.sweden_andreas_zoeller");
 	public static final DeferredHolder<SoundEvent, SoundEvent> MUSIC_DISC_ENTHUSIAST_TOURS = register("music_disc.enthusiast_tours");

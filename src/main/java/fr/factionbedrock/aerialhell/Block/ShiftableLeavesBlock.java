@@ -30,7 +30,7 @@ public class ShiftableLeavesBlock extends LeavesBlock
     private final BiomeShifter.ShiftType shiftType;
     public static final BooleanProperty SHIFTED_RENDER = BooleanProperty.create("shifted_render"); //only used for render purposes
 
-    public ShiftableLeavesBlock(Properties prop, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType) {this(0.05F, prop, shiftedVariant, shiftType);}
+    public ShiftableLeavesBlock(Properties prop, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType) {this(0.01F, prop, shiftedVariant, shiftType);}
 
     public ShiftableLeavesBlock(float leavesParticleChance, Properties prop, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
     {
