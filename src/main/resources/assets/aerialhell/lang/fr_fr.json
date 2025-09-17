@@ -1150,6 +1150,7 @@
   "subtitles.aerialhell.block.glyph_block.interact": "Interaction avec le Bloc de Glyphe",
   "subtitles.aerialhell.block.trapped_block.step": "Bloc piégé",
   "subtitles.aerialhell.block.bone_pile_block.step_break": "Tas d'os détruit",
+  "subtitles.aerialhell.block.reactor.ambient": "Reacteur Actif",
   "subtitles.aerialhell.item.forgotten_battle_trident.use": "Usage du Trident de Guerre Oublié",
   "subtitles.aerialhell.block.aerial_hell_portal.ambient": "Portail pour Aerial Hell",
 
