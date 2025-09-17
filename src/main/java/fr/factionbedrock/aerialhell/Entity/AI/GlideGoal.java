@@ -15,13 +15,13 @@ public class GlideGoal extends Goal
 
     @Override public boolean canStart() {return true;}
     @Override public void start() {this.resetTask();}
-    @Override public void stop() {goalOwner.setGliding(false);}
+    @Override public void stop() {goalOwner.setTurtleGliding(false);}
     @Override public boolean shouldRunEveryTick() {return true;}
 
     @Override public void tick()
     {
-        if (this.goalOwner.isGliding()) {this.setGlidingMotion();}
-        else if (this.shouldStartGliding()) {this.goalOwner.setGliding(true);}
+        if (this.goalOwner.isTurtleGliding()) {this.setGlidingMotion();}
+        else if (this.shouldStartGliding()) {this.goalOwner.setTurtleGliding(true);}
 
         if (this.shouldJump())
         {
@@ -31,7 +31,7 @@ public class GlideGoal extends Goal
         if (this.shouldIncrementJumpTimer()) {this.incrementJumpTimer();}
         if (this.shouldPanicBonusIncrementJumpTimer()) {for (int i=0; i<3; i++) {this.incrementJumpTimer();}}
 
-        if (this.shouldStopGliding()) {this.goalOwner.setGliding(false);}
+        if (this.shouldStopGliding()) {this.goalOwner.setTurtleGliding(false);}
     }
 
     private void setGlidingMotion()
@@ -73,10 +73,10 @@ public class GlideGoal extends Goal
         this.goalOwner.setVelocity(this.goalOwner.getVelocity().add(0.0D, jumpPower, 0.0D));
     }
 
-    protected boolean shouldJump() {return this.jumpTimer > this.getJumpTimerTargetValue() && !this.goalOwner.isGliding() && this.goalOwner.isOnGround();}
+    protected boolean shouldJump() {return this.jumpTimer > this.getJumpTimerTargetValue() && !this.goalOwner.isTurtleGliding() && this.goalOwner.isOnGround();}
     protected boolean shouldStartGliding() {return this.goalOwner.getVelocity().y < -0.3D;}
-    protected boolean shouldStopGliding() {return this.goalOwner.isGliding() && this.goalOwner.isOnGround() && this.goalOwner.getVelocity().y>=-0.1F;}
-    protected boolean shouldIncrementJumpTimer() {return this.goalOwner.isOnGround() && !this.goalOwner.isGliding();}
+    protected boolean shouldStopGliding() {return this.goalOwner.isTurtleGliding() && this.goalOwner.isOnGround() && this.goalOwner.getVelocity().y>=-0.1F;}
+    protected boolean shouldIncrementJumpTimer() {return this.goalOwner.isOnGround() && !this.goalOwner.isTurtleGliding();}
     protected boolean shouldPanicBonusIncrementJumpTimer() {return this.goalOwner.getAttacker() != null && this.goalOwner.age - this.goalOwner.getLastAttackedTime() < 40;}
     protected void incrementJumpTimer() {this.jumpTimer += 1 + this.goalOwner.getRandom().nextInt(randomTimerBonus);}
     protected int getJumpTimerTargetValue() {return 1200;}

@@ -72,8 +72,8 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
         return AerialHellEntities.GLIDING_TURTLE.create(this.getWorld(), SpawnReason.BREEDING);
     }
     
-    public boolean isGliding() {return !this.getDataTracker().get(GLIDING);}
-    public void setGliding(boolean flag) {this.getDataTracker().set(GLIDING, !flag);}
+    public boolean isTurtleGliding() {return !this.getDataTracker().get(GLIDING);}
+    public void setTurtleGliding(boolean flag) {this.getDataTracker().set(GLIDING, !flag);}
 
     @Override public boolean handleFallDamage(float distance, float damageMultiplier, DamageSource source) {return false;}
 
@@ -93,14 +93,14 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
     @Override public void writeCustomDataToNbt(NbtCompound nbt)
     {
         super.writeCustomDataToNbt(nbt);
-        nbt.putBoolean("Glide", this.isGliding());
+        nbt.putBoolean("Glide", this.isTurtleGliding());
         nbt.putInt("AteTimer", this.ateTimer);
     }
 
     @Override public void readCustomDataFromNbt(NbtCompound nbt)
     {
         super.readCustomDataFromNbt(nbt);
-        this.setGliding(nbt.getBoolean("Glide"));
+        this.setTurtleGliding(nbt.getBoolean("Glide"));
         this.ateTimer = nbt.getInt("AteTimer");
     }
 }
