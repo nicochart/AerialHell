@@ -28,7 +28,7 @@ public class ShadowAutomatonShadowLayer<S extends AutomatonRenderState, M extend
       if (!renderState.isInvisible)
       {
          this.shadowAutomatonModel.setupAnim(renderState);
-         VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityCutout(renderState.texture));
+         VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityTranslucent(renderState.texture));
          this.shadowAutomatonModel.renderToBuffer(poseStack, consumer, packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB());
       }
    }
