@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.DirtAndVariants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellStateProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
@@ -11,7 +12,6 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
@@ -24,18 +24,16 @@ import java.util.Optional;
 
 public abstract class AerialHellGrassBlock extends GrassBlock implements BonemealableBlock
 {
-	public static final BooleanProperty SHIFTED_RENDER = BooleanProperty.create("shifted_render"); //only used for render purposes
-
 	public AerialHellGrassBlock(Properties properties)
 	{
 		super(properties);
-		this.registerDefaultState(this.defaultBlockState().setValue(SNOWY, false).setValue(SHIFTED_RENDER, false));
+		this.registerDefaultState(this.defaultBlockState().setValue(SNOWY, false).setValue(AerialHellStateProperties.SHIFTED_RENDER, false));
 	}
 
 	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		super.createBlockStateDefinition(builder);
-		builder.add(SHIFTED_RENDER);
+		builder.add(AerialHellStateProperties.SHIFTED_RENDER);
 	}
 
 	@Override public void performBonemeal(ServerLevel level, RandomSource rand, BlockPos pos, BlockState state)

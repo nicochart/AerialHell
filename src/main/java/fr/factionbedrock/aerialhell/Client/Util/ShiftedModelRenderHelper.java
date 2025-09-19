@@ -7,9 +7,8 @@ import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowLogBlock;
 import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
 import fr.factionbedrock.aerialhell.Client.BlockBakedModels.ShiftingBlockBakedModel;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
-import net.minecraft.client.renderer.block.model.BlockModelPart;
+import fr.factionbedrock.aerialhell.Registry.AerialHellStateProperties;
 import net.minecraft.client.renderer.block.model.BlockStateModel;
-import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -40,15 +39,15 @@ public class ShiftedModelRenderHelper
             BlockState baseState, shiftedState;
             for (Boolean canSpread : booleanValues)
             {
-                baseState = block.defaultBlockState().setValue(BasicShadowSpreaderBlock.CAN_SPREAD, canSpread).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
-                shiftedState = block.defaultBlockState().setValue(BasicShadowSpreaderBlock.CAN_SPREAD, canSpread).setValue(AerialHellGrassBlock.SHIFTED_RENDER, true);
+                baseState = block.defaultBlockState().setValue(BasicShadowSpreaderBlock.CAN_SPREAD, canSpread).setValue(AerialHellStateProperties.SHIFTED_RENDER, false);
+                shiftedState = block.defaultBlockState().setValue(BasicShadowSpreaderBlock.CAN_SPREAD, canSpread).setValue(AerialHellStateProperties.SHIFTED_RENDER, true);
                 createAndRegisterShiftedRender(baseState, shiftedState, event);
             }
         }
         else
         {
-            BlockState baseState = block.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
-            BlockState shiftedState = block.defaultBlockState().setValue(AerialHellGrassBlock.SHIFTED_RENDER, true);
+            BlockState baseState = block.defaultBlockState().setValue(AerialHellStateProperties.SHIFTED_RENDER, false);
+            BlockState shiftedState = block.defaultBlockState().setValue(AerialHellStateProperties.SHIFTED_RENDER, true);
             createAndRegisterShiftedRender(baseState, shiftedState, event);
         }
     }
@@ -58,16 +57,16 @@ public class ShiftedModelRenderHelper
         BlockState baseState, shiftedState;
         for (int age = 0; age <= 25; age++)
         {
-            baseState = block.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, age).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
-            shiftedState = block.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, age).setValue(AerialHellGrassBlock.SHIFTED_RENDER, true);
+            baseState = block.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, age).setValue(AerialHellStateProperties.SHIFTED_RENDER, false);
+            shiftedState = block.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, age).setValue(AerialHellStateProperties.SHIFTED_RENDER, true);
             createAndRegisterShiftedRender(baseState, shiftedState, event);
         }
     }
 
     public static void createAndRegisterGrassBlockShiftedRender(GrassBlock block, ModelEvent.ModifyBakingResult event)
     {
-        BlockState baseState = block.defaultBlockState().setValue(AerialHellGrassBlock.SNOWY, false).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
-        BlockState shiftedState = block.defaultBlockState().setValue(AerialHellGrassBlock.SNOWY, false).setValue(AerialHellGrassBlock.SHIFTED_RENDER, true);
+        BlockState baseState = block.defaultBlockState().setValue(AerialHellGrassBlock.SNOWY, false).setValue(AerialHellStateProperties.SHIFTED_RENDER, false);
+        BlockState shiftedState = block.defaultBlockState().setValue(AerialHellGrassBlock.SNOWY, false).setValue(AerialHellStateProperties.SHIFTED_RENDER, true);
         createAndRegisterShiftedRender(baseState, shiftedState, event);
     }
 
@@ -84,8 +83,8 @@ public class ShiftedModelRenderHelper
                 {
                     for (Boolean waterlogged : booleanValues)
                     {
-                        baseState = block.defaultBlockState().setValue(LeavesBlock.DISTANCE, distance).setValue(LeavesBlock.PERSISTENT, persistent).setValue(ShiftableLeavesBlock.SHIFTED_RENDER, false).setValue(LeavesBlock.WATERLOGGED, waterlogged);
-                        shiftedState = block.defaultBlockState().setValue(LeavesBlock.DISTANCE, distance).setValue(LeavesBlock.PERSISTENT, persistent).setValue(ShiftableLeavesBlock.SHIFTED_RENDER, true).setValue(LeavesBlock.WATERLOGGED, waterlogged);
+                        baseState = block.defaultBlockState().setValue(LeavesBlock.DISTANCE, distance).setValue(LeavesBlock.PERSISTENT, persistent).setValue(AerialHellStateProperties.SHIFTED_RENDER, false).setValue(LeavesBlock.WATERLOGGED, waterlogged);
+                        shiftedState = block.defaultBlockState().setValue(LeavesBlock.DISTANCE, distance).setValue(LeavesBlock.PERSISTENT, persistent).setValue(AerialHellStateProperties.SHIFTED_RENDER, true).setValue(LeavesBlock.WATERLOGGED, waterlogged);
                         if (block instanceof ShadowLeavesBlock) {baseState = baseState.setValue(ShadowLeavesBlock.CAN_SPREAD, can_spread); shiftedState = shiftedState.setValue(ShadowLeavesBlock.CAN_SPREAD, can_spread);}
                         createAndRegisterShiftedRender(baseState, shiftedState, event);
                     }
