@@ -27,7 +27,7 @@ public class ShiftedModelRenderHelper
         }
         else //create and return shifting model with lazy access to shifted model
         {
-            return ShiftedModelRenderHelper.createShiftingModel(originalModel, originalState.with(AerialHellGrassBlock.SHIFTED_RENDER, true));
+            return ShiftedModelRenderHelper.createShiftingModel(originalModel, originalState.with(AerialHellBooleanProperties.SHIFTED_RENDER, true));
         }
     }
 

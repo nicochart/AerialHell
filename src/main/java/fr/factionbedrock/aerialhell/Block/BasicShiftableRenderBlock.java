@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Block;
 
-import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -11,8 +11,8 @@ public class BasicShiftableRenderBlock extends Block
     public BasicShiftableRenderBlock(AbstractBlock.Settings settings)
     {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(AerialHellGrassBlock.SHIFTED_RENDER, false));
+        this.setDefaultState(this.getDefaultState().with(AerialHellBooleanProperties.SHIFTED_RENDER, false));
     }
 
-    @Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {builder.add(AerialHellGrassBlock.SHIFTED_RENDER);}
+    @Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {builder.add(AerialHellBooleanProperties.SHIFTED_RENDER);}
 }

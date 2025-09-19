@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -15,20 +14,19 @@ public class ShiftableLogBlock extends PillarBlock
 {
     private final Supplier<ShiftableLogBlock> shiftedVariant;
     private final BiomeShifter.ShiftType shiftType;
-    public static final BooleanProperty SHIFTED_RENDER = AerialHellBooleanProperties.SHIFTED_RENDER; //only used for render purposes
 
     public ShiftableLogBlock(Settings settings, Supplier<ShiftableLogBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
     {
         super(settings);
         this.shiftedVariant = shiftedVariant;
         this.shiftType = shiftType;
-        this.setDefaultState(this.getDefaultState().with(SHIFTED_RENDER, false));
+        this.setDefaultState(this.getDefaultState().with(AerialHellBooleanProperties.SHIFTED_RENDER, false));
     }
 
     @Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder)
     {
         super.appendProperties(builder);
-        builder.add(SHIFTED_RENDER);
+        builder.add(AerialHellBooleanProperties.SHIFTED_RENDER);
     }
     public Supplier<ShiftableLogBlock> getShiftedVariant() {return this.shiftedVariant;}
     public BiomeShifter.ShiftType getShiftType() {return this.shiftType;}

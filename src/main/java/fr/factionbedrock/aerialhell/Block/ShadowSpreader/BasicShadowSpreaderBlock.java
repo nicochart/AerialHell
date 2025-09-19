@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.ShadowSpreader;
 
-import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -17,10 +17,10 @@ public class BasicShadowSpreaderBlock extends Block implements ShadowSpreaderBlo
 	public BasicShadowSpreaderBlock(Settings settings)
 	{
 		super(settings);
-		this.setDefaultState(this.getDefaultState().with(CAN_SPREAD, true).with(AerialHellGrassBlock.SHIFTED_RENDER, false));
+		this.setDefaultState(this.getDefaultState().with(CAN_SPREAD, true).with(AerialHellBooleanProperties.SHIFTED_RENDER, false));
 	}
 
-	@Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {builder.add(CAN_SPREAD, AerialHellGrassBlock.SHIFTED_RENDER);}
+	@Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {builder.add(CAN_SPREAD, AerialHellBooleanProperties.SHIFTED_RENDER);}
 
 	@Override protected boolean hasRandomTicks(BlockState state) {return state.get(CAN_SPREAD);}
 

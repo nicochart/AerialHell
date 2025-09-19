@@ -15,7 +15,6 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.particle.ParticleUtil;
 import net.minecraft.particle.TintedParticleEffect;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
@@ -30,7 +29,6 @@ public class ShiftableLeavesBlock extends LeavesBlock
 
     private final Supplier<ShiftableLeavesBlock> shiftedVariant;
     private final BiomeShifter.ShiftType shiftType;
-    public static final BooleanProperty SHIFTED_RENDER = AerialHellBooleanProperties.SHIFTED_RENDER; //only used for render purposes
 
     public ShiftableLeavesBlock(Settings settings, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType) {this(0.01F, settings, shiftedVariant, shiftType);}
 
@@ -39,7 +37,7 @@ public class ShiftableLeavesBlock extends LeavesBlock
         super(leavesParticleChance, settings);
         this.shiftedVariant = shiftedVariant;
         this.shiftType = shiftType;
-        this.setDefaultState(this.getDefaultState().with(SHIFTED_RENDER, false));
+        this.setDefaultState(this.getDefaultState().with(AerialHellBooleanProperties.SHIFTED_RENDER, false));
     }
 
     @Override protected void spawnLeafParticle(World world, BlockPos pos, Random random)
@@ -72,7 +70,7 @@ public class ShiftableLeavesBlock extends LeavesBlock
     @Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder)
     {
         super.appendProperties(builder);
-        builder.add(SHIFTED_RENDER);
+        builder.add(AerialHellBooleanProperties.SHIFTED_RENDER);
     }
 
     public Supplier<ShiftableLeavesBlock> getShiftedVariant() {return this.shiftedVariant;}

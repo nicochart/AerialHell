@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.Plants.Vines;
 
-import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
 import net.minecraft.block.*;
 import net.minecraft.state.StateManager;
 
@@ -10,10 +10,10 @@ public class AerialHellTwistingVinesPlantBlock extends TwistingVinesPlantBlock
     public AerialHellTwistingVinesPlantBlock(AbstractBlock.Settings settings)
     {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(AerialHellGrassBlock.SHIFTED_RENDER, false));
+        this.setDefaultState(this.getDefaultState().with(AerialHellBooleanProperties.SHIFTED_RENDER, false));
     }
 
-    @Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {builder.add(AerialHellGrassBlock.SHIFTED_RENDER);}
+    @Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {builder.add(AerialHellBooleanProperties.SHIFTED_RENDER);}
 
     @Override protected AbstractPlantStemBlock getStem()
     {
