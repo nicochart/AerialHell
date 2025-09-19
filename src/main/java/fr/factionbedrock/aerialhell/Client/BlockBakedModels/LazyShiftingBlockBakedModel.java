@@ -11,14 +11,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
-public class ShiftingBlockBakedModel implements BlockStateModel
+public class LazyShiftingBlockBakedModel implements BlockStateModel
 {
-    private final BlockStateModel defaultModel;
-    private final BlockStateModel shiftedModel;
+    private final Supplier<BlockStateModel> defaultModel;
+    private final Supplier<BlockStateModel> shiftedModel;
     private final Function<Boolean, Boolean> shouldDisplayShiftedModel;
 
-    public ShiftingBlockBakedModel(BlockStateModel defaultModel, BlockStateModel shiftedModel, Function<Boolean, Boolean> shouldDisplayShiftedModel)
+    public LazyShiftingBlockBakedModel(Supplier<BlockStateModel> defaultModel, Supplier<BlockStateModel> shiftedModel, Function<Boolean, Boolean> shouldDisplayShiftedModel)
     {
         this.defaultModel = defaultModel;
         this.shiftedModel = shiftedModel;
@@ -30,9 +31,17 @@ public class ShiftingBlockBakedModel implements BlockStateModel
     @Override public void addParts(Random random, List<BlockModelPart> parts) {getModel().addParts(random, parts);}
     @Override public Sprite particleSprite() {return getModel().particleSprite();}
 
-    private BlockStateModel getModel() {return shouldDisplayShiftedModel(false) ? shiftedModel : defaultModel;}
+    private BlockStateModel getModel()
+    {
+        BlockStateModel model = shouldDisplayShiftedModel(false) ? this.getShifted() : this.getDefault();
+        if (model == null)
+        {
+            System.out.println("Trying to get shifted model variant of "+this.getDefault()+" but got null");
+        }
+        return model;
+    }
 
     protected boolean shouldDisplayShiftedModel(boolean forceDefault) {return this.shouldDisplayShiftedModel.apply(forceDefault);}
-    public BlockStateModel getDefault() {return this.defaultModel;}
-    public BlockStateModel getShifted() {return this.shiftedModel;}
+    public BlockStateModel getDefault() {return this.defaultModel.get();}
+    public BlockStateModel getShifted() {return this.shiftedModel.get();}
 }

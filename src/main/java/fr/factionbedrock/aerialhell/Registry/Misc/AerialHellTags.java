@@ -129,6 +129,8 @@ public class AerialHellTags
 
 		public static final TagKey<Block> REPLACE_OUT = tag("replace_out");
 
+		public static final TagKey<Block> SHIFTING_RENDER = tag("shifting_render");
+
 		private static TagKey<Block> tag(String name)
 		{
 			return TagKey.of(RegistryKeys.BLOCK, AerialHell.id(name));
