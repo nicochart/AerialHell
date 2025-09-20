@@ -26,14 +26,6 @@ public class BlocksAndItemsColorHandler
         ColorProviderRegistry.BLOCK.register((state, world, pos, tint) -> getColor(tint, world, pos),
                 AerialHellBlocks.CHISELED_STELLAR_GRASS_BLOCK,
                 AerialHellBlocks.STELLAR_JUNGLE_TREE_SAPLING,
-                AerialHellBlocks.MOSSY_STELLAR_STONE,
-                AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE,
-                AerialHellBlocks.MOSSY_STELLAR_STONE_WALL,
-                AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_WALL,
-                AerialHellBlocks.MOSSY_STELLAR_STONE_SLAB,
-                AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_SLAB,
-                AerialHellBlocks.MOSSY_STELLAR_STONE_STAIRS,
-                AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_STAIRS,
                 AerialHellBlocks.MOSSY_MUD_BRICKS,
                 AerialHellBlocks.MOSSY_MUD_BRICKS_WALL,
                 AerialHellBlocks.MOSSY_MUD_BRICKS_SLAB,
@@ -73,6 +65,14 @@ public class BlocksAndItemsColorHandler
         );
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tint) -> getVegetationColor(state, tint, world, pos),
+                AerialHellBlocks.MOSSY_STELLAR_STONE,
+                AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE,
+                AerialHellBlocks.MOSSY_STELLAR_STONE_WALL,
+                AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_WALL,
+                AerialHellBlocks.MOSSY_STELLAR_STONE_SLAB,
+                AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_SLAB,
+                AerialHellBlocks.MOSSY_STELLAR_STONE_STAIRS,
+                AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_STAIRS,
                 AerialHellBlocks.STELLAR_GRASS_BLOCK,
                 AerialHellBlocks.SHADOW_GRASS_BLOCK,
                 AerialHellBlocks.STELLAR_JUNGLE_TREE_LEAVES,
@@ -153,6 +153,10 @@ public class BlocksAndItemsColorHandler
                         return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(pos));
                     }
                     else if (state.isOf(AerialHellBlocks.STELLAR_ROOTS) || state.isOf(AerialHellBlocks.STELLAR_ROOTS_PLANT) || state.isOf(AerialHellBlocks.BLOSSOMING_VINES) || state.isOf(AerialHellBlocks.BLOSSOMING_VINES_PLANT))
+                    {
+                        return ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(pos), (info) -> ColorHandlerHelper.getLightColor(info, BiomeColors.GRASS_COLOR, ColorHandlerHelper.SHADOW_PURPLE), (info) -> ColorHandlerHelper.getShadowColor(info, BiomeColors.GRASS_COLOR, ColorHandlerHelper.SHADOW_PURPLE));
+                    }
+                    else if (state.isOf(AerialHellBlocks.MOSSY_STELLAR_STONE) || state.isOf(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE) || state.isOf(AerialHellBlocks.MOSSY_STELLAR_STONE_WALL) || state.isOf(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_WALL) || state.isOf(AerialHellBlocks.MOSSY_STELLAR_STONE_SLAB) || state.isOf(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_SLAB) || state.isOf(AerialHellBlocks.MOSSY_STELLAR_STONE_STAIRS) || state.isOf(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_STAIRS) || state.isOf(AerialHellBlocks.MOSSY_MUD_BRICKS) || state.isOf(AerialHellBlocks.MOSSY_MUD_BRICKS_WALL) || state.isOf(AerialHellBlocks.MOSSY_MUD_BRICKS_SLAB) || state.isOf(AerialHellBlocks.MOSSY_MUD_BRICKS_STAIRS) || state.isOf(AerialHellBlocks.MOSSY_SHADOW_CATACOMBS_BRICKS) || state.isOf(AerialHellBlocks.MOSSY_SHADOW_CATACOMBS_BRICKS_WALL) || state.isOf(AerialHellBlocks.MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB) || state.isOf(AerialHellBlocks.MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS))
                     {
                         return ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(pos), (info) -> ColorHandlerHelper.getLightColor(info, BiomeColors.GRASS_COLOR, ColorHandlerHelper.SHADOW_PURPLE), (info) -> ColorHandlerHelper.getShadowColor(info, BiomeColors.GRASS_COLOR, ColorHandlerHelper.SHADOW_PURPLE));
                     }
