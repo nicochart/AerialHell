@@ -3,27 +3,32 @@ package fr.factionbedrock.aerialhell.World.Features;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Block.Plants.VerticalGrowingPlantBlock;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.World.Features.Config.VerticalGrowingPlantConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
-import java.util.function.Supplier;
+import java.util.List;
 
 //copy of TwistingVinesFeature class with some customizations and a config with one more parameter; editing placeWeepingVinesColumn and isInvalidPlacementLocation to adapt to Aerial Hell
-public class VerticalGrowingPlantFeature extends Feature<VerticalGrowingPlantConfig>
+public class VerticalGrowingPlantFeature extends AerialHellFeature<VerticalGrowingPlantConfig>
 {
-    private Supplier<VerticalGrowingPlantBlock> block;
-    public VerticalGrowingPlantFeature(Codec<VerticalGrowingPlantConfig> codec, Supplier<VerticalGrowingPlantBlock> plantBlock) {super(codec); this.block = plantBlock;}
+    public VerticalGrowingPlantFeature(Codec<VerticalGrowingPlantConfig> codec) {super(codec);}
 
-    public boolean place(FeaturePlaceContext<VerticalGrowingPlantConfig> context)
+    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.VERTICAL_GROWING_PLANT_LIST;}
+
+    @Override public boolean place(FeaturePlaceContext<VerticalGrowingPlantConfig> context)
     {
+        if (!super.place(context)) {return false;}
         WorldGenLevel worldgenlevel = context.level(); BlockPos blockpos = context.origin();
         if (isInvalidPlacementLocation(worldgenlevel, blockpos)) {return false;}
         else
@@ -45,7 +50,7 @@ public class VerticalGrowingPlantFeature extends Feature<VerticalGrowingPlantCon
                 if (findFirstAirBlockAboveGround(worldgenlevel, blockpos$mutableblockpos) && !isInvalidPlacementLocation(worldgenlevel, blockpos$mutableblockpos))
                 {
                     int plantHeight = (minHeight == maxHeight) ? minHeight : Mth.nextInt(random, minHeight, maxHeight);
-                    placeVerticalGrowingPlantColumn(worldgenlevel, random, blockpos$mutableblockpos, plantHeight, 9, 14, block.get());
+                    placeVerticalGrowingPlantColumn(worldgenlevel, random, blockpos$mutableblockpos, plantHeight, 9, 14, config.plantStateProvider());
                 }
             }
             return true;
@@ -59,8 +64,9 @@ public class VerticalGrowingPlantFeature extends Feature<VerticalGrowingPlantCon
         return true;
     }
 
-    public static void placeVerticalGrowingPlantColumn(LevelAccessor level, RandomSource rand, BlockPos.MutableBlockPos mutablePos, int height, int minAge, int maxAge, VerticalGrowingPlantBlock plantBlock)
+    public static void placeVerticalGrowingPlantColumn(LevelAccessor level, RandomSource rand, BlockPos.MutableBlockPos mutablePos, int height, int minAge, int maxAge, BlockStateProvider plantProvider)
     {
+        VerticalGrowingPlantBlock plantBlock = (VerticalGrowingPlantBlock) plantProvider.getState(rand, mutablePos).getBlock();
         for(int i = 1; i <= height; ++i)
         {
             if (level.isEmptyBlock(mutablePos))

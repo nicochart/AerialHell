@@ -6,6 +6,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
+import java.util.List;
+
 public class AerialHellConfiguredFeatures
 {
     public static final ResourceKey<ConfiguredFeature<?, ?>> AERIAL_HELL_WATER_LAKE = createKey("aerial_hell_water_lake");
@@ -32,6 +34,14 @@ public class AerialHellConfiguredFeatures
     public static final ResourceKey<ConfiguredFeature<?, ?>> LAZULI_ROOTS = createKey("lazuli_roots");
     public static final ResourceKey<ConfiguredFeature<?, ?>> STELLAR_ROOTS = createKey("stellar_roots");
     public static final ResourceKey<ConfiguredFeature<?, ?>> DEAD_ROOTS = createKey("dead_roots");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GLOWING_ROOTS = createKey("glowing_roots");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> LARGE_DEAD_STELLAR_JUNGLE_TREE_LOG = createKey("large_dead_stellar_jungle_tree_log");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FULL_MOON_PLANT = createKey("full_moon_plant");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> PATCH_CLIMBING_VINE = createKey("patch_climbing_vine");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> PATCH_STELLAR_SUGAR_CANE = createKey("patch_stellar_sugar_cane");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> PATCH_STELLAR_VERY_TALL_GRASS = createKey("patch_stellar_very_tall_grass");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> AERIAL_TREE = createKey("aerial_tree");
     public static final ResourceKey<ConfiguredFeature<?, ?>> FOREST_AERIAL_TREE = createKey("forest_aerial_tree");
@@ -47,6 +57,8 @@ public class AerialHellConfiguredFeatures
     public static final ResourceKey<ConfiguredFeature<?, ?>> CRYSTALLIZED_TREE = createKey("crystallized_tree");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_AERIAL_TREE = createKey("giant_aerial_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_GOLDEN_BEECH = createKey("giant_golden_beech");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_CRYSTALLIZED_TREE = createKey("giant_crystallized_tree");
     public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_COPPER_PINE = createKey("giant_copper_pine");
     public static final ResourceKey<ConfiguredFeature<?, ?>> HUGE_COPPER_PINE = createKey("huge_copper_pine");
     public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_LAPIS_ROBINIA = createKey("giant_lapis_robinia");
@@ -55,6 +67,9 @@ public class AerialHellConfiguredFeatures
     public static final ResourceKey<ConfiguredFeature<?, ?>> HUGE_SHADOW_PINE = createKey("huge_shadow_pine");
     public static final ResourceKey<ConfiguredFeature<?, ?>> HUGE_PURPLE_SHADOW_PINE = createKey("huge_purple_shadow_pine");
     public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_STELLAR_JUNGLE_TREE = createKey("giant_stellar_jungle_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> PETRIFIED_GIANT_AERIAL_TREE = createKey("petrified_giant_aerial_tree");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CORTINARIUS_VIOLACEUS_MUSHROOM_CAPS_COLUMN = createKey("cortinarius_violaceus_mushroom_caps_column");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> AERIAL_TREE_VEGETATION = createKey("aerial_tree_vegetation");
     public static final ResourceKey<ConfiguredFeature<?, ?>> FOREST_AERIAL_TREE_VEGETATION = createKey("forest_aerial_tree_vegetation");
@@ -84,17 +99,26 @@ public class AerialHellConfiguredFeatures
     public static final ResourceKey<ConfiguredFeature<?, ?>> GREEN_SOLID_ETHER = createKey("green_solid_ether");
     public static final ResourceKey<ConfiguredFeature<?, ?>> PURPLE_SOLID_ETHER = createKey("purple_solid_ether");
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ROOT_BRIDGE = createKey("root_bridge");
+
     public static final ResourceKey<ConfiguredFeature<?, ?>> STELLAR_COARSE_FLOOR_IN_DARK_AREAS = createKey("stellar_coarse_floor_in_dark_areas");
     public static final ResourceKey<ConfiguredFeature<?, ?>> STELLAR_GRASS_IN_SHADOW_GRASS = createKey("stellar_coarse_floor_in_dark_areas");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> STELLAR_CRYSTAL_PODZOL = createKey("stellar_crystal_podzol");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> STELLAR_PODZOL = createKey("stellar_podzol");
     public static final ResourceKey<ConfiguredFeature<?, ?>> MOSSY_STELLAR_COBBLESTONE_ROCK = createKey("mossy_stellar_cobblestone_rock");
     public static final ResourceKey<ConfiguredFeature<?, ?>> DANGLING_CHAIN = createKey("dangling_chain");
     public static final ResourceKey<ConfiguredFeature<?, ?>> SLIPPERY_SAND = createKey("slippery_sand");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> BLUE_MEANIE_FIELD = createKey("blue_meanie_field");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> STELLAR_WHEAT_FIELD = createKey("stellar_wheat_field");
     public static final ResourceKey<ConfiguredFeature<?, ?>> CRYSTAL_BLOB = createKey("crystal_blob");
     public static final ResourceKey<ConfiguredFeature<?, ?>> SHADOW_CRYSTAL_BLOB = createKey("shadow_crystal_blob");
     public static final ResourceKey<ConfiguredFeature<?, ?>> STELLAR_STONE_CRYSTAL_BLOB_IN_DARK_AREAS = createKey("stellar_stone_crystal_blob_in_dark_areas");
     public static final ResourceKey<ConfiguredFeature<?, ?>> SHADOW_CRYSTAL_BLOB_IN_DARK_AREAS = createKey("shadow_crystal_blob_in_dark_areas");
     public static final ResourceKey<ConfiguredFeature<?, ?>> CRYSTALLIZED_FIRE = createKey("cristallized_fire");
     public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_CRYSTAL_BLOB = createKey("giant_crystal_blob");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> PATCH_GLOWING_STELLAR_GRASS = createKey("patch_glowing_stellar_grass");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_ROOT_SHROOM = createKey("giant_root_shroom");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> STELLAR_PORTAL_FRAME_ORE = createKey("stellar_portal_frame_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> IRON_STELLAR_ORE = createKey("iron_stellar_ore");
@@ -118,6 +142,50 @@ public class AerialHellConfiguredFeatures
     public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_CORTINARIUS_VIOLACEUS_PLANTED = createKey("giant_cortinarius_violaceus_planted");
 
     public static ResourceKey<ConfiguredFeature<?, ?>> createKey(String name) {return ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));}
+
+    public static final class Lists
+    {
+        //lists of configured features using feature
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> AERIAL_HELL_LAKE_LIST = createList(AERIAL_HELL_WATER_LAKE);
+
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> GIANT_GANODERMA_APPLANATUM_LIST = createList(GIANT_GANODERMA_APPLANATUM);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> HUGE_MUSHROOM_LIST = createList(HUGE_VERDIGRIS_AGARIC);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> TWISTING_ROOTS_LIST = createList(LAZULI_ROOTS, STELLAR_ROOTS, GLOWING_ROOTS, DEAD_ROOTS);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> LARGE_DEAD_STELLAR_JUNGLE_TREE_LOG_LIST = createList(LARGE_DEAD_STELLAR_JUNGLE_TREE_LOG);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> FULL_MOON_PLANT_LIST = createList(FULL_MOON_PLANT);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> VERTICAL_GROWING_PLANT_LIST = createList(PATCH_CLIMBING_VINE, PATCH_STELLAR_SUGAR_CANE, PATCH_STELLAR_VERY_TALL_GRASS);
+
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> WHITE_SOLID_ETHER_LIST = createList(WHITE_SOLID_ETHER);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> BLUE_SOLID_ETHER_LIST = createList(BLUE_SOLID_ETHER);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> GOLDEN_SOLID_ETHER_LIST = createList(GOLDEN_SOLID_ETHER);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> GREEN_SOLID_ETHER_LIST = createList(GREEN_SOLID_ETHER);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> PURPLE_SOLID_ETHER_LIST = createList(PURPLE_SOLID_ETHER);
+
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> ROOT_BRIDGE_LIST = createList(ROOT_BRIDGE);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> CLASSIC_GIANT_TREE_LIST = createList(GIANT_AERIAL_TREE, GIANT_GOLDEN_BEECH, GIANT_CRYSTALLIZED_TREE, GIANT_STELLAR_JUNGLE_TREE);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> FORKING_GIANT_TREE_TREE = createList(GIANT_LAPIS_ROBINIA);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> GIANT_PINE_TREE_LIST = createList(GIANT_COPPER_PINE, GIANT_PURPLE_SHADOW_PINE, GIANT_SHADOW_PINE, HUGE_COPPER_PINE, HUGE_PURPLE_SHADOW_PINE, HUGE_SHADOW_PINE);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> DEAD_GIANT_TREE_TREE_LIST = createList(PETRIFIED_GIANT_AERIAL_TREE);
+
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> MUSHROOM_CAPS_COLUMN_LIST = createList(CORTINARIUS_VIOLACEUS_MUSHROOM_CAPS_COLUMN);
+
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> FLOOR_TRANSFORMATION_LIST = createList(STELLAR_GRASS_IN_SHADOW_GRASS, STELLAR_COARSE_FLOOR_IN_DARK_AREAS, STELLAR_CRYSTAL_PODZOL, STELLAR_PODZOL);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> MOSSY_STELLAR_COBBLESTONE_ROCK_LIST = createList(MOSSY_STELLAR_COBBLESTONE_ROCK);
+
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> DANGLING_CHAIN_LIST = createList(DANGLING_CHAIN);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> SLIPPERY_SAND_LIST = createList(SLIPPERY_SAND);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> NATURAL_FIELD_LIST = createList(BLUE_MEANIE_FIELD, STELLAR_WHEAT_FIELD);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> CRYSTAL_BLOB_LIST = createList(CRYSTAL_BLOB, SHADOW_CRYSTAL_BLOB);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> LITTLE_CRYSTAL_BLOB_LIST = createList(STELLAR_STONE_CRYSTAL_BLOB_IN_DARK_AREAS, SHADOW_CRYSTAL_BLOB_IN_DARK_AREAS);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> CRYSTALLIZED_FIRE_LIST = createList(CRYSTALLIZED_FIRE);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> GIANT_CRYSTAL_BLOB_LIST = createList(GIANT_CRYSTAL_BLOB);
+
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> RANDOM_PATCH_IN_DARK_AREA_LIST = createList(PATCH_GLOWING_STELLAR_GRASS);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> SINGLE_BLOCK_NEEDING_SUPPORT_LIST = createList(GIANT_ROOT_SHROOM);
+
+        public static List<ResourceKey<ConfiguredFeature<?, ?>>> createList(ResourceKey<ConfiguredFeature<?, ?>>... keys) {return List.of(keys);}
+    }
+
 
     /*public static final class Configs
     {

@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.ForkingGiantTreeConfig;
 import fr.factionbedrock.aerialhell.World.Features.Util.*;
@@ -12,13 +13,16 @@ import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantTr
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.PosLists.FoliagePosList;
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.PosLists.ForkingTrunkBlockPosList;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGiantTreeConfig>
 {
@@ -27,8 +31,11 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
 
     public ForkingGiantTreeFeature(Codec<ForkingGiantTreeConfig> codec) {super(codec);}
 
+    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FORKING_GIANT_TREE_TREE;}
+
     @Override public boolean place(FeaturePlaceContext<ForkingGiantTreeConfig> context)
     {
+        if (!super.place(context)) {return false;}
         RandomSource rand = context.random(); ForkingGiantTreeConfig config = context.config();
         BlockPos origin = context.origin();
 

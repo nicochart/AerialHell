@@ -3,20 +3,27 @@ package fr.factionbedrock.aerialhell.World.Features;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.World.Features.Config.FloorTransformationConfig;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
-public class FloorTransformationFeature extends Feature<FloorTransformationConfig>
+import java.util.List;
+
+public class FloorTransformationFeature extends AerialHellFeature<FloorTransformationConfig>
 {
 	public FloorTransformationFeature(Codec<FloorTransformationConfig> codec) {super(codec);}
 
+	@Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FLOOR_TRANSFORMATION_LIST;}
+
 	@Override public boolean place(FeaturePlaceContext<FloorTransformationConfig> context)
 	{
+		if (!super.place(context)) {return false;}
 		FloorTransformationConfig config = context.config(); WorldGenLevel level = context.level(); RandomSource rand = context.random();
 		BlockPos placementPos, origin = context.origin();
 		BlockState placementState;

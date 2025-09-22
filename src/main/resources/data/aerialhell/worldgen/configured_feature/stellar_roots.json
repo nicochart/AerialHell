@@ -1,9 +1,27 @@
 {
-  "type": "aerialhell:stellar_roots",
+  "type": "aerialhell:twisting_roots",
   "config": {
     "spread_width": 6,
     "spread_height": 3,
     "max_height": 6,
+    "head_state_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 1,
+          "data": {"Name": "aerialhell:stellar_roots"}
+        }
+      ]
+    },
+    "body_state_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 1,
+          "data": {"Name": "aerialhell:stellar_roots_plant"}
+        }
+      ]
+    },
     "needs_roof": "false"
   }
 }

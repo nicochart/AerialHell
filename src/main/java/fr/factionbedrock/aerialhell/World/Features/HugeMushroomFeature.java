@@ -3,8 +3,10 @@ package fr.factionbedrock.aerialhell.World.Features;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Util.Ellipsoid;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.HugeMushroomBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -13,17 +15,24 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
-public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguration>
+import java.util.List;
+
+public class HugeMushroomFeature extends AerialHellFeature<HugeMushroomFeatureConfiguration>
 {
     public HugeMushroomFeature(Codec<HugeMushroomFeatureConfiguration> config) {super(config);}
 
+    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.HUGE_MUSHROOM_LIST;}
+
     @Override public boolean place(FeaturePlaceContext<HugeMushroomFeatureConfiguration> context)
     {
+        if (!super.place(context)) {return false;}
+
         BlockPos pos = context.origin(); WorldGenLevel world = context.level(); RandomSource rand = context.random(); HugeMushroomFeatureConfiguration config = context.config();
         int stemSize = (rand.nextInt(6) == 0) ? rand.nextInt(8) + 5 : rand.nextInt(5) + 8; //shroom y size
         int capRadius = 3 + rand.nextInt(2); //horizontal width

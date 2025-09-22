@@ -9,6 +9,7 @@ import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.material.Fluid;
 
@@ -128,6 +129,8 @@ public class AerialHellTags
 
 		public static final TagKey<Block> REPLACE_OUT = tag("replace_out");
 
+		public static final TagKey<Block> NATURAL_CRYSTAL_BLOCK = tag("natural_crystal_block");
+
 		public static final TagKey<Block> SHIFTING_RENDER = tag("shifting_render");
 		
 		private static TagKey<Block> tag(String name)
@@ -234,6 +237,16 @@ public class AerialHellTags
 		private static TagKey<Structure> tag(String name)
 		{
 			return TagKey.create(Registries.STRUCTURE, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+		}
+	}
+
+	public static class ConfiguredFeatures
+	{
+		public static final TagKey<ConfiguredFeature<?, ?>> CANT_PLACE_IN_DUNGEONS = tag("cant_place_in_dungeons");
+
+		private static TagKey<ConfiguredFeature<?, ?>> tag(String name)
+		{
+			return TagKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 

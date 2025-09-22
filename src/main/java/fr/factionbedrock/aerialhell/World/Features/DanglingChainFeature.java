@@ -4,25 +4,32 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class DanglingChainFeature extends Feature<NoneFeatureConfiguration>
+import java.util.List;
+
+public class DanglingChainFeature extends AerialHellFeature<NoneFeatureConfiguration>
 {
     public DanglingChainFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
     private static enum LinkDirection{NORTH_SOUTH, WEST_EAST}
 
+	@Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.DANGLING_CHAIN_LIST;}
+
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
+		if (!super.place(context)) {return false;}
 		BlockPos blockPos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
     	boolean canGenerate = reader.getBlockState(blockPos.below()).getBlock().equals(Blocks.AIR)
     		&& reader.getBlockState(blockPos).is(AerialHellTags.Blocks.STELLAR_STONE)

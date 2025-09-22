@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
 import com.mojang.serialization.Codec;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.ClassicGiantTreeConfig;
 import fr.factionbedrock.aerialhell.World.Features.Util.*;
@@ -8,10 +9,14 @@ import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantBr
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantFoliage;
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantTrunk;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+
+import java.util.List;
 
 public class ClassicGiantTreeFeature extends AbstractGiantTreeFeature<ClassicGiantTreeConfig>
 {
@@ -20,8 +25,11 @@ public class ClassicGiantTreeFeature extends AbstractGiantTreeFeature<ClassicGia
 
     public ClassicGiantTreeFeature(Codec<ClassicGiantTreeConfig> codec) {super(codec);}
 
+    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.CLASSIC_GIANT_TREE_LIST;}
+
     @Override public boolean place(FeaturePlaceContext<ClassicGiantTreeConfig> context)
     {
+        if (!super.place(context)) {return false;}
         RandomSource rand = context.random(); ClassicGiantTreeConfig config = context.config();
         BlockPos origin = context.origin();
 

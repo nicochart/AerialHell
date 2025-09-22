@@ -1,13 +1,20 @@
 package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.material.MapColor;
 import org.joml.Vector3f;
 
@@ -15,16 +22,31 @@ public class FeatureHelper
 {
     public static boolean isFeatureGeneratingNextToDungeon(FeaturePlaceContext<?> context)
     {
-        /* TODO (currently makes worldgen stops with no error in log, new chunks do not load, infinite loop)
         WorldGenLevel level = context.level();
-        //context.chunkGenerator().findNearestMapStructure(level.getLevel(), StructureHelper.getDungeonsHolderSet(level.registryAccess()), context.origin(), 100, false);
-        BlockPos nearestDungeonPos = level.getLevel().findNearestMapStructure(AerialHellTags.Structures.DUNGEONS, context.origin(), 100, false);
-        if (nearestDungeonPos != null)
+        BlockPos origin = context.origin();
+
+        var registryAccess = level.registryAccess().lookupOrThrow(Registries.STRUCTURE);
+        HolderSet.Named<Structure> taggedStructures = registryAccess.get(AerialHellTags.Structures.DUNGEONS).orElse(null);
+        if (taggedStructures == null) return false;
+
+        int originChunkX = origin.getX() >> 4;
+        int originChunkZ = origin.getZ() >> 4;
+        int chunkRadius = 3;
+
+        for (int dx = -chunkRadius; dx <= chunkRadius; dx++)
         {
-            return context.origin().distSqr(nearestDungeonPos) < 100;
+            for (int dz = -chunkRadius; dz <= chunkRadius; dz++)
+            {
+                ChunkAccess chunk = level.getChunk(originChunkX + dx, originChunkZ + dz);
+
+                for (Holder<Structure> entry : taggedStructures)
+                {
+                    Structure structure = entry.value();
+                    StructureStart start = chunk.getAllStarts().get(structure);
+                    if (start != null && start.isValid()) {return true;}
+                }
+            }
         }
-        else {return false;}
-        */
         return false;
     }
 

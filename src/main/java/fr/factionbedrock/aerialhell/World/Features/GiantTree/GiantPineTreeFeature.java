@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.GiantPineTreeConfig;
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantTrunk;
@@ -9,11 +10,15 @@ import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnots;
 import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedStraightLine;
 import fr.factionbedrock.aerialhell.World.Features.Util.StraightLine;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+
+import java.util.List;
 
 public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTreeConfig>
 {
@@ -21,8 +26,11 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
 
     public GiantPineTreeFeature(Codec<GiantPineTreeConfig> codec) {super(codec);}
 
+    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.GIANT_PINE_TREE_LIST;}
+
     @Override public boolean place(FeaturePlaceContext<GiantPineTreeConfig> context)
     {
+        if (!super.place(context)) {return false;}
         RandomSource rand = context.random(); GiantPineTreeConfig config = context.config();
         BlockPos origin = context.origin();
 

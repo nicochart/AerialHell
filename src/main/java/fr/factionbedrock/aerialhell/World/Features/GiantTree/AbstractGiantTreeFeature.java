@@ -3,14 +3,14 @@ package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import fr.factionbedrock.aerialhell.World.Features.AerialHellFeature;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 
-public class AbstractGiantTreeFeature<FC extends FeatureConfiguration> extends Feature<FC>
+public abstract class AbstractGiantTreeFeature<FC extends FeatureConfiguration> extends AerialHellFeature<FC>
 {
     public AbstractGiantTreeFeature(Codec<FC> config) {super(config);}
 

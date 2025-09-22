@@ -1,6 +1,15 @@
 {
-  "type": "aerialhell:stellar_very_tall_grass",
+  "type": "aerialhell:vertical_growing_plant",
   "config": {
+    "plant_state_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 1,
+          "data": {"Name": "aerialhell:stellar_very_tall_grass"}
+        }
+      ]
+    },
     "spread_width": 16,
     "spread_height": 4,
     "min_height": 3,

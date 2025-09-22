@@ -28,18 +28,13 @@ public class AerialHellFeatures
 
 	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> GIANT_GANODERMA_APPLANATUM = FEATURES.register("giant_ganoderma_applanatum", () -> new GiantGanodermaApplanatumFeature(NoneFeatureConfiguration.CODEC));
 	public static final DeferredHolder<Feature<?>, Feature<HugeMushroomFeatureConfiguration>> HUGE_MUSHROOM = FEATURES.register("huge_mushroom", () -> new HugeMushroomFeature(HugeMushroomFeatureConfiguration.CODEC));
-	public static final DeferredHolder<Feature<?>, Feature<AerialHellTwistingVinesConfig>> LAZULI_ROOTS = FEATURES.register("lazuli_roots", () -> new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC, () -> AerialHellBlocks.LAZULI_ROOTS.get(), () -> AerialHellBlocks.LAZULI_ROOTS_PLANT.get()));
-	public static final DeferredHolder<Feature<?>, Feature<AerialHellTwistingVinesConfig>> STELLAR_ROOTS = FEATURES.register("stellar_roots", () -> new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC, () -> AerialHellBlocks.STELLAR_ROOTS.get(), () -> AerialHellBlocks.STELLAR_ROOTS_PLANT.get()));
-	public static final DeferredHolder<Feature<?>, Feature<AerialHellTwistingVinesConfig>> DEAD_ROOTS = FEATURES.register("dead_roots", () -> new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC, () -> AerialHellBlocks.DEAD_ROOTS.get(), () -> AerialHellBlocks.DEAD_ROOTS_PLANT.get()));
-	public static final DeferredHolder<Feature<?>, Feature<AerialHellTwistingVinesConfig>> GLOWING_ROOTS = FEATURES.register("glowing_roots", () -> new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC, () -> AerialHellBlocks.GLOWING_ROOTS.get(), () -> AerialHellBlocks.GLOWING_ROOTS_PLANT.get()));
+	public static final DeferredHolder<Feature<?>, Feature<AerialHellTwistingVinesConfig>> TWISTING_ROOTS = FEATURES.register("twisting_roots", () -> new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC));
 
 	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> LARGE_DEAD_STELLAR_JUNGLE_TREE_LOG = FEATURES.register("large_dead_stellar_jungle_tree_log", () -> new LargeDeadLogFeature(NoneFeatureConfiguration.CODEC, () -> AerialHellBlocks.DEAD_STELLAR_JUNGLE_TREE_LOG.get()));
 
 	public static final DeferredHolder<Feature<?>, Feature<ChorusLikePlantConfig>> FULL_MOON_PLANT = FEATURES.register("full_moon_plant", () -> new ChorusLikeFeature(ChorusLikePlantConfig.CODEC));
 
-	public static final DeferredHolder<Feature<?>, Feature<VerticalGrowingPlantConfig>> CLIMBING_VINE = FEATURES.register("climbing_vine", () -> new VerticalGrowingPlantFeature(VerticalGrowingPlantConfig.CODEC, () -> AerialHellBlocks.CLIMBING_VINE.get()));
-	public static final DeferredHolder<Feature<?>, Feature<VerticalGrowingPlantConfig>> STELLAR_SUGAR_CANE = FEATURES.register("stellar_sugar_cane", () -> new VerticalGrowingPlantFeature(VerticalGrowingPlantConfig.CODEC, () -> AerialHellBlocks.STELLAR_SUGAR_CANE.get()));
-	public static final DeferredHolder<Feature<?>, Feature<VerticalGrowingPlantConfig>> STELLAR_VERY_TALL_GRASS = FEATURES.register("stellar_very_tall_grass", () -> new VerticalGrowingPlantFeature(VerticalGrowingPlantConfig.CODEC, () -> AerialHellBlocks.STELLAR_VERY_TALL_GRASS.get()));
+	public static final DeferredHolder<Feature<?>, Feature<VerticalGrowingPlantConfig>> VERTICAL_GROWING_PLANT = FEATURES.register("vertical_growing_plant", () -> new VerticalGrowingPlantFeature(VerticalGrowingPlantConfig.CODEC));
 
 	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> WHITE_SOLID_ETHER = FEATURES.register("white_solid_ether", () -> new WhiteSolidEtherCloudFeature(NoneFeatureConfiguration.CODEC));
 	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> BLUE_SOLID_ETHER = FEATURES.register("blue_solid_ether", () -> new BlueSolidEtherCloudFeature(NoneFeatureConfiguration.CODEC));
@@ -59,10 +54,10 @@ public class AerialHellFeatures
 	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> DANGLING_CHAIN = FEATURES.register("dangling_chain", () -> new DanglingChainFeature(NoneFeatureConfiguration.CODEC));
 	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> SLIPPERY_SAND = FEATURES.register("slippery_sand", () -> new SlipperySandFeature(NoneFeatureConfiguration.CODEC));
 	public static final DeferredHolder<Feature<?>, Feature<NaturalFieldConfig>> NATURAL_FIELD = FEATURES.register("natural_field", () -> new NaturalFieldFeature(NaturalFieldConfig.CODEC));
-	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> CRYSTAL_BLOB = FEATURES.register("crystal_blob", () -> new CrystalBlobFeature(() -> AerialHellBlocks.CRYSTAL_BLOCK.get(), NoneFeatureConfiguration.CODEC));
-	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> SHADOW_CRYSTAL_BLOB = FEATURES.register("shadow_crystal_blob", () -> new CrystalBlobFeature(() -> AerialHellBlocks.SHADOW_CRYSTAL_BLOCK.get(), NoneFeatureConfiguration.CODEC));
-	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> STELLAR_STONE_CRYSTAL_BLOB_IN_DARK_AREAS = FEATURES.register("stellar_stone_crystal_blob_in_dark_areas", () -> new StellarStoneCrystalBlobFeature(() -> AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK.get(), NoneFeatureConfiguration.CODEC));
-	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> SHADOW_CRYSTAL_BLOB_IN_DARK_AREAS = FEATURES.register("shadow_crystal_blob_in_dark_areas", () -> new StellarStoneCrystalBlobFeature(() -> AerialHellBlocks.SHADOW_CRYSTAL_BLOCK.get(), NoneFeatureConfiguration.CODEC));
+	public static final DeferredHolder<Feature<?>, Feature<CrystalBlobConfig>> CRYSTAL_BLOB = FEATURES.register("crystal_blob", () -> new CrystalBlobFeature(CrystalBlobConfig.CODEC));
+	public static final DeferredHolder<Feature<?>, Feature<CrystalBlobConfig>> SHADOW_CRYSTAL_BLOB = FEATURES.register("shadow_crystal_blob", () -> new CrystalBlobFeature(CrystalBlobConfig.CODEC));
+	public static final DeferredHolder<Feature<?>, Feature<CrystalBlobConfig>> STELLAR_STONE_CRYSTAL_BLOB_IN_DARK_AREAS = FEATURES.register("stellar_stone_crystal_blob_in_dark_areas", () -> new LittleCrystalBlobFeature(CrystalBlobConfig.CODEC));
+	public static final DeferredHolder<Feature<?>, Feature<CrystalBlobConfig>> SHADOW_CRYSTAL_BLOB_IN_DARK_AREAS = FEATURES.register("shadow_crystal_blob_in_dark_areas", () -> new LittleCrystalBlobFeature(CrystalBlobConfig.CODEC));
 	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> CRYSTALLIZED_FIRE = FEATURES.register("cristallized_fire", () -> new CrystallizedFireFeature(NoneFeatureConfiguration.CODEC));
 	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> GIANT_CRYSTAL_BLOB = FEATURES.register("giant_crystal_blob", () -> new GiantCrystalBlobFeature(NoneFeatureConfiguration.CODEC));
 

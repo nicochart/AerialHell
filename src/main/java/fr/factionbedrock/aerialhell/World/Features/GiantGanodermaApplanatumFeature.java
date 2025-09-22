@@ -4,31 +4,36 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.HugeMushroomBlock;
-import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfiguration>
+import java.util.List;
+
+public class GiantGanodermaApplanatumFeature extends AerialHellFeature<NoneFeatureConfiguration>
 {
     public GiantGanodermaApplanatumFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
+    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.GIANT_GANODERMA_APPLANATUM_LIST;}
+
     @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
+        if (!super.place(context)) {return false;}
         BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random();
 		boolean canGenerate = (
             (!reader.getBlockState(pos.above(3)).getBlock().equals(Blocks.AIR)) &&
             ((reader.getBlockState(pos.north(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.south(2)).getBlock().equals(Blocks.AIR)) || (reader.getBlockState(pos.west(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.east(2)).getBlock().equals(Blocks.AIR))) &&
             (reader.getBlockState(pos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(pos).getBlock() == AerialHellBlocks.STELLAR_DIRT.get()));
 		
-		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
-		
-        if (canGenerate && !generatesInDungeon)
+        if (canGenerate)
         {
         	generateCap(reader, rand, pos);
         	return true;

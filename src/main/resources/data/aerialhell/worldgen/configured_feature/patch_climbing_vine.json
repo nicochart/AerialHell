@@ -1,6 +1,15 @@
 {
-  "type": "aerialhell:climbing_vine",
+  "type": "aerialhell:vertical_growing_plant",
   "config": {
+    "plant_state_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 1,
+          "data": {"Name": "aerialhell:climbing_vine"}
+        }
+      ]
+    },
     "spread_width": 12,
     "spread_height": 3,
     "min_height": 2,

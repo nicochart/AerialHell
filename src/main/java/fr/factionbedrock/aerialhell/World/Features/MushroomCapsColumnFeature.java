@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.MushroomCapsColumnConfig;
 import fr.factionbedrock.aerialhell.World.Features.GiantTree.AbstractGiantTreeFeature;
@@ -10,12 +11,15 @@ import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnots;
 import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedStraightLine;
 import fr.factionbedrock.aerialhell.World.Features.Util.StraightLine;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<MushroomCapsColumnConfig>
 {
@@ -23,8 +27,11 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
 
     public MushroomCapsColumnFeature(Codec<MushroomCapsColumnConfig> codec) {super(codec);}
 
+    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.MUSHROOM_CAPS_COLUMN_LIST;}
+
     @Override public boolean place(FeaturePlaceContext<MushroomCapsColumnConfig> context)
     {
+        if (!super.place(context)) {return false;}
         RandomSource rand = context.random(); MushroomCapsColumnConfig config = context.config();
         BlockPos origin = context.origin();
 

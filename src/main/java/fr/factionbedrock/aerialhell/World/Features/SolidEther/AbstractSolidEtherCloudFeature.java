@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.World.Features.SolidEther;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import fr.factionbedrock.aerialhell.World.Features.AerialHellFeature;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -15,7 +16,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 
 import java.util.Random;
 
-public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeatureConfiguration>
+public abstract class AbstractSolidEtherCloudFeature extends AerialHellFeature<NoneFeatureConfiguration>
 {
     public BlockPos getRandomHeighGenerationPos(int x, int minY, int maxY, int z, RandomSource rand) {return new BlockPos(x, minY + rand.nextInt(maxY- minY), z);}
 	protected abstract int getBasicMinSize(); protected abstract int getBasicMaxSize();

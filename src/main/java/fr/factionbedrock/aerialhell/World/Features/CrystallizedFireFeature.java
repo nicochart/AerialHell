@@ -4,21 +4,28 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class CrystallizedFireFeature extends Feature<NoneFeatureConfiguration>
+import java.util.List;
+
+public class CrystallizedFireFeature extends AerialHellFeature<NoneFeatureConfiguration>
 {
 	public CrystallizedFireFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
+	@Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.CRYSTALLIZED_FIRE_LIST;}
+
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
+		if (!super.place(context)) {return false;}
 		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random();
 		if (!reader.isEmptyBlock(pos)) {return false;}
 		else

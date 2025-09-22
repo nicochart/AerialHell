@@ -1,6 +1,15 @@
 {
-  "type": "aerialhell:stellar_sugar_cane",
+  "type": "aerialhell:vertical_growing_plant",
   "config": {
+    "plant_state_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 1,
+          "data": {"Name": "aerialhell:stellar_sugar_cane"}
+        }
+      ]
+    },
     "spread_width": 10,
     "spread_height": 2,
     "min_height": 2,
