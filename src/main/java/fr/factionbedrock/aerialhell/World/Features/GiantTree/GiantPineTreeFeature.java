@@ -26,11 +26,11 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
 
     public GiantPineTreeFeature(Codec<GiantPineTreeConfig> codec) {super(codec);}
 
-    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.GIANT_PINE_TREE_LIST;}
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.GIANT_PINE_TREE_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<GiantPineTreeConfig> context)
     {
-        if (!super.place(context)) {return false;}
+        if (!this.isDungeonSensitiveValid(context)) {return false;}
         RandomSource rand = context.random(); GiantPineTreeConfig config = context.config();
         BlockPos origin = context.origin();
 

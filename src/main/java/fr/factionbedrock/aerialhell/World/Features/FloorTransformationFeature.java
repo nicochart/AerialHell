@@ -11,19 +11,20 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 import java.util.List;
 
-public class FloorTransformationFeature extends AerialHellFeature<FloorTransformationConfig>
+public class FloorTransformationFeature extends Feature<FloorTransformationConfig> implements DungeonSensitiveFeatureCheck
 {
 	public FloorTransformationFeature(Codec<FloorTransformationConfig> codec) {super(codec);}
 
-	@Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FLOOR_TRANSFORMATION_LIST;}
+	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FLOOR_TRANSFORMATION_LIST;}
 
 	@Override public boolean place(FeaturePlaceContext<FloorTransformationConfig> context)
 	{
-		if (!super.place(context)) {return false;}
+		if (!this.isDungeonSensitiveValid(context)) {return false;}
 		FloorTransformationConfig config = context.config(); WorldGenLevel level = context.level(); RandomSource rand = context.random();
 		BlockPos placementPos, origin = context.origin();
 		BlockState placementState;

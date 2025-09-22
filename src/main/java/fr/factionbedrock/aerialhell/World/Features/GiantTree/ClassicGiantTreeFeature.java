@@ -25,11 +25,11 @@ public class ClassicGiantTreeFeature extends AbstractGiantTreeFeature<ClassicGia
 
     public ClassicGiantTreeFeature(Codec<ClassicGiantTreeConfig> codec) {super(codec);}
 
-    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.CLASSIC_GIANT_TREE_LIST;}
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.CLASSIC_GIANT_TREE_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<ClassicGiantTreeConfig> context)
     {
-        if (!super.place(context)) {return false;}
+        if (!this.isDungeonSensitiveValid(context)) {return false;}
         RandomSource rand = context.random(); ClassicGiantTreeConfig config = context.config();
         BlockPos origin = context.origin();
 

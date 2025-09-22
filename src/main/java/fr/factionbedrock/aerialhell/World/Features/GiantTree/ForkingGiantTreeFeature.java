@@ -31,11 +31,11 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
 
     public ForkingGiantTreeFeature(Codec<ForkingGiantTreeConfig> codec) {super(codec);}
 
-    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FORKING_GIANT_TREE_TREE;}
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FORKING_GIANT_TREE_TREE;}
 
     @Override public boolean place(FeaturePlaceContext<ForkingGiantTreeConfig> context)
     {
-        if (!super.place(context)) {return false;}
+        if (!this.isDungeonSensitiveValid(context)) {return false;}
         RandomSource rand = context.random(); ForkingGiantTreeConfig config = context.config();
         BlockPos origin = context.origin();
 

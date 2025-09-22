@@ -23,15 +23,15 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 
 import java.util.List;
 
-public class HugeMushroomFeature extends AerialHellFeature<HugeMushroomFeatureConfiguration>
+public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
     public HugeMushroomFeature(Codec<HugeMushroomFeatureConfiguration> config) {super(config);}
 
-    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.HUGE_MUSHROOM_LIST;}
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.HUGE_MUSHROOM_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<HugeMushroomFeatureConfiguration> context)
     {
-        if (!super.place(context)) {return false;}
+        if (!this.isDungeonSensitiveValid(context)) {return false;}
 
         BlockPos pos = context.origin(); WorldGenLevel world = context.level(); RandomSource rand = context.random(); HugeMushroomFeatureConfiguration config = context.config();
         int stemSize = (rand.nextInt(6) == 0) ? rand.nextInt(8) + 5 : rand.nextInt(5) + 8; //shroom y size

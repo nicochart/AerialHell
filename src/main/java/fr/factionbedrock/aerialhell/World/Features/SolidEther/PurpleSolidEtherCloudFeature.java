@@ -3,7 +3,6 @@ package fr.factionbedrock.aerialhell.World.Features.SolidEther;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
-import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
@@ -25,13 +24,12 @@ public class PurpleSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 
 	public PurpleSolidEtherCloudFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
-	@Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.PURPLE_SOLID_ETHER_LIST;}
+	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.PURPLE_SOLID_ETHER_LIST;}
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		if (!super.place(context)) {return false;}
+		if (!this.isDungeonSensitiveValid(context)) {return false;}
 		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
-		if (FeatureHelper.isFeatureGeneratingNextToDungeon(context)) {return false;}
     	
 		BlockPos generatePos = pos;
 		if (pos.getY() < getMinGenHeigh() || pos.getY() >  getMaxGenHeigh()) {generatePos = getRandomHeighGenerationPos(pos.getX(), getMinGenHeigh(), getMaxGenHeigh(), pos.getZ(), rand);}

@@ -15,18 +15,19 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
-public class LittleCrystalBlobFeature extends AerialHellFeature<CrystalBlobConfig>
+public class LittleCrystalBlobFeature extends Feature<CrystalBlobConfig> implements DungeonSensitiveFeatureCheck
 {
 	public LittleCrystalBlobFeature(Codec<CrystalBlobConfig> codec) {super(codec);}
 
-	@Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.LITTLE_CRYSTAL_BLOB_LIST;}
+	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.LITTLE_CRYSTAL_BLOB_LIST;}
 
 	@Override public boolean place(FeaturePlaceContext<CrystalBlobConfig> context)
 	{
-		if (!super.place(context)) {return false;}
+		if (!this.isDungeonSensitiveValid(context)) {return false;}
 		BlockStateProvider blockProvider = context.config().crystalStateProvider();
 		BlockPos pos = context.origin(); WorldGenLevel world = context.level(); RandomSource rand = context.random();
 		int x = pos.getX(), y=10, z=pos.getZ();

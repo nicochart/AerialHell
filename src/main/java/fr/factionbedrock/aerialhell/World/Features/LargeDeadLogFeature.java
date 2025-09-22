@@ -22,16 +22,16 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class LargeDeadLogFeature extends AerialHellFeature<NoneFeatureConfiguration>
+public class LargeDeadLogFeature extends Feature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
 	private final Supplier<LargeDeadLogBlock> block;
 	public LargeDeadLogFeature(Codec<NoneFeatureConfiguration> codec, Supplier<LargeDeadLogBlock> block) {super(codec); this.block = block;}
 
-	@Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.LARGE_DEAD_STELLAR_JUNGLE_TREE_LOG_LIST;}
+	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.LARGE_DEAD_STELLAR_JUNGLE_TREE_LOG_LIST;}
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		if (!super.place(context)) {return false;}
+		if (!this.isDungeonSensitiveValid(context)) {return false;}
 
 		BlockPos pos = findPosForPlacement(context);
 		if (pos == null) {return false;}

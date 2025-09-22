@@ -5,7 +5,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
-import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.NaturalFieldConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,24 +14,24 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 import java.util.List;
 
-public class NaturalFieldFeature extends AerialHellFeature<NaturalFieldConfig>
+public class NaturalFieldFeature extends Feature<NaturalFieldConfig> implements DungeonSensitiveFeatureCheck
 {
     public NaturalFieldFeature(Codec<NaturalFieldConfig> codec) {super(codec);}
 
-    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.NATURAL_FIELD_LIST;}
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.NATURAL_FIELD_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<NaturalFieldConfig> context)
     {
-        if (!super.place(context)) {return false;}
+        if (!this.isDungeonSensitiveValid(context)) {return false;}
         BlockPos blockPos = context.origin(); WorldGenLevel world = context.level();
 		boolean canGenerate = isAboveSurfaceBlockPos(world, blockPos) && !BlockHelper.hasAnySolidSurfaceAbove(world, blockPos.above(2), 3);
-		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
 		
-        if (canGenerate && !generatesInDungeon)
+        if (canGenerate)
         {
         	generateField(context);
         	return true;

@@ -9,22 +9,23 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class SingleBlockNeedingSupportFeature extends AerialHellFeature<SingleBlockNeedingSupportConfig>
+public class SingleBlockNeedingSupportFeature extends Feature<SingleBlockNeedingSupportConfig> implements DungeonSensitiveFeatureCheck
 {
 	private static final int MAX_TRIES = 25;
 	public SingleBlockNeedingSupportFeature(Codec<SingleBlockNeedingSupportConfig> codec) {super(codec);}
 
-	@Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.SINGLE_BLOCK_NEEDING_SUPPORT_LIST;}
+	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.SINGLE_BLOCK_NEEDING_SUPPORT_LIST;}
 
 	@Override public boolean place(FeaturePlaceContext<SingleBlockNeedingSupportConfig> context)
 	{
-		if (!super.place(context)) {return false;}
+		if (!this.isDungeonSensitiveValid(context)) {return false;}
 		BlockStateProvider block = context.config().block();
 		BlockPos pos = findPosForPlacement(context);
 		if (pos == null) {return false;}

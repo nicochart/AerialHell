@@ -13,7 +13,9 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.material.MapColor;
 import org.joml.Vector3f;
@@ -43,9 +45,23 @@ public class FeatureHelper
                 {
                     Structure structure = entry.value();
                     StructureStart start = chunk.getAllStarts().get(structure);
-                    if (start != null && start.isValid()) {return true;}
+                    if (start != null && start.isValid() && isYInStructureHeight(origin.getY(), start)) {return true;}
                 }
             }
+        }
+        return false;
+    }
+
+    public static boolean isYInStructureHeight(int y, StructureStart start)
+    {
+        int minY = start.getPieces().getFirst().getBoundingBox().minY(), maxY = start.getPieces().getFirst().getBoundingBox().maxY();
+        for (StructurePiece piece : start.getPieces())
+        {
+            BoundingBox box = piece.getBoundingBox();
+            if (box.minY() < minY) {minY = box.minY();}
+            if (box.maxY() > maxY) {maxY = box.maxY();}
+
+            if (y >= minY && y <= maxY) {return true;}
         }
         return false;
     }

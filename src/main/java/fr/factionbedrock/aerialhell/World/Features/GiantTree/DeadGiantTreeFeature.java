@@ -24,11 +24,11 @@ public class DeadGiantTreeFeature extends AbstractGiantTreeFeature<DeadGiantTree
 
     public DeadGiantTreeFeature(Codec<DeadGiantTreeConfig> codec) {super(codec);}
 
-    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.DEAD_GIANT_TREE_TREE_LIST;}
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.DEAD_GIANT_TREE_TREE_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<DeadGiantTreeConfig> context)
     {
-        if (!super.place(context)) {return false;}
+        if (!this.isDungeonSensitiveValid(context)) {return false;}
         RandomSource rand = context.random(); DeadGiantTreeConfig config = context.config();
         BlockPos origin = context.origin();
 

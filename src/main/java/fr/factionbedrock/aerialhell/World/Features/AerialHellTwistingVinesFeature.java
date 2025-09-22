@@ -24,19 +24,17 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import java.util.List;
 
 //copy of TwistingVinesFeature class ; editing placeWeepingVinesColumn and isInvalidPlacementLocation to adapt to Aerial Hell
-public class AerialHellTwistingVinesFeature extends AerialHellFeature<AerialHellTwistingVinesConfig>
+public class AerialHellTwistingVinesFeature extends Feature<AerialHellTwistingVinesConfig> implements DungeonSensitiveFeatureCheck
 {
     public AerialHellTwistingVinesFeature(Codec<AerialHellTwistingVinesConfig> codec) {super(codec);}
 
-    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.TWISTING_ROOTS_LIST;}
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.TWISTING_ROOTS_LIST;}
 
     public boolean place(FeaturePlaceContext<AerialHellTwistingVinesConfig> context)
     {
-        if (!super.place(context)) {return false;}
-
         boolean needsRoof =  context.config().needsRoof().equals("true");
         WorldGenLevel worldgenlevel = context.level(); BlockPos blockpos = context.origin();
-        if (isInvalidPlacementLocation(worldgenlevel, blockpos, needsRoof)) {return false;}
+        if (isInvalidPlacementLocation(worldgenlevel, blockpos, needsRoof) || !this.isDungeonSensitiveValid(context)) {return false;}
         else
         {
             RandomSource random = context.random();

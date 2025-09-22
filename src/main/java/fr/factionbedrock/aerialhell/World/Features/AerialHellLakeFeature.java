@@ -11,6 +11,7 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
@@ -18,21 +19,19 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import java.util.List;
 
 //copy of vanilla LakeFeature, but removing some conditions (see below)
-public class AerialHellLakeFeature extends AerialHellFeature<AerialHellLakeFeature.Configuration>
+public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Configuration> implements DungeonSensitiveFeatureCheck
 {
     private static final BlockState AIR = Blocks.CAVE_AIR.defaultBlockState();
 
     public AerialHellLakeFeature(Codec<AerialHellLakeFeature.Configuration> codec) {super(codec);}
 
-    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.AERIAL_HELL_LAKE_LIST;}
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.AERIAL_HELL_LAKE_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<AerialHellLakeFeature.Configuration> context)
     {
-        if (!super.place(context)) {return false;}
-
         BlockPos origin = context.origin(); WorldGenLevel level = context.level(); RandomSource randomsource = context.random(); AerialHellLakeFeature.Configuration config = context.config();
 
-        if (level.getBlockState(origin).isAir() || level.getBlockState(origin.below(3)).isAir() || origin.getY() <= level.getMinY() + 4) {return false;}
+        if (level.getBlockState(origin).isAir() || level.getBlockState(origin.below(3)).isAir() || origin.getY() <= level.getMinY() + 4 || !this.isDungeonSensitiveValid(context)) {return false;}
         else
         {
             origin = origin.below(4);

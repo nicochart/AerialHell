@@ -14,13 +14,14 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class RootBridgeFeature extends AerialHellFeature<NoneFeatureConfiguration>
+public class RootBridgeFeature extends Feature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
     private final int MIN_ABS_XZ_OFFSET = 15, MAX_ABS_XZ_OFFSET = 22; //max bridge start-end xz distance from center of worldgen feature
     private final int MIN_ABS_Y_OFFSET = 5, MAX_ABS_Y_OFFSET = 15; //max bridge start-end y distance from center of worldgen feature
@@ -29,11 +30,11 @@ public class RootBridgeFeature extends AerialHellFeature<NoneFeatureConfiguratio
 
     public RootBridgeFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
-    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.ROOT_BRIDGE_LIST;}
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.ROOT_BRIDGE_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
-        if (!super.place(context)) {return false;}
+        if (!this.isDungeonSensitiveValid(context)) {return false;}
 
         WorldGenLevel reader = context.level(); RandomSource rand = context.random();
         BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
@@ -47,15 +48,11 @@ public class RootBridgeFeature extends AerialHellFeature<NoneFeatureConfiguratio
         if (bridgeEnd == null) {return false;}
 
         boolean isLongBridge = bridgeStart.distSqr(bridgeEnd) > 1024;
-        boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
 
-        if (!generatesInDungeon)
-        {
-            if (isLongBridge) {generateBridgeWithIntermediatePos(context, bridgeStart, bridgeEnd, debugFlag);}
-            else {generateBridge(context, bridgeStart, bridgeEnd, debugFlag);}
-        	return true;
-        }
-        return false;
+        if (isLongBridge) {generateBridgeWithIntermediatePos(context, bridgeStart, bridgeEnd, debugFlag);}
+        else {generateBridge(context, bridgeStart, bridgeEnd, debugFlag);}
+        return true;
+
     }
 
     protected void generateBridgeWithIntermediatePos(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)

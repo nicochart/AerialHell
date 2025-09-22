@@ -27,11 +27,11 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
 
     public MushroomCapsColumnFeature(Codec<MushroomCapsColumnConfig> codec) {super(codec);}
 
-    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.MUSHROOM_CAPS_COLUMN_LIST;}
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.MUSHROOM_CAPS_COLUMN_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<MushroomCapsColumnConfig> context)
     {
-        if (!super.place(context)) {return false;}
+        if (!this.isDungeonSensitiveValid(context)) {return false;}
         RandomSource rand = context.random(); MushroomCapsColumnConfig config = context.config();
         BlockPos origin = context.origin();
 

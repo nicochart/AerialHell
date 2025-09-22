@@ -5,7 +5,6 @@ import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
-import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,22 +13,22 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import java.util.List;
 
-public class DanglingChainFeature extends AerialHellFeature<NoneFeatureConfiguration>
+public class DanglingChainFeature extends Feature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
     public DanglingChainFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
     private static enum LinkDirection{NORTH_SOUTH, WEST_EAST}
 
-	@Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.DANGLING_CHAIN_LIST;}
+	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.DANGLING_CHAIN_LIST;}
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		if (!super.place(context)) {return false;}
 		BlockPos blockPos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
     	boolean canGenerate = reader.getBlockState(blockPos.below()).getBlock().equals(Blocks.AIR)
     		&& reader.getBlockState(blockPos).is(AerialHellTags.Blocks.STELLAR_STONE)
@@ -37,10 +36,8 @@ public class DanglingChainFeature extends AerialHellFeature<NoneFeatureConfigura
     		&& hasAnyStoneBlockAbove(blockPos.north(4).east(4), reader, 10)
     		&& hasAnyStoneBlockAbove(blockPos.south(4).west(4), reader, 10)
     		&& hasAnyStoneBlockAbove(blockPos.south(4).east(4), reader, 10);
-    	
-		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
-		
-        if (canGenerate && !generatesInDungeon)
+
+        if (canGenerate && this.isDungeonSensitiveValid(context))
         {
         	BlockPos placementPos;
         	int chance_malus = 0;

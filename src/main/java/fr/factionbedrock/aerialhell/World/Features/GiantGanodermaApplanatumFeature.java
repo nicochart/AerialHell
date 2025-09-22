@@ -13,20 +13,21 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.HugeMushroomBlock;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import java.util.List;
 
-public class GiantGanodermaApplanatumFeature extends AerialHellFeature<NoneFeatureConfiguration>
+public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
     public GiantGanodermaApplanatumFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
-    @Override protected List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.GIANT_GANODERMA_APPLANATUM_LIST;}
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.GIANT_GANODERMA_APPLANATUM_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
-        if (!super.place(context)) {return false;}
+        if (!this.isDungeonSensitiveValid(context)) {return false;}
         BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random();
 		boolean canGenerate = (
             (!reader.getBlockState(pos.above(3)).getBlock().equals(Blocks.AIR)) &&
