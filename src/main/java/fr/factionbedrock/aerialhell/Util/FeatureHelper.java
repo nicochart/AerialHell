@@ -47,11 +47,6 @@ public class FeatureHelper
                     Structure structure = entry.value();
                     StructureStart start = chunk.getStructureStarts().get(structure);
                     if (start != null && start.hasChildren() && isYInStructureHeight(origin.getY(), start)) {return true;}
-
-                    if (start != null && start.hasChildren() && !isYInStructureHeight(origin.getY(), start))
-                    {
-                        System.out.println("Structure "+entry.toString()+" generate above or below a dungeon at pos "+origin.getX()+" "+origin.getY()+" "+origin.getZ()); //TODO remove
-                    }
                 }
             }
         }
