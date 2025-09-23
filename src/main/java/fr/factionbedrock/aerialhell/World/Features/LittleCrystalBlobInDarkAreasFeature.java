@@ -23,11 +23,10 @@ public class LittleCrystalBlobInDarkAreasFeature extends Feature<CrystalBlobConf
 {
 	public LittleCrystalBlobInDarkAreasFeature(Codec<CrystalBlobConfig> codec) {super(codec);}
 
-	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.LITTLE_CRYSTAL_BLOB_LIST;}
+	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.LITTLE_CRYSTAL_BLOB_IN_DARK_AREAS_LIST;}
 
 	@Override public boolean place(FeaturePlaceContext<CrystalBlobConfig> context)
 	{
-		if (!this.isDungeonSensitiveValid(context)) {return false;}
 		BlockStateProvider blockProvider = context.config().crystalStateProvider();
 		BlockPos pos = context.origin(); WorldGenLevel world = context.level(); RandomSource rand = context.random();
 		int x = pos.getX(), y=10, z=pos.getZ();
@@ -46,6 +45,7 @@ public class LittleCrystalBlobInDarkAreasFeature extends Feature<CrystalBlobConf
 		pos = mutablePos;
 		
 		if (rand.nextInt(160) < y) {return false;}
+		if (!this.isDungeonSensitiveValid(context)) {return false;}
 
 		world.setBlock(pos, blockProvider.getState(rand, pos), 2);
         for(int i = 0; i < 300; ++i)

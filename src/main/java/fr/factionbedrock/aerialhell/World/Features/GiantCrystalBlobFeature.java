@@ -27,67 +27,67 @@ public class GiantCrystalBlobFeature extends Feature<NoneFeatureConfiguration> i
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		if (!this.isDungeonSensitiveValid(context)) {return false;}
-		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random();
-		if (!reader.isEmptyBlock(pos)) {return false;}
+		BlockPos pos = context.origin(); WorldGenLevel level = context.level(); RandomSource rand = context.random();
+		if (!level.isEmptyBlock(pos)) {return false;}
 		else
 		{
-			BlockState blockstate = reader.getBlockState(pos.below());
-		    if (!blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT))
-		    {
-		    	return false;
-		    }
+			BlockState blockstate = level.getBlockState(pos.below());
+		    if (!blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) || !this.isDungeonSensitiveValid(context)) {return false;}
 		    else
 		    {
-		    	reader.setBlock(pos, AerialHellBlocks.CRYSTAL_BLOCK.get().defaultBlockState(), 2);
-		    	
-		    	BlockPos blockpos;
-		        for(int i = 0; i < 3000; ++i)
-		        {
-		        	
-		        	if (i < 1000)
-		        	{
-		        		blockpos = pos.offset(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(6), rand.nextInt(8) - rand.nextInt(8));
-		        	}
-		        	else if (i < 1500)
-		        	{
-		        		blockpos = pos.offset(rand.nextInt(7) - rand.nextInt(7), 6 + rand.nextInt(6), rand.nextInt(7) - rand.nextInt(7));
-		        	}
-		        	else
-		        	{
-		        		blockpos = pos.offset(rand.nextInt(9) - rand.nextInt(9), rand.nextInt(4) - rand.nextInt(8), rand.nextInt(9) - rand.nextInt(9));
-		        	}
-		            if (reader.getBlockState(blockpos).is(Blocks.AIR) || reader.getBlockState(blockpos).is(AerialHellTags.Blocks.STELLAR_DIRT) || reader.getBlockState(blockpos).is(AerialHellTags.Blocks.STELLAR_STONE))
-		            {
-			            int j = 0;
-	
-			            for(Direction direction : Direction.values())
-			            {
-				            if (reader.getBlockState(blockpos.relative(direction)).is(AerialHellBlocks.CRYSTAL_BLOCK.get()))
-				            {
-				            	++j;
-				            }
-		
-				            if (j > 1) {break;}
-			            }
-	
-			            if (j == 1 || j == 2 && rand.nextInt(25) == 0)
-			            {
-			            	reader.setBlock(blockpos, AerialHellBlocks.CRYSTAL_BLOCK.get().defaultBlockState(), 2);
-			            }
-		            }
-		        }
-		        for(int i = 0; i < 100; ++i)
-		        {
-		        	blockpos = pos.offset(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(12), rand.nextInt(8) - rand.nextInt(8));
-		        	if (reader.getBlockState(blockpos).is(Blocks.AIR) && (reader.getBlockState(blockpos.below()).is(AerialHellBlocks.CRYSTAL_BLOCK.get())))
-		        	{
-		        		reader.setBlock(blockpos, AerialHellBlocks.CRYSTALLIZED_FIRE.get().defaultBlockState(), 2);
-		        	}
-		        }
-
-		    return true;
+				place(pos, level, rand);
+		    	return true;
 		    }
+		}
+	}
+
+	private void place(BlockPos pos, WorldGenLevel level, RandomSource rand)
+	{
+		level.setBlock(pos, AerialHellBlocks.CRYSTAL_BLOCK.get().defaultBlockState(), 2);
+
+		BlockPos blockpos;
+		for(int i = 0; i < 3000; ++i)
+		{
+
+			if (i < 1000)
+			{
+				blockpos = pos.offset(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(6), rand.nextInt(8) - rand.nextInt(8));
+			}
+			else if (i < 1500)
+			{
+				blockpos = pos.offset(rand.nextInt(7) - rand.nextInt(7), 6 + rand.nextInt(6), rand.nextInt(7) - rand.nextInt(7));
+			}
+			else
+			{
+				blockpos = pos.offset(rand.nextInt(9) - rand.nextInt(9), rand.nextInt(4) - rand.nextInt(8), rand.nextInt(9) - rand.nextInt(9));
+			}
+			if (level.getBlockState(blockpos).is(Blocks.AIR) || level.getBlockState(blockpos).is(AerialHellTags.Blocks.STELLAR_DIRT) || level.getBlockState(blockpos).is(AerialHellTags.Blocks.STELLAR_STONE))
+			{
+				int j = 0;
+
+				for(Direction direction : Direction.values())
+				{
+					if (level.getBlockState(blockpos.relative(direction)).is(AerialHellBlocks.CRYSTAL_BLOCK.get()))
+					{
+						++j;
+					}
+
+					if (j > 1) {break;}
+				}
+
+				if (j == 1 || j == 2 && rand.nextInt(25) == 0)
+				{
+					level.setBlock(blockpos, AerialHellBlocks.CRYSTAL_BLOCK.get().defaultBlockState(), 2);
+				}
+			}
+		}
+		for(int i = 0; i < 100; ++i)
+		{
+			blockpos = pos.offset(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(12), rand.nextInt(8) - rand.nextInt(8));
+			if (level.getBlockState(blockpos).is(Blocks.AIR) && (level.getBlockState(blockpos.below()).is(AerialHellBlocks.CRYSTAL_BLOCK.get())))
+			{
+				level.setBlock(blockpos, AerialHellBlocks.CRYSTALLIZED_FIRE.get().defaultBlockState(), 2);
+			}
 		}
 	}
 }

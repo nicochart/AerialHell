@@ -31,13 +31,11 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
 
     @Override public boolean place(FeaturePlaceContext<HugeMushroomFeatureConfiguration> context)
     {
-        if (!this.isDungeonSensitiveValid(context)) {return false;}
-
         BlockPos pos = context.origin(); WorldGenLevel world = context.level(); RandomSource rand = context.random(); HugeMushroomFeatureConfiguration config = context.config();
         int stemSize = (rand.nextInt(6) == 0) ? rand.nextInt(8) + 5 : rand.nextInt(5) + 8; //shroom y size
         int capRadius = 3 + rand.nextInt(2); //horizontal width
         float yCapFactor = (rand.nextInt(2) == 0) ? 0.5F : 0.6F; //cap vertical size (0.0F : 0 block, no cap ; 1.0F : full size cap, the cap touches the floor)
-        if (!this.canGrow(config, world, pos, stemSize, capRadius)) {return false;}
+        if (!this.canGrow(config, world, pos, stemSize, capRadius) || !this.isDungeonSensitiveValid(context)) {return false;}
         else
         {
             this.generateCap(context, pos, stemSize, yCapFactor, capRadius);

@@ -35,7 +35,6 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
 
     @Override public boolean place(FeaturePlaceContext<ForkingGiantTreeConfig> context)
     {
-        if (!this.isDungeonSensitiveValid(context)) {return false;}
         RandomSource rand = context.random(); ForkingGiantTreeConfig config = context.config();
         BlockPos origin = context.origin();
 

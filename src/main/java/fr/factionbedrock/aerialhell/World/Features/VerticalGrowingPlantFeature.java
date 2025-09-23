@@ -29,9 +29,8 @@ public class VerticalGrowingPlantFeature extends Feature<VerticalGrowingPlantCon
 
     @Override public boolean place(FeaturePlaceContext<VerticalGrowingPlantConfig> context)
     {
-        if (!this.isDungeonSensitiveValid(context)) {return false;}
         WorldGenLevel worldgenlevel = context.level(); BlockPos blockpos = context.origin();
-        if (isInvalidPlacementLocation(worldgenlevel, blockpos)) {return false;}
+        if (isInvalidPlacementLocation(worldgenlevel, blockpos) || !this.isDungeonSensitiveValid(context)) {return false;}
         else
         {
             RandomSource random = context.random();

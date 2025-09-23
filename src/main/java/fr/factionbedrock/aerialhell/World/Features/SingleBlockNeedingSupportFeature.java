@@ -25,10 +25,9 @@ public class SingleBlockNeedingSupportFeature extends Feature<SingleBlockNeeding
 
 	@Override public boolean place(FeaturePlaceContext<SingleBlockNeedingSupportConfig> context)
 	{
-		if (!this.isDungeonSensitiveValid(context)) {return false;}
 		BlockStateProvider block = context.config().block();
 		BlockPos pos = findPosForPlacement(context);
-		if (pos == null) {return false;}
+		if (pos == null || !this.isDungeonSensitiveValid(context)) {return false;}
 		else
 		{
 			context.level().setBlock(pos, block.getState(context.random(), pos), 0);

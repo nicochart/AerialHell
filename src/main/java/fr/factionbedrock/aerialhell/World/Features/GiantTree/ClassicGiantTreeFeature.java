@@ -29,7 +29,6 @@ public class ClassicGiantTreeFeature extends AbstractGiantTreeFeature<ClassicGia
 
     @Override public boolean place(FeaturePlaceContext<ClassicGiantTreeConfig> context)
     {
-        if (!this.isDungeonSensitiveValid(context)) {return false;}
         RandomSource rand = context.random(); ClassicGiantTreeConfig config = context.config();
         BlockPos origin = context.origin();
 

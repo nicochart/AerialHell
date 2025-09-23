@@ -27,11 +27,10 @@ public class NaturalFieldFeature extends Feature<NaturalFieldConfig> implements 
 
     @Override public boolean place(FeaturePlaceContext<NaturalFieldConfig> context)
     {
-        if (!this.isDungeonSensitiveValid(context)) {return false;}
         BlockPos blockPos = context.origin(); WorldGenLevel world = context.level();
 		boolean canGenerate = isAboveSurfaceBlockPos(world, blockPos) && !BlockHelper.hasAnySolidSurfaceAbove(world, blockPos.above(2), 3);
 		
-        if (canGenerate)
+        if (canGenerate && this.isDungeonSensitiveValid(context))
         {
         	generateField(context);
         	return true;

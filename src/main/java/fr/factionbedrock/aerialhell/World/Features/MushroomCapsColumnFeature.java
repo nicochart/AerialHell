@@ -31,11 +31,10 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
 
     @Override public boolean place(FeaturePlaceContext<MushroomCapsColumnConfig> context)
     {
-        if (!this.isDungeonSensitiveValid(context)) {return false;}
         RandomSource rand = context.random(); MushroomCapsColumnConfig config = context.config();
         BlockPos origin = context.origin();
 
-        if (!canPlace(context)) {return false;}
+        if (!canPlace(context) || !this.isDungeonSensitiveValid(context)) {return false;}
         else
         {
             int maxXZdistance=config.stemMaxHorizontalOffset(), minYdistance=config.stemMinVerticalOffset(), maxYdistance=config.stemMaxVerticalOffset();

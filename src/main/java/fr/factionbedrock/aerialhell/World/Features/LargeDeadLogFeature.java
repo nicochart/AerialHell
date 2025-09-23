@@ -31,10 +31,8 @@ public class LargeDeadLogFeature extends Feature<NoneFeatureConfiguration> imple
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		if (!this.isDungeonSensitiveValid(context)) {return false;}
-
 		BlockPos pos = findPosForPlacement(context);
-		if (pos == null) {return false;}
+		if (pos == null || !this.isDungeonSensitiveValid(context)) {return false;}
 		else
 		{
 			generate(context, pos);

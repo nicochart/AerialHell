@@ -176,7 +176,7 @@ public class AerialHellConfiguredFeatures
         public static final List<ResourceKey<ConfiguredFeature<?, ?>>> SLIPPERY_SAND_LIST = createList(SLIPPERY_SAND);
         public static final List<ResourceKey<ConfiguredFeature<?, ?>>> NATURAL_FIELD_LIST = createList(BLUE_MEANIE_FIELD, STELLAR_WHEAT_FIELD);
         public static final List<ResourceKey<ConfiguredFeature<?, ?>>> CRYSTAL_BLOB_LIST = createList(CRYSTAL_BLOB, SHADOW_CRYSTAL_BLOB);
-        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> LITTLE_CRYSTAL_BLOB_LIST = createList(STELLAR_STONE_CRYSTAL_BLOB_IN_DARK_AREAS, SHADOW_CRYSTAL_BLOB_IN_DARK_AREAS);
+        public static final List<ResourceKey<ConfiguredFeature<?, ?>>> LITTLE_CRYSTAL_BLOB_IN_DARK_AREAS_LIST = createList(STELLAR_STONE_CRYSTAL_BLOB_IN_DARK_AREAS, SHADOW_CRYSTAL_BLOB_IN_DARK_AREAS);
         public static final List<ResourceKey<ConfiguredFeature<?, ?>>> CRYSTALLIZED_FIRE_LIST = createList(CRYSTALLIZED_FIRE);
         public static final List<ResourceKey<ConfiguredFeature<?, ?>>> GIANT_CRYSTAL_BLOB_LIST = createList(GIANT_CRYSTAL_BLOB);
 

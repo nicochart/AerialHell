@@ -34,8 +34,6 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration> impleme
 
     @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
-        if (!this.isDungeonSensitiveValid(context)) {return false;}
-
         WorldGenLevel reader = context.level(); RandomSource rand = context.random();
         BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
 
@@ -46,6 +44,8 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration> impleme
         BlockPos bridgeEnd = getRandomFarBridgeEnd(reader, rand, centerOfFeature, bridgeStart, 50, rand.nextInt(64) == 0);
         if (bridgeEnd == null) {bridgeEnd = getRandomBridgeEnd(reader, rand, centerOfFeature, bridgeStart, 20, rand.nextInt(32) == 0);}
         if (bridgeEnd == null) {return false;}
+
+        if (!this.isDungeonSensitiveValid(context)) {return false;}
 
         boolean isLongBridge = bridgeStart.distSqr(bridgeEnd) > 1024;
 

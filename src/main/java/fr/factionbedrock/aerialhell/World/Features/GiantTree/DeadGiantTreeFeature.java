@@ -28,7 +28,6 @@ public class DeadGiantTreeFeature extends AbstractGiantTreeFeature<DeadGiantTree
 
     @Override public boolean place(FeaturePlaceContext<DeadGiantTreeConfig> context)
     {
-        if (!this.isDungeonSensitiveValid(context)) {return false;}
         RandomSource rand = context.random(); DeadGiantTreeConfig config = context.config();
         BlockPos origin = context.origin();
 

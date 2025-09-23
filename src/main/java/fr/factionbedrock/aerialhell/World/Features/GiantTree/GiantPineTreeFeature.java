@@ -30,7 +30,6 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
 
     @Override public boolean place(FeaturePlaceContext<GiantPineTreeConfig> context)
     {
-        if (!this.isDungeonSensitiveValid(context)) {return false;}
         RandomSource rand = context.random(); GiantPineTreeConfig config = context.config();
         BlockPos origin = context.origin();
 

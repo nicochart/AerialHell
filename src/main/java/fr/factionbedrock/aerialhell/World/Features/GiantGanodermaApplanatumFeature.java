@@ -27,14 +27,13 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfigur
 
     @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
-        if (!this.isDungeonSensitiveValid(context)) {return false;}
         BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random();
 		boolean canGenerate = (
             (!reader.getBlockState(pos.above(3)).getBlock().equals(Blocks.AIR)) &&
             ((reader.getBlockState(pos.north(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.south(2)).getBlock().equals(Blocks.AIR)) || (reader.getBlockState(pos.west(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.east(2)).getBlock().equals(Blocks.AIR))) &&
             (reader.getBlockState(pos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(pos).getBlock() == AerialHellBlocks.STELLAR_DIRT.get()));
 		
-        if (canGenerate)
+        if (canGenerate && this.isDungeonSensitiveValid(context))
         {
         	generateCap(reader, rand, pos);
         	return true;

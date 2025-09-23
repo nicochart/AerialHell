@@ -24,14 +24,13 @@ public class FloorTransformationFeature extends Feature<FloorTransformationConfi
 
 	@Override public boolean place(FeaturePlaceContext<FloorTransformationConfig> context)
 	{
-		if (!this.isDungeonSensitiveValid(context)) {return false;}
 		FloorTransformationConfig config = context.config(); WorldGenLevel level = context.level(); RandomSource rand = context.random();
 		BlockPos placementPos, origin = context.origin();
 		BlockState placementState;
 
 		int sizeX = getRandomEllipsisSize(context), sizeZ = getRandomEllipsisSize(context);
 
-		if (canGenerate(context, origin))
+		if (canGenerate(context, origin) && this.isDungeonSensitiveValid(context))
 	    {
 	    	int x,y,z;
 	        

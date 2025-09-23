@@ -27,13 +27,12 @@ public class SlipperySandFeature extends Feature<NoneFeatureConfiguration> imple
 
     @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
-        if (!this.isDungeonSensitiveValid(context)) {return false;}
         BlockPos blockPos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
 		boolean canGenerate = (
                 (reader.getBlockState(blockPos.north(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.south(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.west(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.east(3)).getBlock().equals(Blocks.AIR)) &&
                 (reader.getBlockState(blockPos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(blockPos).getBlock() == AerialHellBlocks.STELLAR_DIRT.get()));
 
-        if (canGenerate)
+        if (canGenerate && this.isDungeonSensitiveValid(context))
         {
         	generateSlipperySand(reader, rand, blockPos);
         	return true;
