@@ -3,24 +3,31 @@ package fr.factionbedrock.aerialhell.World.Features;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Util.Ellipsoid;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MushroomBlock;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.HugeMushroomFeatureConfig;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
-public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfig>
+import java.util.List;
+
+public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfig> implements DungeonSensitiveFeatureCheck
 {
     public HugeMushroomFeature(Codec<HugeMushroomFeatureConfig> config) {super(config);}
+
+    @Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.HUGE_MUSHROOM_LIST;}
 
     @Override public boolean generate(FeatureContext<HugeMushroomFeatureConfig> context)
     {
@@ -28,7 +35,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfig>
         int stemSize = (rand.nextInt(6) == 0) ? rand.nextInt(8) + 5 : rand.nextInt(5) + 8; //shroom y size
         int capRadius = 3 + rand.nextInt(2); //horizontal width
         float yCapFactor = (rand.nextInt(2) == 0) ? 0.5F : 0.6F; //cap vertical size (0.0F : 0 block, no cap ; 1.0F : full size cap, the cap touches the floor)
-        if (!this.canGrow(config, world, pos, stemSize, capRadius)) {return false;}
+        if (!this.canGrow(config, world, pos, stemSize, capRadius) || !this.isDungeonSensitiveValid(context)) {return false;}
         else
         {
             this.generateCap(context, pos, stemSize, yCapFactor, capRadius);

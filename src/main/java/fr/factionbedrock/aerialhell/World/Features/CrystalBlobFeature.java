@@ -1,64 +1,73 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
-import java.util.function.Supplier;
-
 import com.mojang.serialization.Codec;
-import net.minecraft.block.Block;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
+import fr.factionbedrock.aerialhell.World.Features.Config.CrystalBlobConfig;
 import net.minecraft.block.BlockState;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
-public class CrystalBlobFeature extends Feature<DefaultFeatureConfig>
+import java.util.List;
+
+public class CrystalBlobFeature extends Feature<CrystalBlobConfig> implements DungeonSensitiveFeatureCheck
 {
-	public Supplier<Block> crystalBlock;
-	public CrystalBlobFeature(Supplier<Block> block, Codec<DefaultFeatureConfig> codec) {super(codec); this.crystalBlock=block;}
+	public CrystalBlobFeature(Codec<CrystalBlobConfig> codec) {super(codec);}
 
-	@Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
+	@Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.CRYSTAL_BLOB_LIST;}
+
+	@Override public boolean generate(FeatureContext<CrystalBlobConfig> context)
 	{
-		BlockPos pos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom();
-		if (!reader.isAir(pos)) {return false;}
+		BlockStateProvider blockProvider = context.getConfig().crystalStateProvider();
+		BlockPos pos = context.getOrigin(); StructureWorldAccess world = context.getWorld(); Random rand = context.getRandom();
+		if (!world.isAir(pos)) {return false;}
 		else
 		{
-			BlockState blockstate = reader.getBlockState(pos.down());
-		    if (!blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT)) {return false;}
+			BlockState blockstate = world.getBlockState(pos.down());
+		    if (!blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT) || !this.isDungeonSensitiveValid(context)) {return false;}
 		    else
 		    {
-		    	reader.setBlockState(pos, crystalBlock.get().getDefaultState(), 2);
-
-		        for(int i = 0; i < 1700; ++i)
-		        {
-		        	BlockPos blockpos;
-		        	if (i < 1400)
-		        	{
-		        		blockpos = pos.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(12), rand.nextInt(8) - rand.nextInt(8));
-		        	}
-		        	else
-		        	{
-		        		blockpos = pos.add(rand.nextInt(9) - rand.nextInt(9), - rand.nextInt(3), rand.nextInt(9) - rand.nextInt(9));
-		        	}
-		            if (reader.getBlockState(blockpos).isAir())
-		            {
-			            int j = 0;
-	
-			            for(Direction direction : Direction.values())
-			            {
-				            if (reader.getBlockState(blockpos.offset((direction))).isOf(crystalBlock.get())) {++j;}
-		
-				            if (j > 1) {break;}
-			            }
-	
-			            if (j == 1) {reader.setBlockState(blockpos, crystalBlock.get().getDefaultState(), 2);}
-		            }
-		        }
-
-		    return true;
+				place(pos, rand, world, blockProvider);
+		    	return true;
 		    }
+		}
+	}
+
+	private void place(BlockPos pos, Random rand, StructureWorldAccess world, BlockStateProvider blockProvider)
+	{
+		world.setBlockState(pos, blockProvider.get(rand, pos), 2);
+
+		for(int i = 0; i < 1700; ++i)
+		{
+			BlockPos blockpos;
+			if (i < 1400)
+			{
+				blockpos = pos.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(12), rand.nextInt(8) - rand.nextInt(8));
+			}
+			else
+			{
+				blockpos = pos.add(rand.nextInt(9) - rand.nextInt(9), - rand.nextInt(3), rand.nextInt(9) - rand.nextInt(9));
+			}
+			if (world.getBlockState(blockpos).isAir())
+			{
+				int j = 0;
+
+				for(Direction direction : Direction.values())
+				{
+					if (world.getBlockState(blockpos.offset((direction))).isIn(AerialHellTags.Blocks.NATURAL_CRYSTAL_BLOCK)) {++j;}
+
+					if (j > 1) {break;}
+				}
+
+				if (j == 1) {world.setBlockState(blockpos, blockProvider.get(rand, blockpos), 2);}
+			}
 		}
 	}
 }

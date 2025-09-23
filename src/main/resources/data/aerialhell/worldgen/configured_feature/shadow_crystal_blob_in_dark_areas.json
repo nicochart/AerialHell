@@ -1,4 +1,14 @@
 {
-  "type": "aerialhell:shadow_crystal_blob_in_dark_areas",
-  "config": {}
+  "type": "aerialhell:little_crystal_blob_in_dark_areas",
+  "config": {
+    "crystal_state_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 1,
+          "data": {"Name": "aerialhell:shadow_crystal_block"}
+        }
+      ]
+    }
+  }
 }

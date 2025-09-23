@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.ForkingGiantTreeConfig;
 import fr.factionbedrock.aerialhell.World.Features.Util.*;
@@ -13,11 +14,15 @@ import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.PosLists.Folia
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.PosLists.ForkingTrunkBlockPosList;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGiantTreeConfig>
 {
@@ -25,6 +30,8 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
     private static final SplineKnotsDeformedStraightLine.KnotsParameters FOLIAGE_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 18, 0.4F, 6, 19);
 
     public ForkingGiantTreeFeature(Codec<ForkingGiantTreeConfig> codec) {super(codec);}
+
+    @Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FORKING_GIANT_TREE_TREE;}
 
     @Override public boolean generate(FeatureContext<ForkingGiantTreeConfig> context)
     {

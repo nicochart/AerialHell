@@ -3,26 +3,32 @@ package fr.factionbedrock.aerialhell.World.Features;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import net.minecraft.block.BlockState;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 
-public class RockFeature extends Feature<DefaultFeatureConfig>
+import java.util.List;
+
+public class RockFeature extends Feature<DefaultFeatureConfig> implements DungeonSensitiveFeatureCheck
 {
 	WeightedBlockStateProvider blockStateProvider;
 	public RockFeature(Codec<DefaultFeatureConfig> codec, WeightedBlockStateProvider bsProvider) {super(codec); this.blockStateProvider = bsProvider;}
-	
+
+	@Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.MOSSY_STELLAR_COBBLESTONE_ROCK_LIST;}
+
 	protected BlockState randomState(Random rand, BlockPos pos) {return blockStateProvider.get(rand, pos);}
 	protected void placeBlocks(StructureWorldAccess reader, BlockPos pos, BlockState state, int number, Direction direction) {for (int d=0;d<number;d++) {reader.setBlockState(pos.offset(direction, d), state, 2);}}
-	protected boolean canGenerateAtPos(FeatureContext<DefaultFeatureConfig> context, BlockPos placementPos) {return hasSupportToGenerate(context.getWorld(), placementPos) && !(FeatureHelper.isFeatureGeneratingNextToDungeon(context));}
+	protected boolean canGenerateAtPos(FeatureContext<DefaultFeatureConfig> context, BlockPos placementPos) {return hasSupportToGenerate(context.getWorld(), placementPos) && this.isDungeonSensitiveValid(context);}
 
 	@Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
 	{

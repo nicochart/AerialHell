@@ -1,28 +1,33 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
-import java.util.function.Supplier;
-
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.block.Block;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
+import fr.factionbedrock.aerialhell.World.Features.Config.CrystalBlobConfig;
 import net.minecraft.block.BlockState;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
+import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
-public class StellarStoneCrystalBlobFeature extends Feature<DefaultFeatureConfig>
+import java.util.List;
+
+public class LittleCrystalBlobInDarKAreasFeature extends Feature<CrystalBlobConfig> implements DungeonSensitiveFeatureCheck
 {
-	public Supplier<Block> crystalBlock;
-	public StellarStoneCrystalBlobFeature(Supplier<Block> block, Codec<DefaultFeatureConfig> codec) {super(codec); crystalBlock=block;}
+	public LittleCrystalBlobInDarKAreasFeature(Codec<CrystalBlobConfig> codec) {super(codec);}
 
-	@Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
+	@Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.LITTLE_CRYSTAL_BLOB_IN_DARK_AREAS_LIST;}
+
+	@Override public boolean generate(FeatureContext<CrystalBlobConfig> context)
 	{
+		BlockStateProvider blockProvider = context.getConfig().crystalStateProvider();
 		BlockPos pos = context.getOrigin(); StructureWorldAccess world = context.getWorld(); Random rand = context.getRandom();
 		int x = pos.getX(), y=10, z=pos.getZ();
 		int ymax = 160;
@@ -40,8 +45,9 @@ public class StellarStoneCrystalBlobFeature extends Feature<DefaultFeatureConfig
 		pos = mutablePos;
 		
 		if (rand.nextInt(160) < y) {return false;}
+		if (!this.isDungeonSensitiveValid(context)) {return false;}
 
-		world.setBlockState(pos, crystalBlock.get().getDefaultState(), 2);
+		world.setBlockState(pos, blockProvider.get(rand, pos), 2);
         for(int i = 0; i < 300; ++i)
         {
         	blockpos = pos.add(rand.nextInt(2) - rand.nextInt(2), rand.nextInt(5), rand.nextInt(2) - rand.nextInt(2)); //55855
@@ -52,12 +58,12 @@ public class StellarStoneCrystalBlobFeature extends Feature<DefaultFeatureConfig
 
 	            for(Direction direction : Direction.values())
 	            {
-		            if (world.getBlockState(blockpos.offset(direction)).isOf(crystalBlock.get())) {++j;}
+		            if (world.getBlockState(blockpos.offset(direction)).isIn(AerialHellTags.Blocks.NATURAL_CRYSTAL_BLOCK)) {++j;}
 
 		            if (j > 1) {break;}
 	            }
 
-	            if (j == 1) {world.setBlockState(blockpos, crystalBlock.get().getDefaultState(), 2);}
+	            if (j == 1) {world.setBlockState(blockpos, blockProvider.get(rand, blockpos), 2);}
             }
         }
 	    return true;

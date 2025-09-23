@@ -2,32 +2,37 @@ package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import net.minecraft.block.BlockState;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.FeatureConfig;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
+import java.util.List;
+
 import static net.minecraft.block.Blocks.CAVE_AIR;
 
 //copy of vanilla LakeFeature, but removing some conditions (see below)
-//
-public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Config>
+public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Config> implements DungeonSensitiveFeatureCheck
 {
     private static final BlockState AIR = CAVE_AIR.getDefaultState();
 
     public AerialHellLakeFeature(Codec<AerialHellLakeFeature.Config> codec) {super(codec);}
 
-    @Override
-    public boolean generate(FeatureContext<Config> context)
+    @Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.AERIAL_HELL_LAKE_LIST;}
+
+    @Override public boolean generate(FeatureContext<Config> context)
     {
         BlockPos origin = context.getOrigin(); StructureWorldAccess world = context.getWorld(); Random random = context.getRandom(); AerialHellLakeFeature.Config config = context.getConfig();
 
-        if (world.getBlockState(origin).isAir() || world.getBlockState(origin.down(3)).isAir() || origin.getY() <= world.getBottomY() + 4) {return false;}
+        if (world.getBlockState(origin).isAir() || world.getBlockState(origin.down(3)).isAir() || origin.getY() <= world.getBottomY() + 4 || !this.isDungeonSensitiveValid(context)) {return false;}
         else
         {
             origin = origin.down(4);

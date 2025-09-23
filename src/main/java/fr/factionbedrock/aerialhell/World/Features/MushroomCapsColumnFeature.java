@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.MushroomCapsColumnConfig;
 import fr.factionbedrock.aerialhell.World.Features.GiantTree.AbstractGiantTreeFeature;
@@ -10,11 +11,15 @@ import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnots;
 import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedStraightLine;
 import fr.factionbedrock.aerialhell.World.Features.Util.StraightLine;
 import net.minecraft.block.BlockState;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<MushroomCapsColumnConfig>
 {
@@ -22,12 +27,14 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
 
     public MushroomCapsColumnFeature(Codec<MushroomCapsColumnConfig> codec) {super(codec);}
 
+    @Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.MUSHROOM_CAPS_COLUMN_LIST;}
+
     @Override public boolean generate(FeatureContext<MushroomCapsColumnConfig> context)
     {
         Random rand = context.getRandom(); MushroomCapsColumnConfig config = context.getConfig();
         BlockPos origin = context.getOrigin();
 
-        if (!canPlace(context)) {return false;}
+        if (!canPlace(context) || !this.isDungeonSensitiveValid(context)) {return false;}
         else
         {
             int maxXZdistance=config.stemMaxHorizontalOffset(), minYdistance=config.stemMinVerticalOffset(), maxYdistance=config.stemMaxVerticalOffset();

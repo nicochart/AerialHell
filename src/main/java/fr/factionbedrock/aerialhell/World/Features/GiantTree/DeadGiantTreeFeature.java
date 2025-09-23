@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.DeadGiantTreeConfig;
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantTrunk;
@@ -9,15 +10,21 @@ import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnots;
 import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedStraightLine;
 import fr.factionbedrock.aerialhell.World.Features.Util.StraightLine;
 import net.minecraft.block.BlockState;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
+
+import java.util.List;
 
 public class DeadGiantTreeFeature extends AbstractGiantTreeFeature<DeadGiantTreeConfig>
 {
     private static final SplineKnotsDeformedStraightLine.KnotsParameters TRUNK_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 16, 0.3F, 5, 20);
 
     public DeadGiantTreeFeature(Codec<DeadGiantTreeConfig> codec) {super(codec);}
+
+    @Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.DEAD_GIANT_TREE_TREE_LIST;}
 
     @Override public boolean generate(FeatureContext<DeadGiantTreeConfig> context)
     {

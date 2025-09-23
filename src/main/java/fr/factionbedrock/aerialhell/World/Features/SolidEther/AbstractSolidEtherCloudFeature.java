@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.World.Features.SolidEther;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import fr.factionbedrock.aerialhell.World.Features.DungeonSensitiveFeatureCheck;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -13,7 +14,7 @@ import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 
-public abstract class AbstractSolidEtherCloudFeature extends Feature<DefaultFeatureConfig>
+public abstract class AbstractSolidEtherCloudFeature extends Feature<DefaultFeatureConfig> implements DungeonSensitiveFeatureCheck
 {
     public BlockPos getRandomHeighGenerationPos(int x, int minY, int maxY, int z, Random rand) {return new BlockPos(x, minY + rand.nextInt(maxY- minY), z);}
 	protected abstract int getBasicMinSize(); protected abstract int getBasicMaxSize();

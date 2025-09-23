@@ -3,20 +3,25 @@ package fr.factionbedrock.aerialhell.World.Features;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnots;
 import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedStraightLine;
 import fr.factionbedrock.aerialhell.World.Features.Util.StraightLine;
 import net.minecraft.block.BlockState;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import org.jetbrains.annotations.Nullable;
 
-public class RootBridgeFeature extends Feature<DefaultFeatureConfig>
+import java.util.List;
+
+public class RootBridgeFeature extends Feature<DefaultFeatureConfig> implements DungeonSensitiveFeatureCheck
 {
     private final int MIN_ABS_XZ_OFFSET = 15, MAX_ABS_XZ_OFFSET = 22; //max bridge start-end xz distance from center of worldgen feature
     private final int MIN_ABS_Y_OFFSET = 5, MAX_ABS_Y_OFFSET = 15; //max bridge start-end y distance from center of worldgen feature
@@ -24,6 +29,8 @@ public class RootBridgeFeature extends Feature<DefaultFeatureConfig>
     private static final SplineKnots.KnotsParameters KNOTS_PARAMETERS = new SplineKnotsDeformedStraightLine.KnotsParameters(8, 16, 0.3F, 5, 20);
 
     public RootBridgeFeature(Codec<DefaultFeatureConfig> codec) {super(codec);}
+
+    @Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.ROOT_BRIDGE_LIST;}
 
     @Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
     {
@@ -38,16 +45,13 @@ public class RootBridgeFeature extends Feature<DefaultFeatureConfig>
         if (bridgeEnd == null) {bridgeEnd = getRandomBridgeEnd(reader, rand, centerOfFeature, bridgeStart, 20, rand.nextInt(32) == 0);}
         if (bridgeEnd == null) {return false;}
 
-        boolean isLongBridge = bridgeStart.getSquaredDistance(bridgeEnd) > 1024;
-        boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
+        if (!this.isDungeonSensitiveValid(context)) {return false;}
 
-        if (!generatesInDungeon)
-        {
-            if (isLongBridge) {generateBridgeWithIntermediatePos(context, bridgeStart, bridgeEnd, debugFlag);}
-            else {generateBridge(context, bridgeStart, bridgeEnd, debugFlag);}
-        	return true;
-        }
-        return false;
+        boolean isLongBridge = bridgeStart.getSquaredDistance(bridgeEnd) > 1024;
+
+        if (isLongBridge) {generateBridgeWithIntermediatePos(context, bridgeStart, bridgeEnd, debugFlag);}
+        else {generateBridge(context, bridgeStart, bridgeEnd, debugFlag);}
+        return true;
     }
 
     protected void generateBridgeWithIntermediatePos(FeatureContext<DefaultFeatureConfig> context, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)

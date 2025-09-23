@@ -3,29 +3,34 @@ package fr.factionbedrock.aerialhell.World.Features;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
-import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.NaturalFieldConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 
-public class NaturalFieldFeature extends Feature<NaturalFieldConfig>
+import java.util.List;
+
+public class NaturalFieldFeature extends Feature<NaturalFieldConfig> implements DungeonSensitiveFeatureCheck
 {
     public NaturalFieldFeature(Codec<NaturalFieldConfig> codec) {super(codec);}
+
+    @Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.NATURAL_FIELD_LIST;}
 
     @Override public boolean generate(FeatureContext<NaturalFieldConfig> context)
     {
         BlockPos blockPos = context.getOrigin(); StructureWorldAccess world = context.getWorld();
 		boolean canGenerate = isAboveSurfaceBlockPos(world, blockPos) && !BlockHelper.hasAnySolidSurfaceAbove(world, blockPos.up(2), 3);
-		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
 		
-        if (canGenerate && !generatesInDungeon)
+        if (canGenerate && this.isDungeonSensitiveValid(context))
         {
         	generateField(context);
         	return true;

@@ -5,21 +5,26 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 
-public class SlipperySandFeature extends Feature<DefaultFeatureConfig>
-{
+import java.util.List;
 
+public class SlipperySandFeature extends Feature<DefaultFeatureConfig> implements DungeonSensitiveFeatureCheck
+{
     public SlipperySandFeature(Codec<DefaultFeatureConfig> codec) {super(codec);}
+
+    @Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.SLIPPERY_SAND_LIST;}
 
     @Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
     {
@@ -28,9 +33,7 @@ public class SlipperySandFeature extends Feature<DefaultFeatureConfig>
                 (reader.getBlockState(blockPos.north(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.south(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.west(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.east(3)).getBlock().equals(Blocks.AIR)) &&
                 (reader.getBlockState(blockPos).isIn(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(blockPos).getBlock() == AerialHellBlocks.STELLAR_DIRT));
 
-		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
-		
-        if (canGenerate && !generatesInDungeon)
+        if (canGenerate && this.isDungeonSensitiveValid(context))
         {
         	generateSlipperySand(reader, rand, blockPos);
         	return true;

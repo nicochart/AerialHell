@@ -4,19 +4,26 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.MushroomBlock;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 
-public class GiantGanodermaApplanatumFeature extends Feature<DefaultFeatureConfig>
+import java.util.List;
+
+public class GiantGanodermaApplanatumFeature extends Feature<DefaultFeatureConfig> implements DungeonSensitiveFeatureCheck
 {
     public GiantGanodermaApplanatumFeature(Codec<DefaultFeatureConfig> codec) {super(codec);}
+
+    @Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.GIANT_GANODERMA_APPLANATUM_LIST;}
 
     @Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
     {
@@ -25,10 +32,8 @@ public class GiantGanodermaApplanatumFeature extends Feature<DefaultFeatureConfi
             (!reader.getBlockState(pos.up(3)).getBlock().equals(Blocks.AIR)) &&
             ((reader.getBlockState(pos.north(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.south(2)).getBlock().equals(Blocks.AIR)) || (reader.getBlockState(pos.west(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.east(2)).getBlock().equals(Blocks.AIR))) &&
             (reader.getBlockState(pos).isIn(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(pos).getBlock() == AerialHellBlocks.STELLAR_DIRT));
-		
-		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
-		
-        if (canGenerate && !generatesInDungeon)
+
+        if (canGenerate && this.isDungeonSensitiveValid(context))
         {
         	generateCap(reader, rand, pos);
         	return true;

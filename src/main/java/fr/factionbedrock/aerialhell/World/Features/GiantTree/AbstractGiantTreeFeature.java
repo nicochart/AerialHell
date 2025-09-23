@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import fr.factionbedrock.aerialhell.World.Features.DungeonSensitiveFeatureCheck;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.StructureWorldAccess;
@@ -10,7 +11,7 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.FeatureConfig;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 
-public class AbstractGiantTreeFeature<FC extends FeatureConfig> extends Feature<FC>
+public abstract class AbstractGiantTreeFeature<FC extends FeatureConfig> extends Feature<FC> implements DungeonSensitiveFeatureCheck
 {
     public AbstractGiantTreeFeature(Codec<FC> config) {super(config);}
 
@@ -18,8 +19,7 @@ public class AbstractGiantTreeFeature<FC extends FeatureConfig> extends Feature<
 
     protected boolean canPlace(FeatureContext<FC> context)
     {
-        boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
-        return isValidTreePos(context.getWorld(), context.getOrigin()) && !generatesInDungeon;
+        return isValidTreePos(context.getWorld(), context.getOrigin()) && !this.isDungeonSensitiveValid(context);
     }
 
     protected boolean isValidTreePos(StructureWorldAccess world, BlockPos pos) {return isValidTreeSupport(world.getBlockState(pos.down())) && (world.isAir(pos) || world.getBlockState(pos).isIn(AerialHellTags.Blocks.AERIALHELL_SAPLINGS)) && thereIsAirAbovePosition(world, pos);}

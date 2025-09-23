@@ -4,29 +4,35 @@ import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Block.LargeDeadLogBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.enums.BlockHalf;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.function.Supplier;
 
-public class LargeDeadLogFeature extends Feature<DefaultFeatureConfig>
+public class LargeDeadLogFeature extends Feature<DefaultFeatureConfig> implements DungeonSensitiveFeatureCheck
 {
 	private final Supplier<LargeDeadLogBlock> block;
 	public LargeDeadLogFeature(Codec<DefaultFeatureConfig> codec, Supplier<LargeDeadLogBlock> block) {super(codec); this.block = block;}
 
+	@Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.LARGE_DEAD_STELLAR_JUNGLE_TREE_LOG_LIST;}
+
 	@Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
 	{
 		BlockPos pos = findPosForPlacement(context);
-		if (pos == null) {return false;}
+		if (pos == null || !this.isDungeonSensitiveValid(context)) {return false;}
 		else
 		{
 			generate(context, pos);

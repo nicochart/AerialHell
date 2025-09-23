@@ -23,18 +23,14 @@ public class AerialHellFeatures
 
 	public static final Feature<?> GIANT_GANODERMA_APPLANATUM = register("giant_ganoderma_applanatum", new GiantGanodermaApplanatumFeature(DefaultFeatureConfig.CODEC));
 	public static final Feature<?> HUGE_MUSHROOM = register("huge_mushroom", new HugeMushroomFeature(HugeMushroomFeatureConfig.CODEC));
-	public static final Feature<?> LAZULI_ROOTS = register("lazuli_roots", new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC, () -> AerialHellBlocks.LAZULI_ROOTS, () -> AerialHellBlocks.LAZULI_ROOTS_PLANT));
-	public static final Feature<?> STELLAR_ROOTS = register("stellar_roots", new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC, () -> AerialHellBlocks.STELLAR_ROOTS, () -> AerialHellBlocks.STELLAR_ROOTS_PLANT));
-	public static final Feature<?> DEAD_ROOTS = register("dead_roots", new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC, () -> AerialHellBlocks.DEAD_ROOTS, () -> AerialHellBlocks.DEAD_ROOTS_PLANT));
-	public static final Feature<?> GLOWING_ROOTS = register("glowing_roots", new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC, () -> AerialHellBlocks.GLOWING_ROOTS, () -> AerialHellBlocks.GLOWING_ROOTS_PLANT));
+
+	public static final Feature<?> TWISTING_ROOTS = register("twisting_roots", new AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig.CODEC));
 
 	public static final Feature<?> LARGE_DEAD_STELLAR_JUNGLE_TREE_LOG = register("large_dead_stellar_jungle_tree_log", new LargeDeadLogFeature(DefaultFeatureConfig.CODEC, () -> AerialHellBlocks.DEAD_STELLAR_JUNGLE_TREE_LOG));
 
 	public static final Feature<?> FULL_MOON_PLANT = register("full_moon_plant", new ChorusLikeFeature(ChorusLikePlantConfig.CODEC));
 
-	public static final Feature<?> CLIMBING_VINE = register("climbing_vine", new VerticalGrowingPlantFeature(VerticalGrowingPlantConfig.CODEC, () -> AerialHellBlocks.CLIMBING_VINE));
-	public static final Feature<?> STELLAR_SUGAR_CANE = register("stellar_sugar_cane", new VerticalGrowingPlantFeature(VerticalGrowingPlantConfig.CODEC, () -> AerialHellBlocks.STELLAR_SUGAR_CANE));
-	public static final Feature<?> STELLAR_VERY_TALL_GRASS = register("stellar_very_tall_grass", new VerticalGrowingPlantFeature(VerticalGrowingPlantConfig.CODEC, () -> AerialHellBlocks.STELLAR_VERY_TALL_GRASS));
+	public static final Feature<?> VERTICAL_GROWING_PLANT = register("vertical_growing_plant", new VerticalGrowingPlantFeature(VerticalGrowingPlantConfig.CODEC));
 
 	public static final Feature<?> WHITE_SOLID_ETHER = register("white_solid_ether", new WhiteSolidEtherCloudFeature(DefaultFeatureConfig.CODEC));
 	public static final Feature<?> BLUE_SOLID_ETHER = register("blue_solid_ether", new BlueSolidEtherCloudFeature(DefaultFeatureConfig.CODEC));
@@ -54,10 +50,8 @@ public class AerialHellFeatures
 	public static final Feature<?> DANGLING_CHAIN = register("dangling_chain", new DanglingChainFeature(DefaultFeatureConfig.CODEC));
 	public static final Feature<?> SLIPPERY_SAND = register("slippery_sand", new SlipperySandFeature(DefaultFeatureConfig.CODEC));
 	public static final Feature<?> NATURAL_FIELD = register("natural_field", new NaturalFieldFeature(NaturalFieldConfig.CODEC));
-	public static final Feature<?> CRYSTAL_BLOB = register("crystal_blob", new CrystalBlobFeature(() -> AerialHellBlocks.CRYSTAL_BLOCK, DefaultFeatureConfig.CODEC));
-	public static final Feature<?> SHADOW_CRYSTAL_BLOB = register("shadow_crystal_blob", new CrystalBlobFeature(() -> AerialHellBlocks.SHADOW_CRYSTAL_BLOCK, DefaultFeatureConfig.CODEC));
-	public static final Feature<?> STELLAR_STONE_CRYSTAL_BLOB_IN_DARK_AREAS = register("stellar_stone_crystal_blob_in_dark_areas", new StellarStoneCrystalBlobFeature(() -> AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK, DefaultFeatureConfig.CODEC));
-	public static final Feature<?> SHADOW_CRYSTAL_BLOB_IN_DARK_AREAS = register("shadow_crystal_blob_in_dark_areas", new StellarStoneCrystalBlobFeature(() -> AerialHellBlocks.SHADOW_CRYSTAL_BLOCK, DefaultFeatureConfig.CODEC));
+	public static final Feature<?> CRYSTAL_BLOB = register("crystal_blob", new CrystalBlobFeature(CrystalBlobConfig.CODEC));
+	public static final Feature<?> STELLAR_STONE_CRYSTAL_BLOB_IN_DARK_AREAS = register("little_crystal_blob_in_dark_areas", new LittleCrystalBlobInDarKAreasFeature(CrystalBlobConfig.CODEC));
 	public static final Feature<?> CRYSTALLIZED_FIRE = register("cristallized_fire", new CrystallizedFireFeature(DefaultFeatureConfig.CODEC));
 	public static final Feature<?> GIANT_CRYSTAL_BLOB = register("giant_crystal_blob", new GiantCrystalBlobFeature(DefaultFeatureConfig.CODEC));
 

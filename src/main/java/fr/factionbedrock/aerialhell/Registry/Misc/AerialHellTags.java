@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.structure.Structure;
 
 public class AerialHellTags
@@ -129,6 +130,8 @@ public class AerialHellTags
 
 		public static final TagKey<Block> REPLACE_OUT = tag("replace_out");
 
+		public static final TagKey<Block> NATURAL_CRYSTAL_BLOCK = tag("natural_crystal_block");
+
 		public static final TagKey<Block> SHIFTING_RENDER = tag("shifting_render");
 
 		private static TagKey<Block> tag(String name)
@@ -235,6 +238,16 @@ public class AerialHellTags
 		private static TagKey<Structure> tag(String name)
 		{
 			return TagKey.of(RegistryKeys.STRUCTURE, AerialHell.id( name));
+		}
+	}
+
+	public static class ConfiguredFeatures
+	{
+		public static final TagKey<ConfiguredFeature<?, ?>> CANT_PLACE_IN_DUNGEONS = tag("cant_place_in_dungeons");
+
+		private static TagKey<ConfiguredFeature<?,?>> tag(String name)
+		{
+			return TagKey.of(RegistryKeys.CONFIGURED_FEATURE, AerialHell.id(name));
 		}
 	}
 

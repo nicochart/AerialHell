@@ -1,30 +1,74 @@
 package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.block.MapColor;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryEntryList;
+import net.minecraft.structure.StructurePiece;
+import net.minecraft.structure.StructureStart;
+import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.util.FeatureContext;
+import net.minecraft.world.gen.structure.Structure;
 import org.joml.Vector3f;
 
 public class FeatureHelper
 {
     public static boolean isFeatureGeneratingNextToDungeon(FeatureContext<?> context)
     {
-        /* TODO (currently makes worldgen stops with no error in log, new chunks do not load, infinite loop)
-        StructureWorldAccess level = context.getWorld();
-        //context.chunkGenerator().findNearestMapStructure(level.getLevel(), StructureHelper.getDungeonsHolderSet(level.registryAccess()), context.getOrigin(), 100, false);
-        BlockPos nearestDungeonPos = level.getLevel().findNearestMapStructure(AerialHellTags.Structures.DUNGEONS, context.getOrigin(), 100, false);
-        if (nearestDungeonPos != null)
+        StructureWorldAccess world = context.getWorld();
+        BlockPos origin = context.getOrigin();
+
+        Registry<Structure> registry = world.getRegistryManager().getOrThrow(RegistryKeys.STRUCTURE);
+        RegistryEntryList.Named<Structure> taggedStructures = registry.getOptional(AerialHellTags.Structures.DUNGEONS).orElse(null);
+        if (taggedStructures == null) return false;
+
+        int originChunkX = origin.getX() >> 4;
+        int originChunkZ = origin.getZ() >> 4;
+        int chunkRadius = 3;
+
+        for (int dx = -chunkRadius; dx <= chunkRadius; dx++)
         {
-            return context.getOrigin().getSquaredDistance(nearestDungeonPos) < 100;
+            for (int dz = -chunkRadius; dz <= chunkRadius; dz++)
+            {
+                Chunk chunk = world.getChunk(originChunkX + dx, originChunkZ + dz);
+
+                for (RegistryEntry<Structure> entry : taggedStructures)
+                {
+                    Structure structure = entry.value();
+                    StructureStart start = chunk.getStructureStarts().get(structure);
+                    if (start != null && start.hasChildren() && isYInStructureHeight(origin.getY(), start)) {return true;}
+
+                    if (start != null && start.hasChildren() && !isYInStructureHeight(origin.getY(), start))
+                    {
+                        System.out.println("Structure "+entry.toString()+" generate above or below a dungeon at pos "+origin.getX()+" "+origin.getY()+" "+origin.getZ()); //TODO remove
+                    }
+                }
+            }
         }
-        else {return false;}
-        */
+        return false;
+    }
+
+    public static boolean isYInStructureHeight(int y, StructureStart start)
+    {
+        int minY = start.getChildren().getFirst().getBoundingBox().getMinY(), maxY = start.getChildren().getFirst().getBoundingBox().getMaxY();
+        for (StructurePiece piece : start.getChildren())
+        {
+            BlockBox box = piece.getBoundingBox();
+            if (box.getMinY() < minY) {minY = box.getMinY();}
+            if (box.getMaxY() > maxY) {maxY = box.getMaxY();}
+
+            if (y >= minY && y <= maxY) {return true;}
+        }
         return false;
     }
 

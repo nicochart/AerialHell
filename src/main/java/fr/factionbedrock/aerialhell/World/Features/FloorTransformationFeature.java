@@ -3,17 +3,24 @@ package fr.factionbedrock.aerialhell.World.Features;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.World.Features.Config.FloorTransformationConfig;
 import net.minecraft.block.BlockState;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 
-public class FloorTransformationFeature extends Feature<FloorTransformationConfig>
+import java.util.List;
+
+public class FloorTransformationFeature extends Feature<FloorTransformationConfig> implements DungeonSensitiveFeatureCheck
 {
 	public FloorTransformationFeature(Codec<FloorTransformationConfig> codec) {super(codec);}
+
+	@Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FLOOR_TRANSFORMATION_LIST;}
 
 	@Override public boolean generate(FeatureContext<FloorTransformationConfig> context)
 	{
@@ -23,7 +30,7 @@ public class FloorTransformationFeature extends Feature<FloorTransformationConfi
 
 		int sizeX = getRandomEllipsisSize(context), sizeZ = getRandomEllipsisSize(context);
 
-		if (canGenerate(context, origin))
+		if (canGenerate(context, origin) && this.isDungeonSensitiveValid(context))
 	    {
 	    	int x,y,z;
 	        

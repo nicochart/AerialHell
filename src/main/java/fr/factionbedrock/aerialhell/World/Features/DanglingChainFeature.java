@@ -4,20 +4,26 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import fr.factionbedrock.aerialhell.Util.FeatureHelper;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 
-public class DanglingChainFeature extends Feature<DefaultFeatureConfig>
+import java.util.List;
+
+public class DanglingChainFeature extends Feature<DefaultFeatureConfig> implements DungeonSensitiveFeatureCheck
 {
     public DanglingChainFeature(Codec<DefaultFeatureConfig> codec) {super(codec);}
+
+	@Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.DANGLING_CHAIN_LIST;}
 
     private static enum LinkDirection{NORTH_SOUTH, WEST_EAST}
 
@@ -30,10 +36,8 @@ public class DanglingChainFeature extends Feature<DefaultFeatureConfig>
     		&& hasAnyStoneBlockAbove(blockPos.north(4).east(4), reader, 10)
     		&& hasAnyStoneBlockAbove(blockPos.south(4).west(4), reader, 10)
     		&& hasAnyStoneBlockAbove(blockPos.south(4).east(4), reader, 10);
-    	
-		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
 		
-        if (canGenerate && !generatesInDungeon)
+        if (canGenerate && this.isDungeonSensitiveValid(context))
         {
         	BlockPos placementPos;
         	int chance_malus = 0;
