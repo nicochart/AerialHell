@@ -19,9 +19,9 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
-public class LittleCrystalBlobFeature extends Feature<CrystalBlobConfig> implements DungeonSensitiveFeatureCheck
+public class LittleCrystalBlobInDarkAreasFeature extends Feature<CrystalBlobConfig> implements DungeonSensitiveFeatureCheck
 {
-	public LittleCrystalBlobFeature(Codec<CrystalBlobConfig> codec) {super(codec);}
+	public LittleCrystalBlobInDarkAreasFeature(Codec<CrystalBlobConfig> codec) {super(codec);}
 
 	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.LITTLE_CRYSTAL_BLOB_LIST;}
 

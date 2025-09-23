@@ -1,5 +1,5 @@
 {
-  "type": "aerialhell:shadow_crystal_blob",
+  "type": "aerialhell:crystal_blob",
   "config": {
     "crystal_state_provider": {
       "type": "minecraft:weighted_state_provider",

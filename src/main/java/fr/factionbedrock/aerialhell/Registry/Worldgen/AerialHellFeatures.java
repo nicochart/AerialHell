@@ -55,9 +55,7 @@ public class AerialHellFeatures
 	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> SLIPPERY_SAND = FEATURES.register("slippery_sand", () -> new SlipperySandFeature(NoneFeatureConfiguration.CODEC));
 	public static final DeferredHolder<Feature<?>, Feature<NaturalFieldConfig>> NATURAL_FIELD = FEATURES.register("natural_field", () -> new NaturalFieldFeature(NaturalFieldConfig.CODEC));
 	public static final DeferredHolder<Feature<?>, Feature<CrystalBlobConfig>> CRYSTAL_BLOB = FEATURES.register("crystal_blob", () -> new CrystalBlobFeature(CrystalBlobConfig.CODEC));
-	public static final DeferredHolder<Feature<?>, Feature<CrystalBlobConfig>> SHADOW_CRYSTAL_BLOB = FEATURES.register("shadow_crystal_blob", () -> new CrystalBlobFeature(CrystalBlobConfig.CODEC));
-	public static final DeferredHolder<Feature<?>, Feature<CrystalBlobConfig>> STELLAR_STONE_CRYSTAL_BLOB_IN_DARK_AREAS = FEATURES.register("stellar_stone_crystal_blob_in_dark_areas", () -> new LittleCrystalBlobFeature(CrystalBlobConfig.CODEC));
-	public static final DeferredHolder<Feature<?>, Feature<CrystalBlobConfig>> SHADOW_CRYSTAL_BLOB_IN_DARK_AREAS = FEATURES.register("shadow_crystal_blob_in_dark_areas", () -> new LittleCrystalBlobFeature(CrystalBlobConfig.CODEC));
+	public static final DeferredHolder<Feature<?>, Feature<CrystalBlobConfig>> STELLAR_STONE_CRYSTAL_BLOB_IN_DARK_AREAS = FEATURES.register("little_crystal_blob_in_dark_areas", () -> new LittleCrystalBlobInDarkAreasFeature(CrystalBlobConfig.CODEC));
 	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> CRYSTALLIZED_FIRE = FEATURES.register("cristallized_fire", () -> new CrystallizedFireFeature(NoneFeatureConfiguration.CODEC));
 	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> GIANT_CRYSTAL_BLOB = FEATURES.register("giant_crystal_blob", () -> new GiantCrystalBlobFeature(NoneFeatureConfiguration.CODEC));
 
