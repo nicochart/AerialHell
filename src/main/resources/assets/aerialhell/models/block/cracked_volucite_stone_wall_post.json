@@ -1,6 +1,0 @@
-{
-    "parent": "block/template_wall_post",
-    "textures": {
-        "wall": "aerialhell:block/cracked_volucite_stone"
-    }
-}

@@ -1,6 +1,6 @@
 {
     "parent": "block/wall_inventory",
     "textures": {
-        "wall": "aerialhell:block/volucite_stone"
+        "wall": "aerialhell:block/volucite_stone_0"
     }
 }

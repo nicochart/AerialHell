@@ -2,6 +2,6 @@
     "parent": "aerialhell:block/chest_inventory",
     "textures": {
         "chest": "aerialhell:block/model/volucite_chest_inventory",
-        "particle": "aerialhell:block/volucite_stone"
+        "particle": "aerialhell:block/volucite_stone_0"
     }
 }

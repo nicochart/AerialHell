@@ -2,6 +2,6 @@
     "parent": "block/block",
     "textures":
     {
-        "particle": "aerialhell:block/volucite_stone"
+        "particle": "aerialhell:block/volucite_stone_0"
     }
 }

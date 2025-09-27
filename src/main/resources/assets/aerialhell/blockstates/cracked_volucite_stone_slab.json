@@ -1,7 +1,22 @@
 {
-    "variants": {
-        "type=bottom": { "model": "aerialhell:block/cracked_volucite_stone_slab" },
-        "type=top": { "model": "aerialhell:block/cracked_volucite_stone_slab_top" },
-        "type=double": { "model": "aerialhell:block/cracked_volucite_stone" }
-    }
+  "variants": {
+    "type=bottom": [
+       {"model": "aerialhell:block/cracked_volucite_stone_slab_0"},
+       {"model": "aerialhell:block/cracked_volucite_stone_slab_1"},
+       {"model": "aerialhell:block/cracked_volucite_stone_slab_2"},
+       {"model": "aerialhell:block/cracked_volucite_stone_slab_3"}
+    ],
+    "type=top": [
+       {"model": "aerialhell:block/cracked_volucite_stone_slab_top_0"},
+       {"model": "aerialhell:block/cracked_volucite_stone_slab_top_1"},
+       {"model": "aerialhell:block/cracked_volucite_stone_slab_top_2"},
+       {"model": "aerialhell:block/cracked_volucite_stone_slab_top_3"}
+    ],
+    "type=double": [
+       {"model": "aerialhell:block/cracked_volucite_stone_0"},
+       {"model": "aerialhell:block/cracked_volucite_stone_1"},
+       {"model": "aerialhell:block/cracked_volucite_stone_2"},
+       {"model": "aerialhell:block/cracked_volucite_stone_3"}
+    ]
+  }
 }

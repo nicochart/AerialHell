@@ -1,0 +1,8 @@
+{
+    "parent": "block/slab",
+    "textures": {
+        "bottom": "aerialhell:block/cracked_volucite_stone_1",
+        "top": "aerialhell:block/cracked_volucite_stone_1",
+        "side": "aerialhell:block/cracked_volucite_stone_1"
+    }
+}
