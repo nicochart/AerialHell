@@ -1,7 +1,10 @@
 {
-    "variants": {
-      "": {
-          "model": "aerialhell:block/volucite_stone"
-    }
+  "variants": {
+    "self_luminescent=false": {"model": "aerialhell:block/volucite_stone"},
+    "self_luminescent=true": [
+       {"model": "aerialhell:block/volucite_stone_self_luminescent"},
+       {"model": "aerialhell:block/volucite_stone_self_luminescent_short"},
+       {"model": "aerialhell:block/volucite_stone_self_luminescent_short_2"}
+    ]
   }
 }
