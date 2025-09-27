@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "aerialhell:block/volucite_stone_self_luminescent_short"
-  }
-}

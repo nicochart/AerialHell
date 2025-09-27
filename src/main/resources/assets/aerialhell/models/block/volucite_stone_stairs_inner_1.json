@@ -1,0 +1,8 @@
+{
+    "parent": "block/inner_stairs",
+    "textures": {
+        "bottom": "aerialhell:block/volucite_stone_1",
+        "top": "aerialhell:block/volucite_stone_1",
+        "side": "aerialhell:block/volucite_stone_1"
+    }
+}

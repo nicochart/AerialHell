@@ -2,7 +2,7 @@
   "parent": "aerialhell:block/glyph_block_inventory_base",
   "render_type": "minecraft:translucent",
   "textures": {
-    "all": "aerialhell:block/volucite_stone",
+    "all": "aerialhell:block/volucite_stone_0",
     "glyph": "aerialhell:block/glyph/29"
   }
 }

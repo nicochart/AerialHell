@@ -25,11 +25,11 @@ public class VoluciteStoneBlock extends CoreProtectedBlock
     @Override protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
         boolean wasCoreProtected = state.getValue(CORE_PROTECTED);
-        if (state.is(this) && random.nextFloat() > 0.9F && level.isLoaded(pos))
+        if (state.is(this) && random.nextFloat() > 0.95F && level.isLoaded(pos))
         {
             level.setBlockAndUpdate(pos, state.setValue(AerialHellStateProperties.SELF_LUMINESCENT, true).setValue(CORE_PROTECTED, wasCoreProtected));
 
-            level.scheduleTick(pos, this, 1060);
+            level.scheduleTick(pos, this, 1200);
         }
     }
 

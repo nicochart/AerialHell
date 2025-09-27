@@ -1,9 +1,12 @@
 {
   "multipart": [
     {
-      "apply": {
-        "model": "aerialhell:block/volucite_stone"
-      }
+      "apply": [
+         {"model": "aerialhell:block/volucite_stone_0"},
+         {"model": "aerialhell:block/volucite_stone_1"},
+         {"model": "aerialhell:block/volucite_stone_2"},
+         {"model": "aerialhell:block/volucite_stone_3"}
+      ]
     },
     {
       "when": {"glyph_index": "0", "north" : "true"},
