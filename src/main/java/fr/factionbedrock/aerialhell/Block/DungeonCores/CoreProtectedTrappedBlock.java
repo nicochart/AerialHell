@@ -20,6 +20,8 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import static fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties.CORE_PROTECTED;
+
 public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 {
 	private static final Random rand = new Random();
@@ -30,13 +32,12 @@ public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 		this.setDefaultState(this.getDefaultState().with(CORE_PROTECTED, false));
 	}
 
-	@Override
-	public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity)
+	@Override public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity)
 	{
 		if (entity instanceof PlayerEntity)
 		{
 			boolean protect = this.isProtected(world.getBlockState(pos));
-			world.setBlockState(pos, this.getUntrappedBlock(this).getDefaultState().with(CoreProtectedBlock.CORE_PROTECTED, protect));
+			world.setBlockState(pos, this.getUntrappedBlock(this).getDefaultState().with(CORE_PROTECTED, protect));
 			if (!world.isClient())
 			{
 				EntityType<?> entityType = getEntity(this);

@@ -8,6 +8,8 @@ import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 
+import static fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties.CORE_PROTECTED;
+
 public class VoluciteStoneBlock extends CoreProtectedBlock
 {
     public VoluciteStoneBlock(Settings settings)
