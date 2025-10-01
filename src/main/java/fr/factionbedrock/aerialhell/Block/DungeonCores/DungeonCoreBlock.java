@@ -1,7 +1,5 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
-import javax.annotation.Nullable;
-
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -10,13 +8,13 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
+
+import static fr.factionbedrock.aerialhell.Registry.AerialHellStateProperties.CORE_PROTECTED;
 
 public class DungeonCoreBlock extends Block
 {	
@@ -26,12 +24,6 @@ public class DungeonCoreBlock extends Block
 	{
 		super(properties);
 		this.coreProtectRange = coreRangeIn;
-	}
-	
-	@Override
-	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack)
-	{
-		//setAreaProtected(worldIn, pos, true);
 	}
 	
 	@Override
@@ -85,42 +77,13 @@ public class DungeonCoreBlock extends Block
         }
 	}
 	
-	private void setBlockProtected(Level worldIn, BlockPos pos, boolean protect)
+	private void setBlockProtected(Level level, BlockPos pos, boolean protect)
 	{
-		BlockState old_blockstate = worldIn.getBlockState(pos);
-		Block block = old_blockstate.getBlock();
-		if (block instanceof CoreProtectedBlock)
+		BlockState old_blockstate = level.getBlockState(pos);
+		if (old_blockstate.getBlock() instanceof CoreProtectedPropertyBlock)
 		{
-			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedBlock.CORE_PROTECTED, protect));
+			level.setBlockAndUpdate(pos, old_blockstate.setValue(CORE_PROTECTED, protect));
 		}
-		else if (block instanceof CoreProtectedRotatedPillarBlock)
-		{
-			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedRotatedPillarBlock.CORE_PROTECTED, protect));
-		}
-		else if (block instanceof CoreProtectedSlabBlock)
-		{
-			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedSlabBlock.CORE_PROTECTED, protect));
-		}
-		else if (block instanceof CoreProtectedStairsBlock)
-		{
-			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedStairsBlock.CORE_PROTECTED, protect));
-		}
-		else if (block instanceof CoreProtectedChestBlock)
-		{
-			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedChestBlock.CORE_PROTECTED, protect));
-		}
-		else if (block instanceof CoreProtectedTrappedBlock)
-		{
-			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedTrappedBlock.CORE_PROTECTED, protect));
-		}
-		else if (block instanceof CoreProtectedGlyphBlock)
-		{
-			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedTrappedBlock.CORE_PROTECTED, protect));
-		}
-		//else if (block instanceof CoreProtectedWallBlock)
-		//{
-		//	worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedWallBlock.CORE_PROTECTED, protect));
-		//}
 	}
 	
 	@Override

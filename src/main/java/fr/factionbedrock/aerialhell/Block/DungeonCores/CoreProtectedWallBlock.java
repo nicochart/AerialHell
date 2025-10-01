@@ -7,33 +7,27 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 
-public class CoreProtectedWallBlock extends WallBlock
+import static fr.factionbedrock.aerialhell.Registry.AerialHellStateProperties.CORE_PROTECTED;
+
+public class CoreProtectedWallBlock extends WallBlock //implements CoreProtectedPropertyBlock
 {
 	//Problem with .isOpaque()
-	//public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
 	
 	public CoreProtectedWallBlock(Properties properties)
 	{
 		super(properties);
 		//this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
-	
-	/*public void setProtected(boolean protect)
-	{
-		this.registerDefaultState(this.stateDefinition.any().setValue(CORE_PROTECTED, protect));
-	}
-	
-	public boolean isProtected(BlockState state)
-	{
-		return state.getValue(CORE_PROTECTED);
-	}
-	
-	@SuppressWarnings("deprecation")
-	@Override
-	public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion)
+
+	/*@Override public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion)
     {
-        return isProtected(state) ? 1200.0F : this.asBlock().getExplosionResistance();
+        return this.getModifiedExplosionResistance(state, world, pos, explosion);
     }
+
+	@Override public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
+	{
+		return this.getModifiedDestroyProgress(state, player, level, pos);
+	}
 	
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
@@ -41,21 +35,6 @@ public class CoreProtectedWallBlock extends WallBlock
 		builder.add(CORE_PROTECTED);
 		super.createBlockStateDefinition(builder);
 	}*/
-
-	@Override
-	public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
-	{
-		float f = state.getDestroySpeed(level, pos);
-		if (f == -1.0F /*|| isProtected(state)*/)
-		{
-			return 0.0F;
-		}
-		else
-		{
-			int i = net.neoforged.neoforge.event.EventHooks.doPlayerHarvestCheck(player, state, level, pos) ? 30 : 100;
-			return player.getDestroySpeed(state, pos) / f / (float)i;
-		}
-	}
 
 	public WallBlock getCrackedVariant()
 	{

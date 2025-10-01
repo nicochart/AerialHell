@@ -19,6 +19,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
+import static fr.factionbedrock.aerialhell.Registry.AerialHellStateProperties.CORE_PROTECTED;
+
 public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 {
 	private static final Random rand = new Random();
@@ -29,13 +31,12 @@ public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 		this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
 
-	@Override
-	public void stepOn(Level world, BlockPos pos, BlockState state, Entity entityIn)
+	@Override public void stepOn(Level world, BlockPos pos, BlockState state, Entity entityIn)
 	{
 		if (entityIn instanceof Player)
 		{
 			boolean protect = this.isProtected(world.getBlockState(pos));
-			world.setBlockAndUpdate(pos, this.getUntrappedBlock(this).defaultBlockState().setValue(CoreProtectedBlock.CORE_PROTECTED, protect));
+			world.setBlockAndUpdate(pos, this.getUntrappedBlock(this).defaultBlockState().setValue(CORE_PROTECTED, protect));
 			if (!world.isClientSide())
 			{
 				EntityType<?> entityType = getEntity(this);

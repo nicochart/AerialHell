@@ -10,34 +10,21 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class CoreProtectedGlyphBlock extends GlyphBlock
-{
-	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
+import static fr.factionbedrock.aerialhell.Registry.AerialHellStateProperties.CORE_PROTECTED;
 
+public class CoreProtectedGlyphBlock extends GlyphBlock implements CoreProtectedPropertyUseableBlock
+{
 	public CoreProtectedGlyphBlock(Properties properties)
 	{
 		super(properties);
 		this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
-	
-	public void setProtected(boolean protect)
-	{
-		this.registerDefaultState(this.stateDefinition.any().setValue(CORE_PROTECTED, protect));
-	}
-	
-	public boolean isProtected(BlockState state)
-	{
-		return state.getValue(CORE_PROTECTED);
-	}
 
-	@Override
-	public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult)
+	@Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult)
 	{
-		if (!player.isCreative() && this.isProtected(state)) {return InteractionResult.PASS;}
-		else {return super.useWithoutItem(state, level, pos, player, hitResult);}
+		return this.canUse(state, player) ? super.useWithoutItem(state, level, pos, player, hitResult) : InteractionResult.PASS;
 	}
 
 	@Override
