@@ -1,0 +1,15 @@
+{
+  "name": "aerialhell:volucite_castle/ground_floor/pattern/nw_pattern1_3",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:volucite_castle/ground_floor/pattern/nw_pattern1_3",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

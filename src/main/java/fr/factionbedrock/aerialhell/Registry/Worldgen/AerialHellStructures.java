@@ -29,6 +29,7 @@ public class AerialHellStructures
 	public static final DeferredHolder<StructureType<?>, StructureType<LunaticTempleStructure>> LUNATIC_TEMPLE_STRUCTURE = STRUCTURES.register("lunatic_temple", () -> () -> LunaticTempleStructure.CODEC);
 	public static final DeferredHolder<StructureType<?>, StructureType<ShadowCatacombsStructure>> SHADOW_CATACOMBS_STRUCTURE = STRUCTURES.register("shadow_catacombs", () -> () -> ShadowCatacombsStructure.CODEC);
 	public static final DeferredHolder<StructureType<?>, StructureType<GoldenNetherPrisonStructure>> GOLDEN_NETHER_PRISON_STRUCTURE = STRUCTURES.register("golden_nether_prison", () -> () -> GoldenNetherPrisonStructure.CODEC);
+	public static final DeferredHolder<StructureType<?>, StructureType<VoluciteCastleStructure>> VOLUCITE_CASTLE = STRUCTURES.register("volucite_castle", () -> () -> VoluciteCastleStructure.CODEC);
 	public static final DeferredHolder<StructureType<?>, StructureType<StellarStoneBricksTowerStructure>> STELLAR_STONE_BRICKS_TOWER_STRUCTURE = STRUCTURES.register("stellar_stone_bricks_tower", () -> () -> StellarStoneBricksTowerStructure.CODEC);
 	public static final DeferredHolder<StructureType<?>, StructureType<CopperPineCottageStructure>> COPPER_PINE_COTTAGE_STRUCTURE = STRUCTURES.register("copper_pine_cottage", () -> () -> CopperPineCottageStructure.CODEC);
 	public static final DeferredHolder<StructureType<?>, StructureType<SlipperySandOceanAbandonnedStructure>> SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE = STRUCTURES.register("slippery_sand_ocean_abandonned_structure", () -> () -> SlipperySandOceanAbandonnedStructure.CODEC);
@@ -44,6 +45,7 @@ public class AerialHellStructures
 		public static final ResourceKey<StructureSet> LUNATIC_TEMPLE_STRUCTURE = register("lunatic_temple");
 		public static final ResourceKey<StructureSet> SHADOW_CATACOMBS_STRUCTURE = register("shadow_catacombs");
 		public static final ResourceKey<StructureSet> GOLDEN_NETHER_PRISON_STRUCTURE = register("golden_nether_prison");
+		public static final ResourceKey<StructureSet> VOLUCITE_CASTLE_STRUCTURE = register("volucite_castle");
 		public static final ResourceKey<StructureSet> STELLAR_STONE_BRICKS_TOWER_STRUCTURE = register("stellar_stone_bricks_tower");
 		public static final ResourceKey<StructureSet> COPPER_PINE_COTTAGE_STRUCTURE = register("copper_pine_cottage");
 		public static final ResourceKey<StructureSet> SLIPPERY_SAND_OCEAN_ABANDONNED_STRUCTURE = register("slippery_sand_ocean_abandonned_structure");

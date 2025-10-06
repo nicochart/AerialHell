@@ -1,0 +1,16 @@
+{
+  "structures": [
+    {
+      "structure": "aerialhell:volucite_castle",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 123334456,
+
+    "spacing": 45,
+    "separation": 20,
+
+    "type": "minecraft:random_spread"
+  }
+}
