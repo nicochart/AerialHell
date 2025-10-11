@@ -1,0 +1,15 @@
+{
+  "name": "aerialhell:volucite_castle/glass_dome/corner_lside",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:volucite_castle/glass_dome/corner_lside",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}
