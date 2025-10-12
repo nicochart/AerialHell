@@ -1,0 +1,15 @@
+{
+  "name": "aerialhell:volucite_castle/boss_room/third_basement/s_side_inner",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "aerialhell:volucite_castle/boss_room/third_basement/s_side_inner",
+        "processors": "minecraft:empty",
+	"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}
