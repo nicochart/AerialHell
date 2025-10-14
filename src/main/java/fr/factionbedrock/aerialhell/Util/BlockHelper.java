@@ -3,11 +3,15 @@ package fr.factionbedrock.aerialhell.Util;
 import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
 import fr.factionbedrock.aerialhell.Block.ShiftableLogBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
+import fr.factionbedrock.aerialhell.BlockEntity.IntangibleTemporaryBlockEntity;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellBiomes;
 import net.minecraft.block.*;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.StructureBlockBlockEntity;
+import net.minecraft.block.enums.StructureBlockMode;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ToolComponent;
 import net.minecraft.item.Item;
@@ -17,10 +21,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockBox;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkSectionPos;
-import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.biome.Biome;
@@ -462,5 +463,38 @@ public class BlockHelper
     public static boolean hasAnySolidSurfaceAbove(WorldView world, BlockPos pos, int radius)
     {
         return BlockHelper.hasAnySolidBlockAbove(world, pos) && hasAnySolidBlockAbove(world, pos.add(radius, 0, radius)) && hasAnySolidBlockAbove(world, pos.add(radius, 0, -radius)) && hasAnySolidBlockAbove(world, pos.add(-radius, 0, radius)) && hasAnySolidBlockAbove(world, pos.add(-radius, 0, -radius));
+    }
+
+    public static void setIntangibleTemporaryBlockEntityBeforeState(WorldView level, BlockPos pos, @Nullable BlockState state)
+    {
+        BlockEntity blockentity = level.getBlockEntity(pos);
+        if (blockentity instanceof IntangibleTemporaryBlockEntity intangibleblockentity) {intangibleblockentity.setBeforeState(state);}
+    }
+
+    public static boolean isPosInsideStructureBlockZone(BlockPos pos, List<StructureBlockBlockEntity> structureBlockEntities)
+    {
+        for (StructureBlockBlockEntity structureBlockEntity : structureBlockEntities)
+        {
+            BlockPos offset = structureBlockEntity.getOffset();
+            BlockPos origin = structureBlockEntity.getPos().add(offset);
+            Vec3i size = structureBlockEntity.getSize();
+            StructureBlockMode mode = structureBlockEntity.getMode();
+
+            //ignore current iteration if structure block is not in "save" mode
+            if (mode != StructureBlockMode.SAVE) continue;
+
+            BlockPos min = origin;
+            BlockPos max = origin.add(size.getX() - 1, size.getY() - 1, size.getZ() - 1);
+
+            int minX = Math.min(min.getX(), max.getX());
+            int minY = Math.min(min.getY(), max.getY());
+            int minZ = Math.min(min.getZ(), max.getZ());
+            int maxX = Math.max(min.getX(), max.getX());
+            int maxY = Math.max(min.getY(), max.getY());
+            int maxZ = Math.max(min.getZ(), max.getZ());
+
+            if (pos.getX() >= minX && pos.getX() <= maxX && pos.getY() >= minY && pos.getY() <= maxY && pos.getZ() >= minZ && pos.getZ() <= maxZ) {return true;}
+        }
+        return false;
     }
 }

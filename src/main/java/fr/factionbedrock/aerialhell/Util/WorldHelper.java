@@ -5,12 +5,18 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.StructureBlockBlockEntity;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.ChunkStatus;
+
+import java.util.List;
 
 public class WorldHelper
 {
@@ -44,6 +50,35 @@ public class WorldHelper
             {
                 world.breakBlock(pos, true);
                 world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            }
+        }
+    }
+
+    public static void listStructureBlockEntitiesInZone(List<StructureBlockBlockEntity> listToFill, ServerWorld world, BlockPos center, int radius)
+    {
+        int chunkRadius = (radius >> 4) + 1;
+
+        int centerChunkX = center.getX() >> 4;
+        int centerChunkZ = center.getZ() >> 4;
+
+        for (int cx = centerChunkX - chunkRadius; cx <= centerChunkX + chunkRadius; cx++)
+        {
+            for (int cz = centerChunkZ - chunkRadius; cz <= centerChunkZ + chunkRadius; cz++)
+            {
+                Chunk chunk = world.getChunk(cx, cz, ChunkStatus.FULL, false);
+                if (chunk == null) continue;
+
+                for (BlockPos pos : chunk.getBlockEntityPositions())
+                {
+                    if (pos.isWithinDistance(center, radius))
+                    {
+                        BlockEntity blockentity = chunk.getBlockEntity(pos);
+                        if (blockentity instanceof StructureBlockBlockEntity structureBlockEntity)
+                        {
+                            listToFill.add(structureBlockEntity);
+                        }
+                    }
+                }
             }
         }
     }

@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Client.Packet.AerialHellData;
 import fr.factionbedrock.aerialhell.Client.Packet.ServerPayloadHandler;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Config.AerialHellConfigLoader;
+import fr.factionbedrock.aerialhell.Event.Listeners.BlockEventListener;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.AerialHellCreativeModeTabs;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.BuildContentsEvent;
@@ -22,6 +23,7 @@ public class AerialHellSetup
         AerialHellConfigLoader.loadAndStoreConfigParams();
         registration();
         additionalRegistration();
+        BlockEventListener.registerPlayerBlockBreakEvents();
         //listen(bus);
         //eventBusListen(NeoForge.EVENT_BUS);
 
@@ -42,6 +44,7 @@ public class AerialHellSetup
     {
     	AerialHellBlocks.load();
         AerialHellItems.load();
+        AerialHellComponents.load();
         AerialHellFluids.load();
         AerialHellEntities.load();
         AerialHellTrimMaterials.load();

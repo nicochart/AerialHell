@@ -1150,5 +1150,8 @@
   "item.aerialhell.block_updater" : "Block Updater",
   "item.aerialhell.block_updater.desc" : "nicochart's Block Updater (hold in main hand)",
   "item.aerialhell.block_cracker" : "Block Cracker",
-  "item.aerialhell.block_cracker.desc" : "nicochart's Block Cracker (right click)"
+  "item.aerialhell.block_cracker.desc" : "nicochart's Block Cracker (right click)",
+  "item.aerialhell.structure_void_placer" : "Structure Void Placer",
+  "item.aerialhell.structure_void_placer.desc" : "nicochart's Structure Void Placer",
+  "item.aerialhell.structure_void_placer.radius" : "Radius : "
 }

@@ -1157,5 +1157,8 @@
   "item.aerialhell.block_updater" : "Block Updater",
   "item.aerialhell.block_updater.desc" : "Le Block Updater de nicochart (tenir dans la main principale)",
   "item.aerialhell.block_cracker" : "Block Cracker",
-  "item.aerialhell.block_cracker.desc" : "Le Block Cracker de nicochart (clic droit)"
+  "item.aerialhell.block_cracker.desc" : "Le Block Cracker de nicochart (clic droit)",
+  "item.aerialhell.structure_void_placer" : "Placeur de Structure Void",
+  "item.aerialhell.structure_void_placer.desc" : "Placeur de Structure Void de nicochart",
+  "item.aerialhell.structure_void_placer.radius" : "Rayon : "
 }

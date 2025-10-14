@@ -1034,6 +1034,7 @@ public class AerialHellItems
     //build items
     public static final Item BLOCK_UPDATER = register(Keys.BLOCK_UPDATER.getValue().getPath(), new BlockUpdaterItem(new Item.Settings().registryKey(Keys.BLOCK_UPDATER)));
     public static final Item BLOCK_CRACKER = register(Keys.BLOCK_CRACKER.getValue().getPath(), new BlockCrackerItem(new Item.Settings().registryKey(Keys.BLOCK_CRACKER)));
+    public static final Item STRUCTURE_VOID_PLACER = register(Keys.STRUCTURE_VOID_PLACER.getValue().getPath(), new StructureVoidPlacerItem(new Item.Settings().registryKey(Keys.STRUCTURE_VOID_PLACER)));
 
     public static class Keys
     {
@@ -2002,6 +2003,7 @@ public class AerialHellItems
         //build items
         public static final RegistryKey<Item> BLOCK_UPDATER = createKey("block_updater");
         public static final RegistryKey<Item> BLOCK_CRACKER = createKey("block_cracker");
+        public static final RegistryKey<Item> STRUCTURE_VOID_PLACER = createKey("structure_void_placer");
 
         private static RegistryKey<Item> createKey(String name)
         {

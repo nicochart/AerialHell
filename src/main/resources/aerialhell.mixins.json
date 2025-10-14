@@ -13,6 +13,7 @@
 		"LivingJumpMixin",
 		"LivingEntityFallFlyingMixin",
 		"LivingEntityGravityMixin",
+		"ServerPlayerTickMixin",
 		"SleepFinishMixin",
 		"ImpactFromThrownEntityMixin",
 		"ImpactFromPersistentProjectileEntityMixin",
