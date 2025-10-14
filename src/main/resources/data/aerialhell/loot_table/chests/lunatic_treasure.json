@@ -27,10 +27,8 @@
     	  "weight": 1,
           "functions": [
             {
-              "enchantments": [
-                "aerialhell:solid_ether_walker"
-              ],
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_randomly",
+              "options": "aerialhell:solid_ether_walker"
             }
           ]
         },
