@@ -5,13 +5,16 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
 import java.util.Optional;
@@ -20,10 +23,10 @@ public class BlockUpdaterItem extends WithInformationItem
 {
     public BlockUpdaterItem(Item.Settings settings) {super(settings);}
 
-    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected)
+    @Override public void inventoryTick(ItemStack stack, ServerWorld world, Entity entity, @Nullable EquipmentSlot slot)
     {
         BlockPos origin = entity.getBlockPos();
-        if (selected) {this.replaceBlocks(world, origin);}
+        if (slot == EquipmentSlot.MAINHAND) {this.replaceBlocks(world, origin);}
     }
 
     protected void replaceBlocks(World world, BlockPos origin)
