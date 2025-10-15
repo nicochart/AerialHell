@@ -23,7 +23,6 @@ public class AerialHellSetup
         AerialHellConfigLoader.loadAndStoreConfigParams();
         registration();
         additionalRegistration();
-        BlockEventListener.registerPlayerBlockBreakEvents();
         //listen(bus);
         //eventBusListen(NeoForge.EVENT_BUS);
 
