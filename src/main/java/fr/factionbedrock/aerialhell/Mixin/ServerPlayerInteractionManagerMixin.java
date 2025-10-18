@@ -31,13 +31,10 @@ public class ServerPlayerInteractionManagerMixin
     {
         if (!world.isClient)
         {
-            //world.breakBlock(pos.up(), false);
             BlockState state = world.getBlockState(pos);
             ItemStack stack = player.getMainHandStack();
             if (stack.getItem() instanceof StructureVoidPlacerItem && EntityHelper.isCreativePlayer(player))
             {
-                //if (!state.isOf(AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK)) {return;}
-
                 stack.set(AerialHellComponents.PLACER_RADIUS_COMPONENT, 0);
                 BlockPos.Mutable mutablePos = new BlockPos.Mutable();
                 int dx,dy,dz,radius=5;
@@ -62,39 +59,5 @@ public class ServerPlayerInteractionManagerMixin
                 }
             }
         }
-
-
-        /*
-        BlockState state = world.getBlockState(pos);
-        if (world.isClient) {return;}
-        ItemStack stack = player.getMainHandStack();
-        if (stack.getItem() instanceof StructureVoidPlacerItem && EntityHelper.isCreativePlayer(player))
-        {
-            //if (!state.isOf(AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK)) {return;}
-
-            stack.set(AerialHellComponents.PLACER_RADIUS_COMPONENT, 0);
-            BlockPos.Mutable mutablePos = new BlockPos.Mutable();
-            int dx,dy,dz,radius=5;
-            System.out.println("Execution du for");
-            for (dx = -radius; dx <= radius; dx++)
-            {
-                for (dy = -radius; dy <= radius; dy++)
-                {
-                    for (dz = -radius; dz <= radius; dz++)
-                    {
-                        if (dx * dx + dy * dy + dz * dz > radius * radius) continue;
-
-                        mutablePos.set(pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz);
-
-                        if (!world.getBlockState(mutablePos).isOf(AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK)) continue;
-                        if (!(world.getBlockEntity(mutablePos) instanceof IntangibleTemporaryBlockEntity intangibleTemporaryBlockEntity)) continue;
-                        if (intangibleTemporaryBlockEntity.getBeforeState() != null && intangibleTemporaryBlockEntity.getBeforeState().isOf(StructureVoidPlacerItem.PLACED_BLOCKSTATE.getBlock())) continue;
-
-                        world.removeBlockEntity(mutablePos);
-                        world.setBlockState(mutablePos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
-                    }
-                }
-            }
-        }*/
     }
 }
