@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Block.CollisionCondition.IntangibleTemporary
 import fr.factionbedrock.aerialhell.BlockEntity.IntangibleTemporaryBlockEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -80,7 +81,7 @@ public class DimensionShattererProjectileEntity extends Fireball
 									{
 										IntangibleTemporaryBlock intangibleBlock = ((IntangibleTemporaryBlock) AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK.get());
 										this.level().setBlock(pos, intangibleBlock.defaultBlockState(), 2);
-										setIntangibleTemporaryBlockEntityBeforeState(this.level(), pos, beforeState);
+										BlockHelper.setIntangibleTemporaryBlockEntityBeforeState(this.level(), pos, beforeState);
 									}
 									else
 									{
@@ -106,10 +107,4 @@ public class DimensionShattererProjectileEntity extends Fireball
 	}
 
 	@Nullable @Override protected ParticleOptions getTrailParticle() {return null;}
-
-	public static void setIntangibleTemporaryBlockEntityBeforeState(LevelAccessor level, BlockPos pos, @Nullable BlockState state)
-	{
-		BlockEntity blockentity = level.getBlockEntity(pos);
-		if (blockentity instanceof IntangibleTemporaryBlockEntity intangibleblockentity) {intangibleblockentity.setBeforeState(state);}
-	}
 }

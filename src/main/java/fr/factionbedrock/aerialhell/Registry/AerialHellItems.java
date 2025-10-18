@@ -1034,6 +1034,7 @@ public class AerialHellItems
     //build items
     public static final DeferredItem<Item> BLOCK_UPDATER = ITEMS.register(Keys.BLOCK_UPDATER.location().getPath(), () -> new BlockUpdaterItem(new Item.Properties().setId(Keys.BLOCK_UPDATER)));
     public static final DeferredItem<Item> BLOCK_CRACKER = ITEMS.register(Keys.BLOCK_CRACKER.location().getPath(), () -> new BlockCrackerItem(new Item.Properties().setId(Keys.BLOCK_CRACKER)));
+    public static final DeferredItem<Item> STRUCTURE_VOID_PLACER = ITEMS.register(Keys.STRUCTURE_VOID_PLACER.location().getPath(), () -> new StructureVoidPlacerItem(new Item.Properties().setId(Keys.STRUCTURE_VOID_PLACER)));
 
     public static class Keys
     {
@@ -2002,6 +2003,7 @@ public class AerialHellItems
         //build items
         public static final ResourceKey<Item> BLOCK_UPDATER = createKey("block_updater");
         public static final ResourceKey<Item> BLOCK_CRACKER = createKey("block_cracker");
+        public static final ResourceKey<Item> STRUCTURE_VOID_PLACER = createKey("structure_void_placer");
 
         private static ResourceKey<Item> createKey(String name)
         {

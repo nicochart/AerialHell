@@ -45,6 +45,7 @@ public class AerialHellSetup
     	AerialHellFluids.FLUIDS.register(bus);
     	AerialHellFluids.FLUID_TYPES.register(bus);
     	AerialHellItems.ITEMS.register(bus);
+    	AerialHellComponents.COMPONENTS.register(bus);
         AerialHellEntities.ENTITIES.register(bus);
         //AerialHellBiomes.BIOMES.register(bus);
         AerialHellMobEffects.EFFECTS.register(bus);

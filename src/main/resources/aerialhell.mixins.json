@@ -4,7 +4,9 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"LivingEntityFallFlyingMixin",
-		"LivingEntityGravityMixin"
+		"LivingEntityGravityMixin",
+		"ServerPlayerGameModeMixin",
+		"ServerPlayerTickMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Util;
 import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
 import fr.factionbedrock.aerialhell.Block.ShiftableLogBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
+import fr.factionbedrock.aerialhell.BlockEntity.IntangibleTemporaryBlockEntity;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -17,6 +18,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.Tool;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeResolver;
@@ -24,7 +26,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.StructureBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.StructureMode;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -460,5 +465,38 @@ public class BlockHelper
     public static boolean hasAnySolidSurfaceAbove(LevelReader reader, BlockPos pos, int radius)
     {
         return BlockHelper.hasAnySolidBlockAbove(reader, pos) && hasAnySolidBlockAbove(reader, pos.offset(radius, 0, radius)) && hasAnySolidBlockAbove(reader, pos.offset(radius, 0, -radius)) && hasAnySolidBlockAbove(reader, pos.offset(-radius, 0, radius)) && hasAnySolidBlockAbove(reader, pos.offset(-radius, 0, -radius));
+    }
+
+    public static void setIntangibleTemporaryBlockEntityBeforeState(LevelAccessor level, BlockPos pos, @org.jetbrains.annotations.Nullable BlockState state)
+    {
+        BlockEntity blockentity = level.getBlockEntity(pos);
+        if (blockentity instanceof IntangibleTemporaryBlockEntity intangibleblockentity) {intangibleblockentity.setBeforeState(state);}
+    }
+
+    public static boolean isPosInsideStructureBlockZone(BlockPos pos, List<StructureBlockEntity> structureBlockEntities)
+    {
+        for (StructureBlockEntity structureBlockEntity : structureBlockEntities)
+        {
+            BlockPos offset = structureBlockEntity.getStructurePos();
+            BlockPos origin = structureBlockEntity.getBlockPos().offset(offset);
+            Vec3i size = structureBlockEntity.getStructureSize();
+            StructureMode mode = structureBlockEntity.getMode();
+
+            //ignore current iteration if structure block is not in "save" mode
+            if (mode != StructureMode.SAVE) continue;
+
+            BlockPos min = origin;
+            BlockPos max = origin.offset(size.getX() - 1, size.getY() - 1, size.getZ() - 1);
+
+            int minX = Math.min(min.getX(), max.getX());
+            int minY = Math.min(min.getY(), max.getY());
+            int minZ = Math.min(min.getZ(), max.getZ());
+            int maxX = Math.max(min.getX(), max.getX());
+            int maxY = Math.max(min.getY(), max.getY());
+            int maxZ = Math.max(min.getZ(), max.getZ());
+
+            if (pos.getX() >= minX && pos.getX() <= maxX && pos.getY() >= minY && pos.getY() <= maxY && pos.getZ() >= minZ && pos.getZ() <= maxZ) {return true;}
+        }
+        return false;
     }
 }
