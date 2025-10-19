@@ -190,6 +190,8 @@ public class AerialHellTags
 		public static final TagKey<Item> REPAIRS_SHADOW_MATERIAL = tag("repairs_shadow_material");
 		public static final TagKey<Item> REPAIRS_ARSONIST_MATERIAL = tag("repairs_arsonist_material");
 
+		public static final TagKey<Item> STRUCTURE_BUILD_TOOLS = tag("structure_build_tools");
+
 		private static TagKey<Item> tag(String name)
 		{
 			return ItemTags.create(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));

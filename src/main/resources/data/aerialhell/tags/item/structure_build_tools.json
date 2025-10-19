@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:block_updater",
+    "aerialhell:block_cracker",
+    "aerialhell:structure_void_placer"
+  ]
+}
