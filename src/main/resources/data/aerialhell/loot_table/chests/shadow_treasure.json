@@ -32,6 +32,17 @@
             }
           ]
         },
+	{
+    	  "type": "item",
+          "name": "minecraft:book",
+    	  "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:enchant_randomly",
+              "options": "aerialhell:vulnerability_aspect"
+            }
+          ]
+        },
         {
           "type": "item",
           "name": "aerialhell:shadow_fruit_stew",
