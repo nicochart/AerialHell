@@ -1,7 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
-import java.util.List;
-
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
@@ -44,7 +42,6 @@ import net.minecraft.world.BossEvent;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.minecraft.world.phys.Vec3;
 
 public class ChainedGodEntity extends AbstractBossEntity
 {
@@ -169,7 +166,7 @@ public class ChainedGodEntity extends AbstractBossEntity
     {
 		if (random.nextFloat() > 0.5 && this.level().isClientSide()) {spawnParticles(AerialHellParticleTypes.GOD_FLAME.get(), 1, -0.06D);}
 
-		if (this.isImploding()) {this.runRoarEffects(NearbyEntitiesInteractionType.DRAG);}
+		if (this.isImploding()) {this.runRoarEffects(NearbyEntitiesInteractionInfo.DRAG_NEAR);}
 		if (this.isUnchaining()) {this.runRoarEffects();}
 		this.destroyObstacles();
 		super.tick();
@@ -199,34 +196,22 @@ public class ChainedGodEntity extends AbstractBossEntity
 	protected void runTransitionEffect()
 	{
 		if (this.level().isClientSide()) {this.spawnParticles(ParticleTypes.SMALL_FLAME, 5, -0.06D);}
-		this.runRoarEffects(NearbyEntitiesInteractionType.REPULSE);
+		this.runRoarEffects(NearbyEntitiesInteractionInfo.REPULSE_NEAR);
 	}
 
-	protected void runRoarEffects() {this.runRoarEffects(NearbyEntitiesInteractionType.NONE);}
+	protected void runRoarEffects() {this.runRoarEffects(NearbyEntitiesInteractionInfo.NONE);}
 
-	protected void runRoarEffects(NearbyEntitiesInteractionType type)
+	protected void runRoarEffects(NearbyEntitiesInteractionInfo type)
 	{
 		if (this.random.nextInt(4) == 0) {this.makeRandomRoofBlockFall(5, 15, 12, 20);}
-		this.dragOrRepulseEntities(type);
+		float dragOrRepulseFactor = type.noInteraction() ? 0.0F : type.getType().isDrag() ? 64.0F : 5.8F;
+		this.dragOrRepulseEntities(type, dragOrRepulseFactor);
 		if (this.level().isClientSide()) {this.spawnParticles(ParticleTypes.LAVA, 5, 0.5D);}
 	}
 
-	protected void dragOrRepulseEntities(NearbyEntitiesInteractionType type)
+	@Override protected boolean canDragOrRepulseEntity(Entity entity)
 	{
-		if (type == NearbyEntitiesInteractionType.NONE) {return;}
-		List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
-		for (Entity entity : nearbyEntities)
-		{
-			if (entity instanceof LivingEntity && !EntityHelper.isImmuneToChainedGodDrag(entity)) {dragEntity(entity, type);}
-		}
-	}
-
-	protected void dragEntity(Entity entityIn, NearbyEntitiesInteractionType type)
-	{
-		double dragOrRepulseFactor = type == NearbyEntitiesInteractionType.DRAG ? 1.0 : -0.3;
-		double factor = 0.8 / Math.max(5, this.distanceTo(entityIn)); //0.04 / Math.max(1, this.getDistance(entityIn)); and multiply only one time, to get uniform dragging
-		Vec3 toGod = new Vec3(this.getX() - entityIn.getX(), this.getY() - entityIn.getY(), this.getZ() - entityIn.getZ()).multiply(factor, factor, factor);
-		entityIn.setDeltaMovement(entityIn.getDeltaMovement().add(toGod.multiply(factor * dragOrRepulseFactor,factor * dragOrRepulseFactor,factor * dragOrRepulseFactor)));
+		return super.canDragOrRepulseEntity(entity) && !EntityHelper.isImmuneToChainedGodDrag(entity);
 	}
 
 	private void spawnParticles(SimpleParticleType type, int number, double dy)

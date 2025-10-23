@@ -16,7 +16,6 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.Vec3i;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -43,7 +42,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.minecraft.world.phys.Vec3;
 
 public class LilithEntity extends AbstractBossEntity
 {
@@ -178,11 +176,12 @@ public class LilithEntity extends AbstractBossEntity
 		if (this.timeSinceTransforming > 12)
 		{
 			List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
+			this.dragOrRepulseEntities(nearbyEntities, NearbyEntitiesInteractionInfo.DRAG_NEAR, 4.0F);
+
 			for (Entity entity : nearbyEntities)
 			{
 				if (entity instanceof LivingEntity && !EntityHelper.isCreaOrSpecPlayer(entity))
 				{
-					dragEntity(entity);
 					((LivingEntity) entity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 40, 0));
 				}
 			}
@@ -454,13 +453,6 @@ public class LilithEntity extends AbstractBossEntity
     @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_LILITH_HURT.get();}
     @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_LILITH_DEATH.get();}
 	@Override public void playAmbientSound() {if (this.isTransforming()) {} else {super.playAmbientSound();}}
-
-	private void dragEntity(Entity entityIn)
-	{
-		double factor = 0.2 / Math.max(5, this.distanceTo(entityIn)); //0.04 / Math.max(1, this.getDistance(entityIn)); and multiply only one time, to get uniform dragging
-		Vec3 toGod = new Vec3(this.getX() - entityIn.getX(), this.getY() - entityIn.getY(), this.getZ() - entityIn.getZ()).multiply(factor, factor, factor);
-		entityIn.setDeltaMovement(entityIn.getDeltaMovement().add(toGod.multiply(factor,factor,factor)));
-	}
 	
 	public void spawnTransformationParticle()
 	{

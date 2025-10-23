@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
@@ -25,7 +26,6 @@ import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.network.chat.Component;
@@ -38,9 +38,9 @@ import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
-import java.util.UUID;
 
 public abstract class AbstractBossEntity extends AbstractActivableEntity
 {
@@ -427,6 +427,57 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 			}
 			FallingBlockEntity.fall(level(), fallPos, fallState);
 		}
+	}
+
+	protected boolean canDragOrRepulseEntity(Entity entity)
+	{
+		return entity instanceof LivingEntity && !EntityHelper.isCreaOrSpecPlayer(entity);
+	}
+
+	protected void dragOrRepulseEntities(NearbyEntitiesInteractionInfo type, float factor)
+	{
+		dragOrRepulseEntities(type, factor, 15, 20);
+	}
+
+	protected void dragOrRepulseEntities(NearbyEntitiesInteractionInfo type, float factor, int range, int boundingBoxInflate)
+	{
+		if (type == NearbyEntitiesInteractionInfo.NONE) {return;}
+		List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(boundingBoxInflate), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), range));
+		dragOrRepulseEntities(nearbyEntities, type, factor);
+	}
+
+	protected void dragOrRepulseEntities(List<Entity> entities, NearbyEntitiesInteractionInfo type, float factor)
+	{
+		for (Entity entity : entities)
+		{
+			if (canDragOrRepulseEntity(entity)) {dragOrRepulseEntity(entity, factor, type);}
+		}
+	}
+
+	protected void dragOrRepulseEntity(Entity entity, float factor, NearbyEntitiesInteractionInfo interactionInfo)
+	{
+		if (interactionInfo.noInteraction()) {return;}
+		float dragOrRepulseFactor = interactionInfo.getType().isDrag() ? 1.0F : -1.0F;
+
+		float falloffFactor;
+		if (interactionInfo.getFalloff().isUniform()) {falloffFactor = 0.04F / Math.max(1, this.distanceTo(entity));}
+		else
+		{
+			float distance = Math.max(5, this.distanceTo(entity));
+			if (interactionInfo.getFalloff().increasesNear()) {falloffFactor = 0.1F / distance;} //increasesNear
+			else if (interactionInfo.getFalloff().decreasesNear()) {falloffFactor = distance / 400.0F;} //decreasesNear
+			else {return;}
+
+			falloffFactor = falloffFactor * falloffFactor;
+		}
+
+		dragOrRepulseEntity(entity, factor * falloffFactor * dragOrRepulseFactor);
+	}
+
+	protected void dragOrRepulseEntity(Entity entity, float factor)
+	{
+		Vec3 toBoss = new Vec3(this.getX() - entity.getX(), this.getY() - entity.getY(), this.getZ() - entity.getZ()).multiply(factor, factor, factor);
+		entity.setDeltaMovement(entity.getDeltaMovement().add(toBoss));
 	}
 
 	@Override protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean p_33576_)

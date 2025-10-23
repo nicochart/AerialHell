@@ -1,11 +1,9 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
+import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
@@ -20,15 +18,15 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
-
-import java.util.List;
 
 public class ArchitectEntity extends AbstractBossEntity
 {
+	public int timeDying;
+
 	public ArchitectEntity(EntityType<? extends Monster> type, Level world)
 	{
 		super(type, world);
+		this.timeDying = 0;
 		this.hurtTime = 0;
 		bossInfo.setColor(BossEvent.BossBarColor.BLUE);
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
@@ -69,6 +67,12 @@ public class ArchitectEntity extends AbstractBossEntity
 
 	@Override public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {return false;}
 
+	@Override public void tick()
+	{
+		super.tick();
+		if (!this.isInDeadOrDyingPhase()) {this.timeDying = 0;}
+	}
+
 	@Override public void tickTransitionPhase()
 	{
 		this.runTransitionEffect();
@@ -79,7 +83,9 @@ public class ArchitectEntity extends AbstractBossEntity
 
 	@Override public void tickDyingPhase()
 	{
-		this.dragOrRepulseEntities(NearbyEntitiesInteractionType.NONE);
+		this.dragOrRepulseEntities(NearbyEntitiesInteractionInfo.REPULSE_FAR, 10.0F);
+		this.timeDying++;
+		if (this.timeDying > 140) {this.tryDying(this.lastDamageSource == null ? this.damageSources().generic() : this.lastDamageSource);}
 	}
 
 	@Override public void tickDeadPhase() {this.tickDyingPhase();}
@@ -88,47 +94,7 @@ public class ArchitectEntity extends AbstractBossEntity
 
 	protected void runTransitionEffect()
 	{
-		if (this.level().isClientSide()) {this.spawnParticles(ParticleTypes.SMALL_FLAME, 5, -0.06D);}
-		this.runRoarEffects(NearbyEntitiesInteractionType.REPULSE);
-	}
-
-	protected void runRoarEffects(NearbyEntitiesInteractionType type)
-	{
-		if (this.random.nextInt(4) == 0) {this.makeRandomRoofBlockFall(5, 15, 12, 20);}
-		this.dragOrRepulseEntities(type);
-		if (this.level().isClientSide()) {this.spawnParticles(ParticleTypes.LAVA, 5, 0.5D);}
-	}
-
-	protected void dragOrRepulseEntities(NearbyEntitiesInteractionType type)
-	{
-		if (type == NearbyEntitiesInteractionType.NONE) {return;}
-		List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
-		for (Entity entity : nearbyEntities)
-		{
-			if (entity instanceof LivingEntity && !EntityHelper.isImmuneToChainedGodDrag(entity)) {dragEntity(entity, type);}
-		}
-	}
-
-	protected void dragEntity(Entity entityIn, NearbyEntitiesInteractionType type)
-	{
-		double dragOrRepulseFactor = type == NearbyEntitiesInteractionType.DRAG ? 1.0 : -0.3;
-		double factor = 0.8 / Math.max(5, this.distanceTo(entityIn)); //0.04 / Math.max(1, this.getDistance(entityIn)); and multiply only one time, to get uniform dragging
-		Vec3 toGod = new Vec3(this.getX() - entityIn.getX(), this.getY() - entityIn.getY(), this.getZ() - entityIn.getZ()).multiply(factor, factor, factor);
-		entityIn.setDeltaMovement(entityIn.getDeltaMovement().add(toGod.multiply(factor * dragOrRepulseFactor,factor * dragOrRepulseFactor,factor * dragOrRepulseFactor)));
-	}
-
-	private void spawnParticles(SimpleParticleType type, int number, double dy)
-	{
-		for (int i=0; i<number; i++)
-		{
-			double rand = random.nextFloat() * 2;
-			double x = getX() + (random.nextFloat() - 0.5F) * rand;
-			double y = (this.getBoundingBox().minY + rand) + 0.5D;
-			double z = getZ() + (random.nextFloat() - 0.5F) * rand;
-			double dx = (random.nextFloat() - 0.5F)/10;
-			double dz = (random.nextFloat() - 0.5F)/10;
-			this.level().addParticle(type, x, y, z, dx, dy, dz);
-		}
+		this.dragOrRepulseEntities(NearbyEntitiesInteractionInfo.REPULSE_NEAR, 64.0F);
 	}
 	
 	@Override public boolean isPushable() {return false;}
