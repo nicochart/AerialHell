@@ -196,8 +196,6 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	@Override public Item getTrophy() {return AerialHellItems.CHAINED_GOD_TROPHY.get();}
 
-	protected enum NearbyEntitiesInteractionType {NONE, DRAG, REPULSE}
-
 	protected void runTransitionEffect()
 	{
 		if (this.level().isClientSide()) {this.spawnParticles(ParticleTypes.SMALL_FLAME, 5, -0.06D);}

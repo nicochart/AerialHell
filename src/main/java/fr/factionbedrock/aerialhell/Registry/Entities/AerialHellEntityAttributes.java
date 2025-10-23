@@ -61,6 +61,7 @@ public class AerialHellEntityAttributes
 		event.put(AerialHellEntities.FIRE_SPIRIT.get(), AbstractElementSpiritEntity.registerAttributes().build());
 		event.put(AerialHellEntities.ELECTRO_SPIRIT.get(), AbstractElementSpiritEntity.registerAttributes().build());
 		event.put(AerialHellEntities.CHAINED_GOD.get(), ChainedGodEntity.registerAttributes().build());
+		event.put(AerialHellEntities.ARCHITECT.get(), ArchitectEntity.registerAttributes().build());
 		event.put(AerialHellEntities.FLYING_JELLYFISH.get(), FlyingJellyfishEntity.registerAttributes().build());
 		event.put(AerialHellEntities.SHADOW_FLYING_SKULL.get(), ShadowFlyingSkullEntity.registerAttributes().build());
 		event.put(AerialHellEntities.SHADOW_TROLL.get(), ShadowTrollEntity.registerAttributes().build());
