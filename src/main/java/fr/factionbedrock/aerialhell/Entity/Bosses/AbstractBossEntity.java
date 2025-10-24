@@ -443,41 +443,77 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	{
 		if (type == NearbyEntitiesInteractionInfo.NONE) {return;}
 		List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(boundingBoxInflate), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), range));
-		dragOrRepulseEntities(nearbyEntities, type, factor);
+		dragOrRepulseEntities(nearbyEntities, type, factor, range);
 	}
 
-	protected void dragOrRepulseEntities(List<Entity> entities, NearbyEntitiesInteractionInfo type, float factor)
+	protected void dragOrRepulseEntities(List<Entity> entities, NearbyEntitiesInteractionInfo type, float factor, int range)
 	{
 		for (Entity entity : entities)
 		{
-			if (canDragOrRepulseEntity(entity)) {dragOrRepulseEntity(entity, factor, type);}
+			if (canDragOrRepulseEntity(entity)) {dragOrRepulseEntity(entity, factor, type, range);}
 		}
 	}
 
-	protected void dragOrRepulseEntity(Entity entity, float factor, NearbyEntitiesInteractionInfo interactionInfo)
+	protected void dragOrRepulseEntity(Entity entity, float factor, NearbyEntitiesInteractionInfo interactionInfo, int range)
 	{
 		if (interactionInfo.noInteraction()) {return;}
 		float dragOrRepulseFactor = interactionInfo.getType().isDrag() ? 1.0F : -1.0F;
 
-		float falloffFactor;
-		if (interactionInfo.getFalloff().isUniform()) {falloffFactor = 0.04F / Math.max(1, this.distanceTo(entity));}
+		float falloffFactor, distance;
+		if (interactionInfo.getFalloff().isUniform()) {distance = Math.max(1, this.distanceTo(entity)); falloffFactor = 0.001F / distance;}
 		else
 		{
-			float distance = Math.max(5, this.distanceTo(entity));
+			distance = Math.max(5, this.distanceTo(entity));
 			if (interactionInfo.getFalloff().increasesNear()) {falloffFactor = 0.1F / distance;} //increasesNear
-			else if (interactionInfo.getFalloff().decreasesNear()) {falloffFactor = distance / 400.0F;} //decreasesNear
+			else if (interactionInfo.getFalloff().decreasesNear()) {falloffFactor = distance / 500.0F;} //decreasesNear
 			else {return;}
 
 			falloffFactor = falloffFactor * falloffFactor;
 		}
 
-		dragOrRepulseEntity(entity, factor * falloffFactor * dragOrRepulseFactor);
+		float smoothingFactor = smoothingFactor(distance, range, interactionInfo);
+		dragOrRepulseEntity(entity, factor * falloffFactor * dragOrRepulseFactor * smoothingFactor);
 	}
 
 	protected void dragOrRepulseEntity(Entity entity, float factor)
 	{
 		Vec3 toBoss = new Vec3(this.getX() - entity.getX(), this.getY() - entity.getY(), this.getZ() - entity.getZ()).multiply(factor, factor, factor);
 		entity.setDeltaMovement(entity.getDeltaMovement().add(toBoss));
+	}
+
+	protected static float smoothingFactor(float distance, float range, NearbyEntitiesInteractionInfo interactionInfo)
+	{
+		float percentage = 0.6F; //1.0F - percentage = range percentage (border) used for smoothing;
+		if (interactionInfo.getFalloff().increasesNear())
+		{
+			return 1.0F; //no smoothing factor
+		}
+		else if (interactionInfo.getFalloff().isUniform())
+		{
+			float normalized = distance / range;
+			if (normalized <= percentage) {return 1.0F;}
+			else
+			{
+				double t = (normalized - percentage) / (1.0F - percentage);
+				return (float) Math.cos(t * (Math.PI / 2));
+			}
+		}
+		else //decreasesNear
+		{
+			if (distance <= 0.0 || distance >= range) {return 0.0F;}
+
+			float normalized = distance / range;
+
+			if (normalized <= percentage)
+			{
+				return (float) Math.sin((normalized / percentage) * (Math.PI / 2));
+			}
+			else
+			{
+				double t = (normalized - percentage) / (1.0F - percentage);
+				return (float) Math.cos(t * (Math.PI / 2));
+			}
+		}
 	}
 
 	@Override protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean p_33576_)

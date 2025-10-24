@@ -175,8 +175,9 @@ public class LilithEntity extends AbstractBossEntity
 
 		if (this.timeSinceTransforming > 12)
 		{
-			List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
-			this.dragOrRepulseEntities(nearbyEntities, NearbyEntitiesInteractionInfo.DRAG_NEAR, 4.0F);
+			int range = 15;
+			List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), range));
+			this.dragOrRepulseEntities(nearbyEntities, NearbyEntitiesInteractionInfo.DRAG_NEAR, 4.0F, range);
 
 			for (Entity entity : nearbyEntities)
 			{

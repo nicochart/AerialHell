@@ -83,18 +83,18 @@ public class ArchitectEntity extends AbstractBossEntity
 
 	@Override public void tickDyingPhase()
 	{
-		this.dragOrRepulseEntities(NearbyEntitiesInteractionInfo.REPULSE_FAR, 10.0F);
+		this.dragOrRepulseEntities(NearbyEntitiesInteractionInfo.REPULSE_FAR, 40.0F);
 		this.timeDying++;
 		if (this.timeDying > 140) {this.tryDying(this.lastDamageSource == null ? this.damageSources().generic() : this.lastDamageSource);}
 	}
 
-	@Override public void tickDeadPhase() {this.tickDyingPhase();}
+	@Override public void tickDeadPhase() {}
 
 	@Override public Item getTrophy() {return AerialHellItems.VOLUCITE_ORE.get();}
 
 	protected void runTransitionEffect()
 	{
-		this.dragOrRepulseEntities(NearbyEntitiesInteractionInfo.REPULSE_NEAR, 64.0F);
+		this.dragOrRepulseEntities(NearbyEntitiesInteractionInfo.REPULSE_UNIFORM, 120.0F);
 	}
 	
 	@Override public boolean isPushable() {return false;}
