@@ -3,7 +3,7 @@
     "icon": {"id": "aerialhell:chiseled_stellar_grass_block"},
     "title": {"translate": "advancements.story.enter_aerial_hell.title"},
     "description": {"translate": "advancements.story.enter_aerial_hell.desc"},
-    "background": "aerialhell:textures/block/stellar_stone.png",
+    "background": "aerialhell:block/stellar_stone",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,

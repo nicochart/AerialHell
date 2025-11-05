@@ -9,8 +9,10 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -161,7 +163,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	@Override public boolean displayFireAnimation() {return false;}
 
 	@Override public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {return false;}
-	
+
 	@Override public void tick()
     {
 		if (random.nextFloat() > 0.5 && this.level().isClientSide()) {spawnParticles(AerialHellParticleTypes.GOD_FLAME.get(), 1, -0.06D);}
@@ -186,7 +188,14 @@ public class ChainedGodEntity extends AbstractBossEntity
 	{
 		this.runRoarEffects();
 		this.timeDying++;
-		if (this.timeDying > 140) {this.tryDying(this.lastDamageSource == null ? this.damageSources().generic() : this.lastDamageSource);}
+		if (this.timeDying > 140)
+		{
+			if (this.lastDamageSource != null && lastDamageSource.getEntity() instanceof ServerPlayer player)
+			{
+				CriteriaTriggers.PLAYER_KILLED_ENTITY.trigger(player, this, lastDamageSource);
+			}
+			this.tryDying(this.lastDamageSource == null ? this.damageSources().generic() : this.lastDamageSource);
+		}
 	}
 
 	@Override public void tickDeadPhase() {this.tickDyingPhase();}
