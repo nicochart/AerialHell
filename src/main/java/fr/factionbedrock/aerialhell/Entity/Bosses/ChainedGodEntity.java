@@ -11,6 +11,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -40,6 +41,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -194,7 +196,14 @@ public class ChainedGodEntity extends AbstractBossEntity
 	{
 		this.runRoarEffects();
 		this.timeDying++;
-		if (this.timeDying > 140) {this.tryDying(this.lastDamageSource == null ? this.getDamageSources().generic() : this.lastDamageSource);}
+		if (this.timeDying > 140)
+		{
+			if (this.lastDamageSource != null && lastDamageSource.getAttacker() instanceof ServerPlayerEntity player)
+			{
+				Criteria.PLAYER_KILLED_ENTITY.trigger(player, this, lastDamageSource);
+			}
+			this.tryDying(this.lastDamageSource == null ? this.getDamageSources().generic() : this.lastDamageSource);
+		}
 	}
 
 	@Override public void tickDeadPhase() {this.tickDyingPhase();}
