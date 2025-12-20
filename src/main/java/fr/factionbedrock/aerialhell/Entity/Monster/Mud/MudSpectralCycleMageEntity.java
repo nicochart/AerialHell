@@ -47,7 +47,7 @@ public class MudSpectralCycleMageEntity extends Monster implements MudSpectralEn
     @Override public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount)
     {
         boolean flag = super.hurtServer(serverLevel, source, amount);
-        if (flag && this.master.isAlive()) //damage master without showing
+        if (flag && this.master != null && this.master.isAlive()) //damage master without showing
         {
             if (!this.master.isInvulnerableTo(serverLevel, source) && this.master.getHealth() > 20.0F)
             {
