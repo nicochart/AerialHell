@@ -215,6 +215,7 @@ public class AerialHellTags
 		public static final TagKey<EntityType<?>> BOSS = tag("boss");
 		public static final TagKey<EntityType<?>> SKY_CACTUS_COLLISION_IMMUNE = tag("sky_cactus_collision_immune");
 		public static final TagKey<EntityType<?>> CHAINED_GOD_DRAG_IMMUNE = tag("chained_god_drag_immune");
+		public static final TagKey<EntityType<?>> SENSITIVE_TO_VULNERABILITY_ENCHANTMENT = tag("sensitive_to_vulnerability_enchantment");
 
 		private static TagKey<EntityType<?>> tag(String name) {return TagKey.of(RegistryKeys.ENTITY_TYPE, AerialHell.id(name));}
 	}
