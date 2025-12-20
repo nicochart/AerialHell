@@ -44,7 +44,7 @@ public class MudSpectralCycleMageEntity extends HostileEntity implements MudSpec
     @Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
     {
         boolean flag = super.damage(serverWorld, source, amount);
-        if (flag && this.master.isAlive()) //damage master without showing
+        if (flag && this.master != null && this.master.isAlive()) //damage master without showing
         {
             if (!this.master.isInvulnerableTo(serverWorld, source) && this.master.getHealth() > 20.0F)
             {
