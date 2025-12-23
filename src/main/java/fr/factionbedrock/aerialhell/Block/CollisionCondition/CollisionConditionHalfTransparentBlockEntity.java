@@ -28,7 +28,7 @@ public abstract class CollisionConditionHalfTransparentBlockEntity extends BaseE
 
     @Override protected RenderShape getRenderShape(BlockState pState) {return RenderShape.MODEL;}
 
-    @Override protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
+    @Override protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean intersects)
     {
         entity.fallDistance = 0.0F;
         if (entity.getDeltaMovement().y < 0.0)

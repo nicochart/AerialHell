@@ -77,8 +77,6 @@ public class CrystalSlimeEntity extends Mob
 		return new BlockParticleOption(ParticleTypes.BLOCK, AerialHellBlocks.CRYSTAL_BLOCK.get().defaultBlockState());
 	}
 
-	@Override protected boolean shouldDespawnInPeaceful() {return true;}
-
 	@Override public void tick()
 	{
 		this.squish = this.squish + (this.targetSquish - this.squish) * 0.5F;

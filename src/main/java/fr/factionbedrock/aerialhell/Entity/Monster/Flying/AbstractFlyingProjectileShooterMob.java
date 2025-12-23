@@ -42,7 +42,6 @@ public abstract class AbstractFlyingProjectileShooterMob extends Mob implements 
 	public boolean isAttacking() {return this.entityData.get(ATTACKING);}
 	public void setAttacking(boolean isAttacking) {this.entityData.set(ATTACKING, isAttacking);}
 
-	@Override protected boolean shouldDespawnInPeaceful() {return true;}
 	@Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return true;}
 
 	@Override public void aiStep()

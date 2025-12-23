@@ -1,13 +1,12 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.Layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.CrystalGolemCrystalModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.CrystalGolemRenderState;
 import fr.factionbedrock.aerialhell.Client.EntityModels.CrystalGolemModel;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -26,13 +25,12 @@ public class CrystalGolemCrystalLayer<T extends CrystalGolemRenderState, M exten
       golemModel = crystalModel;
    }
 
-   @Override public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, T renderState, float yRot, float xRot)
+   @Override public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, T renderState, float yRot, float xRot)
    {
       if (!renderState.isInvisible)
       {
          this.golemModel.setupAnim(renderState);
-         VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityCutout(CRYSTAL_GOLEM_CRYSTALS));
-         this.golemModel.renderToBuffer(poseStack, consumer, packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB());
+         submitNodeCollector.submitModel(this.golemModel, renderState, poseStack, RenderType.entityTranslucent(CRYSTAL_GOLEM_CRYSTALS), packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor, null);
       }
    }
 }

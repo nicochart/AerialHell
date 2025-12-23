@@ -32,7 +32,7 @@ public class GhostBoatDoorBlock extends DoorBlock
 		return (!canEntityCollide(player) && !player.isCreative()) ? InteractionResult.SUCCESS : super.useWithoutItem(state, level, pos, player, hit);
 	}
 
-	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
+	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean intersects)
 	{
 		entity.fallDistance = 0.0F;
 		if (entity.getDeltaMovement().y < 0.0)

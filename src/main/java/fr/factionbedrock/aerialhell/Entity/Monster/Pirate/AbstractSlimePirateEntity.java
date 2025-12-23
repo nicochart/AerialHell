@@ -17,7 +17,7 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
 
     @Override public void remove(Entity.RemovalReason removalReason)
     {
-        if (!this.level().isClientSide && !this.isBaby() && this.isDeadOrDying())
+        if (!this.level().isClientSide() && !this.isBaby() && this.isDeadOrDying())
         {
             int number = 1 + this.random.nextInt(2);
             if (random.nextInt(5) == 0) {number++;}

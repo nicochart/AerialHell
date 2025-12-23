@@ -29,7 +29,7 @@ public class AerialHellFluidBlock extends LiquidBlock {
 
 	public AerialHellFluidBlock(FlowingFluid flowingFluid, Properties properties)
 	{
-        super(flowingFluid, properties.noCollission().strength(100F).noLootTable());
+        super(flowingFluid, properties.noCollision().strength(100F).noLootTable());
     }
 	
 	private void triggerMixEffects(LevelAccessor worldIn, BlockPos pos) {worldIn.levelEvent(1501, pos, 0);} //fizz in FluidBlock
@@ -67,7 +67,7 @@ public class AerialHellFluidBlock extends LiquidBlock {
 		}
 	}
 
-	@Override protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
+	@Override protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean intersects)
 	{
 		if(this.fluid.is(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
 		{

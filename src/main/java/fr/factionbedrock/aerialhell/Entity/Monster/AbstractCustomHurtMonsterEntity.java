@@ -36,7 +36,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
     public boolean customHurt(ServerLevel serverLevel, DamageSource source, CustomHurtInfo info)
     {
         float amount = info.amount();
-        if (this.isInvulnerableTo(serverLevel, source) || this.level().isClientSide || this.isDeadOrDying()) {return false;}
+        if (this.isInvulnerableTo(serverLevel, source) || this.level().isClientSide() || this.isDeadOrDying()) {return false;}
         else if (source.is(DamageTypeTags.IS_FIRE) && this.hasEffect(MobEffects.FIRE_RESISTANCE)) {return false;}
         else
         {

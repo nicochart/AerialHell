@@ -10,6 +10,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
@@ -114,7 +115,7 @@ public class HumanoidTwoLayerModel<T extends HumanoidTwoLayerRenderState> extend
 		rightLeg_overlay.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 
-	@Override public void translateToHand(HumanoidArm arm, PoseStack stack)
+	@Override public void translateToHand(EntityRenderState entityRenderState, HumanoidArm arm, PoseStack stack)
 	{
 		this.getArm(arm).translateAndRotate(stack);
 	}

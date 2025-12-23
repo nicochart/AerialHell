@@ -19,7 +19,7 @@ public class DimensionShattererProjectileItem extends EggItem
     {
         ItemStack itemstack = player.getItemInHand(hand);
         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EGG_THROW, SoundSource.PLAYERS, 0.5F, 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
-        if (!level.isClientSide)
+        if (!level.isClientSide())
         {
             DimensionShattererProjectileEntity projectile = new DimensionShattererProjectileEntity(level, player);
             projectile.setPos(player.getX(), player.getEyeY() - 0.1F, player.getZ());

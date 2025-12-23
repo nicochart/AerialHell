@@ -33,7 +33,7 @@ public class EffectToolHelper
 	public static void setDamageAndCooldown(Item ItemIn, ItemStack heldItem, Player playerIn, InteractionHand hand, int cooldown)
 	{
 		playerIn.getCooldowns().addCooldown(heldItem, cooldown);
-		heldItem.hurtAndBreak(1, playerIn, LivingEntity.getSlotForHand(hand));
+		heldItem.hurtAndBreak(1, playerIn, hand);
 	}
 	
 	public static void applyFullVolucitePower(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand)

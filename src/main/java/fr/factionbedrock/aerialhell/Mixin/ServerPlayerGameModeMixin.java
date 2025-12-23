@@ -29,7 +29,7 @@ public class ServerPlayerGameModeMixin //ServerPlayerInteractionManagerMixin
     @Inject(method = "destroyBlock", at = @At(value = "HEAD"))
     private void afterBlockBreak(BlockPos pos, CallbackInfoReturnable<Boolean> cir)
     {
-        if (!level.isClientSide)
+        if (!level.isClientSide())
         {
             BlockState state = level.getBlockState(pos);
             ItemStack stack = player.getMainHandItem();

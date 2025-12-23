@@ -6,33 +6,41 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.PortalParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public class OscillatorParticle extends PortalParticle
 {
-    protected OscillatorParticle(ClientLevel worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
+    private final SpriteSet sprites;
+    protected OscillatorParticle(ClientLevel worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, SpriteSet sprites)
     {
-        super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
-
+        super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, sprites.first());
+        this.sprites = sprites;
         this.rCol = 0.17F;//0.30F;
         this.gCol = 0.32F;//0.64F;
         this.bCol = 0.27F;//0.55F;
     }
 
-    public static class Factory implements ParticleProvider<SimpleParticleType>
+    @OnlyIn(Dist.CLIENT)
+    public static class Provider implements ParticleProvider<SimpleParticleType>
     {
-        private final SpriteSet spriteSet;
+        private final SpriteSet sprites;
 
-        public Factory(SpriteSet spriteSetIn)
+        public Provider(SpriteSet sprites)
         {
-            this.spriteSet = spriteSetIn;
+            this.sprites = sprites;
         }
 
-        @Override
-        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed)
+        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource rand)
         {
-            OscillatorParticle oscillatorParticle = new OscillatorParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
-            oscillatorParticle.pickSprite(this.spriteSet);
-            return oscillatorParticle;
+            return new OscillatorParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.sprites);
         }
+    }
+
+    @Override public void tick()
+    {
+        super.tick();
+        this.setSpriteFromAge(this.sprites);
     }
 }

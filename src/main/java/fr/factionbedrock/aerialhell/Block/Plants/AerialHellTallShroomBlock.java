@@ -65,7 +65,7 @@ public class AerialHellTallShroomBlock extends TallGrassBlock
 		return state.is(BlockTags.DIRT) || state.is(AerialHellBlocks.STELLAR_COARSE_DIRT.get()) || state.is(AerialHellTags.Blocks.STELLAR_STONE_AND_DERIVATIVES) || state.is(BlockTags.MUSHROOM_GROW_BLOCK);
 	}
 
-	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
+	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean intersects)
 	{
 		if (this == AerialHellBlocks.GIANT_ROOT_SHROOM.get() && entity instanceof LivingEntity livingEntity)
 		{

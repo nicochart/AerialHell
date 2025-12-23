@@ -42,7 +42,7 @@ public class ThrownStellarEgg extends ThrowableItemProjectile
     @Override protected void onHit(HitResult hitResult) //copied from ThrownEgg, replacing Chicken with StellarChicken
     {
         super.onHit(hitResult);
-        if (!this.level().isClientSide)
+        if (!this.level().isClientSide())
         {
             if (this.random.nextInt(8) == 0)
             {

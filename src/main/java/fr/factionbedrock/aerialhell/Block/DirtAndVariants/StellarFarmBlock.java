@@ -44,7 +44,7 @@ public class StellarFarmBlock extends FarmBlock
 
     @Override public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, double fallDistance)
     {
-        if (!level.isClientSide && net.neoforged.neoforge.common.CommonHooks.onFarmlandTrample((ServerLevel) level, pos, AerialHellBlocks.STELLAR_DIRT.get().defaultBlockState(), fallDistance, entity))
+        if (!level.isClientSide() && net.neoforged.neoforge.common.CommonHooks.onFarmlandTrample((ServerLevel) level, pos, AerialHellBlocks.STELLAR_DIRT.get().defaultBlockState(), fallDistance, entity))
         {
             turnToStellarDirt(entity, state, level, pos);
         }

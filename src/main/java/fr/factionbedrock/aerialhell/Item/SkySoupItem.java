@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,7 +14,7 @@ public class SkySoupItem extends Item //copy of net.minecraft.item.SoupItem but 
 	
 	@Override public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entityLiving)
 	{
-		if (stack.is(AerialHellItems.SHADOW_FRUIT_STEW) && !level.isClientSide)
+		if (stack.is(AerialHellItems.SHADOW_FRUIT_STEW) && !level.isClientSide())
 		{
 			ItemHelper.removeEffectCuredBy(entityLiving, stack);
 		}

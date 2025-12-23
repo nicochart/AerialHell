@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Block.CollisionCondition.CollisionConditionH
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -30,9 +31,9 @@ public class SolidEtherBlock extends CollisionConditionHalfTransparentBlock
 	}
 
 	@Override
-	public boolean onDestroyedByPlayer(BlockState state, Level worldIn, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)
+	public boolean onDestroyedByPlayer(BlockState state, Level worldIn, BlockPos pos, Player player, ItemStack toolStack, boolean willHarvest, FluidState fluid)
 	{
-		boolean flag = super.onDestroyedByPlayer(state, worldIn, pos, player, willHarvest, fluid);
+		boolean flag = super.onDestroyedByPlayer(state, worldIn, pos, player, toolStack, willHarvest, fluid);
 		if (flag && !(this == AerialHellBlocks.WHITE_SOLID_ETHER.get()))
 		{
 			worldIn.setBlockAndUpdate(pos, AerialHellBlocks.WHITE_SOLID_ETHER.get().defaultBlockState());

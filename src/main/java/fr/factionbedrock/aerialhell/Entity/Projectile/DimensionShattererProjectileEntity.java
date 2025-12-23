@@ -48,7 +48,7 @@ public class DimensionShattererProjectileEntity extends Fireball
 
 	@Override public void tick()
 	{
-		if (this.level().isClientSide || (this.getOwner() == null || !this.getOwner().isRemoved()) && this.level().hasChunkAt(this.blockPosition()))
+		if (this.level().isClientSide() || (this.getOwner() == null || !this.getOwner().isRemoved()) && this.level().hasChunkAt(this.blockPosition()))
 		{
 			Vec3 vec3 = this.getDeltaMovement();
 			double d0 = this.getX() + vec3.x;
@@ -62,7 +62,7 @@ public class DimensionShattererProjectileEntity extends Fireball
 
 		if (this.tickCount < 100)
 		{
-			if (!this.level().isClientSide)
+			if (!this.level().isClientSide())
 			{
 				BlockPos pos;
 				for (int x=-2; x<=2; x++)

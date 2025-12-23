@@ -21,7 +21,7 @@ public class GhostBoatFenceBlock extends FenceBlock
 		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false));
 	}
 
-	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
+	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean intersects)
 	{
 		entity.fallDistance = 0.0F;
 		if (entity.getDeltaMovement().y < 0.0)

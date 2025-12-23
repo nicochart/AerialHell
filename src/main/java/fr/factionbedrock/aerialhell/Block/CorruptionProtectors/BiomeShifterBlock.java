@@ -43,6 +43,6 @@ public class BiomeShifterBlock extends BaseEntityBlock
 
     @Nullable @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type)
     {
-        return level.isClientSide ? null : createTickerHelper(type, AerialHellBlockEntities.BIOME_SHIFTER.get(), BiomeShifterBlockEntity::tick);
+        return level.isClientSide() ? null : createTickerHelper(type, AerialHellBlockEntities.BIOME_SHIFTER.get(), BiomeShifterBlockEntity::tick);
     }
 }

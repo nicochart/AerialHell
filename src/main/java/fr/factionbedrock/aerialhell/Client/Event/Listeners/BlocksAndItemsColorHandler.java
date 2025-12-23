@@ -230,5 +230,5 @@ public class BlocksAndItemsColorHandler
 
     public static boolean isShadowBindEnabled() {return LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT && isCurrentPlayerInstanceShadowBind();}
 
-    public static boolean isCurrentPlayerInstanceShadowBind() {return FMLEnvironment.dist == Dist.CLIENT && Minecraft.getInstance().player != null && EntityHelper.isLivingEntityShadowBind(Minecraft.getInstance().player);}
+    public static boolean isCurrentPlayerInstanceShadowBind() {return FMLEnvironment.getDist() == Dist.CLIENT && Minecraft.getInstance().player != null && EntityHelper.isLivingEntityShadowBind(Minecraft.getInstance().player);}
 }

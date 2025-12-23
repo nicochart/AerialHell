@@ -67,7 +67,7 @@ public class BlowpipeItem extends Item
         {
             ammo.shrink(1);
             if (ammo.isEmpty()) {playerIn.getInventory().removeItem(ammo);}
-            heldItem.hurtAndBreak(1, playerIn, LivingEntity.getSlotForHand(handIn));
+            heldItem.hurtAndBreak(1, playerIn, handIn);
         }
         playerIn.getCooldowns().addCooldown(playerIn.getItemInHand(handIn), 12);
         return InteractionResult.CONSUME;

@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
@@ -27,9 +28,9 @@ public class DungeonCoreBlock extends Block
 	}
 	
 	@Override
-	public boolean onDestroyedByPlayer(BlockState state, Level worldIn, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)
+	public boolean onDestroyedByPlayer(BlockState state, Level worldIn, BlockPos pos, Player player, ItemStack toolStack, boolean willHarvest, FluidState fluid)
 	{
-		boolean flag = super.onDestroyedByPlayer(state, worldIn, pos, player, willHarvest, fluid);
+		boolean flag = super.onDestroyedByPlayer(state, worldIn, pos, player, toolStack, willHarvest, fluid);
 		if (flag) {setAreaProtected(worldIn, pos, false);}
 		return flag;
 	}

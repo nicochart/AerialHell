@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.ContainerUser;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -28,25 +29,25 @@ public class AerialHellBarrelBlockEntity extends RandomizableContainerBlockEntit
 	private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
 	private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter()
 	{
-		protected void onOpen(Level level, BlockPos pos, BlockState state)
+		@Override protected void onOpen(Level level, BlockPos pos, BlockState state)
 		{
 			AerialHellBarrelBlockEntity.this.playSound(state, SoundEvents.BARREL_OPEN);
 			AerialHellBarrelBlockEntity.this.updateBlockState(state, true);
 		}
 
-		protected void onClose(Level level, BlockPos pos, BlockState state)
+		@Override protected void onClose(Level level, BlockPos pos, BlockState state)
 		{
 			AerialHellBarrelBlockEntity.this.playSound(state, SoundEvents.BARREL_CLOSE);
 			AerialHellBarrelBlockEntity.this.updateBlockState(state, false);
 		}
 
-		protected void openerCountChanged(Level level, BlockPos pos, BlockState state, int p_155069_, int p_155070_) {}
+		@Override protected void openerCountChanged(Level level, BlockPos pos, BlockState state, int p_155069_, int p_155070_) {}
 
-		protected boolean isOwnContainer(Player p_155060_)
+		@Override public boolean isOwnContainer(Player player)
 		{
-			if (p_155060_.containerMenu instanceof ChestMenu)
+			if (player.containerMenu instanceof ChestMenu)
 			{
-				Container container = ((ChestMenu)p_155060_.containerMenu).getContainer();
+				Container container = ((ChestMenu)player.containerMenu).getContainer();
 				return container == AerialHellBarrelBlockEntity.this;
 			}
 			else {return false;}
@@ -78,14 +79,14 @@ public class AerialHellBarrelBlockEntity extends RandomizableContainerBlockEntit
 
 	@Override protected AbstractContainerMenu createMenu(int p_58598_, Inventory inv) {return ChestMenu.threeRows(p_58598_, inv, this);}
 
-	@Override public void startOpen(Player player)
+	@Override public void startOpen(ContainerUser user)
 	{
-		if (!this.remove && !player.isSpectator()) {this.openersCounter.incrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());}
+		if (!this.remove && !user.getLivingEntity().isSpectator()) {this.openersCounter.incrementOpeners(user.getLivingEntity(), this.getLevel(), this.getBlockPos(), this.getBlockState(), user.getContainerInteractionRange());}
 	}
 
-	@Override public void stopOpen(Player player)
+	@Override public void stopOpen(ContainerUser user)
 	{
-		if (!this.remove && !player.isSpectator()) {this.openersCounter.decrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());}
+		if (!this.remove && !user.getLivingEntity().isSpectator()) {this.openersCounter.decrementOpeners(user.getLivingEntity(), this.getLevel(), this.getBlockPos(), this.getBlockState());}
 	}
 
 	public void recheckOpen()

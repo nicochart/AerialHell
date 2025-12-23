@@ -127,7 +127,7 @@ public class AerialHellPortalBlock extends Block implements Portal
 		return !flag && facingState.getBlock() != this && !(new AerialHellPortalShape(level, currentPos, direction$axis1)).isComplete() ? Blocks.AIR.defaultBlockState() : super.updateShape(stateIn, level, tickAccess, currentPos, facing, facingPos, facingState, rand);
 	}
 
-	@Override protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
+	@Override protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean intersects)
 	{
 		if(entity.canUsePortal(false))
 		{

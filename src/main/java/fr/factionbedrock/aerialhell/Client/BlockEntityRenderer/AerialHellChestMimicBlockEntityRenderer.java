@@ -6,15 +6,21 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.ChestRenderer;
+import net.minecraft.client.renderer.blockentity.state.ChestRenderState;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.ChestType;
+import org.jetbrains.annotations.Nullable;
 
 public class AerialHellChestMimicBlockEntityRenderer extends ChestRenderer<ChestMimicBlockEntity>
 {
 	public AerialHellChestMimicBlockEntityRenderer(BlockEntityRendererProvider.Context context) {super(context);}
 
-	@Override
+	@Override @Nullable
+	protected Material getCustomMaterial(ChestMimicBlockEntity blockEntity, ChestRenderState renderState) {
+		return this.getMaterial(blockEntity, renderState.type);
+	}
+
 	protected Material getMaterial(ChestMimicBlockEntity blockEntity, ChestType chestType)
 	{
 		Block block = blockEntity.getBlockState().getBlock();

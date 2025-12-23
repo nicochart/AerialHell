@@ -2,10 +2,8 @@ package fr.factionbedrock.aerialhell.Client.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Particle.*;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.CampfireSmokeParticle;
 import net.minecraft.client.particle.FlameParticle;
-import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -31,18 +29,16 @@ public class AerialHellParticleTypes
 
 	public static void registerParticleFactories(RegisterParticleProvidersEvent event)
 	{
-		ParticleEngine particleManager = Minecraft.getInstance().particleEngine;
-
-		particleManager.register(AERIAL_HELL_PORTAL.get(), AerialHellPortalParticle.Factory::new);
-		particleManager.register(LUNATIC_PARTICLE.get(), LightParticle.Factory::new);
-		particleManager.register(COPPER_PINE_LEAVES.get(), CopperPineLeavesParticle.Factory::new);
-		particleManager.register(OSCILLATOR.get(), OscillatorParticle.Factory::new);
-		particleManager.register(SNOWFLAKE.get(), SnowFlakeParticle.Factory::new);
-		particleManager.register(GOD_FLAME.get(), FlameParticle.Provider::new);
-		particleManager.register(SHADOW_TROLL_BAT.get(), ShadowParticle.Factory::new);
-		particleManager.register(SHADOW_PARTICLE.get(), ShadowParticle.Factory::new);
-		particleManager.register(SHADOW_LIGHT.get(), LightParticle.Factory::new);
-		particleManager.register(FAT_PHANTOM_SMOKE.get(), CampfireSmokeParticle.CosyProvider::new);
-		particleManager.register(FALLING_CRYSTALLIZED_LEAVES.get(), FallingCrystallizedLeavesParticle.Factory::new);
+		event.registerSpriteSet(AERIAL_HELL_PORTAL.get(), AerialHellPortalParticle.Provider::new);
+		event.registerSpriteSet(LUNATIC_PARTICLE.get(), LightParticle.Provider::new);
+		event.registerSpriteSet(COPPER_PINE_LEAVES.get(), CopperPineLeavesParticle.Provider::new);
+		event.registerSpriteSet(OSCILLATOR.get(), OscillatorParticle.Provider::new);
+		event.registerSpriteSet(SNOWFLAKE.get(), SnowFlakeParticle.Provider::new);
+		event.registerSpriteSet(GOD_FLAME.get(), FlameParticle.Provider::new);
+		event.registerSpriteSet(SHADOW_TROLL_BAT.get(), ShadowParticle.Provider::new);
+		event.registerSpriteSet(SHADOW_PARTICLE.get(), ShadowParticle.Provider::new);
+		event.registerSpriteSet(SHADOW_LIGHT.get(), LightParticle.Provider::new);
+		event.registerSpriteSet(FAT_PHANTOM_SMOKE.get(), CampfireSmokeParticle.CosyProvider::new);
+		event.registerSpriteSet(FALLING_CRYSTALLIZED_LEAVES.get(), FallingCrystallizedLeavesParticle.Provider::new);
 	}
 }

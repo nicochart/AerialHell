@@ -50,7 +50,7 @@ public abstract class AbstractHumanoidMonster extends Zombie
     @Override public void setBaby(boolean isBaby)
     {
         super.setBaby(isBaby);
-        if (!this.level().isClientSide)
+        if (!this.level().isClientSide())
         {
             AttributeInstance attributeinstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
             attributeinstance.removeModifier(SPEED_MODIFIER_BABY.id());

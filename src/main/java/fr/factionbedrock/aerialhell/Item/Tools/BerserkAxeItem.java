@@ -97,7 +97,7 @@ public class BerserkAxeItem extends EffectAxeItem
 		}
 		
 		playerIn.getCooldowns().addCooldown(heldItem, cooldown);
-		heldItem.hurtAndBreak(1, playerIn, LivingEntity.getSlotForHand(handIn));
+		heldItem.hurtAndBreak(1, playerIn, handIn);
         return InteractionResult.CONSUME;
 	}
 	

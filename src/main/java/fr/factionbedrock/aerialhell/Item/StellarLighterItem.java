@@ -25,7 +25,7 @@ public class StellarLighterItem extends WithInformationItem
                 if(((AerialHellPortalBlock) AerialHellBlocks.AERIAL_HELL_PORTAL.get()).trySpawnPortal(context.getLevel(), framePos))
                 {
                 	context.getPlayer().getCooldowns().addCooldown(context.getItemInHand(), 50);
-                	context.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
+                	context.getItemInHand().hurtAndBreak(1, player, context.getHand());
                 	return InteractionResult.CONSUME;
                 }
                 else {return InteractionResult.FAIL;}

@@ -1,15 +1,14 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.Layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.HellSpiderSpikeModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.HellSpiderRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.HellSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowSpiderEntity;
 import net.minecraft.client.model.SpiderModel;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -31,15 +30,15 @@ public class HellSpiderSpikesLayer<S extends HellSpiderRenderState, M extends Sp
       this.spiderSpikeModel = spikeModel;
     }
    
-    private VertexConsumer getBuffer(MultiBufferSource bufferIn, S renderState)
+    private RenderType getRenderType(S renderState)
     {
        if (renderState.layer_texture == CRYSTAL_SPIDER_SPIKES)
        {
-           return bufferIn.getBuffer(RenderType.entityTranslucent(CRYSTAL_SPIDER_SPIKES));
+           return RenderType.entityTranslucent(CRYSTAL_SPIDER_SPIKES);
        }
        else
        {
-           return bufferIn.getBuffer(RenderType.entityCutout(renderState.layer_texture));
+           return RenderType.entityCutout(renderState.layer_texture);
        }
     }
 
@@ -50,13 +49,12 @@ public class HellSpiderSpikesLayer<S extends HellSpiderRenderState, M extends Sp
         else {return SHADOW_SPIDER_SPIKES;}
     }
 
-    @Override public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, S renderState, float yRot, float xRot)
+    @Override public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, S renderState, float yRot, float xRot)
     {
         if (!renderState.isInvisible)
         {
             this.spiderSpikeModel.setupAnim(renderState);
-            VertexConsumer consumer = this.getBuffer(bufferSource, renderState);
-            this.spiderSpikeModel.renderToBuffer(poseStack, consumer, packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB());
+            submitNodeCollector.submitModel(this.spiderSpikeModel, renderState, poseStack, getRenderType(renderState), packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor, null);
         }
     }
 }

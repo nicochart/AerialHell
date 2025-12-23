@@ -1,12 +1,12 @@
 package fr.factionbedrock.aerialhell.Client.World;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.state.LevelRenderState;
+import net.minecraft.client.renderer.state.SkyRenderState;
 import net.minecraft.util.ARGB;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 
@@ -25,45 +25,28 @@ public class AerialHellDimensionSpecialEffects extends DimensionSpecialEffects
         return biomeFogColor.multiply(daylight * 0.94F + 0.06F, daylight * 0.94F + 0.06F, daylight * 0.91F + 0.09F);
     }
 
-    @Override public boolean renderSky(ClientLevel level, int ticks, float partialTick, Matrix4f modelViewMatrix, Camera camera, Runnable setupFog)
+    @Override public boolean renderSky(LevelRenderState levelRenderState, SkyRenderState skyRenderState, Matrix4f modelViewMatrix, Runnable setupFog)
     {
-        this.render(level, partialTick, camera, setupFog);
+        this.render(levelRenderState, skyRenderState, setupFog);
         return true;
     }
 
     //copy of net.minecraft.client.renderer.LevelRenderer addSkyPass method part about overworld
-    private void render(ClientLevel level, float partialTicks, Camera camera, Runnable setupFog)
+    private void render(LevelRenderState levelRenderState, SkyRenderState skyRenderState, Runnable setupFog)
     {
         setupFog.run();
-        DimensionSpecialEffects dimSpecialEffects = level.effects();
-        GameRenderer gameRenderer = Minecraft.getInstance().gameRenderer;
-        Vec3 vec3 = camera.getPosition();
-        double cameraPositionX = vec3.x(), cameraPositionY = vec3.y();
-        float renderDistance = gameRenderer.getRenderDistance();
-        boolean shouldRenderCloseFog = level.effects().isFoggyAt(Mth.floor(cameraPositionX), Mth.floor(cameraPositionY)) || Minecraft.getInstance().gui.getBossOverlay().shouldCreateWorldFog();
-
         PoseStack posestack = new PoseStack();
-        float sunAngle = level.getSunAngle(partialTicks);
-        float timeOfDay = level.getTimeOfDay(partialTicks);
-        float moonAlpha = Math.min(level.getStarBrightness(partialTicks) * 2, 1.0F); //Moon brightness = 0.0F during the day, 1.0F during the night. Using / 0.5F and "min" because StarBrightness is never 1.0F (never above 0.6F) apparently
-        float sunAlpha = 1.0F - moonAlpha; //Sun brightness = 1.0F during the day, 0.0F during the night
-        float starAlpha = level.getStarBrightness(partialTicks); //no Rain effect
-        int sunriseOrSunsetColor = dimSpecialEffects.getSunriseOrSunsetColor(timeOfDay);
-        int moonPhase = level.getMoonPhase();
-        int skyColor = level.getSkyColor(camera.getPosition(), partialTicks);
-        float r = ARGB.redFloat(skyColor), g = ARGB.greenFloat(skyColor), b = ARGB.blueFloat(skyColor);
-        this.skyRenderer.renderSkyDisc(r, g, b);
-        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-        if (dimSpecialEffects.isSunriseOrSunset(timeOfDay))
+        float red = ARGB.redFloat(skyRenderState.skyColor);
+        float green = ARGB.greenFloat(skyRenderState.skyColor);
+        float blue = ARGB.blueFloat(skyRenderState.skyColor);
+        this.skyRenderer.renderSkyDisc(red, green, blue);
+        if (skyRenderState.isSunriseOrSunset)
         {
-            this.skyRenderer.renderSunriseAndSunset(posestack, bufferSource, sunAngle, sunriseOrSunsetColor);
+            this.skyRenderer.renderSunriseAndSunset(posestack, skyRenderState.sunAngle, skyRenderState.sunriseAndSunsetColor);
         }
-        this.skyRenderer.renderSunMoonAndStars(posestack, bufferSource, timeOfDay, moonPhase, sunAlpha, moonAlpha, starAlpha);
-        bufferSource.endBatch();
-        if (this.shouldRenderDarkDisc(partialTicks, level))
-        {
-            this.skyRenderer.renderDarkDisc();
-        }
+
+        this.skyRenderer.renderSunMoonAndStars(posestack, skyRenderState.timeOfDay, skyRenderState.moonPhase, skyRenderState.rainBrightness, skyRenderState.starBrightness);
+        if (skyRenderState.shouldRenderDarkDisc) {this.skyRenderer.renderDarkDisc();}
     }
 
     //edited copy of net.minecraft.client.renderer.LevelRenderer method of same name

@@ -2,15 +2,15 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.LightProjectileRenderState;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractLightProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
@@ -27,20 +27,21 @@ public class LightProjectileRender<T extends AbstractLightProjectileEntity> exte
         this.shadowRadius = 0.0F;
     }
 
-    @Override public void render(LightProjectileRenderState renderState, PoseStack poseStack, MultiBufferSource buffer, int packedLight)
+    @Override public void submit(LightProjectileRenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState)
     {
         poseStack.pushPose();
         poseStack.scale(2.0F, 2.0F, 2.0F);
-        poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
-        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
-        PoseStack.Pose posestack$pose = poseStack.last();
-        VertexConsumer vertexconsumer = buffer.getBuffer(getRenderType(renderState.texture));
-        vertex(vertexconsumer, posestack$pose, packedLight, 0.0F, 0, 0, 1);
-        vertex(vertexconsumer, posestack$pose, packedLight, 1.0F, 0, 1, 1);
-        vertex(vertexconsumer, posestack$pose, packedLight, 1.0F, 1, 1, 0);
-        vertex(vertexconsumer, posestack$pose, packedLight, 0.0F, 1, 0, 0);
+        poseStack.mulPose(cameraRenderState.orientation);
+        RenderType type = getRenderType(renderState.texture);
+        submitNodeCollector.submitCustomGeometry(poseStack, type, (posestack$pose, vertexConsumer) ->
+        {
+            vertex(vertexConsumer, posestack$pose, renderState.lightCoords, 0.0F, 0, 0, 1);
+            vertex(vertexConsumer, posestack$pose, renderState.lightCoords, 1.0F, 0, 1, 1);
+            vertex(vertexConsumer, posestack$pose, renderState.lightCoords, 1.0F, 1, 1, 0);
+            vertex(vertexConsumer, posestack$pose, renderState.lightCoords, 0.0F, 1, 0, 0);
+        });
         poseStack.popPose();
-        super.render(renderState, poseStack, buffer, packedLight);
+        super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
     }
 
     @Override protected int getBlockLightLevel(T entity, BlockPos partialTicks)

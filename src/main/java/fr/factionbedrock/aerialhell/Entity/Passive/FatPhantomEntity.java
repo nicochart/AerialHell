@@ -82,8 +82,6 @@ public class FatPhantomEntity extends Phantom implements Enemy
       this.goalSelector.addGoal(3, new FatPhantomEntity.OrbitPointGoal());
       this.targetSelector.addGoal(1, new FatPhantomEntity.AttackAttackingPlayerGoal());
    }
-
-   @Override protected boolean shouldDespawnInPeaceful() {return false;}
    
    public static AttributeSupplier.Builder registerAttributes()
    {

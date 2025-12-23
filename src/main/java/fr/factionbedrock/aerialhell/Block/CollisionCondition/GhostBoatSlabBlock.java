@@ -26,7 +26,7 @@ public class GhostBoatSlabBlock extends SlabBlock
 		this.registerDefaultState(this.defaultBlockState());
 	}
 
-	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
+	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean intersects)
 	{
 		entity.fallDistance = 0.0F;
 		if (entity.getDeltaMovement().y < 0.0)

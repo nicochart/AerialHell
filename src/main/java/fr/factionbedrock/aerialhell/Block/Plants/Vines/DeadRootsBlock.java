@@ -21,7 +21,7 @@ public class DeadRootsBlock extends AerialHellTwistingVinesBlock
     }
 
     @Override
-    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn, InsideBlockEffectApplier effectApplier)
+    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn, InsideBlockEffectApplier effectApplier, boolean intersects)
     {
         if (entityIn instanceof LivingEntity && !isEntityImmuneToDamage(entityIn))
         {

@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
@@ -18,9 +19,9 @@ public class ShadowEffectLogBlock extends ShadowLogBlock
     public ShadowEffectLogBlock(Properties properties, Supplier<ShiftableLogBlock> shiftedVariant, BiomeShifter.ShiftType shiftType) {super(properties, shiftedVariant, shiftType);}
 
     @Override
-    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, ItemStack toolStack, boolean willHarvest, FluidState fluid)
     {
-        boolean flag = super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
+        boolean flag = super.onDestroyedByPlayer(state, level, pos, player, toolStack, willHarvest, fluid);
         if (flag && this == AerialHellBlocks.EYE_SHADOW_PINE_LOG.get() && !EntityHelper.isLivingEntityShadowImmune(player) && !player.isCreative())
         {
             player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 60, 0));

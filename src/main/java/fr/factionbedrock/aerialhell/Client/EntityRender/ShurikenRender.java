@@ -2,19 +2,16 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Client.EntityRender.State.LightProjectileRenderState;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.ShurikenRenderState;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -55,10 +52,9 @@ public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRend
 		this.itemModelResolver.updateForNonLiving(renderState.item, entity.getItem(), ItemDisplayContext.GROUND, entity);
 	}
 
-	@Override public void render(ShurikenRenderState renderState, PoseStack poseStack, MultiBufferSource buffer, int packedLight)
+	@Override public void submit(ShurikenRenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState)
 	{
 		poseStack.pushPose();
-
 		renderState.shurikenZRot -= 4;
 		if (renderState.shurikenZRot <= -360)
 		{
@@ -68,9 +64,9 @@ public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRend
 		poseStack.mulPose(Axis.XP.rotationDegrees(- 90.0f - renderState.xRotO)); /*Pointing to forward*/
 		poseStack.mulPose(Axis.ZP.rotationDegrees(renderState.shurikenZRot)); /*Horizontal plane rotation*/
 
-		renderState.item.render(poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+		renderState.item.submit(poseStack, submitNodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, renderState.outlineColor);
 		poseStack.popPose();
-		super.render(renderState, poseStack, buffer, packedLight);
+		super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
 	}
 
 	public ResourceLocation getTextureLocation(T entity)

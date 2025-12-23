@@ -50,7 +50,7 @@ public class ReactorBlock extends BiomeShifterBlock
 
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult)
     {
-        if (level.isClientSide) {return InteractionResult.SUCCESS;}
+        if (level.isClientSide()) {return InteractionResult.SUCCESS;}
         else
         {
             this.openContainer(level, pos, player);
@@ -117,6 +117,6 @@ public class ReactorBlock extends BiomeShifterBlock
 
     @Nullable @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type)
     {
-        return level.isClientSide ? null : createTickerHelper(type, AerialHellBlockEntities.REACTOR.get(), ReactorBlockEntity::tick);
+        return level.isClientSide() ? null : createTickerHelper(type, AerialHellBlockEntities.REACTOR.get(), ReactorBlockEntity::tick);
     }
 }

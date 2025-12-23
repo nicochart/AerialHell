@@ -29,7 +29,7 @@ public abstract class CollisionConditionHalfTransparentBlock extends HalfTranspa
 		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
 	}
 
-	@Override protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
+	@Override protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean intersects)
 	{
 		entity.fallDistance = 0.0F;
 		if (entity.getDeltaMovement().y < 0.0)

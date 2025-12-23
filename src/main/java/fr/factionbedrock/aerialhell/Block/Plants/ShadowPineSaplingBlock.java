@@ -27,7 +27,7 @@ public class ShadowPineSaplingBlock extends AerialHellSaplingBlock
 	}
 	
 	@Override
-	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn, InsideBlockEffectApplier effectApplier)
+	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn, InsideBlockEffectApplier effectApplier, boolean intersects)
 	{
 		if (!worldIn.isClientSide() && entityIn instanceof LivingEntity)
     	{

@@ -66,7 +66,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	//copy of net.minecraft.world.entity.LivingEntity hurt(DamageSource source, float amount) method, removing everything non-related to my bosses, and calling other methods, allowing customization in my inheriting classes
 	public boolean bossHurt(ServerLevel level, DamageSource source, float amount)
 	{
-		if (this.isInvulnerableTo(level, source) || this.level().isClientSide || this.isDeadOrDying()) {return false;}
+		if (this.isInvulnerableTo(level, source) || this.level().isClientSide() || this.isDeadOrDying()) {return false;}
 		else if (source.is(DamageTypeTags.IS_FIRE) && this.hasEffect(MobEffects.FIRE_RESISTANCE)) {return false;}
 		else
 		{
@@ -359,7 +359,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		this.removeEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate());
 	}
 
-	@Override public boolean startRiding(Entity entity, boolean p_19967_)
+	@Override public boolean startRiding(Entity entity, boolean force, boolean sendGameEvent)
 	{
 		if (entity instanceof Boat boat && this.level() instanceof ServerLevel level)
 		{

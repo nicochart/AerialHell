@@ -87,7 +87,7 @@ public class IntangibleTemporaryBlock extends CollisionConditionHalfTransparentB
 
     @Nullable @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type)
     {
-        return level.isClientSide ? null : createTickerHelper(type, AerialHellBlockEntities.INTANGIBLE_TEMPORARY_BLOCK.get(), IntangibleTemporaryBlockEntity::tick);
+        return level.isClientSide() ? null : createTickerHelper(type, AerialHellBlockEntities.INTANGIBLE_TEMPORARY_BLOCK.get(), IntangibleTemporaryBlockEntity::tick);
     }
 
     @Override protected boolean canEntityCollide(Entity entity) {return false;}

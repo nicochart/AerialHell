@@ -26,7 +26,7 @@ public class BramblesBlock extends AerialHellTallGrassBlock
 
 	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(AerialHellStateProperties.SHIFTED_RENDER);}
 
-	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier)
+	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean intersects)
 	{
 		entity.makeStuckInBlock(state, new Vec3((double)0.8F, 0.75D, (double)0.8F));
 		if (!level.isClientSide() && entity instanceof LivingEntity livingEntity)

@@ -2,20 +2,20 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.FireballLikeProjectileRenderState;
 import fr.factionbedrock.aerialhell.Entity.Projectile.DimensionShattererProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.PoisonballEntity;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.projectile.Fireball;
 
+//See vanilla DragonFireballRenderer
 public class FireballLikeProjectileRender<T extends Fireball> extends EntityRenderer<T, FireballLikeProjectileRenderState>
 {
     public static final ResourceLocation POISONBALL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/poisonball.png");
@@ -36,20 +36,21 @@ public class FireballLikeProjectileRender<T extends Fireball> extends EntityRend
         renderState.texture = this.getTextureLocation(entity);
     }
 
-    @Override public void render(FireballLikeProjectileRenderState renderState, PoseStack poseStack, MultiBufferSource buffer, int packedLight)
+    @Override public void submit(FireballLikeProjectileRenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState)
     {
         poseStack.pushPose();
         poseStack.scale(renderState.scale, renderState.scale, renderState.scale);
-        poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
-        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
-        PoseStack.Pose posestack$pose = poseStack.last();
-        VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(renderState.texture));
-        vertex(vertexconsumer, posestack$pose, packedLight, 0.0F, 0, 0, 1);
-        vertex(vertexconsumer, posestack$pose, packedLight, 1.0F, 0, 1, 1);
-        vertex(vertexconsumer, posestack$pose, packedLight, 1.0F, 1, 1, 0);
-        vertex(vertexconsumer, posestack$pose, packedLight, 0.0F, 1, 0, 0);
+        poseStack.mulPose(cameraRenderState.orientation);
+        RenderType type = RenderType.entityCutoutNoCull(renderState.texture);
+        submitNodeCollector.submitCustomGeometry(poseStack, type, (posestack$pose, vertexConsumer) ->
+        {
+            vertex(vertexConsumer, posestack$pose, renderState.lightCoords, 0.0F, 0, 0, 1);
+            vertex(vertexConsumer, posestack$pose, renderState.lightCoords, 1.0F, 0, 1, 1);
+            vertex(vertexConsumer, posestack$pose, renderState.lightCoords, 1.0F, 1, 1, 0);
+            vertex(vertexConsumer, posestack$pose, renderState.lightCoords, 0.0F, 1, 0, 0);
+        });
         poseStack.popPose();
-        super.render(renderState, poseStack, buffer, packedLight);
+        super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
     }
 
     public ResourceLocation getTextureLocation(T entity)

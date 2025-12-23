@@ -59,7 +59,7 @@ public class AerialHellHangingEntityItem extends Item
 
             if (hangingentity.survives())
             {
-                if (!level.isClientSide)
+                if (!level.isClientSide())
                 {
                     hangingentity.playPlacementSound();
                     level.gameEvent(player, GameEvent.ENTITY_PLACE, hangingentity.position());

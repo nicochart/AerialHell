@@ -197,7 +197,7 @@ public class EntityHelper
             if (dimensiontransition != null)
             {
                 ServerLevel serverlevel1 = dimensiontransition.newLevel();
-                if (serverlevel.getServer().isLevelEnabled(serverlevel1) && (serverlevel1.dimension() == serverlevel.dimension() || entity.canTeleport(serverlevel, serverlevel1)))
+                if (serverlevel.getServer().isAllowedToEnterPortal(serverlevel1) && (serverlevel1.dimension() == serverlevel.dimension() || entity.canTeleport(serverlevel, serverlevel1)))
                 {
                     entity.teleport(dimensiontransition);
                 }
