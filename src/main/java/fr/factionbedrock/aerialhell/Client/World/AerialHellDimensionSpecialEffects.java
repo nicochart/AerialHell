@@ -45,7 +45,10 @@ public class AerialHellDimensionSpecialEffects extends DimensionSpecialEffects
             this.skyRenderer.renderSunriseAndSunset(posestack, skyRenderState.sunAngle, skyRenderState.sunriseAndSunsetColor);
         }
 
-        this.skyRenderer.renderSunMoonAndStars(posestack, skyRenderState.timeOfDay, skyRenderState.moonPhase, skyRenderState.rainBrightness, skyRenderState.starBrightness);
+        float moonAlpha = Math.min(skyRenderState.starBrightness * 2, 1.0F); //Moon brightness = 0.0F during the day, 1.0F during the night. Using / 0.5F and "min" because StarBrightness is never 1.0F (never above 0.6F) apparently
+        float sunAlpha = 1.0F - moonAlpha; //Sun brightness = 1.0F during the day, 0.0F during the night
+
+        this.skyRenderer.renderSunMoonAndStars(posestack, skyRenderState.timeOfDay, skyRenderState.moonPhase, sunAlpha, moonAlpha, skyRenderState.starBrightness);
         if (skyRenderState.shouldRenderDarkDisc) {this.skyRenderer.renderDarkDisc();}
     }
 

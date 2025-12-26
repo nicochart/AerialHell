@@ -10,9 +10,9 @@ import net.neoforged.api.distmarker.OnlyIn;
 public class ShadowParticle extends SingleQuadParticle
 {
 	private final SpriteSet sprites;
-	public ShadowParticle(ClientLevel level, double x, double y, double z, float xSeedMultiplier, float ySpeedMultiplier, float zSpeedMultiplier, double xSpeed, double ySpeed, double zSpeed, float quadSizeMultiplier, SpriteSet sprites)
+	public ShadowParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet sprites)
 	{
-		super(level, x, y, z, (double) 0.0F, (double) 0.0F, (double) 0.0F, sprites.first());
+		super(level, x, y, z, xSpeed, ySpeed, zSpeed, sprites.first());
 		this.sprites = sprites;
 
 		this.rCol = this.bCol = this.gCol = 1.0F;
@@ -30,7 +30,7 @@ public class ShadowParticle extends SingleQuadParticle
 
 		public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource rand)
 		{
-			return new ShadowParticle(level, x, y, z, 1.0F, 1.0F, 1.0F, xSpeed, ySpeed, zSpeed, 1.0F, this.sprites);
+			return new ShadowParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.sprites);
 		}
 	}
 

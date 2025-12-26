@@ -40,34 +40,34 @@ public class AerialHellEntities
 	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, MODID);
 
 	public static final DeferredHolder<EntityType<?>, EntityType<StellarStoneAutomatonEntity>> STELLAR_STONE_AUTOMATON = ENTITIES.register("stellar_stone_automaton", () -> EntityType.Builder.of(StellarStoneAutomatonEntity::new, MobCategory.MONSTER)
-			.sized(0.9F,2.1F).build(Keys.STELLAR_STONE_AUTOMATON));
+			.sized(0.9F,2.1F).notInPeaceful().build(Keys.STELLAR_STONE_AUTOMATON));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<MudGolemEntity>> MUD_GOLEM = ENTITIES.register("mud_golem", () -> EntityType.Builder.of(MudGolemEntity::new, MobCategory.MONSTER)
-			.sized(1.4F,2.3F).build(Keys.MUD_GOLEM));
+			.sized(1.4F,2.3F).notInPeaceful().build(Keys.MUD_GOLEM));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<MudSpectralGolemEntity>> MUD_SPECTRAL_GOLEM = ENTITIES.register("mud_spectral_golem", () -> EntityType.Builder.of(MudSpectralGolemEntity::new, MobCategory.MONSTER)
 			.sized(1.4F,2.3F).build(Keys.MUD_SPECTRAL_GOLEM));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<CrystalGolemEntity>> CRYSTAL_GOLEM = ENTITIES.register("crystal_golem", () -> EntityType.Builder.of(CrystalGolemEntity::new, MobCategory.MONSTER)
-			.sized(0.9F,1.95F).build(Keys.CRYSTAL_GOLEM));
+			.sized(0.9F,1.95F).notInPeaceful().build(Keys.CRYSTAL_GOLEM));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<LunaticPriestEntity>> LUNATIC_PRIEST = ENTITIES.register("lunatic_priest", () -> EntityType.Builder.of(LunaticPriestEntity::new, MobCategory.MONSTER)
 			.sized(0.8F,2.5F).build(Keys.LUNATIC_PRIEST));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<EvilCowEntity>> EVIL_COW = ENTITIES.register("evil_cow", () -> EntityType.Builder.<EvilCowEntity>of(EvilCowEntity::new, MobCategory.MONSTER)
-			.sized(0.99F, 1.4F).build(Keys.EVIL_COW));
+			.sized(0.99F, 1.4F).notInPeaceful().build(Keys.EVIL_COW));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<EvilCowEntity>> CORTINARIUS_COW = ENTITIES.register("cortinarius_cow", () -> EntityType.Builder.<EvilCowEntity>of(EvilCowEntity::new, MobCategory.MONSTER)
-			.sized(0.99F, 1.4F).build(Keys.CORTINARIUS_COW));
+			.sized(0.99F, 1.4F).notInPeaceful().build(Keys.CORTINARIUS_COW));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<EntEntity>> STELLAR_ENT = ENTITIES.register("stellar_ent", () -> EntityType.Builder.of(EntEntity::new, MobCategory.MONSTER)
-			.sized(0.7F,2.0F).build(Keys.STELLAR_ENT));
+			.sized(0.7F,2.0F).notInPeaceful().build(Keys.STELLAR_ENT));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VenomousSnakeEntity>> VENOMOUS_SNAKE = ENTITIES.register("venomous_snake", () -> EntityType.Builder.of(VenomousSnakeEntity::new, MobCategory.MONSTER)
-			.sized(0.8F,0.8F).build(Keys.VENOMOUS_SNAKE));
+			.sized(0.8F,0.8F).notInPeaceful().build(Keys.VENOMOUS_SNAKE));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<WormEntity>> WORM = ENTITIES.register("worm", () -> EntityType.Builder.of(WormEntity::new, MobCategory.MONSTER)
-			.sized(0.8F,0.8F).build(Keys.WORM));
+			.sized(0.8F,0.8F).notInPeaceful().build(Keys.WORM));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<StellarChickenEntity>> STELLAR_CHICKEN = ENTITIES.register("stellar_chicken", () -> EntityType.Builder.<StellarChickenEntity>of(StellarChickenEntity::new, MobCategory.CREATURE)
 			.sized(0.4F, 0.7F).build(Keys.STELLAR_CHICKEN));
@@ -76,25 +76,25 @@ public class AerialHellEntities
 			.sized(0.9F, 0.9F).build(Keys.STELLAR_BOAR));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<ShroomBoomEntity>> SHROOMBOOM = ENTITIES.register("shroomboom", () -> EntityType.Builder.<ShroomBoomEntity>of(ShroomBoomEntity::new, MobCategory.MONSTER)
-			.sized(0.6F, 1.7F).build(Keys.SHROOMBOOM));
+			.sized(0.6F, 1.7F).notInPeaceful().build(Keys.SHROOMBOOM));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VerdigrisZombieEntity>> VERDIGRIS_ZOMBIE = ENTITIES.register("verdigris_zombie", () -> EntityType.Builder.of(VerdigrisZombieEntity::new, MobCategory.MONSTER)
-			.sized(0.7F,2.0F).build(Keys.VERDIGRIS_ZOMBIE));
+			.sized(0.7F,2.0F).notInPeaceful().build(Keys.VERDIGRIS_ZOMBIE));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<MummyEntity>> MUMMY = ENTITIES.register("mummy", () -> EntityType.Builder.of(MummyEntity::new, MobCategory.MONSTER)
-			.sized(0.7F,1.9F).build(Keys.MUMMY));
+			.sized(0.7F,1.9F).notInPeaceful().build(Keys.MUMMY));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<SlimePirateEntity>> SLIME_PIRATE = ENTITIES.register("slime_pirate", () -> EntityType.Builder.of(SlimePirateEntity::new, MobCategory.MONSTER)
-			.sized(0.7F,1.9F).build(Keys.SLIME_PIRATE));
+			.sized(0.7F,1.9F).notInPeaceful().build(Keys.SLIME_PIRATE));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<SlimeNinjaPirateEntity>> SLIME_NINJA_PIRATE = ENTITIES.register("slime_ninja_pirate", () -> EntityType.Builder.of(SlimeNinjaPirateEntity::new, MobCategory.MONSTER)
-			.sized(0.7F,1.9F).build(Keys.SLIME_NINJA_PIRATE));
+			.sized(0.7F,1.9F).notInPeaceful().build(Keys.SLIME_NINJA_PIRATE));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<GhostSlimePirateEntity>> GHOST_SLIME_PIRATE = ENTITIES.register("ghost_slime_pirate", () -> EntityType.Builder.of(GhostSlimePirateEntity::new, MobCategory.MONSTER)
-			.sized(0.7F,1.9F).build(Keys.GHOST_SLIME_PIRATE));
+			.sized(0.7F,1.9F).notInPeaceful().build(Keys.GHOST_SLIME_PIRATE));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<GhostSlimeNinjaPirateEntity>> GHOST_SLIME_NINJA_PIRATE = ENTITIES.register("ghost_slime_ninja_pirate", () -> EntityType.Builder.of(GhostSlimeNinjaPirateEntity::new, MobCategory.MONSTER)
-			.sized(0.7F,1.9F).build(Keys.GHOST_SLIME_NINJA_PIRATE));
+			.sized(0.7F,1.9F).notInPeaceful().build(Keys.GHOST_SLIME_NINJA_PIRATE));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<SandySheepEntity>> SANDY_SHEEP = ENTITIES.register("sandy_sheep", () -> EntityType.Builder.<SandySheepEntity>of(SandySheepEntity::new, MobCategory.CREATURE)
 			.sized(0.9F, 1.4F).build(Keys.SANDY_SHEEP));
@@ -109,10 +109,10 @@ public class AerialHellEntities
 			.sized(0.7F, 0.9F).build(Keys.KODAMA));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<CrystalSlimeEntity>> CRYSTAL_SLIME = ENTITIES.register("crystal_slime", () -> EntityType.Builder.<CrystalSlimeEntity>of(CrystalSlimeEntity::new, MobCategory.MONSTER)
-			.sized(1.0F, 1.0F).build(Keys.CRYSTAL_SLIME));
+			.sized(1.0F, 1.0F).notInPeaceful().build(Keys.CRYSTAL_SLIME));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<MudSoldierEntity>> MUD_SOLDIER = ENTITIES.register("mud_soldier", () -> EntityType.Builder.<MudSoldierEntity>of(MudSoldierEntity::new, MobCategory.MONSTER)
-			.sized(0.6F, 1.99F).build(Keys.MUD_SOLDIER));
+			.sized(0.6F, 1.99F).notInPeaceful().build(Keys.MUD_SOLDIER));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<MudSpectralSoldierEntity>> MUD_SPECTRAL_SOLDIER = ENTITIES.register("mud_spectral_soldier", () -> EntityType.Builder.<MudSpectralSoldierEntity>of(MudSpectralSoldierEntity::new, MobCategory.MONSTER)
 			.sized(0.6F, 1.99F).build(Keys.MUD_SPECTRAL_SOLDIER));
@@ -124,16 +124,16 @@ public class AerialHellEntities
 			.sized(0.6F, 1.99F).build(Keys.MUD_SPECTRAL_CYCLE_MAGE));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<TornSpiritEntity>> TORN_SPIRIT = ENTITIES.register("torn_spirit", () -> EntityType.Builder.<TornSpiritEntity>of(TornSpiritEntity::new, MobCategory.MONSTER)
-			.sized(0.8F,1.95F).build(Keys.TORN_SPIRIT));
+			.sized(0.8F,1.95F).notInPeaceful().build(Keys.TORN_SPIRIT));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<IceSpiritEntity>> ICE_SPIRIT = ENTITIES.register("ice_spirit", () -> EntityType.Builder.<IceSpiritEntity>of(IceSpiritEntity::new, MobCategory.MONSTER)
-			.sized(0.7F, 1.0F).build(Keys.ICE_SPIRIT));
+			.sized(0.7F, 1.0F).notInPeaceful().build(Keys.ICE_SPIRIT));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<FireSpiritEntity>> FIRE_SPIRIT = ENTITIES.register("fire_spirit", () -> EntityType.Builder.<FireSpiritEntity>of(FireSpiritEntity::new, MobCategory.MONSTER)
-			.sized(0.7F, 1.0F).build(Keys.FIRE_SPIRIT));
+			.sized(0.7F, 1.0F).notInPeaceful().build(Keys.FIRE_SPIRIT));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<ElectroSpiritEntity>> ELECTRO_SPIRIT = ENTITIES.register("electro_spirit", () -> EntityType.Builder.<ElectroSpiritEntity>of(ElectroSpiritEntity::new, MobCategory.MONSTER)
-			.sized(0.7F, 1.0F).build(Keys.ELECTRO_SPIRIT));
+			.sized(0.7F, 1.0F).notInPeaceful().build(Keys.ELECTRO_SPIRIT));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<ChainedGodEntity>> CHAINED_GOD = ENTITIES.register("chained_god", () -> EntityType.Builder.<ChainedGodEntity>of(ChainedGodEntity::new, MobCategory.MONSTER)
 			.sized(2.8F,5F).build(Keys.CHAINED_GOD));
@@ -148,7 +148,7 @@ public class AerialHellEntities
 			.sized(1.0F, 1.0F).build(Keys.DIMENSION_SHATTERER_PROJECTILE));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<FlyingJellyfishEntity>> FLYING_JELLYFISH = ENTITIES.register("flying_jellyfish", () -> EntityType.Builder.<FlyingJellyfishEntity>of(FlyingJellyfishEntity::new, MobCategory.MONSTER)
-			.sized(3.0F, 3.0F).build(Keys.FLYING_JELLYFISH));
+			.sized(3.0F, 3.0F).notInPeaceful().build(Keys.FLYING_JELLYFISH));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<ThrownStellarEgg>> THROWN_STELLAR_EGG = ENTITIES.register("thrown_stellar_egg", () -> EntityType.Builder.<ThrownStellarEgg>of(ThrownStellarEgg::new, MobCategory.MISC)
 			.sized(0.25F, 0.25F).build(Keys.THROWN_STELLAR_EGG));
@@ -208,40 +208,40 @@ public class AerialHellEntities
 			.sized(1.2F, 2.5F).build(Keys.SHADOW_TROLL));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<ShadowAutomatonEntity>> SHADOW_AUTOMATON = ENTITIES.register("shadow_automaton", () -> EntityType.Builder.of(ShadowAutomatonEntity::new, MobCategory.MONSTER)
-			.sized(0.8F,1.95F).build(Keys.SHADOW_AUTOMATON));
+			.sized(0.8F,1.95F).notInPeaceful().build(Keys.SHADOW_AUTOMATON));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<LilithEntity>> LILITH = ENTITIES.register("lilith", () -> EntityType.Builder.<LilithEntity>of(LilithEntity::new, MobCategory.MONSTER)
 			.sized(0.8F,1.8F).build(Keys.LILITH));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<AerialTreeChestMimicEntity>> AERIAL_TREE_MIMIC = ENTITIES.register("aerial_tree_mimic", () -> EntityType.Builder.<AerialTreeChestMimicEntity>of(AerialTreeChestMimicEntity::new, MobCategory.MONSTER)
-			.sized(0.99F, 2.0F).build(Keys.AERIAL_TREE_MIMIC));
+			.sized(0.99F, 2.0F).notInPeaceful().build(Keys.AERIAL_TREE_MIMIC));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<GoldenBeechChestMimicEntity>> GOLDEN_BEECH_MIMIC = ENTITIES.register("golden_beech_mimic", () -> EntityType.Builder.<GoldenBeechChestMimicEntity>of(GoldenBeechChestMimicEntity::new, MobCategory.MONSTER)
-			.sized(0.99F, 2.0F).build(Keys.GOLDEN_BEECH_MIMIC));
+			.sized(0.99F, 2.0F).notInPeaceful().build(Keys.GOLDEN_BEECH_MIMIC));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<SkyCactusFiberChestMimicEntity>> SKY_CACTUS_FIBER_MIMIC = ENTITIES.register("sky_cactus_fiber_mimic", () -> EntityType.Builder.<SkyCactusFiberChestMimicEntity>of(SkyCactusFiberChestMimicEntity::new, MobCategory.MONSTER)
-			.sized(0.99F, 2.0F).build(Keys.SKY_CACTUS_FIBER_MIMIC));
+			.sized(0.99F, 2.0F).notInPeaceful().build(Keys.SKY_CACTUS_FIBER_MIMIC));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<CopperPineChestMimicEntity>> COPPER_PINE_MIMIC = ENTITIES.register("copper_pine_mimic", () -> EntityType.Builder.<CopperPineChestMimicEntity>of(CopperPineChestMimicEntity::new, MobCategory.MONSTER)
-			.sized(0.99F, 2.0F).build(Keys.COPPER_PINE_MIMIC));
+			.sized(0.99F, 2.0F).notInPeaceful().build(Keys.COPPER_PINE_MIMIC));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<ShadowPineBarrelMimicEntity>> SHADOW_PINE_MIMIC = ENTITIES.register("shadow_pine_mimic", () -> EntityType.Builder.<ShadowPineBarrelMimicEntity>of(ShadowPineBarrelMimicEntity::new, MobCategory.MONSTER)
-			.sized(0.99F, 0.9F).build(Keys.SHADOW_PINE_MIMIC));
+			.sized(0.99F, 0.9F).notInPeaceful().build(Keys.SHADOW_PINE_MIMIC));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<HellSpiderEntity>> HELL_SPIDER = ENTITIES.register("hell_spider", () -> EntityType.Builder.of(HellSpiderEntity::new, MobCategory.MONSTER)
-			.sized(0.85F, 0.8F).build(Keys.HELL_SPIDER));
+			.sized(0.85F, 0.8F).notInPeaceful().build(Keys.HELL_SPIDER));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<CrystalSpiderEntity>> CRYSTAL_SPIDER = ENTITIES.register("crystal_spider", () -> EntityType.Builder.of(CrystalSpiderEntity::new, MobCategory.MONSTER)
-			.sized(1.1F, 0.9F).build(Keys.CRYSTAL_SPIDER));
+			.sized(1.1F, 0.9F).notInPeaceful().build(Keys.CRYSTAL_SPIDER));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<ShadowSpiderEntity>> SHADOW_SPIDER = ENTITIES.register("shadow_spider", () -> EntityType.Builder.of(ShadowSpiderEntity::new, MobCategory.MONSTER)
-			.sized(0.85F, 0.8F).build(Keys.SHADOW_SPIDER));
+			.sized(0.85F, 0.8F).notInPeaceful().build(Keys.SHADOW_SPIDER));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<ForestCaterpillarEntity>> FOREST_CATERPILLAR = ENTITIES.register("forest_caterpillar", () -> EntityType.Builder.<ForestCaterpillarEntity>of(ForestCaterpillarEntity::new, MobCategory.CREATURE)
-			.sized(0.4F, 0.4F).build(Keys.FOREST_CATERPILLAR));
+			.sized(0.4F, 0.4F).notInPeaceful().build(Keys.FOREST_CATERPILLAR));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<CrystalCaterpillarEntity>> CRYSTAL_CATERPILLAR = ENTITIES.register("crystal_caterpillar", () -> EntityType.Builder.<CrystalCaterpillarEntity>of(CrystalCaterpillarEntity::new, MobCategory.CREATURE)
-			.sized(0.4F, 0.4F).build(Keys.CRYSTAL_CATERPILLAR));
+			.sized(0.4F, 0.4F).notInPeaceful().build(Keys.CRYSTAL_CATERPILLAR));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<AerialHellPaintingEntity>> AERIAL_HELL_PAINTING = ENTITIES.register("aerial_hell_painting", () -> EntityType.Builder.<AerialHellPaintingEntity>of(AerialHellPaintingEntity::new, MobCategory.MISC)
 			.sized(0.5F, 0.5F).setTrackingRange(10).updateInterval(Integer.MAX_VALUE).build(Keys.AERIAL_HELL_PAINTING));

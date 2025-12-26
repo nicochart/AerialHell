@@ -77,7 +77,7 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
         }
     }
 
-    protected void initTextures() //TODO call when ?
+    protected void initTextures()
     {
         this.sunTexture = this.getTexture(AERIAL_HELL_SUN_LOCATION);
         this.moonTexture = this.getTexture(AERIAL_HELL_MOON_PHASES_LOCATION);
@@ -230,13 +230,14 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
         matrix4fstack.popMatrix();
     }
 
-    public void renderSunMoonAndStars(PoseStack poseStack, float timeOfDay, int moonPhase, float rainLevel, float starAlpha)
+    public void renderSunMoonAndStars(PoseStack poseStack, float timeOfDay, int moonPhase, float sunAlpha, float moonAlpha, float starAlpha)
     {
+        if (this.sunTexture == null || this.moonTexture == null) {this.initTextures();}
         poseStack.pushPose();
         poseStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
         poseStack.mulPose(Axis.XP.rotationDegrees(timeOfDay * 360.0F));
-        this.renderSun(rainLevel, poseStack);
-        this.renderMoon(moonPhase, rainLevel, poseStack);
+        this.renderSun(sunAlpha, poseStack);
+        this.renderMoon(moonPhase, moonAlpha, poseStack);
         if (starAlpha > 0.0F) {this.renderStars(starAlpha, poseStack);}
 
         poseStack.popPose();
