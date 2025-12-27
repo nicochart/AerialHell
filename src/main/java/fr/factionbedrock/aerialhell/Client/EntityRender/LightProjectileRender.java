@@ -4,16 +4,14 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.LightProjectileRenderState;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractLightProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.*;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RotationAxis;
 
 //see net.minecraft.client.renderer.entity.DragonFireballRenderer
 public class LightProjectileRender<T extends AbstractLightProjectileEntity> extends EntityRenderer<T, LightProjectileRenderState>
@@ -27,20 +25,21 @@ public class LightProjectileRender<T extends AbstractLightProjectileEntity> exte
         this.shadowRadius = 0.0F;
     }
 
-    @Override public void render(LightProjectileRenderState renderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int packedLight)
+    @Override public void render(LightProjectileRenderState renderState, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState)
     {
-        matrixStack.push();
-        matrixStack.scale(2.0F, 2.0F, 2.0F);
-        matrixStack.multiply(this.dispatcher.getRotation());
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F));
-        MatrixStack.Entry entry = matrixStack.peek();
-        VertexConsumer vertexconsumer = vertexConsumers.getBuffer(getRenderLayer(renderState.texture));
-        vertex(vertexconsumer, entry, packedLight, 0.0F, 0, 0, 1);
-        vertex(vertexconsumer, entry, packedLight, 1.0F, 0, 1, 1);
-        vertex(vertexconsumer, entry, packedLight, 1.0F, 1, 1, 0);
-        vertex(vertexconsumer, entry, packedLight, 0.0F, 1, 0, 0);
-        matrixStack.pop();
-        super.render(renderState, matrixStack, vertexConsumers, packedLight);
+        matrices.push();
+        matrices.scale(2.0F, 2.0F, 2.0F);
+        matrices.multiply(cameraState.orientation);
+        RenderLayer layer = getRenderLayer(renderState.texture);
+        queue.submitCustom(matrices, layer, (matricesEntry, vertexConsumer) ->
+        {
+            vertex(vertexConsumer, matricesEntry, renderState.light, 0.0F, 0, 0, 1);
+            vertex(vertexConsumer, matricesEntry, renderState.light, 1.0F, 0, 1, 1);
+            vertex(vertexConsumer, matricesEntry, renderState.light, 1.0F, 1, 1, 0);
+            vertex(vertexConsumer, matricesEntry, renderState.light, 0.0F, 1, 0, 0);
+        });
+        matrices.pop();
+        super.render(renderState, matrices, queue, cameraState);
     }
 
     @Override protected int getBlockLight(T entity, BlockPos partialTicks)
@@ -57,7 +56,7 @@ public class LightProjectileRender<T extends AbstractLightProjectileEntity> exte
         renderState.texture = getTexture(entity);
     }
 
-    public static RenderLayer getRenderLayer(Identifier texture) {return RenderLayer.getEntityCutoutNoCull(texture);}
+    public static RenderLayer getRenderLayer(Identifier texture) {return RenderLayers.entityCutoutNoCull(texture);}
 
     public Identifier getTexture(T entity)
     {

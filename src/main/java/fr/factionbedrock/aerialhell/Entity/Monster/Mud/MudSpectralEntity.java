@@ -20,13 +20,13 @@ public interface MudSpectralEntity
 
     default void spectralEntityTick(MobEntity mob)
     {
-        if (mob.age > getMaxTicksExisting() - 2) {mob.getWorld().sendEntityStatus(mob, (byte)5);}
+        if (mob.age > getMaxTicksExisting() - 2) {mob.getEntityWorld().sendEntityStatus(mob, (byte)5);}
         if (mob.age > getMaxTicksExisting()) {mob.discard();}
     }
 
     default void popDisappearingParticles(MobEntity mob, int count)
     {
-        for (int i=0; i<count; i++) {mob.getWorld().addParticleClient(ParticleTypes.LARGE_SMOKE, mob.getX() + mob.getRandom().nextFloat() - 0.5, mob.getY() + 2 * mob.getRandom().nextFloat(), mob.getZ() + mob.getRandom().nextFloat(), 0.5 * (mob.getRandom().nextFloat()) - 0.5, 0.3D, 0.5 * (mob.getRandom().nextFloat() - 0.5));}
+        for (int i=0; i<count; i++) {mob.getEntityWorld().addParticleClient(ParticleTypes.LARGE_SMOKE, mob.getX() + mob.getRandom().nextFloat() - 0.5, mob.getY() + 2 * mob.getRandom().nextFloat(), mob.getZ() + mob.getRandom().nextFloat(), 0.5 * (mob.getRandom().nextFloat()) - 0.5, 0.3D, 0.5 * (mob.getRandom().nextFloat() - 0.5));}
     }
 
     int getMaxTicksExisting();

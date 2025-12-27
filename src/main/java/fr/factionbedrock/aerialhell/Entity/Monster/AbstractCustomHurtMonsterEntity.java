@@ -36,7 +36,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends HostileEntity
     public boolean customHurt(ServerWorld serverWorld, DamageSource source, CustomHurtInfo info)
     {
         float amount = info.amount();
-        if (this.isInvulnerableTo(serverWorld, source) || this.getWorld().isClient || this.isDead()) {return false;}
+        if (this.isInvulnerableTo(serverWorld, source) || this.getEntityWorld().isClient() || this.isDead()) {return false;}
         else if (source.isIn(DamageTypeTags.IS_FIRE) && this.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {return false;}
         else
         {
@@ -55,7 +55,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends HostileEntity
 
             if (!wasOnHurtCooldown)
             {
-                this.getWorld().sendEntityDamage(this, source);
+                this.getEntityWorld().sendEntityDamage(this, source);
                 if (!source.isIn(DamageTypeTags.NO_IMPACT)) {this.scheduleVelocityUpdate();}
 
                 if (info.applyKb()) {tryApplyingKnockback(source, info.kbStrength());}
@@ -71,7 +71,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends HostileEntity
             }
 
             this.lastDamageSource = source;
-            this.lastDamageTime = this.getWorld().getTime();
+            this.lastDamageTime = this.getEntityWorld().getTime();
 
             if (source.getAttacker() instanceof ServerPlayerEntity serverPlayerSource)
             {

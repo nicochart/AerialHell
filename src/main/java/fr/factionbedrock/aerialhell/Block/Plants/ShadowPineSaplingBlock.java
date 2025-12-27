@@ -26,7 +26,7 @@ public class ShadowPineSaplingBlock extends AerialHellSaplingBlock
 		super(treeIn, settings, giantTreeFeatureKey);
 	}
 	
-	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
+	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean intersects)
 	{
 		if (!world.isClient() && entity instanceof LivingEntity)
     	{

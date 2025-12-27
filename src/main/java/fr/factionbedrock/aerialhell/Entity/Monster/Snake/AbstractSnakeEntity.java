@@ -98,7 +98,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
 
     @Nullable public AbstractSnakeEntity getNextBodyPartByUUID(String stringUUID)
     {
-        List<AbstractSnakeEntity> nearbyEntities = this.getWorld().getEntitiesByClass(AbstractSnakeEntity.class, this.getBoundingBox().expand(5), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), 5));
+        List<AbstractSnakeEntity> nearbyEntities = this.getEntityWorld().getEntitiesByClass(AbstractSnakeEntity.class, this.getBoundingBox().expand(5), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), 5));
         for (AbstractSnakeEntity entity : nearbyEntities)
         {
             if (entity.getUuidAsString().equals(stringUUID)) {return entity;}
@@ -261,7 +261,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         Direction xDirection = defaultDragVector.x > 0 ? Direction.EAST : Direction.WEST;
         Direction zDirection = defaultDragVector.z > 0 ? Direction.SOUTH : Direction.NORTH;
         Direction mainDirection = Math.abs(defaultDragVector.x) > Math.abs(defaultDragVector.z) ? xDirection : zDirection;
-        boolean mainDirectionColliding = !source.getWorld().getBlockState(dragged.getBlockPos().offset(mainDirection)).isAir();
+        boolean mainDirectionColliding = !source.getEntityWorld().getBlockState(dragged.getBlockPos().offset(mainDirection)).isAir();
 
         if (mayJump) //trying to avoid dragged (body parts) getting stuck below thin-block-surface
         {
@@ -288,8 +288,8 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
 
     public boolean mayBeColliding(BlockPos pos)
     {
-        BlockState state = this.getWorld().getBlockState(pos);
-        VoxelShape blockShape = state.getCollisionShape(this.getWorld(), pos, ShapeContext.of(this)).offset(pos.getX(), pos.getY(), pos.getZ());
+        BlockState state = this.getEntityWorld().getBlockState(pos);
+        VoxelShape blockShape = state.getCollisionShape(this.getEntityWorld(), pos, ShapeContext.of(this)).offset(pos.getX(), pos.getY(), pos.getZ());
         return VoxelShapes.matchesAnywhere(blockShape, VoxelShapes.cuboid(this.getBoundingBox().expand(0.1F)), BooleanBiFunction.AND);
     }
 
@@ -325,7 +325,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
     {
         float x = 0.0F;
         float z = 0.0F;
-        AbstractSnakeEntity nextBodyPart = this.getType().create(this.getWorld(), SpawnReason.NATURAL);
+        AbstractSnakeEntity nextBodyPart = this.getType().create(this.getEntityWorld(), SpawnReason.NATURAL);
         if (nextBodyPart != null)
         {
             if (this.isPersistent()) {nextBodyPart.setPersistent();}
@@ -336,7 +336,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
             nextBodyPart.setBodyPartId(this.getBodyPartId() + 1);
             nextBodyPart.setPreviousBodyPart(this);
             nextBodyPart.head = this.getHead();
-            this.getWorld().spawnEntity(nextBodyPart);
+            this.getEntityWorld().spawnEntity(nextBodyPart);
         }
         return nextBodyPart;
     }

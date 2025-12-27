@@ -58,10 +58,10 @@ public class AerialHellHangingEntityItem extends Item
 
             if (abstractDecorationEntity.canStayAttached())
             {
-                if (!world.isClient)
+                if (!world.isClient())
                 {
                     abstractDecorationEntity.onPlace();
-                    world.emitGameEvent(playerEntity, GameEvent.ENTITY_PLACE, abstractDecorationEntity.getPos());
+                    world.emitGameEvent(playerEntity, GameEvent.ENTITY_PLACE, abstractDecorationEntity.getEntityPos());
                     world.spawnEntity(abstractDecorationEntity);
                 }
 

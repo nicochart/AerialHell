@@ -31,7 +31,7 @@ public class ThornyWebBlock extends CobwebBlock
 	
 	private boolean isEntityImmuneToCollision(Entity entityIn) {return entityIn instanceof AbstractSnakeEntity || entityIn instanceof SpiderEntity || EntityHelper.isShadowEntity(entityIn);}
 	
-	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entityIn, EntityCollisionHandler handler)
+	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entityIn, EntityCollisionHandler handler, boolean intersects)
 	{
 		boolean isTotallyImmune = isEntityImmuneToCollision(entityIn);
 		

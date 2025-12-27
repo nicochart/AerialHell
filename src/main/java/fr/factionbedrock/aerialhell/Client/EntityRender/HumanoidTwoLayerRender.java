@@ -11,6 +11,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.GhostSlimePirateEntity
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.SlimeNinjaPirateEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.SlimePirateEntity;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer;
@@ -43,12 +44,12 @@ public class HumanoidTwoLayerRender extends MobEntityRenderer<AbstractHumanoidMo
         renderState.baby = entity.isBaby();
         renderState.isAggressive = entity.isAttacking();
         renderState.handSwingProgress = entity.getHandSwingProgress(partialTick);
-        ArmedEntityRenderState.updateRenderState(entity, renderState, this.itemModelResolver);
+        ArmedEntityRenderState.updateRenderState(entity, renderState, this.itemModelResolver, partialTick);
     }
 
     @Nullable @Override protected RenderLayer getRenderLayer(HumanoidTwoLayerRenderState renderState, boolean isVisible, boolean renderTranslucent, boolean appearsGlowing)
     {
-        return RenderLayer.getEntityTranslucent(renderState.texture);
+        return RenderLayers.entityTranslucent(renderState.texture);
     }
 
     @Override protected void scale(HumanoidTwoLayerRenderState renderState, MatrixStack matrixStack)

@@ -98,7 +98,7 @@ public class BerserkAxeItem extends EffectAxeItem
 		}
 
 		player.getItemCooldownManager().set(heldItem, cooldown);
-		heldItem.damage(1, player, LivingEntity.getSlotForHand(hand));
+		heldItem.damage(1, player, hand);
         return ActionResult.CONSUME;
 	}
 	

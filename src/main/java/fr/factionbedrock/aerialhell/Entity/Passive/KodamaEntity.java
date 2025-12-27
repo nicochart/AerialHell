@@ -87,7 +87,7 @@ public class KodamaEntity extends AerialHellAnimalEntity
 
     @Nullable @Override public PassiveEntity createChild(ServerWorld serverWorld, PassiveEntity mob)
     {
-        return AerialHellEntities.KODAMA.create(this.getWorld(), SpawnReason.BREEDING);
+        return AerialHellEntities.KODAMA.create(this.getEntityWorld(), SpawnReason.BREEDING);
     }
 
     public int getFaceId() {return this.getDataTracker().get(FACE_ID);}
@@ -125,7 +125,7 @@ public class KodamaEntity extends AerialHellAnimalEntity
 
     protected boolean detectNearbyDanger() //return true if there is any nearby danger
     {
-        List<Entity> nearbyEntities = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(10), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), 5));
+        List<Entity> nearbyEntities = this.getEntityWorld().getOtherEntities(this, this.getBoundingBox().expand(10), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), 5));
         for (Entity entity : nearbyEntities)
         {
             if (entity instanceof PlayerEntity player && !EntityHelper.isCreaOrSpecPlayer(player)) {return true;}

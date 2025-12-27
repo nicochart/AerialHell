@@ -36,8 +36,8 @@ import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraft.world.rule.GameRules;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -66,7 +66,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	//copy of net.minecraft.world.entity.LivingEntity damage(DamageSource source, float amount) method, removing everything non-related to my bosses, and calling other methods, allowing customization in my inheriting classes
 	public boolean bossHurt(ServerWorld serverWorld, DamageSource source, float amount)
 	{
-		if (this.isInvulnerableTo(serverWorld, source) || this.getWorld().isClient || this.isDead()) {return false;}
+		if (this.isInvulnerableTo(serverWorld, source) || this.getEntityWorld().isClient() || this.isDead()) {return false;}
 		else if (source.isIn(DamageTypeTags.IS_FIRE) && this.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {return false;}
 		else
 		{
@@ -85,7 +85,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 			if (!wasOnHurtCooldown)
 			{
-				this.getWorld().sendEntityDamage(this, source);
+				this.getEntityWorld().sendEntityDamage(this, source);
 				if (!source.isIn(DamageTypeTags.NO_IMPACT)) {this.scheduleVelocityUpdate();}
 
 				tryApplyingKnockback(source);
@@ -97,7 +97,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 			if (!wasOnHurtCooldown) {playHurtSound(source, died);}
 
 			this.lastDamageSource = source;
-			this.lastDamageTime = this.getWorld().getTime();
+			this.lastDamageTime = this.getEntityWorld().getTime();
 
 			if (source.getAttacker() instanceof ServerPlayerEntity serverPlayerSource)
 			{
@@ -353,13 +353,13 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		this.removeStatusEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS);
 	}
 
-	@Override public boolean startRiding(Entity entity, boolean p_19967_)
+	@Override public boolean startRiding(Entity entity, boolean force, boolean emitEvent)
 	{
-		if (entity instanceof BoatEntity boat && this.getWorld() instanceof ServerWorld serverWorld)
+		if (entity instanceof BoatEntity boat && this.getEntityWorld() instanceof ServerWorld serverWorld)
 		{
 			//Copy of net.minecraft.entity.vehicle.VehicleEntity.killAndDropItem(Item item) {..}
 			entity.kill(serverWorld);
-			if (serverWorld.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS))
+			if (serverWorld.getGameRules().getValue(GameRules.ENTITY_DROPS))
 			{
 				ItemStack itemstack = new ItemStack(boat.asItem());
 				itemstack.set(DataComponentTypes.CUSTOM_NAME, this.getCustomName());
@@ -379,7 +379,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 	private void updateBossDifficulty()
 	{
-		List<Entity> nearbyEntities = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(30), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), 15));
+		List<Entity> nearbyEntities = this.getEntityWorld().getOtherEntities(this, this.getBoundingBox().expand(30), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), 15));
 		int playerCount = 0;
 		for (Entity entity : nearbyEntities)
 		{
@@ -406,16 +406,16 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 		BlockPos basePos = this.getBlockPos().up(yBaseOffset);
 		BlockPos fallPos = basePos.add(this.random.nextBetweenExclusive(-maxXZOffset, maxXZOffset), this.random.nextBetweenExclusive(minYOffset, maxYOffset), this.random.nextBetweenExclusive(-maxXZOffset, maxXZOffset));
-		while (this.getWorld().getBlockState(fallPos).isAir() && fallPos.getY() < basePos.getY() + 25) {fallPos = fallPos.up();}
-		while (!FallingBlock.canFallThrough(this.getWorld().getBlockState(fallPos.down())) && fallPos.getY() > basePos.getY()) {fallPos = fallPos.down();}
-		BlockState fallState = this.getWorld().getBlockState(fallPos);
-		if (FallingBlock.canFallThrough(this.getWorld().getBlockState(fallPos.down())) && fallPos.getY() >= this.getWorld().getBottomY())
+		while (this.getEntityWorld().getBlockState(fallPos).isAir() && fallPos.getY() < basePos.getY() + 25) {fallPos = fallPos.up();}
+		while (!FallingBlock.canFallThrough(this.getEntityWorld().getBlockState(fallPos.down())) && fallPos.getY() > basePos.getY()) {fallPos = fallPos.down();}
+		BlockState fallState = this.getEntityWorld().getBlockState(fallPos);
+		if (FallingBlock.canFallThrough(this.getEntityWorld().getBlockState(fallPos.down())) && fallPos.getY() >= this.getEntityWorld().getBottomY())
 		{
 			if (fallState.getBlock() instanceof CoreProtectedBlock block)
 			{
 				fallState = block.getCrackedVariant().getDefaultState();
 			}
-			FallingBlockEntity.spawnFromBlock(this.getWorld(), fallPos, fallState);
+			FallingBlockEntity.spawnFromBlock(this.getEntityWorld(), fallPos, fallState);
 		}
 		else {
 			System.out.println("Wanted to make block fall but can't");

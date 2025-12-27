@@ -82,7 +82,7 @@ public class TornSpiritEntity extends HostileEntity
         double x = getX() + (random.nextFloat() - 0.5F) * rand;
         double y = (this.getBoundingBox().minY + rand) + 0.5D;
         double z = getZ() + (random.nextFloat() - 0.5F) * rand;
-        this.getWorld().addParticleClient(AerialHellParticleTypes.GOD_FLAME, x, y, z, 0.0D, -0.06D, 0.0D);
+        this.getEntityWorld().addParticleClient(AerialHellParticleTypes.GOD_FLAME, x, y, z, 0.0D, -0.06D, 0.0D);
         
         super.tick();
     }
@@ -175,7 +175,7 @@ public class TornSpiritEntity extends HostileEntity
 	                     float halfDistanceToTarget = MathHelper.sqrt(MathHelper.sqrt((float) squaredDistanceToTarget)) * 0.5F;
 	                     if (!this.tornspirit.isSilent())
 	                     {
-	                        this.tornspirit.getWorld().syncWorldEvent(null, WorldEvents.BLAZE_SHOOTS, this.tornspirit.getBlockPos(), 0);
+	                        this.tornspirit.getEntityWorld().syncWorldEvent(null, WorldEvents.BLAZE_SHOOTS, this.tornspirit.getBlockPos(), 0);
 	                     }
 	                     
 	                     int n = (int)(Math.random() * 2) + 1; //nombre al�atoire entre 1 et 3
@@ -183,9 +183,9 @@ public class TornSpiritEntity extends HostileEntity
 	                     for(int i = 0; i < n; ++i)
 	                     {
 							 Vec3d vec3 = new Vec3d(Xdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget, Ydistance, Zdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget);
-							 SmallFireballEntity smallfireball = new SmallFireballEntity(this.tornspirit.getWorld(), this.tornspirit, vec3.normalize());
+							 SmallFireballEntity smallfireball = new SmallFireballEntity(this.tornspirit.getEntityWorld(), this.tornspirit, vec3.normalize());
 							 smallfireball.setPos(smallfireball.getX(), this.tornspirit.getBodyY(0.5D) + 0.5D, smallfireball.getZ());
-	                        this.tornspirit.getWorld().spawnEntity(smallfireball);
+	                        this.tornspirit.getEntityWorld().spawnEntity(smallfireball);
 	                     }
 	                  }
 	               }

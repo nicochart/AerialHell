@@ -30,42 +30,42 @@ import net.minecraft.world.Heightmap;
 
 public class AerialHellEntities
 {
-	public static final EntityType<StellarStoneAutomatonEntity> STELLAR_STONE_AUTOMATON = register(Keys.STELLAR_STONE_AUTOMATON, StellarStoneAutomatonEntity::new, 0.9F,2.1F, SpawnGroup.MONSTER);
-	public static final EntityType<MudGolemEntity> MUD_GOLEM = register(Keys.MUD_GOLEM, MudGolemEntity::new, 1.4F,2.3F, SpawnGroup.MONSTER);
+	public static final EntityType<StellarStoneAutomatonEntity> STELLAR_STONE_AUTOMATON = register(Keys.STELLAR_STONE_AUTOMATON, StellarStoneAutomatonEntity::new, 0.9F,2.1F, SpawnGroup.MONSTER, true);
+	public static final EntityType<MudGolemEntity> MUD_GOLEM = register(Keys.MUD_GOLEM, MudGolemEntity::new, 1.4F,2.3F, SpawnGroup.MONSTER, true);
 	public static final EntityType<MudSpectralGolemEntity> MUD_SPECTRAL_GOLEM = register(Keys.MUD_SPECTRAL_GOLEM, MudSpectralGolemEntity::new, 1.4F,2.3F, SpawnGroup.MONSTER);
-	public static final EntityType<CrystalGolemEntity> CRYSTAL_GOLEM = register(Keys.CRYSTAL_GOLEM, CrystalGolemEntity::new, 0.9F,1.95F, SpawnGroup.MONSTER);
+	public static final EntityType<CrystalGolemEntity> CRYSTAL_GOLEM = register(Keys.CRYSTAL_GOLEM, CrystalGolemEntity::new, 0.9F,1.95F, SpawnGroup.MONSTER, true);
 	public static final EntityType<LunaticPriestEntity> LUNATIC_PRIEST = register(Keys.LUNATIC_PRIEST, LunaticPriestEntity::new, 0.8F,2.5F, SpawnGroup.MONSTER);
-	public static final EntityType<EvilCowEntity> EVIL_COW = register(Keys.EVIL_COW, EvilCowEntity::new, 0.99F, 1.4F, SpawnGroup.MONSTER);
-	public static final EntityType<EvilCowEntity> CORTINARIUS_COW = register(Keys.CORTINARIUS_COW, EvilCowEntity::new, 0.99F, 1.4F, SpawnGroup.MONSTER);
-	public static final EntityType<EntEntity> STELLAR_ENT = register(Keys.STELLAR_ENT, EntEntity::new, 0.7F,2.0F, SpawnGroup.MONSTER);
-	public static final EntityType<VenomousSnakeEntity> VENOMOUS_SNAKE = register(Keys.VENOMOUS_SNAKE, VenomousSnakeEntity::new, 0.8F,0.8F, SpawnGroup.MONSTER);
-	public static final EntityType<WormEntity> WORM = register(Keys.WORM, WormEntity::new, 0.8F,0.8F, SpawnGroup.MONSTER);
+	public static final EntityType<EvilCowEntity> EVIL_COW = register(Keys.EVIL_COW, EvilCowEntity::new, 0.99F, 1.4F, SpawnGroup.MONSTER, true);
+	public static final EntityType<EvilCowEntity> CORTINARIUS_COW = register(Keys.CORTINARIUS_COW, EvilCowEntity::new, 0.99F, 1.4F, SpawnGroup.MONSTER, true);
+	public static final EntityType<EntEntity> STELLAR_ENT = register(Keys.STELLAR_ENT, EntEntity::new, 0.7F,2.0F, SpawnGroup.MONSTER, true);
+	public static final EntityType<VenomousSnakeEntity> VENOMOUS_SNAKE = register(Keys.VENOMOUS_SNAKE, VenomousSnakeEntity::new, 0.8F,0.8F, SpawnGroup.MONSTER, true);
+	public static final EntityType<WormEntity> WORM = register(Keys.WORM, WormEntity::new, 0.8F,0.8F, SpawnGroup.MONSTER, true);
 	public static final EntityType<StellarChickenEntity> STELLAR_CHICKEN = register(Keys.STELLAR_CHICKEN, StellarChickenEntity::new, 0.4F, 0.7F, SpawnGroup.CREATURE);
 	public static final EntityType<BoarEntity> STELLAR_BOAR = register(Keys.STELLAR_BOAR, BoarEntity::new, 0.9F, 0.9F, SpawnGroup.CREATURE);
-	public static final EntityType<ShroomBoomEntity> SHROOMBOOM = register(Keys.SHROOMBOOM, ShroomBoomEntity::new, 0.6F, 1.7F, SpawnGroup.MONSTER);
-	public static final EntityType<VerdigrisZombieEntity> VERDIGRIS_ZOMBIE = register(Keys.VERDIGRIS_ZOMBIE, VerdigrisZombieEntity::new, 0.7F,2.0F, SpawnGroup.MONSTER);
-	public static final EntityType<MummyEntity> MUMMY = register(Keys.MUMMY, MummyEntity::new, 0.7F,1.9F, SpawnGroup.MONSTER);
-	public static final EntityType<SlimePirateEntity> SLIME_PIRATE = register(Keys.SLIME_PIRATE, SlimePirateEntity::new, 0.7F,1.9F, SpawnGroup.MONSTER);
-	public static final EntityType<SlimeNinjaPirateEntity> SLIME_NINJA_PIRATE = register(Keys.SLIME_NINJA_PIRATE, SlimeNinjaPirateEntity::new, 0.7F,1.9F, SpawnGroup.MONSTER);
-	public static final EntityType<GhostSlimePirateEntity> GHOST_SLIME_PIRATE = register(Keys.GHOST_SLIME_PIRATE, GhostSlimePirateEntity::new, 0.7F,1.9F, SpawnGroup.MONSTER);
-	public static final EntityType<GhostSlimeNinjaPirateEntity> GHOST_SLIME_NINJA_PIRATE = register(Keys.GHOST_SLIME_NINJA_PIRATE, GhostSlimeNinjaPirateEntity::new, 0.7F,1.9F, SpawnGroup.MONSTER);
+	public static final EntityType<ShroomBoomEntity> SHROOMBOOM = register(Keys.SHROOMBOOM, ShroomBoomEntity::new, 0.6F, 1.7F, SpawnGroup.MONSTER, true);
+	public static final EntityType<VerdigrisZombieEntity> VERDIGRIS_ZOMBIE = register(Keys.VERDIGRIS_ZOMBIE, VerdigrisZombieEntity::new, 0.7F,2.0F, SpawnGroup.MONSTER, true);
+	public static final EntityType<MummyEntity> MUMMY = register(Keys.MUMMY, MummyEntity::new, 0.7F,1.9F, SpawnGroup.MONSTER, true);
+	public static final EntityType<SlimePirateEntity> SLIME_PIRATE = register(Keys.SLIME_PIRATE, SlimePirateEntity::new, 0.7F,1.9F, SpawnGroup.MONSTER, true);
+	public static final EntityType<SlimeNinjaPirateEntity> SLIME_NINJA_PIRATE = register(Keys.SLIME_NINJA_PIRATE, SlimeNinjaPirateEntity::new, 0.7F,1.9F, SpawnGroup.MONSTER, true);
+	public static final EntityType<GhostSlimePirateEntity> GHOST_SLIME_PIRATE = register(Keys.GHOST_SLIME_PIRATE, GhostSlimePirateEntity::new, 0.7F,1.9F, SpawnGroup.MONSTER, true);
+	public static final EntityType<GhostSlimeNinjaPirateEntity> GHOST_SLIME_NINJA_PIRATE = register(Keys.GHOST_SLIME_NINJA_PIRATE, GhostSlimeNinjaPirateEntity::new, 0.7F,1.9F, SpawnGroup.MONSTER, true);
 	public static final EntityType<SandySheepEntity> SANDY_SHEEP = register(Keys.SANDY_SHEEP, SandySheepEntity::new, 0.9F, 1.4F, SpawnGroup.CREATURE);
 	public static final EntityType<GlidingTurtleEntity> GLIDING_TURTLE = register(Keys.GLIDING_TURTLE, GlidingTurtleEntity::new, 1.4F, 1.9F, SpawnGroup.CREATURE);
 	public static final EntityType<FatPhantomEntity> FAT_PHANTOM = register(Keys.FAT_PHANTOM, FatPhantomEntity::new, 2.6F, 1.5F, SpawnGroup.CREATURE);
 	public static final EntityType<KodamaEntity> KODAMA = register(Keys.KODAMA, KodamaEntity::new, 0.7F, 0.9F, SpawnGroup.CREATURE);
-	public static final EntityType<CrystalSlimeEntity> CRYSTAL_SLIME = register(Keys.CRYSTAL_SLIME, CrystalSlimeEntity::new, 1.0F, 1.0F, SpawnGroup.MONSTER);
-	public static final EntityType<MudSoldierEntity> MUD_SOLDIER = register(Keys.MUD_SOLDIER, MudSoldierEntity::new, 0.6F, 1.99F, SpawnGroup.MONSTER);
+	public static final EntityType<CrystalSlimeEntity> CRYSTAL_SLIME = register(Keys.CRYSTAL_SLIME, CrystalSlimeEntity::new, 1.0F, 1.0F, SpawnGroup.MONSTER, true);
+	public static final EntityType<MudSoldierEntity> MUD_SOLDIER = register(Keys.MUD_SOLDIER, MudSoldierEntity::new, 0.6F, 1.99F, SpawnGroup.MONSTER, true);
 	public static final EntityType<MudSpectralSoldierEntity> MUD_SPECTRAL_SOLDIER = register(Keys.MUD_SPECTRAL_SOLDIER, MudSpectralSoldierEntity::new, 0.6F, 1.99F, SpawnGroup.MONSTER);
 	public static final EntityType<MudCycleMageEntity> MUD_CYCLE_MAGE = register(Keys.MUD_CYCLE_MAGE, MudCycleMageEntity::new, 0.6F, 1.99F, SpawnGroup.MONSTER);
 	public static final EntityType<MudSpectralCycleMageEntity> MUD_SPECTRAL_CYCLE_MAGE = register(Keys.MUD_SPECTRAL_CYCLE_MAGE, MudSpectralCycleMageEntity::new, 0.6F, 1.99F, SpawnGroup.MONSTER);
-	public static final EntityType<TornSpiritEntity> TORN_SPIRIT = register(Keys.TORN_SPIRIT, TornSpiritEntity::new, 0.8F,1.95F, SpawnGroup.MONSTER);
-	public static final EntityType<IceSpiritEntity> ICE_SPIRIT = register(Keys.ICE_SPIRIT, IceSpiritEntity::new, 0.7F, 1.0F, SpawnGroup.MONSTER);
-	public static final EntityType<FireSpiritEntity> FIRE_SPIRIT = register(Keys.FIRE_SPIRIT, FireSpiritEntity::new, 0.7F, 1.0F, SpawnGroup.MONSTER);
-	public static final EntityType<ElectroSpiritEntity> ELECTRO_SPIRIT = register(Keys.ELECTRO_SPIRIT, ElectroSpiritEntity::new, 0.7F, 1.0F, SpawnGroup.MONSTER);
+	public static final EntityType<TornSpiritEntity> TORN_SPIRIT = register(Keys.TORN_SPIRIT, TornSpiritEntity::new, 0.8F,1.95F, SpawnGroup.MONSTER, true);
+	public static final EntityType<IceSpiritEntity> ICE_SPIRIT = register(Keys.ICE_SPIRIT, IceSpiritEntity::new, 0.7F, 1.0F, SpawnGroup.MONSTER, true);
+	public static final EntityType<FireSpiritEntity> FIRE_SPIRIT = register(Keys.FIRE_SPIRIT, FireSpiritEntity::new, 0.7F, 1.0F, SpawnGroup.MONSTER, true);
+	public static final EntityType<ElectroSpiritEntity> ELECTRO_SPIRIT = register(Keys.ELECTRO_SPIRIT, ElectroSpiritEntity::new, 0.7F, 1.0F, SpawnGroup.MONSTER, true);
 	public static final EntityType<ChainedGodEntity> CHAINED_GOD = register(Keys.CHAINED_GOD, ChainedGodEntity::new, 2.8F,5F, SpawnGroup.MONSTER);
 	public static final EntityType<PoisonballEntity> POISONBALL = register(Keys.POISONBALL, PoisonballEntity::new, 1.0F, 1.0F, SpawnGroup.MISC);
 	public static final EntityType<DimensionShattererProjectileEntity> DIMENSION_SHATTERER_PROJECTILE = register(Keys.DIMENSION_SHATTERER_PROJECTILE, DimensionShattererProjectileEntity::new, 1.0F, 1.0F, SpawnGroup.MISC);
-	public static final EntityType<FlyingJellyfishEntity> FLYING_JELLYFISH = register(Keys.FLYING_JELLYFISH, FlyingJellyfishEntity::new, 3.0F, 3.0F, SpawnGroup.MONSTER);
+	public static final EntityType<FlyingJellyfishEntity> FLYING_JELLYFISH = register(Keys.FLYING_JELLYFISH, FlyingJellyfishEntity::new, 3.0F, 3.0F, SpawnGroup.MONSTER, true);
 	public static final EntityType<ThrownStellarEgg> THROWN_STELLAR_EGG = register(Keys.THROWN_STELLAR_EGG, ThrownStellarEgg::new, 0.25F, 0.25F, SpawnGroup.MISC);
 	public static final EntityType<IronShurikenEntity> IRON_SHURIKEN = register(Keys.IRON_SHURIKEN, IronShurikenEntity::new, 0.25F, 0.25F, SpawnGroup.MISC);
 	public static final EntityType<GoldShurikenEntity> GOLD_SHURIKEN = register(Keys.GOLD_SHURIKEN, GoldShurikenEntity::new, 0.25F, 0.25F, SpawnGroup.MISC);
@@ -85,23 +85,29 @@ public class AerialHellEntities
 	public static final EntityType<ShadowProjectileEntity> SHADOW_PROJECTILE = register(Keys.SHADOW_PROJECTILE, ShadowProjectileEntity::new, 1.1F, 1.1F, SpawnGroup.MISC);
 	public static final EntityType<ShadowFlyingSkullEntity> SHADOW_FLYING_SKULL = register(Keys.SHADOW_FLYING_SKULL, ShadowFlyingSkullEntity::new, 0.8F, 0.8F, SpawnGroup.MONSTER);
 	public static final EntityType<ShadowTrollEntity> SHADOW_TROLL = register(Keys.SHADOW_TROLL, ShadowTrollEntity::new, 1.2F, 2.5F, SpawnGroup.MONSTER);
-	public static final EntityType<ShadowAutomatonEntity> SHADOW_AUTOMATON = register(Keys.SHADOW_AUTOMATON, ShadowAutomatonEntity::new, 0.8F,1.95F, SpawnGroup.MONSTER);
+	public static final EntityType<ShadowAutomatonEntity> SHADOW_AUTOMATON = register(Keys.SHADOW_AUTOMATON, ShadowAutomatonEntity::new, 0.8F,1.95F, SpawnGroup.MONSTER, true);
 	public static final EntityType<LilithEntity> LILITH = register(Keys.LILITH, LilithEntity::new, 0.8F,1.8F, SpawnGroup.MONSTER);
-	public static final EntityType<AerialTreeChestMimicEntity> AERIAL_TREE_MIMIC = register(Keys.AERIAL_TREE_MIMIC, AerialTreeChestMimicEntity::new, 0.99F, 2.0F, SpawnGroup.MONSTER);
-	public static final EntityType<GoldenBeechChestMimicEntity> GOLDEN_BEECH_MIMIC = register(Keys.GOLDEN_BEECH_MIMIC, GoldenBeechChestMimicEntity::new, 0.99F, 2.0F, SpawnGroup.MONSTER);
-	public static final EntityType<SkyCactusFiberChestMimicEntity> SKY_CACTUS_FIBER_MIMIC = register(Keys.SKY_CACTUS_FIBER_MIMIC, SkyCactusFiberChestMimicEntity::new, 0.99F, 2.0F, SpawnGroup.MONSTER);
-	public static final EntityType<CopperPineChestMimicEntity> COPPER_PINE_MIMIC = register(Keys.COPPER_PINE_MIMIC, CopperPineChestMimicEntity::new, 0.99F, 2.0F, SpawnGroup.MONSTER);
-	public static final EntityType<ShadowPineBarrelMimicEntity> SHADOW_PINE_MIMIC = register(Keys.SHADOW_PINE_MIMIC, ShadowPineBarrelMimicEntity::new, 0.99F, 0.9F, SpawnGroup.MONSTER);
-	public static final EntityType<HellSpiderEntity> HELL_SPIDER = register(Keys.HELL_SPIDER, HellSpiderEntity::new, 0.85F, 0.8F, SpawnGroup.MONSTER);
-	public static final EntityType<CrystalSpiderEntity> CRYSTAL_SPIDER = register(Keys.CRYSTAL_SPIDER, CrystalSpiderEntity::new, 1.1F, 0.9F, SpawnGroup.MONSTER);
-	public static final EntityType<ShadowSpiderEntity> SHADOW_SPIDER = register(Keys.SHADOW_SPIDER, ShadowSpiderEntity::new, 0.85F, 0.8F, SpawnGroup.MONSTER);
-	public static final EntityType<ForestCaterpillarEntity> FOREST_CATERPILLAR = register(Keys.FOREST_CATERPILLAR, ForestCaterpillarEntity::new, 0.4F, 0.4F, SpawnGroup.MONSTER);
-	public static final EntityType<CrystalCaterpillarEntity> CRYSTAL_CATERPILLAR = register(Keys.CRYSTAL_CATERPILLAR, CrystalCaterpillarEntity::new, 0.4F, 0.4F, SpawnGroup.MONSTER);
+	public static final EntityType<AerialTreeChestMimicEntity> AERIAL_TREE_MIMIC = register(Keys.AERIAL_TREE_MIMIC, AerialTreeChestMimicEntity::new, 0.99F, 2.0F, SpawnGroup.MONSTER, true);
+	public static final EntityType<GoldenBeechChestMimicEntity> GOLDEN_BEECH_MIMIC = register(Keys.GOLDEN_BEECH_MIMIC, GoldenBeechChestMimicEntity::new, 0.99F, 2.0F, SpawnGroup.MONSTER, true);
+	public static final EntityType<SkyCactusFiberChestMimicEntity> SKY_CACTUS_FIBER_MIMIC = register(Keys.SKY_CACTUS_FIBER_MIMIC, SkyCactusFiberChestMimicEntity::new, 0.99F, 2.0F, SpawnGroup.MONSTER, true);
+	public static final EntityType<CopperPineChestMimicEntity> COPPER_PINE_MIMIC = register(Keys.COPPER_PINE_MIMIC, CopperPineChestMimicEntity::new, 0.99F, 2.0F, SpawnGroup.MONSTER, true);
+	public static final EntityType<ShadowPineBarrelMimicEntity> SHADOW_PINE_MIMIC = register(Keys.SHADOW_PINE_MIMIC, ShadowPineBarrelMimicEntity::new, 0.99F, 0.9F, SpawnGroup.MONSTER, true);
+	public static final EntityType<HellSpiderEntity> HELL_SPIDER = register(Keys.HELL_SPIDER, HellSpiderEntity::new, 0.85F, 0.8F, SpawnGroup.MONSTER, true);
+	public static final EntityType<CrystalSpiderEntity> CRYSTAL_SPIDER = register(Keys.CRYSTAL_SPIDER, CrystalSpiderEntity::new, 1.1F, 0.9F, SpawnGroup.MONSTER, true);
+	public static final EntityType<ShadowSpiderEntity> SHADOW_SPIDER = register(Keys.SHADOW_SPIDER, ShadowSpiderEntity::new, 0.85F, 0.8F, SpawnGroup.MONSTER, true);
+	public static final EntityType<ForestCaterpillarEntity> FOREST_CATERPILLAR = register(Keys.FOREST_CATERPILLAR, ForestCaterpillarEntity::new, 0.4F, 0.4F, SpawnGroup.MONSTER, true);
+	public static final EntityType<CrystalCaterpillarEntity> CRYSTAL_CATERPILLAR = register(Keys.CRYSTAL_CATERPILLAR, CrystalCaterpillarEntity::new, 0.4F, 0.4F, SpawnGroup.MONSTER, true);
 	public static final EntityType<AerialHellPaintingEntity> AERIAL_HELL_PAINTING = registerPainting(Keys.AERIAL_HELL_PAINTING, AerialHellPaintingEntity::new, 0.5F, 0.5F, SpawnGroup.MISC);
 
 	public static <E extends Entity> EntityType<E> registerPainting(RegistryKey<EntityType<?>> key, EntityType.EntityFactory<E> factory, float width, float height, SpawnGroup group)
 	{
 		return register(key.getValue().getPath(), EntityType.Builder.create(factory, group).maxTrackingRange(10).trackingTickInterval(Integer.MAX_VALUE).dimensions(width, height).build(key));
+	}
+
+	public static <E extends Entity> EntityType<E> register(RegistryKey<EntityType<?>> key, EntityType.EntityFactory<E> factory, float width, float height, SpawnGroup group, boolean notInPeaceful)
+	{
+		if (notInPeaceful) {return register(key.getValue().getPath(), EntityType.Builder.create(factory, group).notAllowedInPeaceful().dimensions(width, height).build(key));}
+		else {return register(key, factory, width, height, group);}
 	}
 
 	public static <E extends Entity> EntityType<E> register(RegistryKey<EntityType<?>> key, EntityType.EntityFactory<E> factory, float width, float height, SpawnGroup group)

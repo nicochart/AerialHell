@@ -40,6 +40,6 @@ public class BiomeShifterBlock extends BlockWithEntity
 
     @Nullable @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type)
     {
-        return world.isClient ? null : validateTicker(type, AerialHellBlockEntities.BIOME_SHIFTER, BiomeShifterBlockEntity::tick);
+        return world.isClient() ? null : validateTicker(type, AerialHellBlockEntities.BIOME_SHIFTER, BiomeShifterBlockEntity::tick);
     }
 }

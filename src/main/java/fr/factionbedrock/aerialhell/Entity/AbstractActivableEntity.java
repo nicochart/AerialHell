@@ -49,7 +49,7 @@ public abstract class AbstractActivableEntity extends HostileEntity
 	public void tick()
 	{
 		super.tick();
-		if (this.getWorld().getClosestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToActivate(), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR) != null)
+		if (this.getEntityWorld().getClosestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToActivate(), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR) != null)
 		{
 			if (!this.isActive() && this.timeClosePlayer >= this.getMinTimeToActivate())
 			{
@@ -60,7 +60,7 @@ public abstract class AbstractActivableEntity extends HostileEntity
 
 			if (this.isActive() && this.timeWithoutAnyTarget > 0) {this.timeWithoutAnyTarget--;}
 		}
-		else if (this.getWorld().getClosestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToDeactivate(), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR) == null)
+		else if (this.getEntityWorld().getClosestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToDeactivate(), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR) == null)
 		{			
 			if (timeWithoutAnyTarget < 120) {timeWithoutAnyTarget++;}
 			else if (this.playerHitTimer <= 0 && timeWithoutAnyTarget == 120)

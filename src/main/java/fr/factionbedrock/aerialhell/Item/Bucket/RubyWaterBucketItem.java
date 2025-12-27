@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidFillable;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,6 +21,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import org.jetbrains.annotations.Nullable;
 
 public class RubyWaterBucketItem extends Item
@@ -78,7 +78,7 @@ public class RubyWaterBucketItem extends Item
         {
             return rayTrace != null && this.tryPlaceContainedLiquid(player, world, rayTrace.getBlockPos().offset(rayTrace.getSide()), (BlockHitResult)null);
         }
-        else if (world.getDimension().ultrawarm())
+        else if (world.getEnvironmentAttributes().getAttributeValue(EnvironmentAttributes.WATER_EVAPORATES_GAMEPLAY, pos))
         {
             int i = pos.getX();
             int j = pos.getY();

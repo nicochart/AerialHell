@@ -34,8 +34,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraft.world.rule.GameRules;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -130,7 +130,7 @@ public class AerialHellPaintingEntity extends AbstractDecorationEntity
     {
         view.put("facing", Direction.HORIZONTAL_QUARTER_TURNS_CODEC, this.getHorizontalFacing());
         super.writeCustomData(view);
-        Variants.writeVariantToNbt(view, this.getVariant());
+        Variants.writeData(view, this.getVariant());
     }
 
     @Override protected void readCustomData(ReadView view)
@@ -138,7 +138,7 @@ public class AerialHellPaintingEntity extends AbstractDecorationEntity
         Direction direction = (Direction)view.read("facing", Direction.HORIZONTAL_QUARTER_TURNS_CODEC).orElse(Direction.SOUTH);
         super.readCustomData(view);
         this.setFacing(direction);
-        Variants.readVariantFromNbt(view, RegistryKeys.PAINTING_VARIANT).ifPresent(this::setVariant);
+        Variants.fromData(view, RegistryKeys.PAINTING_VARIANT).ifPresent(this::setVariant);
     }
 
     @Override protected Box calculateBoundingBox(BlockPos pos, Direction side)
@@ -161,7 +161,7 @@ public class AerialHellPaintingEntity extends AbstractDecorationEntity
 
     @Override public void onBreak(ServerWorld world, @Nullable Entity breaker)
     {
-        if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS))
+        if (world.getGameRules().getValue(GameRules.ENTITY_DROPS))
         {
             this.playSound(SoundEvents.ENTITY_PAINTING_BREAK, 1.0F, 1.0F);
             if (breaker instanceof PlayerEntity playerEntity && playerEntity.isInCreativeMode()) {return;}

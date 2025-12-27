@@ -110,7 +110,7 @@ public class GhastLikeGoals
             for (int i = 1; i < steps; i++)
             {
                 box = box.offset(direction);
-                if (!this.parentEntity.getWorld().isSpaceEmpty(this.parentEntity, box)) {return false;}
+                if (!this.parentEntity.getEntityWorld().isSpaceEmpty(this.parentEntity, box)) {return false;}
             }
             return true;
         }
@@ -209,7 +209,7 @@ public class GhastLikeGoals
         {
             if (this.getShootSound() != null) //if it's time to play shoot sound
             {
-                this.parentEntity.playSound(this.getShootSound(), 3.0F, (this.parentEntity.getWorld().random.nextFloat() - this.parentEntity.getWorld().random.nextFloat()) * 0.2F + 1.0F);
+                this.parentEntity.playSound(this.getShootSound(), 3.0F, (this.parentEntity.getEntityWorld().random.nextFloat() - this.parentEntity.getEntityWorld().random.nextFloat()) * 0.2F + 1.0F);
                 return true;
             }
             return false;
@@ -227,7 +227,7 @@ public class GhastLikeGoals
 
         protected void shootWithSound(LivingEntity target)
         {
-            this.parentEntity.getWorld().spawnEntity(createProjectile(target));
+            this.parentEntity.getEntityWorld().spawnEntity(createProjectile(target));
             this.tryPlayingShootSound();
         }
 
@@ -236,7 +236,7 @@ public class GhastLikeGoals
             double Xdistance = target.getX() - (this.parentEntity.getX());
             double Ydistance = target.getBodyY(0.5)  -  this.parentEntity.getBodyY(0.5);
             double Zdistance = target.getZ() - (this.parentEntity.getZ());
-            ProjectileEntity projectile = this.createProjectile(this.parentEntity.getWorld(), this.parentEntity, Xdistance, Ydistance, Zdistance);
+            ProjectileEntity projectile = this.createProjectile(this.parentEntity.getEntityWorld(), this.parentEntity, Xdistance, Ydistance, Zdistance);
             projectile.setPos(this.parentEntity.getX(), this.parentEntity.getBodyY(0.5) + this.getYProjectileOffset(), this.parentEntity.getZ());
             return projectile;
         }

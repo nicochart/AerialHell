@@ -144,7 +144,7 @@ public class ItemHelper
 
     public static void removeEffectCuredBy(LivingEntity livingEntity, ItemStack stack)
     {
-        if (livingEntity.getWorld().isClient) {return;}
+        if (livingEntity.getEntityWorld().isClient()) {return;}
 
         if (stack.isOf(AerialHellItems.SHADOW_FRUIT_STEW))
         {

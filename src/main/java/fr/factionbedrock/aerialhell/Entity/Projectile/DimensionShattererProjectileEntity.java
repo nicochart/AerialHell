@@ -47,7 +47,7 @@ public class DimensionShattererProjectileEntity extends AbstractFireballEntity
 
 	@Override public void tick()
 	{
-		if (this.getWorld().isClient || (this.getOwner() == null || !this.getOwner().isRemoved()) && this.getWorld().isChunkLoaded(this.getBlockPos()))
+		if (this.getEntityWorld().isClient() || (this.getOwner() == null || !this.getOwner().isRemoved()) && this.getEntityWorld().isChunkLoaded(this.getBlockPos()))
 		{
 			Vec3d vec3 = this.getVelocity();
 			double d0 = this.getX() + vec3.x;
@@ -55,13 +55,13 @@ public class DimensionShattererProjectileEntity extends AbstractFireballEntity
 			double d2 = this.getZ() + vec3.z;
 			ProjectileUtil.setRotationFromVelocity(this, 0.2F);
 			ParticleEffect particleoptions = this.getParticleType();
-			if (particleoptions != null) {this.getWorld().addParticleClient(particleoptions, d0, d1 + 0.5, d2, 0.0, 0.0, 0.0);}
+			if (particleoptions != null) {this.getEntityWorld().addParticleClient(particleoptions, d0, d1 + 0.5, d2, 0.0, 0.0, 0.0);}
 			this.setPos(d0, d1, d2);
 		}
 
 		if (this.age < 100)
 		{
-			if (!this.getWorld().isClient)
+			if (!this.getEntityWorld().isClient())
 			{
 				BlockPos pos;
 				for (int x=-2; x<=2; x++)
@@ -72,19 +72,19 @@ public class DimensionShattererProjectileEntity extends AbstractFireballEntity
 						{
 							if (!((Math.abs(x) == 2 && Math.abs(y) == 2) || (Math.abs(x) == 2 && Math.abs(z) == 2) || (Math.abs(y) == 2 && Math.abs(z) == 2)))
 							{
-								pos = new BlockPos((int) (this.getPos().x - 0.5F + x), (int) (this.getPos().y + 0.5F + y), (int) (this.getPos().z - 0.5F + z));
-								BlockState beforeState = this.getWorld().getBlockState(pos);
+								pos = new BlockPos((int) (this.getX() - 0.5F + x), (int) (this.getY() + 0.5F + y), (int) (this.getZ() - 0.5F + z));
+								BlockState beforeState = this.getEntityWorld().getBlockState(pos);
 								if (!beforeState.isAir())
 								{
 									if (beforeState.getBlock() != AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK)
 									{
 										IntangibleTemporaryBlock intangibleBlock = ((IntangibleTemporaryBlock) AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK);
-										this.getWorld().setBlockState(pos, intangibleBlock.getDefaultState(), 2);
-										BlockHelper.setIntangibleTemporaryBlockEntityBeforeState(this.getWorld(), pos, beforeState);
+										this.getEntityWorld().setBlockState(pos, intangibleBlock.getDefaultState(), 2);
+										BlockHelper.setIntangibleTemporaryBlockEntityBeforeState(this.getEntityWorld(), pos, beforeState);
 									}
 									else
 									{
-										BlockEntity blockentity = this.getWorld().getBlockEntity(pos);
+										BlockEntity blockentity = this.getEntityWorld().getBlockEntity(pos);
 										if (blockentity instanceof IntangibleTemporaryBlockEntity intangibleBlockEntity) {intangibleBlockEntity.resetTickCount();}
 									}
 								}

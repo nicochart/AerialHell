@@ -135,12 +135,12 @@ public class MudCycleMageEntity extends AbstractBossEntity
 
 	private void playSummonParticles(int number)
 	{
-		if (this.getWorld().isClient())
+		if (this.getEntityWorld().isClient())
 		{
 			for(int i = 0; i < number; ++i)
 			{
 				double d0 = random.nextGaussian() * 0.02D; double d1 = random.nextGaussian() * 0.02D; double d2 = random.nextGaussian() * 0.02D;
-				this.getWorld().addParticleClient(ParticleTypes.LARGE_SMOKE, this.getParticleX(1.0D) - d0 * 10.0D, this.getRandomBodyY() - d1 * 10.0D, this.getParticleZ(1.0D) - d2 * 10.0D, 0.25 * (random.nextFloat() - 0.5), 0.2D, 0.25 * (random.nextFloat() - 0.5));
+				this.getEntityWorld().addParticleClient(ParticleTypes.LARGE_SMOKE, this.getParticleX(1.0D) - d0 * 10.0D, this.getRandomBodyY() - d1 * 10.0D, this.getParticleZ(1.0D) - d2 * 10.0D, 0.25 * (random.nextFloat() - 0.5), 0.2D, 0.25 * (random.nextFloat() - 0.5));
 			}
 		}
 	}
@@ -174,7 +174,7 @@ public class MudCycleMageEntity extends AbstractBossEntity
 
 		protected MudSpectralSoldierEntity createMudSpectralSoldier()
 		{
-			MudSpectralSoldierEntity entity = AerialHellEntities.MUD_SPECTRAL_SOLDIER.create(this.getGoalOwner().getWorld(), SpawnReason.MOB_SUMMONED);
+			MudSpectralSoldierEntity entity = AerialHellEntities.MUD_SPECTRAL_SOLDIER.create(this.getGoalOwner().getEntityWorld(), SpawnReason.MOB_SUMMONED);
 			entity.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
 			entity.updateAttackType();
 			return entity;
@@ -182,19 +182,19 @@ public class MudCycleMageEntity extends AbstractBossEntity
 
 		protected MudSpectralGolemEntity createMudSpectralGolem()
 		{
-			return AerialHellEntities.MUD_SPECTRAL_GOLEM.create(this.getGoalOwner().getWorld(), SpawnReason.MOB_SUMMONED);
+			return AerialHellEntities.MUD_SPECTRAL_GOLEM.create(this.getGoalOwner().getEntityWorld(), SpawnReason.MOB_SUMMONED);
 		}
 
 		protected MudSpectralCycleMageEntity createClone()
 		{
-			MudSpectralCycleMageEntity entity = AerialHellEntities.MUD_SPECTRAL_CYCLE_MAGE.create(this.getGoalOwner().getWorld(), SpawnReason.MOB_SUMMONED);
+			MudSpectralCycleMageEntity entity = AerialHellEntities.MUD_SPECTRAL_CYCLE_MAGE.create(this.getGoalOwner().getEntityWorld(), SpawnReason.MOB_SUMMONED);
 			entity.setMaster(this.getMageGoalOwner());
 			return entity;
 		}
 
 		@Override protected void playEffect()
 		{
-			this.getGoalOwner().getWorld().sendEntityStatus(this.getGoalOwner(), (byte)5);
+			this.getGoalOwner().getEntityWorld().sendEntityStatus(this.getGoalOwner(), (byte)5);
 			super.playEffect();
 		}
 

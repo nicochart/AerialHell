@@ -22,7 +22,7 @@ public class OnBlockPlacedMixin
 	@Inject(method = "onPlaced", at = @At("HEAD"), cancellable = true)
 	private void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack, CallbackInfo callbackInfo)
 	{
-		if (world.isClient) {return;}
+		if (world.isClient()) {return;}
 
 		BlockState blockstate = world.getBlockState(pos);
 		if (blockstate.isIn(AerialHellTags.Blocks.DUNGEON_CORES))

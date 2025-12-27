@@ -79,7 +79,7 @@ public class FleeBlockGoal<T extends Block> extends Goal
                 for (int dz = -BOX_TO_CHECK_SIZE_XZ; dz <= BOX_TO_CHECK_SIZE_XZ; dz++)
                 {
                     BlockPos currentPos = new BlockPos(x+dx, y+dy, z+dz);
-                    Block currentBlock = this.goalOwner.getWorld().getBlockState(currentPos).getBlock();
+                    Block currentBlock = this.goalOwner.getEntityWorld().getBlockState(currentPos).getBlock();
                     for (Block block : blocksToAvoid)
                     {
                         if (currentBlock == block) {return currentPos;}

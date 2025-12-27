@@ -5,12 +5,8 @@ import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHa
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.RenderRegistrationListener;
 import fr.factionbedrock.aerialhell.Client.Packet.ClientPayloadHandler;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSpecialEffects;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Registry.AerialHellWoodTypes;
-import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
-import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
-import net.minecraft.client.render.DimensionEffects;
 
 public class AerialHellClientSetup
 {
@@ -41,9 +37,7 @@ public class AerialHellClientSetup
 
     public static void registerDimensionRenderInfo()
     {
-        //Sky render is done in RenderSkyMixin because can't get Fabric's DimensionRenderingRegistry.SkyRenderer to work
-        //AerialHellDimensionSpecialEffects renderInfo = new AerialHellDimensionSpecialEffects(DimensionEffects.SkyType.NORMAL, false, false);
-        //DimensionRenderingRegistry.registerSkyRenderer(AerialHellDimensions.AERIAL_HELL_DIMENSION, renderInfo);
-        DimensionRenderingRegistry.registerCloudRenderer(AerialHellDimensions.AERIAL_HELL_DIMENSION, new AerialHellDimensionSpecialEffects.AerialHellCloudRenderer());
+        //TODO remove clouds
+        //DimensionRenderingRegistry.registerCloudRenderer(AerialHellDimensions.AERIAL_HELL_DIMENSION, new AerialHellDimensionSpecialEffects.AerialHellCloudRenderer());
     }
 }

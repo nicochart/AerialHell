@@ -28,7 +28,7 @@ public class BramblesBlock extends AerialHellTallGrassBlock
 
 	@Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {builder.add(AerialHellBooleanProperties.SHIFTED_RENDER);}
 
-	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entityIn, EntityCollisionHandler handler)
+	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entityIn, EntityCollisionHandler handler, boolean intersects)
 	{
 		entityIn.slowMovement(state, new Vec3d((double)0.8F, 0.75D, (double)0.8F));
 		if (world instanceof ServerWorld serverWorld && entityIn instanceof LivingEntity livingEntity)

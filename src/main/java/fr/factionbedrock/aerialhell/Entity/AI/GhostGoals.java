@@ -75,7 +75,7 @@ public class GhostGoals
 
         public static boolean isStableDestination(PathAwareEntity mob, BlockPos pos)
         {
-            return !NavigationConditions.isInvalidPosition(mob.getNavigation(), pos) || mob.getWorld().getBlockState(pos).isIn(AerialHellTags.Blocks.GHOST_BLOCK);
+            return !NavigationConditions.isInvalidPosition(mob.getNavigation(), pos) || mob.getEntityWorld().getBlockState(pos).isIn(AerialHellTags.Blocks.GHOST_BLOCK);
         }
     }
 }

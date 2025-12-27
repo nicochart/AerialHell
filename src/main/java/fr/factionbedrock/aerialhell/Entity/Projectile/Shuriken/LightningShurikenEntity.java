@@ -47,13 +47,13 @@ public class LightningShurikenEntity extends AbstractShurikenEntity
 	
 	@Override protected void onCollision(HitResult result)
 	{
-		if (this.getWorld().isClient()) {return;}
+		if (this.getEntityWorld().isClient()) {return;}
 		
-		if (result.getType() != HitResult.Type.MISS && this.getWorld() instanceof ServerWorld)
+		if (result.getType() != HitResult.Type.MISS && this.getEntityWorld() instanceof ServerWorld)
 		{
-			LightningEntity lightningBolt = EntityType.LIGHTNING_BOLT.create(this.getWorld(), SpawnReason.TRIGGERED);
+			LightningEntity lightningBolt = EntityType.LIGHTNING_BOLT.create(this.getEntityWorld(), SpawnReason.TRIGGERED);
 			lightningBolt.setPos(this.getX(), this.getY(), this.getZ());
-			this.getWorld().spawnEntity(lightningBolt);
+			this.getEntityWorld().spawnEntity(lightningBolt);
 		}
 		super.onCollision(result);
 	}

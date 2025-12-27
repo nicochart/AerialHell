@@ -48,7 +48,7 @@ public abstract class AbstractHumanoidMonster extends ZombieEntity
     @Override public void setBaby(boolean isBaby)
     {
         super.setBaby(isBaby);
-        if (!this.getWorld().isClient)
+        if (!this.getEntityWorld().isClient())
         {
             EntityAttributeInstance attributeinstance = this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED);
             attributeinstance.removeModifier(BABY_SPEED_MODIFIER_ID);

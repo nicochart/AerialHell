@@ -22,7 +22,7 @@ public class DeadRootsBlock extends AerialHellTwistingVinesBlock
     }
 
     @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean intersects)
     {
         if (world instanceof ServerWorld serverWorld && entity instanceof LivingEntity && !isEntityImmuneToDamage(entity))
         {

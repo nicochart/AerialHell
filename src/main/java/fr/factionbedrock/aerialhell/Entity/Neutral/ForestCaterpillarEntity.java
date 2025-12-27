@@ -42,8 +42,8 @@ public class ForestCaterpillarEntity extends AbstractCaterpillarEntity
 	         if (entityIn instanceof LivingEntity)
 	         {
 	            int i = 0;
-	            if (this.getWorld().getDifficulty() == Difficulty.NORMAL) {i = 4;}
-	            else if (this.getWorld().getDifficulty() == Difficulty.HARD) {i = 9;}
+	            if (this.getEntityWorld().getDifficulty() == Difficulty.NORMAL) {i = 4;}
+	            else if (this.getEntityWorld().getDifficulty() == Difficulty.HARD) {i = 9;}
 
 	            if (i > 0)
 	            {

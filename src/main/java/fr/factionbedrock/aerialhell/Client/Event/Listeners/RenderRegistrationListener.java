@@ -26,7 +26,7 @@ public class RenderRegistrationListener
 
         BlockRenderLayer translucent = BlockRenderLayer.TRANSLUCENT;
         BlockRenderLayer cutout = BlockRenderLayer.CUTOUT;
-        BlockRenderLayer cutout_mipped = BlockRenderLayer.CUTOUT_MIPPED;
+        BlockRenderLayer cutout_mipped = BlockRenderLayer.SOLID; //TODO check
 
         BlockRenderLayerMap.putBlock(AerialHellBlocks.AERIAL_HELL_PORTAL, translucent);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.GHOST_BOAT_CHEST, translucent);

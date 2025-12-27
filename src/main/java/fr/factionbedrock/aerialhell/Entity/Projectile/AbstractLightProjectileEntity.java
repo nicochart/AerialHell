@@ -38,12 +38,12 @@ public abstract class AbstractLightProjectileEntity extends ThrownEntity
     @Override public void tick()
     {
     	double d1,d2,d3; d1 = 0.5D - random.nextFloat(); d2 = 0.5D - random.nextFloat(); d3 = 0.5D - random.nextFloat();
-        this.getWorld().addParticleClient(this.getFlyParticle(), this.getX() + d1, this.getY() + 0.3D + d2, this.getZ() + d3, d1, d2, d3);
+        this.getEntityWorld().addParticleClient(this.getFlyParticle(), this.getX() + d1, this.getY() + 0.3D + d2, this.getZ() + d3, d1, d2, d3);
         super.tick();
         if (!this.isOnGround()) {++this.ticksInAir;}
         if (this.ticksInAir > 300) {this.discard();}
-        if (this.getWorld().getBlockState(this.getBlockPos()).isIn(AerialHellTags.Blocks.SOLID_ETHER)) {this.playHitEffect(); this.discard();}
-        if (this.getWorld() instanceof ServerWorld serverWorld)
+        if (this.getEntityWorld().getBlockState(this.getBlockPos()).isIn(AerialHellTags.Blocks.SOLID_ETHER)) {this.playHitEffect(); this.discard();}
+        if (this.getEntityWorld() instanceof ServerWorld serverWorld)
         {
             transformBlocks(serverWorld, this, this.getShiftType());
         }
@@ -61,7 +61,7 @@ public abstract class AbstractLightProjectileEntity extends ThrownEntity
                 {
                     if (!((Math.abs(x) == 2 && Math.abs(y) == 2) || (Math.abs(x) == 2 && Math.abs(z) == 2) || (Math.abs(y) == 2 && Math.abs(z) == 2)))
                     {
-                        pos = new BlockPos((int) (projectile.getPos().x - 0.5F + x), (int) (projectile.getPos().y + 0.5F + y), (int) (projectile.getPos().z - 0.5F + z));
+                        pos = new BlockPos((int) (projectile.getX() - 0.5F + x), (int) (projectile.getY() + 0.5F + y), (int) (projectile.getZ() - 0.5F + z));
                         if (shiftType == BiomeShifter.ShiftType.UNCORRUPT && BlockHelper.isCorrupted(world, pos))
                         {
                             BlockHelper.uncorrupt(world, pos);
@@ -82,17 +82,17 @@ public abstract class AbstractLightProjectileEntity extends ThrownEntity
     {
         this.playHitEffect();
         super.onCollision(result);
-        if (result.getType() != HitResult.Type.ENTITY && !this.getWorld().isClient()) {this.discard();}
+        if (result.getType() != HitResult.Type.ENTITY && !this.getEntityWorld().isClient()) {this.discard();}
     }
 
     public void playHitEffect()
     {
         double d1,d2,d3,d4,d5,d6;
         d1 = 0.5D - random.nextFloat(); d2 = 0.5D - random.nextFloat(); d3 = 0.5D - random.nextFloat(); d4 = 0.5D - random.nextFloat(); d5 = 0.5D - random.nextFloat(); d6 = 0.5D - random.nextFloat();
-        this.getWorld().addParticleClient(this.getImpactParticle(), this.getX() - d1, this.getY() - d2, this.getZ() - d3, -d1, -d2, -d3);
-        this.getWorld().addParticleClient(this.getImpactParticle(), this.getX() - d4, this.getY() - d5, this.getZ() - d6, -d4, -d5, -d6);
-        this.getWorld().addParticleClient(this.getFlyParticle(), this.getX() + d1, this.getY() + d2, this.getZ() + d3, d1, d2, d3);
-        this.getWorld().addParticleClient(this.getFlyParticle(), this.getX() + d4, this.getY() + d5, this.getZ() + d6, d4, d5, d6);
+        this.getEntityWorld().addParticleClient(this.getImpactParticle(), this.getX() - d1, this.getY() - d2, this.getZ() - d3, -d1, -d2, -d3);
+        this.getEntityWorld().addParticleClient(this.getImpactParticle(), this.getX() - d4, this.getY() - d5, this.getZ() - d6, -d4, -d5, -d6);
+        this.getEntityWorld().addParticleClient(this.getFlyParticle(), this.getX() + d1, this.getY() + d2, this.getZ() + d3, d1, d2, d3);
+        this.getEntityWorld().addParticleClient(this.getFlyParticle(), this.getX() + d4, this.getY() + d5, this.getZ() + d6, d4, d5, d6);
         this.playDisappearSound(1, 0.75F + 0.5F * random.nextFloat());
     }
 

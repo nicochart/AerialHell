@@ -36,7 +36,7 @@ public class SkyCactusBlock extends CactusBlock
 	
 	/*Edited onEntityCollision to deal more damage and to make the player jump*/
 	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
+	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean intersects)
 	{
 		if (EntityHelper.isImmuneToSkyCactusCollision(entity)) {return;}
 		Vec3d motion = entity.getVelocity();

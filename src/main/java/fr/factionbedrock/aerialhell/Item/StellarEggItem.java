@@ -20,7 +20,7 @@ public class StellarEggItem extends EggItem
     {
         ItemStack itemstack = user.getStackInHand(hand);
         world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
-        if (!world.isClient)
+        if (!world.isClient())
         {
             ThrownStellarEgg projectile = new ThrownStellarEgg(world, user);
             projectile.setItem(itemstack);

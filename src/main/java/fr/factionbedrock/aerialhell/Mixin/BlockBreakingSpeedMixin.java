@@ -37,7 +37,7 @@ public class BlockBreakingSpeedMixin
         {
             if (!BlockHelper.isItemCorrectForHarvesting(blockstate, selectedItemStack.getItem()))
             {
-                if (blockstate.isOf(AerialHellBlocks.VOLUCITE_ORE) && !player.getWorld().isClient())
+                if (blockstate.isOf(AerialHellBlocks.VOLUCITE_ORE) && !player.getEntityWorld().isClient())
                 {
                     player.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 40, 0));
                 }

@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.gui.hud.InGameOverlayRenderer;
 import net.minecraft.client.render.*;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
@@ -26,7 +27,7 @@ public class RenderBlockOverlayMixin
     private static final Identifier ENCHANTED_GLINT = Identifier.ofVanilla("textures/misc/enchanted_glint_entity.png");
 
     @Inject(method = "renderOverlays", at = @At("HEAD"), cancellable = true)
-    private void renderOverlays(boolean sleeping, float tickProgress, CallbackInfo callbackInfo)
+    private void renderOverlays(boolean sleeping, float tickProgress, OrderedRenderCommandQueue queue, CallbackInfo callbackInfo)
     {
         InGameOverlayRenderer renderer = (InGameOverlayRenderer) (Object) this;
         PlayerEntity player = renderer.client.player;
@@ -76,12 +77,12 @@ public class RenderBlockOverlayMixin
     private static void renderCustomOverlay(PlayerEntity player, MatrixStack matrices, VertexConsumerProvider vertexConsumers, Identifier texture)
     {
         BlockPos blockPos = BlockPos.ofFloored(player.getX(), player.getEyeY(), player.getZ());
-        float brightness = LightmapTextureManager.getBrightness(player.getWorld().getDimension(), player.getWorld().getLightLevel(blockPos));
+        float brightness = LightmapTextureManager.getBrightness(player.getEntityWorld().getDimension(), player.getEntityWorld().getLightLevel(blockPos));
         int color = ColorHelper.fromFloats(0.9F, brightness, brightness, brightness);
         float yaw = -player.getYaw() / 64.0F;
         float pitch = player.getPitch() / 64.0F;
         Matrix4f matrix4f = matrices.peek().getPositionMatrix();
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getBlockScreenEffect(texture));
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayers.blockScreenEffect(texture));
         vertexConsumer.vertex(matrix4f, -1.0F, -1.0F, -0.5F).texture(4.0F + yaw, 4.0F + pitch).color(color);
         vertexConsumer.vertex(matrix4f, 1.0F, -1.0F, -0.5F).texture(0.0F + yaw, 4.0F + pitch).color(color);
         vertexConsumer.vertex(matrix4f, 1.0F, 1.0F, -0.5F).texture(0.0F + yaw, 0.0F + pitch).color(color);

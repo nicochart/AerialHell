@@ -174,7 +174,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	
 	@Override public void tick()
     {
-		if (random.nextFloat() > 0.5 && this.getWorld().isClient()) {spawnParticles(AerialHellParticleTypes.GOD_FLAME, 1, -0.06D);}
+		if (random.nextFloat() > 0.5 && this.getEntityWorld().isClient()) {spawnParticles(AerialHellParticleTypes.GOD_FLAME, 1, -0.06D);}
 
 		if (this.isImploding()) {this.runRoarEffects(NearbyEntitiesInteractionType.DRAG);}
 		if (this.isUnchaining()) {this.runRoarEffects();}
@@ -214,7 +214,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	protected void runTransitionEffect()
 	{
-		if (this.getWorld().isClient()) {this.spawnParticles(ParticleTypes.SMALL_FLAME, 5, -0.06D);}
+		if (this.getEntityWorld().isClient()) {this.spawnParticles(ParticleTypes.SMALL_FLAME, 5, -0.06D);}
 		this.runRoarEffects(NearbyEntitiesInteractionType.REPULSE);
 	}
 
@@ -224,13 +224,13 @@ public class ChainedGodEntity extends AbstractBossEntity
 	{
 		if (this.random.nextInt(4) == 0) {this.makeRandomRoofBlockFall(5, 15, 12, 20);}
 		this.dragOrRepulseEntities(type);
-		if (this.getWorld().isClient()) {this.spawnParticles(ParticleTypes.LAVA, 5, 0.5D);}
+		if (this.getEntityWorld().isClient()) {this.spawnParticles(ParticleTypes.LAVA, 5, 0.5D);}
 	}
 
 	protected void dragOrRepulseEntities(NearbyEntitiesInteractionType type)
 	{
 		if (type == NearbyEntitiesInteractionType.NONE) {return;}
-		List<Entity> nearbyEntities = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(20), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), 15));
+		List<Entity> nearbyEntities = this.getEntityWorld().getOtherEntities(this, this.getBoundingBox().expand(20), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), 15));
 		for (Entity entity : nearbyEntities)
 		{
 			if (entity instanceof LivingEntity && !EntityHelper.isImmuneToChainedGodDrag(entity)) {dragEntity(entity, type);}
@@ -255,7 +255,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 			double z = getZ() + (random.nextFloat() - 0.5F) * rand;
 			double dx = (random.nextFloat() - 0.5F)/10;
 			double dz = (random.nextFloat() - 0.5F)/10;
-			this.getWorld().addParticleClient(type, x, y, z, dx, dy, dz);
+			this.getEntityWorld().addParticleClient(type, x, y, z, dx, dy, dz);
 		}
 	}
 
@@ -270,9 +270,9 @@ public class ChainedGodEntity extends AbstractBossEntity
 			{
 				for (z=-xzRadius;z<=xzRadius;z++)
 				{
-					if (getWorld().getBlockState(pos.add(x, y, z)).isIn(AerialHellTags.Blocks.CHAINED_GOD_CAN_WALK_DESTROY))
+					if (getEntityWorld().getBlockState(pos.add(x, y, z)).isIn(AerialHellTags.Blocks.CHAINED_GOD_CAN_WALK_DESTROY))
 					{
-						getWorld().breakBlock(pos.add(x, y, z), this.random.nextInt(3) > 1);
+						getEntityWorld().breakBlock(pos.add(x, y, z), this.random.nextInt(3) > 1);
 					}
 				}
 			}
@@ -290,7 +290,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 	@Override public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
 	{
 		DamageSource damagesource = this.getDamageSources().mobAttack(this);
-		this.getWorld().sendEntityStatus(this, (byte)4);
+		this.getEntityWorld().sendEntityStatus(this, (byte)4);
 		float f = (float)this.getAttributeValue(EntityAttributes.ATTACK_DAMAGE);
 		float amount = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
 		float kb = (float)this.getAttributeValue(EntityAttributes.ATTACK_KNOCKBACK);
@@ -299,7 +299,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		{
 			((LivingEntity)attackedEntity).takeKnockback(kb * 0.5F, (double) MathHelper.sin(this.getYaw() * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(this.getYaw() * ((float)Math.PI / 180F))));
 			attackedEntity.setVelocity(attackedEntity.getVelocity().x, (double)0.8F, attackedEntity.getVelocity().z);
-			if (getWorld() instanceof ServerWorld serverLevel) {EnchantmentHelper.onTargetDamaged(serverLevel, attackedEntity, damagesource);}
+			if (getEntityWorld() instanceof ServerWorld serverLevel) {EnchantmentHelper.onTargetDamaged(serverLevel, attackedEntity, damagesource);}
 		}
 
 		this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);
@@ -358,7 +358,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	protected void implode()
 	{
-		World world = this.getWorld();
+		World world = this.getEntityWorld();
 		if (!world.isClient())
 		{
 			world.createExplosion(this, this.getX(), this.getY(), this.getZ(), (float)5, World.ExplosionSourceType.MOB);
@@ -368,7 +368,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	public void spawnImplosionParticle()
 	{
-		World world = this.getWorld();
+		World world = this.getEntityWorld();
 		if (world.isClient())
 		{
 			for(int i = 0; i < 30; ++i)
@@ -424,7 +424,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		}
 
 		public void playUnchainingEffect() {}
-		private void immobilizeGoalOwner() {if (!this.goalOwner.getWorld().isClient()) {this.goalOwner.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, this.getTimeToUnchain() * 2, 10, true, false));}}
+		private void immobilizeGoalOwner() {if (!this.goalOwner.getEntityWorld().isClient()) {this.goalOwner.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, this.getTimeToUnchain() * 2, 10, true, false));}}
 
 		public int getTimeToUnchain() {return 38;} //tick/2
 		protected boolean canUnchain() {return this.timeSinceUnchaining > getTimeToUnchain();}
@@ -522,7 +522,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		}
 
 		protected void playStartImplodingSound() {this.goalOwner.playRoarSound(1.0F);}
-		private void immobilizeGoalOwner() {if (!this.goalOwner.getWorld().isClient()) {this.goalOwner.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20, 10, true, false));}}
+		private void immobilizeGoalOwner() {if (!this.goalOwner.getEntityWorld().isClient()) {this.goalOwner.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20, 10, true, false));}}
 
 		public int getSoundOffset() {return 12;}
 		public int getImplodeTimerTargetValue() {return 600;}
@@ -547,7 +547,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 		@Override public Entity createEntity()
 		{
-			return AerialHellEntities.TORN_SPIRIT.create(this.getGoalOwner().getWorld(), SpawnReason.MOB_SUMMONED);
+			return AerialHellEntities.TORN_SPIRIT.create(this.getGoalOwner().getEntityWorld(), SpawnReason.MOB_SUMMONED);
 		}
 
 		@Override protected void setEntityPosToSummonPos(Entity entity) {entity.setPos(this.getGoalOwner().getX(), this.getGoalOwner().getY() + 1.0, this.getGoalOwner().getZ());}

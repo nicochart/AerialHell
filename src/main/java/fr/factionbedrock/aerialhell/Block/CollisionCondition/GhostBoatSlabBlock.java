@@ -23,7 +23,7 @@ public class GhostBoatSlabBlock extends SlabBlock
 		this.setDefaultState(this.getDefaultState());
 	}
 
-	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
+	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean intersects)
 	{
 		entity.fallDistance = 0.0F;
 		if (entity.getVelocity().y < 0.0)

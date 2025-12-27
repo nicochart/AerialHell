@@ -35,7 +35,7 @@ public class LunaticProjectileEntity extends AbstractLightProjectileEntity
     protected void onCollision(HitResult result)
     {
         super.onCollision(result);
-    	this.getWorld().addParticleClient(ParticleTypes.CLOUD, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+    	this.getEntityWorld().addParticleClient(ParticleTypes.CLOUD, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
     }
     
     private boolean targetIsImmuneToLunaticProjectileKb(Entity target) //target is not a ChainedGod or Lunatic Priest
@@ -53,7 +53,7 @@ public class LunaticProjectileEntity extends AbstractLightProjectileEntity
         	target.serverDamage(this.getDamageSources().thrown(this, getOwner()), 5);
             float amount = 4.0F;
             if (EntityHelper.isShadowEntity(target) || (target instanceof LivingEntity && EntityHelper.isLivingEntityVulnerable((LivingEntity) target))) {amount*=2;}
-            target.serverDamage(AerialHellDamageTypes.getDamageSource(this.getWorld(), AerialHellDamageTypes.LUNATIC_PROJECTION), amount);
+            target.serverDamage(AerialHellDamageTypes.getDamageSource(this.getEntityWorld(), AerialHellDamageTypes.LUNATIC_PROJECTION), amount);
             if (!targetIsImmuneToLunaticProjectileKb(target))
             {
             	target.addVelocity(this.getVelocity().x, 0.3D, this.getVelocity().z);

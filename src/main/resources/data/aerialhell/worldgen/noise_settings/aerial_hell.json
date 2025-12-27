@@ -77,6 +77,7 @@
         }
       }
     },
+    "preliminary_surface_level": 0,
     "final_density": {
       "type": "minecraft:add",
       "argument1": {

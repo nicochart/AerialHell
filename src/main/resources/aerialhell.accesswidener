@@ -10,6 +10,9 @@ accessible field net/minecraft/entity/LivingEntity lastDamageTime J
 accessible field net/minecraft/entity/LivingEntity lastDamageTaken F
 #accessible method net/minecraft/entity/LivingEntity applyDamage (Lnet/minecraft/entity/damage/DamageSource;F)V
 
+#MobEntity - Used in ShadowTrollEntity
+accessible method net/minecraft/entity/mob/MobEntity isAffectedByDaylight ()Z
+
 #ZombieEntity
 accessible field net/minecraft/entity/mob/ZombieEntity BABY_SPEED_MODIFIER_ID Lnet/minecraft/util/Identifier;
 
@@ -26,7 +29,6 @@ accessible field net/minecraft/screen/CraftingScreenHandler context Lnet/minecra
 accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestLeft Lnet/minecraft/client/render/block/entity/model/ChestBlockModel;
 accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestRight Lnet/minecraft/client/render/block/entity/model/ChestBlockModel;
 accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer singleChest Lnet/minecraft/client/render/block/entity/model/ChestBlockModel;
-accessible method net/minecraft/client/render/block/entity/ChestBlockEntityRenderer render (Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;Lnet/minecraft/client/render/block/entity/model/ChestBlockModel;FII)V
 
 #ShiftableLeavesBlock
 accessible field net/minecraft/block/LeavesBlock leafParticleChance F
@@ -42,6 +44,7 @@ accessible field net/minecraft/client/gui/hud/InGameOverlayRenderer client Lnet/
 accessible field net/minecraft/client/gui/hud/InGameOverlayRenderer vertexConsumers Lnet/minecraft/client/render/VertexConsumerProvider;
 
 #WorldRenderer
+accessible field net/minecraft/client/render/WorldRenderer worldRenderState Lnet/minecraft/client/render/state/WorldRenderState;
 #accessible field net/minecraft/client/render/WorldRenderer lightSkyBuffer Lnet/minecraft/client/gl/VertexBuffer;
 accessible field net/minecraft/client/render/GameRenderer fogRenderer Lnet/minecraft/client/render/fog/FogRenderer;
 

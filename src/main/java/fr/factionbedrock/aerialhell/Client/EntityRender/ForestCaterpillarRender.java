@@ -30,7 +30,7 @@ public class ForestCaterpillarRender<T extends AbstractCaterpillarEntity> extend
 	@Override public void updateRenderState(T entity, CaterpillarRenderState renderState, float f)
 	{
 		super.updateRenderState(entity, renderState, f);
-		renderState.grassARGB = new Color(BiomeColors.getGrassColor(entity.getWorld(), entity.getSteppingPos())).getRGB();
-		renderState.foliageARGB = new Color(BiomeColors.getFoliageColor(entity.getWorld(), entity.getSteppingPos())).getRGB();
+		renderState.grassARGB = new Color(BiomeColors.getGrassColor(entity.getEntityWorld(), entity.getSteppingPos())).getRGB();
+		renderState.foliageARGB = new Color(BiomeColors.getFoliageColor(entity.getEntityWorld(), entity.getSteppingPos())).getRGB();
 	}
 }

@@ -43,7 +43,6 @@ public abstract class AbstractFlyingProjectileShooterMob extends MobEntity imple
 	public boolean isAttacking() {return this.getDataTracker().get(ATTACKING);}
 	public void setAttacking(boolean isAttacking) {this.getDataTracker().set(ATTACKING, isAttacking);}
 
-	@Override protected boolean isDisallowedInPeaceful() {return true;}
 	@Override public boolean canImmediatelyDespawn(double distanceToClosestPlayer) {return true;}
 
 	@Override public void tickMovement()

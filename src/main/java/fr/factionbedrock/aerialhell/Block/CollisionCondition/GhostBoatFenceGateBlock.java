@@ -26,7 +26,7 @@ public class GhostBoatFenceGateBlock extends FenceGateBlock
 		return (!canEntityCollide(player) && !player.isCreative()) ? ActionResult.SUCCESS : super.onUse(state, world, pos, player, hit);
 	}
 
-	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
+	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean intersects)
 	{
 		entity.fallDistance = 0.0F;
 		if (entity.getVelocity().y < 0.0)

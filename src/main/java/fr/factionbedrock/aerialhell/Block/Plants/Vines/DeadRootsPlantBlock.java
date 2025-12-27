@@ -21,7 +21,7 @@ public class DeadRootsPlantBlock extends AerialHellTwistingVinesPlantBlock
         return ((entity instanceof SpiderEntity) || EntityHelper.isShadowEntity(entity) || EntityHelper.isMudEntity(entity)) || EntityHelper.isFeatheryEntity(entity) || EntityHelper.isImmuneToBramblesDamage(entity);
     }
 
-    @Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
+    @Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean intersects)
     {
         if (world instanceof ServerWorld serverWorld && entity instanceof LivingEntity && !isEntityImmuneToDamage(entity))
         {

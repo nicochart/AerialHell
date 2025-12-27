@@ -60,9 +60,9 @@ public class PoisonballEntity extends AbstractFireballEntity
 				{
 					ItemStack activeItemStack = livingEntity.getActiveItem();
 					//activeItemStack.damage(1, livingEntity, p -> p.broadcastBreakEvent(activeItemStack.getEquipmentSlot()));
-					this.getWorld().playSound((PlayerEntity) null, entity.getBlockPos(), SoundEvents.ITEM_SHIELD_BREAK.value(), SoundCategory.PLAYERS, 1.0F, 0.8F + this.getWorld().random.nextFloat() * 0.4F);
+					this.getEntityWorld().playSound((PlayerEntity) null, entity.getBlockPos(), SoundEvents.ITEM_SHIELD_BREAK.value(), SoundCategory.PLAYERS, 1.0F, 0.8F + this.getEntityWorld().random.nextFloat() * 0.4F);
 				}
-				if (!this.getWorld().isClient) {livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 0));}
+				if (!this.getEntityWorld().isClient()) {livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 0));}
 			}
 		}
 		this.discard();
@@ -73,7 +73,7 @@ public class PoisonballEntity extends AbstractFireballEntity
 	@Override public void tick()
 	{
 		Entity entity = this.getOwner();
-		if (this.getWorld().isClient || (entity == null || !entity.isRemoved()) && this.getWorld().isChunkLoaded(this.getBlockPos()))
+		if (this.getEntityWorld().isClient() || (entity == null || !entity.isRemoved()) && this.getEntityWorld().isChunkLoaded(this.getBlockPos()))
 		{
 			super.tick();
 			HitResult hitResult = ProjectileUtil.getCollision(this, this::canHit, this.getRaycastShapeType());

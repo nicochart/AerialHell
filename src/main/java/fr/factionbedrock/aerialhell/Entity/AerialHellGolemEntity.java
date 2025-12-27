@@ -55,7 +55,7 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
     {
         DamageSource damagesource = this.getDamageSources().mobAttack(this);
         float attackDamage = this.getAttackDamage();
-        this.getWorld().sendEntityStatus(this, (byte)4);
+        this.getEntityWorld().sendEntityStatus(this, (byte)4);
         float amount = (int)attackDamage > 0 ? attackDamage / 2.0F + (float)this.random.nextInt((int)attackDamage) : attackDamage;
         boolean flag = attackedEntity.damage(serverWorld, damagesource, amount);
         if (flag)

@@ -65,7 +65,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
 
     @Nullable @Override public PassiveEntity createChild(ServerWorld serverWorld, PassiveEntity mob)
     {
-        return AerialHellEntities.SANDY_SHEEP.create(this.getWorld(), SpawnReason.BREEDING);
+        return AerialHellEntities.SANDY_SHEEP.create(this.getEntityWorld(), SpawnReason.BREEDING);
     }
     
     public boolean hasWool() {return !this.getDataTracker().get(SHEARED);}
@@ -77,7 +77,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
 
     @Override protected void playStepSound(BlockPos pos, BlockState par4)
     {
-        this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_SHEEP_STEP, SoundCategory.NEUTRAL, 0.15F, 1.0F);
+        this.getEntityWorld().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_SHEEP_STEP, SoundCategory.NEUTRAL, 0.15F, 1.0F);
     }
 
     @Override protected void writeCustomData(WriteView view)
@@ -97,7 +97,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
     	if (this.hasWool())
     	{
     		this.setWool(false);
-            if (this.getWorld() instanceof ServerWorld serverWorld) {this.dropStack(serverWorld, new ItemStack(Items.YELLOW_WOOL));}
+            if (this.getEntityWorld() instanceof ServerWorld serverWorld) {this.dropStack(serverWorld, new ItemStack(Items.YELLOW_WOOL));}
 
     		for (int i=0;i<10;i++)
             {
@@ -107,7 +107,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
     			double z = getZ() + (random.nextFloat() - 0.5F) * rand;
     			double dx = (random.nextFloat() - 0.5F)/10;
     			double dz = (random.nextFloat() - 0.5F)/10;
-    			this.getWorld().addParticleClient(new BlockStateParticleEffect(ParticleTypes.BLOCK, AerialHellBlocks.SLIPPERY_SAND.getDefaultState()), x, y, z, dx, -0.06D, dz);
+    			this.getEntityWorld().addParticleClient(new BlockStateParticleEffect(ParticleTypes.BLOCK, AerialHellBlocks.SLIPPERY_SAND.getDefaultState()), x, y, z, dx, -0.06D, dz);
             }
     	}
         return false;

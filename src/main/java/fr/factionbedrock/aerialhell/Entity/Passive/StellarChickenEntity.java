@@ -57,7 +57,7 @@ public class StellarChickenEntity extends ChickenEntity
         super.tick();
     }
 
-    private int getBlockPositionTint() {return this.getWorld().getColor(this.getBlockPos(), Biome::getGrassColorAt);}
+    private int getBlockPositionTint() {return this.getEntityWorld().getColor(this.getBlockPos(), Biome::getGrassColorAt);}
 
     @Override protected void initDataTracker(DataTracker.Builder builder)
     {
@@ -96,7 +96,7 @@ public class StellarChickenEntity extends ChickenEntity
 
     @Nullable @Override public ChickenEntity createChild(ServerWorld world, PassiveEntity mob)
     {
-        StellarChickenEntity baby = AerialHellEntities.STELLAR_CHICKEN.create(this.getWorld(), SpawnReason.BREEDING);
+        StellarChickenEntity baby = AerialHellEntities.STELLAR_CHICKEN.create(this.getEntityWorld(), SpawnReason.BREEDING);
         baby.setColor(this.getColor());
         return baby;
     }

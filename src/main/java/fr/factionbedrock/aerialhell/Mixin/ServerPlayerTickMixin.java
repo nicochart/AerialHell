@@ -35,7 +35,7 @@ public class ServerPlayerTickMixin
         if (radius == 0) {return;}
 
         BlockPos playerPos = player.getBlockPos();
-        ServerWorld world = player.getWorld();
+        ServerWorld world = player.getEntityWorld();
 
         //structure block detection every 4 seconds
         if (player.age % 80 == 0)

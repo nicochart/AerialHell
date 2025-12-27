@@ -25,7 +25,7 @@ public class EntRender<E extends EntEntity> extends MobEntityRenderer<E, EntRend
     {
         super.updateRenderState(entity, renderState, partialTick);
         renderState.isAggressive = entity.isAttacking();
-        renderState.color = new Color(BiomeColors.getFoliageColor(entity.getWorld(), entity.getSteppingPos())).getRGB();
+        renderState.color = new Color(BiomeColors.getFoliageColor(entity.getEntityWorld(), entity.getSteppingPos())).getRGB();
         renderState.handSwingProgress = entity.getHandSwingProgress(partialTick);
     }
 

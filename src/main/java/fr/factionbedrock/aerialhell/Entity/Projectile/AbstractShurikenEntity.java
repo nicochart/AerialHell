@@ -63,13 +63,13 @@ public abstract class AbstractShurikenEntity extends ThrownItemEntity
 	@Override
 	protected void onCollision(HitResult result)
 	{
-		if (this.getWorld().isClient()) {return;}
-		if (result != null && result.getType() != HitResult.Type.MISS && this.getWorld() instanceof ServerWorld && result.getType() == HitResult.Type.ENTITY)
+		if (this.getEntityWorld().isClient()) {return;}
+		if (result != null && result.getType() != HitResult.Type.MISS && this.getEntityWorld() instanceof ServerWorld && result.getType() == HitResult.Type.ENTITY)
 		{
             Entity entity = ((EntityHitResult)result).getEntity();
-			if (this.getWorld() instanceof ServerWorld serverWorld)
+			if (this.getEntityWorld() instanceof ServerWorld serverWorld)
 			{
-				entity.damage(serverWorld, AerialHellDamageTypes.getDamageSource(this.getWorld(), AerialHellDamageTypes.SHURIKEN_HIT, this, this.getOwner()), this.getKnifeDamage());
+				entity.damage(serverWorld, AerialHellDamageTypes.getDamageSource(this.getEntityWorld(), AerialHellDamageTypes.SHURIKEN_HIT, this, this.getOwner()), this.getKnifeDamage());
 			}
             entity.setVelocity(entity.getVelocity().add(this.getVelocity().x / 2, 0.12F, this.getVelocity().z / 2));
             this.applyEntityImpactEffet(entity);

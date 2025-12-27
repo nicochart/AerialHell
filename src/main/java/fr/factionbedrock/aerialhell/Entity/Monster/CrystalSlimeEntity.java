@@ -75,8 +75,6 @@ public class CrystalSlimeEntity extends MobEntity
 		return new BlockStateParticleEffect(ParticleTypes.BLOCK, AerialHellBlocks.CRYSTAL_BLOCK.getDefaultState());
 	}
 
-	@Override protected boolean isDisallowedInPeaceful() {return true;}
-
 	@Override public void tick()
 	{
 		this.squish = this.squish + (this.targetSquish - this.squish) * 0.5F;
@@ -93,7 +91,7 @@ public class CrystalSlimeEntity extends MobEntity
 				float f3 = this.random.nextFloat() * 0.5F + 0.5F;
 				float f4 = MathHelper.sin(f2) * f1 * f3;
 				float f5 = MathHelper.cos(f2) * f1 * f3;
-				this.getWorld().addParticleClient(this.getParticleType(), this.getX() + (double)f4, this.getY(), this.getZ() + (double)f5, 0.0, 0.0, 0.0);
+				this.getEntityWorld().addParticleClient(this.getParticleType(), this.getX() + (double)f4, this.getY(), this.getZ() + (double)f5, 0.0, 0.0, 0.0);
 			}
 
 			this.playSound(this.getSquishSound(), this.getSoundVolume(), ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F) / 0.8F);
@@ -124,10 +122,10 @@ public class CrystalSlimeEntity extends MobEntity
 		if (this.isAlive() && this.isInAttackRange(livingEntity) && this.canSee(livingEntity))
 		{
 			DamageSource damagesource = this.getDamageSources().mobAttack(this);
-			if (this.getWorld() instanceof ServerWorld serverWorld && livingEntity.damage(serverWorld, damagesource, this.getAttackDamage()))
+			if (this.getEntityWorld() instanceof ServerWorld serverWorld && livingEntity.damage(serverWorld, damagesource, this.getAttackDamage()))
 			{
 				this.playSound(SoundEvents.ENTITY_SLIME_ATTACK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-				if (this.getWorld() instanceof ServerWorld serverlevel) {EnchantmentHelper.onTargetDamaged(serverlevel, livingEntity, damagesource);}
+				if (this.getEntityWorld() instanceof ServerWorld serverlevel) {EnchantmentHelper.onTargetDamaged(serverlevel, livingEntity, damagesource);}
 			}
 		}
 	}

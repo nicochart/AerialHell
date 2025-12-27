@@ -29,7 +29,7 @@ public class ServerPlayerInteractionManagerMixin
     @Inject(method = "tryBreakBlock", at = @At(value = "HEAD"))
     private void afterBlockBreak(BlockPos pos, CallbackInfoReturnable<Boolean> cir)
     {
-        if (!world.isClient)
+        if (!world.isClient())
         {
             BlockState state = world.getBlockState(pos);
             ItemStack stack = player.getMainHandStack();

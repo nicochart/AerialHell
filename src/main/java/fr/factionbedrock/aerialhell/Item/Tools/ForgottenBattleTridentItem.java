@@ -46,7 +46,7 @@ public class ForgottenBattleTridentItem extends AerialHellSwordItem
 			player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 300, 0));
 		}
 		player.getItemCooldownManager().set(heldItem, 540);
-		heldItem.damage(1, player, LivingEntity.getSlotForHand(hand));
+		heldItem.damage(1, player, hand);
 		return ActionResult.CONSUME;
     }
 

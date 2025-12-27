@@ -23,14 +23,14 @@ public class GlowingStellarTallGrass extends AerialHellTallGrassBlock
 	public static final BooleanProperty LIT = RedstoneTorchBlock.LIT;
 	public GlowingStellarTallGrass(AbstractBlock.Settings settings) {super(settings); this.setDefaultState(this.getDefaultState().with(LIT, false));}
 
-	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
+	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean intersects)
 	{
-		if (!world.isClient) {interact(state, world, pos);}
+		if (!world.isClient()) {interact(state, world, pos);}
 	}
 
 	@Override public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hitResult)
 	{
-		if (!world.isClient) {interact(state, world, pos);}
+		if (!world.isClient()) {interact(state, world, pos);}
 		return ActionResult.PASS;
 	}
 

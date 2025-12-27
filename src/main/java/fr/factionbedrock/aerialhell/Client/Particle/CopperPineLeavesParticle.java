@@ -6,12 +6,15 @@ import net.minecraft.client.particle.PortalParticle;
 import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.util.math.random.Random;
 
 public class CopperPineLeavesParticle extends PortalParticle
 {
-    protected CopperPineLeavesParticle(ClientWorld world, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
+    private final SpriteProvider spriteProvider;
+    protected CopperPineLeavesParticle(ClientWorld world, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, SpriteProvider spriteProvider)
     {
-        super(world, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
+        super(world, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, spriteProvider.getFirst());
+        this.spriteProvider = spriteProvider;
 
         this.red = 0.86F;
         this.green = 0.46F;
@@ -20,19 +23,19 @@ public class CopperPineLeavesParticle extends PortalParticle
 
     public static class Factory implements ParticleFactory<SimpleParticleType>
     {
-        private final SpriteProvider spriteSet;
+        private final SpriteProvider spriteProvider;
 
-        public Factory(SpriteProvider spriteSetIn)
-        {
-            this.spriteSet = spriteSetIn;
-        }
+        public Factory(SpriteProvider spriteProvider) {this.spriteProvider = spriteProvider;}
 
-        @Override
-        public Particle createParticle(SimpleParticleType typeIn, ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed)
+        public Particle createParticle(SimpleParticleType simpleParticleType, ClientWorld clientWorld, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Random random)
         {
-            CopperPineLeavesParticle copperPineLeavesParticle = new CopperPineLeavesParticle(world, x, y, z, xSpeed, ySpeed, zSpeed);
-            copperPineLeavesParticle.setSprite(this.spriteSet);
-            return copperPineLeavesParticle;
+            return new CopperPineLeavesParticle(clientWorld, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteProvider);
         }
+    }
+
+    @Override public void tick()
+    {
+        super.tick();
+        this.updateSprite(this.spriteProvider);
     }
 }

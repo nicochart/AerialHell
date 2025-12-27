@@ -27,7 +27,7 @@ public class ThrownStellarEgg extends ThrownItemEntity
         {
             for(int i = 0; i < 8; ++i)
             {
-                this.getWorld().addParticleClient(new ItemStackParticleEffect(ParticleTypes.ITEM, this.getDefaultItem().getDefaultStack()), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
+                this.getEntityWorld().addParticleClient(new ItemStackParticleEffect(ParticleTypes.ITEM, this.getDefaultItem().getDefaultStack()), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
             }
         }
     }
@@ -41,7 +41,7 @@ public class ThrownStellarEgg extends ThrownItemEntity
     @Override protected void onCollision(HitResult hitResult) //copied from EggEntity, replacing Chicken with StellarChicken
     {
         super.onCollision(hitResult);
-        if (!this.getWorld().isClient)
+        if (!this.getEntityWorld().isClient())
         {
             if (this.random.nextInt(8) == 0)
             {
@@ -50,18 +50,18 @@ public class ThrownStellarEgg extends ThrownItemEntity
 
                 for(int j = 0; j < i; ++j)
                 {
-                    StellarChickenEntity chicken = AerialHellEntities.STELLAR_CHICKEN.create(this.getWorld(), SpawnReason.TRIGGERED);
+                    StellarChickenEntity chicken = AerialHellEntities.STELLAR_CHICKEN.create(this.getEntityWorld(), SpawnReason.TRIGGERED);
                     if (chicken != null)
                     {
                         chicken.setBreedingAge(-24000);
                         chicken.refreshPositionAndAngles(this.getX(), this.getY(), this.getZ(), this.getYaw(), 0.0F);
-                        chicken.setColor(this.getWorld().getColor(this.getBlockPos(), Biome::getGrassColorAt));
+                        chicken.setColor(this.getEntityWorld().getColor(this.getBlockPos(), Biome::getGrassColorAt));
 
-                        this.getWorld().spawnEntity(chicken);
+                        this.getEntityWorld().spawnEntity(chicken);
                     }
                 }
             }
-            this.getWorld().sendEntityStatus(this, (byte)3);
+            this.getEntityWorld().sendEntityStatus(this, (byte)3);
             this.discard();
         }
     }

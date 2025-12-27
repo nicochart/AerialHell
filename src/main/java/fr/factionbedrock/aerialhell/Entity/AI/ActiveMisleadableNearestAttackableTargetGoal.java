@@ -22,7 +22,7 @@ public class ActiveMisleadableNearestAttackableTargetGoal<T extends LivingEntity
         else
         {
             double x = this.activableGoalOwner.getX(), y = this.activableGoalOwner.getEyeY(), z = this.activableGoalOwner.getZ();
-            List<Entity> nearbyEntities = this.activableGoalOwner.getWorld().getOtherEntities(this.activableGoalOwner, this.activableGoalOwner.getBoundingBox().expand(20), EntityPredicates.maxDistance(x, y, z, 16));
+            List<Entity> nearbyEntities = this.activableGoalOwner.getEntityWorld().getOtherEntities(this.activableGoalOwner, this.activableGoalOwner.getBoundingBox().expand(20), EntityPredicates.maxDistance(x, y, z, 16));
 
             List<PlayerEntity> nearbyTargetablePlayers = nearbyEntities.stream()
                                                                        .filter(entity -> entity instanceof PlayerEntity)

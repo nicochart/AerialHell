@@ -67,7 +67,7 @@ public class ShadowFlyingSkullEntity extends VexEntity
     {
         if (soundIn == SoundEvents.ENTITY_VEX_CHARGE && !this.isSilent())
         {
-            this.getWorld().playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_EVOKER_FANGS_ATTACK, this.getSoundCategory(), volume, pitch);
+            this.getEntityWorld().playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_EVOKER_FANGS_ATTACK, this.getSoundCategory(), volume, pitch);
         }
         else {super.playSound(soundIn, volume, pitch);}
     }

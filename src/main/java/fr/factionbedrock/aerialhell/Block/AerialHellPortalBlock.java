@@ -2,15 +2,16 @@ package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.kyrptonaught.customportalapi.CustomPortalBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.NetherPortalBlock;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
-public class AerialHellPortalBlock extends CustomPortalBlock
+public class AerialHellPortalBlock extends NetherPortalBlock
 {
+    //TODO
     public AerialHellPortalBlock(Settings settings) {super(settings);}
 
     @Override public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random)

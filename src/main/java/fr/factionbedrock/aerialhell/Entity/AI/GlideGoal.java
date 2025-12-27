@@ -63,7 +63,7 @@ public class GlideGoal extends Goal
 
     protected boolean hasBlockUnder(BlockPos pos, int yBlocksDistance)
     {
-        for (int dy=0; dy<yBlocksDistance; dy++) {if (!this.goalOwner.getWorld().isAir(pos.down(dy))) {return true;}}
+        for (int dy=0; dy<yBlocksDistance; dy++) {if (!this.goalOwner.getEntityWorld().isAir(pos.down(dy))) {return true;}}
         return false;
     }
 

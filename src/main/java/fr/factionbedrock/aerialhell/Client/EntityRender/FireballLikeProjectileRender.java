@@ -4,12 +4,12 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.FireballLikeProjectileRenderState;
 import fr.factionbedrock.aerialhell.Entity.Projectile.DimensionShattererProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.PoisonballEntity;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.*;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.state.EntityRenderState;
+import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.projectile.AbstractFireballEntity;
 import net.minecraft.util.Identifier;
@@ -35,20 +35,21 @@ public class FireballLikeProjectileRender<T extends AbstractFireballEntity> exte
         renderState.texture = this.getTexture(entity);
     }
 
-    @Override public void render(FireballLikeProjectileRenderState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light)
+    @Override public void render(FireballLikeProjectileRenderState renderState, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState)
     {
         matrices.push();
-        matrices.scale(state.scale, state.scale, state.scale);
-        matrices.multiply(this.dispatcher.getRotation());
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F));
-        MatrixStack.Entry entry = matrices.peek();
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull((state.texture)));
-        produceVertex(vertexConsumer, entry, light, 0.0F, 0, 0, 1);
-        produceVertex(vertexConsumer, entry, light, 1.0F, 0, 1, 1);
-        produceVertex(vertexConsumer, entry, light, 1.0F, 1, 1, 0);
-        produceVertex(vertexConsumer, entry, light, 0.0F, 1, 0, 0);
+        matrices.scale(renderState.scale, renderState.scale, renderState.scale);
+        matrices.multiply(cameraState.orientation);
+        RenderLayer layer = RenderLayers.entityCutoutNoCull(renderState.texture);
+        queue.submitCustom(matrices, layer, (matricesEntry, vertexConsumer) ->
+        {
+            produceVertex(vertexConsumer, matricesEntry, renderState.light, 0.0F, 0, 0, 1);
+            produceVertex(vertexConsumer, matricesEntry, renderState.light, 1.0F, 0, 1, 1);
+            produceVertex(vertexConsumer, matricesEntry, renderState.light, 1.0F, 1, 1, 0);
+            produceVertex(vertexConsumer, matricesEntry, renderState.light, 0.0F, 1, 0, 0);
+        });
         matrices.pop();
-        super.render(state, matrices, vertexConsumers, light);
+        super.render(renderState, matrices, queue, cameraState);
     }
 
     public Identifier getTexture(T entity)

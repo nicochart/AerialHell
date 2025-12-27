@@ -19,7 +19,7 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
 
     @Override public void remove(Entity.RemovalReason removalReason)
     {
-        if (!this.getWorld().isClient && !this.isBaby() && this.isDead())
+        if (!this.getEntityWorld().isClient() && !this.isBaby() && this.isDead())
         {
             int number = 1 + this.random.nextInt(2);
             if (random.nextInt(5) == 0) {number++;}
@@ -27,7 +27,7 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
             {
                 float x = ((float) (l % 2) - 0.5F) * 0.5F;
                 float z = ((float) (l / 2) - 0.5F) * 0.5F;
-                AbstractSlimePirateEntity littlePirate = this.getDieOffspringType().create(this.getWorld(), SpawnReason.TRIGGERED);
+                AbstractSlimePirateEntity littlePirate = this.getDieOffspringType().create(this.getEntityWorld(), SpawnReason.TRIGGERED);
                 if (littlePirate != null)
                 {
                     if (this.isPersistent()) {littlePirate.setPersistent();}
@@ -36,7 +36,7 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
                     littlePirate.setInvulnerable(this.isInvulnerable());
                     littlePirate.setBaby(true);
                     littlePirate.refreshPositionAndAngles(this.getX() + (double) x, this.getY() + 0.5D, this.getZ() + (double) z, this.random.nextFloat() * 360.0F, 0.0F);
-                    this.getWorld().spawnEntity(littlePirate);
+                    this.getEntityWorld().spawnEntity(littlePirate);
                     //No weapon
                     //littlePirate.initEquipment(this.getRandom(), this.getWorld().getCurrentDifficultyAt(this.getBlockPos()));
                 }

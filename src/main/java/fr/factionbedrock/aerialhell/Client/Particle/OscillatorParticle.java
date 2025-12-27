@@ -6,12 +6,15 @@ import net.minecraft.client.particle.PortalParticle;
 import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.util.math.random.Random;
 
 public class OscillatorParticle extends PortalParticle
 {
-    protected OscillatorParticle(ClientWorld world, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
+    private final SpriteProvider spriteProvider;
+    protected OscillatorParticle(ClientWorld world, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, SpriteProvider spriteProvider)
     {
-        super(world, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
+        super(world, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, spriteProvider.getFirst());
+        this.spriteProvider = spriteProvider;
 
         this.red = 0.17F;//0.30F;
         this.green = 0.32F;//0.64F;
@@ -20,19 +23,19 @@ public class OscillatorParticle extends PortalParticle
 
     public static class Factory implements ParticleFactory<SimpleParticleType>
     {
-        private final SpriteProvider spriteSet;
+        private final SpriteProvider spriteProvider;
 
-        public Factory(SpriteProvider spriteSetIn)
-        {
-            this.spriteSet = spriteSetIn;
-        }
+        public Factory(SpriteProvider spriteProvider) {this.spriteProvider = spriteProvider;}
 
-        @Override
-        public Particle createParticle(SimpleParticleType typeIn, ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed)
+        public Particle createParticle(SimpleParticleType simpleParticleType, ClientWorld clientWorld, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Random random)
         {
-            OscillatorParticle oscillatorParticle = new OscillatorParticle(world, x, y, z, xSpeed, ySpeed, zSpeed);
-            oscillatorParticle.setSprite(this.spriteSet);
-            return oscillatorParticle;
+            return new OscillatorParticle(clientWorld, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteProvider);
         }
+    }
+
+    @Override public void tick()
+    {
+        super.tick();
+        this.updateSprite(this.spriteProvider);
     }
 }

@@ -13,6 +13,7 @@ import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.HeightContext;
 import net.minecraft.world.gen.heightprovider.HeightProvider;
 import net.minecraft.world.gen.structure.DimensionPadding;
+import net.minecraft.world.gen.structure.JigsawStructure;
 import net.minecraft.world.gen.structure.Structure;
 import org.jetbrains.annotations.Nullable;
 
@@ -144,7 +145,7 @@ public abstract class AbstractAerialHellStructure extends Structure
                         structureCenter, // Where to spawn the structure.
                         false, //"useExpansionHack" (set it false)
                         Optional.empty(), //this.projectStartToHeightmap is now manually override by findStructureCenter(context).
-                        this.maxDistanceFromCenter, // Maximum limit for how far pieces can spawn from center. You cannot set this bigger than 128 or else pieces gets cutoff.
+                        new JigsawStructure.MaxDistanceFromCenter(this.maxDistanceFromCenter), // Maximum limit for how far pieces can spawn from center. You cannot set this bigger than 128 or else pieces gets cutoff.
                         StructurePoolAliasLookup.EMPTY, // Optional thing that allows swapping a template pool with another per structure json instance. We don't need this but see vanilla JigsawStructure class for how to wire it up if you want it.
                         DimensionPadding.NONE, // dimensionPadding - Optional thing to prevent generating too close to the bottom or top of the dimension.
                         StructureLiquidSettings.IGNORE_WATERLOGGING); // liquidSettings - Optional thing to control whether the structure will be waterlogged when replacing pre-existing water in the world.

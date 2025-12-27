@@ -33,7 +33,7 @@ public class AutomatonEntity extends AerialHellHostileEntity
     public boolean tryAttack(ServerWorld serverWorld, Entity entityIn)
     {
         boolean flag = super.tryAttack(serverWorld, entityIn);
-        this.getWorld().sendEntityStatus(this, (byte)4);
+        this.getEntityWorld().sendEntityStatus(this, (byte)4);
         return flag;
     }
 

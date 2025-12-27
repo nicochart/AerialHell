@@ -17,7 +17,7 @@ public class MudSoldierRender<E extends MudSoldierEntity> extends AbstractSkelet
 	
     public MudSoldierRender(EntityRendererFactory.Context context)
 	{
-		super(context, EntityModelLayers.SKELETON, EntityModelLayers.SKELETON_INNER_ARMOR, EntityModelLayers.SKELETON_OUTER_ARMOR);
+		super(context, EntityModelLayers.SKELETON, EntityModelLayers.SKELETON_EQUIPMENT);
 	}
 
 	@Override public MudSoldierRenderState createRenderState() {return new MudSoldierRenderState();}

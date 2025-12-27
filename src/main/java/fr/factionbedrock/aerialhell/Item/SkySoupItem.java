@@ -14,7 +14,7 @@ public class SkySoupItem extends Item //copy of net.minecraft.item.SoupItem but 
 	
 	@Override public ItemStack finishUsing(ItemStack stack, World world, LivingEntity entityLiving)
 	{
-		if (stack.isOf(AerialHellItems.SHADOW_FRUIT_STEW) && !world.isClient)
+		if (stack.isOf(AerialHellItems.SHADOW_FRUIT_STEW) && !world.isClient())
 		{
 			ItemHelper.removeEffectCuredBy(entityLiving, stack);
 		}

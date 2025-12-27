@@ -114,10 +114,10 @@ public class AerialHellBlocks
     public static final Block SHADOW_LANTERN = register(Keys.SHADOW_LANTERN.getValue().getPath(), new LanternBlock(AbstractBlock.Settings.copy(Blocks.SOUL_LANTERN).registryKey(Keys.SHADOW_LANTERN)));
 
     //chains
-    public static final ChainBlock RUBY_CHAIN = register(Keys.RUBY_CHAIN.getValue().getPath(), new ChainBlock(AbstractBlock.Settings.copy(Blocks.CHAIN).registryKey(Keys.RUBY_CHAIN)));
-    public static final ChainBlock VOLUCITE_CHAIN = register(Keys.VOLUCITE_CHAIN.getValue().getPath(), new ChainBlock(AbstractBlock.Settings.copy(Blocks.CHAIN).registryKey(Keys.VOLUCITE_CHAIN)));
-    public static final ChainBlock LUNATIC_CHAIN = register(Keys.LUNATIC_CHAIN.getValue().getPath(), new ChainBlock(AbstractBlock.Settings.copy(Blocks.CHAIN).registryKey(Keys.LUNATIC_CHAIN)));
-    public static final ChainBlock SHADOW_CHAIN = register(Keys.SHADOW_CHAIN.getValue().getPath(), new ShadowChainBlock(AbstractBlock.Settings.copy(Blocks.CHAIN).registryKey(Keys.SHADOW_CHAIN)));
+    public static final ChainBlock RUBY_CHAIN = register(Keys.RUBY_CHAIN.getValue().getPath(), new ChainBlock(AbstractBlock.Settings.copy(Blocks.IRON_CHAIN).registryKey(Keys.RUBY_CHAIN)));
+    public static final ChainBlock VOLUCITE_CHAIN = register(Keys.VOLUCITE_CHAIN.getValue().getPath(), new ChainBlock(AbstractBlock.Settings.copy(Blocks.IRON_CHAIN).registryKey(Keys.VOLUCITE_CHAIN)));
+    public static final ChainBlock LUNATIC_CHAIN = register(Keys.LUNATIC_CHAIN.getValue().getPath(), new ChainBlock(AbstractBlock.Settings.copy(Blocks.IRON_CHAIN).registryKey(Keys.LUNATIC_CHAIN)));
+    public static final ChainBlock SHADOW_CHAIN = register(Keys.SHADOW_CHAIN.getValue().getPath(), new ShadowChainBlock(AbstractBlock.Settings.copy(Blocks.IRON_CHAIN).registryKey(Keys.SHADOW_CHAIN)));
 
     //grass & dirt
     public static final StellarGrassBlock STELLAR_GRASS_BLOCK = register(Keys.STELLAR_GRASS_BLOCK.getValue().getPath(), new StellarGrassBlock(AbstractBlock.Settings.copy(Blocks.GRASS_BLOCK).registryKey(Keys.STELLAR_GRASS_BLOCK)));

@@ -6,9 +6,10 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.*;
 import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.util.Identifier;
@@ -50,22 +51,22 @@ public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRend
 		this.itemModelResolver.updateForNonLivingEntity(renderState.item, entity.getStack(), ItemDisplayContext.GROUND, entity);
 	}
 
-	@Override public void render(ShurikenRenderState renderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int packedLight)
+	@Override public void render(ShurikenRenderState renderState, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState)
 	{
-		matrixStack.push();
+		matrices.push();
 
 		renderState.shurikenZRot -= 4;
 		if (renderState.shurikenZRot <= -360)
 		{
 			renderState.shurikenZRot = 360;
 		}
-		matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(renderState.YRot)); /*Vertical plane rotation*/
-		matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(- 90.0f - renderState.pitchO)); /*Pointing to forward*/
-		matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(renderState.shurikenZRot)); /*Horizontal plane rotation*/
+		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(renderState.YRot)); /*Vertical plane rotation*/
+		matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(- 90.0f - renderState.pitchO)); /*Pointing to forward*/
+		matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(renderState.shurikenZRot)); /*Horizontal plane rotation*/
 
-		renderState.item.render(matrixStack, vertexConsumerProvider, packedLight, OverlayTexture.DEFAULT_UV);
-		matrixStack.pop();
-		super.render(renderState, matrixStack, vertexConsumerProvider, packedLight);
+		renderState.item.render(matrices, queue, renderState.light, OverlayTexture.DEFAULT_UV, renderState.outlineColor);
+		matrices.pop();
+		super.render(renderState, matrices, queue, cameraState);
 	}
 
 	public Identifier getTexture(T entity)

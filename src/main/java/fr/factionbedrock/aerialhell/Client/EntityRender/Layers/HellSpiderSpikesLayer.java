@@ -6,8 +6,8 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.HellSpiderRenderSt
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.HellSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowSpiderEntity;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.RenderLayers;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
@@ -31,15 +31,15 @@ public class HellSpiderSpikesLayer<S extends HellSpiderRenderState, M extends Sp
       this.spiderSpikeModel = spikeModel;
     }
    
-    private VertexConsumer getBuffer(VertexConsumerProvider bufferIn, S renderState)
+    private RenderLayer getLayer(S renderState)
     {
        if (renderState.layer_texture == CRYSTAL_SPIDER_SPIKES)
        {
-           return bufferIn.getBuffer(RenderLayer.getEntityTranslucent(CRYSTAL_SPIDER_SPIKES));
+           return RenderLayers.entityTranslucent(CRYSTAL_SPIDER_SPIKES);
        }
        else
        {
-           return bufferIn.getBuffer(RenderLayer.getEntityCutout(renderState.layer_texture));
+           return RenderLayers.entityCutout(renderState.layer_texture);
        }
     }
 
@@ -50,13 +50,12 @@ public class HellSpiderSpikesLayer<S extends HellSpiderRenderState, M extends Sp
         else {return SHADOW_SPIDER_SPIKES;}
     }
 
-    @Override public void render(MatrixStack poseStack, VertexConsumerProvider bufferSource, int packedLight, S renderState, float yaw, float pitch)
+    @Override public void render(MatrixStack matrices, OrderedRenderCommandQueue queue, int light, S renderState, float limbAngle, float limbDistance)
     {
         if (!renderState.invisible)
         {
             this.spiderSpikeModel.setAngles(renderState);
-            VertexConsumer consumer = this.getBuffer(bufferSource, renderState);
-            this.spiderSpikeModel.render(poseStack, consumer, packedLight, LivingEntityRenderer.getOverlay(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB());
+            queue.submitModel(this.spiderSpikeModel, renderState, matrices, getLayer(renderState), light, LivingEntityRenderer.getOverlay(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor, null);
         }
     }
 }

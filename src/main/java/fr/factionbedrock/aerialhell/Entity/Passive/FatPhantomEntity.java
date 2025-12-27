@@ -75,8 +75,6 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
       this.goalSelector.add(3, new FatPhantomEntity.OrbitPointGoal());
       this.targetSelector.add(1, new FatPhantomEntity.AttackAttackingPlayerGoal());
    }
-
-   @Override protected boolean isDisallowedInPeaceful() {return false;}
    
    public static DefaultAttributeContainer.Builder registerAttributes()
    {
@@ -152,21 +150,21 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
    public void tick()
    {
       super.tick();
-      if (this.getWorld().isClient())
+      if (this.getEntityWorld().isClient())
       {
          float f = MathHelper.cos((float)(this.getId() * 3 + this.age) * 7.448451F * ((float)Math.PI / 180F) + (float)Math.PI);
          float f1 = MathHelper.cos((float)(this.getId() * 3 + this.age + 1) * 7.448451F * ((float)Math.PI / 180F) + (float)Math.PI);
          if (f > 0.0F && f1 <= 0.0F)
          {
-            this.getWorld().playSoundClient(this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_PHANTOM_FLAP, this.getSoundCategory(), 0.95F + this.random.nextFloat() * 0.05F, 0.95F + this.random.nextFloat() * 0.05F, false);
+            this.getEntityWorld().playSoundClient(this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_PHANTOM_FLAP, this.getSoundCategory(), 0.95F + this.random.nextFloat() * 0.05F, 0.95F + this.random.nextFloat() * 0.05F, false);
          }
 
          int i = this.getPhantomSize();
          float f2 = MathHelper.cos(this.getYaw() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
          float f3 = MathHelper.sin(this.getYaw() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
          float f4 = (0.3F + f * 0.45F) * ((float)i * 0.2F + 1.0F);
-         this.getWorld().addParticleClient(ParticleTypes.MYCELIUM, this.getX() + (double)f2, this.getY() + (double)f4, this.getZ() + (double)f3, 0.0D, 0.0D, 0.0D);
-         this.getWorld().addParticleClient(ParticleTypes.MYCELIUM, this.getX() - (double)f2, this.getY() + (double)f4, this.getZ() - (double)f3, 0.0D, 0.0D, 0.0D);
+         this.getEntityWorld().addParticleClient(ParticleTypes.MYCELIUM, this.getX() + (double)f2, this.getY() + (double)f4, this.getZ() + (double)f3, 0.0D, 0.0D, 0.0D);
+         this.getEntityWorld().addParticleClient(ParticleTypes.MYCELIUM, this.getX() - (double)f2, this.getY() + (double)f4, this.getZ() - (double)f3, 0.0D, 0.0D, 0.0D);
       }
       
       if (this.isDisappearing())
@@ -182,17 +180,16 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
    {
    		for (int i=0; i<number; i++)
    		{
-   			this.getWorld().addParticleClient(AerialHellParticleTypes.FAT_PHANTOM_SMOKE, this.getX() + random.nextFloat() - 0.5, this.getY() + 2 * random.nextFloat(), this.getZ() + random.nextFloat() - 0.5, random.nextFloat() - 0.5, random.nextFloat() -0.5, random.nextFloat() - 0.5);
+   			this.getEntityWorld().addParticleClient(AerialHellParticleTypes.FAT_PHANTOM_SMOKE, this.getX() + random.nextFloat() - 0.5, this.getY() + 2 * random.nextFloat(), this.getZ() + random.nextFloat() - 0.5, random.nextFloat() - 0.5, random.nextFloat() -0.5, random.nextFloat() - 0.5);
    		}
    }
-   
+
    @Override public boolean isFireImmune() {return false;}
-   @Override protected boolean isAffectedByDaylight() {return false;}
 
    @Override
    public void tickMovement()
    {
-	   if (!this.getWorld().isDay())
+	   if (!this.getEntityWorld().isDay())
 	   {
 		   if (!this.isDisappearing())
 		   {
@@ -270,7 +267,7 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
          else
          {
             this.tickDelay = 60;
-            ServerWorld serverWorld = castToServerWorld(FatPhantomEntity.this.getWorld());
+            ServerWorld serverWorld = castToServerWorld(FatPhantomEntity.this.getEntityWorld());
             List<PlayerEntity> list = serverWorld.getPlayers(this.attackTargeting, FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().expand(16.0D, 64.0D, 16.0D));
             if (!attackingPlayers.isEmpty() && !list.isEmpty())
             {
@@ -292,7 +289,7 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
       public boolean shouldContinue()
       {
          LivingEntity livingentity = FatPhantomEntity.this.getTarget();
-         return livingentity != null ? FatPhantomEntity.this.testTargetPredicate(castToServerWorld(FatPhantomEntity.this.getWorld()), livingentity, TargetPredicate.DEFAULT) : false;
+         return livingentity != null ? FatPhantomEntity.this.testTargetPredicate(castToServerWorld(FatPhantomEntity.this.getEntityWorld()), livingentity, TargetPredicate.DEFAULT) : false;
       }
    }
 
@@ -420,13 +417,13 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
 
          if (this.touchingTarget()) {this.selectNext();}
 
-         if (FatPhantomEntity.this.orbitOffset.y < FatPhantomEntity.this.getY() && !FatPhantomEntity.this.getWorld().isAir(FatPhantomEntity.this.getBlockPos().down(1)))
+         if (FatPhantomEntity.this.orbitOffset.y < FatPhantomEntity.this.getY() && !FatPhantomEntity.this.getEntityWorld().isAir(FatPhantomEntity.this.getBlockPos().down(1)))
          {
             this.height = Math.max(1.0F, this.height);
             this.selectNext();
          }
 
-         if (FatPhantomEntity.this.orbitOffset.y > FatPhantomEntity.this.getY() && !FatPhantomEntity.this.getWorld().isAir(FatPhantomEntity.this.getBlockPos().up(1)))
+         if (FatPhantomEntity.this.orbitOffset.y > FatPhantomEntity.this.getY() && !FatPhantomEntity.this.getEntityWorld().isAir(FatPhantomEntity.this.getBlockPos().up(1)))
          {
             this.height = Math.min(-1.0F, this.height);
             this.selectNext();
@@ -450,7 +447,7 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
       public boolean canStart()
       {
          LivingEntity livingentity = FatPhantomEntity.this.getTarget();
-         return livingentity != null ? FatPhantomEntity.this.testTargetPredicate(castToServerWorld(FatPhantomEntity.this.getWorld()), livingentity, TargetPredicate.DEFAULT) : false;
+         return livingentity != null ? FatPhantomEntity.this.testTargetPredicate(castToServerWorld(FatPhantomEntity.this.getEntityWorld()), livingentity, TargetPredicate.DEFAULT) : false;
       }
 
       public void start()
@@ -460,7 +457,7 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
          this.setAnchorAboveTarget();
       }
 
-      public void stop() {FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.getWorld().getTopPosition(Heightmap.Type.MOTION_BLOCKING, FatPhantomEntity.this.orbitPosition).up(10 + FatPhantomEntity.this.random.nextInt(20));}
+      public void stop() {FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.getEntityWorld().getTopPosition(Heightmap.Type.MOTION_BLOCKING, FatPhantomEntity.this.orbitPosition).up(10 + FatPhantomEntity.this.random.nextInt(20));}
 
       public void tick()
       {
@@ -480,9 +477,9 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
       private void setAnchorAboveTarget()
       {
          FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.getTarget().getBlockPos().up(20 + FatPhantomEntity.this.random.nextInt(20));
-         if (FatPhantomEntity.this.orbitPosition.getY() < FatPhantomEntity.this.getWorld().getSeaLevel())
+         if (FatPhantomEntity.this.orbitPosition.getY() < FatPhantomEntity.this.getEntityWorld().getSeaLevel())
          {
-            FatPhantomEntity.this.orbitPosition = new BlockPos(FatPhantomEntity.this.orbitPosition.getX(), FatPhantomEntity.this.getWorld().getSeaLevel() + 1, FatPhantomEntity.this.orbitPosition.getZ());
+            FatPhantomEntity.this.orbitPosition = new BlockPos(FatPhantomEntity.this.orbitPosition.getX(), FatPhantomEntity.this.getEntityWorld().getSeaLevel() + 1, FatPhantomEntity.this.orbitPosition.getZ());
          }
       }
    }
@@ -516,11 +513,11 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
          FatPhantomEntity.this.orbitOffset = new Vec3d(livingentity.getX(), livingentity.getBodyY(0.5D), livingentity.getZ());
          if (FatPhantomEntity.this.getBoundingBox().expand(0.2F).intersects(livingentity.getBoundingBox()))
          {
-            FatPhantomEntity.this.tryAttack(castToServerWorld(FatPhantomEntity.this.getWorld()), livingentity);
+            FatPhantomEntity.this.tryAttack(castToServerWorld(FatPhantomEntity.this.getEntityWorld()), livingentity);
             FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
             if (!FatPhantomEntity.this.isSilent())
             {
-               FatPhantomEntity.this.getWorld().syncWorldEvent(WorldEvents.PHANTOM_BITES, FatPhantomEntity.this.getBlockPos(), 0);
+               FatPhantomEntity.this.getEntityWorld().syncWorldEvent(WorldEvents.PHANTOM_BITES, FatPhantomEntity.this.getBlockPos(), 0);
             }
          }
          else if (FatPhantomEntity.this.horizontalCollision || FatPhantomEntity.this.hurtTime > 0)

@@ -139,7 +139,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	@Override public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
 	{
 		DamageSource damagesource = this.getDamageSources().mobAttack(this);
-		this.getWorld().sendEntityStatus(this, (byte)4);
+		this.getEntityWorld().sendEntityStatus(this, (byte)4);
 		float f = (float)this.getAttributeValue(EntityAttributes.ATTACK_DAMAGE);
 		float f1 = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
 		boolean flag = attackedEntity.damage(serverWorld, damagesource, f1);
@@ -204,11 +204,11 @@ public class LunaticPriestEntity extends AbstractBossEntity
 					else
 					{
 						float f = 0.91F;
-						if (this.isOnGround()) {f = this.getWorld().getBlockState(this.getVelocityAffectingPos()).getBlock().getSlipperiness() * 0.91F;}
+						if (this.isOnGround()) {f = this.getEntityWorld().getBlockState(this.getVelocityAffectingPos()).getBlock().getSlipperiness() * 0.91F;}
 
 						float f1 = 0.16277137F / (f * f * f);
 						f = 0.91F;
-						if (this.isOnGround()) {f = this.getWorld().getBlockState(this.getVelocityAffectingPos()).getBlock().getSlipperiness() * 0.91F;}
+						if (this.isOnGround()) {f = this.getEntityWorld().getBlockState(this.getVelocityAffectingPos()).getBlock().getSlipperiness() * 0.91F;}
 
 						this.updateVelocity(this.isOnGround() ? 0.1F * f1 : 0.02F, travelVector);
 						this.move(MovementType.SELF, this.getVelocity());

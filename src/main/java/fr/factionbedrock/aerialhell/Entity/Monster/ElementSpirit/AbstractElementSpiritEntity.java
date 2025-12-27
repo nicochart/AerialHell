@@ -61,7 +61,7 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
     {
     	this.playSound(this.getDeathSound(), 1.5F, 0.95F + random.nextFloat() * 0.1F);
     	this.spawnParticle();
-    	List<Entity> nearbyEntities = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(4), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), 4));
+    	List<Entity> nearbyEntities = this.getEntityWorld().getOtherEntities(this, this.getBoundingBox().expand(4), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), 4));
     	for (Entity entity : nearbyEntities)
     	{
     		if (entity instanceof LivingEntity)
@@ -79,7 +79,7 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
             double d0 = (this.random.nextGaussian() - 0.5D) * 0.02D;
             double d1 = (this.random.nextGaussian() - 0.5D) * 0.02D;
             double d2 = (this.random.nextGaussian() - 0.5D) * 0.02D;
-            this.getWorld().addParticleClient(this.getParticleToSpawn(), this.getParticleX(1.0D) + d0 * 10.0D, this.getRandomBodyY() + d1 * 10.0D, this.getParticleZ(1.0D) + d2 * 10.0D, d0, d1, d2);
+            this.getEntityWorld().addParticleClient(this.getParticleToSpawn(), this.getParticleX(1.0D) + d0 * 10.0D, this.getRandomBodyY() + d1 * 10.0D, this.getParticleZ(1.0D) + d2 * 10.0D, d0, d1, d2);
         }
     }
 

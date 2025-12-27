@@ -71,7 +71,7 @@ public class AerialHellFluidBlock extends FluidBlock
 	}
 
 	@Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean intersects)
     {
 		if(this.fluid.isIn(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
         {

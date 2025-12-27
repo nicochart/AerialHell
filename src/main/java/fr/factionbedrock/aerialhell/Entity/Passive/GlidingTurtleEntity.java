@@ -70,7 +70,7 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
 
     @Nullable @Override public PassiveEntity createChild(ServerWorld serverWorld, PassiveEntity mob)
     {
-        return AerialHellEntities.GLIDING_TURTLE.create(this.getWorld(), SpawnReason.BREEDING);
+        return AerialHellEntities.GLIDING_TURTLE.create(this.getEntityWorld(), SpawnReason.BREEDING);
     }
     
     public boolean isTurtleGliding() {return !this.getDataTracker().get(GLIDING);}

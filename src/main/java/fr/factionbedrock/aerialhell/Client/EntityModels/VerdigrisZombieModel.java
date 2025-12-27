@@ -77,7 +77,7 @@ public class VerdigrisZombieModel extends EntityModel<VerdigrisZombieRenderState
 		float limbSwing = renderState.limbSwingAnimationProgress;
 		float limbSwingAmount = renderState.limbSwingAmplitude;
 
-		ArmPosing.zombieArms(this.leftArm, this.rightArm, renderState.isAggressive, renderState.attackTime, renderState.age);
+		ArmPosing.zombieArms(this.leftArm, this.rightArm, renderState.isAggressive, renderState);
 		this.head.yaw = netHeadYaw / 57.3F;
 		this.head.pitch = headPitch / 57.3F;
 		this.leftLeg.pitch = -1.0F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount;

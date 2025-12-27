@@ -196,7 +196,7 @@ public class LivingDamageMixin
         else if (sourceEquippedItem == AerialHellItems.CURSED_SWORD || sourceEquippedItem == AerialHellItems.CURSED_AXE) //source attacking target with cursed tool
         {
             float damage_return_amount = (EntityHelper.isLivingEntityShadowImmune(source) || EntityHelper.isLivingEntityVulnerable(target)) ? amount / 2 : amount;
-            source.serverDamage(AerialHellDamageTypes.getDamageSource(source.getWorld(), AerialHellDamageTypes.CURSED_TOOL), damage_return_amount);
+            source.serverDamage(AerialHellDamageTypes.getDamageSource(source.getEntityWorld(), AerialHellDamageTypes.CURSED_TOOL), damage_return_amount);
             if (!EntityHelper.isLivingEntityShadowImmune(target))
             {
                 int vulnerabilityAmplifier = (EntityHelper.isLightEntity(target) && !(target instanceof LunaticPriestEntity)) ? 1 : 0;
@@ -210,7 +210,7 @@ public class LivingDamageMixin
                 multiplier *= (sourceEquippedItem == AerialHellItems.SWORD_OF_LIGHT || sourceEquippedItem == AerialHellItems.AXE_OF_LIGHT) ? 1.8F : 1.4F;
             }
         }
-        else if (sourceEquippedItem == AerialHellItems.NETHERIAN_KING_SWORD && source.getWorld().getRegistryKey() == World.NETHER)
+        else if (sourceEquippedItem == AerialHellItems.NETHERIAN_KING_SWORD && source.getEntityWorld().getRegistryKey() == World.NETHER)
         {
             multiplier *= 2.0F;
         }

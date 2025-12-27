@@ -6,12 +6,16 @@ import net.minecraft.client.particle.PortalParticle;
 import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.util.math.random.Random;
 
 public class LightParticle extends PortalParticle
 {
-	protected LightParticle(ClientWorld world, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
+	private final SpriteProvider spriteProvider;
+	protected LightParticle(ClientWorld world, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, SpriteProvider spriteProvider)
 	{
-		super(world, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
+		super(world, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, spriteProvider.getFirst());
+		this.spriteProvider = spriteProvider;
+
 		this.red = this.blue = this.green = 1.0F;
 		this.gravityStrength = 0.5F * (-0.5F + this.random.nextFloat());
 		this.scale *= 1.5F;
@@ -21,19 +25,19 @@ public class LightParticle extends PortalParticle
 
 	public static class Factory implements ParticleFactory<SimpleParticleType>
 	{
-		private final SpriteProvider spriteSet;
-		
-		public Factory(SpriteProvider spriteSetIn)
+		private final SpriteProvider spriteProvider;
+
+		public Factory(SpriteProvider spriteProvider) {this.spriteProvider = spriteProvider;}
+
+		public Particle createParticle(SimpleParticleType simpleParticleType, ClientWorld clientWorld, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Random random)
 		{
-			this.spriteSet = spriteSetIn;
+			return new LightParticle(clientWorld, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteProvider);
 		}
-		
-		@Override
-		public Particle createParticle(SimpleParticleType typeIn, ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed)
-		{
-			 LightParticle particle = new LightParticle(world, x, y, z, xSpeed, ySpeed, zSpeed);
-	         particle.setSprite(this.spriteSet);
-	         return particle;
-		}
+	}
+
+	@Override public void tick()
+	{
+		super.tick();
+		this.updateSprite(this.spriteProvider);
 	}
 }

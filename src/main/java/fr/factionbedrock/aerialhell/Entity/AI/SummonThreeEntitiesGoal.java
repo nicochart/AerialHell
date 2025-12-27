@@ -17,7 +17,7 @@ public abstract class SummonThreeEntitiesGoal extends SummonEntitiesGoal
         {
             Entity entity = createEntity();
             this.setEntityPosToSummonPos(entity); entity.setVelocity(vector);
-            this.getGoalOwner().getWorld().spawnEntity(entity);
+            this.getGoalOwner().getEntityWorld().spawnEntity(entity);
         }
     }
 

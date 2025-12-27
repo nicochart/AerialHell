@@ -23,7 +23,7 @@ public class MisleadableNearestAttackableTargetGoal<T extends LivingEntity>  ext
         else
         {
             double x = this.mob.getX(), y = this.mob.getEyeY(), z = this.mob.getZ();
-            List<Entity> nearbyEntities = this.mob.getWorld().getOtherEntities(this.mob, this.mob.getBoundingBox().expand(20), EntityPredicates.maxDistance(x, y, z, 16));
+            List<Entity> nearbyEntities = this.mob.getEntityWorld().getOtherEntities(this.mob, this.mob.getBoundingBox().expand(20), EntityPredicates.maxDistance(x, y, z, 16));
 
             List<PlayerEntity> nearbyTargetablePlayers = nearbyEntities.stream()
                     .filter(entity -> entity instanceof PlayerEntity)

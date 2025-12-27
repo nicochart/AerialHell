@@ -50,7 +50,7 @@ public class ReactorBlock extends BiomeShifterBlock
 
     @Override public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hitResult)
     {
-        if (world.isClient) {return ActionResult.SUCCESS;}
+        if (world.isClient()) {return ActionResult.SUCCESS;}
         else
         {
             this.openScreen(world, pos, player);
@@ -117,6 +117,6 @@ public class ReactorBlock extends BiomeShifterBlock
 
     @Nullable @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type)
     {
-        return world.isClient ? null : validateTicker(type, AerialHellBlockEntities.REACTOR, ReactorBlockEntity::tick);
+        return world.isClient() ? null : validateTicker(type, AerialHellBlockEntities.REACTOR, ReactorBlockEntity::tick);
     }
 }

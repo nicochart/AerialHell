@@ -20,9 +20,9 @@ public class ImpactFromPersistentProjectileEntityMixin
         PersistentProjectileEntity projectileEntity = (PersistentProjectileEntity) (Object) this;
 
         Vec3d velocityVec = projectileEntity.getVelocity();
-        Vec3d posVec = projectileEntity.getPos();
+        Vec3d posVec = projectileEntity.getEntityPos();
         Vec3d moveVec = posVec.add(velocityVec);
-        HitResult hitResult = projectileEntity.getWorld().raycast(new RaycastContext(posVec, moveVec, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, projectileEntity));
+        HitResult hitResult = projectileEntity.getEntityWorld().raycast(new RaycastContext(posVec, moveVec, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, projectileEntity));
         if (hitResult.getType() != HitResult.Type.MISS) {moveVec = hitResult.getPos();}
         else {return;}
 

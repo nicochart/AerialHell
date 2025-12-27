@@ -141,7 +141,7 @@ public class LilithEntity extends AbstractBossEntity
 		else if (nextPhase == BossPhase.SECOND_PHASE)
 		{
 			this.spawnTransformationParticle();
-			if (this.getWorld().getRegistryKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformAllBlocks();}
+			if (this.getEntityWorld().getRegistryKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformAllBlocks();}
 			this.timeSinceTransforming = 0;
 		}
 	}
@@ -157,7 +157,7 @@ public class LilithEntity extends AbstractBossEntity
 	{
 		if (this.isTransforming()) {this.tickTransformingPhase();}
 
-		if (!this.getWorld().isClient())
+		if (!this.getEntityWorld().isClient())
 		{
 			this.addStatusEffect(new StatusEffectInstance(new StatusEffectInstance(StatusEffects.SLOWNESS, 20, 10, true, false)));
 			this.addStatusEffect(new StatusEffectInstance(new StatusEffectInstance(StatusEffects.RESISTANCE, 1, 10, true, false)));
@@ -169,12 +169,12 @@ public class LilithEntity extends AbstractBossEntity
 		this.timeSinceTransforming++;
 		for (int i=0; i<10 + timeSinceTransforming/1.5; i++)
 		{
-			if (this.getWorld().getRegistryKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformRandomBlock();}
+			if (this.getEntityWorld().getRegistryKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION) {this.transformRandomBlock();}
 		}
 
 		if (this.timeSinceTransforming > 12)
 		{
-			List<Entity> nearbyEntities = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(20), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), 15));
+			List<Entity> nearbyEntities = this.getEntityWorld().getOtherEntities(this, this.getBoundingBox().expand(20), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), 15));
 			for (Entity entity : nearbyEntities)
 			{
 				if (entity instanceof LivingEntity && !EntityHelper.isCreaOrSpecPlayer(entity))
@@ -184,14 +184,14 @@ public class LilithEntity extends AbstractBossEntity
 				}
 			}
 
-			if (this.getWorld().isClient())
+			if (this.getEntityWorld().isClient())
 			{
 				for (int i=0; i<5; i++)
 				{
 					double rand = random.nextFloat() * 2;
 					double x = getX() + (random.nextFloat() - 0.5F) * rand, y = (this.getBoundingBox().minY + rand) + 0.5D, z = getZ() + (random.nextFloat() - 0.5F) * rand;
 					double dx = (random.nextFloat() - 0.5F)/10, dz = (random.nextFloat() - 0.5F)/10;
-					this.getWorld().addParticleClient(AerialHellParticleTypes.SHADOW_PARTICLE, x, y, z, dx, 0.0D, dz);
+					this.getEntityWorld().addParticleClient(AerialHellParticleTypes.SHADOW_PARTICLE, x, y, z, dx, 0.0D, dz);
 				}
 			}
 		}
@@ -205,7 +205,7 @@ public class LilithEntity extends AbstractBossEntity
 		int y = random.nextInt(2*maxVerticalDistance) - maxVerticalDistance;
 		int z = random.nextInt(2*maxHorizontalDistance) - maxHorizontalDistance;
 		BlockPos transformationPos = new BlockPos(this.getBlockPos().add(new Vec3i(x, y, z)));
-		if (this.getWorld().getBlockState(transformationPos).isIn(AerialHellTags.Blocks.LILITH_TRANSFORMABLE))
+		if (this.getEntityWorld().getBlockState(transformationPos).isIn(AerialHellTags.Blocks.LILITH_TRANSFORMABLE))
 		{
 			transformBlock(transformationPos);
 		}
@@ -223,7 +223,7 @@ public class LilithEntity extends AbstractBossEntity
 				for (z=-maxHorizontalDistance; z<maxHorizontalDistance; z++)
 				{
 					BlockPos transformationPos = new BlockPos(this.getBlockPos().add(new Vec3i(x, y, z)));
-					if (this.getWorld().getBlockState(transformationPos).isIn(AerialHellTags.Blocks.LILITH_TRANSFORMABLE))
+					if (this.getEntityWorld().getBlockState(transformationPos).isIn(AerialHellTags.Blocks.LILITH_TRANSFORMABLE))
 					{
 						transformBlock(transformationPos);
 					}
@@ -236,21 +236,21 @@ public class LilithEntity extends AbstractBossEntity
 	{
 		if (!LoadedConfigParams.DO_BOSS_GRIEFING) {return;}
 
-		if (this.getWorld().getBlockState(pos).getBlock() instanceof DoorBlock)
+		if (this.getEntityWorld().getBlockState(pos).getBlock() instanceof DoorBlock)
 		{
-			DoubleBlockHalf half = this.getWorld().getBlockState(pos).get(DoorBlock.HALF);
+			DoubleBlockHalf half = this.getEntityWorld().getBlockState(pos).get(DoorBlock.HALF);
 			if (half == DoubleBlockHalf.LOWER)
 			{
-				this.getWorld().breakBlock(pos, false);
-				this.getWorld().breakBlock(pos.up(), false);
+				this.getEntityWorld().breakBlock(pos, false);
+				this.getEntityWorld().breakBlock(pos.up(), false);
 			}
 			else
 			{
-				this.getWorld().breakBlock(pos.down(), false);
-				this.getWorld().breakBlock(pos, false);
+				this.getEntityWorld().breakBlock(pos.down(), false);
+				this.getEntityWorld().breakBlock(pos, false);
 			}
 		}
-		else {this.getWorld().setBlockState(pos, getEquivalentShadowBlockstate(this.getWorld().getBlockState(pos)));}
+		else {this.getEntityWorld().setBlockState(pos, getEquivalentShadowBlockstate(this.getEntityWorld().getBlockState(pos)));}
 	}
 
 	private BlockState getEquivalentShadowBlockstate(BlockState blockState)
@@ -430,7 +430,7 @@ public class LilithEntity extends AbstractBossEntity
 	
 	@Override public boolean tryAttack(ServerWorld serverWorld, Entity target)
 	{
-		this.getWorld().sendEntityStatus(this, (byte)4);
+		this.getEntityWorld().sendEntityStatus(this, (byte)4);
 		boolean flag = super.tryAttack(serverWorld, target);
 		if (flag && target instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune((LivingEntity) target))
 		{
@@ -461,19 +461,19 @@ public class LilithEntity extends AbstractBossEntity
 	
 	public void spawnTransformationParticle()
 	{
-		if (this.getWorld().isClient())
+		if (this.getEntityWorld().isClient())
         {
         	for(int i = 0; i < 30; ++i)
             {
             	double d0 = this.random.nextGaussian() * 0.02D;
             	double d1 = this.random.nextGaussian() * 0.02D;
             	double d2 = this.random.nextGaussian() * 0.02D;
-            	this.getWorld().addParticleClient(AerialHellParticleTypes.SHADOW_PARTICLE, this.getParticleX(1.0D) - d0 * 10.0D, this.getRandomBodyY() - d1 * 10.0D, this.getParticleZ(1.0D) - d2 * 10.0D, 2 * d0, d1, 2 * d2);
+            	this.getEntityWorld().addParticleClient(AerialHellParticleTypes.SHADOW_PARTICLE, this.getParticleX(1.0D) - d0 * 10.0D, this.getRandomBodyY() - d1 * 10.0D, this.getParticleZ(1.0D) - d2 * 10.0D, 2 * d0, d1, 2 * d2);
             }
         }
         else
         {
-           this.getWorld().sendEntityStatus(this, (byte)20);
+           this.getEntityWorld().sendEntityStatus(this, (byte)20);
         }
 	}
 	
@@ -539,7 +539,7 @@ public class LilithEntity extends AbstractBossEntity
 
 		@Override public Entity createEntity()
 		{
-			return AerialHellEntities.SHADOW_FLYING_SKULL.create(this.getGoalOwner().getWorld(), SpawnReason.MOB_SUMMONED);
+			return AerialHellEntities.SHADOW_FLYING_SKULL.create(this.getGoalOwner().getEntityWorld(), SpawnReason.MOB_SUMMONED);
 		}
 
 		@Override protected void setEntityPosToSummonPos(Entity entity) {entity.setPos(this.getGoalOwner().getX(), this.getGoalOwner().getY() + 1.0, this.getGoalOwner().getZ());}

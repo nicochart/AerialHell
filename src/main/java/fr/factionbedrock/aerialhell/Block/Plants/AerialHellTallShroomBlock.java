@@ -66,7 +66,7 @@ public class AerialHellTallShroomBlock extends ShortPlantBlock
 		return state.isIn(BlockTags.DIRT) || state.isOf(AerialHellBlocks.STELLAR_COARSE_DIRT) || state.isIn(AerialHellTags.Blocks.STELLAR_STONE_AND_DERIVATIVES) || state.isIn(BlockTags.MUSHROOM_GROW_BLOCK);
 	}
 
-	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler)
+	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean intersects)
 	{
 		if (this == AerialHellBlocks.GIANT_ROOT_SHROOM && entity instanceof LivingEntity livingEntity)
 		{

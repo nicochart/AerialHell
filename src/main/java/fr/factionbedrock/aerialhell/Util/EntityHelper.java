@@ -172,7 +172,7 @@ public class EntityHelper
 
     public static void setAerialHellPortalEffect(LivingEntity entity)
     {
-        if (!entity.getWorld().isClient())
+        if (!entity.getEntityWorld().isClient())
         {
             entity.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL, 120, 0));
         }
@@ -180,7 +180,7 @@ public class EntityHelper
 
     public static void setAfterTeleportationEffect(LivingEntity entity, int duration)
     {
-        if (!entity.getWorld().isClient())
+        if (!entity.getEntityWorld().isClient())
         {
             entity.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN, duration, 0));
         }
@@ -200,7 +200,7 @@ public class EntityHelper
     {
         for (int i=0; i<number; i++)
         {
-            entity.getWorld().addParticleClient(AerialHellParticleTypes.SHADOW_TROLL_BAT, entity.getX() + rand.nextFloat() - 0.5, entity.getY() + 2 * rand.nextFloat(), entity.getZ() + rand.nextFloat() - 0.5, 2 * (rand.nextFloat()) - 0.5, -0.3D, 2 * (rand.nextFloat() - 0.5));
+            entity.getEntityWorld().addParticleClient(AerialHellParticleTypes.SHADOW_TROLL_BAT, entity.getX() + rand.nextFloat() - 0.5, entity.getY() + 2 * rand.nextFloat(), entity.getZ() + rand.nextFloat() - 0.5, 2 * (rand.nextFloat()) - 0.5, -0.3D, 2 * (rand.nextFloat() - 0.5));
         }
     }
 
@@ -280,8 +280,8 @@ public class EntityHelper
             double eyeY = player.getEyeY() + (double)(((float)((i >> 1) % 2) - 0.5F) * 0.1F * player.getScale());
             double eyeZ = player.getZ() + (double)(((float)((i >> 2) % 2) - 0.5F) * player.getWidth() * 0.8F);
             mutable.set(eyeX, eyeY, eyeZ);
-            BlockState blockState = player.getWorld().getBlockState(mutable);
-            if (blockState.getRenderType() != BlockRenderType.INVISIBLE && blockState.shouldBlockVision(player.getWorld(), mutable)) {return blockState;}
+            BlockState blockState = player.getEntityWorld().getBlockState(mutable);
+            if (blockState.getRenderType() != BlockRenderType.INVISIBLE && blockState.shouldBlockVision(player.getEntityWorld(), mutable)) {return blockState;}
         }
         return null;
     }
@@ -296,7 +296,7 @@ public class EntityHelper
             double eyeY = player.getEyeY() + (double)(((float)((i >> 1) % 2) - 0.5F) * 0.1F * player.getScale());
             double eyeZ = player.getZ() + (double)(((float)((i >> 2) % 2) - 0.5F) * player.getWidth() * 0.8F);
             mutable.set(eyeX, eyeY, eyeZ);
-            FluidState fluidState = player.getWorld().getFluidState(mutable);
+            FluidState fluidState = player.getEntityWorld().getFluidState(mutable);
             if (!fluidState.isOf(Fluids.EMPTY)) {return fluidState;}
         }
         return null;
@@ -304,7 +304,7 @@ public class EntityHelper
 
     public static void debugSnakeEntity(AbstractSnakeEntity snakeEntity, PlayerEntity messageReceiver)
     {
-        if (!snakeEntity.getWorld().isClient)
+        if (!snakeEntity.getEntityWorld().isClient())
         {
             AbstractSnakeEntity nextBodyPart = snakeEntity.getNextBodyPart(), previousBodyPart = snakeEntity.getPreviousBodyPart();
             String nextBodyPartString = "[", previousBodyPartString = "[";

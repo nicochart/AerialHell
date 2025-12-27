@@ -6,6 +6,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.ArmPosing;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.ModelWithArms;
+import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Arm;
 import net.minecraft.util.math.MathHelper;
@@ -71,9 +72,9 @@ public class HumanoidTwoLayerModel<T extends HumanoidTwoLayerRenderState> extend
 		float netHeadYaw = renderState.relativeHeadYaw;
 		float limbSwing = renderState.limbSwingAnimationProgress;
 		float limbSwingAmount = renderState.limbSwingAmplitude;
-		
-		ArmPosing.zombieArms(this.leftArm, this.rightArm, renderState.isAggressive, renderState.handSwingProgress, renderState.age);
-		ArmPosing.zombieArms(this.leftArm_overlay, this.rightArm_overlay, renderState.isAggressive, renderState.handSwingProgress, renderState.age);
+
+		ArmPosing.zombieArms(this.leftArm, this.rightArm, renderState.isAggressive, renderState);
+		ArmPosing.zombieArms(this.leftArm_overlay, this.rightArm, renderState.isAggressive, renderState);
 		setupHeadAnim(this.head, netHeadYaw, headPitch);
 		setupHeadAnim(this.head_overlay, netHeadYaw, headPitch);
 		setupLegsAnim(this.leftLeg, this.rightLeg, limbSwing, limbSwingAmount);
@@ -110,10 +111,7 @@ public class HumanoidTwoLayerModel<T extends HumanoidTwoLayerRenderState> extend
 		rightLeg_overlay.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 	}
 
-	@Override public void setArmAngle(Arm arm, MatrixStack matrices)
-	{
-		this.getArm(arm).applyTransform(matrices);
-	}
+	@Override public void setArmAngle(EntityRenderState state, Arm arm, MatrixStack matrices) {this.getArm(arm).applyTransform(matrices);}
 
 	protected ModelPart getArm(Arm arm) {return arm == Arm.LEFT ? this.rightArm : this.leftArm;}
 }
