@@ -26,7 +26,6 @@ public class RenderRegistrationListener
 
         BlockRenderLayer translucent = BlockRenderLayer.TRANSLUCENT;
         BlockRenderLayer cutout = BlockRenderLayer.CUTOUT;
-        BlockRenderLayer cutout_mipped = BlockRenderLayer.SOLID; //TODO check
 
         BlockRenderLayerMap.putBlock(AerialHellBlocks.AERIAL_HELL_PORTAL, translucent);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.GHOST_BOAT_CHEST, translucent);
@@ -106,10 +105,10 @@ public class RenderRegistrationListener
         BlockRenderLayerMap.putBlock(AerialHellBlocks.GOLDEN_NETHER_PRISON_GLYPH_BLOCK, translucent);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.VOLUCITE_GLYPH_BLOCK, translucent);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.SHADOW_CATACOMBS_GLYPH_BLOCK, translucent);
-        BlockRenderLayerMap.putBlock(AerialHellBlocks.STELLAR_GRASS_BLOCK, cutout_mipped);
-        BlockRenderLayerMap.putBlock(AerialHellBlocks.STELLAR_PODZOL, cutout_mipped);
-        BlockRenderLayerMap.putBlock(AerialHellBlocks.CHISELED_STELLAR_GRASS_BLOCK, cutout_mipped);
-        BlockRenderLayerMap.putBlock(AerialHellBlocks.SHADOW_GRASS_BLOCK, cutout_mipped);
+        BlockRenderLayerMap.putBlock(AerialHellBlocks.STELLAR_GRASS_BLOCK, cutout);
+        BlockRenderLayerMap.putBlock(AerialHellBlocks.STELLAR_PODZOL, cutout);
+        BlockRenderLayerMap.putBlock(AerialHellBlocks.CHISELED_STELLAR_GRASS_BLOCK, cutout);
+        BlockRenderLayerMap.putBlock(AerialHellBlocks.SHADOW_GRASS_BLOCK, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.STELLAR_GRASS, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.STELLAR_GRASS_BALL, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.STELLAR_FERN, cutout);
@@ -203,10 +202,10 @@ public class RenderRegistrationListener
         BlockRenderLayerMap.putBlock(AerialHellBlocks.FLUORITE_LANTERN, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.LUNATIC_LANTERN, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.SHADOW_LANTERN, cutout);
-        BlockRenderLayerMap.putBlock(AerialHellBlocks.RUBY_CHAIN, cutout_mipped);
-        BlockRenderLayerMap.putBlock(AerialHellBlocks.VOLUCITE_CHAIN, cutout_mipped);
-        BlockRenderLayerMap.putBlock(AerialHellBlocks.LUNATIC_CHAIN, cutout_mipped);
-        BlockRenderLayerMap.putBlock(AerialHellBlocks.SHADOW_CHAIN, cutout_mipped);
+        BlockRenderLayerMap.putBlock(AerialHellBlocks.RUBY_CHAIN, cutout);
+        BlockRenderLayerMap.putBlock(AerialHellBlocks.VOLUCITE_CHAIN, cutout);
+        BlockRenderLayerMap.putBlock(AerialHellBlocks.LUNATIC_CHAIN, cutout);
+        BlockRenderLayerMap.putBlock(AerialHellBlocks.SHADOW_CHAIN, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.SHADOW_TORCH, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.SHADOW_WALL_TORCH, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.VOLUCITE_TORCH, cutout);

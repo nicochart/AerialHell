@@ -111,9 +111,6 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
 		float vStep = (spriteMaxV - spriteMinV) / 2.0F;
 		VertexFormat vertexFormat = VertexFormats.POSITION_TEXTURE;
 
-		System.out.println("MinU = "+sprite.getMinU()+", MaxU = "+sprite.getMaxU()+", MinV = "+sprite.getMinV()+", MaxV = "+sprite.getMaxV());
-		System.out.println("uStep = "+uStep+", vStep = "+vStep);
-
 		GpuBuffer buffer;
 		try (BufferAllocator bufferAllocator = BufferAllocator.fixedSized(32 * vertexFormat.getVertexSize()))
 		{
