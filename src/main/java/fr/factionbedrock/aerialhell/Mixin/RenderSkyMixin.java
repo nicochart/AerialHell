@@ -2,11 +2,9 @@ package fr.factionbedrock.aerialhell.Mixin;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.systems.RenderSystem;
-import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSkyRenderer;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import net.minecraft.block.enums.CameraSubmersionType;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.state.SkyRenderState;
 import net.minecraft.client.render.state.WorldRenderState;
@@ -17,6 +15,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.world.dimension.DimensionType;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -28,6 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class RenderSkyMixin
 {
     @Shadow @Final public WorldRenderState worldRenderState;
+    @Shadow private @Nullable SkyRendering skyRendering;
     private static AerialHellDimensionSkyRenderer ahSkyRenderer = null;
     
     @Inject(method = "renderSky", at = @At("HEAD"), cancellable = true)
@@ -42,7 +42,7 @@ public class RenderSkyMixin
         CameraSubmersionType cameraSubmersionType = camera.getSubmersionType();
         if (cameraSubmersionType != CameraSubmersionType.POWDER_SNOW && cameraSubmersionType != CameraSubmersionType.LAVA && !hasBlindnessOrDarknessEffect(camera))
         {
-            SkyRenderState skyRenderState = worldRenderer.worldRenderState.skyRenderState;
+            SkyRenderState skyRenderState = worldRenderState.skyRenderState;
             if (skyRenderState.skybox != DimensionType.Skybox.NONE)
             {
                 FramePass framePass = frameGraphBuilder.createPass("sky");

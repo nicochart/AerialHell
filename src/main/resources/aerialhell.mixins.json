@@ -27,6 +27,9 @@
 		"ItemTintMixin",
 		"RenderSkyMixin"
 	],
+	"client" : [
+		"ChestVariantMixin"
+	],
 	"injectors": {
 		"defaultRequire": 1
 	}

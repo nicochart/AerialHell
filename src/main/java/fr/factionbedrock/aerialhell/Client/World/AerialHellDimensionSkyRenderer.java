@@ -33,8 +33,8 @@ import java.util.OptionalInt;
 
 public class AerialHellDimensionSkyRenderer implements AutoCloseable
 {
-	private static final Identifier AERIAL_HELL_SUN_LOCATION = AerialHell.id("textures/environment/aerial_hell_sun.png");
-	private static final Identifier AERIAL_HELL_MOON_PHASES_LOCATION = AerialHell.id("textures/environment/aerial_hell_moon_phases.png");
+	private static final Identifier AERIAL_HELL_SUN_LOCATION = AerialHell.id("aerial_hell_sun");
+	private static final Identifier AERIAL_HELL_MOON_PHASES_LOCATION = AerialHell.id("aerial_hell_moon_phases");
 	private final RenderSystem.ShapeIndexBuffer starIndices;
 	private final RenderSystem.ShapeIndexBuffer quadIndices;
 	private final SpriteAtlasTexture celestialAtlasTexture;
@@ -105,28 +105,37 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
 
 	private static GpuBuffer createMoonPhases(SpriteAtlasTexture atlas)
 	{
-		MoonPhase[] moonPhases = MoonPhase.values();
+		Sprite sprite = atlas.getSprite(AERIAL_HELL_MOON_PHASES_LOCATION);
+		float spriteMinU = sprite.getMinU(), spriteMaxU = sprite.getMaxU(), spriteMinV = sprite.getMinV(), spriteMaxV = sprite.getMaxV();
+		float uStep = (spriteMaxU - spriteMinU) / 4.0F;
+		float vStep = (spriteMaxV - spriteMinV) / 2.0F;
 		VertexFormat vertexFormat = VertexFormats.POSITION_TEXTURE;
 
-		GpuBuffer var15;
-		try (BufferAllocator bufferAllocator = BufferAllocator.fixedSized(moonPhases.length * 4 * vertexFormat.getVertexSize()))
+		System.out.println("MinU = "+sprite.getMinU()+", MaxU = "+sprite.getMaxU()+", MinV = "+sprite.getMinV()+", MaxV = "+sprite.getMaxV());
+		System.out.println("uStep = "+uStep+", vStep = "+vStep);
+
+		GpuBuffer buffer;
+		try (BufferAllocator bufferAllocator = BufferAllocator.fixedSized(32 * vertexFormat.getVertexSize()))
 		{
 			BufferBuilder bufferBuilder = new BufferBuilder(bufferAllocator, VertexFormat.DrawMode.QUADS, vertexFormat);
 
-			for(MoonPhase moonPhase : moonPhases)
+			for (int k = 0; k < 8; k++)
 			{
-				Sprite sprite = atlas.getSprite(AERIAL_HELL_MOON_PHASES_LOCATION);
-				bufferBuilder.vertex(-1.0F, 0.0F, -1.0F).texture(sprite.getMaxU(), sprite.getMaxV());
-				bufferBuilder.vertex(1.0F, 0.0F, -1.0F).texture(sprite.getMinU(), sprite.getMaxV());
-				bufferBuilder.vertex(1.0F, 0.0F, 1.0F).texture(sprite.getMinU(), sprite.getMinV());
-				bufferBuilder.vertex(-1.0F, 0.0F, 1.0F).texture(sprite.getMaxU(), sprite.getMinV());
+				int uInd = k % 4; //column index
+				int vInd = k / 4 % 2; //row index
+				float minU = spriteMinU + uStep * uInd;
+				float minV = spriteMinV + vStep * vInd;
+				float maxU = minU + uStep;
+				float maxV = minV + vStep;
+				bufferBuilder.vertex(-1.0F, 0.0F, -1.0F).texture(maxU, maxV);
+				bufferBuilder.vertex(1.0F, 0.0F, -1.0F).texture(minU, maxV);
+				bufferBuilder.vertex(1.0F, 0.0F, 1.0F).texture(minU, minV);
+				bufferBuilder.vertex(-1.0F, 0.0F, 1.0F).texture(maxU, minV);
 			}
 
-			try (BuiltBuffer builtBuffer = bufferBuilder.end()) {
-				var15 = RenderSystem.getDevice().createBuffer(() -> "Moon phases", 32, builtBuffer.getBuffer());
-			}
+			try (BuiltBuffer builtBuffer = bufferBuilder.end()) {buffer = RenderSystem.getDevice().createBuffer(() -> "Moon phases", 32, builtBuffer.getBuffer());}
 		}
-		return var15;
+		return buffer;
 	}
 
 	private GpuBuffer createSunRise()
