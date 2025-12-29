@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Registry.Worldgen;
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.levelgen.placement.*;
 
 import java.util.List;
@@ -115,7 +115,7 @@ public class AerialHellPlacedFeatures
     public static final ResourceKey<PlacedFeature> STELLAR_GRASS_BONEMEAL = createKey("stellar_grass_bonemeal");
     public static final ResourceKey<PlacedFeature> SHADOW_GRASS_BONEMEAL = createKey("shadow_grass_bonemeal");
 
-    public static ResourceKey<PlacedFeature> createKey(String name) {return ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));}
+    public static ResourceKey<PlacedFeature> createKey(String name) {return ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));}
 
     /*public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, AerialHell.MODID);
 

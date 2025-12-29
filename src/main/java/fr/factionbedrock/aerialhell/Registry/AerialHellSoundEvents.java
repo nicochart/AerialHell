@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Registry;
 import fr.factionbedrock.aerialhell.AerialHell;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -140,6 +140,6 @@ public class AerialHellSoundEvents
 	
 	private static DeferredHolder<SoundEvent, SoundEvent> register(String name)
 	{
-		return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name)));
+		return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath(AerialHell.MODID, name)));
 	}
 }

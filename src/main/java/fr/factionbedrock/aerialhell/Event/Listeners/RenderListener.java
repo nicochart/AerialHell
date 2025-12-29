@@ -8,7 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
 import java.util.Optional;
@@ -19,13 +19,13 @@ import java.util.Optional;
 public class RenderListener
 {
     //TODO work on that
-    private static final ResourceLocation VULNERABLE_OVERLAY = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/misc/vulnerability_blur.png");
-    private static final ResourceLocation VULNERABLE_HEART = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_hearts.png");
-    private static final ResourceLocation VULNERABLE_HEART_WITH_BORDER = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_hearts_with_border.png");
-    private static final ResourceLocation VULNERABLE_HALF_HEART = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_half_hearts.png");
-    private static final ResourceLocation VULNERABLE_HALF_HEART_WITH_BORDER = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_half_hearts_with_border.png");
-    private static final ResourceLocation VULNERABLE_EMPTY_HEART = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts.png");
-    private static final ResourceLocation VULNERABLE_EMPTY_HEART_WITH_BORDER = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts_with_border.png");
+    private static final Identifier VULNERABLE_OVERLAY = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/misc/vulnerability_blur.png");
+    private static final Identifier VULNERABLE_HEART = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_hearts.png");
+    private static final Identifier VULNERABLE_HEART_WITH_BORDER = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_hearts_with_border.png");
+    private static final Identifier VULNERABLE_HALF_HEART = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_half_hearts.png");
+    private static final Identifier VULNERABLE_HALF_HEART_WITH_BORDER = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_half_hearts_with_border.png");
+    private static final Identifier VULNERABLE_EMPTY_HEART = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts.png");
+    private static final Identifier VULNERABLE_EMPTY_HEART_WITH_BORDER = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_empty_hearts_with_border.png");
 
     private static final int HEART_ICON_WIDTH = 9;
     private static final int HEART_ICON_HEIGHT = 9;
@@ -78,7 +78,7 @@ public class RenderListener
     }*/
 
     //Copy of Gui.renderTextureOverlay
-    public static void renderTextureOverlay(GuiGraphics graphics, ResourceLocation textureLocation, float alpha)
+    public static void renderTextureOverlay(GuiGraphics graphics, Identifier textureLocation, float alpha)
     {
         int color = ARGB.white(alpha);
         graphics.blit(RenderPipelines.GUI_TEXTURED, textureLocation, 0, 0, 0.0F, 0.0F, graphics.guiWidth(), graphics.guiHeight(), graphics.guiWidth(), graphics.guiHeight(), color);

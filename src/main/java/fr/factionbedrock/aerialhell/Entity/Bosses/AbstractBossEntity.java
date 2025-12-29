@@ -29,13 +29,13 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.entity.vehicle.boat.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
@@ -365,7 +365,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		{
 			//Copy of net.minecraft.world.entity.vehicle.VehicleEntity.destroy(Item item) {..}
 			entity.kill(level);
-			if (level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS))
+			if (level.getGameRules().get(GameRules.ENTITY_DROPS))
 			{
 				ItemStack itemstack = new ItemStack(boat.getDropItem());
 				itemstack.set(DataComponents.CUSTOM_NAME, this.getCustomName());

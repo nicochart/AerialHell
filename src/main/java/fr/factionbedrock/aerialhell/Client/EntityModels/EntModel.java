@@ -119,10 +119,9 @@ public class EntModel<S extends EntRenderState> extends EntityModel<S>
 		float netHeadYaw = renderState.yRot;
 		float limbSwing = renderState.walkAnimationPos;
 		float limbSwingAmount = renderState.walkAnimationSpeed;
-		float ageInTicks = renderState.ageInTicks;
 
-		AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, renderState.isAggressive, renderState.attackTime, ageInTicks);
-		AnimationUtils.animateZombieArms(this.leftArmLeaves, this.rightArmLeaves, renderState.isAggressive, renderState.attackTime, ageInTicks);
+		AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, renderState.isAggressive, renderState);
+		AnimationUtils.animateZombieArms(this.leftArmLeaves, this.rightArmLeaves, renderState.isAggressive, renderState);
 		setupHeadAnim(this.head, netHeadYaw, headPitch);
 		setupHeadAnim(this.headLeaves, netHeadYaw, headPitch);
 		setupLegsAnim(this.leftLeg, this.rightLeg, limbSwing, limbSwingAmount);

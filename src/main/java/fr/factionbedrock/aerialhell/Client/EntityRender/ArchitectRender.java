@@ -7,12 +7,12 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.ArchitectRenderSta
 import fr.factionbedrock.aerialhell.Entity.Bosses.ArchitectEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ArchitectRender extends MobRenderer<ArchitectEntity, ArchitectRenderState, ArchitectModel>
 {
 	private static String name = "architect";
-    private static final ResourceLocation ARCHITECT = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
+    private static final Identifier ARCHITECT = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
 
     public ArchitectRender(EntityRendererProvider.Context context)
 	{
@@ -27,10 +27,10 @@ public class ArchitectRender extends MobRenderer<ArchitectEntity, ArchitectRende
 		renderState.texture = getTextureLocation(entity);
 	}
 
-	private ResourceLocation getTextureLocation(ArchitectEntity entity)
+	private Identifier getTextureLocation(ArchitectEntity entity)
     {
 		return ARCHITECT;
     }
 
-	@Override public ResourceLocation getTextureLocation(ArchitectRenderState renderState) {return renderState.texture;}
+	@Override public Identifier getTextureLocation(ArchitectRenderState renderState) {return renderState.texture;}
 }

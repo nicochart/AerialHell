@@ -7,11 +7,11 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.ShadowFlyingSkullR
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowFlyingSkullEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ShadowFlyingSkullRender<T extends ShadowFlyingSkullEntity> extends MobRenderer<T, ShadowFlyingSkullRenderState, ShadowFlyingSkullModel>
 {
-	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/flying_skull/shadow_flying_skull.png");
+	private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/flying_skull/shadow_flying_skull.png");
 
 	public ShadowFlyingSkullRender(EntityRendererProvider.Context context)
 	{
@@ -27,5 +27,5 @@ public class ShadowFlyingSkullRender<T extends ShadowFlyingSkullEntity> extends 
 		renderState.jawOpeningFrequencyMalus = entity.jawOpeningFrequencyMalus;
 	}
 
-	@Override public ResourceLocation getTextureLocation(ShadowFlyingSkullRenderState renderState) {return TEXTURE;}
+	@Override public Identifier getTextureLocation(ShadowFlyingSkullRenderState renderState) {return TEXTURE;}
 }

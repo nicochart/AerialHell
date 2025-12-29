@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Client.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.state.properties.ChestType;
 
 import static net.minecraft.client.renderer.Sheets.CHEST_SHEET;
@@ -56,9 +56,9 @@ public class AerialHellChestMaterials
     {
         return switch (type)
         {
-            case LEFT -> new Material(CHEST_SHEET, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "entity/chest/" + name + "/" + name + "_left"));
-            case RIGHT -> new Material(CHEST_SHEET, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "entity/chest/" + name + "/" + name + "_right"));
-            default -> new Material(CHEST_SHEET, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "entity/chest/" + name + "/" + name));
+            case LEFT -> new Material(CHEST_SHEET, Identifier.fromNamespaceAndPath(AerialHell.MODID, "entity/chest/" + name + "/" + name + "_left"));
+            case RIGHT -> new Material(CHEST_SHEET, Identifier.fromNamespaceAndPath(AerialHell.MODID, "entity/chest/" + name + "/" + name + "_right"));
+            default -> new Material(CHEST_SHEET, Identifier.fromNamespaceAndPath(AerialHell.MODID, "entity/chest/" + name + "/" + name));
         };
     }
 }

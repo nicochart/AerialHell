@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_bottom_top",
-  "render_type": "minecraft:cutout_mipped",
+  "render_type": "minecraft:cutout",
   "textures": {
     "top": "aerialhell:block/stellar_grass_block_top",
     "bottom": "aerialhell:block/stellar_dirt",

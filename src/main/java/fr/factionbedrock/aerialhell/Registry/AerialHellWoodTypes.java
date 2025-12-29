@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Registry;
 
 import net.minecraft.client.renderer.Sheets;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.SoundType;
@@ -13,14 +13,14 @@ import static fr.factionbedrock.aerialhell.AerialHell.MODID;
 
 public class AerialHellWoodTypes
 {
-    public static WoodType AERIAL_TREE = createDefault(ResourceLocation.fromNamespaceAndPath(MODID, "aerial_tree").toString());
-    public static WoodType COPPER_PINE = createDefault(ResourceLocation.fromNamespaceAndPath(MODID, "copper_pine").toString());
-    public static WoodType LAPIS_ROBINIA = createDefault(ResourceLocation.fromNamespaceAndPath(MODID, "lapis_robinia").toString());
-    public static WoodType GOLDEN_BEECH = createDefault(ResourceLocation.fromNamespaceAndPath(MODID, "golden_beech").toString());
-    public static WoodType STELLAR_JUNGLE_TREE = createDefault(ResourceLocation.fromNamespaceAndPath(MODID, "stellar_jungle_tree").toString());
-    public static WoodType SHADOW_PINE = createDefault(ResourceLocation.fromNamespaceAndPath(MODID, "shadow_pine").toString());
-    public static WoodType SKY_CACTUS_FIBER = createDefault(ResourceLocation.fromNamespaceAndPath(MODID, "sky_cactus_fiber").toString());
-    public static WoodType GRAY_SHROOM = createComplete(ResourceLocation.fromNamespaceAndPath(MODID, "gray_shroom").toString(), BlockSetType.OAK, SoundType.NETHER_WOOD, SoundType.NETHER_WOOD_HANGING_SIGN, SoundEvents.NETHER_WOOD_FENCE_GATE_CLOSE, SoundEvents.NETHER_WOOD_FENCE_GATE_OPEN);
+    public static WoodType AERIAL_TREE = createDefault(Identifier.fromNamespaceAndPath(MODID, "aerial_tree").toString());
+    public static WoodType COPPER_PINE = createDefault(Identifier.fromNamespaceAndPath(MODID, "copper_pine").toString());
+    public static WoodType LAPIS_ROBINIA = createDefault(Identifier.fromNamespaceAndPath(MODID, "lapis_robinia").toString());
+    public static WoodType GOLDEN_BEECH = createDefault(Identifier.fromNamespaceAndPath(MODID, "golden_beech").toString());
+    public static WoodType STELLAR_JUNGLE_TREE = createDefault(Identifier.fromNamespaceAndPath(MODID, "stellar_jungle_tree").toString());
+    public static WoodType SHADOW_PINE = createDefault(Identifier.fromNamespaceAndPath(MODID, "shadow_pine").toString());
+    public static WoodType SKY_CACTUS_FIBER = createDefault(Identifier.fromNamespaceAndPath(MODID, "sky_cactus_fiber").toString());
+    public static WoodType GRAY_SHROOM = createComplete(Identifier.fromNamespaceAndPath(MODID, "gray_shroom").toString(), BlockSetType.OAK, SoundType.NETHER_WOOD, SoundType.NETHER_WOOD_HANGING_SIGN, SoundEvents.NETHER_WOOD_FENCE_GATE_CLOSE, SoundEvents.NETHER_WOOD_FENCE_GATE_OPEN);
 
     private static WoodType createDefault(String name) {return new WoodType(name, BlockSetType.OAK);}
 

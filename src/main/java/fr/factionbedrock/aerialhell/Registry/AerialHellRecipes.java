@@ -4,7 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Recipe.OscillatingRecipe;
 import fr.factionbedrock.aerialhell.Recipe.FreezingRecipe;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -24,7 +24,7 @@ public class AerialHellRecipes
 	{
 		public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(BuiltInRegistries.RECIPE_TYPE, AerialHell.MODID);
 
-		public static final DeferredHolder<RecipeType<?>, RecipeType<OscillatingRecipe>> OSCILLATING = RECIPE_TYPES.register("oscillating", () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "oscillating")));
-		public static final DeferredHolder<RecipeType<?>, RecipeType<FreezingRecipe>> FREEZING = RECIPE_TYPES.register("freezing", () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "freezing")));
+		public static final DeferredHolder<RecipeType<?>, RecipeType<OscillatingRecipe>> OSCILLATING = RECIPE_TYPES.register("oscillating", () -> RecipeType.simple(Identifier.fromNamespaceAndPath(AerialHell.MODID, "oscillating")));
+		public static final DeferredHolder<RecipeType<?>, RecipeType<FreezingRecipe>> FREEZING = RECIPE_TYPES.register("freezing", () -> RecipeType.simple(Identifier.fromNamespaceAndPath(AerialHell.MODID, "freezing")));
 	}
 }

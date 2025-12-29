@@ -1,10 +1,10 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.State;
 
-import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.entity.state.UndeadRenderState;
+import net.minecraft.resources.Identifier;
 
-public class HumanoidTwoLayerRenderState extends HumanoidRenderState
+public class HumanoidTwoLayerRenderState extends UndeadRenderState
 {
-    public ResourceLocation texture;
+    public Identifier texture;
     public boolean isAggressive;
 }

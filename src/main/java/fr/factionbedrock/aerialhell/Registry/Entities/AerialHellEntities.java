@@ -23,7 +23,7 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacementTypes;
@@ -320,7 +320,7 @@ public class AerialHellEntities
 
 		private static ResourceKey<EntityType<?>> key(String name)
 		{
-			return ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+			return ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 

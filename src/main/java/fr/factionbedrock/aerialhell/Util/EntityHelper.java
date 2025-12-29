@@ -40,13 +40,9 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.animal.Chicken;
-import net.minecraft.world.entity.monster.EnderMan;
-import net.minecraft.world.entity.monster.Silverfish;
-import net.minecraft.world.entity.monster.Vex;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.Entity;
@@ -197,7 +193,7 @@ public class EntityHelper
             if (dimensiontransition != null)
             {
                 ServerLevel serverlevel1 = dimensiontransition.newLevel();
-                if (serverlevel.getServer().isAllowedToEnterPortal(serverlevel1) && (serverlevel1.dimension() == serverlevel.dimension() || entity.canTeleport(serverlevel, serverlevel1)))
+                if (serverlevel.isAllowedToEnterPortal(serverlevel1) && (serverlevel1.dimension() == serverlevel.dimension() || entity.canTeleport(serverlevel, serverlevel1)))
                 {
                     entity.teleport(dimensiontransition);
                 }

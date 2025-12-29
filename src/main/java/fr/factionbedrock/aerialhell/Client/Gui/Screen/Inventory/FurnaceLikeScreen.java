@@ -4,7 +4,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractFurnaceScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.SearchRecipeBookCategory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractFurnaceMenu;
 import net.minecraft.world.item.Items;
@@ -22,7 +22,7 @@ public class FurnaceLikeScreen<T extends AbstractFurnaceMenu> extends AbstractFu
             new RecipeBookComponent.TabInfo(Items.LAVA_BUCKET, Items.EMERALD, RecipeBookCategories.FURNACE_MISC)
     );
 
-    public FurnaceLikeScreen(T container, Inventory inventory, Component name, ResourceLocation texture, ResourceLocation litProgressSprite, ResourceLocation burnProgressSprite)
+    public FurnaceLikeScreen(T container, Inventory inventory, Component name, Identifier texture, Identifier litProgressSprite, Identifier burnProgressSprite)
     {
         super(container, inventory, name, FILTER_NAME, texture, litProgressSprite, burnProgressSprite, TABS);
     }

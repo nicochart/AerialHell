@@ -194,7 +194,6 @@ public class FatPhantomEntity extends Phantom implements Enemy
    }
    
    @Override public boolean fireImmune() {return false;}
-   @Override protected boolean isSunBurnTick() {return false;}
 
    @Override
    public void aiStep()

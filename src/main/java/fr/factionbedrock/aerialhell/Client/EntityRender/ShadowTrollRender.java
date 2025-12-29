@@ -10,12 +10,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ShadowTrollRender extends MobRenderer<ShadowTrollEntity, ShadowTrollRenderState, ShadowTrollModel>
 {	
-	private static final ResourceLocation TEXTURE_NORMAL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/shadow_troll/shadow_troll.png");
-	private static final ResourceLocation TEXTURE_INVERT = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/shadow_troll/shadow_troll_invert.png");
+	private static final Identifier TEXTURE_NORMAL = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/shadow_troll/shadow_troll.png");
+	private static final Identifier TEXTURE_INVERT = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/shadow_troll/shadow_troll_invert.png");
 
 	public ShadowTrollRender(EntityRendererProvider.Context context)
 	{
@@ -32,11 +32,11 @@ public class ShadowTrollRender extends MobRenderer<ShadowTrollEntity, ShadowTrol
 		renderState.isDisappearing = entity.isDisappearing();
 	}
 
-	public ResourceLocation getTextureLocation(ShadowTrollEntity entity)
+	public Identifier getTextureLocation(ShadowTrollEntity entity)
 	{
 		if (Minecraft.getInstance().player.hasEffect(MobEffects.NIGHT_VISION)) {return TEXTURE_INVERT;}
 		else {return TEXTURE_NORMAL;}
 	}
 
-	@Override public ResourceLocation getTextureLocation(ShadowTrollRenderState renderState) {return renderState.texture;}
+	@Override public Identifier getTextureLocation(ShadowTrollRenderState renderState) {return renderState.texture;}
 }

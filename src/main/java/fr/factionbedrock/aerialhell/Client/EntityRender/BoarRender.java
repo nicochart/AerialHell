@@ -7,11 +7,11 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.BoarEntityRenderSt
 import fr.factionbedrock.aerialhell.Entity.Neutral.BoarEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class BoarRender<T extends BoarEntity> extends MobRenderer<T, BoarEntityRenderState, BoarModel<BoarEntityRenderState>>
 {
-	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/boar/stellar_boar.png");
+	private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/boar/stellar_boar.png");
 
     public BoarRender(EntityRendererProvider.Context context)
 	{
@@ -20,7 +20,7 @@ public class BoarRender<T extends BoarEntity> extends MobRenderer<T, BoarEntityR
 
 	@Override public BoarEntityRenderState createRenderState() {return new BoarEntityRenderState();}
 
-	@Override public ResourceLocation getTextureLocation(BoarEntityRenderState renderState) {return renderState.texture;}
+	@Override public Identifier getTextureLocation(BoarEntityRenderState renderState) {return renderState.texture;}
 
 	@Override public void extractRenderState(T entity, BoarEntityRenderState renderState, float flap)
 	{

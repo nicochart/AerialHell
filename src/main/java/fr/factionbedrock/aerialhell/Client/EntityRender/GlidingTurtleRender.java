@@ -7,12 +7,12 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.GlidingTurtleRende
 import fr.factionbedrock.aerialhell.Entity.Passive.GlidingTurtleEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class GlidingTurtleRender extends MobRenderer<GlidingTurtleEntity, GlidingTurtleRenderState, GlidingTurtleModel>
 {
 	private static String name = "gliding_turtle";
-    private static final ResourceLocation TURTLE_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/"+ name +"/" + name + ".png");
+    private static final Identifier TURTLE_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/"+ name +"/" + name + ".png");
 
     public GlidingTurtleRender(EntityRendererProvider.Context context)
     {
@@ -27,5 +27,5 @@ public class GlidingTurtleRender extends MobRenderer<GlidingTurtleEntity, Glidin
 
     @Override public GlidingTurtleRenderState createRenderState() {return new GlidingTurtleRenderState();}
 
-    @Override public ResourceLocation getTextureLocation(GlidingTurtleRenderState renderState) {return TURTLE_TEXTURE;}
+    @Override public Identifier getTextureLocation(GlidingTurtleRenderState renderState) {return TURTLE_TEXTURE;}
 }

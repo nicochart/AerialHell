@@ -7,11 +7,11 @@ import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.AbstractBarrelMim
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class SpiderBarrelMimicRender<T extends AbstractBarrelMimicEntity> extends MobRenderer<T, LivingEntityRenderState, SpiderBarrelMimicModel>
 {
-	private static final ResourceLocation SHADOW_PINE_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/barrel_mimic/shadow_pine.png");
+	private static final Identifier SHADOW_PINE_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/barrel_mimic/shadow_pine.png");
 
 	public SpiderBarrelMimicRender(EntityRendererProvider.Context context)
 	{
@@ -20,5 +20,5 @@ public class SpiderBarrelMimicRender<T extends AbstractBarrelMimicEntity> extend
 
 	@Override public LivingEntityRenderState createRenderState() {return new LivingEntityRenderState();}
 
-	@Override public ResourceLocation getTextureLocation(LivingEntityRenderState renderState) {return SHADOW_PINE_TEXTURE;}
+	@Override public Identifier getTextureLocation(LivingEntityRenderState renderState) {return SHADOW_PINE_TEXTURE;}
 }

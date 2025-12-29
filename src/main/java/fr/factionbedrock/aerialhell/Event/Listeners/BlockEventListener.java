@@ -8,14 +8,14 @@ import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
@@ -128,7 +128,7 @@ public class BlockEventListener
     }
 
     //function from net.minecraft.client.renderer.ScreenEffectRenderer
-    public static void renderCustomOverlay(Player player, PoseStack poseStack, ResourceLocation texture)
+    public static void renderCustomOverlay(Player player, PoseStack poseStack, Identifier texture)
     {
         BlockPos blockpos = BlockPos.containing(player.getX(), player.getEyeY(), player.getZ());
         float brightness = LightTexture.getBrightness(player.level().dimensionType(), player.level().getMaxLocalRawBrightness(blockpos));
@@ -136,17 +136,17 @@ public class BlockEventListener
         float yaw = -player.getYRot() / 64.0F;
         float pitch = player.getXRot() / 64.0F;
         Matrix4f matrix4f = poseStack.last().pose();
-        VertexConsumer vertexconsumer = Minecraft.getInstance().levelRenderer.renderBuffers.bufferSource().getBuffer(RenderType.blockScreenEffect(texture));
+        VertexConsumer vertexconsumer = Minecraft.getInstance().levelRenderer.renderBuffers.bufferSource().getBuffer(RenderTypes.blockScreenEffect(texture));
         vertexconsumer.addVertex(matrix4f, -1.0F, -1.0F, -0.5F).setUv(4.0F + yaw, 4.0F + pitch).setColor(color);
         vertexconsumer.addVertex(matrix4f, 1.0F, -1.0F, -0.5F).setUv(0.0F + yaw, 4.0F + pitch).setColor(color);
         vertexconsumer.addVertex(matrix4f, 1.0F, 1.0F, -0.5F).setUv(0.0F + yaw, 0.0F + pitch).setColor(color);
         vertexconsumer.addVertex(matrix4f, -1.0F, 1.0F, -0.5F).setUv(4.0F + yaw, 0.0F + pitch).setColor(color);
     }
 
-     private static ResourceLocation getBlockTextureLocation(DeferredBlock<? extends Block> block) {return getBlockTextureLocation(block.getId().getPath());}
+     private static Identifier getBlockTextureLocation(DeferredBlock<? extends Block> block) {return getBlockTextureLocation(block.getId().getPath());}
 
-     private static ResourceLocation getBlockTextureLocation(String id)
+     private static Identifier getBlockTextureLocation(String id)
      {
-         return ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/block/"+id+".png");
+         return Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/block/"+id+".png");
      }
 }

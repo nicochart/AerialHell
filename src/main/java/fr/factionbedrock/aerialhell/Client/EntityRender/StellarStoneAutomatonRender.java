@@ -8,12 +8,12 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.AutomatonRenderSta
 import fr.factionbedrock.aerialhell.Entity.Monster.AutomatonEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class StellarStoneAutomatonRender<T extends AutomatonEntity> extends MobRenderer<T, AutomatonRenderState, AutomatonModel<AutomatonRenderState>>
 {
 	private static String name = "stellar_stone_automaton";
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/automaton/" + name + ".png");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/automaton/" + name + ".png");
 
     public StellarStoneAutomatonRender(EntityRendererProvider.Context context)
     {
@@ -31,5 +31,5 @@ public class StellarStoneAutomatonRender<T extends AutomatonEntity> extends MobR
         renderState.attackTimer = entity.attackTimer;
     }
 
-    @Override public ResourceLocation getTextureLocation(AutomatonRenderState renderState) {return renderState.texture;}
+    @Override public Identifier getTextureLocation(AutomatonRenderState renderState) {return renderState.texture;}
 }

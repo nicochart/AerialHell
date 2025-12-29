@@ -7,11 +7,11 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.VerdigrisZombieRen
 import fr.factionbedrock.aerialhell.Entity.Monster.VerdigrisZombieEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class VerdigrisZombieRender extends MobRenderer<VerdigrisZombieEntity, VerdigrisZombieRenderState, VerdigrisZombieModel>
 {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/zombie/verdigris.png");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/zombie/verdigris.png");
     
     public VerdigrisZombieRender(EntityRendererProvider.Context context)
     {
@@ -27,5 +27,5 @@ public class VerdigrisZombieRender extends MobRenderer<VerdigrisZombieEntity, Ve
         renderState.attackTime = entity.swingTime; //TODO
     }
 
-    @Override public ResourceLocation getTextureLocation(VerdigrisZombieRenderState renderState) {return TEXTURE;}
+    @Override public Identifier getTextureLocation(VerdigrisZombieRenderState renderState) {return TEXTURE;}
 }

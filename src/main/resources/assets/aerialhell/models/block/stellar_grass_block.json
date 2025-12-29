@@ -1,6 +1,6 @@
 {
     "parent": "aerialhell:block/tinted_stellar_grass_like_block",
-    "render_type": "minecraft:cutout_mipped",
+    "render_type": "minecraft:cutout",
     "textures": {
         "bottom": "aerialhell:block/stellar_dirt",
         "top": "aerialhell:block/stellar_grass_block_top",

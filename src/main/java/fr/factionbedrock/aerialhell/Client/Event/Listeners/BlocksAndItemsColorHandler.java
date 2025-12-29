@@ -11,7 +11,7 @@ import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
@@ -223,9 +223,9 @@ public class BlocksAndItemsColorHandler
 
     public static void handleItemColors(RegisterColorHandlersEvent.ItemTintSources event)
     {
-        event.register(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "stellar_grass"), StellarGrassItemTint.MAP_CODEC);
-        event.register(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "shadow_grass"), ShadowGrassItemTint.MAP_CODEC);
-        event.register(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "glyph_block"), GlyphBlockItemTint.MAP_CODEC);
+        event.register(Identifier.fromNamespaceAndPath(AerialHell.MODID, "stellar_grass"), StellarGrassItemTint.MAP_CODEC);
+        event.register(Identifier.fromNamespaceAndPath(AerialHell.MODID, "shadow_grass"), ShadowGrassItemTint.MAP_CODEC);
+        event.register(Identifier.fromNamespaceAndPath(AerialHell.MODID, "glyph_block"), GlyphBlockItemTint.MAP_CODEC);
     }
 
     public static boolean isShadowBindEnabled() {return LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT && isCurrentPlayerInstanceShadowBind();}

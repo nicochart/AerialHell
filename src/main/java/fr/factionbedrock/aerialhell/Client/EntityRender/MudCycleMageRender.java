@@ -7,13 +7,13 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.MudCycleMageRender
 import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.monster.Monster;
 
 public class MudCycleMageRender<E extends Monster> extends MobRenderer<E, MudCycleMageRenderState, MudCycleMageModel>
 {
 	private static String name = "mud_cycle_mage";
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
 	
     public MudCycleMageRender(EntityRendererProvider.Context context)
 	{
@@ -28,5 +28,5 @@ public class MudCycleMageRender<E extends Monster> extends MobRenderer<E, MudCyc
 		renderState.deadOrDyingPhase = entity instanceof MudCycleMageEntity mudCycleMage && mudCycleMage.isInDeadOrDyingPhase();
 	}
 
-	@Override public ResourceLocation getTextureLocation(MudCycleMageRenderState renderState) {return TEXTURE;}
+	@Override public Identifier getTextureLocation(MudCycleMageRenderState renderState) {return TEXTURE;}
 }

@@ -4,14 +4,14 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Inventory.Menu.OscillatorMenu;
 
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.network.chat.Component;
 
 public class OscillatorScreen extends FurnaceLikeScreen<OscillatorMenu>
 {
-	private static final ResourceLocation OSCILLATOR_GUI_TEXTURES = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/container/oscillator.png");
-	private static final ResourceLocation LIT_PROGRESS_SPRITE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "container/oscillator/oscillating_progress");
-	private static final ResourceLocation OSCILLATING_PROGRESS_SPRITE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "container/oscillator/progress");
+	private static final Identifier OSCILLATOR_GUI_TEXTURES = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/container/oscillator.png");
+	private static final Identifier LIT_PROGRESS_SPRITE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "container/oscillator/oscillating_progress");
+	private static final Identifier OSCILLATING_PROGRESS_SPRITE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "container/oscillator/progress");
 
 	public OscillatorScreen(OscillatorMenu container, Inventory inventory, Component name)
 	{

@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Registry.Worldgen;
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.biome.Biome;
 
 public class AerialHellBiomes
@@ -37,6 +37,6 @@ public class AerialHellBiomes
 
 	private static ResourceKey<Biome> makeBiomeKey(String name)
 	{
-		return ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+		return ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));
 	}
 }

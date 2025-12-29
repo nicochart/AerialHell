@@ -9,13 +9,13 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.ShroomBoomRenderSt
 import fr.factionbedrock.aerialhell.Entity.Monster.ShroomBoomEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 //see net.minecraft.client.renderer.entity.CreeperRenderer
 public class ShroomBoomRender extends MobRenderer<ShroomBoomEntity, ShroomBoomRenderState, ShroomBoomModel>
 {	
-	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/shroomboom/shroomboom.png");
+	private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/shroomboom/shroomboom.png");
 	
 	public ShroomBoomRender(EntityRendererProvider.Context context) {super(context, new ShroomBoomModel(context.bakeLayer(AerialHellModelLayers.SHROOMBOOM)), 0.5F);}
 
@@ -48,5 +48,5 @@ public class ShroomBoomRender extends MobRenderer<ShroomBoomEntity, ShroomBoomRe
 	    return (int)(f * 10.0F) % 2 == 0 ? 0.0F : Mth.clamp(f, 0.5F, 1.0F);
 	}
 
-	@Override public ResourceLocation getTextureLocation(ShroomBoomRenderState renderState) {return renderState.texture;}
+	@Override public Identifier getTextureLocation(ShroomBoomRenderState renderState) {return renderState.texture;}
 }

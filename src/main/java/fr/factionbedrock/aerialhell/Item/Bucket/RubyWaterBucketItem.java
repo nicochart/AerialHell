@@ -7,6 +7,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlockContainer;
@@ -80,7 +81,7 @@ public class RubyWaterBucketItem extends Item
         {
             return rayTrace != null && this.tryPlaceContainedLiquid(player, worldIn, rayTrace.getBlockPos().relative(rayTrace.getDirection()), (BlockHitResult)null);
         }
-        else if (worldIn.dimensionType().ultraWarm())
+        else if (worldIn.environmentAttributes().getValue(EnvironmentAttributes.WATER_EVAPORATES, posIn))
         {
             int i = posIn.getX();
             int j = posIn.getY();

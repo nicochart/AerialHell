@@ -77,8 +77,8 @@ public class HumanoidTwoLayerModel<T extends HumanoidTwoLayerRenderState> extend
 		float limbSwing = renderState.walkAnimationPos;
 		float limbSwingAmount = renderState.walkAnimationSpeed;
 		
-		AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, renderState.isAggressive, renderState.attackTime, renderState.ageInTicks);
-		AnimationUtils.animateZombieArms(this.leftArm_overlay, this.rightArm_overlay, renderState.isAggressive, renderState.attackTime, renderState.ageInTicks);
+		AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, renderState.isAggressive, renderState);
+		AnimationUtils.animateZombieArms(this.leftArm_overlay, this.rightArm_overlay, renderState.isAggressive, renderState);
 		setupHeadAnim(this.head, netHeadYaw, headPitch);
 		setupHeadAnim(this.head_overlay, netHeadYaw, headPitch);
 		setupLegsAnim(this.leftLeg, this.rightLeg, limbSwing, limbSwingAmount);

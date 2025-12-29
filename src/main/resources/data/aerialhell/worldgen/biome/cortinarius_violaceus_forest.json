@@ -4,24 +4,23 @@
   "has_precipitation": false,
   "temperature_modifier": "none",
   "effects": {
-    "sky_color": 6388367,
-    "fog_color": 7583106,
     "water_color": 4090254,
-    "water_fog_color": 4019819,
     "grass_color": 4076168,
     "foliage_color": 4859273,
-    "grass_color_modifier": "none",
-    "music": [
-      {
-        "data": {
-          "max_delay": 3600,
-          "min_delay": 1200,
-          "replace_current_music": false,
-          "sound": "aerialhell:aerialhell.dimension_music"
-        },
-        "weight": 1
+    "grass_color_modifier": "none"
+  },
+  "attributes": {
+    "minecraft:audio/background_music": {
+      "default": {
+        "max_delay": 3600,
+        "min_delay": 1200,
+        "sound": "aerialhell:aerialhell.dimension_music",
+        "replace_current_music": false
       }
-    ]
+    },
+    "minecraft:visual/sky_color": 6388367,
+    "minecraft:visual/fog_color": 7583106,
+    "minecraft:visual/water_fog_color": 4019819
   },
   "spawners": {
     "monster": [

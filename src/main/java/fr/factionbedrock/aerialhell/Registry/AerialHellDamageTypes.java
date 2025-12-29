@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Registry;
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
@@ -21,7 +21,7 @@ public class AerialHellDamageTypes
     public static final ResourceKey<DamageType> LUNATIC_PROJECTION = create("lunatic_projection");
     public static final ResourceKey<DamageType> CURSED_TOOL = create("cursed_tool");
 
-    private static ResourceKey<DamageType> create(String name) {return ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));}
+    private static ResourceKey<DamageType> create(String name) {return ResourceKey.create(Registries.DAMAGE_TYPE, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));}
 
     public static DamageSource getDamageSource(Level level, ResourceKey<DamageType> typeKey)
     {

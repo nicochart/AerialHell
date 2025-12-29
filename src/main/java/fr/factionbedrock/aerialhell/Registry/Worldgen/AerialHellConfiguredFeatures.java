@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Registry.Worldgen;
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
 import java.util.List;
@@ -141,7 +141,7 @@ public class AerialHellConfiguredFeatures
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_CORTINARIUS_VIOLACEUS_PLANTED = createKey("giant_cortinarius_violaceus_planted");
 
-    public static ResourceKey<ConfiguredFeature<?, ?>> createKey(String name) {return ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));}
+    public static ResourceKey<ConfiguredFeature<?, ?>> createKey(String name) {return ResourceKey.create(Registries.CONFIGURED_FEATURE, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));}
 
     public static final class Lists
     {

@@ -7,8 +7,8 @@ import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -75,8 +74,8 @@ public class IntangibleTemporaryBlock extends CollisionConditionHalfTransparentB
     {
         if (level instanceof ServerLevel serverlevel && level.getBlockEntity(pos) instanceof IntangibleTemporaryBlockEntity intangibleBlockEntity && intangibleBlockEntity.getBeforeState() != null)
         {
-            ResourceLocation resourcelocation = BuiltInRegistries.BLOCK.getKey(intangibleBlockEntity.getBeforeState().getBlock());
-            ResourceKey<LootTable> lootTable = ResourceKey.create(Registries.LOOT_TABLE, resourcelocation.withPrefix("blocks/"));
+            Identifier identifier = BuiltInRegistries.BLOCK.getKey(intangibleBlockEntity.getBeforeState().getBlock());
+            ResourceKey<LootTable> lootTable = ResourceKey.create(Registries.LOOT_TABLE, identifier.withPrefix("blocks/"));
             LootParams lootparams = new LootParams.Builder(serverlevel).create(LootContextParamSets.EMPTY);
             ServerLevel lootparamserverlevel = lootparams.getLevel();
             LootTable loottable = lootparamserverlevel.getServer().reloadableRegistries().getLootTable(lootTable);

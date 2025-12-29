@@ -7,13 +7,13 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralSoldierEntity;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.AbstractSkeletonRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class MudSoldierRender<E extends MudSoldierEntity> extends AbstractSkeletonRenderer<E, MudSoldierRenderState>
 {
 	private static String name = "mud_soldier";
-	private static final ResourceLocation NORMAL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
-	private static final ResourceLocation SPECTRAL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/mud_spectral_soldier.png");
+	private static final Identifier NORMAL = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
+	private static final Identifier SPECTRAL = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/mud_spectral_soldier.png");
 	
     public MudSoldierRender(EntityRendererProvider.Context context)
 	{
@@ -28,9 +28,9 @@ public class MudSoldierRender<E extends MudSoldierEntity> extends AbstractSkelet
 		renderState.texture = getTextureLocation(entity);
 	}
 
-	@Override public ResourceLocation getTextureLocation(MudSoldierRenderState renderState) {return renderState.texture;}
+	@Override public Identifier getTextureLocation(MudSoldierRenderState renderState) {return renderState.texture;}
 
-	public ResourceLocation getTextureLocation(E entity)
+	public Identifier getTextureLocation(E entity)
     {
 		if (entity instanceof MudSpectralSoldierEntity) {return SPECTRAL;}
 		else {return NORMAL;}

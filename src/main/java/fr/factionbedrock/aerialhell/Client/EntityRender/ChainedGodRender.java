@@ -7,13 +7,13 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.ChainedGodRenderSt
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ChainedGodRender extends MobRenderer<ChainedGodEntity, ChainedGodRenderState, ChainedGodModel>
 {
 	private static String name = "chained_god";
-    private static final ResourceLocation CHAINED = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
-    private static final ResourceLocation UNCHAINED = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + "_unchained.png");
+    private static final Identifier CHAINED = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
+    private static final Identifier UNCHAINED = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + "_unchained.png");
 	
     public ChainedGodRender(EntityRendererProvider.Context context)
 	{
@@ -30,11 +30,11 @@ public class ChainedGodRender extends MobRenderer<ChainedGodEntity, ChainedGodRe
 		renderState.freelyMoving = entity.isFreelyMoving();
 	}
 
-	private ResourceLocation getTextureLocation(ChainedGodEntity entity)
+	private Identifier getTextureLocation(ChainedGodEntity entity)
     {
 		if (entity.isInAnyPhaseBeforeSecondPhase()) {return CHAINED;}
 		else {return UNCHAINED;}
     }
 
-	@Override public ResourceLocation getTextureLocation(ChainedGodRenderState renderState) {return renderState.texture;}
+	@Override public Identifier getTextureLocation(ChainedGodRenderState renderState) {return renderState.texture;}
 }

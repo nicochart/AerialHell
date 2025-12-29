@@ -9,11 +9,11 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.KodamaRenderState;
 import fr.factionbedrock.aerialhell.Entity.Passive.KodamaEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class KodamaRender<T extends KodamaEntity> extends MobRenderer<T, KodamaRenderState, KodamaModel<KodamaRenderState>>
 {
-	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/kodama/kodama.png");
+	private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/kodama/kodama.png");
 	private static boolean CREATURE_RENDER = false, EMPTY_RENDER = true;
 
 	public KodamaRender(EntityRendererProvider.Context context)
@@ -37,7 +37,7 @@ public class KodamaRender<T extends KodamaEntity> extends MobRenderer<T, KodamaR
 		renderState.forcedAlphaBonus = this.calculateForcedAlphaBonus(entity);
 	}
 
-	@Override public ResourceLocation getTextureLocation(KodamaRenderState renderState) {return renderState.texture;}
+	@Override public Identifier getTextureLocation(KodamaRenderState renderState) {return renderState.texture;}
 
 	@Override protected void scale(KodamaRenderState renderState, PoseStack poseStack)
 	{

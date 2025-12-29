@@ -6,7 +6,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.World.Structure.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 
 /*
@@ -55,7 +55,7 @@ public class AerialHellStructures
 
 		private static ResourceKey<StructureSet> register(String name)
 		{
-			return ResourceKey.create(Registries.STRUCTURE_SET, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+			return ResourceKey.create(Registries.STRUCTURE_SET, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 

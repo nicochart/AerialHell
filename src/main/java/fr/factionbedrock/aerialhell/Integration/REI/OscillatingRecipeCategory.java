@@ -13,14 +13,14 @@
 //import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 //import me.shedaniel.rei.api.common.util.EntryStacks;
 //import net.minecraft.network.chat.Component;
-//import net.minecraft.resources.ResourceLocation;
+//import net.minecraft.resources.Identifier;
 //
 //import java.util.LinkedList;
 //import java.util.List;
 //
 //public class OscillatingRecipeCategory implements DisplayCategory<BasicDisplay>
 //{
-//	public final static ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/container/oscillator.png");
+//	public final static Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/container/oscillator.png");
 //
 //    @Override public CategoryIdentifier<? extends BasicDisplay> getCategoryIdentifier() {return AerialHellRei.OSCILLATING;}
 //

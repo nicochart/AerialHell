@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.World.Structure;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.WorldGenerationContext;
@@ -26,14 +26,14 @@ public abstract class AbstractAerialHellStructure extends Structure
     protected static final int MIN_STRUCTURE_DISTANCE_FROM_CENTER = 1, MAX_STRUCTURE_DISTANCE_FROM_CENTER = 256;
 
     protected final Holder<StructureTemplatePool> startPool;
-    protected final Optional<ResourceLocation> startJigsawName;
+    protected final Optional<Identifier> startJigsawName;
     protected final int size;
     protected final HeightProvider startHeight;
     protected final Optional<Heightmap.Types> projectStartToHeightmap;
     protected final int maxDistanceFromCenter;
     protected final List<PoolAliasBinding> poolAliases;
 
-    public AbstractAerialHellStructure(Structure.StructureSettings config, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, int size, HeightProvider startHeight, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter, List<PoolAliasBinding> poolAliasBindingList)
+    public AbstractAerialHellStructure(Structure.StructureSettings config, Holder<StructureTemplatePool> startPool, Optional<Identifier> startJigsawName, int size, HeightProvider startHeight, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter, List<PoolAliasBinding> poolAliasBindingList)
     {
         super(config);
         this.startPool = startPool;

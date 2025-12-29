@@ -6,20 +6,21 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.FireballLikeProjectileRenderState;
 import fr.factionbedrock.aerialhell.Entity.Projectile.DimensionShattererProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.PoisonballEntity;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.projectile.Fireball;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.projectile.hurtingprojectile.Fireball;
 
 //See vanilla DragonFireballRenderer
 public class FireballLikeProjectileRender<T extends Fireball> extends EntityRenderer<T, FireballLikeProjectileRenderState>
 {
-    public static final ResourceLocation POISONBALL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/poisonball.png");
-    public static final ResourceLocation DIMENSION_SHATTERER_PROJECTILE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/item/dimension_shatterer_projectile.png");
+    public static final Identifier POISONBALL = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/poisonball.png");
+    public static final Identifier DIMENSION_SHATTERER_PROJECTILE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/dimension_shatterer_projectile.png");
 
     public FireballLikeProjectileRender(EntityRendererProvider.Context context)
     {
@@ -41,7 +42,7 @@ public class FireballLikeProjectileRender<T extends Fireball> extends EntityRend
         poseStack.pushPose();
         poseStack.scale(renderState.scale, renderState.scale, renderState.scale);
         poseStack.mulPose(cameraRenderState.orientation);
-        RenderType type = RenderType.entityCutoutNoCull(renderState.texture);
+        RenderType type = RenderTypes.entityCutoutNoCull(renderState.texture);
         submitNodeCollector.submitCustomGeometry(poseStack, type, (posestack$pose, vertexConsumer) ->
         {
             vertex(vertexConsumer, posestack$pose, renderState.lightCoords, 0.0F, 0, 0, 1);
@@ -53,7 +54,7 @@ public class FireballLikeProjectileRender<T extends Fireball> extends EntityRend
         super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
     }
 
-    public ResourceLocation getTextureLocation(T entity)
+    public Identifier getTextureLocation(T entity)
     {
         if (entity instanceof PoisonballEntity) {return POISONBALL;}
         else /*if (entity instanceof DimensionShattererProjectileEntity)*/ {return DIMENSION_SHATTERER_PROJECTILE;}

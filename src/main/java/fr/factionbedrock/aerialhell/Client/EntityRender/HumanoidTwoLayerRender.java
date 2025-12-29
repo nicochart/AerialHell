@@ -11,23 +11,24 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.GhostSlimeNinjaPirateE
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.GhostSlimePirateEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.SlimeNinjaPirateEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.SlimePirateEntity;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
 public class HumanoidTwoLayerRender extends MobRenderer<AbstractHumanoidMonster, HumanoidTwoLayerRenderState, HumanoidTwoLayerModel<HumanoidTwoLayerRenderState>>
 {
-    private static final ResourceLocation SLIME_PIRATE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/slime.png");
-    private static final ResourceLocation SLIME_NINJA_PIRATE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/slime_ninja.png");
-    private static final ResourceLocation GHOST_PIRATE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/ghost.png");
-    private static final ResourceLocation GHOST_NINJA_PIRATE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/ghost_ninja.png");
-    private static final ResourceLocation MUMMY = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/mummy/mummy.png");
+    private static final Identifier SLIME_PIRATE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/slime.png");
+    private static final Identifier SLIME_NINJA_PIRATE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/slime_ninja.png");
+    private static final Identifier GHOST_PIRATE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/ghost.png");
+    private static final Identifier GHOST_NINJA_PIRATE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/ghost_ninja.png");
+    private static final Identifier MUMMY = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/mummy/mummy.png");
 
     public HumanoidTwoLayerRender(EntityRendererProvider.Context context)
     {
@@ -44,12 +45,12 @@ public class HumanoidTwoLayerRender extends MobRenderer<AbstractHumanoidMonster,
         renderState.isBaby = entity.isBaby();
         renderState.isAggressive = entity.isAggressive();
         renderState.attackTime = entity.getAttackAnim(partialTick);
-        ArmedEntityRenderState.extractArmedEntityRenderState(entity, renderState, this.itemModelResolver);
+        ArmedEntityRenderState.extractArmedEntityRenderState(entity, renderState, this.itemModelResolver, partialTick);
     }
 
     @Nullable @Override protected RenderType getRenderType(HumanoidTwoLayerRenderState renderState, boolean isVisible, boolean renderTranslucent, boolean appearsGlowing)
     {
-        return RenderType.entityTranslucent(renderState.texture);
+        return RenderTypes.entityTranslucent(renderState.texture);
     }
 
     @Override protected void scale(HumanoidTwoLayerRenderState renderState, PoseStack poseStack)
@@ -58,9 +59,9 @@ public class HumanoidTwoLayerRender extends MobRenderer<AbstractHumanoidMonster,
         poseStack.scale(scale, scale, scale);
     }
 
-    @Override public ResourceLocation getTextureLocation(HumanoidTwoLayerRenderState renderState) {return renderState.texture;}
+    @Override public Identifier getTextureLocation(HumanoidTwoLayerRenderState renderState) {return renderState.texture;}
 
-    @NotNull public ResourceLocation getTextureLocation(AbstractHumanoidMonster entity)
+    @NotNull public Identifier getTextureLocation(AbstractHumanoidMonster entity)
     {
         if (entity instanceof GhostSlimeNinjaPirateEntity) {return GHOST_NINJA_PIRATE;}
         else if (entity instanceof SlimeNinjaPirateEntity) {return SLIME_NINJA_PIRATE;}

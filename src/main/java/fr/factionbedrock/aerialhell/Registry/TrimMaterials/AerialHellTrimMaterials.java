@@ -1,12 +1,12 @@
 package fr.factionbedrock.aerialhell.Registry.TrimMaterials;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import net.minecraft.Util;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.Util;
 import net.minecraft.world.item.equipment.trim.MaterialAssetGroup;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -28,8 +28,8 @@ public class AerialHellTrimMaterials
 
     private static DeferredHolder<TrimMaterial, TrimMaterial> register(ResourceKey<TrimMaterial> key, Style style, MaterialAssetGroup assets)
     {
-        Component trimMaterialComponent = Component.translatable(Util.makeDescriptionId("trim_material", key.location())).withStyle(style);;
-        return register(key.location().getPath(), trimMaterialComponent, assets);
+        Component trimMaterialComponent = Component.translatable(Util.makeDescriptionId("trim_material", key.identifier())).withStyle(style);;
+        return register(key.identifier().getPath(), trimMaterialComponent, assets);
     }
 
     private static DeferredHolder<TrimMaterial, TrimMaterial> register(String name, Component trimMaterialComponent, MaterialAssetGroup assets)
@@ -50,7 +50,7 @@ public class AerialHellTrimMaterials
 
         private static ResourceKey<TrimMaterial> registryKey(String name)
         {
-            return ResourceKey.create(Registries.TRIM_MATERIAL, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+            return ResourceKey.create(Registries.TRIM_MATERIAL, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));
         }
     }
 }

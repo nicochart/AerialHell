@@ -7,18 +7,17 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Passive.FatPhantomEntity;
-import net.minecraft.client.model.PhantomModel;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.monster.phantom.PhantomModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.state.PhantomRenderState;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.monster.Phantom;
+import net.minecraft.resources.Identifier;
 
 public class FatPhantomRender extends MobRenderer<FatPhantomEntity, PhantomRenderState, PhantomModel>
 {
 	private static String name = "fat_phantom";
-	private static final ResourceLocation FAT_PHANTOM_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
+	private static final Identifier FAT_PHANTOM_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
 
 	public FatPhantomRender(EntityRendererProvider.Context context)
 	{
@@ -47,5 +46,5 @@ public class FatPhantomRender extends MobRenderer<FatPhantomEntity, PhantomRende
         poseStack.mulPose(Axis.XP.rotationDegrees(renderState.xRot));
     }
 
-    @Override public ResourceLocation getTextureLocation(PhantomRenderState renderState) {return FAT_PHANTOM_TEXTURE;}
+    @Override public Identifier getTextureLocation(PhantomRenderState renderState) {return FAT_PHANTOM_TEXTURE;}
 }

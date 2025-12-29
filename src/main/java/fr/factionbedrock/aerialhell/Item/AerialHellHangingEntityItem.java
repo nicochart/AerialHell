@@ -1,14 +1,13 @@
 package fr.factionbedrock.aerialhell.Item;
 
 import fr.factionbedrock.aerialhell.Entity.AerialHellPaintingEntity;
-import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.HangingEntity;
-import net.minecraft.world.entity.decoration.PaintingVariant;
+import net.minecraft.world.entity.decoration.painting.PaintingVariant;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

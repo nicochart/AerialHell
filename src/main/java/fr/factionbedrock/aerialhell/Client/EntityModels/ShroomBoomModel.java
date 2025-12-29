@@ -73,7 +73,7 @@ public class ShroomBoomModel extends EntityModel<ShroomBoomRenderState>
 		float limbSwing = renderState.walkAnimationPos;
 		float limbSwingAmount = renderState.walkAnimationSpeed;
 
-		AnimationUtils.animateZombieArms(this.arm2, this.arm1, renderState.isAggressive, renderState.attackTime, renderState.ageInTicks);
+		AnimationUtils.animateZombieArms(this.arm2, this.arm1, renderState.isAggressive, renderState);
 		this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.xRot = headPitch * ((float)Math.PI / 180F);
 		this.leg0.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;

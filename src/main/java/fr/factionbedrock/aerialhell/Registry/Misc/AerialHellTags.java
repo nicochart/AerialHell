@@ -2,10 +2,10 @@ package fr.factionbedrock.aerialhell.Registry.Misc;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.*;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.decoration.PaintingVariant;
+import net.minecraft.world.entity.decoration.painting.PaintingVariant;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Item;
@@ -135,7 +135,7 @@ public class AerialHellTags
 		
 		private static TagKey<Block> tag(String name)
 		{
-			return BlockTags.create(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+			return BlockTags.create(Identifier.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 
@@ -194,7 +194,7 @@ public class AerialHellTags
 
 		private static TagKey<Item> tag(String name)
 		{
-			return ItemTags.create(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+			return ItemTags.create(Identifier.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 
@@ -218,7 +218,7 @@ public class AerialHellTags
 		public static final TagKey<EntityType<?>> CHAINED_GOD_DRAG_IMMUNE = tag("chained_god_drag_immune");
 		public static final TagKey<EntityType<?>> SENSITIVE_TO_VULNERABILITY_ENCHANTMENT = tag("sensitive_to_vulnerability_enchantment");
 
-		private static TagKey<EntityType<?>> tag(String name) {return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));}
+		private static TagKey<EntityType<?>> tag(String name) {return TagKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));}
 	}
 
 	public static class Fluids
@@ -229,7 +229,7 @@ public class AerialHellTags
 
 		private static TagKey<Fluid> tag(String name)
 		{
-			return FluidTags.create(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+			return FluidTags.create(Identifier.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 
@@ -239,7 +239,7 @@ public class AerialHellTags
 
 		private static TagKey<Structure> tag(String name)
 		{
-			return TagKey.create(Registries.STRUCTURE, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+			return TagKey.create(Registries.STRUCTURE, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 
@@ -249,7 +249,7 @@ public class AerialHellTags
 
 		private static TagKey<ConfiguredFeature<?, ?>> tag(String name)
 		{
-			return TagKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+			return TagKey.create(Registries.CONFIGURED_FEATURE, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 
@@ -275,7 +275,7 @@ public class AerialHellTags
 
 		private static TagKey<Biome> tag(String name)
 		{
-			return TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+			return TagKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 
@@ -285,7 +285,7 @@ public class AerialHellTags
 
 		private static TagKey<PaintingVariant> tag(String name)
 		{
-			return TagKey.create(Registries.PAINTING_VARIANT, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
+			return TagKey.create(Registries.PAINTING_VARIANT, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 }

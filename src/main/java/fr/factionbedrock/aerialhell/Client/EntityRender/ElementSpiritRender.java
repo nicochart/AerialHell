@@ -11,13 +11,13 @@ import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.ElectroSpiritEn
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.IceSpiritEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ElementSpiritRender<S extends AbstractElementSpiritEntity> extends MobRenderer<S, ElementSpiritRenderState, ElementSpiritModel<ElementSpiritRenderState>>
 {
-	private static final ResourceLocation ICE_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/element_spirit/ice_spirit.png");
-	private static final ResourceLocation FIRE_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/element_spirit/fire_spirit.png");
-	private static final ResourceLocation ELECTRO_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/element_spirit/electro_spirit.png");
+	private static final Identifier ICE_SPIRIT_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/element_spirit/ice_spirit.png");
+	private static final Identifier FIRE_SPIRIT_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/element_spirit/fire_spirit.png");
+	private static final Identifier ELECTRO_SPIRIT_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/element_spirit/electro_spirit.png");
 	
     public ElementSpiritRender(EntityRendererProvider.Context context)
 	{
@@ -39,12 +39,12 @@ public class ElementSpiritRender<S extends AbstractElementSpiritEntity> extends 
 		renderState.texture = getTextureLocation(entity);
 	}
 
-	public ResourceLocation getTextureLocation(S entity)
+	public Identifier getTextureLocation(S entity)
     {
 		if (entity instanceof IceSpiritEntity) {return ICE_SPIRIT_TEXTURE;}
 		else if (entity instanceof ElectroSpiritEntity) {return ELECTRO_SPIRIT_TEXTURE;}
 		else {return FIRE_SPIRIT_TEXTURE;}
     }
 
-	@Override public ResourceLocation getTextureLocation(ElementSpiritRenderState renderState) {return renderState.texture;}
+	@Override public Identifier getTextureLocation(ElementSpiritRenderState renderState) {return renderState.texture;}
 }

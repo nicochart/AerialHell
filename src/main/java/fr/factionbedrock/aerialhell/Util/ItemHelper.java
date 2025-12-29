@@ -4,16 +4,16 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Util;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -39,10 +39,10 @@ public class ItemHelper
         return count;
     }
 
-    public static final ResourceLocation BASE_ATTACK_DAMAGE_ID = ResourceLocation.withDefaultNamespace("base_attack_damage");
-    public static final ResourceLocation BASE_ATTACK_SPEED_ID = ResourceLocation.withDefaultNamespace("base_attack_speed");
-    public static final ResourceLocation BASE_MOVEMENT_SPEED_ID = ResourceLocation.withDefaultNamespace("base_movement_speed");
-    public static final ResourceLocation BASE_MAX_HEALTH_ID = ResourceLocation.withDefaultNamespace("base_movement_speed");
+    public static final Identifier BASE_ATTACK_DAMAGE_ID = Identifier.withDefaultNamespace("base_attack_damage");
+    public static final Identifier BASE_ATTACK_SPEED_ID = Identifier.withDefaultNamespace("base_attack_speed");
+    public static final Identifier BASE_MOVEMENT_SPEED_ID = Identifier.withDefaultNamespace("base_movement_speed");
+    public static final Identifier BASE_MAX_HEALTH_ID = Identifier.withDefaultNamespace("base_movement_speed");
 
 
     public static Item.Properties applySwordProperties(Item.Properties properties, ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth)
@@ -114,12 +114,12 @@ public class ItemHelper
 
         private static Component makeUpgradeTitleComponent(String materialName)
         {
-            return Component.translatable(Util.makeDescriptionId("upgrade", ResourceLocation.fromNamespaceAndPath(AerialHell.MODID,materialName + "_upgrade"))).withStyle(TITLE_FORMAT);
+            return Component.translatable(Util.makeDescriptionId("upgrade", Identifier.fromNamespaceAndPath(AerialHell.MODID,materialName + "_upgrade"))).withStyle(TITLE_FORMAT);
         }
 
         private static Component makeSmithingTemplateItemDescComponent(String materialName, String info, @Nullable ChatFormatting format)
         {
-            MutableComponent returnComponent = Component.translatable(Util.makeDescriptionId("item", ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "smithing_template." + materialName + "_upgrade." + info)));
+            MutableComponent returnComponent = Component.translatable(Util.makeDescriptionId("item", Identifier.fromNamespaceAndPath(AerialHell.MODID, "smithing_template." + materialName + "_upgrade." + info)));
             return format == null ? returnComponent : returnComponent.withStyle(format);
         }
 

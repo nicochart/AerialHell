@@ -1,37 +1,25 @@
 package fr.factionbedrock.aerialhell.Client.BlockEntityRenderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellChestMaterials;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.BlockEntity.AerialHellChestBlockEntity;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.blockentity.BrightnessCombiner;
 import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.minecraft.client.renderer.blockentity.state.ChestRenderState;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.MaterialSet;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
-import net.minecraft.world.level.block.entity.EnderChestBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.function.Function;
 
 public class AerialHellChestBlockEntityRenderer extends ChestRenderer<AerialHellChestBlockEntity>
 {
@@ -133,7 +121,7 @@ public class AerialHellChestBlockEntityRenderer extends ChestRenderer<AerialHell
 		openess = 1.0F - openess * openess * openess;
 		Material material = renderState.customMaterial != null ? renderState.customMaterial : Sheets.chooseMaterial(renderState.material, renderState.type);
 		boolean isGhost = material == AerialHellChestMaterials.GHOST_BOAT_LEFT || material == AerialHellChestMaterials.GHOST_BOAT_RIGHT || material == AerialHellChestMaterials.GHOST_BOAT_SINGLE;
-		RenderType rendertype = isGhost ? material.renderType(RenderType::entityTranslucent) : material.renderType(RenderType::entityCutout);
+		RenderType rendertype = isGhost ? material.renderType(RenderTypes::entityTranslucent) : material.renderType(RenderTypes::entityCutout);
 		TextureAtlasSprite textureatlassprite = this.materials.get(material);
 		if (renderState.type != ChestType.SINGLE)
 		{

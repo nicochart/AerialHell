@@ -1,11 +1,11 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.State;
 
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class HellSpiderRenderState extends LivingEntityRenderState
 {
-    public ResourceLocation base_texture;
-    public ResourceLocation layer_texture;
+    public Identifier base_texture;
+    public Identifier layer_texture;
     public float scale;
 }

@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemDisplayContext;
 
 //see net.minecraft.client.renderer.entity ThrownItemRenderer
@@ -21,18 +21,18 @@ public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRend
 {
 	private final ItemModelResolver itemModelResolver;
 
-	private static final ResourceLocation IRON_SHURIKEN_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/item/iron_shuriken.png");
-	private static final ResourceLocation GOLD_SHURIKEN_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/item/gold_shuriken.png");
-	private static final ResourceLocation DIAMOND_SHURIKEN_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/item/diamond_shuriken.png");
-	private static final ResourceLocation NETHERITE_SHURIKEN_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/item/netherite_shuriken.png");
-	private static final ResourceLocation RUBY_SHURIKEN_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/item/ruby_shuriken.png");
-	private static final ResourceLocation AZURITE_SHURIKEN_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/item/azurite_shuriken.png");
-	private static final ResourceLocation MAGMATIC_GEL_SHURIKEN_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/item/magmatic_gel_shuriken.png");
-	private static final ResourceLocation VOLUCITE_SHURIKEN_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/item/volucite_shuriken.png");
-	private static final ResourceLocation OBSIDIAN_SHURIKEN_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/item/obsidian_shuriken.png");
-	private static final ResourceLocation LUNATIC_CRYSTAL_SHURIKEN_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/item/lunatic_crystal_shuriken.png");
-	private static final ResourceLocation ARSONIST_SHURIKEN_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/item/arsonist_shuriken.png");
-	private static final ResourceLocation LIGHTNING_SHURIKEN_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/item/lightning_shuriken.png");
+	private static final Identifier IRON_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/iron_shuriken.png");
+	private static final Identifier GOLD_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/gold_shuriken.png");
+	private static final Identifier DIAMOND_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/diamond_shuriken.png");
+	private static final Identifier NETHERITE_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/netherite_shuriken.png");
+	private static final Identifier RUBY_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/ruby_shuriken.png");
+	private static final Identifier AZURITE_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/azurite_shuriken.png");
+	private static final Identifier MAGMATIC_GEL_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/magmatic_gel_shuriken.png");
+	private static final Identifier VOLUCITE_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/volucite_shuriken.png");
+	private static final Identifier OBSIDIAN_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/obsidian_shuriken.png");
+	private static final Identifier LUNATIC_CRYSTAL_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/lunatic_crystal_shuriken.png");
+	private static final Identifier ARSONIST_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/arsonist_shuriken.png");
+	private static final Identifier LIGHTNING_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/lightning_shuriken.png");
 	
 	public ShurikenRender(EntityRendererProvider.Context context)
 	{
@@ -69,7 +69,7 @@ public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRend
 		super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
 	}
 
-	public ResourceLocation getTextureLocation(T entity)
+	public Identifier getTextureLocation(T entity)
 	{
 		if (entity instanceof IronShurikenEntity) {return IRON_SHURIKEN_TEXTURE;}
 		else if (entity instanceof GoldShurikenEntity) {return GOLD_SHURIKEN_TEXTURE;}

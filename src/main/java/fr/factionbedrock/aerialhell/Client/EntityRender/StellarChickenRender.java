@@ -8,12 +8,12 @@ import fr.factionbedrock.aerialhell.Entity.Passive.StellarChickenEntity;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 public class StellarChickenRender extends MobRenderer<StellarChickenEntity, StellarChickenRenderState, StellarChickenModel>
 {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/stellar_chicken/stellar_chicken.png");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/stellar_chicken/stellar_chicken.png");
 
     public StellarChickenRender(EntityRendererProvider.Context context)
     {
@@ -26,7 +26,7 @@ public class StellarChickenRender extends MobRenderer<StellarChickenEntity, Stel
 
     @Override public StellarChickenRenderState createRenderState() {return new StellarChickenRenderState();}
 
-    @Override public ResourceLocation getTextureLocation(StellarChickenRenderState renderState) {return TEXTURE;}
+    @Override public Identifier getTextureLocation(StellarChickenRenderState renderState) {return TEXTURE;}
 
     //copy of ChickenRenderer method of same name
     @Override public void extractRenderState(StellarChickenEntity entity, StellarChickenRenderState renderState, float flap)

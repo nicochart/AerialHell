@@ -9,21 +9,21 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.HellSpiderSpikesL
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.HellSpiderRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.HellSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowSpiderEntity;
-import net.minecraft.client.model.SpiderModel;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.monster.spider.SpiderModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.world.entity.monster.Spider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.monster.spider.Spider;
 
 public class HellSpiderRender<T extends Spider> extends MobRenderer<T, HellSpiderRenderState, SpiderModel>
 {
 	private static String hsName = "hell_spider";
-	private static final ResourceLocation HELL_SPIDER_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + hsName + "/" + hsName + ".png");
+	private static final Identifier HELL_SPIDER_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + hsName + "/" + hsName + ".png");
 	private static String csName = "crystal_spider";
-	private static final ResourceLocation CRYSTAL_SPIDER_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + csName + "/" + csName + ".png");
+	private static final Identifier CRYSTAL_SPIDER_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + csName + "/" + csName + ".png");
 	private static String ssName = "shadow_spider";
-	private static final ResourceLocation SHADOW_SPIDER_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + ssName + "/" + ssName + ".png");
+	private static final Identifier SHADOW_SPIDER_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + ssName + "/" + ssName + ".png");
 	
 	public HellSpiderRender(EntityRendererProvider.Context context)
 	{
@@ -49,9 +49,9 @@ public class HellSpiderRender<T extends Spider> extends MobRenderer<T, HellSpide
 		}
 	}
 
-	@Override public ResourceLocation getTextureLocation(HellSpiderRenderState renderState) {return renderState.base_texture;}
+	@Override public Identifier getTextureLocation(HellSpiderRenderState renderState) {return renderState.base_texture;}
 
-	public ResourceLocation getTextureLocation(T entity)
+	public Identifier getTextureLocation(T entity)
 	{
 		if (entity instanceof HellSpiderEntity) {return HELL_SPIDER_TEXTURE;}
 		else if (entity instanceof ShadowSpiderEntity) {return SHADOW_SPIDER_TEXTURE;}
