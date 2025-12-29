@@ -6,7 +6,8 @@
 		"LivingEntityFallFlyingMixin",
 		"LivingEntityGravityMixin",
 		"ServerPlayerGameModeMixin",
-		"ServerPlayerTickMixin"
+		"ServerPlayerTickMixin",
+		"RenderSkyMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -29,8 +29,6 @@ import org.joml.Vector4f;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
-//TODO write mixin
-
 //edited copy of net.minecraft.client.renderer.SkyRenderer
 @OnlyIn(Dist.CLIENT)
 public class AerialHellDimensionSkyRenderer implements AutoCloseable
