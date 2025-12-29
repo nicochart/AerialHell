@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Util;
 
+import fr.factionbedrock.aerialhell.Block.AerialHellPortalBlock;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
@@ -60,6 +61,7 @@ import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.WorldChunk;
 import org.jetbrains.annotations.Nullable;
@@ -194,6 +196,22 @@ public class EntityHelper
     public static boolean isLivingEntityReadyToTeleport(LivingEntity entity)
     {
         return isLivingEntityUnderAerialHellPortalEffect(entity) && entity.getStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL).getDuration() < 20;
+    }
+
+    public static void tryTeleportEntityWithAerialHellPortal(Entity entity, AerialHellPortalBlock portalBlock, BlockPos pos)
+    {
+        if (entity.getEntityWorld() instanceof ServerWorld serverWorld)
+        {
+            TeleportTarget dimensiontransition = portalBlock.createTeleportTarget(serverWorld, entity, pos);
+            if (dimensiontransition != null)
+            {
+                ServerWorld destinationWorld = dimensiontransition.world();
+                if (serverWorld.isEnterableWithPortal(destinationWorld) && (destinationWorld.getRegistryKey() == serverWorld.getRegistryKey() || entity.canTeleportBetween(serverWorld, destinationWorld)))
+                {
+                    entity.teleportTo(dimensiontransition);
+                }
+            }
+        }
     }
 
     public static void addBatParticle(LivingEntity entity, Random rand, int number)

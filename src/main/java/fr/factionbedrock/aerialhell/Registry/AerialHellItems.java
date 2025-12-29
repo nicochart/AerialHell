@@ -73,7 +73,7 @@ public class AerialHellItems
     public static final Item STELLAR_PORTAL_FRAME_ORE = register(Keys.STELLAR_PORTAL_FRAME_ORE.getValue().getPath(), new BlockItem(AerialHellBlocks.STELLAR_PORTAL_FRAME_ORE, new Item.Settings().registryKey(Keys.STELLAR_PORTAL_FRAME_ORE).useBlockPrefixedTranslationKey()));
     public static final Item DEEPSLATE_STELLAR_PORTAL_FRAME_ORE = register(Keys.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE.getValue().getPath(), new BlockItem(AerialHellBlocks.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE, new Item.Settings().registryKey(Keys.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE).useBlockPrefixedTranslationKey()));
     public static final Item STELLAR_PORTAL_FRAME_BRICK = register(Keys.STELLAR_PORTAL_FRAME_BRICK.getValue().getPath(), new Item(new Item.Settings().registryKey(Keys.STELLAR_PORTAL_FRAME_BRICK)));
-    public static final Item STELLAR_LIGHTER = register(Keys.STELLAR_LIGHTER.getValue().getPath(), new WithInformationItem(new Item.Settings().registryKey(Keys.STELLAR_LIGHTER).maxCount(1).maxDamage(4)));
+    public static final Item STELLAR_LIGHTER = register(Keys.STELLAR_LIGHTER.getValue().getPath(), new StellarLighterItem(new Item.Settings().registryKey(Keys.STELLAR_LIGHTER).maxCount(1).maxDamage(4)));
 
     //torch
     public static final Item FLUORITE_TORCH = register(Keys.FLUORITE_TORCH.getValue().getPath(), new VerticallyAttachableBlockItem(AerialHellBlocks.FLUORITE_TORCH, AerialHellBlocks.FLUORITE_WALL_TORCH, Direction.DOWN, new Item.Settings().registryKey(Keys.FLUORITE_TORCH).useBlockPrefixedTranslationKey()));

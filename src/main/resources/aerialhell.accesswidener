@@ -4,6 +4,9 @@ accessWidener v2 named
 accessible field net/minecraft/item/AxeItem STRIPPED_BLOCKS Ljava/util/Map;
 mutable field net/minecraft/item/AxeItem STRIPPED_BLOCKS Ljava/util/Map;
 
+#NetherPortal
+accessible method net/minecraft/world/dimension/NetherPortal <init> (Lnet/minecraft/util/math/Direction$Axis;ILnet/minecraft/util/math/Direction;Lnet/minecraft/util/math/BlockPos;II)V # NetherPortal constructor
+
 #Living Entity
 accessible field net/minecraft/entity/LivingEntity lastDamageSource Lnet/minecraft/entity/damage/DamageSource;
 accessible field net/minecraft/entity/LivingEntity lastDamageTime J
