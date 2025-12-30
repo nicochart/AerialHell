@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class RenderHudOverlayMixin
 {
     private static final Identifier VULNERABLE_OVERLAY = AerialHell.id("textures/misc/vulnerability_blur.png");
+    private static final Identifier AERIAL_HELL_PORTAL_OVERLAY = AerialHell.id("textures/misc/aerial_hell_portal_overlay.png");
     private static final Identifier LIQUID_OF_THE_GODS_OVERLAY = AerialHell.id("textures/block/liquid_of_the_gods_overlay.png");
 
     @Inject(method = "renderMiscOverlays", at = @At("HEAD"), cancellable = true)
@@ -35,6 +36,11 @@ public class RenderHudOverlayMixin
         {
             float alpha = Math.min(20, player.getStatusEffect(AerialHellMobEffects.VULNERABILITY).getDuration()) / 20.0F;
             renderOverlay(context, VULNERABLE_OVERLAY, alpha);
+        }
+        if (EntityHelper.isLivingEntityUnderAerialHellPortalEffect(player))
+        {
+            float alpha = Math.min(20, player.getStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL).getDuration()) / 20.0F;
+            renderOverlay(context, AERIAL_HELL_PORTAL_OVERLAY, alpha);
         }
         FluidState fluidState = EntityHelper.getInLiquidFluidState(player);
         if (fluidState != null && fluidState.isIn(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
