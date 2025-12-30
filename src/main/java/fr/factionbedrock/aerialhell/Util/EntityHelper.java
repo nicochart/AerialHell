@@ -23,6 +23,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Spider.CrystalSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Neutral.BoarEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEnchantments;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
@@ -91,9 +92,9 @@ public class EntityHelper
 
     public static boolean isLivingEntityUnderAerialHellPortalEffect(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL);}
 
-    public static boolean isLivingEntityInAerialHellPortal(LivingEntity entity) {return /*entity.getWorld().getBlockState(entity.getBlockPos()).isOf(AerialHellBlocks.AERIAL_HELL_PORTAL)*/false;}
+    public static boolean isLivingEntityInAerialHellPortal(LivingEntity entity) {return entity.getEntityWorld().getBlockState(entity.getBlockPos()).isOf(AerialHellBlocks.AERIAL_HELL_PORTAL);}
 
-    public static boolean isLivingEntityOnPortalCooldown(LivingEntity entity) {return /*entity.hasStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN) || entity.isOnPortalCooldown()*/false;}
+    public static boolean isLivingEntityOnPortalCooldown(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN) || entity.hasPortalCooldown();}
 
     public static boolean isImmuneToSomeShadowDamage(Entity entity)
     {

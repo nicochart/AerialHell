@@ -351,8 +351,11 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
 
 	@Override public void close()
 	{
+		this.sunVertexBuffer.close();
+		this.moonPhaseVertexBuffer.close();
 		this.starBuffer.close();
 		this.topSkyBuffer.close();
 		this.bottomSkyBuffer.close();
+		this.sunRiseVertexBuffer.close();
 	}
 }

@@ -19,6 +19,7 @@ import net.minecraft.world.poi.PointOfInterestStorage;
 
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 //edited copy of net.minecraft.world.dimension.PortalForcer
 public class AerialHellTeleporter
@@ -33,6 +34,7 @@ public class AerialHellTeleporter
         PointOfInterestStorage poiStorage = this.world.getPointOfInterestStorage();
         int i = isNether ? 16 : 128;
         poiStorage.preloadChunks(this.world, exitPos, i);
+        Stream poses = poiStorage.getInSquare(poiType -> poiType.matchesKey(AerialHellPOI.Keys.AERIAL_HELL_PORTAL_POI), exitPos, i, PointOfInterestStorage.OccupationStatus.ANY).map(PointOfInterest::getPos);
         return poiStorage.getInSquare(poiType -> poiType.matchesKey(AerialHellPOI.Keys.AERIAL_HELL_PORTAL_POI), exitPos, i, PointOfInterestStorage.OccupationStatus.ANY)
                 .map(PointOfInterest::getPos)
                 .filter(worldBorder::contains)
