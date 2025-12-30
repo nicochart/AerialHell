@@ -15,7 +15,7 @@
 	"entrypoints": {
 		"main": ["fr.factionbedrock.aerialhell.AerialHell"],
 		"client": ["fr.factionbedrock.aerialhell.AerialHell"],
-		"rei_client": ["fr.factionbedrock.aerialhell.Integration.REI.AerialHellRei"]
+		"jei_mod_plugin": ["fr.factionbedrock.aerialhell.Integration.JEI.AerialHellJei"]
 	},
 	"accessWidener" : "aerialhell.accesswidener",
 	"mixins": [

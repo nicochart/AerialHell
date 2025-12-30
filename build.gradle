@@ -17,11 +17,15 @@ repositories {
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
 
-	//customporalapi
-	maven {url = "https://maven.kyrptonaught.dev"}
-
-	//REI
-	maven {url = "https://maven.shedaniel.me"}
+	maven {
+		name = "Jared's maven"
+		url = "https://maven.blamejared.com/"
+	}
+	maven {
+		//JEI fallback
+		name = "ModMaven"
+		url = "https://modmaven.dev"
+	}
 }
 
 loom {
@@ -37,11 +41,9 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	// modImplementation "net.kyrptonaught:customportalapi:${project.customportalapi_version}"
-	// include "net.kyrptonaught:customportalapi:${project.customportalapi_version}"
-
-	// modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
-	// modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+	// JEI
+	modCompileOnly("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
+	modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
 }
 
 processResources {

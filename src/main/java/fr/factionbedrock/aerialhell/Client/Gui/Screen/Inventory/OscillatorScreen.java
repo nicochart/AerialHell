@@ -8,9 +8,9 @@ import net.minecraft.util.Identifier;
 
 public class OscillatorScreen extends FurnaceLikeScreen<OscillatorMenu>
 {
-	private static final Identifier OSCILLATOR_GUI_TEXTURES = AerialHell.id("textures/gui/container/oscillator.png");
-	private static final Identifier LIT_PROGRESS_SPRITE =  AerialHell.id("container/oscillator/oscillating_progress");
-	private static final Identifier OSCILLATING_PROGRESS_SPRITE =  AerialHell.id("container/oscillator/progress");
+	public static final Identifier OSCILLATOR_GUI_TEXTURES = AerialHell.id("textures/gui/container/oscillator.png");
+	public static final Identifier LIT_PROGRESS_SPRITE =  AerialHell.id("container/oscillator/oscillating_progress");
+	public static final Identifier OSCILLATING_PROGRESS_SPRITE =  AerialHell.id("container/oscillator/progress");
 
 	public OscillatorScreen(OscillatorMenu container, PlayerInventory inventory, Text name)
 	{
