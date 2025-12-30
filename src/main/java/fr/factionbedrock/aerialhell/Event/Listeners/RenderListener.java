@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.util.ARGB;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
@@ -20,6 +21,7 @@ public class RenderListener
 {
     //TODO work on that
     private static final Identifier VULNERABLE_OVERLAY = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/misc/vulnerability_blur.png");
+    private static final Identifier AERIAL_HELL_PORTAL_OVERLAY = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/misc/aerial_hell_portal_overlay.png");
     private static final Identifier VULNERABLE_HEART = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_hearts.png");
     private static final Identifier VULNERABLE_HEART_WITH_BORDER = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_hearts_with_border.png");
     private static final Identifier VULNERABLE_HALF_HEART = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_half_hearts.png");
@@ -35,10 +37,21 @@ public class RenderListener
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
-        if (player != null && EntityHelper.isLivingEntityVulnerable(player))
+        if (player != null)
         {
-            float alpha = Math.min(20, player.getEffect(AerialHellMobEffects.VULNERABILITY).getDuration()) / 20.0F;
-            renderTextureOverlay(event.getGuiGraphics(), VULNERABLE_OVERLAY, alpha);
+            if (EntityHelper.isLivingEntityVulnerable(player))
+            {
+                float alpha = Math.min(20, player.getEffect(AerialHellMobEffects.VULNERABILITY).getDuration()) / 20.0F;
+                renderTextureOverlay(event.getGuiGraphics(), VULNERABLE_OVERLAY, alpha);
+            }
+            if (EntityHelper.isLivingEntityUnderAerialHellPortalEffect(player))
+            {
+                int duration = player.getEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL).getDuration();
+                float alphaToSub = Mth.sin(duration / 5.0F) * 0.2F + 0.2F;
+                float baseAlpha = Math.min(20, duration) / 20.0F;
+                float alpha = Math.max(0.0F, baseAlpha - alphaToSub);
+                renderTextureOverlay(event.getGuiGraphics(), AERIAL_HELL_PORTAL_OVERLAY, alpha);
+            }
         }
     }
 
