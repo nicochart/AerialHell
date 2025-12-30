@@ -12,6 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -39,7 +40,10 @@ public class RenderHudOverlayMixin
         }
         if (EntityHelper.isLivingEntityUnderAerialHellPortalEffect(player))
         {
-            float alpha = Math.min(20, player.getStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL).getDuration()) / 20.0F;
+            int duration = player.getStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL).getDuration();
+            float alphaToSub = MathHelper.sin(duration / 5.0F) * 0.2F + 0.2F;
+            float baseAlpha = Math.min(20, duration) / 20.0F;
+            float alpha = Math.max(0.0F, baseAlpha - alphaToSub);
             renderOverlay(context, AERIAL_HELL_PORTAL_OVERLAY, alpha);
         }
         FluidState fluidState = EntityHelper.getInLiquidFluidState(player);
