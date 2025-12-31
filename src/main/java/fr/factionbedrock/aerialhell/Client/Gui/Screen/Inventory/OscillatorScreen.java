@@ -9,9 +9,9 @@ import net.minecraft.network.chat.Component;
 
 public class OscillatorScreen extends FurnaceLikeScreen<OscillatorMenu>
 {
-	private static final Identifier OSCILLATOR_GUI_TEXTURES = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/container/oscillator.png");
-	private static final Identifier LIT_PROGRESS_SPRITE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "container/oscillator/oscillating_progress");
-	private static final Identifier OSCILLATING_PROGRESS_SPRITE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "container/oscillator/progress");
+	public static final Identifier OSCILLATOR_GUI_TEXTURES = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/container/oscillator.png");
+	public static final Identifier LIT_PROGRESS_SPRITE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "container/oscillator/oscillating_progress");
+	public static final Identifier OSCILLATING_PROGRESS_SPRITE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "container/oscillator/progress");
 
 	public OscillatorScreen(OscillatorMenu container, Inventory inventory, Component name)
 	{

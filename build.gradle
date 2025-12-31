@@ -19,8 +19,16 @@ version = mod_version
 group = mod_group_id
 
 repositories {
-    //REI
-    maven {url = "https://maven.shedaniel.me"}
+    maven {
+        //JEI
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    }
+    maven {
+        //JEI fallback
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
 }
 
 base {
@@ -121,8 +129,9 @@ dependencies {
     // We add the full version to localRuntime, not runtimeOnly, so that we do not publish a dependency on it
     // localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 
-    // REI optional dependency
-    // implementation "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
+    // JEI
+    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
+    runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${minecraft_version}-${coolmod_version}.jar
