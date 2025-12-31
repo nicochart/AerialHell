@@ -57,7 +57,7 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> e
 
             builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 1, 37)
                     .setStandardSlotBackground()
-                    .add(new SlotDisplay.ItemSlotDisplay(AerialHellItems.FLUORITE));
+                    .add(new SlotDisplay.ItemSlotDisplay(this.isOscillating ? AerialHellItems.FLUORITE : AerialHellItems.MAGMATIC_GEL));
 
             builder.addOutputSlot(61, 19)
                     .setOutputSlotBackground()
