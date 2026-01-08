@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -69,8 +70,27 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
         this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
         return flag;
     }
+
+    @Override public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount)
+    {
+        boolean flag = super.hurtServer(serverLevel, source, amount) && this.updateTargetOnHurtByLivingEntity();
+        if (flag)
+        {
+            Entity immediateSourceEntity = source.getDirectEntity();
+            Entity trueSourceEntity = source.getEntity();
+            if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrow))
+            {
+                if (!(trueSourceEntity instanceof Player && ((Player)trueSourceEntity).isCreative()))
+                {
+                    this.setTarget((LivingEntity) trueSourceEntity);
+                }
+            }
+        }
+        return flag;
+    }
     
     public abstract float getYMotionOnAttack();
+    public abstract boolean updateTargetOnHurtByLivingEntity();
 
     @Override
 	public void handleEntityEvent(byte id) //broadcastEntityEvent

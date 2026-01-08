@@ -20,6 +20,7 @@ public class RenderRegistrationListener
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event)
     {
         event.registerEntityRenderer(AerialHellEntities.STELLAR_STONE_AUTOMATON.get(), StellarStoneAutomatonRender::new);
+        event.registerEntityRenderer(AerialHellEntities.VOLUCITE_GOLEM.get(), VoluciteGolemRender::new);
         event.registerEntityRenderer(AerialHellEntities.MUD_GOLEM.get(), MudGolemRender::new);
         event.registerEntityRenderer(AerialHellEntities.MUD_SPECTRAL_GOLEM.get(), MudGolemRender::new);
         event.registerEntityRenderer(AerialHellEntities.CRYSTAL_GOLEM.get(), CrystalGolemRender::new);
@@ -115,6 +116,7 @@ public class RenderRegistrationListener
         event.registerLayerDefinition(AerialHellModelLayers.LILITH, LilithModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.LUNATIC_PRIEST, LunaticPriestModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.MUD_CYCLE_MAGE, MudCycleMageModel::createBodyLayer);
+        event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_GOLEM, VoluciteGolemModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.MUD_GOLEM, MudGolemModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.SANDY_SHEEP, SandySheepModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.SHADOW_FLYING_SKULL, ShadowFlyingSkullModel::createBodyLayer);

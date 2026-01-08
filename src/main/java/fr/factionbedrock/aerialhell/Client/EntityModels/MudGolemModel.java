@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.Client.EntityRender.State.MudGolemRenderState;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.AerialHellGolemRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -12,7 +12,7 @@ import net.minecraft.util.Mth;
 //Made by Cixon using BlockBench
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class MudGolemModel extends EntityModel<MudGolemRenderState>
+public class MudGolemModel extends EntityModel<AerialHellGolemRenderState>
 {
 	private final ModelPart head;
 	private final ModelPart body;
@@ -53,7 +53,7 @@ public class MudGolemModel extends EntityModel<MudGolemRenderState>
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
-	@Override public void setupAnim(MudGolemRenderState renderState)
+	@Override public void setupAnim(AerialHellGolemRenderState renderState)
 	{
 		float headPitch = renderState.xRot;
 		float netHeadYaw = renderState.yRot;

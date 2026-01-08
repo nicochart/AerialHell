@@ -42,6 +42,9 @@ public class AerialHellEntities
 	public static final DeferredHolder<EntityType<?>, EntityType<StellarStoneAutomatonEntity>> STELLAR_STONE_AUTOMATON = ENTITIES.register("stellar_stone_automaton", () -> EntityType.Builder.of(StellarStoneAutomatonEntity::new, MobCategory.MONSTER)
 			.sized(0.9F,2.1F).notInPeaceful().build(Keys.STELLAR_STONE_AUTOMATON));
 
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteGolemEntity>> VOLUCITE_GOLEM = ENTITIES.register("volucite_golem", () -> EntityType.Builder.of(VoluciteGolemEntity::new, MobCategory.MONSTER)
+			.sized(1.3F,2.7F).notInPeaceful().build(Keys.VOLUCITE_GOLEM));
+
 	public static final DeferredHolder<EntityType<?>, EntityType<MudGolemEntity>> MUD_GOLEM = ENTITIES.register("mud_golem", () -> EntityType.Builder.of(MudGolemEntity::new, MobCategory.MONSTER)
 			.sized(1.4F,2.3F).notInPeaceful().build(Keys.MUD_GOLEM));
 
@@ -249,6 +252,7 @@ public class AerialHellEntities
 	public static class Keys
 	{
 		public static ResourceKey<EntityType<?>> STELLAR_STONE_AUTOMATON = key("stellar_stone_automaton");
+		public static ResourceKey<EntityType<?>> VOLUCITE_GOLEM = key("volucite_golem");
 		public static ResourceKey<EntityType<?>> MUD_GOLEM = key("mud_golem");
 		public static ResourceKey<EntityType<?>> MUD_SPECTRAL_GOLEM = key("mud_spectral_golem");
 		public static ResourceKey<EntityType<?>> CRYSTAL_GOLEM = key("crystal_golem");

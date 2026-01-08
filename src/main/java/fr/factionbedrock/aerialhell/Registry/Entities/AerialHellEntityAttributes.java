@@ -29,6 +29,7 @@ public class AerialHellEntityAttributes
 		Do not forget to register the attributes ! Entity with no attributes registered can't be summoned
 		*/
 		event.put(AerialHellEntities.STELLAR_STONE_AUTOMATON.get(), StellarStoneAutomatonEntity.registerAttributes().build());
+		event.put(AerialHellEntities.VOLUCITE_GOLEM.get(), VoluciteGolemEntity.registerAttributes().build());
 		event.put(AerialHellEntities.MUD_GOLEM.get(), MudGolemEntity.registerAttributes().build());
 		event.put(AerialHellEntities.MUD_SPECTRAL_GOLEM.get(), MudSpectralGolemEntity.registerAttributes().build());
 		event.put(AerialHellEntities.CRYSTAL_GOLEM.get(), CrystalGolemEntity.registerAttributes().build());

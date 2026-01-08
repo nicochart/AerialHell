@@ -26,15 +26,13 @@ import net.minecraft.world.level.storage.ValueOutput;
 import java.util.List;
 
 public class CrystalGolemEntity extends AerialHellGolemEntity
-{	
-	private int timeUntilActivation;
+{
 	public static final EntityDataAccessor<Boolean> DISAPPEARING = SynchedEntityData.<Boolean>defineId(CrystalGolemEntity.class, EntityDataSerializers.BOOLEAN);
 	private int timeDisappearing;
 	
     public CrystalGolemEntity(EntityType<? extends Monster> type, Level world)
     {
         super(type, world);
-        this.timeUntilActivation = 0;
         this.xpReward = 6;
     }
     
@@ -135,4 +133,5 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
 	{
 		return 0.25F;
 	}
+    @Override public boolean updateTargetOnHurtByLivingEntity() {return false;}
 }
