@@ -27,6 +27,7 @@ import java.util.EnumSet;
 public class VoluciteGolemEntity extends AerialHellGolemEntity
 {
     private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> BEAMING = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.BOOLEAN);
     private @Nullable LivingEntity clientSideCachedAttackTarget;
 
     public VoluciteGolemEntity(EntityType<? extends Monster> type, Level world)
@@ -39,10 +40,13 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
     {
         super.defineSynchedData(builder);
         builder.define(ATTACK_TARGET_ID, 0);
+        builder.define(BEAMING, false);
     }
 
     public void setActiveAttackTarget(int activeAttackTargetId) {this.entityData.set(ATTACK_TARGET_ID, activeAttackTargetId);}
     public boolean hasActiveAttackTarget() {return this.entityData.get(ATTACK_TARGET_ID) != 0;}
+    public boolean isBeaming() {return this.entityData.get(BEAMING);}
+    public void setBeaming(boolean isImploding) {this.entityData.set(BEAMING, isImploding);}
 
     public @Nullable LivingEntity getActiveAttackTarget()
     {
@@ -75,7 +79,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
 
     @Override protected void registerGoals()
     {
-        this.goalSelector.addGoal(4, new GuardianAttackGoal(this));
+        this.goalSelector.addGoal(4, new BeamAttackGoal(this, this.getBeamingDuration(), this.getBeamingCooldown()));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
 
         //super.registerGoals(); removed super registerGoals because need to remove MeleeAttackGoal to make it work (atm)
@@ -90,35 +94,43 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
     @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
 	@Override public boolean updateTargetOnHurtByLivingEntity() {return true;}
 
-    public int getAttackDuration() {return 80;}
+    public int getBeamingDuration() {return 80;}
+    public int getBeamingCooldown() {return 40;}
 
-    static class GuardianAttackGoal extends Goal
+    static class BeamAttackGoal extends Goal
     {
         private final VoluciteGolemEntity entity;
-        private int attackTime;
-        private final boolean elder;
+        private int currentBeamingTime;
+        private int beamingDuration;
+        private int beamingCooldown;
+        private int beamingCooldownDuration;
 
-        public GuardianAttackGoal(VoluciteGolemEntity entity)
+        public BeamAttackGoal(VoluciteGolemEntity entity, int beamingDuration, int cooldownDuration)
         {
             this.entity = entity;
-            elder = false;
+            this.currentBeamingTime = 0;
+            this.beamingDuration = beamingDuration;
+            this.beamingCooldown = 0;
+            this.beamingCooldownDuration = cooldownDuration;
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
 
         public boolean canUse()
         {
+            if (this.beamingCooldown > 0) {this.beamingCooldown--; return false;}
             LivingEntity livingentity = this.entity.getTarget();
             return livingentity != null && livingentity.isAlive();
         }
 
         public boolean canContinueToUse()
         {
-            return super.canContinueToUse() && (this.elder || this.entity.getTarget() != null && this.entity.distanceToSqr(this.entity.getTarget()) < (double)120.0F);
+            return super.canContinueToUse() && (this.entity.getTarget() != null && this.entity.distanceToSqr(this.entity.getTarget()) < (double)120.0F);
         }
 
         public void start()
         {
-            this.attackTime = -10;
+            this.currentBeamingTime = 0;
+            this.entity.setBeaming(true);
             this.entity.getNavigation().stop();
             LivingEntity livingentity = this.entity.getTarget();
             if (livingentity != null)
@@ -132,8 +144,10 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         public void stop()
         {
             this.entity.setActiveAttackTarget(0);
+            this.entity.setBeaming(false);
             //this.entity.setTarget((LivingEntity)null);
-            this.attackTime = 0;
+            this.beamingCooldown = beamingCooldownDuration;
+            this.currentBeamingTime = 0;
             //this.entity.randomStrollGoal.trigger();
         }
 
@@ -148,13 +162,13 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
                 this.entity.getLookControl().setLookAt(livingentity, 90.0F, 90.0F);
                 if (!this.entity.hasLineOfSight(livingentity))
                 {
-                    this.entity.setTarget((LivingEntity)null);
+                    this.entity.setTarget(null);
                 }
                 else
                 {
                     if (this.entity.getActiveAttackTarget() == null) {this.entity.setActiveAttackTarget(livingentity.getId());}
-                    ++this.attackTime;
-                    if (this.attackTime == 0)
+                    ++this.currentBeamingTime;
+                    if (this.currentBeamingTime == 0)
                     {
                         if (!this.entity.isSilent())
                         {
@@ -162,18 +176,23 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
                             //this.entity.level().broadcastEntityEvent(this.entity, (byte)21);
                         }
                     }
-                    else if (this.attackTime >= this.entity.getAttackDuration())
+                    if (this.currentBeamingTime < 0.1F * this.beamingDuration)
                     {
-                        float f = 1.0F;
-                        if (this.entity.level().getDifficulty() == Difficulty.HARD) {f += 2.0F;}
-
-                        if (this.elder) {f += 2.0F;}
+                        //beam loading
+                    }
+                    else if (this.currentBeamingTime < this.beamingDuration)
+                    {
+                        //full power
+                        float damage = 4.0F;
+                        if (this.entity.level().getDifficulty() == Difficulty.HARD) {damage += 2.0F;}
 
                         ServerLevel serverlevel = getServerLevel(this.entity);
-                        livingentity.hurtServer(serverlevel, this.entity.damageSources().indirectMagic(this.entity, this.entity), f);
-                        this.entity.doHurtTarget(serverlevel, livingentity);
+                        livingentity.hurtServer(serverlevel, this.entity.damageSources().indirectMagic(this.entity, this.entity), damage);
+                        //this.entity.doHurtTarget(serverlevel, livingentity); hit animation off
+                    }
+                    else //if (this.currentBeamingTime >= this.beamingDuration)
+                    {
                         this.stop();
-                        //this.entity.setTarget((LivingEntity)null); do not want to lose target
                     }
                     super.tick();
                 }
