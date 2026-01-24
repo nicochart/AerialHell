@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.ActiveLookAtPlayerGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveRandomLookAroundGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGoal;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -115,19 +116,19 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
 
-        public boolean canUse()
+        @Override public boolean canUse()
         {
             if (this.beamingCooldown > 0) {this.beamingCooldown--; return false;}
             LivingEntity livingentity = this.entity.getTarget();
             return livingentity != null && livingentity.isAlive();
         }
 
-        public boolean canContinueToUse()
+        @Override public boolean canContinueToUse()
         {
             return super.canContinueToUse() && (this.entity.getTarget() != null && this.entity.distanceToSqr(this.entity.getTarget()) < (double)120.0F);
         }
 
-        public void start()
+        @Override public void start()
         {
             this.currentBeamingTime = 0;
             this.entity.setBeaming(true);
@@ -141,7 +142,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
             this.entity.needsSync = true;
         }
 
-        public void stop()
+        @Override public void stop()
         {
             this.entity.setActiveAttackTarget(0);
             this.entity.setBeaming(false);
@@ -151,9 +152,9 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
             //this.entity.randomStrollGoal.trigger();
         }
 
-        public boolean requiresUpdateEveryTick() {return true;}
+        @Override public boolean requiresUpdateEveryTick() {return true;}
 
-        public void tick()
+        @Override public void tick()
         {
             LivingEntity livingentity = this.entity.getTarget();
             if (livingentity != null)
@@ -187,7 +188,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
                         if (this.entity.level().getDifficulty() == Difficulty.HARD) {damage += 2.0F;}
 
                         ServerLevel serverlevel = getServerLevel(this.entity);
-                        livingentity.hurtServer(serverlevel, this.entity.damageSources().indirectMagic(this.entity, this.entity), damage);
+                        livingentity.hurtServer(serverlevel, AerialHellDamageTypes.getDamageSource(this.entity.level(), AerialHellDamageTypes.GOLEM_BEAM, this.entity, this.entity), damage);
                         //this.entity.doHurtTarget(serverlevel, livingentity); hit animation off
                     }
                     else //if (this.currentBeamingTime >= this.beamingDuration)

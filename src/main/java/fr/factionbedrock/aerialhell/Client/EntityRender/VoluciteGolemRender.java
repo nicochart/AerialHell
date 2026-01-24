@@ -24,7 +24,7 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
 {
 	private static String name = "volucite_golem";
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
-    private static final Identifier GUARDIAN_BEAM_LOCATION = Identifier.withDefaultNamespace("textures/entity/guardian_beam.png");
+    private static final Identifier GUARDIAN_BEAM_LOCATION = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/beam.png");
     private static final RenderType BEAM_RENDER_TYPE = RenderTypes.entityCutoutNoCull(GUARDIAN_BEAM_LOCATION);
 
     public VoluciteGolemRender(EntityRendererProvider.Context context)

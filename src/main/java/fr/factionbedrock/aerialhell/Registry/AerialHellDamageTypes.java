@@ -20,6 +20,7 @@ public class AerialHellDamageTypes
     public static final ResourceKey<DamageType> SHURIKEN_HIT = create("shuriken_hit");
     public static final ResourceKey<DamageType> LUNATIC_PROJECTION = create("lunatic_projection");
     public static final ResourceKey<DamageType> CURSED_TOOL = create("cursed_tool");
+    public static final ResourceKey<DamageType> GOLEM_BEAM = create("golem_beam");
 
     private static ResourceKey<DamageType> create(String name) {return ResourceKey.create(Registries.DAMAGE_TYPE, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));}
 
