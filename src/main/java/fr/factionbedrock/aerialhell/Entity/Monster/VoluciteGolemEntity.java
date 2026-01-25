@@ -5,11 +5,14 @@ import fr.factionbedrock.aerialhell.Entity.AI.ActiveRandomLookAroundGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGoal;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -68,6 +71,11 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         }
         else {return this.getTarget();}
     }
+
+    public void playBeamSound() {this.playSound(AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_SHOOT.get(), 1.0F, 0.8F);}
+    @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_AMBIENT.get();}
+    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_HURT.get();}
+    @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_WARDEN_VOLUCITE_GOLEM_DEATH.get();}
 
     public static AttributeSupplier.Builder registerAttributes()
     {
@@ -139,6 +147,8 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
                 this.entity.getLookControl().setLookAt(livingentity, 90.0F, 90.0F);
             }
 
+            if (!this.entity.isSilent()) {this.entity.playBeamSound();}
+
             this.entity.needsSync = true;
         }
 
@@ -169,14 +179,6 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
                 {
                     if (this.entity.getActiveAttackTarget() == null) {this.entity.setActiveAttackTarget(livingentity.getId());}
                     ++this.currentBeamingTime;
-                    if (this.currentBeamingTime == 0)
-                    {
-                        if (!this.entity.isSilent())
-                        {
-                            //sound part ? (will crash because entity is not guardian)
-                            //this.entity.level().broadcastEntityEvent(this.entity, (byte)21);
-                        }
-                    }
                     if (this.currentBeamingTime < 0.1F * this.beamingDuration)
                     {
                         //beam loading
