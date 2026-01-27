@@ -41,23 +41,23 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
         renderState.eyePosition = entity.getEyePosition(partialTick);
 
         LivingEntity target = entity.getActiveAttackTarget();
-        if (entity.isBeaming() && target != null)
+        if (entity.isBeaming() && target != null && entity.getBeamTargetPos() != null && entity.getPrevBeamTargetPos() != null)
         {
             renderState.attackScale = 1.0F; //entity.getAttackAnimationScale(partialTick);
             renderState.attackTime = 1.0F; //entity.getClientSideAttackTime() + partialTick;
-            renderState.attackTargetPosition = this.getPosition(target, (double)target.getBbHeight() * (double)0.5F, partialTick);
+            renderState.beamTargetPosition = this.getPosition(entity.getBeamTargetPos(), entity.getPrevBeamTargetPos(), (double)target.getBbHeight() * (double)0.5F, partialTick);
         }
         else
         {
-            renderState.attackTargetPosition = null;
+            renderState.beamTargetPosition = null;
         }
     }
 
-    private Vec3 getPosition(LivingEntity livingEntity, double yOffset, float partialTick)
+    private Vec3 getPosition(Vec3 targetPos, Vec3 prevTargetPos, double yOffset, float partialTick)
     {
-        double d0 = Mth.lerp((double)partialTick, livingEntity.xOld, livingEntity.getX());
-        double d1 = Mth.lerp((double)partialTick, livingEntity.yOld, livingEntity.getY()) + yOffset;
-        double d2 = Mth.lerp((double)partialTick, livingEntity.zOld, livingEntity.getZ());
+        double d0 = Mth.lerp(partialTick, prevTargetPos.x, targetPos.x);
+        double d1 = Mth.lerp(partialTick, prevTargetPos.y, targetPos.y) + yOffset;
+        double d2 = Mth.lerp(partialTick, prevTargetPos.z, targetPos.z);
         return new Vec3(d0, d1, d2);
     }
 
@@ -66,7 +66,7 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
     public void submit(AerialHellGolemRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
     {
         super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
-        Vec3 vec3 = renderState.attackTargetPosition;
+        Vec3 vec3 = renderState.beamTargetPosition;
         if (vec3 != null)
         {
             float f = renderState.attackTime * 0.5F % 1.0F;

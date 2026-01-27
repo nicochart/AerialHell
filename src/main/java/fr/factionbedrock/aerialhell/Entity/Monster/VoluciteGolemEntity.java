@@ -24,6 +24,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
 import java.util.EnumSet;
@@ -32,7 +33,10 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
 {
     private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> BEAMING = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> BEAM_TARGET_POS_NEEDS_SYNC = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.BOOLEAN);
     private @Nullable LivingEntity clientSideCachedAttackTarget;
+    private Vec3 beamTargetPos = new Vec3(0, 0 ,0);
+    private Vec3 prevBeamTargetPos = new Vec3(0, 0 ,0);
 
     public VoluciteGolemEntity(EntityType<? extends Monster> type, Level world)
     {
@@ -45,12 +49,15 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         super.defineSynchedData(builder);
         builder.define(ATTACK_TARGET_ID, 0);
         builder.define(BEAMING, false);
+        builder.define(BEAM_TARGET_POS_NEEDS_SYNC, false);
     }
 
     public void setActiveAttackTarget(int activeAttackTargetId) {this.entityData.set(ATTACK_TARGET_ID, activeAttackTargetId);}
     public boolean hasActiveAttackTarget() {return this.entityData.get(ATTACK_TARGET_ID) != 0;}
     public boolean isBeaming() {return this.entityData.get(BEAMING);}
-    public void setBeaming(boolean isImploding) {this.entityData.set(BEAMING, isImploding);}
+    public void setBeaming(boolean bool) {this.entityData.set(BEAMING, bool);}
+    public boolean beamingTargetPosNeedsSync() {return this.entityData.get(BEAM_TARGET_POS_NEEDS_SYNC);}
+    private void setBeamingTargetPosNeedsSync() {this.entityData.set(BEAM_TARGET_POS_NEEDS_SYNC, true);}
 
     public @Nullable LivingEntity getActiveAttackTarget()
     {
@@ -70,6 +77,54 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
             }
         }
         else {return this.getTarget();}
+    }
+
+    public @Nullable Vec3 getBeamTargetPos() {return getActiveAttackTarget() != null ? beamTargetPos : null;}
+    public @Nullable Vec3 getPrevBeamTargetPos() {return getActiveAttackTarget() != null ? prevBeamTargetPos : null;}
+
+    public void updateBeamTargetPos()
+    {
+        if (this.getActiveAttackTarget() == null) {return;}
+        prevBeamTargetPos = beamTargetPos;
+
+        Vec3 attackTargetPos =  this.getActiveAttackTarget().position();
+
+        Vec3 toTarget = attackTargetPos.subtract(beamTargetPos);
+        double distance = toTarget.length();
+        double maxStep = 0.18D;
+
+        if (distance <= maxStep) {beamTargetPos = attackTargetPos;}
+        else
+        {
+            Vec3 step = toTarget.normalize().multiply(maxStep, maxStep, maxStep);
+            beamTargetPos = beamTargetPos.add(step);
+        }
+    }
+
+    @Override public void tick()
+    {
+        if (this.beamingTargetPosNeedsSync())
+        {
+            this.entityData.set(BEAM_TARGET_POS_NEEDS_SYNC, false);
+            if (this.beamTargetPos.x == 0 && this.beamTargetPos.y == 0 && this.beamTargetPos.z == 0) //beaming start
+            {
+                if (this.getActiveAttackTarget() != null)
+                {
+                    this.beamTargetPos = this.getActiveAttackTarget().position();
+                    this.prevBeamTargetPos = this.getActiveAttackTarget().position();
+                }
+            }
+            else //beaming stop
+            {
+                this.beamTargetPos = new Vec3(0, 0 ,0);
+                this.prevBeamTargetPos = new Vec3(0, 0 ,0);
+            }
+        }
+        else
+        {
+            this.updateBeamTargetPos();
+        }
+        super.tick();
     }
 
     public void playBeamSound() {this.playSound(AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_SHOOT.get(), 1.0F, 0.8F);}
@@ -133,7 +188,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
 
         @Override public boolean canContinueToUse()
         {
-            return super.canContinueToUse() && (this.entity.getTarget() != null && this.entity.distanceToSqr(this.entity.getTarget()) < (double)120.0F);
+            return super.canContinueToUse() && (this.entity.getTarget() != null && this.entity.distanceToSqr(this.entity.getTarget()) < (double)240.0F);
         }
 
         @Override public void start()
@@ -150,6 +205,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
             if (!this.entity.isSilent()) {this.entity.playBeamSound();}
 
             this.entity.needsSync = true;
+            this.entity.setBeamingTargetPosNeedsSync();
         }
 
         @Override public void stop()
@@ -160,6 +216,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
             this.beamingCooldown = beamingCooldownDuration;
             this.currentBeamingTime = 0;
             //this.entity.randomStrollGoal.trigger();
+            this.entity.setBeamingTargetPosNeedsSync();
         }
 
         @Override public boolean requiresUpdateEveryTick() {return true;}
