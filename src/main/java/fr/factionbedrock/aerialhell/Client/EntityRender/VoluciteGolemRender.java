@@ -45,7 +45,7 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
         {
             renderState.attackScale = 1.0F; //entity.getAttackAnimationScale(partialTick);
             renderState.attackTime = 1.0F; //entity.getClientSideAttackTime() + partialTick;
-            renderState.beamTargetPosition = this.getPosition(entity.getBeamEndPos(), entity.getPrevBeamEndPos(), (double)target.getBbHeight() * (double)0.5F, partialTick);
+            renderState.beamTargetPosition = this.getPosition(entity.getBeamEndPos(), entity.getPrevBeamEndPos(), partialTick);
         }
         else
         {
@@ -53,10 +53,10 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
         }
     }
 
-    private Vec3 getPosition(Vec3 targetPos, Vec3 prevTargetPos, double yOffset, float partialTick)
+    private Vec3 getPosition(Vec3 targetPos, Vec3 prevTargetPos, float partialTick)
     {
         double d0 = Mth.lerp(partialTick, prevTargetPos.x, targetPos.x);
-        double d1 = Mth.lerp(partialTick, prevTargetPos.y, targetPos.y) + yOffset;
+        double d1 = Mth.lerp(partialTick, prevTargetPos.y, targetPos.y);
         double d2 = Mth.lerp(partialTick, prevTargetPos.z, targetPos.z);
         return new Vec3(d0, d1, d2);
     }

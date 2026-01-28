@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGo
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -88,6 +89,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
     public @Nullable Vec3 getPrevBeamTargetPos() {return getActiveAttackTarget() != null ? prevBeamTargetPos : null;}
     public @Nullable Vec3 getBeamEndPos() {return getActiveAttackTarget() != null ? beamEndPos : null;}
     public @Nullable Vec3 getPrevBeamEndPos() {return getActiveAttackTarget() != null ? prevBeamEndPos : null;}
+    public Vec3 getBeamStartPos() {return this.getEyePosition();}
 
     public void updateBeamPositions() //must be deterministic to be calculated the same way on both client and server sides
     {
@@ -112,7 +114,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         }
 
         //beamEnd update - the pos where the beam hits a solid obstacle
-        Vec3 beamStart = this.getEyePosition();
+        Vec3 beamStart = this.getBeamStartPos();
         Vec3 direction = beamTargetPos.subtract(beamStart).normalize();
         double maxDistance = 30.0;
         Vec3 furthestBeamEnd = beamStart.add(direction.scale(maxDistance));
@@ -144,6 +146,28 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         {
             this.updateBeamPositions();
         }
+
+        //TODO DEBUG
+        if (this.getBeamEndPos() != null)
+        {
+            Vec3 beamStart = this.getBeamStartPos();
+            Vec3 beamEnd = this.getBeamEndPos();
+            Vec3 delta = beamEnd.subtract(beamStart);
+            double distance = delta.length();
+
+            if (distance < 0.001) return;
+
+            Vec3 direction = delta.normalize();
+
+            double particleStep = 0.2;
+
+            for (double traveled = 0.0; traveled <= distance; traveled += particleStep)
+            {
+                Vec3 pos = beamStart.add(direction.scale(traveled));
+                this.level().addParticle(ParticleTypes.END_ROD, pos.x, pos.y, pos.z, 0.0D, 0.0D, 0.0D);
+            }
+        }
+
         super.tick();
     }
 
@@ -247,7 +271,11 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
             if (livingentity != null)
             {
                 this.entity.getNavigation().stop();
-                this.entity.getLookControl().setLookAt(livingentity, 90.0F, 90.0F);
+                Vec3 beamTargetPos = this.entity.getBeamTargetPos();
+                if (beamTargetPos != null)
+                {
+                    this.entity.getLookControl().setLookAt(beamTargetPos.x, beamTargetPos.y, beamTargetPos.z, 90.0F, 90.0F);
+                }
                 if (!this.entity.hasLineOfSight(livingentity))
                 {
                     this.entity.setTarget(null);
