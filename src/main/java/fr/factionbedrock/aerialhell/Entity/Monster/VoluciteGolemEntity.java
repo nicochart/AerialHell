@@ -6,7 +6,6 @@ import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGo
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -15,6 +14,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -26,12 +26,12 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.*;
 import org.jspecify.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 
 public class VoluciteGolemEntity extends AerialHellGolemEntity
 {
@@ -99,7 +99,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         prevBeamEndPos = beamEndPos;
 
         //beamTarget update - fictitious "target" following real target
-        double yOffset = beamTarget.getBoundingBox().getYsize() / 2;
+        double yOffset = beamTarget.getBoundingBox().getYsize() * 0.75F;
         Vec3 attackTargetPos =  beamTarget.position().add(0, yOffset, 0);
 
         Vec3 toTarget = attackTargetPos.subtract(beamTargetPos);
@@ -147,7 +147,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
             this.updateBeamPositions();
         }
 
-        //TODO DEBUG
+        /* Beam trajectory debug
         if (this.getBeamEndPos() != null)
         {
             Vec3 beamStart = this.getBeamStartPos();
@@ -167,6 +167,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
                 this.level().addParticle(ParticleTypes.END_ROD, pos.x, pos.y, pos.z, 0.0D, 0.0D, 0.0D);
             }
         }
+        */
 
         super.tick();
     }
@@ -295,7 +296,15 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
                         if (this.entity.level().getDifficulty() == Difficulty.HARD) {damage += 2.0F;}
 
                         ServerLevel serverlevel = getServerLevel(this.entity);
-                        livingentity.hurtServer(serverlevel, AerialHellDamageTypes.getDamageSource(this.entity.level(), AerialHellDamageTypes.GOLEM_BEAM, this.entity, this.entity), damage);
+                        List<Entity> hitEntities = getBeamHitEntities(this.entity.level(), this.entity, this.entity.getBeamStartPos(), this.entity.getBeamEndPos());
+
+                        for (Entity entity : hitEntities)
+                        {
+                            if (entity instanceof LivingEntity livingHit)
+                            {
+                                livingHit.hurtServer(serverlevel, AerialHellDamageTypes.getDamageSource(this.entity.level(), AerialHellDamageTypes.GOLEM_BEAM, this.entity, this.entity), damage);
+                            }
+                        }
                         //this.entity.doHurtTarget(serverlevel, livingentity); hit animation off
                     }
                     else //if (this.currentBeamingTime >= this.beamingDuration)
@@ -305,6 +314,23 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
                     super.tick();
                 }
             }
+        }
+
+        public static List<Entity> getBeamHitEntities(Level level, LivingEntity beamingEntity, Vec3 beamStart, Vec3 beamEnd)
+        {
+            AABB boxFromBeamStartToBeamEnd = new AABB(beamStart, beamEnd).inflate(1.0);
+
+            List<Entity> entitiesInBox = level.getEntities(beamingEntity, boxFromBeamStartToBeamEnd, EntitySelector.ENTITY_STILL_ALIVE);
+
+            List<Entity> hits = new ArrayList<>();
+
+            for (Entity entity : entitiesInBox)
+            {
+                AABB hitbox = entity.getBoundingBox().inflate(0.3);
+                hitbox.clip(beamStart, beamEnd).ifPresent(vec3 -> hits.add(new EntityHitResult(entity, vec3).getEntity()));
+            }
+
+            return hits;
         }
     }
 }

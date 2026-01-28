@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, AerialHellGolemRenderState, VoluciteGolemModel>
@@ -128,6 +129,21 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
             vertex(p_433082_, p_432958_, f13, f, f14, i, j, k, 1.0F, f27);
             vertex(p_433082_, p_432958_, f11, f, f12, i, j, k, 0.5F, f27);
         });
+    }
+
+    @Override public AABB getBoundingBoxForCulling(VoluciteGolemEntity entity)
+    {
+        AABB box = super.getBoundingBoxForCulling(entity);
+
+        if (entity.isBeaming() && entity.getBeamEndPos() != null)
+        {
+            Vec3 beamStart = entity.getBeamStartPos();
+            Vec3 beamEnd = entity.getBeamEndPos();
+
+            AABB beamBox = new AABB(beamStart, beamEnd).inflate(1.0);
+            return box.minmax(beamBox);
+        }
+        return box;
     }
 
     private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z, int red, int green, int blue, float u, float v)
