@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.ActiveLookAtPlayerGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveRandomLookAroundGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGoal;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -39,10 +40,10 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
     private static final EntityDataAccessor<Boolean> BEAMING = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> BEAM_TARGET_POS_NEEDS_SYNC = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.BOOLEAN);
     private @Nullable LivingEntity clientSideCachedAttackTarget;
-    private Vec3 beamTargetPos = new Vec3(0, 0 ,0);
-    private Vec3 prevBeamTargetPos = new Vec3(0, 0 ,0);
-    private Vec3 beamEndPos = new Vec3(0, 0 ,0);
-    private Vec3 prevBeamEndPos = new Vec3(0, 0 ,0);
+    private Vec3 beamTargetPos;
+    private Vec3 prevBeamTargetPos;
+    private Vec3 beamEndPos;
+    private Vec3 prevBeamEndPos;
 
     public VoluciteGolemEntity(EntityType<? extends Monster> type, Level world)
     {
@@ -58,8 +59,9 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         builder.define(BEAM_TARGET_POS_NEEDS_SYNC, false);
     }
 
-    public void setActiveAttackTarget(int activeAttackTargetId) {this.entityData.set(ATTACK_TARGET_ID, activeAttackTargetId);}
-    public boolean hasActiveAttackTarget() {return this.entityData.get(ATTACK_TARGET_ID) != 0;}
+    public void setActiveAttackTargetId(int activeAttackTargetId) {this.entityData.set(ATTACK_TARGET_ID, activeAttackTargetId);}
+    public int getActiveAttackTargetId() {return this.entityData.get(ATTACK_TARGET_ID);}
+    public boolean hasActiveAttackTargetId() {return this.entityData.get(ATTACK_TARGET_ID) != 0;}
     public boolean isBeaming() {return this.entityData.get(BEAMING);}
     public void setBeaming(boolean bool) {this.entityData.set(BEAMING, bool);}
     public boolean beamingTargetPosNeedsSync() {return this.entityData.get(BEAM_TARGET_POS_NEEDS_SYNC);}
@@ -67,13 +69,16 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
 
     public @Nullable LivingEntity getActiveAttackTarget()
     {
-        if (!this.hasActiveAttackTarget()) {return null;}
-        else if (this.level().isClientSide())
+        if (!this.hasActiveAttackTargetId()) {return null;}
+        else if (this.level().isClientSide()) //Client side
         {
-            if (this.clientSideCachedAttackTarget != null) {return this.clientSideCachedAttackTarget;}
-            else
+            if (this.clientSideCachedAttackTarget != null && this.clientSideCachedAttackTarget.getId() == this.getActiveAttackTargetId()) //if client cached target exists & is valid (same id as synced id)
             {
-                Entity entity = this.level().getEntity(this.entityData.get(ATTACK_TARGET_ID));
+                return this.clientSideCachedAttackTarget;
+            }
+            else //trying to update clientSideCachedAttackTarget
+            {
+                Entity entity = this.level().getEntity(this.getActiveAttackTargetId());
                 if (entity instanceof LivingEntity)
                 {
                     this.clientSideCachedAttackTarget = (LivingEntity)entity;
@@ -82,7 +87,17 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
                 else {return null;}
             }
         }
-        else {return this.getTarget();}
+        else //Server side
+        {
+            LivingEntity serverSideTarget = this.getTarget();
+            if (serverSideTarget == null) {return null;}
+
+            if (serverSideTarget.getId() != this.getActiveAttackTargetId()) //updating synced id if necessary
+            {
+                this.setActiveAttackTargetId(serverSideTarget.getId());
+            }
+            return serverSideTarget;
+        }
     }
 
     public @Nullable Vec3 getBeamTargetPos() {return getActiveAttackTarget() != null ? beamTargetPos : null;}
@@ -90,17 +105,18 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
     public @Nullable Vec3 getBeamEndPos() {return getActiveAttackTarget() != null ? beamEndPos : null;}
     public @Nullable Vec3 getPrevBeamEndPos() {return getActiveAttackTarget() != null ? prevBeamEndPos : null;}
     public Vec3 getBeamStartPos() {return this.getEyePosition();}
+    private static Vec3 getBeamOffset(Entity target) {return new Vec3(0, target.getBoundingBox().getYsize() * 0.75F, 0);}
 
     public void updateBeamPositions() //must be deterministic to be calculated the same way on both client and server sides
     {
         LivingEntity beamTarget = this.getActiveAttackTarget(); //the active target is the only synchronized thing
-        if (beamTarget == null) {return;}
+        //beamTargetPos is not the real target pos. It is a fictitious "target" following real target.
+        if (beamTarget == null || beamTargetPos == null) {return;}
         prevBeamTargetPos = beamTargetPos;
         prevBeamEndPos = beamEndPos;
 
         //beamTarget update - fictitious "target" following real target
-        double yOffset = beamTarget.getBoundingBox().getYsize() * 0.75F;
-        Vec3 attackTargetPos =  beamTarget.position().add(0, yOffset, 0);
+        Vec3 attackTargetPos =  beamTarget.position().add(getBeamOffset(beamTarget));
 
         Vec3 toTarget = attackTargetPos.subtract(beamTargetPos);
         double distance = toTarget.length();
@@ -125,26 +141,57 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
 
     @Override public void tick()
     {
-        if (this.beamingTargetPosNeedsSync())
+        boolean beamingSyncFlag = this.beamingTargetPosNeedsSync();
+        if (beamingSyncFlag)
         {
             this.entityData.set(BEAM_TARGET_POS_NEEDS_SYNC, false);
-            if (this.beamTargetPos.x == 0 && this.beamTargetPos.y == 0 && this.beamTargetPos.z == 0) //beaming start
+
+            //forcing client side beam target (entity and pos) update
+            this.clientSideCachedAttackTarget = null;
+            this.beamTargetPos = null;
+            this.prevBeamTargetPos = null;
+            this.beamEndPos = null;
+            this.prevBeamEndPos = null;
+            if (!this.level().isClientSide() && this.getTarget() != null)
             {
-                if (this.getActiveAttackTarget() != null)
-                {
-                    this.beamTargetPos = this.getActiveAttackTarget().position();
-                    this.prevBeamTargetPos = this.getActiveAttackTarget().position();
-                }
-            }
-            else //beaming stop
-            {
-                this.beamTargetPos = new Vec3(0, 0 ,0);
-                this.prevBeamTargetPos = new Vec3(0, 0 ,0);
+                this.setActiveAttackTargetId(this.getTarget().getId());
             }
         }
-        else
+        else if (this.isBeaming())
         {
+            //initializing beam pos if not done yet
+            boolean needsInitialization = this.beamTargetPos == null;
+            if (needsInitialization && this.getActiveAttackTarget() != null && this.hasActiveAttackTargetId())
+            {
+                Vec3 targetInitialPos = this.getActiveAttackTarget().position().add(getBeamOffset(this.getActiveAttackTarget()));;
+                this.beamTargetPos = targetInitialPos;
+                this.prevBeamTargetPos = targetInitialPos;
+            }
+
             this.updateBeamPositions();
+        }
+
+        //should never happen
+        //if (this.getActiveAttackTarget() != null && this.getActiveAttackTarget().getId() != this.getActiveAttackTargetId())
+        //{
+        //    this.clientSideCachedAttackTarget = null;
+        //    this.beamTargetPos = null;
+        //    this.prevBeamTargetPos = null;
+        //    this.beamEndPos = null;
+        //    this.prevBeamEndPos = null;
+        //}
+
+        if (beamingSyncFlag) {System.out.println("[Tick "+this.level().getGameTime()+"] "+(this.level().isClientSide() ? "Client : " : "Server : ") + "-- SYNCED --");}
+        if (this.isBeaming())
+        {
+            boolean printPos = false;
+            System.out.println("[Tick "+this.level().getGameTime()+"] "+(this.level().isClientSide() ? "Client : " : "Server : ") + "synced target id is "+this.getActiveAttackTargetId()+", real id is "+(this.getActiveAttackTarget() == null ? "null" : this.getActiveAttackTarget().getId()));
+            if (printPos && this.getActiveAttackTarget() != null)
+            {
+                Vec3 pos = this.getActiveAttackTarget().position();
+                System.out.println("[Tick "+this.level().getGameTime()+"] "+(this.level().isClientSide() ? "Client : " : "Server : ") + "real target pos is "+createVec3String(pos));
+            }
+            System.out.println("[Tick "+this.level().getGameTime()+"] "+(this.level().isClientSide() ? "Client : " : "Server : ") + (this.beamEndPos == null ? "beamEndPos = null" : "beamEndPos = " + createVec3String(beamEndPos)) + ", " + (this.prevBeamEndPos == null ? "prevBeamEndPos = null" : "prevBeamEndPos = " + createVec3String(prevBeamEndPos)));
         }
 
         /* Beam trajectory debug
@@ -172,6 +219,15 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         super.tick();
     }
 
+    //tmp debug method - string creation for Vec3
+    private static String createVec3String(Vec3 vec)
+    {
+        float x = (int) ((vec.x * 100)) / 100.0F;
+        float y = (int) ((vec.y * 100)) / 100.0F;
+        float z = (int) ((vec.z * 100)) / 100.0F;
+        return x + ", " + y + ", " + z;
+    }
+
     public void playBeamSound() {this.playSound(AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_SHOOT.get(), 1.0F, 0.8F);}
     @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_AMBIENT.get();}
     @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_HURT.get();}
@@ -197,6 +253,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         this.goalSelector.addGoal(7, new ActiveLookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new ActiveRandomLookAroundGoal(this));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, MudSoldierEntity.class, true));
     }
 
     @Override public float getYMotionOnAttack() {return 0.4F;}
@@ -255,7 +312,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
 
         @Override public void stop()
         {
-            this.entity.setActiveAttackTarget(0);
+            this.entity.setActiveAttackTargetId(0);
             this.entity.setBeaming(false);
             //this.entity.setTarget((LivingEntity)null);
             this.beamingCooldown = beamingCooldownDuration;
@@ -268,7 +325,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
 
         @Override public void tick()
         {
-            LivingEntity livingentity = this.entity.getTarget();
+            LivingEntity livingentity = this.entity.getActiveAttackTarget();
             if (livingentity != null)
             {
                 this.entity.getNavigation().stop();
@@ -283,7 +340,6 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
                 }
                 else
                 {
-                    if (this.entity.getActiveAttackTarget() == null) {this.entity.setActiveAttackTarget(livingentity.getId());}
                     ++this.currentBeamingTime;
                     if (this.currentBeamingTime < 0.1F * this.beamingDuration)
                     {
