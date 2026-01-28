@@ -112,27 +112,27 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         LivingEntity beamTarget = this.getActiveAttackTarget(); //the active target is the only synchronized thing
         //beamTargetPos is not the real target pos. It is a fictitious "target" following real target.
         if (beamTarget == null || beamTargetPos == null) {return;}
+
+        Vec3 previousStep = beamTargetPos.subtract(prevBeamTargetPos);
         prevBeamTargetPos = beamTargetPos;
         prevBeamEndPos = beamEndPos;
 
         //beamTarget update - fictitious "target" following real target
-        Vec3 attackTargetPos =  beamTarget.position().add(getBeamOffset(beamTarget));
+        float inertia = 0.99F; //0.95F
+        float stepScale = 0.05F; //0.04F
+        float maxStepLength = 0.4F; //0.3F allows easier dodge
+        Vec3 attackTargetPos = beamTarget.position().add(getBeamOffset(beamTarget));
 
-        Vec3 toTarget = attackTargetPos.subtract(beamTargetPos);
-        double distance = toTarget.length();
-        double maxStep = 0.18D;
+        Vec3 preTreatmentStep = attackTargetPos.subtract(beamTargetPos);
+        Vec3 acceleration = preTreatmentStep.scale(stepScale);
 
-        if (distance <= maxStep) {beamTargetPos = attackTargetPos;}
-        else
-        {
-            Vec3 step = toTarget.normalize().scale(maxStep);
-            beamTargetPos = beamTargetPos.add(step);
-        }
+        Vec3 step = previousStep.scale(inertia).add(acceleration);
+        beamTargetPos = beamTargetPos.add(step.length() < maxStepLength ? step : step.normalize().scale(maxStepLength));
 
         //beamEnd update - the pos where the beam hits a solid obstacle
         Vec3 beamStart = this.getBeamStartPos();
         Vec3 direction = beamTargetPos.subtract(beamStart).normalize();
-        double maxDistance = 30.0;
+        double maxDistance = 30.0D;
         Vec3 furthestBeamEnd = beamStart.add(direction.scale(maxDistance));
 
         BlockHitResult beamHit = this.level().clip(new ClipContext(this.getEyePosition(), furthestBeamEnd, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
@@ -181,6 +181,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         //    this.prevBeamEndPos = null;
         //}
 
+        /* Beam debug
         if (beamingSyncFlag) {System.out.println("[Tick "+this.level().getGameTime()+"] "+(this.level().isClientSide() ? "Client : " : "Server : ") + "-- SYNCED --");}
         if (this.isBeaming())
         {
@@ -194,7 +195,6 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
             System.out.println("[Tick "+this.level().getGameTime()+"] "+(this.level().isClientSide() ? "Client : " : "Server : ") + (this.beamEndPos == null ? "beamEndPos = null" : "beamEndPos = " + createVec3String(beamEndPos)) + ", " + (this.prevBeamEndPos == null ? "prevBeamEndPos = null" : "prevBeamEndPos = " + createVec3String(prevBeamEndPos)));
         }
 
-        /* Beam trajectory debug
         if (this.getBeamEndPos() != null)
         {
             Vec3 beamStart = this.getBeamStartPos();
@@ -239,7 +239,8 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
                 .add(Attributes.MAX_HEALTH, 100.0D)
                 .add(Attributes.ARMOR, 3.0D)
                 .add(Attributes.ATTACK_DAMAGE, 17.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.23D);
+                .add(Attributes.MOVEMENT_SPEED, 0.23D)
+                .add(Attributes.FOLLOW_RANGE, 48.0D);
     }
 
     @Override protected void registerGoals()
@@ -260,7 +261,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
     @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
 	@Override public boolean updateTargetOnHurtByLivingEntity() {return true;}
 
-    public int getBeamingDuration() {return 80;}
+    public int getBeamingDuration() {return 160;}
     public int getBeamingCooldown() {return 40;}
 
     static class BeamAttackGoal extends Goal
@@ -290,7 +291,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
 
         @Override public boolean canContinueToUse()
         {
-            return super.canContinueToUse() && (this.entity.getTarget() != null && this.entity.distanceToSqr(this.entity.getTarget()) < (double)240.0F);
+            return super.canContinueToUse() && (this.entity.getTarget() != null /*&& this.entity.distanceToSqr(this.entity.getTarget()) < (double)480.0F*/);
         }
 
         @Override public void start()
@@ -334,10 +335,11 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
                 {
                     this.entity.getLookControl().setLookAt(beamTargetPos.x, beamTargetPos.y, beamTargetPos.z, 90.0F, 90.0F);
                 }
-                if (!this.entity.hasLineOfSight(livingentity))
-                {
-                    this.entity.setTarget(null);
-                }
+                //if (!this.entity.hasLineOfSight(livingentity))
+                //{
+                //    this.entity.setTarget(null);
+                //}
+                if (false) {}
                 else
                 {
                     ++this.currentBeamingTime;
