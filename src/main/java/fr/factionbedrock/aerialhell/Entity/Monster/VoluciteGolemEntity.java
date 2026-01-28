@@ -23,7 +23,10 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
@@ -37,6 +40,8 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
     private @Nullable LivingEntity clientSideCachedAttackTarget;
     private Vec3 beamTargetPos = new Vec3(0, 0 ,0);
     private Vec3 prevBeamTargetPos = new Vec3(0, 0 ,0);
+    private Vec3 beamEndPos = new Vec3(0, 0 ,0);
+    private Vec3 prevBeamEndPos = new Vec3(0, 0 ,0);
 
     public VoluciteGolemEntity(EntityType<? extends Monster> type, Level world)
     {
@@ -81,13 +86,19 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
 
     public @Nullable Vec3 getBeamTargetPos() {return getActiveAttackTarget() != null ? beamTargetPos : null;}
     public @Nullable Vec3 getPrevBeamTargetPos() {return getActiveAttackTarget() != null ? prevBeamTargetPos : null;}
+    public @Nullable Vec3 getBeamEndPos() {return getActiveAttackTarget() != null ? beamEndPos : null;}
+    public @Nullable Vec3 getPrevBeamEndPos() {return getActiveAttackTarget() != null ? prevBeamEndPos : null;}
 
-    public void updateBeamTargetPos()
+    public void updateBeamPositions() //must be deterministic to be calculated the same way on both client and server sides
     {
-        if (this.getActiveAttackTarget() == null) {return;}
+        LivingEntity beamTarget = this.getActiveAttackTarget(); //the active target is the only synchronized thing
+        if (beamTarget == null) {return;}
         prevBeamTargetPos = beamTargetPos;
+        prevBeamEndPos = beamEndPos;
 
-        Vec3 attackTargetPos =  this.getActiveAttackTarget().position();
+        //beamTarget update - fictitious "target" following real target
+        double yOffset = beamTarget.getBoundingBox().getYsize() / 2;
+        Vec3 attackTargetPos =  beamTarget.position().add(0, yOffset, 0);
 
         Vec3 toTarget = attackTargetPos.subtract(beamTargetPos);
         double distance = toTarget.length();
@@ -96,9 +107,18 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         if (distance <= maxStep) {beamTargetPos = attackTargetPos;}
         else
         {
-            Vec3 step = toTarget.normalize().multiply(maxStep, maxStep, maxStep);
+            Vec3 step = toTarget.normalize().scale(maxStep);
             beamTargetPos = beamTargetPos.add(step);
         }
+
+        //beamEnd update - the pos where the beam hits a solid obstacle
+        Vec3 beamStart = this.getEyePosition();
+        Vec3 direction = beamTargetPos.subtract(beamStart).normalize();
+        double maxDistance = 30.0;
+        Vec3 furthestBeamEnd = beamStart.add(direction.scale(maxDistance));
+
+        BlockHitResult beamHit = this.level().clip(new ClipContext(this.getEyePosition(), furthestBeamEnd, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+        beamEndPos = beamHit.getType() == HitResult.Type.BLOCK ? beamHit.getLocation() : furthestBeamEnd;
     }
 
     @Override public void tick()
@@ -122,7 +142,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         }
         else
         {
-            this.updateBeamTargetPos();
+            this.updateBeamPositions();
         }
         super.tick();
     }

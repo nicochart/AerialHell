@@ -41,11 +41,11 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
         renderState.eyePosition = entity.getEyePosition(partialTick);
 
         LivingEntity target = entity.getActiveAttackTarget();
-        if (entity.isBeaming() && target != null && entity.getBeamTargetPos() != null && entity.getPrevBeamTargetPos() != null)
+        if (entity.isBeaming() && target != null && entity.getBeamEndPos() != null && entity.getPrevBeamEndPos() != null)
         {
             renderState.attackScale = 1.0F; //entity.getAttackAnimationScale(partialTick);
             renderState.attackTime = 1.0F; //entity.getClientSideAttackTime() + partialTick;
-            renderState.beamTargetPosition = this.getPosition(entity.getBeamTargetPos(), entity.getPrevBeamTargetPos(), (double)target.getBbHeight() * (double)0.5F, partialTick);
+            renderState.beamTargetPosition = this.getPosition(entity.getBeamEndPos(), entity.getPrevBeamEndPos(), (double)target.getBbHeight() * (double)0.5F, partialTick);
         }
         else
         {
