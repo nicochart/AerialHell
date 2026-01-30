@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveLookAtPlayerGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.ActiveMeleeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveRandomLookAroundGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGoal;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
@@ -249,7 +250,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
 
         //super.registerGoals(); removed super registerGoals because need to remove MeleeAttackGoal to make it work (atm)
-        //this.goalSelector.addGoal(1, new ActiveMeleeAttackGoal(this, 1.25D, false));
+        this.goalSelector.addGoal(5, new ActiveMeleeAttackGoal(this, 1.25D, false));
         this.goalSelector.addGoal(6, new ActiveWaterAvoidingRandomWalkingGoal(this, 0.6D));
         this.goalSelector.addGoal(7, new ActiveLookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new ActiveRandomLookAroundGoal(this));
@@ -279,7 +280,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
             this.beamingDuration = beamingDuration;
             this.beamingCooldown = 0;
             this.beamingCooldownDuration = cooldownDuration;
-            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK)); //can't disable move and look flags because they are needed to avoid parasite head position change by move controls.. will need to separate head and body.
         }
 
         @Override public boolean canUse()
@@ -298,7 +299,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         {
             this.currentBeamingTime = 0;
             this.entity.setBeaming(true);
-            this.entity.getNavigation().stop();
+            //this.entity.getNavigation().stop(); slowness for the duration ?
             LivingEntity livingentity = this.entity.getTarget();
             if (livingentity != null)
             {
@@ -329,7 +330,6 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
             LivingEntity livingentity = this.entity.getActiveAttackTarget();
             if (livingentity != null)
             {
-                this.entity.getNavigation().stop();
                 Vec3 beamTargetPos = this.entity.getBeamTargetPos();
                 if (beamTargetPos != null)
                 {
