@@ -38,13 +38,21 @@ import java.util.List;
 public class VoluciteGolemEntity extends AerialHellGolemEntity
 {
     private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> BEAMING = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> BEAMING_PHASE = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> BEAM_TARGET_POS_NEEDS_SYNC = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.BOOLEAN);
     private @Nullable LivingEntity clientSideCachedAttackTarget;
     private Vec3 beamTargetPos;
     private Vec3 prevBeamTargetPos;
     private Vec3 beamEndPos;
     private Vec3 prevBeamEndPos;
+
+    public static class BeamingPhases
+    {
+        public static int OFF = 0;
+        public static int BEAMING_LOAD = 1;
+        public static int BEAMING_NORMAL = 2;
+        public static int BEAMING_OVERHEAT = 3;
+    }
 
     public VoluciteGolemEntity(EntityType<? extends Monster> type, Level world)
     {
@@ -56,15 +64,16 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
     {
         super.defineSynchedData(builder);
         builder.define(ATTACK_TARGET_ID, 0);
-        builder.define(BEAMING, false);
+        builder.define(BEAMING_PHASE, BeamingPhases.OFF);
         builder.define(BEAM_TARGET_POS_NEEDS_SYNC, false);
     }
 
     public void setActiveAttackTargetId(int activeAttackTargetId) {this.entityData.set(ATTACK_TARGET_ID, activeAttackTargetId);}
     public int getActiveAttackTargetId() {return this.entityData.get(ATTACK_TARGET_ID);}
     public boolean hasActiveAttackTargetId() {return this.entityData.get(ATTACK_TARGET_ID) != 0;}
-    public boolean isBeaming() {return this.entityData.get(BEAMING);}
-    public void setBeaming(boolean bool) {this.entityData.set(BEAMING, bool);}
+    public boolean isBeaming() {return this.entityData.get(BEAMING_PHASE) != 0;}
+    public int getBeamingPhase() {return this.entityData.get(BEAMING_PHASE);}
+    public void setBeamingPhase(int phaseId) {this.entityData.set(BEAMING_PHASE, phaseId);}
     public boolean beamingTargetPosNeedsSync() {return this.entityData.get(BEAM_TARGET_POS_NEEDS_SYNC);}
     private void setBeamingTargetPosNeedsSync() {this.entityData.set(BEAM_TARGET_POS_NEEDS_SYNC, true);}
 
@@ -119,21 +128,43 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         prevBeamEndPos = beamEndPos;
 
         //beamTarget update - fictitious "target" following real target
-        float inertia = 0.99F; //0.95F
-        float stepScale = 0.05F; //0.04F
-        float maxStepLength = 0.4F; //0.3F allows easier dodge
         Vec3 attackTargetPos = beamTarget.position().add(getBeamOffset(beamTarget));
+        if (this.getBeamingPhase() == BeamingPhases.BEAMING_LOAD)
+        {
+            this.updateBeamTargetPosLinearWithMaxDistance(attackTargetPos, 0.18F);
+        }
+        else if (this.getBeamingPhase() == BeamingPhases.BEAMING_NORMAL)
+        {
+            this.updateBeamTargetPosRealisticWithInertia(previousStep, attackTargetPos, 0.95F, 0.04F , 0.3F); //0.95F, 0.04F, 0.3F allows easier dodge
+        }
+        else //if (this.getBeamingPhase() == BeamingPhases.BEAMING_OVERHEAT)
+        {
+            this.updateBeamTargetPosRealisticWithInertia(previousStep, attackTargetPos, 0.99F, 0.05F , 0.4F);
+        }
 
-        Vec3 preTreatmentStep = attackTargetPos.subtract(beamTargetPos);
-        Vec3 acceleration = preTreatmentStep.scale(stepScale);
+        //beamEnd update - the pos where the beam hits a solid obstacle (or reaches max distance)
+        this.updateBeamEndPos(30.0F);
+    }
 
-        Vec3 step = previousStep.scale(inertia).add(acceleration);
-        beamTargetPos = beamTargetPos.add(step.length() < maxStepLength ? step : step.normalize().scale(maxStepLength));
+    private void updateBeamTargetPosLinearWithMaxDistance(Vec3 targetPos, float maxVelocity)
+    {
+        Vec3 velocity = targetPos.subtract(beamTargetPos);
+        beamTargetPos = velocity.length() <= maxVelocity ? targetPos : beamTargetPos.add(velocity.normalize().scale(maxVelocity));
+    }
 
-        //beamEnd update - the pos where the beam hits a solid obstacle
+    private void updateBeamTargetPosRealisticWithInertia(Vec3 previousVelocity, Vec3 targetPos, float inertiaFactor, float attractionFactor, float maxVelocity)
+    {
+        Vec3 linearVelocity = targetPos.subtract(beamTargetPos);
+        Vec3 acceleration = linearVelocity.scale(attractionFactor);
+
+        Vec3 velocity = previousVelocity.scale(inertiaFactor).add(acceleration);
+        beamTargetPos = beamTargetPos.add(velocity.length() < maxVelocity ? velocity : velocity.normalize().scale(maxVelocity));
+    }
+
+    private void updateBeamEndPos(float maxDistance)
+    {
         Vec3 beamStart = this.getBeamStartPos();
         Vec3 direction = beamTargetPos.subtract(beamStart).normalize();
-        double maxDistance = 30.0D;
         Vec3 furthestBeamEnd = beamStart.add(direction.scale(maxDistance));
 
         BlockHitResult beamHit = this.level().clip(new ClipContext(this.getEyePosition(), furthestBeamEnd, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
@@ -298,7 +329,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         @Override public void start()
         {
             this.currentBeamingTime = 0;
-            this.entity.setBeaming(true);
+            this.entity.setBeamingPhase(BeamingPhases.BEAMING_LOAD);
             //this.entity.getNavigation().stop(); slowness for the duration ?
             LivingEntity livingentity = this.entity.getTarget();
             if (livingentity != null)
@@ -315,7 +346,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         @Override public void stop()
         {
             this.entity.setActiveAttackTargetId(0);
-            this.entity.setBeaming(false);
+            this.entity.setBeamingPhase(BeamingPhases.OFF);
             //this.entity.setTarget((LivingEntity)null);
             this.beamingCooldown = beamingCooldownDuration;
             this.currentBeamingTime = 0;
@@ -331,39 +362,31 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
             if (livingentity != null)
             {
                 Vec3 beamTargetPos = this.entity.getBeamTargetPos();
-                if (beamTargetPos != null)
+                if (beamTargetPos == null)
                 {
-                    this.entity.getLookControl().setLookAt(beamTargetPos.x, beamTargetPos.y, beamTargetPos.z, 90.0F, 90.0F);
+                    //search new target ?
                 }
-                //if (!this.entity.hasLineOfSight(livingentity))
-                //{
-                //    this.entity.setTarget(null);
-                //}
-                if (false) {}
                 else
                 {
+                    this.entity.getLookControl().setLookAt(beamTargetPos.x, beamTargetPos.y, beamTargetPos.z, 90.0F, 90.0F);
+                    float hardDifficultyDamageBonus = this.entity.level().getDifficulty() == Difficulty.HARD ? 2.0F : 0.0F;
+
                     ++this.currentBeamingTime;
                     if (this.currentBeamingTime < 0.1F * this.beamingDuration)
                     {
                         //beam loading
                     }
+                    else if (this.currentBeamingTime < 0.9F * this.beamingDuration)
+                    {
+                        //normal power
+                        if (this.entity.getBeamingPhase() != BeamingPhases.BEAMING_NORMAL) {this.entity.setBeamingPhase(BeamingPhases.BEAMING_NORMAL);}
+                        this.hitEntities(4.0F + hardDifficultyDamageBonus);
+                    }
                     else if (this.currentBeamingTime < this.beamingDuration)
                     {
                         //full power
-                        float damage = 4.0F;
-                        if (this.entity.level().getDifficulty() == Difficulty.HARD) {damage += 2.0F;}
-
-                        ServerLevel serverlevel = getServerLevel(this.entity);
-                        List<Entity> hitEntities = getBeamHitEntities(this.entity.level(), this.entity, this.entity.getBeamStartPos(), this.entity.getBeamEndPos());
-
-                        for (Entity entity : hitEntities)
-                        {
-                            if (entity instanceof LivingEntity livingHit)
-                            {
-                                livingHit.hurtServer(serverlevel, AerialHellDamageTypes.getDamageSource(this.entity.level(), AerialHellDamageTypes.GOLEM_BEAM, this.entity, this.entity), damage);
-                            }
-                        }
-                        //this.entity.doHurtTarget(serverlevel, livingentity); hit animation off
+                        if (this.entity.getBeamingPhase() != BeamingPhases.BEAMING_OVERHEAT) {this.entity.setBeamingPhase(BeamingPhases.BEAMING_OVERHEAT);}
+                        this.hitEntities(6.0F + hardDifficultyDamageBonus);
                     }
                     else //if (this.currentBeamingTime >= this.beamingDuration)
                     {
@@ -372,6 +395,21 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
                     super.tick();
                 }
             }
+        }
+
+        public void hitEntities(float damage)
+        {
+            ServerLevel serverlevel = getServerLevel(this.entity);
+            List<Entity> hitEntities = getBeamHitEntities(this.entity.level(), this.entity, this.entity.getBeamStartPos(), this.entity.getBeamEndPos());
+
+            for (Entity entity : hitEntities)
+            {
+                if (entity instanceof LivingEntity livingHit)
+                {
+                    livingHit.hurtServer(serverlevel, AerialHellDamageTypes.getDamageSource(this.entity.level(), AerialHellDamageTypes.GOLEM_BEAM, this.entity, this.entity), damage);
+                }
+            }
+            //this.entity.doHurtTarget(serverlevel, livingentity); hit animation off
         }
 
         public static List<Entity> getBeamHitEntities(Level level, LivingEntity beamingEntity, Vec3 beamStart, Vec3 beamEnd)
