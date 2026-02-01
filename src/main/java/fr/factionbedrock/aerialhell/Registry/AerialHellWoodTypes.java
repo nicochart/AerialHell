@@ -29,7 +29,7 @@ public class AerialHellWoodTypes
         return new WoodType(name, setType, soundType, hangingSignSoundType, fenceGateClose, fenceGateOpen);
     }
 
-    public static void registerWoodTypes(final FMLClientSetupEvent event) //Client side
+    public static void registerWoodTypes() //Client side
     {
         WoodType.register(AERIAL_TREE);
         WoodType.register(COPPER_PINE);
