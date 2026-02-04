@@ -51,7 +51,8 @@ public class AerialHellSoundEvents
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_GOLEM_AMBIENT_ANGRY = register("entity.volucite_golem.ambient_angry");
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_GOLEM_AMBIENT_ALERT = register("entity.volucite_golem.ambient_alert");
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_GOLEM_HURT = register("entity.volucite_golem.hurt");
-	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_GOLEM_SHOOT = register("entity.volucite_golem.shoot");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_GOLEM_BEAM_START = register("entity.volucite_golem.beam_start");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_GOLEM_BEAM_LOOP = register("entity.volucite_golem.beam_loop");
 
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_WARDEN_VOLUCITE_GOLEM_AMBIENT = register("entity.warden_volucite_golem.ambient");
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_WARDEN_VOLUCITE_GOLEM_ACTIVATION = register("entity.warden_volucite_golem.activation");

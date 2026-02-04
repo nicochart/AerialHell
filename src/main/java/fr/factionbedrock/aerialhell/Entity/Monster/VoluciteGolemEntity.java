@@ -260,7 +260,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         return x + ", " + y + ", " + z;
     }
 
-    public void playBeamSound() {this.playSound(AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_SHOOT.get(), 1.0F, 0.8F);}
+    public void playBeamSound(boolean start) {this.playSound(start ? AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_START.get() : AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOOP.get(), 0.5F, 1.0F);}
     @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_AMBIENT.get();}
     @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_HURT.get();}
     @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_WARDEN_VOLUCITE_GOLEM_DEATH.get();}
@@ -337,7 +337,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
                 this.entity.getLookControl().setLookAt(livingentity, 90.0F, 90.0F);
             }
 
-            if (!this.entity.isSilent()) {this.entity.playBeamSound();}
+            if (!this.entity.isSilent()) {this.entity.playBeamSound(true);}
 
             this.entity.needsSync = true;
             this.entity.setBeamingTargetPosNeedsSync();
@@ -358,6 +358,8 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
 
         @Override public void tick()
         {
+            ++this.currentBeamingTime;
+            if (!this.entity.isSilent() && this.currentBeamingTime % 35 == 0) {this.entity.playBeamSound(false);}
             LivingEntity livingentity = this.entity.getActiveAttackTarget();
             if (livingentity != null)
             {
@@ -371,7 +373,6 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
                     this.entity.getLookControl().setLookAt(beamTargetPos.x, beamTargetPos.y, beamTargetPos.z, 90.0F, 90.0F);
                     float hardDifficultyDamageBonus = this.entity.level().getDifficulty() == Difficulty.HARD ? 2.0F : 0.0F;
 
-                    ++this.currentBeamingTime;
                     if (this.currentBeamingTime < 0.1F * this.beamingDuration)
                     {
                         //beam loading
