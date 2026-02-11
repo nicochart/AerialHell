@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.VoluciteGolemModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.AerialHellGolemRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolemEntity;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -104,25 +105,15 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
         poseStack.mulPose(Axis.YP.rotationDegrees(yRotFactor * (180F / (float)Math.PI)));
         poseStack.mulPose(Axis.XP.rotationDegrees(xRotFactor * (180F / (float)Math.PI)));
         int r = 255, g = 255, b = 255;
-        //horizontal coords
-        float hx1 = - 0.2F;
-        float hz1 = 0.0F;
-        float hx2 = 0.2F;
-        float hz2 = 0.0F;
-        //vertical coords
-        float vx1 = 0.0F;
-        float vz1 = 0.2F;
-        float vx2 = 0.0F;
-        float vz2 = -0.2F;
-
-        float pixelSize = 0.0625F;
+        float scale = textureLocation == GUARDIAN_BEAM_LOAD ? 0.3F : 1.0F;
 
         nodeCollector.submitCustomGeometry(poseStack, getBeamRenderType(textureLocation), (pose, consumer) ->
         {
-            float offset = pixelSize / 1.3F;
+            float rectangleOffset = 0.05F * scale;
+            float size = 0.2F * scale;
 
-            float segmentPerUnit = 0.5F;
-            int maxSegments = 15;
+            float segmentPerUnit = 1.0F;
+            int maxSegments = (int) (VoluciteGolemEntity.MAX_BEAM_LENGTH * segmentPerUnit);
             int segmentCount = Mth.clamp((int)(y * segmentPerUnit), 1, maxSegments);
             double segmentLength = y / segmentCount;
 
@@ -130,20 +121,19 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
             {
                 double yMin = i * segmentLength;
                 double yMax = (i + 1) * segmentLength;
-
-                Vec3 horizontalMinCoords = new Vec3(hx1, yMin, hz1);
-                Vec3 horizontalMaxCoords = new Vec3(hx2, yMax, hz2);
-                Vec3 verticalMinCoords = new Vec3(vx1, yMin, vz1);
-                Vec3 verticalMaxCoords = new Vec3(vx2, yMax, vz2);
+                Vec3 horizontalMinCoords = new Vec3(-size, yMin, 0.0F);
+                Vec3 horizontalMaxCoords = new Vec3(size, yMax, 0.0F);
+                Vec3 verticalMinCoords = new Vec3(0.0F, yMin, -size);
+                Vec3 verticalMaxCoords = new Vec3(0.0F, yMax, size);
 
                 //horizontal bottom
-                rectangle(consumer, pose, horizontalMinCoords.add(0.0D, 0.0D, -offset), horizontalMaxCoords.add(0.0D, 0.0D, -offset), r, g, b);
+                rectangle(consumer, pose, horizontalMinCoords.add(0.0D, 0.0D, -rectangleOffset), horizontalMaxCoords.add(0.0D, 0.0D, -rectangleOffset), r, g, b);
                 //horizontal top
-                rectangle(consumer, pose, horizontalMinCoords.add(0.0D, 0.0D, offset), horizontalMaxCoords.add(0.0D, 0.0D, offset), r, g, b);
+                rectangle(consumer, pose, horizontalMinCoords.add(0.0D, 0.0D, rectangleOffset), horizontalMaxCoords.add(0.0D, 0.0D, rectangleOffset), r, g, b);
                 //vertical right
-                rectangle(consumer, pose, verticalMinCoords.add(-offset, 0.0D, 0.0D), verticalMaxCoords.add(-offset, 0.0D, 0.0D), r, g, b);
+                rectangle(consumer, pose, verticalMinCoords.add(-rectangleOffset, 0.0D, 0.0D), verticalMaxCoords.add(-rectangleOffset, 0.0D, 0.0D), r, g, b);
                 //vertical left
-                rectangle(consumer, pose, verticalMinCoords.add(offset, 0.0D, 0.0D), verticalMaxCoords.add(offset, 0.0D, 0.0D), r, g, b);
+                rectangle(consumer, pose, verticalMinCoords.add(rectangleOffset, 0.0D, 0.0D), verticalMaxCoords.add(rectangleOffset, 0.0D, 0.0D), r, g, b);
             }
         });
     }
@@ -173,6 +163,6 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
 
     private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z, int red, int green, int blue, float u, float v)
     {
-        consumer.addVertex(pose, x, y, z).setColor(red, green, blue, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880).setNormal(pose, 0.0F, 1.0F, 0.0F);
+        consumer.addVertex(pose, x, y, z).setColor(red, green, blue, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(LightTexture.FULL_BRIGHT).setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 }

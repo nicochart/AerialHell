@@ -37,9 +37,11 @@ import java.util.List;
 
 public class VoluciteGolemEntity extends AerialHellGolemEntity
 {
-    private static final float MAX_BEAM_LENGTH = 30.0F;
-    private static final int BEAMING_DURATION = 160;
-    private static final int BEAMING_COOLDOWN = 40;
+    public static final float MAX_BEAM_LENGTH = 30.0F;
+    public static final int BEAMING_LOAD_DURATION = 35;
+    public static final int BEAMING_OVERHEAT_DURATION = 60;
+    public static final int BEAMING_TOTAL_DURATION = 260;
+    public static final int BEAMING_COOLDOWN = 40;
     private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BEAMING_PHASE = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> BEAM_TARGET_POS_NEEDS_SYNC = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.BOOLEAN);
@@ -134,7 +136,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         Vec3 attackTargetPos = beamTarget.position().add(getBeamOffset(beamTarget));
         if (this.getBeamingPhase() == BeamingPhases.BEAMING_LOAD)
         {
-            this.updateBeamTargetPosLinearWithMaxDistance(attackTargetPos, 0.18F);
+            this.updateBeamTargetPosLinearWithMaxDistance(attackTargetPos, 0.30F);
         }
         else if (this.getBeamingPhase() == BeamingPhases.BEAMING_NORMAL)
         {
@@ -296,7 +298,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
     @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
 	@Override public boolean updateTargetOnHurtByLivingEntity() {return true;}
 
-    public int getBeamingDuration() {return BEAMING_DURATION;}
+    public int getBeamingDuration() {return BEAMING_TOTAL_DURATION;}
     public int getBeamingCooldown() {return BEAMING_COOLDOWN;}
 
     static class BeamAttackGoal extends Goal
@@ -376,11 +378,11 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
                     this.entity.getLookControl().setLookAt(beamTargetPos.x, beamTargetPos.y, beamTargetPos.z, 90.0F, 90.0F);
                     float hardDifficultyDamageBonus = this.entity.level().getDifficulty() == Difficulty.HARD ? 2.0F : 0.0F;
 
-                    if (this.currentBeamingTime < 0.1F * this.beamingDuration)
+                    if (this.currentBeamingTime < VoluciteGolemEntity.BEAMING_LOAD_DURATION)
                     {
                         //beam loading
                     }
-                    else if (this.currentBeamingTime < 0.9F * this.beamingDuration)
+                    else if (this.currentBeamingTime < VoluciteGolemEntity.BEAMING_TOTAL_DURATION - VoluciteGolemEntity.BEAMING_OVERHEAT_DURATION)
                     {
                         //normal power
                         if (this.entity.getBeamingPhase() != BeamingPhases.BEAMING_NORMAL) {this.entity.setBeamingPhase(BeamingPhases.BEAMING_NORMAL);}
