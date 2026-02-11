@@ -82,70 +82,41 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
     {
         float y = (float)(beamVector.length() + (double)1.0F);
         beamVector = beamVector.normalize();
-        float f1 = (float)Math.acos(beamVector.y);
-        float f2 = ((float)Math.PI / 2F) - (float)Math.atan2(beamVector.z, beamVector.x);
-        poseStack.mulPose(Axis.YP.rotationDegrees(f2 * (180F / (float)Math.PI)));
-        poseStack.mulPose(Axis.XP.rotationDegrees(f1 * (180F / (float)Math.PI)));
-        float f3 = attackTime * 0.05F * -1.5F;
-        float f4 = scale * scale;
-        int r = 255;//64 + (int)(f4 * 191.0F);
-        int g = 255;//32 + (int)(f4 * 191.0F);
-        int b = 255;//128 - (int)(f4 * 64.0F);
-        float f5 = 0.2F;
-        float f6 = 0.282F;
-        float f7 = Mth.cos((double)(f3 + 2.3561945F)) * 0.282F;
-        float f8 = Mth.sin((double)(f3 + 2.3561945F)) * 0.282F;
-        float f9 = Mth.cos((double)(f3 + ((float)Math.PI / 4F))) * 0.282F;
-        float f10 = Mth.sin((double)(f3 + ((float)Math.PI / 4F))) * 0.282F;
-        float f11 = Mth.cos((double)(f3 + 3.926991F)) * 0.282F;
-        float f12 = Mth.sin((double)(f3 + 3.926991F)) * 0.282F;
-        float f13 = Mth.cos((double)(f3 + 5.4977875F)) * 0.282F;
-        float f14 = Mth.sin((double)(f3 + 5.4977875F)) * 0.282F;
-        float x1 = Mth.cos((double)(f3 + (float)Math.PI)) * 0.2F;
-        float z1 = Mth.sin((double)(f3 + (float)Math.PI)) * 0.2F;
-        float x2 = Mth.cos((double)(f3 + 0.0F)) * 0.2F;
-        float z2 = Mth.sin((double)(f3 + 0.0F)) * 0.2F;
-        float x3 = Mth.cos((double)(f3 + ((float)Math.PI / 2F))) * 0.2F;
-        float z3 = Mth.sin((double)(f3 + ((float)Math.PI / 2F))) * 0.2F;
-        float x4 = Mth.cos((double)(f3 + ((float)Math.PI * 1.5F))) * 0.2F;
-        float z4 = Mth.sin((double)(f3 + ((float)Math.PI * 1.5F))) * 0.2F;
-        float f23 = 0.0F;
-        float f24 = 0.4999F;
-        float f25 = -1.0F + animationTime;
-        float f26 = f25 + y * 2.5F;
+        float xRotFactor = (float)Math.acos(beamVector.y);
+        float yRotFactor = ((float)Math.PI / 2F) - (float)Math.atan2(beamVector.z, beamVector.x);
+        poseStack.mulPose(Axis.YP.rotationDegrees(yRotFactor * (180F / (float)Math.PI)));
+        poseStack.mulPose(Axis.XP.rotationDegrees(xRotFactor * (180F / (float)Math.PI)));
+        float attackTimeFactor = attackTime * 0.05F * -1.5F;
+        int r = 255, g = 255, b = 255;
+        //horizontal coords
+        float hx1 = Mth.cos((double)(attackTimeFactor + (float)Math.PI)) * 0.2F;
+        float hz1 = Mth.sin((double)(attackTimeFactor + (float)Math.PI)) * 0.2F;
+        float hx2 = Mth.cos((double)(attackTimeFactor + 0.0F)) * 0.2F;
+        float hz2 = Mth.sin((double)(attackTimeFactor + 0.0F)) * 0.2F;
+        //vertical coords
+        float vx1 = Mth.cos((double)(attackTimeFactor + ((float)Math.PI / 2F))) * 0.2F;
+        float vz1 = Mth.sin((double)(attackTimeFactor + ((float)Math.PI / 2F))) * 0.2F;
+        float vx2 = Mth.cos((double)(attackTimeFactor + ((float)Math.PI * 1.5F))) * 0.2F;
+        float vz2 = Mth.sin((double)(attackTimeFactor + ((float)Math.PI * 1.5F))) * 0.2F;
 
         float pixelSize = 0.0625F;
 
         nodeCollector.submitCustomGeometry(poseStack, BEAM_RENDER_TYPE, (pose, consumer) ->
         {
-            float offset = pixelSize;
-            //horizontal bottom
-            vertex(consumer, pose, x1, y, z1 - offset, r, g, b, 0.5F, f26);
-            vertex(consumer, pose, x1, 0.0F, z1 - offset, r, g, b, 0.5F, f25);
-            vertex(consumer, pose, x2, 0.0F, z2 - offset, r, g, b, 0.0F, f25);
-            vertex(consumer, pose, x2, y, z2 - offset, r, g, b, 0.0F, f26);
-            //horizontal top
-            vertex(consumer, pose, x1, y, z1 + offset, r, g, b, 0.5F, f26);
-            vertex(consumer, pose, x1, 0.0F, z1 + offset, r, g, b, 0.5F, f25);
-            vertex(consumer, pose, x2, 0.0F, z2 + offset, r, g, b, 0.0F, f25);
-            vertex(consumer, pose, x2, y, z2 + offset, r, g, b, 0.0F, f26);
-            //vertical right
-            vertex(consumer, pose, x3 - offset, y, z3, r, g, b, 0.5F, f26);
-            vertex(consumer, pose, x3 - offset, 0.0F, z3, r, g, b, 0.5F, f25);
-            vertex(consumer, pose, x4 - offset, 0.0F, z4, r, g, b, 0.0F, f25);
-            vertex(consumer, pose, x4 - offset, y, z4, r, g, b, 0.0F, f26);
-            //vertical left
-            vertex(consumer, pose, x3 + offset, y, z3, r, g, b, 0.5F, f26);
-            vertex(consumer, pose, x3 + offset, 0.0F, z3, r, g, b, 0.5F, f25);
-            vertex(consumer, pose, x4 + offset, 0.0F, z4, r, g, b, 0.0F, f25);
-            vertex(consumer, pose, x4 + offset, y, z4, r, g, b, 0.0F, f26);
+            float offset = pixelSize / 1.3F;
+            Vec3 horizontalMinCoords = new Vec3(hx1, 0.0F, hz1);
+            Vec3 horizontalMaxCoords = new Vec3(hx2, y, hz2);
+            Vec3 verticalMinCoords = new Vec3(vx1, 0.0F, vz1);
+            Vec3 verticalMaxCoords = new Vec3(vx2, y, vz2);
 
-            //beam end
-            //float f27 = Mth.floor(attackTime) % 2 == 0 ? 0.5F : 0.0F;
-            //vertex(p_433082_, p_432958_, f7, f, f8, r, g, b, 0.5F, f27 + 0.5F);
-            //vertex(p_433082_, p_432958_, f9, f, f10, r, g, b, 1.0F, f27 + 0.5F);
-            //vertex(p_433082_, p_432958_, f13, f, f14, r, g, b, 1.0F, f27);
-            //vertex(p_433082_, p_432958_, f11, f, f12, r, g, b, 0.5F, f27);
+            //horizontal bottom
+            rectangle(consumer, pose, horizontalMinCoords.add(0.0D, 0.0D, -offset), horizontalMaxCoords.add(0.0D, 0.0D, -offset), r, g, b);
+            //horizontal top
+            rectangle(consumer, pose, horizontalMinCoords.add(0.0D, 0.0D, offset), horizontalMaxCoords.add(0.0D, 0.0D, offset), r, g, b);
+            //vertical right
+            rectangle(consumer, pose, verticalMinCoords.add(-offset, 0.0D, 0.0D), verticalMaxCoords.add(-offset, 0.0D, 0.0D), r, g, b);
+            //vertical left
+            rectangle(consumer, pose, verticalMinCoords.add(offset, 0.0D, 0.0D), verticalMaxCoords.add(offset, 0.0D, 0.0D), r, g, b);
         });
     }
 
@@ -162,6 +133,14 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
             return box.minmax(beamBox);
         }
         return box;
+    }
+
+    private static void rectangle(VertexConsumer consumer, PoseStack.Pose pose, Vec3 minCoords, Vec3 maxCoords, int r, int g, int b)
+    {
+        vertex(consumer, pose, (float) minCoords.x, (float) maxCoords.y, (float) minCoords.z, r, g, b, 1.0F, 0.0F);
+        vertex(consumer, pose, (float) minCoords.x, (float) minCoords.y, (float) minCoords.z, r, g, b, 1.0F, 1.0F);
+        vertex(consumer, pose, (float) maxCoords.x, (float) minCoords.y, (float) maxCoords.z, r, g, b, 0.0F, 1.0F);
+        vertex(consumer, pose, (float) maxCoords.x, (float) maxCoords.y, (float) maxCoords.z, r, g, b, 0.0F, 0.0F);
     }
 
     private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z, int red, int green, int blue, float u, float v)
