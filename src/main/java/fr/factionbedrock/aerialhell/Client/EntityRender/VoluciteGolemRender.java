@@ -80,7 +80,7 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
 
     private static void renderBeam(PoseStack poseStack, SubmitNodeCollector nodeCollector, Vec3 beamVector, float attackTime, float scale, float animationTime)
     {
-        float y = (float)(beamVector.length() + (double)1.0F);
+        float y = (float)(beamVector.length());
         beamVector = beamVector.normalize();
         float xRotFactor = (float)Math.acos(beamVector.y);
         float yRotFactor = ((float)Math.PI / 2F) - (float)Math.atan2(beamVector.z, beamVector.x);
@@ -89,34 +89,46 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
         float attackTimeFactor = attackTime * 0.05F * -1.5F;
         int r = 255, g = 255, b = 255;
         //horizontal coords
-        float hx1 = Mth.cos((double)(attackTimeFactor + (float)Math.PI)) * 0.2F;
-        float hz1 = Mth.sin((double)(attackTimeFactor + (float)Math.PI)) * 0.2F;
-        float hx2 = Mth.cos((double)(attackTimeFactor + 0.0F)) * 0.2F;
-        float hz2 = Mth.sin((double)(attackTimeFactor + 0.0F)) * 0.2F;
+        float hx1 = Mth.cos(attackTimeFactor + (float)Math.PI) * 0.2F;
+        float hz1 = Mth.sin((attackTimeFactor + (float)Math.PI)) * 0.2F;
+        float hx2 = Mth.cos(attackTimeFactor + 0.0F) * 0.2F;
+        float hz2 = Mth.sin(attackTimeFactor + 0.0F) * 0.2F;
         //vertical coords
-        float vx1 = Mth.cos((double)(attackTimeFactor + ((float)Math.PI / 2F))) * 0.2F;
-        float vz1 = Mth.sin((double)(attackTimeFactor + ((float)Math.PI / 2F))) * 0.2F;
-        float vx2 = Mth.cos((double)(attackTimeFactor + ((float)Math.PI * 1.5F))) * 0.2F;
-        float vz2 = Mth.sin((double)(attackTimeFactor + ((float)Math.PI * 1.5F))) * 0.2F;
+        float vx1 = Mth.cos(attackTimeFactor + ((float)Math.PI / 2F)) * 0.2F;
+        float vz1 = Mth.sin(attackTimeFactor + ((float)Math.PI / 2F)) * 0.2F;
+        float vx2 = Mth.cos(attackTimeFactor + ((float)Math.PI * 1.5F)) * 0.2F;
+        float vz2 = Mth.sin(attackTimeFactor + ((float)Math.PI * 1.5F)) * 0.2F;
 
         float pixelSize = 0.0625F;
 
         nodeCollector.submitCustomGeometry(poseStack, BEAM_RENDER_TYPE, (pose, consumer) ->
         {
             float offset = pixelSize / 1.3F;
-            Vec3 horizontalMinCoords = new Vec3(hx1, 0.0F, hz1);
-            Vec3 horizontalMaxCoords = new Vec3(hx2, y, hz2);
-            Vec3 verticalMinCoords = new Vec3(vx1, 0.0F, vz1);
-            Vec3 verticalMaxCoords = new Vec3(vx2, y, vz2);
 
-            //horizontal bottom
-            rectangle(consumer, pose, horizontalMinCoords.add(0.0D, 0.0D, -offset), horizontalMaxCoords.add(0.0D, 0.0D, -offset), r, g, b);
-            //horizontal top
-            rectangle(consumer, pose, horizontalMinCoords.add(0.0D, 0.0D, offset), horizontalMaxCoords.add(0.0D, 0.0D, offset), r, g, b);
-            //vertical right
-            rectangle(consumer, pose, verticalMinCoords.add(-offset, 0.0D, 0.0D), verticalMaxCoords.add(-offset, 0.0D, 0.0D), r, g, b);
-            //vertical left
-            rectangle(consumer, pose, verticalMinCoords.add(offset, 0.0D, 0.0D), verticalMaxCoords.add(offset, 0.0D, 0.0D), r, g, b);
+            float segmentPerUnit = 0.5F;
+            int maxSegments = 15;
+            int segmentCount = Mth.clamp((int)(y * segmentPerUnit), 1, maxSegments);
+            double segmentLength = y / segmentCount;
+
+            for (int i = 0; i < segmentCount; i++)
+            {
+                double yMin = i * segmentLength;
+                double yMax = (i + 1) * segmentLength;
+
+                Vec3 horizontalMinCoords = new Vec3(hx1, yMin, hz1);
+                Vec3 horizontalMaxCoords = new Vec3(hx2, yMax, hz2);
+                Vec3 verticalMinCoords = new Vec3(vx1, yMin, vz1);
+                Vec3 verticalMaxCoords = new Vec3(vx2, yMax, vz2);
+
+                //horizontal bottom
+                rectangle(consumer, pose, horizontalMinCoords.add(0.0D, 0.0D, -offset), horizontalMaxCoords.add(0.0D, 0.0D, -offset), r, g, b);
+                //horizontal top
+                rectangle(consumer, pose, horizontalMinCoords.add(0.0D, 0.0D, offset), horizontalMaxCoords.add(0.0D, 0.0D, offset), r, g, b);
+                //vertical right
+                rectangle(consumer, pose, verticalMinCoords.add(-offset, 0.0D, 0.0D), verticalMaxCoords.add(-offset, 0.0D, 0.0D), r, g, b);
+                //vertical left
+                rectangle(consumer, pose, verticalMinCoords.add(offset, 0.0D, 0.0D), verticalMaxCoords.add(offset, 0.0D, 0.0D), r, g, b);
+            }
         });
     }
 
