@@ -37,6 +37,9 @@ import java.util.List;
 
 public class VoluciteGolemEntity extends AerialHellGolemEntity
 {
+    private static final float MAX_BEAM_LENGTH = 30.0F;
+    private static final int BEAMING_DURATION = 160;
+    private static final int BEAMING_COOLDOWN = 40;
     private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BEAMING_PHASE = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> BEAM_TARGET_POS_NEEDS_SYNC = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.BOOLEAN);
@@ -143,7 +146,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         }
 
         //beamEnd update - the pos where the beam hits a solid obstacle (or reaches max distance)
-        this.updateBeamEndPos(30.0F);
+        this.updateBeamEndPos(MAX_BEAM_LENGTH);
     }
 
     private void updateBeamTargetPosLinearWithMaxDistance(Vec3 targetPos, float maxVelocity)
@@ -293,8 +296,8 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
     @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
 	@Override public boolean updateTargetOnHurtByLivingEntity() {return true;}
 
-    public int getBeamingDuration() {return 160;}
-    public int getBeamingCooldown() {return 40;}
+    public int getBeamingDuration() {return BEAMING_DURATION;}
+    public int getBeamingCooldown() {return BEAMING_COOLDOWN;}
 
     static class BeamAttackGoal extends Goal
     {

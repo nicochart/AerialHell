@@ -20,13 +20,15 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
 
 public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, AerialHellGolemRenderState, VoluciteGolemModel>
 {
 	private static String name = "volucite_golem";
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
-    private static final Identifier GUARDIAN_BEAM_LOCATION = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/beam.png");
-    private static final RenderType BEAM_RENDER_TYPE = RenderTypes.entityCutoutNoCull(GUARDIAN_BEAM_LOCATION);
+    private static final Identifier GUARDIAN_BEAM_NORMAL = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/beam.png");
+    private static final Identifier GUARDIAN_BEAM_LOAD = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/beam_load.png");
+    private static final Identifier GUARDIAN_BEAM_OVERHEAT = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/beam_overheat.png");
 
     public VoluciteGolemRender(EntityRendererProvider.Context context)
     {
@@ -44,13 +46,13 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
         LivingEntity target = entity.getActiveAttackTarget();
         if (entity.isBeaming() && target != null && entity.getBeamEndPos() != null && entity.getPrevBeamEndPos() != null)
         {
-            renderState.attackScale = 1.0F; //entity.getAttackAnimationScale(partialTick);
-            renderState.attackTime = 1.0F; //entity.getClientSideAttackTime() + partialTick;
             renderState.beamTargetPosition = this.getPosition(entity.getBeamEndPos(), entity.getPrevBeamEndPos(), partialTick);
+            renderState.beamTexture = getBeamTextureLocation(entity.getBeamingPhase());
         }
         else
         {
             renderState.beamTargetPosition = null;
+            renderState.beamTexture = null;
         }
     }
 
@@ -64,21 +66,36 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
 
     @Override public Identifier getTextureLocation(AerialHellGolemRenderState renderState) {return TEXTURE;}
 
+    @Nullable public Identifier getBeamTextureLocation(int beamingPhase)
+    {
+        return switch (beamingPhase)
+        {
+            case 1 -> GUARDIAN_BEAM_LOAD;
+            case 2 -> GUARDIAN_BEAM_NORMAL;
+            case 3 -> GUARDIAN_BEAM_OVERHEAT;
+            default -> null;
+        };
+    }
+
+    public static RenderType getBeamRenderType(Identifier textureLocation)
+    {
+        return RenderTypes.entityCutoutNoCull(textureLocation);
+    }
+
     public void submit(AerialHellGolemRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
     {
         super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
         Vec3 vec3 = renderState.beamTargetPosition;
         if (vec3 != null)
         {
-            float f = renderState.attackTime * 0.5F % 1.0F;
             poseStack.pushPose();
             poseStack.translate(0.0F, renderState.eyeHeight, 0.0F);
-            renderBeam(poseStack, nodeCollector, vec3.subtract(renderState.eyePosition), renderState.attackTime, renderState.attackScale, f);
+            renderBeam(poseStack, nodeCollector, vec3.subtract(renderState.eyePosition), renderState.beamTexture);
             poseStack.popPose();
         }
     }
 
-    private static void renderBeam(PoseStack poseStack, SubmitNodeCollector nodeCollector, Vec3 beamVector, float attackTime, float scale, float animationTime)
+    private static void renderBeam(PoseStack poseStack, SubmitNodeCollector nodeCollector, Vec3 beamVector, Identifier textureLocation)
     {
         float y = (float)(beamVector.length());
         beamVector = beamVector.normalize();
@@ -86,22 +103,21 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Aerial
         float yRotFactor = ((float)Math.PI / 2F) - (float)Math.atan2(beamVector.z, beamVector.x);
         poseStack.mulPose(Axis.YP.rotationDegrees(yRotFactor * (180F / (float)Math.PI)));
         poseStack.mulPose(Axis.XP.rotationDegrees(xRotFactor * (180F / (float)Math.PI)));
-        float attackTimeFactor = attackTime * 0.05F * -1.5F;
         int r = 255, g = 255, b = 255;
         //horizontal coords
-        float hx1 = Mth.cos(attackTimeFactor + (float)Math.PI) * 0.2F;
-        float hz1 = Mth.sin((attackTimeFactor + (float)Math.PI)) * 0.2F;
-        float hx2 = Mth.cos(attackTimeFactor + 0.0F) * 0.2F;
-        float hz2 = Mth.sin(attackTimeFactor + 0.0F) * 0.2F;
+        float hx1 = - 0.2F;
+        float hz1 = 0.0F;
+        float hx2 = 0.2F;
+        float hz2 = 0.0F;
         //vertical coords
-        float vx1 = Mth.cos(attackTimeFactor + ((float)Math.PI / 2F)) * 0.2F;
-        float vz1 = Mth.sin(attackTimeFactor + ((float)Math.PI / 2F)) * 0.2F;
-        float vx2 = Mth.cos(attackTimeFactor + ((float)Math.PI * 1.5F)) * 0.2F;
-        float vz2 = Mth.sin(attackTimeFactor + ((float)Math.PI * 1.5F)) * 0.2F;
+        float vx1 = 0.0F;
+        float vz1 = 0.2F;
+        float vx2 = 0.0F;
+        float vz2 = -0.2F;
 
         float pixelSize = 0.0625F;
 
-        nodeCollector.submitCustomGeometry(poseStack, BEAM_RENDER_TYPE, (pose, consumer) ->
+        nodeCollector.submitCustomGeometry(poseStack, getBeamRenderType(textureLocation), (pose, consumer) ->
         {
             float offset = pixelSize / 1.3F;
 
