@@ -4,6 +4,8 @@ import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,7 +16,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 
 public class BeamAttackGoal extends Goal
@@ -36,7 +37,7 @@ public class BeamAttackGoal extends Goal
         this.beamingCooldownDuration = cooldownDuration;
         this.currentBeamingTime = 0;
         this.beamingCooldown = 0;
-        this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK)); //can't disable move and look flags because they are needed to avoid parasite head position change by move controls.. will need to separate head and body.
+        //this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK)); //can't disable move and look flags because they are needed to avoid parasite head position change by move controls.. will need to separate head and body.
     }
 
     @Override public boolean canUse()
@@ -54,7 +55,8 @@ public class BeamAttackGoal extends Goal
     @Override public void start()
     {
         this.currentBeamingTime = 0;
-        this.entity.setBeamingPhase(BeamingPhases.BEAMING_LOAD);
+        this.entity.setBeamingPhaseToLoading();
+        this.entity.getSelf().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, this.beamingTotalDuration, 2, false, false));
         //this.entity.getNavigation().stop(); slowness for the duration ?
         LivingEntity livingentity = this.entity.getTarget();
         if (livingentity != null)
@@ -71,7 +73,8 @@ public class BeamAttackGoal extends Goal
     @Override public void stop()
     {
         this.entity.setBeamTargetEntityId(0);
-        this.entity.setBeamingPhase(BeamingPhases.OFF);
+        this.entity.setBeamingPhaseToOff();
+        this.entity.getSelf().removeEffect(MobEffects.SLOWNESS);
         //this.entity.setTarget((LivingEntity)null);
         this.beamingCooldown = beamingCooldownDuration;
         this.currentBeamingTime = 0;
@@ -105,13 +108,13 @@ public class BeamAttackGoal extends Goal
                 else if (this.currentBeamingTime < this.beamingTotalDuration - this.beamingOverheatDuration)
                 {
                     //normal power
-                    if (this.entity.getBeamingPhase() != BeamingPhases.BEAMING_NORMAL) {this.entity.setBeamingPhase(BeamingPhases.BEAMING_NORMAL);}
+                    if (!this.entity.isBeamingNormalPhase()) {this.entity.setBeamingPhaseToNormal();}
                     this.hitEntities(4.0F + hardDifficultyDamageBonus);
                 }
                 else if (this.currentBeamingTime < this.beamingTotalDuration)
                 {
                     //full power
-                    if (this.entity.getBeamingPhase() != BeamingPhases.BEAMING_OVERHEAT) {this.entity.setBeamingPhase(BeamingPhases.BEAMING_OVERHEAT);}
+                    if (!this.entity.isBeamingOverheatPhase()) {this.entity.setBeamingPhaseToOverheat();}
                     this.hitEntities(6.0F + hardDifficultyDamageBonus);
                 }
                 else //if (this.currentBeamingTime >= this.beamingDuration)

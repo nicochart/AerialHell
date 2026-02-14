@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
@@ -119,6 +121,7 @@ public interface BeamAttackEntity
             }
 
             this.updateBeamPositions();
+            this.displayParticles();
         }
     }
 
@@ -180,5 +183,42 @@ public interface BeamAttackEntity
 
         BlockHitResult beamHit = this.getLevel().clip(new ClipContext(this.getBeamStartPos(), furthestBeamEnd, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this.getSelf()));
         this.setBeamEndPos(beamHit.getType() == HitResult.Type.BLOCK ? beamHit.getLocation() : furthestBeamEnd);
+    }
+
+    default boolean isBeamingLoadingPhase() {return this.getBeamingPhase() == BeamingPhases.BEAMING_LOAD;}
+    default boolean isBeamingNormalPhase() {return this.getBeamingPhase() == BeamingPhases.BEAMING_NORMAL;}
+    default boolean isBeamingOverheatPhase() {return this.getBeamingPhase() == BeamingPhases.BEAMING_OVERHEAT;}
+    default boolean isBeamingOffPhase() {return this.getBeamingPhase() == BeamingPhases.OFF;}
+    default void setBeamingPhaseToLoading() {this.setBeamingPhase(BeamingPhases.BEAMING_LOAD);}
+    default void setBeamingPhaseToNormal() {this.setBeamingPhase(BeamingPhases.BEAMING_NORMAL);}
+    default void setBeamingPhaseToOverheat() {this.setBeamingPhase(BeamingPhases.BEAMING_OVERHEAT);}
+    default void setBeamingPhaseToOff() {this.setBeamingPhase(BeamingPhases.OFF);}
+
+    private void displayParticles()
+    {
+        if (!this.isBeamingLoadingPhase() && !this.isBeamingOffPhase() && this.getBeamEndPos() != null)
+        {
+            ParticleOptions type = this.isBeamingNormalPhase() ? ParticleTypes.CRIMSON_SPORE : ParticleTypes.DUST_PLUME;
+            Vec3 beamStart = this.getBeamStartPos();
+            Vec3 beamEnd = this.getBeamEndPos();
+            Vec3 delta = beamEnd.subtract(beamStart);
+            double distance = delta.length();
+
+            if (distance < 0.001D) return;
+
+            Vec3 direction = delta.normalize();
+
+            double particleStep = 0.2D;
+            float chance = 0.05F;
+
+            for (double traveled = 0.0D; traveled <= distance; traveled += particleStep)
+            {
+                if (this.getSelf().getRandom().nextFloat() < chance)
+                {
+                    Vec3 pos = beamStart.add(direction.scale(traveled));
+                    this.getLevel().addParticle(type, pos.x, pos.y, pos.z, 0.0D, 0.0D, 0.0D);
+                }
+            }
+        }
     }
 }
