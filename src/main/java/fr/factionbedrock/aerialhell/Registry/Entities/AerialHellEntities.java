@@ -15,6 +15,8 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Snake.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemHeadEntity;
 import fr.factionbedrock.aerialhell.Entity.Neutral.*;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.*;
@@ -27,13 +29,10 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacementTypes;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-
-import java.security.Key;
 
 public class AerialHellEntities
 {
@@ -43,7 +42,10 @@ public class AerialHellEntities
 			.sized(0.9F,2.1F).notInPeaceful().build(Keys.STELLAR_STONE_AUTOMATON));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteGolemEntity>> VOLUCITE_GOLEM = ENTITIES.register("volucite_golem", () -> EntityType.Builder.of(VoluciteGolemEntity::new, MobCategory.MONSTER)
-			.sized(1.3F,2.7F).notInPeaceful().build(Keys.VOLUCITE_GOLEM));
+			.sized(1.3F,2.0F).notInPeaceful().build(Keys.VOLUCITE_GOLEM));
+
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteGolemHeadEntity>> VOLUCITE_GOLEM_HEAD = ENTITIES.register("volucite_golem_head", () -> EntityType.Builder.of(VoluciteGolemHeadEntity::new, MobCategory.MISC)
+			.sized(0.7F,0.8F).notInPeaceful().build(Keys.VOLUCITE_GOLEM_HEAD));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<MudGolemEntity>> MUD_GOLEM = ENTITIES.register("mud_golem", () -> EntityType.Builder.of(MudGolemEntity::new, MobCategory.MONSTER)
 			.sized(1.4F,2.3F).notInPeaceful().build(Keys.MUD_GOLEM));
@@ -253,6 +255,7 @@ public class AerialHellEntities
 	{
 		public static ResourceKey<EntityType<?>> STELLAR_STONE_AUTOMATON = key("stellar_stone_automaton");
 		public static ResourceKey<EntityType<?>> VOLUCITE_GOLEM = key("volucite_golem");
+		public static ResourceKey<EntityType<?>> VOLUCITE_GOLEM_HEAD = key("volucite_golem_head");
 		public static ResourceKey<EntityType<?>> MUD_GOLEM = key("mud_golem");
 		public static ResourceKey<EntityType<?>> MUD_SPECTRAL_GOLEM = key("mud_spectral_golem");
 		public static ResourceKey<EntityType<?>> CRYSTAL_GOLEM = key("crystal_golem");

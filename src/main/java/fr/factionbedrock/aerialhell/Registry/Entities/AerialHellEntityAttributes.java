@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Registry.Entities;
 
-import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.AbstractElementSpiritEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.*;
@@ -16,6 +15,8 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Snake.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.CrystalSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.HellSpiderEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemHeadEntity;
 import fr.factionbedrock.aerialhell.Entity.Neutral.BoarEntity;
 import fr.factionbedrock.aerialhell.Entity.Neutral.ForestCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
@@ -30,6 +31,7 @@ public class AerialHellEntityAttributes
 		*/
 		event.put(AerialHellEntities.STELLAR_STONE_AUTOMATON.get(), StellarStoneAutomatonEntity.registerAttributes().build());
 		event.put(AerialHellEntities.VOLUCITE_GOLEM.get(), VoluciteGolemEntity.registerAttributes().build());
+		event.put(AerialHellEntities.VOLUCITE_GOLEM_HEAD.get(), VoluciteGolemHeadEntity.registerAttributes().build());
 		event.put(AerialHellEntities.MUD_GOLEM.get(), MudGolemEntity.registerAttributes().build());
 		event.put(AerialHellEntities.MUD_SPECTRAL_GOLEM.get(), MudSpectralGolemEntity.registerAttributes().build());
 		event.put(AerialHellEntities.CRYSTAL_GOLEM.get(), CrystalGolemEntity.registerAttributes().build());

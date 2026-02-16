@@ -15,7 +15,8 @@ import net.minecraft.util.Mth;
 
 public class VoluciteGolemModel extends EntityModel<AerialHellGolemRenderState>
 {
-	private final ModelPart head;
+	//head is another entity
+	//private final ModelPart head;
 	private final ModelPart body;
 	private final ModelPart right_arm;
 	private final ModelPart block;
@@ -35,7 +36,7 @@ public class VoluciteGolemModel extends EntityModel<AerialHellGolemRenderState>
 	public VoluciteGolemModel(ModelPart root)
 	{
         super(root);
-        this.head = root.getChild("head");
+		//this.head = root.getChild("head");
 		this.body = root.getChild("body");
 		this.right_arm = root.getChild("right_arm");
 		this.block = this.right_arm.getChild("block");
@@ -58,8 +59,8 @@ public class VoluciteGolemModel extends EntityModel<AerialHellGolemRenderState>
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(44, 42).addBox(-5.0F, -8.0F, -4.5F, 10.0F, 8.0F, 8.0F, new CubeDeformation(-0.2F))
-		.texOffs(52, 35).addBox(-3.0F, -10.0F, -2.5F, 6.0F, 3.0F, 4.0F, new CubeDeformation(-0.2F)), PartPose.offset(0.0F, -10.0F, 0.0F));
+		//PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(44, 42).addBox(-5.0F, -8.0F, -4.5F, 10.0F, 8.0F, 8.0F, new CubeDeformation(-0.2F))
+		//.texOffs(52, 35).addBox(-3.0F, -10.0F, -2.5F, 6.0F, 3.0F, 4.0F, new CubeDeformation(-0.2F)), PartPose.offset(0.0F, -10.0F, 0.0F));
 
 		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(35, 66).addBox(-7.0F, -32.0F, -7.0F, 14.0F, 10.0F, 13.0F, new CubeDeformation(-1.0F))
 		.texOffs(45, 95).addBox(-4.5F, -21.0F, -4.5F, 9.0F, 5.0F, 8.0F, new CubeDeformation(0.0F))
@@ -119,13 +120,13 @@ public class VoluciteGolemModel extends EntityModel<AerialHellGolemRenderState>
 
 	@Override public void setupAnim(AerialHellGolemRenderState renderState)
 	{
-		float headPitch = renderState.xRot;
-		float netHeadYaw = renderState.yRot;
+		//float headPitch = renderState.xRot;
+		//float netHeadYaw = renderState.yRot;
 		float limbSwing = renderState.walkAnimationPos;
 		float limbSwingAmount = renderState.walkAnimationSpeed;
 
-		this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
-		this.head.xRot = headPitch * ((float)Math.PI / 180F);
+		//this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
+		//this.head.xRot = headPitch * ((float)Math.PI / 180F);
 
 		int i = renderState.attackTimer;
 		if (i > 0)
@@ -146,7 +147,7 @@ public class VoluciteGolemModel extends EntityModel<AerialHellGolemRenderState>
 
 	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
-		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
+		//head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		left_arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		right_arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);

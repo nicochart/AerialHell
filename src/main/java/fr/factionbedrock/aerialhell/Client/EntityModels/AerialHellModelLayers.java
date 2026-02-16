@@ -21,6 +21,7 @@ public class AerialHellModelLayers
     public static final ModelLayerLocation LUNATIC_PRIEST = createModelLayerLocation("lunatic_priest");
     public static final ModelLayerLocation MUD_CYCLE_MAGE = createModelLayerLocation("mud_cycle_mage");
     public static final ModelLayerLocation VOLUCITE_GOLEM = createModelLayerLocation("volucite_golem");
+    public static final ModelLayerLocation VOLUCITE_GOLEM_HEAD = createModelLayerLocation("volucite_golem_head");
     public static final ModelLayerLocation MUD_GOLEM = createModelLayerLocation("mud_golem");
     public static final ModelLayerLocation SANDY_SHEEP = createModelLayerLocation("sandy_sheep");
     public static final ModelLayerLocation SHADOW_FLYING_SKULL = createModelLayerLocation("shadow_flying_skull");
