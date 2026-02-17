@@ -49,12 +49,19 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
     @Override public final boolean hurtServer(ServerLevel level, DamageSource source, float amount)
     {
         boolean damaged = super.hurtServer(level, source, amount);
-        if (damaged)
+        if (damaged && this.isDeadOrDying()) {this.onHurtCausingDeath();}
+        else if (damaged)
         {
             //attacking other parts just for attack animation (red overlay)
             falseAttackForRedAnimation(this.head, level, source);
         }
         return damaged;
+    }
+
+    private void onHurtCausingDeath()
+    {
+        this.head.setBeamingPhaseToOff();
+        this.head.killPart();
     }
 
     private static void falseAttackForRedAnimation(@Nullable PartEntity part, ServerLevel level, DamageSource source)
@@ -91,9 +98,10 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
 
     private void tickHeadMovement()
     {
+        float yOffset = 2.15F;
         if (this.head == null) {return;}
-        this.head.xo = this.head.position().x; this.head.yo = this.head.position().y; this.head.zo = this.head.position().z;
-        this.head.setPos(this.getX(), this.getY() + 2.15F, this.getZ());
+        this.head.xo = this.xo; this.head.yo = this.yo + yOffset; this.head.zo = this.zo;
+        this.head.setPos(this.getX(), this.getY() + yOffset, this.getZ());
         if (!this.head.isBeaming())
         {
             this.head.yBodyRotO = this.head.yBodyRot;

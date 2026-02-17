@@ -46,9 +46,14 @@ public class PartEntity extends Monster
         if (this.owner == null) {this.owner = this.getOwnerByID();}
         if (this.owner == null || this.owner.isDeadOrDying() || this.owner.isRemoved())
         {
-            this.hurt(this.damageSources().fellOutOfWorld(), this.getMaxHealth());
+            this.killPart();
         }
         super.tick();
+    }
+
+    public void killPart()
+    {
+        this.hurt(this.damageSources().fellOutOfWorld(), this.getMaxHealth());
     }
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
@@ -90,5 +95,5 @@ public class PartEntity extends Monster
 
     @Override public boolean causeFallDamage(double fallDistance, float damageMultiplier, DamageSource damageSource) {return false;}
 
-    @Override public boolean isNoGravity() {return true;}
+    @Override public boolean isNoGravity() {return !this.isDeadOrDying();}
 }

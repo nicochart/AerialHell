@@ -42,7 +42,7 @@ public class AerialHellEntities
 			.sized(0.9F,2.1F).notInPeaceful().build(Keys.STELLAR_STONE_AUTOMATON));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteGolemEntity>> VOLUCITE_GOLEM = ENTITIES.register("volucite_golem", () -> EntityType.Builder.of(VoluciteGolemEntity::new, MobCategory.MONSTER)
-			.sized(1.3F,2.0F).notInPeaceful().build(Keys.VOLUCITE_GOLEM));
+			.sized(1.3F,2.1F).notInPeaceful().build(Keys.VOLUCITE_GOLEM));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteGolemHeadEntity>> VOLUCITE_GOLEM_HEAD = ENTITIES.register("volucite_golem_head", () -> EntityType.Builder.of(VoluciteGolemHeadEntity::new, MobCategory.MISC)
 			.sized(0.6F,0.6F).eyeHeight(0.3F).notInPeaceful().build(Keys.VOLUCITE_GOLEM_HEAD));
