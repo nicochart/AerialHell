@@ -4,8 +4,6 @@ import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
@@ -56,7 +54,7 @@ public class BeamAttackGoal extends Goal
     {
         this.currentBeamingTime = 0;
         this.entity.setBeamingPhaseToLoading();
-        this.entity.getSelf().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, this.beamingTotalDuration, 2, false, false));
+        this.entity.onStartBeaming(this.beamingTotalDuration);
         //this.entity.getNavigation().stop(); slowness for the duration ?
         LivingEntity livingentity = this.entity.getTarget();
         if (livingentity != null)
@@ -74,7 +72,7 @@ public class BeamAttackGoal extends Goal
     {
         this.entity.setBeamTargetEntityId(0);
         this.entity.setBeamingPhaseToOff();
-        this.entity.getSelf().removeEffect(MobEffects.SLOWNESS);
+        this.entity.onStopBeaming();
         //this.entity.setTarget((LivingEntity)null);
         this.beamingCooldown = beamingCooldownDuration;
         this.currentBeamingTime = 0;
@@ -133,9 +131,9 @@ public class BeamAttackGoal extends Goal
 
         for (Entity entity : hitEntities)
         {
-            if (entity instanceof LivingEntity livingHit)
+            if (entity instanceof LivingEntity livingHit && this.entity.canBeamHitEntity(livingHit))
             {
-                livingHit.hurtServer(serverlevel, AerialHellDamageTypes.getDamageSource(this.entity.getLevel(), AerialHellDamageTypes.GOLEM_BEAM, this.entity.getSelf(), this.entity.getSelf()), damage);
+                livingHit.hurtServer(serverlevel, AerialHellDamageTypes.getDamageSource(this.entity.getLevel(), AerialHellDamageTypes.GOLEM_BEAM, this.entity.getImmediateBeamSource(), this.entity.getTrueBeamSource()), damage);
             }
         }
         //this.entity.doHurtTarget(serverlevel, livingentity); hit animation off

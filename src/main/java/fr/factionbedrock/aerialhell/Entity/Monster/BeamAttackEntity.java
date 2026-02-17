@@ -5,6 +5,8 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -57,6 +59,12 @@ public interface BeamAttackEntity
     default void setBeamingPhase(int phaseId) {this.getEntityData().set(this.getBeamingPhaseData(), phaseId);}
     default boolean beamingTargetPosNeedsSync() {return this.getEntityData().get(this.getBeamTargetPosNeedsSyncData());}
     default void setBeamingTargetPosNeedsSync() {this.getEntityData().set(this.getBeamTargetPosNeedsSyncData(), true);}
+
+    default boolean canBeamHitEntity(LivingEntity entity) {return true;}
+    default Entity getImmediateBeamSource() {return this.getSelf();}
+    default Entity getTrueBeamSource() {return this.getSelf();}
+    default void onStartBeaming(int beamingDuration) {this.getSelf().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, beamingDuration, 2, false, false));}
+    default void onStopBeaming() {this.getSelf().removeEffect(MobEffects.SLOWNESS);}
 
     @Nullable default LivingEntity getBeamAttackTarget() //must be client-server sync
     {

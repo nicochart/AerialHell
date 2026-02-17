@@ -8,6 +8,9 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -75,6 +78,13 @@ public class VoluciteGolemHeadEntity extends PartEntity implements BeamAttackEnt
     @Override public void setPrevBeamEndPos(Vec3 pos) {this.prevBeamEndPos = pos;}
     @Override public Mob getSelf() {return this;}
 
+    //@Override public Vec3 getBeamStartPos() {return this.getEyePosition().add(0.0F, -1.0F, 0.0F);} moves the server-side beam but not the render, due to eyeHeight hard-coded usage in render
+    @Override public boolean canBeamHitEntity(LivingEntity entity) {return this.getOwner() != null && !this.getOwner().is(entity);}
+    @Override public Entity getImmediateBeamSource() {return this;}
+    @Override public Entity getTrueBeamSource() {return this.getOwner() != null ? this.getOwner() : this;}
+    @Override public void onStartBeaming(int beamingDuration) {if (this.getOwner() != null) {this.getOwner().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, beamingDuration, 2, false, false));}}
+    @Override public void onStopBeaming() {if (this.getOwner() != null) {this.getOwner().removeEffect(MobEffects.SLOWNESS);}}
+
     @Override public void tick()
     {
         this.beamAttackTick();
@@ -90,8 +100,11 @@ public class VoluciteGolemHeadEntity extends PartEntity implements BeamAttackEnt
                 .add(Attributes.ARMOR, 1.0D)
                 .add(Attributes.ATTACK_DAMAGE, 1.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.1D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
                 .add(Attributes.FOLLOW_RANGE, 48.0D);
     }
 
     @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
+
+    @Override public void knockback(double strength, double x, double z) {}
 }

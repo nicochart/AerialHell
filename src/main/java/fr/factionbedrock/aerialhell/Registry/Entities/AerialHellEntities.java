@@ -45,7 +45,7 @@ public class AerialHellEntities
 			.sized(1.3F,2.0F).notInPeaceful().build(Keys.VOLUCITE_GOLEM));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteGolemHeadEntity>> VOLUCITE_GOLEM_HEAD = ENTITIES.register("volucite_golem_head", () -> EntityType.Builder.of(VoluciteGolemHeadEntity::new, MobCategory.MISC)
-			.sized(0.7F,0.8F).notInPeaceful().build(Keys.VOLUCITE_GOLEM_HEAD));
+			.sized(0.6F,0.6F).eyeHeight(0.3F).notInPeaceful().build(Keys.VOLUCITE_GOLEM_HEAD));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<MudGolemEntity>> MUD_GOLEM = ENTITIES.register("mud_golem", () -> EntityType.Builder.of(MudGolemEntity::new, MobCategory.MONSTER)
 			.sized(1.4F,2.3F).notInPeaceful().build(Keys.MUD_GOLEM));
