@@ -92,18 +92,22 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
     private void tickHeadMovement()
     {
         if (this.head == null) {return;}
-        //this.head.snapTo(this.getX(), this.getY() + 2.15F, this.getZ(), this.getYRot(), this.getXRot());
-        //this.head.setDeltaMovement(this.getDeltaMovement());
         this.head.xo = this.head.position().x; this.head.yo = this.head.position().y; this.head.zo = this.head.position().z;
         this.head.setPos(this.getX(), this.getY() + 2.15F, this.getZ());
         if (!this.head.isBeaming())
         {
             this.head.yBodyRotO = this.head.yBodyRot;
-            this.head.yBodyRot = this.yBodyRot;
+            this.head.yBodyRot = this.yHeadRot; //the whole "body" is head
             this.head.yHeadRotO = this.head.yHeadRot;
             this.head.yHeadRot = this.yHeadRot;
             this.head.setXRot(this.getXRot());
             this.head.setYRot(this.getYRot());
+        }
+        else
+        {
+            this.head.yBodyRot = this.head.yHeadRot;
+            this.head.setXRot(0.0F);
+            this.head.setYRot(this.head.yHeadRot);
         }
     }
 
