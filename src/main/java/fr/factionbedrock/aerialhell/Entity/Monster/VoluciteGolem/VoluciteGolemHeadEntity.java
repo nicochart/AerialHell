@@ -91,6 +91,11 @@ public class VoluciteGolemHeadEntity extends PartEntity implements BeamAttackEnt
         super.tick();
     }
 
+    //@Override public void lerpHeadRotationStep(int lerpHeadSteps, double lerpYHeadRot)
+    //{
+    //    super.lerpHeadRotationStep(lerpHeadSteps, lerpYHeadRot);
+    //}
+
     @Override public void playBeamSound(boolean start) {this.playSound(start ? AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_START.get() : AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOOP.get(), 0.5F, 1.0F);}
 
     public static AttributeSupplier.Builder registerAttributes()

@@ -93,23 +93,19 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
     @Override public void aiStep()
     {
         super.aiStep();
-        this.tickHeadMovement();
+        this.tickHeadRotation();
     }
 
-    private void tickHeadMovement()
+    private void tickHeadRotation()
     {
-        float yOffset = 2.15F;
         if (this.head == null) {return;}
-        this.head.xo = this.xo; this.head.yo = this.yo + yOffset; this.head.zo = this.zo;
-        this.head.setPos(this.getX(), this.getY() + yOffset, this.getZ());
         if (!this.head.isBeaming())
         {
+            //head is stuck (on some angles) like if "head body" wasn't rotating
             this.head.yBodyRotO = this.head.yBodyRot;
             this.head.yBodyRot = this.yHeadRot; //the whole "body" is head
             this.head.yHeadRotO = this.head.yHeadRot;
             this.head.yHeadRot = this.yHeadRot;
-            this.head.setXRot(this.getXRot());
-            this.head.setYRot(this.getYRot());
         }
         else
         {
@@ -118,6 +114,37 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
             this.head.setYRot(this.head.yHeadRot);
         }
     }
+
+    @Override public void setPos(double x, double y, double z)
+    {
+        float yOffset = 2.15F;
+        super.setPos(x, y, z);
+        if (this.head != null) {this.head.setPos(x, y + yOffset, z);}
+    }
+
+    @Override public void setXRot(float xRot)
+    {
+        super.setXRot(xRot);
+        if (this.head != null) {this.head.setXRot(xRot);}
+    }
+
+    @Override public void setYRot(float yRot)
+    {
+        super.setYRot(yRot);
+        if (this.head != null) {this.head.setXRot(yRot);}
+    }
+
+    //@Override protected void lerpHeadRotationStep(int lerpHeadSteps, double lerpYHeadRot)
+    //{
+    //    super.lerpHeadRotationStep(lerpHeadSteps, lerpYHeadRot);
+    //    if (this.head != null) {this.head.lerpHeadRotationStep(lerpHeadSteps, lerpYHeadRot);}
+    //}
+
+    //@Override public void setYHeadRot(float rotation)
+    //{
+    //    super.setYHeadRot(rotation);
+    //    if (this.head != null) {this.head.setYHeadRot(rotation);}
+    //}
 
     @Override protected void registerGoals()
     {
