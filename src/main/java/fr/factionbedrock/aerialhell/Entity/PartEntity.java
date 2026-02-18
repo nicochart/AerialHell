@@ -16,12 +16,16 @@ public class PartEntity extends Monster
 {
     private static final EntityDataAccessor<Integer> OWNER_ID = SynchedEntityData.defineId(PartEntity.class, EntityDataSerializers.INT);
     private LivingEntity owner;
+    protected int timeInInvalidSituation;
 
     public PartEntity(EntityType<? extends Monster> type, Level level)
     {
         super(type, level);
         this.owner = null;
+        this.timeInInvalidSituation = 0;
     }
+
+    public boolean isFirstTick() {return this.firstTick;}
 
     @Nullable public LivingEntity getOwner() {return this.owner;}
     public boolean setOwner(LivingEntity owner)
@@ -44,16 +48,21 @@ public class PartEntity extends Monster
     @Override public void tick()
     {
         if (this.owner == null) {this.owner = this.getOwnerByID();}
-        if (this.owner == null || this.owner.isDeadOrDying() || this.owner.isRemoved())
+        if (this.owner == null || this.owner.isDeadOrDying() || this.owner.isRemoved() || !this.owner.is(this))
         {
-            this.killPart();
+            this.timeInInvalidSituation++;
+            if (this.timeInInvalidSituation > 5) {this.killPart();}
         }
         super.tick();
     }
 
     public void killPart()
     {
-        this.hurt(this.damageSources().fellOutOfWorld(), this.getMaxHealth());
+        //TODO fix bug when part is killed just after a non-killing hit
+        if (this.level() instanceof ServerLevel serverLevel)
+        {
+            this.hurtPart(serverLevel, this.damageSources().fellOutOfWorld(), this.getMaxHealth(), true);
+        }
     }
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)

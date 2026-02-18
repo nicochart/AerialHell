@@ -8,10 +8,9 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -19,17 +18,32 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.UUID;
 
 public class VoluciteGolemEntity extends AerialHellGolemEntity
 {
-    private VoluciteGolemHeadEntity head;
+    @Nullable private VoluciteGolemHeadEntity head;
+    @Nullable private String headStringUUID;
+    protected int timeInInvalidSituation;
 
     public VoluciteGolemEntity(EntityType<? extends Monster> type, Level level)
     {
         super(type, level);
         this.xpReward = 16;
+        this.timeInInvalidSituation = 0;
+    }
+
+    public @Nullable VoluciteGolemHeadEntity getHead() {return this.head;}
+
+    @Override @Nullable public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficultyIn, EntitySpawnReason reason, @Nullable SpawnGroupData spawnDataIn)
+    {
         this.head = this.summonHead();
+        return spawnDataIn;
     }
 
     @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_AMBIENT.get();}
@@ -60,8 +74,11 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
 
     private void onHurtCausingDeath()
     {
-        this.head.setBeamingPhaseToOff();
-        this.head.killPart();
+        if (this.head != null)
+        {
+            this.head.setBeamingPhaseToOff();
+            this.head.killPart();
+        }
     }
 
     private static void falseAttackForRedAnimation(@Nullable PartEntity part, ServerLevel level, DamageSource source)
@@ -73,10 +90,15 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         }
     }
 
+    private void respawnHead()
+    {
+        if (this.head != null) {this.head.killPart();}
+        this.head = this.summonHead();
+    }
+
     private VoluciteGolemHeadEntity summonHead()
     {
-        float x = 0.0F;
-        float z = 0.0F;
+        float yOffset = 2.15F;
         VoluciteGolemHeadEntity entity = AerialHellEntities.VOLUCITE_GOLEM_HEAD.get().create(this.level(), EntitySpawnReason.NATURAL);
         if (entity != null)
         {
@@ -84,10 +106,38 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
             entity.setCustomName(this.getCustomName());
             entity.setInvulnerable(this.isInvulnerable());
             entity.setOwner(this);
-            entity.snapTo(this.getX() + (double) x, this.getY(), this.getZ() + (double) z, this.random.nextFloat() * 360.0F, 0.0F);
+            entity.snapTo(this.getX(), this.getY() + yOffset, this.getZ(), this.getYRot(), this.getXRot());
             this.level().addFreshEntity(entity);
         }
         return entity;
+    }
+
+    @Override public void tick()
+    {
+        super.tick();
+        if (this.head == null)
+        {
+            this.timeInInvalidSituation++;
+            this.tryToFindBackHead();
+        }
+        else {this.timeInInvalidSituation = 0;}
+    }
+
+    private void tryToFindBackHead()
+    {
+        this.head = this.getHeadByUUID(this.headStringUUID);
+        if (this.head != null)
+        {
+            this.head.setOwner(this);
+        }
+    }
+
+    @Nullable public VoluciteGolemHeadEntity getHeadByUUID(@Nullable String stringUUID)
+    {
+        if (stringUUID == null) {return null;}
+
+        Entity entity = this.level().getEntity(UUID.fromString(stringUUID));
+        return entity instanceof VoluciteGolemHeadEntity foundHead ? foundHead : null;
     }
 
     @Override public void aiStep()
@@ -149,10 +199,33 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, MudSoldierEntity.class, true));
     }
 
+    @Override public void addAdditionalSaveData(ValueOutput valueOutput)
+    {
+        super.addAdditionalSaveData(valueOutput);
+        if (this.head != null)
+        {
+            valueOutput.putString("head_uuid", this.head.getStringUUID());
+        }
+    }
+
+    @Override public void readAdditionalSaveData(ValueInput valueInput)
+    {
+        super.readAdditionalSaveData(valueInput);
+        if (valueInput.getString("head_uuid").isPresent())
+        {
+            this.headStringUUID = valueInput.getString("head_uuid").get();
+        }
+    }
+
     @Override public void push(Entity other)
     {
         if (other.is(this)) {return;}
         super.push(other);
+    }
+
+    @Override public boolean is(Entity other)
+    {
+        return super.is(other) || other == this.head;
     }
 
     @Override public double getEyeY() {return this.position().y + 2.40F;}
