@@ -16,16 +16,15 @@ public class PartEntity extends Monster
 {
     private static final EntityDataAccessor<Integer> OWNER_ID = SynchedEntityData.defineId(PartEntity.class, EntityDataSerializers.INT);
     private LivingEntity owner;
-    protected int timeInInvalidSituation;
+    protected int ticksInInvalidSituation;
 
     public PartEntity(EntityType<? extends Monster> type, Level level)
     {
         super(type, level);
         this.owner = null;
-        this.timeInInvalidSituation = 0;
+        this.xpReward = 0;
+        this.ticksInInvalidSituation = 0;
     }
-
-    public boolean isFirstTick() {return this.firstTick;}
 
     @Nullable public LivingEntity getOwner() {return this.owner;}
     public boolean setOwner(LivingEntity owner)
@@ -50,8 +49,8 @@ public class PartEntity extends Monster
         if (this.owner == null) {this.owner = this.getOwnerByID();}
         if (this.owner == null || this.owner.isDeadOrDying() || this.owner.isRemoved() || !this.owner.is(this))
         {
-            this.timeInInvalidSituation++;
-            if (this.timeInInvalidSituation > 5) {this.killPart();}
+            this.ticksInInvalidSituation++;
+            if (this.ticksInInvalidSituation > 5) {this.killPart();}
         }
         super.tick();
     }

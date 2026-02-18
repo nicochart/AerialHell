@@ -6,6 +6,9 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.PartEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.DifficultyInstance;
@@ -27,22 +30,58 @@ import java.util.UUID;
 
 public class VoluciteGolemEntity extends AerialHellGolemEntity
 {
+    private static final EntityDataAccessor<Integer> HEAD_ID = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.INT);
     @Nullable private VoluciteGolemHeadEntity head;
     @Nullable private String headStringUUID;
-    protected int timeInInvalidSituation;
+    protected int ticksInInvalidSituation;
 
     public VoluciteGolemEntity(EntityType<? extends Monster> type, Level level)
     {
         super(type, level);
         this.xpReward = 16;
-        this.timeInInvalidSituation = 0;
+        this.ticksInInvalidSituation = 0;
     }
 
-    public @Nullable VoluciteGolemHeadEntity getHead() {return this.head;}
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
+    {
+        super.defineSynchedData(builder);
+        builder.define(HEAD_ID, 0);
+    }
+
+    public void setHeadId(int headId) {this.entityData.set(HEAD_ID, headId);}
+    public int getHeadId() {return this.entityData.get(HEAD_ID);}
+    public boolean hasHeadId() {return this.entityData.get(HEAD_ID) != 0;}
+
+    @Nullable public VoluciteGolemHeadEntity getHead() //head is created server-side, so the client have null this.head by default. Synched head id allows to find the head on client side.
+    {
+        if (!this.hasHeadId()) {return null;}
+        else if (this.level().isClientSide()) //Client side
+        {
+            if (this.head != null && this.head.getId() == this.getHeadId()) //if client cached target exists & is valid (same id as synced id)
+            {
+                return this.head;
+            }
+            else //trying to update this.head
+            {
+                Entity entity = this.level().getEntity(this.getHeadId());
+                if (entity instanceof VoluciteGolemHeadEntity headEntity)
+                {
+                    this.head = headEntity;
+                    return headEntity;
+                }
+                else {return null;}
+            }
+        }
+        else //Server side
+        {
+            return this.head;
+        }
+    }
 
     @Override @Nullable public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficultyIn, EntitySpawnReason reason, @Nullable SpawnGroupData spawnDataIn)
     {
         this.head = this.summonHead();
+        this.setHeadId(this.head.getId());
         return spawnDataIn;
     }
 
@@ -90,10 +129,15 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         }
     }
 
-    private void respawnHead()
+    private void resetSelf()
     {
-        if (this.head != null) {this.head.killPart();}
-        this.head = this.summonHead();
+        if (this.level() instanceof ServerLevel serverLevel)
+        {
+            VoluciteGolemEntity entity = AerialHellEntities.VOLUCITE_GOLEM.get().spawn(serverLevel, this.blockPosition(), EntitySpawnReason.NATURAL);
+            entity.snapTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
+        }
+        if (this.head != null) {this.head.setRemoved(RemovalReason.DISCARDED);}
+        this.setRemoved(RemovalReason.DISCARDED);
     }
 
     private VoluciteGolemHeadEntity summonHead()
@@ -115,12 +159,16 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
     @Override public void tick()
     {
         super.tick();
-        if (this.head == null)
+        if (this.getHead() == null)
         {
-            this.timeInInvalidSituation++;
+            this.ticksInInvalidSituation++;
             this.tryToFindBackHead();
+            if (ticksInInvalidSituation > 5) //should not happen if head is not removed or if the uuid changed (if the entity is loaded from a structure nbt for example)
+            {
+                this.resetSelf();
+            }
         }
-        else {this.timeInInvalidSituation = 0;}
+        else {this.ticksInInvalidSituation = 0;}
     }
 
     private void tryToFindBackHead()
@@ -128,6 +176,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         this.head = this.getHeadByUUID(this.headStringUUID);
         if (this.head != null)
         {
+            this.setHeadId(this.head.getId());
             this.head.setOwner(this);
         }
     }
@@ -151,7 +200,6 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         if (this.head == null) {return;}
         if (!this.head.isBeaming())
         {
-            //it actually works, but after a disconnect-reconnect, the head starts moving wrongly
             this.head.yBodyRotO = this.head.yBodyRot;
             this.head.yBodyRot = this.yHeadRot; //the whole "body" is head
             this.head.yHeadRotO = this.head.yHeadRot;
