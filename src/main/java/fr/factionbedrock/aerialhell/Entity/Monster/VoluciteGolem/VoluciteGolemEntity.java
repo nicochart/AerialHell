@@ -101,11 +101,13 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         if (this.head == null) {return;}
         if (!this.head.isBeaming())
         {
-            //head is stuck (on some angles) like if "head body" wasn't rotating
+            //it actually works, but after a disconnect-reconnect, the head starts moving wrongly
             this.head.yBodyRotO = this.head.yBodyRot;
             this.head.yBodyRot = this.yHeadRot; //the whole "body" is head
             this.head.yHeadRotO = this.head.yHeadRot;
             this.head.yHeadRot = this.yHeadRot;
+            this.head.setXRot(this.getXRot());
+            this.head.setYRot(this.getYRot());
         }
         else
         {
@@ -134,18 +136,6 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         if (this.head != null) {this.head.setXRot(yRot);}
     }
 
-    //@Override protected void lerpHeadRotationStep(int lerpHeadSteps, double lerpYHeadRot)
-    //{
-    //    super.lerpHeadRotationStep(lerpHeadSteps, lerpYHeadRot);
-    //    if (this.head != null) {this.head.lerpHeadRotationStep(lerpHeadSteps, lerpYHeadRot);}
-    //}
-
-    //@Override public void setYHeadRot(float rotation)
-    //{
-    //    super.setYHeadRot(rotation);
-    //    if (this.head != null) {this.head.setYHeadRot(rotation);}
-    //}
-
     @Override protected void registerGoals()
     {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
@@ -164,6 +154,8 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         if (other.is(this)) {return;}
         super.push(other);
     }
+
+    @Override public double getEyeY() {return this.position().y + 2.40F;}
 
     @Override public float getYMotionOnAttack() {return 0.4F;}
     @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
