@@ -77,15 +77,19 @@ public class AerialHellItems
     public static final DeferredItem<Item> STELLAR_LIGHTER = ITEMS.register(Keys.STELLAR_LIGHTER.identifier().getPath(), () -> new StellarLighterItem(new Item.Properties().setId(Keys.STELLAR_LIGHTER).stacksTo(1).durability(4)));
 
     //torch
+    public static final DeferredItem<Item> CRYSTALLIZED_TORCH = ITEMS.register(Keys.CRYSTALLIZED_TORCH.identifier().getPath(), () -> new StandingAndWallBlockItem(AerialHellBlocks.CRYSTALLIZED_TORCH.get(), AerialHellBlocks.CRYSTALLIZED_WALL_TORCH.get(), Direction.DOWN, new Item.Properties().setId(Keys.CRYSTALLIZED_TORCH).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> FLUORITE_TORCH = ITEMS.register(Keys.FLUORITE_TORCH.identifier().getPath(), () -> new StandingAndWallBlockItem(AerialHellBlocks.FLUORITE_TORCH.get(), AerialHellBlocks.FLUORITE_WALL_TORCH.get(), Direction.DOWN, new Item.Properties().setId(Keys.FLUORITE_TORCH).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> VOLUCITE_TORCH = ITEMS.register(Keys.VOLUCITE_TORCH.identifier().getPath(), () -> new StandingAndWallBlockItem(AerialHellBlocks.VOLUCITE_TORCH.get(), AerialHellBlocks.VOLUCITE_WALL_TORCH.get(), Direction.DOWN, new Item.Properties().setId(Keys.VOLUCITE_TORCH).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> SHADOW_TORCH = ITEMS.register(Keys.SHADOW_TORCH.identifier().getPath(), () -> new StandingAndWallBlockItem(AerialHellBlocks.SHADOW_TORCH.get(), AerialHellBlocks.SHADOW_WALL_TORCH.get(), Direction.DOWN, new Item.Properties().setId(Keys.SHADOW_TORCH).useBlockDescriptionPrefix()));
 
     //lanterns
+    public static final DeferredItem<Item> CRYSTALLIZED_LANTERN = ITEMS.register(Keys.CRYSTALLIZED_LANTERN.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.CRYSTALLIZED_LANTERN.get(), new Item.Properties().setId(Keys.CRYSTALLIZED_LANTERN).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> FLUORITE_LANTERN = ITEMS.register(Keys.FLUORITE_LANTERN.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.FLUORITE_LANTERN.get(), new Item.Properties().setId(Keys.FLUORITE_LANTERN).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> RUBY_LANTERN = ITEMS.register(Keys.RUBY_LANTERN.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.RUBY_LANTERN.get(), new Item.Properties().setId(Keys.RUBY_LANTERN).useBlockDescriptionPrefix()));
+    public static final DeferredItem<Item> RUBY_CRYSTALLIZED_LANTERN = ITEMS.register(Keys.RUBY_CRYSTALLIZED_LANTERN.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.RUBY_CRYSTALLIZED_LANTERN.get(), new Item.Properties().setId(Keys.RUBY_CRYSTALLIZED_LANTERN).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> RUBY_FLUORITE_LANTERN = ITEMS.register(Keys.RUBY_FLUORITE_LANTERN.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.RUBY_FLUORITE_LANTERN.get(), new Item.Properties().setId(Keys.RUBY_FLUORITE_LANTERN).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> VOLUCITE_LANTERN = ITEMS.register(Keys.VOLUCITE_LANTERN.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.VOLUCITE_LANTERN.get(), new Item.Properties().setId(Keys.VOLUCITE_LANTERN).useBlockDescriptionPrefix()));
+    public static final DeferredItem<Item> VOLUCITE_CRYSTALLIZED_LANTERN = ITEMS.register(Keys.VOLUCITE_CRYSTALLIZED_LANTERN.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.VOLUCITE_CRYSTALLIZED_LANTERN.get(), new Item.Properties().setId(Keys.VOLUCITE_CRYSTALLIZED_LANTERN).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> VOLUCITE_FLUORITE_LANTERN = ITEMS.register(Keys.VOLUCITE_FLUORITE_LANTERN.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.VOLUCITE_FLUORITE_LANTERN.get(), new Item.Properties().setId(Keys.VOLUCITE_FLUORITE_LANTERN).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> LUNATIC_LANTERN = ITEMS.register(Keys.LUNATIC_LANTERN.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.LUNATIC_LANTERN.get(), new Item.Properties().setId(Keys.LUNATIC_LANTERN).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> SHADOW_LANTERN = ITEMS.register(Keys.SHADOW_LANTERN.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.SHADOW_LANTERN.get(), new Item.Properties().setId(Keys.SHADOW_LANTERN).useBlockDescriptionPrefix()));
@@ -1046,15 +1050,19 @@ public class AerialHellItems
         public static final ResourceKey<Item> STELLAR_LIGHTER = createKey("stellar_lighter");
 
         //torch
+        public static final ResourceKey<Item> CRYSTALLIZED_TORCH = createKey("crystallized_torch");
         public static final ResourceKey<Item> FLUORITE_TORCH = createKey("fluorite_torch");
         public static final ResourceKey<Item> VOLUCITE_TORCH = createKey("volucite_torch");
         public static final ResourceKey<Item> SHADOW_TORCH = createKey("shadow_torch");
 
         //lanterns
+        public static final ResourceKey<Item> CRYSTALLIZED_LANTERN = createKey("crystallized_lantern");
         public static final ResourceKey<Item> FLUORITE_LANTERN = createKey("fluorite_lantern");
         public static final ResourceKey<Item> RUBY_LANTERN = createKey("ruby_lantern");
+        public static final ResourceKey<Item> RUBY_CRYSTALLIZED_LANTERN = createKey("ruby_crystallized_lantern");
         public static final ResourceKey<Item> RUBY_FLUORITE_LANTERN = createKey("ruby_fluorite_lantern");
         public static final ResourceKey<Item> VOLUCITE_LANTERN = createKey("volucite_lantern");
+        public static final ResourceKey<Item> VOLUCITE_CRYSTALLIZED_LANTERN = createKey("volucite_crystallized_lantern");
         public static final ResourceKey<Item> VOLUCITE_FLUORITE_LANTERN = createKey("volucite_fluorite_lantern");
         public static final ResourceKey<Item> LUNATIC_LANTERN = createKey("lunatic_lantern");
         public static final ResourceKey<Item> SHADOW_LANTERN = createKey("shadow_lantern");

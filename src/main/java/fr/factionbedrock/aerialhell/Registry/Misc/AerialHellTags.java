@@ -99,9 +99,7 @@ public class AerialHellTags
 
 		public static final TagKey<Block> AERIALHELL_PLANTS = tag("aerialhell_plants");
 
-		public static final TagKey<Block> OVERWORLD_LANTERN = tag("overworld_lantern");
-
-		public static final TagKey<Block> AERIALHELL_LANTERN = tag("aerialhell_lantern");
+		public static final TagKey<Block> LANTERN = tag("lantern");
 
 		public static final TagKey<Block> FEATURE_CAN_REPLACE = tag("feature_can_replace");
 

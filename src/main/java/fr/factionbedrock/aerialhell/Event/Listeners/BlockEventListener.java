@@ -11,6 +11,8 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LanternBlock;
+import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
@@ -42,13 +44,13 @@ public class BlockEventListener
 	                world.playSound(null, event.getPos(), SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
 	                event.setCanceled(true);
 	            }
-	            else if (blockstate.getBlock().equals(Blocks.MAGMA_BLOCK))
+	            else if (blockstate.is(Blocks.MAGMA_BLOCK))
 	            {
 	            	world.setBlockAndUpdate(pos, AerialHellBlocks.MAGMATIC_GEL_ORE.get().defaultBlockState());
 	            	world.playSound(null, event.getPos(), SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
 	            	event.setCanceled(true);
 	            }
-	            else if (blockstate.getBlock().equals(Blocks.FIRE) || blockstate.getBlock().equals(Blocks.SOUL_FIRE))
+	            else if (blockstate.is(Blocks.FIRE))
 	            {
 	            	world.setBlockAndUpdate(pos, AerialHellBlocks.CRYSTALLIZED_FIRE.get().defaultBlockState());
 	            	world.playSound(null, event.getPos(), SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -58,12 +60,36 @@ public class BlockEventListener
 	            	}
 	            	event.setCanceled(true);
 	            }
-	            else if (blockstate.getBlock().equals(Blocks.TORCH) || blockstate.getBlock().equals(Blocks.WALL_TORCH) || blockstate.is(AerialHellTags.Blocks.OVERWORLD_LANTERN))
+	            else if (blockstate.is(Blocks.TORCH))
 	            {
-	            	world.destroyBlock(pos, true);
+                    world.setBlockAndUpdate(pos, AerialHellBlocks.CRYSTALLIZED_TORCH.get().defaultBlockState());
 	            	world.playSound(null, event.getPos(), SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
 	            	event.setCanceled(true);
 	            }
+                else if (blockstate.is(Blocks.WALL_TORCH))
+                {
+                    world.setBlockAndUpdate(pos, AerialHellBlocks.CRYSTALLIZED_WALL_TORCH.get().defaultBlockState().setValue(WallTorchBlock.FACING, blockstate.getValue(WallTorchBlock.FACING)));
+                    world.playSound(null, event.getPos(), SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    event.setCanceled(true);
+                }
+                else if (blockstate.is(Blocks.LANTERN))
+                {
+                    world.setBlockAndUpdate(pos, AerialHellBlocks.CRYSTALLIZED_LANTERN.get().defaultBlockState().setValue(LanternBlock.HANGING, blockstate.getValue(LanternBlock.HANGING)).setValue(LanternBlock.WATERLOGGED, blockstate.getValue(LanternBlock.WATERLOGGED)));
+                    world.playSound(null, event.getPos(), SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    event.setCanceled(true);
+                }
+                else if (blockstate.is(AerialHellBlocks.RUBY_LANTERN))
+                {
+                    world.setBlockAndUpdate(pos, AerialHellBlocks.RUBY_CRYSTALLIZED_LANTERN.get().defaultBlockState().setValue(LanternBlock.HANGING, blockstate.getValue(LanternBlock.HANGING)).setValue(LanternBlock.WATERLOGGED, blockstate.getValue(LanternBlock.WATERLOGGED)));
+                    world.playSound(null, event.getPos(), SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    event.setCanceled(true);
+                }
+                else if (blockstate.is(AerialHellBlocks.VOLUCITE_LANTERN))
+                {
+                    world.setBlockAndUpdate(pos, AerialHellBlocks.VOLUCITE_CRYSTALLIZED_LANTERN.get().defaultBlockState().setValue(LanternBlock.HANGING, blockstate.getValue(LanternBlock.HANGING)).setValue(LanternBlock.WATERLOGGED, blockstate.getValue(LanternBlock.WATERLOGGED)));
+                    world.playSound(null, event.getPos(), SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    event.setCanceled(true);
+                }
             }
         }
     }

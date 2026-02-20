@@ -1,0 +1,7 @@
+{
+  "parent": "aerialhell:block/old_vanilla_template_torch_wall",
+  "render_type": "minecraft:translucent",
+  "textures": {
+    "torch": "aerialhell:block/crystallized_torch"
+  }
+}

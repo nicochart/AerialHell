@@ -116,6 +116,8 @@ public class AerialHellBlocks
 	public static final DeferredBlock<Block> DEEPSLATE_STELLAR_PORTAL_FRAME_ORE = BLOCKS.register(Keys.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE.identifier().getPath(),() -> new AerialHellOreBlock(0, 0, BlockBehaviour.Properties.of().setId(Keys.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE).strength(30.0F, 600.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
 
 	//torch
+	public static final DeferredBlock<Block> CRYSTALLIZED_WALL_TORCH = BLOCKS.register(Keys.CRYSTALLIZED_WALL_TORCH.identifier().getPath(), () -> new AerialHellWallTorchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WALL_TORCH).setId(Keys.CRYSTALLIZED_WALL_TORCH).lightLevel((state) -> {return 9;})));
+	public static final DeferredBlock<Block> CRYSTALLIZED_TORCH = BLOCKS.register(Keys.CRYSTALLIZED_TORCH.identifier().getPath(), () -> new AerialHellTorchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TORCH).setId(Keys.CRYSTALLIZED_TORCH).lightLevel((state) -> {return 9;})));
 	public static final DeferredBlock<Block> FLUORITE_WALL_TORCH = BLOCKS.register(Keys.FLUORITE_WALL_TORCH.identifier().getPath(), () -> new AerialHellWallTorchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WALL_TORCH).setId(Keys.FLUORITE_WALL_TORCH)));
 	public static final DeferredBlock<Block> FLUORITE_TORCH = BLOCKS.register(Keys.FLUORITE_TORCH.identifier().getPath(), () -> new AerialHellTorchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TORCH).setId(Keys.FLUORITE_TORCH)));
 	public static final DeferredBlock<Block> VOLUCITE_WALL_TORCH = BLOCKS.register(Keys.VOLUCITE_WALL_TORCH.identifier().getPath(), () -> new AerialHellWallTorchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WALL_TORCH).setId(Keys.VOLUCITE_WALL_TORCH).lightLevel((state) -> {return 9;})));
@@ -124,10 +126,13 @@ public class AerialHellBlocks
 	public static final DeferredBlock<Block> SHADOW_TORCH = BLOCKS.register(Keys.SHADOW_TORCH.identifier().getPath(), () -> new AerialHellTorchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TORCH).setId(Keys.SHADOW_TORCH).lightLevel((state) -> {return 9;})));
 
 	//lanterns
+	public static final DeferredBlock<Block> CRYSTALLIZED_LANTERN = BLOCKS.register(Keys.CRYSTALLIZED_LANTERN.identifier().getPath(), () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).setId(Keys.CRYSTALLIZED_LANTERN)));
 	public static final DeferredBlock<Block> FLUORITE_LANTERN = BLOCKS.register(Keys.FLUORITE_LANTERN.identifier().getPath(), () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).setId(Keys.FLUORITE_LANTERN)));
 	public static final DeferredBlock<Block> RUBY_LANTERN = BLOCKS.register(Keys.RUBY_LANTERN.identifier().getPath(), () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).setId(Keys.RUBY_LANTERN)));
+	public static final DeferredBlock<Block> RUBY_CRYSTALLIZED_LANTERN = BLOCKS.register(Keys.RUBY_CRYSTALLIZED_LANTERN.identifier().getPath(), () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).setId(Keys.RUBY_CRYSTALLIZED_LANTERN)));
 	public static final DeferredBlock<Block> RUBY_FLUORITE_LANTERN = BLOCKS.register(Keys.RUBY_FLUORITE_LANTERN.identifier().getPath(), () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).setId(Keys.RUBY_FLUORITE_LANTERN)));
 	public static final DeferredBlock<Block> VOLUCITE_LANTERN = BLOCKS.register(Keys.VOLUCITE_LANTERN.identifier().getPath(), () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).setId(Keys.VOLUCITE_LANTERN)));
+	public static final DeferredBlock<Block> VOLUCITE_CRYSTALLIZED_LANTERN = BLOCKS.register(Keys.VOLUCITE_CRYSTALLIZED_LANTERN.identifier().getPath(), () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).setId(Keys.VOLUCITE_CRYSTALLIZED_LANTERN)));
 	public static final DeferredBlock<Block> VOLUCITE_FLUORITE_LANTERN = BLOCKS.register(Keys.VOLUCITE_FLUORITE_LANTERN.identifier().getPath(), () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).setId(Keys.VOLUCITE_FLUORITE_LANTERN)));
 	public static final DeferredBlock<Block> LUNATIC_LANTERN = BLOCKS.register(Keys.LUNATIC_LANTERN.identifier().getPath(), () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).setId(Keys.LUNATIC_LANTERN)));
 	public static final DeferredBlock<Block> SHADOW_LANTERN = BLOCKS.register(Keys.SHADOW_LANTERN.identifier().getPath(), () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SOUL_LANTERN).setId(Keys.SHADOW_LANTERN)));
@@ -840,6 +845,8 @@ public class AerialHellBlocks
 		public static final ResourceKey<Block> DEEPSLATE_STELLAR_PORTAL_FRAME_ORE = createKey("deepslate_stellar_portal_frame_ore");
 
 		//torch
+		public static final ResourceKey<Block> CRYSTALLIZED_WALL_TORCH = createKey("crystallized_wall_torch");
+		public static final ResourceKey<Block> CRYSTALLIZED_TORCH = createKey("crystallized_torch");
 		public static final ResourceKey<Block> FLUORITE_WALL_TORCH = createKey("fluorite_wall_torch");
 		public static final ResourceKey<Block> FLUORITE_TORCH = createKey("fluorite_torch");
 		public static final ResourceKey<Block> VOLUCITE_WALL_TORCH = createKey("volucite_wall_torch");
@@ -849,9 +856,12 @@ public class AerialHellBlocks
 
 		//lanterns
 		public static final ResourceKey<Block> FLUORITE_LANTERN = createKey("fluorite_lantern");
+		public static final ResourceKey<Block> CRYSTALLIZED_LANTERN = createKey("crystallized_lantern");
 		public static final ResourceKey<Block> RUBY_LANTERN = createKey("ruby_lantern");
+		public static final ResourceKey<Block> RUBY_CRYSTALLIZED_LANTERN = createKey("ruby_crystallized_lantern");
 		public static final ResourceKey<Block> RUBY_FLUORITE_LANTERN = createKey("ruby_fluorite_lantern");
 		public static final ResourceKey<Block> VOLUCITE_LANTERN = createKey("volucite_lantern");
+		public static final ResourceKey<Block> VOLUCITE_CRYSTALLIZED_LANTERN = createKey("volucite_crystallized_lantern");
 		public static final ResourceKey<Block> VOLUCITE_FLUORITE_LANTERN = createKey("volucite_fluorite_lantern");
 		public static final ResourceKey<Block> LUNATIC_LANTERN = createKey("lunatic_lantern");
 		public static final ResourceKey<Block> SHADOW_LANTERN = createKey("shadow_lantern");
