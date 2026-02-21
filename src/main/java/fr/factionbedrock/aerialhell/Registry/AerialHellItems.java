@@ -76,15 +76,19 @@ public class AerialHellItems
     public static final Item STELLAR_LIGHTER = register(Keys.STELLAR_LIGHTER.getValue().getPath(), new StellarLighterItem(new Item.Settings().registryKey(Keys.STELLAR_LIGHTER).maxCount(1).maxDamage(4)));
 
     //torch
+    public static final Item CRYSTALLIZED_TORCH = register(Keys.CRYSTALLIZED_TORCH.getValue().getPath(), new VerticallyAttachableBlockItem(AerialHellBlocks.CRYSTALLIZED_TORCH, AerialHellBlocks.CRYSTALLIZED_WALL_TORCH, Direction.DOWN, new Item.Settings().registryKey(Keys.CRYSTALLIZED_TORCH).useBlockPrefixedTranslationKey()));
     public static final Item FLUORITE_TORCH = register(Keys.FLUORITE_TORCH.getValue().getPath(), new VerticallyAttachableBlockItem(AerialHellBlocks.FLUORITE_TORCH, AerialHellBlocks.FLUORITE_WALL_TORCH, Direction.DOWN, new Item.Settings().registryKey(Keys.FLUORITE_TORCH).useBlockPrefixedTranslationKey()));
     public static final Item VOLUCITE_TORCH = register(Keys.VOLUCITE_TORCH.getValue().getPath(), new VerticallyAttachableBlockItem(AerialHellBlocks.VOLUCITE_TORCH, AerialHellBlocks.VOLUCITE_WALL_TORCH, Direction.DOWN, new Item.Settings().registryKey(Keys.VOLUCITE_TORCH).useBlockPrefixedTranslationKey()));
     public static final Item SHADOW_TORCH = register(Keys.SHADOW_TORCH.getValue().getPath(), new VerticallyAttachableBlockItem(AerialHellBlocks.SHADOW_TORCH, AerialHellBlocks.SHADOW_WALL_TORCH, Direction.DOWN, new Item.Settings().registryKey(Keys.SHADOW_TORCH).useBlockPrefixedTranslationKey()));
 
     //lanterns
+    public static final Item CRYSTALLIZED_LANTERN = register(Keys.CRYSTALLIZED_LANTERN.getValue().getPath(), new BlockItem(AerialHellBlocks.CRYSTALLIZED_LANTERN, new Item.Settings().registryKey(Keys.CRYSTALLIZED_LANTERN).useBlockPrefixedTranslationKey()));
     public static final Item FLUORITE_LANTERN = register(Keys.FLUORITE_LANTERN.getValue().getPath(), new BlockItem(AerialHellBlocks.FLUORITE_LANTERN, new Item.Settings().registryKey(Keys.FLUORITE_LANTERN).useBlockPrefixedTranslationKey()));
     public static final Item RUBY_LANTERN = register(Keys.RUBY_LANTERN.getValue().getPath(), new BlockItem(AerialHellBlocks.RUBY_LANTERN, new Item.Settings().registryKey(Keys.RUBY_LANTERN).useBlockPrefixedTranslationKey()));
+    public static final Item RUBY_CRYSTALLIZED_LANTERN = register(Keys.RUBY_CRYSTALLIZED_LANTERN.getValue().getPath(), new BlockItem(AerialHellBlocks.RUBY_CRYSTALLIZED_LANTERN, new Item.Settings().registryKey(Keys.RUBY_CRYSTALLIZED_LANTERN).useBlockPrefixedTranslationKey()));
     public static final Item RUBY_FLUORITE_LANTERN = register(Keys.RUBY_FLUORITE_LANTERN.getValue().getPath(), new BlockItem(AerialHellBlocks.RUBY_FLUORITE_LANTERN, new Item.Settings().registryKey(Keys.RUBY_FLUORITE_LANTERN).useBlockPrefixedTranslationKey()));
     public static final Item VOLUCITE_LANTERN = register(Keys.VOLUCITE_LANTERN.getValue().getPath(), new BlockItem(AerialHellBlocks.VOLUCITE_LANTERN, new Item.Settings().registryKey(Keys.VOLUCITE_LANTERN).useBlockPrefixedTranslationKey()));
+    public static final Item VOLUCITE_CRYSTALLIZED_LANTERN = register(Keys.VOLUCITE_CRYSTALLIZED_LANTERN.getValue().getPath(), new BlockItem(AerialHellBlocks.VOLUCITE_CRYSTALLIZED_LANTERN, new Item.Settings().registryKey(Keys.VOLUCITE_CRYSTALLIZED_LANTERN).useBlockPrefixedTranslationKey()));
     public static final Item VOLUCITE_FLUORITE_LANTERN = register(Keys.VOLUCITE_FLUORITE_LANTERN.getValue().getPath(), new BlockItem(AerialHellBlocks.VOLUCITE_FLUORITE_LANTERN, new Item.Settings().registryKey(Keys.VOLUCITE_FLUORITE_LANTERN).useBlockPrefixedTranslationKey()));
     public static final Item LUNATIC_LANTERN = register(Keys.LUNATIC_LANTERN.getValue().getPath(), new BlockItem(AerialHellBlocks.LUNATIC_LANTERN, new Item.Settings().registryKey(Keys.LUNATIC_LANTERN).useBlockPrefixedTranslationKey()));
     public static final Item SHADOW_LANTERN = register(Keys.SHADOW_LANTERN.getValue().getPath(), new BlockItem(AerialHellBlocks.SHADOW_LANTERN, new Item.Settings().registryKey(Keys.SHADOW_LANTERN).useBlockPrefixedTranslationKey()));
@@ -1046,15 +1050,19 @@ public class AerialHellItems
         public static final RegistryKey<Item> STELLAR_LIGHTER = createKey("stellar_lighter");
 
         //torch
+        public static final RegistryKey<Item> CRYSTALLIZED_TORCH = createKey("crystallized_torch");
         public static final RegistryKey<Item> FLUORITE_TORCH = createKey("fluorite_torch");
         public static final RegistryKey<Item> VOLUCITE_TORCH = createKey("volucite_torch");
         public static final RegistryKey<Item> SHADOW_TORCH = createKey("shadow_torch");
 
         //lanterns
+        public static final RegistryKey<Item> CRYSTALLIZED_LANTERN = createKey("crystallized_lantern");
         public static final RegistryKey<Item> FLUORITE_LANTERN = createKey("fluorite_lantern");
         public static final RegistryKey<Item> RUBY_LANTERN = createKey("ruby_lantern");
+        public static final RegistryKey<Item> RUBY_CRYSTALLIZED_LANTERN = createKey("ruby_crystallized_lantern");
         public static final RegistryKey<Item> RUBY_FLUORITE_LANTERN = createKey("ruby_fluorite_lantern");
         public static final RegistryKey<Item> VOLUCITE_LANTERN = createKey("volucite_lantern");
+        public static final RegistryKey<Item> VOLUCITE_CRYSTALLIZED_LANTERN = createKey("volucite_crystallized_lantern");
         public static final RegistryKey<Item> VOLUCITE_FLUORITE_LANTERN = createKey("volucite_fluorite_lantern");
         public static final RegistryKey<Item> LUNATIC_LANTERN = createKey("lunatic_lantern");
         public static final RegistryKey<Item> SHADOW_LANTERN = createKey("shadow_lantern");

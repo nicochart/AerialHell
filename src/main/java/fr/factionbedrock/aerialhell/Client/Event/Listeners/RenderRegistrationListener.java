@@ -193,11 +193,16 @@ public class RenderRegistrationListener
         BlockRenderLayerMap.putBlock(AerialHellBlocks.SHADOW_BARS, translucent);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.SKY_CACTUS, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.VIBRANT_SKY_CACTUS, cutout);
+        BlockRenderLayerMap.putBlock(AerialHellBlocks.CRYSTALLIZED_TORCH, cutout);
+        BlockRenderLayerMap.putBlock(AerialHellBlocks.CRYSTALLIZED_WALL_TORCH, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.FLUORITE_TORCH, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.FLUORITE_WALL_TORCH, cutout);
+        BlockRenderLayerMap.putBlock(AerialHellBlocks.CRYSTALLIZED_LANTERN, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.RUBY_LANTERN, cutout);
+        BlockRenderLayerMap.putBlock(AerialHellBlocks.RUBY_CRYSTALLIZED_LANTERN, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.RUBY_FLUORITE_LANTERN, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.VOLUCITE_LANTERN, cutout);
+        BlockRenderLayerMap.putBlock(AerialHellBlocks.VOLUCITE_CRYSTALLIZED_LANTERN, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.VOLUCITE_FLUORITE_LANTERN, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.FLUORITE_LANTERN, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.LUNATIC_LANTERN, cutout);

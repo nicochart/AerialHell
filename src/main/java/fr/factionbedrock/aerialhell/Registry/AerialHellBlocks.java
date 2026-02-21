@@ -97,6 +97,8 @@ public class AerialHellBlocks
     public static final Block DEEPSLATE_STELLAR_PORTAL_FRAME_ORE = register(Keys.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE.getValue().getPath(), new AerialHellOreBlock(0, 0, AbstractBlock.Settings.create().registryKey(Keys.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE).strength(30.0F, 600.0F).sounds(BlockSoundGroup.STONE).requiresTool()));
 
     //torch
+    public static final Block CRYSTALLIZED_TORCH = register(Keys.CRYSTALLIZED_TORCH.getValue().getPath(), new AerialHellTorchBlock(AbstractBlock.Settings.copy(Blocks.TORCH).registryKey(Keys.CRYSTALLIZED_TORCH)));
+    public static final Block CRYSTALLIZED_WALL_TORCH = register(Keys.CRYSTALLIZED_WALL_TORCH.getValue().getPath(), new AerialHellWallTorchBlock(AbstractBlock.Settings.copy(Blocks.WALL_TORCH).registryKey(Keys.CRYSTALLIZED_WALL_TORCH).lootTable(CRYSTALLIZED_TORCH.getLootTableKey())));
     public static final Block FLUORITE_TORCH = register(Keys.FLUORITE_TORCH.getValue().getPath(), new AerialHellTorchBlock(AbstractBlock.Settings.copy(Blocks.TORCH).registryKey(Keys.FLUORITE_TORCH)));
     public static final Block FLUORITE_WALL_TORCH = register(Keys.FLUORITE_WALL_TORCH.getValue().getPath(), new AerialHellWallTorchBlock(AbstractBlock.Settings.copy(Blocks.WALL_TORCH).registryKey(Keys.FLUORITE_WALL_TORCH).lootTable(FLUORITE_TORCH.getLootTableKey())));
     public static final Block VOLUCITE_TORCH = register(Keys.VOLUCITE_TORCH.getValue().getPath(), new AerialHellTorchBlock(AbstractBlock.Settings.copy(Blocks.TORCH).registryKey(Keys.VOLUCITE_TORCH).luminance((state) -> {return 9;})));
@@ -105,10 +107,13 @@ public class AerialHellBlocks
     public static final Block SHADOW_WALL_TORCH = register(Keys.SHADOW_WALL_TORCH.getValue().getPath(), new AerialHellWallTorchBlock(AbstractBlock.Settings.copy(Blocks.WALL_TORCH).registryKey(Keys.SHADOW_WALL_TORCH).lootTable(SHADOW_TORCH.getLootTableKey()).luminance((state) -> {return 9;})));
 
     //lanterns
+    public static final Block CRYSTALLIZED_LANTERN = register(Keys.CRYSTALLIZED_LANTERN.getValue().getPath(), new LanternBlock(AbstractBlock.Settings.copy(Blocks.LANTERN).registryKey(Keys.CRYSTALLIZED_LANTERN)));
     public static final Block FLUORITE_LANTERN = register(Keys.FLUORITE_LANTERN.getValue().getPath(), new LanternBlock(AbstractBlock.Settings.copy(Blocks.LANTERN).registryKey(Keys.FLUORITE_LANTERN)));
     public static final Block RUBY_LANTERN = register(Keys.RUBY_LANTERN.getValue().getPath(), new LanternBlock(AbstractBlock.Settings.copy(Blocks.LANTERN).registryKey(Keys.RUBY_LANTERN)));
+    public static final Block RUBY_CRYSTALLIZED_LANTERN = register(Keys.RUBY_CRYSTALLIZED_LANTERN.getValue().getPath(), new LanternBlock(AbstractBlock.Settings.copy(Blocks.LANTERN).registryKey(Keys.RUBY_CRYSTALLIZED_LANTERN)));
     public static final Block RUBY_FLUORITE_LANTERN = register(Keys.RUBY_FLUORITE_LANTERN.getValue().getPath(), new LanternBlock(AbstractBlock.Settings.copy(Blocks.LANTERN).registryKey(Keys.RUBY_FLUORITE_LANTERN)));
     public static final Block VOLUCITE_LANTERN = register(Keys.VOLUCITE_LANTERN.getValue().getPath(), new LanternBlock(AbstractBlock.Settings.copy(Blocks.LANTERN).registryKey(Keys.VOLUCITE_LANTERN)));
+    public static final Block VOLUCITE_CRYSTALLIZED_LANTERN = register(Keys.VOLUCITE_CRYSTALLIZED_LANTERN.getValue().getPath(), new LanternBlock(AbstractBlock.Settings.copy(Blocks.LANTERN).registryKey(Keys.VOLUCITE_CRYSTALLIZED_LANTERN)));
     public static final Block VOLUCITE_FLUORITE_LANTERN = register(Keys.VOLUCITE_FLUORITE_LANTERN.getValue().getPath(), new LanternBlock(AbstractBlock.Settings.copy(Blocks.LANTERN).registryKey(Keys.VOLUCITE_FLUORITE_LANTERN)));
     public static final Block LUNATIC_LANTERN = register(Keys.LUNATIC_LANTERN.getValue().getPath(), new LanternBlock(AbstractBlock.Settings.copy(Blocks.LANTERN).registryKey(Keys.LUNATIC_LANTERN)));
     public static final Block SHADOW_LANTERN = register(Keys.SHADOW_LANTERN.getValue().getPath(), new LanternBlock(AbstractBlock.Settings.copy(Blocks.SOUL_LANTERN).registryKey(Keys.SHADOW_LANTERN)));
@@ -821,6 +826,8 @@ public class AerialHellBlocks
         public static final RegistryKey<Block> DEEPSLATE_STELLAR_PORTAL_FRAME_ORE = createKey("deepslate_stellar_portal_frame_ore");
 
         //torch
+        public static final RegistryKey<Block> CRYSTALLIZED_WALL_TORCH = createKey("crystallized_wall_torch");
+        public static final RegistryKey<Block> CRYSTALLIZED_TORCH = createKey("crystallized_torch");
         public static final RegistryKey<Block> FLUORITE_WALL_TORCH = createKey("fluorite_wall_torch");
         public static final RegistryKey<Block> FLUORITE_TORCH = createKey("fluorite_torch");
         public static final RegistryKey<Block> VOLUCITE_WALL_TORCH = createKey("volucite_wall_torch");
@@ -830,9 +837,12 @@ public class AerialHellBlocks
 
         //lanterns
         public static final RegistryKey<Block> FLUORITE_LANTERN = createKey("fluorite_lantern");
+        public static final RegistryKey<Block> CRYSTALLIZED_LANTERN = createKey("crystallized_lantern");
         public static final RegistryKey<Block> RUBY_LANTERN = createKey("ruby_lantern");
+        public static final RegistryKey<Block> RUBY_CRYSTALLIZED_LANTERN = createKey("ruby_crystallized_lantern");
         public static final RegistryKey<Block> RUBY_FLUORITE_LANTERN = createKey("ruby_fluorite_lantern");
         public static final RegistryKey<Block> VOLUCITE_LANTERN = createKey("volucite_lantern");
+        public static final RegistryKey<Block> VOLUCITE_CRYSTALLIZED_LANTERN = createKey("volucite_crystallized_lantern");
         public static final RegistryKey<Block> VOLUCITE_FLUORITE_LANTERN = createKey("volucite_fluorite_lantern");
         public static final RegistryKey<Block> LUNATIC_LANTERN = createKey("lunatic_lantern");
         public static final RegistryKey<Block> SHADOW_LANTERN = createKey("shadow_lantern");

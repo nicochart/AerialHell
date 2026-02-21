@@ -23,13 +23,17 @@ public class BuildContentsEvent
             entries.add(AerialHellItems.STELLAR_PORTAL_FRAME_ORE);
             entries.add(AerialHellItems.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE);
 
+            entries.add(AerialHellItems.CRYSTALLIZED_TORCH);
             entries.add(AerialHellItems.FLUORITE_TORCH);
             entries.add(AerialHellItems.VOLUCITE_TORCH);
             entries.add(AerialHellItems.SHADOW_TORCH);
+            entries.add(AerialHellItems.CRYSTALLIZED_LANTERN);
             entries.add(AerialHellItems.FLUORITE_LANTERN);
             entries.add(AerialHellItems.RUBY_LANTERN);
+            entries.add(AerialHellItems.RUBY_CRYSTALLIZED_LANTERN);
             entries.add(AerialHellItems.RUBY_FLUORITE_LANTERN);
             entries.add(AerialHellItems.VOLUCITE_LANTERN);
+            entries.add(AerialHellItems.VOLUCITE_CRYSTALLIZED_LANTERN);
             entries.add(AerialHellItems.VOLUCITE_FLUORITE_LANTERN);
 
             entries.add(AerialHellItems.RUBY_CHAIN);

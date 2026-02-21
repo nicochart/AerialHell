@@ -5,6 +5,8 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.LanternBlock;
+import net.minecraft.block.WallTorchBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.StructureBlockBlockEntity;
 import net.minecraft.fluid.FluidState;
@@ -32,12 +34,12 @@ public class WorldHelper
                 world.setBlockState(pos, AerialHellBlocks.CRYSTAL_BLOCK.getDefaultState());
                 world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
             }
-            else if (blockstate.getBlock().equals(Blocks.MAGMA_BLOCK))
+            else if (blockstate.isOf(Blocks.MAGMA_BLOCK))
             {
                 world.setBlockState(pos, AerialHellBlocks.MAGMATIC_GEL_ORE.getDefaultState());
                 world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
             }
-            else if (blockstate.getBlock().equals(Blocks.FIRE) || blockstate.getBlock().equals(Blocks.SOUL_FIRE))
+            else if (blockstate.isOf(Blocks.FIRE))
             {
                 world.setBlockState(pos, AerialHellBlocks.CRYSTALLIZED_FIRE.getDefaultState());
                 world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
@@ -46,9 +48,29 @@ public class WorldHelper
                     world.breakBlock(pos, true);
                 }
             }
-            else if (blockstate.getBlock().equals(Blocks.TORCH) || blockstate.getBlock().equals(Blocks.WALL_TORCH) || blockstate.isIn(AerialHellTags.Blocks.OVERWORLD_LANTERN))
+            else if (blockstate.isOf(Blocks.TORCH))
             {
-                world.breakBlock(pos, true);
+                world.setBlockState(pos, AerialHellBlocks.CRYSTALLIZED_TORCH.getDefaultState());
+                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            }
+            else if (blockstate.isOf(Blocks.WALL_TORCH))
+            {
+                world.setBlockState(pos, AerialHellBlocks.CRYSTALLIZED_WALL_TORCH.getDefaultState().with(WallTorchBlock.FACING, blockstate.get(WallTorchBlock.FACING)));
+                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            }
+            else if (blockstate.isOf(Blocks.LANTERN))
+            {
+                world.setBlockState(pos, AerialHellBlocks.CRYSTALLIZED_LANTERN.getDefaultState().with(LanternBlock.HANGING, blockstate.get(LanternBlock.HANGING)).with(LanternBlock.WATERLOGGED, blockstate.get(LanternBlock.WATERLOGGED)));
+                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            }
+            else if (blockstate.isOf(AerialHellBlocks.RUBY_LANTERN))
+            {
+                world.setBlockState(pos, AerialHellBlocks.RUBY_CRYSTALLIZED_LANTERN.getDefaultState().with(LanternBlock.HANGING, blockstate.get(LanternBlock.HANGING)).with(LanternBlock.WATERLOGGED, blockstate.get(LanternBlock.WATERLOGGED)));
+                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            }
+            else if (blockstate.isOf(AerialHellBlocks.VOLUCITE_LANTERN))
+            {
+                world.setBlockState(pos, AerialHellBlocks.VOLUCITE_CRYSTALLIZED_LANTERN.getDefaultState().with(LanternBlock.HANGING, blockstate.get(LanternBlock.HANGING)).with(LanternBlock.WATERLOGGED, blockstate.get(LanternBlock.WATERLOGGED)));
                 world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
             }
         }
