@@ -1,10 +1,12 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -39,7 +41,14 @@ public interface BeamAttackEntity
     void setBeamEndPos(Vec3 pos);
     void setPrevBeamEndPos(Vec3 pos);
 
-    void playBeamSound(boolean start);
+    default void makeBeamStartSound(int currentBeamingTime) {this.makeBeamSound(true, currentBeamingTime);}
+    default void makeBeamSound(int currentBeamingTime) {this.makeBeamSound(false, currentBeamingTime);}
+    default void makeBeamSound(boolean beamStart, int currentBeamingTime) {if (this.shouldPlayBeamSound(currentBeamingTime)) {this.playBeamSound(beamStart);}}
+    default void playBeamSound(boolean start) {this.getLevel().playSound(null, this.getSelf().getX(), this.getSelf().getY(), this.getSelf().getZ(), this.getBeamSound(start), this.getSelf().getSoundSource(), 0.5F, 1.0F);}
+    default boolean shouldPlayBeamSound(int currentBeamingTime) {return !this.isBeamSilent() && currentBeamingTime % this.getBeamSoundLength() == 0;}
+    default SoundEvent getBeamSound(boolean beamStart) {return beamStart ? AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_START.get() : AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOOP.get();}
+    default int getBeamSoundLength() {return 35;}
+    default boolean isBeamSilent() {return this.getSelf().isSilent();}
 
     default float getMaxBeamLength() {return 30.0F;}
     default Vec3 getBeamStartPos() {return this.getSelf().getEyePosition();}
@@ -47,7 +56,6 @@ public interface BeamAttackEntity
 
     default LivingEntity getTarget() {return this.getSelf().getTarget();}
     default LookControl getLookControl() {return this.getSelf().getLookControl();}
-    default boolean isSilent() {return this.getSelf().isSilent();}
     default void setNeedsSync() {this.getSelf().needsSync = true;}
     default Level getLevel() {return this.getSelf().level();}
 

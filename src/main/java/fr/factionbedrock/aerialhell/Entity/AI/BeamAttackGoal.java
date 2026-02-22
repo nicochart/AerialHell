@@ -62,8 +62,7 @@ public class BeamAttackGoal extends Goal
             this.entity.getLookControl().setLookAt(livingentity, 90.0F, 90.0F);
         }
 
-        if (!this.entity.isSilent()) {this.entity.playBeamSound(true);}
-
+        this.entity.makeBeamStartSound(this.currentBeamingTime);
         this.entity.setNeedsSync();
         this.entity.setBeamingTargetPosNeedsSync();
     }
@@ -85,7 +84,7 @@ public class BeamAttackGoal extends Goal
     @Override public void tick()
     {
         ++this.currentBeamingTime;
-        if (!this.entity.isSilent() && this.currentBeamingTime % 35 == 0) {this.entity.playBeamSound(false);}
+        this.entity.makeBeamSound(this.currentBeamingTime);
         LivingEntity livingentity = this.entity.getBeamAttackTarget();
         if (livingentity != null)
         {

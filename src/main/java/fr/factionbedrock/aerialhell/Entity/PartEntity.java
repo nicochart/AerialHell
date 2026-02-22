@@ -72,6 +72,8 @@ public class PartEntity extends Monster
 
     @Override public boolean isPickable() {return true;}
 
+    @Override public boolean isPushable() {return false;}
+
     public final boolean hurtPart(ServerLevel level, DamageSource source, float amount, boolean forceLocalDamage)
     {
         if (forceLocalDamage) {return super.hurtServer(level, source, amount);}
@@ -104,4 +106,6 @@ public class PartEntity extends Monster
     @Override public boolean causeFallDamage(double fallDistance, float damageMultiplier, DamageSource damageSource) {return false;}
 
     @Override public boolean isNoGravity() {return !this.isDeadOrDying();}
+
+    @Override public boolean isSilent() {return true;}
 }

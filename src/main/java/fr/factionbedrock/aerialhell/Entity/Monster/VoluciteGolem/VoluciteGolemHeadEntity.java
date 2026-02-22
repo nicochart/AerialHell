@@ -4,7 +4,6 @@ import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.PartEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -85,13 +84,14 @@ public class VoluciteGolemHeadEntity extends PartEntity implements BeamAttackEnt
     @Override public void onStartBeaming(int beamingDuration) {if (this.getOwner() != null) {this.getOwner().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, beamingDuration, 2, false, false));}}
     @Override public void onStopBeaming() {if (this.getOwner() != null) {this.getOwner().removeEffect(MobEffects.SLOWNESS);}}
 
+    @Override public boolean isBeamSilent() {return false;}
+
+
     @Override public void tick()
     {
         this.beamAttackTick();
         super.tick();
     }
-
-    @Override public void playBeamSound(boolean start) {this.playSound(start ? AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_START.get() : AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOOP.get(), 0.5F, 1.0F);}
 
     public static AttributeSupplier.Builder registerAttributes()
     {
