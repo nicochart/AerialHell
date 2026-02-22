@@ -1,9 +1,13 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
-import fr.factionbedrock.aerialhell.Entity.PartEntity;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -24,16 +28,22 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
+import java.util.Map;
+import java.util.function.Supplier;
 
-public class VoluciteGolemEntity extends AerialHellGolemEntity
+public class VoluciteGolemEntity extends AerialHellGolemEntity implements MasterPartEntity
 {
     private static final EntityDataAccessor<Integer> HEAD_ID = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.INT);
-    @Nullable private VoluciteGolemHeadEntity head;
+    private static final PartInfo HEAD_PART = new PartInfo(AerialHellEntities.VOLUCITE_GOLEM_HEAD.get(), "head", 1, HEAD_ID, new Vec3(0.0F, 2.15F, 0.0F));
+    @Nullable private PartEntity head;
     @Nullable private String headStringUUID;
     protected int ticksInInvalidSituation;
+
+    public Map<PartInfo, Supplier<PartEntity>> PARTS_MAP = Maps.newHashMap(ImmutableMap.of(HEAD_PART, () -> this.head));
 
     public VoluciteGolemEntity(EntityType<? extends Monster> type, Level level)
     {
@@ -48,41 +58,9 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         builder.define(HEAD_ID, 0);
     }
 
-    public void setHeadId(int headId) {this.entityData.set(HEAD_ID, headId);}
-    public int getHeadId() {return this.entityData.get(HEAD_ID);}
-    public boolean hasHeadId() {return this.entityData.get(HEAD_ID) != 0;}
-
-    @Nullable public VoluciteGolemHeadEntity getHead() //head is created server-side, so the client have null this.head by default. Synched head id allows to find the head on client side.
-    {
-        if (!this.hasHeadId()) {return null;}
-        else if (this.level().isClientSide()) //Client side
-        {
-            if (this.head != null && this.head.getId() == this.getHeadId()) //if client cached target exists & is valid (same id as synced id)
-            {
-                return this.head;
-            }
-            else //trying to update this.head
-            {
-                Entity entity = this.level().getEntity(this.getHeadId());
-                if (entity instanceof VoluciteGolemHeadEntity headEntity)
-                {
-                    this.head = headEntity;
-                    return headEntity;
-                }
-                else {return null;}
-            }
-        }
-        else //Server side
-        {
-            return this.head;
-        }
-    }
-
     @Override @Nullable public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficultyIn, EntitySpawnReason reason, @Nullable SpawnGroupData spawnDataIn)
     {
-        this.head = this.summonHead();
-        this.setHeadId(this.head.getId());
-        return spawnDataIn;
+        return this.onFinalizeSpawn(level, difficultyIn, reason, spawnDataIn);
     }
 
     @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_AMBIENT.get();}
@@ -101,149 +79,73 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
 
     @Override public final boolean hurtServer(ServerLevel level, DamageSource source, float amount)
     {
-        boolean damaged = super.hurtServer(level, source, amount);
-        if (damaged && this.isDeadOrDying()) {this.onHurtCausingDeath();}
-        else if (damaged)
-        {
-            //attacking other parts just for attack animation (red overlay)
-            falseAttackForRedAnimation(this.head, level, source);
-        }
-        return damaged;
-    }
-
-    private void onHurtCausingDeath()
-    {
-        if (this.head != null)
-        {
-            this.head.setBeamingPhaseToOff();
-            this.head.killPart();
-        }
-    }
-
-    private static void falseAttackForRedAnimation(@Nullable PartEntity part, ServerLevel level, DamageSource source)
-    {
-        if (part != null)
-        {
-            part.hurtPart(level, source, 0.5F, true);
-            part.heal(0.5F);
-        }
-    }
-
-    private void resetSelf()
-    {
-        if (this.level() instanceof ServerLevel serverLevel)
-        {
-            VoluciteGolemEntity entity = AerialHellEntities.VOLUCITE_GOLEM.get().spawn(serverLevel, this.blockPosition(), EntitySpawnReason.NATURAL);
-            entity.snapTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
-        }
-        if (this.head != null) {this.head.setRemoved(RemovalReason.DISCARDED);}
-        this.setRemoved(RemovalReason.DISCARDED);
-    }
-
-    private VoluciteGolemHeadEntity summonHead()
-    {
-        float yOffset = 2.15F;
-        VoluciteGolemHeadEntity entity = AerialHellEntities.VOLUCITE_GOLEM_HEAD.get().create(this.level(), EntitySpawnReason.NATURAL);
-        if (entity != null)
-        {
-            if (this.isPersistenceRequired()) {entity.setPersistenceRequired();}
-            entity.setCustomName(this.getCustomName());
-            entity.setInvulnerable(this.isInvulnerable());
-            entity.setOwner(this);
-            entity.snapTo(this.getX(), this.getY() + yOffset, this.getZ(), this.getYRot(), this.getXRot());
-            this.level().addFreshEntity(entity);
-        }
-        return entity;
+        boolean superDamaged = super.hurtServer(level, source, amount);
+        this.onHurtServer(superDamaged, level, source, amount);
+        return superDamaged;
     }
 
     @Override public void tick()
     {
         super.tick();
-        if (this.getHead() == null)
-        {
-            this.ticksInInvalidSituation++;
-            this.tryToFindBackHead();
-            if (ticksInInvalidSituation > 5) //should not happen if head is not removed or if the uuid changed (if the entity is loaded from a structure nbt for example)
-            {
-                this.resetSelf();
-            }
-        }
-        else {this.ticksInInvalidSituation = 0;}
-    }
-
-    private void tryToFindBackHead()
-    {
-        this.head = this.getHeadByUUID(this.headStringUUID);
-        if (this.head != null)
-        {
-            this.setHeadId(this.head.getId());
-            this.head.setOwner(this);
-        }
-    }
-
-    @Nullable public VoluciteGolemHeadEntity getHeadByUUID(@Nullable String stringUUID)
-    {
-        if (stringUUID == null) {return null;}
-
-        Entity entity = this.level().getEntity(UUID.fromString(stringUUID));
-        return entity instanceof VoluciteGolemHeadEntity foundHead ? foundHead : null;
+        this.onTick();
     }
 
     @Override public void aiStep()
     {
         super.aiStep();
-        this.tickHeadRotation();
+        this.onAiStep();
     }
 
-    private void tickHeadRotation()
+    @Override public void tickPartRotation(PartInfo partInfo, @NotNull PartEntity partEntity)
     {
-        if (this.head == null) {return;}
-        if (!this.head.isBeaming())
+        if (partInfo == HEAD_PART && partEntity instanceof VoluciteGolemHeadEntity headPart)
         {
-            this.head.yBodyRotO = this.head.yBodyRot;
-            this.head.yBodyRot = this.yHeadRot; //the whole "body" is head
-            this.head.yHeadRotO = this.head.yHeadRot;
-            this.head.yHeadRot = this.yHeadRot;
-            this.head.setXRot(this.getXRot());
-            this.head.setYRot(this.getYRot());
-        }
-        else
-        {
-            float xRot = 0.0F;
-            if (this.head.getBeamTargetPos() != null)
+            if (!headPart.isBeaming())
             {
-                double x = this.head.getX(), y = this.getEyeY(), z = this.head.getZ();
-                double tx = this.head.getBeamTargetPos().x, ty = this.head.getBeamTargetPos().y, tz = this.head.getBeamTargetPos().z;
-                double dx = x - tx;
-                double dy = y - ty;
-                double dz = z - tz;
-                double xzDistance = Math.sqrt(dx * dx + dz * dz);
-                xRot = (float)(Math.atan2(dy, xzDistance) * (180F / Math.PI));
+                headPart.yBodyRotO = headPart.yBodyRot;
+                headPart.yBodyRot = this.yHeadRot; //the whole "body" is head
+                headPart.yHeadRotO = headPart.yHeadRot;
+                headPart.yHeadRot = this.yHeadRot;
+                headPart.setXRot(this.getXRot());
+                headPart.setYRot(this.getYRot());
             }
+            else
+            {
+                float xRot = 0.0F;
+                if (headPart.getBeamTargetPos() != null)
+                {
+                    double x = headPart.getX(), y = this.getEyeY(), z = headPart.getZ();
+                    double tx = headPart.getBeamTargetPos().x, ty = headPart.getBeamTargetPos().y, tz = headPart.getBeamTargetPos().z;
+                    double dx = x - tx;
+                    double dy = y - ty;
+                    double dz = z - tz;
+                    double xzDistance = Math.sqrt(dx * dx + dz * dz);
+                    xRot = (float)(Math.atan2(dy, xzDistance) * (180F / Math.PI));
+                }
 
-            this.head.yBodyRot = this.head.yHeadRot;
-            this.head.setXRot(xRot);
-            this.head.setYRot(this.head.yHeadRot);
+                headPart.yBodyRot = headPart.yHeadRot;
+                headPart.setXRot(xRot);
+                headPart.setYRot(headPart.yHeadRot);
+            }
         }
     }
 
     @Override public void setPos(double x, double y, double z)
     {
-        float yOffset = 2.15F;
         super.setPos(x, y, z);
-        if (this.head != null) {this.head.setPos(x, y + yOffset, z);}
+        this.onSetPos(x, y, z);
     }
 
     @Override public void setXRot(float xRot)
     {
         super.setXRot(xRot);
-        if (this.head != null) {this.head.setXRot(xRot);}
+        this.onSetXRot(xRot);
     }
 
     @Override public void setYRot(float yRot)
     {
         super.setYRot(yRot);
-        if (this.head != null) {this.head.setXRot(yRot);}
+        this.onSetYRot(yRot);
     }
 
     @Override protected void registerGoals()
@@ -262,35 +164,49 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
     @Override public void addAdditionalSaveData(ValueOutput valueOutput)
     {
         super.addAdditionalSaveData(valueOutput);
-        if (this.head != null)
-        {
-            valueOutput.putString("head_uuid", this.head.getStringUUID());
-        }
+        this.onAddAdditionalSaveData(valueOutput);
     }
 
     @Override public void readAdditionalSaveData(ValueInput valueInput)
     {
         super.readAdditionalSaveData(valueInput);
-        if (valueInput.getString("head_uuid").isPresent())
-        {
-            this.headStringUUID = valueInput.getString("head_uuid").get();
-        }
+        this.onReadAdditionalSaveData(valueInput);
     }
 
     @Override public void push(Entity other)
     {
-        if (other.is(this)) {return;}
+        if (!canBePushedBy(other)) {return;}
         super.push(other);
     }
 
-    @Override public boolean is(Entity other)
-    {
-        return super.is(other) || other == this.head;
-    }
+    @Override public boolean is(Entity other) {return super.is(other) || this.isChildPart(other);}
 
     @Override public double getEyeY() {return this.position().y + 2.40F;}
 
     @Override public float getYMotionOnAttack() {return 0.4F;}
     @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
 	@Override public boolean updateTargetOnHurtByLivingEntity() {return true;}
+
+    @Override public Map<PartInfo, Supplier<PartEntity>> getAllParts() {return this.PARTS_MAP;}
+
+    @Override public String getPartStringUUID(PartInfo part)
+    {
+        if (part == HEAD_PART) {return this.headStringUUID;}
+        else {return "null";}
+    }
+
+    @Override public void setPartStringUUID(PartInfo part, String uuid)
+    {
+        if (part == HEAD_PART) {this.headStringUUID = uuid;}
+    }
+
+    @Override public int getTicksInInvalidSituation() {return this.ticksInInvalidSituation;}
+    @Override public void setTickInInvalidSituation(int newValue) {this.ticksInInvalidSituation = newValue;}
+
+    @Override public Mob getSelf() {return this;}
+
+    @Override public void setPartRaw(PartInfo partInfo, PartEntity part)
+    {
+        if (partInfo == HEAD_PART) {this.head = part;}
+    }
 }

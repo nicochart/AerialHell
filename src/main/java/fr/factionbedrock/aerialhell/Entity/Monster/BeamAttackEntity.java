@@ -1,30 +1,24 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
+import fr.factionbedrock.aerialhell.Entity.BaseMobEntityInterface;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
-public interface BeamAttackEntity
+public interface BeamAttackEntity extends BaseMobEntityInterface
 {
-    Mob getSelf();
-
-    SynchedEntityData getEntityData();
     EntityDataAccessor<Integer> getBeamTargetEntityIdData();
     EntityDataAccessor<Integer> getBeamingPhaseData();
     EntityDataAccessor<Boolean> getBeamTargetPosNeedsSyncData();
@@ -44,7 +38,7 @@ public interface BeamAttackEntity
     default void makeBeamStartSound(int currentBeamingTime) {this.makeBeamSound(true, currentBeamingTime);}
     default void makeBeamSound(int currentBeamingTime) {this.makeBeamSound(false, currentBeamingTime);}
     default void makeBeamSound(boolean beamStart, int currentBeamingTime) {if (this.shouldPlayBeamSound(currentBeamingTime)) {this.playBeamSound(beamStart);}}
-    default void playBeamSound(boolean start) {this.getLevel().playSound(null, this.getSelf().getX(), this.getSelf().getY(), this.getSelf().getZ(), this.getBeamSound(start), this.getSelf().getSoundSource(), 0.5F, 1.0F);}
+    default void playBeamSound(boolean start) {this.getLevel().playSound(null, this.getX(), this.getY(), this.getZ(), this.getBeamSound(start), this.getSelf().getSoundSource(), 0.5F, 1.0F);}
     default boolean shouldPlayBeamSound(int currentBeamingTime) {return !this.isBeamSilent() && currentBeamingTime % this.getBeamSoundLength() == 0;}
     default SoundEvent getBeamSound(boolean beamStart) {return beamStart ? AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_START.get() : AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOOP.get();}
     default int getBeamSoundLength() {return 35;}
@@ -53,11 +47,6 @@ public interface BeamAttackEntity
     default float getMaxBeamLength() {return 30.0F;}
     default Vec3 getBeamStartPos() {return this.getSelf().getEyePosition();}
     default Vec3 getBeamTargetPosOffset(Entity target) {return new Vec3(0, target.getBoundingBox().getYsize() * 0.75F, 0);}
-
-    default LivingEntity getTarget() {return this.getSelf().getTarget();}
-    default LookControl getLookControl() {return this.getSelf().getLookControl();}
-    default void setNeedsSync() {this.getSelf().needsSync = true;}
-    default Level getLevel() {return this.getSelf().level();}
 
     default int getBeamTargetEntityId() {return this.getEntityData().get(this.getBeamTargetEntityIdData());}
     default boolean hasBeamTargetEntityId() {return this.getEntityData().get(this.getBeamTargetEntityIdData()) != 0;}

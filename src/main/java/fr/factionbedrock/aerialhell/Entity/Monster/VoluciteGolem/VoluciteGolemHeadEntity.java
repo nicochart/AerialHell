@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
-import fr.factionbedrock.aerialhell.Entity.PartEntity;
+import fr.factionbedrock.aerialhell.Entity.BaseChildPartEntity;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -22,7 +22,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
-public class VoluciteGolemHeadEntity extends PartEntity implements BeamAttackEntity
+public class VoluciteGolemHeadEntity extends BaseChildPartEntity implements BeamAttackEntity
 {
     public static final float MAX_BEAM_LENGTH = 30.0F;
     public static final int BEAMING_LOAD_DURATION = 35;
@@ -43,7 +43,7 @@ public class VoluciteGolemHeadEntity extends PartEntity implements BeamAttackEnt
         super(type, level);
     }
 
-    @Override @Nullable public VoluciteGolemEntity getOwner() {return (VoluciteGolemEntity) super.getOwner();}
+    @Override @Nullable public VoluciteGolemEntity getMaster() {return (VoluciteGolemEntity) super.getMaster();}
 
     @Override protected void registerGoals()
     {
@@ -78,14 +78,18 @@ public class VoluciteGolemHeadEntity extends PartEntity implements BeamAttackEnt
     @Override public Mob getSelf() {return this;}
 
     //@Override public Vec3 getBeamStartPos() {return this.getEyePosition().add(0.0F, -1.0F, 0.0F);} moves the server-side beam but not the render, due to eyeHeight hard-coded usage in render
-    @Override public boolean canBeamHitEntity(LivingEntity entity) {return this.getOwner() != null && !this.getOwner().is(entity);}
+    @Override public boolean canBeamHitEntity(LivingEntity entity) {return this.getMaster() != null && !this.getMaster().is(entity);}
     @Override public Entity getImmediateBeamSource() {return this;}
-    @Override public Entity getTrueBeamSource() {return this.getOwner() != null ? this.getOwner() : this;}
-    @Override public void onStartBeaming(int beamingDuration) {if (this.getOwner() != null) {this.getOwner().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, beamingDuration, 2, false, false));}}
-    @Override public void onStopBeaming() {if (this.getOwner() != null) {this.getOwner().removeEffect(MobEffects.SLOWNESS);}}
+    @Override public Entity getTrueBeamSource() {return this.getMaster() != null ? this.getMaster() : this;}
+    @Override public void onStartBeaming(int beamingDuration) {if (this.getMaster() != null) {this.getMaster().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, beamingDuration, 2, false, false));}}
+    @Override public void onStopBeaming() {if (this.getMaster() != null) {this.getMaster().removeEffect(MobEffects.SLOWNESS);}}
 
     @Override public boolean isBeamSilent() {return false;}
 
+    @Override public void onPartDeath()
+    {
+        this.setBeamingPhaseToOff();
+    }
 
     @Override public void tick()
     {

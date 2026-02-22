@@ -41,7 +41,7 @@ public class VoluciteGolemHeadRender extends MobRenderer<VoluciteGolemHeadEntity
     @Override public void extractRenderState(VoluciteGolemHeadEntity entity, VoluciteGolemRenderState renderState, float partialTick)
     {
         super.extractRenderState(entity, renderState, partialTick);
-        renderState.attackTimer = entity.getOwner() != null ? entity.getOwner().attackTimer : 0;
+        renderState.attackTimer = entity.getMaster() != null ? entity.getMaster().attackTimer : 0;
         renderState.eyePosition = entity.getEyePosition(partialTick);
 
         LivingEntity target = entity.getBeamAttackTarget();
