@@ -209,8 +209,20 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity
         }
         else
         {
+            float xRot = 0.0F;
+            if (this.head.getBeamTargetPos() != null)
+            {
+                double x = this.head.getX(), y = this.getEyeY(), z = this.head.getZ();
+                double tx = this.head.getBeamTargetPos().x, ty = this.head.getBeamTargetPos().y, tz = this.head.getBeamTargetPos().z;
+                double dx = x - tx;
+                double dy = y - ty;
+                double dz = z - tz;
+                double xzDistance = Math.sqrt(dx * dx + dz * dz);
+                xRot = (float)(Math.atan2(dy, xzDistance) * (180F / Math.PI));
+            }
+
             this.head.yBodyRot = this.head.yHeadRot;
-            this.head.setXRot(0.0F);
+            this.head.setXRot(xRot);
             this.head.setYRot(this.head.yHeadRot);
         }
     }
