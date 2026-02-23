@@ -241,7 +241,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     {
         if (part != null)
         {
-            part.hurtPart(level, source, 0.5F, true);
+            part.doHurtServer(level, source, 0.5F, true);
             part.getSelf().heal(0.5F);
         }
     }

@@ -64,7 +64,7 @@ public class BaseChildPartEntity extends Monster implements PartEntity
     @Override public void push(Entity other) {if (this.canPartBePushedBy(other)) {super.push(other);}}
     @Override public void tick() {this.onTick(); super.tick();}
 
-    @Override public final boolean hurtServer(ServerLevel level, DamageSource source, float amount) {return this.onHurtServer(level, source, amount);}
+    @Override public final boolean hurtServer(ServerLevel level, DamageSource source, float amount) {return this.doHurtServer(level, source, amount, false);}
 
     @Override public boolean is(Entity other) {return super.is(other) || this.recognizesPart(other);}
     /* ----------------------------------------------------------------------------------------- */

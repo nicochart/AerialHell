@@ -4,9 +4,13 @@ import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.BaseChildPartEntity;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -18,6 +22,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
@@ -44,6 +49,20 @@ public class VoluciteGolemHeadEntity extends BaseChildPartEntity implements Beam
     }
 
     @Override @Nullable public VoluciteGolemEntity getMaster() {return (VoluciteGolemEntity) super.getMaster();}
+
+    @Override public boolean doHurtServer(ServerLevel level, DamageSource source, float amount, boolean forceLocalDamage) {
+        boolean flag = super.doHurtServer(level, source, amount, forceLocalDamage) && this.updateTargetOnHurtByFarAwayLivingEntity();
+        if (flag)
+        {
+            Entity trueSourceEntity = source.getEntity();
+            if (trueSourceEntity instanceof LivingEntity && !EntityHelper.isCreativePlayer(trueSourceEntity) && this.distanceTo(trueSourceEntity) > 10)
+            {
+                System.out.println("Changing target !");
+                this.setTarget((LivingEntity) trueSourceEntity);
+            }
+        }
+        return flag;
+    }
 
     @Override protected void registerGoals()
     {
@@ -111,4 +130,6 @@ public class VoluciteGolemHeadEntity extends BaseChildPartEntity implements Beam
     @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
 
     @Override public void knockback(double strength, double x, double z) {}
+
+    public boolean updateTargetOnHurtByFarAwayLivingEntity() {return true;}
 }

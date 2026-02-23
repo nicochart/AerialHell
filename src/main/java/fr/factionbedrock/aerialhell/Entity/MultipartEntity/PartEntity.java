@@ -51,12 +51,14 @@ public interface PartEntity extends BaseMobEntityInterface
         else {this.resetTicksInInvalidSituation();}
     }
 
-    default boolean onHurtServer(ServerLevel level, DamageSource source, float amount) //replace super.hurtServer(level, source, amount) call by this call (do not call super!)
+    default boolean doHurtServer(ServerLevel level, DamageSource source, float amount, boolean forceLocalDamage) //replace super.hurtServer(level, source, amount) call by this call with false "forceLocalDamage" (do not call super!)
     {
-        MasterPartEntity master = this.getMasterRaw();
-        if (master == null || master.getSelf().isDeadOrDying()) {return this.superHurtServer(level, source, amount);}
-        if (this.isInvulnerable()) {return false;}
-        return this.isPartInvulnerableToBase(source) ? false : master.getSelf().hurtServer(level, source, amount);
+        if (forceLocalDamage) {return this.superHurtServer(level, source, amount);}
+        else
+        {
+            if (this.isInvulnerable() || this.isPartInvulnerableToBase(source)) {return false;}
+            return this.tryRedirectHurtServerToMaster(level, source, amount);
+        }
     }
 
     default boolean canPartBePushedBy(Entity other) //call as condition in push(entity)
@@ -99,14 +101,15 @@ public interface PartEntity extends BaseMobEntityInterface
         this.onPartDeath();
         if (this.getLevel() instanceof ServerLevel serverLevel)
         {
-            this.hurtPart(serverLevel, this.getSelf().damageSources().fellOutOfWorld(), this.getSelf().getMaxHealth(), true);
+            this.doHurtServer(serverLevel, this.getSelf().damageSources().fellOutOfWorld(), this.getSelf().getMaxHealth(), true);
         }
     }
 
-    default boolean hurtPart(ServerLevel level, DamageSource source, float amount, boolean forceLocalDamage)
+    default boolean tryRedirectHurtServerToMaster(ServerLevel level, DamageSource source, float amount)
     {
-        if (forceLocalDamage) {return this.superHurtServer(level, source, amount);}
-        else {return this.onHurtServer(level, source, amount);}
+        MasterPartEntity master = this.getMasterRaw();
+        if (master == null || master.getSelf().isDeadOrDying()) {return this.doHurtServer(level, source, amount, true);} //if master can't receive hurtServer, hurt part instead
+        return master.getSelf().hurtServer(level, source, amount);
     }
 
     @Nullable default MasterPartEntity getMasterByID()
