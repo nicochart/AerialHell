@@ -23,6 +23,11 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 {
     int MAX_TICKS_IN_INVALID_SITUATION = 5;
 
+    /* ---------------------------------------------------- */
+    /* ---------- Methods needing implementation ---------- */
+    /* ---------------------------------------------------- */
+    //You will also need to implement getSelf() from BaseEntityInterface
+
     Map<PartInfo, Supplier<PartEntity>> getAllParts();
 
     void tickPartRotation(PartInfo partInfo, @NotNull PartEntity partEntity);
@@ -32,15 +37,19 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     int getTicksInInvalidSituation();
     void setTickInInvalidSituation(int newValue);
-    default void incrementTicksInInvalidSituation() {this.setTickInInvalidSituation(this.getTicksInInvalidSituation() + 1);}
-    default void resetTicksInInvalidSituation() {this.setTickInInvalidSituation(0);}
-
-    default int getPartEntityId(PartInfo part) {return this.getEntityData().get(part.getIdData());}
-    default boolean hasPartEntityId(PartInfo part) {return this.getPartEntityId(part) != 0;}
-    default void setPartEntityId(PartInfo part, int entityId) {this.getEntityData().set(part.getIdData(), entityId);}
 
     void setPartRaw(PartInfo partInfo, PartEntity part);
-    default PartEntity getPartRaw(PartInfo partInfo) {return this.getAllParts().get(partInfo).get();}
+    /* ---------------------------------------------------- */
+    /* ---------------------------------------------------- */
+    /* ---------------------------------------------------- */
+
+    /* ----------------------------------------------- */
+    /* -------- Delegate methods needing call -------- */
+    /* ----------------------------------------------- */
+    default void initMaster() //call in constructor
+    {
+        this.resetTicksInInvalidSituation();
+    }
 
     default void onTick() //call in tick()
     {
@@ -66,26 +75,6 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         else {this.resetTicksInInvalidSituation();}
     }
 
-    private boolean tryToFindBackPart(PartInfo partInfo)
-    {
-        this.setPartRaw(partInfo, this.getHeadByUUID(this.getPartStringUUID(partInfo)));
-        if (this.getPartRaw(partInfo) != null)
-        {
-            this.setPartEntityId(partInfo, this.getPartRaw(partInfo).getId());
-            this.getPartRaw(partInfo).setMaster(this);
-            return true; //return true if part is found
-        }
-        return false; //return false if part is still not found
-    }
-
-    @Nullable default PartEntity getHeadByUUID(@Nullable String stringUUID)
-    {
-        if (stringUUID == null) {return null;}
-
-        Entity entity = this.getLevel().getEntity(UUID.fromString(stringUUID));
-        return entity instanceof PartEntity foundPart ? foundPart : null;
-    }
-
     default void onHurtServer(boolean superDamaged, ServerLevel level, DamageSource source, float amount) //call in hurtServer(level, source, amount)
     {
         if (superDamaged && this.getSelf().isDeadOrDying()) {this.onHurtCausingDeath();}
@@ -97,45 +86,6 @@ public interface MasterPartEntity extends BaseMobEntityInterface
                 falseAttackForRedAnimation(part.get(), level, source);
             }
         }
-    }
-
-    private void onHurtCausingDeath()
-    {
-        //kill other parts
-        for (Supplier<PartEntity> partSupplier : this.getAllParts().values())
-        {
-            PartEntity part = partSupplier.get();
-            if (part != null)
-            {
-                partSupplier.get().killPart();
-            }
-        }
-    }
-
-    private static void falseAttackForRedAnimation(@Nullable PartEntity part, ServerLevel level, DamageSource source)
-    {
-        if (part != null)
-        {
-            part.hurtPart(level, source, 0.5F, true);
-            part.getSelf().heal(0.5F);
-        }
-    }
-
-    default void resetSelf()
-    {
-        if (this.getLevel() instanceof ServerLevel serverLevel)
-        {
-            Entity self = this.getSelf();
-            Entity entity = self.getType().spawn(serverLevel, this.getSelf().blockPosition(), EntitySpawnReason.NATURAL);
-            entity.snapTo(self.getX(), self.getY(), self.getZ(), self.getYRot(), self.getXRot());
-        }
-
-        for (Supplier<PartEntity> partSupplier : this.getAllParts().values())
-        {
-            PartEntity part = partSupplier.get();
-            if (part != null) {part.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);}
-        }
-        this.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);
     }
 
     @Nullable default SpawnGroupData onFinalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData spawnData) //call in finalizeSpawn(level, difficulty, reason, spawnData)
@@ -150,51 +100,6 @@ public interface MasterPartEntity extends BaseMobEntityInterface
             }
         }
         return spawnData;
-    }
-
-    default PartEntity summonPart(PartInfo part)
-    {
-        Mob master = this.getSelf();
-        Entity entity = part.getType().create(this.getLevel(), EntitySpawnReason.NATURAL);
-        if (entity instanceof PartEntity summonedPart)
-        {
-            if (master.isPersistenceRequired() && summonedPart instanceof Mob mobEntity) {mobEntity.setPersistenceRequired();}
-            summonedPart.setCustomName(master.getCustomName());
-            summonedPart.setInvulnerable(master.isInvulnerable());
-            summonedPart.setMaster(this);
-            summonedPart.getSelf().snapTo(this.getX() + part.getRelativePositionOffset().x, this.getY() + part.getRelativePositionOffset().y, this.getZ() + part.getRelativePositionOffset().z, this.getSelf().getYRot(), this.getSelf().getXRot());
-            this.getLevel().addFreshEntity(summonedPart.getSelf());
-            return summonedPart;
-        }
-        else {return null;}
-    }
-
-    @Nullable default PartEntity syncPart(PartInfo partInfo)
-    {
-        int partId = this.getPartEntityId(partInfo);
-        if (!this.hasPartEntityId(partInfo)) {return null;}
-        else if (this.getLevel().isClientSide()) //Client side
-        {
-            PartEntity currentPart = this.getPartRaw(partInfo);
-            if (currentPart != null && currentPart.getId() == partId) //if client cached target exists & is valid (same id as synced id)
-            {
-                return currentPart;
-            }
-            else //trying to update part
-            {
-                Entity entity = this.getLevel().getEntity(partId);
-                if (entity instanceof PartEntity partEntity)
-                {
-                    this.setPartRaw(partInfo, partEntity);
-                    return partEntity;
-                }
-                else {return null;}
-            }
-        }
-        else //Server side
-        {
-            return getPartRaw(partInfo);
-        }
     }
 
     default void onAiStep() //call in aiStep()
@@ -272,4 +177,126 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     {
         return potentialChild instanceof PartEntity partEntity && partEntity.isPartOf(this.getSelf());
     }
+    /* ----------------------------------------------- */
+    /* ----------------------------------------------- */
+    /* ----------------------------------------------- */
+
+    /* ----------------------------------------------------------- */
+    /* -------- Other utility methods (for the interface) -------- */
+    /* ----------------------------------------------------------- */
+    default PartEntity getPartRaw(PartInfo partInfo) {return this.getAllParts().get(partInfo).get();}
+
+    default void incrementTicksInInvalidSituation() {this.setTickInInvalidSituation(this.getTicksInInvalidSituation() + 1);}
+    default void resetTicksInInvalidSituation() {this.setTickInInvalidSituation(0);}
+
+    default int getPartEntityId(PartInfo part) {return this.getEntityData().get(part.getIdData());}
+    default boolean hasPartEntityId(PartInfo part) {return this.getPartEntityId(part) != 0;}
+    default void setPartEntityId(PartInfo part, int entityId) {this.getEntityData().set(part.getIdData(), entityId);}
+
+    private boolean tryToFindBackPart(PartInfo partInfo)
+    {
+        this.setPartRaw(partInfo, this.getHeadByUUID(this.getPartStringUUID(partInfo)));
+        if (this.getPartRaw(partInfo) != null)
+        {
+            this.setPartEntityId(partInfo, this.getPartRaw(partInfo).getId());
+            this.getPartRaw(partInfo).setMaster(this);
+            return true; //return true if part is found
+        }
+        return false; //return false if part is still not found
+    }
+
+    @Nullable default PartEntity getHeadByUUID(@Nullable String stringUUID)
+    {
+        if (stringUUID == null) {return null;}
+
+        Entity entity = this.getLevel().getEntity(UUID.fromString(stringUUID));
+        return entity instanceof PartEntity foundPart ? foundPart : null;
+    }
+
+    private void onHurtCausingDeath()
+    {
+        //kill other parts
+        for (Supplier<PartEntity> partSupplier : this.getAllParts().values())
+        {
+            PartEntity part = partSupplier.get();
+            if (part != null)
+            {
+                partSupplier.get().killPart();
+            }
+        }
+    }
+
+    private static void falseAttackForRedAnimation(@Nullable PartEntity part, ServerLevel level, DamageSource source)
+    {
+        if (part != null)
+        {
+            part.hurtPart(level, source, 0.5F, true);
+            part.getSelf().heal(0.5F);
+        }
+    }
+
+    default void resetSelf()
+    {
+        if (this.getLevel() instanceof ServerLevel serverLevel)
+        {
+            Entity self = this.getSelf();
+            Entity entity = self.getType().spawn(serverLevel, this.getSelf().blockPosition(), EntitySpawnReason.NATURAL);
+            entity.snapTo(self.getX(), self.getY(), self.getZ(), self.getYRot(), self.getXRot());
+        }
+
+        for (Supplier<PartEntity> partSupplier : this.getAllParts().values())
+        {
+            PartEntity part = partSupplier.get();
+            if (part != null) {part.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);}
+        }
+        this.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);
+    }
+
+    default PartEntity summonPart(PartInfo part)
+    {
+        Mob master = this.getSelf();
+        Entity entity = part.getType().create(this.getLevel(), EntitySpawnReason.NATURAL);
+        if (entity instanceof PartEntity summonedPart)
+        {
+            if (master.isPersistenceRequired() && summonedPart instanceof Mob mobEntity) {mobEntity.setPersistenceRequired();}
+            summonedPart.setCustomName(master.getCustomName());
+            summonedPart.setInvulnerable(master.isInvulnerable());
+            summonedPart.setMaster(this);
+            summonedPart.getSelf().snapTo(this.getX() + part.getRelativePositionOffset().x, this.getY() + part.getRelativePositionOffset().y, this.getZ() + part.getRelativePositionOffset().z, this.getSelf().getYRot(), this.getSelf().getXRot());
+            this.getLevel().addFreshEntity(summonedPart.getSelf());
+            return summonedPart;
+        }
+        else {return null;}
+    }
+
+    @Nullable default PartEntity syncPart(PartInfo partInfo)
+    {
+        int partId = this.getPartEntityId(partInfo);
+        if (!this.hasPartEntityId(partInfo)) {return null;}
+        else if (this.getLevel().isClientSide()) //Client side
+        {
+            PartEntity currentPart = this.getPartRaw(partInfo);
+            if (currentPart != null && currentPart.getId() == partId) //if client cached target exists & is valid (same id as synced id)
+            {
+                return currentPart;
+            }
+            else //trying to update part
+            {
+                Entity entity = this.getLevel().getEntity(partId);
+                if (entity instanceof PartEntity partEntity)
+                {
+                    this.setPartRaw(partInfo, partEntity);
+                    return partEntity;
+                }
+                else {return null;}
+            }
+        }
+        else //Server side
+        {
+            return getPartRaw(partInfo);
+        }
+    }
+    /* ----------------------------------------------------------- */
+    /* ----------------------------------------------------------- */
+    /* ----------------------------------------------------------- */
 }
