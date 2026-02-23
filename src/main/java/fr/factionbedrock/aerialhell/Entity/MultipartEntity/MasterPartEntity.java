@@ -166,7 +166,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         }
     }
 
-    default boolean partCanBePushedBy(Entity other) //call in push(entity) and it return false, do nothing
+    default boolean partCanBePushedBy(Entity other) //call in push(entity) and if return false, do nothing
     {
         return !other.is(this.getSelf());
     }
@@ -176,7 +176,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         if (!(potentialChild instanceof PartEntity)) {return false;}
         for (Supplier<PartEntity> partEntity : this.getAllParts().values())
         {
-            if (partEntity.get() != null && partEntity.get().is(potentialChild)) {return true;}
+            if (partEntity.get() != null && partEntity.get() == potentialChild) {return true;}
         }
         return false;
     }
