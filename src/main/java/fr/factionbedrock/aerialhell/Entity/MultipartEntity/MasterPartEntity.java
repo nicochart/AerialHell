@@ -113,7 +113,9 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     default void onSetPos(double x, double y, double z) //call in setPos(x, y, z)
     {
-        if (this.getAllParts() == null) {return;} //happens on entity creation
+        //do not try to set pos of another entity on client side. Let server side do.
+        //null getAllParts happens on entity creation (when constructor is called)
+        if (this.getLevel().isClientSide() || this.getAllParts() == null) {return;}
         for (Map.Entry<PartInfo, Supplier<PartEntity>> entry : this.getAllParts().entrySet())
         {
             PartInfo partInfo = entry.getKey(); PartEntity partEntity = entry.getValue().get();
@@ -127,7 +129,9 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     default void onSetXRot(float xRot) //call in setXRot(xRot)
     {
-        if (this.getAllParts() == null) {return;} //happens on entity creation
+        //do not try to set rotation of another entity on client side. Let server side do.
+        //null getAllParts happens on entity creation (when constructor is called)
+        if (this.getLevel().isClientSide() || this.getAllParts() == null) {return;}
         for (Map.Entry<PartInfo, Supplier<PartEntity>> entry : this.getAllParts().entrySet())
         {
             PartInfo partInfo = entry.getKey(); PartEntity partEntity = entry.getValue().get();
@@ -137,7 +141,9 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     default void onSetYRot(float yRot) //call in setYRot(yRot)
     {
-        if (this.getAllParts() == null) {return;} //happens on entity creation
+        //do not try to set rotation of another entity on client side. Let server side do.
+        //null getAllParts happens on entity creation (when constructor is called)
+        if (this.getLevel().isClientSide() || this.getAllParts() == null) {return;}
         for (Map.Entry<PartInfo, Supplier<PartEntity>> entry : this.getAllParts().entrySet())
         {
             PartInfo partInfo = entry.getKey(); PartEntity partEntity = entry.getValue().get();
