@@ -119,61 +119,61 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     /* ----------------------------------------------------------------------------------------------- */
     @Override @Nullable public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficultyIn, EntitySpawnReason reason, @Nullable SpawnGroupData spawnDataIn)
     {
-        return this.onFinalizeSpawn(level, difficultyIn, reason, spawnDataIn);
+        return this.finalizePartSpawn(level, difficultyIn, reason, spawnDataIn);
     }
 
     @Override public final boolean hurtServer(ServerLevel level, DamageSource source, float amount)
     {
         boolean superDamaged = super.hurtServer(level, source, amount);
-        this.onHurtServer(superDamaged, level, source, amount);
+        this.partHurtServer(superDamaged, level, source, amount);
         return superDamaged;
     }
 
     @Override public void tick()
     {
         super.tick();
-        this.onTick();
+        this.partEntityTick();
     }
 
     @Override public void aiStep()
     {
         super.aiStep();
-        this.onAiStep();
+        this.partAiStep();
     }
 
     @Override public void setPos(double x, double y, double z)
     {
         super.setPos(x, y, z);
-        this.onSetPos(x, y, z);
+        this.setPartsPos(x, y, z);
     }
 
     @Override public void setXRot(float xRot)
     {
         super.setXRot(xRot);
-        this.onSetXRot(xRot);
+        this.setPartsXRot(xRot);
     }
 
     @Override public void setYRot(float yRot)
     {
         super.setYRot(yRot);
-        this.onSetYRot(yRot);
+        this.setPartsYRot(yRot);
     }
 
     @Override public void addAdditionalSaveData(ValueOutput valueOutput)
     {
         super.addAdditionalSaveData(valueOutput);
-        this.onAddAdditionalSaveData(valueOutput);
+        this.partAddAdditionalSaveData(valueOutput);
     }
 
     @Override public void readAdditionalSaveData(ValueInput valueInput)
     {
         super.readAdditionalSaveData(valueInput);
-        this.onReadAdditionalSaveData(valueInput);
+        this.partReadAdditionalSaveData(valueInput);
     }
 
     @Override public void push(Entity other)
     {
-        if (!this.canBePushedBy(other)) {return;}
+        if (!this.partCanBePushedBy(other)) {return;}
         super.push(other);
     }
 

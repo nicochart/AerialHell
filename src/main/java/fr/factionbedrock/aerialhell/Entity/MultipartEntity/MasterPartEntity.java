@@ -51,7 +51,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         this.resetTicksInInvalidSituation();
     }
 
-    default void onTick() //call in tick()
+    default void partEntityTick() //call in tick()
     {
         boolean onePartIsNotFount = false;
         for (PartInfo partInfo : this.getAllParts().keySet())
@@ -75,7 +75,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         else {this.resetTicksInInvalidSituation();}
     }
 
-    default void onHurtServer(boolean superDamaged, ServerLevel level, DamageSource source, float amount) //call in hurtServer(level, source, amount)
+    default void partHurtServer(boolean superDamaged, ServerLevel level, DamageSource source, float amount) //call in hurtServer(level, source, amount)
     {
         if (superDamaged && this.getSelf().isDeadOrDying()) {this.onHurtCausingDeath();}
         else if (superDamaged)
@@ -88,21 +88,13 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         }
     }
 
-    @Nullable default SpawnGroupData onFinalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData spawnData) //call in finalizeSpawn(level, difficulty, reason, spawnData)
+    @Nullable default SpawnGroupData finalizePartSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData spawnData) //call in finalizeSpawn(level, difficulty, reason, spawnData)
     {
-        for (PartInfo partInfo : this.getAllParts().keySet())
-        {
-            PartEntity partEntity = this.summonPart(partInfo);
-            if (partEntity != null)
-            {
-                this.setPartRaw(partInfo, partEntity);
-                this.setPartEntityId(partInfo, partEntity.getId());
-            }
-        }
+        this.summonChildParts();
         return spawnData;
     }
 
-    default void onAiStep() //call in aiStep()
+    default void partAiStep() //call in aiStep()
     {
         for (Map.Entry<PartInfo, Supplier<PartEntity>> entry : this.getAllParts().entrySet())
         {
@@ -111,7 +103,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         }
     }
 
-    default void onSetPos(double x, double y, double z) //call in setPos(x, y, z)
+    default void setPartsPos(double x, double y, double z) //call in setPos(x, y, z)
     {
         //do not try to set pos of another entity on client side. Let server side do.
         //null getAllParts happens on entity creation (when constructor is called)
@@ -127,7 +119,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         }
     }
 
-    default void onSetXRot(float xRot) //call in setXRot(xRot)
+    default void setPartsXRot(float xRot) //call in setXRot(xRot)
     {
         //do not try to set rotation of another entity on client side. Let server side do.
         //null getAllParts happens on entity creation (when constructor is called)
@@ -139,7 +131,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         }
     }
 
-    default void onSetYRot(float yRot) //call in setYRot(yRot)
+    default void setPartsYRot(float yRot) //call in setYRot(yRot)
     {
         //do not try to set rotation of another entity on client side. Let server side do.
         //null getAllParts happens on entity creation (when constructor is called)
@@ -151,7 +143,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         }
     }
 
-    default void onAddAdditionalSaveData(ValueOutput valueOutput) //call in addAdditionalSaveData(valueOutput)
+    default void partAddAdditionalSaveData(ValueOutput valueOutput) //call in addAdditionalSaveData(valueOutput)
     {
         for (Map.Entry<PartInfo, Supplier<PartEntity>> entry : this.getAllParts().entrySet())
         {
@@ -163,7 +155,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         }
     }
 
-    default void onReadAdditionalSaveData(ValueInput valueInput) //call in readAdditionalSaveData(valueInput)
+    default void partReadAdditionalSaveData(ValueInput valueInput) //call in readAdditionalSaveData(valueInput)
     {
         for (PartInfo partInfo : this.getAllParts().keySet())
         {
@@ -174,7 +166,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         }
     }
 
-    default boolean canBePushedBy(Entity other) //call in push(entity)
+    default boolean partCanBePushedBy(Entity other) //call in push(entity) and it return false, do nothing
     {
         return !other.is(this.getSelf());
     }
@@ -241,7 +233,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     {
         if (part != null)
         {
-            part.doHurtServer(level, source, 0.5F, true);
+            part.partDoHurtServer(level, source, 0.5F, true);
             part.getSelf().heal(0.5F);
         }
     }
@@ -261,6 +253,19 @@ public interface MasterPartEntity extends BaseMobEntityInterface
             if (part != null) {part.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);}
         }
         this.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);
+    }
+
+    default void summonChildParts()
+    {
+        for (PartInfo partInfo : this.getAllParts().keySet())
+        {
+            PartEntity partEntity = this.summonPart(partInfo);
+            if (partEntity != null)
+            {
+                this.setPartRaw(partInfo, partEntity);
+                this.setPartEntityId(partInfo, partEntity.getId());
+            }
+        }
     }
 
     default PartEntity summonPart(PartInfo part)

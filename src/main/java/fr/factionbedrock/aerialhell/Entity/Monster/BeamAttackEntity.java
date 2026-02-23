@@ -19,6 +19,9 @@ import org.jspecify.annotations.Nullable;
 
 public interface BeamAttackEntity extends BaseMobEntityInterface
 {
+    /* ---------------------------------------------------- */
+    /* ---------- Methods needing implementation ---------- */
+    /* ---------------------------------------------------- */
     EntityDataAccessor<Integer> getBeamTargetEntityIdData();
     EntityDataAccessor<Integer> getBeamingPhaseData();
     EntityDataAccessor<Boolean> getBeamTargetPosNeedsSyncData();
@@ -34,68 +37,13 @@ public interface BeamAttackEntity extends BaseMobEntityInterface
     void setPrevBeamTargetPos(Vec3 pos);
     void setBeamEndPos(Vec3 pos);
     void setPrevBeamEndPos(Vec3 pos);
+    /* ---------------------------------------------------- */
+    /* ---------------------------------------------------- */
+    /* ---------------------------------------------------- */
 
-    default void makeBeamStartSound(int currentBeamingTime) {this.makeBeamSound(true, currentBeamingTime);}
-    default void makeBeamSound(int currentBeamingTime) {this.makeBeamSound(false, currentBeamingTime);}
-    default void makeBeamSound(boolean beamStart, int currentBeamingTime) {if (this.shouldPlayBeamSound(currentBeamingTime)) {this.playBeamSound(beamStart);}}
-    default void playBeamSound(boolean start) {this.getLevel().playSound(null, this.getX(), this.getY(), this.getZ(), this.getBeamSound(start), this.getSelf().getSoundSource(), 0.5F, 1.0F);}
-    default boolean shouldPlayBeamSound(int currentBeamingTime) {return !this.isBeamSilent() && currentBeamingTime % this.getBeamSoundLength() == 0;}
-    default SoundEvent getBeamSound(boolean beamStart) {return beamStart ? AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_START.get() : AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOOP.get();}
-    default int getBeamSoundLength() {return 35;}
-    default boolean isBeamSilent() {return this.getSelf().isSilent();}
-
-    default float getMaxBeamLength() {return 30.0F;}
-    default Vec3 getBeamStartPos() {return this.getSelf().getEyePosition();}
-    default Vec3 getBeamTargetPosOffset(Entity target) {return new Vec3(0, target.getBoundingBox().getYsize() * 0.75F, 0);}
-
-    default int getBeamTargetEntityId() {return this.getEntityData().get(this.getBeamTargetEntityIdData());}
-    default boolean hasBeamTargetEntityId() {return this.getEntityData().get(this.getBeamTargetEntityIdData()) != 0;}
-    default void setBeamTargetEntityId(int entityTargetId) {this.getEntityData().set(this.getBeamTargetEntityIdData(), entityTargetId);}
-    default boolean isBeaming() {return this.getEntityData().get(this.getBeamingPhaseData()) != 0;}
-    default int getBeamingPhase() {return this.getEntityData().get(this.getBeamingPhaseData());}
-    default void setBeamingPhase(int phaseId) {this.getEntityData().set(this.getBeamingPhaseData(), phaseId);}
-    default boolean beamingTargetPosNeedsSync() {return this.getEntityData().get(this.getBeamTargetPosNeedsSyncData());}
-    default void setBeamingTargetPosNeedsSync() {this.getEntityData().set(this.getBeamTargetPosNeedsSyncData(), true);}
-
-    default boolean canBeamHitEntity(LivingEntity entity) {return true;}
-    default Entity getImmediateBeamSource() {return this.getSelf();}
-    default Entity getTrueBeamSource() {return this.getSelf();}
-    default void onStartBeaming(int beamingDuration) {this.getSelf().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, beamingDuration, 2, false, false));}
-    default void onStopBeaming() {this.getSelf().removeEffect(MobEffects.SLOWNESS);}
-
-    @Nullable default LivingEntity getBeamAttackTarget() //must be client-server sync
-    {
-        if (!this.hasBeamTargetEntityId()) {return null;}
-        else if (this.getLevel().isClientSide()) //Client side
-        {
-            if (this.getClientSideCachedAttackTarget() != null && this.getClientSideCachedAttackTarget().getId() == this.getBeamTargetEntityId()) //if client cached target exists & is valid (same id as synced id)
-            {
-                return this.getClientSideCachedAttackTarget();
-            }
-            else //trying to update clientSideCachedAttackTarget
-            {
-                Entity entity = this.getLevel().getEntity(this.getBeamTargetEntityId());
-                if (entity instanceof LivingEntity livingEntity)
-                {
-                    this.setClientSideCachedAttackTarget(livingEntity);
-                    return this.getClientSideCachedAttackTarget();
-                }
-                else {return null;}
-            }
-        }
-        else //Server side
-        {
-            LivingEntity serverSideTarget = this.getTarget();
-            if (serverSideTarget == null) {return null;}
-
-            if (serverSideTarget.getId() != this.getBeamTargetEntityId()) //updating synced id if necessary
-            {
-                this.setBeamTargetEntityId(serverSideTarget.getId());
-            }
-            return serverSideTarget;
-        }
-    }
-
+    /* ----------------------------------------------- */
+    /* -------- Delegate methods needing call -------- */
+    /* ----------------------------------------------- */
     default void beamAttackTick() //call this in entity tick() method
     {
         boolean beamingSyncFlag = this.beamingTargetPosNeedsSync();
@@ -127,6 +75,84 @@ public interface BeamAttackEntity extends BaseMobEntityInterface
 
             this.updateBeamPositions();
             this.displayParticles();
+        }
+    }
+    /* ----------------------------------------------- */
+    /* ----------------------------------------------- */
+    /* ----------------------------------------------- */
+
+    /* ---------------------------------------------------------------------------- */
+    /* -------- Other methods to eventually override for specific behavior -------- */
+    /* ---------------------------------------------------------------------------- */
+    default SoundEvent getBeamSound(boolean beamStart) {return beamStart ? AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_START.get() : AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOOP.get();}
+    default int getBeamSoundLength() {return 35;}
+    default boolean isBeamSilent() {return this.getSelf().isSilent();}
+
+    default boolean canBeamHitEntity(LivingEntity entity) {return true;}
+    default Entity getImmediateBeamSource() {return this.getSelf();}
+    default Entity getTrueBeamSource() {return this.getSelf();}
+    default void onStartBeaming(int beamingDuration) {this.getSelf().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, beamingDuration, 2, false, false));}
+    default void onStopBeaming() {this.getSelf().removeEffect(MobEffects.SLOWNESS);}
+
+    default float getMaxBeamLength() {return 30.0F;}
+    default Vec3 getBeamStartPos() {return this.getSelf().getEyePosition();}
+    default Vec3 getBeamTargetPosOffset(Entity target) {return new Vec3(0, target.getBoundingBox().getYsize() * 0.75F, 0);}
+
+    @Nullable default ParticleOptions getBeamParticles()
+    {
+        if (this.isBeamingLoadingPhase() || this.isBeamingOffPhase()) {return null;}
+        return this.isBeamingNormalPhase() ? ParticleTypes.CRIMSON_SPORE : ParticleTypes.DUST_PLUME;
+    }
+    default float getParticleChance() {return 0.05F;}
+    /* ---------------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------------------- */
+
+    default void makeBeamStartSound(int currentBeamingTime) {this.makeBeamSound(true, currentBeamingTime);}
+    default void makeBeamSound(int currentBeamingTime) {this.makeBeamSound(false, currentBeamingTime);}
+    default void makeBeamSound(boolean beamStart, int currentBeamingTime) {if (this.shouldPlayBeamSound(currentBeamingTime)) {this.playBeamSound(beamStart);}}
+    default void playBeamSound(boolean start) {this.getLevel().playSound(null, this.getX(), this.getY(), this.getZ(), this.getBeamSound(start), this.getSelf().getSoundSource(), 0.5F, 1.0F);}
+    default boolean shouldPlayBeamSound(int currentBeamingTime) {return !this.isBeamSilent() && currentBeamingTime % this.getBeamSoundLength() == 0;}
+
+    default int getBeamTargetEntityId() {return this.getEntityData().get(this.getBeamTargetEntityIdData());}
+    default boolean hasBeamTargetEntityId() {return this.getEntityData().get(this.getBeamTargetEntityIdData()) != 0;}
+    default void setBeamTargetEntityId(int entityTargetId) {this.getEntityData().set(this.getBeamTargetEntityIdData(), entityTargetId);}
+    default boolean isBeaming() {return this.getEntityData().get(this.getBeamingPhaseData()) != 0;}
+    default int getBeamingPhase() {return this.getEntityData().get(this.getBeamingPhaseData());}
+    default void setBeamingPhase(int phaseId) {this.getEntityData().set(this.getBeamingPhaseData(), phaseId);}
+    default boolean beamingTargetPosNeedsSync() {return this.getEntityData().get(this.getBeamTargetPosNeedsSyncData());}
+    default void setBeamingTargetPosNeedsSync() {this.getEntityData().set(this.getBeamTargetPosNeedsSyncData(), true);}
+
+    @Nullable default LivingEntity getBeamAttackTarget() //must be client-server sync
+    {
+        if (!this.hasBeamTargetEntityId()) {return null;}
+        else if (this.getLevel().isClientSide()) //Client side
+        {
+            if (this.getClientSideCachedAttackTarget() != null && this.getClientSideCachedAttackTarget().getId() == this.getBeamTargetEntityId()) //if client cached target exists & is valid (same id as synced id)
+            {
+                return this.getClientSideCachedAttackTarget();
+            }
+            else //trying to update clientSideCachedAttackTarget
+            {
+                Entity entity = this.getLevel().getEntity(this.getBeamTargetEntityId());
+                if (entity instanceof LivingEntity livingEntity)
+                {
+                    this.setClientSideCachedAttackTarget(livingEntity);
+                    return this.getClientSideCachedAttackTarget();
+                }
+                else {return null;}
+            }
+        }
+        else //Server side
+        {
+            LivingEntity serverSideTarget = this.getTarget();
+            if (serverSideTarget == null) {return null;}
+
+            if (serverSideTarget.getId() != this.getBeamTargetEntityId()) //updating synced id if necessary
+            {
+                this.setBeamTargetEntityId(serverSideTarget.getId());
+            }
+            return serverSideTarget;
         }
     }
 
@@ -201,9 +227,10 @@ public interface BeamAttackEntity extends BaseMobEntityInterface
 
     private void displayParticles()
     {
-        if (!this.isBeamingLoadingPhase() && !this.isBeamingOffPhase() && this.getBeamEndPos() != null)
+        ParticleOptions type = this.getBeamParticles();
+        if (type != null && this.getBeamEndPos() != null)
         {
-            ParticleOptions type = this.isBeamingNormalPhase() ? ParticleTypes.CRIMSON_SPORE : ParticleTypes.DUST_PLUME;
+
             Vec3 beamStart = this.getBeamStartPos();
             Vec3 beamEnd = this.getBeamEndPos();
             Vec3 delta = beamEnd.subtract(beamStart);
@@ -214,7 +241,7 @@ public interface BeamAttackEntity extends BaseMobEntityInterface
             Vec3 direction = delta.normalize();
 
             double particleStep = 0.2D;
-            float chance = 0.05F;
+            float chance = this.getParticleChance();
 
             for (double traveled = 0.0D; traveled <= distance; traveled += particleStep)
             {

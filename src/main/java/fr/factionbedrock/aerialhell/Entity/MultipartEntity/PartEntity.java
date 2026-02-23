@@ -18,7 +18,7 @@ public interface PartEntity extends BaseMobEntityInterface
     /* ---------------------------------------------------- */
     //You will also need to implement getSelf() from BaseEntityInterface
 
-    boolean superHurtServer(ServerLevel level, DamageSource source, float amount); //override and return super.hurtServer(level, source, amount)
+    boolean partSuperHurtServer(ServerLevel level, DamageSource source, float amount); //override and return super.hurtServer(level, source, amount)
     boolean isPartInvulnerableToBase(DamageSource damageSource); //override and return super.isInvulnerableToBase(damageSource)
 
     EntityDataAccessor<Integer> getMasterIdData();
@@ -39,7 +39,7 @@ public interface PartEntity extends BaseMobEntityInterface
         this.resetTicksInInvalidSituation();
     }
 
-    default void onTick() //call in tick()
+    default void partEntityTick() //call in tick()
     {
         if (this.getMasterRaw() == null) {this.setMasterRaw(this.getMasterByID());}
         MasterPartEntity master = this.getMasterRaw();
@@ -51,9 +51,9 @@ public interface PartEntity extends BaseMobEntityInterface
         else {this.resetTicksInInvalidSituation();}
     }
 
-    default boolean doHurtServer(ServerLevel level, DamageSource source, float amount, boolean forceLocalDamage) //replace super.hurtServer(level, source, amount) call by this call with false "forceLocalDamage" (do not call super!)
+    default boolean partDoHurtServer(ServerLevel level, DamageSource source, float amount, boolean forceLocalDamage) //replace super.hurtServer(level, source, amount) call by this call with false "forceLocalDamage" (do not call super!)
     {
-        if (forceLocalDamage) {return this.superHurtServer(level, source, amount);}
+        if (forceLocalDamage) {return this.partSuperHurtServer(level, source, amount);}
         else
         {
             if (this.isInvulnerable() || this.isPartInvulnerableToBase(source)) {return false;}
@@ -101,14 +101,14 @@ public interface PartEntity extends BaseMobEntityInterface
         this.onPartDeath();
         if (this.getLevel() instanceof ServerLevel serverLevel)
         {
-            this.doHurtServer(serverLevel, this.getSelf().damageSources().fellOutOfWorld(), this.getSelf().getMaxHealth(), true);
+            this.partDoHurtServer(serverLevel, this.getSelf().damageSources().fellOutOfWorld(), this.getSelf().getMaxHealth(), true);
         }
     }
 
     default boolean tryRedirectHurtServerToMaster(ServerLevel level, DamageSource source, float amount)
     {
         MasterPartEntity master = this.getMasterRaw();
-        if (master == null || master.getSelf().isDeadOrDying()) {return this.doHurtServer(level, source, amount, true);} //if master can't receive hurtServer, hurt part instead
+        if (master == null || master.getSelf().isDeadOrDying()) {return this.partDoHurtServer(level, source, amount, true);} //if master can't receive hurtServer, hurt part instead
         return master.getSelf().hurtServer(level, source, amount);
     }
 
