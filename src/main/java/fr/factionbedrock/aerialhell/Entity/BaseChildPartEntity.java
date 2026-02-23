@@ -12,6 +12,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import org.jspecify.annotations.Nullable;
 
 public class BaseChildPartEntity extends Monster implements PartEntity
 {
@@ -49,7 +50,7 @@ public class BaseChildPartEntity extends Monster implements PartEntity
 
     @Override public EntityDataAccessor<Integer> getMasterIdData() {return MASTER_ID;}
     @Override public void setMasterRaw(MasterPartEntity master) {this.master = master;}
-    @Override public MasterPartEntity getMasterRaw() {return this.master;}
+    @Override @Nullable public MasterPartEntity getMasterRaw() {return this.master;}
 
     @Override public int getTicksInInvalidSituation() {return ticksInInvalidSituation;}
     @Override public void setTickInInvalidSituation(int newValue) {this.ticksInInvalidSituation = newValue;}
@@ -65,7 +66,7 @@ public class BaseChildPartEntity extends Monster implements PartEntity
 
     @Override public final boolean hurtServer(ServerLevel level, DamageSource source, float amount) {return this.onHurtServer(level, source, amount);}
 
-    @Override public boolean is(Entity other) {return this.isPartOf(other);}
+    @Override public boolean is(Entity other) {return super.is(other) || this.recognizesPart(other);}
     /* ----------------------------------------------------------------------------------------- */
     /* ----------------------------------------------------------------------------------------- */
     /* ----------------------------------------------------------------------------------------- */

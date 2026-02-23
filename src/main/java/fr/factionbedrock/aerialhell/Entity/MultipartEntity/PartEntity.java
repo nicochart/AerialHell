@@ -23,7 +23,7 @@ public interface PartEntity extends BaseMobEntityInterface
 
     EntityDataAccessor<Integer> getMasterIdData();
     void setMasterRaw(MasterPartEntity master);
-    MasterPartEntity getMasterRaw();
+    @Nullable MasterPartEntity getMasterRaw();
 
     int getTicksInInvalidSituation();
     void setTickInInvalidSituation(int newValue);
@@ -65,9 +65,10 @@ public interface PartEntity extends BaseMobEntityInterface
         return !other.is(this.getMaster().getSelf());
     }
 
-    default boolean isPartOf(Entity other) //call in is(entity)
+    default boolean recognizesPart(Entity other) //call in is(entity)
     {
-        return this.getSelf() == other || this.getMaster() == other;
+        if (this.getMaster() == null) {return false;}
+        return this.getMaster() == other || this.getMaster().recognizesChildPart(other);
     }
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */

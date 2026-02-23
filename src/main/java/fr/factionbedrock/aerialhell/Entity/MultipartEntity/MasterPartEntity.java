@@ -179,9 +179,14 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         return !other.is(this.getSelf());
     }
 
-    default boolean isChildPart(Entity potentialChild) //call in is(entity)
+    default boolean recognizesChildPart(Entity potentialChild) //call in is(entity)
     {
-        return potentialChild instanceof PartEntity partEntity && partEntity.isPartOf(this.getSelf());
+        if (!(potentialChild instanceof PartEntity)) {return false;}
+        for (Supplier<PartEntity> partEntity : this.getAllParts().values())
+        {
+            if (partEntity.get() != null && partEntity.get().is(potentialChild)) {return true;}
+        }
+        return false;
     }
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */

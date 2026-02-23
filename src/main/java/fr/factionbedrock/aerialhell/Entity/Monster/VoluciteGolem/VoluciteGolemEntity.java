@@ -177,7 +177,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
         super.push(other);
     }
 
-    @Override public boolean is(Entity other) {return super.is(other) || this.isChildPart(other);}
+    @Override public boolean is(Entity other) {return super.is(other) || this.recognizesChildPart(other);}
     /* ----------------------------------------------------------------------------------------------- */
     /* ----------------------------------------------------------------------------------------------- */
     /* ----------------------------------------------------------------------------------------------- */
