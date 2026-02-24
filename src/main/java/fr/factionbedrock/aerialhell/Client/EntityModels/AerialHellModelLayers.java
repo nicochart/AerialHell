@@ -19,6 +19,8 @@ public class AerialHellModelLayers
     public static final EntityModelLayer LILITH = createEntityModelLayer("lilith");
     public static final EntityModelLayer LUNATIC_PRIEST = createEntityModelLayer("lunatic_priest");
     public static final EntityModelLayer MUD_CYCLE_MAGE = createEntityModelLayer("mud_cycle_mage");
+    public static final EntityModelLayer VOLUCITE_GOLEM = createEntityModelLayer("volucite_golem");
+    public static final EntityModelLayer VOLUCITE_GOLEM_HEAD = createEntityModelLayer("volucite_golem_head");
     public static final EntityModelLayer MUD_GOLEM = createEntityModelLayer("mud_golem");
     public static final EntityModelLayer SANDY_SHEEP = createEntityModelLayer("sandy_sheep");
     public static final EntityModelLayer SHADOW_FLYING_SKULL = createEntityModelLayer("shadow_flying_skull");

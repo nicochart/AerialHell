@@ -131,8 +131,6 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
 
 	@Override public int getMinTimeToActivate() {return 10;}
 	@Override public double getMinDistanceToActivate() {return 24;}
-	@Override public float getYMotionOnAttack()
-	{
-		return 0.25F;
-	}
+	@Override public float getYMotionOnAttack() {return 0.25F;}
+    @Override public boolean updateTargetOnHurtByLivingEntity() {return false;}
 }

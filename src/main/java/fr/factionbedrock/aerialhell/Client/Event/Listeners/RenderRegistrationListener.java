@@ -224,6 +224,8 @@ public class RenderRegistrationListener
     public static void registerRenderers()
     {
         EntityRendererRegistry.register(AerialHellEntities.STELLAR_STONE_AUTOMATON, StellarStoneAutomatonRender::new);
+        EntityRendererRegistry.register(AerialHellEntities.VOLUCITE_GOLEM, VoluciteGolemRender::new);
+        EntityRendererRegistry.register(AerialHellEntities.VOLUCITE_GOLEM_HEAD, VoluciteGolemHeadRender::new);
         EntityRendererRegistry.register(AerialHellEntities.MUD_GOLEM, MudGolemRender::new);
         EntityRendererRegistry.register(AerialHellEntities.MUD_SPECTRAL_GOLEM, MudGolemRender::new);
         EntityRendererRegistry.register(AerialHellEntities.CRYSTAL_GOLEM, CrystalGolemRender::new);
@@ -318,6 +320,8 @@ public class RenderRegistrationListener
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.LILITH, LilithModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.LUNATIC_PRIEST, LunaticPriestModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.MUD_CYCLE_MAGE, MudCycleMageModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.VOLUCITE_GOLEM, VoluciteGolemModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.VOLUCITE_GOLEM_HEAD, VoluciteGolemHeadModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.MUD_GOLEM, MudGolemModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SANDY_SHEEP, SandySheepModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SHADOW_FLYING_SKULL, ShadowFlyingSkullModel::createBodyLayer);

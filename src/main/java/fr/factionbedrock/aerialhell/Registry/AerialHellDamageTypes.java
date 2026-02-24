@@ -18,6 +18,7 @@ public class AerialHellDamageTypes
     public static final RegistryKey<DamageType> SHURIKEN_HIT = create("shuriken_hit");
     public static final RegistryKey<DamageType> LUNATIC_PROJECTION = create("lunatic_projection");
     public static final RegistryKey<DamageType> CURSED_TOOL = create("cursed_tool");
+    public static final RegistryKey<DamageType> GOLEM_BEAM = create("golem_beam");
 
     private static RegistryKey<DamageType> create(String name) {return RegistryKey.of(RegistryKeys.DAMAGE_TYPE, AerialHell.id(name));}
 

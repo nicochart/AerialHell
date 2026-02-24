@@ -4,15 +4,18 @@ import fr.factionbedrock.aerialhell.Entity.AI.ActiveLookAtPlayerGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveRandomLookAroundGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveMeleeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGoal;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -67,8 +70,24 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
         this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);
         return flag;
     }
+
+    @Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
+    {
+        boolean flag = super.damage(serverWorld, source, amount) && this.updateTargetOnHurtByLivingEntity();
+        if (flag)
+        {
+            Entity immediateSourceEntity = source.getSource();
+            Entity trueSourceEntity = source.getAttacker();
+            if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof PersistentProjectileEntity) && !EntityHelper.isCreativePlayer(trueSourceEntity))
+            {
+                this.setTarget((LivingEntity) trueSourceEntity);
+            }
+        }
+        return flag;
+    }
     
     public abstract float getYMotionOnAttack();
+    public abstract boolean updateTargetOnHurtByLivingEntity();
 
     @Override
 	public void handleStatus(byte id) //broadcastEntityEvent

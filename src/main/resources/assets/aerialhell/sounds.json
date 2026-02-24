@@ -244,9 +244,13 @@
       "aerialhell:mob/volucite_golem/ambient_mad"
     ]
   },
-  "entity.volucite_golem.shoot": {
-    "subtitle": "subtitles.aerialhell.entity.volucite_golem.shoot",
-    "sounds": ["aerialhell:mob/volucite_golem/shoot"]
+  "entity.volucite_golem.beam_start": {
+    "subtitle": "subtitles.aerialhell.entity.volucite_golem.beam",
+    "sounds": ["aerialhell:mob/volucite_golem/beam_start"]
+  },
+  "entity.volucite_golem.beam_loop": {
+    "subtitle": "subtitles.aerialhell.entity.volucite_golem.beam",
+    "sounds": ["aerialhell:mob/volucite_golem/beam_loop"]
   },
   "entity.keeper_of_volucite_keys.ambient": {
     "subtitle": "subtitles.aerialhell.entity.keeper_of_volucite_keys.ambient",

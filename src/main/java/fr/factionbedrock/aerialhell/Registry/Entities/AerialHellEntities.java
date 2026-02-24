@@ -1,7 +1,5 @@
 package fr.factionbedrock.aerialhell.Registry.Entities;
 
-import static fr.factionbedrock.aerialhell.AerialHell.MODID;
-
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
@@ -15,6 +13,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Snake.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.*;
+import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.*;
 import fr.factionbedrock.aerialhell.Entity.Neutral.*;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.*;
@@ -31,6 +30,8 @@ import net.minecraft.world.Heightmap;
 public class AerialHellEntities
 {
 	public static final EntityType<StellarStoneAutomatonEntity> STELLAR_STONE_AUTOMATON = register(Keys.STELLAR_STONE_AUTOMATON, StellarStoneAutomatonEntity::new, 0.9F,2.1F, SpawnGroup.MONSTER, true);
+	public static final EntityType<VoluciteGolemEntity> VOLUCITE_GOLEM = register(Keys.VOLUCITE_GOLEM, VoluciteGolemEntity::new, 1.3F,2.1F, SpawnGroup.MONSTER, true);
+	public static final EntityType<VoluciteGolemHeadEntity> VOLUCITE_GOLEM_HEAD = register(Keys.VOLUCITE_GOLEM_HEAD, VoluciteGolemHeadEntity::new, 0.6F,0.6F, 0.3F, SpawnGroup.MISC, true);
 	public static final EntityType<MudGolemEntity> MUD_GOLEM = register(Keys.MUD_GOLEM, MudGolemEntity::new, 1.4F,2.3F, SpawnGroup.MONSTER, true);
 	public static final EntityType<MudSpectralGolemEntity> MUD_SPECTRAL_GOLEM = register(Keys.MUD_SPECTRAL_GOLEM, MudSpectralGolemEntity::new, 1.4F,2.3F, SpawnGroup.MONSTER);
 	public static final EntityType<CrystalGolemEntity> CRYSTAL_GOLEM = register(Keys.CRYSTAL_GOLEM, CrystalGolemEntity::new, 0.9F,1.95F, SpawnGroup.MONSTER, true);
@@ -104,22 +105,37 @@ public class AerialHellEntities
 		return register(key.getValue().getPath(), EntityType.Builder.create(factory, group).maxTrackingRange(10).trackingTickInterval(Integer.MAX_VALUE).dimensions(width, height).build(key));
 	}
 
-	public static <E extends Entity> EntityType<E> register(RegistryKey<EntityType<?>> key, EntityType.EntityFactory<E> factory, float width, float height, SpawnGroup group, boolean notInPeaceful)
-	{
-		if (notInPeaceful) {return register(key.getValue().getPath(), EntityType.Builder.create(factory, group).notAllowedInPeaceful().dimensions(width, height).build(key));}
-		else {return register(key, factory, width, height, group);}
-	}
-
 	public static <E extends Entity> EntityType<E> register(RegistryKey<EntityType<?>> key, EntityType.EntityFactory<E> factory, float width, float height, SpawnGroup group)
 	{
-		return register(key.getValue().getPath(), EntityType.Builder.create(factory, group).dimensions(width, height).build(key));
+		return register(key, factory, width, height, getDefaultEyeHeight(height), group);
+	}
+
+	public static <E extends Entity> EntityType<E> register(RegistryKey<EntityType<?>> key, EntityType.EntityFactory<E> factory, float width, float height, SpawnGroup group, boolean notInPeaceful)
+	{
+		return register(key, factory, width, height, getDefaultEyeHeight(height), group, notInPeaceful);
+	}
+
+	public static <E extends Entity> EntityType<E> register(RegistryKey<EntityType<?>> key, EntityType.EntityFactory<E> factory, float width, float height, float eyeHeight, SpawnGroup group, boolean notInPeaceful)
+	{
+		if (notInPeaceful) {return register(key.getValue().getPath(), EntityType.Builder.create(factory, group).notAllowedInPeaceful().dimensions(width, height).eyeHeight(eyeHeight).build(key));}
+		else {return register(key, factory, width, height, eyeHeight, group);}
+	}
+
+	public static <E extends Entity> EntityType<E> register(RegistryKey<EntityType<?>> key, EntityType.EntityFactory<E> factory, float width, float height, float eyeHeight, SpawnGroup group)
+	{
+		return register(key.getValue().getPath(), EntityType.Builder.create(factory, group).dimensions(width, height).eyeHeight(eyeHeight).build(key));
 	}
 
 	public static <T extends EntityType<? extends Entity>> T register(String id, T entityType) {return Registry.register(Registries.ENTITY_TYPE, AerialHell.id(id), entityType);}
 
+	//copy of EntityDimensions method of same name
+	private static float getDefaultEyeHeight(float height) {return height * 0.85F;}
+
 	public static class Keys
 	{
 		public static RegistryKey<EntityType<?>> STELLAR_STONE_AUTOMATON = key("stellar_stone_automaton");
+		public static RegistryKey<EntityType<?>> VOLUCITE_GOLEM = key("volucite_golem");
+		public static RegistryKey<EntityType<?>> VOLUCITE_GOLEM_HEAD = key("volucite_golem_head");
 		public static RegistryKey<EntityType<?>> MUD_GOLEM = key("mud_golem");
 		public static RegistryKey<EntityType<?>> MUD_SPECTRAL_GOLEM = key("mud_spectral_golem");
 		public static RegistryKey<EntityType<?>> CRYSTAL_GOLEM = key("crystal_golem");
@@ -197,6 +213,8 @@ public class AerialHellEntities
 	public static void load()
 	{
 		FabricDefaultAttributeRegistry.register(STELLAR_STONE_AUTOMATON, StellarStoneAutomatonEntity.registerAttributes());
+		FabricDefaultAttributeRegistry.register(VOLUCITE_GOLEM, VoluciteGolemEntity.registerAttributes());
+		FabricDefaultAttributeRegistry.register(VOLUCITE_GOLEM_HEAD, VoluciteGolemHeadEntity.registerAttributes());
 		FabricDefaultAttributeRegistry.register(MUD_GOLEM, MudGolemEntity.registerAttributes());
 		FabricDefaultAttributeRegistry.register(MUD_SPECTRAL_GOLEM, MudSpectralGolemEntity.registerAttributes());
 		FabricDefaultAttributeRegistry.register(CRYSTAL_GOLEM, CrystalGolemEntity.registerAttributes());

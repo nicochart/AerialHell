@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import fr.factionbedrock.aerialhell.Client.EntityRender.State.MudGolemRenderState;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.AerialHellGolemRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 //Made by Cixon using BlockBench
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 
-public class MudGolemModel extends EntityModel<MudGolemRenderState>
+public class MudGolemModel extends EntityModel<AerialHellGolemRenderState>
 {
 	private final ModelPart head;
 	private final ModelPart body;
@@ -51,7 +51,7 @@ public class MudGolemModel extends EntityModel<MudGolemRenderState>
 		return TexturedModelData.of(meshdefinition, 128, 128);
 	}
 
-	@Override public void setAngles(MudGolemRenderState renderState)
+	@Override public void setAngles(AerialHellGolemRenderState renderState)
 	{
 		float headPitch = renderState.pitch;
 		float netHeadYaw = renderState.relativeHeadYaw;
