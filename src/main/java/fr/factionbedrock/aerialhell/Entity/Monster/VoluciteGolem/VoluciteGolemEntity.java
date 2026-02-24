@@ -89,13 +89,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
                 float xRot = 0.0F;
                 if (headPart.getBeamTargetPos() != null)
                 {
-                    double x = headPart.getX(), y = this.getEyeY(), z = headPart.getZ();
-                    double tx = headPart.getBeamTargetPos().x, ty = headPart.getBeamTargetPos().y, tz = headPart.getBeamTargetPos().z;
-                    double dx = x - tx;
-                    double dy = y - ty;
-                    double dz = z - tz;
-                    double xzDistance = Math.sqrt(dx * dx + dz * dz);
-                    xRot = (float)(Math.atan2(dy, xzDistance) * (180F / Math.PI));
+                    xRot = this.calculateXRotFromOriginToTarget(this.getEyePosition(), headPart.getBeamTargetPos());
                 }
 
                 headPart.yBodyRot = headPart.yHeadRot;

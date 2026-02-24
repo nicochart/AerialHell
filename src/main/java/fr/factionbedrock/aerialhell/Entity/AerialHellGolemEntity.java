@@ -73,8 +73,8 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
 
     @Override public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount)
     {
-        boolean flag = super.hurtServer(serverLevel, source, amount) && this.updateTargetOnHurtByLivingEntity();
-        if (flag)
+        boolean flag = super.hurtServer(serverLevel, source, amount);
+        if (flag && this.updateTargetOnHurtByLivingEntity())
         {
             Entity immediateSourceEntity = source.getDirectEntity();
             Entity trueSourceEntity = source.getEntity();

@@ -25,6 +25,6 @@ public interface BaseEntityInterface
     default boolean is(Entity entity) {return this.getSelf().is(entity);}
 
     default void setPos(double x, double y, double z) {this.getSelf().setPos(x, y, z);}
-    default void setXRot(float xRot) {this.setXRot(xRot);}
-    default void setYRot(float xRot) {this.setYRot(xRot);}
+    default void setXRot(float xRot) {this.getSelf().setXRot(xRot);}
+    default void setYRot(float yRot) {this.getSelf().setYRot(yRot);}
 }

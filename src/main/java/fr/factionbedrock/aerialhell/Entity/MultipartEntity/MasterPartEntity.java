@@ -312,6 +312,17 @@ public interface MasterPartEntity extends BaseMobEntityInterface
             return getPartRaw(partInfo);
         }
     }
+
+    default float calculateXRotFromOriginToTarget(Vec3 origin, Vec3 target)
+    {
+        double x = origin.x, y = origin.y, z = origin.z;
+        double tx = target.x, ty = target.y, tz = target.z;
+        double dx = x - tx;
+        double dy = y - ty;
+        double dz = z - tz;
+        double xzDistance = Math.sqrt(dx * dx + dz * dz);
+        return (float)(Math.atan2(dy, xzDistance) * (180F / Math.PI));
+    }
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */

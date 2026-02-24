@@ -133,9 +133,9 @@ public class BeamAttackGoal extends Goal
             if (entity instanceof LivingEntity livingHit && this.entity.canBeamHitEntity(livingHit))
             {
                 livingHit.hurtServer(serverlevel, AerialHellDamageTypes.getDamageSource(this.entity.getLevel(), AerialHellDamageTypes.GOLEM_BEAM, this.entity.getImmediateBeamSource(), this.entity.getTrueBeamSource()), damage);
+                //this.entity.getSelf().doHurtTarget(serverlevel, livingHit); //hit animation off
             }
         }
-        //this.entity.doHurtTarget(serverlevel, livingentity); hit animation off
     }
 
     public static List<Entity> getBeamHitEntities(Level level, LivingEntity beamingEntity, Vec3 beamStart, Vec3 beamEnd)

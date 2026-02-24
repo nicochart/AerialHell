@@ -135,7 +135,6 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
     /* --------------------------------------------------------------------------------------------- */
     /* ----------- PartEntity : Superclass methods Overridden for part-specific behavior ----------- */
     /* --------------------------------------------------------------------------------------------- */
-    @Override public boolean isPickable() {return true;}
     @Override public boolean isPushable() {return false;}
     @Override public boolean isInWall() {return false;}
     @Override public boolean isAttackable() {return true;}
@@ -158,8 +157,8 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
 
     @Override public boolean partDoHurtServer(ServerLevel level, DamageSource source, float amount, boolean forceLocalDamage)
     {
-        boolean flag = PartEntity.super.partDoHurtServer(level, source, amount, forceLocalDamage) && this.updateTargetOnHurtByFarAwayLivingEntity();
-        if (flag)
+        boolean flag = PartEntity.super.partDoHurtServer(level, source, amount, forceLocalDamage);
+        if (flag && this.updateTargetOnHurtByFarAwayLivingEntity())
         {
             Entity trueSourceEntity = source.getEntity();
             if (trueSourceEntity instanceof LivingEntity && !EntityHelper.isCreativePlayer(trueSourceEntity) && this.distanceTo(trueSourceEntity) > 10)

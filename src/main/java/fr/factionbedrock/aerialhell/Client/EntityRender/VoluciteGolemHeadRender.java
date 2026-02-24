@@ -83,7 +83,7 @@ public class VoluciteGolemHeadRender extends MobRenderer<VoluciteGolemHeadEntity
         return RenderTypes.entityCutoutNoCull(textureLocation);
     }
 
-    public void submit(VoluciteGolemRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
+    @Override public void submit(VoluciteGolemRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
     {
         super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
         Vec3 vec3 = renderState.beamTargetPosition;
