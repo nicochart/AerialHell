@@ -45,13 +45,9 @@ public class ArchitectModel extends EntityModel<ArchitectRenderState>
 				.texOffs(160, 224).addBox(-49.0F, 42.0F, -48.0F, 96.0F, 32.0F, 96.0F, new CubeDeformation(0.0F))
 				.texOffs(192, 400).addBox(-41.0F, 90.0F, -40.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F))
 				.texOffs(192, 0).addBox(-1.0F, -22.0F, -80.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F))
-				.texOffs(192, 0).addBox(-81.0F, -22.0F, -80.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F))
-				.texOffs(192, 0).addBox(-81.0F, -22.0F, 0.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F))
-				.texOffs(192, 0).addBox(-1.0F, -22.0F, 0.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F))
+				.texOffs(513, 400).mirror().addBox(-81.0F, -22.0F, -80.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F)).mirror(false)
 				.texOffs(512, 400).addBox(-1.0F, -150.0F, -80.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F))
-				.texOffs(512, 400).addBox(-81.0F, -150.0F, -80.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F))
-				.texOffs(512, 400).addBox(-81.0F, -150.0F, 0.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F))
-				.texOffs(512, 400).addBox(-1.0F, -150.0F, 0.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F))
+				.texOffs(193, 0).mirror().addBox(-81.0F, -150.0F, -80.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F)).mirror(false)
 				.texOffs(704, 193).addBox(-33.0F, -214.0F, -32.0F, 64.0F, 64.0F, 64.0F, new CubeDeformation(0.0F))
 				.texOffs(224, 128).addBox(-1.0F, 10.0F, -64.0F, 64.0F, 32.0F, 64.0F, new CubeDeformation(0.0F))
 				.texOffs(224, 128).addBox(-65.0F, 10.0F, -64.0F, 64.0F, 32.0F, 64.0F, new CubeDeformation(0.0F))
@@ -61,6 +57,12 @@ public class ArchitectModel extends EntityModel<ArchitectRenderState>
 				.texOffs(834, 384).addBox(47.0F, -118.0F, -80.0F, 32.0F, 96.0F, 32.0F, new CubeDeformation(0.0F))
 				.texOffs(834, 384).addBox(47.0F, -118.0F, 48.0F, 32.0F, 96.0F, 32.0F, new CubeDeformation(0.0F))
 				.texOffs(834, 384).addBox(-81.0F, -118.0F, 48.0F, 32.0F, 96.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offset(1.0F, -250.0F, 0.0F));
+
+		PartDefinition coretop3_r1 = body.addOrReplaceChild("coretop3_r1", CubeListBuilder.create().texOffs(512, 400).addBox(-40.0F, -16.0F, -40.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F))
+				.texOffs(513, 400).addBox(-40.0F, 112.0F, -40.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(39.0F, -134.0F, 40.0F, 0.0F, -1.5708F, 0.0F));
+
+		PartDefinition coretop2_r1 = body.addOrReplaceChild("coretop2_r1", CubeListBuilder.create().texOffs(512, 400).addBox(-40.0F, -16.0F, -40.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F))
+				.texOffs(192, 0).addBox(-40.0F, 112.0F, -40.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-41.0F, -134.0F, 40.0F, 0.0F, 3.1416F, 0.0F));
 
 		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(640, 1).addBox(-49.0F, -65.0F, -46.0F, 96.0F, 96.0F, 96.0F, new CubeDeformation(0.0F)), PartPose.offset(1.0F, -494.0F, -2.0F));
 
@@ -80,19 +82,19 @@ public class ArchitectModel extends EntityModel<ArchitectRenderState>
 				.texOffs(483, 196).addBox(-113.1131F, 162.9811F, -26.1442F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F)), PartPose.offset(-62.8869F, -274.9811F, 2.1442F));
 
 		PartDefinition rightArm = partdefinition.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(499, 164).addBox(38.0644F, -109.0181F, -10.1278F, 48.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
-				.texOffs(483, 196).addBox(-9.9356F, -125.0181F, -26.1278F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F))
+				.texOffs(483, 196).mirror().addBox(-9.9356F, -125.0181F, -26.1278F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F)).mirror(false)
 				.texOffs(499, 164).addBox(54.0644F, -61.0181F, -10.1278F, 48.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
-				.texOffs(483, 196).addBox(6.0644F, -77.0181F, -26.1278F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F))
+				.texOffs(483, 196).mirror().addBox(6.0644F, -77.0181F, -26.1278F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F)).mirror(false)
 				.texOffs(499, 164).addBox(70.0644F, -13.0181F, -10.1278F, 48.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
-				.texOffs(483, 196).addBox(22.0644F, -29.0181F, -26.1278F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F))
+				.texOffs(483, 196).mirror().addBox(22.0644F, -29.0181F, -26.1278F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F)).mirror(false)
 				.texOffs(499, 164).addBox(70.0644F, 34.9819F, -10.1278F, 48.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
-				.texOffs(483, 196).addBox(22.0644F, 18.9819F, -26.1278F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F))
+				.texOffs(483, 196).mirror().addBox(22.0644F, 18.9819F, -26.1278F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F)).mirror(false)
 				.texOffs(499, 164).addBox(86.0644F, 82.9819F, -10.1278F, 48.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
-				.texOffs(483, 196).addBox(38.0644F, 66.9819F, -26.1278F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F))
+				.texOffs(483, 196).mirror().addBox(38.0644F, 66.9819F, -26.1278F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F)).mirror(false)
 				.texOffs(499, 164).addBox(86.0644F, 130.9819F, -10.1278F, 48.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
-				.texOffs(483, 196).addBox(38.0644F, 114.9819F, -26.1278F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F))
+				.texOffs(483, 196).mirror().addBox(38.0644F, 114.9819F, -26.1278F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F)).mirror(false)
 				.texOffs(499, 164).addBox(86.0644F, 178.9819F, -10.1278F, 48.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
-				.texOffs(483, 196).addBox(38.0644F, 162.9819F, -26.1278F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F)), PartPose.offset(89.9356F, -274.9819F, 2.1278F));
+				.texOffs(483, 196).mirror().addBox(38.0644F, 162.9819F, -26.1278F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(89.9356F, -274.9819F, 2.1278F));
 
 		PartDefinition rightLeg = partdefinition.addOrReplaceChild("rightLeg", CubeListBuilder.create().texOffs(0, 304).addBox(11.0F, 26.0F, -24.0F, 48.0F, 160.0F, 48.0F, new CubeDeformation(0.0F)), PartPose.offset(5.0F, -162.0F, 0.0F));
 

@@ -144,7 +144,7 @@ public class AerialHellEntities
 			.sized(2.8F,5F).build(Keys.CHAINED_GOD));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<ArchitectEntity>> ARCHITECT = ENTITIES.register("architect", () -> EntityType.Builder.<ArchitectEntity>of(ArchitectEntity::new, MobCategory.MONSTER)
-			.sized(2.5F,7F).build(Keys.ARCHITECT));
+			.sized(7.0F,40.0F).build(Keys.ARCHITECT));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<PoisonballEntity>> POISONBALL = ENTITIES.register("poisonball", () -> EntityType.Builder.<PoisonballEntity>of(PoisonballEntity::new, MobCategory.MISC)
 			.sized(1.0F, 1.0F).build(Keys.POISONBALL));
