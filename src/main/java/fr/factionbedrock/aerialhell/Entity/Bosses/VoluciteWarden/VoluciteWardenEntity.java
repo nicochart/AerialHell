@@ -1,7 +1,10 @@
-package fr.factionbedrock.aerialhell.Entity.Bosses;
+package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
-import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
+import fr.factionbedrock.aerialhell.Entity.Bosses.AbstractBossEntity;
+import fr.factionbedrock.aerialhell.Entity.Bosses.BossPhase;
+import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
+import fr.factionbedrock.aerialhell.Entity.Bosses.NearbyEntitiesInteractionInfo;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.sounds.SoundEvent;
@@ -19,11 +22,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
-public class ArchitectEntity extends AbstractBossEntity
+public class VoluciteWardenEntity extends AbstractBossEntity
 {
 	public int timeDying;
 
-	public ArchitectEntity(EntityType<? extends Monster> type, Level world)
+	public VoluciteWardenEntity(EntityType<? extends Monster> type, Level world)
 	{
 		super(type, world);
 		this.timeDying = 0;

@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.Client.EntityRender.State.ArchitectRenderState;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.VoluciteWardenRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -13,7 +13,7 @@ import net.minecraft.util.Mth;
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
-public class ArchitectModel extends EntityModel<ArchitectRenderState>
+public class VoluciteWardenModel extends EntityModel<VoluciteWardenRenderState>
 {
 	private final ModelPart body;
 	private final ModelPart head;
@@ -22,7 +22,7 @@ public class ArchitectModel extends EntityModel<ArchitectRenderState>
 	private final ModelPart rightLeg;
 	private final ModelPart leftLeg;
 
-	public ArchitectModel(ModelPart root)
+	public VoluciteWardenModel(ModelPart root)
 	{
 		super(root);
 		this.body = root.getChild("body");
@@ -96,14 +96,20 @@ public class ArchitectModel extends EntityModel<ArchitectRenderState>
 				.texOffs(499, 164).addBox(86.0644F, 178.9819F, -10.1278F, 48.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
 				.texOffs(483, 196).mirror().addBox(38.0644F, 162.9819F, -26.1278F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(89.9356F, -274.9819F, 2.1278F));
 
-		PartDefinition rightLeg = partdefinition.addOrReplaceChild("rightLeg", CubeListBuilder.create().texOffs(0, 304).addBox(11.0F, 26.0F, -24.0F, 48.0F, 160.0F, 48.0F, new CubeDeformation(0.0F)), PartPose.offset(5.0F, -162.0F, 0.0F));
+		PartDefinition rightLeg = partdefinition.addOrReplaceChild("rightLeg", CubeListBuilder.create().texOffs(0, 304).addBox(11.0F, 26.0F, -24.0F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 352).addBox(11.0F, 82.0F, -24.0F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 416).addBox(11.0F, 138.0F, -24.0F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F))
+				.texOffs(32, 416).addBox(19.0F, 74.0F, -16.0F, 32.0F, 64.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offset(5.0F, -162.0F, 0.0F));
 
-		PartDefinition leftLeg = partdefinition.addOrReplaceChild("leftLeg", CubeListBuilder.create().texOffs(0, 304).addBox(-60.0F, 26.0F, -24.0F, 48.0F, 160.0F, 48.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, -162.0F, 0.0F));
+		PartDefinition leftLeg = partdefinition.addOrReplaceChild("leftLeg", CubeListBuilder.create().texOffs(0, 304).addBox(-60.0F, 138.0F, -24.0F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 416).addBox(-60.0F, 82.0F, -24.0F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 352).addBox(-60.0F, 26.0F, -24.0F, 48.0F, 48.0F, 48.0F, new CubeDeformation(0.0F))
+				.texOffs(32, 416).addBox(-52.0F, 74.0F, -16.0F, 32.0F, 64.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, -162.0F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 1024, 512);
 	}
 
-	@Override public void setupAnim(ArchitectRenderState renderState)
+	@Override public void setupAnim(VoluciteWardenRenderState renderState)
 	{
 		float headPitch = renderState.xRot;
 		float netHeadYaw = renderState.yRot;

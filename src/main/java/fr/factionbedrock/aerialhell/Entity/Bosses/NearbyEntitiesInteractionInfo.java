@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
-enum NearbyEntitiesInteractionInfo
+public enum NearbyEntitiesInteractionInfo
 {
     NONE(InteractionType.NONE, InteractionFalloff.UNIFORM),
     DRAG_UNIFORM(InteractionType.DRAG, InteractionFalloff.UNIFORM),

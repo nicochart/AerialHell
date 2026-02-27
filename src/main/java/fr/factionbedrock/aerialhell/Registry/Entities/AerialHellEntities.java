@@ -5,6 +5,7 @@ import static fr.factionbedrock.aerialhell.AerialHell.MODID;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
@@ -143,8 +144,8 @@ public class AerialHellEntities
 	public static final DeferredHolder<EntityType<?>, EntityType<ChainedGodEntity>> CHAINED_GOD = ENTITIES.register("chained_god", () -> EntityType.Builder.<ChainedGodEntity>of(ChainedGodEntity::new, MobCategory.MONSTER)
 			.sized(2.8F,5F).build(Keys.CHAINED_GOD));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<ArchitectEntity>> ARCHITECT = ENTITIES.register("architect", () -> EntityType.Builder.<ArchitectEntity>of(ArchitectEntity::new, MobCategory.MONSTER)
-			.sized(7.0F,40.0F).build(Keys.ARCHITECT));
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenEntity>> VOLUCITE_WARDEN = ENTITIES.register("volucite_warden", () -> EntityType.Builder.<VoluciteWardenEntity>of(VoluciteWardenEntity::new, MobCategory.MONSTER)
+			.sized(7.0F,40.0F).build(Keys.VOLUCITE_WARDEN));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<PoisonballEntity>> POISONBALL = ENTITIES.register("poisonball", () -> EntityType.Builder.<PoisonballEntity>of(PoisonballEntity::new, MobCategory.MISC)
 			.sized(1.0F, 1.0F).build(Keys.POISONBALL));
@@ -288,7 +289,7 @@ public class AerialHellEntities
 		public static ResourceKey<EntityType<?>> FIRE_SPIRIT = key("fire_spirit");
 		public static ResourceKey<EntityType<?>> ELECTRO_SPIRIT = key("electro_spirit");
 		public static ResourceKey<EntityType<?>> CHAINED_GOD = key("chained_god");
-		public static ResourceKey<EntityType<?>> ARCHITECT = key("architect");
+		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN = key("volucite_warden");
 		public static ResourceKey<EntityType<?>> POISONBALL = key("poisonball");
 		public static ResourceKey<EntityType<?>> DIMENSION_SHATTERER_PROJECTILE = key("dimension_shatterer_projectile");
 		public static ResourceKey<EntityType<?>> FLYING_JELLYFISH = key("flying_jellyfish");
