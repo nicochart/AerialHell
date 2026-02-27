@@ -10,6 +10,7 @@ public class AerialHellModelLayers
     public static final ModelLayerLocation BOAR = createModelLayerLocation("boar");
     public static final ModelLayerLocation CHAINED_GOD = createModelLayerLocation("chained_god");
     public static final ModelLayerLocation VOLUCITE_WARDEN = createModelLayerLocation("volucite_warden");
+    public static final ModelLayerLocation VOLUCITE_WARDEN_ARM = createModelLayerLocation("volucite_warden_arm");
     public static final ModelLayerLocation CHEST_MIMIC = createModelLayerLocation("chest_mimic");
     public static final ModelLayerLocation CRYSTAL_GOLEM = createModelLayerLocation("crystal_golem");
     public static final ModelLayerLocation CRYSTAL_SLIME = createModelLayerLocation("crystal_slime");

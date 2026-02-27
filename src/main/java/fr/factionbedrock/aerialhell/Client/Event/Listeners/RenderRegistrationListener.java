@@ -54,6 +54,7 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.ELECTRO_SPIRIT.get(), ElementSpiritRender::new);
         event.registerEntityRenderer(AerialHellEntities.CHAINED_GOD.get(), ChainedGodRender::new);
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN.get(), VoluciteWardenRender::new);
+        event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), VoluciteWardenArmRender::new);
         event.registerEntityRenderer(AerialHellEntities.FLYING_JELLYFISH.get(), FlyingJellyfishRender::new);
         event.registerEntityRenderer(AerialHellEntities.SHADOW_FLYING_SKULL.get(), ShadowFlyingSkullRender::new);
         event.registerEntityRenderer(AerialHellEntities.SHADOW_TROLL.get(), ShadowTrollRender::new);
@@ -106,6 +107,7 @@ public class RenderRegistrationListener
         event.registerLayerDefinition(AerialHellModelLayers.STELLAR_CHICKEN, StellarChickenModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CHAINED_GOD, ChainedGodModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_WARDEN, VoluciteWardenModel::createBodyLayer);
+        event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_WARDEN_ARM, VoluciteWardenArmModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CHEST_MIMIC, ChestMimicModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CRYSTAL_GOLEM, CrystalGolemModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CRYSTAL_SLIME, CrystalSlimeModel::createBodyLayer);

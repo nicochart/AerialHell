@@ -5,6 +5,7 @@ import static fr.factionbedrock.aerialhell.AerialHell.MODID;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenArmEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.*;
@@ -146,6 +147,9 @@ public class AerialHellEntities
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenEntity>> VOLUCITE_WARDEN = ENTITIES.register("volucite_warden", () -> EntityType.Builder.<VoluciteWardenEntity>of(VoluciteWardenEntity::new, MobCategory.MONSTER)
 			.sized(7.0F,40.0F).build(Keys.VOLUCITE_WARDEN));
+
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenArmEntity>> VOLUCITE_WARDEN_ARM = ENTITIES.register("volucite_warden_arm", () -> EntityType.Builder.<VoluciteWardenArmEntity>of(VoluciteWardenArmEntity::new, MobCategory.MISC)
+			.sized(3.5F,3.5F).eyeHeight(1.5F).build(Keys.VOLUCITE_WARDEN_ARM));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<PoisonballEntity>> POISONBALL = ENTITIES.register("poisonball", () -> EntityType.Builder.<PoisonballEntity>of(PoisonballEntity::new, MobCategory.MISC)
 			.sized(1.0F, 1.0F).build(Keys.POISONBALL));
@@ -290,6 +294,7 @@ public class AerialHellEntities
 		public static ResourceKey<EntityType<?>> ELECTRO_SPIRIT = key("electro_spirit");
 		public static ResourceKey<EntityType<?>> CHAINED_GOD = key("chained_god");
 		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN = key("volucite_warden");
+		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_ARM = key("volucite_warden_arm");
 		public static ResourceKey<EntityType<?>> POISONBALL = key("poisonball");
 		public static ResourceKey<EntityType<?>> DIMENSION_SHATTERER_PROJECTILE = key("dimension_shatterer_projectile");
 		public static ResourceKey<EntityType<?>> FLYING_JELLYFISH = key("flying_jellyfish");

@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Registry.Entities;
 
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenArmEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.AbstractElementSpiritEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
@@ -66,6 +67,7 @@ public class AerialHellEntityAttributes
 		event.put(AerialHellEntities.ELECTRO_SPIRIT.get(), AbstractElementSpiritEntity.registerAttributes().build());
 		event.put(AerialHellEntities.CHAINED_GOD.get(), ChainedGodEntity.registerAttributes().build());
 		event.put(AerialHellEntities.VOLUCITE_WARDEN.get(), VoluciteWardenEntity.registerAttributes().build());
+		event.put(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), VoluciteWardenArmEntity.registerAttributes().build());
 		event.put(AerialHellEntities.FLYING_JELLYFISH.get(), FlyingJellyfishEntity.registerAttributes().build());
 		event.put(AerialHellEntities.SHADOW_FLYING_SKULL.get(), ShadowFlyingSkullEntity.registerAttributes().build());
 		event.put(AerialHellEntities.SHADOW_TROLL.get(), ShadowTrollEntity.registerAttributes().build());
