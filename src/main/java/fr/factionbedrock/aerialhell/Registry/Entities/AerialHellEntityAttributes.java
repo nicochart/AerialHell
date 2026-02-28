@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Registry.Entities;
 
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenArmEntity;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit.AbstractElementSpiritEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.*;
@@ -17,8 +16,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Snake.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.CrystalSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.HellSpiderEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemHeadEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.*;
 import fr.factionbedrock.aerialhell.Entity.Neutral.BoarEntity;
 import fr.factionbedrock.aerialhell.Entity.Neutral.ForestCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
@@ -68,6 +66,14 @@ public class AerialHellEntityAttributes
 		event.put(AerialHellEntities.CHAINED_GOD.get(), ChainedGodEntity.registerAttributes().build());
 		event.put(AerialHellEntities.VOLUCITE_WARDEN.get(), VoluciteWardenEntity.registerAttributes().build());
 		event.put(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), VoluciteWardenArmEntity.registerAttributes().build());
+		event.put(AerialHellEntities.VOLUCITE_WARDEN_LEG.get(), VoluciteWardenPartEntity.registerAttributes().build());
+		event.put(AerialHellEntities.VOLUCITE_WARDEN_PELVIS.get(), VoluciteWardenPartEntity.registerAttributes().build());
+		event.put(AerialHellEntities.VOLUCITE_WARDEN_ABDOMEN.get(), VoluciteWardenPartEntity.registerAttributes().build());
+		event.put(AerialHellEntities.VOLUCITE_WARDEN_CHEST.get(), VoluciteWardenPartEntity.registerAttributes().build());
+		event.put(AerialHellEntities.VOLUCITE_WARDEN_CORE.get(), VoluciteWardenCoreEntity.registerAttributes().build());
+		event.put(AerialHellEntities.VOLUCITE_WARDEN_CORE_RIB.get(), VoluciteWardenPartEntity.registerAttributes().build());
+		event.put(AerialHellEntities.VOLUCITE_WARDEN_NECK.get(), VoluciteWardenPartEntity.registerAttributes().build());
+		event.put(AerialHellEntities.VOLUCITE_WARDEN_HEAD.get(), VoluciteWardenHeadEntity.registerAttributes().build());
 		event.put(AerialHellEntities.FLYING_JELLYFISH.get(), FlyingJellyfishEntity.registerAttributes().build());
 		event.put(AerialHellEntities.SHADOW_FLYING_SKULL.get(), ShadowFlyingSkullEntity.registerAttributes().build());
 		event.put(AerialHellEntities.SHADOW_TROLL.get(), ShadowTrollEntity.registerAttributes().build());

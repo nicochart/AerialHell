@@ -5,8 +5,7 @@ import static fr.factionbedrock.aerialhell.AerialHell.MODID;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenArmEntity;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
@@ -17,8 +16,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Snake.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.*;
-import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemHeadEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.*;
 import fr.factionbedrock.aerialhell.Entity.Neutral.*;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.*;
@@ -150,6 +148,30 @@ public class AerialHellEntities
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenArmEntity>> VOLUCITE_WARDEN_ARM = ENTITIES.register("volucite_warden_arm", () -> EntityType.Builder.<VoluciteWardenArmEntity>of(VoluciteWardenArmEntity::new, MobCategory.MISC)
 			.sized(3.5F,3.5F).eyeHeight(1.5F).build(Keys.VOLUCITE_WARDEN_ARM));
+
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenPartEntity>> VOLUCITE_WARDEN_LEG = ENTITIES.register("volucite_warden_leg", () -> EntityType.Builder.<VoluciteWardenPartEntity>of(VoluciteWardenPartEntity::new, MobCategory.MISC)
+			.sized(3.0F,16.0F).build(Keys.VOLUCITE_WARDEN_LEG));
+
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenPartEntity>> VOLUCITE_WARDEN_PELVIS = ENTITIES.register("volucite_warden_pelvis", () -> EntityType.Builder.<VoluciteWardenPartEntity>of(VoluciteWardenPartEntity::new, MobCategory.MISC)
+			.sized(5.0F,3.0F).build(Keys.VOLUCITE_WARDEN_PELVIS));
+
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenPartEntity>> VOLUCITE_WARDEN_ABDOMEN = ENTITIES.register("volucite_warden_abdomen", () -> EntityType.Builder.<VoluciteWardenPartEntity>of(VoluciteWardenPartEntity::new, MobCategory.MISC)
+			.sized(8.0F,4.0F).build(Keys.VOLUCITE_WARDEN_ABDOMEN));
+
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenPartEntity>> VOLUCITE_WARDEN_CHEST = ENTITIES.register("volucite_warden_chest", () -> EntityType.Builder.<VoluciteWardenPartEntity>of(VoluciteWardenPartEntity::new, MobCategory.MISC)
+			.sized(10.0F,2.0F).build(Keys.VOLUCITE_WARDEN_CHEST));
+
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenCoreEntity>> VOLUCITE_WARDEN_CORE = ENTITIES.register("volucite_warden_core", () -> EntityType.Builder.<VoluciteWardenCoreEntity>of(VoluciteWardenCoreEntity::new, MobCategory.MISC)
+			.sized(4.0F,6.0F).build(Keys.VOLUCITE_WARDEN_CORE));
+
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenPartEntity>> VOLUCITE_WARDEN_CORE_RIB = ENTITIES.register("volucite_warden_core_rib", () -> EntityType.Builder.<VoluciteWardenPartEntity>of(VoluciteWardenPartEntity::new, MobCategory.MISC)
+			.sized(2.0F,6.0F).build(Keys.VOLUCITE_WARDEN_CORE_RIB));
+
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenPartEntity>> VOLUCITE_WARDEN_NECK = ENTITIES.register("volucite_warden_neck", () -> EntityType.Builder.<VoluciteWardenPartEntity>of(VoluciteWardenPartEntity::new, MobCategory.MISC)
+			.sized(4.0F,4.0F).build(Keys.VOLUCITE_WARDEN_NECK));
+
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenHeadEntity>> VOLUCITE_WARDEN_HEAD = ENTITIES.register("volucite_warden_head", () -> EntityType.Builder.<VoluciteWardenHeadEntity>of(VoluciteWardenHeadEntity::new, MobCategory.MISC)
+			.sized(6.0F,7.0F).build(Keys.VOLUCITE_WARDEN_HEAD));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<PoisonballEntity>> POISONBALL = ENTITIES.register("poisonball", () -> EntityType.Builder.<PoisonballEntity>of(PoisonballEntity::new, MobCategory.MISC)
 			.sized(1.0F, 1.0F).build(Keys.POISONBALL));
@@ -295,6 +317,14 @@ public class AerialHellEntities
 		public static ResourceKey<EntityType<?>> CHAINED_GOD = key("chained_god");
 		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN = key("volucite_warden");
 		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_ARM = key("volucite_warden_arm");
+		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_LEG = key("volucite_warden_leg");
+		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_PELVIS = key("volucite_warden_pelvis");
+		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_ABDOMEN = key("volucite_warden_abdomen");
+		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_CHEST = key("volucite_warden_chest");
+		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_CORE = key("volucite_warden_core");
+		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_CORE_RIB = key("volucite_warden_core_rib");
+		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_NECK = key("volucite_warden_core_neck");
+		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_HEAD = key("volucite_warden_core_head");
 		public static ResourceKey<EntityType<?>> POISONBALL = key("poisonball");
 		public static ResourceKey<EntityType<?>> DIMENSION_SHATTERER_PROJECTILE = key("dimension_shatterer_projectile");
 		public static ResourceKey<EntityType<?>> FLYING_JELLYFISH = key("flying_jellyfish");
