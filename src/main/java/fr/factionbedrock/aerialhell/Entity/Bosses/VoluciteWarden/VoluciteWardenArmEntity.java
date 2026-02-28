@@ -11,6 +11,6 @@ public class VoluciteWardenArmEntity extends VoluciteWardenPartEntity
 
     @Override protected void registerGoals()
     {
-        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        //this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
     }
 }

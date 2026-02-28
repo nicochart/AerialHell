@@ -431,8 +431,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
     {
 		this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, Player.class, true));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
-		this.goalSelector.addGoal(5, new ActiveMeleeAttackGoal(this, 1.25D, false));
+		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
+		this.goalSelector.addGoal(4, new ActiveMeleeAttackGoal(this, 1.25D, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
     }
 

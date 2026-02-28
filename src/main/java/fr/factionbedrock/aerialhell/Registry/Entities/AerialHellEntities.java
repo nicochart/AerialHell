@@ -144,7 +144,7 @@ public class AerialHellEntities
 			.sized(2.8F,5F).build(Keys.CHAINED_GOD));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenEntity>> VOLUCITE_WARDEN = ENTITIES.register("volucite_warden", () -> EntityType.Builder.<VoluciteWardenEntity>of(VoluciteWardenEntity::new, MobCategory.MONSTER)
-			.sized(1.0F,1.0F).build(Keys.VOLUCITE_WARDEN));
+			.sized(0.9F,1.95F).build(Keys.VOLUCITE_WARDEN));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenArmEntity>> VOLUCITE_WARDEN_ARM = ENTITIES.register("volucite_warden_arm", () -> EntityType.Builder.<VoluciteWardenArmEntity>of(VoluciteWardenArmEntity::new, MobCategory.MISC)
 			.sized(3.5F,3.5F).eyeHeight(1.5F).build(Keys.VOLUCITE_WARDEN_ARM));
