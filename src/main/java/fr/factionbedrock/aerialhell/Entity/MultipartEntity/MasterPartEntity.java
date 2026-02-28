@@ -96,6 +96,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     default void partAiStep() //call in aiStep()
     {
+        if (this.getLevel().isClientSide()) {return;}
         for (Map.Entry<PartInfo, Supplier<PartEntity>> entry : this.getAllParts().entrySet())
         {
             PartInfo partInfo = entry.getKey(); PartEntity partEntity = entry.getValue().get();
