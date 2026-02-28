@@ -7,7 +7,6 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.BossPhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.NearbyEntitiesInteractionInfo;
-import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemHeadEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
@@ -224,28 +223,25 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override public void tickPartRotation(PartInfo partInfo, @NotNull PartEntity partEntity)
 	{
-		if (partInfo == HEAD_PART_INFO && partEntity instanceof VoluciteGolemHeadEntity headPart)
+		if (partEntity instanceof VoluciteWardenPartEntity part)
 		{
-			if (!headPart.isBeaming())
+			if (partInfo == HEAD_PART_INFO)
 			{
-				headPart.yBodyRotO = headPart.yBodyRot;
-				headPart.yBodyRot = this.yHeadRot; //the whole "body" is head
-				headPart.yHeadRotO = headPart.yHeadRot;
-				headPart.yHeadRot = this.yHeadRot;
-				headPart.setXRot(this.getXRot());
-				headPart.setYRot(this.getYRot());
+				part.yBodyRotO = part.yBodyRot;
+				part.yBodyRot = this.yHeadRot; //the whole "body" is head
+				part.yHeadRotO = part.yHeadRot;
+				part.yHeadRot = this.yHeadRot;
+				part.setXRot(this.getXRot());
+				part.setYRot(this.getYRot());
 			}
 			else
 			{
-				float xRot = 0.0F;
-				if (headPart.getBeamTargetPos() != null)
-				{
-					xRot = this.calculateXRotFromOriginToTarget(this.getEyePosition(), headPart.getBeamTargetPos());
-				}
-
-				headPart.yBodyRot = headPart.yHeadRot;
-				headPart.setXRot(xRot);
-				headPart.setYRot(headPart.yHeadRot);
+				part.yBodyRotO = part.yBodyRot;
+				part.yBodyRot = this.yBodyRot;
+				part.yHeadRotO = part.yHeadRot;
+				part.yHeadRot = this.yHeadRot;
+				part.setXRot(this.getXRot());
+				part.setYRot(this.getYRot());
 			}
 		}
 	}
@@ -424,7 +420,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* --------------------------------------------------------------------------------------------------- */
 	/* ----------- MasterPartEntity : Superclass methods Overridden for part-specific behavior ----------- */
 	/* --------------------------------------------------------------------------------------------------- */
-	@Override public double getEyeY() {return this.position().y + 2.40F;}
+	@Override public double getEyeY() {return this.position().y + 34.50F;}
 
 	@Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
 	/* --------------------------------------------------------------------------------------------------- */
@@ -436,6 +432,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, Player.class, true));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
+		this.goalSelector.addGoal(5, new ActiveMeleeAttackGoal(this, 1.25D, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
     }
 

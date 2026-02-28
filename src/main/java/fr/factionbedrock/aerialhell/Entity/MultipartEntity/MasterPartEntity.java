@@ -114,7 +114,9 @@ public interface MasterPartEntity extends BaseMobEntityInterface
             Vec3 offset = partInfo.getRelativePositionOffset();
             if (partEntity != null)
             {
-                partEntity.setPos(x + offset.x, y + offset.y, z + offset.z);
+                float yRot = (float) Math.toRadians(this.getSelf().getYRot());
+                Vec3 rotatedOffset = offset.yRot(-yRot);
+                partEntity.setPos(x + rotatedOffset.x, y + rotatedOffset.y, z + rotatedOffset.z);
             }
         }
     }
