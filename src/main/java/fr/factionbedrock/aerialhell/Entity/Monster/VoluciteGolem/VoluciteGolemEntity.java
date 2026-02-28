@@ -99,7 +99,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
         }
     }
 
-    @Override public String getPartStringUUID(PartInfo part) {if (part == HEAD_PART_INFO) {return this.headStringUUID;} else {return "null";}}
+    @Override @Nullable public String getPartStringUUID(PartInfo part) {if (part == HEAD_PART_INFO) {return this.headStringUUID;} else {return "null";}}
     @Override public void setPartStringUUID(PartInfo part, String uuid) {if (part == HEAD_PART_INFO) {this.headStringUUID = uuid;}}
     @Override public int getTicksInInvalidSituation() {return this.ticksInInvalidSituation;}
     @Override public void setTickInInvalidSituation(int newValue) {this.ticksInInvalidSituation = newValue;}

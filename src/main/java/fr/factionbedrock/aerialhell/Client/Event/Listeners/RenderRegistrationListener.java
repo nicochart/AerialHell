@@ -53,7 +53,7 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.FIRE_SPIRIT.get(), ElementSpiritRender::new);
         event.registerEntityRenderer(AerialHellEntities.ELECTRO_SPIRIT.get(), ElementSpiritRender::new);
         event.registerEntityRenderer(AerialHellEntities.CHAINED_GOD.get(), ChainedGodRender::new);
-        event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN.get(), VoluciteWardenRender::new);
+        event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN.get(), EmptyRender::new);
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), (context) -> new VoluciteWardenPartRender(context, VoluciteWardenPartModel.Part.ARM));
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_LEG.get(), (context) -> new VoluciteWardenPartRender(context, VoluciteWardenPartModel.Part.LEG));
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_PELVIS.get(), (context) -> new VoluciteWardenPartRender(context, VoluciteWardenPartModel.Part.PELVIS));
@@ -114,7 +114,6 @@ public class RenderRegistrationListener
         event.registerLayerDefinition(AerialHellModelLayers.SNAKE, SnakeModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.STELLAR_CHICKEN, StellarChickenModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CHAINED_GOD, ChainedGodModel::createBodyLayer);
-        event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_WARDEN, VoluciteWardenModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_WARDEN_ARM, () -> VoluciteWardenPartModel.createBodyLayer(VoluciteWardenPartModel.Part.ARM));
         event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_WARDEN_LEG, () -> VoluciteWardenPartModel.createBodyLayer(VoluciteWardenPartModel.Part.LEG));
         event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_WARDEN_PELVIS, () -> VoluciteWardenPartModel.createBodyLayer(VoluciteWardenPartModel.Part.PELVIS));

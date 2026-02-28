@@ -32,7 +32,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     void tickPartRotation(PartInfo partInfo, @NotNull PartEntity partEntity);
 
-    String getPartStringUUID(PartInfo part);
+    @Nullable String getPartStringUUID(PartInfo part);
     void setPartStringUUID(PartInfo part, String uuid);
 
     int getTicksInInvalidSituation();

@@ -144,13 +144,13 @@ public class AerialHellEntities
 			.sized(2.8F,5F).build(Keys.CHAINED_GOD));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenEntity>> VOLUCITE_WARDEN = ENTITIES.register("volucite_warden", () -> EntityType.Builder.<VoluciteWardenEntity>of(VoluciteWardenEntity::new, MobCategory.MONSTER)
-			.sized(7.0F,40.0F).build(Keys.VOLUCITE_WARDEN));
+			.sized(1.0F,1.0F).build(Keys.VOLUCITE_WARDEN));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenArmEntity>> VOLUCITE_WARDEN_ARM = ENTITIES.register("volucite_warden_arm", () -> EntityType.Builder.<VoluciteWardenArmEntity>of(VoluciteWardenArmEntity::new, MobCategory.MISC)
 			.sized(3.5F,3.5F).eyeHeight(1.5F).build(Keys.VOLUCITE_WARDEN_ARM));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenPartEntity>> VOLUCITE_WARDEN_LEG = ENTITIES.register("volucite_warden_leg", () -> EntityType.Builder.<VoluciteWardenPartEntity>of(VoluciteWardenPartEntity::new, MobCategory.MISC)
-			.sized(3.0F,16.0F).build(Keys.VOLUCITE_WARDEN_LEG));
+			.sized(3.0F,10.0F).build(Keys.VOLUCITE_WARDEN_LEG));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenPartEntity>> VOLUCITE_WARDEN_PELVIS = ENTITIES.register("volucite_warden_pelvis", () -> EntityType.Builder.<VoluciteWardenPartEntity>of(VoluciteWardenPartEntity::new, MobCategory.MISC)
 			.sized(5.0F,3.0F).build(Keys.VOLUCITE_WARDEN_PELVIS));
@@ -171,7 +171,7 @@ public class AerialHellEntities
 			.sized(4.0F,4.0F).build(Keys.VOLUCITE_WARDEN_NECK));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenHeadEntity>> VOLUCITE_WARDEN_HEAD = ENTITIES.register("volucite_warden_head", () -> EntityType.Builder.<VoluciteWardenHeadEntity>of(VoluciteWardenHeadEntity::new, MobCategory.MISC)
-			.sized(6.0F,7.0F).build(Keys.VOLUCITE_WARDEN_HEAD));
+			.sized(6.0F,7.0F).eyeHeight(4.0F).build(Keys.VOLUCITE_WARDEN_HEAD));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<PoisonballEntity>> POISONBALL = ENTITIES.register("poisonball", () -> EntityType.Builder.<PoisonballEntity>of(PoisonballEntity::new, MobCategory.MISC)
 			.sized(1.0F, 1.0F).build(Keys.POISONBALL));
