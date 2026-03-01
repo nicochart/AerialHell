@@ -8,6 +8,7 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
 // Made with Blockbench 5.0.2
@@ -122,11 +123,25 @@ public class VoluciteWardenPartModel extends EntityModel<VoluciteWardenRenderSta
 	{
 		float headPitch = renderState.xRot;
 		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed * 0.5F;
 
 		if (this.arm != null)
 		{
 			this.arm.yRot = netHeadYaw / 57.29578F;
 			this.arm.xRot = headPitch / 57.29578F;
+		}
+		
+		if (this.head != null)
+		{
+			this.head.yRot = netHeadYaw / 57.29578F;
+			this.head.xRot = headPitch / 57.29578F;
+		}
+
+		if (this.leg != null)
+		{
+			this.leg.xRot = renderState.legWalkAnimationDirection * Mth.triangleWave(limbSwing, 42.0F) * limbSwingAmount;
+			this.leg.yRot = 0.0F;
 		}
 	}
 

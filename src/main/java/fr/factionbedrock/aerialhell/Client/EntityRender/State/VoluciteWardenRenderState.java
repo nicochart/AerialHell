@@ -6,4 +6,5 @@ import net.minecraft.resources.Identifier;
 public class VoluciteWardenRenderState extends LivingEntityRenderState
 {
     public Identifier texture;
+    public int legWalkAnimationDirection;
 }

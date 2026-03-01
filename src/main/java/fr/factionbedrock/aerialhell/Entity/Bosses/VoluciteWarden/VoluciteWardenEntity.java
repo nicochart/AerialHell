@@ -427,6 +427,15 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* --------------------------------------------------------------------------------------------------- */
 	/* --------------------------------------------------------------------------------------------------- */
 
+	/* ----------------------------------------------------------------------------------- */
+	/* ----------- MasterPartEntity : Other methods for part-specific behavior ----------- */
+	/* ----------------------------------------------------------------------------------- */
+	public boolean recognizesLeftLegPart(Entity potentialLeg) {return potentialLeg == this.leftLeg;}
+	public boolean recognizesRightLegPart(Entity potentialLeg) {return potentialLeg == this.rightLeg;}
+	/* ----------------------------------------------------------------------------------- */
+	/* ----------------------------------------------------------------------------------- */
+	/* ----------------------------------------------------------------------------------- */
+
 	@Override protected void registerGoals()
     {
 		this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, Player.class, true));
