@@ -104,7 +104,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         }
     }
 
-    default void setPartsPos(double x, double y, double z) //call in setPos(x, y, z)
+    default void setPartsPos(double masterX, double masterY, double masterZ) //call in setPos(x, y, z)
     {
         //do not try to set pos of another entity on client side. Let server side do.
         //null getAllParts happens on entity creation (when constructor is called)
@@ -115,9 +115,9 @@ public interface MasterPartEntity extends BaseMobEntityInterface
             Vec3 offset = partInfo.getRelativePositionOffset();
             if (partEntity != null)
             {
-                float yRot = (float) Math.toRadians(this.getSelf().getYRot());
-                Vec3 rotatedOffset = offset.yRot(-yRot);
-                partEntity.setPos(x + rotatedOffset.x, y + rotatedOffset.y, z + rotatedOffset.z);
+                Vec3 adjustedOffset = this.adjustPartOffset(partInfo, partEntity, new Vec3(masterX, masterY, masterZ), offset);
+                Vec3 partPos = this.rotatePartPos(adjustedOffset);
+                partEntity.setPos(partPos.x, partPos.y, partPos.z);
             }
         }
     }
@@ -186,6 +186,17 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */
+
+    /* --------------------------------------------------------------------- */
+    /* ------- Other methods to override for specific part behaviors ------- */
+    /* --------------------------------------------------------------------- */
+    default Vec3 adjustPartOffset(PartInfo partInfo, PartEntity partEntity, Vec3 masterPos, Vec3 unadjustedPosOffset)
+    {
+        return unadjustedPosOffset;
+    }
+    /* --------------------------------------------------------------------- */
+    /* --------------------------------------------------------------------- */
+    /* --------------------------------------------------------------------- */
 
     /* ----------------------------------------------------------- */
     /* -------- Other utility methods (for the interface) -------- */
@@ -314,6 +325,12 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         {
             return getPartRaw(partInfo);
         }
+    }
+
+    default Vec3 rotatePartPos(Vec3 vec)
+    {
+        float yRot = (float) Math.toRadians(this.getSelf().getYRot());
+        return vec.yRot(-yRot);
     }
 
     default float calculateXRotFromOriginToTarget(Vec3 origin, Vec3 target)
