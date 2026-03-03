@@ -18,6 +18,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -72,20 +73,20 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	private static final EntityDataAccessor<Integer> BACK_LEFT_CORE_RIB_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Integer> NECK_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Integer> HEAD_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
-	private static final PartInfo RIGHT_ARM_SEGMENT_1_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_1", RIGHT_ARM_SEGMENT_1_ID, new Vec3(6.5F, 23.5F, 0.0F));
-	private static final PartInfo RIGHT_ARM_SEGMENT_2_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_2", RIGHT_ARM_SEGMENT_2_ID, new Vec3(7.5F, 20.5F, 0.0F));
-	private static final PartInfo RIGHT_ARM_SEGMENT_3_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_3", RIGHT_ARM_SEGMENT_3_ID, new Vec3(8.5F, 17.5F, 0.0F));
-	private static final PartInfo RIGHT_ARM_SEGMENT_4_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_4", RIGHT_ARM_SEGMENT_4_ID, new Vec3(8.5F, 14.5F, 0.0F));
-	private static final PartInfo RIGHT_ARM_SEGMENT_5_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_5", RIGHT_ARM_SEGMENT_5_ID, new Vec3(9.5F, 11.5F, 0.0F));
-	private static final PartInfo RIGHT_ARM_SEGMENT_6_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_6", RIGHT_ARM_SEGMENT_6_ID, new Vec3(9.5F, 8.5F, 0.0F));
-	private static final PartInfo RIGHT_ARM_SEGMENT_7_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_7", RIGHT_ARM_SEGMENT_7_ID, new Vec3(9.5F, 5.5F, 0.0F));
-	private static final PartInfo LEFT_ARM_SEGMENT_1_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_1", LEFT_ARM_SEGMENT_1_ID, new Vec3(-6.5F, 23.5F, 0.0F));
-	private static final PartInfo LEFT_ARM_SEGMENT_2_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_2", LEFT_ARM_SEGMENT_2_ID, new Vec3(-7.5F, 20.5F, 0.0F));
-	private static final PartInfo LEFT_ARM_SEGMENT_3_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_3", LEFT_ARM_SEGMENT_3_ID, new Vec3(-8.5F, 17.5F, 0.0F));
-	private static final PartInfo LEFT_ARM_SEGMENT_4_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_4", LEFT_ARM_SEGMENT_4_ID, new Vec3(-8.5F, 14.5F, 0.0F));
-	private static final PartInfo LEFT_ARM_SEGMENT_5_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_5", LEFT_ARM_SEGMENT_5_ID, new Vec3(-9.5F, 11.5F, 0.0F));
-	private static final PartInfo LEFT_ARM_SEGMENT_6_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_6", LEFT_ARM_SEGMENT_6_ID, new Vec3(-9.5F, 8.5F, 0.0F));
-	private static final PartInfo LEFT_ARM_SEGMENT_7_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_7", LEFT_ARM_SEGMENT_7_ID, new Vec3(-9.5F, 5.5F, 0.0F));
+	private static final PartInfo RIGHT_ARM_SEGMENT_1_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_1", 1, RIGHT_ARM_SEGMENT_1_ID, new Vec3(6.5F, 23.5F, 0.0F), true);
+	private static final PartInfo RIGHT_ARM_SEGMENT_2_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_2", 2, RIGHT_ARM_SEGMENT_2_ID, new Vec3(7.5F, 20.5F, 0.0F), true);
+	private static final PartInfo RIGHT_ARM_SEGMENT_3_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_3", 3, RIGHT_ARM_SEGMENT_3_ID, new Vec3(8.5F, 17.5F, 0.0F), true);
+	private static final PartInfo RIGHT_ARM_SEGMENT_4_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_4", 4, RIGHT_ARM_SEGMENT_4_ID, new Vec3(8.5F, 14.5F, 0.0F), true);
+	private static final PartInfo RIGHT_ARM_SEGMENT_5_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_5", 5, RIGHT_ARM_SEGMENT_5_ID, new Vec3(9.5F, 11.5F, 0.0F), true);
+	private static final PartInfo RIGHT_ARM_SEGMENT_6_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_6", 6, RIGHT_ARM_SEGMENT_6_ID, new Vec3(9.5F, 8.5F, 0.0F), true);
+	private static final PartInfo RIGHT_ARM_SEGMENT_7_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_7", 7, RIGHT_ARM_SEGMENT_7_ID, new Vec3(9.5F, 5.5F, 0.0F), true);
+	private static final PartInfo LEFT_ARM_SEGMENT_1_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_1", 1, LEFT_ARM_SEGMENT_1_ID, new Vec3(-6.5F, 23.5F, 0.0F), false);
+	private static final PartInfo LEFT_ARM_SEGMENT_2_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_2", 2, LEFT_ARM_SEGMENT_2_ID, new Vec3(-7.5F, 20.5F, 0.0F), false);
+	private static final PartInfo LEFT_ARM_SEGMENT_3_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_3", 3, LEFT_ARM_SEGMENT_3_ID, new Vec3(-8.5F, 17.5F, 0.0F), false);
+	private static final PartInfo LEFT_ARM_SEGMENT_4_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_4", 4, LEFT_ARM_SEGMENT_4_ID, new Vec3(-8.5F, 14.5F, 0.0F), false);
+	private static final PartInfo LEFT_ARM_SEGMENT_5_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_5", 5, LEFT_ARM_SEGMENT_5_ID, new Vec3(-9.5F, 11.5F, 0.0F), false);
+	private static final PartInfo LEFT_ARM_SEGMENT_6_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_6", 6, LEFT_ARM_SEGMENT_6_ID, new Vec3(-9.5F, 8.5F, 0.0F), false);
+	private static final PartInfo LEFT_ARM_SEGMENT_7_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_7", 7, LEFT_ARM_SEGMENT_7_ID, new Vec3(-9.5F, 5.5F, 0.0F), false);
 	private static final PartInfo RIGHT_LEG_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_LEG.get(), "right_leg", RIGHT_LEG_ID, new Vec3(2.5F, 0.0F, 0.0F));
 	private static final PartInfo LEFT_LEG_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_LEG.get(), "left_leg", LEFT_LEG_ID, new Vec3(-2.5F, 0.0F, 0.0F));
 	private static final PartInfo PELVIS_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_PELVIS.get(), "pelvis", PELVIS_ID, new Vec3(0.0F, 9.5F, 0.0F));
@@ -373,6 +374,14 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		super.aiStep();
 		this.partAiStep();
+
+		//additional things (specific to the volucite warden)
+		if (!this.level().isClientSide())
+		{
+			//the update is done client side by vanilla (in LivingEntity aiStep), but not server-side.
+			//in the volucite warden, walkAnimation can be used to adjust arm segment position while moving
+			this.calculateEntityAnimation(false);
+		}
 	}
 
 	@Override public void setPos(double x, double y, double z)
@@ -426,6 +435,36 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* --------------------------------------------------------------------------------------------------- */
 	/* --------------------------------------------------------------------------------------------------- */
 	/* --------------------------------------------------------------------------------------------------- */
+
+	/* --------------------------------------------------------------------- */
+	/* ------- Other methods to override for specific part behaviors ------- */
+	/* --------------------------------------------------------------------- */
+	@Override public Vec3 adjustPartOffset(PartInfo partInfo, PartEntity partEntity, Vec3 masterPos, Vec3 unadjustedPosOffset)
+	{
+		if (partInfo instanceof ArmPartInfo armPartInfo)
+		{
+			Vec3 shoulderPosOffset = armPartInfo.getPosOffsetFromShoulder(unadjustedPosOffset);
+			float swing = this.walkAnimation.position();
+			float swingAmount = this.walkAnimation.speed() * 0.5F;
+			float direction = armPartInfo.isRightArm() ? 1.0F : -1.0F;
+
+			float shoulderAngle = direction * Mth.triangleWave(swing, 42.0F) * swingAmount;
+
+			double cos = Math.cos(shoulderAngle);
+			double sin = Math.sin(shoulderAngle);
+
+			double x = shoulderPosOffset.x;
+			double y = shoulderPosOffset.y * cos - shoulderPosOffset.z * sin;
+			double z = shoulderPosOffset.y * sin + shoulderPosOffset.z * cos;
+
+			shoulderPosOffset = new Vec3(x, y, z);
+			return armPartInfo.getPosOffsetFromMaster(shoulderPosOffset);
+		}
+		else {return MasterPartEntity.super.adjustPartOffset(partInfo, partEntity, masterPos, unadjustedPosOffset);}
+	}
+	/* --------------------------------------------------------------------- */
+	/* --------------------------------------------------------------------- */
+	/* --------------------------------------------------------------------- */
 
 	/* ----------------------------------------------------------------------------------- */
 	/* ----------- MasterPartEntity : Other methods for part-specific behavior ----------- */
@@ -517,5 +556,39 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getVoicePitch());}
 		}
 		else {this.playHurtSound(damageSource);}
+	}
+
+	private static class ArmPartInfo extends PartInfo
+	{
+		private final int segmentIndex;
+		private final boolean isRightArm;
+
+		public ArmPartInfo(EntityType<?> type, String name, int segmentIndex, EntityDataAccessor<Integer> entityIdDataAccessor, Vec3 relativePositionOffset, boolean isRightArm)
+		{
+			super(type, name, entityIdDataAccessor, relativePositionOffset);
+			this.segmentIndex = segmentIndex;
+			this.isRightArm = isRightArm;
+		}
+
+		public int getSegmentIndex() {return segmentIndex;}
+		public boolean isRightArm() {return this.isRightArm;}
+		public boolean isLeftArm() {return !this.isRightArm;}
+
+		public Vec3 getShoulderPosOffsetFromMaster()
+		{
+			return new Vec3(this.isRightArm() ? 5.0F : -5.0F, 24.5F, 0.0F);
+		}
+
+		//relative positioning transformation from master to shoulder
+		public Vec3 getPosOffsetFromShoulder(Vec3 posOffsetFromMaster)
+		{
+			return this.getRelativePositionOffset().subtract(this.getShoulderPosOffsetFromMaster());
+		}
+
+		//relative positioning transformation from shoulder to master
+		public Vec3 getPosOffsetFromMaster(Vec3 posOffsetFromShoulder)
+		{
+			return posOffsetFromShoulder.add(this.getShoulderPosOffsetFromMaster());
+		}
 	}
 }

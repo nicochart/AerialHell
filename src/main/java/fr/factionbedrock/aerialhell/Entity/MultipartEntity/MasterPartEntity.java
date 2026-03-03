@@ -117,7 +117,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
             {
                 Vec3 adjustedOffset = this.adjustPartOffset(partInfo, partEntity, new Vec3(masterX, masterY, masterZ), offset);
                 Vec3 partPos = this.rotatePartPos(adjustedOffset);
-                partEntity.setPos(partPos.x, partPos.y, partPos.z);
+                partEntity.setPos(masterX + partPos.x, masterY + partPos.y, masterZ + partPos.z);
             }
         }
     }
