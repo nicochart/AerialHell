@@ -443,12 +443,14 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		if (partInfo instanceof ArmPartInfo armPartInfo)
 		{
+			boolean useArmFalloff = false;
 			Vec3 shoulderPosOffset = armPartInfo.getPosOffsetFromShoulder(unadjustedPosOffset);
 			float swing = this.walkAnimation.position();
 			float swingAmount = this.walkAnimation.speed() * 0.5F;
 			float direction = armPartInfo.isRightArm() ? 1.0F : -1.0F;
 
 			float shoulderAngle = direction * Mth.triangleWave(swing, 42.0F) * swingAmount;
+			if (useArmFalloff) {shoulderAngle *= armPartInfo.getFalloff();}
 
 			double cos = Math.cos(shoulderAngle);
 			double sin = Math.sin(shoulderAngle);
@@ -471,6 +473,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ----------------------------------------------------------------------------------- */
 	public boolean recognizesLeftLegPart(Entity potentialLeg) {return potentialLeg == this.leftLeg;}
 	public boolean recognizesRightLegPart(Entity potentialLeg) {return potentialLeg == this.rightLeg;}
+	public boolean recognizesLeftArmSegmentPart(Entity potentialLeg) {return potentialLeg == this.leftArmSegment1 || potentialLeg == this.leftArmSegment2 || potentialLeg == this.leftArmSegment3 || potentialLeg == this.leftArmSegment4 || potentialLeg == this.leftArmSegment5 || potentialLeg == this.leftArmSegment6 || potentialLeg == this.leftArmSegment7;}
+	public boolean recognizesRightArmSegmentPart(Entity potentialLeg) {return potentialLeg == this.rightArmSegment1 || potentialLeg == this.rightArmSegment2 || potentialLeg == this.rightArmSegment3 || potentialLeg == this.rightArmSegment4 || potentialLeg == this.rightArmSegment5 || potentialLeg == this.rightArmSegment6 || potentialLeg == this.rightArmSegment7;}
 	/* ----------------------------------------------------------------------------------- */
 	/* ----------------------------------------------------------------------------------- */
 	/* ----------------------------------------------------------------------------------- */
@@ -589,6 +593,21 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		public Vec3 getPosOffsetFromMaster(Vec3 posOffsetFromShoulder)
 		{
 			return posOffsetFromShoulder.add(this.getShoulderPosOffsetFromMaster());
+		}
+
+		public float getFalloff()
+		{
+			switch (this.segmentIndex)
+			{
+				case 1 -> {return 1.0F;}
+				case 2 -> {return 0.85F;}
+				case 3 -> {return 0.7F;}
+				case 4 -> {return 0.55F;}
+				case 5 -> {return 0.4F;}
+				case 6 -> {return 0.25F;}
+				case 7 -> {return 0.1F;}
+				default -> {return 1.0F;}
+            }
 		}
 	}
 }

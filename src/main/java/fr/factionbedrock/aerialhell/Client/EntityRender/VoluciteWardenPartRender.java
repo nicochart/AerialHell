@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.VoluciteWardenRend
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.Identifier;
@@ -27,8 +28,8 @@ public class VoluciteWardenPartRender extends MobRenderer<VoluciteWardenPartEnti
 		super.extractRenderState(entity, renderState, f);
 		MasterPartEntity master = entity.getMaster();
 
-		//left leg has -1, other parts (including right leg) have 1. The parameter is only used for legs in model animation.
-		renderState.legWalkAnimationDirection = master instanceof VoluciteWardenEntity wardenMaster && wardenMaster.recognizesLeftLegPart(entity) ? 1 : -1;
+		//left leg & right leg have -1, other parts (including right leg & left arm) have 1. The parameter is only used for legs in model animation.
+		renderState.walkAnimationDirection = master instanceof VoluciteWardenEntity wardenMaster && (wardenMaster.recognizesLeftLegPart(entity) || wardenMaster.recognizesRightArmSegmentPart(entity)) ? 1 : -1;
 
 		if (master instanceof VoluciteWardenEntity wardenMaster)
 		{

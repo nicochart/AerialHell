@@ -128,8 +128,10 @@ public class VoluciteWardenPartModel extends EntityModel<VoluciteWardenRenderSta
 
 		if (this.arm != null)
 		{
-			this.arm.yRot = netHeadYaw / 57.29578F;
-			this.arm.xRot = headPitch / 57.29578F;
+			this.arm.xRot = renderState.walkAnimationDirection * Mth.triangleWave(limbSwing, 42.0F) * limbSwingAmount;
+			this.arm.yRot = 0.0F;
+			//this.arm.yRot = netHeadYaw / 57.29578F;
+			//this.arm.xRot = headPitch / 57.29578F;
 		}
 		
 		if (this.head != null)
@@ -140,7 +142,7 @@ public class VoluciteWardenPartModel extends EntityModel<VoluciteWardenRenderSta
 
 		if (this.leg != null)
 		{
-			this.leg.xRot = renderState.legWalkAnimationDirection * Mth.triangleWave(limbSwing, 42.0F) * limbSwingAmount;
+			this.leg.xRot = renderState.walkAnimationDirection * Mth.triangleWave(limbSwing, 42.0F) * limbSwingAmount;
 			this.leg.yRot = 0.0F;
 		}
 	}
