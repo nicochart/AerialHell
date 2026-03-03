@@ -21,6 +21,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
@@ -430,6 +432,12 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ----------- MasterPartEntity : Superclass methods Overridden for part-specific behavior ----------- */
 	/* --------------------------------------------------------------------------------------------------- */
 	@Override public double getEyeY() {return this.position().y + 34.50F;}
+
+	@Override public boolean isAttackable() {return false;} //makes damage is not called when a player left-clicks on the hitbox, but the left-click hitbox collision still happen
+	@Override public boolean isPickable() {return false;} //disables left-click and right-click hitbox collision
+
+	@Override protected void doPush(Entity entity) {}
+	@Override public void push(Vec3 vector) {}
 
 	@Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
 	/* --------------------------------------------------------------------------------------------------- */
