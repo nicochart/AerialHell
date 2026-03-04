@@ -9,7 +9,6 @@ import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Util.FieldAccessor;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -40,18 +39,12 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     public final Map<String, PartInfo> PARTS_MAP = Maps.newHashMap();
     private static final EntityDataAccessor<Integer> HEAD_ID = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.INT);
     private final PartInfo HEAD = new PartInfo(AerialHellEntities.VOLUCITE_GOLEM_HEAD.get(), "head", HEAD_ID, new Vec3(0.0F, 2.15F, 0.0F), PARTS_MAP);
-    protected int ticksInInvalidSituation;
-    private final FieldAccessor<Integer> ticksInInvalidSituationAccessor = new FieldAccessor<>(() -> this.ticksInInvalidSituation, value -> this.ticksInInvalidSituation = value);
     /* ----------------------------- */
 
     public VoluciteGolemEntity(EntityType<? extends Monster> type, Level level)
     {
         super(type, level);
         this.xpReward = 16;
-
-        /* -- MasterPartEntity init -- */
-        this.initMaster();
-        /* --------------------------- */
     }
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
@@ -96,8 +89,6 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
             }
         }
     }
-
-    @Override public FieldAccessor<Integer> getTicksInInvalidSituationAccessor() {return ticksInInvalidSituationAccessor;}
     /* ------------------------------------------------------------------------- */
     /* ------------------------------------------------------------------------- */
     /* ------------------------------------------------------------------------- */

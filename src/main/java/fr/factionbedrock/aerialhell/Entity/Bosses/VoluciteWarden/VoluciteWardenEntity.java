@@ -12,7 +12,6 @@ import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Util.FieldAccessor;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -100,8 +99,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	private final PartInfo BACK_LEFT_CORE_RIB = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CORE_RIB.get(), "back_left_core_rib", BACK_LEFT_CORE_RIB_ID, new Vec3(-4.0F, 18.5F, -4.0F), PARTS_MAP);
 	private final PartInfo NECK = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_NECK.get(), "neck", NECK_ID, new Vec3(0.0F, 26.5F, 0.0F), PARTS_MAP);
 	private final PartInfo HEAD = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_HEAD.get(), "head", HEAD_ID, new Vec3(0.0F, 30.5F, 0.0F), PARTS_MAP);
-	protected int ticksInInvalidSituation;
-	private final FieldAccessor<Integer> ticksInInvalidSituationAccessor = new FieldAccessor<>(() -> this.ticksInInvalidSituation, value -> this.ticksInInvalidSituation = value);
 	/* ----------------------------- */
 
 	public int timeDying;
@@ -109,10 +106,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public VoluciteWardenEntity(EntityType<? extends Monster> type, Level world)
 	{
 		super(type, world);
-
-		/* -- MasterPartEntity init -- */
-		this.initMaster();
-		/* --------------------------- */
 
 		this.timeDying = 0;
 		this.hurtTime = 0;
@@ -164,8 +157,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			}
 		}
 	}
-
-	@Override public FieldAccessor<Integer> getTicksInInvalidSituationAccessor() {return ticksInInvalidSituationAccessor;}
 	/* ------------------------------------------------------------------------- */
 	/* ------------------------------------------------------------------------- */
 	/* ------------------------------------------------------------------------- */
