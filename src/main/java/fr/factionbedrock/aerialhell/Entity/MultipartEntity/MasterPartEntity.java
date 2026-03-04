@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.MultipartEntity;
 
 import fr.factionbedrock.aerialhell.Entity.BaseMobEntityInterface;
-import fr.factionbedrock.aerialhell.Util.FieldAccessor;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -48,7 +47,8 @@ public interface MasterPartEntity extends BaseMobEntityInterface
                 partInfo.incrementTicksInInvalidSituation();
                 if (partInfo.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION)  //should not happen if head is not removed or if the uuid changed (if the entity is loaded from a structure nbt for example)
                 {
-                    this.reactToInvalidSituationWithPart(partInfo);
+                    boolean shouldBreak = this.reactToInvalidSituationWithPart(partInfo);
+                    if (shouldBreak) {break;}
                 }
                 this.tryToFindBackPart(partInfo);
             }
@@ -172,11 +172,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* --------------------------------------------------------------------- */
     /* ------- Other methods to override for specific part behaviors ------- */
     /* --------------------------------------------------------------------- */
-    default void reactToInvalidSituationWithPart(PartInfo part) //if the part is not found (for example after being placed with a structure nbt, or if the part was deleted for whatever reason)
-    {
-        this.resetSelf(); //full reset is the best to do to avoid unsync animation.
-        //this.trySummonAndRegisterPart(part); //another possibility is to reset the part
-    }
+    default InvalidSituationBehavior getInvalidSituationBehavior() {return InvalidSituationBehavior.RESET;}
 
     default Vec3 adjustPartOffset(PartInfo partInfo, PartEntity partEntity, Vec3 masterPos, Vec3 unadjustedPosOffset)
     {
@@ -236,6 +232,26 @@ public interface MasterPartEntity extends BaseMobEntityInterface
             part.partDoHurtServer(level, source, 0.5F, true);
             part.getSelf().heal(0.5F);
         }
+    }
+
+    //if the part is not found (for example after being placed with a structure nbt, or if the part was deleted for whatever reason)
+    //returns true if other parts are impacted by the reaction
+    default boolean reactToInvalidSituationWithPart(PartInfo part)
+    {
+        return switch (this.getInvalidSituationBehavior())
+        {
+            case NONE -> false;
+            case PART_RESPAWN ->
+            {
+                this.trySummonAndRegisterPart(part); //only reset the part. Can cause sync problem.
+                yield false;
+            }
+            case RESET ->
+            {
+                this.resetSelf(); //full reset is the best to do to avoid unsync animation.
+                yield true;
+            }
+        };
     }
 
     default void resetSelf()
@@ -337,4 +353,6 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */
+
+    enum InvalidSituationBehavior {RESET, PART_RESPAWN, NONE}
 }
