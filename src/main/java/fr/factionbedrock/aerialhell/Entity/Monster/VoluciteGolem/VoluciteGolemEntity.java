@@ -39,9 +39,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     /* -- MasterPartEntity fields -- */
     public final Map<String, PartInfo> PARTS_MAP = Maps.newHashMap();
     private static final EntityDataAccessor<Integer> HEAD_ID = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.INT);
-    private final PartInfo HEAD_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_GOLEM_HEAD.get(), "head", HEAD_ID, new FieldAccessor<>(() -> this.head, entity -> this.head = entity), new Vec3(0.0F, 2.15F, 0.0F), PARTS_MAP);
-    @Nullable private PartEntity head;
-    @Nullable private String headStringUUID;
+    private final PartInfo HEAD = new PartInfo(AerialHellEntities.VOLUCITE_GOLEM_HEAD.get(), "head", HEAD_ID, new Vec3(0.0F, 2.15F, 0.0F), PARTS_MAP);
     protected int ticksInInvalidSituation;
     private final FieldAccessor<Integer> ticksInInvalidSituationAccessor = new FieldAccessor<>(() -> this.ticksInInvalidSituation, value -> this.ticksInInvalidSituation = value);
     /* ----------------------------- */
@@ -73,7 +71,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
 
     @Override public void tickPartRotation(PartInfo partInfo, @NotNull PartEntity partEntity)
     {
-        if (partInfo == HEAD_PART_INFO && partEntity instanceof VoluciteGolemHeadEntity headPart)
+        if (partInfo == HEAD && partEntity instanceof VoluciteGolemHeadEntity headPart)
         {
             if (!headPart.isBeaming())
             {
@@ -99,8 +97,6 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
         }
     }
 
-    @Override @Nullable public String getPartStringUUID(PartInfo part) {if (part == HEAD_PART_INFO) {return this.headStringUUID;} else {return "null";}}
-    @Override public void setPartStringUUID(PartInfo part, String uuid) {if (part == HEAD_PART_INFO) {this.headStringUUID = uuid;}}
     @Override public FieldAccessor<Integer> getTicksInInvalidSituationAccessor() {return ticksInInvalidSituationAccessor;}
     /* ------------------------------------------------------------------------- */
     /* ------------------------------------------------------------------------- */

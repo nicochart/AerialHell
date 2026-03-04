@@ -32,9 +32,6 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     void tickPartRotation(PartInfo partInfo, @NotNull PartEntity partEntity);
 
-    @Nullable String getPartStringUUID(PartInfo part);
-    void setPartStringUUID(PartInfo part, String uuid);
-
     FieldAccessor<Integer> getTicksInInvalidSituationAccessor();
 
     /* ---------------------------------------------------- */
@@ -202,6 +199,9 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------------------- */
     default int getTicksInInvalidSituation() {return this.getTicksInInvalidSituationAccessor().get();}
     default void setTickInInvalidSituation(int newValue) {this.getTicksInInvalidSituationAccessor().set(newValue);}
+
+    default @Nullable String getPartStringUUID(PartInfo part) {return part.getPartUUID();}
+    default void setPartStringUUID(PartInfo part, String uuid) {part.setPartUUID(uuid);}
 
     default PartEntity getPartRaw(PartInfo partInfo) {return partInfo.getPart();}
     default void setPartRaw(PartInfo partInfo, PartEntity part) {partInfo.setPart(part);}

@@ -73,87 +73,33 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	private static final EntityDataAccessor<Integer> NECK_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Integer> HEAD_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
 	private final Map<String, PartInfo> PARTS_MAP = Maps.newHashMap();
-	private final PartInfo RIGHT_ARM_SEGMENT_1_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_1", 1, RIGHT_ARM_SEGMENT_1_ID, new FieldAccessor<>(() -> this.rightArmSegment1, entity -> this.rightArmSegment1 = entity), new Vec3(6.5F, 23.5F, 0.0F), true, PARTS_MAP);
-	private final PartInfo RIGHT_ARM_SEGMENT_2_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_2", 2, RIGHT_ARM_SEGMENT_2_ID, new FieldAccessor<>(() -> this.rightArmSegment2, entity -> this.rightArmSegment2 = entity), new Vec3(7.5F, 20.5F, 0.0F), true, PARTS_MAP);
-	private final PartInfo RIGHT_ARM_SEGMENT_3_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_3", 3, RIGHT_ARM_SEGMENT_3_ID, new FieldAccessor<>(() -> this.rightArmSegment3, entity -> this.rightArmSegment3 = entity), new Vec3(8.5F, 17.5F, 0.0F), true, PARTS_MAP);
-	private final PartInfo RIGHT_ARM_SEGMENT_4_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_4", 4, RIGHT_ARM_SEGMENT_4_ID, new FieldAccessor<>(() -> this.rightArmSegment4, entity -> this.rightArmSegment4 = entity), new Vec3(8.5F, 14.5F, 0.0F), true, PARTS_MAP);
-	private final PartInfo RIGHT_ARM_SEGMENT_5_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_5", 5, RIGHT_ARM_SEGMENT_5_ID, new FieldAccessor<>(() -> this.rightArmSegment5, entity -> this.rightArmSegment5 = entity), new Vec3(9.5F, 11.5F, 0.0F), true, PARTS_MAP);
-	private final PartInfo RIGHT_ARM_SEGMENT_6_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_6", 6, RIGHT_ARM_SEGMENT_6_ID, new FieldAccessor<>(() -> this.rightArmSegment6, entity -> this.rightArmSegment6 = entity), new Vec3(9.5F, 8.5F, 0.0F), true, PARTS_MAP);
-	private final PartInfo RIGHT_ARM_SEGMENT_7_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_7", 7, RIGHT_ARM_SEGMENT_7_ID, new FieldAccessor<>(() -> this.rightArmSegment7, entity -> this.rightArmSegment7 = entity), new Vec3(9.5F, 5.5F, 0.0F), true, PARTS_MAP);
-	private final PartInfo LEFT_ARM_SEGMENT_1_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_1", 1, LEFT_ARM_SEGMENT_1_ID, new FieldAccessor<>(() -> this.leftArmSegment1, entity -> this.leftArmSegment1 = entity), new Vec3(-6.5F, 23.5F, 0.0F), false, PARTS_MAP);
-	private final PartInfo LEFT_ARM_SEGMENT_2_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_2", 2, LEFT_ARM_SEGMENT_2_ID, new FieldAccessor<>(() -> this.leftArmSegment2, entity -> this.leftArmSegment2 = entity), new Vec3(-7.5F, 20.5F, 0.0F), false, PARTS_MAP);
-	private final PartInfo LEFT_ARM_SEGMENT_3_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_3", 3, LEFT_ARM_SEGMENT_3_ID, new FieldAccessor<>(() -> this.leftArmSegment3, entity -> this.leftArmSegment3 = entity), new Vec3(-8.5F, 17.5F, 0.0F), false, PARTS_MAP);
-	private final PartInfo LEFT_ARM_SEGMENT_4_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_4", 4, LEFT_ARM_SEGMENT_4_ID, new FieldAccessor<>(() -> this.leftArmSegment4, entity -> this.leftArmSegment4 = entity), new Vec3(-8.5F, 14.5F, 0.0F), false, PARTS_MAP);
-	private final PartInfo LEFT_ARM_SEGMENT_5_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_5", 5, LEFT_ARM_SEGMENT_5_ID, new FieldAccessor<>(() -> this.leftArmSegment5, entity -> this.leftArmSegment5 = entity), new Vec3(-9.5F, 11.5F, 0.0F), false, PARTS_MAP);
-	private final PartInfo LEFT_ARM_SEGMENT_6_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_6", 6, LEFT_ARM_SEGMENT_6_ID, new FieldAccessor<>(() -> this.leftArmSegment6, entity -> this.leftArmSegment6 = entity), new Vec3(-9.5F, 8.5F, 0.0F), false, PARTS_MAP);
-	private final PartInfo LEFT_ARM_SEGMENT_7_PART_INFO = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_7", 7, LEFT_ARM_SEGMENT_7_ID, new FieldAccessor<>(() -> this.leftArmSegment7, entity -> this.leftArmSegment7 = entity), new Vec3(-9.5F, 5.5F, 0.0F), false, PARTS_MAP);
-	private final PartInfo RIGHT_LEG_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_LEG.get(), "right_leg", RIGHT_LEG_ID, new FieldAccessor<>(() -> this.rightLeg, entity -> this.rightLeg = entity), new Vec3(2.5F, 0.0F, 0.0F), PARTS_MAP);
-	private final PartInfo LEFT_LEG_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_LEG.get(), "left_leg", LEFT_LEG_ID, new FieldAccessor<>(() -> this.leftLeg, entity -> this.leftLeg = entity), new Vec3(-2.5F, 0.0F, 0.0F), PARTS_MAP);
-	private final PartInfo PELVIS_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_PELVIS.get(), "pelvis", PELVIS_ID, new FieldAccessor<>(() -> this.pelvis, entity -> this.pelvis = entity), new Vec3(0.0F, 9.5F, 0.0F), PARTS_MAP);
-	private final PartInfo ABDOMEN_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_ABDOMEN.get(), "abdomen", ABDOMEN_ID, new FieldAccessor<>(() -> this.abdomen, entity -> this.abdomen = entity), new Vec3(0.0F, 12.5F, 0.0F), PARTS_MAP);
-	private final PartInfo LOWER_CHEST_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CHEST.get(), "lower_chest", LOWER_CHEST_ID, new FieldAccessor<>(() -> this.lowerChest, entity -> this.lowerChest = entity), new Vec3(0.0F, 16.5F, 0.0F), PARTS_MAP);
-	private final PartInfo UPPER_CHEST_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CHEST.get(), "upper_chest", UPPER_CHEST_ID, new FieldAccessor<>(() -> this.upperChest, entity -> this.upperChest = entity), new Vec3(0.0F, 24.5F, 0.0F), PARTS_MAP);
-	private final PartInfo CORE_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CORE.get(), "core", CORE_ID, new FieldAccessor<>(() -> this.core, entity -> this.core = entity), new Vec3(0.0F, 18.5F, 0.0F), PARTS_MAP);
-	private final PartInfo FRONT_RIGHT_CORE_RIB_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CORE_RIB.get(), "front_right_core_rib", FRONT_RIGHT_CORE_RIB_ID, new FieldAccessor<>(() -> this.frontRightCoreRib, entity -> this.frontRightCoreRib = entity), new Vec3(4.0F, 18.5F, 4.0F), PARTS_MAP);
-	private final PartInfo FRONT_LEFT_CORE_RIB_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CORE_RIB.get(), "front_left_core_rib", FRONT_LEFT_CORE_RIB_ID, new FieldAccessor<>(() -> this.frontLeftCoreRib, entity -> this.frontLeftCoreRib = entity), new Vec3(-4.0F, 18.5F, 4.0F), PARTS_MAP);
-	private final PartInfo BACK_RIGHT_CORE_RIB_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CORE_RIB.get(), "back_right_core_rib", BACK_RIGHT_CORE_RIB_ID, new FieldAccessor<>(() -> this.backRightCoreRib, entity -> this.backRightCoreRib = entity), new Vec3(4.0F, 18.5F, -4.0F), PARTS_MAP);
-	private final PartInfo BACK_LEFT_CORE_RIB_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CORE_RIB.get(), "back_left_core_rib", BACK_LEFT_CORE_RIB_ID, new FieldAccessor<>(() -> this.backLeftCoreRib, entity -> this.backLeftCoreRib = entity), new Vec3(-4.0F, 18.5F, -4.0F), PARTS_MAP);
-	private final PartInfo NECK_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_NECK.get(), "neck", NECK_ID, new FieldAccessor<>(() -> this.neck, entity -> this.neck = entity), new Vec3(0.0F, 26.5F, 0.0F), PARTS_MAP);
-	private final PartInfo HEAD_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_HEAD.get(), "head", HEAD_ID, new FieldAccessor<>(() -> this.head, entity -> this.head = entity), new Vec3(0.0F, 30.5F, 0.0F), PARTS_MAP);
-	@Nullable private PartEntity rightArmSegment1;
-	@Nullable private String rightArmSegment1StringUUID;
-	@Nullable private PartEntity rightArmSegment2;
-	@Nullable private String rightArmSegment2StringUUID;
-	@Nullable private PartEntity rightArmSegment3;
-	@Nullable private String rightArmSegment3StringUUID;
-	@Nullable private PartEntity rightArmSegment4;
-	@Nullable private String rightArmSegment4StringUUID;
-	@Nullable private PartEntity rightArmSegment5;
-	@Nullable private String rightArmSegment5StringUUID;
-	@Nullable private PartEntity rightArmSegment6;
-	@Nullable private String rightArmSegment6StringUUID;
-	@Nullable private PartEntity rightArmSegment7;
-	@Nullable private String rightArmSegment7StringUUID;
-	@Nullable private PartEntity leftArmSegment1;
-	@Nullable private String leftArmSegment1StringUUID;
-	@Nullable private PartEntity leftArmSegment2;
-	@Nullable private String leftArmSegment2StringUUID;
-	@Nullable private PartEntity leftArmSegment3;
-	@Nullable private String leftArmSegment3StringUUID;
-	@Nullable private PartEntity leftArmSegment4;
-	@Nullable private String leftArmSegment4StringUUID;
-	@Nullable private PartEntity leftArmSegment5;
-	@Nullable private String leftArmSegment5StringUUID;
-	@Nullable private PartEntity leftArmSegment6;
-	@Nullable private String leftArmSegment6StringUUID;
-	@Nullable private PartEntity leftArmSegment7;
-	@Nullable private String leftArmSegment7StringUUID;
-	@Nullable private PartEntity rightLeg;
-	@Nullable private String rightLegStringUUID;
-	@Nullable private PartEntity leftLeg;
-	@Nullable private String leftLegStringUUID;
-	@Nullable private PartEntity pelvis;
-	@Nullable private String pelvisStringUUID;
-	@Nullable private PartEntity abdomen;
-	@Nullable private String abdomenStringUUID;
-	@Nullable private PartEntity lowerChest;
-	@Nullable private String lowerChestStringUUID;
-	@Nullable private PartEntity upperChest;
-	@Nullable private String upperChestStringUUID;
-	@Nullable private PartEntity core;
-	@Nullable private String coreStringUUID;
-	@Nullable private PartEntity frontRightCoreRib;
-	@Nullable private String frontRightCoreRibStringUUID;
-	@Nullable private PartEntity frontLeftCoreRib;
-	@Nullable private String frontLeftCoreRibStringUUID;
-	@Nullable private PartEntity backRightCoreRib;
-	@Nullable private String backRightCoreRibStringUUID;
-	@Nullable private PartEntity backLeftCoreRib;
-	@Nullable private String backLeftCoreRibStringUUID;
-	@Nullable private PartEntity neck;
-	@Nullable private String neckStringUUID;
-	@Nullable private PartEntity head;
-	@Nullable private String headStringUUID;
+	private final PartInfo RIGHT_ARM_SEGMENT_1 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_1", 1, RIGHT_ARM_SEGMENT_1_ID, new Vec3(6.5F, 23.5F, 0.0F), true, PARTS_MAP);
+	private final PartInfo RIGHT_ARM_SEGMENT_2 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_2", 2, RIGHT_ARM_SEGMENT_2_ID, new Vec3(7.5F, 20.5F, 0.0F), true, PARTS_MAP);
+	private final PartInfo RIGHT_ARM_SEGMENT_3 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_3", 3, RIGHT_ARM_SEGMENT_3_ID, new Vec3(8.5F, 17.5F, 0.0F), true, PARTS_MAP);
+	private final PartInfo RIGHT_ARM_SEGMENT_4 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_4", 4, RIGHT_ARM_SEGMENT_4_ID, new Vec3(8.5F, 14.5F, 0.0F), true, PARTS_MAP);
+	private final PartInfo RIGHT_ARM_SEGMENT_5 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_5", 5, RIGHT_ARM_SEGMENT_5_ID, new Vec3(9.5F, 11.5F, 0.0F), true, PARTS_MAP);
+	private final PartInfo RIGHT_ARM_SEGMENT_6 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_6", 6, RIGHT_ARM_SEGMENT_6_ID, new Vec3(9.5F, 8.5F, 0.0F), true, PARTS_MAP);
+	private final PartInfo RIGHT_ARM_SEGMENT_7 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_7", 7, RIGHT_ARM_SEGMENT_7_ID, new Vec3(9.5F, 5.5F, 0.0F), true, PARTS_MAP);
+	private final PartInfo LEFT_ARM_SEGMENT_1 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_1", 1, LEFT_ARM_SEGMENT_1_ID, new Vec3(-6.5F, 23.5F, 0.0F), false, PARTS_MAP);
+	private final PartInfo LEFT_ARM_SEGMENT_2 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_2", 2, LEFT_ARM_SEGMENT_2_ID, new Vec3(-7.5F, 20.5F, 0.0F), false, PARTS_MAP);
+	private final PartInfo LEFT_ARM_SEGMENT_3 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_3", 3, LEFT_ARM_SEGMENT_3_ID, new Vec3(-8.5F, 17.5F, 0.0F), false, PARTS_MAP);
+	private final PartInfo LEFT_ARM_SEGMENT_4 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_4", 4, LEFT_ARM_SEGMENT_4_ID, new Vec3(-8.5F, 14.5F, 0.0F), false, PARTS_MAP);
+	private final PartInfo LEFT_ARM_SEGMENT_5 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_5", 5, LEFT_ARM_SEGMENT_5_ID, new Vec3(-9.5F, 11.5F, 0.0F), false, PARTS_MAP);
+	private final PartInfo LEFT_ARM_SEGMENT_6 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_6", 6, LEFT_ARM_SEGMENT_6_ID, new Vec3(-9.5F, 8.5F, 0.0F), false, PARTS_MAP);
+	private final PartInfo LEFT_ARM_SEGMENT_7 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_7", 7, LEFT_ARM_SEGMENT_7_ID, new Vec3(-9.5F, 5.5F, 0.0F), false, PARTS_MAP);
+	private final PartInfo RIGHT_LEG = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_LEG.get(), "right_leg", RIGHT_LEG_ID, new Vec3(2.5F, 0.0F, 0.0F), PARTS_MAP);
+	private final PartInfo LEFT_LEG = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_LEG.get(), "left_leg", LEFT_LEG_ID, new Vec3(-2.5F, 0.0F, 0.0F), PARTS_MAP);
+	private final PartInfo PELVIS = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_PELVIS.get(), "pelvis", PELVIS_ID, new Vec3(0.0F, 9.5F, 0.0F), PARTS_MAP);
+	private final PartInfo ABDOMEN = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_ABDOMEN.get(), "abdomen", ABDOMEN_ID, new Vec3(0.0F, 12.5F, 0.0F), PARTS_MAP);
+	private final PartInfo LOWER_CHEST = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CHEST.get(), "lower_chest", LOWER_CHEST_ID, new Vec3(0.0F, 16.5F, 0.0F), PARTS_MAP);
+	private final PartInfo UPPER_CHEST = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CHEST.get(), "upper_chest", UPPER_CHEST_ID, new Vec3(0.0F, 24.5F, 0.0F), PARTS_MAP);
+	private final PartInfo CORE = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CORE.get(), "core", CORE_ID, new Vec3(0.0F, 18.5F, 0.0F), PARTS_MAP);
+	private final PartInfo FRONT_RIGHT_CORE_RIB = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CORE_RIB.get(), "front_right_core_rib", FRONT_RIGHT_CORE_RIB_ID, new Vec3(4.0F, 18.5F, 4.0F), PARTS_MAP);
+	private final PartInfo FRONT_LEFT_CORE_RIB = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CORE_RIB.get(), "front_left_core_rib", FRONT_LEFT_CORE_RIB_ID, new Vec3(-4.0F, 18.5F, 4.0F), PARTS_MAP);
+	private final PartInfo BACK_RIGHT_CORE_RIB = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CORE_RIB.get(), "back_right_core_rib", BACK_RIGHT_CORE_RIB_ID, new Vec3(4.0F, 18.5F, -4.0F), PARTS_MAP);
+	private final PartInfo BACK_LEFT_CORE_RIB = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CORE_RIB.get(), "back_left_core_rib", BACK_LEFT_CORE_RIB_ID, new Vec3(-4.0F, 18.5F, -4.0F), PARTS_MAP);
+	private final PartInfo NECK = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_NECK.get(), "neck", NECK_ID, new Vec3(0.0F, 26.5F, 0.0F), PARTS_MAP);
+	private final PartInfo HEAD = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_HEAD.get(), "head", HEAD_ID, new Vec3(0.0F, 30.5F, 0.0F), PARTS_MAP);
 	protected int ticksInInvalidSituation;
 	private final FieldAccessor<Integer> ticksInInvalidSituationAccessor = new FieldAccessor<>(() -> this.ticksInInvalidSituation, value -> this.ticksInInvalidSituation = value);
 	/* ----------------------------- */
@@ -198,7 +144,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		if (partEntity instanceof VoluciteWardenPartEntity part)
 		{
-			if (partInfo == HEAD_PART_INFO)
+			if (partInfo == HEAD)
 			{
 				part.yBodyRotO = part.yBodyRot;
 				part.yBodyRot = this.yHeadRot; //the whole "body" is head
@@ -217,69 +163,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 				part.setYRot(this.getYRot());
 			}
 		}
-	}
-
-	@Override @Nullable public String getPartStringUUID(PartInfo part)
-	{
-		if (part == RIGHT_ARM_SEGMENT_1_PART_INFO) {return this.rightArmSegment1StringUUID;}
-		else if (part == RIGHT_ARM_SEGMENT_2_PART_INFO) {return this.rightArmSegment2StringUUID;}
-		else if (part == RIGHT_ARM_SEGMENT_3_PART_INFO) {return this.rightArmSegment3StringUUID;}
-		else if (part == RIGHT_ARM_SEGMENT_4_PART_INFO) {return this.rightArmSegment4StringUUID;}
-		else if (part == RIGHT_ARM_SEGMENT_5_PART_INFO) {return this.rightArmSegment5StringUUID;}
-		else if (part == RIGHT_ARM_SEGMENT_6_PART_INFO) {return this.rightArmSegment6StringUUID;}
-		else if (part == RIGHT_ARM_SEGMENT_7_PART_INFO) {return this.rightArmSegment7StringUUID;}
-		else if (part == LEFT_ARM_SEGMENT_1_PART_INFO) {return this.leftArmSegment1StringUUID;}
-		else if (part == LEFT_ARM_SEGMENT_2_PART_INFO) {return this.leftArmSegment2StringUUID;}
-		else if (part == LEFT_ARM_SEGMENT_3_PART_INFO) {return this.leftArmSegment3StringUUID;}
-		else if (part == LEFT_ARM_SEGMENT_4_PART_INFO) {return this.leftArmSegment4StringUUID;}
-		else if (part == LEFT_ARM_SEGMENT_5_PART_INFO) {return this.leftArmSegment5StringUUID;}
-		else if (part == LEFT_ARM_SEGMENT_6_PART_INFO) {return this.leftArmSegment6StringUUID;}
-		else if (part == LEFT_ARM_SEGMENT_7_PART_INFO) {return this.leftArmSegment7StringUUID;}
-		else if (part == RIGHT_LEG_PART_INFO) {return this.rightLegStringUUID;}
-		else if (part == LEFT_LEG_PART_INFO) {return this.leftLegStringUUID;}
-		else if (part == PELVIS_PART_INFO) {return this.pelvisStringUUID;}
-		else if (part == ABDOMEN_PART_INFO) {return this.abdomenStringUUID;}
-		else if (part == LOWER_CHEST_PART_INFO) {return this.lowerChestStringUUID;}
-		else if (part == UPPER_CHEST_PART_INFO) {return this.upperChestStringUUID;}
-		else if (part == CORE_PART_INFO) {return this.coreStringUUID;}
-		else if (part == FRONT_RIGHT_CORE_RIB_PART_INFO) {return this.frontRightCoreRibStringUUID;}
-		else if (part == FRONT_LEFT_CORE_RIB_PART_INFO) {return this.frontLeftCoreRibStringUUID;}
-		else if (part == BACK_RIGHT_CORE_RIB_PART_INFO) {return this.backRightCoreRibStringUUID;}
-		else if (part == BACK_LEFT_CORE_RIB_PART_INFO) {return this.backLeftCoreRibStringUUID;}
-		else if (part == NECK_PART_INFO) {return this.neckStringUUID;}
-		else if (part == HEAD_PART_INFO) {return this.headStringUUID;}
-		else {return "null";}
-	}
-
-	@Override public void setPartStringUUID(PartInfo part, String uuid)
-	{
-		if (part == RIGHT_ARM_SEGMENT_1_PART_INFO) {this.rightArmSegment1StringUUID = uuid;}
-		else if (part == RIGHT_ARM_SEGMENT_2_PART_INFO) {this.rightArmSegment2StringUUID = uuid;}
-		else if (part == RIGHT_ARM_SEGMENT_3_PART_INFO) {this.rightArmSegment3StringUUID = uuid;}
-		else if (part == RIGHT_ARM_SEGMENT_4_PART_INFO) {this.rightArmSegment4StringUUID = uuid;}
-		else if (part == RIGHT_ARM_SEGMENT_5_PART_INFO) {this.rightArmSegment5StringUUID = uuid;}
-		else if (part == RIGHT_ARM_SEGMENT_6_PART_INFO) {this.rightArmSegment6StringUUID = uuid;}
-		else if (part == RIGHT_ARM_SEGMENT_7_PART_INFO) {this.rightArmSegment7StringUUID = uuid;}
-		else if (part == LEFT_ARM_SEGMENT_1_PART_INFO) {this.leftArmSegment1StringUUID = uuid;}
-		else if (part == LEFT_ARM_SEGMENT_2_PART_INFO) {this.leftArmSegment2StringUUID = uuid;}
-		else if (part == LEFT_ARM_SEGMENT_3_PART_INFO) {this.leftArmSegment3StringUUID = uuid;}
-		else if (part == LEFT_ARM_SEGMENT_4_PART_INFO) {this.leftArmSegment4StringUUID = uuid;}
-		else if (part == LEFT_ARM_SEGMENT_5_PART_INFO) {this.leftArmSegment5StringUUID = uuid;}
-		else if (part == LEFT_ARM_SEGMENT_6_PART_INFO) {this.leftArmSegment6StringUUID = uuid;}
-		else if (part == LEFT_ARM_SEGMENT_7_PART_INFO) {this.leftArmSegment7StringUUID = uuid;}
-		else if (part == RIGHT_LEG_PART_INFO) {this.rightLegStringUUID = uuid;}
-		else if (part == LEFT_LEG_PART_INFO) {this.leftLegStringUUID = uuid;}
-		else if (part == PELVIS_PART_INFO) {this.pelvisStringUUID = uuid;}
-		else if (part == ABDOMEN_PART_INFO) {this.abdomenStringUUID = uuid;}
-		else if (part == LOWER_CHEST_PART_INFO) {this.lowerChestStringUUID = uuid;}
-		else if (part == UPPER_CHEST_PART_INFO) {this.upperChestStringUUID = uuid;}
-		else if (part == CORE_PART_INFO) {this.coreStringUUID = uuid;}
-		else if (part == FRONT_RIGHT_CORE_RIB_PART_INFO) {this.frontRightCoreRibStringUUID = uuid;}
-		else if (part == FRONT_LEFT_CORE_RIB_PART_INFO) {this.frontLeftCoreRibStringUUID = uuid;}
-		else if (part == BACK_RIGHT_CORE_RIB_PART_INFO) {this.backRightCoreRibStringUUID = uuid;}
-		else if (part == BACK_LEFT_CORE_RIB_PART_INFO) {this.backLeftCoreRibStringUUID = uuid;}
-		else if (part == NECK_PART_INFO) {this.neckStringUUID = uuid;}
-		else if (part == HEAD_PART_INFO) {this.headStringUUID = uuid;}
 	}
 
 	@Override public FieldAccessor<Integer> getTicksInInvalidSituationAccessor() {return ticksInInvalidSituationAccessor;}
@@ -418,10 +301,10 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ----------------------------------------------------------------------------------- */
 	/* ----------- MasterPartEntity : Other methods for part-specific behavior ----------- */
 	/* ----------------------------------------------------------------------------------- */
-	public boolean recognizesLeftLegPart(Entity potentialLeg) {return potentialLeg == this.leftLeg;}
-	public boolean recognizesRightLegPart(Entity potentialLeg) {return potentialLeg == this.rightLeg;}
-	public boolean recognizesLeftArmSegmentPart(Entity potentialLeg) {return potentialLeg == this.leftArmSegment1 || potentialLeg == this.leftArmSegment2 || potentialLeg == this.leftArmSegment3 || potentialLeg == this.leftArmSegment4 || potentialLeg == this.leftArmSegment5 || potentialLeg == this.leftArmSegment6 || potentialLeg == this.leftArmSegment7;}
-	public boolean recognizesRightArmSegmentPart(Entity potentialLeg) {return potentialLeg == this.rightArmSegment1 || potentialLeg == this.rightArmSegment2 || potentialLeg == this.rightArmSegment3 || potentialLeg == this.rightArmSegment4 || potentialLeg == this.rightArmSegment5 || potentialLeg == this.rightArmSegment6 || potentialLeg == this.rightArmSegment7;}
+	public boolean recognizesLeftLegPart(@Nullable Entity potentialLeg) {return potentialLeg != null && potentialLeg == this.LEFT_LEG.getPart();}
+	public boolean recognizesRightLegPart(@Nullable Entity potentialLeg) {return potentialLeg != null && potentialLeg == this.RIGHT_LEG.getPart();}
+	public boolean recognizesLeftArmSegmentPart(@Nullable Entity potentialArmSegment) {return potentialArmSegment != null && potentialArmSegment == this.LEFT_ARM_SEGMENT_1.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_2.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_3.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_4.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_5.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_6.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_7.getPart();}
+	public boolean recognizesRightArmSegmentPart(@Nullable Entity potentialArmSegment) {return potentialArmSegment != null && potentialArmSegment == this.RIGHT_ARM_SEGMENT_1.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_2.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_3.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_4.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_5.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_6.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_7.getPart();}
 	/* ----------------------------------------------------------------------------------- */
 	/* ----------------------------------------------------------------------------------- */
 	/* ----------------------------------------------------------------------------------- */
@@ -514,9 +397,9 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		private final int segmentIndex;
 		private final boolean isRightArm;
 
-		public ArmPartInfo(EntityType<?> type, String name, int segmentIndex, EntityDataAccessor<Integer> entityIdDataAccessor, FieldAccessor<PartEntity> partEntityAccessor, Vec3 relativePositionOffset, boolean isRightArm, Map<String, PartInfo> partsMap)
+		public ArmPartInfo(EntityType<?> type, String name, int segmentIndex, EntityDataAccessor<Integer> entityIdDataAccessor, Vec3 relativePositionOffset, boolean isRightArm, Map<String, PartInfo> partsMap)
 		{
-			super(type, name, entityIdDataAccessor, partEntityAccessor, relativePositionOffset, partsMap);
+			super(type, name, entityIdDataAccessor, relativePositionOffset, partsMap);
 			this.segmentIndex = segmentIndex;
 			this.isRightArm = isRightArm;
 		}
