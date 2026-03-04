@@ -58,7 +58,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 			if (source.is(DamageTypes.GENERIC_KILL) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {}
 			else {this.setActive(true);}
 			this.lastHurtByPlayerMemoryTime = 100;
-			this.timeWithoutAnyTarget = 0;
+			this.onActivationStatusChange();
 		}
 		return flag;
 	}
