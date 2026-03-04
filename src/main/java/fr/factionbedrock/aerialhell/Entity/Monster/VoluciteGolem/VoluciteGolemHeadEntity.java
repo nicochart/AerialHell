@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartInfo;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -30,8 +31,7 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
 {
     /* -- PartEntity fields -- */
     private static final EntityDataAccessor<Integer> MASTER_ID = SynchedEntityData.defineId(VoluciteGolemHeadEntity.class, EntityDataSerializers.INT);
-    private MasterPartEntity master;
-    protected int ticksInInvalidSituation;
+    private final MasterPartInfo MASTER = new MasterPartInfo(MASTER_ID);
     /* ----------------------- */
 
     /* -- BeamAttackEntity fields -- */
@@ -53,10 +53,6 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
     public VoluciteGolemHeadEntity(EntityType<? extends Monster> type, Level level)
     {
         super(type, level);
-
-        /* -- PartEntity init -- */
-        this.initPart();
-        /* --------------------- */
     }
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
@@ -109,12 +105,7 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
     @Override public boolean partSuperHurtServer(ServerLevel level, DamageSource source, float amount) {return super.hurtServer(level, source, amount);}
     @Override public boolean isPartInvulnerableToBase(DamageSource damageSource) {return super.isInvulnerableToBase(damageSource);}
 
-    @Override public EntityDataAccessor<Integer> getMasterIdData() {return MASTER_ID;}
-    @Override public void setMasterRaw(MasterPartEntity master) {this.master = master;}
-    @Override @Nullable public MasterPartEntity getMasterRaw() {return this.master;}
-
-    @Override public int getTicksInInvalidSituation() {return ticksInInvalidSituation;}
-    @Override public void setTickInInvalidSituation(int newValue) {this.ticksInInvalidSituation = newValue;}
+    @Override public MasterPartInfo getMasterInfo() {return this.MASTER;}
     /* ------------------------------------------------------------------- */
     /* ------------------------------------------------------------------- */
     /* ------------------------------------------------------------------- */

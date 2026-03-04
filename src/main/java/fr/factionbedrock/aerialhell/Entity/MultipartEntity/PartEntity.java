@@ -21,12 +21,7 @@ public interface PartEntity extends BaseMobEntityInterface
     boolean partSuperHurtServer(ServerLevel level, DamageSource source, float amount); //override and return super.hurtServer(level, source, amount)
     boolean isPartInvulnerableToBase(DamageSource damageSource); //override and return super.isInvulnerableToBase(damageSource)
 
-    EntityDataAccessor<Integer> getMasterIdData();
-    void setMasterRaw(MasterPartEntity master);
-    @Nullable MasterPartEntity getMasterRaw();
-
-    int getTicksInInvalidSituation();
-    void setTickInInvalidSituation(int newValue);
+    MasterPartInfo getMasterInfo();
     /* ---------------------------------------------------- */
     /* ---------------------------------------------------- */
     /* ---------------------------------------------------- */
@@ -34,11 +29,6 @@ public interface PartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------- */
     /* -------- Delegate methods needing call -------- */
     /* ----------------------------------------------- */
-    default void initPart() //call in constructor
-    {
-        this.resetTicksInInvalidSituation();
-    }
-
     default void partEntityTick() //call in tick()
     {
         if (this.getMasterRaw() == null) {this.setMasterRaw(this.getMasterByID());}
@@ -89,8 +79,13 @@ public interface PartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------------------- */
     /* -------- Other utility methods (for the interface) -------- */
     /* ----------------------------------------------------------- */
-    default void incrementTicksInInvalidSituation() {this.setTickInInvalidSituation(this.getTicksInInvalidSituation() + 1);}
-    default void resetTicksInInvalidSituation() {this.setTickInInvalidSituation(0);}
+    default EntityDataAccessor<Integer> getMasterIdData() {return this.getMasterInfo().getIdData();}
+    default void setMasterRaw(MasterPartEntity master) {this.getMasterInfo().setMaster(master);}
+    default @Nullable MasterPartEntity getMasterRaw() {return this.getMasterInfo().getMaster();}
+
+    default int getTicksInInvalidSituation() {return this.getMasterInfo().getTicksInInvalidSituation();}
+    default void incrementTicksInInvalidSituation() {this.getMasterInfo().incrementTicksInInvalidSituation();}
+    default void resetTicksInInvalidSituation() {this.getMasterInfo().resetTicksInInvalidSituation();}
 
     default int getMasterId() {return this.getEntityData().get(this.getMasterIdData());}
     default boolean hasMasterId() {return this.getMasterId() != 0;}
