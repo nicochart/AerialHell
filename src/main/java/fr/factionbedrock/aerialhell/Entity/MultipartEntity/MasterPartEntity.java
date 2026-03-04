@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.MultipartEntity;
 
 import fr.factionbedrock.aerialhell.Entity.BaseMobEntityInterface;
+import fr.factionbedrock.aerialhell.Util.FieldAccessor;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -17,7 +18,6 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 public interface MasterPartEntity extends BaseMobEntityInterface
 {
@@ -28,17 +28,15 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* ---------------------------------------------------- */
     //You will also need to implement getSelf() from BaseEntityInterface
 
-    Map<PartInfo, Supplier<PartEntity>> getAllParts();
+    Map<String, PartInfo> getPartInfoMap();
 
     void tickPartRotation(PartInfo partInfo, @NotNull PartEntity partEntity);
 
     @Nullable String getPartStringUUID(PartInfo part);
     void setPartStringUUID(PartInfo part, String uuid);
 
-    int getTicksInInvalidSituation();
-    void setTickInInvalidSituation(int newValue);
+    FieldAccessor<Integer> getTicksInInvalidSituationAccessor();
 
-    void setPartRaw(PartInfo partInfo, PartEntity part);
     /* ---------------------------------------------------- */
     /* ---------------------------------------------------- */
     /* ---------------------------------------------------- */
@@ -54,7 +52,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     default void partEntityTick() //call in tick()
     {
         boolean onePartIsNotFount = false;
-        for (PartInfo partInfo : this.getAllParts().keySet())
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
             PartEntity synchedPartEntity = this.syncPart(partInfo); //server-client part sync
             if (synchedPartEntity == null)
@@ -81,9 +79,9 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         else if (superDamaged)
         {
             //attacking other parts just for attack animation (red overlay)
-            for (Supplier<PartEntity> part : this.getAllParts().values())
+            for (PartInfo partInfo : this.getPartInfoMap().values())
             {
-                falseAttackForRedAnimation(part.get(), level, source);
+                falseAttackForRedAnimation(partInfo.getPart(), level, source);
             }
         }
     }
@@ -97,10 +95,10 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     default void partAiStep() //call in aiStep()
     {
         if (this.getLevel().isClientSide()) {return;}
-        for (Map.Entry<PartInfo, Supplier<PartEntity>> entry : this.getAllParts().entrySet())
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            PartInfo partInfo = entry.getKey(); PartEntity partEntity = entry.getValue().get();
-            if (partEntity != null) {this.tickPartRotation(partInfo, entry.getValue().get());}
+            PartEntity part = partInfo.getPart();
+            if (part != null) {this.tickPartRotation(partInfo, part);}
         }
     }
 
@@ -108,16 +106,16 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     {
         //do not try to set pos of another entity on client side. Let server side do.
         //null getAllParts happens on entity creation (when constructor is called)
-        if (this.getLevel().isClientSide() || this.getAllParts() == null) {return;}
-        for (Map.Entry<PartInfo, Supplier<PartEntity>> entry : this.getAllParts().entrySet())
+        if (this.getLevel().isClientSide() || this.getPartInfoMap() == null) {return;}
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            PartInfo partInfo = entry.getKey(); PartEntity partEntity = entry.getValue().get();
+            PartEntity part = partInfo.getPart();
             Vec3 offset = partInfo.getRelativePositionOffset();
-            if (partEntity != null)
+            if (part != null)
             {
-                Vec3 adjustedOffset = this.adjustPartOffset(partInfo, partEntity, new Vec3(masterX, masterY, masterZ), offset);
+                Vec3 adjustedOffset = this.adjustPartOffset(partInfo, part, new Vec3(masterX, masterY, masterZ), offset);
                 Vec3 partPos = this.rotatePartPos(adjustedOffset);
-                partEntity.setPos(masterX + partPos.x, masterY + partPos.y, masterZ + partPos.z);
+                part.setPos(masterX + partPos.x, masterY + partPos.y, masterZ + partPos.z);
             }
         }
     }
@@ -126,11 +124,11 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     {
         //do not try to set rotation of another entity on client side. Let server side do.
         //null getAllParts happens on entity creation (when constructor is called)
-        if (this.getLevel().isClientSide() || this.getAllParts() == null) {return;}
-        for (Map.Entry<PartInfo, Supplier<PartEntity>> entry : this.getAllParts().entrySet())
+        if (this.getLevel().isClientSide() || this.getPartInfoMap() == null) {return;}
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            PartInfo partInfo = entry.getKey(); PartEntity partEntity = entry.getValue().get();
-            if (partEntity != null) {partEntity.setXRot(xRot);}
+            PartEntity part = partInfo.getPart();
+            if (part != null) {part.setXRot(xRot);}
         }
     }
 
@@ -138,29 +136,29 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     {
         //do not try to set rotation of another entity on client side. Let server side do.
         //null getAllParts happens on entity creation (when constructor is called)
-        if (this.getLevel().isClientSide() || this.getAllParts() == null) {return;}
-        for (Map.Entry<PartInfo, Supplier<PartEntity>> entry : this.getAllParts().entrySet())
+        if (this.getLevel().isClientSide() || this.getPartInfoMap() == null) {return;}
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            PartInfo partInfo = entry.getKey(); PartEntity partEntity = entry.getValue().get();
-            if (partEntity != null) {partEntity.setYRot(yRot);}
+            PartEntity part = partInfo.getPart();
+            if (part != null) {part.setYRot(yRot);}
         }
     }
 
     default void partAddAdditionalSaveData(ValueOutput valueOutput) //call in addAdditionalSaveData(valueOutput)
     {
-        for (Map.Entry<PartInfo, Supplier<PartEntity>> entry : this.getAllParts().entrySet())
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            PartInfo partInfo = entry.getKey(); PartEntity partEntity = entry.getValue().get();
-            if (partEntity != null)
+            PartEntity part = partInfo.getPart();
+            if (part != null)
             {
-                valueOutput.putString(partInfo.getName() + "_uuid", partEntity.getSelf().getStringUUID());
+                valueOutput.putString(partInfo.getName() + "_uuid", part.getSelf().getStringUUID());
             }
         }
     }
 
     default void partReadAdditionalSaveData(ValueInput valueInput) //call in readAdditionalSaveData(valueInput)
     {
-        for (PartInfo partInfo : this.getAllParts().keySet())
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
             if (valueInput.getString(partInfo.getName() +"_uuid").isPresent())
             {
@@ -177,9 +175,10 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     default boolean recognizesChildPart(Entity potentialChild) //call in is(entity)
     {
         if (!(potentialChild instanceof PartEntity)) {return false;}
-        for (Supplier<PartEntity> partEntity : this.getAllParts().values())
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            if (partEntity.get() != null && partEntity.get() == potentialChild) {return true;}
+            PartEntity part = partInfo.getPart();
+            if (part != null && part == potentialChild) {return true;}
         }
         return false;
     }
@@ -201,7 +200,11 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------------------- */
     /* -------- Other utility methods (for the interface) -------- */
     /* ----------------------------------------------------------- */
-    default PartEntity getPartRaw(PartInfo partInfo) {return this.getAllParts().get(partInfo).get();}
+    default int getTicksInInvalidSituation() {return this.getTicksInInvalidSituationAccessor().get();}
+    default void setTickInInvalidSituation(int newValue) {this.getTicksInInvalidSituationAccessor().set(newValue);}
+
+    default PartEntity getPartRaw(PartInfo partInfo) {return partInfo.getPart();}
+    default void setPartRaw(PartInfo partInfo, PartEntity part) {partInfo.setPart(part);}
 
     default void incrementTicksInInvalidSituation() {this.setTickInInvalidSituation(this.getTicksInInvalidSituation() + 1);}
     default void resetTicksInInvalidSituation() {this.setTickInInvalidSituation(0);}
@@ -233,13 +236,10 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     private void onHurtCausingDeath()
     {
         //kill other parts
-        for (Supplier<PartEntity> partSupplier : this.getAllParts().values())
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            PartEntity part = partSupplier.get();
-            if (part != null)
-            {
-                partSupplier.get().killPart();
-            }
+            PartEntity part = partInfo.getPart();
+            if (part != null) {part.killPart();}
         }
     }
 
@@ -261,9 +261,9 @@ public interface MasterPartEntity extends BaseMobEntityInterface
             entity.snapTo(self.getX(), self.getY(), self.getZ(), self.getYRot(), self.getXRot());
         }
 
-        for (Supplier<PartEntity> partSupplier : this.getAllParts().values())
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            PartEntity part = partSupplier.get();
+            PartEntity part = partInfo.getPart();
             if (part != null) {part.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);}
         }
         this.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);
@@ -271,7 +271,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     default void summonChildParts()
     {
-        for (PartInfo partInfo : this.getAllParts().keySet())
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
             PartEntity partEntity = this.summonPart(partInfo);
             if (partEntity != null)

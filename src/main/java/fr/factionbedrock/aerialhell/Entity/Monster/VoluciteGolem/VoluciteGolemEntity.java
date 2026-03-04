@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
@@ -10,6 +9,7 @@ import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Util.FieldAccessor;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -33,17 +33,17 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class VoluciteGolemEntity extends AerialHellGolemEntity implements MasterPartEntity
 {
     /* -- MasterPartEntity fields -- */
+    public final Map<String, PartInfo> PARTS_MAP = Maps.newHashMap();
     private static final EntityDataAccessor<Integer> HEAD_ID = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.INT);
-    private static final PartInfo HEAD_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_GOLEM_HEAD.get(), "head", HEAD_ID, new Vec3(0.0F, 2.15F, 0.0F));
+    private final PartInfo HEAD_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_GOLEM_HEAD.get(), "head", HEAD_ID, new FieldAccessor<>(() -> this.head, entity -> this.head = entity), new Vec3(0.0F, 2.15F, 0.0F), PARTS_MAP);
     @Nullable private PartEntity head;
     @Nullable private String headStringUUID;
     protected int ticksInInvalidSituation;
-    public Map<PartInfo, Supplier<PartEntity>> PARTS_MAP = Maps.newHashMap(ImmutableMap.of(HEAD_PART_INFO, () -> this.head));
+    private final FieldAccessor<Integer> ticksInInvalidSituationAccessor = new FieldAccessor<>(() -> this.ticksInInvalidSituation, value -> this.ticksInInvalidSituation = value);
     /* ----------------------------- */
 
     public VoluciteGolemEntity(EntityType<? extends Monster> type, Level level)
@@ -69,7 +69,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     /* ---------- MasterPartEntity : Interface methods implementation ---------- */
     /* ------------------------------------------------------------------------- */
     @Override public Mob getSelf() {return this;}
-    @Override public Map<PartInfo, Supplier<PartEntity>> getAllParts() {return this.PARTS_MAP;}
+    @Override public Map<String, PartInfo> getPartInfoMap() {return this.PARTS_MAP;}
 
     @Override public void tickPartRotation(PartInfo partInfo, @NotNull PartEntity partEntity)
     {
@@ -101,9 +101,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
 
     @Override @Nullable public String getPartStringUUID(PartInfo part) {if (part == HEAD_PART_INFO) {return this.headStringUUID;} else {return "null";}}
     @Override public void setPartStringUUID(PartInfo part, String uuid) {if (part == HEAD_PART_INFO) {this.headStringUUID = uuid;}}
-    @Override public int getTicksInInvalidSituation() {return this.ticksInInvalidSituation;}
-    @Override public void setTickInInvalidSituation(int newValue) {this.ticksInInvalidSituation = newValue;}
-    @Override public void setPartRaw(PartInfo partInfo, PartEntity part) {if (partInfo == HEAD_PART_INFO) {this.head = part;}}
+    @Override public FieldAccessor<Integer> getTicksInInvalidSituationAccessor() {return ticksInInvalidSituationAccessor;}
     /* ------------------------------------------------------------------------- */
     /* ------------------------------------------------------------------------- */
     /* ------------------------------------------------------------------------- */
