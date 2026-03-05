@@ -103,7 +103,7 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
 		else {super.handleEntityEvent(id);}
 	}
 
-    @Override public int getMinTimeToActivate() {return 60;}
+    @Override public int getTicksToActivate() {return 60;}
     @Override public double getMinDistanceToActivate() {return 16;}
     @Override public double getMinDistanceToDeactivate() {return 32;}
     @Override protected SoundEvent getAmbientSound() {return SoundEvents.SNOW_GOLEM_AMBIENT;}

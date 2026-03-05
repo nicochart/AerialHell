@@ -56,9 +56,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		if (flag)
 		{
 			if (source.is(DamageTypes.GENERIC_KILL) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {}
-			else {this.setActive(true);}
-			this.lastHurtByPlayerMemoryTime = 100;
-			this.onActivationStatusChange();
+			else {this.activableHurtServer(flag, level, source, amount);}
 		}
 		return flag;
 	}
@@ -526,7 +524,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 	@Nullable public abstract Item getTrophy();
 
-	@Override public int getMinTimeToActivate() {return 5;}
+	@Override public int getTicksToActivate() {return 5;}
 	@Override public double getMinDistanceToActivate() {return 8;}
 	@Override public double getMinDistanceToDeactivate() {return 48;}
 	@Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}

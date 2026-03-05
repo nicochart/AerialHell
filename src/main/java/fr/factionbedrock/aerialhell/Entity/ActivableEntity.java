@@ -1,10 +1,14 @@
 package fr.factionbedrock.aerialhell.Entity;
 
-import fr.factionbedrock.aerialhell.Util.FieldAccessor;
+import fr.factionbedrock.aerialhell.Entity.Util.ActivableEntityInfo;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.LivingEntity;
+
+import java.util.List;
 
 public interface ActivableEntity extends BaseMobEntityInterface
 {
@@ -22,109 +26,135 @@ public interface ActivableEntity extends BaseMobEntityInterface
     /* ----------------------------------------------- */
     default void activableEntityTick() //call in tick()
     {
-        if (this.getLevel().getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToActivate(), EntitySelector.NO_CREATIVE_OR_SPECTATOR) != null)
+        if (!this.getLevel().isClientSide())
         {
-            if (!this.isActive() && this.getTicksWithTarget() >= this.getTicksToActivate())
-            {
-                this.setActive(true);
-                this.onActivationStatusChange();
-            }
-            else {this.incrementTicksWithTarget();}
-
-            if (this.isActive() && this.getTicksWithTarget() > 0) {this.tryIncrementTicksToDeactivate();}
-        }
-        else if (this.getLevel().getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToDeactivate(), EntitySelector.NO_CREATIVE_OR_SPECTATOR) == null)
-        {
-            this.resetTicksWithTarget();
-            if (this.getTicksWithoutAnyTarget() < this.getTicksToDeactivate()) {this.incrementTicksWithoutAnyTarget();}
-            else if (this.getActivableInfo().getLastHurtByPlayerMemoryTimeAccessor() <= 0 && this.getTicksWithoutAnyTarget() >= this.getTicksToDeactivate())
-            {
-                this.setActive(false);
-                this.onActivationStatusChange();
-            }
+            this.updateActiveStatus();
         }
     }
 
-    default void activableHurtServer(boolean superDamaged, ServerLevel level, DamageSource source, float amount) //call in hurtServer(level, source, amount)
+    default void activableHurtServer(boolean superDamaged, ServerLevel serverLevel, DamageSource source, float amount) //call in hurtServer(level, source, amount)
     {
         if (superDamaged)
         {
-            this.setActive(true);
-            this.getActivableInfo().setLastHurtByPlayerMemoryTimeAccessor(100);
-            this.onActivationStatusChange();
+            if (this.isActive()) {this.tryIncrementDeactivationThreshold(20);}
+            else {this.changeActiveStatus(serverLevel, true);}
         }
     }
 
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */
+
+    /* -------------------------------------------------------------- */
+    /* -------- Other utility methods to eventually override -------- */
+    /* -------------------------------------------------------------- */
+    default void onActiveStatusChange(ServerLevel serverLevel, boolean isActive) {} //only server side
+    /* -------------------------------------------------------------- */
+    /* -------------------------------------------------------------- */
+    /* -------------------------------------------------------------- */
 
     /* ----------------------------------------------------------- */
     /* -------- Other utility methods (for the interface) -------- */
     /* ----------------------------------------------------------- */
-    default void onActivationStatusChange()
+    default void updateActiveStatus()
     {
-        this.resetTicksWithoutAnyTarget();
-        this.resetTicksToDeactivate();
+        if (this.activateOnlyOnHit()) {return;}
+        if (!(this.getLevel() instanceof ServerLevel serverLevel)) {return;}
+        if (this.getSelf().tickCount % this.getCheckForTargetPeriodInTicks() != 0) {return;}
+        int increment = this.getCheckForTargetPeriodInTicks();
+
+        boolean hasTarget = this.checkVanillaTarget() || this.checkNearbyTarget();
+        boolean wasActive = this.isActive();
+
+        if (!wasActive && !hasTarget)
+        {
+            this.resetActivationTicks();
+        }
+        if (wasActive && hasTarget)
+        {
+            this.resetDeactivationTicks();
+            this.tryIncrementDeactivationThreshold(increment);
+        }
+        if (!wasActive && hasTarget)
+        {
+            this.incrementActivationTicks(increment);
+            if (this.getActivationTicks() >= this.getActivationThreshold()) {this.changeActiveStatus(serverLevel, true);}
+        }
+        if (wasActive && !hasTarget)
+        {
+            if (this.getDeactivationTicks() >= this.getDeactivationThreshold()) {this.changeActiveStatus(serverLevel, false);}
+        }
     }
 
-    default int getTicksWithTarget() {return this.getActivableInfo().getTicksWithTarget();}
-    default void incrementTicksWithTarget() {this.getActivableInfo().setTicksWithTarget(this.getTicksWithTarget() + 1);}
-    default void resetTicksWithTarget() {this.getActivableInfo().setTicksWithTarget(0);}
-    default int getTicksWithoutAnyTarget() {return this.getActivableInfo().getTicksWithoutTarget();}
-    default void incrementTicksWithoutAnyTarget() {this.getActivableInfo().setTicksWithoutTarget(this.getTicksWithoutAnyTarget() + 1);}
-    default void resetTicksWithoutAnyTarget() {this.getActivableInfo().setTicksWithoutTarget(0);}
-    default int getTicksToActivate() {return this.getActivableInfo().ticksToActivate;}
-    default int getTicksToDeactivate() {return this.getActivableInfo().getTicksToDeactivate();}
-    default int getMaxTicksToDeactivate() {return this.getActivableInfo().maxTicksToDeactivate;}
-    default void tryIncrementTicksToDeactivate() {if (this.getTicksToDeactivate() < this.getMaxTicksToDeactivate()) {this.getActivableInfo().setTicksToDeactivate(this.getTicksToDeactivate() + 1);}}
-    default void resetTicksToDeactivate() {this.getActivableInfo().resetTicksToDeactivate();}
+    default boolean checkVanillaTarget()
+    {
+        if (!this.getActivableInfo().canUseVanillaTargetForActivation()) {return false;}
+        return this.getSelf().getTarget() != null;
+    }
+
+    default boolean checkNearbyTarget()
+    {
+        if (!this.getActivableInfo().canSearchNearbyTargetForActivation()) {return false;}
+        return this.hasNearbyTarget();
+    }
+
+    default void changeActiveStatus(ServerLevel serverLevel, boolean newStatus) //this method is supposed to get called only server side
+    {
+        this.setActive(newStatus);
+        this.resetDeactivationTicks();
+        this.resetActivationTicks();
+        this.resetDeactivationThreshold();
+        this.onActiveStatusChange(serverLevel, newStatus);
+    }
+
+    default boolean hasNearbyTarget()
+    {
+        List<Entity> nearbyEntities = this.getLevel().getEntities(this.getSelf(), this.getSelf().getBoundingBox().inflate(this.getTargetSearchDistance()), EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+
+        for (Entity entity : nearbyEntities)
+        {
+            if (entity instanceof LivingEntity livingEntity && this.activableEntityCanTarget(this, livingEntity))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    default boolean shouldResetActivationTicksEveryTick() {return !this.getActivableInfo().canSearchNearbyTargetForActivation();}
+
+    default int getActivationTicks() {return this.getActivableInfo().getActivationTicks();}
+    default void incrementActivationTicks() {this.incrementActivationTicks(1);}
+    default void incrementActivationTicks(int increment) {this.getActivableInfo().setActivationTicks(this.getActivationTicks() + increment);}
+    default void resetActivationTicks() {this.getActivableInfo().setActivationTicks(0);}
+    default int getDeactivationTicks() {return this.getActivableInfo().getDeactivationTicks();}
+    default void incrementDeactivationTicks() {this.getActivableInfo().setDeactivationTicks(this.getDeactivationTicks() + 1);}
+    default void incrementDeactivationTicks(int increment) {this.getActivableInfo().setDeactivationTicks(this.getDeactivationTicks() + increment);}
+    default void resetDeactivationTicks() {this.getActivableInfo().setDeactivationTicks(0);}
+    default int getActivationThreshold() {return this.getActivableInfo().getActivationThreshold();}
+    default int getDeactivationThreshold() {return this.getActivableInfo().getDeactivationThreshold();}
+    default int getMaxDeactivationThreshold() {return this.getActivableInfo().getMaxDeactivationThreshold();}
+    default void tryIncrementDeactivationThreshold() {if (this.getDeactivationThreshold() < this.getMaxDeactivationThreshold()) {this.getActivableInfo().setDeactivationThreshold(this.getDeactivationThreshold() + 1);}}
+    default void tryIncrementDeactivationThreshold(int increment) {this.getActivableInfo().setDeactivationThreshold(Math.min(this.getDeactivationThreshold() + increment, this.getMaxDeactivationThreshold()));}
+    default void resetDeactivationThreshold() {this.getActivableInfo().resetDeactivationThreshold();}
+
+    default boolean activableEntityCanTarget(ActivableEntity activableEntity, LivingEntity potentialTarget) {return this.getActivableInfo().isValidTarget(activableEntity, potentialTarget);}
+    default boolean activateOnlyOnHit() {return this.getActivableInfo().activateOnlyOnHit(this) || !this.getActivableInfo().canUseVanillaTargetForActivation() && !this.getActivableInfo().canSearchNearbyTargetForActivation();}
 
     default void setActive(boolean isActive) {this.getEntityData().set(this.getActiveDataAccessor(), isActive);}
     default boolean isActive() {return this.getEntityData().get(this.getActiveDataAccessor());}
 
-    default double getMinDistanceToActivate() {return this.getActivableInfo().minDistanceToActivate;}
-    default double getMinDistanceToDeactivate() {return this.getActivableInfo().minDistanceToDeactivate;}
+    default int getCheckForTargetPeriodInTicks() {return this.getActivableInfo().getCheckForTargetPeriodInTicks();}
+    default double getTargetSearchDistance() {return this.getActivableInfo().getTargetSearchDistance(this);}
     default EntityDataAccessor<Boolean> getActiveDataAccessor() {return this.getActivableInfo().getActiveDataAccessor();}
 
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */
 
-    class ActivableEntityInfo
-    {
-        private int ticksWithTarget;
-        private int ticksWithoutAnyTarget;
-        private int ticksToDeactivate;
-        private final EntityDataAccessor<Boolean> activeDataAccessor;
-        private final FieldAccessor<Integer> lastHurtByPlayerMemoryTimeAccessor;
-        public final int ticksToActivate;
-        public final int minTicksToDeactivate;
-        public final int maxTicksToDeactivate;
-        public final double minDistanceToActivate;
-        public final double minDistanceToDeactivate;
-
-        public ActivableEntityInfo(EntityDataAccessor<Boolean> activeDataAccessor, FieldAccessor<Integer> lastHurtByPlayerMemoryTimeAccessor, int ticksToActivate, int minTicksToDeactivate, int maxTicksToDeactivate, double minDistanceToActivate, double minDistanceToDeactivate)
-        {
-            this.ticksToDeactivate = minTicksToDeactivate;
-            this.activeDataAccessor = activeDataAccessor;
-            this.lastHurtByPlayerMemoryTimeAccessor = lastHurtByPlayerMemoryTimeAccessor;
-            this.ticksToActivate = ticksToActivate;
-            this.minTicksToDeactivate = minTicksToDeactivate;
-            this.maxTicksToDeactivate = maxTicksToDeactivate;
-            this.minDistanceToActivate = minDistanceToActivate;
-            this.minDistanceToDeactivate = minDistanceToDeactivate;
-        }
-
-        public int getTicksWithTarget() {return this.ticksWithTarget;}
-        public void setTicksWithTarget(int value) {this.ticksWithTarget = value;}
-        public int getTicksWithoutTarget() {return this.ticksWithoutAnyTarget;}
-        public void setTicksWithoutTarget(int value) {this.ticksWithoutAnyTarget = value;}
-        public int getTicksToDeactivate() {return this.ticksToDeactivate;}
-        public void setTicksToDeactivate(int value) {this.ticksToDeactivate = value;}
-        public void resetTicksToDeactivate() {this.ticksToDeactivate = this.minTicksToDeactivate;}
-        public EntityDataAccessor<Boolean> getActiveDataAccessor() {return this.activeDataAccessor;}
-        public int getLastHurtByPlayerMemoryTimeAccessor() {return lastHurtByPlayerMemoryTimeAccessor.get();}
-        public void setLastHurtByPlayerMemoryTimeAccessor(int value) {lastHurtByPlayerMemoryTimeAccessor.set(value);}
-    }
+    //examples of Activation Method (do not forget to .copy() if you reuse and edit)
+    ActivableEntityInfo.ActivationMethod DEFAULT_ACTIVATION_METHOD = new ActivableEntityInfo.ActivationMethod();
+    ActivableEntityInfo.ActivationMethod CHECK_VANILLA_TARGET = DEFAULT_ACTIVATION_METHOD.copy().canSearchNearbyTargetForActivation(false);
+    ActivableEntityInfo.ActivationMethod NEARBY_TARGET_SEARCH = DEFAULT_ACTIVATION_METHOD.copy().canUseVanillaTargetForActivation(false);
+    ActivableEntityInfo.ActivationMethod ONLY_HURT = DEFAULT_ACTIVATION_METHOD.copy().activateOnlyOnHit();
 }
