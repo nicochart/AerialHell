@@ -7,6 +7,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 import java.util.List;
 
@@ -41,6 +43,15 @@ public interface ActivableEntity extends BaseMobEntityInterface
         }
     }
 
+    default void activableAddAdditionalSaveData(ValueOutput valueOutput) //call in addAdditionalSaveData(valueOutput)
+    {
+        valueOutput.putBoolean("is_active", this.isActive());
+    }
+
+    default void activableReadAdditionalSaveData(ValueInput valueInput) //call in readAdditionalSaveData(valueInput)
+    {
+        this.setActive(valueInput.getBooleanOr("is_active", false));
+    }
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */

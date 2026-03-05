@@ -10,6 +10,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public abstract class AbstractActivableEntity extends Monster implements ActivableEntity
 {
@@ -51,6 +53,18 @@ public abstract class AbstractActivableEntity extends Monster implements Activab
 	{
 		super.tick();
 		this.activableEntityTick();
+	}
+
+	@Override public void addAdditionalSaveData(ValueOutput valueOutput)
+	{
+		super.addAdditionalSaveData(valueOutput);
+		this.activableAddAdditionalSaveData(valueOutput);
+	}
+
+	@Override public void readAdditionalSaveData(ValueInput valueInput)
+	{
+		super.readAdditionalSaveData(valueInput);
+		this.activableReadAdditionalSaveData(valueInput);
 	}
 	/* ---------------------------------------------------------------------------------------------- */
 	/* ---------------------------------------------------------------------------------------------- */
