@@ -39,12 +39,14 @@ public class ActivableEntityInfo
     public int getCheckForTargetPeriodInTicks() {return this.activationMethod.checkForTargetPeriodInTicks;}
     public boolean isValidTarget(ActivableEntity activableEntity, LivingEntity potentialTarget) {return this.activationMethod.validTargetCondition.applyAsBoolean(activableEntity, potentialTarget);}
     public boolean activateOnlyOnHit(ActivableEntity activableEntity) {return this.activationMethod.activateOnlyOnHit.test(activableEntity);}
+    public boolean canDeactivate(ActivableEntity activableEntity) {return this.activationMethod.canDeactivate.test(activableEntity);}
 
     public static class ActivationMethod
     {
         public static int DEFAULT_CHECK_TARGET_PERIOD = 5;
 
         private Predicate<ActivableEntity> activateOnlyOnHit; //if returns true, the entity will not check / search for target in any way. Only a hit can activate the entity.
+        private Predicate<ActivableEntity> canDeactivate; //if returns true, the entity can deactivate if ticks conditions met.
         private boolean canUseVanillaTargetForActivation; //if true, the entity will check this.getTarget() before searching for nearby target
         private boolean canSearchNearbyTargetForActivation; //if true, the entity can search for nearby target (independently of entity.getTarget()) if necessary
         private int checkForTargetPeriodInTicks; //if the value is n, the entity will search for target every n ticks.
@@ -57,6 +59,7 @@ public class ActivableEntityInfo
         public ActivationMethod()
         {
             this.activateOnlyOnHit = activableEntity -> false;
+            this.canDeactivate = activableEntity -> true;
             this.canUseVanillaTargetForActivation = true;
             this.canSearchNearbyTargetForActivation = true;
             this.checkForTargetPeriodInTicks = DEFAULT_CHECK_TARGET_PERIOD;
@@ -68,6 +71,8 @@ public class ActivableEntityInfo
         }
 
         public ActivationMethod activateOnlyOnHit() {this.activateOnlyOnHit = activableEntity -> true; return this;}
+        public ActivationMethod canDeactivate(boolean doesCan) {this.canDeactivate = activableEntity -> doesCan; return this;}
+        public ActivationMethod canDeactivate(Predicate<ActivableEntity> condition) {this.canDeactivate = condition; return this;}
         public ActivationMethod activateOnlyOnHitCondition(Predicate<ActivableEntity> activateOnlyOnHit) {this.activateOnlyOnHit = activateOnlyOnHit; return this;}
         public ActivationMethod canUseVanillaTargetForActivation(boolean doesCan) {this.canUseVanillaTargetForActivation = doesCan; return this;}
         public ActivationMethod canSearchNearbyTargetForActivation(boolean doesCan) {this.canSearchNearbyTargetForActivation = doesCan; return this;}
@@ -79,6 +84,6 @@ public class ActivableEntityInfo
         public ActivationMethod targetSearchDistance(ToDoubleFunction<ActivableEntity> targetSearchDistance) {this.targetSearchDistance = targetSearchDistance; return this;}
         public ActivationMethod targetSearchDistance(double inactiveTargetSearchDistance, double activeTargetSearchDistance) {this.targetSearchDistance = entity -> entity.isActive() ? activeTargetSearchDistance : inactiveTargetSearchDistance; return this;}
 
-        public ActivationMethod copy() {return new ActivationMethod().activateOnlyOnHitCondition(this.activateOnlyOnHit).canUseVanillaTargetForActivation(this.canUseVanillaTargetForActivation).canSearchNearbyTargetForActivation(this.canSearchNearbyTargetForActivation).searchForNearbyTargetPeriodInTicks(this.checkForTargetPeriodInTicks).validTargetCondition(this.validTargetCondition).activationThreshold(this.activationThreshold).minDeactivationThreshold(this.minDeactivationThreshold).maxDeactivationThreshold(this.maxDeactivationThreshold).targetSearchDistance(this.targetSearchDistance);}
+        public ActivationMethod copy() {return new ActivationMethod().activateOnlyOnHitCondition(this.activateOnlyOnHit).canDeactivate(this.canDeactivate).canUseVanillaTargetForActivation(this.canUseVanillaTargetForActivation).canSearchNearbyTargetForActivation(this.canSearchNearbyTargetForActivation).searchForNearbyTargetPeriodInTicks(this.checkForTargetPeriodInTicks).validTargetCondition(this.validTargetCondition).activationThreshold(this.activationThreshold).minDeactivationThreshold(this.minDeactivationThreshold).maxDeactivationThreshold(this.maxDeactivationThreshold).targetSearchDistance(this.targetSearchDistance);}
     }
 }

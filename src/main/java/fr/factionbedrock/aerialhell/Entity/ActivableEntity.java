@@ -58,7 +58,7 @@ public interface ActivableEntity extends BaseMobEntityInterface
     /* ----------------------------------------------------------- */
     default void updateActiveStatus()
     {
-        if (this.activateOnlyOnHit()) {return;}
+        if (this.activateOnlyOnHit() && !this.canDeactivate()) {return;}
         if (!(this.getLevel() instanceof ServerLevel serverLevel)) {return;}
         if (this.getSelf().tickCount % this.getCheckForTargetPeriodInTicks() != 0) {return;}
         int increment = this.getCheckForTargetPeriodInTicks();
@@ -66,23 +66,30 @@ public interface ActivableEntity extends BaseMobEntityInterface
         boolean hasTarget = this.checkVanillaTarget() || this.checkNearbyTarget();
         boolean wasActive = this.isActive();
 
-        if (!wasActive && !hasTarget)
+        if (!this.activateOnlyOnHit())
         {
-            this.resetActivationTicks();
+            if (!wasActive && !hasTarget)
+            {
+                this.resetActivationTicks();
+            }
+            if (!wasActive && hasTarget)
+            {
+                this.incrementActivationTicks(increment);
+                if (this.getActivationTicks() >= this.getActivationThreshold()) {this.changeActiveStatus(serverLevel, true);}
+            }
         }
-        if (wasActive && hasTarget)
+        if (this.canDeactivate())
         {
-            this.resetDeactivationTicks();
-            this.tryIncrementDeactivationThreshold(increment);
-        }
-        if (!wasActive && hasTarget)
-        {
-            this.incrementActivationTicks(increment);
-            if (this.getActivationTicks() >= this.getActivationThreshold()) {this.changeActiveStatus(serverLevel, true);}
-        }
-        if (wasActive && !hasTarget)
-        {
-            if (this.getDeactivationTicks() >= this.getDeactivationThreshold()) {this.changeActiveStatus(serverLevel, false);}
+            if (wasActive && hasTarget)
+            {
+                this.resetDeactivationTicks();
+                this.tryIncrementDeactivationThreshold(increment);
+            }
+            if (wasActive && !hasTarget)
+            {
+                this.incrementDeactivationTicks(increment);
+                if (this.getDeactivationTicks() >= this.getDeactivationThreshold()) {this.changeActiveStatus(serverLevel, false);}
+            }
         }
     }
 
@@ -121,8 +128,6 @@ public interface ActivableEntity extends BaseMobEntityInterface
         return false;
     }
 
-    default boolean shouldResetActivationTicksEveryTick() {return !this.getActivableInfo().canSearchNearbyTargetForActivation();}
-
     default int getActivationTicks() {return this.getActivableInfo().getActivationTicks();}
     default void incrementActivationTicks() {this.incrementActivationTicks(1);}
     default void incrementActivationTicks(int increment) {this.getActivableInfo().setActivationTicks(this.getActivationTicks() + increment);}
@@ -140,6 +145,7 @@ public interface ActivableEntity extends BaseMobEntityInterface
 
     default boolean activableEntityCanTarget(ActivableEntity activableEntity, LivingEntity potentialTarget) {return this.getActivableInfo().isValidTarget(activableEntity, potentialTarget);}
     default boolean activateOnlyOnHit() {return this.getActivableInfo().activateOnlyOnHit(this) || !this.getActivableInfo().canUseVanillaTargetForActivation() && !this.getActivableInfo().canSearchNearbyTargetForActivation();}
+    default boolean canDeactivate() {return this.getActivableInfo().canDeactivate(this);}
 
     default void setActive(boolean isActive) {this.getEntityData().set(this.getActiveDataAccessor(), isActive);}
     default boolean isActive() {return this.getEntityData().get(this.getActiveDataAccessor());}
