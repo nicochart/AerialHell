@@ -109,13 +109,12 @@ public class CrystalGolemEntity extends AerialHellGolemEntity implements Mislead
     @Override public boolean fireImmune() {return true;}
 	@Override public boolean displayFireAnimation() {return false;}
 	
-    @Override
-    protected void registerGoals()
+    @Override protected void registerGoals()
     {
     	super.registerGoals();
         List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocks.SHADOW_TORCH.get(), AerialHellBlocks.SHADOW_WALL_TORCH.get());
         this.goalSelector.addGoal(1, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
-        this.targetSelector.addGoal(2, new AdditionalConditionNearestAttackableTargetGoal<>(this, Player.class, true, (goalOwner) -> ((CrystalGolemEntity)goalOwner).isActive(), (targetingConditions, goalOwner) -> ((CrystalGolemEntity)goalOwner).misleadableFindTarget(targetingConditions)));
+        this.targetSelector.addGoal(2, new AdditionalConditionNearestAttackableTargetGoal<>(this, Player.class, true, (goalOwner) -> ((CrystalGolemEntity)goalOwner).isActive(), (potentialTarget, serverLevel) -> !this.isMisleadedBy(potentialTarget)));
         this.goalSelector.addGoal(1, new CrystalGolemAvoidEntityGoal<>(this, Player.class, 16.0F, 1.2D, 1.5D));
     }
 
