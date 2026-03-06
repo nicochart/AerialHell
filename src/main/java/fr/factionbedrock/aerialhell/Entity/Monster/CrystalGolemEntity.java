@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 import com.google.common.collect.ImmutableList;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveAvoidEntityGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveMisleadableNearestAttackableTargetGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionNearestAttackableTargetGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.FleeBlockGoal;
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
@@ -25,7 +26,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 
 import java.util.List;
 
-public class CrystalGolemEntity extends AerialHellGolemEntity
+public class CrystalGolemEntity extends AerialHellGolemEntity implements MisleadableEntity
 {
 	public static final EntityDataAccessor<Boolean> DISAPPEARING = SynchedEntityData.<Boolean>defineId(CrystalGolemEntity.class, EntityDataSerializers.BOOLEAN);
 	private int timeDisappearing;
@@ -35,6 +36,13 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
         super(type, world);
         this.xpReward = 6;
     }
+
+    /* ------- MisleadableEntity : Interface method implementation ------- */
+    @Override public boolean isMisleadedBy(LivingEntity livingEntity)
+    {
+        return EntityHelper.isLivingEntityMisleadingLunar(livingEntity);
+    }
+    /* ------------------------------------------------------------------- */
     
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
@@ -107,24 +115,15 @@ public class CrystalGolemEntity extends AerialHellGolemEntity
     	super.registerGoals();
         List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocks.SHADOW_TORCH.get(), AerialHellBlocks.SHADOW_WALL_TORCH.get());
         this.goalSelector.addGoal(1, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
-        this.targetSelector.addGoal(2, new CrystalGolemNearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(2, new AdditionalConditionNearestAttackableTargetGoal<>(this, Player.class, true, (goalOwner) -> ((CrystalGolemEntity)goalOwner).isActive(), (targetingConditions, goalOwner) -> ((CrystalGolemEntity)goalOwner).misleadableFindTarget(targetingConditions)));
         this.goalSelector.addGoal(1, new CrystalGolemAvoidEntityGoal<>(this, Player.class, 16.0F, 1.2D, 1.5D));
     }
-    
+
     protected static class CrystalGolemAvoidEntityGoal<T extends LivingEntity> extends ActiveAvoidEntityGoal<T>
     {
     	public CrystalGolemAvoidEntityGoal(CrystalGolemEntity golemIn, Class<T> avoidClassIn, float avoidDistanceIn, double farSpeedIn, double nearSpeedIn) {super(golemIn, avoidClassIn, avoidDistanceIn, farSpeedIn, nearSpeedIn);}
     	@Override public boolean canUse() {return ((CrystalGolemEntity)this.activableEntity).isDisappearing() && super.canUse();}
 		@Override public boolean canContinueToUse() {return ((CrystalGolemEntity)this.activableEntity).isDisappearing() && super.canContinueToUse();}
-    }
-
-    protected static class CrystalGolemNearestAttackableTargetGoal<T extends LivingEntity> extends ActiveMisleadableNearestAttackableTargetGoal<T>
-    {
-        public CrystalGolemNearestAttackableTargetGoal(AbstractActivableEntity entityIn, Class<T> targetClassIn, boolean checkSight) {super(entityIn, targetClassIn, checkSight);}
-        @Override public boolean isPlayerMisleadingGoalOwner(Player player)
-        {
-            return EntityHelper.isLivingEntityMisleadingLunar(player);
-        }
     }
 
 	@Override public int getTicksToActivate() {return 10;}
