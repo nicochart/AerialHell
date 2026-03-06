@@ -2,13 +2,13 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import com.google.common.collect.ImmutableList;
 import fr.factionbedrock.aerialhell.Entity.AI.ActiveAvoidEntityGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveMisleadableNearestAttackableTargetGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionNearestAttackableTargetGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.FleeBlockGoal;
-import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Block;
@@ -43,7 +43,14 @@ public class CrystalGolemEntity extends AerialHellGolemEntity implements Mislead
         return EntityHelper.isLivingEntityMisleadingLunar(livingEntity);
     }
     /* ------------------------------------------------------------------- */
-    
+
+    /* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
+    @Override public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount)
+    {
+        return this.misleadableHurtServer(serverLevel, source, amount, super::hurtServer);
+    }
+    /* ------------------------------------------------------------------------------------------ */
+
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
         super.defineSynchedData(builder);

@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
 import fr.factionbedrock.aerialhell.Entity.AI.GhostGoals;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Entity.Monster.MisleadableEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
@@ -12,15 +12,36 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 
-public class GhostSlimePirateEntity extends AbstractSlimePirateEntity
+public class GhostSlimePirateEntity extends AbstractSlimePirateEntity implements MisleadableEntity
 {
     public GhostSlimePirateEntity(EntityType<? extends GhostSlimePirateEntity> type, Level world) {super(type, world);}
+
+    /* ------- MisleadableEntity : Interface method implementation ------- */
+    @Override public Mob getSelf() {return this;}
+
+    @Override public boolean isMisleadedBy(LivingEntity livingEntity)
+    {
+        return EntityHelper.isImmuneToGhostBlockCollision(livingEntity);
+    }
+    /* ------------------------------------------------------------------- */
+
+    /* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
+    @Override public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount)
+    {
+        return this.misleadableHurtServer(serverLevel, source, amount, super::hurtServer);
+    }
+    /* ------------------------------------------------------------------------------------------ */
+
+    /* ------- MisleadableEntity : Interface methods Overridden for specific behavior ------- */
+    @Override public boolean canMisleaderHurt() {return false;}
+    /* -------------------------------------------------------------------------------------- */
 
     @Override protected void registerBaseGoals()
     {
@@ -34,19 +55,12 @@ public class GhostSlimePirateEntity extends AbstractSlimePirateEntity
     {
         this.goalSelector.addGoal(2, new GhostGoals.GhostPirateMeleeAttackGoal(this, 1.25D, false));
         this.goalSelector.addGoal(4, new GhostGoals.GhostPirateLookAtPlayerGoal(this, Player.class, 8.0F));
-        this.targetSelector.addGoal(2, new GhostGoals.GhostPirateNearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, (potentialTarget, serverLevel) -> !this.isMisleadedBy(potentialTarget)));
     }
 
     @Override public EntityType<? extends AbstractSlimePirateEntity> getDieOffspringType() {return AerialHellEntities.GHOST_SLIME_PIRATE.get();}
 
     @Override public EntityType<? extends AbstractSlimePirateEntity> getType() {return AerialHellEntities.GHOST_SLIME_PIRATE.get();}
-
-    @Override public boolean hurtServer(ServerLevel serverLevel, DamageSource damageSource, float amount)
-    {
-        Entity sourceEntity = damageSource.getEntity();
-        if (EntityHelper.isImmuneToGhostBlockCollision(sourceEntity) && !EntityHelper.isCreaOrSpecPlayer(sourceEntity)) {return false;}
-        return super.hurtServer(serverLevel, damageSource, amount);
-    }
 
     @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand)
     {

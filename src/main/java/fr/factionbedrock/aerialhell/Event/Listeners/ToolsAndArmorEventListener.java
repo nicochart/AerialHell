@@ -76,7 +76,6 @@ public class ToolsAndArmorEventListener
 			if (source instanceof Player) {
 				ItemStack mainHandItemStack = ((Player) source).getMainHandItem();
 				applyEffectsBasedOnSourceHandEquippedItem(event, mainHandItemStack, source, target);
-				applyTraitorEffectIfNecessary((Player)source, target);
 			} else {
 				Iterable<ItemStack> handStuff = EntityHelper.getInHandsItemList(target);
 				for (ItemStack handItemStack : handStuff) {
@@ -240,15 +239,6 @@ public class ToolsAndArmorEventListener
 			}
 		} else if (sourceEquippedItem == AerialHellItems.NETHERIAN_KING_SWORD.get() && source.level().dimension() == Level.NETHER) {
 			event.setAmount(amount * 2.0F);
-		}
-	}
-
-	public static void applyTraitorEffectIfNecessary(Player source, LivingEntity target) {
-		if (source.isCreative()) {return;}
-		if ((target instanceof CrystalGolemEntity || target instanceof LunaticPriestEntity) && EntityHelper.isLivingEntityMisleadingLunar(source)) {
-			source.addEffect(new MobEffectInstance(AerialHellMobEffects.TRAITOR.getDelegate(), 12000, 0));
-		} else if ((target instanceof ShadowAutomatonEntity || target instanceof LilithEntity) && EntityHelper.isLivingEntityMisleadingShadow(source)) {
-			source.addEffect(new MobEffectInstance(AerialHellMobEffects.TRAITOR.getDelegate(), 12000, 0));
 		}
 	}
 }
