@@ -8,32 +8,6 @@ import java.util.EnumSet;
 
 public class SnakeGoals
 {
-    public static class SnakeWaterAvoidingRandomWalkingGoal extends AdditionalConditionWaterAvoidingRandomStrollGoal
-    {
-        public SnakeWaterAvoidingRandomWalkingGoal(AbstractSnakeEntity entity, double speedIn) {super(entity, speedIn);}
-        @Override public boolean additionalConditionMet() {return ((AbstractSnakeEntity)this.mob).isHead();}
-    }
-
-    public static class SnakeMeleeAttackGoal extends AdditionalConditionMeleeAttackGoal
-    {
-        public SnakeMeleeAttackGoal(AbstractSnakeEntity entity, double speedIn) {super(entity, speedIn, false);}
-        @Override public boolean additionalConditionMet() {return ((AbstractSnakeEntity)this.mob).isHead();}
-    }
-
-    public static class SnakeLookAtPlayerGoal extends AdditionalConditionLookAtPlayerGoal
-    {
-        protected AbstractSnakeEntity snakeGoalOwner;
-        public SnakeLookAtPlayerGoal(AbstractSnakeEntity entity) {super(entity, Player.class, 8.0F); this.snakeGoalOwner = entity;}
-        @Override public boolean additionalConditionMet() {return this.snakeGoalOwner.isHead();}
-    }
-
-    public static class SnakeRandomLookAroundGoal extends AdditionalConditionRandomLookAroundGoal
-    {
-        protected AbstractSnakeEntity snakeGoalOwner;
-        public SnakeRandomLookAroundGoal(AbstractSnakeEntity entity) {super(entity); this.snakeGoalOwner = entity;}
-        @Override public boolean additionalConditionMet() {return this.snakeGoalOwner.isHead();}
-    }
-
     public static class AlignSnakeBodyPartGoal extends Goal
     {
         protected AbstractSnakeEntity snakeGoalOwner;

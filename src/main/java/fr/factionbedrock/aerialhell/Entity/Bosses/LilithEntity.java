@@ -58,14 +58,16 @@ public class LilithEntity extends AbstractBossEntity
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 	}
 
+	@Override public boolean canUseGoalsAdditionalCondition() {return super.canUseGoalsAdditionalCondition() && !this.isTransforming();}
+
 	@Override protected void registerGoals()
     {
-		this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, Player.class, true));
+		this.targetSelector.addGoal(2, new AdditionalConditionNearestAttackableTargetGoal<>(this, Player.class, true));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		this.goalSelector.addGoal(3, new LilithMeleeAttackGoal(this, 1.25D, false));
+		this.goalSelector.addGoal(3, new AdditionalConditionMeleeAttackGoal(this, 1.25D, false));
 		this.goalSelector.addGoal(2, new LilithSummonShadowFlyingSkullGoal(this));
 		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(5, new LilithWaterAvoidingRandomWalkingGoal(this, 0.6D));
+        this.goalSelector.addGoal(5, new AdditionalConditionWaterAvoidingRandomStrollGoal(this, 0.6D));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
 		this.goalSelector.addGoal(2, new ShadowProjectileAttackGoal(this));
     }
@@ -507,18 +509,6 @@ public class LilithEntity extends AbstractBossEntity
 		@Override public double getYProjectileOffset() {return 0.5D;}
 		@Override protected void setAttacking(boolean bool) {}
 		@Override public SoundEvent getShootSound() {return null;}
-	}
-
-	public static class LilithMeleeAttackGoal extends ActiveMeleeAttackGoal
-	{
-		public LilithMeleeAttackGoal(LilithEntity godIn, double speedIn, boolean useLongMemory) {super(godIn, speedIn, useLongMemory);}
-		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && !((LilithEntity) this.goalOwner).isTransforming();}
-	}
-	
-	public static class LilithWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal
-	{
-		public LilithWaterAvoidingRandomWalkingGoal(LilithEntity god, double speedIn) {super(god, speedIn);}
-		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && !((LilithEntity) this.getGoalOwner()).isTransforming();}
 	}
 
 	public static class LilithSummonShadowFlyingSkullGoal extends SummonThreeEntitiesGoal

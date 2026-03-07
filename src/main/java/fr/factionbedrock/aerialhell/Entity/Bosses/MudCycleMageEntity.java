@@ -51,13 +51,13 @@ public class MudCycleMageEntity extends AbstractBossEntity
     {
 		this.goalSelector.addGoal(2, new RestrictSunGoal(this));
 	    this.goalSelector.addGoal(3, new FleeSunGoal(this, 1.0D));
-	    this.goalSelector.addGoal(3, new ActiveMeleeAttackGoal(this, 1.25D, false));
+	    this.goalSelector.addGoal(3, new AdditionalConditionMeleeAttackGoal(this, 1.25D, false));
 	    this.goalSelector.addGoal(3, new SummonSpectralEntitiesGoal(this));
-	    this.goalSelector.addGoal(5, new ActiveWaterAvoidingRandomWalkingGoal(this, 1.0D));
-	    this.goalSelector.addGoal(6, new ActiveLookAtPlayerGoal(this, Player.class, 8.0F));
-	    this.goalSelector.addGoal(6, new ActiveRandomLookAroundGoal(this));
+	    this.goalSelector.addGoal(5, new AdditionalConditionWaterAvoidingRandomStrollGoal(this, 1.0D));
+	    this.goalSelector.addGoal(6, new AdditionalConditionLookAtPlayerGoal(this, Player.class, 8.0F));
+	    this.goalSelector.addGoal(6, new AdditionalConditionRandomLookAroundGoal(this));
 	    this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-	    this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, Player.class, true));
+	    this.targetSelector.addGoal(2, new AdditionalConditionNearestAttackableTargetGoal<>(this, Player.class, true));
 	    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, TornSpiritEntity.class, true));
 	    this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
     }

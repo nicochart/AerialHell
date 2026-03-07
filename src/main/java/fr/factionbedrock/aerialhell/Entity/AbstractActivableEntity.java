@@ -7,13 +7,13 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
-public abstract class AbstractActivableEntity extends Monster implements ActivableEntity
+public abstract class AbstractActivableEntity extends Monster implements ActivableEntity, GoalConditionEntity.GoalSimpleConditionEntity
 {
 	/* -- ActivableEntity fields -- */
 	public static final EntityDataAccessor<Boolean> ACTIVE = SynchedEntityData.defineId(AbstractActivableEntity.class, EntityDataSerializers.BOOLEAN);
@@ -25,10 +25,19 @@ public abstract class AbstractActivableEntity extends Monster implements Activab
 	/* ---------- ActivableEntity : Interface methods implementation ---------- */
 	/* ------------------------------------------------------------------------ */
 	@Override public ActivableEntityInfo getActivableInfo() {return this.ACTIVABLE_INFO;}
-	@Override public Mob getSelf() {return this;}
 	/* ------------------------------------------------------------------------ */
 	/* ------------------------------------------------------------------------ */
 	/* ------------------------------------------------------------------------ */
+
+	/* -------------------------------------------------------------------- */
+	/* ------ GoalConditionEntity : Interface methods implementation ------ */
+	/* -------------------------------------------------------------------- */
+	@Override public PathfinderMob getSelf() {return this;}
+
+	@Override public boolean canUseGoalsAdditionalCondition() {return this.isActive();}
+	/* -------------------------------------------------------------------- */
+	/* -------------------------------------------------------------------- */
+	/* -------------------------------------------------------------------- */
 
 	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
 	{

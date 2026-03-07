@@ -1,24 +1,22 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
+import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 
 public class AdditionalConditionLookAtPlayerGoal extends LookAtPlayerGoal
 {
-    protected final Mob goalOwner;
+    protected final int phase;
 
-    public AdditionalConditionLookAtPlayerGoal(Mob entityIn, Class<? extends LivingEntity> watchTargetClass, float maxDistance)
+    public AdditionalConditionLookAtPlayerGoal(GoalConditionEntity entity, Class<? extends LivingEntity> watchTargetClass, float maxDistance) {this(entity, watchTargetClass, maxDistance, 0);}
+    public AdditionalConditionLookAtPlayerGoal(GoalConditionEntity entity, Class<? extends LivingEntity> watchTargetClass, float maxDistance, int goalPhase)
     {
-        super(entityIn, watchTargetClass, maxDistance);
-        this.goalOwner = entityIn;
+        super(entity.getSelf(), watchTargetClass, maxDistance);
+        this.phase = goalPhase;
     }
 
-    //Returns whether the EntityAIBase should begin execution.
-    @Override public boolean canUse() {return this.additionalConditionMet() && super.canUse();}
+    public GoalConditionEntity getGoalOwner() {return (GoalConditionEntity)this.mob;}
 
-    //Returns whether an in-progress EntityAIBase should continue executing
-    @Override public boolean canContinueToUse() {return this.additionalConditionMet() && super.canContinueToUse();}
-
-    public boolean additionalConditionMet() {return true;}
+    @Override public boolean canUse() {return this.getGoalOwner().checkGoalCondition(phase) && super.canUse();}
+    @Override public boolean canContinueToUse() {return this.getGoalOwner().checkGoalCondition(phase) && super.canContinueToUse();}
 }

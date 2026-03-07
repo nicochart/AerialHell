@@ -1,9 +1,10 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import com.google.common.collect.ImmutableList;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveAvoidEntityGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionAvoidEntityGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionNearestAttackableTargetGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.FleeBlockGoal;
+import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
@@ -26,8 +27,9 @@ import net.minecraft.world.level.storage.ValueOutput;
 
 import java.util.List;
 
-public class CrystalGolemEntity extends AerialHellGolemEntity implements MisleadableEntity
+public class CrystalGolemEntity extends AerialHellGolemEntity implements MisleadableEntity, GoalConditionEntity.PhaseAwareGoalConditionEntity
 {
+    public static final int ACTIVE_GOALS = 0, DISAPPEARING_GOALS = 1;
 	public static final EntityDataAccessor<Boolean> DISAPPEARING = SynchedEntityData.<Boolean>defineId(CrystalGolemEntity.class, EntityDataSerializers.BOOLEAN);
 	private int timeDisappearing;
 	
@@ -115,21 +117,28 @@ public class CrystalGolemEntity extends AerialHellGolemEntity implements Mislead
     
     @Override public boolean fireImmune() {return true;}
 	@Override public boolean displayFireAnimation() {return false;}
-	
+
+    /* ----- GoalConditionEntity.PhaseAwareGoalConditionEntity : Interface method implementation ----- */
+    @Override public boolean checkGoalCondition(int phase) {return this.canUseGoalsAdditionalCondition(phase);} //need to override checkGoalCondition because Crystal Golem implements both GoalSimpleConditionEntity (from AbstractActivableEntity) and PhaseAwareGoalConditionEntity
+
+    @Override public boolean canUseGoalsAdditionalCondition(int goalPhase)
+    {
+        if (goalPhase == ACTIVE_GOALS) {return this.isActive() && !this.isDisappearing();}
+        else if (goalPhase == DISAPPEARING_GOALS)
+        {
+            return this.isDisappearing();
+        }
+        else {return false;}
+    }
+    /* ----------------------------------------------------------------------------------------------- */
+
     @Override protected void registerGoals()
     {
     	super.registerGoals();
         List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocks.SHADOW_TORCH.get(), AerialHellBlocks.SHADOW_WALL_TORCH.get());
         this.goalSelector.addGoal(1, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
-        this.targetSelector.addGoal(2, new AdditionalConditionNearestAttackableTargetGoal<>(this, Player.class, true, (goalOwner) -> ((CrystalGolemEntity)goalOwner).isActive(), (potentialTarget, serverLevel) -> !this.isMisleadedBy(potentialTarget)));
-        this.goalSelector.addGoal(1, new CrystalGolemAvoidEntityGoal<>(this, Player.class, 16.0F, 1.2D, 1.5D));
-    }
-
-    protected static class CrystalGolemAvoidEntityGoal<T extends LivingEntity> extends ActiveAvoidEntityGoal<T>
-    {
-    	public CrystalGolemAvoidEntityGoal(CrystalGolemEntity golemIn, Class<T> avoidClassIn, float avoidDistanceIn, double farSpeedIn, double nearSpeedIn) {super(golemIn, avoidClassIn, avoidDistanceIn, farSpeedIn, nearSpeedIn);}
-    	@Override public boolean canUse() {return ((CrystalGolemEntity)this.activableEntity).isDisappearing() && super.canUse();}
-		@Override public boolean canContinueToUse() {return ((CrystalGolemEntity)this.activableEntity).isDisappearing() && super.canContinueToUse();}
+        this.targetSelector.addGoal(2, new AdditionalConditionNearestAttackableTargetGoal<>(this, Player.class, true, (potentialTarget, serverLevel) -> !this.isMisleadedBy(potentialTarget), ACTIVE_GOALS));
+        this.goalSelector.addGoal(1, new AdditionalConditionAvoidEntityGoal<>(this, Player.class, 16.0F, 1.2D, 1.5D, DISAPPEARING_GOALS));
     }
 
 	@Override public int getTicksToActivate() {return 10;}

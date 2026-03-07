@@ -1,23 +1,27 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
-import net.minecraft.world.entity.PathfinderMob;
+import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 
 public class AdditionalConditionMeleeAttackGoal extends MeleeAttackGoal
 {
-    protected final PathfinderMob goalOwner;
+    protected final int phase;
 
-    public AdditionalConditionMeleeAttackGoal(PathfinderMob entityIn, double speedIn, boolean useLongMemory)
+    public AdditionalConditionMeleeAttackGoal(GoalConditionEntity entity, double speedIn, boolean useLongMemory) {this(entity, speedIn, useLongMemory, 0);}
+    public AdditionalConditionMeleeAttackGoal(GoalConditionEntity entity, double speedIn, boolean useLongMemory, int goalPhase)
     {
-        super(entityIn, speedIn, useLongMemory);
-        this.goalOwner = entityIn;
+        super(entity.getSelf(), speedIn, useLongMemory);
+        this.phase = goalPhase;
     }
 
-    //Returns whether the EntityAIBase should begin execution.
-    @Override public boolean canUse() {return this.additionalConditionMet() && super.canUse();}
+    public GoalConditionEntity getGoalOwner() {return (GoalConditionEntity)this.mob;}
 
-    //Returns whether an in-progress EntityAIBase should continue executing
+    @Override public boolean canUse() {return this.additionalConditionMet() && super.canUse();}
     @Override public boolean canContinueToUse() {return this.additionalConditionMet() && super.canContinueToUse();}
 
-    public boolean additionalConditionMet() {return true;}
+    public boolean additionalConditionMet()
+    {
+        return this.getGoalOwner().checkGoalCondition(phase);
+    }
 }

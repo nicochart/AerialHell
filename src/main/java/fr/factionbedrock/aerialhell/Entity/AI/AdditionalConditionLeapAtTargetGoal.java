@@ -1,17 +1,17 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
 import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 
-public class AdditionalConditionRandomLookAroundGoal extends RandomLookAroundGoal
+public class AdditionalConditionLeapAtTargetGoal extends LeapAtTargetGoal
 {
-    private final GoalConditionEntity goalOwner;
-    private final int phase;
+    protected final GoalConditionEntity goalOwner;
+    protected final int phase;
 
-    public AdditionalConditionRandomLookAroundGoal(GoalConditionEntity entity) {this(entity, 0);}
-    public AdditionalConditionRandomLookAroundGoal(GoalConditionEntity entity, int goalPhase)
+    public AdditionalConditionLeapAtTargetGoal(GoalConditionEntity entity, float leapMotionY) {this(entity, leapMotionY, 0);}
+    public AdditionalConditionLeapAtTargetGoal(GoalConditionEntity entity, float leapMotionY, int goalPhase)
     {
-        super(entity.getSelf());
+        super(entity.getSelf(), leapMotionY);
         this.goalOwner = entity;
         this.phase = goalPhase;
     }

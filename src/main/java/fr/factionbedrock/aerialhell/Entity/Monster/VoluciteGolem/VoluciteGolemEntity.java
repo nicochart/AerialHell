@@ -59,7 +59,6 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     /* ------------------------------------------------------------------------- */
     /* ---------- MasterPartEntity : Interface methods implementation ---------- */
     /* ------------------------------------------------------------------------- */
-    @Override public Mob getSelf() {return this;}
     @Override public Map<String, PartInfo> getPartInfoMap() {return this.PARTS_MAP;}
 
     @Override public void tickPartRotation(PartInfo partInfo, @NotNull PartEntity partEntity)
@@ -191,10 +190,10 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
 
         //super.registerGoals(); removed super registerGoals because need to remove MeleeAttackGoal to make it work (atm)
-        this.goalSelector.addGoal(5, new ActiveMeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.addGoal(6, new ActiveWaterAvoidingRandomWalkingGoal(this, 0.6D));
-        this.goalSelector.addGoal(7, new ActiveLookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(8, new ActiveRandomLookAroundGoal(this));
+        this.goalSelector.addGoal(5, new AdditionalConditionMeleeAttackGoal(this, 1.25D, false));
+        this.goalSelector.addGoal(6, new AdditionalConditionWaterAvoidingRandomStrollGoal(this, 0.6D));
+        this.goalSelector.addGoal(7, new AdditionalConditionLookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(8, new AdditionalConditionRandomLookAroundGoal(this));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, MudSoldierEntity.class, true));
     }

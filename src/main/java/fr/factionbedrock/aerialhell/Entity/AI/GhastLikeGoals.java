@@ -24,6 +24,8 @@ public class GhastLikeGoals
         private final Mob parentEntity;
         public LookAroundGoal(Mob flyingMob) {this.parentEntity = flyingMob; this.setFlags(EnumSet.of(Goal.Flag.LOOK));}
 
+        public Mob getParentEntity() {return parentEntity;}
+
         @Override public boolean canUse() {return true;}
 
         @Override public void tick()
@@ -137,9 +139,14 @@ public class GhastLikeGoals
 
         public Mob getParentEntity() {return parentEntity;}
 
-        @Override public boolean canUse() {return parentEntity.getTarget() != null;}
+        @Override public boolean canUse() {return this.isValidTarget(this.parentEntity.getTarget());}
         @Override public void start() {resetTask();}
         @Override public void stop() {resetTask(); this.setAttacking(false);}
+
+        public boolean isValidTarget(@Nullable LivingEntity target)
+        {
+            return target != null && this.getParentEntity().canAttack(target);
+        }
 
         @Override public void tick()
         {

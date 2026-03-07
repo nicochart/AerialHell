@@ -1,10 +1,10 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionGhastLikeGoals;
 import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionMeleeAttackGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.GhastLikeGoals;
+import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.AbstractHumanoidMonster;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.RubyShurikenEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
@@ -19,18 +19,31 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity
+public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity implements GoalConditionEntity.PhaseAwareGoalConditionEntity
 {
     private int nextFurryShurikenNumber;
+    private static final int MELEE_ATTACK_GOAL = 0, SHURIKEN_ATTACK_GOAL = 1;
     public SlimeNinjaPirateEntity(EntityType<? extends SlimeNinjaPirateEntity> type, Level world) {super(type, world);}
 
     public int getNextFurryShurikenNumber() {return nextFurryShurikenNumber;}
     public void resetNextFurryShurikenNumber() {this.nextFurryShurikenNumber = this.random.nextInt(3,5);}
 
+    /* ------- GoalSimpleConditionEntity : Interface method implementation ------- */
+    @Override public PathfinderMob getSelf() {return this;}
+
+    @Override public boolean canUseGoalsAdditionalCondition(int phase)
+    {
+        LivingEntity target = this.getTarget();
+        if (target == null) {return false;}
+        double distanceToTarget = this.distanceTo(target);
+        return (phase == MELEE_ATTACK_GOAL && distanceToTarget < 3) || (phase == SHURIKEN_ATTACK_GOAL && distanceToTarget > 2);
+    }
+    /* --------------------------------------------------------------------------- */
+
     @Override protected void registerSpecificGoals()
     {
-        this.goalSelector.addGoal(1, new ShurikenAttackGoal(this));
-        this.goalSelector.addGoal(2, new NinjaMeleeAttackGoal(this, 1.25D, false));
+        this.goalSelector.addGoal(1, new ShurikenAttackGoal(this, SHURIKEN_ATTACK_GOAL));
+        this.goalSelector.addGoal(2, new AdditionalConditionMeleeAttackGoal(this, 1.25D, false, MELEE_ATTACK_GOAL));
         this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 16.0F));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
@@ -46,18 +59,11 @@ public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity
         return AbstractHumanoidMonster.registerAttributes(18.0D, 4.0D, 0.25D, 35.0D);
     }
 
-    public static class ShurikenAttackGoal extends GhastLikeGoals.ShootProjectileFlurryGoal
+    public static class ShurikenAttackGoal extends AdditionalConditionGhastLikeGoals.ShootProjectileFlurryGoal
     {
-        public ShurikenAttackGoal(SlimeNinjaPirateEntity entity) {super(entity, true);}
+        public ShurikenAttackGoal(SlimeNinjaPirateEntity entity, int goalPhase) {super(entity, true, goalPhase);}
 
         @Override public SlimeNinjaPirateEntity getParentEntity() {return (SlimeNinjaPirateEntity) super.getParentEntity();}
-
-        @Override public boolean canUse()
-        {
-            LivingEntity target = getParentEntity().getTarget();
-            double distanceToTarget = 0; if (target != null) {distanceToTarget = getParentEntity().distanceTo(target);}
-            return target != null && target.isAlive() && getParentEntity().canAttack(target) && distanceToTarget > 2;
-        }
 
         @Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ)
         {
@@ -75,17 +81,5 @@ public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity
         @Override public SoundEvent getShootSound() {return AerialHellSoundEvents.ENTITY_SHURIKEN_SHOOT.get();}
         @Override public int getProjectileNumber() {return this.getParentEntity().getNextFurryShurikenNumber();}
         @Override public int getShootInvervalWithinBurst() {return 4;}
-    }
-
-    public static class NinjaMeleeAttackGoal extends AdditionalConditionMeleeAttackGoal
-    {
-        public NinjaMeleeAttackGoal(PathfinderMob entityIn, double speedIn, boolean useLongMemory) {super(entityIn, speedIn, useLongMemory);}
-
-        @Override public boolean additionalConditionMet()
-        {
-            LivingEntity target = this.goalOwner.getTarget();
-            if (target == null) {return false;}
-            return this.goalOwner.distanceTo(target) < 3;
-        }
     }
 }

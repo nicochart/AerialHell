@@ -1,10 +1,12 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Snake;
 
 import fr.factionbedrock.aerialhell.Entity.AI.*;
+import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.AbstractCustomHurtMonsterEntity;
 import fr.factionbedrock.aerialhell.Entity.Util.CustomHurtInfo;
 import fr.factionbedrock.aerialhell.Entity.Util.SnakeCustomHurtInfo;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -35,7 +37,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntity
+public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntity implements GoalConditionEntity.GoalSimpleConditionEntity
 {
     protected enum BodyPartDeathReaction{ALWAYS_SPLIT, SPLIT_IF_NOT_HEAD, LOOSE_TAIL, ALWAYS_DIE}
     protected enum SendDirection{FORWARD, BACKWARD}
@@ -129,13 +131,19 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         return fallingCount >= 0.60F * count;
     }
 
+    /* ------- GoalSimpleConditionEntity : Interface method implementation ------- */
+    @Override public PathfinderMob getSelf() {return this;}
+
+    @Override public boolean canUseGoalsAdditionalCondition() {return this.isHead();}
+    /* --------------------------------------------------------------------------- */
+
     @Override protected void registerGoals()
     {
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new SnakeGoals.SnakeMeleeAttackGoal(this, 1.25D));
-        this.goalSelector.addGoal(3, new SnakeGoals.SnakeWaterAvoidingRandomWalkingGoal(this, 0.9D));
-        this.goalSelector.addGoal(4, new SnakeGoals.SnakeLookAtPlayerGoal(this));
-        this.goalSelector.addGoal(4, new SnakeGoals.SnakeRandomLookAroundGoal(this));
+        this.goalSelector.addGoal(2, new AdditionalConditionMeleeAttackGoal(this, 1.25D, false));
+        this.goalSelector.addGoal(3, new AdditionalConditionWaterAvoidingRandomStrollGoal(this, 0.9D));
+        this.goalSelector.addGoal(4, new AdditionalConditionLookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(4, new AdditionalConditionRandomLookAroundGoal(this));
         this.goalSelector.addGoal(4, new SnakeGoals.AlignSnakeBodyPartGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));

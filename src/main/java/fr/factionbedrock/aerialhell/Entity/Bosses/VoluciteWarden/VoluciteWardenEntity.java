@@ -130,7 +130,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ------------------------------------------------------------------------- */
 	/* ---------- MasterPartEntity : Interface methods implementation ---------- */
 	/* ------------------------------------------------------------------------- */
-	@Override public Mob getSelf() {return this;}
 	@Override public Map<String, PartInfo> getPartInfoMap() {return this.PARTS_MAP;}
 
 	@Override public void tickPartRotation(PartInfo partInfo, @NotNull PartEntity partEntity)
@@ -302,10 +301,10 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override protected void registerGoals()
     {
-		this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, Player.class, true));
+		this.targetSelector.addGoal(2, new AdditionalConditionNearestAttackableTargetGoal<>(this, Player.class, true));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
-		this.goalSelector.addGoal(4, new ActiveMeleeAttackGoal(this, 1.25D, false));
+		this.goalSelector.addGoal(4, new AdditionalConditionMeleeAttackGoal(this, 1.25D, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
     }
 

@@ -62,19 +62,21 @@ public class ChainedGodEntity extends AbstractBossEntity
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 	}
 
+	@Override public boolean canUseGoalsAdditionalCondition() {return super.canUseGoalsAdditionalCondition() && this.isFreelyMoving();}
+
 	@Override protected void registerGoals()
     {
-		this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, Player.class, true));
+		this.targetSelector.addGoal(2, new AdditionalConditionNearestAttackableTargetGoal<>(this, Player.class, true));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(0, new ChainedGodEntity.UnchainHimselfGoal(this));
 		this.goalSelector.addGoal(0, new ChainedGodEntity.ChainedGodRandomFireballAttackGoal(this));
 		this.goalSelector.addGoal(1, new ChainedGodEntity.ChainedGodImplodeGoal(this));
 		this.goalSelector.addGoal(2, new ChainedGodEntity.ChainedGodFireballAttackGoal(this));
 		this.goalSelector.addGoal(2, new ChainedGodEntity.ChainedGodSummonTornSpiritSkullGoal(this));
-		this.goalSelector.addGoal(3, new ChainedGodMeleeAttackGoal(this, 1.25D, false));
+		this.goalSelector.addGoal(3, new AdditionalConditionMeleeAttackGoal(this, 1.25D, false));
 		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(5, new ChainedGodWaterAvoidingRandomWalkingGoal(this, 0.6D));
-        this.goalSelector.addGoal(6, new ChainedGodLeapAtTargetGoal(this, 0.7F));
+        this.goalSelector.addGoal(5, new AdditionalConditionWaterAvoidingRandomStrollGoal(this, 0.6D));
+        this.goalSelector.addGoal(6, new AdditionalConditionLeapAtTargetGoal(this, 0.7F));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
     }
 
@@ -546,24 +548,5 @@ public class ChainedGodEntity extends AbstractBossEntity
 		}
 
 		@Override protected void playEffect() {}
-	}
-	
-	public static class ChainedGodLeapAtTargetGoal extends ActiveLeapAtTargetGoal
-	{		
-		public ChainedGodLeapAtTargetGoal(ChainedGodEntity godIn, float leapMotionYIn) {super(godIn, leapMotionYIn);}
-		@Override public boolean canUse() {return ((ChainedGodEntity) this.activableGoalOwner).isFreelyMoving() && super.canUse();}
-		@Override public boolean canContinueToUse() {return ((ChainedGodEntity) this.activableGoalOwner).isFreelyMoving() && super.canContinueToUse();}
-	}
-	
-	public static class ChainedGodMeleeAttackGoal extends ActiveMeleeAttackGoal
-	{
-		public ChainedGodMeleeAttackGoal(ChainedGodEntity godIn, double speedIn, boolean useLongMemory) {super(godIn, speedIn, useLongMemory);}
-		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && ((ChainedGodEntity) this.goalOwner).isFreelyMoving();}
-	}
-	
-	public static class ChainedGodWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal
-	{
-		public ChainedGodWaterAvoidingRandomWalkingGoal(ChainedGodEntity god, double speedIn) {super(god, speedIn);}
-		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && ((ChainedGodEntity) this.getGoalOwner()).isFreelyMoving();}
 	}
 }

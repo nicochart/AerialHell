@@ -1,27 +1,30 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
+import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-import java.util.function.Predicate;
 
 public class AdditionalConditionNearestAttackableTargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T>
 {
-    private final Predicate<Mob> canUseAdditionalCondition;
+    protected final int phase;
 
-    public AdditionalConditionNearestAttackableTargetGoal(Mob mob, Class<T> targetClassIn, boolean checkSight, Predicate<Mob> canUseAdditionalConditionOnGoalOwner)
+    public AdditionalConditionNearestAttackableTargetGoal(GoalConditionEntity mob, Class<T> targetClassIn, boolean checkSight) {this(mob, targetClassIn, checkSight, 0);}
+    public AdditionalConditionNearestAttackableTargetGoal(GoalConditionEntity mob, Class<T> targetClassIn, boolean checkSight, int goalPhase)
     {
-        super(mob, targetClassIn, checkSight);
-        this.canUseAdditionalCondition = canUseAdditionalConditionOnGoalOwner;
+        super(mob.getSelf(), targetClassIn, checkSight);
+        this.phase = goalPhase;
     }
 
-    public AdditionalConditionNearestAttackableTargetGoal(Mob mob, Class<T> targetClassIn, boolean checkSight, Predicate<Mob> canUseAdditionalConditionOnGoalOwner, TargetingConditions.Selector selector)
+    public AdditionalConditionNearestAttackableTargetGoal(GoalConditionEntity mob, Class<T> targetClassIn, boolean checkSight, TargetingConditions.Selector selector) {this(mob, targetClassIn, checkSight, selector, 0);}
+    public AdditionalConditionNearestAttackableTargetGoal(GoalConditionEntity mob, Class<T> targetClassIn, boolean checkSight, TargetingConditions.Selector selector, int goalPhase)
     {
-        super(mob, targetClassIn, checkSight, selector);
-        this.canUseAdditionalCondition = canUseAdditionalConditionOnGoalOwner;
+        super(mob.getSelf(), targetClassIn, checkSight, selector);
+        this.phase = goalPhase;
     }
 
-    @Override public boolean canUse() {return this.canUseAdditionalCondition.test(this.mob) && super.canUse();}
-    @Override public boolean canContinueToUse() {return this.canUseAdditionalCondition.test(this.mob) && super.canContinueToUse();}
+    public GoalConditionEntity getGoalOwner() {return (GoalConditionEntity)this.mob;}
+
+    @Override public boolean canUse() {return this.getGoalOwner().checkGoalCondition(phase) && super.canUse();}
+    @Override public boolean canContinueToUse() {return this.getGoalOwner().checkGoalCondition(phase) && super.canContinueToUse();}
 }

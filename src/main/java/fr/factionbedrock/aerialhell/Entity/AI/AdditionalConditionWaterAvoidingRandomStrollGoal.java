@@ -1,17 +1,21 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
-import net.minecraft.world.entity.PathfinderMob;
+import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 
 public class AdditionalConditionWaterAvoidingRandomStrollGoal extends WaterAvoidingRandomStrollGoal
 {
-    public AdditionalConditionWaterAvoidingRandomStrollGoal(PathfinderMob entityIn, double speedIn)
+    private final int phase;
+
+    public AdditionalConditionWaterAvoidingRandomStrollGoal(GoalConditionEntity entity, double speed) {this(entity, speed, 0);}
+    public AdditionalConditionWaterAvoidingRandomStrollGoal(GoalConditionEntity entity, double speed, int goalPhase)
     {
-        super(entityIn, speedIn);
+        super(entity.getSelf(), speed);
+        this.phase = goalPhase;
     }
 
-    @Override public boolean canUse() {return this.additionalConditionMet() && super.canUse();}
-    @Override public boolean canContinueToUse() {return this.additionalConditionMet() && super.canContinueToUse();}
+    public GoalConditionEntity getGoalOwner() {return (GoalConditionEntity)this.mob;}
 
-    public boolean additionalConditionMet() {return true;}
+    @Override public boolean canUse() {return this.getGoalOwner().checkGoalCondition(phase) && super.canUse();}
+    @Override public boolean canContinueToUse() {return this.getGoalOwner().checkGoalCondition(phase) && super.canContinueToUse();}
 }
