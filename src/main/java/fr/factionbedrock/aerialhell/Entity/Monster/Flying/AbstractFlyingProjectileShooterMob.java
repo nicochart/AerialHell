@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Flying;
 
-import fr.factionbedrock.aerialhell.Entity.AI.GhastLikeGoals;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -19,7 +19,7 @@ public abstract class AbstractFlyingProjectileShooterMob extends Mob implements 
 {
 	public static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.defineId(AbstractFlyingProjectileShooterMob.class, EntityDataSerializers.BOOLEAN);
 
-	public AbstractFlyingProjectileShooterMob(EntityType<? extends AbstractFlyingProjectileShooterMob> type, Level levelIn) {super(type, levelIn); this.moveControl = new GhastLikeGoals.MoveHelperController(this);}
+	public AbstractFlyingProjectileShooterMob(EntityType<? extends AbstractFlyingProjectileShooterMob> type, Level levelIn) {super(type, levelIn); this.moveControl = new FlyMoveHelperController(this);}
 
 	@Override protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos) {}
 	@Override public void travel(Vec3 vec3) {this.travelFlying(vec3, 0.02F);}
@@ -27,8 +27,8 @@ public abstract class AbstractFlyingProjectileShooterMob extends Mob implements 
 
 	@Override protected void registerGoals()
 	{
-		this.goalSelector.addGoal(5, new GhastLikeGoals.RandomFlyGoal(this));
-		this.goalSelector.addGoal(7, new GhastLikeGoals.LookAroundGoal(this));
+		this.goalSelector.addGoal(5, new RandomFlyGoal(this));
+		this.goalSelector.addGoal(7, new FlyingLookAroundGoal(this));
 		this.goalSelector.addGoal(7, new AbstractFlyingProjectileShooterMob.ShootProjectileGoal(this));
 		//no target defined here
 	}
@@ -53,7 +53,7 @@ public abstract class AbstractFlyingProjectileShooterMob extends Mob implements 
 	public abstract Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ);
 	public abstract SoundEvent getShootSound();
 
-	public static class ShootProjectileGoal extends GhastLikeGoals.ShootProjectileGoal
+	public static class ShootProjectileGoal extends fr.factionbedrock.aerialhell.Entity.AI.GhastLike.ShootProjectileGoal
 	{
 		public ShootProjectileGoal(AbstractFlyingProjectileShooterMob flyingMob) {super(flyingMob);}
 

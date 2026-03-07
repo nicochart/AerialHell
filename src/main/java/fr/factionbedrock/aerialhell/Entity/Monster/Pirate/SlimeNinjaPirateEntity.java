@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionGhastLikeGoals;
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionMeleeAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.AdditionalConditionMeleeAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.GhastLike.AdditionalConditionShootProjectileFlurryGoal;
 import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.AbstractHumanoidMonster;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.RubyShurikenEntity;
@@ -31,12 +31,12 @@ public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity implements
     /* ------- GoalSimpleConditionEntity : Interface method implementation ------- */
     @Override public PathfinderMob getSelf() {return this;}
 
-    @Override public boolean canUseGoalsAdditionalCondition(int phase)
+    @Override public boolean canUseGoalsAdditionalCondition(int goalIndex)
     {
         LivingEntity target = this.getTarget();
         if (target == null) {return false;}
         double distanceToTarget = this.distanceTo(target);
-        return (phase == MELEE_ATTACK_GOAL && distanceToTarget < 3) || (phase == SHURIKEN_ATTACK_GOAL && distanceToTarget > 2);
+        return (goalIndex == MELEE_ATTACK_GOAL && distanceToTarget < 3) || (goalIndex == SHURIKEN_ATTACK_GOAL && distanceToTarget > 2);
     }
     /* --------------------------------------------------------------------------- */
 
@@ -59,7 +59,7 @@ public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity implements
         return AbstractHumanoidMonster.registerAttributes(18.0D, 4.0D, 0.25D, 35.0D);
     }
 
-    public static class ShurikenAttackGoal extends AdditionalConditionGhastLikeGoals.ShootProjectileFlurryGoal
+    public static class ShurikenAttackGoal extends AdditionalConditionShootProjectileFlurryGoal
     {
         public ShurikenAttackGoal(SlimeNinjaPirateEntity entity, int goalPhase) {super(entity, true, goalPhase);}
 

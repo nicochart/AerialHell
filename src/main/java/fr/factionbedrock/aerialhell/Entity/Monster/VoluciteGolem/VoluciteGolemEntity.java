@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem;
 
 import com.google.common.collect.Maps;
-import fr.factionbedrock.aerialhell.Entity.AI.*;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.*;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;

@@ -3,6 +3,8 @@ package fr.factionbedrock.aerialhell.Entity.Bosses;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.*;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ChainedGodFireballEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
@@ -411,7 +413,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		protected void resetTask() {this.timeSinceUnchaining = 0; this.goalOwner.setUnchaining(false);}
 	}
 
-	public static class ChainedGodFireballAttackGoal extends GhastLikeGoals.ShootProjectileFlurryGoal
+	public static class ChainedGodFireballAttackGoal extends ShootProjectileFlurryGoal
 	{
 		public ChainedGodFireballAttackGoal(ChainedGodEntity entity) {super(entity);}
 
@@ -439,7 +441,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		@Override public int getShootInvervalWithinBurst() {return 4;}
 	}
 
-	public static class ChainedGodRandomFireballAttackGoal extends GhastLikeGoals.ShootProjectileGoal
+	public static class ChainedGodRandomFireballAttackGoal extends ShootProjectileGoal
 	{
 		public ChainedGodRandomFireballAttackGoal(ChainedGodEntity entity) {super(entity);}
 		private ChainedGodEntity getChainedGodGoalOwner() {return (ChainedGodEntity)this.getParentEntity();}

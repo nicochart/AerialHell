@@ -1,12 +1,12 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Snake;
 
 import fr.factionbedrock.aerialhell.Entity.AI.*;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.*;
 import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.AbstractCustomHurtMonsterEntity;
 import fr.factionbedrock.aerialhell.Entity.Util.CustomHurtInfo;
 import fr.factionbedrock.aerialhell.Entity.Util.SnakeCustomHurtInfo;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -144,7 +144,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         this.goalSelector.addGoal(3, new AdditionalConditionWaterAvoidingRandomStrollGoal(this, 0.9D));
         this.goalSelector.addGoal(4, new AdditionalConditionLookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(4, new AdditionalConditionRandomLookAroundGoal(this));
-        this.goalSelector.addGoal(4, new SnakeGoals.AlignSnakeBodyPartGoal(this));
+        this.goalSelector.addGoal(4, new SnakeAlignSnakeBodyPartGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }

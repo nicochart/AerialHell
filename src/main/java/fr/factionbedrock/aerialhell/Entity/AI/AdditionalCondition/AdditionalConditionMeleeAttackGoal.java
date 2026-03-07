@@ -1,7 +1,6 @@
-package fr.factionbedrock.aerialhell.Entity.AI;
+package fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition;
 
 import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 
 public class AdditionalConditionMeleeAttackGoal extends MeleeAttackGoal

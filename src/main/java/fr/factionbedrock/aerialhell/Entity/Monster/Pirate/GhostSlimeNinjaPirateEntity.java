@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionLookAtPlayerGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionMeleeAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.AdditionalConditionLookAtPlayerGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.AdditionalConditionMeleeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.GhostPirateWaterAvoidingRandomStrollGoal;
 import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MisleadableEntity;
@@ -48,12 +48,12 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity implemen
     /* ------- GoalSimpleConditionEntity : Interface method implementation ------- */
     @Override public PathfinderMob getSelf() {return this;}
 
-    @Override public boolean canUseGoalsAdditionalCondition(int phase)
+    @Override public boolean canUseGoalsAdditionalCondition(int goalIndex)
     {
         LivingEntity target = this.getTarget();
         if (target == null || EntityHelper.isImmuneToGhostBlockCollision(target)) {return false;}
         double distanceToTarget = this.distanceTo(target);
-        return (phase == MELEE_ATTACK_GOAL && distanceToTarget < 3) || (phase == SHURIKEN_ATTACK_GOAL && distanceToTarget > 2);
+        return (goalIndex == MELEE_ATTACK_GOAL && distanceToTarget < 3) || (goalIndex == SHURIKEN_ATTACK_GOAL && distanceToTarget > 2);
     }
     /* --------------------------------------------------------------------------- */
 

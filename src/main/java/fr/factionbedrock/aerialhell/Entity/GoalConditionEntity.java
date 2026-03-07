@@ -7,7 +7,7 @@ public interface GoalConditionEntity extends BaseMobEntityInterface
     /* ---------- Global methods needing implementation ---------- */
     @Override PathfinderMob getSelf();
     
-    boolean checkGoalCondition(int phase);
+    boolean checkGoalCondition(int goalIndex);
     /* ----------------------------------------------------------- */
 
     interface GoalSimpleConditionEntity extends GoalConditionEntity
@@ -16,15 +16,15 @@ public interface GoalConditionEntity extends BaseMobEntityInterface
         boolean canUseGoalsAdditionalCondition();
         /* ----------------------------------------------------------- */
 
-        default boolean checkGoalCondition(int phase) {return this.canUseGoalsAdditionalCondition();}
+        default boolean checkGoalCondition(int goalIndex) {return this.canUseGoalsAdditionalCondition();}
     }
 
     interface PhaseAwareGoalConditionEntity extends GoalConditionEntity
     {
         /* ---------- Methods needing implementation ---------- */
-        boolean canUseGoalsAdditionalCondition(int phase);
+        boolean canUseGoalsAdditionalCondition(int goalIndex);
         /* ---------------------------------------------------- */
 
-        default boolean checkGoalCondition(int phase) {return canUseGoalsAdditionalCondition(phase);}
+        default boolean checkGoalCondition(int goalIndex) {return canUseGoalsAdditionalCondition(goalIndex);}
     }
 }

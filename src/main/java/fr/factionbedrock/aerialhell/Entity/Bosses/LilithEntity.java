@@ -9,6 +9,8 @@ import fr.factionbedrock.aerialhell.Block.StandingAndWall.AerialHellWallTorchBlo
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.*;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.ShootProjectileGoal;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ShadowProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
@@ -480,7 +482,7 @@ public class LilithEntity extends AbstractBossEntity
 	public boolean isHealthMatchToShootShadowProjectile() {return this.getHealth() * 2 < this.getMaxHealth();}
 	public boolean isHealthMatchToSummonFlyingSkulls() {return  this.getMaxHealth() > (2.5 - this.getDifficulty() / 6.0) * this.getHealth();}
 
-	public static class ShadowProjectileAttackGoal extends GhastLikeGoals.ShootProjectileGoal
+	public static class ShadowProjectileAttackGoal extends ShootProjectileGoal
 	{
 		public ShadowProjectileAttackGoal(LilithEntity entity) {super(entity);}
 

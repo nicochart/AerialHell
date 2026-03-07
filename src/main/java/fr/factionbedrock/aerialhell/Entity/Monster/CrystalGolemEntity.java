@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import com.google.common.collect.ImmutableList;
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionAvoidEntityGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalConditionNearestAttackableTargetGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.AdditionalConditionAvoidEntityGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.AdditionalConditionNearestAttackableTargetGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.FleeBlockGoal;
 import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
@@ -119,12 +119,12 @@ public class CrystalGolemEntity extends AerialHellGolemEntity implements Mislead
 	@Override public boolean displayFireAnimation() {return false;}
 
     /* ----- GoalConditionEntity.PhaseAwareGoalConditionEntity : Interface method implementation ----- */
-    @Override public boolean checkGoalCondition(int phase) {return this.canUseGoalsAdditionalCondition(phase);} //need to override checkGoalCondition because Crystal Golem implements both GoalSimpleConditionEntity (from AbstractActivableEntity) and PhaseAwareGoalConditionEntity
+    @Override public boolean checkGoalCondition(int goalIndex) {return this.canUseGoalsAdditionalCondition(goalIndex);} //need to override checkGoalCondition because Crystal Golem implements both GoalSimpleConditionEntity (from AbstractActivableEntity) and PhaseAwareGoalConditionEntity
 
-    @Override public boolean canUseGoalsAdditionalCondition(int goalPhase)
+    @Override public boolean canUseGoalsAdditionalCondition(int goalIndex)
     {
-        if (goalPhase == ACTIVE_GOALS) {return this.isActive() && !this.isDisappearing();}
-        else if (goalPhase == DISAPPEARING_GOALS)
+        if (goalIndex == ACTIVE_GOALS) {return this.isActive() && !this.isDisappearing();}
+        else if (goalIndex == DISAPPEARING_GOALS)
         {
             return this.isDisappearing();
         }

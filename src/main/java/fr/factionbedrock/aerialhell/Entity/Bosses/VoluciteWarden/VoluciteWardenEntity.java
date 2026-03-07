@@ -1,7 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
 import com.google.common.collect.Maps;
-import fr.factionbedrock.aerialhell.Entity.AI.*;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.AdditionalConditionMeleeAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.AdditionalConditionNearestAttackableTargetGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.AbstractBossEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.BossPhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;

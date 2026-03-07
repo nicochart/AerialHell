@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
-import fr.factionbedrock.aerialhell.Entity.AI.*;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.*;
+import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.GhastLike.*;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.FlyMoveHelperController;
 import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
@@ -47,19 +49,19 @@ public class LunaticPriestEntity extends AbstractBossEntity implements GoalCondi
 	}
 
 	/* ----- GoalConditionEntity.PhaseAwareGoalConditionEntity : Interface method implementation ----- */
-	@Override public boolean checkGoalCondition(int phase) {return this.canUseGoalsAdditionalCondition(phase);} //need to override checkGoalCondition because priest implements both GoalSimpleConditionEntity and PhaseAwareGoalConditionEntity
+	@Override public boolean checkGoalCondition(int goalIndex) {return this.canUseGoalsAdditionalCondition(goalIndex);} //need to override checkGoalCondition because priest implements both GoalSimpleConditionEntity and PhaseAwareGoalConditionEntity
 
-	@Override public boolean canUseGoalsAdditionalCondition(int goalPhase)
+	@Override public boolean canUseGoalsAdditionalCondition(int goalIndex)
 	{
 		if (!super.canUseGoalsAdditionalCondition()) {return false;}
 		else
 		{
-			if (goalPhase == BOTH_PHASES_GOALS) {return true;}
-			else if (goalPhase == PHASE_1_GOALS)
+			if (goalIndex == BOTH_PHASES_GOALS) {return true;}
+			else if (goalIndex == PHASE_1_GOALS)
 			{
 				return this.isInPhase1();
 			}
-			else if (goalPhase == PHASE_2_GOALS)
+			else if (goalIndex == PHASE_2_GOALS)
 			{
 				return this.isInPhase2();
 			}
@@ -72,8 +74,8 @@ public class LunaticPriestEntity extends AbstractBossEntity implements GoalCondi
     protected void registerGoals()
     {
 		/*Phase 1 only*/
-		this.goalSelector.addGoal(5, new AdditionalConditionGhastLikeGoals.RandomFlyGoal(this, PHASE_1_GOALS));
-		this.goalSelector.addGoal(7, new AdditionalConditionGhastLikeGoals.LookAroundGoal(this, PHASE_1_GOALS));
+		this.goalSelector.addGoal(5, new AdditionalConditionRandomFlyGoal(this, PHASE_1_GOALS));
+		this.goalSelector.addGoal(7, new AdditionalConditionFlyingLookAroundGoal(this, PHASE_1_GOALS));
 		/*Phase 2 only*/
 		this.goalSelector.addGoal(6, new AdditionalConditionRandomLookAroundGoal(this, PHASE_2_GOALS));
 	    this.goalSelector.addGoal(4, new AdditionalConditionWaterAvoidingRandomStrollGoal(this, 1.0D, PHASE_2_GOALS));
@@ -114,7 +116,7 @@ public class LunaticPriestEntity extends AbstractBossEntity implements GoalCondi
 	{
 		if (nextPhase == BossPhase.FIRST_PHASE)
 		{
-			this.moveControl = new GhastLikeGoals.MoveHelperController(this);
+			this.moveControl = new FlyMoveHelperController(this);
 			this.setDeltaMovement(this.getDeltaMovement().add(0,2,0));
 		}
 		else if (nextPhase == BossPhase.SECOND_PHASE)
@@ -259,20 +261,7 @@ public class LunaticPriestEntity extends AbstractBossEntity implements GoalCondi
 	/*
 	 * Goals
 	 */
-
-	static class PriestRandomFlyGoal extends GhastLikeGoals.RandomFlyGoal
-	{
-		public PriestRandomFlyGoal(LunaticPriestEntity priestIn) {super(priestIn);}
-		
-		@Override public boolean canUse()
-		{
-			LunaticPriestEntity priest = (LunaticPriestEntity) this.getParentEntity();
-			if (!priest.isActive() || priest.isInPhase2()) {return false;}
-			else {return super.canUse();}
-		}
-	}
-
-	public static class LunaticProjectileAttackGoal extends AdditionalConditionGhastLikeGoals.ShootProjectileGoal
+	public static class LunaticProjectileAttackGoal extends AdditionalConditionShootProjectileGoal
 	{
 		public LunaticProjectileAttackGoal(LunaticPriestEntity entity, int goalPhase) {super(entity, goalPhase);}
 
