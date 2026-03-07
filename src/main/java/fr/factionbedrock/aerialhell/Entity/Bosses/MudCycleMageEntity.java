@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
 import fr.factionbedrock.aerialhell.Entity.AI.*;
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralCycleMageEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralSoldierEntity;
@@ -17,11 +16,9 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.FleeSunGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.goal.RestrictSunGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -51,13 +48,13 @@ public class MudCycleMageEntity extends AbstractBossEntity
     {
 		this.goalSelector.addGoal(2, new RestrictSunGoal(this));
 	    this.goalSelector.addGoal(3, new FleeSunGoal(this, 1.0D));
-	    this.goalSelector.addGoal(3, new AdditionalConditionMeleeAttackGoal(this, 1.25D, false));
+	    this.goalSelector.addGoal(3, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
 	    this.goalSelector.addGoal(3, new SummonSpectralEntitiesGoal(this));
-	    this.goalSelector.addGoal(5, new AdditionalConditionWaterAvoidingRandomStrollGoal(this, 1.0D));
-	    this.goalSelector.addGoal(6, new AdditionalConditionLookAtPlayerGoal(this, Player.class, 8.0F));
-	    this.goalSelector.addGoal(6, new AdditionalConditionRandomLookAroundGoal(this));
+	    this.goalSelector.addGoal(5, new ConditionalGoal(this, new WaterAvoidingRandomStrollGoal(this, 1.0D)));
+	    this.goalSelector.addGoal(6, new ConditionalGoal(this, new LookAtPlayerGoal(this, Player.class, 8.0F)));
+	    this.goalSelector.addGoal(6, new ConditionalGoal(this, new RandomLookAroundGoal(this)));
 	    this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-	    this.targetSelector.addGoal(2, new AdditionalConditionNearestAttackableTargetGoal<>(this, Player.class, true));
+	    this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 	    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, TornSpiritEntity.class, true));
 	    this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
     }

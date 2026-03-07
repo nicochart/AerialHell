@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.AdditionalConditionLookAtPlayerGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.AdditionalConditionMeleeAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.GhostPirateWaterAvoidingRandomStrollGoal;
 import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MisleadableEntity;
@@ -60,8 +59,8 @@ public class GhostSlimePirateEntity extends AbstractSlimePirateEntity implements
 
     @Override protected void registerSpecificGoals()
     {
-        this.goalSelector.addGoal(2, new AdditionalConditionMeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.addGoal(4, new AdditionalConditionLookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(2, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
+        this.goalSelector.addGoal(4, new ConditionalGoal(this, new LookAtPlayerGoal(this, Player.class, 8.0F)));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, (potentialTarget, serverLevel) -> !this.isMisleadedBy(potentialTarget)));
     }
 

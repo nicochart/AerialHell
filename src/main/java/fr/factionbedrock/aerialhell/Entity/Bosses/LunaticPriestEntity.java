@@ -1,8 +1,10 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.*;
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.GhastLike.*;
+import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.FlyMoveHelperController;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.FlyingLookAroundGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.RandomFlyGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.ShootProjectileGoal;
 import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
@@ -10,6 +12,8 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -19,7 +23,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -49,7 +52,7 @@ public class LunaticPriestEntity extends AbstractBossEntity implements GoalCondi
 	}
 
 	/* ----- GoalConditionEntity.PhaseAwareGoalConditionEntity : Interface method implementation ----- */
-	@Override public boolean checkGoalCondition(int goalIndex) {return this.canUseGoalsAdditionalCondition(goalIndex);} //need to override checkGoalCondition because priest implements both GoalSimpleConditionEntity and PhaseAwareGoalConditionEntity
+	@Override public boolean checkGoalCondition(int conditionIndex) {return this.canUseGoalsAdditionalCondition(conditionIndex);} //need to override checkGoalCondition because priest implements both GoalSimpleConditionEntity and PhaseAwareGoalConditionEntity
 
 	@Override public boolean canUseGoalsAdditionalCondition(int goalIndex)
 	{
@@ -74,16 +77,16 @@ public class LunaticPriestEntity extends AbstractBossEntity implements GoalCondi
     protected void registerGoals()
     {
 		/*Phase 1 only*/
-		this.goalSelector.addGoal(5, new AdditionalConditionRandomFlyGoal(this, PHASE_1_GOALS));
-		this.goalSelector.addGoal(7, new AdditionalConditionFlyingLookAroundGoal(this, PHASE_1_GOALS));
+		this.goalSelector.addGoal(5, new ConditionalGoal(this, PHASE_1_GOALS, new RandomFlyGoal(this)));
+		this.goalSelector.addGoal(7, new ConditionalGoal(this, PHASE_1_GOALS, new FlyingLookAroundGoal(this)));
 		/*Phase 2 only*/
-		this.goalSelector.addGoal(6, new AdditionalConditionRandomLookAroundGoal(this, PHASE_2_GOALS));
-	    this.goalSelector.addGoal(4, new AdditionalConditionWaterAvoidingRandomStrollGoal(this, 1.0D, PHASE_2_GOALS));
+		this.goalSelector.addGoal(6, new ConditionalGoal(this, PHASE_2_GOALS, new RandomLookAroundGoal(this)));
+	    this.goalSelector.addGoal(4, new ConditionalGoal(this, PHASE_2_GOALS, new WaterAvoidingRandomStrollGoal(this, 1.0D)));
 	    /*Both phases*/
-		this.goalSelector.addGoal(5, new AdditionalConditionLookAtPlayerGoal(this, Player.class, 8.0F, BOTH_PHASES_GOALS));
-	    this.goalSelector.addGoal(2, new LunaticPriestEntity.LunaticProjectileAttackGoal(this, BOTH_PHASES_GOALS));
-	    this.goalSelector.addGoal(3, new AdditionalConditionMeleeAttackGoal(this, 1.25D, false, BOTH_PHASES_GOALS));
-	    this.targetSelector.addGoal(2, new AdditionalConditionNearestAttackableTargetGoal<>(this, Player.class, true, BOTH_PHASES_GOALS));
+		this.goalSelector.addGoal(5, new ConditionalGoal(this, BOTH_PHASES_GOALS, new LookAtPlayerGoal(this, Player.class, 8.0F)));
+	    this.goalSelector.addGoal(2, new ConditionalGoal(this, BOTH_PHASES_GOALS, new LunaticProjectileAttackGoal(this)));
+	    this.goalSelector.addGoal(3, new ConditionalGoal(this, BOTH_PHASES_GOALS, new MeleeAttackGoal(this, 1.25D, false)));
+	    this.targetSelector.addGoal(2, new ConditionalGoal(this, BOTH_PHASES_GOALS, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 		/*Independant of phases*/
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
@@ -261,9 +264,9 @@ public class LunaticPriestEntity extends AbstractBossEntity implements GoalCondi
 	/*
 	 * Goals
 	 */
-	public static class LunaticProjectileAttackGoal extends AdditionalConditionShootProjectileGoal
+	public static class LunaticProjectileAttackGoal extends ShootProjectileGoal
 	{
-		public LunaticProjectileAttackGoal(LunaticPriestEntity entity, int goalPhase) {super(entity, goalPhase);}
+		public LunaticProjectileAttackGoal(LunaticPriestEntity entity) {super(entity);}
 
 		@Override public boolean isValidTarget(@Nullable LivingEntity target)
 		{

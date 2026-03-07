@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.AdditionalConditionMeleeAttackGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.GhastLike.AdditionalConditionShootProjectileFlurryGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.ShootProjectileFlurryGoal;
 import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.AbstractHumanoidMonster;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.RubyShurikenEntity;
@@ -42,8 +42,8 @@ public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity implements
 
     @Override protected void registerSpecificGoals()
     {
-        this.goalSelector.addGoal(1, new ShurikenAttackGoal(this, SHURIKEN_ATTACK_GOAL));
-        this.goalSelector.addGoal(2, new AdditionalConditionMeleeAttackGoal(this, 1.25D, false, MELEE_ATTACK_GOAL));
+        this.goalSelector.addGoal(1, new ConditionalGoal(this, SHURIKEN_ATTACK_GOAL, new ShurikenAttackGoal(this)));
+        this.goalSelector.addGoal(2, new ConditionalGoal(this, MELEE_ATTACK_GOAL, new MeleeAttackGoal(this, 1.25D, false)));
         this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 16.0F));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
@@ -59,9 +59,9 @@ public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity implements
         return AbstractHumanoidMonster.registerAttributes(18.0D, 4.0D, 0.25D, 35.0D);
     }
 
-    public static class ShurikenAttackGoal extends AdditionalConditionShootProjectileFlurryGoal
+    public static class ShurikenAttackGoal extends ShootProjectileFlurryGoal
     {
-        public ShurikenAttackGoal(SlimeNinjaPirateEntity entity, int goalPhase) {super(entity, true, goalPhase);}
+        public ShurikenAttackGoal(SlimeNinjaPirateEntity entity) {super(entity, true);}
 
         @Override public SlimeNinjaPirateEntity getParentEntity() {return (SlimeNinjaPirateEntity) super.getParentEntity();}
 

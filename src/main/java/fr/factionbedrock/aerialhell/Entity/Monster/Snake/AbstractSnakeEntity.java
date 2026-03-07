@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Snake;
 
 import fr.factionbedrock.aerialhell.Entity.AI.*;
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.*;
 import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.AbstractCustomHurtMonsterEntity;
 import fr.factionbedrock.aerialhell.Entity.Util.CustomHurtInfo;
@@ -18,7 +17,7 @@ import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
@@ -140,10 +139,10 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
     @Override protected void registerGoals()
     {
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new AdditionalConditionMeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.addGoal(3, new AdditionalConditionWaterAvoidingRandomStrollGoal(this, 0.9D));
-        this.goalSelector.addGoal(4, new AdditionalConditionLookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(4, new AdditionalConditionRandomLookAroundGoal(this));
+        this.goalSelector.addGoal(2, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
+        this.goalSelector.addGoal(3, new ConditionalGoal(this, new WaterAvoidingRandomStrollGoal(this, 0.9D)));
+        this.goalSelector.addGoal(4, new ConditionalGoal(this, new LookAtPlayerGoal(this, Player.class, 8.0F)));
+        this.goalSelector.addGoal(4, new ConditionalGoal(this, new RandomLookAroundGoal(this)));
         this.goalSelector.addGoal(4, new SnakeAlignSnakeBodyPartGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));

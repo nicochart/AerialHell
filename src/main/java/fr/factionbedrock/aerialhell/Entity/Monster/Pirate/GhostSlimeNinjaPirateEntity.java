@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.AdditionalConditionLookAtPlayerGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.AdditionalConditionMeleeAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.GhostPirateWaterAvoidingRandomStrollGoal;
 import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MisleadableEntity;
@@ -14,6 +13,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -24,7 +25,7 @@ import net.minecraft.world.level.Level;
 
 public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity implements MisleadableEntity, GoalConditionEntity.PhaseAwareGoalConditionEntity
 {
-    private static final int MELEE_ATTACK_GOAL = 0, SHURIKEN_ATTACK_GOAL = 1;
+    private static final int OTHER = 0, MELEE_ATTACK_GOAL = 1, SHURIKEN_ATTACK_GOAL = 2;
     public GhostSlimeNinjaPirateEntity(EntityType<? extends GhostSlimeNinjaPirateEntity> type, Level world) {super(type, world);}
 
     /* ------- MisleadableEntity : Interface method implementation ------- */
@@ -52,6 +53,7 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity implemen
     {
         LivingEntity target = this.getTarget();
         if (target == null || EntityHelper.isImmuneToGhostBlockCollision(target)) {return false;}
+        if (goalIndex == OTHER) {return true;}
         double distanceToTarget = this.distanceTo(target);
         return (goalIndex == MELEE_ATTACK_GOAL && distanceToTarget < 3) || (goalIndex == SHURIKEN_ATTACK_GOAL && distanceToTarget > 2);
     }
@@ -67,9 +69,9 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity implemen
 
     @Override protected void registerSpecificGoals()
     {
-        this.goalSelector.addGoal(2, new AdditionalConditionMeleeAttackGoal(this, 1.25D, false, MELEE_ATTACK_GOAL));
-        this.goalSelector.addGoal(4, new AdditionalConditionLookAtPlayerGoal(this, Player.class, 16.0F));
-        this.goalSelector.addGoal(1, new GhostShurikenAttackGoal(this, SHURIKEN_ATTACK_GOAL));
+        this.goalSelector.addGoal(2, new ConditionalGoal(this, MELEE_ATTACK_GOAL, new MeleeAttackGoal(this, 1.25D, false)));
+        this.goalSelector.addGoal(4, new ConditionalGoal(this, OTHER, new LookAtPlayerGoal(this, Player.class, 16.0F)));
+        this.goalSelector.addGoal(1, new ConditionalGoal(this, SHURIKEN_ATTACK_GOAL, new GhostShurikenAttackGoal(this)));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, (potentialTarget, serverLevel) -> !this.isMisleadedBy(potentialTarget)));
     }
 
@@ -81,7 +83,7 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity implemen
 
     public static class GhostShurikenAttackGoal extends SlimeNinjaPirateEntity.ShurikenAttackGoal
     {
-        public GhostShurikenAttackGoal(GhostSlimeNinjaPirateEntity entity, int goalPhase) {super(entity, goalPhase);}
+        public GhostShurikenAttackGoal(GhostSlimeNinjaPirateEntity entity) {super(entity);}
 
         @Override public GhostSlimeNinjaPirateEntity getParentEntity() {return (GhostSlimeNinjaPirateEntity) super.getParentEntity();}
 

@@ -1,10 +1,14 @@
 package fr.factionbedrock.aerialhell.Entity;
 
-import fr.factionbedrock.aerialhell.Entity.AI.AdditionalCondition.*;
+import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -31,10 +35,10 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
     @Override
     protected void registerGoals()
     {
-    	this.goalSelector.addGoal(1, new AdditionalConditionMeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.addGoal(2, new AdditionalConditionWaterAvoidingRandomStrollGoal(this, 0.6D));
-        this.goalSelector.addGoal(3, new AdditionalConditionLookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(3, new AdditionalConditionRandomLookAroundGoal(this));
+    	this.goalSelector.addGoal(1, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
+        this.goalSelector.addGoal(2, new ConditionalGoal(this, new WaterAvoidingRandomStrollGoal(this, 0.6D)));
+        this.goalSelector.addGoal(3, new ConditionalGoal(this, new LookAtPlayerGoal(this, Player.class, 8.0F)));
+        this.goalSelector.addGoal(3, new ConditionalGoal(this, new RandomLookAroundGoal(this)));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
     }
 
