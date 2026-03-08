@@ -54,7 +54,10 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 	public int attackTimer;
 	public int timeDying;
 
+	/* --- Imploding Entity fields --- */
 	private static final EntityDataAccessor<Boolean> IMPLODING = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
+	private final ImplodingEntityInfo IMPLODING_INFO = new ImplodingEntityInfo(IMPLODING, 126, 600, new ImplodingEntityInfo.ImplodingSoundInfo(this::playRoarSound, -12));
+	/* ------------------------------- */
 	private static final EntityDataAccessor<Boolean> UNCHAINING = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> UNCHAINED = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
 
@@ -66,9 +69,11 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 	}
 
-	/* ------- ImplodingEntity : Interface method implementation ------- */
-	@Override public ImplodingEntityInfo getImplodingEntityInfo() {return new ImplodingEntityInfo(IMPLODING, 126, 600, new ImplodingEntityInfo.ImplodingSoundInfo(this::playRoarSound, 12));}
-	/* ----------------------------------------------------------------- */
+	/* ------- ImplodingEntity : Interface method implementation or override for specific behavior ------- */
+	@Override public ImplodingEntityInfo getImplodingEntityInfo() {return this.IMPLODING_INFO;}
+
+	@Override public void onImplodingCastTick() {this.runRoarEffects(NearbyEntitiesInteractionInfo.DRAG_NEAR);}
+	/* --------------------------------------------------------------------------------------------------- */
 
 	/* ----- GoalConditionEntity.PhaseAwareGoalConditionEntity : Interface method implementation ----- */
 	@Override public boolean checkGoalCondition(int conditionIndex) {return this.canUseGoalsAdditionalCondition(conditionIndex);} //need to override checkGoalCondition because priest implements both GoalSimpleConditionEntity and PhaseAwareGoalConditionEntity
@@ -198,9 +203,11 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 
 	@Override public void tick()
     {
+		/* -- ImplodingEntity : tick --*/
+		this.implodingTick();
+		/* ----------------------------*/
 		if (random.nextFloat() > 0.5 && this.level().isClientSide()) {spawnParticles(AerialHellParticleTypes.GOD_FLAME.get(), 1, -0.06D);}
 
-		if (this.isImploding()) {this.runRoarEffects(NearbyEntitiesInteractionInfo.DRAG_NEAR);}
 		if (this.isUnchaining()) {this.runRoarEffects();}
 		this.destroyObstacles();
 		super.tick();

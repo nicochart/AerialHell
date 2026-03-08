@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Util;
 
+import fr.factionbedrock.aerialhell.Util.FieldAccessor;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,9 +11,11 @@ import javax.annotation.Nullable;
 public class ImplodingEntityInfo
 {
     private final EntityDataAccessor<Boolean> implodingDataAccessor;
-    public final ImplodingSoundInfo implodingSoundInfo;
+    private final ImplodingSoundInfo implodingSoundInfo;
     private final int castDuration; //ticks between imploding start and implosion - for sound synchro, you will need sound duration = castDuration - (implodingSoundInfo)soundOffset
     private final int cooldownDuration; //ticks between implosion and next imploding start
+    private int castTicks;
+    private int cooldownTicks;
 
     public ImplodingEntityInfo(EntityDataAccessor<Boolean> implodingDataAccessor, int castDuration, int cooldownDuration, ImplodingSoundInfo implodingSoundInfo)
     {
@@ -22,8 +25,13 @@ public class ImplodingEntityInfo
         this.implodingSoundInfo = implodingSoundInfo;
     }
 
-    public int getCastDuration() {return castDuration;}
-    public int getCooldownDuration() {return cooldownDuration;}
+    public int getCastDuration() {return this.castDuration;}
+    public int getCooldownDuration() {return this.cooldownDuration;}
+
+    public int getCastTicks() {return this.castTicks;}
+    public void setCastTicks(int value) {this.castTicks = value;}
+    public int getCooldownTicks() {return this.cooldownTicks;}
+    public void setCooldownTicks(int value) {this.cooldownTicks = value;}
 
     public void playImplodingSound(@NotNull LivingEntity source) {this.implodingSoundInfo.playSound(source);}
     public int getSoundOffset() {return this.implodingSoundInfo.soundStartOffsetInTicks;}

@@ -6,7 +6,6 @@ import net.minecraft.world.entity.ai.goal.Goal;
 public class ImplodeGoal extends Goal
 {
     private final ImplodingEntity goalOwner;
-    public int cooldownTicks, castTicks;
 
     public ImplodeGoal(ImplodingEntity entity) {this.goalOwner = entity;}
 
@@ -24,14 +23,14 @@ public class ImplodeGoal extends Goal
 
     @Override public void tick()
     {
-        this.cooldownTicks++;
-
+        this.goalOwner.incrementImplodingCooldownTicks();
         if (this.willStartImplodingSoon()) {this.playStartImplodingSound();}
         if (this.shouldStartImploding()) {this.startImploding(); this.goalOwner.onImplodingStart();}
 
-        if (this.goalOwner.isImploding()) //goal owner stop moving, raise his arms, make bonus particles, create an explosion if timeSince = fuzetime
+        if (this.goalOwner.isImploding())
         {
-            this.castTicks++;
+            this.goalOwner.incrementImplodingCastTicks();
+            this.goalOwner.onImplodingCastTick();
             if (this.shouldFinishImploding()) {this.finishImploding();}
         }
     }
@@ -39,7 +38,7 @@ public class ImplodeGoal extends Goal
     protected void startImploding()
     {
         this.goalOwner.setImploding(true);
-        this.castTicks = 0;
+        this.goalOwner.setImplodingCastTicks(0);
     }
 
     protected void finishImploding()
@@ -54,13 +53,13 @@ public class ImplodeGoal extends Goal
     public int getSoundOffset() {return this.goalOwner.getImplodingSoundOffset();}
     public int getImplodeCooldownThreshold() {return this.goalOwner.getImplodingCooldownDuration();}
     public int getImplosionCastDuration() {return this.goalOwner.getImplodingCastDuration();}
-    protected boolean shouldStartImploding() {return !this.goalOwner.isImploding() && this.cooldownTicks >= this.getImplodeCooldownThreshold();}
-    protected boolean shouldFinishImploding() {return this.castTicks >= this.getImplosionCastDuration();}
-    protected boolean willStartImplodingSoon() {return this.cooldownTicks == this.getImplodeCooldownThreshold() - this.getSoundOffset();}
+    protected boolean shouldStartImploding() {return !this.goalOwner.isImploding() && this.goalOwner.getImplodingCooldownTicks() >= this.getImplodeCooldownThreshold();}
+    protected boolean shouldFinishImploding() {return this.goalOwner.getImplodingCastTicks() >= this.getImplosionCastDuration();}
+    protected boolean willStartImplodingSoon() {return this.goalOwner.getImplodingCooldownTicks() == this.getImplodeCooldownThreshold() + this.getSoundOffset();}
 
     protected void resetTask()
     {
-        this.cooldownTicks = 0;
-        this.castTicks = 0;
+        this.goalOwner.setImplodingCooldownTicks(0);
+        this.goalOwner.setImplodingCastTicks(0);
     }
 }
