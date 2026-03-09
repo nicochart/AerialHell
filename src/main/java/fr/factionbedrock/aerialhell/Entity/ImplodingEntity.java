@@ -28,7 +28,7 @@ public interface ImplodingEntity extends BaseMobEntityInterface
     {
         valueOutput.putBoolean("is_imploding", this.isImploding());
         valueOutput.putInt("imploding_cooldown_ticks", this.getImplodingCooldownTicks());
-        valueOutput.putInt("imploding_cast_ticks", this.getImplodingCooldownTicks());
+        valueOutput.putInt("imploding_cast_ticks", this.getImplodingCastTicks());
     }
 
     default void implodingReadAdditionalSaveData(ValueInput valueInput) //call in readAdditionalSaveData(valueInput)
@@ -49,6 +49,8 @@ public interface ImplodingEntity extends BaseMobEntityInterface
     /* -------------------------------------------------------------- */
     /* -------- Other utility methods to eventually override -------- */
     /* -------------------------------------------------------------- */
+    default boolean needsTargetToImplode() {return true;}
+
     default boolean doesImmobilizeWithSlownessEffectOnImplodingStart() {return true;}
 
     default void onImplodingStart() //server side

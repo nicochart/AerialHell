@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.Util;
 
-import fr.factionbedrock.aerialhell.Util.FieldAccessor;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,6 +22,8 @@ public class ImplodingEntityInfo
         this.castDuration = castDuration;
         this.cooldownDuration = cooldownDuration;
         this.implodingSoundInfo = implodingSoundInfo;
+        this.castTicks = 0;
+        this.cooldownTicks = 0;
     }
 
     public int getCastDuration() {return this.castDuration;}

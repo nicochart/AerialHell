@@ -80,20 +80,17 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 
 	@Override public boolean canUseGoalsAdditionalCondition(int goalIndex)
 	{
-		if (!super.canUseGoalsAdditionalCondition()) {return false;}
-		else
+		boolean superFlag = super.canUseGoalsAdditionalCondition();
+		if (goalIndex == OTHER_GOALS) {return superFlag;}
+		else if (goalIndex == FREELY_MOVING_GOALS)
 		{
-			if (goalIndex == OTHER_GOALS) {return true;}
-			else if (goalIndex == FREELY_MOVING_GOALS)
-			{
-				return this.isFreelyMoving();
-			}
-			else if (goalIndex == IMPLODE_GOAL)
-			{
-				return this.canImplode();
-			}
-			else {return false;}
+			return superFlag && this.isFreelyMoving();
 		}
+		else if (goalIndex == IMPLODE_GOAL)
+		{
+			return superFlag && this.canStartImploding() || this.isImploding(); //if the boss is already imploding, it needs to finish implosion (even if it is no longer active)
+		}
+		else {return false;}
 	}
 	/* ----------------------------------------------------------------------------------------------- */
 
@@ -123,7 +120,7 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 				.add(Attributes.ATTACK_KNOCKBACK, 6.0D)
 				.add(Attributes.ATTACK_DAMAGE, 25.0D);
     }
-	
+
 	@Override public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount)
 	{
 		Entity immediateSourceEntity = source.getDirectEntity();
@@ -159,7 +156,7 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 	    builder.define(UNCHAINING, false);
 	    builder.define(UNCHAINED, false);
 	}
-	
+
 	@Override public void addAdditionalSaveData(ValueOutput valueOutput)
 	{
 		super.addAdditionalSaveData(valueOutput);
@@ -169,7 +166,7 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 	    valueOutput.putBoolean("Unchaining", this.isUnchaining());
 		if (this.isUnchained()) {valueOutput.putBoolean("Unchained", true);}
 	}
-	
+
 	@Override public void readAdditionalSaveData(ValueInput valueInput)
 	{
 	    super.readAdditionalSaveData(valueInput);
@@ -295,15 +292,15 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 			}
 		}
 	}
-	
+
 	@Override public void aiStep()
     {
 		if (this.attackTimer > 0) {this.attackTimer--;}
 		super.aiStep();
     }
-	
+
 	@Override public boolean isPushable() {return false;}
-	
+
 	@Override public boolean doHurtTarget(ServerLevel serverLevel, Entity attackedEntity)
 	{
 		DamageSource damagesource = this.damageSources().mobAttack(this);
@@ -333,7 +330,7 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 		}
 		else {super.handleEntityEvent(id);}
 	}
-	
+
 	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_CHAINED_GOD_AMBIENT.get();}
     @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_CHAINED_GOD_HURT.get();}
     @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_CHAINED_GOD_DEATH.get();}
@@ -369,7 +366,7 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 	public boolean canUnchainHimself() {return !this.isUnchained() && this.isActive();}
 	public boolean canGetProjectileDamages() {return this.getPhase() == BossPhase.FIRST_PHASE;}
 	public boolean canShootFireballs() {return isActiveAndUnchained() && !this.isImploding() && !isInTransitionOrDyingPhase() && (this.getPhase() == BossPhase.SECOND_PHASE || this.getHealth() * 2 < this.getMaxHealth());}
-	public boolean canImplode() {return isActiveAndUnchained() && this.getPhase() == BossPhase.SECOND_PHASE;}
+	public boolean canStartImploding() {return isActiveAndUnchained() && this.getPhase() == BossPhase.SECOND_PHASE;}
 	public boolean isFreelyMoving() {return !isInTransitionOrDyingPhase() && !this.isImploding() && !this.isUnchaining();}
 	public boolean isActiveAndUnchained() {return this.isActive() && this.isUnchained();}
 

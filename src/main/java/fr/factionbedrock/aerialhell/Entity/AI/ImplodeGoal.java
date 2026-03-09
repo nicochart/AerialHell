@@ -9,13 +9,16 @@ public class ImplodeGoal extends Goal
 
     public ImplodeGoal(ImplodingEntity entity) {this.goalOwner = entity;}
 
-    @Override public boolean canUse() {return true;}
+    @Override public boolean canUse() {return !this.goalOwner.needsTargetToImplode() || this.goalOwner.getTarget() != null || this.goalOwner.isImploding();}
 
-    @Override public void start() {resetTask();}
+    @Override public void start()
+    {
+        if (this.goalOwner.getImplodingCooldownTicks() < 0) {this.goalOwner.setImplodingCooldownTicks(0);}
+        if (this.goalOwner.getImplodingCastTicks() < 0) {this.goalOwner.setImplodingCastTicks(0);}
+    }
 
     @Override public void stop()
     {
-        resetTask();
         this.goalOwner.setImploding(false);
     }
 
@@ -44,7 +47,7 @@ public class ImplodeGoal extends Goal
     protected void finishImploding()
     {
         this.goalOwner.implode();
-        this.resetTask();
+        this.resetTicksCounters();
         this.goalOwner.setImploding(false);
     }
 
@@ -57,7 +60,7 @@ public class ImplodeGoal extends Goal
     protected boolean shouldFinishImploding() {return this.goalOwner.getImplodingCastTicks() >= this.getImplosionCastDuration();}
     protected boolean willStartImplodingSoon() {return this.goalOwner.getImplodingCooldownTicks() == this.getImplodeCooldownThreshold() + this.getSoundOffset();}
 
-    protected void resetTask()
+    protected void resetTicksCounters()
     {
         this.goalOwner.setImplodingCooldownTicks(0);
         this.goalOwner.setImplodingCastTicks(0);
