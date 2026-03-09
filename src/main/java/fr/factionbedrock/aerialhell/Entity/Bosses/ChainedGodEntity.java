@@ -73,6 +73,8 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 	@Override public ImplodingEntityInfo getImplodingEntityInfo() {return this.IMPLODING_INFO;}
 
 	@Override public void onImplodingCastTick() {this.runRoarEffects(NearbyEntitiesInteractionInfo.DRAG_NEAR);}
+
+	@Override public ImplodingTargetPolicy getImplodingTargetPolicy() {return new ImplodingTargetPolicy(true, false, 0);} //cooldown does not reset on target loss
 	/* --------------------------------------------------------------------------------------------------- */
 
 	/* ----- GoalConditionEntity.PhaseAwareGoalConditionEntity : Interface method implementation ----- */
