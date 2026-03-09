@@ -50,7 +50,8 @@ public interface ImplodingEntity extends BaseMobEntityInterface
     /* -------- Other utility methods to eventually override -------- */
     /* -------------------------------------------------------------- */
     default ImplodingTargetPolicy getImplodingTargetPolicy() {return new ImplodingTargetPolicy(true, true, 40);}
-    //Tip: If ImplodingCooldownResetsOnTargetLoss is true, set a resetDelayThreshold (ticks tolerated without a target) of 20 or more to prevent the ImplodingEntity from resetting its cooldown if a player disconnects and reconnects.
+    //Tip: If ImplodingCooldownResetsOnTargetLoss is true, set a cooldownResetDelayThreshold (ticks tolerated without a target) of 20 or more to prevent the ImplodingEntity from resetting its cooldown if a player disconnects and reconnects.
+    //cooldownResetDelayThreshold is unused if implodingCooldownResetsOnTargetLoss is false
 
     default boolean doesImmobilizeWithSlownessEffectOnImplodingStart() {return true;}
 
@@ -117,11 +118,11 @@ public interface ImplodingEntity extends BaseMobEntityInterface
 
     default boolean needsTargetToStartImploding() {return this.getImplodingTargetPolicy().needsTargetToStartImploding;}
     default boolean implodingCooldownResetsOnTargetLoss() {return this.getImplodingTargetPolicy().implodingCooldownResetsOnTargetLoss;}
-    default int implodingCooldownResetThreshold() {return this.getImplodingTargetPolicy().resetDelayThreshold;}
+    default int implodingCooldownResetThreshold() {return this.getImplodingTargetPolicy().cooldownResetDelayThreshold;}
 
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */
 
-    record ImplodingTargetPolicy(boolean needsTargetToStartImploding, boolean implodingCooldownResetsOnTargetLoss, int resetDelayThreshold) {}
+    record ImplodingTargetPolicy(boolean needsTargetToStartImploding, boolean implodingCooldownResetsOnTargetLoss, int cooldownResetDelayThreshold) {}
 }

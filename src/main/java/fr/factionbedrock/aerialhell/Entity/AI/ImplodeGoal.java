@@ -19,20 +19,19 @@ public class ImplodeGoal extends Goal
     @Override public boolean canContinueToUse()
     {
         if (this.goalOwner.isImploding()) {return true;}
-        boolean hasTarget = this.goalOwner.getTarget() != null;
-        if (!this.goalOwner.needsTargetToStartImploding() || hasTarget) {this.ticksNoTarget = 0; return true;}
+        if (!this.goalOwner.needsTargetToStartImploding() || this.goalOwner.getTarget() != null) {this.ticksNoTarget = 0; return true;}
 
-        //needsTargetToStartImploding == true && hasTarget == false
-        if (this.doesImplodingCooldownTicksResetOnTargetLoss())
+        //needsTargetToStartImploding == true && target == null
+        if (this.goalOwner.implodingCooldownResetsOnTargetLoss())
         {
-            boolean shouldStopAndReset = this.ticksNoTarget++ >= this.goalOwner.implodingCooldownResetThreshold();
-            if (shouldStopAndReset)
+            if (this.ticksNoTarget++ >= this.goalOwner.implodingCooldownResetThreshold()) //should reset CooldownTicks and stop using the goal
             {
                 this.goalOwner.setImplodingCooldownTicks(0);
                 return false;
             }
+            else {return true;}
         }
-        return true;
+        else {return false;}
     }
 
     @Override public void start()
@@ -93,7 +92,6 @@ public class ImplodeGoal extends Goal
     public int getSoundOffset() {return this.goalOwner.getImplodingSoundOffset();}
     public int getImplodeCooldownThreshold() {return this.goalOwner.getImplodingCooldownDuration();}
     public int getImplosionCastDuration() {return this.goalOwner.getImplodingCastDuration();}
-    protected boolean doesImplodingCooldownTicksResetOnTargetLoss() {return this.goalOwner.needsTargetToStartImploding() && this.goalOwner.implodingCooldownResetsOnTargetLoss();}
     protected boolean shouldStartImploding() {return !this.goalOwner.isImploding() && this.goalOwner.getImplodingCooldownTicks() >= this.getImplodeCooldownThreshold();}
     protected boolean shouldFinishImploding() {return this.goalOwner.getImplodingCastTicks() >= this.getImplosionCastDuration();}
     protected boolean willStartImplodingSoon() {return this.goalOwner.getImplodingCooldownTicks() == this.getImplodeCooldownThreshold() + this.getSoundOffset();}
