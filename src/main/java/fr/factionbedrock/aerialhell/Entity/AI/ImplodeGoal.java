@@ -10,12 +10,34 @@ public class ImplodeGoal extends Goal
 
     public ImplodeGoal(ImplodingEntity entity) {this.goalOwner = entity;}
 
-    @Override public boolean canUse() {return true;}
+    @Override public boolean canUse()
+    {
+        if (this.goalOwner.isImploding()) {return true;}
+        return !this.goalOwner.needsTargetToStartImploding() || this.goalOwner.getTarget() != null;
+    }
 
-    @Override public boolean canContinueToUse() {return true;}
+    @Override public boolean canContinueToUse()
+    {
+        if (this.goalOwner.isImploding()) {return true;}
+        boolean hasTarget = this.goalOwner.getTarget() != null;
+        if (!this.goalOwner.needsTargetToStartImploding() || hasTarget) {this.ticksNoTarget = 0; return true;}
+
+        //needsTargetToStartImploding == true && hasTarget == false
+        if (this.doesImplodingCooldownTicksResetOnTargetLoss())
+        {
+            boolean shouldStopAndReset = this.ticksNoTarget++ >= this.goalOwner.implodingCooldownResetThreshold();
+            if (shouldStopAndReset)
+            {
+                this.goalOwner.setImplodingCooldownTicks(0);
+                return false;
+            }
+        }
+        return true;
+    }
 
     @Override public void start()
     {
+        this.ticksNoTarget = 0;
         if (this.goalOwner.getImplodingCooldownTicks() < 0) {this.goalOwner.setImplodingCooldownTicks(0);}
         if (this.goalOwner.getImplodingCastTicks() < 0) {this.goalOwner.setImplodingCastTicks(0);}
     }
@@ -35,21 +57,13 @@ public class ImplodeGoal extends Goal
 
     private void cooldownTick()
     {
-        boolean hasTarget = this.goalOwner.getTarget() != null; if (hasTarget) {this.ticksNoTarget = 0;}
+        boolean hasTarget = this.goalOwner.getTarget() != null;
         boolean canCooldownTick = !this.goalOwner.needsTargetToStartImploding() || hasTarget;
         if (canCooldownTick)
         {
             this.goalOwner.incrementImplodingCooldownTicks();
             if (this.willStartImplodingSoon()) {this.playStartImplodingSound();}
             if (this.shouldStartImploding()) {this.startImploding();}
-        }
-        else
-        {
-            if (this.doesImplodingCooldownTicksResetOnTargetLoss())
-            {
-                if (this.ticksNoTarget < 0) {this.ticksNoTarget = 0;}
-                if (this.ticksNoTarget++ > this.goalOwner.implodingCooldownResetThreshold()) {this.goalOwner.setImplodingCooldownTicks(0);}
-            }
         }
     }
 
