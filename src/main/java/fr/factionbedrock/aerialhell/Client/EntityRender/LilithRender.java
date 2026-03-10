@@ -26,7 +26,7 @@ public class LilithRender extends MobRenderer<LilithEntity, LilithRenderState, L
 	{
 		super.extractRenderState(entity, renderState, partialTick);
 		renderState.texture = getTextureLocation(entity);
-		renderState.isTransforming = entity.isTransforming();
+		renderState.raisesArms = entity.isTransforming() || entity.isInTransitionPhase();
 		renderState.attackTimer = entity.attackTimer;
 	}
 

@@ -3,7 +3,6 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.LilithRenderState;
-import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -71,7 +70,7 @@ public class LilithModel extends EntityModel<LilithRenderState>
 		float netHeadYaw = renderState.yRot;
 		float limbSwing = renderState.walkAnimationPos;
 		float limbSwingAmount = renderState.walkAnimationSpeed;
-		if (!renderState.isTransforming)
+		if (!renderState.raisesArms)
 		{
 			int i = renderState.attackTimer;
 			if (i > 0)

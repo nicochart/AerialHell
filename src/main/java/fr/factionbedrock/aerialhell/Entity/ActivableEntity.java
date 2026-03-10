@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity;
 
 import fr.factionbedrock.aerialhell.Entity.Util.ActivableEntityInfo;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -127,7 +128,7 @@ public interface ActivableEntity extends BaseMobEntityInterface
 
     default boolean hasNearbyTarget()
     {
-        List<Entity> nearbyEntities = this.getLevel().getEntities(this.getSelf(), this.getSelf().getBoundingBox().inflate(this.getTargetSearchDistance()), EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+        List<Entity> nearbyEntities = EntityHelper.getEntitiesInInflatedBoundingBox(this.getSelf(), this.getTargetSearchDistance());
 
         for (Entity entity : nearbyEntities)
         {

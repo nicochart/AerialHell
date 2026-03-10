@@ -2,32 +2,11 @@ package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.Block.AerialHellPortalBlock;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
-import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
-import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
-import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
-import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.*;
-import fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic.ShadowPineBarrelMimicEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.AerialTreeChestMimicEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudGolemEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.*;
-import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowAutomatonEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowFlyingSkullEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowSpiderEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.Snake.AbstractSnakeEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.Spider.AbstractAerialHellSpiderEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.Spider.CrystalSpiderEntity;
-import fr.factionbedrock.aerialhell.Entity.Neutral.BoarEntity;
-import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEnchantments;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
-import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -38,15 +17,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -56,6 +32,8 @@ import net.minecraft.world.level.portal.TeleportTransition;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class EntityHelper
 {
@@ -258,5 +236,19 @@ public class EntityHelper
         }
 
         player.connection.send(ClientboundChunksBiomesPacket.forChunks(chunkList));
+    }
+
+    public static List<LivingEntity> getTargetableLivingEntitiesInInflatedBoundingBox(Entity searchSource, double inflateValue, Predicate<Entity> targetCondition)
+    {
+        return getEntitiesInInflatedBoundingBox(searchSource, inflateValue).stream()
+                .filter(entity -> entity instanceof LivingEntity)
+                .filter(entity -> targetCondition.test(entity))
+                .map(entity -> (LivingEntity) entity)
+                .collect(Collectors.toList());
+    }
+
+    public static List<Entity> getEntitiesInInflatedBoundingBox(Entity searchSource, double inflateValue)
+    {
+        return searchSource.level().getEntities(searchSource, searchSource.getBoundingBox().inflate(inflateValue), EntitySelector.NO_CREATIVE_OR_SPECTATOR);
     }
 }

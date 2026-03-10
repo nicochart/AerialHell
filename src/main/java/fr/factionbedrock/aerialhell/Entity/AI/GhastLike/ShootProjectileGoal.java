@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.AI.GhastLike;
 
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -9,6 +10,8 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
+import java.util.List;
+import java.util.function.Predicate;
 
 /* Same as net.minecraft.world.entity.monster.Ghast.GhastShootFireballGoal but changed Ghast to Mob, and edited a bit to generalize */
 public abstract class ShootProjectileGoal extends Goal
@@ -128,6 +131,18 @@ public abstract class ShootProjectileGoal extends Goal
         return false;
     }
 
+    protected boolean tryShootingAll(@Nullable LivingEntity realTarget) {return this.tryShootingAll(realTarget, null);}
+
+    protected boolean tryShootingAll(@Nullable LivingEntity realTarget, @Nullable Predicate<Entity> targetPredicate)
+    {
+        if (this.shootTimer >= this.getShootDelay()) //if it's time to actually shoot. (== is exact time to shoot the first projectile)
+        {
+            this.shootAll(realTarget, targetPredicate);
+            return true;
+        }
+        return false;
+    }
+
     protected boolean tryShooting(LivingEntity target) //returns true if the shoot is a success
     {
         if (this.shootTimer >= this.getShootDelay()) //if it's time to actually shoot. (== is exact time to shoot the first projectile)
@@ -138,10 +153,29 @@ public abstract class ShootProjectileGoal extends Goal
         return false;
     }
 
+    protected void shootAll(@Nullable LivingEntity realTarget, @Nullable Predicate<Entity> targetPredicate)
+    {
+        Predicate<Entity> predicate = targetPredicate != null ? targetPredicate : this.getDefaultTargetPredicate();
+        boolean needToShotTarget = realTarget != null;
+        List<LivingEntity> targetList = EntityHelper.getTargetableLivingEntitiesInInflatedBoundingBox(this.parentEntity, 15, predicate);
+        for (LivingEntity target : targetList)
+        {
+            this.shootSilent(target);
+            if (needToShotTarget && target.is(realTarget)) {needToShotTarget = false;}
+        }
+        if (needToShotTarget) {this.shootSilent(realTarget);}
+        this.tryPlayingShootSound();
+    }
+
     protected void shootWithSound(LivingEntity target)
     {
-        this.parentEntity.level().addFreshEntity(createProjectile(target));
+        this.shootSilent(target);
         this.tryPlayingShootSound();
+    }
+
+    protected void shootSilent(LivingEntity target)
+    {
+        this.parentEntity.level().addFreshEntity(createProjectile(target));
     }
 
     public Projectile createProjectile(LivingEntity target)
@@ -152,6 +186,11 @@ public abstract class ShootProjectileGoal extends Goal
         Projectile projectile = this.createProjectile(this.parentEntity.level(), this.parentEntity, Xdistance, Ydistance, Zdistance);
         projectile.setPos(this.parentEntity.getX(), this.parentEntity.getY(0.5) + this.getYProjectileOffset(), this.parentEntity.getZ());
         return projectile;
+    }
+
+    public Predicate<Entity> getDefaultTargetPredicate()
+    {
+        return (potentialTarget) -> potentialTarget instanceof LivingEntity livingTarget && this.parentEntity.hasLineOfSight(livingTarget) && livingTarget.canBeSeenAsEnemy();
     }
 
     public abstract double getYProjectileOffset();
