@@ -59,7 +59,7 @@ public interface ActivableEntity extends BaseMobEntityInterface
     /* -------------------------------------------------------------- */
     /* -------- Other utility methods to eventually override -------- */
     /* -------------------------------------------------------------- */
-    default void onActiveStatusChange(ServerLevel serverLevel, boolean isActive) {} //only server side
+    default void onActiveStatusChange(ServerLevel serverLevel, boolean newActiveStatus) {} //only server side
     /* -------------------------------------------------------------- */
     /* -------------------------------------------------------------- */
     /* -------------------------------------------------------------- */

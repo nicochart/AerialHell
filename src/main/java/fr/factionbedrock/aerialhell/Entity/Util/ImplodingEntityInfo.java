@@ -10,13 +10,13 @@ import javax.annotation.Nullable;
 public class ImplodingEntityInfo
 {
     private final EntityDataAccessor<Boolean> implodingDataAccessor;
-    private final ImplodingSoundInfo implodingSoundInfo;
+    private final ImplodingSoundHelper implodingSoundInfo;
     private final int castDuration; //ticks between imploding start and implosion - for sound synchro, you will need sound duration = castDuration - (implodingSoundInfo)soundOffset
     private final int cooldownDuration; //ticks between implosion and next imploding start
     private int castTicks;
     private int cooldownTicks;
 
-    public ImplodingEntityInfo(EntityDataAccessor<Boolean> implodingDataAccessor, int castDuration, int cooldownDuration, ImplodingSoundInfo implodingSoundInfo)
+    public ImplodingEntityInfo(EntityDataAccessor<Boolean> implodingDataAccessor, int castDuration, int cooldownDuration, ImplodingSoundHelper implodingSoundInfo)
     {
         this.implodingDataAccessor = implodingDataAccessor;
         this.castDuration = castDuration;
@@ -39,50 +39,23 @@ public class ImplodingEntityInfo
 
     public EntityDataAccessor<Boolean> getImplodingDataAccessor() {return this.implodingDataAccessor;}
 
-    public static class ImplodingSoundInfo
+    public static class ImplodingSoundHelper extends PlaySoundHelper
     {
-        private final boolean useMethodReference; //if true, playSoundMethodReference is not null, soundEvent is null. if false, contrary.
-        @Nullable private final PlayImplodingSoundReference playSoundMethodReference;
-        @Nullable private final SoundEvent soundEvent;
-        private final float volume;
-        private final float pitch;
         private final int soundStartOffsetInTicks;
 
-        public ImplodingSoundInfo(@NotNull PlayImplodingSoundReference playImplodingSoundMethodReference) {this(playImplodingSoundMethodReference, 5.0F, 1.0F, 0);}
-        public ImplodingSoundInfo(@NotNull PlayImplodingSoundReference playImplodingSoundMethodReference, int soundStartOffsetInTicks) {this(playImplodingSoundMethodReference, 5.0F, 1.0F, soundStartOffsetInTicks);}
-        public ImplodingSoundInfo(@NotNull PlayImplodingSoundReference playImplodingSoundMethodReference, float volume, float pitch, int soundStartOffsetInTicks)
+        public ImplodingSoundHelper(@NotNull PlaySoundHelper.PlaySoundMethodReference playImplodingSoundMethodReference) {this(playImplodingSoundMethodReference, 1.0F, 1.0F, 0);}
+        public ImplodingSoundHelper(@NotNull PlaySoundHelper.PlaySoundMethodReference playImplodingSoundMethodReference, int soundStartOffsetInTicks) {this(playImplodingSoundMethodReference, 1.0F, 1.0F, soundStartOffsetInTicks);}
+        public ImplodingSoundHelper(@NotNull PlaySoundHelper.PlaySoundMethodReference playImplodingSoundMethodReference, float volume, float pitch, int soundStartOffsetInTicks)
         {
-            this.useMethodReference = true;
-            this.playSoundMethodReference = playImplodingSoundMethodReference;
-            this.soundEvent = null;
-            this.volume = volume;
-            this.pitch = pitch;
+            super(playImplodingSoundMethodReference, volume, pitch);
             this.soundStartOffsetInTicks = soundStartOffsetInTicks;
         }
 
-        public ImplodingSoundInfo(@NotNull SoundEvent soundEvent) {this(soundEvent, 5.0F, 1.0F, 0);}
-        public ImplodingSoundInfo(@NotNull SoundEvent soundEvent, float volume, float pitch, int soundStartOffsetInTicks)
+        public ImplodingSoundHelper(@NotNull SoundEvent soundEvent) {this(soundEvent, 5.0F, 1.0F, 0);}
+        public ImplodingSoundHelper(@NotNull SoundEvent soundEvent, float volume, float pitch, int soundStartOffsetInTicks)
         {
-            this.useMethodReference = false;
-            this.playSoundMethodReference = null;
-            this.soundEvent = soundEvent;
-            this.volume = volume;
-            this.pitch = pitch;
+            super(soundEvent, volume, pitch);
             this.soundStartOffsetInTicks = soundStartOffsetInTicks;
         }
-
-        public void playSound(@NotNull LivingEntity entity)
-        {
-            if (this.useMethodReference)
-            {
-                this.playSoundMethodReference.play(this.volume, this.pitch);
-            }
-            else
-            {
-                entity.playSound(this.soundEvent, this.volume, this.pitch);
-            }
-        }
-
-        @FunctionalInterface public interface PlayImplodingSoundReference{void play(float volume, float pitch);}
     }
 }
