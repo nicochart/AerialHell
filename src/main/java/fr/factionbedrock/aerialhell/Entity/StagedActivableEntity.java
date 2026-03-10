@@ -31,6 +31,7 @@ public interface StagedActivableEntity extends ActivableEntity
     @Override default void activableEntityTick() //call in tick()
     {
         ActivableEntity.super.activableEntityTick();
+        if (this.needsActivatingTicksSyncClientSide() && this.getLevel().isClientSide()) {this.setActivatingTicks(this.isActivating() ? this.getActivatingTicks() + 1 : 0);}
         if (this.isActivating())
         {
             this.onActivatingPhaseTick(); //calling onActivatingPhaseTick() here to call it on both client and server side.
@@ -67,6 +68,8 @@ public interface StagedActivableEntity extends ActivableEntity
     default void onStartActivating() {this.tryPlayActivatingStartSound();} //server-side
     default void onActivatingPhaseTick() {} //both client and server side
     default void onFinishActivating() {} //server-side
+
+    default boolean needsActivatingTicksSyncClientSide() {return false;} //if false, this.getActivatingTicks will always return 0 client-side.
 
     @Override default void onActiveStatusChange(ServerLevel serverLevel, boolean newActiveStatus) {} //only server side
     /* -------------------------------------------------------------- */
