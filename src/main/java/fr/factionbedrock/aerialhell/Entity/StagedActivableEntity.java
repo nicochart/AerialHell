@@ -118,14 +118,21 @@ public interface StagedActivableEntity extends ActivableEntity
     default void finishActivating() //server-side
     {
         this.setActivating(false);
-        this.setAlreadyActivatedOnce();
         this.onFinishActivating();
+        this.setAlreadyActivatedOnce();
     }
 
     private void immobilizeWithSlowness(int duration) {if (!this.getSelf().level().isClientSide()) {this.getSelf().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, duration, 10, true, false));}}
 
-    default boolean alreadyActivatedOnce() {return this.getActivableInfo().activatedOnce;}
-    default void setAlreadyActivatedOnce() {this.getActivableInfo().activatedOnce = true;}
+    default boolean alreadyActivatedOnce() {return this.getActivableInfo().activatedOnceDataAccessor != null ? this.getEntityData().get(this.getActivableInfo().activatedOnceDataAccessor) : this.getActivableInfo().activatedOnce;}
+    default void setAlreadyActivatedOnce()
+    {
+        this.getActivableInfo().activatedOnce = true;
+        if (this.getActivableInfo().activatedOnceDataAccessor != null)
+        {
+            this.getEntityData().set(this.getActivableInfo().activatedOnceDataAccessor, true);
+        }
+    }
 
     default boolean skipActivatingPhase() {return this.getActivableInfo().activatingPhaseParameters.shouldSkipActivatingPhase.test(this);}
     default void setActivating(boolean isActivating) {this.getEntityData().set(this.getActivableInfo().activatingDataAccessor, isActivating);}
@@ -147,16 +154,19 @@ public interface StagedActivableEntity extends ActivableEntity
 
     class StagedActivableEntityInfo extends ActivableEntityInfo
     {
-        private final EntityDataAccessor<Boolean> activatingDataAccessor;
-        private boolean activatedOnce; //true if the Activable Entity was active once (i.e. already got though activating phase once)
+        private final EntityDataAccessor<Boolean> activatingDataAccessor; //true if the entity is in activating phase
+        @Nullable private final EntityDataAccessor<Boolean> activatedOnceDataAccessor; //true if the Activable Entity was active once (i.e. already got though activating phase once) - use this if you want client-server sync of activatedOnce
+        private boolean activatedOnce; //true if the Activable Entity was active once (i.e. already got though activating phase once) - only server side
         private int activatingTicks; //transition from deactivated to active ticks count
         private final ActivatingPhaseParameters activatingPhaseParameters;
 
-        public StagedActivableEntityInfo(ActivableEntityInfo activableInfo, EntityDataAccessor<Boolean> activatingDataAccessor, ActivatingPhaseParameters activatingPhaseParameters) {this(activableInfo.getActiveDataAccessor(), activatingDataAccessor, activableInfo.activationMethod, activatingPhaseParameters);}
-        public StagedActivableEntityInfo(EntityDataAccessor<Boolean> activeDataAccessor, EntityDataAccessor<Boolean> activatingDataAccessor, ActivationMethod activationMethod, ActivatingPhaseParameters activatingPhaseParameters)
+        public StagedActivableEntityInfo(ActivableEntityInfo activableInfo, EntityDataAccessor<Boolean> activatingDataAccessor, ActivatingPhaseParameters activatingPhaseParameters) {this(activableInfo.getActiveDataAccessor(), activatingDataAccessor, null, activableInfo.activationMethod, activatingPhaseParameters);}
+        public StagedActivableEntityInfo(ActivableEntityInfo activableInfo, EntityDataAccessor<Boolean> activatingDataAccessor, @Nullable EntityDataAccessor<Boolean> activatedOnceDataAccessor, ActivatingPhaseParameters activatingPhaseParameters) {this(activableInfo.getActiveDataAccessor(), activatingDataAccessor, activatedOnceDataAccessor, activableInfo.activationMethod, activatingPhaseParameters);}
+        public StagedActivableEntityInfo(EntityDataAccessor<Boolean> activeDataAccessor, EntityDataAccessor<Boolean> activatingDataAccessor, @Nullable EntityDataAccessor<Boolean> activatedOnceDataAccessor, ActivationMethod activationMethod, ActivatingPhaseParameters activatingPhaseParameters)
         {
             super(activeDataAccessor, activationMethod);
             this.activatingDataAccessor = activatingDataAccessor;
+            this.activatedOnceDataAccessor = activatedOnceDataAccessor;
             this.activatingPhaseParameters = activatingPhaseParameters;
             this.activatedOnce = false;
         }

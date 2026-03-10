@@ -55,10 +55,13 @@ public class LilithEntity extends AbstractBossEntity implements StagedActivableE
 	private int transitionTicks;
 	private final int transitionTicksTreshold = 10;
 
+	private LilithSummonShadowFlyingSkullGoal SUMMON_FLYING_SKULL_GOAL;
+
 	/* --- StagedActivableEntity fields --- */
 	private static final EntityDataAccessor<Boolean> TRANSFORMING = SynchedEntityData.defineId(LilithEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> TRANSFORMED = SynchedEntityData.defineId(LilithEntity.class, EntityDataSerializers.BOOLEAN);
 	StagedActivableEntityInfo.ActivatingPhaseParameters LILITH_TRANSFORMING_PARAMETERS = PLAY_ACTIVATING_PHASE_ONLY_ONCE.copy().activatingThreshold(160).activatingStartSoundHelper(new PlaySoundHelper(AerialHellSoundEvents.ENTITY_LILITH_TRANSFORMATION.get(), 5.0F, 1.0F));
-	public final StagedActivableEntityInfo STAGED_ACTIVABLE_INFO = new StagedActivableEntityInfo(this.ACTIVABLE_INFO, TRANSFORMING, LILITH_TRANSFORMING_PARAMETERS);
+	public final StagedActivableEntityInfo STAGED_ACTIVABLE_INFO = new StagedActivableEntityInfo(this.ACTIVABLE_INFO, TRANSFORMING, TRANSFORMED, LILITH_TRANSFORMING_PARAMETERS);
 	/* -------------------------------------- */
 
 	public LilithEntity(EntityType<? extends Monster> type, Level world)
@@ -74,6 +77,7 @@ public class LilithEntity extends AbstractBossEntity implements StagedActivableE
 	{
 		super.defineSynchedData(builder);
 		builder.define(TRANSFORMING, false);
+		builder.define(TRANSFORMED, false);
 	}
 
 	@Override public boolean canUseGoalsAdditionalCondition() {return super.canUseGoalsAdditionalCondition() && !this.isTransforming();}
@@ -106,10 +110,11 @@ public class LilithEntity extends AbstractBossEntity implements StagedActivableE
 
 	@Override protected void registerGoals()
     {
+		this.SUMMON_FLYING_SKULL_GOAL = new LilithSummonShadowFlyingSkullGoal(this);
 		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(3, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
-		this.goalSelector.addGoal(2, new LilithSummonShadowFlyingSkullGoal(this));
+		this.goalSelector.addGoal(2, this.SUMMON_FLYING_SKULL_GOAL);
 		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(5, new ConditionalGoal(this, new WaterAvoidingRandomStrollGoal(this, 0.6D)));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
@@ -147,14 +152,12 @@ public class LilithEntity extends AbstractBossEntity implements StagedActivableE
 		return flag;
 	}
 
-	@Override public int getPhaseIdToSkipToDyingPhase() {return BossPhase.FIRST_TO_SECOND_TRANSITION.getPhaseId();}
-	@Override public boolean enableTickPhaseUpdate(BossPhaseTickType type) {return true;}
-	@Override public boolean enableTryDyingPhaseUpdate() {return getPhase() == BossPhase.FIRST_PHASE;}
+	@Override public int getPhaseIdToSkipToDyingPhase() {return BossPhase.SECOND_TO_THIRD_TRANSITION.getPhaseId();}
 
 	@Override public boolean shouldUpdateToPhase(BossPhase phase)
 	{
 		if (phase == BossPhase.FIRST_TO_SECOND_TRANSITION) {return this.isMidLife() && this.isActive() && this.isTransformed();}
-		else if (phase == BossPhase.SECOND_PHASE) {return this.transitionTicks++ >= transitionTicksTreshold;}
+		else if (phase == BossPhase.SECOND_PHASE) {return this.transitionTicks++ >= this.transitionTicksTreshold;}
 		else {return false;}
 	}
 
@@ -162,11 +165,11 @@ public class LilithEntity extends AbstractBossEntity implements StagedActivableE
 	{
 		if (nextPhase == BossPhase.FIRST_TO_SECOND_TRANSITION)
 		{
-
+			this.playSound(SoundEvents.RAVAGER_HURT, 1.0F, 0.1F);
 		}
 		else if (nextPhase == BossPhase.SECOND_PHASE)
 		{
-
+			if (!this.level().isClientSide()) {this.SUMMON_FLYING_SKULL_GOAL.triggerNow();}
 		}
 	}
 
@@ -180,11 +183,18 @@ public class LilithEntity extends AbstractBossEntity implements StagedActivableE
 
 	@Override public void tickTransitionPhase()
 	{
+		this.runTransitionEffect();
 		if (!level().isClientSide())
 		{
 			this.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20, 10, true, false));
 			this.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 1, 10, true, false));
 		}
+	}
+
+	protected void runTransitionEffect()
+	{
+		if (this.level().isClientSide()) {this.spawnTransformationParticle( 10, 2.0D);}
+		this.dragOrRepulseEntities(NearbyEntitiesInteractionInfo.REPULSE_NEAR, 140.0F);
 	}
 
 	public void tickTransformingPhase()
@@ -491,7 +501,7 @@ public class LilithEntity extends AbstractBossEntity implements StagedActivableE
 
 	public boolean isMidLife() {return this.getHealth() * 2 < this.getMaxHealth();}
 	public boolean isHealthMatchToShootShadowProjectile() {return this.isMidLife();}
-	public boolean isHealthMatchToSummonFlyingSkulls() {return  this.getMaxHealth() > (2.5 - this.getDifficulty() / 6.0) * this.getHealth();}
+	public boolean isHealthMatchToSummonFlyingSkulls() {return  this.getMaxHealth() > (2.5F - this.getDifficulty() / 5.0F) * this.getHealth();}
 
 	public static class ShadowProjectileAttackGoal extends ShootProjectileGoal
 	{
@@ -529,6 +539,13 @@ public class LilithEntity extends AbstractBossEntity implements StagedActivableE
 		public LilithSummonShadowFlyingSkullGoal(LilithEntity entity) {super(entity, 0.2D);}
 
 		public LilithEntity getLilithGoalOwner() {return (LilithEntity) this.getGoalOwner();}
+
+		public void triggerNow()
+		{
+			this.summonEntities();
+			this.playEffect();
+			this.resetTask();
+		}
 
 		@Override public boolean canUse()
 		{
