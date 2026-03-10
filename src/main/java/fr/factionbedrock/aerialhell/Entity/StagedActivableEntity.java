@@ -28,7 +28,14 @@ public interface StagedActivableEntity extends ActivableEntity
     /* ----------------------------------------------- */
     /* -------- Delegate methods needing call -------- */
     /* ----------------------------------------------- */
-    @Override default void activableEntityTick() {ActivableEntity.super.activableEntityTick();} //call in tick()
+    @Override default void activableEntityTick() //call in tick()
+    {
+        ActivableEntity.super.activableEntityTick();
+        if (this.isActivating())
+        {
+            this.onActivatingPhaseTick(); //calling onActivatingPhaseTick() here to call it on both client and server side.
+        }
+    }
 
     @Override default void activableHurtServer(boolean superDamaged, ServerLevel serverLevel, DamageSource source, float amount) //call in hurtServer(level, source, amount)
     {
@@ -39,6 +46,7 @@ public interface StagedActivableEntity extends ActivableEntity
     {
         ActivableEntity.super.activableAddAdditionalSaveData(valueOutput);
         valueOutput.putBoolean("is_activating", this.isActivating());
+        valueOutput.putInt("activating_ticks", this.getActivatingTicks());
         if (this.alreadyActivatedOnce()) {valueOutput.putBoolean("activated_once", true);}
     }
 
@@ -46,6 +54,7 @@ public interface StagedActivableEntity extends ActivableEntity
     {
         ActivableEntity.super.activableReadAdditionalSaveData(valueInput);
         this.setActivating(valueInput.getBooleanOr("is_activating", false));
+        this.setActivatingTicks(valueInput.getIntOr("activating_ticks", 0));
         if (valueInput.getBooleanOr("activated_once", false)) {this.setAlreadyActivatedOnce();}
     }
     /* ----------------------------------------------- */
@@ -55,9 +64,9 @@ public interface StagedActivableEntity extends ActivableEntity
     /* -------------------------------------------------------------- */
     /* -------- Other utility methods to eventually override -------- */
     /* -------------------------------------------------------------- */
-    default void onStartActivating() {this.tryPlayActivatingStartSound();}
-    default void onActivatingPhaseTick() {}
-    default void onFinishActivating() {}
+    default void onStartActivating() {this.tryPlayActivatingStartSound();} //server-side
+    default void onActivatingPhaseTick() {} //both client and server side
+    default void onFinishActivating() {} //server-side
 
     @Override default void onActiveStatusChange(ServerLevel serverLevel, boolean newActiveStatus) {} //only server side
     /* -------------------------------------------------------------- */
@@ -89,7 +98,7 @@ public interface StagedActivableEntity extends ActivableEntity
         }
     }
 
-    default void startActivating()
+    default void startActivating() //server-side
     {
         this.setActivating(true);
         this.setActivatingTicks(0);
@@ -97,13 +106,13 @@ public interface StagedActivableEntity extends ActivableEntity
         this.onStartActivating();
     }
 
-    default void activatingPhaseTick()
+    default void activatingPhaseTick() //server-side
     {
         this.incrementActivatingTicks();
-        this.onActivatingPhaseTick();
+        //onActivatingPhaseTick() is called in activableEntityTick() to get called both on client and server side
     }
 
-    default void finishActivating()
+    default void finishActivating() //server-side
     {
         this.setActivating(false);
         this.setAlreadyActivatedOnce();
