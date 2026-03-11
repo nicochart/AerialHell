@@ -6,7 +6,6 @@ import fr.factionbedrock.aerialhell.Entity.*;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ChainedGodFireballEntity;
-import fr.factionbedrock.aerialhell.Entity.Util.ActivableEntityInfo;
 import fr.factionbedrock.aerialhell.Entity.Util.ImplodingEntityInfo;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
@@ -122,7 +121,7 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 		this.goalSelector.addGoal(0, new ChainedGodEntity.ChainedGodRandomFireballAttackGoal(this));
 		this.goalSelector.addGoal(1, new ConditionalGoal(this, IMPLODE_GOAL, new ImplodeGoal(this)));
 		this.goalSelector.addGoal(2, new ChainedGodEntity.ChainedGodFireballAttackGoal(this));
-		this.goalSelector.addGoal(2, new ChainedGodEntity.ChainedGodSummonTornSpiritSkullGoal(this));
+		this.goalSelector.addGoal(2, new ChainedGodSummonTornSpiritGoal(this));
 		this.goalSelector.addGoal(3, new ConditionalGoal(this, FREELY_MOVING_GOALS, new MeleeAttackGoal(this, 1.25D, false)));
 		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(5, new ConditionalGoal(this, FREELY_MOVING_GOALS, new WaterAvoidingRandomStrollGoal(this, 0.6D)));
@@ -432,9 +431,9 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 		@Override public SoundEvent getShootSound() {return null;}
 	}
 
-	public static class ChainedGodSummonTornSpiritSkullGoal extends SummonEntitiesGoal
+	public static class ChainedGodSummonTornSpiritGoal extends SummonEntitiesGoal
 	{
-		public ChainedGodSummonTornSpiritSkullGoal(ChainedGodEntity entity) {super(entity, 1.1D);}
+		public ChainedGodSummonTornSpiritGoal(ChainedGodEntity entity) {super(entity, 1.1D);}
 
 		public ChainedGodEntity getChainedGodGoalOwner() {return (ChainedGodEntity) this.getGoalOwner();}
 
