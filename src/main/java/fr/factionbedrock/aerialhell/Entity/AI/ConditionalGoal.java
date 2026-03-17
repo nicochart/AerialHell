@@ -26,5 +26,5 @@ public class ConditionalGoal extends Goal
     @Override public void stop() {wrappedGoal.stop();}
     @Override public void tick() {wrappedGoal.tick();}
     @Override public boolean requiresUpdateEveryTick() {return wrappedGoal.requiresUpdateEveryTick();}
-    @Override public void setFlags(EnumSet<Flag> flagSet) {super.setFlags(flagSet); this.setFlags(flagSet);}
+    @Override public void setFlags(EnumSet<Flag> flagSet) {super.setFlags(flagSet); this.wrappedGoal.setFlags(flagSet);}
 }
