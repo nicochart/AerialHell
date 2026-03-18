@@ -2,8 +2,8 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Shadow;
 
 import com.google.common.collect.ImmutableList;
 import fr.factionbedrock.aerialhell.Entity.AI.FleeBlockGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.MisleadableNearestAttackableTargetGoal;
 import fr.factionbedrock.aerialhell.Entity.Monster.AutomatonEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.MisleadableEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
@@ -27,10 +27,26 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class ShadowAutomatonEntity extends AutomatonEntity
+public class ShadowAutomatonEntity extends AutomatonEntity implements MisleadableEntity
 {
     public ShadowAutomatonEntity(EntityType<? extends HostileEntity> type, World world) {super(type, world);}
-    
+
+    /* ------- MisleadableEntity : Interface method implementation ------- */
+    @Override public MobEntity getSelf() {return this;}
+
+    @Override public boolean isMisleadedBy(LivingEntity livingEntity)
+    {
+        return EntityHelper.isLivingEntityMisleadingShadow(livingEntity);
+    }
+    /* ------------------------------------------------------------------- */
+
+    /* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
+    @Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
+    {
+        return this.misleadableDamage(serverWorld, source, amount, super::damage);
+    }
+    /* ------------------------------------------------------------------------------------------ */
+
     public static DefaultAttributeContainer.Builder registerAttributes()
     {
         return HostileEntity.createHostileAttributes()
@@ -49,7 +65,7 @@ public class ShadowAutomatonEntity extends AutomatonEntity
         this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.add(4, new LookAroundGoal(this));
         this.targetSelector.add(1, new RevengeGoal(this));
-        this.targetSelector.add(2, new ShadowAutomatonNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+        this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true, (potentialTarget, serverWorld) -> !this.isMisleadedBy(potentialTarget)));
     }
 
     @Override public void tick()
@@ -70,15 +86,6 @@ public class ShadowAutomatonEntity extends AutomatonEntity
             return true;
         }
         else {return false;}
-    }
-
-    protected static class ShadowAutomatonNearestAttackableTargetGoal<T extends LivingEntity> extends MisleadableNearestAttackableTargetGoal<T>
-    {
-        public ShadowAutomatonNearestAttackableTargetGoal(MobEntity entityIn, Class<T> targetClassIn, boolean checkSight) {super(entityIn, targetClassIn, checkSight);}
-        @Override public boolean isPlayerMisleadingGoalOwner(PlayerEntity player)
-        {
-            return EntityHelper.isLivingEntityMisleadingShadow(player);
-        }
     }
 
     @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_SHADOW_AUTOMATON_AMBIENT;}

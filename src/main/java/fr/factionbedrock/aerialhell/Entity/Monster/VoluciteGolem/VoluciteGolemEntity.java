@@ -1,11 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveLookAtPlayerGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveMeleeAttackGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveRandomLookAroundGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
@@ -17,8 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -40,27 +35,19 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class VoluciteGolemEntity extends AerialHellGolemEntity implements MasterPartEntity
 {
     /* -- MasterPartEntity fields -- */
+    public final Map<String, PartInfo> PARTS_MAP = Maps.newHashMap();
     private static final TrackedData<Integer> HEAD_ID = DataTracker.registerData(VoluciteGolemEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private static final PartInfo HEAD_PART_INFO = new PartInfo(AerialHellEntities.VOLUCITE_GOLEM_HEAD, "head", HEAD_ID, new Vec3d(0.0F, 2.15F, 0.0F));
-    @Nullable private PartEntity head;
-    @Nullable private String headStringUUID;
-    protected int ticksInInvalidSituation;
-    public Map<PartInfo, Supplier<PartEntity>> PARTS_MAP = Maps.newHashMap(ImmutableMap.of(HEAD_PART_INFO, () -> this.head));
+    private final PartInfo HEAD = new PartInfo(AerialHellEntities.VOLUCITE_GOLEM_HEAD, "head", HEAD_ID, new Vec3d(0.0F, 2.15F, 0.0F), PARTS_MAP);
     /* ----------------------------- */
 
     public VoluciteGolemEntity(EntityType<? extends HostileEntity> type, World world)
     {
         super(type, world);
         this.experiencePoints = 16;
-
-        /* -- MasterPartEntity init -- */
-        this.initMaster();
-        /* --------------------------- */
     }
 
     @Override protected void initDataTracker(DataTracker.Builder builder)
@@ -75,12 +62,11 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     /* ------------------------------------------------------------------------- */
     /* ---------- MasterPartEntity : Interface methods implementation ---------- */
     /* ------------------------------------------------------------------------- */
-    @Override public MobEntity getSelf() {return this;}
-    @Override public Map<PartInfo, Supplier<PartEntity>> getAllParts() {return this.PARTS_MAP;}
+    @Override public Map<String, PartInfo> getPartInfoMap() {return this.PARTS_MAP;}
 
     @Override public void tickPartRotation(PartInfo partInfo, @NotNull PartEntity partEntity)
     {
-        if (partInfo == HEAD_PART_INFO && partEntity instanceof VoluciteGolemHeadEntity headPart)
+        if (partInfo == HEAD && partEntity instanceof VoluciteGolemHeadEntity headPart)
         {
             if (!headPart.isBeaming())
             {
@@ -105,12 +91,6 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
             }
         }
     }
-
-    @Override public String getPartStringUUID(PartInfo part) {if (part == HEAD_PART_INFO) {return this.headStringUUID;} else {return "null";}}
-    @Override public void setPartStringUUID(PartInfo part, String uuid) {if (part == HEAD_PART_INFO) {this.headStringUUID = uuid;}}
-    @Override public int getTicksInInvalidSituation() {return this.ticksInInvalidSituation;}
-    @Override public void setTickInInvalidSituation(int newValue) {this.ticksInInvalidSituation = newValue;}
-    @Override public void setPartRaw(PartInfo partInfo, PartEntity part) {if (partInfo == HEAD_PART_INFO) {this.head = part;}}
     /* ------------------------------------------------------------------------- */
     /* ------------------------------------------------------------------------- */
     /* ------------------------------------------------------------------------- */
@@ -214,10 +194,10 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
 
         //super.initGoals(); removed super initGoals because need to remove MeleeAttackGoal to make it work (atm)
-        this.goalSelector.add(5, new ActiveMeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.add(6, new ActiveWaterAvoidingRandomWalkingGoal(this, 0.6D));
-        this.goalSelector.add(7, new ActiveLookAtPlayerGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(8, new ActiveRandomLookAroundGoal(this));
+        this.goalSelector.add(5, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
+        this.goalSelector.add(6, new ConditionalGoal(this, new WanderAroundFarGoal(this, 0.6D)));
+        this.goalSelector.add(7, new ConditionalGoal(this, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F)));
+        this.goalSelector.add(8, new ConditionalGoal(this, new LookAroundGoal(this)));
         this.targetSelector.add(0, new RevengeGoal(this));
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, MudSoldierEntity.class, true));
     }

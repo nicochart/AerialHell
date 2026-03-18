@@ -6,6 +6,6 @@ import net.minecraft.util.Identifier;
 public class LilithRenderState extends LivingEntityRenderState
 {
     public Identifier texture;
-    public boolean isTransforming;
+    public boolean raisesArms;
     public int attackTimer;
 }

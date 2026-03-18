@@ -121,7 +121,7 @@ public class RenderListener
     private static int getHealthBarYOffset(PlayerEntity player)
     {
         int maxHalfHearts = (int)player.getMaxHealth();
-        if (player.hasEffect(MobEffects.ABSORPTION)) {maxHalfHearts += 4 * (player.getEffect(MobEffects.ABSORPTION).getAmplifier() + 1);}
+        if (player.hasEffect(StatusEffects.ABSORPTION)) {maxHalfHearts += 4 * (player.getEffect(StatusEffects.ABSORPTION).getAmplifier() + 1);}
         if (maxHalfHearts <= 40) {return 10;}
         else if (maxHalfHearts <= 60) {return 9;}
         else if (maxHalfHearts <= 80) {return 8;}

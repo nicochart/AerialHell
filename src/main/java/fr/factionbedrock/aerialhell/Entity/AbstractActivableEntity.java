@@ -1,77 +1,86 @@
 package fr.factionbedrock.aerialhell.Entity;
 
+import fr.factionbedrock.aerialhell.Entity.Util.ActivableEntityInfo;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.world.World;
 
-public abstract class AbstractActivableEntity extends HostileEntity
+public abstract class AbstractActivableEntity extends HostileEntity implements ActivableEntity, GoalConditionEntity.GoalSimpleConditionEntity
 {
-	protected int timeClosePlayer;
-	protected int timeWithoutAnyTarget;
+	/* -- ActivableEntity fields -- */
 	public static final TrackedData<Boolean> ACTIVE = DataTracker.registerData(AbstractActivableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+	public final ActivableEntityInfo ACTIVABLE_INFO = new ActivableEntityInfo(ACTIVE, ActivableEntity.DEFAULT_ACTIVATION_METHOD.copy().activationThreshold(this.getTicksToActivate()).targetSearchDistance(this.getMinDistanceToActivate(), this.getMinDistanceToDeactivate()));
+	/* ---------------------------- */
+	public AbstractActivableEntity(EntityType<? extends HostileEntity> type, World world) {super(type, world);}
 
-	public AbstractActivableEntity(EntityType<? extends HostileEntity> type, World world)
-	{
-		super(type, world);
-		this.timeWithoutAnyTarget = 0; this.timeClosePlayer = 0;
-	}
+	/* ------------------------------------------------------------------------ */
+	/* ---------- ActivableEntity : Interface methods implementation ---------- */
+	/* ------------------------------------------------------------------------ */
+	@Override public ActivableEntityInfo getActivableInfo() {return this.ACTIVABLE_INFO;}
+	/* ------------------------------------------------------------------------ */
+	/* ------------------------------------------------------------------------ */
+	/* ------------------------------------------------------------------------ */
+
+	/* -------------------------------------------------------------------- */
+	/* ------ GoalConditionEntity : Interface methods implementation ------ */
+	/* -------------------------------------------------------------------- */
+	@Override public PathAwareEntity getSelf() {return this;}
+
+	@Override public boolean canUseGoalsAdditionalCondition() {return this.isActive();}
+	/* -------------------------------------------------------------------- */
+	/* -------------------------------------------------------------------- */
+	/* -------------------------------------------------------------------- */
 
 	@Override
 	protected void initDataTracker(DataTracker.Builder builder)
 	{
 		super.initDataTracker(builder);
+
+		/* -- ActivableEntity synched data -- */
 		builder.add(ACTIVE, false);
+		/* ---------------------------------- */
 	}
 
-    public void setActive(boolean isActive) {this.getDataTracker().set(ACTIVE, isActive);}
-	public boolean isActive() {return this.getDataTracker().get(ACTIVE);}
-
-	@Override
-	public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
+	/* ---------------------------------------------------------------------------------------------- */
+	/* ---------- ActivableEntity : Superclass methods Overridden to delegate to interface ---------- */
+	/* ---------------------------------------------------------------------------------------------- */
+	@Override public boolean damage(ServerWorld world, DamageSource source, float amount)
 	{
-		boolean flag = super.damage(serverWorld, source, amount);
-		if (flag)
-		{
-			this.setActive(true);
-			this.playerHitTimer = 100;
-			this.timeWithoutAnyTarget = 0;
-		}
+		boolean flag = super.damage(world, source, amount);
+		this.activableDamage(flag, world, source, amount);
 		return flag;
 	}
 
-	@Override
-	public void tick()
+	@Override public void tick()
 	{
 		super.tick();
-		if (this.getEntityWorld().getClosestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToActivate(), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR) != null)
-		{
-			if (!this.isActive() && this.timeClosePlayer >= this.getMinTimeToActivate())
-			{
-				this.setActive(true);
-				this.timeWithoutAnyTarget = 0;
-			}
-			else {this.timeClosePlayer++;}
-
-			if (this.isActive() && this.timeWithoutAnyTarget > 0) {this.timeWithoutAnyTarget--;}
-		}
-		else if (this.getEntityWorld().getClosestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToDeactivate(), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR) == null)
-		{			
-			if (timeWithoutAnyTarget < 120) {timeWithoutAnyTarget++;}
-			else if (this.playerHitTimer <= 0 && timeWithoutAnyTarget == 120)
-			{
-				this.setActive(false);
-				this.timeClosePlayer = 0;
-			}
-		}
+		this.activableEntityTick();
 	}
 
-	public abstract int getMinTimeToActivate();
+	@Override protected void writeCustomData(WriteView view)
+	{
+		super.writeCustomData(view);
+		this.activableWriteCustomData(view);
+	}
+
+	@Override protected void readCustomData(ReadView view)
+	{
+		super.readCustomData(view);
+		this.activableReadCustomData(view);
+	}
+	/* ---------------------------------------------------------------------------------------------- */
+	/* ---------------------------------------------------------------------------------------------- */
+	/* ---------------------------------------------------------------------------------------------- */
+
+	public abstract int getTicksToActivate();
 	public abstract double getMinDistanceToActivate();
 	public abstract double getMinDistanceToDeactivate();
 }

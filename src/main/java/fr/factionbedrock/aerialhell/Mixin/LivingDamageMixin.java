@@ -95,11 +95,6 @@ public class LivingDamageMixin
 
             ItemStack mainHandItemStack = sourceLiving.getMainHandStack();
             multiplier *= applyEffectsBasedOnSourceHandEquippedItem(mainHandItemStack, sourceLiving, target, baseAmount);
-
-            if (sourceLiving instanceof PlayerEntity sourcePlayer)
-            {
-                applyTraitorEffectIfNecessary(sourcePlayer, target);
-            }
         }
         return multiplier;
     }
@@ -215,20 +210,5 @@ public class LivingDamageMixin
             multiplier *= 2.0F;
         }
         return multiplier;
-    }
-
-    private static void applyTraitorEffectIfNecessary(LivingEntity sourceLivingEntity, LivingEntity target)
-    {
-        if (sourceLivingEntity instanceof PlayerEntity playerEntity && !EntityHelper.isCreativePlayer(playerEntity))
-        {
-            if ((target instanceof CrystalGolemEntity || target instanceof LunaticPriestEntity) && EntityHelper.isLivingEntityMisleadingLunar(sourceLivingEntity))
-            {
-                playerEntity.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.TRAITOR, 12000, 0));
-            }
-            else if ((target instanceof ShadowAutomatonEntity || target instanceof LilithEntity) && EntityHelper.isLivingEntityMisleadingShadow(sourceLivingEntity))
-            {
-                playerEntity.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.TRAITOR, 12000, 0));
-            }
-        }
     }
 }

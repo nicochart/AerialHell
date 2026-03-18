@@ -12,6 +12,7 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.FallingBlockEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.damage.DamageSource;
@@ -36,6 +37,7 @@ import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.rule.GameRules;
 import org.jetbrains.annotations.Nullable;
@@ -56,9 +58,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		if (flag)
 		{
 			if (source.isOf(DamageTypes.GENERIC_KILL) || source.isOf(DamageTypes.OUT_OF_WORLD)) {}
-			else {this.setActive(true);}
-			this.playerHitTimer = 100;
-			this.timeWithoutAnyTarget = 0;
+			else {this.activableDamage(flag, serverWorld, source, amount);}
 		}
 		return flag;
 	}
@@ -422,6 +422,93 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		}
 	}
 
+	protected boolean canDragOrRepulseEntity(Entity entity)
+	{
+		return entity instanceof LivingEntity && !EntityHelper.isCreaOrSpecPlayer(entity);
+	}
+
+	protected void dragOrRepulseEntities(NearbyEntitiesInteractionInfo type, float factor)
+	{
+		dragOrRepulseEntities(type, factor, 15, 20);
+	}
+
+	protected void dragOrRepulseEntities(NearbyEntitiesInteractionInfo type, float factor, int range, int boundingBoxInflate)
+	{
+		if (type == NearbyEntitiesInteractionInfo.NONE) {return;}
+		List<Entity> nearbyEntities = this.getEntityWorld().getOtherEntities(this, this.getBoundingBox().expand(boundingBoxInflate), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), range));
+		dragOrRepulseEntities(nearbyEntities, type, factor, range);
+	}
+
+	protected void dragOrRepulseEntities(List<Entity> entities, NearbyEntitiesInteractionInfo type, float factor, int range)
+	{
+		for (Entity entity : entities)
+		{
+			if (canDragOrRepulseEntity(entity)) {dragOrRepulseEntity(entity, factor, type, range);}
+		}
+	}
+
+	protected void dragOrRepulseEntity(Entity entity, float factor, NearbyEntitiesInteractionInfo interactionInfo, int range)
+	{
+		if (interactionInfo.noInteraction()) {return;}
+		float dragOrRepulseFactor = interactionInfo.getType().isDrag() ? 1.0F : -1.0F;
+
+		float falloffFactor, distance;
+		if (interactionInfo.getFalloff().isUniform()) {distance = Math.max(1, this.distanceTo(entity)); falloffFactor = 0.001F / distance;}
+		else
+		{
+			distance = Math.max(5, this.distanceTo(entity));
+			if (interactionInfo.getFalloff().increasesNear()) {falloffFactor = 0.1F / distance;} //increasesNear
+			else if (interactionInfo.getFalloff().decreasesNear()) {falloffFactor = distance / 500.0F;} //decreasesNear
+			else {return;}
+
+			falloffFactor = falloffFactor * falloffFactor;
+		}
+
+		float smoothingFactor = smoothingFactor(distance, range, interactionInfo);
+		dragOrRepulseEntity(entity, factor * falloffFactor * dragOrRepulseFactor * smoothingFactor);
+	}
+
+	protected void dragOrRepulseEntity(Entity entity, float factor)
+	{
+		Vec3d toBoss = new Vec3d(this.getX() - entity.getX(), this.getY() - entity.getY(), this.getZ() - entity.getZ()).multiply(factor, factor, factor);
+		entity.setVelocity(entity.getVelocity().add(toBoss));
+	}
+
+	protected static float smoothingFactor(float distance, float range, NearbyEntitiesInteractionInfo interactionInfo)
+	{
+		float percentage = 0.6F; //1.0F - percentage = range percentage (border) used for smoothing;
+		if (interactionInfo.getFalloff().increasesNear())
+		{
+			return 1.0F; //no smoothing factor
+		}
+		else if (interactionInfo.getFalloff().isUniform())
+		{
+			float normalized = distance / range;
+			if (normalized <= percentage) {return 1.0F;}
+			else
+			{
+				double t = (normalized - percentage) / (1.0F - percentage);
+				return (float) Math.cos(t * (Math.PI / 2));
+			}
+		}
+		else //decreasesNear
+		{
+			if (distance <= 0.0 || distance >= range) {return 0.0F;}
+
+			float normalized = distance / range;
+
+			if (normalized <= percentage)
+			{
+				return (float) Math.sin((normalized / percentage) * (Math.PI / 2));
+			}
+			else
+			{
+				double t = (normalized - percentage) / (1.0F - percentage);
+				return (float) Math.cos(t * (Math.PI / 2));
+			}
+		}
+	}
+
 	@Override protected void dropEquipment(ServerWorld world, DamageSource damageSource, boolean p_33576_)
 	{
 		if (this.getTrophy() != null)
@@ -432,7 +519,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 	@Nullable public abstract Item getTrophy();
 
-	@Override public int getMinTimeToActivate() {return 5;}
+	@Override public int getTicksToActivate() {return 5;}
 	@Override public double getMinDistanceToActivate() {return 8;}
 	@Override public double getMinDistanceToDeactivate() {return 48;}
 	@Override public boolean canImmediatelyDespawn(double distanceToClosestPlayer) {return false;}

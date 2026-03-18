@@ -4,7 +4,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.BeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
 import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
-import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartInfo;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.entity.Entity;
@@ -31,8 +31,7 @@ public class VoluciteGolemHeadEntity extends HostileEntity implements PartEntity
 {
     /* -- PartEntity fields -- */
     private static final TrackedData<Integer> MASTER_ID = DataTracker.registerData(VoluciteGolemHeadEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private MasterPartEntity master;
-    protected int ticksInInvalidSituation;
+    private final MasterPartInfo MASTER = new MasterPartInfo(MASTER_ID);
     /* ----------------------- */
 
     /* -- BeamAttackEntity fields -- */
@@ -54,10 +53,6 @@ public class VoluciteGolemHeadEntity extends HostileEntity implements PartEntity
     public VoluciteGolemHeadEntity(EntityType<? extends HostileEntity> type, World world)
     {
         super(type, world);
-
-        /* -- PartEntity init -- */
-        this.initPart();
-        /* --------------------- */
     }
 
     @Override protected void initDataTracker(DataTracker.Builder builder)
@@ -110,12 +105,7 @@ public class VoluciteGolemHeadEntity extends HostileEntity implements PartEntity
     @Override public boolean partSuperDamage(ServerWorld world, DamageSource source, float amount) {return super.damage(world, source, amount);}
     @Override public boolean isPartAlwaysInvulnerableTo(DamageSource damageSource) {return super.isAlwaysInvulnerableTo(damageSource);}
 
-    @Override public TrackedData<Integer> getMasterIdData() {return MASTER_ID;}
-    @Override public void setMasterRaw(MasterPartEntity master) {this.master = master;}
-    @Override @Nullable public MasterPartEntity getMasterRaw() {return this.master;}
-
-    @Override public int getTicksInInvalidSituation() {return ticksInInvalidSituation;}
-    @Override public void setTickInInvalidSituation(int newValue) {this.ticksInInvalidSituation = newValue;}
+    @Override public MasterPartInfo getMasterInfo() {return this.MASTER;}
     /* ------------------------------------------------------------------- */
     /* ------------------------------------------------------------------- */
     /* ------------------------------------------------------------------- */

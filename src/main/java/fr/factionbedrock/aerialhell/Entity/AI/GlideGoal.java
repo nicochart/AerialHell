@@ -20,7 +20,7 @@ public class GlideGoal extends Goal
 
     @Override public void tick()
     {
-        if (this.goalOwner.isTurtleGliding()) {this.setGlidingMotion();}
+        if (this.goalOwner.isTurtleGliding()) {this.setTurtleGlidingMotion();}
         else if (this.shouldStartGliding()) {this.goalOwner.setTurtleGliding(true);}
 
         if (this.shouldJump())
@@ -34,7 +34,7 @@ public class GlideGoal extends Goal
         if (this.shouldStopGliding()) {this.goalOwner.setTurtleGliding(false);}
     }
 
-    private void setGlidingMotion()
+    private void setTurtleGlidingMotion()
     {
         if (this.goalOwner.getVelocity().y < 0.0D)
         {

@@ -26,7 +26,7 @@ public class FlyingJellyfishEntity extends AbstractFlyingProjectileShooterMob
 
 	public FlyingJellyfishEntity(World world) {this(AerialHellEntities.FLYING_JELLYFISH, world);}
 
-	@Override public ProjectileEntity createProjectile(World level, LivingEntity shooter, double accX, double accY, double accZ) {return new PoisonballEntity(level, shooter, accX, accY, accZ);}
+	@Override public ProjectileEntity createProjectile(World world, LivingEntity shooter, double accX, double accY, double accZ) {return new PoisonballEntity(world, shooter, accX, accY, accZ);}
 	@Override public SoundEvent getShootSound() {return this.getAmbientSound();}
 
 	@Override protected void initGoals()

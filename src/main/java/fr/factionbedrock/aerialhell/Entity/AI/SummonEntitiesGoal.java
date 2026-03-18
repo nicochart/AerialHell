@@ -33,7 +33,7 @@ public abstract class SummonEntitiesGoal extends Goal
     protected void summonEntities()
     {
         Entity entity = createEntity();
-        this.setEntityPosToSummonPos(entity); entity.setVelocity(this.getSpawnMotionVec3());
+        this.setEntityPosToSummonPos(entity); entity.setVelocity(this.getSpawnMotionVec3d());
         this.getGoalOwner().getEntityWorld().spawnEntity(entity);
     }
 
@@ -45,7 +45,7 @@ public abstract class SummonEntitiesGoal extends Goal
         this.getGoalOwner().playSound(SoundEvents.ENTITY_EVOKER_PREPARE_SUMMON, 1.5F, 0.95F + this.goalOwner.getRandom().nextFloat() * 0.1F);
     }
 
-    protected Vec3d getSpawnMotionVec3()
+    protected Vec3d getSpawnMotionVec3d()
     {
         return new Vec3d(getRandomHorizontalMotion(), yMotion, getRandomHorizontalMotion());
     }

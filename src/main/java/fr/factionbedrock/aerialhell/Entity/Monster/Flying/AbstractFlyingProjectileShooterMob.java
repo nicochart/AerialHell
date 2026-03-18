@@ -1,10 +1,11 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Flying;
 
-import fr.factionbedrock.aerialhell.Entity.AI.GhastLikeGoals;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.FlyMoveHelperController;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.FlyingLookAroundGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.RandomFlyGoal;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -20,7 +21,7 @@ public abstract class AbstractFlyingProjectileShooterMob extends MobEntity imple
 {
 	public static final TrackedData<Boolean> ATTACKING = DataTracker.registerData(AbstractFlyingProjectileShooterMob.class, TrackedDataHandlerRegistry.BOOLEAN);
 
-	public AbstractFlyingProjectileShooterMob(EntityType<? extends AbstractFlyingProjectileShooterMob> type, World world) {super(type, world); this.moveControl = new GhastLikeGoals.MoveHelperController(this);}
+	public AbstractFlyingProjectileShooterMob(EntityType<? extends AbstractFlyingProjectileShooterMob> type, World world) {super(type, world); this.moveControl = new FlyMoveHelperController(this);}
 
 	@Override protected void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) {}
 	@Override public void travel(Vec3d movementInput) {this.travelFlying(movementInput, 0.02F);}
@@ -28,8 +29,8 @@ public abstract class AbstractFlyingProjectileShooterMob extends MobEntity imple
 
 	@Override protected void initGoals()
 	{
-		this.goalSelector.add(5, new GhastLikeGoals.RandomFlyGoal(this));
-		this.goalSelector.add(7, new GhastLikeGoals.LookAroundGoal(this));
+		this.goalSelector.add(5, new RandomFlyGoal(this));
+		this.goalSelector.add(7, new FlyingLookAroundGoal(this));
 		this.goalSelector.add(7, new AbstractFlyingProjectileShooterMob.ShootProjectileGoal(this));
 		//no target defined here
 	}
@@ -54,7 +55,7 @@ public abstract class AbstractFlyingProjectileShooterMob extends MobEntity imple
 	public abstract ProjectileEntity createProjectile(World world, LivingEntity shooter, double accX, double accY, double accZ);
 	public abstract SoundEvent getShootSound();
 
-	public static class ShootProjectileGoal extends GhastLikeGoals.ShootProjectileGoal
+	public static class ShootProjectileGoal extends fr.factionbedrock.aerialhell.Entity.AI.GhastLike.ShootProjectileGoal
 	{
 		public ShootProjectileGoal(AbstractFlyingProjectileShooterMob flyingMob) {super(flyingMob);}
 

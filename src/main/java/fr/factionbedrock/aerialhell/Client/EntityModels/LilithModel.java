@@ -68,7 +68,7 @@ public class LilithModel extends EntityModel<LilithRenderState>
 		float netHeadYaw = renderState.relativeHeadYaw;
 		float limbSwing = renderState.limbSwingAnimationProgress;
 		float limbSwingAmount = renderState.limbSwingAmplitude;
-		if (!renderState.isTransforming)
+		if (!renderState.raisesArms)
 		{
 			int i = renderState.attackTimer;
 			if (i > 0)

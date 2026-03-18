@@ -1,6 +1,11 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
 import fr.factionbedrock.aerialhell.Entity.AI.*;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.FlyMoveHelperController;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.FlyingLookAroundGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.RandomFlyGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.ShootProjectileGoal;
+import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
@@ -12,8 +17,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.ai.control.MoveControl;
-import net.minecraft.entity.ai.goal.FleeEntityGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.BossBar;
@@ -30,9 +34,11 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-public class LunaticPriestEntity extends AbstractBossEntity
+public class LunaticPriestEntity extends AbstractBossEntity implements GoalConditionEntity.PhaseAwareGoalConditionEntity
 {
+	public static final int BOTH_PHASES_GOALS = 0, PHASE_1_GOALS = 1, PHASE_2_GOALS = 2;
 	public int attackTimer;
 	
 	public LunaticPriestEntity(EntityType<? extends HostileEntity> type, World world)
@@ -42,23 +48,45 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		bossInfo.setColor(BossBar.Color.YELLOW);
 		bossInfo.setStyle(BossBar.Style.NOTCHED_6);
 	}
-	
-	@Override
-    protected void initGoals()
+
+	/* ----- GoalConditionEntity.PhaseAwareGoalConditionEntity : Interface method implementation ----- */
+	@Override public boolean checkGoalCondition(int conditionIndex) {return this.canUseGoalsAdditionalCondition(conditionIndex);} //need to override checkGoalCondition because priest implements both GoalSimpleConditionEntity and PhaseAwareGoalConditionEntity
+
+	@Override public boolean canUseGoalsAdditionalCondition(int goalIndex)
+	{
+		if (!super.canUseGoalsAdditionalCondition()) {return false;}
+		else
+		{
+			if (goalIndex == BOTH_PHASES_GOALS) {return true;}
+			else if (goalIndex == PHASE_1_GOALS)
+			{
+				return this.isInPhase1();
+			}
+			else if (goalIndex == PHASE_2_GOALS)
+			{
+				return this.isInPhase2();
+			}
+			return false;
+		}
+	}
+	/* ----------------------------------------------------------------------------------------------- */
+
+	@Override protected void initGoals()
     {
 		/*Phase 1 only*/
-		this.goalSelector.add(5, new LunaticPriestEntity.PriestRandomFlyGoal(this));
-		this.goalSelector.add(7, new GhastLikeGoals.LookAroundGoal(this));
-		this.goalSelector.add(6, new PriestLookRandomlyGoal(this));
+		this.goalSelector.add(5, new ConditionalGoal(this, PHASE_1_GOALS, new RandomFlyGoal(this)));
+		this.goalSelector.add(7, new ConditionalGoal(this, PHASE_1_GOALS, new FlyingLookAroundGoal(this)));
 		/*Phase 2 only*/
-	    this.goalSelector.add(4, new PriestWaterAvoidingRandomWalkingGoal(this, 1.0D));
-	    this.goalSelector.add(5, new ActiveLookAtPlayerGoal(this, PlayerEntity.class, 8.0F));
-	    /*Both phases*/
-	    this.goalSelector.add(2, new LunaticPriestEntity.LunaticProjectileAttackGoal(this));
-	    this.goalSelector.add(3, new ActiveMeleeAttackGoal(this, 1.25D, false));
-	    this.targetSelector.add(1, new RevengeGoal(this));
-	    this.targetSelector.add(2, new ActiveNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
-	    this.goalSelector.add(4, new FleeEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
+		this.goalSelector.add(6, new ConditionalGoal(this, PHASE_2_GOALS, new LookAroundGoal(this)));
+		this.goalSelector.add(4, new ConditionalGoal(this, PHASE_2_GOALS, new WanderAroundFarGoal(this, 1.0D)));
+		/*Both phases*/
+		this.goalSelector.add(5, new ConditionalGoal(this, BOTH_PHASES_GOALS, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F)));
+		this.goalSelector.add(2, new ConditionalGoal(this, BOTH_PHASES_GOALS, new LunaticProjectileAttackGoal(this)));
+		this.goalSelector.add(3, new ConditionalGoal(this, BOTH_PHASES_GOALS, new MeleeAttackGoal(this, 1.25D, false)));
+		this.targetSelector.add(2, new ConditionalGoal(this, BOTH_PHASES_GOALS, new ActiveTargetGoal<>(this, PlayerEntity.class, true)));
+		/*Independant of phases*/
+		this.targetSelector.add(1, new RevengeGoal(this));
+		this.goalSelector.add(4, new FleeEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
     }
 	
 	public float getMaxHealthForPhase2() {return this.getMaxHealth() / 2;}
@@ -88,7 +116,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	{
 		if (nextPhase == BossPhase.FIRST_PHASE)
 		{
-			this.moveControl = new GhastLikeGoals.MoveHelperController(this);
+			this.moveControl = new FlyMoveHelperController(this);
 			this.setVelocity(this.getVelocity().add(0,2,0));
 		}
 		else if (nextPhase == BossPhase.SECOND_PHASE)
@@ -233,28 +261,13 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	 * Goals
 	 */
 
-	static class PriestRandomFlyGoal extends GhastLikeGoals.RandomFlyGoal
-	{
-		public PriestRandomFlyGoal(LunaticPriestEntity priestIn) {super(priestIn);}
-		
-		@Override public boolean canStart()
-		{
-			LunaticPriestEntity priest = (LunaticPriestEntity) this.getParentEntity();
-			if (!priest.isActive() || priest.isInPhase2()) {return false;}
-			else {return super.canStart();}
-		}
-	}
-
-	public static class LunaticProjectileAttackGoal extends GhastLikeGoals.ShootProjectileGoal
+	public static class LunaticProjectileAttackGoal extends ShootProjectileGoal
 	{
 		public LunaticProjectileAttackGoal(LunaticPriestEntity entity) {super(entity);}
 
-		@Override public boolean canStart()
+		@Override public boolean isValidTarget(@Nullable LivingEntity target)
 		{
-			LunaticPriestEntity priest = (LunaticPriestEntity)this.getParentEntity();
-			if (!priest.isActive()) {return false;}
-			LivingEntity target = priest.getTarget();
-			return super.canStart() && priest.canSee(target) && target.isAlive() && priest.canTarget(target);
+			return super.isValidTarget(target) && this.getParentEntity().canSee(target);
 		}
 
 		@Override public ProjectileEntity createProjectile(World world, LivingEntity shooter, double accX, double accY, double accZ)
@@ -274,18 +287,6 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		@Override public double getYProjectileOffset() {return 0.5D;}
 		@Override protected void setAttacking(boolean bool) {}
 		@Override public SoundEvent getShootSound() {return null;}
-	}
-	
-	public static class PriestLookRandomlyGoal extends ActiveRandomLookAroundGoal
-	{		
-		public PriestLookRandomlyGoal(LunaticPriestEntity priestIn) {super(priestIn);}
-		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2();}
-	}
-	
-	public static class PriestWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal
-	{
-		public PriestWaterAvoidingRandomWalkingGoal(LunaticPriestEntity priestIn, double speedIn) {super(priestIn, speedIn);}
-		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && ((LunaticPriestEntity) this.getGoalOwner()).isInPhase2();}
 	}
 	
 	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_LUNATIC_PRIEST_AMBIENT;}

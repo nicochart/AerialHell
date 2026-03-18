@@ -28,17 +28,9 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* ---------------------------------------------------- */
     //You will also need to implement getSelf() from BaseEntityInterface
 
-    Map<PartInfo, Supplier<PartEntity>> getAllParts();
+    Map<String, PartInfo> getPartInfoMap();
 
     void tickPartRotation(PartInfo partInfo, @NotNull PartEntity partEntity);
-
-    String getPartStringUUID(PartInfo part);
-    void setPartStringUUID(PartInfo part, String uuid);
-
-    int getTicksInInvalidSituation();
-    void setTickInInvalidSituation(int newValue);
-
-    void setPartRaw(PartInfo partInfo, PartEntity part);
     /* ---------------------------------------------------- */
     /* ---------------------------------------------------- */
     /* ---------------------------------------------------- */
@@ -46,33 +38,23 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------- */
     /* -------- Delegate methods needing call -------- */
     /* ----------------------------------------------- */
-    default void initMaster() //call in constructor
-    {
-        this.resetTicksInInvalidSituation();
-    }
-
     default void partEntityTick() //call in tick()
     {
-        boolean onePartIsNotFount = false;
-        for (PartInfo partInfo : this.getAllParts().keySet())
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
             PartEntity synchedPartEntity = this.syncPart(partInfo); //server-client part sync
             if (synchedPartEntity == null)
             {
-                onePartIsNotFount = !this.tryToFindBackPart(partInfo);
+                partInfo.incrementTicksInInvalidSituation();
+                if (partInfo.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION)  //should not happen if head is not removed or if the uuid changed (if the entity is loaded from a structure nbt for example)
+                {
+                    boolean shouldBreak = this.reactToInvalidSituationWithPart(partInfo);
+                    if (shouldBreak) {break;}
+                }
+                this.tryToFindBackPart(partInfo);
             }
+            else {partInfo.resetTicksInInvalidSituation();}
         }
-
-        if (onePartIsNotFount)
-        {
-            this.incrementTicksInInvalidSituation();
-
-            if (this.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION) //should not happen if head is not removed or if the uuid changed (if the entity is loaded from a structure nbt for example)
-            {
-                this.resetSelf();
-            }
-        }
-        else {this.resetTicksInInvalidSituation();}
     }
 
     default void partDamage(boolean superDamaged, ServerWorld world, DamageSource source, float amount) //call in damage(world, source, amount)
@@ -81,9 +63,9 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         else if (superDamaged)
         {
             //attacking other parts just for attack animation (red overlay)
-            for (Supplier<PartEntity> part : this.getAllParts().values())
+            for (PartInfo partInfo : this.getPartInfoMap().values())
             {
-                falseAttackForRedAnimation(part.get(), world, source);
+                falseAttackForRedAnimation(partInfo.getPart(), world, source);
             }
         }
     }
@@ -96,25 +78,28 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     default void partEntityTickMovement() //call in tickMovement()
     {
-        for (Map.Entry<PartInfo, Supplier<PartEntity>> entry : this.getAllParts().entrySet())
+        if (this.getLevel().isClient()) {return;}
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            PartInfo partInfo = entry.getKey(); PartEntity partEntity = entry.getValue().get();
-            if (partEntity != null) {this.tickPartRotation(partInfo, entry.getValue().get());}
+            PartEntity part = partInfo.getPart();
+            if (part != null) {this.tickPartRotation(partInfo, part);}
         }
     }
 
-    default void setPartsPosition(double x, double y, double z) //call in setPosition(x, y, z)
+    default void setPartsPosition(double masterX, double masterY, double masterZ) //call in setPos(x, y, z)
     {
         //do not try to set pos of another entity on client side. Let server side do.
         //null getAllParts happens on entity creation (when constructor is called)
-        if (this.getLevel().isClient() || this.getAllParts() == null) {return;}
-        for (Map.Entry<PartInfo, Supplier<PartEntity>> entry : this.getAllParts().entrySet())
+        if (this.getLevel().isClient() || this.getPartInfoMap() == null) {return;}
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            PartInfo partInfo = entry.getKey(); PartEntity partEntity = entry.getValue().get();
+            PartEntity part = partInfo.getPart();
             Vec3d offset = partInfo.getRelativePositionOffset();
-            if (partEntity != null)
+            if (part != null)
             {
-                partEntity.setPosition(x + offset.x, y + offset.y, z + offset.z);
+                Vec3d adjustedOffset = this.adjustPartOffset(partInfo, part, new Vec3d(masterX, masterY, masterZ), offset);
+                Vec3d partPos = this.rotatePartPos(adjustedOffset);
+                part.setPosition(masterX + partPos.x, masterY + partPos.y, masterZ + partPos.z);
             }
         }
     }
@@ -123,11 +108,11 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     {
         //do not try to set rotation of another entity on client side. Let server side do.
         //null getAllParts happens on entity creation (when constructor is called)
-        if (this.getLevel().isClient() || this.getAllParts() == null) {return;}
-        for (Map.Entry<PartInfo, Supplier<PartEntity>> entry : this.getAllParts().entrySet())
+        if (this.getLevel().isClient() || this.getPartInfoMap() == null) {return;}
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            PartInfo partInfo = entry.getKey(); PartEntity partEntity = entry.getValue().get();
-            if (partEntity != null) {partEntity.setPitch(pitch);}
+            PartEntity part = partInfo.getPart();
+            if (part != null) {part.setPitch(pitch);}
         }
     }
 
@@ -135,29 +120,29 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     {
         //do not try to set rotation of another entity on client side. Let server side do.
         //null getAllParts happens on entity creation (when constructor is called)
-        if (this.getLevel().isClient() || this.getAllParts() == null) {return;}
-        for (Map.Entry<PartInfo, Supplier<PartEntity>> entry : this.getAllParts().entrySet())
+        if (this.getLevel().isClient() || this.getPartInfoMap() == null) {return;}
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            PartInfo partInfo = entry.getKey(); PartEntity partEntity = entry.getValue().get();
-            if (partEntity != null) {partEntity.setYaw(yaw);}
+            PartEntity part = partInfo.getPart();
+            if (part != null) {part.setYaw(yaw);}
         }
     }
 
-    default void partWriteCustomData(WriteView view) //call in writeCustomData(viewOutput)
+    default void partWriteCustomData(WriteView view) //call in addAdditionalSaveData(valueOutput)
     {
-        for (Map.Entry<PartInfo, Supplier<PartEntity>> entry : this.getAllParts().entrySet())
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            PartInfo partInfo = entry.getKey(); PartEntity partEntity = entry.getValue().get();
-            if (partEntity != null)
+            PartEntity part = partInfo.getPart();
+            if (part != null)
             {
-                view.putString(partInfo.getName() + "_uuid", partEntity.getSelf().getUuidAsString());
+                view.putString(partInfo.getName() + "_uuid", part.getSelf().getUuidAsString());
             }
         }
     }
 
-    default void partReadCustomData(ReadView view) //call in readCustomData(viewInput)
+    default void partReadCustomData(ReadView view) //call in readAdditionalSaveData(valueInput)
     {
-        for (PartInfo partInfo : this.getAllParts().keySet())
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
             if (view.getOptionalString(partInfo.getName() +"_uuid").isPresent())
             {
@@ -171,12 +156,13 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         return !other.isPartOf(this.getSelf());
     }
 
-    default boolean recognizesChildPart(Entity potentialChild) //call in isPartOf(entity)
+    default boolean recognizesChildPart(Entity potentialChild) //call in is(entity)
     {
         if (!(potentialChild instanceof PartEntity)) {return false;}
-        for (Supplier<PartEntity> partEntity : this.getAllParts().values())
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            if (partEntity.get() != null && partEntity.get() == potentialChild) {return true;}
+            PartEntity part = partInfo.getPart();
+            if (part != null && part == potentialChild) {return true;}
         }
         return false;
     }
@@ -184,13 +170,27 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */
 
+    /* --------------------------------------------------------------------- */
+    /* ------- Other methods to override for specific part behaviors ------- */
+    /* --------------------------------------------------------------------- */
+    default InvalidSituationBehavior getInvalidSituationBehavior() {return InvalidSituationBehavior.RESET;}
+
+    default Vec3d adjustPartOffset(PartInfo partInfo, PartEntity partEntity, Vec3d masterPos, Vec3d unadjustedPosOffset)
+    {
+        return unadjustedPosOffset;
+    }
+    /* --------------------------------------------------------------------- */
+    /* --------------------------------------------------------------------- */
+    /* --------------------------------------------------------------------- */
+
     /* ----------------------------------------------------------- */
     /* -------- Other utility methods (for the interface) -------- */
     /* ----------------------------------------------------------- */
-    default PartEntity getPartRaw(PartInfo partInfo) {return this.getAllParts().get(partInfo).get();}
+    default @Nullable String getPartStringUUID(PartInfo part) {return part.getPartUUID();}
+    default void setPartStringUUID(PartInfo part, String uuid) {part.setPartUUID(uuid);}
 
-    default void incrementTicksInInvalidSituation() {this.setTickInInvalidSituation(this.getTicksInInvalidSituation() + 1);}
-    default void resetTicksInInvalidSituation() {this.setTickInInvalidSituation(0);}
+    default PartEntity getPartRaw(PartInfo partInfo) {return partInfo.getPart();}
+    default void setPartRaw(PartInfo partInfo, PartEntity part) {partInfo.setPart(part);}
 
     default int getPartEntityId(PartInfo part) {return this.getEntityData().get(part.getIdData());}
     default boolean hasPartEntityId(PartInfo part) {return this.getPartEntityId(part) != 0;}
@@ -219,13 +219,10 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     private void onHurtCausingDeath()
     {
         //kill other parts
-        for (Supplier<PartEntity> partSupplier : this.getAllParts().values())
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            PartEntity part = partSupplier.get();
-            if (part != null)
-            {
-                partSupplier.get().killPart();
-            }
+            PartEntity part = partInfo.getPart();
+            if (part != null) {part.killPart();}
         }
     }
 
@@ -238,6 +235,26 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         }
     }
 
+    //if the part is not found (for example after being placed with a structure nbt, or if the part was deleted for whatever reason)
+    //returns true if other parts are impacted by the reaction
+    default boolean reactToInvalidSituationWithPart(PartInfo part)
+    {
+        return switch (this.getInvalidSituationBehavior())
+        {
+            case NONE -> false;
+            case PART_RESPAWN ->
+            {
+                this.trySummonAndRegisterPart(part); //only reset the part. Can cause sync problem.
+                yield false;
+            }
+            case RESET ->
+            {
+                this.resetSelf(); //full reset is the best to do to avoid unsync animation.
+                yield true;
+            }
+        };
+    }
+
     default void resetSelf()
     {
         if (this.getLevel() instanceof ServerWorld world)
@@ -247,9 +264,9 @@ public interface MasterPartEntity extends BaseMobEntityInterface
             entity.refreshPositionAndAngles(self.getX(), self.getY(), self.getZ(), self.getYaw(), self.getPitch());
         }
 
-        for (Supplier<PartEntity> partSupplier : this.getAllParts().values())
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            PartEntity part = partSupplier.get();
+            PartEntity part = partInfo.getPart();
             if (part != null) {part.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);}
         }
         this.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);
@@ -257,14 +274,19 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     default void summonChildParts()
     {
-        for (PartInfo partInfo : this.getAllParts().keySet())
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            PartEntity partEntity = this.summonPart(partInfo);
-            if (partEntity != null)
-            {
-                this.setPartRaw(partInfo, partEntity);
-                this.setPartEntityId(partInfo, partEntity.getId());
-            }
+            this.trySummonAndRegisterPart(partInfo);
+        }
+    }
+
+    default void trySummonAndRegisterPart(PartInfo partInfo)
+    {
+        PartEntity partEntity = this.summonPart(partInfo);
+        if (partEntity != null)
+        {
+            this.setPartRaw(partInfo, partEntity);
+            this.setPartEntityId(partInfo, partEntity.getId());
         }
     }
 
@@ -323,7 +345,15 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         double xzDistance = Math.sqrt(dx * dx + dz * dz);
         return (float)(Math.atan2(dy, xzDistance) * (180F / Math.PI));
     }
+
+    default Vec3d rotatePartPos(Vec3d vec)
+    {
+        float yRot = (float) Math.toRadians(this.getSelf().getYaw());
+        return vec.rotateY(-yRot);
+    }
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */
+
+    enum InvalidSituationBehavior {RESET, PART_RESPAWN, NONE}
 }

@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Snake;
 
-import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
+import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.AbstractCustomHurtMonsterEntity;
 import fr.factionbedrock.aerialhell.Entity.Util.CustomHurtInfo;
 import fr.factionbedrock.aerialhell.Entity.Util.SnakeCustomHurtInfo;
@@ -13,17 +13,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
@@ -46,7 +44,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntity
+public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntity implements GoalConditionEntity.GoalSimpleConditionEntity
 {
     protected enum BodyPartDeathReaction{ALWAYS_SPLIT, SPLIT_IF_NOT_HEAD, LOOSE_TAIL, ALWAYS_DIE}
     protected enum SendDirection{FORWARD, BACKWARD}
@@ -140,14 +138,20 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         return fallingCount >= 0.60F * count;
     }
 
+    /* ------- GoalSimpleConditionEntity : Interface method implementation ------- */
+    @Override public PathAwareEntity getSelf() {return this;}
+
+    @Override public boolean canUseGoalsAdditionalCondition() {return this.isHead();}
+    /* --------------------------------------------------------------------------- */
+
     @Override protected void initGoals()
     {
         this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(2, new SnakeGoals.SnakeMeleeAttackGoal(this, 1.25D));
-        this.goalSelector.add(3, new SnakeGoals.SnakeWaterAvoidingRandomWalkingGoal(this, 0.9D));
-        this.goalSelector.add(4, new SnakeGoals.SnakeLookAtPlayerGoal(this));
-        this.goalSelector.add(4, new SnakeGoals.SnakeRandomLookAroundGoal(this));
-        this.goalSelector.add(4, new SnakeGoals.AlignSnakeBodyPartGoal(this));
+        this.goalSelector.add(2, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
+        this.goalSelector.add(3, new ConditionalGoal(this, new WanderAroundFarGoal(this, 0.9D)));
+        this.goalSelector.add(4, new ConditionalGoal(this, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F)));
+        this.goalSelector.add(4, new ConditionalGoal(this, new LookAroundGoal(this)));
+        this.goalSelector.add(4, new SnakeAlignSnakeBodyPartGoal(this));
         this.targetSelector.add(1, new RevengeGoal(this));
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }

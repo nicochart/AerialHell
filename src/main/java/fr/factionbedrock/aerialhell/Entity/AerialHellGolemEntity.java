@@ -1,16 +1,13 @@
 package fr.factionbedrock.aerialhell.Entity;
 
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveLookAtPlayerGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveRandomLookAroundGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveMeleeAttackGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
@@ -35,10 +32,10 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
     @Override
     protected void initGoals()
     {
-    	this.goalSelector.add(1, new ActiveMeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.add(2, new ActiveWaterAvoidingRandomWalkingGoal(this, 0.6D));
-        this.goalSelector.add(3, new ActiveLookAtPlayerGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(3, new ActiveRandomLookAroundGoal(this));
+        this.goalSelector.add(1, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
+        this.goalSelector.add(2, new ConditionalGoal(this, new WanderAroundFarGoal(this, 0.6D)));
+        this.goalSelector.add(3, new ConditionalGoal(this, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F)));
+        this.goalSelector.add(3, new ConditionalGoal(this, new LookAroundGoal(this)));
         this.targetSelector.add(0, new RevengeGoal(this));
     }
 
@@ -73,8 +70,8 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
 
     @Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
     {
-        boolean flag = super.damage(serverWorld, source, amount) && this.updateTargetOnHurtByLivingEntity();
-        if (flag)
+        boolean flag = super.damage(serverWorld, source, amount);
+        if (flag && this.updateTargetOnHurtByLivingEntity())
         {
             Entity immediateSourceEntity = source.getSource();
             Entity trueSourceEntity = source.getAttacker();
@@ -100,7 +97,7 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
 		else {super.handleStatus(id);}
 	}
 
-    @Override public int getMinTimeToActivate() {return 60;}
+    @Override public int getTicksToActivate() {return 60;}
     @Override public double getMinDistanceToActivate() {return 16;}
     @Override public double getMinDistanceToDeactivate() {return 32;}
     @Override protected SoundEvent getAmbientSound() {return SoundEvents.ENTITY_SNOW_GOLEM_AMBIENT;}

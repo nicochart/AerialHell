@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jspecify.annotations.Nullable;
 
@@ -27,4 +28,9 @@ public interface BaseEntityInterface
     default void setPosition(double x, double y, double z) {this.getSelf().setPosition(x, y, z);}
     default void setPitch(float xRot) {this.getSelf().setPitch(xRot);}
     default void setYaw(float yRot) {this.getSelf().setYaw(yRot);}
+
+    default Random getRandom() {return this.getSelf().getRandom();}
+    default double getParticleX(double scale) {return this.getSelf().getParticleX(scale);}
+    default double getRandomBodyY() {return this.getSelf().getRandomBodyY();}
+    default double getParticleZ(double scale) {return this.getSelf().getParticleZ(scale);}
 }

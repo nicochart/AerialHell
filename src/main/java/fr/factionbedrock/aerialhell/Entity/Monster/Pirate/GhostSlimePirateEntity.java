@@ -1,18 +1,20 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
-import fr.factionbedrock.aerialhell.Entity.AI.GhostGoals;
+import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.GhostPirateWaterAvoidingRandomStrollGoal;
+import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.MisleadableEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
@@ -21,35 +23,52 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
-public class GhostSlimePirateEntity extends AbstractSlimePirateEntity
+public class GhostSlimePirateEntity extends AbstractSlimePirateEntity implements MisleadableEntity, GoalConditionEntity.GoalSimpleConditionEntity
 {
     public GhostSlimePirateEntity(EntityType<? extends GhostSlimePirateEntity> type, World world) {super(type, world);}
+
+    /* ------- MisleadableEntity : Interface method implementation ------- */
+    @Override public boolean isMisleadedBy(LivingEntity livingEntity)
+    {
+        return EntityHelper.isImmuneToGhostBlockCollision(livingEntity);
+    }
+    /* ------------------------------------------------------------------- */
+
+    /* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
+    @Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
+    {
+        return this.misleadableDamage(serverWorld, source, amount, super::damage);
+    }
+    /* ------------------------------------------------------------------------------------------ */
+
+    /* ------- MisleadableEntity : Interface methods Overridden for specific behavior ------- */
+    @Override public boolean canMisleaderDamage() {return false;}
+    /* -------------------------------------------------------------------------------------- */
+
+    /* ------- GoalSimpleConditionEntity : Interface method implementation ------- */
+    @Override public PathAwareEntity getSelf() {return this;}
+
+    @Override public boolean canUseGoalsAdditionalCondition() {return !EntityHelper.isImmuneToGhostBlockCollision(this.getTarget());}
+    /* --------------------------------------------------------------------------- */
 
     @Override protected void registerBaseGoals()
     {
         this.targetSelector.add(1, new RevengeGoal(this));
-        this.goalSelector.add(3, new GhostGoals.GhostPirateWaterAvoidingRandomStrollGoal(this, 0.6D));
+        this.goalSelector.add(3, new GhostPirateWaterAvoidingRandomStrollGoal(this, 0.6D));
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(4, new LookAroundGoal(this));
     }
 
     @Override protected void registerSpecificGoals()
     {
-        this.goalSelector.add(2, new GhostGoals.GhostPirateMeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.add(4, new GhostGoals.GhostPirateLookAtPlayerGoal(this, PlayerEntity.class, 8.0F));
-        this.targetSelector.add(2, new GhostGoals.GhostPirateNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+        this.goalSelector.add(2, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
+        this.goalSelector.add(4, new ConditionalGoal(this, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F)));
+        this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true, (potentialTarget, serverWorld) -> !this.isMisleadedBy(potentialTarget)));
     }
 
     @Override public EntityType<? extends AbstractSlimePirateEntity> getDieOffspringType() {return AerialHellEntities.GHOST_SLIME_PIRATE;}
 
     @Override public EntityType<? extends AbstractSlimePirateEntity> getType() {return AerialHellEntities.GHOST_SLIME_PIRATE;}
-
-    @Override public boolean damage(ServerWorld serverWorld, DamageSource damageSource, float amount)
-    {
-        Entity sourceEntity = damageSource.getAttacker();
-        if (EntityHelper.isImmuneToGhostBlockCollision(sourceEntity) && !EntityHelper.isCreaOrSpecPlayer(sourceEntity)) {return false;}
-        return super.damage(serverWorld, damageSource, amount);
-    }
 
     @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, Random rand)
     {

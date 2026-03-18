@@ -41,20 +41,19 @@ public class MudCycleMageEntity extends AbstractBossEntity
 		this.timeDying = 0;
 	}
 	
-	@Override
-    protected void initGoals()
+	@Override protected void initGoals()
     {
 		this.goalSelector.add(2, new AvoidSunlightGoal(this));
-	    this.goalSelector.add(3, new EscapeSunlightGoal(this, 1.0D));
-	    this.goalSelector.add(3, new ActiveMeleeAttackGoal(this, 1.25D, false));
-	    this.goalSelector.add(3, new SummonSpectralEntitiesGoal(this));
-	    this.goalSelector.add(5, new ActiveWaterAvoidingRandomWalkingGoal(this, 1.0D));
-	    this.goalSelector.add(6, new ActiveLookAtPlayerGoal(this, PlayerEntity.class, 8.0F));
-	    this.goalSelector.add(6, new ActiveRandomLookAroundGoal(this));
-	    this.targetSelector.add(1, new RevengeGoal(this));
-	    this.targetSelector.add(2, new ActiveNearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
-	    this.targetSelector.add(3, new ActiveTargetGoal<>(this, TornSpiritEntity.class, true));
-	    this.goalSelector.add(4, new FleeEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
+		this.goalSelector.add(3, new EscapeSunlightGoal(this, 1.0D));
+		this.goalSelector.add(3, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
+		this.goalSelector.add(3, new SummonSpectralEntitiesGoal(this));
+		this.goalSelector.add(5, new ConditionalGoal(this, new WanderAroundFarGoal(this, 1.0D)));
+		this.goalSelector.add(6, new ConditionalGoal(this, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F)));
+		this.goalSelector.add(6, new ConditionalGoal(this, new LookAroundGoal(this)));
+		this.targetSelector.add(1, new RevengeGoal(this));
+		this.targetSelector.add(2, new ConditionalGoal(this, new ActiveTargetGoal<>(this, PlayerEntity.class, true)));
+		this.targetSelector.add(3, new ActiveTargetGoal<>(this, TornSpiritEntity.class, true));
+		this.goalSelector.add(4, new FleeEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
     }
 	
 	public static DefaultAttributeContainer.Builder registerAttributes()
