@@ -240,15 +240,25 @@ public class EntityHelper
 
     public static List<LivingEntity> getTargetableLivingEntitiesInInflatedBoundingBox(Entity searchSource, double inflateValue, Predicate<Entity> targetCondition)
     {
-        return getEntitiesInInflatedBoundingBox(searchSource, inflateValue).stream()
+        return getTargetableLivingEntitiesInInflatedBoundingBox(searchSource, inflateValue, 0.0F, targetCondition);
+    }
+
+    public static List<LivingEntity> getTargetableLivingEntitiesInInflatedBoundingBox(Entity searchSource, double boundingBoxInflateValue, double boundingBoxYOffset, Predicate<Entity> targetCondition)
+    {
+        return getEntitiesInInflatedBoundingBox(searchSource, boundingBoxInflateValue,boundingBoxYOffset).stream()
                 .filter(entity -> entity instanceof LivingEntity)
                 .filter(entity -> targetCondition.test(entity))
                 .map(entity -> (LivingEntity) entity)
                 .collect(Collectors.toList());
     }
 
-    public static List<Entity> getEntitiesInInflatedBoundingBox(Entity searchSource, double inflateValue)
+    public static List<Entity> getEntitiesInInflatedBoundingBox(Entity searchSource, double boundingBoxInflateValue)
     {
-        return searchSource.level().getEntities(searchSource, searchSource.getBoundingBox().inflate(inflateValue), EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+        return getEntitiesInInflatedBoundingBox(searchSource, boundingBoxInflateValue, 0.0F);
+    }
+
+    public static List<Entity> getEntitiesInInflatedBoundingBox(Entity searchSource, double boundingBoxInflateValue, double boundingBoxYOffset)
+    {
+        return searchSource.level().getEntities(searchSource, searchSource.getBoundingBox().move(0.0F, boundingBoxYOffset, 0.0F).inflate(boundingBoxInflateValue), EntitySelector.NO_CREATIVE_OR_SPECTATOR);
     }
 }

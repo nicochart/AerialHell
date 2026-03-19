@@ -211,7 +211,7 @@ public class LilithEntity extends AbstractBossEntity implements StagedActivableE
 		if (transformingTicks > 12)
 		{
 			int range = 15;
-			List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), range));
+			List<LivingEntity> nearbyEntities = EntityHelper.getTargetableLivingEntitiesInInflatedBoundingBox(this, 20, EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), range));
 			this.dragOrRepulseEntities(nearbyEntities, NearbyEntitiesInteractionInfo.DRAG_NEAR, 4.0F, range);
 
 			for (Entity entity : nearbyEntities)

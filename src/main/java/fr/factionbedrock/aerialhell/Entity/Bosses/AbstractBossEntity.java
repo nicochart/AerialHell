@@ -440,28 +440,31 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	protected void dragOrRepulseEntities(NearbyEntitiesInteractionInfo type, float factor, int range, int boundingBoxInflate)
 	{
 		if (type == NearbyEntitiesInteractionInfo.NONE) {return;}
-		List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(boundingBoxInflate), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), range));
+		List<LivingEntity> nearbyEntities = EntityHelper.getTargetableLivingEntitiesInInflatedBoundingBox(this, boundingBoxInflate, this.getDragOrRepulseSourcePosRelativeY(), (potentialTarget) -> !potentialTarget.is(this) && EntitySelector.withinDistance(this.getDragOrRepulseSourcePos().x, this.getDragOrRepulseSourcePos().y, this.getDragOrRepulseSourcePos().z, range).test(potentialTarget));
 		dragOrRepulseEntities(nearbyEntities, type, factor, range);
 	}
 
-	protected void dragOrRepulseEntities(List<Entity> entities, NearbyEntitiesInteractionInfo type, float factor, int range)
+	protected void dragOrRepulseEntities(List<LivingEntity> entities, NearbyEntitiesInteractionInfo type, float factor, int range)
 	{
 		for (Entity entity : entities)
 		{
-			if (canDragOrRepulseEntity(entity)) {dragOrRepulseEntity(entity, factor, type, range);}
+			if (canDragOrRepulseEntity(entity)) {dragOrRepulseEntity(this.getDragOrRepulseSourcePos(), entity, factor, type, range);}
 		}
 	}
 
-	protected void dragOrRepulseEntity(Entity entity, float factor, NearbyEntitiesInteractionInfo interactionInfo, int range)
+	protected Vec3 getDragOrRepulseSourcePos() {return this.position().add(0.0F, this.getDragOrRepulseSourcePosRelativeY(), 0.0F);}
+	protected float getDragOrRepulseSourcePosRelativeY() {return 0.0F;} //override this if source pos should be higher
+
+	protected static void dragOrRepulseEntity(Vec3 sourcePos, Entity targetEntity, float factor, NearbyEntitiesInteractionInfo interactionInfo, int range)
 	{
 		if (interactionInfo.noInteraction()) {return;}
 		float dragOrRepulseFactor = interactionInfo.getType().isDrag() ? 1.0F : -1.0F;
 
 		float falloffFactor, distance;
-		if (interactionInfo.getFalloff().isUniform()) {distance = Math.max(1, this.distanceTo(entity)); falloffFactor = 0.001F / distance;}
+		if (interactionInfo.getFalloff().isUniform()) {distance = (float)Math.max(1, sourcePos.distanceTo(targetEntity.position())); falloffFactor = 0.001F / distance;}
 		else
 		{
-			distance = Math.max(5, this.distanceTo(entity));
+			distance = (float)Math.max(5, sourcePos.distanceTo(targetEntity.position()));
 			if (interactionInfo.getFalloff().increasesNear()) {falloffFactor = 0.1F / distance;} //increasesNear
 			else if (interactionInfo.getFalloff().decreasesNear()) {falloffFactor = distance / 500.0F;} //decreasesNear
 			else {return;}
@@ -470,13 +473,13 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		}
 
 		float smoothingFactor = smoothingFactor(distance, range, interactionInfo);
-		dragOrRepulseEntity(entity, factor * falloffFactor * dragOrRepulseFactor * smoothingFactor);
+		dragOrRepulseEntity(sourcePos, targetEntity, factor * falloffFactor * dragOrRepulseFactor * smoothingFactor);
 	}
 
-	protected void dragOrRepulseEntity(Entity entity, float factor)
+	protected static void dragOrRepulseEntity(Vec3 sourcePos, Entity targetEntity, float factor)
 	{
-		Vec3 toBoss = new Vec3(this.getX() - entity.getX(), this.getY() - entity.getY(), this.getZ() - entity.getZ()).multiply(factor, factor, factor);
-		entity.setDeltaMovement(entity.getDeltaMovement().add(toBoss));
+		Vec3 toBoss = new Vec3(sourcePos.x - targetEntity.getX(), sourcePos.y - targetEntity.getY(), sourcePos.z - targetEntity.getZ()).multiply(factor, factor, factor);
+		targetEntity.setDeltaMovement(targetEntity.getDeltaMovement().add(toBoss));
 	}
 
 	protected static float smoothingFactor(float distance, float range, NearbyEntitiesInteractionInfo interactionInfo)

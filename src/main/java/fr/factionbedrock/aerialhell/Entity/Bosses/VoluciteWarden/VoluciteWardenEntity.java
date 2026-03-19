@@ -2,13 +2,14 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
-import fr.factionbedrock.aerialhell.Entity.Bosses.AbstractBossEntity;
-import fr.factionbedrock.aerialhell.Entity.Bosses.BossPhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
-import fr.factionbedrock.aerialhell.Entity.Bosses.NearbyEntitiesInteractionInfo;
+import fr.factionbedrock.aerialhell.Entity.ActivableEntity;
+import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
+import fr.factionbedrock.aerialhell.Entity.StagedActivableEntity;
+import fr.factionbedrock.aerialhell.Entity.Util.ActivableEntityInfo;
+import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
@@ -42,8 +43,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
-public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPartEntity
+public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPartEntity, StagedActivableEntity
 {
+	public static float EYE_RELATIVE_HEIGHT = 34.50F;
+	public static float CORE_RELATIVE_HEIGHT = 20.50F;
+
 	/* -- MasterPartEntity fields -- */
 	private static final EntityDataAccessor<Integer> RIGHT_ARM_SEGMENT_1_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Integer> RIGHT_ARM_SEGMENT_2_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
@@ -101,6 +105,12 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	private final PartInfo NECK = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_NECK.get(), "neck", NECK_ID, new Vec3(0.0F, 26.5F, 0.0F), PARTS_MAP);
 	private final PartInfo HEAD = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_HEAD.get(), "head", HEAD_ID, new Vec3(0.0F, 30.5F, 0.0F), PARTS_MAP);
 	/* ----------------------------- */
+	/* --- StagedActivableEntity fields --- */
+	private static final EntityDataAccessor<Boolean> AWAKENING = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.BOOLEAN);
+	StagedActivableEntityInfo.ActivatingPhaseParameters VOLUCITE_WARDEN_AWAKENING = PLAY_ACTIVATING_PHASE_ONLY_ONCE.copy().activatingThreshold(120).activatingStartSoundHelper(new PlaySoundHelper(AerialHellSoundEvents.ENTITY_WARDEN_VOLUCITE_GOLEM_ACTIVATION.get(), 5.0F, 1.6F));
+	public final ActivableEntityInfo VOLUCITE_WARDEN_ACTIVABLE_INFO = new ActivableEntityInfo(ACTIVE, ActivableEntity.ONLY_HURT.copy());
+	public final StagedActivableEntityInfo STAGED_ACTIVABLE_INFO = new StagedActivableEntityInfo(this.VOLUCITE_WARDEN_ACTIVABLE_INFO, AWAKENING, VOLUCITE_WARDEN_AWAKENING);
+	/* -------------------------------------- */
 
 	public int timeDying;
 
@@ -121,12 +131,25 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		/* -- MasterPartEntity synched data -- */
 		defineAll(builder, RIGHT_ARM_SEGMENT_1_ID, RIGHT_ARM_SEGMENT_2_ID, RIGHT_ARM_SEGMENT_3_ID, RIGHT_ARM_SEGMENT_4_ID, RIGHT_ARM_SEGMENT_5_ID, RIGHT_ARM_SEGMENT_6_ID, RIGHT_ARM_SEGMENT_7_ID, LEFT_ARM_SEGMENT_1_ID, LEFT_ARM_SEGMENT_2_ID, LEFT_ARM_SEGMENT_3_ID, LEFT_ARM_SEGMENT_4_ID, LEFT_ARM_SEGMENT_5_ID, LEFT_ARM_SEGMENT_6_ID, LEFT_ARM_SEGMENT_7_ID, RIGHT_LEG_ID, LEFT_LEG_ID, PELVIS_ID, ABDOMEN_ID, LOWER_CHEST_ID, UPPER_CHEST_ID, CORE_ID, FRONT_RIGHT_CORE_RIB_ID, FRONT_LEFT_CORE_RIB_ID, BACK_RIGHT_CORE_RIB_ID, BACK_LEFT_CORE_RIB_ID, NECK_ID, HEAD_ID);
 		/* ----------------------------------- */
+		builder.define(AWAKENING, false);
 	}
 
 	@SafeVarargs private static void defineAll(SynchedEntityData.Builder builder, EntityDataAccessor<Integer>... dataAccessors)
 	{
 		for (EntityDataAccessor<Integer> dataAccessor : dataAccessors) {builder.define(dataAccessor, 0);}
 	}
+
+	/* ------- StagedActivableEntity : Interface method implementation ------- */
+	@Override public StagedActivableEntityInfo getActivableInfo() {return STAGED_ACTIVABLE_INFO;}
+	/* ----------------------------------------------------------------------- */
+
+	/* ------- StagedActivableEntity : overriden methods pour specific behavior ------- */
+	@Override public void onActivatingPhaseTick()
+	{
+		StagedActivableEntity.super.onActivatingPhaseTick();
+		this.dragOrRepulseEntities(NearbyEntitiesInteractionInfo.REPULSE_UNIFORM, 500.0F, 25, 25);
+	}
+	/* -------------------------------------------------------------------------------- */
 
 	/* ------------------------------------------------------------------------- */
 	/* ---------- MasterPartEntity : Interface methods implementation ---------- */
@@ -244,7 +267,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* --------------------------------------------------------------------------------------------------- */
 	/* ----------- MasterPartEntity : Superclass methods Overridden for part-specific behavior ----------- */
 	/* --------------------------------------------------------------------------------------------------- */
-	@Override public double getEyeY() {return this.position().y + 34.50F;}
+	@Override public double getEyeY() {return this.position().y + EYE_RELATIVE_HEIGHT;}
 
 	@Override public boolean isAttackable() {return false;} //makes damage is not called when a player left-clicks on the hitbox, but the left-click hitbox collision still happen
 	@Override public boolean isPickable() {return false;} //disables left-click and right-click hitbox collision
@@ -305,7 +328,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
-		this.goalSelector.addGoal(4, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
+		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
     }
 
@@ -431,4 +454,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
             }
 		}
 	}
+
+	@Override protected float getDragOrRepulseSourcePosRelativeY() {return CORE_RELATIVE_HEIGHT;}
 }
