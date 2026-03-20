@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
-import fr.factionbedrock.aerialhell.Entity.ActivableEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
@@ -27,7 +26,6 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
@@ -107,9 +105,11 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ----------------------------- */
 	/* --- StagedActivableEntity fields --- */
 	private static final EntityDataAccessor<Boolean> AWAKENING = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> AWAKENED = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.BOOLEAN);
 	StagedActivableEntityInfo.ActivatingPhaseParameters VOLUCITE_WARDEN_AWAKENING = PLAY_ACTIVATING_PHASE_ONLY_ONCE.copy().activatingThreshold(120).activatingStartSoundHelper(new PlaySoundHelper(AerialHellSoundEvents.ENTITY_WARDEN_VOLUCITE_GOLEM_ACTIVATION.get(), 5.0F, 1.6F));
-	public final ActivableEntityInfo VOLUCITE_WARDEN_ACTIVABLE_INFO = new ActivableEntityInfo(ACTIVE, ActivableEntity.ONLY_HURT.copy());
-	public final StagedActivableEntityInfo STAGED_ACTIVABLE_INFO = new StagedActivableEntityInfo(this.VOLUCITE_WARDEN_ACTIVABLE_INFO, AWAKENING, VOLUCITE_WARDEN_AWAKENING);
+	public final ActivableEntityInfo.ActivationMethod VOLUCITE_WARDEN_ACTIVATION_METHOD = this.AERIAL_HELL_ACTIVABLE_ACTIVATION_METHOD.copy().activateOnlyOnHitCondition((entity) -> entity instanceof VoluciteWardenEntity voluciteWarden && !voluciteWarden.alreadyActivatedOnce()); //only on hit for first activation
+	public final ActivableEntityInfo VOLUCITE_WARDEN_ACTIVABLE_INFO = new ActivableEntityInfo(ACTIVE, VOLUCITE_WARDEN_ACTIVATION_METHOD);
+	public final StagedActivableEntityInfo STAGED_ACTIVABLE_INFO = new StagedActivableEntityInfo(this.VOLUCITE_WARDEN_ACTIVABLE_INFO, AWAKENING, AWAKENED, VOLUCITE_WARDEN_AWAKENING);
 	/* -------------------------------------- */
 
 	public int timeDying;
@@ -132,6 +132,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		defineAll(builder, RIGHT_ARM_SEGMENT_1_ID, RIGHT_ARM_SEGMENT_2_ID, RIGHT_ARM_SEGMENT_3_ID, RIGHT_ARM_SEGMENT_4_ID, RIGHT_ARM_SEGMENT_5_ID, RIGHT_ARM_SEGMENT_6_ID, RIGHT_ARM_SEGMENT_7_ID, LEFT_ARM_SEGMENT_1_ID, LEFT_ARM_SEGMENT_2_ID, LEFT_ARM_SEGMENT_3_ID, LEFT_ARM_SEGMENT_4_ID, LEFT_ARM_SEGMENT_5_ID, LEFT_ARM_SEGMENT_6_ID, LEFT_ARM_SEGMENT_7_ID, RIGHT_LEG_ID, LEFT_LEG_ID, PELVIS_ID, ABDOMEN_ID, LOWER_CHEST_ID, UPPER_CHEST_ID, CORE_ID, FRONT_RIGHT_CORE_RIB_ID, FRONT_LEFT_CORE_RIB_ID, BACK_RIGHT_CORE_RIB_ID, BACK_LEFT_CORE_RIB_ID, NECK_ID, HEAD_ID);
 		/* ----------------------------------- */
 		builder.define(AWAKENING, false);
+		builder.define(AWAKENED, false);
 	}
 
 	@SafeVarargs private static void defineAll(SynchedEntityData.Builder builder, EntityDataAccessor<Integer>... dataAccessors)
@@ -147,7 +148,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	@Override public void onActivatingPhaseTick()
 	{
 		StagedActivableEntity.super.onActivatingPhaseTick();
-		this.dragOrRepulseEntities(NearbyEntitiesInteractionInfo.REPULSE_UNIFORM, 500.0F, 25, 25);
+		this.dragOrRepulseEntities(NearbyEntitiesInteractionInfo.REPULSE_UNIFORM, 500.0F, 30, 30);
 	}
 	/* -------------------------------------------------------------------------------- */
 
