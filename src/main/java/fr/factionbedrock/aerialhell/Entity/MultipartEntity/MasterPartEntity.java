@@ -202,7 +202,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     private boolean tryToFindBackPart(PartInfo partInfo)
     {
-        this.setPartRaw(partInfo, this.getHeadByUUID(this.getPartStringUUID(partInfo)));
+        this.setPartRaw(partInfo, this.getPartByUUID(this.getPartStringUUID(partInfo)));
         if (this.getPartRaw(partInfo) != null)
         {
             this.setPartEntityId(partInfo, this.getPartRaw(partInfo).getId());
@@ -212,7 +212,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         return false; //return false if part is still not found
     }
 
-    @Nullable default PartEntity getHeadByUUID(@Nullable String stringUUID)
+    @Nullable default PartEntity getPartByUUID(@Nullable String stringUUID)
     {
         if (stringUUID == null) {return null;}
 
@@ -265,15 +265,16 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         {
             Entity self = this.getSelf();
             Entity entity = self.getType().spawn(serverLevel, this.getSelf().blockPosition(), EntitySpawnReason.NATURAL);
+            if (entity == null) {return;}
             entity.snapTo(self.getX(), self.getY(), self.getZ(), self.getYRot(), self.getXRot());
-        }
 
-        for (PartInfo partInfo : this.getPartInfoMap().values())
-        {
-            PartEntity part = partInfo.getPart();
-            if (part != null) {part.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);}
+            for (PartInfo partInfo : this.getPartInfoMap().values())
+            {
+                PartEntity part = partInfo.getPart();
+                if (part != null) {part.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);}
+            }
+            this.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);
         }
-        this.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);
     }
 
     default void summonChildParts()
