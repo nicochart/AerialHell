@@ -177,7 +177,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 				part.yHeadRotO = part.yHeadRot;
 				part.yHeadRot = this.yHeadRot;
 				part.setXRot(this.getXRot());
-				part.setYRot(this.getYRot());
+				part.setYRot(this.yBodyRot);
 			}
 		}
 	}
@@ -328,7 +328,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
     {
 		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
+		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
 		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
     }

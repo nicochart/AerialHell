@@ -39,6 +39,11 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------- */
     default void partEntityTick() //call in tick()
     {
+        if (this.getSelf().yBodyRot != this.getSelf().yBodyRotO)
+        {
+            this.setPartsPos(this.getX(), this.getY(), this.getZ());
+        }
+
         for (PartInfo partInfo : this.getPartInfoMap().values())
         {
             PartEntity synchedPartEntity = this.syncPart(partInfo); //server-client part sync
@@ -336,7 +341,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     default Vec3 rotatePartPos(Vec3 vec)
     {
-        float yRot = (float) Math.toRadians(this.getSelf().getYRot());
+        float yRot = (float) Math.toRadians(this.getSelf().yBodyRot);
         return vec.yRot(-yRot);
     }
 
