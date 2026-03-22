@@ -42,7 +42,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     /* -- MasterPartEntity fields -- */
     public final Map<String, PartInfo> PARTS_MAP = Maps.newHashMap();
     private static final EntityDataAccessor<Integer> HEAD_ID = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.INT);
-    private final PartInfo HEAD = new PartInfo(AerialHellEntities.VOLUCITE_GOLEM_HEAD.get(), "head", HEAD_ID, new Vec3(0.0F, 2.15F, 0.0F), PARTS_MAP);
+    private final PartInfo HEAD = new PartInfo(AerialHellEntities.VOLUCITE_GOLEM_HEAD.get(), "head", HEAD_ID, new Vec3(0.0F, 2.15F, 0.0F), true, PARTS_MAP);
     /* ----------------------------- */
 
     public VoluciteGolemEntity(EntityType<? extends Monster> type, Level level)
@@ -64,37 +64,32 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     /* ---------- MasterPartEntity : Interface methods implementation ---------- */
     /* ------------------------------------------------------------------------- */
     @Override public Map<String, PartInfo> getPartInfoMap() {return this.PARTS_MAP;}
+    /* ------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------- */
 
-    @Override public void tickPartRotation(PartInfo partInfo, @NotNull PartEntity partEntity)
+    /* ------------------------------------------------------------------------------------------- */
+    /* ---------- MasterPartEntity : Interface methods Overridden for specific behavior ---------- */
+    /* ------------------------------------------------------------------------------------------- */
+    @Override public void tickHeadPartRotation(PartInfo partInfo, @NotNull PartEntity headPartEntity)
     {
-        if (partInfo == HEAD && partEntity instanceof VoluciteGolemHeadEntity headPart)
+        if (headPartEntity instanceof VoluciteGolemHeadEntity headPart && headPart.isBeaming())
         {
-            if (!headPart.isBeaming())
+            float xRot = 0.0F;
+            if (headPart.getBeamTargetPos() != null)
             {
-                headPart.yBodyRotO = headPart.yBodyRot;
-                headPart.yBodyRot = this.yHeadRot; //the whole "body" is head
-                headPart.yHeadRotO = headPart.yHeadRot;
-                headPart.yHeadRot = this.yHeadRot;
-                headPart.setXRot(this.getXRot());
-                headPart.setYRot(this.getYRot());
+                xRot = this.calculateXRotFromOriginToTarget(this.getEyePosition(), headPart.getBeamTargetPos());
             }
-            else
-            {
-                float xRot = 0.0F;
-                if (headPart.getBeamTargetPos() != null)
-                {
-                    xRot = this.calculateXRotFromOriginToTarget(this.getEyePosition(), headPart.getBeamTargetPos());
-                }
 
-                headPart.yBodyRot = headPart.yHeadRot;
-                headPart.setXRot(xRot);
-                headPart.setYRot(headPart.yHeadRot);
-            }
+            headPart.yBodyRot = headPart.yHeadRot;
+            headPart.setXRot(xRot);
+            headPart.setYRot(headPart.yHeadRot);
         }
+        else {MasterPartEntity.super.tickHeadPartRotation(partInfo, headPartEntity);}
     }
-    /* ------------------------------------------------------------------------- */
-    /* ------------------------------------------------------------------------- */
-    /* ------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------- */
 
     /* ----------------------------------------------------------------------------------------------- */
     /* ---------- MasterPartEntity : Superclass methods Overridden to delegate to interface ---------- */
@@ -123,24 +118,6 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
         this.partAiStep();
     }
 
-    @Override public void setPos(double x, double y, double z)
-    {
-        super.setPos(x, y, z);
-        this.setPartsPos(x, y, z);
-    }
-
-    @Override public void setXRot(float xRot)
-    {
-        super.setXRot(xRot);
-        this.setPartsXRot(xRot);
-    }
-
-    @Override public void setYRot(float yRot)
-    {
-        super.setYRot(yRot);
-        this.setPartsYRot(yRot);
-    }
-
     @Override public void addAdditionalSaveData(ValueOutput valueOutput)
     {
         super.addAdditionalSaveData(valueOutput);
@@ -163,7 +140,6 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     /* ----------------------------------------------------------------------------------------------- */
     /* ----------------------------------------------------------------------------------------------- */
     /* ----------------------------------------------------------------------------------------------- */
-
 
     /* --------------------------------------------------------------------------------------------------- */
     /* ----------- MasterPartEntity : Superclass methods Overridden for part-specific behavior ----------- */

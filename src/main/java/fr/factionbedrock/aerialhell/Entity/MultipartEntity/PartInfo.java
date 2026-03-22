@@ -16,10 +16,13 @@ public class PartInfo
     @Nullable private String partEntityUUID; //entity uuid
     private final Vec3 relativePositionOffset;
     private int ticksInInvalidSituation;
+    private boolean isHead;
 
-    public PartInfo(EntityType<?> type, String name, EntityDataAccessor<Integer> entityIdDataAccessor, Map<String, PartInfo> partsMap) {this(type, name, entityIdDataAccessor, Vec3.ZERO, partsMap);}
+    public PartInfo(EntityType<?> type, String name, EntityDataAccessor<Integer> entityIdDataAccessor, Map<String, PartInfo> partsMap) {this(type, name, entityIdDataAccessor, Vec3.ZERO, false, partsMap);}
 
-    public PartInfo(EntityType<?> type, String name, EntityDataAccessor<Integer> entityIdDataAccessor, Vec3 relativePositionOffset, Map<String, PartInfo> partsMap)
+    public PartInfo(EntityType<?> type, String name, EntityDataAccessor<Integer> entityIdDataAccessor, Vec3 relativePositionOffset, Map<String, PartInfo> partsMap) {this(type, name, entityIdDataAccessor, relativePositionOffset, false, partsMap);}
+
+    public PartInfo(EntityType<?> type, String name, EntityDataAccessor<Integer> entityIdDataAccessor, Vec3 relativePositionOffset, boolean isHead, Map<String, PartInfo> partsMap)
     {
         this.type = type;
         this.name = name;
@@ -27,6 +30,7 @@ public class PartInfo
         this.relativePositionOffset = relativePositionOffset;
         partsMap.put(name, this);
         this.ticksInInvalidSituation = 0;
+        this.isHead = isHead;
     }
 
     public EntityType<?> getType() {return type;}
@@ -41,4 +45,6 @@ public class PartInfo
     public int getTicksInInvalidSituation() {return ticksInInvalidSituation;}
     public void incrementTicksInInvalidSituation() {this.ticksInInvalidSituation += 1;}
     public void resetTicksInInvalidSituation() {this.ticksInInvalidSituation = 0;}
+
+    public boolean isHead() {return this.isHead;}
 }

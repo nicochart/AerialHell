@@ -102,7 +102,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	private final PartInfo BACK_RIGHT_CORE_RIB = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CORE_RIB.get(), "back_right_core_rib", BACK_RIGHT_CORE_RIB_ID, new Vec3(4.0F, 18.5F, -4.0F), PARTS_MAP);
 	private final PartInfo BACK_LEFT_CORE_RIB = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_CORE_RIB.get(), "back_left_core_rib", BACK_LEFT_CORE_RIB_ID, new Vec3(-4.0F, 18.5F, -4.0F), PARTS_MAP);
 	private final PartInfo NECK = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_NECK.get(), "neck", NECK_ID, new Vec3(0.0F, 26.5F, 0.0F), PARTS_MAP);
-	private final PartInfo HEAD = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_HEAD.get(), "head", HEAD_ID, new Vec3(0.0F, 30.5F, 0.0F), PARTS_MAP);
+	private final PartInfo HEAD = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_HEAD.get(), "head", HEAD_ID, new Vec3(0.0F, 30.5F, 0.0F), true, PARTS_MAP);
 	/* ----------------------------- */
 	/* --- StagedActivableEntity fields --- */
 	private static final EntityDataAccessor<Boolean> AWAKENING = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.BOOLEAN);
@@ -157,31 +157,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ---------- MasterPartEntity : Interface methods implementation ---------- */
 	/* ------------------------------------------------------------------------- */
 	@Override public Map<String, PartInfo> getPartInfoMap() {return this.PARTS_MAP;}
-
-	@Override public void tickPartRotation(PartInfo partInfo, @NotNull PartEntity partEntity)
-	{
-		if (partEntity instanceof VoluciteWardenPartEntity part)
-		{
-			if (partInfo == HEAD)
-			{
-				part.yBodyRotO = part.yBodyRot;
-				part.yBodyRot = this.yHeadRot; //the whole "body" is head
-				part.yHeadRotO = part.yHeadRot;
-				part.yHeadRot = this.yHeadRot;
-				part.setXRot(this.getXRot());
-				part.setYRot(this.getYRot());
-			}
-			else
-			{
-				part.yBodyRotO = part.yBodyRot;
-				part.yBodyRot = this.yBodyRot;
-				part.yHeadRotO = part.yHeadRot;
-				part.yHeadRot = this.yHeadRot;
-				part.setXRot(this.getXRot());
-				part.setYRot(this.yBodyRot);
-			}
-		}
-	}
 	/* ------------------------------------------------------------------------- */
 	/* ------------------------------------------------------------------------- */
 	/* ------------------------------------------------------------------------- */
@@ -224,24 +199,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		}
 	}
 
-	@Override public void setPos(double x, double y, double z)
-	{
-		super.setPos(x, y, z);
-		this.setPartsPos(x, y, z);
-	}
-
-	@Override public void setXRot(float xRot)
-	{
-		super.setXRot(xRot);
-		this.setPartsXRot(xRot);
-	}
-
-	@Override public void setYRot(float yRot)
-	{
-		super.setYRot(yRot);
-		this.setPartsYRot(yRot);
-	}
-
 	@Override public void addAdditionalSaveData(ValueOutput valueOutput)
 	{
 		super.addAdditionalSaveData(valueOutput);
@@ -264,7 +221,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ----------------------------------------------------------------------------------------------- */
 	/* ----------------------------------------------------------------------------------------------- */
 	/* ----------------------------------------------------------------------------------------------- */
-
 
 	/* --------------------------------------------------------------------------------------------------- */
 	/* ----------- MasterPartEntity : Superclass methods Overridden for part-specific behavior ----------- */
@@ -416,7 +372,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 		public ArmPartInfo(EntityType<?> type, String name, int segmentIndex, EntityDataAccessor<Integer> entityIdDataAccessor, Vec3 relativePositionOffset, boolean isRightArm, Map<String, PartInfo> partsMap)
 		{
-			super(type, name, entityIdDataAccessor, relativePositionOffset, partsMap);
+			super(type, name, entityIdDataAccessor, relativePositionOffset, false, partsMap);
 			this.segmentIndex = segmentIndex;
 			this.isRightArm = isRightArm;
 		}
