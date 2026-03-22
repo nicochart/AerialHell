@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.DirectMeleeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
@@ -330,6 +331,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
 		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
+		this.goalSelector.addGoal(4, new ConditionalGoal(this, new DirectMeleeAttackGoal(this, 1.25D, 4.0D)));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
     }
 
