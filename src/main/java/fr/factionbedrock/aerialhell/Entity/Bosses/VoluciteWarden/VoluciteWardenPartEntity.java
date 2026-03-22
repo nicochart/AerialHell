@@ -64,6 +64,12 @@ public class VoluciteWardenPartEntity extends Monster implements PartEntity
         this.partEntityTick();
         super.tick();
     }
+
+    @Override public void aiStep()
+    {
+        super.aiStep();
+        this.partEntityAiStep();
+    }
     /* ----------------------------------------------------------------------------------------- */
     /* ----------------------------------------------------------------------------------------- */
     /* ----------------------------------------------------------------------------------------- */
