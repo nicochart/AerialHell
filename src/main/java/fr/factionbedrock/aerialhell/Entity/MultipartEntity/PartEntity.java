@@ -42,7 +42,7 @@ public interface PartEntity extends BaseMobEntityInterface
         else {this.resetTicksInInvalidSituation();}
     }
 
-    default void partEntityAiStep() //call in aiStep() AFTER super.aiStep() - fixes head xRot interpolation problem after disconnect-reconnect
+    default void partEntityAiStep() //call in aiStep() AFTER super.aiStep()
     {
         MasterPartEntity master = this.getMaster();
         PartInfo partInfo = this.getPartInfo();
@@ -53,12 +53,6 @@ public interface PartEntity extends BaseMobEntityInterface
 
             //updating rot
             master.setPartRotation(partInfo);
-        }
-
-        if (this.getLevel().isClientSide() && this.getMaster() != null)
-        {
-            this.setXRot(this.getMaster().getSelf().getXRot());
-            this.getSelf().xRotO = this.getSelf().getXRot(); //after disconnect-reconnect, the interpolator loops setting xRot to 0 if you don't set xRot0 to xRot.
         }
     }
 

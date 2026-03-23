@@ -129,8 +129,6 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         if (partInfo.getPart() == null) {return;}
         Mob part = partInfo.getPart().getSelf();
         Mob self = this.getSelf();
-        part.yBodyRotO = part.yBodyRot;
-        part.yHeadRotO = part.yHeadRot;
 
         part.yBodyRot = self.yHeadRot; //the whole "body" is head
         part.yHeadRot = self.yHeadRot;
@@ -143,8 +141,6 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         if (partInfo.getPart() == null) {return;}
         Mob part = partInfo.getPart().getSelf();
         Mob self = this.getSelf();
-        part.yBodyRotO = part.yBodyRot;
-        part.yHeadRotO = part.yHeadRot;
 
         part.yBodyRot = self.yBodyRot;
         part.yHeadRot = self.yHeadRot;
@@ -314,7 +310,6 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     {
         if (partInfo.getPart() != null)
         {
-            Vec3 masterPos = this.getSelf().position();
             Vec3 partPos = this.calculatePartPos(partInfo);
             partInfo.getPart().setPos(partPos.x, partPos.y, partPos.z);
         }
