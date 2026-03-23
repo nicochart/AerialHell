@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
-import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartInfo;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartContext;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -19,7 +19,8 @@ public class VoluciteWardenPartEntity extends Monster implements PartEntity
 {
     /* -- PartEntity fields -- */
     private static final EntityDataAccessor<Integer> MASTER_ID = SynchedEntityData.defineId(VoluciteWardenPartEntity.class, EntityDataSerializers.INT);
-    private final MasterPartInfo MASTER = new MasterPartInfo(MASTER_ID);
+    private static final EntityDataAccessor<String> PART_NAME = SynchedEntityData.defineId(VoluciteWardenPartEntity.class, EntityDataSerializers.STRING);
+    private final PartContext MASTER = new PartContext(MASTER_ID, PART_NAME);
     /* ----------------------- */
 
     public VoluciteWardenPartEntity(EntityType<? extends Monster> type, Level level)
@@ -33,6 +34,7 @@ public class VoluciteWardenPartEntity extends Monster implements PartEntity
 
         /* -- PartEntity synched data -- */
         builder.define(MASTER_ID, 0);
+        builder.define(PART_NAME, "");
         /* ----------------------------- */
     }
 
@@ -44,7 +46,7 @@ public class VoluciteWardenPartEntity extends Monster implements PartEntity
     @Override public boolean partSuperHurtServer(ServerLevel level, DamageSource source, float amount) {return super.hurtServer(level, source, amount);}
     @Override public boolean isPartInvulnerableToBase(DamageSource damageSource) {return super.isInvulnerableToBase(damageSource);}
 
-    @Override public MasterPartInfo getMasterInfo() {return this.MASTER;}
+    @Override public PartContext getMasterInfo() {return this.MASTER;}
     /* ------------------------------------------------------------------- */
     /* ------------------------------------------------------------------- */
     /* ------------------------------------------------------------------- */

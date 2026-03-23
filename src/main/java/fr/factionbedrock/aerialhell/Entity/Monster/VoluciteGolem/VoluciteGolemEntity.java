@@ -32,7 +32,6 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -71,9 +70,10 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     /* ------------------------------------------------------------------------------------------- */
     /* ---------- MasterPartEntity : Interface methods Overridden for specific behavior ---------- */
     /* ------------------------------------------------------------------------------------------- */
-    @Override public void tickHeadPartRotation(PartInfo partInfo, @NotNull PartEntity headPartEntity)
+    @Override public void tickHeadPartRotation(PartInfo partInfo)
     {
-        if (headPartEntity instanceof VoluciteGolemHeadEntity headPart && headPart.isBeaming())
+        if (partInfo.getPart() == null) {return;}
+        if (partInfo.getPart().getSelf() instanceof VoluciteGolemHeadEntity headPart && headPart.isBeaming())
         {
             float xRot = 0.0F;
             if (headPart.getBeamTargetPos() != null)
@@ -85,7 +85,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
             headPart.setXRot(xRot);
             headPart.setYRot(headPart.yHeadRot);
         }
-        else {MasterPartEntity.super.tickHeadPartRotation(partInfo, headPartEntity);}
+        else {MasterPartEntity.super.tickHeadPartRotation(partInfo);}
     }
     /* ------------------------------------------------------------------------------------------- */
     /* ------------------------------------------------------------------------------------------- */
@@ -110,12 +110,6 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     {
         super.tick();
         this.partEntityTick();
-    }
-
-    @Override public void aiStep()
-    {
-        super.aiStep();
-        this.partAiStep();
     }
 
     @Override public void addAdditionalSaveData(ValueOutput valueOutput)

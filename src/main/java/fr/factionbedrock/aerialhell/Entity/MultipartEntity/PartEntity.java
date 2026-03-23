@@ -5,6 +5,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 public interface PartEntity extends BaseMobEntityInterface
@@ -21,7 +22,7 @@ public interface PartEntity extends BaseMobEntityInterface
     boolean partSuperHurtServer(ServerLevel level, DamageSource source, float amount); //override and return super.hurtServer(level, source, amount)
     boolean isPartInvulnerableToBase(DamageSource damageSource); //override and return super.isInvulnerableToBase(damageSource)
 
-    MasterPartInfo getMasterInfo();
+    PartContext getMasterInfo();
     /* ---------------------------------------------------- */
     /* ---------------------------------------------------- */
     /* ---------------------------------------------------- */
@@ -43,6 +44,17 @@ public interface PartEntity extends BaseMobEntityInterface
 
     default void partEntityAiStep() //call in aiStep() AFTER super.aiStep() - fixes head xRot interpolation problem after disconnect-reconnect
     {
+        MasterPartEntity master = this.getMaster();
+        PartInfo partInfo = this.getPartInfo();
+        if (master != null && partInfo != null)
+        {
+            //updating pos
+            master.setPartPos(partInfo);
+
+            //updating rot
+            master.setPartRotation(partInfo);
+        }
+
         if (this.getLevel().isClientSide() && this.getMaster() != null)
         {
             this.setXRot(this.getMaster().getSelf().getXRot());
@@ -88,7 +100,7 @@ public interface PartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------------------- */
     /* -------- Other utility methods (for the interface) -------- */
     /* ----------------------------------------------------------- */
-    default EntityDataAccessor<Integer> getMasterIdData() {return this.getMasterInfo().getIdData();}
+    default EntityDataAccessor<Integer> getMasterIdData() {return this.getMasterInfo().getMasterIdData();}
     default void setMasterRaw(MasterPartEntity master) {this.getMasterInfo().setMaster(master);}
     default @Nullable MasterPartEntity getMasterRaw() {return this.getMasterInfo().getMaster();}
 
@@ -99,6 +111,19 @@ public interface PartEntity extends BaseMobEntityInterface
     default int getMasterId() {return this.getEntityData().get(this.getMasterIdData());}
     default boolean hasMasterId() {return this.getMasterId() != 0;}
     default void setMasterId(int entityId) {this.getEntityData().set(this.getMasterIdData(), entityId);}
+
+    default EntityDataAccessor<String> getPartNameData() {return this.getMasterInfo().getPartNameData();}
+    default String getPartName() {return this.getEntityData().get(this.getPartNameData());}
+    default void setPartName(String name) {this.getEntityData().set(this.getPartNameData(), name);}
+
+    default @Nullable PartInfo getPartInfo()
+    {
+        if (this.getMaster() == null) {return null;}
+        else
+        {
+            return this.getMaster().getPartInfoMap().get(this.getPartName());
+        }
+    }
 
     default void killPart()
     {
