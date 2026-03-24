@@ -41,15 +41,6 @@ public interface PartEntity extends BaseMobEntityInterface
         else {this.resetTicksInInvalidSituation();}
     }
 
-    default void partEntityAiStep() //call in aiStep() AFTER super.aiStep() - fixes head xRot interpolation problem after disconnect-reconnect
-    {
-        if (this.getLevel().isClientSide() && this.getMaster() != null)
-        {
-            this.setXRot(this.getMaster().getSelf().getXRot());
-            this.getSelf().xRotO = this.getSelf().getXRot(); //after disconnect-reconnect, the interpolator loops setting xRot to 0 if you don't set xRot0 to xRot.
-        }
-    }
-
     default boolean partDoHurtServer(ServerLevel level, DamageSource source, float amount, boolean forceLocalDamage) //replace super.hurtServer(level, source, amount) call by this call with false "forceLocalDamage" (do not call super!)
     {
         if (forceLocalDamage) {return this.partSuperHurtServer(level, source, amount);}

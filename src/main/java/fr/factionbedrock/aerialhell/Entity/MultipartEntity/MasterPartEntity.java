@@ -74,9 +74,15 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     default void partAiStep() //call in aiStep()
     {
-        if (this.getLevel().isClientSide()) {return;}
-        this.setPartsPos(this.getX(), this.getY(), this.getZ());
-        this.setPartsRotation();
+        if (this.getLevel().isClientSide())
+        {
+            this.fixPartsXRot();
+        }
+        else
+        {
+            this.setPartsPos(this.getX(), this.getY(), this.getZ());
+            this.setPartsRotation();
+        }
     }
 
     default void partAddAdditionalSaveData(ValueOutput valueOutput) //call in addAdditionalSaveData(valueOutput)
@@ -157,6 +163,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         part.yHeadRot = self.yHeadRot;
         part.setXRot(self.getXRot());
         part.setYRot(self.yBodyRot);
+        part.xRotO = part.getXRot();
     }
     /* --------------------------------------------------------------------- */
     /* --------------------------------------------------------------------- */
@@ -328,6 +335,24 @@ public interface MasterPartEntity extends BaseMobEntityInterface
                 partInfo.getPart().setPos(partPos.x, partPos.y, partPos.z);
             }
         }
+    }
+
+    default void fixPartsXRot()
+    {
+        for (PartInfo partInfo : this.getPartInfoMap().values())
+        {
+            this.fixPartXRot(partInfo);
+        }
+    }
+
+    default void fixPartXRot(PartInfo partInfo)
+    {
+        //client-side, by default (if you don't call this method for all parts), if a multi-part entity was already present after disconnect-reconnect,
+        //the interpolator loops setting xRot to 0 if you don't set xRot0 to xRot.
+        //to avoid this problem, need to manually set xRot0 to the right value.
+        if (partInfo.getPart() == null) {return;}
+        partInfo.getPart().getSelf().setXRot(this.getSelf().getXRot());
+        partInfo.getPart().getSelf().xRotO = this.getSelf().xRotO;
     }
 
     default void setPartsRotation()

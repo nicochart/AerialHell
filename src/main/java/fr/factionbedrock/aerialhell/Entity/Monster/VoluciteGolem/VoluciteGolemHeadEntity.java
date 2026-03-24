@@ -113,12 +113,6 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
     /* ----------------------------------------------------------------------------------------- */
     /* ---------- PartEntity : Superclass methods Overridden to delegate to interface ---------- */
     /* ----------------------------------------------------------------------------------------- */
-    @Override public void aiStep()
-    {
-        super.aiStep();
-        this.partEntityAiStep();
-    }
-
     @Override public void push(Entity other) {if (this.canPartBePushedBy(other)) {super.push(other);}}
     //@Override public void tick() {this.onTick(); super.tick();} done above for both PartEntity & BeamAttackEntity
 
