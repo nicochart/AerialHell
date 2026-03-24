@@ -7,4 +7,5 @@ public class VoluciteWardenRenderState extends LivingEntityRenderState
 {
     public Identifier texture;
     public int walkAnimationDirection;
+    public boolean shouldRender;
 }

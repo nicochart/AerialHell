@@ -23,7 +23,6 @@ public class VoluciteWardenPartModel extends EntityModel<VoluciteWardenRenderSta
 	@Nullable private final ModelPart abdomen;
 	@Nullable private final ModelPart chest;
 	@Nullable private final ModelPart core;
-	@Nullable private final ModelPart core_rib;
 	@Nullable private final ModelPart neck;
 	@Nullable private final ModelPart head;
 
@@ -36,7 +35,6 @@ public class VoluciteWardenPartModel extends EntityModel<VoluciteWardenRenderSta
 		this.abdomen = part == Part.ABDOMEN ? root.getChild("abdomen") : null;
 		this.chest = part == Part.CHEST ? root.getChild("chest") : null;
 		this.core = part == Part.CORE ? root.getChild("core") : null;
-		this.core_rib = part == Part.CORE_RIB ? root.getChild("core_rib") : null;
 		this.neck = part == Part.NECK ? root.getChild("neck") : null;
 		this.head = part == Part.HEAD ? root.getChild("head") : null;
 	}
@@ -82,10 +80,20 @@ public class VoluciteWardenPartModel extends EntityModel<VoluciteWardenRenderSta
 
 		if (part == Part.CHEST)
 		{
-			PartDefinition chest = partdefinition.addOrReplaceChild("chest", CubeListBuilder.create().texOffs(0, 0).addBox(0.0F, -16.0F, -80.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F))
-					.texOffs(0, 112).mirror().addBox(-80.0F, -16.0F, -80.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 8.0F, 0.0F));
-			PartDefinition corebottom3_r1 = chest.addOrReplaceChild("corebottom3_r1", CubeListBuilder.create().texOffs(0, 112).addBox(-40.0F, -16.0F, -40.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(40.0F, 0.0F, 40.0F, 0.0F, -1.5708F, 0.0F));
-			PartDefinition corebottom2_r1 = chest.addOrReplaceChild("corebottom2_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-40.0F, -16.0F, -40.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-40.0F, 0.0F, 40.0F, 0.0F, 3.1416F, 0.0F));
+			PartDefinition chest = partdefinition.addOrReplaceChild("chest", CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, -150.0F, -80.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F))
+					.texOffs(0, 112).mirror().addBox(-81.0F, -150.0F, -80.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F)).mirror(false)
+					.texOffs(0, 0).addBox(-1.0F, -22.0F, -80.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F))
+					.texOffs(0, 112).mirror().addBox(-81.0F, -22.0F, -80.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F)).mirror(false)
+					.texOffs(192, 80).addBox(-81.0F, -118.0F, 48.0F, 32.0F, 96.0F, 32.0F, new CubeDeformation(0.0F))
+					.texOffs(192, 80).mirror().addBox(47.0F, -118.0F, 48.0F, 32.0F, 96.0F, 32.0F, new CubeDeformation(0.0F)).mirror(false)
+					.texOffs(192, 96).mirror().addBox(47.0F, -118.0F, -80.0F, 32.0F, 96.0F, 32.0F, new CubeDeformation(0.0F)).mirror(false)
+					.texOffs(192, 96).addBox(-81.0F, -118.0F, -80.0F, 32.0F, 96.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offset(1.0F, 14.0F, 0.0F));
+
+			PartDefinition corebottom3_r1 = chest.addOrReplaceChild("corebottom3_r1", CubeListBuilder.create().texOffs(0, 112).addBox(-40.0F, -16.0F, -40.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F))
+					.texOffs(0, 112).addBox(-40.0F, -144.0F, -40.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(39.0F, -6.0F, 40.0F, 0.0F, -1.5708F, 0.0F));
+
+			PartDefinition corebottom2_r1 = chest.addOrReplaceChild("corebottom2_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-40.0F, -16.0F, -40.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F))
+					.texOffs(0, 0).addBox(-40.0F, -144.0F, -40.0F, 80.0F, 32.0F, 80.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-41.0F, -6.0F, 40.0F, 0.0F, 3.1416F, 0.0F));
 			textureWidth = 320; textureHeight = 224;
 		}
 
@@ -95,12 +103,6 @@ public class VoluciteWardenPartModel extends EntityModel<VoluciteWardenRenderSta
 					.texOffs(64, 128).addBox(-16.0F, 32.0F, -16.0F, 32.0F, 16.0F, 32.0F, new CubeDeformation(0.0F))
 					.texOffs(64, 128).addBox(-16.0F, -48.0F, -16.0F, 32.0F, 16.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -24.0F, 0.0F));
 			textureWidth = 256; textureHeight = 176;
-		}
-
-		if (part == Part.CORE_RIB)
-		{
-			PartDefinition core_rib = partdefinition.addOrReplaceChild("core_rib", CubeListBuilder.create().texOffs(0, 96).addBox(-16.0F, -48.0F, -16.0F, 32.0F, 96.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -24.0F, 0.0F));
-			textureWidth = 384; textureHeight = 224;
 		}
 
 		if (part == Part.NECK)
@@ -155,7 +157,6 @@ public class VoluciteWardenPartModel extends EntityModel<VoluciteWardenRenderSta
 		if (this.abdomen != null) {this.abdomen.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);}
 		if (this.chest != null) {this.chest.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);}
 		if (this.core != null) {this.core.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);}
-		if (this.core_rib != null) {this.core_rib.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);}
 		if (this.neck != null) {this.neck.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);}
 		if (this.head != null) {this.head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);}
 	}
@@ -168,7 +169,6 @@ public class VoluciteWardenPartModel extends EntityModel<VoluciteWardenRenderSta
 		public static Part ABDOMEN = new Part("volucite_stone_pattern", AerialHellModelLayers.VOLUCITE_WARDEN_ABDOMEN);
 		public static Part CHEST = new Part("chest", AerialHellModelLayers.VOLUCITE_WARDEN_CHEST);
 		public static Part CORE = new Part("core", AerialHellModelLayers.VOLUCITE_WARDEN_CORE);
-		public static Part CORE_RIB = new Part("volucite_stone_pattern", AerialHellModelLayers.VOLUCITE_WARDEN_CORE_RIB);
 		public static Part NECK = new Part("volucite_stone_pattern", AerialHellModelLayers.VOLUCITE_WARDEN_NECK);
 		public static Part HEAD = new Part("head", AerialHellModelLayers.VOLUCITE_WARDEN_HEAD);
 

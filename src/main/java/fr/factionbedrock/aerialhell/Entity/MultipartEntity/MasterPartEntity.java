@@ -12,6 +12,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
@@ -165,6 +166,8 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         part.setYRot(self.yBodyRot);
         part.xRotO = part.getXRot();
     }
+
+    default void onPartSummoned(PartInfo partInfo) {} //additional things to do when part is summoned (write data, set values, for example)
     /* --------------------------------------------------------------------- */
     /* --------------------------------------------------------------------- */
     /* --------------------------------------------------------------------- */
@@ -274,6 +277,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         {
             this.setPartRaw(partInfo, partEntity);
             this.setPartEntityId(partInfo, partEntity.getId());
+            this.onPartSummoned(partInfo);
         }
     }
 

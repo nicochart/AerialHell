@@ -223,6 +223,21 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ----------------------------------------------------------------------------------------------- */
 	/* ----------------------------------------------------------------------------------------------- */
 
+	/* ------------------------------------------------------------------------------------------- */
+	/* ---------- MasterPartEntity : Interface methods Overridden for specific behavior ---------- */
+	/* ------------------------------------------------------------------------------------------- */
+	@Override public void onPartSummoned(PartInfo partInfo)
+	{
+		MasterPartEntity.super.onPartSummoned(partInfo);
+		if (partInfo == this.UPPER_CHEST && partInfo.getPart() != null && partInfo.getPart().getSelf() instanceof VoluciteWardenChestPartEntity chestPartEntity)
+		{
+			chestPartEntity.setRenderOff();
+		}
+	}
+	/* ------------------------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------------------------- */
+
 	/* --------------------------------------------------------------------------------------------------- */
 	/* ----------- MasterPartEntity : Superclass methods Overridden for part-specific behavior ----------- */
 	/* --------------------------------------------------------------------------------------------------- */

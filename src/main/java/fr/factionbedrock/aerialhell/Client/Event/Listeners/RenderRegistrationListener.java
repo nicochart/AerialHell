@@ -60,7 +60,7 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_ABDOMEN.get(), (context) -> new VoluciteWardenPartRender(context, VoluciteWardenPartModel.Part.ABDOMEN));
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_CHEST.get(), (context) -> new VoluciteWardenPartRender(context, VoluciteWardenPartModel.Part.CHEST));
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_CORE.get(), (context) -> new VoluciteWardenPartRender(context, VoluciteWardenPartModel.Part.CORE));
-        event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_CORE_RIB.get(), (context) -> new VoluciteWardenPartRender(context, VoluciteWardenPartModel.Part.CORE_RIB));
+        event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_CORE_RIB.get(), EmptyRender::new);
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_NECK.get(), (context) -> new VoluciteWardenPartRender(context, VoluciteWardenPartModel.Part.NECK));
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_HEAD.get(), (context) -> new VoluciteWardenPartRender(context, VoluciteWardenPartModel.Part.HEAD));
         event.registerEntityRenderer(AerialHellEntities.FLYING_JELLYFISH.get(), FlyingJellyfishRender::new);
@@ -120,7 +120,6 @@ public class RenderRegistrationListener
         event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_WARDEN_ABDOMEN, () -> VoluciteWardenPartModel.createBodyLayer(VoluciteWardenPartModel.Part.ABDOMEN));
         event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_WARDEN_CHEST, () -> VoluciteWardenPartModel.createBodyLayer(VoluciteWardenPartModel.Part.CHEST));
         event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_WARDEN_CORE, () -> VoluciteWardenPartModel.createBodyLayer(VoluciteWardenPartModel.Part.CORE));
-        event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_WARDEN_CORE_RIB, () -> VoluciteWardenPartModel.createBodyLayer(VoluciteWardenPartModel.Part.CORE_RIB));
         event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_WARDEN_NECK, () -> VoluciteWardenPartModel.createBodyLayer(VoluciteWardenPartModel.Part.NECK));
         event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_WARDEN_HEAD, () -> VoluciteWardenPartModel.createBodyLayer(VoluciteWardenPartModel.Part.HEAD));
         event.registerLayerDefinition(AerialHellModelLayers.CHEST_MIMIC, ChestMimicModel::createBodyLayer);

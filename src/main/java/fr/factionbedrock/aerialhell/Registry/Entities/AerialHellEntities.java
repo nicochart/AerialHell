@@ -158,7 +158,7 @@ public class AerialHellEntities
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenPartEntity>> VOLUCITE_WARDEN_ABDOMEN = ENTITIES.register("volucite_warden_abdomen", () -> EntityType.Builder.<VoluciteWardenPartEntity>of(VoluciteWardenCollidablePartEntity::new, MobCategory.MISC)
 			.sized(8.0F,4.0F).build(Keys.VOLUCITE_WARDEN_ABDOMEN));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenPartEntity>> VOLUCITE_WARDEN_CHEST = ENTITIES.register("volucite_warden_chest", () -> EntityType.Builder.<VoluciteWardenPartEntity>of(VoluciteWardenCollidablePartEntity::new, MobCategory.MISC)
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenChestPartEntity>> VOLUCITE_WARDEN_CHEST = ENTITIES.register("volucite_warden_chest", () -> EntityType.Builder.<VoluciteWardenChestPartEntity>of(VoluciteWardenChestPartEntity::new, MobCategory.MISC)
 			.sized(10.0F,2.0F).build(Keys.VOLUCITE_WARDEN_CHEST));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenCoreEntity>> VOLUCITE_WARDEN_CORE = ENTITIES.register("volucite_warden_core", () -> EntityType.Builder.<VoluciteWardenCoreEntity>of(VoluciteWardenCoreEntity::new, MobCategory.MISC)
