@@ -72,6 +72,13 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         return spawnData;
     }
 
+    default void partAiStep() //call in aiStep()
+    {
+        if (this.getLevel().isClientSide()) {return;}
+        this.setPartsPos(this.getX(), this.getY(), this.getZ());
+        this.setPartsRotation();
+    }
+
     default void partAddAdditionalSaveData(ValueOutput valueOutput) //call in addAdditionalSaveData(valueOutput)
     {
         for (PartInfo partInfo : this.getPartInfoMap().values())
@@ -119,7 +126,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* --------------------------------------------------------------------- */
     default InvalidSituationBehavior getInvalidSituationBehavior() {return InvalidSituationBehavior.RESET;}
 
-    default Vec3 adjustPartOffset(PartInfo partInfo, Vec3 masterPos, Vec3 unadjustedPosOffset)
+    default Vec3 adjustPartOffset(PartInfo partInfo, PartEntity partEntity, Vec3 masterPos, Vec3 unadjustedPosOffset)
     {
         return unadjustedPosOffset;
     }
@@ -129,6 +136,8 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         if (partInfo.getPart() == null) {return;}
         Mob part = partInfo.getPart().getSelf();
         Mob self = this.getSelf();
+        part.yBodyRotO = part.yBodyRot;
+        part.yHeadRotO = part.yHeadRot;
 
         part.yBodyRot = self.yHeadRot; //the whole "body" is head
         part.yHeadRot = self.yHeadRot;
@@ -141,6 +150,8 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         if (partInfo.getPart() == null) {return;}
         Mob part = partInfo.getPart().getSelf();
         Mob self = this.getSelf();
+        part.yBodyRotO = part.yBodyRot;
+        part.yHeadRotO = part.yHeadRot;
 
         part.yBodyRot = self.yBodyRot;
         part.yHeadRot = self.yHeadRot;
@@ -171,7 +182,6 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         {
             this.setPartEntityId(partInfo, this.getPartRaw(partInfo).getId());
             this.getPartRaw(partInfo).setMaster(this);
-            this.getPartRaw(partInfo).setPartName(partInfo.getName());
             return true; //return true if part is found
         }
         return false; //return false if part is still not found
@@ -270,7 +280,6 @@ public interface MasterPartEntity extends BaseMobEntityInterface
             summonedPart.setCustomName(master.getCustomName());
             summonedPart.setInvulnerable(master.isInvulnerable());
             summonedPart.setMaster(this);
-            summonedPart.setPartName(part.getName());
             summonedPart.getSelf().snapTo(this.getX() + part.getRelativePositionOffset().x, this.getY() + part.getRelativePositionOffset().y, this.getZ() + part.getRelativePositionOffset().z, this.getSelf().getYRot(), this.getSelf().getXRot());
             this.getLevel().addFreshEntity(summonedPart.getSelf());
             return summonedPart;
@@ -306,28 +315,52 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         }
     }
 
-    default void setPartPos(PartInfo partInfo)
+    default void setPartsPos(double masterX, double masterY, double masterZ)
     {
-        if (partInfo.getPart() != null)
+        //do not try to set pos of another entity on client side. Let server side do.
+        //null getAllParts happens on entity creation (when constructor is called)
+        if (this.getLevel().isClientSide() || this.getPartInfoMap() == null) {return;}
+        for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            Vec3 partPos = this.calculatePartPos(partInfo);
-            partInfo.getPart().setPos(partPos.x, partPos.y, partPos.z);
+            Vec3 partPos = this.calculatePartPos(partInfo, masterX, masterY, masterZ);
+            if (partPos != null && partInfo.getPart() != null)
+            {
+                partInfo.getPart().setPos(partPos.x, partPos.y, partPos.z);
+            }
         }
     }
 
-    default void setPartRotation(PartInfo partInfo)
+    default void setPartsRotation()
     {
-        if (partInfo.isHead()) {this.tickHeadPartRotation(partInfo);}
-        else {this.tickNonHeadPartRotation(partInfo);}
+        for (PartInfo partInfo : this.getPartInfoMap().values())
+        {
+            this.tickPartRotation(partInfo);
+        }
     }
 
-    default Vec3 calculatePartPos(PartInfo partInfo)
+    default void tickPartRotation(PartInfo partInfo)
     {
-        Vec3 masterPos = this.getSelf().position();
+        if (partInfo.isHead())
+        {
+            this.tickHeadPartRotation(partInfo);
+        }
+        else
+        {
+            this.tickNonHeadPartRotation(partInfo);
+        }
+    }
+
+    @Nullable default Vec3 calculatePartPos(PartInfo partInfo, double masterX, double masterY, double masterZ)
+    {
+        PartEntity part = partInfo.getPart();
         Vec3 offset = partInfo.getRelativePositionOffset();
-        Vec3 adjustedOffset = this.adjustPartOffset(partInfo, new Vec3(masterPos.x, masterPos.y, masterPos.z), offset);
-        Vec3 partRelativePos = this.rotatePartPos(adjustedOffset);
-        return new Vec3(masterPos.x + partRelativePos.x, masterPos.y + partRelativePos.y, masterPos.z + partRelativePos.z);
+        if (part != null)
+        {
+            Vec3 adjustedOffset = this.adjustPartOffset(partInfo, part, new Vec3(masterX, masterY, masterZ), offset);
+            Vec3 partRelativePos = this.rotatePartPos(adjustedOffset);
+            return new Vec3(masterX + partRelativePos.x, masterY + partRelativePos.y, masterZ + partRelativePos.z);
+        }
+        return null;
     }
 
     default Vec3 rotatePartPos(Vec3 vec)

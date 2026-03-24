@@ -3,7 +3,8 @@ package fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
-import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartContext;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartInfo;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -30,8 +31,7 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
 {
     /* -- PartEntity fields -- */
     private static final EntityDataAccessor<Integer> MASTER_ID = SynchedEntityData.defineId(VoluciteGolemHeadEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<String> PART_NAME = SynchedEntityData.defineId(VoluciteGolemHeadEntity.class, EntityDataSerializers.STRING);
-    private final PartContext MASTER = new PartContext(MASTER_ID, PART_NAME);
+    private final MasterPartInfo MASTER = new MasterPartInfo(MASTER_ID);
     /* ----------------------- */
 
     /* -- BeamAttackEntity fields -- */
@@ -66,7 +66,6 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
 
         /* -- PartEntity synched data -- */
         builder.define(MASTER_ID, 0);
-        builder.define(PART_NAME, "");
         /* ----------------------------- */
     }
 
@@ -106,7 +105,7 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
     @Override public boolean partSuperHurtServer(ServerLevel level, DamageSource source, float amount) {return super.hurtServer(level, source, amount);}
     @Override public boolean isPartInvulnerableToBase(DamageSource damageSource) {return super.isInvulnerableToBase(damageSource);}
 
-    @Override public PartContext getMasterInfo() {return this.MASTER;}
+    @Override public MasterPartInfo getMasterInfo() {return this.MASTER;}
     /* ------------------------------------------------------------------- */
     /* ------------------------------------------------------------------- */
     /* ------------------------------------------------------------------- */

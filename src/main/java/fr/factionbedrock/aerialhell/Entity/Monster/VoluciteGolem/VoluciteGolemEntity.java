@@ -112,6 +112,12 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
         this.partEntityTick();
     }
 
+    @Override public void aiStep()
+    {
+        super.aiStep();
+        this.partAiStep();
+    }
+
     @Override public void addAdditionalSaveData(ValueOutput valueOutput)
     {
         super.addAdditionalSaveData(valueOutput);

@@ -186,6 +186,20 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		if (!this.isInDeadOrDyingPhase()) {this.timeDying = 0;}
 	}
 
+	@Override public void aiStep()
+	{
+		super.aiStep();
+		this.partAiStep();
+
+		//additional things (specific to the volucite warden)
+		if (!this.level().isClientSide())
+		{
+			//the update is done client side by vanilla (in LivingEntity aiStep), but not server-side.
+			//in the volucite warden, walkAnimation can be used to adjust arm segment position while moving
+			this.calculateEntityAnimation(false);
+		}
+	}
+
 	@Override public void addAdditionalSaveData(ValueOutput valueOutput)
 	{
 		super.addAdditionalSaveData(valueOutput);
@@ -228,7 +242,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* --------------------------------------------------------------------- */
 	/* ------- Other methods to override for specific part behaviors ------- */
 	/* --------------------------------------------------------------------- */
-	@Override public Vec3 adjustPartOffset(PartInfo partInfo, Vec3 masterPos, Vec3 unadjustedPosOffset)
+	@Override public Vec3 adjustPartOffset(PartInfo partInfo, PartEntity partEntity, Vec3 masterPos, Vec3 unadjustedPosOffset)
 	{
 		if (partInfo instanceof ArmPartInfo armPartInfo)
 		{
@@ -251,7 +265,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			shoulderPosOffset = new Vec3(x, y, z);
 			return armPartInfo.getPosOffsetFromMaster(shoulderPosOffset);
 		}
-		else {return MasterPartEntity.super.adjustPartOffset(partInfo, masterPos, unadjustedPosOffset);}
+		else {return MasterPartEntity.super.adjustPartOffset(partInfo, partEntity, masterPos, unadjustedPosOffset);}
 	}
 	/* --------------------------------------------------------------------- */
 	/* --------------------------------------------------------------------- */
@@ -267,19 +281,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ----------------------------------------------------------------------------------- */
 	/* ----------------------------------------------------------------------------------- */
 	/* ----------------------------------------------------------------------------------- */
-
-	@Override public void aiStep()
-	{
-		super.aiStep();
-
-		//additional things (specific to the volucite warden)
-		if (!this.level().isClientSide())
-		{
-			//the update is done client side by vanilla (in LivingEntity aiStep), but not server-side.
-			//in the volucite warden, walkAnimation can be used to adjust arm segment position while moving
-			this.calculateEntityAnimation(false);
-		}
-	}
 
 	@Override protected void registerGoals()
     {
