@@ -17,7 +17,8 @@ public abstract class AbstractActivableEntity extends HostileEntity implements A
 {
 	/* -- ActivableEntity fields -- */
 	public static final TrackedData<Boolean> ACTIVE = DataTracker.registerData(AbstractActivableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-	public final ActivableEntityInfo ACTIVABLE_INFO = new ActivableEntityInfo(ACTIVE, ActivableEntity.DEFAULT_ACTIVATION_METHOD.copy().activationThreshold(this.getTicksToActivate()).targetSearchDistance(this.getMinDistanceToActivate(), this.getMinDistanceToDeactivate()));
+	public final ActivableEntityInfo.ActivationMethod AERIAL_HELL_ACTIVABLE_ACTIVATION_METHOD = ActivableEntity.DEFAULT_ACTIVATION_METHOD.copy().activationThreshold(this.getTicksToActivate()).targetSearchDistance(this.getMinDistanceToActivate(), this.getMinDistanceToDeactivate());
+	public final ActivableEntityInfo ACTIVABLE_INFO = new ActivableEntityInfo(ACTIVE, AERIAL_HELL_ACTIVABLE_ACTIVATION_METHOD);
 	/* ---------------------------- */
 	public AbstractActivableEntity(EntityType<? extends HostileEntity> type, World world) {super(type, world);}
 

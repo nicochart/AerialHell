@@ -36,7 +36,7 @@ public interface PartEntity extends BaseMobEntityInterface
         if (master == null || master.getSelf().isDead() || master.getSelf().isRemoved() || !master.is(this.getSelf()))
         {
             this.incrementTicksInInvalidSituation();
-            if (this.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION) {this.killPart();}
+            if (this.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION) {this.reactToInvalidSituationWithMaster();}
         }
         else {this.resetTicksInInvalidSituation();}
     }
@@ -72,6 +72,7 @@ public interface PartEntity extends BaseMobEntityInterface
 
     default void onPartDeath() {} //additional things to do when a part is killed, override if necessary
 
+    default PartInvalidSituationBehavior getInvalidSituationBehavior() {return PartInvalidSituationBehavior.DISCARD;}
     /* -------------------------------------------------------------- */
     /* -------------------------------------------------------------- */
     /* -------------------------------------------------------------- */
@@ -107,6 +108,19 @@ public interface PartEntity extends BaseMobEntityInterface
         return master.getSelf().damage(world, source, amount);
     }
 
+    //if the master is not found (for example after being placed with a structure nbt, or if the master was deleted for whatever reason)
+    default void reactToInvalidSituationWithMaster()
+    {
+        switch (this.getInvalidSituationBehavior())
+        {
+            case NONE : {}
+            case DISCARD :
+            {
+                if (!this.getLevel().isClient()) {this.getSelf().discard();}
+            }
+        };
+    }
+
     @Nullable default MasterPartEntity getMasterByID()
     {
         Entity entity = this.getLevel().getEntityById(this.getMasterId());
@@ -127,4 +141,6 @@ public interface PartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */
+
+    enum PartInvalidSituationBehavior{NONE, DISCARD}
 }

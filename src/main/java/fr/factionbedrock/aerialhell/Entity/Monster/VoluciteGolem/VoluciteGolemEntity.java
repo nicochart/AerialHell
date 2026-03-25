@@ -31,7 +31,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -41,7 +40,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     /* -- MasterPartEntity fields -- */
     public final Map<String, PartInfo> PARTS_MAP = Maps.newHashMap();
     private static final TrackedData<Integer> HEAD_ID = DataTracker.registerData(VoluciteGolemEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private final PartInfo HEAD = new PartInfo(AerialHellEntities.VOLUCITE_GOLEM_HEAD, "head", HEAD_ID, new Vec3d(0.0F, 2.15F, 0.0F), PARTS_MAP);
+    private final PartInfo HEAD = new PartInfo(AerialHellEntities.VOLUCITE_GOLEM_HEAD, "head", HEAD_ID, new Vec3d(0.0F, 2.15F, 0.0F), true, PARTS_MAP);
     /* ----------------------------- */
 
     public VoluciteGolemEntity(EntityType<? extends HostileEntity> type, World world)
@@ -64,36 +63,33 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     /* ------------------------------------------------------------------------- */
     @Override public Map<String, PartInfo> getPartInfoMap() {return this.PARTS_MAP;}
 
-    @Override public void tickPartRotation(PartInfo partInfo, @NotNull PartEntity partEntity)
-    {
-        if (partInfo == HEAD && partEntity instanceof VoluciteGolemHeadEntity headPart)
-        {
-            if (!headPart.isBeaming())
-            {
-                headPart.lastBodyYaw = headPart.bodyYaw;
-                headPart.bodyYaw = this.headYaw; //the whole "body" is head
-                headPart.lastHeadYaw = headPart.headYaw;
-                headPart.headYaw = this.headYaw;
-                headPart.setPitch(this.getPitch());
-                headPart.setYaw(this.getYaw());
-            }
-            else
-            {
-                float pitch = 0.0F;
-                if (headPart.getBeamTargetPos() != null)
-                {
-                    pitch = this.calculatePitchFromOriginToTarget(this.getEyePos(), headPart.getBeamTargetPos());
-                }
+    /* ------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------- */
 
-                headPart.bodyYaw = headPart.headYaw;
-                headPart.setPitch(pitch);
-                headPart.setYaw(headPart.headYaw);
+    /* ------------------------------------------------------------------------------------------- */
+    /* ---------- MasterPartEntity : Interface methods Overridden for specific behavior ---------- */
+    /* ------------------------------------------------------------------------------------------- */
+    @Override public void tickHeadPartRotation(PartInfo partInfo)
+    {
+        if (partInfo.getPart() == null) {return;}
+        if (partInfo.getPart().getSelf() instanceof VoluciteGolemHeadEntity headPart && headPart.isBeaming())
+        {
+            float pitch = 0.0F;
+            if (headPart.getBeamTargetPos() != null)
+            {
+                pitch = this.calculatePitchFromOriginToTarget(this.getEyePos(), headPart.getBeamTargetPos());
             }
+
+            headPart.bodyYaw  = headPart.headYaw;
+            headPart.setPitch(pitch);
+            headPart.setYaw(headPart.headYaw);
         }
+        else {MasterPartEntity.super.tickHeadPartRotation(partInfo);}
     }
-    /* ------------------------------------------------------------------------- */
-    /* ------------------------------------------------------------------------- */
-    /* ------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------- */
 
     /* ----------------------------------------------------------------------------------------------- */
     /* ---------- MasterPartEntity : Superclass methods Overridden to delegate to interface ---------- */
@@ -121,24 +117,6 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     {
         super.tickMovement();
         this.partEntityTickMovement();
-    }
-
-    @Override public void setPosition(double x, double y, double z)
-    {
-        super.setPosition(x, y, z);
-        this.setPartsPosition(x, y, z);
-    }
-
-    @Override public void setPitch(float xRot)
-    {
-        super.setPitch(xRot);
-        this.setPartsPitch(xRot);
-    }
-
-    @Override public void setYaw(float yRot)
-    {
-        super.setYaw(yRot);
-        this.setPartsYaw(yRot);
     }
 
     @Override protected void writeCustomData(WriteView view)

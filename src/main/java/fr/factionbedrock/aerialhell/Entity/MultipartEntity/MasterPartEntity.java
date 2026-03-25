@@ -12,12 +12,10 @@ import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
-import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 public interface MasterPartEntity extends BaseMobEntityInterface
 {
@@ -29,8 +27,6 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     //You will also need to implement getSelf() from BaseEntityInterface
 
     Map<String, PartInfo> getPartInfoMap();
-
-    void tickPartRotation(PartInfo partInfo, @NotNull PartEntity partEntity);
     /* ---------------------------------------------------- */
     /* ---------------------------------------------------- */
     /* ---------------------------------------------------- */
@@ -43,7 +39,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         for (PartInfo partInfo : this.getPartInfoMap().values())
         {
             PartEntity synchedPartEntity = this.syncPart(partInfo); //server-client part sync
-            if (synchedPartEntity == null)
+            if (synchedPartEntity == null || synchedPartEntity.getSelf().isRemoved())
             {
                 partInfo.incrementTicksInInvalidSituation();
                 if (partInfo.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION)  //should not happen if head is not removed or if the uuid changed (if the entity is loaded from a structure nbt for example)
@@ -78,29 +74,14 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     default void partEntityTickMovement() //call in tickMovement()
     {
-        if (this.getLevel().isClient()) {return;}
-        for (PartInfo partInfo : this.getPartInfoMap().values())
+        if (this.getLevel().isClient())
         {
-            PartEntity part = partInfo.getPart();
-            if (part != null) {this.tickPartRotation(partInfo, part);}
+            this.fixPartsXRot();
         }
-    }
-
-    default void setPartsPosition(double masterX, double masterY, double masterZ) //call in setPos(x, y, z)
-    {
-        //do not try to set pos of another entity on client side. Let server side do.
-        //null getAllParts happens on entity creation (when constructor is called)
-        if (this.getLevel().isClient() || this.getPartInfoMap() == null) {return;}
-        for (PartInfo partInfo : this.getPartInfoMap().values())
+        else
         {
-            PartEntity part = partInfo.getPart();
-            Vec3d offset = partInfo.getRelativePositionOffset();
-            if (part != null)
-            {
-                Vec3d adjustedOffset = this.adjustPartOffset(partInfo, part, new Vec3d(masterX, masterY, masterZ), offset);
-                Vec3d partPos = this.rotatePartPos(adjustedOffset);
-                part.setPosition(masterX + partPos.x, masterY + partPos.y, masterZ + partPos.z);
-            }
+            this.setPartsPosition(this.getX(), this.getY(), this.getZ());
+            this.setPartsRotation();
         }
     }
 
@@ -173,12 +154,43 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* --------------------------------------------------------------------- */
     /* ------- Other methods to override for specific part behaviors ------- */
     /* --------------------------------------------------------------------- */
-    default InvalidSituationBehavior getInvalidSituationBehavior() {return InvalidSituationBehavior.RESET;}
+    default MasterInvalidSituationBehavior getInvalidSituationBehavior() {return MasterInvalidSituationBehavior.RESET;}
 
     default Vec3d adjustPartOffset(PartInfo partInfo, PartEntity partEntity, Vec3d masterPos, Vec3d unadjustedPosOffset)
     {
         return unadjustedPosOffset;
     }
+
+    default void tickHeadPartRotation(PartInfo partInfo)
+    {
+        if (partInfo.getPart() == null) {return;}
+        MobEntity part = partInfo.getPart().getSelf();
+        MobEntity self = this.getSelf();
+        part.lastBodyYaw = part.bodyYaw;
+        part.lastHeadYaw = part.headYaw;
+
+        part.bodyYaw = self.headYaw; //the whole "body" is head
+        part.headYaw = self.headYaw;
+        part.setPitch(self.getPitch());
+        part.setYaw(self.getYaw());
+    }
+
+    default void tickNonHeadPartRotation(PartInfo partInfo)
+    {
+        if (partInfo.getPart() == null) {return;}
+        MobEntity part = partInfo.getPart().getSelf();
+        MobEntity self = this.getSelf();
+        part.lastBodyYaw = part.bodyYaw;
+        part.lastHeadYaw = part.headYaw;
+
+        part.bodyYaw = self.bodyYaw; //the whole "body" is head
+        part.headYaw = self.headYaw;
+        part.setPitch(self.getPitch());
+        part.setYaw(self.getYaw());
+        part.lastPitch = part.getPitch();
+    }
+
+    default void onPartSummoned(PartInfo partInfo) {} //additional things to do when part is summoned (write data, set values, for example)
     /* --------------------------------------------------------------------- */
     /* --------------------------------------------------------------------- */
     /* --------------------------------------------------------------------- */
@@ -198,7 +210,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     private boolean tryToFindBackPart(PartInfo partInfo)
     {
-        this.setPartRaw(partInfo, this.getHeadByUUID(this.getPartStringUUID(partInfo)));
+        this.setPartRaw(partInfo, this.getPartByUUID(this.getPartStringUUID(partInfo)));
         if (this.getPartRaw(partInfo) != null)
         {
             this.setPartEntityId(partInfo, this.getPartRaw(partInfo).getId());
@@ -208,7 +220,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         return false; //return false if part is still not found
     }
 
-    @Nullable default PartEntity getHeadByUUID(@Nullable String stringUUID)
+    @Nullable default PartEntity getPartByUUID(@Nullable String stringUUID)
     {
         if (stringUUID == null) {return null;}
 
@@ -261,15 +273,16 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         {
             Entity self = this.getSelf();
             Entity entity = self.getType().spawn(world, this.getSelf().getBlockPos(), SpawnReason.NATURAL);
+            if (entity == null) {return;}
             entity.refreshPositionAndAngles(self.getX(), self.getY(), self.getZ(), self.getYaw(), self.getPitch());
-        }
 
-        for (PartInfo partInfo : this.getPartInfoMap().values())
-        {
-            PartEntity part = partInfo.getPart();
-            if (part != null) {part.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);}
+            for (PartInfo partInfo : this.getPartInfoMap().values())
+            {
+                PartEntity part = partInfo.getPart();
+                if (part != null) {part.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);}
+            }
+            this.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);
         }
-        this.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);
     }
 
     default void summonChildParts()
@@ -287,6 +300,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         {
             this.setPartRaw(partInfo, partEntity);
             this.setPartEntityId(partInfo, partEntity.getId());
+            this.onPartSummoned(partInfo);
         }
     }
 
@@ -335,6 +349,72 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         }
     }
 
+    default void setPartsPosition(double masterX, double masterY, double masterZ) //call in setPos(x, y, z)
+    {
+        //do not try to set pos of another entity on client side. Let server side do.
+        //null getAllParts happens on entity creation (when constructor is called)
+        if (this.getLevel().isClient() || this.getPartInfoMap() == null) {return;}
+        for (PartInfo partInfo : this.getPartInfoMap().values())
+        {
+            Vec3d partPos = this.calculatePartPos(partInfo, masterX, masterY, masterZ);
+            if (partPos != null && partInfo.getPart() != null)
+            {
+                partInfo.getPart().setPosition(partPos.x, partPos.y, partPos.z);
+            }
+        }
+    }
+
+    default void fixPartsXRot()
+    {
+        for (PartInfo partInfo : this.getPartInfoMap().values())
+        {
+            this.fixPartXRot(partInfo);
+        }
+    }
+
+    default void fixPartXRot(PartInfo partInfo)
+    {
+        //client-side, by default (if you don't call this method for all parts), if a multi-part entity was already present after disconnect-reconnect,
+        //the interpolator loops setting xRot to 0 if you don't set xRot0 to xRot.
+        //to avoid this problem, need to manually set xRot0 to the right value.
+        if (partInfo.getPart() == null) {return;}
+        partInfo.getPart().getSelf().setPitch(this.getSelf().getPitch());
+        partInfo.getPart().getSelf().lastPitch = this.getSelf().lastPitch;
+    }
+
+    default void setPartsRotation()
+    {
+        for (PartInfo partInfo : this.getPartInfoMap().values())
+        {
+            this.tickPartRotation(partInfo);
+        }
+    }
+
+    default void tickPartRotation(PartInfo partInfo)
+    {
+        if (partInfo.isHead())
+        {
+            this.tickHeadPartRotation(partInfo);
+        }
+        else
+        {
+            this.tickNonHeadPartRotation(partInfo);
+        }
+    }
+
+    @Nullable default Vec3d calculatePartPos(PartInfo partInfo, double masterX, double masterY, double masterZ)
+    {
+        PartEntity part = partInfo.getPart();
+        Vec3d offset = partInfo.getRelativePositionOffset();
+        if (part != null)
+        {
+            Vec3d adjustedOffset = this.adjustPartOffset(partInfo, part, new Vec3d(masterX, masterY, masterZ), offset);
+            Vec3d partRelativePos = this.rotatePartPos(adjustedOffset);
+            return new Vec3d(masterX + partRelativePos.x, masterY + partRelativePos.y, masterZ + partRelativePos.z);
+        }
+        return null;
+    }
+
     default float calculatePitchFromOriginToTarget(Vec3d origin, Vec3d target)
     {
         double x = origin.x, y = origin.y, z = origin.z;
@@ -348,12 +428,12 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     default Vec3d rotatePartPos(Vec3d vec)
     {
-        float yRot = (float) Math.toRadians(this.getSelf().getYaw());
+        float yRot = (float) Math.toRadians(this.getSelf().bodyYaw);
         return vec.rotateY(-yRot);
     }
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */
 
-    enum InvalidSituationBehavior {RESET, PART_RESPAWN, NONE}
+    enum MasterInvalidSituationBehavior {RESET, PART_RESPAWN, NONE}
 }
