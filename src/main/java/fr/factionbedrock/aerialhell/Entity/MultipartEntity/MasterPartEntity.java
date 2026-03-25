@@ -39,7 +39,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         for (PartInfo partInfo : this.getPartInfoMap().values())
         {
             PartEntity synchedPartEntity = this.syncPart(partInfo); //server-client part sync
-            if (synchedPartEntity == null)
+            if (synchedPartEntity == null || synchedPartEntity.getSelf().isRemoved())
             {
                 partInfo.incrementTicksInInvalidSituation();
                 if (partInfo.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION)  //should not happen if head is not removed or if the uuid changed (if the entity is loaded from a structure nbt for example)
