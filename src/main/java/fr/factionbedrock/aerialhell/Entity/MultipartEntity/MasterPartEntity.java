@@ -12,7 +12,6 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
@@ -131,7 +130,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* --------------------------------------------------------------------- */
     /* ------- Other methods to override for specific part behaviors ------- */
     /* --------------------------------------------------------------------- */
-    default InvalidSituationBehavior getInvalidSituationBehavior() {return InvalidSituationBehavior.RESET;}
+    default MasterInvalidSituationBehavior getInvalidSituationBehavior() {return MasterInvalidSituationBehavior.RESET;}
 
     default Vec3 adjustPartOffset(PartInfo partInfo, PartEntity partEntity, Vec3 masterPos, Vec3 unadjustedPosOffset)
     {
@@ -412,5 +411,5 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */
 
-    enum InvalidSituationBehavior {RESET, PART_RESPAWN, NONE}
+    enum MasterInvalidSituationBehavior{RESET, PART_RESPAWN, NONE}
 }
