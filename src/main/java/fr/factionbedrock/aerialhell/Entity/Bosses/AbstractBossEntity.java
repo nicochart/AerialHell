@@ -417,9 +417,6 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 			}
 			FallingBlockEntity.spawnFromBlock(this.getEntityWorld(), fallPos, fallState);
 		}
-		else {
-			System.out.println("Wanted to make block fall but can't");
-		}
 	}
 
 	protected boolean canDragOrRepulseEntity(Entity entity)

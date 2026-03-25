@@ -149,12 +149,11 @@ public class AerialHellPortalBlock extends Block implements Portal
     @Nullable private TeleportTarget getOrCreateExitPortalTarget(ServerWorld world, Entity entity, BlockPos pos, BlockPos exitPos, boolean isNether, WorldBorder worldBorder)
     {
         AerialHellTeleporter portalForcer = new AerialHellTeleporter(world);
-        Optional<BlockPos> optional = portalForcer.findClosestPortalPosition(exitPos, isNether, worldBorder); //TODO the problem is here (portal never found)
+        Optional<BlockPos> optional = portalForcer.findClosestPortalPosition(exitPos, isNether, worldBorder);
         BlockLocating.Rectangle blockutil$foundrectangle;
         TeleportTarget.PostDimensionTransition postTransition;
         if (optional.isPresent())
         {
-            System.out.println("Other portal found");
             BlockPos blockpos = optional.get();
             BlockState blockstate = world.getBlockState(blockpos);
             blockutil$foundrectangle = BlockLocating.getLargestRectangle(
@@ -169,7 +168,6 @@ public class AerialHellPortalBlock extends Block implements Portal
         }
         else
         {
-            System.out.println("No portal found");
             Direction.Axis direction$axis = entity.getEntityWorld().getBlockState(pos).getOrEmpty(AXIS).orElse(Direction.Axis.X);
             Optional<BlockLocating.Rectangle> optional1 = portalForcer.createPortal(exitPos, direction$axis);
             if (optional1.isEmpty())
