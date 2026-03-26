@@ -36,6 +36,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------- */
     default void partEntityTick() //call in tick()
     {
+        if (!this.getSelf().isAlive()) {return;}
         for (PartInfo partInfo : this.getPartInfoMap().values())
         {
             PartEntity synchedPartEntity = this.syncPart(partInfo); //server-client part sync
