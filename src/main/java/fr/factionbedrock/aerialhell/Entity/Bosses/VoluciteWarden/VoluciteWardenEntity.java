@@ -308,7 +308,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
 		this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
-		this.goalSelector.addGoal(4, new ConditionalGoal(this, new DirectMeleeAttackGoal(this, 1.25D, 4.0D)));
+		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new DirectMeleeAttackGoal(this, 1.25D, 4.0D)));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
     }
 
@@ -443,7 +443,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		{
 			PartEntity hand = this.RIGHT_ARM_SEGMENT_7.getPart();
 			if (hand == null) {return;}
-			this.strikeAttack.tick(hand.getSelf().position().subtract(this.position()), 0.5F);
+			this.strikeAttack.tick(hand.getSelf().position().subtract(this.position()));
 		}
 	}
 
@@ -469,15 +469,48 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		if (partInfo == RIGHT_ARM_SEGMENT_7 && partInfo.getPart() != null)
 		{
+			PartEntity hand = partInfo.getPart();
 			StrikeAttackPhase phase = this.strikeAttack.getCurrentPhase();
-			return calculateArmPosDuringStrike(partInfo.getPart().getSelf().position(), this.position().add(phase.getRelativeTargetPos()), phase.getSpeed());
+			if (phase.getType() == StrikeAttackPhaseType.INACTIVE || phase.getType() == StrikeAttackPhaseType.RECOVERY && phase.isAtTargetPos(hand.getSelf().position().subtract(this.position())))
+			{
+				return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
+			}
+			else
+			{
+				return calculateArmPosDuringStrike(hand.getSelf().position(), this.position().add(phase.getRelativeTargetPosSupplier()), phase.getSpeed());
+			}
 		}
 		return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
 	}
 
+	private Vec3 getRelativeWindupPos()
+	{
+		Vec3 windupOffset = new Vec3(10.0F, 30.0F, 0.0F);
+		return this.rotatePos(windupOffset);
+	}
+
+	private Vec3 getRelativeStrikePos()
+	{
+		if (this.getTarget() == null)
+		{
+			Vec3 defaultStrikePos = new Vec3(0.0F, 9.0F, 10.0F);
+			return this.rotatePos(defaultStrikePos);
+		}
+		else
+		{
+			return this.getTarget().position().subtract(this.position());
+		}
+	}
+
+	private Vec3 getRelativeRecoveryPos()
+	{
+		Vec3 recoveryOffset = new Vec3(9.5F, 5.5F, 0.0F);
+		return this.rotatePos(recoveryOffset);
+	}
+
 	private StrikeAttackSequence strikeAttack = new StrikeAttackSequence(List.of(
-		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, new Vec3(10.0F, 20.0F, 0.0F), 1.0D, 20),
-		new StrikeAttackPhase(StrikeAttackPhaseType.STRIKE, new Vec3(5.0F, 5.5F, 10.0F), 2.0D, 5),
-		new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, new Vec3(9.5F, 5.5F, 0.0F), 0.4D, 40)
+		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos, 1.0D, 20),
+		new StrikeAttackPhase(StrikeAttackPhaseType.STRIKE, this::getRelativeStrikePos, 2.0D, 5),
+		new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, this::getRelativeRecoveryPos, 0.4D, 40)
 	));
 }

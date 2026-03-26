@@ -385,13 +385,13 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         if (part != null)
         {
             Vec3 adjustedOffset = this.adjustPartOffset(partInfo, part, new Vec3(masterX, masterY, masterZ), offset);
-            Vec3 partRelativePos = this.rotatePartPos(adjustedOffset);
+            Vec3 partRelativePos = this.rotatePos(adjustedOffset);
             return new Vec3(masterX + partRelativePos.x, masterY + partRelativePos.y, masterZ + partRelativePos.z);
         }
         return null;
     }
 
-    default Vec3 rotatePartPos(Vec3 vec)
+    default Vec3 rotatePos(Vec3 vec)
     {
         float yRot = (float) Math.toRadians(this.getSelf().yBodyRot);
         return vec.yRot(-yRot);

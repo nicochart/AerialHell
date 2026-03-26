@@ -19,10 +19,18 @@ public class StrikeAttackSequence
         return this.phases.get(this.phaseIndex);
     }
 
-    public void tick(Vec3 currentPos, float tolerance)
+    public void tick(Vec3 currentPos)
     {
-        this.getCurrentPhase().tick(currentPos, tolerance);
-        if (this.getCurrentPhase().isFinished()) {this.nextPhase();}
+        this.getCurrentPhase().tick(currentPos);
+        if (this.getCurrentPhase().isFinished())
+        {
+            this.nextPhase();
+        }
+    }
+
+    public boolean isAtTargetPos(Vec3 currentRelativePos)
+    {
+        return this.getCurrentPhase().isAtTargetPos(currentRelativePos);
     }
 
     private void nextPhase()
