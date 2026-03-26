@@ -4,6 +4,9 @@ import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.DirectMeleeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhase;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhaseType;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackSequence;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
@@ -38,9 +41,9 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 
 public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPartEntity, StagedActivableEntity
@@ -181,6 +184,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		super.tick();
 		this.partEntityTick();
+		this.tickStrikeAttack();
 
 		//additional things (specific to the volucite warden)
 		if (!this.isInDeadOrDyingPhase()) {this.timeDying = 0;}
@@ -432,4 +436,48 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	}
 
 	@Override protected float getDragOrRepulseSourcePosRelativeY() {return CORE_RELATIVE_HEIGHT;}
+
+	private void tickStrikeAttack()
+	{
+		if (!this.level().isClientSide())
+		{
+			PartEntity hand = this.RIGHT_ARM_SEGMENT_7.getPart();
+			if (hand == null) {return;}
+			this.strikeAttack.tick(hand.getSelf().position().subtract(this.position()), 0.5F);
+		}
+	}
+
+	public static Vec3 calculateArmPosDuringStrike(Vec3 previousPos, Vec3 target, double maxSpeed)
+	{
+		Vec3 direction = target.subtract(previousPos);
+		double distance = direction.length();
+
+		if (distance < 1e-4) {return previousPos;}
+
+		Vec3 movement = direction.normalize();
+
+		double speed = Math.min(maxSpeed, distance);
+
+		movement = movement.scale(speed);
+
+		Vec3 newPos = previousPos.add(movement);
+
+		return new Vec3(newPos.x, newPos.y, newPos.z);
+	}
+
+	@Override public @Nullable Vec3 calculatePartPos(PartInfo partInfo, double masterX, double masterY, double masterZ)
+	{
+		if (partInfo == RIGHT_ARM_SEGMENT_7 && partInfo.getPart() != null)
+		{
+			StrikeAttackPhase phase = this.strikeAttack.getCurrentPhase();
+			return calculateArmPosDuringStrike(partInfo.getPart().getSelf().position(), this.position().add(phase.getRelativeTargetPos()), phase.getSpeed());
+		}
+		return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
+	}
+
+	private StrikeAttackSequence strikeAttack = new StrikeAttackSequence(List.of(
+		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, new Vec3(10.0F, 20.0F, 0.0F), 1.0D, 20),
+		new StrikeAttackPhase(StrikeAttackPhaseType.STRIKE, new Vec3(5.0F, 5.5F, 10.0F), 2.0D, 5),
+		new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, new Vec3(9.5F, 5.5F, 0.0F), 0.4D, 40)
+	));
 }
