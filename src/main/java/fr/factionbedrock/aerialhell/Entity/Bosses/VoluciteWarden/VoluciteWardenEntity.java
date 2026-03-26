@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.DirectMeleeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhaseType;
@@ -443,7 +442,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		{
 			PartEntity hand = this.RIGHT_ARM_SEGMENT_7.getPart();
 			if (hand == null) {return;}
-			this.strikeAttack.tick(hand.getSelf().position().subtract(this.position()));
+			this.strikeAttack.tick(this.getRelativePosOf(hand));
 		}
 	}
 
@@ -471,13 +470,13 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		{
 			PartEntity hand = partInfo.getPart();
 			StrikeAttackPhase phase = this.strikeAttack.getCurrentPhase();
-			if (phase.getType() == StrikeAttackPhaseType.INACTIVE || phase.getType() == StrikeAttackPhaseType.RECOVERY && phase.isAtTargetPos(hand.getSelf().position().subtract(this.position())))
+			if (phase.getType() == StrikeAttackPhaseType.INACTIVE || phase.getType() == StrikeAttackPhaseType.RECOVERY && phase.isAtTargetPos(this.getRelativePosOf(hand)))
 			{
 				return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
 			}
 			else
 			{
-				return calculateArmPosDuringStrike(hand.getSelf().position(), this.position().add(phase.getRelativeTargetPosSupplier()), phase.getSpeed());
+				return calculateArmPosDuringStrike(hand.getSelf().position(), this.toLevelPos(phase.getRelativeTargetPos()), phase.getSpeed());
 			}
 		}
 		return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
@@ -486,7 +485,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	private Vec3 getRelativeWindupPos()
 	{
 		Vec3 windupOffset = new Vec3(10.0F, 30.0F, 0.0F);
-		return this.rotatePos(windupOffset);
+		return this.toRotatedPos(windupOffset);
 	}
 
 	private Vec3 getRelativeStrikePos()
@@ -494,18 +493,18 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		if (this.getTarget() == null)
 		{
 			Vec3 defaultStrikePos = new Vec3(0.0F, 9.0F, 10.0F);
-			return this.rotatePos(defaultStrikePos);
+			return this.toRotatedPos(defaultStrikePos);
 		}
 		else
 		{
-			return this.getTarget().position().subtract(this.position());
+			return this.toRelativePos(this.getTarget().position());
 		}
 	}
 
 	private Vec3 getRelativeRecoveryPos()
 	{
 		Vec3 recoveryOffset = new Vec3(9.5F, 5.5F, 0.0F);
-		return this.rotatePos(recoveryOffset);
+		return this.toRotatedPos(recoveryOffset);
 	}
 
 	private StrikeAttackSequence strikeAttack = new StrikeAttackSequence(List.of(

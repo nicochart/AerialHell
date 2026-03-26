@@ -12,6 +12,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
@@ -386,17 +387,18 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         if (part != null)
         {
             Vec3 adjustedOffset = this.adjustPartOffset(partInfo, part, new Vec3(masterX, masterY, masterZ), offset);
-            Vec3 partRelativePos = this.rotatePos(adjustedOffset);
+            Vec3 partRelativePos = this.toRotatedPos(adjustedOffset);
             return new Vec3(masterX + partRelativePos.x, masterY + partRelativePos.y, masterZ + partRelativePos.z);
         }
         return null;
     }
 
-    default Vec3 rotatePos(Vec3 vec)
-    {
-        float yRot = (float) Math.toRadians(this.getSelf().yBodyRot);
-        return vec.yRot(-yRot);
-    }
+    default Vec3 toRotatedPos(Vec3 relativePos) {return relativePos.yRot(-this.getRotateAngle());}
+    default Vec3 toUnrotatePos(Vec3 rotatedPos) {return rotatedPos.yRot(this.getRotateAngle());}
+    default float getRotateAngle() {return (float) Math.toRadians(this.getSelf().yBodyRot);}
+    default Vec3 getRelativePosOf(@NotNull PartEntity part) {return toRelativePos(part.getSelf().position());}
+    default Vec3 toRelativePos(Vec3 levelPos) {return levelPos.subtract(this.getSelf().position());}
+    default Vec3 toLevelPos(Vec3 relativePos) {return this.getSelf().position().add(relativePos);}
 
     default float calculateXRotFromOriginToTarget(Vec3 origin, Vec3 target)
     {

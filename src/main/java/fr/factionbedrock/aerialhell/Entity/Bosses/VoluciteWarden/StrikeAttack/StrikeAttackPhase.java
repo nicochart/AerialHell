@@ -22,7 +22,7 @@ public class StrikeAttackPhase
         this.requiredTicksAtTarget = requiredTicksAtTarget;
     }
 
-    public Vec3 getRelativeTargetPosSupplier()
+    public Vec3 getRelativeTargetPos()
     {
         return this.relativeTargetPosSupplier.get();
     }
@@ -38,7 +38,7 @@ public class StrikeAttackPhase
 
     public boolean isAtTargetPos(Vec3 currentRelativePos)
     {
-        Vec3 target = getRelativeTargetPosSupplier();
+        Vec3 target = getRelativeTargetPos();
         return currentRelativePos.distanceTo(target) <= TARGET_DISTANCE_OFFSET_TOLERANCE;
     }
 
