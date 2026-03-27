@@ -292,7 +292,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
             summonedPart.setCustomName(master.getCustomName());
             summonedPart.setInvulnerable(master.isInvulnerable());
             summonedPart.setMaster(this);
-            summonedPart.getSelf().snapTo(this.getX() + part.getRelativePositionOffset().x, this.getY() + part.getRelativePositionOffset().y, this.getZ() + part.getRelativePositionOffset().z, this.getSelf().getYRot(), this.getSelf().getXRot());
+            summonedPart.getSelf().snapTo(this.getX() + part.getUnrotatedRelativePositionOffset().x, this.getY() + part.getUnrotatedRelativePositionOffset().y, this.getZ() + part.getUnrotatedRelativePositionOffset().z, this.getSelf().getYRot(), this.getSelf().getXRot());
             this.getLevel().addFreshEntity(summonedPart.getSelf());
             return summonedPart;
         }
@@ -383,7 +383,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     @Nullable default Vec3 calculatePartPos(PartInfo partInfo, double masterX, double masterY, double masterZ)
     {
         PartEntity part = partInfo.getPart();
-        Vec3 offset = partInfo.getRelativePositionOffset();
+        Vec3 offset = partInfo.getUnrotatedRelativePositionOffset();
         if (part != null)
         {
             Vec3 adjustedOffset = this.adjustPartOffset(partInfo, part, new Vec3(masterX, masterY, masterZ), offset);

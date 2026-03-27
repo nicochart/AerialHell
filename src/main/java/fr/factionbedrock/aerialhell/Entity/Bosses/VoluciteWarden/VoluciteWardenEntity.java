@@ -409,7 +409,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		//relative positioning transformation from master to shoulder
 		public Vec3 getPosOffsetFromShoulder(Vec3 posOffsetFromMaster)
 		{
-			return this.getRelativePositionOffset().subtract(this.getShoulderPosOffsetFromMaster());
+			return this.getUnrotatedRelativePositionOffset().subtract(this.getShoulderPosOffsetFromMaster());
 		}
 
 		//relative positioning transformation from shoulder to master
@@ -448,11 +448,20 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override public @Nullable Vec3 calculatePartPos(PartInfo partInfo, double masterX, double masterY, double masterZ)
 	{
-		if (partInfo == RIGHT_ARM_SEGMENT_7 && partInfo.getPart() != null && this.strikeAttack.isActive())
+		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isRightArm() && this.strikeAttack.isActive())
 		{
-			return this.fromUnrotatedRelativeToLevelPos(this.strikeAttack.getCachedUnrotatedRelativePos());
+			Vec3 armStartPos = this.RIGHT_ARM_SEGMENT_1.getUnrotatedRelativePositionOffset();
+			Vec3 armEndPos = this.strikeAttack.getCachedUnrotatedRelativePos();
+			Vec3 armPos = this.interpolateArmPos(armStartPos, armEndPos, armPartinfo.segmentIndex, 7);
+			return this.fromUnrotatedRelativeToLevelPos(armPos);
 		}
 		return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
+	}
+
+	private Vec3 interpolateArmPos(Vec3 start, Vec3 end, int index, int totalSegments)
+	{
+		double t = (double)(index - 1) / (totalSegments - 1);
+		return start.lerp(end, t);
 	}
 
 	private Vec3 getRelativeWindupPos()

@@ -14,7 +14,7 @@ public class PartInfo
     private final EntityDataAccessor<Integer> entityIdDataAccessor; //entity id (in level)
     @Nullable private PartEntity partEntity;
     @Nullable private String partEntityUUID; //entity uuid
-    private final Vec3 relativePositionOffset;
+    private final Vec3 unrotatedRelativePositionOffset;
     private int ticksInInvalidSituation;
     private boolean isHead;
 
@@ -27,7 +27,7 @@ public class PartInfo
         this.type = type;
         this.name = name;
         this.entityIdDataAccessor = entityIdDataAccessor;
-        this.relativePositionOffset = relativePositionOffset;
+        this.unrotatedRelativePositionOffset = relativePositionOffset;
         partsMap.put(name, this);
         this.ticksInInvalidSituation = 0;
         this.isHead = isHead;
@@ -36,7 +36,7 @@ public class PartInfo
     public EntityType<?> getType() {return type;}
     public String getName() {return name;}
     public EntityDataAccessor<Integer> getIdData() {return entityIdDataAccessor;}
-    public Vec3 getRelativePositionOffset() {return relativePositionOffset;}
+    public Vec3 getUnrotatedRelativePositionOffset() {return unrotatedRelativePositionOffset;}
 
     public @Nullable PartEntity getPart() {return partEntity;}
     public void setPart(@Nullable PartEntity partEntity) {this.partEntity = partEntity;}
