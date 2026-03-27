@@ -442,7 +442,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		{
 			PartEntity hand = this.RIGHT_ARM_SEGMENT_7.getPart();
 			if (hand == null) {return;}
-			this.strikeAttack.tick(this.getUnrotatedRelativePosOf(hand));
+			this.strikeAttack.tick();
 		}
 	}
 
@@ -450,7 +450,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		if (partInfo == RIGHT_ARM_SEGMENT_7 && partInfo.getPart() != null && this.strikeAttack.isActive())
 		{
-			return this.fromUnrotatedRelativeToLevelPos(this.strikeAttack.updateUnrotatedRelativePos());
+			return this.fromUnrotatedRelativeToLevelPos(this.strikeAttack.getCachedUnrotatedRelativePos());
 		}
 		return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
 	}
@@ -481,8 +481,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	}
 
 	private StrikeAttackSequence strikeAttack = new StrikeAttackSequence(List.of(
-		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos, 1.0D, 20),
+		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos, 1.0D, 40),
 		new StrikeAttackPhase(StrikeAttackPhaseType.STRIKE, this::getRelativeStrikePos, 2.0D, 5),
-		new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, this::getRelativeRecoveryPos, 0.4D, 40)
+		new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, this::getRelativeRecoveryPos, 0.4D, 80)
 	));
 }

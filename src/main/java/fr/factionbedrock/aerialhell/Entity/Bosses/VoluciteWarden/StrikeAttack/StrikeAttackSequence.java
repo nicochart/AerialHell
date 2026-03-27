@@ -18,11 +18,13 @@ public class StrikeAttackSequence
     public StrikeAttackPhase getPreviousPhase() {return this.getPhase(this.getPreviousPhaseIndex());}
     public StrikeAttackPhase getPhase(int phaseIndex) {return this.phases.get(phaseIndex);}
 
-    public void tick(Vec3 currentUnrotatedRelativePos)
+    public void tick()
     {
         if (!this.isActive()) {return;}
 
-        this.getCurrentPhase().tick(currentUnrotatedRelativePos, DISTANCE_OFFSET_TOLERANCE);
+        this.updateUnrotatedRelativePos();
+
+        this.getCurrentPhase().tick(this.getCachedUnrotatedRelativePos(), DISTANCE_OFFSET_TOLERANCE);
         if (this.getCurrentPhase().isFinished()) {this.startNextPhase();}
     }
 
@@ -60,11 +62,11 @@ public class StrikeAttackSequence
         return previousPhaseIndex < 0 ? this.phases.size() - 1 : previousPhaseIndex;
     }
 
-    public Vec3 getCachedUnrotatedRelativePos() {return this.cachedUnrotatedRelativePos;}
+    public Vec3 getCachedUnrotatedRelativePos() {return this.cachedUnrotatedRelativePos != null ? this.cachedUnrotatedRelativePos : this.getPreviousPhase().getUnrotatedRelativeTargetPos();}
 
     public Vec3 updateUnrotatedRelativePos()
     {
-        Vec3 previousURPos = this.cachedUnrotatedRelativePos != null ? this.cachedUnrotatedRelativePos : this.getPreviousPhase().getUnrotatedRelativeTargetPos();
+        Vec3 previousURPos = this.getCachedUnrotatedRelativePos();
         StrikeAttackPhase phase = this.getCurrentPhase();
         Vec3 newUnrotatedRelativePos = calculateArmUnrotatedRelativePosDuringStrike(previousURPos, phase.getUnrotatedRelativeTargetPos(), phase.getSpeed());
         this.cachedUnrotatedRelativePos = newUnrotatedRelativePos;
