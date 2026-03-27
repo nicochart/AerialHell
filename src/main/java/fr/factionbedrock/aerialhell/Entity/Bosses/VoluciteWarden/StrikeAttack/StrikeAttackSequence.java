@@ -19,9 +19,9 @@ public class StrikeAttackSequence
         return this.phases.get(this.phaseIndex);
     }
 
-    public void tick(Vec3 currentPos)
+    public void tick(Vec3 currentUnrotatedRelativePos)
     {
-        this.getCurrentPhase().tick(currentPos);
+        this.getCurrentPhase().tick(currentUnrotatedRelativePos);
         if (this.getCurrentPhase().isFinished())
         {
             this.nextPhase();
