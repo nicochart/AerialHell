@@ -446,43 +446,11 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		}
 	}
 
-	public static Vec3 calculateArmUnrotatedRelativePosDuringStrike(Vec3 unrotatedRelativeCurrentPos, Vec3 unrotatedRelativeTargetPos, double maxSpeed)
-	{
-		Vec3 direction = unrotatedRelativeTargetPos.subtract(unrotatedRelativeCurrentPos);
-		double distance = direction.length();
-
-		if (distance < 1e-4) {return unrotatedRelativeCurrentPos;}
-
-		Vec3 movement = direction.normalize();
-
-		double speed = Math.min(maxSpeed, distance);
-
-		movement = movement.scale(speed);
-
-		Vec3 newPos = unrotatedRelativeCurrentPos.add(movement);
-
-		return new Vec3(newPos.x, newPos.y, newPos.z);
-	}
-
-	private Vec3 currentUnrotatedRelativePos;
-
 	@Override public @Nullable Vec3 calculatePartPos(PartInfo partInfo, double masterX, double masterY, double masterZ)
 	{
-		if (partInfo == RIGHT_ARM_SEGMENT_7 && partInfo.getPart() != null)
+		if (partInfo == RIGHT_ARM_SEGMENT_7 && partInfo.getPart() != null && this.strikeAttack.isActive())
 		{
-			PartEntity hand = partInfo.getPart();
-			StrikeAttackPhase phase = this.strikeAttack.getCurrentPhase();
-			if (phase.getType() == StrikeAttackPhaseType.INACTIVE || phase.getType() == StrikeAttackPhaseType.RECOVERY && phase.isAtTargetPos(this.getRelativePosOf(hand)))
-			{
-				return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
-			}
-			else
-			{
-				Vec3 previousURPos = this.currentUnrotatedRelativePos != null ? this.currentUnrotatedRelativePos : this.getUnrotatedRelativePosOf(hand);
-				Vec3 newURPos = calculateArmUnrotatedRelativePosDuringStrike(previousURPos, phase.getUnrotatedRelativeTargetPos(), phase.getSpeed());
-				this.currentUnrotatedRelativePos = newURPos;
-				return this.fromUnrotatedRelativeToLevelPos(newURPos);
-			}
+			return this.fromUnrotatedRelativeToLevelPos(this.strikeAttack.updateUnrotatedRelativePos());
 		}
 		return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
 	}

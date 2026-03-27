@@ -12,7 +12,6 @@ public class StrikeAttackPhase
     private final int requiredTicksAtTarget;
 
     private int ticksAtTarget = 0;
-    private static float TARGET_DISTANCE_OFFSET_TOLERANCE = 0.5F;
 
     public StrikeAttackPhase(StrikeAttackPhaseType type, Supplier<Vec3> unrotatedRelativeTargetPosSupplier, double speed, int requiredTicksAtTarget)
     {
@@ -30,16 +29,16 @@ public class StrikeAttackPhase
     public double getSpeed() {return this.speed;}
     public void reset() {this.ticksAtTarget = 0;}
 
-    public void tick(Vec3 currentUnrotatedRelativePos)
+    public void tick(Vec3 currentUnrotatedRelativePos, float distanceOffsetTolerance)
     {
-        if (this.isAtTargetPos(currentUnrotatedRelativePos)) {this.ticksAtTarget++;}
+        if (this.isAtTargetPos(currentUnrotatedRelativePos, distanceOffsetTolerance)) {this.ticksAtTarget++;}
         else {this.ticksAtTarget = 0;}
     }
 
-    public boolean isAtTargetPos(Vec3 currentRelativePos)
+    public boolean isAtTargetPos(Vec3 currentUnrotatedRelativePos, float distanceOffsetTolerance)
     {
-        Vec3 target = getUnrotatedRelativeTargetPos();
-        return currentRelativePos.distanceTo(target) <= TARGET_DISTANCE_OFFSET_TOLERANCE;
+        Vec3 target = this.getUnrotatedRelativeTargetPos();
+        return currentUnrotatedRelativePos.distanceTo(target) <= distanceOffsetTolerance;
     }
 
     public boolean isFinished()
