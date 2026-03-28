@@ -452,7 +452,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		{
 			Vec3 armStartPos = this.RIGHT_ARM_SEGMENT_1.getUnrotatedRelativePositionOffset();
 			Vec3 armEndPos = this.strikeAttack.getCachedUnrotatedRelativePos();
-			Vec3 armPos = this.interpolateArmPos(armStartPos, armEndPos, this.toUnrotatedRelativePos(this.position()), armPartinfo.segmentIndex, 7);
+			Vec3 armPos = this.interpolateArmPos(armStartPos, armEndPos, this.toUnrotatedRelativePos(this.position().add(0.0F, CORE_RELATIVE_HEIGHT, 0.0F)), armPartinfo.segmentIndex, 7);
 			return this.fromUnrotatedRelativeToLevelPos(armPos);
 		}
 		return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
@@ -468,20 +468,24 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		double progress = (double)(index - 1) / (totalSegments - 1);
 
-		Vec3 mid = start.add(end).scale(0.5);
-		Vec3 outwardDir = end.subtract(masterPos).normalize();
+		Vec3 armMiddle = start.add(end).scale(0.5);
+
+		Vec3 armDir = end.subtract(start).normalize();
+
+		double heightDiff = end.y - start.y;
+		float heightDiffMaxThreshold = 14.0F;
+		double factor = Mth.clamp(heightDiff / heightDiffMaxThreshold, -1.0, 1.0); // negative if arm down, positive if arm up. 0 if arm is horizontal. (absolute) starting to decrease if diff is <= heightDiffMaxThreshold
+		Vec3 controlDir = new Vec3(armDir.z, 0, factor * armDir.x).normalize(); //orthogonal direction
 
 		double curveStrength = switch (this.strikeAttack.getCurrentPhase().getType())
 		{
 			case INACTIVE -> 0.0D;
-			case WINDUP -> 8.0D;
+			case WINDUP -> 8.0D * Mth.abs((float)factor);
 			case STRIKE -> 2.0D;
 			case RECOVERY -> 5.0D;
 		};
 
-		Vec3 curveOffset = outwardDir.scale(curveStrength);
-
-		Vec3 control = mid.add(curveOffset);
+		Vec3 control = armMiddle.add(controlDir.scale(curveStrength));
 
 		return quadraticBezier(start, control, end, progress);
 	}
@@ -497,39 +501,24 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		return startWeight.add(controlWeight).add(endWeight);
 	}
 
-	private Vec3 getRelativeMidWindupPos()
-	{
-		Vec3 windupPos = new Vec3(20.0F, 22.0F, 0.0F);
-		return windupPos;
-	}
-
-	private Vec3 getRelativeWindupPos()
-	{
-		Vec3 windupPos = new Vec3(10.0F, 35.0F, 0.0F);
-		return windupPos;
-	}
+	private Vec3 getRelativeWindupPos0() {return new Vec3(12.0F, 8.5F, 4.0F);}
+	private Vec3 getRelativeWindupPos1() {return new Vec3(20.0F, 18.0F, 8.0F);}
+	private Vec3 getRelativeWindupPos2() {return new Vec3(18.0F, 31.0F, 4.0F);}
+	private Vec3 getRelativeWindupPos3() {return new Vec3(10.0F, 37.0F, 0.0F);}
 
 	private Vec3 getRelativeStrikePos()
 	{
-		if (this.getTarget() == null)
-		{
-			Vec3 defaultStrikePos = new Vec3(0.0F, 9.0F, 10.0F);
-			return defaultStrikePos;
-		}
-		else
-		{
-			return this.toUnrotatedRelativePos(this.getTarget().position());
-		}
+		if (this.getTarget() == null) {return new Vec3(0.0F, 9.0F, 10.0F);}//default strike pos
+		else {return this.toUnrotatedRelativePos(this.getTarget().position());}
 	}
 
-	private Vec3 getRelativeRecoveryPos()
-	{
-		Vec3 recoveryPos = new Vec3(9.5F, 5.5F, 0.0F);
-		return recoveryPos;
-	}
+	private Vec3 getRelativeRecoveryPos() {return new Vec3(9.5F, 5.5F, 0.0F);}
 
 	private StrikeAttackSequence strikeAttack = new StrikeAttackSequence(List.of(
-		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos, 1.0D, 40),
+		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos0, 1.0D, 1),
+		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos1, 1.0D, 1),
+		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos2, 1.0D, 1),
+		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos3, 1.0D, 40),
 		new StrikeAttackPhase(StrikeAttackPhaseType.STRIKE, this::getRelativeStrikePos, 2.0D, 5),
 		new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, this::getRelativeRecoveryPos, 0.4D, 80)
 	));
