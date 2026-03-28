@@ -305,7 +305,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
-		this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+		//this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
 		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new DirectMeleeAttackGoal(this, 1.25D, 4.0D)));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
@@ -452,21 +452,60 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		{
 			Vec3 armStartPos = this.RIGHT_ARM_SEGMENT_1.getUnrotatedRelativePositionOffset();
 			Vec3 armEndPos = this.strikeAttack.getCachedUnrotatedRelativePos();
-			Vec3 armPos = this.interpolateArmPos(armStartPos, armEndPos, armPartinfo.segmentIndex, 7);
+			Vec3 armPos = this.interpolateArmPos(armStartPos, armEndPos, this.toUnrotatedRelativePos(this.position()), armPartinfo.segmentIndex, 7);
 			return this.fromUnrotatedRelativeToLevelPos(armPos);
 		}
 		return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
 	}
 
-	private Vec3 interpolateArmPos(Vec3 start, Vec3 end, int index, int totalSegments)
+	private Vec3 interpolateStraightArmPos(Vec3 start, Vec3 end, int index, int totalSegments)
 	{
-		double t = (double)(index - 1) / (totalSegments - 1);
-		return start.lerp(end, t);
+		double progress = (double)(index - 1) / (totalSegments - 1);
+		return start.lerp(end, progress);
+	}
+
+	private Vec3 interpolateArmPos(Vec3 start, Vec3 end, Vec3 masterPos, int index, int totalSegments)
+	{
+		double progress = (double)(index - 1) / (totalSegments - 1);
+
+		Vec3 mid = start.add(end).scale(0.5);
+		Vec3 outwardDir = end.subtract(masterPos).normalize();
+
+		double curveStrength = switch (this.strikeAttack.getCurrentPhase().getType())
+		{
+			case INACTIVE -> 0.0D;
+			case WINDUP -> 8.0D;
+			case STRIKE -> 2.0D;
+			case RECOVERY -> 5.0D;
+		};
+
+		Vec3 curveOffset = outwardDir.scale(curveStrength);
+
+		Vec3 control = mid.add(curveOffset);
+
+		return quadraticBezier(start, control, end, progress);
+	}
+
+	private Vec3 quadraticBezier(Vec3 start, Vec3 control, Vec3 end, double progress)
+	{
+		double remainingProgress = 1.0 - progress;
+
+		Vec3 startWeight = start.scale(remainingProgress * remainingProgress);
+		Vec3 controlWeight = control.scale(2 * remainingProgress * progress);
+		Vec3 endWeight = end.scale(progress * progress);
+
+		return startWeight.add(controlWeight).add(endWeight);
+	}
+
+	private Vec3 getRelativeMidWindupPos()
+	{
+		Vec3 windupPos = new Vec3(20.0F, 22.0F, 0.0F);
+		return windupPos;
 	}
 
 	private Vec3 getRelativeWindupPos()
 	{
-		Vec3 windupPos = new Vec3(10.0F, 30.0F, 0.0F);
+		Vec3 windupPos = new Vec3(10.0F, 35.0F, 0.0F);
 		return windupPos;
 	}
 
