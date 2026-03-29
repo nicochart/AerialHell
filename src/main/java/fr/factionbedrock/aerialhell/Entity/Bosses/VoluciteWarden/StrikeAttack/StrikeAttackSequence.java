@@ -31,10 +31,10 @@ public class StrikeAttackSequence
     public boolean isActive() {return this.getCurrentPhase().getType() != StrikeAttackPhaseType.INACTIVE;}
     public boolean trigger() //return true if the attack sequence is successfully triggered
     {
-        if (!this.isActive()) {return false;}
+        if (this.isActive()) {return false;}
         else
         {
-            this.startNextPhase();
+            this.startFirstPhase();
             return this.isActive();
         }
     }
@@ -44,9 +44,11 @@ public class StrikeAttackSequence
         return this.getCurrentPhase().isAtTargetPos(currentRelativePos, DISTANCE_OFFSET_TOLERANCE);
     }
 
-    private void startNextPhase()
+    private void startFirstPhase() {this.startPhase(0);}
+    private void startNextPhase() {this.startPhase(this.getNextPhaseIndex());}
+    private void startPhase(int phaseIndex)
     {
-        this.phaseIndex = this.getNextPhaseIndex();
+        this.phaseIndex = phaseIndex;
         this.getCurrentPhase().reset();
     }
 

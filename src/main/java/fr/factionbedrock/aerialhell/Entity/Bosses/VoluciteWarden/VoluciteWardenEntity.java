@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackInactivePhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhaseType;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackSequence;
@@ -436,13 +437,27 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override protected float getDragOrRepulseSourcePosRelativeY() {return CORE_RELATIVE_HEIGHT;}
 
+	private int inactiveStrikeAttackTicks;
+
 	private void tickStrikeAttack()
 	{
 		if (!this.level().isClientSide())
 		{
 			PartEntity hand = this.RIGHT_ARM_SEGMENT_7.getPart();
 			if (hand == null) {return;}
-			this.strikeAttack.tick();
+			if (this.strikeAttack.isActive())
+			{
+				this.inactiveStrikeAttackTicks = 0;
+				this.strikeAttack.tick();
+			}
+			else
+			{
+				this.inactiveStrikeAttackTicks++;
+				if (this.inactiveStrikeAttackTicks > 80)
+				{
+					this.strikeAttack.trigger();
+				}
+			}
 		}
 	}
 
@@ -520,6 +535,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos2, 1.0D, 1),
 		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos3, 1.0D, 40),
 		new StrikeAttackPhase(StrikeAttackPhaseType.STRIKE, this::getRelativeStrikePos, 2.0D, 5),
-		new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, this::getRelativeRecoveryPos, 0.4D, 80)
+		new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, this::getRelativeRecoveryPos, 0.4D, 1),
+		new StrikeAttackInactivePhase()
 	));
 }
