@@ -42,7 +42,7 @@ public class StrikeAttackPhase
 
     public boolean isAtTargetPos(Vec3 currentUnrotatedRelativePos, float distanceOffsetTolerance)
     {
-        return getDistanceToTarget(currentUnrotatedRelativePos) <= distanceOffsetTolerance;
+        return this.getDistanceToTarget(currentUnrotatedRelativePos) <= distanceOffsetTolerance;
     }
 
     public double getDistanceToTarget(Vec3 currentUnrotatedRelativePos)

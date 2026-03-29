@@ -481,18 +481,17 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ---------- StrikeAttackEntity : Interface methods implementation ---------- */
 	/* --------------------------------------------------------------------------- */
 
-	@Override public List<StrikeAttackPhase> getStrikeAttackSequence()
-	{
-		return List.of(
-			new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos0, 1.0D, 1),
-			new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos1, 1.0D, 1),
-			new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos2, 1.0D, 1),
-			new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos3, 1.0D, 40),
-			new StrikeAttackPhase(StrikeAttackPhaseType.STRIKE, this::getRelativeStrikePos, 2.0D, 5),
-			new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, this::getRelativeRecoveryPos, 0.4D, 1),
-			new StrikeAttackInactivePhase()
-		);
-	}
+	private final List<StrikeAttackPhase> strikeAttackSequence = List.of(
+		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos0, 1.0D, 1),
+		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos1, 1.0D, 1),
+		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos2, 1.0D, 1),
+		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos3, 1.0D, 40),
+		new StrikeAttackPhase(StrikeAttackPhaseType.STRIKE, this::getRelativeStrikePos, 2.0D, 5),
+		new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, this::getRelativeRecoveryPos, 0.4D, 1),
+		new StrikeAttackInactivePhase()
+	);
+
+	@Override public List<StrikeAttackPhase> getStrikeAttackSequence() {return this.strikeAttackSequence;}
 
 	@Override public boolean canUseStrikeAttack() {return this.getTarget() != null;}
 
