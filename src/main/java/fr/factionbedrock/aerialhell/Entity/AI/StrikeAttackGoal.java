@@ -1,32 +1,67 @@
-package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack;
+package fr.factionbedrock.aerialhell.Entity.AI;
 
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhase;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhaseType;
+import fr.factionbedrock.aerialhell.Entity.StrikeAttackEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public class StrikeAttackSequence
+public class StrikeAttackGoal extends Goal
 {
-    private final List<StrikeAttackPhase> phases;
-    private int phaseIndex = 0;
-    private float DISTANCE_OFFSET_TOLERANCE = 0.2F;
+    private final StrikeAttackEntity entity;
+    private final float distanceOffsetTolerance;
+    private int phaseIndex;
     private Vec3 cachedUnrotatedRelativePos;
 
-    public StrikeAttackSequence(List<StrikeAttackPhase> phases) {this.phases = phases;}
+    public StrikeAttackGoal(StrikeAttackEntity entity, float distanceOffsetTolerance)
+    {
+        this.entity = entity;
+        this.distanceOffsetTolerance = distanceOffsetTolerance;
+        this.phaseIndex = 0;
+    }
+
+    public List<StrikeAttackPhase> getPhases() {return this.entity.getStrikeAttackSequence();}
 
     public StrikeAttackPhase getCurrentPhase() {return this.getPhase(this.phaseIndex);}
     public StrikeAttackPhase getPreviousPhase() {return this.getPhase(this.getPreviousPhaseIndex());}
-    public StrikeAttackPhase getPhase(int phaseIndex) {return this.phases.get(phaseIndex);}
+    public StrikeAttackPhase getPhase(int phaseIndex) {return this.getPhases().get(phaseIndex);}
 
     public StrikeAttackPhaseType getPhaseType() {return this.getCurrentPhase().getType();}
 
-    public void tick()
+    @Override public boolean canUse()
     {
-        if (!this.isActive()) {return;}
+        return this.isActive() && this.entity.canUseStrikeAttack();
+    }
 
+    @Override public boolean canContinueToUse()
+    {
+        return this.isActive() && this.entity.canUseStrikeAttack();
+    }
+
+    @Override public void start()
+    {
+        this.phaseIndex = 0;
+    }
+
+    @Override public void stop()
+    {
+        this.phaseIndex = 0;
+    }
+
+    @Override public boolean requiresUpdateEveryTick() {return true;}
+
+    @Override public void tick()
+    {
         this.updateUnrotatedRelativePos();
 
-        this.getCurrentPhase().tick(this.getCachedUnrotatedRelativePos(), DISTANCE_OFFSET_TOLERANCE);
-        if (this.getCurrentPhase().isFinished()) {this.startNextPhase();}
+        this.getCurrentPhase().tick(this.entity, this.getCachedUnrotatedRelativePos(), this.distanceOffsetTolerance);
+        if (this.getCurrentPhase().isFinished())
+        {
+            this.entity.onStrikePhaseFinish(this.getPhaseType());
+            this.startNextPhase();
+        }
     }
 
     public boolean isActive() {return this.getCurrentPhase().getType() != StrikeAttackPhaseType.INACTIVE;}
@@ -38,11 +73,6 @@ public class StrikeAttackSequence
             this.startFirstPhase();
             return this.isActive();
         }
-    }
-
-    public boolean isAtTargetPos()
-    {
-        return this.getCurrentPhase().isAtTargetPos(this.cachedUnrotatedRelativePos, DISTANCE_OFFSET_TOLERANCE);
     }
 
     public double getDistanceToTarget()
@@ -61,13 +91,13 @@ public class StrikeAttackSequence
     private int getNextPhaseIndex()
     {
         int nextPhaseIndex = this.phaseIndex + 1;
-        return nextPhaseIndex >= this.phases.size() ? 0 : nextPhaseIndex;
+        return nextPhaseIndex >= this.getPhases().size() ? 0 : nextPhaseIndex;
     }
 
     private int getPreviousPhaseIndex()
     {
         int previousPhaseIndex = this.phaseIndex - 1;
-        return previousPhaseIndex < 0 ? this.phases.size() - 1 : previousPhaseIndex;
+        return previousPhaseIndex < 0 ? this.getPhases().size() - 1 : previousPhaseIndex;
     }
 
     public Vec3 getCachedUnrotatedRelativePos() {return this.cachedUnrotatedRelativePos != null ? this.cachedUnrotatedRelativePos : this.getPreviousPhase().getUnrotatedRelativeTargetPos();}

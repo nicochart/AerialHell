@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack;
 
+import fr.factionbedrock.aerialhell.Entity.StrikeAttackEntity;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.function.Supplier;
@@ -29,9 +30,13 @@ public class StrikeAttackPhase
     public double getSpeed() {return this.speed;}
     public void reset() {this.ticksAtTarget = 0;}
 
-    public void tick(Vec3 currentUnrotatedRelativePos, float distanceOffsetTolerance)
+    public void tick(StrikeAttackEntity strikeAttackEntity, Vec3 currentUnrotatedRelativePos, float distanceOffsetTolerance)
     {
-        if (this.isAtTargetPos(currentUnrotatedRelativePos, distanceOffsetTolerance)) {this.ticksAtTarget++;}
+        if (this.isAtTargetPos(currentUnrotatedRelativePos, distanceOffsetTolerance))
+        {
+            if (this.ticksAtTarget == 0) {strikeAttackEntity.onStrikePhaseStartFinishing(this.getType());}
+            this.ticksAtTarget++;
+        }
         else {this.ticksAtTarget = 0;}
     }
 

@@ -2,15 +2,16 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.StrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackInactivePhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhaseType;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackSequence;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
 import fr.factionbedrock.aerialhell.Entity.StagedActivableEntity;
+import fr.factionbedrock.aerialhell.Entity.StrikeAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.Util.ActivableEntityInfo;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
@@ -45,10 +46,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Map;
 
-public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPartEntity, StagedActivableEntity
+public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPartEntity, StagedActivableEntity, StrikeAttackEntity
 {
 	public static float EYE_RELATIVE_HEIGHT = 34.50F;
 	public static float CORE_RELATIVE_HEIGHT = 20.50F;
+
+	private StrikeAttackGoal STRIKE_ATTACK_GOAL;
 
 	/* -- MasterPartEntity fields -- */
 	private static final EntityDataAccessor<Integer> RIGHT_ARM_SEGMENT_1_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
@@ -302,9 +305,11 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override protected void registerGoals()
     {
+		this.STRIKE_ATTACK_GOAL = new StrikeAttackGoal(this, 0.2F);
 		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
+		this.goalSelector.addGoal(4, STRIKE_ATTACK_GOAL);
 		//this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
 		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new DirectMeleeAttackGoal(this, 1.25D, 4.0D)));
@@ -444,40 +449,61 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		{
 			PartEntity hand = this.RIGHT_ARM_SEGMENT_7.getPart();
 			if (hand == null) {return;}
-			if (this.strikeAttack.isActive())
+			if (this.STRIKE_ATTACK_GOAL.isActive())
 			{
 				this.inactiveStrikeAttackTicks = 0;
-				this.strikeAttack.tick();
 			}
 			else
 			{
 				this.inactiveStrikeAttackTicks++;
 				if (this.inactiveStrikeAttackTicks > 80 && this.getTarget() != null)
 				{
-					this.strikeAttack.trigger();
+					this.STRIKE_ATTACK_GOAL.trigger();
 				}
 			}
 		}
 	}
 
-	@Override public @Nullable Vec3 calculatePartPos(PartInfo partInfo, double masterX, double masterY, double masterZ)
+	@Override @Nullable public Vec3 calculatePartPos(PartInfo partInfo, double masterX, double masterY, double masterZ)
 	{
-		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isRightArm() && this.strikeAttack.isActive())
+		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isRightArm() && this.STRIKE_ATTACK_GOAL.isActive())
 		{
 			Vec3 armStartPos = this.RIGHT_ARM_SEGMENT_1.getUnrotatedRelativePositionOffset();
-			Vec3 armEndPos = this.strikeAttack.getCachedUnrotatedRelativePos();
-			double curveStrengthFactor = this.strikeAttack.getPhaseType() == StrikeAttackPhaseType.RECOVERY ? this.calculateRecoveryCurveStrengthFactor(this.strikeAttack.getDistanceToTarget()) : 1.0D;
+			Vec3 armEndPos = this.STRIKE_ATTACK_GOAL.getCachedUnrotatedRelativePos();
+			double curveStrengthFactor = this.STRIKE_ATTACK_GOAL.getPhaseType() == StrikeAttackPhaseType.RECOVERY ? this.calculateRecoveryCurveStrengthFactor(this.STRIKE_ATTACK_GOAL.getDistanceToTarget()) : 1.0D;
 			Vec3 armPos = this.interpolateArmPos(armStartPos, armEndPos, curveStrengthFactor, armPartinfo.segmentIndex, 7);
 			return this.fromUnrotatedRelativeToLevelPos(armPos);
 		}
 		return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
 	}
 
-	private Vec3 interpolateStraightArmPos(Vec3 start, Vec3 end, int index, int totalSegments)
+	/* --------------------------------------------------------------------------- */
+	/* ---------- StrikeAttackEntity : Interface methods implementation ---------- */
+	/* --------------------------------------------------------------------------- */
+
+	@Override public List<StrikeAttackPhase> getStrikeAttackSequence()
 	{
-		double progress = (double)(index - 1) / (totalSegments - 1);
-		return start.lerp(end, progress);
+		return List.of(
+			new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos0, 1.0D, 1),
+			new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos1, 1.0D, 1),
+			new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos2, 1.0D, 1),
+			new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos3, 1.0D, 40),
+			new StrikeAttackPhase(StrikeAttackPhaseType.STRIKE, this::getRelativeStrikePos, 2.0D, 5),
+			new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, this::getRelativeRecoveryPos, 0.4D, 1),
+			new StrikeAttackInactivePhase()
+		);
 	}
+
+	@Override public boolean canUseStrikeAttack() {return this.getTarget() != null;}
+
+	@Override public void strike()
+	{
+		//strike effect (sound effect, particles ?)
+	}
+
+	/* --------------------------------------------------------------------------- */
+	/* --------------------------------------------------------------------------- */
+	/* --------------------------------------------------------------------------- */
 
 	private double calculateRecoveryCurveStrengthFactor(double distanceToTarget)
 	{
@@ -498,7 +524,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		double factor = Mth.clamp(heightDiff / heightDiffMaxThreshold, -1.0, 1.0); // negative if arm down, positive if arm up. 0 if arm is horizontal. (absolute) starting to decrease if diff is <= heightDiffMaxThreshold
 		Vec3 controlDir = new Vec3(armDir.z, 0, factor * armDir.x).normalize(); //orthogonal direction
 
-		double curveStrength = curveStrengthFactor * switch (this.strikeAttack.getCurrentPhase().getType())
+		double curveStrength = curveStrengthFactor * switch (this.STRIKE_ATTACK_GOAL.getCurrentPhase().getType())
 		{
 			case INACTIVE -> 0.0D;
 			case WINDUP -> 8.0D * Mth.abs((float)factor);
@@ -534,14 +560,4 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	}
 
 	private Vec3 getRelativeRecoveryPos() {return new Vec3(9.5F, 5.5F, 0.0F);}
-
-	private StrikeAttackSequence strikeAttack = new StrikeAttackSequence(List.of(
-		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos0, 1.0D, 1),
-		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos1, 1.0D, 1),
-		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos2, 1.0D, 1),
-		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos3, 1.0D, 40),
-		new StrikeAttackPhase(StrikeAttackPhaseType.STRIKE, this::getRelativeStrikePos, 2.0D, 5),
-		new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, this::getRelativeRecoveryPos, 0.4D, 1),
-		new StrikeAttackInactivePhase()
-	));
 }
