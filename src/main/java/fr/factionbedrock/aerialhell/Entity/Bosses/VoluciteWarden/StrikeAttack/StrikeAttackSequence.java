@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack;
 
-import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -17,6 +16,8 @@ public class StrikeAttackSequence
     public StrikeAttackPhase getCurrentPhase() {return this.getPhase(this.phaseIndex);}
     public StrikeAttackPhase getPreviousPhase() {return this.getPhase(this.getPreviousPhaseIndex());}
     public StrikeAttackPhase getPhase(int phaseIndex) {return this.phases.get(phaseIndex);}
+
+    public StrikeAttackPhaseType getPhaseType() {return this.getCurrentPhase().getType();}
 
     public void tick()
     {
@@ -39,9 +40,14 @@ public class StrikeAttackSequence
         }
     }
 
-    public boolean isAtTargetPos(Vec3 currentRelativePos)
+    public boolean isAtTargetPos()
     {
-        return this.getCurrentPhase().isAtTargetPos(currentRelativePos, DISTANCE_OFFSET_TOLERANCE);
+        return this.getCurrentPhase().isAtTargetPos(this.cachedUnrotatedRelativePos, DISTANCE_OFFSET_TOLERANCE);
+    }
+
+    public double getDistanceToTarget()
+    {
+        return this.getCurrentPhase().getDistanceToTarget(this.cachedUnrotatedRelativePos);
     }
 
     private void startFirstPhase() {this.startPhase(0);}

@@ -30,7 +30,6 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
@@ -453,7 +452,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			else
 			{
 				this.inactiveStrikeAttackTicks++;
-				if (this.inactiveStrikeAttackTicks > 80)
+				if (this.inactiveStrikeAttackTicks > 80 && this.getTarget() != null)
 				{
 					this.strikeAttack.trigger();
 				}
@@ -467,7 +466,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		{
 			Vec3 armStartPos = this.RIGHT_ARM_SEGMENT_1.getUnrotatedRelativePositionOffset();
 			Vec3 armEndPos = this.strikeAttack.getCachedUnrotatedRelativePos();
-			Vec3 armPos = this.interpolateArmPos(armStartPos, armEndPos, this.toUnrotatedRelativePos(this.position().add(0.0F, CORE_RELATIVE_HEIGHT, 0.0F)), armPartinfo.segmentIndex, 7);
+			double curveStrengthFactor = this.strikeAttack.getPhaseType() == StrikeAttackPhaseType.RECOVERY ? this.calculateRecoveryCurveStrengthFactor(this.strikeAttack.getDistanceToTarget()) : 1.0D;
+			Vec3 armPos = this.interpolateArmPos(armStartPos, armEndPos, curveStrengthFactor, armPartinfo.segmentIndex, 7);
 			return this.fromUnrotatedRelativeToLevelPos(armPos);
 		}
 		return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
@@ -479,7 +479,13 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		return start.lerp(end, progress);
 	}
 
-	private Vec3 interpolateArmPos(Vec3 start, Vec3 end, Vec3 masterPos, int index, int totalSegments)
+	private double calculateRecoveryCurveStrengthFactor(double distanceToTarget)
+	{
+		int maxFactorDistance = 4;
+		return Mth.clamp(distanceToTarget / maxFactorDistance, 0.0F, 1.0F);
+	}
+
+	private Vec3 interpolateArmPos(Vec3 start, Vec3 end, double curveStrengthFactor, int index, int totalSegments)
 	{
 		double progress = (double)(index - 1) / (totalSegments - 1);
 
@@ -492,7 +498,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		double factor = Mth.clamp(heightDiff / heightDiffMaxThreshold, -1.0, 1.0); // negative if arm down, positive if arm up. 0 if arm is horizontal. (absolute) starting to decrease if diff is <= heightDiffMaxThreshold
 		Vec3 controlDir = new Vec3(armDir.z, 0, factor * armDir.x).normalize(); //orthogonal direction
 
-		double curveStrength = switch (this.strikeAttack.getCurrentPhase().getType())
+		double curveStrength = curveStrengthFactor * switch (this.strikeAttack.getCurrentPhase().getType())
 		{
 			case INACTIVE -> 0.0D;
 			case WINDUP -> 8.0D * Mth.abs((float)factor);
