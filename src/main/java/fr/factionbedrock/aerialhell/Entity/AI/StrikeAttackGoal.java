@@ -12,19 +12,19 @@ import java.util.List;
 
 public class StrikeAttackGoal extends Goal
 {
-    private final StrikeAttackEntity entity;
+    public final StrikeAttackEntity goalOwner;
     private final float distanceOffsetTolerance;
     private int phaseIndex;
     private Vec3 cachedUnrotatedRelativePos;
 
-    public StrikeAttackGoal(StrikeAttackEntity entity, float distanceOffsetTolerance)
+    public StrikeAttackGoal(StrikeAttackEntity goalOwner, float distanceOffsetTolerance)
     {
-        this.entity = entity;
+        this.goalOwner = goalOwner;
         this.distanceOffsetTolerance = distanceOffsetTolerance;
         this.phaseIndex = 0;
     }
 
-    public List<StrikeAttackPhase> getPhases() {return this.entity.getStrikeAttackSequence();}
+    public List<StrikeAttackPhase> getPhases() {return this.goalOwner.getStrikeAttackSequence();}
 
     public StrikeAttackPhase getCurrentPhase() {return this.getPhase(this.phaseIndex);}
     public StrikeAttackPhase getPreviousPhase() {return this.getPhase(this.getPreviousPhaseIndex());}
@@ -34,7 +34,7 @@ public class StrikeAttackGoal extends Goal
 
     @Override public boolean canUse()
     {
-        if (this.entity.canUseStrikeAttack() && this.entity.shouldTrigger()) {this.trigger();}
+        if (this.goalOwner.canUseStrikeAttack() && this.goalOwner.shouldTrigger()) {this.trigger();}
         return this.isActive();
     }
 
@@ -50,36 +50,36 @@ public class StrikeAttackGoal extends Goal
 
     @Override public void tick()
     {
-        if (!this.entity.canUseStrikeAttack()) {this.skipToRecoveryPhase();}
+        if (!this.goalOwner.canUseStrikeAttack()) {this.skipToRecoveryPhase();}
 
         this.setEntityUsedToStrikePos();
         this.setLookAt();
 
         this.updateUnrotatedRelativePos();
 
-        this.getCurrentPhase().tick(this.entity, this.getCachedUnrotatedRelativePos(), this.distanceOffsetTolerance);
+        this.getCurrentPhase().tick(this.goalOwner, this.getCachedUnrotatedRelativePos(), this.distanceOffsetTolerance);
         if (this.getCurrentPhase().isFinished())
         {
-            this.entity.onStrikePhaseFinish(this.getPhaseType());
+            this.goalOwner.onStrikePhaseFinish(this.getPhaseType());
             this.startNextPhase();
         }
     }
 
-    private void setEntityUsedToStrikePos()
+    protected void setEntityUsedToStrikePos()
     {
-        Mob strikingEntity = this.entity.getEntityUsedToStrike();
+        Mob strikingEntity = this.goalOwner.getEntityUsedToStrike();
         if (strikingEntity != null)
         {
-            strikingEntity.setPos(this.entity.fromUnrotatedRelativeToLevelPos(this.getCachedUnrotatedRelativePos()));
+            strikingEntity.setPos(this.goalOwner.fromUnrotatedRelativeToLevelPos(this.getCachedUnrotatedRelativePos()));
         }
     }
 
-    private void setLookAt()
+    protected void setLookAt()
     {
         Vec3 lookTarget = this.getLookAtTarget();
         if (lookTarget != null)
         {
-            this.entity.getSelf().getLookControl().setLookAt(lookTarget.x, lookTarget.y, lookTarget.z, 30.0F, 30.0F);
+            this.goalOwner.getSelf().getLookControl().setLookAt(lookTarget.x, lookTarget.y, lookTarget.z, 30.0F, 30.0F);
         }
     }
 
@@ -87,11 +87,11 @@ public class StrikeAttackGoal extends Goal
     {
         if (this.getPhaseType() == StrikeAttackPhaseType.STRIKE)
         {
-            return this.entity.fromUnrotatedRelativeToLevelPos(this.getCurrentPhase().getUnrotatedRelativeTargetPos());
+            return this.goalOwner.fromUnrotatedRelativeToLevelPos(this.getCurrentPhase().getUnrotatedRelativeTargetPos());
         }
-        else if (this.entity.getTarget() != null)
+        else if (this.goalOwner.getTarget() != null)
         {
-            return this.entity.getTarget().position();
+            return this.goalOwner.getTarget().position();
         }
         else {return null;}
     }
@@ -109,7 +109,7 @@ public class StrikeAttackGoal extends Goal
 
     public double getDistanceToTarget()
     {
-        return this.getCurrentPhase().getDistanceToTarget(this.cachedUnrotatedRelativePos);
+        return this.getCurrentPhase().getDistanceToTarget(this.getCachedUnrotatedRelativePos());
     }
 
     public void skipToRecoveryPhase()

@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.StrikeAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenStrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackInactivePhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhase;
@@ -51,7 +51,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public static float EYE_RELATIVE_HEIGHT = 34.50F;
 	public static float CORE_RELATIVE_HEIGHT = 20.50F;
 
-	private StrikeAttackGoal STRIKE_ATTACK_GOAL;
+	private VoluciteWardenStrikeAttackGoal STRIKE_ATTACK_GOAL;
 
 	/* -- MasterPartEntity fields -- */
 	private static final EntityDataAccessor<Integer> RIGHT_ARM_SEGMENT_1_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
@@ -82,20 +82,20 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	private static final EntityDataAccessor<Integer> NECK_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Integer> HEAD_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
 	private final Map<String, PartInfo> PARTS_MAP = Maps.newHashMap();
-	private final PartInfo RIGHT_ARM_SEGMENT_1 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_1", 1, RIGHT_ARM_SEGMENT_1_ID, new Vec3(6.5F, 23.5F, 0.0F), true, PARTS_MAP);
-	private final PartInfo RIGHT_ARM_SEGMENT_2 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_2", 2, RIGHT_ARM_SEGMENT_2_ID, new Vec3(7.5F, 20.5F, 0.0F), true, PARTS_MAP);
-	private final PartInfo RIGHT_ARM_SEGMENT_3 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_3", 3, RIGHT_ARM_SEGMENT_3_ID, new Vec3(8.5F, 17.5F, 0.0F), true, PARTS_MAP);
-	private final PartInfo RIGHT_ARM_SEGMENT_4 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_4", 4, RIGHT_ARM_SEGMENT_4_ID, new Vec3(8.5F, 14.5F, 0.0F), true, PARTS_MAP);
-	private final PartInfo RIGHT_ARM_SEGMENT_5 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_5", 5, RIGHT_ARM_SEGMENT_5_ID, new Vec3(9.5F, 11.5F, 0.0F), true, PARTS_MAP);
-	private final PartInfo RIGHT_ARM_SEGMENT_6 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_6", 6, RIGHT_ARM_SEGMENT_6_ID, new Vec3(9.5F, 8.5F, 0.0F), true, PARTS_MAP);
-	private final PartInfo RIGHT_ARM_SEGMENT_7 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_7", 7, RIGHT_ARM_SEGMENT_7_ID, new Vec3(9.5F, 5.5F, 0.0F), true, PARTS_MAP);
-	private final PartInfo LEFT_ARM_SEGMENT_1 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_1", 1, LEFT_ARM_SEGMENT_1_ID, new Vec3(-6.5F, 23.5F, 0.0F), false, PARTS_MAP);
-	private final PartInfo LEFT_ARM_SEGMENT_2 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_2", 2, LEFT_ARM_SEGMENT_2_ID, new Vec3(-7.5F, 20.5F, 0.0F), false, PARTS_MAP);
-	private final PartInfo LEFT_ARM_SEGMENT_3 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_3", 3, LEFT_ARM_SEGMENT_3_ID, new Vec3(-8.5F, 17.5F, 0.0F), false, PARTS_MAP);
-	private final PartInfo LEFT_ARM_SEGMENT_4 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_4", 4, LEFT_ARM_SEGMENT_4_ID, new Vec3(-8.5F, 14.5F, 0.0F), false, PARTS_MAP);
-	private final PartInfo LEFT_ARM_SEGMENT_5 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_5", 5, LEFT_ARM_SEGMENT_5_ID, new Vec3(-9.5F, 11.5F, 0.0F), false, PARTS_MAP);
-	private final PartInfo LEFT_ARM_SEGMENT_6 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_6", 6, LEFT_ARM_SEGMENT_6_ID, new Vec3(-9.5F, 8.5F, 0.0F), false, PARTS_MAP);
-	private final PartInfo LEFT_ARM_SEGMENT_7 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_7", 7, LEFT_ARM_SEGMENT_7_ID, new Vec3(-9.5F, 5.5F, 0.0F), false, PARTS_MAP);
+	private final ArmPartInfo RIGHT_ARM_SEGMENT_1 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_1", 1, RIGHT_ARM_SEGMENT_1_ID, new Vec3(6.5F, 23.5F, 0.0F), true, PARTS_MAP);
+	private final ArmPartInfo RIGHT_ARM_SEGMENT_2 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_2", 2, RIGHT_ARM_SEGMENT_2_ID, new Vec3(7.5F, 20.5F, 0.0F), true, PARTS_MAP);
+	private final ArmPartInfo RIGHT_ARM_SEGMENT_3 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_3", 3, RIGHT_ARM_SEGMENT_3_ID, new Vec3(8.5F, 17.5F, 0.0F), true, PARTS_MAP);
+	private final ArmPartInfo RIGHT_ARM_SEGMENT_4 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_4", 4, RIGHT_ARM_SEGMENT_4_ID, new Vec3(8.5F, 14.5F, 0.0F), true, PARTS_MAP);
+	private final ArmPartInfo RIGHT_ARM_SEGMENT_5 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_5", 5, RIGHT_ARM_SEGMENT_5_ID, new Vec3(9.5F, 11.5F, 0.0F), true, PARTS_MAP);
+	private final ArmPartInfo RIGHT_ARM_SEGMENT_6 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_6", 6, RIGHT_ARM_SEGMENT_6_ID, new Vec3(9.5F, 8.5F, 0.0F), true, PARTS_MAP);
+	private final ArmPartInfo RIGHT_ARM_SEGMENT_7 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "right_arm_segment_7", 7, RIGHT_ARM_SEGMENT_7_ID, new Vec3(9.5F, 5.5F, 0.0F), true, PARTS_MAP);
+	private final ArmPartInfo LEFT_ARM_SEGMENT_1 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_1", 1, LEFT_ARM_SEGMENT_1_ID, new Vec3(-6.5F, 23.5F, 0.0F), false, PARTS_MAP);
+	private final ArmPartInfo LEFT_ARM_SEGMENT_2 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_2", 2, LEFT_ARM_SEGMENT_2_ID, new Vec3(-7.5F, 20.5F, 0.0F), false, PARTS_MAP);
+	private final ArmPartInfo LEFT_ARM_SEGMENT_3 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_3", 3, LEFT_ARM_SEGMENT_3_ID, new Vec3(-8.5F, 17.5F, 0.0F), false, PARTS_MAP);
+	private final ArmPartInfo LEFT_ARM_SEGMENT_4 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_4", 4, LEFT_ARM_SEGMENT_4_ID, new Vec3(-8.5F, 14.5F, 0.0F), false, PARTS_MAP);
+	private final ArmPartInfo LEFT_ARM_SEGMENT_5 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_5", 5, LEFT_ARM_SEGMENT_5_ID, new Vec3(-9.5F, 11.5F, 0.0F), false, PARTS_MAP);
+	private final ArmPartInfo LEFT_ARM_SEGMENT_6 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_6", 6, LEFT_ARM_SEGMENT_6_ID, new Vec3(-9.5F, 8.5F, 0.0F), false, PARTS_MAP);
+	private final ArmPartInfo LEFT_ARM_SEGMENT_7 = new ArmPartInfo(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), "left_arm_segment_7", 7, LEFT_ARM_SEGMENT_7_ID, new Vec3(-9.5F, 5.5F, 0.0F), false, PARTS_MAP);
 	private final PartInfo RIGHT_LEG = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_LEG.get(), "right_leg", RIGHT_LEG_ID, new Vec3(2.5F, 0.0F, 0.0F), PARTS_MAP);
 	private final PartInfo LEFT_LEG = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_LEG.get(), "left_leg", LEFT_LEG_ID, new Vec3(-2.5F, 0.0F, 0.0F), PARTS_MAP);
 	private final PartInfo PELVIS = new PartInfo(AerialHellEntities.VOLUCITE_WARDEN_PELVIS.get(), "pelvis", PELVIS_ID, new Vec3(0.0F, 9.5F, 0.0F), PARTS_MAP);
@@ -119,6 +119,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public final StagedActivableEntityInfo STAGED_ACTIVABLE_INFO = new StagedActivableEntityInfo(this.VOLUCITE_WARDEN_ACTIVABLE_INFO, AWAKENING, AWAKENED, VOLUCITE_WARDEN_AWAKENING);
 	/* -------------------------------------- */
 
+	private final List<ArmPartInfo> RIGHT_ARM = List.of(RIGHT_ARM_SEGMENT_1, RIGHT_ARM_SEGMENT_2, RIGHT_ARM_SEGMENT_3, RIGHT_ARM_SEGMENT_4, RIGHT_ARM_SEGMENT_5, RIGHT_ARM_SEGMENT_6, RIGHT_ARM_SEGMENT_7);
+	private final List<ArmPartInfo> LEFT_ARM = List.of(LEFT_ARM_SEGMENT_1, LEFT_ARM_SEGMENT_2, LEFT_ARM_SEGMENT_3, LEFT_ARM_SEGMENT_4, LEFT_ARM_SEGMENT_5, LEFT_ARM_SEGMENT_6, LEFT_ARM_SEGMENT_7);
 	public int timeDying;
 
 	public VoluciteWardenEntity(EntityType<? extends Monster> type, Level world)
@@ -146,6 +148,9 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		for (EntityDataAccessor<Integer> dataAccessor : dataAccessors) {builder.define(dataAccessor, 0);}
 	}
+
+	public List<ArmPartInfo> getRightArm() {return RIGHT_ARM;}
+	public List<ArmPartInfo> getLeftArm() {return LEFT_ARM;}
 
 	/* ------- StagedActivableEntity : Interface method implementation ------- */
 	@Override public StagedActivableEntityInfo getActivableInfo() {return STAGED_ACTIVABLE_INFO;}
@@ -305,7 +310,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override protected void registerGoals()
     {
-		this.STRIKE_ATTACK_GOAL = new StrikeAttackGoal(this, 0.2F);
+		this.STRIKE_ATTACK_GOAL = new VoluciteWardenStrikeAttackGoal(this, 0.2F);
 		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
@@ -390,7 +395,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		else {this.playHurtSound(damageSource);}
 	}
 
-	private static class ArmPartInfo extends PartInfo
+	public static class ArmPartInfo extends PartInfo
 	{
 		private final int segmentIndex;
 		private final boolean isRightArm;
@@ -466,15 +471,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override @Nullable public Vec3 calculatePartPos(PartInfo partInfo, double masterX, double masterY, double masterZ)
 	{
-		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isRightArm() && this.STRIKE_ATTACK_GOAL.isActive())
-		{
-			if (armPartinfo == RIGHT_ARM_SEGMENT_7) {return null;}
-			Vec3 armStartPos = this.RIGHT_ARM_SEGMENT_1.getUnrotatedRelativePositionOffset();
-			Vec3 armEndPos = this.STRIKE_ATTACK_GOAL.getCachedUnrotatedRelativePos();
-			double curveStrengthFactor = this.STRIKE_ATTACK_GOAL.getPhaseType() == StrikeAttackPhaseType.RECOVERY ? this.calculateRecoveryCurveStrengthFactor(this.STRIKE_ATTACK_GOAL.getDistanceToTarget()) : 1.0D;
-			Vec3 armPos = this.interpolateArmPos(armStartPos, armEndPos, curveStrengthFactor, armPartinfo.segmentIndex, 7);
-			return this.fromUnrotatedRelativeToLevelPos(armPos);
-		}
+		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isRightArm() && this.STRIKE_ATTACK_GOAL.isActive()) {return null;}
 		return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
 	}
 
@@ -512,49 +509,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* --------------------------------------------------------------------------- */
 	/* --------------------------------------------------------------------------- */
 	/* --------------------------------------------------------------------------- */
-
-	private double calculateRecoveryCurveStrengthFactor(double distanceToTarget)
-	{
-		int maxFactorDistance = 4;
-		return Mth.clamp(distanceToTarget / maxFactorDistance, 0.0F, 1.0F);
-	}
-
-	private Vec3 interpolateArmPos(Vec3 start, Vec3 end, double curveStrengthFactor, int index, int totalSegments)
-	{
-		double progress = (double)(index - 1) / (totalSegments - 1);
-
-		Vec3 armMiddle = start.add(end).scale(0.5);
-
-		Vec3 armDir = end.subtract(start).normalize();
-
-		double heightDiff = end.y - start.y;
-		float heightDiffMaxThreshold = 14.0F;
-		double factor = Mth.clamp(heightDiff / heightDiffMaxThreshold, -1.0, 1.0); // negative if arm down, positive if arm up. 0 if arm is horizontal. (absolute) starting to decrease if diff is <= heightDiffMaxThreshold
-		Vec3 controlDir = new Vec3(armDir.z, 0, factor * armDir.x).normalize(); //orthogonal direction
-
-		double curveStrength = curveStrengthFactor * switch (this.STRIKE_ATTACK_GOAL.getCurrentPhase().getType())
-		{
-			case INACTIVE -> 0.0D;
-			case WINDUP -> 8.0D * Mth.abs((float)factor);
-			case STRIKE -> 2.0D;
-			case RECOVERY -> 5.0D;
-		};
-
-		Vec3 control = armMiddle.add(controlDir.scale(curveStrength));
-
-		return quadraticBezier(start, control, end, progress);
-	}
-
-	private Vec3 quadraticBezier(Vec3 start, Vec3 control, Vec3 end, double progress)
-	{
-		double remainingProgress = 1.0 - progress;
-
-		Vec3 startWeight = start.scale(remainingProgress * remainingProgress);
-		Vec3 controlWeight = control.scale(2 * remainingProgress * progress);
-		Vec3 endWeight = end.scale(progress * progress);
-
-		return startWeight.add(controlWeight).add(endWeight);
-	}
 
 	private Vec3 getRelativeWindupPos0() {return new Vec3(12.0F, 8.5F, 4.0F);}
 	private Vec3 getRelativeWindupPos1() {return new Vec3(20.0F, 18.0F, 8.0F);}
