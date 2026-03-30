@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.St
 import fr.factionbedrock.aerialhell.Entity.StrikeAttackEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -36,23 +37,25 @@ public class StrikeAttackGoal extends Goal
         return this.isActive();
     }
 
-    @Override public boolean canContinueToUse() {return this.isActive();}
-
-    @Override public void start()
+    @Override public boolean canContinueToUse()
     {
-        this.phaseIndex = 0;
+        return this.isActive();
     }
 
-    @Override public void stop()
-    {
-        this.phaseIndex = 0;
-    }
+    @Override public void start() {this.startFirstPhase();}
+    @Override public void stop() {}
 
     @Override public boolean requiresUpdateEveryTick() {return true;}
 
     @Override public void tick()
     {
         if (!this.entity.canUseStrikeAttack()) {this.skipToRecoveryPhase();}
+
+        Vec3 lookTarget = this.getLookAtTarget();
+        if (lookTarget != null)
+        {
+            this.entity.getSelf().getLookControl().setLookAt(lookTarget.x, lookTarget.y, lookTarget.z, 30.0F, 30.0F);
+        }
 
         this.updateUnrotatedRelativePos();
 
@@ -62,6 +65,19 @@ public class StrikeAttackGoal extends Goal
             this.entity.onStrikePhaseFinish(this.getPhaseType());
             this.startNextPhase();
         }
+    }
+
+    @Nullable public Vec3 getLookAtTarget()
+    {
+        if (this.getPhaseType() == StrikeAttackPhaseType.STRIKE)
+        {
+            return this.entity.fromUnrotatedRelativeToLevelPos(this.getCurrentPhase().getUnrotatedRelativeTargetPos());
+        }
+        else if (this.entity.getTarget() != null)
+        {
+            return this.entity.getTarget().position();
+        }
+        else {return null;}
     }
 
     public boolean isActive() {return this.getPhaseType() != StrikeAttackPhaseType.INACTIVE;}
@@ -84,12 +100,13 @@ public class StrikeAttackGoal extends Goal
     {
         if (this.getCurrentPhase().getType() == StrikeAttackPhaseType.RECOVERY) {return;}
 
-        int previousPhaseIndex = this.phaseIndex; //to avoid infinite cycle if there is no recovery phase in sequence (should never happen)
-        this.phaseIndex = this.getNextPhaseIndex();
-        while (this.getCurrentPhase().getType() != StrikeAttackPhaseType.RECOVERY && this.phaseIndex != previousPhaseIndex)
+        int previousPhaseIndex = this.phaseIndex;
+        int newPhaseIndex = this.getNextPhaseIndex(previousPhaseIndex);
+        while (this.getPhase(newPhaseIndex).getType() != StrikeAttackPhaseType.RECOVERY && newPhaseIndex != previousPhaseIndex) //newPhaseIndex != previousPhaseIndex to avoid infinite cycle if there is no recovery phase in sequence (should never happen)
         {
-            this.phaseIndex = this.getNextPhaseIndex();
+            newPhaseIndex = this.getNextPhaseIndex(newPhaseIndex);
         }
+        if (newPhaseIndex != previousPhaseIndex) {this.startPhase(newPhaseIndex);}
     }
 
     private void startFirstPhase() {this.startPhase(0);}
@@ -102,7 +119,12 @@ public class StrikeAttackGoal extends Goal
 
     private int getNextPhaseIndex()
     {
-        int nextPhaseIndex = this.phaseIndex + 1;
+        return this.getNextPhaseIndex(this.phaseIndex);
+    }
+
+    private int getNextPhaseIndex(int phaseIndex)
+    {
+        int nextPhaseIndex = phaseIndex + 1;
         return nextPhaseIndex >= this.getPhases().size() ? 0 : nextPhaseIndex;
     }
 
