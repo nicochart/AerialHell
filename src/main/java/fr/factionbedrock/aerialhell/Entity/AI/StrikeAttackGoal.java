@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.AI;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhaseType;
 import fr.factionbedrock.aerialhell.Entity.StrikeAttackEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -51,11 +52,8 @@ public class StrikeAttackGoal extends Goal
     {
         if (!this.entity.canUseStrikeAttack()) {this.skipToRecoveryPhase();}
 
-        Vec3 lookTarget = this.getLookAtTarget();
-        if (lookTarget != null)
-        {
-            this.entity.getSelf().getLookControl().setLookAt(lookTarget.x, lookTarget.y, lookTarget.z, 30.0F, 30.0F);
-        }
+        this.setEntityUsedToStrikePos();
+        this.setLookAt();
 
         this.updateUnrotatedRelativePos();
 
@@ -64,6 +62,24 @@ public class StrikeAttackGoal extends Goal
         {
             this.entity.onStrikePhaseFinish(this.getPhaseType());
             this.startNextPhase();
+        }
+    }
+
+    private void setEntityUsedToStrikePos()
+    {
+        Mob strikingEntity = this.entity.getEntityUsedToStrike();
+        if (strikingEntity != null)
+        {
+            strikingEntity.setPos(this.entity.fromUnrotatedRelativeToLevelPos(this.getCachedUnrotatedRelativePos()));
+        }
+    }
+
+    private void setLookAt()
+    {
+        Vec3 lookTarget = this.getLookAtTarget();
+        if (lookTarget != null)
+        {
+            this.entity.getSelf().getLookControl().setLookAt(lookTarget.x, lookTarget.y, lookTarget.z, 30.0F, 30.0F);
         }
     }
 

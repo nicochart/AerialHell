@@ -468,6 +468,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isRightArm() && this.STRIKE_ATTACK_GOAL.isActive())
 		{
+			if (armPartinfo == RIGHT_ARM_SEGMENT_7) {return null;}
 			Vec3 armStartPos = this.RIGHT_ARM_SEGMENT_1.getUnrotatedRelativePositionOffset();
 			Vec3 armEndPos = this.STRIKE_ATTACK_GOAL.getCachedUnrotatedRelativePos();
 			double curveStrengthFactor = this.STRIKE_ATTACK_GOAL.getPhaseType() == StrikeAttackPhaseType.RECOVERY ? this.calculateRecoveryCurveStrengthFactor(this.STRIKE_ATTACK_GOAL.getDistanceToTarget()) : 1.0D;
@@ -496,6 +497,12 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	@Override public boolean canUseStrikeAttack() {return this.getTarget() != null;}
 
 	@Override public boolean shouldTrigger() {return false;}
+
+	@Override @Nullable public Mob getEntityUsedToStrike()
+	{
+		PartEntity rightArmSegment7 = this.RIGHT_ARM_SEGMENT_7.getPart();
+		return rightArmSegment7 != null ? rightArmSegment7.getSelf() : null;
+	}
 
 	@Override public void strike()
 	{
