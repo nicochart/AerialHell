@@ -13,6 +13,8 @@ public interface StrikeAttackEntity extends BaseMobEntityInterface
 
     void strike();
 
+    default boolean shouldTrigger() {return this.canUseStrikeAttack();}
+
     default void onStrikePhaseStartFinishing(StrikeAttackPhaseType currentPhaseType) //when entity reaches target pos
     {
         if (currentPhaseType == StrikeAttackPhaseType.STRIKE)

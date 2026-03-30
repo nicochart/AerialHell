@@ -495,6 +495,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override public boolean canUseStrikeAttack() {return this.getTarget() != null;}
 
+	@Override public boolean shouldTrigger() {return false;}
+
 	@Override public void strike()
 	{
 		//strike effect (sound effect, particles ?)

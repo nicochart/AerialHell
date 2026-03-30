@@ -32,13 +32,11 @@ public class StrikeAttackGoal extends Goal
 
     @Override public boolean canUse()
     {
-        return this.isActive() && this.entity.canUseStrikeAttack();
+        if (this.entity.canUseStrikeAttack() && this.entity.shouldTrigger()) {this.trigger();}
+        return this.isActive();
     }
 
-    @Override public boolean canContinueToUse()
-    {
-        return this.isActive() && this.entity.canUseStrikeAttack();
-    }
+    @Override public boolean canContinueToUse() {return this.isActive();}
 
     @Override public void start()
     {
@@ -54,6 +52,8 @@ public class StrikeAttackGoal extends Goal
 
     @Override public void tick()
     {
+        if (!this.entity.canUseStrikeAttack()) {this.skipToRecoveryPhase();}
+
         this.updateUnrotatedRelativePos();
 
         this.getCurrentPhase().tick(this.entity, this.getCachedUnrotatedRelativePos(), this.distanceOffsetTolerance);
@@ -64,7 +64,7 @@ public class StrikeAttackGoal extends Goal
         }
     }
 
-    public boolean isActive() {return this.getCurrentPhase().getType() != StrikeAttackPhaseType.INACTIVE;}
+    public boolean isActive() {return this.getPhaseType() != StrikeAttackPhaseType.INACTIVE;}
     public boolean trigger() //return true if the attack sequence is successfully triggered
     {
         if (this.isActive()) {return false;}
@@ -78,6 +78,18 @@ public class StrikeAttackGoal extends Goal
     public double getDistanceToTarget()
     {
         return this.getCurrentPhase().getDistanceToTarget(this.cachedUnrotatedRelativePos);
+    }
+
+    public void skipToRecoveryPhase()
+    {
+        if (this.getCurrentPhase().getType() == StrikeAttackPhaseType.RECOVERY) {return;}
+
+        int previousPhaseIndex = this.phaseIndex; //to avoid infinite cycle if there is no recovery phase in sequence (should never happen)
+        this.phaseIndex = this.getNextPhaseIndex();
+        while (this.getCurrentPhase().getType() != StrikeAttackPhaseType.RECOVERY && this.phaseIndex != previousPhaseIndex)
+        {
+            this.phaseIndex = this.getNextPhaseIndex();
+        }
     }
 
     private void startFirstPhase() {this.startPhase(0);}
