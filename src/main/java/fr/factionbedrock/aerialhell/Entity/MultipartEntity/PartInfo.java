@@ -22,12 +22,12 @@ public class PartInfo
 
     public PartInfo(EntityType<?> type, String name, EntityDataAccessor<Integer> entityIdDataAccessor, Vec3 relativePositionOffset, Map<String, PartInfo> partsMap) {this(type, name, entityIdDataAccessor, relativePositionOffset, false, partsMap);}
 
-    public PartInfo(EntityType<?> type, String name, EntityDataAccessor<Integer> entityIdDataAccessor, Vec3 relativePositionOffset, boolean isHead, Map<String, PartInfo> partsMap)
+    public PartInfo(EntityType<?> type, String name, EntityDataAccessor<Integer> entityIdDataAccessor, Vec3 unrotatedRelativePositionOffset, boolean isHead, Map<String, PartInfo> partsMap)
     {
         this.type = type;
         this.name = name;
         this.entityIdDataAccessor = entityIdDataAccessor;
-        this.unrotatedRelativePositionOffset = relativePositionOffset;
+        this.unrotatedRelativePositionOffset = unrotatedRelativePositionOffset;
         partsMap.put(name, this);
         this.ticksInInvalidSituation = 0;
         this.isHead = isHead;

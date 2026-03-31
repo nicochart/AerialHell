@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.MultipartEntity;
 
 import fr.factionbedrock.aerialhell.Entity.BaseMobEntityInterface;
+import fr.factionbedrock.aerialhell.Util.DebugHelper;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -31,12 +32,16 @@ public interface PartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------- */
     default void partEntityTick() //call in tick()
     {
-        if (this.getMasterRaw() == null) {this.setMasterRaw(this.getMasterByID());}
         MasterPartEntity master = this.getMasterRaw();
         if (master == null || master.getSelf().isDeadOrDying() || master.getSelf().isRemoved() || !master.is(this.getSelf()))
         {
             this.incrementTicksInInvalidSituation();
-            if (this.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION) {this.reactToInvalidSituationWithMaster();}
+            if (this.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION)
+            {
+                DebugHelper.sendDebugMessage(this.getLevel(), "Child Part "+this.getSelf().getName().getString().replace("entity.aerialhell.", "")+": invalid situation with "+(master == null ? "null" : master.getSelf().isDeadOrDying() ? "dying" : master.getSelf().isRemoved() ? "removed" : "unrecognizing")+" master part"); //temporary debug TODO remove
+                this.reactToInvalidSituationWithMaster();
+            }
+            this.tryToFindBackMaster();
         }
         else {this.resetTicksInInvalidSituation();}
     }
@@ -119,6 +124,17 @@ public interface PartEntity extends BaseMobEntityInterface
                 if (!this.getLevel().isClientSide()) {this.getSelf().discard();}
             }
         };
+    }
+
+    private boolean tryToFindBackMaster()
+    {
+        MasterPartEntity master = this.getMasterByID();
+        if (master == null || master.getSelf().isRemoved()) {return false;}
+        else
+        {
+            this.setMasterRaw(master);
+            return false;
+        }
     }
 
     @Nullable default MasterPartEntity getMasterByID()

@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.MultipartEntity;
 
 import fr.factionbedrock.aerialhell.Entity.BaseMobEntityInterface;
+import fr.factionbedrock.aerialhell.Util.DebugHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -43,14 +44,22 @@ public interface MasterPartEntity extends BaseMobEntityInterface
             if (synchedPartEntity == null || synchedPartEntity.getSelf().isRemoved())
             {
                 partInfo.incrementTicksInInvalidSituation();
-                if (partInfo.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION)  //should not happen if head is not removed or if the uuid changed (if the entity is loaded from a structure nbt for example)
+                if (partInfo.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION)  //should not happen if part is not removed or if the uuid changed (if the entity is loaded from a structure nbt for example)
                 {
+                    DebugHelper.sendDebugMessage(this.getLevel(), "Master Part : invalid situation with child part "+partInfo.getName()); //temporary debug TODO remove
                     boolean shouldBreak = this.reactToInvalidSituationWithPart(partInfo);
                     if (shouldBreak) {break;}
                 }
                 this.tryToFindBackPart(partInfo);
             }
-            else {partInfo.resetTicksInInvalidSituation();}
+            else
+            {
+                partInfo.resetTicksInInvalidSituation();
+
+                //below sometimes happens client-side. If player is far-away,
+                MasterPartEntity partMaster = synchedPartEntity.getMaster();
+                if (partMaster == null || partMaster.getId() != this.getId()) {synchedPartEntity.setMasterRaw(this);}
+            }
         }
     }
 

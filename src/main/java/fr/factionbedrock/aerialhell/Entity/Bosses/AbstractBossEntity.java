@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.SyncedTargetEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
@@ -51,7 +50,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity impleme
 	private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(AbstractBossEntity.class, EntityDataSerializers.INT);
 
 	/* SyncedTargetEntity fields */
-	private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(AbstractBossEntity.class, EntityDataSerializers.INT);
 	SyncedTargetEntityInfo SYNCED_TARGET_ENTITY_INFO = new SyncedTargetEntityInfo(ATTACK_TARGET_ID);
 	/* ------------------------- */
 

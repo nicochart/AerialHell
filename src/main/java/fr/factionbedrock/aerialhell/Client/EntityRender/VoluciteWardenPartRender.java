@@ -8,12 +8,13 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenC
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
-import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 public class VoluciteWardenPartRender extends MobRenderer<VoluciteWardenPartEntity, VoluciteWardenRenderState, VoluciteWardenPartModel>
 {
@@ -48,6 +49,21 @@ public class VoluciteWardenPartRender extends MobRenderer<VoluciteWardenPartEnti
 	{
 		if (!renderState.shouldRender) {return;}
 		super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
+	}
+
+	@Override public AABB getBoundingBoxForCulling(VoluciteWardenPartEntity entity)
+	{
+		AABB box = super.getBoundingBoxForCulling(entity);
+
+		if (entity instanceof VoluciteWardenChestPartEntity chestPartEntity && chestPartEntity.shouldRender())
+		{
+			//Chest total size (lower chest + core, ribs + upper chest) is 10.0F
+			float y = 8.0F; //Minus 2.0F because the size of the lower chest is already in the bounding box max position.
+			Vec3 start = box.getMinPosition();
+			Vec3 end = box.getMaxPosition().add(0.0F, y, 0.0F);
+			return new AABB(start, end);
+		}
+		else {return box;}
 	}
 
 	private Identifier getTextureLocation(VoluciteWardenPartEntity entity, VoluciteWardenPartModel.Part part)

@@ -13,6 +13,7 @@ public class StrikeAttackPhase
     private final int requiredTicksAtTarget;
 
     private int ticksAtTarget = 0;
+    private boolean reachedTarget = false;
 
     public StrikeAttackPhase(StrikeAttackPhaseType type, Supplier<Vec3> unrotatedRelativeTargetPosSupplier, double speed, int requiredTicksAtTarget)
     {
@@ -28,16 +29,21 @@ public class StrikeAttackPhase
     }
 
     public double getSpeed() {return this.speed;}
-    public void reset() {this.ticksAtTarget = 0;}
+    public void reset()
+    {
+        this.ticksAtTarget = 0;
+        this.reachedTarget = false;
+    }
 
     public void tick(StrikeAttackEntity strikeAttackEntity, Vec3 currentUnrotatedRelativePos, float distanceOffsetTolerance)
     {
         if (this.isAtTargetPos(currentUnrotatedRelativePos, distanceOffsetTolerance))
         {
-            if (this.ticksAtTarget == 1)
+            if (this.ticksAtTarget == 1 && !this.reachedTarget)
             {
                 //waiting 1 tick at target pos because of client interpolation. (Else it appears as if the interaction occurs before the contact with target).
                 strikeAttackEntity.onStrikePhaseStartFinishing(this.getUnrotatedRelativeTargetPos(), this.getType());
+                this.reachedTarget = true;
             }
             this.ticksAtTarget++;
         }

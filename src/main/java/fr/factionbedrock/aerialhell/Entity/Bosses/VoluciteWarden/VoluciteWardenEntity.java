@@ -18,6 +18,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -541,7 +542,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			if (this.getEntityUsedToStrike() != null)
 			{
 				Vec3 center = this.fromUnrotatedRelativeToLevelPos(this.getRelativeStrikePos()); //can't use this.getEntityUsedToStrike().position() because client pos is interpolated
-				this.spawnHorizontalShockwaveParticles(center, 40, 0.5F, 1.5F);
+				this.spawnStrikeParticles(center, 0.5F);
 			}
 		}
 		else {super.handleEntityEvent(id);}
@@ -567,26 +568,59 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		}
 	}
 
-	private void spawnHorizontalShockwaveParticles(Vec3 center, int points, float radius, float speed)
+	private void spawnStrikeParticles(Vec3 center, float radius)
 	{
-		if (center == null) return;
+		this.spawnHorizontalShockwaveParticles(center, 100, 0.5F, 1.5F);
 
-		for (int i = 0; i < points; i++)
+		this.spawnParticles(ParticleTypes.EXPLOSION, center, radius * 12, 5);
+		this.spawnParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE, center, radius, 20);
+	}
+
+	private void spawnHorizontalShockwaveParticles(Vec3 center, int number, float radius, float speed)
+	{
+		for (int i = 0; i < number; i++)
 		{
-			double angle = 2 * Math.PI * i / points;
+			//radius variation (50 percent)
+			float radiusOffset = radius * 0.5F;
+			float finalRadius = radius + (float)this.randomParticleOffset(radiusOffset);
+			//speed variation (70 percent)
+			float speedOffset = speed * 0.7F;
+			float finalSpeed = speed + (float)this.randomParticleOffset(speedOffset);
+
+			double angle = 2 * Math.PI * i / number;
 
 			double x = Math.cos(angle);
 			double z = Math.sin(angle);
 
-			double px = center.x + x * radius;
-			double py = center.y + 0.1D;
-			double pz = center.z + z * radius;
+			double px = center.x + x * finalRadius;
+			double py = center.y + this.randomParticleYOffset(0.2F);
+			double pz = center.z + z * finalRadius;
 
-			double vx = x * speed;
+			double vx = x * finalSpeed;
 			double vy = 0.1D;
-			double vz = z * speed;
+			double vz = z * finalSpeed;
 
 			this.level().addParticle(ParticleTypes.CLOUD, px, py, pz, vx, vy, vz);
 		}
 	}
+
+	private void spawnParticles(ParticleOptions particle, Vec3 center, float radius, int number)
+	{
+		for (int i = 0; i < number; i++)
+		{
+			double x = center.x + this.randomParticleOffset(radius);
+			double y = center.y + this.randomParticleOffset(radius);
+			double z = center.z + this.randomParticleOffset(radius);
+			double xSpeed = this.randomParticleOffset() * 0.5D;
+			double ySpeed = this.randomParticleYOffset() * 0.5D;
+			double zSpeed = this.randomParticleOffset() * 0.5D;
+
+			this.level().addParticle(particle, x, y, z, xSpeed, ySpeed, zSpeed);
+		}
+	}
+
+	private double randomParticleOffset(float radius) {return radius == 0.0F ? this.randomParticleOffset() : this.randomParticleOffset() * radius;}
+	private double randomParticleOffset() {return this.random.nextDouble() - 0.5D;}
+	private double randomParticleYOffset(float radius) {return radius == 0.0F ? this.randomParticleYOffset() : this.randomParticleYOffset() * radius;}
+	private double randomParticleYOffset() {return this.random.nextDouble();}
 }
