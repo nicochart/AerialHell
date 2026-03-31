@@ -14,7 +14,7 @@ public class PartInfo
     private final TrackedData<Integer> entityIdDataAccessor; //entity id (in level)
     @Nullable private PartEntity partEntity;
     @Nullable private String partEntityUUID; //entity uuid
-    private final Vec3d relativePositionOffset;
+    private final Vec3d unrotatedRelativePositionOffset;
     private int ticksInInvalidSituation;
     private boolean isHead;
 
@@ -22,12 +22,12 @@ public class PartInfo
 
     public PartInfo(EntityType<?> type, String name, TrackedData<Integer> entityIdDataAccessor, Vec3d relativePositionOffset, Map<String, PartInfo> partsMap) {this(type, name, entityIdDataAccessor, relativePositionOffset, false, partsMap);}
 
-    public PartInfo(EntityType<?> type, String name, TrackedData<Integer> entityIdDataAccessor, Vec3d relativePositionOffset, boolean isHead, Map<String, PartInfo> partsMap)
+    public PartInfo(EntityType<?> type, String name, TrackedData<Integer> entityIdDataAccessor, Vec3d unrotatedRelativePositionOffset, boolean isHead, Map<String, PartInfo> partsMap)
     {
         this.type = type;
         this.name = name;
         this.entityIdDataAccessor = entityIdDataAccessor;
-        this.relativePositionOffset = relativePositionOffset;
+        this.unrotatedRelativePositionOffset = unrotatedRelativePositionOffset;
         partsMap.put(name, this);
         this.ticksInInvalidSituation = 0;
         this.isHead = isHead;
@@ -36,7 +36,7 @@ public class PartInfo
     public EntityType<?> getType() {return type;}
     public String getName() {return name;}
     public TrackedData<Integer> getIdData() {return entityIdDataAccessor;}
-    public Vec3d getRelativePositionOffset() {return relativePositionOffset;}
+    public Vec3d getUnrotatedRelativePositionOffset() {return unrotatedRelativePositionOffset;}
 
     public @Nullable PartEntity getPart() {return partEntity;}
     public void setPart(@Nullable PartEntity partEntity) {this.partEntity = partEntity;}

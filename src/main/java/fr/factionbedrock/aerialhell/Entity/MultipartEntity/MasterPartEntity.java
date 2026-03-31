@@ -36,6 +36,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------- */
     default void partEntityTick() //call in tick()
     {
+        if (!this.getSelf().isAlive()) {return;}
         for (PartInfo partInfo : this.getPartInfoMap().values())
         {
             PartEntity synchedPartEntity = this.syncPart(partInfo); //server-client part sync
@@ -314,7 +315,8 @@ public interface MasterPartEntity extends BaseMobEntityInterface
             summonedPart.setCustomName(master.getCustomName());
             summonedPart.setInvulnerable(master.isInvulnerable());
             summonedPart.setMaster(this);
-            summonedPart.getSelf().refreshPositionAndAngles(this.getX() + part.getRelativePositionOffset().x, this.getY() + part.getRelativePositionOffset().y, this.getZ() + part.getRelativePositionOffset().z, this.getSelf().getYaw(), this.getSelf().getPitch());
+            summonedPart.getSelf().refreshPositionAndAngles(this.getX() + part.getUnrotatedRelativePositionOffset().x, this.getY() + part.getUnrotatedRelativePositionOffset().y, this.getZ() + part.getUnrotatedRelativePositionOffset().z, this.getSelf().getYaw(), this.getSelf().getPitch());
+
             this.getLevel().spawnEntity(summonedPart.getSelf());
             return summonedPart;
         }
@@ -405,11 +407,11 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     @Nullable default Vec3d calculatePartPos(PartInfo partInfo, double masterX, double masterY, double masterZ)
     {
         PartEntity part = partInfo.getPart();
-        Vec3d offset = partInfo.getRelativePositionOffset();
+        Vec3d offset = partInfo.getUnrotatedRelativePositionOffset();
         if (part != null)
         {
             Vec3d adjustedOffset = this.adjustPartOffset(partInfo, part, new Vec3d(masterX, masterY, masterZ), offset);
-            Vec3d partRelativePos = this.rotatePartPos(adjustedOffset);
+            Vec3d partRelativePos = this.toRotatedPos(adjustedOffset);
             return new Vec3d(masterX + partRelativePos.x, masterY + partRelativePos.y, masterZ + partRelativePos.z);
         }
         return null;
@@ -424,12 +426,6 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         double dz = z - tz;
         double xzDistance = Math.sqrt(dx * dx + dz * dz);
         return (float)(Math.atan2(dy, xzDistance) * (180F / Math.PI));
-    }
-
-    default Vec3d rotatePartPos(Vec3d vec)
-    {
-        float yRot = (float) Math.toRadians(this.getSelf().bodyYaw);
-        return vec.rotateY(-yRot);
     }
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */

@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.Bosses;
 import fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.SyncedTargetEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.advancement.criterion.Criteria;
@@ -44,13 +45,22 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public abstract class AbstractBossEntity extends AbstractActivableEntity
+public abstract class AbstractBossEntity extends AbstractActivableEntity implements SyncedTargetEntity
 {
 	protected final ServerBossBar bossInfo = new ServerBossBar(this.getDisplayName(), BossBar.Color.GREEN, BossBar.Style.PROGRESS);
 	private static final TrackedData<Integer> BOSS_DIFFICULTY = DataTracker.registerData(AbstractBossEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	private static final TrackedData<Integer> PHASE = DataTracker.registerData(AbstractBossEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
+	/* SyncedTargetEntity fields */
+	private static final TrackedData<Integer> ATTACK_TARGET_ID = DataTracker.registerData(AbstractBossEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	SyncedTargetEntityInfo SYNCED_TARGET_ENTITY_INFO = new SyncedTargetEntityInfo(ATTACK_TARGET_ID);
+	/* ------------------------- */
+
 	public AbstractBossEntity(EntityType<? extends HostileEntity> type, World world) {super(type, world);}
+
+	/* ------- SyncedTargetEntity : Interface method implementation ------- */
+	@Override public SyncedTargetEntityInfo getSyncedTargetEntityInfo() {return this.SYNCED_TARGET_ENTITY_INFO;}
+	/* -------------------------------------------------------------------- */
 
 	@Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
 	{
@@ -213,6 +223,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		super.initDataTracker(builder);
 		builder.add(BOSS_DIFFICULTY, 0);
 		builder.add(PHASE, 0);
+		builder.add(ATTACK_TARGET_ID, 0);
 	}
 
 	public void setDifficulty(int difficulty) {this.getDataTracker().set(BOSS_DIFFICULTY, difficulty);}
@@ -341,6 +352,10 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	@Override public void tick()
 	{
 		super.tick();
+		/* SyncedTargetEntity tick */
+		this.syncedTargetEntityTick();
+		/* ----------------------- */
+
 		if (this.isActive() && this.age % 900 == 0) {this.updateBossDifficulty(); this.adaptBossDifficulty();}
 		this.bossInfo.setVisible(this.isActive());
 		this.immunizeToEffects();

@@ -23,7 +23,6 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jspecify.annotations.Nullable;
 
@@ -44,10 +43,7 @@ public class VoluciteGolemHeadEntity extends HostileEntity implements PartEntity
     private static final TrackedData<Integer> BEAMING_PHASE = DataTracker.registerData(VoluciteGolemHeadEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Boolean> BEAM_TARGET_POS_NEEDS_SYNC = DataTracker.registerData(VoluciteGolemHeadEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private @Nullable LivingEntity clientSideCachedAttackTarget;
-    private Vec3d beamTargetPos;
-    private Vec3d prevBeamTargetPos;
-    private Vec3d beamEndPos;
-    private Vec3d prevBeamEndPos;
+    private final BeamAttackEntityInfo BEAM_ATTACK_ENTITY_INFO = new BeamAttackEntityInfo(ATTACK_TARGET_ID, BEAMING_PHASE, BEAM_TARGET_POS_NEEDS_SYNC);
     /* ----------------------------- */
 
     public VoluciteGolemHeadEntity(EntityType<? extends HostileEntity> type, World world)
@@ -164,23 +160,9 @@ public class VoluciteGolemHeadEntity extends HostileEntity implements PartEntity
     /* ------------------------------------------------------------------------------------- */
 
     /* ------------------------------------------------------------------------- */
-    /* ---------- BeamAttackEntity : Interface methods implementation ---------- */
+    /* ---------- BeamAttackEntity : Interface method implementation ---------- */
     /* ------------------------------------------------------------------------- */
-    @Override public TrackedData<Integer> getBeamTargetEntityIdData() {return ATTACK_TARGET_ID;}
-    @Override public TrackedData<Integer> getBeamingPhaseData() {return BEAMING_PHASE;}
-    @Override public TrackedData<Boolean> getBeamTargetPosNeedsSyncData() {return BEAM_TARGET_POS_NEEDS_SYNC;}
-
-    @Override @Nullable public LivingEntity getClientSideCachedAttackTarget() {return this.clientSideCachedAttackTarget;}
-    @Override @Nullable public Vec3d getBeamTargetPos() {return getBeamAttackTarget() != null ? beamTargetPos : null;}
-    @Override @Nullable public Vec3d getPrevBeamTargetPos() {return getBeamAttackTarget() != null ? prevBeamTargetPos : null;}
-    @Override @Nullable public Vec3d getBeamEndPos() {return getBeamAttackTarget() != null ? beamEndPos : null;}
-    @Override @Nullable public Vec3d getPrevBeamEndPos() {return getBeamAttackTarget() != null ? prevBeamEndPos : null;}
-
-    @Override public void setClientSideCachedAttackTarget(@Nullable LivingEntity entity) {this.clientSideCachedAttackTarget = entity;}
-    @Override public void setBeamTargetPos(Vec3d pos) {this.beamTargetPos = pos;}
-    @Override public void setPrevBeamTargetPos(Vec3d pos) {this.prevBeamTargetPos = pos;}
-    @Override public void setBeamEndPos(Vec3d pos) {this.beamEndPos = pos;}
-    @Override public void setPrevBeamEndPos(Vec3d pos) {this.prevBeamEndPos = pos;}
+    @Override public BeamAttackEntityInfo getBeamAttackEntityInfo() {return this.BEAM_ATTACK_ENTITY_INFO;}
     /* ------------------------------------------------------------------------- */
     /* ------------------------------------------------------------------------- */
     /* ------------------------------------------------------------------------- */
