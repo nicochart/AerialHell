@@ -1,11 +1,13 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
-import fr.factionbedrock.aerialhell.Entity.BaseMobEntityInterface;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -17,26 +19,12 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
-public interface BeamAttackEntity extends BaseMobEntityInterface
+public interface BeamAttackEntity extends SyncedTargetEntity
 {
     /* ---------------------------------------------------- */
     /* ---------- Methods needing implementation ---------- */
     /* ---------------------------------------------------- */
-    EntityDataAccessor<Integer> getBeamTargetEntityIdData();
-    EntityDataAccessor<Integer> getBeamingPhaseData();
-    EntityDataAccessor<Boolean> getBeamTargetPosNeedsSyncData();
-
-    @Nullable LivingEntity getClientSideCachedAttackTarget();
-    @Nullable Vec3 getBeamTargetPos();
-    @Nullable Vec3 getPrevBeamTargetPos();
-    @Nullable Vec3 getBeamEndPos();
-    @Nullable Vec3 getPrevBeamEndPos();
-
-    void setClientSideCachedAttackTarget(@Nullable LivingEntity entity);
-    void setBeamTargetPos(Vec3 pos);
-    void setPrevBeamTargetPos(Vec3 pos);
-    void setBeamEndPos(Vec3 pos);
-    void setPrevBeamEndPos(Vec3 pos);
+    BeamAttackEntityInfo getBeamAttackEntityInfo();
     /* ---------------------------------------------------- */
     /* ---------------------------------------------------- */
     /* ---------------------------------------------------- */
@@ -46,13 +34,14 @@ public interface BeamAttackEntity extends BaseMobEntityInterface
     /* ----------------------------------------------- */
     default void beamAttackTick() //call this in entity tick() method
     {
+        this.syncedTargetEntityTick();
+
         boolean beamingSyncFlag = this.beamingTargetPosNeedsSync();
         if (beamingSyncFlag)
         {
             this.getEntityData().set(this.getBeamTargetPosNeedsSyncData(), false);
 
-            //forcing client side beam target (entity and pos) update
-            this.setClientSideCachedAttackTarget(null);
+            //forcing client side beam target pos update
             this.setBeamTargetPos(null);
             this.setPrevBeamTargetPos(null);
             this.setBeamEndPos(null);
@@ -114,6 +103,22 @@ public interface BeamAttackEntity extends BaseMobEntityInterface
     default void playBeamSound(boolean start) {this.getLevel().playSound(null, this.getX(), this.getY(), this.getZ(), this.getBeamSound(start), this.getSelf().getSoundSource(), 0.5F, 1.0F);}
     default boolean shouldPlayBeamSound(int currentBeamingTime) {return !this.isBeamSilent() && currentBeamingTime % this.getBeamSoundLength() == 0;}
 
+    default SyncedTargetEntityInfo getSyncedTargetEntityInfo() {return this.getBeamAttackEntityInfo();}
+
+    default @Nullable Vec3 getBeamTargetPos() {return this.getBeamAttackEntityInfo().beamTargetPos;}
+    default @Nullable Vec3 getPrevBeamTargetPos() {return this.getBeamAttackEntityInfo().prevBeamTargetPos;}
+    default @Nullable Vec3 getBeamEndPos() {return this.getBeamAttackEntityInfo().beamEndPos;}
+    default @Nullable Vec3 getPrevBeamEndPos() {return this.getBeamAttackEntityInfo().prevBeamEndPos;}
+
+    default void setBeamTargetPos(Vec3 pos) {this.getBeamAttackEntityInfo().beamTargetPos = pos;}
+    default void setPrevBeamTargetPos(Vec3 pos) {this.getBeamAttackEntityInfo().prevBeamTargetPos = pos;}
+    default void setBeamEndPos(Vec3 pos) {this.getBeamAttackEntityInfo().beamEndPos = pos;}
+    default void setPrevBeamEndPos(Vec3 pos) {this.getBeamAttackEntityInfo().prevBeamEndPos = pos;}
+
+    default EntityDataAccessor<Integer> getBeamTargetEntityIdData() {return this.getBeamAttackEntityInfo().beamTargetEntityIdData;}
+    default EntityDataAccessor<Integer> getBeamingPhaseData() {return this.getBeamAttackEntityInfo().beamingPhaseData;}
+    default EntityDataAccessor<Boolean> getBeamTargetPosNeedsSyncData() {return this.getBeamAttackEntityInfo().beamTargetPosNeedsSyncData;}
+
     default int getBeamTargetEntityId() {return this.getEntityData().get(this.getBeamTargetEntityIdData());}
     default boolean hasBeamTargetEntityId() {return this.getEntityData().get(this.getBeamTargetEntityIdData()) != 0;}
     default void setBeamTargetEntityId(int entityTargetId) {this.getEntityData().set(this.getBeamTargetEntityIdData(), entityTargetId);}
@@ -125,35 +130,7 @@ public interface BeamAttackEntity extends BaseMobEntityInterface
 
     @Nullable default LivingEntity getBeamAttackTarget() //must be client-server sync
     {
-        if (!this.hasBeamTargetEntityId()) {return null;}
-        else if (this.getLevel().isClientSide()) //Client side
-        {
-            if (this.getClientSideCachedAttackTarget() != null && this.getClientSideCachedAttackTarget().getId() == this.getBeamTargetEntityId()) //if client cached target exists & is valid (same id as synced id)
-            {
-                return this.getClientSideCachedAttackTarget();
-            }
-            else //trying to update clientSideCachedAttackTarget
-            {
-                Entity entity = this.getLevel().getEntity(this.getBeamTargetEntityId());
-                if (entity instanceof LivingEntity livingEntity)
-                {
-                    this.setClientSideCachedAttackTarget(livingEntity);
-                    return this.getClientSideCachedAttackTarget();
-                }
-                else {return null;}
-            }
-        }
-        else //Server side
-        {
-            LivingEntity serverSideTarget = this.getTarget();
-            if (serverSideTarget == null) {return null;}
-
-            if (serverSideTarget.getId() != this.getBeamTargetEntityId()) //updating synced id if necessary
-            {
-                this.setBeamTargetEntityId(serverSideTarget.getId());
-            }
-            return serverSideTarget;
-        }
+        return this.getSyncedTarget();
     }
 
     default void updateBeamPositions() //must be deterministic to be calculated the same way on both client and server sides
@@ -251,6 +228,25 @@ public interface BeamAttackEntity extends BaseMobEntityInterface
                     this.getLevel().addParticle(type, pos.x, pos.y, pos.z, 0.0D, 0.0D, 0.0D);
                 }
             }
+        }
+    }
+
+    class BeamAttackEntityInfo extends SyncedTargetEntityInfo
+    {
+        private final EntityDataAccessor<Integer> beamTargetEntityIdData;
+        private final EntityDataAccessor<Integer> beamingPhaseData;
+        private final EntityDataAccessor<Boolean> beamTargetPosNeedsSyncData;
+        @Nullable private Vec3 beamTargetPos;
+        @Nullable private Vec3 prevBeamTargetPos;
+        @Nullable private Vec3 beamEndPos;
+        @Nullable private Vec3 prevBeamEndPos;
+
+        public BeamAttackEntityInfo(EntityDataAccessor<Integer> beamTargetEntityIdData, EntityDataAccessor<Integer> beamingPhaseData, EntityDataAccessor<Boolean> beamTargetPosNeedsSyncData)
+        {
+            super(beamTargetEntityIdData);
+            this.beamTargetEntityIdData = beamTargetEntityIdData;
+            this.beamingPhaseData = beamingPhaseData;
+            this.beamTargetPosNeedsSyncData = beamTargetPosNeedsSyncData;
         }
     }
 }

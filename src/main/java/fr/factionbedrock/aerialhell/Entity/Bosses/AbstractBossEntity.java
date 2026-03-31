@@ -358,7 +358,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity impleme
 	{
 		super.tick();
 		/* SyncedTargetEntity tick */
-		this.tickSyncedTargetEntity();
+		this.syncedTargetEntityTick();
 		/* ----------------------- */
 
 		if (this.isActive() && this.tickCount % 900 == 0) {this.updateBossDifficulty(); this.adaptBossDifficulty();}

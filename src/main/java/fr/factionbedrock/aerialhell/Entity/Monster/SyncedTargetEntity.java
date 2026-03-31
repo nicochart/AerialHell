@@ -4,7 +4,6 @@ import fr.factionbedrock.aerialhell.Entity.BaseMobEntityInterface;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
 public interface SyncedTargetEntity extends BaseMobEntityInterface
@@ -20,7 +19,7 @@ public interface SyncedTargetEntity extends BaseMobEntityInterface
     /* ----------------------------------------------- */
     /* -------- Delegate methods needing call -------- */
     /* ----------------------------------------------- */
-    default void tickSyncedTargetEntity() //call in tick()
+    default void syncedTargetEntityTick() //call in tick()
     {
         if (this.attackTargetNeedsSync()) {this.syncAttackTarget();}
     }
@@ -42,6 +41,8 @@ public interface SyncedTargetEntity extends BaseMobEntityInterface
     //always returning false basically returns back for vanilla. Client target will be null.
     default boolean attackTargetNeedsSync()
     {
+        if (!this.getLevel().isClientSide() && this.getSelf().getTarget() != this.getCachedAttackTarget()) {return true;} //server side : if real target is != from cached target
+
         LivingEntity target = this.getLevel().isClientSide() ? this.getCachedAttackTarget() : this.getSelf().getTarget();
         if (target == null) {return this.hasAttackTargetEntityId();} //if target is null but synced id exists
         else {return target.getId() != this.getAttackTargetEntityId();} //if target exists & synced id is not corresponding

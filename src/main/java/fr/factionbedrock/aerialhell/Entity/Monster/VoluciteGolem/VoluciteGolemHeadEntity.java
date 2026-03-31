@@ -24,7 +24,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
 public class VoluciteGolemHeadEntity extends Monster implements PartEntity, BeamAttackEntity
@@ -43,11 +42,7 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
     private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteGolemHeadEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BEAMING_PHASE = SynchedEntityData.defineId(VoluciteGolemHeadEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> BEAM_TARGET_POS_NEEDS_SYNC = SynchedEntityData.defineId(VoluciteGolemHeadEntity.class, EntityDataSerializers.BOOLEAN);
-    private @Nullable LivingEntity clientSideCachedAttackTarget;
-    private Vec3 beamTargetPos;
-    private Vec3 prevBeamTargetPos;
-    private Vec3 beamEndPos;
-    private Vec3 prevBeamEndPos;
+    private final BeamAttackEntityInfo BEAM_ATTACK_ENTITY_INFO = new BeamAttackEntityInfo(ATTACK_TARGET_ID, BEAMING_PHASE, BEAM_TARGET_POS_NEEDS_SYNC);
     /* ----------------------------- */
 
     public VoluciteGolemHeadEntity(EntityType<? extends Monster> type, Level level)
@@ -164,23 +159,9 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
     /* ------------------------------------------------------------------------------------- */
 
     /* ------------------------------------------------------------------------- */
-    /* ---------- BeamAttackEntity : Interface methods implementation ---------- */
+    /* ---------- BeamAttackEntity : Interface method implementation ---------- */
     /* ------------------------------------------------------------------------- */
-    @Override public EntityDataAccessor<Integer> getBeamTargetEntityIdData() {return ATTACK_TARGET_ID;}
-    @Override public EntityDataAccessor<Integer> getBeamingPhaseData() {return BEAMING_PHASE;}
-    @Override public EntityDataAccessor<Boolean> getBeamTargetPosNeedsSyncData() {return BEAM_TARGET_POS_NEEDS_SYNC;}
-
-    @Override @Nullable public LivingEntity getClientSideCachedAttackTarget() {return this.clientSideCachedAttackTarget;}
-    @Override @Nullable public Vec3 getBeamTargetPos() {return getBeamAttackTarget() != null ? beamTargetPos : null;}
-    @Override @Nullable public Vec3 getPrevBeamTargetPos() {return getBeamAttackTarget() != null ? prevBeamTargetPos : null;}
-    @Override @Nullable public Vec3 getBeamEndPos() {return getBeamAttackTarget() != null ? beamEndPos : null;}
-    @Override @Nullable public Vec3 getPrevBeamEndPos() {return getBeamAttackTarget() != null ? prevBeamEndPos : null;}
-
-    @Override public void setClientSideCachedAttackTarget(@Nullable LivingEntity entity) {this.clientSideCachedAttackTarget = entity;}
-    @Override public void setBeamTargetPos(Vec3 pos) {this.beamTargetPos = pos;}
-    @Override public void setPrevBeamTargetPos(Vec3 pos) {this.prevBeamTargetPos = pos;}
-    @Override public void setBeamEndPos(Vec3 pos) {this.beamEndPos = pos;}
-    @Override public void setPrevBeamEndPos(Vec3 pos) {this.prevBeamEndPos = pos;}
+    @Override public BeamAttackEntityInfo getBeamAttackEntityInfo() {return this.BEAM_ATTACK_ENTITY_INFO;}
     /* ------------------------------------------------------------------------- */
     /* ------------------------------------------------------------------------- */
     /* ------------------------------------------------------------------------- */
