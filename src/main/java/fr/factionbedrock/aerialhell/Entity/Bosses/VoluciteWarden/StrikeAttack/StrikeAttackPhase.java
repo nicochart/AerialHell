@@ -34,7 +34,11 @@ public class StrikeAttackPhase
     {
         if (this.isAtTargetPos(currentUnrotatedRelativePos, distanceOffsetTolerance))
         {
-            if (this.ticksAtTarget == 0) {strikeAttackEntity.onStrikePhaseStartFinishing(this.getType());}
+            if (this.ticksAtTarget == 1)
+            {
+                //waiting 1 tick at target pos because of client interpolation. (Else it appears as if the interaction occurs before the contact with target).
+                strikeAttackEntity.onStrikePhaseStartFinishing(this.getUnrotatedRelativeTargetPos(), this.getType());
+            }
             this.ticksAtTarget++;
         }
         else {this.ticksAtTarget = 0;}

@@ -17,6 +17,8 @@ import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -501,9 +503,18 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		return rightArmSegment7 != null ? rightArmSegment7.getSelf() : null;
 	}
 
-	@Override public void strike()
+	@Override public void strike(Vec3 levelPos)
 	{
-		//strike effect (sound effect, particles ?)
+		boolean destroyBlocks = false;
+		@Nullable LivingEntity source = this.getEntityUsedToStrike();
+		if (source == null) {return;}
+		Level.ExplosionInteraction interaction = destroyBlocks ? Level.ExplosionInteraction.TNT : Level.ExplosionInteraction.NONE;
+		this.level().explode(source, levelPos.x, levelPos.y, levelPos.z, 0.0F, interaction);
+		float range = 4.0F;
+		List<LivingEntity> hitEntities = EntityHelper.getTargetableLivingEntitiesInInflatedBoundingBox(source, 3.0F,  (potentialTarget) -> !potentialTarget.is(this) && EntitySelector.withinDistance(source.position().x, source.position().y + source.getBbHeight() * 0.5F, source.position().z, range).test(potentialTarget));
+		this.damageEntities(hitEntities, 10.0F, 3.5F, source);
+
+		this.level().broadcastEntityEvent(this, (byte) 68);
 	}
 
 	/* --------------------------------------------------------------------------- */
@@ -522,4 +533,60 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	}
 
 	private Vec3 getRelativeRecoveryPos() {return new Vec3(9.5F, 5.5F, 0.0F);}
+
+	@Override public void handleEntityEvent(byte id)
+	{
+		if (id == 68)
+		{
+			if (this.getEntityUsedToStrike() != null)
+			{
+				Vec3 center = this.fromUnrotatedRelativeToLevelPos(this.getRelativeStrikePos()); //can't use this.getEntityUsedToStrike().position() because client pos is interpolated
+				//TODO : will need to sync this.getTarget to client. target pos is used for shockwave pos.
+				this.spawnHorizontalShockwaveParticles(center, 40, 0.5F, 1.5F);
+			}
+		}
+		else {super.handleEntityEvent(id);}
+	}
+
+	private void damageEntities(List<LivingEntity> entities, float amount, float knockbackScale) {this.damageEntities(entities, amount, knockbackScale, this);}
+
+	private void damageEntities(List<LivingEntity> entities, float amount, float knockbackScale, LivingEntity source)
+	{
+		for (Entity target : entities)
+		{
+			if (target instanceof LivingEntity living)
+			{
+				living.hurt(this.damageSources().mobAttack(source), amount);
+
+				if (knockbackScale != 0.0F)
+				{
+					Vec3 knockback = target.position().subtract(source.position()).normalize().scale(knockbackScale);
+					target.push(knockback.x, 0.5, knockback.z);
+				}
+			}
+		}
+	}
+
+	private void spawnHorizontalShockwaveParticles(Vec3 center, int points, float radius, float speed)
+	{
+		if (center == null) return;
+
+		for (int i = 0; i < points; i++)
+		{
+			double angle = 2 * Math.PI * i / points;
+
+			double x = Math.cos(angle);
+			double z = Math.sin(angle);
+
+			double px = center.x + x * radius;
+			double py = center.y + 0.1D;
+			double pz = center.z + z * radius;
+
+			double vx = x * speed;
+			double vy = 0.1D;
+			double vz = z * speed;
+
+			this.level().addParticle(ParticleTypes.CLOUD, px, py, pz, vx, vy, vz);
+		}
+	}
 }

@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhaseType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -13,17 +14,17 @@ public interface StrikeAttackEntity extends BaseMobEntityInterface
 
     boolean canUseStrikeAttack();
 
-    void strike();
+    void strike(Vec3 levelPos);
 
     @Nullable default Mob getEntityUsedToStrike() {return this.getSelf();} //entity that is moving and will strike (can be different from goal owner)
 
     default boolean shouldTrigger() {return this.canUseStrikeAttack();} //return false if you want the goal to only be active when manually triggered
 
-    default void onStrikePhaseStartFinishing(StrikeAttackPhaseType currentPhaseType) //when entity reaches target pos
+    default void onStrikePhaseStartFinishing(Vec3 unrotatedRelativeTargetPos, StrikeAttackPhaseType currentPhaseType) //when entity reaches target pos
     {
         if (currentPhaseType == StrikeAttackPhaseType.STRIKE)
         {
-            this.strike();
+            this.strike(this.fromUnrotatedRelativeToLevelPos(unrotatedRelativeTargetPos));
         }
     }
 
