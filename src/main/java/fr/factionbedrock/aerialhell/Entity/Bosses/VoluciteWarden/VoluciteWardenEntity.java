@@ -528,8 +528,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	private Vec3 getRelativeStrikePos()
 	{
-		if (this.getTarget() == null) {return new Vec3(0.0F, 9.0F, 10.0F);}//default strike pos
-		else {return this.toUnrotatedRelativePos(this.getTarget().position());}
+		if (this.getSyncedTarget() == null) {return new Vec3(0.0F, 9.0F, 10.0F);}//default strike pos
+		else {return this.toUnrotatedRelativePos(this.getSyncedTarget().position());}
 	}
 
 	private Vec3 getRelativeRecoveryPos() {return new Vec3(9.5F, 5.5F, 0.0F);}
@@ -541,7 +541,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			if (this.getEntityUsedToStrike() != null)
 			{
 				Vec3 center = this.fromUnrotatedRelativeToLevelPos(this.getRelativeStrikePos()); //can't use this.getEntityUsedToStrike().position() because client pos is interpolated
-				//TODO : will need to sync this.getTarget to client. target pos is used for shockwave pos.
 				this.spawnHorizontalShockwaveParticles(center, 40, 0.5F, 1.5F);
 			}
 		}
@@ -552,11 +551,12 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	private void damageEntities(List<LivingEntity> entities, float amount, float knockbackScale, LivingEntity source)
 	{
+		if (!(this.level() instanceof ServerLevel serverLevel)) {return;}
 		for (Entity target : entities)
 		{
 			if (target instanceof LivingEntity living)
 			{
-				living.hurt(this.damageSources().mobAttack(source), amount);
+				living.hurtServer(serverLevel, this.damageSources().mobAttack(source), amount);
 
 				if (knockbackScale != 0.0F)
 				{

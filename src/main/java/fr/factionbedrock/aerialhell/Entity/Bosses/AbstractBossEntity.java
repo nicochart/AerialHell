@@ -5,6 +5,8 @@ import javax.annotation.Nullable;
 import fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.SyncedTargetEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -42,13 +44,22 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public abstract class AbstractBossEntity extends AbstractActivableEntity
+public abstract class AbstractBossEntity extends AbstractActivableEntity implements SyncedTargetEntity
 {
 	protected final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.GREEN, BossEvent.BossBarOverlay.PROGRESS);
 	private static final EntityDataAccessor<Integer> BOSS_DIFFICULTY = SynchedEntityData.defineId(AbstractBossEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(AbstractBossEntity.class, EntityDataSerializers.INT);
 
+	/* SyncedTargetEntity fields */
+	private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
+	SyncedTargetEntityInfo SYNCED_TARGET_ENTITY_INFO = new SyncedTargetEntityInfo(ATTACK_TARGET_ID);
+	/* ------------------------- */
+
 	public AbstractBossEntity(EntityType<? extends Monster> type, Level world) {super(type, world);}
+
+	/* ------- SyncedTargetEntity : Interface method implementation ------- */
+	@Override public SyncedTargetEntityInfo getSyncedTargetEntityInfo() {return this.SYNCED_TARGET_ENTITY_INFO;}
+	/* -------------------------------------------------------------------- */
 
 	@Override public boolean hurtServer(ServerLevel level, DamageSource source, float amount)
 	{
@@ -217,6 +228,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		super.defineSynchedData(builder);
 		builder.define(BOSS_DIFFICULTY, 0);
 		builder.define(PHASE, 0);
+		builder.define(ATTACK_TARGET_ID, 0);
 	}
 
 	public void setDifficulty(int difficulty) {this.entityData.set(BOSS_DIFFICULTY, difficulty);}
@@ -345,6 +357,10 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	@Override public void tick()
 	{
 		super.tick();
+		/* SyncedTargetEntity tick */
+		this.tickSyncedTargetEntity();
+		/* ----------------------- */
+
 		if (this.isActive() && this.tickCount % 900 == 0) {this.updateBossDifficulty(); this.adaptBossDifficulty();}
 		this.bossInfo.setVisible(this.isActive());
 		this.immunizeToEffects();
