@@ -3,12 +3,13 @@ package fr.factionbedrock.aerialhell.Entity.AI;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhaseType;
 import fr.factionbedrock.aerialhell.Entity.StrikeAttackEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class StrikeAttackGoal extends Goal
 {
@@ -16,15 +17,17 @@ public class StrikeAttackGoal extends Goal
     private final float distanceOffsetTolerance;
     private int phaseIndex;
     private Vec3 cachedUnrotatedRelativePos;
+    private final StrikeInfo strikeInfo;
 
-    public StrikeAttackGoal(StrikeAttackEntity goalOwner, float distanceOffsetTolerance)
+    public StrikeAttackGoal(StrikeAttackEntity goalOwner, float distanceOffsetTolerance, StrikeInfo strikeInfo)
     {
         this.goalOwner = goalOwner;
         this.distanceOffsetTolerance = distanceOffsetTolerance;
         this.phaseIndex = 0;
+        this.strikeInfo = strikeInfo;
     }
 
-    public List<StrikeAttackPhase> getPhases() {return this.goalOwner.getStrikeAttackSequence();}
+    public List<StrikeAttackPhase> getPhases() {return this.goalOwner.getStrikeAttackSequenceInternal(this.getEntityUsedToStrike());}
 
     public StrikeAttackPhase getCurrentPhase() {return this.getPhase(this.phaseIndex);}
     public StrikeAttackPhase getPreviousPhase() {return this.getPhase(this.getPreviousPhaseIndex());}
@@ -57,7 +60,7 @@ public class StrikeAttackGoal extends Goal
 
         this.updateUnrotatedRelativePos();
 
-        this.getCurrentPhase().tick(this.goalOwner, this.getCachedUnrotatedRelativePos(), this.distanceOffsetTolerance);
+        this.getCurrentPhase().tick(this, this.goalOwner, this.getCachedUnrotatedRelativePos(), this.distanceOffsetTolerance);
         if (this.getCurrentPhase().isFinished())
         {
             this.goalOwner.onStrikePhaseFinish(this.getPhaseType());
@@ -65,9 +68,11 @@ public class StrikeAttackGoal extends Goal
         }
     }
 
+    @Nullable public LivingEntity getEntityUsedToStrike() {return this.strikeInfo.entityUsedToStrikeSupplier.get();}
+
     protected void setEntityUsedToStrikePos()
     {
-        Mob strikingEntity = this.goalOwner.getEntityUsedToStrike();
+        @Nullable LivingEntity strikingEntity = this.getEntityUsedToStrike();
         if (strikingEntity != null)
         {
             strikingEntity.setPos(this.goalOwner.fromUnrotatedRelativeToLevelPos(this.getCachedUnrotatedRelativePos()));
@@ -172,5 +177,34 @@ public class StrikeAttackGoal extends Goal
 
         Vec3 newPos = unrotatedRelativeCurrentPos.add(movement);
         return new Vec3(newPos.x, newPos.y, newPos.z);
+    }
+
+    public void strike()
+    {
+        if (this.getEntityUsedToStrike() != null)
+        {
+            this.goalOwner.strike(this.goalOwner.fromUnrotatedRelativeToLevelPos(this.getCurrentPhase().getUnrotatedRelativeTargetPos()), this.getEntityUsedToStrike(), this.strikeInfo.explosionRadius, this.strikeInfo.bonusDamageAmount, this.strikeInfo.bonusDamageRange, this.strikeInfo.knockbackScale, this.strikeInfo.destroyBlocks);
+        }
+    }
+
+    public static class StrikeInfo
+    {
+        private final Supplier<LivingEntity> entityUsedToStrikeSupplier;
+        private final float explosionRadius;
+        private final float bonusDamageAmount;
+        private final float bonusDamageRange;
+        private final float knockbackScale;
+        private final boolean destroyBlocks;
+
+        public StrikeInfo(Supplier<LivingEntity> entityUsedToStrikeSupplier, float explosionRadius, boolean destroyBlocks) {this(entityUsedToStrikeSupplier, explosionRadius, 0.0F, 0.0F, 0.0F, destroyBlocks);}
+        public StrikeInfo(Supplier<LivingEntity> entityUsedToStrikeSupplier, float explosionRadius, float bonusDamageAmount, float bonusDamageRange, float knockbackScale, boolean destroyBlocks)
+        {
+            this.entityUsedToStrikeSupplier = entityUsedToStrikeSupplier;
+            this.explosionRadius = explosionRadius;
+            this.bonusDamageAmount = bonusDamageAmount;
+            this.bonusDamageRange = bonusDamageRange;
+            this.knockbackScale = knockbackScale;
+            this.destroyBlocks = destroyBlocks;
+        }
     }
 }

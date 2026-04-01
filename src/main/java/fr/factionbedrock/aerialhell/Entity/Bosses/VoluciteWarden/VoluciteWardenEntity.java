@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.StrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenStrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackInactivePhase;
@@ -17,7 +18,6 @@ import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -44,6 +44,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -54,7 +55,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public static float EYE_RELATIVE_HEIGHT = 34.50F;
 	public static float CORE_RELATIVE_HEIGHT = 20.50F;
 
-	private VoluciteWardenStrikeAttackGoal STRIKE_ATTACK_GOAL;
+	private VoluciteWardenStrikeAttackGoal RIGHT_ARM_STRIKE_ATTACK_GOAL;
+	private VoluciteWardenStrikeAttackGoal LEFT_ARM_STRIKE_ATTACK_GOAL;
 
 	/* -- MasterPartEntity fields -- */
 	private static final EntityDataAccessor<Integer> RIGHT_ARM_SEGMENT_1_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
@@ -313,11 +315,13 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override protected void registerGoals()
     {
-		this.STRIKE_ATTACK_GOAL = new VoluciteWardenStrikeAttackGoal(this, 0.2F);
+		this.RIGHT_ARM_STRIKE_ATTACK_GOAL = new VoluciteWardenStrikeAttackGoal(this, 0.2F, new StrikeAttackGoal.StrikeInfo(this::getRightArmSegment7, 0.0F, 10.0F, 4.0F, 3.5F, false), true);
+		this.LEFT_ARM_STRIKE_ATTACK_GOAL = new VoluciteWardenStrikeAttackGoal(this, 0.2F, new StrikeAttackGoal.StrikeInfo(this::getLeftArmSegment7, 0.0F, 10.0F, 4.0F, 3.5F, false), false);
 		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
-		this.goalSelector.addGoal(4, STRIKE_ATTACK_GOAL);
+		this.goalSelector.addGoal(4, RIGHT_ARM_STRIKE_ATTACK_GOAL);
+		this.goalSelector.addGoal(4, LEFT_ARM_STRIKE_ATTACK_GOAL);
 		//this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
 		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new DirectMeleeAttackGoal(this, 1.25D, 4.0D)));
@@ -449,83 +453,134 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override protected float getDragOrRepulseSourcePosRelativeY() {return CORE_RELATIVE_HEIGHT;}
 
-	private int inactiveStrikeAttackTicks;
+	private int inactiveRightArmStrikeAttackTicks;
+	private int inactiveLeftArmStrikeAttackTicks;
+	private int minimumStrikeCooldown = 40;
+	private int strikeCooldownMaxOffset = 200;
+	private int rightArmStrikeCooldown = minimumStrikeCooldown;
+	private int leftArmStrikeCooldown = minimumStrikeCooldown;
 
 	private void tickStrikeAttack()
 	{
+		if (this.tickCount % 200 == 0)
+		{
+			this.rightArmStrikeCooldown = this.getRandom().nextInt(this.strikeCooldownMaxOffset);
+			this.leftArmStrikeCooldown = this.getRandom().nextInt(this.strikeCooldownMaxOffset);
+		}
+
 		if (!this.level().isClientSide())
 		{
-			PartEntity hand = this.RIGHT_ARM_SEGMENT_7.getPart();
-			if (hand == null) {return;}
-			if (this.STRIKE_ATTACK_GOAL.isActive())
+			PartEntity rightHand = this.RIGHT_ARM_SEGMENT_7.getPart();
+			if (rightHand != null)
 			{
-				this.inactiveStrikeAttackTicks = 0;
-			}
-			else
-			{
-				this.inactiveStrikeAttackTicks++;
-				if (this.inactiveStrikeAttackTicks > 80 && this.getTarget() != null)
+				if (this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isActive())
 				{
-					this.STRIKE_ATTACK_GOAL.trigger();
+					this.inactiveRightArmStrikeAttackTicks = 0;
+				}
+				else
+				{
+					this.inactiveRightArmStrikeAttackTicks++;
+					if (this.canTriggerStrike(this.RIGHT_ARM_STRIKE_ATTACK_GOAL))
+					{
+						this.RIGHT_ARM_STRIKE_ATTACK_GOAL.trigger();
+					}
+				}
+			}
+
+			PartEntity leftHand = this.LEFT_ARM_SEGMENT_7.getPart();
+			if (leftHand != null)
+			{
+				if (this.LEFT_ARM_STRIKE_ATTACK_GOAL.isActive())
+				{
+					this.inactiveLeftArmStrikeAttackTicks = 0;
+				}
+				else
+				{
+					this.inactiveLeftArmStrikeAttackTicks++;
+					if (this.canTriggerStrike(this.LEFT_ARM_STRIKE_ATTACK_GOAL))
+					{
+						this.LEFT_ARM_STRIKE_ATTACK_GOAL.trigger();
+					}
 				}
 			}
 		}
 	}
 
+	private boolean canTriggerStrike(VoluciteWardenStrikeAttackGoal armToTrigger)
+	{
+		boolean targetNotNull = this.getTarget() != null;
+		boolean timerCondition = armToTrigger == this.RIGHT_ARM_STRIKE_ATTACK_GOAL ? this.inactiveRightArmStrikeAttackTicks > this.rightArmStrikeCooldown : this.inactiveLeftArmStrikeAttackTicks > this.leftArmStrikeCooldown;
+		boolean otherIsNotInWindupPhase = armToTrigger == this.RIGHT_ARM_STRIKE_ATTACK_GOAL ? this.LEFT_ARM_STRIKE_ATTACK_GOAL.getPhaseType() != StrikeAttackPhaseType.WINDUP : this.RIGHT_ARM_STRIKE_ATTACK_GOAL.getPhaseType() != StrikeAttackPhaseType.WINDUP;
+		return targetNotNull && timerCondition && otherIsNotInWindupPhase;
+	}
+
 	@Override @Nullable public Vec3 calculatePartPos(PartInfo partInfo, double masterX, double masterY, double masterZ)
 	{
-		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isRightArm() && this.STRIKE_ATTACK_GOAL.isActive()) {return null;}
+		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isRightArm() && this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isActive()) {return null;}
+		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isLeftArm() && this.LEFT_ARM_STRIKE_ATTACK_GOAL.isActive()) {return null;}
 		return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
 	}
 
 	/* --------------------------------------------------------------------------- */
 	/* ---------- StrikeAttackEntity : Interface methods implementation ---------- */
 	/* --------------------------------------------------------------------------- */
+	private final List<StrikeAttackPhase> leftArmStrikeAttackSequence = List.of(
+			new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos0(-1), 1.0D, 1),
+			new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos1(-1), 1.0D, 1),
+			new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos2(-1), 1.0D, 1),
+			new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos3(-1), 1.0D, 40),
+			new StrikeAttackPhase(StrikeAttackPhaseType.STRIKE, this::getRelativeStrikePos, 2.0D, 5),
+			new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, () -> this.getRelativeRecoveryPos(-1), 0.4D, 1),
+			new StrikeAttackInactivePhase()
+	);
 
-	private final List<StrikeAttackPhase> strikeAttackSequence = List.of(
-		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos0, 1.0D, 1),
-		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos1, 1.0D, 1),
-		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos2, 1.0D, 1),
-		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, this::getRelativeWindupPos3, 1.0D, 40),
+	private final List<StrikeAttackPhase> rightArmStrikeAttackSequence = List.of(
+		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos0(1), 1.0D, 1),
+		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos1(1), 1.0D, 1),
+		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos2(1), 1.0D, 1),
+		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos3(1), 1.0D, 40),
 		new StrikeAttackPhase(StrikeAttackPhaseType.STRIKE, this::getRelativeStrikePos, 2.0D, 5),
-		new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, this::getRelativeRecoveryPos, 0.4D, 1),
+		new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, () -> this.getRelativeRecoveryPos(1), 0.4D, 1),
 		new StrikeAttackInactivePhase()
 	);
 
-	@Override public List<StrikeAttackPhase> getStrikeAttackSequence() {return this.strikeAttackSequence;}
+	@Override public List<StrikeAttackPhase> getStrikeAttackSequence(@NotNull LivingEntity entityUsedToStrike)
+	{
+		if (this.RIGHT_ARM_SEGMENT_7.getPart() != null && this.RIGHT_ARM_SEGMENT_7.getPart().getSelf() == entityUsedToStrike)
+		{
+			return rightArmStrikeAttackSequence;
+		}
+		else if (this.LEFT_ARM_SEGMENT_7.getPart() != null && this.LEFT_ARM_SEGMENT_7.getPart().getSelf() == entityUsedToStrike)
+		{
+			return leftArmStrikeAttackSequence;
+		}
+		else {return this.getDefaultStrikeAttackSequence();}
+	}
 
 	@Override public boolean canUseStrikeAttack() {return this.getTarget() != null;}
 
 	@Override public boolean shouldTrigger() {return false;}
 
-	@Override @Nullable public Mob getEntityUsedToStrike()
+	@Nullable public LivingEntity getLeftArmSegment7()
+	{
+		PartEntity rightArmSegment7 = this.LEFT_ARM_SEGMENT_7.getPart();
+		return rightArmSegment7 != null ? rightArmSegment7.getSelf() : null;
+	}
+
+	@Nullable public LivingEntity getRightArmSegment7()
 	{
 		PartEntity rightArmSegment7 = this.RIGHT_ARM_SEGMENT_7.getPart();
 		return rightArmSegment7 != null ? rightArmSegment7.getSelf() : null;
 	}
 
-	@Override public void strike(Vec3 levelPos)
-	{
-		boolean destroyBlocks = false;
-		@Nullable LivingEntity source = this.getEntityUsedToStrike();
-		if (source == null) {return;}
-		Level.ExplosionInteraction interaction = destroyBlocks ? Level.ExplosionInteraction.TNT : Level.ExplosionInteraction.NONE;
-		this.level().explode(source, levelPos.x, levelPos.y, levelPos.z, 0.0F, interaction);
-		float range = 4.0F;
-		List<LivingEntity> hitEntities = EntityHelper.getTargetableLivingEntitiesInInflatedBoundingBox(source, 3.0F,  (potentialTarget) -> !potentialTarget.is(this) && EntitySelector.withinDistance(source.position().x, source.position().y + source.getBbHeight() * 0.5F, source.position().z, range).test(potentialTarget));
-		this.damageEntities(hitEntities, 10.0F, 3.5F, source);
-
-		this.level().broadcastEntityEvent(this, (byte) 68);
-	}
-
 	/* --------------------------------------------------------------------------- */
 	/* --------------------------------------------------------------------------- */
 	/* --------------------------------------------------------------------------- */
 
-	private Vec3 getRelativeWindupPos0() {return new Vec3(12.0F, 8.5F, 4.0F);}
-	private Vec3 getRelativeWindupPos1() {return new Vec3(20.0F, 18.0F, 8.0F);}
-	private Vec3 getRelativeWindupPos2() {return new Vec3(18.0F, 31.0F, 4.0F);}
-	private Vec3 getRelativeWindupPos3() {return new Vec3(10.0F, 37.0F, 0.0F);}
+	private Vec3 getRelativeWindupPos0(int sideFactor) {return new Vec3(sideFactor * 12.0F, 8.5F, 4.0F);}
+	private Vec3 getRelativeWindupPos1(int sideFactor) {return new Vec3(sideFactor * 20.0F, 18.0F, 8.0F);}
+	private Vec3 getRelativeWindupPos2(int sideFactor) {return new Vec3(sideFactor * 18.0F, 31.0F, 4.0F);}
+	private Vec3 getRelativeWindupPos3(int sideFactor) {return new Vec3(sideFactor * 10.0F, 37.0F, 0.0F);}
 
 	private Vec3 getRelativeStrikePos()
 	{
@@ -533,39 +588,16 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		else {return this.toUnrotatedRelativePos(this.getSyncedTarget().position());}
 	}
 
-	private Vec3 getRelativeRecoveryPos() {return new Vec3(9.5F, 5.5F, 0.0F);}
+	private Vec3 getRelativeRecoveryPos(int sideFactor) {return new Vec3(sideFactor * 9.5F, 5.5F, 0.0F);}
 
 	@Override public void handleEntityEvent(byte id)
 	{
 		if (id == 68)
 		{
-			if (this.getEntityUsedToStrike() != null)
-			{
-				Vec3 center = this.fromUnrotatedRelativeToLevelPos(this.getRelativeStrikePos()); //can't use this.getEntityUsedToStrike().position() because client pos is interpolated
-				this.spawnStrikeParticles(center, 0.5F);
-			}
+			Vec3 center = this.fromUnrotatedRelativeToLevelPos(this.getRelativeStrikePos()); //can't use this.getEntityUsedToStrike().position() because client pos is interpolated
+			this.spawnStrikeParticles(center, 0.5F);
 		}
 		else {super.handleEntityEvent(id);}
-	}
-
-	private void damageEntities(List<LivingEntity> entities, float amount, float knockbackScale) {this.damageEntities(entities, amount, knockbackScale, this);}
-
-	private void damageEntities(List<LivingEntity> entities, float amount, float knockbackScale, LivingEntity source)
-	{
-		if (!(this.level() instanceof ServerLevel serverLevel)) {return;}
-		for (Entity target : entities)
-		{
-			if (target instanceof LivingEntity living)
-			{
-				living.hurtServer(serverLevel, this.damageSources().mobAttack(source), amount);
-
-				if (knockbackScale != 0.0F)
-				{
-					Vec3 knockback = target.position().subtract(source.position()).normalize().scale(knockbackScale);
-					target.push(knockback.x, 0.5, knockback.z);
-				}
-			}
-		}
 	}
 
 	private void spawnStrikeParticles(Vec3 center, float radius)

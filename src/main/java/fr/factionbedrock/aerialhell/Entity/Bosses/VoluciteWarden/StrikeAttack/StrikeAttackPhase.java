@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack;
 
+import fr.factionbedrock.aerialhell.Entity.AI.StrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.StrikeAttackEntity;
 import net.minecraft.world.phys.Vec3;
 
@@ -35,7 +36,7 @@ public class StrikeAttackPhase
         this.reachedTarget = false;
     }
 
-    public void tick(StrikeAttackEntity strikeAttackEntity, Vec3 currentUnrotatedRelativePos, float distanceOffsetTolerance)
+    public void tick(StrikeAttackGoal sourceGoal, StrikeAttackEntity strikeAttackEntity, Vec3 currentUnrotatedRelativePos, float distanceOffsetTolerance)
     {
         if (this.isAtTargetPos(currentUnrotatedRelativePos, distanceOffsetTolerance))
         {
@@ -43,6 +44,7 @@ public class StrikeAttackPhase
             {
                 //waiting 1 tick at target pos because of client interpolation. (Else it appears as if the interaction occurs before the contact with target).
                 strikeAttackEntity.onStrikePhaseStartFinishing(this.getUnrotatedRelativeTargetPos(), this.getType());
+                if (this.getType() == StrikeAttackPhaseType.STRIKE) {sourceGoal.strike();}
                 this.reachedTarget = true;
             }
             this.ticksAtTarget++;
