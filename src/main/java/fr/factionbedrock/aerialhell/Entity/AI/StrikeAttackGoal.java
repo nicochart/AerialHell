@@ -54,6 +54,8 @@ public class StrikeAttackGoal extends Goal
     @Override public void tick()
     {
         if (!this.goalOwner.canUseStrikeAttack()) {this.skipToRecoveryPhase();}
+        if (!this.entityUsedToStrikeIsValid()) {this.skipToInactivePhase(); return;}
+        if (this.getEntityUsedToStrike() != null && this.cachedUnrotatedRelativePos == null) {this.cachedUnrotatedRelativePos = this.goalOwner.toUnrotatedRelativePos(this.getEntityUsedToStrike().position());}
 
         this.setEntityUsedToStrikePos();
         this.setLookAt();
@@ -67,6 +69,8 @@ public class StrikeAttackGoal extends Goal
             this.startNextPhase();
         }
     }
+
+    public boolean entityUsedToStrikeIsValid() {return this.getEntityUsedToStrike() != null && this.getEntityUsedToStrike().isAlive();}
 
     @Nullable public LivingEntity getEntityUsedToStrike() {return this.strikeInfo.entityUsedToStrikeSupplier.get();}
 
@@ -117,13 +121,16 @@ public class StrikeAttackGoal extends Goal
         return this.getCurrentPhase().getDistanceToTarget(this.getCachedUnrotatedRelativePos());
     }
 
-    public void skipToRecoveryPhase()
+    public void skipToInactivePhase() {this.skipToPhaseType(StrikeAttackPhaseType.INACTIVE);}
+    public void skipToRecoveryPhase() {this.skipToPhaseType(StrikeAttackPhaseType.RECOVERY);}
+
+    public void skipToPhaseType(StrikeAttackPhaseType phaseType)
     {
-        if (this.getCurrentPhase().getType() == StrikeAttackPhaseType.RECOVERY) {return;}
+        if (this.getCurrentPhase().getType() == phaseType) {return;}
 
         int previousPhaseIndex = this.phaseIndex;
         int newPhaseIndex = this.getNextPhaseIndex(previousPhaseIndex);
-        while (this.getPhase(newPhaseIndex).getType() != StrikeAttackPhaseType.RECOVERY && newPhaseIndex != previousPhaseIndex) //newPhaseIndex != previousPhaseIndex to avoid infinite cycle if there is no recovery phase in sequence (should never happen)
+        while (this.getPhase(newPhaseIndex).getType() != phaseType && newPhaseIndex != previousPhaseIndex) //newPhaseIndex != previousPhaseIndex to avoid infinite cycle if there is no phase of this type in sequence (should never happen except for inactive phase)
         {
             newPhaseIndex = this.getNextPhaseIndex(newPhaseIndex);
         }

@@ -3,8 +3,10 @@ package fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden;
 import fr.factionbedrock.aerialhell.Entity.AI.StrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhaseType;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -23,18 +25,62 @@ public class VoluciteWardenStrikeAttackGoal extends StrikeAttackGoal
     @Override protected void setEntityUsedToStrikePos()
     {
         List<VoluciteWardenEntity.ArmPartInfo> arm = this.isRightArm ? this.getGoalOwner().getRightArm() : this.getGoalOwner().getLeftArm();
+        int totalSegments = arm.size();
         Vec3 armStartPos = arm.getFirst().getUnrotatedRelativePositionOffset();
         Vec3 armEndPos = this.getCachedUnrotatedRelativePos();
         double curveStrengthFactor = this.getPhaseType() == StrikeAttackPhaseType.RECOVERY ? this.calculateRecoveryCurveStrengthFactor(this.getDistanceToTarget()) : 1.0D;
 
         for (VoluciteWardenEntity.ArmPartInfo partInfo : arm)
         {
-            if (partInfo.getPart() != null)
+            PartEntity part = partInfo.getPart();
+            if (part != null)
             {
-                Vec3 armPos = this.interpolateArmPos(armStartPos, armEndPos, curveStrengthFactor, partInfo.getSegmentIndex(), 7);
-                partInfo.getPart().getSelf().setPos(this.getGoalOwner().fromUnrotatedRelativeToLevelPos(armPos));
+                this.setPartPos(part, armStartPos, armEndPos, curveStrengthFactor, partInfo.getSegmentIndex(), totalSegments);
+                this.setPartRot(part, armStartPos, armEndPos);
             }
         }
+    }
+
+    private void setPartPos(@NotNull PartEntity part, Vec3 armStartPos, Vec3 armEndPos, double curveStrengthFactor, int segmentIndex, int totalSegments)
+    {
+        Vec3 armPos = this.interpolateArmPos(armStartPos, armEndPos, curveStrengthFactor, segmentIndex, totalSegments);
+        part.getSelf().setPos(this.getGoalOwner().fromUnrotatedRelativeToLevelPos(armPos));
+
+        if (segmentIndex == 1) //Tiny hack to correct the first segment's rotation when it's not moving. Little movement makes client immediately updates visual rot.
+        {
+            double deltaZ = ((part.getSelf().tickCount & 1) == 0 ? 0.003D : -0.003D);
+            part.setPos(part.getX(), part.getY(), part.getZ() + deltaZ);
+        }
+    }
+
+    private void setPartRot(@NotNull PartEntity part, Vec3 armStartPos, Vec3 armEndPos)
+    {
+        float relativeYRot = (this.isRightArm ? 1 : -1) * computeRelativeYRot(armStartPos, armEndPos, 1.0F, 1.0F);
+        float yRot = this.goalOwner.toLevelYRot(relativeYRot);
+        part.getSelf().setYRot(yRot);
+        part.getSelf().yBodyRot = yRot;
+        part.getSelf().yHeadRot = yRot;
+    }
+
+    private float computeRelativeYRot(Vec3 start, Vec3 end, float yWeight, float zWeight)
+    {
+        Vec3 delta = end.subtract(start);
+
+        double length = delta.length();
+        if (length < 1e-4) return 0.0F;
+
+        Vec3 dir = delta.scale(1.0 / length);
+
+        float yContribution = (float)Math.max(0, dir.y) * 180.0F;
+        float zContribution = (float)(dir.z * 90.0F);
+
+        float totalWeight = yWeight + zWeight;
+        if (totalWeight <= 0.0001F) return 0.0F;
+
+        float yPart = yContribution * yWeight;
+        float zPart = zContribution * zWeight;
+
+        return (yPart + zPart) / totalWeight;
     }
 
     private double calculateRecoveryCurveStrengthFactor(double distanceToTarget)

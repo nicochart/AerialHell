@@ -514,6 +514,13 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		return targetNotNull && timerCondition && otherIsNotInWindupPhase;
 	}
 
+	@Override public void tickNonHeadPartRotation(PartInfo partInfo)
+	{
+		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isRightArm() && this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isActive()) {return;}
+		else if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isLeftArm() && this.LEFT_ARM_STRIKE_ATTACK_GOAL.isActive()) {return;}
+		else {MasterPartEntity.super.tickNonHeadPartRotation(partInfo);}
+	}
+
 	@Override @Nullable public Vec3 calculatePartPos(PartInfo partInfo, double masterX, double masterY, double masterZ)
 	{
 		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isRightArm() && this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isActive()) {return null;}
