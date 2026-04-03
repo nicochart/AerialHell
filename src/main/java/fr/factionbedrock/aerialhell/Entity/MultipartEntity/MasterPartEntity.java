@@ -97,6 +97,8 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     default void partAddAdditionalSaveData(ValueOutput valueOutput) //call in addAdditionalSaveData(valueOutput)
     {
+        valueOutput.putFloat("master_body_rot", this.getSelf().yBodyRot);
+
         for (PartInfo partInfo : this.getPartInfoMap().values())
         {
             PartEntity part = partInfo.getPart();
@@ -109,6 +111,8 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     default void partReadAdditionalSaveData(ValueInput valueInput) //call in readAdditionalSaveData(valueInput)
     {
+        this.getSelf().yBodyRot = valueInput.getFloatOr("master_body_rot", 0);
+        
         for (PartInfo partInfo : this.getPartInfoMap().values())
         {
             if (valueInput.getString(partInfo.getName() +"_uuid").isPresent())
