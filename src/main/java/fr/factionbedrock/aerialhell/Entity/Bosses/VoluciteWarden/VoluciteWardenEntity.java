@@ -57,6 +57,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	private VoluciteWardenStrikeAttackGoal RIGHT_ARM_STRIKE_ATTACK_GOAL;
 	private VoluciteWardenStrikeAttackGoal LEFT_ARM_STRIKE_ATTACK_GOAL;
+	private static final EntityDataAccessor<Boolean> HAS_STRIKE_ACTIVE = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> IS_STRIKING = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.BOOLEAN);
 
 	/* -- MasterPartEntity fields -- */
 	private static final EntityDataAccessor<Integer> RIGHT_ARM_SEGMENT_1_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
@@ -147,6 +149,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		/* ----------------------------------- */
 		builder.define(AWAKENING, false);
 		builder.define(AWAKENED, false);
+		builder.define(HAS_STRIKE_ACTIVE, false);
+		builder.define(IS_STRIKING, false);
 	}
 
 	@SafeVarargs private static void defineAll(SynchedEntityData.Builder builder, EntityDataAccessor<Integer>... dataAccessors)
@@ -453,6 +457,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override protected float getDragOrRepulseSourcePosRelativeY() {return CORE_RELATIVE_HEIGHT;}
 
+	private Vec3 strikeTargetPos;
 	private int inactiveRightArmStrikeAttackTicks;
 	private int inactiveLeftArmStrikeAttackTicks;
 	private int minimumStrikeCooldown = 40;
@@ -466,6 +471,25 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		{
 			this.rightArmStrikeCooldown = this.getRandom().nextInt(this.strikeCooldownMaxOffset);
 			this.leftArmStrikeCooldown = this.getRandom().nextInt(this.strikeCooldownMaxOffset);
+		}
+
+		//updating hasStrikeActive and isStriking sync data
+		if (!this.level().isClientSide())
+		{
+			this.getEntityData().set(HAS_STRIKE_ACTIVE, this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isActive() || this.LEFT_ARM_STRIKE_ATTACK_GOAL.isActive());
+			this.getEntityData().set(IS_STRIKING, this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isStriking() || this.LEFT_ARM_STRIKE_ATTACK_GOAL.isStriking());
+		}
+
+		//updating strike target pos
+		//using hasStrikeActive and isStriking synced data because goals do not exist client side
+		if (this.getEntityData().get(HAS_STRIKE_ACTIVE))
+		{
+			//condition to update target pos
+			//target not null and no arm is already striking
+			if (this.getSyncedTarget()!= null && !this.getEntityData().get(IS_STRIKING))
+			{
+				this.strikeTargetPos = this.toUnrotatedRelativePos(this.getSyncedTarget().position());
+			}
 		}
 
 		if (!this.level().isClientSide())
@@ -589,11 +613,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	private Vec3 getRelativeWindupPos2(int sideFactor) {return new Vec3(sideFactor * 18.0F, 31.0F, 4.0F);}
 	private Vec3 getRelativeWindupPos3(int sideFactor) {return new Vec3(sideFactor * 10.0F, 37.0F, 0.0F);}
 
-	private Vec3 getRelativeStrikePos()
-	{
-		if (this.getSyncedTarget() == null) {return new Vec3(0.0F, 9.0F, 10.0F);}//default strike pos
-		else {return this.toUnrotatedRelativePos(this.getSyncedTarget().position());}
-	}
+	private Vec3 getRelativeStrikePos() {return this.strikeTargetPos;}
 
 	private Vec3 getRelativeRecoveryPos(int sideFactor) {return new Vec3(sideFactor * 9.5F, 5.5F, 0.0F);}
 

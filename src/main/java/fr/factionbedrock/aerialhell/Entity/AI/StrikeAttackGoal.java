@@ -94,7 +94,7 @@ public class StrikeAttackGoal extends Goal
 
     @Nullable public Vec3 getLookAtTarget()
     {
-        if (this.getPhaseType() == StrikeAttackPhaseType.STRIKE)
+        if (this.isStriking())
         {
             return this.goalOwner.fromUnrotatedRelativeToLevelPos(this.getCurrentPhase().getUnrotatedRelativeTargetPos());
         }
@@ -105,6 +105,7 @@ public class StrikeAttackGoal extends Goal
         else {return null;}
     }
 
+    public boolean isStriking() {return this.getPhaseType() == StrikeAttackPhaseType.STRIKE;}
     public boolean isActive() {return this.getPhaseType() != StrikeAttackPhaseType.INACTIVE;}
     public boolean trigger() //return true if the attack sequence is successfully triggered
     {
