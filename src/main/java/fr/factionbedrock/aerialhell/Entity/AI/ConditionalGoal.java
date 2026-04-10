@@ -17,6 +17,7 @@ public class ConditionalGoal extends Goal
         this.wrappedGoal = goal;
         this.entity = goalOwner;
         this.conditionIndex = conditionIndex;
+        this.setControls(wrappedGoal.getControls());
     }
 
     @Override public boolean canStart() {return entity.checkGoalCondition(conditionIndex) && wrappedGoal.canStart();}
@@ -26,5 +27,4 @@ public class ConditionalGoal extends Goal
     @Override public void stop() {wrappedGoal.stop();}
     @Override public void tick() {wrappedGoal.tick();}
     @Override public boolean shouldRunEveryTick() {return wrappedGoal.shouldRunEveryTick();}
-    @Override public void setControls(EnumSet<Control> flagSet) {super.setControls(flagSet); this.wrappedGoal.setControls(flagSet);}
 }

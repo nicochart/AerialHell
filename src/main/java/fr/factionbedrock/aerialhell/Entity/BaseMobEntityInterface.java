@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 
 public interface BaseMobEntityInterface extends BaseEntityInterface
 {
+    default float toLevelYRot(float relativeYRot) {return this.getSelf().bodyYaw + relativeYRot;}
+
     default Vec3d getUnrotatedRelativePosOf(@NotNull MobEntity entity) {return this.toUnrotatedRelativePos(entity.getEntityPos());}
     default Vec3d toUnrotatedRelativePos(Vec3d levelPos) {return this.toUnrotatePos(this.toRelativePos(levelPos));}
     default Vec3d toRotatedPos(Vec3d unrotatedRelativePos) {return unrotatedRelativePos.rotateY(-this.getRotateAngle());}

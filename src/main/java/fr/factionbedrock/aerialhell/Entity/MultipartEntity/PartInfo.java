@@ -20,7 +20,7 @@ public class PartInfo
 
     public PartInfo(EntityType<?> type, String name, TrackedData<Integer> entityIdDataAccessor, Map<String, PartInfo> partsMap) {this(type, name, entityIdDataAccessor, Vec3d.ZERO, false, partsMap);}
 
-    public PartInfo(EntityType<?> type, String name, TrackedData<Integer> entityIdDataAccessor, Vec3d relativePositionOffset, Map<String, PartInfo> partsMap) {this(type, name, entityIdDataAccessor, relativePositionOffset, false, partsMap);}
+    public PartInfo(EntityType<?> type, String name, TrackedData<Integer> entityIdDataAccessor, Vec3d unrotatedRelativePositionOffset, Map<String, PartInfo> partsMap) {this(type, name, entityIdDataAccessor, unrotatedRelativePositionOffset, false, partsMap);}
 
     public PartInfo(EntityType<?> type, String name, TrackedData<Integer> entityIdDataAccessor, Vec3d unrotatedRelativePositionOffset, boolean isHead, Map<String, PartInfo> partsMap)
     {

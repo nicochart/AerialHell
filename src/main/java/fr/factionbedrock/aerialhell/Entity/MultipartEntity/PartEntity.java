@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.MultipartEntity;
 
 import fr.factionbedrock.aerialhell.Entity.BaseMobEntityInterface;
+import fr.factionbedrock.aerialhell.Util.DebugHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.TrackedData;
@@ -38,7 +39,11 @@ public interface PartEntity extends BaseMobEntityInterface
             this.incrementTicksInInvalidSituation();
             if (this.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION) {this.reactToInvalidSituationWithMaster();}
         }
-        else {this.resetTicksInInvalidSituation();}
+        if (this.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION)
+        {
+            this.reactToInvalidSituationWithMaster();
+        }
+        this.tryToFindBackMaster();
     }
 
     default boolean partDamage(ServerWorld world, DamageSource source, float amount, boolean forceLocalDamage) //replace super.damage(world, source, amount) call by this call with false "forceLocalDamage" (do not call super!)
@@ -119,6 +124,17 @@ public interface PartEntity extends BaseMobEntityInterface
                 if (!this.getLevel().isClient()) {this.getSelf().discard();}
             }
         };
+    }
+
+    private boolean tryToFindBackMaster()
+    {
+        MasterPartEntity master = this.getMasterByID();
+        if (master == null || master.getSelf().isRemoved()) {return false;}
+        else
+        {
+            this.setMasterRaw(master);
+            return false;
+        }
     }
 
     @Nullable default MasterPartEntity getMasterByID()

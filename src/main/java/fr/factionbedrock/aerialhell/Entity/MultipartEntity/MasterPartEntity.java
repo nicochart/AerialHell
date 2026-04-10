@@ -50,7 +50,14 @@ public interface MasterPartEntity extends BaseMobEntityInterface
                 }
                 this.tryToFindBackPart(partInfo);
             }
-            else {partInfo.resetTicksInInvalidSituation();}
+            else
+            {
+                partInfo.resetTicksInInvalidSituation();
+
+                //below sometimes happens client-side (if player is far-away)
+                MasterPartEntity partMaster = synchedPartEntity.getMaster();
+                if (partMaster == null || partMaster.getId() != this.getId()) {synchedPartEntity.setMasterRaw(this);}
+            }
         }
     }
 
@@ -112,6 +119,8 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     default void partWriteCustomData(WriteView view) //call in addAdditionalSaveData(valueOutput)
     {
+        view.putFloat("master_body_rot", this.getSelf().bodyYaw);
+
         for (PartInfo partInfo : this.getPartInfoMap().values())
         {
             PartEntity part = partInfo.getPart();
@@ -124,6 +133,8 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     default void partReadCustomData(ReadView view) //call in readAdditionalSaveData(valueInput)
     {
+        this.getSelf().bodyYaw = view.getFloat("master_body_rot", 0);
+
         for (PartInfo partInfo : this.getPartInfoMap().values())
         {
             if (view.getOptionalString(partInfo.getName() +"_uuid").isPresent())
