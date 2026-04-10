@@ -7,8 +7,6 @@ mutable field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
 #NetherPortal
 accessible method net/minecraft/world/level/portal/PortalShape <init> (Lnet/minecraft/core/Direction$Axis;ILnet/minecraft/core/Direction;Lnet/minecraft/core/BlockPos;II)V
 
-accessible method net/minecraft/world/dimension/NetherPortal <init> (Lnet/minecraft/util/math/Direction$Axis;ILnet/minecraft/util/math/Direction;Lnet/minecraft/util/math/BlockPos;II)V
-
 #POI registration
 accessible method net/minecraft/world/entity/ai/village/poi/PoiTypes register (Lnet/minecraft/core/Registry;Lnet/minecraft/resources/ResourceKey;Ljava/util/Set;II)Lnet/minecraft/world/entity/ai/village/poi/PoiType;
 
@@ -37,9 +35,6 @@ accessible field net/minecraft/client/renderer/blockentity/ChestRenderer doubleL
 accessible field net/minecraft/client/renderer/blockentity/ChestRenderer doubleRightModel Lnet/minecraft/client/model/object/chest/ChestModel;
 accessible field net/minecraft/client/renderer/blockentity/ChestRenderer singleModel Lnet/minecraft/client/model/object/chest/ChestModel;
 
-#ShiftableLeavesBlock
-accessible field net/minecraft/block/LeavesBlock leafParticleChance F
-
 #Used in AbstractBossEntity startRiding
 accessible method net/minecraft/world/entity/vehicle/boat/AbstractBoat getDropItem ()Lnet/minecraft/world/item/Item;
 
@@ -49,10 +44,6 @@ accessible method net/minecraft/world/level/block/state/properties/WoodType regi
 #used in RenderBlockOverlayMixin
 accessible field net/minecraft/client/renderer/ScreenEffectRenderer minecraft Lnet/minecraft/client/Minecraft;
 accessible field net/minecraft/client/renderer/ScreenEffectRenderer bufferSource Lnet/minecraft/client/renderer/MultiBufferSource;
-
-#WorldRenderer
-accessible field net/minecraft/client/render/WorldRenderer worldRenderState Lnet/minecraft/client/render/state/WorldRenderState;
-accessible field net/minecraft/client/render/GameRenderer fogRenderer Lnet/minecraft/client/render/fog/FogRenderer;
 
 #ServerLevel
 accessible field net/minecraft/server/level/ServerLevel serverLevelData Lnet/minecraft/world/level/storage/ServerLevelData;
